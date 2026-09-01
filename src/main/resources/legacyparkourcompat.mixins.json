@@ -15,7 +15,5 @@
     "PlayerMixin",
     "access.EntityInvoker",
     "access.LivingEntityInvoker"
-  ],
-  "client": [
   ]
 }

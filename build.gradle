@@ -32,12 +32,35 @@ configurations {
     decompileRuntime
 }
 
+sourceSets {
+    server
+}
+
+loom {
+    splitEnvironmentSourceSets()
+
+    mods {
+        "legacyparkourcompat" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+            sourceSet sourceSets.server
+        }
+    }
+}
+
+sourceSets {
+    server {
+        compileClasspath += sourceSets.main.compileClasspath + sourceSets.main.output
+        runtimeClasspath += sourceSets.main.runtimeClasspath + sourceSets.main.output
+    }
+}
+
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
     compileOnly "com.viaversion:viaversion-api:${project.viaversion_api_version}"
-    compileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+    clientCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
 
     decompileRuntime libs.vineflower
     decompileRuntime libs.tiny.remapper
@@ -76,6 +99,12 @@ jar {
     from("LICENSE") {
         rename { "${it}_${project.base.archivesName.get()}" }
     }
+    from sourceSets.server.output
+    dependsOn processServerResources
+}
+
+tasks.named('sourcesJar', org.gradle.jvm.tasks.Jar) {
+    from sourceSets.server.allSource
 }
 
 tasks.register('decompileMinecraft', DecompileMinecraftTask) {
