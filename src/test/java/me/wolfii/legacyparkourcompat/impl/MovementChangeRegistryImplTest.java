@@ -6,15 +6,19 @@ import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
 import me.wolfii.legacyparkourcompat.mechanic.hook.AutoJumpBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.BlockCollisionShape;
 import me.wolfii.legacyparkourcompat.mechanic.hook.EyeHeightBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerDimensionsBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerPoseBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeDistanceBehavior;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -41,6 +45,12 @@ class MovementChangeRegistryImplTest {
         assertEquals("player.eye_height", EyeHeightBehavior.class.getAnnotation(MechanicType.class).value());
         assertEquals("player.dimensions", PlayerDimensionsBehavior.class.getAnnotation(MechanicType.class).value());
         assertEquals("player.auto_jump", AutoJumpBehavior.class.getAnnotation(MechanicType.class).value());
+        assertEquals("player.sneak.edge", SneakEdgeBehavior.class.getAnnotation(MechanicType.class).value());
+        assertEquals(
+            "player.sneak.edge.distance",
+            SneakEdgeDistanceBehavior.class.getAnnotation(MechanicType.class).value()
+        );
+        assertEquals("block.collision", BlockCollisionShape.class.getAnnotation(MechanicType.class).value());
     }
 
     @Test
@@ -80,5 +90,37 @@ class MovementChangeRegistryImplTest {
         Map<MechanicKey, RegisteredChange> for12 = ChangeResolver.resolve(registry.snapshot(), ParkourVersion.V1_12);
         assertSame(later, for12.get(MechanicKey.of(Alpha.class)).implementation());
         assertEquals(1, for12.size());
+    }
+
+    @MovementChange(emulates = ParkourVersion.V1_8)
+    static final class CorrectCocoa implements BlockCollisionShape {
+        @Override
+        public String blockId() {
+            return "minecraft:cocoa";
+        }
+    }
+
+    @MovementChange(emulates = ParkourVersion.V1_10)
+    static final class BuggedCocoa implements BlockCollisionShape {
+        @Override
+        public String blockId() {
+            return "minecraft:cocoa";
+        }
+    }
+
+    @Test
+    void closestCocoaWinsSo18DoesNotInheritThe19Bug() {
+        MovementChangeRegistryImpl registry = new MovementChangeRegistryImpl(() -> {
+        });
+        CorrectCocoa correct = new CorrectCocoa();
+        BuggedCocoa bugged = new BuggedCocoa();
+        registry.register(correct);
+        registry.register(bugged);
+
+        MechanicKey cocoa = MechanicKey.of(BlockCollisionShape.class, "minecraft:cocoa");
+        assertSame(correct, ChangeResolver.resolve(registry.snapshot(), ParkourVersion.V1_8).get(cocoa).implementation());
+        assertSame(bugged, ChangeResolver.resolve(registry.snapshot(), ParkourVersion.V1_9).get(cocoa).implementation());
+        assertSame(bugged, ChangeResolver.resolve(registry.snapshot(), ParkourVersion.V1_10).get(cocoa).implementation());
+        assertNull(ChangeResolver.resolve(registry.snapshot(), ParkourVersion.V1_11).get(cocoa));
     }
 }

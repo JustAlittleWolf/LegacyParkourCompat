@@ -8,7 +8,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Historical sneak-edge prevention ({@code Player#maybeBackOffFromEdge}).
+ * Historical sneak-edge algorithm ({@code Player#maybeBackOffFromEdge}).
+ * The prevented drop distance is {@link SneakEdgeDistanceBehavior}.
  */
 @MechanicType("player.sneak.edge")
 public interface SneakEdgeBehavior extends VersionedMechanic {
