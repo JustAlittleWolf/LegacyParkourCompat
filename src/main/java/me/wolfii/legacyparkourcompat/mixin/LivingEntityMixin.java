@@ -178,10 +178,10 @@ public abstract class LivingEntityMixin {
         method = "aiStep",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/Entity;setDeltaMovement(DDD)V"
+            target = "Lnet/minecraft/world/entity/LivingEntity;setDeltaMovement(DDD)V"
         )
     )
-    private void lpc$negligibleSpeed(Entity instance, double x, double y, double z, Operation<Void> original) {
+    private void lpc$negligibleSpeed(LivingEntity instance, double x, double y, double z, Operation<Void> original) {
         if (!MovementRuntime.appliesTo(instance)) {
             original.call(instance, x, y, z);
             return;
