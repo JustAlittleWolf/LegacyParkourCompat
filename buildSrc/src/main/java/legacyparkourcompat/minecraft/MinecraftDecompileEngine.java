@@ -113,6 +113,7 @@ final class MinecraftDecompileEngine {
 
         Path jarToDecompile = clientJar;
         String mappingSource = "none (unobfuscated or unavailable)";
+        boolean remapped = false;
 
         if (version.downloads.clientMappings != null && version.downloads.clientMappings.url != null) {
             Path mappings = download(
@@ -125,6 +126,7 @@ final class MinecraftDecompileEngine {
             remap(clientJar, mappedJar, mojmapProvider(mappings), libraries);
             jarToDecompile = mappedJar;
             mappingSource = "mojmap";
+            remapped = true;
         } else {
             YarnMapping yarn = findYarn(versionRef.id);
             if (yarn != null) {
@@ -133,6 +135,7 @@ final class MinecraftDecompileEngine {
                 remap(clientJar, mappedJar, TinyUtils.createTinyMappingProvider(yarn.tinyFile, "official", "named"), libraries);
                 jarToDecompile = mappedJar;
                 mappingSource = yarn.label;
+                remapped = true;
             } else {
                 logger.lifecycle("  No mappings available; decompiling the client jar as published");
             }
@@ -145,7 +148,7 @@ final class MinecraftDecompileEngine {
         Files.createDirectories(outputDir);
 
         logger.lifecycle("  Decompiling with Vineflower into {}", outputDir);
-        decompileJar(jarToDecompile, libraries, outputDir);
+        decompileJar(jarToDecompile, libraries, outputDir, remapped);
         logger.lifecycle("  Finished {} using {}", versionRef.id, mappingSource);
     }
 
@@ -180,7 +183,7 @@ final class MinecraftDecompileEngine {
         return TinyUtils.createMappingProvider(tree, "official", "named");
     }
 
-    private void decompileJar(Path jar, List<Path> libraries, Path outputDir) {
+    private void decompileJar(Path jar, List<Path> libraries, Path outputDir, boolean remapped) {
         IFernflowerLogger vineflowerLogger = new IFernflowerLogger() {
             @Override
             public void writeMessage(String message, Severity severity) {
@@ -208,8 +211,11 @@ final class MinecraftDecompileEngine {
                 .option(IFernflowerPreferences.REMOVE_SYNTHETIC, true)
                 .option(IFernflowerPreferences.INDENT_STRING, "    ")
                 .option(IFernflowerPreferences.THREADS, Integer.toString(Math.max(1, Runtime.getRuntime().availableProcessors())))
-                .option(IFernflowerPreferences.WARN_INCONSISTENT_INNER_CLASSES, false)
-                .allowedPrefixes("net/minecraft", "com/mojang");
+                .option(IFernflowerPreferences.WARN_INCONSISTENT_INNER_CLASSES, false);
+
+        if (remapped) {
+            builder.allowedPrefixes("net/minecraft", "com/mojang");
+        }
 
         List<Path> existingLibraries = libraries.stream().filter(Files::isRegularFile).toList();
         if (!existingLibraries.isEmpty()) {
@@ -309,19 +315,29 @@ final class MinecraftDecompileEngine {
         if (parts.length != 3) {
             return null;
         }
-        String relative = parts[0].replace('.', '/') + '/' + parts[1] + '/' + parts[2]
-                + '/' + parts[1] + '-' + parts[2] + "-mergedv2.jar";
-        Path yarnJar = cacheDir.resolve("yarn").resolve(parts[1] + '-' + parts[2] + "-mergedv2.jar");
-        try {
-            download(mavenRoot + relative, yarnJar, null);
-        } catch (Exception e) {
-            logger.warn("  Failed to download {} {}: {}", label, chosen.version, e.getMessage());
+        Path yarnJar = downloadYarnJar(mavenRoot, parts[0], parts[1], parts[2]);
+        if (yarnJar == null) {
+            logger.warn("  Failed to download {} {}", label, chosen.version);
             return null;
         }
 
         Path tiny = cacheDir.resolve("yarn").resolve(parts[1] + '-' + parts[2] + ".tiny");
         extractNamedFile(yarnJar, "mappings/mappings.tiny", tiny);
         return new YarnMapping(label, chosen.version, tiny);
+    }
+
+    private Path downloadYarnJar(String mavenRoot, String group, String artifact, String version) {
+        String base = mavenRoot + group.replace('.', '/') + '/' + artifact + '/' + version + '/' + artifact + '-' + version;
+        List<String> suffixes = List.of("-mergedv2.jar", "-v2.jar", ".jar");
+        for (String suffix : suffixes) {
+            Path dest = cacheDir.resolve("yarn").resolve(artifact + '-' + version + suffix);
+            try {
+                return download(base + suffix, dest, null);
+            } catch (Exception e) {
+                logger.info("  Yarn artifact {}{} not found: {}", artifact + '-' + version, suffix, e.getMessage());
+            }
+        }
+        return null;
     }
 
     private static void extractNamedFile(Path jar, String entry, Path dest) throws IOException {
@@ -347,14 +363,10 @@ final class MinecraftDecompileEngine {
             return requireVersion(manifest, manifest.latest.snapshot);
         }
 
-        for (MojangMeta.VersionRef version : manifest.versions) {
-            if (requested.equals(version.id)) {
-                return version;
-            }
-        }
-
         List<MojangMeta.VersionRef> matches = manifest.versions.stream()
-                .filter(version -> version.id.startsWith(requested + ".") || version.id.startsWith(requested + "-"))
+                .filter(version -> requested.equals(version.id)
+                        || version.id.startsWith(requested + ".")
+                        || version.id.startsWith(requested + "-"))
                 .toList();
         if (matches.isEmpty()) {
             throw new GradleException("Unknown Minecraft version '" + requested + "'.");
@@ -403,8 +415,12 @@ final class MinecraftDecompileEngine {
                         .GET()
                         .build();
                 HttpResponse<InputStream> response = http.send(request, HttpResponse.BodyHandlers.ofInputStream());
-                if (response.statusCode() / 100 != 2) {
-                    throw new IOException("HTTP " + response.statusCode() + " for " + url);
+                int status = response.statusCode();
+                if (status / 100 == 4) {
+                    throw new IOException("HTTP " + status + " for " + url);
+                }
+                if (status / 100 != 2) {
+                    throw new IOException("HTTP " + status + " for " + url);
                 }
                 try (InputStream in = response.body()) {
                     Files.copy(in, temp, StandardCopyOption.REPLACE_EXISTING);
@@ -414,6 +430,19 @@ final class MinecraftDecompileEngine {
                 }
                 Files.move(temp, dest, StandardCopyOption.REPLACE_EXISTING);
                 return dest;
+            } catch (IOException e) {
+                last = e;
+                Files.deleteIfExists(temp);
+                if (e.getMessage() != null && e.getMessage().startsWith("HTTP 4")) {
+                    throw e;
+                }
+                logger.warn("  Download attempt {} failed for {}: {}", attempt, dest.getFileName(), e.getMessage());
+                if (attempt < 4) {
+                    Thread.sleep(1000L * (1L << (attempt - 1)));
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw e;
             } catch (Exception e) {
                 last = e;
                 logger.warn("  Download attempt {} failed for {}: {}", attempt, dest.getFileName(), e.getMessage());
