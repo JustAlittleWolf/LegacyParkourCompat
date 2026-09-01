@@ -14,12 +14,12 @@ This is a **one-way** compatibility layer: newer clients playing older parkour. 
 ## Tech Stack & Tooling
 - **Language:** Java (Modern JDK matching the targeted modern Minecraft version)
 - **Mod Loader:** Fabric (Fabric Loader, Fabric API, SpongePowered Mixin)
-- **Build Tool:** Gradle (wrapped via npm runner)
+- **Build Tool:** Gradle
 
 ## Build & Run Commands
 Always execute commands from the project root:
-- **Build project:** `npm run build`
-- **Unit Tests:** Unit tests are welcome for mod logic such as version resolution, `ParkourVersion` parsing, and config handling. Do **not** write unit or mock tests for Minecraft movement/physics loops; those will be covered by a headless input-simulation framework.
+- **Build project:** `gradlew build`
+- **Unit Tests:** `gradlew test`. Unit tests are welcome for mod logic such as version resolution, `ParkourVersion` parsing, and config handling. Do **not** write unit or mock tests for Minecraft movement/physics loops; those will be covered by a headless input-simulation framework.
 
 ---
 
@@ -34,7 +34,6 @@ Fabric Loom splits environments. Common code lives in `src/main/`; client-only a
   - `impl/` — version resolution (`ChangeResolver`) and the controller/registry. Selecting version *V* applies every change whose `emulates` is *V* or later, keeping the closest when the same mechanic changed more than once.
   - `mixin/` — thin injections into Minecraft. Keep them general and delegate to `MovementRuntime`.
   - `network/` — join handshake and optional ViaVersion lookup.
-  - `version/` — session-wide version selection used by the client UI.
 - **`src/client/`** — Mod Menu / version screen, client handshake receivers. The client keeps the typed version in memory only; closing the game returns to vanilla movement.
 - **`src/server/`** — dedicated-server config loaded from `config/legacyparkourcompat.properties`.
 - **`buildSrc/`** — Gradle task that decompiles historical Minecraft clients into `decompiled_minecraft/` (gitignored). Not game logic.
@@ -76,7 +75,7 @@ Fabric Loom splits environments. Common code lives in `src/main/`; client-only a
 
 - **ALWAYS:**
     - Verify that new mechanic changes apply *only* when the corresponding historical version/toggle is active, leaving default modern behavior intact when disabled.
-    - Check that the project builds cleanly using `npm run build` after any code modifications.
+    - Check that the project builds cleanly using `gradlew build build` after any code modifications.
 
 - **ASK FIRST:**
     - Introducing heavy third-party Java libraries or external physics engines.
@@ -86,5 +85,4 @@ Fabric Loom splits environments. Common code lives in `src/main/`; client-only a
     - Write unit or mock tests for Minecraft movement/physics loops (a headless input-simulation framework is planned). Unit tests for versioning logic and other mod code are fine.
     - Create duplicate version files containing redundant vanilla code.
     - "Fix" or smooth out historical Minecraft bugs/quirks that affect movement (they are considered intentional parkour features in older versions).
-    - Handle block-state defaults or connected-block properties (glass panes, fences, walls, etc.).
     - Add historical behaviour for modern-only features (new blocks with unique collision, and similar additions that old parkour maps do not use).
