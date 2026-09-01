@@ -1,9 +1,12 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerPoseBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeDistanceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintingBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SwimmingBehavior;
 import net.minecraft.world.entity.MoverType;
@@ -40,6 +43,23 @@ public abstract class PlayerMixin {
         Player self = (Player) (Object) this;
         self.refreshDimensions();
         this.updatePlayerPose();
+    }
+
+    @WrapOperation(
+        method = "maybeBackOffFromEdge",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/player/Player;maxUpStep()F"
+        )
+    )
+    private float lpc$sneakEdgeFall(Player instance, Operation<Float> original) {
+        float vanilla = original.call(instance);
+        if (!MovementRuntime.appliesTo(instance)) {
+            return vanilla;
+        }
+        return MovementRuntime.find(SneakEdgeDistanceBehavior.class, instance)
+            .map(behavior -> behavior.edgeFallDistance(instance, vanilla))
+            .orElse(vanilla);
     }
 
     @ModifyReturnValue(method = "maybeBackOffFromEdge", at = @At("RETURN"))

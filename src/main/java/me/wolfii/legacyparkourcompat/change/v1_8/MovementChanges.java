@@ -12,6 +12,7 @@ public final class MovementChanges implements MovementChangeProvider {
         registry.register(new LadderCollision());
         registry.register(new LilyPadCollision());
         registry.register(new PistonHeadCollision());
+        CocoaCollision.register(registry);
         AnvilCollision.register(registry);
         ChestCollision.register(registry);
         PaneCollision.register(registry);

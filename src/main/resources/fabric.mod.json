@@ -26,6 +26,7 @@
     ],
     "legacyparkourcompat:movement-change": [
       "me.wolfii.legacyparkourcompat.change.v1_8.MovementChanges",
+      "me.wolfii.legacyparkourcompat.change.v1_11.MovementChanges",
       "me.wolfii.legacyparkourcompat.change.v1_12.MovementChanges",
       "me.wolfii.legacyparkourcompat.change.v1_13.MovementChanges",
       "me.wolfii.legacyparkourcompat.change.v1_19_4.MovementChanges"
