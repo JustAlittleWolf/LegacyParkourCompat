@@ -3,6 +3,7 @@ package me.wolfii.legacyparkourcompat.change.v1_8;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
+import me.wolfii.legacyparkourcompat.mechanic.hook.EyeHeightBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerPoseBehavior;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
@@ -12,7 +13,7 @@ import net.minecraft.world.entity.player.Player;
  * sneaking to 1.65m. Eye height still drops by {@code 0.08} while sneaking.
  */
 @MovementChange(emulates = ParkourVersion.V1_8)
-public final class StandingPose implements PlayerPoseBehavior {
+public final class StandingPose implements PlayerPoseBehavior, EyeHeightBehavior {
     @Override
     public void updatePlayerPose(Player player, VanillaCall vanilla) {
         if (player.isSpectator() || player.isSleeping()) {

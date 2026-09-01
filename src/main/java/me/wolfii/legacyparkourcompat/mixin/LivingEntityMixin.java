@@ -6,7 +6,9 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.*;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
@@ -97,6 +99,20 @@ public abstract class LivingEntityMixin {
             });
             ci.cancel();
         });
+    }
+
+    @ModifyReturnValue(
+        method = "getDimensions(Lnet/minecraft/world/entity/Pose;)Lnet/minecraft/world/entity/EntityDimensions;",
+        at = @At("RETURN")
+    )
+    private EntityDimensions lpc$dimensions(EntityDimensions vanilla, Pose pose) {
+        LivingEntity self = (LivingEntity) (Object) this;
+        if (!(self instanceof Player player) || !MovementRuntime.appliesTo(player)) {
+            return vanilla;
+        }
+        return MovementRuntime.find(PlayerDimensionsBehavior.class, player)
+            .map(behavior -> behavior.dimensions(player, pose, vanilla))
+            .orElse(vanilla);
     }
 
     @ModifyReturnValue(method = "getJumpPower()F", at = @At("RETURN"))
