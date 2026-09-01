@@ -12,13 +12,13 @@ import java.util.UUID;
 /**
  * Public API for selecting the movement version and registering deltas.
  *
- * <p>The UI should list {@link #selectableEras()} (or {@link #suggestedVersions()}).
- * Patch releases with the same parkour mechanics share one era: selecting
+ * <p>The UI should list {@link #selectableVersions()} (or {@link #suggestedVersions()}).
+ * Patch releases with the same parkour mechanics share one version: selecting
  * {@code 1.9} also covers {@code 1.9.1} and {@code 1.9.2}.
  *
- * <p>The vanilla/disabled era (native game version, or {@link #disable()})
+ * <p>The vanilla/disabled version (native game version, or {@link #disable()})
  * applies no historical deltas. Mixins become no-ops, so Minecraft mechanics
- * are unchanged. Switching eras while a world is loaded takes effect on the
+ * are unchanged. Switching versions while a world is loaded takes effect on the
  * next player tick, including collision used for movement. Outline/cosmetic
  * block boxes are not modified.
  */
@@ -30,70 +30,70 @@ public interface MovementController {
     MinecraftVersion nativeVersion();
 
     /**
-     * Canonical era currently selected. {@link ParkourEra#isVanilla()} means
-     * latest / disabled.
+     * Canonical parkour version currently selected. {@link ParkourVersion#isVanilla()}
+     * means latest / disabled.
      */
-    ParkourEra selectedEra();
+    ParkourVersion selectedParkourVersion();
 
     /**
-     * Resolution target of the selected era (the era id, or native when disabled).
+     * Resolution target of the selected version (the version id, or native when disabled).
      */
     MinecraftVersion selectedVersion();
 
     /**
      * {@code true} when historical movement is applied. {@code false} when the
-     * native/disabled era is selected.
+     * native/disabled version is selected.
      */
     boolean isEnabled();
 
     boolean isEnabled(@Nullable Entity entity);
 
     /**
-     * Per-player era, falling back to {@link #selectedEra()}.
+     * Per-player version, falling back to {@link #selectedParkourVersion()}.
      */
-    ParkourEra eraFor(@Nullable Entity entity);
+    ParkourVersion parkourVersionFor(@Nullable Entity entity);
 
     MinecraftVersion versionFor(@Nullable Entity entity);
 
-    void select(ParkourEra era);
+    void select(ParkourVersion version);
 
     default void select(MinecraftVersion version) {
-        this.select(ParkourEras.of(version));
+        this.select(ParkourVersions.of(version));
     }
 
     default void select(String versionId) {
-        this.select(ParkourEras.of(versionId));
+        this.select(ParkourVersions.of(versionId));
     }
 
     /**
      * Restore native Minecraft movement. Same as selecting the latest version.
      */
     default void disable() {
-        this.select(ParkourEras.vanilla());
+        this.select(ParkourVersions.vanilla());
     }
 
     /**
      * Optional per-player override used on dedicated servers. Pass {@code null}
      * to clear the override.
      */
-    void selectFor(UUID playerId, @Nullable ParkourEra era);
+    void selectFor(UUID playerId, @Nullable ParkourVersion version);
 
     default void selectFor(UUID playerId, @Nullable MinecraftVersion version) {
-        this.selectFor(playerId, version == null ? null : ParkourEras.of(version));
+        this.selectFor(playerId, version == null ? null : ParkourVersions.of(version));
     }
 
-    default void selectFor(Player player, @Nullable ParkourEra era) {
-        this.selectFor(player.getUUID(), era);
+    default void selectFor(Player player, @Nullable ParkourVersion version) {
+        this.selectFor(player.getUUID(), version);
     }
 
     default void selectFor(Player player, @Nullable MinecraftVersion version) {
         this.selectFor(player.getUUID(), version);
     }
 
-    List<ParkourEra> selectableEras();
+    List<ParkourVersion> selectableVersions();
 
     /**
-     * Era ids for UIs that want a flat version list. The last entry is native
+     * Version ids for UIs that want a flat list. The last entry is native
      * (disabled). {@code 1.9.2} is not listed separately from {@code 1.9}.
      */
     default List<MinecraftVersion> suggestedVersions() {
@@ -107,7 +107,7 @@ public interface MovementController {
     MovementChangeRegistry registry();
 
     /**
-     * Incremented whenever the selected era or registered changes change, so
+     * Incremented whenever the selected version or registered changes change, so
      * in-world players can refresh pose and dimensions on the next tick.
      */
     int epoch();

@@ -41,7 +41,7 @@ public @interface MovementChange {
     String vanillaChangedIn();
 
     /**
-     * Documentation only: the era this implementation emulates (for example
+     * Documentation only: the version this implementation emulates (for example
      * {@code 1.8}). Not used when resolving which change to load.
      */
     String emulates() default "";

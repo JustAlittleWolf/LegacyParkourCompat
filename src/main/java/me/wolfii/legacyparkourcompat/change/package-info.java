@@ -18,8 +18,8 @@
  * }</pre>
  *
  * <p>Selecting {@code 1.8.9} (or {@code 1.8}) loads every change whose
- * {@code vanillaChangedIn} is in a later parkour era. Patch versions with the
- * same parkour mechanics share an era: {@code 1.9.2} is treated as {@code 1.9}.
- * The native/disabled era applies no changes at all.
+ * {@code vanillaChangedIn} is in a later parkour version. Patch versions with the
+ * same parkour mechanics share one version: {@code 1.9.2} is treated as {@code 1.9}.
+ * The native/disabled version applies no changes at all.
  */
 package me.wolfii.legacyparkourcompat.change;

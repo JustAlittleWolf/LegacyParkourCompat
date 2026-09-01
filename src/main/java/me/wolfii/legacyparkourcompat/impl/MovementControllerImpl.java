@@ -5,8 +5,7 @@ import me.wolfii.legacyparkourcompat.api.ActiveMovementProfile;
 import me.wolfii.legacyparkourcompat.api.MinecraftVersion;
 import me.wolfii.legacyparkourcompat.api.MovementController;
 import me.wolfii.legacyparkourcompat.api.MovementVersionListener;
-import me.wolfii.legacyparkourcompat.api.ParkourEra;
-import me.wolfii.legacyparkourcompat.api.ParkourEras;
+import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.api.ParkourVersions;
 import me.wolfii.legacyparkourcompat.mechanic.MechanicKey;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
@@ -32,14 +31,14 @@ public final class MovementControllerImpl implements MovementController {
     private final MinecraftVersion nativeVersion = ParkourVersions.nativeVersion();
     private final MovementChangeRegistryImpl registry = new MovementChangeRegistryImpl(this::rebuild);
     private final CopyOnWriteArrayList<MovementVersionListener> listeners = new CopyOnWriteArrayList<>();
-    private final ConcurrentHashMap<UUID, ParkourEra> perPlayer = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<UUID, ParkourVersion> perPlayer = new ConcurrentHashMap<>();
     private final AtomicInteger epoch = new AtomicInteger();
 
-    private volatile ParkourEra selected;
+    private volatile ParkourVersion selected;
     private volatile ActiveMovementProfile globalProfile;
 
     private MovementControllerImpl() {
-        this.selected = ParkourEras.vanilla();
+        this.selected = ParkourVersions.vanilla();
         this.globalProfile = ActiveMovementProfile.vanilla(this.nativeVersion);
     }
 
@@ -62,7 +61,7 @@ public final class MovementControllerImpl implements MovementController {
     }
 
     @Override
-    public ParkourEra selectedEra() {
+    public ParkourVersion selectedParkourVersion() {
         return this.selected;
     }
 
@@ -78,13 +77,13 @@ public final class MovementControllerImpl implements MovementController {
 
     @Override
     public boolean isEnabled(@Nullable Entity entity) {
-        return !this.eraFor(entity).isVanilla();
+        return !this.parkourVersionFor(entity).isVanilla();
     }
 
     @Override
-    public ParkourEra eraFor(@Nullable Entity entity) {
+    public ParkourVersion parkourVersionFor(@Nullable Entity entity) {
         if (entity instanceof Player player) {
-            ParkourEra override = this.perPlayer.get(player.getUUID());
+            ParkourVersion override = this.perPlayer.get(player.getUUID());
             if (override != null) {
                 return override;
             }
@@ -94,15 +93,17 @@ public final class MovementControllerImpl implements MovementController {
 
     @Override
     public MinecraftVersion versionFor(@Nullable Entity entity) {
-        ParkourEra era = this.eraFor(entity);
-        return era.isVanilla() ? this.nativeVersion : MinecraftVersion.parse(era.id());
+        ParkourVersion version = this.parkourVersionFor(entity);
+        return version.isVanilla() ? this.nativeVersion : MinecraftVersion.parse(version.id());
     }
 
     @Override
-    public void select(ParkourEra era) {
-        Objects.requireNonNull(era, "era");
-        ParkourEra canonical = era.isVanilla() ? ParkourEras.vanilla() : ParkourEras.of(MinecraftVersion.parse(era.id()));
-        ParkourEra previous = this.selected;
+    public void select(ParkourVersion version) {
+        Objects.requireNonNull(version, "version");
+        ParkourVersion canonical = version.isVanilla()
+                ? ParkourVersions.vanilla()
+                : ParkourVersions.of(MinecraftVersion.parse(version.id()));
+        ParkourVersion previous = this.selected;
         if (previous.equals(canonical)) {
             return;
         }
@@ -118,20 +119,22 @@ public final class MovementControllerImpl implements MovementController {
     }
 
     @Override
-    public void selectFor(UUID playerId, @Nullable ParkourEra era) {
+    public void selectFor(UUID playerId, @Nullable ParkourVersion version) {
         Objects.requireNonNull(playerId, "playerId");
-        if (era == null) {
+        if (version == null) {
             this.perPlayer.remove(playerId);
         } else {
-            ParkourEra canonical = era.isVanilla() ? ParkourEras.vanilla() : ParkourEras.of(MinecraftVersion.parse(era.id()));
+            ParkourVersion canonical = version.isVanilla()
+                    ? ParkourVersions.vanilla()
+                    : ParkourVersions.of(MinecraftVersion.parse(version.id()));
             this.perPlayer.put(playerId, canonical);
         }
         this.epoch.incrementAndGet();
     }
 
     @Override
-    public List<ParkourEra> selectableEras() {
-        return ParkourEras.selectable();
+    public List<ParkourVersion> selectableVersions() {
+        return ParkourVersions.selectable();
     }
 
     @Override
@@ -141,11 +144,11 @@ public final class MovementControllerImpl implements MovementController {
 
     @Override
     public ActiveMovementProfile profileFor(@Nullable Entity entity) {
-        ParkourEra era = this.eraFor(entity);
-        if (era.equals(this.selected)) {
+        ParkourVersion version = this.parkourVersionFor(entity);
+        if (version.equals(this.selected)) {
             return this.globalProfile;
         }
-        return this.profileOf(era);
+        return this.profileOf(version);
     }
 
     @Override
@@ -173,15 +176,15 @@ public final class MovementControllerImpl implements MovementController {
         this.epoch.incrementAndGet();
     }
 
-    private ActiveMovementProfile profileOf(ParkourEra era) {
-        if (era.isVanilla()) {
+    private ActiveMovementProfile profileOf(ParkourVersion version) {
+        if (version.isVanilla()) {
             return ActiveMovementProfile.vanilla(this.nativeVersion);
         }
         Map<MechanicKey, Object> implementations = new HashMap<>();
-        for (var entry : ChangeResolver.resolve(this.registry.snapshot(), era).entrySet()) {
+        for (var entry : ChangeResolver.resolve(this.registry.snapshot(), version).entrySet()) {
             implementations.put(entry.getKey(), entry.getValue().implementation());
         }
-        return new ActiveMovementProfile(MinecraftVersion.parse(era.id()), implementations);
+        return new ActiveMovementProfile(MinecraftVersion.parse(version.id()), implementations);
     }
 
     /**
