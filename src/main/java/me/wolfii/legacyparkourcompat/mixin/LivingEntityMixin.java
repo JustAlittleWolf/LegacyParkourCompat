@@ -26,6 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class LivingEntityMixin {
     @Unique
     private boolean lpc$vanillaJump;
+
     @WrapOperation(
             method = "travel",
             at = @At(
@@ -34,15 +35,15 @@ public abstract class LivingEntityMixin {
             )
     )
     private void lpc$travelInAir(LivingEntity instance, Vec3 input, Operation<Void> original) {
-        if (instance instanceof Player player) {
-            MovementRuntime.find(AirTravelBehavior.class, player)
-                    .ifPresentOrElse(
-                            behavior -> behavior.travelInAir(player, input, () -> original.call(instance, input)),
-                            () -> original.call(instance, input)
-                    );
-        } else {
+        if (!(instance instanceof Player player) || !MovementRuntime.appliesTo(player)) {
             original.call(instance, input);
+            return;
         }
+        MovementRuntime.find(AirTravelBehavior.class, player)
+                .ifPresentOrElse(
+                        behavior -> behavior.travelInAir(player, input, () -> original.call(instance, input)),
+                        () -> original.call(instance, input)
+                );
     }
 
     @WrapOperation(
@@ -53,15 +54,15 @@ public abstract class LivingEntityMixin {
             )
     )
     private void lpc$travelInFluid(LivingEntity instance, Vec3 input, Operation<Void> original) {
-        if (instance instanceof Player player) {
-            MovementRuntime.find(FluidTravelBehavior.class, player)
-                    .ifPresentOrElse(
-                            behavior -> behavior.travelInFluid(player, input, () -> original.call(instance, input)),
-                            () -> original.call(instance, input)
-                    );
-        } else {
+        if (!(instance instanceof Player player) || !MovementRuntime.appliesTo(player)) {
             original.call(instance, input);
+            return;
         }
+        MovementRuntime.find(FluidTravelBehavior.class, player)
+                .ifPresentOrElse(
+                        behavior -> behavior.travelInFluid(player, input, () -> original.call(instance, input)),
+                        () -> original.call(instance, input)
+                );
     }
 
     @WrapOperation(
@@ -72,15 +73,15 @@ public abstract class LivingEntityMixin {
             )
     )
     private void lpc$travelFallFlying(LivingEntity instance, Vec3 input, Operation<Void> original) {
-        if (instance instanceof Player player) {
-            MovementRuntime.find(ElytraTravelBehavior.class, player)
-                    .ifPresentOrElse(
-                            behavior -> behavior.travelFallFlying(player, input, () -> original.call(instance, input)),
-                            () -> original.call(instance, input)
-                    );
-        } else {
+        if (!(instance instanceof Player player) || !MovementRuntime.appliesTo(player)) {
             original.call(instance, input);
+            return;
         }
+        MovementRuntime.find(ElytraTravelBehavior.class, player)
+                .ifPresentOrElse(
+                        behavior -> behavior.travelFallFlying(player, input, () -> original.call(instance, input)),
+                        () -> original.call(instance, input)
+                );
     }
 
     @Inject(method = "jumpFromGround", at = @At("HEAD"), cancellable = true)
@@ -89,7 +90,7 @@ public abstract class LivingEntityMixin {
             return;
         }
         LivingEntity self = (LivingEntity) (Object) this;
-        if (!MovementRuntime.isPlayer(self)) {
+        if (!MovementRuntime.appliesTo(self)) {
             return;
         }
         MovementRuntime.find(JumpBehavior.class, self).ifPresent(behavior -> {
@@ -108,6 +109,9 @@ public abstract class LivingEntityMixin {
     @ModifyReturnValue(method = "getJumpPower()F", at = @At("RETURN"))
     private float lpc$jumpPower(float vanilla) {
         LivingEntity self = (LivingEntity) (Object) this;
+        if (!MovementRuntime.appliesTo(self)) {
+            return vanilla;
+        }
         return MovementRuntime.find(JumpBehavior.class, self)
                 .map(behavior -> behavior.jumpPower(self, vanilla))
                 .orElse(vanilla);
@@ -116,6 +120,9 @@ public abstract class LivingEntityMixin {
     @ModifyReturnValue(method = "onClimbable", at = @At("RETURN"))
     private boolean lpc$onClimbable(boolean vanilla) {
         LivingEntity self = (LivingEntity) (Object) this;
+        if (!MovementRuntime.appliesTo(self)) {
+            return vanilla;
+        }
         return MovementRuntime.find(ClimbingBehavior.class, self)
                 .map(behavior -> behavior.onClimbable(self, vanilla))
                 .orElse(vanilla);
@@ -129,6 +136,9 @@ public abstract class LivingEntityMixin {
             )
     )
     private Vec3 lpc$handleOnClimbable(LivingEntity instance, Vec3 delta, Operation<Vec3> original) {
+        if (!MovementRuntime.appliesTo(instance)) {
+            return original.call(instance, delta);
+        }
         return MovementRuntime.find(ClimbingBehavior.class, instance)
                 .map(behavior -> behavior.handleOnClimbable(instance, delta, () -> original.call(instance, delta)))
                 .orElseGet(() -> original.call(instance, delta));
@@ -142,6 +152,9 @@ public abstract class LivingEntityMixin {
             )
     )
     private Vec3 lpc$frictionMovement(LivingEntity instance, Vec3 input, float friction, Operation<Vec3> original) {
+        if (!MovementRuntime.appliesTo(instance)) {
+            return original.call(instance, input, friction);
+        }
         return MovementRuntime.find(FrictionMovementBehavior.class, instance)
                 .map(behavior -> behavior.handleRelativeFrictionAndCalculateMovement(
                         instance,
@@ -155,6 +168,9 @@ public abstract class LivingEntityMixin {
     @ModifyConstant(method = "aiStep", constant = @Constant(doubleValue = 9.0E-6))
     private double lpc$playerNegligibleSpeed(double vanilla) {
         LivingEntity self = (LivingEntity) (Object) this;
+        if (!MovementRuntime.appliesTo(self)) {
+            return vanilla;
+        }
         return MovementRuntime.find(NegligibleSpeedBehavior.class, self)
                 .map(behavior -> behavior.threshold(self, vanilla))
                 .orElse(vanilla);

@@ -22,8 +22,12 @@ public final class ActiveMovementProfile {
         return this.target;
     }
 
-    public boolean isNative(MinecraftVersion nativeVersion) {
-        return this.target.equals(nativeVersion);
+    public boolean isVanilla() {
+        return this.active.isEmpty();
+    }
+
+    public static ActiveMovementProfile vanilla(MinecraftVersion nativeVersion) {
+        return new ActiveMovementProfile(nativeVersion, Map.of());
     }
 
     public int size() {

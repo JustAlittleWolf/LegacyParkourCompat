@@ -24,12 +24,30 @@ public abstract class PlayerMixin {
     @Unique
     private boolean lpc$vanillaSwim;
 
+    @Unique
+    private int lpc$appliedEpoch = Integer.MIN_VALUE;
+
     @Shadow
     protected abstract void updatePlayerPose();
+
+    @Inject(method = "tick", at = @At("HEAD"))
+    private void lpc$applyVersionSwitch(CallbackInfo ci) {
+        int epoch = MovementRuntime.epoch();
+        if (this.lpc$appliedEpoch == epoch) {
+            return;
+        }
+        this.lpc$appliedEpoch = epoch;
+        Player self = (Player) (Object) this;
+        self.refreshDimensions();
+        this.updatePlayerPose();
+    }
 
     @ModifyReturnValue(method = "maybeBackOffFromEdge", at = @At("RETURN"))
     private Vec3 lpc$sneakEdge(Vec3 vanilla, Vec3 delta, MoverType moverType) {
         Player self = (Player) (Object) this;
+        if (!MovementRuntime.appliesTo(self)) {
+            return vanilla;
+        }
         return MovementRuntime.find(SneakEdgeBehavior.class, self)
                 .map(behavior -> behavior.maybeBackOffFromEdge(self, delta, moverType, () -> vanilla))
                 .orElse(vanilla);
@@ -41,6 +59,9 @@ public abstract class PlayerMixin {
             return;
         }
         Player self = (Player) (Object) this;
+        if (!MovementRuntime.appliesTo(self)) {
+            return;
+        }
         MovementRuntime.find(PlayerPoseBehavior.class, self).ifPresent(behavior -> {
             behavior.updatePlayerPose(self, () -> {
                 this.lpc$vanillaPose = true;
@@ -60,6 +81,9 @@ public abstract class PlayerMixin {
             return;
         }
         Player self = (Player) (Object) this;
+        if (!MovementRuntime.appliesTo(self)) {
+            return;
+        }
         MovementRuntime.find(SwimmingBehavior.class, self).ifPresent(behavior -> {
             behavior.updateSwimming(self, () -> {
                 this.lpc$vanillaSwim = true;
@@ -76,6 +100,9 @@ public abstract class PlayerMixin {
     @ModifyReturnValue(method = "canSprint", at = @At("RETURN"))
     private boolean lpc$canSprint(boolean vanilla) {
         Player self = (Player) (Object) this;
+        if (!MovementRuntime.appliesTo(self)) {
+            return vanilla;
+        }
         return MovementRuntime.find(SprintingBehavior.class, self)
                 .map(behavior -> behavior.canSprint(self, vanilla))
                 .orElse(vanilla);

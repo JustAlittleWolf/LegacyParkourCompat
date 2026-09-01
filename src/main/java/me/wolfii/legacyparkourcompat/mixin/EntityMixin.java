@@ -50,6 +50,9 @@ public abstract class EntityMixin {
             )
     )
     private Vec3 lpc$collide(Entity instance, Vec3 movement, Operation<Vec3> original) {
+        if (!MovementRuntime.appliesTo(instance)) {
+            return original.call(instance, movement);
+        }
         return MovementRuntime.find(CollisionAlgorithm.class, instance)
                 .map(algorithm -> algorithm.collide(instance, movement, () -> original.call(instance, movement)))
                 .orElseGet(() -> original.call(instance, movement));
@@ -67,6 +70,9 @@ public abstract class EntityMixin {
             Operation<ImmutableList<Direction.Axis>> original
     ) {
         ImmutableList<Direction.Axis> vanilla = original.call(movement);
+        if (!MovementRuntime.appliesTo(MovementRuntime.currentEntity())) {
+            return vanilla;
+        }
         return MovementRuntime.find(CollisionAxisOrder.class, MovementRuntime.currentEntity())
                 .map(order -> order.axisOrder(movement, vanilla))
                 .orElse(vanilla);
@@ -80,6 +86,10 @@ public abstract class EntityMixin {
             )
     )
     private void lpc$stepOn(Block block, Level level, BlockPos pos, BlockState state, Entity entity, Operation<Void> original) {
+        if (!MovementRuntime.appliesTo(entity)) {
+            original.call(block, level, pos, state, entity);
+            return;
+        }
         MovementRuntime.find(BlockStepBehavior.class, block, entity)
                 .ifPresentOrElse(
                         behavior -> behavior.stepOn(level, pos, state, entity, () -> original.call(block, level, pos, state, entity)),
@@ -103,6 +113,10 @@ public abstract class EntityMixin {
             double fallDistance,
             Operation<Void> original
     ) {
+        if (!MovementRuntime.appliesTo(entity)) {
+            original.call(block, level, state, pos, entity, fallDistance);
+            return;
+        }
         MovementRuntime.find(BlockFallBehavior.class, block, entity)
                 .ifPresentOrElse(
                         behavior -> behavior.fallOn(level, state, pos, entity, fallDistance, () -> original.call(block, level, state, pos, entity, fallDistance)),
@@ -118,8 +132,11 @@ public abstract class EntityMixin {
             )
     )
     private float lpc$bounceRestitution(Block block, Operation<Float> original) {
-        Entity self = (Entity) (Object) this;
         float vanilla = original.call(block);
+        Entity self = (Entity) (Object) this;
+        if (!MovementRuntime.appliesTo(self)) {
+            return vanilla;
+        }
         return MovementRuntime.find(BlockBounceBehavior.class, block, self)
                 .map(behavior -> behavior.bounceRestitution(vanilla))
                 .orElse(vanilla);
@@ -137,6 +154,9 @@ public abstract class EntityMixin {
             return;
         }
         Entity self = (Entity) (Object) this;
+        if (!MovementRuntime.appliesTo(self)) {
+            return;
+        }
         MovementRuntime.find(CollisionRestitutionBehavior.class, self).ifPresent(behavior -> {
             behavior.restituteAfterCollisions(self, effectState, xCollision, zCollision, movement, () -> {
                 this.lpc$vanillaRestitution = true;
@@ -153,6 +173,9 @@ public abstract class EntityMixin {
     @ModifyReturnValue(method = "getOnPos(F)Lnet/minecraft/core/BlockPos;", at = @At("RETURN"))
     private BlockPos lpc$getOnPos(BlockPos vanilla, float offset) {
         Entity self = (Entity) (Object) this;
+        if (!MovementRuntime.appliesTo(self)) {
+            return vanilla;
+        }
         return MovementRuntime.find(SupportingBlockBehavior.class, self)
                 .map(behavior -> behavior.getOnPos(self, offset, () -> vanilla))
                 .orElse(vanilla);
@@ -161,6 +184,9 @@ public abstract class EntityMixin {
     @ModifyReturnValue(method = "getBlockPosBelowThatAffectsMyMovement", at = @At("RETURN"))
     private BlockPos lpc$velocityAffectingPos(BlockPos vanilla) {
         Entity self = (Entity) (Object) this;
+        if (!MovementRuntime.appliesTo(self)) {
+            return vanilla;
+        }
         return MovementRuntime.find(SupportingBlockBehavior.class, self)
                 .map(behavior -> behavior.getBlockPosBelowThatAffectsMyMovement(self, () -> vanilla))
                 .orElse(vanilla);
@@ -169,6 +195,9 @@ public abstract class EntityMixin {
     @ModifyReturnValue(method = "maxUpStep", at = @At("RETURN"))
     private float lpc$stepHeight(float vanilla) {
         Entity self = (Entity) (Object) this;
+        if (!MovementRuntime.appliesTo(self)) {
+            return vanilla;
+        }
         return MovementRuntime.find(StepHeightBehavior.class, self)
                 .map(behavior -> behavior.stepHeight(self, vanilla))
                 .orElse(vanilla);

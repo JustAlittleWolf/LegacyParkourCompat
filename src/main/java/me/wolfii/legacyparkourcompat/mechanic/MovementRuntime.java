@@ -23,12 +23,29 @@ public final class MovementRuntime {
     private MovementRuntime() {
     }
 
+    /**
+     * {@code false} when movement emulation is disabled (native/latest) or the
+     * entity is not a player. Mixins must call vanilla unchanged in that case.
+     */
+    public static boolean appliesTo(@Nullable Entity entity) {
+        if (entity != null && !isPlayer(entity)) {
+            return false;
+        }
+        return MovementController.get().isEnabled(entity);
+    }
+
     public static boolean isPlayer(@Nullable Entity entity) {
         return entity instanceof Player;
     }
 
+    public static int epoch() {
+        return MovementController.get().epoch();
+    }
+
     public static void enter(Entity entity) {
-        CURRENT_ENTITY.set(entity);
+        if (appliesTo(entity)) {
+            CURRENT_ENTITY.set(entity);
+        }
     }
 
     public static void exit() {
@@ -44,14 +61,14 @@ public final class MovementRuntime {
     }
 
     public static <T extends VersionedMechanic> Optional<T> find(Class<T> type, @Nullable Entity entity) {
-        if (entity != null && !isPlayer(entity)) {
+        if (!appliesTo(entity)) {
             return Optional.empty();
         }
         return profile(entity).get(type);
     }
 
     public static <T extends VersionedMechanic> Optional<T> find(Class<T> type, String variant, @Nullable Entity entity) {
-        if (entity != null && !isPlayer(entity)) {
+        if (!appliesTo(entity)) {
             return Optional.empty();
         }
         return profile(entity).get(type, variant);
