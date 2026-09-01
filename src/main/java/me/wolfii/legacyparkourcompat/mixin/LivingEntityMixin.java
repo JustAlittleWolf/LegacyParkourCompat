@@ -11,6 +11,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -151,6 +152,24 @@ public abstract class LivingEntityMixin {
         return MovementRuntime.find(ClimbingBehavior.class, instance)
             .map(behavior -> behavior.handleOnClimbable(instance, delta, () -> original.call(instance, delta)))
             .orElseGet(() -> original.call(instance, delta));
+    }
+
+    @WrapOperation(
+        method = "handleRelativeFrictionAndCalculateMovement",
+        at = @At(
+            value = "FIELD",
+            target = "Lnet/minecraft/world/entity/LivingEntity;jumping:Z",
+            opcode = Opcodes.GETFIELD
+        )
+    )
+    private boolean lpc$climbByJumping(LivingEntity instance, Operation<Boolean> original) {
+        boolean jumping = original.call(instance);
+        if (!MovementRuntime.appliesTo(instance)) {
+            return jumping;
+        }
+        return MovementRuntime.find(ClimbingBehavior.class, instance)
+            .map(behavior -> behavior.climbByJumping(instance, jumping))
+            .orElse(jumping);
     }
 
     @WrapOperation(
