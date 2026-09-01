@@ -25,6 +25,7 @@
       "me.wolfii.legacyparkourcompat.LegacyParkourCompatServer"
     ],
     "legacyparkourcompat:movement-change": [
+      "me.wolfii.legacyparkourcompat.change.BuiltinMovementChanges"
     ],
     "modmenu": [
       "me.wolfii.legacyparkourcompat.config.ModMenuIntegration"
