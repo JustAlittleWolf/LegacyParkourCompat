@@ -22,6 +22,7 @@ Do **not** keep compatibility with older versions of this mod (handshake ids, co
 Always execute commands from the project root:
 - **Build project:** `gradlew build`
 - **Unit Tests:** `gradlew test`. Unit tests are welcome for mod logic such as version resolution, `ParkourVersion` parsing, and config handling. Do **not** write unit or mock tests for Minecraft movement/physics loops; those will be covered by a headless input-simulation framework.
+- **Decompile Minecraft:** `gradlew decompileMinecraft` or `gradlew decompileMinecraft --versions=1.XX.X`. Decompiles the specified minecraft versions into `decompiled_minecraft/`. Decompiles 1.8.9, 1.12.2, 1.14.4 and latest by default.
 
 ---
 
@@ -89,3 +90,4 @@ Fabric Loom splits environments. Common code lives in `src/main/`; client-only a
     - "Fix" or smooth out historical Minecraft bugs/quirks that affect movement (they are considered intentional parkour features in older versions).
     - Add historical behaviour for modern-only features (new blocks with unique collision, and similar additions that old parkour maps do not use).
     - Preserve compatibility with older versions of this mod.
+    - Look up Minecraft mappings online. Use the decompileMinecraft task instead.
