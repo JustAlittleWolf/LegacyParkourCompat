@@ -21,6 +21,9 @@
     "client": [
       "me.wolfii.legacyparkourcompat.LegacyParkourCompatClient"
     ],
+    "server": [
+      "me.wolfii.legacyparkourcompat.LegacyParkourCompatServer"
+    ],
     "legacyparkourcompat:movement-change": [
     ]
   },

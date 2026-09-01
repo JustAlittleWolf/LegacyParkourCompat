@@ -11,10 +11,10 @@ import net.minecraft.server.network.ServerConfigurationPacketListenerImpl;
  * disconnects itself.
  *
  * <ul>
- *     <li>Clients with this mod are accepted and told to use the server parkour version.</li>
- *     <li>Vanilla clients are accepted only when their Minecraft version matches that parkour version.</li>
- *     <li>ViaVersion on the server can make a client's protocol differ from native; those clients are
- *     still accepted when that protocol maps to the server parkour version.</li>
+ *     <li>Clients with this mod are always accepted (older or newer than the server, including
+ *     Via-translated connections) and told to use the server parkour version.</li>
+ *     <li>Clients without the mod are accepted only when their Minecraft version matches that
+ *     parkour version (native or Via-translated).</li>
  * </ul>
  */
 public final class ParkourHandshake {
