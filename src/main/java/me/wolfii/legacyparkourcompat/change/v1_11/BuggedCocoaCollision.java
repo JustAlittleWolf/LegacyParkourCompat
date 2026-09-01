@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.change.v1_11;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
 import me.wolfii.legacyparkourcompat.mechanic.hook.BlockCollisionShape;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -46,6 +47,10 @@ public final class BuggedCocoaCollision implements BlockCollisionShape {
     @Override
     public String blockId() {
         return "minecraft:cocoa";
+    }
+
+    public static void register(MovementChangeRegistry registry) {
+        registry.register(new BuggedCocoaCollision());
     }
 
     @Override
