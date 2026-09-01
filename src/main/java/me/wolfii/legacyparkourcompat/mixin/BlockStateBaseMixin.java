@@ -38,4 +38,19 @@ public abstract class BlockStateBaseMixin {
             shape.collisionShape(this.asState(), level, pos, context).ifPresent(cir::setReturnValue);
         });
     }
+
+    @Inject(
+        method = "getShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;",
+        at = @At("HEAD"),
+        cancellable = true
+    )
+    private void lpc$outlineShape(BlockGetter level, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
+        Entity player = MovementRuntime.playerFrom(context);
+        if (!MovementRuntime.appliesTo(player)) {
+            return;
+        }
+        MovementRuntime.find(BlockCollisionShape.class, this.getBlock(), player).ifPresent(shape -> {
+            shape.outlineShape(this.asState(), level, pos, context).ifPresent(cir::setReturnValue);
+        });
+    }
 }
