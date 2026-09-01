@@ -82,10 +82,7 @@ public final class MovementVersions {
         if (parkour == MovementController.get().nativeVersion()) {
             return VersionStatus.VANILLA;
         }
-        if (MovementController.get().hasChanges(parkour)) {
-            return VersionStatus.IMPLEMENTED;
-        }
-        return VersionStatus.UNIMPLEMENTED;
+        return VersionStatus.VALID;
     }
 
     public static List<ParkourVersion> listedVersions() {

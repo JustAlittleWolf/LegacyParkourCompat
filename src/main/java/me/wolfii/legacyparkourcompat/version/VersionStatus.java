@@ -4,13 +4,12 @@ package me.wolfii.legacyparkourcompat.version;
  * How a typed movement version should be treated.
  *
  * <p>{@link #VANILLA} is empty, a current alias, or the running game version.
- * {@link #IMPLEMENTED} is a {@link me.wolfii.legacyparkourcompat.api.ParkourVersion}
- * with registered movement changes. {@link #UNIMPLEMENTED} is a ParkourVersion
- * with no changes yet. {@link #INVALID} is not a ParkourVersion id.
+ * {@link #VALID} is a {@link me.wolfii.legacyparkourcompat.api.ParkourVersion}
+ * patch id. Completeness (partial vs full) lives on the enum itself.
+ * {@link #INVALID} is not a ParkourVersion id.
  */
 public enum VersionStatus {
     VANILLA,
-    IMPLEMENTED,
-    UNIMPLEMENTED,
+    VALID,
     INVALID
 }

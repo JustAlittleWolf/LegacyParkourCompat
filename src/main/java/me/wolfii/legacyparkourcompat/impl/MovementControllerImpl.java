@@ -117,15 +117,6 @@ public final class MovementControllerImpl implements MovementController {
     }
 
     @Override
-    public boolean hasChanges(ParkourVersion version) {
-        ParkourVersion canonical = this.canonicalize(version);
-        if (!this.applies(canonical)) {
-            return false;
-        }
-        return !ChangeResolver.resolve(this.registry.snapshot(), canonical).isEmpty();
-    }
-
-    @Override
     public ActiveMovementProfile profile() {
         return this.globalProfile;
     }

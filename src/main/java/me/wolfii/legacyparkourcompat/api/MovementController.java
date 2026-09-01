@@ -74,12 +74,6 @@ public interface MovementController {
 
     List<ParkourVersion> selectableVersions();
 
-    /**
-     * {@code true} when at least one registered movement change would apply if
-     * this version were selected. Always {@code false} for {@link ParkourVersion#CURRENT}.
-     */
-    boolean hasChanges(ParkourVersion version);
-
     ActiveMovementProfile profile();
 
     ActiveMovementProfile profileFor(@Nullable Entity entity);

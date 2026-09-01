@@ -1,6 +1,5 @@
 package me.wolfii.legacyparkourcompat.config;
 
-import me.wolfii.legacyparkourcompat.api.MovementController;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.version.MovementVersions;
 import me.wolfii.legacyparkourcompat.version.VersionStatus;
@@ -43,6 +42,7 @@ public class MovementVersionScreen extends Screen {
     private CycleButton<Boolean> enabledButton;
     private EditBox versionBox;
     private StringWidget statusWidget;
+    private MultiLineTextWidget partialNote;
     private VersionList versionList;
 
     public MovementVersionScreen(Screen lastScreen) {
@@ -76,6 +76,10 @@ public class MovementVersionScreen extends Screen {
 
         this.statusWidget = new StringWidget(Component.empty(), this.font).setMaxWidth(CONTENT_WIDTH);
         contents.addChild(this.statusWidget);
+        this.partialNote = new MultiLineTextWidget(Component.empty(), this.font)
+                .setMaxWidth(CONTENT_WIDTH)
+                .setCentered(true);
+        contents.addChild(this.partialNote);
 
         contents.addChild(new StringWidget(AVAILABLE, this.font));
         List<ParkourVersion> versions = MovementVersions.listedVersions();
@@ -147,18 +151,27 @@ public class MovementVersionScreen extends Screen {
     }
 
     private void refreshStatus() {
-        if (this.versionBox == null || this.statusWidget == null) {
+        if (this.versionBox == null || this.statusWidget == null || this.partialNote == null) {
             return;
         }
         if (!this.wanted) {
             this.versionBox.setTextColor(EditBox.DEFAULT_TEXT_COLOR);
             this.statusWidget.setMessage(Component.translatable("legacyparkourcompat.version.status.disabled")
                     .withStyle(ChatFormatting.GRAY));
+            this.partialNote.setMessage(Component.empty());
+            this.partialNote.visible = false;
             return;
         }
-        VersionStatus status = MovementVersions.status(this.versionBox.getValue());
+        String value = this.versionBox.getValue();
+        VersionStatus status = MovementVersions.status(value);
         this.versionBox.setTextColor(color(status));
-        this.statusWidget.setMessage(statusMessage(status, this.versionBox.getValue()));
+        this.statusWidget.setMessage(statusMessage(status, value));
+        ParkourVersion selected = MovementVersions.parkourVersion(MovementVersions.normalize(value));
+        boolean partial = status == VersionStatus.VALID && selected != null && selected.isPartiallyImplemented();
+        this.partialNote.setMessage(partial
+                ? Component.translatable("legacyparkourcompat.version.status.partial").withStyle(ChatFormatting.YELLOW)
+                : Component.empty());
+        this.partialNote.visible = partial;
     }
 
     private static Component statusMessage(VersionStatus status, String value) {
@@ -166,21 +179,17 @@ public class MovementVersionScreen extends Screen {
         return switch (status) {
             case VANILLA -> Component.translatable("legacyparkourcompat.version.status.vanilla")
                     .withStyle(ChatFormatting.GRAY);
-            case IMPLEMENTED -> Component.translatable("legacyparkourcompat.version.status.implemented", normalized)
+            case VALID -> Component.translatable("legacyparkourcompat.version.status.implemented", normalized)
                     .withStyle(ChatFormatting.WHITE);
-            case UNIMPLEMENTED -> Component.translatable("legacyparkourcompat.version.status.unimplemented", normalized)
-                    .withStyle(ChatFormatting.YELLOW);
             case INVALID -> Component.translatable("legacyparkourcompat.version.status.invalid")
                     .withStyle(ChatFormatting.RED);
         };
     }
 
     private static int color(VersionStatus status) {
-        return switch (status) {
-            case INVALID -> TextColor.RED.getValue() | 0xFF000000;
-            case UNIMPLEMENTED -> TextColor.YELLOW.getValue() | 0xFF000000;
-            default -> EditBox.DEFAULT_TEXT_COLOR;
-        };
+        return status == VersionStatus.INVALID
+                ? TextColor.RED.getValue() | 0xFF000000
+                : EditBox.DEFAULT_TEXT_COLOR;
     }
 
     private static class VersionList extends ObjectSelectionList<VersionList.Entry> {
@@ -234,7 +243,10 @@ public class MovementVersionScreen extends Screen {
             Entry(VersionList list, ParkourVersion version) {
                 this.list = list;
                 this.version = version;
-                this.label = Component.literal(displayName(version));
+                String range = displayRange(version);
+                this.label = version.isPartiallyImplemented()
+                        ? Component.translatable("legacyparkourcompat.version.list.partial", range)
+                        : Component.literal(range);
             }
 
             @Override
@@ -250,12 +262,7 @@ public class MovementVersionScreen extends Screen {
 
             @Override
             public void extractContent(GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean hovered, float a) {
-                int color = this.list.screen.wanted && MovementController.get().hasChanges(this.version)
-                        ? 0xFFFFFFFF
-                        : TextColor.YELLOW.getValue() | 0xFF000000;
-                if (!this.list.screen.wanted) {
-                    color = 0xFF808080;
-                }
+                int color = this.list.screen.wanted ? 0xFFFFFFFF : 0xFF808080;
                 graphics.text(
                         Minecraft.getInstance().font,
                         this.label,
@@ -266,7 +273,7 @@ public class MovementVersionScreen extends Screen {
                 );
             }
 
-            private static String displayName(ParkourVersion version) {
+            private static String displayRange(ParkourVersion version) {
                 List<String> patches = version.patches();
                 if (patches.size() <= 1) {
                     return version.id();
