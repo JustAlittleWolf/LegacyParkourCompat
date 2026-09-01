@@ -3,6 +3,14 @@
 ## Project Overview
 A Minecraft Fabric mod (Client & Server) targeting the latest Minecraft release. It enables players to emulate historical movement mechanics and physics from previous Minecraft versions (e.g., 1.8, 1.9, 1.12) to accurately play parkour maps designed for those eras.
 
+This is a **one-way** compatibility layer: newer clients playing older parkour. Do not invent historical behaviour for features that did not exist in the emulated version (for example, unique collision boxes on blocks added after that version). Parkour maps from that era simply do not contain those blocks.
+
+**Out of scope — block state:** Do not emulate or rewrite block states. Defaults such as glass panes extending on all sides, fence/wall connections, and similar world data stay vanilla. Historical collision *shapes* for blocks that existed and later changed (e.g. ladder hitboxes) are movement mechanics and *are* in scope.
+
+### Client vs server
+- **Client:** The player may choose which historical version to emulate, unless the connected server has this mod enabled. When the server has the mod, it forces its parkour version on the client.
+- **Server:** Only two kinds of clients may join: clients that have this mod (always accepted, then told the server version), or clients whose Minecraft version already matches the server's parkour version (native or Via-translated). Vanilla clients on the wrong version are disconnected.
+
 ## Tech Stack & Tooling
 - **Language:** Java (Modern JDK matching the targeted modern Minecraft version)
 - **Mod Loader:** Fabric (Fabric Loader, Fabric API, SpongePowered Mixin)
@@ -11,7 +19,25 @@ A Minecraft Fabric mod (Client & Server) targeting the latest Minecraft release.
 ## Build & Run Commands
 Always execute commands from the project root:
 - **Build project:** `npm run build`
-- **Unit Tests:** *Do not write standard unit tests.* Testing will be handled via headless input-simulation runs.
+- **Unit Tests:** Unit tests are welcome for mod logic such as version resolution, `ParkourVersion` parsing, and config handling. Do **not** write unit or mock tests for Minecraft movement/physics loops; those will be covered by a headless input-simulation framework.
+
+---
+
+## Code Structure
+
+Fabric Loom splits environments. Common code lives in `src/main/`; client-only and dedicated-server-only code live in `src/client/` and `src/server/`. Runtime Java is under `me.wolfii.legacyparkourcompat`.
+
+- **`src/main/`** — shared by the integrated client and dedicated server.
+  - `api/` — public API: `ParkourVersion`, `MovementController`. Other mods and the UI select versions and register deltas here.
+  - `mechanic/` and `mechanic/hook/` — mixin-free hook interfaces (`@MechanicType`) plus `MovementRuntime` lookup. Mixins dispatch into these hooks; change authors implement the interfaces instead of writing mixins.
+  - `change/` — historical deltas. Each class implements one hook and is annotated `@MovementChange(emulates = ...)`. Register via the `legacyparkourcompat:movement-change` Fabric entrypoint. No mixins in this package.
+  - `impl/` — version resolution (`ChangeResolver`) and the controller/registry. Selecting version *V* applies every change whose `emulates` is *V* or later, keeping the closest when the same mechanic changed more than once.
+  - `mixin/` — thin injections into Minecraft. Keep them general and delegate to `MovementRuntime`.
+  - `network/` — join handshake and optional ViaVersion lookup.
+  - `version/` — session-wide version selection used by the client UI.
+- **`src/client/`** — Mod Menu / version screen, client handshake receivers. The client keeps the typed version in memory only; closing the game returns to vanilla movement.
+- **`src/server/`** — dedicated-server config loaded from `config/legacyparkourcompat.properties`.
+- **`buildSrc/`** — Gradle task that decompiles historical Minecraft clients into `decompiled_minecraft/` (gitignored). Not game logic.
 
 ---
 
@@ -38,6 +64,12 @@ Always execute commands from the project root:
     - *Bad:* Creating dedicated mixins targeting `SlimeBlock`, `HoneyBlock`, `SoulSandBlock`, etc.
     - *Good:* Mix into the base class/hook (e.g., `Block#stepOn` or `Entity#move`), intercept the call, and delegate execution to the mod's active version handler to decide the behavior for that specific block.
     - *Ok:* Mix into `AbstractBoat#getPassengerAttachmentPoint` if a change is relevant for that specific part of the code, and targeting a more general hook would result in lots of code duplication.
+
+### 4. Logging
+- Never ignore errors (no empty `catch`, no swallowed failures).
+- Conditions that must not happen (broken invariants, unexpected nulls on movement paths) should crash the game.
+- Expected failures (unreadable config, unknown version id, join rejected for mismatch) should be logged with `LegacyParkourCompat.LOGGER` and handled.
+
 ---
 
 ## Agent Boundaries & Guardrails
@@ -51,6 +83,8 @@ Always execute commands from the project root:
     - Refactoring the core version-resolution pipeline.
 
 - **NEVER:**
-    - Create conventional unit tests or mock tests for game physics loops (headless integration test framework is planned).
+    - Write unit or mock tests for Minecraft movement/physics loops (a headless input-simulation framework is planned). Unit tests for versioning logic and other mod code are fine.
     - Create duplicate version files containing redundant vanilla code.
     - "Fix" or smooth out historical Minecraft bugs/quirks that affect movement (they are considered intentional parkour features in older versions).
+    - Handle block-state defaults or connected-block properties (glass panes, fences, walls, etc.).
+    - Add historical behaviour for modern-only features (new blocks with unique collision, and similar additions that old parkour maps do not use).
