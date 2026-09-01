@@ -31,7 +31,15 @@
     ]
   },
   "mixins": [
-    "legacyparkourcompat.mixins.json"
+    "legacyparkourcompat.mixins.json",
+    {
+      "config": "legacyparkourcompat.client.mixins.json",
+      "environment": "client"
+    },
+    {
+      "config": "legacyparkourcompat.server.mixins.json",
+      "environment": "server"
+    }
   ],
   "depends": {
     "fabricloader": ">=0.19.0",
