@@ -10,6 +10,7 @@ import me.wolfii.legacyparkourcompat.mixin.access.EntityInvoker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -193,6 +194,34 @@ public abstract class EntityMixin {
         }
         return MovementRuntime.find(StepHeightBehavior.class, self)
             .map(behavior -> behavior.stepHeight(self, vanilla))
+            .orElse(vanilla);
+    }
+
+    @Inject(method = "push(Lnet/minecraft/world/entity/Entity;)V", at = @At("HEAD"), cancellable = true)
+    private void lpc$entityPush(Entity other, CallbackInfo ci) {
+        Entity self = (Entity) (Object) this;
+        Player player = self instanceof Player selfPlayer
+            ? selfPlayer
+            : other instanceof Player otherPlayer ? otherPlayer : null;
+        if (player == null || !MovementRuntime.appliesTo(player)) {
+            return;
+        }
+        boolean allow = MovementRuntime.find(EntityPushBehavior.class, player)
+            .map(behavior -> behavior.allow(player, self, other))
+            .orElse(true);
+        if (!allow) {
+            ci.cancel();
+        }
+    }
+
+    @ModifyReturnValue(method = "getEyeHeight()F", at = @At("RETURN"))
+    private float lpc$eyeHeight(float vanilla) {
+        Entity self = (Entity) (Object) this;
+        if (!(self instanceof Player player) || !MovementRuntime.appliesTo(player)) {
+            return vanilla;
+        }
+        return MovementRuntime.find(PlayerPoseBehavior.class, player)
+            .map(behavior -> behavior.eyeHeight(player, vanilla))
             .orElse(vanilla);
     }
 }

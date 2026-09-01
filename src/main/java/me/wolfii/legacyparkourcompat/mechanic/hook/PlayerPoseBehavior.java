@@ -11,4 +11,12 @@ import net.minecraft.world.entity.player.Player;
 @MechanicType("player.pose")
 public interface PlayerPoseBehavior extends VersionedMechanic {
     void updatePlayerPose(Player player, VanillaCall vanilla);
+
+    /**
+     * Historical eye height. 1.8 sneaking is {@code 1.62F - 0.08F} without a
+     * shorter collision box.
+     */
+    default float eyeHeight(Player player, float vanilla) {
+        return vanilla;
+    }
 }

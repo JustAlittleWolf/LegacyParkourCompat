@@ -5,15 +5,14 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.*;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
@@ -159,14 +158,25 @@ public abstract class LivingEntityMixin {
             .orElseGet(() -> original.call(instance, input, friction));
     }
 
-    @ModifyConstant(method = "aiStep", constant = @Constant(doubleValue = 9.0E-6))
-    private double lpc$playerNegligibleSpeed(double vanilla) {
-        LivingEntity self = (LivingEntity) (Object) this;
-        if (!MovementRuntime.appliesTo(self)) {
-            return vanilla;
+    @WrapOperation(
+        method = "aiStep",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/Entity;setDeltaMovement(DDD)V"
+        )
+    )
+    private void lpc$negligibleSpeed(Entity instance, double x, double y, double z, Operation<Void> original) {
+        if (!MovementRuntime.appliesTo(instance)) {
+            original.call(instance, x, y, z);
+            return;
         }
-        return MovementRuntime.find(NegligibleSpeedBehavior.class, self)
-            .map(behavior -> behavior.threshold(self, vanilla))
-            .orElse(vanilla);
+        MovementRuntime.find(NegligibleSpeedBehavior.class, instance)
+            .ifPresentOrElse(
+                behavior -> {
+                    Vec3 adjusted = behavior.apply(instance, instance.getDeltaMovement());
+                    original.call(instance, adjusted.x, adjusted.y, adjusted.z);
+                },
+                () -> original.call(instance, x, y, z)
+            );
     }
 }

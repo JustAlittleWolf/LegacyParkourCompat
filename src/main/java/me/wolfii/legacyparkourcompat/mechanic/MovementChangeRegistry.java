@@ -8,7 +8,8 @@ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
  */
 public interface MovementChangeRegistry {
     /**
-     * Registers an annotated {@link MovementChange} implementation.
+     * Registers an annotated {@link MovementChange} implementation. If the class
+     * implements several {@link MechanicType} hooks, each is registered.
      */
     void register(Object implementation);
 

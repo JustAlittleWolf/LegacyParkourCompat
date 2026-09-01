@@ -25,6 +25,10 @@ import java.lang.annotation.*;
  * }
  * }</pre>
  *
+ * <p>A class may implement several {@link MechanicType} hooks; each is registered
+ * independently under its own mechanic key. {@link VersionedMechanic#variant()}
+ * still applies to every hook on that class.
+ *
  * <p>The implementing class must not reference mixins. Register it from a
  * {@link MovementChangeProvider} or {@link MovementChangeRegistry#register(Object)}.
  */
