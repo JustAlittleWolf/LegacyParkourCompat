@@ -1,6 +1,6 @@
 package me.wolfii.legacyparkourcompat.mechanic;
 
-import me.wolfii.legacyparkourcompat.api.MinecraftVersion;
+import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 
 /**
  * Registry of historical movement deltas. Change authors register implementations
@@ -13,19 +13,8 @@ public interface MovementChangeRegistry {
     void register(Object implementation);
 
     /**
-     * Registers {@code implementation} for {@code type} as the behaviour vanilla
-     * replaced in {@code vanillaChangedIn}.
+     * Registers {@code implementation} as the behaviour of {@code emulates}.
+     * Vanilla replaced it in {@link ParkourVersion#next()}.
      */
-    <T extends VersionedMechanic> void register(
-            Class<T> type,
-            MinecraftVersion vanillaChangedIn,
-            T implementation
-    );
-
-    <T extends VersionedMechanic> void register(
-            Class<T> type,
-            MinecraftVersion vanillaChangedIn,
-            String emulates,
-            T implementation
-    );
+    <T extends VersionedMechanic> void register(Class<T> type, ParkourVersion emulates, T implementation);
 }

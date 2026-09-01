@@ -12,64 +12,54 @@ import java.util.UUID;
 /**
  * Public API for selecting the movement version and registering deltas.
  *
- * <p>The UI should list {@link #selectableVersions()} (or {@link #suggestedVersions()}).
- * Patch releases with the same parkour mechanics share one version: selecting
- * {@code 1.9} also covers {@code 1.9.1} and {@code 1.9.2}.
+ * <p>The UI should list {@link #selectableVersions()}. Patch releases with the
+ * same parkour mechanics share one {@link ParkourVersion}: selecting
+ * {@link ParkourVersion#V1_9} also covers {@code 1.9.1} and {@code 1.9.2}.
  *
- * <p>The vanilla/disabled version (native game version, or {@link #disable()})
- * applies no historical deltas. Mixins become no-ops, so Minecraft mechanics
- * are unchanged. Switching versions while a world is loaded takes effect on the
- * next player tick, including collision used for movement. Outline/cosmetic
- * block boxes are not modified.
+ * <p>{@link ParkourVersion#VANILLA} (or {@link #disable()}) applies no historical
+ * deltas. Mixins become no-ops, so Minecraft mechanics are unchanged. Switching
+ * versions while a world is loaded takes effect on the next player tick,
+ * including collision used for movement. Outline/cosmetic block boxes are not
+ * modified.
  */
 public interface MovementController {
     static MovementController get() {
         return MovementControllerImpl.get();
     }
 
-    MinecraftVersion nativeVersion();
-
     /**
-     * Canonical parkour version currently selected. {@link ParkourVersion#isVanilla()}
-     * means latest / disabled.
+     * Parkour version of the running game. {@link ParkourVersion#VANILLA} when
+     * the native release is the current latest.
      */
-    ParkourVersion selectedParkourVersion();
+    ParkourVersion nativeVersion();
+
+    ParkourVersion selectedVersion();
 
     /**
-     * Resolution target of the selected version (the version id, or native when disabled).
-     */
-    MinecraftVersion selectedVersion();
-
-    /**
-     * {@code true} when historical movement is applied. {@code false} when the
-     * native/disabled version is selected.
+     * {@code true} when historical movement is applied. {@code false} when
+     * {@link ParkourVersion#VANILLA} is selected (or the selection is the
+     * running game).
      */
     boolean isEnabled();
 
     boolean isEnabled(@Nullable Entity entity);
 
     /**
-     * Per-player version, falling back to {@link #selectedParkourVersion()}.
+     * Per-player version, falling back to {@link #selectedVersion()}.
      */
-    ParkourVersion parkourVersionFor(@Nullable Entity entity);
-
-    MinecraftVersion versionFor(@Nullable Entity entity);
+    ParkourVersion versionFor(@Nullable Entity entity);
 
     void select(ParkourVersion version);
 
-    default void select(MinecraftVersion version) {
-        this.select(ParkourVersions.of(version));
-    }
-
     default void select(String versionId) {
-        this.select(ParkourVersions.of(versionId));
+        this.select(ParkourVersion.of(versionId));
     }
 
     /**
-     * Restore native Minecraft movement. Same as selecting the latest version.
+     * Restore native Minecraft movement. Same as selecting {@link ParkourVersion#VANILLA}.
      */
     default void disable() {
-        this.select(ParkourVersions.vanilla());
+        this.select(ParkourVersion.VANILLA);
     }
 
     /**
@@ -78,27 +68,11 @@ public interface MovementController {
      */
     void selectFor(UUID playerId, @Nullable ParkourVersion version);
 
-    default void selectFor(UUID playerId, @Nullable MinecraftVersion version) {
-        this.selectFor(playerId, version == null ? null : ParkourVersions.of(version));
-    }
-
     default void selectFor(Player player, @Nullable ParkourVersion version) {
         this.selectFor(player.getUUID(), version);
     }
 
-    default void selectFor(Player player, @Nullable MinecraftVersion version) {
-        this.selectFor(player.getUUID(), version);
-    }
-
     List<ParkourVersion> selectableVersions();
-
-    /**
-     * Version ids for UIs that want a flat list. The last entry is native
-     * (disabled). {@code 1.9.2} is not listed separately from {@code 1.9}.
-     */
-    default List<MinecraftVersion> suggestedVersions() {
-        return ParkourVersions.suggested();
-    }
 
     ActiveMovementProfile profile();
 

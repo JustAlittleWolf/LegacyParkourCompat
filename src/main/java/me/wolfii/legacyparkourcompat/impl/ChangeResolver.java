@@ -11,19 +11,19 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Picks, for each mechanic, the change whose {@code vanillaChangedIn} is the
- * smallest version still at or after the next version ("closest to the target").
+ * Picks, for each mechanic, the change whose {@code emulates} is closest to the
+ * selection without being older than it.
  *
- * <p>The vanilla/disabled version resolves to no changes. Selecting 1.9
- * (which also covers 1.9.1 and 1.9.2) applies deltas introduced in 1.10+, and
- * when the same mechanic changed twice, only the first change after 1.9.x.
+ * <p>{@link ParkourVersion#VANILLA} resolves to no changes. Selecting 1.9
+ * (which also covers 1.9.1 and 1.9.2) applies deltas that emulate 1.9 or later,
+ * and when the same mechanic changed twice, only the one closest to 1.9.
  */
 final class ChangeResolver {
     private ChangeResolver() {
     }
 
-    static Map<MechanicKey, RegisteredChange> resolve(Collection<RegisteredChange> changes, ParkourVersion version) {
-        if (version.isVanilla()) {
+    static Map<MechanicKey, RegisteredChange> resolve(Collection<RegisteredChange> changes, ParkourVersion selected) {
+        if (selected.isVanilla()) {
             return Map.of();
         }
         Map<MechanicKey, List<RegisteredChange>> grouped = changes.stream()
@@ -31,8 +31,8 @@ final class ChangeResolver {
         Map<MechanicKey, RegisteredChange> resolved = new HashMap<>();
         for (Map.Entry<MechanicKey, List<RegisteredChange>> entry : grouped.entrySet()) {
             entry.getValue().stream()
-                    .filter(change -> change.vanillaChangedIn().newerThanOrEqual(version.untilExclusive()))
-                    .min(Comparator.comparing(RegisteredChange::vanillaChangedIn))
+                    .filter(change -> change.emulates().newerThanOrEqual(selected))
+                    .min(Comparator.comparingInt(change -> change.emulates().ordinal()))
                     .ifPresent(change -> resolved.put(entry.getKey(), change));
         }
         return Map.copyOf(resolved);

@@ -10,24 +10,24 @@ import java.util.Optional;
  * Snapshot of which historical deltas are active for one selected version.
  */
 public final class ActiveMovementProfile {
-    private final MinecraftVersion target;
+    private final ParkourVersion target;
     private final Map<MechanicKey, Object> active;
 
-    public ActiveMovementProfile(MinecraftVersion target, Map<MechanicKey, Object> active) {
+    public ActiveMovementProfile(ParkourVersion target, Map<MechanicKey, Object> active) {
         this.target = target;
         this.active = Map.copyOf(active);
     }
 
-    public MinecraftVersion target() {
+    public ParkourVersion target() {
         return this.target;
     }
 
     public boolean isVanilla() {
-        return this.active.isEmpty();
+        return this.target.isVanilla() || this.active.isEmpty();
     }
 
-    public static ActiveMovementProfile vanilla(MinecraftVersion nativeVersion) {
-        return new ActiveMovementProfile(nativeVersion, Map.of());
+    public static ActiveMovementProfile vanilla() {
+        return new ActiveMovementProfile(ParkourVersion.VANILLA, Map.of());
     }
 
     public int size() {
@@ -47,7 +47,7 @@ public final class ActiveMovementProfile {
     }
 
     public String describe() {
-        if (this.active.isEmpty()) {
+        if (this.isVanilla() && this.active.isEmpty()) {
             return this.target + " (vanilla)";
         }
         StringBuilder builder = new StringBuilder(this.target.id())

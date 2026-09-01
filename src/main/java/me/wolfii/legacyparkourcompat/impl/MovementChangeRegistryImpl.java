@@ -1,7 +1,7 @@
 package me.wolfii.legacyparkourcompat.impl;
 
 import me.wolfii.legacyparkourcompat.LegacyParkourCompat;
-import me.wolfii.legacyparkourcompat.api.MinecraftVersion;
+import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MechanicKey;
 import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -38,31 +38,21 @@ final class MovementChangeRegistryImpl implements MovementChangeRegistry {
         }
         @SuppressWarnings("unchecked")
         Class<VersionedMechanic> type = (Class<VersionedMechanic>) mechanicType(implementation.getClass());
-        this.register(type, MinecraftVersion.parse(annotation.vanillaChangedIn()), annotation.emulates(), mechanic);
+        this.register(type, annotation.emulates(), mechanic);
     }
 
     @Override
-    public <T extends VersionedMechanic> void register(Class<T> type, MinecraftVersion vanillaChangedIn, T implementation) {
-        this.register(type, vanillaChangedIn, "", implementation);
-    }
-
-    @Override
-    public <T extends VersionedMechanic> void register(
-            Class<T> type,
-            MinecraftVersion vanillaChangedIn,
-            String emulates,
-            T implementation
-    ) {
+    public <T extends VersionedMechanic> void register(Class<T> type, ParkourVersion emulates, T implementation) {
         if (!type.isInstance(implementation)) {
             throw new IllegalArgumentException(implementation + " is not a " + type.getName());
         }
         MechanicKey key = MechanicKey.of(type, implementation.variant());
-        this.changes.add(new RegisteredChange(key, vanillaChangedIn, implementation, emulates));
+        this.changes.add(new RegisteredChange(key, emulates, implementation));
         LegacyParkourCompat.LOGGER.debug(
-                "Registered {} changed in {} (emulates {})",
+                "Registered {} emulating {} (vanilla changed in {})",
                 key.qualifiedId(),
-                vanillaChangedIn,
-                emulates.isEmpty() ? "?" : emulates
+                emulates,
+                emulates.next()
         );
         this.onChanged.run();
     }

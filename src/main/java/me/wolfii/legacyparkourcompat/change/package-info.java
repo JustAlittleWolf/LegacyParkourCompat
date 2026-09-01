@@ -2,7 +2,7 @@
  * Versioned movement deltas live in this package (and subpackages).
  *
  * <p>Each class implements exactly one {@code @MechanicType} hook and is annotated
- * with {@code @MovementChange(vanillaChangedIn = "...")}. Register it from a
+ * with {@code @MovementChange(emulates = ...)}. Register it from a
  * Fabric entrypoint {@code legacyparkourcompat:movement-change} or by calling
  * {@link me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry#register(Object)}.
  *
@@ -10,16 +10,17 @@
  * active implementation for the selected version.
  *
  * <pre>{@code
- * @MovementChange(vanillaChangedIn = "1.9", emulates = "1.8")
+ * @MovementChange(emulates = ParkourVersion.V1_8)
  * public final class LadderCollision_1_8 implements BlockCollisionShape {
  *     public String blockId() { return "minecraft:ladder"; }
  *     public Optional<VoxelShape> collisionShape(...) { return Optional.of(onePixelLadder); }
  * }
  * }</pre>
  *
- * <p>Selecting {@code 1.8.9} (or {@code 1.8}) loads every change whose
- * {@code vanillaChangedIn} is in a later parkour version. Patch versions with the
- * same parkour mechanics share one version: {@code 1.9.2} is treated as {@code 1.9}.
- * The native/disabled version applies no changes at all.
+ * <p>Selecting {@link me.wolfii.legacyparkourcompat.api.ParkourVersion#V1_8} loads
+ * every change whose {@code emulates} is that version or later, keeping the
+ * closest when the same mechanic changed more than once. {@code 1.9.2} is
+ * {@link me.wolfii.legacyparkourcompat.api.ParkourVersion#V1_9}. Vanilla/disabled
+ * applies no changes.
  */
 package me.wolfii.legacyparkourcompat.change;

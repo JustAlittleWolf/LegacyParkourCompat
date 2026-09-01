@@ -1,5 +1,7 @@
 package me.wolfii.legacyparkourcompat.mechanic;
 
+import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,18 +11,18 @@ import java.lang.annotation.Target;
 /**
  * Marks a historical movement delta.
  *
- * <p>{@link #vanillaChangedIn()} is the first Minecraft version whose vanilla
- * code no longer matches this implementation. The change is applied when the
- * selected version is <em>older</em> than that. If several deltas exist for the
- * same mechanic, the one whose {@code vanillaChangedIn} is closest to (but still
- * newer than) the selection wins.
+ * <p>{@link #emulates()} is the parkour version this implementation matches.
+ * Vanilla replaced that behaviour in {@link ParkourVersion#next()}: a change
+ * that emulates {@link ParkourVersion#V1_8} is the 1.8 behaviour, replaced in
+ * 1.9. If several deltas exist for the same mechanic, the one whose
+ * {@code emulates} is closest to (but not older than) the selection wins.
  *
  * <p>Example from {@code AGENTS.md}: mechanic {@code A.A} changed in 1.9
- * (Change A) and 1.11 (Change C). Selecting 1.8 loads Change A, not Change C.
+ * (emulates {@code V1_8}) and 1.11 (emulates {@code V1_10}). Selecting 1.8
+ * loads the {@code V1_8} change, not the {@code V1_10} one.
  *
- * <p>Ladder boxes that vanilla replaced in 1.9:
  * <pre>{@code
- * @MovementChange(vanillaChangedIn = "1.9", emulates = "1.8")
+ * @MovementChange(emulates = ParkourVersion.V1_8)
  * public final class LadderCollision_1_8 implements BlockCollisionShape {
  *     public String blockId() { return "minecraft:ladder"; }
  *     public Optional<VoxelShape> collisionShape(...) { return Optional.of(...); }
@@ -35,14 +37,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface MovementChange {
     /**
-     * First vanilla version that replaced this behaviour. Applied when the
-     * selected version is older than this id.
+     * Parkour version whose behaviour this implements. Vanilla changed in the
+     * next {@link ParkourVersion} in enum order.
      */
-    String vanillaChangedIn();
-
-    /**
-     * Documentation only: the version this implementation emulates (for example
-     * {@code 1.8}). Not used when resolving which change to load.
-     */
-    String emulates() default "";
+    ParkourVersion emulates();
 }
