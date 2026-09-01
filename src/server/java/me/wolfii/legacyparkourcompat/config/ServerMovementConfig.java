@@ -58,7 +58,7 @@ public final class ServerMovementConfig {
         }
 
         String value = properties.getProperty(PROPERTY, "").trim();
-        if (value.isEmpty() || ParkourVersion.isCurrentAlias(value) || value.equals(ParkourVersion.nativeGameVersion())) {
+        if (value.isEmpty() || value.equals(ParkourVersion.nativeGameVersion())) {
             MovementController.get().disable();
             LegacyParkourCompat.LOGGER.info("Movement version is vanilla ({})", ParkourVersion.nativeGameVersion());
             return;

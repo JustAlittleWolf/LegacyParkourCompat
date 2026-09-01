@@ -18,7 +18,7 @@ public class LegacyParkourCompatClient implements ClientModInitializer {
     private static void applyForcedServerVersion(String versionId) {
         serverHasMod = true;
         ParkourVersion required = ParkourVersion.of(versionId);
-        if (required.isCurrent() && !ParkourVersion.isCurrentAlias(versionId) && !versionId.equals(ParkourVersion.nativeGameVersion())) {
+        if (required.isCurrent() && !versionId.equals(ParkourVersion.nativeGameVersion())) {
             LegacyParkourCompat.LOGGER.error(
                 "Server forced unknown parkour version '{}'; using vanilla movement ({})",
                 versionId,

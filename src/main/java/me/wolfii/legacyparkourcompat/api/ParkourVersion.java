@@ -7,7 +7,6 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -20,8 +19,8 @@ import java.util.stream.Collectors;
  * 1.8 behaviour; Minecraft replaced it in {@link #next()}, which is {@link #V1_9}.
  *
  * <p>{@link #CURRENT} is the running game / disabled: mixins must not alter Minecraft.
- * Its {@link #id()} is that game's Minecraft version (for example {@code 26.2}), never
- * an alias such as {@code current}. Historical constants declare
+ * Its {@link #id()} is that game's Minecraft version (for example {@code 26.2}).
+ * Historical constants declare
  * {@link #isFullyImplemented()} / {@link #isPartiallyImplemented()};
  * they are partial until marked complete in the enum constructor.
  *
@@ -124,16 +123,15 @@ public enum ParkourVersion {
     }
 
     /**
-     * Maps a Minecraft id or alias onto a selectable version.
-     * {@code 1.9.2} becomes {@link #V1_9}; the running game version
-     * (and legacy aliases such as {@code current}) is {@link #CURRENT}.
+     * Maps a Minecraft version id onto a selectable version.
+     * {@code 1.9.2} becomes {@link #V1_9}; the running game version is {@link #CURRENT}.
      */
     public static ParkourVersion of(String id) {
         String key = id.trim();
         if (key.isEmpty()) {
             throw new IllegalArgumentException("Minecraft version id is empty");
         }
-        if (isCurrentAlias(key) || key.equals(nativeGameVersion())) {
+        if (key.equals(nativeGameVersion())) {
             return CURRENT;
         }
         ParkourVersion exact = BY_PATCH.get(key);
@@ -175,17 +173,6 @@ public enum ParkourVersion {
             .map(container -> container.getMetadata().getVersion().getFriendlyString())
             .filter(id -> !id.isBlank())
             .orElse(null);
-    }
-
-    public static boolean isCurrentAlias(String id) {
-        String key = id.trim().toLowerCase(Locale.ROOT);
-        return key.equals("current")
-            || key.equals("disabled")
-            || key.equals("disable")
-            || key.equals("off")
-            || key.equals("latest")
-            || key.equals("native")
-            || key.equals("vanilla");
     }
 
     /**

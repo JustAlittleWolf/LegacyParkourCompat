@@ -135,7 +135,7 @@ final class ViaVersionLookup {
         }
         String fallback = preferredName(protocol);
         ParkourVersion mapped = ParkourVersion.of(fallback);
-        if (mapped.isCurrent() && !ParkourVersion.isCurrentAlias(fallback) && !fallback.equals(ParkourVersion.nativeGameVersion())) {
+        if (mapped.isCurrent() && !fallback.equals(ParkourVersion.nativeGameVersion())) {
             LegacyParkourCompat.LOGGER.warn(
                 "No parkour version matches Via protocol '{}' (tried '{}'); treating as vanilla ({})",
                 protocol.getName(),
