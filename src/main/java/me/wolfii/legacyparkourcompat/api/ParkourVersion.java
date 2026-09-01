@@ -93,7 +93,7 @@ public enum ParkourVersion {
         return FabricLoader.getInstance()
             .getModContainer("minecraft")
             .map(container -> byPatch(container.getMetadata().getVersion().getFriendlyString()))
-            .orElse(CURRENT);
+            .orElseThrow(() -> new IllegalStateException("Minecraft mod container is missing"));
     }
 
     /**
@@ -126,11 +126,10 @@ public enum ParkourVersion {
     }
 
     public static @Nullable ParkourVersion tryOf(String id) {
-        try {
-            return of(id);
-        } catch (RuntimeException e) {
+        if (id == null || id.trim().isEmpty()) {
             return null;
         }
+        return of(id);
     }
 
     private static ParkourVersion byPatch(String id) {

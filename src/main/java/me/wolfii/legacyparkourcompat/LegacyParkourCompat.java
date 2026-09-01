@@ -16,9 +16,10 @@ public class LegacyParkourCompat implements ModInitializer {
     @Override
     public void onInitialize() {
         MovementControllerImpl controller = MovementControllerImpl.get();
-        FabricLoader.getInstance()
-            .getEntrypoints("legacyparkourcompat:movement-change", MovementChangeProvider.class)
-            .forEach(provider -> provider.register(controller.registry()));
+        var providers = FabricLoader.getInstance()
+            .getEntrypoints("legacyparkourcompat:movement-change", MovementChangeProvider.class);
+        LOGGER.debug("Registering {} movement-change provider(s)", providers.size());
+        providers.forEach(provider -> provider.register(controller.registry()));
         controller.initialize();
         ParkourNetworking.register();
         LOGGER.info(

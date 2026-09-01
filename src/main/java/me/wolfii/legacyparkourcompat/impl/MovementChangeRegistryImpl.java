@@ -59,6 +59,16 @@ final class MovementChangeRegistryImpl implements MovementChangeRegistry {
             throw new IllegalArgumentException(implementation + " is not a " + type.getName());
         }
         MechanicKey key = MechanicKey.of(type, implementation.variant());
+        for (RegisteredChange existing : this.changes) {
+            if (existing.key().equals(key) && existing.emulates() == emulates) {
+                LegacyParkourCompat.LOGGER.warn(
+                    "Duplicate movement change {} emulating {}; both remain registered",
+                    key.qualifiedId(),
+                    emulates
+                );
+                break;
+            }
+        }
         this.changes.add(new RegisteredChange(key, emulates, implementation));
         LegacyParkourCompat.LOGGER.debug(
             "Registered {} emulating {} (vanilla changed in {})",

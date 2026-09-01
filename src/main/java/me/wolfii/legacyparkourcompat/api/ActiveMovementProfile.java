@@ -40,8 +40,15 @@ public final class ActiveMovementProfile {
 
     public <T extends VersionedMechanic> Optional<T> get(Class<T> type, String variant) {
         Object implementation = this.active.get(MechanicKey.of(type, variant));
-        if (!type.isInstance(implementation)) {
+        if (implementation == null) {
             return Optional.empty();
+        }
+        if (!type.isInstance(implementation)) {
+            throw new IllegalStateException(
+                "Active change for " + MechanicKey.of(type, variant).qualifiedId()
+                    + " is " + implementation.getClass().getName()
+                    + ", expected " + type.getName()
+            );
         }
         return Optional.of(type.cast(implementation));
     }

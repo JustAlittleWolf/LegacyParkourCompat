@@ -1,5 +1,6 @@
 package me.wolfii.legacyparkourcompat.network;
 
+import me.wolfii.legacyparkourcompat.LegacyParkourCompat;
 import me.wolfii.legacyparkourcompat.api.MovementController;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import net.fabricmc.loader.api.FabricLoader;
@@ -24,8 +25,14 @@ public final class ParkourHandshake {
     public static void configure(ServerConfigurationPacketListenerImpl listener) {
         ParkourVersion parkourVersion = MovementController.get().selectedVersion();
         boolean hasMod = ServerConfigurationNetworkingCompat.canSendForcePacket(listener);
+        String player = playerLabel(listener);
 
         if (hasMod) {
+            LegacyParkourCompat.LOGGER.info(
+                "Accepting {} with Legacy Parkour Compat; forcing parkour version {}",
+                player,
+                displayName(parkourVersion)
+            );
             listener.addTask(new ParkourHandshakeTask(parkourVersion.id()));
             return;
         }
@@ -34,13 +41,30 @@ public final class ParkourHandshake {
             .orElse(MovementController.get().nativeVersion());
 
         if (clientVersion == parkourVersion) {
+            LegacyParkourCompat.LOGGER.info(
+                "Accepting {} without the mod; Minecraft version {} matches parkour version {}",
+                player,
+                displayName(clientVersion),
+                displayName(parkourVersion)
+            );
             return;
         }
 
+        LegacyParkourCompat.LOGGER.info(
+            "Disconnecting {}: Minecraft version {} does not match parkour version {} (install Legacy Parkour Compat or join with a matching version)",
+            player,
+            displayName(clientVersion),
+            displayName(parkourVersion)
+        );
         listener.disconnect(Component.translatable(
             "legacyparkourcompat.disconnect.version_mismatch",
             displayName(clientVersion),
             displayName(parkourVersion)));
+    }
+
+    private static String playerLabel(ServerConfigurationPacketListenerImpl listener) {
+        var owner = listener.getOwner();
+        return owner.name() + " (" + owner.id() + ")";
     }
 
     static String displayName(ParkourVersion version) {
