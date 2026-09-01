@@ -1,18 +1,51 @@
 import legacyparkourcompat.minecraft.DecompileMinecraftTask
+import legacyparkourcompat.minecraft.MinecraftDecompileMain
+
+plugins {
+    id 'java-base'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'Fabric'
+        url = 'https://maven.fabricmc.net/'
+    }
+}
+
+configurations {
+    decompileRuntime
+}
+
+dependencies {
+    decompileRuntime libs.vineflower
+    decompileRuntime libs.tiny.remapper
+    decompileRuntime libs.mapping.io
+    decompileRuntime libs.gson
+    decompileRuntime libs.asm
+    decompileRuntime libs.asm.commons
+    decompileRuntime libs.asm.tree
+    decompileRuntime libs.asm.util
+    decompileRuntime files("${rootDir}/buildSrc/build/libs/buildSrc.jar")
+}
 
 tasks.register('decompileMinecraft', DecompileMinecraftTask) {
     group = 'minecraft'
     description = 'Decompile Minecraft client sources into decompiled_minecraft/<version>. ' +
             'Defaults to latest, 1.8.9, 1.12.2, and 1.14.4. ' +
             'Pass --versions=1.16.5,1.20.1 or -Pversions=1.8 to decompile other versions. ' +
-            'Uses official Mojang mappings when they exist.'
+            'Uses official Mojang mappings when they exist. Runs Vineflower on Java 25.'
 
     versions.convention(
             providers.gradleProperty('versions')
                     .orElse(providers.gradleProperty('minecraftVersions'))
-                    .map { value -> DecompileMinecraftTask.splitVersions(value) }
+                    .map { value -> MinecraftDecompileMain.splitVersions(value) }
                     .orElse(['latest', '1.8.9', '1.12.2', '1.14.4'])
     )
     outputRoot.convention(layout.projectDirectory.dir('decompiled_minecraft'))
     cacheDirectory.convention(layout.buildDirectory.dir('minecraft-decompile-cache'))
+    decompilerClasspath.from(configurations.decompileRuntime)
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
 }

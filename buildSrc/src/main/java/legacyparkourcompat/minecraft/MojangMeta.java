@@ -29,6 +29,11 @@ final class MojangMeta {
         String id;
         Downloads downloads;
         List<Library> libraries;
+        JavaVersionSpec javaVersion;
+    }
+
+    static final class JavaVersionSpec {
+        int majorVersion;
     }
 
     static final class Downloads {

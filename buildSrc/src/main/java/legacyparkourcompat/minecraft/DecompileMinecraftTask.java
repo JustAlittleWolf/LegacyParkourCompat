@@ -2,16 +2,22 @@ package legacyparkourcompat.minecraft;
 
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
+import org.gradle.api.file.ConfigurableFileCollection;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.provider.ListProperty;
+import org.gradle.api.provider.Property;
+import org.gradle.api.tasks.Classpath;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Internal;
+import org.gradle.api.tasks.Nested;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.options.Option;
+import org.gradle.jvm.toolchain.JavaLauncher;
+import org.gradle.process.ExecOperations;
 
-import java.nio.file.Path;
-import java.util.Arrays;
+import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +31,9 @@ import java.util.List;
  * <p>Official Mojang mappings are used from 1.14.4 through 1.21.x. Minecraft
  * 26.1+ ships unobfuscated, so those versions are decompiled as-is. Older
  * versions fall back to Legacy Yarn when Mojang mappings are unavailable.
+ *
+ * <p>The decompiler is forked onto a Java 25 toolchain so Minecraft 26.x
+ * class files can be processed.
  */
 public abstract class DecompileMinecraftTask extends DefaultTask {
     @Input
@@ -36,6 +45,15 @@ public abstract class DecompileMinecraftTask extends DefaultTask {
     @Internal
     public abstract DirectoryProperty getCacheDirectory();
 
+    @Nested
+    public abstract Property<JavaLauncher> getJavaLauncher();
+
+    @Classpath
+    public abstract ConfigurableFileCollection getDecompilerClasspath();
+
+    @Inject
+    public abstract ExecOperations getExecOperations();
+
     @Option(
             option = "versions",
             description = "Comma-separated Minecraft versions to decompile. "
@@ -43,27 +61,38 @@ public abstract class DecompileMinecraftTask extends DefaultTask {
                     + "Default: latest,1.8.9,1.12.2,1.14.4"
     )
     public void setVersionsFromCli(String value) {
-        getVersions().set(splitVersions(value));
+        getVersions().set(MinecraftDecompileMain.splitVersions(value));
     }
 
     @TaskAction
     public void run() {
         List<String> specs = getVersions().get().stream()
-                .flatMap(value -> splitVersions(value).stream())
+                .flatMap(value -> MinecraftDecompileMain.splitVersions(value).stream())
                 .toList();
         if (specs.isEmpty()) {
             throw new GradleException("No Minecraft versions specified.");
         }
 
-        Path outputRoot = getOutputRoot().get().getAsFile().toPath();
-        Path cacheDir = getCacheDirectory().get().getAsFile().toPath();
-        new MinecraftDecompileEngine(getLogger(), cacheDir, outputRoot).decompile(specs);
-    }
+        JavaLauncher launcher = getJavaLauncher().get();
+        getLogger().lifecycle(
+                "Forking decompiler onto {}",
+                launcher.getMetadata().getInstallationPath().getAsFile()
+        );
 
-    static List<String> splitVersions(String value) {
-        return Arrays.stream(value.split("[,\\s]+"))
-                .map(String::trim)
-                .filter(part -> !part.isEmpty())
-                .toList();
+        List<String> args = new ArrayList<>();
+        args.add(getCacheDirectory().get().getAsFile().getAbsolutePath());
+        args.add(getOutputRoot().get().getAsFile().getAbsolutePath());
+        args.addAll(specs);
+
+        var result = getExecOperations().javaexec(spec -> {
+            spec.setExecutable(launcher.getExecutablePath().getAsFile().getAbsolutePath());
+            spec.setClasspath(getDecompilerClasspath());
+            spec.getMainClass().set("legacyparkourcompat.minecraft.MinecraftDecompileMain");
+            spec.setArgs(args);
+            spec.jvmArgs("-Xmx4G");
+        });
+        if (result.getExitValue() != 0) {
+            throw new GradleException("Minecraft decompilation failed with exit code " + result.getExitValue());
+        }
     }
 }

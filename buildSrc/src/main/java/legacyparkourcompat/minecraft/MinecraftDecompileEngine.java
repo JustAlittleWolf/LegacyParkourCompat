@@ -8,8 +8,6 @@ import net.fabricmc.mappingio.tree.MemoryMappingTree;
 import net.fabricmc.tinyremapper.OutputConsumerPath;
 import net.fabricmc.tinyremapper.TinyRemapper;
 import net.fabricmc.tinyremapper.TinyUtils;
-import org.gradle.api.GradleException;
-import org.gradle.api.logging.Logger;
 import org.jetbrains.java.decompiler.api.Decompiler;
 import org.jetbrains.java.decompiler.main.extern.IFernflowerLogger;
 import org.jetbrains.java.decompiler.main.extern.IFernflowerPreferences;
@@ -46,7 +44,7 @@ final class MinecraftDecompileEngine {
     private static final String FABRIC_MAVEN = "https://maven.fabricmc.net/";
     private static final String LEGACY_FABRIC_MAVEN = "https://maven.legacyfabric.net/";
 
-    private final Logger logger;
+    private final DecompileLogger logger;
     private final Path cacheDir;
     private final Path outputRoot;
     private final Gson gson = new GsonBuilder().create();
@@ -55,7 +53,7 @@ final class MinecraftDecompileEngine {
             .connectTimeout(Duration.ofSeconds(30))
             .build();
 
-    MinecraftDecompileEngine(Logger logger, Path cacheDir, Path outputRoot) {
+    MinecraftDecompileEngine(DecompileLogger logger, Path cacheDir, Path outputRoot) {
         this.logger = logger;
         this.cacheDir = cacheDir;
         this.outputRoot = outputRoot;
@@ -76,7 +74,7 @@ final class MinecraftDecompileEngine {
                     MojangMeta.VersionManifest.class
             );
             if (manifest == null || manifest.versions == null || manifest.latest == null) {
-                throw new GradleException("Could not parse the Minecraft version manifest.");
+                throw new IllegalStateException("Could not parse the Minecraft version manifest.");
             }
 
             for (String spec : versionSpecs) {
@@ -84,10 +82,10 @@ final class MinecraftDecompileEngine {
                 logger.lifecycle("Decompiling Minecraft {} (requested '{}')", resolved.id, spec);
                 decompileVersion(resolved);
             }
-        } catch (GradleException e) {
+        } catch (IllegalStateException e) {
             throw e;
         } catch (Exception e) {
-            throw new GradleException("Failed to decompile Minecraft: " + e.getMessage(), e);
+            throw new IllegalStateException("Failed to decompile Minecraft: " + e.getMessage(), e);
         }
     }
 
@@ -101,7 +99,18 @@ final class MinecraftDecompileEngine {
                 MojangMeta.VersionJson.class
         );
         if (version == null || version.downloads == null || version.downloads.client == null) {
-            throw new GradleException("Version " + versionRef.id + " does not publish a client jar.");
+            throw new IllegalStateException("Version " + versionRef.id + " does not publish a client jar.");
+        }
+
+        int requiredJava = version.javaVersion != null ? version.javaVersion.majorVersion : 8;
+        int currentJava = Runtime.version().feature();
+        logger.lifecycle("  Target bytecode Java {}, decompiler JVM {}", requiredJava, currentJava);
+        if (currentJava < requiredJava) {
+            throw new IllegalStateException(
+                    "Minecraft " + versionRef.id + " requires Java " + requiredJava
+                            + " to decompile (this JVM is " + currentJava + "). "
+                            + "The decompileMinecraft task uses a Java 25 toolchain; check that it was provisioned."
+            );
         }
 
         Path clientJar = download(
@@ -148,7 +157,7 @@ final class MinecraftDecompileEngine {
         Files.createDirectories(outputDir);
 
         logger.lifecycle("  Decompiling with Vineflower into {}", outputDir);
-        decompileJar(jarToDecompile, libraries, outputDir, remapped);
+        decompileJar(jarToDecompile, libraries, outputDir);
         logger.lifecycle("  Finished {} using {}", versionRef.id, mappingSource);
     }
 
@@ -183,7 +192,7 @@ final class MinecraftDecompileEngine {
         return TinyUtils.createMappingProvider(tree, "official", "named");
     }
 
-    private void decompileJar(Path jar, List<Path> libraries, Path outputDir, boolean remapped) {
+    private void decompileJar(Path jar, List<Path> libraries, Path outputDir) {
         IFernflowerLogger vineflowerLogger = new IFernflowerLogger() {
             @Override
             public void writeMessage(String message, Severity severity) {
@@ -211,11 +220,9 @@ final class MinecraftDecompileEngine {
                 .option(IFernflowerPreferences.REMOVE_SYNTHETIC, true)
                 .option(IFernflowerPreferences.INDENT_STRING, "    ")
                 .option(IFernflowerPreferences.THREADS, Integer.toString(Math.max(1, Runtime.getRuntime().availableProcessors())))
-                .option(IFernflowerPreferences.WARN_INCONSISTENT_INNER_CLASSES, false);
-
-        if (remapped) {
-            builder.allowedPrefixes("net/minecraft", "com/mojang");
-        }
+                .option(IFernflowerPreferences.WARN_INCONSISTENT_INNER_CLASSES, false)
+                .option(IFernflowerPreferences.INCLUDE_JAVA_RUNTIME, false)
+                .allowedPrefixes("net/minecraft", "com/mojang");
 
         List<Path> existingLibraries = libraries.stream().filter(Files::isRegularFile).toList();
         if (!existingLibraries.isEmpty()) {
@@ -354,7 +361,7 @@ final class MinecraftDecompileEngine {
     private MojangMeta.VersionRef resolveVersion(String spec, MojangMeta.VersionManifest manifest) {
         String requested = spec.trim();
         if (requested.isEmpty()) {
-            throw new GradleException("Empty Minecraft version spec.");
+            throw new IllegalStateException("Empty Minecraft version spec.");
         }
         if ("latest".equalsIgnoreCase(requested)) {
             return requireVersion(manifest, manifest.latest.release);
@@ -373,7 +380,7 @@ final class MinecraftDecompileEngine {
                 .filter(version -> version.id.startsWith(requested + ".") || version.id.startsWith(requested + "-"))
                 .toList();
         if (matches.isEmpty()) {
-            throw new GradleException("Unknown Minecraft version '" + requested + "'.");
+            throw new IllegalStateException("Unknown Minecraft version '" + requested + "'.");
         }
 
         List<MojangMeta.VersionRef> releases = matches.stream()
@@ -382,14 +389,14 @@ final class MinecraftDecompileEngine {
         List<MojangMeta.VersionRef> candidates = releases.isEmpty() ? matches : releases;
         return candidates.stream()
                 .max(Comparator.comparing(version -> parseTime(version.releaseTime)))
-                .orElseThrow(() -> new GradleException("Unknown Minecraft version '" + requested + "'."));
+                .orElseThrow(() -> new IllegalStateException("Unknown Minecraft version '" + requested + "'."));
     }
 
     private static MojangMeta.VersionRef requireVersion(MojangMeta.VersionManifest manifest, String id) {
         return manifest.versions.stream()
                 .filter(version -> Objects.equals(id, version.id))
                 .findFirst()
-                .orElseThrow(() -> new GradleException("Manifest is missing version '" + id + "'."));
+                .orElseThrow(() -> new IllegalStateException("Manifest is missing version '" + id + "'."));
     }
 
     private static Instant parseTime(String value) {
