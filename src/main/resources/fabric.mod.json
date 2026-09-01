@@ -18,6 +18,9 @@
     "main": [
       "me.wolfii.legacyparkourcompat.LegacyParkourCompat"
     ],
+    "client": [
+      "me.wolfii.legacyparkourcompat.LegacyParkourCompatClient"
+    ],
     "legacyparkourcompat:movement-change": [
     ]
   },
@@ -26,7 +29,13 @@
   ],
   "depends": {
     "fabricloader": ">=0.19.0",
+    "fabric-api": "*",
     "minecraft": ">=${minecraft_version}"
+  },
+  "suggests": {
+    "viaversion": "*",
+    "viafabric": "*",
+    "viafabricplus": "*"
   },
   "custom": {
     "legacyparkourcompat:movement-change": "Register MovementChangeProvider implementations to add versioned movement deltas."

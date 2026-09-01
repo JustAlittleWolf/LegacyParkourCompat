@@ -1,0 +1,4 @@
+{
+  "legacyparkourcompat.message.forced": "Forced parkour version to %s to match the server.",
+  "legacyparkourcompat.disconnect.version_mismatch": "Your Minecraft version (%s) does not match this server's parkour version (%s). Install Legacy Parkour Compat, or connect with a matching client."
+}

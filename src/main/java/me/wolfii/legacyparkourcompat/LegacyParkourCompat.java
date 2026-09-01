@@ -1,8 +1,11 @@
 package me.wolfii.legacyparkourcompat;
 
 import me.wolfii.legacyparkourcompat.api.MovementController;
+import me.wolfii.legacyparkourcompat.config.ServerMovementConfig;
 import me.wolfii.legacyparkourcompat.impl.MovementControllerImpl;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChangeProvider;
+import me.wolfii.legacyparkourcompat.network.ParkourNetworking;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
@@ -19,6 +22,10 @@ public class LegacyParkourCompat implements ModInitializer {
                 .getEntrypoints("legacyparkourcompat:movement-change", MovementChangeProvider.class)
                 .forEach(provider -> provider.register(controller.registry()));
         controller.initialize();
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER) {
+            ServerMovementConfig.load();
+        }
+        ParkourNetworking.register();
         LOGGER.info(
                 "Legacy Parkour Compat ready. Native movement {}, selected {}.",
                 MovementController.get().nativeVersion(),
