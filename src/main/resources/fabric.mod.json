@@ -3,7 +3,7 @@
   "id": "legacyparkourcompat",
   "version": "${version}",
   "name": "Legacy Parkour Compat",
-  "description": "Compatibility for legacy parkour mechanics.",
+  "description": "TODO",
   "authors": [
     "JustAlittleWolf"
   ],
@@ -11,6 +11,7 @@
     "sources": "https://github.com/JustAlittleWolf/LegacyParkourCompat",
     "issues": "https://github.com/JustAlittleWolf/LegacyParkourCompat/issues"
   },
+  "icon": "assets/legacyparkourcompat/icon.png",
   "license": "MIT",
   "environment": "*",
   "entrypoints": {
