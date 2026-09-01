@@ -18,8 +18,9 @@ import java.util.List;
  * Downloads, remaps, and decompiles Minecraft client jars.
  *
  * <p>By default this produces {@code latest} (currently 26.2), {@code 1.8.9},
- * {@code 1.12.2}, and {@code 1.14.4}. Pass other versions with
+ * {@code 1.12.2}, and {@code 1.14.4}. Pass other version ids with
  * {@code --versions} or {@code -Pversions=} / {@code -PminecraftVersions=}.
+ * Exact ids such as {@code 1.8} are used as-is when they exist in the Mojang manifest.
  *
  * <p>Official Mojang mappings are used from 1.14.4 through 1.21.x. Minecraft
  * 26.1+ ships unobfuscated, so those versions are decompiled as-is. Older
@@ -38,7 +39,7 @@ public abstract class DecompileMinecraftTask extends DefaultTask {
     @Option(
             option = "versions",
             description = "Comma-separated Minecraft versions to decompile. "
-                    + "Accepts exact ids (1.20.1), major versions (1.16), or 'latest'. "
+                    + "Accepts exact version ids (1.8, 1.20.1) or 'latest'. "
                     + "Default: latest,1.8.9,1.12.2,1.14.4"
     )
     public void setVersionsFromCli(String value) {

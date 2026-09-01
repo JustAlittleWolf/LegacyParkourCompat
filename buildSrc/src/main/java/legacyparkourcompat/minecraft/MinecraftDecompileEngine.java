@@ -363,10 +363,14 @@ final class MinecraftDecompileEngine {
             return requireVersion(manifest, manifest.latest.snapshot);
         }
 
+        for (MojangMeta.VersionRef version : manifest.versions) {
+            if (requested.equals(version.id)) {
+                return version;
+            }
+        }
+
         List<MojangMeta.VersionRef> matches = manifest.versions.stream()
-                .filter(version -> requested.equals(version.id)
-                        || version.id.startsWith(requested + ".")
-                        || version.id.startsWith(requested + "-"))
+                .filter(version -> version.id.startsWith(requested + ".") || version.id.startsWith(requested + "-"))
                 .toList();
         if (matches.isEmpty()) {
             throw new GradleException("Unknown Minecraft version '" + requested + "'.");

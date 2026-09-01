@@ -4,7 +4,7 @@ tasks.register('decompileMinecraft', DecompileMinecraftTask) {
     group = 'minecraft'
     description = 'Decompile Minecraft client sources into decompiled_minecraft/<version>. ' +
             'Defaults to latest, 1.8.9, 1.12.2, and 1.14.4. ' +
-            'Pass --versions=1.16.5,1.20.1 or -Pversions=1.8 to decompile other major versions. ' +
+            'Pass --versions=1.16.5,1.20.1 or -Pversions=1.8 to decompile other versions. ' +
             'Uses official Mojang mappings when they exist.'
 
     versions.convention(
