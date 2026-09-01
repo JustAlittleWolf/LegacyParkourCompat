@@ -1,10 +1,14 @@
 package me.wolfii.legacyparkourcompat.change.v1_8;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+import me.wolfii.legacyparkourcompat.change.BlockChanges;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.BlockCollisionShape;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -35,6 +39,19 @@ public final class ChestCollision implements BlockCollisionShape {
 
     public ChestCollision(String blockId) {
         this.blockId = blockId;
+    }
+
+    public static void register(MovementChangeRegistry registry) {
+        BlockChanges.registerEach(registry, ChestCollision::isVanillaChest, ChestCollision::new);
+    }
+
+    private static boolean isVanillaChest(Block block) {
+        Identifier id = BuiltInRegistries.BLOCK.getKey(block);
+        if (id == null) {
+            return false;
+        }
+        String key = id.toString();
+        return "minecraft:chest".equals(key) || "minecraft:trapped_chest".equals(key);
     }
 
     @Override

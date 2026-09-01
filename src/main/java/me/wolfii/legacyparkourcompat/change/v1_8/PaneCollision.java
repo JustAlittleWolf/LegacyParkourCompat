@@ -1,10 +1,15 @@
 package me.wolfii.legacyparkourcompat.change.v1_8;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+import me.wolfii.legacyparkourcompat.change.BlockChanges;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
 import me.wolfii.legacyparkourcompat.mechanic.hook.BlockCollisionShape;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -30,6 +35,21 @@ public final class PaneCollision implements BlockCollisionShape {
 
     public PaneCollision(String blockId) {
         this.blockId = blockId;
+    }
+
+    public static void register(MovementChangeRegistry registry) {
+        BlockChanges.registerEach(registry, PaneCollision::isLegacyPane, PaneCollision::new);
+    }
+
+    private static boolean isLegacyPane(Block block) {
+        Identifier id = BuiltInRegistries.BLOCK.getKey(block);
+        if (id == null) {
+            return false;
+        }
+        String key = id.toString();
+        return "minecraft:glass_pane".equals(key)
+            || "minecraft:iron_bars".equals(key)
+            || key.startsWith("minecraft:") && key.endsWith("_stained_glass_pane");
     }
 
     @Override

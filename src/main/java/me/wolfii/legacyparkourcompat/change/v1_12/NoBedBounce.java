@@ -1,8 +1,11 @@
 package me.wolfii.legacyparkourcompat.change.v1_12;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+import me.wolfii.legacyparkourcompat.change.BlockChanges;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
 import me.wolfii.legacyparkourcompat.mechanic.hook.BlockBounceBehavior;
+import net.minecraft.world.level.block.BedBlock;
 
 /**
  * Beds did not bounce until 1.12. That release converts 66% of downward speed
@@ -19,6 +22,10 @@ public final class NoBedBounce implements BlockBounceBehavior {
 
     public NoBedBounce(String blockId) {
         this.blockId = blockId;
+    }
+
+    public static void register(MovementChangeRegistry registry) {
+        BlockChanges.registerEach(registry, BedBlock.class::isInstance, NoBedBounce::new);
     }
 
     @Override

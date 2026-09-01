@@ -1,14 +1,19 @@
 package me.wolfii.legacyparkourcompat.change.v1_8;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+import me.wolfii.legacyparkourcompat.change.BlockChanges;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.BlockCollisionShape;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.AnvilBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -34,6 +39,24 @@ public final class AnvilCollision implements BlockCollisionShape {
 
     public AnvilCollision(String blockId) {
         this.blockId = blockId;
+    }
+
+    public static void register(MovementChangeRegistry registry) {
+        BlockChanges.registerEach(registry, AnvilCollision::isVanillaAnvil, AnvilCollision::new);
+    }
+
+    private static boolean isVanillaAnvil(Block block) {
+        if (!(block instanceof AnvilBlock)) {
+            return false;
+        }
+        Identifier id = BuiltInRegistries.BLOCK.getKey(block);
+        if (id == null) {
+            return false;
+        }
+        String key = id.toString();
+        return "minecraft:anvil".equals(key)
+            || "minecraft:chipped_anvil".equals(key)
+            || "minecraft:damaged_anvil".equals(key);
     }
 
     @Override
