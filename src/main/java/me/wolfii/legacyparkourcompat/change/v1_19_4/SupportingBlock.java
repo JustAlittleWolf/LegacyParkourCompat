@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
  * Pre-1.20 supporting-block lookup (MC-262325): ice, slime, and similar block
  * effects use the block under the entity's centre, not the collided edge.
  */
+// TODO: this breaks soul sand effects which were working even when standing on the edge of the block.
 @MovementChange(emulates = ParkourVersion.V1_19_4)
 public final class SupportingBlock implements SupportingBlockBehavior {
     @Override

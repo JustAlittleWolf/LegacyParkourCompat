@@ -61,6 +61,7 @@ dependencies {
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
     compileOnly "com.viaversion:viaversion-api:${project.viaversion_api_version}"
     clientCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+    clientRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
 
     decompileRuntime libs.vineflower
     decompileRuntime libs.tiny.remapper
