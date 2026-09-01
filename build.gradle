@@ -18,6 +18,10 @@ repositories {
         name = 'Fabric'
         url = 'https://maven.fabricmc.net/'
     }
+    maven {
+        name = 'ViaVersion'
+        url = 'https://repo.viaversion.com'
+    }
 }
 
 configurations {
@@ -27,6 +31,8 @@ configurations {
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+    compileOnly "com.viaversion:viaversion-api:${project.viaversion_api_version}"
 
     decompileRuntime libs.vineflower
     decompileRuntime libs.tiny.remapper
