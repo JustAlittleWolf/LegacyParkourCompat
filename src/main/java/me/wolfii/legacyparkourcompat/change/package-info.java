@@ -20,7 +20,7 @@
  * <p>Selecting {@link me.wolfii.legacyparkourcompat.api.ParkourVersion#V1_8} loads
  * every change whose {@code emulates} is that version or later, keeping the
  * closest when the same mechanic changed more than once. {@code 1.9.2} is
- * {@link me.wolfii.legacyparkourcompat.api.ParkourVersion#V1_9}. Vanilla/disabled
+ * {@link me.wolfii.legacyparkourcompat.api.ParkourVersion#V1_9}. Current/disabled
  * applies no changes.
  */
 package me.wolfii.legacyparkourcompat.change;

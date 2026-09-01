@@ -10,8 +10,8 @@ record RegisteredChange(MechanicKey key, ParkourVersion emulates, Object impleme
         Objects.requireNonNull(key, "key");
         Objects.requireNonNull(emulates, "emulates");
         Objects.requireNonNull(implementation, "implementation");
-        if (emulates.isVanilla()) {
-            throw new IllegalArgumentException("A movement change cannot emulate VANILLA");
+        if (emulates.isCurrent()) {
+            throw new IllegalArgumentException("A movement change cannot emulate CURRENT");
         }
     }
 }

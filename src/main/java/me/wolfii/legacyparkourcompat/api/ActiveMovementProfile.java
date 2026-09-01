@@ -22,12 +22,12 @@ public final class ActiveMovementProfile {
         return this.target;
     }
 
-    public boolean isVanilla() {
-        return this.target.isVanilla() || this.active.isEmpty();
+    public boolean isCurrent() {
+        return this.target.isCurrent() || this.active.isEmpty();
     }
 
-    public static ActiveMovementProfile vanilla() {
-        return new ActiveMovementProfile(ParkourVersion.VANILLA, Map.of());
+    public static ActiveMovementProfile current() {
+        return new ActiveMovementProfile(ParkourVersion.CURRENT, Map.of());
     }
 
     public int size() {
@@ -47,8 +47,8 @@ public final class ActiveMovementProfile {
     }
 
     public String describe() {
-        if (this.isVanilla() && this.active.isEmpty()) {
-            return this.target + " (vanilla)";
+        if (this.isCurrent() && this.active.isEmpty()) {
+            return this.target.id();
         }
         StringBuilder builder = new StringBuilder(this.target.id())
                 .append(" (")

@@ -32,8 +32,8 @@ public final class MovementControllerImpl implements MovementController {
     private final ConcurrentHashMap<UUID, ParkourVersion> perPlayer = new ConcurrentHashMap<>();
     private final AtomicInteger epoch = new AtomicInteger();
 
-    private volatile ParkourVersion selected = ParkourVersion.VANILLA;
-    private volatile ActiveMovementProfile globalProfile = ActiveMovementProfile.vanilla();
+    private volatile ParkourVersion selected = ParkourVersion.CURRENT;
+    private volatile ActiveMovementProfile globalProfile = ActiveMovementProfile.current();
 
     private MovementControllerImpl() {
     }
@@ -151,12 +151,12 @@ public final class MovementControllerImpl implements MovementController {
     }
 
     private boolean applies(ParkourVersion version) {
-        return !version.isVanilla() && version.olderThan(this.nativeVersion);
+        return !version.isCurrent() && version.olderThan(this.nativeVersion);
     }
 
     private ParkourVersion canonicalize(ParkourVersion version) {
-        if (version.isVanilla() || !version.olderThan(this.nativeVersion)) {
-            return ParkourVersion.VANILLA;
+        if (version.isCurrent() || !version.olderThan(this.nativeVersion)) {
+            return ParkourVersion.CURRENT;
         }
         return version;
     }
@@ -168,7 +168,7 @@ public final class MovementControllerImpl implements MovementController {
 
     private ActiveMovementProfile profileOf(ParkourVersion version) {
         if (!this.applies(version)) {
-            return ActiveMovementProfile.vanilla();
+            return ActiveMovementProfile.current();
         }
         Map<MechanicKey, Object> implementations = new HashMap<>();
         for (var entry : ChangeResolver.resolve(this.registry.snapshot(), version).entrySet()) {

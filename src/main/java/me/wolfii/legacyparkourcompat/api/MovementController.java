@@ -16,7 +16,7 @@ import java.util.UUID;
  * same parkour mechanics share one {@link ParkourVersion}: selecting
  * {@link ParkourVersion#V1_9} also covers {@code 1.9.1} and {@code 1.9.2}.
  *
- * <p>{@link ParkourVersion#VANILLA} (or {@link #disable()}) applies no historical
+ * <p>{@link ParkourVersion#CURRENT} (or {@link #disable()}) applies no historical
  * deltas. Mixins become no-ops, so Minecraft mechanics are unchanged. Switching
  * versions while a world is loaded takes effect on the next player tick,
  * including collision used for movement. Outline/cosmetic block boxes are not
@@ -28,8 +28,8 @@ public interface MovementController {
     }
 
     /**
-     * Parkour version of the running game. {@link ParkourVersion#VANILLA} when
-     * the native release is the current latest.
+     * Parkour version of the running game. {@link ParkourVersion#CURRENT} when
+     * the native release is the latest.
      */
     ParkourVersion nativeVersion();
 
@@ -37,7 +37,7 @@ public interface MovementController {
 
     /**
      * {@code true} when historical movement is applied. {@code false} when
-     * {@link ParkourVersion#VANILLA} is selected (or the selection is the
+     * {@link ParkourVersion#CURRENT} is selected (or the selection is the
      * running game).
      */
     boolean isEnabled();
@@ -56,10 +56,10 @@ public interface MovementController {
     }
 
     /**
-     * Restore native Minecraft movement. Same as selecting {@link ParkourVersion#VANILLA}.
+     * Restore native Minecraft movement. Same as selecting {@link ParkourVersion#CURRENT}.
      */
     default void disable() {
-        this.select(ParkourVersion.VANILLA);
+        this.select(ParkourVersion.CURRENT);
     }
 
     /**
