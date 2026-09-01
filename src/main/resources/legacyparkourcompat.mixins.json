@@ -5,7 +5,16 @@
   "injectors": {
     "defaultRequire": 1
   },
+  "overwrites": {
+    "requireAnnotations": true
+  },
   "mixins": [
+    "BlockStateBaseMixin",
+    "EntityMixin",
+    "LivingEntityMixin",
+    "PlayerMixin",
+    "access.EntityInvoker",
+    "access.LivingEntityInvoker"
   ],
   "client": [
   ]

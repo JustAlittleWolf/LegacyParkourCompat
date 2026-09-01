@@ -1,0 +1,162 @@
+package me.wolfii.legacyparkourcompat.mixin;
+
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.hook.AirTravelBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.ClimbingBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.ElytraTravelBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.FluidTravelBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.FrictionMovementBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.JumpBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.NegligibleSpeedBehavior;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+@Mixin(LivingEntity.class)
+public abstract class LivingEntityMixin {
+    @Unique
+    private boolean lpc$vanillaJump;
+    @WrapOperation(
+            method = "travel",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/LivingEntity;travelInAir(Lnet/minecraft/world/phys/Vec3;)V"
+            )
+    )
+    private void lpc$travelInAir(LivingEntity instance, Vec3 input, Operation<Void> original) {
+        if (instance instanceof Player player) {
+            MovementRuntime.find(AirTravelBehavior.class, player)
+                    .ifPresentOrElse(
+                            behavior -> behavior.travelInAir(player, input, () -> original.call(instance, input)),
+                            () -> original.call(instance, input)
+                    );
+        } else {
+            original.call(instance, input);
+        }
+    }
+
+    @WrapOperation(
+            method = "travel",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/LivingEntity;travelInFluid(Lnet/minecraft/world/phys/Vec3;)V"
+            )
+    )
+    private void lpc$travelInFluid(LivingEntity instance, Vec3 input, Operation<Void> original) {
+        if (instance instanceof Player player) {
+            MovementRuntime.find(FluidTravelBehavior.class, player)
+                    .ifPresentOrElse(
+                            behavior -> behavior.travelInFluid(player, input, () -> original.call(instance, input)),
+                            () -> original.call(instance, input)
+                    );
+        } else {
+            original.call(instance, input);
+        }
+    }
+
+    @WrapOperation(
+            method = "travel",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/LivingEntity;travelFallFlying(Lnet/minecraft/world/phys/Vec3;)V"
+            )
+    )
+    private void lpc$travelFallFlying(LivingEntity instance, Vec3 input, Operation<Void> original) {
+        if (instance instanceof Player player) {
+            MovementRuntime.find(ElytraTravelBehavior.class, player)
+                    .ifPresentOrElse(
+                            behavior -> behavior.travelFallFlying(player, input, () -> original.call(instance, input)),
+                            () -> original.call(instance, input)
+                    );
+        } else {
+            original.call(instance, input);
+        }
+    }
+
+    @Inject(method = "jumpFromGround", at = @At("HEAD"), cancellable = true)
+    private void lpc$jump(CallbackInfo ci) {
+        if (this.lpc$vanillaJump) {
+            return;
+        }
+        LivingEntity self = (LivingEntity) (Object) this;
+        if (!MovementRuntime.isPlayer(self)) {
+            return;
+        }
+        MovementRuntime.find(JumpBehavior.class, self).ifPresent(behavior -> {
+            behavior.jumpFromGround(self, () -> {
+                this.lpc$vanillaJump = true;
+                try {
+                    self.jumpFromGround();
+                } finally {
+                    this.lpc$vanillaJump = false;
+                }
+            });
+            ci.cancel();
+        });
+    }
+
+    @ModifyReturnValue(method = "getJumpPower()F", at = @At("RETURN"))
+    private float lpc$jumpPower(float vanilla) {
+        LivingEntity self = (LivingEntity) (Object) this;
+        return MovementRuntime.find(JumpBehavior.class, self)
+                .map(behavior -> behavior.jumpPower(self, vanilla))
+                .orElse(vanilla);
+    }
+
+    @ModifyReturnValue(method = "onClimbable", at = @At("RETURN"))
+    private boolean lpc$onClimbable(boolean vanilla) {
+        LivingEntity self = (LivingEntity) (Object) this;
+        return MovementRuntime.find(ClimbingBehavior.class, self)
+                .map(behavior -> behavior.onClimbable(self, vanilla))
+                .orElse(vanilla);
+    }
+
+    @WrapOperation(
+            method = "handleRelativeFrictionAndCalculateMovement",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/LivingEntity;handleOnClimbable(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;"
+            )
+    )
+    private Vec3 lpc$handleOnClimbable(LivingEntity instance, Vec3 delta, Operation<Vec3> original) {
+        return MovementRuntime.find(ClimbingBehavior.class, instance)
+                .map(behavior -> behavior.handleOnClimbable(instance, delta, () -> original.call(instance, delta)))
+                .orElseGet(() -> original.call(instance, delta));
+    }
+
+    @WrapOperation(
+            method = "travelInAir",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/LivingEntity;handleRelativeFrictionAndCalculateMovement(Lnet/minecraft/world/phys/Vec3;F)Lnet/minecraft/world/phys/Vec3;"
+            )
+    )
+    private Vec3 lpc$frictionMovement(LivingEntity instance, Vec3 input, float friction, Operation<Vec3> original) {
+        return MovementRuntime.find(FrictionMovementBehavior.class, instance)
+                .map(behavior -> behavior.handleRelativeFrictionAndCalculateMovement(
+                        instance,
+                        input,
+                        friction,
+                        () -> original.call(instance, input, friction)
+                ))
+                .orElseGet(() -> original.call(instance, input, friction));
+    }
+
+    @ModifyConstant(method = "aiStep", constant = @Constant(doubleValue = 9.0E-6))
+    private double lpc$playerNegligibleSpeed(double vanilla) {
+        LivingEntity self = (LivingEntity) (Object) this;
+        return MovementRuntime.find(NegligibleSpeedBehavior.class, self)
+                .map(behavior -> behavior.threshold(self, vanilla))
+                .orElse(vanilla);
+    }
+}
