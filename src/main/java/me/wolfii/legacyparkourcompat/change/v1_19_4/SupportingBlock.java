@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change;
+package me.wolfii.legacyparkourcompat.change.v1_19_4;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
  * effects use the block under the entity's centre, not the collided edge.
  */
 @MovementChange(emulates = ParkourVersion.V1_19_4)
-public final class SupportingBlock_1_19_4 implements SupportingBlockBehavior {
+public final class SupportingBlock implements SupportingBlockBehavior {
     @Override
     public BlockPos getOnPos(Entity entity, float offset, VanillaFn<BlockPos> vanilla) {
         int x = Mth.floor(entity.getX());

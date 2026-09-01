@@ -9,9 +9,14 @@
  * <p>Do not write mixins here. The injection framework already dispatches to the
  * active implementation for the selected version.
  *
+ * <p>Each {@link me.wolfii.legacyparkourcompat.api.ParkourVersion} has its own
+ * subpackage (for example {@code change.v1_8}) with a {@code MovementChanges}
+ * entrypoint and one class per mechanic delta.
+ *
  * <pre>{@code
+ * // change.v1_8.LadderCollision
  * @MovementChange(emulates = ParkourVersion.V1_8)
- * public final class LadderCollision_1_8 implements BlockCollisionShape {
+ * public final class LadderCollision implements BlockCollisionShape {
  *     public String blockId() { return "minecraft:ladder"; }
  *     public Optional<VoxelShape> collisionShape(...) { return Optional.of(onePixelLadder); }
  * }

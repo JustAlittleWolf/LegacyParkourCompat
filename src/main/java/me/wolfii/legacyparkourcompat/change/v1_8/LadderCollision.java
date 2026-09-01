@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change;
+package me.wolfii.legacyparkourcompat.change.v1_8;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -17,7 +17,7 @@ import java.util.Optional;
  * 1.8 ladder collision is 2 pixels ({@code 0.125}); 1.9 widened it to 3 pixels.
  */
 @MovementChange(emulates = ParkourVersion.V1_8)
-public final class LadderCollision_1_8 implements BlockCollisionShape {
+public final class LadderCollision implements BlockCollisionShape {
     private static final VoxelShape EAST = Block.box(0.0, 0.0, 0.0, 2.0, 16.0, 16.0);
     private static final VoxelShape WEST = Block.box(14.0, 0.0, 0.0, 16.0, 16.0, 16.0);
     private static final VoxelShape SOUTH = Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 2.0);
