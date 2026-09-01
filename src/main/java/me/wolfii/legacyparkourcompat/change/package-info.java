@@ -13,7 +13,10 @@
  *
  * <p>Each {@link me.wolfii.legacyparkourcompat.api.ParkourVersion} has its own
  * subpackage (for example {@code change.v1_8}) with a {@code MovementChanges}
- * entrypoint and one class per mechanic delta.
+ * entrypoint and one class per mechanic delta. Keyed block families expose
+ * {@code register(MovementChangeRegistry)} so the change class, not the
+ * entrypoint, decides which blocks it applies to
+ * ({@link me.wolfii.legacyparkourcompat.change.BlockChanges#registerEach}).
  *
  * <pre>{@code
  * // change.v1_8.LadderCollision
