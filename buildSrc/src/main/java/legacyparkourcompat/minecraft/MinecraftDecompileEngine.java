@@ -207,7 +207,7 @@ final class MinecraftDecompileEngine {
                 .option(IFernflowerPreferences.ASCII_STRING_CHARACTERS, true)
                 .option(IFernflowerPreferences.REMOVE_SYNTHETIC, true)
                 .option(IFernflowerPreferences.INDENT_STRING, "    ")
-                .option(IFernflowerPreferences.THREADS, Math.max(1, Runtime.getRuntime().availableProcessors()))
+                .option(IFernflowerPreferences.THREADS, Integer.toString(Math.max(1, Runtime.getRuntime().availableProcessors())))
                 .option(IFernflowerPreferences.WARN_INCONSISTENT_INNER_CLASSES, false)
                 .allowedPrefixes("net/minecraft", "com/mojang");
 
