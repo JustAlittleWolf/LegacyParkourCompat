@@ -18,4 +18,12 @@ public interface ClimbingBehavior extends VersionedMechanic {
     default Vec3 handleOnClimbable(LivingEntity entity, Vec3 delta, VanillaFn<Vec3> vanilla) {
         return vanilla.get();
     }
+
+    /**
+     * 1.14 lets jump start a climb ({@code horizontalCollision || jumping}).
+     * Earlier versions only climbed on {@code horizontalCollision}.
+     */
+    default boolean climbByJumping(LivingEntity entity, boolean jumping) {
+        return jumping;
+    }
 }

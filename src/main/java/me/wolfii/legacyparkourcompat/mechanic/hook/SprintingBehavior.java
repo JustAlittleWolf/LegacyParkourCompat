@@ -12,4 +12,12 @@ public interface SprintingBehavior extends VersionedMechanic {
     default boolean canSprint(Player player, boolean vanilla) {
         return vanilla;
     }
+
+    default boolean canStartSprinting(Player player, boolean vanilla) {
+        return vanilla;
+    }
+
+    default boolean shouldStopRunSprinting(Player player, boolean vanilla) {
+        return vanilla;
+    }
 }
