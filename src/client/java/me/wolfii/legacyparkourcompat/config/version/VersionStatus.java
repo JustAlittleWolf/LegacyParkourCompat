@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.version;
+package me.wolfii.legacyparkourcompat.config.version;
 
 /**
  * How a typed movement version should be treated.

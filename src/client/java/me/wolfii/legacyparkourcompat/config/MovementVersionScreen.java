@@ -1,8 +1,8 @@
 package me.wolfii.legacyparkourcompat.config;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
-import me.wolfii.legacyparkourcompat.version.MovementVersions;
-import me.wolfii.legacyparkourcompat.version.VersionStatus;
+import me.wolfii.legacyparkourcompat.config.version.MovementVersions;
+import me.wolfii.legacyparkourcompat.config.version.VersionStatus;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;

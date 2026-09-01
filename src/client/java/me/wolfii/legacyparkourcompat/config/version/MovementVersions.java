@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.version;
+package me.wolfii.legacyparkourcompat.config.version;
 
 import me.wolfii.legacyparkourcompat.api.MovementController;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
@@ -12,8 +12,7 @@ import java.util.Optional;
  * Session-wide movement version selection for the UI.
  *
  * <p>The client keeps the typed value in memory only. Closing the game returns
- * to vanilla movement. Dedicated servers load {@code config/legacyparkourcompat.properties}
- * through {@link me.wolfii.legacyparkourcompat.config.ServerMovementConfig}.
+ * to vanilla movement.
  *
  * <p>Valid ids are {@link ParkourVersion} patch strings only. Unknown Minecraft
  * releases are invalid, not unimplemented.
