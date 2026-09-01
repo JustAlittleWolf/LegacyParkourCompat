@@ -113,7 +113,8 @@ tasks.register('decompileMinecraft', DecompileMinecraftTask) {
     description = 'Decompile Minecraft client sources into decompiled_minecraft/<version>. ' +
             'Defaults to latest, 1.8.9, 1.12.2, and 1.14.4. ' +
             'Pass --versions=1.16.5,1.20.1 or -Pversions=1.8 to decompile other versions. ' +
-            'Uses official Mojang mappings when they exist. Runs Vineflower on Java 25.'
+            'Uses official Mojang mappings when they exist, otherwise Yarn or Ornithe Feather. ' +
+            'Runs Vineflower on Java 25.'
 
     versions.convention(
             providers.gradleProperty('versions')

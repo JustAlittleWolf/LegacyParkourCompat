@@ -35,14 +35,22 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Stream;
+import java.util.zip.ZipFile;
 
 final class MinecraftDecompileEngine {
     private static final String VERSION_MANIFEST_URL =
             "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json";
     private static final String FABRIC_YARN_META = "https://meta.fabricmc.net/v2/versions/yarn/";
     private static final String LEGACY_YARN_META = "https://meta.legacyfabric.net/v2/versions/yarn/";
+    private static final String ORNITHE_FEATHER_META = "https://meta.ornithemc.net/v3/versions/feather/";
     private static final String FABRIC_MAVEN = "https://maven.fabricmc.net/";
     private static final String LEGACY_FABRIC_MAVEN = "https://maven.legacyfabric.net/";
+    private static final String ORNITHE_MAVEN = "https://maven.ornithemc.net/releases/";
+    private static final List<MappingCatalog> COMMUNITY_MAPPING_CATALOGS = List.of(
+            new MappingCatalog("legacy yarn", LEGACY_YARN_META, LEGACY_FABRIC_MAVEN),
+            new MappingCatalog("yarn", FABRIC_YARN_META, FABRIC_MAVEN),
+            new MappingCatalog("ornithe feather", ORNITHE_FEATHER_META, ORNITHE_MAVEN)
+    );
 
     private final DecompileLogger logger;
     private final Path cacheDir;
@@ -121,8 +129,7 @@ final class MinecraftDecompileEngine {
         List<Path> libraries = downloadLibraries(version, versionCache.resolve("libraries"));
 
         Path jarToDecompile = clientJar;
-        String mappingSource = "none (unobfuscated or unavailable)";
-        boolean remapped = false;
+        String mappingSource = "none";
 
         if (version.downloads.clientMappings != null && version.downloads.clientMappings.url != null) {
             Path mappings = download(
@@ -135,18 +142,24 @@ final class MinecraftDecompileEngine {
             remap(clientJar, mappedJar, mojmapProvider(mappings), libraries);
             jarToDecompile = mappedJar;
             mappingSource = "mojmap";
-            remapped = true;
         } else {
-            YarnMapping yarn = findYarn(versionRef.id);
+            YarnMapping yarn = findCommunityMappings(versionRef.id);
             if (yarn != null) {
                 Path mappedJar = versionCache.resolve("client-yarn.jar");
                 logger.lifecycle("  Official Mojang mappings unavailable; applying {} ({})", yarn.label, yarn.version);
                 remap(clientJar, mappedJar, TinyUtils.createTinyMappingProvider(yarn.tinyFile, "official", "named"), libraries);
                 jarToDecompile = mappedJar;
                 mappingSource = yarn.label;
-                remapped = true;
+            } else if (jarHasDefaultPackageClasses(clientJar)) {
+                logger.warn(
+                        "  No Mojang, Yarn, or Ornithe mappings for {}. Vineflower only writes "
+                                + "net/minecraft and com/mojang, so obfuscated classes will be omitted.",
+                        versionRef.id
+                );
+                mappingSource = "none (obfuscated, mappings unavailable)";
             } else {
-                logger.lifecycle("  No mappings available; decompiling the client jar as published");
+                logger.lifecycle("  No mappings published; decompiling the unobfuscated client jar as-is");
+                mappingSource = "none (unobfuscated)";
             }
         }
 
@@ -211,6 +224,9 @@ final class MinecraftDecompileEngine {
         };
         vineflowerLogger.setSeverity(IFernflowerLogger.Severity.WARN);
 
+        // Remapped (or unobfuscated) game classes live under these packages.
+        // Pre-Mojmap clients keep nearly everything in the default package until remapped,
+        // so skipping mappings would emit only a handful of already-named classes.
         Decompiler.Builder builder = Decompiler.builder()
                 .inputs(jar.toFile())
                 .output(new JavaDirectorySaver(outputDir))
@@ -290,12 +306,18 @@ final class MinecraftDecompileEngine {
         return "linux";
     }
 
-    private YarnMapping findYarn(String minecraftVersion) throws Exception {
-        YarnMapping legacy = yarnFromMeta(LEGACY_YARN_META + minecraftVersion, LEGACY_FABRIC_MAVEN, "legacy yarn");
-        if (legacy != null) {
-            return legacy;
+    private YarnMapping findCommunityMappings(String minecraftVersion) throws Exception {
+        for (MappingCatalog catalog : COMMUNITY_MAPPING_CATALOGS) {
+            YarnMapping mapping = yarnFromMeta(
+                    catalog.metaUrlPrefix() + minecraftVersion,
+                    catalog.mavenRoot(),
+                    catalog.label()
+            );
+            if (mapping != null) {
+                return mapping;
+            }
         }
-        return yarnFromMeta(FABRIC_YARN_META + minecraftVersion, FABRIC_MAVEN, "yarn");
+        return null;
     }
 
     private YarnMapping yarnFromMeta(String metaUrl, String mavenRoot, String label) throws Exception {
@@ -308,6 +330,7 @@ final class MinecraftDecompileEngine {
         }
         List<MojangMeta.YarnBuild> builds = gson.fromJson(body, new TypeToken<List<MojangMeta.YarnBuild>>() {}.getType());
         if (builds == null || builds.isEmpty()) {
+            logger.info("  {} has no builds for this version", label);
             return null;
         }
         MojangMeta.YarnBuild chosen = builds.stream()
@@ -505,6 +528,18 @@ final class MinecraftDecompileEngine {
                 Files.deleteIfExists(path);
             }
         }
+    }
+
+    private static boolean jarHasDefaultPackageClasses(Path jar) throws IOException {
+        try (ZipFile zip = new ZipFile(jar.toFile())) {
+            return zip.stream().anyMatch(entry -> {
+                String name = entry.getName();
+                return name.endsWith(".class") && name.indexOf('/') < 0 && name.indexOf('\\') < 0;
+            });
+        }
+    }
+
+    private record MappingCatalog(String label, String metaUrlPrefix, String mavenRoot) {
     }
 
     private record YarnMapping(String label, String version, Path tinyFile) {

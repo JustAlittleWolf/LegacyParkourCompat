@@ -30,7 +30,11 @@ import java.util.List;
  *
  * <p>Official Mojang mappings are used from 1.14.4 through 1.21.x. Minecraft
  * 26.1+ ships unobfuscated, so those versions are decompiled as-is. Older
- * versions fall back to Legacy Yarn when Mojang mappings are unavailable.
+ * versions fall back to Legacy Yarn, Fabric Yarn, then Ornithe Feather
+ * (needed for versions such as 1.9 / 1.9.2 that Yarn does not cover).
+ * Without mappings the published client stays obfuscated in the default
+ * package, and Vineflower's {@code net/minecraft} / {@code com/mojang}
+ * filter emits only the few already-named classes.
  *
  * <p>The decompiler is forked onto a Java 25 toolchain so Minecraft 26.x
  * class files can be processed.
