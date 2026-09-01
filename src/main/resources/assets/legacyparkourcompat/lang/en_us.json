@@ -1,4 +1,17 @@
 {
+  "legacyparkourcompat.version.title": "Movement Version",
+  "legacyparkourcompat.version.enabled": "Legacy movement",
+  "legacyparkourcompat.version.field": "Minecraft version",
+  "legacyparkourcompat.version.hint": "1.8.9",
+  "legacyparkourcompat.version.description": "Pick a version from the list, or type a ParkourVersion id. Turn legacy movement off to use current vanilla physics.",
+  "legacyparkourcompat.version.available": "Available versions",
+  "legacyparkourcompat.version.available.none": "No versions available yet",
+  "legacyparkourcompat.version.list.partial": "%s (partial)",
+  "legacyparkourcompat.version.status.disabled": "Legacy movement is off. Current vanilla physics are used.",
+  "legacyparkourcompat.version.status.vanilla": "Current vanilla movement.",
+  "legacyparkourcompat.version.status.implemented": "Using movement from %s.",
+  "legacyparkourcompat.version.status.partial": "This version is only partially implemented. Some movement still uses current vanilla physics.",
+  "legacyparkourcompat.version.status.invalid": "Not a ParkourVersion. Use an id from the list (for example 1.8.9).",
   "legacyparkourcompat.message.forced": "Forced parkour version to %s to match the server.",
   "legacyparkourcompat.disconnect.version_mismatch": "Your Minecraft version (%s) does not match this server's parkour version (%s). Install Legacy Parkour Compat, or connect with a matching client."
 }

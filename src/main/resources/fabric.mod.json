@@ -25,6 +25,9 @@
       "me.wolfii.legacyparkourcompat.LegacyParkourCompatServer"
     ],
     "legacyparkourcompat:movement-change": [
+    ],
+    "modmenu": [
+      "me.wolfii.legacyparkourcompat.config.ModMenuIntegration"
     ]
   },
   "mixins": [
@@ -36,6 +39,7 @@
     "minecraft": ">=${minecraft_version}"
   },
   "suggests": {
+    "modmenu": "*",
     "viaversion": "*",
     "viafabric": "*",
     "viafabricplus": "*"

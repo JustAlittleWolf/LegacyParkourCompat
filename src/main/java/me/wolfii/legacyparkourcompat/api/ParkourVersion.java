@@ -17,7 +17,9 @@ import java.util.stream.Collectors;
  * <p>Order is chronological. A {@code @MovementChange(emulates = V1_8)} is the
  * 1.8 behaviour; Minecraft replaced it in {@link #next()}, which is {@link #V1_9}.
  *
- * <p>{@link #CURRENT} is the running game / disabled: mixins must not alter Minecraft.
+     * <p>{@link #CURRENT} is the running game / disabled: mixins must not alter Minecraft.
+     * Historical constants declare {@link #isFullyImplemented()} / {@link #isPartiallyImplemented()};
+     * they are partial until marked complete in the enum constructor.
  *
  * <p>Minor-version splits (Minecraft Wiki + MCPK, 1.8+):
  * <ul>
@@ -68,8 +70,18 @@ public enum ParkourVersion {
             .collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> a));
 
     private final List<String> patches;
+    private final boolean fullyImplemented;
 
     ParkourVersion(String... patches) {
+        this(false, patches);
+    }
+
+    /**
+     * @param fullyImplemented {@code true} when this version's movement is complete.
+     *                         Historical versions default to partial.
+     */
+    ParkourVersion(boolean fullyImplemented, String... patches) {
+        this.fullyImplemented = fullyImplemented;
         this.patches = List.of(patches);
     }
 
@@ -89,6 +101,24 @@ public enum ParkourVersion {
 
     public boolean isCurrent() {
         return this == CURRENT;
+    }
+
+    /**
+     * {@code true} when this historical version's movement is complete.
+     * {@link #CURRENT} is never fully-implemented in this sense; native
+     * Minecraft already is.
+     */
+    public boolean isFullyImplemented() {
+        return !this.isCurrent() && this.fullyImplemented;
+    }
+
+    /**
+     * {@code true} when this historical version can be selected but does not
+     * yet reproduce every intended movement mechanic. All historical constants
+     * are partial until marked {@code true} in the enum constructor.
+     */
+    public boolean isPartiallyImplemented() {
+        return !this.isCurrent() && !this.fullyImplemented;
     }
 
     /**
