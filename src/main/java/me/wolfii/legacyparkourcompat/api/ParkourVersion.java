@@ -1,11 +1,12 @@
 package me.wolfii.legacyparkourcompat.api;
 
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.SharedConstants;
+import net.minecraft.WorldVersion;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,9 @@ import java.util.stream.Collectors;
  * 1.8 behaviour; Minecraft replaced it in {@link #next()}, which is {@link #V1_9}.
  *
  * <p>{@link #CURRENT} is the running game / disabled: mixins must not alter Minecraft.
- * Historical constants declare {@link #isFullyImplemented()} / {@link #isPartiallyImplemented()};
+ * Its {@link #id()} is that game's Minecraft version (for example {@code 26.2}).
+ * Historical constants declare
+ * {@link #isFullyImplemented()} / {@link #isPartiallyImplemented()};
  * they are partial until marked complete in the enum constructor.
  *
  * <p>Minor-version splits (Minecraft Wiki + MCPK, 1.8+):
@@ -86,14 +89,27 @@ public enum ParkourVersion {
     }
 
     /**
+     * Release id of the running Minecraft game (for example {@code 26.2}).
+     * This is also {@link #CURRENT}'s {@link #id()}.
+     */
+    public static String nativeGameVersion() {
+        String name = worldVersionName();
+        if (name != null) {
+            return name;
+        }
+        String fabricId = fabricMinecraftVersion();
+        if (fabricId != null) {
+            return fabricId;
+        }
+        throw new IllegalStateException("Minecraft version is unavailable");
+    }
+
+    /**
      * Parkour version of the running game. {@link #CURRENT} when the native
      * release is not in a historical group (the latest).
      */
     public static ParkourVersion running() {
-        return FabricLoader.getInstance()
-            .getModContainer("minecraft")
-            .map(container -> byPatch(container.getMetadata().getVersion().getFriendlyString()))
-            .orElse(CURRENT);
+        return byPatch(nativeGameVersion());
     }
 
     /**
@@ -107,15 +123,15 @@ public enum ParkourVersion {
     }
 
     /**
-     * Maps a Minecraft id or alias onto a selectable version.
-     * {@code 1.9.2} becomes {@link #V1_9}; {@code current}/{@code disabled} is {@link #CURRENT}.
+     * Maps a Minecraft version id onto a selectable version.
+     * {@code 1.9.2} becomes {@link #V1_9}; the running game version is {@link #CURRENT}.
      */
     public static ParkourVersion of(String id) {
         String key = id.trim();
         if (key.isEmpty()) {
             throw new IllegalArgumentException("Minecraft version id is empty");
         }
-        if (isCurrentAlias(key)) {
+        if (key.equals(nativeGameVersion())) {
             return CURRENT;
         }
         ParkourVersion exact = BY_PATCH.get(key);
@@ -126,11 +142,10 @@ public enum ParkourVersion {
     }
 
     public static @Nullable ParkourVersion tryOf(String id) {
-        try {
-            return of(id);
-        } catch (RuntimeException e) {
+        if (id == null || id.trim().isEmpty()) {
             return null;
         }
+        return of(id);
     }
 
     private static ParkourVersion byPatch(String id) {
@@ -138,22 +153,34 @@ public enum ParkourVersion {
         return match == null ? CURRENT : match;
     }
 
-    public static boolean isCurrentAlias(String id) {
-        String key = id.trim().toLowerCase(Locale.ROOT);
-        return key.equals("current")
-            || key.equals("disabled")
-            || key.equals("disable")
-            || key.equals("off")
-            || key.equals("latest")
-            || key.equals("native")
-            || key.equals("vanilla");
+    private static @Nullable String worldVersionName() {
+        WorldVersion version;
+        try {
+            version = SharedConstants.getCurrentVersion();
+        } catch (IllegalStateException exception) {
+            return null;
+        }
+        String name = version.name();
+        if (name == null || name.isBlank()) {
+            throw new IllegalStateException("Minecraft version name is missing");
+        }
+        return name;
+    }
+
+    private static @Nullable String fabricMinecraftVersion() {
+        return FabricLoader.getInstance()
+            .getModContainer("minecraft")
+            .map(container -> container.getMetadata().getVersion().getFriendlyString())
+            .filter(id -> !id.isBlank())
+            .orElse(null);
     }
 
     /**
-     * Canonical id for the UI ({@code 1.9}, {@code 1.14}, {@code current}, …).
+     * Canonical Minecraft version id ({@code 1.8}, {@code 1.14}, {@code 26.2}, …).
+     * {@link #CURRENT} uses {@link #nativeGameVersion()}.
      */
     public String id() {
-        return this.isCurrent() ? "current" : this.patches.getFirst();
+        return this.isCurrent() ? nativeGameVersion() : this.patches.getFirst();
     }
 
     /**

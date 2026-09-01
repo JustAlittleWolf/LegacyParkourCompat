@@ -2,7 +2,6 @@ package me.wolfii.legacyparkourcompat.config.version;
 
 import me.wolfii.legacyparkourcompat.api.MovementController;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
-import net.fabricmc.loader.api.FabricLoader;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
@@ -51,7 +50,7 @@ public final class MovementVersions {
         ParkourVersion version = parkourVersion(input);
         if (version != null && !version.isCurrent()) {
             wanted = true;
-        } else if (input.isEmpty() || isVanillaAlias(input) || isNativeGameVersion(input)) {
+        } else if (input.isEmpty() || isNativeGameVersion(input)) {
             wanted = false;
         }
         apply();
@@ -71,7 +70,7 @@ public final class MovementVersions {
 
     public static VersionStatus status(@Nullable String value) {
         String normalized = normalize(value);
-        if (normalized.isEmpty() || isVanillaAlias(normalized) || isNativeGameVersion(normalized)) {
+        if (normalized.isEmpty() || isNativeGameVersion(normalized)) {
             return VersionStatus.VANILLA;
         }
         ParkourVersion parkour = historical(normalized);
@@ -91,10 +90,7 @@ public final class MovementVersions {
     }
 
     public static String nativeGameVersion() {
-        return FabricLoader.getInstance()
-            .getModContainer("minecraft")
-            .map(container -> container.getMetadata().getVersion().getFriendlyString())
-            .orElse("");
+        return ParkourVersion.nativeGameVersion();
     }
 
     public static String normalize(@Nullable String value) {
@@ -105,7 +101,7 @@ public final class MovementVersions {
     }
 
     public static @Nullable ParkourVersion parkourVersion(String normalized) {
-        if (normalized.isEmpty() || isVanillaAlias(normalized) || isNativeGameVersion(normalized)) {
+        if (normalized.isEmpty() || isNativeGameVersion(normalized)) {
             return ParkourVersion.CURRENT;
         }
         ParkourVersion match = historical(normalized);
@@ -116,10 +112,6 @@ public final class MovementVersions {
             return ParkourVersion.CURRENT;
         }
         return match;
-    }
-
-    static boolean isVanillaAlias(String normalized) {
-        return ParkourVersion.isCurrentAlias(normalized);
     }
 
     private static boolean isNativeGameVersion(String normalized) {

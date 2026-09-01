@@ -6,7 +6,6 @@ import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import me.wolfii.legacyparkourcompat.LegacyParkourCompat;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
-import net.fabricmc.loader.api.FabricLoader;
 
 import java.lang.reflect.Method;
 import java.util.Optional;
@@ -39,7 +38,7 @@ final class ViaVersionLookup {
             }
             return Optional.of(toParkourVersion(protocol));
         } catch (Throwable exception) {
-            LegacyParkourCompat.LOGGER.debug("Failed to query ViaVersion protocol for {}", playerId, exception);
+            LegacyParkourCompat.LOGGER.warn("Failed to query ViaVersion protocol for {}", playerId, exception);
             return Optional.empty();
         }
     }
@@ -52,7 +51,7 @@ final class ViaVersionLookup {
             }
             return viaFabricClientTarget();
         } catch (Throwable exception) {
-            LegacyParkourCompat.LOGGER.debug("Failed to query client Via target version", exception);
+            LegacyParkourCompat.LOGGER.warn("Failed to query client Via target version", exception);
             return Optional.empty();
         }
     }
@@ -70,9 +69,10 @@ final class ViaVersionLookup {
                 if (value instanceof ProtocolVersion protocol && protocol.isKnown()) {
                     return Optional.of(protocol);
                 }
-            } catch (ClassNotFoundException ignored) {
+            } catch (ClassNotFoundException exception) {
+                LegacyParkourCompat.LOGGER.debug("ViaFabricPlus class {} is not present: {}", className, exception.toString());
             } catch (ReflectiveOperationException exception) {
-                LegacyParkourCompat.LOGGER.debug("ViaFabricPlus API {} is present but unreadable", className, exception);
+                LegacyParkourCompat.LOGGER.warn("ViaFabricPlus API {} is present but unreadable", className, exception);
             }
         }
         return Optional.empty();
@@ -96,7 +96,7 @@ final class ViaVersionLookup {
                 return inUse(server);
             }
         } catch (Throwable exception) {
-            LegacyParkourCompat.LOGGER.debug("Failed to read ViaFabric client connections", exception);
+            LegacyParkourCompat.LOGGER.warn("Failed to read ViaFabric client connections", exception);
         }
         return Optional.empty();
     }
@@ -114,14 +114,7 @@ final class ViaVersionLookup {
     }
 
     private static ProtocolVersion nativeProtocol() {
-        String id = FabricLoader.getInstance()
-            .getModContainer("minecraft")
-            .map(container -> container.getMetadata().getVersion().getFriendlyString())
-            .orElse("");
-        if (id.isEmpty()) {
-            return null;
-        }
-        ProtocolVersion closest = ProtocolVersion.getClosest(id);
+        ProtocolVersion closest = ProtocolVersion.getClosest(ParkourVersion.nativeGameVersion());
         return closest != null && closest.isKnown() ? closest : null;
     }
 
@@ -140,7 +133,17 @@ final class ViaVersionLookup {
                 }
             }
         }
-        return ParkourVersion.of(preferredName(protocol));
+        String fallback = preferredName(protocol);
+        ParkourVersion mapped = ParkourVersion.of(fallback);
+        if (mapped.isCurrent() && !fallback.equals(ParkourVersion.nativeGameVersion())) {
+            LegacyParkourCompat.LOGGER.warn(
+                "No parkour version matches Via protocol '{}' (tried '{}'); treating as vanilla ({})",
+                protocol.getName(),
+                fallback,
+                mapped.id()
+            );
+        }
+        return mapped;
     }
 
     private static String preferredName(ProtocolVersion protocol) {

@@ -101,8 +101,11 @@ public final class MovementControllerImpl implements MovementController {
         Objects.requireNonNull(playerId, "playerId");
         if (version == null) {
             this.perPlayer.remove(playerId);
+            LegacyParkourCompat.LOGGER.info("Cleared per-player parkour version for {}", playerId);
         } else {
-            this.perPlayer.put(playerId, this.canonicalize(version));
+            ParkourVersion canonical = this.canonicalize(version);
+            this.perPlayer.put(playerId, canonical);
+            LegacyParkourCompat.LOGGER.info("Per-player parkour version for {} set to {}", playerId, canonical);
         }
         this.epoch.incrementAndGet();
     }
@@ -185,8 +188,8 @@ public final class MovementControllerImpl implements MovementController {
                     state.initCache();
                 }
             }
-        } catch (Throwable t) {
-            LegacyParkourCompat.LOGGER.debug("Could not rebuild block collision cache yet", t);
+        } catch (Exception exception) {
+            LegacyParkourCompat.LOGGER.warn("Could not rebuild block collision cache", exception);
         }
     }
 }

@@ -5,6 +5,8 @@ A Minecraft Fabric mod (Client & Server) targeting the latest Minecraft release.
 
 This is a **one-way** compatibility layer: newer clients playing older parkour. Do not invent historical behaviour for features that did not exist in the emulated version (for example, unique collision boxes on blocks added after that version). Parkour maps from that era simply do not contain those blocks.
 
+Do **not** keep compatibility with older versions of this mod (handshake ids, config keys, packet formats, aliases, and similar may change freely).
+
 **Out of scope — block state:** Do not emulate or rewrite block states. Defaults such as glass panes extending on all sides, fence/wall connections, and similar world data stay vanilla. Historical collision *shapes* for blocks that existed and later changed (e.g. ladder hitboxes) are movement mechanics and *are* in scope. Movement mechanics for entities other than the player are also out of scope.
 
 ### Client vs server
@@ -86,3 +88,4 @@ Fabric Loom splits environments. Common code lives in `src/main/`; client-only a
     - Create duplicate version files containing redundant vanilla code.
     - "Fix" or smooth out historical Minecraft bugs/quirks that affect movement (they are considered intentional parkour features in older versions).
     - Add historical behaviour for modern-only features (new blocks with unique collision, and similar additions that old parkour maps do not use).
+    - Preserve compatibility with older versions of this mod.

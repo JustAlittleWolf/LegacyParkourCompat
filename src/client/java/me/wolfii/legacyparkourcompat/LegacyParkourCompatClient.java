@@ -18,12 +18,20 @@ public class LegacyParkourCompatClient implements ClientModInitializer {
     private static void applyForcedServerVersion(String versionId) {
         serverHasMod = true;
         ParkourVersion required = ParkourVersion.of(versionId);
+        if (required.isCurrent() && !versionId.equals(ParkourVersion.nativeGameVersion())) {
+            LegacyParkourCompat.LOGGER.error(
+                "Server forced unknown parkour version '{}'; using vanilla movement ({})",
+                versionId,
+                required.id()
+            );
+        }
         ParkourVersion previous = MovementController.get().selectedVersion();
         MovementController.get().select(required);
+        LegacyParkourCompat.LOGGER.info("Server forced parkour version {}", required.id());
         if (previous != required) {
             ForcedVersionNotifier.queue(Component.translatable(
                 "legacyparkourcompat.message.forced",
-                displayName(required)));
+                required.id()));
         }
     }
 
@@ -34,24 +42,17 @@ public class LegacyParkourCompatClient implements ClientModInitializer {
      */
     private static void applyViaFabricServerVersion() {
         ViaVersionAccess.clientTranslatedServerVersion().ifPresent(version -> {
+            LegacyParkourCompat.LOGGER.info(
+                "ViaFabric is translating this connection; selecting parkour version {}",
+                version
+            );
             MovementController.get().select(version);
-            LegacyParkourCompat.LOGGER.debug("ViaFabric in use; parkour version set to {}", version);
         });
     }
 
     private static void resetJoinState() {
         serverHasMod = false;
         ForcedVersionNotifier.clear();
-    }
-
-    private static String displayName(ParkourVersion version) {
-        if (!version.isCurrent()) {
-            return version.id();
-        }
-        return net.fabricmc.loader.api.FabricLoader.getInstance()
-            .getModContainer("minecraft")
-            .map(container -> container.getMetadata().getVersion().getFriendlyString())
-            .orElse("current");
     }
 
     @Override
@@ -74,5 +75,6 @@ public class LegacyParkourCompatClient implements ClientModInitializer {
         });
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> resetJoinState());
         ClientConfigurationConnectionEvents.DISCONNECT.register((handler, client) -> resetJoinState());
+        LegacyParkourCompat.LOGGER.debug("Registered client parkour version handshake");
     }
 }
