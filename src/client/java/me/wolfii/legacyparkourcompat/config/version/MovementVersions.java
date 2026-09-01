@@ -2,7 +2,6 @@ package me.wolfii.legacyparkourcompat.config.version;
 
 import me.wolfii.legacyparkourcompat.api.MovementController;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
-import net.fabricmc.loader.api.FabricLoader;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
@@ -91,10 +90,7 @@ public final class MovementVersions {
     }
 
     public static String nativeGameVersion() {
-        return FabricLoader.getInstance()
-            .getModContainer("minecraft")
-            .map(container -> container.getMetadata().getVersion().getFriendlyString())
-            .orElse("");
+        return ParkourVersion.nativeGameVersion();
     }
 
     public static String normalize(@Nullable String value) {

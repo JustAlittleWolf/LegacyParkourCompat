@@ -3,7 +3,6 @@ package me.wolfii.legacyparkourcompat.network;
 import me.wolfii.legacyparkourcompat.LegacyParkourCompat;
 import me.wolfii.legacyparkourcompat.api.MovementController;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.network.ServerConfigurationPacketListenerImpl;
 
@@ -31,7 +30,7 @@ public final class ParkourHandshake {
             LegacyParkourCompat.LOGGER.info(
                 "Accepting {} with Legacy Parkour Compat; forcing parkour version {}",
                 player,
-                displayName(parkourVersion)
+                parkourVersion.id()
             );
             listener.addTask(new ParkourHandshakeTask(parkourVersion.id()));
             return;
@@ -44,8 +43,8 @@ public final class ParkourHandshake {
             LegacyParkourCompat.LOGGER.info(
                 "Accepting {} without the mod; Minecraft version {} matches parkour version {}",
                 player,
-                displayName(clientVersion),
-                displayName(parkourVersion)
+                clientVersion.id(),
+                parkourVersion.id()
             );
             return;
         }
@@ -53,27 +52,17 @@ public final class ParkourHandshake {
         LegacyParkourCompat.LOGGER.info(
             "Disconnecting {}: Minecraft version {} does not match parkour version {} (install Legacy Parkour Compat or join with a matching version)",
             player,
-            displayName(clientVersion),
-            displayName(parkourVersion)
+            clientVersion.id(),
+            parkourVersion.id()
         );
         listener.disconnect(Component.translatable(
             "legacyparkourcompat.disconnect.version_mismatch",
-            displayName(clientVersion),
-            displayName(parkourVersion)));
+            clientVersion.id(),
+            parkourVersion.id()));
     }
 
     private static String playerLabel(ServerConfigurationPacketListenerImpl listener) {
         var owner = listener.getOwner();
         return owner.name() + " (" + owner.id() + ")";
-    }
-
-    static String displayName(ParkourVersion version) {
-        if (!version.isCurrent()) {
-            return version.id();
-        }
-        return FabricLoader.getInstance()
-            .getModContainer("minecraft")
-            .map(container -> container.getMetadata().getVersion().getFriendlyString())
-            .orElse("current");
     }
 }

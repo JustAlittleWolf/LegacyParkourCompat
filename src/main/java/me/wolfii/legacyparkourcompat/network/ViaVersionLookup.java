@@ -6,7 +6,6 @@ import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import me.wolfii.legacyparkourcompat.LegacyParkourCompat;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
-import net.fabricmc.loader.api.FabricLoader;
 
 import java.lang.reflect.Method;
 import java.util.Optional;
@@ -115,14 +114,7 @@ final class ViaVersionLookup {
     }
 
     private static ProtocolVersion nativeProtocol() {
-        String id = FabricLoader.getInstance()
-            .getModContainer("minecraft")
-            .map(container -> container.getMetadata().getVersion().getFriendlyString())
-            .orElse("");
-        if (id.isEmpty()) {
-            return null;
-        }
-        ProtocolVersion closest = ProtocolVersion.getClosest(id);
+        ProtocolVersion closest = ProtocolVersion.getClosest(ParkourVersion.nativeGameVersion());
         return closest != null && closest.isKnown() ? closest : null;
     }
 
@@ -143,15 +135,12 @@ final class ViaVersionLookup {
         }
         String fallback = preferredName(protocol);
         ParkourVersion mapped = ParkourVersion.of(fallback);
-        String nativeId = FabricLoader.getInstance()
-            .getModContainer("minecraft")
-            .map(container -> container.getMetadata().getVersion().getFriendlyString())
-            .orElse("");
-        if (mapped.isCurrent() && !ParkourVersion.isCurrentAlias(fallback) && !fallback.equals(nativeId)) {
+        if (mapped.isCurrent() && !ParkourVersion.isCurrentAlias(fallback) && !fallback.equals(ParkourVersion.nativeGameVersion())) {
             LegacyParkourCompat.LOGGER.warn(
-                "No parkour version matches Via protocol '{}' (tried '{}'); treating as vanilla",
+                "No parkour version matches Via protocol '{}' (tried '{}'); treating as vanilla ({})",
                 protocol.getName(),
-                fallback
+                fallback,
+                mapped.id()
             );
         }
         return mapped;

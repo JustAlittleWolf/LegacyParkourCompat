@@ -23,7 +23,7 @@ public final class ServerMovementConfig {
         # Legacy Parkour Compat — dedicated server settings
         #
         # Minecraft version whose player movement should be emulated.
-        # Leave empty (or current/vanilla) to use this server's vanilla movement.
+        # Leave empty (or the running Minecraft version, e.g. 26.2) for vanilla movement.
         # Examples: 1.8.9, 1.12.2, 1.14.4
         movementVersion=
         """;
@@ -58,28 +58,21 @@ public final class ServerMovementConfig {
         }
 
         String value = properties.getProperty(PROPERTY, "").trim();
-        if (value.isEmpty() || ParkourVersion.isCurrentAlias(value)) {
+        if (value.isEmpty() || ParkourVersion.isCurrentAlias(value) || value.equals(ParkourVersion.nativeGameVersion())) {
             MovementController.get().disable();
-            LegacyParkourCompat.LOGGER.info("Movement version is vanilla ({})", MovementController.get().nativeVersion());
+            LegacyParkourCompat.LOGGER.info("Movement version is vanilla ({})", ParkourVersion.nativeGameVersion());
             return;
         }
 
         ParkourVersion version = ParkourVersion.of(value);
         if (version.isCurrent()) {
             MovementController.get().disable();
-            String nativeId = FabricLoader.getInstance()
-                .getModContainer("minecraft")
-                .map(container -> container.getMetadata().getVersion().getFriendlyString())
-                .orElse("");
-            if (value.equals(nativeId)) {
-                LegacyParkourCompat.LOGGER.info("Movement version is vanilla ({})", nativeId);
-            } else {
-                LegacyParkourCompat.LOGGER.error(
-                    "Movement version '{}' in {} is not a known parkour version; using vanilla movement",
-                    value,
-                    file
-                );
-            }
+            LegacyParkourCompat.LOGGER.error(
+                "Movement version '{}' in {} is not a known parkour version; using vanilla movement ({})",
+                value,
+                file,
+                ParkourVersion.nativeGameVersion()
+            );
             return;
         }
 
