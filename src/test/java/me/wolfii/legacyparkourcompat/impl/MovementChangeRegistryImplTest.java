@@ -12,6 +12,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerDimensionsBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerPoseBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeDistanceBehavior;
+import net.minecraft.world.entity.player.Player;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -100,7 +101,7 @@ class MovementChangeRegistryImplTest {
         }
     }
 
-    @MovementChange(emulates = ParkourVersion.V1_10)
+    @MovementChange(emulates = ParkourVersion.V1_10_1)
     static final class BuggedCocoa implements BlockCollisionShape {
         @Override
         public String blockId() {
@@ -121,6 +122,50 @@ class MovementChangeRegistryImplTest {
         assertSame(correct, ChangeResolver.resolve(registry.snapshot(), ParkourVersion.V1_8).get(cocoa).implementation());
         assertSame(bugged, ChangeResolver.resolve(registry.snapshot(), ParkourVersion.V1_9).get(cocoa).implementation());
         assertSame(bugged, ChangeResolver.resolve(registry.snapshot(), ParkourVersion.V1_10).get(cocoa).implementation());
+        assertSame(bugged, ChangeResolver.resolve(registry.snapshot(), ParkourVersion.V1_10_1).get(cocoa).implementation());
         assertNull(ChangeResolver.resolve(registry.snapshot(), ParkourVersion.V1_11).get(cocoa));
+    }
+
+    @MovementChange(emulates = ParkourVersion.V1_10)
+    static final class FullFarmland implements BlockCollisionShape {
+        @Override
+        public String blockId() {
+            return "minecraft:farmland";
+        }
+    }
+
+    @Test
+    void fullFarmlandStopsAt101() {
+        MovementChangeRegistryImpl registry = new MovementChangeRegistryImpl(() -> {
+        });
+        FullFarmland farmland = new FullFarmland();
+        registry.register(farmland);
+
+        MechanicKey key = MechanicKey.of(BlockCollisionShape.class, "minecraft:farmland");
+        assertSame(farmland, ChangeResolver.resolve(registry.snapshot(), ParkourVersion.V1_8).get(key).implementation());
+        assertSame(farmland, ChangeResolver.resolve(registry.snapshot(), ParkourVersion.V1_10).get(key).implementation());
+        assertNull(ChangeResolver.resolve(registry.snapshot(), ParkourVersion.V1_10_1).get(key));
+    }
+
+    @MovementChange(emulates = ParkourVersion.V1_10_1)
+    static final class OneBlockSneak implements SneakEdgeDistanceBehavior {
+        @Override
+        public float edgeFallDistance(Player player, float vanillaMaxUpStep) {
+            return 1.0F;
+        }
+    }
+
+    @Test
+    void oneBlockSneakEdgeLastsThrough101() {
+        MovementChangeRegistryImpl registry = new MovementChangeRegistryImpl(() -> {
+        });
+        OneBlockSneak sneak = new OneBlockSneak();
+        registry.register(sneak);
+
+        MechanicKey key = MechanicKey.of(SneakEdgeDistanceBehavior.class);
+        assertSame(sneak, ChangeResolver.resolve(registry.snapshot(), ParkourVersion.V1_8).get(key).implementation());
+        assertSame(sneak, ChangeResolver.resolve(registry.snapshot(), ParkourVersion.V1_10).get(key).implementation());
+        assertSame(sneak, ChangeResolver.resolve(registry.snapshot(), ParkourVersion.V1_10_1).get(key).implementation());
+        assertNull(ChangeResolver.resolve(registry.snapshot(), ParkourVersion.V1_11).get(key));
     }
 }

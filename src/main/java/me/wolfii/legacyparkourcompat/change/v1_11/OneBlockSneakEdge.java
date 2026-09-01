@@ -6,10 +6,10 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeDistanceBehavior;
 import net.minecraft.world.entity.player.Player;
 
 /**
- * Before 1.11, sneaking prevented a 1-block drop. 1.11 reduced that to 0.6b
+ * Through 1.10.2, sneaking prevented a 1-block drop. 1.11 reduced that to 0.6b
  * ({@code maxUpStep}).
  */
-@MovementChange(emulates = ParkourVersion.V1_10)
+@MovementChange(emulates = ParkourVersion.V1_10_1)
 public final class OneBlockSneakEdge implements SneakEdgeDistanceBehavior {
     @Override
     public float edgeFallDistance(Player player, float vanillaMaxUpStep) {
