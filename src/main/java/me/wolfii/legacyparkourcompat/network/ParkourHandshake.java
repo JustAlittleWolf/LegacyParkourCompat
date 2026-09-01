@@ -31,16 +31,16 @@ public final class ParkourHandshake {
         }
 
         ParkourVersion clientVersion = ViaVersionAccess.translatedClientVersion(listener.getOwner().id())
-                .orElse(MovementController.get().nativeVersion());
+            .orElse(MovementController.get().nativeVersion());
 
         if (clientVersion == parkourVersion) {
             return;
         }
 
         listener.disconnect(Component.translatable(
-                "legacyparkourcompat.disconnect.version_mismatch",
-                displayName(clientVersion),
-                displayName(parkourVersion)));
+            "legacyparkourcompat.disconnect.version_mismatch",
+            displayName(clientVersion),
+            displayName(parkourVersion)));
     }
 
     static String displayName(ParkourVersion version) {
@@ -48,8 +48,8 @@ public final class ParkourHandshake {
             return version.id();
         }
         return FabricLoader.getInstance()
-                .getModContainer("minecraft")
-                .map(container -> container.getMetadata().getVersion().getFriendlyString())
-                .orElse("current");
+            .getModContainer("minecraft")
+            .map(container -> container.getMetadata().getVersion().getFriendlyString())
+            .orElse("current");
     }
 }

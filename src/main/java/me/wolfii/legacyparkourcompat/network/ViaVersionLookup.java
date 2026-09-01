@@ -4,20 +4,21 @@ import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.connection.ProtocolInfo;
 import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
-import java.lang.reflect.Method;
-import java.util.Optional;
-import java.util.UUID;
 import me.wolfii.legacyparkourcompat.LegacyParkourCompat;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import net.fabricmc.loader.api.FabricLoader;
+
+import java.lang.reflect.Method;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Isolated so ViaVersion classes are only linked when Via is installed.
  */
 final class ViaVersionLookup {
     private static final String[] VIAFABRICPLUS_TYPES = {
-            "com.viaversion.viafabricplus.ViaFabricPlus",
-            "com.viaversion.viafabricplus.api.ViaFabricPlus"
+        "com.viaversion.viafabricplus.ViaFabricPlus",
+        "com.viaversion.viafabricplus.api.ViaFabricPlus"
     };
 
     private ViaVersionLookup() {
@@ -114,9 +115,9 @@ final class ViaVersionLookup {
 
     private static ProtocolVersion nativeProtocol() {
         String id = FabricLoader.getInstance()
-                .getModContainer("minecraft")
-                .map(container -> container.getMetadata().getVersion().getFriendlyString())
-                .orElse("");
+            .getModContainer("minecraft")
+            .map(container -> container.getMetadata().getVersion().getFriendlyString())
+            .orElse("");
         if (id.isEmpty()) {
             return null;
         }

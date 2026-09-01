@@ -5,14 +5,7 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
-import me.wolfii.legacyparkourcompat.mechanic.hook.BlockBounceBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.BlockFallBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.BlockStepBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.CollisionAlgorithm;
-import me.wolfii.legacyparkourcompat.mechanic.hook.CollisionAxisOrder;
-import me.wolfii.legacyparkourcompat.mechanic.hook.CollisionRestitutionBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.StepHeightBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.SupportingBlockBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.*;
 import me.wolfii.legacyparkourcompat.mixin.access.EntityInvoker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -32,6 +25,26 @@ public abstract class EntityMixin {
     @Unique
     private boolean lpc$vanillaRestitution;
 
+    @WrapOperation(
+        method = "collideWithShapes",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/core/Direction;axisStepOrder(Lnet/minecraft/world/phys/Vec3;)Lcom/google/common/collect/ImmutableList;"
+        )
+    )
+    private static ImmutableList<Direction.Axis> lpc$axisOrder(
+        Vec3 movement,
+        Operation<ImmutableList<Direction.Axis>> original
+    ) {
+        ImmutableList<Direction.Axis> vanilla = original.call(movement);
+        if (!MovementRuntime.appliesTo(MovementRuntime.currentEntity())) {
+            return vanilla;
+        }
+        return MovementRuntime.find(CollisionAxisOrder.class, MovementRuntime.currentEntity())
+            .map(order -> order.axisOrder(movement, vanilla))
+            .orElse(vanilla);
+    }
+
     @Inject(method = "move", at = @At("HEAD"))
     private void lpc$enterMove(net.minecraft.world.entity.MoverType moverType, Vec3 delta, CallbackInfo ci) {
         MovementRuntime.enter((Entity) (Object) this);
@@ -43,47 +56,27 @@ public abstract class EntityMixin {
     }
 
     @WrapOperation(
-            method = "move",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/Entity;collide(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;"
-            )
+        method = "move",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/Entity;collide(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;"
+        )
     )
     private Vec3 lpc$collide(Entity instance, Vec3 movement, Operation<Vec3> original) {
         if (!MovementRuntime.appliesTo(instance)) {
             return original.call(instance, movement);
         }
         return MovementRuntime.find(CollisionAlgorithm.class, instance)
-                .map(algorithm -> algorithm.collide(instance, movement, () -> original.call(instance, movement)))
-                .orElseGet(() -> original.call(instance, movement));
+            .map(algorithm -> algorithm.collide(instance, movement, () -> original.call(instance, movement)))
+            .orElseGet(() -> original.call(instance, movement));
     }
 
     @WrapOperation(
-            method = "collideWithShapes",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/core/Direction;axisStepOrder(Lnet/minecraft/world/phys/Vec3;)Lcom/google/common/collect/ImmutableList;"
-            )
-    )
-    private static ImmutableList<Direction.Axis> lpc$axisOrder(
-            Vec3 movement,
-            Operation<ImmutableList<Direction.Axis>> original
-    ) {
-        ImmutableList<Direction.Axis> vanilla = original.call(movement);
-        if (!MovementRuntime.appliesTo(MovementRuntime.currentEntity())) {
-            return vanilla;
-        }
-        return MovementRuntime.find(CollisionAxisOrder.class, MovementRuntime.currentEntity())
-                .map(order -> order.axisOrder(movement, vanilla))
-                .orElse(vanilla);
-    }
-
-    @WrapOperation(
-            method = "applyEffectsFromBlocks(Ljava/util/List;)V",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/level/block/Block;stepOn(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/entity/Entity;)V"
-            )
+        method = "applyEffectsFromBlocks(Ljava/util/List;)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Block;stepOn(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/entity/Entity;)V"
+        )
     )
     private void lpc$stepOn(Block block, Level level, BlockPos pos, BlockState state, Entity entity, Operation<Void> original) {
         if (!MovementRuntime.appliesTo(entity)) {
@@ -91,45 +84,45 @@ public abstract class EntityMixin {
             return;
         }
         MovementRuntime.find(BlockStepBehavior.class, block, entity)
-                .ifPresentOrElse(
-                        behavior -> behavior.stepOn(level, pos, state, entity, () -> original.call(block, level, pos, state, entity)),
-                        () -> original.call(block, level, pos, state, entity)
-                );
+            .ifPresentOrElse(
+                behavior -> behavior.stepOn(level, pos, state, entity, () -> original.call(block, level, pos, state, entity)),
+                () -> original.call(block, level, pos, state, entity)
+            );
     }
 
     @WrapOperation(
-            method = "checkFallDamage",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/level/block/Block;fallOn(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;D)V"
-            )
+        method = "checkFallDamage",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Block;fallOn(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;D)V"
+        )
     )
     private void lpc$fallOn(
-            Block block,
-            Level level,
-            BlockState state,
-            BlockPos pos,
-            Entity entity,
-            double fallDistance,
-            Operation<Void> original
+        Block block,
+        Level level,
+        BlockState state,
+        BlockPos pos,
+        Entity entity,
+        double fallDistance,
+        Operation<Void> original
     ) {
         if (!MovementRuntime.appliesTo(entity)) {
             original.call(block, level, state, pos, entity, fallDistance);
             return;
         }
         MovementRuntime.find(BlockFallBehavior.class, block, entity)
-                .ifPresentOrElse(
-                        behavior -> behavior.fallOn(level, state, pos, entity, fallDistance, () -> original.call(block, level, state, pos, entity, fallDistance)),
-                        () -> original.call(block, level, state, pos, entity, fallDistance)
-                );
+            .ifPresentOrElse(
+                behavior -> behavior.fallOn(level, state, pos, entity, fallDistance, () -> original.call(block, level, state, pos, entity, fallDistance)),
+                () -> original.call(block, level, state, pos, entity, fallDistance)
+            );
     }
 
     @WrapOperation(
-            method = "getBlockBounciness",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/level/block/Block;getBounceRestitution()F"
-            )
+        method = "getBlockBounciness",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/Block;getBounceRestitution()F"
+        )
     )
     private float lpc$bounceRestitution(Block block, Operation<Float> original) {
         float vanilla = original.call(block);
@@ -138,17 +131,17 @@ public abstract class EntityMixin {
             return vanilla;
         }
         return MovementRuntime.find(BlockBounceBehavior.class, block, self)
-                .map(behavior -> behavior.bounceRestitution(vanilla))
-                .orElse(vanilla);
+            .map(behavior -> behavior.bounceRestitution(vanilla))
+            .orElse(vanilla);
     }
 
     @Inject(method = "restituteMovementAfterCollisions", at = @At("HEAD"), cancellable = true)
     private void lpc$restitute(
-            BlockState effectState,
-            boolean xCollision,
-            boolean zCollision,
-            Vec3 movement,
-            CallbackInfo ci
+        BlockState effectState,
+        boolean xCollision,
+        boolean zCollision,
+        Vec3 movement,
+        CallbackInfo ci
     ) {
         if (this.lpc$vanillaRestitution) {
             return;
@@ -177,8 +170,8 @@ public abstract class EntityMixin {
             return vanilla;
         }
         return MovementRuntime.find(SupportingBlockBehavior.class, self)
-                .map(behavior -> behavior.getOnPos(self, offset, () -> vanilla))
-                .orElse(vanilla);
+            .map(behavior -> behavior.getOnPos(self, offset, () -> vanilla))
+            .orElse(vanilla);
     }
 
     @ModifyReturnValue(method = "getBlockPosBelowThatAffectsMyMovement", at = @At("RETURN"))
@@ -188,8 +181,8 @@ public abstract class EntityMixin {
             return vanilla;
         }
         return MovementRuntime.find(SupportingBlockBehavior.class, self)
-                .map(behavior -> behavior.getBlockPosBelowThatAffectsMyMovement(self, () -> vanilla))
-                .orElse(vanilla);
+            .map(behavior -> behavior.getBlockPosBelowThatAffectsMyMovement(self, () -> vanilla))
+            .orElse(vanilla);
     }
 
     @ModifyReturnValue(method = "maxUpStep", at = @At("RETURN"))
@@ -199,7 +192,7 @@ public abstract class EntityMixin {
             return vanilla;
         }
         return MovementRuntime.find(StepHeightBehavior.class, self)
-                .map(behavior -> behavior.stepHeight(self, vanilla))
-                .orElse(vanilla);
+            .map(behavior -> behavior.stepHeight(self, vanilla))
+            .orElse(vanilla);
     }
 }

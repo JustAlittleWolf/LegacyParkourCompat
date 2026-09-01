@@ -12,12 +12,12 @@ import net.minecraft.resources.Identifier;
  */
 public record ForceParkourVersionPayload(String versionId) implements CustomPacketPayload {
     public static final Type<ForceParkourVersionPayload> TYPE = new Type<>(
-            Identifier.fromNamespaceAndPath(LegacyParkourCompat.MOD_ID, "force_parkour_version"));
+        Identifier.fromNamespaceAndPath(LegacyParkourCompat.MOD_ID, "force_parkour_version"));
 
     public static final StreamCodec<FriendlyByteBuf, ForceParkourVersionPayload> CODEC = StreamCodec.composite(
-            ByteBufCodecs.STRING_UTF8,
-            ForceParkourVersionPayload::versionId,
-            ForceParkourVersionPayload::new);
+        ByteBufCodecs.STRING_UTF8,
+        ForceParkourVersionPayload::versionId,
+        ForceParkourVersionPayload::new);
 
     @Override
     public Type<ForceParkourVersionPayload> type() {

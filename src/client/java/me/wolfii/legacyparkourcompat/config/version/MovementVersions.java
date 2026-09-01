@@ -24,23 +24,12 @@ public final class MovementVersions {
     private MovementVersions() {
     }
 
-    public static void setWanted(boolean wanted) {
-        MovementVersions.wanted = wanted;
-        apply();
-    }
-
     public static boolean isWanted() {
         return wanted;
     }
 
-    public static void setInput(@Nullable String value) {
-        input = normalize(value);
-        ParkourVersion version = parkourVersion(input);
-        if (version != null && !version.isCurrent()) {
-            wanted = true;
-        } else if (input.isEmpty() || isVanillaAlias(input) || isNativeGameVersion(input)) {
-            wanted = false;
-        }
+    public static void setWanted(boolean wanted) {
+        MovementVersions.wanted = wanted;
         apply();
     }
 
@@ -55,6 +44,17 @@ public final class MovementVersions {
 
     public static String getInput() {
         return input;
+    }
+
+    public static void setInput(@Nullable String value) {
+        input = normalize(value);
+        ParkourVersion version = parkourVersion(input);
+        if (version != null && !version.isCurrent()) {
+            wanted = true;
+        } else if (input.isEmpty() || isVanillaAlias(input) || isNativeGameVersion(input)) {
+            wanted = false;
+        }
+        apply();
     }
 
     /**
@@ -86,15 +86,15 @@ public final class MovementVersions {
 
     public static List<ParkourVersion> listedVersions() {
         return MovementController.get().selectableVersions().stream()
-                .filter(version -> !version.isCurrent())
-                .toList();
+            .filter(version -> !version.isCurrent())
+            .toList();
     }
 
     public static String nativeGameVersion() {
         return FabricLoader.getInstance()
-                .getModContainer("minecraft")
-                .map(container -> container.getMetadata().getVersion().getFriendlyString())
-                .orElse("");
+            .getModContainer("minecraft")
+            .map(container -> container.getMetadata().getVersion().getFriendlyString())
+            .orElse("");
     }
 
     public static String normalize(@Nullable String value) {

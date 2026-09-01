@@ -18,16 +18,16 @@ public final class ActiveMovementProfile {
         this.active = Map.copyOf(active);
     }
 
+    public static ActiveMovementProfile current() {
+        return new ActiveMovementProfile(ParkourVersion.CURRENT, Map.of());
+    }
+
     public ParkourVersion target() {
         return this.target;
     }
 
     public boolean isCurrent() {
         return this.target.isCurrent() || this.active.isEmpty();
-    }
-
-    public static ActiveMovementProfile current() {
-        return new ActiveMovementProfile(ParkourVersion.CURRENT, Map.of());
     }
 
     public int size() {
@@ -51,9 +51,9 @@ public final class ActiveMovementProfile {
             return this.target.id();
         }
         StringBuilder builder = new StringBuilder(this.target.id())
-                .append(" (")
-                .append(this.active.size())
-                .append(" change(s): ");
+            .append(" (")
+            .append(this.active.size())
+            .append(" change(s): ");
         boolean first = true;
         for (MechanicKey key : this.active.keySet()) {
             if (!first) {

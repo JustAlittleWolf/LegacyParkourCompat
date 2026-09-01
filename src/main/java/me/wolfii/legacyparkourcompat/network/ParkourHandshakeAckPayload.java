@@ -12,12 +12,12 @@ import net.minecraft.resources.Identifier;
  */
 public record ParkourHandshakeAckPayload(String appliedVersionId) implements CustomPacketPayload {
     public static final Type<ParkourHandshakeAckPayload> TYPE = new Type<>(
-            Identifier.fromNamespaceAndPath(LegacyParkourCompat.MOD_ID, "handshake_ack"));
+        Identifier.fromNamespaceAndPath(LegacyParkourCompat.MOD_ID, "handshake_ack"));
 
     public static final StreamCodec<FriendlyByteBuf, ParkourHandshakeAckPayload> CODEC = StreamCodec.composite(
-            ByteBufCodecs.STRING_UTF8,
-            ParkourHandshakeAckPayload::appliedVersionId,
-            ParkourHandshakeAckPayload::new);
+        ByteBufCodecs.STRING_UTF8,
+        ParkourHandshakeAckPayload::appliedVersionId,
+        ParkourHandshakeAckPayload::new);
 
     @Override
     public Type<ParkourHandshakeAckPayload> type() {

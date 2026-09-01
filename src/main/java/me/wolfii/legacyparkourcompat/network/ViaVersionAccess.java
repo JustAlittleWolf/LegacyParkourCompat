@@ -1,9 +1,10 @@
 package me.wolfii.legacyparkourcompat.network;
 
-import java.util.Optional;
-import java.util.UUID;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import net.fabricmc.loader.api.FabricLoader;
+
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Optional ViaVersion / ViaFabric / ViaFabricPlus lookup.
@@ -20,8 +21,8 @@ public final class ViaVersionAccess {
     public static boolean isViaOnClient() {
         FabricLoader loader = FabricLoader.getInstance();
         return loader.isModLoaded("viafabric")
-                || loader.isModLoaded("viafabricplus")
-                || loader.isModLoaded("viaversion");
+            || loader.isModLoaded("viafabricplus")
+            || loader.isModLoaded("viaversion");
     }
 
     /**

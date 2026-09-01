@@ -3,11 +3,7 @@ package me.wolfii.legacyparkourcompat.impl;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MechanicKey;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -27,13 +23,13 @@ final class ChangeResolver {
             return Map.of();
         }
         Map<MechanicKey, List<RegisteredChange>> grouped = changes.stream()
-                .collect(Collectors.groupingBy(RegisteredChange::key));
+            .collect(Collectors.groupingBy(RegisteredChange::key));
         Map<MechanicKey, RegisteredChange> resolved = new HashMap<>();
         for (Map.Entry<MechanicKey, List<RegisteredChange>> entry : grouped.entrySet()) {
             entry.getValue().stream()
-                    .filter(change -> change.emulates().newerThanOrEqual(selected))
-                    .min(Comparator.comparingInt(change -> change.emulates().ordinal()))
-                    .ifPresent(change -> resolved.put(entry.getKey(), change));
+                .filter(change -> change.emulates().newerThanOrEqual(selected))
+                .min(Comparator.comparingInt(change -> change.emulates().ordinal()))
+                .ifPresent(change -> resolved.put(entry.getKey(), change));
         }
         return Map.copyOf(resolved);
     }

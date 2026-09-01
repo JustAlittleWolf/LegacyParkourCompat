@@ -12,22 +12,22 @@ import java.util.List;
 
 @Mixin(Entity.class)
 public interface EntityInvoker {
-    @Invoker("collide")
-    Vec3 lpc$collide(Vec3 movement);
-
     @Invoker("collideWithShapes")
     static Vec3 lpc$collideWithShapes(Vec3 movement, AABB boundingBox, List<VoxelShape> shapes) {
         throw new AssertionError();
     }
+
+    @Invoker("collide")
+    Vec3 lpc$collide(Vec3 movement);
 
     @Invoker("getOnPos")
     BlockPos lpc$getOnPos(float offset);
 
     @Invoker("restituteMovementAfterCollisions")
     void lpc$restituteMovementAfterCollisions(
-            net.minecraft.world.level.block.state.BlockState effectState,
-            boolean xCollision,
-            boolean zCollision,
-            Vec3 movement
+        net.minecraft.world.level.block.state.BlockState effectState,
+        boolean xCollision,
+        boolean zCollision,
+        Vec3 movement
     );
 }

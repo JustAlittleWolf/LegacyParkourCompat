@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
  * <p>Order is chronological. A {@code @MovementChange(emulates = V1_8)} is the
  * 1.8 behaviour; Minecraft replaced it in {@link #next()}, which is {@link #V1_9}.
  *
-     * <p>{@link #CURRENT} is the running game / disabled: mixins must not alter Minecraft.
-     * Historical constants declare {@link #isFullyImplemented()} / {@link #isPartiallyImplemented()};
-     * they are partial until marked complete in the enum constructor.
+ * <p>{@link #CURRENT} is the running game / disabled: mixins must not alter Minecraft.
+ * Historical constants declare {@link #isFullyImplemented()} / {@link #isPartiallyImplemented()};
+ * they are partial until marked complete in the enum constructor.
  *
  * <p>Minor-version splits (Minecraft Wiki + MCPK, 1.8+):
  * <ul>
@@ -65,9 +65,9 @@ public enum ParkourVersion {
     CURRENT;
 
     private static final Map<String, ParkourVersion> BY_PATCH = Arrays.stream(values())
-            .filter(version -> !version.isCurrent())
-            .flatMap(version -> version.patches.stream().map(patch -> Map.entry(patch, version)))
-            .collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> a));
+        .filter(version -> !version.isCurrent())
+        .flatMap(version -> version.patches.stream().map(patch -> Map.entry(patch, version)))
+        .collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> a));
 
     private final List<String> patches;
     private final boolean fullyImplemented;
@@ -83,6 +83,70 @@ public enum ParkourVersion {
     ParkourVersion(boolean fullyImplemented, String... patches) {
         this.fullyImplemented = fullyImplemented;
         this.patches = List.of(patches);
+    }
+
+    /**
+     * Parkour version of the running game. {@link #CURRENT} when the native
+     * release is not in a historical group (the latest).
+     */
+    public static ParkourVersion running() {
+        return FabricLoader.getInstance()
+            .getModContainer("minecraft")
+            .map(container -> byPatch(container.getMetadata().getVersion().getFriendlyString()))
+            .orElse(CURRENT);
+    }
+
+    /**
+     * Historical versions older than the running game, plus {@link #CURRENT}.
+     */
+    public static List<ParkourVersion> selectable() {
+        ParkourVersion nativeVersion = running();
+        return Arrays.stream(values())
+            .filter(version -> version.isCurrent() || version.olderThan(nativeVersion))
+            .toList();
+    }
+
+    /**
+     * Maps a Minecraft id or alias onto a selectable version.
+     * {@code 1.9.2} becomes {@link #V1_9}; {@code current}/{@code disabled} is {@link #CURRENT}.
+     */
+    public static ParkourVersion of(String id) {
+        String key = id.trim();
+        if (key.isEmpty()) {
+            throw new IllegalArgumentException("Minecraft version id is empty");
+        }
+        if (isCurrentAlias(key)) {
+            return CURRENT;
+        }
+        ParkourVersion exact = BY_PATCH.get(key);
+        if (exact != null) {
+            return exact;
+        }
+        return CURRENT;
+    }
+
+    public static @Nullable ParkourVersion tryOf(String id) {
+        try {
+            return of(id);
+        } catch (RuntimeException e) {
+            return null;
+        }
+    }
+
+    private static ParkourVersion byPatch(String id) {
+        ParkourVersion match = BY_PATCH.get(id.trim());
+        return match == null ? CURRENT : match;
+    }
+
+    public static boolean isCurrentAlias(String id) {
+        String key = id.trim().toLowerCase(Locale.ROOT);
+        return key.equals("current")
+            || key.equals("disabled")
+            || key.equals("disable")
+            || key.equals("off")
+            || key.equals("latest")
+            || key.equals("native")
+            || key.equals("vanilla");
     }
 
     /**
@@ -145,70 +209,6 @@ public enum ParkourVersion {
 
     public boolean newerThanOrEqual(ParkourVersion other) {
         return this.ordinal() >= other.ordinal();
-    }
-
-    /**
-     * Parkour version of the running game. {@link #CURRENT} when the native
-     * release is not in a historical group (the latest).
-     */
-    public static ParkourVersion running() {
-        return FabricLoader.getInstance()
-                .getModContainer("minecraft")
-                .map(container -> byPatch(container.getMetadata().getVersion().getFriendlyString()))
-                .orElse(CURRENT);
-    }
-
-    /**
-     * Historical versions older than the running game, plus {@link #CURRENT}.
-     */
-    public static List<ParkourVersion> selectable() {
-        ParkourVersion nativeVersion = running();
-        return Arrays.stream(values())
-                .filter(version -> version.isCurrent() || version.olderThan(nativeVersion))
-                .toList();
-    }
-
-    /**
-     * Maps a Minecraft id or alias onto a selectable version.
-     * {@code 1.9.2} becomes {@link #V1_9}; {@code current}/{@code disabled} is {@link #CURRENT}.
-     */
-    public static ParkourVersion of(String id) {
-        String key = id.trim();
-        if (key.isEmpty()) {
-            throw new IllegalArgumentException("Minecraft version id is empty");
-        }
-        if (isCurrentAlias(key)) {
-            return CURRENT;
-        }
-        ParkourVersion exact = BY_PATCH.get(key);
-        if (exact != null) {
-            return exact;
-        }
-        return CURRENT;
-    }
-
-    public static @Nullable ParkourVersion tryOf(String id) {
-        try {
-            return of(id);
-        } catch (RuntimeException e) {
-            return null;
-        }
-    }
-
-    private static ParkourVersion byPatch(String id) {
-        ParkourVersion match = BY_PATCH.get(id.trim());
-        return match == null ? CURRENT : match;
-    }
-
-    public static boolean isCurrentAlias(String id) {
-        String key = id.trim().toLowerCase(Locale.ROOT);
-        return key.equals("current")
-                || key.equals("disabled")
-                || key.equals("disable")
-                || key.equals("off")
-                || key.equals("latest")
-                || key.equals("native")
-                || key.equals("vanilla");
     }
 
     @Override

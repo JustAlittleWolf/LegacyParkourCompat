@@ -17,14 +17,14 @@ public class LegacyParkourCompat implements ModInitializer {
     public void onInitialize() {
         MovementControllerImpl controller = MovementControllerImpl.get();
         FabricLoader.getInstance()
-                .getEntrypoints("legacyparkourcompat:movement-change", MovementChangeProvider.class)
-                .forEach(provider -> provider.register(controller.registry()));
+            .getEntrypoints("legacyparkourcompat:movement-change", MovementChangeProvider.class)
+            .forEach(provider -> provider.register(controller.registry()));
         controller.initialize();
         ParkourNetworking.register();
         LOGGER.info(
-                "Legacy Parkour Compat ready. Native movement {}, selected {}.",
-                MovementController.get().nativeVersion(),
-                MovementController.get().selectedVersion()
+            "Legacy Parkour Compat ready. Native movement {}, selected {}.",
+            MovementController.get().nativeVersion(),
+            MovementController.get().selectedVersion()
         );
     }
 }

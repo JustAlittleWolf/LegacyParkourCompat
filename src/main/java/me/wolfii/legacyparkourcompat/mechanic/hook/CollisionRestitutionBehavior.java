@@ -15,12 +15,12 @@ import net.minecraft.world.phys.Vec3;
 @MechanicType("entity.restitution")
 public interface CollisionRestitutionBehavior extends VersionedMechanic {
     void restituteAfterCollisions(
-            Entity entity,
-            BlockState effectState,
-            boolean xCollision,
-            boolean zCollision,
-            Vec3 movement,
-            VanillaCall vanilla
+        Entity entity,
+        BlockState effectState,
+        boolean xCollision,
+        boolean zCollision,
+        Vec3 movement,
+        VanillaCall vanilla
     );
 
     default double blockBounciness(Entity entity, Block onBlock, VanillaFn<Double> vanilla) {

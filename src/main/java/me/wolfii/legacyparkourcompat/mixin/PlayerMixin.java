@@ -49,8 +49,8 @@ public abstract class PlayerMixin {
             return vanilla;
         }
         return MovementRuntime.find(SneakEdgeBehavior.class, self)
-                .map(behavior -> behavior.maybeBackOffFromEdge(self, delta, moverType, () -> vanilla))
-                .orElse(vanilla);
+            .map(behavior -> behavior.maybeBackOffFromEdge(self, delta, moverType, () -> vanilla))
+            .orElse(vanilla);
     }
 
     @Inject(method = "updatePlayerPose", at = @At("HEAD"), cancellable = true)
@@ -104,7 +104,7 @@ public abstract class PlayerMixin {
             return vanilla;
         }
         return MovementRuntime.find(SprintingBehavior.class, self)
-                .map(behavior -> behavior.canSprint(self, vanilla))
-                .orElse(vanilla);
+            .map(behavior -> behavior.canSprint(self, vanilla))
+            .orElse(vanilla);
     }
 }

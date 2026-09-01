@@ -6,12 +6,7 @@ import me.wolfii.legacyparkourcompat.config.version.VersionStatus;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.CycleButton;
-import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.components.MultiLineTextWidget;
-import net.minecraft.client.gui.components.ObjectSelectionList;
-import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.client.gui.components.*;
 import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.Screen;
@@ -50,6 +45,24 @@ public class MovementVersionScreen extends Screen {
         this.lastScreen = lastScreen;
     }
 
+    private static Component statusMessage(VersionStatus status, String value) {
+        String normalized = MovementVersions.normalize(value);
+        return switch (status) {
+            case VANILLA -> Component.translatable("legacyparkourcompat.version.status.vanilla")
+                .withStyle(ChatFormatting.GRAY);
+            case VALID -> Component.translatable("legacyparkourcompat.version.status.implemented", normalized)
+                .withStyle(ChatFormatting.WHITE);
+            case INVALID -> Component.translatable("legacyparkourcompat.version.status.invalid")
+                .withStyle(ChatFormatting.RED);
+        };
+    }
+
+    private static int color(VersionStatus status) {
+        return status == VersionStatus.INVALID
+            ? TextColor.RED.getValue() | 0xFF000000
+            : EditBox.DEFAULT_TEXT_COLOR;
+    }
+
     @Override
     protected void init() {
         this.layout.removeChildren();
@@ -59,11 +72,11 @@ public class MovementVersionScreen extends Screen {
         contents.defaultCellSetting().alignHorizontallyCenter();
 
         contents.addChild(new MultiLineTextWidget(DESCRIPTION, this.font)
-                .setMaxWidth(CONTENT_WIDTH)
-                .setCentered(true));
+            .setMaxWidth(CONTENT_WIDTH)
+            .setCentered(true));
 
         this.enabledButton = CycleButton.onOffBuilder(this.wanted)
-                .create(0, 0, CONTENT_WIDTH, 20, ENABLED, (button, value) -> this.setWanted(value));
+            .create(0, 0, CONTENT_WIDTH, 20, ENABLED, (button, value) -> this.setWanted(value));
         contents.addChild(this.enabledButton);
 
         contents.addChild(new StringWidget(FIELD_LABEL, this.font));
@@ -77,16 +90,16 @@ public class MovementVersionScreen extends Screen {
         this.statusWidget = new StringWidget(Component.empty(), this.font).setMaxWidth(CONTENT_WIDTH);
         contents.addChild(this.statusWidget);
         this.partialNote = new MultiLineTextWidget(Component.empty(), this.font)
-                .setMaxWidth(CONTENT_WIDTH)
-                .setCentered(true);
+            .setMaxWidth(CONTENT_WIDTH)
+            .setCentered(true);
         contents.addChild(this.partialNote);
 
         contents.addChild(new StringWidget(AVAILABLE, this.font));
         List<ParkourVersion> versions = MovementVersions.listedVersions();
         if (versions.isEmpty()) {
             contents.addChild(new MultiLineTextWidget(NONE_AVAILABLE, this.font)
-                    .setMaxWidth(CONTENT_WIDTH)
-                    .setCentered(true));
+                .setMaxWidth(CONTENT_WIDTH)
+                .setCentered(true));
         } else {
             this.versionList = new VersionList(this, this.minecraft, CONTENT_WIDTH, LIST_HEIGHT, ITEM_HEIGHT, versions);
             contents.addChild(this.versionList);
@@ -157,7 +170,7 @@ public class MovementVersionScreen extends Screen {
         if (!this.wanted) {
             this.versionBox.setTextColor(EditBox.DEFAULT_TEXT_COLOR);
             this.statusWidget.setMessage(Component.translatable("legacyparkourcompat.version.status.disabled")
-                    .withStyle(ChatFormatting.GRAY));
+                .withStyle(ChatFormatting.GRAY));
             this.partialNote.setMessage(Component.empty());
             this.partialNote.visible = false;
             return;
@@ -169,39 +182,21 @@ public class MovementVersionScreen extends Screen {
         ParkourVersion selected = MovementVersions.parkourVersion(MovementVersions.normalize(value));
         boolean partial = status == VersionStatus.VALID && selected != null && selected.isPartiallyImplemented();
         this.partialNote.setMessage(partial
-                ? Component.translatable("legacyparkourcompat.version.status.partial").withStyle(ChatFormatting.YELLOW)
-                : Component.empty());
+            ? Component.translatable("legacyparkourcompat.version.status.partial").withStyle(ChatFormatting.YELLOW)
+            : Component.empty());
         this.partialNote.visible = partial;
-    }
-
-    private static Component statusMessage(VersionStatus status, String value) {
-        String normalized = MovementVersions.normalize(value);
-        return switch (status) {
-            case VANILLA -> Component.translatable("legacyparkourcompat.version.status.vanilla")
-                    .withStyle(ChatFormatting.GRAY);
-            case VALID -> Component.translatable("legacyparkourcompat.version.status.implemented", normalized)
-                    .withStyle(ChatFormatting.WHITE);
-            case INVALID -> Component.translatable("legacyparkourcompat.version.status.invalid")
-                    .withStyle(ChatFormatting.RED);
-        };
-    }
-
-    private static int color(VersionStatus status) {
-        return status == VersionStatus.INVALID
-                ? TextColor.RED.getValue() | 0xFF000000
-                : EditBox.DEFAULT_TEXT_COLOR;
     }
 
     private static class VersionList extends ObjectSelectionList<VersionList.Entry> {
         private final MovementVersionScreen screen;
 
         VersionList(
-                MovementVersionScreen screen,
-                Minecraft minecraft,
-                int width,
-                int height,
-                int itemHeight,
-                List<ParkourVersion> versions
+            MovementVersionScreen screen,
+            Minecraft minecraft,
+            int width,
+            int height,
+            int itemHeight,
+            List<ParkourVersion> versions
         ) {
             super(minecraft, width, height, 0, itemHeight);
             this.screen = screen;
@@ -245,8 +240,16 @@ public class MovementVersionScreen extends Screen {
                 this.version = version;
                 String range = displayRange(version);
                 this.label = version.isPartiallyImplemented()
-                        ? Component.translatable("legacyparkourcompat.version.list.partial", range)
-                        : Component.literal(range);
+                    ? Component.translatable("legacyparkourcompat.version.list.partial", range)
+                    : Component.literal(range);
+            }
+
+            private static String displayRange(ParkourVersion version) {
+                List<String> patches = version.patches();
+                if (patches.size() <= 1) {
+                    return version.id();
+                }
+                return patches.getFirst() + " – " + patches.getLast();
             }
 
             @Override
@@ -264,21 +267,13 @@ public class MovementVersionScreen extends Screen {
             public void extractContent(GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean hovered, float a) {
                 int color = this.list.screen.wanted ? 0xFFFFFFFF : 0xFF808080;
                 graphics.text(
-                        Minecraft.getInstance().font,
-                        this.label,
-                        this.getContentX() + 4,
-                        this.getContentYMiddle() - 4,
-                        color,
-                        true
+                    Minecraft.getInstance().font,
+                    this.label,
+                    this.getContentX() + 4,
+                    this.getContentYMiddle() - 4,
+                    color,
+                    true
                 );
-            }
-
-            private static String displayRange(ParkourVersion version) {
-                List<String> patches = version.patches();
-                if (patches.size() <= 1) {
-                    return version.id();
-                }
-                return patches.getFirst() + " – " + patches.getLast();
             }
         }
     }

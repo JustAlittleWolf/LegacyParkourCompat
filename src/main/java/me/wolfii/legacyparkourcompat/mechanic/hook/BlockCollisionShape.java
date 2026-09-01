@@ -27,19 +27,19 @@ public interface BlockCollisionShape extends VersionedMechanic {
     }
 
     default Optional<VoxelShape> collisionShape(
-            BlockState state,
-            BlockGetter level,
-            BlockPos pos,
-            CollisionContext context
+        BlockState state,
+        BlockGetter level,
+        BlockPos pos,
+        CollisionContext context
     ) {
         return Optional.empty();
     }
 
     default Optional<VoxelShape> outlineShape(
-            BlockState state,
-            BlockGetter level,
-            BlockPos pos,
-            CollisionContext context
+        BlockState state,
+        BlockGetter level,
+        BlockPos pos,
+        CollisionContext context
     ) {
         return this.collisionShape(state, level, pos, context);
     }

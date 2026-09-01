@@ -25,9 +25,9 @@ public abstract class BlockStateBaseMixin {
     protected abstract BlockState asState();
 
     @Inject(
-            method = "getCollisionShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;",
-            at = @At("HEAD"),
-            cancellable = true
+        method = "getCollisionShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;",
+        at = @At("HEAD"),
+        cancellable = true
     )
     private void lpc$collisionShape(BlockGetter level, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
         Entity player = MovementRuntime.playerFrom(context);

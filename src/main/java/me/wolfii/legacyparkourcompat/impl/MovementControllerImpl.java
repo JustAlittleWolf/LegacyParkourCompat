@@ -14,11 +14,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jspecify.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -45,9 +41,9 @@ public final class MovementControllerImpl implements MovementController {
     public void initialize() {
         this.rebuild();
         LegacyParkourCompat.LOGGER.info(
-                "Movement controller ready (native {}, selected {})",
-                this.nativeVersion,
-                this.globalProfile.describe()
+            "Movement controller ready (native {}, selected {})",
+            this.nativeVersion,
+            this.globalProfile.describe()
         );
     }
 

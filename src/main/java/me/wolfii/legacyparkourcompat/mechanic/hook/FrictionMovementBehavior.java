@@ -12,9 +12,9 @@ import net.minecraft.world.phys.Vec3;
 @MechanicType("player.friction_movement")
 public interface FrictionMovementBehavior extends VersionedMechanic {
     Vec3 handleRelativeFrictionAndCalculateMovement(
-            LivingEntity entity,
-            Vec3 input,
-            float friction,
-            VanillaFn<Vec3> vanilla
+        LivingEntity entity,
+        Vec3 input,
+        float friction,
+        VanillaFn<Vec3> vanilla
     );
 }

@@ -15,28 +15,6 @@ import net.minecraft.network.chat.Component;
 public class LegacyParkourCompatClient implements ClientModInitializer {
     private static boolean serverHasMod;
 
-    @Override
-    public void onInitializeClient() {
-        ClientConfigurationNetworking.registerGlobalReceiver(ForceParkourVersionPayload.TYPE, (payload, context) -> {
-            applyForcedServerVersion(payload.versionId());
-            ClientConfigurationNetworking.send(new ParkourHandshakeAckPayload(payload.versionId()));
-        });
-
-        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
-            if (!serverHasMod) {
-                applyViaFabricServerVersion();
-            }
-            ForcedVersionNotifier.flush(client);
-        });
-        ClientConfigurationConnectionEvents.COMPLETE.register((handler, client) -> {
-            if (!serverHasMod) {
-                applyViaFabricServerVersion();
-            }
-        });
-        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> resetJoinState());
-        ClientConfigurationConnectionEvents.DISCONNECT.register((handler, client) -> resetJoinState());
-    }
-
     private static void applyForcedServerVersion(String versionId) {
         serverHasMod = true;
         ParkourVersion required = ParkourVersion.of(versionId);
@@ -44,8 +22,8 @@ public class LegacyParkourCompatClient implements ClientModInitializer {
         MovementController.get().select(required);
         if (previous != required) {
             ForcedVersionNotifier.queue(Component.translatable(
-                    "legacyparkourcompat.message.forced",
-                    displayName(required)));
+                "legacyparkourcompat.message.forced",
+                displayName(required)));
         }
     }
 
@@ -71,8 +49,30 @@ public class LegacyParkourCompatClient implements ClientModInitializer {
             return version.id();
         }
         return net.fabricmc.loader.api.FabricLoader.getInstance()
-                .getModContainer("minecraft")
-                .map(container -> container.getMetadata().getVersion().getFriendlyString())
-                .orElse("current");
+            .getModContainer("minecraft")
+            .map(container -> container.getMetadata().getVersion().getFriendlyString())
+            .orElse("current");
+    }
+
+    @Override
+    public void onInitializeClient() {
+        ClientConfigurationNetworking.registerGlobalReceiver(ForceParkourVersionPayload.TYPE, (payload, context) -> {
+            applyForcedServerVersion(payload.versionId());
+            ClientConfigurationNetworking.send(new ParkourHandshakeAckPayload(payload.versionId()));
+        });
+
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
+            if (!serverHasMod) {
+                applyViaFabricServerVersion();
+            }
+            ForcedVersionNotifier.flush(client);
+        });
+        ClientConfigurationConnectionEvents.COMPLETE.register((handler, client) -> {
+            if (!serverHasMod) {
+                applyViaFabricServerVersion();
+            }
+        });
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> resetJoinState());
+        ClientConfigurationConnectionEvents.DISCONNECT.register((handler, client) -> resetJoinState());
     }
 }
