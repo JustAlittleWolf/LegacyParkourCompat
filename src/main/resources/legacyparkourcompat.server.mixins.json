@@ -1,6 +1,6 @@
 {
-  "required": true,
-  "package": "me.wolfii.legacyparkourcompat.mixin.server",
+  "required": false,
+  "package": "me.wolfii.legacyparkourcompat.mixin",
   "compatibilityLevel": "JAVA_25",
   "injectors": {
     "defaultRequire": 1

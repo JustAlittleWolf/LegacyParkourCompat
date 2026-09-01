@@ -6,7 +6,9 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.*;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
@@ -99,6 +101,20 @@ public abstract class LivingEntityMixin {
         });
     }
 
+    @ModifyReturnValue(
+        method = "getDimensions(Lnet/minecraft/world/entity/Pose;)Lnet/minecraft/world/entity/EntityDimensions;",
+        at = @At("RETURN")
+    )
+    private EntityDimensions lpc$dimensions(EntityDimensions vanilla, Pose pose) {
+        LivingEntity self = (LivingEntity) (Object) this;
+        if (!(self instanceof Player player) || !MovementRuntime.appliesTo(player)) {
+            return vanilla;
+        }
+        return MovementRuntime.find(PlayerDimensionsBehavior.class, player)
+            .map(behavior -> behavior.dimensions(player, pose, vanilla))
+            .orElse(vanilla);
+    }
+
     @ModifyReturnValue(method = "getJumpPower()F", at = @At("RETURN"))
     private float lpc$jumpPower(float vanilla) {
         LivingEntity self = (LivingEntity) (Object) this;
@@ -162,10 +178,10 @@ public abstract class LivingEntityMixin {
         method = "aiStep",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/Entity;setDeltaMovement(DDD)V"
+            target = "Lnet/minecraft/world/entity/LivingEntity;setDeltaMovement(DDD)V"
         )
     )
-    private void lpc$negligibleSpeed(Entity instance, double x, double y, double z, Operation<Void> original) {
+    private void lpc$negligibleSpeed(LivingEntity instance, double x, double y, double z, Operation<Void> original) {
         if (!MovementRuntime.appliesTo(instance)) {
             original.call(instance, x, y, z);
             return;

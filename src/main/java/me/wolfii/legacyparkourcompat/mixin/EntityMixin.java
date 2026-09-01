@@ -220,7 +220,7 @@ public abstract class EntityMixin {
         if (!(self instanceof Player player) || !MovementRuntime.appliesTo(player)) {
             return vanilla;
         }
-        return MovementRuntime.find(PlayerPoseBehavior.class, player)
+        return MovementRuntime.find(EyeHeightBehavior.class, player)
             .map(behavior -> behavior.eyeHeight(player, vanilla))
             .orElse(vanilla);
     }

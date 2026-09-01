@@ -5,6 +5,10 @@ import me.wolfii.legacyparkourcompat.mechanic.MechanicKey;
 import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
+import me.wolfii.legacyparkourcompat.mechanic.hook.AutoJumpBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.EyeHeightBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerDimensionsBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerPoseBehavior;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -29,6 +33,14 @@ class MovementChangeRegistryImplTest {
 
     @MovementChange(emulates = ParkourVersion.V1_12)
     static final class LaterAlpha implements Alpha {
+    }
+
+    @Test
+    void poseAndEyeHeightAreSeparateMechanicTypes() {
+        assertEquals("player.pose", PlayerPoseBehavior.class.getAnnotation(MechanicType.class).value());
+        assertEquals("player.eye_height", EyeHeightBehavior.class.getAnnotation(MechanicType.class).value());
+        assertEquals("player.dimensions", PlayerDimensionsBehavior.class.getAnnotation(MechanicType.class).value());
+        assertEquals("player.auto_jump", AutoJumpBehavior.class.getAnnotation(MechanicType.class).value());
     }
 
     @Test

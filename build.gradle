@@ -46,6 +46,12 @@ loom {
             sourceSet sourceSets.server
         }
     }
+
+    runs {
+        server {
+            source sourceSets.server
+        }
+    }
 }
 
 sourceSets {

@@ -4,7 +4,7 @@
  * <p>Each class is annotated with {@code @MovementChange(emulates = ...)} and
  * implements one or more {@code @MechanicType} hooks. Group one kind of
  * historical fix in one file; a class that needs several mixin-free hooks
- * (for example pose and eye height) implements each interface. Register it from a
+ * (for example pose selection and eye height) implements each interface. Register it from a
  * Fabric entrypoint {@code legacyparkourcompat:movement-change} or by calling
  * {@link me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry#register(Object)}.
  *
