@@ -73,6 +73,17 @@ public abstract class PlayerMixin {
             .orElse(vanilla);
     }
 
+    @ModifyReturnValue(method = "isAboveGround", at = @At("RETURN"))
+    private boolean lpc$sneakAboveGround(boolean vanilla, float maxDownStep) {
+        Player self = (Player) (Object) this;
+        if (!MovementRuntime.appliesTo(self)) {
+            return vanilla;
+        }
+        return MovementRuntime.find(SneakEdgeBehavior.class, self)
+            .map(behavior -> behavior.isAboveGround(self, maxDownStep, vanilla))
+            .orElse(vanilla);
+    }
+
     @Inject(method = "updatePlayerPose", at = @At("HEAD"), cancellable = true)
     private void lpc$pose(CallbackInfo ci) {
         if (this.lpc$vanillaPose) {
