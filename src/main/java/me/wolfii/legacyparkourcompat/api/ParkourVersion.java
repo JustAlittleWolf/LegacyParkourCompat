@@ -190,6 +190,25 @@ public enum ParkourVersion {
         return this.patches;
     }
 
+    /**
+     * Compact label of the Minecraft releases covered by this version.
+     * One release is {@link #id()}; two are {@code 1.20.5/6}; three or more
+     * are {@code 1.8-1.8.9}.
+     */
+    public String displayLabel() {
+        if (this.patches.size() <= 1) {
+            return this.id();
+        }
+        String first = this.patches.getFirst();
+        String last = this.patches.getLast();
+        if (this.patches.size() == 2) {
+            int separator = last.lastIndexOf('.');
+            String suffix = separator >= 0 ? last.substring(separator + 1) : last;
+            return first + "/" + suffix;
+        }
+        return first + "-" + last;
+    }
+
     public boolean isCurrent() {
         return this == CURRENT;
     }
