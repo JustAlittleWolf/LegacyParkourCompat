@@ -13,7 +13,8 @@ public final class MovementAxes {
         boolean jump,
         boolean sneak,
         boolean sprint,
-        boolean use
+        boolean useHold,
+        boolean useClick
     ) {
         return TickButtons.pack(
             forwardImpulse > 0.0F,
@@ -23,7 +24,8 @@ public final class MovementAxes {
             jump,
             sneak,
             sprint,
-            use
+            useHold,
+            useClick
         );
     }
 }

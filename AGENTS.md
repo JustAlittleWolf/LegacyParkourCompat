@@ -22,7 +22,7 @@ Do **not** keep compatibility with older versions of this mod (handshake ids, co
 Always execute commands from the project root:
 - **Build project:** `gradlew build`
 - **Unit Tests:** `gradlew test`. Unit tests are welcome for mod logic such as version resolution, `ParkourVersion` parsing, and config handling. Do **not** write unit or mock tests for Minecraft movement/physics loops; those will be covered by a headless input-simulation framework.
-- **Recording client:** `gradlew runRecordingClient -PclientVersion=1.16.5`. Launches the latest patch of a `ParkourVersion` with the input-recording mod (Forge before 1.14, Fabric from 1.14, current Minecraft via this project's Fabric run). `/recording start`, `/recording stop`, and `/playback <name>` write and replay `.legacyparkourrecordings` files.
+- **Recording client:** `gradlew runRecordingClient -PclientVersion=1.16.5`. Pass an exact Minecraft version (no patch remapping; `1.21.9` stays `1.21.9`). Forge before 1.14 when a loader is pinned, Fabric from 1.14, `current` for this project's Fabric run. There is no `latest` alias. `/recording start`, `/recording stop`, and `/playback <name>` write and replay `.legacyparkourrecordings` files. Right-click hold and press are recorded separately.
 - **Decompile Minecraft:** `gradlew decompileMinecraft` or `gradlew decompileMinecraft --versions=1.XX.X`. Decompiles the specified minecraft versions into `decompiled_minecraft/`. Decompiles 1.8.9, 1.12.2, 1.14.4 and latest by default.
 
 ---

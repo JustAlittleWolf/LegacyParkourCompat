@@ -18,12 +18,7 @@ public final class RecordingMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        try {
-            Class.forName(targetClassName, false, getClass().getClassLoader());
-            return true;
-        } catch (ClassNotFoundException ignored) {
-            return false;
-        }
+        return true;
     }
 
     @Override

@@ -74,6 +74,14 @@ public final class TickFrame {
     }
 
     public boolean use() {
-        return TickButtons.isSet(this.buttons, TickButtons.USE);
+        return useHold();
+    }
+
+    public boolean useHold() {
+        return TickButtons.isSet(this.buttons, TickButtons.USE_HOLD);
+    }
+
+    public boolean useClick() {
+        return TickButtons.isSet(this.buttons, TickButtons.USE_CLICK);
     }
 }

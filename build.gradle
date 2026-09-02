@@ -38,11 +38,13 @@ sourceSets {
         java {
             srcDir 'recording-client/src/common/java'
             srcDir 'recording-client/src/fabric/java'
-            srcDir 'recording-client/format/src/main/java'
+            srcDir 'recording-client/src/mixins/fabric17/java'
+            srcDir 'recording-client/core/src/main/java'
         }
         resources {
             srcDir 'recording-client/src/common/resources'
             srcDir 'recording-client/src/fabric/resources'
+            srcDir 'recording-client/src/mixins/fabric17/resources'
         }
     }
 }
@@ -132,7 +134,7 @@ tasks.named('test') {
 }
 
 tasks.named('test').configure {
-    dependsOn gradle.includedBuild('recording-client').task(':format:test')
+    dependsOn gradle.includedBuild('recording-client').task(':core:test')
 }
 
 jar {
@@ -149,7 +151,7 @@ tasks.named('sourcesJar', org.gradle.jvm.tasks.Jar) {
 
 def recordingClientVersion = providers.gradleProperty('clientVersion').orElse('1.16.5')
 def recordingClientVersionId = recordingClientVersion.get().replace('-forge', '').replace('-fabric', '')
-def recordingClientIsCurrent = recordingClientVersionId in ['26.2', '26.1', '26.1.1', '26.1.2', 'current', 'latest']
+def recordingClientIsCurrent = recordingClientVersionId.equalsIgnoreCase('current') || recordingClientVersionId == project.minecraft_version
 def recordingClientVersionFile = rootProject.file('recording-client/client-version.txt')
 recordingClientVersionFile.parentFile.mkdirs()
 recordingClientVersionFile.text = recordingClientVersion.get() + '\n'
@@ -164,7 +166,7 @@ tasks.named('processRecordingClientResources', ProcessResources) {
 
 tasks.register('runRecordingClient') {
     group = 'minecraft'
-    description = 'Launch a parkour-version recording client. Pass -PclientVersion=1.8.9 (Forge), 1.16.5 (Fabric), or 26.2 (current).'
+    description = 'Launch a recording client. Pass an exact -PclientVersion such as 1.8.9, 1.16.5, 1.21.9, or current.'
     if (recordingClientIsCurrent) {
         dependsOn 'runCurrentRecordingClient'
     } else {

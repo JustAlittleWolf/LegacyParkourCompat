@@ -13,6 +13,8 @@ import java.nio.file.Path;
 public final class ReflectivePlayback implements MinecraftPlayback {
     public static final ReflectivePlayback INSTANCE = new ReflectivePlayback();
 
+    private boolean wasUseDown;
+
     private ReflectivePlayback() {
     }
 
@@ -99,10 +101,12 @@ public final class ReflectivePlayback implements MinecraftPlayback {
     public int currentButtons() {
         Object player = requirePlayer();
         Object input = first(player, new String[]{"input", "movementInput", "field_71158_b"});
-        boolean use = keyDown(new String[]{"keyUse", "keyBindUseItem"});
+        boolean useHold = keyDown(new String[]{"keyUse", "keyBindUseItem"});
+        boolean useClick = keyClicked(new String[]{"keyUse", "keyBindUseItem"}) || (useHold && !this.wasUseDown);
+        this.wasUseDown = useHold;
         boolean sprint = keyDown(new String[]{"keySprint", "keyBindSprint"}) || boolInvoke(player, new String[]{"isSprinting"});
         if (input == null) {
-            return TickButtons.pack(false, false, false, false, false, false, sprint, use);
+            return TickButtons.pack(false, false, false, false, false, false, sprint, useHold, useClick);
         }
         float forward = impulse(input, new String[]{"forwardImpulse", "moveForward", "field_78900_b"});
         float left = impulse(input, new String[]{"leftImpulse", "moveStrafe", "field_78902_a"});
@@ -113,7 +117,7 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         boolean leftKey = bool(input, new String[]{"left"}) || left > 0.0F || keyPress(input, "left");
         boolean rightKey = bool(input, new String[]{"right"}) || left < 0.0F || keyPress(input, "right");
         boolean sprintKey = sprint || keyPress(input, "sprint");
-        return TickButtons.pack(forwardKey, backKey, leftKey, rightKey, jump, sneak, sprintKey, use);
+        return TickButtons.pack(forwardKey, backKey, leftKey, rightKey, jump, sneak, sprintKey, useHold, useClick);
     }
 
     @Override
@@ -133,7 +137,10 @@ public final class ReflectivePlayback implements MinecraftPlayback {
             setBool(input, new String[]{"shiftKeyDown", "sneak", "field_78899_d"}, TickButtons.isSet(buttons, TickButtons.SNEAK));
             applyKeyPresses(input, buttons);
         }
-        setKeyDown(new String[]{"keyUse", "keyBindUseItem"}, TickButtons.isSet(buttons, TickButtons.USE));
+        setKeyDown(new String[]{"keyUse", "keyBindUseItem"}, TickButtons.isSet(buttons, TickButtons.USE_HOLD));
+        if (TickButtons.isSet(buttons, TickButtons.USE_CLICK)) {
+            clickKey(new String[]{"keyUse", "keyBindUseItem"});
+        }
         setKeyDown(new String[]{"keySprint", "keyBindSprint"}, TickButtons.isSet(buttons, TickButtons.SPRINT));
     }
 
@@ -200,12 +207,21 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         if (binding == null) {
             return false;
         }
-        Boolean down = invokeBoolean(binding, new String[]{"isDown", "isKeyDown", "isPressed"});
+        Boolean down = invokeBoolean(binding, new String[]{"isDown", "isKeyDown"});
         if (down != null) {
             return down.booleanValue();
         }
         Object pressed = first(binding, new String[]{"isDown", "down", "pressed", "field_74513_e"});
         return pressed instanceof Boolean && ((Boolean) pressed).booleanValue();
+    }
+
+    private boolean keyClicked(String[] names) {
+        Object binding = first(options(), names);
+        if (binding == null) {
+            return false;
+        }
+        Object clicks = first(binding, new String[]{"clickCount", "pressTime", "timesPressed", "field_74511_a"});
+        return clicks instanceof Number && ((Number) clicks).intValue() > 0;
     }
 
     private void setKeyDown(String[] names, boolean down) {
@@ -214,6 +230,16 @@ public final class ReflectivePlayback implements MinecraftPlayback {
             return;
         }
         setBool(binding, new String[]{"isDown", "down", "pressed", "field_74513_e"}, down);
+    }
+
+    private void clickKey(String[] names) {
+        Object binding = first(options(), names);
+        if (binding == null) {
+            return;
+        }
+        Object clicks = first(binding, new String[]{"clickCount", "pressTime", "timesPressed", "field_74511_a"});
+        int next = clicks instanceof Number ? Math.max(1, ((Number) clicks).intValue()) : 1;
+        setNumber(binding, new String[]{"clickCount", "pressTime", "timesPressed", "field_74511_a"}, next);
     }
 
     private void applyKeyPresses(Object input, int buttons) {
@@ -421,6 +447,14 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         }
     }
 
+    private static void setNumber(Object target, String[] names, int value) {
+        for (int index = 0; index < names.length; index++) {
+            if (write(target, names[index], Integer.valueOf(value))) {
+                return;
+            }
+        }
+    }
+
     private static void setNumber(Object target, String[] names, float value) {
         for (int index = 0; index < names.length; index++) {
             if (write(target, names[index], Float.valueOf(value))) {
@@ -469,6 +503,12 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         }
         if (type == double.class || type == Double.class) {
             return Double.valueOf(number.doubleValue());
+        }
+        if (type == int.class || type == Integer.class) {
+            return Integer.valueOf(number.intValue());
+        }
+        if (type == long.class || type == Long.class) {
+            return Long.valueOf(number.longValue());
         }
         return value;
     }

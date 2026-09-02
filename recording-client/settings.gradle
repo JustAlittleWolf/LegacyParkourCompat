@@ -30,4 +30,4 @@ plugins {
 }
 
 rootProject.name = 'legacyparkour-recording-client'
-include 'format'
+include 'core'

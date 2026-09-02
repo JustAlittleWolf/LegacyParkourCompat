@@ -3,6 +3,9 @@ package me.wolfii.legacyparkourcompat.recording;
 /**
  * Simulation inputs captured for one client tick. Bits are stable across
  * Minecraft versions so recordings can be replayed on another client.
+ *
+ * {@link #USE} is hold (right-click down). {@link #USE_CLICK} is a press this
+ * tick, which is how pearls and block-place clicks work versus drawing a bow.
  */
 public final class TickButtons {
     public static final int FORWARD = 1;
@@ -13,6 +16,8 @@ public final class TickButtons {
     public static final int SNEAK = 1 << 5;
     public static final int SPRINT = 1 << 6;
     public static final int USE = 1 << 7;
+    public static final int USE_HOLD = USE;
+    public static final int USE_CLICK = 1 << 8;
 
     private TickButtons() {
     }
@@ -25,7 +30,8 @@ public final class TickButtons {
         boolean jump,
         boolean sneak,
         boolean sprint,
-        boolean use
+        boolean useHold,
+        boolean useClick
     ) {
         int bits = 0;
         if (forward) {
@@ -49,8 +55,11 @@ public final class TickButtons {
         if (sprint) {
             bits |= SPRINT;
         }
-        if (use) {
-            bits |= USE;
+        if (useHold) {
+            bits |= USE_HOLD;
+        }
+        if (useClick) {
+            bits |= USE_CLICK;
         }
         return bits;
     }

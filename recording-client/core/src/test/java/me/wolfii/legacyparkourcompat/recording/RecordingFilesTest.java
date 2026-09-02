@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -18,8 +19,8 @@ class RecordingFilesTest {
     @Test
     void roundTripPreservesBitsAndFloats() throws Exception {
         List<TickFrame> ticks = Arrays.asList(
-            new TickFrame(TickButtons.pack(true, false, false, false, true, false, true, true), 12.5f, -4.25f, 1.0, 64.0, -8.5),
-            new TickFrame(TickButtons.pack(false, true, true, false, false, true, false, false), -90f, 90f, 1.125, 64.5, -8.25)
+            new TickFrame(TickButtons.pack(true, false, false, false, true, false, true, true, true), 12.5f, -4.25f, 1.0, 64.0, -8.5),
+            new TickFrame(TickButtons.pack(false, true, true, false, false, true, false, false, true), -90f, 90f, 1.125, 64.5, -8.25)
         );
         MovementRecording recording = new MovementRecording(8.5, -60.0, 8.5, 45f, 10f, ticks);
         Path file = RecordingFiles.file(tempDir, "Jump Test");
@@ -37,7 +38,8 @@ class RecordingFilesTest {
         assertTrue(first.forward());
         assertTrue(first.jump());
         assertTrue(first.sprint());
-        assertTrue(first.use());
+        assertTrue(first.useHold());
+        assertTrue(first.useClick());
         assertEquals(12.5f, first.yaw());
         assertEquals(-4.25f, first.pitch());
         assertEquals(1.0, first.x());
@@ -45,6 +47,8 @@ class RecordingFilesTest {
         assertTrue(second.back());
         assertTrue(second.left());
         assertTrue(second.sneak());
+        assertFalse(second.useHold());
+        assertTrue(second.useClick());
         assertEquals(-90f, second.yaw());
     }
 

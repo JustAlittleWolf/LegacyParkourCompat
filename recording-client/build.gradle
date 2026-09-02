@@ -9,6 +9,7 @@ version = '1.0.0'
 def clientTarget = resolveRecordingClient()
 ext.clientTarget = clientTarget
 def useFabric = clientTarget.loader == 'fabric'
+def mixinEra = mixinEraFor(clientTarget)
 def compilerJava = Math.max(17, clientTarget.javaVersion)
 
 repositories {
@@ -35,16 +36,18 @@ sourceSets {
         java {
             srcDir 'src/common/java'
             srcDir useFabric ? 'src/fabric/java' : 'src/forge/java'
+            srcDir "src/mixins/${mixinEra}/java"
         }
         resources {
             srcDir 'src/common/resources'
             srcDir useFabric ? 'src/fabric/resources' : 'src/forge/resources'
+            srcDir "src/mixins/${mixinEra}/resources"
         }
     }
 }
 
 dependencies {
-    implementation project(':format')
+    implementation project(':core')
     compileOnly 'org.spongepowered:mixin:0.8.5'
     if (useFabric) {
         compileOnly "net.fabricmc:fabric-loader:${clientTarget.fabricLoader}"
@@ -85,7 +88,7 @@ processResources {
 }
 
 tasks.named('jar', Jar) {
-    from project(':format').sourceSets.main.output
+    from project(':core').sourceSets.main.output
 }
 
 tasks.register('runRecordingClient') {
@@ -95,9 +98,23 @@ tasks.register('runRecordingClient') {
         dependsOn 'runClient'
     } else {
         doFirst {
-            throw new GradleException('Minecraft 26.x is launched from the repository root: ./gradlew runRecordingClient -PclientVersion=26.2')
+            throw new GradleException("Minecraft ${clientTarget.minecraft} is launched from the repository root with -PclientVersion=current")
         }
     }
+}
+
+def currentMcVersion() {
+    def propertiesFile = file('../gradle.properties')
+    if (!propertiesFile.isFile()) {
+        throw new GradleException("Cannot resolve 'current': missing ${propertiesFile}")
+    }
+    def properties = new Properties()
+    propertiesFile.withInputStream { properties.load(it) }
+    def version = properties.getProperty('minecraft_version')
+    if (version == null || version.trim().isEmpty()) {
+        throw new GradleException("Cannot resolve 'current': minecraft_version is missing from ${propertiesFile}")
+    }
+    return version.trim()
 }
 
 def resolveRecordingClient() {
@@ -113,8 +130,26 @@ def resolveRecordingClient() {
         loaderOverride = 'fabric'
         version = version.substring(0, version.length() - '-fabric'.length())
     }
-    version = latestParkourPatch(version)
+    if (version.equalsIgnoreCase('latest')) {
+        throw new GradleException("'latest' is not a recording client version. Pass an exact Minecraft version such as 1.21.9, or current.")
+    }
+    if (version.equalsIgnoreCase('current')) {
+        version = currentMcVersion()
+    }
+    if (!(version ==~ /^\d+(\.\d+)*$/)) {
+        throw new GradleException("Unsupported recording client version '${requested}'. Pass an exact Minecraft version such as 1.8.9 or 1.21.9, or current.")
+    }
+    def current = currentMcVersion()
+    if (version.startsWith('26.') && version != current) {
+        throw new GradleException("Minecraft ${version} is not launched here. Use -PclientVersion=current for this repository's ${current}.")
+    }
     def loader = loaderOverride ?: defaultLoader(version)
+    if (loader == 'forge' && compareMc(version, '1.14') >= 0) {
+        throw new GradleException("Forge is not wired for ${version}. Use Fabric (omit -forge) or a Forge version before 1.14.")
+    }
+    if (loader == 'fabric' && compareMc(version, '1.14') < 0) {
+        throw new GradleException("Fabric is not wired for ${version}. Use Forge (omit -fabric) or a 1.14+ version.")
+    }
     return [
         minecraft    : version,
         loader       : loader,
@@ -126,90 +161,11 @@ def resolveRecordingClient() {
     ]
 }
 
-def latestParkourPatch(String id) {
-    def mapping = [
-        '1.8'     : '1.8.9',
-        '1.8.1'   : '1.8.9',
-        '1.8.2'   : '1.8.9',
-        '1.8.3'   : '1.8.9',
-        '1.8.4'   : '1.8.9',
-        '1.8.5'   : '1.8.9',
-        '1.8.6'   : '1.8.9',
-        '1.8.7'   : '1.8.9',
-        '1.8.8'   : '1.8.9',
-        '1.8.9'   : '1.8.9',
-        '1.9'     : '1.9.4',
-        '1.9.1'   : '1.9.4',
-        '1.9.2'   : '1.9.4',
-        '1.9.3'   : '1.9.4',
-        '1.9.4'   : '1.9.4',
-        '1.10'    : '1.10',
-        '1.10.1'  : '1.10.2',
-        '1.10.2'  : '1.10.2',
-        '1.11'    : '1.11',
-        '1.11.1'  : '1.11.1',
-        '1.11.2'  : '1.11.2',
-        '1.12'    : '1.12.2',
-        '1.12.1'  : '1.12.2',
-        '1.12.2'  : '1.12.2',
-        '1.13'    : '1.13.2',
-        '1.13.1'  : '1.13.2',
-        '1.13.2'  : '1.13.2',
-        '1.14'    : '1.14.4',
-        '1.14.1'  : '1.14.4',
-        '1.14.2'  : '1.14.4',
-        '1.14.3'  : '1.14.4',
-        '1.14.4'  : '1.14.4',
-        '1.15'    : '1.15.2',
-        '1.15.1'  : '1.15.2',
-        '1.15.2'  : '1.15.2',
-        '1.16'    : '1.16.1',
-        '1.16.1'  : '1.16.1',
-        '1.16.2'  : '1.16.5',
-        '1.16.3'  : '1.16.5',
-        '1.16.4'  : '1.16.5',
-        '1.16.5'  : '1.16.5',
-        '1.17'    : '1.17.1',
-        '1.17.1'  : '1.17.1',
-        '1.18'    : '1.18.2',
-        '1.18.1'  : '1.18.2',
-        '1.18.2'  : '1.18.2',
-        '1.19'    : '1.19.3',
-        '1.19.1'  : '1.19.3',
-        '1.19.2'  : '1.19.3',
-        '1.19.3'  : '1.19.3',
-        '1.19.4'  : '1.19.4',
-        '1.20'    : '1.20.4',
-        '1.20.1'  : '1.20.4',
-        '1.20.2'  : '1.20.4',
-        '1.20.3'  : '1.20.4',
-        '1.20.4'  : '1.20.4',
-        '1.20.5'  : '1.20.6',
-        '1.20.6'  : '1.20.6',
-        '1.21'    : '1.21.1',
-        '1.21.1'  : '1.21.1',
-        '1.21.2'  : '1.21.3',
-        '1.21.3'  : '1.21.3',
-        '1.21.4'  : '1.21.4',
-        '1.21.5'  : '1.21.10',
-        '1.21.6'  : '1.21.10',
-        '1.21.7'  : '1.21.10',
-        '1.21.8'  : '1.21.10',
-        '1.21.9'  : '1.21.10',
-        '1.21.10' : '1.21.10',
-        '1.21.11' : '1.21.11',
-        '26.1'    : '26.1.2',
-        '26.1.1'  : '26.1.2',
-        '26.1.2'  : '26.1.2',
-        '26.2'    : '26.2',
-        'current' : '26.2',
-        'latest'  : '26.2'
-    ]
-    def latest = mapping[id]
-    if (latest == null) {
-        throw new GradleException("Unsupported recording client version '${id}'. Pass a ParkourVersion id such as 1.8.9 or 1.16.5.")
+def mixinEraFor(target) {
+    if (target.loader == 'forge') {
+        return 'forge'
     }
-    return latest
+    return compareMc(target.minecraft, '1.17') >= 0 ? 'fabric17' : 'fabric14'
 }
 
 def defaultLoader(String minecraft) {
@@ -253,7 +209,7 @@ def forgeVersionFor(String minecraft) {
     ]
     def version = versions[minecraft]
     if (version == null) {
-        throw new GradleException("No Forge loader pinned for ${minecraft}")
+        throw new GradleException("No Forge loader pinned for ${minecraft}. Pass an exact version such as 1.8.9 or 1.12.2; versions are not remapped.")
     }
     return version
 }
@@ -270,7 +226,11 @@ def mcpVersionFor(String minecraft) {
         '1.12.2': '39-1.12',
         '1.13.2': '47-1.13.2'
     ]
-    return versions[minecraft] ?: '22-1.8.9'
+    def version = versions[minecraft]
+    if (version == null) {
+        throw new GradleException("No MCP mappings pinned for ${minecraft}. Use an exact Forge version such as 1.8.9 or 1.12.2.")
+    }
+    return version
 }
 
 def compareMc(String left, String right) {
