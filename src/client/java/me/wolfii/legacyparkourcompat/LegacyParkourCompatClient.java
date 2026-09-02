@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat;
 
 import me.wolfii.legacyparkourcompat.api.MovementController;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+import me.wolfii.legacyparkourcompat.config.version.MovementVersions;
 import me.wolfii.legacyparkourcompat.network.ForceParkourVersionPayload;
 import me.wolfii.legacyparkourcompat.network.ForcedVersionNotifier;
 import me.wolfii.legacyparkourcompat.network.ParkourHandshakeAckPayload;
@@ -10,6 +11,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationNetworking;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 
 public class LegacyParkourCompatClient implements ClientModInitializer {
@@ -26,9 +28,13 @@ public class LegacyParkourCompatClient implements ClientModInitializer {
             );
         }
         ParkourVersion previous = MovementController.get().selectedVersion();
+        boolean localServer = Minecraft.getInstance().isLocalServer();
+        if (!localServer) {
+            MovementVersions.setServerForced(true);
+        }
         MovementController.get().select(required);
         LegacyParkourCompat.LOGGER.info("Server forced parkour version {}", required.id());
-        if (previous != required) {
+        if (!localServer && previous != required) {
             ForcedVersionNotifier.queue(Component.translatable(
                 "legacyparkourcompat.message.forced",
                 required.id()));
@@ -52,6 +58,7 @@ public class LegacyParkourCompatClient implements ClientModInitializer {
 
     private static void resetJoinState() {
         serverHasMod = false;
+        MovementVersions.setServerForced(false);
         ForcedVersionNotifier.clear();
     }
 

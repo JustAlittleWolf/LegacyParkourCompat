@@ -2,75 +2,70 @@ package me.wolfii.legacyparkourcompat.config;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.config.version.MovementVersions;
-import me.wolfii.legacyparkourcompat.config.version.VersionStatus;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.CycleButton;
-import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.MultiLineTextWidget;
+import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.client.gui.layouts.FrameLayout;
+import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
 import net.minecraft.client.gui.layouts.LinearLayout;
-import net.minecraft.client.gui.narration.NarratableEntry;
-import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.options.OptionsSubScreen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextColor;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MovementVersionScreen extends OptionsSubScreen {
-    private static final int MIN_CONTENT_WIDTH = 200;
-    private static final int MAX_CONTENT_WIDTH = 360;
-    private static final int FIELD_HEIGHT = 20;
+    private static final int CONTROL_WIDTH = 310;
+    private static final int SCREEN_MARGIN = 20;
+    private static final int HEADER_MARGIN = 16;
+    private static final int ITEM_HEIGHT = 14;
     private static final Component TITLE = Component.translatable("legacyparkourcompat.version.title");
-    private static final Component ENABLED = Component.translatable("legacyparkourcompat.version.enabled");
-    private static final Component FIELD_LABEL = Component.translatable("legacyparkourcompat.version.field");
-    private static final Component HINT = Component.translatable("legacyparkourcompat.version.hint");
-    private static final Component AVAILABLE = Component.translatable("legacyparkourcompat.version.available");
     private static final Component NONE_AVAILABLE = Component.translatable("legacyparkourcompat.version.available.none");
 
-    private boolean wanted = MovementVersions.isWanted();
-    private CycleButton<Boolean> enabledButton;
-    private EditBox versionBox;
+    private final boolean serverForced = MovementVersions.isServerForced();
+    private ParkourVersion selected = MovementVersions.selectedForUi();
+    private boolean committed;
+    private LinearLayout header;
+    private FrameLayout selectedSlot;
+    private FrameLayout warningSlot;
+    private MultiLineTextWidget selectedWidget;
     private MultiLineTextWidget statusWidget;
+    private VersionList versionList;
 
     public MovementVersionScreen(Screen lastScreen) {
         super(lastScreen, Minecraft.getInstance().options, TITLE);
     }
 
-    private static Component statusMessage(VersionStatus status, String value) {
-        String normalized = MovementVersions.normalize(value);
-        Component primary = switch (status) {
-            case VANILLA -> Component.translatable("legacyparkourcompat.version.status.vanilla")
-                .withStyle(ChatFormatting.GRAY);
-            case VALID -> Component.translatable("legacyparkourcompat.version.status.implemented", normalized)
-                .withStyle(ChatFormatting.WHITE);
-            case INVALID -> Component.translatable("legacyparkourcompat.version.status.invalid")
-                .withStyle(ChatFormatting.RED);
-        };
-        ParkourVersion selected = MovementVersions.parkourVersion(normalized);
-        if (status == VersionStatus.VALID && selected != null && selected.isPartiallyImplemented()) {
-            return primary.copy()
-                .append("\n")
-                .append(Component.translatable("legacyparkourcompat.version.status.partial")
-                    .withStyle(ChatFormatting.YELLOW));
+    private static Component label(ParkourVersion version) {
+        if (version.isCurrent()) {
+            return Component.translatable("legacyparkourcompat.version.current", ParkourVersion.nativeGameVersion());
         }
-        return primary;
+        return Component.literal(version.displayLabel());
     }
 
-    private static int color(VersionStatus status) {
-        return status == VersionStatus.INVALID
-            ? TextColor.RED.getValue() | 0xFF000000
-            : EditBox.DEFAULT_TEXT_COLOR;
+    private int controlWidth() {
+        return Math.max(20, Math.min(CONTROL_WIDTH, this.width - SCREEN_MARGIN * 2));
     }
 
-    private int contentWidth() {
-        return Math.clamp(this.width - 40, MIN_CONTENT_WIDTH, MAX_CONTENT_WIDTH);
+    @Override
+    protected void addTitle() {
+        this.header = this.layout.addToHeader(LinearLayout.vertical().spacing(4));
+        this.header.defaultCellSetting().alignHorizontallyCenter();
+        this.header.addChild(new StringWidget(this.title, this.font));
+
+        this.selectedSlot = this.header.addChild(new FrameLayout().setMinHeight(this.font.lineHeight));
+        this.selectedWidget = new MultiLineTextWidget(Component.empty(), this.font).setCentered(true);
+        this.selectedSlot.addChild(this.selectedWidget, settings -> settings.alignHorizontallyCenter());
+
+        this.warningSlot = this.header.addChild(new FrameLayout().setMinHeight(this.font.lineHeight * 2));
+        this.statusWidget = new MultiLineTextWidget(Component.empty(), this.font).setCentered(true);
+        this.warningSlot.addChild(this.statusWidget, settings -> settings.alignHorizontallyCenter().alignVerticallyMiddle());
     }
 
     @Override
@@ -79,162 +74,221 @@ public class MovementVersionScreen extends OptionsSubScreen {
 
     @Override
     protected void addContents() {
-        int contentWidth = this.contentWidth();
-        int spacing = this.layout.getContentHeight() < 160 ? 4 : 6;
-        LinearLayout contents = this.layout.addToContents(LinearLayout.vertical().spacing(spacing));
-        contents.defaultCellSetting().alignHorizontallyCenter();
-
-        this.enabledButton = CycleButton.onOffBuilder(this.wanted)
-            .create(0, 0, contentWidth, 20, ENABLED, (button, value) -> this.setWanted(value));
-        contents.addChild(this.enabledButton);
-
-        LinearLayout field = LinearLayout.vertical().spacing(2);
-        field.defaultCellSetting().alignHorizontallyCenter();
-        field.addChild(new StringWidget(FIELD_LABEL, this.font));
-        this.versionBox = new EditBox(this.font, contentWidth, FIELD_HEIGHT, FIELD_LABEL);
-        this.versionBox.setMaxLength(64);
-        this.versionBox.setHint(HINT);
-        this.versionBox.setValue(MovementVersions.getInput());
-        this.versionBox.setResponder(this::onVersionChanged);
-        field.addChild(this.versionBox);
-        contents.addChild(field);
-
-        this.statusWidget = new MultiLineTextWidget(Component.empty(), this.font)
-            .setMaxWidth(contentWidth)
-            .setCentered(true);
-        contents.addChild(this.statusWidget);
-
-        List<ParkourVersion> versions = MovementVersions.listedVersions();
-        if (versions.isEmpty()) {
-            contents.addChild(new MultiLineTextWidget(NONE_AVAILABLE, this.font)
-                .setMaxWidth(contentWidth)
+        List<ParkourVersion> historical = new ArrayList<>(MovementVersions.listedVersions());
+        Collections.reverse(historical);
+        List<ParkourVersion> versions = new ArrayList<>();
+        versions.add(ParkourVersion.CURRENT);
+        versions.addAll(historical);
+        if (historical.isEmpty()) {
+            this.layout.addToContents(new MultiLineTextWidget(NONE_AVAILABLE, this.font)
+                .setMaxWidth(CONTROL_WIDTH)
                 .setCentered(true));
         } else {
-            contents.addChild(new StringWidget(AVAILABLE, this.font));
-            int reservedHeight = 20 + FIELD_HEIGHT + this.font.lineHeight * 4 + spacing * 5;
-            int availableHeight = Math.max(this.font.lineHeight, this.layout.getContentHeight() - reservedHeight);
-            int gridWidth = Math.max(contentWidth, this.width - 20);
-            contents.addChild(new VersionLabelsWidget(
-                this.font,
-                versions.stream().map(ParkourVersion::displayLabel).toList(),
-                gridWidth,
-                availableHeight
-            ));
+            this.versionList = this.layout.addToContents(new VersionList(this, versions));
         }
-
-        this.refreshInteractiveState();
         this.refreshStatus();
     }
 
     @Override
-    protected void setInitialFocus() {
-        if (this.wanted && this.versionBox != null) {
-            this.setInitialFocus(this.versionBox);
-        } else if (this.enabledButton != null) {
-            this.setInitialFocus(this.enabledButton);
+    protected void repositionElements() {
+        int controlWidth = this.controlWidth();
+        if (this.selectedWidget != null) {
+            this.selectedWidget.setMaxWidth(controlWidth);
+        }
+        if (this.statusWidget != null) {
+            this.statusWidget.setMaxWidth(controlWidth);
+        }
+        if (this.selectedSlot != null) {
+            this.selectedSlot.setMinWidth(controlWidth);
+        }
+        if (this.warningSlot != null) {
+            this.warningSlot.setMinWidth(controlWidth);
+        }
+        if (this.header != null) {
+            this.header.arrangeElements();
+            int maxHeader = Math.max(
+                HeaderAndFooterLayout.DEFAULT_HEADER_AND_FOOTER_HEIGHT,
+                this.height - this.layout.getFooterHeight() - 40
+            );
+            this.layout.setHeaderHeight(Math.min(this.header.getHeight() + HEADER_MARGIN, maxHeader));
+        }
+        super.repositionElements();
+        if (this.versionList != null) {
+            int listWidth = this.controlWidth();
+            int x = (this.width - listWidth) / 2;
+            this.versionList.updateSizeAndPosition(
+                listWidth,
+                this.layout.getContentHeight(),
+                x,
+                this.layout.getHeaderHeight()
+            );
         }
     }
 
-    private void setWanted(boolean wanted) {
-        this.wanted = wanted;
-        MovementVersions.setWanted(wanted);
-        this.refreshInteractiveState();
-        this.refreshStatus();
-        this.repositionElements();
+    @Override
+    public void onClose() {
+        this.commit();
+        super.onClose();
     }
 
-    private void onVersionChanged(String value) {
-        MovementVersions.setTypedValue(value);
-        this.refreshStatus();
-        this.repositionElements();
+    @Override
+    public void removed() {
+        this.commit();
+        super.removed();
     }
 
-    private void refreshInteractiveState() {
-        if (this.versionBox != null) {
-            this.versionBox.setEditable(this.wanted);
-            this.versionBox.active = this.wanted;
+    private void commit() {
+        if (this.committed || this.serverForced) {
+            return;
         }
+        this.committed = true;
+        MovementVersions.select(this.selected);
+    }
+
+    private void selectListedVersion(ParkourVersion version) {
+        if (this.serverForced) {
+            return;
+        }
+        this.selected = version;
+        this.refreshStatus();
+        this.repositionElements();
     }
 
     private void refreshStatus() {
-        if (this.versionBox == null || this.statusWidget == null) {
+        if (this.selectedWidget != null) {
+            this.selectedWidget.setMessage(label(this.selected).copy().withStyle(ChatFormatting.WHITE));
+        }
+        if (this.statusWidget == null) {
             return;
         }
-        if (!this.wanted) {
-            this.versionBox.setTextColor(EditBox.DEFAULT_TEXT_COLOR);
-            this.statusWidget.setMessage(Component.translatable("legacyparkourcompat.version.status.disabled")
-                .withStyle(ChatFormatting.GRAY));
+        if (this.serverForced) {
+            Component forced = Component.translatable(
+                    "legacyparkourcompat.version.status.forced",
+                    label(this.selected).getString())
+                .withStyle(ChatFormatting.GOLD);
+            if (this.selected.isPartiallyImplemented()) {
+                forced = forced.copy()
+                    .append("\n")
+                    .append(Component.translatable("legacyparkourcompat.version.status.partial")
+                        .withStyle(ChatFormatting.YELLOW));
+            }
+            this.statusWidget.setMessage(forced);
             return;
         }
-        String value = this.versionBox.getValue();
-        VersionStatus status = MovementVersions.status(value);
-        this.versionBox.setTextColor(color(status));
-        this.statusWidget.setMessage(statusMessage(status, value));
+        this.statusWidget.setMessage(this.selected.isPartiallyImplemented()
+            ? Component.translatable("legacyparkourcompat.version.status.partial").withStyle(ChatFormatting.YELLOW)
+            : Component.empty());
     }
 
-    /**
-     * Non-interactive wrapping labels so every listed version stays on screen.
-     */
-    private static final class VersionLabelsWidget extends AbstractWidget {
-        private static final int COLUMN_GAP = 8;
-        private static final int ROW_GAP = 2;
+    private static final class VersionList extends ObjectSelectionList<VersionList.Entry> {
+        private final MovementVersionScreen screen;
+        private boolean forwardingDrag;
 
-        private final Font font;
-        private final List<String> labels;
-        private final int rowHeight;
-        private int columns;
-
-        VersionLabelsWidget(Font font, List<String> labels, int width, int maxHeight) {
-            super(0, 0, width, font.lineHeight, AVAILABLE);
-            this.font = font;
-            this.labels = List.copyOf(labels);
-            this.rowHeight = font.lineHeight + ROW_GAP;
-            this.active = false;
-            this.relayout(maxHeight);
-        }
-
-        private void relayout(int maxHeight) {
-            int maxLabelWidth = 1;
-            for (String label : this.labels) {
-                maxLabelWidth = Math.max(maxLabelWidth, this.font.width(label));
+        VersionList(MovementVersionScreen screen, List<ParkourVersion> versions) {
+            super(screen.minecraft, 0, 0, 0, ITEM_HEIGHT);
+            this.screen = screen;
+            Entry selected = null;
+            for (ParkourVersion version : versions) {
+                Entry entry = new Entry(this, version);
+                this.addEntry(entry);
+                if (version == screen.selected) {
+                    selected = entry;
+                }
             }
-            int byWidth = Math.max(1, (this.width + COLUMN_GAP) / (maxLabelWidth + COLUMN_GAP));
-            int maxRows = Math.max(1, maxHeight / this.rowHeight);
-            int byHeight = Math.max(1, (this.labels.size() + maxRows - 1) / maxRows);
-            this.columns = Math.min(this.labels.size(), Math.max(byWidth, byHeight));
-            int rows = Math.max(1, (this.labels.size() + this.columns - 1) / this.columns);
-            this.setHeight(rows * this.rowHeight - ROW_GAP);
-        }
-
-        @Override
-        protected void extractWidgetRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
-            int columnWidth = this.columns == 0 ? this.width : this.width / this.columns;
-            for (int index = 0; index < this.labels.size(); index++) {
-                int column = index % this.columns;
-                int row = index / this.columns;
-                int x = this.getX() + column * columnWidth;
-                int y = this.getY() + row * this.rowHeight;
-                graphics.text(this.font, this.labels.get(index), x, y, 0xFFAAAAAA, true);
+            if (selected != null) {
+                super.setSelected(selected);
+                this.centerScrollOn(selected);
             }
         }
 
         @Override
-        protected void updateWidgetNarration(NarrationElementOutput output) {
+        public void setSelected(Entry entry) {
+            if (this.screen.serverForced) {
+                return;
+            }
+            super.setSelected(entry);
+            if (entry != null) {
+                this.screen.selectListedVersion(entry.version);
+            }
         }
 
         @Override
-        public NarratableEntry.NarrationPriority narrationPriority() {
-            return NarratableEntry.NarrationPriority.NONE;
+        protected boolean entriesCanBeSelected() {
+            return !this.screen.serverForced;
+        }
+
+        @Override
+        public int getRowWidth() {
+            return Math.max(1, this.getWidth() - this.scrollbarWidth() - 4);
         }
 
         @Override
         public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
-            return false;
+            if (this.updateScrolling(event)) {
+                return true;
+            }
+            return super.mouseClicked(event, doubleClick);
+        }
+
+        boolean overScrollbar(double mouseX, double mouseY) {
+            return this.isOverScrollbar(mouseX, mouseY);
         }
 
         @Override
-        public boolean isMouseOver(double mouseX, double mouseY) {
-            return false;
+        public boolean mouseDragged(MouseButtonEvent event, double dx, double dy) {
+            if (this.forwardingDrag) {
+                return false;
+            }
+            this.forwardingDrag = true;
+            try {
+                return super.mouseDragged(event, dx, dy);
+            } finally {
+                this.forwardingDrag = false;
+            }
+        }
+
+        private static final class Entry extends ObjectSelectionList.Entry<Entry> {
+            private final VersionList list;
+            private final ParkourVersion version;
+            private final Component label;
+
+            Entry(VersionList list, ParkourVersion version) {
+                this.list = list;
+                this.version = version;
+                this.label = MovementVersionScreen.label(version);
+            }
+
+            @Override
+            public Component getNarration() {
+                return this.label;
+            }
+
+            @Override
+            public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+                if (this.list.screen.serverForced || this.list.overScrollbar(event.x(), event.y())) {
+                    return false;
+                }
+                this.list.setSelected(this);
+                return true;
+            }
+
+            @Override
+            public boolean mouseDragged(MouseButtonEvent event, double dx, double dy) {
+                return this.list.mouseDragged(event, dx, dy);
+            }
+
+            @Override
+            public void extractContent(GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean hovered, float a) {
+                int color = hovered || this.list.getSelected() == this ? 0xFFFFFFFF : 0xFFAAAAAA;
+                graphics.text(
+                    Minecraft.getInstance().font,
+                    this.label,
+                    this.getContentXMiddle() - Minecraft.getInstance().font.width(this.label) / 2,
+                    this.getContentYMiddle() - 4,
+                    color,
+                    true
+                );
+            }
         }
     }
 }

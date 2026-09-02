@@ -1,0 +1,98 @@
+plugins {
+    id 'java'
+    id 'xyz.jpenilla.run-paper' version '3.1.0'
+}
+
+group = rootProject.group
+version = rootProject.version
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'papermc'
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = 'Modrinth'
+                url = 'https://api.modrinth.com/maven'
+            }
+        }
+        filter {
+            includeGroup 'maven.modrinth'
+        }
+    }
+}
+
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:26.2.build.+'
+    compileOnly 'maven.modrinth:6hPE9iJm:2EVMQw07'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 25
+    it.options.encoding = 'UTF-8'
+}
+
+processResources {
+    inputs.property 'version', version
+    filesMatching('paper-plugin.yml') {
+        expand version: version
+    }
+}
+
+def runDefaults = layout.projectDirectory.dir('run-defaults')
+def polarWorlds = layout.projectDirectory.dir('worlds')
+
+tasks.named('runServer').configure { task ->
+    task.group = 'minecraft'
+    task.description = 'Launch the physics testing Paper server and keep it running.'
+    task.minecraftVersion '26.2'
+    task.jvmArgs '-Dcom.mojang.eula.agree=true'
+    task.downloadPlugins {
+        modrinth 'polarpaper', '2EVMQw07'
+        modrinth 'axiom-paper-plugin', 'BbhoGfI8'
+        hangar 'ViaVersion', '5.11.0'
+        hangar 'ViaBackwards', '5.11.0'
+        hangar 'ViaRewind', '4.1.3'
+    }
+    task.doFirst {
+        def destDir = task.runDirectory.get().asFile
+        destDir.mkdirs()
+        copy {
+            from runDefaults
+            into destDir
+            eachFile { details ->
+                if (new File(destDir, details.relativePath.pathString).exists()) {
+                    details.exclude()
+                }
+            }
+            includeEmptyDirs = false
+        }
+        def polarDest = new File(destDir, 'plugins/polarpaper/worlds')
+        polarDest.mkdirs()
+        copy {
+            from polarWorlds
+            into polarDest
+            include '*.polar'
+            eachFile { details ->
+                if (new File(polarDest, details.relativePath.pathString).exists()) {
+                    details.exclude()
+                }
+            }
+        }
+    }
+}
+
+tasks.register('runPhysicsServer') {
+    group = 'minecraft'
+    description = 'Launch the physics testing Paper server and keep it running.'
+    dependsOn tasks.named('runServer')
+}

@@ -1,0 +1,46 @@
+# PolarPaper defaults for the physics testing world.
+# Custom gamerules: blockPhysics on; blockGravity, liquidPhysics, blockFade off.
+default:
+  autosaveIntervalTicks: -1
+  announceAutosave: false
+  time: 6000
+  saveOnStop: false
+  loadOnStartup: true
+  spawn: 8.5, 65.0, 8.5, 0.0, 0.0
+  difficulty: PEACEFUL
+  async: false
+  saveLight: true
+  compression: ZSTD
+  compressionLevel: 7
+  worldType: FLAT
+  environment: NORMAL
+  gamerules:
+    - spawn_mobs: false
+    - advance_time: false
+    - advance_weather: false
+    - random_tick_speed: 0
+    - fire_spread_radius_around_player: 0
+    - mob_griefing: false
+    - tnt_explodes: false
+    - blockFade: false
+    - blockPhysics: true
+    - blockGravity: false
+    - liquidPhysics: false
+worlds:
+  physics_test:
+    loadOnStartup: true
+    time: 6000
+    saveOnStop: false
+    spawn: 8.5, 65.0, 8.5, 0.0, 0.0
+    difficulty: PEACEFUL
+    worldType: FLAT
+    gamerules:
+      - spawn_mobs: false
+      - advance_time: false
+      - advance_weather: false
+      - random_tick_speed: 0
+      - fire_spread_radius_around_player: 0
+      - blockFade: false
+      - blockPhysics: true
+      - blockGravity: false
+      - liquidPhysics: false

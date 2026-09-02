@@ -18,6 +18,7 @@ import java.util.Optional;
  */
 public final class MovementVersions {
     private static boolean wanted;
+    private static boolean serverForced;
     private static String input = "";
 
     private MovementVersions() {
@@ -25,6 +26,21 @@ public final class MovementVersions {
 
     public static boolean isWanted() {
         return wanted;
+    }
+
+    /**
+     * {@code true} while connected to a server that has this mod. That server
+     * owns the parkour version; the UI must not change it.
+     */
+    public static boolean isServerForced() {
+        return serverForced;
+    }
+
+    public static void setServerForced(boolean serverForced) {
+        MovementVersions.serverForced = serverForced;
+        if (!serverForced) {
+            apply();
+        }
     }
 
     public static void setWanted(boolean wanted) {
@@ -83,10 +99,43 @@ public final class MovementVersions {
         return VersionStatus.VALID;
     }
 
+    /**
+     * Historical versions older than the running game. {@link ParkourVersion#CURRENT}
+     * is listed separately as the default UI option.
+     */
     public static List<ParkourVersion> listedVersions() {
         return MovementController.get().selectableVersions().stream()
             .filter(version -> !version.isCurrent())
             .toList();
+    }
+
+    /**
+     * Applies a list selection. {@link ParkourVersion#CURRENT} turns legacy
+     * movement off.
+     */
+    public static void select(ParkourVersion version) {
+        if (version == null || version.isCurrent()) {
+            wanted = false;
+            input = "";
+        } else {
+            wanted = true;
+            input = version.id();
+        }
+        apply();
+    }
+
+    /**
+     * Version the config screen should show as selected.
+     */
+    public static ParkourVersion selectedForUi() {
+        if (serverForced) {
+            return MovementController.get().selectedVersion();
+        }
+        if (!wanted) {
+            return ParkourVersion.CURRENT;
+        }
+        ParkourVersion match = parkourVersion(input);
+        return match == null ? ParkourVersion.CURRENT : match;
     }
 
     public static String nativeGameVersion() {
@@ -136,6 +185,9 @@ public final class MovementVersions {
     }
 
     private static void apply() {
+        if (serverForced) {
+            return;
+        }
         MovementController controller = MovementController.get();
         if (!wanted) {
             controller.disable();

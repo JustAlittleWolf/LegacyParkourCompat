@@ -24,6 +24,7 @@ Always execute commands from the project root:
 - **Unit Tests:** `gradlew test`. Unit tests are welcome for mod logic such as version resolution, `ParkourVersion` parsing, and config handling. Do **not** write unit or mock tests for Minecraft movement/physics loops; those will be covered by a headless input-simulation framework.
 - **Recording client:** `gradlew runRecordingClient -PclientVersion=1.16.5`. Pass an exact Minecraft version (no patch remapping; `1.21.9` stays `1.21.9`). Forge before 1.14 when a loader is pinned, Fabric from 1.14, `current` for this project's Fabric run. There is no `latest` alias. `/recording start`, `/recording stop`, and `/playback <name>` write and replay `.legacyparkourrecordings` files. Right-click hold and press are recorded separately.
 - **Decompile Minecraft:** `gradlew decompileMinecraft` or `gradlew decompileMinecraft --versions=1.XX.X`. Decompiles the specified minecraft versions into `decompiled_minecraft/`. Decompiles 1.8.9, 1.12.2, 1.14.4 and latest by default.
+- **Physics test server:** `gradlew runPhysicsServer` (or `gradlew :physics-server:runServer`). Downloads latest Paper 26.2 with ViaVersion, ViaBackwards, ViaRewind, PolarPaper, and Axiom, then keeps the server running. Localhost-only, offline mode, players are op. The Polar world is height `[0, 256)` with a stone spawn platform at `y=64`. `/gamemode` is available; `/save` writes the Polar file.
 
 ---
 

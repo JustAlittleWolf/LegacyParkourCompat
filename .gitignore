@@ -31,6 +31,9 @@ recording-client/run/
 recording-client/client-version.txt
 recording-client/.gradle/
 
+# physics testing Paper server
+physics-server/run/
+
 # java
 hs_err_*.log
 replay_*.log
