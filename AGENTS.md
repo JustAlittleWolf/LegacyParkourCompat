@@ -23,7 +23,7 @@ Always execute commands from the project root:
 - **Build project:** `gradlew build`
 - **Unit Tests:** `gradlew test`. Unit tests are welcome for mod logic such as version resolution, `ParkourVersion` parsing, and config handling. Do **not** write unit or mock tests for Minecraft movement/physics loops; those will be covered by a headless input-simulation framework.
 - **Decompile Minecraft:** `gradlew decompileMinecraft` or `gradlew decompileMinecraft --versions=1.XX.X`. Decompiles the specified minecraft versions into `decompiled_minecraft/`. Decompiles 1.8.9, 1.12.2, 1.14.4 and latest by default.
-- **Physics test server:** `gradlew runPhysicsServer` (or `gradlew :physics-server:runServer`). Downloads latest Paper 26.2 with ViaVersion, ViaBackwards, ViaRewind, PolarPaper, and Axiom, then keeps the server running. Localhost-only, offline mode, players are op. The Polar world is height `[0, 256)` with a stone spawn platform at `y=64`. `/gamemode` is available; `/save` writes the Polar file.
+- **Physics test server:** `gradlew runPhysicsServer` (or `gradlew :physics-server:runServer`). Downloads latest Paper 26.2 with ViaVersion, ViaBackwards, ViaRewind, PolarPaper, and Axiom, then keeps the server running. Localhost-only, offline mode, players are op. The Polar world is height `[0, 256)` with a stone spawn platform at `y=64`. Nether is disabled; players spawn in the Polar world. `/gamemode` is available; `/save` writes the Polar file.
 
 ---
 

@@ -88,7 +88,30 @@ tasks.named('runServer').configure { task ->
                 }
             }
         }
+        disableNether(destDir)
     }
+}
+
+def disableNether(File destDir) {
+    def paperGlobal = new File(destDir, 'config/paper-global.yml')
+    paperGlobal.parentFile.mkdirs()
+    if (!paperGlobal.exists()) {
+        paperGlobal.text = '''# Physics testing server. Paper fills unspecified keys with defaults.
+misc:
+  enable-nether: false
+'''
+        return
+    }
+    def text = paperGlobal.getText('UTF-8')
+    if (text.contains('enable-nether:')) {
+        paperGlobal.write(text.replaceAll(/enable-nether:\s*\S+/, 'enable-nether: false'), 'UTF-8')
+        return
+    }
+    if (text.contains('\nmisc:')) {
+        paperGlobal.write(text.replaceFirst(/\nmisc:\n/, '\nmisc:\n  enable-nether: false\n'), 'UTF-8')
+        return
+    }
+    paperGlobal.append('\nmisc:\n  enable-nether: false\n')
 }
 
 tasks.register('runPhysicsServer') {

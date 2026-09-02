@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.physicstest;
 
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.event.connection.PlayerConnectionValidateLoginEvent;
+import io.papermc.paper.event.player.AsyncPlayerSpawnLocationEvent;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import live.minehub.polarpaper.Polar;
 import live.minehub.polarpaper.PolarPaper;
@@ -12,7 +13,15 @@ import live.minehub.polarpaper.core.world.PolarWorld;
 import live.minehub.polarpaper.core.world.PolarWriter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
+import org.bukkit.GameRule;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
+import org.bukkit.World;
+import org.bukkit.WorldType;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,6 +29,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jspecify.annotations.Nullable;
 
@@ -27,7 +37,10 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 
 public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
@@ -38,6 +51,11 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
     private static final double SPAWN_Z = 8.5;
     private static final byte MIN_SECTION = 0;
     private static final byte MAX_SECTION = 15;
+    private static final int LOAD_RETRY_TICKS = 200;
+
+    private final AtomicBoolean polarReady = new AtomicBoolean();
+    private final AtomicBoolean createStarted = new AtomicBoolean();
+    private int loadAttempts;
 
     @Override
     public void onEnable() {
@@ -67,27 +85,39 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void onSpawn(PlayerJoinEvent event) {
-        event.getPlayer().setOp(true);
+    public void onWorldLoad(WorldLoadEvent event) {
+        if (polarWorldKey().equals(event.getWorld().getKey())) {
+            runOnGlobalRegion(() -> onPolarWorldReady(event.getWorld()));
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onSpawnLocation(AsyncPlayerSpawnLocationEvent event) {
+        World polar = findPolarWorld();
+        if (polar != null) {
+            event.setSpawnLocation(spawnLocation(polar));
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         player.setOp(true);
-        World polar = Bukkit.getWorld(WORLD_NAME);
-        if (polar == null) {
-            return;
-        }
-        if (player.getWorld() != polar) {
-            player.teleportAsync(spawnLocation(polar));
-        }
+        sendToPolarWorld(player);
     }
 
     private void bootstrapWorld() {
-        World polar = Bukkit.getWorld(WORLD_NAME);
+        World polar = findPolarWorld();
         if (polar != null) {
             onPolarWorldReady(polar);
+            return;
+        }
+        if (polarLoadsOnStartup() && loadAttempts < LOAD_RETRY_TICKS) {
+            loadAttempts++;
+            Bukkit.getGlobalRegionScheduler().runDelayed(this, task -> bootstrapWorld(), 1L);
+            return;
+        }
+        if (!createStarted.compareAndSet(false, true)) {
             return;
         }
         Path polarFile = polarFile();
@@ -105,7 +135,7 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
             getLogger().log(Level.SEVERE, failureMessage, error);
             return;
         }
-        runOnGlobalRegion(() -> onPolarWorldReady(world));
+        runOnGlobalRegion(() -> onPolarWorldReady(world != null ? world : findPolarWorld()));
     }
 
     private CompletableFuture<World> createEmptyPolarWorld() {
@@ -124,22 +154,49 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
             getLogger().severe("Polar physics world did not load");
             return;
         }
+        if (!polarReady.compareAndSet(false, true)) {
+            return;
+        }
         Location spawn = spawnLocation(world);
         Bukkit.getRegionScheduler().run(this, spawn, task -> {
             applyWorldSettings(world);
             ensureSpawnPlatform(world);
-            getLogger().info("Physics testing world '" + WORLD_NAME + "' is ready (height "
+            unloadVanillaWorlds(world);
+            getLogger().info("Physics testing world '" + world.getKey() + "' is ready (height "
                 + world.getMinHeight() + " to " + world.getMaxHeight() + ")");
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (player.getWorld() != world) {
-                    player.teleportAsync(spawnLocation(world));
-                }
+                sendToPolarWorld(player);
             }
         });
     }
 
+    private void unloadVanillaWorlds(World polar) {
+        List<World> worlds = new ArrayList<>(Bukkit.getWorlds());
+        for (World world : worlds) {
+            if (polar.getKey().equals(world.getKey())) {
+                continue;
+            }
+            if (Bukkit.unloadWorld(world, false)) {
+                getLogger().info("Unloaded vanilla world " + world.getKey());
+            } else {
+                getLogger().info("Kept vanilla world " + world.getKey()
+                    + " (Paper still requires a default overworld). Players spawn in the physics world.");
+            }
+        }
+    }
+
+    private void sendToPolarWorld(Player player) {
+        World polar = findPolarWorld();
+        if (polar == null) {
+            return;
+        }
+        if (!polar.getKey().equals(player.getWorld().getKey())) {
+            player.teleportAsync(spawnLocation(polar));
+        }
+    }
+
     private void savePolarWorld(CommandSender sender) {
-        World world = Bukkit.getWorld(WORLD_NAME);
+        World world = findPolarWorld();
         if (world == null) {
             sender.sendMessage(Component.text("Physics world is not loaded.", NamedTextColor.RED));
             return;
@@ -199,6 +256,7 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
         setNamedGameRule(world, "advance_weather", false);
         setNamedGameRule(world, "random_tick_speed", 0);
         setNamedGameRule(world, "fire_spread_radius_around_player", 0);
+        setNamedGameRule(world, "allow_entering_nether_using_portals", false);
     }
 
     private void ensureSpawnPlatform(World world) {
@@ -233,6 +291,35 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
             return null;
         }
         return Registry.GAME_RULE.get(namespaced);
+    }
+
+    private boolean polarLoadsOnStartup() {
+        return Files.exists(polarFile())
+            && Config.readFromConfig(PolarPaper.getPlugin().getConfig(), WORLD_NAME).loadOnStartup();
+    }
+
+    private static @Nullable World findPolarWorld() {
+        NamespacedKey key = polarWorldKey();
+        World byKey = Bukkit.getWorld(key);
+        if (byKey != null) {
+            return byKey;
+        }
+        for (World world : Bukkit.getWorlds()) {
+            if (key.equals(world.getKey()) || WORLD_NAME.equals(world.getKey().getKey())) {
+                if (PolarGenerator.fromWorld(world) != null) {
+                    return world;
+                }
+            }
+        }
+        return null;
+    }
+
+    private static NamespacedKey polarWorldKey() {
+        NamespacedKey key = NamespacedKey.fromString(WORLD_NAME, PolarPaper.getPlugin());
+        if (key == null) {
+            throw new IllegalStateException("Invalid Polar world name '" + WORLD_NAME + "'");
+        }
+        return key;
     }
 
     private void runOnGlobalRegion(Runnable action) {
