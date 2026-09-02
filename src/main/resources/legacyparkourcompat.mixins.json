@@ -13,7 +13,6 @@
     "EntityMixin",
     "LivingEntityMixin",
     "PlayerMixin",
-    "ServerGamePacketListenerImplMixin",
     "access.EntityInvoker",
     "access.LivingEntityInvoker"
   ]

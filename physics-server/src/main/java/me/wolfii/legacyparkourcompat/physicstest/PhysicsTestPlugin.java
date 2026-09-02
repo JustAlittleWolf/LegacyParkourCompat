@@ -3,6 +3,7 @@ package me.wolfii.legacyparkourcompat.physicstest;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.event.connection.PlayerConnectionValidateLoginEvent;
 import io.papermc.paper.event.player.AsyncPlayerSpawnLocationEvent;
+import io.papermc.paper.event.player.PlayerFailMoveEvent;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import live.minehub.polarpaper.Polar;
 import live.minehub.polarpaper.PolarPaper;
@@ -104,6 +105,12 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
         Player player = event.getPlayer();
         player.setOp(true);
         sendToPolarWorld(player);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onFailMove(PlayerFailMoveEvent event) {
+        event.setAllowed(true);
+        event.setLogWarning(false);
     }
 
     private void bootstrapWorld() {
@@ -240,6 +247,8 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
             .gamerule("blockGravity", false)
             .gamerule("liquidPhysics", false)
             .gamerule("blockFade", false)
+            .gamerule("player_movement_check", false)
+            .gamerule("elytra_movement_check", false)
             .build();
     }
 
@@ -257,6 +266,8 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
         setNamedGameRule(world, "random_tick_speed", 0);
         setNamedGameRule(world, "fire_spread_radius_around_player", 0);
         setNamedGameRule(world, "allow_entering_nether_using_portals", false);
+        setNamedGameRule(world, "player_movement_check", false);
+        setNamedGameRule(world, "elytra_movement_check", false);
     }
 
     private void ensureSpawnPlatform(World world) {
