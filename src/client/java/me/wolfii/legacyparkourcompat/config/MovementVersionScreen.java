@@ -1,5 +1,6 @@
 package me.wolfii.legacyparkourcompat.config;
 
+import me.wolfii.legacyparkourcompat.api.MovementController;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.config.version.MovementVersions;
 import me.wolfii.legacyparkourcompat.config.version.VersionStatus;
@@ -37,6 +38,7 @@ public class MovementVersionScreen extends OptionsSubScreen {
     private static final Component AVAILABLE = Component.translatable("legacyparkourcompat.version.available");
     private static final Component NONE_AVAILABLE = Component.translatable("legacyparkourcompat.version.available.none");
 
+    private final boolean serverForced = MovementVersions.isServerForced();
     private boolean wanted = MovementVersions.isWanted();
     private String draftInput = MovementVersions.getInput();
     private boolean suppressFieldResponder;
@@ -49,6 +51,10 @@ public class MovementVersionScreen extends OptionsSubScreen {
 
     public MovementVersionScreen(Screen lastScreen) {
         super(lastScreen, Minecraft.getInstance().options, TITLE);
+        if (this.serverForced) {
+            this.wanted = MovementController.get().isEnabled();
+            this.draftInput = MovementController.get().selectedVersion().id();
+        }
     }
 
     private static Component statusMessage(VersionStatus status, String value) {
@@ -89,6 +95,7 @@ public class MovementVersionScreen extends OptionsSubScreen {
 
         this.enabledButton = CycleButton.onOffBuilder(this.wanted)
             .create(0, 0, CONTROL_WIDTH, 20, ENABLED, (button, value) -> this.setWanted(value));
+        this.enabledButton.active = !this.serverForced;
         this.header.addChild(this.enabledButton);
 
         this.header.addChild(new StringWidget(FIELD_LABEL, this.font));
@@ -148,6 +155,9 @@ public class MovementVersionScreen extends OptionsSubScreen {
 
     @Override
     protected void setInitialFocus() {
+        if (this.serverForced) {
+            return;
+        }
         if (this.wanted && this.versionBox != null) {
             this.setInitialFocus(this.versionBox);
         } else if (this.enabledButton != null) {
@@ -168,7 +178,7 @@ public class MovementVersionScreen extends OptionsSubScreen {
     }
 
     private void commit() {
-        if (this.committed) {
+        if (this.committed || this.serverForced) {
             return;
         }
         this.committed = true;
@@ -176,7 +186,14 @@ public class MovementVersionScreen extends OptionsSubScreen {
         MovementVersions.setTypedValue(this.draftInput);
     }
 
+    private boolean canEdit() {
+        return this.wanted && !this.serverForced;
+    }
+
     private void setWanted(boolean wanted) {
+        if (this.serverForced) {
+            return;
+        }
         this.wanted = wanted;
         this.refreshFieldDisplay();
         this.refreshStatus();
@@ -184,7 +201,7 @@ public class MovementVersionScreen extends OptionsSubScreen {
     }
 
     private void onVersionTyped(String value) {
-        if (this.suppressFieldResponder || !this.wanted) {
+        if (this.suppressFieldResponder || !this.canEdit()) {
             return;
         }
         this.draftInput = value;
@@ -192,7 +209,7 @@ public class MovementVersionScreen extends OptionsSubScreen {
     }
 
     private void selectListedVersion(ParkourVersion version) {
-        if (!this.wanted) {
+        if (!this.canEdit()) {
             return;
         }
         this.draftInput = version.id();
@@ -205,7 +222,12 @@ public class MovementVersionScreen extends OptionsSubScreen {
         if (this.versionBox == null) {
             return;
         }
-        this.versionBox.setEditable(this.wanted);
+        this.versionBox.setEditable(this.canEdit());
+        if (this.serverForced) {
+            this.versionBox.setTextColorUneditable(EditBox.DEFAULT_TEXT_COLOR);
+            this.writeField(this.draftInput);
+            return;
+        }
         if (this.wanted) {
             this.versionBox.setTextColor(color(MovementVersions.status(this.draftInput)));
             this.writeField(this.draftInput);
@@ -223,6 +245,21 @@ public class MovementVersionScreen extends OptionsSubScreen {
 
     private void refreshStatus() {
         if (this.versionBox == null || this.statusWidget == null) {
+            return;
+        }
+        if (this.serverForced) {
+            Component forced = Component.translatable(
+                    "legacyparkourcompat.version.status.forced",
+                    this.draftInput)
+                .withStyle(ChatFormatting.GOLD);
+            ParkourVersion selected = MovementVersions.parkourVersion(this.draftInput);
+            if (selected != null && selected.isPartiallyImplemented()) {
+                forced = forced.copy()
+                    .append("\n")
+                    .append(Component.translatable("legacyparkourcompat.version.status.partial")
+                        .withStyle(ChatFormatting.YELLOW));
+            }
+            this.statusWidget.setMessage(forced);
             return;
         }
         if (!this.wanted) {
@@ -338,7 +375,7 @@ public class MovementVersionScreen extends OptionsSubScreen {
                 if (y + this.font.lineHeight < this.getY() || y > this.getBottom()) {
                     continue;
                 }
-                int color = version == hovered && this.screen.wanted ? 0xFFFFFFFF : 0xFFAAAAAA;
+                int color = version == hovered && this.screen.canEdit() ? 0xFFFFFFFF : 0xFFAAAAAA;
                 graphics.text(this.font, version.displayLabel(), x, y, color, true);
             }
             graphics.disableScissor();
@@ -350,7 +387,7 @@ public class MovementVersionScreen extends OptionsSubScreen {
                 return true;
             }
             ParkourVersion version = this.versionAt(event.x(), event.y());
-            if (version != null && this.screen.wanted) {
+            if (version != null && this.screen.canEdit()) {
                 this.screen.selectListedVersion(version);
                 return true;
             }

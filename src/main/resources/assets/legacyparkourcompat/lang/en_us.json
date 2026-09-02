@@ -6,6 +6,7 @@
   "legacyparkourcompat.version.field.disabled": "DISABLED",
   "legacyparkourcompat.version.available": "Available versions",
   "legacyparkourcompat.version.available.none": "No versions available yet",
+  "legacyparkourcompat.version.status.forced": "Forced by the server to %s. You cannot change it while connected.",
   "legacyparkourcompat.version.status.disabled": "Legacy movement is off. Current vanilla physics are used.",
   "legacyparkourcompat.version.status.vanilla": "Current vanilla movement.",
   "legacyparkourcompat.version.status.implemented": "Using movement from %s.",
