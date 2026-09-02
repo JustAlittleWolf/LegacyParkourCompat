@@ -1,6 +1,7 @@
 package me.wolfii.legacyparkourcompat.physicstest;
 
 import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.event.connection.PlayerConnectionValidateLoginEvent;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import live.minehub.polarpaper.Polar;
 import live.minehub.polarpaper.PolarPaper;
@@ -14,25 +15,18 @@ import live.minehub.polarpaper.nms.VersionUtil;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Bukkit;
-import org.bukkit.Difficulty;
-import org.bukkit.GameRule;
-import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
-import org.bukkit.World;
-import org.bukkit.WorldType;
+import org.bukkit.*;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.command.CommandSender;
 import org.jspecify.annotations.Nullable;
 
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -47,34 +41,69 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
     private static final double SPAWN_Y = -60.0;
     private static final double SPAWN_Z = 8.5;
 
+    @SuppressWarnings("unchecked")
+    private static <T> void setUntypedGameRule(World world, GameRule<T> rule, Object value) {
+        world.setGameRule(rule, (T) value);
+    }
+
+    private static @Nullable GameRule<?> resolveGameRule(String name) {
+        String keyName = name.contains(":") ? name.substring(name.indexOf(':') + 1) : name;
+        GameRule<?> rule = lookupGameRule(name);
+        if (rule != null) {
+            return rule;
+        }
+        for (String namespace : new String[]{"minecraft", "polarpaper", "polar"}) {
+            rule = lookupGameRule(namespace + ":" + keyName);
+            if (rule != null) {
+                return rule;
+            }
+        }
+        return null;
+    }
+
+    private static @Nullable GameRule<?> lookupGameRule(String namespacedName) {
+        NamespacedKey namespaced = NamespacedKey.fromString(namespacedName.contains(":") ? namespacedName : "minecraft:" + namespacedName);
+        if (namespaced == null) {
+            return null;
+        }
+        GameRule<?> fromRegistry = Registry.GAME_RULE.get(namespaced);
+        if (fromRegistry != null) {
+            return fromRegistry;
+        }
+        return Registry.GAME_RULE.get(Key.key(namespaced.getNamespace(), namespaced.getKey()));
+    }
+
+    private static Location spawnLocation(World world) {
+        return new Location(world, SPAWN_X, SPAWN_Y, SPAWN_Z, 0.0f, 0.0f);
+    }
+
+    private static Path polarFile() {
+        return PolarPaper.getPlugin().getDataPath().resolve("worlds").resolve(WORLD_NAME + ".polar");
+    }
+
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this, this);
         getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
-            event.registrar().register(
-                Commands.literal("save")
-                    .requires(stack -> stack.getSender().hasPermission("physicstest.save") || stack.getSender().isOp())
-                    .executes(ctx -> {
-                        savePolarWorld(ctx.getSource().getSender());
-                        return com.mojang.brigadier.Command.SINGLE_SUCCESS;
-                    })
-                    .build(),
-                "Save the physics testing world in the Polar format"
-            );
+            event.registrar().register(Commands.literal("save").requires(stack -> stack.getSender().hasPermission("physicstest.save") || stack.getSender().isOp()).executes(ctx -> {
+                savePolarWorld(ctx.getSource().getSender());
+                return com.mojang.brigadier.Command.SINGLE_SUCCESS;
+            }).build(), "Save the physics testing world in the Polar format");
         });
         Bukkit.getGlobalRegionScheduler().run(this, task -> bootstrapWorld());
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onLogin(PlayerLoginEvent event) {
-        InetAddress address = event.getAddress();
-        if (address == null || !address.isLoopbackAddress()) {
-            event.disallow(
-                PlayerLoginEvent.Result.KICK_OTHER,
-                Component.text("This physics testing server only accepts localhost connections.")
-            );
-            return;
+    public void onLogin(PlayerConnectionValidateLoginEvent event) {
+        InetSocketAddress socketAddress = event.getConnection().getClientAddress();
+        InetAddress address = socketAddress.getAddress();
+        if (!address.isLoopbackAddress()) {
+            event.kickMessage(Component.text("This physics testing server only accepts localhost connections."));
         }
+    }
+
+    @EventHandler
+    public void onSpawn(PlayerJoinEvent event) {
         event.getPlayer().setOp(true);
     }
 
@@ -99,12 +128,10 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
         }
         Path polarFile = polarFile();
         if (Files.exists(polarFile)) {
-            Polar.createWorld(new FilePolarSource(polarFile), WORLD_NAME, physicsConfig())
-                .thenAccept(this::onPolarWorldReady)
-                .exceptionally(error -> {
-                    getLogger().log(Level.SEVERE, "Failed to load Polar physics world", error);
-                    return null;
-                });
+            Polar.createWorld(new FilePolarSource(polarFile), WORLD_NAME, physicsConfig()).thenAccept(this::onPolarWorldReady).exceptionally(error -> {
+                getLogger().log(Level.SEVERE, "Failed to load Polar physics world", error);
+                return null;
+            });
             return;
         }
         World vanilla = Bukkit.getWorld(VANILLA_WORLD_NAME);
@@ -113,19 +140,10 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
             return;
         }
         applyWorldSettings(vanilla);
-        PolarWorld.convert(
-                vanilla,
-                VersionUtil.getPolarFeaturesWorldAccess(),
-                BlockSelector.square(0, 0, 4),
-                true,
-                true
-            )
-            .thenCompose(converted -> persistAndLoad(converted))
-            .thenAccept(this::onPolarWorldReady)
-            .exceptionally(error -> {
-                getLogger().log(Level.SEVERE, "Failed to convert void world to Polar", error);
-                return null;
-            });
+        PolarWorld.convert(vanilla, VersionUtil.getPolarFeaturesWorldAccess(), BlockSelector.square(0, 0, 4), true, true).thenCompose(this::persistAndLoad).thenAccept(this::onPolarWorldReady).exceptionally(error -> {
+            getLogger().log(Level.SEVERE, "Failed to convert void world to Polar", error);
+            return null;
+        });
     }
 
     private CompletableFuture<@Nullable World> persistAndLoad(@Nullable PolarWorld converted) {
@@ -179,25 +197,15 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
     private Config physicsConfig() {
         Config defaults = Config.getDefaultConfig(PolarPaper.getPlugin().getConfig());
         Map<String, Object> gamerules = new HashMap<>(defaults.gamerules());
+        gamerules.put("advance_time", false);
         gamerules.put("spawn_mobs", false);
-        gamerules.put("do_daylight_cycle", false);
+        gamerules.put("advance_weather", false);
         gamerules.put("random_tick_speed", 0);
         gamerules.put("blockPhysics", true);
         gamerules.put("blockGravity", false);
         gamerules.put("liquidPhysics", false);
         gamerules.put("blockFade", false);
-        return defaults.toBuilder()
-            .autoSaveIntervalTicks(-1)
-            .announceAutosave(false)
-            .time(6000L)
-            .saveOnStop(false)
-            .loadOnStartup(true)
-            .spawn(new Location(null, SPAWN_X, SPAWN_Y, SPAWN_Z, 0.0f, 0.0f))
-            .difficulty(Difficulty.PEACEFUL)
-            .worldType(WorldType.FLAT)
-            .environment(World.Environment.NORMAL)
-            .gamerules(gamerules)
-            .build();
+        return defaults.toBuilder().autoSaveIntervalTicks(-1).announceAutosave(false).time(6000L).saveOnStop(false).loadOnStartup(true).spawn(new Location(null, SPAWN_X, SPAWN_Y, SPAWN_Z, 0.0f, 0.0f)).difficulty(Difficulty.PEACEFUL).worldType(WorldType.FLAT).environment(World.Environment.NORMAL).gamerules(gamerules).build();
     }
 
     private void applyWorldSettings(World world) {
@@ -208,9 +216,10 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
         world.setWeatherDuration(0);
         world.setStorm(false);
         world.setThundering(false);
-        setNamedGameRule(world, "do_daylight_cycle", false);
-        setNamedGameRule(world, "do_mob_spawning", false);
-        setNamedGameRule(world, "do_weather_cycle", false);
+        setNamedGameRule(world, "advance_time", false);
+        setNamedGameRule(world, "spawn_mobs", false);
+        setNamedGameRule(world, "advance_weather", false);
+        setNamedGameRule(world, "random_tick_speed", 0);
         setNamedGameRule(world, "blockPhysics", true);
         setNamedGameRule(world, "blockGravity", false);
         setNamedGameRule(world, "liquidPhysics", false);
@@ -224,45 +233,5 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
             return;
         }
         setUntypedGameRule(world, rule, value);
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <T> void setUntypedGameRule(World world, GameRule<T> rule, Object value) {
-        world.setGameRule(rule, (T) value);
-    }
-
-    private static @Nullable GameRule<?> resolveGameRule(String name) {
-        String keyName = name.contains(":") ? name.substring(name.indexOf(':') + 1) : name;
-        GameRule<?> rule = lookupGameRule(name);
-        if (rule != null) {
-            return rule;
-        }
-        for (String namespace : new String[]{"minecraft", "polarpaper", "polar"}) {
-            rule = lookupGameRule(namespace + ":" + keyName);
-            if (rule != null) {
-                return rule;
-            }
-        }
-        return null;
-    }
-
-    private static @Nullable GameRule<?> lookupGameRule(String namespacedName) {
-        NamespacedKey namespaced = NamespacedKey.fromString(namespacedName.contains(":") ? namespacedName : "minecraft:" + namespacedName);
-        if (namespaced == null) {
-            return null;
-        }
-        GameRule<?> fromRegistry = Registry.GAME_RULE.get(namespaced);
-        if (fromRegistry != null) {
-            return fromRegistry;
-        }
-        return Registry.GAME_RULE.get(Key.key(namespaced.getNamespace(), namespaced.getKey()));
-    }
-
-    private static Location spawnLocation(World world) {
-        return new Location(world, SPAWN_X, SPAWN_Y, SPAWN_Z, 0.0f, 0.0f);
-    }
-
-    private static Path polarFile() {
-        return PolarPaper.getPlugin().getDataPath().resolve("worlds").resolve(WORLD_NAME + ".polar");
     }
 }
