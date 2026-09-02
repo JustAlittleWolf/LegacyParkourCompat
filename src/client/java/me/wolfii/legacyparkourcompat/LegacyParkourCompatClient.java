@@ -11,6 +11,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationNetworking;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 
 public class LegacyParkourCompatClient implements ClientModInitializer {
@@ -27,10 +28,13 @@ public class LegacyParkourCompatClient implements ClientModInitializer {
             );
         }
         ParkourVersion previous = MovementController.get().selectedVersion();
-        MovementVersions.setServerForced(true);
+        boolean localServer = Minecraft.getInstance().isLocalServer();
+        if (!localServer) {
+            MovementVersions.setServerForced(true);
+        }
         MovementController.get().select(required);
         LegacyParkourCompat.LOGGER.info("Server forced parkour version {}", required.id());
-        if (previous != required) {
+        if (!localServer && previous != required) {
             ForcedVersionNotifier.queue(Component.translatable(
                 "legacyparkourcompat.message.forced",
                 required.id()));

@@ -1,6 +1,6 @@
 {
   "legacyparkourcompat.version.title": "Select Movement Version",
-  "legacyparkourcompat.version.current": "current",
+  "legacyparkourcompat.version.current": "current (%s)",
   "legacyparkourcompat.version.available.none": "No versions available yet",
   "legacyparkourcompat.version.status.forced": "Forced by the server to %s. You cannot change it while connected.",
   "legacyparkourcompat.version.status.vanilla": "Current vanilla movement.",
