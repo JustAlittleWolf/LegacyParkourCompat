@@ -120,6 +120,12 @@ tasks.named('sourcesJar', org.gradle.jvm.tasks.Jar) {
     from sourceSets.server.allSource
 }
 
+tasks.register('runPhysicsServer') {
+    group = 'minecraft'
+    description = 'Launch the physics testing Paper server and keep it running.'
+    dependsOn ':physics-server:runServer'
+}
+
 tasks.register('decompileMinecraft', DecompileMinecraftTask) {
     group = 'minecraft'
     description = 'Decompile Minecraft client sources into decompiled_minecraft/<version>. ' +

@@ -26,6 +26,9 @@ bin/
 # fabric
 run/
 
+# physics testing Paper server
+physics-server/run/
+
 # java
 hs_err_*.log
 replay_*.log
