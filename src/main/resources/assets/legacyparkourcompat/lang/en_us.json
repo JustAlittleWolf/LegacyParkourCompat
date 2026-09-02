@@ -3,6 +3,7 @@
   "legacyparkourcompat.version.enabled": "Legacy movement",
   "legacyparkourcompat.version.field": "Minecraft version",
   "legacyparkourcompat.version.hint": "1.8.9",
+  "legacyparkourcompat.version.field.disabled": "DISABLED",
   "legacyparkourcompat.version.available": "Available versions",
   "legacyparkourcompat.version.available.none": "No versions available yet",
   "legacyparkourcompat.version.status.disabled": "Legacy movement is off. Current vanilla physics are used.",

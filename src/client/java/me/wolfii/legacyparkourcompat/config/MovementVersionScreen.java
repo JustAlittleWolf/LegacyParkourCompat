@@ -21,20 +21,26 @@ import net.minecraft.client.gui.screens.options.OptionsSubScreen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
 public class MovementVersionScreen extends OptionsSubScreen {
     private static final int CONTROL_WIDTH = 310;
     private static final int FIELD_HEIGHT = 20;
+    private static final int DISABLED_TEXT_COLOR = 0xFFAA0000;
     private static final Component TITLE = Component.translatable("legacyparkourcompat.version.title");
     private static final Component ENABLED = Component.translatable("legacyparkourcompat.version.enabled");
     private static final Component FIELD_LABEL = Component.translatable("legacyparkourcompat.version.field");
     private static final Component HINT = Component.translatable("legacyparkourcompat.version.hint");
+    private static final Component DISABLED_FIELD = Component.translatable("legacyparkourcompat.version.field.disabled");
     private static final Component AVAILABLE = Component.translatable("legacyparkourcompat.version.available");
     private static final Component NONE_AVAILABLE = Component.translatable("legacyparkourcompat.version.available.none");
 
     private boolean wanted = MovementVersions.isWanted();
+    private String draftInput = MovementVersions.getInput();
+    private boolean suppressFieldResponder;
+    private boolean committed;
     private LinearLayout header;
     private CycleButton<Boolean> enabledButton;
     private EditBox versionBox;
@@ -89,8 +95,7 @@ public class MovementVersionScreen extends OptionsSubScreen {
         this.versionBox = new EditBox(this.font, 0, 0, CONTROL_WIDTH, FIELD_HEIGHT, FIELD_LABEL);
         this.versionBox.setMaxLength(64);
         this.versionBox.setHint(HINT);
-        this.versionBox.setValue(MovementVersions.getInput());
-        this.versionBox.setResponder(this::onVersionChanged);
+        this.versionBox.setResponder(this::onVersionTyped);
         this.header.addChild(this.versionBox);
 
         this.statusWidget = new MultiLineTextWidget(Component.empty(), this.font)
@@ -112,12 +117,9 @@ public class MovementVersionScreen extends OptionsSubScreen {
                 .setMaxWidth(CONTROL_WIDTH)
                 .setCentered(true));
         } else {
-            this.versionLabels = this.layout.addToContents(new VersionLabelsWidget(
-                this.font,
-                versions.stream().map(ParkourVersion::displayLabel).toList()
-            ));
+            this.versionLabels = this.layout.addToContents(new VersionLabelsWidget(this, versions));
         }
-        this.refreshInteractiveState();
+        this.refreshFieldDisplay();
         this.refreshStatus();
     }
 
@@ -153,25 +155,70 @@ public class MovementVersionScreen extends OptionsSubScreen {
         }
     }
 
+    @Override
+    public void onClose() {
+        this.commit();
+        super.onClose();
+    }
+
+    @Override
+    public void removed() {
+        this.commit();
+        super.removed();
+    }
+
+    private void commit() {
+        if (this.committed) {
+            return;
+        }
+        this.committed = true;
+        MovementVersions.setWanted(this.wanted);
+        MovementVersions.setTypedValue(this.draftInput);
+    }
+
     private void setWanted(boolean wanted) {
         this.wanted = wanted;
-        MovementVersions.setWanted(wanted);
-        this.refreshInteractiveState();
+        this.refreshFieldDisplay();
         this.refreshStatus();
         this.repositionElements();
     }
 
-    private void onVersionChanged(String value) {
-        MovementVersions.setTypedValue(value);
-        this.refreshStatus();
-        this.repositionElements();
-    }
-
-    private void refreshInteractiveState() {
-        if (this.versionBox != null) {
-            this.versionBox.setEditable(this.wanted);
-            this.versionBox.active = this.wanted;
+    private void onVersionTyped(String value) {
+        if (this.suppressFieldResponder || !this.wanted) {
+            return;
         }
+        this.draftInput = value;
+        this.refreshStatus();
+    }
+
+    private void selectListedVersion(ParkourVersion version) {
+        if (!this.wanted) {
+            return;
+        }
+        this.draftInput = version.id();
+        this.writeField(version.id());
+        this.refreshStatus();
+        this.repositionElements();
+    }
+
+    private void refreshFieldDisplay() {
+        if (this.versionBox == null) {
+            return;
+        }
+        this.versionBox.setEditable(this.wanted);
+        if (this.wanted) {
+            this.versionBox.setTextColor(color(MovementVersions.status(this.draftInput)));
+            this.writeField(this.draftInput);
+            return;
+        }
+        this.versionBox.setTextColorUneditable(DISABLED_TEXT_COLOR);
+        this.writeField(DISABLED_FIELD.getString());
+    }
+
+    private void writeField(String value) {
+        this.suppressFieldResponder = true;
+        this.versionBox.setValue(value);
+        this.suppressFieldResponder = false;
     }
 
     private void refreshStatus() {
@@ -179,42 +226,42 @@ public class MovementVersionScreen extends OptionsSubScreen {
             return;
         }
         if (!this.wanted) {
-            this.versionBox.setTextColor(EditBox.DEFAULT_TEXT_COLOR);
             this.statusWidget.setMessage(Component.translatable("legacyparkourcompat.version.status.disabled")
                 .withStyle(ChatFormatting.GRAY));
             return;
         }
-        String value = this.versionBox.getValue();
-        VersionStatus status = MovementVersions.status(value);
+        VersionStatus status = MovementVersions.status(this.draftInput);
         this.versionBox.setTextColor(color(status));
-        this.statusWidget.setMessage(statusMessage(status, value));
+        this.statusWidget.setMessage(statusMessage(status, this.draftInput));
     }
 
     /**
-     * Non-interactive wrapping labels. At most five per row, fewer when the
-     * longest name would overlap, with vertical scrolling when they do not fit.
+     * Wrapping version labels. At most five per row, fewer when a name would
+     * overlap, with vertical scrolling when they do not fit.
      */
     private static final class VersionLabelsWidget extends AbstractScrollArea {
         private static final int MAX_COLUMNS = 5;
         private static final int COLUMN_GAP = 8;
         private static final int ROW_GAP = 2;
 
+        private final MovementVersionScreen screen;
         private final Font font;
-        private final List<String> labels;
+        private final List<ParkourVersion> versions;
         private final int maxLabelWidth;
         private final int rowHeight;
         private int columns = 1;
 
-        VersionLabelsWidget(Font font, List<String> labels) {
-            super(0, 0, 0, 0, AVAILABLE, defaultSettings(font.lineHeight + ROW_GAP));
-            this.font = font;
-            this.labels = List.copyOf(labels);
+        VersionLabelsWidget(MovementVersionScreen screen, List<ParkourVersion> versions) {
+            super(0, 0, 0, 0, AVAILABLE, defaultSettings(screen.font.lineHeight + ROW_GAP));
+            this.screen = screen;
+            this.font = screen.font;
+            this.versions = List.copyOf(versions);
             int widest = 1;
-            for (String label : this.labels) {
-                widest = Math.max(widest, font.width(label));
+            for (ParkourVersion version : this.versions) {
+                widest = Math.max(widest, this.font.width(version.displayLabel()));
             }
             this.maxLabelWidth = widest;
-            this.rowHeight = font.lineHeight + ROW_GAP;
+            this.rowHeight = this.font.lineHeight + ROW_GAP;
         }
 
         void updateSize(int width, HeaderAndFooterLayout layout) {
@@ -237,7 +284,7 @@ public class MovementVersionScreen extends OptionsSubScreen {
         }
 
         private int columnsFor(int innerWidth) {
-            int max = Math.min(MAX_COLUMNS, Math.max(1, this.labels.size()));
+            int max = Math.min(MAX_COLUMNS, Math.max(1, this.versions.size()));
             for (int candidate = max; candidate >= 1; candidate--) {
                 int columnWidth = (innerWidth - COLUMN_GAP * (candidate - 1)) / candidate;
                 if (columnWidth >= this.maxLabelWidth) {
@@ -247,9 +294,30 @@ public class MovementVersionScreen extends OptionsSubScreen {
             return 1;
         }
 
+        private @Nullable ParkourVersion versionAt(double mouseX, double mouseY) {
+            if (!this.isMouseOver(mouseX, mouseY) || this.isOverScrollbar(mouseX, mouseY)) {
+                return null;
+            }
+            int innerWidth = this.innerWidth(this.scrollable());
+            if (mouseX >= this.getX() + innerWidth) {
+                return null;
+            }
+            int columnWidth = Math.max(1, innerWidth / this.columns);
+            int column = (int) ((mouseX - this.getX()) / columnWidth);
+            int row = (int) ((mouseY - this.getY() + this.scrollAmount()) / this.rowHeight);
+            if (column < 0 || column >= this.columns || row < 0) {
+                return null;
+            }
+            int index = row * this.columns + column;
+            if (index < 0 || index >= this.versions.size()) {
+                return null;
+            }
+            return this.versions.get(index);
+        }
+
         @Override
         protected int contentHeight() {
-            int rows = Math.max(1, (this.labels.size() + this.columns - 1) / this.columns);
+            int rows = Math.max(1, (this.versions.size() + this.columns - 1) / this.columns);
             return rows * this.rowHeight - ROW_GAP;
         }
 
@@ -259,8 +327,10 @@ public class MovementVersionScreen extends OptionsSubScreen {
             int innerWidth = this.innerWidth(this.scrollable());
             int columnWidth = Math.max(1, innerWidth / this.columns);
             int scroll = (int) this.scrollAmount();
+            ParkourVersion hovered = this.versionAt(mouseX, mouseY);
             graphics.enableScissor(this.getX(), this.getY(), this.getX() + innerWidth, this.getBottom());
-            for (int index = 0; index < this.labels.size(); index++) {
+            for (int index = 0; index < this.versions.size(); index++) {
+                ParkourVersion version = this.versions.get(index);
                 int column = index % this.columns;
                 int row = index / this.columns;
                 int x = this.getX() + column * columnWidth;
@@ -268,14 +338,23 @@ public class MovementVersionScreen extends OptionsSubScreen {
                 if (y + this.font.lineHeight < this.getY() || y > this.getBottom()) {
                     continue;
                 }
-                graphics.text(this.font, this.labels.get(index), x, y, 0xFFAAAAAA, true);
+                int color = version == hovered && this.screen.wanted ? 0xFFFFFFFF : 0xFFAAAAAA;
+                graphics.text(this.font, version.displayLabel(), x, y, color, true);
             }
             graphics.disableScissor();
         }
 
         @Override
         public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
-            return this.updateScrolling(event);
+            if (this.updateScrolling(event)) {
+                return true;
+            }
+            ParkourVersion version = this.versionAt(event.x(), event.y());
+            if (version != null && this.screen.wanted) {
+                this.screen.selectListedVersion(version);
+                return true;
+            }
+            return this.isMouseOver(event.x(), event.y());
         }
 
         @Override
