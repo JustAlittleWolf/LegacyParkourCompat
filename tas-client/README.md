@@ -8,9 +8,10 @@
 
 In-game (simulation keys and facing, not the camera):
 
-- `/recording start [name]`
-- `/recording stop`
-- `/playback <name>`
+- `.recording start [name]`
+- `.recording stop`
+- `.playback <name>`
+- `.playback stop`
 
 Right-click is stored as both hold and press: holding use (bow draw) is not the same as a click this tick (pearl / place).
 

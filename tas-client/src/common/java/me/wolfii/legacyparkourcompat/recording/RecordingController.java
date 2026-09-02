@@ -118,6 +118,16 @@ public final class RecordingController {
         this.minecraft.sendGameMessage("Playing " + file.getFileName());
     }
 
+    public void stopPlaying() {
+        if (this.playback == null) {
+            this.minecraft.sendGameMessage("No playback is running");
+            return;
+        }
+        this.playback = null;
+        this.playing = false;
+        this.minecraft.sendGameMessage("Playback stopped");
+    }
+
     /**
      * Called at the start of the local player tick, before movement.
      */
@@ -163,7 +173,7 @@ public final class RecordingController {
         if (raw == null) {
             return false;
         }
-        String message = raw.startsWith("/") ? raw.substring(1) : raw;
+        String message = raw.startsWith(".") ? raw.substring(1) : raw;
         String trimmed = message.trim();
         if (trimmed.equals("recording start")) {
             startRecording("recording");
@@ -179,6 +189,10 @@ public final class RecordingController {
         }
         if (trimmed.startsWith("recording stop ")) {
             stopRecording(trimmed.substring("recording stop ".length()));
+            return true;
+        }
+        if (trimmed.equals("playback stop")) {
+            stopPlaying();
             return true;
         }
         if (trimmed.startsWith("playback ")) {
