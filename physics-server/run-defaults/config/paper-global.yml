@@ -1,0 +1,4 @@
+# Physics testing server. Paper fills unspecified keys with defaults on first launch.
+# enable-nether in server.properties was removed in 1.21.9; this is the replacement.
+misc:
+  enable-nether: false
