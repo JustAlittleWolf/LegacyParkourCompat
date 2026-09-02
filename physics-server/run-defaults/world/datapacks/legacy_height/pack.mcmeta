@@ -1,0 +1,7 @@
+{
+  "pack": {
+    "description": "Physics test world height [0, 256) for Via older clients",
+    "min_format": [107, 1],
+    "max_format": 107
+  }
+}

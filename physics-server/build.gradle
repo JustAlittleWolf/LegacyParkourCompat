@@ -49,6 +49,7 @@ processResources {
 }
 
 def runDefaults = layout.projectDirectory.dir('run-defaults')
+def polarWorlds = layout.projectDirectory.dir('worlds')
 
 tasks.named('runServer').configure { task ->
     task.group = 'minecraft'
@@ -74,6 +75,18 @@ tasks.named('runServer').configure { task ->
                 }
             }
             includeEmptyDirs = false
+        }
+        def polarDest = new File(destDir, 'plugins/polarpaper/worlds')
+        polarDest.mkdirs()
+        copy {
+            from polarWorlds
+            into polarDest
+            include '*.polar'
+            eachFile { details ->
+                if (new File(polarDest, details.relativePath.pathString).exists()) {
+                    details.exclude()
+                }
+            }
         }
     }
 }
