@@ -1,0 +1,289 @@
+plugins {
+    id 'java'
+    id 'xyz.wagyourtail.unimined' version '1.4.1'
+}
+
+group = 'me.wolfii'
+version = '1.0.0'
+
+def clientTarget = resolveRecordingClient()
+ext.clientTarget = clientTarget
+def useFabric = clientTarget.loader == 'fabric'
+def compilerJava = Math.max(17, clientTarget.javaVersion)
+
+repositories {
+    mavenCentral()
+    maven { name = 'Fabric'; url = 'https://maven.fabricmc.net/' }
+    maven { name = 'Forge'; url = 'https://maven.minecraftforge.net/' }
+    maven { name = 'Sponge'; url = 'https://repo.spongepowered.org/maven' }
+    maven { name = 'Wagyourtail'; url = 'https://maven.wagyourtail.xyz/releases' }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(compilerJava)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = clientTarget.javaVersion < 9 ? 8 : clientTarget.javaVersion
+    it.options.encoding = 'UTF-8'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/common/java'
+            srcDir useFabric ? 'src/fabric/java' : 'src/forge/java'
+        }
+        resources {
+            srcDir 'src/common/resources'
+            srcDir useFabric ? 'src/fabric/resources' : 'src/forge/resources'
+        }
+    }
+}
+
+dependencies {
+    implementation project(':format')
+    compileOnly 'org.spongepowered:mixin:0.8.5'
+    if (useFabric) {
+        compileOnly "net.fabricmc:fabric-loader:${clientTarget.fabricLoader}"
+    }
+}
+
+if (compareMc(clientTarget.minecraft, '26') < 0) {
+    unimined.minecraft {
+        version clientTarget.minecraft
+        mappings {
+            if (clientTarget.mcpChannel != null) {
+                searge()
+                mcp(clientTarget.mcpChannel, clientTarget.mcpVersion)
+            } else {
+                mojmap()
+            }
+        }
+        defaultRemapJar = true
+        if (useFabric) {
+            fabric {
+                loader clientTarget.fabricLoader
+            }
+        } else {
+            minecraftForge {
+                loader clientTarget.forgeVersion
+                mixinConfig 'legacyparkourrecording.mixins.json'
+            }
+        }
+    }
+}
+
+processResources {
+    inputs.property 'version', project.version
+    inputs.property 'minecraft_version', clientTarget.minecraft
+    filesMatching(['fabric.mod.json', 'mcmod.info', 'META-INF/mods.toml']) {
+        expand version: project.version, minecraft_version: clientTarget.minecraft
+    }
+}
+
+tasks.named('jar', Jar) {
+    from project(':format').sourceSets.main.output
+}
+
+tasks.register('runRecordingClient') {
+    group = 'minecraft'
+    description = "Launch Minecraft ${clientTarget.minecraft} (${clientTarget.loader}) with the recording mod."
+    if (compareMc(clientTarget.minecraft, '26') < 0) {
+        dependsOn 'runClient'
+    } else {
+        doFirst {
+            throw new GradleException('Minecraft 26.x is launched from the repository root: ./gradlew runRecordingClient -PclientVersion=26.2')
+        }
+    }
+}
+
+def resolveRecordingClient() {
+    def requested = (findProperty('clientVersion')
+        ?: (file('client-version.txt').exists() ? file('client-version.txt').text.trim() : null)
+        ?: '1.16.5').toString().trim()
+    def loaderOverride = null
+    def version = requested
+    if (version.endsWith('-forge')) {
+        loaderOverride = 'forge'
+        version = version.substring(0, version.length() - '-forge'.length())
+    } else if (version.endsWith('-fabric')) {
+        loaderOverride = 'fabric'
+        version = version.substring(0, version.length() - '-fabric'.length())
+    }
+    version = latestParkourPatch(version)
+    def loader = loaderOverride ?: defaultLoader(version)
+    return [
+        minecraft    : version,
+        loader       : loader,
+        javaVersion  : javaFor(version),
+        fabricLoader : loader == 'fabric' ? fabricLoaderFor(version) : null,
+        forgeVersion : loader == 'forge' ? forgeVersionFor(version) : null,
+        mcpChannel   : loader == 'forge' ? 'stable' : null,
+        mcpVersion   : loader == 'forge' ? mcpVersionFor(version) : null
+    ]
+}
+
+def latestParkourPatch(String id) {
+    def mapping = [
+        '1.8'     : '1.8.9',
+        '1.8.1'   : '1.8.9',
+        '1.8.2'   : '1.8.9',
+        '1.8.3'   : '1.8.9',
+        '1.8.4'   : '1.8.9',
+        '1.8.5'   : '1.8.9',
+        '1.8.6'   : '1.8.9',
+        '1.8.7'   : '1.8.9',
+        '1.8.8'   : '1.8.9',
+        '1.8.9'   : '1.8.9',
+        '1.9'     : '1.9.4',
+        '1.9.1'   : '1.9.4',
+        '1.9.2'   : '1.9.4',
+        '1.9.3'   : '1.9.4',
+        '1.9.4'   : '1.9.4',
+        '1.10'    : '1.10',
+        '1.10.1'  : '1.10.2',
+        '1.10.2'  : '1.10.2',
+        '1.11'    : '1.11',
+        '1.11.1'  : '1.11.1',
+        '1.11.2'  : '1.11.2',
+        '1.12'    : '1.12.2',
+        '1.12.1'  : '1.12.2',
+        '1.12.2'  : '1.12.2',
+        '1.13'    : '1.13.2',
+        '1.13.1'  : '1.13.2',
+        '1.13.2'  : '1.13.2',
+        '1.14'    : '1.14.4',
+        '1.14.1'  : '1.14.4',
+        '1.14.2'  : '1.14.4',
+        '1.14.3'  : '1.14.4',
+        '1.14.4'  : '1.14.4',
+        '1.15'    : '1.15.2',
+        '1.15.1'  : '1.15.2',
+        '1.15.2'  : '1.15.2',
+        '1.16'    : '1.16.1',
+        '1.16.1'  : '1.16.1',
+        '1.16.2'  : '1.16.5',
+        '1.16.3'  : '1.16.5',
+        '1.16.4'  : '1.16.5',
+        '1.16.5'  : '1.16.5',
+        '1.17'    : '1.17.1',
+        '1.17.1'  : '1.17.1',
+        '1.18'    : '1.18.2',
+        '1.18.1'  : '1.18.2',
+        '1.18.2'  : '1.18.2',
+        '1.19'    : '1.19.3',
+        '1.19.1'  : '1.19.3',
+        '1.19.2'  : '1.19.3',
+        '1.19.3'  : '1.19.3',
+        '1.19.4'  : '1.19.4',
+        '1.20'    : '1.20.4',
+        '1.20.1'  : '1.20.4',
+        '1.20.2'  : '1.20.4',
+        '1.20.3'  : '1.20.4',
+        '1.20.4'  : '1.20.4',
+        '1.20.5'  : '1.20.6',
+        '1.20.6'  : '1.20.6',
+        '1.21'    : '1.21.1',
+        '1.21.1'  : '1.21.1',
+        '1.21.2'  : '1.21.3',
+        '1.21.3'  : '1.21.3',
+        '1.21.4'  : '1.21.4',
+        '1.21.5'  : '1.21.10',
+        '1.21.6'  : '1.21.10',
+        '1.21.7'  : '1.21.10',
+        '1.21.8'  : '1.21.10',
+        '1.21.9'  : '1.21.10',
+        '1.21.10' : '1.21.10',
+        '1.21.11' : '1.21.11',
+        '26.1'    : '26.1.2',
+        '26.1.1'  : '26.1.2',
+        '26.1.2'  : '26.1.2',
+        '26.2'    : '26.2',
+        'current' : '26.2',
+        'latest'  : '26.2'
+    ]
+    def latest = mapping[id]
+    if (latest == null) {
+        throw new GradleException("Unsupported recording client version '${id}'. Pass a ParkourVersion id such as 1.8.9 or 1.16.5.")
+    }
+    return latest
+}
+
+def defaultLoader(String minecraft) {
+    return compareMc(minecraft, '1.14') < 0 ? 'forge' : 'fabric'
+}
+
+def javaFor(String minecraft) {
+    if (compareMc(minecraft, '26') >= 0) {
+        return 25
+    }
+    if (compareMc(minecraft, '1.20.5') >= 0) {
+        return 21
+    }
+    if (compareMc(minecraft, '1.18') >= 0) {
+        return 17
+    }
+    if (compareMc(minecraft, '1.17') >= 0) {
+        return 16
+    }
+    return 8
+}
+
+def fabricLoaderFor(String minecraft) {
+    if (compareMc(minecraft, '1.21.9') >= 0) {
+        return '0.19.3'
+    }
+    return '0.16.14'
+}
+
+def forgeVersionFor(String minecraft) {
+    def versions = [
+        '1.8.9' : '11.15.1.2318-1.8.9',
+        '1.9.4' : '12.17.0.2317-1.9.4',
+        '1.10'  : '12.18.0.2000-1.10.0',
+        '1.10.2': '12.18.3.2511',
+        '1.11'  : '13.19.1.2188',
+        '1.11.1': '13.19.1.2199',
+        '1.11.2': '13.20.1.2588',
+        '1.12.2': '14.23.5.2860',
+        '1.13.2': '25.0.223'
+    ]
+    def version = versions[minecraft]
+    if (version == null) {
+        throw new GradleException("No Forge loader pinned for ${minecraft}")
+    }
+    return version
+}
+
+def mcpVersionFor(String minecraft) {
+    def versions = [
+        '1.8.9' : '22-1.8.9',
+        '1.9.4' : '26-1.9.4',
+        '1.10'  : '29-1.10.2',
+        '1.10.2': '29-1.10.2',
+        '1.11'  : '32-1.11',
+        '1.11.1': '32-1.11',
+        '1.11.2': '32-1.11',
+        '1.12.2': '39-1.12',
+        '1.13.2': '47-1.13.2'
+    ]
+    return versions[minecraft] ?: '22-1.8.9'
+}
+
+def compareMc(String left, String right) {
+    def a = left.tokenize('.').collect { it.isInteger() ? it.toInteger() : 0 }
+    def b = right.tokenize('.').collect { it.isInteger() ? it.toInteger() : 0 }
+    def size = Math.max(a.size(), b.size())
+    for (int index = 0; index < size; index++) {
+        int av = index < a.size() ? a[index] : 0
+        int bv = index < b.size() ? b[index] : 0
+        int cmp = av <=> bv
+        if (cmp != 0) {
+            return cmp
+        }
+    }
+    return 0
+}
