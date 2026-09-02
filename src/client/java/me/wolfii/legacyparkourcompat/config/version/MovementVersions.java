@@ -99,10 +99,43 @@ public final class MovementVersions {
         return VersionStatus.VALID;
     }
 
+    /**
+     * Historical versions older than the running game. {@link ParkourVersion#CURRENT}
+     * is listed separately as the default UI option.
+     */
     public static List<ParkourVersion> listedVersions() {
         return MovementController.get().selectableVersions().stream()
             .filter(version -> !version.isCurrent())
             .toList();
+    }
+
+    /**
+     * Applies a list selection. {@link ParkourVersion#CURRENT} turns legacy
+     * movement off.
+     */
+    public static void select(ParkourVersion version) {
+        if (version == null || version.isCurrent()) {
+            wanted = false;
+            input = "";
+        } else {
+            wanted = true;
+            input = version.id();
+        }
+        apply();
+    }
+
+    /**
+     * Version the config screen should show as selected.
+     */
+    public static ParkourVersion selectedForUi() {
+        if (serverForced) {
+            return MovementController.get().selectedVersion();
+        }
+        if (!wanted) {
+            return ParkourVersion.CURRENT;
+        }
+        ParkourVersion match = parkourVersion(input);
+        return match == null ? ParkourVersion.CURRENT : match;
     }
 
     public static String nativeGameVersion() {
