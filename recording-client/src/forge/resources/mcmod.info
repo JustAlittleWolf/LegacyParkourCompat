@@ -1,0 +1,12 @@
+[
+  {
+    "modid": "legacyparkourrecording",
+    "name": "Legacy Parkour Recording",
+    "description": "Records and plays back simulation movement inputs for parkour compatibility testing.",
+    "version": "${version}",
+    "mcversion": "${minecraft_version}",
+    "url": "",
+    "authorList": ["JustAlittleWolf"],
+    "clientSideOnly": true
+  }
+]

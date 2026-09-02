@@ -34,6 +34,19 @@ configurations {
 
 sourceSets {
     server
+    recordingClient {
+        java {
+            srcDir 'recording-client/src/common/java'
+            srcDir 'recording-client/src/fabric/java'
+            srcDir 'recording-client/src/mixins/fabric17/java'
+            srcDir 'recording-client/core/src/main/java'
+        }
+        resources {
+            srcDir 'recording-client/src/common/resources'
+            srcDir 'recording-client/src/fabric/resources'
+            srcDir 'recording-client/src/mixins/fabric17/resources'
+        }
+    }
 }
 
 loom {
@@ -45,11 +58,19 @@ loom {
             sourceSet sourceSets.client
             sourceSet sourceSets.server
         }
+        "legacyparkourrecording" {
+            sourceSet sourceSets.recordingClient
+        }
     }
 
     runs {
         server {
             source sourceSets.server
+        }
+        currentRecordingClient {
+            client()
+            source sourceSets.recordingClient
+            ideConfigGenerated = false
         }
     }
 }
@@ -58,6 +79,10 @@ sourceSets {
     server {
         compileClasspath += sourceSets.main.compileClasspath + sourceSets.main.output
         runtimeClasspath += sourceSets.main.runtimeClasspath + sourceSets.main.output
+    }
+    recordingClient {
+        compileClasspath += sourceSets.client.compileClasspath
+        runtimeClasspath += sourceSets.client.runtimeClasspath
     }
 }
 
@@ -104,8 +129,12 @@ java {
     }
 }
 
-test {
+tasks.named('test') {
     useJUnitPlatform()
+}
+
+tasks.named('test').configure {
+    dependsOn gradle.includedBuild('recording-client').task(':core:test')
 }
 
 jar {
@@ -118,6 +147,31 @@ jar {
 
 tasks.named('sourcesJar', org.gradle.jvm.tasks.Jar) {
     from sourceSets.server.allSource
+}
+
+def recordingClientVersion = providers.gradleProperty('clientVersion').orElse('1.16.5')
+def recordingClientVersionId = recordingClientVersion.get().replace('-forge', '').replace('-fabric', '')
+def recordingClientIsCurrent = recordingClientVersionId.equalsIgnoreCase('current') || recordingClientVersionId == project.minecraft_version
+def recordingClientVersionFile = rootProject.file('recording-client/client-version.txt')
+recordingClientVersionFile.parentFile.mkdirs()
+recordingClientVersionFile.text = recordingClientVersion.get() + '\n'
+
+tasks.named('processRecordingClientResources', ProcessResources) {
+    inputs.property 'version', project.version
+    inputs.property 'minecraft_version', project.minecraft_version
+    filesMatching('fabric.mod.json') {
+        expand version: project.version, minecraft_version: project.minecraft_version
+    }
+}
+
+tasks.register('runRecordingClient') {
+    group = 'minecraft'
+    description = 'Launch a recording client. Pass an exact -PclientVersion such as 1.8.9, 1.16.5, 1.21.9, or current.'
+    if (recordingClientIsCurrent) {
+        dependsOn 'runCurrentRecordingClient'
+    } else {
+        dependsOn gradle.includedBuild('recording-client').task(':runRecordingClient')
+    }
 }
 
 tasks.register('runPhysicsServer') {

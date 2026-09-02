@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "legacyparkourrecording",
+  "version": "${version}",
+  "name": "Legacy Parkour Recording",
+  "description": "Records and plays back simulation movement inputs for parkour compatibility testing.",
+  "authors": [
+    "JustAlittleWolf"
+  ],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "me.wolfii.legacyparkourcompat.recording.RecordingClientMod"
+    ]
+  },
+  "mixins": [
+    "legacyparkourrecording.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": "*",
+    "minecraft": "*"
+  }
+}

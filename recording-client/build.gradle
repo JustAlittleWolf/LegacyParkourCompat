@@ -1,0 +1,249 @@
+plugins {
+    id 'java'
+    id 'xyz.wagyourtail.unimined' version '1.4.1'
+}
+
+group = 'me.wolfii'
+version = '1.0.0'
+
+def clientTarget = resolveRecordingClient()
+ext.clientTarget = clientTarget
+def useFabric = clientTarget.loader == 'fabric'
+def mixinEra = mixinEraFor(clientTarget)
+def compilerJava = Math.max(17, clientTarget.javaVersion)
+
+repositories {
+    mavenCentral()
+    maven { name = 'Fabric'; url = 'https://maven.fabricmc.net/' }
+    maven { name = 'Forge'; url = 'https://maven.minecraftforge.net/' }
+    maven { name = 'Sponge'; url = 'https://repo.spongepowered.org/maven' }
+    maven { name = 'Wagyourtail'; url = 'https://maven.wagyourtail.xyz/releases' }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(compilerJava)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = clientTarget.javaVersion < 9 ? 8 : clientTarget.javaVersion
+    it.options.encoding = 'UTF-8'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/common/java'
+            srcDir useFabric ? 'src/fabric/java' : 'src/forge/java'
+            srcDir "src/mixins/${mixinEra}/java"
+        }
+        resources {
+            srcDir 'src/common/resources'
+            srcDir useFabric ? 'src/fabric/resources' : 'src/forge/resources'
+            srcDir "src/mixins/${mixinEra}/resources"
+        }
+    }
+}
+
+dependencies {
+    implementation project(':core')
+    compileOnly 'org.spongepowered:mixin:0.8.5'
+    if (useFabric) {
+        compileOnly "net.fabricmc:fabric-loader:${clientTarget.fabricLoader}"
+    }
+}
+
+if (compareMc(clientTarget.minecraft, '26') < 0) {
+    unimined.minecraft {
+        version clientTarget.minecraft
+        mappings {
+            if (clientTarget.mcpChannel != null) {
+                searge()
+                mcp(clientTarget.mcpChannel, clientTarget.mcpVersion)
+            } else {
+                mojmap()
+            }
+        }
+        defaultRemapJar = true
+        if (useFabric) {
+            fabric {
+                loader clientTarget.fabricLoader
+            }
+        } else {
+            minecraftForge {
+                loader clientTarget.forgeVersion
+                mixinConfig 'legacyparkourrecording.mixins.json'
+            }
+        }
+    }
+}
+
+processResources {
+    inputs.property 'version', project.version
+    inputs.property 'minecraft_version', clientTarget.minecraft
+    filesMatching(['fabric.mod.json', 'mcmod.info', 'META-INF/mods.toml']) {
+        expand version: project.version, minecraft_version: clientTarget.minecraft
+    }
+}
+
+tasks.named('jar', Jar) {
+    from project(':core').sourceSets.main.output
+}
+
+tasks.register('runRecordingClient') {
+    group = 'minecraft'
+    description = "Launch Minecraft ${clientTarget.minecraft} (${clientTarget.loader}) with the recording mod."
+    if (compareMc(clientTarget.minecraft, '26') < 0) {
+        dependsOn 'runClient'
+    } else {
+        doFirst {
+            throw new GradleException("Minecraft ${clientTarget.minecraft} is launched from the repository root with -PclientVersion=current")
+        }
+    }
+}
+
+def currentMcVersion() {
+    def propertiesFile = file('../gradle.properties')
+    if (!propertiesFile.isFile()) {
+        throw new GradleException("Cannot resolve 'current': missing ${propertiesFile}")
+    }
+    def properties = new Properties()
+    propertiesFile.withInputStream { properties.load(it) }
+    def version = properties.getProperty('minecraft_version')
+    if (version == null || version.trim().isEmpty()) {
+        throw new GradleException("Cannot resolve 'current': minecraft_version is missing from ${propertiesFile}")
+    }
+    return version.trim()
+}
+
+def resolveRecordingClient() {
+    def requested = (findProperty('clientVersion')
+        ?: (file('client-version.txt').exists() ? file('client-version.txt').text.trim() : null)
+        ?: '1.16.5').toString().trim()
+    def loaderOverride = null
+    def version = requested
+    if (version.endsWith('-forge')) {
+        loaderOverride = 'forge'
+        version = version.substring(0, version.length() - '-forge'.length())
+    } else if (version.endsWith('-fabric')) {
+        loaderOverride = 'fabric'
+        version = version.substring(0, version.length() - '-fabric'.length())
+    }
+    if (version.equalsIgnoreCase('latest')) {
+        throw new GradleException("'latest' is not a recording client version. Pass an exact Minecraft version such as 1.21.9, or current.")
+    }
+    if (version.equalsIgnoreCase('current')) {
+        version = currentMcVersion()
+    }
+    if (!(version ==~ /^\d+(\.\d+)*$/)) {
+        throw new GradleException("Unsupported recording client version '${requested}'. Pass an exact Minecraft version such as 1.8.9 or 1.21.9, or current.")
+    }
+    def current = currentMcVersion()
+    if (version.startsWith('26.') && version != current) {
+        throw new GradleException("Minecraft ${version} is not launched here. Use -PclientVersion=current for this repository's ${current}.")
+    }
+    def loader = loaderOverride ?: defaultLoader(version)
+    if (loader == 'forge' && compareMc(version, '1.14') >= 0) {
+        throw new GradleException("Forge is not wired for ${version}. Use Fabric (omit -forge) or a Forge version before 1.14.")
+    }
+    if (loader == 'fabric' && compareMc(version, '1.14') < 0) {
+        throw new GradleException("Fabric is not wired for ${version}. Use Forge (omit -fabric) or a 1.14+ version.")
+    }
+    return [
+        minecraft    : version,
+        loader       : loader,
+        javaVersion  : javaFor(version),
+        fabricLoader : loader == 'fabric' ? fabricLoaderFor(version) : null,
+        forgeVersion : loader == 'forge' ? forgeVersionFor(version) : null,
+        mcpChannel   : loader == 'forge' ? 'stable' : null,
+        mcpVersion   : loader == 'forge' ? mcpVersionFor(version) : null
+    ]
+}
+
+def mixinEraFor(target) {
+    if (target.loader == 'forge') {
+        return 'forge'
+    }
+    return compareMc(target.minecraft, '1.17') >= 0 ? 'fabric17' : 'fabric14'
+}
+
+def defaultLoader(String minecraft) {
+    return compareMc(minecraft, '1.14') < 0 ? 'forge' : 'fabric'
+}
+
+def javaFor(String minecraft) {
+    if (compareMc(minecraft, '26') >= 0) {
+        return 25
+    }
+    if (compareMc(minecraft, '1.20.5') >= 0) {
+        return 21
+    }
+    if (compareMc(minecraft, '1.18') >= 0) {
+        return 17
+    }
+    if (compareMc(minecraft, '1.17') >= 0) {
+        return 16
+    }
+    return 8
+}
+
+def fabricLoaderFor(String minecraft) {
+    if (compareMc(minecraft, '1.21.9') >= 0) {
+        return '0.19.3'
+    }
+    return '0.16.14'
+}
+
+def forgeVersionFor(String minecraft) {
+    def versions = [
+        '1.8.9' : '11.15.1.2318-1.8.9',
+        '1.9.4' : '12.17.0.2317-1.9.4',
+        '1.10'  : '12.18.0.2000-1.10.0',
+        '1.10.2': '12.18.3.2511',
+        '1.11'  : '13.19.1.2188',
+        '1.11.1': '13.19.1.2199',
+        '1.11.2': '13.20.1.2588',
+        '1.12.2': '14.23.5.2860',
+        '1.13.2': '25.0.223'
+    ]
+    def version = versions[minecraft]
+    if (version == null) {
+        throw new GradleException("No Forge loader pinned for ${minecraft}. Pass an exact version such as 1.8.9 or 1.12.2; versions are not remapped.")
+    }
+    return version
+}
+
+def mcpVersionFor(String minecraft) {
+    def versions = [
+        '1.8.9' : '22-1.8.9',
+        '1.9.4' : '26-1.9.4',
+        '1.10'  : '29-1.10.2',
+        '1.10.2': '29-1.10.2',
+        '1.11'  : '32-1.11',
+        '1.11.1': '32-1.11',
+        '1.11.2': '32-1.11',
+        '1.12.2': '39-1.12',
+        '1.13.2': '47-1.13.2'
+    ]
+    def version = versions[minecraft]
+    if (version == null) {
+        throw new GradleException("No MCP mappings pinned for ${minecraft}. Use an exact Forge version such as 1.8.9 or 1.12.2.")
+    }
+    return version
+}
+
+def compareMc(String left, String right) {
+    def a = left.tokenize('.').collect { it.isInteger() ? it.toInteger() : 0 }
+    def b = right.tokenize('.').collect { it.isInteger() ? it.toInteger() : 0 }
+    def size = Math.max(a.size(), b.size())
+    for (int index = 0; index < size; index++) {
+        int av = index < a.size() ? a[index] : 0
+        int bv = index < b.size() ? b[index] : 0
+        int cmp = av <=> bv
+        if (cmp != 0) {
+            return cmp
+        }
+    }
+    return 0
+}
