@@ -53,7 +53,7 @@ def polarWorlds = layout.projectDirectory.dir('worlds')
 
 tasks.named('runServer').configure { task ->
     task.group = 'minecraft'
-    task.description = 'Launch the physics testing Paper server and keep it running.'
+    task.description = 'Launch the parkour gym Paper server and keep it running.'
     task.minecraftVersion '26.2'
     task.jvmArgs '-Dcom.mojang.eula.agree=true'
     task.downloadPlugins {
@@ -96,7 +96,7 @@ def disableNether(File destDir) {
     def paperGlobal = new File(destDir, 'config/paper-global.yml')
     paperGlobal.parentFile.mkdirs()
     if (!paperGlobal.exists()) {
-        paperGlobal.text = '''# Physics testing server. Paper fills unspecified keys with defaults.
+        paperGlobal.text = '''# Parkour gym server. Paper fills unspecified keys with defaults.
 misc:
   enable-nether: false
 '''
@@ -114,8 +114,8 @@ misc:
     paperGlobal.append('\nmisc:\n  enable-nether: false\n')
 }
 
-tasks.register('runPhysicsServer') {
+tasks.register('runParkourGymServer') {
     group = 'minecraft'
-    description = 'Launch the physics testing Paper server and keep it running.'
+    description = 'Launch the parkour gym Paper server and keep it running.'
     dependsOn tasks.named('runServer')
 }

@@ -34,17 +34,17 @@ configurations {
 
 sourceSets {
     server
-    recordingClient {
+    tasClient {
         java {
-            srcDir 'recording-client/src/common/java'
-            srcDir 'recording-client/src/fabric/java'
-            srcDir 'recording-client/src/mixins/fabric17/java'
-            srcDir 'recording-client/core/src/main/java'
+            srcDir 'tas-client/src/common/java'
+            srcDir 'tas-client/src/fabric/java'
+            srcDir 'tas-client/src/mixins/fabric17/java'
+            srcDir 'tas-client/core/src/main/java'
         }
         resources {
-            srcDir 'recording-client/src/common/resources'
-            srcDir 'recording-client/src/fabric/resources'
-            srcDir 'recording-client/src/mixins/fabric17/resources'
+            srcDir 'tas-client/src/common/resources'
+            srcDir 'tas-client/src/fabric/resources'
+            srcDir 'tas-client/src/mixins/fabric17/resources'
         }
     }
 }
@@ -59,7 +59,7 @@ loom {
             sourceSet sourceSets.server
         }
         "legacyparkourrecording" {
-            sourceSet sourceSets.recordingClient
+            sourceSet sourceSets.tasClient
         }
     }
 
@@ -67,9 +67,9 @@ loom {
         server {
             source sourceSets.server
         }
-        currentRecordingClient {
+        currentTasClient {
             client()
-            source sourceSets.recordingClient
+            source sourceSets.tasClient
             ideConfigGenerated = false
         }
     }
@@ -80,7 +80,7 @@ sourceSets {
         compileClasspath += sourceSets.main.compileClasspath + sourceSets.main.output
         runtimeClasspath += sourceSets.main.runtimeClasspath + sourceSets.main.output
     }
-    recordingClient {
+    tasClient {
         compileClasspath += sourceSets.client.compileClasspath
         runtimeClasspath += sourceSets.client.runtimeClasspath
     }
@@ -134,7 +134,7 @@ tasks.named('test') {
 }
 
 tasks.named('test').configure {
-    dependsOn gradle.includedBuild('recording-client').task(':core:test')
+    dependsOn gradle.includedBuild('tas-client').task(':core:test')
 }
 
 jar {
@@ -149,14 +149,14 @@ tasks.named('sourcesJar', org.gradle.jvm.tasks.Jar) {
     from sourceSets.server.allSource
 }
 
-def recordingClientVersion = providers.gradleProperty('clientVersion').orElse('1.16.5')
-def recordingClientVersionId = recordingClientVersion.get().replace('-forge', '').replace('-fabric', '')
-def recordingClientIsCurrent = recordingClientVersionId.equalsIgnoreCase('current') || recordingClientVersionId == project.minecraft_version
-def recordingClientVersionFile = rootProject.file('recording-client/client-version.txt')
-recordingClientVersionFile.parentFile.mkdirs()
-recordingClientVersionFile.text = recordingClientVersion.get() + '\n'
+def tasClientVersion = providers.gradleProperty('clientVersion').orElse('1.16.5')
+def tasClientVersionId = tasClientVersion.get().replace('-forge', '').replace('-fabric', '')
+def tasClientIsCurrent = tasClientVersionId.equalsIgnoreCase('current') || tasClientVersionId == project.minecraft_version
+def tasClientVersionFile = rootProject.file('tas-client/client-version.txt')
+tasClientVersionFile.parentFile.mkdirs()
+tasClientVersionFile.text = tasClientVersion.get() + '\n'
 
-tasks.named('processRecordingClientResources', ProcessResources) {
+tasks.named('processTasClientResources', ProcessResources) {
     inputs.property 'version', project.version
     inputs.property 'minecraft_version', project.minecraft_version
     filesMatching('fabric.mod.json') {
@@ -164,20 +164,20 @@ tasks.named('processRecordingClientResources', ProcessResources) {
     }
 }
 
-tasks.register('runRecordingClient') {
+tasks.register('runTasClient') {
     group = 'minecraft'
-    description = 'Launch a recording client. Pass an exact -PclientVersion such as 1.8.9, 1.16.5, 1.21.9, or current.'
-    if (recordingClientIsCurrent) {
-        dependsOn 'runCurrentRecordingClient'
+    description = 'Launch a TAS client. Pass an exact -PclientVersion such as 1.8.9, 1.16.5, 1.21.9, or current.'
+    if (tasClientIsCurrent) {
+        dependsOn 'runCurrentTasClient'
     } else {
-        dependsOn gradle.includedBuild('recording-client').task(':runRecordingClient')
+        dependsOn gradle.includedBuild('tas-client').task(':runTasClient')
     }
 }
 
-tasks.register('runPhysicsServer') {
+tasks.register('runParkourGymServer') {
     group = 'minecraft'
-    description = 'Launch the physics testing Paper server and keep it running.'
-    dependsOn ':physics-server:runServer'
+    description = 'Launch the parkour gym Paper server and keep it running.'
+    dependsOn ':parkourgym-server:runServer'
 }
 
 tasks.register('decompileMinecraft', DecompileMinecraftTask) {

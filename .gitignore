@@ -26,13 +26,13 @@ bin/
 # fabric
 run/
 
-# recording clients
-recording-client/run/
-recording-client/client-version.txt
-recording-client/.gradle/
+# TAS clients
+tas-client/run/
+tas-client/client-version.txt
+tas-client/.gradle/
 
-# physics testing Paper server
-physics-server/run/
+# parkour gym Paper server
+parkourgym-server/run/
 
 # java
 hs_err_*.log
