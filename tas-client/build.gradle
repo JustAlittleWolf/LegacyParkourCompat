@@ -6,7 +6,7 @@ plugins {
 group = 'me.wolfii'
 version = '1.0.0'
 
-def clientTarget = resolveRecordingClient()
+def clientTarget = resolveTasClient()
 ext.clientTarget = clientTarget
 def useFabric = clientTarget.loader == 'fabric'
 def mixinEra = mixinEraFor(clientTarget)
@@ -91,9 +91,9 @@ tasks.named('jar', Jar) {
     from project(':core').sourceSets.main.output
 }
 
-tasks.register('runRecordingClient') {
+tasks.register('runTasClient') {
     group = 'minecraft'
-    description = "Launch Minecraft ${clientTarget.minecraft} (${clientTarget.loader}) with the recording mod."
+    description = "Launch Minecraft ${clientTarget.minecraft} (${clientTarget.loader}) with the TAS mod."
     if (compareMc(clientTarget.minecraft, '26') < 0) {
         dependsOn 'runClient'
     } else {
@@ -117,7 +117,7 @@ def currentMcVersion() {
     return version.trim()
 }
 
-def resolveRecordingClient() {
+def resolveTasClient() {
     def requested = (findProperty('clientVersion')
         ?: (file('client-version.txt').exists() ? file('client-version.txt').text.trim() : null)
         ?: '1.16.5').toString().trim()
@@ -131,13 +131,13 @@ def resolveRecordingClient() {
         version = version.substring(0, version.length() - '-fabric'.length())
     }
     if (version.equalsIgnoreCase('latest')) {
-        throw new GradleException("'latest' is not a recording client version. Pass an exact Minecraft version such as 1.21.9, or current.")
+        throw new GradleException("'latest' is not a TAS client version. Pass an exact Minecraft version such as 1.21.9, or current.")
     }
     if (version.equalsIgnoreCase('current')) {
         version = currentMcVersion()
     }
     if (!(version ==~ /^\d+(\.\d+)*$/)) {
-        throw new GradleException("Unsupported recording client version '${requested}'. Pass an exact Minecraft version such as 1.8.9 or 1.21.9, or current.")
+        throw new GradleException("Unsupported TAS client version '${requested}'. Pass an exact Minecraft version such as 1.8.9 or 1.21.9, or current.")
     }
     def current = currentMcVersion()
     if (version.startsWith('26.') && version != current) {

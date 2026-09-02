@@ -31,5 +31,5 @@ plugins {
 
 rootProject.name = 'LegacyParkourCompat'
 
-includeBuild 'recording-client'
-include 'physics-server'
+includeBuild 'tas-client'
+include 'parkourgym-server'
