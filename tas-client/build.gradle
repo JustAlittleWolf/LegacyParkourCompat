@@ -1,10 +1,17 @@
 plugins {
     id 'java'
-    id 'xyz.wagyourtail.unimined' version '1.4.1'
+    id 'xyz.wagyourtail.unimined' version '1.4.1' apply false
 }
 
 group = 'me.wolfii'
 version = '1.0.0'
+
+// Unimined's IDE tooling models NPE on Gradle 9.7+ IntelliJ sync. Apply it only
+// for real builds; the Java sources still import so the IDE can edit them.
+def ideaSync = Boolean.getBoolean('idea.sync.active')
+if (!ideaSync) {
+    apply plugin: 'xyz.wagyourtail.unimined'
+}
 
 def clientTarget = resolveTasClient()
 ext.clientTarget = clientTarget
@@ -54,7 +61,7 @@ dependencies {
     }
 }
 
-if (compareMc(clientTarget.minecraft, '26') < 0) {
+if (!ideaSync && compareMc(clientTarget.minecraft, '26') < 0) {
     unimined.minecraft {
         version clientTarget.minecraft
         mappings {
@@ -94,12 +101,12 @@ tasks.named('jar', Jar) {
 tasks.register('runTasClient') {
     group = 'minecraft'
     description = "Launch Minecraft ${clientTarget.minecraft} (${clientTarget.loader}) with the TAS mod."
-    if (compareMc(clientTarget.minecraft, '26') < 0) {
-        dependsOn 'runClient'
-    } else {
+    if (compareMc(clientTarget.minecraft, '26') >= 0) {
         doFirst {
             throw new GradleException("Minecraft ${clientTarget.minecraft} is launched from the repository root with -PclientVersion=current")
         }
+    } else if (!ideaSync) {
+        dependsOn 'runClient'
     }
 }
 

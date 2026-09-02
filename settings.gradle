@@ -31,5 +31,10 @@ plugins {
 
 rootProject.name = 'LegacyParkourCompat'
 
-includeBuild 'tas-client'
+// Unimined's IntelliJ tooling models NPE during Gradle 9.7+ IDE sync when this
+// composite is imported alongside Fabric Loom ("A build operation failed. null").
+// Keep the included build for CLI task wiring; skip it while IDEA is syncing.
+if (!Boolean.getBoolean('idea.sync.active')) {
+    includeBuild 'tas-client'
+}
 include 'parkourgym-server'
