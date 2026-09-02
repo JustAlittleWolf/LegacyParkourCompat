@@ -129,12 +129,16 @@ java {
     }
 }
 
+def tasClientBuild = gradle.includedBuilds.find { it.name == 'tas-client' }
+
 tasks.named('test') {
     useJUnitPlatform()
 }
 
 tasks.named('test').configure {
-    dependsOn gradle.includedBuild('tas-client').task(':core:test')
+    if (tasClientBuild != null) {
+        dependsOn tasClientBuild.task(':core:test')
+    }
 }
 
 jar {
@@ -169,8 +173,12 @@ tasks.register('runTasClient') {
     description = 'Launch a TAS client. Pass an exact -PclientVersion such as 1.8.9, 1.16.5, 1.21.9, or current.'
     if (tasClientIsCurrent) {
         dependsOn 'runCurrentTasClient'
+    } else if (tasClientBuild != null) {
+        dependsOn tasClientBuild.task(':runTasClient')
     } else {
-        dependsOn gradle.includedBuild('tas-client').task(':runTasClient')
+        doFirst {
+            throw new GradleException("TAS client included build is unavailable during IDE sync. Run ./gradlew runTasClient from the command line.")
+        }
     }
 }
 
