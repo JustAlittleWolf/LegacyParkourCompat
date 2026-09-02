@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.MultiLineTextWidget;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.client.gui.layouts.FrameLayout;
 import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.Screen;
@@ -16,21 +17,24 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MovementVersionScreen extends OptionsSubScreen {
     private static final int CONTROL_WIDTH = 310;
     private static final int SCREEN_MARGIN = 20;
     private static final int HEADER_MARGIN = 16;
-    private static final int ITEM_HEIGHT = 20;
+    private static final int ITEM_HEIGHT = 14;
     private static final Component TITLE = Component.translatable("legacyparkourcompat.version.title");
-    private static final Component CURRENT_LABEL = Component.translatable("legacyparkourcompat.version.current");
     private static final Component NONE_AVAILABLE = Component.translatable("legacyparkourcompat.version.available.none");
 
     private final boolean serverForced = MovementVersions.isServerForced();
     private ParkourVersion selected = MovementVersions.selectedForUi();
     private boolean committed;
     private LinearLayout header;
+    private FrameLayout selectedSlot;
+    private FrameLayout warningSlot;
+    private MultiLineTextWidget selectedWidget;
     private MultiLineTextWidget statusWidget;
     private VersionList versionList;
 
@@ -39,7 +43,10 @@ public class MovementVersionScreen extends OptionsSubScreen {
     }
 
     private static Component label(ParkourVersion version) {
-        return version.isCurrent() ? CURRENT_LABEL : Component.literal(version.displayLabel());
+        if (version.isCurrent()) {
+            return Component.translatable("legacyparkourcompat.version.current", ParkourVersion.nativeGameVersion());
+        }
+        return Component.literal(version.displayLabel());
     }
 
     private int controlWidth() {
@@ -48,13 +55,17 @@ public class MovementVersionScreen extends OptionsSubScreen {
 
     @Override
     protected void addTitle() {
-        this.header = this.layout.addToHeader(LinearLayout.vertical().spacing(6));
+        this.header = this.layout.addToHeader(LinearLayout.vertical().spacing(4));
         this.header.defaultCellSetting().alignHorizontallyCenter();
         this.header.addChild(new StringWidget(this.title, this.font));
-        this.statusWidget = new MultiLineTextWidget(Component.empty(), this.font)
-            .setMaxWidth(CONTROL_WIDTH)
-            .setCentered(true);
-        this.header.addChild(this.statusWidget);
+
+        this.selectedSlot = this.header.addChild(new FrameLayout().setMinHeight(this.font.lineHeight));
+        this.selectedWidget = new MultiLineTextWidget(Component.empty(), this.font).setCentered(true);
+        this.selectedSlot.addChild(this.selectedWidget, settings -> settings.alignHorizontallyCenter());
+
+        this.warningSlot = this.header.addChild(new FrameLayout().setMinHeight(this.font.lineHeight * 2));
+        this.statusWidget = new MultiLineTextWidget(Component.empty(), this.font).setCentered(true);
+        this.warningSlot.addChild(this.statusWidget, settings -> settings.alignHorizontallyCenter().alignVerticallyMiddle());
     }
 
     @Override
@@ -63,10 +74,12 @@ public class MovementVersionScreen extends OptionsSubScreen {
 
     @Override
     protected void addContents() {
+        List<ParkourVersion> historical = new ArrayList<>(MovementVersions.listedVersions());
+        Collections.reverse(historical);
         List<ParkourVersion> versions = new ArrayList<>();
         versions.add(ParkourVersion.CURRENT);
-        versions.addAll(MovementVersions.listedVersions());
-        if (versions.size() == 1) {
+        versions.addAll(historical);
+        if (historical.isEmpty()) {
             this.layout.addToContents(new MultiLineTextWidget(NONE_AVAILABLE, this.font)
                 .setMaxWidth(CONTROL_WIDTH)
                 .setCentered(true));
@@ -79,8 +92,17 @@ public class MovementVersionScreen extends OptionsSubScreen {
     @Override
     protected void repositionElements() {
         int controlWidth = this.controlWidth();
+        if (this.selectedWidget != null) {
+            this.selectedWidget.setMaxWidth(controlWidth);
+        }
         if (this.statusWidget != null) {
             this.statusWidget.setMaxWidth(controlWidth);
+        }
+        if (this.selectedSlot != null) {
+            this.selectedSlot.setMinWidth(controlWidth);
+        }
+        if (this.warningSlot != null) {
+            this.warningSlot.setMinWidth(controlWidth);
         }
         if (this.header != null) {
             this.header.arrangeElements();
@@ -129,9 +151,13 @@ public class MovementVersionScreen extends OptionsSubScreen {
         }
         this.selected = version;
         this.refreshStatus();
+        this.repositionElements();
     }
 
     private void refreshStatus() {
+        if (this.selectedWidget != null) {
+            this.selectedWidget.setMessage(label(this.selected).copy().withStyle(ChatFormatting.WHITE));
+        }
         if (this.statusWidget == null) {
             return;
         }
@@ -149,11 +175,6 @@ public class MovementVersionScreen extends OptionsSubScreen {
             this.statusWidget.setMessage(forced);
             return;
         }
-        if (this.selected.isCurrent()) {
-            this.statusWidget.setMessage(Component.translatable("legacyparkourcompat.version.status.vanilla")
-                .withStyle(ChatFormatting.GRAY));
-            return;
-        }
         this.statusWidget.setMessage(this.selected.isPartiallyImplemented()
             ? Component.translatable("legacyparkourcompat.version.status.partial").withStyle(ChatFormatting.YELLOW)
             : Component.empty());
@@ -161,6 +182,7 @@ public class MovementVersionScreen extends OptionsSubScreen {
 
     private static final class VersionList extends ObjectSelectionList<VersionList.Entry> {
         private final MovementVersionScreen screen;
+        private boolean forwardingDrag;
 
         VersionList(MovementVersionScreen screen, List<ParkourVersion> versions) {
             super(screen.minecraft, 0, 0, 0, ITEM_HEIGHT);
@@ -197,7 +219,32 @@ public class MovementVersionScreen extends OptionsSubScreen {
 
         @Override
         public int getRowWidth() {
-            return this.getWidth();
+            return Math.max(1, this.getWidth() - this.scrollbarWidth() - 4);
+        }
+
+        @Override
+        public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+            if (this.updateScrolling(event)) {
+                return true;
+            }
+            return super.mouseClicked(event, doubleClick);
+        }
+
+        boolean overScrollbar(double mouseX, double mouseY) {
+            return this.isOverScrollbar(mouseX, mouseY);
+        }
+
+        @Override
+        public boolean mouseDragged(MouseButtonEvent event, double dx, double dy) {
+            if (this.forwardingDrag) {
+                return false;
+            }
+            this.forwardingDrag = true;
+            try {
+                return super.mouseDragged(event, dx, dy);
+            } finally {
+                this.forwardingDrag = false;
+            }
         }
 
         private static final class Entry extends ObjectSelectionList.Entry<Entry> {
@@ -218,11 +265,16 @@ public class MovementVersionScreen extends OptionsSubScreen {
 
             @Override
             public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
-                if (this.list.screen.serverForced) {
+                if (this.list.screen.serverForced || this.list.overScrollbar(event.x(), event.y())) {
                     return false;
                 }
                 this.list.setSelected(this);
                 return true;
+            }
+
+            @Override
+            public boolean mouseDragged(MouseButtonEvent event, double dx, double dy) {
+                return this.list.mouseDragged(event, dx, dy);
             }
 
             @Override
