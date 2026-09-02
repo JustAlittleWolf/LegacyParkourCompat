@@ -18,6 +18,7 @@ import java.util.Optional;
  */
 public final class MovementVersions {
     private static boolean wanted;
+    private static boolean serverForced;
     private static String input = "";
 
     private MovementVersions() {
@@ -25,6 +26,21 @@ public final class MovementVersions {
 
     public static boolean isWanted() {
         return wanted;
+    }
+
+    /**
+     * {@code true} while connected to a server that has this mod. That server
+     * owns the parkour version; the UI must not change it.
+     */
+    public static boolean isServerForced() {
+        return serverForced;
+    }
+
+    public static void setServerForced(boolean serverForced) {
+        MovementVersions.serverForced = serverForced;
+        if (!serverForced) {
+            apply();
+        }
     }
 
     public static void setWanted(boolean wanted) {
@@ -136,6 +152,9 @@ public final class MovementVersions {
     }
 
     private static void apply() {
+        if (serverForced) {
+            return;
+        }
         MovementController controller = MovementController.get();
         if (!wanted) {
             controller.disable();
