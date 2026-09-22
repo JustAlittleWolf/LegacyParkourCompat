@@ -195,6 +195,36 @@ tasks.register('runTasClient') {
     }
 }
 
+// Configure narrator options before Minecraft loads them. The accessibility
+// onboarding screen speaks its prompt even when narrator:0 is already set.
+if (!ideaSync && compareMc(clientTarget.minecraft, '1.14') >= 0 && compareMc(clientTarget.minecraft, '26') < 0) {
+    tasks.named('runClient').configure {
+        doFirst {
+            File optionsFile = layout.projectDirectory.file("run/${clientTarget.minecraft}/options.txt").asFile
+            optionsFile.parentFile.mkdirs()
+            List<String> lines = optionsFile.isFile() ? optionsFile.readLines('UTF-8') : []
+            Map<String, String> disabled = ['narrator': '0']
+            if (compareMc(clientTarget.minecraft, '1.20.5') >= 0) {
+                disabled['narratorHotkey'] = 'false'
+                disabled['onboardAccessibility'] = 'false'
+            }
+            boolean changed = false
+            disabled.each { key, value ->
+                String setting = "${key}:${value}"
+                int index = lines.findIndexOf { it.startsWith("${key}:") }
+                if (index < 0) {
+                    lines.add(setting)
+                    changed = true
+                } else if (lines[index] != setting) {
+                    lines[index] = setting
+                    changed = true
+                }
+            }
+            if (changed) optionsFile.setText(lines.join(System.lineSeparator()) + System.lineSeparator(), 'UTF-8')
+        }
+    }
+}
+
 def currentMcVersion() {
     def propertiesFile = file('../gradle.properties')
     if (!propertiesFile.isFile()) {

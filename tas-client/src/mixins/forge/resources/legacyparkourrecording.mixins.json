@@ -7,8 +7,7 @@
     "MinecraftTickMixin",
     "EntityPlayerSPMixin",
     "MovementInputFromOptionsMixin",
-    "GuiScreenMixin",
-    "MinecraftMultiplayerMixin"
+    "GuiScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 0

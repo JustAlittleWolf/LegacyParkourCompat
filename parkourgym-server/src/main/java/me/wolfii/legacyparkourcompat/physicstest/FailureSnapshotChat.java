@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 final class FailureSnapshotChat implements Listener {
     static final String PREFIX = "!lpcf";
     static final String LOG_MARKER = "[LPC_FAILURE_SNAPSHOT]";
-    static final int SNAPSHOT_RADIUS = 2;
+    static final int SNAPSHOT_RADIUS = 1;
 
     private static final int MAX_MESSAGE_LENGTH = 64;
     private static final int MAX_TOKEN_LENGTH = 36;
@@ -130,12 +130,15 @@ final class FailureSnapshotChat implements Listener {
         Vector velocity = player.getVelocity();
         BoundingBox box = player.getBoundingBox();
         World world = player.getWorld();
-        int minX = floor(box.getMinX()) - SNAPSHOT_RADIUS;
-        int maxX = floor(box.getMaxX()) + SNAPSHOT_RADIUS;
-        int minY = Math.max(world.getMinHeight(), floor(box.getMinY()) - SNAPSHOT_RADIUS);
-        int maxY = Math.min(world.getMaxHeight() - 1, floor(box.getMaxY()) + SNAPSHOT_RADIUS);
-        int minZ = floor(box.getMinZ()) - SNAPSHOT_RADIUS;
-        int maxZ = floor(box.getMaxZ()) + SNAPSHOT_RADIUS;
+        int playerX = floor(location.getX());
+        int playerY = floor(location.getY());
+        int playerZ = floor(location.getZ());
+        int minX = playerX - SNAPSHOT_RADIUS;
+        int maxX = playerX + SNAPSHOT_RADIUS;
+        int minY = Math.max(world.getMinHeight(), playerY - 1);
+        int maxY = Math.min(world.getMaxHeight() - 1, playerY + 2);
+        int minZ = playerZ - SNAPSHOT_RADIUS;
+        int maxZ = playerZ + SNAPSHOT_RADIUS;
 
         StringBuilder json = new StringBuilder(16_384);
         json.append('{');
@@ -180,6 +183,7 @@ final class FailureSnapshotChat implements Listener {
         json.append('}');
 
         json.append(",\"blockRadius\":").append(SNAPSHOT_RADIUS);
+        json.append(",\"blockHeight\":4");
         json.append(",\"blockBounds\":{");
         appendNumberField(json, "minX", minX, false);
         appendNumberField(json, "minY", minY, true);
@@ -195,11 +199,15 @@ final class FailureSnapshotChat implements Listener {
         for (int y = minY; y <= maxY; y++) {
             for (int z = minZ; z <= maxZ; z++) {
                 for (int x = minX; x <= maxX; x++) {
+                    Block block = world.getBlockAt(x, y, z);
+                    if (block.getType().isAir()) {
+                        continue;
+                    }
                     if (!firstBlock) {
                         json.append(',');
                     }
                     firstBlock = false;
-                    appendBlock(json, world.getBlockAt(x, y, z));
+                    appendBlock(json, block);
                     blockCount++;
                 }
             }

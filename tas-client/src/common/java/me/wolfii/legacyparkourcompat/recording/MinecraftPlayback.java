@@ -34,6 +34,11 @@ public interface MinecraftPlayback {
         return false;
     }
 
+    /** Sends a server command without a leading slash. */
+    default boolean sendServerCommand(String command) {
+        return false;
+    }
+
     /**
      * Returns whether the local client has a multiplayer connection.  Older
      * clients do not expose the same connection accessor, so the default is
@@ -46,6 +51,11 @@ public interface MinecraftPlayback {
     /** Returns whether the client is already showing a connection screen. */
     default boolean isConnecting() {
         return false;
+    }
+
+    /** Initial resource reloads must finish before a world is joined. */
+    default boolean isReadyForAutoJoin() {
+        return true;
     }
 
     /**

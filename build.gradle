@@ -254,6 +254,25 @@ if (rootTasAutomationTolerance != null) {
     rootTasAutomationArgs << "-Dlegacyparkour.tas.tolerance=${rootTasAutomationTolerance}"
 }
 tasks.named('runCurrentTasClient').configure {
+    doFirst {
+        File optionsFile = file('run/options.txt')
+        optionsFile.parentFile.mkdirs()
+        List<String> lines = optionsFile.isFile() ? optionsFile.readLines('UTF-8') : []
+        Map<String, String> disabled = [narrator: '0', narratorHotkey: 'false', onboardAccessibility: 'false']
+        boolean changed = false
+        disabled.each { key, value ->
+            String setting = "${key}:${value}"
+            int index = lines.findIndexOf { it.startsWith("${key}:") }
+            if (index < 0) {
+                lines.add(setting)
+                changed = true
+            } else if (lines[index] != setting) {
+                lines[index] = setting
+                changed = true
+            }
+        }
+        if (changed) optionsFile.setText(lines.join(System.lineSeparator()) + System.lineSeparator(), 'UTF-8')
+    }
     if (tasCompareTaskRequested) {
         doFirst {
             File expectedReference = file(rootTasAutomationExpected)
@@ -311,14 +330,14 @@ tasks.register('runTasCompare') {
         def snapshotContext = {
             String logPath = snapshotLog.absolutePath
             if (snapshotLog.isFile()) {
-                String matchingLine = null
-                snapshotLog.eachLine('UTF-8') { line ->
+                int matchingLineNumber = -1
+                snapshotLog.eachLine('UTF-8') { line, lineNumber ->
                     if (line.contains('[LPC_FAILURE_SNAPSHOT]') && line.contains('"runId":"' + runId + '"')) {
-                        matchingLine = line
+                        matchingLineNumber = lineNumber
                     }
                 }
-                if (matchingLine != null) {
-                    return "Snapshot: ${matchingLine}"
+                if (matchingLineNumber >= 0) {
+                    return "Snapshot: ${logPath}:${matchingLineNumber} [LPC_FAILURE_SNAPSHOT] runId=${runId}"
                 }
             }
             return "Snapshot log: ${logPath}; search for [LPC_FAILURE_SNAPSHOT] and runId=${runId}"
@@ -429,6 +448,23 @@ tasks.register('runTasWorkflow') {
         if (!recordingFile.isFile()) {
             throw new GradleException("Recording file does not exist: ${recordingFile}")
         }
+        def recordingTickCount = { File recording ->
+            java.io.RandomAccessFile data = new java.io.RandomAccessFile(recording, 'r')
+            try {
+                if (data.length() < 44L || data.readInt() != 0x4C505243 || data.readUnsignedShort() != 1) {
+                    throw new GradleException("Invalid LPRC recording: ${recording}")
+                }
+                data.seek(40L)
+                int count = data.readInt()
+                if (count < 0 || data.length() != 44L + 34L * count) {
+                    throw new GradleException("Invalid LPRC tick count or length: ${recording}")
+                }
+                return count
+            } finally {
+                data.close()
+            }
+        }
+        int sourceTickCount = recordingTickCount(recordingFile)
         List<String> versions = versionsValue.split(',')
             .collect { it.trim() }
             .findAll { !it.isEmpty() }
@@ -453,6 +489,8 @@ tasks.register('runTasWorkflow') {
         }
         String sourceStem = recordingFile.name.replaceFirst(/(?i)\.lprc$/, '')
         List<String> manifest = ['# Legacy Parkour TAS workflow results', "# recording=${recordingFile.absolutePath}", "# server=${serverAddress}", 'version\tresult']
+        File manifestFile = new File(outputDirectory, "${sourceStem}-manifest.tsv")
+        manifestFile.setText(manifest.join(System.lineSeparator()) + System.lineSeparator(), 'UTF-8')
         Process gymProcess = null
         boolean ownsGym = false
 
@@ -530,11 +568,12 @@ tasks.register('runTasWorkflow') {
                 if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
                     clientCommand = ['cmd', '/c'] + clientCommand
                 }
+                clientCommand = clientCommand.collect { it.toString() }
                 logger.lifecycle("Running TAS client ${version}; result=${result.name}")
                 ProcessBuilder clientBuilder = new ProcessBuilder(clientCommand)
                     .directory(project.rootDir)
                     .redirectErrorStream(true)
-                environment.each { key, value -> clientBuilder.environment().put(key, value) }
+                environment.each { key, value -> clientBuilder.environment().put(key.toString(), value.toString()) }
                 Process client = clientBuilder.start()
                 Thread clientOutput = streamProcess(client, "tas-${safeVersion}")
                 int exitCode = client.waitFor()
@@ -544,6 +583,35 @@ tasks.register('runTasWorkflow') {
                 }
                 if (!temporaryResult.isFile() || temporaryResult.length() == 0L) {
                     throw new GradleException("TAS client ${version} finished without a result file: ${temporaryResult}")
+                }
+                int resultTickCount = recordingTickCount(temporaryResult)
+                if (resultTickCount != sourceTickCount) {
+                    throw new GradleException("TAS client ${version} captured ${resultTickCount} of ${sourceTickCount} ticks; no result was published")
+                }
+                java.io.RandomAccessFile sourceData = new java.io.RandomAccessFile(recordingFile, 'r')
+                java.io.RandomAccessFile resultData = new java.io.RandomAccessFile(temporaryResult, 'r')
+                try {
+                    byte[] sourceHeader = new byte[44]
+                    byte[] resultHeader = new byte[44]
+                    sourceData.readFully(sourceHeader)
+                    resultData.readFully(resultHeader)
+                    if (!java.util.Arrays.equals(sourceHeader, resultHeader)) {
+                        throw new GradleException("TAS client ${version} changed the source start pose or format; no result was published")
+                    }
+                    byte[] sourceInput = new byte[10]
+                    byte[] resultInput = new byte[10]
+                    for (int tick = 0; tick < sourceTickCount; tick++) {
+                        sourceData.readFully(sourceInput)
+                        resultData.readFully(resultInput)
+                        if (!java.util.Arrays.equals(sourceInput, resultInput)) {
+                            throw new GradleException("TAS client ${version} changed buttons or facing at tick ${tick}; no result was published")
+                        }
+                        sourceData.skipBytes(24)
+                        resultData.skipBytes(24)
+                    }
+                } finally {
+                    sourceData.close()
+                    resultData.close()
                 }
                 try {
                     java.nio.file.Files.move(
@@ -560,16 +628,24 @@ tasks.register('runTasWorkflow') {
                     )
                 }
                 manifest << "${version}\t${result.absolutePath}"
+                manifestFile.setText(manifest.join(System.lineSeparator()) + System.lineSeparator(), 'UTF-8')
             }
-            File manifestFile = new File(outputDirectory, "${sourceStem}-manifest.tsv")
-            manifestFile.setText(manifest.join(System.lineSeparator()) + System.lineSeparator(), 'UTF-8')
             logger.lifecycle("TAS workflow complete. Results are listed in ${manifestFile}")
         } finally {
-            if (ownsGym && gymProcess != null && gymProcess.isAlive()) {
-                gymProcess.destroy()
-                if (gymProcess.isAlive()) {
-                    gymProcess.destroyForcibly()
+            if (ownsGym && gymProcess != null) {
+                // On Windows, terminating cmd.exe leaves Gradle's Paper child running
+                // and holding the Gym world lock. Capture the process tree first.
+                List<ProcessHandle> children = gymProcess.toHandle().descendants()
+                    .collect(java.util.stream.Collectors.toList())
+                children.reverseEach { child ->
+                    if (child.isAlive()) child.destroy()
                 }
+                if (gymProcess.isAlive()) gymProcess.destroy()
+                Thread.sleep(2000L)
+                children.reverseEach { child ->
+                    if (child.isAlive()) child.destroyForcibly()
+                }
+                if (gymProcess.isAlive()) gymProcess.destroyForcibly()
             }
         }
     }

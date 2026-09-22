@@ -41,6 +41,12 @@ public final class RecordingController {
     private Path captureOutput;
     private boolean captureOnPlayback;
     private boolean deviationReported;
+    private MovementRecording pendingPlayback;
+    private Path pendingOutput;
+    private boolean pendingExit;
+    private String pendingLabel;
+    private int pendingPoseTicks;
+    private int pendingStableTicks;
 
     private RecordingController() {
     }
@@ -72,6 +78,7 @@ public final class RecordingController {
         this.automationJoinAttempts = 0;
         this.captureOutput = null;
         this.captureOnPlayback = false;
+        clearPendingPlayback();
     }
 
     private void ensureAttached() {
@@ -94,6 +101,7 @@ public final class RecordingController {
         this.playback = null;
         this.captureOutput = null;
         this.captureOnPlayback = false;
+        clearPendingPlayback();
         this.recordedTicks.clear();
         this.pendingName = name == null || name.trim().isEmpty() ? "recording" : name.trim();
         this.startX = this.minecraft.playerX();
@@ -151,7 +159,23 @@ public final class RecordingController {
         } catch (IOException exception) {
             throw new IllegalStateException("Failed to load recording " + file, exception);
         }
-        beginPlayback(loaded, output, exitWhenFinished, file.getFileName().toString());
+        String label = file.getFileName().toString();
+        if (output != null && this.minecraft.isConnected()) {
+            String command = String.format(Locale.ROOT, "lpcpose %s %s %s %s %s",
+                Double.toString(loaded.startX()), Double.toString(loaded.startY()), Double.toString(loaded.startZ()),
+                Float.toString(loaded.startYaw()), Float.toString(loaded.startPitch()));
+            if (!this.minecraft.sendServerCommand(command)) {
+                throw new IllegalStateException("Cannot request the server-authoritative TAS start pose");
+            }
+            this.pendingPlayback = loaded;
+            this.pendingOutput = output;
+            this.pendingExit = exitWhenFinished;
+            this.pendingLabel = label;
+            this.pendingPoseTicks = 0;
+            this.minecraft.sendGameMessage("Positioning for " + label);
+        } else {
+            beginPlayback(loaded, output, exitWhenFinished, label);
+        }
     }
 
     private void beginPlayback(MovementRecording loaded, Path output, boolean exitWhenFinished, String label) {
@@ -170,6 +194,11 @@ public final class RecordingController {
     public void stopPlaying() {
         ensureAttached();
         if (this.playback == null) {
+            if (this.pendingPlayback != null) {
+                clearPendingPlayback();
+                this.minecraft.sendGameMessage("Playback stopped");
+                return;
+            }
             this.minecraft.sendGameMessage("No playback is running");
             return;
         }
@@ -185,13 +214,22 @@ public final class RecordingController {
     /** Invoked from both the client tick and the local-player tick mixins. */
     public void clientTick() {
         if (this.automation == null) {
+            try {
+                drivePendingPlayback();
+            } catch (RuntimeException exception) {
+                this.minecraft.sendGameMessage("Playback failed: " + safeMessage(exception));
+            }
             return;
         }
         try {
+            drivePendingPlayback();
             if (this.automation.enabled() && this.automation.mute() && !this.automationMuted) {
                 muteForAutomation();
             }
             if (!this.automation.enabled() || this.automationFinished) {
+                return;
+            }
+            if (!this.minecraft.isReadyForAutoJoin()) {
                 return;
             }
             if (this.automation.autojoin() && !this.minecraft.isConnected() && !this.minecraft.isConnecting()) {
@@ -239,6 +277,40 @@ public final class RecordingController {
                 this.minecraft.requestShutdown();
             }
         }
+    }
+
+    private void drivePendingPlayback() {
+        if (this.pendingPlayback == null) {
+            return;
+        }
+        MovementRecording loaded = this.pendingPlayback;
+        if (Double.compare(this.minecraft.playerX(), loaded.startX()) == 0
+            && Double.compare(this.minecraft.playerY(), loaded.startY()) == 0
+            && Double.compare(this.minecraft.playerZ(), loaded.startZ()) == 0) {
+            if (++this.pendingStableTicks >= 40) {
+                Path output = this.pendingOutput;
+                boolean exit = this.pendingExit;
+                String label = this.pendingLabel;
+                clearPendingPlayback();
+                beginPlayback(loaded, output, exit, label);
+                return;
+            }
+        } else {
+            this.pendingStableTicks = 0;
+        }
+        if (++this.pendingPoseTicks > 400) {
+            clearPendingPlayback();
+            throw new IllegalStateException("Server did not apply the TAS start pose");
+        }
+    }
+
+    private void clearPendingPlayback() {
+        this.pendingPlayback = null;
+        this.pendingOutput = null;
+        this.pendingExit = false;
+        this.pendingLabel = null;
+        this.pendingPoseTicks = 0;
+        this.pendingStableTicks = 0;
     }
 
     /** Called at the start of the local player tick, before movement. */
