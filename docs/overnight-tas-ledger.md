@@ -74,8 +74,11 @@ jump-strength attribute but still assign Y directly (`DirectJumpThrough1211`).
 Decompiled 1.21.2 starts retaining a higher current Y, matching modern. These
 later jump rules have source and build verification but no targeted native TAS
 captures;
-1.18.2→1.19.4 adds an upward-motion guard to sneak-edge backoff;
-1.19.4→1.20.6 replaces the full-box sneak support probe with a foot slice;
+1.18.2→1.19.4 adds an upward-motion guard to sneak-edge backoff, now split
+between `UpwardFullBoxSneakEdge` and `DownwardFullBoxSneakEdge`;
+1.19.4→1.20.6 replaces the full-box sneak support probe with a foot slice, so
+both historical rules retain the earlier full-box probe. These changes need a
+ledge-specific TAS case;
 1.20.6→1.21.11 changes step-up from two max-height alternatives to sorted
 candidate heights. Collision and pose otherwise remained structurally stable
 through 26.2 in the examined source methods. These are leads for ordered
