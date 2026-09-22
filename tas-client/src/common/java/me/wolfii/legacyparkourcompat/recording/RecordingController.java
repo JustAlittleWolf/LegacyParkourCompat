@@ -300,14 +300,21 @@ public final class RecordingController {
         if (this.deviationReported || this.automation == null || !this.automationStarted || !this.automation.compare()) {
             return;
         }
-        if (!finite(expected.x()) || !finite(expected.y()) || !finite(expected.z())) {
-            return;
-        }
         double deltaX = actualX - expected.x();
         double deltaY = actualY - expected.y();
         double deltaZ = actualZ - expected.z();
         double tolerance = this.automation.tolerance();
-        if (Math.abs(deltaX) <= tolerance && Math.abs(deltaY) <= tolerance && Math.abs(deltaZ) <= tolerance) {
+        boolean exactMatch = finite(expected.x()) && finite(expected.y()) && finite(expected.z())
+            && Double.compare(expected.x(), actualX) == 0
+            && Double.compare(expected.y(), actualY) == 0
+            && Double.compare(expected.z(), actualZ) == 0;
+        boolean withinTolerance = tolerance > 0.0D
+            && finite(expected.x()) && finite(expected.y()) && finite(expected.z())
+            && finite(actualX) && finite(actualY) && finite(actualZ)
+            && Math.abs(deltaX) <= tolerance
+            && Math.abs(deltaY) <= tolerance
+            && Math.abs(deltaZ) <= tolerance;
+        if (exactMatch || withinTolerance) {
             return;
         }
         this.deviationReported = true;

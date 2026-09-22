@@ -52,7 +52,7 @@ public final class AutomationSettings {
             booleanProperty(COMPARE_PROPERTY, false),
             System.getProperty(RUN_PROPERTY), System.getProperty(VERSION_PROPERTY),
             System.getProperty(DEVIATION_COMMAND_PROPERTY, "lpcfail"),
-            doubleProperty(TOLERANCE_PROPERTY, 1.0E-4D));
+            doubleProperty(TOLERANCE_PROPERTY, 0.0D));
     }
 
     public AutomationSettings(
@@ -98,7 +98,7 @@ public final class AutomationSettings {
         String runId = System.getProperty(RUN_PROPERTY, "tas-run");
         String version = System.getProperty(VERSION_PROPERTY, "unknown");
         String deviationCommand = System.getProperty(DEVIATION_COMMAND_PROPERTY, "lpcfail");
-        double tolerance = doubleProperty(TOLERANCE_PROPERTY, 1.0E-4D);
+        double tolerance = doubleProperty(TOLERANCE_PROPERTY, 0.0D);
         return new AutomationSettings(recording, output, System.getProperty(SERVER_PROPERTY), autoplay, autojoin, mute, exit, compare,
             runId, version, deviationCommand, tolerance);
     }

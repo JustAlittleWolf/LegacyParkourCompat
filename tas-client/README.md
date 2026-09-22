@@ -70,8 +70,10 @@ for the selected movement profile; it is deliberately separate from the
 cross-version source input accepted by `runTasWorkflow`. This starts the newest
 repository client, selects the requested movement profile, and compares each
 post-movement position with that expected recording.
-At the first tick outside `-PtasTolerance` (default `0.0001` on each
-coordinate), it sends `!lpcf <runId> <version> <tick>` as normal chat while
+By default the comparison is exact (`Double.compare` on each coordinate), so
+even the smallest representable difference fails; `-PtasTolerance` can
+explicitly allow a finite per-coordinate tolerance. At the first failing tick,
+it sends `!lpcf <runId> <version> <tick>` as normal chat while
 the player is still connected. The gym writes a `[LPC_FAILURE_SNAPSHOT]` JSON
 line containing the server-side world, position, velocity, bounding box, and
 nearby blocks; the message itself is canceled and never broadcast. A
@@ -81,7 +83,4 @@ because movement is expected to differ across versions.
 The Forge 1.12.2 MCP client uses `Minecraft.gameDir` for its run directory;
 the TAS reflection layer includes that name (alongside modern
 `gameDirectory`). This prevents the historical `.playback` crash before a
-recording file is opened. If an automated run observes its first positional
-deviation, it reports a reserved normal-chat `!lpcf <run> <version> <tick>`
-signal (maximum 64 ASCII characters) to
-the connected gym (the server records the surrounding-world snapshot).
+recording file is opened.
