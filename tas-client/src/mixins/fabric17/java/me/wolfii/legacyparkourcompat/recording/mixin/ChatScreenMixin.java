@@ -38,4 +38,16 @@ public abstract class ChatScreenMixin {
             callback.setReturnValue(Boolean.TRUE);
         }
     }
+
+    @Inject(
+        method = "handleChatInput(Ljava/lang/String;Z)V",
+        at = @At("HEAD"),
+        cancellable = true,
+        require = 0
+    )
+    private void legacyparkourcompat$clientCommandVoid(String message, boolean addToHistory, CallbackInfo callback) {
+        if (RecordingController.get().handleCommand(message)) {
+            callback.cancel();
+        }
+    }
 }
