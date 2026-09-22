@@ -11,7 +11,9 @@ public abstract class GuiChatMixin {
     @Inject(
         method = {
             "sendChatMessage(Ljava/lang/String;)V",
-            "func_175275_f(Ljava/lang/String;)V"
+            "sendChatMessage(Ljava/lang/String;Z)V",
+            "func_175275_f(Ljava/lang/String;)V",
+            "func_175281_b(Ljava/lang/String;)V"
         },
         at = @At("HEAD"),
         cancellable = true,

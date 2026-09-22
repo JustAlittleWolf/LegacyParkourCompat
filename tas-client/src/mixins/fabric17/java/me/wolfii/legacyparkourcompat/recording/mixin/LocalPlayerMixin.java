@@ -18,7 +18,12 @@ public abstract class LocalPlayerMixin {
         RecordingController.get().afterPlayerTick();
     }
 
-    @Inject(method = {"sendChat", "sendCommand", "sendChatMessage"}, at = @At("HEAD"), cancellable = true, require = 0)
+    @Inject(
+        method = {"sendChat", "sendCommand", "sendChatMessage", "chat"},
+        at = @At("HEAD"),
+        cancellable = true,
+        require = 0
+    )
     private void legacyparkourcompat$clientCommand(String message, CallbackInfo callback) {
         if (RecordingController.get().handleCommand(message)) {
             callback.cancel();

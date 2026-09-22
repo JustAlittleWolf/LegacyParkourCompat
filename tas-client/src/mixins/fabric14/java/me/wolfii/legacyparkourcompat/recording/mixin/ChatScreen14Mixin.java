@@ -7,7 +7,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(targets = "net.minecraft.client.gui.screen.ChatScreen")
+@Mixin(targets = {
+    "net.minecraft.client.gui.screens.ChatScreen",
+    "net.minecraft.client.gui.screens.Screen"
+})
 public abstract class ChatScreen14Mixin {
     @Inject(
         method = {
