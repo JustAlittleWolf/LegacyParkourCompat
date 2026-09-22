@@ -19,4 +19,4 @@ Recordings are `.lprc` files in `.legacyparkourrecordings` under the Minecraft r
 
 TAS clients are not signed in. From 1.16 onward vanilla greys out Multiplayer for that reason; this mod keeps the button enabled so you can still join the offline parkour gym.
 
-Shared recording types live in the `core` subproject (`./gradlew -p tas-client :core:test`). Mixins are selected per era (`forge`, Fabric 1.14–1.16, Fabric 1.17+ / current) rather than one config for every class name.
+Shared recording types live in the `core` subproject (`./gradlew -p tas-client :core:test`). Mixins are selected per era (`forge`, Fabric 1.14–1.16, Fabric 1.17–1.20.4, Fabric 1.20.5+ / current) rather than one config for every class name.

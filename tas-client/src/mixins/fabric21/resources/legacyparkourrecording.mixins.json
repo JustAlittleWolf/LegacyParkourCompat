@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.7",
+  "package": "me.wolfii.legacyparkourcompat.recording.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "LocalPlayerMixin",
+    "KeyboardInputMixin",
+    "ChatScreenVoidMixin",
+    "MinecraftMultiplayerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}

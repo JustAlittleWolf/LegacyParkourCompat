@@ -39,12 +39,13 @@ sourceSets {
             srcDir 'tas-client/src/common/java'
             srcDir 'tas-client/src/fabric/java'
             srcDir 'tas-client/src/mixins/fabric17/java'
+            srcDir 'tas-client/src/mixins/fabric21/java'
             srcDir 'tas-client/core/src/main/java'
         }
         resources {
             srcDir 'tas-client/src/common/resources'
             srcDir 'tas-client/src/fabric/resources'
-            srcDir 'tas-client/src/mixins/fabric17/resources'
+            srcDir 'tas-client/src/mixins/fabric21/resources'
         }
     }
 }
