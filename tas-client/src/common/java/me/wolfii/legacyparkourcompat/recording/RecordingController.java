@@ -380,17 +380,10 @@ public final class RecordingController {
         double deltaY = actualY - expected.y();
         double deltaZ = actualZ - expected.z();
         double tolerance = this.automation.tolerance();
-        boolean exactMatch = finite(expected.x()) && finite(expected.y()) && finite(expected.z())
-            && Double.compare(expected.x(), actualX) == 0
-            && Double.compare(expected.y(), actualY) == 0
-            && Double.compare(expected.z(), actualZ) == 0;
-        boolean withinTolerance = tolerance > 0.0D
-            && finite(expected.x()) && finite(expected.y()) && finite(expected.z())
-            && finite(actualX) && finite(actualY) && finite(actualZ)
-            && Math.abs(deltaX) <= tolerance
-            && Math.abs(deltaY) <= tolerance
-            && Math.abs(deltaZ) <= tolerance;
-        if (exactMatch || withinTolerance) {
+        Long maxUlps = this.automation.maxUlps();
+        if (PositionComparison.matches(expected.x(), actualX, tolerance, maxUlps)
+            && PositionComparison.matches(expected.y(), actualY, tolerance, maxUlps)
+            && PositionComparison.matches(expected.z(), actualZ, tolerance, maxUlps)) {
             return;
         }
         this.deviationReported = true;
@@ -399,6 +392,13 @@ public final class RecordingController {
             "first position deviation at tick %d (expected %.17g %.17g %.17g, actual %.17g %.17g %.17g, delta %.17g %.17g %.17g)",
             Integer.valueOf(tick), expected.x(), expected.y(), expected.z(), actualX, actualY, actualZ, deltaX, deltaY, deltaZ);
         this.minecraft.sendGameMessage(details);
+        if (maxUlps != null && finite(expected.x()) && finite(expected.y()) && finite(expected.z())
+            && finite(actualX) && finite(actualY) && finite(actualZ)) {
+            this.minecraft.sendGameMessage("ULP distance XYZ: "
+                + PositionComparison.ulpDistance(expected.x(), actualX) + ", "
+                + PositionComparison.ulpDistance(expected.y(), actualY) + ", "
+                + PositionComparison.ulpDistance(expected.z(), actualZ));
+        }
         String runId = compactToken(this.automation.runId(), "run");
         String version = compactToken(this.automation.version(), "unknown");
         String signal = String.format(Locale.ROOT, "!lpcf %s %s %d", runId, version, Integer.valueOf(tick));

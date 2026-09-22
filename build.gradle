@@ -187,6 +187,7 @@ def rootTasAutomationRun = rootTasAutomationValue('tasRun', 'LEGACY_PARKOUR_TAS_
 def rootTasAutomationVersion = rootTasAutomationValue('tasVersion', 'LEGACY_PARKOUR_TAS_VERSION')
 def rootTasAutomationCompare = rootTasAutomationValue('tasCompare', 'LEGACY_PARKOUR_TAS_COMPARE')
 def rootTasAutomationTolerance = rootTasAutomationValue('tasTolerance', 'LEGACY_PARKOUR_TAS_TOLERANCE')
+def rootTasAutomationMaxUlps = rootTasAutomationValue('tasMaxUlps', 'LEGACY_PARKOUR_TAS_MAX_ULPS')
 if (tasCompareTaskRequested) {
     if (rootTasAutomationExpected == null) {
         throw new GradleException('runTasCompare needs -PtasExpected=<version-reference.lprc>')
@@ -205,6 +206,17 @@ if (tasCompareTaskRequested) {
             }
         } catch (NumberFormatException exception) {
             throw new GradleException("Invalid -PtasTolerance=${rootTasAutomationTolerance}; expected a finite non-negative number", exception)
+        }
+    }
+    if (rootTasAutomationMaxUlps != null) {
+        try {
+            long maxUlps = Long.parseLong(rootTasAutomationMaxUlps)
+            if (maxUlps < 0L) throw new NumberFormatException('negative')
+        } catch (NumberFormatException exception) {
+            throw new GradleException("Invalid -PtasMaxUlps=${rootTasAutomationMaxUlps}; expected a non-negative integer", exception)
+        }
+        if (rootTasAutomationTolerance != null) {
+            throw new GradleException('Use either -PtasMaxUlps or -PtasTolerance, not both')
         }
     }
 
@@ -252,6 +264,9 @@ if (rootTasAutomationCompare != null) {
 }
 if (rootTasAutomationTolerance != null) {
     rootTasAutomationArgs << "-Dlegacyparkour.tas.tolerance=${rootTasAutomationTolerance}"
+}
+if (rootTasAutomationMaxUlps != null) {
+    rootTasAutomationArgs << "-Dlegacyparkour.tas.maxUlps=${rootTasAutomationMaxUlps}"
 }
 tasks.named('runCurrentTasClient').configure {
     doFirst {
@@ -325,6 +340,7 @@ tasks.register('runTasCompare') {
         String runId = rootTasAutomationRun
         String version = rootTasAutomationVersion
         double tolerance = rootTasAutomationTolerance == null ? 0.0D : Double.parseDouble(rootTasAutomationTolerance)
+        Long maxUlps = rootTasAutomationMaxUlps == null ? null : Long.valueOf(rootTasAutomationMaxUlps)
         File snapshotLog = file('parkourgym-server/run/logs/latest.log')
 
         def snapshotContext = {
@@ -385,12 +401,26 @@ tasks.register('runTasCompare') {
 
         def expected = readPositions(expectedFile, 'expected')
         def actual = readPositions(actualFile, 'actual')
+        def finite = { value -> !Double.isNaN(value as double) && !Double.isInfinite(value as double) }
+        def ulpDistance = { left, right ->
+            if (!finite(left) || !finite(right)) return null
+            long a = Double.doubleToRawLongBits(left as double)
+            long b = Double.doubleToRawLongBits(right as double)
+            BigInteger am = BigInteger.valueOf(a & Long.MAX_VALUE)
+            BigInteger bm = BigInteger.valueOf(b & Long.MAX_VALUE)
+            return (a < 0L) == (b < 0L) ? am.subtract(bm).abs() : am.add(bm)
+        }
+        List<BigInteger> maximumUlps = [BigInteger.ZERO, BigInteger.ZERO, BigInteger.ZERO]
         int expectedCount = expected.ticks.size()
         int actualCount = actual.ticks.size()
         int sharedCount = Math.min(expectedCount, actualCount)
         for (int tick = 0; tick < sharedCount; tick++) {
             List<Double> expectedPosition = expected.ticks[tick]
             List<Double> actualPosition = actual.ticks[tick]
+            List<BigInteger> distances = (0..2).collect { axis -> ulpDistance(expectedPosition[axis], actualPosition[axis]) }
+            (0..2).each { axis ->
+                if (distances[axis] != null && distances[axis] > maximumUlps[axis]) maximumUlps[axis] = distances[axis]
+            }
             boolean expectedIsFinite = !Double.isNaN(expectedPosition[0]) && !Double.isInfinite(expectedPosition[0])
                 && !Double.isNaN(expectedPosition[1]) && !Double.isInfinite(expectedPosition[1])
                 && !Double.isNaN(expectedPosition[2]) && !Double.isInfinite(expectedPosition[2])
@@ -405,11 +435,13 @@ tasks.register('runTasCompare') {
                 && Math.abs(expectedPosition[0] - actualPosition[0]) <= tolerance
                 && Math.abs(expectedPosition[1] - actualPosition[1]) <= tolerance
                 && Math.abs(expectedPosition[2] - actualPosition[2]) <= tolerance
-            if (!exactMatch && !withinTolerance) {
+            boolean withinUlps = maxUlps != null && distances.every { it != null && it <= BigInteger.valueOf(maxUlps) }
+            if (!exactMatch && !withinTolerance && !withinUlps) {
                 throw new GradleException(String.format(Locale.ROOT,
-                    'TAS comparison FAILED runId=%s version=%s tick=%d expected=(%.17g, %.17g, %.17g) actual=(%.17g, %.17g, %.17g); %s',
+                    'TAS comparison FAILED runId=%s version=%s tick=%d expected=(%.17g, %.17g, %.17g) actual=(%.17g, %.17g, %.17g) ulpXYZ=(%s, %s, %s) maxUlpXYZ=(%s, %s, %s); %s',
                     runId, version, tick, expectedPosition[0], expectedPosition[1], expectedPosition[2],
-                    actualPosition[0], actualPosition[1], actualPosition[2], snapshotContext()))
+                    actualPosition[0], actualPosition[1], actualPosition[2], distances[0], distances[1], distances[2],
+                    maximumUlps[0], maximumUlps[1], maximumUlps[2], snapshotContext()))
             }
         }
         if (expectedCount != actualCount) {
@@ -418,8 +450,8 @@ tasks.register('runTasCompare') {
                 : "expected recording ended after ${expectedCount} ticks but actual position was ${actual.ticks[expectedCount]}"
             throw new GradleException("TAS comparison FAILED runId=${runId} version=${version} tick=${sharedCount}: ${countMismatch}; ${snapshotContext()}")
         }
-        String comparisonMode = tolerance == 0.0D ? 'exact' : "tolerance=${tolerance}"
-        logger.lifecycle("TAS comparison PASSED runId=${runId} version=${version}: ${comparisonMode} positions matched for ${expectedCount} ticks (expected=${expectedFile.absolutePath}, actual=${actualFile.absolutePath})")
+        String comparisonMode = maxUlps != null ? "maxUlps=${maxUlps}" : (tolerance == 0.0D ? 'exact' : "tolerance=${tolerance}")
+        logger.lifecycle("TAS comparison PASSED runId=${runId} version=${version}: ${comparisonMode} positions matched for ${expectedCount} ticks; maxUlpXYZ=${maximumUlps} (expected=${expectedFile.absolutePath}, actual=${actualFile.absolutePath})")
     }
 }
 
