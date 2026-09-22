@@ -73,10 +73,10 @@ grounded formula through 26.1; the 26.2 native capture remains exact after
 its hook (`compare-current-34f704f5a3`). The shape, water, and pose-specific
 TAS cases noted above remain pending.
 
-Further rough-pass leads: the 1.14 fixed jump base and 1.15–1.16 block
+Further rough-pass leads: the 1.14 fixed jump base and 1.15–1.17.0 block
 jump-factor multiplier, float Jump Boost arithmetic, direct Y assignment, and
 float sprint impulse are now restored by `FixedJumpPower` and
-`BlockFactorFloatJump`. The 1.17–1.19 double Jump Boost addition and direct
+`BlockFactorFloatJump`. The 1.17.1–1.19 double Jump Boost addition and direct
 Y assignment are restored by `DoubleBoostJump`; 1.20.1–1.20.4 use float jump
 power with Boost included (`FloatJumpThrough1204`); 1.20.5–1.21.1 use the
 jump-strength attribute but still assign Y directly (`DirectJumpThrough1211`).
@@ -103,7 +103,7 @@ these checks do not prove complete coverage.
 
 Block-effect source checks found two additional boundaries. Powder snow
 inherited ordinary fall damage in 1.17 and stopped doing so in 1.18;
-`PowderSnowFallDamage` restores damage only for the 1.17 profile. Beds bounced
+`PowderSnowFallDamage` restores damage only for the 1.17 and 1.17.1 profiles. Beds bounced
 with a `0.66F` factor through 1.21.11 and use `0.75F` in 26.2;
 `LegacyBedBounce` restores the earlier factor. `LegacyBlockRestitution` now
 restores direct vertical reflection for player bed/slime contacts through
@@ -160,6 +160,31 @@ entity flag and conditional gravity, but ordinary vanilla player movement has
 no path to set that flag. It remains a narrowly scoped follow-up candidate.
 The default current profile remained exact for 200 ticks after the input hook
 (`compare-current-ce4c3501a8`), and `build build` passed.
+
+Chronological 1.14–1.18 minor/patch source pass: exact 1.14 decompilation
+failed because its pinned Yarn build.21 artifact returned HTTP 404 during
+remapping, so the 1.14.0→1.14.4 comparison remains open. Exact 1.15, 1.15.1,
+1.15.2, 1.16, 1.16.2, 1.17, 1.17.1, 1.18, 1.18.1, and 1.18.2 decompiles
+were compared with the representative sources. The 1.15.2 `LocalPlayer#aiStep`
+adds a ladder check before starting fall flight; `AllowLadderElytraStart`
+restores the earlier path for 1.9–1.15.1. The 1.16.2 client unstuck query
+changes from a full integer-Y column suffocation test to collision-shape
+sampling at the player's location; `WholeColumnUnstuck` restores the old query
+for 1.14–1.16.1. Earlier client unstuck code differs again and is not yet
+emulated. `LivingEntity#jumpFromGround` changes at 1.17.1 from float Jump Boost
+accumulation to a double sum; `BlockFactorFloatJump` now ends at 1.17.0 and
+`DoubleBoostJump` starts at 1.17.1. The 1.17 profile split also keeps powder
+snow fall damage and strict collision sprint stopping active in both patches.
+The 1.18.2 `KeyboardInput` sneak factor changes from double `0.3` with a float
+cast to float `0.3F`; ordinary digital keyboard axes (−1, 0, +1) yield the same
+float bits, while custom analog input could differ. This analog case remains
+open. The friction, Soul Sand, pose, ledge, and powder-snow boundaries in these
+pairs were already covered by the earlier source-backed Changes. The updated
+code passed `build build`; 1.9.4 passed all 200 ticks with explicit maximum
+10 ULP and observed maximum **0 ULP** (`compare-1.9.4-a89109bc30`), and the
+current disabled profile matched its native capture exactly for 200 ticks
+(`compare-current-245370b539`). Neither basic capture exercises the new ladder,
+unstuck, or Jump Boost branches.
 
 The decompiled 26.1, 26.1.1, and 26.1.2 source files for Entity,
 LivingEntity, Player, LocalPlayer, BedBlock, SlimeBlock, and SoulSandBlock are

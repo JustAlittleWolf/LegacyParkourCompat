@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 /** Powder snow inherited ordinary fall damage in 1.17; 1.18 suppressed it. */
-@MovementChange(emulates = ParkourVersion.V1_17)
+@MovementChange(emulates = ParkourVersion.V1_17_1)
 public final class PowderSnowFallDamage implements BlockFallBehavior {
     private static final String BLOCK_ID = BuiltInRegistries.BLOCK.getKey(Blocks.POWDER_SNOW).toString();
 
@@ -29,7 +29,8 @@ public final class PowderSnowFallDamage implements BlockFallBehavior {
 
     @Override
     public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, double fallDistance, VanillaCall vanilla) {
-        if (MovementRuntime.profile(entity).target() != ParkourVersion.V1_17) {
+        if (MovementRuntime.profile(entity).target().olderThan(ParkourVersion.V1_17)
+            || MovementRuntime.profile(entity).target().newerThan(ParkourVersion.V1_17_1)) {
             vanilla.run();
             return;
         }

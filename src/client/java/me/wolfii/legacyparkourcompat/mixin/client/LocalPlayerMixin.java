@@ -1,9 +1,13 @@
 package me.wolfii.legacyparkourcompat.mixin.client;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.AutoJumpBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ClientInputBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.ClientUnstuckBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.ElytraStartClimbBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintCollisionBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintDurationBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintingBehavior;
@@ -19,6 +23,36 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LocalPlayer.class)
 public abstract class LocalPlayerMixin {
+    @WrapOperation(
+        method = "aiStep",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;moveTowardsClosestSpace(DD)V")
+    )
+    private void lpc$unstuck(LocalPlayer self, double x, double z, Operation<Void> original) {
+        if (!MovementRuntime.appliesTo(self)) {
+            original.call(self, x, z);
+            return;
+        }
+        MovementRuntime.find(ClientUnstuckBehavior.class, self)
+            .ifPresentOrElse(
+                behavior -> behavior.moveTowardsClosestSpace(self, x, z, () -> original.call(self, x, z)),
+                () -> original.call(self, x, z)
+            );
+    }
+
+    @WrapOperation(
+        method = "aiStep",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;onClimbable()Z")
+    )
+    private boolean lpc$elytraStartOnLadder(LocalPlayer self, Operation<Boolean> original) {
+        boolean vanilla = original.call(self);
+        if (!MovementRuntime.appliesTo(self)) {
+            return vanilla;
+        }
+        return MovementRuntime.find(ElytraStartClimbBehavior.class, self)
+            .map(behavior -> behavior.onClimbable(self, vanilla))
+            .orElse(vanilla);
+    }
+
     @Shadow
     protected abstract boolean isControlledCamera();
 
