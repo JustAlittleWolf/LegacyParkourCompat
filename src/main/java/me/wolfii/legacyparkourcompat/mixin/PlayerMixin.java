@@ -6,6 +6,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerPoseBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeProbeBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeDistanceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintingBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SwimmingBehavior;
@@ -18,9 +19,23 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
 public abstract class PlayerMixin {
+    @Inject(method = "canFallAtLeast", at = @At("HEAD"), cancellable = true)
+    private void lpc$sneakFootProbe(double deltaX, double deltaZ, double minHeight, CallbackInfoReturnable<Boolean> cir) {
+        Player self = (Player) (Object) this;
+        if (!MovementRuntime.appliesTo(self)) {
+            return;
+        }
+        MovementRuntime.find(SneakEdgeProbeBehavior.class, self).ifPresent(behavior -> {
+            if (behavior.appliesTo(self)) {
+                cir.setReturnValue(behavior.canFallAtLeast(self, deltaX, deltaZ, minHeight));
+            }
+        });
+    }
+
     @Unique
     private boolean lpc$vanillaPose;
 
