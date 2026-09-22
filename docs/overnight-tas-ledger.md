@@ -145,3 +145,5 @@ sleeping/swimming-first order. This hook is small and source-backed, while an
 overlapping-state native capture remains pending.
 The ordinary 1.9.4 capture stayed exact for all 200 ticks after this hook
 (`compare-1.9.4-062d21372d`), and `build build` passed.
+The default current profile also remained exact for 200 ticks after both
+soul-sand and pose hooks (`compare-current-3192fe8d44`).
