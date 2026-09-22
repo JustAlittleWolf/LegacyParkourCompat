@@ -105,9 +105,10 @@ Block-effect source checks found two additional boundaries. Powder snow
 inherited ordinary fall damage in 1.17 and stopped doing so in 1.18;
 `PowderSnowFallDamage` restores damage only for the 1.17 profile. Beds bounced
 with a `0.66F` factor through 1.21.11 and use `0.75F` in 26.2;
-`LegacyBedBounce` restores the earlier factor. The 26.2 central restitution
-calculation also differs from the older direct block callback, so partial
-bed/slime contacts still require targeted parity checks.
+`LegacyBedBounce` restores the earlier factor. `LegacyBlockRestitution` now
+restores direct vertical reflection for player bed/slime contacts through
+1.21.11, with sneak suppression and no bed bounce through 1.11.2. Partial
+contacts and landing-specific TAS comparisons remain pending.
 
 Early jump source correction: through 1.13, the double Y velocity is assigned
 `0.42F` and then gains the float Jump Boost product; modern 26.2 computes a

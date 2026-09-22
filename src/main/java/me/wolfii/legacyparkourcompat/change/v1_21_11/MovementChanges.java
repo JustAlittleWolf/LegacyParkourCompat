@@ -7,5 +7,6 @@ public final class MovementChanges implements MovementChangeProvider {
     @Override
     public void register(MovementChangeRegistry registry) {
         LegacyBedBounce.register(registry);
+        registry.register(new LegacyBlockRestitution());
     }
 }
