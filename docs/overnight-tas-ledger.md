@@ -64,8 +64,10 @@ still needed;
 26.1→26.2 adds the direct-speed branch at friction <=0.6. These are evidence
 leads, not integrated fixes.
 
-Further rough-pass leads: 1.14.4→1.15.2 adds a block jump-factor multiplier;
-1.16.5→1.17.1 changes Jump Boost addition from float to double;
+Further rough-pass leads: the 1.14 fixed jump base and 1.15–1.16 block
+jump-factor multiplier, float Jump Boost arithmetic, direct Y assignment, and
+float sprint impulse are now restored by `FixedJumpPower` and
+`BlockFactorFloatJump`; 1.16.5→1.17.1 changes Jump Boost addition from float to double;
 1.18.2→1.19.4 adds an upward-motion guard to sneak-edge backoff;
 1.19.4→1.20.6 replaces the full-box sneak support probe with a foot slice;
 1.20.6→1.21.11 changes step-up from two max-height alternatives to sorted

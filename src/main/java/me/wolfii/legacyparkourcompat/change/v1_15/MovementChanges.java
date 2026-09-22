@@ -8,5 +8,6 @@ public final class MovementChanges implements MovementChangeProvider {
     public void register(MovementChangeRegistry registry) {
         registry.register(new DeepFrictionBlock());
         registry.register(new ShallowFrictionBlock());
+        registry.register(new BlockFactorFloatJump());
     }
 }

@@ -23,6 +23,9 @@ public interface EntityInvoker {
     @Invoker("getOnPos")
     BlockPos lpc$getOnPos(float offset);
 
+    @Invoker("getBlockJumpFactor")
+    float lpc$getBlockJumpFactor();
+
     @Invoker("restituteMovementAfterCollisions")
     void lpc$restituteMovementAfterCollisions(
         net.minecraft.world.level.block.state.BlockState effectState,
