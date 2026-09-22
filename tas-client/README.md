@@ -15,7 +15,9 @@ In-game (simulation keys and facing, not the camera):
 
 Right-click is stored as both hold and press: holding use (bow draw) is not the same as a click this tick (pearl / place).
 
-Recordings are `.lprc` files in `.legacyparkourrecordings` under the Minecraft run directory. The on-disk layout is the same on every version. Playback teleports to the start pose, then applies recorded keys and facing each tick; stored positions are for later comparison and are not replayed.
+Each Unimined version uses its own game directory, `tas-client/run/<minecraft version>` (for example `tas-client/run/1.8.9`). Worlds and `options.txt` are not shared: a save written by a newer client makes 1.8 crash while reading chunk NBT. `current` still uses the repository Loom run directory.
+
+Recordings are `.lprc` files in `.legacyparkourrecordings` under that game directory. The on-disk layout is the same on every version. Playback teleports to the start pose, then applies recorded keys and facing each tick; stored positions are for later comparison and are not replayed.
 
 TAS clients are not signed in. From 1.16 onward vanilla greys out Multiplayer for that reason; this mod keeps the button enabled so you can still join the offline parkour gym.
 

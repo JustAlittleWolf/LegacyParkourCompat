@@ -96,8 +96,15 @@ if (!ideaSync && compareMc(clientTarget.minecraft, '26') < 0) {
                 loader clientTarget.forgeVersion
                 mixinConfig 'legacyparkourrecording.mixins.json'
             }
-            runs {
-                config('client') {
+        }
+        // Unimined's default game directory is run/client for every version.
+        // A world saved by a newer client uses NBT tag types 1.8 cannot
+        // construct (createNewByType returns null, then NBTTagCompound.readNBT
+        // NPEs). Keep saves, options, and mods in a per-version folder.
+        runs {
+            config('client') {
+                workingDir = layout.projectDirectory.dir("run/${clientTarget.minecraft}").asFile
+                if (!useFabric) {
                     jvmArgs '-Dfml.coreMods.load=me.wolfii.legacyparkourcompat.recording.RecordingMixinCoremod'
                 }
             }
