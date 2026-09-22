@@ -7,6 +7,7 @@ public final class MovementChanges implements MovementChangeProvider {
     @Override
     public void register(MovementChangeRegistry registry) {
         registry.register(new NegligibleSpeed());
+        registry.register(new GroundAccelerationThrough112());
         registry.register(new StandingPose());
         registry.register(new NoClientEntityPush());
         registry.register(new LadderCollision());
