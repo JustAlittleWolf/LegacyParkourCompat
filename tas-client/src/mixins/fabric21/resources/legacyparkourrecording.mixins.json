@@ -4,9 +4,10 @@
   "package": "me.wolfii.legacyparkourcompat.recording.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
-    "EntityPlayerSPMixin",
-    "MovementInputFromOptionsMixin",
-    "GuiScreenMixin"
+    "LocalPlayerMixin",
+    "KeyboardInputMixin",
+    "ChatScreenVoidMixin",
+    "MinecraftMultiplayerMixin"
   ],
   "injectors": {
     "defaultRequire": 0

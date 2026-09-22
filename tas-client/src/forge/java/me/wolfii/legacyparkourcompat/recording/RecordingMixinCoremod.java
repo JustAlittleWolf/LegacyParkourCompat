@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Forge 1.8–1.12 does not bundle Mixin. Unimined passes {@code --mixin} but
  * LaunchWrapper never loads MixinTweaker, so the recording mixins never apply
- * unless this coremod bootstraps them.
+ * unless this coremod bootstraps Mixin 0.7 (the last line that runs on Forge's ASM 5).
  */
 @IFMLLoadingPlugin.Name("legacyparkourrecording")
 @IFMLLoadingPlugin.SortingIndex(Integer.MIN_VALUE)

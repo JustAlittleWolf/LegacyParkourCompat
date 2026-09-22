@@ -43,7 +43,12 @@ sourceSets {
         java {
             srcDir 'src/common/java'
             srcDir useFabric ? 'src/fabric/java' : 'src/forge/java'
-            srcDir "src/mixins/${mixinEra}/java"
+            if (mixinEra == 'fabric21') {
+                srcDir 'src/mixins/fabric17/java'
+                srcDir 'src/mixins/fabric21/java'
+            } else {
+                srcDir "src/mixins/${mixinEra}/java"
+            }
         }
         resources {
             srcDir 'src/common/resources'
@@ -59,9 +64,12 @@ dependencies {
         compileOnly 'org.spongepowered:mixin:0.8.5'
         compileOnly "net.fabricmc:fabric-loader:${clientTarget.fabricLoader}"
     } else {
-        // Forge 1.8–1.12 does not shade Mixin. compileOnly leaves it off the
-        // runClient classpath, so recording mixins never apply.
-        implementation('org.spongepowered:mixin:0.8.5') {
+        // Forge 1.8–1.12 ships ASM 5 and does not shade Mixin. Mixin 0.8+
+        // needs org.objectweb.asm.commons.ClassRemapper (ASM 6+), so the
+        // client dies in MixinBootstrap. 0.7.11 relocates ASM and runs on
+        // Forge's ASM 5. Keep it non-transitive so it does not replace
+        // Forge's Guava or Gson.
+        implementation('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
             transitive = false
         }
     }
@@ -192,6 +200,9 @@ def resolveTasClient() {
 def mixinEraFor(target) {
     if (target.loader == 'forge') {
         return 'forge'
+    }
+    if (compareMc(target.minecraft, '1.20.5') >= 0) {
+        return 'fabric21'
     }
     return compareMc(target.minecraft, '1.17') >= 0 ? 'fabric17' : 'fabric14'
 }
