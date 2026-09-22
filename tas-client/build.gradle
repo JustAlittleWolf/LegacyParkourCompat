@@ -55,9 +55,15 @@ sourceSets {
 
 dependencies {
     implementation project(':core')
-    compileOnly 'org.spongepowered:mixin:0.8.5'
     if (useFabric) {
+        compileOnly 'org.spongepowered:mixin:0.8.5'
         compileOnly "net.fabricmc:fabric-loader:${clientTarget.fabricLoader}"
+    } else {
+        // Forge 1.8–1.12 does not shade Mixin. compileOnly leaves it off the
+        // runClient classpath, so recording mixins never apply.
+        implementation('org.spongepowered:mixin:0.8.5') {
+            transitive = false
+        }
     }
 }
 
@@ -82,6 +88,11 @@ if (!ideaSync && compareMc(clientTarget.minecraft, '26') < 0) {
                 loader clientTarget.forgeVersion
                 mixinConfig 'legacyparkourrecording.mixins.json'
             }
+            runs {
+                config('client') {
+                    jvmArgs '-Dfml.coreMods.load=me.wolfii.legacyparkourcompat.recording.RecordingMixinCoremod'
+                }
+            }
         }
     }
 }
@@ -96,6 +107,16 @@ processResources {
 
 tasks.named('jar', Jar) {
     from project(':core').sourceSets.main.output
+    if (!useFabric) {
+        manifest {
+            attributes(
+                'FMLCorePlugin': 'me.wolfii.legacyparkourcompat.recording.RecordingMixinCoremod',
+                'FMLCorePluginContainsFMLMod': 'true',
+                'ForceLoadAsMod': 'true',
+                'MixinConfigs': 'legacyparkourrecording.mixins.json'
+            )
+        }
+    }
 }
 
 tasks.register('runTasClient') {

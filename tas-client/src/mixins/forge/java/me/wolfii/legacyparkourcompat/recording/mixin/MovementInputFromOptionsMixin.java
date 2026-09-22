@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(targets = "net.minecraft.util.MovementInputFromOptions")
 public abstract class MovementInputFromOptionsMixin {
-    @Inject(method = "updatePlayerMoveState", at = @At("HEAD"), cancellable = true, require = 0)
+    @Inject(method = {"updatePlayerMoveState", "func_78898_a"}, at = @At("HEAD"), cancellable = true, require = 0)
     private void legacyparkourcompat$skipVanillaWhilePlaying(CallbackInfo callback) {
         if (RecordingController.get().isPlaying()) {
             callback.cancel();

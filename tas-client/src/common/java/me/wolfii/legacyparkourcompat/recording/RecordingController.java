@@ -169,7 +169,6 @@ public final class RecordingController {
         }
     }
 
-    // TODO: this does not work in 1.8.9
     public boolean handleCommand(String raw) {
         if (raw == null) {
             return false;

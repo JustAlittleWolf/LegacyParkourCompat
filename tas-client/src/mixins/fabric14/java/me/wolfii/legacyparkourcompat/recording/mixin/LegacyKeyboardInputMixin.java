@@ -6,9 +6,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(targets = "net.minecraft.client.KeyboardInput")
+@Mixin(targets = "net.minecraft.client.player.KeyboardInput")
 public abstract class LegacyKeyboardInputMixin {
-    @Inject(method = {"tick()V", "tick(Z)V", "tick(ZF)V"}, at = @At("HEAD"), cancellable = true, require = 0)
+    @Inject(method = {"tick()V", "tick(Z)V", "tick(ZF)V", "tick(ZZ)V"}, at = @At("HEAD"), cancellable = true, require = 0)
     private void legacyparkourcompat$skipVanillaWhilePlaying(CallbackInfo callback) {
         if (RecordingController.get().isPlaying()) {
             callback.cancel();

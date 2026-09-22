@@ -17,4 +17,6 @@ Right-click is stored as both hold and press: holding use (bow draw) is not the 
 
 Recordings are `.lprc` files in `.legacyparkourrecordings` under the Minecraft run directory. The on-disk layout is the same on every version. Playback teleports to the start pose, then applies recorded keys and facing each tick; stored positions are for later comparison and are not replayed.
 
+TAS clients are not signed in. From 1.16 onward vanilla greys out Multiplayer for that reason; this mod keeps the button enabled so you can still join the offline parkour gym.
+
 Shared recording types live in the `core` subproject (`./gradlew -p tas-client :core:test`). Mixins are selected per era (`forge`, Fabric 1.14–1.16, Fabric 1.17+ / current) rather than one config for every class name.
