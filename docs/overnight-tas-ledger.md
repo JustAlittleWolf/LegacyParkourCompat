@@ -121,15 +121,38 @@ collision and pose additions (`compare-current-a4d472c7bb`).
 
 Soul sand source check: 1.14.4 applies a double-precision `0.4` X/Z velocity
 multiplier once for every soul-sand cell overlapping the player's final AABB
-during `Entity#baseTick`. In 1.15.2 and 1.16.5, the block supplies a float
-speed factor selected from the player's cell or the block below and applies it
-once during `baseTick`. By 1.17.1 the factor moved to `Entity#move`; 26.2
-still applies it there. `OverlappingSoulSandSpeed` and `BaseTickSoulSandSpeed`
-restore the earlier timing and selection for player profiles through 1.16.5.
-The modern soul-sand factor is suppressed for those profiles. The required
-`build build` passed, and the ordinary 1.9.4 recording stayed exact for all
-200 ticks (`compare-1.9.4-315137b2f4`). A targeted soul-sand TAS comparison
-remains pending.
+during `Entity#move`, after collision resolution. In 1.15.2 and 1.16.5,
+Soul Sand and Honey Block supply float `0.4F` speed factors selected from the
+player's cell or the block below, also applied inside `Entity#move`. The same
+move-stage factor remains through 26.2. `OverlappingSoulSandSpeed` restores
+the pre-1.15 per-cell callbacks at the movement-stage speed-factor call and
+suppresses the native one-block Soul Sand factor for those profiles. Honey is
+left native because it did not exist in pre-1.15 maps. An earlier committed
+base-tick hook was based on a mistaken reading of method boundaries and has
+been corrected. The initial `build build` passed and the ordinary 1.9.4
+recording stayed exact for 200 ticks (`compare-1.9.4-315137b2f4`); validation
+of the corrected hook passed the 1.9.4 ordinary recording exactly for 200
+ticks (`compare-1.9.4-61502f9eba`). A targeted Soul Sand case remains pending.
+
+Revisiting the early collision source exposed an uncovered sneak-edge probe.
+1.8.9 and 1.9.4 run a whole-AABB X, Z, then diagonal probe exactly one block
+below the feet during `Entity#move`, with 0.05 reductions and only an on-ground
+plus sneaking gate. 1.11.2 retains the whole box but switches the probe depth
+to player step height and restricts movement type to SELF/PLAYER; 1.16.5
+retains that whole-box geometry. `OneBlockFullBoxSneakEdge` now restores the
+first rule through 1.10.2, and `GroundOnlySneakEdge` uses the shared whole-box
+probe through 1.16.1. The ordinary 1.9.4 recording remains exact for 200
+ticks (`compare-1.9.4-dca1a57f0d`); a ledge-specific native case is pending.
+The 1.8.9 recording passes 200 ticks with maximum 7 ULP
+(`compare-1.8.9-f06a432e1b`), and the default current recording remains exact
+for 200 ticks (`compare-current-244f37e676`) after both corrections.
+
+The 1.8.9→1.9.4 source pair also shows a flying-and-sneaking horizontal
+input division by double `0.3` added in 1.9 and retained through 1.14.4,
+then absent by 1.15.2. It is observable with item-use slowdown or small
+analog inputs. The 1.9.4→1.10.2 pair adds a no-gravity entity flag and
+conditional gravity, but ordinary vanilla player movement has no path to set
+that flag. Both remain narrowly scoped follow-up candidates.
 
 The decompiled 26.1, 26.1.1, and 26.1.2 source files for Entity,
 LivingEntity, Player, LocalPlayer, BedBlock, SlimeBlock, and SoulSandBlock are

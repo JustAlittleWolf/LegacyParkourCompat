@@ -78,24 +78,20 @@ public abstract class EntityMixin {
         return resolved;
     }
 
-    @Inject(method = "baseTick", at = @At("TAIL"))
-    private void lpc$soulSandBaseTick(CallbackInfo ci) {
-        Entity self = (Entity) (Object) this;
-        if (MovementRuntime.appliesTo(self)) {
-            MovementRuntime.find(SoulSandSpeedBehavior.class, self)
-                .ifPresent(behavior -> behavior.baseTick(self));
+    @WrapOperation(
+        method = "move",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;getBlockSpeedFactor()F")
+    )
+    private float lpc$historicalSoulSandSpeed(Entity instance, Operation<Float> original) {
+        if (!MovementRuntime.appliesTo(instance)) {
+            return original.call(instance);
         }
-    }
-
-    @ModifyReturnValue(method = "getBlockSpeedFactor", at = @At("RETURN"))
-    private float lpc$soulSandMovementFactor(float vanilla) {
-        Entity self = (Entity) (Object) this;
-        if (!MovementRuntime.appliesTo(self)) {
-            return vanilla;
-        }
-        return MovementRuntime.find(SoulSandSpeedBehavior.class, self)
-            .map(behavior -> behavior.movementSpeedFactor(self, vanilla))
-            .orElse(vanilla);
+        return MovementRuntime.find(SoulSandSpeedBehavior.class, instance)
+            .map(behavior -> {
+                behavior.afterCollision(instance);
+                return behavior.movementSpeedFactor(instance, original.call(instance));
+            })
+            .orElseGet(() -> original.call(instance));
     }
 
     @WrapOperation(

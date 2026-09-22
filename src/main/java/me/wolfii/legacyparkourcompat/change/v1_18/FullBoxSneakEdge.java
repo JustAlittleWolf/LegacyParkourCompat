@@ -20,9 +20,13 @@ public abstract class FullBoxSneakEdge implements SneakEdgeBehavior {
             return delta;
         }
 
+        return backOff(player, delta, player.maxUpStep());
+    }
+
+    /** Shared historical whole-box X/Z/diagonal probe and 0.05 reduction. */
+    public static Vec3 backOff(Player player, Vec3 delta, double step) {
         double x = delta.x;
         double z = delta.z;
-        float step = player.maxUpStep();
         while (x != 0.0 && player.level().noCollision(player, player.getBoundingBox().move(x, -step, 0.0))) {
             x = reduce(x);
         }
