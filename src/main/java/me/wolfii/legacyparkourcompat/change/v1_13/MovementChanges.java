@@ -14,6 +14,8 @@ public final class MovementChanges implements MovementChangeProvider {
         registry.register(new SneakHeight165());
         SimpleAnvilCollision.register(registry);
         LegacyCauldronCollision.register(registry);
+        WholeBaseCauldronCollision.register(registry);
+        SolidBedCollision.register(registry);
         LegacyHopperCollision.register(registry);
         LegacyBrewingStandCollision.register(registry);
         LegacySnowLayerCollision.register(registry);
