@@ -88,10 +88,16 @@ between `UpwardFullBoxSneakEdge` and `DownwardFullBoxSneakEdge`;
 1.19.4→1.20.6 replaces the full-box sneak support probe with a foot slice, so
 both historical rules retain the earlier full-box probe. These changes need a
 ledge-specific TAS case;
-1.20.6→1.21.11 changes step-up from two max-height alternatives to sorted
-candidate heights. Collision and pose otherwise remained structurally stable
-through 26.2 in the examined source methods. These are leads for ordered
-implementation, not claims of complete coverage.
+1.20.6→1.21 changes step-up from two max-height alternatives to sorted
+candidate heights. `TwoRouteStepUp` restores the older collision path through
+1.20.6. Exact 1.21 source confirms the new path already exists at that
+release. After the change, 1.8.9 remains within 7 ULP
+(`compare-1.8.9-05e53e8874`) and 1.9.4 remains exact
+(`compare-1.9.4-418a48261c`), both for 200 ticks. A multi-height step and
+corner-specific native recording is still needed. The 1.21.5 foot-slice
+epsilon change remains a source-backed gap. Collision and pose otherwise
+remained structurally stable through 26.2 in the examined source methods;
+these checks do not prove complete coverage.
 
 Block-effect source checks found two additional boundaries. Powder snow
 inherited ordinary fall damage in 1.17 and stopped doing so in 1.18;
