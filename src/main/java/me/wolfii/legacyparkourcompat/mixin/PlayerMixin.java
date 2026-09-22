@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.hook.DesiredPoseBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerPoseBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeProbeBehavior;
@@ -11,6 +12,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeDistanceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintingBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SwimmingBehavior;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,6 +25,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
 public abstract class PlayerMixin {
+    @ModifyReturnValue(method = "getDesiredPose", at = @At("RETURN"))
+    private Pose lpc$desiredPose(Pose vanilla) {
+        Player self = (Player) (Object) this;
+        if (!MovementRuntime.appliesTo(self)) {
+            return vanilla;
+        }
+        return MovementRuntime.find(DesiredPoseBehavior.class, self)
+            .map(behavior -> behavior.desiredPose(self, vanilla))
+            .orElse(vanilla);
+    }
+
     @Inject(method = "canFallAtLeast", at = @At("HEAD"), cancellable = true)
     private void lpc$sneakFootProbe(double deltaX, double deltaZ, double minHeight, CallbackInfoReturnable<Boolean> cir) {
         Player self = (Player) (Object) this;

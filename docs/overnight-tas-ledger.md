@@ -138,4 +138,10 @@ for those patches based on these files. The 1.20.1→1.20.4, 1.20.5→1.20.6,
 1.21→1.21.1→1.21.2→1.21.4, and 1.21.5→1.21.8→1.21.11 geometry/pose
 methods showed no further changes in the examined decompiles. The 1.21.5
 pose priority order changed when multiple desired poses overlap; reachability
-and movement effect still need investigation.
+and movement effect still need investigation. `FallFlyingFirstPose` now
+restores the through-1.21.4 order (fall flying, sleeping, swimming, spin,
+crouch, standing) for selected historical profiles; 1.21.5+ keeps native
+sleeping/swimming-first order. This hook is small and source-backed, while an
+overlapping-state native capture remains pending.
+The ordinary 1.9.4 capture stayed exact for all 200 ticks after this hook
+(`compare-1.9.4-062d21372d`), and `build build` passed.
