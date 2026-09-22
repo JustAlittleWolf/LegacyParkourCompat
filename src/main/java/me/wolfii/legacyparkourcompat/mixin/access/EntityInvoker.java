@@ -26,6 +26,9 @@ public interface EntityInvoker {
     @Invoker("getBlockJumpFactor")
     float lpc$getBlockJumpFactor();
 
+    @Invoker("getBlockPosBelowThatAffectsMyMovement")
+    BlockPos lpc$getBlockPosBelowThatAffectsMyMovement();
+
     @Invoker("restituteMovementAfterCollisions")
     void lpc$restituteMovementAfterCollisions(
         net.minecraft.world.level.block.state.BlockState effectState,

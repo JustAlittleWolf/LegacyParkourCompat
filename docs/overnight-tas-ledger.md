@@ -118,3 +118,24 @@ now restores the full earlier jump assignment and boost order. The original
 matches exactly (`compare-1.9.4-59a7229070`), each for 200 ticks. The default
 current profile also matches its native 200-tick capture exactly after the
 collision and pose additions (`compare-current-a4d472c7bb`).
+
+Soul sand source check: 1.14.4 applies a double-precision `0.4` X/Z velocity
+multiplier once for every soul-sand cell overlapping the player's final AABB
+during `Entity#baseTick`. In 1.15.2 and 1.16.5, the block supplies a float
+speed factor selected from the player's cell or the block below and applies it
+once during `baseTick`. By 1.17.1 the factor moved to `Entity#move`; 26.2
+still applies it there. `OverlappingSoulSandSpeed` and `BaseTickSoulSandSpeed`
+restore the earlier timing and selection for player profiles through 1.16.5.
+The modern soul-sand factor is suppressed for those profiles. The required
+`build build` passed, and the ordinary 1.9.4 recording stayed exact for all
+200 ticks (`compare-1.9.4-315137b2f4`). A targeted soul-sand TAS comparison
+remains pending.
+
+The decompiled 26.1, 26.1.1, and 26.1.2 source files for Entity,
+LivingEntity, Player, LocalPlayer, BedBlock, SlimeBlock, and SoulSandBlock are
+byte-identical across both adjacent patch pairs. No movement split is needed
+for those patches based on these files. The 1.20.1→1.20.4, 1.20.5→1.20.6,
+1.21→1.21.1→1.21.2→1.21.4, and 1.21.5→1.21.8→1.21.11 geometry/pose
+methods showed no further changes in the examined decompiles. The 1.21.5
+pose priority order changed when multiple desired poses overlap; reachability
+and movement effect still need investigation.

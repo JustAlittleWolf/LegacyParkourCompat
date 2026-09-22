@@ -10,5 +10,6 @@ public final class MovementChanges implements MovementChangeProvider {
         registry.register(new NoJumpClimb());
         registry.register(new NoSneakSprint());
         registry.register(new FixedJumpPower());
+        registry.register(new OverlappingSoulSandSpeed());
     }
 }
