@@ -25,6 +25,7 @@ public final class AutomationSettings {
     public static final String VERSION_PROPERTY = "legacyparkour.tas.version";
     public static final String DEVIATION_COMMAND_PROPERTY = "legacyparkour.tas.deviationCommand";
     public static final String TOLERANCE_PROPERTY = "legacyparkour.tas.tolerance";
+    public static final String MAX_ULPS_PROPERTY = "legacyparkour.tas.maxUlps";
 
     private final Path recording;
     private final Path output;
@@ -38,6 +39,7 @@ public final class AutomationSettings {
     private final String version;
     private final String deviationCommand;
     private final double tolerance;
+    private final Long maxUlps;
 
     public AutomationSettings(
         Path recording,
@@ -52,7 +54,7 @@ public final class AutomationSettings {
             booleanProperty(COMPARE_PROPERTY, false),
             System.getProperty(RUN_PROPERTY), System.getProperty(VERSION_PROPERTY),
             System.getProperty(DEVIATION_COMMAND_PROPERTY, "lpcfail"),
-            doubleProperty(TOLERANCE_PROPERTY, 0.0D));
+            doubleProperty(TOLERANCE_PROPERTY, 0.0D), longProperty(MAX_ULPS_PROPERTY));
     }
 
     public AutomationSettings(
@@ -67,7 +69,8 @@ public final class AutomationSettings {
         String runId,
         String version,
         String deviationCommand,
-        double tolerance
+        double tolerance,
+        Long maxUlps
     ) {
         this.recording = recording;
         this.output = output;
@@ -84,6 +87,13 @@ public final class AutomationSettings {
             throw new IllegalArgumentException("TAS tolerance must be a finite non-negative number");
         }
         this.tolerance = tolerance;
+        if (maxUlps != null && maxUlps < 0L) {
+            throw new IllegalArgumentException("TAS max ULPs must be non-negative");
+        }
+        if (maxUlps != null && tolerance != 0.0D) {
+            throw new IllegalArgumentException("TAS max ULPs and absolute tolerance are mutually exclusive");
+        }
+        this.maxUlps = maxUlps;
     }
 
     /** Reads the documented {@code -Dlegacyparkour.tas.*} launch properties. */
@@ -99,8 +109,9 @@ public final class AutomationSettings {
         String version = System.getProperty(VERSION_PROPERTY, "unknown");
         String deviationCommand = System.getProperty(DEVIATION_COMMAND_PROPERTY, "lpcfail");
         double tolerance = doubleProperty(TOLERANCE_PROPERTY, 0.0D);
+        Long maxUlps = longProperty(MAX_ULPS_PROPERTY);
         return new AutomationSettings(recording, output, System.getProperty(SERVER_PROPERTY), autoplay, autojoin, mute, exit, compare,
-            runId, version, deviationCommand, tolerance);
+            runId, version, deviationCommand, tolerance, maxUlps);
     }
 
     public Path recording() {
@@ -151,6 +162,10 @@ public final class AutomationSettings {
         return this.tolerance;
     }
 
+    public Long maxUlps() {
+        return this.maxUlps;
+    }
+
     public boolean enabled() {
         return this.autoplay && this.recording != null;
     }
@@ -194,6 +209,22 @@ public final class AutomationSettings {
             return parsed;
         } catch (NumberFormatException exception) {
             throw new IllegalArgumentException("Expected a finite non-negative number for -D" + name + ", got '" + value + "'", exception);
+        }
+    }
+
+    private static Long longProperty(String name) {
+        String value = System.getProperty(name);
+        if (value == null || value.trim().isEmpty()) {
+            return null;
+        }
+        try {
+            long parsed = Long.parseLong(value.trim());
+            if (parsed < 0L) {
+                throw new NumberFormatException("negative");
+            }
+            return parsed;
+        } catch (NumberFormatException exception) {
+            throw new IllegalArgumentException("Expected a non-negative integer for -D" + name + ", got '" + value + "'", exception);
         }
     }
 }
