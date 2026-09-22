@@ -7,6 +7,7 @@ public final class MovementChanges implements MovementChangeProvider {
     @Override
     public void register(MovementChangeRegistry registry) {
         registry.register(new DoubleBoostJump());
+        PowderSnowFallDamage.register(registry);
         registry.register(new HeadSwimStart());
         registry.register(new BoundingBoxMovementPosition());
         registry.register(new StrictCollisionSprintStop());

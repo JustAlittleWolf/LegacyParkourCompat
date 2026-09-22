@@ -183,6 +183,23 @@ public abstract class LivingEntityMixin {
     }
 
     @WrapOperation(
+        method = "handleRelativeFrictionAndCalculateMovement",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/LivingEntity;getFrictionInfluencedSpeed(F)F"
+        )
+    )
+    private float lpc$frictionSpeed(LivingEntity instance, float blockFriction, Operation<Float> original) {
+        float vanilla = original.call(instance, blockFriction);
+        if (!MovementRuntime.appliesTo(instance)) {
+            return vanilla;
+        }
+        return MovementRuntime.find(GroundSpeedBehavior.class, instance)
+            .map(behavior -> behavior.speed(instance, blockFriction, vanilla))
+            .orElse(vanilla);
+    }
+
+    @WrapOperation(
         method = "travelInAir",
         at = @At(
             value = "INVOKE",

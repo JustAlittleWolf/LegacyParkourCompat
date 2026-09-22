@@ -40,7 +40,9 @@
       "me.wolfii.legacyparkourcompat.change.v1_19_4.MovementChanges",
       "me.wolfii.legacyparkourcompat.change.v1_20.MovementChanges",
       "me.wolfii.legacyparkourcompat.change.v1_21.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_21_4.MovementChanges"
+      "me.wolfii.legacyparkourcompat.change.v1_21_4.MovementChanges",
+      "me.wolfii.legacyparkourcompat.change.v1_21_11.MovementChanges",
+      "me.wolfii.legacyparkourcompat.change.v26_1.MovementChanges"
     ],
     "modmenu": [
       "me.wolfii.legacyparkourcompat.config.ModMenuIntegration"

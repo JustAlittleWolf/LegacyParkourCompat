@@ -61,8 +61,12 @@ preserved through 1.12.2. Shape-specific TAS coverage is pending. The
 ticks exactly (`compare-1.9.4-2c79a8c804`). A blocked-clearance TAS case is
 still needed;
 1.21.4→1.21.5 adds square input preparation;
-26.1→26.2 adds the direct-speed branch at friction <=0.6. These are evidence
-leads, not integrated fixes.
+26.1→26.2 adds a direct-speed branch when float friction is at most the double
+literal `0.6` (`0.6F` itself is slightly greater when promoted to double).
+`FrictionSpeedThrough261` restores the old unconditional
+grounded formula through 26.1; the 26.2 native capture remains exact after
+its hook (`compare-current-34f704f5a3`). The shape, water, and pose-specific
+TAS cases noted above remain pending.
 
 Further rough-pass leads: the 1.14 fixed jump base and 1.15–1.16 block
 jump-factor multiplier, float Jump Boost arithmetic, direct Y assignment, and
@@ -83,6 +87,14 @@ ledge-specific TAS case;
 candidate heights. Collision and pose otherwise remained structurally stable
 through 26.2 in the examined source methods. These are leads for ordered
 implementation, not claims of complete coverage.
+
+Block-effect source checks found two additional boundaries. Powder snow
+inherited ordinary fall damage in 1.17 and stopped doing so in 1.18;
+`PowderSnowFallDamage` restores damage only for the 1.17 profile. Beds bounced
+with a `0.66F` factor through 1.21.11 and use `0.75F` in 26.2;
+`LegacyBedBounce` restores the earlier factor. The 26.2 central restitution
+calculation also differs from the older direct block callback, so partial
+bed/slime contacts still require targeted parity checks.
 
 Early jump source correction: through 1.13, the double Y velocity is assigned
 `0.42F` and then gains the float Jump Boost product; modern 26.2 computes a
