@@ -2,7 +2,9 @@ package me.wolfii.legacyparkourcompat.change.v1_8;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
+import me.wolfii.legacyparkourcompat.mechanic.hook.ClimbVerticalClampBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.FrictionMovementBehavior;
 import me.wolfii.legacyparkourcompat.mixin.access.LivingEntityInvoker;
 import net.minecraft.world.entity.LivingEntity;
@@ -26,13 +28,19 @@ public class LegacyGroundAcceleration implements FrictionMovementBehavior {
 
     private final Map<LivingEntity, Boolean> priorSprint = Collections.synchronizedMap(new WeakHashMap<>());
     private final float groundFactor;
+    private final boolean oldYawConversion;
 
     public LegacyGroundAcceleration() {
-        this(0.16277137F);
+        this(0.16277137F, false);
     }
 
     protected LegacyGroundAcceleration(float groundFactor) {
+        this(groundFactor, false);
+    }
+
+    protected LegacyGroundAcceleration(float groundFactor, boolean oldYawConversion) {
         this.groundFactor = groundFactor;
+        this.oldYawConversion = oldYawConversion;
     }
 
     @Override
@@ -65,7 +73,9 @@ public class LegacyGroundAcceleration implements FrictionMovementBehavior {
             magnitude = speed / magnitude;
             sideways *= magnitude;
             forward *= magnitude;
-            float radians = entity.getYRot() * (float) Math.PI / 180.0F;
+            float radians = this.oldYawConversion
+                ? entity.getYRot() * (float) Math.PI / 180.0F
+                : entity.getYRot() * (float) (Math.PI / 180.0);
             float sin = sin(radians);
             float cos = cos(radians);
             Vec3 velocity = entity.getDeltaMovement();
@@ -76,7 +86,11 @@ public class LegacyGroundAcceleration implements FrictionMovementBehavior {
             );
         }
 
-        entity.setDeltaMovement(((LivingEntityInvoker) entity).lpc$handleOnClimbable(entity.getDeltaMovement()));
+        Vec3 vanillaClimbingMovement = ((LivingEntityInvoker) entity).lpc$handleOnClimbable(entity.getDeltaMovement());
+        Vec3 climbingMovement = MovementRuntime.find(ClimbVerticalClampBehavior.class, entity)
+            .map(behavior -> behavior.clampVertical(entity, vanillaClimbingMovement))
+            .orElse(vanillaClimbingMovement);
+        entity.setDeltaMovement(climbingMovement);
         entity.move(MoverType.SELF, entity.getDeltaMovement());
         Vec3 movement = entity.getDeltaMovement();
         if (entity.horizontalCollision && entity.onClimbable()) {

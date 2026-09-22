@@ -3,6 +3,7 @@ package me.wolfii.legacyparkourcompat.mixin.client;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.AutoJumpBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.SprintCollisionBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintingBehavior;
 import net.minecraft.client.player.LocalPlayer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -38,8 +39,11 @@ public abstract class LocalPlayerMixin {
         if (!MovementRuntime.appliesTo(self)) {
             return vanilla;
         }
-        return MovementRuntime.find(SprintingBehavior.class, self)
+        boolean oldSprintRules = MovementRuntime.find(SprintingBehavior.class, self)
             .map(behavior -> behavior.shouldStopRunSprinting(self, vanilla))
             .orElse(vanilla);
+        return MovementRuntime.find(SprintCollisionBehavior.class, self)
+            .map(behavior -> behavior.shouldStopRunSprinting(self, oldSprintRules))
+            .orElse(oldSprintRules);
     }
 }

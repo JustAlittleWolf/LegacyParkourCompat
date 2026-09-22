@@ -26,6 +26,9 @@ public abstract class EntityMixin {
     @Unique
     private boolean lpc$vanillaRestitution;
 
+    @Unique
+    private Vec3 lpc$resolvedMovement;
+
     @WrapOperation(
         method = "collideWithShapes",
         at = @At(
@@ -48,6 +51,7 @@ public abstract class EntityMixin {
 
     @Inject(method = "move", at = @At("HEAD"))
     private void lpc$enterMove(net.minecraft.world.entity.MoverType moverType, Vec3 delta, CallbackInfo ci) {
+        this.lpc$resolvedMovement = null;
         MovementRuntime.enter((Entity) (Object) this);
     }
 
@@ -67,9 +71,27 @@ public abstract class EntityMixin {
         if (!MovementRuntime.appliesTo(instance)) {
             return original.call(instance, movement);
         }
-        return MovementRuntime.find(CollisionAlgorithm.class, instance)
+        Vec3 resolved = MovementRuntime.find(CollisionAlgorithm.class, instance)
             .map(algorithm -> algorithm.collide(instance, movement, () -> original.call(instance, movement)))
             .orElseGet(() -> original.call(instance, movement));
+        this.lpc$resolvedMovement = resolved;
+        return resolved;
+    }
+
+    @WrapOperation(
+        method = "move",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;setPos(Lnet/minecraft/world/phys/Vec3;)V")
+    )
+    private void lpc$movementPosition(Entity instance, Vec3 newPosition, Operation<Void> original) {
+        if (!MovementRuntime.appliesTo(instance) || this.lpc$resolvedMovement == null) {
+            original.call(instance, newPosition);
+            return;
+        }
+        MovementRuntime.find(MovementPositionBehavior.class, instance)
+            .ifPresentOrElse(
+                behavior -> behavior.updatePosition(instance, this.lpc$resolvedMovement, () -> original.call(instance, newPosition)),
+                () -> original.call(instance, newPosition)
+            );
     }
 
     @WrapOperation(
