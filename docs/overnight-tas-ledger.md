@@ -72,3 +72,12 @@ Further rough-pass leads: 1.14.4→1.15.2 adds a block jump-factor multiplier;
 candidate heights. Collision and pose otherwise remained structurally stable
 through 26.2 in the examined source methods. These are leads for ordered
 implementation, not claims of complete coverage.
+
+Early jump source correction: through 1.13, the double Y velocity is assigned
+`0.42F` and then gains the float Jump Boost product; modern 26.2 computes a
+float jump power and retains a larger existing Y velocity. `LegacySprintJump`
+now restores the full earlier jump assignment and boost order. The original
+1.8.9 recording remains within 7 ULP (`compare-1.8.9-82c7637a62`) and 1.9.4
+matches exactly (`compare-1.9.4-59a7229070`), each for 200 ticks. The default
+current profile also matches its native 200-tick capture exactly after the
+collision and pose additions (`compare-current-a4d472c7bb`).
