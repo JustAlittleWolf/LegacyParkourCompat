@@ -56,7 +56,10 @@ capture, including Depth Strider levels, is still needed. 1.13.2→1.14.4
 bed/cauldron underside shape changes are now represented by `SolidBedCollision`
 and `WholeBaseCauldronCollision`, with the older 5/16 cauldron shape
 preserved through 1.12.2. Shape-specific TAS coverage is pending. The
-1.13.2 pose fallback under blocked resizing still differs from modern;
+1.13.2 blocked-resize pose handling is now restored by
+`KeepPoseWhenResizeBlocked`; the basic 1.9.4 capture still matches all 200
+ticks exactly (`compare-1.9.4-2c79a8c804`). A blocked-clearance TAS case is
+still needed;
 1.21.4→1.21.5 adds square input preparation;
 26.1→26.2 adds the direct-speed branch at friction <=0.6. These are evidence
 leads, not integrated fixes.
