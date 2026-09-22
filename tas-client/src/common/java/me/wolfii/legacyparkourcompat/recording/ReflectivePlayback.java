@@ -14,6 +14,8 @@ public final class ReflectivePlayback implements MinecraftPlayback {
     public static final ReflectivePlayback INSTANCE = new ReflectivePlayback();
 
     private boolean wasUseDown;
+    private Object mutedAudioCategory;
+    private Float previousMasterVolume;
 
     private ReflectivePlayback() {
     }
@@ -21,7 +23,10 @@ public final class ReflectivePlayback implements MinecraftPlayback {
     @Override
     public Path gameDirectory() {
         Object minecraft = minecraft();
-        Object dir = first(minecraft, new String[]{"gameDirectory", "mcDataDir", "field_71412_D"});
+        // MCP 1.8–1.12 calls this field gameDir.  Mojmap/Yarn clients use
+        // gameDirectory (and the obfuscated name is retained for production
+        // launches).  Missing gameDir used to make .playback crash 1.12.2.
+        Object dir = first(minecraft, new String[]{"gameDirectory", "gameDir", "mcDataDir", "field_71412_D"});
         if (dir instanceof Path) {
             return (Path) dir;
         }
@@ -168,8 +173,187 @@ public final class ReflectivePlayback implements MinecraftPlayback {
             new Class[]{text.getClass(), boolean.class}, new Object[]{text, Boolean.FALSE})) {
             return;
         }
-        invoke(player, new String[]{"addChatMessage", "sendChatToPlayer"},
-            new Class[]{text.getClass()}, new Object[]{text});
+        invokeAssignable(player, new String[]{"addChatMessage", "sendChatToPlayer", "sendSystemMessage"}, text);
+    }
+
+    @Override
+    public boolean sendChatMessage(String message) {
+        Object player = player();
+        if (player == null || message == null || message.trim().isEmpty()) {
+            return false;
+        }
+        String trimmed = message.trim();
+        if (invokeAssignable(player, new String[]{"chat", "sendChatMessage", "sendChat"}, trimmed)) {
+            return true;
+        }
+        return invokeAssignable(player, new String[]{"sendChat"}, trimmed, Boolean.FALSE);
+    }
+
+    @Override
+    public boolean isConnected() {
+        Object minecraft = minecraft();
+        Object connection = first(minecraft, new String[]{"connection"});
+        if (connection == null) {
+            connection = invokeValue(minecraft, new String[]{"getConnection", "getConnectionState"});
+        }
+        if (connection != null) {
+            return true;
+        }
+        Object player = player();
+        return player != null && first(player, new String[]{"connection", "sendQueue", "netHandler", "field_71174_a"}) != null;
+    }
+
+    @Override
+    public boolean isConnecting() {
+        Object screen = first(minecraft(), new String[]{"screen", "currentScreen", "field_71462_r"});
+        if (screen == null) {
+            return false;
+        }
+        String name = screen.getClass().getName().toLowerCase(java.util.Locale.ROOT);
+        return name.contains("connect") || name.contains("connecting");
+    }
+
+    @Override
+    public boolean connectToServer(String address) {
+        if (address == null || address.trim().isEmpty()) {
+            return false;
+        }
+        Object minecraft = minecraft();
+        Object screen = first(minecraft, new String[]{"screen", "currentScreen", "field_71462_r"});
+        Object serverAddress = createServerAddress(address.trim());
+        Object serverData = createServerData(address.trim());
+
+        // 1.14+ has a static ConnectScreen helper.  Use assignable argument
+        // matching because the final boolean/screen parameters changed over
+        // time while the first three stayed stable.
+        Class<?> connectScreen = loadClass("net.minecraft.client.multiplayer.ConnectScreen");
+        if (connectScreen == null) {
+            connectScreen = loadClass("net.minecraft.client.gui.screens.ConnectScreen");
+        }
+        if (connectScreen == null) {
+            connectScreen = loadClass("net.minecraft.client.gui.screen.ConnectScreen");
+        }
+        if (serverAddress != null && connectScreen != null && (invokeStaticAssignable(connectScreen, "startConnecting",
+            new Object[]{screen, minecraft, serverAddress, serverData, Boolean.FALSE, null})
+            || invokeStaticAssignable(connectScreen, "startConnecting",
+                new Object[]{screen, minecraft, serverAddress, serverData, Boolean.FALSE})
+            || invokeStaticAssignable(connectScreen, "startConnecting",
+                new Object[]{screen, minecraft, serverAddress, serverData}))) {
+            return true;
+        }
+
+        // Forge 1.8–1.12 connects by replacing the current GuiScreen with a
+        // GuiConnecting instance.  Constructor signatures differ slightly,
+        // therefore try each known shape without linking to old Minecraft
+        // classes at compile time.
+        Class<?> guiConnecting = loadClass("net.minecraft.client.multiplayer.GuiConnecting");
+        if (guiConnecting == null) {
+            guiConnecting = loadClass("net.minecraft.client.gui.GuiConnecting");
+        }
+        if (guiConnecting != null) {
+            Object connecting = serverAddress == null
+                ? constructAssignable(guiConnecting,
+                    new Object[]{screen, minecraft, serverData},
+                    new Object[]{screen, minecraft, host(address), Integer.valueOf(port(address))})
+                : constructAssignable(guiConnecting,
+                    new Object[]{screen, minecraft, serverAddress},
+                    new Object[]{screen, minecraft, serverData},
+                    new Object[]{screen, minecraft, host(address), Integer.valueOf(port(address))});
+            if (connecting != null && setScreen(minecraft, connecting)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean selectParkourVersion(String version) {
+        Class<?> controllerType = loadClass("me.wolfii.legacyparkourcompat.api.MovementController");
+        if (controllerType == null) {
+            return false;
+        }
+        Object controller = invokeStatic(controllerType, new String[]{"get"});
+        if (controller == null) {
+            throw new IllegalStateException("Legacy Parkour movement controller is not initialized");
+        }
+        if (!invokeAssignable(controller, new String[]{"select"}, version)) {
+            throw new IllegalStateException("Cannot select Legacy Parkour version '" + version + "'");
+        }
+        return true;
+    }
+
+    @Override
+    public void muteAudio() {
+        Object minecraft = minecraft();
+        Object options = options();
+        if (options == null) {
+            return;
+        }
+        // Older GameSettings exposes setSoundLevel(SoundCategory,float),
+        // while modern Options uses setSoundCategoryVolume(SoundSource,float).
+        Class<?> categoryType = loadClass("net.minecraft.client.audio.SoundCategory");
+        if (categoryType == null) {
+            categoryType = loadClass("net.minecraft.sounds.SoundSource");
+        }
+        if (categoryType != null && categoryType.isEnum()) {
+            Object master = enumConstant(categoryType, "MASTER");
+            if (master != null) {
+                Object volume = invokeValueAssignable(options, new String[]{"getSoundCategoryVolume", "getSoundLevel", "getVolume"}, master);
+                if (volume instanceof Number) {
+                    this.previousMasterVolume = Float.valueOf(((Number) volume).floatValue());
+                    this.mutedAudioCategory = master;
+                }
+                if (invokeAssignable(options, new String[]{"setSoundLevel", "setSoundCategoryVolume", "setVolume"}, master, Float.valueOf(0.0F))) {
+                    return;
+                }
+            }
+        }
+        // Last resort for 1.8–1.12's public masterVolume setting.  This still
+        // takes effect on the next sound refresh and is safe when absent.
+        Object oldVolume = first(options, new String[]{"masterVolume", "field_74315_B"});
+        if (oldVolume instanceof Number) {
+            this.previousMasterVolume = Float.valueOf(((Number) oldVolume).floatValue());
+        }
+        setNumber(options, new String[]{"masterVolume", "field_74315_B"}, 0.0F);
+        // Accessing the manager is intentionally best-effort: its method name
+        // changed several times and a missing refresh must not stop playback.
+        Object manager = first(minecraft, new String[]{"soundManager", "soundEngine", "field_90993_d"});
+        if (manager != null) {
+            invoke(manager, new String[]{"reload", "resume"}, new Class[0], new Object[0]);
+        }
+    }
+
+    @Override
+    public void restoreAudio() {
+        if (this.previousMasterVolume == null) {
+            return;
+        }
+        Object options = options();
+        if (this.mutedAudioCategory != null && invokeAssignable(options,
+            new String[]{"setSoundLevel", "setSoundCategoryVolume", "setVolume"},
+            this.mutedAudioCategory, this.previousMasterVolume)) {
+            this.previousMasterVolume = null;
+            this.mutedAudioCategory = null;
+            return;
+        }
+        setNumber(options, new String[]{"masterVolume", "field_74315_B"}, this.previousMasterVolume.floatValue());
+        Object minecraft = minecraft();
+        Object manager = first(minecraft, new String[]{"soundManager", "soundEngine", "field_90993_d"});
+        if (manager != null) {
+            invoke(manager, new String[]{"reload", "resume"}, new Class[0], new Object[0]);
+        }
+        this.previousMasterVolume = null;
+        this.mutedAudioCategory = null;
+    }
+
+    @Override
+    public void requestShutdown() {
+        Object minecraft = minecraft();
+        if (!invoke(minecraft, new String[]{"stop", "shutdown", "destroy"}, new Class[0], new Object[0])) {
+            // Some old clients only expose a boolean running flag.  Do not
+            // throw during a completed run if it is not available.
+            setBool(minecraft, new String[]{"running", "field_71425_J"}, false);
+        }
     }
 
     private Object minecraft() {
@@ -324,6 +508,213 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         return null;
     }
 
+    private static boolean invokeAssignable(Object target, String[] names, Object... args) {
+        if (target == null) {
+            return false;
+        }
+        for (int nameIndex = 0; nameIndex < names.length; nameIndex++) {
+            Method method = findCompatibleMethod(target.getClass(), names[nameIndex], args, false);
+            if (method == null) {
+                continue;
+            }
+            try {
+                method.invoke(target, coerceArguments(method.getParameterTypes(), args));
+                return true;
+            } catch (ReflectiveOperationException ignored) {
+                // try the next version-specific method shape
+            }
+        }
+        return false;
+    }
+
+    private static boolean invokeStaticAssignable(Class<?> type, String name, Object... args) {
+        Method method = findCompatibleMethod(type, name, args, true);
+        if (method == null) {
+            return false;
+        }
+        try {
+            method.invoke(null, coerceArguments(method.getParameterTypes(), args));
+            return true;
+        } catch (ReflectiveOperationException ignored) {
+            return false;
+        }
+    }
+
+    private static boolean invokeAssignable(Object target, String[] names, Object first, Object second) {
+        return invokeAssignable(target, names, new Object[]{first, second});
+    }
+
+    private static boolean invokeAssignable(Object target, String[] names, Object argument) {
+        return invokeAssignable(target, names, new Object[]{argument});
+    }
+
+    private static Method findCompatibleMethod(Class<?> type, String name, Object[] args, boolean staticOnly) {
+        Method[] methods = type.getMethods();
+        for (int index = 0; index < methods.length; index++) {
+            Method method = methods[index];
+            if (!method.getName().equals(name) || method.getParameterTypes().length != args.length) {
+                continue;
+            }
+            if (staticOnly && (method.getModifiers() & java.lang.reflect.Modifier.STATIC) == 0) {
+                continue;
+            }
+            if (!staticOnly && (method.getModifiers() & java.lang.reflect.Modifier.STATIC) != 0) {
+                continue;
+            }
+            if (parametersCompatible(method.getParameterTypes(), args)) {
+                return method;
+            }
+        }
+        return null;
+    }
+
+    private static boolean parametersCompatible(Class<?>[] types, Object[] args) {
+        for (int index = 0; index < types.length; index++) {
+            if (args[index] == null) {
+                if (types[index].isPrimitive()) {
+                    return false;
+                }
+                continue;
+            }
+            Class<?> actual = args[index].getClass();
+            if (types[index].isPrimitive()) {
+                if (!primitiveWrapper(types[index]).isAssignableFrom(actual)) {
+                    return false;
+                }
+            } else if (!types[index].isAssignableFrom(actual)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static Class<?> primitiveWrapper(Class<?> primitive) {
+        if (primitive == boolean.class) return Boolean.class;
+        if (primitive == byte.class) return Byte.class;
+        if (primitive == short.class) return Short.class;
+        if (primitive == int.class) return Integer.class;
+        if (primitive == long.class) return Long.class;
+        if (primitive == float.class) return Float.class;
+        if (primitive == double.class) return Double.class;
+        if (primitive == char.class) return Character.class;
+        return primitive;
+    }
+
+    private static Object[] coerceArguments(Class<?>[] types, Object[] args) {
+        Object[] result = new Object[args.length];
+        for (int index = 0; index < args.length; index++) {
+            result[index] = coerce(types[index], args[index]);
+        }
+        return result;
+    }
+
+    private static Object createServerAddress(String address) {
+        Class<?> type = loadClass("net.minecraft.client.multiplayer.ServerAddress");
+        if (type == null) {
+            return null;
+        }
+        Object parsed = invokeStaticValue(type, "parseString", address);
+        if (parsed == null) {
+            parsed = invokeStaticValue(type, "fromString", address);
+        }
+        if (parsed == null) {
+            parsed = invokeStaticValue(type, "fromIp", address);
+        }
+        if (parsed == null) {
+            parsed = constructAssignable(type, new Object[]{address});
+        }
+        return parsed;
+    }
+
+    private static Object createServerData(String address) {
+        Class<?> type = loadClass("net.minecraft.client.multiplayer.ServerData");
+        if (type == null) {
+            return null;
+        }
+        return constructAssignable(type,
+            new Object[]{"Legacy Parkour Gym", address, Boolean.FALSE},
+            new Object[]{"Legacy Parkour Gym", address});
+    }
+
+    private static Object invokeStaticValue(Class<?> type, String name, Object argument) {
+        Method method = findCompatibleMethod(type, name, new Object[]{argument}, true);
+        if (method == null) {
+            return null;
+        }
+        try {
+            return method.invoke(null, coerceArguments(method.getParameterTypes(), new Object[]{argument}));
+        } catch (ReflectiveOperationException ignored) {
+            return null;
+        }
+    }
+
+    private static Object constructAssignable(Class<?> type, Object[]... candidates) {
+        Constructor<?>[] constructors = type.getConstructors();
+        for (int candidateIndex = 0; candidateIndex < candidates.length; candidateIndex++) {
+            Object[] candidate = candidates[candidateIndex];
+            for (int constructorIndex = 0; constructorIndex < constructors.length; constructorIndex++) {
+                Constructor<?> constructor = constructors[constructorIndex];
+                if (!parametersCompatible(constructor.getParameterTypes(), candidate)) {
+                    continue;
+                }
+                try {
+                    return constructor.newInstance(coerceArguments(constructor.getParameterTypes(), candidate));
+                } catch (ReflectiveOperationException ignored) {
+                    // try the next constructor
+                }
+            }
+        }
+        return null;
+    }
+
+    private static boolean setScreen(Object minecraft, Object screen) {
+        return invokeAssignable(minecraft, new String[]{"setScreen", "displayGuiScreen", "func_147108_a"}, screen);
+    }
+
+    private static Class<?> loadClass(String name) {
+        try {
+            return Class.forName(name);
+        } catch (ClassNotFoundException ignored) {
+            return null;
+        }
+    }
+
+    private static Object enumConstant(Class<?> type, String name) {
+        Object[] constants = type.getEnumConstants();
+        if (constants == null) {
+            return null;
+        }
+        for (int index = 0; index < constants.length; index++) {
+            if (name.equalsIgnoreCase(((Enum<?>) constants[index]).name())) {
+                return constants[index];
+            }
+        }
+        return null;
+    }
+
+    private static String host(String address) {
+        String value = address.trim();
+        if (value.startsWith("[")) {
+            int end = value.indexOf(']');
+            return end > 0 ? value.substring(1, end) : value;
+        }
+        int colon = value.lastIndexOf(':');
+        return colon > 0 && value.indexOf(':') == colon ? value.substring(0, colon) : value;
+    }
+
+    private static int port(String address) {
+        String value = address.trim();
+        int colon = value.lastIndexOf(':');
+        if (colon < 0 || colon == value.length() - 1 || value.indexOf(':') != colon) {
+            return 25565;
+        }
+        try {
+            return Integer.parseInt(value.substring(colon + 1));
+        } catch (NumberFormatException ignored) {
+            return 25565;
+        }
+    }
+
     private static boolean invoke(Object target, String[] names, Class<?>[] types, Object[] args) {
         for (int index = 0; index < names.length; index++) {
             try {
@@ -346,6 +737,35 @@ public final class ReflectivePlayback implements MinecraftPlayback {
                 }
             } catch (ReflectiveOperationException ignored) {
                 // try the next name
+            }
+        }
+        return null;
+    }
+
+    private static Object invokeValue(Object target, String[] names) {
+        for (int index = 0; index < names.length; index++) {
+            try {
+                return target.getClass().getMethod(names[index]).invoke(target);
+            } catch (ReflectiveOperationException ignored) {
+                // try the next accessor
+            }
+        }
+        return null;
+    }
+
+    private static Object invokeValueAssignable(Object target, String[] names, Object argument) {
+        if (target == null) {
+            return null;
+        }
+        for (int index = 0; index < names.length; index++) {
+            Method method = findCompatibleMethod(target.getClass(), names[index], new Object[]{argument}, false);
+            if (method == null) {
+                continue;
+            }
+            try {
+                return method.invoke(target, coerceArguments(method.getParameterTypes(), new Object[]{argument}));
+            } catch (ReflectiveOperationException ignored) {
+                // try the next version-specific accessor
             }
         }
         return null;

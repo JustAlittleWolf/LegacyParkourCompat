@@ -28,4 +28,49 @@ public interface MinecraftPlayback {
     void applyFacing(float yaw, float pitch);
 
     void sendGameMessage(String message);
+
+    /** Sends a normal chat message to the connected gym, when supported. */
+    default boolean sendChatMessage(String message) {
+        return false;
+    }
+
+    /**
+     * Returns whether the local client has a multiplayer connection.  Older
+     * clients do not expose the same connection accessor, so the default is
+     * deliberately conservative for recording-only implementations.
+     */
+    default boolean isConnected() {
+        return true;
+    }
+
+    /** Returns whether the client is already showing a connection screen. */
+    default boolean isConnecting() {
+        return false;
+    }
+
+    /**
+     * Starts a connection to an address such as {@code localhost:25565}.
+     * Implementations may return {@code false} when the version-specific
+     * client API cannot be resolved.
+     */
+    default boolean connectToServer(String address) {
+        return false;
+    }
+
+    /** Selects a movement profile when the current Legacy Parkour mod is present. */
+    default boolean selectParkourVersion(String version) {
+        return false;
+    }
+
+    /** Mutes client audio for headless/reference runs. */
+    default void muteAudio() {
+    }
+
+    /** Restores the in-memory audio level changed by {@link #muteAudio()}. */
+    default void restoreAudio() {
+    }
+
+    /** Requests a clean client shutdown after an automated run. */
+    default void requestShutdown() {
+    }
 }
