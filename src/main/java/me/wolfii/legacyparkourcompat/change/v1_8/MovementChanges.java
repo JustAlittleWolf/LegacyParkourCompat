@@ -9,6 +9,7 @@ public final class MovementChanges implements MovementChangeProvider {
         registry.register(new NegligibleSpeed());
         registry.register(new GroundAccelerationThrough112());
         registry.register(new GroundAccelerationThrough18());
+        registry.register(new TimedSprint());
         registry.register(new StandingPose());
         registry.register(new NoClientEntityPush());
         registry.register(new LadderCollision());

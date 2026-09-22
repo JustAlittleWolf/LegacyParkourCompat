@@ -23,6 +23,16 @@ public abstract class LivingEntityMixin {
     @Unique
     private boolean lpc$vanillaJump;
 
+    @Inject(method = "setSprinting", at = @At("RETURN"))
+    private void lpc$setSprinting(boolean sprinting, CallbackInfo ci) {
+        LivingEntity self = (LivingEntity) (Object) this;
+        if (!(self instanceof Player player) || !MovementRuntime.appliesTo(player)) {
+            return;
+        }
+        MovementRuntime.find(SprintDurationBehavior.class, player)
+            .ifPresent(behavior -> behavior.onSetSprinting(player, sprinting));
+    }
+
     @WrapOperation(
         method = "travel",
         at = @At(

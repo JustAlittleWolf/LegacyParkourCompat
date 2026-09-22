@@ -31,20 +31,24 @@ boundaries in chronological order.
 | 1.9.4 → 1.10.2 math | `LivingEntity.travel`, `ClientPlayerEntity.tickMovement`, `Entity.updateVelocity` in both decompiles. Ordinary math unchanged; 1.10 no-gravity flag and auto-jump added. Auto-jump suppression for earlier profile covered by `NoAutoJump`. | Native 1.9.4 and 1.10.2 200-tick captures succeeded with identical positions. Current 1.9.4 profile run `compare-1.9.4-dcd57626aa` first failed tick 21 on Z: expected 14.544677589088678, actual 14.542255886630212; snapshot `parkourgym-server/run/logs/latest.log:292`. Trace `logs/trace-194.log:243-244` proved no tick-20 collision clip; it revealed Z velocity below `0.003` that old per-axis cancellation clears while modern's vector threshold keeps it. Per-axis cutoff through 1.21.4 moved first failure to tick 78; restoring pre-1.18 strict sprint cancellation after wall contact moved it to tick 93. Old double `-0.15` downward ladder clamp corrected that to tick 132, where box-based position accumulation mattered. A versioned pre-1.17 bounding-box position update produced **200/200 exact XYZ positions, observed maximum 0 ULP**, runId `compare-1.9.4-3094d7d355`; the dedicated sprint-rule refactor also passed 200/200 at 0 ULP, runId `compare-1.9.4-a1287120d7`. Current profile against native current reference likewise passed 200/200 at 0 ULP, runId `compare-current-b53f65d3da`. Static `short=false` piston geometry and 1.9 ladder geometry match modern. | This sample does not prove full version coverage. No-gravity rare state lacks Change. |
 | 1.9.4 → 1.10.2 blocks | `FarmlandBlock` in both decompiles: World collision becomes 15/16 instead of full cube; existing `FullFarmland` covers old shape. | No farmland-specific recording. | Validate collision and version gating. |
 
-The 1.8.9→1.9.4 pair is the active integration gate. Do not integrate later
-pairs before this pair has been reviewed. All listed source reviews are rough
-passes and leave each historical profile partial.
+The 1.8.9→1.9.4 pair passed its basic recording gate. The 1.10.2 selected
+profile also matched its native 200-tick capture exactly (observed maximum 0
+ULP, `compare-1.10.2-6d774940f6`). These source reviews remain rough passes
+and leave each historical profile partial.
 
 Minor/patch source pass: 1.8→1.8.9, 1.9→1.9.4, 1.10→1.10.2,
 1.11→1.11.2, 1.12→1.12.2, and 1.13→1.13.2 yielded no concrete
 movement-math, general collision, pose, or older-block shape/effect deltas in
 the compared methods. The 1.8 sprint timeout remains 600 ticks in 1.8.9;
-1.9 and 1.9.4 both omit it. The 1.9 mapped-source travel guard is not yet
+1.9 and 1.9.4 both omit it. `TimedSprint` now restores that 600-tick timeout
+only for 1.8 profiles. The original 1.8.9 native capture still passes 200
+ticks after this change (maximum 7 ULP, `compare-1.8.9-391dbb4678`). The 1.9 mapped-source travel guard is not yet
 proven equivalent to 1.9.4's renamed guard, although their arithmetic matches.
 
 Later rough-pass source findings awaiting chronological integration: 1.11.2
 cocoa age-2 collision is restored by existing `BuggedCocoaCollision`; 1.11.2
-bed fall damage before the 1.12 bounce is likely uncovered (bounce is covered);
+bed fall damage before the 1.12 bounce is restored by `FullBedFallDistance`
+for player landings on beds;
 1.13.2 introduces water sprint/drag/gravity differences with no complete old
 travel Change; 1.13.2→1.14.4 introduces bed/cauldron underside shape changes
 and pose fallback differences; 1.21.4→1.21.5 adds square input preparation;
