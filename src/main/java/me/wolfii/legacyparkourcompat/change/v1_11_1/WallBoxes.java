@@ -1,6 +1,8 @@
 package me.wolfii.legacyparkourcompat.change.v1_11_1;
 
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.WallSide;
@@ -13,6 +15,10 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * not recompute fence-like connections.
  */
 final class WallBoxes {
+    static boolean isHistoricalWall(Block block) {
+        return block == Blocks.COBBLESTONE_WALL || block == Blocks.MOSSY_COBBLESTONE_WALL;
+    }
+
     private static final VoxelShape[] OUTLINE = {
         Shapes.box(0.25, 0.0, 0.25, 0.75, 1.0, 0.75),
         Shapes.box(0.25, 0.0, 0.25, 0.75, 1.0, 1.0),

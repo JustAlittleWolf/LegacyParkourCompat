@@ -7,7 +7,7 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
 import me.wolfii.legacyparkourcompat.mechanic.hook.BlockCollisionShape;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.AbstractCauldronBlock;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -36,7 +36,7 @@ public final class LegacyCauldronCollision implements BlockCollisionShape {
     }
 
     public static void register(MovementChangeRegistry registry) {
-        BlockChanges.registerEach(registry, AbstractCauldronBlock.class::isInstance, LegacyCauldronCollision::new);
+        BlockChanges.registerEach(registry, block -> block == Blocks.CAULDRON, LegacyCauldronCollision::new);
     }
 
     @Override

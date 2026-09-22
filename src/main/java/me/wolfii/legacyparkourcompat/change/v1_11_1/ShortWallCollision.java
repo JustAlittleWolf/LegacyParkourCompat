@@ -7,7 +7,6 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
 import me.wolfii.legacyparkourcompat.mechanic.hook.BlockCollisionShape;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -27,7 +26,7 @@ public final class ShortWallCollision implements BlockCollisionShape {
     }
 
     public static void register(MovementChangeRegistry registry) {
-        BlockChanges.registerEach(registry, WallBlock.class::isInstance, ShortWallCollision::new);
+        BlockChanges.registerEach(registry, WallBoxes::isHistoricalWall, ShortWallCollision::new);
     }
 
     @Override
