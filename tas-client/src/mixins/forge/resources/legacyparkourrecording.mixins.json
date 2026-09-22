@@ -6,7 +6,6 @@
   "client": [
     "EntityPlayerSPMixin",
     "MovementInputFromOptionsMixin",
-    "GuiChatMixin",
     "GuiScreenMixin"
   ],
   "injectors": {
