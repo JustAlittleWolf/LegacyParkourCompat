@@ -60,7 +60,12 @@ preserved through 1.12.2. Shape-specific TAS coverage is pending. The
 `KeepPoseWhenResizeBlocked`; the basic 1.9.4 capture still matches all 200
 ticks exactly (`compare-1.9.4-2c79a8c804`). A blocked-clearance TAS case is
 still needed;
-1.21.4→1.21.5 adds square input preparation;
+1.21.4→1.21.5 adds normalized/square-adjusted keyboard input preparation.
+`PreSquareInput` restores raw-axis, item/sneak, then 0.98F scaling through
+1.21.4. The native 1.8.9 and 1.9.4 captures still pass after this hook:
+maximum 7 ULP (`compare-1.8.9-7a03ec4752`) and exact
+(`compare-1.9.4-0f3e843889`) for 200 ticks. Non-keyboard input with no
+key presses currently falls back to vanilla preparation;
 26.1→26.2 adds a direct-speed branch when float friction is at most the double
 literal `0.6` (`0.6F` itself is slightly greater when promoted to double).
 `FrictionSpeedThrough261` restores the old unconditional
