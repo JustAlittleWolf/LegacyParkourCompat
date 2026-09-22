@@ -57,11 +57,11 @@ tasks.named('runServer').configure { task ->
     task.minecraftVersion '26.2'
     task.jvmArgs '-Dcom.mojang.eula.agree=true'
     task.downloadPlugins {
-        modrinth 'polarpaper', '2EVMQw07'
-        modrinth 'axiom-paper-plugin', 'BbhoGfI8'
-        hangar 'ViaVersion', '5.11.0'
-        hangar 'ViaBackwards', '5.11.0'
-        hangar 'ViaRewind', '4.1.3'
+        modrinth 'polarpaper', 'EwRZ2jeK'
+        modrinth 'axiom-paper-plugin', '93qRRLuz'
+        hangar 'ViaVersion', '5.12.0'
+        hangar 'ViaBackwards', '5.12.0'
+        hangar 'ViaRewind', '4.2.0'
     }
     task.doFirst {
         def destDir = task.runDirectory.get().asFile
