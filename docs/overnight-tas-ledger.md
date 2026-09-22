@@ -67,7 +67,13 @@ leads, not integrated fixes.
 Further rough-pass leads: the 1.14 fixed jump base and 1.15–1.16 block
 jump-factor multiplier, float Jump Boost arithmetic, direct Y assignment, and
 float sprint impulse are now restored by `FixedJumpPower` and
-`BlockFactorFloatJump`; 1.16.5→1.17.1 changes Jump Boost addition from float to double;
+`BlockFactorFloatJump`. The 1.17–1.19 double Jump Boost addition and direct
+Y assignment are restored by `DoubleBoostJump`; 1.20.1–1.20.4 use float jump
+power with Boost included (`FloatJumpThrough1204`); 1.20.5–1.21.1 use the
+jump-strength attribute but still assign Y directly (`DirectJumpThrough1211`).
+Decompiled 1.21.2 starts retaining a higher current Y, matching modern. These
+later jump rules have source and build verification but no targeted native TAS
+captures;
 1.18.2→1.19.4 adds an upward-motion guard to sneak-edge backoff;
 1.19.4→1.20.6 replaces the full-box sneak support probe with a foot slice;
 1.20.6→1.21.11 changes step-up from two max-height alternatives to sorted
