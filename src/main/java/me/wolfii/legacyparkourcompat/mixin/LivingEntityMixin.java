@@ -24,6 +24,41 @@ public abstract class LivingEntityMixin {
     private boolean lpc$vanillaJump;
 
     @WrapOperation(
+        method = "jumpFromGround",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/LivingEntity;addDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V"
+        )
+    )
+    private void lpc$sprintJumpImpulse(LivingEntity instance, Vec3 impulse, Operation<Void> original) {
+        if (!MovementRuntime.appliesTo(instance)) {
+            original.call(instance, impulse);
+            return;
+        }
+        Vec3 adjusted = MovementRuntime.find(SprintJumpImpulseBehavior.class, instance)
+            .map(behavior -> behavior.impulse(instance.getYRot(), impulse))
+            .orElse(impulse);
+        original.call(instance, adjusted);
+    }
+
+    @WrapOperation(
+        method = "handleRelativeFrictionAndCalculateMovement",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/LivingEntity;getFrictionInfluencedSpeed(F)F"
+        )
+    )
+    private float lpc$groundAcceleration(LivingEntity instance, float friction, Operation<Float> original) {
+        float vanilla = original.call(instance, friction);
+        if (!MovementRuntime.appliesTo(instance)) {
+            return vanilla;
+        }
+        return MovementRuntime.find(GroundAccelerationBehavior.class, instance)
+            .map(behavior -> behavior.speed(instance, friction, vanilla))
+            .orElse(vanilla);
+    }
+
+    @WrapOperation(
         method = "travel",
         at = @At(
             value = "INVOKE",

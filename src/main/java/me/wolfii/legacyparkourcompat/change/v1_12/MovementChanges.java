@@ -8,5 +8,6 @@ public final class MovementChanges implements MovementChangeProvider {
     public void register(MovementChangeRegistry registry) {
         registry.register(new NoSwimming());
         NoBedBounce.register(registry);
+        FullBedFallDistance.register(registry);
     }
 }

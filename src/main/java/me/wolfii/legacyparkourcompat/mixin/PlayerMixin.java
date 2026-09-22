@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerPoseBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.AirSpeedBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeDistanceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintingBehavior;
@@ -30,19 +31,34 @@ public abstract class PlayerMixin {
     @Unique
     private int lpc$appliedEpoch = Integer.MIN_VALUE;
 
+    @Unique
+    private boolean lpc$sprintingAtTickStart;
+
     @Shadow
     protected abstract void updatePlayerPose();
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void lpc$applyVersionSwitch(CallbackInfo ci) {
+        Player self = (Player) (Object) this;
+        this.lpc$sprintingAtTickStart = self.isSprinting();
         int epoch = MovementRuntime.epoch();
         if (this.lpc$appliedEpoch == epoch) {
             return;
         }
         this.lpc$appliedEpoch = epoch;
-        Player self = (Player) (Object) this;
         self.refreshDimensions();
         this.updatePlayerPose();
+    }
+
+    @ModifyReturnValue(method = "getFlyingSpeed", at = @At("RETURN"))
+    private float lpc$airSpeed(float vanilla) {
+        Player self = (Player) (Object) this;
+        if (!MovementRuntime.appliesTo(self)) {
+            return vanilla;
+        }
+        return MovementRuntime.find(AirSpeedBehavior.class, self)
+            .map(behavior -> behavior.speed(self, this.lpc$sprintingAtTickStart, vanilla))
+            .orElse(vanilla);
     }
 
     @WrapOperation(

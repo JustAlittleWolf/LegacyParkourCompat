@@ -27,6 +27,23 @@ public abstract class EntityMixin {
     private boolean lpc$vanillaRestitution;
 
     @WrapOperation(
+        method = "moveRelative",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/Entity;getInputVector(Lnet/minecraft/world/phys/Vec3;FF)Lnet/minecraft/world/phys/Vec3;"
+        )
+    )
+    private Vec3 lpc$inputVector(Vec3 input, float speed, float yaw, Operation<Vec3> original) {
+        Entity self = (Entity) (Object) this;
+        if (!MovementRuntime.appliesTo(self)) {
+            return original.call(input, speed, yaw);
+        }
+        return MovementRuntime.find(InputVectorBehavior.class, self)
+            .map(behavior -> behavior.inputVector(input, speed, yaw))
+            .orElseGet(() -> original.call(input, speed, yaw));
+    }
+
+    @WrapOperation(
         method = "collideWithShapes",
         at = @At(
             value = "INVOKE",
