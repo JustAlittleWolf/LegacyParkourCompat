@@ -150,9 +150,16 @@ for 200 ticks (`compare-current-244f37e676`) after both corrections.
 The 1.8.9→1.9.4 source pair also shows a flying-and-sneaking horizontal
 input division by double `0.3` added in 1.9 and retained through 1.14.4,
 then absent by 1.15.2. It is observable with item-use slowdown or small
-analog inputs. The 1.9.4→1.10.2 pair adds a no-gravity entity flag and
-conditional gravity, but ordinary vanilla player movement has no path to set
-that flag. Both remain narrowly scoped follow-up candidates.
+analog inputs. `EarlyKeyboardInput` keeps the 1.8 order of sneak, item-use,
+then 0.98F scaling; `FlyingSneakInput` adds the historical division between
+item-use and 0.98F for 1.9–1.14 profiles. After this change, 1.8.9 passes
+200 ticks with maximum 7 ULP (`compare-1.8.9-f5af4c8cf0`), and 1.9.4 is
+exact for 200 ticks (`compare-1.9.4-253b2a7786`). A creative-flight and
+item-use recording is still needed. The 1.9.4→1.10.2 pair adds a no-gravity
+entity flag and conditional gravity, but ordinary vanilla player movement has
+no path to set that flag. It remains a narrowly scoped follow-up candidate.
+The default current profile remained exact for 200 ticks after the input hook
+(`compare-current-ce4c3501a8`), and `build build` passed.
 
 The decompiled 26.1, 26.1.1, and 26.1.2 source files for Entity,
 LivingEntity, Player, LocalPlayer, BedBlock, SlimeBlock, and SoulSandBlock are

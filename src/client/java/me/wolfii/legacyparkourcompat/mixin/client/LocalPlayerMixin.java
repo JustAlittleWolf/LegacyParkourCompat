@@ -12,12 +12,16 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Input;
 import net.minecraft.world.phys.Vec2;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LocalPlayer.class)
 public abstract class LocalPlayerMixin {
+    @Shadow
+    protected abstract boolean isControlledCamera();
+
     @ModifyReturnValue(method = "modifyInput", at = @At("RETURN"))
     private Vec2 lpc$inputBeforeSquareMovement(Vec2 vanilla) {
         LocalPlayer self = (LocalPlayer) (Object) this;
@@ -35,7 +39,8 @@ public abstract class LocalPlayerMixin {
                 vanilla,
                 self.isUsingItem() && !self.isPassenger(),
                 self.isMovingSlowly(),
-                (float) self.getAttributeValue(Attributes.SNEAKING_SPEED)
+                (float) self.getAttributeValue(Attributes.SNEAKING_SPEED),
+                self.getAbilities().flying && this.isControlledCamera() && keys.shift()
             ))
             .orElse(vanilla);
     }

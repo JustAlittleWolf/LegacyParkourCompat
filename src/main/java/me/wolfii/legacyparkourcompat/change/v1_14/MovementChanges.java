@@ -6,6 +6,7 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
 public final class MovementChanges implements MovementChangeProvider {
     @Override
     public void register(MovementChangeRegistry registry) {
+        registry.register(new FlyingSneakInput());
         registry.register(new AlwaysYxzCollision());
         registry.register(new NoJumpClimb());
         registry.register(new NoSneakSprint());
