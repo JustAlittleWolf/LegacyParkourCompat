@@ -1,6 +1,6 @@
 # TAS client
 
-`./gradlew runTasClient -PclientVersion=1.16.5` launches that exact Minecraft version with the recording mod. Versions are not remapped to a later patch; `1.21.9` stays `1.21.9`. Unsupported versions fail the Gradle task.
+`./gradlew runTasClient --project-prop "clientVersion=1.16.5"` launches that exact Minecraft version with the recording mod. Versions are not remapped to a later patch; `1.21.9` stays `1.21.9`. Unsupported versions fail the Gradle task.
 
 - Versions before 1.14 use Forge when a loader is pinned (for example `1.8.9` or `1.8.9-forge`). `1.8` is rejected.
 - 1.14 through 1.21.x use Fabric through Unimined (for example `1.16.5` or `1.21.9-fabric`).
@@ -29,14 +29,14 @@ For a deterministic comparison, pass one recording file and a comma-separated
 version list to the root Gradle task:
 
 ```text
-gradlew runTasWorkflow -PtasRecording=recordings\jump.lprc -PtasVersions=1.8.9,1.12.2,1.16.5,current
+gradlew runTasWorkflow --project-prop "tasRecording=recordings\jump.lprc" --project-prop "tasVersions=1.8.9,1.12.2,1.16.5,current"
 ```
 
 The task starts the localhost gym on `127.0.0.1:25565` when it is not already
 running, launches one isolated client per version, joins the gym, replays the
 recording, and waits for the client to exit after the final tick. Use
-`-PtasStartGym=false` when the gym is already managed separately, and
-`-PtasServer=host:port` for another local endpoint. Results are published below
+`--project-prop "tasStartGym=false"` when the gym is already managed separately,
+and `--project-prop "tasServer=host:port"` for another local endpoint. Results are published below
 `tas-results/` as `<recording-name>-<version>.lprc`; a
 `<recording-name>-manifest.tsv` lists every result. Each result uses the normal
 `.lprc` format: source buttons/yaw/pitch plus the observed post-movement
@@ -45,11 +45,11 @@ tools. The client writes a temporary `.lprc.tmp` first and the workflow moves it
 into place only after a successful run.
 
 The same automation can be enabled for one client without the workflow by
-passing JVM properties (Gradle `-PtasRecording`/`-PtasOutput` are translated for
-you):
+passing Gradle properties, which are translated into JVM properties for the
+client:
 
 ```text
-gradlew runTasClient -PclientVersion=1.12.2 -PtasRecording=C:\\runs\\input.lprc -PtasOutput=C:\\runs\\1.12.2.lprc -PtasServer=localhost:25565
+gradlew runTasClient --project-prop "clientVersion=1.12.2" --project-prop "tasRecording=C:\runs\input.lprc" --project-prop "tasOutput=C:\runs\1.12.2.lprc" --project-prop "tasServer=localhost:25565"
 ```
 
 Automated clients mute audio, connect to the gym, and show chat feedback for
@@ -62,23 +62,31 @@ repository's current client, use an expected `.lprc` from the gym and choose a
 parkour version explicitly:
 
 ```text
-gradlew runTasCompare -PtasExpected=tas-results\jump-1.12.lprc -PtasVersion=1.12 -PtasCompare=true -PtasOutput=tas-results\current-1.12.lprc
+gradlew runTasCompare --project-prop "tasExpected=tas-results\jump-1.12.lprc" --project-prop "tasVersion=1.12" --project-prop "tasCompare=true"
 ```
 
 `tasExpected` must name the version-specific reference file produced or chosen
 for the selected movement profile; it is deliberately separate from the
 cross-version source input accepted by `runTasWorkflow`. This starts the newest
 repository client, selects the requested movement profile, and compares each
-post-movement position with that expected recording.
+post-movement position with that expected recording. `--project-prop
+"tasOutput=<file.lprc>"` is optional; without it, the task creates a unique actual recording beside the
+expected one. A supplied output path must not already exist. After the client exits, Gradle checks every tick and the tick
+count, then exits successfully only when the comparison passes. A failure
+reports the first tick and expected/actual XYZ, run ID, and snapshot log path.
+
 By default the comparison is exact (`Double.compare` on each coordinate), so
-even the smallest representable difference fails; `-PtasTolerance` can
-explicitly allow a finite per-coordinate tolerance. At the first failing tick,
-it sends `!lpcf <runId> <version> <tick>` as normal chat while
-the player is still connected. The gym writes a `[LPC_FAILURE_SNAPSHOT]` JSON
-line containing the server-side world, position, velocity, bounding box, and
-nearby blocks; the message itself is canceled and never broadcast. A
-cross-version `runTasWorkflow` capture does not compare against source XYZ,
-because movement is expected to differ across versions.
+even the smallest representable difference fails. `--project-prop
+"tasTolerance=<number>"` can explicitly allow a finite per-coordinate
+tolerance; it applies to both
+the live first-mismatch signal and final Gradle result. At the first failing
+tick, the connected player sends `!lpcf <runId> <version> <tick>` as normal
+chat. The gym records the server-side world, position, velocity, bounding box,
+and nearby blocks in `parkourgym-server/run/logs/latest.log` with the marker
+`[LPC_FAILURE_SNAPSHOT]`; the task includes a matching log entry when present,
+or the exact path, marker, and run ID to search for. The signal is canceled and
+never broadcast. A cross-version `runTasWorkflow` capture does not compare
+against source XYZ, because movement is expected to differ across versions.
 
 The Forge 1.12.2 MCP client uses `Minecraft.gameDir` for its run directory;
 the TAS reflection layer includes that name (alongside modern

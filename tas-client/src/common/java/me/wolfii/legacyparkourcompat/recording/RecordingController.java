@@ -226,6 +226,7 @@ public final class RecordingController {
             }
         } catch (RuntimeException exception) {
             this.automationFinished = true;
+            System.err.println("[Legacy Parkour Recording] Automated playback failed: " + safeMessage(exception));
             this.minecraft.sendGameMessage("Automated playback failed: " + safeMessage(exception));
             if (this.automation.mute() && this.automationMuted) {
                 try {
@@ -233,6 +234,9 @@ public final class RecordingController {
                 } catch (RuntimeException restoreException) {
                     this.minecraft.sendGameMessage("Unable to restore client audio: " + safeMessage(restoreException));
                 }
+            }
+            if (this.automation.exit()) {
+                this.minecraft.requestShutdown();
             }
         }
     }
