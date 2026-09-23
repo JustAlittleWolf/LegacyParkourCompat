@@ -9,7 +9,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
-/** 1.20.1–1.20.4 assemble float jump power and overwrite Y unconditionally. */
+/** 1.20–1.20.4 assemble float jump power and overwrite Y unconditionally. */
 @MovementChange(emulates = ParkourVersion.V1_20)
 public final class FloatJumpThrough1204 implements JumpBehavior {
     @Override

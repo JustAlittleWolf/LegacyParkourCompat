@@ -77,7 +77,7 @@ Further rough-pass leads: the 1.14 fixed jump base and 1.15–1.17.0 block
 jump-factor multiplier, float Jump Boost arithmetic, direct Y assignment, and
 float sprint impulse are now restored by `FixedJumpPower` and
 `BlockFactorFloatJump`. The 1.17.1–1.19 double Jump Boost addition and direct
-Y assignment are restored by `DoubleBoostJump`; 1.20.1–1.20.4 use float jump
+Y assignment are restored by `DoubleBoostJump`; 1.20–1.20.4 use float jump
 power with Boost included (`FloatJumpThrough1204`); 1.20.5–1.21.1 use the
 jump-strength attribute but still assign Y directly (`DirectJumpThrough1211`).
 Decompiled 1.21.2 starts retaining a higher current Y, matching modern. These
@@ -185,6 +185,23 @@ code passed `build build`; 1.9.4 passed all 200 ticks with explicit maximum
 current disabled profile matched its native capture exactly for 200 ticks
 (`compare-current-245370b539`). Neither basic capture exercises the new ladder,
 unstuck, or Jump Boost branches.
+
+Chronological 1.19–1.20 minor/patch source pass: exact 1.19, 1.19.1, 1.19.2,
+1.19.3, 1.19.4, 1.20, 1.20.1, 1.20.2, 1.20.3, and 1.20.4 movement sources
+were compared. There is no new block-shape/effect or collision/step/unstuck
+delta in the examined patch pairs. The 1.19.3 client permits starting sprint
+as a passenger on a grounded vehicle, and 1.19.4 adds vehicle eligibility and
+fall-flying restrictions to sprint start. Current `SprintingBehavior` coverage
+does not reconstruct these exact mounted/fall-flying rules; they remain open.
+At 1.20.2, the client adds `!isPassenger()` to its crouch decision and moves
+the pose-fit query to an equivalent helper; this can also alter sneak input
+slowdown while riding and remains open. The 1.19.4→1.20.0 change from double
+to float Jump Boost accumulation is covered by `FloatJumpThrough1204`. That
+same boundary changes fall-distance reset placement for Slow Falling and
+Levitation; tick-level equivalence has not yet been established. The 1.20.0
+support-block lookup changes from a center cell to collision support, covered
+for older profiles by `SupportingBlock`. These are source findings; no new
+native TAS capture exercises the mounted, fall-flying, or potion cases.
 
 The decompiled 26.1, 26.1.1, and 26.1.2 source files for Entity,
 LivingEntity, Player, LocalPlayer, BedBlock, SlimeBlock, and SoulSandBlock are
