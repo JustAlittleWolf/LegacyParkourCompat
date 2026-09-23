@@ -21,6 +21,13 @@ public interface MinecraftPlayback {
 
     void teleport(double x, double y, double z, float yaw, float pitch);
 
+    /** Applies the velocity saved by an external playback source after teleporting. */
+    default void applyVelocity(double x, double y, double z) {
+        if (x != 0.0 || y != 0.0 || z != 0.0) {
+            throw new IllegalStateException("This client cannot apply a TAS starting velocity");
+        }
+    }
+
     int currentButtons();
 
     void applyButtons(int buttons);

@@ -71,6 +71,9 @@ loom {
     }
 
     runs {
+        client {
+            source sourceSets.tasClient
+        }
         server {
             source sourceSets.server
         }
@@ -268,43 +271,45 @@ if (rootTasAutomationTolerance != null) {
 if (rootTasAutomationMaxUlps != null) {
     rootTasAutomationArgs << "-Dlegacyparkour.tas.maxUlps=${rootTasAutomationMaxUlps}"
 }
-tasks.named('runCurrentTasClient').configure {
-    doFirst {
-        File optionsFile = file('run/options.txt')
-        optionsFile.parentFile.mkdirs()
-        List<String> lines = optionsFile.isFile() ? optionsFile.readLines('UTF-8') : []
-        Map<String, String> disabled = [narrator: '0', narratorHotkey: 'false', onboardAccessibility: 'false']
-        boolean changed = false
-        disabled.each { key, value ->
-            String setting = "${key}:${value}"
-            int index = lines.findIndexOf { it.startsWith("${key}:") }
-            if (index < 0) {
-                lines.add(setting)
-                changed = true
-            } else if (lines[index] != setting) {
-                lines[index] = setting
-                changed = true
-            }
-        }
-        if (changed) optionsFile.setText(lines.join(System.lineSeparator()) + System.lineSeparator(), 'UTF-8')
-    }
-    if (tasCompareTaskRequested) {
+['runClient', 'runCurrentTasClient'].each { runTask ->
+    tasks.named(runTask).configure {
         doFirst {
-            File expectedReference = file(rootTasAutomationExpected)
-            if (!expectedReference.isFile()) {
-                throw new GradleException("Expected TAS reference does not exist: ${expectedReference}")
+            File optionsFile = file('run/options.txt')
+            optionsFile.parentFile.mkdirs()
+            List<String> lines = optionsFile.isFile() ? optionsFile.readLines('UTF-8') : []
+            Map<String, String> disabled = [narrator: '0', narratorHotkey: 'false', onboardAccessibility: 'false']
+            boolean changed = false
+            disabled.each { key, value ->
+                String setting = "${key}:${value}"
+                int index = lines.findIndexOf { it.startsWith("${key}:") }
+                if (index < 0) {
+                    lines.add(setting)
+                    changed = true
+                } else if (lines[index] != setting) {
+                    lines[index] = setting
+                    changed = true
+                }
             }
-            File actualOutput = file(rootTasAutomationOutput)
-            if (expectedReference.canonicalFile == actualOutput.canonicalFile) {
-                throw new GradleException('TAS compare output must be separate from -PtasExpected')
-            }
-            if (actualOutput.exists()) {
-                throw new GradleException("TAS compare output already exists; choose a fresh path to avoid comparing stale data: ${actualOutput}")
+            if (changed) optionsFile.setText(lines.join(System.lineSeparator()) + System.lineSeparator(), 'UTF-8')
+        }
+        if (tasCompareTaskRequested) {
+            doFirst {
+                File expectedReference = file(rootTasAutomationExpected)
+                if (!expectedReference.isFile()) {
+                    throw new GradleException("Expected TAS reference does not exist: ${expectedReference}")
+                }
+                File actualOutput = file(rootTasAutomationOutput)
+                if (expectedReference.canonicalFile == actualOutput.canonicalFile) {
+                    throw new GradleException('TAS compare output must be separate from -PtasExpected')
+                }
+                if (actualOutput.exists()) {
+                    throw new GradleException("TAS compare output already exists; choose a fresh path to avoid comparing stale data: ${actualOutput}")
+                }
             }
         }
-    }
-    if (!rootTasAutomationArgs.isEmpty()) {
-        jvmArgs rootTasAutomationArgs
+        if (!rootTasAutomationArgs.isEmpty()) {
+            jvmArgs rootTasAutomationArgs
+        }
     }
 }
 

@@ -106,6 +106,33 @@ public final class ReflectivePlayback implements MinecraftPlayback {
     }
 
     @Override
+    public void applyVelocity(double x, double y, double z) {
+        Object player = requirePlayer();
+        Object[] coordinates = {Double.valueOf(x), Double.valueOf(y), Double.valueOf(z)};
+        if (invoke(player, new String[]{"setDeltaMovement", "setMotion", "setVelocity"},
+            new Class[]{double.class, double.class, double.class}, coordinates)) {
+            return;
+        }
+        for (String typeName : new String[]{"net.minecraft.world.phys.Vec3", "net.minecraft.util.math.Vec3d", "net.minecraft.util.math.vector.Vector3d"}) {
+            Class<?> vectorType = loadClass(typeName);
+            if (vectorType == null) continue;
+            try {
+                Object vector = vectorType.getConstructor(double.class, double.class, double.class).newInstance(coordinates);
+                if (invoke(player, new String[]{"setDeltaMovement", "setMotion", "setVelocity"},
+                    new Class[]{vectorType}, new Object[]{vector})) return;
+            } catch (ReflectiveOperationException exception) {
+                throw new IllegalStateException("Cannot create Minecraft velocity vector", exception);
+            }
+        }
+        boolean motionX = setNumber(player, new String[]{"motionX", "field_70159_w"}, x);
+        boolean motionY = setNumber(player, new String[]{"motionY", "field_70181_x"}, y);
+        boolean motionZ = setNumber(player, new String[]{"motionZ", "field_70179_y"}, z);
+        if (!motionX || !motionY || !motionZ) {
+            throw new IllegalStateException("Cannot apply TAS starting velocity on this Minecraft version");
+        }
+    }
+
+    @Override
     public int currentButtons() {
         Object player = requirePlayer();
         Object input = first(player, new String[]{"input", "movementInput", "field_3913", "field_71158_b"});
@@ -1114,12 +1141,13 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         }
     }
 
-    private static void setNumber(Object target, String[] names, double value) {
+    private static boolean setNumber(Object target, String[] names, double value) {
         for (int index = 0; index < names.length; index++) {
             if (write(target, names[index], Double.valueOf(value))) {
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     private static boolean write(Object target, String name, Object value) {

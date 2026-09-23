@@ -15,6 +15,9 @@ public final class MovementRecording {
     private final double startZ;
     private final float startYaw;
     private final float startPitch;
+    private final double startVelocityX;
+    private final double startVelocityY;
+    private final double startVelocityZ;
     private final List<TickFrame> ticks;
 
     public MovementRecording(
@@ -25,11 +28,21 @@ public final class MovementRecording {
         float startPitch,
         List<TickFrame> ticks
     ) {
+        this(startX, startY, startZ, startYaw, startPitch, 0.0, 0.0, 0.0, ticks);
+    }
+
+    public MovementRecording(
+        double startX, double startY, double startZ, float startYaw, float startPitch,
+        double startVelocityX, double startVelocityY, double startVelocityZ, List<TickFrame> ticks
+    ) {
         this.startX = startX;
         this.startY = startY;
         this.startZ = startZ;
         this.startYaw = startYaw;
         this.startPitch = startPitch;
+        this.startVelocityX = startVelocityX;
+        this.startVelocityY = startVelocityY;
+        this.startVelocityZ = startVelocityZ;
         this.ticks = Collections.unmodifiableList(new ArrayList<TickFrame>(ticks));
     }
 
@@ -52,6 +65,10 @@ public final class MovementRecording {
     public float startPitch() {
         return this.startPitch;
     }
+
+    public double startVelocityX() { return this.startVelocityX; }
+    public double startVelocityY() { return this.startVelocityY; }
+    public double startVelocityZ() { return this.startVelocityZ; }
 
     public List<TickFrame> ticks() {
         return this.ticks;

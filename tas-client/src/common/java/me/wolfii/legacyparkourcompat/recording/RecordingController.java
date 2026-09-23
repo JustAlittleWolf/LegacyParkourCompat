@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.recording;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -146,7 +147,15 @@ public final class RecordingController {
 
     public void play(String name) {
         ensureAttached();
-        Path file = RecordingFiles.file(this.minecraft.gameDirectory(), name);
+        String trimmed = name.trim();
+        Path file;
+        if (trimmed.toLowerCase(Locale.ROOT).endsWith(".json") || trimmed.toLowerCase(Locale.ROOT).endsWith(".lprc")) {
+            Path given = Paths.get(trimmed);
+            file = given.isAbsolute() || given.getParent() != null
+                ? given : RecordingFiles.directory(this.minecraft.gameDirectory()).resolve(given);
+        } else {
+            file = RecordingFiles.file(this.minecraft.gameDirectory(), trimmed);
+        }
         playFile(file, null, false);
     }
 
@@ -155,7 +164,8 @@ public final class RecordingController {
         ensureAttached();
         MovementRecording loaded;
         try {
-            loaded = RecordingFiles.read(file);
+            loaded = file.getFileName().toString().toLowerCase(Locale.ROOT).endsWith(".json")
+                ? JsonPlaybackFiles.read(file) : RecordingFiles.read(file);
         } catch (IOException exception) {
             throw new IllegalStateException("Failed to load recording " + file, exception);
         }
@@ -186,6 +196,7 @@ public final class RecordingController {
         this.deviationReported = false;
         this.capturedTicks.clear();
         this.minecraft.teleport(loaded.startX(), loaded.startY(), loaded.startZ(), loaded.startYaw(), loaded.startPitch());
+        this.minecraft.applyVelocity(loaded.startVelocityX(), loaded.startVelocityY(), loaded.startVelocityZ());
         this.minecraft.sendGameMessage("Playing " + label + (output == null ? "" : " (capturing positions)"));
     }
 
@@ -249,8 +260,11 @@ public final class RecordingController {
             // A connection may exist before the local player has been created.
             // The player tick will call this again once teleport/capture is safe.
             if (!this.automationStarted && hasLocalPlayer()) {
-                if (this.automation.compare() && !this.parkourVersionSelected) {
-                    this.minecraft.selectParkourVersion(this.automation.version());
+                if (!this.parkourVersionSelected && !"unknown".equals(this.automation.version())) {
+                    boolean selected = this.minecraft.selectParkourVersion(this.automation.version());
+                    if (this.automation.compare() && !selected) {
+                        throw new IllegalStateException("Legacy Parkour mod is unavailable for comparison");
+                    }
                     this.parkourVersionSelected = true;
                 }
                 Path output = this.automation.output();

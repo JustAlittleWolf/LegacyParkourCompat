@@ -6,6 +6,11 @@
 - 1.14 through 1.21.x use Fabric through Unimined (for example `1.16.5` or `1.21.9-fabric`).
 - `current` uses this repository's Fabric Loom client (`minecraft_version` in `gradle.properties`). There is no `latest` alias.
 
+The root `gradlew runClient` Fabric launch also loads the TAS recorder alongside
+the compiled Legacy Parkour compatibility mod. Select the movement version in
+the mod's UI, load the map, then use the playback command in that client. The
+same combination remains available through `gradlew runTasClient -PclientVersion=current`.
+
 In-game (simulation keys and facing, not the camera):
 
 - `.recording start [name]`
@@ -18,6 +23,17 @@ Right-click is stored as both hold and press: holding use (bow draw) is not the 
 Each Unimined version uses its own game directory, `tas-client/run/<minecraft version>` (for example `tas-client/run/1.8.9`). Worlds and `options.txt` are not shared: a save written by a newer client makes 1.8 crash while reading chunk NBT. `current` still uses the repository Loom run directory.
 
 Recordings are `.lprc` files in `.legacyparkourrecordings` under that game directory. The on-disk layout is the same on every version. Playback teleports to the start pose, then applies recorded keys and facing each tick; stored positions are for later comparison and are not replayed.
+
+Playback also accepts Legacy Parkour/Combat TAS JSON files (format version 1)
+as input. Put a file in `.legacyparkourrecordings` and enter `.playback name.json`,
+or give an absolute path such as `.playback D:\runs\route.json`. The JSON's
+starting position, velocity, yaw, pitch, and each row's keys and optional yaw
+and pitch are applied. Missing row angles keep the previous angle. Editor
+metadata such as `yawLocked` and `angleSolver` does not affect playback. Rows
+that request teleports, potion amplifiers, nonzero hotbar slots, or unknown keys
+fail with a clear error because this recorder cannot apply those states. JSON
+input is read only; captured results still use `.lprc`. Run the recording in
+the world it was made for so the blocks at its starting coordinates match.
 
 TAS clients are not signed in. From 1.16 onward vanilla greys out Multiplayer for that reason; this mod keeps the button enabled so you can still join the offline parkour gym.
 
