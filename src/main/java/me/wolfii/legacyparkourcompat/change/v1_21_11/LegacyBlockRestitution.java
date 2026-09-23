@@ -11,8 +11,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
-/** Bed and slime bounce through 1.21.11 used direct vertical velocity reflection. */
-@MovementChange(emulates = ParkourVersion.V1_21_11)
+/** Bed and slime bounce through 26.1 used direct vertical velocity reflection. */
+@MovementChange(emulates = ParkourVersion.V26_1)
 public final class LegacyBlockRestitution implements CollisionRestitutionBehavior {
     @Override
     public void restituteAfterCollisions(

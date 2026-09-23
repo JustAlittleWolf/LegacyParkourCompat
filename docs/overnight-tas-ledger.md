@@ -104,10 +104,10 @@ these checks do not prove complete coverage.
 Block-effect source checks found two additional boundaries. Powder snow
 inherited ordinary fall damage in 1.17 and stopped doing so in 1.18;
 `PowderSnowFallDamage` restores damage only for the 1.17 and 1.17.1 profiles. Beds bounced
-with a `0.66F` factor through 1.21.11 and use `0.75F` in 26.2;
+with a `0.66F` factor through 26.1 and use `0.75F` in 26.2;
 `LegacyBedBounce` restores the earlier factor. `LegacyBlockRestitution` now
 restores direct vertical reflection for player bed/slime contacts through
-1.21.11, with sneak suppression and no bed bounce through 1.11.2. Partial
+26.1, with sneak suppression and no bed bounce through 1.11.2. Partial
 contacts and landing-specific TAS comparisons remain pending.
 
 Early jump source correction: through 1.13, the double Y velocity is assigned
@@ -219,3 +219,17 @@ The ordinary 1.9.4 capture stayed exact for all 200 ticks after this hook
 (`compare-1.9.4-062d21372d`), and `build build` passed.
 The default current profile also remained exact for 200 ticks after both
 soul-sand and pose hooks (`compare-current-3192fe8d44`).
+
+Later block source check: 1.20.5→1.20.6 block movement files are identical in
+the examined decompiles. Through 1.21.11, bed/slime bounce callbacks and the
+checked friction, support, shape, and inside-block movement rules remain
+stable. 26.1 still calls those direct bounce callbacks after clipping;
+26.2 instead computes restitution centrally and assigns bed bounciness
+`0.75F`. `LegacyBlockRestitution` and `LegacyBedBounce` now extend through the
+26.1 profile to retain its direct reflection and `0.66F` bed factor. A native
+26.1 bounce recording is needed to validate the hook on contact and landing.
+After the endpoint extension, `build build` passed, 1.9.4 matched all 200
+ticks with explicit maximum 10 ULP and observed maximum **0 ULP**
+(`compare-1.9.4-5121493db8`), and current matched all 200 ticks exactly
+(`compare-current-526b516b92`). Neither ordinary recording contacts a bed
+or slime block.

@@ -7,8 +7,8 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
 import me.wolfii.legacyparkourcompat.mechanic.hook.BlockBounceBehavior;
 import net.minecraft.world.level.block.BedBlock;
 
-/** Beds used 0.66F restitution through 1.21.11; 26.2 uses 0.75F. */
-@MovementChange(emulates = ParkourVersion.V1_21_11)
+/** Beds used 0.66F restitution through 26.1; 26.2 uses 0.75F. */
+@MovementChange(emulates = ParkourVersion.V26_1)
 public final class LegacyBedBounce implements BlockBounceBehavior {
     private final String blockId;
 
