@@ -4,6 +4,8 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.AirSpeedState;
+import me.wolfii.legacyparkourcompat.mechanic.hook.AirSpeedBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.DesiredPoseBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerPoseBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeBehavior;
@@ -24,7 +26,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
-public abstract class PlayerMixin {
+public abstract class PlayerMixin implements AirSpeedState {
+    @Unique
+    private float lpc$storedAirSpeed = 0.02F;
+
+    @Override
+    public float lpc$storedAirSpeed() {
+        return this.lpc$storedAirSpeed;
+    }
+
+    @Inject(method = "aiStep", at = @At("TAIL"))
+    private void lpc$updateAirSpeed(CallbackInfo ci) {
+        Player self = (Player) (Object) this;
+        MovementRuntime.find(AirSpeedBehavior.class, self)
+            .ifPresent(behavior -> this.lpc$storedAirSpeed = behavior.afterAiStep(self));
+    }
+
     @ModifyReturnValue(method = "getDesiredPose", at = @At("RETURN"))
     private Pose lpc$desiredPose(Pose vanilla) {
         Player self = (Player) (Object) this;
@@ -68,6 +85,7 @@ public abstract class PlayerMixin {
             return;
         }
         this.lpc$appliedEpoch = epoch;
+        this.lpc$storedAirSpeed = 0.02F;
         Player self = (Player) (Object) this;
         self.refreshDimensions();
         this.updatePlayerPose();

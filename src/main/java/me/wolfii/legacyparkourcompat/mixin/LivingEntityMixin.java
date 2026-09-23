@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.AirSpeedState;
 import me.wolfii.legacyparkourcompat.mechanic.hook.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
@@ -20,6 +21,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
+    @WrapOperation(
+        method = "getFrictionInfluencedSpeed",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getFlyingSpeed()F")
+    )
+    private float lpc$storedAirSpeed(LivingEntity instance, Operation<Float> original) {
+        float vanilla = original.call(instance);
+        if (!(instance instanceof Player player) || !MovementRuntime.appliesTo(player)) {
+            return vanilla;
+        }
+        return MovementRuntime.find(AirSpeedBehavior.class, player)
+            .map(behavior -> behavior.speed(player, ((AirSpeedState) player).lpc$storedAirSpeed(), vanilla))
+            .orElse(vanilla);
+    }
+
     @Unique
     private boolean lpc$vanillaJump;
 

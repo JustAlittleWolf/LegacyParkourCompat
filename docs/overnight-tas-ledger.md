@@ -162,8 +162,10 @@ The default current profile remained exact for 200 ticks after the input hook
 (`compare-current-ce4c3501a8`), and `build build` passed.
 
 Chronological 1.14–1.18 minor/patch source pass: exact 1.14 decompilation
-failed because its pinned Yarn build.21 artifact returned HTTP 404 during
-remapping, so the 1.14.0→1.14.4 comparison remains open. Exact 1.15, 1.15.1,
+is blocked because the cached Yarn build.21 tiny mapping exposes
+`intermediary named`, while the decompiler requests an `official` source
+namespace. No matching exact-version official-to-intermediary bridge is cached;
+the 1.14.0→1.14.4 comparison remains open. Exact 1.15, 1.15.1,
 1.15.2, 1.16, 1.16.2, 1.17, 1.17.1, 1.18, 1.18.1, and 1.18.2 decompiles
 were compared with the representative sources. The 1.15.2 `LocalPlayer#aiStep`
 adds a ladder check before starting fall flight; `AllowLadderElytraStart`
@@ -254,3 +256,23 @@ item effects. `build build` passed; the ordinary 1.9.4 capture passed all 200
 ticks with explicit maximum 10 ULP and observed maximum **0 ULP**
 (`compare-1.9.4-617db9259a`), and current passed 200 ticks exactly
 (`compare-current-9f02aac7d7`). A targeted old-item-use recording is needed.
+
+Native 1.17.1 comparison against the existing 200-tick recording first
+diverged at tick 10 when sprint began: X expected `8.626174709385094`, actual
+`8.620315340858815`. The native capture was repeated against the same gym
+and all 200 recorded XYZ positions matched the earlier capture bit for bit.
+1.17.1 `Player#aiStep` updates its stored `flyingSpeed` **after**
+`super.aiStep`, so the sprint air acceleration uses the previous tick's value;
+current movement computes it from current sprint state. `DoubleSprintAirSpeed`
+restores the stored value and the old double-precision addition through
+1.18.1. The adjacent 1.18.1→1.18.2 source pair changes that addition to
+float `0.006F`, so `FloatSprintAirSpeed` covers 1.18.2–1.19.3. 1.19.4 uses
+the current dynamic getter. This moves the 1.17.1 first mismatch to tick 16:
+native X remains `7.925000011920929`, while the selected profile reaches
+`7.930269223627127`; Y and Z still match on that tick. The basic 1.9.4
+recording passed 200/200 finite XYZ ticks with explicit maximum 10 ULP and
+observed maximum **0 ULP** (`compare-1.9.4-3b75dfcef9`). Source audit found
+the north-facing long piston head's normalized shape and tangent plane
+equivalent in 1.17.1 and current. The tick-16 cause and a full 1.17.1 pass
+remain open. The default current profile also matched its 200-tick native
+capture exactly (`compare-current-ef01a77a78`).
