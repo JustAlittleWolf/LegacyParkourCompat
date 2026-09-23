@@ -8,8 +8,9 @@ public final class PositionComparison {
     }
 
     /**
-     * Finite values are ordered across zero, with both signed zeros at distance zero.
-     * Adjacent subnormals have distance one. NaN and infinities have no ULP distance.
+     * Finite values count adjacent representable numbers on either side of zero;
+     * both signed zeros have distance zero. Adjacent subnormals have distance one.
+     * NaN and infinities have no ULP distance.
      */
     public static BigInteger ulpDistance(double left, double right) {
         if (!Double.isFinite(left) || !Double.isFinite(right)) {

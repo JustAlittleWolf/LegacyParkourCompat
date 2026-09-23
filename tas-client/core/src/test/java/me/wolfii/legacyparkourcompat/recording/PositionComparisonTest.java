@@ -10,7 +10,10 @@ class PositionComparisonTest {
     @Test
     void countsAdjacentValuesAndSubnormals() {
         assertEquals(BigInteger.ONE, PositionComparison.ulpDistance(1.0D, Math.nextUp(1.0D)));
+        assertEquals(BigInteger.ONE, PositionComparison.ulpDistance(-1.0D, Math.nextUp(-1.0D)));
+        assertEquals(BigInteger.ONE, PositionComparison.ulpDistance(-1.0D, Math.nextDown(-1.0D)));
         assertEquals(BigInteger.ONE, PositionComparison.ulpDistance(0.0D, Double.MIN_VALUE));
+        assertEquals(BigInteger.ONE, PositionComparison.ulpDistance(-0.0D, -Double.MIN_VALUE));
         assertEquals(BigInteger.valueOf(2L), PositionComparison.ulpDistance(-Double.MIN_VALUE, Double.MIN_VALUE));
         assertEquals(BigInteger.ZERO, PositionComparison.ulpDistance(-0.0D, 0.0D));
     }

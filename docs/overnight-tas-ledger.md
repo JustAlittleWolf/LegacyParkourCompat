@@ -7,6 +7,57 @@ and Z coordinate of every tick, with exact tick count**. This is not bit-exact
 compatibility or a declaration that a version is complete. Default comparison
 remains exact. Native capture differences are evidence, not emulation failures.
 
+## Current audit state — 2026-09-23
+
+Active branch: `codex/overnight-movement-audit`, merge checkpoint `47fc348`
+(`fix/overnight-tas-ulp-compat` merged into the audit branch). Current ordered
+pair: **1.14.0 → 1.14.4**, in the chronological minor/patch pass. Three Luna
+High managers have read-only scopes for movement math, collision, and old
+block behavior on that pair; separate isolated managers are checking the
+Forge 1.13.2 TAS compile failure and native 1.8.9 replay repeatability.
+Reports are pending. Do not infer compatibility from the ordinary recordings.
+
+The exact 1.14.0 named source now decompiles successfully with
+`gradlew decompileMinecraft --versions=1.14`; this clears the prior mapping
+namespace blocker. Master review so far found the 1.14.0
+`decompiled_minecraft/1.14/net/minecraft/entity/Entity.java#movementInputToVelocity`
+and `LivingEntity#travel` arithmetic equivalent to 1.14.4
+`decompiled_minecraft/1.14.4/net/minecraft/world/entity/Entity.java#getInputVector`
+and `LivingEntity#travel`: both use the `1.0E-7` negligible-input threshold,
+normalize only when length squared exceeds one, and preserve the same yaw
+rotation and ground friction formula. Ladder clamping in 1.14.0
+`LivingEntity#method_18801` and 1.14.4 `LivingEntity#handleOnClimbable` also
+matches in the examined branches. Collision-source review found the same
+Y-then-shorter-horizontal axis order, the same X/Z sequence, and the same two
+step candidates and horizontal-distance selection in 1.14.0
+`Entity#move/method_17835/method_17833` and 1.14.4
+`Entity#move/collide/collideBoundingBoxHeuristically`. The 1.14.0
+`MathHelper#method_20390` and 1.14.4 `Mth#equal(double,double)` both use
+`abs(a-b) < 1.0E-5`. Helper and block-manager review remains open before this
+pair is closed.
+
+Post-merge TAS checks against the saved version-specific files:
+
+- `recording-1.8.9.lprc`, selected profile `1.8.9`, run
+  `compare-1.8.9-e3f9295c3a`: **200/200 ticks passed**, maximum ULP XYZ
+  **[7, 0, 1]**. The live first-mismatch signal stayed silent.
+- `recording-current.lprc`, default `current` profile, run
+  `compare-current-e689c8a220`: **200/200 ticks passed**, maximum ULP XYZ
+  **[0, 0, 0]**.
+- Explicit `tasMaxUlps=10` was used for both runs; no `tasTolerance` was set.
+  The Gym log had no failure snapshot for these passing run IDs.
+- After extending negative-number and subnormal boundary tests,
+  `gradlew -p tas-client :core:test` passed and the required `gradlew build
+  build` passed. The tests define equal signed-zero distance as 0, adjacent
+  negative and positive subnormals as 1, opposite minimum subnormals as 2,
+  nonfinite comparison as failure, and exact default as still distinguishing
+  signed zero.
+
+Open priorities: manager review of 1.14.0→1.14.4; the still-unbuildable TAS
+target 1.13.2; unexplained 1-ULP Z variation in repeated native 1.8.9 replay;
+targeted contact, fluid, pose, ledge, and analog-input recordings; and the
+26.1 runner gap. No complete-version claim is supported yet.
+
 ## Major-release rough-pass sequence
 
 One exact TAS representative per major release, oldest first; compare adjacent
@@ -165,11 +216,11 @@ Chronological 1.14–1.18 minor/patch source pass: exact 1.14 decompilation
 initially failed because the cached Yarn build.21 tiny mapping exposes
 `intermediary named`, while the decompiler requested an `official` source
 namespace. The decompile task downloaded the exact-version intermediary
-bridge, but its first output still contained `class_` names: this Yarn file's
-declared namespace columns are reversed relative to the class entries. A
-source-only correction for the second remap is prepared. It has
-not been run after the user's stop request, so the named 1.14.0 source and
-1.14.0→1.14.4 comparison remain open. Exact 1.15, 1.15.1,
+bridge. The mapping-column correction now detects the reversed namespace
+columns and the rerun succeeds with named classes under
+`decompiled_minecraft/1.14/`. The exact 1.14.0→1.14.4 review is active; initial
+movement/collision findings are recorded in the current-state section above,
+and helper/block review remains open. Exact 1.15, 1.15.1,
 1.15.2, 1.16, 1.16.2, 1.17, 1.17.1, 1.18, 1.18.1, and 1.18.2 decompiles
 were compared with the representative sources. The 1.15.2 `LocalPlayer#aiStep`
 adds a ladder check before starting fall flight; `AllowLadderElytraStart`
