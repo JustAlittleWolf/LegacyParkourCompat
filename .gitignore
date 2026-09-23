@@ -30,6 +30,7 @@ run/
 tas-client/run/
 tas-client/client-version.txt
 tas-client/.gradle/
+tas-results*/
 
 # parkour gym Paper server
 parkourgym-server/run/

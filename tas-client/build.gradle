@@ -19,6 +19,52 @@ def useFabric = clientTarget.loader == 'fabric'
 def mixinEra = mixinEraFor(clientTarget)
 def compilerJava = Math.max(17, clientTarget.javaVersion)
 
+// Gradle properties are used for direct invocations.  The root reference
+// workflow also forwards the same values through the environment because
+// included builds do not consistently inherit project properties on all
+// Gradle versions.
+def tasAutomationValue = { String propertyName, String environmentName ->
+    def propertyValue = findProperty(propertyName)
+    if (propertyValue != null && !propertyValue.toString().trim().isEmpty()) {
+        return propertyValue.toString().trim()
+    }
+    def environmentValue = System.getenv(environmentName)
+    return environmentValue == null || environmentValue.trim().isEmpty() ? null : environmentValue.trim()
+}
+def tasAutomationArgs = []
+def tasAutomationRecording = tasAutomationValue('tasRecording', 'LEGACY_PARKOUR_TAS_RECORDING')
+def tasAutomationOutput = tasAutomationValue('tasOutput', 'LEGACY_PARKOUR_TAS_OUTPUT')
+def tasAutomationServer = tasAutomationValue('tasServer', 'LEGACY_PARKOUR_TAS_SERVER')
+def tasAutomationRun = tasAutomationValue('tasRun', 'LEGACY_PARKOUR_TAS_RUN')
+def tasAutomationVersion = tasAutomationValue('tasVersion', 'LEGACY_PARKOUR_TAS_VERSION')
+def tasAutomationCompare = tasAutomationValue('tasCompare', 'LEGACY_PARKOUR_TAS_COMPARE')
+def tasAutomationTolerance = tasAutomationValue('tasTolerance', 'LEGACY_PARKOUR_TAS_TOLERANCE')
+if (tasAutomationRecording != null) {
+    tasAutomationArgs << "-Dlegacyparkour.tas.recording=${new File(tasAutomationRecording).absolutePath}"
+    tasAutomationArgs << '-Dlegacyparkour.tas.autoplay=true'
+    tasAutomationArgs << '-Dlegacyparkour.tas.autojoin=true'
+    tasAutomationArgs << '-Dlegacyparkour.tas.mute=true'
+    tasAutomationArgs << '-Dlegacyparkour.tas.exit=true'
+}
+if (tasAutomationOutput != null) {
+    tasAutomationArgs << "-Dlegacyparkour.tas.output=${new File(tasAutomationOutput).absolutePath}"
+}
+if (tasAutomationServer != null) {
+    tasAutomationArgs << "-Dlegacyparkour.tas.server=${tasAutomationServer}"
+}
+if (tasAutomationRun != null) {
+    tasAutomationArgs << "-Dlegacyparkour.tas.run=${tasAutomationRun}"
+}
+if (tasAutomationVersion != null) {
+    tasAutomationArgs << "-Dlegacyparkour.tas.version=${tasAutomationVersion}"
+}
+if (tasAutomationCompare != null) {
+    tasAutomationArgs << "-Dlegacyparkour.tas.compare=${tasAutomationCompare}"
+}
+if (tasAutomationTolerance != null) {
+    tasAutomationArgs << "-Dlegacyparkour.tas.tolerance=${tasAutomationTolerance}"
+}
+
 repositories {
     mavenCentral()
     maven { name = 'Fabric'; url = 'https://maven.fabricmc.net/' }
@@ -104,6 +150,9 @@ if (!ideaSync && compareMc(clientTarget.minecraft, '26') < 0) {
         runs {
             config('client') {
                 workingDir = layout.projectDirectory.dir("run/${clientTarget.minecraft}").asFile
+                if (!tasAutomationArgs.isEmpty()) {
+                    jvmArgs tasAutomationArgs
+                }
                 if (!useFabric) {
                     jvmArgs '-Dfml.coreMods.load=me.wolfii.legacyparkourcompat.recording.RecordingMixinCoremod'
                 }
@@ -143,6 +192,36 @@ tasks.register('runTasClient') {
         }
     } else if (!ideaSync) {
         dependsOn 'runClient'
+    }
+}
+
+// Configure narrator options before Minecraft loads them. The accessibility
+// onboarding screen speaks its prompt even when narrator:0 is already set.
+if (!ideaSync && compareMc(clientTarget.minecraft, '1.14') >= 0 && compareMc(clientTarget.minecraft, '26') < 0) {
+    tasks.named('runClient').configure {
+        doFirst {
+            File optionsFile = layout.projectDirectory.file("run/${clientTarget.minecraft}/options.txt").asFile
+            optionsFile.parentFile.mkdirs()
+            List<String> lines = optionsFile.isFile() ? optionsFile.readLines('UTF-8') : []
+            Map<String, String> disabled = ['narrator': '0']
+            if (compareMc(clientTarget.minecraft, '1.20.5') >= 0) {
+                disabled['narratorHotkey'] = 'false'
+                disabled['onboardAccessibility'] = 'false'
+            }
+            boolean changed = false
+            disabled.each { key, value ->
+                String setting = "${key}:${value}"
+                int index = lines.findIndexOf { it.startsWith("${key}:") }
+                if (index < 0) {
+                    lines.add(setting)
+                    changed = true
+                } else if (lines[index] != setting) {
+                    lines[index] = setting
+                    changed = true
+                }
+            }
+            if (changed) optionsFile.setText(lines.join(System.lineSeparator()) + System.lineSeparator(), 'UTF-8')
+        }
     }
 }
 

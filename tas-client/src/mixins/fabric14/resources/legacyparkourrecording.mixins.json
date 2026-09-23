@@ -4,6 +4,7 @@
   "package": "me.wolfii.legacyparkourcompat.recording.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
+    "MinecraftTickMixin",
     "LocalPlayerMixin",
     "LegacyKeyboardInputMixin",
     "ChatScreen14Mixin",

@@ -7,7 +7,6 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
 import me.wolfii.legacyparkourcompat.mechanic.hook.BlockCollisionShape;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -29,7 +28,7 @@ public final class TallWallCollision implements BlockCollisionShape {
     }
 
     public static void register(MovementChangeRegistry registry) {
-        BlockChanges.registerEach(registry, WallBlock.class::isInstance, id -> {
+        BlockChanges.registerEach(registry, WallBoxes::isHistoricalWall, id -> {
             TallWallCollision tall = new TallWallCollision(id);
             registry.register(BlockCollisionShape.class, ParkourVersion.V1_11, tall);
             return tall;

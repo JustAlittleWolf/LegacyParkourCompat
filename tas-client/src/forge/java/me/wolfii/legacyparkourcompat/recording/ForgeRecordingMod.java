@@ -13,6 +13,12 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 public final class ForgeRecordingMod {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        RecordingController.get().attach(ReflectivePlayback.INSTANCE);
+        RecordingController controller = RecordingController.get();
+        controller.attach(ReflectivePlayback.INSTANCE);
+        try {
+            controller.configureAutomation(AutomationSettings.fromSystemProperties());
+        } catch (IllegalArgumentException exception) {
+            System.err.println("[Legacy Parkour Recording] Invalid automation setting: " + exception.getMessage());
+        }
     }
 }

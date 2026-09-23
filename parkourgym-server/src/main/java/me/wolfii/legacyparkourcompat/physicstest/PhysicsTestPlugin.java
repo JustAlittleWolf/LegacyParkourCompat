@@ -1,5 +1,6 @@
 package me.wolfii.legacyparkourcompat.physicstest;
 
+import com.mojang.brigadier.arguments.StringArgumentType;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.event.connection.PlayerConnectionValidateLoginEvent;
 import io.papermc.paper.event.player.AsyncPlayerSpawnLocationEvent;
@@ -24,6 +25,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.Vector;
 import org.jspecify.annotations.Nullable;
 
 import java.net.InetAddress;
@@ -53,6 +55,7 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this, this);
+        getServer().getPluginManager().registerEvents(new FailureSnapshotChat(this), this);
         getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             event.registrar().register(
                 Commands.literal("save")
@@ -63,6 +66,17 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
                     })
                     .build(),
                 "Save the physics testing world in the Polar format"
+            );
+            event.registrar().register(
+                Commands.literal("lpcpose")
+                    .requires(stack -> stack.getSender().isOp())
+                    .then(Commands.argument("pose", StringArgumentType.greedyString())
+                        .executes(ctx -> {
+                            applyTasPose(ctx.getSource().getSender(), StringArgumentType.getString(ctx, "pose"));
+                            return com.mojang.brigadier.Command.SINGLE_SUCCESS;
+                        }))
+                    .build(),
+                "Set the authoritative start pose for a local TAS run"
             );
         });
         Bukkit.getGlobalRegionScheduler().run(this, task -> bootstrapWorld());
@@ -216,6 +230,39 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
                 sender.sendMessage(Component.text("Saved physics world as Polar.", NamedTextColor.AQUA));
             });
         });
+    }
+
+    private void applyTasPose(CommandSender sender, String arguments) {
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage(Component.text("Only a player can set a TAS pose.", NamedTextColor.RED));
+            return;
+        }
+        String[] parts = arguments.trim().split("\\s+");
+        if (parts.length != 5) {
+            player.sendMessage(Component.text("Expected X Y Z yaw pitch.", NamedTextColor.RED));
+            return;
+        }
+        try {
+            double x = Double.parseDouble(parts[0]);
+            double y = Double.parseDouble(parts[1]);
+            double z = Double.parseDouble(parts[2]);
+            float yaw = Float.parseFloat(parts[3]);
+            float pitch = Float.parseFloat(parts[4]);
+            if (!Double.isFinite(x) || !Double.isFinite(y) || !Double.isFinite(z)
+                || !Float.isFinite(yaw) || !Float.isFinite(pitch)) {
+                throw new NumberFormatException("non-finite pose");
+            }
+            player.setVelocity(new Vector(0.0, 0.0, 0.0));
+            player.setFallDistance(0.0f);
+            player.teleportAsync(new Location(player.getWorld(), x, y, z, yaw, pitch))
+                .thenAccept(success -> {
+                    if (!success) {
+                        getLogger().warning("TAS start-pose teleport failed for " + player.getName());
+                    }
+                });
+        } catch (NumberFormatException exception) {
+            player.sendMessage(Component.text("Invalid TAS start pose.", NamedTextColor.RED));
+        }
     }
 
     private Config physicsConfig() {
