@@ -15,7 +15,7 @@ class JsonPlaybackFilesTest {
         String json = "{\"version\":1,\"start\":{\"pos\":[746.5,5,-1104.5],"
             + "\"vel\":[0,-0.0784000015258789,0],\"yaw\":74.27063,\"pitch\":40},"
             + "\"rows\":[{\"keys\":[\"W\",\"SPRINT\",\"JUMP\"],\"yaw\":-0.2273624},"
-            + "{\"keys\":[\"W\",\"A\",\"SPRINT\"]},"
+            + "{\"keys\":[\"W\",\"A\",\"SPRINT\"],\"yaw\":44.783894},"
             + "{\"keys\":[\"SNEAK\"],\"pitch\":-26.242702}]}";
         MovementRecording recording = JsonPlaybackFiles.read(new StringReader(json));
 
@@ -25,10 +25,14 @@ class JsonPlaybackFilesTest {
         assertTrue(recording.ticks().get(0).forward());
         assertTrue(recording.ticks().get(0).jump());
         assertTrue(recording.ticks().get(0).sprint());
+        float firstYaw = 74.27063f + -0.2273624f;
+        assertEquals(firstYaw, recording.ticks().get(0).yaw());
         assertTrue(recording.ticks().get(1).left());
-        assertEquals(recording.ticks().get(0).yaw(), recording.ticks().get(1).yaw());
+        float secondYaw = firstYaw + 44.783894f;
+        assertEquals(secondYaw, recording.ticks().get(1).yaw());
         assertEquals(40f, recording.ticks().get(1).pitch());
         assertTrue(recording.ticks().get(2).sneak());
+        assertEquals(secondYaw, recording.ticks().get(2).yaw());
         assertEquals(-26.242702f, recording.ticks().get(2).pitch());
     }
 

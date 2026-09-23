@@ -49,7 +49,9 @@ public final class JsonPlaybackFiles {
                 String location = "rows[" + index + "]";
                 JsonObject row = object(rows.get(index), location);
                 if (row.has("yaw") && !row.get("yaw").isJsonNull()) {
-                    yaw = angle(row.get("yaw"), location + ".yaw");
+                    // JSON row yaw is a turn from the previous facing, not an absolute angle.
+                    yaw += angle(row.get("yaw"), location + ".yaw");
+                    if (!Float.isFinite(yaw)) throw new IOException(location + ".yaw exceeds the float range");
                 }
                 if (row.has("pitch") && !row.get("pitch").isJsonNull()) {
                     pitch = angle(row.get("pitch"), location + ".pitch");

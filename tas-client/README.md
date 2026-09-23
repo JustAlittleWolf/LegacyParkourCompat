@@ -28,7 +28,9 @@ Playback also accepts Legacy Parkour/Combat TAS JSON files (format version 1)
 as input. Put a file in `.legacyparkourrecordings` and enter `.playback name.json`,
 or give an absolute path such as `.playback D:\runs\route.json`. The JSON's
 starting position, velocity, yaw, pitch, and each row's keys and optional yaw
-and pitch are applied. Missing row angles keep the previous angle. Editor
+and pitch are applied. Each row's yaw is added to the previous yaw; an absent
+yaw keeps the previous value. Row pitch is an absolute angle and an absent
+pitch keeps the previous value. Editor
 metadata such as `yawLocked` and `angleSolver` does not affect playback. Rows
 that request teleports, potion amplifiers, nonzero hotbar slots, or unknown keys
 fail with a clear error because this recorder cannot apply those states. JSON
