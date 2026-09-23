@@ -4,6 +4,8 @@
 
 The server is offline-mode and bound to `127.0.0.1`. Joining players are op, so `/gamemode` works. `/save` writes the loaded world as Polar.
 
+Player damage is cancelled, including fall and void damage, so practice runs do not kill players in survival mode.
+
 Server movement checks are off (`player_movement_check`, `elytra_movement_check`, and Paper `PlayerFailMoveEvent`); the client is the authority for legal movement.
 
 The testing world is Polar (`polarpaper:physics_test`), height `[0, 256)`, with a 16×16 stone spawn platform at `y=64`. Players spawn there; the Nether is disabled (`config/paper-global.yml` `misc.enable-nether: false`). Paper still boots a dummy overworld because it requires one, then the helper plugin unloads it when possible. Polar custom gamerules: `blockPhysics` on; `blockGravity`, `liquidPhysics`, and `blockFade` off. Mob spawning, weather, and the daylight cycle are off, and time is noon (`6000`).
