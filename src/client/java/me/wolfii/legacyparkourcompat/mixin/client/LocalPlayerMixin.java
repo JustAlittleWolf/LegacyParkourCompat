@@ -8,6 +8,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.AutoJumpBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ClientInputBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ClientUnstuckBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ElytraStartClimbBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.ItemUseMovementBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintCollisionBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintDurationBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintingBehavior;
@@ -23,6 +24,31 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LocalPlayer.class)
 public abstract class LocalPlayerMixin {
+    @WrapOperation(
+        method = "modifyInput",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;itemUseSpeedMultiplier()F")
+    )
+    private float lpc$itemUseSpeed(LocalPlayer self, Operation<Float> original) {
+        float vanilla = original.call(self);
+        if (!MovementRuntime.appliesTo(self)) {
+            return vanilla;
+        }
+        return MovementRuntime.find(ItemUseMovementBehavior.class, self)
+            .map(behavior -> behavior.speedMultiplier(self, vanilla))
+            .orElse(vanilla);
+    }
+
+    @ModifyReturnValue(method = "isSlowDueToUsingItem", at = @At("RETURN"))
+    private boolean lpc$itemUseSprint(boolean vanilla) {
+        LocalPlayer self = (LocalPlayer) (Object) this;
+        if (!MovementRuntime.appliesTo(self)) {
+            return vanilla;
+        }
+        return MovementRuntime.find(ItemUseMovementBehavior.class, self)
+            .map(behavior -> behavior.slowsSprinting(self, vanilla))
+            .orElse(vanilla);
+    }
+
     @WrapOperation(
         method = "aiStep",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;moveTowardsClosestSpace(DD)V")

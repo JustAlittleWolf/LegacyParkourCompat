@@ -233,3 +233,24 @@ ticks with explicit maximum 10 ULP and observed maximum **0 ULP**
 (`compare-1.9.4-5121493db8`), and current matched all 200 ticks exactly
 (`compare-current-526b516b92`). Neither ordinary recording contacts a bed
 or slime block.
+
+Chronological 1.20.5–1.21.11 minor/patch source pass: 1.20.5 and 1.20.6
+movement sources are byte-identical in the compared player, entity, input,
+bed, slime, honey, Soul Sand, and powder snow files. The examined 1.21.0–1.21.4
+and 1.21.5–1.21.11 adjacent collision/step/pose pairs add no further
+movement rule beyond the already covered 1.21.0 sorted candidate step heights
+(`TwoRouteStepUp` restores earlier), 1.21.5 foot-slice probe inset and pose
+priority (`OriginalFootSlice`, `FallFlyingFirstPose` restore earlier), and
+1.21.5 grouped horizontal negligible-speed cutoff (`PerAxisNegligibleSpeed`
+restores earlier). The 1.21.5 square-adjusted keyboard input is already
+covered by `PreSquareInput` for older profiles. At 1.21.9 the shallow-water
+sprint predicate is algebraically equivalent to its earlier water predicate;
+the new configurable sprint window defaults to the previous seven ticks, but
+nondefault settings have not been emulated. At 1.21.11, item use switches from
+fixed `0.2F` input slowdown and sprint blocking to per-item `UseEffects` speed
+and `canSprint`. `FixedItemUseMovement` now restores the fixed multiplier and
+item-use sprint restriction through 1.21.10; 1.21.11 and current use native
+item effects. `build build` passed; the ordinary 1.9.4 capture passed all 200
+ticks with explicit maximum 10 ULP and observed maximum **0 ULP**
+(`compare-1.9.4-617db9259a`), and current passed 200 ticks exactly
+(`compare-current-9f02aac7d7`). A targeted old-item-use recording is needed.
