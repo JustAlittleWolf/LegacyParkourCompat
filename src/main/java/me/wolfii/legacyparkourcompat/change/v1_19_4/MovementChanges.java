@@ -7,5 +7,6 @@ public final class MovementChanges implements MovementChangeProvider {
     @Override
     public void register(MovementChangeRegistry registry) {
         registry.register(new SupportingBlock());
+        registry.register(new DownwardFullBoxSneakEdge());
     }
 }

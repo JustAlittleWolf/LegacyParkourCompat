@@ -10,12 +10,12 @@ import net.minecraft.world.level.block.Blocks;
 /**
  * Beds did not bounce until 1.12. That release converts 66% of downward speed
  * ({@code velocityY = -velocityY * 0.66F} in 1.12.2 {@code BedBlock#setEntityVelocity}).
- * 26.2 stores the same factor on {@code Block#getBounceRestitution}; returning
- * {@code 0} disables that restitution path. Slime is unchanged;
- * {@link FullBedFallDistance} restores the old bed fall damage.
+ * 26.2 uses a central restitution path with a different bed factor; returning
+ * {@code 0} disables bed bounce for pre-1.12 profiles. Older bed fall damage
+ * is restored separately by {@link FullBedFallDistance}.
  *
  * <p>{@link ParkourVersion#V1_11_2} is the last selectable version before 1.12,
- * so 1.8 through 1.11.2 get no bounce and 1.12+ keep vanilla 66%.
+ * so 1.8 through 1.11.2 get no bounce.
  */
 @MovementChange(emulates = ParkourVersion.V1_11_2)
 public final class NoBedBounce implements BlockBounceBehavior {

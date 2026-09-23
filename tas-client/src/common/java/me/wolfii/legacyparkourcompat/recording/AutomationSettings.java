@@ -87,8 +87,11 @@ public final class AutomationSettings {
             throw new IllegalArgumentException("TAS tolerance must be a finite non-negative number");
         }
         this.tolerance = tolerance;
-        if (maxUlps != null && maxUlps.longValue() < 0L) {
+        if (maxUlps != null && maxUlps < 0L) {
             throw new IllegalArgumentException("TAS max ULPs must be non-negative");
+        }
+        if (maxUlps != null && tolerance != 0.0D) {
+            throw new IllegalArgumentException("TAS max ULPs and absolute tolerance are mutually exclusive");
         }
         this.maxUlps = maxUlps;
     }
@@ -219,7 +222,7 @@ public final class AutomationSettings {
             if (parsed < 0L) {
                 throw new NumberFormatException("negative");
             }
-            return Long.valueOf(parsed);
+            return parsed;
         } catch (NumberFormatException exception) {
             throw new IllegalArgumentException("Expected a non-negative integer for -D" + name + ", got '" + value + "'", exception);
         }

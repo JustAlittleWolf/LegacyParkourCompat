@@ -6,7 +6,9 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
 public final class MovementChanges implements MovementChangeProvider {
     @Override
     public void register(MovementChangeRegistry registry) {
+        registry.register(new AllowLadderElytraStart());
         registry.register(new DeepFrictionBlock());
         registry.register(new ShallowFrictionBlock());
+        registry.register(new BlockFactorFloatJump());
     }
 }

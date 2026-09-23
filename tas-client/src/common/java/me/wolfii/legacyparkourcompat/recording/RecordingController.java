@@ -391,6 +391,13 @@ public final class RecordingController {
         String details = String.format(Locale.ROOT,
             "first position deviation at tick %d (expected %.17g %.17g %.17g, actual %.17g %.17g %.17g, delta %.17g %.17g %.17g)",
             Integer.valueOf(tick), expected.x(), expected.y(), expected.z(), actualX, actualY, actualZ, deltaX, deltaY, deltaZ);
+        if (maxUlps != null && finite(expected.x()) && finite(expected.y()) && finite(expected.z())
+            && finite(actualX) && finite(actualY) && finite(actualZ)) {
+            details += String.format(Locale.ROOT, " ULP=(%s, %s, %s)",
+                PositionComparison.ulpDistance(expected.x(), actualX),
+                PositionComparison.ulpDistance(expected.y(), actualY),
+                PositionComparison.ulpDistance(expected.z(), actualZ));
+        }
         this.minecraft.sendGameMessage(details);
         if (maxUlps != null && finite(expected.x()) && finite(expected.y()) && finite(expected.z())
             && finite(actualX) && finite(actualY) && finite(actualZ)) {

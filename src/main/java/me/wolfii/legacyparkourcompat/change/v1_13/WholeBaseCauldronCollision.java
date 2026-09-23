@@ -15,7 +15,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.Optional;
 
-/** The 1.13 cauldron had a continuous 4/16 base before legs appeared in 1.14. */
+/** 1.13's cauldron had a continuous 4/16 base before legs appeared. */
 @MovementChange(emulates = ParkourVersion.V1_13)
 public final class WholeBaseCauldronCollision implements BlockCollisionShape {
     private static final VoxelShape SHAPE = Shapes.or(
@@ -32,7 +32,9 @@ public final class WholeBaseCauldronCollision implements BlockCollisionShape {
     }
 
     public static void register(MovementChangeRegistry registry) {
-        BlockChanges.registerEach(registry, block -> block == Blocks.CAULDRON || block == Blocks.WATER_CAULDRON, WholeBaseCauldronCollision::new);
+        BlockChanges.registerEach(registry,
+            block -> block == Blocks.CAULDRON || block == Blocks.WATER_CAULDRON,
+            WholeBaseCauldronCollision::new);
     }
 
     @Override

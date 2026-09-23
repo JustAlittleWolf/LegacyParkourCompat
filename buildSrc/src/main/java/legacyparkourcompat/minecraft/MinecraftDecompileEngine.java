@@ -147,7 +147,32 @@ final class MinecraftDecompileEngine {
             if (yarn != null) {
                 Path mappedJar = versionCache.resolve("client-yarn.jar");
                 logger.lifecycle("  Official Mojang mappings unavailable; applying {} ({})", yarn.label, yarn.version);
-                remap(clientJar, mappedJar, TinyUtils.createTinyMappingProvider(yarn.tinyFile, "official", "named"), libraries);
+                String mappingHeader;
+                try (BufferedReader reader = Files.newBufferedReader(yarn.tinyFile, StandardCharsets.UTF_8)) {
+                    mappingHeader = reader.readLine();
+                }
+                if (mappingHeader != null && mappingHeader.contains("\tofficial\t")) {
+                    remap(clientJar, mappedJar, TinyUtils.createTinyMappingProvider(yarn.tinyFile, "official", "named"), libraries);
+                } else if (mappingHeader != null && mappingHeader.endsWith("\tintermediary\tnamed")) {
+                    Path intermediaryJar = downloadYarnJar(FABRIC_MAVEN, "net.fabricmc", "intermediary", versionRef.id);
+                    if (intermediaryJar == null) {
+                        throw new IllegalStateException("No exact intermediary bridge for Minecraft " + versionRef.id);
+                    }
+                    Path intermediaryTiny = cacheDir.resolve("intermediary").resolve(versionRef.id + ".tiny");
+                    extractNamedFile(intermediaryJar, "mappings/mappings.tiny", intermediaryTiny);
+                    Path intermediaryClient = versionCache.resolve("client-intermediary.jar");
+                    logger.lifecycle("  Bridging official -> intermediary -> named for {}", versionRef.id);
+                    remap(clientJar, intermediaryClient,
+                            TinyUtils.createTinyMappingProvider(intermediaryTiny, "official", "intermediary"), libraries);
+                    boolean reversedColumns = hasReversedIntermediaryClassColumns(yarn.tinyFile);
+                    remap(intermediaryClient, mappedJar,
+                            TinyUtils.createTinyMappingProvider(yarn.tinyFile,
+                                    reversedColumns ? "named" : "intermediary",
+                                    reversedColumns ? "intermediary" : "named"), libraries);
+                } else {
+                    throw new IllegalStateException("Unsupported mapping namespaces for Minecraft " + versionRef.id
+                            + ": " + mappingHeader);
+                }
                 jarToDecompile = mappedJar;
                 mappingSource = yarn.label;
             } else if (jarHasDefaultPackageClasses(clientJar)) {
@@ -379,6 +404,26 @@ final class MinecraftDecompileEngine {
             }
             Files.copy(source, dest, StandardCopyOption.REPLACE_EXISTING);
         }
+    }
+
+    private static boolean hasReversedIntermediaryClassColumns(Path tiny) throws IOException {
+        try (BufferedReader reader = Files.newBufferedReader(tiny, StandardCharsets.UTF_8)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.startsWith("c\t")) {
+                    continue;
+                }
+                String[] columns = line.split("\t", -1);
+                if (columns.length >= 3) {
+                    boolean firstIntermediary = columns[1].matches(".*[/]class_[0-9]+.*");
+                    boolean secondIntermediary = columns[2].matches(".*[/]class_[0-9]+.*");
+                    if (firstIntermediary != secondIntermediary) {
+                        return secondIntermediary;
+                    }
+                }
+            }
+        }
+        throw new IOException("Could not identify intermediary class column in " + tiny);
     }
 
     private MojangMeta.VersionRef resolveVersion(String spec, MojangMeta.VersionManifest manifest) {

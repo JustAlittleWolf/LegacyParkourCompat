@@ -12,7 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
-/** Before 1.12, beds used the ordinary block fall distance. */
+/** Before 1.12, landing on a bed used the full fall distance. */
 @MovementChange(emulates = ParkourVersion.V1_11_2)
 public final class FullBedFallDistance implements BlockFallBehavior {
     private final String blockId;

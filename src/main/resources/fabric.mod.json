@@ -36,7 +36,16 @@
       "me.wolfii.legacyparkourcompat.change.v1_15.MovementChanges",
       "me.wolfii.legacyparkourcompat.change.v1_16_2.MovementChanges",
       "me.wolfii.legacyparkourcompat.change.v1_17.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_19_4.MovementChanges"
+      "me.wolfii.legacyparkourcompat.change.v1_18.MovementChanges",
+      "me.wolfii.legacyparkourcompat.change.v1_19.MovementChanges",
+      "me.wolfii.legacyparkourcompat.change.v1_19_4.MovementChanges",
+      "me.wolfii.legacyparkourcompat.change.v1_20.MovementChanges",
+      "me.wolfii.legacyparkourcompat.change.v1_20_5.MovementChanges",
+      "me.wolfii.legacyparkourcompat.change.v1_21.MovementChanges",
+      "me.wolfii.legacyparkourcompat.change.v1_21_4.MovementChanges",
+      "me.wolfii.legacyparkourcompat.change.v1_21_5.MovementChanges",
+      "me.wolfii.legacyparkourcompat.change.v1_21_11.MovementChanges",
+      "me.wolfii.legacyparkourcompat.change.v26_1.MovementChanges"
     ],
     "modmenu": [
       "me.wolfii.legacyparkourcompat.config.ModMenuIntegration"
