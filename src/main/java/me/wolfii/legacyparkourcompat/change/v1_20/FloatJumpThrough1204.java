@@ -10,7 +10,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
 /** 1.20–1.20.4 assemble float jump power and overwrite Y unconditionally. */
-@MovementChange(emulates = ParkourVersion.V1_20)
+@MovementChange(emulates = ParkourVersion.V1_20_2)
 public final class FloatJumpThrough1204 implements JumpBehavior {
     @Override
     public float jumpPower(LivingEntity entity, float vanilla) {

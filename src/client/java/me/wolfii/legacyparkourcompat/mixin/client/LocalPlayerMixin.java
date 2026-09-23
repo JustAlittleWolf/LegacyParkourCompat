@@ -9,6 +9,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.ClientInputBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ClientUnstuckBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ElytraStartClimbBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ItemUseMovementBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.PassengerCrouchBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintCollisionBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintDurationBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintingBehavior;
@@ -24,6 +25,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LocalPlayer.class)
 public abstract class LocalPlayerMixin {
+    @WrapOperation(
+        method = "aiStep",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isPassenger()Z", ordinal = 0)
+    )
+    private boolean lpc$passengerCrouch(LocalPlayer self, Operation<Boolean> original) {
+        boolean vanilla = original.call(self);
+        if (!MovementRuntime.appliesTo(self)) {
+            return vanilla;
+        }
+        return MovementRuntime.find(PassengerCrouchBehavior.class, self)
+            .map(behavior -> behavior.blocksCrouching(self, vanilla))
+            .orElse(vanilla);
+    }
+
     @WrapOperation(
         method = "modifyInput",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;itemUseSpeedMultiplier()F")

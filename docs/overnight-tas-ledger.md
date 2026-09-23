@@ -162,10 +162,14 @@ The default current profile remained exact for 200 ticks after the input hook
 (`compare-current-ce4c3501a8`), and `build build` passed.
 
 Chronological 1.14–1.18 minor/patch source pass: exact 1.14 decompilation
-is blocked because the cached Yarn build.21 tiny mapping exposes
-`intermediary named`, while the decompiler requests an `official` source
-namespace. No matching exact-version official-to-intermediary bridge is cached;
-the 1.14.0→1.14.4 comparison remains open. Exact 1.15, 1.15.1,
+initially failed because the cached Yarn build.21 tiny mapping exposes
+`intermediary named`, while the decompiler requested an `official` source
+namespace. The decompile task downloaded the exact-version intermediary
+bridge, but its first output still contained `class_` names: this Yarn file's
+declared namespace columns are reversed relative to the class entries. A
+source-only correction for the second remap is prepared. It has
+not been run after the user's stop request, so the named 1.14.0 source and
+1.14.0→1.14.4 comparison remain open. Exact 1.15, 1.15.1,
 1.15.2, 1.16, 1.16.2, 1.17, 1.17.1, 1.18, 1.18.1, and 1.18.2 decompiles
 were compared with the representative sources. The 1.15.2 `LocalPlayer#aiStep`
 adds a ladder check before starting fall flight; `AllowLadderElytraStart`
@@ -197,7 +201,8 @@ fall-flying restrictions to sprint start. Current `SprintingBehavior` coverage
 does not reconstruct these exact mounted/fall-flying rules; they remain open.
 At 1.20.2, the client adds `!isPassenger()` to its crouch decision and moves
 the pose-fit query to an equivalent helper; this can also alter sneak input
-slowdown while riding and remains open. The 1.19.4→1.20.0 change from double
+slowdown while riding. A source-backed hook is prepared below; targeted
+runtime validation remains open. The 1.19.4→1.20.0 change from double
 to float Jump Boost accumulation is covered by `FloatJumpThrough1204`. That
 same boundary changes fall-distance reset placement for Slow Falling and
 Levitation; tick-level equivalence has not yet been established. The 1.20.0
@@ -294,3 +299,14 @@ and observed maximum **0 ULP** (`compare-1.17.1-94fd9e7912` and
 (`compare-current-3bf7ad9b6c`). `build build` passed. These ordinary captures
 do not cover every contact or potion mechanic. Historical exact-axis clips
 smaller than modern `Mth.equal` tolerance remain to be checked.
+
+Source-only handoff after the user's sleep request: the 1.20.2 client
+passenger-crouch condition has a small hook prepared for profiles through
+1.20.1, with the grouped 1.20.2–1.20.4 profile split out. The source check
+and cached 26.2 bytecode place the wrapped `isPassenger()` call first in
+`LocalPlayer#aiStep`. `build build` passed before the final decompiler
+namespace-column correction; the crouch path has no targeted native capture.
+After the explicit stop request, no more Minecraft instance or class
+compilation may be started. The exact 1.14 decompiler rerun, any further
+build, and TAS validation wait for a later user instruction lifting that
+restriction.
