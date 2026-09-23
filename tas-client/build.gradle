@@ -90,6 +90,9 @@ sourceSets {
     main {
         java {
             srcDir 'src/common/java'
+            if (useForge113) {
+                exclude 'me/wolfii/legacyparkourcompat/recording/mixin/**'
+            }
             srcDir useFabric ? 'src/fabric/java' : forgeSourceDir
             if (!useForge113) {
                 if (mixinEra == 'fabric21') {
