@@ -16,6 +16,8 @@ if (!ideaSync) {
 def clientTarget = resolveTasClient()
 ext.clientTarget = clientTarget
 def useFabric = clientTarget.loader == 'fabric'
+def useForge113 = clientTarget.minecraft == '1.13.2'
+def forgeSourceDir = useForge113 ? 'src/forge113/java' : 'src/forge/java'
 def mixinEra = mixinEraFor(clientTarget)
 def compilerJava = Math.max(17, clientTarget.javaVersion)
 
@@ -88,7 +90,7 @@ sourceSets {
     main {
         java {
             srcDir 'src/common/java'
-            srcDir useFabric ? 'src/fabric/java' : 'src/forge/java'
+            srcDir useFabric ? 'src/fabric/java' : forgeSourceDir
             if (mixinEra == 'fabric21') {
                 srcDir 'src/mixins/fabric17/java'
                 srcDir 'src/mixins/fabric21/java'
@@ -128,6 +130,8 @@ if (!ideaSync && compareMc(clientTarget.minecraft, '26') < 0) {
             if (clientTarget.mcpChannel != null) {
                 searge()
                 mcp(clientTarget.mcpChannel, clientTarget.mcpVersion)
+            } else if (clientTarget.yarnMappings != null) {
+                yarn(clientTarget.yarnMappings)
             } else {
                 mojmap()
             }
@@ -153,7 +157,7 @@ if (!ideaSync && compareMc(clientTarget.minecraft, '26') < 0) {
                 if (!tasAutomationArgs.isEmpty()) {
                     jvmArgs tasAutomationArgs
                 }
-                if (!useFabric) {
+                if (!useFabric && !useForge113) {
                     jvmArgs '-Dfml.coreMods.load=me.wolfii.legacyparkourcompat.recording.RecordingMixinCoremod'
                 }
             }
@@ -171,7 +175,7 @@ processResources {
 
 tasks.named('jar', Jar) {
     from project(':core').sourceSets.main.output
-    if (!useFabric) {
+    if (!useFabric && !useForge113) {
         manifest {
             attributes(
                 'FMLCorePlugin': 'me.wolfii.legacyparkourcompat.recording.RecordingMixinCoremod',
@@ -204,6 +208,13 @@ if (!ideaSync && compareMc(clientTarget.minecraft, '1.14') >= 0 && compareMc(cli
             optionsFile.parentFile.mkdirs()
             List<String> lines = optionsFile.isFile() ? optionsFile.readLines('UTF-8') : []
             Map<String, String> disabled = ['narrator': '0']
+            if (compareMc(clientTarget.minecraft, '1.14') >= 0) {
+                // Keep TAS automation able to send its Gym pose command. In
+                // decompiled 1.14 GameOptions, chatVisibility defaults to
+                // FULL(0) and is sent in ClientSettingsC2SPacket; write that
+                // default explicitly for fresh per-version run directories.
+                disabled['chatVisibility'] = '0'
+            }
             if (compareMc(clientTarget.minecraft, '1.20.5') >= 0) {
                 disabled['narratorHotkey'] = 'false'
                 disabled['onboardAccessibility'] = 'false'
@@ -277,6 +288,7 @@ def resolveTasClient() {
         loader       : loader,
         javaVersion  : javaFor(version),
         fabricLoader : loader == 'fabric' ? fabricLoaderFor(version) : null,
+        yarnMappings : loader == 'fabric' ? yarnMappingsFor(version) : null,
         forgeVersion : loader == 'forge' ? forgeVersionFor(version) : null,
         mcpChannel   : loader == 'forge' ? 'stable' : null,
         mcpVersion   : loader == 'forge' ? mcpVersionFor(version) : null
@@ -286,6 +298,9 @@ def resolveTasClient() {
 def mixinEraFor(target) {
     if (target.loader == 'forge') {
         return 'forge'
+    }
+    if (compareMc(target.minecraft, '1.14') >= 0 && compareMc(target.minecraft, '1.14.4') < 0) {
+        return 'fabric14yarn'
     }
     if (compareMc(target.minecraft, '1.20.5') >= 0) {
         return 'fabric21'
@@ -318,6 +333,16 @@ def fabricLoaderFor(String minecraft) {
         return '0.19.3'
     }
     return '0.16.14'
+}
+
+def yarnMappingsFor(String minecraft) {
+    def versions = [
+        '1.14'   : '21',
+        '1.14.1' : '10',
+        '1.14.2' : '7',
+        '1.14.3' : '13'
+    ]
+    return versions[minecraft]
 }
 
 def forgeVersionFor(String minecraft) {

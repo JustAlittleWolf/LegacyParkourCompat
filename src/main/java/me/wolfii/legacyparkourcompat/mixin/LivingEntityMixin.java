@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.AirSpeedState;
 import me.wolfii.legacyparkourcompat.mechanic.hook.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
@@ -20,8 +21,32 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
+    @WrapOperation(
+        method = "getFrictionInfluencedSpeed",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getFlyingSpeed()F")
+    )
+    private float lpc$storedAirSpeed(LivingEntity instance, Operation<Float> original) {
+        float vanilla = original.call(instance);
+        if (!(instance instanceof Player player) || !MovementRuntime.appliesTo(player)) {
+            return vanilla;
+        }
+        return MovementRuntime.find(AirSpeedBehavior.class, player)
+            .map(behavior -> behavior.speed(player, ((AirSpeedState) player).lpc$storedAirSpeed(), vanilla))
+            .orElse(vanilla);
+    }
+
     @Unique
     private boolean lpc$vanillaJump;
+
+    @Inject(method = "setSprinting", at = @At("RETURN"))
+    private void lpc$setSprinting(boolean sprinting, CallbackInfo ci) {
+        LivingEntity self = (LivingEntity) (Object) this;
+        if (!(self instanceof Player player) || !MovementRuntime.appliesTo(player)) {
+            return;
+        }
+        MovementRuntime.find(SprintDurationBehavior.class, player)
+            .ifPresent(behavior -> behavior.onSetSprinting(player, sprinting));
+    }
 
     @WrapOperation(
         method = "travel",
@@ -170,6 +195,23 @@ public abstract class LivingEntityMixin {
         return MovementRuntime.find(ClimbingBehavior.class, instance)
             .map(behavior -> behavior.climbByJumping(instance, jumping))
             .orElse(jumping);
+    }
+
+    @WrapOperation(
+        method = "handleRelativeFrictionAndCalculateMovement",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/LivingEntity;getFrictionInfluencedSpeed(F)F"
+        )
+    )
+    private float lpc$frictionSpeed(LivingEntity instance, float blockFriction, Operation<Float> original) {
+        float vanilla = original.call(instance, blockFriction);
+        if (!MovementRuntime.appliesTo(instance)) {
+            return vanilla;
+        }
+        return MovementRuntime.find(GroundSpeedBehavior.class, instance)
+            .map(behavior -> behavior.speed(instance, blockFriction, vanilla))
+            .orElse(vanilla);
     }
 
     @WrapOperation(

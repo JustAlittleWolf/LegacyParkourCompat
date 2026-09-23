@@ -30,6 +30,7 @@ import org.jspecify.annotations.Nullable;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ import java.util.logging.Level;
 
 public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
     public static final String WORLD_NAME = "physics_test";
+    static final String TAS_CHANNEL = "legacyparkourcompat:tas";
     private static final double SPAWN_X = 8.5;
     private static final int PLATFORM_Y = 64;
     private static final double SPAWN_Y = PLATFORM_Y + 1.0;
@@ -55,7 +57,13 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this, this);
-        getServer().getPluginManager().registerEvents(new FailureSnapshotChat(this), this);
+        FailureSnapshotChat failureSnapshotChat = new FailureSnapshotChat(this);
+        getServer().getPluginManager().registerEvents(failureSnapshotChat, this);
+        // Evidence: 1.14 CustomPayloadC2SPacket.java:17-20 carries the named
+        // channel and payload bytes to ServerPlayNetworkHandler.onCustomPayload
+        // (1340); Paper's Messenger delivers that payload on this Gym channel.
+        getServer().getMessenger().registerIncomingPluginChannel(this, TAS_CHANNEL,
+            (channel, player, data) -> handleTasPayload(channel, player, data, failureSnapshotChat));
         getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             event.registrar().register(
                 Commands.literal("save")
@@ -80,6 +88,28 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
             );
         });
         Bukkit.getGlobalRegionScheduler().run(this, task -> bootstrapWorld());
+    }
+
+    private void handleTasPayload(String channel, Player player, byte[] data, FailureSnapshotChat failureSnapshotChat) {
+        if (!TAS_CHANNEL.equals(channel) || data.length > 256) {
+            return;
+        }
+        String message = new String(data, StandardCharsets.UTF_8);
+        if (message.startsWith("pose ")) {
+            if (!player.isOp()) {
+                return;
+            }
+            getLogger().info("Received TAS pose payload from " + player.getName());
+            String arguments = message.substring("pose ".length());
+            player.getScheduler().execute(
+                this,
+                () -> applyTasPose(player, arguments),
+                () -> getLogger().warning("Could not apply TAS pose payload; player left before scheduling"),
+                1L
+            );
+            return;
+        }
+        failureSnapshotChat.handlePluginMessage(player, message);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -110,6 +140,13 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         player.setOp(true);
+        // Offline-mode Gym player data persists by UUID. A prior interrupted
+        // run can leave the local TAS identity at zero health, in which case
+        // Paper marks it invalid and rejects every start-pose teleport.
+        if (player.isDead()) {
+            getLogger().info("Respawning dead Gym player " + player.getName());
+            player.spigot().respawn();
+        }
         sendToPolarWorld(player);
     }
 
@@ -252,14 +289,18 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
                 || !Float.isFinite(yaw) || !Float.isFinite(pitch)) {
                 throw new NumberFormatException("non-finite pose");
             }
+            // handleTasPayload invokes this on the player's entity scheduler.
+            // The target is a nearby, already-loaded pose, so mutate location
+            // synchronously on the scheduler that owns this player.
+            Location target = new Location(player.getWorld(), x, y, z, yaw, pitch);
+            if (!player.teleport(target, org.bukkit.event.player.PlayerTeleportEvent.TeleportCause.PLUGIN)) {
+                getLogger().warning("TAS start-pose teleport failed for " + player.getName()
+                    + ": valid=" + player.isValid() + ", dead=" + player.isDead()
+                    + ", from=" + player.getLocation() + ", target=" + target);
+                return;
+            }
             player.setVelocity(new Vector(0.0, 0.0, 0.0));
             player.setFallDistance(0.0f);
-            player.teleportAsync(new Location(player.getWorld(), x, y, z, yaw, pitch))
-                .thenAccept(success -> {
-                    if (!success) {
-                        getLogger().warning("TAS start-pose teleport failed for " + player.getName());
-                    }
-                });
         } catch (NumberFormatException exception) {
             player.sendMessage(Component.text("Invalid TAS start pose.", NamedTextColor.RED));
         }

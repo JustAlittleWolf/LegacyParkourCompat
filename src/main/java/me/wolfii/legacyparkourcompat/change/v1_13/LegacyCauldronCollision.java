@@ -36,7 +36,9 @@ public final class LegacyCauldronCollision implements BlockCollisionShape {
     }
 
     public static void register(MovementChangeRegistry registry) {
-        BlockChanges.registerEach(registry, block -> block == Blocks.CAULDRON, LegacyCauldronCollision::new);
+        BlockChanges.registerEach(registry,
+            block -> block == Blocks.CAULDRON || block == Blocks.WATER_CAULDRON,
+            LegacyCauldronCollision::new);
     }
 
     @Override

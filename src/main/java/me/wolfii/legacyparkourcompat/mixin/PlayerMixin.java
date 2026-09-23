@@ -4,12 +4,17 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.AirSpeedState;
+import me.wolfii.legacyparkourcompat.mechanic.hook.AirSpeedBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.DesiredPoseBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerPoseBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeProbeBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeDistanceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintingBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SwimmingBehavior;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,9 +23,49 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
-public abstract class PlayerMixin {
+public abstract class PlayerMixin implements AirSpeedState {
+    @Unique
+    private float lpc$storedAirSpeed = 0.02F;
+
+    @Override
+    public float lpc$storedAirSpeed() {
+        return this.lpc$storedAirSpeed;
+    }
+
+    @Inject(method = "aiStep", at = @At("TAIL"))
+    private void lpc$updateAirSpeed(CallbackInfo ci) {
+        Player self = (Player) (Object) this;
+        MovementRuntime.find(AirSpeedBehavior.class, self)
+            .ifPresent(behavior -> this.lpc$storedAirSpeed = behavior.afterAiStep(self));
+    }
+
+    @ModifyReturnValue(method = "getDesiredPose", at = @At("RETURN"))
+    private Pose lpc$desiredPose(Pose vanilla) {
+        Player self = (Player) (Object) this;
+        if (!MovementRuntime.appliesTo(self)) {
+            return vanilla;
+        }
+        return MovementRuntime.find(DesiredPoseBehavior.class, self)
+            .map(behavior -> behavior.desiredPose(self, vanilla))
+            .orElse(vanilla);
+    }
+
+    @Inject(method = "canFallAtLeast", at = @At("HEAD"), cancellable = true)
+    private void lpc$sneakFootProbe(double deltaX, double deltaZ, double minHeight, CallbackInfoReturnable<Boolean> cir) {
+        Player self = (Player) (Object) this;
+        if (!MovementRuntime.appliesTo(self)) {
+            return;
+        }
+        MovementRuntime.find(SneakEdgeProbeBehavior.class, self).ifPresent(behavior -> {
+            if (behavior.appliesTo(self)) {
+                cir.setReturnValue(behavior.canFallAtLeast(self, deltaX, deltaZ, minHeight));
+            }
+        });
+    }
+
     @Unique
     private boolean lpc$vanillaPose;
 
@@ -40,6 +85,7 @@ public abstract class PlayerMixin {
             return;
         }
         this.lpc$appliedEpoch = epoch;
+        this.lpc$storedAirSpeed = 0.02F;
         Player self = (Player) (Object) this;
         self.refreshDimensions();
         this.updatePlayerPose();

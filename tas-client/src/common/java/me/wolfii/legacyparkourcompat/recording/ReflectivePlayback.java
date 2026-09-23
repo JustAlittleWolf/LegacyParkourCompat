@@ -4,6 +4,7 @@ import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 
 /**
@@ -17,6 +18,7 @@ public final class ReflectivePlayback implements MinecraftPlayback {
     private Object mutedAudioCategory;
     private Object mutedAudioOption;
     private Number previousMasterVolume;
+    private boolean gymPayloadDiagnosticLogged;
 
     private ReflectivePlayback() {
     }
@@ -27,7 +29,7 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         // MCP 1.8–1.12 calls this field gameDir.  Mojmap/Yarn clients use
         // gameDirectory (and the obfuscated name is retained for production
         // launches).  Missing gameDir used to make .playback crash 1.12.2.
-        Object dir = first(minecraft, new String[]{"gameDirectory", "gameDir", "mcDataDir", "field_71412_D"});
+        Object dir = first(minecraft, new String[]{"gameDirectory", "runDirectory", "gameDir", "mcDataDir", "field_1697", "field_71412_D"});
         if (dir instanceof Path) {
             return (Path) dir;
         }
@@ -44,7 +46,7 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         if (value != null) {
             return value.doubleValue();
         }
-        return number(player, new String[]{"x", "posX", "field_70165_t"}).doubleValue();
+        return number(player, new String[]{"x", "posX", "field_5987", "field_70165_t"}).doubleValue();
     }
 
     @Override
@@ -54,7 +56,7 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         if (value != null) {
             return value.doubleValue();
         }
-        return number(player, new String[]{"y", "posY", "field_70163_u"}).doubleValue();
+        return number(player, new String[]{"y", "posY", "field_6010", "field_70163_u"}).doubleValue();
     }
 
     @Override
@@ -64,7 +66,7 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         if (value != null) {
             return value.doubleValue();
         }
-        return number(player, new String[]{"z", "posZ", "field_70161_v"}).doubleValue();
+        return number(player, new String[]{"z", "posZ", "field_6035", "field_70161_v"}).doubleValue();
     }
 
     @Override
@@ -74,7 +76,7 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         if (value != null) {
             return value.floatValue();
         }
-        return number(player, new String[]{"yRot", "rotationYaw", "field_70177_z"}).floatValue();
+        return number(player, new String[]{"yRot", "yaw", "rotationYaw", "field_6031", "field_70177_z"}).floatValue();
     }
 
     @Override
@@ -84,7 +86,7 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         if (value != null) {
             return value.floatValue();
         }
-        return number(player, new String[]{"xRot", "rotationPitch", "field_70125_A"}).floatValue();
+        return number(player, new String[]{"xRot", "pitch", "rotationPitch", "field_5965", "field_70125_A"}).floatValue();
     }
 
     @Override
@@ -96,7 +98,7 @@ public final class ReflectivePlayback implements MinecraftPlayback {
             zeroMotion(player);
             return;
         }
-        invoke(player, new String[]{"setPos", "setPosition"},
+        invoke(player, new String[]{"setPos", "setPosition", "method_5814"},
             new Class[]{double.class, double.class, double.class},
             new Object[]{Double.valueOf(x), Double.valueOf(y), Double.valueOf(z)});
         applyFacing(yaw, pitch);
@@ -106,18 +108,18 @@ public final class ReflectivePlayback implements MinecraftPlayback {
     @Override
     public int currentButtons() {
         Object player = requirePlayer();
-        Object input = first(player, new String[]{"input", "movementInput", "field_71158_b"});
-        boolean useHold = keyDown(new String[]{"keyUse", "keyBindUseItem"});
-        boolean useClick = keyClicked(new String[]{"keyUse", "keyBindUseItem"}) || (useHold && !this.wasUseDown);
+        Object input = first(player, new String[]{"input", "movementInput", "field_3913", "field_71158_b"});
+        boolean useHold = keyDown(new String[]{"keyUse", "keyBindUseItem", "field_1904"});
+        boolean useClick = keyClicked(new String[]{"keyUse", "keyBindUseItem", "field_1904"}) || (useHold && !this.wasUseDown);
         this.wasUseDown = useHold;
-        boolean sprint = keyDown(new String[]{"keySprint", "keyBindSprint"}) || boolInvoke(player, new String[]{"isSprinting"});
+        boolean sprint = keyDown(new String[]{"keySprint", "keyBindSprint", "field_1867"}) || boolInvoke(player, new String[]{"isSprinting", "method_5728"});
         if (input == null) {
             return TickButtons.pack(false, false, false, false, false, false, sprint, useHold, useClick);
         }
-        float forward = impulse(input, new String[]{"forwardImpulse", "moveForward", "field_78900_b"});
-        float left = impulse(input, new String[]{"leftImpulse", "moveStrafe", "field_78902_a"});
-        boolean jump = bool(input, new String[]{"jumping", "jump", "field_78901_c"}) || keyPress(input, "jump");
-        boolean sneak = bool(input, new String[]{"shiftKeyDown", "sneakKeyDown", "sneak", "shift", "field_78899_d"}) || keyPress(input, "shift");
+        float forward = impulse(input, new String[]{"forwardImpulse", "movementForward", "moveForward", "field_3905", "field_78900_b"});
+        float left = impulse(input, new String[]{"leftImpulse", "movementSideways", "moveStrafe", "field_3907", "field_78902_a"});
+        boolean jump = bool(input, new String[]{"jumping", "jump", "field_3904", "field_78901_c"}) || keyPress(input, "jump");
+        boolean sneak = bool(input, new String[]{"shiftKeyDown", "sneakKeyDown", "sneaking", "sneak", "shift", "field_3903", "field_78899_d"}) || keyPress(input, "shift");
         boolean forwardKey = bool(input, new String[]{"up"}) || forward > 0.0F || keyPress(input, "forward");
         boolean backKey = bool(input, new String[]{"down"}) || forward < 0.0F || keyPress(input, "backward");
         boolean leftKey = bool(input, new String[]{"left"}) || left > 0.0F || keyPress(input, "left");
@@ -129,39 +131,45 @@ public final class ReflectivePlayback implements MinecraftPlayback {
     @Override
     public void applyButtons(int buttons) {
         Object player = requirePlayer();
-        Object input = first(player, new String[]{"input", "movementInput", "field_71158_b"});
+        Object input = first(player, new String[]{"input", "movementInput", "field_3913", "field_71158_b"});
         if (input != null) {
-            setNumber(input, new String[]{"forwardImpulse", "moveForward", "field_78900_b"},
+            setNumber(input, new String[]{"forwardImpulse", "movementForward", "moveForward", "field_3905", "field_78900_b"},
                 TickButtons.isSet(buttons, TickButtons.FORWARD) ? 1.0F : TickButtons.isSet(buttons, TickButtons.BACK) ? -1.0F : 0.0F);
-            setNumber(input, new String[]{"leftImpulse", "moveStrafe", "field_78902_a"},
+            setNumber(input, new String[]{"leftImpulse", "movementSideways", "moveStrafe", "field_3907", "field_78902_a"},
                 TickButtons.isSet(buttons, TickButtons.LEFT) ? 1.0F : TickButtons.isSet(buttons, TickButtons.RIGHT) ? -1.0F : 0.0F);
             setBool(input, new String[]{"up"}, TickButtons.isSet(buttons, TickButtons.FORWARD));
             setBool(input, new String[]{"down"}, TickButtons.isSet(buttons, TickButtons.BACK));
             setBool(input, new String[]{"left"}, TickButtons.isSet(buttons, TickButtons.LEFT));
             setBool(input, new String[]{"right"}, TickButtons.isSet(buttons, TickButtons.RIGHT));
-            setBool(input, new String[]{"jumping", "jump", "field_78901_c"}, TickButtons.isSet(buttons, TickButtons.JUMP));
-            setBool(input, new String[]{"shiftKeyDown", "sneakKeyDown", "sneak", "field_78899_d"}, TickButtons.isSet(buttons, TickButtons.SNEAK));
+            setBool(input, new String[]{"jumping", "jump", "field_3904", "field_78901_c"}, TickButtons.isSet(buttons, TickButtons.JUMP));
+            setBool(input, new String[]{"shiftKeyDown", "sneakKeyDown", "sneaking", "sneak", "field_3903", "field_78899_d"}, TickButtons.isSet(buttons, TickButtons.SNEAK));
             applyKeyPresses(input, buttons);
             applyMoveVector(input, buttons);
         }
-        setKeyDown(new String[]{"keyUse", "keyBindUseItem"}, TickButtons.isSet(buttons, TickButtons.USE_HOLD));
+        setKeyDown(new String[]{"keyUse", "keyBindUseItem", "field_1904"}, TickButtons.isSet(buttons, TickButtons.USE_HOLD));
         if (TickButtons.isSet(buttons, TickButtons.USE_CLICK)) {
-            clickKey(new String[]{"keyUse", "keyBindUseItem"});
+            clickKey(new String[]{"keyUse", "keyBindUseItem", "field_1904"});
         }
-        setKeyDown(new String[]{"keySprint", "keyBindSprint"}, TickButtons.isSet(buttons, TickButtons.SPRINT));
+        setKeyDown(new String[]{"keySprint", "keyBindSprint", "field_1867"}, TickButtons.isSet(buttons, TickButtons.SPRINT));
     }
 
     @Override
     public void applyFacing(float yaw, float pitch) {
         Object player = requirePlayer();
-        if (!invoke(player, new String[]{"setYRot"}, new Class[]{float.class}, new Object[]{Float.valueOf(yaw)})) {
-            setNumber(player, new String[]{"yRot", "rotationYaw", "field_70177_z"}, yaw);
+        // In decompiled 1.14, LivingEntity#setYaw(float) only updates
+        // field_6283 (head yaw); Entity#movementInputToVelocity reads the
+        // separate Entity.yaw field. Set the movement rotation field first,
+        // then call the setter to preserve any version-specific side effects.
+        setNumber(player, new String[]{"yRot", "yaw", "rotationYaw", "field_6031", "field_70177_z"}, yaw);
+        if (!invoke(player, new String[]{"setYRot", "setYaw", "method_5636"}, new Class[]{float.class}, new Object[]{Float.valueOf(yaw)})) {
+            setNumber(player, new String[]{"yRot", "yaw", "rotationYaw", "field_6031", "field_70177_z"}, yaw);
         }
-        if (!invoke(player, new String[]{"setXRot"}, new Class[]{float.class}, new Object[]{Float.valueOf(pitch)})) {
-            setNumber(player, new String[]{"xRot", "rotationPitch", "field_70125_A"}, pitch);
+        setNumber(player, new String[]{"xRot", "pitch", "rotationPitch", "field_5965", "field_70125_A"}, pitch);
+        if (!invoke(player, new String[]{"setXRot", "setPitch"}, new Class[]{float.class}, new Object[]{Float.valueOf(pitch)})) {
+            setNumber(player, new String[]{"xRot", "pitch", "rotationPitch", "field_5965", "field_70125_A"}, pitch);
         }
-        setNumber(player, new String[]{"yRotO", "prevRotationYaw", "field_70126_B"}, yaw);
-        setNumber(player, new String[]{"xRotO", "prevRotationPitch", "field_70127_C"}, pitch);
+        setNumber(player, new String[]{"yRotO", "prevYaw", "prevRotationYaw", "field_5982", "field_70126_B"}, yaw);
+        setNumber(player, new String[]{"xRotO", "prevPitch", "prevRotationPitch", "field_6004", "field_70127_C"}, pitch);
     }
 
     @Override
@@ -185,13 +193,13 @@ public final class ReflectivePlayback implements MinecraftPlayback {
             return false;
         }
         String trimmed = message.trim();
-        if (invokeAssignable(player, new String[]{"chat", "sendChatMessage", "sendChat"}, trimmed)) {
+        if (invokeAssignable(player, new String[]{"chat", "sendChatMessage", "sendChat", "method_3142"}, trimmed)) {
             return true;
         }
         if (invokeAssignable(player, new String[]{"sendChat"}, trimmed, Boolean.FALSE)) {
             return true;
         }
-        Object connection = first(player, new String[]{"connection", "sendQueue", "netHandler", "field_71174_a"});
+        Object connection = first(player, new String[]{"connection", "networkHandler", "field_3944", "sendQueue", "netHandler", "field_71174_a"});
         return invokeAssignable(connection, new String[]{"sendChat"}, trimmed);
     }
 
@@ -202,25 +210,83 @@ public final class ReflectivePlayback implements MinecraftPlayback {
             return false;
         }
         String trimmed = command.trim();
-        Object connection = first(player, new String[]{"connection", "sendQueue", "netHandler", "field_71174_a"});
+        Object connection = first(player, new String[]{"connection", "networkHandler", "field_3944", "sendQueue", "netHandler", "field_71174_a"});
         if (invokeAssignable(connection, new String[]{"sendCommand"}, trimmed)) {
             return true;
         }
-        return invokeAssignable(player, new String[]{"chat", "sendChatMessage"}, "/" + trimmed);
+        return invokeAssignable(player, new String[]{"chat", "sendChatMessage", "method_3142"}, "/" + trimmed);
+    }
+
+    @Override
+    public boolean sendGymMessage(String message) {
+        if (message == null || message.isEmpty() || message.length() > 256) {
+            return false;
+        }
+
+        // Evidence: decompiled_minecraft/1.14/net/minecraft/server/network/packet/
+        // CustomPayloadC2SPacket.java:17-20 carries an Identifier and
+        // PacketByteBuf, and ClientPlayNetworkHandler.sendPacket sends it.
+        // This keeps Gym control messages out of 1.14's ordinary-chat packet;
+        // Via maps that packet as chat rather than a slash-command packet.
+        Class<?> identifierType = loadClass("net.minecraft.util.Identifier");
+        if (identifierType == null) {
+            identifierType = loadClass("net.minecraft.class_2960");
+        }
+        Class<?> packetBufferType = loadClass("net.minecraft.util.PacketByteBuf");
+        if (packetBufferType == null) {
+            packetBufferType = loadClass("net.minecraft.class_2540");
+        }
+        Class<?> customPayloadType = loadClass("net.minecraft.server.network.packet.CustomPayloadC2SPacket");
+        if (customPayloadType == null) {
+            customPayloadType = loadClass("net.minecraft.class_2817");
+        }
+        Class<?> unpooledType = loadClass("io.netty.buffer.Unpooled");
+        if (identifierType == null || packetBufferType == null || customPayloadType == null || unpooledType == null) {
+            return logGymPayloadFailure("missing classes: Identifier=" + (identifierType != null)
+                + ", PacketByteBuf=" + (packetBufferType != null) + ", CustomPayload=" + (customPayloadType != null)
+                + ", Unpooled=" + (unpooledType != null));
+        }
+
+        Object identifier = constructAssignable(identifierType,
+            new Object[]{"legacyparkourcompat", "tas"},
+            new Object[]{"legacyparkourcompat:tas"});
+        Object rawBuffer = invokeStaticValue(unpooledType, "wrappedBuffer", message.getBytes(StandardCharsets.UTF_8));
+        Object packetBuffer = rawBuffer == null ? null : constructAssignable(packetBufferType, new Object[]{rawBuffer});
+        Object packet = identifier == null || packetBuffer == null ? null
+            : constructAssignable(customPayloadType, new Object[]{identifier, packetBuffer});
+        Object player = player();
+        Object connection = player == null ? null
+            : first(player, new String[]{"connection", "networkHandler", "field_3944", "sendQueue", "netHandler", "field_71174_a"});
+        if (packet == null) {
+            return logGymPayloadFailure("reflection could not construct Identifier, PacketByteBuf, or CustomPayloadC2SPacket");
+        }
+        if (!invokeAssignable(connection, new String[]{"sendPacket", "method_2883"}, packet)) {
+            return logGymPayloadFailure("sendPacket was unavailable on "
+                + (connection == null ? "null connection" : connection.getClass().getName()));
+        }
+        return true;
+    }
+
+    private boolean logGymPayloadFailure(String reason) {
+        if (!this.gymPayloadDiagnosticLogged) {
+            this.gymPayloadDiagnosticLogged = true;
+            System.err.println("[Legacy Parkour Recording] Gym payload unavailable: " + reason);
+        }
+        return false;
     }
 
     @Override
     public boolean isConnected() {
         Object minecraft = minecraft();
-        Object connection = first(minecraft, new String[]{"connection"});
+        Object connection = first(minecraft, new String[]{"connection", "clientConnection", "field_1746"});
         if (connection == null) {
-            connection = invokeValue(minecraft, new String[]{"getConnection", "getConnectionState"});
+            connection = invokeValue(minecraft, new String[]{"getConnection", "getConnectionState", "getNetworkHandler", "method_1562"});
         }
         if (connection != null) {
             return true;
         }
         Object player = player();
-        return player != null && first(player, new String[]{"connection", "sendQueue", "netHandler", "field_71174_a"}) != null;
+        return player != null && first(player, new String[]{"connection", "networkHandler", "field_3944", "sendQueue", "netHandler", "field_71174_a"}) != null;
     }
 
     @Override
@@ -234,13 +300,13 @@ public final class ReflectivePlayback implements MinecraftPlayback {
             return false;
         }
         String name = screen.getClass().getName().toLowerCase(java.util.Locale.ROOT);
-        return name.contains("connect") || name.contains("connecting");
+        return name.contains("connect") || name.contains("connecting") || name.contains("net.minecraft.class_412");
     }
 
     @Override
     public boolean isReadyForAutoJoin() {
         Object minecraft = minecraft();
-        if (first(minecraft, new String[]{"overlay"}) != null) {
+        if (first(minecraft, new String[]{"overlay", "field_18175"}) != null) {
             return false;
         }
         Object gui = first(minecraft, new String[]{"gui"});
@@ -266,6 +332,12 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         }
         if (connectScreen == null) {
             connectScreen = loadClass("net.minecraft.client.gui.screen.ConnectScreen");
+        }
+        if (connectScreen == null) {
+            connectScreen = loadClass("net.minecraft.client.gui.menu.ServerConnectingScreen");
+        }
+        if (connectScreen == null) {
+            connectScreen = loadClass("net.minecraft.class_412");
         }
         if (serverAddress != null && connectScreen != null && (invokeStaticAssignable(connectScreen, "startConnecting",
             new Object[]{screen, minecraft, serverAddress, serverData, Boolean.FALSE, null})
@@ -339,17 +411,26 @@ public final class ReflectivePlayback implements MinecraftPlayback {
             categoryType = loadClass("net.minecraft.util.SoundCategory");
         }
         if (categoryType == null) {
+            categoryType = loadClass("net.minecraft.sound.SoundCategory");
+        }
+        if (categoryType == null) {
+            categoryType = loadClass("net.minecraft.class_3419");
+        }
+        if (categoryType == null) {
             categoryType = loadClass("net.minecraft.sounds.SoundSource");
         }
         if (categoryType != null && categoryType.isEnum()) {
             Object master = enumConstant(categoryType, "MASTER");
+            if (master == null) {
+                master = enumConstant(categoryType, "field_15250");
+            }
             if (master != null) {
-                Object volume = invokeValueAssignable(options, new String[]{"getSoundCategoryVolume", "getSoundLevel", "getVolume", "getSoundSourceVolume"}, master);
+                Object volume = invokeValueAssignable(options, new String[]{"getSoundCategoryVolume", "getSoundLevel", "getSoundVolume", "getVolume", "getSoundSourceVolume", "method_1630"}, master);
                 if (volume instanceof Number) {
                     this.previousMasterVolume = (Number) volume;
                     this.mutedAudioCategory = master;
                 }
-                if (invokeAssignable(options, new String[]{"setSoundLevel", "setSoundCategoryVolume", "setVolume"}, master, Float.valueOf(0.0F))) {
+                if (invokeAssignable(options, new String[]{"setSoundLevel", "setSoundCategoryVolume", "setSoundVolume", "setVolume", "method_1624"}, master, Float.valueOf(0.0F))) {
                     return;
                 }
                 Object soundOption = invokeValueAssignable(options, new String[]{"getSoundSourceOptionInstance"}, master);
@@ -376,7 +457,7 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         setNumber(options, new String[]{"masterVolume", "field_74315_B"}, 0.0F);
         // Accessing the manager is intentionally best-effort: its method name
         // changed several times and a missing refresh must not stop playback.
-        Object manager = first(minecraft, new String[]{"soundManager", "soundEngine", "field_90993_d"});
+        Object manager = first(minecraft, new String[]{"soundManager", "soundEngine", "field_1727", "field_90993_d"});
         if (manager != null) {
             invoke(manager, new String[]{"reload", "resume"}, new Class[0], new Object[0]);
         }
@@ -399,7 +480,7 @@ public final class ReflectivePlayback implements MinecraftPlayback {
             return;
         }
         if (this.mutedAudioCategory != null && invokeAssignable(options,
-            new String[]{"setSoundLevel", "setSoundCategoryVolume", "setVolume"},
+            new String[]{"setSoundLevel", "setSoundCategoryVolume", "setSoundVolume", "setVolume", "method_1624"},
             this.mutedAudioCategory, Float.valueOf(this.previousMasterVolume.floatValue()))) {
             saveRestoredAudio(options);
             this.previousMasterVolume = null;
@@ -408,7 +489,7 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         }
         setNumber(options, new String[]{"masterVolume", "field_74315_B"}, this.previousMasterVolume.floatValue());
         Object minecraft = minecraft();
-        Object manager = first(minecraft, new String[]{"soundManager", "soundEngine", "field_90993_d"});
+        Object manager = first(minecraft, new String[]{"soundManager", "soundEngine", "field_1727", "field_90993_d"});
         if (manager != null) {
             invoke(manager, new String[]{"reload", "resume"}, new Class[0], new Object[0]);
         }
@@ -426,21 +507,39 @@ public final class ReflectivePlayback implements MinecraftPlayback {
     @Override
     public void requestShutdown() {
         Object minecraft = minecraft();
-        if (!invoke(minecraft, new String[]{"stop", "shutdown", "destroy"}, new Class[0], new Object[0])) {
-            // Some old clients only expose a boolean running flag.  Do not
-            // throw during a completed run if it is not available.
-            setBool(minecraft, new String[]{"running", "field_71425_J"}, false);
+        // 1.14 MinecraftClient.stop() closes LWJGL/window resources immediately,
+        // while scheduleStop() only clears isRunning so the active render/tick
+        // can finish before start() performs its normal cleanup. Playback ends
+        // inside a tick callback, so prefer the scheduled path when available.
+        if (invoke(minecraft, new String[]{"scheduleStop", "method_1592"}, new Class[0], new Object[0])) {
+            return;
         }
+        // Some clients only expose a running flag. Do not throw during a
+        // completed run if neither graceful shutdown path is available.
+        String[] runningFields = new String[]{"running", "isRunning", "field_1698", "field_71425_J"};
+        if (first(minecraft, runningFields) instanceof Boolean) {
+            setBool(minecraft, runningFields, false);
+            return;
+        }
+        invoke(minecraft, new String[]{"shutdownMinecraftApplet", "shutdown", "destroy", "close", "stop", "method_1490"}, new Class[0], new Object[0]);
     }
 
     private Object minecraft() {
         Class<?> type;
         try {
-            type = Class.forName("net.minecraft.client.Minecraft");
+            try {
+                type = Class.forName("net.minecraft.client.MinecraftClient");
+            } catch (ClassNotFoundException yarnException) {
+                try {
+                    type = Class.forName("net.minecraft.class_310");
+                } catch (ClassNotFoundException intermediaryException) {
+                    type = Class.forName("net.minecraft.client.Minecraft");
+                }
+            }
         } catch (ClassNotFoundException exception) {
             throw new IllegalStateException("Minecraft client is missing", exception);
         }
-        Object instance = invokeStatic(type, new String[]{"getInstance", "getMinecraft"});
+        Object instance = invokeStatic(type, new String[]{"getInstance", "getMinecraft", "method_1551"});
         if (instance == null) {
             throw new IllegalStateException("Minecraft has not started");
         }
@@ -448,7 +547,7 @@ public final class ReflectivePlayback implements MinecraftPlayback {
     }
 
     private Object player() {
-        return first(minecraft(), new String[]{"player", "thePlayer", "field_71439_g"});
+        return first(minecraft(), new String[]{"player", "thePlayer", "field_1724", "field_71439_g"});
     }
 
     private Object requirePlayer() {
@@ -460,11 +559,11 @@ public final class ReflectivePlayback implements MinecraftPlayback {
     }
 
     private Object options() {
-        return first(minecraft(), new String[]{"options", "gameSettings", "field_71474_y"});
+        return first(minecraft(), new String[]{"options", "gameSettings", "field_1690", "field_71474_y"});
     }
 
     private static Object currentScreen(Object minecraft) {
-        Object screen = first(minecraft, new String[]{"screen", "currentScreen", "field_71462_r"});
+        Object screen = first(minecraft, new String[]{"screen", "currentScreen", "field_1755", "field_71462_r"});
         if (screen != null) {
             return screen;
         }
@@ -481,7 +580,7 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         if (down != null) {
             return down.booleanValue();
         }
-        Object pressed = first(binding, new String[]{"isDown", "down", "pressed", "field_74513_e"});
+        Object pressed = first(binding, new String[]{"isDown", "down", "pressed", "field_1653", "field_74513_e"});
         return pressed instanceof Boolean && ((Boolean) pressed).booleanValue();
     }
 
@@ -490,7 +589,7 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         if (binding == null) {
             return false;
         }
-        Object clicks = first(binding, new String[]{"clickCount", "pressTime", "timesPressed", "field_74511_a"});
+        Object clicks = first(binding, new String[]{"clickCount", "pressTime", "timesPressed", "field_1661", "field_74511_a"});
         return clicks instanceof Number && ((Number) clicks).intValue() > 0;
     }
 
@@ -499,7 +598,7 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         if (binding == null) {
             return;
         }
-        setBool(binding, new String[]{"isDown", "down", "pressed", "field_74513_e"}, down);
+        setBool(binding, new String[]{"isDown", "down", "pressed", "field_1653", "field_74513_e"}, down);
     }
 
     private void clickKey(String[] names) {
@@ -507,9 +606,9 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         if (binding == null) {
             return;
         }
-        Object clicks = first(binding, new String[]{"clickCount", "pressTime", "timesPressed", "field_74511_a"});
+        Object clicks = first(binding, new String[]{"clickCount", "pressTime", "timesPressed", "field_1661", "field_74511_a"});
         int next = clicks instanceof Number ? Math.max(1, ((Number) clicks).intValue()) : 1;
-        setNumber(binding, new String[]{"clickCount", "pressTime", "timesPressed", "field_74511_a"}, next);
+        setNumber(binding, new String[]{"clickCount", "pressTime", "timesPressed", "field_1661", "field_74511_a"}, next);
     }
 
     private void applyKeyPresses(Object input, int buttons) {
@@ -724,11 +823,23 @@ public final class ReflectivePlayback implements MinecraftPlayback {
             type = loadClass("net.minecraft.client.multiplayer.resolver.ServerAddress");
         }
         if (type == null) {
+            type = loadClass("net.minecraft.network.ServerAddress");
+        }
+        if (type == null) {
+            type = loadClass("net.minecraft.class_639");
+        }
+        if (type == null) {
             return null;
         }
         Object parsed = invokeStaticValue(type, "parseString", address);
         if (parsed == null) {
             parsed = invokeStaticValue(type, "fromString", address);
+        }
+        if (parsed == null) {
+            parsed = invokeStaticValue(type, "parse", address);
+        }
+        if (parsed == null) {
+            parsed = invokeStaticValue(type, "method_2950", address);
         }
         if (parsed == null) {
             parsed = invokeStaticValue(type, "fromIp", address);
@@ -742,7 +853,10 @@ public final class ReflectivePlayback implements MinecraftPlayback {
     private static Object createServerData(String address) {
         Class<?> type = loadClass("net.minecraft.client.multiplayer.ServerData");
         if (type == null) {
-            return null;
+            type = loadClass("net.minecraft.client.options.ServerEntry");
+        }
+        if (type == null) {
+            type = loadClass("net.minecraft.class_642");
         }
         Class<?> serverType = loadClass("net.minecraft.client.multiplayer.ServerData$Type");
         Object otherType = serverType == null ? null : enumConstant(serverType, "OTHER");
@@ -785,7 +899,7 @@ public final class ReflectivePlayback implements MinecraftPlayback {
     }
 
     private static boolean setScreen(Object minecraft, Object screen) {
-        return invokeAssignable(minecraft, new String[]{"setScreen", "displayGuiScreen", "func_147108_a"}, screen);
+        return invokeAssignable(minecraft, new String[]{"setScreen", "openScreen", "method_1507", "displayGuiScreen", "func_147108_a"}, screen);
     }
 
     private static Class<?> loadClass(String name) {

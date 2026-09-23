@@ -88,6 +88,17 @@ or the exact path, marker, and run ID to search for. The signal is canceled and
 never broadcast. A cross-version `runTasWorkflow` capture does not compare
 against source XYZ, because movement is expected to differ across versions.
 
+For an explicit representable-double threshold, pass `--project-prop
+"tasMaxUlps=10"` to `runTasCompare`. Every X, Y, and Z coordinate on every
+tick must be finite and within 10 ULPs; the final result also requires the
+exact tick count and reports the largest observed ULP distance. A failing tick
+reports all three coordinate distances. Adjacent finite negative values and
+adjacent subnormals have distance one. Distances across zero add the counts on
+each side, while `-0.0` and `+0.0` have distance zero. NaN and either infinity
+always fail. `tasMaxUlps` and the absolute
+`tasTolerance` cannot be combined. With neither option, exact comparison
+remains the default, including distinct signed zeros.
+
 The Forge 1.12.2 MCP client uses `Minecraft.gameDir` for its run directory;
 the TAS reflection layer includes that name (alongside modern
 `gameDirectory`). This prevents the historical `.playback` crash before a

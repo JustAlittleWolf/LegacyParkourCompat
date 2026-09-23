@@ -39,6 +39,11 @@ public interface MinecraftPlayback {
         return false;
     }
 
+    /** Sends a Gym control payload when the selected client protocol supports it. */
+    default boolean sendGymMessage(String message) {
+        return false;
+    }
+
     /**
      * Returns whether the local client has a multiplayer connection.  Older
      * clients do not expose the same connection accessor, so the default is

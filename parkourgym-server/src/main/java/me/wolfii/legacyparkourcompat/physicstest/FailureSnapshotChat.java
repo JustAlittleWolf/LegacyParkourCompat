@@ -86,6 +86,21 @@ final class FailureSnapshotChat implements Listener {
         plugin.getLogger().info(LOG_MARKER + " " + snapshotJson(player, request));
     }
 
+    void handlePluginMessage(Player player, String message) {
+        FailureRequest request = parse(message);
+        if (request == null) {
+            return;
+        }
+        player.getScheduler().execute(
+            plugin,
+            () -> logSnapshot(player, request),
+            () -> plugin.getLogger().warning(
+                LOG_MARKER + " capture dropped because player left before scheduling"
+            ),
+            1L
+        );
+    }
+
     private static FailureRequest parse(String message) {
         if (message.length() > MAX_MESSAGE_LENGTH || !isAscii(message)) {
             return null;

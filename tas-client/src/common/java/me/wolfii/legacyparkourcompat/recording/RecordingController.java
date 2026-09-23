@@ -161,10 +161,8 @@ public final class RecordingController {
         }
         String label = file.getFileName().toString();
         if (output != null && this.minecraft.isConnected()) {
-            String command = String.format(Locale.ROOT, "lpcpose %s %s %s %s %s",
-                Double.toString(loaded.startX()), Double.toString(loaded.startY()), Double.toString(loaded.startZ()),
-                Float.toString(loaded.startYaw()), Float.toString(loaded.startPitch()));
-            if (!this.minecraft.sendServerCommand(command)) {
+            if (!this.minecraft.sendGymMessage(tasPosePayload(loaded))
+                && !this.minecraft.sendServerCommand(tasPoseCommand(loaded))) {
                 throw new IllegalStateException("Cannot request the server-authoritative TAS start pose");
             }
             this.pendingPlayback = loaded;
@@ -284,9 +282,10 @@ public final class RecordingController {
             return;
         }
         MovementRecording loaded = this.pendingPlayback;
-        if (Double.compare(this.minecraft.playerX(), loaded.startX()) == 0
+        boolean atStart = Double.compare(this.minecraft.playerX(), loaded.startX()) == 0
             && Double.compare(this.minecraft.playerY(), loaded.startY()) == 0
-            && Double.compare(this.minecraft.playerZ(), loaded.startZ()) == 0) {
+            && Double.compare(this.minecraft.playerZ(), loaded.startZ()) == 0;
+        if (atStart) {
             if (++this.pendingStableTicks >= 40) {
                 Path output = this.pendingOutput;
                 boolean exit = this.pendingExit;
@@ -298,10 +297,31 @@ public final class RecordingController {
         } else {
             this.pendingStableTicks = 0;
         }
-        if (++this.pendingPoseTicks > 400) {
+        this.pendingPoseTicks++;
+        // Retry until the authoritative Gym pose is observable on the client.
+        if (!atStart && this.pendingPoseTicks % 20 == 0
+            && !this.minecraft.sendGymMessage(tasPosePayload(loaded))
+            && !this.minecraft.sendServerCommand(tasPoseCommand(loaded))) {
+            throw new IllegalStateException("Cannot retry the server-authoritative TAS start pose");
+        }
+        if (this.pendingPoseTicks > 400) {
             clearPendingPlayback();
             throw new IllegalStateException("Server did not apply the TAS start pose");
         }
+    }
+
+    private static String tasPoseCommand(MovementRecording recording) {
+        return "lpcpose " + tasPoseArguments(recording);
+    }
+
+    private static String tasPosePayload(MovementRecording recording) {
+        return "pose " + tasPoseArguments(recording);
+    }
+
+    private static String tasPoseArguments(MovementRecording recording) {
+        return String.format(Locale.ROOT, "%s %s %s %s %s",
+            Double.toString(recording.startX()), Double.toString(recording.startY()), Double.toString(recording.startZ()),
+            Float.toString(recording.startYaw()), Float.toString(recording.startPitch()));
     }
 
     private void clearPendingPlayback() {
@@ -380,17 +400,10 @@ public final class RecordingController {
         double deltaY = actualY - expected.y();
         double deltaZ = actualZ - expected.z();
         double tolerance = this.automation.tolerance();
-        boolean exactMatch = finite(expected.x()) && finite(expected.y()) && finite(expected.z())
-            && Double.compare(expected.x(), actualX) == 0
-            && Double.compare(expected.y(), actualY) == 0
-            && Double.compare(expected.z(), actualZ) == 0;
-        boolean withinTolerance = tolerance > 0.0D
-            && finite(expected.x()) && finite(expected.y()) && finite(expected.z())
-            && finite(actualX) && finite(actualY) && finite(actualZ)
-            && Math.abs(deltaX) <= tolerance
-            && Math.abs(deltaY) <= tolerance
-            && Math.abs(deltaZ) <= tolerance;
-        if (exactMatch || withinTolerance) {
+        Long maxUlps = this.automation.maxUlps();
+        if (PositionComparison.matches(expected.x(), actualX, tolerance, maxUlps)
+            && PositionComparison.matches(expected.y(), actualY, tolerance, maxUlps)
+            && PositionComparison.matches(expected.z(), actualZ, tolerance, maxUlps)) {
             return;
         }
         this.deviationReported = true;
@@ -398,7 +411,21 @@ public final class RecordingController {
         String details = String.format(Locale.ROOT,
             "first position deviation at tick %d (expected %.17g %.17g %.17g, actual %.17g %.17g %.17g, delta %.17g %.17g %.17g)",
             Integer.valueOf(tick), expected.x(), expected.y(), expected.z(), actualX, actualY, actualZ, deltaX, deltaY, deltaZ);
+        if (maxUlps != null && finite(expected.x()) && finite(expected.y()) && finite(expected.z())
+            && finite(actualX) && finite(actualY) && finite(actualZ)) {
+            details += String.format(Locale.ROOT, " ULP=(%s, %s, %s)",
+                PositionComparison.ulpDistance(expected.x(), actualX),
+                PositionComparison.ulpDistance(expected.y(), actualY),
+                PositionComparison.ulpDistance(expected.z(), actualZ));
+        }
         this.minecraft.sendGameMessage(details);
+        if (maxUlps != null && finite(expected.x()) && finite(expected.y()) && finite(expected.z())
+            && finite(actualX) && finite(actualY) && finite(actualZ)) {
+            this.minecraft.sendGameMessage("ULP distance XYZ: "
+                + PositionComparison.ulpDistance(expected.x(), actualX) + ", "
+                + PositionComparison.ulpDistance(expected.y(), actualY) + ", "
+                + PositionComparison.ulpDistance(expected.z(), actualZ));
+        }
         String runId = compactToken(this.automation.runId(), "run");
         String version = compactToken(this.automation.version(), "unknown");
         String signal = String.format(Locale.ROOT, "!lpcf %s %s %d", runId, version, Integer.valueOf(tick));
@@ -411,7 +438,8 @@ public final class RecordingController {
             version = version.substring(0, versionLength);
             signal = String.format(Locale.ROOT, "!lpcf %s %s %d", runId, version, Integer.valueOf(tick));
         }
-        if (!this.minecraft.isConnected() || !this.minecraft.sendChatMessage(signal)) {
+        if (!this.minecraft.isConnected()
+            || (!this.minecraft.sendGymMessage(signal) && !this.minecraft.sendChatMessage(signal))) {
             this.minecraft.sendGameMessage("Unable to send the first-deviation snapshot signal to the parkour gym");
         }
     }

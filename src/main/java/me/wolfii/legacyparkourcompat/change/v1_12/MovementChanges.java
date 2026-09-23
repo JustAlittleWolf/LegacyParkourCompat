@@ -7,6 +7,8 @@ public final class MovementChanges implements MovementChangeProvider {
     @Override
     public void register(MovementChangeRegistry registry) {
         registry.register(new NoSwimming());
+        registry.register(new LegacyWaterTravel());
         NoBedBounce.register(registry);
+        FullBedFallDistance.register(registry);
     }
 }
