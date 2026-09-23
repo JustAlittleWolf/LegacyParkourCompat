@@ -7,6 +7,7 @@ public final class MovementChanges implements MovementChangeProvider {
     @Override
     public void register(MovementChangeRegistry registry) {
         registry.register(new DoubleSprintAirSpeed());
+        registry.register(new SequentialCollisionVelocity());
         registry.register(new UpwardFullBoxSneakEdge());
     }
 }

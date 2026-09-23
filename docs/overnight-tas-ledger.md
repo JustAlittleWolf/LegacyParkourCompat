@@ -276,3 +276,21 @@ the north-facing long piston head's normalized shape and tangent plane
 equivalent in 1.17.1 and current. The tick-16 cause and a full 1.17.1 pass
 remain open. The default current profile also matched its 200-tick native
 capture exactly (`compare-current-ef01a77a78`).
+
+The tick-16 1.17.1 mismatch was traced to a velocity quirk at the piston:
+native tick 15 requests X `-0.12156514088019932`, resolves X
+`-0.10758359138194429`, and retains the original negative X velocity when Z
+also clips. `Entity#move` through 1.18.1 captures velocity once, clears X,
+then clears Z using that old snapshot, restoring X. `SequentialCollisionVelocity`
+restores this dual-axis result. The adjacent 1.18.1→1.18.2 source changes to
+one combined X/Z reset, so the old result stops at 1.18.1. The 1.8.9–1.13.2
+sources independently clear the X and Z fields; `Pre114CollisionVelocity`
+preserves that earlier rule. The sequential form is confirmed in 1.14.4,
+1.15.2, 1.16.5, 1.17.1, 1.18, and 1.18.1; exact 1.14.0 remains blocked by
+the mapping namespace issue above. With both chronological boundaries,
+**1.17.1 and 1.9.4 each passed all 200 ticks** at explicit maximum 10 ULP
+and observed maximum **0 ULP** (`compare-1.17.1-94fd9e7912` and
+`compare-1.9.4-efabee1180`); default current also passed 200 ticks exactly
+(`compare-current-3bf7ad9b6c`). `build build` passed. These ordinary captures
+do not cover every contact or potion mechanic. Historical exact-axis clips
+smaller than modern `Mth.equal` tolerance remain to be checked.

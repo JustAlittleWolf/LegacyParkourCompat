@@ -13,6 +13,7 @@ public final class MovementChanges implements MovementChangeProvider {
         registry.register(new DoubleClimbVerticalClamp());
         registry.register(new SneakHeight165());
         registry.register(new KeepPoseWhenResizeBlocked());
+        registry.register(new Pre114CollisionVelocity());
         SimpleAnvilCollision.register(registry);
         LegacyCauldronCollision.register(registry);
         WholeBaseCauldronCollision.register(registry);

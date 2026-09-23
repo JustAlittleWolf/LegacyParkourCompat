@@ -13,7 +13,7 @@ import net.minecraft.world.phys.Vec3;
 
 /** Bed and slime bounce through 26.1 used direct vertical velocity reflection. */
 @MovementChange(emulates = ParkourVersion.V26_1)
-public final class LegacyBlockRestitution implements CollisionRestitutionBehavior {
+public class LegacyBlockRestitution implements CollisionRestitutionBehavior {
     @Override
     public void restituteAfterCollisions(
         Entity entity,
