@@ -13,9 +13,10 @@ Active branch: `codex/overnight-movement-audit`, merge checkpoint `47fc348`
 (`fix/overnight-tas-ulp-compat` merged into the audit branch). Current ordered
 pair: **1.14.0 → 1.14.4**, in the chronological minor/patch pass. Three Luna
 High managers have read-only scopes for movement math, collision, and old
-block behavior on that pair; separate isolated managers are checking the
-Forge 1.13.2 TAS compile failure and native 1.8.9 replay repeatability.
-Reports are pending. Do not infer compatibility from the ordinary recordings.
+block behavior on that pair; an isolated manager is checking native 1.8.9
+replay repeatability. The Forge 1.13.2 compile repair is integrated at
+`0a15aea`; a separate manager is fixing the runtime Mixin bootstrap discovered
+by smoke testing. Do not infer compatibility from ordinary recordings.
 
 The exact 1.14.0 named source now decompiles successfully with
 `gradlew decompileMinecraft --versions=1.14`; this clears the prior mapping
@@ -52,8 +53,13 @@ Post-merge TAS checks against the saved version-specific files:
   negative and positive subnormals as 1, opposite minimum subnormals as 2,
   nonfinite comparison as failure, and exact default as still distinguishing
   signed zero.
+- Forge 1.13.2 compile repair `0a15aea`: `gradlew build build` and
+  `gradlew -p tas-client compileJava --project-prop clientVersion=1.13.2`
+  both passed. The capture-only smoke using `recording-1.8.9.lprc` and
+  `tasVersions=1.13.2` did not finish; the log showed the ignored Mixin
+  argument above. No output `.lprc` or player-position snapshot was produced.
 
-Open priorities: manager review of 1.14.0→1.14.4; the still-unbuildable TAS
+Open priorities: manager review of 1.14.0→1.14.4; runtime-unverified TAS
 target 1.13.2; unexplained 1-ULP Z variation in repeated native 1.8.9 replay;
 targeted contact, fluid, pose, ledge, and analog-input recordings; and the
 26.1 runner gap. No complete-version claim is supported yet.
@@ -66,11 +72,14 @@ the Fabric runner ranges:
 
 `1.8.9 → 1.9.4 → 1.10.2 → 1.11.2 → 1.12.2 → 1.13.2 → 1.14.4 → 1.15.2 → 1.16.5 → 1.17.1 → 1.18.2 → 1.19.4 → 1.20.6 → 1.21.11 → 26.2 (current)`
 
-`1.13.2` is pinned but currently fails TAS client compilation; runner repair
-is being investigated. `26.1` versions are selectable but the TAS runner
-currently launches only the exact 26.2 current release. Neither is counted as
-validated. After the rough pass reaches current, revisit minor/patch
-boundaries in chronological order.
+`1.13.2` is pinned and now compiles after `0a15aea`, but the capture-only
+runtime smoke does not complete: ModLauncher logs `Completely ignored
+arguments: [--mixin, legacyparkourrecording.mixins.json]`, so playback hooks
+are absent. The runtime bootstrap repair is in progress; 1.13.2 is not yet
+counted runnable or validated. `26.1` versions are selectable but the TAS
+runner currently launches only the exact 26.2 current release. After the
+rough pass reaches current, revisit minor/patch boundaries in chronological
+order.
 
 ## Evidence and integration order
 
