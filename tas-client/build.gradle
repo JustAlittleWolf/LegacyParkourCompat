@@ -90,18 +90,25 @@ sourceSets {
     main {
         java {
             srcDir 'src/common/java'
+            if (useForge113) {
+                exclude 'me/wolfii/legacyparkourcompat/recording/mixin/**'
+            }
             srcDir useFabric ? 'src/fabric/java' : forgeSourceDir
-            if (mixinEra == 'fabric21') {
-                srcDir 'src/mixins/fabric17/java'
-                srcDir 'src/mixins/fabric21/java'
-            } else {
-                srcDir "src/mixins/${mixinEra}/java"
+            if (!useForge113) {
+                if (mixinEra == 'fabric21') {
+                    srcDir 'src/mixins/fabric17/java'
+                    srcDir 'src/mixins/fabric21/java'
+                } else {
+                    srcDir "src/mixins/${mixinEra}/java"
+                }
             }
         }
         resources {
             srcDir 'src/common/resources'
             srcDir useFabric ? 'src/fabric/resources' : 'src/forge/resources'
-            srcDir "src/mixins/${mixinEra}/resources"
+            if (!useForge113) {
+                srcDir "src/mixins/${mixinEra}/resources"
+            }
         }
     }
 }
@@ -144,7 +151,9 @@ if (!ideaSync && compareMc(clientTarget.minecraft, '26') < 0) {
         } else {
             minecraftForge {
                 loader clientTarget.forgeVersion
-                mixinConfig 'legacyparkourrecording.mixins.json'
+                if (!useForge113) {
+                    mixinConfig 'legacyparkourrecording.mixins.json'
+                }
             }
         }
         // Unimined's default game directory is run/client for every version.
