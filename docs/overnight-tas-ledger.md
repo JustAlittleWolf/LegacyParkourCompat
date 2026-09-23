@@ -11,12 +11,13 @@ remains exact. Native capture differences are evidence, not emulation failures.
 
 Active branch: `codex/overnight-movement-audit`, merge checkpoint `47fc348`
 (`fix/overnight-tas-ulp-compat` merged into the audit branch). Current ordered
-pair: **1.14.0 → 1.14.4**, in the chronological minor/patch pass. Three Luna
-High managers have read-only scopes for movement math, collision, and old
-block behavior on that pair; an isolated manager is checking native 1.8.9
-replay repeatability. The Forge 1.13.2 compile repair is integrated at
-`0a15aea`; a separate manager is fixing the runtime Mixin bootstrap discovered
-by smoke testing. Do not infer compatibility from ordinary recordings.
+pair: **1.14.0 → 1.14.1**, in the chronological minor/patch pass. Luna High
+managers reviewed movement math, collision/pose, and existing block behavior;
+their source-only endpoint comparison found no confirmed collision, pose, or
+old-block delta. One Luna High manager completed a read-only native 1.8.9
+replay analysis. The Forge 1.13.2 compile repair is integrated at `0a15aea`;
+a runtime Mixin-bootstrap repair is in its isolated worktree. Do not infer
+compatibility from ordinary recordings.
 
 The exact 1.14.0 named source now decompiles successfully with
 `gradlew decompileMinecraft --versions=1.14`; this clears the prior mapping
@@ -34,8 +35,46 @@ step candidates and horizontal-distance selection in 1.14.0
 `Entity#move/method_17835/method_17833` and 1.14.4
 `Entity#move/collide/collideBoundingBoxHeuristically`. The 1.14.0
 `MathHelper#method_20390` and 1.14.4 `Mth#equal(double,double)` both use
-`abs(a-b) < 1.0E-5`. Helper and block-manager review remains open before this
-pair is closed.
+`abs(a-b) < 1.0E-5`. The exact adjacent 1.14.0→1.14.1 source review found no
+confirmed change in player travel, jump, input, collision, sneak, pose, step,
+ladder, slime, bed, cauldron, soul sand, farmland, or scaffolding behavior.
+The only adjacent collision-helper change found was a bounded cache around
+the same `Block.isShapeFullCube(VoxelShape)` result (`Block.java:397` in 1.14
+and `Block.java:408` in 1.14.1); `Entity#pushOutOfBlocks` calls it in both
+versions, so the effect is calculation cost only. The 1.14.0→1.14.1 basic
+native Gym capture initially stopped before client launch because Unimined could not resolve the 1.14 client mappings. Exact 1.14 native TAS support is now enabled with the repository Yarn bridge and runner identifier 1.14.
+That runner blocker is now cleared: exact 1.14 native TAS support runs using
+the runner identifier `1.14`. The native 1.14 and 1.14.1 Gym captures each
+contain 200 ticks and match at **0 ULP** on every coordinate. A second 1.14
+capture also matches its first capture at **0 ULP** for 200 ticks. These
+confirm a stable native baseline for this recording, not the emulation
+profile.
+
+The current-client emulation profile `1.14` fails against that native
+reference at tick 19 in explicit `tasMaxUlps=10` mode. Expected XYZ is
+`(7.6831409160012640, 66.378199980521200, 14.392537898615800)`; actual is
+`(7.6831409156158920, 66.378199980521200, 14.392537898495053)`, with ULP XYZ
+`(433890, 0, 67974)` and the same running maxima. Run ID
+`overnight-1140-ulp10`; matching Gym evidence is
+`parkourgym-server/run/logs/latest.log:154`. At that snapshot the player is
+already above the piston head; exact 1.14 and current static piston shapes and
+normal axis order match, so this is not yet attributed to piston geometry.
+The input-scale hypothesis is ruled out by scoped source comparison: native 1.14 scales both axes by 0.98F in LivingEntity.java:2199-2200, and selected current FlyingSneakInput returns those same 0.98F axes. Both 1.14 Entity.java:1009-1023 and current Entity.java:1751-1760 normalize the resulting diagonal input, so this scale does not explain the mismatch. No movement change was made from this hypothesis.
+
+Later-pair preparation found a swimming-crouch pose restriction and a
+sprint-forward threshold change for water/fractional input at 1.14.2; the
+grouped `V1_14` profile cannot express that boundary without version
+resolution granularity work. The 1.14.2→1.14.3 prep found a possible multi-axis
+collision solver path change needing native runtime evidence. The 1.14.3→1.14.4
+scoped source review found no movement or extant-block shape delta. These are
+prep findings only and have not been integrated.
+
+The exact minor/patch decompile request
+`gradlew decompileMinecraft --versions=1.14,1.14.1,1.14.2,1.14.3,1.14.4`
+completed successfully. A read-only source scan for later adjacent boundaries
+found sprint-start thresholds changing at 1.14.2 and the water predicate
+changing again at 1.14.4; those pairs remain queued behind 1.14.0→1.14.1 in
+the master review order.
 
 Post-merge TAS checks against the saved version-specific files:
 
@@ -59,10 +98,12 @@ Post-merge TAS checks against the saved version-specific files:
   `tasVersions=1.13.2` did not finish; the log showed the ignored Mixin
   argument above. No output `.lprc` or player-position snapshot was produced.
 
-Open priorities: manager review of 1.14.0→1.14.4; runtime-unverified TAS
-target 1.13.2; unexplained 1-ULP Z variation in repeated native 1.8.9 replay;
-targeted contact, fluid, pose, ledge, and analog-input recordings; and the
-26.1 runner gap. No complete-version claim is supported yet.
+Open priorities: make exact 1.14.0 runnable in the TAS client, then finish
+1.14.0→1.14.1 and review 1.14.1→1.14.2 and later patch pairs in order;
+runtime-unverified TAS target 1.13.2; unexplained original-versus-replay
+1-ULP Z variation in native 1.8.9; targeted contact, fluid, pose, ledge, and
+analog-input recordings; and the 26.1 runner gap. No complete-version claim
+is supported.
 
 ## Major-release rough-pass sequence
 
@@ -85,7 +126,7 @@ order.
 
 | Pair / run | Source review and Change coverage | TAS evidence | Gap |
 | --- | --- | --- | --- |
-| 1.8.9 → 1.9.4 math | `LivingEntity.tickMovement/travel`, `PlayerEntity.jump`, `ClientPlayerEntity.tickMovement`, `KeyboardInput.tick`, and `Entity.updateVelocity` in both decompiles. 0.005→0.003 negligible-speed boundary covered by `NegligibleSpeed`. Restored float ground/air acceleration through 1.13, one-ULP 1.13 constant split, and float sprint-jump impulse. Split 1.8 versus 1.9 float yaw conversion order in `Entity.updateVelocity`. 1.8.9 600-tick sprint timeout and flying-sneak input restoration remain candidates. | Initial 200-tick current-vs-native run `compare-1.8.9-459ac84954` failed tick 4 (X=5,580,975; Y=0; Z=1,365,931), snapshot `parkourgym-server/run/logs/latest.log:156` (flat stone). After the float math and diagonal-operand fix, `compare-1.8.9-44f6acd005` **passed 200 ticks, maximum 5 ULP**. Following the later source corrections and dedicated sprint rule, the original manual native reference passed 200 ticks, observed maximum **7 ULP** (`compare-1.8.9-0088751962`). Native original-vs-replay has 1-ULP Z differences from tick 6. | Passing sample is not version completeness; validate targeted terrain. |
+| 1.8.9 → 1.9.4 math | `LivingEntity.tickMovement/travel`, `PlayerEntity.jump`, `ClientPlayerEntity.tickMovement`, `KeyboardInput.tick`, and `Entity.updateVelocity` in both decompiles. 0.005→0.003 negligible-speed boundary covered by `NegligibleSpeed`. Restored float ground/air acceleration through 1.13, one-ULP 1.13 constant split, and float sprint-jump impulse. Split 1.8 versus 1.9 float yaw conversion order in `Entity.updateVelocity`. 1.8.9 600-tick sprint timeout and flying-sneak input restoration remain candidates. | Initial 200-tick current-vs-native run `compare-1.8.9-459ac84954` failed tick 4 (X=5,580,975; Y=0; Z=1,365,931), snapshot `parkourgym-server/run/logs/latest.log:156` (flat stone). After the float math and diagonal-operand fix, `compare-1.8.9-44f6acd005` **passed 200 ticks, maximum 5 ULP**. Following the later source corrections and dedicated sprint rule, the original manual native reference passed 200 ticks, observed maximum **7 ULP** (`compare-1.8.9-0088751962`). Native review and repeat files are byte-identical across 200 ticks (SHA-256 41E85F4A068B456B467B8589ACDB9796F49507B732FF21ACC0E9E9E13A7E9EF5). Original-versus-replay Z differs by one ULP at one-based ticks 7, 11, 12, 14, 19, 21, 26, 28, 32, 33, 34, 35, 36, and 37; max ULP XYZ is [0, 0, 1]. The cause is not confirmed; playback stores only discrete input/facing and post-tick positions, not transient motion/input state. | Passing sample is not version completeness; validate targeted terrain. |
 | 1.8.9 → 1.9.4 collision | `Entity.move`, player dimensions, client entity push in both decompiles. Core Y→X→Z, step and sneak-edge logic match. Standing pose and client push already covered. | No isolated collision recording yet. | Validate dynamic dimension transition and headroom. |
 | 1.8.9 → 1.9.4 blocks | Ladder, lily pad, piston head, cocoa, anvil, chest, panes in both decompiles; existing V1_8 Changes cover found shapes. | No isolated block recording yet. | Targeted audit only; test facings and states. |
 | 1.9.4 → 1.10.2 math | `LivingEntity.travel`, `ClientPlayerEntity.tickMovement`, `Entity.updateVelocity` in both decompiles. Ordinary math unchanged; 1.10 no-gravity flag and auto-jump added. Auto-jump suppression for earlier profile covered by `NoAutoJump`. | Native 1.9.4 and 1.10.2 200-tick captures succeeded with identical positions. Current 1.9.4 profile run `compare-1.9.4-dcd57626aa` first failed tick 21 on Z: expected 14.544677589088678, actual 14.542255886630212; snapshot `parkourgym-server/run/logs/latest.log:292`. Trace `logs/trace-194.log:243-244` proved no tick-20 collision clip; it revealed Z velocity below `0.003` that old per-axis cancellation clears while modern's vector threshold keeps it. Per-axis cutoff through 1.21.4 moved first failure to tick 78; restoring pre-1.18 strict sprint cancellation after wall contact moved it to tick 93. Old double `-0.15` downward ladder clamp corrected that to tick 132, where box-based position accumulation mattered. A versioned pre-1.17 bounding-box position update produced **200/200 exact XYZ positions, observed maximum 0 ULP**, runId `compare-1.9.4-3094d7d355`; the dedicated sprint-rule refactor also passed 200/200 at 0 ULP, runId `compare-1.9.4-a1287120d7`. Current profile against native current reference likewise passed 200/200 at 0 ULP, runId `compare-current-b53f65d3da`. Static `short=false` piston geometry and 1.9 ladder geometry match modern. | This sample does not prove full version coverage. No-gravity rare state lacks Change. |

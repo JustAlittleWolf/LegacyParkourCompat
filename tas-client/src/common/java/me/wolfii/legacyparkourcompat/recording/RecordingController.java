@@ -161,10 +161,8 @@ public final class RecordingController {
         }
         String label = file.getFileName().toString();
         if (output != null && this.minecraft.isConnected()) {
-            String command = String.format(Locale.ROOT, "lpcpose %s %s %s %s %s",
-                Double.toString(loaded.startX()), Double.toString(loaded.startY()), Double.toString(loaded.startZ()),
-                Float.toString(loaded.startYaw()), Float.toString(loaded.startPitch()));
-            if (!this.minecraft.sendServerCommand(command)) {
+            if (!this.minecraft.sendGymMessage(tasPosePayload(loaded))
+                && !this.minecraft.sendServerCommand(tasPoseCommand(loaded))) {
                 throw new IllegalStateException("Cannot request the server-authoritative TAS start pose");
             }
             this.pendingPlayback = loaded;
@@ -284,9 +282,10 @@ public final class RecordingController {
             return;
         }
         MovementRecording loaded = this.pendingPlayback;
-        if (Double.compare(this.minecraft.playerX(), loaded.startX()) == 0
+        boolean atStart = Double.compare(this.minecraft.playerX(), loaded.startX()) == 0
             && Double.compare(this.minecraft.playerY(), loaded.startY()) == 0
-            && Double.compare(this.minecraft.playerZ(), loaded.startZ()) == 0) {
+            && Double.compare(this.minecraft.playerZ(), loaded.startZ()) == 0;
+        if (atStart) {
             if (++this.pendingStableTicks >= 40) {
                 Path output = this.pendingOutput;
                 boolean exit = this.pendingExit;
@@ -298,10 +297,31 @@ public final class RecordingController {
         } else {
             this.pendingStableTicks = 0;
         }
-        if (++this.pendingPoseTicks > 400) {
+        this.pendingPoseTicks++;
+        // Retry until the authoritative Gym pose is observable on the client.
+        if (!atStart && this.pendingPoseTicks % 20 == 0
+            && !this.minecraft.sendGymMessage(tasPosePayload(loaded))
+            && !this.minecraft.sendServerCommand(tasPoseCommand(loaded))) {
+            throw new IllegalStateException("Cannot retry the server-authoritative TAS start pose");
+        }
+        if (this.pendingPoseTicks > 400) {
             clearPendingPlayback();
             throw new IllegalStateException("Server did not apply the TAS start pose");
         }
+    }
+
+    private static String tasPoseCommand(MovementRecording recording) {
+        return "lpcpose " + tasPoseArguments(recording);
+    }
+
+    private static String tasPosePayload(MovementRecording recording) {
+        return "pose " + tasPoseArguments(recording);
+    }
+
+    private static String tasPoseArguments(MovementRecording recording) {
+        return String.format(Locale.ROOT, "%s %s %s %s %s",
+            Double.toString(recording.startX()), Double.toString(recording.startY()), Double.toString(recording.startZ()),
+            Float.toString(recording.startYaw()), Float.toString(recording.startPitch()));
     }
 
     private void clearPendingPlayback() {
@@ -418,7 +438,8 @@ public final class RecordingController {
             version = version.substring(0, versionLength);
             signal = String.format(Locale.ROOT, "!lpcf %s %s %d", runId, version, Integer.valueOf(tick));
         }
-        if (!this.minecraft.isConnected() || !this.minecraft.sendChatMessage(signal)) {
+        if (!this.minecraft.isConnected()
+            || (!this.minecraft.sendGymMessage(signal) && !this.minecraft.sendChatMessage(signal))) {
             this.minecraft.sendGameMessage("Unable to send the first-deviation snapshot signal to the parkour gym");
         }
     }
