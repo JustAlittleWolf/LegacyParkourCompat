@@ -115,3 +115,10 @@ Selected B files not in the initial anchor inventory: `net/minecraft/client/play
 - Slice 3.2 / fall-flying fall-distance guard: `findings`; F-002.
 - Slice 3.3 / ordinary airborne sprint speed: `findings`; F-003 and F-004.
 - Remaining Stage 3 work: ground/air acceleration and friction, gravity/drag, climb, water/lava, swimming and riding branches; resolve all helpers and attributes.
+
+## Stage 4/5 coverage update — collision and contact slices
+
+- Slice 4.1 / axis collision order and step-up candidate ordering: pending full call/member correspondence; initial paired `collide()` inspection shows the same Y, lower-magnitude-horizontal-first, other-horizontal axis order and candidate tie comparisons. The player step-height accessor change must be resolved through `LivingEntity.maxUpStep()` before closing.
+- Slice 4.2 / support position and careful-step callbacks: in-progress. `Entity.move()` changed `getOnPos()` to `getOnPosLegacy()`; B uses `0.2F`, matching A's inline support offset. `stepOn()` now dispatches for careful movement but relevant B callbacks add/move the careful-step guard into `MagmaBlock`, `RedStoneOreBlock`, `SlimeBlock` and `TurtleEggBlock`; compare their call paths and callbacks before disposition. B-only sculk step callbacks are modern additions.
+- Slice 4.3 / inside-block query bounds and cobweb slowdown: `findings`; see F-005. Query-bound dependencies on honey, bubble columns, powder snow and sweet-berry bush are pending.
+- Slice 5.1 / block-contact implementations, shapes, registrations and data: pending; include the callback dependencies above and all remaining navigation stage 5 categories.
