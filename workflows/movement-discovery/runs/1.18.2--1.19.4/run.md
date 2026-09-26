@@ -92,3 +92,5 @@ Selected B files not in the initial anchor inventory: `net/minecraft/client/play
 - Stage 1 / remaining input and tick order: pending.
 - Stages 2–7: pending; B-side navigation only so far.
 - Runtime validation: not performed.
+
+- Stage 3 / fall-flying slow-fall-distance slice: `findings`; see F-002. The exact helper and player-reachable branch are paired. Fall-distance accumulation, Elytra entry/exit, and server-side consequences remain dependent slices.
