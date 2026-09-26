@@ -13,7 +13,7 @@
 
 - Exact requested and resolved release: `1.14.4` / `1.14.4` (successful exact-version completion).
 - Source root: `decompiled_minecraft/1.14.4/mojmap/` (shared ignored source root mounted through the worktree junction).
-- Client jar SHA-256: `B3B2A798E2D67B566008FE4A03767AE2C7FF3F8C7BA6751E7B71FC7299672D0A`.
+- Original client jar cache path (preserved for adjacent-version resource inspection): `build/minecraft-decompile-cache/1.14.4/client.jar` in this worktree; size 25,191,691 bytes; SHA-256: `B3B2A798E2D67B566008FE4A03767AE2C7FF3F8C7BA6751E7B71FC7299672D0A`.
 - CLI mode and naming namespace: `mojmap`; official Mojang mappings.
 - Mapping coordinate: Mojang version metadata `1.14.4`, mapping object `6073e4ba6949217eb708c4512be2ccc1850a603f` (`client.txt`). Mapping file SHA-256: `2DD53A5E70BA493CF6E33C0FC52BBDF4C57F9429C7A13842565AA825FD44D910`.
 - Mapped client jar SHA-256: `7781BDCC8E8D9173173731F2564866F17C07CB43FE602A9A9F14B2753DC34665`.
