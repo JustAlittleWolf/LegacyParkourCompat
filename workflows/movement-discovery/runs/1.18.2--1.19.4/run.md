@@ -79,3 +79,16 @@ None yet. No paired comparison has been made.
 - Coverage counts: not started; awaiting A provenance verification.
 - Unresolved gaps: A manifest and hashes; all paired comparisons; resource closures.
 - Runtime validation: not performed (separate workflow).
+
+## A provenance verification update
+
+The 1.18.2 owner manifest at `feat/movement-discovery-1-18:workflows/movement-discovery/runs/1.17.1--1.18.2/run.md` was read. It confirms exact requested/resolved 1.18.2, explicit release-specific Mojmap, and the following local hashes: client `1D09E3639644B6B2254499469D0765CC005A286D19F3FA595B0ED8FB07971EC7`, mappings `A2AA6EE1030BFEF79E9B2E08E79DE1637FDD7ECB5BF8891CF2E9A4B186042543`, remapped jar `2D0C4B2EAC022E43DBE4706B7FE18C51547E4FBED86B675E92AB2040A9CF51D4`. The owner's source-hash index for all shared files used here was independently recomputed against `decompiled_minecraft/1.18.2/mojmap/`; all listed B (1.18.2) hashes matched. The A and B sides therefore have verified exact-source identities in aligned official names.
+
+Selected B files not in the initial anchor inventory: `net/minecraft/client/player/Input.java` SHA-256 `B302FFBC45C5F900EA18A4D4AF2DF6FA0454EA7CB7744A0D249061E5FCB97FBB`; `net/minecraft/world/item/enchantment/SwiftSneakEnchantment.java` SHA-256 `6D68936DA23F57A2D9725155035B0A01D3B5017A899B5F9EC3C69F3E2256D64F`.
+
+## Current paired coverage
+
+- Stage 1 / input crouch-scaling slice: `findings`; see F-001. Paired path, helper, registration and equipment-slot closure are source checked.
+- Stage 1 / remaining input and tick order: pending.
+- Stages 2–7: pending; B-side navigation only so far.
+- Runtime validation: not performed.
