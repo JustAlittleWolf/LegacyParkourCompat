@@ -24,6 +24,7 @@ The client can choose a historical version in the mod UI. When connected to a se
 - [`parkourgym-server/`](parkourgym-server/README.md) runs the local Paper gym, isolated test worlds, and Gym control API.
 - [`tas-client/`](tas-client/README.md) launches exact-version Minecraft clients for recording and playback.
 - [`testing/`](testing/README.md) coordinates persistent clients, automated runs, and comparisons.
+- [`workflows/`](workflows/README.md) documents source-based movement difference discovery before implementation and runtime validation.
 
 ## How historical mechanics are implemented
 
