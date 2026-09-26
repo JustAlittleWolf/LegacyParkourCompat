@@ -31,7 +31,7 @@ Paths are relative to `../../../../decompiled_minecraft/1.20.6/mojmap/`. SHA-256
 - Stage 3 living integration: `LivingEntity.java` (same hash above), `net/minecraft/world/entity/ai/attributes/Attributes.java` `7E30D87C7A58B14D0052D2F9F7319D997B49AE7D025579CD762D28E845B2E82E`.
 - Stage 4 movement/collision: `net/minecraft/world/entity/Entity.java` `71CD6B9F6C002684154DCE11D3745E8714D82F13C8E1B3AA56743930131C18F3`; `net/minecraft/world/phys/AABB.java` `13AB54EF7B11ABBE41465580EB5CDDB05A4BAD3178995D4609C252D70B96CAD9`; `net/minecraft/world/phys/shapes/VoxelShape.java` `106EB81EE1B2B0F7AA22C225524D4ADA28CB28906FFFFC9F7E790E4FFEFBE9ED`.
 - Stage 5 block/fluid inventory: `net/minecraft/world/level/block/Blocks.java` `684579BBCBE48B1F0984090A4CA044C0B2CEE6D08C2DC1E449E2259389C5B129`; `net/minecraft/world/level/block/state/BlockBehaviour.java` (hash to record when cited); `net/minecraft/world/level/material/FlowingFluid.java` `0F44B1AF25533DD8A1FBFEC13B279739341DB0C563568337A2825D3E46A1A5BB`; `FluidState.java` `B52E2B1E889A510B5D80C5EEF09CD4F5B63448F15DBB131F02030497340E7C1C`. Movement-relevant block implementation filenames present include BedBlock, BubbleColumnBlock, FrostedIceBlock, HoneyBlock, IceBlock, LadderBlock, PowderSnowBlock, SlimeBlock, SoulSandBlock and WebBlock; no behavior conclusion recorded.
-- Stage 6 effects/enchantments/attributes: `net/minecraft/world/effect/MobEffects.java` `9B24DEE8A23A4B8730FDFA7EA9CBD560C9370599CC282FAC1C0755F5894E7645`; `net/minecraft/world/item/enchantment/Enchantments.java` `26EEAFDF667FA57B711FAB3112AA9636F20A9A38CADFBFF42740E66A14C38381`; `EnchantmentHelper.java` `E0B4C410E0AA9499D67B38F57B34467628E882BE960DCE6958D4BC8EF717A6B6`; `Attributes.java` (same hash above). Resource entries and their hashes remain to be inventoried before this stage can close.
+- Stage 6 effects/enchantments/attributes: `net/minecraft/world/effect/MobEffects.java` `9B24DEE8A23A4B8730FDFA7EA9CBD560C9370599CC282FAC1C0755F5894E7645`; `net/minecraft/world/item/enchantment/Enchantments.java` `26EEAFDF667FA57B711FAB3112AA9636F20A9A38CADFBFF42740E66A14C38381`; `EnchantmentHelper.java` `E0B4C410E0AA9499D67B38F57B34467628E882BE960DCE6958D4BC8EF717A6B6`; `Attributes.java` (same hash above). Seven movement tag entries now have paired hashes; effect/enchantment entry resources and their dependency data remain to be inventoried before this stage can close.
 - Stage 7 external influences: `LocalPlayer.java` and `Entity.java` above are starting seeds; packet consumers, correction/push paths and unresolved state writers remain to be inventoried.
 
 ## Correspondence and call order
@@ -41,12 +41,12 @@ A/B correspondence seeds resolved from the filename inventories (Mojmap names): 
 ## Coverage ledger
 
 - Stage 1 / local input and tick ordering: findings; slices: `S1-01` keyboard input tick compared-no-difference; `S1-02` input vector and forward predicate compared-no-difference; `S1-03` LocalPlayer tick field-access refactor compared-no-difference after getter verification; `S1-04` creative flight toggle findings in `findings/MC1194-1206-01.md` for the added ground-jump call on creative flight activation. `KeyboardInput.tick`, `Input.getMoveVector` and `Input.hasForwardImpulse` compared-no-difference; `LocalPlayer.tick` differences at `level.hasChunkAt`/`level().hasChunkAt` and `onGround`/`onGround()` resolve to the same fields through B getters. `S1-05` passenger crouch slowdown: findings; see `findings/MC1194-1206-06.md` for the changed local-player input scaling and travel path. Any vehicle movement effect remains out-of-scope.
-- Stage 2 / player-specific state and gates: in-progress; pose-fit and default player dimensions compare-no-difference; `Abilities` source is identical; finding `MC1194-1206-05` records the modern-only nondefault scale attribute. Food/effect and all ability gates still require closure.
-- Stage 3 / living movement integration: in-progress; bounded travel/jump slices `S3-01` gravity attribute source, `S3-02` fall-distance reset lifetime, and `S3-03` jump-power rounding have findings; remaining fluid, friction, acceleration, climb and effect closure is pending.
-- Stage 4 / entity movement and collision: in-progress; A/B entity/collision anchors hash-verified; movement and query comparisons pending.
-- Stage 5 / blocks and fluids: in-progress; B seed inventory and selected B resource entries recorded; A source/resource comparison and registration/override closure pending.
+- Stage 2 / player-specific state and gates: in-progress; pose-fit and default player dimensions compare-no-difference; `Abilities` source is identical; findings `MC1194-1206-05` (scale) and `MC1194-1206-07` (step height) record modern-only synced attributes. Sprint hunger/effect, blindness, active-item, swimming/crawling and ability input/state closure remains.
+- Stage 3 / living movement integration: in-progress; bounded travel/jump slices `S3-01` gravity attribute source, `S3-02` fall-distance reset lifetime, and `S3-03` jump-power rounding have findings. Ground friction reads `getBlockPosBelowThatAffectsMyMovement`; B changes this lookup to the main supporting block path (Stage 4 dependency). Remaining fluid, acceleration, climb, levitation/fall-flying and effect closure is pending.
+- Stage 4 / entity movement and collision: in-progress; A/B `Entity.collide` step-up candidates and tie-breaks compared-no-difference; finding `MC1194-1206-07` records the nondefault step-height attribute. B support-position tracking and support lookup differ and remain queued for grounding, block-factor and collision-query closure.
+- Stage 5 / blocks and fluids: in-progress; seven movement tags in the A and B original client jars have matching SHA-256 hashes and contents; block callbacks, shapes, fluid movement and subclass registration closure remain.
 - Stage 6 / effects, enchantments, attributes and equipment: in-progress; A/B code anchors hash-verified; paired consumers and data/resource closure pending.
-- Stage 7 / external influences and dependency closure: in-progress; A/B player, entity and packet-listener anchors hash-verified; packet and external-value comparisons pending.
+- Stage 7 / external influences and dependency closure: in-progress; `S7-01` incoming entity-velocity and player-position handlers compared-no-difference for bounded payload application; explosion knockback addition is unchanged in the inspected handler. Corrections, push/launch paths and full external-state closure remain pending.
 
 ## Dependency queue and blockers
 
@@ -62,11 +62,12 @@ A/B correspondence seeds resolved from the filename inventories (Mojmap names): 
 `MC1194-1206-04` — Jump Boost power sum is rounded to float before velocity assignment (source-confirmed).
 `MC1194-1206-05` — B player scale attribute changes collision dimensions when nondefault (modern-only).
 `MC1194-1206-06` — Passenger crouch no longer scales local player movement input.
+`MC1194-1206-07` — Synced step-height attribute changes step-up reach when nondefault.
 
 ## Resume checkpoint
 
-- Last completed slice: stage 2 base pose fit, crouch/standing dimensions, and abilities; one modern-only scale finding; stages 1 and 3 have findings.
-- Next step: complete stage 2 food/effect/sprint gate dependencies, then stage 3 travel closure and stage 4 step/collision slices.
+- Last completed slice: stage 2 base pose fit, crouch/standing dimensions, abilities and synced-attribute findings; stage 4 step candidate comparison; stages 1 and 3 have findings.
+- Next step: complete stage 2 food/effect/sprint gate dependencies, then stage 3 travel closure and stage 4 supporting-block and collision-query slices.
 - Outstanding dependencies: food/effect gate dependency closure; gravity/jump attribute values and effects; block jump/friction dependencies; resource closure; remaining navigation stages.
 - Namespace alignment: verified Mojmap-to-Mojmap for exact 1.19.4 and 1.20.6 artifacts; names alone are not treated as correspondence proof.
 
@@ -104,11 +105,31 @@ A-side hash cross-checks against the adjacent source manifest: `LocalPlayer.java
 - `S3-01` Travel gravity source and dependent fluid gravity gate: finding `MC1194-1206-02`. B's default player gravity equals A's literal `0.08`; synced attribute modifiers remain an explicit external-input dependency.
 - `S3-02` Fall-distance reset timing/guards: finding `MC1194-1206-03`; position/velocity effects are not asserted.
 - `S3-03` Ground-jump power operation order: finding `MC1194-1206-04`; effect application and attribute defaults are linked dependencies.
-- Remaining stage-3 slices: ground/air acceleration and friction, water/lava, climbing, levitation/fall flying, post-travel updates and all callers/dependencies.`n
+- Remaining stage-3 slices: ground/air acceleration and friction, water/lava, climbing, levitation/fall flying, post-travel updates and all callers/dependencies.
 ### Stage 2 evidence ledger (active)
 
 - `S2-01` Player crouching/standing pose fit: compared-no-difference at scale `1.0`. A `Player.getDimensions(Pose)` supplies the same standing/crouching width and height as B `Player.getDefaultDimensions(Pose)`; eye heights are `1.62F` standing and `1.27F` crouching on both. A `Entity.canEnterPose()` and B `Player.canPlayerFitWithinBlocksAndEntitiesWhen()` use the same no-collision predicate, pose dimensions and `1.0E-7` deflation; constructor/accessor layout changed with `EntityDimensions` but the inspected box coordinates match.
 - `S2-02` Ability state: A/B `net/minecraft/world/entity/player/Abilities.java` files have identical SHA-256 `A4F952ADA7BC3B21406FEAF13C171BFA22D36B01E265E3B987612F28B5609EDC`; flags and walking/flying speed defaults and getters are unchanged in this bounded class.
 - `S2-03` Passenger crouch slowdown: finding `MC1194-1206-06`. A/B `Player.updatePlayerPose` keeps the same passenger pose branch, but the local crouch flag feeds `Input.tick`, then local-player travel; the player path is in-scope. Any additional ride-control packet effect remains outside scope.
 - `S2-04` Nondefault scale: finding `MC1194-1206-05`, modern-only synchronized attribute that can change the player bounding dimensions; default `1.0` preserves the compared pose dimensions.
+- `S2-05` Step height: finding `MC1194-1206-07`; B uses syncable `STEP_HEIGHT` (default `0.6`) in the inherited player step limit; A initializes the inherited field to `0.6F`. A `Attributes.java` SHA-256: `28E439335AF9CCD2017FF29C24C645E85DA1C8193AD07CE20F0F37CE053FF662` (no `STEP_HEIGHT` entry).
 - Still open: sprint hunger/effect gate dependencies, blindness and active-item state sources, swimming/crawling and flight/ability packet inputs; continue stage 2 before terminal coverage.
+
+### Paired jar tag checks (Stage 5/6 dependencies)
+
+The following original-client-jar entries have identical A/B contents and identical SHA-256 hashes (hashes are over uncompressed entry bytes):
+
+- `data/minecraft/tags/blocks/climbable.json` — `D0E3E76D7457F3F3F3D7219FE218C7746E4B2E7626D5C388FCF193089069E365`; values: ladder, vine, scaffolding, weeping/twisting/cave vines and their plant forms.
+- `data/minecraft/tags/blocks/ice.json` — `85098BDEB333FB4B630565E8679BFAAE143D78DEFA4DBF0398280A9F4D863DB7`; values: ice, packed ice, blue ice, frosted ice.
+- `data/minecraft/tags/blocks/soul_speed_blocks.json` — `8BA7EAC6F7C74D25601EF4455B71E3947FDB8E51B8FAFD55DDDEE48397B144B6`; values: soul sand and soul soil.
+- `data/minecraft/tags/blocks/snow.json` — `24D5E3B9042595E734D911CAF4D1D59F8D27C865743FD7562FA72D32F0B5ACD0`; values: snow, snow block and powder snow.
+- `data/minecraft/tags/fluids/lava.json` — `71F50FB9092D78260BC7434731FC5FD426A44E5284A6AD084EC71CB725630C6B`; values: lava and flowing lava.
+- `data/minecraft/tags/fluids/water.json` — `DCFA69A748D03DBF788D8F7B0E5EB6C8DE6355A527FCAF74B9210FE4BE2A3004`; values: water and flowing water.
+- `data/minecraft/tags/items/freeze_immune_wearables.json` — `8DF0FA68F14A7F9705DF39043A43C0B07ABF3C30642608EC47C52F78A3EE0C3D`; values: leather boots, leggings, chestplate, helmet and horse armor.
+
+This closes only these seven data entries. It does not establish that the consuming classes, block registrations, item/equipment checks or server-supplied data are equivalent.
+
+### Stage 7 evidence ledger (bounded handlers)
+
+- `S7-01` A/B `ClientPacketListener.handleSetEntityMotion(ClientboundSetEntityMotionPacket)`, A line 499 and B line 515, both resolve entity id and call `lerpMotion(packet xa / 8000.0, ya / 8000.0, za / 8000.0)` when present. `handleMovePlayer(ClientboundPlayerPositionPacket)`, A line 605 and B line 618, retains the same relative-axis flags, current-velocity preservation for relative axes, zeroing for absolute axes, old-position updates, then `setPos` and `setDeltaMovement`. A/B `ClientPacketListener.java` hashes are in the paired source inventory. Status: compared-no-difference for these inspected packet-to-player state writes; server-supplied values remain external inputs.
+- `handleExplosion` adds packet knockback to the local player delta movement in both versions. B constructs the client explosion with additional block-interaction and particle/sound packet fields before finalization; those world/visual inputs and possible world-state effects are not closed by this bounded knockback observation.
