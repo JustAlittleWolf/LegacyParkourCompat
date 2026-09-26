@@ -74,8 +74,8 @@
 
 ## Resume checkpoint
 
-- Completed: verified exact A/B artifact hashes; confirmed official Mojmap alignment; compared the 1.20.6 -> 1.21.11 sprint-window and shallow-water sprint gates and recorded F-1/F-2; recorded the float normalization delta F-3 and ground-jump vertical assignment F-4; alternative input/scaling dependencies remain open.
-- Next: resolve DEP-INPUT-SHAPE and DEP-SPRINT-GATES; continue remaining stage 1 slices, then close paired travel, collision, block/fluid, attribute/resource and external-input dependencies.
+- Completed: verified exact A/B artifact hashes; confirmed official Mojmap alignment; recorded findings F-1 through F-6 (the powder-snow consequence remains conditional); bounded no-difference comparisons cover dimensions, slime movement response and selected movement-effect values. Input arithmetic, most sprint gates, travel dependencies, collision, resources and external influences remain open.
+- Next: trace the powder-snow occupancy sequence and close DEP-TRAVEL dependencies, then continue DEP-INPUT-SHAPE / DEP-SPRINT-GATES and remaining paired movement, collision, resource and external-input slices.
 - Do not regenerate A or B artifacts. Do not launch clients or perform gameplay testing. Keep newly found candidates separate until dependencies are traced.
 
 ## Source audit closure

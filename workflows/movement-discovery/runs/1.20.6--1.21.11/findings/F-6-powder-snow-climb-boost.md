@@ -27,3 +27,4 @@ LocalPlayer inherits this shared LivingEntity movement method. A player can meet
 ## Handoff
 
 Independent source delta: post-move powder-snow vertical-boost condition uses current block state in A and prior-tick occupancy in B. Do not generalize beyond the stated predicate divergence without tracing the exact occupancy sequence.
+
