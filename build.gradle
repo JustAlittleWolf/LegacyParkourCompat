@@ -722,6 +722,7 @@ tasks.register('decompileMinecraft', DecompileMinecraftTask) {
     mappings.convention(providers.gradleProperty('mappings')
             .map { value -> MinecraftDecompileMain.splitVersions(value) }
             .orElse(['auto']))
+    decompilerHeap.convention(providers.gradleProperty('decompilerHeap').orElse('4G'))
     cacheDirectory.convention(layout.buildDirectory.dir('minecraft-decompile-cache'))
     decompilerClasspath.from(configurations.decompileRuntime)
     javaLauncher = javaToolchains.launcherFor {
