@@ -42,13 +42,13 @@ No full A-to-B movement correspondence has been asserted. Build it from both pro
 
 ## Coverage ledger
 
-Preliminary B navigation above is not a comparison. Paired stage 1 has three source-confirmed findings; the remaining local tick-order dependency is still being resolved.
+Preliminary B navigation above is not a comparison. Paired stage 1 has four source-confirmed findings; the remaining modern Elytra gate and item-use/player-state dependencies are still being resolved.
 
 - `1.1` keyboard movement magnitudes and sneak scaling — Status: compared-no-difference. A `KeyboardInput.tick()` lines 15-36 and B `KeyboardInput.tick()` lines 15-48; hashes and paths in MD-02. The movement float increments/decrements and `0.3` sneak scaling match. The newly added direction booleans are a separate pending slice `1.4`.
 - `1.2` sprint timeout — Status: findings; see [MD-01](findings/MD-01-sprint-timeout.md). Other sprint-start/stop predicates and timer lifetime interactions remain open in player gates.
 - `1.3` flight plus sneaking input scale — Status: findings; see [MD-02](findings/MD-02-flight-sneak-input-rescaling.md). Item-use slowdown interaction is described there and must be checked against the full player item-use slice.
 - `1.4` directional booleans and boat/riding input — Status: findings; see [MD-04](findings/MD-04-boat-input-to-rider-movement.md). The input-to-rider path and A/B client-authoritative control consumers are paired there.
-- `1.5` local tick order, jump edges, flight toggles, elytra start, and riding gates — Status: pending. Pair the exact Local/Player/Living tick order and resolve the new Elytra path without assigning historical behavior to absent equipment.
+- `1.5` local tick order, jump edges, flight toggles, elytra start, and riding gates — Status: findings; see [MD-05](findings/MD-05-rideable-mob-jump-charge.md) for the local rideable-mount jump charge. Elytra state/item applicability and the full Local/Player/Living tick order remain open; do not assign historical behavior to absent equipment.
 - `2.1` player-specific state and gates — Status: pending. Paired movement fields, initialization and reset writers remain to be inventoried.
 - `3.1` sprint modifier and ground speed consumer — Status: compared-no-difference. Both `LivingEntity.setSprinting(boolean)` methods apply the same `0.3F`, operation-2 movement-speed modifier; both `PlayerEntity.getSpeed()` methods read the movement-speed attribute. Paths, lines, and hashes are in MD-01. No difference is claimed beyond this dependency closure.
 - `3.2.1` ordinary ground/air acceleration, climbing and gravity — Status: pending. Compare the full branch after separately closing the chunk fallback, Levitation and Elytra dependencies.
@@ -77,17 +77,18 @@ Preliminary B navigation above is not a comparison. Paired stage 1 has three sou
 - `MD-02` — Sneaking input is restored during creative flight (source-confirmed).
 - `MD-03` — Unloaded-chunk fallback selects a different chunk near zero (source-confirmed).
 - `MD-04` — Boat controls change the local rider's movement (source-confirmed; player interaction with another entity).
+- `MD-05` — Rideable-mob jump charge updates local mount movement (source-confirmed; player interaction with another entity).
 
 ## Resume checkpoint
 
-- Last completed slice: stage 1.4 boat input/rider path and stage 7.2 player-on-boat movement; MD-04 recorded. Earlier source work also recorded MD-01–MD-03.
-- Next slice: finish `1.5` tick/input ordering, then stage 2 player state. Resume stage 3 in navigation order with `3.2.1` and queued position/effect/Elytra dependencies.
+- Last completed slice: stage 1.5 rideable-mount jump charge; MD-05 recorded. Earlier source work also recorded MD-01–MD-04.
+- Next slice: close remaining `1.5` tick/input ordering and stage 2 player state. Resume stage 3 in navigation order with `3.2.1` and queued position/effect/Elytra dependencies.
 - Outstanding dependencies: remaining hashes/log path in `PAIR-A-MANIFEST`; `GROUND-POSITION`; `EFFECTS-LEVITATION`; `ELYTRA`; further source-driven dependencies from stages 2-7.
 - Current assumptions requiring verification: whether any of B's new Elytra gates interact with player state beyond their modern-only applicability; remaining rider/vehicle transitions beyond the covered boat-input path.
 
 ## Source audit closure
 
-- Coverage counts by status: pending 10; in-progress 0; compared-no-difference 2; findings 5; not-applicable 0; blocked 0. Counts are slice rows, not stages; MD-04 resolves both stage 1.4 and stage 7.2.
+- Coverage counts by status: pending 9; in-progress 0; compared-no-difference 2; findings 6; not-applicable 0; blocked 0. Counts are slice rows, not stages; MD-04 resolves both stage 1.4 and stage 7.2.
 - Unresolved gaps and limits: remaining stage 1 dependencies, stage 2 and most of stages 3-7 are open; A client/mapping hash manifest fields are pending the owner.
-- Evidence/hash/correspondence audit: hashes for each source cited in findings MD-01–MD-04 are recorded in those files; 1.9.4 client/mapping/remapped jar hashes are recorded above; remaining A provenance hashes will be filled from the owning chat.
+- Evidence/hash/correspondence audit: hashes for each source cited in findings MD-01–MD-05 are recorded in those files; 1.9.4 client/mapping/remapped jar hashes are recorded above; remaining A provenance hashes will be filled from the owning chat.
 - Runtime validation: not performed (separate workflow).
