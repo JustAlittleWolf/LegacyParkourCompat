@@ -101,3 +101,5 @@ Selected B files not in the initial anchor inventory: `net/minecraft/client/play
 - Slice 1.2 / crouch and visual-crawl input multiplier: `findings`; F-001.
 - Slice 1.3 / local sprint gates and sprint-state lifetime: `in-progress`. B factors start conditions through `canStartSprinting()` and introduces `vehicleCanSprint()` plus a fall-flying gate; compare eligibility and downstream reachable player movement consumers before disposition. The removed A `sprintTime` field is currently a discarded candidate: full-tree search finds only its A declaration, increment and reset, with no reader; it is not evidence of a movement behavior delta.
 - Remaining Stage 1 work: finish sprint gates and flag consumers; compare jump/cooldown input, auto-jump, flight toggles, riding and tick order; then close the coverage row or retain dependencies.
+
+- Stage 3 / airborne sprint speed numeric value and state lookup: `findings`; see F-003 and F-004. The stable-sprint float expression and sprint-transition timing are separate findings with the shared player-travel call chain recorded.
