@@ -36,10 +36,11 @@ SHA-256; every path is relative to that version's Mojmap source root. Extend thi
 
 | Source path | A hash | B hash |
 |---|---|---|
-| `net/minecraft/client/player/KeyboardInput.java` | pending | `281622F8481654035196A7BC1554D5251C1040518375E3AC6F6439E5EC894A75` |
-| `net/minecraft/client/player/Input.java` | pending | `EB50A4E268EC5FF8423D2805499CA3C7BAE33765CB44CFECEF808E38FA6DE3C3` |
+| `net/minecraft/client/player/KeyboardInput.java` | `EA41065C909E53F1A2CC29ECDB6A9A8F9265D2801CD8B95B996E182C318ECD69` | `281622F8481654035196A7BC1554D5251C1040518375E3AC6F6439E5EC894A75` |
+| `net/minecraft/client/player/Input.java` | `367C3A9B0B21D8F106A21FD2C73A3018685DBF07D9C8A9340E2D4C9D73359201` | `EB50A4E268EC5FF8423D2805499CA3C7BAE33765CB44CFECEF808E38FA6DE3C3` |
 | `net/minecraft/world/entity/player/Player.java` | pending | `BF639C1962FF90D69E4569B2B18F6FCF57AC46EF80B19686F0FBC1687FCA744A` |
 | `net/minecraft/world/entity/LivingEntity.java` | `33FD081AADB2B6FDC9EBF487DB6DA5B38C54F4B8676572790EE2203690D15E6F` | `DB4168D531CAF18F22E3FEFD073365E776DA4075CE01452BB9F7671D9B458782` |
+| `net/minecraft/util/Mth.java` | `24515C4549E01E985017227DCCF7159166A675B232BE9135D5F896022A9CB113` | `32747C5B09FC184BAAE356E39A0088FD66C9F08F69D9E98B67C19E1DE6F1BB2E` |
 | `net/minecraft/world/entity/Entity.java` | `AB28E1FBA924771EC048140DFD293EE5A46A7DFE81F71A1A0B1AECC1927232DE` | `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A` |
 | `net/minecraft/client/player/LocalPlayer.java` | `C9A91CB6CB57806BC8D22E5BFE2D97DAAF21D5D2A48F34A6E2C53164C61C5812` | `99C2D18BCD23243AFB8F95C5BAFB21FB0BE7EA04AACBB14FCF7BE7CED2C9C095` |
 | `net/minecraft/world/phys/AABB.java` | pending | `12134682C7F0C19A4DF431E4509D661B866B84F680B6DB82194AF8ABA7D0A50F` |
@@ -58,10 +59,10 @@ See [index.md](index.md). Resolve actual members, descriptors, inheritance and s
 
 ## Coverage ledger
 
-- Stage 1 input and tick ordering: in-progress; sprint-stop slice has finding F-001; remaining input sampling/tick ordering slices pending.
+- Stage 1 input and tick ordering: findings; F-001 covers the only movement-relevant difference found in the inspected `LocalPlayer.tick()`/`aiStep()` and input producer slice. A/B `Input` structure, forward-impulse sprint threshold, key-to-impulse assignments, sampling order and `aiStep()` order were checked. Keyboard slowdown changes from double multiplication plus float cast to float multiplication, but the vanilla producer supplies only -1/0/1 before the 0.3 slowdown, yielding the same representable float results; no behavioral delta was retained.
 - Stage 2 player-specific state and gates: pending; anchors indexed.
-- Stage 3 living movement integration: pending; anchors indexed.
-- Stage 4 entity movement and collision: pending; anchors indexed.
+- Stage 3 living movement integration: in-progress; F-002 covers fall-flying lift coefficient. Remaining travel branches and dependencies pending.
+- Stage 4 entity movement and collision: in-progress; `Entity.move()` collision flag producer and B local-player classifier examined for F-001; broader axes/step/support/callback slices pending.
 - Stage 5 blocks and fluids: pending; anchors indexed.
 - Stage 6 effects, enchantments, attributes and equipment: pending; B resources still need inspection.
 - Stage 7 external influences and dependency closure: pending; anchors indexed.
@@ -78,12 +79,12 @@ None yet. Candidates require a concrete precondition and reachable client-player
 
 ## Resume checkpoint
 
-- Completed: exact pair artifact/source anchor checks, B-side filename index, one stage-1 finding.
-- Next: finish remaining stage-1 input/tick ordering comparison, then stage 2 onward in navigation order; resolve stage-4 collision classifier dependency.
+- Completed: exact pair artifact/source anchor checks, ordered B-side index, stage-1 bounded slice and findings F-001/F-002.
+- Next: stage 2 player-specific gates; later resolve stage-4 collision classifier and continue remaining travel, block/resource, effect and external-input slices.
 - Runtime validation: not performed.
 
 ## Source audit closure
 
-- Coverage counts: 0 terminal; 1 in-progress; 6 pending; one finding recorded.
+- Coverage counts: 1 terminal (`findings`); 2 in-progress; 4 pending; two findings recorded.
 - Paired evidence limited to files named in the source hash inventory; add every cited source/resource hash before closing a slice.
 - Unresolved dependencies remain open; this is not a complete audit.

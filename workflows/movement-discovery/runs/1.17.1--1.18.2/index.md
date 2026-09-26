@@ -8,6 +8,8 @@ Both sides use official Mojang names and version-specific mappings. This is a bo
 - Compare client tick ordering, superclass tick, input sampling, travel dispatch, movement input normalization, item-use/sneak scaling, sprint transitions, jump timing and previous/current flags.
 - Read member bodies with line numbers; follow options/keybind callers only if they feed movement state. Record per-member hashes in `run.md`.
 - Verified bounded delta: local sprint stop ignores B `minorHorizontalCollision`; see [F-001](findings/F-001-minor-horizontal-collision-sprint.md). Its flag producer/classifier is queued for stage 4.
+- Verified bounded delta: fall-flying lift coefficient changes precision/trigonometric source; see [F-002](findings/F-002-elytra-lift-trig-precision.md).
+- The inspected `LocalPlayer.tick()` call order and movement-relevant `aiStep()` order match; the key input producers assign only -1/0/1, and the 0.3 slowdown yields the same float results under the two expression types. `Input` move-vector and forward threshold expressions match. These checked slices found no further delta.
 
 ## Stage 2 — Player-specific state and gates
 
