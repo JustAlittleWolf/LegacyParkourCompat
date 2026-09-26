@@ -32,4 +32,4 @@ Source proves a larger region in which B recognizes inside-block contact. Under 
 
 ## Handoff
 
-This finding is scoped to cobweb contact. The shared contact-query dependency may affect other block callbacks; track those as separate coverage items and avoid generalizing this one finding to every `entityInside` block. Runtime validation is deferred.
+This finding's concrete example is cobweb contact. The honey, sweet-berry, bubble-column and powder-snow movement response formulas are compared in slices 4.8–4.9; their unchanged callbacks may still be dispatched for shallow-overlap cells newly included by B's query. Other `entityInside` callback families and their query-triggered consequences remain open. Runtime validation is deferred.
