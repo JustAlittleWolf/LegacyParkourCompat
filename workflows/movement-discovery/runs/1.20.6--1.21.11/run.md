@@ -42,8 +42,10 @@
 - Slice 1.1 / stage 1 / diagonal keyboard input normalization precision: `findings`; F-3. Controller/alternate producers, sneak/item scaling and complete numeric closure remain open in `DEP-INPUT-SHAPE`. Paired methods inspected: A `KeyboardInput.tick(boolean,float)` and `Input.getMoveVector()`; B `KeyboardInput.tick()`, `ClientInput.getMoveVector()`, `LocalPlayer.applyInput()` / `modifyInput()` and `LivingEntity.applyInput()`. Key sampling and movement input transformations moved; the diagonal float precision delta is F-3, while non-keyboard producers and other scaling/consumer dependencies remain to be resolved. Evidence and hashes: `navigation-1.21.11.md`.
 - Slice 1.2 / stage 1 / double-tap sprint activation window: `findings`; F-1 documents configurable timer behavior (default still seven ticks).
 - Slice 1.3 / stage 1 / shallow-water sprint eligibility for grounded double-tap: `findings`; F-2. Other sprint eligibility/termination, auto-jump, jump toggle, flight, fall-flying, riding and incoming corrections: `pending`.
-- Stage 2 / player state, dimensions, effects and gates: `pending`.
-- Stage 3 / living movement integration, attributes, fluids, climb, glide, post-travel: `pending`.
+- Slice 2.1 / stage 2 / player pose dimension map and dimension scaling: `compared-no-difference` for the inspected map values and `LivingEntity.getDimensions()` wrapper; the map moved from `Player` to common `Avatar` in B, whose inheritance reaches LocalPlayer. Player pose-transition logic and other state remain pending.
+- Stage 2 / remaining player state, dimensions, effects and gates: `pending`.
+- Slice 3.1 / stage 3 / ground-jump vertical velocity application: `findings`; F-4.
+- Stage 3 / remaining living movement integration, attributes, fluids, climb, glide, post-travel: `pending`.
 - Stage 4 / entity collision, support, step-up, callbacks, velocity: `pending`.
 - Stage 5 / movement blocks, shapes, fluids, registrations and resources: `pending`.
 - Stage 6 / effects, enchantments, equipment, attributes and data/resources: `pending`.
@@ -64,16 +66,17 @@
 - [F-1: Double-tap sprint window is configurable in 1.21.11](findings/F-1-sprint-window.md) — source-confirmed; behavior differs when the newer option is not 7; default is 7 in B.
 - [F-2: 1.21.11 rejects sprint initiation in shallow water](findings/F-2-shallow-water-sprint.md) — source-confirmed for grounded double-tap route; downstream water-motion consequence inferred from paired travel methods.
 - [F-3: Diagonal keyboard input normalizes at different precision](findings/F-3-diagonal-input-precision.md) — source-confirmed; tiny input-component difference evaluated from Java float/double operations.
+- [F-4: Ground jump preserves a stronger upward velocity in 1.21.11](findings/F-4-ground-jump-upward-velocity.md) — source-confirmed when current Y velocity exceeds jump power.
 
 ## Resume checkpoint
 
-- Completed: verified exact A/B artifact hashes; confirmed official Mojmap alignment; compared the 1.20.6 -> 1.21.11 sprint-window and shallow-water sprint gates and recorded F-1/F-2; recorded the float normalization delta F-3; alternative input/scaling dependencies remain open.
+- Completed: verified exact A/B artifact hashes; confirmed official Mojmap alignment; compared the 1.20.6 -> 1.21.11 sprint-window and shallow-water sprint gates and recorded F-1/F-2; recorded the float normalization delta F-3 and ground-jump vertical assignment F-4; alternative input/scaling dependencies remain open.
 - Next: finish DEP-INPUT-SHAPE with numeric operation order and direct movement-consumer path; then continue stage 1 sprint gates and input/tick slices in order.
 - Do not regenerate A or B artifacts. Do not launch clients or perform gameplay testing. Keep newly found candidates separate until dependencies are traced.
 
 ## Source audit closure
 
-- Coverage: 3 findings; all other slices pending or in-progress; 0 stages fully closed.
-- Unresolved gaps: all paired stages beyond the two narrow sprint slices, exact input transformation semantics, effects/resources and dependency closures.
+- Coverage: 4 findings; 1 compared-no-difference; other slices pending or in-progress; 0 stages fully closed.
+- Unresolved gaps: all remaining paired stages beyond these bounded findings and the dimension-map slice, exact input transformation semantics, effects/resources and dependency closures.
 - Evidence/hash audit: client, mapping, mapped-jar, version-json hashes are from provenance manifests and were rechecked locally for A; B hashes are rechecked against its previous run manifest. Cited source hashes are in the finding/index.
 - Runtime validation: not performed (separate workflow).

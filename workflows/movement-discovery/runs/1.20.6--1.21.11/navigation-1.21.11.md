@@ -80,3 +80,14 @@ This is an exact-source inventory for the newer endpoint only. It records useful
 - A source order: keyboard impulses `(1.0F,1.0F)` -> `LivingEntity.aiStep()` multiplies both by `0.98F` -> `Entity.getInputVector` sees squared length over one and normalizes a `Vec3` with double `Math.sqrt`.
 - B source order: keyboard creates normalized `Vec2` using `Mth.sqrt(float)` -> `LocalPlayer.modifyInput()` applies `0.98F` and square-movement shaping -> the resulting float diagonal components have squared length below one, so `Entity.getInputVector` does not normalize again.
 - For the stated no-slowdown diagonal precondition and yaw zero, direct evaluation yields A approximately `0.7071067811865476` and B approximately `0.7071067690849304` per horizontal input component. Finding F-3 records the source anchors, hashes and inference boundary. The slice remains limited to built-in keyboard diagonal input; analog and other scaling paths remain in `DEP-INPUT-SHAPE`.
+
+## Stage 2 — player pose dimensions (bounded no-difference slice)
+
+- A `Player` directly owns the pose-dimension map at `world/entity/player/Player.java:132-153` and overrides `getDefaultDimensions(Pose)` at lines 1997-1998. B moves the same map values into `world/entity/Avatar.java:17-40` and `Avatar.getDefaultDimensions(Pose)` at lines 64-66; B `Player extends Avatar`, so LocalPlayer inherits it.
+- The inspected entries match: standing `0.6F x 1.8F`, sleeping shared dimensions, fall-flying/swimming/spin-attack `0.6F x 0.6F` with `0.4F` eye height, crouching `0.6F x 1.5F` with `1.27F` eye height and the same vehicle attachment, dying fixed `0.2F x 0.2F` with `1.62F` eye height. The `LivingEntity.getDimensions(Pose)` special-cases sleeping, otherwise calls the selected default dimensions and scales by `getScale()` with the same expression on A and B.
+- This no-difference conclusion is limited to those player dimensions and the wrapper. Pose selection/transition timing, eye/fluid consumers and other state defaults remain pending. B `Avatar.java` SHA-256 `a3f54b9ff81ee203f77efcf5dcab50d69ec9a3d2c5430ce4c4b2ae0abb4bfca9`; A/B Player and LivingEntity hashes are recorded in the artifact/source inventory.
+
+## Stage 3 — ground jump vertical application (F-4)
+
+- A `LivingEntity.jumpFromGround()` assigns the computed jump power directly to Y at lines 2069–2080; B uses `Math.max(jumpPower,currentY)` at lines 2269–2281.
+- Both living-entity AI jump blocks reach the method under jump/fluid/ground gates (A line 2656, B line 2946). The sprint impulse remains the same in the bounded method. See F-4 for exact precondition, hashes and inference boundary.
