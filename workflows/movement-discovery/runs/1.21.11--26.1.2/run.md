@@ -1,83 +1,93 @@
 # Discovery: 1.21.11 to 26.1.2
 
-- Status: blocked
+- Status: partial
 - Scope: client player movement; older A = 1.21.11; newer B = 26.1.2
-- Repository revision and start date: `f294fa30555e360a2f8bacee50852e45b89d6250`; 2026-09-26
-- Mapping alignment: **blocked: mapping alignment**. The decompiler resolved both requested IDs exactly. No single supported family produced mapped sources for both releases. No source comparison or movement findings were started.
-- Source preparation commands (all with `-g .gradle-user-home`):
-  - `gradlew.bat decompileMinecraft --versions=1.21.11,26.1.2 --mappings=mojmap` — 1.21.11 finished as `mojmap`; 26.1.2 rejected: no official Mojang mappings.
-  - `gradlew.bat decompileMinecraft --versions=1.21.11,26.1.2 --mappings=yarn` — 1.21.11 finished as `yarn` build `1.21.11+build.6`; 26.1.2 rejected: no Yarn builds.
-  - `gradlew.bat decompileMinecraft --versions=26.1.2 --mappings=legacy-yarn` — rejected: no Legacy Yarn builds.
-  - `gradlew.bat decompileMinecraft --versions=26.1.2 --mappings=feather` — rejected: no Feather builds.
-  - `gradlew.bat decompileMinecraft --versions=1.21.11 --mappings=unobfuscated` — rejected: 1.21.11 client jar is obfuscated.
-- Decompiler logs: Gradle output was captured in the task transcript but not persisted as files. The successful completion lines and the mapping rejection messages are recorded above. No raw log is claimed.
-- Toolchain: JDK 25.0.3+9-LTS for Vineflower; Gradle 9.7.1; Vineflower 1.12.0; Tiny Remapper 0.14.1; Mapping IO 0.9.1. Default heap 4G and repository decompiler options. (Gradle wrapper distribution downloaded during this run.)
+- Repository revision at start: `c1b613fd1c5b3301cb67bf0ccf86f98614b51fd9`; date: 2026-09-26
+- Selected naming namespace: Mojang official names. A uses the release's official Mojmap; B is published unobfuscated and already uses official names. The workflow's revised alignment rule expressly permits this pairing.
+- Source preparation commands:
+  - A (source reused from the preceding discovery run): `gradlew.bat decompileMinecraft --versions=1.21.11,26.1.2 --mappings=mojmap`; this overall invocation failed later when 26.1.2 had no Mojmap artifact, but first logged `Finished 1.21.11 using mojmap`. The raw log was not retained; a concise transcript extract is at `build/movement-discovery-1.21.11-mojmap-log-extract.txt` and is labeled as a transcription, not the raw log.
+  - B: `gradlew.bat -g .gradle-user-home decompileMinecraft --versions=26.1.2 --mappings=unobfuscated`; raw successful log: `build/movement-discovery-26.1.2-unobfuscated.log`.
+- Toolchain: Gradle 9.7.1; JDK 25.0.3+9-LTS decompiler JVM; Vineflower 1.12.0; Tiny Remapper 0.14.1; Mapping IO 0.9.1; default 4G heap and repository decompiler options. B completed with `BUILD SUCCESSFUL`; the log contains one processed-twice notice for `CarvingMask`, unrelated to movement, and no decompiler error summary.
+
+The old blocked mapping conclusion in the parent version of this file is superseded by the revised official-name alignment rule and this successful retry. This run is partial because only the slices listed below have been inspected. It makes no claim that movement is equivalent across the releases.
 
 ## Artifact manifest
 
-Cached artifacts are local, ignored files under `build/minecraft-decompile-cache/`; source outputs are ignored under `decompiled_minecraft/`. Hashes below are SHA-256. Mojang version JSON records identify the exact client and mapping artifacts; hashes are recorded here for reproducibility.
+Hashes are SHA-256 unless labeled publisher SHA-1. Cached jars and sources are ignored local artifacts; they are not included in this commit.
 
 ### A — 1.21.11
 
-- Exact resolved release: `1.21.11` (requested `1.21.11`; log confirmed exact match).
-- Client jar: `build/minecraft-decompile-cache/1.21.11/client.jar`; SHA-256 `1473c9489ac50fda3c435049a76a70d61a10b8610db27f5ba9d8756b686cd3bd`; Mojang version JSON SHA-256 `13e195800429ad001c3d897dd646638b2bc9a9fc5ce01d840d440eb0f2ea5351`.
-- Mojmap attempt: `client_mappings.txt`, SHA-256 `517799a8485e107e932dc1bd27c002b2d0b9207eb2396b685bcfe6c3321a9fbd`; mapped jar `client-mojmap.jar`, SHA-256 `853daa46088f8f5c6924d08a4019394c1647d847015fe399c791872aaac5f26f`; output `decompiled_minecraft/1.21.11/mojmap/`. Official mapping coordinate is the version JSON `downloads.client_mappings` object; release-specific mapping artifact.
-- Yarn attempt: coordinate `net.fabricmc:yarn:1.21.11+build.6`; mapping file `build/minecraft-decompile-cache/yarn/yarn-1.21.11+build.6.tiny`, SHA-256 `c48df4f527e02d402a8ebc92c612cb152cb50adab9fb98d57c9b2124b040d14a`; mapped jar `client-yarn.jar`, SHA-256 `7885154016fb685870489b3c67158fda6eb0c5d37fb1a622aaf815266e94cce3`; output `decompiled_minecraft/1.21.11/yarn/`.
-- No source/resource evidence was cited because comparison could not begin.
+- Exact requested/resolved release: `1.21.11` / `1.21.11` (exact resolution and successful `Finished 1.21.11 using mojmap` were confirmed in the preceding decompiler task output).
+- Client jar: `build/minecraft-decompile-cache/1.21.11/client.jar`; SHA-256 `1473c9489ac50fda3c435049a76a70d61a10b8610db27f5ba9d8756b686cd3bd`; Mojang publisher SHA-1 `ba2df812c2d12e0219c489c4cd9a5e1f0760f5bd`; version JSON SHA-256 `13e195800429ad001c3d897dd646638b2bc9a9fc5ce01d840d440eb0f2ea5351`.
+- CLI mode / naming namespace: `mojmap` / Mojang official names.
+- Official mapping artifact: Mojang `client.txt`, release-specific URL recorded in version JSON; publisher SHA-1 `031a68bebf55d824f66d6573d8c752f0e1bf232a`; cached file `build/minecraft-decompile-cache/1.21.11/client_mappings.txt`, SHA-256 `517799a8485e107e932dc1bd27c002b2d0b9207eb2396b685bcfe6c3321a9fbd`.
+- Remapped jar: `build/minecraft-decompile-cache/1.21.11/client-mojmap.jar`; SHA-256 `853daa46088f8f5c6924d08a4019394c1647d847015fe399c791872aaac5f26f`.
+- Source root: `decompiled_minecraft/1.21.11/mojmap/`; it existed from the previous successful run. The client, mapping, remapped-jar, and version-JSON hashes match the preceding run manifest, establishing provenance. It was not regenerated during this retry.
 
 ### B — 26.1.2
 
-- Exact resolved release: `26.1.2` (requested `26.1.2`; log confirmed exact match).
-- Client jar: `build/minecraft-decompile-cache/26.1.2/client.jar`; SHA-256 `b1b3158572666445eff01e82fad8c7de2e4953db6d354f311730d77a8359d0b0`; Mojang version JSON SHA-256 `2e7b23dcfb78ab3921ea663347be48508cbb286756d2b46027b47008a006c85c`.
-- Mojmap rejected because the version JSON has no official `client_mappings` artifact. Yarn, Legacy Yarn and Feather were each rejected by their family resolver for lack of builds. No mapped jar or source output was produced for this run.
-- No source/resource evidence was cited because comparison could not begin.
-
-## Mapping-family availability result
-
-| Family | 1.21.11 | 26.1.2 | Result |
-| --- | --- | --- | --- |
-| `mojmap` | Available; successful decompile | Unavailable; no official mappings | Not common |
-| `yarn` | Available (`1.21.11+build.6`); successful decompile | Unavailable; catalog returned no builds | Not common |
-| `legacy-yarn` | Not queried | Unavailable; catalog returned no builds | Not common |
-| `feather` | Not queried | Unavailable; catalog returned no builds | Not common |
-| `unobfuscated` | Unavailable; client jar is obfuscated | Not queried | Not common |
-
-Family checks used the repository's `decompileMinecraft` resolver and its configured mapping catalogs. A third release or a different mapping namespace was not used to bridge the pair. Existing `decompiled_minecraft` outputs were inventoried before the task; neither requested version had an output directory. The generated `mojmap` and `yarn` outputs for A are task-created navigation artifacts only and are not evidence for a cross-release finding.
+- Exact requested/resolved release: `26.1.2` / `26.1.2` (`Decompiling Minecraft 26.1.2 (requested '26.1.2')` in the retained successful log).
+- Client jar: `build/minecraft-decompile-cache/26.1.2/client.jar`; SHA-256 `b1b3158572666445eff01e82fad8c7de2e4953db6d354f311730d77a8359d0b0`; Mojang publisher SHA-1 `4e618f09a0c649dde3fdf829df443ce0b8831e65`; version JSON SHA-256 `2e7b23dcfb78ab3921ea663347be48508cbb286756d2b46027b47008a006c85c`.
+- CLI mode / naming namespace: `unobfuscated` / Mojang official names. The exact version JSON has no `downloads.client_mappings`; the decompiler accepted the original jar in `unobfuscated` mode, and the success log confirms the selected output.
+- Mapping file and remapped jar: not applicable; published unobfuscated client jar was decompiled directly.
+- Source root: `decompiled_minecraft/26.1.2/unobfuscated/` (`Finished 26.1.2 using unobfuscated`). Before the run, this target directory did not exist.
 
 ## Correspondence and call order
 
-Not established. Per workflow, source correspondence requires one explicit mapping family available for both exact releases. No guessed name-based correspondence is recorded.
+The class chain is A `LocalPlayer.java:105 -> AbstractClientPlayer.java:26 -> Player.java:124 -> Avatar.java:12 -> LivingEntity.java:145`; B `LocalPlayer.java:108 -> AbstractClientPlayer.java:19 -> Player.java:125 -> Avatar.java:13 -> LivingEntity.java:142`. `LivingEntity` extends `Entity` on both sides. The inheritance/member descriptors were inspected directly. The same names corroborate structure but do not prove behavioral identity; compared method bodies and call paths below were opened independently.
+
+- Input: `KeyboardInput.tick() -> ClientInput` fields `keyPresses` / `moveVector -> LocalPlayer.aiStep()`. The ordered key reads, boolean-to-impulse mapping, `Vec2(left, forward).normalized()` and forward-impulse threshold match in the inspected code. `ClientInput.makeJump()` sets only jump while preserving the other six input fields on both sides.
+- Local-player tick path: `LocalPlayer.aiStep() -> AbstractClientPlayer.aiStep() -> Player.aiStep() -> LivingEntity.aiStep() -> this.travel(input)` when local movement simulation is active. Call anchors: A `AbstractClientPlayer.java:96`, `Player.java:452`, `LivingEntity.java:2877,2974`; B `AbstractClientPlayer.java:76`, `Player.java:442`, `LivingEntity.java:2976,3073`. `AbstractClientPlayer.aiStep()` updates bob then delegates; `Player.aiStep()` updates jump trigger, regeneration and inventory, handles flying fall reset, then delegates; `LivingEntity.aiStep()` conditionally dispatches travel. Input sampling, crouch state, sprint trigger, creative flight toggle, fall-flying request, water descent, vertical flight input, ride-jump accumulation and final superclass call were compared in `LocalPlayer.aiStep()`.
+- Travel dispatch: `Player.travel(input)` handles passenger, swimming pitch impulse, and flight-Y preservation before delegating to `LivingEntity.travel(input)`; the compared branch order and expressions match. `LivingEntity.travel` dispatches fluid, fall-flying, or air movement. The client player inherits this Player/LivingEntity route.
+- Jump impulse: `LivingEntity.jumpFromGround()` reads `getJumpPower()`, applies `Math.max(jumpPower, movement.y)`, then the sprint impulse from yaw using `0.2`; the same expression and `needsSync` write occur in both versions. `getJumpPower()` inputs/registrations remain outside the inspected closure.
+- Edge probing: `Entity.move()` calls virtual `maybeBackOffFromEdge`; Player overrides it. The Player override and its `isAboveGround` / `canFallAtLeast` helpers were checked on both sides. The conditions, 0.05 step, axis order, 1.0E-7 inset, AABB construction and returned Y component match. `LocalPlayer` inherits this Player behavior.
+
+Class-source hashes for the additional call-chain sources: A `AbstractClientPlayer.java` SHA-256 `afe84ab1491a17aeeccf895ca4ecb17e941b8e517c980e31281b3d463fc593bd`; `Avatar.java` `a3f54b9ff81ee203f77efcf5dcab50d69ec9a3d2c5430ce4c4b2ae0abb4bfca9`. B `AbstractClientPlayer.java` `7825a8d4e8e24928cba18f68109c91479b78fb14fcd8b81f0e045b8d02a559cc`; `Avatar.java` `01a8092bc2637e7d42a261fb564bffcabadd28625cc02b120e943559e2d4fe78`.
+
+Additional sources inspected for the impulse-context disposition: `ServerPlayer.java`, A SHA-256 `5cd23824185202d9367674c9c208415f0f5f9922a247f0749c28849e295694b0`, B `fe7146799ebe95ba92220ad21a38a80f5352ddbb21ccefb93063b8f9a89631dd`; `MaceItem.java`, A `595f0163bfa84709a0d3b97e366b295f5a537047910c7496d4802e03fa8f00c8`, B `69edc2bf645208836ff0afa09a3b378e98a56280d87ef7edb0f703415429e2a0`; `ApplyEntityImpulse.java`, A `5fa3c794c353832d4c62b8c29ff68fb13d95492e6cb9d517d9a3d068dba9531c`, B `eb64f0ce17438816c805eb609faa03046fd0881bb0122d8838d28111d645fe9e`.
+
+Fall-callback source hashes: `Block.java`, A SHA-256 `bd7f69ffe617fa1008c9311ad7c731b23f242acb5ff3bab8c1a81e41e7d15a73`, B `1693cfb7b84190a2fe664470a56d59e78ed5bd7d722a2bd16888b036d4d8e977`.
 
 ## Coverage ledger
 
-Comparison could not begin due to mapping alignment. All workflow navigation stages are blocked at the shared prerequisite:
+- Slice 1.1 / stage 1 / keyboard sampling and diagonal normalization: `compared-no-difference`. A: `decompiled_minecraft/1.21.11/mojmap/net/minecraft/client/player/KeyboardInput.java:10-37` and `ClientInput.java:10-32`; B: corresponding files under `decompiled_minecraft/26.1.2/unobfuscated/`, same lines. SHA-256: A KeyboardInput `d5cb0e93df7f66755172d74e028225012ee33c6e4f0d510a1d8e25ba5497c0a3`; B `b4bbb410650444c30d2a62d70fd3c6cd1aefa104b8a12e474e2a478a62089c39`; ClientInput both `597a44339a99f1bce1b081614c7c2984ca03e255b40e9d247675a31b6f810d78`. Conclusion: no change in these input transformations; controller-specific input not inspected.
+- Slice 1.2 / stage 1 / local tick input-to-sprint, crouch, jump-toggle and ride-jump ordering: `compared-no-difference` for the inspected `LocalPlayer.aiStep()` body. A: `LocalPlayer.java:728-880`, SHA-256 `948e94f8e874b2f72e9a689e6e3ba1933f5728ec381d64f3bb5e2388718bd477`; B: `LocalPlayer.java:767-919`, SHA-256 `433fd995ad317af0f6ef0e50c1e8e3483cb8f00e0e327d4edf27a4dd99666eb`. Conclusion: call order, guards, constants and state writes inspected match; this does not disposition all LocalPlayer tick/input paths.
+- Slice 3.1 / stage 3 / Player travel wrapper: `compared-no-difference`. A `Player.java:1360-1383`; B `Player.java:1381-1404`. Passenger dispatch, swimming vertical impulse (`-0.2`, `0.085`, `0.06`), fluid test position, creative-flight Y preservation and `0.6` multiplier match. The class source hashes are A `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`; B `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d`.
+- Slice 3.2 / stage 3 / ground jump power and impulse application: `compared-no-difference` for `LivingEntity.getJumpPower(float)`, `getJumpBoostPower()` and `jumpFromGround()`. A `LivingEntity.java:2260-2281`; B `LivingEntity.java:2343-2364`. The attribute-times-multiplier-times-block-factor plus jump-boost sum, amplifier formula, threshold, max operation, sprint-angle math, `0.2` impulse, and synchronization write match. Dynamic attribute/effect values, application/removal and block-factor registrations remain open.
+- Slice 3.3 / stage 3 / travel branch and direct air, fluid and glide integration: `compared-no-difference` for the inspected `Player.travel`, `LivingEntity.travel`, `travelFlying`, `travelInAir`, `travelInFluid`, `travelInWater`, `travelInLava`, `jumpOutOfFluid`, `travelFallFlying`, `updateFallFlyingMovement`, `handleFallFlyingCollisions`, and `handleRelativeFrictionAndCalculateMovement` bodies. A: `Player.java:1360-1383`, `LivingEntity.java:2309-2497`, `2534-2544`; B: `Player.java:1381-1404`, `LivingEntity.java:2392-2586`, `2623-2633`. The order, guards, casts, constants, math expressions and state writes inspected match (including fluid slowdowns, gravity adjustments, glide math, and collision handoff). Dependency values such as attributes/effects, gravity, block friction, fluid state and collision results are not established by this slice.
+- Slice 4.1 / stage 4 / player edge-backoff loop: `compared-no-difference` for `Player.isStayingOnGroundSurface`, `maybeBackOffFromEdge`, `isAboveGround`, and `canFallAtLeast`. A: `Player.java:309`, `889-952`; B: `Player.java:299`, `880-950`. Virtual call evidence: A `Entity.java:711`, B `Entity.java:730`; the LocalPlayer inheritance chain reaches Player's override. The checked guard, shift predicate, step size, axis reduction order and support AABB expressions match. Full `Entity.move`, collision candidate selection, block callbacks and supporting-block updates remain unreviewed.
+- Slices 1.3-1.6 / stage 1 remaining input providers, tick initialization, auto-jump producers, correction handling and flight/riding transitions: `pending`.
+- Slices 2.1-2.6 / stage 2 pose/dimensions, swimming transitions, abilities, hunger, item use, sprint eligibility, jump-power providers and movement-state defaults: `pending`.
+- Slices 3.4-3.9 / stage 3 movement attributes and aggregation, gravity source, effects, water/lava defaults, climb, levitation/slow-falling, glide equipment and post-travel updates: `pending`.
+- Slices 4.2-4.7 / stage 4 full entity collision/step-up, axis ordering, support, velocity restitution, fluid contact, callbacks and packet updates: `pending`.
+- Slices 5.1-5.6 / stage 5 friction/speed/jump block values, shapes, fluid flow, registries and resources/tags: `pending`.
+- Slices 6.1-6.6 / stage 6 movement effects/enchantments/equipment, attributes, tags, components and server-synchronized inputs: `pending`.
+- Slices 7.1-7.5 / stage 7 knockback/corrections, explosions, pistons, launch items, riding transitions and external movement inputs: `pending`.
 
-- Slice ID / stage / behavior: 1 / local input and tick ordering; Status: `blocked`; A and B source members: not paired; rationale: no aligned mapped source pair.
-- Slice ID / stage / behavior: 2 / player-specific state and gates; Status: `blocked`; A and B source members: not paired; rationale: no aligned mapped source pair.
-- Slice ID / stage / behavior: 3 / living movement integration; Status: `blocked`; A and B source members: not paired; rationale: no aligned mapped source pair.
-- Slice ID / stage / behavior: 4 / entity movement and collision; Status: `blocked`; A and B source members: not paired; rationale: no aligned mapped source pair.
-- Slice ID / stage / behavior: 5 / blocks and fluids; Status: `blocked`; A and B source members: not paired; rationale: no aligned mapped source pair.
-- Slice ID / stage / behavior: 6 / effects, enchantments, attributes and equipment; Status: `blocked`; A and B source members: not paired; rationale: no aligned mapped source pair.
-- Slice ID / stage / behavior: 7 / external influences and dependency closure; Status: `blocked`; A and B source members: not paired; rationale: no aligned mapped source pair.
+## Dependency queue and unresolved candidates
 
-## Dependency queue and blockers
-
-- Blocker `MAP-ALIGNMENT`: 26.1.2 has no build in any community mapping catalog supported by this repository and no official Mojmap artifact. 1.21.11 is obfuscated, so `unobfuscated` cannot align it with a native namespace. A comparable pair needs both releases remapped into a verified common namespace using exact release-specific mappings, or a separately scoped mapping-normalization workflow. Do not infer alignment from similar names or bridge through another version.
+- `DEP-PLAYER-INPUT`: keyboard entry is checked; alternate input sources and all state writers before `LocalPlayer.aiStep` remain open. Continue stage 1.
+- `DEP-JUMP-ATTR`: equal `jumpFromGround` application does not establish equal `getJumpPower`, jump boost effect/attribute aggregation, or equipment/data inputs. Continue stage 2/6.
+- `DEP-TRAVEL-INPUTS`: direct travel algorithms match for equal inputs; `getFrictionInfluencedSpeed`, `getFluidFallingAdjustedMovement`, block friction, movement attributes, gravity, effects, fluid state/tags, collision shapes/results, and application timing remain open. Continue stages 3-6.
+- `DEP-COLLISION`: edge probing methods match, but `Entity.move` and dependent collision/support helpers have not been fully compared. Continue stage 4.
+- `DEP-DATA`: source saver omits resources; version-matched client jar resource entries and server-synchronized inputs have not been inventoried. Continue stages 5-7.
+- Candidate disposition — outside movement scope: In A, `Player.causeFallDamage` (`Player.java:1409-1437`) gates may-fly damage, awards the fall statistic, clamps effective fall distance from `currentImpulseImpactPos` only when the separate ignore flag is true, delegates damage to `LivingEntity.causeFallDamage`, and may reset context or propagate damage to passengers. In B, `Player.causeFallDamage` (`Player.java:1430-1440`) delegates directly to `LivingEntity.causeFallDamage` (`LivingEntity.java:1758-1782`), where impulse-distance handling was moved. The path is reached on landing: `Entity.checkFallDamage` (A `Entity.java:1411-1430`, B `1466-1490`) calls `Block.fallOn` (A `Block.java:455-456`, B `494-495`), which dispatches to `causeFallDamage`. The moved path resets impulse metadata and calculates/applies fall damage; it does not set player position or delta movement. This changes damage/stat/context results after movement/collision, not the movement trajectory. No movement finding is warranted.
+- Impulse-context path checked on both sides: A `Player` owns the fields (`Player.java:175-178`), saves/loads the context (`653-676`), decrements grace in its tick (`291-292`), and implements setters/resetters (`2004-2035`). B moves the fields to `LivingEntity` (`LivingEntity.java:196,269`), save/load (`728-729`, `817-818`), tick decrement (`2811-2812`), and setters/resetters (`1785-1815`); `isIgnoringFallDamageFromCurrentImpulse()` now tests non-null `currentImpulseImpactPos`. Grace decrements once per player tick on both sides. `ServerPlayer.onExplosionHit` (A `ServerPlayer.java:1270-1275`, B `1293-1298`) supplies the wind-charge ignore condition. `MaceItem.hurtEnemy` (A `MaceItem.java:55-75`, B `55-76`) supplies a mace context; on the ServerPlayer path both versions set delta Y to `0.01F`, establish the impact position/ignore context, send motion synchronization, and call knockback. `ApplyEntityImpulse.apply` (A/B `ApplyEntityImpulse.java:25-33`) adds the same computed vector and sets the same sync flags; its grace call changes from `Player` to `LivingEntity`, preserving the Player path. The base `Entity.onExplosionHit` hook is empty on both sides (A `Entity.java:3824`, B `3853`); explosion velocity is not written by the changed context handler.
+- Separate non-movement consequence: A `ServerPlayer.onExplosionHit` always stores the current impact position and separately sets the ignore boolean; B's setter stores the position only when the wind-charge ignore flag is true. `causeFallDamage` and `MaceItem.calculateImpactPosition` also change their context predicate from boolean-plus-position to position presence. `FALL_AFTER_EXPLOSION` reads the same fields on both sides (A `ServerPlayer.java:835-836`, B `845-846`). This may affect fall-damage/advancement context, including stale-context cases; those outcomes were not classified or runtime-tested and are outside this movement run. The exact remaining dependency for that adjacent behavior is the ordering of repeated `ServerPlayer.onExplosionHit` / `MaceItem.calculateImpactPosition` calls against `tryResetCurrentImpulseContext` and the `FALL_AFTER_EXPLOSION` trigger.
 
 ## Finding index
 
-None. No behavioral conclusion was drawn.
+No independently confirmed movement delta was found in the six bounded slices above; therefore there are no finding files yet. This is not a claim of overall equivalence.
 
 ## Resume checkpoint
 
-- Last completed slice: none; release and family availability check only.
-- Next step: obtain or build an independently verified normalization path that places both exact client jars in one common namespace, preserving per-release mapping provenance; then restart source navigation at stage 1.
-- Outstanding dependencies: mapping alignment; persisted raw Gradle logs are unavailable (the run transcript records success/failure summaries).
-- Assumptions requiring verification: any proposed mapping bridge must have exact release-specific inputs and validated namespace semantics before use.
+- Last completed: source provenance and mapping alignment; stage 1 keyboard and LocalPlayer input/sprint/jump slice; stage 3 direct jump/travel integration; stage 4 player edge-backoff loop.
+- Next: resolve `DEP-PLAYER-INPUT`, `DEP-JUMP-ATTR`, and `DEP-TRAVEL-INPUTS`; then inspect full Entity movement/collision in stage 4 before stages 5-7.
+- Current limits: input providers, player state defaults, data-driven effects/attributes/blocks/resources, collision closures and external inputs are uninspected. Fall-damage/advancement consequences of the impulse-context refactor are explicitly outside this movement catalog and remain unclassified.
 
 ## Source audit closure
 
-- Coverage counts: 0 compared; 7 blocked.
-- Unresolved gaps: all movement behavior, correspondence, resources and indirect dependencies remain unaudited because aligned source evidence is unavailable.
-- Evidence/hash/correspondence audit: release IDs confirmed by exact decompiler resolution logs; client and available mapping artifacts identified and hashed. No source hashes or findings are claimed.
+- Coverage: 6 bounded slices compared with no difference; all remaining navigation slices pending; 0 behavioral findings; 0 full stages closed.
+- Status: partial; the remaining scope and dependencies are listed above.
+- Evidence/hash/correspondence audit: exact releases, client hashes, A mapping hash/remapped jar provenance, B native-unobfuscated mode, successful B raw log and source roots recorded. Hashes cover every source file cited in the bounded comparisons and the impulse-context disposition. A's prior successful log was not retained as raw output; the available transcript extract is explicitly identified. Method correspondence is based on inspected signatures, call chains and bodies, not name equality alone.
 - Runtime validation: not performed (separate workflow).
