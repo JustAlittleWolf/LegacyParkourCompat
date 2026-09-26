@@ -26,4 +26,4 @@ In B, flowing water can directly change the velocity of a non-flying player ridi
 
 ## Handoff
 
-This finding covers the underwater-boat exception in the player water-current prepass. The shared current-sampling arithmetic, other fluid interactions, boat steering, and local mounted-input packet paths remain separate coverage.
+This finding covers the underwater-boat exception in the player water-current prepass. The shared current-sampling and flow-vector algorithms are compared in run slice 3.9; other fluid interactions, boat steering, and local mounted-input packet paths remain separate coverage.
