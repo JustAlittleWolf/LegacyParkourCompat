@@ -29,4 +29,3 @@ Input jars: A 1.14.4 SHA-256 `B3B2A798E2D67B566008FE4A03767AE2C7FF3F8C7BA6751E7B
 ## Scope note
 
 These resources are datapack inputs. Identical values or missing files alone do not establish a Java behavior conclusion. Findings cite their consumer, registration and the exact jar entries where those data values matter.
-

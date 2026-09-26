@@ -1,6 +1,6 @@
 # Discovery: 1.14.4 to 1.15.2
 
-- Status: active
+- Status: partial
 - Scope: client player movement; older A = exact Java Edition 1.14.4; newer B = exact Java Edition 1.15.2.
 - Repository revision and start date: `c133c2999b6673874e35bbdb26759548407f3e11`; 2026-09-26.
 - Selected naming namespace and alignment: Mojang official names / Mojmap for both releases. Each exact release used its own official `client.txt` mapping artifact. This is the same naming family, not cross-application of one release's mapping to the other. Requested and resolved IDs match both sides.
@@ -56,7 +56,7 @@ Findings are tracked one per file under `findings/`; add only after the bounded 
 
 ## Source audit closure
 
-- Coverage status: in progress; seven source-confirmed findings and a terminal input-refactor row are recorded. Other navigation stages have explicit open coverage gaps in `coverage-ledger.md`.
+- Coverage status: partial; seven source-confirmed findings and a terminal input-refactor row are recorded. Other navigation stages have explicit open coverage gaps in `coverage-ledger.md`.
 - Unresolved gaps: paired player-state, living-travel, collision-order, block/fluid consumer, effect/equipment and external-update audits.
 - Evidence/hash/correspondence audit: exact original client jars and release-specific Mojmap mappings are recorded. Each finding records cited source hashes; paired tags and resource hashes are in `resources-paired-tags.md`.
 - Runtime validation: not performed; gameplay trajectory validation is a separate workflow.
