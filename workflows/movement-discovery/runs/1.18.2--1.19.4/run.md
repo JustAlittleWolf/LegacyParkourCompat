@@ -66,7 +66,7 @@ The detailed paired coverage updates below supersede this initial ledger. Termin
 
 ## Finding index
 
-See F-001 through F-007 below. Findings are scoped to the stated player conditions; they do not establish first introduction releases inside the interval.
+See F-001 through F-008 in `findings/`. Findings are scoped to the stated player conditions; they do not establish first introduction releases inside the interval.
 
 ## Resume checkpoint
 
@@ -76,8 +76,8 @@ See F-001 through F-007 below. Findings are scoped to the stated player conditio
 
 ## Source audit closure
 
-- Coverage: 7 source-confirmed findings (F-001–F-007) and 11 bounded `compared-no-difference` slices; additional sub-slices remain pending or in progress.
-- Unresolved gaps: stages 1–7 are not closed; ground/air acceleration and drag; full jump/pose dependencies; collision and step callbacks; remaining inside-block consumers; shapes, registrations and resource/tag closures; attributes/effects; local-player packet and mount influences; relevant decompiler-warning bytecode review.
+- Coverage: 8 source-confirmed findings (F-001–F-008) and 12 bounded `compared-no-difference` slices; additional sub-slices remain pending or in progress.
+- Unresolved gaps: stages 1–7 are not closed; block/effect/attribute inputs to ground/air acceleration and friction; fluid height/flow inputs and other swimming, climbing, gliding and riding branches; full jump/pose dependencies; collision and step callbacks; remaining inside-block consumers; shapes, registrations and resource/tag closures; local-player packet and mount influences; relevant decompiler-warning bytecode review.
 - Runtime validation: not performed (separate workflow).
 
 ## A provenance verification update
@@ -127,12 +127,18 @@ Selected B files not in the initial anchor inventory: `net/minecraft/client/play
 - Slice 3.1 / ground jump power, Jump Boost arithmetic, and sprint jump impulse: `compared-no-difference` for the paired core methods. `LivingEntity.getJumpPower()` remains `0.42F * getBlockJumpFactor()`; `getJumpBoostPower()` remains `0.1F * (amplifier + 1)` when Jump Boost is active; `jumpFromGround()` retains the same double addition, vertical velocity write, yaw cast to float radians, and sprint impulse `0.2F` operation order. `Player.jumpFromGround()` still delegates then applies the same exhaustion values. Evidence: paired `world/entity/LivingEntity.java` hashes A `DB4168D531CAF18F22E3FEFD073365E776DA4075CE01452BB9F7671D9B458782`, B `C8D91AF61F87AAA1666DE79696D7CD9D4A8212D05F873BDAF28D7BB2926BF165`; paired `world/entity/player/Player.java` hashes as above. This result covers the formulas only: block jump-factor implementations/registrations, Jump Boost registration and other jump gates remain in the dependency queue.
 - Slice 3.2 / fall-flying fall-distance guard: `findings`; F-002.
 - Slice 3.3 / ordinary airborne sprint speed: `findings`; F-003 and F-004.
-- Remaining Stage 3 work: block/effect/attribute inputs to acceleration and friction, plus water/lava, swimming, climbing, glide and riding branches; resolve all helpers and attributes.
+- Remaining Stage 3 work: block/effect/attribute inputs to acceleration and friction, fluid height/flow inputs, and swimming, climbing, glide and riding branches; resolve all helpers and attributes.
 
 ## Stage 3 coverage update — input transform and ordinary gravity branch
 
 - Slice 3.4 / `Entity.getInputVector` and local ground/air travel input transform: `compared-no-difference` for the shared arithmetic. Both versions return zero when input length squared is below `1.0E-7`, normalize only when length squared is greater than `1.0`, scale by the supplied speed, and rotate X/Z using the same sine/cosine and operation order. In the ordinary non-fluid, non-gliding travel branch, both use block friction to select `friction * 0.91F` on ground or `0.91F` in air, call the same relative-friction movement method, apply the same Levitation/void/gravity alternatives, and multiply post-move X/Z by that factor and Y by `0.98F` unless `shouldDiscardFriction()`. `LocalPlayer.isEffectiveAi()` returns true in both versions, so the changed outer travel guard still enters this body for the local player. Evidence: `world/entity/Entity.java` A SHA-256 `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A`, B `3667FEE610CBC5F58012E3A8FB8D6C4849F649FB7FE5300595158112D8B4B58B`; `world/entity/LivingEntity.java` hashes in F-002/F-003. The input speed value itself remains independently covered by F-003/F-004; source friction values and effects are separate dependencies.
-- Remaining Stage 3 work: close the block/effect/attribute inputs to ground speed and friction, plus the water/lava, swimming, climbing, levitation/slow-falling, glide and ride branches. Do not generalize slice 3.4 to those branches.
+- Remaining Stage 3 work: close block/effect/attribute inputs to ground speed and friction, fluid height/flow inputs, swimming, climbing, levitation/slow-falling, glide and ride branches. Do not generalize slice 3.4 to those branches.
+
+## Stage 3 coverage update — player water/lava travel
+
+- Slice 3.6 / shared water and lava travel equations: `compared-no-difference` for the inspected local-player branches. Both `LivingEntity.travel(Vec3)` methods use the same water sprint slowdown (`0.9F`) or `getWaterSlowDown()` (`0.8F`), Depth Strider cap/airborne halving and interpolation, Dolphin's Grace override (`0.96F`), input scale, movement, horizontal-climb correction, `(waterSlowdown, 0.8F, waterSlowdown)` drag, fluid falling adjustment and collision escape test. Both use the same lava input scale, fluid-height threshold, `(0.5, 0.8F, 0.5)` drag or `0.5` scale, quarter-gravity, and collision escape test. The local-player travel body is entered in both versions; glide's separate F-002 behavior is not covered here. Evidence: paired `world/entity/LivingEntity.java` hashes A `DB4168D531CAF18F22E3FEFD073365E776DA4075CE01452BB9F7671D9B458782`, B `C8D91AF61F87AAA1666DE79696D7CD9D4A8212D05F873BDAF28D7BB2926BF165`; `getFluidFallingAdjustedMovement`, `getWaterSlowDown` and `canStandOnFluid` bodies are byte-for-byte equal. This compares formulas only, not the fluid-current prepass or water/lava flow data.
+- Slice 3.7 / underwater boat passenger water-current gate: `findings`; see F-008. The A/B branch and player velocity consequence are scoped in that finding.
+- Remaining Stage 3 work: close fluid flow and height inputs, block/effect/attribute inputs to acceleration and friction, and swimming, climbing, levitation/slow-falling, glide and other riding branches. Do not generalize slice 3.6 beyond the inspected water/lava travel equations.
 
 ## Stage 5 coverage update — common ice friction registrations
 
@@ -159,4 +165,4 @@ Selected B files not in the initial anchor inventory: `net/minecraft/client/play
 
 ## Current audit status
 
-This run remains partial. Confirmed findings: F-001 through F-007. Bounded no-difference slices are recorded for input sampling, shared player pose geometry, ground-jump core formulas, support-state consumers, mayfly/fall-flying input predicates, common horse-jump input, ability/hunger values at the sprint gate, ordinary travel input/gravity formulas, common ice friction registrations and the cited movement-tag defaults. The outstanding stage coverage is listed explicitly below; no claim of complete movement parity is made.
+This run remains partial. Confirmed findings: F-001 through F-008. Bounded no-difference slices are recorded for input sampling, shared player pose geometry, ground-jump core formulas, support-state consumers, mayfly/fall-flying input predicates, common horse-jump input, ability/hunger values at the sprint gate, ordinary travel input/gravity formulas, player water/lava travel equations, common ice friction registrations and the cited movement-tag defaults. The outstanding stage coverage is listed explicitly below; no claim of complete movement parity is made.
