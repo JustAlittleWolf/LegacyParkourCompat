@@ -94,3 +94,10 @@ Selected B files not in the initial anchor inventory: `net/minecraft/client/play
 - Runtime validation: not performed.
 
 - Stage 3 / fall-flying slow-fall-distance slice: `findings`; see F-002. The exact helper and player-reachable branch are paired. Fall-distance accumulation, Elytra entry/exit, and server-side consequences remain dependent slices.
+
+## Stage 1 coverage update — keyboard direction and threshold
+
+- Slice 1.1 / key sampling, impulse sign, move-vector representation, and forward-impulse threshold: `compared-no-difference` within these methods. A `KeyboardInput.tick(boolean)` and B `KeyboardInput.tick(boolean, float)` read `up`, `down`, `left`, `right`, jump and shift in the same order, and both use the same `calculateImpulse` body. A `Input.getMoveVector()` and B equivalent construct `Vec2(leftImpulse, forwardImpulse)`; `hasForwardImpulse()` uses `forwardImpulse > 1.0E-5F` on both. Evidence: paired files `decompiled_minecraft/<version>/mojmap/net/minecraft/client/player/{KeyboardInput,Input}.java`; SHA-256 values in the artifact manifest/source hash index. The sole difference in these sampled bodies is crouch-scale parameterization, separately recorded in F-001. This does not disposition gamepad/controller producers or downstream vector normalization.
+- Slice 1.2 / crouch and visual-crawl input multiplier: `findings`; F-001.
+- Slice 1.3 / local sprint gates and sprint-state lifetime: `in-progress`. B factors start conditions through `canStartSprinting()` and introduces `vehicleCanSprint()` plus a fall-flying gate; compare eligibility and downstream reachable player movement consumers before disposition. The removed A `sprintTime` field is currently a discarded candidate: full-tree search finds only its A declaration, increment and reset, with no reader; it is not evidence of a movement behavior delta.
+- Remaining Stage 1 work: finish sprint gates and flag consumers; compare jump/cooldown input, auto-jump, flight toggles, riding and tick order; then close the coverage row or retain dependencies.
