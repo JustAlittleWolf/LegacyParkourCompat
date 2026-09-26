@@ -26,4 +26,4 @@ The vector supplied to the auto-jump facing and collision probes can differ nume
 
 ## Handoff
 
-This finding covers the inverse-square-root dependency of the auto-jump probe only. Auto-jump input timers, all collision-probe geometry/shape dependencies and other edge-sneaking probes remain separate coverage. Runtime validation is deferred.
+This finding covers the inverse-square-root dependency of the auto-jump probe only. The auto-jump timer and ordinary jump-delay handling are compared in slice 1.6; collision-probe geometry/shape dependencies and other edge-sneaking probes remain separate coverage. Runtime validation is deferred.
