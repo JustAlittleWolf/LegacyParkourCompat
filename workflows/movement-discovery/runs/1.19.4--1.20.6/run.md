@@ -42,7 +42,7 @@ A/B correspondence seeds resolved from the filename inventories (Mojmap names): 
 
 - Stage 1 / local input and tick ordering: findings; slices: `S1-01` keyboard input tick compared-no-difference; `S1-02` input vector and forward predicate compared-no-difference; `S1-03` LocalPlayer tick field-access refactor compared-no-difference after getter verification; `S1-04` creative flight toggle findings in `findings/MC1194-1206-01.md` for the added ground-jump call on creative flight activation. `KeyboardInput.tick`, `Input.getMoveVector` and `Input.hasForwardImpulse` compared-no-difference; `LocalPlayer.tick` differences at `level.hasChunkAt`/`level().hasChunkAt` and `onGround`/`onGround()` resolve to the same fields through B getters. Passenger crouch slowdown remains queued for scope/dependency disposition.
 - Stage 2 / player-specific state and gates: in-progress; A/B player and entity anchors hash-verified; pose-fit refactor and passenger crouch state require bounded dependency tracing.
-- Stage 3 / living movement integration: in-progress; A/B living entity anchors hash-verified; bounded travel/jump comparisons pending.
+- Stage 3 / living movement integration: in-progress; bounded travel/jump slices `S3-01` gravity attribute source, `S3-02` fall-distance reset lifetime, and `S3-03` jump-power rounding have findings; remaining fluid, friction, acceleration, climb and effect closure is pending.
 - Stage 4 / entity movement and collision: in-progress; A/B entity/collision anchors hash-verified; movement and query comparisons pending.
 - Stage 5 / blocks and fluids: in-progress; B seed inventory and selected B resource entries recorded; A source/resource comparison and registration/override closure pending.
 - Stage 6 / effects, enchantments, attributes and equipment: in-progress; A/B code anchors hash-verified; paired consumers and data/resource closure pending.
@@ -57,12 +57,15 @@ A/B correspondence seeds resolved from the filename inventories (Mojmap names): 
 ## Finding index
 
 `MC1194-1206-01` — Flight activation adds a ground-jump impulse (source-confirmed).
+`MC1194-1206-02` — Living travel uses the synced gravity attribute (source-confirmed; default value unchanged).
+`MC1194-1206-03` — Slow Falling and Levitation reset fall distance across a broader set of states (source-confirmed).
+`MC1194-1206-04` — Jump Boost power sum is rounded to float before velocity assignment (source-confirmed).
 
 ## Resume checkpoint
 
-- Last completed slice: stage 1 bounded input methods and LocalPlayer.aiStep flight-toggle branch; one source-confirmed finding created.
-- Next step: stage 1 remaining sprint/jump/input closure and stage 2 pose/player-state slice; continue in order.
-- Outstanding dependencies: passenger crouch slowdown scope; pose-fit/query dependency; B resource closure; later navigation slices.
+- Last completed slice: stage 3 first bounded travel/jump comparison; three source-confirmed findings added.
+- Next step: disposition stage-1 passenger-only input scaling; close stage 2 pose, dimensions and ability gates; continue stage 3 dependencies in order.
+- Outstanding dependencies: passenger crouch slowdown scope; pose-fit/query dependency; gravity/jump attribute values and effects; resource closure; remaining navigation slices.
 - Namespace alignment: verified Mojmap-to-Mojmap for exact 1.19.4 and 1.20.6 artifacts; names alone are not treated as correspondence proof.
 
 ## Source audit closure
@@ -94,3 +97,9 @@ The successful decompiler output and cache are kept untracked/ignored. Gradle di
 - Passenger crouch slowdown candidate: `LocalPlayer.aiStep` now excludes passengers when setting the local `crouching` flag before `Input.tick(isMovingSlowly(), factor)`. This can alter input scaling forwarded to a ridden entity; determine whether any player movement state changes independently of the vehicle, and disposition against the explicit non-player-entity scope before closing S1.
 
 A-side hash cross-checks against the adjacent source manifest: `LocalPlayer.java` `8E7DA18F42D09FBB994F522C2B0E65FCB2BB83CABB21024360299D44D9674C58`; `KeyboardInput.java` `A8064906872955A3520398AB5B2A326552D424F41887D1294AA6A038E2623FF0`; `Input.java` `B302FFBC45C5F900EA18A4D4AF2DF6FA0454EA7CB7744A0D249061E5FCB97FBB`; `Entity.java` `3667FEE610CBC5F58012E3A8FB8D6C4849F649FB7FE5300595158112D8B4B58B`; `LivingEntity.java` `C8D91AF61F87AAA1666DE79696D7CD9D4A8212D05F873BDAF28D7BB2926BF165`; `Player.java` `5E4436AFCCB361156F8184E7A5CFD91D5B12DCFE8F5937B4AC23DD3EDDA737A2`. The B `ClientPacketListener.java` source hash is `E121E998EC25211AAECF91FFFD0EA699CEBD47EDDEA9134EFD3F2FFBEF8EB7CD`; A counterpart hash is `BCC74E52A32D20A3E993EBE4E08FFFE8CACA7481FAD8F326DACDC93796B2B715`.
+### Stage 3 evidence ledger (active)
+
+- `S3-01` Travel gravity source and dependent fluid gravity gate: finding `MC1194-1206-02`. B's default player gravity equals A's literal `0.08`; synced attribute modifiers remain an explicit external-input dependency.
+- `S3-02` Fall-distance reset timing/guards: finding `MC1194-1206-03`; position/velocity effects are not asserted.
+- `S3-03` Ground-jump power operation order: finding `MC1194-1206-04`; effect application and attribute defaults are linked dependencies.
+- Remaining stage-3 slices: ground/air acceleration and friction, water/lava, climbing, levitation/fall flying, post-travel updates and all callers/dependencies.`n
