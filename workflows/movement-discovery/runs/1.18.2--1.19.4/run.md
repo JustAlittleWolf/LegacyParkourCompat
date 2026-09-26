@@ -76,7 +76,7 @@ See F-001 through F-008 in `findings/`. Findings are scoped to the stated player
 
 ## Source audit closure
 
-- Coverage: 8 source-confirmed findings (F-001–F-008) and 17 bounded `compared-no-difference` slices; additional sub-slices remain pending or in progress.
+- Coverage: 8 source-confirmed findings (F-001–F-008) and 18 bounded `compared-no-difference` slices; additional sub-slices remain pending or in progress.
 - Unresolved gaps: stages 1–7 are not closed; remaining block/effect/attribute inputs to ground/air acceleration and friction; equipment and custom/server movement modifiers; world fluid layout/flow data, fluid propagation and other swimming, climbing, gliding and riding branches; full jump/pose dependencies; collision and step callbacks; remaining inside-block consumers; shapes, registrations and resource/tag closures; local-player packet and mount influences; relevant decompiler-warning bytecode review.
 - Runtime validation: not performed (separate workflow).
 
@@ -163,10 +163,14 @@ Selected B files not in the initial anchor inventory: `net/minecraft/client/play
 
 ## Stage 4/5 coverage update — collision and contact slices
 
-- Slice 4.1 / axis collision order and step-up candidate ordering: pending full call/member correspondence; initial paired `collide()` inspection shows the same Y, lower-magnitude-horizontal-first, other-horizontal axis order and candidate tie comparisons. The player step-height accessor change must be resolved through `LivingEntity.maxUpStep()` before closing.
+- Slice 4.1 / axis collision order and step-up candidate ordering: pending full shape/call correspondence; initial paired `collide()` inspection shows the same Y, lower-magnitude-horizontal-first, other-horizontal axis order and candidate tie comparisons. The step-height source change is closed for the inspected player-controlled historical mounts in slice 4.4 below.
 - Slice 4.2 / support position and careful-step callbacks: in-progress. `Entity.move()` changed `getOnPos()` to `getOnPosLegacy()`; B uses `0.2F`, matching A's inline support offset. `stepOn()` now dispatches for careful movement but relevant B callbacks add/move the careful-step guard into `MagmaBlock`, `RedStoneOreBlock`, `SlimeBlock` and `TurtleEggBlock`; compare their call paths and callbacks before disposition. B-only sculk step callbacks are modern additions.
 - Slice 4.3 / inside-block query bounds and cobweb slowdown: `findings`; see F-005. Query-bound dependencies on honey, bubble columns, powder snow and sweet-berry bush are pending.
 - Slice 5.1 / block-contact implementations, shapes, registrations and data: pending; include the callback dependencies above and all remaining navigation stage 5 categories.
+
+## Stage 4 coverage update — step height for player-controlled historical mounts
+
+- Slice 4.4 / step-up allowance for player-controlled pig, strider and horse movement: `compared-no-difference` for the reachable mounted-player value. In A, `ItemSteerable.travel()` sets a pig or strider's `maxUpStep` field to `1.0F` when a player is the first passenger and can control the mount. In B, `Entity.collide()` reads the new virtual `maxUpStep()` accessor, and `LivingEntity.maxUpStep()` returns at least `1.0F` when `getControllingPassenger()` is a Player; the pig/strider controlling-passenger and held-item gates correspond to their control paths. `AbstractHorse` sets its step value to `1.0F` in both versions. Thus these inspected controlled-mount paths supply the same step allowance to collision candidate generation. Evidence: `ItemSteerable.java` A SHA-256 `D778BA545B88A15392A359A3ED178F0F2067BA4E81C0EF7DDDE81C336C3BEEBA`, B `C8F1A7962DF72F5CE2CE0ECFE9D9D8E8553DB5D189FCF4FB3363C8813A5BAF9F`; `Pig.java` A `5069790A3B4E6367C468E33134FF10031502D5B7B10E8469C014894667B6B7BC`, B `9CE9BE143919288197D858755A0B78B96100D0E29058E3C512DE893A00D6BDF6`; `Strider.java` A `8A257FE15351AC1E0BE143DE5597CAE682E8704388128C4A451EEA545FA23A5A`, B `F6AB7B50AB1B84522E7B8173C6C479293A7120167444CB06D00286328F5E3969`; `AbstractHorse.java` hashes in stage 1 slice 1.5; `Entity.java` hashes in slice 3.4 and `LivingEntity.java` hashes in slice 3.6. This closes only the step allowance for these controlled mounts, not their movement-input logic, collision shapes or step callbacks.
 
 ## Stage 4 support-position follow-up — player consumers
 
