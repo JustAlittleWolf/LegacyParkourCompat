@@ -80,7 +80,7 @@ Fabric Loom splits environments. Common code lives in `src/main/`; client-only a
 
 - **ALWAYS:**
     - Verify that new mechanic changes apply *only* when the corresponding historical version/toggle is active, leaving default modern behavior intact when disabled.
-    - Check that the project builds cleanly using `gradlew build build` after any code modifications.
+    - Check that the project builds cleanly using `gradlew build` after any code modifications.
 
 - **ASK FIRST:**
     - Introducing heavy third-party Java libraries or external physics engines.
