@@ -66,7 +66,7 @@ The detailed paired coverage updates below supersede this initial ledger. Termin
 
 ## Finding index
 
-See F-001 through F-005 below. Findings are scoped to the stated player conditions; they do not establish first introduction releases inside the interval.
+See F-001 through F-007 below. Findings are scoped to the stated player conditions; they do not establish first introduction releases inside the interval.
 
 ## Resume checkpoint
 
@@ -76,7 +76,7 @@ See F-001 through F-005 below. Findings are scoped to the stated player conditio
 
 ## Source audit closure
 
-- Coverage: 5 source-confirmed findings (F-001–F-005) and 4 bounded `compared-no-difference` slices; additional sub-slices remain pending or in progress.
+- Coverage: 7 source-confirmed findings (F-001–F-007) and 7 bounded `compared-no-difference` slices; additional sub-slices remain pending or in progress.
 - Unresolved gaps: stages 1–7 are not closed; ground/air acceleration and drag; full jump/pose dependencies; collision and step callbacks; remaining inside-block consumers; shapes, registrations and resource/tag closures; attributes/effects; local-player packet and mount influences; relevant decompiler-warning bytecode review.
 - Runtime validation: not performed (separate workflow).
 
@@ -89,8 +89,8 @@ Selected B files not in the initial anchor inventory: `net/minecraft/client/play
 ## Current paired coverage
 
 - Stage 1 / input crouch-scaling slice: `findings`; see F-001. Paired path, helper, registration and equipment-slot closure are source checked.
-- Stage 1 / remaining input and tick order: pending.
-- Stages 2–7: pending; B-side navigation only so far.
+- Stage 1 / remaining input and tick order: in progress; see the bounded sprint-start interaction in F-006. Auto-jump triggering and complete tick/state-writer order remain pending.
+- Stages 2–7: see the paired updates below; stage closure and multiple dependency categories remain pending.
 - Runtime validation: not performed.
 
 - Stage 3 / fall-flying slow-fall-distance slice: `findings`; see F-002. The exact helper and player-reachable branch are paired. Fall-distance accumulation, Elytra entry/exit, and server-side consequences remain dependent slices.
@@ -99,15 +99,28 @@ Selected B files not in the initial anchor inventory: `net/minecraft/client/play
 
 - Slice 1.1 / key sampling, impulse sign, move-vector representation, and forward-impulse threshold: `compared-no-difference` within these methods. A `KeyboardInput.tick(boolean)` and B `KeyboardInput.tick(boolean, float)` read `up`, `down`, `left`, `right`, jump and shift in the same order, and both use the same `calculateImpulse` body. A `Input.getMoveVector()` and B equivalent construct `Vec2(leftImpulse, forwardImpulse)`; `hasForwardImpulse()` uses `forwardImpulse > 1.0E-5F` on both. Evidence: paired files `decompiled_minecraft/<version>/mojmap/net/minecraft/client/player/{KeyboardInput,Input}.java`; SHA-256 values in the artifact manifest/source hash index. The sole difference in these sampled bodies is crouch-scale parameterization, separately recorded in F-001. This does not disposition gamepad/controller producers or downstream vector normalization.
 - Slice 1.2 / crouch and visual-crawl input multiplier: `findings`; F-001.
-- Slice 1.3 / local sprint gates and sprint-state lifetime: `in-progress`. B factors start conditions through `canStartSprinting()` and introduces `vehicleCanSprint()` plus a fall-flying gate; compare eligibility and downstream reachable player movement consumers before disposition. The removed A `sprintTime` field is currently a discarded candidate: full-tree search finds only its A declaration, increment and reset, with no reader; it is not evidence of a movement behavior delta.
-- Remaining Stage 1 work: finish sprint gates and flag consumers; compare jump/cooldown input, auto-jump, flight toggles, riding and tick order; then close the coverage row or retain dependencies.
+- Slice 1.3 / local sprint gates and sprint-state lifetime: `in-progress`. B factors start conditions through `canStartSprinting()` and introduces `vehicleCanSprint()` plus a fall-flying gate; F-006 records a reachable water-travel consequence of the latter. Passenger eligibility and remaining flag consumers are open. The removed A `sprintTime` field is currently a discarded candidate: full-tree search finds only its A declaration, increment and reset, with no reader; it is not evidence of a movement behavior delta.
+- Remaining Stage 1 work: finish sprint gates and flag consumers; compare auto-jump timers and jump delay/cooldown callers, plus the complete local tick/state-writer order; then close the coverage row or retain dependencies.
+
+## Stage 1 coverage update — ability toggles and horse-jump input
+
+- Slice 1.4 / mayfly toggle and fall-flying command input: `compared-no-difference` for the inspected local input predicates and command sequence. Both `LocalPlayer.aiStep()` bodies decrement `jumpTriggerTime`, require a jump-key rising edge and no auto-jump to toggle flight, suppress the second-tap toggle while swimming, notify abilities on a toggle, and issue START_FALL_FLYING only when the same jump, ability, passenger, climbable, Elytra and `tryToStartFallFlying()` predicates pass. This is an input/command comparison only; the glide travel equations and packet/server authority remain separate. Evidence: paired `client/player/LocalPlayer.java` hashes A `99C2D18BCD23243AFB8F95C5BAFB21FB0BE7EA04AACBB14FCF7BE7CED2C9C095`, B `8E7DA18F42D09FBB994F522C2B0E65FCB2BB83CABB21024360299D44D9674C58`.
+- Slice 1.5 / mounted horse-jump charge input: `compared-no-difference` for the common 1.18.2 jumpable vehicle. A processes charge while `isPassenger()` and the vehicle implements `PlayerRideableJumping` with `canJump()` true; B requires a controlled vehicle implementing that interface, `canJump()` true, and `getJumpCooldown() == 0`. The only shared implementation is `AbstractHorse`: it remains the only 1.18.2 implementer; in B the interface's default cooldown is zero, and `AbstractHorse` does not override it. `AbstractHorse.canJump()` is `isSaddled()` on both sides. B's other implementer, Camel, and its nonzero cooldown behavior are modern-only and outside the historical feature intersection. The compared client blocks retain the same charge counter, scale arithmetic, release call and packet call. Evidence: paired `LocalPlayer.java` hashes above; `world/entity/PlayerRideableJumping.java` A `7F9D0612D15EBF84046F08490C9FA1BC8D3D837D0D7C4C3DDC2254DAC621B82A`, B `93506ACE1F4DDDCCC059FBD1728941AD69EDB89EA10DA92CAE236AABB8AC04B5`; `animal/horse/AbstractHorse.java` A `2AB94AE9C55DC5413D5A13F6CD2DCC432F97544FA6D9DB6D07C793CE572EBBC9`, B `538E06F092B59532E36CBC6724002CAD43BCBA5D1AE61289225807D339D6CC8E`.
+- Other Stage 1 slices still pending: complete sprint eligibility and tick-order/state-writer closure; auto-jump triggering and edge-space probes; jump delay/cooldown callers; ability flight movement; mounted input beyond the common horse charge path.
 
 - Stage 3 / airborne sprint speed numeric value and state lookup: `findings`; see F-003 and F-004. The stable-sprint float expression and sprint-transition timing are separate findings with the shared player-travel call chain recorded.
+- Stage 1 / fall-flying sprint-start predicate and its water-travel consequence: `findings`; see F-006. Passenger eligibility and broader sprint-state lifetime remain open.
+- Stage 1 / auto-jump probe normalization: `findings`; see F-007. Timer/input and collision-shape dependencies remain open.
 
 ## Stage 2 coverage update — player pose geometry
 
 - Slice 2.1 / common player pose dimensions and eye heights: `compared-no-difference` for the A/B intersection of player poses. `Player.POSES` retains the same standing, sleeping, fall-flying, swimming, spin-attack, crouching and dying dimensions; `getDimensions(Pose)`, `getStandingEyeHeight(Pose, EntityDimensions)` and `updatePlayerPose()` use the same player logic and relevant values. Paired evidence: `decompiled_minecraft/<version>/mojmap/net/minecraft/world/entity/player/Player.java` (hash A `BF639C1962FF90D69E4569B2B18F6FCF57AC46EF80B19686F0FBC1687FCA744A`, B `5E4436AFCCB361156F8184E7A5CFD91D5B12DCFE8F5937B4AC23DD3EDDA737A2`) and `world/entity/Pose.java`. B adds mob-specific enum values; they are not in the player pose map and are outside this bounded claim. Entity dimensions scaling and pose-transition callers remain to inspect.
-- Other player-specific gates/state: pending, including sprint eligibility (stage 1), flying/abilities, water/climb transitions, active-item state, and initialization/reset timing.
+- Other player-specific gates/state: pending, including remaining sprint eligibility (stage 1), ability flight movement, water/climb transitions, active-item state, and initialization/reset timing. Base ability values and unmounted sprint hunger input are covered in slice 2.2 below.
+
+## Stage 2 coverage update — ability values and sprint hunger gate
+
+- Slice 2.2 / ability flying speed and hunger values used by the local sprint gate: `compared-no-difference` for the inspected values and consumer predicates. `Abilities.java` is byte-for-byte identical (SHA-256 `A4F952ADA7BC3B21406FEAF13C171BFA22D36B01E265E3B987612F28B5609EDC` on both sides), including default `flyingSpeed = 0.05F`, stored flying/mayfly flags and speed accessors. Both local sprint gates use food level `> 6.0F` or `mayfly` for an unmounted player; B's separate passenger allowance is handled in the stage 1 sprint-gate dependency and is modern-mount-only in the inspected entity registrations. `FoodData` remains identical for the sprint-relevant food level, exhaustion and saturation updates; its only source diff in this class changes the starvation `DamageSource` API call. Evidence: `world/entity/player/Abilities.java` identical hash above; `world/food/FoodData.java` A `6B60D0DF297C059DDFC0A45599CB689B954046F41E6070C86821007B8EA4CCFC`, B `3288F1D1287F782164A3E55CF5BB2B08DEBAA36E79A19398D19C2C6EAEDCD59`.
+- This does not disposition movement-speed attribute modifiers, the other effects/enchantments, or server-synchronized ability/attribute values.
 
 ## Stage 3 coverage update — jump impulse core
 
@@ -130,4 +143,4 @@ Selected B files not in the initial anchor inventory: `net/minecraft/client/play
 
 ## Current audit status
 
-This run remains partial. Confirmed findings: F-001 through F-005. Bounded no-difference slices are recorded for input sampling, shared player pose geometry, ground-jump core formulas, and the support-state consumers above. The outstanding stage coverage is listed explicitly below; no claim of complete movement parity is made.
+This run remains partial. Confirmed findings: F-001 through F-007. Bounded no-difference slices are recorded for input sampling, shared player pose geometry, ground-jump core formulas, support-state consumers, mayfly/fall-flying input predicates, common horse-jump input and ability/hunger values at the sprint gate. The outstanding stage coverage is listed explicitly below; no claim of complete movement parity is made.
