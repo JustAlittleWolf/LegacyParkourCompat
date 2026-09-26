@@ -13,8 +13,8 @@ public final class MinecraftDecompileMain {
     }
 
     public static void main(String[] args) {
-        if (args.length < 3) {
-            System.err.println("Usage: MinecraftDecompileMain <cacheDir> <outputRoot> <version> [<version>...]");
+        if (args.length < 4 || !args[2].startsWith("--mappings=")) {
+            System.err.println("Usage: MinecraftDecompileMain <cacheDir> <outputRoot> --mappings=<auto|mojmap|legacy-yarn|yarn|feather|unobfuscated> <version> [<version>...]");
             System.exit(2);
         }
 
@@ -22,11 +22,12 @@ public final class MinecraftDecompileMain {
         Path cacheDir = Path.of(args[0]);
         Path outputRoot = Path.of(args[1]);
         List<String> versions = new ArrayList<>();
-        for (int i = 2; i < args.length; i++) {
+        List<String> mappings = splitVersions(args[2].substring("--mappings=".length()));
+        for (int i = 3; i < args.length; i++) {
             versions.addAll(splitVersions(args[i]));
         }
         try {
-            new MinecraftDecompileEngine(new StdDecompileLogger(), cacheDir, outputRoot).decompile(versions);
+            new MinecraftDecompileEngine(new StdDecompileLogger(), cacheDir, outputRoot, mappings).decompile(versions);
         } catch (RuntimeException e) {
             e.printStackTrace(System.err);
             System.exit(1);
