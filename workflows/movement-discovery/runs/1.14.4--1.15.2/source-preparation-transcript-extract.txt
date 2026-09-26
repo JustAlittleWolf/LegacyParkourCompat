@@ -1,0 +1,12 @@
+# Source preparation transcript extract (transcribed from task output; not raw Gradle log)
+
+- Command: `gradlew.bat -g .gradle-user-home decompileMinecraft --versions=1.15.2 --mappings=mojmap`
+- Repository revision: `c133c2999b6673874e35bbdb26759548407f3e11`
+- Requested release resolved exactly: `Decompiling Minecraft 1.15.2 (requested '1.15.2')`
+- JDK: `25.0.3+9-LTS` (forked from `C:\Program Files\Eclipse Adoptium\jdk-25.0.3.9-hotspot`)
+- Mapping mode: `mojmap`; official Mojang mapping file downloaded and applied.
+- Output: `decompiled_minecraft/1.15.2/mojmap`
+- Decompiler: Vineflower; `Finished 1.15.2 using mojmap`
+- Warnings: three invalid-access remapper warnings for `MapRenderer$MapInstance` and fixer action for 1 class; Vineflower reported `ModelBakery.lambda$loadModel$25` and `$26` processed twice. No decompilation error was reported in the task output.
+- Result: `BUILD SUCCESSFUL in 3m 49s` (Gradle 9.7.1).
+- Limitation: this extract is a transcription of task output, not a raw saved log.
