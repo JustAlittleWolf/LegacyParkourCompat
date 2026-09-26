@@ -23,15 +23,16 @@ import java.util.List;
 /**
  * Downloads, remaps, and decompiles Minecraft client jars.
  *
- * <p>By default this produces {@code latest} (currently 26.2), {@code 1.8.9},
- * {@code 1.12.2}, and {@code 1.14.4}. Pass other version ids with
+ * <p>By default this produces {@code latest}, {@code 1.8.9},
+ * {@code 1.12.2}, {@code 1.13.2}, and {@code 1.14.4}. Pass other version ids with
  * {@code --versions} or {@code -Pversions=} / {@code -PminecraftVersions=}.
  * Exact ids such as {@code 1.8} are used as-is when they exist in the Mojang manifest.
  *
  * <p>Official Mojang mappings are used when published. Unobfuscated versions
  * are decompiled as-is. Versions through 1.12 prefer Ornithe Feather;
  * 1.13 and later prefer Fabric Yarn when Mojang mappings are unavailable.
- * (needed for versions such as 1.9 / 1.9.2 that Yarn does not cover).
+ * The 1.13.2 auto profile emits both Ornithe Feather and Legacy Yarn;
+ * the 1.14.4 auto profile emits both Mojang mappings and Fabric Yarn.
  * Without mappings the published client stays obfuscated in the default
  * package, and Vineflower's {@code net/minecraft} / {@code com/mojang}
  * filter emits only the few already-named classes.
@@ -68,7 +69,7 @@ public abstract class DecompileMinecraftTask extends DefaultTask {
             option = "versions",
             description = "Comma-separated Minecraft versions to decompile. "
                     + "Accepts exact version ids (1.8, 1.20.1) or 'latest'. "
-                    + "Default: latest,1.8.9,1.12.2,1.14.4"
+                    + "Default: latest,1.8.9,1.12.2,1.13.2,1.14.4"
     )
     public void setVersionsFromCli(String value) {
         getVersions().set(MinecraftDecompileMain.splitVersions(value));

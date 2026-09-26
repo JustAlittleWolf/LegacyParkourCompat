@@ -138,6 +138,16 @@ final class MinecraftDecompileEngine {
             if (!List.of("auto", "mojmap", "legacy-yarn", "yarn", "feather", "unobfuscated").contains(mapping)) {
                 throw new IllegalStateException("Unknown mapping set '" + requestedMapping + "'.");
             }
+            if ("auto".equals(mapping) && "1.13.2".equals(versionRef.id)) {
+                decompileMappedVersion(versionRef, version, versionCache, clientJar, libraries, "feather");
+                decompileMappedVersion(versionRef, version, versionCache, clientJar, libraries, "legacy-yarn");
+                continue;
+            }
+            if ("auto".equals(mapping) && "1.14.4".equals(versionRef.id)) {
+                decompileMappedVersion(versionRef, version, versionCache, clientJar, libraries, "mojmap");
+                decompileMappedVersion(versionRef, version, versionCache, clientJar, libraries, "yarn");
+                continue;
+            }
             decompileMappedVersion(versionRef, version, versionCache, clientJar, libraries, mapping);
         }
     }
