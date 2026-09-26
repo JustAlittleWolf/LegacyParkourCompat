@@ -12,4 +12,4 @@ The following exact jar entries were inspected directly from the original client
 | `data/minecraft/tags/blocks/bee_growables.json` | `9C4180B3A1015D700E15D5BBD699A19A46F4FE759BD31CE4C9EA92860DEEAC80` | `crops`, `sweet_berry_bush` |
 | `data/minecraft/tags/blocks/beehives.json` | `8B9102847F605DD72AA69DD6B7E4BCFFDCA25F385FD2F9FFD8EF862A28A18415` | `bee_nest`, `beehive` |
 
-These tag values are not themselves a movement difference. They are recorded for later consumer tracing. The B jar contains no `data/minecraft/enchantments/` entries; this is not absence evidence because enchantments in this version are code-registered. Pair tag contents and referenced values against A only after the 1.14.4 owner supplies a verified jar identity.
+These tag values are not themselves a movement difference. They are recorded for later consumer tracing. The B jar contains no `data/minecraft/enchantments/` entries; this is not absence evidence because enchantments in this version are code-registered. A and B tag contents and referenced values are paired in `resources-paired-tags.md` using the verified jar identities in `run.md`.
