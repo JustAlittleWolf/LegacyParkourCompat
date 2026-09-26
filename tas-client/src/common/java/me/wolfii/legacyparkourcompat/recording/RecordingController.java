@@ -254,7 +254,9 @@ public final class RecordingController {
             if (!this.automation.enabled() || this.automationFinished) {
                 if (this.worker == null || this.minecraft.isConnected() || this.minecraft.isConnecting()
                     || !this.minecraft.isReadyForAutoJoin()) return;
-                this.minecraft.connectToServer(this.automation.server());
+                if (this.automationJoinAttempts++ % 40 == 0) {
+                    this.minecraft.connectToServer(this.automation.server());
+                }
                 return;
             }
             if (!this.minecraft.isReadyForAutoJoin()) {
