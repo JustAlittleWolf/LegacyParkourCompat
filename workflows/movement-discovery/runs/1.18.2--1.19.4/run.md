@@ -103,3 +103,15 @@ Selected B files not in the initial anchor inventory: `net/minecraft/client/play
 - Remaining Stage 1 work: finish sprint gates and flag consumers; compare jump/cooldown input, auto-jump, flight toggles, riding and tick order; then close the coverage row or retain dependencies.
 
 - Stage 3 / airborne sprint speed numeric value and state lookup: `findings`; see F-003 and F-004. The stable-sprint float expression and sprint-transition timing are separate findings with the shared player-travel call chain recorded.
+
+## Stage 2 coverage update — player pose geometry
+
+- Slice 2.1 / common player pose dimensions and eye heights: `compared-no-difference` for the A/B intersection of player poses. `Player.POSES` retains the same standing, sleeping, fall-flying, swimming, spin-attack, crouching and dying dimensions; `getDimensions(Pose)`, `getStandingEyeHeight(Pose, EntityDimensions)` and `updatePlayerPose()` use the same player logic and relevant values. Paired evidence: `decompiled_minecraft/<version>/mojmap/net/minecraft/world/entity/player/Player.java` (hash A `BF639C1962FF90D69E4569B2B18F6FCF57AC46EF80B19686F0FBC1687FCA744A`, B `5E4436AFCCB361156F8184E7A5CFD91D5B12DCFE8F5937B4AC23DD3EDDA737A2`) and `world/entity/Pose.java`. B adds mob-specific enum values; they are not in the player pose map and are outside this bounded claim. Entity dimensions scaling and pose-transition callers remain to inspect.
+- Other player-specific gates/state: pending, including sprint eligibility (stage 1), flying/abilities, water/climb transitions, active-item state, and initialization/reset timing.
+
+## Stage 3 coverage update — jump impulse core
+
+- Slice 3.1 / ground jump power, Jump Boost arithmetic, and sprint jump impulse: `compared-no-difference` for the paired core methods. `LivingEntity.getJumpPower()` remains `0.42F * getBlockJumpFactor()`; `getJumpBoostPower()` remains `0.1F * (amplifier + 1)` when Jump Boost is active; `jumpFromGround()` retains the same double addition, vertical velocity write, yaw cast to float radians, and sprint impulse `0.2F` operation order. `Player.jumpFromGround()` still delegates then applies the same exhaustion values. Evidence: paired `world/entity/LivingEntity.java` hashes A `DB4168D531CAF18F22E3FEFD073365E776DA4075CE01452BB9F7671D9B458782`, B `C8D91AF61F87AAA1666DE79696D7CD9D4A8212D05F873BDAF28D7BB2926BF165`; paired `world/entity/player/Player.java` hashes as above. This result covers the formulas only: block jump-factor implementations/registrations, Jump Boost registration and other jump gates remain in the dependency queue.
+- Slice 3.2 / fall-flying fall-distance guard: `findings`; F-002.
+- Slice 3.3 / ordinary airborne sprint speed: `findings`; F-003 and F-004.
+- Remaining Stage 3 work: ground/air acceleration and friction, gravity/drag, climb, water/lava, swimming and riding branches; resolve all helpers and attributes.
