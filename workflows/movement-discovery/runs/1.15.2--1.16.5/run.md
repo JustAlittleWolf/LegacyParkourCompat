@@ -14,7 +14,7 @@
 
 - Provenance owner record: repository commit `3fe170f`, `workflows/movement-discovery/runs/1.14.4--1.15.2/run.md` and `source-preparation-transcript-extract.txt`. The transcript records a successful exact `1.15.2` Mojmap decompilation; this chat did not regenerate A.
 - Source root: `../../../../decompiled_minecraft/1.15.2/mojmap` (shared ignored output).
-- Original client jar: publisher SHA-1 `37fd3c903861eeff3bc24b71eed48f828b5269c8`; SHA-256 `4A73008A73F3824B7C711750A5A37556DF8614F193C0A531E292DAD159A73A7C`; size 15,531,492 bytes.
+- Original client jar: SHA-256 `4A73008A73F3824B7C711750A5A37556DF8614F193C0A531E292DAD159A73A7C`; size 15,531,492 bytes. The publisher SHA-1 was not included in the owner record.
 - Version JSON SHA-256 `E974511243E845B2427AB635EBA5612481CB420A70C0630AA041EAB3EEB590C5`.
 - Official client mapping URL `https://piston-data.mojang.com/v1/objects/1fbf9f0bc9c326af859b3ccf71c2a8f5edc47ef8/client.txt`; publisher SHA-1 `1fbf9f0bc9c326af859b3ccf71c2a8f5edc47ef8`; local SHA-256 `65AD295B6CF63821F5D8F961C128128475E6D39386358D22EB238A3CE6E31777`; size 4,972,120 bytes.
 - Remapped client jar SHA-256 `9B78CB6363696CA878D18B3A51A2E5D4AC626C9E06A4FA91B0B827FA85C2961A`; size 11,320,380 bytes.
@@ -62,31 +62,42 @@ Local input order observed in both versions: `LocalPlayer.tick()` checks chunk a
 
 ## Coverage ledger
 
-- Stage 1 — local input and tick ordering: `in-progress`; input and keyboard bodies match; `LocalPlayer.aiStep()` has a new cached crouching assignment in B that requires caller/consumer closure.
-- Stage 2 — player-specific state and gates: pending.
-- Stage 3 — living movement integration: pending.
-- Stage 4 — entity movement and collision: pending.
-- Stage 5 — blocks and fluids that produce movement inputs: pending.
-- Stage 6 — effects, enchantments, attributes and equipment: pending; resource inspection required.
-- Stage 7 — external influences and dependency closure: pending.
+- Stage 1 — local input and tick ordering: `in-progress`; input and keyboard `tick(boolean)` bodies match. Findings: sprint-trigger reset (`S1-01`), wall-escape search (`S1-02`), water-descent eligibility (`S1-03`). `onLadder`/`onClimbable`, cached crouch and water-vision differences remain incompletely closed.
+- Stage 2 — player-specific state and gates: `findings`; edge-restraint window and flight gate (`S2-01`). Pose dimensions and selected swimming/eye-height helpers appeared unchanged. Flight, food, blindness, item-use, riding, abilities defaults and reset paths remain open.
+- Stage 3 — living movement integration: `findings`; shallow-lava travel (`S3-01`) and liquid-jump changes (`S3-02`). Selected water-travel arithmetic and elytra formula appeared numerically equivalent. Ground/air friction, remaining jump paths, climbing, gliding and post-travel state are not fully closed.
+- Stage 4 — entity movement and collision: `in-progress`; wall escape is recorded in `S1-02`. Main axis collision/step resolution and selected AABB/shape methods appeared equivalent. Support lookup, callback order, query semantics, shape context and correction/explosion/piston paths remain open.
+- Stage 5 — blocks and fluids that produce movement inputs: `findings`; minimum weak-water current (`S5-01`) and added lava-current push (`S5-02`). Selected water/lava flow arithmetic was compared. No exhaustive registry/subclass, bounce, friction, web/honey, climbable, bubble-column or collision-shape survey is complete.
+- Stage 6 — effects, enchantments, attributes and equipment: `in-progress`; B adds Soul Speed consumption in `LivingEntity.getBlockSpeedFactor`, but registrations, tags, resource hashes, listed effects/enchantments, attribute defaults and equipment aggregation are not closed. A's original client jar has been recovered and SHA-256 verified; full resource inspection remains.
+- Stage 7 — external influences and dependency closure: `pending`; dismount replacement, fall-flying state synchronization, velocity correction, knockback/push, explosions, pistons and launch items have not been closed.
 
 ## Dependency queue and blockers
 
-- `S1-CROUCH-CACHE`: establish `crouching` field ownership/writes, all `isCrouching()` callers, local tick ordering, and whether cached-vs-computed pose state reaches movement/collision/input on differing preconditions; then write or discard a finding.
-- `S6-RESOURCES`: inspect original client-jar entries for both releases for block/fluid tags and movement-related defaults/effect/enchantment data; hash cited entries.
+- `S1-CLIMBABLE-TAG`: verify B climbable tag membership for blocks supported by A's `onLadder`; trace newly tagged states and their applicability.
+- `S1-CROUCH-CACHE`: audit every crouching consumer and timing to a terminal disposition.
+- `S1-WATER-VISION`: establish every `waterVisionTime` consumer and whether the changed eye-water query reaches locomotion or only rendering.
+- `S5-BLOCK-INVENTORY`: inspect registrations/overrides for friction, speed/jump factors, bounce, partial collision, webs/honey, climbables and bubble columns; distinguish B-only blocks.
+- `S6-RESOURCES`: inspect and hash exact-version movement data; close Speed, Slowness, Jump Boost, Levitation, Slow Falling, Dolphin's Grace, Blindness, Depth Strider, Frost Walker, Riptide and attributes/equipment. Soul Speed exists only in B and must remain modern-only.
+- `S7-EXTERNAL`: trace dismount replacement, fall-flying synchronization, player velocity/position corrections, knockback/push, explosions, pistons and launch items.
 
 ## Finding index
 
-No finding is accepted yet. The cached crouching assignment is an open candidate pending dependency closure.
+- `findings/s1-01-sprint-trigger-reset.md` — crouch clears pending auto-sprint trigger in B.
+- `findings/s1-02-wall-escape.md` — B tests a bounding-box slice; A tests selected block positions.
+- `findings/s1-03-water-descent-gate.md` — B gates local water descent on fluid effectability.
+- `findings/s2-01-edge-restraint-window.md` — edge-restraint window and ability-flight gate differ.
+- `findings/s3-01-shallow-lava-travel.md` — shallow-lava travel branch differs.
+- `findings/s3-02-fluid-jump-gates.md` — liquid-jump flight gate and shallow-lava jump selection differ.
+- `findings/s5-01-minimum-water-current.md` — B adds minimum weak-current push at low horizontal speed.
+- `findings/s5-02-lava-current-push.md` — B adds lava-current pushing.
 
 ## Resume checkpoint
 
-- Last completed slice: exact source preparation and initial A/B provenance; seed-class inventory; byte-identical input base and keyboard input bodies.
-- Next: finish Stage 1 around `LocalPlayer.aiStep`, crouching writers/readers, and `LivingEntity` tick dispatch; then proceed in navigation order.
-- Outstanding: all member-level correspondence and dependencies in stages 1–7; Stage 6 resources.
+- Last completed slice: source provenance and source-backed deltas across Stages 1–5; A client jar hash reverified. Eight findings are cataloged above.
+- Next: close Stage 1 climbable/crouch/vision dependencies, then complete the selected Stage 3/4 closure and inspect movement resources for Stages 5–6; finish Stage 7 external inputs.
+- Outstanding: substantial scoped audit coverage in every stage; this catalog is partial and not an exhaustive equivalence claim.
 
 ## Source audit closure
 
-- Coverage counts: 0 terminal; Stage 1 in progress; 6 pending.
-- Unresolved gaps: member correspondence, dependency closure, movement resource entries, and downstream slices.
+- Coverage counts: Stage 2 has a terminal `findings` row; Stages 1, 3, 4, 5 and 6 are partial/in-progress; Stage 7 is pending. This is not an exhaustive proof of equivalence.
+- Unresolved gaps: climbable/crouch/vision closure; broad blocks/effects/enchantments/attributes/resources; collision/support closure; external movement sources and remaining player gates.
 - Runtime validation: not performed (separate workflow).
