@@ -40,12 +40,12 @@ A/B correspondence seeds resolved from the filename inventories (Mojmap names): 
 
 ## Coverage ledger
 
-- Stage 1 / local input and tick ordering: findings; slices: `S1-01` keyboard input tick compared-no-difference; `S1-02` input vector and forward predicate compared-no-difference; `S1-03` LocalPlayer tick field-access refactor compared-no-difference after getter verification; `S1-04` creative flight toggle findings in `findings/MC1194-1206-01.md` for the added ground-jump call on creative flight activation. `KeyboardInput.tick`, `Input.getMoveVector` and `Input.hasForwardImpulse` compared-no-difference; `LocalPlayer.tick` differences at `level.hasChunkAt`/`level().hasChunkAt` and `onGround`/`onGround()` resolve to the same fields through B getters. `S1-05` passenger crouch slowdown: findings; see `findings/MC1194-1206-06.md` for the changed local-player input scaling and travel path. Any vehicle movement effect remains out-of-scope.
+- Stage 1 / local input and tick ordering: in-progress; slices `S1-01` keyboard input tick and `S1-02` input vector/forward predicate compared-no-difference; `S1-03` LocalPlayer tick accessor substitutions compared-no-difference; `S1-04` creative flight activation and `S1-05` passenger crouch slowdown have findings `MC1194-1206-01` and `MC1194-1206-06`. `KeyboardInput.tick`, `Input.getMoveVector` and `Input.hasForwardImpulse` are identical; B getter substitutions preserve the inspected `LocalPlayer.tick` values and order. Sprint start/stop and timers, yaw conversion, auto-jump, unstuck behavior and remaining input-state capture order are open. Vehicle movement remains out-of-scope.
 - Stage 2 / player-specific state and gates: in-progress; pose-fit and default player dimensions compare-no-difference; `Abilities` source is identical; findings `MC1194-1206-05` (scale) and `MC1194-1206-07` (step height) record modern-only synced attributes. Sprint hunger/effect, blindness, active-item, swimming/crawling and ability input/state closure remains.
 - Stage 3 / living movement integration: in-progress; bounded travel/jump slices `S3-01` gravity attribute source, `S3-02` fall-distance reset lifetime, and `S3-03` jump-power rounding have findings. Ground friction reads `getBlockPosBelowThatAffectsMyMovement`; B changes this lookup to the main supporting block path (Stage 4 dependency). Remaining fluid, acceleration, climb, levitation/fall-flying and effect closure is pending.
 - Stage 4 / entity movement and collision: in-progress; A/B `Entity.collide` step-up candidates and tie-breaks compared-no-difference; finding `MC1194-1206-07` records the nondefault step-height attribute. B support-position tracking and support lookup differ and remain queued for grounding, block-factor and collision-query closure.
 - Stage 5 / blocks and fluids: in-progress; seven movement tags in the A and B original client jars have matching SHA-256 hashes and contents; block callbacks, shapes, fluid movement and subclass registration closure remain.
-- Stage 6 / effects, enchantments, attributes and equipment: in-progress; A/B code anchors hash-verified; paired consumers and data/resource closure pending.
+- Stage 6 / effects, enchantments, attributes and equipment: in-progress; `S6-01` Swift Sneak bonus formula compared-no-difference (`level * 0.15F`); scale, step-height, gravity and jump attribute changes are covered by findings. Remaining effect formulas/conditions, enchantment aggregation and equipment/tag/data closure pending.
 - Stage 7 / external influences and dependency closure: in-progress; `S7-01` incoming entity-velocity and player-position handlers compared-no-difference for bounded payload application; explosion knockback addition is unchanged in the inspected handler. Corrections, push/launch paths and full external-state closure remain pending.
 
 ## Dependency queue and blockers
@@ -66,14 +66,14 @@ A/B correspondence seeds resolved from the filename inventories (Mojmap names): 
 
 ## Resume checkpoint
 
-- Last completed slice: stage 2 base pose fit, crouch/standing dimensions, abilities and synced-attribute findings; stage 4 step candidate comparison; stages 1 and 3 have findings.
+- Last completed slice: stage 2 base pose fit, crouch/standing dimensions, abilities and synced-attribute findings; stage 4 step candidate comparison; bounded findings exist in stages 1 and 3. Stage 1 remains open beyond the indexed slices.
 - Next step: complete stage 2 food/effect/sprint gate dependencies, then stage 3 travel closure and stage 4 supporting-block and collision-query slices.
 - Outstanding dependencies: food/effect gate dependency closure; gravity/jump attribute values and effects; block jump/friction dependencies; resource closure; remaining navigation stages.
 - Namespace alignment: verified Mojmap-to-Mojmap for exact 1.19.4 and 1.20.6 artifacts; names alone are not treated as correspondence proof.
 
 ## Source audit closure
 
-- Coverage counts: stage 1 includes findings and compared-no-difference sub-slices; stages 2-7 in-progress; 0 blocked.
+- Coverage counts: stages 1-7 in-progress; each has bounded findings or checked sub-slices; 0 blocked.
 - Unresolved gaps: stages 1-7 are not closed; resource, method and dependency closures remain. This checkpoint is partial.
 - Evidence/hash/correspondence audit: A/B artifacts and relevant source hashes verified; both console logs lack persistent raw files; stage-1 member references are in the finding.
 - Runtime validation: not performed (separate workflow).
@@ -133,3 +133,7 @@ This closes only these seven data entries. It does not establish that the consum
 
 - `S7-01` A/B `ClientPacketListener.handleSetEntityMotion(ClientboundSetEntityMotionPacket)`, A line 499 and B line 515, both resolve entity id and call `lerpMotion(packet xa / 8000.0, ya / 8000.0, za / 8000.0)` when present. `handleMovePlayer(ClientboundPlayerPositionPacket)`, A line 605 and B line 618, retains the same relative-axis flags, current-velocity preservation for relative axes, zeroing for absolute axes, old-position updates, then `setPos` and `setDeltaMovement`. A/B `ClientPacketListener.java` hashes are in the paired source inventory. Status: compared-no-difference for these inspected packet-to-player state writes; server-supplied values remain external inputs.
 - `handleExplosion` adds packet knockback to the local player delta movement in both versions. B constructs the client explosion with additional block-interaction and particle/sound packet fields before finalization; those world/visual inputs and possible world-state effects are not closed by this bounded knockback observation.
+
+### Stage 6 evidence ledger (bounded helper)
+
+- `S6-01` A/B `EnchantmentHelper.getSneakingSpeedBonus(LivingEntity)`, A line 194 and B line 169, have the same formula: `getEnchantmentLevel(Enchantments.SWIFT_SNEAK, entity) * 0.15F`. A file SHA-256 `C98B9E538AAE7FEA33A125560400F346745BAC993E859FFD3912DA58F3CC1128`; B file SHA-256 `E0B4C410E0AA9499D67B38F57B34467628E882BE960DCE6958D4BC8EF717A6B6`. Status: compared-no-difference for this formula only; level aggregation, equipped-item applicability and its downstream input/travel effects remain open.
