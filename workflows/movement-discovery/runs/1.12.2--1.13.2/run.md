@@ -54,7 +54,7 @@
 ## Dependency queue and blockers
 
 - `DEP-SWIM-STATE-CLOSURE`: The direct B water/submersion/swimming predicates and their entity/player writers were inspected. Still resolve pose/dimension transitions, fluid-height semantics and timing, fluid collision inputs, and travel consumers across stages 2-5; revisit sprint/flight conclusions if those paths alter applicability.
-- `DEP-A-PROVENANCE`: Import the 1.12.2 owner’s source preparation command, client/mapping/mapped-jar hashes and successful log reference; no re-decompilation. Needed to close paired-source audit.
+- `DEP-A-PROVENANCE`: closed by importing the 1.12.2 source owner Feather coordinate, client/mapping/remapped-jar hashes and successful task-output record; no re-decompilation. Raw log was not retained, and the owner reported 1 class / 33 member access repairs without the affected-target log.
 - `DEP-GLIDE-GROUPING`: The vertical-gaze guard and look-vector values are resolved in `glide-vertical-gaze.md`. Still determine whether B's regrouped default glide-gravity expression produces a reachable accumulated velocity difference at ordinary pitch; preserve exact floating-point order.
 - `DEP-EFFECT-TRAVEL`: Trace B Slow Falling and Dolphin's Grace registrations/application/data, Depth Strider aggregation and tags/resources; separate modern-only effects from historical behavior.
 - `DEP-LOOK-VECTOR`: Check changed A/B rotation-vector expressions at remaining reachable movement consumers (notably auto-jump, swimming and external movement) for additional numeric differences; the exact vertical-pitch glide path is documented.
@@ -71,7 +71,7 @@ Findings: `water-jump-height.md`, `water-sprint-gates.md`, `flight-toggle-swimmi
 - Last completed: paired A/B Feather provenance; stage 1.1 keyboard sampling; bounded stage 1, 2 and 3 water, ground and glide slices.
 - Next: finish stage 1 providers/tick order, auto-jump, corrections and riding; then stage 2 state writers, stage 3 movement/effect closure and stage 4 collision. Revisit water/pose findings as their dependencies close.
 - Outstanding dependencies: `DEP-SWIM-STATE-CLOSURE`, `DEP-GLIDE-GROUPING`, `DEP-EFFECT-TRAVEL`, `DEP-COLLISION-SHAPES`, `DEP-BLOCK-FRICTION`, `DEP-LOOK-VECTOR`, and the remaining stage 1-7 inventories.
-- Assumptions requiring verification: both versions’ Feather outputs are a valid common mapping family; A’s exact artifact hashes and resolver evidence are pending its owner’s handoff.
+- Assumptions requiring verification: both versionsG�� release-specific Feather outputs are the selected common mapping family; source/member correspondence continues to be verified behaviorally.
 
 ## Source audit closure
 
