@@ -97,3 +97,37 @@ This is an exact-source inventory for the newer endpoint only. It records useful
 - A and B share the `Entity.move()` -> virtual `Player.maybeBackOffFromEdge()` caller path and the inspected reduction loops/guards.
 - The paired `Player.canFallAtLeast()` AABB differs: A uses the full player X/Z bounds and `1.0E-5F` below the lower step bound; B insets X/Z by `1.0E-7` and uses `1.0E-7` for the lower extension. See F-5 for exact line anchors and hashes.
 - The query calls world `noCollision`; collision shape interactions in these margins remain dependencies. This slice records the changed query input, not a claim that ordinary support geometry always produces a different result.
+
+## Stage 5 — slime-block bounce and step friction (bounded movement comparison)
+
+- A/B `SlimeBlock.bounceUp(Entity)` use the same negative-Y test and multiplier (`1.0` for living entities, `0.8` otherwise); `stepOn()` uses the same `0.1` threshold and `0.4 + |deltaY| * 0.2` horizontal damping. The registration uses friction `0.8F` on both versions.
+- A `Entity.move()` invokes `updateEntityAfterFallOn()` after vertical collision; B calls the renamed `updateEntityMovementAfterFallOn()` when movement is simulatable. The client LocalPlayer is simulatable on B, and the corresponding Block superclass callback on each side applies `(1.0,0.0,1.0)` to delta movement. For the local-player movement callbacks, the inspected bounce/step response is unchanged.
+- Separate non-movement candidate: when bounce is suppressed, A `SlimeBlock.fallOn()` calls `super.fallOn()` (normal fall damage), whereas B does not call the superclass. The ordinary `Block.fallOn()` applies damage and does not set velocity/position; its health/death consequence is outside this trajectory comparison and remains explicitly dispositioned below.
+
+### Stage 2 source hash record
+
+- A `Player.java`: SHA-256 `785d93ccc94e1f912e545b2b0c355edeb352b44ee8e83a69364daec35266dbe2`; A `LivingEntity.java`: `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`.
+- B `Player.java`: SHA-256 `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`; B `Avatar.java`: `a3f54b9ff81ee203f77efcf5dcab50d69ec9a3d2c5430ce4c4b2ae0abb4bfca9`; B `LivingEntity.java`: `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`.
+
+## Stage 5 source hash record
+
+- A `SlimeBlock.java`: SHA-256 `62c1a543343cce23a47ff35ce51a4512637eda02c775db30bdefbe04d2673d46`; B: `86f4ced616a25bb8089f9ee2ff5a875f6e4f0ee0ab15b120863cd082cf35efd3`.
+- A `Blocks.java`: SHA-256 `684579bbcbe48b1f0984090a4ca044c0b2cee6d08c2dc1e449e2259389c5b129`; B: `cc6636f6ace603b32edd3db4c0cfcda60be08e2c6b5def783a698f105b8f7f23`.
+- A `Block.java`: SHA-256 `0c96f526470944baa74d212ca8bfb8b579fd6a1d7045498b8e062b4868bb8e09`; B: `bd7f69ffe617fa1008c9311ad7c731b23f242acb5ff3bab8c1a81e41e7d15a73`.
+
+## Stage 6 — movement effect registration and jump effect term (bounded comparison)
+
+- A `MobEffects` registers Speed (`MOVEMENT_SPEED`) at `0.2F` and Slowness (`MOVEMENT_SPEED`) at `-0.15F`, both with `ADD_MULTIPLIED_TOTAL`; B `SPEED` and `SLOWNESS` use the same attribute amounts and operation. A's `JUMP` and B's `JUMP_BOOST` both register resource id `jump_boost` and the same safe-fall-distance attribute modifier (`1.0`, `ADD_VALUE`).
+- A/B `LivingEntity.getJumpBoostPower()` use `0.1F * (amplifier + 1.0F)` and differ only in the mapped constant name (`JUMP` vs `JUMP_BOOST`). The same jump-power term feeds `getJumpPower()` in both.
+- This no-difference result is limited to these static values/operation and the jump-power formula. Attribute aggregation, effect application/removal, server synchronization, Speed/Slowness consumer closure, Jump Boost safe-fall consequences, and other effects/enchantments remain open. A `MobEffects.java` SHA-256 `9b24dee8a23a4b8730fdfa7ea9cbd560c9370599cc282fac1c0755f5894e7645`; B `MobEffects.java` `e27eef187ce134c3b64300fd7a4c7f691d553a172ec26ebac79797a030db7047`; A/B LivingEntity hashes are above.
+
+## Stage 7 — external input seed inventory (not compared)
+
+- A `net.minecraft.client.multiplayer.ClientPacketListener.handleSetEntityMotion(ClientboundSetEntityMotionPacket)` line 515 and `handleMovePlayer(ClientboundPlayerPositionPacket)` line 618; source SHA-256 `e121e998ec25211aaecf91fffd0ea699cebd47eddea9134efd3f2ffbef8eb7cd`.
+- B corresponding handlers are at lines 604 and 776; source SHA-256 `f1ebdb54d717266c894c87381c98bad101980d252de5bae6ca55c37aece1732e`. B movement-position handling writes packet delta movement at lines 793/797. Pair correspondence, correction flags, local-player reachability and interactions with the jump/input findings remain pending.
+
+## Stage 3.2 — powder-snow post-move boost predicate
+
+- A `LivingEntity.handleRelativeFrictionAndCalculateMovement(Vec3,float)` at lines 2268–2282 checks current `getInBlockState().is(POWDER_SNOW)` after `move()`; B at lines 2533–2544 checks `wasInPowderSnow`. A/B LivingEntity SHA-256: `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2` / `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`.
+- Both Entity tick paths roll `isInPowderSnow` into `wasInPowderSnow` then clear the current flag, and both `getInBlockState()` implementations query the current block position. Walkability rules match: tagged mob or leather boots. Entity hashes: `71cd6b9f6c002684154dce11d3745e8714d82f13c8e1b3aa56743930131c18f3` / `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3`; PowderSnowBlock hashes: `7a6d6ad2e6d6d719344de4bb4f4e4973387aa88e61757988afea25b46c176ad3` / `84e3f4c9063c6be560b400686afa2bcd6761585c9c56566d023ad8fe47048940`.
+- See F-6 for condition, applicability and unresolved occupancy-sequence reachability.

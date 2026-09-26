@@ -45,11 +45,12 @@
 - Slice 2.1 / stage 2 / player pose dimension map and dimension scaling: `compared-no-difference` for the inspected map values and `LivingEntity.getDimensions()` wrapper; the map moved from `Player` to common `Avatar` in B, whose inheritance reaches LocalPlayer. Player pose-transition logic and other state remain pending.
 - Stage 2 / remaining player state, dimensions, effects and gates: `pending`.
 - Slice 3.1 / stage 3 / ground-jump vertical velocity application: `findings`; F-4.
+- Slice 3.2 / stage 3 / post-move powder-snow vertical boost: `findings`; F-6, condition-level source delta. A concrete reachable divergence sequence remains unverified.
 - Stage 3 / remaining living movement integration, attributes, fluids, climb, glide, post-travel: `pending`.
 - Slice 4.1 / stage 4 / player edge-backoff support-query bounds: `findings`; F-5. Remaining entity movement, collision selection, support, step-up, callbacks and velocity closure: `pending`.
-- Stage 5 / movement blocks, shapes, fluids, registrations and resources: `pending`.
-- Stage 6 / effects, enchantments, equipment, attributes and data/resources: `pending`.
-- Stage 7 / external influences, corrections and dependency closure: `pending`.
+- Slice 5.1 / stage 5 / slime-block bounce and low-speed step movement: `compared-no-difference` for inspected callbacks and registered friction. The suppress-bounce `fallOn()` superclass difference affects fall damage and is documented as outside this movement slice. Other blocks, shapes, fluids, callbacks and resources: `pending`.
+- Slice 6.1 / stage 6 / Speed and Slowness movement modifiers plus Jump Boost jump-power term: `compared-no-difference` for the inspected registration values/operation and amplifier formula. Other effects, enchantments, equipment, aggregation, tags and data/resources: `pending`.
+- Stage 7 / external influences, corrections and dependency closure: `pending`; correction and motion packet consumers are inventoried in `navigation-1.21.11.md`, but not compared.
 
 ## Dependency queue and unresolved candidates
 
@@ -59,6 +60,7 @@
 - `DEP-TRAVEL`: compare paired jump/travel branches and their attribute, friction, gravity, fluid, effect and collision dependencies.
 - `DEP-COLLISION`: compare full `Entity.move`, collision query, edge support, step-up and callbacks.
 - `DEP-DATA`: inspect original jar resources on each side (tags, effects/enchantment definitions and relevant defaults) and hash each used entry. Java source outputs omit resources.
+- Discarded candidate `SLIME-SUPPRESS-FALL-DAMAGE`: A sneaking/suppress-bounce fall calls base `Block.fallOn()` for damage; B suppresses the base call. The inspected base callback only applies fall damage and not movement vectors/position; health/death consequences are outside this movement catalog. Reopen only if the coordinator broadens scope to landing damage outcomes.
 - `DEP-EXTERNAL`: compare packet correction/velocity paths, pushes, explosions, pistons, launch items, and distinguish client-calculated movement from server-supplied values.
 
 ## Finding index
@@ -68,16 +70,18 @@
 - [F-3: Diagonal keyboard input normalizes at different precision](findings/F-3-diagonal-input-precision.md) — source-confirmed; tiny input-component difference evaluated from Java float/double operations.
 - [F-4: Ground jump preserves a stronger upward velocity in 1.21.11](findings/F-4-ground-jump-upward-velocity.md) — source-confirmed when current Y velocity exceeds jump power.
 - [F-5: Edge-backoff support probe uses a smaller inset box in 1.21.11](findings/F-5-edge-probe-bounds.md) — source-confirmed for query geometry; affected only near changed margins.
+- [F-6: Powder-snow climb boost reads current state in 1.20.6 and prior-tick state in 1.21.11](findings/F-6-powder-snow-climb-boost.md) — source-confirmed predicate change; concrete reachable divergence sequence unverified.
 
 ## Resume checkpoint
 
 - Completed: verified exact A/B artifact hashes; confirmed official Mojmap alignment; compared the 1.20.6 -> 1.21.11 sprint-window and shallow-water sprint gates and recorded F-1/F-2; recorded the float normalization delta F-3 and ground-jump vertical assignment F-4; alternative input/scaling dependencies remain open.
-- Next: finish DEP-INPUT-SHAPE with numeric operation order and direct movement-consumer path; then continue stage 1 sprint gates and input/tick slices in order.
+- Next: resolve DEP-INPUT-SHAPE and DEP-SPRINT-GATES; continue remaining stage 1 slices, then close paired travel, collision, block/fluid, attribute/resource and external-input dependencies.
 - Do not regenerate A or B artifacts. Do not launch clients or perform gameplay testing. Keep newly found candidates separate until dependencies are traced.
 
 ## Source audit closure
 
-- Coverage: 5 findings; 1 compared-no-difference; other slices pending or in-progress; 0 stages fully closed.
-- Unresolved gaps: all remaining paired stages beyond these bounded findings and the dimension-map slice, exact input transformation semantics, effects/resources and dependency closures.
+- Coverage: 6 findings; 3 compared-no-difference; other slices pending or in-progress; 0 stages fully closed.
+- Unresolved gaps: all remaining paired stages beyond the bounded findings/no-difference slices, exact input transformation semantics, effects/resources and dependency closures.
 - Evidence/hash audit: client, mapping, mapped-jar, version-json hashes are from provenance manifests and were rechecked locally for A; B hashes are rechecked against its previous run manifest. Cited source hashes are in the finding/index.
 - Runtime validation: not performed (separate workflow).
+
