@@ -48,14 +48,14 @@ Preliminary B navigation above is not a comparison. Paired stage 1 has four sour
 - `1.2` sprint timeout — Status: findings; see [MD-01](findings/MD-01-sprint-timeout.md). Other sprint-start/stop predicates and timer lifetime interactions remain open in player gates.
 - `1.3` flight plus sneaking input scale — Status: findings; see [MD-02](findings/MD-02-flight-sneak-input-rescaling.md). Item-use slowdown interaction is described there and must be checked against the full player item-use slice.
 - `1.4` directional booleans and boat/riding input — Status: findings; see [MD-04](findings/MD-04-boat-input-to-rider-movement.md). The input-to-rider path and A/B client-authoritative control consumers are paired there.
-- `1.5` local tick order, jump edges, flight toggles, elytra start, and riding gates — Status: findings; see [MD-05](findings/MD-05-rideable-mob-jump-charge.md) for the local rideable-mount jump charge. Elytra state/item applicability and the full Local/Player/Living tick order remain open; do not assign historical behavior to absent equipment.
+- `1.5` local tick order, jump edges, flight toggles, elytra start, and riding gates — Status: findings; see [MD-05](findings/MD-05-rideable-mob-jump-charge.md) for the local rideable-mount jump charge. The remaining Local/Player/Living tick order is paired through `super.mobTick()`; the B Elytra gate is modern-only as described under `3.2.5`.
 - `2.1` player-specific state and gates — Status: pending. Paired movement fields, initialization and reset writers remain to be inventoried.
 - `3.1` sprint modifier and ground speed consumer — Status: compared-no-difference. Both `LivingEntity.setSprinting(boolean)` methods apply the same `0.3F`, operation-2 movement-speed modifier; both `PlayerEntity.getSpeed()` methods read the movement-speed attribute. Paths, lines, and hashes are in MD-01. No difference is claimed beyond this dependency closure.
 - `3.2.1` ordinary ground/air acceleration, climbing and gravity — Status: pending. Compare the full branch after separately closing the chunk fallback, Levitation and Elytra dependencies.
 - `3.2.2` client unloaded-chunk vertical fallback — Status: findings; see [MD-03](findings/MD-03-negative-zero-chunk-lookup.md). The A cast and B floor paths diverge only at a negative coordinate just below zero, and the adjacent chunk load states must differ for the movement branch to diverge.
 - `3.2.3` water/lava movement and Depth Strider — Status: pending. Compare all fluid branches and verify enchantment application/registration and equipment conditions.
-- `3.2.4` Levitation velocity integration — Status: pending. B has a new consumer in `LivingEntity.moveRelative`; check both versions' effect registrations and server-supplied effect state before disposition.
-- `3.2.5` Elytra movement — Status: pending. B has a new fall-flying branch; trace the state gate, item registration and local start packet. Classify as modern-only if its absence in A is established.
+- `3.2.4` Levitation velocity integration — Status: not-applicable. B's `LivingEntity.moveRelative()` lines 1396-1400 reads `StatusEffects.LEVITATION`, registered in B `StatusEffect.java` line 296 (source SHA-256 `CD56502D70B9C742DCFFC61FBAC6337F268838E35F268FFEAD4610FF964BEA89`). A `StatusEffect.java` (SHA-256 `F9BB4D1839337229CB6F6D8DC9AE17A49CFAD757A42388E00ABBAA68BE2B21A3`) has no Levitation entry. This effect did not exist in 1.8.9 and is outside the historical map-era behavior.
+- `3.2.5` Elytra movement — Status: not-applicable. B `LivingEntity.moveRelative()` has a fall-flying branch at lines 1306-1354 and local-player start gate at `LocalClientPlayerEntity.java` lines 707-712; B registers Elytra in `Item.java` line 804 (SHA-256 `A0BD40AEEC695ACEBBA3B25771ED05ABB1855C3564F7477C2C1DDFB93362DDE9`). A's `Item.java` (SHA-256 `0B79C6167DD2093713C651F615CB2324213553C343FCF918F2CD90B2C81BC922`) has no Elytra registration. This is a B-only item mechanic unavailable to 1.8.9 maps, not historical behavior to emulate.
 - `4.1` entity movement and collision — Status: pending. A and B movement/collision pairs not yet inspected.
 - `5.1` blocks and fluids that produce movement inputs — Status: pending. A and B registrations, overrides and shapes not yet inspected.
 - `6.1` effects, enchantments, attributes and equipment — Status: pending. Original-jar data/resources and effect application paths not yet inventoried.
@@ -67,8 +67,8 @@ Preliminary B navigation above is not a comparison. Paired stage 1 has four sour
 - `PAIR-A-MANIFEST`: obtain the 1.8.9 owner's remaining client SHA-256, metadata SHA-256, mapping artifact path/hash, remapped jar SHA-256, tool versions/options and original successful log path. Family/build alignment and source-root existence are established, so the paired source audit can proceed while these provenance fields are completed. Do not regenerate the shared source here.
 - `BOAT-INPUT`: resolved by [MD-04](findings/MD-04-boat-input-to-rider-movement.md); other mount/dismount and launch-item dependencies remain under `7.1`.
 - `GROUND-POSITION`: check whether the A/B support-friction queries at `getShape().minY` use the same block at all player-reachable coordinates after A's `floor(minY) - 1` and B's pooled `floor(minY - 1.0)` conversions.
-- `EFFECTS-LEVITATION`: verify B's effect registration and client path; A absence and server-provided effect applicability.
-- `ELYTRA`: trace B `START_FALL_FLYING`, synchronized state and movement source; verify no A counterpart before marking modern-only.
+- `EFFECTS-LEVITATION`: resolved as modern-only under `3.2.4`; source hashes and absence in A are recorded there.
+- `ELYTRA`: resolved as modern-only under `3.2.5`; source hashes, movement branch and local start gate are recorded there.
 - `PAIR-B-LOG`: the successful 1.9.4 invocation output is captured as a concise excerpt in `source-preparation.log`; no complete raw console log was persisted. The source tree and mapped-jar hash establish the produced artifacts, and the task reported success.
 
 ## Finding index
@@ -88,7 +88,7 @@ Preliminary B navigation above is not a comparison. Paired stage 1 has four sour
 
 ## Source audit closure
 
-- Coverage counts by status: pending 9; in-progress 0; compared-no-difference 2; findings 6; not-applicable 0; blocked 0. Counts are slice rows, not stages; MD-04 resolves both stage 1.4 and stage 7.2.
+- Coverage counts by status: pending 7; in-progress 0; compared-no-difference 2; findings 6; not-applicable 2; blocked 0. Counts are slice rows, not stages; MD-04 resolves both stage 1.4 and stage 7.2.
 - Unresolved gaps and limits: remaining stage 1 dependencies, stage 2 and most of stages 3-7 are open; A client/mapping hash manifest fields are pending the owner.
 - Evidence/hash/correspondence audit: hashes for each source cited in findings MD-01–MD-05 are recorded in those files; 1.9.4 client/mapping/remapped jar hashes are recorded above; remaining A provenance hashes will be filled from the owning chat.
 - Runtime validation: not performed (separate workflow).
