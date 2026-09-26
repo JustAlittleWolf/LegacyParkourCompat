@@ -1,6 +1,6 @@
 # Discovery: 1.19.4 to 1.20.6
 
-- Status: active
+- Status: partial (stages 1-7 visited; all retain open coverage)
 - Scope: client player movement; older A = 1.19.4; newer B = 1.20.6
 - Repository revision and start date: source baseline `c133c29`; worktree branch `feat/movement-discovery-1-20`; 2026-09-26
 - Selected naming namespace, CLI mode per side and alignment evidence: A and B both use release-specific Mojang official mappings (`mojmap`). The A owner manifest identifies exact 1.19.4 Mojmap artifacts, and this task independently verified the 1.19.4 client, mappings, remapped jar, version metadata and cited source hashes against those identities. Release-specific mappings are paired in the same official namespace.
@@ -73,7 +73,7 @@ A/B correspondence seeds resolved from the filename inventories (Mojmap names): 
 
 ## Source audit closure
 
-- Coverage counts: stages 1-7 in-progress; each has bounded findings or checked sub-slices; 0 blocked.
+- Coverage counts: stages 1-7 in-progress; each has bounded findings or checked sub-slices; 0 blocked. Run status: partial.
 - Unresolved gaps: stages 1-7 are not closed; resource, method and dependency closures remain. This checkpoint is partial.
 - Evidence/hash/correspondence audit: A/B artifacts and relevant source hashes verified; both console logs lack persistent raw files; stage-1 member references are in the finding.
 - Runtime validation: not performed (separate workflow).
