@@ -28,9 +28,8 @@ import java.util.List;
  * {@code --versions} or {@code -Pversions=} / {@code -PminecraftVersions=}.
  * Exact ids such as {@code 1.8} are used as-is when they exist in the Mojang manifest.
  *
- * <p>Official Mojang mappings are used from 1.14.4 through 1.21.x. Minecraft
- * 26.1+ ships unobfuscated, so those versions are decompiled as-is. Older
- * versions fall back to Legacy Yarn, Fabric Yarn, then Ornithe Feather
+ * <p>Official Mojang mappings are used when published. Unobfuscated versions
+ * are decompiled as-is. Older versions fall back to Legacy Yarn, Fabric Yarn, then Ornithe Feather
  * (needed for versions such as 1.9 / 1.9.2 that Yarn does not cover).
  * Without mappings the published client stays obfuscated in the default
  * package, and Vineflower's {@code net/minecraft} / {@code com/mojang}
@@ -42,6 +41,9 @@ import java.util.List;
 public abstract class DecompileMinecraftTask extends DefaultTask {
     @Input
     public abstract ListProperty<String> getVersions();
+
+    @Input
+    public abstract ListProperty<String> getMappings();
 
     @OutputDirectory
     public abstract DirectoryProperty getOutputRoot();
@@ -68,6 +70,11 @@ public abstract class DecompileMinecraftTask extends DefaultTask {
         getVersions().set(MinecraftDecompileMain.splitVersions(value));
     }
 
+    @Option(option = "mappings", description = "Mapping sets: auto, mojmap, legacy-yarn, yarn, feather, unobfuscated (comma-separated).")
+    public void setMappingsFromCli(String value) {
+        getMappings().set(MinecraftDecompileMain.splitVersions(value));
+    }
+
     @TaskAction
     public void run() {
         List<String> specs = getVersions().get().stream()
@@ -86,6 +93,7 @@ public abstract class DecompileMinecraftTask extends DefaultTask {
         List<String> args = new ArrayList<>();
         args.add(getCacheDirectory().get().getAsFile().getAbsolutePath());
         args.add(getOutputRoot().get().getAsFile().getAbsolutePath());
+        args.add("--mappings=" + String.join(",", getMappings().get()));
         args.addAll(specs);
 
         var result = getExecOperations().javaexec(spec -> {

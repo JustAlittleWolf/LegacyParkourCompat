@@ -55,16 +55,18 @@ final class MinecraftDecompileEngine {
     private final DecompileLogger logger;
     private final Path cacheDir;
     private final Path outputRoot;
+    private final List<String> mappingSpecs;
     private final Gson gson = new GsonBuilder().create();
     private final HttpClient http = HttpClient.newBuilder()
             .followRedirects(HttpClient.Redirect.NORMAL)
             .connectTimeout(Duration.ofSeconds(30))
             .build();
 
-    MinecraftDecompileEngine(DecompileLogger logger, Path cacheDir, Path outputRoot) {
+    MinecraftDecompileEngine(DecompileLogger logger, Path cacheDir, Path outputRoot, List<String> mappingSpecs) {
         this.logger = logger;
         this.cacheDir = cacheDir;
         this.outputRoot = outputRoot;
+        this.mappingSpecs = List.copyOf(mappingSpecs);
     }
 
     void decompile(List<String> versionSpecs) {
@@ -128,25 +130,54 @@ final class MinecraftDecompileEngine {
         );
         List<Path> libraries = downloadLibraries(version, versionCache.resolve("libraries"));
 
-        Path jarToDecompile = clientJar;
-        String mappingSource = "none";
+        for (String requestedMapping : mappingSpecs) {
+            String mapping = requestedMapping.toLowerCase(Locale.ROOT);
+            if (!List.of("auto", "mojmap", "legacy-yarn", "yarn", "feather", "unobfuscated").contains(mapping)) {
+                throw new IllegalStateException("Unknown mapping set '" + requestedMapping + "'.");
+            }
+            decompileMappedVersion(versionRef, version, versionCache, clientJar, libraries, mapping);
+        }
+    }
 
-        if (version.downloads.clientMappings != null && version.downloads.clientMappings.url != null) {
-            Path mappings = download(
-                    version.downloads.clientMappings.url,
-                    versionCache.resolve("client_mappings.txt"),
-                    version.downloads.clientMappings.sha1
-            );
+    private void decompileMappedVersion(MojangMeta.VersionRef versionRef, MojangMeta.VersionJson version,
+                                        Path versionCache, Path clientJar, List<Path> libraries, String requestedMapping)
+            throws Exception {
+        Path jarToDecompile = clientJar;
+        String mappingSource;
+        boolean hasMojmap = version.downloads.clientMappings != null
+                && version.downloads.clientMappings.url != null;
+        if ("mojmap".equals(requestedMapping) || ("auto".equals(requestedMapping) && hasMojmap)) {
+            if (!hasMojmap) {
+                throw new IllegalStateException("Minecraft " + versionRef.id + " has no official Mojang mappings.");
+            }
+            Path mappings = download(version.downloads.clientMappings.url,
+                    versionCache.resolve("client_mappings.txt"), version.downloads.clientMappings.sha1);
             Path mappedJar = versionCache.resolve("client-mojmap.jar");
             logger.lifecycle("  Applying official Mojang mappings");
             remap(clientJar, mappedJar, mojmapProvider(mappings), libraries);
             jarToDecompile = mappedJar;
             mappingSource = "mojmap";
+        } else if ("unobfuscated".equals(requestedMapping)) {
+            if (jarHasDefaultPackageClasses(clientJar)) {
+                throw new IllegalStateException("Minecraft " + versionRef.id + " is obfuscated; choose a mapping set.");
+            }
+            mappingSource = "unobfuscated";
         } else {
-            YarnMapping yarn = findCommunityMappings(versionRef.id);
-            if (yarn != null) {
-                Path mappedJar = versionCache.resolve("client-yarn.jar");
-                logger.lifecycle("  Official Mojang mappings unavailable; applying {} ({})", yarn.label, yarn.version);
+            YarnMapping yarn = "auto".equals(requestedMapping)
+                    ? findCommunityMappings(versionRef.id)
+                    : findCommunityMappings(versionRef.id, requestedMapping);
+            if (yarn == null) {
+                if (!"auto".equals(requestedMapping)) {
+                    throw new IllegalStateException("No " + requestedMapping + " mappings for Minecraft " + versionRef.id);
+                }
+                if (jarHasDefaultPackageClasses(clientJar)) {
+                    throw new IllegalStateException("No supported mappings for obfuscated Minecraft " + versionRef.id);
+                }
+                mappingSource = "unobfuscated";
+            } else {
+                mappingSource = yarn.label.replace(' ', '-');
+                Path mappedJar = versionCache.resolve("client-" + mappingSource + ".jar");
+                logger.lifecycle("  Applying {} ({})", yarn.label, yarn.version);
                 String mappingHeader;
                 try (BufferedReader reader = Files.newBufferedReader(yarn.tinyFile, StandardCharsets.UTF_8)) {
                     mappingHeader = reader.readLine();
@@ -174,21 +205,10 @@ final class MinecraftDecompileEngine {
                             + ": " + mappingHeader);
                 }
                 jarToDecompile = mappedJar;
-                mappingSource = yarn.label;
-            } else if (jarHasDefaultPackageClasses(clientJar)) {
-                logger.warn(
-                        "  No Mojang, Yarn, or Ornithe mappings for {}. Vineflower only writes "
-                                + "net/minecraft and com/mojang, so obfuscated classes will be omitted.",
-                        versionRef.id
-                );
-                mappingSource = "none (obfuscated, mappings unavailable)";
-            } else {
-                logger.lifecycle("  No mappings published; decompiling the unobfuscated client jar as-is");
-                mappingSource = "none (unobfuscated)";
             }
         }
 
-        Path outputDir = outputRoot.resolve(versionRef.id);
+        Path outputDir = outputRoot.resolve(versionRef.id).resolve(mappingSource);
         if (Files.exists(outputDir)) {
             deleteRecursively(outputDir);
         }
@@ -237,7 +257,7 @@ final class MinecraftDecompileEngine {
                 switch (severity) {
                     case ERROR -> logger.error("[Vineflower] {}", message);
                     case WARN -> logger.warn("[Vineflower] {}", message);
-                    default -> logger.info("[Vineflower] {}", message);
+                    default -> { /* Vineflower reports every class load at INFO. */ }
                 }
             }
 
@@ -343,6 +363,19 @@ final class MinecraftDecompileEngine {
             }
         }
         return null;
+    }
+
+    private YarnMapping findCommunityMappings(String minecraftVersion, String requestedMapping) throws Exception {
+        String label = switch (requestedMapping) {
+            case "legacy-yarn" -> "legacy yarn";
+            case "yarn" -> "yarn";
+            case "feather" -> "ornithe feather";
+            default -> throw new IllegalArgumentException("Unknown community mappings: " + requestedMapping);
+        };
+        MappingCatalog catalog = COMMUNITY_MAPPING_CATALOGS.stream()
+                .filter(candidate -> candidate.label().equals(label))
+                .findFirst().orElseThrow();
+        return yarnFromMeta(catalog.metaUrlPrefix() + minecraftVersion, catalog.mavenRoot(), catalog.label());
     }
 
     private YarnMapping yarnFromMeta(String metaUrl, String mavenRoot, String label) throws Exception {
