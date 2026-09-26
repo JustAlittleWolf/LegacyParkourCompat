@@ -34,6 +34,9 @@ import java.util.HexFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.zip.ZipFile;
 
@@ -47,9 +50,9 @@ final class MinecraftDecompileEngine {
     private static final String LEGACY_FABRIC_MAVEN = "https://maven.legacyfabric.net/";
     private static final String ORNITHE_MAVEN = "https://maven.ornithemc.net/releases/";
     private static final List<MappingCatalog> COMMUNITY_MAPPING_CATALOGS = List.of(
+            new MappingCatalog("ornithe feather", ORNITHE_FEATHER_META, ORNITHE_MAVEN),
             new MappingCatalog("legacy yarn", LEGACY_YARN_META, LEGACY_FABRIC_MAVEN),
-            new MappingCatalog("yarn", FABRIC_YARN_META, FABRIC_MAVEN),
-            new MappingCatalog("ornithe feather", ORNITHE_FEATHER_META, ORNITHE_MAVEN)
+            new MappingCatalog("yarn", FABRIC_YARN_META, FABRIC_MAVEN)
     );
 
     private final DecompileLogger logger;
@@ -163,14 +166,16 @@ final class MinecraftDecompileEngine {
             }
             mappingSource = "unobfuscated";
         } else {
-            YarnMapping yarn = "auto".equals(requestedMapping)
+            boolean obfuscated = jarHasDefaultPackageClasses(clientJar);
+            YarnMapping yarn = "auto".equals(requestedMapping) && !obfuscated ? null
+                    : "auto".equals(requestedMapping)
                     ? findCommunityMappings(versionRef.id)
                     : findCommunityMappings(versionRef.id, requestedMapping);
             if (yarn == null) {
                 if (!"auto".equals(requestedMapping)) {
                     throw new IllegalStateException("No " + requestedMapping + " mappings for Minecraft " + versionRef.id);
                 }
-                if (jarHasDefaultPackageClasses(clientJar)) {
+                if (obfuscated) {
                     throw new IllegalStateException("No supported mappings for obfuscated Minecraft " + versionRef.id);
                 }
                 mappingSource = "unobfuscated";
@@ -215,7 +220,17 @@ final class MinecraftDecompileEngine {
         Files.createDirectories(outputDir);
 
         logger.lifecycle("  Decompiling with Vineflower into {}", outputDir);
-        decompileJar(jarToDecompile, libraries, outputDir);
+        try {
+            decompileJar(jarToDecompile, libraries, outputDir);
+            ensureMovementSources(outputDir);
+        } catch (RuntimeException error) {
+            try {
+                deleteRecursively(outputDir);
+            } catch (IOException cleanupError) {
+                error.addSuppressed(cleanupError);
+            }
+            throw error;
+        }
         logger.lifecycle("  Finished {} using {}", versionRef.id, mappingSource);
     }
 
@@ -251,11 +266,15 @@ final class MinecraftDecompileEngine {
     }
 
     private void decompileJar(Path jar, List<Path> libraries, Path outputDir) {
+        AtomicInteger decompilerErrors = new AtomicInteger();
         IFernflowerLogger vineflowerLogger = new IFernflowerLogger() {
             @Override
             public void writeMessage(String message, Severity severity) {
                 switch (severity) {
-                    case ERROR -> logger.error("[Vineflower] {}", message);
+                    case ERROR -> {
+                        decompilerErrors.incrementAndGet();
+                        logger.error("[Vineflower] {}", message);
+                    }
                     case WARN -> logger.warn("[Vineflower] {}", message);
                     default -> { /* Vineflower reports every class load at INFO. */ }
                 }
@@ -291,6 +310,30 @@ final class MinecraftDecompileEngine {
         }
 
         builder.build().decompile();
+        if (decompilerErrors.get() > 0) {
+            logger.warn("  Vineflower reported {} errors; checking required movement sources", decompilerErrors.get());
+        }
+    }
+
+    private static void ensureMovementSources(Path outputDir) throws IOException {
+        Set<String> names;
+        try (Stream<Path> files = Files.walk(outputDir)) {
+            names = files.filter(path -> Files.isRegularFile(path) && path.toString().endsWith(".java"))
+                    .map(path -> path.getFileName().toString())
+                    .collect(Collectors.toSet());
+        }
+        for (String required : List.of("Block.java", "Entity.java", "LivingEntity.java")) {
+            if (!names.contains(required)) {
+                throw new IllegalStateException("Missing movement source " + required + " in " + outputDir);
+            }
+        }
+        if (!names.contains("Player.java") && !names.contains("PlayerEntity.java")) {
+            throw new IllegalStateException("Missing player movement source in " + outputDir);
+        }
+        if (!names.contains("LocalPlayer.java") && !names.contains("ClientPlayerEntity.java")
+                && !names.contains("LocalClientPlayerEntity.java")) {
+            throw new IllegalStateException("Missing local-player movement source in " + outputDir);
+        }
     }
 
     private List<Path> downloadLibraries(MojangMeta.VersionJson version, Path libraryRoot) {
@@ -352,7 +395,11 @@ final class MinecraftDecompileEngine {
     }
 
     private YarnMapping findCommunityMappings(String minecraftVersion) throws Exception {
-        for (MappingCatalog catalog : COMMUNITY_MAPPING_CATALOGS) {
+        List<MappingCatalog> candidates = minecraftVersion.matches("1\\.(8|9|10|11|12)(\\..*)?")
+                ? COMMUNITY_MAPPING_CATALOGS
+                : List.of(COMMUNITY_MAPPING_CATALOGS.get(2), COMMUNITY_MAPPING_CATALOGS.get(0),
+                        COMMUNITY_MAPPING_CATALOGS.get(1));
+        for (MappingCatalog catalog : candidates) {
             YarnMapping mapping = yarnFromMeta(
                     catalog.metaUrlPrefix() + minecraftVersion,
                     catalog.mavenRoot(),
