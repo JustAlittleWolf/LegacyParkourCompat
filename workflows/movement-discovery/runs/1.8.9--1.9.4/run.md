@@ -49,7 +49,7 @@ Preliminary B navigation above is not a comparison. Paired stage 1 has four sour
 - `1.3` flight plus sneaking input scale — Status: findings; see [MD-02](findings/MD-02-flight-sneak-input-rescaling.md). Item-use slowdown interaction is described there and must be checked against the full player item-use slice.
 - `1.4` directional booleans and boat/riding input — Status: findings; see [MD-04](findings/MD-04-boat-input-to-rider-movement.md). The input-to-rider path and A/B client-authoritative control consumers are paired there.
 - `1.5` local tick order, jump edges, flight toggles, elytra start, and riding gates — Status: findings; see [MD-05](findings/MD-05-rideable-mob-jump-charge.md) for the local rideable-mount jump charge. The remaining Local/Player/Living tick order is paired through `super.mobTick()`; the B Elytra gate is modern-only as described under `3.2.5`.
-- `2.1` player-specific state and gates — Status: pending. Paired movement fields, initialization and reset writers remain to be inventoried.
+- `2.1` player-specific state and gates — Status: findings; see [MD-07](findings/MD-07-hunger-regeneration-sprint-gate.md). Natural regeneration changes hunger/exhaustion state that feeds the shared sprint food gate. Ability and movement-field inventory outside that dependency remains part of stages 6-7.
 - `3.1` sprint modifier and ground speed consumer — Status: compared-no-difference. Both `LivingEntity.setSprinting(boolean)` methods apply the same `0.3F`, operation-2 movement-speed modifier; both `PlayerEntity.getSpeed()` methods read the movement-speed attribute. Paths, lines, and hashes are in MD-01. No difference is claimed beyond this dependency closure.
 - `3.2.1` ordinary ground/air acceleration, climbing and gravity — Status: compared-no-difference within the local-player ordinary non-flying branch. A `LivingEntity.moveRelative()` lines 1119-1185 and B lines 1355-1415 use the same acceleration, climbing clamps, move call, gravity, and drag order after excluding MD-03's chunk fallback. The broader B predicate adds `isLogicalSideForUpdatingMovement()`, but local player overrides `isLocallyControlled()` to true in both versions. The B Elytra and Levitation branches are modern-only (`3.2.4`/`3.2.5`). On the game's bounded vertical coordinates, support block lookup at `floor(minY) - 1` in A and `floor(minY - 1.0)` in B identifies the same block; B's pooled mutable position is released after use. Source hashes: A `LivingEntity.java` `082831C6578E3A70FA6CEA5B90BC3EEFC26678259B66334470DE22B90B5B0E4E`; B `LivingEntity.java` `BBB7703F18FD5DA05C4E4A43A77EA644B388E63C01D34166D308EA52054BE4E5`; A/B `LocalClientPlayerEntity.java` hashes are in MD-04.
 - `3.2.2` client unloaded-chunk vertical fallback — Status: findings; see [MD-03](findings/MD-03-negative-zero-chunk-lookup.md). The A cast and B floor paths diverge only at a negative coordinate just below zero, and the adjacent chunk load states must differ for the movement branch to diverge.
@@ -81,17 +81,18 @@ Preliminary B navigation above is not a comparison. Paired stage 1 has four sour
 - `MD-04` — Boat controls change the local rider's movement (source-confirmed; player interaction with another entity).
 - `MD-05` — Rideable-mob jump charge updates local mount movement (source-confirmed; player interaction with another entity).
 - `MD-06` — Creative flight resets accumulated fall distance (source-confirmed).
+- `MD-07` — Natural regeneration changes the food input to sprint gating (source-confirmed).
 
 ## Resume checkpoint
 
-- Last completed slice: `3.2.6` player creative-flight fall-distance wrapper; MD-06 recorded. Earlier source work recorded MD-01–MD-05, `3.2.1`/`3.2.3` no-difference closures, and modern-only dispositions for `3.2.4`/`3.2.5`.
-- Next slice: stage 2 player-specific state, then finish stage 4 collision source pairing and stage 5 block-shape enumeration.
-- Outstanding dependencies: remaining hashes/log path in `PAIR-A-MANIFEST`; `ENTITY-COLLISION-EXCLUSION`; further source-driven dependencies from stages 2, 4, 5, 6 and 7.
-- Current assumptions requiring verification: whether any of B's new Elytra gates interact with player state beyond their modern-only applicability; remaining rider/vehicle transitions beyond the covered boat-input path.
+- Last completed slice: `2.1` hunger/sprint state dependency; MD-07 recorded. Earlier source work recorded MD-01–MD-06, `3.2.1`/`3.2.3` no-difference closures, and modern-only dispositions for `3.2.4`/`3.2.5`.
+- Next slice: finish stage 4 collision source pairing and stage 5 block-shape enumeration.
+- Outstanding dependencies: remaining hashes/log path in `PAIR-A-MANIFEST`; `ENTITY-COLLISION-EXCLUSION`; player state writers beyond the hunger/sprint gate; further source-driven dependencies from stages 4, 5, 6 and 7.
+- Current assumptions requiring verification: exact item-use and ability state timing outside the paired local tick methods; remaining rider/vehicle transitions beyond the covered boat and rideable-mount paths.
 
 ## Source audit closure
 
-- Coverage counts by status: pending 5; in-progress 0; compared-no-difference 4; findings 7; not-applicable 2; blocked 0. Counts are slice rows, not stages; MD-04 resolves both stage 1.4 and stage 7.2.
-- Unresolved gaps and limits: remaining stage 1 dependencies, stage 2 and most of stages 3-7 are open; A client/mapping hash manifest fields are pending the owner.
-- Evidence/hash/correspondence audit: hashes for each source cited in findings MD-01–MD-06 are recorded in those files; 1.9.4 client/mapping/remapped jar hashes are recorded above; remaining A provenance hashes will be filled from the owning chat.
+- Coverage counts by status: pending 4; in-progress 0; compared-no-difference 4; findings 8; not-applicable 2; blocked 0. Counts are slice rows, not stages; MD-04 resolves both stage 1.4 and stage 7.2.
+- Unresolved gaps and limits: stage 2 state timing, most of stages 4-7, and the A client/mapping manifest fields remain open.
+- Evidence/hash/correspondence audit: hashes for each source cited in findings MD-01–MD-07 are recorded in those files; 1.9.4 client/mapping/remapped jar hashes are recorded above; remaining A provenance hashes will be filled from the owning chat.
 - Runtime validation: not performed (separate workflow).
