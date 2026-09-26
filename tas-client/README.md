@@ -1,126 +1,53 @@
-# TAS client
+# TAS recording client
 
-`./gradlew runTasClient --project-prop "clientVersion=1.16.5"` launches that exact Minecraft version with the recording mod. Versions are not remapped to a later patch; `1.21.9` stays `1.21.9`. Unsupported versions fail the Gradle task.
+This included Gradle build runs exact historical Minecraft clients with a recording and playback mod. Launch one manually from the repository root:
 
-- Versions before 1.14 use Forge when a loader is pinned (for example `1.8.9` or `1.8.9-forge`). `1.8` is rejected.
-- 1.14 through 1.21.x use Fabric through Unimined (for example `1.16.5` or `1.21.9-fabric`).
-- `current` uses this repository's Fabric Loom client (`minecraft_version` in `gradle.properties`). There is no `latest` alias.
-
-The root `gradlew runClient` Fabric launch also loads the TAS recorder alongside
-the compiled Legacy Parkour compatibility mod. Select the movement version in
-the mod's UI, load the map, then use the playback command in that client. The
-same combination remains available through `gradlew runTasClient -PclientVersion=current`.
-
-In-game (simulation keys and facing, not the camera):
-
-- `.recording start [name]`
-- `.recording stop`
-- `.playback <name>`
-- `.playback stop`
-
-Right-click is stored as both hold and press: holding use (bow draw) is not the same as a click this tick (pearl / place).
-
-Each Unimined version uses its own game directory, `tas-client/run/<minecraft version>` (for example `tas-client/run/1.8.9`). Worlds and `options.txt` are not shared: a save written by a newer client makes 1.8 crash while reading chunk NBT. `current` still uses the repository Loom run directory.
-
-Recordings are `.lprc` files in `.legacyparkourrecordings` under that game directory. The on-disk layout is the same on every version. Playback teleports to the start pose, then applies recorded keys and facing each tick; stored positions are for later comparison and are not replayed.
-
-Playback also accepts Legacy Parkour/Combat TAS JSON files (format version 1)
-as input. Put a file in `.legacyparkourrecordings` and enter `.playback name.json`,
-or give an absolute path such as `.playback D:\runs\route.json`. The JSON's
-starting position, velocity, yaw, pitch, and each row's keys and optional yaw
-and pitch are applied. Each row's yaw is added to the previous yaw; an absent
-yaw keeps the previous value. Row pitch is an absolute angle and an absent
-pitch keeps the previous value. Editor
-metadata such as `yawLocked` and `angleSolver` does not affect playback. Rows
-that request teleports, potion amplifiers, nonzero hotbar slots, or unknown keys
-fail with a clear error because this recorder cannot apply those states. JSON
-input is read only; captured results still use `.lprc`. Run the recording in
-the world it was made for so the blocks at its starting coordinates match.
-
-TAS clients are not signed in. From 1.16 onward vanilla greys out Multiplayer for that reason; this mod keeps the button enabled so you can still join the offline parkour gym.
-
-Shared recording types live in the `core` subproject (`./gradlew -p tas-client :core:test`). Mixins are selected per era (`forge`, Fabric 1.14–1.16, Fabric 1.17–1.20.4, Fabric 1.20.5+ / current) rather than one config for every class name.
-
-## Automated reference workflow
-
-For a deterministic comparison, pass one recording file and a comma-separated
-version list to the root Gradle task:
-
-```text
-gradlew runTasWorkflow --project-prop "tasRecording=recordings\jump.lprc" --project-prop "tasVersions=1.8.9,1.12.2,1.16.5,current"
+```powershell
+.\gradlew.bat runTasClient -PclientVersion=1.16.5
 ```
 
-The task starts the persistent lab if needed. The lab starts the localhost Gym
-on `127.0.0.1:25565`, launches at most five isolated clients, and queues additional
-versions until a slot is free. A client stays open after replay so later runs
-can reuse it. Results are published below
-`tas-results/` as `<recording-name>-<version>-<run-id>.lprc`; a
-`<recording-name>-manifest.tsv` lists every result. Each result uses the normal
-`.lprc` format: source buttons/yaw/pitch plus the observed post-movement
-position for every tick, so it can be replayed or compared by the existing
-tools.
+An exact version stays exact: `1.21.9` does not become another patch release. Pinned versions before 1.14 use Forge (for example `1.8.9` or `1.8.9-forge`); 1.14 through 1.21.x use Fabric through Unimined. `current` runs this repository's Loom client with both the recorder and Legacy Parkour Compat. `gradlew runClient` does the same for the current client. Select the movement profile in the mod UI before playback on `current`. `latest` is not a client alias, and unsupported releases fail the task.
 
-The same automation can be enabled for one client without the workflow by
-passing Gradle properties, which are translated into JVM properties for the
-client:
+Each historical client has a separate `tas-client/run/<version>/` game directory, including its worlds and `options.txt`. This prevents newer save data from crashing older clients. The current Loom client uses the root run directory. Clients are unsigned in; the mod keeps Multiplayer available so they can join the offline [Parkour Gym](../parkourgym-server/README.md). The launch task sets a 3 GB maximum heap and writes low graphics settings, including two-chunk view distance and 50 FPS, before startup.
+
+## Recording and playback
+
+Enter commands in game chat (the leading `.` is part of the command):
 
 ```text
-gradlew runTasClient --project-prop "clientVersion=1.12.2" --project-prop "tasRecording=C:\runs\input.lprc" --project-prop "tasOutput=C:\runs\1.12.2.lprc" --project-prop "tasServer=localhost:25565"
+.recording start [name]
+.recording stop [name]
+.playback <name>
+.playback stop
 ```
 
-Automated clients mute audio, connect to the gym, and show chat feedback for
-recording/playback start and completion. Manual commands remain
-`.recording start [name]`, `.recording stop`, `.playback <name>`, and
-`.playback stop`.
+Recordings are `.lprc` files in `.legacyparkourrecordings` below that client's game directory. They store the starting pose, per-tick input and facing, and observed positions. Playback teleports to the start pose, applies input and facing each tick, and does not force the stored positions. Right-click hold and press are separate inputs, so drawing a bow and a single-use action can be replayed distinctly.
 
-The root `runTasWorkflow` and `runTasCompare` tasks submit to the persistent
-lab described in [testing/README.md](../testing/README.md). It starts the Gym
-and up to five task clients on demand and reuses connected clients for later runs.
-
-To compare a reference against the Legacy Parkour movement emulation in the
-repository's current client, use an expected `.lprc` from the gym and choose a
-parkour version explicitly:
+To make a recording usable on selected test surfaces or at named starts:
 
 ```text
-gradlew runTasCompare --project-prop "tasExpected=tas-results\jump-1.12.lprc" --project-prop "tasVersion=1.12" --project-prop "tasCompare=true"
+.recording start reusable block <name>
+.recording start reusable positions <name>
+.recording stop
+.recording position <recording> <positionName>
 ```
 
-`tasExpected` must name the version-specific reference file produced or chosen
-for the selected movement profile; it is deliberately separate from the
-cross-version source input accepted by `runTasWorkflow`. The lab uses its
-current-version client, selects the requested movement profile, and compares each
-post-movement position with that expected recording. `--project-prop
-"tasOutput=<file.lprc>"` is optional; without it, the task creates a unique actual recording beside the
-expected one. A supplied output path must not already exist. After the run finishes, Gradle checks every captured tick and the tick
-count, then exits successfully only when the comparison passes. A failure
-reports the first tick and expected/actual XYZ, run ID, and snapshot log path.
+The two `start` forms are alternatives. Reusable captures trim leading and trailing ticks without position change; ordinary captures preserve their exact timeline. A positions recording saves its original start as `origin`. After stopping, stand at another permitted start and use `.recording position` to add it. The recording keeps the same input ticks and facing for each placement. The [testing lab](../testing/README.md) explains how a caller chooses a block pad, named start, and offsets.
 
-By default the comparison is exact (`Double.compare` on each coordinate), so
-even the smallest representable difference fails. `--project-prop
-"tasTolerance=<number>"` can explicitly allow a finite per-coordinate
-tolerance; it applies to both
-the live first-mismatch signal and final Gradle result. At the first failing
-tick, the client posts a failure event over HTTP and sends `!lpcf <runId> <version> <tick>`
-for a server snapshot. It executes 20 more movement ticks, or stops at the recording
-end, then posts the final discrepancy and requests another snapshot. The gym records the server-side world, position, velocity, bounding box,
-and nearby blocks in `parkourgym-server/run/logs/latest.log` with the marker
-`[LPC_FAILURE_SNAPSHOT]`; the task includes a matching log entry when present,
-or the exact path, marker, and run ID to search for. The signal is canceled and
-never broadcast. A cross-version `runTasWorkflow` capture does not compare
-against source XYZ, because movement is expected to differ across versions.
+The recorder automatically saves Survival or Creative mode and Creative flying state. If you are wearing gear or have an effect while recording, annotate that setup so a test run can reconstruct it:
 
-For an explicit representable-double threshold, pass `--project-prop
-"tasMaxUlps=10"` to `runTasCompare`. Every X, Y, and Z coordinate on every
-tick must be finite and within 10 ULPs; the final result also requires the
-exact tick count and reports the largest observed ULP distance. A failing tick
-reports all three coordinate distances. Adjacent finite negative values and
-adjacent subnormals have distance one. Distances across zero add the counts on
-each side, while `-0.0` and `+0.0` have distance zero. NaN and either infinity
-always fail. `tasMaxUlps` and the absolute
-`tasTolerance` cannot be combined. With neither option, exact comparison
-remains the default, including distinct signed zeros.
+```text
+.recording equipment swiftSneak 2
+.recording equipment soulSpeed 3
+.recording equipment depthStrider 1
+.recording effect minecraft:speed 1 1200
+.recording effects clear
+```
 
-The Forge 1.12.2 MCP client uses `Minecraft.gameDir` for its run directory;
-the TAS reflection layer includes that name (alongside modern
-`gameDirectory`). This prevents the historical `.playback` crash before a
-recording file is opened.
+The effect amplifier is zero-based and duration is in ticks. A run may override saved equipment and effects, but cannot override the recorded game mode or flying state. The per-tick input stream remains portable between supported versions; a run rejects setup a target client cannot represent.
+
+## Other input and code layout
+
+`.playback` also accepts Legacy Parkour/Combat TAS JSON format version 1 by filename or absolute path. JSON row yaw adds to the previous yaw; row pitch is absolute. Missing angles retain their previous value. Playback uses starting position and velocity, keys, and angles, while ignoring editor metadata such as `yawLocked` and `angleSolver`. Unsupported teleports, potion amplifiers, nonzero hotbar slots, and unknown keys fail explicitly. JSON input is read only; captured output is `.lprc`. Replay in the world for which the input was recorded.
+
+Shared recording types, file parsing, and position comparison live in `core/` (`.\gradlew.bat -p tas-client :core:test`). `src/common/` contains the controller and worker connection. `src/forge/`, `src/forge113/`, and `src/fabric/` contain loader entry points; `src/mixins/` is split by Minecraft era because class names and hooks differ. Automated runs and cross-version comparison belong to the [testing lab](../testing/README.md).

@@ -1,41 +1,35 @@
-# Parkour gym server
+# Parkour Gym server
 
-`./gradlew runParkourGymServer` (or `./gradlew :parkourgym-server:runServer`) starts a Paper 26.2 server and leaves it running.
+This module starts a local Paper 26.2 server for manual parkour practice and automated movement tests. From the repository root:
 
-The Gym control API binds to `127.0.0.1:25566` for HTTP and `127.0.0.1:25567`
-for task-client WebSockets. The separate [testing coordinator](../testing/README.md)
-starts the server and owns client processes when running automated tests. The Gym
-accepts at most five connected task workers and gives each Minecraft player an
-isolated Polar world cloned from the saved physics world.
+```powershell
+.\gradlew.bat runParkourGymServer
+```
 
-The server is offline-mode and bound to `127.0.0.1`. Joining players are op, so `/gamemode` works. `/save` writes the loaded world as Polar.
+The equivalent module task is `:parkourgym-server:runServer`. It downloads Paper, ViaVersion, ViaBackwards, ViaRewind, PolarPaper, and Axiom Paper, installs this helper plugin, prepares `parkourgym-server/run/`, and leaves the server running. The server binds to `127.0.0.1:25565`, runs in offline mode, and makes joining players op so `/gamemode` is available. `/save` writes the loaded Polar world. The [testing coordinator](../testing/README.md) can start the Gym automatically and owns the client processes for automated runs.
 
-Player damage is cancelled, including fall and void damage, so practice runs do not kill players in survival mode.
+## World and player behavior
 
-Server movement checks are off (`player_movement_check`, `elytra_movement_check`, and Paper `PlayerFailMoveEvent`); the client is the authority for legal movement.
+The tracked source world is `worlds/physics_test.polar` (Git LFS). First launch copies it into the run directory if absent. The `polarpaper:physics_test` world has height `[0, 256)` and a 16×16 stone spawn platform at `y=64`. Nether is disabled. Paper starts a required dummy overworld; the helper unloads it when possible. Mob spawning, weather, and daylight cycling are off, with time fixed at noon (`6000`). Polar has `blockPhysics` on and `blockGravity`, `liquidPhysics`, and `blockFade` off.
 
-The testing world is Polar (`polarpaper:physics_test`), height `[0, 256)`, with a 16×16 stone spawn platform at `y=64`. Players spawn there; the Nether is disabled (`config/paper-global.yml` `misc.enable-nether: false`). Paper still boots a dummy overworld because it requires one, then the helper plugin unloads it when possible. Polar custom gamerules: `blockPhysics` on; `blockGravity`, `liquidPhysics`, and `blockFade` off. Mob spawning, weather, and the daylight cycle are off, and time is noon (`6000`).
+Each connected task player gets a separate world cloned from the tracked source, so buttons, blocks, and other interactions are isolated between parallel runs. The Gym accepts at most five task workers. [Reusable block recordings](../testing/README.md) request 14×14 surfaces placed around coordinate 5000 in that worker's world; pads are prepared only when selected. To change the shared test map, edit the source world, run `/save`, and copy the resulting Polar file from `run/plugins/polarpaper/worlds/` back to `worlds/physics_test.polar`. New workers receive the updated source; connected workers retain their existing clone until they leave.
 
-The standardized Polar world is `parkourgym-server/worlds/physics_test.polar` (Git LFS). First launch copies it into `parkourgym-server/run/` if that copy is missing. After changing the test world, `/save` and copy the Polar file back into `parkourgym-server/worlds/` to update the tracked world.
+Player damage, including fall and void damage, is cancelled. Server movement checks (`player_movement_check`, `elytra_movement_check`, and Paper `PlayerFailMoveEvent`) are disabled so historical client movement can be tested. The server disables `rate-limit` and Bukkit `connection-throttle` for concurrent worker joins, including when reusing an existing run directory. The defaults in `run-defaults/` seed a fresh server; the build task also applies settings to existing runs.
 
-If you already have an old `parkourgym-server/run/` from before the height change, delete that folder so the datapack and Polar world can be copied fresh.
+## Control API
 
-Plugins installed automatically: ViaVersion, ViaBackwards, ViaRewind, PolarPaper, Axiom Paper, and this helper plugin.
+Minecraft traffic uses port 25565. The Gym binds a local HTTP API to `127.0.0.1:25566` and worker WebSockets to `127.0.0.1:25567`. It serves `GET /api/blocks`, `GET /api/clients`, `POST /api/runs`, and `GET /api/runs/<runId>`. HTTP carries run requests and state; WebSocket carries commands to connected TAS clients. The Gym does not launch Minecraft clients. For queued runs, process reuse, request examples, placement choices, and comparison, see [testing/README.md](../testing/README.md).
+
+`PhysicsTestPlugin` manages Paper lifecycle and player worlds; `GymControlApi` serves the local control plane; `RunPreparation` builds pads and resets game mode, gear, and effects for each run. `FailureSnapshotChat` handles the snapshot marker below.
 
 ## Movement failure snapshots
 
-An accuracy-test client records the first position mismatch by sending the following reserved, ordinary chat message as the player:
+An accuracy-test client asks for a server snapshot through a reserved, ordinary player chat message:
 
 ```text
 !lpcf <runId> <version> <tick>
 ```
 
-The complete message must be ASCII and at most 64 characters. `runId` and `version` are one token of at most 36 characters (`A-Z`, `a-z`, digits, `.`, `_`, `:`, `+`, `/`, `@`, or `-`). `tick` must be a decimal number between `0` and `9999999`. The exact four-space-separated fields are required; there is no details field, so the protocol stays short enough to be safely sent as a normal chat message.
+The complete message is ASCII and at most 64 characters. `runId` and `version` are single tokens of at most 36 characters using letters, digits, `.`, `_`, `:`, `+`, `/`, `@`, or `-`. `tick` is a decimal number from `0` to `9999999`. The helper cancels every message beginning with `!lpcf`, including malformed ones, before other players see it. A valid message writes one single-line JSON event to the Paper log, prefixed by `[LPC_FAILURE_SNAPSHOT] `.
 
-The helper intercepts every message beginning with `!lpcf` at the lowest chat priority and cancels it, so neither valid nor malformed protocol messages are broadcast to other players. A valid message writes exactly one JSON object to the server log, prefixed by the stable marker `[LPC_FAILURE_SNAPSHOT] `:
-
-```text
-[LPC_FAILURE_SNAPSHOT] {"event":"failure_snapshot","schemaVersion":1,"runId":"...","version":"...","tick":123,"player":{"uuid":"...","name":"..."},"world":{"key":"...","name":"..."},"position":{"x":0.0,"y":65.0,"z":0.0,"yaw":0.0,"pitch":0.0},"velocity":{"x":0.0,"y":0.0,"z":0.0},"onGround":true,"boundingBox":{"minX":...,"minY":...,"minZ":...,"maxX":...,"maxY":...,"maxZ":...},"blockRadius":2,"blockBounds":{"minX":...,"minY":...,"minZ":...,"maxX":...,"maxY":...,"maxZ":...},"blocks":[{"x":...,"y":...,"z":...,"material":"minecraft:stone","blockData":"minecraft:stone"}],"blockCount":...}
-```
-
-The marker is followed by one stable, single-line JSON event; normal Paper logger timestamps/prefixes may appear before it. `blockRadius` is currently the fixed radius `2` around the player's complete bounding box (therefore including feet and head), clipped to the world's height. Blocks are emitted in deterministic `y`, `z`, `x` order and include integer coordinates, namespaced material, and Bukkit block data. A log consumer can parse the substring beginning at the marker and then decode the JSON object. `AsyncChatEvent` captures are moved to the player's Folia entity scheduler before reading world state.
+The event has `event: "failure_snapshot"`, `schemaVersion`, run ID, version, tick, player and world identity, position and facing, velocity, `onGround`, bounding box, block bounds, and nearby blocks with coordinates, namespaced material, and Bukkit block data. `blockRadius` is `2` around the complete player bounding box, clipped to the world's height. Blocks are emitted in deterministic `y`, `z`, `x` order. Parse the JSON substring after the marker; normal Paper log prefixes may appear before it. The async chat handler moves capture to the player's Folia entity scheduler before reading world state. The comparison workflow requests snapshots both at the first mismatch and after its one-second continuation.
