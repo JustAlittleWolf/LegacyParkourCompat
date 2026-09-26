@@ -30,4 +30,3 @@ Source proves that B can synthesize a jump input after qualifying movement towar
 ## Handoff
 
 For 1.9.4 emulation, this newer-only local feature is relevant only when B's option is active. Implementation and default-policy decisions belong to later workflows. Related dependency: S6 Jump Boost. No implementation or runtime validation was performed.
-

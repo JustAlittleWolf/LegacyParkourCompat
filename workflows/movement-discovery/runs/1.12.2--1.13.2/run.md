@@ -71,7 +71,7 @@ Findings: `water-jump-height.md`, `water-sprint-gates.md`, `flight-toggle-swimmi
 - Last completed: paired A/B Feather provenance; stage 1.1 keyboard sampling; bounded stage 1, 2 and 3 water, ground and glide slices.
 - Next: finish stage 1 providers/tick order, auto-jump, corrections and riding; then stage 2 state writers, stage 3 movement/effect closure and stage 4 collision. Revisit water/pose findings as their dependencies close.
 - Outstanding dependencies: `DEP-SWIM-STATE-CLOSURE`, `DEP-GLIDE-GROUPING`, `DEP-EFFECT-TRAVEL`, `DEP-COLLISION-SHAPES`, `DEP-BLOCK-FRICTION`, `DEP-LOOK-VECTOR`, and the remaining stage 1-7 inventories.
-- Assumptions requiring verification: both versionsGÇÖ release-specific Feather outputs are the selected common mapping family; source/member correspondence continues to be verified behaviorally.
+- Assumptions requiring verification: both versionsGï¿½ï¿½ release-specific Feather outputs are the selected common mapping family; source/member correspondence continues to be verified behaviorally.
 
 ## Source audit closure
 
@@ -79,4 +79,3 @@ Findings: `water-jump-height.md`, `water-sprint-gates.md`, `flight-toggle-swimmi
 - Unresolved gaps: full member correspondence; most of stage 1 and stages 2-7, including data-driven inputs, remain open. B decompilation logged access/signature warnings in non-movement code and no error-count summary; cited movement methods were readable.
 - Evidence/hash/correspondence audit: hashes are listed for source files cited to date; A artifact provenance has been imported, with raw-log and remapper-warning limitations recorded above. ordinary-pitch glide expression grouping, remaining look-vector consumers, and collision-shape API deltas need closure before disposition. No differences are inferred from names alone.
 - Runtime validation: not performed (separate workflow).
-

@@ -77,6 +77,3 @@
 - Gaps: this is a partial source audit, not an exhaustive equivalence claim. Local tick/gate inventory, entity push and fluid paths, remaining block properties, resource/effect/equipment dependencies and external influences remain open. S3b needs version-matched server-source verification. Door `mirror()` differs in 1.10.2 by toggling HINGE as well as rotating FACING; paired `getShape()` uses HINGE for open-door geometry, and structure/template placement calls mirror, so this is an indirect world-generation/template input rather than a direct player movement algorithm delta. It remains open as an environmental collision-state candidate pending a bounded relevance check.
 - Evidence audit: paired releases and Feather mapping provenance are recorded; hashes for cited F001 sources appear in that finding. Do not claim exhaustive equivalence from the reviewed slices.
 - Runtime validation: not performed (separate workflow).
-
-
-

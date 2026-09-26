@@ -84,4 +84,3 @@
 - Unresolved gaps: all remaining paired stages beyond the bounded findings/no-difference slices, exact input transformation semantics, effects/resources and dependency closures.
 - Evidence/hash audit: client, mapping, mapped-jar, version-json hashes are from provenance manifests and were rechecked locally for A; B hashes are rechecked against its previous run manifest. Cited source hashes are in the finding/index.
 - Runtime validation: not performed (separate workflow).
-
