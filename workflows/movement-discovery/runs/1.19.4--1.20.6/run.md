@@ -40,8 +40,8 @@ A/B correspondence seeds resolved from the filename inventories (Mojmap names): 
 
 ## Coverage ledger
 
-- Stage 1 / local input and tick ordering: findings; slices: `S1-01` keyboard input tick compared-no-difference; `S1-02` input vector and forward predicate compared-no-difference; `S1-03` LocalPlayer tick field-access refactor compared-no-difference after getter verification; `S1-04` creative flight toggle findings in `findings/MC1194-1206-01.md` for the added ground-jump call on creative flight activation. `KeyboardInput.tick`, `Input.getMoveVector` and `Input.hasForwardImpulse` compared-no-difference; `LocalPlayer.tick` differences at `level.hasChunkAt`/`level().hasChunkAt` and `onGround`/`onGround()` resolve to the same fields through B getters. Passenger crouch slowdown remains queued for scope/dependency disposition.
-- Stage 2 / player-specific state and gates: in-progress; A/B player and entity anchors hash-verified; pose-fit refactor and passenger crouch state require bounded dependency tracing.
+- Stage 1 / local input and tick ordering: findings; slices: `S1-01` keyboard input tick compared-no-difference; `S1-02` input vector and forward predicate compared-no-difference; `S1-03` LocalPlayer tick field-access refactor compared-no-difference after getter verification; `S1-04` creative flight toggle findings in `findings/MC1194-1206-01.md` for the added ground-jump call on creative flight activation. `KeyboardInput.tick`, `Input.getMoveVector` and `Input.hasForwardImpulse` compared-no-difference; `LocalPlayer.tick` differences at `level.hasChunkAt`/`level().hasChunkAt` and `onGround`/`onGround()` resolve to the same fields through B getters. `S1-05` passenger crouch slowdown: findings; see `findings/MC1194-1206-06.md` for the changed local-player input scaling and travel path. Any vehicle movement effect remains out-of-scope.
+- Stage 2 / player-specific state and gates: in-progress; pose-fit and default player dimensions compare-no-difference; `Abilities` source is identical; finding `MC1194-1206-05` records the modern-only nondefault scale attribute. Food/effect and all ability gates still require closure.
 - Stage 3 / living movement integration: in-progress; bounded travel/jump slices `S3-01` gravity attribute source, `S3-02` fall-distance reset lifetime, and `S3-03` jump-power rounding have findings; remaining fluid, friction, acceleration, climb and effect closure is pending.
 - Stage 4 / entity movement and collision: in-progress; A/B entity/collision anchors hash-verified; movement and query comparisons pending.
 - Stage 5 / blocks and fluids: in-progress; B seed inventory and selected B resource entries recorded; A source/resource comparison and registration/override closure pending.
@@ -60,12 +60,14 @@ A/B correspondence seeds resolved from the filename inventories (Mojmap names): 
 `MC1194-1206-02` — Living travel uses the synced gravity attribute (source-confirmed; default value unchanged).
 `MC1194-1206-03` — Slow Falling and Levitation reset fall distance across a broader set of states (source-confirmed).
 `MC1194-1206-04` — Jump Boost power sum is rounded to float before velocity assignment (source-confirmed).
+`MC1194-1206-05` — B player scale attribute changes collision dimensions when nondefault (modern-only).
+`MC1194-1206-06` — Passenger crouch no longer scales local player movement input.
 
 ## Resume checkpoint
 
-- Last completed slice: stage 3 first bounded travel/jump comparison; three source-confirmed findings added.
-- Next step: disposition stage-1 passenger-only input scaling; close stage 2 pose, dimensions and ability gates; continue stage 3 dependencies in order.
-- Outstanding dependencies: passenger crouch slowdown scope; pose-fit/query dependency; gravity/jump attribute values and effects; resource closure; remaining navigation slices.
+- Last completed slice: stage 2 base pose fit, crouch/standing dimensions, and abilities; one modern-only scale finding; stages 1 and 3 have findings.
+- Next step: complete stage 2 food/effect/sprint gate dependencies, then stage 3 travel closure and stage 4 step/collision slices.
+- Outstanding dependencies: food/effect gate dependency closure; gravity/jump attribute values and effects; block jump/friction dependencies; resource closure; remaining navigation stages.
 - Namespace alignment: verified Mojmap-to-Mojmap for exact 1.19.4 and 1.20.6 artifacts; names alone are not treated as correspondence proof.
 
 ## Source audit closure
@@ -94,7 +96,7 @@ The successful decompiler output and cache are kept untracked/ignored. Gradle di
 - `S1-02` Input representation: A and B `net/minecraft/client/player/Input.java`, `getMoveVector()` and `hasForwardImpulse()` lines 18-24; exact same source hash `B302FFBC45C5F900EA18A4D4AF2DF6FA0454EA7CB7744A0D249061E5FCB97FBB`. Both return `new Vec2(leftImpulse, forwardImpulse)` and compare `forwardImpulse > 1.0E-5F`; `Input.tick` is empty on both. Status: compared-no-difference for these members.
 - `S1-03` Local-player send tick: A `LocalPlayer.tick()` lines 187-207, source SHA-256 `8E7DA18F42D09FBB994F522C2B0E65FCB2BB83CABB21024360299D44D9674C58`; B lines 190-210, source SHA-256 `6B429DFA6E0681251EC985DDA1627F808652A7BBE5B70DC85C8FA0FE0ED46FFA`. Guard changed from direct `level` field access to `level()`, and ground flag arguments changed from field to `onGround()`. B `Entity.level()` returns the `level` field (line 3393); `Entity.onGround()` returns the `onGround` field (line 593). A exposed those same fields to LocalPlayer. These substitutions preserve the read values; packet selection and call order in the inspected method are the same. Status: compared-no-difference for these access-path changes.
 - `S1-04` Creative-flight transition: finding `findings/MC1194-1206-01.md`; LocalPlayer.aiStep branch plus player/living jump call chain. Status: findings.
-- Passenger crouch slowdown candidate: `LocalPlayer.aiStep` now excludes passengers when setting the local `crouching` flag before `Input.tick(isMovingSlowly(), factor)`. This can alter input scaling forwarded to a ridden entity; determine whether any player movement state changes independently of the vehicle, and disposition against the explicit non-player-entity scope before closing S1.
+- `S1-05` passenger crouch slowdown: finding `MC1194-1206-06`. With passenger, shift input, crouching pose fit, nonzero movement input and factor below one, A scales local player impulses and B does not. `LocalPlayer.serverAiStep` copies them to xxa/zza and living travel consumes them. Any additional vehicle input effect is excluded.
 
 A-side hash cross-checks against the adjacent source manifest: `LocalPlayer.java` `8E7DA18F42D09FBB994F522C2B0E65FCB2BB83CABB21024360299D44D9674C58`; `KeyboardInput.java` `A8064906872955A3520398AB5B2A326552D424F41887D1294AA6A038E2623FF0`; `Input.java` `B302FFBC45C5F900EA18A4D4AF2DF6FA0454EA7CB7744A0D249061E5FCB97FBB`; `Entity.java` `3667FEE610CBC5F58012E3A8FB8D6C4849F649FB7FE5300595158112D8B4B58B`; `LivingEntity.java` `C8D91AF61F87AAA1666DE79696D7CD9D4A8212D05F873BDAF28D7BB2926BF165`; `Player.java` `5E4436AFCCB361156F8184E7A5CFD91D5B12DCFE8F5937B4AC23DD3EDDA737A2`. The B `ClientPacketListener.java` source hash is `E121E998EC25211AAECF91FFFD0EA699CEBD47EDDEA9134EFD3F2FFBEF8EB7CD`; A counterpart hash is `BCC74E52A32D20A3E993EBE4E08FFFE8CACA7481FAD8F326DACDC93796B2B715`.
 ### Stage 3 evidence ledger (active)
@@ -103,3 +105,10 @@ A-side hash cross-checks against the adjacent source manifest: `LocalPlayer.java
 - `S3-02` Fall-distance reset timing/guards: finding `MC1194-1206-03`; position/velocity effects are not asserted.
 - `S3-03` Ground-jump power operation order: finding `MC1194-1206-04`; effect application and attribute defaults are linked dependencies.
 - Remaining stage-3 slices: ground/air acceleration and friction, water/lava, climbing, levitation/fall flying, post-travel updates and all callers/dependencies.`n
+### Stage 2 evidence ledger (active)
+
+- `S2-01` Player crouching/standing pose fit: compared-no-difference at scale `1.0`. A `Player.getDimensions(Pose)` supplies the same standing/crouching width and height as B `Player.getDefaultDimensions(Pose)`; eye heights are `1.62F` standing and `1.27F` crouching on both. A `Entity.canEnterPose()` and B `Player.canPlayerFitWithinBlocksAndEntitiesWhen()` use the same no-collision predicate, pose dimensions and `1.0E-7` deflation; constructor/accessor layout changed with `EntityDimensions` but the inspected box coordinates match.
+- `S2-02` Ability state: A/B `net/minecraft/world/entity/player/Abilities.java` files have identical SHA-256 `A4F952ADA7BC3B21406FEAF13C171BFA22D36B01E265E3B987612F28B5609EDC`; flags and walking/flying speed defaults and getters are unchanged in this bounded class.
+- `S2-03` Passenger crouch slowdown: finding `MC1194-1206-06`. A/B `Player.updatePlayerPose` keeps the same passenger pose branch, but the local crouch flag feeds `Input.tick`, then local-player travel; the player path is in-scope. Any additional ride-control packet effect remains outside scope.
+- `S2-04` Nondefault scale: finding `MC1194-1206-05`, modern-only synchronized attribute that can change the player bounding dimensions; default `1.0` preserves the compared pose dimensions.
+- Still open: sprint hunger/effect gate dependencies, blindness and active-item state sources, swimming/crawling and flight/ability packet inputs; continue stage 2 before terminal coverage.
