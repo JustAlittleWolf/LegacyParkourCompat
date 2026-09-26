@@ -3,7 +3,7 @@
 - Status: active
 - Scope: client player movement; older A = 1.19.4; newer B = 1.20.6
 - Repository revision and start date: source baseline `c133c29`; worktree branch `feat/movement-discovery-1-20`; 2026-09-26
-- Selected naming namespace, CLI mode per side and alignment evidence: B uses Mojang official mappings (`mojmap`); A-side source and successful provenance are pending from the adjacent earlier-major operator. No paired source comparison or alignment conclusion yet.
+- Selected naming namespace, CLI mode per side and alignment evidence: A and B both use release-specific Mojang official mappings (`mojmap`). The A owner manifest identifies exact 1.19.4 Mojmap artifacts, and this task independently verified the 1.19.4 client, mappings, remapped jar, version metadata and cited source hashes against those identities. Release-specific mappings are paired in the same official namespace.
 - Source preparation command and log: `gradlew.bat decompileMinecraft --versions=1.20.6 --mappings=mojmap`; successful `BUILD SUCCESSFUL` output captured by this task session, but no persistent Gradle console log was configured. Re-run is not permitted after output generation without invalidating B evidence.
 - Toolchain/decompiler/remapper versions and options: Gradle 9.7.1; JDK 25.0.3+9-LTS fork (`-Xmx4G`, task default); Vineflower 1.12.0; Tiny Remapper 0.14.1; Mapping IO 0.9.1; ASM 9.10.1; Fabric Loom 1.17.21. Exact mapping mode `mojmap`; no additional decompiler options.
 
@@ -19,11 +19,12 @@
 - Remapped jar: `../../../../build/minecraft-decompile-cache/1.20.6/client-mojmap.jar`; SHA-256 `0A82FBD3C9EB3570573AC9CE7C1A2357F5A12D7C4501F63D62BA0B8E5D060532`.
 - Version metadata: `../../../../build/minecraft-decompile-cache/1.20.6/version.json`; SHA-256 `6797A5A0B1C1F1C5E4F4B2B5EB0AA266BC1E350126A8AA71082E2C3808622597`.
 - Task completed successfully. Non-fatal remapper access warnings affected five classes and zero members; Vineflower reported four repeated-processing notices. Relevant movement methods still require slice-level inspection for decompiler integrity.
-- A-side exact release, source root, command/log, jar/mapping/remapped-jar identities, and hashes: pending successful provenance from the 1.19.4 owner. Do not regenerate A.
+- A-side exact request/resolution: 1.19.4 / 1.19.4, independently verified against the adjacent owner manifest and successful completion record. Command: `gradlew.bat -g .gradle-user-home decompileMinecraft --versions=1.19.4 --mappings=mojmap`; same JDK, Vineflower, remapper and Mapping IO versions as B. The command succeeded; no persistent raw log file was retained. Do not regenerate A.
+- A source root: `../../../../decompiled_minecraft/1.19.4/mojmap/` via verified shared-root junction. Original client jar SHA-256 `0E79CF7F07C107E9A1FE22ED703E472372B44149E64114944F0811ABBD25F3EC` (publisher SHA-1 `958928a560c9167687bea0cefeb7375da1e552a8`); version metadata SHA-256 `DABA0C50674934924B15007863ADE2C0A8697F370781CD15E7F5AD950176CAB6`; official mapping artifact SHA-256 `5EF270B938F89CFC77371E0DEEE9F9044C41D9A373FA11DCB1FD1923272C4606` (publisher SHA-1 `f14771b764f943c154d3a6fcb47694477e328148`); remapped jar SHA-256 `3E40F8B67DC696F4E08F2F7AFD4D4C2E263B2A86221D13141953C7FDAA80375D`. All four cache hashes independently match the A owner manifest.
 
 ### B-side navigation inventory and source hashes
 
-Paths are relative to `../../../../decompiled_minecraft/1.20.6/mojmap/`. SHA-256 values below are for the cited decompiled `.java` source files. This is an initial path inventory; method-pair correspondence and behavioral conclusions await A provenance.
+Paths are relative to `../../../../decompiled_minecraft/1.20.6/mojmap/`. SHA-256 values below are for the cited decompiled `.java` source files. This is an initial path inventory; paired member findings are recorded below and per slice.
 
 - Stage 1 input/tick: `net/minecraft/client/player/LocalPlayer.java` `6B429DFA6E0681251EC985DDA1627F808652A7BBE5B70DC85C8FA0FE0ED46FFA`; `KeyboardInput.java` `A8064906872955A3520398AB5B2A326552D424F41887D1294AA6A038E2623FF0`; `Input.java` `B302FFBC45C5F900EA18A4D4AF2DF6FA0454EA7CB7744A0D249061E5FCB97FBB`.
 - Stage 2 player state: `net/minecraft/world/entity/player/Player.java` `785D93CCC94E1F912E545B2B0C355EDEB352B44EE8E83A69364DAEC35266DBE2`; `Abilities.java` `A4F952ADA7BC3B21406FEAF13C171BFA22D36B01E265E3B987612F28B5609EDC`; `LivingEntity.java` `C66EC8DC3B1856E490E5834A46185589030D9FBC411E3E2CE64C73203CD753B2`.
@@ -35,40 +36,40 @@ Paths are relative to `../../../../decompiled_minecraft/1.20.6/mojmap/`. SHA-256
 
 ## Correspondence and call order
 
-B-side seeds resolved from the filename inventory (Mojmap names): local player `LocalPlayer extends AbstractClientPlayer`; input implementation `KeyboardInput extends Input`; player state `Player`; movement superclass `LivingEntity`; base entity/collision owner `Entity`; box/shape types `AABB` / `VoxelShape`. Verified B entry methods include `LocalPlayer.tick()` (line 190), `LocalPlayer.aiStep()` (648), `LivingEntity.jumpFromGround()` (2069), `LivingEntity.travel(Vec3)` (2104), `LivingEntity.handleRelativeFrictionAndCalculateMovement(Vec3,float)` (2269), `LivingEntity.tick()` (2336), `LivingEntity.aiStep()` (2591), `Entity.tick()` (414), and `Entity.moveRelative(float,Vec3)` (1311). The B-side ordered call chain and state read/write details are pending bounded method inspection. No A-to-B pairing has been asserted.
+A/B correspondence seeds resolved from the filename inventories (Mojmap names): local player `LocalPlayer extends AbstractClientPlayer`; input implementation `KeyboardInput extends Input`; player state `Player`; movement superclass `LivingEntity`; base entity/collision owner `Entity`; box/shape types `AABB` / `VoxelShape`. Verified B entry methods include `LocalPlayer.tick()` (line 190), `LocalPlayer.aiStep()` (648), `LivingEntity.jumpFromGround()` (2069), `LivingEntity.travel(Vec3)` (2104), `LivingEntity.handleRelativeFrictionAndCalculateMovement(Vec3,float)` (2269), `LivingEntity.tick()` (2336), `LivingEntity.aiStep()` (2591), `Entity.tick()` (414), and `Entity.moveRelative(float,Vec3)` (1311). B-side tick order begins `LocalPlayer.tick()` -> `super.tick()` -> `LivingEntity.tick()`/`aiStep()`; `LocalPlayer.aiStep()` samples `Input`, applies client gates and calls `super.aiStep()`, which reaches living movement. Exact member ordering and state reads/writes continue to be added per bounded slice. A-to-B Mojmap namespace alignment is verified. `LocalPlayer`, `KeyboardInput`, `Input`, `Player`, `LivingEntity`, `Entity`, `AABB`, `VoxelShape`, `FlowingFluid`, `MobEffects`, `Enchantments`, `EnchantmentHelper`, `Blocks` and `ClientPacketListener` correspondence is confirmed from matching owner roles, inheritance/call paths and verified source hashes; member correspondence is established per slice.
 
 ## Coverage ledger
 
-- Stage 1 / local input and tick ordering: in-progress; B seed paths inventoried; A evidence pending; B call/state chain inspection pending.
-- Stage 2 / player-specific state and gates: in-progress; B seed paths inventoried; A evidence pending; inheritance/default/update closure pending.
-- Stage 3 / living movement integration: in-progress; B seed paths and travel/jump members inventoried; A evidence pending; bounded member comparison pending.
-- Stage 4 / entity movement and collision: in-progress; B seed paths inventoried; A evidence pending; movement and query dependencies pending.
-- Stage 5 / blocks and fluids: in-progress; B seed implementation filenames inventoried; A evidence pending; registrations, overrides, shapes, callbacks and resources pending.
-- Stage 6 / effects, enchantments, attributes and equipment: in-progress; B seed paths inventoried; A evidence pending; resource/data dependencies and consumer/application closure pending.
-- Stage 7 / external influences and dependency closure: in-progress; B seed paths inventoried; A evidence pending; packet and external-value paths pending.
+- Stage 1 / local input and tick ordering: findings; slices: `S1-01` keyboard input tick compared-no-difference; `S1-02` input vector and forward predicate compared-no-difference; `S1-03` LocalPlayer tick field-access refactor compared-no-difference after getter verification; `S1-04` creative flight toggle findings in `findings/MC1194-1206-01.md` for the added ground-jump call on creative flight activation. `KeyboardInput.tick`, `Input.getMoveVector` and `Input.hasForwardImpulse` compared-no-difference; `LocalPlayer.tick` differences at `level.hasChunkAt`/`level().hasChunkAt` and `onGround`/`onGround()` resolve to the same fields through B getters. Passenger crouch slowdown remains queued for scope/dependency disposition.
+- Stage 2 / player-specific state and gates: in-progress; A/B player and entity anchors hash-verified; pose-fit refactor and passenger crouch state require bounded dependency tracing.
+- Stage 3 / living movement integration: in-progress; A/B living entity anchors hash-verified; bounded travel/jump comparisons pending.
+- Stage 4 / entity movement and collision: in-progress; A/B entity/collision anchors hash-verified; movement and query comparisons pending.
+- Stage 5 / blocks and fluids: in-progress; B seed inventory and selected B resource entries recorded; A source/resource comparison and registration/override closure pending.
+- Stage 6 / effects, enchantments, attributes and equipment: in-progress; A/B code anchors hash-verified; paired consumers and data/resource closure pending.
+- Stage 7 / external influences and dependency closure: in-progress; A/B player, entity and packet-listener anchors hash-verified; packet and external-value comparisons pending.
 
 ## Dependency queue and blockers
 
-- A source provenance: exact 1.19.4 source output, successful log and artifact hashes from the adjacent owner; required before pairing, alignment confirmation and behavioral conclusions. Do not regenerate A.
+- A source provenance verified against the adjacent owner manifest; no raw persistent console log exists, so successful completion facts are recorded in that manifest and this file. Do not regenerate A.
 - B resource integrity: inspect the original `client.jar` entries for movement-relevant tags and data; hash each entry as it enters a cited dependency closure.
-- B ordered member index: inspect each stage's bounded methods, callers, state writers, registrations and resource dependencies before making terminal coverage claims.
+- B ordered member index: continue bounded methods, callers, state writers, registrations and resource dependencies before making terminal coverage claims.
 
 ## Finding index
 
-No findings yet. No candidate differences have been evaluated.
+`MC1194-1206-01` — Flight activation adds a ground-jump impulse (source-confirmed).
 
 ## Resume checkpoint
 
-- Last completed slice: exact B (1.20.6) source generation and initial filename/hash inventory.
-- Next step: inspect B stage 1 call order and state flow, inventory relevant B resources, then wait for the 1.19.4 owner's successful artifact manifest before any pair comparison.
-- Outstanding dependencies: A provenance; B resource hashes; B method/caller/dependency closure.
-- Assumption requiring verification: the versions can be compared in aligned official Mojang naming after confirming the A-side mapping source is Mojmap; no alignment is claimed yet.
+- Last completed slice: stage 1 bounded input methods and LocalPlayer.aiStep flight-toggle branch; one source-confirmed finding created.
+- Next step: stage 1 remaining sprint/jump/input closure and stage 2 pose/player-state slice; continue in order.
+- Outstanding dependencies: passenger crouch slowdown scope; pose-fit/query dependency; B resource closure; later navigation slices.
+- Namespace alignment: verified Mojmap-to-Mojmap for exact 1.19.4 and 1.20.6 artifacts; names alone are not treated as correspondence proof.
 
 ## Source audit closure
 
-- Coverage counts: 7 in-progress; 0 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked.
-- Unresolved gaps: A provenance and all paired comparisons; B resource closure and ordered method/member index. This checkpoint is partial.
-- Evidence/hash/correspondence audit: B artifacts and listed source hashes recorded; persistent task console log was not configured; no A evidence; no pair correspondence asserted.
+- Coverage counts: stage 1 includes findings and compared-no-difference sub-slices; stages 2-7 in-progress; 0 blocked.
+- Unresolved gaps: stages 1-7 are not closed; resource, method and dependency closures remain. This checkpoint is partial.
+- Evidence/hash/correspondence audit: A/B artifacts and relevant source hashes verified; both console logs lack persistent raw files; stage-1 member references are in the finding.
 - Runtime validation: not performed (separate workflow).
 
 ### B-side jar resource inventory (initial)
@@ -84,3 +85,12 @@ Entries are from the original cached 1.20.6 `client.jar` (`../../../../build/min
 - `data/minecraft/tags/items/freeze_immune_wearables.json` — `8DF0FA68F14A7F9705DF39043A43C0B07ABF3C30642608EC47C52F78A3EE0C3D`
 
 The successful decompiler output and cache are kept untracked/ignored. Gradle did not persist a console log file in this run; the task tool output recorded the requested/resolved version, artifact downloads, mapping mode, warnings and successful completion. This is a provenance-record limitation to resolve before final closure if a durable log becomes necessary; no B evidence is currently invalidated by rerunning before any paired findings, but no rerun is planned now.
+### Stage 1 evidence index (paired)
+
+- `S1-01` Keyboard input sampling: A and B `net/minecraft/client/player/KeyboardInput.java`, `KeyboardInput.tick(boolean,float)` lines 21-36; exact same source hash `A8064906872955A3520398AB5B2A326552D424F41887D1294AA6A038E2623FF0`. Both read up/down/left/right/jump/shift key states, derive impulses with the same `calculateImpulse` comparisons and apply the same slowdown multiplier in the same order. Status: compared-no-difference for this bounded member.
+- `S1-02` Input representation: A and B `net/minecraft/client/player/Input.java`, `getMoveVector()` and `hasForwardImpulse()` lines 18-24; exact same source hash `B302FFBC45C5F900EA18A4D4AF2DF6FA0454EA7CB7744A0D249061E5FCB97FBB`. Both return `new Vec2(leftImpulse, forwardImpulse)` and compare `forwardImpulse > 1.0E-5F`; `Input.tick` is empty on both. Status: compared-no-difference for these members.
+- `S1-03` Local-player send tick: A `LocalPlayer.tick()` lines 187-207, source SHA-256 `8E7DA18F42D09FBB994F522C2B0E65FCB2BB83CABB21024360299D44D9674C58`; B lines 190-210, source SHA-256 `6B429DFA6E0681251EC985DDA1627F808652A7BBE5B70DC85C8FA0FE0ED46FFA`. Guard changed from direct `level` field access to `level()`, and ground flag arguments changed from field to `onGround()`. B `Entity.level()` returns the `level` field (line 3393); `Entity.onGround()` returns the `onGround` field (line 593). A exposed those same fields to LocalPlayer. These substitutions preserve the read values; packet selection and call order in the inspected method are the same. Status: compared-no-difference for these access-path changes.
+- `S1-04` Creative-flight transition: finding `findings/MC1194-1206-01.md`; LocalPlayer.aiStep branch plus player/living jump call chain. Status: findings.
+- Passenger crouch slowdown candidate: `LocalPlayer.aiStep` now excludes passengers when setting the local `crouching` flag before `Input.tick(isMovingSlowly(), factor)`. This can alter input scaling forwarded to a ridden entity; determine whether any player movement state changes independently of the vehicle, and disposition against the explicit non-player-entity scope before closing S1.
+
+A-side hash cross-checks against the adjacent source manifest: `LocalPlayer.java` `8E7DA18F42D09FBB994F522C2B0E65FCB2BB83CABB21024360299D44D9674C58`; `KeyboardInput.java` `A8064906872955A3520398AB5B2A326552D424F41887D1294AA6A038E2623FF0`; `Input.java` `B302FFBC45C5F900EA18A4D4AF2DF6FA0454EA7CB7744A0D249061E5FCB97FBB`; `Entity.java` `3667FEE610CBC5F58012E3A8FB8D6C4849F649FB7FE5300595158112D8B4B58B`; `LivingEntity.java` `C8D91AF61F87AAA1666DE79696D7CD9D4A8212D05F873BDAF28D7BB2926BF165`; `Player.java` `5E4436AFCCB361156F8184E7A5CFD91D5B12DCFE8F5937B4AC23DD3EDDA737A2`. The B `ClientPacketListener.java` source hash is `E121E998EC25211AAECF91FFFD0EA699CEBD47EDDEA9134EFD3F2FFBEF8EB7CD`; A counterpart hash is `BCC74E52A32D20A3E993EBE4E08FFFE8CACA7481FAD8F326DACDC93796B2B715`.
