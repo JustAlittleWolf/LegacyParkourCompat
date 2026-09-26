@@ -58,3 +58,25 @@ This is an exact-source inventory for the newer endpoint only. It records useful
 3. Compare bounded Stage 1 slices in order, then stages 2–7; hash every source/resource used and update coverage/dependency state incrementally.
 4. Keep all coverage pending until each paired slice has evidence and a scoped conclusion.
 
+
+## Pair-specific Stage 1 notes (partial)
+
+### Slice 1.1 — input sampling and vector shaping; no terminal conclusion yet
+
+- A `KeyboardInput.tick(boolean,float)` samples four directional, jump and shift keys into booleans/impulses (`KeyboardInput.java:21-37`, SHA-256 `a8064906872955a3520398ab5b2a326552d424f41887d1294aa6a038e2623ff0`). `Input.getMoveVector()` returns `(leftImpulse, forwardImpulse)` directly (`Input.java:21-23`, SHA-256 `b302ffbc45c5f900ea18a4d4af2df6fa0454ea7cb7744a0d249061e5fcb97fbb`). `LocalPlayer.aiStep()` samples the slow-movement/enchantment multiplier and calls `input.tick(...)` at line 667, then item-use slowdown at lines 669-672; `serverAiStep()` copies resulting impulses into `xxa`/`zza` at lines 612-616. A `LivingEntity.aiStep()` applies `0.98F` to both axes before travel at lines 2671-2672; `Entity.getInputVector()` normalizes only when squared length exceeds 1 (`Entity.java`, source hash in the A manifest).
+- B `KeyboardInput.tick()` captures forward/back/left/right/jump/shift/sprint and sets `moveVector` from normalized `Vec2` impulses (`KeyboardInput.java:23-36`, SHA-256 `d5cb0e93df7f66755172d74e028225012ee33c6e4f0d510a1d8e25ba5497c0a3`). `ClientInput.getMoveVector()` returns that stored vector (`ClientInput.java:10-15`, SHA-256 `597a44339a99f1bce1b081614c7c2984ca03e255b40e9d247675a31b6f810d78`). `LocalPlayer.applyInput()` calls `modifyInput()` at lines 653-664; that method applies `0.98F`, item-use multiplier, sneaking-speed attribute and square-movement shaping (`LocalPlayer.java:668-700`, SHA-256 `948e94f8e874b2f72e9a689e6e3ba1933f5728ec381d64f3bb5e2388718bd477`). `LivingEntity.aiStep()` dispatches `applyInput()` before jump and travel at lines 2920 onward; its default `applyInput()` scales axes at lines 3014-3016, while the controlled-camera `LocalPlayer` override supplies already-modified axes without calling `super`.
+- Observation: the responsibility for 0.98 scaling moved from `LivingEntity.aiStep()` to the local-player input transform. A's diagonal vector may be normalized later by `Entity.getInputVector`; B normalizes at sampling and reshapes in `modifyInputSpeedForSquareMovement`. A and B also compute sneak and item-use scaling at different points, and B sources sneak/item multipliers from attributes/components. These textual transformations alone do not settle floating-point equivalence or controller/alternate-input behavior. Keep slice in-progress until operation order, reachable producers, values and relevant data are closed.
+
+### Slice 1.2 — sprint timer evidence
+
+- A local-player sprint counter decrements at `LocalPlayer.java:649-650`; eligible tap handling assigns fixed `7` at line 698. File SHA-256 is recorded in F-1.
+- B counter decrements at `LocalPlayer.java:729-730`; eligible tap handling reads the client `Options.sprintWindow()` at lines 767-775. The option is default `7`, range `0..10`, in `Options.java:556-565`.
+- F-1 isolates the setting-dependent interval. Eligibility and stop conditions are separate open slices and were not treated as equivalent by this finding.
+
+
+
+### Slice 1.1 — diagonal keyboard float normalization (F-3)
+
+- A source order: keyboard impulses `(1.0F,1.0F)` -> `LivingEntity.aiStep()` multiplies both by `0.98F` -> `Entity.getInputVector` sees squared length over one and normalizes a `Vec3` with double `Math.sqrt`.
+- B source order: keyboard creates normalized `Vec2` using `Mth.sqrt(float)` -> `LocalPlayer.modifyInput()` applies `0.98F` and square-movement shaping -> the resulting float diagonal components have squared length below one, so `Entity.getInputVector` does not normalize again.
+- For the stated no-slowdown diagonal precondition and yaw zero, direct evaluation yields A approximately `0.7071067811865476` and B approximately `0.7071067690849304` per horizontal input component. Finding F-3 records the source anchors, hashes and inference boundary. The slice remains limited to built-in keyboard diagonal input; analog and other scaling paths remain in `DEP-INPUT-SHAPE`.
