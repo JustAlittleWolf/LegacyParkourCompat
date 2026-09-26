@@ -26,7 +26,9 @@
 - Mapping artifact: `build/minecraft-decompile-cache/yarn/feather-gen2-1.13.2+build.2-mergedv2.jar`; SHA-256 `317384d4facc2939c3b14252993d31745eb42aad59f2f0ea78893cbe4e7283b`. Extracted Tiny mapping: `build/minecraft-decompile-cache/yarn/feather-gen2-1.13.2+build.2.tiny`; SHA-256 `b3fd787448aed2c6e115d965d9edbb437ce47794ba63c7883e9014fd41262f71`.
 - Mapped jar: `build/minecraft-decompile-cache/1.13.2/client-ornithe-feather.jar`; SHA-256 `688e25bd92d09014d3b2e6995a597cb9664a46466912cf6817c8128af1c6d912` (hash after the retained successful rerun).
 - Source root: `decompiled_minecraft/1.13.2/ornithe-feather/` via verified junction.
-- Relevant B source hashes: `net/minecraft/client/entity/living/player/KeyboardInput.java` `7be11425906be051c83e275f359816546e4677b16d212156380e8d2e9258654a`; `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java` `2583495f3a02b4791aa036e6a8d354d7596c4984761969a0f29b29d8d9bf42bf`.
+- A source hashes: `net/minecraft/client/entity/living/player/KeyboardInput.java` `7be11425906be051c83e275f359816546e4677b16d212156380e8d2e9258654a`; `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java` `01a58e94d8c6ff98a8e3794227cdc76a5fcbdabad795c70c9cf28854aff9823cc`; `net/minecraft/entity/Entity.java` `80f091bf32166c88cf8bbd31caf72d84fa16224410733c7d2a0f00563f294a0a`; `net/minecraft/entity/living/LivingEntity.java` `190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6`; `net/minecraft/entity/living/player/PlayerEntity.java` `e4e0fdbe07a7d0a0ae4a70cbb6739a287c9d045a4a12b409895c220b5d91fe1e`; `net/minecraft/block/Block.java` `e4a90eca411e7b0e14f5018f7385ec29891f6cdf1a1e917fa648b5712f9b33a1`; `net/minecraft/util/math/MathHelper.java` `579e05d110460f444bcac86729141545095cb5932c0f8d34c9a4dcfcd9a35e80`.
+- B source hashes: `net/minecraft/client/entity/living/player/KeyboardInput.java` `7be11425906be051c83e275f359816546e4677b16d212156380e8d2e9258654a`; `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java` `2583495f3a02b4791aa036e6a8d354d7596c4984761969a0f29b29d8d9bf42bf`; `net/minecraft/entity/Entity.java` `1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269`; `net/minecraft/entity/living/LivingEntity.java` `bb691358c9a43c9f46e85575bf4d0a4ad671d0eb912502acc3a6a3f625e42f1c`; `net/minecraft/entity/living/player/PlayerEntity.java` `4ed22f6c5a3c55d67eed782070ac722201df4d624adbc90779f1fd29c2876633`; `net/minecraft/block/Block.java` `735030e8bb5fc7ead2d6dbcb1b262a36a414b4349daf197456337f460b444cd4`; `net/minecraft/util/math/MathHelper.java` `2211b0cb3da7d8789a4a4df96509b95e6b1be8b222be2f530e7bd0695573bd69`.
+- Retained B decompile log completed successfully (`BUILD SUCCESSFUL`; no reported Vineflower error-count summary). It records invalid-access warnings and mismatched Scheduler method signatures; none concern the movement files/methods cited to date. The exact movement source bodies used here were readable.
 
 ## Correspondence and call order
 
@@ -39,29 +41,42 @@
 ## Coverage ledger
 
 - Slice 1.1 / stage 1 / keyboard sampling and sneak input scaling: `compared-no-difference`. A/B `KeyboardInput.tick()V`, lines 12-49. Whole-file hashes match. The four key reads, direction flags, jump/sneak flags, multiplication order and casts match. Bounded conclusion: this input provider’s sampled values match; alternate input producers are not covered.
-- Slice 1.2 / stage 1 / local-player input order and swimming sprint/flight gates: `in-progress`. A `LocalClientPlayerEntity.mobTick()V`, lines 649-812; B same member, lines 653-842. Input tick, item-use scaling and auto-jump order appear unchanged. A sprint start requires `onGround`; B additionally permits `isSubmergedInWater()`. B sprint-key start additionally gates `(!isInWater() || isSubmergedInWater())`; B sprint cancellation has swimming-specific branches. B also prevents the second-jump flight toggle while swimming. Continue with swim-state predicates/transition and base `PlayerEntity` behavior before disposition.
+- Slice 1.2 / stage 1 / local-player sprint gates, flight toggle and sneak-water input: `findings`. A `LocalClientPlayerEntity.mobTick()V`, lines 649-812; B same member, lines 653-842. Four water-dependent input deltas are recorded. Broader stage 1 sources (alternate inputs, initialization, auto-jump shape behavior, corrections and riding) remain open.
+- Slice 2.1 / stage 2 / swimming pose dimensions: `findings`. A `PlayerEntity.updatePlayerPose()V`, lines 291-315; B same member, lines 334-361. `swim-dimensions.md` records the new 0.6-high swim box; collision-clearance API comparison remains open.
+- Slice 3.1 / stage 3 / jump dispatch for water contact: `findings`. A `LivingEntity.mobTick()V`, lines 1827-1839, and `jumpInWater()V`, lines 1413-1415; B `LivingEntity.mobTick()V`, lines 1903-1917, base jump lines 1451-1464, and water-height source in `Entity`, lines 2521-2574. `water-jump-height.md` records the bounded delta.
+- Slice 3.2 / stage 3 / player look-directed vertical control while swimming: `findings`. A/B `PlayerEntity.moveRelative(FFF)V`, A lines 1385-1404; B lines 1441-1468. See `swim-look-vertical-control.md`.
+- Slice 3.3 / stage 3 / ground movement acceleration coefficient: `findings`. A/B `LivingEntity.moveRelative(FFF)V`, A line 1485; B line 1545; block default friction cited in `ground-accel-float.md`.
+- Slice 3.4 / stage 3 / ordinary water gravity: `findings`. A/B `LivingEntity.moveRelative(FFF)V`, A lines 1555-1584; B lines 1617-1655. See `water-gravity.md`.
+- Slice 3.5 / stage 3 / water travel while sprinting: `findings`. Same branch pair as 3.4, with sprint friction and gravity guard. See `water-sprint-travel.md`.
+- Slice 3.6 / stage 3 / vertical-gaze glide correction: `findings`. A/B `Entity.getRotationVector(float,float)` and `LivingEntity.moveRelative(FFF)V`; exact vertical-pitch lookup and branch behavior are recorded in `glide-vertical-gaze.md`. Normal-pitch expression regrouping remains unresolved.
 - All other slices: `pending`.
 
 ## Dependency queue and blockers
 
-- `DEP-SWIM-STATE`: Resolve A/B `isInWater`, `isSubmergedInWater`, `isSwimming`, swimming pose/state writers and travel dispatch. Required to bound the 1.13 sprint and flight gates and to trace the new sneaking-water downward input. Continue stages 2 and 3.
+- `DEP-SWIM-STATE-CLOSURE`: The direct B water/submersion/swimming predicates and their entity/player writers were inspected. Still resolve pose/dimension transitions, fluid-height semantics and timing, fluid collision inputs, and travel consumers across stages 2-5; revisit sprint/flight conclusions if those paths alter applicability.
 - `DEP-A-PROVENANCE`: Import the 1.12.2 owner’s source preparation command, client/mapping/mapped-jar hashes and successful log reference; no re-decompilation. Needed to close paired-source audit.
-- Remaining stage dependencies have not yet been discovered; inventory stages 1-7 in order.
+- `DEP-GLIDE-GROUPING`: The vertical-gaze guard and look-vector values are resolved in `glide-vertical-gaze.md`. Still determine whether B's regrouped default glide-gravity expression produces a reachable accumulated velocity difference at ordinary pitch; preserve exact floating-point order.
+- `DEP-EFFECT-TRAVEL`: Trace B Slow Falling and Dolphin's Grace registrations/application/data, Depth Strider aggregation and tags/resources; separate modern-only effects from historical behavior.
+- `DEP-LOOK-VECTOR`: Check changed A/B rotation-vector expressions at remaining reachable movement consumers (notably auto-jump, swimming and external movement) for additional numeric differences; the exact vertical-pitch glide path is documented.
+- `DEP-COLLISION-SHAPES`: Resolve A nullable collision boxes versus B `VoxelShape.isEmpty()` and collision-clearance query differences in auto-jump and player resizing.
+- `DEP-BLOCK-FRICTION`: Inventory registered slipperiness values and resource-backed block/fluid state inputs for the movement coefficient and related travel slices.
+- Other stage dependencies remain to be discovered; inventory navigation stages 1-7 in order.
 
 ## Finding index
 
-No finding files yet. `KeyboardInput.tick()` was compared without a source-body difference. The swimming-related changes are not yet separated into findings because their reachable swim-state predicates and movement dependencies are open.
+Findings: `water-jump-height.md`, `water-sprint-gates.md`, `flight-toggle-swimming.md`, `sneak-water-descent.md`, `swim-dimensions.md`, `swim-look-vertical-control.md`, `ground-accel-float.md`, `water-gravity.md`, `water-sprint-travel.md`, and `glide-vertical-gaze.md`. `KeyboardInput.tick()` was compared without a source-body difference. The ordinary glide gravity grouping and collision-shape representation changes remain queued pending dependency closure.
 
 ## Resume checkpoint
 
-- Last completed: B 1.13.2 Feather decompilation/provenance; stage 1.1 keyboard input slice.
-- Next: complete stage 1.2 `mobTick()` dependency closure by tracing swimming state predicates and client travel/state writers in `PlayerEntity` / `LivingEntity` on both versions; then finish remaining stage 1 slices.
-- Outstanding dependencies: `DEP-SWIM-STATE`, `DEP-A-PROVENANCE`.
+- Last completed: B 1.13.2 Feather decompilation/provenance; stage 1.1 keyboard sampling; bounded stage 1, 2 and 3 water, ground and glide slices.
+- Next: finish stage 1 providers/tick order, auto-jump, corrections and riding; then stage 2 state writers, stage 3 movement/effect closure and stage 4 collision. Revisit water/pose findings as their dependencies close.
+- Outstanding dependencies: `DEP-SWIM-STATE-CLOSURE`, `DEP-A-PROVENANCE`, `DEP-GLIDE-GROUPING`, `DEP-EFFECT-TRAVEL`, `DEP-COLLISION-SHAPES`, `DEP-BLOCK-FRICTION`, `DEP-LOOK-VECTOR`, and the remaining stage 1-7 inventories.
 - Assumptions requiring verification: both versions’ Feather outputs are a valid common mapping family; A’s exact artifact hashes and resolver evidence are pending its owner’s handoff.
 
 ## Source audit closure
 
-- Coverage: 1 compared-no-difference; 1 in-progress; all other stage slices pending; 0 findings.
-- Unresolved gaps: A provenance checkpoint; full member correspondence; stages 1.2-7 and data-driven inputs remain open.
-- Evidence/hash/correspondence audit: source hashes recorded for the first paired files. Further cited source files need hashes added when their slices are recorded. No differences are inferred from names alone.
+- Coverage: 1 compared-no-difference; 8 findings rows; remaining stage rows pending; 10 source-confirmed finding files.
+- Unresolved gaps: A provenance checkpoint; full member correspondence; most of stage 1 and stages 2-7, including data-driven inputs, remain open. B decompilation logged access/signature warnings in non-movement code and no error-count summary; cited movement methods were readable.
+- Evidence/hash/correspondence audit: hashes are listed for the source files cited to date, but A artifact provenance is still pending. ordinary-pitch glide expression grouping, remaining look-vector consumers, and collision-shape API deltas need closure before disposition. No differences are inferred from names alone.
 - Runtime validation: not performed (separate workflow).
+
