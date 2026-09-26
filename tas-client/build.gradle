@@ -41,6 +41,7 @@ def tasAutomationRun = tasAutomationValue('tasRun', 'LEGACY_PARKOUR_TAS_RUN')
 def tasAutomationVersion = tasAutomationValue('tasVersion', 'LEGACY_PARKOUR_TAS_VERSION')
 def tasAutomationCompare = tasAutomationValue('tasCompare', 'LEGACY_PARKOUR_TAS_COMPARE')
 def tasAutomationTolerance = tasAutomationValue('tasTolerance', 'LEGACY_PARKOUR_TAS_TOLERANCE')
+def tasWorker = (findProperty('tasWorker') ?: 'false').toString().toBoolean()
 if (tasAutomationRecording != null) {
     tasAutomationArgs << "-Dlegacyparkour.tas.recording=${new File(tasAutomationRecording).absolutePath}"
     tasAutomationArgs << '-Dlegacyparkour.tas.autoplay=true'
@@ -166,6 +167,12 @@ if (!ideaSync && compareMc(clientTarget.minecraft, '26') < 0) {
                 if (!tasAutomationArgs.isEmpty()) {
                     jvmArgs tasAutomationArgs
                 }
+                jvmArgs '-Xmx3G'
+                if (tasWorker) {
+                    jvmArgs "-Dlegacyparkour.tas.workerVersion=${findProperty('clientVersion') ?: clientTarget.minecraft}"
+                    jvmArgs "-Dlegacyparkour.tas.controlHost=${findProperty('tasControlHost') ?: '127.0.0.1'}"
+                    if (findProperty('tasWorkerId') != null) jvmArgs "-Dlegacyparkour.tas.workerId=${findProperty('tasWorkerId')}"
+                }
                 if (!useFabric && !useForge113) {
                     jvmArgs '-Dfml.coreMods.load=me.wolfii.legacyparkourcompat.recording.RecordingMixinCoremod'
                 }
@@ -210,13 +217,20 @@ tasks.register('runTasClient') {
 
 // Configure narrator options before Minecraft loads them. The accessibility
 // onboarding screen speaks its prompt even when narrator:0 is already set.
-if (!ideaSync && compareMc(clientTarget.minecraft, '1.14') >= 0 && compareMc(clientTarget.minecraft, '26') < 0) {
+if (!ideaSync && compareMc(clientTarget.minecraft, '26') < 0) {
     tasks.named('runClient').configure {
+        if (tasWorker) {
+            args '--username', "LPC${UUID.randomUUID().toString().replace('-', '').substring(0, 10)}"
+        }
         doFirst {
             File optionsFile = layout.projectDirectory.file("run/${clientTarget.minecraft}/options.txt").asFile
             optionsFile.parentFile.mkdirs()
             List<String> lines = optionsFile.isFile() ? optionsFile.readLines('UTF-8') : []
-            Map<String, String> disabled = ['narrator': '0']
+            Map<String, String> disabled = [
+                narrator: '0', renderDistance: '2', maxFps: '50', fancyGraphics: 'false',
+                ao: '0', clouds: 'false', particles: '2', mipmapLevels: '0',
+                entityShadows: 'false', enableVsync: 'false'
+            ]
             if (compareMc(clientTarget.minecraft, '1.14') >= 0) {
                 // Keep TAS automation able to send its Gym pose command. In
                 // decompiled 1.14 GameOptions, chatVisibility defaults to

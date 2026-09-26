@@ -191,6 +191,7 @@ def rootTasAutomationVersion = rootTasAutomationValue('tasVersion', 'LEGACY_PARK
 def rootTasAutomationCompare = rootTasAutomationValue('tasCompare', 'LEGACY_PARKOUR_TAS_COMPARE')
 def rootTasAutomationTolerance = rootTasAutomationValue('tasTolerance', 'LEGACY_PARKOUR_TAS_TOLERANCE')
 def rootTasAutomationMaxUlps = rootTasAutomationValue('tasMaxUlps', 'LEGACY_PARKOUR_TAS_MAX_ULPS')
+def rootTasWorker = (findProperty('tasWorker') ?: 'false').toString().toBoolean()
 if (tasCompareTaskRequested) {
     if (rootTasAutomationExpected == null) {
         throw new GradleException('runTasCompare needs -PtasExpected=<version-reference.lprc>')
@@ -273,11 +274,19 @@ if (rootTasAutomationMaxUlps != null) {
 }
 ['runClient', 'runCurrentTasClient'].each { runTask ->
     tasks.named(runTask).configure {
+        if (rootTasWorker) {
+            args '--username', "LPC${UUID.randomUUID().toString().replace('-', '').substring(0, 10)}"
+        }
         doFirst {
             File optionsFile = file('run/options.txt')
             optionsFile.parentFile.mkdirs()
             List<String> lines = optionsFile.isFile() ? optionsFile.readLines('UTF-8') : []
-            Map<String, String> disabled = [narrator: '0', narratorHotkey: 'false', onboardAccessibility: 'false']
+            Map<String, String> disabled = [
+                narrator: '0', narratorHotkey: 'false', onboardAccessibility: 'false',
+                renderDistance: '2', simulationDistance: '2', maxFps: '50',
+                graphicsMode: '0', fancyGraphics: 'false', ao: '0', clouds: 'false',
+                particles: '2', mipmapLevels: '0', entityShadows: 'false', enableVsync: 'false'
+            ]
             boolean changed = false
             disabled.each { key, value ->
                 String setting = "${key}:${value}"
@@ -310,6 +319,12 @@ if (rootTasAutomationMaxUlps != null) {
         if (!rootTasAutomationArgs.isEmpty()) {
             jvmArgs rootTasAutomationArgs
         }
+        jvmArgs '-Xmx3G'
+        if (rootTasWorker) {
+            jvmArgs '-Dlegacyparkour.tas.workerVersion=current'
+            jvmArgs "-Dlegacyparkour.tas.controlHost=${findProperty('tasControlHost') ?: '127.0.0.1'}"
+            if (findProperty('tasWorkerId') != null) jvmArgs "-Dlegacyparkour.tas.workerId=${findProperty('tasWorkerId')}"
+        }
     }
 }
 
@@ -335,10 +350,72 @@ tasks.register('runTasClient') {
     }
 }
 
+def tasLabJson = new groovy.json.JsonSlurper()
+def tasLabApi = { String path, String method, Object body = null ->
+    HttpURLConnection connection = (HttpURLConnection) new URL("http://127.0.0.1:25568${path}").openConnection()
+    connection.connectTimeout = 2000
+    connection.readTimeout = 3000
+    connection.requestMethod = method
+    if (body != null) {
+        connection.doOutput = true
+        connection.setRequestProperty('Content-Type', 'application/json')
+        connection.outputStream.withCloseable { stream -> stream.write(groovy.json.JsonOutput.toJson(body).getBytes('UTF-8')) }
+    }
+    int status = connection.responseCode
+    String response = (status < 400 ? connection.inputStream : connection.errorStream).getText('UTF-8')
+    connection.disconnect()
+    if (status >= 400) throw new GradleException("TAS lab HTTP ${status}: ${response}")
+    return tasLabJson.parseText(response)
+}
+def ensureTasLab = {
+    try { tasLabApi('/api/clients', 'GET'); return }
+    catch (Exception ignored) { }
+    File log = file('testing/run/logs/coordinator.log')
+    log.parentFile.mkdirs()
+    List<String> command = [file('gradlew.bat').absolutePath, ':testing:runLab', '--no-daemon']
+    if (org.gradle.internal.os.OperatingSystem.current().isWindows()) command = ['cmd', '/c'] + command
+    ProcessBuilder builder = new ProcessBuilder(command)
+        .directory(rootDir).redirectErrorStream(true).redirectOutput(log)
+    builder.environment().put('GRADLE_USER_HOME', gradle.gradleUserHomeDir.absolutePath)
+    Process lab = builder.start()
+    logger.lifecycle("Starting persistent TAS lab; log=${log.absolutePath}")
+    long deadline = System.currentTimeMillis() + 180000L
+    while (System.currentTimeMillis() < deadline) {
+        try { tasLabApi('/api/clients', 'GET'); return }
+        catch (Exception ignored) { }
+        if (!lab.isAlive()) throw new GradleException("TAS lab exited with ${lab.exitValue()}; inspect ${log.absolutePath}")
+        Thread.sleep(1000L)
+    }
+    throw new GradleException("TAS lab did not start; inspect ${log.absolutePath}")
+}
+def awaitTasLabRun = { String runId ->
+    long deadline = System.currentTimeMillis() + 1200000L
+    while (System.currentTimeMillis() < deadline) {
+        def state = tasLabApi("/api/runs/${runId}", 'GET')
+        if (state.state in ['success', 'after_failure', 'error']) {
+            if (state.state == 'error') throw new GradleException("TAS lab run ${runId} failed: ${state}")
+            return state
+        }
+        Thread.sleep(500L)
+    }
+    throw new GradleException("TAS lab run ${runId} timed out; inspect http://127.0.0.1:25568/api/runs/${runId}")
+}
+
 tasks.register('runTasCompare') {
     group = 'minecraft'
     description = 'Compare a reference against Legacy Parkour emulation and fail on any positional difference.'
-    dependsOn 'runCurrentTasClient'
+    doFirst {
+        ensureTasLab()
+        Map<String, Object> request = [
+            clientVersion: 'current', recording: file(rootTasAutomationExpected).absolutePath,
+            output: file(rootTasAutomationOutput).absolutePath, profile: rootTasAutomationVersion, compare: true
+        ]
+        if (rootTasAutomationMaxUlps != null) request.maxUlps = Long.parseLong(rootTasAutomationMaxUlps)
+        if (rootTasAutomationTolerance != null) request.tolerance = Double.parseDouble(rootTasAutomationTolerance)
+        def accepted = tasLabApi('/api/runs', 'POST', request)
+        logger.lifecycle("Queued TAS comparison ${accepted.runId} on the reusable current client")
+        awaitTasLabRun(accepted.runId.toString())
+    }
     doLast {
         File expectedFile = file(rootTasAutomationExpected)
         File actualFile = file(rootTasAutomationOutput)
@@ -364,14 +441,14 @@ tasks.register('runTasCompare') {
         def snapshotContext = {
             String logPath = snapshotLog.absolutePath
             if (snapshotLog.isFile()) {
-                int matchingLineNumber = -1
+                List<Integer> matchingLineNumbers = []
                 snapshotLog.eachLine('UTF-8') { line, lineNumber ->
                     if (line.contains('[LPC_FAILURE_SNAPSHOT]') && line.contains('"runId":"' + runId + '"')) {
-                        matchingLineNumber = lineNumber
+                        matchingLineNumbers << lineNumber
                     }
                 }
-                if (matchingLineNumber >= 0) {
-                    return "Snapshot: ${logPath}:${matchingLineNumber} [LPC_FAILURE_SNAPSHOT] runId=${runId}"
+                if (!matchingLineNumbers.isEmpty()) {
+                    return "Snapshots: ${matchingLineNumbers.collect { line -> "${logPath}:${line}" }.join(', ')} [LPC_FAILURE_SNAPSHOT] runId=${runId}"
                 }
             }
             return "Snapshot log: ${logPath}; search for [LPC_FAILURE_SNAPSHOT] and runId=${runId}"
@@ -472,30 +549,16 @@ tasks.register('runTasCompare') {
 
 tasks.register('runTasWorkflow') {
     group = 'minecraft'
-    description = 'Replay one recording against the localhost parkour gym for a comma-separated list of client versions.'
+    description = 'Queue a recording for multiple Minecraft versions on reusable TAS clients.'
     doLast {
-        def firstProperty = { List<String> names ->
-            for (String name : names) {
-                def value = project.findProperty(name)
-                if (value != null && !value.toString().trim().isEmpty()) {
-                    return value.toString().trim()
-                }
-            }
-            return null
+        String recordingValue = (findProperty('tasRecording') ?: findProperty('recordingFile') ?: findProperty('recording'))?.toString()
+        String versionsValue = (findProperty('tasVersions') ?: findProperty('clientVersions') ?: findProperty('minecraftVersions'))?.toString()
+        if (!recordingValue || !versionsValue) {
+            throw new GradleException('runTasWorkflow needs -PtasRecording=<file.lprc> and -PtasVersions=1.8.9,1.12.2,current')
         }
-        def recordingValue = firstProperty(['tasRecording', 'recordingFile', 'recording'])
-        def versionsValue = firstProperty(['tasVersions', 'clientVersions', 'minecraftVersions'])
-        if (recordingValue == null) {
-            throw new GradleException('runTasWorkflow needs -PtasRecording=<file.lprc> (or -PrecordingFile=...)')
-        }
-        if (versionsValue == null) {
-            throw new GradleException('runTasWorkflow needs -PtasVersions=1.8.9,1.12.2,current')
-        }
-        File recordingFile = project.file(recordingValue)
-        if (!recordingFile.isFile()) {
-            throw new GradleException("Recording file does not exist: ${recordingFile}")
-        }
-        def recordingTickCount = { File recording ->
+        File source = file(recordingValue)
+        if (!source.isFile()) throw new GradleException("Recording file does not exist: ${source}")
+        def tickCount = { File recording ->
             java.io.RandomAccessFile data = new java.io.RandomAccessFile(recording, 'r')
             try {
                 if (data.length() < 44L || data.readInt() != 0x4C505243 || data.readUnsignedShort() != 1) {
@@ -507,194 +570,63 @@ tasks.register('runTasWorkflow') {
                     throw new GradleException("Invalid LPRC tick count or length: ${recording}")
                 }
                 return count
-            } finally {
-                data.close()
-            }
+            } finally { data.close() }
         }
-        int sourceTickCount = recordingTickCount(recordingFile)
-        List<String> versions = versionsValue.split(',')
-            .collect { it.trim() }
-            .findAll { !it.isEmpty() }
-        if (versions.isEmpty()) {
-            throw new GradleException('At least one Minecraft version is required in -PtasVersions')
+        int expectedTicks = tickCount(source)
+        def verifyInputs = { File result ->
+            if (tickCount(result) != expectedTicks) throw new GradleException("TAS run captured the wrong tick count: ${result}")
+            java.io.RandomAccessFile expected = new java.io.RandomAccessFile(source, 'r')
+            java.io.RandomAccessFile actual = new java.io.RandomAccessFile(result, 'r')
+            try {
+                byte[] expectedHeader = new byte[44]
+                byte[] actualHeader = new byte[44]
+                expected.readFully(expectedHeader)
+                actual.readFully(actualHeader)
+                if (!java.util.Arrays.equals(expectedHeader, actualHeader)) {
+                    throw new GradleException("TAS run changed the source start pose or format: ${result}")
+                }
+                byte[] expectedInput = new byte[10]
+                byte[] actualInput = new byte[10]
+                for (int tick = 0; tick < expectedTicks; tick++) {
+                    expected.readFully(expectedInput)
+                    actual.readFully(actualInput)
+                    if (!java.util.Arrays.equals(expectedInput, actualInput)) {
+                        throw new GradleException("TAS run changed input or facing at tick ${tick}: ${result}")
+                    }
+                    expected.skipBytes(24)
+                    actual.skipBytes(24)
+                }
+            } finally { expected.close(); actual.close() }
         }
-
-        File outputDirectory = project.file(firstProperty(['tasOutputDir', 'outputDir']) ?: 'tas-results')
+        List<String> versions = versionsValue.split(',').collect { it.trim() }.findAll { !it.isEmpty() }
+        if (versions.isEmpty()) throw new GradleException('At least one client version is required')
+        File outputDirectory = file((findProperty('tasOutputDir') ?: findProperty('outputDir') ?: 'tas-results').toString())
         outputDirectory.mkdirs()
-        String serverAddress = firstProperty(['tasServer', 'serverAddress']) ?: 'localhost:25565'
-        String startGymValue = firstProperty(['tasStartGym', 'startGym'])
-        boolean startGym = startGymValue == null
-            || ['true', '1', 'yes'].contains(startGymValue.toLowerCase(Locale.ROOT))
-        int serverPort = 25565
-        int lastColon = serverAddress.lastIndexOf(':')
-        if (lastColon > 0 && lastColon < serverAddress.length() - 1 && serverAddress.indexOf(':') == lastColon) {
-            try {
-                serverPort = Integer.parseInt(serverAddress.substring(lastColon + 1))
-            } catch (NumberFormatException ignored) {
-                throw new GradleException("Invalid parkour gym address: ${serverAddress}")
-            }
+        ensureTasLab()
+        String stem = source.name.replaceFirst(/(?i)\.lprc$/, '')
+        File manifestFile = new File(outputDirectory, "${stem}-manifest.tsv")
+        List<String> manifest = ['# Legacy Parkour TAS workflow results', "# recording=${source.absolutePath}", 'version\tresult']
+        List<Map<String, Object>> submitted = []
+        versions.each { version ->
+            String safe = version.replaceAll('[^A-Za-z0-9._-]', '_')
+            File result = new File(outputDirectory, "${stem}-${safe}-${UUID.randomUUID().toString().substring(0, 8)}.lprc")
+            def accepted = tasLabApi('/api/runs', 'POST', [
+                clientVersion: version, recording: source.absolutePath, output: result.absolutePath, compare: false
+            ])
+            submitted << [version: version, output: result, runId: accepted.runId.toString()]
+            logger.lifecycle("Queued TAS ${version}: ${accepted.runId}")
         }
-        String sourceStem = recordingFile.name.replaceFirst(/(?i)\.lprc$/, '')
-        List<String> manifest = ['# Legacy Parkour TAS workflow results', "# recording=${recordingFile.absolutePath}", "# server=${serverAddress}", 'version\tresult']
-        File manifestFile = new File(outputDirectory, "${sourceStem}-manifest.tsv")
-        manifestFile.setText(manifest.join(System.lineSeparator()) + System.lineSeparator(), 'UTF-8')
-        Process gymProcess = null
-        boolean ownsGym = false
-
-        def portOpen = {
-            try {
-                Socket socket = new Socket()
-                socket.connect(new InetSocketAddress('127.0.0.1', serverPort), 500)
-                socket.close()
-                return true
-            } catch (IOException ignored) {
-                return false
+        submitted.each { entry ->
+            awaitTasLabRun(entry.runId.toString())
+            File result = (File) entry.output
+            if (!result.isFile() || result.length() == 0L) {
+                throw new GradleException("TAS run ${entry.runId} produced no result: ${result}")
             }
+            verifyInputs(result)
+            manifest << "${entry.version}\t${result.absolutePath}"
+            manifestFile.setText(manifest.join(System.lineSeparator()) + System.lineSeparator(), 'UTF-8')
         }
-        def streamProcess = { Process process, String label ->
-            Thread thread = new Thread({
-                process.inputStream.eachLine { line -> logger.lifecycle("[${label}] ${line}") }
-            }, "legacy-parkour-${label.replaceAll('[^A-Za-z0-9_-]', '_')}")
-            thread.daemon = true
-            thread.start()
-            return thread
-        }
-
-        try {
-            if (!portOpen() && startGym) {
-                File wrapper = project.file('gradlew.bat')
-                List<String> serverCommand = [wrapper.absolutePath, 'runParkourGymServer', '--no-daemon']
-                if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
-                    serverCommand = ['cmd', '/c'] + serverCommand
-                }
-                logger.lifecycle('Starting the localhost parkour gym server...')
-                gymProcess = new ProcessBuilder(serverCommand)
-                    .directory(project.rootDir)
-                    .redirectErrorStream(true)
-                    .start()
-                ownsGym = true
-                streamProcess(gymProcess, 'gym')
-                long deadline = System.currentTimeMillis() + 180000L
-                while (!portOpen() && System.currentTimeMillis() < deadline) {
-                    Thread.sleep(1000L)
-                    if (!gymProcess.isAlive()) {
-                        throw new GradleException("Parkour gym server exited with code ${gymProcess.exitValue()}")
-                    }
-                }
-            }
-            if (!portOpen()) {
-                throw new GradleException("Parkour gym is not listening at ${serverAddress}; start runParkourGymServer or pass -PtasStartGym=true")
-            }
-
-            File clientWrapper = project.file('gradlew.bat')
-            for (String version : versions) {
-                String safeVersion = version.replaceAll('[^A-Za-z0-9._-]', '_')
-                File result = new File(outputDirectory, "${sourceStem}-${safeVersion}.lprc")
-                File temporaryResult = new File(outputDirectory, result.name + '.tmp')
-                if (temporaryResult.exists() && !temporaryResult.delete()) {
-                    throw new GradleException("Cannot remove stale temporary result ${temporaryResult}")
-                }
-                Map<String, String> environment = new HashMap<String, String>(System.getenv())
-                environment.put('LEGACY_PARKOUR_TAS_RECORDING', recordingFile.absolutePath)
-                environment.put('LEGACY_PARKOUR_TAS_OUTPUT', temporaryResult.absolutePath)
-                environment.put('LEGACY_PARKOUR_TAS_SERVER', serverAddress)
-                environment.put('LEGACY_PARKOUR_TAS_RUN', "${sourceStem}-${safeVersion}")
-                environment.put('LEGACY_PARKOUR_TAS_VERSION', version)
-                environment.put('LEGACY_PARKOUR_TAS_COMPARE', 'false')
-                List<String> clientCommand = [
-                    clientWrapper.absolutePath,
-                    'runTasClient',
-                    '--no-daemon',
-                    '--project-prop', "clientVersion=${version}",
-                    '--project-prop', "tasRecording=${recordingFile.absolutePath}",
-                    '--project-prop', "tasOutput=${temporaryResult.absolutePath}",
-                    '--project-prop', "tasServer=${serverAddress}",
-                    '--project-prop', "tasRun=${sourceStem}-${safeVersion}",
-                    '--project-prop', "tasVersion=${version}"
-                ]
-                if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
-                    clientCommand = ['cmd', '/c'] + clientCommand
-                }
-                clientCommand = clientCommand.collect { it.toString() }
-                logger.lifecycle("Running TAS client ${version}; result=${result.name}")
-                ProcessBuilder clientBuilder = new ProcessBuilder(clientCommand)
-                    .directory(project.rootDir)
-                    .redirectErrorStream(true)
-                environment.each { key, value -> clientBuilder.environment().put(key.toString(), value.toString()) }
-                Process client = clientBuilder.start()
-                Thread clientOutput = streamProcess(client, "tas-${safeVersion}")
-                int exitCode = client.waitFor()
-                clientOutput.join(5000L)
-                if (exitCode != 0) {
-                    throw new GradleException("TAS client ${version} exited with code ${exitCode}; no result was published")
-                }
-                if (!temporaryResult.isFile() || temporaryResult.length() == 0L) {
-                    throw new GradleException("TAS client ${version} finished without a result file: ${temporaryResult}")
-                }
-                int resultTickCount = recordingTickCount(temporaryResult)
-                if (resultTickCount != sourceTickCount) {
-                    throw new GradleException("TAS client ${version} captured ${resultTickCount} of ${sourceTickCount} ticks; no result was published")
-                }
-                java.io.RandomAccessFile sourceData = new java.io.RandomAccessFile(recordingFile, 'r')
-                java.io.RandomAccessFile resultData = new java.io.RandomAccessFile(temporaryResult, 'r')
-                try {
-                    byte[] sourceHeader = new byte[44]
-                    byte[] resultHeader = new byte[44]
-                    sourceData.readFully(sourceHeader)
-                    resultData.readFully(resultHeader)
-                    if (!java.util.Arrays.equals(sourceHeader, resultHeader)) {
-                        throw new GradleException("TAS client ${version} changed the source start pose or format; no result was published")
-                    }
-                    byte[] sourceInput = new byte[10]
-                    byte[] resultInput = new byte[10]
-                    for (int tick = 0; tick < sourceTickCount; tick++) {
-                        sourceData.readFully(sourceInput)
-                        resultData.readFully(resultInput)
-                        if (!java.util.Arrays.equals(sourceInput, resultInput)) {
-                            throw new GradleException("TAS client ${version} changed buttons or facing at tick ${tick}; no result was published")
-                        }
-                        sourceData.skipBytes(24)
-                        resultData.skipBytes(24)
-                    }
-                } finally {
-                    sourceData.close()
-                    resultData.close()
-                }
-                try {
-                    java.nio.file.Files.move(
-                        temporaryResult.toPath(),
-                        result.toPath(),
-                        java.nio.file.StandardCopyOption.REPLACE_EXISTING,
-                        java.nio.file.StandardCopyOption.ATOMIC_MOVE
-                    )
-                } catch (java.nio.file.AtomicMoveNotSupportedException ignored) {
-                    java.nio.file.Files.move(
-                        temporaryResult.toPath(),
-                        result.toPath(),
-                        java.nio.file.StandardCopyOption.REPLACE_EXISTING
-                    )
-                }
-                manifest << "${version}\t${result.absolutePath}"
-                manifestFile.setText(manifest.join(System.lineSeparator()) + System.lineSeparator(), 'UTF-8')
-            }
-            logger.lifecycle("TAS workflow complete. Results are listed in ${manifestFile}")
-        } finally {
-            if (ownsGym && gymProcess != null) {
-                // On Windows, terminating cmd.exe leaves Gradle's Paper child running
-                // and holding the Gym world lock. Capture the process tree first.
-                List<ProcessHandle> children = gymProcess.toHandle().descendants()
-                    .collect(java.util.stream.Collectors.toList())
-                children.reverseEach { child ->
-                    if (child.isAlive()) child.destroy()
-                }
-                if (gymProcess.isAlive()) gymProcess.destroy()
-                Thread.sleep(2000L)
-                children.reverseEach { child ->
-                    if (child.isAlive()) child.destroyForcibly()
-                }
-                if (gymProcess.isAlive()) gymProcess.destroyForcibly()
-            }
-        }
+        logger.lifecycle("TAS workflow complete: ${manifestFile.absolutePath}")
     }
 }
 

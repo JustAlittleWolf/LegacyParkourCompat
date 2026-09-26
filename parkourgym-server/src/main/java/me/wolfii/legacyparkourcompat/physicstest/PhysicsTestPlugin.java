@@ -24,6 +24,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
@@ -36,6 +37,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
@@ -53,10 +58,21 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
 
     private final AtomicBoolean polarReady = new AtomicBoolean();
     private final AtomicBoolean createStarted = new AtomicBoolean();
+    private final Map<UUID, World> privateWorlds = new ConcurrentHashMap<>();
+    private final Set<UUID> creatingPrivateWorlds = ConcurrentHashMap.newKeySet();
+    private GymControlApi controlApi;
     private int loadAttempts;
 
     @Override
     public void onEnable() {
+        controlApi = new GymControlApi(this);
+        try {
+            controlApi.start();
+        } catch (Exception exception) {
+            getLogger().log(Level.SEVERE, "Could not start the Gym control API", exception);
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
         getServer().getPluginManager().registerEvents(this, this);
         FailureSnapshotChat failureSnapshotChat = new FailureSnapshotChat(this);
         getServer().getPluginManager().registerEvents(failureSnapshotChat, this);
@@ -89,6 +105,14 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
             );
         });
         Bukkit.getGlobalRegionScheduler().run(this, task -> bootstrapWorld());
+    }
+
+    @Override
+    public void onDisable() {
+        if (controlApi != null) {
+            try { controlApi.close(); }
+            catch (Exception exception) { getLogger().log(Level.WARNING, "Could not close Gym API", exception); }
+        }
     }
 
     private void handleTasPayload(String channel, Player player, byte[] data, FailureSnapshotChat failureSnapshotChat) {
@@ -149,6 +173,51 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
             player.spigot().respawn();
         }
         sendToPolarWorld(player);
+        if (polarReady.get()) createPrivateWorld(player);
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        World world = privateWorlds.remove(event.getPlayer().getUniqueId());
+        if (world != null) {
+            Bukkit.getGlobalRegionScheduler().runDelayed(this, task -> {
+                if (!Bukkit.unloadWorld(world, false)) {
+                    getLogger().warning("Could not unload isolated Gym world " + world.getName());
+                }
+            }, 20L);
+        }
+    }
+
+    private void createPrivateWorld(Player player) {
+        UUID id = player.getUniqueId();
+        World existing = privateWorlds.get(id);
+        if (existing != null) {
+            player.teleportAsync(spawnLocation(existing));
+            return;
+        }
+        if (!creatingPrivateWorlds.add(id)) return;
+        String name = "lpc_" + id.toString().replace("-", "");
+        runOnGlobalRegion(() -> Polar.createWorld(new FilePolarSource(polarFile()), name,
+            physicsConfig().toBuilder().loadOnStartup(false).saveOnStop(false).build())
+            .whenComplete((world, error) -> {
+                creatingPrivateWorlds.remove(id);
+                if (error != null || world == null) {
+                    getLogger().log(Level.SEVERE, "Could not create isolated Gym world for " + player.getName(), error);
+                    player.getScheduler().execute(this,
+                        () -> player.kick(Component.text("Could not create isolated Gym world.")),
+                        () -> getLogger().warning("Player left while isolated world creation failed"), 1L);
+                    return;
+                }
+                if (!player.isOnline()) {
+                    runOnGlobalRegion(() -> Bukkit.unloadWorld(world, false));
+                    return;
+                }
+                privateWorlds.put(id, world);
+                Bukkit.getRegionScheduler().run(this, spawnLocation(world), task -> {
+                    applyWorldSettings(world);
+                    if (player.isOnline()) player.teleportAsync(spawnLocation(world));
+                });
+            }));
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -224,6 +293,7 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
                 + world.getMinHeight() + " to " + world.getMaxHeight() + ")");
             for (Player player : Bukkit.getOnlinePlayers()) {
                 sendToPolarWorld(player);
+                createPrivateWorld(player);
             }
         });
     }
@@ -244,6 +314,11 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
     }
 
     private void sendToPolarWorld(Player player) {
+        World privateWorld = privateWorlds.get(player.getUniqueId());
+        if (privateWorld != null) {
+            if (!privateWorld.getKey().equals(player.getWorld().getKey())) player.teleportAsync(spawnLocation(privateWorld));
+            return;
+        }
         World polar = findPolarWorld();
         if (polar == null) {
             return;

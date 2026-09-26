@@ -38,3 +38,4 @@ if (!Boolean.getBoolean('idea.sync.active')) {
     includeBuild 'tas-client'
 }
 include 'parkourgym-server'
+include 'testing'

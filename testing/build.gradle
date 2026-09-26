@@ -1,0 +1,26 @@
+plugins {
+    id 'application'
+}
+
+repositories { mavenCentral() }
+
+dependencies { implementation 'com.google.code.gson:gson:2.10.1' }
+
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(25) }
+}
+
+application { mainClass = 'me.wolfii.legacyparkourcompat.testing.TestCoordinator' }
+
+tasks.register('runLab', JavaExec) {
+    group = 'minecraft'
+    description = 'Start the Gym and a persistent pool of up to five TAS clients; queue run requests through HTTP.'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = application.mainClass
+    systemProperty 'lpc.projectRoot', rootProject.projectDir.absolutePath
+    ['tasVersions', 'tasRecording', 'tasOutputDir', 'tasCompare', 'tasProfile', 'tasMaxUlps'].each { name ->
+        def value = rootProject.findProperty(name)
+        if (value != null) systemProperty "lpc.${name}", value.toString()
+    }
+    standardInput = System.in
+}

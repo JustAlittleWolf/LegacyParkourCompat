@@ -2,6 +2,12 @@
 
 `./gradlew runParkourGymServer` (or `./gradlew :parkourgym-server:runServer`) starts a Paper 26.2 server and leaves it running.
 
+The Gym control API binds to `127.0.0.1:25566` for HTTP and `127.0.0.1:25567`
+for task-client WebSockets. The separate [testing coordinator](../testing/README.md)
+starts the server and owns client processes when running automated tests. The Gym
+accepts at most five connected task workers and gives each Minecraft player an
+isolated Polar world cloned from the saved physics world.
+
 The server is offline-mode and bound to `127.0.0.1`. Joining players are op, so `/gamemode` works. `/save` writes the loaded world as Polar.
 
 Player damage is cancelled, including fall and void damage, so practice runs do not kill players in survival mode.

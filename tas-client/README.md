@@ -50,17 +50,15 @@ version list to the root Gradle task:
 gradlew runTasWorkflow --project-prop "tasRecording=recordings\jump.lprc" --project-prop "tasVersions=1.8.9,1.12.2,1.16.5,current"
 ```
 
-The task starts the localhost gym on `127.0.0.1:25565` when it is not already
-running, launches one isolated client per version, joins the gym, replays the
-recording, and waits for the client to exit after the final tick. Use
-`--project-prop "tasStartGym=false"` when the gym is already managed separately,
-and `--project-prop "tasServer=host:port"` for another local endpoint. Results are published below
-`tas-results/` as `<recording-name>-<version>.lprc`; a
+The task starts the persistent lab if needed. The lab starts the localhost Gym
+on `127.0.0.1:25565`, launches at most five isolated clients, and queues additional
+versions until a slot is free. A client stays open after replay so later runs
+can reuse it. Results are published below
+`tas-results/` as `<recording-name>-<version>-<run-id>.lprc`; a
 `<recording-name>-manifest.tsv` lists every result. Each result uses the normal
 `.lprc` format: source buttons/yaw/pitch plus the observed post-movement
 position for every tick, so it can be replayed or compared by the existing
-tools. The client writes a temporary `.lprc.tmp` first and the workflow moves it
-into place only after a successful run.
+tools.
 
 The same automation can be enabled for one client without the workflow by
 passing Gradle properties, which are translated into JVM properties for the
@@ -75,6 +73,10 @@ recording/playback start and completion. Manual commands remain
 `.recording start [name]`, `.recording stop`, `.playback <name>`, and
 `.playback stop`.
 
+The root `runTasWorkflow` and `runTasCompare` tasks submit to the persistent
+lab described in [testing/README.md](../testing/README.md). It starts the Gym
+and up to five task clients on demand and reuses connected clients for later runs.
+
 To compare a reference against the Legacy Parkour movement emulation in the
 repository's current client, use an expected `.lprc` from the gym and choose a
 parkour version explicitly:
@@ -85,11 +87,11 @@ gradlew runTasCompare --project-prop "tasExpected=tas-results\jump-1.12.lprc" --
 
 `tasExpected` must name the version-specific reference file produced or chosen
 for the selected movement profile; it is deliberately separate from the
-cross-version source input accepted by `runTasWorkflow`. This starts the newest
-repository client, selects the requested movement profile, and compares each
+cross-version source input accepted by `runTasWorkflow`. The lab uses its
+current-version client, selects the requested movement profile, and compares each
 post-movement position with that expected recording. `--project-prop
 "tasOutput=<file.lprc>"` is optional; without it, the task creates a unique actual recording beside the
-expected one. A supplied output path must not already exist. After the client exits, Gradle checks every tick and the tick
+expected one. A supplied output path must not already exist. After the run finishes, Gradle checks every captured tick and the tick
 count, then exits successfully only when the comparison passes. A failure
 reports the first tick and expected/actual XYZ, run ID, and snapshot log path.
 
@@ -98,8 +100,9 @@ even the smallest representable difference fails. `--project-prop
 "tasTolerance=<number>"` can explicitly allow a finite per-coordinate
 tolerance; it applies to both
 the live first-mismatch signal and final Gradle result. At the first failing
-tick, the connected player sends `!lpcf <runId> <version> <tick>` as normal
-chat. The gym records the server-side world, position, velocity, bounding box,
+tick, the client posts a failure event over HTTP and sends `!lpcf <runId> <version> <tick>`
+for a server snapshot. It executes 20 more movement ticks, or stops at the recording
+end, then posts the final discrepancy and requests another snapshot. The gym records the server-side world, position, velocity, bounding box,
 and nearby blocks in `parkourgym-server/run/logs/latest.log` with the marker
 `[LPC_FAILURE_SNAPSHOT]`; the task includes a matching log entry when present,
 or the exact path, marker, and run ID to search for. The signal is canceled and
