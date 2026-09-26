@@ -1,6 +1,6 @@
 # Discovery: 1.17.1 to 1.18.2
 
-- Status: active
+- Status: partial (initial bounded slices recorded; remaining stages are explicitly queued)
 - Scope: client player movement; older A = exact 1.17.1; newer B = exact 1.18.2
 - Repository revision and start date: `c133c29`; 2026-09-26
 - Naming: aligned official Mojang names. Both sides explicitly generated with `mojmap`, using their own exact version's Mojang mappings.
@@ -45,7 +45,11 @@ SHA-256; every path is relative to that version's Mojmap source root. Extend thi
 | `net/minecraft/client/player/LocalPlayer.java` | `C9A91CB6CB57806BC8D22E5BFE2D97DAAF21D5D2A48F34A6E2C53164C61C5812` | `99C2D18BCD23243AFB8F95C5BAFB21FB0BE7EA04AACBB14FCF7BE7CED2C9C095` |
 | `net/minecraft/world/phys/AABB.java` | pending | `12134682C7F0C19A4DF431E4509D661B866B84F680B6DB82194AF8ABA7D0A50F` |
 | `net/minecraft/world/phys/shapes/VoxelShape.java` | pending | `99F8B6E44E6C249B251D98A99E38158EBCB459733B26CC98BAE15D51D3B87417` |
-| `net/minecraft/world/level/block/Block.java` | pending | `57C42EE375691755EF5D47FAD3F226F34A2043558704EC332C1A7E092FDABBA6` |
+| `net/minecraft/world/level/block/Block.java` | `01FA40798C7A4AF538C29601A6AD52C82F3C6364F74D00E955A0A41A0A0D88B4` | `57C42EE375691755EF5D47FAD3F226F34A2043558704EC332C1A7E092FDABBA6` |
+| `net/minecraft/world/level/block/state/BlockBehaviour.java` | `920896E6BC9D7F8794ABA3C5F325D9DFFD9C2C9422A0BE2E5DD0B7474E980515` | `3D82B89F13ED3108E09B64226D98FD673E5FEDD9A933AFE888AE580DB486DD89` |
+| `net/minecraft/world/level/block/Blocks.java` | `87D72A113A3F8937A6A585EF917A4FD29CC5B335C00A858F6800E38F3C1BF7A8` | `CC6B87D2C5897E71E5244B889444AC040E3FA0A139E392523E87FEC99805A0F2` |
+| `net/minecraft/world/level/block/SlimeBlock.java` | `4410396E11DBEF4843F874F9CC7563801259791C4E4B34A3A0BFEDA4EA7C482B` | `4E552C1D1AA49B115F1549A8F19415B0C9F81C0524C0BF4AFED37277D75F6388` |
+| `net/minecraft/world/level/block/BedBlock.java` | `385BFC7F5C916FA897F34E5F2BB0311C4FC872733436A1A1FA2C8EDF44C234A3` | `D7EE6F4243947FF95ECF2F25DB0A04B1906509E7B18F1A1DEA50B76131527E3D` |
 | `net/minecraft/world/level/material/FlowingFluid.java` | pending | `BBFB661B524AC92F74579CD4B61C1A25DF00ECC4BFE775A5516F7E4A7C8768F3` |
 | `net/minecraft/world/effect/MobEffects.java` | pending | `92BDAB264537C8ACF1AF38A25BBBCEEF557A4CD24E248446C6463FA9812A524E` |
 | `net/minecraft/world/entity/ai/attributes/Attributes.java` | pending | `C41860B83315D5265632E9A90978E38794D83D1A0CD996DBB9C7FD8E56560DF5` |
@@ -60,10 +64,10 @@ See [index.md](index.md). Resolve actual members, descriptors, inheritance and s
 ## Coverage ledger
 
 - Stage 1 input and tick ordering: findings; F-001 covers the only movement-relevant difference found in the inspected `LocalPlayer.tick()`/`aiStep()` and input producer slice. A/B `Input` structure, forward-impulse sprint threshold, key-to-impulse assignments, sampling order and `aiStep()` order were checked. Keyboard slowdown changes from double multiplication plus float cast to float multiplication, but the vanilla producer supplies only -1/0/1 before the 0.3 slowdown, yielding the same representable float results; no behavioral delta was retained.
-- Stage 2 player-specific state and gates: pending; anchors indexed.
+- Stage 2 player-specific state and gates: in-progress; checked pose/dimension/crouching subset is recorded in `index.md`; broader gates remain open.
 - Stage 3 living movement integration: in-progress; F-002 covers fall-flying lift coefficient. Remaining travel branches and dependencies pending.
 - Stage 4 entity movement and collision: in-progress; `Entity.move()` collision flag producer and B local-player classifier examined for F-001; broader axes/step/support/callback slices pending.
-- Stage 5 blocks and fluids: pending; anchors indexed.
+- Stage 5 blocks and fluids: in-progress; checked base movement property defaults are recorded in `index.md`; registrations, shapes, fluids and resources remain open.
 - Stage 6 effects, enchantments, attributes and equipment: pending; B resources still need inspection.
 - Stage 7 external influences and dependency closure: pending; anchors indexed.
 
@@ -72,6 +76,12 @@ See [index.md](index.md). Resolve actual members, descriptors, inheritance and s
 - B jar resource entries/tags/defaults for stages 5–6: not inspected yet.
 - Any source warnings affecting movement members: review per slice; global lambda warnings do not by themselves invalidate unrelated methods.
 - New dependencies discovered by slices: add with parent slice and resolution evidence.
+- Stage 2: complete player pose/dimension/swim/sprint gates, item-use and ability state; verify all source hashes.
+- Stage 3: finish branch-by-branch travel, attribute, depth-strider, effects and block-property closure; keep B/A exact operation order.
+- Stage 4: compare full axis resolution, step-up, edge sneaking, support state, callbacks, shapes, fluids and collision tie breaks; resolve F-001's classifier dependencies.
+- Stage 5: compare relevant block/fluid registrations, overrides and collision shapes, including neighboring-state logic, plus original-jar tag/resource entries; classify new blocks as modern-only where appropriate.
+- Stage 6: compare Speed/Slowness/Jump Boost/Levitation/Slow Falling/Dolphin's Grace/Blindness; Depth Strider/Soul Speed/Frost Walker/Riptide; attributes, applicability, equipment and server/data inputs. Inspect both jars' relevant tags/data.
+- Stage 7: compare player packet velocity/position correction handling, knockback/push, explosions, piston displacement, mount transitions and launch items; close all discovered player-state writers.
 
 ## Findings
 
@@ -85,6 +95,7 @@ None yet. Candidates require a concrete precondition and reachable client-player
 
 ## Source audit closure
 
-- Coverage counts: 1 terminal (`findings`); 2 in-progress; 4 pending; two findings recorded.
+- Coverage counts: 1 terminal (`findings`); 4 in-progress; 2 pending; two findings recorded.
+- Overall audit is partial: unresolved slices and dependencies above are not evidence of no difference.
 - Paired evidence limited to files named in the source hash inventory; add every cited source/resource hash before closing a slice.
 - Unresolved dependencies remain open; this is not a complete audit.
