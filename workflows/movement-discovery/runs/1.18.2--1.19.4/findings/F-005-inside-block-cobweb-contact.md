@@ -32,4 +32,4 @@ Source proves a larger region in which B recognizes inside-block contact. Under 
 
 ## Handoff
 
-This finding's concrete example is cobweb contact. The honey, sweet-berry, bubble-column and powder-snow movement responses and inspected shapes are compared in slices 4.8–4.11; their unchanged callbacks may still be dispatched for shallow-overlap cells newly included by B's query. Other `entityInside` callback families and their query-triggered consequences remain open. Runtime validation is deferred.
+This finding's concrete example is cobweb contact. Honey, sweet-berry, bubble-column, powder-snow and Big Dripleaf movement responses and selected shapes are compared in slices 4.8–4.12; unchanged movement callbacks may still be dispatched for shallow-overlap cells newly included by B's query. Other `entityInside` callback families and their query-triggered consequences remain open. Runtime validation is deferred.
