@@ -3,13 +3,13 @@
 - Status: not started | active | partial | blocked | complete
 - Scope: client player movement; older A = ...; newer B = ...
 - Repository revision and start date:
-- Selected common mapping family and alignment evidence:
+- Selected naming namespace, CLI mode per side and alignment evidence:
 - Source preparation command and log:
 - Toolchain/decompiler/remapper versions and options:
 
 ## Artifact manifest
 
-Repeat for A and B: exact release; source root; client jar hash; mapping coordinate/build/path/hash; bridge mapping path/hash if any; mapped jar hash; cited source relative paths/hashes; cited resource jar entry names/hashes; required external data and its provenance. Use SHA-256 and record any publisher-provided hashes separately.
+Repeat for A and B: exact release; source root; client jar hash; CLI mode; mapping coordinate/build/path/hash; bridge mapping path/hash if any; mapped jar hash; cited source relative paths/hashes; cited resource jar entry names/hashes; required external data and its provenance. For a published unobfuscated release, mark mapping and mapped-jar fields not applicable and record that the original client jar was decompiled. Use SHA-256 and record any publisher-provided hashes separately.
 
 ## Correspondence and call order
 

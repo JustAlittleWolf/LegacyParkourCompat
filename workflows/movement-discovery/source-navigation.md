@@ -66,7 +66,7 @@ Additional Feather 1.12.2 anchors:
 - `net/minecraft/enchantment/Enchantments.java`, `EnchantmentHelper.java`
 - `net/minecraft/block/Block.java`, `SlimeBlock.java`, `SoulSandBlock.java`
 
-Mojmap 1.14.4 and native unobfuscated 26.2 each have these paths. **Their shared names do not make them a same-family comparison pair.**
+Mojmap 1.14.4 and native unobfuscated 26.2 each have these paths. Both use Mojang's official-name namespace, so this is an allowed mapping alignment after verifying the unobfuscated jar and recording each side's provenance. Shared names alone do not establish class or member correspondence or a movement difference.
 
 - `net/minecraft/client/player/LocalPlayer.java`, `KeyboardInput.java`
 - `net/minecraft/world/entity/LivingEntity.java`
