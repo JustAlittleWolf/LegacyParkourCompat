@@ -46,7 +46,7 @@
 - Stage 2 / remaining player state, dimensions, effects and gates: `pending`.
 - Slice 3.1 / stage 3 / ground-jump vertical velocity application: `findings`; F-4.
 - Stage 3 / remaining living movement integration, attributes, fluids, climb, glide, post-travel: `pending`.
-- Stage 4 / entity collision, support, step-up, callbacks, velocity: `pending`.
+- Slice 4.1 / stage 4 / player edge-backoff support-query bounds: `findings`; F-5. Remaining entity movement, collision selection, support, step-up, callbacks and velocity closure: `pending`.
 - Stage 5 / movement blocks, shapes, fluids, registrations and resources: `pending`.
 - Stage 6 / effects, enchantments, equipment, attributes and data/resources: `pending`.
 - Stage 7 / external influences, corrections and dependency closure: `pending`.
@@ -67,6 +67,7 @@
 - [F-2: 1.21.11 rejects sprint initiation in shallow water](findings/F-2-shallow-water-sprint.md) — source-confirmed for grounded double-tap route; downstream water-motion consequence inferred from paired travel methods.
 - [F-3: Diagonal keyboard input normalizes at different precision](findings/F-3-diagonal-input-precision.md) — source-confirmed; tiny input-component difference evaluated from Java float/double operations.
 - [F-4: Ground jump preserves a stronger upward velocity in 1.21.11](findings/F-4-ground-jump-upward-velocity.md) — source-confirmed when current Y velocity exceeds jump power.
+- [F-5: Edge-backoff support probe uses a smaller inset box in 1.21.11](findings/F-5-edge-probe-bounds.md) — source-confirmed for query geometry; affected only near changed margins.
 
 ## Resume checkpoint
 
@@ -76,7 +77,7 @@
 
 ## Source audit closure
 
-- Coverage: 4 findings; 1 compared-no-difference; other slices pending or in-progress; 0 stages fully closed.
+- Coverage: 5 findings; 1 compared-no-difference; other slices pending or in-progress; 0 stages fully closed.
 - Unresolved gaps: all remaining paired stages beyond these bounded findings and the dimension-map slice, exact input transformation semantics, effects/resources and dependency closures.
 - Evidence/hash audit: client, mapping, mapped-jar, version-json hashes are from provenance manifests and were rechecked locally for A; B hashes are rechecked against its previous run manifest. Cited source hashes are in the finding/index.
 - Runtime validation: not performed (separate workflow).

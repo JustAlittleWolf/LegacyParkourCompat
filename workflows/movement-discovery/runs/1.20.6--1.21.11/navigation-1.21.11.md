@@ -91,3 +91,9 @@ This is an exact-source inventory for the newer endpoint only. It records useful
 
 - A `LivingEntity.jumpFromGround()` assigns the computed jump power directly to Y at lines 2069–2080; B uses `Math.max(jumpPower,currentY)` at lines 2269–2281.
 - Both living-entity AI jump blocks reach the method under jump/fluid/ground gates (A line 2656, B line 2946). The sprint impulse remains the same in the bounded method. See F-4 for exact precondition, hashes and inference boundary.
+
+## Stage 4 — edge-backoff probe (F-5)
+
+- A and B share the `Entity.move()` -> virtual `Player.maybeBackOffFromEdge()` caller path and the inspected reduction loops/guards.
+- The paired `Player.canFallAtLeast()` AABB differs: A uses the full player X/Z bounds and `1.0E-5F` below the lower step bound; B insets X/Z by `1.0E-7` and uses `1.0E-7` for the lower extension. See F-5 for exact line anchors and hashes.
+- The query calls world `noCollision`; collision shape interactions in these margins remain dependencies. This slice records the changed query input, not a claim that ordinary support geometry always produces a different result.
