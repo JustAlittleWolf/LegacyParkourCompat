@@ -1,6 +1,7 @@
 package me.wolfii.legacyparkourcompat.recording;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,6 +33,10 @@ public final class RecordingController {
     private MovementRecording playback;
     private int playbackIndex;
     private String pendingName = "recording";
+    private ReusableRecordingMetadata.Mode recordingReusableMode;
+    private JsonObject recordingSetup;
+    private MovementRecording workerPreparedRecording;
+    private int workerRegistrationTicks;
 
     private AutomationSettings automation;
     private boolean automationMuted;
@@ -83,6 +88,7 @@ public final class RecordingController {
         this.automationJoinAttempts = 0;
         this.captureOutput = null;
         this.captureOnPlayback = false;
+        this.recordingReusableMode = null;
         clearPendingPlayback();
         if (this.worker == null) {
             String workerVersion = System.getProperty("legacyparkour.tas.workerVersion");
@@ -114,14 +120,26 @@ public final class RecordingController {
         this.captureOnPlayback = false;
         clearPendingPlayback();
         this.recordedTicks.clear();
+        this.recordingReusableMode = null;
         this.pendingName = name == null || name.trim().isEmpty() ? "recording" : name.trim();
         this.startX = this.minecraft.playerX();
         this.startY = this.minecraft.playerY();
         this.startZ = this.minecraft.playerZ();
         this.startYaw = this.minecraft.playerYaw();
         this.startPitch = this.minecraft.playerPitch();
+        this.recordingSetup = RecordingSetup.defaults();
+        boolean creative = this.minecraft.isCreativeMode();
+        this.recordingSetup.addProperty("gameMode", creative ? "creative" : "survival");
+        this.recordingSetup.addProperty("flying", creative && this.minecraft.isFlying());
         this.recording = true;
         this.minecraft.sendGameMessage("Recording started: " + this.pendingName);
+    }
+
+    public void startReusableRecording(String name, ReusableRecordingMetadata.Mode mode) {
+        startRecording(name);
+        this.recordingReusableMode = mode;
+        this.minecraft.sendGameMessage("Reusable mode: " + mode.name().toLowerCase(Locale.ROOT)
+            + " (stationary edge ticks will be trimmed)");
     }
 
     public void stopRecording() {
@@ -134,15 +152,27 @@ public final class RecordingController {
             this.minecraft.sendGameMessage("No recording is running");
             return;
         }
-        this.recording = false;
         MovementRecording movement = new MovementRecording(
             this.startX,
             this.startY,
             this.startZ,
             this.startYaw,
             this.startPitch,
-            this.recordedTicks
+            0.0, 0.0, 0.0, this.recordedTicks, this.recordingSetup
         );
+        if (!this.recordedTicks.isEmpty()) {
+            movement = ReusableRecordingPlacement.trimStationaryEnds(movement);
+        }
+        if (this.recordingReusableMode == ReusableRecordingMetadata.Mode.BLOCK) {
+            JsonObject setup = movement.setup();
+            setup.add("reusable", ReusableRecordingMetadata.block().toJson());
+            movement = movement.withSetup(setup);
+        } else if (this.recordingReusableMode == ReusableRecordingMetadata.Mode.POSITIONS) {
+            JsonObject setup = movement.setup();
+            setup.add("reusable", ReusableRecordingMetadata.positions(this.startX, this.startY, this.startZ).toJson());
+            movement = movement.withSetup(setup);
+        }
+        this.recording = false;
         Path file = RecordingFiles.file(this.minecraft.gameDirectory(), name);
         try {
             RecordingFiles.write(file, movement);
@@ -150,9 +180,45 @@ public final class RecordingController {
             this.minecraft.sendGameMessage("Failed to save recording " + file.getFileName() + ": " + exception.getMessage());
             throw new IllegalStateException("Failed to save recording " + file, exception);
         }
-        int tickCount = this.recordedTicks.size();
+        int tickCount = movement.ticks().size();
         this.recordedTicks.clear();
+        this.recordingReusableMode = null;
         this.minecraft.sendGameMessage("Recording finished: " + file.getFileName() + " (" + tickCount + " ticks)");
+    }
+
+    public void addReusablePosition(String recordingName, String positionName) {
+        ensureAttached();
+        if (this.recording) throw new IllegalStateException("Stop recording before adding positions");
+        Path file = RecordingFiles.file(this.minecraft.gameDirectory(), recordingName);
+        try {
+            ReusableRecordingMetadata.read(file)
+                .withPosition(positionName, this.minecraft.playerX(), this.minecraft.playerY(), this.minecraft.playerZ())
+                .write(file);
+        } catch (IOException exception) {
+            throw new IllegalStateException("Could not update reusable positions for " + recordingName, exception);
+        }
+        this.minecraft.sendGameMessage("Saved reusable position '" + positionName + "' for " + file.getFileName());
+    }
+
+    private void setRecordingEquipment(String name, int level) {
+        if (!this.recording) throw new IllegalStateException("Start recording before setting equipment metadata");
+        if (!"swiftSneak".equals(name) && !"soulSpeed".equals(name) && !"depthStrider".equals(name))
+            throw new IllegalArgumentException("Equipment must be swiftSneak, soulSpeed, or depthStrider");
+        if (level < 0 || level > 3) throw new IllegalArgumentException("Equipment level must be 0..3");
+        this.recordingSetup.getAsJsonObject("equipment").addProperty(name, level);
+        this.minecraft.sendGameMessage("Recording setup: " + name + " " + level);
+    }
+
+    private void addRecordingEffect(String id, int amplifier, int durationTicks) {
+        if (!this.recording) throw new IllegalStateException("Start recording before setting potion metadata");
+        if (!id.matches("[a-z0-9_.-]+:[a-z0-9_./-]+") || amplifier < 0 || amplifier > 255 || durationTicks <= 0)
+            throw new IllegalArgumentException("Use a namespaced effect, amplifier 0..255, and positive durationTicks");
+        JsonObject effect = new JsonObject();
+        effect.addProperty("id", id);
+        effect.addProperty("amplifier", amplifier);
+        effect.addProperty("durationTicks", durationTicks);
+        this.recordingSetup.getAsJsonArray("potionEffects").add(effect);
+        this.minecraft.sendGameMessage("Recording setup: potion " + id);
     }
 
     public void play(String name) {
@@ -179,7 +245,10 @@ public final class RecordingController {
         } catch (IOException exception) {
             throw new IllegalStateException("Failed to load recording " + file, exception);
         }
-        String label = file.getFileName().toString();
+        playLoaded(loaded, output, exitWhenFinished, file.getFileName().toString());
+    }
+
+    private void playLoaded(MovementRecording loaded, Path output, boolean exitWhenFinished, String label) {
         if (output != null && this.minecraft.isConnected()) {
             if (!this.minecraft.sendGymMessage(tasPosePayload(loaded))
                 && !this.minecraft.sendServerCommand(tasPoseCommand(loaded))) {
@@ -243,6 +312,11 @@ public final class RecordingController {
             return;
         }
         try {
+            if (this.worker != null && this.minecraft.isConnected() && hasLocalPlayer()
+                && this.workerRegistrationTicks++ % 40 == 0) {
+                this.minecraft.sendGymMessage("worker " + this.worker.id());
+                this.minecraft.sendServerCommand("lpcworker " + this.worker.id());
+            }
             if (this.worker != null && (this.automation == null || !this.automation.enabled() || this.automationFinished)) {
                 JsonObject command = this.worker.poll();
                 if (command != null) acceptWorkerCommand(command);
@@ -292,7 +366,13 @@ public final class RecordingController {
                 if (output == null) {
                     throw new IllegalStateException("Automated playback needs -D" + AutomationSettings.OUTPUT_PROPERTY);
                 }
-                playFile(this.automation.recording(), output, this.automation.exit());
+                if (this.workerPreparedRecording != null) {
+                    MovementRecording prepared = this.workerPreparedRecording;
+                    this.workerPreparedRecording = null;
+                    playLoaded(prepared, output, this.automation.exit(), this.automation.recording().getFileName().toString());
+                } else {
+                    playFile(this.automation.recording(), output, this.automation.exit());
+                }
                 this.automationStarted = true;
             }
         } catch (RuntimeException exception) {
@@ -324,10 +404,19 @@ public final class RecordingController {
             boolean compare = command.has("compare") && command.get("compare").getAsBoolean();
             Long maxUlps = command.has("maxUlps") ? Long.valueOf(command.get("maxUlps").getAsLong()) : null;
             double tolerance = command.has("tolerance") ? command.get("tolerance").getAsDouble() : 0.0D;
+            MovementRecording sourceRecording = source.getFileName().toString().toLowerCase(Locale.ROOT).endsWith(".json")
+                ? JsonPlaybackFiles.read(source) : RecordingFiles.read(source);
+            if (command.has("start")) {
+                JsonObject start = command.getAsJsonObject("start");
+                sourceRecording = ReusableRecordingPlacement.moveStartTo(sourceRecording,
+                    start.get("x").getAsDouble(), start.get("y").getAsDouble(), start.get("z").getAsDouble());
+            }
+            if (command.has("setup")) sourceRecording = sourceRecording.withSetup(command.getAsJsonObject("setup"));
+            this.workerPreparedRecording = sourceRecording;
             configureAutomation(new AutomationSettings(source, output, "localhost:25565", true, true, true, false,
                 compare, runId, profile, "", tolerance, maxUlps));
             this.worker.event(runId, "started", "Run accepted", 0);
-        } catch (RuntimeException failure) {
+        } catch (Exception failure) {
             this.worker.event(runId, "error", safeMessage(failure), 0);
         }
     }
@@ -458,6 +547,8 @@ public final class RecordingController {
                 this.minecraft.sendGameMessage(this.followupDetail);
                 sendFailureSnapshotSignal(this.playbackIndex - 1);
                 finishPlayback();
+            } else if (this.playback != null && this.playbackIndex >= this.playback.ticks().size()) {
+                finishPlayback();
             }
         }
     }
@@ -551,6 +642,17 @@ public final class RecordingController {
         Path output = this.captureOutput;
         boolean automated = this.automation != null && this.automationStarted;
         int tickCount = this.capturedTicks.size();
+        if (this.deviationReported && this.followupDetail == null && completed != null && this.playbackIndex > 0) {
+            TickFrame expected = completed.ticks().get(Math.min(this.playbackIndex, completed.ticks().size()) - 1);
+            this.followupDetail = String.format(Locale.ROOT,
+                "discrepancy after %d further ticks at tick %d (expected %.17g %.17g %.17g, actual %.17g %.17g %.17g, ULP=%s %s %s)",
+                Integer.valueOf(this.playbackIndex - this.firstDeviationIndex - 1), Integer.valueOf(this.playbackIndex - 1),
+                expected.x(), expected.y(), expected.z(), this.minecraft.playerX(), this.minecraft.playerY(), this.minecraft.playerZ(),
+                safeUlp(expected.x(), this.minecraft.playerX()), safeUlp(expected.y(), this.minecraft.playerY()),
+                safeUlp(expected.z(), this.minecraft.playerZ()));
+            this.minecraft.sendGameMessage(this.followupDetail);
+            sendFailureSnapshotSignal(this.playbackIndex - 1);
+        }
         this.playing = false;
         this.playback = null;
         this.captureOnPlayback = false;
@@ -563,7 +665,8 @@ public final class RecordingController {
                 completed.startZ(),
                 completed.startYaw(),
                 completed.startPitch(),
-                this.capturedTicks
+                completed.startVelocityX(), completed.startVelocityY(), completed.startVelocityZ(),
+                this.capturedTicks, completed.setup()
             );
             try {
                 RecordingFiles.write(output, result);
@@ -610,7 +713,7 @@ public final class RecordingController {
         }
     }
 
-    private static String safeMessage(RuntimeException exception) {
+    private static String safeMessage(Exception exception) {
         String message = exception.getMessage();
         return message == null || message.isEmpty() ? exception.getClass().getSimpleName() : message;
     }
@@ -627,7 +730,38 @@ public final class RecordingController {
                 return true;
             }
             if (trimmed.startsWith("recording start ")) {
+                if (trimmed.startsWith("recording start reusable block ")) {
+                    startReusableRecording(trimmed.substring("recording start reusable block ".length()), ReusableRecordingMetadata.Mode.BLOCK);
+                    return true;
+                }
+                if (trimmed.startsWith("recording start reusable positions ")) {
+                    startReusableRecording(trimmed.substring("recording start reusable positions ".length()), ReusableRecordingMetadata.Mode.POSITIONS);
+                    return true;
+                }
                 startRecording(trimmed.substring("recording start ".length()));
+                return true;
+            }
+            if (trimmed.startsWith("recording position ")) {
+                String[] parts = trimmed.substring("recording position ".length()).split("\\s+");
+                if (parts.length != 2) throw new IllegalArgumentException("Use .recording position <recording> <name>");
+                addReusablePosition(parts[0], parts[1]);
+                return true;
+            }
+            if (trimmed.startsWith("recording equipment ")) {
+                String[] parts = trimmed.substring("recording equipment ".length()).split("\\s+");
+                if (parts.length != 2) throw new IllegalArgumentException("Use .recording equipment <swiftSneak|soulSpeed|depthStrider> <level>");
+                setRecordingEquipment(parts[0], Integer.parseInt(parts[1]));
+                return true;
+            }
+            if (trimmed.startsWith("recording effect ")) {
+                String[] parts = trimmed.substring("recording effect ".length()).split("\\s+");
+                if (parts.length != 3) throw new IllegalArgumentException("Use .recording effect <id> <amplifier> <durationTicks>");
+                addRecordingEffect(parts[0], Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+                return true;
+            }
+            if (trimmed.equals("recording effects clear")) {
+                if (!this.recording) throw new IllegalStateException("Start recording first");
+                this.recordingSetup.add("potionEffects", new JsonArray());
                 return true;
             }
             if (trimmed.equals("recording stop")) {

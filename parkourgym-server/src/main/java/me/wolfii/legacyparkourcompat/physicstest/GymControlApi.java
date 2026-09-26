@@ -6,6 +6,10 @@ import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.entity.Player;
+import me.wolfii.legacyparkourcompat.recording.MovementRecording;
+import me.wolfii.legacyparkourcompat.recording.RecordingFiles;
+import me.wolfii.legacyparkourcompat.recording.JsonPlaybackFiles;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -28,6 +32,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 /** Local control plane. Minecraft traffic stays on 25565; HTTP and WebSocket never touch a game tick. */
@@ -36,21 +41,31 @@ final class GymControlApi implements AutoCloseable {
     static final int WS_PORT = 25567;
     private static final int MAX_WORKERS = 5;
     private static final Gson JSON = new Gson();
-    private final JavaPlugin plugin;
+    private final PhysicsTestPlugin plugin;
     private final Map<String, Worker> workers = new ConcurrentHashMap<>();
     private final Map<String, Run> runs = new ConcurrentHashMap<>();
     private HttpServer http;
     private ServerSocket websocket;
     private volatile boolean running;
 
-    GymControlApi(JavaPlugin plugin) {
+    GymControlApi(PhysicsTestPlugin plugin) {
         this.plugin = plugin;
+    }
+
+    void registerPlayer(String workerId, Player player) {
+        Worker worker = workers.get(workerId);
+        if (worker != null && player.isOnline()
+            && (worker.player == null || worker.player.getUniqueId().equals(player.getUniqueId()))) worker.player = player;
     }
 
     void start() throws IOException {
         InetAddress loopback = InetAddress.getByName("127.0.0.1");
         http = HttpServer.create(new InetSocketAddress(loopback, HTTP_PORT), 32);
         http.createContext("/api/clients", this::clients);
+        http.createContext("/api/blocks", exchange -> {
+            if (!"GET".equals(exchange.getRequestMethod())) { respond(exchange, 405, error("GET required")); return; }
+            respond(exchange, 200, JSON.toJson(RunPreparation.blockCatalogue()));
+        });
         http.createContext("/api/runs", this::runs);
         http.setExecutor(Executors.newCachedThreadPool(r -> {
             Thread thread = new Thread(r, "lpc-gym-http");
@@ -74,6 +89,8 @@ final class GymControlApi implements AutoCloseable {
             item.addProperty("id", worker.id);
             item.addProperty("version", worker.version);
             item.addProperty("busy", worker.runId != null);
+            item.addProperty("ready", worker.player != null && worker.player.isOnline()
+                && plugin.isPrivateReady(worker.player.getUniqueId()));
             entries.add(item);
         }
         respond(exchange, 200, JSON.toJson(entries));
@@ -112,6 +129,8 @@ final class GymControlApi implements AutoCloseable {
         }
         Path source;
         Path target;
+        MovementRecording recordingData;
+        RunPreparation preparation;
         try {
             source = Path.of(recording).toAbsolutePath().normalize();
             target = Path.of(output).toAbsolutePath().normalize();
@@ -121,12 +140,22 @@ final class GymControlApi implements AutoCloseable {
             if (request.has("maxUlps") && (request.get("maxUlps").getAsLong() < 0 || request.get("maxUlps").getAsLong() > Long.MAX_VALUE)) {
                 respond(exchange, 400, error("maxUlps must be non-negative")); return;
             }
-        } catch (RuntimeException invalid) { respond(exchange, 400, error("Invalid run settings")); return; }
+            recordingData = source.getFileName().toString().toLowerCase(java.util.Locale.ROOT).endsWith(".json")
+                ? JsonPlaybackFiles.read(source) : RecordingFiles.read(source);
+            String profile = string(request, "profile");
+            String featureVersion = "current".equals(version) && profile != null && !profile.isBlank()
+                && !"unknown".equals(profile) ? profile : version;
+            preparation = RunPreparation.parse(recordingData, request, featureVersion);
+        } catch (RuntimeException invalid) { respond(exchange, 400, error("Invalid run settings: " + invalid.getMessage())); return; }
+        catch (IOException invalid) { respond(exchange, 400, error("Invalid recording: " + invalid.getMessage())); return; }
         Worker selected = null;
         Run run;
         synchronized (workers) {
             for (Worker worker : workers.values()) {
-                if (worker.version.equals(version) && worker.runId == null) { selected = worker; break; }
+                if (worker.version.equals(version) && worker.runId == null && worker.player != null
+                    && worker.player.isOnline() && plugin.isPrivateReady(worker.player.getUniqueId())) {
+                    selected = worker; break;
+                }
             }
             if (selected == null) { respond(exchange, 409, error("No idle worker for " + version)); return; }
             run = new Run(UUID.randomUUID().toString(), version, selected.id);
@@ -138,10 +167,13 @@ final class GymControlApi implements AutoCloseable {
         request.addProperty("recording", source.toString());
         request.addProperty("output", target.toString());
         try {
+            JsonObject start = preparation.prepare(plugin, selected.player).get(30, TimeUnit.SECONDS);
+            request.add("start", start);
+            request.add("setup", preparation.setup);
             selected.send(JSON.toJson(request));
-        } catch (IOException failure) {
+        } catch (Exception failure) {
             synchronized (workers) { selected.runId = null; }
-            run.event("error", "Worker connection failed: " + failure.getMessage());
+            run.event("error", "Run preparation failed: " + failure.getMessage());
             respond(exchange, 503, JSON.toJson(run.snapshot()));
             return;
         }
@@ -274,6 +306,7 @@ final class GymControlApi implements AutoCloseable {
         final String id, version;
         final OutputStream output;
         volatile String runId;
+        volatile Player player;
         Worker(String id, String version, OutputStream output) { this.id = id; this.version = version; this.output = output; }
         synchronized void send(String message) throws IOException {
             byte[] data = message.getBytes(StandardCharsets.UTF_8);

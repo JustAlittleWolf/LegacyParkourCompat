@@ -3,12 +3,13 @@ package me.wolfii.legacyparkourcompat.recording;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import com.google.gson.JsonObject;
 
 /**
  * Version-stable recording of simulation keys, facing, and positions.
  */
 public final class MovementRecording {
-    public static final int FORMAT_VERSION = 1;
+    public static final int FORMAT_VERSION = 2;
 
     private final double startX;
     private final double startY;
@@ -19,6 +20,7 @@ public final class MovementRecording {
     private final double startVelocityY;
     private final double startVelocityZ;
     private final List<TickFrame> ticks;
+    private final JsonObject setup;
 
     public MovementRecording(
         double startX,
@@ -35,6 +37,13 @@ public final class MovementRecording {
         double startX, double startY, double startZ, float startYaw, float startPitch,
         double startVelocityX, double startVelocityY, double startVelocityZ, List<TickFrame> ticks
     ) {
+        this(startX, startY, startZ, startYaw, startPitch, startVelocityX, startVelocityY, startVelocityZ, ticks, null);
+    }
+
+    public MovementRecording(
+        double startX, double startY, double startZ, float startYaw, float startPitch,
+        double startVelocityX, double startVelocityY, double startVelocityZ, List<TickFrame> ticks, JsonObject setup
+    ) {
         this.startX = startX;
         this.startY = startY;
         this.startZ = startZ;
@@ -44,6 +53,7 @@ public final class MovementRecording {
         this.startVelocityY = startVelocityY;
         this.startVelocityZ = startVelocityZ;
         this.ticks = Collections.unmodifiableList(new ArrayList<TickFrame>(ticks));
+        this.setup = RecordingSetup.normalize(setup);
     }
 
     public double startX() {
@@ -72,5 +82,12 @@ public final class MovementRecording {
 
     public List<TickFrame> ticks() {
         return this.ticks;
+    }
+
+    public JsonObject setup() { return this.setup.deepCopy(); }
+
+    public MovementRecording withSetup(JsonObject replacement) {
+        return new MovementRecording(startX, startY, startZ, startYaw, startPitch,
+            startVelocityX, startVelocityY, startVelocityZ, ticks, replacement);
     }
 }

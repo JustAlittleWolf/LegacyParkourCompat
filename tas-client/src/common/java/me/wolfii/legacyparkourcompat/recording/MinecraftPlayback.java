@@ -19,6 +19,11 @@ public interface MinecraftPlayback {
 
     float playerPitch();
 
+    /** Capture the mode and active flight state; callers cannot override these. */
+    default boolean isCreativeMode() { return false; }
+
+    default boolean isFlying() { return false; }
+
     void teleport(double x, double y, double z, float yaw, float pitch);
 
     /** Applies the velocity saved by an external playback source after teleporting. */

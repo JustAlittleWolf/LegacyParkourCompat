@@ -40,6 +40,8 @@ final class TaskWorker {
 
     JsonObject poll() { return commands.poll(); }
 
+    String id() { return id; }
+
     void event(String runId, String type, String detail, int tick) {
         events.add(new Event(runId, type, detail, tick));
     }

@@ -464,7 +464,7 @@ tasks.register('runTasCompare') {
                     throw new GradleException("TAS comparison failed for runId=${runId}: ${label} recording has invalid LPRC magic: ${source.absolutePath}; ${snapshotContext()}")
                 }
                 int formatVersion = data.readUnsignedShort()
-                if (formatVersion != 1) {
+                if (formatVersion != 1 && formatVersion != 2) {
                     throw new GradleException("TAS comparison failed for runId=${runId}: ${label} recording format ${formatVersion} is unsupported: ${source.absolutePath}; ${snapshotContext()}")
                 }
                 data.readUnsignedShort()
@@ -474,7 +474,13 @@ tasks.register('runTasCompare') {
                 data.readFloat()
                 data.readFloat()
                 int count = data.readInt()
-                if (count < 0 || source.length() != 44L + (34L * count)) {
+                int metadataLength = 0
+                if (formatVersion == 2) {
+                    metadataLength = data.readInt()
+                    if (metadataLength < 0 || metadataLength > 65536) throw new GradleException("Invalid LPRC setup length: ${source}")
+                    data.skipNBytes(metadataLength)
+                }
+                if (count < 0 || source.length() != 44L + (formatVersion == 2 ? 4L + metadataLength : 0L) + (34L * count)) {
                     throw new GradleException("TAS comparison failed for runId=${runId}: ${label} recording has an invalid tick count or truncated data: ${source.absolutePath}; ${snapshotContext()}")
                 }
                 List<List<Double>> positions = new ArrayList<List<Double>>(count)
@@ -561,12 +567,16 @@ tasks.register('runTasWorkflow') {
         def tickCount = { File recording ->
             java.io.RandomAccessFile data = new java.io.RandomAccessFile(recording, 'r')
             try {
-                if (data.length() < 44L || data.readInt() != 0x4C505243 || data.readUnsignedShort() != 1) {
+                if (data.length() < 44L || data.readInt() != 0x4C505243) {
                     throw new GradleException("Invalid LPRC recording: ${recording}")
                 }
+                int version = data.readUnsignedShort()
+                if (version != 1 && version != 2) throw new GradleException("Unsupported LPRC format: ${recording}")
                 data.seek(40L)
                 int count = data.readInt()
-                if (count < 0 || data.length() != 44L + 34L * count) {
+                int metadataLength = version == 2 ? data.readInt() : 0
+                if (metadataLength < 0 || metadataLength > 65536
+                    || count < 0 || data.length() != 44L + (version == 2 ? 4L + metadataLength : 0L) + 34L * count) {
                     throw new GradleException("Invalid LPRC tick count or length: ${recording}")
                 }
                 return count
@@ -578,13 +588,23 @@ tasks.register('runTasWorkflow') {
             java.io.RandomAccessFile expected = new java.io.RandomAccessFile(source, 'r')
             java.io.RandomAccessFile actual = new java.io.RandomAccessFile(result, 'r')
             try {
-                byte[] expectedHeader = new byte[44]
-                byte[] actualHeader = new byte[44]
-                expected.readFully(expectedHeader)
-                actual.readFully(actualHeader)
-                if (!java.util.Arrays.equals(expectedHeader, actualHeader)) {
-                    throw new GradleException("TAS run changed the source start pose or format: ${result}")
+                expected.seek(4L)
+                int expectedFormat = expected.readUnsignedShort()
+                actual.seek(4L)
+                int actualFormat = actual.readUnsignedShort()
+                byte[] expectedPose = new byte[32]
+                byte[] actualPose = new byte[32]
+                expected.seek(8L)
+                actual.seek(8L)
+                expected.readFully(expectedPose)
+                actual.readFully(actualPose)
+                if (!java.util.Arrays.equals(expectedPose, actualPose)) {
+                    throw new GradleException("TAS run changed the source start pose: ${result}")
                 }
+                expected.seek(44L)
+                actual.seek(44L)
+                if (expectedFormat == 2) expected.seek(48L + expected.readInt())
+                if (actualFormat == 2) actual.seek(48L + actual.readInt())
                 byte[] expectedInput = new byte[10]
                 byte[] actualInput = new byte[10]
                 for (int tick = 0; tick < expectedTicks; tick++) {

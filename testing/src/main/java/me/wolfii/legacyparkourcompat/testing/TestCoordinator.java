@@ -203,7 +203,8 @@ public final class TestCoordinator {
         JsonObject[] clients = JSON.fromJson(http.send(HttpRequest.newBuilder(URI.create("http://127.0.0.1:25566/api/clients"))
             .timeout(Duration.ofSeconds(3)).build(), HttpResponse.BodyHandlers.ofString()).body(), JsonObject[].class);
         for (JsonObject client : clients) {
-            if (worker.version.equals(field(client, "version")) && worker.id.equals(field(client, "id"))) return true;
+            if (worker.version.equals(field(client, "version")) && worker.id.equals(field(client, "id"))
+                && client.has("ready") && client.get("ready").getAsBoolean()) return true;
         }
         return false;
     }

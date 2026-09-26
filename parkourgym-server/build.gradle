@@ -28,7 +28,10 @@ repositories {
 dependencies {
     compileOnly 'io.papermc.paper:paper-api:26.2.build.+'
     compileOnly 'maven.modrinth:6hPE9iJm:2EVMQw07'
+    compileOnly 'com.google.code.gson:gson:2.10.1'
 }
+
+sourceSets.main.java.srcDir '../tas-client/core/src/main/java'
 
 java {
     toolchain {
@@ -89,6 +92,22 @@ tasks.named('runServer').configure { task ->
             }
         }
         disableNether(destDir)
+        disableConnectionLimits(destDir)
+    }
+}
+
+def disableConnectionLimits(File destDir) {
+    def properties = new File(destDir, 'server.properties')
+    if (properties.exists()) {
+        def lines = properties.readLines('UTF-8').findAll { !it.startsWith('rate-limit=') }
+        properties.setText((lines + ['rate-limit=0']).join('\n') + '\n', 'UTF-8')
+    }
+    def bukkit = new File(destDir, 'bukkit.yml')
+    if (bukkit.exists()) {
+        def value = bukkit.getText('UTF-8')
+        value = value.replaceAll(/(?m)^(\s*connection-throttle:)\s*\S+.*/, '$1 -1')
+        if (!value.contains('connection-throttle:')) value += '\nsettings:\n  connection-throttle: -1\n'
+        bukkit.setText(value, 'UTF-8')
     }
 }
 

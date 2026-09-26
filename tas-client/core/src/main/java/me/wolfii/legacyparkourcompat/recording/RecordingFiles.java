@@ -12,6 +12,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.nio.charset.StandardCharsets;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 /**
  * Binary {@code .lprc} recordings. Layout is independent of Minecraft version:
@@ -91,6 +94,18 @@ public final class RecordingFiles {
         data.writeFloat(recording.startPitch());
         List<TickFrame> ticks = recording.ticks();
         data.writeInt(ticks.size());
+        JsonObject setupObject = recording.setup();
+        if (recording.startVelocityX() != 0.0 || recording.startVelocityY() != 0.0 || recording.startVelocityZ() != 0.0) {
+            JsonObject velocity = new JsonObject();
+            velocity.addProperty("x", recording.startVelocityX());
+            velocity.addProperty("y", recording.startVelocityY());
+            velocity.addProperty("z", recording.startVelocityZ());
+            setupObject.add("startVelocity", velocity);
+        }
+        byte[] setup = setupObject.toString().getBytes(StandardCharsets.UTF_8);
+        if (setup.length > 65536) throw new IOException("Recording setup is too large");
+        data.writeInt(setup.length);
+        data.write(setup);
         for (int index = 0; index < ticks.size(); index++) {
             TickFrame tick = ticks.get(index);
             data.writeShort(tick.buttons() & 0xFFFF);
@@ -119,7 +134,7 @@ public final class RecordingFiles {
             throw new IOException("Not a Legacy Parkour recording (bad magic)");
         }
         int formatVersion = data.readUnsignedShort();
-        if (formatVersion != MovementRecording.FORMAT_VERSION) {
+        if (formatVersion != 1 && formatVersion != MovementRecording.FORMAT_VERSION) {
             throw new IOException("Unsupported recording format " + formatVersion);
         }
         data.readUnsignedShort();
@@ -132,6 +147,15 @@ public final class RecordingFiles {
         if (tickCount < 0) {
             throw new IOException("Negative tick count");
         }
+        JsonObject setup = null;
+        if (formatVersion >= 2) {
+            int length = data.readInt();
+            if (length < 0 || length > 65536) throw new IOException("Invalid recording setup length");
+            byte[] bytes = new byte[length];
+            data.readFully(bytes);
+            try { setup = new JsonParser().parse(new String(bytes, StandardCharsets.UTF_8)).getAsJsonObject(); }
+            catch (RuntimeException invalid) { throw new IOException("Invalid recording setup", invalid); }
+        }
         List<TickFrame> ticks = new ArrayList<TickFrame>(tickCount);
         for (int index = 0; index < tickCount; index++) {
             int buttons = data.readUnsignedShort();
@@ -142,6 +166,10 @@ public final class RecordingFiles {
             double z = data.readDouble();
             ticks.add(new TickFrame(buttons, yaw, pitch, x, y, z));
         }
-        return new MovementRecording(startX, startY, startZ, startYaw, startPitch, ticks);
+        JsonObject velocity = setup != null && setup.has("startVelocity") ? setup.getAsJsonObject("startVelocity") : null;
+        return new MovementRecording(startX, startY, startZ, startYaw, startPitch,
+            velocity == null ? 0.0 : velocity.get("x").getAsDouble(),
+            velocity == null ? 0.0 : velocity.get("y").getAsDouble(),
+            velocity == null ? 0.0 : velocity.get("z").getAsDouble(), ticks, setup);
     }
 }

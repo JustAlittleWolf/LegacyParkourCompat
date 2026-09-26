@@ -105,6 +105,28 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         zeroMotion(player);
     }
 
+    private Object playerAbilities() {
+        Object player = requirePlayer();
+        Object abilities = first(player, new String[]{"abilities", "capabilities", "field_7503", "field_71075_bZ"});
+        if (abilities == null) abilities = invokeValue(player, new String[]{"getAbilities"});
+        if (abilities == null) throw new IllegalStateException("Cannot read player abilities for recording setup");
+        return abilities;
+    }
+
+    @Override public boolean isCreativeMode() {
+        Object abilities = playerAbilities();
+        Object value = first(abilities, new String[]{"instabuild", "creativeMode", "isCreativeMode", "field_7477", "field_75098_d"});
+        if (!(value instanceof Boolean)) throw new IllegalStateException("Cannot read Creative mode for recording setup");
+        return ((Boolean) value).booleanValue();
+    }
+
+    @Override public boolean isFlying() {
+        Object abilities = playerAbilities();
+        Object value = first(abilities, new String[]{"flying", "isFlying", "field_7479", "field_75100_b"});
+        if (!(value instanceof Boolean)) throw new IllegalStateException("Cannot read flying state for recording setup");
+        return ((Boolean) value).booleanValue();
+    }
+
     @Override
     public void applyVelocity(double x, double y, double z) {
         Object player = requirePlayer();

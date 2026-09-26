@@ -59,6 +59,7 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
     private final AtomicBoolean polarReady = new AtomicBoolean();
     private final AtomicBoolean createStarted = new AtomicBoolean();
     private final Map<UUID, World> privateWorlds = new ConcurrentHashMap<>();
+    private final Set<UUID> readyPrivateWorlds = ConcurrentHashMap.newKeySet();
     private final Set<UUID> creatingPrivateWorlds = ConcurrentHashMap.newKeySet();
     private GymControlApi controlApi;
     private int loadAttempts;
@@ -103,6 +104,17 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
                     .build(),
                 "Set the authoritative start pose for a local TAS run"
             );
+            event.registrar().register(
+                Commands.literal("lpcworker")
+                    .then(Commands.argument("id", StringArgumentType.word())
+                        .executes(ctx -> {
+                            if (ctx.getSource().getSender() instanceof Player player && controlApi != null)
+                                controlApi.registerPlayer(StringArgumentType.getString(ctx, "id"), player);
+                            return com.mojang.brigadier.Command.SINGLE_SUCCESS;
+                        }))
+                    .build(),
+                "Register a connected TAS worker"
+            );
         });
         Bukkit.getGlobalRegionScheduler().run(this, task -> bootstrapWorld());
     }
@@ -120,6 +132,10 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
             return;
         }
         String message = new String(data, StandardCharsets.UTF_8);
+        if (message.startsWith("worker ")) {
+            if (controlApi != null) controlApi.registerPlayer(message.substring(7), player);
+            return;
+        }
         if (message.startsWith("pose ")) {
             if (!player.isOp()) {
                 return;
@@ -136,6 +152,10 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
         }
         failureSnapshotChat.handlePluginMessage(player, message);
     }
+
+    @Nullable World privateWorld(UUID playerId) { return privateWorlds.get(playerId); }
+
+    boolean isPrivateReady(UUID playerId) { return readyPrivateWorlds.contains(playerId); }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onLogin(PlayerConnectionValidateLoginEvent event) {
@@ -164,6 +184,7 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        readyPrivateWorlds.remove(player.getUniqueId());
         player.setOp(true);
         // Offline-mode Gym player data persists by UUID. A prior interrupted
         // run can leave the local TAS identity at zero health, in which case
@@ -178,6 +199,7 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
+        readyPrivateWorlds.remove(event.getPlayer().getUniqueId());
         World world = privateWorlds.remove(event.getPlayer().getUniqueId());
         if (world != null) {
             Bukkit.getGlobalRegionScheduler().runDelayed(this, task -> {
@@ -192,7 +214,9 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
         UUID id = player.getUniqueId();
         World existing = privateWorlds.get(id);
         if (existing != null) {
-            player.teleportAsync(spawnLocation(existing));
+            player.teleportAsync(spawnLocation(existing)).thenAccept(success -> {
+                if (success) readyPrivateWorlds.add(id);
+            });
             return;
         }
         if (!creatingPrivateWorlds.add(id)) return;
@@ -215,7 +239,9 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
                 privateWorlds.put(id, world);
                 Bukkit.getRegionScheduler().run(this, spawnLocation(world), task -> {
                     applyWorldSettings(world);
-                    if (player.isOnline()) player.teleportAsync(spawnLocation(world));
+                    if (player.isOnline()) player.teleportAsync(spawnLocation(world)).thenAccept(success -> {
+                        if (success) readyPrivateWorlds.add(id);
+                    });
                 });
             }));
     }
