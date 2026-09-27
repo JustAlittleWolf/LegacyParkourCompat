@@ -1,6 +1,6 @@
 # Discovery: 1.17.1 to 1.18.2
 
-- Status: partial (initial bounded slices recorded; remaining stages are explicitly queued)
+- Status: partial
 - Scope: client player movement; older A = exact 1.17.1; newer B = exact 1.18.2
 - Repository revision and start date: `c133c29`; 2026-09-26
 - Naming: aligned official Mojang names. Both sides explicitly generated with `mojmap`, using their own exact version's Mojang mappings.
@@ -59,15 +59,15 @@ SHA-256; every path is relative to that version's Mojmap source root. Extend thi
 
 ## Correspondence and call order
 
-See [index.md](index.md). Resolve actual members, descriptors, inheritance and state reads/writes by paired source inspection; no symbol-only correspondence is accepted.
+See [Navigation index](#navigation-index). Resolve actual members, descriptors, inheritance and state reads/writes by paired source inspection; no symbol-only correspondence is accepted.
 
 ## Coverage ledger
 
 - Stage 1 input and tick ordering: findings; F-001 covers the only movement-relevant difference found in the inspected `LocalPlayer.tick()`/`aiStep()` and input producer slice. A/B `Input` structure, forward-impulse sprint threshold, key-to-impulse assignments, sampling order and `aiStep()` order were checked. Keyboard slowdown changes from double multiplication plus float cast to float multiplication, but the vanilla producer supplies only -1/0/1 before the 0.3 slowdown, yielding the same representable float results; no behavioral delta was retained.
-- Stage 2 player-specific state and gates: in-progress; checked pose/dimension/crouching subset is recorded in `index.md`; broader gates remain open.
+- Stage 2 player-specific state and gates: in-progress; checked pose/dimension/crouching subset is recorded in [Navigation index](#navigation-index); broader gates remain open.
 - Stage 3 living movement integration: in-progress; F-002 covers fall-flying lift coefficient. Remaining travel branches and dependencies pending.
 - Stage 4 entity movement and collision: in-progress; `Entity.move()` collision flag producer and B local-player classifier examined for F-001; broader axes/step/support/callback slices pending.
-- Stage 5 blocks and fluids: in-progress; checked base movement property defaults are recorded in `index.md`; registrations, shapes, fluids and resources remain open.
+- Stage 5 blocks and fluids: in-progress; checked base movement property defaults are recorded in [Navigation index](#navigation-index); registrations, shapes, fluids and resources remain open.
 - Stage 6 effects, enchantments, attributes and equipment: pending; B resources still need inspection.
 - Stage 7 external influences and dependency closure: pending; anchors indexed.
 
@@ -99,3 +99,60 @@ None yet. Candidates require a concrete precondition and reachable client-player
 - Overall audit is partial: unresolved slices and dependencies above are not evidence of no difference.
 - Paired evidence limited to files named in the source hash inventory; add every cited source/resource hash before closing a slice.
 - Unresolved dependencies remain open; this is not a complete audit.
+
+
+## Supporting audit evidence
+
+### Navigation index
+
+#### 1.17.1 → 1.18.2 source navigation index
+
+Both sides use official Mojang names and version-specific mappings. This is a bounded research index, not a complete correspondence. Paired class/member conclusions must follow inspected callers, inheritance and exact bodies.
+
+##### Stage 1 — Local input and tick ordering
+
+- A/B: `net.minecraft.client.player.LocalPlayer`, `KeyboardInput`, `Input`.
+- Compare client tick ordering, superclass tick, input sampling, travel dispatch, movement input normalization, item-use/sneak scaling, sprint transitions, jump timing and previous/current flags.
+- Read member bodies with line numbers; follow options/keybind callers only if they feed movement state. Record per-member hashes in `run.md`.
+- Verified bounded delta: local sprint stop ignores B `minorHorizontalCollision`; see [F-001](findings/F-001-minor-horizontal-collision-sprint.md). Its flag producer/classifier is queued for stage 4.
+- Verified bounded delta: fall-flying lift coefficient changes precision/trigonometric source; see [F-002](findings/F-002-elytra-lift-trig-precision.md).
+- The inspected `LocalPlayer.tick()` call order and movement-relevant `aiStep()` order match; the key input producers assign only -1/0/1, and the 0.3 slowdown yields the same float results under the two expression types. `Input` move-vector and forward threshold expressions match. These checked slices found no further delta.
+
+##### Stage 2 — Player-specific state and gates
+
+- A/B seeds: `net.minecraft.world.entity.player.Player`, `LivingEntity`, player abilities, `FoodData`, pose/dimension helpers.
+- Trace pose, sprint gates, swimming/crawling, flight, active item, edge sneaking, dimensions/eye height, air-speed storage, initialization and reset.
+- Checked subset: A/B `Entity.setPose()` stores the same `DATA_POSE`; `LivingEntity.getDimensions(Pose)` uses the same sleeping special case and scaled superclass dimensions; `LocalPlayer.isShiftKeyDown()`, `isCrouching()`, `isMovingSlowly()` and the crouching predicate in `aiStep()` match. Broader pose collision clearance, swimming and effect/food gates remain open.
+
+##### Stage 3 — Living movement integration
+
+- A/B: `LivingEntity`, `Attributes`, vector/math helpers reached directly.
+- Trace travel dispatch, acceleration, friction, gravity, jump and sprint impulse, climb/water/lava/glide branches, velocity cutoffs, post-travel timing, attributes and helpers.
+- Checked subset: `jumpFromGround()` has the same `0.42F * getBlockJumpFactor()` base, jump-effect addition and sprint impulse. In `travel()`, water/lava and ordinary ground branches appear operation-for-operation aligned in the inspected bodies; slow-fall reset is a direct `fallDistance = 0.0F` in A and B's `resetFallDistance()` helper, whose B implementation directly performs that same assignment. Fall-flying coefficient differs in F-002. Complete branch/dependency closure, especially depth-strider and movement attribute paths, remains open.
+
+##### Stage 4 — Entity movement and collision
+
+- A/B: `Entity`, `AABB`, voxel shape classes, collision query owner(s), support and fluid helpers.
+- Trace movement axis order, step candidates/ties, edge probes, grounding, support, velocity cancellation/restitution, collision callbacks and fluid push.
+- Checked subset: `Entity.move()` in A sets horizontal collision from requested/resolved X/Z. B additionally calls `isHorizontalCollisionMinor()` and stores that result. F-001 uses this field; B `LocalPlayer` supplies the angle classifier. Full collision-axis, step, shape and callback comparison remains open.
+
+##### Stage 5 — Blocks and fluids
+
+- A/B registrations and overrides: block/state bases; slime/bed bounce; soul sand/ice friction; web/honey/powder snow slowdown; climbables; fluids/bubble columns; pistons; historical partial shapes.
+- Trace registrations, shapes, block properties, relevant neighboring-state rules and original client-jar tags/resources. Record modern-only blocks separately.
+- B-side anchors include base `Block`, `BlockBehaviour`, `Blocks`, slime/bed/soul sand/honey/ice/web/powder snow/climbable/piston classes and `FlowingFluid`. `BlockBehaviour.Properties` defaults match in the checked lines: friction `0.6F`, speed factor `1.0F`, jump factor `1.0F`; targeted registry values and overrides still require systematic paired review. The original jar resources have not yet been enumerated.
+
+##### Stage 6 — Effects, enchantments, attributes and equipment
+
+- Trace consumer → attribute/helper → aggregation → registration/application/removal → equipment/tags/resources.
+- Provenance boundary: Java source alone is insufficient for the data/resource portions. Inspect both original client jars for applicable tags/default data before closing these slices. No resource-level findings are claimed yet.
+- Explicit dispositions: Speed, Slowness, Jump Boost, Levitation, Slow Falling, Dolphin's Grace, Blindness; Depth Strider, Soul Speed, Frost Walker, Riptide; Elytra, item-use slowdown and relevant equipment. Server-supplied data stays distinguished from client behavior.
+
+##### Stage 7 — External influences and dependency closure
+
+- A/B seeds: `ClientPacketListener`, relevant `Entity` and player callers.
+- Trace incoming velocity/position corrections, knockback/push, explosions, pistons, mount transitions and launch items insofar as they mutate local player state. Close all dependencies and revisit callers.
+
+##### Stage 1 provisional class/member correspondence
+
+Shared official names identify candidate classes only. The checked A/B source hashes are in `run.md`. `LocalPlayer.aiStep()` exists on both sides and the sprint-stop predicate is directly paired. Input producer bodies have not yet been fully dispositioned. No rename/split claim is needed for the same-named entry classes; inheritance and remaining member bodies still require line-level comparison.

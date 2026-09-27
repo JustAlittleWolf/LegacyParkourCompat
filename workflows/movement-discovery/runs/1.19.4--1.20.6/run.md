@@ -1,6 +1,6 @@
 # Discovery: 1.19.4 to 1.20.6
 
-- Status: partial (stages 1-7 visited; all retain open coverage)
+- Status: partial
 - Scope: client player movement; older A = 1.19.4; newer B = 1.20.6
 - Repository revision and start date: source baseline `c133c29`; worktree branch `feat/movement-discovery-1-20`; 2026-09-26
 - Selected naming namespace, CLI mode per side and alignment evidence: A and B both use release-specific Mojang official mappings (`mojmap`). The A owner manifest identifies exact 1.19.4 Mojmap artifacts, and this task independently verified the 1.19.4 client, mappings, remapped jar, version metadata and cited source hashes against those identities. Release-specific mappings are paired in the same official namespace.

@@ -39,7 +39,11 @@
 
 ## Finding index
 
-F001 sneak-edge support probe changes from 1.0 to stepHeight; F002 piston mover type bypasses B sneak-edge guard; F003 B accumulates/clamps piston movement per world tick; F004 farmland conversion repositions intersecting entities to dirt top; F005 player jump and movement-distance exhaustion costs differ, with server-authoritative accumulation/synchronization.
+- [F001](findings/F001.md): sneak-edge support probe changes from 1.0 to stepHeight.
+- [F002](findings/F002.md): piston mover type bypasses B sneak-edge guard.
+- [F003](findings/F003.md): B accumulates/clamps piston movement per world tick.
+- [F004](findings/F004.md): farmland conversion repositions intersecting entities to dirt top.
+- [F005](findings/F005.md): player jump and movement-distance exhaustion costs differ, with server-authoritative accumulation/synchronization.
 
 ## Limits and handoff
 

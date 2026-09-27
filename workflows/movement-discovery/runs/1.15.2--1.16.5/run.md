@@ -1,6 +1,6 @@
 # Discovery: 1.15.2 to 1.16.5
 
-- Status: active
+- Status: partial
 - Scope: client player movement; exact Java Edition A = 1.15.2; exact B = 1.16.5.
 - Repository revision and start date: `c133c2999b6673874e35bbdb26759548407f3e11`; 2026-09-26. Work branch: `feat/movement-discovery-1-16`.
 - Selected naming namespace: Mojang official names. A and B are both explicitly decompiled with `mojmap`; class roots and seed members align by package/name. This establishes a candidate namespace pair, while per-role/member correspondence is still being verified below.
@@ -12,7 +12,7 @@
 
 ### A — Minecraft 1.15.2
 
-- Provenance owner record: repository commit `3fe170f`, `workflows/movement-discovery/runs/1.14.4--1.15.2/run.md` and `source-preparation-transcript-extract.txt`. The transcript records a successful exact `1.15.2` Mojmap decompilation; this chat did not regenerate A.
+- Provenance owner record: repository commit `3fe170f` and the [1.14.4 to 1.15.2 source preparation record](../1.14.4--1.15.2/run.md#source-preparation-record). That record transcribes a successful exact `1.15.2` Mojmap decompilation; this run did not regenerate A.
 - Source root: `../../../../decompiled_minecraft/1.15.2/mojmap` (shared ignored output).
 - Original client jar: SHA-256 `4A73008A73F3824B7C711750A5A37556DF8614F193C0A531E292DAD159A73A7C`; size 15,531,492 bytes. The publisher SHA-1 was not included in the owner record.
 - Version JSON SHA-256 `E974511243E845B2427AB635EBA5612481CB420A70C0630AA041EAB3EEB590C5`.
@@ -101,3 +101,23 @@ Local input order observed in both versions: `LocalPlayer.tick()` checks chunk a
 - Coverage counts: Stage 2 has a terminal `findings` row; Stages 1, 3, 4, 5 and 6 are partial/in-progress; Stage 7 is pending. This is not an exhaustive proof of equivalence.
 - Unresolved gaps: climbable/crouch/vision closure; broad blocks/effects/enchantments/attributes/resources; collision/support closure; external movement sources and remaining player gates.
 - Runtime validation: not performed (separate workflow).
+
+
+## Supporting audit evidence
+
+### Source preparation record
+
+#### Source preparation transcript extract — 1.16.5
+
+This extract was transcribed from the successful forced Gradle task output. The full log remains local at `build/decompile-1.16.5-mojmap.log`.
+
+- Repository revision: `c133c2999b6673874e35bbdb26759548407f3e11`.
+- Command: `gradlew.bat --gradle-user-home .\.gradle-user-home --no-daemon --rerun-tasks decompileMinecraft --versions=1.16.5 --mappings=mojmap --console=plain`.
+- Exact resolution: `Decompiling Minecraft 1.16.5 (requested '1.16.5')`.
+- JDK: `25.0.3+9-LTS`; Gradle 9.7.1; forked decompiler.
+- Mapping: official Mojang client mappings; `Applying official Mojang mappings`.
+- Output: `decompiled_minecraft/1.16.5/mojmap`.
+- Remapping warnings: three invalid-access warnings involving `ClientPacketListener` and package-private `MapRenderer$MapInstance`; access fixer reported 1 class, 0 members.
+- Vineflower notices: `ModelBakery.lambda$loadModel$25` and `$26` processed twice.
+- Completion: `Finished 1.16.5 using mojmap`; `BUILD SUCCESSFUL in 44s`; 3 actionable tasks executed.
+- Manifest handling: raw download preserved at `build/minecraft-decompile-cache/version_manifest_v2.json.raw-copy`, SHA-256 `6EA1A62A6DF711ED21AE74696566B7407EC537EA363ED6EBA85C13A1278F0B3F`. Gson rejected the original single-line file at column 8193; PowerShell parsed it as valid JSON. The isolated cache copy was reformatted after preserving the original, then the exact-version task was forced and completed successfully. This changes neither the downloaded source artifact nor any tracked code.

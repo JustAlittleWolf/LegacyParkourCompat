@@ -88,6 +88,6 @@ No independently confirmed movement delta was found in the six bounded slices ab
 ## Source audit closure
 
 - Coverage: 6 bounded slices compared with no difference; all remaining navigation slices pending; 0 behavioral findings; 0 full stages closed.
-- Status: partial; the remaining scope and dependencies are listed above.
+- Status: partial
 - Evidence/hash/correspondence audit: exact releases, client hashes, A mapping hash/remapped jar provenance, B native-unobfuscated mode, successful B raw log and source roots recorded. Hashes cover every source file cited in the bounded comparisons and the impulse-context disposition. A's prior successful log was not retained as raw output; the available transcript extract is explicitly identified. Method correspondence is based on inspected signatures, call chains and bodies, not name equality alone.
 - Runtime validation: not performed (separate workflow).

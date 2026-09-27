@@ -86,4 +86,4 @@ A provenance was relayed by the adjacent-version owner from `C:\Users\Wolfi\.cod
 ## Source audit closure
 
 - Coverage: 12 compared-no-difference; 3 findings; 1 client-resource slice not-applicable; remaining navigation slices pending; 3 independent confirmed movement deltas; no full navigation stage closed.
-- Status: partial. Source hashes/correspondence audit incomplete; raw logs unavailable. A provenance is relayed from its owner, B provenance is independently confirmed. Runtime validation: not performed.
+- Status: partial

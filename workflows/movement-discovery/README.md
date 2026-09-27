@@ -10,9 +10,26 @@ Required inputs: exact A and B; repository revision; available source/cache loca
 
 Create a tracked run at `workflows/movement-discovery/runs/<A>--<B>/`, copying [templates/run.md](templates/run.md). Store one finding per file under `findings/` using [templates/finding.md](templates/finding.md). Generated sources, jars and raw diffs remain ignored/local; commit manifests, correspondence, coverage, findings and unresolved questions. Use relative evidence paths rooted in the manifest, not machine-specific drive paths. Do not commit the Minecraft source tree.
 
+### Tracked output layout
+
+Every run has the same deliverable layout:
+
+```text
+runs/<A>--<B>/
+  run.md
+  findings/                 # present only when at least one finding exists
+    <finding-id>.md
+```
+
+Keep the artifact manifest, correspondence, coverage ledger, dependency queue, finding index, resume checkpoint and closure in `run.md`, in the template's order. Put one independently scoped movement difference in each `findings/*.md`. Use exactly one top-level status: `active` while an agent is working, then `complete`, `partial` or `blocked` at handoff. A run with pending or in-progress slices is `partial`; a run unable to start comparison is `blocked`. A missing finding folder means zero confirmed findings, not equivalence.
+
+Working navigation indexes, inventories and short source-preparation excerpts may be drafted locally, but fold any evidence, hashes, coverage decisions and resume information needed by the next agent into `run.md` before handoff. Keep raw logs, transcripts, generated sources, jars, caches and diffs outside the tracked run folder. Do not commit separate navigation, coverage, resource-inventory or preparation-log files. Links from findings must resolve within the deliverable. Before handoff, check that the run folder contains only `run.md` and optional `findings/*.md`, and that the manifest's status matches its open coverage rows.
+
 ## 1. Establish a comparable source pair
 
 Read [buildSrc/README.md](../../buildSrc/README.md) and the current decompiler implementation. Use `decompileMinecraft`; never look up mappings online. Existing outputs can be reused only when their provenance can be established. Unproven source trees are navigation aids, not final evidence.
+
+At resume time, check that both recorded source roots and the cited cache artifacts still exist and match the manifest hashes. A tracked run records past evidence; it does not guarantee that ignored sources or jars remain on disk. If they are gone, regenerate the exact pair through this task and reverify the hashes before extending the comparison. If regeneration or namespace alignment fails, retain the specific blocker and do not promote pending slices to complete.
 
 Choose **one aligned naming namespace for both exact versions**. The CLI family identifiers are `mojmap`, `feather`, `legacy-yarn`, `yarn`, `unobfuscated`. `feather` writes the directory `ornithe-feather`; the others use their identifier. Mojmap remaps an obfuscated release to Mojang's official names. A release published unobfuscated already uses those official names, so `mojmap` on the older side and `unobfuscated` on the newer side form a valid official-name pair. Run the task separately with the explicit mode appropriate to each release; `unobfuscated` still rejects an obfuscated jar. Example candidate commands, conditional on availability:
 

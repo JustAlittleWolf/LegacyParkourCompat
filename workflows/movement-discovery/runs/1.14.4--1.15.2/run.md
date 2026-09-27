@@ -4,7 +4,7 @@
 - Scope: client player movement; older A = exact Java Edition 1.14.4; newer B = exact Java Edition 1.15.2.
 - Repository revision and start date: `c133c2999b6673874e35bbdb26759548407f3e11`; 2026-09-26.
 - Selected naming namespace and alignment: Mojang official names / Mojmap for both releases. Each exact release used its own official `client.txt` mapping artifact. This is the same naming family, not cross-application of one release's mapping to the other. Requested and resolved IDs match both sides.
-- Source preparation: A owner command `gradlew.bat -g .gradle-user-home decompileMinecraft --versions=1.14.4 --mappings=mojmap`; owner checkpoint `29f6a2d` records `Finished 1.14.4 using mojmap`. B command `gradlew.bat -g .gradle-user-home decompileMinecraft --versions=1.15.2 --mappings=mojmap`; success transcript extract is `source-preparation-transcript-extract.txt`.
+- Source preparation: A owner command `gradlew.bat -g .gradle-user-home decompileMinecraft --versions=1.14.4 --mappings=mojmap`; owner checkpoint `29f6a2d` records `Finished 1.14.4 using mojmap`. B command `gradlew.bat -g .gradle-user-home decompileMinecraft --versions=1.15.2 --mappings=mojmap`; success transcript extract is [Source preparation record](#source-preparation-record).
 - Log limitation: neither owner's raw console log is retained. A's committed provenance record is checkpoint `29f6a2d`; B's successful-output transcription is labeled as an extract, not a raw log. Both report exact-version successful completion.
 - Toolchain/decompiler/remapper versions and options: Gradle 9.7.1; decompiler JVM 25.0.3+9-LTS; target bytecode Java 8; Vineflower 1.12.0; Tiny Remapper 0.14.1; Mapping IO 0.9.1; Gson 2.14.0; ASM 9.10.1; default decompiler heap 4G. Separate isolated Gradle user homes were used.
 
@@ -30,19 +30,19 @@
 - Version metadata SHA-256: `E974511243E845B2427AB635EBA5612481CB420A70C0630AA041EAB3EEB590C5`.
 - CLI mode/namespace: `mojmap`, Mojang official names. Mapping object `1fbf9f0bc9c326af859b3ccf71c2a8f5edc47ef8` (`client.txt`); mapping file SHA-256 `65AD295B6CF63821F5D8F961C128128475E6D39386358D22EB238A3CE6E31777`.
 - Remapped client jar SHA-256: `9B78CB6363696CA878D18B3A51A2E5D4AC626C9E06A4FA91B0B827FA85C2961A`.
-- Source preparation extract: `source-preparation-transcript-extract.txt`; decompiler warnings and exact successful completion are recorded there. The task reported no decompilation error.
+- Source preparation extract: [Source preparation record](#source-preparation-record); decompiler warnings and exact successful completion are recorded there. The task reported no decompilation error.
 
 ### Per-finding source/resource hashes
 
-Record each cited source path and SHA-256 in its finding. Paired tag resources and their hashes are in `resources-paired-tags.md`. Do not commit generated source trees, client jars or mapping files.
+Record each cited source path and SHA-256 in its finding. Paired tag resources and their hashes are in [Paired block and fluid tags](#paired-block-and-fluid-tags). Do not commit generated source trees, client jars or mapping files.
 
 ## Correspondence and call order
 
-The two sources use a shared Mojmap namespace. Resolve each compared role through exact class/member signatures, inheritance, callers and state order in the coverage ledger and individual findings. Same-name classes or methods alone do not establish correspondence. Source-level candidate paths are indexed in `source-inventory-b.md`.
+The two sources use a shared Mojmap namespace. Resolve each compared role through exact class/member signatures, inheritance, callers and state order in the coverage ledger and individual findings. Same-name classes or methods alone do not establish correspondence. Source-level candidate paths are indexed in [Newer-side source inventory](#newer-side-source-inventory).
 
 ## Coverage ledger
 
-See [coverage-ledger.md](coverage-ledger.md) for the stage-by-stage audit, terminal rows, and open coverage gaps.
+See [Detailed coverage ledger](#detailed-coverage-ledger) for the stage-by-stage audit, terminal rows, and open coverage gaps.
 
 ## Finding index
 
@@ -51,12 +51,158 @@ Findings are tracked one per file under `findings/`; add only after the bounded 
 ## Resume checkpoint
 
 - Completed: exact source provenance for both releases; input correspondence; paired block/fluid tags; friction, Soul Sand, Honey speed/jump/slide, portal dismount and Bee player-knockback findings.
-- Next: close the open rows in `coverage-ledger.md`, beginning with player-state gates and living travel, then collision, blocks/fluids, effects/equipment and external updates.
+- Next: close the open rows in [Detailed coverage ledger](#detailed-coverage-ledger), beginning with player-state gates and living travel, then collision, blocks/fluids, effects/equipment and external updates.
 - Assumptions: no gameplay trajectory was observed; findings are source-level. Server-synchronized state is identified as externally authoritative rather than locally computed.
 
 ## Source audit closure
 
-- Coverage status: partial; seven source-confirmed findings and a terminal input-refactor row are recorded. Other navigation stages have explicit open coverage gaps in `coverage-ledger.md`.
+- Coverage status: partial; seven source-confirmed findings and a terminal input-refactor row are recorded. Other navigation stages have explicit open coverage gaps in [Detailed coverage ledger](#detailed-coverage-ledger).
 - Unresolved gaps: paired player-state, living-travel, collision-order, block/fluid consumer, effect/equipment and external-update audits.
-- Evidence/hash/correspondence audit: exact original client jars and release-specific Mojmap mappings are recorded. Each finding records cited source hashes; paired tags and resource hashes are in `resources-paired-tags.md`.
+- Evidence/hash/correspondence audit: exact original client jars and release-specific Mojmap mappings are recorded. Each finding records cited source hashes; paired tags and resource hashes are in [Paired block and fluid tags](#paired-block-and-fluid-tags).
 - Runtime validation: not performed; gameplay trajectory validation is a separate workflow.
+
+
+## Supporting audit evidence
+
+### Detailed coverage ledger
+
+##### Coverage ledger
+
+The stage numbers follow the established source-navigation order. Rows marked terminal have paired endpoint evidence or a bounded source-level disposition; queued rows remain open and prevent an overall-complete status.
+
+| Stage | Slice | A/B correspondence and source boundary | Status |
+|---|---|---|---|
+| 1. Input and tick order | Keyboard input sampling, sneak/crawl scaling, LocalPlayer call order | A `LocalPlayer.aiStep -> Input.tick(boolean, boolean) -> KeyboardInput.tick`; B `LocalPlayer.aiStep -> Input.tick(boolean) -> KeyboardInput.tick`. Predicates and tick ordering were compared in [Stage 1 input correspondence](#stage-1-input-correspondence). | Terminal: no movement difference established for corresponding states. |
+| 2. Player state and gates | Pose, dimensions, abilities, food, sprint and player attributes | Player pose/crouch and flying gates were consulted for stage 1. Full comparison of dimensions, hunger/sprint thresholds and attributes has not been completed. | pending: compare exact formulas and pose transitions. |
+| 3. Living movement integration | Jump, travel, ground friction, fluid travel, ladder, flight/fall-flying and movement attributes | F01 establishes grounded partial-snow friction lookup difference. Honey jump factor is separately F04. The paired LivingEntity.travel excerpt confirms matching branch order and formulas for fall-flying, ordinary air/ground travel, water/lava, gravity, ladder boost, Slow Falling, Levitation, Depth Strider and Dolphin's Grace; A uses raw coordinates where B uses accessors in these corresponding expressions. Jump Boost additive math is the same; the base jump hook changes through the block factor in F04. Water/lava flow and other entity/world consumers are not audited here. | in-progress: F01/F04 findings; several common formulas compared; other dependencies pending. |
+| 4. Entity movement and collision | move order, collision resolution, step/edge behavior, block-cell callbacks, impulses and packet corrections | F02 establishes Soul Sand callback multiplicity. F05 establishes Honey contact slide. F06 identifies server position placement; exact prediction path remains separate. General collision/step/edge and impulse ordering were not exhaustively paired. | in-progress: findings F02/F05/F06; general collision and correction slices pending. |
+| 5. Blocks and fluids | Registrations, collision shapes, friction/speed/jump factors, callbacks, fluid tags and flow | F01/F02 cover snow, ice and Soul Sand; F03–F05 cover B-only Honey behavior. Paired tag inventory reports unchanged ice/water/lava tags and non-movement bamboo representation delta. Other movement-relevant blocks and fluid formula consumers are not exhaustively audited. | in-progress: findings F01–F05 and paired tag review; broader consumer inventory pending. |
+| 6. Effects, enchantments, attributes and equipment | speed/slowness/jump/levitation/slow-fall/dolphin effects; depth strider/frost walker/riptide; item-use and armor paths | The paired LivingEntity travel/jump excerpt resolves unchanged formulas for Jump Boost addition, Slow Falling, Levitation, Depth Strider and Dolphin's Grace. Honey jump-factor integration is F04. Registration and consumer inventory exists in the Newer-side source inventory section below, but Speed/Slowness, remaining enchantments and equipment/item-use paths have no paired formula audit. | in-progress: selected travel formulas compared; remaining effect/enchantment/equipment consumers pending. |
+| 7. External influences | Server position/velocity, mounts, portals, other entities and world callbacks | F06 is server-side portal dismount placement with entity-tracking/correction boundary; F07 is B-only Bee sting knockback through common `LivingEntity.hurt`. Their independent entity motion is out of scope. | in-progress: findings F06/F07; remaining external writers and local correction route pending. |
+
+###### Source-confirmed findings
+
+- F01 — ground friction support-cell sampling changes under tall partial surfaces.
+- F02 — Soul Sand horizontal multiplier applies once per overlapping cell in A and once by selected block factor in B.
+- F03 — Honey Block horizontal speed factor (B-only block).
+- F04 — Honey Block jump factor (B-only block).
+- F05 — Honey Block descent sliding contact callback (B-only block).
+- F06 — portal-aware server-side dismount placement.
+- F07 — Bee sting can add knockback to player velocity (B-only entity interaction).
+
+###### Explicit resource dispositions
+
+- The one changed common tag, `bamboo_plantable_on`, expands the same five substrate values inline; only bamboo support/growth consumers were found. No player movement path is established.
+- B-only bee hive/growable, crop, flower, tall-flower, shulker-box tags are not movement mechanics by themselves. Bee attack's player velocity effect is covered by F07; independent Bee movement remains out of scope.
+- B-only `portals` tag participates in F06. Identical water/lava and ice tag bytes do not by themselves establish identical Java flow/collision formulas.
+
+##### Dependency queue and blockers
+
+- `PLAYER-STATE`: complete paired audit of dimensions, hunger/sprint, pose and ability gates.
+- `LIVING-TRAVEL`: pair jump timing, gravity, water/lava travel and flow, ladders, flight/fall-flying and attribute consumers.
+- `COLLISION-ORDER`: pair collision clipping, step height, edge probing, callbacks and velocity mutation ordering beyond F02/F05.
+- `BLOCK-FLUID-CONSUMERS`: exhaustively enumerate relevant movement registrations and paired fluid/block consumers.
+- `EFFECT-EQUIPMENT`: resolve each effect, enchantment and equipment consumer enumerated in source inventory.
+- `EXTERNAL-INPUTS`: distinguish inbound player corrections from tracked-entity position/velocity replication for all reachable position/velocity writers.
+
+These are audit coverage gaps, not source-generation blockers. The catalog remains in progress until those rows are resolved or each candidate is closed with paired evidence.
+
+### Newer-side resource inventory
+
+#### Newer-side resource inventory (Minecraft 1.15.2)
+
+Original input jar: `build/minecraft-decompile-cache/1.15.2/client.jar`; SHA-256 `4A73008A73F3824B7C711750A5A37556DF8614F193C0A531E292DAD159A73A7C`.
+
+The following exact jar entries were inspected directly from the original client jar. Hashes are SHA-256 of the uncompressed entry bytes.
+
+| Jar entry | SHA-256 | Content relevant to navigation |
+|---|---|---|
+| `data/minecraft/tags/blocks/ice.json` | `801D74E956B208F0C5106D6FDFEF47D249145948793EAE454C3BEF80B7C8D2A6` | `ice`, `packed_ice`, `blue_ice`, `frosted_ice` |
+| `data/minecraft/tags/fluids/water.json` | `698E1662335B6241879B380A58D478EE019A1E789362B004050B5CCAC421AD18` | `water`, `flowing_water` |
+| `data/minecraft/tags/fluids/lava.json` | `F3A67622F1F6A4C69E7792F1E3731B04236962B5BE1821671ACA0D1B59C316DD` | `lava`, `flowing_lava` |
+| `data/minecraft/tags/blocks/bee_growables.json` | `9C4180B3A1015D700E15D5BBD699A19A46F4FE759BD31CE4C9EA92860DEEAC80` | `crops`, `sweet_berry_bush` |
+| `data/minecraft/tags/blocks/beehives.json` | `8B9102847F605DD72AA69DD6B7E4BCFFDCA25F385FD2F9FFD8EF862A28A18415` | `bee_nest`, `beehive` |
+
+These tag values are not themselves a movement difference. They are recorded for later consumer tracing. The B jar contains no `data/minecraft/enchantments/` entries; this is not absence evidence because enchantments in this version are code-registered. A and B tag contents and referenced values are paired in [Paired block and fluid tags](#paired-block-and-fluid-tags) using the verified jar identities in `run.md`.
+
+### Paired block and fluid tags
+
+#### Paired block/fluid tag inventory
+
+Input jars: A 1.14.4 SHA-256 `B3B2A798E2D67B566008FE4A03767AE2C7FF3F8C7BA6751E7B71FC7299672D0A`; B 1.15.2 SHA-256 `4A73008A73F3824B7C711750A5A37556DF8614F193C0A531E292DAD159A73A7C`. The inventories were read directly from both original client jars after independently verifying A's hash against its owner's provenance.
+
+##### Inventory result
+
+- A contains 52 `data/minecraft/tags/blocks/*.json` and `.../tags/fluids/*.json` entries; B contains 58.
+- 51 entry paths are common. Fifty have identical uncompressed bytes. The only common entry whose bytes changed is `data/minecraft/tags/blocks/bamboo_plantable_on.json`.
+- A-only entry: `data/minecraft/tags/blocks/dirt_like.json` (SHA-256 `CBEDCEDB203119E9312A8FBA25E282DDA4ED7C1E73121AE5F8746232B8B73DDE`). Its values are dirt, grass block, podzol, coarse dirt and mycelium.
+- B-only entries: `bee_growables.json`, `beehives.json`, `crops.json`, `flowers.json`, `portals.json`, `shulker_boxes.json`, and `tall_flowers.json`, all under `data/minecraft/tags/blocks/`.
+
+##### Relevant unchanged values
+
+| Entry | A SHA-256 | B SHA-256 | Result |
+|---|---|---|---|
+| `data/minecraft/tags/blocks/ice.json` | `801D74E956B208F0C5106D6FDFEF47D249145948793EAE454C3BEF80B7C8D2A6` | `801D74E956B208F0C5106D6FDFEF47D249145948793EAE454C3BEF80B7C8D2A6` | Same four ice blocks |
+| `data/minecraft/tags/fluids/water.json` | `698E1662335B6241879B380A58D478EE019A1E789362B004050B5CCAC421AD18` | `698E1662335B6241879B380A58D478EE019A1E789362B004050B5CCAC421AD18` | Same still/flowing water values |
+| `data/minecraft/tags/fluids/lava.json` | `F3A67622F1F6A4C69E7792F1E3731B04236962B5BE1821671ACA0D1B59C316DD` | `F3A67622F1F6A4C69E7792F1E3731B04236962B5BE1821671ACA0D1B59C316DD` | Same still/flowing lava values |
+
+##### Changed and new entries
+
+- `bamboo_plantable_on.json`: A SHA-256 `C906DD6EAF99018B42E85D4DBD99D2125E56B9A139E7E6BD1980C8FE0B697401`; B SHA-256 `9D806316F075528EC519BC9DAAEA7B886DA346162854C17A611F83783C3F51C4`. A expresses dirt-like substrates through `#minecraft:dirt_like`; B expands the same five values inline. The only consumers found in the versioned Java trees are `BambooBlock` and `BambooSaplingBlock` support/growth checks. This changes tag representation, not the accepted substrate set. No difference in player movement is established by this tag delta.
+- `data/minecraft/tags/blocks/portals.json`: B SHA-256 `FECDF2F3A61C8521647BB59802F4ECC18569D4B86786700499AC11E5718F80A9`; values are Nether portal, End portal and End gateway. A has no such resource. B consumes `BlockTags.PORTALS` in `LivingEntity.findStandUpPosition` during server-side dismount handling; see finding `F06`.
+- `bee_growables.json`: B SHA-256 `9C4180B3A1015D700E15D5BBD699A19A46F4FE759BD31CE4C9EA92860DEEAC80`; values are crops and sweet berry bush.
+- `beehives.json`: B SHA-256 `8B9102847F605DD72AA69DD6B7E4BCFFDCA25F385FD2F9FFD8EF862A28A18415`; values are bee nest and beehive.
+- Bee-related tags are consumed by the new Bee entity's target/hive behavior. Bee is inspected only for its attack effect on player velocity; its independent motion is outside scope. See finding `F07`.
+- Remaining B-only crop, flower and shulker-box tag values are not movement mechanics on their own. Their consumers must be considered only if they form a dependency of player movement or an external player velocity/position update.
+
+##### Scope note
+
+These resources are datapack inputs. Identical values or missing files alone do not establish a Java behavior conclusion. Findings cite their consumer, registration and the exact jar entries where those data values matter.
+
+### Newer-side source inventory
+
+#### Newer-side source navigation inventory (Minecraft 1.15.2)
+
+Source root: `decompiled_minecraft/1.15.2/mojmap`. This is a navigation inventory, not the completed pair correspondence. All entries below are for the generated exact 1.15.2 output. Relative file paths are from that root. SHA-256 values were computed from the source files on 2026-09-26.
+
+| Stage | Source paths / members to resolve | B source SHA-256 |
+|---|---|---|
+| 1. Local input and tick ordering | `net/minecraft/client/player/LocalPlayer.java`: `tick`, `aiStep`, `isMovingSlowly`, input dispatch; `KeyboardInput.java`: `tick(boolean)`; `Input.java`: input state and tick signature | `LocalPlayer.java` `3A9019BD7B860E251C23FD8D0CD70B7F5B38566D34470C4E29B1014EF689CCBD`; `KeyboardInput.java` `746EA654CF4F46A5F4B94A237C4307652252A44807A488B606DC993E088396F7`; `Input.java` `367C3A9B0B21D8F106A21FD2C73A3018685DBF07D9C8A9340E2D4C9D73359201` |
+| 2. Player state and gates | `net/minecraft/world/entity/player/Player.java`: `tick`, `updatePlayerPose`, dimensions, attributes; `Abilities.java`; `world/food/FoodData.java`; `LocalPlayer.java`: `isCrouching`, `isMovingSlowly`, `serverAiStep` | `Player.java` `1BA2724C22163862B8F7FDFDEA5A04A66E4DB26A119D7E5360BA024724A34793`; `Abilities.java` `FBEE269C9150B34FA9CCA5369307F47CE46A96E609E192C3D4092BDE318853D4`; `FoodData.java` `22595659140B58A2C8B97E68B34A09E9390353A1BAF3925B4276639A6EA05256` |
+| 3. Living movement integration | `net/minecraft/world/entity/LivingEntity.java`: `jumpFromGround`, `travel`, `aiStep`, `getSpeed`; fluid travel and attribute consumers/callees | `LivingEntity.java` `46D243BB7E51F7B54404AA1D7D6E6B827682D0F5925D02847C4193306C4D5E54`; `world/entity/monster/SharedMonsterAttributes.java` (hash to add when cited) |
+| 4. Entity movement and collision | `net/minecraft/world/entity/Entity.java`: `tick`, `move`, `getBlockSpeedFactor`, `moveRelative`; `world/phys/AABB.java`; `world/phys/shapes/VoxelShape.java`, `Shapes.java`; client packet listener | `Entity.java` `191B3AD3E7348C9BAC1E703FFF896706D23A751BF15162AACF676F5F97C0A10E`; `AABB.java` `82324C0E6A3D69E80424656E6098B39CE41F0F17A5E6EFBE6542FE8EACA24A18`; `VoxelShape.java` `5FACEEA0E4CE9AD0F2A1A2C72A89D9A768AB877C8728AE2968FE34AA1E03D3EA`; `Shapes.java` `81BF70D2C8A1D1336DF72BEEDB30B0C9504F14DECC9A06814A794AABF38203C2`; `ClientPacketListener.java` `D806D286AF4B93D7C61C3C884F344A5870CE1871FB0A811506031ADF78FAFC30` |
+| 5. Blocks and fluids | `net/minecraft/world/level/block/Blocks.java`; `HoneyBlock.java`; block subclasses and registrations; `world/level/material/FluidState.java`, `FlowingFluid.java` | `Blocks.java` `0CEF66FEACBF9D7D5BD38AC1D2065E71384A73043B0956EEAF314FEDBF5CC7D9`; `HoneyBlock.java` `40760AEB3C084F1143E87E1E057F18165492EB01B8FCE0815DFDD0882CDC8A03`; `FluidState.java` `F88BFF7D54EA0220EE67E0FE36A78DF67871E52AE636E584EA26DD107F652C15`; `FlowingFluid.java` `E8A395552E53F33BCB5648325615D31BC1796CE2A8AEB501BDDA3127622DCCDF` |
+| 6. Effects, enchantments, attributes, equipment | `net/minecraft/world/effect/MobEffects.java`, `MobEffect.java`, `MobEffectInstance.java`; `world/item/enchantment/Enchantments.java`, `EnchantmentHelper.java`; `world/entity/monster/SharedMonsterAttributes.java`; effect application and equipment paths | `MobEffects.java` `472B25EDE6BED3AD3ED1090DB3310CEA9708B637F111981BCF083F492C030412`; `MobEffect.java` `F218A040FF9F77272395245C4FFECC3F2266335600B79BE0A5B2823C46AD7DD0`; `MobEffectInstance.java` `4999D12CD468E402506F067DBD8694B1C8125DD9131E4F8A2FCC1848F616F180`; `EnchantmentHelper.java` `AC48EA19FD7B49226D4887086B1C907297E79454243C37559AE49DCAA504FCDD`; `Enchantments.java` `8051D941C7A008D7801CAB4F45DACC8E7EC13B45F7880AC664ED982185879490` |
+| 7. External influences | `net/minecraft/client/multiplayer/ClientPacketListener.java`, `world/entity/Entity.java`, and movement callbacks once reachable dependencies are indexed | `ClientPacketListener.java` and `Entity.java` hashes recorded above |
+
+##### Candidate leads to resolve after pair provenance
+
+- Input refactor: 1.14.4's observed navigation tree has `KeyboardInput.tick(boolean, boolean)` and LocalPlayer calls it with `isVisuallySneaking() || isVisuallyCrawling()` plus `isSpectator()`. B has `KeyboardInput.tick(boolean)` and calls it with `isMovingSlowly()`. B's `isMovingSlowly()` delegates to `isCrouching() || isVisuallyCrawling()`. Determine exact correspondence, state timing, spectator behavior, and crouch pose gates. This is a lead only until A provenance is established.
+- Honey block: B registers `Blocks.HONEY_BLOCK` with `speedFactor(0.4F)` and `jumpFactor(0.5F)`. `HoneyBlock.fallOn` passes `0.2F` to `causeFallDamage`; `entityInside` conditionally applies sliding. `isSlidingDown` requires airborne state, Y/velocity thresholds and horizontal offset; `doSlideMovement` can scale X/Z and writes Y `-0.05`, then clears `fallDistance`. Check the exact class/member/lines, registration, player reachability and A-side absence before creating a modern-only finding. Do not imply this block's behavior belongs in 1.14.4 emulation.
+
+##### Resource inventory boundary
+
+The B original client jar is available at `build/minecraft-decompile-cache/1.15.2/client.jar`. `jar tf` confirms it includes data-driven block/fluid tags and many other `data/minecraft` JSON resources; it contains no movement-resource conclusion by itself. Relevant entries, content hashes and referenced tag closure remain to be inventoried with the corresponding A jar using the verified 1.14.4 owner provenance recorded in `run.md` and the paired inventory in [Paired block and fluid tags](#paired-block-and-fluid-tags). Enchantment/effect registrations in this release are being traced through source code; absence of a dedicated JSON directory is not evidence of absence.
+
+### Stage 1 input correspondence
+
+#### Stage 1 correspondence note: keyboard movement input
+
+A `LocalPlayer.aiStep()` calls `Input.tick(bl4, isSpectator())`; B calls `Input.tick(isMovingSlowly())`. The call occurs before both versions copy movement impulses into the local player tick path. Exact source hashes: A `LocalPlayer.java` `0795C1223198CE5ACF5D2ED9E5DB8435BBEC4CD52B96F96B1DDF2865BAAAE85F`, `KeyboardInput.java` `33DAA0833A95E09E728C1B8F509020DD13B70E38ABA922E2B1E10EC5C9B7739A`; B `LocalPlayer.java` `3A9019BD7B860E251C23FD8D0CD70B7F5B38566D34470C4E29B1014EF689CCBD`, `KeyboardInput.java` `746EA654CF4F46A5F4B94A237C4307652252A44807A488B606DC993E088396F7`.
+
+In A the slowdown predicate is `!isSpectator && (sneakKeyDown || (isVisuallySneaking || isVisuallyCrawling))`. In B it is `isMovingSlowly`, whose predicate is `isCrouching || isVisuallyCrawling`; `isCrouching` uses the same crouch pose-entry/shift-or-obstructed-standing conditions and excludes flying and swimming. A's `isVisuallySneaking` has matching flying/swimming and pose-entry conditions. Player pose update in each version selects standing when flying rather than crouching; spectator input therefore is not slowed by either route. The signature refactor has no movement delta established for corresponding ordinary, crawling, swimming, flying, or spectator states. This row is resolved as a no-difference correspondence, not a finding. The two sources are Mojmap-named but state equivalence was checked through predicates and call order.
+
+### Source preparation record
+
+#### Source preparation transcript extract (transcribed from task output; not raw Gradle log)
+
+- Command: `gradlew.bat -g .gradle-user-home decompileMinecraft --versions=1.15.2 --mappings=mojmap`
+- Repository revision: `c133c2999b6673874e35bbdb26759548407f3e11`
+- Requested release resolved exactly: `Decompiling Minecraft 1.15.2 (requested '1.15.2')`
+- JDK: `25.0.3+9-LTS` (forked from `C:\Program Files\Eclipse Adoptium\jdk-25.0.3.9-hotspot`)
+- Mapping mode: `mojmap`; official Mojang mapping file downloaded and applied.
+- Output: `decompiled_minecraft/1.15.2/mojmap`
+- Decompiler: Vineflower; `Finished 1.15.2 using mojmap`
+- Warnings: three invalid-access remapper warnings for `MapRenderer$MapInstance` and fixer action for 1 class; Vineflower reported `ModelBakery.lambda$loadModel$25` and `$26` processed twice. No decompilation error was reported in the task output.
+- Result: `BUILD SUCCESSFUL in 3m 49s` (Gradle 9.7.1).
+- Limitation: this extract is a transcription of task output, not a raw saved log.

@@ -1,10 +1,10 @@
 # Discovery: 1.8.9 to 1.9.4
 
-- Status: active (paired source audit underway)
+- Status: partial
 - Scope: client player movement; older A = 1.8.9; newer B = 1.9.4
 - Repository revision and start date: `c133c29`; 2026-09-26
 - Selected naming namespace, CLI mode per side and alignment evidence: Ornithe Feather for B, explicit `feather`; resolved Feather build `1.9.4+build.2`. A is owned by the 1.8.9 chat; do not treat its existing output as evidence until its provenance is established. If it is Feather, this is the aligned namespace; otherwise stop and resolve a valid alignment before comparing.
-- Source preparation command and log: `.\gradlew.bat --no-daemon decompileMinecraft --versions=1.9.4 --mappings=feather`; successful completion excerpt: [source-preparation.log](source-preparation.log). Console emitted `Decompiling Minecraft 1.9.4 (requested '1.9.4')`, `Applying ornithe feather (1.9.4+build.2)`, `Decompiling with Vineflower into .../1.9.4/ornithe-feather`, and `Finished 1.9.4 using ornithe-feather`. Gradle 9.7.1 wrapper; decompiler JVM 25.0.3+9-LTS; buildSrc declares Vineflower 1.12.0, Tiny Remapper 0.14.1, Mapping IO 0.9.1. Task's default decompiler options are in `buildSrc/src/main/java/legacyparkourcompat/minecraft/MinecraftDecompileEngine.java`. No failed decompiler task or required-class check was reported. Output also contained remapper invalid-access warnings, which it said were fixed for 1 class and 32 members; movement impact remains to be checked if those classes enter a slice.
+- Source preparation command and log: `.\gradlew.bat --no-daemon decompileMinecraft --versions=1.9.4 --mappings=feather`; successful completion excerpt: [Source preparation record](#source-preparation-record). Console emitted `Decompiling Minecraft 1.9.4 (requested '1.9.4')`, `Applying ornithe feather (1.9.4+build.2)`, `Decompiling with Vineflower into .../1.9.4/ornithe-feather`, and `Finished 1.9.4 using ornithe-feather`. Gradle 9.7.1 wrapper; decompiler JVM 25.0.3+9-LTS; buildSrc declares Vineflower 1.12.0, Tiny Remapper 0.14.1, Mapping IO 0.9.1. Task's default decompiler options are in `buildSrc/src/main/java/legacyparkourcompat/minecraft/MinecraftDecompileEngine.java`. No failed decompiler task or required-class check was reported. Output also contained remapper invalid-access warnings, which it said were fixed for 1 class and 32 members; movement impact remains to be checked if those classes enter a slice.
 
 ## Artifact manifest
 
@@ -14,7 +14,7 @@
 - Source root: `../../../../decompiled_minecraft/1.8.9/ornithe-feather` (resolved directory exists under the shared root); 1,612 Java files. In this task I verified the 1.8.9 Feather source files are present and recorded hashes for every file cited below. The source is owner-produced and was not regenerated here.
 - CLI mode and naming namespace: explicit `feather`; matching Ornithe Feather family on both endpoints. Owner log selects `1.8.9+build.2`.
 - Client jar identity from the owner's verified version metadata: version 1.8.9, 5,256,245 bytes, publisher SHA-1 `e80d9b3bf5085002218d4be59e668bac718abbc6`. Client jar SHA-256, exact metadata file hash, Feather mapping artifact hash/path, remapped jar hash and original log file path are still being recorded by the owner; these fields remain open until received.
-- Successful source preparation: the owner reports command `gradlew.bat decompileMinecraft --rerun-tasks --versions=1.8.9 --mappings=feather`, exact resolver output `Applying ornithe feather (1.8.9+build.2)`, output to the exact source root above, and `Finished 1.8.9 using ornithe-feather`. The parent coordinator verified the successful log. The concise excerpt is in [source-preparation.log](source-preparation.log); the original raw log remains in the owning chat's worktree.
+- Successful source preparation: the owner reports command `gradlew.bat decompileMinecraft --rerun-tasks --versions=1.8.9 --mappings=feather`, exact resolver output `Applying ornithe feather (1.8.9+build.2)`, output to the exact source root above, and `Finished 1.8.9 using ornithe-feather`. The parent coordinator verified the successful log. The concise excerpt is in [Source preparation record](#source-preparation-record); the original raw log remains in the owning chat's worktree.
 
 ### B — 1.9.4
 
@@ -71,7 +71,7 @@ Preliminary B navigation above is not a comparison. Paired stage 1 has four sour
 - `ENTITY-COLLISION-EXCLUSION`: resolve the A decompiled `World.getCollisions()` comparison at lines 930-932 against the 1.8.9 client class bytecode before deciding whether it represents a real rider/mount collision difference. Do not regenerate or replace the shared A Feather source tree; use the owner's existing artifact if available.
 - `EFFECTS-LEVITATION`: resolved as modern-only under `3.2.4`; source hashes and absence in A are recorded there.
 - `ELYTRA`: resolved as modern-only under `3.2.5`; source hashes, movement branch and local start gate are recorded there.
-- `PAIR-B-LOG`: the successful 1.9.4 invocation output is captured as a concise excerpt in `source-preparation.log`; no complete raw console log was persisted. The source tree and mapped-jar hash establish the produced artifacts, and the task reported success.
+- `PAIR-B-LOG`: the successful 1.9.4 invocation output is captured as a concise excerpt in [Source preparation record](#source-preparation-record); no complete raw console log was persisted. The source tree and mapped-jar hash establish the produced artifacts, and the task reported success.
 
 ## Finding index
 
@@ -96,3 +96,31 @@ Preliminary B navigation above is not a comparison. Paired stage 1 has four sour
 - Unresolved gaps and limits: stage 2 state timing, most of stages 4-7, and the A client/mapping manifest fields remain open.
 - Evidence/hash/correspondence audit: hashes for each source cited in findings MD-01–MD-07 are recorded in those files; 1.9.4 client/mapping/remapped jar hashes are recorded above; remaining A provenance hashes will be filled from the owning chat.
 - Runtime validation: not performed (separate workflow).
+
+
+## Supporting audit evidence
+
+### Source preparation record
+
+Preserved success excerpt from the Gradle console output; not a full raw console transcript.
+
+Command: .\gradlew.bat --no-daemon decompileMinecraft --versions=1.9.4 --mappings=feather
+Gradle wrapper: 9.7.1
+Decompiler JVM: 25.0.3+9-LTS
+
+  Decompiling Minecraft 1.9.4 (requested '1.9.4')
+  Applying ornithe feather (1.9.4+build.2)
+  Decompiling with Vineflower into <worktree>/decompiled_minecraft/1.9.4/ornithe-feather
+  Finished 1.9.4 using ornithe-feather
+BUILD SUCCESSFUL (Gradle exit code 0; 3 actionable tasks executed)
+
+The same task output included mapping-time invalid-access warnings and reported "Fixing access for 1 classes and 32 members." The run completed successfully. Those warnings require slice-specific review if affected classes prove relevant. No runtime validation was performed.
+
+1.8.9 provenance excerpt transcribed from the owning chat's verified source-preparation log; the original raw log is stored in that chat's worktree and is not regenerated by this task:
+
+Command: gradlew.bat decompileMinecraft --rerun-tasks --versions=1.8.9 --mappings=feather
+  Applying ornithe feather (1.8.9+build.2)
+  Finished 1.8.9 using ornithe-feather
+BUILD SUCCESSFUL (verified by the owning chat and parent coordinator)
+
+The parent coordinator confirmed the log reports successful completion and the exact source output root is the shared `decompiled_minecraft/1.8.9/ornithe-feather` tree. Owner-reported client identity: 1.8.9, 5,256,245 bytes, publisher SHA-1 `e80d9b3bf5085002218d4be59e668bac718abbc6`.

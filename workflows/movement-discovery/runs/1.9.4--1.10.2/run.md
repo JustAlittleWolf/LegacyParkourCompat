@@ -1,10 +1,10 @@
 # Discovery: 1.9.4 to 1.10.2
 
-- Status: active (paired source comparison underway)
+- Status: partial
 - Scope: client player movement; older A = 1.9.4; newer B = 1.10.2
 - Repository revision and start date: c133c2999b6673874e35bbdb26759548407f3e11; 2026-09-26
 - Selected naming namespace, CLI mode per side and alignment evidence: explicit Ornithe Feather (`feather`) on both sides. A resolved to `1.9.4+build.2`; B resolved to `1.10.2+build.2`. This confirms an aligned family and exact endpoints.
-- Source preparation commands and successful log evidence: A: `.\gradlew.bat --no-daemon decompileMinecraft --versions=1.9.4 --mappings=feather` (owner chat log `source-preparation.log`); B: `.\gradlew.bat decompileMinecraft --versions=1.10.2 --mappings=feather --console=plain` (`decompile-1.10.2-feather.log`, worktree root). Both logs report exact requested/resolved releases, mappings, output paths and successful completion.
+- Source preparation commands and successful log evidence: A: `.\gradlew.bat --no-daemon decompileMinecraft --versions=1.9.4 --mappings=feather` (the [1.8.9 to 1.9.4 source preparation record](../1.8.9--1.9.4/run.md#source-preparation-record)); B: `.\gradlew.bat decompileMinecraft --versions=1.10.2 --mappings=feather --console=plain` (`decompile-1.10.2-feather.log`, worktree root). Both task outputs reported exact requested/resolved releases, mappings, output paths and successful completion.
 - Toolchain: Gradle 9.7.1; decompiler JVM Temurin 25.0.3+9-LTS; target client bytecode Java 8; Vineflower 1.12.0; Tiny Remapper 0.14.1; Mapping IO 0.9.1; default heap 4G and repository Vineflower options. Both remapper logs warned about access checks and recorded a repair (A 1 class/32 members; B 1 class/33 members). Inspect any relevant movement bytecode if a selected member intersects a warning.
 
 ## Artifact manifest

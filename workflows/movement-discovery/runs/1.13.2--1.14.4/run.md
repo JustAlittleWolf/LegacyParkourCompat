@@ -1,6 +1,6 @@
 # Discovery: 1.13.2 to 1.14.4
 
-- Status: blocked pending aligned namespace confirmation and 1.13.2 source provenance
+- Status: blocked
 - Scope: client player movement; older A = 1.13.2; newer B = 1.14.4
 - Repository revision and start date: `c133c2999b6673874e35bbdb26759548407f3e11`; 2026-09-26
 - Selected naming namespace, CLI mode per side and alignment evidence: A's provenanced output is Ornithe Feather; B's provenanced output is Mojmap. These do not align. The shared source-root inventory has A folders `ornithe-feather` and `legacy-yarn`, and B folders `mojmap` and `yarn`, with no same-family output on both sides. Yarn and Legacy Yarn are distinct families. No cross-version source comparison has started. A different aligned family would need separate availability/provenance confirmation without replacing A's owned output.

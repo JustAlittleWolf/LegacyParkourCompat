@@ -1,6 +1,6 @@
 # Discovery: <A> to <B>
 
-- Status: not started | active | partial | blocked | complete
+- Status: active | partial | blocked | complete
 - Scope: client player movement; older A = ...; newer B = ...
 - Repository revision and start date:
 - Selected naming namespace, CLI mode per side and alignment evidence:
@@ -46,3 +46,5 @@ Link each finding with its short behavioral title and confidence. Record discard
 - Unresolved gaps and limits:
 - Evidence/hash/correspondence audit:
 - Runtime validation: not performed (separate workflow).
+
+Keep all tracked coverage, provenance, correspondence and resume evidence in this file. At handoff, the run folder contains only this file and, when findings exist, one file per finding under `findings/`.
