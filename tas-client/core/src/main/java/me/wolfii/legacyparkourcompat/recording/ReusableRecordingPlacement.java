@@ -24,7 +24,7 @@ public final class ReusableRecordingPlacement {
             if (preceding == null || !same(frame, preceding.x(), preceding.y(), preceding.z())) break;
             end--;
         }
-        if (first == end) return source;
+        if (first == 0 && end == ticks.size()) return source;
         return new MovementRecording(source.startX(), source.startY(), source.startZ(), source.startYaw(), source.startPitch(),
             source.startVelocityX(), source.startVelocityY(), source.startVelocityZ(), ticks.subList(first, end), source.setup());
     }

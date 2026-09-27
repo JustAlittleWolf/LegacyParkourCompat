@@ -160,9 +160,7 @@ public final class RecordingController {
             this.startPitch,
             0.0, 0.0, 0.0, this.recordedTicks, this.recordingSetup
         );
-        if (!this.recordedTicks.isEmpty()) {
-            movement = ReusableRecordingPlacement.trimStationaryEnds(movement);
-        }
+        movement = ReusableRecordingPlacement.trimStationaryEnds(movement);
         if (this.recordingReusableMode == ReusableRecordingMetadata.Mode.BLOCK) {
             JsonObject setup = movement.setup();
             setup.add("reusable", ReusableRecordingMetadata.block().toJson());
@@ -641,7 +639,6 @@ public final class RecordingController {
         MovementRecording completed = this.playback;
         Path output = this.captureOutput;
         boolean automated = this.automation != null && this.automationStarted;
-        int tickCount = this.capturedTicks.size();
         if (this.deviationReported && this.followupDetail == null && completed != null && this.playbackIndex > 0) {
             TickFrame expected = completed.ticks().get(Math.min(this.playbackIndex, completed.ticks().size()) - 1);
             this.followupDetail = String.format(Locale.ROOT,
@@ -668,9 +665,10 @@ public final class RecordingController {
                 completed.startVelocityX(), completed.startVelocityY(), completed.startVelocityZ(),
                 this.capturedTicks, completed.setup()
             );
+            result = ReusableRecordingPlacement.trimStationaryEnds(result);
             try {
                 RecordingFiles.write(output, result);
-                this.minecraft.sendGameMessage("Playback finished: captured " + tickCount + " ticks to " + output.getFileName());
+                this.minecraft.sendGameMessage("Playback finished: captured " + result.ticks().size() + " ticks to " + output.getFileName());
                 if (automated && this.worker != null) {
                     String type = this.deviationReported ? "after_failure" : "success";
                     this.worker.event(this.automation.runId(), type,
