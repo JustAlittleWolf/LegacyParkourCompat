@@ -35,12 +35,15 @@ Choose **one aligned naming namespace for both exact versions**. The CLI family 
 
 ```powershell
 .\gradlew.bat decompileMinecraft --versions=1.12.2,1.13.2 --mappings=feather
+.\gradlew.bat decompileMinecraft --versions=1.13.2,1.14.4 --mappings=feather
 .\gradlew.bat decompileMinecraft --versions=1.14.4,1.16.5 --mappings=mojmap
 .\gradlew.bat decompileMinecraft --versions=1.21.11 --mappings=mojmap
 .\gradlew.bat decompileMinecraft --versions=26.1.2 --mappings=unobfuscated
 ```
 
 Do not use `auto` or a comma-separated family list for the comparison. Auto chooses families per release and has dual-output special cases. Explicit unavailable families fail; do not interpret partial output from a failed command as a valid pair. Check both successful completion messages and both output directories. Verify requested and resolved release IDs match exactly: the current resolver can treat an unknown ID as a prefix and choose a matching release. Reject that substitution. `unobfuscated` is not a way to bypass mappings on obfuscated releases. For an official-name pair, verify the newer jar is actually unobfuscated and record that it has no mapping file or remapped jar; its original client jar is the decompiler input.
+
+Do not infer mapping unavailability from the `auto` profile or from folders already on disk. For example, `auto` emits Feather plus Legacy Yarn for 1.13.2 and Mojmap plus Yarn for 1.14.4, yet explicit `--mappings=feather` succeeds for **both** exact releases (`feather-gen2` build 2 on each). Probe the candidate family through this task before recording a mapping-alignment blocker.
 
 “Aligned namespace” means the same naming convention, with the correct release-specific mapping artifact where remapping is needed. The official-name pair above qualifies even though its output directories are named `mojmap` and `unobfuscated`. Applying one release's mapping file to the other release is invalid. Yarn and Legacy Yarn are separate families. Even an aligned namespace can rename classes/members, change descriptors or move logic; names alone never prove correspondence. Verify class and member correspondence through inheritance, callers, behavior and data on both sides. Intermediary or obfuscated names are not assumed stable across releases either.
 

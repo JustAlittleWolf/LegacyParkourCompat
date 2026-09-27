@@ -75,7 +75,7 @@ Mojmap 1.14.4 and native unobfuscated 26.2 each have these paths. Both use Mojan
 - `net/minecraft/world/effect/MobEffects.java`
 - `net/minecraft/world/item/enchantment/Enchantments.java`, `EnchantmentHelper.java`
 
-For path discovery, Legacy Yarn 1.13.2 uses `net/minecraft/entity/player/ClientPlayerEntity.java`, while Yarn 1.14.4 uses `net/minecraft/client/network/ClientPlayerEntity.java`. They are different families and cannot be paired by this workflow. Resolve inheritance and callers even when simple names match.
+For the exact 1.13.2 to 1.14.4 comparison, explicit Ornithe Feather `feather-gen2` mappings are available on both sides. Both generated trees contain `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java` and `KeyboardInput.java`; verify each member and caller before comparing behavior. Legacy Yarn 1.13.2 and Fabric Yarn 1.14.4 come from different catalogs and do not need to be paired for this run. Resolve inheritance and callers even when simple names match.
 
 ### Example of a dependency trail, not a version difference
 
