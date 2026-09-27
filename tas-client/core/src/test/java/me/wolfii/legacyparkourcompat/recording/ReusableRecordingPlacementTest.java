@@ -35,6 +35,14 @@ class ReusableRecordingPlacementTest {
     }
 
     @Test
+    void trimsEveryTickWhenPositionNeverChanges() {
+        MovementRecording source = new MovementRecording(8.5, 65.0, 8.5, 90.0f, 0.0f,
+            Arrays.asList(frame(1, 8.5), frame(2, 8.5)));
+
+        assertTrue(ReusableRecordingPlacement.trimStationaryEnds(source).ticks().isEmpty());
+    }
+
+    @Test
     void storesOnlyExplicitNamedPositions() throws Exception {
         Path recording = Files.createTempDirectory("lpc-reusable-").resolve("jump.lprc");
         try {

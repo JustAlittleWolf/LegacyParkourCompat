@@ -32,7 +32,7 @@ To make a recording usable on selected test surfaces or at named starts:
 .recording position <recording> <positionName>
 ```
 
-The two `start` forms are alternatives. Reusable captures trim leading and trailing ticks without position change; ordinary captures preserve their exact timeline. A positions recording saves its original start as `origin`. After stopping, stand at another permitted start and use `.recording position` to add it. The recording keeps the same input ticks and facing for each placement. The [testing lab](../testing/README.md) explains how a caller chooses a block pad, named start, and offsets.
+The two `start` forms are alternatives. All recordings, including automated playback captures, trim leading and trailing ticks without position change. A positions recording saves its original start as `origin`. After stopping, stand at another permitted start and use `.recording position` to add it. The recording keeps the same input ticks and facing for each placement. The [testing lab](../testing/README.md) explains how a caller chooses a block pad, named start, and offsets.
 
 The recorder automatically saves Survival or Creative mode and Creative flying state. If you are wearing gear or have an effect while recording, annotate that setup so a test run can reconstruct it:
 
