@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "package": "me.wolfii.legacyparkourcompat.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "FoodDataMixin",
+    "LivingEntityMixin",
+    "PlayerMixin"
+  ],
+  "client": [
+    "AbstractBoatMixin",
+    "LocalPlayerMixin",
+    "LocalPlayerSprintMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
