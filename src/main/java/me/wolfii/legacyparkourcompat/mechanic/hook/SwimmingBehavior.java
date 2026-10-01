@@ -11,4 +11,8 @@ import net.minecraft.world.entity.player.Player;
 @MechanicType("player.swim")
 public interface SwimmingBehavior extends VersionedMechanic {
     void updateSwimming(Player player, VanillaCall vanilla);
+
+    default boolean isSwimming(Player player, boolean vanilla) {
+        return vanilla;
+    }
 }

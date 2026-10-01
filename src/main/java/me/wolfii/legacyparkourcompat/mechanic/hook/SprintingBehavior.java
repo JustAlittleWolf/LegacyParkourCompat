@@ -9,6 +9,10 @@ import net.minecraft.world.entity.player.Player;
  */
 @MechanicType("player.sprint")
 public interface SprintingBehavior extends VersionedMechanic {
+    default boolean allowShallowWaterSprint(Player player, boolean vanilla) {
+        return vanilla;
+    }
+
     default boolean canSprint(Player player, boolean vanilla) {
         return vanilla;
     }

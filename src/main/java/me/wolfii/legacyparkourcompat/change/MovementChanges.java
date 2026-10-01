@@ -20,5 +20,7 @@ public final class MovementChanges implements MovementChangeProvider {
         registry.register(new FarmlandConversionV1_10());
         registry.register(new PlayerExhaustionV1_10());
         registry.register(new PistonMovementV1_11());
+        registry.register(new WaterMovement_1_12());
+        registry.register(new GroundGlideMovement_1_12());
     }
 }
