@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "me.wolfii.legacyparkourcompat.mixin.client",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "LocalPlayerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
