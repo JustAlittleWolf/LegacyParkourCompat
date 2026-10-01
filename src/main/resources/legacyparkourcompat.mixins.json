@@ -22,12 +22,14 @@
     "PlayerMovementAccessor",
     "PlayerMovementMixin",
     "EntityJumpAccessor",
-    "LivingEntityJumpMixin"
+    "LivingEntityJumpMixin",
+    "LivingEntityElytraLiftMixin"
   ],
   "client": [
     "AbstractBoatMixin",
     "LocalPlayerMixin",
-    "LocalPlayerSprintMixin"
+    "LocalPlayerSprintMixin",
+    "LocalPlayerSprintCollisionMixin"
   ],
   "injectors": {
     "defaultRequire": 1
