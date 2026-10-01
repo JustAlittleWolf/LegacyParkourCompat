@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "EntityMovementMixin",
+    "LivingEntityDismountMixin",
     "LivingEntityTravelMixin",
     "accessor.EntityInvoker"
   ],
