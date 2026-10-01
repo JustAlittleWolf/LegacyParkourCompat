@@ -17,6 +17,7 @@
 - Mapping `net.ornithemc:feather-gen2:1.10.2+build.2`; Tiny SHA-256 `7c4055aa9becb027462fe4f4a9af8822de4df9b70ecb80a84e38fd9e81e33af1`.
 - Actual merged-v2 mapping jar SHA-256 `18cffc56c2d8de89b50cb0328b174566236553c4aafb62afdc58a1e0ff0cadb0`; actual remapped client jar SHA-256 `c42fe4366482d183f83ff62be5abfefead9d3350e7c9dd9243f8ac1a5b59ed90`.
 - Owner manifest swapped these mapping/remapped hash assignments and reported `11d5e5…` for remapped jar. Hashes were verified at actual artifact paths; `11d5e5…` was not found. Discrepancy retained.
+- Shared-source regeneration (2026-10-01): readiness/provenance marker `D:/Javastuff/LegacyParkourCompat/build/major-movement-preparation/1.10.2--feather.json`; client jar, Tiny mapping and merged-v2 mapping hashes match the values above. Regenerated remapped client jar SHA-256 is `4a8ec88787f524dcabda85e2e638a65e9a3c0aa35a5c5825ddebf21635e5ea63` (different from the earlier `c42fe4…`). The regenerated `Entity.java`, `PlayerEntity.java`, and `FarmlandBlock.java` hashes match the finding evidence below, so no finding source hashes changed.
 
 ### B — 1.11.2
 
@@ -26,6 +27,7 @@
 - Tiny mapping SHA-256 `4fa160c09d83bf61ae21bb74ab1e33b6aabe9b8ec89904b266ad53cecc9c36e6`; merged-v2 mapping jar SHA-256 `d14500101ac23c874b0fe394eae21a382c410ec4f3bbc2e58042e5234a236757`.
 - Remapped jar SHA-256 `19200acf9fdd0395535cc8a880f6ab9f6db427131c6c11259f7a3e1b07845daf`.
 - Remapper warned of invalid access and repaired 1 class/34 members. Full log/target list unavailable; relevant sources inspected and selected affected movement methods verified with `javap -c -p`.
+- Shared-source regeneration (2026-10-01): readiness/provenance marker `D:/Javastuff/LegacyParkourCompat/build/major-movement-preparation/1.11.2--feather.json`; client jar, Tiny mapping and merged-v2 mapping hashes match the values above. Regenerated remapped client jar SHA-256 is `b2a3e25c4277f03ce62757e12fb66cba43f1c92ac5bb4670e90cdaa50f9400e5` (different from the earlier `19200a…`). The regenerated `Entity.java`, `PlayerEntity.java`, and `FarmlandBlock.java` hashes match the finding evidence below, so no finding source hashes changed.
 
 ## Coverage ledger
 
