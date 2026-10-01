@@ -30,7 +30,9 @@
     "modmenu": [
       "me.wolfii.legacyparkourcompat.config.ModMenuIntegration"
     ],
-    "legacyparkourcompat:movement-change": []
+    "legacyparkourcompat:movement-change": [
+      "me.wolfii.legacyparkourcompat.change.v1_8.MovementChanges"
+    ]
   },
   "depends": {
     "fabricloader": ">=0.19.0",

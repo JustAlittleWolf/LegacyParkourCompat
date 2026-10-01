@@ -8,6 +8,7 @@
     "PlayerMixin"
   ],
   "client": [
+    "AbstractBoatMixin",
     "LocalPlayerMixin",
     "LocalPlayerSprintMixin"
   ],
