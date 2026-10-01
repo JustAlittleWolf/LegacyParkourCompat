@@ -17,6 +17,14 @@ public interface SprintingBehavior extends VersionedMechanic {
         return vanilla;
     }
 
+    default boolean isInShallowWaterForSprintEligibility(
+        Player player,
+        boolean sprintKeyDown,
+        boolean vanilla
+    ) {
+        return vanilla;
+    }
+
     default boolean shouldStopRunSprinting(Player player, boolean vanilla) {
         return vanilla;
     }

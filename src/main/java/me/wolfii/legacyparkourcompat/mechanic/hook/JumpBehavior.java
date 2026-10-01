@@ -15,4 +15,13 @@ public interface JumpBehavior extends VersionedMechanic {
     default float jumpPower(LivingEntity entity, float vanilla) {
         return vanilla;
     }
+
+    default double jumpVerticalVelocity(
+        LivingEntity entity,
+        double jumpPower,
+        double currentVerticalVelocity,
+        double vanilla
+    ) {
+        return vanilla;
+    }
 }
