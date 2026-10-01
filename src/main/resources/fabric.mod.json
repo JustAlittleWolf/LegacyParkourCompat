@@ -14,6 +14,12 @@
   "icon": "assets/legacyparkourcompat/icon.png",
   "license": "MIT",
   "environment": "*",
+  "mixins": [
+    {
+      "config": "legacyparkourcompat.client.mixins.json",
+      "environment": "client"
+    }
+  ],
   "entrypoints": {
     "main": [
       "me.wolfii.legacyparkourcompat.LegacyParkourCompat"
