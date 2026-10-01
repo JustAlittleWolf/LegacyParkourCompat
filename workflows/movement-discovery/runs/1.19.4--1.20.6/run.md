@@ -5,7 +5,7 @@
 - Repository revision and start date: source baseline `c133c29`; worktree branch `feat/movement-discovery-1-20`; 2026-09-26
 - Selected naming namespace, CLI mode per side and alignment evidence: A and B both use release-specific Mojang official mappings (`mojmap`). The A owner manifest identifies exact 1.19.4 Mojmap artifacts, and this task independently verified the 1.19.4 client, mappings, remapped jar, version metadata and cited source hashes against those identities. Release-specific mappings are paired in the same official namespace.
 - Source preparation provenance was refreshed on 2026-10-01 by the shared preparation task. Readiness manifests are `../../../../build/major-movement-preparation/1.19.4--mojmap.json` and `../../../../build/major-movement-preparation/1.20.6--mojmap.json`; both report exact requested/resolved releases and successful decompilation. The preparation logs are recorded in those manifests. The original client and mapping hashes are unchanged, and all cited endpoint Java source hashes below were independently rechecked against the refreshed output.
-- Toolchain/decompiler/remapper versions and options: Gradle 9.7.1; JDK 25.0.3+9-LTS fork (`-Xmx4G`, task default); Vineflower 1.12.0; Tiny Remapper 0.14.1; Mapping IO 0.9.1; ASM 9.10.1; Fabric Loom 1.17.21. Exact mapping mode `mojmap`; no additional decompiler options.
+- Toolchain/decompiler/remapper versions and options: Gradle 9.7.1; JDK 25.0.3+9-LTS; Vineflower 1.12.0; Tiny Remapper 0.14.1; Mapping IO 0.9.1. The refreshed A run used a 2G decompiler heap and B used 4G; exact commands and logs are recorded in their readiness manifests. Exact mapping mode `mojmap`.
 
 ## Artifact manifest
 
