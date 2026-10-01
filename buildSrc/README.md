@@ -16,3 +16,9 @@ The default set is `latest,1.8.9,1.12.2,1.13.2,1.14.4`. `--versions` takes comma
 `--mappings=auto` is the default. It uses official Mojang mappings when published, prefers Ornithe Feather through 1.12, and falls back to Yarn for later releases without official mappings. The 1.13.2 auto profile produces both `ornithe-feather` and `legacy-yarn`; 1.14.4 produces both `mojmap` and `yarn`. Unobfuscated releases are decompiled as published. For a specific comparison, pass a comma-separated set from `mojmap`, `legacy-yarn`, `yarn`, `feather`, and `unobfuscated`. The default decompiler heap is `4G`; `--decompiler-heap` accepts values such as `2G` or `2048M`.
 
 `DecompileMinecraftTask` owns the Gradle options and fork. `MinecraftDecompileMain`, `MinecraftDecompileEngine`, and `MojangMeta` resolve releases, mappings, and decompilation; the remaining classes handle output and logs. Keep version and mapping resolution here rather than in the movement runtime. Use the generated source as the primary reference for exact casts, operation order, and floating-point expressions. Do not use online mapping lookups.
+
+## Sharing sources between worktrees
+
+Git worktrees share Git history, but ignored generated sources and build caches are separate. Pass `--output-root=<absolute-directory>` and `--cache-directory=<absolute-directory>` to reuse a primary checkout's sources and artifacts without copying Minecraft source into Git. Relative paths resolve against the invoking project directory. Defaults remain the worktree-local directories above.
+
+Assign one preparation owner to a shared output/cache pair. Researchers read published sources and verify manifest hashes; they must not run the decompiler against shared directories concurrently. A rerun replaces the selected version/mapping tree and can invalidate another run's evidence. Use a local output/cache pair when separate regeneration is needed.

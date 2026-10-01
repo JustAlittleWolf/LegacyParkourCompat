@@ -85,6 +85,16 @@ public abstract class DecompileMinecraftTask extends DefaultTask {
         getDecompilerHeap().set(value);
     }
 
+    @Option(option = "output-root", description = "Shared or local directory for decompiled version/mapping source trees.")
+    public void setOutputRootFromCli(String value) {
+        getOutputRoot().set(getProject().file(value));
+    }
+
+    @Option(option = "cache-directory", description = "Shared or local directory for decompilation artifacts and downloads.")
+    public void setCacheDirectoryFromCli(String value) {
+        getCacheDirectory().set(getProject().file(value));
+    }
+
     @TaskAction
     public void run() {
         List<String> specs = getVersions().get().stream()
