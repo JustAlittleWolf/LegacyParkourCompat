@@ -10,9 +10,11 @@ import net.minecraft.world.entity.LivingEntity;
  */
 @MechanicType("player.jump")
 public interface JumpBehavior extends VersionedMechanic {
-    void jumpFromGround(LivingEntity entity, VanillaCall vanilla);
+    default void jumpFromGround(LivingEntity entity, VanillaCall vanilla) {
+        vanilla.run();
+    }
 
-    default float jumpPower(LivingEntity entity, float vanilla) {
+    default double jumpPower(LivingEntity entity, double vanilla) {
         return vanilla;
     }
 }
