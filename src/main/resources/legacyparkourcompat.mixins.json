@@ -5,7 +5,8 @@
   "mixins": [
     "FoodDataMixin",
     "LivingEntityMixin",
-    "PlayerMixin"
+    "PlayerMixin",
+    "BlockBehaviourMixin"
   ],
   "client": [
     "AbstractBoatMixin",

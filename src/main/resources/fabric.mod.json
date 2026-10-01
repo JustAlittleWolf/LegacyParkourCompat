@@ -15,7 +15,11 @@
   "license": "MIT",
   "environment": "*",
   "mixins": [
-    "legacyparkourcompat.mixins.json"
+    "legacyparkourcompat.mixins.json",
+    {
+      "config": "legacyparkourcompat.client.mixins.json",
+      "environment": "client"
+    }
   ],
   "entrypoints": {
     "main": [
@@ -31,7 +35,8 @@
       "me.wolfii.legacyparkourcompat.config.ModMenuIntegration"
     ],
     "legacyparkourcompat:movement-change": [
-      "me.wolfii.legacyparkourcompat.change.v1_8.MovementChanges"
+      "me.wolfii.legacyparkourcompat.change.v1_8.MovementChanges",
+      "me.wolfii.legacyparkourcompat.change.MovementChanges"
     ]
   },
   "depends": {
