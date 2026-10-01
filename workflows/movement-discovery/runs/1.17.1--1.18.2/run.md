@@ -100,6 +100,15 @@ None yet. Candidates require a concrete precondition and reachable client-player
 - Paired evidence limited to files named in the source hash inventory; add every cited source/resource hash before closing a slice.
 - Unresolved dependencies remain open; this is not a complete audit.
 
+## Implementation target source provenance
+
+- Current build target: `minecraft_version=26.2` in `gradle.properties`.
+- Native exact source was published by the shared preparation owner with readiness marker `D:/Javastuff/LegacyParkourCompat/build/major-movement-preparation/26.2--unobfuscated.json`; marker status `ready`, resolved ID `26.2`, mapping family `unobfuscated`, successful command used `--decompiler-heap=4G`.
+- Exact published client jar SHA-256: `40896EE9F1E2BEC3C934DAAC7E93D41E9E3D9C2F8AE0CA366D52FFBFD1AFA290` (publisher SHA-1 recorded in the marker).
+- Relevant native source `net/minecraft/world/entity/LivingEntity.java`, SHA-256 `7FFD9C70966EDC50C9CB4D9A8FE17A518E2678FF44C8026E763D0B94AC0AE51A`, was read from `decompiled_minecraft/26.2/unobfuscated/`. Its `travelFallFlying(Vec3)` calls `updateFallFlyingMovement(Vec3)` before entity movement; the helper contains `double liftForce = Mth.square(Math.cos(leanAngle));`. The matching source methods are present and intact; marker diagnostics concern unrelated methods/lambdas.
+- Relevant native source `net/minecraft/client/player/LocalPlayer.java`, SHA-256 `8D089AA09217E3607B38590F7C1623385562800943AC6DFD3D17804E041DA6D6`, was read and hashed from the same ready source root for native client-side injection context.
+- Exact historical endpoint and intermediate sources still require successful readiness markers and local hash verification before boundary assignment; the existing endpoint hashes in this run are owner-provided, not yet reverified from the shared output in this implementation checkout.
+
 
 ## Supporting audit evidence
 
