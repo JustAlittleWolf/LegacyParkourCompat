@@ -5,6 +5,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.DismountPositionBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.FallFlyingLookAngleBehavior;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,6 +22,9 @@ abstract class LivingEntityMixin {
     )
     private void legacyparkourcompat$historicalDismountPosition(Entity vehicle, CallbackInfo callback) {
         LivingEntity passenger = (LivingEntity)(Object)this;
+        if (!(passenger instanceof Player)) {
+            return;
+        }
         MovementRuntime.find(DismountPositionBehavior.class, passenger)
             .ifPresent(behavior -> {
                 if (behavior.dismount(passenger, vehicle)) {
@@ -37,6 +41,9 @@ abstract class LivingEntityMixin {
         )
     )
     private static Vec3 legacyparkourcompat$fallFlyingLookAngle(LivingEntity entity) {
+        if (!(entity instanceof Player)) {
+            return entity.getLookAngle();
+        }
         return MovementRuntime.find(FallFlyingLookAngleBehavior.class, entity)
             .map(behavior -> behavior.lookAngle(entity))
             .orElseGet(entity::getLookAngle);

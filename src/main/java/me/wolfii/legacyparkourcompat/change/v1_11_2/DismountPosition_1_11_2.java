@@ -10,6 +10,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.pig.Pig;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -23,7 +24,8 @@ public final class DismountPosition_1_11_2 implements DismountPositionBehavior {
 
     @Override
     public boolean dismount(LivingEntity passenger, Entity vehicle) {
-        if (passenger.level().isClientSide()
+        if (!(passenger instanceof Player)
+            || passenger.level().isClientSide()
             || !(vehicle instanceof Pig || vehicle instanceof AbstractMinecart)
         ) {
             return false;

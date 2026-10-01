@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.mechanic.hook;
 
 import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
 import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
+import net.minecraft.world.entity.Entity;
 
 /**
  * Historical {@code Block#getBounceRestitution} for one block.
@@ -15,5 +16,5 @@ public interface BlockBounceBehavior extends VersionedMechanic {
         return this.blockId();
     }
 
-    float bounceRestitution(float vanilla);
+    float bounceRestitution(float vanilla, Entity entity);
 }

@@ -20,7 +20,7 @@ abstract class EntityMixin {
         Entity entity = (Entity)(Object)this;
         MovementRuntime.find(BlockBounceBehavior.class, block, entity)
             .ifPresent(behavior -> callback.setReturnValue(
-                (double)behavior.bounceRestitution(callback.getReturnValue().floatValue())
+                (double)behavior.bounceRestitution(callback.getReturnValue().floatValue(), entity)
             ));
     }
 }
