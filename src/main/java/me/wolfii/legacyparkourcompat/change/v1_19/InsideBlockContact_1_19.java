@@ -5,7 +5,7 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.InsideBlockContactBehavior;
 import net.minecraft.world.entity.player.Player;
 
-@MovementChange(emulates = ParkourVersion.V1_19)
+@MovementChange(emulates = ParkourVersion.V1_21)
 public final class InsideBlockContact_1_19 implements InsideBlockContactBehavior {
     @Override
     public double inset(Player player, double vanilla) {

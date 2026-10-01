@@ -394,13 +394,13 @@
     [
       "player.fall_flying.fall_distance",
       "",
-      "V1_19",
+      "V1_21_5",
       "GlideFallDistance_1_19"
     ],
     [
       "player.inside_block_contact",
       "",
-      "V1_19",
+      "V1_21",
       "InsideBlockContact_1_19"
     ],
     [
@@ -420,18 +420,6 @@
       "",
       "V1_19",
       "SprintEligibility_1_19_VehicleSprint"
-    ],
-    [
-      "player.fall_flying.fall_distance",
-      "",
-      "V1_19_4",
-      "GlideFallDistance_1_19"
-    ],
-    [
-      "player.inside_block_contact",
-      "",
-      "V1_19_4",
-      "InsideBlockContact_1_19"
     ],
     [
       "player.boat_fluid_push",
@@ -3261,11 +3249,11 @@
         "implementation": "AutoJumpProbe_1_18_2"
       },
       "player.fall_flying.fall_distance": {
-        "emulates": "V1_19",
+        "emulates": "V1_21_5",
         "implementation": "GlideFallDistance_1_19"
       },
       "player.inside_block_contact": {
-        "emulates": "V1_19",
+        "emulates": "V1_21",
         "implementation": "InsideBlockContact_1_19"
       },
       "player.boat_fluid_push": {
@@ -3343,11 +3331,11 @@
         "implementation": "DoubleJumpBoostAddition"
       },
       "player.fall_flying.fall_distance": {
-        "emulates": "V1_19_4",
+        "emulates": "V1_21_5",
         "implementation": "GlideFallDistance_1_19"
       },
       "player.inside_block_contact": {
-        "emulates": "V1_19_4",
+        "emulates": "V1_21",
         "implementation": "InsideBlockContact_1_19"
       },
       "player.boat_fluid_push": {
@@ -3408,6 +3396,14 @@
         "emulates": "V1_21_4",
         "implementation": "PowderSnowClimbBoost"
       },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_21_5",
+        "implementation": "GlideFallDistance_1_19"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_21",
+        "implementation": "InsideBlockContact_1_19"
+      },
       "entity.restitution": {
         "emulates": "V26_1",
         "implementation": "CollisionRestitution26_1"
@@ -3454,6 +3450,14 @@
         "emulates": "V1_21_4",
         "implementation": "PowderSnowClimbBoost"
       },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_21_5",
+        "implementation": "GlideFallDistance_1_19"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_21",
+        "implementation": "InsideBlockContact_1_19"
+      },
       "entity.restitution": {
         "emulates": "V26_1",
         "implementation": "CollisionRestitution26_1"
@@ -3487,6 +3491,14 @@
       "player.climb.powder_snow": {
         "emulates": "V1_21_4",
         "implementation": "PowderSnowClimbBoost"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_21_5",
+        "implementation": "GlideFallDistance_1_19"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_21",
+        "implementation": "InsideBlockContact_1_19"
       },
       "entity.restitution": {
         "emulates": "V26_1",
@@ -3522,6 +3534,14 @@
         "emulates": "V1_21_4",
         "implementation": "PowderSnowClimbBoost"
       },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_21_5",
+        "implementation": "GlideFallDistance_1_19"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_21",
+        "implementation": "InsideBlockContact_1_19"
+      },
       "entity.restitution": {
         "emulates": "V26_1",
         "implementation": "CollisionRestitution26_1"
@@ -3551,6 +3571,10 @@
       "player.climb.powder_snow": {
         "emulates": "V1_21_4",
         "implementation": "PowderSnowClimbBoost"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_21_5",
+        "implementation": "GlideFallDistance_1_19"
       },
       "entity.restitution": {
         "emulates": "V26_1",
@@ -3582,6 +3606,10 @@
         "emulates": "V1_21_4",
         "implementation": "PowderSnowClimbBoost"
       },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_21_5",
+        "implementation": "GlideFallDistance_1_19"
+      },
       "entity.restitution": {
         "emulates": "V26_1",
         "implementation": "CollisionRestitution26_1"
@@ -3595,6 +3623,10 @@
       "player.sprint.window": {
         "emulates": "V1_21_5",
         "implementation": "DoubleTapSprintWindow"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_21_5",
+        "implementation": "GlideFallDistance_1_19"
       },
       "entity.restitution": {
         "emulates": "V26_1",
