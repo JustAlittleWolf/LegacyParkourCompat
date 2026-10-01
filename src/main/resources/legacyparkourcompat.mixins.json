@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "me.wolfii.legacyparkourcompat.mixin",
+  "mixins": [
+    "EntityGravityMixin",
+    "EntityJumpFactorAccess",
+    "LivingEntityBehaviorMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
