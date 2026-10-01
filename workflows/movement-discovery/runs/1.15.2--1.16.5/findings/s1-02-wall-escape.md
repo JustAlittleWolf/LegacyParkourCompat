@@ -6,7 +6,7 @@
 - Classification: changed behavior
 - Confidence: source-confirmed
 - Applicability: historical player behavior
-- First changed release: unknown within (1.15.2, 1.16.5]
+- First changed release: 1.16.2 (verified against 1.16.1 and 1.16.2)
 - Runtime validation: not performed
 
 ## Paired evidence
@@ -28,4 +28,4 @@ A concrete differing precondition is a suffocating neighboring block that inters
 
 ## Handoff
 
-Independent delta: local-player suffocation recovery changes its occupancy query while retaining the four probes and ±0.1 velocity output. Related work: Stage 4 collision/support queries and block suffocation behavior. The first changed release is unknown.
+Independent delta: local-player suffocation recovery changes its occupancy query while retaining the four probes and ±0.1 velocity output. Related work: Stage 4 collision/support queries and block suffocation behavior. First verified in 1.16.2.

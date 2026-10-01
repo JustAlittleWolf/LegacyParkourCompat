@@ -6,7 +6,7 @@
 - Classification: changed behavior
 - Confidence: source-confirmed
 - Applicability: historical player behavior
-- First changed release: unknown within (1.15.2, 1.16.5]
+- First changed release: 1.16 (verified against exact 1.16 source)
 - Runtime validation: not performed
 
 ## Paired evidence
@@ -28,4 +28,4 @@ B may apply a larger horizontal velocity increment than A in the specified weak-
 
 ## Handoff
 
-Independent delta: minimum water-current push at low horizontal speed. Lava current addition is separately cataloged in `S5-02`.
+Independent delta: minimum water-current push at low horizontal speed, first verified in 1.16. Lava current addition is separately cataloged in `S5-02`.
