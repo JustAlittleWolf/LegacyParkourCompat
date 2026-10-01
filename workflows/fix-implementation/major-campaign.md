@@ -1,12 +1,12 @@
 # Major-version delta implementation campaign
 
-Status: active with a fresh worker roster. The historical implementations and movement mixins were removed in clean-baseline commit `ebe56a21d17d120f11f8ede5b6a3d49bea7c7e41` on `feat/clean-movement-baseline`. All earlier implementation and coverage dispositions are invalidated. Treat every in-scope, source-confirmed delta as requiring fresh implementation. Prior campaign branches and chats are retained for recovery only; do not inspect their implementations or adopt their coverage claims.
+Status: all fifteen fresh GPT-6 Luna High workers completed and their frozen tips are merged into `feat/major-movement-final-integration` by the final GPT-6.1 Sol Low integration owner. The clean removal `ebe56a21d17d120f11f8ede5b6a3d49bea7c7e41` remains authoritative. Superseded implementations and coverage claims were not used.
 
-The current roster, chat IDs, comparison endpoints, and per-worker status are tracked in [major-campaign.json](major-campaign.json). It has fifteen fresh implementation chats, all using GPT-6 Luna with High reasoning. The baseline for every worker is `feat/clean-movement-baseline` at the commit above.
+[major-campaign.json](major-campaign.json) records all fifteen branch tips and full commits, the integration implementation checkpoint and final branch ref. [final-integration.md](final-integration.md) records hook reconciliation, source evidence, exclusions, build and validation limits. Minor discovery and runtime movement validation remain deferred. The zero-confirmed 1.21.11 to 26.1.2 disposition is not an equivalence claim.
 
 ## Source handoff
 
-Use the existing shared source tree read-only at `D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/` and cache at `D:/Javastuff/LegacyParkourCompat/build/minecraft-decompile-cache/`. The ready target reference is `D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/26.2/unobfuscated/`, with marker `D:/Javastuff/LegacyParkourCompat/build/major-movement-preparation/26.2--unobfuscated.json`. Historical endpoint restoration is ongoing. Confirm the relevant endpoint's successful marker and hashes before relying on that source; do not copy or overwrite published evidence.
+Read-only canonical staging: `C:/Users/Wolfi/.codex/worktrees/df7f/LegacyParkourCompat/build/stable-shared-minecraft`, with sources/, ready/ and cache/. Follow exact-id/namespace markers and hashes. [The retained inventory](../../docs/shared-minecraft-source-staging.md) covers 48 sets and 187,230 Java files. The source writer is stopped. Preserve the source-owner worktree and ignored artifacts; do not clean, archive, copy or regenerate the source trees. D: source/cache/marker writes remain stopped. The disappearance cause is unknown and has not been attributed to worktree lifecycle.
 
 ## Worker checklist
 
@@ -20,7 +20,7 @@ For each assigned A→B range:
 
 ## Integration gate and checklist
 
-Do not merge or integrate any worker branches until all fifteen fresh workers have finished. Then start integration in a **new GPT-6.1 Sol chat with Low reasoning**. Keep the implementation baseline and worker histories intact until that gate is met.
+The all-fifteen-complete gate was met before the new GPT-6.1 Sol Low integration chat was dispatched. All fresh worker histories and the clean baseline are retained.
 
 After the gate, integration should review every finding's source provenance, numeric semantics, player path, and boundary; reconcile overlapping mixin injection points, mechanic keys, variants, and registrations; inspect native fallback and historical content limits; merge the default branch and review newly landed changes for semantic conflicts; then build with all tests excluded and record remaining runtime questions. Compilation alone does not establish tick-level parity.
 

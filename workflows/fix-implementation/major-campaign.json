@@ -1,122 +1,153 @@
 {
-  "status": "fresh-workers-active-no-integration",
+  "status": "all-fifteen-fresh-workers-integrated",
   "baselineBranch": "feat/clean-movement-baseline",
   "baseCommit": "ebe56a21d17d120f11f8ede5b6a3d49bea7c7e41",
   "model": "gpt-6-luna",
   "reasoning": "high",
   "scope": "Implement in-scope, source-confirmed discovery deltas. All work starts fresh; prior implementation and coverage dispositions are invalidated.",
-  "sharedSourceRoot": "D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/",
-  "sharedCacheRoot": "D:/Javastuff/LegacyParkourCompat/build/minecraft-decompile-cache/",
-  "targetSource": "D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/26.2/unobfuscated/",
-  "targetSourceMarker": "D:/Javastuff/LegacyParkourCompat/build/major-movement-preparation/26.2--unobfuscated.json",
+  "sharedSourceRoot": "C:/Users/Wolfi/.codex/worktrees/df7f/LegacyParkourCompat/build/stable-shared-minecraft/sources/",
+  "sharedCacheRoot": "C:/Users/Wolfi/.codex/worktrees/df7f/LegacyParkourCompat/build/stable-shared-minecraft/cache/",
+  "targetSource": "C:/Users/Wolfi/.codex/worktrees/df7f/LegacyParkourCompat/build/stable-shared-minecraft/sources/26.2/unobfuscated/",
+  "targetSourceMarker": "C:/Users/Wolfi/.codex/worktrees/df7f/LegacyParkourCompat/build/stable-shared-minecraft/ready/26.2--unobfuscated.json",
   "targetSourceStatus": "ready",
-  "historicalEndpointRestoration": "ongoing",
-  "integrationPolicy": "Do not integrate worker branches until every fresh worker finishes. Then integrate in a new GPT-6.1 Sol chat with Low reasoning.",
+  "historicalEndpointRestoration": "complete-read-only-staging-retained",
+  "integrationPolicy": "All fifteen fresh workers finished before final integration. No superseded implementation or prep branch was merged.",
   "chats": [
     {
       "id": "01a0f67c-22f1-78e1-8d14-c4d5b348962a",
       "a": "1.8.9",
       "b": "1.9.4",
       "role": "implementation",
-      "status": "pending"
+      "status": "completed-and-merged",
+      "branch": "feat/fresh-movement-1.8.9-1.9.4",
+      "commit": "5dc4b70cab1b1c85d2bbf4dc4c3bfce4ecbe657a"
     },
     {
       "id": "01a0f67c-2e5c-7a30-bf8a-d192a5efa071",
       "a": "1.9.4",
       "b": "1.10.2",
       "role": "implementation",
-      "status": "pending"
+      "status": "completed-and-merged",
+      "branch": "feat/fresh-movement-1.9.4-1.10.2",
+      "commit": "fcd3a981603f3eb190ee0af24ba224f91a87ac6d"
     },
     {
       "id": "01a0f67c-3a05-7b50-9e82-d42142a6d9b8",
       "a": "1.10.2",
       "b": "1.11.2",
       "role": "implementation",
-      "status": "pending"
+      "status": "completed-and-merged",
+      "branch": "feat/fresh-movement-1.10.2-1.11.2",
+      "commit": "389c1f61c2a57ebe8f1d7f8fa67c0fdef99dcb90"
     },
     {
       "id": "01a0f67c-49cf-7153-b00c-96225bbc1229",
       "a": "1.11.2",
       "b": "1.12.2",
       "role": "implementation",
-      "status": "pending"
+      "status": "completed-and-merged",
+      "branch": "feat/fresh-movement-1.11.2-1.12.2",
+      "commit": "3b729ee7f4e5eb0fae811e7b695ab3ff3463e95f"
     },
     {
       "id": "01a0f67c-59f6-7461-80c5-82f48846f838",
       "a": "1.12.2",
       "b": "1.13.2",
       "role": "implementation",
-      "status": "pending"
+      "status": "completed-and-merged",
+      "branch": "feat/fresh-movement-1.12.2-1.13.2",
+      "commit": "85d0818371ae996b290ee12e819818adad96ad21"
     },
     {
       "id": "01a0f67c-94a4-7952-8a60-88cd88eaf768",
       "a": "1.13.2",
       "b": "1.14.4",
       "role": "implementation",
-      "status": "pending"
+      "status": "completed-and-merged",
+      "branch": "feat/fresh-movement-1.13.2-1.14.4",
+      "commit": "e6451db87373ac8ede6dcf9ad578658ea8d6694f"
     },
     {
       "id": "01a0f67c-a970-7dd0-b2de-44a1e986b2d0",
       "a": "1.14.4",
       "b": "1.15.2",
       "role": "implementation",
-      "status": "pending"
+      "status": "completed-and-merged",
+      "branch": "feat/fresh-movement-1.14.4-1.15.2",
+      "commit": "56e8efce8302fab5083c2be4cb8c79bb54156eb9"
     },
     {
       "id": "01a0f67c-c050-7993-8148-dc5954396022",
       "a": "1.15.2",
       "b": "1.16.5",
       "role": "implementation",
-      "status": "pending"
+      "status": "completed-and-merged",
+      "branch": "feat/fresh-movement-1.15.2-1.16.5",
+      "commit": "0638dfaff3864d7c7d4a3529be195763eaae18ab"
     },
     {
       "id": "01a0f67c-cb3a-71d1-90c7-cc6630cc3db9",
       "a": "1.16.5",
       "b": "1.17.1",
       "role": "implementation",
-      "status": "pending"
+      "status": "completed-and-merged",
+      "branch": "feat/fresh-movement-1.16.5-1.17.1",
+      "commit": "3601b9dd7a8242ab80409a8695dce4d822f1d8bb"
     },
     {
       "id": "01a0f67c-d992-7533-b78c-bc404f0c48d8",
       "a": "1.17.1",
       "b": "1.18.2",
       "role": "implementation",
-      "status": "pending"
+      "status": "completed-and-merged",
+      "branch": "feat/fresh-movement-1.17.1-1.18.2",
+      "commit": "15fb7a7e06ddcf78e38fe701366067acdd886cef"
     },
     {
       "id": "01a0f67d-083d-7da3-9ca4-adec796b0ecc",
       "a": "1.18.2",
       "b": "1.19.4",
       "role": "implementation",
-      "status": "pending"
+      "status": "completed-and-merged",
+      "branch": "feat/fresh-movement-1.18.2-1.19.4",
+      "commit": "52d8074e15f16cfe6e8977979f282b26e28d7698"
     },
     {
       "id": "01a0f67d-1a68-7fd2-b448-56360546ee37",
       "a": "1.19.4",
       "b": "1.20.6",
       "role": "implementation",
-      "status": "pending"
+      "status": "completed-and-merged",
+      "branch": "feat/fresh-movement-1.19.4-1.20.6",
+      "commit": "1176a98c33ec11a8bc3d8d240c2b77e8858a227f"
     },
     {
       "id": "01a0f67d-2bec-7960-b5a8-7570f3300789",
       "a": "1.20.6",
       "b": "1.21.11",
       "role": "implementation",
-      "status": "pending"
+      "status": "completed-and-merged",
+      "branch": "feat/fresh-movement-1.20.6-1.21.11",
+      "commit": "2322e0a56d7b63894a389d187f45e0443425c327"
     },
     {
       "id": "01a0f67d-61af-7842-8132-eb412c616c1b",
       "a": "1.21.11",
       "b": "26.1.2",
       "role": "implementation",
-      "status": "pending"
+      "status": "completed-and-merged",
+      "branch": "feat/fresh-movement-1.21.11-26.1.2",
+      "commit": "6a3904b2364b2bf5dead866aa6b8a234960c807c",
+      "disposition": "Zero confirmed movement findings; six bounded slices compared, remainder pending; not equivalence."
     },
     {
       "id": "01a0f67d-7cd3-73f3-af43-316698459207",
       "a": "26.1.2",
       "b": "26.2",
       "role": "implementation",
-      "status": "pending"
+      "status": "completed-and-merged",
+      "branch": "feat/fresh-movement-26.1.2-26.2",
+      "commit": "2400a86b6680f328d50b6474c78e06ea13ffc54c"
     }
   ],
   "supersededCampaign": {
@@ -213,5 +244,20 @@
         "b": "26.1.2"
       }
     ]
+  },
+  "integration": {
+    "branch": "feat/major-movement-final-integration",
+    "implementationCommit": "68e713355051c4ae62a48807b514cd2fb1c7dc05",
+    "finalCommitRef": "feat/major-movement-final-integration (includes final documentation commit)",
+    "model": "gpt-6.1-sol",
+    "reasoning": "low",
+    "status": "complete",
+    "defaultBranch": "main",
+    "mainAudit": "main already ancestor; no main commits newer than clean baseline; merge reports already up to date",
+    "build": "gradlew.bat build -x test --init-script build/no-tests.init.gradle; process-local GRADLE_USER_HOME=C:/Users/Wolfi/.gradle; every Test task disabled across projects and included builds; successful",
+    "runtimeValidation": "not run; compilation/static packaging/bytecode inspection are not movement parity",
+    "minorDiscovery": "deferred; no new profile groups added",
+    "sourceRetention": "Keep df7f source-owner worktree and ignored staged source/cache/ready trees. D: writes remain stopped; cause of prior source disappearance is unknown.",
+    "registrationAudit": "registration-audit.json"
   }
 }
