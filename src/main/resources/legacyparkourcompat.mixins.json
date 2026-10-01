@@ -20,7 +20,9 @@
     "EntityFluidInteractionMixin",
     "LivingEntityFluidMixin",
     "PlayerMovementAccessor",
-    "PlayerMovementMixin"
+    "PlayerMovementMixin",
+    "EntityJumpAccessor",
+    "LivingEntityJumpMixin"
   ],
   "client": [
     "AbstractBoatMixin",
