@@ -13,6 +13,9 @@
   },
   "icon": "assets/legacyparkourcompat/icon.png",
   "license": "MIT",
+  "mixins": [
+    "legacyparkourcompat.mixins.json"
+  ],
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -27,7 +30,9 @@
     "modmenu": [
       "me.wolfii.legacyparkourcompat.config.ModMenuIntegration"
     ],
-    "legacyparkourcompat:movement-change": []
+    "legacyparkourcompat:movement-change": [
+      "me.wolfii.legacyparkourcompat.change.v26_1.MovementChanges"
+    ]
   },
   "depends": {
     "fabricloader": ">=0.19.0",

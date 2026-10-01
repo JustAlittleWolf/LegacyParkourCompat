@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "me.wolfii.legacyparkourcompat.mixin",
+  "mixins": [
+    "EntityCollisionMixin",
+    "accessor.EntityInvoker"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
