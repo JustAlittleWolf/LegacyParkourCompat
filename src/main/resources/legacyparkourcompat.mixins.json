@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.wolfii.legacyparkourcompat.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "LivingEntityElytraLiftMixin"
+  ],
+  "client": [
+    "LocalPlayerSprintCollisionMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
