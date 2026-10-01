@@ -1,20 +1,29 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
-import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ClientInputBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.RideableJumpBehavior;
-import net.minecraft.world.entity.ai.attributes.Attributes;
+import me.wolfii.legacyparkourcompat.mechanic.hook.SprintDurationBehavior;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.PlayerRideableJumping;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.Vec2;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LocalPlayer.class)
 abstract class LocalPlayerMixin {
+    @Inject(method = "aiStep", at = @At("HEAD"))
+    private void legacyParkourCompat$tickSprintDuration(CallbackInfo ci) {
+        LocalPlayer player = (LocalPlayer) (Object) this;
+        MovementRuntime.find(SprintDurationBehavior.class, player)
+            .ifPresent(behavior -> behavior.tick(player));
+    }
+
     @ModifyVariable(method = "modifyInput", at = @At("HEAD"), argsOnly = true)
     private Vec2 legacyParkourCompat$modifyInput(Vec2 input) {
         LocalPlayer player = (LocalPlayer) (Object) this;
