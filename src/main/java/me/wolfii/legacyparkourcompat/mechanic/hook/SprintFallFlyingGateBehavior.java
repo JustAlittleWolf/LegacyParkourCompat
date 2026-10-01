@@ -10,4 +10,7 @@ public interface SprintFallFlyingGateBehavior extends VersionedMechanic {
     default boolean fallFlyingForSprintGate(Player player, boolean vanilla) {
         return vanilla;
     }
+    default boolean appliesToVersion(me.wolfii.legacyparkourcompat.api.ParkourVersion selected) {
+        return selected.newerThanOrEqual(me.wolfii.legacyparkourcompat.api.ParkourVersion.V1_9);
+    }
 }

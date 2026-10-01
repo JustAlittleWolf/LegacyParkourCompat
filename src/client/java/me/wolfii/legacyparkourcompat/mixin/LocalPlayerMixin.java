@@ -192,6 +192,7 @@ abstract class LocalPlayerMixin {
         boolean vanilla = localPlayer.isFallFlying();
         Player player = localPlayer;
         return MovementRuntime.find(SprintFallFlyingGateBehavior.class, player)
+            .filter(change -> change.appliesToVersion(MovementRuntime.profile(player).target()))
             .map(behavior -> behavior.fallFlyingForSprintGate(player, vanilla))
             .orElse(vanilla);
     }

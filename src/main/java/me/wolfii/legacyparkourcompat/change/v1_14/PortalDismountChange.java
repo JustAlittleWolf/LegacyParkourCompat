@@ -101,4 +101,8 @@ public final class PortalDismountChange implements PortalDismountBehavior {
             }
         }
     }
+    @Override
+    public boolean supportsVehicle(Entity vehicle, ParkourVersion selected) {
+        return me.wolfii.legacyparkourcompat.change.common.HistoricalRideables.contains(vehicle, selected);
+    }
 }

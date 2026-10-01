@@ -11,6 +11,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.AutoJumpBehavior;
 public final class MovementChanges implements MovementChangeProvider {
     @Override
     public void register(MovementChangeRegistry registry) {
+        registry.register(new SprintStart_1_19());
         registry.register(new GlideFallDistance_1_19());
         registry.register(new InsideBlockContact_1_19());
         registry.register(new BoatPassengerFluidPush_1_19());

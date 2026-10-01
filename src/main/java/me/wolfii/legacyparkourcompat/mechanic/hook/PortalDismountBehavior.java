@@ -7,4 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 @me.wolfii.legacyparkourcompat.mechanic.MechanicType("player.dismount.portal")
 public interface PortalDismountBehavior extends VersionedMechanic {
     void dismountFromPortal(LivingEntity passenger, Entity vehicle);
+    default boolean supportsVehicle(Entity vehicle, me.wolfii.legacyparkourcompat.api.ParkourVersion selected) {
+        return true;
+    }
 }

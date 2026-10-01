@@ -366,7 +366,8 @@ abstract class LivingEntityMixin {
         }
         if (!passenger.isRemoved() && !vehicle.isRemoved()
             && passenger.level().getBlockState(vehicle.blockPosition()).is(BlockTags.PORTALS)) {
-            MovementRuntime.find(PortalDismountBehavior.class, passenger).ifPresent(behavior -> {
+            MovementRuntime.find(PortalDismountBehavior.class, passenger)
+                .filter(behavior -> behavior.supportsVehicle(vehicle, MovementRuntime.profile(passenger).target())).ifPresent(behavior -> {
                 behavior.dismountFromPortal(passenger, vehicle);
                 ci.cancel();
             });
