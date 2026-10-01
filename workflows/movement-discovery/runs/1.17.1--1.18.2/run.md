@@ -38,23 +38,23 @@ SHA-256; every path is relative to that version's Mojmap source root. Extend thi
 |---|---|---|
 | `net/minecraft/client/player/KeyboardInput.java` | `EA41065C909E53F1A2CC29ECDB6A9A8F9265D2801CD8B95B996E182C318ECD69` | `281622F8481654035196A7BC1554D5251C1040518375E3AC6F6439E5EC894A75` |
 | `net/minecraft/client/player/Input.java` | `367C3A9B0B21D8F106A21FD2C73A3018685DBF07D9C8A9340E2D4C9D73359201` | `EB50A4E268EC5FF8423D2805499CA3C7BAE33765CB44CFECEF808E38FA6DE3C3` |
-| `net/minecraft/world/entity/player/Player.java` | pending | `BF639C1962FF90D69E4569B2B18F6FCF57AC46EF80B19686F0FBC1687FCA744A` |
+| `net/minecraft/world/entity/player/Player.java` | `724BB298499DABE489DFFD5CE7EC81C9773619A8D2C70044911EAE4C9E8FF481` | `BF639C1962FF90D69E4569B2B18F6FCF57AC46EF80B19686F0FBC1687FCA744A` |
 | `net/minecraft/world/entity/LivingEntity.java` | `33FD081AADB2B6FDC9EBF487DB6DA5B38C54F4B8676572790EE2203690D15E6F` | `DB4168D531CAF18F22E3FEFD073365E776DA4075CE01452BB9F7671D9B458782` |
 | `net/minecraft/util/Mth.java` | `24515C4549E01E985017227DCCF7159166A675B232BE9135D5F896022A9CB113` | `32747C5B09FC184BAAE356E39A0088FD66C9F08F69D9E98B67C19E1DE6F1BB2E` |
 | `net/minecraft/world/entity/Entity.java` | `AB28E1FBA924771EC048140DFD293EE5A46A7DFE81F71A1A0B1AECC1927232DE` | `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A` |
 | `net/minecraft/client/player/LocalPlayer.java` | `C9A91CB6CB57806BC8D22E5BFE2D97DAAF21D5D2A48F34A6E2C53164C61C5812` | `99C2D18BCD23243AFB8F95C5BAFB21FB0BE7EA04AACBB14FCF7BE7CED2C9C095` |
-| `net/minecraft/world/phys/AABB.java` | pending | `12134682C7F0C19A4DF431E4509D661B866B84F680B6DB82194AF8ABA7D0A50F` |
-| `net/minecraft/world/phys/shapes/VoxelShape.java` | pending | `99F8B6E44E6C249B251D98A99E38158EBCB459733B26CC98BAE15D51D3B87417` |
+| `net/minecraft/world/phys/AABB.java` | `DD143CCD01D0D05E50619910BCEB98A0CEC0CA526E161E9812AE1E0DB6EB7B7E` | `12134682C7F0C19A4DF431E4509D661B866B84F680B6DB82194AF8ABA7D0A50F` |
+| `net/minecraft/world/phys/shapes/VoxelShape.java` | `6B53EB54933AFACDA1934C9F1E3EC3584294AA3DEC09E5FBF4EEAA52B82D76C4` | `99F8B6E44E6C249B251D98A99E38158EBCB459733B26CC98BAE15D51D3B87417` |
 | `net/minecraft/world/level/block/Block.java` | `01FA40798C7A4AF538C29601A6AD52C82F3C6364F74D00E955A0A41A0A0D88B4` | `57C42EE375691755EF5D47FAD3F226F34A2043558704EC332C1A7E092FDABBA6` |
 | `net/minecraft/world/level/block/state/BlockBehaviour.java` | `920896E6BC9D7F8794ABA3C5F325D9DFFD9C2C9422A0BE2E5DD0B7474E980515` | `3D82B89F13ED3108E09B64226D98FD673E5FEDD9A933AFE888AE580DB486DD89` |
 | `net/minecraft/world/level/block/Blocks.java` | `87D72A113A3F8937A6A585EF917A4FD29CC5B335C00A858F6800E38F3C1BF7A8` | `CC6B87D2C5897E71E5244B889444AC040E3FA0A139E392523E87FEC99805A0F2` |
 | `net/minecraft/world/level/block/SlimeBlock.java` | `4410396E11DBEF4843F874F9CC7563801259791C4E4B34A3A0BFEDA4EA7C482B` | `4E552C1D1AA49B115F1549A8F19415B0C9F81C0524C0BF4AFED37277D75F6388` |
 | `net/minecraft/world/level/block/BedBlock.java` | `385BFC7F5C916FA897F34E5F2BB0311C4FC872733436A1A1FA2C8EDF44C234A3` | `D7EE6F4243947FF95ECF2F25DB0A04B1906509E7B18F1A1DEA50B76131527E3D` |
-| `net/minecraft/world/level/material/FlowingFluid.java` | pending | `BBFB661B524AC92F74579CD4B61C1A25DF00ECC4BFE775A5516F7E4A7C8768F3` |
-| `net/minecraft/world/effect/MobEffects.java` | pending | `92BDAB264537C8ACF1AF38A25BBBCEEF557A4CD24E248446C6463FA9812A524E` |
-| `net/minecraft/world/entity/ai/attributes/Attributes.java` | pending | `C41860B83315D5265632E9A90978E38794D83D1A0CD996DBB9C7FD8E56560DF5` |
-| `net/minecraft/world/item/enchantment/EnchantmentHelper.java` | pending | `73D83D685F1F7872B5B85DE26E274FC547C6094C4E2C2FA13291FB8CDE712105` |
-| `net/minecraft/world/item/enchantment/Enchantments.java` | pending | `BB945530CB616FFE8C23156EC0BDD5819094C92D4FB808BD9254EDFDB7953BF2` |
+| `net/minecraft/world/level/material/FlowingFluid.java` | `93FAC0AA0B44DCD42A9E05783EEDE16E6E1E72CBC7CBF00D34F6E5A55B67F4C6` | `BBFB661B524AC92F74579CD4B61C1A25DF00ECC4BFE775A5516F7E4A7C8768F3` |
+| `net/minecraft/world/effect/MobEffects.java` | `64B3B592A48EAC1016C3A307B85C3E201689662DEA68C80B6D642CFFA35FD289` | `92BDAB264537C8ACF1AF38A25BBBCEEF557A4CD24E248446C6463FA9812A524E` |
+| `net/minecraft/world/entity/ai/attributes/Attributes.java` | `839E9274A4AE91DC81802914B6F4F5F354D54FFA9005AA630DA83F070B17EFAA` | `C41860B83315D5265632E9A90978E38794D83D1A0CD996DBB9C7FD8E56560DF5` |
+| `net/minecraft/world/item/enchantment/EnchantmentHelper.java` | `5527514A661B14AAF8FF2A979380218C8DEDD17C24B097851160BE5D27FC4081` | `73D83D685F1F7872B5B85DE26E274FC547C6094C4E2C2FA13291FB8CDE712105` |
+| `net/minecraft/world/item/enchantment/Enchantments.java` | `C9D388097FD4BBF03609258486DC02D7D24BF18AB813F20F4F0DB8D86E3DBDB8` | `BB945530CB616FFE8C23156EC0BDD5819094C92D4FB808BD9254EDFDB7953BF2` |
 | `net/minecraft/client/multiplayer/ClientPacketListener.java` | pending | `E718016022C2AE86A2C354AF2D34FE4DE7D6E36DC8792D2E2C1F08ABB6B77B7B` |
 
 ## Correspondence and call order
@@ -107,7 +107,10 @@ None yet. Candidates require a concrete precondition and reachable client-player
 - Exact published client jar SHA-256: `40896EE9F1E2BEC3C934DAAC7E93D41E9E3D9C2F8AE0CA366D52FFBFD1AFA290` (publisher SHA-1 recorded in the marker).
 - Relevant native source `net/minecraft/world/entity/LivingEntity.java`, SHA-256 `7FFD9C70966EDC50C9CB4D9A8FE17A518E2678FF44C8026E763D0B94AC0AE51A`, was read from `decompiled_minecraft/26.2/unobfuscated/`. Its `travelFallFlying(Vec3)` calls `updateFallFlyingMovement(Vec3)` before entity movement; the helper contains `double liftForce = Mth.square(Math.cos(leanAngle));`. The matching source methods are present and intact; marker diagnostics concern unrelated methods/lambdas.
 - Relevant native source `net/minecraft/client/player/LocalPlayer.java`, SHA-256 `8D089AA09217E3607B38590F7C1623385562800943AC6DFD3D17804E041DA6D6`, was read and hashed from the same ready source root for native client-side injection context.
-- Exact historical endpoint and intermediate sources still require successful readiness markers and local hash verification before boundary assignment; the existing endpoint hashes in this run are owner-provided, not yet reverified from the shared output in this implementation checkout.
+- Exact 1.17.1 and 1.18.2 endpoint markers both report `ready` for Mojmap, with their source inventories, jar identities, mapping identities, and all listed source-file hashes locally reverified against this run's artifact manifest on 2026-10-01. The inventory's formerly pending A/B source-file hashes are now filled in above.
+- Verified paired F-001 source: A's non-swimming sprint-stop predicate includes any `horizontalCollision`; B includes `horizontalCollision && !minorHorizontalCollision`. B's collision classification is produced in `Entity.move()` and LocalPlayer's `isHorizontalCollisionMinor(Vec3)`; the exact source hashes are in the table.
+- Verified paired F-002 source: A uses `float n = Mth.cos(j); n = (float)(n * (n * Math.min(1.0, m / 0.4)));`; here `m` is the look-angle vector length, not horizontal movement speed. B uses `double n = Math.cos(pitch); n = n * n * Math.min(1.0, lookAngle.length() / 0.4);`. The adjacent lift and dive expressions use that value on both sides.
+- The endpoints still do not identify the first changed release. Exact `1.18` and `1.18.1` Mojmap sources are required to establish whether the registered boundary is `V1_18` or `V1_18_2`; they are not yet published/verified.
 
 
 ## Supporting audit evidence
