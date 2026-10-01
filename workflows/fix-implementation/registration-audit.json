@@ -400,7 +400,7 @@
     [
       "player.fall_flying.fall_distance",
       "",
-      "V1_21_5",
+      "V1_21_4",
       "GlideFallDistance_1_19"
     ],
     [
@@ -3259,7 +3259,7 @@
         "implementation": "SprintStart_1_19"
       },
       "player.fall_flying.fall_distance": {
-        "emulates": "V1_21_5",
+        "emulates": "V1_21_4",
         "implementation": "GlideFallDistance_1_19"
       },
       "player.inside_block_contact": {
@@ -3337,7 +3337,7 @@
         "implementation": "DoubleJumpBoostAddition"
       },
       "player.fall_flying.fall_distance": {
-        "emulates": "V1_21_5",
+        "emulates": "V1_21_4",
         "implementation": "GlideFallDistance_1_19"
       },
       "player.inside_block_contact": {
@@ -3403,7 +3403,7 @@
         "implementation": "PowderSnowClimbBoost"
       },
       "player.fall_flying.fall_distance": {
-        "emulates": "V1_21_5",
+        "emulates": "V1_21_4",
         "implementation": "GlideFallDistance_1_19"
       },
       "player.inside_block_contact": {
@@ -3457,7 +3457,7 @@
         "implementation": "PowderSnowClimbBoost"
       },
       "player.fall_flying.fall_distance": {
-        "emulates": "V1_21_5",
+        "emulates": "V1_21_4",
         "implementation": "GlideFallDistance_1_19"
       },
       "player.inside_block_contact": {
@@ -3499,7 +3499,7 @@
         "implementation": "PowderSnowClimbBoost"
       },
       "player.fall_flying.fall_distance": {
-        "emulates": "V1_21_5",
+        "emulates": "V1_21_4",
         "implementation": "GlideFallDistance_1_19"
       },
       "player.inside_block_contact": {
@@ -3541,7 +3541,7 @@
         "implementation": "PowderSnowClimbBoost"
       },
       "player.fall_flying.fall_distance": {
-        "emulates": "V1_21_5",
+        "emulates": "V1_21_4",
         "implementation": "GlideFallDistance_1_19"
       },
       "player.inside_block_contact": {
@@ -3579,7 +3579,7 @@
         "implementation": "PowderSnowClimbBoost"
       },
       "player.fall_flying.fall_distance": {
-        "emulates": "V1_21_5",
+        "emulates": "V1_21_4",
         "implementation": "GlideFallDistance_1_19"
       },
       "entity.restitution": {
@@ -3613,7 +3613,7 @@
         "implementation": "PowderSnowClimbBoost"
       },
       "player.fall_flying.fall_distance": {
-        "emulates": "V1_21_5",
+        "emulates": "V1_21_4",
         "implementation": "GlideFallDistance_1_19"
       },
       "entity.restitution": {
@@ -3629,10 +3629,6 @@
       "player.sprint.window": {
         "emulates": "V1_21_5",
         "implementation": "DoubleTapSprintWindow"
-      },
-      "player.fall_flying.fall_distance": {
-        "emulates": "V1_21_5",
-        "implementation": "GlideFallDistance_1_19"
       },
       "entity.restitution": {
         "emulates": "V26_1",

@@ -5,7 +5,7 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.GlideFallDistanceBehavior;
 import net.minecraft.world.entity.player.Player;
 
-@MovementChange(emulates = ParkourVersion.V1_21_5)
+@MovementChange(emulates = ParkourVersion.V1_21_4)
 public final class GlideFallDistance_1_19 implements GlideFallDistanceBehavior {
     @Override
     public void beforeFallFlyingTravel(Player player) {
