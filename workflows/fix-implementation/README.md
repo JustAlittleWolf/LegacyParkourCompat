@@ -16,6 +16,8 @@ Keep a short implementation record using [the template](templates/fix.md) in the
 
 ## 2. Find the injection in the **current** Minecraft release
 
+For assignments in the active major-version campaign, follow [the campaign source handoff](major-campaign.md) first: workers must read the exact shared version/mapping directory recorded in `major-campaign.json` and verify its matching readiness marker. Do not run `decompileMinecraft`, create a worktree-local fallback, or add a junction as a worker. The task defaults resolve relative to the invoking project checkout, so a worker worktree would write a separate `decompiled_minecraft/` and `build/minecraft-decompile-cache/`. If a required shared source or marker is unavailable, stop source-dependent implementation and coordinate with the preparation owner. The command below is for the designated preparation owner or work outside that campaign.
+
 Read the current target from `gradle.properties` (`minecraft_version`) and confirm it against the build configuration; never hardcode a release from this document. Use the repository's `decompileMinecraft` task to obtain its source, with the mapping mode appropriate to that exact release. For example, after resolving `$currentVersion` from the build configuration:
 
 ```powershell
