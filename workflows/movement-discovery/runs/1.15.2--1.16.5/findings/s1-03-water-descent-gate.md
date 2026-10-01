@@ -6,7 +6,7 @@
 - Classification: changed behavior
 - Confidence: source-confirmed
 - Applicability: historical player behavior
-- First changed release: unknown within (1.15.2, 1.16.5]
+- First changed release: 1.16 (verified against exact 1.16 source)
 - Runtime validation: not performed
 
 ## Paired evidence
@@ -28,4 +28,4 @@ The source proves a `-0.04F` vertical-velocity addition in A and no such additio
 
 ## Handoff
 
-Independent delta: shift-to-descend input no longer changes local player velocity while flight makes the player unaffected by fluids. Related coverage: Stage 3 water travel and Stage 7 client/external state boundaries. First changed release is unknown.
+Independent delta: shift-to-descend input no longer changes local player velocity while flight makes the player unaffected by fluids. Related coverage: Stage 3 water travel and Stage 7 client/external state boundaries. First verified in 1.16.

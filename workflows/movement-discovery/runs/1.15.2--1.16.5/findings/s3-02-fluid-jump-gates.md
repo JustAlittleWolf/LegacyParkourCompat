@@ -6,7 +6,7 @@
 - Classification: changed behavior
 - Confidence: source-confirmed
 - Applicability: historical player behavior
-- First changed release: unknown within (1.15.2, 1.16.5]
+- First changed release: 1.16 (verified against exact 1.16 source)
 - Runtime validation: not performed
 
 ## Paired evidence
@@ -28,4 +28,4 @@ The branch changes vertical impulse and, in shallow lava, jump-delay state. Exac
 
 ## Handoff
 
-Two related but independently preconditioned changes: fluid-effectability gate and shallow-lava ground-jump selection. The shallow-lava travel adjustment is recorded separately in `S3-01`.
+Two related but independently preconditioned changes: fluid-effectability gate and shallow-lava ground-jump selection, first verified in 1.16. The shallow-lava travel adjustment is recorded separately in `S3-01`.

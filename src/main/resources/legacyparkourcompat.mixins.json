@@ -15,7 +15,12 @@
     "EntityMixin",
     "LivingEntityDismountMixin",
     "LivingEntityTravelMixin",
-    "accessor.EntityInvoker"
+    "accessor.EntityInvoker",
+    "EntityFluidCurrentMixin",
+    "EntityFluidInteractionMixin",
+    "LivingEntityFluidMixin",
+    "PlayerMovementAccessor",
+    "PlayerMovementMixin"
   ],
   "client": [
     "AbstractBoatMixin",

@@ -6,7 +6,7 @@
 - Classification: added behavior
 - Confidence: source-confirmed
 - Applicability: historical player behavior
-- First changed release: unknown within (1.15.2, 1.16.5]
+- First changed release: 1.16 (verified against exact 1.16 source)
 - Runtime validation: not performed
 
 ## Paired evidence
@@ -28,4 +28,4 @@ B adds a dimension-dependent lava-current velocity increment. The flow vector de
 
 ## Handoff
 
-Independent delta: lava fluid currents can push the player in B. The weak-water-current minimum is cataloged in `S5-01`.
+Independent delta: lava fluid currents can push the player in B, first verified in 1.16. The weak-water-current minimum is cataloged in `S5-01`.

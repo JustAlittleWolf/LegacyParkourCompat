@@ -6,7 +6,7 @@
 - Classification: changed behavior
 - Confidence: source-confirmed
 - Applicability: historical player behavior
-- First changed release: unknown within (1.15.2, 1.16.5]
+- First changed release: 1.16.2 (verified against 1.16.1 and 1.16.2)
 - Runtime validation: not performed
 
 ## Paired evidence
@@ -28,4 +28,4 @@ The code changes the horizontal displacement submitted to collision resolution u
 
 ## Handoff
 
-Independent delta: eligibility window and flight gate for player edge restraint. Introduction release is unknown within the compared interval.
+Independent delta: eligibility window and flight gate for player edge restraint. First verified in 1.16.2.

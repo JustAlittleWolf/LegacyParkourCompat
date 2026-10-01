@@ -6,7 +6,7 @@
 - Classification: changed behavior
 - Confidence: source-confirmed
 - Applicability: historical player behavior
-- First changed release: unknown within (1.15.2, 1.16.5]
+- First changed release: 1.16 (verified against exact 1.16 source)
 - Runtime validation: not performed
 
 ## Paired evidence
@@ -28,4 +28,4 @@ The source proves a one-sided timer reset and the shared sprint branch that cons
 
 ## Handoff
 
-Independent delta: crouching now cancels a pending auto-sprint trigger. Related findings: none. Applicability is limited to the existing local-player auto-sprint path; the first release containing the change is unknown.
+Independent delta: crouching now cancels a pending auto-sprint trigger. Related findings: none. Applicability is limited to the existing local-player auto-sprint path; first verified in 1.16.

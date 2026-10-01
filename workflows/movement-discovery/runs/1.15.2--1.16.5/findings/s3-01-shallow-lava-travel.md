@@ -6,7 +6,7 @@
 - Classification: changed behavior
 - Confidence: source-confirmed
 - Applicability: historical player behavior
-- First changed release: unknown within (1.15.2, 1.16.5]
+- First changed release: 1.16 (verified against exact 1.16 source)
 - Runtime validation: not performed
 
 ## Paired evidence
@@ -28,4 +28,4 @@ The vertical velocity multiplier and gravity adjustment differ in this shallow-l
 
 ## Handoff
 
-Independent delta: shallow-lava travel branch. Related to fluid jump behavior in `S3-02`; first changed release is unknown.
+Independent delta: shallow-lava travel branch. Related to fluid jump behavior in `S3-02`; first verified in 1.16.
