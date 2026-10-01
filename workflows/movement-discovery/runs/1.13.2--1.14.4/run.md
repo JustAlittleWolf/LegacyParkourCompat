@@ -4,7 +4,7 @@
 - Scope: exact Java Edition 1.13.2 (A) and 1.14.4 (B), client player movement.
 - Repository revision at restart: `5a68659bd869e6028d151a8aed3cd91a9eae88c9`; 2026-09-27.
 - Selected namespace: Ornithe Feather `feather-gen2` named mappings for both exact releases. Both mapping files declare Tiny v2 `official`, `intermediary`, `named` columns. The compared player and input classes retain matching named package/class paths. Member correspondence still requires per-slice inspection.
-- Source preparation: exact Feather Gen2 builds were republished by the sole source-preparation owner to the stable read-only shared staging tree. Canonical markers are `../../../../build/stable-shared-minecraft/ready/1.13.2--feather.json`, `1.14--feather.json` (group base), and `1.14.4--feather.json`; each marker confirms its requested and resolved release. The local ignored junction `build/stable-shared-minecraft` points to the shared staging root; no source tree was copied into this repository.
+- Source preparation: exact Feather Gen2 builds were republished by the sole source-preparation owner to the stable read-only shared staging tree. Canonical markers are `../../../../build/stable-shared-minecraft/ready/1.13.2--feather.json`, `1.14--feather.json` (group base), `1.14.1--feather.json` (patch-boundary check), and `1.14.4--feather.json`; each marker confirms its requested and resolved release. The local ignored junction `build/stable-shared-minecraft` points to the shared staging root; no source tree was copied into this repository.
 - Toolchain: Gradle 9.7.1; JDK 25.0.3+9-LTS; Vineflower 1.12.0; Tiny Remapper 0.14.1; Mapping IO 0.9.1; default 4G decompiler heap. Relevant source bodies must still be checked for decompiler damage. The 1.14.4 remapper repaired access for 6 classes and 61 members; its visible Vineflower duplicate-processing notices concerned `ModelBakery`. The 1.13.2 output included a mismatched `Scheduler$Tasks` signature notice.
 
 The previous `blocked: mapping alignment` conclusion was wrong. It checked only existing output folders and did not query `feather` for 1.14.4. The explicit task successfully resolved `net.ornithemc:feather-gen2:1.14.4+build.2`. An explicit `yarn` probe for 1.13.2 reported `yarn has no builds for this version`; Yarn and Legacy Yarn need no cross-family assumption for this run. The 1.14.4 Mojmap output cited in the previous checkpoint remains separate provenance and is not used as paired evidence here.
@@ -31,6 +31,14 @@ Paths below are relative to this manifest. Sources, cache artifacts, and readine
 - Source root: `../../../../build/stable-shared-minecraft/sources/1.14/ornithe-feather/`; 3,152 Java files.
 - Relevant hashes: `KeyboardInput.java` `5932453A9E48E7A798AE1BE1CD3A4BF660B6B3BE43BB7E5DC22686B3C4A82526`; `LocalClientPlayerEntity.java` `2B1AD3B3416949A9DA2607A3EC2251AA69B2D9EEBD76638C92E20749D625338F`; `Entity.java` `15E9D4CDE45D857CA3117CCFE2D5D9071C08E7EE4A67B4053F7B006FE7A4BFA9`; `PlayerEntity.java` `F73879BD42103FA45F39CFE178AC82C7574C6306F00555AF7F7E795976275DD7`.
 
+### Patch boundary check — 1.14.1
+
+- Requested/resolved: `1.14.1` / `1.14.1`.
+- Ready marker: `../../../../build/stable-shared-minecraft/ready/1.14.1--feather.json`.
+- Mapping coordinate: `net.ornithemc:feather-gen2:1.14.1+build.2`; original client SHA-256 `7194D1326CF796F62AC55F3CB56F851C232895639AE27510F3207D5A73F91814`; remapped client SHA-256 `3C053F062CDEB1E433BFA03F83A393BE59C5BD7FD589896D2A4788CEA76D5EBE`.
+- Source root: `../../../../build/stable-shared-minecraft/sources/1.14.1/ornithe-feather/`; 3,155 Java files.
+- `LocalClientPlayerEntity.java` SHA-256 `2B1AD3B3416949A9DA2607A3EC2251AA69B2D9EEBD76638C92E20749D625338F`, byte-identical to the 1.14 group base for the relevant gate and caller.
+
 ### B — 1.14.4
 
 - Requested/resolved: `1.14.4` / `1.14.4`.
@@ -55,6 +63,7 @@ Paths below are relative to this manifest. Sources, cache artifacts, and readine
 | 1.14 base | `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java` | `2B1AD3B3416949A9DA2607A3EC2251AA69B2D9EEBD76638C92E20749D625338F` |
 | 1.14 base | `net/minecraft/entity/Entity.java` | `15E9D4CDE45D857CA3117CCFE2D5D9071C08E7EE4A67B4053F7B006FE7A4BFA9` |
 | 1.14 base | `net/minecraft/entity/living/player/PlayerEntity.java` | `F73879BD42103FA45F39CFE178AC82C7574C6306F00555AF7F7E795976275DD7` |
+| 1.14.1 | `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java` | `2B1AD3B3416949A9DA2607A3EC2251AA69B2D9EEBD76638C92E20749D625338F` |
 
 ## Correspondence and call order
 
@@ -65,13 +74,13 @@ A `KeyboardInput.tick()` lines 13–49 resets and increments/decrements float mo
 ## Coverage ledger
 
 - Stage 1, raw four-direction keyboard sampling before sneak slowdown: `compared-no-difference` for -1, 0 and 1 values under corresponding key states. A `KeyboardInput.tick()` lines 13–45 and B `KeyboardInput.tick(boolean, boolean)` lines 13–21; caller ordering at A `LocalClientPlayerEntity.java:698-704`, B `:625-632`. This scoped conclusion does not cover crouch, item use or sprint gating.
-- Stage 1, sneak/pose/spectator slowdown gate: `findings`. F001 source-confirms the 1.14 group-base pose/spectator gate and the flight-sneak interaction. F002 source-confirms an additional 1.14-to-1.14.4 swimming-state guard; its exact first patch remains unresolved.
+- Stage 1, sneak/pose/spectator slowdown gate: `findings`. F001 source-confirms the 1.14 group-base pose/spectator gate and the flight-sneak interaction. F002 source-confirms an additional 1.14-to-1.14.4 swimming-state guard, absent in 1.14.1; its exact first patch remains unresolved after 1.14.1.
 - Stage 1 remaining input/tick order, sprint, jump, auto-jump, flight and riding: `pending`.
 - Stages 2–7: `pending`; no other movement slice has been compared with this paired Feather source yet. Existing adjacent-run findings are navigation hints, not evidence for this pair.
 
 ## Dependency queue and blockers
 
-- `INPUT-PATCH-BOUNDARY`: inspect the `m_63723874()` body in exact 1.14.1 next; continue only across subsequent 1.14 patches needed to establish where F002's `!isSwimming()` guard first appears. Do not register the patch override until this boundary is known.
+- `INPUT-PATCH-BOUNDARY`: inspect the `m_63723874()` body in exact 1.14.2 next; continue only across subsequent 1.14 patches needed to establish where F002's `!isSwimming()` guard first appears. Do not register the patch override until this boundary is known.
 - `SOURCE-DIAGNOSTICS`: inspect any remapper/decompiler warnings that touch future movement members; existing success messages do not certify every body.
 - `REMAINING-STAGES`: inventory and compare the full source-navigation stages 1–7, including block/fluid resources and external player motion inputs.
 
@@ -83,7 +92,7 @@ A `KeyboardInput.tick()` lines 13–49 resets and increments/decrements float mo
 ## Resume checkpoint
 
 - Last completed slice: raw four-direction keyboard sampling; input slowdown gate and pose reachability compared at 1.13.2, 1.14, and 1.14.4.
-- Next bounded slice: exact 1.14.1 `LocalClientPlayerEntity.m_63723874()` body for F002's release boundary.
+- Next bounded slice: exact 1.14.2 `LocalClientPlayerEntity.m_63723874()` body for F002's release boundary; 1.14.1 is confirmed unchanged from the 1.14 group base.
 - Remaining work: all other stage 1 slices and stages 2–7. Recheck hashes if regenerating either ignored source tree.
 
 ## Source audit closure
