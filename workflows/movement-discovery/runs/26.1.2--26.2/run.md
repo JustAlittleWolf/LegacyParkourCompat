@@ -1,10 +1,10 @@
 # Discovery: 26.1.2 to 26.2
 
-- Status: partial
+- Status: complete (focused movement delta and group-base boundary)
 - Scope: client player entity collision restitution and post-collision block landing; older A = 26.1.2; newer B = 26.2
 - Repository revision and start date: `ebe56a21d17d120f11f8ede5b6a3d49bea7c7e41`; 2026-10-01
 - Selected naming namespace, CLI mode per side and alignment evidence: Mojang official names; both releases are published unobfuscated and were decompiled directly with `unobfuscated`.
-- Source preparation command and log: exact commands and successful logs are in the artifact manifest. Shared source trees were read-only.
+- Source preparation command and log: canonical marker `C:/Users/Wolfi/.codex/worktrees/df7f/LegacyParkourCompat/build/stable-shared-minecraft/ready/<version>--unobfuscated.json`; endpoint logs are in `C:/Users/Wolfi/.codex/worktrees/df7f/LegacyParkourCompat/build/stable-shared-minecraft/logs/`. Shared source trees were read-only.
 - Toolchain/decompiler/remapper versions and options: Gradle 9.7.1; JDK 25.0.3+9-LTS; Vineflower 1.12.0; Tiny Remapper 0.14.1; Mapping IO 0.9.1; 4G decompiler heap.
 
 ## Artifact manifest
@@ -14,10 +14,10 @@ Source-file hashes are SHA-256. Evidence paths below are relative to each source
 ### A — 26.1.2
 
 - Exact requested/resolved release: `26.1.2` / `26.1.2`.
-- Source root: `26.1.2/unobfuscated/` under the shared `decompiled_minecraft/` root.
+- Source root: `C:/Users/Wolfi/.codex/worktrees/df7f/LegacyParkourCompat/build/stable-shared-minecraft/sources/26.1.2/unobfuscated/`.
 - CLI mode / namespace: `unobfuscated` / Mojang official names.
-- Client jar: `build/minecraft-decompile-cache/26.1.2/client.jar`; SHA-256 `b1b3158572666445eff01e82fad8c7de2e4953db6d354f311730d77a8359d0b0`; publisher SHA-1 `4e618f09a0c649dde3fdf829df443ce0b8831e65`.
-- Successful preparation marker: `build/major-movement-preparation/26.1.2--unobfuscated.json`; successful log `build/major-movement-preparation/26.1.2--unobfuscated/decompile-4G-publication.log`.
+- Client jar: `C:/Users/Wolfi/.codex/worktrees/df7f/LegacyParkourCompat/build/stable-shared-minecraft/cache/26.1.2/client.jar`; SHA-256 `b1b3158572666445eff01e82fad8c7de2e4953db6d354f311730d77a8359d0b0`; publisher SHA-1 `4e618f09a0c649dde3fdf829df443ce0b8831e65`.
+- Successful preparation marker: `C:/Users/Wolfi/.codex/worktrees/df7f/LegacyParkourCompat/build/stable-shared-minecraft/ready/26.1.2--unobfuscated.json`; marker SHA-256 `f005e0ee398c297a49576526c50714d4b6e78c438e836f080f276d46e470fe49`; successful log `C:/Users/Wolfi/.codex/worktrees/df7f/LegacyParkourCompat/build/stable-shared-minecraft/logs/endpoint-26.1.2-unobfuscated.log`.
 - Mapping / remapped jar: not applicable: published unobfuscated.
 - Cited source hashes:
   - `net/minecraft/client/player/LocalPlayer.java` — `433fd995ad317af0f6ef0e50c1e8e3483cb8f00e0e327d4edf27a4dd99666ebe`
@@ -32,10 +32,10 @@ Source-file hashes are SHA-256. Evidence paths below are relative to each source
 ### B — 26.2
 
 - Exact requested/resolved release: `26.2` / `26.2`.
-- Source root: `26.2/unobfuscated/` under the shared `decompiled_minecraft/` root.
+- Source root: `C:/Users/Wolfi/.codex/worktrees/df7f/LegacyParkourCompat/build/stable-shared-minecraft/sources/26.2/unobfuscated/`.
 - CLI mode / namespace: `unobfuscated` / Mojang official names.
-- Client jar: `build/minecraft-decompile-cache/26.2/client.jar`; SHA-256 `40896ee9f1e2bec3c934daac7e93d41e9e3d9c2f8ae0ca366d52ffbfd1afa290`; publisher SHA-1 `2dc72797acbc1b63fc16a11c4ac393605f453754`.
-- Successful preparation marker: `build/major-movement-preparation/26.2--unobfuscated.json`; successful log `build/major-movement-preparation/26.2--unobfuscated/decompile-4G-republication.log`.
+- Client jar: `C:/Users/Wolfi/.codex/worktrees/df7f/LegacyParkourCompat/build/stable-shared-minecraft/cache/26.2/client.jar`; SHA-256 `40896ee9f1e2bec3c934daac7e93d41e9e3d9c2f8ae0ca366d52ffbfd1afa290`; publisher SHA-1 `2dc72797acbc1b63fc16a11c4ac393605f453754`.
+- Successful preparation marker: `C:/Users/Wolfi/.codex/worktrees/df7f/LegacyParkourCompat/build/stable-shared-minecraft/ready/26.2--unobfuscated.json`; marker SHA-256 `b7f4f560cb96b8264d558ce976326f6ac7017d2c244710b9394089a8746e674c`; successful log `C:/Users/Wolfi/.codex/worktrees/df7f/LegacyParkourCompat/build/stable-shared-minecraft/logs/26.2-unobfuscated.log`.
 - Mapping / remapped jar: not applicable: published unobfuscated.
 - Cited source hashes:
   - `net/minecraft/client/player/LocalPlayer.java` — `8d089aa09217e3607b38590f7c1623385562800943ac6dfd3d17804e041da6d6`
@@ -50,17 +50,17 @@ Source-file hashes are SHA-256. Evidence paths below are relative to each source
 
 ### Group-base boundary — 26.1
 
-- Exact requested/resolved release: `26.1` / `26.1`; native `unobfuscated` source. Marker: `build/major-movement-preparation/26.1--unobfuscated.json`; successful log: `build/major-movement-preparation/26.1--unobfuscated/decompile-4G-publication.log`.
+- Exact requested/resolved release: `26.1` / `26.1`; native `unobfuscated` source. Canonical marker: `C:/Users/Wolfi/.codex/worktrees/df7f/LegacyParkourCompat/build/stable-shared-minecraft/ready/26.1--unobfuscated.json`; marker SHA-256 `6334242629252fae3aa850bae081bdc6239d1665c30bb46c4adbc5376bcadb13`; successful log `C:/Users/Wolfi/.codex/worktrees/df7f/LegacyParkourCompat/build/stable-shared-minecraft/logs/boundary-26.1-unobfuscated.log`.
 - Client SHA-256: `bc6194c61566b587f196090d730698f2191170f7580adb143e4ff839939d3840`; publisher SHA-1 `191771837687b766537a8c4607cb6fad79c533a1`.
-- The relevant `Entity.java`, `LivingEntity.java`, `Block.java`, `Blocks.java`, `BedBlock.java`, and `SlimeBlock.java` hashes match their 26.1.2 counterparts exactly: `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`, `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`, `1693cfb7b84190a2fe664470a56d59e78ed5bd7d722a2bd16888b036d4d8e977`, `ba8a258b33f73fe03f93e7b02f9c25d4f66cf3aaab04c4580d0863cc71bc866f`, `996e4ca63f4bfaea14b215648f2318d52c49f6c802317381a670d87c0a6d0b03`, and `84d22cf526d6bf1b4ec4b0b642a76fc2c90380a71f05ab92a7de9935f0d1c38e`, respectively. This confirms the pre-26.2 movement implementation at the `V26_1` group base; it is a targeted boundary check, not a broader 26.1 audit.
+- Every marker-listed movement source was rehashed and matched. `Entity.java`, `LivingEntity.java`, `Player.java`, `LocalPlayer.java`, `Block.java`, `Blocks.java`, `BedBlock.java`, `SlimeBlock.java`, and `BlockBehaviour.java` match their 26.1.2 counterparts exactly. This confirms the `V26_1` group-base behavior; it is a targeted boundary check, not a broader 26.1 audit.
 
 ## Correspondence and call order
 
 - Client movement reaches the common entity collision method: `LocalPlayer.aiStep()` delegates to its superclass (`LocalPlayer.java:914` on both sides); `LivingEntity.aiStep()` dispatches `travel(input)` (`LivingEntity.java:3073` in A, `3140` in B); travel calls `Entity.move(MoverType.SELF, getDeltaMovement())` across its movement branches. The latter exact `move` call site is the shared collision hook.
 - A `Entity.move(MoverType, Vec3)` (`Entity.java:704`) clips movement, updates collision flags, calls `checkFallDamage`, zeroes collided horizontal velocity components (`Entity.java:779-780`), then, when `canSimulateMovement()` and `delta.y != movement.y`, calls `Block.updateEntityMovementAfterFallOn(level, entity)` (`Entity.java:781-785`). The virtual callback reaches the base implementation (`Block.java:498-500`) or old `BedBlock` / `SlimeBlock` overrides.
 - B has the same `Entity.move` role and collision-state update. After `checkFallDamage`, it instead invokes private `restituteMovementAfterCollisions(BlockState, boolean, boolean, Vec3)` for simulated horizontal or vertical collisions (`Entity.java:785, 802-842`). The old `updateEntityMovementAfterFallOn` method is absent from the target `Block` API and is no longer called by `Entity.move`.
-- Target ownership was verified against the published 26.2 jar with `javap -c -p -s`: `Entity.move(MoverType, Vec3)` descriptor `(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V` invokes private `restituteMovementAfterCollisions(BlockState, boolean, boolean, Vec3)` with descriptor `(Lnet/minecraft/world/level/block/state/BlockState;ZZLnet/minecraft/world/phys/Vec3;)V` at bytecode offset 598. `Block.getBounceRestitution()` has descriptor `()F`.
-- Boundary evidence: 26.1 and 26.1.2 share identical source hashes for the relevant entity and block movement files above. 26.2 adds the restitution call and data, so the registered historical boundary is `ParkourVersion.V26_1` and vanilla changes at 26.2.
+- Target ownership was checked against the published 26.2 client jar (SHA-256 matches the canonical marker) with `javap -p -s -c`: `Entity.move(MoverType, Vec3)` descriptor `(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V` invokes private `restituteMovementAfterCollisions(BlockState, boolean, boolean, Vec3)` with descriptor `(Lnet/minecraft/world/level/block/state/BlockState;ZZLnet/minecraft/world/phys/Vec3;)V` at bytecode offset 598. `Block.getBounceRestitution()` has descriptor `()F`. The mixin target owner is `net.minecraft.world.entity.Entity`, matching that call.
+- Boundary evidence: 26.1 and 26.1.2 share identical relevant movement source hashes. 26.2 adds the restitution call and data, establishing `ParkourVersion.V26_1` as the old behavior boundary.
 
 ## Coverage ledger
 
@@ -73,7 +73,7 @@ Source-file hashes are SHA-256. Evidence paths below are relative to each source
   - Status: findings.
   - A: `Block.java:498-500`, `BedBlock.java:138-150`, `SlimeBlock.java:33-45`; targeted searches of the hashed A `BlockBehaviour.java` and `Blocks.java` found no `bounceRestitution` field, property, or registration.
   - B: `Block.java:494-496`; `Blocks.java:696-704` sets beds to `0.75F` and `Blocks.java:2976-2979` sets slime to `1.0F`. Bed and slime no longer override the landing callback.
-  - Conclusion: the old generic callback multiplies Y velocity by `0.0`; old bed bounce multiplies descending Y by `0.66F` and old slime bounce reflects descending Y directly, with the existing living/nonliving factor and sneak suppression. B expresses these through block restitution.
+  - Conclusion: the old generic callback multiplies Y velocity by `0.0`; old bed bounce multiplies descending Y by `0.66F` and old slime bounce reflects descending Y directly, with the existing living/nonliving factor and sneak suppression. B expresses these through block restitution. Relevant `BedBlock`, `SlimeBlock`, `Blocks`, and `BlockBehaviour` source hashes were recorded from all validated comparison trees.
 - Slice C3 / stage 6 / living-entity bounciness input:
   - Status: findings.
   - A: targeted entity/attribute search found no bounciness attribute or restitution consumer.
@@ -91,7 +91,7 @@ Source-file hashes are SHA-256. Evidence paths below are relative to each source
 
 ## Resume checkpoint
 
-- Last completed slice: the focused entity restitution, old block callback, bed/slime landing behavior, and 26.1 group-base boundary.
+- Last completed slice: the focused endpoint comparison, bed/slime landing behavior, and exact 26.1 group-base boundary.
 - Next: integration with older versioned block landing changes through `BlockLandingBehavior`; runtime parity belongs to the TAS workflow.
 - Outstanding assumptions: no other navigation stage is covered by this focused run.
 
@@ -99,5 +99,5 @@ Source-file hashes are SHA-256. Evidence paths below are relative to each source
 
 - Coverage counts: 3 focused slices with findings; other movement stages out of this run's deliberately bounded scope.
 - Unresolved gaps and limits: not an exhaustive movement audit; 26.2 tag contents and gameplay trajectories were not inspected or tested.
-- Evidence/hash/correspondence audit: both endpoint `ready` markers and the 26.1 group-base marker were read; cited Java files were rehashed against those roots before implementation. Those shared generated trees and markers may be removed by later serialized source preparation; their hashes and successful log locations are retained above.
+- Evidence/hash/correspondence audit: exact `26.1`, `26.1.2`, and `26.2` `ready` markers were read; every marker-listed movement source was rehashed and matched, and additional cited block/attribute sources were hashed from each validated tree. Shared generated sources remained read-only and may be removed after serialized preparation; marker hashes and successful log paths are retained above.
 - Runtime validation: not performed (separate workflow).
