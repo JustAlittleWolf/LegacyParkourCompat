@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change.v1_20_5;
+package me.wolfii.legacyparkourcompat.change.v1_21_4;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -6,7 +6,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.KeyboardDiagonalInputBehavior
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec2;
 
-@MovementChange(emulates = ParkourVersion.V1_20_5)
+@MovementChange(emulates = ParkourVersion.V1_21_4)
 public final class KeyboardDiagonalInput implements KeyboardDiagonalInputBehavior {
     @Override
     public Vec2 diagonalInput(

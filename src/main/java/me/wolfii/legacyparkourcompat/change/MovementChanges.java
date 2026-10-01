@@ -1,11 +1,11 @@
 package me.wolfii.legacyparkourcompat.change;
 
-import me.wolfii.legacyparkourcompat.change.v1_20_5.DoubleTapSprintWindow;
-import me.wolfii.legacyparkourcompat.change.v1_20_5.EdgeBackoffProbeBounds;
-import me.wolfii.legacyparkourcompat.change.v1_20_5.GroundJumpVerticalVelocity;
-import me.wolfii.legacyparkourcompat.change.v1_20_5.KeyboardDiagonalInput;
-import me.wolfii.legacyparkourcompat.change.v1_20_5.PowderSnowClimbBoost;
-import me.wolfii.legacyparkourcompat.change.v1_20_5.ShallowWaterSprintEligibility;
+import me.wolfii.legacyparkourcompat.change.v1_21.GroundJumpVerticalVelocity;
+import me.wolfii.legacyparkourcompat.change.v1_21_4.EdgeBackoffProbeBounds;
+import me.wolfii.legacyparkourcompat.change.v1_21_4.KeyboardDiagonalInput;
+import me.wolfii.legacyparkourcompat.change.v1_21_4.PowderSnowClimbBoost;
+import me.wolfii.legacyparkourcompat.change.v1_21_4.ShallowWaterSprintEligibility;
+import me.wolfii.legacyparkourcompat.change.v1_21_5.DoubleTapSprintWindow;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChangeProvider;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
 

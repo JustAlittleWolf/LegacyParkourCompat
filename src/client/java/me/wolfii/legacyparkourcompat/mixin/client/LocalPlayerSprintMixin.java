@@ -44,7 +44,12 @@ abstract class LocalPlayerSprintMixin {
         }
         boolean sprintKeyDown = player.input.keyPresses.sprint();
         return MovementRuntime.find(SprintingBehavior.class, player)
-            .map(behavior -> behavior.isInShallowWaterForSprintEligibility(player, sprintKeyDown, vanilla))
+            .map(behavior -> behavior.isInShallowWaterForSprintEligibility(
+                player,
+                sprintKeyDown,
+                player.isSprinting(),
+                vanilla
+            ))
             .orElse(vanilla);
     }
 }
