@@ -3,14 +3,13 @@ package me.wolfii.legacyparkourcompat.mechanic;
 /**
  * Fabric entrypoint {@code legacyparkourcompat:movement-change}.
  *
- * <p>Later agents add implementations here without touching mixins. Use one
- * package per {@link me.wolfii.legacyparkourcompat.api.ParkourVersion} (for
- * example {@code change.v1_8}):
+ * <p>Fresh implementations register providers here. Providers may group
+ * changes by emulated version, but the registration contract stays generic:
  * <pre>{@code
- * // change.v1_8.MovementChanges
+ * // ExampleMovementChanges
  * public final class MovementChanges implements MovementChangeProvider {
  *     public void register(MovementChangeRegistry registry) {
- *         registry.register(new LadderCollision());
+ *         registry.register(new ExampleMovementChange());
  *     }
  * }
  * }</pre>

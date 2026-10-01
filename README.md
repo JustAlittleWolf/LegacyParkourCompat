@@ -19,16 +19,18 @@ The client can choose a historical version in the mod UI. When connected to a se
 
 ## Repository guide
 
-- `src/main/` holds the shared Fabric API, mechanic hooks, historical deltas, version resolution, network handshake, and mixins. `src/client/` has the version UI and client handshake; `src/server/` has dedicated server configuration.
+- `src/main/` holds the shared Fabric API, generic mechanic/version resolution, network handshake, and server/client-independent configuration. `src/client/` has the version UI and client handshake; `src/server/` has dedicated server configuration.
 - [`buildSrc/`](buildSrc/README.md) implements `decompileMinecraft` and produces historical source and mapping output.
 - [`parkourgym-server/`](parkourgym-server/README.md) runs the local Paper gym, isolated test worlds, and Gym control API.
 - [`tas-client/`](tas-client/README.md) launches exact-version Minecraft clients for recording and playback.
 - [`testing/`](testing/README.md) coordinates persistent clients, automated runs, and comparisons.
 - [`workflows/`](workflows/README.md) documents source-based movement difference discovery before implementation and runtime validation.
 
-## How historical mechanics are implemented
+## Historical movement implementation model
 
-Each `@MovementChange(emulates = ...)` class implements one mechanic hook and is registered through the Fabric `legacyparkourcompat:movement-change` entrypoint. Selecting version *V* applies changes that emulate *V* or a later version; where a mechanic changed several times, the closest applicable delta wins. Mixins intercept general Minecraft behavior and call `MovementRuntime`, leaving current vanilla movement intact when no historical change applies.
+The retained framework supports `@MovementChange(emulates = ...)` classes registered through the Fabric `legacyparkourcompat:movement-change` entrypoint. In a populated implementation, selecting version *V* applies changes that emulate *V* or a later version; where a mechanic changed several times, the closest applicable delta wins. General mixins can dispatch those changes while preserving the vanilla path when emulation is inactive.
+
+The current clean baseline retains the version, config, network, UI, API, and resolver foundations, but intentionally contains no historical movement implementations or movement mixins. Version selection therefore leaves movement at the current Minecraft behavior until a fresh implementation campaign adds new deltas and hooks. Previous implementation coverage claims are invalidated; every in-scope, source-confirmed catalog delta requires fresh implementation.
 
 The primary reference for exact operation order and floating-point behavior is decompiled source from the target Minecraft release. See [buildSrc](buildSrc/README.md) for the decompilation task and output layout. The [MCPK version differences](https://www.mcpk.wiki/wiki/Version_Differences) and [Minecraft Java Edition history](https://minecraft.wiki/w/Java_Edition_version_history) are secondary references.
 

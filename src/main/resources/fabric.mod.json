@@ -24,44 +24,11 @@
     "server": [
       "me.wolfii.legacyparkourcompat.LegacyParkourCompatServer"
     ],
-    "legacyparkourcompat:movement-change": [
-      "me.wolfii.legacyparkourcompat.change.v1_8.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_10.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_10_1.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_11.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_11_1.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_12.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_13.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_14.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_15.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_16_2.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_17.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_18.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_19.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_19_4.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_20.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_20_5.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_21.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_21_4.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_21_5.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_21_11.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v26_1.MovementChanges"
-    ],
     "modmenu": [
       "me.wolfii.legacyparkourcompat.config.ModMenuIntegration"
-    ]
+    ],
+    "legacyparkourcompat:movement-change": []
   },
-  "mixins": [
-    "legacyparkourcompat.mixins.json",
-    {
-      "config": "legacyparkourcompat.client.mixins.json",
-      "environment": "client"
-    },
-    {
-      "config": "legacyparkourcompat.server.mixins.json",
-      "environment": "server"
-    }
-  ],
   "depends": {
     "fabricloader": ">=0.19.0",
     "fabric-api": "*",
