@@ -9,6 +9,7 @@ public final class JumpMovementChanges implements MovementChangeProvider {
     @Override
     public void register(MovementChangeRegistry registry) {
         registry.register(new FloatJumpBoostAddition());
+        registry.register(new me.wolfii.legacyparkourcompat.change.v1_17.FloatJumpBoostAddition());
         registry.register(new DoubleJumpBoostAddition());
     }
 }
