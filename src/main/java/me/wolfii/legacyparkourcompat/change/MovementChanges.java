@@ -26,5 +26,12 @@ public final class MovementChanges implements MovementChangeProvider {
         registry.register(new GroundGlideMovement_1_12());
         registry.register(new Pre116MovementChanges());
         registry.register(new Pre1162MovementChanges());
+        registry.register(new FlightActivationJump_1_20_2());
+        registry.register(new PassengerCrouch_1_20());
+        registry.register(new AttributeGravity_1_20_2());
+        registry.register(new JumpBoostPrecision_1_19_4());
+        registry.register(new EffectFallDistanceReset_1_19_4());
+        registry.register(new EffectFallDistanceReset_1_20());
+        registry.register(new EffectFallDistanceReset_1_20_2());
     }
 }
