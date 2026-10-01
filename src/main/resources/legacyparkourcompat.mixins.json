@@ -11,7 +11,8 @@
     "EntityMovementMixin",
     "FarmlandBlockMixin",
     "PlayerSneakEdgeMixin",
-    "ServerPlayerExhaustionMixin"
+    "ServerPlayerExhaustionMixin",
+    "EntityMixin"
   ],
   "client": [
     "AbstractBoatMixin",
