@@ -1,0 +1,20 @@
+package me.wolfii.legacyparkourcompat.change;
+
+import me.wolfii.legacyparkourcompat.change.v1_10.FarmlandConversionV1_10;
+import me.wolfii.legacyparkourcompat.change.v1_10.PlayerExhaustionV1_10;
+import me.wolfii.legacyparkourcompat.change.v1_10.SneakEdgeDistanceV1_10;
+import me.wolfii.legacyparkourcompat.change.v1_10.SneakEdgeMoverV1_10;
+import me.wolfii.legacyparkourcompat.change.v1_11.PistonMovementV1_11;
+import me.wolfii.legacyparkourcompat.mechanic.MovementChangeProvider;
+import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
+
+public final class MovementChanges implements MovementChangeProvider {
+    @Override
+    public void register(MovementChangeRegistry registry) {
+        registry.register(new SneakEdgeDistanceV1_10());
+        registry.register(new SneakEdgeMoverV1_10());
+        registry.register(new FarmlandConversionV1_10());
+        registry.register(new PlayerExhaustionV1_10());
+        registry.register(new PistonMovementV1_11());
+    }
+}
