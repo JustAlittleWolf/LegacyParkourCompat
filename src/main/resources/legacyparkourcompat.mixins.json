@@ -12,7 +12,10 @@
     "FarmlandBlockMixin",
     "PlayerSneakEdgeMixin",
     "ServerPlayerExhaustionMixin",
-    "EntityMixin"
+    "EntityMixin",
+    "LivingEntityDismountMixin",
+    "LivingEntityTravelMixin",
+    "accessor.EntityInvoker"
   ],
   "client": [
     "AbstractBoatMixin",
