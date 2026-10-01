@@ -1,0 +1,100 @@
+{
+  "integrationBranch": "feat/major-movement-integration",
+  "baseCommit": "38c4330",
+  "model": "gpt-6-luna",
+  "reasoning": "high",
+  "scope": "Implement existing discovery deltas only; broader and minor discovery deferred",
+  "sharedSourceRoot": "D:/Javastuff/LegacyParkourCompat/decompiled_minecraft",
+  "sharedCacheRoot": "D:/Javastuff/LegacyParkourCompat/build/minecraft-decompile-cache",
+  "chats": [
+    {
+      "id": "01a0f632-e7d6-7063-9839-79237a24c043",
+      "cwd": "C:\\Users\\Wolfi\\.codex\\worktrees\\df7f\\LegacyParkourCompat",
+      "role": "preparation"
+    },
+    {
+      "id": "01a0f633-9d00-72a0-ac28-4c85fb2cdb93",
+      "cwd": "C:\\Users\\Wolfi\\.codex\\worktrees\\a0d4\\LegacyParkourCompat",
+      "a": "1.8.9",
+      "b": "1.9.4"
+    },
+    {
+      "id": "01a0f633-ae16-7420-ae49-d0e63623326b",
+      "cwd": "C:\\Users\\Wolfi\\.codex\\worktrees\\7372\\LegacyParkourCompat",
+      "a": "1.9.4",
+      "b": "1.10.2"
+    },
+    {
+      "id": "01a0f633-bea4-7962-9d5d-669c32cf12ae",
+      "cwd": "C:\\Users\\Wolfi\\.codex\\worktrees\\b224\\LegacyParkourCompat",
+      "a": "1.10.2",
+      "b": "1.11.2"
+    },
+    {
+      "id": "01a0f633-d230-70e2-8b98-0bd5c6db32de",
+      "cwd": "C:\\Users\\Wolfi\\.codex\\worktrees\\93e5\\LegacyParkourCompat",
+      "a": "1.11.2",
+      "b": "1.12.2"
+    },
+    {
+      "id": "01a0f633-e0f6-7941-9412-39248e01d9c3",
+      "cwd": "C:\\Users\\Wolfi\\.codex\\worktrees\\858c\\LegacyParkourCompat",
+      "a": "1.12.2",
+      "b": "1.13.2"
+    },
+    {
+      "id": "01a0f633-f30c-7723-a08d-b5a7ca9ff6e3",
+      "cwd": "C:\\Users\\Wolfi\\.codex\\worktrees\\3654\\LegacyParkourCompat",
+      "a": "1.13.2",
+      "b": "1.14.4"
+    },
+    {
+      "id": "01a0f634-010c-75e1-9299-2507e9435f64",
+      "cwd": "C:\\Users\\Wolfi\\.codex\\worktrees\\32c0\\LegacyParkourCompat",
+      "a": "1.14.4",
+      "b": "1.15.2"
+    },
+    {
+      "id": "01a0f634-8501-79f1-a54e-bc3538e71640",
+      "cwd": "C:\\Users\\Wolfi\\.codex\\worktrees\\17dc\\LegacyParkourCompat",
+      "a": "1.15.2",
+      "b": "1.16.5"
+    },
+    {
+      "id": "01a0f634-9920-74f3-93c2-5090d6a58c62",
+      "cwd": "C:\\Users\\Wolfi\\.codex\\worktrees\\c2a1\\LegacyParkourCompat",
+      "a": "1.16.5",
+      "b": "1.17.1"
+    },
+    {
+      "id": "01a0f634-a860-7ff3-9e66-062522c03a03",
+      "cwd": "C:\\Users\\Wolfi\\.codex\\worktrees\\22af\\LegacyParkourCompat",
+      "a": "1.17.1",
+      "b": "1.18.2"
+    },
+    {
+      "id": "01a0f634-bb42-7300-b59a-97934ddde2d1",
+      "cwd": "C:\\Users\\Wolfi\\.codex\\worktrees\\2389\\LegacyParkourCompat",
+      "a": "1.18.2",
+      "b": "1.19.4"
+    },
+    {
+      "id": "01a0f634-caf3-7ee0-a18d-a9bb35dc9586",
+      "cwd": "C:\\Users\\Wolfi\\.codex\\worktrees\\1528\\LegacyParkourCompat",
+      "a": "1.19.4",
+      "b": "1.20.6"
+    },
+    {
+      "id": "01a0f634-dcca-7ff1-9374-be07b0a60d21",
+      "cwd": "C:\\Users\\Wolfi\\.codex\\worktrees\\560c\\LegacyParkourCompat",
+      "a": "1.20.6",
+      "b": "1.21.11"
+    },
+    {
+      "id": "01a0f634-eb60-72e0-b597-5a03fae89508",
+      "cwd": "C:\\Users\\Wolfi\\.codex\\worktrees\\646d\\LegacyParkourCompat",
+      "a": "1.21.11",
+      "b": "26.1.2"
+    }
+  ]
+}
