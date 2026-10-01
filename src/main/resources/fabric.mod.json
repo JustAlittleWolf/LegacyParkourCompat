@@ -27,8 +27,13 @@
     "modmenu": [
       "me.wolfii.legacyparkourcompat.config.ModMenuIntegration"
     ],
-    "legacyparkourcompat:movement-change": []
+    "legacyparkourcompat:movement-change": [
+      "me.wolfii.legacyparkourcompat.change.MovementChanges"
+    ]
   },
+  "mixins": [
+    "legacyparkourcompat.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.19.0",
     "fabric-api": "*",
