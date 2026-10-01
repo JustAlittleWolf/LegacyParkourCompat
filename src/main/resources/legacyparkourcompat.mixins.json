@@ -28,7 +28,8 @@
     "EntityJumpFactorAccess",
     "LivingEntityBehaviorMixin",
     "LivingEntityMovementMixin",
-    "PlayerEdgeBackoffMixin"
+    "PlayerEdgeBackoffMixin",
+    "EntityCollisionMixin"
   ],
   "client": [
     "AbstractBoatMixin",

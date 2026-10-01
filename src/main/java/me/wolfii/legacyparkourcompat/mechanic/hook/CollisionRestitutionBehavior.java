@@ -9,8 +9,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.Optional;
+
 /**
- * Historical post-collision velocity restitution (slime/bed bounce in 26.2+ lives here).
+ * Historical entity-wide velocity response after collision. Block-specific
+ * vertical landing behavior is resolved separately through {@link BlockLandingBehavior}.
  */
 @MechanicType("entity.restitution")
 public interface CollisionRestitutionBehavior extends VersionedMechanic {
@@ -20,6 +23,7 @@ public interface CollisionRestitutionBehavior extends VersionedMechanic {
         boolean xCollision,
         boolean zCollision,
         Vec3 movement,
+        Optional<BlockLandingBehavior> blockLanding,
         VanillaCall vanilla
     );
 

@@ -45,7 +45,8 @@
       "me.wolfii.legacyparkourcompat.change.v1_18.MovementChanges",
       "me.wolfii.legacyparkourcompat.change.v1_18_2.MovementChanges",
       "me.wolfii.legacyparkourcompat.change.v1_19.MovementChanges",
-      "me.wolfii.legacyparkourcompat.change.v1_19_4.MovementChanges"
+      "me.wolfii.legacyparkourcompat.change.v1_19_4.MovementChanges",
+      "me.wolfii.legacyparkourcompat.change.v26_1.MovementChanges"
     ]
   },
   "depends": {
