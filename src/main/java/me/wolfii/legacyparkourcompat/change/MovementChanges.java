@@ -8,6 +8,12 @@ import me.wolfii.legacyparkourcompat.change.v1_10.SneakEdgeMoverV1_10;
 import me.wolfii.legacyparkourcompat.change.v1_11.PistonMovementV1_11;
 import me.wolfii.legacyparkourcompat.change.v1_15_2.Pre116MovementChanges;
 import me.wolfii.legacyparkourcompat.change.v1_16.Pre1162MovementChanges;
+import me.wolfii.legacyparkourcompat.change.v1_21.GroundJumpVerticalVelocity;
+import me.wolfii.legacyparkourcompat.change.v1_21_4.EdgeBackoffProbeBounds;
+import me.wolfii.legacyparkourcompat.change.v1_21_4.KeyboardDiagonalInput;
+import me.wolfii.legacyparkourcompat.change.v1_21_4.PowderSnowClimbBoost;
+import me.wolfii.legacyparkourcompat.change.v1_21_4.ShallowWaterSprintEligibility;
+import me.wolfii.legacyparkourcompat.change.v1_21_5.DoubleTapSprintWindow;
 import me.wolfii.legacyparkourcompat.change.v1_9.NoAutoJump;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChangeProvider;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
@@ -33,5 +39,11 @@ public final class MovementChanges implements MovementChangeProvider {
         registry.register(new EffectFallDistanceReset_1_19_4());
         registry.register(new EffectFallDistanceReset_1_20());
         registry.register(new EffectFallDistanceReset_1_20_2());
+        registry.register(new DoubleTapSprintWindow());
+        registry.register(new ShallowWaterSprintEligibility());
+        registry.register(new KeyboardDiagonalInput());
+        registry.register(new GroundJumpVerticalVelocity());
+        registry.register(new EdgeBackoffProbeBounds());
+        registry.register(new PowderSnowClimbBoost());
     }
 }

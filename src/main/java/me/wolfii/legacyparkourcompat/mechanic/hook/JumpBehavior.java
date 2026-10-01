@@ -17,4 +17,13 @@ public interface JumpBehavior extends VersionedMechanic {
     default double jumpPower(LivingEntity entity, double vanilla) {
         return vanilla;
     }
+
+    default double jumpVerticalVelocity(
+        LivingEntity entity,
+        double jumpPower,
+        double currentVerticalVelocity,
+        double vanilla
+    ) {
+        return vanilla;
+    }
 }
