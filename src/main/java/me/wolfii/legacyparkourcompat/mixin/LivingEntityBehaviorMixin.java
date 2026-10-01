@@ -36,7 +36,14 @@ abstract class LivingEntityBehaviorMixin {
             .ifPresent(behavior -> behavior.beforeTravel(entity));
     }
 
-    @Inject(method = "travelInAir", at = @At("HEAD"), remap = true)
+    @Inject(
+        method = "travelInAir",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/Entity;setDeltaMovement(DDD)V",
+            shift = At.Shift.BEFORE
+        )
+    )
     private void legacyparkourcompat$historicalLevitationReset(Vec3 input, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity)(Object)this;
         MovementRuntime.find(EffectFallDistanceResetBehavior.class, entity)
