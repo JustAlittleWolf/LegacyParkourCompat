@@ -1,5 +1,6 @@
 package me.wolfii.legacyparkourcompat.mechanic.hook;
 
+import java.util.Optional;
 import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
@@ -9,7 +10,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Optional;
+
 
 /**
  * Historical entity-wide velocity response after collision. Block-specific
@@ -22,8 +23,10 @@ public interface CollisionRestitutionBehavior extends VersionedMechanic {
         BlockState effectState,
         boolean xCollision,
         boolean zCollision,
+        boolean yCollision,
         Vec3 movement,
         Optional<BlockLandingBehavior> blockLanding,
+        Optional<BlockBounceBehavior> bounce,
         VanillaCall vanilla
     );
 

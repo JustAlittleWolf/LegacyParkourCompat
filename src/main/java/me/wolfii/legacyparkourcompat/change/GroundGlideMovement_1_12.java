@@ -9,7 +9,7 @@ import net.minecraft.world.phys.Vec3;
 
 /** One-ULP ground acceleration and the vertical-pitch Elytra lookup quirk. */
 @MovementChange(emulates = ParkourVersion.V1_12)
-public final class GroundGlideMovement_1_12 implements GroundSpeedBehavior, FallFlyingLookBehavior {
+public final class GroundGlideMovement_1_12 implements FallFlyingLookBehavior {
     private static final float[] LEGACY_SINE_TABLE = new float[65536];
 
     static {
@@ -18,15 +18,7 @@ public final class GroundGlideMovement_1_12 implements GroundSpeedBehavior, Fall
         }
     }
 
-    @Override
-    public float speed(LivingEntity entity, float blockFriction, float vanilla) {
-        if (!entity.onGround()) {
-            return vanilla;
-        }
-        float friction = blockFriction * 0.91F;
-        float acceleration = 0.16277136F / (friction * friction * friction);
-        return entity.getSpeed() * acceleration;
-    }
+
 
     @Override
     public Vec3 lookVector(LivingEntity entity, Vec3 vanilla) {

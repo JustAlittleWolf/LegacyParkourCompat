@@ -9,4 +9,7 @@ public interface BoatRiderInputBehavior extends VersionedMechanic {
     float sideOnlyAcceleration(float vanilla, boolean left, boolean right, boolean forward, boolean backward);
 
     float sneakingAcceleration(float vanilla, boolean sneaking);
+    default boolean appliesToBoat(net.minecraft.world.entity.Entity boat, me.wolfii.legacyparkourcompat.api.ParkourVersion selected) {
+        return true;
+    }
 }

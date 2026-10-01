@@ -8,4 +8,7 @@ import net.minecraft.world.entity.player.Player;
 @MechanicType("player.fall_flying.fall_distance")
 public interface GlideFallDistanceBehavior extends VersionedMechanic {
     void beforeFallFlyingTravel(Player player);
+    default boolean appliesToVersion(me.wolfii.legacyparkourcompat.api.ParkourVersion selected) {
+        return selected.newerThanOrEqual(me.wolfii.legacyparkourcompat.api.ParkourVersion.V1_9);
+    }
 }

@@ -9,4 +9,7 @@ import net.minecraft.world.phys.Vec3;
 @MechanicType("player.fall_flying.look")
 public interface FallFlyingLookBehavior extends VersionedMechanic {
     Vec3 lookVector(LivingEntity entity, Vec3 vanilla);
+    default boolean appliesToVersion(me.wolfii.legacyparkourcompat.api.ParkourVersion selected) {
+        return selected.newerThanOrEqual(me.wolfii.legacyparkourcompat.api.ParkourVersion.V1_9);
+    }
 }

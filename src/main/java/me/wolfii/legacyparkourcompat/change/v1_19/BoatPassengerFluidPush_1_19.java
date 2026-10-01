@@ -7,10 +7,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 
+
 @MovementChange(emulates = ParkourVersion.V1_19)
 public final class BoatPassengerFluidPush_1_19 implements BoatPassengerFluidPushBehavior {
     @Override
-    public boolean skipWaterCurrent(Player player, Entity vehicle) {
-        return !player.getAbilities().flying && vehicle instanceof AbstractBoat boat && !boat.isUnderWater();
+    public boolean skipWaterCurrent(Player player, Entity vehicle, ParkourVersion selected) {
+        return !player.getAbilities().flying && vehicle instanceof AbstractBoat boat && !boat.isUnderWater()
+            && me.wolfii.legacyparkourcompat.change.common.HistoricalRideables.contains(vehicle, selected);
     }
 }

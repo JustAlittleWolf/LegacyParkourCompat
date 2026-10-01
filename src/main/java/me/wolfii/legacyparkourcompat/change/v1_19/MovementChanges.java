@@ -14,8 +14,7 @@ public final class MovementChanges implements MovementChangeProvider {
         registry.register(new GlideFallDistance_1_19());
         registry.register(new InsideBlockContact_1_19());
         registry.register(new BoatPassengerFluidPush_1_19());
-        registry.register(new SprintEligibility_1_19());
-        registry.register(AirSpeedBehavior.class, ParkourVersion.V1_19, new AirSpeed_1_18_2());
-        registry.register(AutoJumpBehavior.class, ParkourVersion.V1_19, new AutoJumpProbe_1_18_2());
+        registry.register(new me.wolfii.legacyparkourcompat.change.v1_19.SprintEligibility_1_19_SprintFallFlyingGate());
+        registry.register(new me.wolfii.legacyparkourcompat.change.v1_19.SprintEligibility_1_19_VehicleSprint());
     }
 }

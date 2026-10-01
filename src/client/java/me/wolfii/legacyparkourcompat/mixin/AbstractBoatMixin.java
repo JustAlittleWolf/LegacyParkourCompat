@@ -25,6 +25,7 @@ abstract class AbstractBoatMixin {
             return vanilla;
         }
         return MovementRuntime.find(BoatRiderInputBehavior.class, rider)
+            .filter(behavior -> behavior.appliesToBoat((AbstractBoat)(Object)this, MovementRuntime.profile(rider).target()))
             .map(behavior -> behavior.sideOnlyAcceleration(vanilla, this.inputLeft, this.inputRight, this.inputUp, this.inputDown))
             .orElse(vanilla);
     }
@@ -45,6 +46,7 @@ abstract class AbstractBoatMixin {
             return vanilla;
         }
         return MovementRuntime.find(BoatRiderInputBehavior.class, rider)
+            .filter(behavior -> behavior.appliesToBoat((AbstractBoat)(Object)this, MovementRuntime.profile(rider).target()))
             .map(behavior -> behavior.sneakingAcceleration(vanilla, rider.isShiftKeyDown()))
             .orElse(vanilla);
     }

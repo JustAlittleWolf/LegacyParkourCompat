@@ -8,34 +8,21 @@
     "PlayerMixin",
     "BlockBehaviourMixin",
     "BlockPushEntitiesMixin",
-    "EntityMovementMixin",
     "FarmlandBlockMixin",
-    "PlayerSneakEdgeMixin",
     "ServerPlayerExhaustionMixin",
     "EntityMixin",
-    "LivingEntityDismountMixin",
-    "LivingEntityTravelMixin",
     "accessor.EntityInvoker",
     "EntityFluidCurrentMixin",
     "EntityFluidInteractionMixin",
-    "LivingEntityFluidMixin",
     "PlayerMovementAccessor",
-    "PlayerMovementMixin",
     "EntityJumpAccessor",
-    "LivingEntityJumpMixin",
-    "LivingEntityElytraLiftMixin",
-    "EntityGravityMixin",
-    "EntityJumpFactorAccess",
-    "LivingEntityBehaviorMixin",
-    "LivingEntityMovementMixin",
-    "PlayerEdgeBackoffMixin",
-    "EntityCollisionMixin"
+    "EntityJumpFactorAccess"
   ],
   "client": [
     "AbstractBoatMixin",
     "LocalPlayerMixin",
     "LocalPlayerSprintMixin",
-    "LocalPlayerSprintCollisionMixin"
+    "client.LocalPlayerAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -13,7 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
 @MovementChange(emulates = ParkourVersion.V1_16)
-public final class Pre1162MovementChanges implements ClientUnstuckBehavior, SneakEdgeBehavior {
+public final class Pre1162MovementChanges_ClientUnstuck implements ClientUnstuckBehavior {
     @Override
     public void moveTowardsClosestSpace(Player player, double x, double z, VanillaCall vanilla) {
         vanilla.run();
@@ -31,42 +31,5 @@ public final class Pre1162MovementChanges implements ClientUnstuckBehavior, Snea
             }
         }
         return false;
-    }
-
-    @Override
-    public Vec3 maybeBackOffFromEdge(
-        Player player,
-        Vec3 delta,
-        MoverType moverType,
-        boolean stayingOnGroundSurface
-    ) {
-        if ((moverType != MoverType.SELF && moverType != MoverType.PLAYER)
-            || !player.onGround()
-            || !stayingOnGroundSurface) {
-            return delta;
-        }
-
-        double x = delta.x;
-        double z = delta.z;
-        double downStep = -player.maxUpStep();
-        while (x != 0.0D && player.level().noCollision(player, player.getBoundingBox().move(x, downStep, 0.0D))) {
-            x = reduceTowardZero(x);
-        }
-        while (z != 0.0D && player.level().noCollision(player, player.getBoundingBox().move(0.0D, downStep, z))) {
-            z = reduceTowardZero(z);
-        }
-        while (x != 0.0D && z != 0.0D
-            && player.level().noCollision(player, player.getBoundingBox().move(x, downStep, z))) {
-            x = reduceTowardZero(x);
-            z = reduceTowardZero(z);
-        }
-        return new Vec3(x, delta.y, z);
-    }
-
-    private static double reduceTowardZero(double value) {
-        if (value < 0.05D && value >= -0.05D) {
-            return 0.0D;
-        }
-        return value > 0.0D ? value - 0.05D : value + 0.05D;
     }
 }

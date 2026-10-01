@@ -6,6 +6,7 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
+
 /**
  * Historical sneak-edge algorithm ({@code Player#maybeBackOffFromEdge}).
  * The prevented drop distance is {@link SneakEdgeDistanceBehavior}.
@@ -20,7 +21,8 @@ public interface SneakEdgeBehavior extends VersionedMechanic {
         Player player,
         Vec3 delta,
         MoverType moverType,
-        boolean stayingOnGroundSurface
+        boolean stayingOnGroundSurface,
+        float probeDistance
     );
 
     default boolean isAboveGround(Player player, float maxDownStep, boolean vanilla) {

@@ -88,8 +88,8 @@ public final class PortalDismountChange implements PortalDismountBehavior {
             armOffset = (float)(Math.PI / 2) * (passenger.getMainArm() == HumanoidArm.RIGHT ? -1 : 1);
         }
 
-        float sin = -Mth.sin(-passenger.getYRot() * (float)(Math.PI / 180.0) - (float)Math.PI + armOffset);
-        float cos = -Mth.cos(-passenger.getYRot() * (float)(Math.PI / 180.0) - (float)Math.PI + armOffset);
+        float sin = -me.wolfii.legacyparkourcompat.change.common.LegacyTrig.sin(-passenger.getYRot() * (float)(Math.PI / 180.0) - (float)Math.PI + armOffset);
+        float cos = -me.wolfii.legacyparkourcompat.change.common.LegacyTrig.cos(-passenger.getYRot() * (float)(Math.PI / 180.0) - (float)Math.PI + armOffset);
         double scale = Math.abs(sin) > Math.abs(cos) ? distance / Math.abs(sin) : distance / Math.abs(cos);
         double x = passenger.getX() + sin * scale;
         double z = passenger.getZ() + cos * scale;

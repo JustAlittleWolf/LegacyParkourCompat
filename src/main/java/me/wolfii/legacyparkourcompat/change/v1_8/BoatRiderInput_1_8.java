@@ -15,4 +15,8 @@ public final class BoatRiderInput_1_8 implements BoatRiderInputBehavior {
     public float sneakingAcceleration(float vanilla, boolean sneaking) {
         return sneaking ? vanilla * 0.3F : vanilla;
     }
+    @Override
+    public boolean appliesToBoat(net.minecraft.world.entity.Entity boat, ParkourVersion selected) {
+        return me.wolfii.legacyparkourcompat.change.common.HistoricalRideables.contains(boat, selected);
+    }
 }

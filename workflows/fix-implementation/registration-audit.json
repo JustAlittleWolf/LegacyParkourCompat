@@ -1,0 +1,3630 @@
+{
+  "kind": "static registration inventory, not runtime execution",
+  "registrations": [
+    [
+      "player.sprint.duration",
+      "",
+      "V1_8",
+      "SprintDuration_1_8"
+    ],
+    [
+      "player.input.horizontal",
+      "",
+      "V1_8",
+      "CreativeFlightSneakInput_1_8"
+    ],
+    [
+      "player.movement_chunk_lookup",
+      "",
+      "V1_8",
+      "TruncatedMovementChunkLookup_1_8"
+    ],
+    [
+      "player.flight_fall_distance",
+      "",
+      "V1_8",
+      "CreativeFlightFallDistance_1_8"
+    ],
+    [
+      "player.natural_regeneration",
+      "",
+      "V1_8",
+      "NaturalRegeneration_1_8"
+    ],
+    [
+      "player.boat_rider_input",
+      "",
+      "V1_8",
+      "BoatRiderInput_1_8"
+    ],
+    [
+      "player.rideable_jump",
+      "",
+      "V1_8",
+      "RideableJumpCharge_1_8"
+    ],
+    [
+      "player.auto_jump",
+      "",
+      "V1_9",
+      "NoAutoJump"
+    ],
+    [
+      "player.input.sneak-slowdown",
+      "",
+      "V1_13",
+      "SneakInputSlowdown_1_13"
+    ],
+    [
+      "block.collision",
+      "minecraft:farmland",
+      "V1_10",
+      "FarmlandFullCollision"
+    ],
+    [
+      "player.sneak.edge.distance",
+      "",
+      "V1_10_1",
+      "SneakEdgeDistanceV1_10"
+    ],
+    [
+      "player.sneak.edge.mover",
+      "",
+      "V1_10_1",
+      "SneakEdgeMoverV1_10"
+    ],
+    [
+      "player.farmland.conversion_push",
+      "",
+      "V1_10_1",
+      "FarmlandConversionV1_10"
+    ],
+    [
+      "player.exhaustion",
+      "",
+      "V1_10_1",
+      "PlayerExhaustionV1_10"
+    ],
+    [
+      "player.piston.movement",
+      "",
+      "V1_11",
+      "PistonMovementV1_11"
+    ],
+    [
+      "player.jump.water",
+      "",
+      "V1_12",
+      "WaterMovement_1_12_WaterJump"
+    ],
+    [
+      "player.water.sneak",
+      "",
+      "V1_12",
+      "WaterMovement_1_12_WaterSneak"
+    ],
+    [
+      "player.travel.water",
+      "",
+      "V1_12",
+      "WaterMovement_1_12_WaterTravel"
+    ],
+    [
+      "player.swim",
+      "",
+      "V1_12",
+      "WaterMovement_1_12_Swimming"
+    ],
+    [
+      "player.sprint.allowShallowWaterSprint",
+      "",
+      "V1_12",
+      "WaterMovement_1_12_WaterSprintGate"
+    ],
+    [
+      "player.dimensions",
+      "",
+      "V1_12",
+      "WaterMovement_1_12_PlayerDimensions"
+    ],
+    [
+      "player.fall_flying.look",
+      "",
+      "V1_12",
+      "GroundGlideMovement_1_12"
+    ],
+    [
+      "player.ground.speed",
+      "",
+      "V1_12",
+      "GroundAcceleration_1_12"
+    ],
+    [
+      "player.sprint.trigger",
+      "",
+      "V1_15_2",
+      "Pre116MovementChanges_SprintTrigger"
+    ],
+    [
+      "player.water.descent",
+      "",
+      "V1_15_2",
+      "Pre116MovementChanges_WaterDescent"
+    ],
+    [
+      "player.jump.fluid",
+      "",
+      "V1_15_2",
+      "Pre116MovementChanges_FluidJump"
+    ],
+    [
+      "player.travel.lava",
+      "",
+      "V1_15_2",
+      "Pre116MovementChanges_LavaTravel"
+    ],
+    [
+      "entity.fluid.current.minimum",
+      "",
+      "V1_15_2",
+      "Pre116MovementChanges_FluidCurrentMinimum"
+    ],
+    [
+      "entity.fluid.lava.current",
+      "",
+      "V1_15_2",
+      "Pre116MovementChanges_LavaCurrent"
+    ],
+    [
+      "player.client_unstuck",
+      "",
+      "V1_16",
+      "Pre1162MovementChanges_ClientUnstuck"
+    ],
+    [
+      "player.sneak.edge",
+      "",
+      "V1_16",
+      "Pre1162MovementChanges_SneakEdge"
+    ],
+    [
+      "player.flight.activation_jump",
+      "",
+      "V1_20_2",
+      "FlightActivationJump_1_20_2"
+    ],
+    [
+      "player.crouch.passenger",
+      "",
+      "V1_20",
+      "PassengerCrouch_1_20"
+    ],
+    [
+      "player.gravity",
+      "",
+      "V1_20_2",
+      "AttributeGravity_1_20_2"
+    ],
+    [
+      "player.jump.sprint_impulse",
+      "",
+      "V1_19_4",
+      "JumpBoostPrecision_1_19_4"
+    ],
+    [
+      "player.effect_fall_distance_reset",
+      "",
+      "V1_19_4",
+      "EffectFallDistanceReset_1_19_4"
+    ],
+    [
+      "player.effect_fall_distance_reset",
+      "",
+      "V1_20",
+      "EffectFallDistanceReset_1_20"
+    ],
+    [
+      "player.effect_fall_distance_reset",
+      "",
+      "V1_20_2",
+      "EffectFallDistanceReset_1_20_2"
+    ],
+    [
+      "player.sprint.window",
+      "",
+      "V1_21_5",
+      "DoubleTapSprintWindow"
+    ],
+    [
+      "player.sprint.isInShallowWaterForSprintEligibility",
+      "",
+      "V1_21_4",
+      "ShallowWaterSprintEligibility"
+    ],
+    [
+      "player.input.keyboard_diagonal",
+      "",
+      "V1_21_4",
+      "KeyboardDiagonalInput"
+    ],
+    [
+      "player.jump.vertical_velocity",
+      "",
+      "V1_21",
+      "GroundJumpVerticalVelocity"
+    ],
+    [
+      "player.sneak.probe",
+      "",
+      "V1_21_4",
+      "EdgeBackoffProbeBounds"
+    ],
+    [
+      "player.climb.powder_snow",
+      "",
+      "V1_21_4",
+      "PowderSnowClimbBoost"
+    ],
+    [
+      "player.fall_flying.look",
+      "",
+      "V1_11_2",
+      "FallFlyingLookAngle_1_11_2"
+    ],
+    [
+      "block.bounce",
+      "minecraft:red_bed",
+      "V1_11_2",
+      "BedBounce_1_11_2"
+    ],
+    [
+      "player.dismount_position",
+      "",
+      "V1_11_2",
+      "DismountPosition_1_11_2"
+    ],
+    [
+      "player.input.sneak-slowdown",
+      "",
+      "V1_14",
+      "SneakInputSlowdown_1_14"
+    ],
+    [
+      "entity.supporting_block",
+      "",
+      "V1_14",
+      "GroundFrictionSupportCellChange"
+    ],
+    [
+      "player.dismount.portal",
+      "",
+      "V1_14",
+      "PortalDismountChange"
+    ],
+    [
+      "block.soul_sand_speed",
+      "",
+      "V1_14",
+      "SoulSandOverlapChange"
+    ],
+    [
+      "player.jump.power",
+      "",
+      "V1_17",
+      "FloatJumpBoostAddition"
+    ],
+    [
+      "player.jump.power",
+      "",
+      "V1_19_4",
+      "DoubleJumpBoostAddition"
+    ],
+    [
+      "player.sprint.collision",
+      "",
+      "V1_17_1",
+      "SprintCollision_1_17_1"
+    ],
+    [
+      "player.travel.elytra_lift_force",
+      "",
+      "V1_18",
+      "ElytraLiftForce_1_18"
+    ],
+    [
+      "player.travel.elytra_lift_force",
+      "",
+      "V1_18_2",
+      "ElytraLiftForce_1_18_2"
+    ],
+    [
+      "player.fall_flying.fall_distance",
+      "",
+      "V1_18_2",
+      "GlideFallDistance_1_18_2"
+    ],
+    [
+      "player.air.speed",
+      "",
+      "V1_18_2",
+      "AirSpeed_1_18_2"
+    ],
+    [
+      "player.air.speed",
+      "",
+      "V1_19",
+      "AirSpeed_1_18_2"
+    ],
+    [
+      "player.inside_block_contact",
+      "",
+      "V1_18_2",
+      "InsideBlockContact_1_18_2"
+    ],
+    [
+      "player.sprint.fallFlyingForSprintGate",
+      "",
+      "V1_18_2",
+      "SprintEligibility_1_18_2_SprintFallFlyingGate"
+    ],
+    [
+      "player.sprint.vehicleCanSprint",
+      "",
+      "V1_18_2",
+      "SprintEligibility_1_18_2_VehicleSprint"
+    ],
+    [
+      "player.auto_jump",
+      "",
+      "V1_18_2",
+      "AutoJumpProbe_1_18_2"
+    ],
+    [
+      "player.auto_jump",
+      "",
+      "V1_19",
+      "AutoJumpProbe_1_18_2"
+    ],
+    [
+      "player.boat_fluid_push",
+      "",
+      "V1_18_2",
+      "BoatPassengerFluidPush_1_18_2"
+    ],
+    [
+      "player.fall_flying.fall_distance",
+      "",
+      "V1_19",
+      "GlideFallDistance_1_19"
+    ],
+    [
+      "player.inside_block_contact",
+      "",
+      "V1_19",
+      "InsideBlockContact_1_19"
+    ],
+    [
+      "player.boat_fluid_push",
+      "",
+      "V1_19",
+      "BoatPassengerFluidPush_1_19"
+    ],
+    [
+      "player.sprint.fallFlyingForSprintGate",
+      "",
+      "V1_19",
+      "SprintEligibility_1_19_SprintFallFlyingGate"
+    ],
+    [
+      "player.sprint.vehicleCanSprint",
+      "",
+      "V1_19",
+      "SprintEligibility_1_19_VehicleSprint"
+    ],
+    [
+      "player.fall_flying.fall_distance",
+      "",
+      "V1_19_4",
+      "GlideFallDistance_1_19"
+    ],
+    [
+      "player.inside_block_contact",
+      "",
+      "V1_19_4",
+      "InsideBlockContact_1_19"
+    ],
+    [
+      "player.boat_fluid_push",
+      "",
+      "V1_19_4",
+      "BoatPassengerFluidPush_1_19"
+    ],
+    [
+      "player.sprint.canStartSprinting",
+      "",
+      "V1_19_4",
+      "SprintEligibility_1_19_4"
+    ],
+    [
+      "entity.restitution",
+      "",
+      "V26_1",
+      "CollisionRestitution26_1"
+    ],
+    [
+      "block.landing",
+      "<each vanilla BedBlock/SlimeBlock>",
+      "V26_1",
+      "BlockLanding26_1"
+    ]
+  ],
+  "profiles": {
+    "V1_8": {
+      "player.sprint.duration": {
+        "emulates": "V1_8",
+        "implementation": "SprintDuration_1_8"
+      },
+      "player.input.horizontal": {
+        "emulates": "V1_8",
+        "implementation": "CreativeFlightSneakInput_1_8"
+      },
+      "player.movement_chunk_lookup": {
+        "emulates": "V1_8",
+        "implementation": "TruncatedMovementChunkLookup_1_8"
+      },
+      "player.flight_fall_distance": {
+        "emulates": "V1_8",
+        "implementation": "CreativeFlightFallDistance_1_8"
+      },
+      "player.natural_regeneration": {
+        "emulates": "V1_8",
+        "implementation": "NaturalRegeneration_1_8"
+      },
+      "player.boat_rider_input": {
+        "emulates": "V1_8",
+        "implementation": "BoatRiderInput_1_8"
+      },
+      "player.rideable_jump": {
+        "emulates": "V1_8",
+        "implementation": "RideableJumpCharge_1_8"
+      },
+      "player.auto_jump": {
+        "emulates": "V1_9",
+        "implementation": "NoAutoJump"
+      },
+      "player.input.sneak-slowdown": {
+        "emulates": "V1_13",
+        "implementation": "SneakInputSlowdown_1_13"
+      },
+      "block.collision:minecraft:farmland": {
+        "emulates": "V1_10",
+        "implementation": "FarmlandFullCollision"
+      },
+      "player.sneak.edge.distance": {
+        "emulates": "V1_10_1",
+        "implementation": "SneakEdgeDistanceV1_10"
+      },
+      "player.sneak.edge.mover": {
+        "emulates": "V1_10_1",
+        "implementation": "SneakEdgeMoverV1_10"
+      },
+      "player.farmland.conversion_push": {
+        "emulates": "V1_10_1",
+        "implementation": "FarmlandConversionV1_10"
+      },
+      "player.exhaustion": {
+        "emulates": "V1_10_1",
+        "implementation": "PlayerExhaustionV1_10"
+      },
+      "player.piston.movement": {
+        "emulates": "V1_11",
+        "implementation": "PistonMovementV1_11"
+      },
+      "player.jump.water": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterJump"
+      },
+      "player.water.sneak": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterSneak"
+      },
+      "player.travel.water": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterTravel"
+      },
+      "player.swim": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_Swimming"
+      },
+      "player.sprint.allowShallowWaterSprint": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterSprintGate"
+      },
+      "player.dimensions": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_PlayerDimensions"
+      },
+      "player.fall_flying.look": {
+        "emulates": "V1_11_2",
+        "implementation": "FallFlyingLookAngle_1_11_2"
+      },
+      "player.ground.speed": {
+        "emulates": "V1_12",
+        "implementation": "GroundAcceleration_1_12"
+      },
+      "player.sprint.trigger": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_SprintTrigger"
+      },
+      "player.water.descent": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_WaterDescent"
+      },
+      "player.jump.fluid": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidJump"
+      },
+      "player.travel.lava": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaTravel"
+      },
+      "entity.fluid.current.minimum": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidCurrentMinimum"
+      },
+      "entity.fluid.lava.current": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaCurrent"
+      },
+      "player.client_unstuck": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_ClientUnstuck"
+      },
+      "player.sneak.edge": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_SneakEdge"
+      },
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.crouch.passenger": {
+        "emulates": "V1_20",
+        "implementation": "PassengerCrouch_1_20"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.jump.sprint_impulse": {
+        "emulates": "V1_19_4",
+        "implementation": "JumpBoostPrecision_1_19_4"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_19_4",
+        "implementation": "EffectFallDistanceReset_1_19_4"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "block.bounce:minecraft:red_bed": {
+        "emulates": "V1_11_2",
+        "implementation": "BedBounce_1_11_2"
+      },
+      "player.dismount_position": {
+        "emulates": "V1_11_2",
+        "implementation": "DismountPosition_1_11_2"
+      },
+      "entity.supporting_block": {
+        "emulates": "V1_14",
+        "implementation": "GroundFrictionSupportCellChange"
+      },
+      "player.dismount.portal": {
+        "emulates": "V1_14",
+        "implementation": "PortalDismountChange"
+      },
+      "block.soul_sand_speed": {
+        "emulates": "V1_14",
+        "implementation": "SoulSandOverlapChange"
+      },
+      "player.jump.power": {
+        "emulates": "V1_17",
+        "implementation": "FloatJumpBoostAddition"
+      },
+      "player.sprint.collision": {
+        "emulates": "V1_17_1",
+        "implementation": "SprintCollision_1_17_1"
+      },
+      "player.travel.elytra_lift_force": {
+        "emulates": "V1_18",
+        "implementation": "ElytraLiftForce_1_18"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_18_2",
+        "implementation": "GlideFallDistance_1_18_2"
+      },
+      "player.air.speed": {
+        "emulates": "V1_18_2",
+        "implementation": "AirSpeed_1_18_2"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_18_2",
+        "implementation": "InsideBlockContact_1_18_2"
+      },
+      "player.sprint.fallFlyingForSprintGate": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_SprintFallFlyingGate"
+      },
+      "player.sprint.vehicleCanSprint": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_VehicleSprint"
+      },
+      "player.boat_fluid_push": {
+        "emulates": "V1_18_2",
+        "implementation": "BoatPassengerFluidPush_1_18_2"
+      },
+      "player.sprint.canStartSprinting": {
+        "emulates": "V1_19_4",
+        "implementation": "SprintEligibility_1_19_4"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_9": {
+      "player.auto_jump": {
+        "emulates": "V1_9",
+        "implementation": "NoAutoJump"
+      },
+      "player.input.sneak-slowdown": {
+        "emulates": "V1_13",
+        "implementation": "SneakInputSlowdown_1_13"
+      },
+      "block.collision:minecraft:farmland": {
+        "emulates": "V1_10",
+        "implementation": "FarmlandFullCollision"
+      },
+      "player.sneak.edge.distance": {
+        "emulates": "V1_10_1",
+        "implementation": "SneakEdgeDistanceV1_10"
+      },
+      "player.sneak.edge.mover": {
+        "emulates": "V1_10_1",
+        "implementation": "SneakEdgeMoverV1_10"
+      },
+      "player.farmland.conversion_push": {
+        "emulates": "V1_10_1",
+        "implementation": "FarmlandConversionV1_10"
+      },
+      "player.exhaustion": {
+        "emulates": "V1_10_1",
+        "implementation": "PlayerExhaustionV1_10"
+      },
+      "player.piston.movement": {
+        "emulates": "V1_11",
+        "implementation": "PistonMovementV1_11"
+      },
+      "player.jump.water": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterJump"
+      },
+      "player.water.sneak": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterSneak"
+      },
+      "player.travel.water": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterTravel"
+      },
+      "player.swim": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_Swimming"
+      },
+      "player.sprint.allowShallowWaterSprint": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterSprintGate"
+      },
+      "player.dimensions": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_PlayerDimensions"
+      },
+      "player.fall_flying.look": {
+        "emulates": "V1_11_2",
+        "implementation": "FallFlyingLookAngle_1_11_2"
+      },
+      "player.ground.speed": {
+        "emulates": "V1_12",
+        "implementation": "GroundAcceleration_1_12"
+      },
+      "player.sprint.trigger": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_SprintTrigger"
+      },
+      "player.water.descent": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_WaterDescent"
+      },
+      "player.jump.fluid": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidJump"
+      },
+      "player.travel.lava": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaTravel"
+      },
+      "entity.fluid.current.minimum": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidCurrentMinimum"
+      },
+      "entity.fluid.lava.current": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaCurrent"
+      },
+      "player.client_unstuck": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_ClientUnstuck"
+      },
+      "player.sneak.edge": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_SneakEdge"
+      },
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.crouch.passenger": {
+        "emulates": "V1_20",
+        "implementation": "PassengerCrouch_1_20"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.jump.sprint_impulse": {
+        "emulates": "V1_19_4",
+        "implementation": "JumpBoostPrecision_1_19_4"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_19_4",
+        "implementation": "EffectFallDistanceReset_1_19_4"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "block.bounce:minecraft:red_bed": {
+        "emulates": "V1_11_2",
+        "implementation": "BedBounce_1_11_2"
+      },
+      "player.dismount_position": {
+        "emulates": "V1_11_2",
+        "implementation": "DismountPosition_1_11_2"
+      },
+      "entity.supporting_block": {
+        "emulates": "V1_14",
+        "implementation": "GroundFrictionSupportCellChange"
+      },
+      "player.dismount.portal": {
+        "emulates": "V1_14",
+        "implementation": "PortalDismountChange"
+      },
+      "block.soul_sand_speed": {
+        "emulates": "V1_14",
+        "implementation": "SoulSandOverlapChange"
+      },
+      "player.jump.power": {
+        "emulates": "V1_17",
+        "implementation": "FloatJumpBoostAddition"
+      },
+      "player.sprint.collision": {
+        "emulates": "V1_17_1",
+        "implementation": "SprintCollision_1_17_1"
+      },
+      "player.travel.elytra_lift_force": {
+        "emulates": "V1_18",
+        "implementation": "ElytraLiftForce_1_18"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_18_2",
+        "implementation": "GlideFallDistance_1_18_2"
+      },
+      "player.air.speed": {
+        "emulates": "V1_18_2",
+        "implementation": "AirSpeed_1_18_2"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_18_2",
+        "implementation": "InsideBlockContact_1_18_2"
+      },
+      "player.sprint.fallFlyingForSprintGate": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_SprintFallFlyingGate"
+      },
+      "player.sprint.vehicleCanSprint": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_VehicleSprint"
+      },
+      "player.boat_fluid_push": {
+        "emulates": "V1_18_2",
+        "implementation": "BoatPassengerFluidPush_1_18_2"
+      },
+      "player.sprint.canStartSprinting": {
+        "emulates": "V1_19_4",
+        "implementation": "SprintEligibility_1_19_4"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_10": {
+      "player.input.sneak-slowdown": {
+        "emulates": "V1_13",
+        "implementation": "SneakInputSlowdown_1_13"
+      },
+      "block.collision:minecraft:farmland": {
+        "emulates": "V1_10",
+        "implementation": "FarmlandFullCollision"
+      },
+      "player.sneak.edge.distance": {
+        "emulates": "V1_10_1",
+        "implementation": "SneakEdgeDistanceV1_10"
+      },
+      "player.sneak.edge.mover": {
+        "emulates": "V1_10_1",
+        "implementation": "SneakEdgeMoverV1_10"
+      },
+      "player.farmland.conversion_push": {
+        "emulates": "V1_10_1",
+        "implementation": "FarmlandConversionV1_10"
+      },
+      "player.exhaustion": {
+        "emulates": "V1_10_1",
+        "implementation": "PlayerExhaustionV1_10"
+      },
+      "player.piston.movement": {
+        "emulates": "V1_11",
+        "implementation": "PistonMovementV1_11"
+      },
+      "player.jump.water": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterJump"
+      },
+      "player.water.sneak": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterSneak"
+      },
+      "player.travel.water": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterTravel"
+      },
+      "player.swim": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_Swimming"
+      },
+      "player.sprint.allowShallowWaterSprint": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterSprintGate"
+      },
+      "player.dimensions": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_PlayerDimensions"
+      },
+      "player.fall_flying.look": {
+        "emulates": "V1_11_2",
+        "implementation": "FallFlyingLookAngle_1_11_2"
+      },
+      "player.ground.speed": {
+        "emulates": "V1_12",
+        "implementation": "GroundAcceleration_1_12"
+      },
+      "player.sprint.trigger": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_SprintTrigger"
+      },
+      "player.water.descent": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_WaterDescent"
+      },
+      "player.jump.fluid": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidJump"
+      },
+      "player.travel.lava": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaTravel"
+      },
+      "entity.fluid.current.minimum": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidCurrentMinimum"
+      },
+      "entity.fluid.lava.current": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaCurrent"
+      },
+      "player.client_unstuck": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_ClientUnstuck"
+      },
+      "player.sneak.edge": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_SneakEdge"
+      },
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.crouch.passenger": {
+        "emulates": "V1_20",
+        "implementation": "PassengerCrouch_1_20"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.jump.sprint_impulse": {
+        "emulates": "V1_19_4",
+        "implementation": "JumpBoostPrecision_1_19_4"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_19_4",
+        "implementation": "EffectFallDistanceReset_1_19_4"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "block.bounce:minecraft:red_bed": {
+        "emulates": "V1_11_2",
+        "implementation": "BedBounce_1_11_2"
+      },
+      "player.dismount_position": {
+        "emulates": "V1_11_2",
+        "implementation": "DismountPosition_1_11_2"
+      },
+      "entity.supporting_block": {
+        "emulates": "V1_14",
+        "implementation": "GroundFrictionSupportCellChange"
+      },
+      "player.dismount.portal": {
+        "emulates": "V1_14",
+        "implementation": "PortalDismountChange"
+      },
+      "block.soul_sand_speed": {
+        "emulates": "V1_14",
+        "implementation": "SoulSandOverlapChange"
+      },
+      "player.jump.power": {
+        "emulates": "V1_17",
+        "implementation": "FloatJumpBoostAddition"
+      },
+      "player.sprint.collision": {
+        "emulates": "V1_17_1",
+        "implementation": "SprintCollision_1_17_1"
+      },
+      "player.travel.elytra_lift_force": {
+        "emulates": "V1_18",
+        "implementation": "ElytraLiftForce_1_18"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_18_2",
+        "implementation": "GlideFallDistance_1_18_2"
+      },
+      "player.air.speed": {
+        "emulates": "V1_18_2",
+        "implementation": "AirSpeed_1_18_2"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_18_2",
+        "implementation": "InsideBlockContact_1_18_2"
+      },
+      "player.sprint.fallFlyingForSprintGate": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_SprintFallFlyingGate"
+      },
+      "player.sprint.vehicleCanSprint": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_VehicleSprint"
+      },
+      "player.auto_jump": {
+        "emulates": "V1_18_2",
+        "implementation": "AutoJumpProbe_1_18_2"
+      },
+      "player.boat_fluid_push": {
+        "emulates": "V1_18_2",
+        "implementation": "BoatPassengerFluidPush_1_18_2"
+      },
+      "player.sprint.canStartSprinting": {
+        "emulates": "V1_19_4",
+        "implementation": "SprintEligibility_1_19_4"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_10_1": {
+      "player.input.sneak-slowdown": {
+        "emulates": "V1_13",
+        "implementation": "SneakInputSlowdown_1_13"
+      },
+      "player.sneak.edge.distance": {
+        "emulates": "V1_10_1",
+        "implementation": "SneakEdgeDistanceV1_10"
+      },
+      "player.sneak.edge.mover": {
+        "emulates": "V1_10_1",
+        "implementation": "SneakEdgeMoverV1_10"
+      },
+      "player.farmland.conversion_push": {
+        "emulates": "V1_10_1",
+        "implementation": "FarmlandConversionV1_10"
+      },
+      "player.exhaustion": {
+        "emulates": "V1_10_1",
+        "implementation": "PlayerExhaustionV1_10"
+      },
+      "player.piston.movement": {
+        "emulates": "V1_11",
+        "implementation": "PistonMovementV1_11"
+      },
+      "player.jump.water": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterJump"
+      },
+      "player.water.sneak": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterSneak"
+      },
+      "player.travel.water": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterTravel"
+      },
+      "player.swim": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_Swimming"
+      },
+      "player.sprint.allowShallowWaterSprint": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterSprintGate"
+      },
+      "player.dimensions": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_PlayerDimensions"
+      },
+      "player.fall_flying.look": {
+        "emulates": "V1_11_2",
+        "implementation": "FallFlyingLookAngle_1_11_2"
+      },
+      "player.ground.speed": {
+        "emulates": "V1_12",
+        "implementation": "GroundAcceleration_1_12"
+      },
+      "player.sprint.trigger": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_SprintTrigger"
+      },
+      "player.water.descent": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_WaterDescent"
+      },
+      "player.jump.fluid": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidJump"
+      },
+      "player.travel.lava": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaTravel"
+      },
+      "entity.fluid.current.minimum": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidCurrentMinimum"
+      },
+      "entity.fluid.lava.current": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaCurrent"
+      },
+      "player.client_unstuck": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_ClientUnstuck"
+      },
+      "player.sneak.edge": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_SneakEdge"
+      },
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.crouch.passenger": {
+        "emulates": "V1_20",
+        "implementation": "PassengerCrouch_1_20"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.jump.sprint_impulse": {
+        "emulates": "V1_19_4",
+        "implementation": "JumpBoostPrecision_1_19_4"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_19_4",
+        "implementation": "EffectFallDistanceReset_1_19_4"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "block.bounce:minecraft:red_bed": {
+        "emulates": "V1_11_2",
+        "implementation": "BedBounce_1_11_2"
+      },
+      "player.dismount_position": {
+        "emulates": "V1_11_2",
+        "implementation": "DismountPosition_1_11_2"
+      },
+      "entity.supporting_block": {
+        "emulates": "V1_14",
+        "implementation": "GroundFrictionSupportCellChange"
+      },
+      "player.dismount.portal": {
+        "emulates": "V1_14",
+        "implementation": "PortalDismountChange"
+      },
+      "block.soul_sand_speed": {
+        "emulates": "V1_14",
+        "implementation": "SoulSandOverlapChange"
+      },
+      "player.jump.power": {
+        "emulates": "V1_17",
+        "implementation": "FloatJumpBoostAddition"
+      },
+      "player.sprint.collision": {
+        "emulates": "V1_17_1",
+        "implementation": "SprintCollision_1_17_1"
+      },
+      "player.travel.elytra_lift_force": {
+        "emulates": "V1_18",
+        "implementation": "ElytraLiftForce_1_18"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_18_2",
+        "implementation": "GlideFallDistance_1_18_2"
+      },
+      "player.air.speed": {
+        "emulates": "V1_18_2",
+        "implementation": "AirSpeed_1_18_2"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_18_2",
+        "implementation": "InsideBlockContact_1_18_2"
+      },
+      "player.sprint.fallFlyingForSprintGate": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_SprintFallFlyingGate"
+      },
+      "player.sprint.vehicleCanSprint": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_VehicleSprint"
+      },
+      "player.auto_jump": {
+        "emulates": "V1_18_2",
+        "implementation": "AutoJumpProbe_1_18_2"
+      },
+      "player.boat_fluid_push": {
+        "emulates": "V1_18_2",
+        "implementation": "BoatPassengerFluidPush_1_18_2"
+      },
+      "player.sprint.canStartSprinting": {
+        "emulates": "V1_19_4",
+        "implementation": "SprintEligibility_1_19_4"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_11": {
+      "player.input.sneak-slowdown": {
+        "emulates": "V1_13",
+        "implementation": "SneakInputSlowdown_1_13"
+      },
+      "player.piston.movement": {
+        "emulates": "V1_11",
+        "implementation": "PistonMovementV1_11"
+      },
+      "player.jump.water": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterJump"
+      },
+      "player.water.sneak": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterSneak"
+      },
+      "player.travel.water": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterTravel"
+      },
+      "player.swim": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_Swimming"
+      },
+      "player.sprint.allowShallowWaterSprint": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterSprintGate"
+      },
+      "player.dimensions": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_PlayerDimensions"
+      },
+      "player.fall_flying.look": {
+        "emulates": "V1_11_2",
+        "implementation": "FallFlyingLookAngle_1_11_2"
+      },
+      "player.ground.speed": {
+        "emulates": "V1_12",
+        "implementation": "GroundAcceleration_1_12"
+      },
+      "player.sprint.trigger": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_SprintTrigger"
+      },
+      "player.water.descent": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_WaterDescent"
+      },
+      "player.jump.fluid": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidJump"
+      },
+      "player.travel.lava": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaTravel"
+      },
+      "entity.fluid.current.minimum": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidCurrentMinimum"
+      },
+      "entity.fluid.lava.current": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaCurrent"
+      },
+      "player.client_unstuck": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_ClientUnstuck"
+      },
+      "player.sneak.edge": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_SneakEdge"
+      },
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.crouch.passenger": {
+        "emulates": "V1_20",
+        "implementation": "PassengerCrouch_1_20"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.jump.sprint_impulse": {
+        "emulates": "V1_19_4",
+        "implementation": "JumpBoostPrecision_1_19_4"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_19_4",
+        "implementation": "EffectFallDistanceReset_1_19_4"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "block.bounce:minecraft:red_bed": {
+        "emulates": "V1_11_2",
+        "implementation": "BedBounce_1_11_2"
+      },
+      "player.dismount_position": {
+        "emulates": "V1_11_2",
+        "implementation": "DismountPosition_1_11_2"
+      },
+      "entity.supporting_block": {
+        "emulates": "V1_14",
+        "implementation": "GroundFrictionSupportCellChange"
+      },
+      "player.dismount.portal": {
+        "emulates": "V1_14",
+        "implementation": "PortalDismountChange"
+      },
+      "block.soul_sand_speed": {
+        "emulates": "V1_14",
+        "implementation": "SoulSandOverlapChange"
+      },
+      "player.jump.power": {
+        "emulates": "V1_17",
+        "implementation": "FloatJumpBoostAddition"
+      },
+      "player.sprint.collision": {
+        "emulates": "V1_17_1",
+        "implementation": "SprintCollision_1_17_1"
+      },
+      "player.travel.elytra_lift_force": {
+        "emulates": "V1_18",
+        "implementation": "ElytraLiftForce_1_18"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_18_2",
+        "implementation": "GlideFallDistance_1_18_2"
+      },
+      "player.air.speed": {
+        "emulates": "V1_18_2",
+        "implementation": "AirSpeed_1_18_2"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_18_2",
+        "implementation": "InsideBlockContact_1_18_2"
+      },
+      "player.sprint.fallFlyingForSprintGate": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_SprintFallFlyingGate"
+      },
+      "player.sprint.vehicleCanSprint": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_VehicleSprint"
+      },
+      "player.auto_jump": {
+        "emulates": "V1_18_2",
+        "implementation": "AutoJumpProbe_1_18_2"
+      },
+      "player.boat_fluid_push": {
+        "emulates": "V1_18_2",
+        "implementation": "BoatPassengerFluidPush_1_18_2"
+      },
+      "player.sprint.canStartSprinting": {
+        "emulates": "V1_19_4",
+        "implementation": "SprintEligibility_1_19_4"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_11_1": {
+      "player.input.sneak-slowdown": {
+        "emulates": "V1_13",
+        "implementation": "SneakInputSlowdown_1_13"
+      },
+      "player.jump.water": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterJump"
+      },
+      "player.water.sneak": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterSneak"
+      },
+      "player.travel.water": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterTravel"
+      },
+      "player.swim": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_Swimming"
+      },
+      "player.sprint.allowShallowWaterSprint": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterSprintGate"
+      },
+      "player.dimensions": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_PlayerDimensions"
+      },
+      "player.fall_flying.look": {
+        "emulates": "V1_11_2",
+        "implementation": "FallFlyingLookAngle_1_11_2"
+      },
+      "player.ground.speed": {
+        "emulates": "V1_12",
+        "implementation": "GroundAcceleration_1_12"
+      },
+      "player.sprint.trigger": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_SprintTrigger"
+      },
+      "player.water.descent": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_WaterDescent"
+      },
+      "player.jump.fluid": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidJump"
+      },
+      "player.travel.lava": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaTravel"
+      },
+      "entity.fluid.current.minimum": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidCurrentMinimum"
+      },
+      "entity.fluid.lava.current": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaCurrent"
+      },
+      "player.client_unstuck": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_ClientUnstuck"
+      },
+      "player.sneak.edge": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_SneakEdge"
+      },
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.crouch.passenger": {
+        "emulates": "V1_20",
+        "implementation": "PassengerCrouch_1_20"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.jump.sprint_impulse": {
+        "emulates": "V1_19_4",
+        "implementation": "JumpBoostPrecision_1_19_4"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_19_4",
+        "implementation": "EffectFallDistanceReset_1_19_4"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "block.bounce:minecraft:red_bed": {
+        "emulates": "V1_11_2",
+        "implementation": "BedBounce_1_11_2"
+      },
+      "player.dismount_position": {
+        "emulates": "V1_11_2",
+        "implementation": "DismountPosition_1_11_2"
+      },
+      "entity.supporting_block": {
+        "emulates": "V1_14",
+        "implementation": "GroundFrictionSupportCellChange"
+      },
+      "player.dismount.portal": {
+        "emulates": "V1_14",
+        "implementation": "PortalDismountChange"
+      },
+      "block.soul_sand_speed": {
+        "emulates": "V1_14",
+        "implementation": "SoulSandOverlapChange"
+      },
+      "player.jump.power": {
+        "emulates": "V1_17",
+        "implementation": "FloatJumpBoostAddition"
+      },
+      "player.sprint.collision": {
+        "emulates": "V1_17_1",
+        "implementation": "SprintCollision_1_17_1"
+      },
+      "player.travel.elytra_lift_force": {
+        "emulates": "V1_18",
+        "implementation": "ElytraLiftForce_1_18"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_18_2",
+        "implementation": "GlideFallDistance_1_18_2"
+      },
+      "player.air.speed": {
+        "emulates": "V1_18_2",
+        "implementation": "AirSpeed_1_18_2"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_18_2",
+        "implementation": "InsideBlockContact_1_18_2"
+      },
+      "player.sprint.fallFlyingForSprintGate": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_SprintFallFlyingGate"
+      },
+      "player.sprint.vehicleCanSprint": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_VehicleSprint"
+      },
+      "player.auto_jump": {
+        "emulates": "V1_18_2",
+        "implementation": "AutoJumpProbe_1_18_2"
+      },
+      "player.boat_fluid_push": {
+        "emulates": "V1_18_2",
+        "implementation": "BoatPassengerFluidPush_1_18_2"
+      },
+      "player.sprint.canStartSprinting": {
+        "emulates": "V1_19_4",
+        "implementation": "SprintEligibility_1_19_4"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_11_2": {
+      "player.input.sneak-slowdown": {
+        "emulates": "V1_13",
+        "implementation": "SneakInputSlowdown_1_13"
+      },
+      "player.jump.water": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterJump"
+      },
+      "player.water.sneak": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterSneak"
+      },
+      "player.travel.water": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterTravel"
+      },
+      "player.swim": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_Swimming"
+      },
+      "player.sprint.allowShallowWaterSprint": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterSprintGate"
+      },
+      "player.dimensions": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_PlayerDimensions"
+      },
+      "player.fall_flying.look": {
+        "emulates": "V1_11_2",
+        "implementation": "FallFlyingLookAngle_1_11_2"
+      },
+      "player.ground.speed": {
+        "emulates": "V1_12",
+        "implementation": "GroundAcceleration_1_12"
+      },
+      "player.sprint.trigger": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_SprintTrigger"
+      },
+      "player.water.descent": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_WaterDescent"
+      },
+      "player.jump.fluid": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidJump"
+      },
+      "player.travel.lava": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaTravel"
+      },
+      "entity.fluid.current.minimum": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidCurrentMinimum"
+      },
+      "entity.fluid.lava.current": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaCurrent"
+      },
+      "player.client_unstuck": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_ClientUnstuck"
+      },
+      "player.sneak.edge": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_SneakEdge"
+      },
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.crouch.passenger": {
+        "emulates": "V1_20",
+        "implementation": "PassengerCrouch_1_20"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.jump.sprint_impulse": {
+        "emulates": "V1_19_4",
+        "implementation": "JumpBoostPrecision_1_19_4"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_19_4",
+        "implementation": "EffectFallDistanceReset_1_19_4"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "block.bounce:minecraft:red_bed": {
+        "emulates": "V1_11_2",
+        "implementation": "BedBounce_1_11_2"
+      },
+      "player.dismount_position": {
+        "emulates": "V1_11_2",
+        "implementation": "DismountPosition_1_11_2"
+      },
+      "entity.supporting_block": {
+        "emulates": "V1_14",
+        "implementation": "GroundFrictionSupportCellChange"
+      },
+      "player.dismount.portal": {
+        "emulates": "V1_14",
+        "implementation": "PortalDismountChange"
+      },
+      "block.soul_sand_speed": {
+        "emulates": "V1_14",
+        "implementation": "SoulSandOverlapChange"
+      },
+      "player.jump.power": {
+        "emulates": "V1_17",
+        "implementation": "FloatJumpBoostAddition"
+      },
+      "player.sprint.collision": {
+        "emulates": "V1_17_1",
+        "implementation": "SprintCollision_1_17_1"
+      },
+      "player.travel.elytra_lift_force": {
+        "emulates": "V1_18",
+        "implementation": "ElytraLiftForce_1_18"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_18_2",
+        "implementation": "GlideFallDistance_1_18_2"
+      },
+      "player.air.speed": {
+        "emulates": "V1_18_2",
+        "implementation": "AirSpeed_1_18_2"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_18_2",
+        "implementation": "InsideBlockContact_1_18_2"
+      },
+      "player.sprint.fallFlyingForSprintGate": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_SprintFallFlyingGate"
+      },
+      "player.sprint.vehicleCanSprint": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_VehicleSprint"
+      },
+      "player.auto_jump": {
+        "emulates": "V1_18_2",
+        "implementation": "AutoJumpProbe_1_18_2"
+      },
+      "player.boat_fluid_push": {
+        "emulates": "V1_18_2",
+        "implementation": "BoatPassengerFluidPush_1_18_2"
+      },
+      "player.sprint.canStartSprinting": {
+        "emulates": "V1_19_4",
+        "implementation": "SprintEligibility_1_19_4"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_12": {
+      "player.input.sneak-slowdown": {
+        "emulates": "V1_13",
+        "implementation": "SneakInputSlowdown_1_13"
+      },
+      "player.jump.water": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterJump"
+      },
+      "player.water.sneak": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterSneak"
+      },
+      "player.travel.water": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterTravel"
+      },
+      "player.swim": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_Swimming"
+      },
+      "player.sprint.allowShallowWaterSprint": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_WaterSprintGate"
+      },
+      "player.dimensions": {
+        "emulates": "V1_12",
+        "implementation": "WaterMovement_1_12_PlayerDimensions"
+      },
+      "player.fall_flying.look": {
+        "emulates": "V1_12",
+        "implementation": "GroundGlideMovement_1_12"
+      },
+      "player.ground.speed": {
+        "emulates": "V1_12",
+        "implementation": "GroundAcceleration_1_12"
+      },
+      "player.sprint.trigger": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_SprintTrigger"
+      },
+      "player.water.descent": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_WaterDescent"
+      },
+      "player.jump.fluid": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidJump"
+      },
+      "player.travel.lava": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaTravel"
+      },
+      "entity.fluid.current.minimum": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidCurrentMinimum"
+      },
+      "entity.fluid.lava.current": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaCurrent"
+      },
+      "player.client_unstuck": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_ClientUnstuck"
+      },
+      "player.sneak.edge": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_SneakEdge"
+      },
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.crouch.passenger": {
+        "emulates": "V1_20",
+        "implementation": "PassengerCrouch_1_20"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.jump.sprint_impulse": {
+        "emulates": "V1_19_4",
+        "implementation": "JumpBoostPrecision_1_19_4"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_19_4",
+        "implementation": "EffectFallDistanceReset_1_19_4"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "entity.supporting_block": {
+        "emulates": "V1_14",
+        "implementation": "GroundFrictionSupportCellChange"
+      },
+      "player.dismount.portal": {
+        "emulates": "V1_14",
+        "implementation": "PortalDismountChange"
+      },
+      "block.soul_sand_speed": {
+        "emulates": "V1_14",
+        "implementation": "SoulSandOverlapChange"
+      },
+      "player.jump.power": {
+        "emulates": "V1_17",
+        "implementation": "FloatJumpBoostAddition"
+      },
+      "player.sprint.collision": {
+        "emulates": "V1_17_1",
+        "implementation": "SprintCollision_1_17_1"
+      },
+      "player.travel.elytra_lift_force": {
+        "emulates": "V1_18",
+        "implementation": "ElytraLiftForce_1_18"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_18_2",
+        "implementation": "GlideFallDistance_1_18_2"
+      },
+      "player.air.speed": {
+        "emulates": "V1_18_2",
+        "implementation": "AirSpeed_1_18_2"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_18_2",
+        "implementation": "InsideBlockContact_1_18_2"
+      },
+      "player.sprint.fallFlyingForSprintGate": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_SprintFallFlyingGate"
+      },
+      "player.sprint.vehicleCanSprint": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_VehicleSprint"
+      },
+      "player.auto_jump": {
+        "emulates": "V1_18_2",
+        "implementation": "AutoJumpProbe_1_18_2"
+      },
+      "player.boat_fluid_push": {
+        "emulates": "V1_18_2",
+        "implementation": "BoatPassengerFluidPush_1_18_2"
+      },
+      "player.sprint.canStartSprinting": {
+        "emulates": "V1_19_4",
+        "implementation": "SprintEligibility_1_19_4"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_13": {
+      "player.input.sneak-slowdown": {
+        "emulates": "V1_13",
+        "implementation": "SneakInputSlowdown_1_13"
+      },
+      "player.sprint.trigger": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_SprintTrigger"
+      },
+      "player.water.descent": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_WaterDescent"
+      },
+      "player.jump.fluid": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidJump"
+      },
+      "player.travel.lava": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaTravel"
+      },
+      "entity.fluid.current.minimum": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidCurrentMinimum"
+      },
+      "entity.fluid.lava.current": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaCurrent"
+      },
+      "player.client_unstuck": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_ClientUnstuck"
+      },
+      "player.sneak.edge": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_SneakEdge"
+      },
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.crouch.passenger": {
+        "emulates": "V1_20",
+        "implementation": "PassengerCrouch_1_20"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.jump.sprint_impulse": {
+        "emulates": "V1_19_4",
+        "implementation": "JumpBoostPrecision_1_19_4"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_19_4",
+        "implementation": "EffectFallDistanceReset_1_19_4"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "entity.supporting_block": {
+        "emulates": "V1_14",
+        "implementation": "GroundFrictionSupportCellChange"
+      },
+      "player.dismount.portal": {
+        "emulates": "V1_14",
+        "implementation": "PortalDismountChange"
+      },
+      "block.soul_sand_speed": {
+        "emulates": "V1_14",
+        "implementation": "SoulSandOverlapChange"
+      },
+      "player.jump.power": {
+        "emulates": "V1_17",
+        "implementation": "FloatJumpBoostAddition"
+      },
+      "player.sprint.collision": {
+        "emulates": "V1_17_1",
+        "implementation": "SprintCollision_1_17_1"
+      },
+      "player.travel.elytra_lift_force": {
+        "emulates": "V1_18",
+        "implementation": "ElytraLiftForce_1_18"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_18_2",
+        "implementation": "GlideFallDistance_1_18_2"
+      },
+      "player.air.speed": {
+        "emulates": "V1_18_2",
+        "implementation": "AirSpeed_1_18_2"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_18_2",
+        "implementation": "InsideBlockContact_1_18_2"
+      },
+      "player.sprint.fallFlyingForSprintGate": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_SprintFallFlyingGate"
+      },
+      "player.sprint.vehicleCanSprint": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_VehicleSprint"
+      },
+      "player.auto_jump": {
+        "emulates": "V1_18_2",
+        "implementation": "AutoJumpProbe_1_18_2"
+      },
+      "player.boat_fluid_push": {
+        "emulates": "V1_18_2",
+        "implementation": "BoatPassengerFluidPush_1_18_2"
+      },
+      "player.sprint.canStartSprinting": {
+        "emulates": "V1_19_4",
+        "implementation": "SprintEligibility_1_19_4"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_14": {
+      "player.sprint.trigger": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_SprintTrigger"
+      },
+      "player.water.descent": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_WaterDescent"
+      },
+      "player.jump.fluid": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidJump"
+      },
+      "player.travel.lava": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaTravel"
+      },
+      "entity.fluid.current.minimum": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidCurrentMinimum"
+      },
+      "entity.fluid.lava.current": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaCurrent"
+      },
+      "player.client_unstuck": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_ClientUnstuck"
+      },
+      "player.sneak.edge": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_SneakEdge"
+      },
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.crouch.passenger": {
+        "emulates": "V1_20",
+        "implementation": "PassengerCrouch_1_20"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.jump.sprint_impulse": {
+        "emulates": "V1_19_4",
+        "implementation": "JumpBoostPrecision_1_19_4"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_19_4",
+        "implementation": "EffectFallDistanceReset_1_19_4"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "player.input.sneak-slowdown": {
+        "emulates": "V1_14",
+        "implementation": "SneakInputSlowdown_1_14"
+      },
+      "entity.supporting_block": {
+        "emulates": "V1_14",
+        "implementation": "GroundFrictionSupportCellChange"
+      },
+      "player.dismount.portal": {
+        "emulates": "V1_14",
+        "implementation": "PortalDismountChange"
+      },
+      "block.soul_sand_speed": {
+        "emulates": "V1_14",
+        "implementation": "SoulSandOverlapChange"
+      },
+      "player.jump.power": {
+        "emulates": "V1_17",
+        "implementation": "FloatJumpBoostAddition"
+      },
+      "player.sprint.collision": {
+        "emulates": "V1_17_1",
+        "implementation": "SprintCollision_1_17_1"
+      },
+      "player.travel.elytra_lift_force": {
+        "emulates": "V1_18",
+        "implementation": "ElytraLiftForce_1_18"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_18_2",
+        "implementation": "GlideFallDistance_1_18_2"
+      },
+      "player.air.speed": {
+        "emulates": "V1_18_2",
+        "implementation": "AirSpeed_1_18_2"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_18_2",
+        "implementation": "InsideBlockContact_1_18_2"
+      },
+      "player.sprint.fallFlyingForSprintGate": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_SprintFallFlyingGate"
+      },
+      "player.sprint.vehicleCanSprint": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_VehicleSprint"
+      },
+      "player.auto_jump": {
+        "emulates": "V1_18_2",
+        "implementation": "AutoJumpProbe_1_18_2"
+      },
+      "player.boat_fluid_push": {
+        "emulates": "V1_18_2",
+        "implementation": "BoatPassengerFluidPush_1_18_2"
+      },
+      "player.sprint.canStartSprinting": {
+        "emulates": "V1_19_4",
+        "implementation": "SprintEligibility_1_19_4"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_15": {
+      "player.sprint.trigger": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_SprintTrigger"
+      },
+      "player.water.descent": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_WaterDescent"
+      },
+      "player.jump.fluid": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidJump"
+      },
+      "player.travel.lava": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaTravel"
+      },
+      "entity.fluid.current.minimum": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidCurrentMinimum"
+      },
+      "entity.fluid.lava.current": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaCurrent"
+      },
+      "player.client_unstuck": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_ClientUnstuck"
+      },
+      "player.sneak.edge": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_SneakEdge"
+      },
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.crouch.passenger": {
+        "emulates": "V1_20",
+        "implementation": "PassengerCrouch_1_20"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.jump.sprint_impulse": {
+        "emulates": "V1_19_4",
+        "implementation": "JumpBoostPrecision_1_19_4"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_19_4",
+        "implementation": "EffectFallDistanceReset_1_19_4"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "player.jump.power": {
+        "emulates": "V1_17",
+        "implementation": "FloatJumpBoostAddition"
+      },
+      "player.sprint.collision": {
+        "emulates": "V1_17_1",
+        "implementation": "SprintCollision_1_17_1"
+      },
+      "player.travel.elytra_lift_force": {
+        "emulates": "V1_18",
+        "implementation": "ElytraLiftForce_1_18"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_18_2",
+        "implementation": "GlideFallDistance_1_18_2"
+      },
+      "player.air.speed": {
+        "emulates": "V1_18_2",
+        "implementation": "AirSpeed_1_18_2"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_18_2",
+        "implementation": "InsideBlockContact_1_18_2"
+      },
+      "player.sprint.fallFlyingForSprintGate": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_SprintFallFlyingGate"
+      },
+      "player.sprint.vehicleCanSprint": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_VehicleSprint"
+      },
+      "player.auto_jump": {
+        "emulates": "V1_18_2",
+        "implementation": "AutoJumpProbe_1_18_2"
+      },
+      "player.boat_fluid_push": {
+        "emulates": "V1_18_2",
+        "implementation": "BoatPassengerFluidPush_1_18_2"
+      },
+      "player.sprint.canStartSprinting": {
+        "emulates": "V1_19_4",
+        "implementation": "SprintEligibility_1_19_4"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_15_2": {
+      "player.sprint.trigger": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_SprintTrigger"
+      },
+      "player.water.descent": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_WaterDescent"
+      },
+      "player.jump.fluid": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidJump"
+      },
+      "player.travel.lava": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaTravel"
+      },
+      "entity.fluid.current.minimum": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_FluidCurrentMinimum"
+      },
+      "entity.fluid.lava.current": {
+        "emulates": "V1_15_2",
+        "implementation": "Pre116MovementChanges_LavaCurrent"
+      },
+      "player.client_unstuck": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_ClientUnstuck"
+      },
+      "player.sneak.edge": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_SneakEdge"
+      },
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.crouch.passenger": {
+        "emulates": "V1_20",
+        "implementation": "PassengerCrouch_1_20"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.jump.sprint_impulse": {
+        "emulates": "V1_19_4",
+        "implementation": "JumpBoostPrecision_1_19_4"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_19_4",
+        "implementation": "EffectFallDistanceReset_1_19_4"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "player.jump.power": {
+        "emulates": "V1_17",
+        "implementation": "FloatJumpBoostAddition"
+      },
+      "player.sprint.collision": {
+        "emulates": "V1_17_1",
+        "implementation": "SprintCollision_1_17_1"
+      },
+      "player.travel.elytra_lift_force": {
+        "emulates": "V1_18",
+        "implementation": "ElytraLiftForce_1_18"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_18_2",
+        "implementation": "GlideFallDistance_1_18_2"
+      },
+      "player.air.speed": {
+        "emulates": "V1_18_2",
+        "implementation": "AirSpeed_1_18_2"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_18_2",
+        "implementation": "InsideBlockContact_1_18_2"
+      },
+      "player.sprint.fallFlyingForSprintGate": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_SprintFallFlyingGate"
+      },
+      "player.sprint.vehicleCanSprint": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_VehicleSprint"
+      },
+      "player.auto_jump": {
+        "emulates": "V1_18_2",
+        "implementation": "AutoJumpProbe_1_18_2"
+      },
+      "player.boat_fluid_push": {
+        "emulates": "V1_18_2",
+        "implementation": "BoatPassengerFluidPush_1_18_2"
+      },
+      "player.sprint.canStartSprinting": {
+        "emulates": "V1_19_4",
+        "implementation": "SprintEligibility_1_19_4"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_16": {
+      "player.client_unstuck": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_ClientUnstuck"
+      },
+      "player.sneak.edge": {
+        "emulates": "V1_16",
+        "implementation": "Pre1162MovementChanges_SneakEdge"
+      },
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.crouch.passenger": {
+        "emulates": "V1_20",
+        "implementation": "PassengerCrouch_1_20"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.jump.sprint_impulse": {
+        "emulates": "V1_19_4",
+        "implementation": "JumpBoostPrecision_1_19_4"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_19_4",
+        "implementation": "EffectFallDistanceReset_1_19_4"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "player.jump.power": {
+        "emulates": "V1_17",
+        "implementation": "FloatJumpBoostAddition"
+      },
+      "player.sprint.collision": {
+        "emulates": "V1_17_1",
+        "implementation": "SprintCollision_1_17_1"
+      },
+      "player.travel.elytra_lift_force": {
+        "emulates": "V1_18",
+        "implementation": "ElytraLiftForce_1_18"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_18_2",
+        "implementation": "GlideFallDistance_1_18_2"
+      },
+      "player.air.speed": {
+        "emulates": "V1_18_2",
+        "implementation": "AirSpeed_1_18_2"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_18_2",
+        "implementation": "InsideBlockContact_1_18_2"
+      },
+      "player.sprint.fallFlyingForSprintGate": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_SprintFallFlyingGate"
+      },
+      "player.sprint.vehicleCanSprint": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_VehicleSprint"
+      },
+      "player.auto_jump": {
+        "emulates": "V1_18_2",
+        "implementation": "AutoJumpProbe_1_18_2"
+      },
+      "player.boat_fluid_push": {
+        "emulates": "V1_18_2",
+        "implementation": "BoatPassengerFluidPush_1_18_2"
+      },
+      "player.sprint.canStartSprinting": {
+        "emulates": "V1_19_4",
+        "implementation": "SprintEligibility_1_19_4"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_16_2": {
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.crouch.passenger": {
+        "emulates": "V1_20",
+        "implementation": "PassengerCrouch_1_20"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.jump.sprint_impulse": {
+        "emulates": "V1_19_4",
+        "implementation": "JumpBoostPrecision_1_19_4"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_19_4",
+        "implementation": "EffectFallDistanceReset_1_19_4"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "player.jump.power": {
+        "emulates": "V1_17",
+        "implementation": "FloatJumpBoostAddition"
+      },
+      "player.sprint.collision": {
+        "emulates": "V1_17_1",
+        "implementation": "SprintCollision_1_17_1"
+      },
+      "player.travel.elytra_lift_force": {
+        "emulates": "V1_18",
+        "implementation": "ElytraLiftForce_1_18"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_18_2",
+        "implementation": "GlideFallDistance_1_18_2"
+      },
+      "player.air.speed": {
+        "emulates": "V1_18_2",
+        "implementation": "AirSpeed_1_18_2"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_18_2",
+        "implementation": "InsideBlockContact_1_18_2"
+      },
+      "player.sprint.fallFlyingForSprintGate": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_SprintFallFlyingGate"
+      },
+      "player.sprint.vehicleCanSprint": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_VehicleSprint"
+      },
+      "player.auto_jump": {
+        "emulates": "V1_18_2",
+        "implementation": "AutoJumpProbe_1_18_2"
+      },
+      "player.boat_fluid_push": {
+        "emulates": "V1_18_2",
+        "implementation": "BoatPassengerFluidPush_1_18_2"
+      },
+      "player.sprint.canStartSprinting": {
+        "emulates": "V1_19_4",
+        "implementation": "SprintEligibility_1_19_4"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_17": {
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.crouch.passenger": {
+        "emulates": "V1_20",
+        "implementation": "PassengerCrouch_1_20"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.jump.sprint_impulse": {
+        "emulates": "V1_19_4",
+        "implementation": "JumpBoostPrecision_1_19_4"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_19_4",
+        "implementation": "EffectFallDistanceReset_1_19_4"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "player.jump.power": {
+        "emulates": "V1_17",
+        "implementation": "FloatJumpBoostAddition"
+      },
+      "player.sprint.collision": {
+        "emulates": "V1_17_1",
+        "implementation": "SprintCollision_1_17_1"
+      },
+      "player.travel.elytra_lift_force": {
+        "emulates": "V1_18",
+        "implementation": "ElytraLiftForce_1_18"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_18_2",
+        "implementation": "GlideFallDistance_1_18_2"
+      },
+      "player.air.speed": {
+        "emulates": "V1_18_2",
+        "implementation": "AirSpeed_1_18_2"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_18_2",
+        "implementation": "InsideBlockContact_1_18_2"
+      },
+      "player.sprint.fallFlyingForSprintGate": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_SprintFallFlyingGate"
+      },
+      "player.sprint.vehicleCanSprint": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_VehicleSprint"
+      },
+      "player.auto_jump": {
+        "emulates": "V1_18_2",
+        "implementation": "AutoJumpProbe_1_18_2"
+      },
+      "player.boat_fluid_push": {
+        "emulates": "V1_18_2",
+        "implementation": "BoatPassengerFluidPush_1_18_2"
+      },
+      "player.sprint.canStartSprinting": {
+        "emulates": "V1_19_4",
+        "implementation": "SprintEligibility_1_19_4"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_17_1": {
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.crouch.passenger": {
+        "emulates": "V1_20",
+        "implementation": "PassengerCrouch_1_20"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.jump.sprint_impulse": {
+        "emulates": "V1_19_4",
+        "implementation": "JumpBoostPrecision_1_19_4"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_19_4",
+        "implementation": "EffectFallDistanceReset_1_19_4"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "player.jump.power": {
+        "emulates": "V1_19_4",
+        "implementation": "DoubleJumpBoostAddition"
+      },
+      "player.sprint.collision": {
+        "emulates": "V1_17_1",
+        "implementation": "SprintCollision_1_17_1"
+      },
+      "player.travel.elytra_lift_force": {
+        "emulates": "V1_18",
+        "implementation": "ElytraLiftForce_1_18"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_18_2",
+        "implementation": "GlideFallDistance_1_18_2"
+      },
+      "player.air.speed": {
+        "emulates": "V1_18_2",
+        "implementation": "AirSpeed_1_18_2"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_18_2",
+        "implementation": "InsideBlockContact_1_18_2"
+      },
+      "player.sprint.fallFlyingForSprintGate": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_SprintFallFlyingGate"
+      },
+      "player.sprint.vehicleCanSprint": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_VehicleSprint"
+      },
+      "player.auto_jump": {
+        "emulates": "V1_18_2",
+        "implementation": "AutoJumpProbe_1_18_2"
+      },
+      "player.boat_fluid_push": {
+        "emulates": "V1_18_2",
+        "implementation": "BoatPassengerFluidPush_1_18_2"
+      },
+      "player.sprint.canStartSprinting": {
+        "emulates": "V1_19_4",
+        "implementation": "SprintEligibility_1_19_4"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_18": {
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.crouch.passenger": {
+        "emulates": "V1_20",
+        "implementation": "PassengerCrouch_1_20"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.jump.sprint_impulse": {
+        "emulates": "V1_19_4",
+        "implementation": "JumpBoostPrecision_1_19_4"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_19_4",
+        "implementation": "EffectFallDistanceReset_1_19_4"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "player.jump.power": {
+        "emulates": "V1_19_4",
+        "implementation": "DoubleJumpBoostAddition"
+      },
+      "player.travel.elytra_lift_force": {
+        "emulates": "V1_18",
+        "implementation": "ElytraLiftForce_1_18"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_18_2",
+        "implementation": "GlideFallDistance_1_18_2"
+      },
+      "player.air.speed": {
+        "emulates": "V1_18_2",
+        "implementation": "AirSpeed_1_18_2"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_18_2",
+        "implementation": "InsideBlockContact_1_18_2"
+      },
+      "player.sprint.fallFlyingForSprintGate": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_SprintFallFlyingGate"
+      },
+      "player.sprint.vehicleCanSprint": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_VehicleSprint"
+      },
+      "player.auto_jump": {
+        "emulates": "V1_18_2",
+        "implementation": "AutoJumpProbe_1_18_2"
+      },
+      "player.boat_fluid_push": {
+        "emulates": "V1_18_2",
+        "implementation": "BoatPassengerFluidPush_1_18_2"
+      },
+      "player.sprint.canStartSprinting": {
+        "emulates": "V1_19_4",
+        "implementation": "SprintEligibility_1_19_4"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_18_2": {
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.crouch.passenger": {
+        "emulates": "V1_20",
+        "implementation": "PassengerCrouch_1_20"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.jump.sprint_impulse": {
+        "emulates": "V1_19_4",
+        "implementation": "JumpBoostPrecision_1_19_4"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_19_4",
+        "implementation": "EffectFallDistanceReset_1_19_4"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "player.jump.power": {
+        "emulates": "V1_19_4",
+        "implementation": "DoubleJumpBoostAddition"
+      },
+      "player.travel.elytra_lift_force": {
+        "emulates": "V1_18_2",
+        "implementation": "ElytraLiftForce_1_18_2"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_18_2",
+        "implementation": "GlideFallDistance_1_18_2"
+      },
+      "player.air.speed": {
+        "emulates": "V1_18_2",
+        "implementation": "AirSpeed_1_18_2"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_18_2",
+        "implementation": "InsideBlockContact_1_18_2"
+      },
+      "player.sprint.fallFlyingForSprintGate": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_SprintFallFlyingGate"
+      },
+      "player.sprint.vehicleCanSprint": {
+        "emulates": "V1_18_2",
+        "implementation": "SprintEligibility_1_18_2_VehicleSprint"
+      },
+      "player.auto_jump": {
+        "emulates": "V1_18_2",
+        "implementation": "AutoJumpProbe_1_18_2"
+      },
+      "player.boat_fluid_push": {
+        "emulates": "V1_18_2",
+        "implementation": "BoatPassengerFluidPush_1_18_2"
+      },
+      "player.sprint.canStartSprinting": {
+        "emulates": "V1_19_4",
+        "implementation": "SprintEligibility_1_19_4"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_19": {
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.crouch.passenger": {
+        "emulates": "V1_20",
+        "implementation": "PassengerCrouch_1_20"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.jump.sprint_impulse": {
+        "emulates": "V1_19_4",
+        "implementation": "JumpBoostPrecision_1_19_4"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_19_4",
+        "implementation": "EffectFallDistanceReset_1_19_4"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "player.jump.power": {
+        "emulates": "V1_19_4",
+        "implementation": "DoubleJumpBoostAddition"
+      },
+      "player.air.speed": {
+        "emulates": "V1_19",
+        "implementation": "AirSpeed_1_18_2"
+      },
+      "player.auto_jump": {
+        "emulates": "V1_19",
+        "implementation": "AutoJumpProbe_1_18_2"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_19",
+        "implementation": "GlideFallDistance_1_19"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_19",
+        "implementation": "InsideBlockContact_1_19"
+      },
+      "player.boat_fluid_push": {
+        "emulates": "V1_19",
+        "implementation": "BoatPassengerFluidPush_1_19"
+      },
+      "player.sprint.fallFlyingForSprintGate": {
+        "emulates": "V1_19",
+        "implementation": "SprintEligibility_1_19_SprintFallFlyingGate"
+      },
+      "player.sprint.vehicleCanSprint": {
+        "emulates": "V1_19",
+        "implementation": "SprintEligibility_1_19_VehicleSprint"
+      },
+      "player.sprint.canStartSprinting": {
+        "emulates": "V1_19_4",
+        "implementation": "SprintEligibility_1_19_4"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_19_4": {
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.crouch.passenger": {
+        "emulates": "V1_20",
+        "implementation": "PassengerCrouch_1_20"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.jump.sprint_impulse": {
+        "emulates": "V1_19_4",
+        "implementation": "JumpBoostPrecision_1_19_4"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_19_4",
+        "implementation": "EffectFallDistanceReset_1_19_4"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "player.jump.power": {
+        "emulates": "V1_19_4",
+        "implementation": "DoubleJumpBoostAddition"
+      },
+      "player.fall_flying.fall_distance": {
+        "emulates": "V1_19_4",
+        "implementation": "GlideFallDistance_1_19"
+      },
+      "player.inside_block_contact": {
+        "emulates": "V1_19_4",
+        "implementation": "InsideBlockContact_1_19"
+      },
+      "player.boat_fluid_push": {
+        "emulates": "V1_19_4",
+        "implementation": "BoatPassengerFluidPush_1_19"
+      },
+      "player.sprint.canStartSprinting": {
+        "emulates": "V1_19_4",
+        "implementation": "SprintEligibility_1_19_4"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_20": {
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.crouch.passenger": {
+        "emulates": "V1_20",
+        "implementation": "PassengerCrouch_1_20"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_20",
+        "implementation": "EffectFallDistanceReset_1_20"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_20_2": {
+      "player.flight.activation_jump": {
+        "emulates": "V1_20_2",
+        "implementation": "FlightActivationJump_1_20_2"
+      },
+      "player.gravity": {
+        "emulates": "V1_20_2",
+        "implementation": "AttributeGravity_1_20_2"
+      },
+      "player.effect_fall_distance_reset": {
+        "emulates": "V1_20_2",
+        "implementation": "EffectFallDistanceReset_1_20_2"
+      },
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_20_5": {
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_21": {
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.jump.vertical_velocity": {
+        "emulates": "V1_21",
+        "implementation": "GroundJumpVerticalVelocity"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_21_2": {
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_21_4": {
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "player.sprint.isInShallowWaterForSprintEligibility": {
+        "emulates": "V1_21_4",
+        "implementation": "ShallowWaterSprintEligibility"
+      },
+      "player.input.keyboard_diagonal": {
+        "emulates": "V1_21_4",
+        "implementation": "KeyboardDiagonalInput"
+      },
+      "player.sneak.probe": {
+        "emulates": "V1_21_4",
+        "implementation": "EdgeBackoffProbeBounds"
+      },
+      "player.climb.powder_snow": {
+        "emulates": "V1_21_4",
+        "implementation": "PowderSnowClimbBoost"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_21_5": {
+      "player.sprint.window": {
+        "emulates": "V1_21_5",
+        "implementation": "DoubleTapSprintWindow"
+      },
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V1_21_11": {
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "V26_1": {
+      "entity.restitution": {
+        "emulates": "V26_1",
+        "implementation": "CollisionRestitution26_1"
+      },
+      "block.landing:<each vanilla BedBlock/SlimeBlock>": {
+        "emulates": "V26_1",
+        "implementation": "BlockLanding26_1"
+      }
+    },
+    "CURRENT": {}
+  }
+}

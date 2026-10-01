@@ -9,6 +9,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.phys.Vec3;
 
+
 @MovementChange(emulates = ParkourVersion.V26_1)
 final class BlockLanding26_1 implements BlockLandingBehavior {
     private final String blockId;
@@ -25,18 +26,24 @@ final class BlockLanding26_1 implements BlockLandingBehavior {
     }
 
     @Override
-    public void updateMovementAfterFallOn(BlockGetter level, Entity entity, VanillaCall vanilla) {
+    public void updateMovementAfterFallOn(BlockGetter level, Entity entity, java.util.Optional<me.wolfii.legacyparkourcompat.mechanic.hook.BlockBounceBehavior> bounce, VanillaCall vanilla) {
         if (entity.isSuppressingBounce()) {
             vanilla.run();
             return;
         }
 
+        float coefficient = bounce.map(behavior -> behavior.bounceRestitution(this.slime ? 1.0F : 0.66F, entity))
+            .orElse(this.slime ? 1.0F : 0.66F);
+        if (coefficient == 0.0F) {
+            vanilla.run();
+            return;
+        }
         Vec3 movement = entity.getDeltaMovement();
         if (movement.y < 0.0) {
             double factor = entity instanceof LivingEntity ? 1.0 : 0.8;
             double bouncedY = this.slime
                 ? -movement.y * factor
-                : -movement.y * 0.66F * factor;
+                : -movement.y * coefficient * factor;
             entity.setDeltaMovement(movement.x, bouncedY, movement.z);
         }
     }

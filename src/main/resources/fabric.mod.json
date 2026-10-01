@@ -15,12 +15,7 @@
   "license": "MIT",
   "environment": "*",
   "mixins": [
-    "legacyparkourcompat.mixins.json",
-    {
-      "config": "legacyparkourcompat.client.mixins.json",
-      "environment": "client"
-    },
-    "legacyparkourcompat.client.mixins.json"
+    "legacyparkourcompat.mixins.json"
   ],
   "entrypoints": {
     "main": [

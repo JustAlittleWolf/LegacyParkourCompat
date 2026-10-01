@@ -10,9 +10,8 @@ import net.minecraft.world.phys.Vec3;
 @MovementChange(emulates = ParkourVersion.V1_18_2)
 public final class ElytraLiftForce_1_18_2 implements ElytraLiftForceBehavior {
     @Override
-    public double liftForce(Player player, double vanilla) {
+    public double liftForce(Player player, Vec3 lookAngle, double vanilla) {
         float leanAngle = player.getXRot() * (float) (Math.PI / 180.0);
-        Vec3 lookAngle = player.getLookAngle();
         double coefficient = Math.cos(leanAngle);
         coefficient = coefficient * coefficient * Math.min(1.0, lookAngle.length() / 0.4);
         return coefficient;
