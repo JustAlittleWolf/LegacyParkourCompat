@@ -78,6 +78,13 @@ A/B correspondence seeds resolved from the filename inventories (Mojmap names): 
 - Evidence/hash/correspondence audit: A/B artifacts and relevant source hashes verified; both console logs lack persistent raw files; stage-1 member references are in the finding.
 - Runtime validation: not performed (separate workflow).
 
+## Supplemental boundary audit for implementation
+
+- Exact 1.20.5 Mojmap sources were prepared successfully on 2026-10-01; readiness and log provenance: `../../../../build/major-movement-preparation/1.20.5--mojmap.json`.
+- 1.20.5 `LocalPlayer.java` SHA-256 is `6B429DFA6E0681251EC985DDA1627F808652A7BBE5B70DC85C8FA0FE0ED46FFA`, identical to 1.20.6. Its `aiStep()` contains the grounded `jumpFromGround()` call after creative flight toggles on.
+- 1.20.5 `LivingEntity.java` SHA-256 is `C66EC8DC3B1856E490E5834A46185589030D9FBC411E3E2CE64C73203CD753B2`, identical to 1.20.6. It resets fall distance for Slow Falling or Levitation in `aiStep()` before travel.
+- These identical endpoint-group source files establish that both findings' newer behavior is present by 1.20.5. The 1.20.4 source is still required to confirm that the prior behavior holds through the existing `V1_20_2` group before assigning either delta to that group. No boundary is inferred from this audit alone.
+
 ### B-side jar resource inventory (initial)
 
 Entries are from the original cached 1.20.6 `client.jar` (`../../../../build/minecraft-decompile-cache/1.20.6/client.jar`), not the JavaDirectorySaver output. Hashes are SHA-256 of each ZIP entry's uncompressed bytes. These are navigation leads only; inspect their contents and references before using them in a completed coverage row.
