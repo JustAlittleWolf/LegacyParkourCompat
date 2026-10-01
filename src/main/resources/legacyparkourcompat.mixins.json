@@ -6,7 +6,12 @@
     "FoodDataMixin",
     "LivingEntityMixin",
     "PlayerMixin",
-    "BlockBehaviourMixin"
+    "BlockBehaviourMixin",
+    "BlockPushEntitiesMixin",
+    "EntityMovementMixin",
+    "FarmlandBlockMixin",
+    "PlayerSneakEdgeMixin",
+    "ServerPlayerExhaustionMixin"
   ],
   "client": [
     "AbstractBoatMixin",
