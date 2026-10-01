@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "me.wolfii.legacyparkourcompat.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "EntityMixin",
+    "LivingEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
