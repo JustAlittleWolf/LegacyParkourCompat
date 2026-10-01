@@ -68,6 +68,14 @@ The detailed paired coverage updates below supersede this initial ledger. Termin
 
 See F-001 through F-009 in `findings/`. Findings are scoped to the stated player conditions; they do not establish first introduction releases inside the interval.
 
+## Version-boundary registration audit
+
+- Canonical Mojmap readiness markers for `1.18`, `1.18.2`, `1.19`, `1.19.3`, and `1.19.4` were rechecked. The listed movement-source hashes matched the staged source files.
+- `ChangeResolver` only considers changes whose `emulates` version is newer than or equal to the selected profile, then chooses the nearest such version. A `V1_18_2` registration therefore does not supply movement behavior for a selected `V1_19` profile.
+- `ParkourVersion.V1_19` groups `1.19` through `1.19.3`; the implementation uses exact `1.19.3` source as the latest-patch representative. F-002, F-005, and F-008 have the newer-side behavior by that representative. F-003, F-004, F-006, F-007, and F-009 retain the older-side behavior.
+- The exact first 1.19.x patch for F-002, F-005, and F-008 is not established. The within-group difference is recorded for a later minor-version pass; no new selectable patch group was added here.
+- The 1.19.4 profile has explicit deltas where its source differs from native 26.2 behavior (F-002, F-005, F-006, and F-008). Other scoped 1.19.4 behavior uses the native result where source behavior matches.
+
 ## Resume checkpoint
 
 - Last completed: paired A/B exact-source verification, nine scoped findings, and 32 bounded no-difference slices. Recent slices 4.10–4.12 compared selected block shapes and Big Dripleaf's player-triggered support transition alongside the named inside-block responses; slices 1.7–1.9 compared auto-jump collision helpers, eligibility gates and collision-context construction.

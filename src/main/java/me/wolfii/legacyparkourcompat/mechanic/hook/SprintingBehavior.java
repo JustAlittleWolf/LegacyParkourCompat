@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.mechanic.hook;
 
 import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
 import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 
 /**
@@ -18,6 +19,14 @@ public interface SprintingBehavior extends VersionedMechanic {
     }
 
     default boolean canStartSprinting(Player player, boolean vanilla) {
+        return vanilla;
+    }
+
+    default boolean fallFlyingForSprintGate(Player player, boolean vanilla) {
+        return vanilla;
+    }
+
+    default boolean vehicleCanSprint(Player player, Entity vehicle, boolean vanilla) {
         return vanilla;
     }
 

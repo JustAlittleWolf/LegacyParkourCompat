@@ -11,4 +11,8 @@ import net.minecraft.world.entity.player.Player;
 @MechanicType("player.auto_jump")
 public interface AutoJumpBehavior extends VersionedMechanic {
     boolean isAutoJumpEnabled(Player player, boolean vanilla);
+
+    default float inverseSqrt(Player player, float value, float vanilla) {
+        return vanilla;
+    }
 }

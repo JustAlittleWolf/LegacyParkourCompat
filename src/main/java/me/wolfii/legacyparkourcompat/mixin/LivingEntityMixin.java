@@ -7,6 +7,7 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.DismountPositionBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.FallFlyingLookAngleBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.FallFlyingLookBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.GlideFallDistanceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.GroundSpeedBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.MovementChunkLookupBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerDimensionsBehavior;
@@ -201,6 +202,16 @@ abstract class LivingEntityMixin {
                 .orElse(vanilla);
         }
         return vanilla;
+    }
+
+
+
+    @Inject(method = "travelFallFlying(Lnet/minecraft/world/phys/Vec3;)V", at = @At("HEAD"))
+    private void legacyparkourcompat$fallFlyingFallDistance(Vec3 input, CallbackInfo ci) {
+        if ((Object) this instanceof Player player) {
+            MovementRuntime.find(GlideFallDistanceBehavior.class, player)
+                .ifPresent(behavior -> behavior.beforeFallFlyingTravel(player));
+        }
     }
 
 }
