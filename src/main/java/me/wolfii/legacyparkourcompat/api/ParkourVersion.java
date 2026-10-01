@@ -13,7 +13,9 @@ import java.util.stream.Collectors;
 /**
  * Selectable parkour versions. Patch releases that share the same parkour
  * mechanics belong to one constant (for example {@link #V1_9} covers
- * {@code 1.9} through {@code 1.9.4}).
+ * {@code 1.9} through {@code 1.9.4}). If a group has an unaudited patch-level
+ * movement difference, its registered behavior uses the latest-patch source
+ * representative until a minor-version pass adds a dedicated constant.
  *
  * <p>Order is chronological. A {@code @MovementChange(emulates = V1_8)} is the
  * 1.8 behaviour; Minecraft replaced it in {@link #next()}, which is {@link #V1_9}.
@@ -36,6 +38,12 @@ import java.util.stream.Collectors;
  *   <li>{@link #V1_21_5} – per-axis low-speed momentum cancel (MC-241951) and related travel fixes</li>
  *   <li>{@link #V1_21_11} – elytra through cave vines / later 1.21 movement</li>
  * </ul>
+ * The {@link #V1_19} group uses 1.19.3 as its latest-patch representative:
+ * glide fall-distance handling, inside-block contact inset and underwater-boat
+ * passenger currents have the newer behavior there, while cached air speed,
+ * sprint gates, mounted sprint eligibility and auto-jump normalization retain
+ * the older behavior. Their first patch release within 1.19.x has not been
+ * established; a minor-version pass is deferred.
  * 26.2 is native {@link #CURRENT} (block bounce/restitution). 26.1.1 and 26.1.2
  * are grouped with {@link #V26_1} (no movement deltas). Pre-1.8 is out of scope.
  */

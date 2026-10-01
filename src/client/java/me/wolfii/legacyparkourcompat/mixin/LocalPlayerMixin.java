@@ -38,6 +38,14 @@ public abstract class LocalPlayerMixin {
             .orElse(vanilla);
     }
 
+    @Inject(method = "canStartSprinting()Z", at = @At("RETURN"), cancellable = true)
+    private void legacyparkourcompat$historicalFallFlyingSprintGate(CallbackInfoReturnable<Boolean> cir) {
+        Player player = (Player) (Object) this;
+        MovementRuntime.find(SprintingBehavior.class, player).ifPresent(behavior ->
+            cir.setReturnValue(behavior.canStartSprinting(player, cir.getReturnValue()))
+        );
+    }
+
     @Inject(method = "vehicleCanSprint(Lnet/minecraft/world/entity/Entity;)Z", at = @At("RETURN"), cancellable = true)
     private void legacyparkourcompat$historicalVehicleSprint(Entity vehicle, CallbackInfoReturnable<Boolean> cir) {
         Player player = (Player) (Object) this;

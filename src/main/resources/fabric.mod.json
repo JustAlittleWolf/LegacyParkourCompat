@@ -35,7 +35,9 @@
       "me.wolfii.legacyparkourcompat.config.ModMenuIntegration"
     ],
     "legacyparkourcompat:movement-change": [
-      "me.wolfii.legacyparkourcompat.change.v1_18_2.MovementChanges"
+      "me.wolfii.legacyparkourcompat.change.v1_18_2.MovementChanges",
+      "me.wolfii.legacyparkourcompat.change.v1_19.MovementChanges",
+      "me.wolfii.legacyparkourcompat.change.v1_19_4.MovementChanges"
     ]
   },
   "depends": {
