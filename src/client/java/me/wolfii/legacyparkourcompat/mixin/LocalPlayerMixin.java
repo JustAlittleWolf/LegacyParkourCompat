@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LocalPlayer.class)
 abstract class LocalPlayerMixin {
-    @Inject(method = "aiStep", at = @At("HEAD"))
+    @Inject(method = "aiStep", at = @At("TAIL"))
     private void legacyParkourCompat$tickSprintDuration(CallbackInfo ci) {
         LocalPlayer player = (LocalPlayer) (Object) this;
         MovementRuntime.find(SprintDurationBehavior.class, player)
