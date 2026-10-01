@@ -53,7 +53,7 @@ public final class PortalDismountChange implements PortalDismountBehavior {
                         BlockPos blockPos = BlockPos.containing(candidateX, passenger.getY(), candidateZ);
                         BlockState blockState = passenger.level().getBlockState(blockPos);
                         if (blockState.entityCanStandOn(passenger.level(), blockPos, passenger)) {
-                            passenger.setPos(candidateX, passenger.getY() + 1.0, candidateZ);
+                            passenger.teleportTo(candidateX, passenger.getY() + 1.0, candidateZ);
                             return;
                         }
 
@@ -76,7 +76,7 @@ public final class PortalDismountChange implements PortalDismountBehavior {
                 }
             }
 
-            passenger.setPos(x, y, z);
+            passenger.teleportTo(x, y, z);
             return;
         }
 
