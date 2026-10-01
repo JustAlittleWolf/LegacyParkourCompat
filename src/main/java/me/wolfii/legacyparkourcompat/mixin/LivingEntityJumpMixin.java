@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(LivingEntity.class)
-abstract class LivingEntityJumpMixin {
+public abstract class LivingEntityJumpMixin {
     @ModifyArg(
         method = "jumpFromGround()V",
         at = @At(value = "INVOKE", target = "Ljava/lang/Math;max(DD)D"),
