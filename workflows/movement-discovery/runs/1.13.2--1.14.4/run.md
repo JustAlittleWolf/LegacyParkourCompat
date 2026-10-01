@@ -2,6 +2,7 @@
 
 - Status: partial
 - Scope: exact Java Edition 1.13.2 (A) and 1.14.4 (B), client player movement.
+- Version grouping: implement the latest patch of each requested selectable major/minor group; within-group patch differences are recorded for a later minor-version pass.
 - Repository revision at restart: `5a68659bd869e6028d151a8aed3cd91a9eae88c9`; 2026-09-27.
 - Selected namespace: Ornithe Feather `feather-gen2` named mappings for both exact releases. Both mapping files declare Tiny v2 `official`, `intermediary`, `named` columns. The compared player and input classes retain matching named package/class paths. Member correspondence still requires per-slice inspection.
 - Source preparation: exact Feather Gen2 builds were republished by the sole source-preparation owner to the stable read-only shared staging tree. Canonical markers are `../../../../build/stable-shared-minecraft/ready/1.13.2--feather.json`, `1.14--feather.json` (group base), `1.14.1--feather.json` (patch-boundary check), and `1.14.4--feather.json`; each marker confirms its requested and resolved release. The local ignored junction `build/stable-shared-minecraft` points to the shared staging root; no source tree was copied into this repository.
@@ -74,13 +75,13 @@ A `KeyboardInput.tick()` lines 13–49 resets and increments/decrements float mo
 ## Coverage ledger
 
 - Stage 1, raw four-direction keyboard sampling before sneak slowdown: `compared-no-difference` for -1, 0 and 1 values under corresponding key states. A `KeyboardInput.tick()` lines 13–45 and B `KeyboardInput.tick(boolean, boolean)` lines 13–21; caller ordering at A `LocalClientPlayerEntity.java:698-704`, B `:625-632`. This scoped conclusion does not cover crouch, item use or sprint gating.
-- Stage 1, sneak/pose/spectator slowdown gate: `findings`. F001 source-confirms the 1.14 group-base pose/spectator gate and the flight-sneak interaction. F002 source-confirms an additional 1.14-to-1.14.4 swimming-state guard, absent in 1.14.1; its exact first patch remains unresolved after 1.14.1.
+- Stage 1, sneak/pose/spectator slowdown gate: `findings`. F001 source-confirms the 1.14.4 endpoint gate and the flight-sneak interaction. F002 source-confirms an additional 1.14-to-1.14.4 swimming-state guard, absent in 1.14.1; its exact first patch is deferred to the later minor-version pass.
 - Stage 1 remaining input/tick order, sprint, jump, auto-jump, flight and riding: `pending`.
 - Stages 2–7: `pending`; no other movement slice has been compared with this paired Feather source yet. Existing adjacent-run findings are navigation hints, not evidence for this pair.
 
 ## Dependency queue and blockers
 
-- `INPUT-PATCH-BOUNDARY`: inspect the `m_63723874()` body in exact 1.14.2 next; continue only across subsequent 1.14 patches needed to establish where F002's `!isSwimming()` guard first appears. Do not register the patch override until this boundary is known.
+- `MINOR-PATCH-BOUNDARY`: F002's exact first patch remains unknown after the unchanged 1.14.1 source; resolve it during the later minor-version pass. The present implementation represents the 1.14.4 endpoint through the existing `V1_14` group and does not claim 1.14 base equivalence.
 - `SOURCE-DIAGNOSTICS`: inspect any remapper/decompiler warnings that touch future movement members; existing success messages do not certify every body.
 - `REMAINING-STAGES`: inventory and compare the full source-navigation stages 1–7, including block/fluid resources and external player motion inputs.
 
@@ -92,12 +93,12 @@ A `KeyboardInput.tick()` lines 13–49 resets and increments/decrements float mo
 ## Resume checkpoint
 
 - Last completed slice: raw four-direction keyboard sampling; input slowdown gate and pose reachability compared at 1.13.2, 1.14, and 1.14.4.
-- Next bounded slice: exact 1.14.2 `LocalClientPlayerEntity.m_63723874()` body for F002's release boundary; 1.14.1 is confirmed unchanged from the 1.14 group base.
+- Next bounded slice: continue the remaining movement audit stages. The 1.14.1 check is retained as deferred minor-pass evidence and does not block implementing the requested 1.14.4 endpoint.
 - Remaining work: all other stage 1 slices and stages 2–7. Recheck hashes if regenerating either ignored source tree.
 
 ## Source audit closure
 
-- Coverage: one bounded compared-no-difference slice, one stage-1 findings slice with an unresolved within-minor boundary, and the remaining stage-1 slices plus stages 2–7 pending. No stage is fully closed.
+- Coverage: one bounded compared-no-difference slice, one stage-1 findings slice with an unresolved within-minor boundary deferred to the minor-version pass, and the remaining stage-1 slices plus stages 2–7 pending. No stage is fully closed.
 - Mapping alignment: resolved by same-family `feather-gen2` mappings for both exact releases. The source comparison is now partial, not blocked.
 - Limits: only the documented input-slowdown slice has been source-audited. No complete movement audit, gameplay validation, or equivalence claim is made.
 - Runtime validation: not performed (separate workflow).

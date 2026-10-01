@@ -16,15 +16,16 @@
 - B manifest: `../../../../build/stable-shared-minecraft/ready/1.14.4--feather.json`; source `net/minecraft/client/entity/living/player/KeyboardInput.java`, `KeyboardInput.tick(boolean, boolean)`, lines 13–25, SHA-256 `5932453A9E48E7A798AE1BE1CD3A4BF660B6B3BE43BB7E5DC22686B3C4A82526`.
 - B player path: `LocalClientPlayerEntity.java`, `m_63723874()` lines 596–598, `mobTick()` lines 629–630, movement-speed copy lines 604–605, flying compensation lines 729–732; SHA-256 `708AF6A3880FB58B67BF4604A5509B351719A9C2A0C06A8EC261586435BF00CE`.
 - B outside-water swim predicate: `net/minecraft/entity/Entity.java`, `m_00306336()` / `m_99544176()`, lines 1818–1823, SHA-256 `7315A496C195DA767DE9D4936D3ADB6EFC3C419DC0F0E95D6F32781B0DA1BA55`.
-- Exact boundary check: manifest `../../../../build/stable-shared-minecraft/ready/1.14--feather.json`; `LocalClientPlayerEntity.java` SHA-256 `2B1AD3B3416949A9DA2607A3EC2251AA69B2D9EEBD76638C92E20749D625338F` confirms the pose gate at release 1.14.
+- Exact group-base check: manifest `../../../../build/stable-shared-minecraft/ready/1.14--feather.json`; `LocalClientPlayerEntity.java` SHA-256 `2B1AD3B3416949A9DA2607A3EC2251AA69B2D9EEBD76638C92E20749D625338F` confirms the pose gate at release 1.14.
+- Requested latest-patch endpoint check: manifest `../../../../build/stable-shared-minecraft/ready/1.14.4--feather.json`; the endpoint adds `!isSwimming()` to the pose subgate. Its within-group boundary is deferred to the minor-version pass (F002).
 
 ## Source-level difference
 
 In 1.13.2, `KeyboardInput.tick()` multiplies sideways input and then forward input by `(float)(value * 0.3)` whenever the sneak key is held. In 1.14, `tick(boolean bl, boolean bl2)` uses the same two operations when `!bl2 && (this.sneaking || bl)`. The local player computes `bl` from pose-fit state before calling the input tick and supplies `isSpectator()` as `bl2`. The exact 1.14 group base confirms the pose-aware gate first appears at 1.14.
 
-At the 1.14 group base, `m_63723874()` is false while flying; otherwise it checks that the sneaking pose fits and then accepts either the sneak key or inability to fit standing. The 1.14.4 endpoint also excludes `isSwimming()` in that predicate. The separate within-group change is recorded in F002; its first patch release remains under verification.
+At the 1.14.4 endpoint, `KeyboardInput.tick` applies slowdown when the player is not a spectator and either the sneak key is held or the local pose-based predicate is true. That predicate requires the player not to be flying or swimming, the sneaking pose to fit, and either the sneak key to be held or the standing pose not to fit. An outside-water swimming pose is a separate alternative. F002 records that the swimming exclusion differs from the 1.14 base and 1.14.1; its exact first patch is deferred to the minor-version pass.
 
-When the local player is flying with sneak held, 1.13.2 first applies the `0.3` factor and later divides both input fields by `0.3`; 1.14.4 retains that later division while its gate normally excludes flying. The source therefore predicts a changed horizontal input magnitude in this case, subject to the separate downstream movement normalization. This is a source-level prediction, not an observed trajectory.
+When the local player is flying with sneak held, the direct sneak-key branch still applies the `0.3` factor in 1.14.4. The later flight compensation divides the sampled input fields after the local horizontal movement speeds have already been copied, so it does not undo the current tick's slowdown. The compatibility gate therefore keeps slowdown active for flying sneak input; the later field compensation is recorded as source context and is not applied to the modern movement vector.
 
 ## Reachability and dependencies
 
@@ -32,8 +33,8 @@ Local client player `mobTick()` → `KeyboardInput.tick(...)` → sideways/forwa
 
 ## Consequence and uncertainty
 
-Source proves the changed predicate and the later flying compensation. It predicts additional slowdown while a non-flying player is forced into a fitting sneak pose without holding sneak, no slowdown for spectators, and a flying-sneak input increase when the gate is false. F002 records the swimming-state refinement; its exact first patch is unresolved. Other movement slices in this run remain pending. No trajectory or fix has been runtime-validated.
+Source proves the changed predicate and the ordering of the later flight compensation. It predicts additional slowdown while a non-flying player is forced into a fitting sneak pose without holding sneak, no slowdown for spectators, and slowdown for flying sneak input through the direct key branch. F002 records the swimming-state refinement; its exact first patch is unresolved and deferred. Other movement slices in this run remain pending. No trajectory has been runtime-validated.
 
 ## Handoff
 
-Implement the 1.14 pose/spectator slowdown gate and the adjacent flying-sneak compensation as one horizontal-input mechanic. The exact patch boundary for the swimming-state refinement is tracked by F002 and must be established before registering a later override.
+Implement the 1.14.4 pose/spectator slowdown gate through the existing `V1_14` group, which represents the requested latest patch. Preserve the direct sneak-key branch, including while flying. The exact within-group boundary for the swimming-state refinement is tracked by F002 for the later minor-version pass.

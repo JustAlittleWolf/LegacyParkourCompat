@@ -4,9 +4,9 @@
 - Newer version B: 1.14.4
 - Mechanic / coverage slice IDs: stage 1, `INPUT-SLOWDOWN`
 - Classification: changed behavior
-- Confidence: source-confirmed at endpoints and exact 1.14.1; first-patch boundary unresolved
+- Confidence: source-confirmed at endpoints and exact 1.14.1; first-patch boundary deferred
 - Applicability: historical player behavior
-- First changed release: after 1.14.1 and no later than 1.14.4
+- First changed release: after 1.14.1 and no later than 1.14.4; exact patch deferred to the minor-version pass
 - Runtime validation: not performed
 
 ## Paired evidence
@@ -26,8 +26,8 @@ The local player's `mobTick()` evaluates this predicate and passes it to `Keyboa
 
 ## Consequence and uncertainty
 
-The source proves the endpoint expression change and confirms the guard is still absent in 1.14.1. It predicts a changed input slowdown result for swimming players who otherwise satisfy the 1.14 base pose gate. The exact patch where `!isSwimming()` first appeared is not established; inspect 1.14.2 and later patches only as needed. Do not register an override until the boundary is verified. No trajectory has been runtime-validated.
+The source proves the endpoint expression change and confirms the guard is still absent in 1.14.1. It predicts a changed input slowdown result for swimming players who otherwise satisfy the 1.14 base pose gate. The exact patch where `!isSwimming()` first appeared is not established and is deferred to the minor-version pass. For this campaign, the 1.14 implementation follows the requested latest-patch endpoint through the existing `V1_14` group; this does not claim the expression is identical across all 1.14 patches. No trajectory has been runtime-validated.
 
 ## Handoff
 
-Keep F002 provisional for implementation boundary purposes. The targeted 1.14.1 gate body matches the 1.14 base. Inspect 1.14.2 next, then later 1.14 patches only if necessary to locate the first changed patch. If it differs from F001's 1.14 gate at a new `ParkourVersion` boundary, add the closest historical override; otherwise preserve the existing 1.14 behavior through that release.
+Keep the exact first-patch boundary as a deferred minor-version question. The targeted 1.14.1 gate body matches the 1.14 base; the current major/minor campaign implements the 1.14.4 endpoint via the existing `V1_14` registration.
