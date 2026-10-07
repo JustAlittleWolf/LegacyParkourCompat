@@ -149,6 +149,16 @@ The open collision dependency has a concrete reachable example. A player standin
 
 I am not accepting this candidate yet: the current finding still marks `D-STEPHEIGHT` and `D-COLLISION` open and omits this scene's paired provider/registry evidence; the owner snapshot is uncommitted; and artifact-manifest integrity for the pair awaits repair. The pair and all other inventories remain open. This review covers only the support-probe depth.
 
+### 1.11.2 → 1.12.2: sleep safety transition review
+
+**Candidate snapshot reviewed:** owner commit `eb997d6a4a533dcac36b2991be47df5282d94f8a`; run SHA-256 `0A002218147DE9E825365A6D2BF88FC86D1EF8ACCB789F62745A4ED496D161EE`; finding SHA-256 `DCF23B56CBB4FBE3440FEE24BC59A7E2535BF0D222D8091D2CB8CCF2BB409CCB`.
+
+**Independent source disposition: source delta and bounded player-state consequence confirmed; revision required before acceptance.** A `PlayerEntity.trySleep` includes every `MonsterEntity` in the bed-area safety query; B filters that query with `PlayerEntity.IsAngryAtPlayerPredicate`. B's `MonsterEntity.isAngryAt` defaults true, while `ZombiePigmanEntity.isAngryAt` returns `isAngry()`. Under the stated reachable condition of a nearby non-angry zombie pigman and no other monsters, A rejects sleep while B proceeds. The bed interaction calls `trySleep` on both sides. The successful path changes player size to 0.2×0.2, moves to the bed, sets sleeping state, and zeros velocity; the server-player path then teleports/sends the sleep packet. The cited source bodies for `BedBlock`, `MonsterEntity`, `ZombiePigmanEntity`, and the A `PlayerEntity` match their ready-tree hashes.
+
+There is a finding hash error: the report cites B `PlayerEntity.java` as `e4e0fdbe07a7d0a0ae4a70cbb6739a2d7c9d045a4a12b409895c220b5d91fe1e`, but the ready file and source manifest agree on `e4e0fdbe07a7d0a0ae4a70cbb6739a287c9d045a4a12b409895c220b5d91fe1e`. The reported source content matches the verified file; the evidence identifier needs correction in a new snapshot. The owner also correctly leaves full pair inventories and the broader client authority path open; neither is closed by this finding review.
+
+Do not accept or freeze this candidate until the source hash citation is corrected in an immutable snapshot and the shared derived-artifact manifest is repaired and freshly verified. Pair status remains partial; this review covers only the sleep eligibility gate and its direct player-state consequences.
+
 ### 1.10.2 → 1.11.2: post-move `onSteppedOn` guard scope check
 
 The owner’s active report has a source-confirmed guard-timing difference: A stores `bl = onGround && isSneaking() && PlayerEntity` before collision resolution, then calls `onSteppedOn` only under `makesSteps && !bl && !isRiding()` (A `Entity.move()` around lines 468 and 664–674). B checks the updated `onGround` and current sneaking state in its post-move condition (B `Entity.move()` lines 727–737). This establishes a callback call difference for a player that lands while sneaking, but it does not yet establish an in-scope movement difference.
