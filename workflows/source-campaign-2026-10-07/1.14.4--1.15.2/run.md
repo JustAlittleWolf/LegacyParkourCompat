@@ -12,7 +12,7 @@
 
 - A (1.14.4): pending validated ready JSON; exact source root, client jar identity/hash, mapping artifact/build/path/hash, mapped jar hash, cited source/resource hashes not yet verified.
 - B (1.15.2): pending validated ready JSON; exact source root, client jar identity/hash, mapping artifact/build/path/hash, mapped jar hash, cited source/resource hashes not yet verified.
-- Do not infer readiness from directories. Source owner is the sole writer for the shared decompiler output/cache.
+- Shared source root: `build/movement-campaign-2026-10-07/ready/<exact-version>/<namespace>/`, with a readiness JSON beside each namespace tree and SHA-256 manifests/movement-method diagnostics referenced by it. The source owner holds `decompile.lock` and is the sole writer. At the last readiness check, no exact-version readiness JSON was published for either 1.14.4 or 1.15.2. Do not infer readiness from directory presence.
 
 ## Correspondence and call order
 
@@ -32,7 +32,7 @@ Initial navigation inventory only. Each row is pending until exact paired member
 
 ## Dependency queue and blockers
 
-- D-001; source pair readiness; exact release IDs, aligned namespace/modes, validated JSON, artifact and source hashes; required for all slices; next action: use the source-owner publication routed by the parent, verify exact IDs/hashes/body diagnostics; unresolved.
+- D-001; source pair readiness; exact release IDs, aligned namespace/modes, validated JSON, artifact and source hashes; required for all slices; source owner reports endpoints are queued serially and holds the shared decompiler lock; next action: reread the per-namespace ready JSONs under `build/movement-campaign-2026-10-07/ready/`, verify exact IDs, namespace, cited hashes and method-body diagnostics; unresolved.
 
 ## Finding index
 
@@ -51,3 +51,4 @@ None confirmed yet. No prior report or implementation catalog is treated as exha
 - Unresolved gaps and limits: source publication and all source-level coverage remain open; this is not a completed comparison.
 - Evidence/hash/correspondence audit: pending source readiness.
 - Runtime validation: not performed (separate workflow).
+
