@@ -1,6 +1,6 @@
 # Discovery: 1.10.2 to 1.11.2
 
-- Status: active
+- Status: partial
 - Scope: source-only comparison of reachable client-player movement for exact A=1.10.2 and B=1.11.2. Endpoint differences do not establish a first changed release.
 - Repository revision and start date: base `002137b227676caea77f6832b9f4c8d0b6200bff`; campaign date 2026-10-07; report branch `feat/source-discovery-movement-source-1-10-2-1-11-2`.
 - Evidence integrity status: worker reverified both immutable Feather r1 derived-artifact snapshots, both source manifests and every listed Java source file, both original artifact manifests and all raw inputs, readiness markers, diagnostics, and the shared verification-log hash. The original mapped jars are unavailable; revised snapshot hashes differ, so artifact identity and metadata-only change are unproven. Independent ops verification passed for the six-bundle revision set. Findings remain provisional pending their own blind source review; the pair remains unfrozen.
@@ -318,10 +318,11 @@ Other correspondence requiring further walk: remote/client corrections and packe
 
 ## Resume checkpoint
 
-- Last completed slice: exact source readiness verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order; partial S4-world-query; bounded S2-sleep-size-cycle/S2-resize; S1-autojump; S5-wall-collision-shapes; S2-eye-height; S4-piston-collision-geometry/F-05.
-- Next bounded slice and exact files/members/body ranges to open: `D-COLLISION` (`World.getCollisions`, both block-query overloads, relevant `BlockState.addCollisions`, every reachable shape provider). Piston progress/tick and retracting-source collision paths are covered by S4-piston-collision-geometry and F-02/F-03/F-05. Continue all open queue items in navigation order.
-- Outstanding dependencies and owners: shared source owner is read-only publisher; source worker owns this run and findings; coordinator must assign independent reviewer.
-- Current assumptions requiring verification: line ranges cited above remain stable under the source hashes; original mapped-artifact identity with the revised snapshots remains unproven; complete method correspondence, branch coverage, data resources and external-player call paths remain open.
+- Last completed slice: exact source readiness and revision verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order; partial S4-world-query; bounded S2-sleep-size-cycle/S2-resize; S1-autojump; S5-wall-collision-shapes; S2-eye-height; S4-piston-collision-geometry/F-05. This is a resumable partial checkpoint, not a pair freeze.
+- Next bounded slice: continue `D-COLLISION` by pairing `World#getCollisions` A lines 903-964 and B lines 960-1010 plus `getBlockCollisions`, then inventory and compare every reachable `addCollisions` override and its collision boxes. Source roots are `build/movement-campaign-2026-10-07/ready/1.10.2/ornithe-feather/` and `.../ready/1.11.2/ornithe-feather/`; provider inventory leads are in S4-world-query. Continue with D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS and D-EXTERNAL. Do not open implementation or wiki lanes before the pair's blind freeze.
+- Resume commands from the repository root: `git status --short --branch`; `git rev-parse HEAD`; `python workflows/movement-discovery/check_completion.py workflows/source-campaign-2026-10-07/1.10.2--1.11.2`. Then open the paired `World.java` roots above and continue the provider inventory.
+- Outstanding dependencies and owners: D-SOURCE-DIAGNOSTICS, D-COLLISION, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS and D-EXTERNAL remain with the source worker; coordinator must assign the independent source reviewer (D-REVIEWER). Shared source owner remains a read-only publisher.
+- Current assumptions requiring verification: line ranges cited above remain stable under the source hashes; original mapped-artifact identity with the revised snapshots remains unproven; complete method correspondence, branch coverage, data resources and external-player call paths remain open. No implementation reconciliation, wiki audit or runtime validation has started.
 
 ## Implementation reconciliation
 
