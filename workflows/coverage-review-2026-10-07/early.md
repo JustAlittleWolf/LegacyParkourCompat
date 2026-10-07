@@ -139,6 +139,8 @@ The report's paired hashes for `Block.java`, `StateDefinition.java`, and `World.
 
 Formal acceptance is withheld because (1) the candidate report/finding are not committed as an immutable snapshot, and (2) the shared-cache mapped-artifact integrity repair and fresh artifact-manifest verification are outstanding for this pair. Pair status remains active; the owner's remaining tick, collision, world, modifier, and external inventories are unaffected.
 
+**F002 no-gravity fluid-travel candidate:** the guarded `-0.02`/`-0.08` fluid-travel gravity subtractions are a real B-side source difference, but the owner has not established applicability to a local player. B's generic `Entity.NO_GRAVITY` state defaults false; an exact source-tree search found the only `setNoGravity` call sites are the public setter and `Entity`'s NBT reader. No vanilla local-player writer or received-true path is evidenced in the candidate. Keep the movement delta conditional and unresolved until player state reachability is traced; otherwise disposition it as not applicable to direct vanilla player movement. The pair's artifact hold also blocks acceptance.
+
 ### 1.10.2 → 1.11.2: F-01 sneak-edge probe review
 
 **Candidate state reviewed, not an immutable snapshot:** owner branch `feat/source-discovery-movement-source-1-10-2-1-11-2`, HEAD `1f6c3c21068253808f5685d665d8fcda92f6bbec`; owner has uncommitted edits to `run.md` and F-01. Current `run.md` SHA-256 `3FE333659310AA9E337516F52C73902F0B08F3BB37ACE85638603163938A6D06`; current `F-01-sneak-edge-probe-depth.md` SHA-256 `2C6E03F24AFF39567E086C5E101D3B11DAD914FB7B3511CE8F5491F850E29219`.
