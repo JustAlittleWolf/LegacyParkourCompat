@@ -12,7 +12,7 @@
 ## Paired evidence
 
 - A manifest: `../../../build/movement-campaign-2026-10-07/ready/1.13.2/ornithe-feather/`; `KeyboardInput.java`::`tick()`, lines 13-50, SHA-256 `7be11425906be051c83e275f359816546e4677b16d212156380e8d2e9258654a`; `LocalClientPlayerEntity.java`, sprint-forward consumers around lines 701, 726, 740, SHA-256 `2583495f3a02b4791aa036e6a8d354d7596c4984761969a0f29b29d8d9bf42bf`.
-- B manifest: `../../../build/movement-campaign-2026-10-07/ready/1.14.4/ornithe-feather/`; `KeyboardInput.java`::`tick(boolean,boolean)`, lines 13-26, SHA-256 `5932453a9e48e7a798ae1be1cd3a4bf660b6b3be43bb7e5dc22686b3c4a82526`; `LocalClientPlayerEntity.java`::`m_03985577()`, lines 961-964, SHA-256 `708af6a3880fb58b67bf4604a5509b351719a9c2a0c06a8ec261586435bf00ce`.
+- B manifest: `../../../build/movement-campaign-2026-10-07/ready/1.14.4/ornithe-feather/`; `KeyboardInput.java`::`tick(boolean,boolean)`, lines 13-26, SHA-256 `5932453a9e48e7a798ae1be1cd3a4bf660b6b3be43bb7e5dc22686b3c4a82526`; `LocalClientPlayerEntity.java`::`m_03985577()`, lines 961-964, SHA-256 `708af6a3880fb58b67bf4604a5509b351719a9c2a0c06a8ec261586435bf00ce`.- Additional B dependencies: `Input.java`::`m_49149051()`, lines 22-24, SHA-256 `acb63d46fb6e6a1cb6b285a5d0702fb62575f7d54344ad1f0f9d51e8f671f33f`; `LocalClientPlayerEntity.java`::`m_63723874()`, lines 596-598; `Entity.java`::`m_00306336()`/`m_99544176()`, lines 1818-1823. Whole-file hashes are listed in the run manifest.
 
 ## Source-level difference
 
