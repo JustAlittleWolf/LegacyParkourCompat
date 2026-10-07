@@ -112,6 +112,10 @@ Every row remains `pending` until both exact source trees and dependency closure
 
 - `SRC-PAIR`: obtain source-owner validated readiness JSON for exact 1.11.2/1.12.2 Feather outputs, including successful completion, exact resolved IDs, source roots, artifact hashes and diagnostics. No directory-presence assumption. Until received, no source claim can be terminal.
 - `DIAG-A`, `DIAG-B`: inspect decompiler/remapper diagnostics and identify whether any damaged/warning-affected bodies intersect movement coverage; bytecode-check relevant methods if required.
+- `CAND-OLD-001` (historical candidate only): re-check fall-flying look-vector dispatch and yaw source through both exact class hierarchies and player travel caller; no current finding until evidence is re-established.
+- `CAND-OLD-002` (historical candidate only): re-check bed landing callback, collision callback order, player/sneak guards, shape and registration; no current finding until evidence is re-established.
+- `CAND-OLD-003` (historical candidate only): re-check safe dismount candidate-box geometry, candidate ordering, player stop-riding path and authoritative position write; no current finding until evidence is re-established.
+- Prior no-difference rows are not accepted as closure; warning-affected bodies and full source methods/dependency producers must be rechecked.
 - Additional method, resource, state-writer and correspondence dependencies will be queued per parent slice and resolved before closure.
 
 ## Finding index
@@ -133,4 +137,5 @@ No findings recorded in this fresh campaign yet. Prior `1.11.2--1.12.2` run cont
 - Unresolved gaps: source readiness, full seven-stage inventory, dependency closure and warning disposition.
 - Evidence/hash/correspondence audit: not started; no source evidence admitted yet.
 - Runtime validation: not performed (separate workflow).
+
 
