@@ -8,6 +8,8 @@
 
 All inspected drafts remain active and incomplete. Their planned/stage ledgers are not source coverage. Exact pair-specific readiness records, body-level evidence, full caller/callee closure, registrations/resources and semantic comparisons are still outstanding. No draft is accepted complete.
 
+The initial disposition matrix below is a historical reviewer snapshot; use the current owner-branch refresh at the end for live status. Prior reviewer evidence is retained.
+
 | Pair | Owner draft observed | Disposition |
 |---|---|---|
 | 1.21.1 → 1.21.3 | `run.md`, active; seven required inventory maps pending; no bounded slice blocks. Exact A/B Mojmap sources are now ready and independently hash-verified; owner report remains stale. | Not accepted; source comparison has begun, but no bounded evidence ledger or closure. |
@@ -30,12 +32,12 @@ This validates only 26.2 artifact identity and those reported hashes/anchors. Th
 
 The canonical follow-up `fba28fa154d29572263ea3f2c44cf1dc23134329` was reviewed and cherry-picked as `8cde578`. It fixes top-level status parsing and the required `->` field parsing, and accepts structurally valid non-complete reports without claiming closure. `DEP-CHECKER` is resolved by this commit.
 
-- I reran the canonical checker against all eight current owner reports. Six returned exit 0 with `non-complete report status active is structurally valid; completion is not claimed`.
-- The 1.21.1→1.21.3 and 1.21.3→1.21.4 reports returned exit 1: `no bounded coverage slice entries found`. That is a real ledger gap; those owners must add slice blocks.
+- The prior checker run predates the latest owner commits. It accepted six active reports structurally and rejected the then-empty 1.21.1→1.21.3 / 1.21.3→1.21.4 ledgers; rerun against current owner refs before relying on those results.
+- Historical checker result only: both reports lacked bounded slices at the earlier refs. Current reports now contain slices/findings; no checker result is claimed for their newer tips.
 - Structural acceptance is not source proof. All reports remain active; exact sources are verified here only for 1.21.1→1.21.3 and 26.2 one-sided. No pair is accepted complete.
 ## Required requeue / acceptance gaps
 
-- The three previously absent reports have now appeared as active drafts. Keep all reports open. The 1.21.1→1.21.3 and 1.21.3→1.21.4 owners must add bounded slices; all other owners must replace pending templates with exact pair evidence and close producer/dependency inventories.
+- The 1.21.1→1.21.3 and 1.21.3→1.21.4 owners have since added bounded source work; remaining unenumerated slices and dependencies are summarized in the current owner refresh below. Other pairs also retain open inventory/provider dependencies.
 - Every owner must keep the report partial/active until the exact aligned pair is ready and verified; source-queued stages cannot be closed as compared-no-difference or not-applicable.
 - For each pair, independently verify exact IDs/namespace and cited ready/source/artifact/diagnostic hashes, then inspect complete relevant method bodies and decompiler diagnostics. Hash validity alone is not semantic evidence.
 - For 26.1.2→26.2, add bounded water, lava, fall-flying and fluid-travel slices under `LivingEntity.travel` and add `LocalPlayer.move`/`updateAutoJump` after collision resolution; split combined input/crouch/unstuck/sprint and flight/fall-flying/riding slices. Resolve `S-STATE-01` placeholder ranges.
@@ -45,7 +47,7 @@ The canonical follow-up `fba28fa154d29572263ea3f2c44cf1dc23134329` was reviewed 
 
 ## Current unresolved state
 
-- Pairwise findings verified: no adjudicated finding yet; first textual movement deltas and ledger omissions are recorded below.
+- Independent reviewer dispositions: none yet. Owner reports now record findings on five pairs; these are not independent acceptances. Reviewer notes remain separate.
 - Accepted pairs: none.
 - Three reports initially absent are now present as active drafts; all eight remain active and no pair is accepted complete.
 - Exact source pairs validated by this reviewer: 1.21.1→1.21.3; 26.2 is validated one-sided. The exact Mojmap ready records, source/artifact/diagnostic manifest hashes, release IDs, and client hashes for 1.21.1 and 1.21.3 were independently checked. Other assigned endpoint markers and IDs/namespaces are present, but their manifest hashes have not been independently checked here.
@@ -91,20 +93,21 @@ A read-only first pass over the complete bounded method bodies verifies these mo
 - `LivingEntity.jumpFromGround`: A stores vertical velocity as `max(jump velocity, existing Y)`; B stores the computed jump velocity directly (A 2056; B 2138; body SHA identities above). Trace jump callers, jump boost/attribute and velocity writer paths before adjudicating.
 - `Entity.move`: B adds a near-zero requested-motion exception to the position-update guard (A 620; B 642); calls a changed `setOnGroundWithMovement` overload including `horizontalCollision` (A 645; B 667); guards fall-damage calculation and movement-emission effects on client-controlled ownership (B 670–694); and extracts movement-emission/sound accounting into `applyMovementEmissionAndPlaySound` (B 703 onward). Collision/step/grounding and ownership callers need additional slices; the helper extraction alone is not necessarily a physics delta.
 
-The owner’s report was re-read after publication and remains active with zero coverage slice blocks, stale “sources pending/no comparison” provenance, and pending source-queue dependency. The corrected static checker therefore still rejects it for `no bounded coverage slice entries found`. Requeue these bounded slices: input-edge sampling/auto-jump, `Player.travel` swim/passenger/flying branch, jump velocity write, Entity move/collision/grounding, plus full travel and collision dependency closure, state writers and providers. No pairwise equivalence or completion claim is made from this first pass.
+Historical reviewer note before owner tip f92caef: the report then had zero bounded slices and stale source-pending fields. Current owner status is in the refresh below.
 
 ## Incremental finding snapshot gate: reviewer screening
 
-The canonical gate from `e5af4f61fc9a66163cad053eccf324d358b606c7` is integrated on this branch as `3ab5d6d`. The 1.21.1→1.21.3 owner report has no finding files or submitted source-confirmed findings; its seven inventory maps are pending and it has no bounded coverage slices. Accordingly, the observations above are reviewer navigation/candidate notes, not owner-authored finding snapshots. They have not been copied into the source-owner report and no implementation chat has been started.
+The canonical gate from `e5af4f61fc9a66163cad053eccf324d358b606c7` is integrated on this branch as `3ab5d6d`. Historical at reviewer tip `b237981`, the 1.21.1→1.21.3 owner report had no findings. The current owner tip adds source-confirmed `F-BLOCK-CONTACT-TRAVERSE.md`; this new finding remains independently unreviewed and unsnapshotted. Earlier observations remain reviewer notes, not owner-authored snapshots.
 
 | Audit candidate | Gate screening decision | Finding-specific work required before snapshot submission |
 |---|---|---|
+| `F-BLOCK-CONTACT-TRAVERSE` — new owner finding | **Not reviewed; snapshot decision pending.** Owner marks source-confirmed; independent reachability/dependency/boundary review has not occurred. | Review the exact finding snapshot only after its finding-specific evidence/dependencies are closed; owner currently records boundary unknown within (1.21.1, 1.21.3]. |
 | `AUD-CAND-INPUT` — LocalPlayer input/auto-jump path | **Revision required; handoff blocked.** No source-owner finding or exact dependency closure to review. | Compare A/B input event and `keyPresses` producer paths; establish whether held/edge semantics actually differ; close local-player tick and auto-jump reachability/ordering. |
 | `AUD-CAND-PLAYER-TRAVEL` — player swim/passenger/flying path | **Revision required; handoff blocked.** Current evidence is only the changed `Player.travel` body. | Close all passenger, water, flying, fall-distance/shared-flag, `canGlide`, superclass travel branches, and related state writers/consumers. |
 | `AUD-CAND-JUMP` — jump vertical-velocity write | **Revision required; handoff blocked.** The write differs textually, but caller and producer dependencies remain open. | Trace every in-scope player jump entry, grounded/airborne guards, prior velocity writes, jump effects/attributes and downstream collision/velocity consumers. |
 | `AUD-CAND-ENTITY-MOVE` — position/grounding/collision path | **Revision required; handoff blocked.** `Entity.move` alone does not establish a reachable isolated behavior. | Close `collide`, step selection, axis/tie rules, support probes, `setOnGroundWithMovement` implementations, movement callbacks, player overrides, collision-shape providers and ownership guards. |
 
-For all four candidates, the exact A/B sources and artifact manifests are hash-verified, but endpoint comparison establishes at most `unknown within (1.21.1, 1.21.3]`. The exact intermediate-version source needed to assign a first applicable implementation boundary has not been verified. No candidate has an immutable finding snapshot commit, finding-file SHA-256, independent accepted snapshot decision, or `implementation handoff: ready`; each is blocked pending owner-authored evidence, dependency closure, boundary evidence, and a fresh blind review of that exact snapshot. Pair status stays active/partial; full-pair discovery, all other slices and the full-pair audit remain open. This is a source-only gate screening; no implementation or wiki information was inspected or conveyed.
+The four `AUD-CAND-*` entries above remain reviewer notes with their prior revision-required screening decisions. They are separate from the newly submitted `F-BLOCK-CONTACT-TRAVERSE` owner finding, which is source-confirmed but unreviewed; no independent acceptance or implementation handoff is recorded. Its owner-stated boundary remains unknown within (1.21.1, 1.21.3]. Pair status and remaining inventories stay open.
 ## Updated movement scope and player impulse check
 
 The canonical scope clarification `8ad33f978aa65e68108959a028b99313a96f5607` is integrated as `5f58f76`. It keeps direct player-only velocity, impulse and knockback application in scope even when a combat event can trigger it, while excluding attack/damage calculation and non-player/vehicle physics. The source-preparation artifact revision is specifically for six early Feather-derived jars; it does not affect this 1.21.1→1.21.3 Mojmap source pair or its already verified source/artifact manifests.
@@ -114,8 +117,8 @@ In the expanded in-scope player impulse check, the complete `LivingEntity.knockb
 
 - Branch: `feat/coverage-review-recent`; report branch before this checkpoint commit: `b237981` (`main` base `002137b227676caea77f6832b9f4c8d0b6200bff`). Local `main` is an ancestor. The prior managed worktree path was removed; the same clean branch was restored in a new managed worktree and reattached to the branch. No audit changes were lost.
 - Closed in this reviewer pass: exact 1.21.1 and 1.21.3 Mojmap ready records and source/artifact/diagnostic/client hashes verified; key `LocalPlayer`, `Player`, `LivingEntity`, and `Entity` method bodies compared; direct knockback/push application methods checked as body-identical; new incremental snapshot gate and player-impulse scope commits integrated; recent endpoint ready IDs/namespaces spot-checked.
-- Pending: the 1.21.1→1.21.3 owner report still has stale source-pending fields, zero bounded slices, no findings and an unclosed source/method/resource dependency queue. Full player tick/travel branch, collision/shape/provider, state writer, resource and external-input inventories are not closed. The other assigned endpoint marker hashes are not independently verified by this report. No source snapshot is accepted; four audit candidates have revision-required screening decisions. All pairs remain open.
-- Next bounded work: review the pair owner’s new evidence after it replaces pending slices; compare the full input→pre-travel→all travel branches→collision→post-travel paths; close shape/provider, state-writer, input and movement-resource dependencies; inspect candidate-specific exact boundary evidence before resubmitting snapshots. Continue to avoid mod implementation and wiki material until full-pair freeze.
+- Pending: current owner refs and slice counts are tabulated at the end. `F-BLOCK-CONTACT-TRAVERSE` is source-confirmed by the owner but independently unreviewed; the pair remains active with 1 compared-no-difference, 3 in-progress, 1 pending, and METHOD-INVENTORY / RESOURCE-CHAIN / SOURCE-AUDIT open. No snapshot is accepted; all other pair coverage remains partial.
+- Next bounded work: independently review `F-BLOCK-CONTACT-TRAVERSE` only after its finding-specific evidence/dependencies are ready for snapshot review; continue the full input→pre-travel→travel branches→collision→post-travel and provider/resource inventories. Keep pair completion, implementation and runtime status separate.
 - After owner updates, run the structural gate from repository root: `python workflows/movement-discovery/check_completion.py workflows/source-campaign-2026-10-07/1.21.1--1.21.3/`. A partial result is expected until slices/dependencies are closed; checker success alone is not source acceptance. To resume Git state, use `git switch feat/coverage-review-recent` and confirm `git status --short --branch`.
 - Tests, builds, clients, TAS/Gym/server/Docker were not run. No implementation handoff or implementation-derived feedback was sent.
 ## Current owner-branch refresh — 2026-10-07
