@@ -12,7 +12,7 @@
 
 ## Artifact manifest
 
-Shared source root `build/movement-campaign-2026-10-07/ready/` is physically in the primary checkout and read-only to this worker. Fresh read-only verification confirmed both exact readiness records, all listed source-file hashes and all raw-input artifact hashes. The original derived mapped JARs were replaced during a reproducibility rerun and are unavailable; the source owner published immutable revision `feather-r1-2026-10-07` snapshots. Their hashes and verification records were rechecked, but the new snapshots do not prove identity with the unavailable originals or that the changes are metadata-only. Independent ops confirmation remains pending; do not rewrite markers, waive mismatches, independently decompile, freeze the pair, or accept affected findings before that confirmation.
+Shared source root `build/movement-campaign-2026-10-07/ready/` is physically in the primary checkout and read-only to this worker. Fresh read-only verification confirmed both exact readiness records, all listed source-file hashes and all raw-input artifact hashes. The original derived mapped JARs were replaced during a reproducibility rerun and are unavailable; the source owner published immutable revision `feather-r1-2026-10-07` snapshots. Their hashes and verification records were rechecked by this worker, and independent ops audit passed the revised Feather bundles. The new snapshots do not prove identity with the unavailable originals or that the changes are metadata-only; preserve that limitation and do not rewrite markers or waive original-hash mismatches.
 
 ### A — 1.11.2
 
@@ -45,7 +45,7 @@ Shared source root `build/movement-campaign-2026-10-07/ready/` is physically in 
 - Fresh read-only verification at 2026-10-07 15:28 UTC confirmed the ready markers resolve exact IDs `1.11.2` and `1.12.2`, namespace `ornithe-feather`; the source-manifest hashes match the ready markers and all 1,921/2,050 listed source files match their entries.
 - Rechecked 36/37 raw-input artifact entries against the original manifests; every entry matched. For each version, the revised read-only JAR snapshot hash matches both `artifact.sha256` and `revision.json`; the referenced verification-log hash also matches. Revision ID: `feather-r1-2026-10-07`.
 - The original derived mapped JARs are unavailable. The revised snapshots are new derived artifacts and do not prove identity with those originals or that the hash change is metadata-only. Ready markers and original manifests remain unchanged.
-- `DEP-ARTIFACT-INTEGRITY` remains open pending independent ops confirmation of this revision. Do not rewrite ready markers or waive original-hash mismatches. Do not freeze the pair or accept a finding snapshot until the ops dependency and a separate blind finding review are closed.
+- Independent ops audit passed the revised Feather bundles on 2026-10-07; this worker separately verified both exact pair endpoints as detailed above. `DEP-ARTIFACT-INTEGRITY` is closed for source-provenance use of revision `feather-r1-2026-10-07`. The original derived JARs remain unavailable and equivalence is unproven. Do not rewrite ready markers or waive original-hash mismatches.
 
 ## Blind-discovery freeze
 
@@ -194,14 +194,14 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 ### Slice S2.2: Pose selection, dimensions, eye height, resize collision gate and all pose/dimension writers
 
 - Inventory ID(s): INV-STATE, INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Pose selection, dimensions, eye height, resize collision gate and all pose/dimension writers; exact local guards and enclosing call order recorded per bounded behavior
-- A evidence: pending exact A member/body range and SHA-256 from verified source root
-- B evidence: pending exact B member/body range and SHA-256 from verified source root
-- State producers/writers -> consumers/readers: pending exact source writer/consumer closure
-- Parent slices / dependencies / closure evidence: parent/dependency links pending source inventory
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison; no equivalence inferred from prior reports
-- Finding IDs or checked absence/replacement path: none assigned
+- Exact behavior boundary and enclosing guards/order checked: `PlayerEntity.updatePlayerPose()` runs once in player tick after item cooldown update; priority is fall-flying `0.6 x 0.6`, sleeping `0.2 x 0.2`, sneaking `0.6 x 1.65`, then standing `0.6 x 1.8`. It creates a candidate box from current minimum coordinates and calls `setSize` only if `World.getCollisions(candidate)` is false. All direct player `setSize` sites found in the player packages: pose update, reset, death, sleep and wake; sleep is split into S2.2a.
+- A evidence: `1.11.2/ornithe-feather/net/minecraft/entity/living/player/PlayerEntity.java` tick call line 249, `updatePlayerPose()` lines 295-319, `getEyeHeight()` lines 1759-1769, `resetPos()` lines 402-407, `die(DamageSource)` lines 499-525, `wakeUp()` lines 1265-1287, file SHA-256 `87fe94fa6cbf7aba18b9a5e3401664439eb8eba9958173da8fbcd05cc7ad948b`; `Entity.java` default dimensions lines 176-177 and `setSize()` lines 271-288, SHA-256 `ce8104a17ce783df639cf9726e7b1cd0936563ea7ba308603335bbe05d49440`; `LocalClientPlayerEntity::isSneaking()` lines 608-611, SHA-256 `65c2747bd8c70def6be7f41f624d4c9493342b39ae7bed7967f9ff63608f59ed`; `World.java::getCollisions(Box)` lines 1058-1060 and collision helper lines 960-1011, SHA-256 `27cfaa5ff45c2d88c492fc5dae3ea4a2bb4536fd64bff8498a9a7d0cb82efb58`.
+- B evidence: `1.12.2/ornithe-feather/net/minecraft/entity/living/player/PlayerEntity.java` tick call line 245, `updatePlayerPose()` lines 291-315, `getEyeHeight()` lines 1756-1766, `resetPos()` lines 398-403, `die(DamageSource)` lines 510-536, `wakeUp()` lines 1259-1281, file SHA-256 `e4e0fdbe07a7d0a0ae4a70cbb6739a287c9d045a4a12b409895c220b5d91fe1e`; `Entity.java` default dimensions lines 178-179 and `setSize()` lines 274-291, SHA-256 `80f091bf32166c88cf8b8bd31caf72d84fa16224410733c7d2a0f00563f294a0a`; `LocalClientPlayerEntity::isSneaking()` lines 625-628, SHA-256 `01a58e94d8c6ff98a8e3794227cdc76a5fcbdbad795c70c9cf28854aff9823cc`; `World.java::getCollisions(Box)` lines 1062-1064 and collision helper lines 964-1015, SHA-256 `e9fa9b8d6d31ad57a5b876f5f63a5e3c554a23437decf1845a493daf48233594`.
+- State producers/writers -> consumers/readers: sleeping/sneaking/fall-flying flags select pose dimensions; `updatePlayerPose` collision clearance gates the new shape; shared `Entity.setSize` writes width, height and bounding shape, and may move a server entity horizontally when widening after its first tick. `getEyeHeight` consumes pose flags and current height. Respawn reset and death write the same size/position/velocity values on both releases; sleep writes are compared in S2.2a.
+- Parent slices / dependencies / closure evidence: S2.2a owns the sleep eligibility difference. S2.3/S3.6 track pose input transitions; `DEP-COLLISION-SHAPES` remains open for the player-reachable block shape/provider and registration inventory used by the clearance gate. S1.7 remains open for broader packet authority outside the direct pose comparison.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): `updatePlayerPose`, `getEyeHeight`, `resetPos`, `die`, `wakeUp`, `Entity.setSize`, `getShape`/`setShape`, local-player `isSneaking`, and both `World.getCollisions` method bodies are identical between A and B. The only changed PlayerEntity size transition found so far is the sleep gate in S2.2a. Keep this slice open until collision shape providers/registrations and the remaining player-only writer scan close.
+- Finding IDs or checked absence/replacement path: F-SLEEP-SAFETY-TRANSITION is bounded in S2.2a; no other pose-size difference found in the compared methods.
 
 ### Slice S2.2a: Bed sleep eligibility and player movement-state transition
 
@@ -210,7 +210,7 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 - A evidence: `1.11.2/ornithe-feather/net/minecraft/entity/living/player/PlayerEntity.java::trySleep(BlockPos)` lines 1194-1249, SHA-256 `87fe94fa6cbf7aba18b9a5e3401664439eb8eba9958173da8fbcd05cc7ad948b`; `Entity.java::setSize(FF)V` lines 271-288, SHA-256 `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440`; `PlayerEntity.java::wakeUp(ZZZ)V` lines 1265-1287, same PlayerEntity hash; `BedBlock` call at line 64, SHA-256 `84f56aab19adae4b953a27040e5f431f65c8923d6bd169995ac5a5f629a024e1`; `ServerPlayerEntity::trySleep(BlockPos)` starts line 540, SHA-256 `c2187f10b589bbfb47bef2a1b573781fecad55a13fb80c4c5dc11260d9f12197`; client `handlePlayerSleep` lines 766-769, SHA-256 `65d362c00de1adfd55fae5f858b91bf9b227525b987c09a2d223279376a66175`.
 - B evidence: `1.12.2/ornithe-feather/net/minecraft/entity/living/player/PlayerEntity.java::trySleep(BlockPos)` lines 1185-1243, SHA-256 `e4e0fdbe07a7d0a0ae4a70cbb6739a287c9d045a4a12b409895c220b5d91fe1e`; `Entity.java::setSize(FF)V` lines 274-291, SHA-256 `80f091bf32166c88cf8b8bd31caf72d84fa16224410733c7d2a0f00563f294a0a`; `PlayerEntity.java::wakeUp(ZZZ)V` lines 1259-1281, same PlayerEntity hash; `BedBlock` call at line 86, SHA-256 `48c127b2df425cb8d7ff60a284207de10a8408e90ee18a8449522a004a0b4369`; `ServerPlayerEntity::trySleep(BlockPos)` starts line 600, SHA-256 `ad4effc65edd98098d86af8ba725f6d6c2c94068f996739cf2734d34ecf804a9`; client `handlePlayerSleep` lines 775-778, SHA-256 `fce21d9902e555fd46545fb04bdb6c4a912eef6398790776ad1a122e09960c7c`; `MonsterEntity::isAngryAt(PlayerEntity)` lines 162-164, SHA-256 `e96f44cf14e80d3154fdd3a8e6827000bf0f13a545ee095c1ebedac7993e41b6`; `ZombiePigmanEntity::isAngryAt(PlayerEntity)` lines 199-201, SHA-256 `aba397ad24f519dbdfcdd594a1e9ecd8ad26ef36ea030b54b7f2be35d06f9701`.
 - State producers/writers -> consumers/readers: the A/B server safety query result gates the base player sleep transition; on success both set the sleeping dimensions, bed position, sleeping flag and zero velocity, then `ServerPlayerEntity` teleports and sends the sleep packet. The client handler replays `trySleep`; `wakeUp` restores ordinary player dimensions in both versions.
-- Parent slices / dependencies / closure evidence: The finding-specific bed interaction, sleep predicate, player state writes and sleep-packet consumer are traced here. S2.2 retains the broader pose/dimension/eye-height inventory; S1.7 retains the full packet authority and movement-correction audit. Artifact revision `feather-r1-2026-10-07` has been independently rechecked by the discovery author; `DEP-ARTIFACT-INTEGRITY` awaits ops confirmation. The finding snapshot has not been submitted to a blind reviewer.
+- Parent slices / dependencies / closure evidence: The finding-specific bed interaction, sleep predicate, player state writes and sleep-packet consumer are traced here. S2.2 retains the broader pose/dimension/eye-height inventory; S1.7 retains the full packet authority and movement-correction audit. The discovery author and independent ops both verified revision `feather-r1-2026-10-07`; the original-derived-JAR equivalence limitation remains explicit. Snapshot r2 is recorded as submitted; a replacement snapshot carrying the ops confirmation will receive fresh blind review.
 - Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): under the same server-side conditions—living, awake player, natural dimension, non-sunny time, bed in range, and only a non-angry zombie pigman inside the query box—A returns `NOT_SAFE` because any monster blocks sleep; B filters for monsters angry at this player, and the pigman override returns `isAngry()`, so B proceeds to the player movement-state writes. This source-differential finding is bounded to sleep eligibility; it does not close S2.2 or S1.7.
 - Finding IDs or checked absence/replacement path: F-SLEEP-SAFETY-TRANSITION; paired source evidence and hash detail in `findings/F-SLEEP-SAFETY-TRANSITION.md`
@@ -619,20 +619,62 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 - `DEP-EXTERNAL-WRITERS`: open; enumerate player-only velocity/position packet, push, piston, launch and mount paths; owner discovery author.
 - `DEP-OLD-CANDIDATES`: open re-verification only: prior report glide look-vector/yaw, bed landing rebound, server dismount query geometry; none accepted as current finding.
 - `DEP-DIAGNOSTICS`: readiness diagnostic hashes verified; inspect every cited method body; raw Gradle logs not retained; request exact mapped-bytecode/source assistance through commentary if a body is damaged or ambiguous.
-- `DEP-ARTIFACT-INTEGRITY`: open; discovery author freshly verified both `feather-r1-2026-10-07` snapshots, source trees and raw inputs. Await independent ops confirmation before freezing the pair or accepting a finding snapshot. Original derived mapped JARs remain unavailable; revised snapshots do not prove identity with them. Do not rewrite markers, waive mismatches, or decompile independently.
+- `DEP-ARTIFACT-INTEGRITY`: closed for current source-provenance use; discovery author verified both `feather-r1-2026-10-07` snapshots, source trees and raw inputs, and independent ops audit passed the revised Feather bundle. Original derived mapped JARs remain unavailable; revised snapshots do not prove identity with them. Do not rewrite markers or waive mismatches.
 - `DEP-RELATIVE-MOVE` (origin S1.2, owner discovery author): resolve all player-path writers/defaults of B-only `LivingEntity.verticalSpeed`, compare A 2D versus B 3D `moveRelative`/`Entity.updateVelocity` argument order and float operation order, then classify any zero-valued vertical write. Current source scan finds the declaration and only `MobEntity.setVerticalSpeed` writer; player inheritance path is not a `MobEntity`.
-- Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS, DEP-RELATIVE-MOVE, DEP-ARTIFACT-INTEGRITY
+- Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS, DEP-RELATIVE-MOVE
 
 ## Finding index
 
-`F-SLEEP-SAFETY-TRANSITION`: source-differential finding with artifact revision freshly verified by the discovery author; ops confirmation and blind finding review are pending. It records the observed server-side bed safety predicate change and resulting sleep dimensions/position/velocity writes when the only nearby monster is a non-angry zombie pigman; see S2.2a, `feather-r1-2026-10-07` and `DEP-ARTIFACT-INTEGRITY`. Do not freeze or accept it until both reviews are complete. Prior pair claims remain navigation candidates only under `DEP-OLD-CANDIDATES`. Source-only declaration: no implementation, wiki or wiki-audit evidence opened.
+`F-SLEEP-SAFETY-TRANSITION`: source-differential finding with artifact revision freshly verified by the discovery author and independent ops; fresh blind finding review is pending. It records the observed server-side bed safety predicate change and resulting sleep dimensions/position/velocity writes when the only nearby monster is a non-angry zombie pigman; see S2.2a and revision `feather-r1-2026-10-07`. Do not freeze or accept it until the reviewer accepts the exact replacement snapshot. Prior pair claims remain navigation candidates only under `DEP-OLD-CANDIDATES`. Source-only declaration: no implementation, wiki or wiki-audit evidence opened.
 
 ## Resume checkpoint
 
-- Last completed slice: S2.2a; S1.7 remains in-progress; S1.2a and S1.2b have bounded not-applicable dispositions.
-- Next bounded slice and exact files/members/body ranges to open: finish S1.7 packet-to-entity dispatch and remaining local movement-state writers, then continue S2.2 pose/dimension/eye-height writers, resize gate and collision-bound dependencies.
-- Outstanding dependencies and owners: listed above; discovery author owns source inventory; shared source owner/ops own canonical artifact repair and fresh verification; reviewer assignment pending coordinator.
+- Last completed slice: S2.2a; S1.7 and S2.2 remain in-progress; S1.2a and S1.2b have bounded not-applicable dispositions.
+- Next bounded slice and exact files/members/body ranges to open: close the S2.2 clearance query's shape/provider dependency and finish its remaining player state-writer scan; then finish S1.7 packet-to-entity dispatch and remaining local movement-state writers.
+- Outstanding dependencies and owners: listed above; discovery author owns source inventory; artifact provenance is independently verified; blind finding reviewer and full-pair reviewer assignment pending coordinator.
 - Current assumptions requiring verification: all prior findings and no-difference claims remain unaccepted; every cited body still requires direct review despite ready tree hashes.
+
+## Finding snapshots (not pair freeze)
+
+Append-only source-review history. An accepted finding snapshot would release only that finding to a separate implementation task; it would not close this pair.
+
+### Snapshot event F-SLEEP-SAFETY-TRANSITION-r1
+
+- Finding ID(s): F-SLEEP-SAFETY-TRANSITION
+- Source finding author(s): Codex source worker
+- Status: invalidated
+- Immutable snapshot commit: `eb997d6a4a533dcac36b2991be47df5282d94f8a`
+- Finding file path and SHA-256: `workflows/source-campaign-2026-10-07/1.11.2--1.12.2/findings/F-SLEEP-SAFETY-TRANSITION.md`; `dcf23b56cbb4fbe3440fee24bc59a7e2535bf0d222d8091d2cb8ccf2bb409ccb`
+- Exact A/B artifact-manifest identities/hashes: A `1.11.2/ornithe-feather/artifacts.sha256`, `69327982116b0ce1efe32e13031cb83a93dc5f30dcd1b936bf6af003a584ac5f`; B `1.12.2/ornithe-feather/artifacts.sha256`, `8171a095a5ee74cebbd12b3d76983fc01796c0c23c962076d1e235cd0f80fa8c`; the revised Feather snapshot had not yet been supplied in this event.
+- Cited source/resource hashes: A PlayerEntity `87fe94fa6cbf7aba18b9a5e3401664439eb8eba9958173da8fbcd05cc7ad948b`; B PlayerEntity was recorded incorrectly as `e4e0fdbe07a7d0a0ae4a70cbb6739a2d7c9d045a4a12b409895c220b5d91fe1e`.
+- Verified implementation boundary/evidence, or unresolved boundary reason: sleep eligibility predicate and resulting player dimension/position/velocity writes; the B PlayerEntity source hash typo made the evidence record inaccurate.
+- Finding-specific closed dependency IDs/evidence: sleep eligibility and direct state-write route inspected; artifact provenance was unresolved.
+- Independent blind source reviewer and decision date: early independent review relayed a revision request; reviewer identity and date not supplied.
+- Review basis / requested source-only revisions: recompute the exact B PlayerEntity.java hash, correct it, preserve this event as invalidated history, and submit a new snapshot for fresh review.
+- Pair run status and commit at handoff: active at `eb997d6a4a533dcac36b2991be47df5282d94f8a`.
+- Pair complete: no
+- Implementation handoff: blocked; invalidated hash evidence and unresolved artifact provenance.
+- Replaces/supersedes snapshot ID and reason, if applicable: replaced by `F-SLEEP-SAFETY-TRANSITION-r2` because the B-side source-file hash was incorrect.
+
+### Snapshot event F-SLEEP-SAFETY-TRANSITION-r2
+
+- Finding ID(s): F-SLEEP-SAFETY-TRANSITION
+- Source finding author(s): Codex source worker
+- Status: submitted
+- Immutable snapshot commit: `77192ea412d8af36bdf2b4fe66c4db48459e45d6`
+- Finding file path and SHA-256: `workflows/source-campaign-2026-10-07/1.11.2--1.12.2/findings/F-SLEEP-SAFETY-TRANSITION.md`; `ea3b84e4da7733a41832fce9af55c2dc15cec9e62a41f969f6d96f8be7bceb3b`
+- Exact A/B artifact-manifest identities/hashes: A `1.11.2/ornithe-feather/artifacts.sha256`, `69327982116b0ce1efe32e13031cb83a93dc5f30dcd1b936bf6af003a584ac5f`; B `1.12.2/ornithe-feather/artifacts.sha256`, `8171a095a5ee74cebbd12b3d76983fc01796c0c23c962076d1e235cd0f80fa8c`; both source manifests match their ready records; revised artifact revision `feather-r1-2026-10-07`, A snapshot `ba1872d5fd341770a45aeeb8d372776a1b89f0b88a11a72f15aa0fe879b6a29f`, B snapshot `fcc17537a14a423e2086f600047725ec1fcfd4c7fcf5c0d1a5bda491966c1b87`.
+- Cited source/resource hashes: A PlayerEntity `87fe94fa6cbf7aba18b9a5e3401664439eb8eba9958173da8fbcd05cc7ad948b`; B PlayerEntity `e4e0fdbe07a7d0a0ae4a70cbb6739a287c9d045a4a12b409895c220b5d91fe1e`; B MonsterEntity `e96f44cf14e80d3154fdd3a8e6827000bf0f13a545ee095c1ebedac7993e41b6`; B ZombiePigmanEntity `aba397ad24f519dbdfcdd594a1e9ecd8ad26ef36ea030b54b7f2be35d06f9701`; see finding for remaining paired source hashes and line ranges.
+- Verified implementation boundary/evidence, or unresolved boundary reason: under the stated server-side bed conditions, only a non-angry zombie pigman no longer blocks sleep; B consequently reaches the player size, bed-position, sleeping-state and velocity writes. Full packet-authority and broader pose inventories remain outside this finding and open in S1.7/S2.2.
+- Finding-specific closed dependency IDs/evidence: direct BedBlock-to-server sleep check, anger predicate and override, player state writes, server sleep packet emission, client sleep-packet consumer, source/raw input manifests, immutable revision checksums and independent ops audit were inspected and verified. Broad S1.7 packet-authority closure remains outside the bounded finding.
+- Independent blind source reviewer and decision date: fresh source-only review pending; prior reviewer identity/date await coordinator relay.
+- Review basis / requested source-only revisions: prior review found a B-side PlayerEntity hash typo; recomputation against the exact ready source gives the corrected hash above. Revised artifact snapshots, source trees and raw inputs were freshly checked by the discovery author; ops confirmation is pending.
+- Pair run status and commit at handoff: active at `77192ea412d8af36bdf2b4fe66c4db48459e45d6`.
+- Pair complete: no
+- Implementation handoff: blocked; independent ops confirmation and fresh blind finding review remain pending.
+- Replaces/supersedes snapshot ID and reason, if applicable: replaces `F-SLEEP-SAFETY-TRANSITION-r1`; the B PlayerEntity hash was corrected and the revision provenance was added.
+
+<!-- Append subsequent events; preserve prior records and commits. -->
 
 ## Implementation reconciliation
 
@@ -653,11 +695,11 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 
 ## Source audit closure
 
-- Coverage counts by status: 34 pending; 1 in-progress; 7 compared-no-difference; 2 not-applicable; 1 findings; 0 blocked.
+- Coverage counts by status: 33 pending; 2 in-progress; 7 compared-no-difference; 2 not-applicable; 1 findings; 0 blocked.
 - Required inventory status/evidence: INV-EXCLUSIONS complete; all other inventories pending with mapped slice IDs.
-- Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS, DEP-RELATIVE-MOVE, DEP-ARTIFACT-INTEGRITY
+- Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS, DEP-RELATIVE-MOVE
 - Unresolved gaps: all stages beyond bounded keyboard input and UI/tutor dispositions; exact methods, state producers/consumers, shapes/registries/resources, external writers and historical candidates remain open.
-- Evidence/hash/correspondence audit: source manifests, every source file, all raw-input entries and both revised artifact snapshots freshly verified under `feather-r1-2026-10-07`; independent ops confirmation pending; original derived mapped JARs unavailable; remaining source evidence pending.
+- Evidence/hash/correspondence audit: source manifests, every source file, all raw-input entries and both revised artifact snapshots freshly verified under `feather-r1-2026-10-07`; independent ops audit passed; original derived mapped JARs unavailable; equivalence unproven; remaining source evidence pending.
 - Blind freeze: pending
 - Implementation reconciliation: pending and deferred
 - Independent audit: pending reviewer assignment
