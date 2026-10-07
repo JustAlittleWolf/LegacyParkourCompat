@@ -20,6 +20,19 @@ INVENTORY_IDS = {
 TERMINAL = {"compared-no-difference", "findings", "not-applicable"}
 VALID_SLICE_STATES = TERMINAL | {"pending", "in-progress", "blocked"}
 PLACEHOLDERS = {"", "...", "<...>", "<IDs>", "<start-end>"}
+REQUIRED_SECTIONS = {
+    "Artifact manifest",
+    "Blind-discovery freeze",
+    "Correspondence and call order",
+    "Required source inventories",
+    "Coverage ledger",
+    "Dependency queue and blockers",
+    "Finding index",
+    "Resume checkpoint",
+    "Implementation reconciliation",
+    "Independent source audit",
+    "Source audit closure",
+}
 
 
 def value(block: str, label: str) -> str | None:
@@ -31,11 +44,11 @@ def concrete(item: str | None) -> bool:
     if item is None:
         return False
     normalized = item.strip().lower()
-    return (
-        normalized not in {placeholder.lower() for placeholder in PLACEHOLDERS}
-        and "<" not in normalized
-        and ">" not in normalized
-    )
+    if normalized in {placeholder.lower() for placeholder in PLACEHOLDERS}:
+        return False
+    if "<...>" in normalized or re.search(r"<[^<>]*\s[^<>]*>", normalized):
+        return False
+    return True
 
 
 def source_evidence(item: str | None) -> bool:
@@ -50,7 +63,11 @@ def check(path: Path) -> list[str]:
     if not manifest.is_file():
         return [f"run manifest not found: {manifest}"]
     content = manifest.read_text(encoding="utf-8")
-    top_statuses = re.findall(r"^- Status:\s*(\S+)\s*$", content, re.M)
+    # Section-local slice/freeze/reviewer statuses also use `- Status:`. Only
+    # inspect the metadata block before the first H2, accepting the old and
+    # current template label for compatibility with already-created reports.
+    header = re.split(r"(?m)^## ", content, maxsplit=1)[0]
+    top_statuses = re.findall(r"^- (?:Run status|Status):\s*(\S+)\s*$", header, re.M)
     if len(top_statuses) != 1:
         errors.append(f"expected exactly one top-level status, found {len(top_statuses)}")
         top_status = "invalid"
@@ -59,8 +76,14 @@ def check(path: Path) -> list[str]:
     if top_status not in {"active", "partial", "blocked", "complete"}:
         errors.append(f"invalid top-level status: {top_status}")
 
+    sections = set(re.findall(r"^## (.+?)\s*$", content, re.M))
+    for missing_section in sorted(REQUIRED_SECTIONS - sections):
+        errors.append(f"missing required section: {missing_section}")
+
     inventory_rows = re.findall(r"^- `(INV-[A-Z-]+)` (.+)$", content, re.M)
     inventories = {inventory_id: row for inventory_id, row in inventory_rows}
+    if len(inventory_rows) != len(inventories):
+        errors.append("duplicate required inventory IDs")
     missing = INVENTORY_IDS - inventories.keys()
     extra = inventories.keys() - INVENTORY_IDS
     if missing:
@@ -90,6 +113,19 @@ def check(path: Path) -> list[str]:
         block = content[match.start() : end]
         slice_id = match.group(1).split(":", 1)[0].strip()
         status = value(block, "Status")
+        required_fields = (
+            "Inventory ID(s)",
+            "Exact behavior boundary and enclosing guards/order checked",
+            "A evidence",
+            "B evidence",
+            "State producers/writers -> consumers/readers",
+            "Parent slices / dependencies / closure evidence",
+            "Disposition and rationale (including concrete reachability/preconditions)",
+            "Finding IDs or checked absence/replacement path",
+        )
+        for label in required_fields:
+            if value(block, label) is None:
+                errors.append(f"slice {slice_id}: missing required field `{label}`")
         if status not in VALID_SLICE_STATES:
             errors.append(f"slice {slice_id}: missing or invalid status")
             open_slices.append(slice_id)
@@ -129,7 +165,7 @@ def check(path: Path) -> list[str]:
     if errors:
         return errors
     if top_status != "complete":
-        return [f"run status is `{top_status}`; this is not a completion pass"]
+        return [f"non-complete report status `{top_status}` is structurally valid; completion is not claimed"]
     return ["schema/status gate passed; source truth still requires independent review"]
 
 
@@ -140,7 +176,10 @@ def main() -> int:
     results = check(Path(sys.argv[1]))
     for result in results:
         print(result)
-    return 0 if len(results) == 1 and results[0].startswith("schema/status gate passed") else 1
+    return 0 if len(results) == 1 and (
+        results[0].startswith("schema/status gate passed")
+        or results[0].startswith("non-complete report status")
+    ) else 1
 
 
 if __name__ == "__main__":
