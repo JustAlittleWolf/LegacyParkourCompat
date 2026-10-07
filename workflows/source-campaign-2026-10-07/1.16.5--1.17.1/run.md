@@ -1,127 +1,520 @@
 # Discovery: 1.16.5 to 1.17.1
 
 - Status: active
-- Scope: direct client-player movement; older A = `1.16.5`; newer B = `1.17.1`.
-- Repository revision at start: `002137b227676caea77f6832b9f4c8d0b6200bff`; 2026-10-07.
-- Selected namespace: expected official Mojang names (`mojmap`) on both sides; not accepted until the published readiness records confirm exact IDs, modes and alignment.
-- Source preparation: sole source owner; no decompiler or source-tree writes by this run. Exact ready records for both endpoints are pending.
-- Source protocol: canonical root `../../../../build/movement-campaign-2026-10-07/`; each endpoint's `ready/<version>/<namespace>.ready.json` must point to SHA-256 source/artifact manifests and movement-method diagnostics. Verify the JSON contents, hashes and relevant body diagnostics before citing source. Shared generation lock is `decompile.lock`; this run will not acquire it or generate sources.
-- Wiki / implementation declaration: no wiki or release-note mechanics evidence; no mod implementation/code-diff inspection. This is source-only discovery, with no runtime implementation or validation.
-- Exclusions: health, regeneration, hunger, food, saturation, exhaustion, damage and combat emulation are out of scope, including their indirect subsystems. Vanilla state may be read only where it directly gates player movement, and only the movement consumer is compared. Non-player physics are out of scope. Modern-only blocks/features receive no invented A-era behavior.
+- Scope: direct client-player movement; older A = 1.16.5; newer B = 1.17.1.
+- Repository revision and start date: 002137b227676caea77f6832b9f4c8d0b6200bff; 2026-10-07.
+- Selected naming namespace, CLI mode per side and alignment evidence: expected official Mojang names (mojmap) on both sides; verify from exact readiness JSON before acceptance.
+- Source preparation owner / command / log / readiness marker: source owner; endpoints queued, successful commands/logs/readiness records pending.
+- Toolchain/decompiler/remapper versions and options: pending readiness records.
+- Discovery author(s): source-only worker for this exact pair.
+- Independent reviewer: pending assignment; must differ from discovery authors.
+- Scope declaration: no implementation, wiki, or release-note mechanics evidence. No runtime implementation or validation.
+- Exclusions: health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulation, and non-player physics. Direct vanilla-state consumers may be inspected only as movement predicates; producer systems remain excluded. Modern-only blocks/features receive no invented A-era behavior.
 
 ## Artifact manifest
 
-All source/artifact identities remain pending until owner publication and verification. Relative paths below are rooted at this manifest.
+All source/artifact identities are pending until owner publication and verification. Paths are relative to this manifest.
 
 ### A — 1.16.5
 
 - Requested/resolved release: pending readiness JSON.
-- Source root: `../../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/` (expected; verify).
-- Client jar identity/hash, mapping coordinate/build/hash, remapped jar hash, decompiler log, toolchain versions/options: pending.
-- Readiness JSON, source manifest and movement diagnostics: pending; not yet published.
+- Expected source root: ../../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/; verify exact path/namespace.
+- Client jar hash; CLI mode; mapping coordinate/build/path/hash; mapped jar hash; successful log: pending.
+- Readiness JSON, source manifest and movement-method diagnostics: pending publication.
 
 ### B — 1.17.1
 
 - Requested/resolved release: pending readiness JSON.
-- Source root: `../../../../build/movement-campaign-2026-10-07/ready/1.17.1/mojmap/` (expected; verify).
-- Client jar identity/hash, mapping coordinate/build/hash, remapped jar hash, decompiler log, toolchain versions/options: pending.
-- Readiness JSON, source manifest and movement diagnostics: pending; not yet published.
+- Expected source root: ../../../../build/movement-campaign-2026-10-07/ready/1.17.1/mojmap/; verify exact path/namespace.
+- Client jar hash; CLI mode; mapping coordinate/build/path/hash; mapped jar hash; successful log: pending.
+- Readiness JSON, source manifest and movement-method diagnostics: pending publication.
 
 ### Cited evidence
 
-No Minecraft source or resource evidence has been accepted yet. Once sources are ready, record SHA-256 for every cited source/resource and exact original line ranges. Verify method-body diagnostics before comparison; hash agreement alone does not establish a readable body.
+No source/resource evidence is accepted yet. Record SHA-256 for every cited file/resource and original line ranges after verifying both readiness records and relevant method-body diagnostics.
+
+## Blind-discovery freeze
+
+- Status: pending
+- Freeze commit/checkpoint and timestamp: pending.
+- Evidence inventory and finding IDs included at freeze: none yet.
+- Confirmation that old mod implementation/code and wiki-audit results were not opened before freeze (prior discovery reports may be used as navigation): yes.
+- Source/mapping hashes covered by freeze: pending.
 
 ## Correspondence and call order
 
-No exact source correspondence is accepted before both readiness records are verified. Resolve actual fully qualified classes, inheritance, member signatures, callers, read/write state and execution order independently on A and B. Work through the seven navigation stages in order; method names alone do not establish correspondence.
+No exact correspondence is accepted before source verification. Resolve class, inheritance, member signatures, callers, state read/write edges, call order, and rename/split/replacement evidence on both sides. Cover the complete reachable player tick through pre-travel, travel branches and post-travel. Also resolve pose/dimension writers, shape providers/registrations/neighbors, fluid/block inputs, modifiers, and external player movement writers.
 
-Planned entry chain to resolve:
-local input producer -> local player input sampling/tick -> player/living tick -> travel dispatch and branch helpers -> entity movement/collision query -> support/callback/state updates. Also resolve independent pose/dimension writers, block/fluid movement providers and registrations, movement-effect/attribute/equipment consumers, and external velocity/position writers. Record renamed, split, merged or replaced methods and their evidence.
+## Required source inventories
+
+Each inventory maps to bounded slices; no broad stage-level checked claims. Evidence remains pending.
+
+- `INV-TICK` full input/player tick/pre-travel/travel/post-travel chain: status=pending; slice_ids=S1-01..S1-06,S3-01..S3-09; evidence=pending
+- `INV-STATE` direct player movement state writers/readers (pose, dimensions, position, velocity, box, flags, support, timers): status=pending; slice_ids=S2-01..S2-03,S3-03..S3-09,S4-01,S4-04..S4-05,S7-01,S7-03; evidence=pending
+- `INV-COLLISION` player queries, shape providers, registrations, callbacks, and neighbor dependencies: status=pending; slice_ids=S2-01,S4-01..S4-05,S5-02..S5-03,S7-03; evidence=pending
+- `INV-WORLD-MOVEMENT` block/fluid properties, subclasses, registrations, tags and resource defaults: status=pending; slice_ids=S3-02,S3-06..S3-07,S5-01..S5-05,S6-03; evidence=pending
+- `INV-MODIFIERS` movement effects/attributes/enchantments/equipment and application/removal/conditions: status=pending; slice_ids=S3-05,S6-01..S6-03; evidence=pending
+- `INV-EXTERNAL` player-only external inputs and consumers (corrections, pushes, pistons, mounts): status=pending; slice_ids=S1-06,S5-04,S7-01..S7-03; evidence=pending
+- `INV-EXCLUSIONS` health/regen/hunger/food/saturation/exhaustion/damage-combat/non-player audit, with direct vanilla-state reads documented: status=pending; slice_ids=S1-03,S2-03,S6-01..S6-03,S7-02; evidence=pending
 
 ## Coverage ledger
 
-Every item below is pending, not a no-difference claim. Close a bounded item only after recording both-side method/body ranges and hashes, all reachable callers/producers/consumers, the dependency closure and a conclusion. Split further whenever a method is too broad; never truncate a method to meet a context target.
+Each entry is a bounded behavior slice, not an entire class/stage/travel method. Terminal status requires paired source ranges/hashes, producer-consumer links, closed dependencies and a concrete reachability rationale. Preserve enclosing guards and order when splitting methods.
 
-### Stage 1 — local input and tick ordering
+### Slice S1-01: Input producers and sampling
 
-- `S1-01` input producers and local sampling: controls, impulse conversion/normalization, yaw-to-motion input, slow-input scaling, previous/current input flags. Status: pending. Evidence/correspondence: pending. Dependency closure: key/options producers only where reachable.
-- `S1-02` local-player tick chain: full local tick, superclass tick calls and ordering of input, AI, travel and post-tick work. Status: pending. Evidence/correspondence: pending.
-- `S1-03` sprint start/stop state, timers, gates and writers, including direct vanilla-state consumers only. Status: pending. Evidence/correspondence: pending. Food/hunger/regeneration/exhaustion implementations excluded.
-- `S1-04` jump input state, cooldowns, dispatch, auto-jump probes and jump ordering. Status: pending. Evidence/correspondence: pending.
-- `S1-05` player flight/abilities, flight speed and flight toggle state; keep fall-distance side effects only where they directly affect player movement. Status: pending. Evidence/correspondence: pending.
-- `S1-06` player riding, mount/dismount movement gates and local transition timing. Status: pending. Evidence/correspondence: pending; mounted-entity simulation excluded.
+- Inventory ID(s): INV-TICK
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
 
-### Stage 2 — player state, pose, dimensions and gates
+### Slice S1-02: Local-player tick and superclass order
 
-- `S2-01` pose selection, bounding-box dimensions, resize rules, blocked-resize collision query and state writers. Status: pending. Evidence/correspondence: pending.
-- `S2-02` eye height, swimming/crawling/sleeping/fall-flying dimensions and fluid/collision checks that consume them. Status: pending. Evidence/correspondence: pending.
-- `S2-03` item-use movement slowdown, edge sneaking and other player-only stored movement state; follow direct producers and reset timing. Status: pending. Evidence/correspondence: pending.
+- Inventory ID(s): INV-TICK
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
 
-### Stage 3 — living movement integration
+### Slice S1-03: Sprint gates, timers, and writers
 
-- `S3-01` complete travel dispatch and pre-branch state/call order, split by bounded behavior while preserving enclosing guards. Status: pending. Evidence/correspondence: pending.
-- `S3-02` ground acceleration, friction/support-factor sampling and arithmetic order. Status: pending. Evidence/correspondence: pending.
-- `S3-03` air acceleration/speed and retained input/momentum state. Status: pending. Evidence/correspondence: pending.
-- `S3-04` gravity, drag, velocity thresholds/cutoffs, clamps and exact float/double operation order. Status: pending. Evidence/correspondence: pending.
-- `S3-05` ground jump, sprint-jump impulse, jump power/factors and movement-effect contribution. Status: pending. Evidence/correspondence: pending.
-- `S3-06` climbable travel and vertical/horizontal clamps. Status: pending. Evidence/correspondence: pending.
-- `S3-07` water/lava travel, swimming controls, fluid-height selection and post-travel damping. Status: pending. Evidence/correspondence: pending.
-- `S3-08` fall-flying/gliding travel and movement state updates. Status: pending. Evidence/correspondence: pending.
-- `S3-09` post-travel velocity/ground/fall-distance/state updates and changed helper callers. Status: pending. Evidence/correspondence: pending.
+- Inventory ID(s): INV-TICK; INV-EXCLUSIONS
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
 
-### Stage 4 — entity movement, collision and support
+### Slice S1-04: Jump state, cooldown, and auto-jump
 
-- `S4-01` move entry, collision-query timing, axis order, clipped velocity and position/box updates. Status: pending. Evidence/correspondence: pending.
-- `S4-02` step-up candidate generation, height selection, tie-breaking and repeated movement. Status: pending. Evidence/correspondence: pending.
-- `S4-03` collision iteration, AABB/voxel-shape operations, shape contexts and world query call graph. Status: pending. Evidence/correspondence: pending.
-- `S4-04` on-ground/support position lookup, edge probes and collision/fluid flags. Status: pending. Evidence/correspondence: pending.
-- `S4-05` block/entity collision callbacks, fall/on-position updates and velocity cancellation/restitution on the player path. Status: pending. Evidence/correspondence: pending; independent non-player physics excluded.
+- Inventory ID(s): INV-TICK
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
 
-### Stage 5 — blocks, shapes, neighbors and fluids
+### Slice S1-05: Flight, abilities, and flight toggle
 
-- `S5-01` exhaustive movement-property registrations/providers for A-era blocks: friction, speed/jump factors, callbacks and state defaults. Status: pending. Evidence/correspondence: pending.
-- `S5-02` collision-shape providers for A-era blocks, including partial blocks and connected/neighbor-dependent shapes. Status: pending. Evidence/correspondence: pending.
-- `S5-03` contact/landing/slowdown/climb providers and their reachable player callbacks. Status: pending. Evidence/correspondence: pending.
-- `S5-04` water/lava flow, height, current and player push calculations, with relevant registration/resource data. Status: pending. Evidence/correspondence: pending.
-- `S5-05` additions/removals and modern-only blocks/tags/resources. Status: pending. Evidence/correspondence: pending; never back-port behavior to states unavailable in A.
+- Inventory ID(s): INV-TICK; INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
 
-### Stage 6 — direct movement effects, enchantments, attributes and equipment
+### Slice S1-06: Riding and local movement transitions
 
-- `S6-01` movement consumers and source of movement-related effects/attributes; trace consumer to aggregation, registration, application and removal. Status: pending. Evidence/correspondence: pending.
-- `S6-02` enchantment/item/equipment formulas, applicability, slots, conditions and movement attribute operations. Status: pending. Evidence/correspondence: pending.
-- `S6-03` movement-relevant defaults, tags and client-jar resources or server-supplied input dependencies. Status: pending. Evidence/correspondence: pending. Excluded health/food systems are not emulated.
+- Inventory ID(s): INV-TICK; INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
 
-### Stage 7 — external velocity/position writers and dependency closure
+### Slice S2-01: Pose, dimensions, and resize collision query
 
-- `S7-01` client player packet consumers and synchronized position/velocity/ability updates. Status: pending. Evidence/correspondence: pending.
-- `S7-02` player-reachable pushes, explosions, pistons, launch effects and riding transitions that directly write player movement state. Status: pending. Evidence/correspondence: pending; damage/combat semantics and non-player simulation excluded.
-- `S7-03` enumerate remaining reachable position/velocity/pose/box/ground/fluid writers, changed dependencies and cross-stage interactions; revisit consumers of changed dependencies. Status: pending. Evidence/correspondence: pending.
+- Inventory ID(s): INV-STATE; INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
 
-- Current pending count: 34.
-- Closed findings, compared-no-difference and not-applicable rows: 0.
-- Blocked rows: 0; source publication is queued, so no comparison slice is marked complete or blocked yet.
+### Slice S2-02: Eye height and movement poses
+
+- Inventory ID(s): INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S2-03: Item use, edge sneak, and stored movement state
+
+- Inventory ID(s): INV-STATE; INV-EXCLUSIONS
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S3-01: Travel dispatch and pre-branch state
+
+- Inventory ID(s): INV-TICK; INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S3-02: Ground acceleration and friction
+
+- Inventory ID(s): INV-TICK; INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S3-03: Air acceleration and stored air speed
+
+- Inventory ID(s): INV-TICK; INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S3-04: Gravity, drag, and velocity thresholds
+
+- Inventory ID(s): INV-TICK; INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S3-05: Jump and sprint-jump power
+
+- Inventory ID(s): INV-TICK; INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S3-06: Climbable travel
+
+- Inventory ID(s): INV-TICK; INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S3-07: Water/lava travel and swimming
+
+- Inventory ID(s): INV-TICK; INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S3-08: Fall-flying travel
+
+- Inventory ID(s): INV-TICK; INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S3-09: Post-travel updates
+
+- Inventory ID(s): INV-TICK; INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S4-01: Move entry, collision timing, and axis clipping
+
+- Inventory ID(s): INV-TICK; INV-STATE; INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S4-02: Step candidates, selection, and tie-breaking
+
+- Inventory ID(s): INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S4-03: Collision iteration and shape algorithms
+
+- Inventory ID(s): INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S4-04: Support, grounding, and edge probes
+
+- Inventory ID(s): INV-COLLISION; INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S4-05: Player collision callbacks and response
+
+- Inventory ID(s): INV-COLLISION; INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S5-01: Movement-property providers and registrations
+
+- Inventory ID(s): INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S5-02: A-era collision-shape providers
+
+- Inventory ID(s): INV-COLLISION; INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S5-03: Contact, landing, slowdown, and climb blocks
+
+- Inventory ID(s): INV-COLLISION; INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S5-04: Fluid flow, height, and current
+
+- Inventory ID(s): INV-WORLD-MOVEMENT; INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S5-05: Block/state additions and removals
+
+- Inventory ID(s): INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S6-01: Movement-effect and attribute consumers
+
+- Inventory ID(s): INV-MODIFIERS; INV-EXCLUSIONS
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S6-02: Movement enchantments and equipment
+
+- Inventory ID(s): INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S6-03: Defaults, tags, and modifier resources
+
+- Inventory ID(s): INV-MODIFIERS; INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S7-01: Packet-driven player position/velocity state
+
+- Inventory ID(s): INV-EXTERNAL; INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S7-02: External player velocity writers
+
+- Inventory ID(s): INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
+
+### Slice S7-03: Remaining writers and cross-stage closure
+
+- Inventory ID(s): INV-STATE; INV-COLLISION; INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
+- A evidence: pending source readiness; no range accepted.
+- B evidence: pending source readiness; no range accepted.
+- State producers/writers -> consumers/readers: pending paired inventory.
+- Parent slices / dependencies / closure evidence: pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
+- Finding IDs or checked absence/replacement path: pending.
 
 ## Dependency queue and blockers
 
-- `SRC-A`: exact 1.16.5 aligned source publication, readiness JSON, artifact/source manifests and movement-method diagnostics. Owner: source owner. Next action: verify owner publication and hashes.
-- `SRC-B`: exact 1.17.1 aligned source publication, readiness JSON, artifact/source manifests and movement-method diagnostics. Owner: source owner. Next action: verify owner publication and hashes.
-- `RESOURCE-INVENTORY`: exact client-jar resources/data referenced by movement consumers; identify server/datapack-supplied values separately. Next action: inventory after jar provenance is verified.
-- `DECOMPILER-DIAGNOSTICS`: inspect relevant method bodies and diagnostics for every coverage slice; request exact bytecode/source assistance through commentary if a relevant body is missing or damaged.
+- SRC-A: exact 1.16.5 publication, readiness JSON, artifact/source manifests, diagnostics. Owner: source owner; next: verify hashes and IDs.
+- SRC-B: exact 1.17.1 publication, readiness JSON, artifact/source manifests, diagnostics. Owner: source owner; next: verify hashes and IDs.
+- RESOURCE-INVENTORY: exact client-jar resources and referenced/server-supplied data. Owner: this run after provenance verification.
+- DECOMPILER-DIAGNOSTICS: inspect each relevant method body; request precise bytecode/source assistance via commentary if damaged.
+- Open dependencies: SRC-A, SRC-B, RESOURCE-INVENTORY, DECOMPILER-DIAGNOSTICS
 
 ## Finding index
 
-No findings accepted yet. Prior reports under `workflows/movement-discovery/runs/1.16.5--1.17.1/` are navigation/candidate context only and are not evidence for this run.
+No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation context only, not evidence for this run.
 
 ## Resume checkpoint
 
 - Last completed slice: none; source pair is not published.
-- Next: verify both exact ready JSON records and their artifact/source hashes; inspect relevant method-body diagnostics; then establish the paired navigation index and begin Stage 1.
-- Outstanding dependencies: `SRC-A`, `SRC-B`, resource inventory and diagnostics review.
-- Current assumptions requiring verification: Mojmap on both endpoints; source roots/namespace in the manifest.
-- Runtime validation: not performed; separately disallowed for this source-only run.
+- Next bounded slice: verify both readiness JSONs, hashes, diagnostics, then resolve paired navigation index and start Stage 1.
+- Outstanding dependencies and owners: SRC-A/SRC-B (source owner); resources/diagnostics (this run after publication).
+- Assumptions requiring verification: Mojmap on both sides; exact source roots and artifacts.
+
+## Implementation reconciliation
+
+- Reconciliation status: pending; deferred until blind-discovery freeze and owned by separate integrator.
+- Repository revision inspected: none; implementation not inspected.
+- Finding -> implementation disposition/evidence: pending.
+- Existing implementation without a frozen source finding: pending integrator review.
+- Coverage gaps routed back to discovery slices: pending.
+
+## Independent source audit
+
+- Reviewer: pending assignment; must differ from discovery authors.
+- Status: pending
+- Inventories and call-chain ranges re-walked: pending.
+- Concrete missed-slice routes (or `none found`): pending.
+- Misses routed to slice/finding IDs and owners: pending.
+- Reviewer evidence / date: pending.
 
 ## Source audit closure
 
-Not closed. Status is active. Coverage: 34 pending, 0 in-progress, 0 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked. This ledger is a work plan only and makes no source-derived claim or exhaustive-equivalence claim.
+- Coverage counts by status: 34 pending, 0 in-progress, 0 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
+- Required inventory status and evidence: all seven pending; evidence pending.
+- Open dependencies: SRC-A, SRC-B, RESOURCE-INVENTORY, DECOMPILER-DIAGNOSTICS.
+- Unresolved gaps and limits: endpoint readiness records are queued; comparison has not started.
+- Evidence/hash/correspondence audit: not started.
+- Blind freeze: pending.
+- Implementation reconciliation: pending.
+- Independent audit: pending.
+- Runtime validation: not performed; tests and runtime launches are not authorized.
 
-
+Active checkpoint only; this is neither a partial handoff nor a completion claim. Continue after the exact sources are published.
