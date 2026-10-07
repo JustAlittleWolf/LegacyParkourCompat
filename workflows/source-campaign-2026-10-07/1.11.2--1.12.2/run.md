@@ -45,12 +45,14 @@ A/B correspondences confirmed so far: `LocalClientPlayerEntity extends ClientPla
 
 ## Coverage ledger
 
-Every row remains `pending` until both exact source trees and dependency closure have been verified. The stages follow `workflows/movement-discovery/source-navigation.md`; after source readiness, split rows further when a bounded unit exceeds the method/context targets.
+Rows become terminal only after both exact source trees and dependency closure have been verified. The stages follow `workflows/movement-discovery/source-navigation.md`; after source readiness, split rows further when a bounded unit exceeds the method/context targets.
 
 ### Stage 1 — local input and tick ordering
 
 - `S1.1` Keyboard/controller input sampling, directional flags, analog impulses, diagonal normalization and sneak/item-use scaling — `compared-no-difference`. A/B `Input#tick()` and `getMovement()` (source lines 15-20) and `KeyboardInput#tick()` (13-50) are byte-identical; both `Input.java` SHA-256 `9e704cfe7fdc55c4eab78670e60cf392ba6817adbd5e7451d3a86f11da8bf50`, both `KeyboardInput.java` SHA-256 `7be11425906be051c83e275f359816546e4677b16d212156a871f2a7d64cc64f`. Only `KeyboardInput` extends `Input`; `Minecraft` installs it at A lines 1894/1927, B 1953/1991. Movement key default bindings and codes match (`GameOptions` A 109-115; B 117-123), with class hashes A `3a28b6a6540a134fb24e2d3517465020ee8a2d095db5a754b96176abc0ae2ec1`, B `301be9703fdbd4169ef614ca41d2f7cb8508ebc76f89ec032c911609e5f43848`. The sampler produces signed digital axes, jump/sneak flags and multiplies axes by `(float)(axis * 0.3)` while sneaking; no diagonal normalization occurs here. The normalization consumer is covered in stage 3.
 - `S1.2` Local player tick ordering, previous/current input and flags, superclass/tick/travel order — `in-progress`. Correspondence: `LocalClientPlayerEntity.tick()` A 159-173 / B 165-179; `serverTickAi()` A 614-625 / B 631-642; local `mobTick()` A 632-790 / B 649-812; source hashes A `65c2747bd8c70def6be7f41f624d4c9493342b39ae7bed7967f9ff63608f59ed`, B `01a58e94d8c6ff98a8e3794227cdc76a5fcbdbad795c70c9cf28854aff9823cc`. In both, `bl` captures old jumping, `bl2` old sneaking, and `bl3` old forward input before `input.tick()`; values then flow through item slowdown/auto-jump/sprint/flight/mounted-jump handling before the superclass mob tick. B adds `Tutorial.onPlayerInput(input)` immediately after sampling (line 699), and closes an `InventoryMenuScreen` on portal entry (657-662); both are queued for bounded out-of-scope disposition below. Full tick/travel dependencies remain open.
+- `S1.2a` B-only tutorial input callback — `not-applicable` to direct player movement. A has no local player callback; B calls `Tutorial.onPlayerInput(Input)` at `LocalClientPlayerEntity.java:699`, then `Tutorial.java:25-29` (SHA-256 `c5281a3f8000275b1e2387f97e88d6e0af409e3cedbff8c1668a775d3a780945`) -> default no-op `TutorialStep.onPlayerInput(Input)` at 18-19 (SHA-256 `3150f62d0b96c83fecb231dabdecd0c618f6970c8f8ff093f27547ecb0b866fa`) -> the sole override, `MovementTutorialStep.onPlayerInput(Input)` at 105-109 (SHA-256 `44f8769ebc81ffe6f368b085987e7c8879ef5db86388741310979bc94a80de17`). That method only writes `MovementTutorialStep.moved`; its only consumer increments a tutorial movement counter and resets that tutorial flag. Search of the full tutorial package found no other `onPlayerInput` override. The callback does not mutate `Input` or player movement state.
+- `S1.2b` B-only inventory UI closure on portal entry — `not-applicable` to direct player movement. B `LocalClientPlayerEntity.mobTick()` lines 657-662 calls `closeMenu()` only for a non-pausing `InventoryMenuScreen`; A/B `closeMenu()` and `doCloseMenu()` bodies A 275-284 / B 281-290 send the close-menu packet, clear the cursor item, call superclass menu close and clear the active screen. No player movement field is written. Evidence uses A/B `LocalClientPlayerEntity.java` hashes recorded in `S1.2`.
 - `S1.3` Sprint start/stop, timers, conditions and writes reachable from client input — `pending`.
 - `S1.4` Jump input, jump state/cooldown, auto-jump probes and movement dispatch — `pending`.
 - `S1.5` Flight toggles and local flying input/speed gates — `pending`.
@@ -122,19 +124,19 @@ Every row remains `pending` until both exact source trees and dependency closure
 
 ## Finding index
 
-No findings recorded in this fresh campaign yet. Prior `1.11.2--1.12.2` run contains historical claims only; each candidate will be reverified against current validated artifacts before reuse. B-only tutorial callback in `LocalClientPlayerEntity.mobTick()` routes through `Tutorial.onPlayerInput(Input)` A: absent caller / B: `Tutorial.java:25-29` (SHA-256 `c5281a3f8000275b1e2387f97e88d6e0af409e3cedbff8c1668a775d3a780945`) -> `TutorialStep.onPlayerInput(Input)` default no-op at 18-19 (SHA-256 `3150f62d0b96c83fecb231dabdecd0c618f6970c8f8ff093f27547ecb0b866fa`) -> the only override, `MovementTutorialStep.onPlayerInput(Input)` 105-109 (SHA-256 `44f8769ebc81ffe6f368b085987e7c8879ef5db86388741310979bc94a80de17`), which only writes tutorial field `moved`; its tick consumes/resets this field for a tutorial counter. It does not mutate `Input` or player movement state: bounded `not-applicable` to direct movement. The portal branch only closes the inventory UI: A/B `closeMenu` and `doCloseMenu` bodies at A 275-284 / B 281-290 send a close-menu packet, clear cursor item, close menu and open screen; no movement field writes: bounded `not-applicable` to direct movement. Scope declaration: source-only, no wiki, no mod implementation.
+No findings recorded in this fresh campaign yet. Prior `1.11.2--1.12.2` report claims remain historical candidates only; each will be reverified against the current source package before any reuse. Scope declaration: source-only, no wiki, no mod implementation.
 
 ## Resume checkpoint
 
 - Last completed: source readiness and complete listed-file hash verification for both exact Feather trees; stage 1.1 input producer/defaults compared; read global/project guidance, source discovery workflow, navigation order, templates, decompiler guide and current decompiler implementation; verified branch and base; read prior pair report as historical context only.
 - Next: inventory player-path source files and establish method-level correspondence; then process each bounded stage in order, including per-method checks against diagnostics and exact source hashes.
-- Open coverage count: 42 pending rows; 0 in-progress; 0 terminal.
+- Open coverage count: 40 pending rows; 1 in-progress; 1 compared-no-difference; 2 not-applicable.
 - Outstanding dependencies: per-stage method, registry, resource and state-writer dependencies; review decompiler method-body diagnostics for every cited slice.
 - Assumptions requiring verification: prior pair's findings and no-difference claims remain candidates only.
 
 ## Source audit closure
 
-- Coverage counts: 40 pending; 1 in-progress; 1 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked.
+- Coverage counts: 40 pending; 1 in-progress; 1 compared-no-difference; 0 findings; 2 not-applicable; 0 blocked.
 - Findings in this fresh run: 0.
 - Unresolved gaps: full seven-stage inventory, dependency closure and per-body warning/damage disposition.
 - Evidence/hash audit: source and artifact manifests verified; stage 1.1 evidence hashes recorded; method correspondence and remaining evidence hashing per coverage slice remain in progress.
