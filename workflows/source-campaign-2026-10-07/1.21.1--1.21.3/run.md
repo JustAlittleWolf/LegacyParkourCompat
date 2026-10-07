@@ -1,6 +1,6 @@
 # Discovery: 1.21.1 to 1.21.3
 
-- Status: active
+- Run status: active
 - Scope: source-only client player movement; older A = 1.21.1; newer B = 1.21.3. This is one content-update boundary using the exact latest-hotfix representatives.
 - Repository revision and start date: started at `002137b227676caea77f6832b9f4c8d0b6200bff` (`main`), 2026-10-07 Europe/Vienna; task branch `feat/source-discovery-movement-source-1-21-1-1-21-3`.
 - Selected naming namespace, CLI mode per side and alignment evidence: Mojmap for both, per the finalized campaign rule for endpoints from 1.14.4 onward; CLI modes and exact release alignment await the published readiness records. No comparison has started.
@@ -57,7 +57,8 @@ No movement slice has been compared yet. Add one bounded entry per behavior and 
 
 ## Dependency queue and blockers
 
-- Open dependencies: `SRC-PAIR` (campaign source owner; exact 1.21.1 and 1.21.3 Mojmap readiness markers, trees and manifests are unpublished), `METHOD-INVENTORY` (this source worker; enumerate the full reachable player tick/movement call graph and every required producer, consumer, state writer and shape provider once sources are ready), `RESOURCE-CHAIN` (this source worker; inspect matching client-jar resources/tags/defaults after provenance is verified; identify server-supplied data explicitly).`r`n- Resolved dependency: `DEP-CHECKER` — canonical workflow fix `fba28fa154d29572263ea3f2c44cf1dc23134329` was cherry-picked as `4223d9c`; use the corrected checker for future structure/status checks. This does not resolve any source coverage.
+- Open dependencies: `SRC-PAIR` (campaign source owner; exact 1.21.1 and 1.21.3 Mojmap readiness markers, trees and manifests are unpublished), `METHOD-INVENTORY` (this source worker; enumerate the full reachable player tick/movement call graph and every required producer, consumer, state writer and shape provider once sources are ready), `RESOURCE-CHAIN` (this source worker; inspect matching client-jar resources/tags/defaults after provenance is verified; identify server-supplied data explicitly).
+- Resolved dependency: `DEP-CHECKER` — canonical workflow fix `fba28fa154d29572263ea3f2c44cf1dc23134329` was cherry-picked as `4223d9c`; use the corrected checker for future structure/status checks. This does not resolve any source coverage.
 - `SRC-PAIR`: next action is to read the exact owner-published records, validate requested/resolved release IDs, common Mojmap namespace, manifests/hashes and relevant body diagnostics. Do not infer readiness from a directory.
 - `METHOD-INVENTORY`: no exact method names/ranges are asserted until paired sources are ready. Expand stage labels into bounded entries and retain full guards/order and dependency closure.
 - `RESOURCE-CHAIN`: no jar entry or data absence claim is asserted until both exact client jars and their hashes are verified.
