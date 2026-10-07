@@ -20,15 +20,17 @@ Evidence paths are relative to the shared source campaign root (the repository b
 
 A preparation command: decompileMinecraft --versions=1.21.8,1.21.10,1.21.11 --mappings=mojmap --decompiler-heap=4G; success log at staging/mojmap-1.21.8-to-1.21.11-9a8c76419cd14660b88f9fc90225e127/gradle.full.log. B preparation command: decompileMinecraft --versions=26.1.2 --mappings=unobfuscated --decompiler-heap=4G; success log at staging/unobfuscated-26.1.2-3db218180ac44a64ad496eeb8e05ac18/gradle.full.log. Both ready/source/artifact/diagnostic hashes were recomputed and match; A client, mapping and mapped-jar entries were verified against staged cache files; B original client jar was verified against its artifact entry and metadata has no client_mappings. Source inventories: A 6,622 files / 29,464,971 bytes; B 6,882 files / 32,992,615 bytes. Tool versions on both: Java 25.0.3+9-LTS; Vineflower 1.12.0; TinyRemapper 0.14.1; Mapping-IO 0.9.1; Gradle 9.7.1; decompiler heap 4G.
 
-A's successful log has access warnings for GUI classes and duplicate lambda processing; a targeted movement-class warning/error search found none. A diagnostics provide nine method anchors for Entity, LivingEntity, Player and LocalPlayer. B diagnostics provide seven anchors for Entity, LivingEntity and Player but omit LocalPlayer; the source exists, and LocalPlayer.tick/aiStep bodies are being manually checked before their slices can close. Namespace alignment is official names by A Mojmap and B native-unobfuscated.
+The 2026-10-07 decompiler-artifact revision applies to Feather-derived sources for 1.8.9-1.13.2; A is exact Mojmap and B is native unobfuscated, so neither side uses that derived artifact and the published inputs are unchanged by the revision.
+
+A's successful log has access warnings for GUI classes and duplicate lambda processing; a targeted movement-class warning/error search found none. A diagnostics provide nine method anchors for Entity, LivingEntity, Player and LocalPlayer. B diagnostics provide seven anchors for Entity, LivingEntity and Player but omit LocalPlayer; the source exists, and LocalPlayer.tick/aiStep bodies were manually checked. Namespace alignment is official names by A Mojmap and B native-unobfuscated.
 
 ## Blind-discovery freeze
 
 - Status: pending
 - Freeze commit/checkpoint and timestamp: pending source comparison.
-- Evidence inventory and finding IDs included at freeze: none; comparison has not started.
+- Evidence inventory and finding IDs included at freeze: partial inventory S1.1-S1.3, S3.3.1, S3.6.1 and S5.9; full-pair freeze remains pending.
 - Confirmation that old mod implementation/code and isolated wiki-audit results were not opened before freeze (prior source-discovery reports may be used as navigation): confirmed; none were opened. No wiki or MCPK browsing.
-- Source/mapping hashes covered by freeze: pending exact source publication and comparison.
+- Source/mapping hashes covered by freeze: pending full-pair coverage and dependency closure.
 
 ## Correspondence and call order
 
@@ -43,21 +45,25 @@ Paired source members have been identified from exact sources. This is a partial
 | Living movement integration | A `LivingEntity.tick()` 2610-2685; `aiStep()` 2877-3000; `travel(Vec3)` 2309 onward | B `LivingEntity.tick()` 2699-2774; `aiStep()` 2976-3100; `travel(Vec3)` 2392 onward | A LivingEntity `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`; B `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd` | Dynamic `tick()` -> `aiStep()` dispatch confirmed; player velocity cutoff, input/jump/travel path and inspected travel formulas match. Type predicate and fluid-shape dependencies remain open. |
 | Entity movement/collision | A `Entity.move`, `maybeBackOffFromEdge`, `collide`, `moveRelative`, `refreshDimensions` | B corresponding `Entity` members identified in paired source | A Entity `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3`; B `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf` | Anchors identified; bounded body comparison remains open. |
 
-The A-side diagnostics additionally anchor Entity.moveRelative at 1608, LivingEntity.jumpFromGround at 2269, LivingEntity.travel at 2309, LivingEntity.aiStep at 2877, Player.aiStep at 452, Player.travel at 1360, LocalPlayer.aiStep at 728, and LocalPlayer.move at 947. Need body ranges and direct callers/field edges before comparison. No B correspondence has been guessed. The per-tick chain, pose/state writers, shapes, registrations and dependencies remain to be traced on both sides.## Required source inventories
+Partial observed dispatch: `KeyboardInput.tick()` -> `LocalPlayer.aiStep()` -> `LocalPlayer.applyInput()` then `super.aiStep()` -> `Player.aiStep()` -> `LivingEntity.aiStep()`; `LivingEntity.tick()` dynamically invokes `aiStep()` before rotation. Travel/collision closure and post-travel consumers remain open. B diagnostics omit LocalPlayer anchors; its source file exists and relevant bodies were checked manually.## Required source inventories
 
 Each inventory maps to the bounded slices below. Exact A/B pair sources are ready and verified; inventory completion remains pending while paired slices, dependencies and resource-backed inputs are audited.
 
-- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1.1-S1.7,S2.5,S2.7,S3.1-S3.10,S7.4-S7.5; evidence=pending pair sources and member-level ranges.
-- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S1.4-S1.6,S2.1-S2.7,S3.3-S3.10,S4.4-S4.7; evidence=pending pair sources and writer-consumer links.
-- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S2.2,S2.6,S4.1-S4.7,S5.3-S5.6; evidence=pending pair sources and provider inventories.
-- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S3.2,S3.5-S3.7,S4.6,S5.1-S5.8; evidence=pending pair sources, registrations and resource provenance.
-- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S2.5,S3.2,S3.4,S3.6,S3.8-S3.9,S6.1-S6.6; evidence=pending pair sources and resource/data dependencies.
-- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, such as corrections, pushes, pistons and mounts: status=pending; slice_ids=S7.1-S7.4; evidence=pending exact source and provenance.
-- `INV-EXCLUSIONS` explicit scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; evidence=source-stage audit pending; direct vanilla-state reads in movement predicates remain in scope as consumers only.
+- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1.1-S1.7,S2.5,S2.7,S3.1-S3.10,S3.1.1,S3.3.1,S3.6.1,S7.4-S7.5; evidence=exact pair sources verified; slice audit open.
+- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S1.4-S1.6,S2.1-S2.7,S3.3-S3.10,S3.3.1,S4.4-S4.7; evidence=exact pair sources verified; writer-consumer audit open.
+- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S2.2,S2.6,S4.1-S4.7,S5.3-S5.6,S5.9; evidence=exact pair sources verified; provider inventory open.
+- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S3.2,S3.5-S3.7,S3.6.1,S4.6,S5.1-S5.9; evidence=exact pair sources verified; registrations/resources audit open.
+- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S2.5,S3.2,S3.4,S3.6,S3.8-S3.9,S6.1-S6.6; evidence=exact pair sources verified; resource/data audit open.
+- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, such as corrections, pushes, pistons and mounts: status=pending; slice_ids=S7.1-S7.4; evidence=exact pair sources verified; external-input provenance audit open.
+- `INV-EXCLUSIONS` explicit scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; evidence=source-stage audit open; direct vanilla-state reads in movement predicates remain in scope as consumers only.
+
+## Required source inventories
+
+Each inventory maps to bounded slice IDs below. Exact A/B source publications are ready and their manifests were verified; these inventories remain open until each source slice and all dependencies are dispositioned.
 
 ## Coverage ledger
 
-These are planned behavior boundaries only. They have no source conclusions. Once exact sources are ready, split broad plans into bounded member/body slices, record exact original line ranges and hashes, and expand for every reachable caller, state writer, shape override, registration, resource and dependency. Keep terminal dispositions closed over producers and consumers.
+Each entry is a bounded behavior boundary. Refine broad plans into exact member ranges as new dependencies appear; keep every terminal disposition closed over reachable callers, state writers, shape providers, registrations and resources.
 
 ### Slice S1.1: Local input sampling and key/controller input state
 
@@ -87,8 +93,8 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 
 - Inventory ID(s): INV-TICK
 - Exact behavior boundary and enclosing guards/order checked: `LocalPlayer.applyInput()`, `modifyInput()`, square-movement normalization and distance-to-unit-square arithmetic.
-- A evidence: `ready/1.21.11/mojmap/net/minecraft/client/player/LocalPlayer.java` :: `applyInput()` 653-666, `modifyInput()` 668-684, square helpers 686-704, SHA-256 `948e94f8e874b2f72e9a689e6e3ba1933f5728ec381d64f3bb5e2388718bd477`.
-- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/client/player/LocalPlayer.java` :: `applyInput()` 692-705, `modifyInput()` 707-723, square helpers 725-743, SHA-256 `433fd995ad317af0f6ef0e50c1e8e3483cb8f00e0e327d4edf27a4dd99666ebe`.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/client/player/LocalPlayer.java` :: `applyInput()` lines 653-666, `modifyInput()` lines 668-684, square helpers lines 686-704, SHA-256 `948e94f8e874b2f72e9a689e6e3ba1933f5728ec381d64f3bb5e2388718bd477`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/client/player/LocalPlayer.java` :: `applyInput()` lines 692-705, `modifyInput()` lines 707-723, square helpers lines 725-743, SHA-256 `433fd995ad317af0f6ef0e50c1e8e3483cb8f00e0e327d4edf27a4dd99666ebe`.
 - State producers/writers -> consumers/readers: `input` from S1.1 is assigned to `xxa`, `zza`, and `jumping`; scaled movement vector is consumed by shared travel path S3.
 - Parent slices / dependencies / closure evidence: S1.1 input source; caller ordering under S1.2. Continued dependencies (effects/item use/sneak) are included in this body and modifier consumers remain under S6.
 - Status: compared-no-difference
@@ -98,11 +104,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S1.4: Sprint transitions, timers and start/stop gates
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Sprint transitions, timers and start/stop gates. Pair sources unavailable; exclude health/food simulation, retain only direct state consumers.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Sprint transitions, timers and start/stop gates. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -110,11 +116,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S1.5: Jump input, jump cooldown/state, auto-jump and riding gates
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Jump input, jump cooldown/state, auto-jump and riding gates. Pair sources unavailable; resolve producers and reset timing.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Jump input, jump cooldown/state, auto-jump and riding gates. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -122,11 +128,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S1.6: Flight toggle/input, abilities and flight-speed path
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Flight toggle/input, abilities and flight-speed path. Pair sources unavailable; include only direct player movement path.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Flight toggle/input, abilities and flight-speed path. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -134,11 +140,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S1.7: Unstuck behavior and other input-to-tick movement gates
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Unstuck behavior and other input-to-tick movement gates. Pair sources unavailable; discover from complete entry call graph.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Unstuck behavior and other input-to-tick movement gates. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -146,11 +152,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S2.1: Player pose selection and pose transition timing
 
 - Inventory ID(s): INV-STATE, INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Player pose selection and pose transition timing. Pair sources unavailable; include all reachable writers and guards.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Player pose selection and pose transition timing. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -158,11 +164,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S2.2: Pose dimensions, eye height, resize collision queries
 
 - Inventory ID(s): INV-STATE, INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Pose dimensions, eye height, resize collision queries. Pair sources unavailable; follow shape/query timing and state writes.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Pose dimensions, eye height, resize collision queries. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -170,11 +176,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S2.3: Swim/crawl state and movement-mode selection
 
 - Inventory ID(s): INV-STATE, INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Swim/crawl state and movement-mode selection. Pair sources unavailable; resolve triggers and downstream travel dispatch.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Swim/crawl state and movement-mode selection. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -182,11 +188,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S2.4: Ability defaults, stored air speed and player movement state
 
 - Inventory ID(s): INV-STATE, INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Ability defaults, stored air speed and player movement state. Pair sources unavailable; follow initialization, updates and resets.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Ability defaults, stored air speed and player movement state. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -194,11 +200,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S2.5: Item-use slowdown and direct active-item movement gate
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Item-use slowdown and direct active-item movement gate. Pair sources unavailable; food/hunger simulation excluded.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Item-use slowdown and direct active-item movement gate. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -206,11 +212,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S2.6: Edge sneaking and support probing
 
 - Inventory ID(s): INV-STATE, INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Edge sneaking and support probing. Pair sources unavailable; follow collision and support dependencies.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Edge sneaking and support probing. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -218,11 +224,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S2.7: Sprint-gate consumers of hunger/blindness state
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Sprint-gate consumers of hunger/blindness state. Pair sources unavailable; disposition consumers only; health, hunger, food and effect simulation excluded.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Sprint-gate consumers of hunger/blindness state. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -230,23 +236,35 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S3.1: Travel dispatch and ground acceleration
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Travel dispatch and ground acceleration. Pair sources unavailable; preserve complete method order and dependencies.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Travel dispatch and ground acceleration. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
+### Slice S3.1.1: Living travel branch dispatch
+
+- Inventory ID(s): INV-TICK
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.travel(Vec3)` selects fluid travel first, then fall-flying, else air travel; `shouldTravelInFluid(FluidState)` guard checked with exact call order.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/LivingEntity.java` :: `travel()` lines 2309-2315 and `shouldTravelInFluid()` lines 2317-2319, SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java` :: `travel()` lines 2392-2398 and `shouldTravelInFluid()` lines 2400-2402, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
+- State producers/writers -> consumers/readers: water/lava/affected-by-fluid/can-stand predicates select `travelInFluid`; fall-flying pose selects `travelFallFlying`; otherwise `travelInAir`. Branch results remain covered by S3.2-S3.8.
+- Parent slices / dependencies / closure evidence: exact player caller is through inherited `LivingEntity.travel`; guard consumers are inventoried in S2/S6, while body branch order is closed here.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): Both releases evaluate the same fluid predicate and preserve the same fluid > fall-flying > air branch order and helper dispatch. No arithmetic or state write occurs in this dispatcher.
+- Finding IDs or checked absence/replacement path: none.
+
 ### Slice S3.2: Ground friction, speed-factor consumption and post-travel drag
 
 - Inventory ID(s): INV-TICK, INV-WORLD-MOVEMENT, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Ground friction, speed-factor consumption and post-travel drag. Pair sources unavailable; resolve block/state providers and attribute inputs.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Ground friction, speed-factor consumption and post-travel drag. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -254,23 +272,35 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S3.3: Air acceleration, drag/gravity and velocity thresholds
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Air acceleration, drag/gravity and velocity thresholds. Pair sources unavailable; explicit cutoff and all velocity writers/consumers required.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Air acceleration, drag/gravity and velocity thresholds. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
+### Slice S3.3.1: Player low-horizontal-velocity cutoff
+
+- Inventory ID(s): INV-TICK, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: player-specific branch at the beginning of `LivingEntity.aiStep()` that zeros X/Z below horizontal squared speed `9.0E-6`, then writes the clamped movement vector.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/LivingEntity.java` :: `aiStep()`, lines 2894-2912, SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`; `Entity.getType()`, lines 347-349, SHA-256 `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3`; `Vec3.horizontalDistanceSqr()`, lines 189-191, SHA-256 `a4050765738a0cfdb1100b83f2ba4effd40155de99bb703a8381dbe775148ec1`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java` :: `aiStep()`, lines 2993-3011, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`; `Entity.typeHolder()`, lines 366-368, SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`; `TypedInstance.is(rawType)`, lines 22-23, SHA-256 `caa4db2c73d7a18a59964ec2db7d3401a823da9f15a8e51aa266ba6f8a80e6df`; `Holder.Reference.value()`, lines 162-168, SHA-256 `c8b9b5941f0aa5a81d00a24bf7ba1529e9bb3d5f82fe36beef8f25f489c5c546`; `EntityType.builtInRegistryHolder()`, lines 1606-1607, SHA-256 `e5f37ee2dd639b7271197e58f7a6f3bdbedc0f0f1d618039d159a0e7de315229`; `Vec3.horizontalDistanceSqr()`, lines 192-194, SHA-256 `57b08ae818868a4fffdc9b5dadba2b127138c8945c2194f6f4b01e6150cd3bcb`.
+- State producers/writers -> consumers/readers: previous delta movement is read; the branch zeroes X/Z when the threshold passes and the same post-branch code writes `new Vec3(x,y,z)` through `setDeltaMovement`, which rejects non-finite values in both `Entity` sources.
+- Parent slices / dependencies / closure evidence: player type source path closes D3: A `Entity.getType()` returns `this.type`; `EntityType` does not override `equals`, so `equals(PLAYER)` is reference identity; A `EntityType.java` SHA-256 `fc2abb3e905b9a63a27f0b027fad089d9d40e5d3d45608406b5da2a5ec47a73e` has no `equals` override. B `Entity.typeHolder()` returns `this.type.builtInRegistryHolder()`; that holder was constructed with the EntityType instance and `value()` returns that same stored value; `TypedInstance.is(rawType)` compares it by `==`. The same `EntityType.PLAYER` check therefore selects the same branch.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): Both paths use the same player gate, `horizontalDistanceSqr() < 9.0E-6`, X/Z zeroing, unchanged Y, and final delta-vector write order; helper arithmetic is `x*x + z*z` in both. Local variable names and type-check spelling differ only.
+- Finding IDs or checked absence/replacement path: none.
+
 ### Slice S3.4: Jump power, sprint-jump impulse and jump state writes
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Jump power, sprint-jump impulse and jump state writes. Pair sources unavailable; exact arithmetic and conditions required.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Jump power, sprint-jump impulse and jump state writes. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -278,11 +308,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S3.5: Climbing movement and clamps
 
 - Inventory ID(s): INV-TICK, INV-WORLD-MOVEMENT, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Climbing movement and clamps. Pair sources unavailable; resolve climbable blocks/shapes and movement state.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Climbing movement and clamps. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -290,47 +320,59 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S3.6: Water travel, swimming, buoyancy/drag and fluid effects
 
 - Inventory ID(s): INV-TICK, INV-WORLD-MOVEMENT, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Water travel, swimming, buoyancy/drag and fluid effects. Pair sources unavailable; include fluid heights/flow and effect/attribute dependencies.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
-- Status: pending
+- Exact behavior boundary and enclosing guards/order checked: Water travel body after water-branch dispatch; speed/drag blend, horizontal collision climbable adjustment, fluid-fall adjustment, jump-out and ridden floating call order.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/LivingEntity.java` :: `travelInWater()` lines 2380-2407, `jumpOutOfFluid()` lines 2427-2432, SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java` :: `travelInWater()` lines 2467-2494, `jumpOutOfFluid()` lines 2514-2519, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
+- State producers/writers -> consumers/readers: `isSprinting`, water slowdown, movement efficiency, speed, `onGround`, Dolphin's Grace, collision/climbable state, fluid gravity/fall state and jump threshold feed the same sequence; output delta movement is written after move and after fluid fall adjustment.
+- Parent slices / dependencies / closure evidence: D2 fluid/tag/resource values remain open; S6 modifier/effect/attribute sources and S4/S5 fluid/collision providers remain dependencies.
+- Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
+
+### Slice S3.6.1: Ridden-water floating type-tag gate
+
+- Inventory ID(s): INV-TICK, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: `travelInFluid()` calls `floatInWaterWhileRidden()` only on the water branch; helper checks `CAN_FLOAT_WHILE_RIDDEN`, `isVehicle()`, water depth against jump threshold, then adds `0.04F` vertical velocity.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/LivingEntity.java` :: `travelInFluid()` lines 2368-2377; `floatInWaterWhileRidden()` lines 2434-2438; SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`. `EntityType.is(TagKey)` lines 1556-1557; SHA-256 `fc2abb3e905b9a63a27f0b027fad089d9d40e5d3d45608406b5da2a5ec47a73e`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java` :: `travelInFluid()` lines 2455-2464; `floatInWaterWhileRidden()` lines 2521-2525; SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`. `Entity.typeHolder()` lines 366-368, SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`; `TypedInstance.is(TagKey)` lines 14-15, SHA-256 `caa4db2c73d7a18a59964ec2db7d3401a823da9f15a8e51aa266ba6f8a80e6df`; `Holder.Reference.is(TagKey)` lines 189-190, SHA-256 `c8b9b5941f0aa5a81d00a24bf7ba1529e9bb3d5f82fe36beef8f25f489c5c546`.
+- State producers/writers -> consumers/readers: registry binds `EntityType` to its built-in holder; A checks the tag on that holder via `EntityType.is`, B checks the tag on the same holder via `TypedInstance.is`; both use the same remaining guards and add `(0.0, 0.04F, 0.0)`.
+- Parent slices / dependencies / closure evidence: helper is reached from S3.6 water travel; the A/B type-holder/tag implementations reduce to the same built-in holder membership check. Resource tag values themselves remain within D2.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): Predicate spelling changed from `getType().is(tag)` to `this.is(tag)`, but both resolve to the same built-in type holder's tag membership. Movement guard order and impulse are unchanged.
+- Finding IDs or checked absence/replacement path: none; tag contents remain an open data dependency, but predicate semantics are closed.
 
 ### Slice S3.7: Lava travel and fluid contact path
 
 - Inventory ID(s): INV-TICK, INV-WORLD-MOVEMENT, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Lava travel and fluid contact path. Pair sources unavailable; exclude damage effects except direct movement-state consumers.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
-- Status: pending
+- Exact behavior boundary and enclosing guards/order checked: Lava travel speed, move, low-fluid-height branch, fluid-fall adjustment, gravity quartering and jump-out ordering.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/LivingEntity.java` :: `travelInLava()` lines 2409-2425, `jumpOutOfFluid()` lines 2427-2432, SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java` :: `travelInLava()` lines 2496-2512, `jumpOutOfFluid()` lines 2514-2519, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
+- State producers/writers -> consumers/readers: lava height, threshold, movement delta, gravity and collision/free-space probes feed the same guards; delta movement multipliers and final jump-out write follow the same order.
+- Parent slices / dependencies / closure evidence: D2 fluid-state/resource values and S4/S5 contact/collision providers remain open; direct formula comparison is documented here.
+- Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S3.8: Gliding and movement-affecting elytra path
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Gliding and movement-affecting elytra path. Pair sources unavailable; disposition item/attribute data and direct player calls.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
-- Status: pending
+- Exact behavior boundary and enclosing guards/order checked: Fall-flying travel, look/pitch/gravity lift calculation, velocity updates, collision distance comparison and collision-handler scope boundary.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/LivingEntity.java` :: `travelFallFlying()` lines 2441-2455, `updateFallFlyingMovement()` lines 2462-2485, `handleFallFlyingCollisions()` lines 2487-2496, SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java` :: `travelFallFlying()` lines 2528-2542, `updateFallFlyingMovement()` lines 2549-2574, `handleFallFlyingCollisions()` lines 2576-2585, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
+- State producers/writers -> consumers/readers: fall-flying flag/pose, climbable state, look vector, pitch, horizontal speed, gravity and collision flags are read; update math writes velocity, then `move` runs. Collision handler's wall-damage call is a damage producer, excluded from this movement comparison; no direct velocity write appears in that handler.
+- Parent slices / dependencies / closure evidence: elytra/fall-flying activation and equipment state remain S1/S2/S6 dependencies; damage resolution is explicitly excluded by INV-EXCLUSIONS.
+- Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S3.9: Relative movement helpers, vector math and attributes
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Relative movement helpers, vector math and attributes. Pair sources unavailable; close changed helper and aggregation dependencies.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Relative movement helpers, vector math and attributes. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -338,11 +380,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S3.10: Travel post-updates, velocity reset/restitution and fall-state writes
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Travel post-updates, velocity reset/restitution and fall-state writes. Pair sources unavailable; follow all reachable callers and state writers.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Travel post-updates, velocity reset/restitution and fall-state writes. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -350,11 +392,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S4.1: Entity move entry, bounding-box and position updates
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Entity move entry, bounding-box and position updates. Pair sources unavailable; preserve axis order and collision-query timing.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Entity move entry, bounding-box and position updates. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -362,11 +404,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S4.2: Axis resolution, collision candidates and tie-breaking
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Axis resolution, collision candidates and tie-breaking. Pair sources unavailable; include AABB/shape/world query dependencies.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Axis resolution, collision candidates and tie-breaking. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -374,11 +416,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S4.3: Step-up candidates, comparison and selection
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Step-up candidates, comparison and selection. Pair sources unavailable; compare all candidate paths and exact comparisons.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Step-up candidates, comparison and selection. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -386,11 +428,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S4.4: Edge probes, on-ground and support lookup
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Edge probes, on-ground and support lookup. Pair sources unavailable; include support block and neighboring-state reads.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Edge probes, on-ground and support lookup. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -398,11 +440,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S4.5: Collision flags, velocity cancellation and callbacks
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Collision flags, velocity cancellation and callbacks. Pair sources unavailable; include callback ordering and implementations.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Collision flags, velocity cancellation and callbacks. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -410,11 +452,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S4.6: Fluid state, contact, height and push/vector calculations
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Fluid state, contact, height and push/vector calculations. Pair sources unavailable; connect fluid path to local player movement.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Fluid state, contact, height and push/vector calculations. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -422,11 +464,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S4.7: Pose/dimension-dependent collision query repetition
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Pose/dimension-dependent collision query repetition. Pair sources unavailable; close interaction with S2 pose slices.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Pose/dimension-dependent collision query repetition. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -434,11 +476,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S5.1: Block/state movement defaults and registrations
 
 - Inventory ID(s): INV-WORLD-MOVEMENT, INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Block/state movement defaults and registrations. Pair sources unavailable; enumerate registrations/properties; do not infer from names.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Block/state movement defaults and registrations. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -446,11 +488,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S5.2: Friction/speed/jump factors and their consumers
 
 - Inventory ID(s): INV-WORLD-MOVEMENT, INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Friction/speed/jump factors and their consumers. Pair sources unavailable; follow default values and all reachable overrides.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Friction/speed/jump factors and their consumers. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -458,11 +500,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S5.3: Landing/bounce callbacks and support behavior
 
 - Inventory ID(s): INV-WORLD-MOVEMENT, INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Landing/bounce callbacks and support behavior. Pair sources unavailable; include slime/bed paths where present and applicable.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Landing/bounce callbacks and support behavior. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -470,11 +512,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S5.4: Ice, soul sand, honey, web and other direct slowdown surfaces
 
 - Inventory ID(s): INV-WORLD-MOVEMENT, INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Ice, soul sand, honey, web and other direct slowdown surfaces. Pair sources unavailable; classify absent blocks as modern-only with checked registry evidence.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Ice, soul sand, honey, web and other direct slowdown surfaces. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -482,11 +524,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S5.5: Climbable block registration, collision and contact behavior
 
 - Inventory ID(s): INV-WORLD-MOVEMENT, INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Climbable block registration, collision and contact behavior. Pair sources unavailable; close S3 climbing dependencies.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Climbable block registration, collision and contact behavior. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -494,11 +536,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S5.6: Partial-block collision/support shapes and neighbor-dependent shapes
 
 - Inventory ID(s): INV-WORLD-MOVEMENT, INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Partial-block collision/support shapes and neighbor-dependent shapes. Pair sources unavailable; enumerate overrides/providers; compare states only where block existed in A.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Partial-block collision/support shapes and neighbor-dependent shapes. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -506,11 +548,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S5.7: Pistons, bubble columns and other movement-producing block/fluid paths
 
 - Inventory ID(s): INV-WORLD-MOVEMENT, INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Pistons, bubble columns and other movement-producing block/fluid paths. Pair sources unavailable; distinguish direct player displacement from entity simulation.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Pistons, bubble columns and other movement-producing block/fluid paths. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -518,23 +560,35 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S5.8: Relevant block/fluid tags, data and resource defaults
 
 - Inventory ID(s): INV-WORLD-MOVEMENT, INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Relevant block/fluid tags, data and resource defaults. Pair sources unavailable; inspect original version-matched jars; absent external data remains blocked.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Relevant block/fluid tags, data and resource defaults. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
+### Slice S5.9: New liquid collision shape provider and player applicability
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: `LiquidBlock.getCollisionShape()` source-level and always-fluid-collision branches; entity collision context path and `LivingEntity.canStandOnFluid()` player applicability.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/level/block/LiquidBlock.java` :: `getCollisionShape()`, lines 76-82, SHA-256 `f0a0629d956ff2fb406fd524268f47596e506b06b2947452132a30631b35f802`; `LivingEntity.canStandOnFluid()`, lines 2295-2297, SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`; A `EntityCollisionContext.canStandOnFluid()`, lines 47-49, SHA-256 `f5e66f9b4d3689993b402a51a3b00b91cee82befdae02ef28945b68109091ea1`; `CollisionContext.of(Entity)`, lines 24-30, SHA-256 `6f1ade5fa21f38d217a6c766ac34a4d2ddf54798320486ea33a7f676abbfdc640`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/level/block/LiquidBlock.java` :: `getCollisionShape()`, lines 81-95, SHA-256 `36740700683ec26c564d9566aa46277563abff6f038affa4ac1e370d807569f7`; `LivingEntity.canStandOnFluid()`, lines 2378-2380, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`; B `EntityCollisionContext.canStandOnFluid()`, lines 61-65, SHA-256 `2f0a2bfd72a3d35121e3ef4ab80755f04cefaa7dd933988e2246b39ff5c39291`; `CollisionContext.of(Entity)`, lines 24-30, SHA-256 `8702d23bea0f119e0d63ce15ff59088559a319283186372fd69adebeed4dcd69`.
+- State producers/writers -> consumers/readers: collision context created for a player carries `alwaysCollideWithFluid=false`; fluid shape checks `canStandOnFluid`, which delegates to player’s inherited `LivingEntity.canStandOnFluid()` returning false. `Player` has no override in either source tree. The new entity-provided liquid shape is reached only if stand-on-fluid predicate passes.
+- Parent slices / dependencies / closure evidence: direct player applicability closed by the paired constructors, context predicates and inherited false return; non-player subclasses such as Strider are out of scope.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): B adds a per-entity liquid collision shape and changes the shape provider. For ordinary player contexts, both versions return empty liquid collision shape unless `alwaysCollideWithFluid` is true (which the player context constructor sets false); the `canStandOnFluid` gate is false in both. The B-only entity shape cannot be reached by player movement.
+- Finding IDs or checked absence/replacement path: none; concrete B-only provider path is unreachable for Player under the inspected exact guards.
+
 ### Slice S6.1: Speed, Slowness, Jump Boost, Levitation, Slow Falling, Dolphins Grace and Blindness consumers
 
 - Inventory ID(s): INV-MODIFIERS, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Speed, Slowness, Jump Boost, Levitation, Slow Falling, Dolphins Grace and Blindness consumers. Pair sources unavailable; source-list every consumer/formula; exclude health/damage/food simulation.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Speed, Slowness, Jump Boost, Levitation, Slow Falling, Dolphins Grace and Blindness consumers. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -542,11 +596,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S6.2: Movement attributes: definitions, operations, aggregation and movement consumers
 
 - Inventory ID(s): INV-MODIFIERS, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Movement attributes: definitions, operations, aggregation and movement consumers. Pair sources unavailable; include defaults, modifier order, clamping and synchronized inputs.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Movement attributes: definitions, operations, aggregation and movement consumers. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -554,11 +608,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S6.3: Depth Strider, Soul Speed, Swift Sneak and Riptide paths
 
 - Inventory ID(s): INV-MODIFIERS, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Depth Strider, Soul Speed, Swift Sneak and Riptide paths. Pair sources unavailable; trace registration to condition/data to application to consumer.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Depth Strider, Soul Speed, Swift Sneak and Riptide paths. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -566,11 +620,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S6.4: Frost Walker boundary and movement-relevant server-supplied effects
 
 - Inventory ID(s): INV-MODIFIERS, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Frost Walker boundary and movement-relevant server-supplied effects. Pair sources unavailable; do not infer server-side world mutation.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Frost Walker boundary and movement-relevant server-supplied effects. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -578,11 +632,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S6.5: Equipment, elytra, use-item state and movement-relevant components/tags
 
 - Inventory ID(s): INV-MODIFIERS, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Equipment, elytra, use-item state and movement-relevant components/tags. Pair sources unavailable; exclude modern-only equipment behavior from old profiles.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Equipment, elytra, use-item state and movement-relevant components/tags. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -590,11 +644,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S6.6: Other movement-affecting effects/enchantments found by registration inventory
 
 - Inventory ID(s): INV-MODIFIERS, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Other movement-affecting effects/enchantments found by registration inventory. Pair sources unavailable; discovery must extend beyond named examples.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Other movement-affecting effects/enchantments found by registration inventory. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -602,11 +656,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S7.1: Incoming velocity/position corrections and local player packet consumers
 
 - Inventory ID(s): INV-EXTERNAL, INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Incoming velocity/position corrections and local player packet consumers. Pair sources unavailable; separate client computation from external input.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Incoming velocity/position corrections and local player packet consumers. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -614,11 +668,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S7.2: Player knockback/push and explosion velocity writers
 
 - Inventory ID(s): INV-EXTERNAL, INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Player knockback/push and explosion velocity writers. Pair sources unavailable; inspect only player-facing path, not independent entity physics.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Player knockback/push and explosion velocity writers. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -626,11 +680,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S7.3: Piston displacement, launch items and external movement impulses
 
 - Inventory ID(s): INV-EXTERNAL, INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Piston displacement, launch items and external movement impulses. Pair sources unavailable; identify client vs server ownership.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Piston displacement, launch items and external movement impulses. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -638,11 +692,11 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S7.4: Mount/dismount transitions and riding movement gates
 
 - Inventory ID(s): INV-EXTERNAL, INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Mount/dismount transitions and riding movement gates. Pair sources unavailable; follow player transition state only.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Mount/dismount transitions and riding movement gates. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
@@ -650,32 +704,34 @@ These are planned behavior boundaries only. They have no source conclusions. Onc
 ### Slice S7.5: Closure sweep: all reachable player movement writers, changed dependencies and cross-mechanic interactions
 
 - Inventory ID(s): INV-EXTERNAL, INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not inspected; pending exact source publication. Planned boundary: Closure sweep: all reachable player movement writers, changed dependencies and cross-mechanic interactions. Pair sources unavailable; audit all stages and update parents after dependency findings.
-- A evidence: ready JSON, three manifest/diagnostic hashes and six navigation source hashes verified; exact slice body range remains pending paired comparison.
-- B evidence: exact native-unobfuscated ready record and three manifest/diagnostic hashes verified; exact slice body range remains pending paired comparison.
-- State producers/writers -> consumers/readers: pending source inventory.
-- Parent slices / dependencies / closure evidence: source dependencies pending; expand after exact-source call graph and resource inventory.
+- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Closure sweep: all reachable player movement writers, changed dependencies and cross-mechanic interactions. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
+- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
+- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
+- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
+- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ## Dependency queue and blockers
 
-- Open dependencies: D0, D1, D2
-- D0: all stages; exact 1.21.11 Mojmap ready JSON, source/artifact manifests, original/mapped jar and mapping hashes, diagnostics and tool versions; required to start A-side comparison; owner: shared source-preparation owner; pending.
-- D1: all stages; exact 26.1.2 native-unobfuscated ready JSON, source/artifact manifests, original client jar hash, diagnostics and tool versions; 26.2 is not an acceptable substitute; owner: shared source-preparation owner; pending.
-- D2: movement resources/tags/data referenced by source; version-matched jar entries and hashes; required to close data-driven movement dependencies; retrieve from validated pair artifacts after D0/D1; pending.
+- Open dependencies: D2
+- D0 (closed): exact 1.21.11 Mojmap ready JSON, source/artifact manifests, source inventory, original/mapped jar and mapping hashes, diagnostics and tool versions; recomputed and matched in this report.
+- D1 (closed): exact 26.1.2 native-unobfuscated ready JSON, source/artifact manifests, source inventory, original client jar hash, diagnostics and tool versions; recomputed and matched in this report; 26.2 not substituted.
+- D2: movement resources/tags/data referenced by movement source; version-matched jar entries and hashes needed to close data-driven dependencies; retrieve/reconcile against verified pair artifacts; owner: source worker; open.
+- D3 (closed in S3.3.1): exact player cutoff predicate and helper equivalence; A type getter plus EntityType identity and B holder value path both compare the same registered `EntityType.PLAYER` instance.
+- D4 (closed in S5.9): liquid collision-shape candidate; exact paired context constructors/predicates and inherited player `canStandOnFluid()` show the new entity-specific shape cannot be reached by Player.
 
 ## Finding index
 
-No findings yet. No equivalence conclusions or checked absences. Candidate inventory will be expanded and dispositions recorded only after exact pair comparison.
+No findings yet. S1.1-S1.3 have paired no-difference dispositions. The pair remains open and no finding snapshot has been submitted.
 
 ## Resume checkpoint
 
-- Last completed slice: none; paired analysis has begun, but no slice is terminal yet.
-- Next bounded slice: establish exact A/B local input and client-tick correspondence at S1.1-S1.2, including body ranges, direct callers and state flow.
-- Outstanding dependencies and owners: D0/D1 shared source owner; D2 source worker after artifact publication.
-- Current assumptions requiring verification: all relevant decompiled method bodies are semantically intact; B LocalPlayer bodies require review because readiness diagnostics omitted them; resource-backed data closure remains open.
+- Last completed slices: S1.1-S1.3, S3.1.1, S3.3.1 and S3.6.1 (compared-no-difference); S5.9 (not-applicable to Player).
+- Next bounded slices: complete ground/air travel and post-travel comparisons, then close fluid-dependent data under D2.
+- Outstanding dependencies and owners: D2-D3, source worker.
+- Current assumptions requiring verification: decompiled movement member bodies are semantically intact; B LocalPlayer diagnostics omit anchors, so manual body review is cited; resource-backed data closure remains open.
 
 ## Implementation reconciliation
 
@@ -689,18 +745,22 @@ No findings yet. No equivalence conclusions or checked absences. Candidate inven
 
 - Reviewer: pending coordinator assignment; must not be a discovery author.
 - Status: pending
-- Inventories and call-chain ranges re-walked: none; source comparison has not started.
+- Inventories and call-chain ranges re-walked: pending independent reviewer.
 - Concrete missed-slice routes (or none found): pending.
 - Misses routed to slice/finding IDs and owners: pending.
 - Reviewer evidence / date: pending.
 
+## Finding snapshots (not pair freeze)
+
+No source-confirmed findings have been submitted. Pair run remains active; no snapshot event exists.
+
 ## Source audit closure
 
-- Coverage counts by status: 50 pending; 0 in-progress; 0 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked.
-- Required inventory status and evidence: all 7 pending; exact pair source publication and source inventory remain open.
-- Open dependencies: D0, D1, D2.
-- Unresolved gaps and limits: readiness, source/artifact hash verification, diagnostics/body quality, all member correspondences, all movement comparisons and data/resource dependency closure.
-- Evidence/hash/correspondence audit: not started; no source evidence admitted.
+- Coverage counts by status: 44 pending; 3 in-progress; 6 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (54 slices).
+- Required inventory status and evidence: all 7 pending; exact source inputs are verified, but full movement/provider/resource inventories remain incomplete.
+- Open dependencies: D2
+- Unresolved gaps and limits: inherited tick/travel/collision body comparisons, movement state producers/consumers, shape providers/registrations, and data/resource dependency closure.
+- Evidence/hash/correspondence audit: source manifests and cited source SHA-256 identities verified; paired correspondence is partial and call-chain closure remains open.
 - Blind freeze: pending
 - Implementation reconciliation: pending
 - Independent audit: pending
