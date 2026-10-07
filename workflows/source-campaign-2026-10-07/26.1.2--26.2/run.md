@@ -49,8 +49,8 @@ Initial B-only call-order anchors inspected (all SHA-256 values in B manifest ab
 
 Each inventory maps to bounded slices below; all are pending. Add all newly discovered writers, consumers, overrides, registrations and resources before disposition.
 
-- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S-TICK-ENTRY,S-IN-01,S-LOCAL-01,S-LOCAL-02,S-LIVING-01,S-LIVING-02,S-LIVING-03,S-TRAVEL-01,S-PLAYER-01,S-POSE-POST; evidence=B-only anchors in correspondence; A source pending.
-- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S-TICK-ENTRY,S-LOCAL-01,S-LOCAL-02,S-LIVING-01,S-STATE-01,S-POSE-POST; evidence=B source methods listed in coverage; constructor/default/reset/writer inventory still open.
+- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S-TICK-ENTRY,S-IN-01,S-LOCAL-01,S-LOCAL-02,S-LIVING-01,S-LIVING-02,S-LIVING-03,S-TRAVEL-01,S-PLAYER-01,S-POSE-UPDATE; evidence=B-only anchors in correspondence; A source pending.
+- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S-TICK-ENTRY,S-LOCAL-01,S-LOCAL-02,S-LIVING-01,S-POSE-UPDATE,S-DIMENSIONS; evidence=B source methods listed in coverage; constructor/default/reset/writer inventory still open.
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S-MOVE-POS,S-MOVE-FLAGS,S-MOVE-RESTITUTE,S-MOVE-BLOCK-SPEED,S-EDGE-PROBE,S-COLLISION-STEP,S-COLLISION-QUERY,S-COLLISION-AXIS,S-WORLD-01; evidence=B Entity.move range below; provider/registry/neighbor inventory still open.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S-WORLD-01; evidence=B block/fluid providers and original client-jar resource inventory not yet cited.
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S-LIVING-02,S-TRAVEL-01,S-MOD-01; evidence=B consumers and producer/registration/resource inventory still open.
@@ -157,18 +157,29 @@ These are 22 initial bounded work units, not an exhaustive inventory. All remain
 - Disposition and rationale (including concrete reachability/preconditions): B body read; no A pair yet.
 - Finding IDs or checked absence/replacement path: none yet.
 
-### Slice S-STATE-01: Player pose fit and dimension-dependent collision query
+### Slice S-POSE-UPDATE: Player pose selection, fit predicate and post-super tick timing
 
-- Inventory ID(s): INV-STATE, INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: B `Player.updatePlayerPose` and `canPlayerFitWithinBlocksAndEntitiesWhen`, plus Entity pose/dimension refresh, bounding box and eye-height consumers; exact A/B writer inventory not yet built.
-- A evidence: pending exact source and inheritance/override inventory.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/player/Player.java::updatePlayerPose(),canPlayerFitWithinBlocksAndEntitiesWhen(Pose), lines 343-374`; and `Entity.java::setPose(Pose),refreshDimensions(), lines 439-? / 3393-?`. Player SHA-256 `8decc71b9c780664578ddb14591db2a2f207c72c05b676edded6f8e964576531`; Entity SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`. Resolve exact full Entity method ranges before any disposition.
-- State producers/writers -> consumers/readers: input/swimming/sleeping and collision fit -> pose -> dimensions/eye height/AABB -> collision, fluid and support queries.
-- Parent slices / dependencies / closure evidence: S-LOCAL-01; all pose/dimension defaults, entity size, caller and collision-query chains pending.
+- Inventory ID(s): INV-TICK, INV-STATE, INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: `Player.tick()` invokes pose selection after `super.tick()` returns (283-285); `updatePlayerPose`, `getDesiredPose` and `canPlayerFitWithinBlocksAndEntitiesWhen` determine requested/actual pose and collision fit (343-375). Dynamic/local callers and exact A order remain to trace.
+- A evidence: pending exact caller/member source and override correspondence.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/player/Player.java::tick(),updatePlayerPose(),getDesiredPose(),canPlayerFitWithinBlocksAndEntitiesWhen(Pose), lines 231-285,343-375`, SHA-256 `8decc71b9c780664578ddb14591db2a2f207c72c05b676edded6f8e964576531`.
+- State producers/writers -> consumers/readers: input/swimming/sleeping/fall-flying/shift/flight and fit query -> pose state -> dimension/eye-height/bounding-box consumers.
+- Parent slices / dependencies / closure evidence: S-TICK-ENTRY,S-LOCAL-01,S-LOCAL-02,S-DIMENSIONS,S-COLLISION-QUERY; all pose writers and fit-query dependencies pending.
 - Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B navigation only; no pairwise or complete writer inventory.
+- Disposition and rationale (including concrete reachability/preconditions): B methods read; post-super call order is only a comparison target until A is ready.
 - Finding IDs or checked absence/replacement path: none yet.
 
+### Slice S-DIMENSIONS: Pose-dependent dimensions, eye height and bounding-box refresh
+
+- Inventory ID(s): INV-STATE, INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: B `Entity.setPose`, `getDimensions`, `refreshDimensions`, `reapplyPosition`, bounding-box creation and eye-height getters; include constructor/default and state writers when pair inventory is built.
+- A evidence: pending exact source, defaults and method correspondence.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/Entity.java::setPose(Pose),makeBoundingBox(Vec3),refreshDimensions(),getEyeHeight(Pose),getEyeHeight(),getDimensions(Pose), lines 439-445,476-482,3393-3409,3462-3468,3703-3705`, SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`.
+- State producers/writers -> consumers/readers: pose/entity type/dimension defaults -> width/height/eye height, position reapplication, AABB -> movement collision, fluid and support queries.
+- Parent slices / dependencies / closure evidence: S-POSE-UPDATE; LivingEntity dimension override, Player type/default dimensions, Pose definitions and all resize callers pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): B methods read; no pairwise disposition or equivalence claim.
+- Finding IDs or checked absence/replacement path: none yet.
 ### Slice S-MOVE-POS: Entity movement clipping, position integration and zero-motion threshold
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-COLLISION
@@ -273,7 +284,7 @@ These are 22 initial bounded work units, not an exhaustive inventory. All remain
 - A evidence: pending exact source, registry and resource inventory.
 - B evidence: B seed files include Block, BlockBehaviour, Blocks, all registered block subclasses, Fluid/FlowingFluid, shape classes and client-jar data; individual members/entry hashes not yet inventoried.
 - State producers/writers -> consumers/readers: block/fluid registration/state/resource values -> player shape/contact/property/fluid queries -> movement, support, velocity and callback consumers.
-- Parent slices / dependencies / closure evidence: S-STATE-01,S-MOVE-POS,S-MOVE-FLAGS,S-MOVE-RESTITUTE,S-MOVE-BLOCK-SPEED,S-EDGE-PROBE,S-COLLISION-STEP,S-COLLISION-QUERY,S-COLLISION-AXIS,S-TRAVEL-01; registry/resource inventory and all reachable providers pending.
+- Parent slices / dependencies / closure evidence: S-POSE-UPDATE,S-DIMENSIONS,S-MOVE-POS,S-MOVE-FLAGS,S-MOVE-RESTITUTE,S-MOVE-BLOCK-SPEED,S-EDGE-PROBE,S-COLLISION-STEP,S-COLLISION-QUERY,S-COLLISION-AXIS,S-TRAVEL-01; registry/resource inventory and all reachable providers pending.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): B root inventory unbuilt; no pairwise no-difference or absence conclusion.
 - Finding IDs or checked absence/replacement path: none yet.
@@ -297,7 +308,7 @@ These are 22 initial bounded work units, not an exhaustive inventory. All remain
 - A evidence: pending exact packet/caller source and consumer correspondence.
 - B evidence: B Entity contains packet velocity/position setters and movement synchronization writers; exact protocol callers and player-specific gates not yet indexed.
 - State producers/writers -> consumers/readers: server/external packet or world callback -> player position/velocity/pose/vehicle state -> local tick/travel.
-- Parent slices / dependencies / closure evidence: S-STATE-01,S-MOVE-POS,S-MOVE-FLAGS,S-MOVE-RESTITUTE; client packet handler, correction and vehicle call chains pending.
+- Parent slices / dependencies / closure evidence: S-POSE-UPDATE,S-DIMENSIONS,S-MOVE-POS,S-MOVE-FLAGS,S-MOVE-RESTITUTE; client packet handler, correction and vehicle call chains pending.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): B external-input inventory unbuilt; no pairwise disposition.
 - Finding IDs or checked absence/replacement path: none yet.
@@ -309,22 +320,11 @@ These are 22 initial bounded work units, not an exhaustive inventory. All remain
 - A evidence: pending exact source and inheritance/caller correspondence.
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/client/player/LocalPlayer.java::tick(), lines 227-251`, SHA-256 `8d089aa09217e3607b38590f7c1623385562800943ac6dfd3d17804e041da6d6`; `world/entity/player/Player.java::tick(), lines 231-285`, SHA-256 `8decc71b9c780664578ddb14591db2a2f207c72c05b676edded6f8e964576531`; `world/entity/LivingEntity.java::tick(), lines 2765-2808`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`; `world/entity/Entity.java::tick(),baseTick(), lines 506-535`, SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`.
 - State producers/writers -> consumers/readers: local input tick/packet lifecycle; Entity fluid/powder-snow/swimming state -> LivingEntity.tick -> virtual LocalPlayer.aiStep -> `super.aiStep()` travel; `Player.tick` performs pose update after its superclass tick returns.
-- Parent slices / dependencies / closure evidence: S-IN-01,S-LOCAL-01,S-LOCAL-02,S-LIVING-03,S-POSE-POST; caller chain must be resolved on A.
+- Parent slices / dependencies / closure evidence: S-IN-01,S-LOCAL-01,S-LOCAL-02,S-LIVING-03,S-POSE-UPDATE; caller chain must be resolved on A.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): B call order read only; A timing and correspondence are unknown, so no pairwise disposition.
 - Finding IDs or checked absence/replacement path: none yet.
 
-### Slice S-POSE-POST: Player pose selection after superclass tick
-
-- Inventory ID(s): INV-TICK, INV-STATE, INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: `Player.tick()` calls `updatePlayerPose()` after `super.tick()` (lines 283-285); inspect `updatePlayerPose()` through `canPlayerFitWithinBlocksAndEntitiesWhen(Pose)` plus dimensions/AABB refresh and collision query dependencies.
-- A evidence: pending exact source and method/caller correspondence.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/player/Player.java::tick(),updatePlayerPose(),canPlayerFitWithinBlocksAndEntitiesWhen(Pose), lines 231-285, 343-374`, SHA-256 `8decc71b9c780664578ddb14591db2a2f207c72c05b676edded6f8e964576531`.
-- State producers/writers -> consumers/readers: swimming/sleeping/fall-flying/shift/flight and collision-space predicates -> pose -> dimensions/eye height/bounding box -> next tick collision and fluid queries.
-- Parent slices / dependencies / closure evidence: S-TICK-ENTRY,S-LOCAL-01,S-STATE-01,S-COLLISION-STEP,S-COLLISION-QUERY,S-COLLISION-AXIS; A pose/update timing, dimension defaults and all pose writers pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B body read; post-super ordering is a comparison target, not a finding without A evidence.
-- Finding IDs or checked absence/replacement path: none yet.
 ## Dependency queue and blockers
 
 - D-A-READY / D-A-SOURCE: exact current 26.1.2 native `unobfuscated` readiness JSON, source tree, hash manifests, artifact identity and relevant method-body diagnostics; requested through task commentary. Needed before paired source comparison. Owner: shared source-preparation owner.
@@ -371,6 +371,7 @@ No pairwise findings confirmed. Earlier reports for this interval were consulted
 - Implementation reconciliation: pending.
 - Independent audit: pending.
 - Runtime validation: not performed; runtime is not authorized.
+
 
 
 
