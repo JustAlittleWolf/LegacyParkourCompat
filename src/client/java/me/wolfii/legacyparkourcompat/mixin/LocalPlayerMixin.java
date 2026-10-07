@@ -285,7 +285,12 @@ abstract class LocalPlayerMixin {
     private void legacyparkourcompat$suffocationQuery(BlockPos pos, CallbackInfoReturnable<Boolean> callback) {
         LocalPlayer player = (LocalPlayer) (Object) this;
         MovementRuntime.find(SuffocationProbeBehavior.class, player).ifPresent(behavior ->
-            callback.setReturnValue(behavior.suffocatesAt(player, pos, callback::getReturnValue))
+            callback.setReturnValue(behavior.suffocatesAt(
+                player,
+                MovementRuntime.profile(player).target(),
+                pos,
+                callback::getReturnValue
+            ))
         );
     }
 
