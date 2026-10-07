@@ -6,40 +6,42 @@
 - Repository revision and start date: `002137b227676caea77f6832b9f4c8d0b6200bff` (main); 2026-10-07
 - Working branch: `feat/source-discovery-movement-source-1-11-2-1-12-2`
 - Naming namespace requested: Ornithe Feather on both exact releases, release-specific mapping artifacts
-- Source-preparation request: pending source-owner response for validated ready JSON, exact resolved IDs, roots and artifact hashes. No source directory is treated as ready based on presence.
-- Source command/log and toolchain: pending validated source package; no decompiler run initiated by this researcher.
+- Source preparation: shared source-owner package validated; exact readiness records and every listed source/artifact hash verified. Researcher did not run the decompiler.
+- Source command: exact `--versions=1.11.2 --mappings=feather` and `--versions=1.12.2 --mappings=feather` runs were successful per readiness diagnostics; raw Gradle logs not retained. Toolchain versions are recorded below.
 
 ## Artifact manifest
 
 ### A — 1.11.2
 
-- Requested/resolved: 1.11.2 / pending source-owner readiness record.
-- Source root: pending validated readiness record.
-- Original client jar identity and SHA-256: pending.
-- Namespace / CLI mode: requested Feather / `feather`; pending validation.
-- Mapping coordinate/build, mapping path and SHA-256: pending.
-- Remapped jar SHA-256: pending.
-- Relevant decompiler diagnostics and warning disposition: pending.
+- Requested/resolved: 1.11.2 / 1.11.2; readiness `ready/1.11.2/ornithe-feather.ready.json` confirms `versionId` and `versionMetadataId` both exactly `1.11.2`.
+- Source root: `build/movement-campaign-2026-10-07/ready/1.11.2/ornithe-feather` (shared artifact root in the primary checkout).
+- Original client jar SHA-256: `be3fff4f2cc005a1310a96389efdeb983d2bcb4b8e747c402acd616ae73d0ba2`.
+- Namespace / CLI mode: Ornithe Feather / `feather`; mapping artifact `net.ornithemc:feather-gen2:1.11.2+build.2`.
+- Mapping jar SHA-256 `d14500101ac23c874b0fe394eae21a382c410ec4f3bbc2e58042e5234a236757`; Tiny mapping SHA-256 `4fa160c09d83bf61ae21bb74ab1e33b6aabe9b8ec89904b266ad53cecc9c36e6`.
+- Remapped client jar SHA-256: `356d8efb64df6c89ab74e69b34718d5b79cbfbbc28b744913ce943d9679566b3`.
+- Source manifest `ready/1.11.2/ornithe-feather.sources.sha256`, SHA-256 `d908c2af76598ad26999563bfef0089f1d3c8c32483eee6b108f0defa2773df0`; all 1,921 listed files were present and their hashes matched.
+- Artifact manifest `ready/1.11.2/artifacts.sha256`, SHA-256 `69327982116b0ce1efe32e13031cb83a93dc5f30dcd1b936bf6af003a584ac5f`; all 37 listed artifacts were present and their hashes matched. Diagnostics `ready/1.11.2/movement-diagnostics.txt`, SHA-256 `8bb3b1169a21958a6570fc304a0a95d9c51cc3a2101869bcbd453c3588925cdc`.
 
 ### B — 1.12.2
 
-- Requested/resolved: 1.12.2 / pending source-owner readiness record.
-- Source root: pending validated readiness record.
-- Original client jar identity and SHA-256: pending.
-- Namespace / CLI mode: requested Feather / `feather`; pending validation.
-- Mapping coordinate/build, mapping path and SHA-256: pending.
-- Remapped jar SHA-256: pending.
-- Relevant decompiler diagnostics and warning disposition: pending.
+- Requested/resolved: 1.12.2 / 1.12.2; readiness `ready/1.12.2/ornithe-feather.ready.json` confirms `versionId` and `versionMetadataId` both exactly `1.12.2`.
+- Source root: `build/movement-campaign-2026-10-07/ready/1.12.2/ornithe-feather` (shared artifact root in the primary checkout).
+- Original client jar SHA-256: `8ada07da5ee77dad3527bd7278fbd05ee1fc8a597813b216a871a2d7d64cc64f`.
+- Namespace / CLI mode: Ornithe Feather / `feather`; mapping artifact `net.ornithemc:feather-gen2:1.12.2+build.2`.
+- Mapping jar SHA-256 `e48244030c53979793bdfbe48d7f1f3536f7e4f678ee5890a416198037cd46ca`; Tiny mapping SHA-256 `a3aa1c8e73e81bd09432ba1f4b2e88aaacbedb2d8fa3cbf797536d2bdf0d4e58`.
+- Remapped client jar SHA-256: `65a08f15d18c4ec2bd0f05b89dfc1ba7ea6b8280ba93ed136245f39e63ec8a2b`.
+- Source manifest `ready/1.12.2/ornithe-feather.sources.sha256`, SHA-256 `b8a37ccfccd2aac5f40f5e34fec85873dbdfa93a266043c103e592e4a8c949da`; all 2,050 listed files were present and their hashes matched.
+- Artifact manifest `ready/1.12.2/artifacts.sha256`, SHA-256 `8171a095a5ee74cebbd12b3d76983fc01796c0c23c962076d1e235cd0f80fa8c`; all 38 listed artifacts were present and their hashes matched. Diagnostics `ready/1.12.2/movement-diagnostics.txt`, SHA-256 `1ae1a796ac7650bf218af02eb602e1b7f46df2950e57b14263c65d3b58dc71b3`.
 
 ### Shared provenance
 
 - Repository commit: `002137b227676caea77f6832b9f4c8d0b6200bff`.
-- JDK, Gradle, Vineflower, remapper and Mapping IO versions/options: pending validated source-owner record.
-- Source hashes: pending; hash every source/resource cited before terminalizing its slice.
+- Toolchain/options from the source-owner readiness package and repository: decompiler JVM Java 25; Gradle wrapper 9.7.1; Vineflower 1.12.0; Tiny Remapper 0.14.1; Mapping IO 0.9.1. Decompiler task uses generic signatures, ASCII strings, synthetic removal, four-space indentation, hardware-available threads (minimum 1), skips Java runtime, and decompiles `net/minecraft` and `com/mojang` prefixes.
+- Source hashes: complete source-tree manifests verified above; record each cited source and resource hash in its coverage row/finding.
 
 ## Correspondence and call order
 
-Pending exact source package. Build correspondence from the local client player input/tick path through player and living movement to entity collision, blocks/fluids, movement data consumers and external state writers. Record each exact class/member descriptor on A and B, inheritance/callers, ordered call chain, fields read/written, relevant constructor/default values and bytecode cross-checks for warning-affected or uncertain bodies. Do not treat prior reports or names alone as complete correspondence.
+A/B correspondences confirmed so far: `LocalClientPlayerEntity extends ClientPlayerEntity extends PlayerEntity extends LivingEntity extends Entity`; each class/member uses the same Feather names. `Minecraft` installs `KeyboardInput`; it is the only client class extending `Input` in both source trees. `LivingEntity.tick()` dispatches `this.mobTick()` (A line 1643; B 1681); the dynamic local-player override samples input, then delegates `LocalClientPlayerEntity.mobTick -> PlayerEntity.mobTick -> LivingEntity.mobTick`. On the locally controlled path, `LivingEntity.mobTick()` calls `serverTickAi()` before jump processing and relative movement (A lines 1776-1804; B 1820-1848); the local override copies sampled input into sideways/forward/jump movement fields. Full travel, collision, shape/data and external-writer correspondence remains open. Do not treat prior reports or names alone as complete correspondence.
 
 ## Coverage ledger
 
@@ -47,8 +49,8 @@ Every row remains `pending` until both exact source trees and dependency closure
 
 ### Stage 1 — local input and tick ordering
 
-- `S1.1` Keyboard/controller input sampling, directional flags, analog impulses, diagonal normalization and sneak/item-use scaling — `pending`.
-- `S1.2` Local player tick ordering, previous/current input and flags, superclass/tick/travel order — `pending`.
+- `S1.1` Keyboard/controller input sampling, directional flags, analog impulses, diagonal normalization and sneak/item-use scaling — `compared-no-difference`. A/B `Input#tick()` and `getMovement()` (source lines 15-20) and `KeyboardInput#tick()` (13-50) are byte-identical; both `Input.java` SHA-256 `9e704cfe7fdc55c4eab78670e60cf392ba6817adbd5e7451d3a86f11da8bf50`, both `KeyboardInput.java` SHA-256 `7be11425906be051c83e275f359816546e4677b16d212156a871f2a7d64cc64f`. Only `KeyboardInput` extends `Input`; `Minecraft` installs it at A lines 1894/1927, B 1953/1991. Movement key default bindings and codes match (`GameOptions` A 109-115; B 117-123), with class hashes A `3a28b6a6540a134fb24e2d3517465020ee8a2d095db5a754b96176abc0ae2ec1`, B `301be9703fdbd4169ef614ca41d2f7cb8508ebc76f89ec032c911609e5f43848`. The sampler produces signed digital axes, jump/sneak flags and multiplies axes by `(float)(axis * 0.3)` while sneaking; no diagonal normalization occurs here. The normalization consumer is covered in stage 3.
+- `S1.2` Local player tick ordering, previous/current input and flags, superclass/tick/travel order — `in-progress`. Correspondence: `LocalClientPlayerEntity.tick()` A 159-173 / B 165-179; `serverTickAi()` A 614-625 / B 631-642; local `mobTick()` A 632-790 / B 649-812; source hashes A `65c2747bd8c70def6be7f41f624d4c9493342b39ae7bed7967f9ff63608f59ed`, B `01a58e94d8c6ff98a8e3794227cdc76a5fcbdbad795c70c9cf28854aff9823cc`. In both, `bl` captures old jumping, `bl2` old sneaking, and `bl3` old forward input before `input.tick()`; values then flow through item slowdown/auto-jump/sprint/flight/mounted-jump handling before the superclass mob tick. B adds `Tutorial.onPlayerInput(input)` immediately after sampling (line 699), and closes an `InventoryMenuScreen` on portal entry (657-662); both are queued for bounded out-of-scope disposition below. Full tick/travel dependencies remain open.
 - `S1.3` Sprint start/stop, timers, conditions and writes reachable from client input — `pending`.
 - `S1.4` Jump input, jump state/cooldown, auto-jump probes and movement dispatch — `pending`.
 - `S1.5` Flight toggles and local flying input/speed gates — `pending`.
@@ -110,7 +112,7 @@ Every row remains `pending` until both exact source trees and dependency closure
 
 ## Dependency queue and blockers
 
-- `SRC-PAIR`: obtain source-owner validated readiness JSON for exact 1.11.2/1.12.2 Feather outputs, including successful completion, exact resolved IDs, source roots, artifact hashes and diagnostics. No directory-presence assumption. Until received, no source claim can be terminal.
+- `SRC-PAIR`: resolved. Both readiness JSON records report `status=ready`, exact requested/resolved release IDs, `mapping=ornithe-feather`; full source manifests (1,921 A / 2,050 B files), artifact manifests (37 A / 38 B artifacts), and diagnostic hashes match their records. Every listed source and artifact file hash was rechecked. Movement diagnostics contain the exact jump, relative movement and travel method anchors; these bodies are still inspected individually before their slices close.
 - `DIAG-A`, `DIAG-B`: inspect decompiler/remapper diagnostics and identify whether any damaged/warning-affected bodies intersect movement coverage; bytecode-check relevant methods if required.
 - `CAND-OLD-001` (historical candidate only): re-check fall-flying look-vector dispatch and yaw source through both exact class hierarchies and player travel caller; no current finding until evidence is re-established.
 - `CAND-OLD-002` (historical candidate only): re-check bed landing callback, collision callback order, player/sneak guards, shape and registration; no current finding until evidence is re-established.
@@ -120,22 +122,20 @@ Every row remains `pending` until both exact source trees and dependency closure
 
 ## Finding index
 
-No findings recorded in this fresh campaign yet. Prior `1.11.2--1.12.2` run contains historical claims only; each candidate will be reverified against current validated artifacts before reuse. Scope declaration: source-only, no wiki, no mod implementation.
+No findings recorded in this fresh campaign yet. Prior `1.11.2--1.12.2` run contains historical claims only; each candidate will be reverified against current validated artifacts before reuse. B-only tutorial callback in `LocalClientPlayerEntity.mobTick()` routes through `Tutorial.onPlayerInput(Input)` A: absent caller / B: `Tutorial.java:25-29` (SHA-256 `c5281a3f8000275b1e2387f97e88d6e0af409e3cedbff8c1668a775d3a780945`) -> `TutorialStep.onPlayerInput(Input)` default no-op at 18-19 (SHA-256 `3150f62d0b96c83fecb231dabdecd0c618f6970c8f8ff093f27547ecb0b866fa`) -> the only override, `MovementTutorialStep.onPlayerInput(Input)` 105-109 (SHA-256 `44f8769ebc81ffe6f368b085987e7c8879ef5db86388741310979bc94a80de17`), which only writes tutorial field `moved`; its tick consumes/resets this field for a tutorial counter. It does not mutate `Input` or player movement state: bounded `not-applicable` to direct movement. The portal branch only closes the inventory UI: A/B `closeMenu` and `doCloseMenu` bodies at A 275-284 / B 281-290 send a close-menu packet, clear cursor item, close menu and open screen; no movement field writes: bounded `not-applicable` to direct movement. Scope declaration: source-only, no wiki, no mod implementation.
 
 ## Resume checkpoint
 
-- Last completed: read global/project guidance, source discovery workflow, navigation order, templates and decompiler guide; verified branch and base; read prior pair report as historical context only.
-- Next: receive validated source readiness; verify exact IDs/hashes/diagnostics; inventory player-path source files and establish method-level correspondence; then process each bounded stage in order.
-- Open coverage count: 38 pending rows; 0 in-progress; 0 terminal.
-- Outstanding dependencies: `SRC-PAIR`, then per-stage dependencies.
-- Assumptions requiring verification: Feather can be aligned for both exact release artifacts; prior pair's findings and no-difference claims remain candidates only.
+- Last completed: source readiness and complete listed-file hash verification for both exact Feather trees; stage 1.1 input producer/defaults compared; read global/project guidance, source discovery workflow, navigation order, templates, decompiler guide and current decompiler implementation; verified branch and base; read prior pair report as historical context only.
+- Next: inventory player-path source files and establish method-level correspondence; then process each bounded stage in order, including per-method checks against diagnostics and exact source hashes.
+- Open coverage count: 42 pending rows; 0 in-progress; 0 terminal.
+- Outstanding dependencies: per-stage method, registry, resource and state-writer dependencies; review decompiler method-body diagnostics for every cited slice.
+- Assumptions requiring verification: prior pair's findings and no-difference claims remain candidates only.
 
 ## Source audit closure
 
-- Coverage counts: 42 pending; 0 in-progress; 0 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked.
+- Coverage counts: 40 pending; 1 in-progress; 1 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked.
 - Findings in this fresh run: 0.
-- Unresolved gaps: source readiness, full seven-stage inventory, dependency closure and warning disposition.
-- Evidence/hash/correspondence audit: not started; no source evidence admitted yet.
+- Unresolved gaps: full seven-stage inventory, dependency closure and per-body warning/damage disposition.
+- Evidence/hash audit: source and artifact manifests verified; stage 1.1 evidence hashes recorded; method correspondence and remaining evidence hashing per coverage slice remain in progress.
 - Runtime validation: not performed (separate workflow).
-
-
