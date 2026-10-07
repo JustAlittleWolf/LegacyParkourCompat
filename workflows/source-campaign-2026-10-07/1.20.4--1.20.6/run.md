@@ -4,16 +4,17 @@
 - Scope: direct client-player movement; older A = 1.20.4; newer B = 1.20.6. Source-only discovery; no Minecraft wiki/MCPK sources or audit outputs, no mod implementation inspection, no runtime implementation or runtime validation.
 - Repository revision and start date: base main = 002137b227676caea77f6832b9f4c8d0b6200bff; task branch = feat/source-discovery-movement-source-1-20-4-1-20-6; 2026-10-07.
 - Selected naming namespace, CLI mode per side and alignment evidence: pending validated source-owner handoff; requested alignment is Mojmap / Mojmap.
-- Source preparation owner / command / log / readiness marker: shared source owner; exact pair publication and successful logs pending. This worker will not run decompileMinecraft or write shared artifacts.
-- Toolchain/decompiler/remapper versions and options: pending validated provenance.
+- Source preparation owner / command / log / readiness marker: sole shared source owner; batch command was decompileMinecraft --versions=1.20.1,1.20.2,1.20.4,1.20.6 --mappings=mojmap --decompiler-heap=4G, with shared campaign staging/cache roots. Full successful log: ../../../build/movement-campaign-2026-10-07/staging/mojmap-1.20.1-to-1.20.6-3e08bcae66a145b296f7f85b12623999/gradle.full.log (SHA-256 e5acf99c0bf01e2a65818cea95da4873b5f8a3c610f795f887c7184216b160fe). This worker did not run decompileMinecraft or write shared artifacts.
+- Toolchain/decompiler/remapper versions and options: Gradle 9.7.1; Java 25.0.3+9-LTS; Vineflower 1.12.0; TinyRemapper 0.14.1; Mapping-IO 0.9.1; ASM 9.10.1; Gson 2.14.0; decompiler heap 4G.
 - Discovery author(s): Codex source worker in this task.
 - Independent reviewer (must differ from discovery authors): not yet assigned.
 
 ## Artifact manifest
 
-- A: requested/resolved 1.20.4; expected Mojmap. Source root, client jar identity/hash, mapping coordinate/build/path/hash, mapped jar hash, source file hashes, tool versions/options, and successful log: pending validated ready JSON and cited manifests.
-- B: requested/resolved 1.20.6; expected Mojmap. Source root, client jar identity/hash, mapping coordinate/build/path/hash, mapped jar hash, source file hashes, tool versions/options, and successful log: pending validated ready JSON and cited manifests.
-- No source-tree or artifact-directory presence is treated as readiness. Exact release IDs, namespace, cited manifest hashes and relevant body diagnostics must be verified before comparison.
+- Shared invocation/provenance: exact output and cache are the canonical campaign staging and artifacts roots. Batch resolved IDs: 1.20.1, 1.20.2, 1.20.4, 1.20.6; this run uses only exact 1.20.4 and 1.20.6 endpoints. Provenance records are at ../../../build/movement-campaign-2026-10-07/ready/1.20.4/mojmap.provenance.json (SHA-256 10914d9b7b3fc29de066ca24f7d905e4d4f0a451a6c81729a2d1981addfc1385) and ../../../build/movement-campaign-2026-10-07/ready/1.20.6/mojmap.provenance.json (SHA-256 ee53e67e7ab51069a0eaae5a0ce13d49a9f972bdc13e3c31e041afa77f4d26e8). Both record Mojmap and the same successful batch log.
+- A: requested/resolved release and version metadata ID 1.20.4; namespace/CLI mode Mojmap. Source root ../../../build/movement-campaign-2026-10-07/ready/1.20.4/mojmap; 5,048 files / 24,323,941 source bytes; full source manifest ../../../build/movement-campaign-2026-10-07/ready/1.20.4/mojmap.sources.sha256 SHA-256 fd3c8668483e5ff208c847474f6cbd3952a909c4aa602ed98b24e3d11a9602a1 (all 5,048 listed source hashes verified). Artifact manifest ../../../build/movement-campaign-2026-10-07/ready/1.20.4/artifacts.sha256 SHA-256 ee3efc771d264c0bc49d5472abb9763a646f8d221841d0a61201ecd991cb3948. Original client jar ../../../build/movement-campaign-2026-10-07/artifacts/1.20.4/client.jar SHA-256 9221ab461a491bf9661cd8e773a5e662aaa43d600fa7970b8c12bbfb0431b838 (publisher SHA-1 fd19469fed4a4b4c15b2d5133985f0e3e7816a8a). Mojang official client mappings from exact 1.20.4 version metadata: ../../../build/movement-campaign-2026-10-07/artifacts/1.20.4/client_mappings.txt SHA-256 ad03c803d866062909dd378ed5f1611687dc0ed0a76cc7fd57e968a99d641e5f (publisher SHA-1 be76ecc174ea25580bdc9bf335481a5192d9f3b7). Remapped client jar ../../../build/movement-campaign-2026-10-07/artifacts/1.20.4/client-mojmap.jar SHA-256 d20c183016505cceecd33d508973e7ca6f2ee8cbd860f316592f4a09a96bc339. Version metadata version.json SHA-256 48131d228cdaee5087bc9179ad5ed1ae39d0e52750609bdb2cf0596f20d3bdc6. Readiness JSON SHA-256 6225b97979420cc743c8b7156a0ce512ef27d0dbf48bfffbc40d3e1c8cb044d1. Movement diagnostics ../../../build/movement-campaign-2026-10-07/ready/1.20.4/movement-diagnostics.txt SHA-256 8909a0341c2141f476160c19a05cbf2ef39e28bee7357dd50e3693e4a3174879, review 22.
+- B: requested/resolved release and version metadata ID 1.20.6; namespace/CLI mode Mojmap. Source root ../../../build/movement-campaign-2026-10-07/ready/1.20.6/mojmap; 5,329 files / 25,451,020 source bytes; full source manifest ../../../build/movement-campaign-2026-10-07/ready/1.20.6/mojmap.sources.sha256 SHA-256 56aae10684471d7abb1c366bd5dd431ab976112a87e6cc5c687a68f1eff06311 (all 5,329 listed source hashes verified). Artifact manifest ../../../build/movement-campaign-2026-10-07/ready/1.20.6/artifacts.sha256 SHA-256 e5882622bcf22b3e3c2c96c73843a1308e11e3096f4feefd945ea5808933ce31. Original client jar ../../../build/movement-campaign-2026-10-07/artifacts/1.20.6/client.jar SHA-256 02dfd345ac1ad55692d5dbc8486ac7e4fea72cd54ac494a79cd48963048e56b2 (publisher SHA-1 05b6f1c6b46a29d6ea82b4e0d42190e42402030f). Mojang official client mappings from exact 1.20.6 version metadata: ../../../build/movement-campaign-2026-10-07/artifacts/1.20.6/client_mappings.txt SHA-256 27f4ef3a9362e9874e2c33edac981b6f485ad97f92c4e35b497525b646aae745 (publisher SHA-1 de46c8f33d7826eb83e8ef0e9f80dc1f08cb9498). Remapped client jar ../../../build/movement-campaign-2026-10-07/artifacts/1.20.6/client-mojmap.jar SHA-256 2add08d295773a0615ca595877f5fd055fa454d7c68fac56d6a4894a1e055284. Version metadata version.json SHA-256 78a5b3480319194842a7829ae81f4e04235199c384817cf13ad2a62eb70c12a5. Readiness JSON SHA-256 1ec1dc773ea2a8a3ef48a9fc868893bd2f83d6b13b057d75b151b711788c3d41. Movement diagnostics ../../../build/movement-campaign-2026-10-07/ready/1.20.6/movement-diagnostics.txt SHA-256 558c501d2956cfa2445e9a75512dcf6c8ff7fec453c7b2f439af171162cab498, review 23.
+- Manifest checks: both marker IDs, version metadata IDs, namespace and source roots matched the exact requested pair; marker-cited source, artifact and diagnostics hashes matched; every listed source file hash matched its manifest; both exact client jar hashes appeared in the artifact manifests and matched the cached jars. Method diagnostics reported successful decompilation and the required movement classes/methods on both sides. The full log reports BUILD SUCCESSFUL and remapper access-repair warnings only for GUI/renderer classes, with no player movement body warning observed.
 
 ## Blind-discovery freeze
 
@@ -657,9 +658,8 @@ Each bounded behavior below is pending until both exact source sides, the entire
 
 ## Dependency queue and blockers
 
-- D-SOURCES: originating slice = all; exact 1.20.4 and 1.20.6 Mojmap validated-ready JSONs, source/artifact manifest files, movement-method diagnostics and successful logs are pending from source owner. Do not begin comparison until IDs, hashes, and relevant bodies verify. Next action: verify the shared build/movement-campaign-2026-10-07/ready publication when announced.
-- D-CHECKER: workflow tooling only; check_completion.py currently matches every required per-slice '- Status:' field as a top-level status, so its exact-one-top-level-status gate rejects the new template. The report remains active and can be manually audited meanwhile. Owner: campaign workflow maintainer; resolve checker pattern to scope it to the run header.
-- Open dependencies: D-SOURCES (source owner); D-CHECKER (campaign workflow maintainer; completion gate only).
+- D-SOURCES resolved: exact 1.20.4 and 1.20.6 Mojmap ready JSONs, manifests, client/mapping artifacts, method diagnostics and successful log verified as recorded in Artifact manifest. Source trees are now available read-only.
+- D-CHECKER resolved by canonical workflow commit f7f65f8 (cherry-pick of fba28fa); active/partial reports are structurally checked without claiming source closure.
 
 ## Finding index
 
@@ -667,10 +667,10 @@ Each bounded behavior below is pending until both exact source sides, the entire
 
 ## Resume checkpoint
 
-- Last completed slice: none; branch and updated workflow orientation complete.
-- Next bounded slice and exact files/members/body ranges to open: await source owner; then enumerate local player input/tick classes and exact paired callers before beginning stage 1.
-- Outstanding dependencies and owners: D-SOURCES; source owner.
-- Current assumptions requiring verification: Mojmap is available/aligned on both exact endpoints; every relevant source body is intact; source manifests and diagnostic logs are preserved.
+- Last completed slice: source provenance and exact source-tree hash validation; no behavior slice completed.
+- Next bounded slice and exact files/members/body ranges to open: stage 1 input sampling and local-player tick order in Input.java, KeyboardInput.java, LocalPlayer.java, Player.java and LivingEntity.java; establish pair-specific ranges and callers before disposition.
+- Outstanding dependencies and owners: none presently; add source-method/data retrieval items as encountered.
+- Current assumptions requiring verification: per-method movement body integrity and complete class/member correspondence must still be verified despite the successful source diagnostics.
 
 ## Implementation reconciliation
 
@@ -692,10 +692,10 @@ Each bounded behavior below is pending until both exact source sides, the entire
 ## Source audit closure
 
 - Coverage counts by status: pending 51; in-progress 0; compared-no-difference 0; findings 0; not-applicable 0; blocked 0.
-- Required inventory status and evidence: all seven pending; source tree not yet validated.
-- Open dependencies: D-SOURCES (source owner).
-- Unresolved gaps and limits: all bounded comparison slices pending; source provenance, exact method correspondence and diagnostics pending; no semantic equivalence claims made.
-- Evidence/hash/correspondence audit: no source evidence cited yet; validate exact artifact and source hashes before citing.
+- Required inventory status and evidence: all seven pending; exact source roots and hashes validated, method-level inventory remains.
+- Open dependencies: none currently; source comparisons will add exact member/resource dependencies as discovered.
+- Unresolved gaps and limits: all bounded comparison slices pending; pair-specific member correspondence and semantic comparison not yet complete; no equivalence claims made.
+- Evidence/hash/correspondence audit: readiness, source and artifact manifests and all source hashes verified; exact source member hashes and ranges will be recorded per slice.
 - Blind freeze: pending
 - Implementation reconciliation: pending
 - Independent audit: pending
