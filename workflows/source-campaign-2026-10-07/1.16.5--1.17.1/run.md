@@ -249,14 +249,14 @@ Each entry is a bounded behavior slice, not an entire class/stage/travel method.
 ### Slice S3-04: Gravity, drag, and velocity thresholds
 
 - Inventory ID(s): INV-TICK; INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
-- A evidence: pending source readiness; no range accepted.
-- B evidence: pending source readiness; no range accepted.
-- State producers/writers -> consumers/readers: pending paired inventory.
-- Parent slices / dependencies / closure evidence: pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
-- Finding IDs or checked absence/replacement path: pending.
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.aiStep` pre-travel delta cutoff (`abs(component) < 0.003`), non-effective-AI interpolation damping, horizontal input damping (`xxa`/`zza *= 0.98F`), and travel prelude gravity selection. In the ordinary travel branch, compare levitation vertical interpolation, the client missing-chunk fallback, normal gravity subtraction, and vertical `0.98F` damping. The fluid-specific `getFluidFallingAdjustedMovement` body is checked for correspondence and routed to S3-07; fall-flying gravity/drag is routed to S3-08.
+- A evidence: `net/minecraft/world/entity/LivingEntity.java#aiStep` lines 2368-2460; `#travel` lines 1916-1921 and 2023-2041; `#getFluidFallingAdjustedMovement` lines 2074-2087. LivingEntity hash is in the foundational source table above.
+- B evidence: `net/minecraft/world/entity/LivingEntity.java#aiStep` lines 2455-2547; `#travel` lines 2005-2010 and 2112-2133; `#getFluidFallingAdjustedMovement` lines 2168-2181. LivingEntity hash is in the foundational source table above. `LevelReader.java` source hash is in the foundational table; B `DimensionType.java` SHA-256 `2dc118f16b671d3b1b9736c10e960e199790f7930cfa18983f379beb8d00f27b` matched its source manifest.
+- State producers/writers -> consumers/readers: the entry prelude selects gravity `0.08` or `0.01` when the current y velocity is non-positive and Slow Falling is present, clearing fall distance in the latter case. The ordinary branch interpolates y toward Levitation's amplifier-scaled target, or uses the client missing-chunk fallback, or subtracts gravity unless no-gravity is active; it then applies vertical `0.98F` damping. Before travel, each delta component with absolute value below `0.003` is zeroed and horizontal input is multiplied by `0.98F`. These literals, comparisons, operation order, and formulas match A/B. A's unloaded-chunk fallback checks `getY() > 0.0`; B checks `getY() > level.getMinBuildHeight()`. B's `LevelReader.getMinBuildHeight()` returns `dimensionType().minY()`, and its `DimensionType` codec exposes a `min_y` field. For an A-era world bottom of zero the fallback agrees; the nonzero-minY case requires source-era map/resource applicability closure. B's ordinary branch also contains the `shouldDiscardFriction()` friction bypass already routed through S3-02; no vanilla Player writer has been found, with S7 still open.
+- Parent slices / dependencies / closure evidence: S1-02 establishes local-player reachability and AI-step order; S3-01 closes dispatch; S3-02 owns friction bypass; S3-07 closes the fluid gravity helper; S3-08 closes fall-flying gravity and drag; S4/S6 close dimension/build-height and world-resource applicability; S7 closes externally written velocity state.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the pre-travel component cutoff, horizontal-input damping, slow-falling prelude, levitation formula, normal gravity subtraction, and vertical drag match. `getFluidFallingAdjustedMovement` is statement-for-statement identical. Candidate `CD-S3-04-01` is the unloaded-client-chunk lower-bound substitution: if a B dimension's configured `minY` differs from zero, the branch can choose a different vertical velocity below Y=0. This is not established for A-era maps and remains pending dimension/resource closure. The non-effective-AI lerp damping branch is skipped for LocalPlayer after `isControlledByLocalInstance()` clears `lerpSteps` and LocalPlayer is effective AI; remote-player behavior is outside this direct-player scope.
+- Finding IDs or checked absence/replacement path: candidate `CD-S3-04-01` — `getY() > 0.0` replaced by `getY() > getMinBuildHeight()` in the missing-client-chunk fallback; applicability pending S4/S6. Checked absence for shared gravity/drag/cutoff formulas. The freezing stage added later in B's `LivingEntity.aiStep` is routed to S3-09 and its modern-only block/effect dependencies.
 
 ### Slice S3-05: Jump and sprint-jump power
 
@@ -524,8 +524,8 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ## Resume checkpoint
 
-- Last completed slices: S3-01 travel dispatch/pre-branch comparison and S3-03 air-speed comparison; no dispatch or stored-air-speed delta found. Source pair verified; S1-01..S1-06, S2-01..S2-03, and S3-02 remain in-progress pending their listed dependencies.
-- Next bounded slice: continue S3-02 closure for powder-snow support applicability and external friction writers, then S3-04 gravity, drag, and velocity thresholds; S3-09 owns the Player post-super bob formula change. Retain S1/S2 slices as in-progress until input/pose, tick-membership, ability, speed, fluid/collision, modifier, item, mount, resize and external-writer dependencies close.
+- Last completed slices: S3-01 travel dispatch/pre-branch comparison and S3-03 air-speed comparison; no dispatch or stored-air-speed delta found. S3-04 is in-progress with conditional minY candidate `CD-S3-04-01`. Source pair verified; S1-01..S1-06, S2-01..S2-03, and S3-02 remain in-progress pending their listed dependencies.
+- Next bounded slice: continue S3-02 closure for powder-snow support applicability and external friction writers, then close S3-04 build-height applicability before S3-05 jump power; S3-07 owns fluid gravity and S3-09 owns the Player post-super bob and B-only freezing stage. Retain S1/S2 slices as in-progress until input/pose, tick-membership, ability, speed, fluid/collision, modifier, item, mount, resize and external-writer dependencies close.
 - Outstanding dependencies and owners: source-owner publication is complete; source closure remains with this run, including S1-06 entity-tick membership/passenger scheduling and the remaining movement/resource inventories.
 - Assumptions requiring verification: no unresolved source-root or namespace assumptions; verify every newly selected source file against its manifest as slices are opened.
 
@@ -548,10 +548,10 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ## Source audit closure
 
-- Coverage counts by status: 22 pending, 10 in-progress, 2 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
+- Coverage counts by status: 21 pending, 11 in-progress, 2 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
 - Required inventory status and evidence: all seven pending; evidence pending.
-- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; S1-05 abilities, Elytra/item state and travel/external writers; S1-06 chunk membership, passenger and server packet/correction closure; S2-01 collision-box and synchronized pose/position closure; S2-02 eye-height consumers; S2-03 item-use/shift state writers and travel consumers; S3-02 powder-snow support applicability and discard-friction player reachability; RESOURCE-INVENTORY and movement-diagnostic scope closure.
-- Unresolved gaps and limits: S1-01..S1-06/S2-01..S2-03 and S3-02 dependency closure, and the remaining 32 source slices (22 pending, 10 in-progress) are open.
+- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; S1-05 abilities, Elytra/item state and travel/external writers; S1-06 chunk membership, passenger and server packet/correction closure; S2-01 collision-box and synchronized pose/position closure; S2-02 eye-height consumers; S2-03 item-use/shift state writers and travel consumers; S3-02 powder-snow support applicability and discard-friction player reachability; S3-04 dimension minY applicability; RESOURCE-INVENTORY and movement-diagnostic scope closure.
+- Unresolved gaps and limits: S1-01..S1-06/S2-01..S2-03, S3-02 and S3-04 dependency closure, and the remaining 32 source slices (21 pending, 11 in-progress) are open.
 - Evidence/hash/correspondence audit: not started.
 - Blind freeze: pending.
 - Implementation reconciliation: pending.
