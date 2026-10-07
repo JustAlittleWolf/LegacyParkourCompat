@@ -46,6 +46,7 @@ Cited Java files and whole-file SHA-256:
 - `net/minecraft/entity/Entity.java`: A `1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269`; B `7315a496c195da767de9d4936d3adb6efc3c419dc0f0e95d6f32781b0da1ba55`.
 - `net/minecraft/entity/living/player/PlayerEntity.java`: A `4ed22f6c5a3c55d67eed782070ac722201df4d624adbc90779f1fd29c2876633`; B `2614deb3b50d11f6cdf54d9e308703bf49cb53b72646b05253857e9557d657df`.
 - `net/minecraft/util/math/MathHelper.java` (B): `e39d5dfc69c17a9032be086d7d4d14cc63525962a0ff83615b1befdcca599843`.
+- `net/minecraft/util/math/Vec3d.java`: A `6941a43536e8aefaa435a4e5f1731b0fa26a9d96503d1f4d07de8950c297f3c5`; B `b69b990b768e52d6fac6b3ed82f60e7526e78d0837c868a61a4171ebca21040b`.
 
 ## Blind-discovery freeze
 
@@ -66,7 +67,7 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - `INV-COLLISION` status=pending; slice_ids=S002,S006,S009; evidence=pose fit, escape probes and entity move excerpts; query/provider enumeration open.
 - `INV-WORLD-MOVEMENT` status=pending; slice_ids=S005,S007; evidence=slipperiness/climbing consumers; providers and resources open.
 - `INV-MODIFIERS` status=pending; slice_ids=S003,S005; Jump Boost/Slow Falling consumers observed; producer/application chains open.
-- `INV-EXTERNAL` status=pending; slice_ids=S006,S009,S010,S012; direct player velocity/impulse/knockback remains in scope, including reachable push response; packet corrections, other knockback sources, piston, mount and launch-item consumers remain open; exclude non-player/vehicle physics and combat cause/damage resolution.
+- `INV-EXTERNAL` status=pending; slice_ids=S006,S009,S010,S012,S016; direct player velocity/impulse/knockback remains in scope, including reachable push response; packet corrections, other knockback sources, piston, mount and launch-item consumers remain open; exclude non-player/vehicle physics and combat cause/damage resolution.
 - `INV-EXCLUSIONS` status=pending; evidence=scope exclusions declared; direct-read inventory open. Exclude health/food state production and attack/damage resolution; direct player velocity/impulse/knockback response remains in scope even if combat can trigger it; exclude non-player and vehicle physics. Food/blindness may remain movement-predicate inputs without emulating their producers.
 
 ## Coverage ledger
@@ -245,6 +246,17 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - Status: compared-no-difference
 - Disposition and rationale (including concrete reachability/preconditions): In the bounded movement path both versions set fallDistance at the same velocity threshold, calculate look-vector horizontal magnitude and current horizontal speed, apply the same pitch-dependent vertical and horizontal terms in order, damp with `(0.99F,0.98F,0.99F)`, and call SELF movement. A uses scalar fields; B uses Vec3d additions/components. No movement difference is identified in this consumer slice.
 - Finding IDs or checked absence/replacement path: none within this bounded branch; equipment/eligibility producers and other tick behavior remain open.
+### Slice S016: direct living-player knockback response
+
+- Inventory ID(s): INV-EXTERNAL, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.applyKnockback` resistance guard, horizontal impulse normalization/application, and grounded vertical response; callers and attack/damage calculations excluded.
+- A evidence: `LivingEntity.java`::`applyKnockback(Entity,float,double,double)`, lines 1011-1027, SHA-256 `bb691358c9a43c9f46e85575bf4d0a4ad671d0eb912502acc3a6a3f625e42f1c`; `Vec3d.java`::`normalize`, lines 25-28, SHA-256 `6941a43536e8aefaa435a4e5f1731b0fa26a9d96503d1f4d07de8950c297f3c5`.
+- B evidence: `LivingEntity.java`::`applyKnockback(Entity,float,double,double)`, lines 1208-1215, SHA-256 `2cccf4331ce9e62013eeb8e96163e5e146e1291619eb998ce9867daa87c02b61`; `Vec3d.java`::`normalize`, lines 25-28, SHA-256 `b69b990b768e52d6fac6b3ed82f60e7526e78d0837c868a61a4171ebca21040b`.
+- State producers/writers -> consumers/readers: knockback resistance/random guard and incoming horizontal vector/current velocity/onGround -> direct velocity write -> later movement.
+- Parent slices / dependencies / closure evidence: cause/caller inventory intentionally excluded; direct player response is in scope; `D-EXTERNAL`, `D-MOVEMENT-DATA`.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): F016; A divides by a float horizontal magnitude with no zero-length guard. B normalizes the vector in double and returns `Vec3d.ZERO` for length below `1.0E-4`. Grounded vertical response also uses A's float cap `0.4F` versus B's double `0.4` in `Math.min`. Caller reachability, resistance attributes, and probability guard remain open.
+- Finding IDs or checked absence/replacement path: F016; no attack/damage calculation inspected.
 ## Dependency queue and blockers
 
 - D-TICK-CLOSURE: full local tick/pre-travel/travel branches/post-travel; source worker to trace both trees.
@@ -271,6 +283,7 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - [F013](findings/F013-simultaneous-flight-input-arithmetic.md) simultaneous flight input arithmetic; candidate pending ability/dependency review.
 - [F014](findings/F014-sleeping-pitch-reset-after-travel.md) sleeping pitch reset after travel; candidate pending movement-scope/dependency review.
 - [F015](findings/F015-ground-drag-resamples-support.md) ground drag resamples post-move support; candidate pending world-movement/dependency review.
+- [F016](findings/F016-knockback-normalization-response.md) knockback response normalization; candidate pending external/state dependency review.
 
 ## Resume checkpoint
 
@@ -281,7 +294,7 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 
 ## Finding snapshots (not pair freeze)
 
-No snapshot has been submitted or accepted. F001-F015 remain candidates while finding-specific dependencies are open; implementation boundaries are also incomplete, and no blind finding reviewer is assigned. No snapshot commit/hash or reviewer decision exists. Pair remains partial; no implementation handoff is ready.
+No snapshot has been submitted or accepted. F001-F016 remain candidates while finding-specific dependencies are open; implementation boundaries are also incomplete, and no blind finding reviewer is assigned. No snapshot commit/hash or reviewer decision exists. Pair remains partial; no implementation handoff is ready.
 
 ## Implementation reconciliation
 
@@ -302,11 +315,11 @@ No snapshot has been submitted or accepted. F001-F015 remain candidates while fi
 
 ## Source audit closure
 
-- Coverage counts by status: findings=12 slices (15 deltas); compared-no-difference=3; pending inventory closure=7; in-progress=0; not-applicable=0; blocked=0.
-- Required inventory status and evidence: all seven inventories pending; initial paired evidence in S001-S015.
+- Coverage counts by status: findings=13 slices (16 deltas); compared-no-difference=3; pending inventory closure=7; in-progress=0; not-applicable=0; blocked=0.
+- Required inventory status and evidence: all seven inventories pending; initial paired evidence in S001-S016.
 - Accepted finding snapshots: none (no finding handoff ready).
 - Open dependencies: D-TICK-CLOSURE,D-COLLISION-SHAPES,D-MOVEMENT-DATA,D-EXTERNAL,D-INDEPENDENT-AUDIT.
-- Unresolved gaps and limits: full tick, shapes/resources, modifier chains, external writers beyond S012, and independent audit. First changed release unknown within (1.13.2,1.14.4].
+- Unresolved gaps and limits: full tick, shapes/resources, modifier chains, external writers beyond S016, and independent audit. First changed release unknown within (1.13.2,1.14.4].
 - Evidence/hash/correspondence audit: readiness/source/artifact/diagnostic manifests and cited Java hashes verified; cited body ranges paired; full helper/call graph closure incomplete.
 - Blind freeze: pending
 - Implementation reconciliation: pending
