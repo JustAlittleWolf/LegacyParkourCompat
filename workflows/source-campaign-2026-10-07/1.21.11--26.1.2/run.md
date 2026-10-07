@@ -751,9 +751,10 @@ No findings yet. S1.1-S1.3 have paired no-difference dispositions. The pair rema
 ## Resume checkpoint
 
 - Last completed slices: S1.1-S1.3, S1.2.1-S1.2.2, S3.1.1, S3.3.1 and S3.6.1 (compared-no-difference); S5.9 (not-applicable to Player).
-- Next bounded slices: complete ground/air travel and post-travel comparisons, then close fluid-dependent data under D2.
+- Next bounded slices: close the remaining `S3.4` jump-factor/modifier providers and `S3.5` movement-state providers; continue `S3.6`-`S3.8` fluid/gliding and then ground/air travel, collision and post-travel closure. Reconcile all movement-referenced resources/tags under D2 before dispositioning dependent slices.
 - Outstanding dependencies and owners: D2, source worker.
 - Current assumptions requiring verification: decompiled movement member bodies are semantically intact; B LocalPlayer diagnostics omit anchors, so manual body review is cited; resource-backed data closure remains open.
+- Resumable state: branch `feat/source-discovery-movement-source-1-21-11-26-1-2`; this report is the pair ledger. Exact A/B source roots and artifact manifests are recorded above. The report checker accepts the current active, non-complete state; no source finding snapshot exists. Preserve the source-only blind phase and do not inspect implementation/wiki material until the campaign explicitly transitions.
 
 ## Implementation reconciliation
 
