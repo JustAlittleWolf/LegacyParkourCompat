@@ -58,7 +58,7 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Required source inventories
 
-- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=T01,T02,T03,T04,T05,T06,T07; evidence=F-001 links local sneaking input to Swift Sneak; remaining per-branch comparison is open.
+- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=T01,T02,T03,T04,T05,T06,T07; evidence=T01/T03 source sampling and F-001, plus bounded local tick/sprint checks in T02/T04; jump, branch and post-travel comparisons remain open.
 - `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=P01,P02,P03,P04; evidence=F-002 documents the changed edge predicate; full writer/reader graph remains open.
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=C01,C02,C03,C04; evidence=F-002 and the legacy support lookup in `Entity.move`; shape/callback coverage remains open.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=W01,W02,W03,W04; evidence=exact source trees verified; block/fluid/resource inventory remains open.
@@ -107,14 +107,14 @@ Artifact paths below are relative to repository root; generated artifacts remain
 ### Slice T04: sprint state, start/stop gates and timers
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: pending; start/stop gates, timer transitions and direct predicates.
-- A evidence: not yet compared; readiness is recorded in D-SOURCES.
-- B evidence: not yet compared; readiness is recorded in D-SOURCES.
+- Exact behavior boundary and enclosing guards/order checked: compared the local-player `aiStep()` sprint trigger countdown, seven-tick double-tap window, key-held start path, start preconditions, stop gates, and the `hasEnoughImpulseToStartSprinting()` forward-input threshold. The local method diff contains only the separate Swift Sneak scale change recorded in F-001/T03 and local-variable renumbering; sprint conditions and timer operations retain their order and expressions.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/client/player/LocalPlayer.java`, `LocalPlayer#aiStep()`, lines 642-808, and `LocalPlayer#hasEnoughImpulseToStartSprinting()`, lines 1031-1034; SHA-256 `99C2D18BCD23243AFB8F95C5BAFB21FB0BE7EA04AACBB14FCF7BE7CED2C9C095`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/client/player/LocalPlayer.java`, `LocalPlayer#aiStep()`, lines 731-898, and `LocalPlayer#hasEnoughImpulseToStartSprinting()`, lines 1121-1124; SHA-256 `36AE4AABD609B457FFFB7A8B14ABB50DB9AC775857DDE1774C0C68A8CF50DEEF`.
 - State producers/writers -> consumers/readers: input/player predicates -> sprint state/timers -> acceleration and sprint-jump paths.
 - Parent slices / dependencies / closure evidence: D-SOURCES; P03; M02; excluded-system boundary X01.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison pending; no behavior claim. Food/health producer systems remain excluded.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no source difference found in the compared local sprint start/stop gates or timer sequence. The gates read sampled forward impulse, on-ground/under-water state, crouch input, food level or `mayfly`, item use, blindness and collision state; producer/application audits for movement effects and other predicates remain open in M02/P03/X01. Player base travel and post-travel sprint consumers remain open in T07/M01.
+- Finding IDs or checked absence/replacement path: checked absence of a sprint-gate/timer delta in the compared `LocalPlayer.aiStep()` and `hasEnoughImpulseToStartSprinting()` bodies; F-001's separate input-scale delta is recorded in T03.
 
 ### Slice T05: jump input, cooldown, auto-jump and impulse dispatch
 
@@ -406,8 +406,8 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Resume checkpoint
 
-- Last source comparison work: revalidated D-SOURCES and Feather r1 snapshot/raw-input records; checked bounded direct player push/knockback formulas in E02; T01/T03 remain closed with F-001, while C02/C04/M03/E02 wider dependencies remain open.
-- Next bounded slice and exact files/members/body ranges to open: finish the complete `Player`/`LivingEntity` jump/travel/tick branches (T02/T04-T07), then direct correction/piston/mount and remaining external velocity writers (E01-E03), plus collision shapes/callbacks and resources (C03/C04/W02/W04/M03/M04).
+- Last source comparison work: verified the LocalPlayer tick wrapper (T02) and compared local sprint start/stop gates and timers (T04), in addition to the reverified D-SOURCES/Feather r1 records and bounded direct player push/knockback formulas in E02; T01/T03 remain closed with F-001, while wider T02/T04 and C02/C04/M03/E02 dependencies remain open.
+- Next bounded slice and exact files/members/body ranges to open: compare jump input/cooldown and impulse dispatch (T05) in `LocalPlayer.aiStep()`, `Player.aiStep()` and `LivingEntity.jumpFromGround()`; then finish travel dispatch and post-travel writers (T06/T07), direct correction/piston/mount and remaining external velocity writers (E01-E03), plus collision shapes/callbacks and resources (C03/C04/W02/W04/M03/M04).
 - Outstanding dependencies and owners: D-RESOURCES (discovery worker); independent reviewer assignment (coordinator, after source-only freeze).
 - Current assumptions requiring verification: Swift Sneak resource/tag data and all remaining modifier chains; all movement branch helpers and block callback outputs. Directory presence alone is not readiness.
 
@@ -435,10 +435,10 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Source audit closure
 
-- Coverage counts by status: pending 20; in-progress 5; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
+- Coverage counts by status: pending 19; in-progress 6; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
 - Required inventory status and evidence: INV-TICK pending; INV-STATE pending; INV-COLLISION pending; INV-WORLD-MOVEMENT pending; INV-MODIFIERS pending; INV-EXTERNAL pending; INV-EXCLUSIONS pending. No inventory is closed.
 - Open dependencies: D-RESOURCES (discovery worker), independent reviewer assignment (coordinator, after source-only freeze).
-- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Twenty coverage entries are pending, five are in progress, and two carry findings.
+- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Nineteen coverage entries are pending, six are in progress, and two carry findings.
 - Evidence/hash/correspondence audit: two bounded difference slices include paired source hashes, ranges, call paths, and writer-to-consumer links; the remaining source hashes and correspondence are not yet inventoried.
 - Blind freeze: not frozen; implementation remains uninspected. Freeze after remaining source inventories close or are explicitly scoped for handoff.
 - Implementation reconciliation: pending and deferred outside this source-only assignment.
