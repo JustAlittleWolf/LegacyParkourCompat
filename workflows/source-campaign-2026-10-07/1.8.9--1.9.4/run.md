@@ -362,6 +362,20 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Implementation handoff: `blocked` — finding-specific dependency is open, independent blind snapshot review is not assigned, and independent ops verification is pending. No implementation feedback has been received.
 - Snapshot event: independent ops audit passed on 2026-10-07 after this worker verified both immutable snapshots against `artifact.sha256` and `revision.json`, rehashed source rows, and checked all raw-input manifest rows. The original derived JARs remain unavailable and equivalence remains unproven; no finding acceptance is implied.
 
+### SNAP-COLL-02-PANE-01 — candidate evidence, blind review pending
+
+- Finding ID: `COLL-02` (`findings/COLL-02-pane-collision-shapes.md`).
+- Snapshot/evidence commit: `9222079631775ff5a6d0d566624ba3add7c36c2b`.
+- Finding-file SHA-256 at that commit: `c9d5ef96fce3dffc0b433da08b7ddcbb3bd615c69aa773ef9fc36193ae50ceb2`.
+- Exact source identity: A source manifest SHA-256 `9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004`; B source manifest SHA-256 `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`.
+- Exact artifact identity: revised snapshot `feather-r1-2026-10-07`; A immutable mapped JAR SHA-256 `5c4cff3e4ac10ea1e1da166279133801ad304b4557d5ee4a77a2430977afb6a5`; B immutable mapped JAR SHA-256 `fbcf50795566e12b8eab0e733b136ed562c4009d707ef4a7a4994936491816a3`. Source trees and raw inputs match the original records; original derived JARs are unavailable and their equivalence is unproven. Independent ops audit passed for the revised snapshots; this does not accept the finding.
+- Closed finding-specific dependencies: both-side registration and shared PaneBlock subclass path; four-neighbor virtual connection producer and same-mask reachability of all sixteen combinations; exact A/B collision assembly for every mask; World collision collection and player-reachable `Entity#move(DDD)V` consumer.
+- Blind reviewer and decision: not assigned; no acceptance decision.
+- Timestamp: 2026-10-07 Europe/Vienna.
+- Pair run status/commit at handoff: `active`; `pair complete: no`.
+- Implementation handoff: `blocked` pending independent blind review of this exact finding snapshot. This candidate does not close the full pane/bar and collision-provider inventory or freeze the source pair.
+- Snapshot event: this entry references the immutable evidence commit and finding-file hash above. No implementation feedback has been received.
+
 ## Resume checkpoint
 
 - Last completed slice: source roots and per-file hashes reverified; revised snapshots rehashed and ops audit passed; source-backed movement candidates and explicit scope exclusions recorded. Original mapped-JAR identity remains unproven.
