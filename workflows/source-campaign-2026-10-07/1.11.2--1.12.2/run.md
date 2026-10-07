@@ -137,37 +137,37 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 ### Slice S1.5: Flight toggles and local flying input/speed gates
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Flight toggles and local flying input/speed gates; exact local guards and enclosing call order recorded per bounded behavior
-- A evidence: pending exact A member/body range and SHA-256 from verified source root
-- B evidence: pending exact B member/body range and SHA-256 from verified source root
-- State producers/writers -> consumers/readers: pending exact source writer/consumer closure
-- Parent slices / dependencies / closure evidence: parent/dependency links pending source inventory
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison; no equivalence inferred from prior reports
+- Exact behavior boundary and enclosing guards/order checked: When `canFly`, spectator mode enables flight and syncs abilities; otherwise a rising jump edge, excluding auto-jump, starts a seven-tick double-press timer or toggles `flying`, then syncs and clears the timer. While flying and camera-controlled, sneak divides horizontal inputs by `0.3F` and subtracts three times fly speed from vertical velocity; jump adds the same amount. Landing clears flying for non-spectators and syncs. Elytra start-flying edge handling and fall-flying state are bounded in S1.4/S3.6.
+- A evidence: `1.11.2/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java::mobTick()V` lines 725-793 and `isCamera()Z` lines 627-629, SHA-256 `65c2747bd8c70def6be7f41f624d4c9493342b39ae7bed7967f9ff63608f59ed`; ability sync invoked via `syncAbilities()V` at line 318 (body/packet writer deferred to S2.1/S7.3).
+- B evidence: `1.12.2/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java::mobTick()V` lines 747-815 and `isCamera()Z` lines 644-646, SHA-256 `01a58e94d8c6ff98a8e3794227cdc76a5fcbdbad795c70c9cf28854aff9823cc`; ability sync invoked via `syncAbilities()V` at line 324 (body/packet writer deferred to S2.1/S7.3).
+- State producers/writers -> consumers/readers: input jump edge and `ticksToNextAutojump` gate local ability toggles; `PlayerAbilities.canFly`, `flying` and fly speed drive local input/velocity updates; `syncAbilities` sends changed state outward. `LivingEntity.mobTick` and travel consume `abilities.flying`, `speedInAir` and velocity; the source/default/update paths for abilities and packet consumers remain open.
+- Parent slices / dependencies / closure evidence: S1.1 input; S1.2 tick/auto-jump timing; S1.4 jump edge; S2.1 ability defaults, updates and resets; S3.1/S3.2/S3.6 travel and flight; S7.3 ability packet boundary. Exact local branches and operation order compare identically; upstream ability provenance and downstream branches are separately open.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): Both versions use the same spectator, jump-edge, camera, sneak, vertical-speed, landing and sync guards, with the same timer value and arithmetic order. This is a local toggle/input disposition; ability defaults, server updates and fall-flying math have separate coverage rows.
 - Finding IDs or checked absence/replacement path: none assigned
 
 ### Slice S1.6: Riding input gates and player-specific mounted movement hooks
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Riding input gates and player-specific mounted movement hooks; exact local guards and enclosing call order recorded per bounded behavior
-- A evidence: pending exact A member/body range and SHA-256 from verified source root
-- B evidence: pending exact B member/body range and SHA-256 from verified source root
-- State producers/writers -> consumers/readers: pending exact source writer/consumer closure
-- Parent slices / dependencies / closure evidence: parent/dependency links pending source inventory
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison; no equivalence inferred from prior reports
+- Exact behavior boundary and enclosing guards/order checked: Rideable-mob jump charge timers update only under `isRidingRideableMob()`; a held/released jump edge sends floored riding progress as jump strength and starts the riding-jump action; non-rideable path clears `horseJumpSize`. Per-tick rideable predicate/progress helper and `startRidingJump` packet body were read. `rideTick()` passes the four directional boat-input booleans to `BoatEntity.setInput` and sets the player rowing flag if any is true. Boat's independent movement is out of scope; player-side input transfer is included.
+- A evidence: `1.11.2/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java::mobTick()V` lines 762-797, `startRidingJump()V` lines 327-334, `isRidingRideableMob()Z` lines 516-519, `getRidingJumpProgress()F` lines 521-523, `rideTick()V` lines 798-806, SHA-256 `65c2747bd8c70def6be7f41f624d4c9493342b39ae7bed7967f9ff63608f59ed`; `JumpingMount.setJumpStrength(I)V` line 4, SHA-256 `cfa239c4ff1bce667c2850090cafbb4e74ae877a4c2aa4baefc235b2d8950efc`; `BoatEntity.setInput(ZZZZ)V` lines 699-704, SHA-256 `0156b9cf2d028f53f2bc4c2ab6610d602e656e6f1dd33525b316b86588057f4d`
+- B evidence: `1.12.2/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java::mobTick()V` lines 784-819, `startRidingJump()V` lines 333-340, `isRidingRideableMob()Z` lines 533-536, `getRidingJumpProgress()F` lines 538-540, `rideTick()V` lines 820-828, SHA-256 `01a58e94d8c6ff98a8e3794227cdc76a5fcbdbad795c70c9cf28854aff9823cc`; `JumpingMount.setJumpStrength(I)V` line 4, SHA-256 `cfa239c4ff1bce667c2850090cafbb4e74ae877a4c2aa4baefc235b2d8950efc`; `BoatEntity.setInput(ZZZZ)V` lines 731-736, SHA-256 `9fb612de08de935a71f299410dc201abd7e9b522f60b0c9e9f982d3e06f59747`
+- State producers/writers -> consumers/readers: input edges/timers write mount jump strength and send a player action packet; `JumpingMount` receives the strength; boat directional booleans are stored by `BoatEntity.setInput`, while `rowing` is a local player status. Packet consumption and dismount/position reconciliation remain in S7.2/S7.3; boat's own movement simulation is excluded as non-player movement.
+- Parent slices / dependencies / closure evidence: S1.1 input; S1.2 tick order; S7.2 mount/dismount transition; S7.3 client packet/authority boundary. Local player mount guards, timer math, helper methods, boat input transfer and `JumpingMount` interface match on A/B. Mount-side player position/packet consumers remain separately open.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): For rideable-mob mounts and boats, the player-side jump charge/reset transitions and four-direction input transfer are text-identical, including timer ordering and float-to-int conversion. This does not disposition mount movement simulation or server-authoritative player position updates.
 - Finding IDs or checked absence/replacement path: none assigned
 
 ### Slice S1.7: Incoming client correction/velocity packet consumers that directly write local player movement state
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Incoming client correction/velocity packet consumers that directly write local player movement state; exact local guards and enclosing call order recorded per bounded behavior
-- A evidence: pending exact A member/body range and SHA-256 from verified source root
-- B evidence: pending exact B member/body range and SHA-256 from verified source root
-- State producers/writers -> consumers/readers: pending exact source writer/consumer closure
-- Parent slices / dependencies / closure evidence: parent/dependency links pending source inventory
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison; no equivalence inferred from prior reports
+- Exact behavior boundary and enclosing guards/order checked: `handleEntityVelocity` looks up the packet entity and, when present, supplies three `/8000.0` components to `lerpVelocity`; if the ID is the local player, the velocity interpolation path is player-reachable. `handlePlayerMove` resolves relative X/Y/Z and yaw/pitch arguments, zeroes each non-relative velocity component, calls `updatePositionAndAngles`, then acknowledges and sends an absolute position. `handleExplosion` adds packet impulse components to local player velocity after block damage processing (damage simulation excluded). The three bounded handler bodies compare identical; exhaustive packet/state writer inventory remains open under S7.3.
+- A evidence: `1.11.2/ornithe-feather/net/minecraft/client/network/handler/ClientPlayNetworkHandler.java::handleEntityVelocity(EntityVelocityS2CPacket)V` lines 451-457, `handlePlayerMove(PlayerMoveS2CPacket)V` lines 565-614, `handleExplosion(ExplosionS2CPacket)V` lines 919-928, `handleEntityTeleport(EntityTeleportS2CPacket)V` lines 495-514, `handlePlayerRespawn(PlayerRespawnS2CPacket)V` lines 896-915, `handleEntityPassengers(EntityPassengersS2CPacket)V` lines 824-844, SHA-256 `65d362c00de1adfd55fae5f858b91bf9b227525b987c09a2d223279376a66175`; `Entity.lerpVelocity(DDD)V` lines 1703-1706, SHA-256 `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440`
+- B evidence: `1.12.2/ornithe-feather/net/minecraft/client/network/handler/ClientPlayNetworkHandler.java::handleEntityVelocity(EntityVelocityS2CPacket)V` lines 464-470, `handlePlayerMove(PlayerMoveS2CPacket)V` lines 578-627, `handleExplosion(ExplosionS2CPacket)V` lines 928-937, `handleEntityTeleport(EntityTeleportS2CPacket)V` lines 508-527, `handlePlayerRespawn(PlayerRespawnS2CPacket)V` lines 905-924, `handleEntityPassengers(EntityPassengersS2CPacket)V` lines 833-853, SHA-256 `fce21d9902e555fd46545fb04bdb6c4a912eef6398790776ad1a122e09960c7c`; `Entity.lerpVelocity(DDD)V` lines 1729-1732, SHA-256 `80f091bf32166c88cf8b8bd31caf72d84fa16224410733c7d2a0f00563f294a0a`
+- State producers/writers -> consumers/readers: network packet dispatch writes relative/local position and velocity; `Entity.lerpVelocity` feeds later velocity interpolation/travel; `handlePlayerMove` resets selected velocity axes and relocates the player; explosion packet components add directly to velocity. Teleport, respawn, ability and mount packet routes still require exhaustive classification.
+- Parent slices / dependencies / closure evidence: S1.2 player tick consumes resulting position/velocity; S3.3 velocity/drag/cutoffs; S7.1 external velocity sources; S7.2 mount transitions; S7.3 packet authority/reconciliation. These three handler bodies are text-identical A/B; other client packet writers are not yet closed.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The compared `handleEntityVelocity`, `handlePlayerMove`, `handleExplosion`, `handleEntityTeleport`, `handleEntityPassengers`, and `Entity.lerpVelocity` bodies are text-identical. Respawn method behavior is also identical except the B download-screen constructor now receives the handler. No movement difference is established in these routes. The slice remains open until the complete incoming packet writer scan identifies and dispositions all local player position/velocity writes and interpolation callers.
 - Finding IDs or checked absence/replacement path: none assigned
 
 ### Slice S2.1: Movement-relevant ability defaults/updates and player initialization/reset timing
@@ -599,8 +599,7 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 - `DEP-OLD-CANDIDATES`: open re-verification only: prior report glide look-vector/yaw, bed landing rebound, server dismount query geometry; none accepted as current finding.
 - `DEP-DIAGNOSTICS`: readiness diagnostic hashes verified; inspect every cited method body; raw Gradle logs not retained; request exact mapped-bytecode/source assistance through commentary if a body is damaged or ambiguous.
 - `DEP-RELATIVE-MOVE` (origin S1.2, owner discovery author): resolve all player-path writers/defaults of B-only `LivingEntity.verticalSpeed`, compare A 2D versus B 3D `moveRelative`/`Entity.updateVelocity` argument order and float operation order, then classify any zero-valued vertical write. Current source scan finds the declaration and only `MobEntity.setVerticalSpeed` writer; player inheritance path is not a `MobEntity`.
-- `DEP-CHECKER`: `check_completion.py` was observed to count all 44 slice `- Status:` rows plus freeze/reviewer statuses as top-level (47 total) and reject `>` in the required `->` edge notation. Checker owner has been notified; this worker owns only its pair report and has not edited the checker.
-- Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS, DEP-RELATIVE-MOVE, DEP-CHECKER
+- Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS, DEP-RELATIVE-MOVE
 
 ## Finding index
 
@@ -608,8 +607,8 @@ No findings in the fresh campaign yet. Prior pair claims remain navigation candi
 
 ## Resume checkpoint
 
-- Last completed slice: S1.4; S1.2a and S1.2b have bounded not-applicable dispositions.
-- Next bounded slice and exact files/members/body ranges to open: S1.5 flight-toggle edges and local flying-speed input in A/B `LocalClientPlayerEntity.java::mobTick()V`, then trace abilities defaults/update paths.
+- Last completed slice: S1.6; S1.2a and S1.2b have bounded not-applicable dispositions.
+- Next bounded slice and exact files/members/body ranges to open: finish S1.7 by checking A/B `handleEntityTeleport`, respawn, passenger/dismount and `handlePlayerAbilities` packet consumers plus `Entity.lerpVelocity`; then continue S2.1 ability defaults and packet updates.
 - Outstanding dependencies and owners: listed above; discovery author owns source inventory; shared source owner owns generation; reviewer assignment pending coordinator.
 - Current assumptions requiring verification: all prior findings and no-difference claims remain unaccepted; every cited body still requires direct review despite ready tree hashes.
 
@@ -632,9 +631,9 @@ No findings in the fresh campaign yet. Prior pair claims remain navigation candi
 
 ## Source audit closure
 
-- Coverage counts by status: 38 pending; 0 in-progress; 4 compared-no-difference; 2 not-applicable; 0 findings; 0 blocked.
+- Coverage counts by status: 35 pending; 1 in-progress; 6 compared-no-difference; 2 not-applicable; 0 findings; 0 blocked.
 - Required inventory status/evidence: INV-EXCLUSIONS complete; all other inventories pending with mapped slice IDs.
-- Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS, DEP-RELATIVE-MOVE, DEP-CHECKER
+- Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS, DEP-RELATIVE-MOVE
 - Unresolved gaps: all stages beyond bounded keyboard input and UI/tutor dispositions; exact methods, state producers/consumers, shapes/registries/resources, external writers and historical candidates remain open.
 - Evidence/hash/correspondence audit: pair source/artifact manifests fully verified; S1.1 source hashes recorded; remaining source evidence pending.
 - Blind freeze: pending
