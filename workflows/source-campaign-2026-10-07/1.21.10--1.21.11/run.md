@@ -337,15 +337,15 @@ The entries below are provisional behavior buckets from the required navigation 
 
 ### Slice S3-glide: gliding travel and directly consumed movement attributes/state
 
-- Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
-- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
-- State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.travelFallFlying(Vec3)V` uses the same climbable fallback to air travel plus `stopFallFlying`; otherwise it captures horizontal speed, writes `updateFallFlyingMovement` result, moves, then calls server-side collision response. The update formula preserves look-vector normalization, pitch/gravity term, descending lift, upward-pitch acceleration, horizontal alignment adjustment and final `(0.99F,0.98F,0.99F)` drag in the same order. `handleFallFlyingCollisions` uses the same horizontal-collision guard and speed-loss threshold. Damage from `hurt(flyIntoWall, ...)` is explicitly outside this movement slice.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.21.10/mojmap/net/minecraft/world/entity/LivingEntity.java`, `travelFallFlying(Vec3)V` lines 2383-2397, `updateFallFlyingMovement(Vec3)Vec3` lines 2404-2427 and `handleFallFlyingCollisions(double,double)V` lines 2429-2438, SHA-256 `b8b49d60769203f7bd5afe4a1bffcdcdbec30be28960324cdc43a2df85a6eb66`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.21.11/mojmap/net/minecraft/world/entity/LivingEntity.java`, corresponding methods at lines 2441-2455, 2462-2485 and 2487-2496, SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`; A/B `Player.canGlide()` overrides return `!abilities.flying && super.canGlide()` (A `Player.java` lines 1321-1323, SHA-256 `af857617b66a5776e63830771360b96f75e21d47d20db08f164a2dbeee801d82`; B lines 1386-1388, SHA-256 `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`).
+- State producers/writers -> consumers/readers: current delta, look vector, pitch and effective gravity feed the formula; its result writes delta and calls the same entity movement routine. Server-only fall-collision handling consumes pre/post horizontal distance and collision state. Gravity/attribute producers remain under `S3-attributes`; fall-flying activation and equipment/item-use pathways are outside this method-bounded result.
+- Parent slices / dependencies / closure evidence: `S3-travel-dispatch` selects the same fall-flying branch; `S3-ground-air` owns shared `Entity.move` behavior; `S3-attributes` retains full gravity/attribute producer review. Compared both exact formula bodies and collision response.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): when `isFallFlying()` is true and the entity is not on a climbable surface, both versions compute and apply the same gliding velocity; on climbables both use air travel then clear fall-flying. The collision speed threshold and movement order match. This does not claim parity for damage outcomes or for the broader gliding-state activation inventory.
+- Finding IDs or checked absence/replacement path: checked paired travel, formula, stop-state and collision methods; no fall-flying travel delta found in this bounded slice.
 
 ### Slice S3-attributes: movement speed, jump/gravity/step-related attribute consumers, aggregation/order/defaults
 
@@ -683,7 +683,7 @@ One source-confirmed finding is recorded in `findings/F-S1-FLIGHT-VEHICLE-GATE.m
 
 ## Resume checkpoint
 
-- Last completed slice: source-gate preparation and the first bounded input-sampling comparison; seven bounded slices are compared-no-difference (input sampling, knockback vector math, Player knockback sync scheduling, food/passenger sprint eligibility, Player travel dispatch, water travel, and lava travel), two source-confirmed findings cover the flight-toggle and delayed-load tick gates, the tagged vehicle buoyancy addition is out of scope, and the new spear effect is modern-only; all other coverage remains open.
+- Last completed slice: source-gate preparation and the first bounded input-sampling comparison; eight bounded slices are compared-no-difference (input sampling, knockback vector math, Player knockback sync scheduling, food/passenger sprint eligibility, Player travel dispatch, water travel, lava travel, and fall-flying travel), two source-confirmed findings cover the flight-toggle and delayed-load tick gates, the tagged vehicle buoyancy addition is out of scope, and the new spear effect is modern-only; all other coverage remains open.
 - Next bounded slice and exact files/members/body ranges to open: continue with `S1-input-sampling` and `S3-travel-dispatch`; then split the remaining broad movement buckets into method-bounded slices and close their call/data dependencies.
 - Outstanding dependencies and owners: `D-METHOD-BODY-REVIEW` (discovery worker); newly discovered producer/consumer, shape, registration and data dependencies will be added with exact owners/actions.
 - Current assumptions requiring verification: all listed ready/source/artifact hashes were verified. Remaining assumptions: exact member correspondence, operation/callback order, every reachable player state writer and producer/consumer dependency, relevant jar resource entries, and source-level movement semantics.
@@ -711,7 +711,7 @@ One source-confirmed finding is recorded in `findings/F-S1-FLIGHT-VEHICLE-GATE.m
 
 ## Source audit closure
 
-- Coverage counts by status: 40 pending; 0 in-progress; 7 compared-no-difference; 2 findings; 2 not-applicable; 0 blocked. Pair provenance is verified; both finding slices have source evidence and remain subject to independent finding review; other slices remain open.
+- Coverage counts by status: 39 pending; 0 in-progress; 8 compared-no-difference; 2 findings; 2 not-applicable; 0 blocked. Pair provenance is verified; both finding slices have source evidence and remain subject to independent finding review; other slices remain open.
 - Required inventory status and evidence: all seven inventories pending method-bounded traversal, producer/consumer linkage and full closure. Source roots and artifact hashes are verified above.
 - Open dependencies: `D-METHOD-BODY-REVIEW` and all method/resource dependencies discovered during the seven-stage walk.
 - Unresolved gaps and limits: pair provenance is verified; two bounded movement/tick-gate deltas are source-confirmed, while the remaining movement behavior is not yet covered. Keep active while comparison proceeds; at handoff, any open source slice requires partial status.
