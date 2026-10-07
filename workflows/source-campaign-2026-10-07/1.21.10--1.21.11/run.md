@@ -23,7 +23,7 @@ The provenance batch command is `decompileMinecraft --versions=1.21.8,1.21.10,1.
 - This status is the full-pair freeze. Individual finding snapshots are tracked separately and do not change it.
 - Status: pending
 - Freeze commit/checkpoint and timestamp: pending source coverage and independent audit.
-- Evidence inventory and finding IDs included at freeze: pending; no source finding is confirmed yet.
+- Evidence inventory and finding IDs included at freeze: pending full source coverage and independent audit; current source findings are `F-S1-FLIGHT-VEHICLE-GATE` and `F-S1-CLIENT-LOAD-GATE`, neither snapshot accepted.
 - Confirmation that old mod implementation/code and isolated wiki-audit results were not opened before freeze (prior source-discovery reports may be used as navigation): confirmed; neither has been opened. No wiki browsing or wiki/MCPK/release-note evidence used.
 - Source/mapping hashes covered by freeze: pending exact readiness manifests.
 
@@ -33,13 +33,26 @@ Exact source roots and diagnostic anchors are now verified; member correspondenc
 
 ## Required source inventories
 
-- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1-*,S3-*; evidence=exact pair sources unavailable.
-- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S1-*,S2-*,S3-*; evidence=exact pair sources unavailable.
-- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S4-*,S5-contact-shapes,S5-landing-bounce,S5-neighbors,S5-climbables; evidence=exact pair sources unavailable.
-- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S5-*,S6-data-resources; evidence=exact pair sources unavailable.
-- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S3-attributes,S6-*; evidence=exact pair sources unavailable.
-- `INV-EXTERNAL` player-only externally supplied movement inputs and direct player velocity/impulse/knockback application, plus in-scope player-facing transitions; exclude non-player and vehicle physics: status=pending; slice_ids=S7-*; evidence=exact pair sources unavailable.
+- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1-*,S3-*; evidence=exact Mojmap roots, markers, source/artifact manifests and hashes verified; detailed inventory traversal remains open.
+- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S1-*,S2-*,S3-*; evidence=exact Mojmap roots, markers, source/artifact manifests and hashes verified; detailed inventory traversal remains open.
+- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S4-*,S5-contact-shapes,S5-landing-bounce,S5-neighbors,S5-climbables; evidence=exact Mojmap roots, markers, source/artifact manifests and hashes verified; detailed inventory traversal remains open.
+- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S5-*,S6-data-resources; evidence=exact Mojmap roots, markers, source/artifact manifests and hashes verified; detailed inventory traversal remains open.
+- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S3-attributes,S6-*; evidence=exact Mojmap roots, markers, source/artifact manifests and hashes verified; detailed inventory traversal remains open.
+- `INV-EXTERNAL` player-only externally supplied movement inputs and direct player velocity/impulse/knockback application, plus in-scope player-facing transitions; exclude non-player and vehicle physics: status=pending; slice_ids=S7-*; evidence=exact Mojmap roots, markers, source/artifact manifests and hashes verified; detailed inventory traversal remains open.
 - `INV-EXCLUSIONS` explicit scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; evidence=delegated scope set; direct vanilla-state consumers remain covered by owning movement slices.
+
+## Verified source call-path checkpoint (2026-10-07)
+
+- Exact roots: `build/movement-campaign-2026-10-07/ready/1.21.10/mojmap` and `.../ready/1.21.11/mojmap`; source manifests, artifact manifests, readiness markers and all manifest-listed hashes were rechecked.
+- Input sequence correspondence: `Minecraft.tick` calls `ClientLevel.tickEntities`; `ClientLevel.tickNonPassenger` calls entity tick; `LivingEntity.tick` reaches `aiStep`; `LocalPlayer.aiStep` consumes the current input and dispatches player movement. The pair's `ClientLevel.tickEntities`/`tickNonPassenger` bodies and the relevant `Minecraft.tick` windows have no movement-order change observed in this first pass. Exact pair source hashes: A `Minecraft.java` `ae782d427ff3f2b0a15bd58fe447bc3a07b216faed243a7618420f816516be50`, `ClientLevel.java` `2a4bf7bac40707bf0d7d2feaa1f6564f5aff7aae1b923cf94270165425dc8ee3`; B `Minecraft.java` `e41d192579972ea043cf39ad7f754e1279dca63aa6a576edceb4c9928d685d59`, `ClientLevel.java` `e76d09de5acad450062d5acb98e76ff032ecb179fef0f7af434e4148f84183a2`.
+- Input implementation sources `KeyboardInput.java`, `ClientInput.java`, and `world/entity/player/Input.java` are byte-identical across A/B: SHA-256 respectively `d5cb0e93df7f66755172d74e028225012ee33c6e4f0d510a1d8e25ba5497c0a3`, `597a44339a99f1bce1b081614c7c2984ca03e255b40e9d247675a31b6f810d78`, `1c0c12af07da1f90651c3a7c4eb19bab6486b6391dcbfdd2926f06e3f36c2f06`. They sample the same movement keys and preserve the same vector normalization and jump-flag behavior. Join and respawn assignments in `ClientPacketListener` were checked and match across the pair.
+- Corresponding core source hashes: A/B `LocalPlayer.java` `9c1df00e2f8379b2c19577a3691fee28071d8925210be3d3df928b5352e367e1` / `948e94f8e874b2f72e9a689e6e3ba1933f5728ec381d64f3bb5e2388718bd477`; `Player.java` `af857617b66a5776e63830771360b96f75e21d47d20db08f164a2dbeee801d82` / `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`; `LivingEntity.java` `b8b49d60769203f7bd5afe4a1bffcdcdbec30be28960324cdc43a2df85a6eb66` / `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`; `Entity.java` `8361dbb86fe6c975d21f69d008377b6f191669be751150c842517e9d0346fa18` / `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3`.
+- Unresolved item-use dependency: A `LocalPlayer.aiStep` clears the sprint trigger while `isUsingItem()` (A lines 722-24), and `canStartSprinting` rejects `isUsingItem()` (A lines 1062-68). B uses `isSlowDueToUsingItem()` in both sites (B lines 763-65, 1102-08), whose definition reads synchronized item `USE_EFFECTS.canSprint` (B lines 526-28). B `modifyInput` reads the component's `speedMultiplier` instead of A's fixed `USING_ITEM_SPEED_FACTOR=0.2F`. B `UseEffects.DEFAULT` retains the 0.2F speed multiplier and disallows sprinting; item-property and item-data applicability still need closure before historical disposition.
+- Source-confirmed player-flight input delta: A `LocalPlayer.aiStep` toggles mayfly flight after the two-press jump gate when not swimming (A lines 751-70). B adds `(getVehicle() == null || jumpableVehicle() != null)` to that gate (B lines 791-811); `jumpableVehicle()` means the controlled vehicle implements `PlayerRideableJumping` and `canJump()` (A lines 522-24; B lines 563-65). Thus a player with `mayfly`, on a non-jumpable vehicle, and double-pressing jump can toggle `Abilities.flying` in A but the new condition prevents the toggle in B. Reachability is confirmed through `ClientLevel.tickPassenger` -> `LocalPlayer.rideTick` -> `LivingEntity.rideTick` -> `Entity.rideTick` -> virtual `tick()` -> `LivingEntity.tick` -> `LocalPlayer.aiStep`. The local client must have completed its existing loaded gate. The ability flag persists through the local tick; if the player dismounts before landing, the same `aiStep` has a player-side vertical-velocity branch guarded by `abilities.flying` and `isControlledCamera`. This is a source-confirmed delta, not a vehicle-physics claim or a measured trajectory.
+- The sprint eligibility helper moved from local food-level comparison A `LocalPlayer.hasEnoughFoodToSprint` (A lines 1055-77) to `Player.hasEnoughFoodToDoExhaustiveManoeuvres` in B (B `LocalPlayer.isSprintingPossible` lines 1096-1100; B `Player` lines 1577-79). B `FoodData.hasEnoughFood()` returns `getFoodLevel() > 6.0F` (B lines 92-94); the direct threshold matches A, and passenger eligibility is equivalent because A's helper returns true for passengers before the separate vehicle gate. Keep health/food producers excluded; reopen only if other direct consumers show a movement delta.
+- B `Entity.computeSpeed` is new and records position delta at base tick, while A has no corresponding method. First-pass consumer search finds `hasMovedHorizontallyRecently()` (used by `FollowBoatGoal`) and `getKnownSpeed()` (used by `KineticWeapon.getMotion`). No direct LocalPlayer movement consumer was found in this search; the observed consumers are vehicle AI or attack resolution, both excluded. The wider external/producer inventory remains open.
+- Local-player loaded gate relocation (A `LocalPlayer.tick` calls `tickClientLoadTimeout`/`hasClientLoaded`; B checks `connection.hasClientLoaded`) is a connection lifecycle gate whose tick execution and packet consumers remain to be verified before disposition.
+- This checkpoint is navigation evidence, not terminal coverage. The coverage ledger remains open; no pair freeze or reviewer acceptance is claimed.
 
 ## Coverage ledger
 
@@ -47,530 +60,568 @@ The entries below are provisional behavior buckets from the required navigation 
 ### Slice S1-input-sampling: keyboard-controller sampling, input object lifetime and previous/current input capture
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Exact behavior boundary and enclosing guards/order checked: `KeyboardInput.tick()V` samples forward/back/left/right/jump/shift/sprint and normalizes the same vector; `ClientInput` retains the same default and accessors; `Input` retains the same seven flags and codec; keyboard input assignment on join/respawn is unchanged; `LocalPlayer.aiStep()` captures jump/shift/forward before `input.tick()` on both sides. This slice excludes other independent decisions inside `aiStep`.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.21.10/mojmap/net/minecraft/client/player/KeyboardInput.java` lines 14-31, SHA-256 `d5cb0e93df7f66755172d74e028225012ee33c6e4f0d510a1d8e25ba5497c0a3`; `ClientInput.java` lines 6-29, SHA-256 `597a44339a99f1bce1b081614c7c2984ca03e255b40e9d247675a31b6f810d78`; `world/entity/player/Input.java` lines 6-43, SHA-256 `1c0c12af07da1f90651c3a7c4eb19bab6486b6391dcbfdd2926f06e3f36c2f06`; `ClientPacketListener.java` assignments lines 502 and 1269, SHA-256 `1bb341ee18704d882bb68bf917190be1045649026a99545057118b5cb9bfb348`; `LocalPlayer.java` lines 697-706, SHA-256 `9c1df00e2f8379b2c19577a3691fee28071d8925210be3d3df928b5352e367e1`.
+- B evidence: corresponding Mojmap source files have the same per-file hashes as A for `KeyboardInput.java`, `ClientInput.java`, and `Input.java`; `ClientPacketListener.java` assignments lines 515 and 1282, SHA-256 `f1ebdb54d717266c894c87381c98bad101980d252de5bae6ca55c37aece1732e`; `LocalPlayer.java` lines 738-747, SHA-256 `948e94f8e874b2f72e9a689e6e3ba1933f5728ec381d64f3bb5e2388718bd477`.
+- State producers/writers -> consumers/readers: keyboard options populate `Input`; `KeyboardInput` updates `keyPresses` and `moveVector`; `LocalPlayer.aiStep()` captures the previous jump/shift/forward values before sampling new input and may set jump through `ClientInput.makeJump()` during auto-jump. The client packet path reads current/previous `Input` from `LocalPlayer`; packet and tick lifecycle coverage remains in `S1-local-tick`.
+- Parent slices / dependencies / closure evidence: `S1-local-tick` owns tick lifecycle and packet send ordering; `S1-sprint`, `S1-jump`, and `S1-flight-ride` own decisions that consume these unchanged flags. Constructor/assignment paths in `ClientPacketListener` and respawn were checked.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): both versions sample the same seven controls in the same order, compute impulses with the same equal=>zero/positive/negative rule, normalize the same `Vec2`, retain the same input object behavior, and capture previous/current flags in the same order. No input-source or input-capture delta was found in this bounded slice.
+- Finding IDs or checked absence/replacement path: checked pair comparison; no difference in the bounded input sampling/capture behavior.
+
+### Slice S1-client-loaded-gate: local-player tick gate while level loading is incomplete
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer.tick()V` A lines 195-220 and B lines 211-35; A decrements the Player-owned client-load timer before checking it, B checks `ClientPacketListener.hasClientLoaded()` without a local fallback. Pair the producer with `ClientPacketListener.tick()`/`notifyPlayerLoaded()` and `LevelLoadTracker` readiness.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.21.10/mojmap/net/minecraft/client/player/LocalPlayer.java`, SHA-256 `9c1df00e2f8379b2c19577a3691fee28071d8925210be3d3df928b5352e367e1`, `tick()V` lines 195-220; `world/entity/player/Player.java`, SHA-256 `af857617b66a5776e63830771360b96f75e21d47d20db08f164a2dbeee801d82`, `hasClientLoaded()Z`/`tickClientLoadTimeout()V` lines 1875-88 (timer initializes to 60 at field declaration lines 155-56).
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.21.11/mojmap/net/minecraft/client/player/LocalPlayer.java`, SHA-256 `948e94f8e874b2f72e9a689e6e3ba1933f5728ec381d64f3bb5e2388718bd477`, `tick()V` lines 211-35; `client/multiplayer/ClientPacketListener.java`, SHA-256 `f1ebdb54d717266c894c87381c98bad101980d252de5bae6ca55c37aece1732e`, `hasClientLoaded()Z`/`setClientLoaded(Z)V` lines 2740-45.
+- State producers/writers -> consumers/readers: B `ClientPacketListener` sets the flag false at join/respawn (lines 509 and 1252), then its `tick()` checks `LevelLoadTracker.isLevelReady()` and calls `notifyPlayerLoaded()` (lines 2652-66), which sends `ServerboundPlayerLoadedPacket` and sets true. A `ClientPacketListener.tick()` likewise checks tracker readiness and calls notify (lines 2637-51), but the queried player method also becomes true when its 60-tick timer reaches zero. A/B `LevelLoadTracker.java` hashes `876841eef72f74decfbb52ca7de27d95604d9474ac2e65ef07a0bcda0e4fec13` / `da4ee92efe3b9e6cbfe312248346e6a2e159acec884cab0a3b84d7483ffb6dc5`; B readiness waits for a player chunk to be visible or the 30-second tracker timeout. A waits for the chunk to be compiled or the same tracker timeout.
+- Call path: A/B `Minecraft.tick()` calls `gameMode.tick()` and, while level exists and the client is unpaused, `level.tickEntities()` (A/B `Minecraft.java` hashes `ae782d427ff3f2b0a15bd58fe447bc3a07b216faed243a7618420f816516be50` / `e41d192579972ea043cf39ad7f754e1279dca63aa6a576edceb4c9928d685d59`). `MultiPlayerGameMode.tick()` drains the network connection, advancing `ClientPacketListener.tick()` (A/B hashes `bf6541cc58c82cc167a196cfadce23f258967a4dcc250b9c85dd772eda60a979` / `4d15d5c6b8c280d0e2c6de1b0f41bde83bc0944d400b7f89cabff24679e9a9c0`). The entity tick path invokes `LocalPlayer.tick()` for a nonpassenger or through `rideTick()` for a passenger.
+- Parent slices / dependencies / closure evidence: `S1-local-tick`; `D-LOAD-TRACKER-READINESS` checked in A/B `LevelLoadTracker`; `D-CLIENT-CONNECTION-TICK` checked in A/B `Minecraft.tick` -> `MultiPlayerGameMode.tick` -> connection tick. This row is separate from ordinary movement physics and does not close load/reconnect packet state outside the tick gate.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): source-confirmed tick-gate delta. If the client has an active level, is unpaused, and the level load tracker has not yet declared readiness for more than 60 local-player tick calls, A decrements the timer to zero and then runs `super.tick()` and local movement; B keeps `connection.hasClientLoaded()` false, so it skips those player-tick operations until `notifyPlayerLoaded()` sets the connection flag. The level tick path is reachable while the screen is showing load progress because `Minecraft.tick()` gates entity ticking on `level != null` and `!pause`, not on the screen being absent. This proves a difference in whether local-player movement ticks execute during a delayed load; it does not claim a trajectory or any damage/attack behavior.
+- Finding IDs or checked absence/replacement path: `F-S1-CLIENT-LOAD-GATE`; independent finding-specific review pending.
 
 ### Slice S1-local-tick: local player tick, superclass tick, travel dispatch and pre/post-travel ordering
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S1-yaw-relative: yaw-to-motion conversion, diagonal normalization, relative acceleration and input scaling
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S1-sneak-use: sneak and item-use input scaling, edge-sneak path and timing
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S1-sprint: sprint start/stop gates, timers, transitions, sprint-jump interaction
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S1-jump: jump input, cooldown, jump delay, auto-jump and jump state capture
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
+
+### Slice S1-flight-toggle-vehicle-gate: mayfly double-press toggle while passenger on a non-jumpable vehicle
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer.aiStep()V`, only the second-press mayfly branch; A `LocalPlayer.java` 751-70; B `LocalPlayer.java` 791-811. Guards: `mayfly`, not spectator/always-flying mode, second jump press before the 7-tick trigger expires, not swimming, and `isPassenger()` with `jumpableVehicle()==null`.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.21.10/mojmap/net/minecraft/client/player/LocalPlayer.java`, `LocalPlayer.aiStep()V`, original lines 751-70, SHA-256 `9c1df00e2f8379b2c19577a3691fee28071d8925210be3d3df928b5352e367e1`. Expression: `else if (!this.isSwimming())` followed by `$$3.flying = !$$3.flying;`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.21.11/mojmap/net/minecraft/client/player/LocalPlayer.java`, `LocalPlayer.aiStep()V`, original lines 791-811, SHA-256 `948e94f8e874b2f72e9a689e6e3ba1933f5728ec381d64f3bb5e2388718bd477`. Expression adds `(this.getVehicle() == null || this.jumpableVehicle() != null)` to the same `else if`.
+- State producers/writers -> consumers/readers: local jump input is captured before `input.tick()` in the same aiStep; `jumpTriggerTime` is initialized/decremented in this method; `jumpableVehicle()` returns the controlled vehicle only if it implements `PlayerRideableJumping` and `canJump()` (A `LocalPlayer.java` 522-24; B 563-65); the branch writes `Abilities.flying`, then calls `onUpdateAbilities()`. When the player is the camera, the later same-method vertical delta write is guarded by `abilities.flying` and applies `jump/shift * flyingSpeed * 3.0F` (A 791-803; B 832-44).
+- Reachability: `ClientLevel.tickEntities` skips passengers; `tickPassenger` calls `rideTick` for Players (A `ClientLevel.java` 321-60; B 329-68). `LocalPlayer.rideTick` calls `super.rideTick`; `LivingEntity.rideTick` delegates to `Entity.rideTick`, which invokes virtual `this.tick()` (A `Entity.java` 2234-40; B 2254-60). The local tick calls `super.tick` only when its client-loaded gate passes (A `LocalPlayer.java` 195-99; B 211-14); `LivingEntity.tick` reaches `aiStep` when not removed (A 2542-83; B 2610-50). Relevant file hashes: A `ClientLevel.java` `2a4bf7bac40707bf0d7d2feaa1f6564f5aff7aae1b923cf94270165425dc8ee3`, `Entity.java` `8361dbb86fe6c975d21f69d008377b6f191669be751150c842517e9d0346fa18`, `LivingEntity.java` `b8b49d60769203f7bd5afe4a1bffcdcdbec30be28960324cdc43a2df85a6eb66`; B `ClientLevel.java` `e76d09de5acad450062d5acb98e76ff032ecb179fef0f7af434e4148f84183a2`, `Entity.java` `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3`, `LivingEntity.java` `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`.
+- Parent slices / dependencies / closure evidence: `S1-flight-ride`; `D-AI-STEP-CALLER` closed by the caller chain above; `D-JUMPABLE-VEHICLE` closed by exact A/B helper bodies; `D-ABILITY-MOTION-CONSUMER` closed for the in-scope local ability write and camera-controlled vertical delta branch above. Does not close the broad flight, vehicle or ability inventory.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): source-confirmed. With `mayfly=true`, non-spectator mode, not swimming, a completed loaded gate, and riding a vehicle that cannot satisfy `jumpableVehicle`, a second jump press inside the trigger window toggles the local `Abilities.flying` state in A; B's extra vehicle guard skips that toggle. After a dismount before grounding, the existing local camera-controlled flight-input path can consume the differing flag. No position/trajectory was observed.
+- Finding IDs or checked absence/replacement path: `F-S1-FLIGHT-VEHICLE-GATE`; independent finding-specific review pending.
 
 ### Slice S1-flight-ride: flight toggle/input, unstuck behavior and riding gates affecting player
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S2-pose: pose selection, swimming/crawling transitions and stored pose state
 
 - Inventory ID(s): INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S2-dimensions: pose/entity dimensions, resize timing, eye height when used by movement/fluid queries
 
 - Inventory ID(s): INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S2-player-gates: player superclass movement gates, blindness/item-use/abilities consumers and field defaults/resets
 
 - Inventory ID(s): INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S2-flight-state: abilities, flight speed, flying/walking state and stored air speed
 
 - Inventory ID(s): INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S3-travel-dispatch: living travel branch selection and dispatch conditions
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S3-ground-air: ground/air acceleration, friction, drag and gravity with exact FP order
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S3-cutoffs: negligible velocity thresholds, comparisons, normalization and post-travel cleanup
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S3-jump-impulse: jump power, sprint jump impulse, yaw trigonometry and velocity writes
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S3-climb: climbing detection, clamps, movement and exit velocity behavior
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S3-water: water acceleration, drag, gravity, swimming and fluid-height interactions
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S3-lava: lava travel acceleration, drag, gravity and collision outcomes
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S3-glide: gliding travel and directly consumed movement attributes/state
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S3-attributes: movement speed, jump/gravity/step-related attribute consumers, aggregation/order/defaults
 
 - Inventory ID(s): INV-TICK, INV-MODIFIERS, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S4-move-core: entity move dispatch, axis ordering, position and velocity updates
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S4-collision-query: collision candidate acquisition, shape context/query timing, pose/box dependence
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S4-step: step-up eligibility, candidate paths, height comparisons and tie-breaking
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S4-edge-support: edge probes, support lookup, grounding and support-block state
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S4-velocity-collision: axis cancellation/restitution, collision flags and fall/ground callbacks
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S4-shape-math: AABB/voxel shape intersections, clipping, epsilon and iteration behavior
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S4-callbacks: block/entity movement callbacks reachable from player move and their order
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S5-block-registry: block registrations/default friction, speed/jump factors and shape-provider changes
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S5-landing-bounce: slime/bed landing, bounce, support and callback behavior
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S5-slow-surface: soul sand, ice and other speed/friction surface providers
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S5-contact-shapes: web/honey/powder snow and historical partial-block collision/support shapes
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S5-climbables: ladders, vines and other climbable registrations, callbacks and neighbor dependence
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S5-fluids: water/lava/bubble columns, flow vectors, fluid heights and push timing
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S5-neighbors: neighboring/state-dependent collision and movement providers, including piston displacement path
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S5-modern-only: blocks/states absent in A: verify registration/absence and record modern-only applicability; no historical behavior invented
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S6-effects: Speed, Slowness, Jump Boost, Levitation, Slow Falling, Dolphin's Grace, Blindness consumers and formulas
 
 - Inventory ID(s): INV-MODIFIERS, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S6-enchantments: Depth Strider, Soul Speed, Swift Sneak, Frost Walker, Riptide and other registered movement-affecting entries
 
 - Inventory ID(s): INV-MODIFIERS, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S6-equipment-items: Elytra, item-use slowdown, equipment slots/components and player movement predicates
 
 - Inventory ID(s): INV-MODIFIERS, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S6-data-resources: client jar data, tags, effect/enchantment definitions, registry defaults and referenced values
 
 - Inventory ID(s): INV-MODIFIERS, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S6-attribute-lifecycle: attribute modifier application/removal, stacking, timers and equipment/effect lifecycle
 
 - Inventory ID(s): INV-MODIFIERS, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S7-external-velocity: client consumers and writers for incoming velocity/position corrections and player knockback/push
 
 - Inventory ID(s): INV-EXTERNAL, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S7-environment-displacement: explosions, pistons, launch items, mount/dismount transitions insofar as they write player movement state
 
 - Inventory ID(s): INV-EXTERNAL, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ### Slice S7-state-writer-closure: exhaustive remaining reachable player movement-state writers, callbacks, registrations and dependencies discovered from prior stages
 
 - Inventory ID(s): INV-EXTERNAL, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
+
+### Slice S7-player-knockback-response: LivingEntity knockback vector and velocity-sync marker for Player targets
+
+- Inventory ID(s): INV-EXTERNAL, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: inherited `LivingEntity.knockback(DDD)V`; the direct player response is covered without auditing attack/damage resolution. A method at lines 1593-1608; B at 1596-1611.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.21.10/mojmap/net/minecraft/world/entity/LivingEntity.java`, `knockback(DDD)V`, lines 1593-1608, SHA-256 `b8b49d60769203f7bd5afe4a1bffcdcdbec30be28960324cdc43a2df85a6eb66`; exact velocity arithmetic multiplies strength by `1 - knockback resistance`, halves existing horizontal movement, subtracts normalized knockback, conditionally adds capped vertical velocity if grounded, sets delta movement and sets `hasImpulse=true`.
+- B evidence: corresponding 1.21.11 `LivingEntity.java`, `knockback(DDD)V`, lines 1596-1611, SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`; same arithmetic and ordering, then sets `needsSync=true`.
+- State producers/writers -> consumers/readers: Player inherits this public method; neither `Player` nor `ServerPlayer` overrides `knockback`. Server `ServerEntity.sendChanges()` consumes the marker when deciding to replicate entity movement and sends `ClientboundSetEntityMotionPacket`; A `ServerEntity.java` SHA-256 `1d3c6afac845fbaa2783992c963508c41850ce5be6c38f837a776a52dc80db07`, lines 168-85; B SHA-256 `268073683299a1860b5032d184add16f757a4c8fc000b5be7cc1c00291ac930b`, same lines with the renamed marker. `ClientPacketListener.handleSetEntityMotion` applies packet movement through `lerpMotion` in both versions (A `ClientPacketListener.java` SHA-256 `1bb341ee18704d882bb68bf917190be1045649026a99545057118b5cb9bfb348`, lines 592-98; B SHA-256 `f1ebdb54d717266c894c87381c98bad101980d252de5bae6ca55c37aece1732e`, lines 604-10).
+- Parent slices / dependencies / closure evidence: `S3-jump-impulse` shares the field rename but retains separate jump-power math coverage; `D-PLAYER-KNOCKBACK-OVERRIDE` closed by checking Player/ServerPlayer sources (no override); `D-VELOCITY-SYNC-CONSUMER` closed by paired ServerEntity and ClientPacketListener consumer bodies.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the direct Player response exists through inherited `LivingEntity.knockback`; for the same inputs and player state, both versions compute and write the same velocity with the same operation order. Only the server replication flag was renamed, and the old/new ServerEntity branches preserve the same trigger, movement comparison and packet. Triggering attack/damage decisions remain excluded.
+- Finding IDs or checked absence/replacement path: checked pair comparison; no direct player-knockback response delta found in this bounded method/sync path.
 
 ### Slice X-scope-exclusions: health, regeneration, hunger/food/saturation/exhaustion/damage/combat emulation and non-player physics
 
 - Inventory ID(s): INV-EXCLUSIONS
 - Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pending exact 1.21.10 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
-- B evidence: pending exact 1.21.11 source root, owner/member/descriptor, body line range and SHA-256 (or checked absence path).
+- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
+- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
 - State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-PAIR-READY`, then dependencies discovered from both exact source trees; unresolved.
+- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: none confirmed; source comparison has not started.
+- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
 
 ## Dependency queue and blockers
 
@@ -578,18 +629,18 @@ The entries below are provisional behavior buckets from the required navigation 
 
 ## Finding index
 
-No source findings confirmed yet; comparison has not started. This is not a no-difference conclusion.
+One source-confirmed finding is recorded in `findings/F-S1-FLIGHT-VEHICLE-GATE.md`; its independent finding-specific source review is still pending, and it has not been snapshotted or accepted. This is not a no-difference or pair-complete conclusion.
 
 ## Resume checkpoint
 
-- Last completed slice: source-gate preparation and 44 provisional stage behavior buckets; no exact-pair source slice completed.
-- Next bounded slice and exact files/members/body ranges to open: start `S1-input-sampling` with `net/minecraft/client/player/KeyboardInput.java` and `LocalPlayer.java`; resolve full input sampling → local tick → superclass tick/travel sequence, exact descriptors, callsites and body ranges on both sides.
+- Last completed slice: source-gate preparation and the first bounded input-sampling comparison; two slices are compared-no-difference (input sampling and direct player knockback), two source-confirmed findings cover the flight-toggle and delayed-load tick gates, and all other coverage remains open.
+- Next bounded slice and exact files/members/body ranges to open: continue with `S1-input-sampling` and `S3-travel-dispatch`; then split the remaining broad movement buckets into method-bounded slices and close their call/data dependencies.
 - Outstanding dependencies and owners: `D-METHOD-BODY-REVIEW` (discovery worker); newly discovered producer/consumer, shape, registration and data dependencies will be added with exact owners/actions.
 - Current assumptions requiring verification: all listed ready/source/artifact hashes were verified. Remaining assumptions: exact member correspondence, operation/callback order, every reachable player state writer and producer/consumer dependency, relevant jar resource entries, and source-level movement semantics.
 
 ## Finding snapshots (not pair freeze)
 
-- No finding snapshots submitted or accepted yet. An accepted source-confirmed finding snapshot may be handed off independently while this full-pair run remains active; snapshot acceptance does not change pair coverage or full-pair freeze status.
+- `F-S1-FLIGHT-VEHICLE-GATE` and `F-S1-CLIENT-LOAD-GATE` are source-confirmed in the coverage ledger but have not been submitted to or accepted by an independent reviewer. They are not implementation-ready snapshots. No immutable snapshot commit exists yet. An accepted source-confirmed finding snapshot may be handed off independently while this full-pair run remains active; snapshot acceptance does not change pair coverage or full-pair freeze status.
 
 ## Implementation reconciliation
 
@@ -610,10 +661,10 @@ No source findings confirmed yet; comparison has not started. This is not a no-d
 
 ## Source audit closure
 
-- Coverage counts by status: 44 pending; 0 in-progress; 0 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked. Pair source provenance is verified; behavior review has not yet closed any slice.
+- Coverage counts by status: 43 pending; 0 in-progress; 2 compared-no-difference; 2 findings; 0 not-applicable; 0 blocked. Pair provenance is verified; both finding slices have source evidence and remain subject to independent finding review; other slices remain open.
 - Required inventory status and evidence: all seven inventories pending method-bounded traversal, producer/consumer linkage and full closure. Source roots and artifact hashes are verified above.
 - Open dependencies: `D-METHOD-BODY-REVIEW` and all method/resource dependencies discovered during the seven-stage walk.
-- Unresolved gaps and limits: pair provenance is verified, but all movement behavior remains unexamined. Keep active while comparison proceeds; at handoff, any open source slice requires partial status.
+- Unresolved gaps and limits: pair provenance is verified; two bounded movement/tick-gate deltas are source-confirmed, while the remaining movement behavior is not yet covered. Keep active while comparison proceeds; at handoff, any open source slice requires partial status.
 - Evidence/hash/correspondence audit: ready JSON, provenance, source/artifact manifests and diagnostics hashes are verified; full source-file and cache-artifact inventories match the markers. Per-slice source ranges and hashes are pending direct inspection.
 - Full-pair blind freeze: pending
 - Implementation reconciliation: pending
