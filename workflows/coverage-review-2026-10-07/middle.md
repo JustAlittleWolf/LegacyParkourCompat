@@ -140,3 +140,24 @@ Finding-specific decisions:
 - **Crouch field / dimensions:** remains an open audit route until all within-tick `isCrouching` consumers and actual pose/dimension refresh timing are closed.
 
 Neither candidate snapshot is accepted for implementation. Both are review artifacts with explicit `revision required` decisions, not handoff inputs. Pair status remains active and no full-pair freeze has been accepted.
+
+## Final live status refresh (2026-10-07)
+
+This section supersedes the older readiness-marker and report-count summaries above. I verified all twelve pair endpoints in the shared artifact corpus. Each endpoint’s `mojmap.ready.json` says `status=ready`, has matching requested and metadata IDs, and its source-manifest, artifact-manifest and diagnostics hashes match the files on disk. This includes 1.19.4 and later endpoints; no pair endpoint is currently blocked on source readiness. The additional 1.16.1 and 1.16.2 records used for first-change checks were verified the same way.
+
+A final canonical checker pass over the live owner reports returned 10 structurally valid non-complete reports (active or partial) and two structural failures. Current pair details:
+
+- 1.14.4 → 1.15.2: partial; 7 slices, 7 inventories.
+- 1.15.2 → 1.16.5: active; 10 slices; the seven inventory rows are not in canonical ID syntax, so the checker reports all required inventories missing.
+- 1.16.5 → 1.17.1: active; 34 slices, 7 inventories.
+- 1.17.1 → 1.18.2: partial; 11 slices, 7 inventories.
+- 1.18.2 → 1.19.2: active; 27 slices, 7 inventories.
+- 1.19.2 → 1.19.3: active; 19 slices, 7 inventories.
+- 1.19.3 → 1.19.4: active; 7 slices, 7 inventories.
+- 1.19.4 → 1.20.1: active; 7 slices; all seven required inventory IDs are missing.
+- 1.20.1 → 1.20.2: active; 7 inventories, no bounded slices.
+- 1.20.2 → 1.20.4: active; 46 slices, 7 inventories.
+- 1.20.4 → 1.20.6: active; 51 slices, 7 inventories.
+- 1.20.6 → 1.21.1: active; 35 slices, 7 inventories.
+
+No pair is frozen or accepted. The two 1.15.2 → 1.16.5 snapshots have reviewer decisions `revision required`, so neither can be used as an implementation handoff.
