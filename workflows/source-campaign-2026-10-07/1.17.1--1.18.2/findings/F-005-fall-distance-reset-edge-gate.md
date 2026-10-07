@@ -28,4 +28,3 @@ A qualifying reset may change a later edge gate; current move's gate ran first. 
 ## Handoff
 
 Source discovery only; implementation deferred.
-

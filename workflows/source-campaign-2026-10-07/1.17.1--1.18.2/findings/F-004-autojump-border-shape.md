@@ -28,4 +28,3 @@ Candidate set change proven; timer effect requires probe intersection and height
 ## Handoff
 
 Source discovery only; implementation deferred.
-

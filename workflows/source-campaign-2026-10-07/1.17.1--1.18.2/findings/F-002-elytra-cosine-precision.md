@@ -28,4 +28,3 @@ Different computation is proven; velocity consequence is inferred and unmeasured
 ## Handoff
 
 Source discovery only; implementation deferred.
-

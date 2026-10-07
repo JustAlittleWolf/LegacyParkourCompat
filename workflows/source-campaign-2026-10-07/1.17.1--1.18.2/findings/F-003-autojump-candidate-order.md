@@ -28,4 +28,3 @@ Candidate: order/early break proven; concrete overlap/filter parity not establis
 ## Handoff
 
 Source discovery only; implementation deferred.
-

@@ -28,4 +28,3 @@ Sprint may persist in B where A stops it; later speed/position effect is inferre
 ## Handoff
 
 Source discovery only; implementation deferred.
-
