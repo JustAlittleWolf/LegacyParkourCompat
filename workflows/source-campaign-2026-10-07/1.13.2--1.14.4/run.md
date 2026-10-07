@@ -201,7 +201,7 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 
 ## Resume checkpoint
 
-- Last completed slice: none; S001-S006 are initial evidence only.
+- Last completed slice: none; S001-S009 are initial evidence only.
 - Next bounded slice and exact files/members/body ranges to open: remaining LivingEntity travel branches; `Entity` axis/step helpers; full LocalClientPlayerEntity tick; pose dimensions/base resize; world collision queries and registered shape providers.
 - Outstanding dependencies and owners: D-ARTIFACT-INTEGRITY source owner/ops; D-TICK-CLOSURE/D-COLLISION-SHAPES/D-MOVEMENT-DATA/D-EXTERNAL source worker; D-INDEPENDENT-AUDIT coordinator.
 - Current assumptions requiring verification: source preparation exact invocation; full reachability and provider closure.
@@ -209,6 +209,7 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 ## Finding snapshots (not pair freeze)
 
 No snapshot has been submitted or accepted. F001-F012 remain candidates while `D-ARTIFACT-INTEGRITY` is open; finding-specific dependency closure and implementation boundaries are also incomplete, and no blind finding reviewer is assigned. No snapshot commit/hash or reviewer decision exists. Pair remains partial; no implementation handoff is ready.
+
 ## Implementation reconciliation
 
 - Reconciliation status: pending
