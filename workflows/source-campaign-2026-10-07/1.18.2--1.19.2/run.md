@@ -191,14 +191,14 @@ Artifact paths below are relative to repository root; generated artifacts remain
 ### Slice P04: movement timers, abilities and stored speed state
 
 - Inventory ID(s): INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: pending; timer/speed/ability fields, defaults, updates and reset timing.
-- A evidence: not yet compared; readiness is recorded in D-SOURCES.
-- B evidence: not yet compared; readiness is recorded in D-SOURCES.
+- Exact behavior boundary and enclosing guards/order checked: compared the `Abilities` speed fields, NBT persistence/accessors, `LivingEntity` stored `speed` and `flyingSpeed` declarations/accessors, and linked the local seven-tick sprint window and ten-tick jump cooldown to T04/T05. `Abilities.java` is byte-identical at both endpoints; the selected LivingEntity fields and speed accessors retain the same defaults/storage/read/write shape. This bounded check does not inventory all timers, ability producers, or movement state resets.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/player/Abilities.java`, full file SHA-256 `A4F952ADA7BC3B21406FEAF13C171BFA22D36B01E265E3B987612F28B5609EDC`; `LivingEntity.java`, `flyingSpeed` / `speed` / `jumping` / `noJumpDelay` field declarations 186-218 and `getSpeed()`/`setSpeed()` 2210-2216, SHA-256 `DB4168D531CAF18F22E3FEFD073365E776DA4075CE01452BB9F7671D9B458782`; LocalPlayer sprint timer declarations and tick writers are cross-referenced in T04 A (lines 642-808; SHA-256 `99C2D18BCD23243AFB8F95C5BAFB21FB0BE7EA04AACBB14FCF7BE7CED2C9C095`), and jump cooldown dispatch/reset is cross-referenced in T05 A (`LivingEntity#aiStep()`, lines 2461-2584; same LivingEntity hash).
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/player/Abilities.java`, full file SHA-256 `A4F952ADA7BC3B21406FEAF13C171BFA22D36B01E265E3B987612F28B5609EDC`; `LivingEntity.java`, corresponding fields 187-219 and `getSpeed()`/`setSpeed()` 2243-2249, SHA-256 `FEE2DF5155449098556A138D2530D06B7A35979E43C6AA0AE1FFFD6251853E77`; LocalPlayer sprint timer declarations and tick writers are cross-referenced in T04 B (lines 731-898; SHA-256 `36AE4AABD609B457FFFB7A8B14ABB50DB9AC775857DDE1774C0C68A8CF50DEEF`), and jump cooldown dispatch/reset is cross-referenced in T05 B (`LivingEntity#aiStep()`, lines 2497-2620; same LivingEntity hash).
 - State producers/writers -> consumers/readers: field constructors/tick writers -> movement gates, acceleration and travel branches.
 - Parent slices / dependencies / closure evidence: D-SOURCES; T04-T07; M01.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison pending; no behavior claim.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no difference was found in the selected ability speed storage or LivingEntity speed getters/setters; the same-value timer transitions are already bounded in T04/T05. Remaining timer, ability and stored-state writer/consumer paths are still open, so this slice and INV-STATE stay incomplete.
+- Finding IDs or checked absence/replacement path: checked absence in the selected `Abilities` storage/persistence/accessors and `LivingEntity` speed storage/accessors; sprint/jump timer correspondence is cross-referenced to T04/T05.
 
 ### Slice C01: entity movement axis order and collision velocity response
 
@@ -408,8 +408,8 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Resume checkpoint
 
-- Last source comparison work: after T07 identified F-003/F-004 in Entity movement callbacks, compared E01 correction/ability packets, M02 effect update/removal handling, W03 fluid helpers, C03/W02 collision resolvers/providers, E03 mount transitions, P01 pose/dimension helpers, P02 direct position/velocity writers and P03 selected direct movement predicates. B's ancient-city loot resource documents a Swift Sneak book path for F-001; wider inventories remain open.
-- Next bounded slice and exact files/members/body ranges to open: P04 `Entity`/`LivingEntity`/`Player`/`LocalPlayer` timer, ability and stored-speed field declarations, defaults, writers, reset timing and movement consumers; then continue block registrations/movement properties and resources (W01/W04/M03/M04), effect-instance transitions (M02), and the other movement attribute/effect consumers (M01).
+- Last source comparison work: after T07 identified F-003/F-004 in Entity movement callbacks, compared E01 correction/ability packets, M02 effect update/removal handling, W03 fluid helpers, C03/W02 collision resolvers/providers, E03 mount transitions, P01 pose/dimension helpers, P02 direct position/velocity writers, P03 selected direct predicates and the bounded P04 ability/speed/jump-timer state. B's ancient-city loot resource documents a Swift Sneak book path for F-001; wider inventories remain open.
+- Next bounded slice and exact files/members/body ranges to open: continue `Entity`/`LivingEntity`/`Player`/`LocalPlayer` timer, ability and stored-state writers/consumers beyond P04's sampled fields; then continue block registrations/movement properties and resources (W01/W04/M03/M04), effect-instance transitions (M02), and the other movement attribute/effect consumers (M01).
 - Outstanding dependencies and owners: D-RESOURCES (discovery worker); independent reviewer assignment (coordinator, after source-only freeze).
 - Current assumptions requiring verification: Swift Sneak resource/tag data and all remaining modifier chains; all movement branch helpers and block callback outputs. Directory presence alone is not readiness.
 
@@ -437,10 +437,10 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Source audit closure
 
-- Coverage counts by status: pending 6; in-progress 19; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
+- Coverage counts by status: pending 5; in-progress 20; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
 - Required inventory status and evidence: INV-TICK pending; INV-STATE pending; INV-COLLISION pending; INV-WORLD-MOVEMENT pending; INV-MODIFIERS pending; INV-EXTERNAL pending; INV-EXCLUSIONS pending. No inventory is closed.
 - Open dependencies: D-RESOURCES (discovery worker), independent reviewer assignment (coordinator, after source-only freeze).
-- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Six coverage entries are pending, nineteen are in progress, and two carry findings.
+- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Five coverage entries are pending, twenty are in progress, and two carry findings.
 - Evidence/hash/correspondence audit: F-001 through F-004 include paired endpoint source/artifact hashes and bounded source ranges; call paths and writer-to-consumer links are recorded for these deltas, while the remaining inventories and correspondence are still open.
 - Blind freeze: not frozen; implementation remains uninspected. Freeze after remaining source inventories close or are explicitly scoped for handoff.
 - Implementation reconciliation: pending and deferred outside this source-only assignment.
