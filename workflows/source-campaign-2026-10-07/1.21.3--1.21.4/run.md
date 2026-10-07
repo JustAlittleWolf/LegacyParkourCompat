@@ -2,58 +2,148 @@
 
 - Status: active
 - Scope: source-only client player movement; older A = exact 1.21.3; newer B = exact 1.21.4. Health, regeneration, hunger, food, saturation, exhaustion, damage and combat simulations are excluded; movement predicates may read their vanilla state. Modern-only blocks/features and non-player movement are out of scope.
-- Repository revision and start date: base `002137b227676caea77f6832b9f4c8d0b6200bff` (`main`); 2026-10-07. Task branch: `feat/source-discovery-movement-source-1-21-3-1-21-4`.
-- Selected namespace and alignment: explicit `mojmap` requested for both exact releases; publication and readiness verification pending.
-- Source preparation owner / command / log / readiness marker: shared source owner only; exact artifacts, command/log, and ready JSON pending.
-- Toolchain/decompiler/remapper versions/options: pending validated manifests.
+- Repository revision and start date: base `002137b227676caea77f6832b9f4c8d0b6200bff` (`main`); 2026-10-07. Current report branch checkpoint: `5ab5bc4`.
+- Selected namespace and alignment: release-specific official Mojang mappings (`mojmap`) for both exact releases; namespace and exact IDs verified in both readiness and provenance JSONs.
+- Source preparation owner / command / log / readiness marker: shared source owner; `.\gradlew.bat decompileMinecraft --versions=1.21.1,1.21.3,1.21.4,1.21.5 --mappings=mojmap --decompiler-heap=4G --output-root=<campaign staging> --cache-directory=<campaign artifacts>`; log `build/movement-campaign-2026-10-07/staging/mojmap-1.21.1-to-1.21.5-cd5a99cb1024417c9d370097c886a131/gradle.full.log`; both markers are `ready` and exact IDs match.
+- Toolchain/decompiler/remapper versions and options: Gradle 9.7.1; decompiler JVM Java 25.0.3+9-LTS; Vineflower 1.12.0, Tiny Remapper 0.14.1, Mapping IO 0.9.1, ASM 9.10.1, Gson 2.14.0; 4G heap.
 - Discovery author(s): current source-only worker for this interval.
-- Independent reviewer: pending coordinator assignment; reviewer must not be a discovery author.
+- Independent reviewer: pending coordinator assignment; reviewer must differ from discovery authors.
 
 ## Artifact manifest
 
-A and B exact requested IDs are 1.21.3 and 1.21.4. Their source roots, client jar hashes, official mapping artifact/build/path/hash, remapped jar hashes, cited source/resource hashes, decompiler logs, and toolchain versions are pending validated readiness JSON and referenced manifests. Neither target version's source body has been used as comparison evidence. No directory-presence assumption is used for readiness.
+### A — 1.21.3
+
+- Requested/resolved ID: `1.21.3` / `1.21.3`; metadata ID and readiness JSON exact match.
+- CLI namespace/mode: `mojmap`; version-specific official client mappings.
+- Client jar SHA-256: `25190c556bc56d11070638ccab3b3c6efd76bb9684c92a2680a4de01c3c7138b`.
+- Official mapping artifact `1.21.3/client_mappings.txt` SHA-256: `e92a9cb01c233075b51a6233d0c22f56dcda3fcab46438d3f7a1781d104dcd41`.
+- Remapped client jar SHA-256: `9e5d42c42acaf0076ee92b41b13aa7440667967266ca67ecd50b08e5e4ba8024`.
+- Source root: `build/movement-campaign-2026-10-07/ready/1.21.3/mojmap/`; source manifest SHA-256 `d673bb5464853e3a2a92ed9b1ffe1789d4e62c097bb884f67c336fcbb3b178ce` (5,655 source files).
+- Artifact manifest SHA-256 `0587668e5c70bb06dacf3496a4442f66dc9cdcab23f2350b844f14259cc40dcf` (89 artifacts); diagnostics SHA-256 `065c0644d14a4ba2001713ba9a72470b414f01ab327aec772924709f3118f08f` (22 movement method entries). File hashes/counts match the ready JSON. Required Entity, LivingEntity, Player and LocalPlayer files are present. Relevant diagnostics list the core movement methods; no diagnostic line contains an error/warning/missing/damaged/failure marker.
+- Cited source hashes are repeated in the coverage entries below and were checked against the source manifest.
+
+### B — 1.21.4
+
+- Requested/resolved ID: `1.21.4` / `1.21.4`; metadata ID and readiness JSON exact match.
+- CLI namespace/mode: `mojmap`; version-specific official client mappings.
+- Client jar SHA-256: `c17c450c6e72cc51297daa57ce38f800aa01cf022b743daa21a0512d326d894e`.
+- Official mapping artifact `1.21.4/client_mappings.txt` SHA-256: `48b502ccc5e855b49da8aa9c0c0d7c565bec54c9f5da3a3664528aff7b9fdf23`.
+- Remapped client jar SHA-256: `56995548c9cb8bd7cdb9996b676daeafae02bde9d6ef4029b9eeca6bfd7dcc74`.
+- Source root: `build/movement-campaign-2026-10-07/ready/1.21.4/mojmap/`; source manifest SHA-256 `f90b61197928632e061ea877955a19055c92ae6f357c2daf1bc646172c6f51f0` (5,744 source files).
+- Artifact manifest SHA-256 `1a0929ca8c88cfe7874f323918dfa3b044964007d3ff0d3943317bdb35caf841` (89 artifacts); diagnostics SHA-256 `fb5d4cfc7238ea634c47ad148e22539fec30a1b33bb5d3353ff8c34a3e44a421` (22 movement method entries). File hashes/counts match the ready JSON. Required Entity, LivingEntity, Player and LocalPlayer files are present. Relevant diagnostics list the core movement methods; no diagnostic line contains an error/warning/missing/damaged/failure marker.
+- Cited source hashes are repeated in the coverage entries below and were checked against the source manifest.
+
+Both provenance records point to the same exact batch and successful full Gradle log; it contains `Finished 1.21.3 using mojmap`, `Finished 1.21.4 using mojmap`, and `BUILD SUCCESSFUL`. The log also contains remapper access warnings for GUI/world-generation classes, with zero affected members; movement diagnostics show no damaged required body. No source was regenerated by this worker.
 
 ## Blind-discovery freeze
 
 - Status: pending
-- Freeze commit/checkpoint and timestamp: pending.
-- Evidence inventory and finding IDs included at freeze: pending source pair and full inventory.
-- Confirmation: old mod implementation/code and isolated wiki-audit outputs have not been opened; no wiki/MCPK or release-note mechanics have been used. One prior source-discovery report was read only as a navigation aid and will not substitute for fresh exact-pair checks.
-- Source/mapping hashes covered by freeze: pending.
+- Freeze commit/checkpoint and timestamp: pending full inventory.
+- Evidence inventory and finding IDs included at freeze: pending.
+- Confirmation: old mod implementation/code and isolated wiki-audit outputs have not been opened; no wiki/MCPK or release-note mechanics have been used. One prior source-discovery report was read only as a navigation aid and is not evidence for this pair.
+- Source/mapping hashes covered by freeze: listed above; additional sources/resources will be added as cited.
 
 ## Correspondence and call order
 
-Pending exact source availability. Resolve exact A/B classes and member descriptors, inheritance, callers, replacements, and state read/write edges for the complete reachable player tick: input sampling; pre-travel decisions/writes; travel dispatch and every branch; post-travel work; pose/dimensions/eye height; position, velocity, bounding box, collision/ground/fluid flags, support; movement attributes; sprint/jump timers; and equipment/effect state. No correspondence is inferred from matching names.
+- A/B local input: `client.player.LocalPlayer.input` begins as `ClientInput`; the two `ClientPacketListener` player-creation/replacement paths assign `new KeyboardInput(options)` on both releases. `KeyboardInput extends ClientInput`; both key records use `world.entity.player.Input`. Button reads produce `forwardImpulse`/`leftImpulse`; `LocalPlayer.aiStep()` applies local modifiers, while virtual `LocalPlayer.serverAiStep()` copies impulses to `xxa`/`zza` and jump state to `jumping` when the player is the controlled camera.
+- A/B inherited tick path: `Minecraft.runTick()` -> `ClientLevel.tickEntities()` -> `ClientLevel.tickNonPassenger()` -> `LocalPlayer.tick()` -> `LivingEntity/Player/LocalPlayer` tick/AI chain. `LocalPlayer.aiStep()` invokes `super.aiStep()`; `LivingEntity.aiStep()` first clears tiny delta components under `0.003`, executes virtual `serverAiStep()`, resolves jump, applies `0.98F` to X/Z input, constructs the travel vector and dispatches to ridden or ordinary travel. A/B paired bodies preserve that order for the bounded slice S3-01.
+- A/B input modifier order differs by code location: A `KeyboardInput.tick(slowly, sneakSpeed)` scales impulses before returning; `LocalPlayer.aiStep()` then applies item-use scale. B `KeyboardInput.tick()` does not scale; `LocalPlayer.aiStep()` applies item-use scale before the `isMovingSlowly()` sneak-speed scale. The vanilla producer inventory and exact output equivalence are under S1-02.
+- B adds a client-load gate to `LocalPlayer.tick()`: it ticks the inherited local player only when `Player.hasClientLoaded()` is true, after decrementing the 60-tick timeout. `ClientPacketListener.tick()` sets the flag and sends `ServerboundPlayerLoadedPacket` when `LevelLoadStatusManager.levelReady()`; timeout and vanilla tick-path closure remain under S1-04.
+- B adds `LocalPlayer.shouldStopSprinting()` before input modifiers and an `isMovingSlowly()` condition to `canStartSprinting()`. The active-sprint policy and producer/consumer closure are under S1-03.
 
 ## Required source inventories
 
-- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=pending source inventory; evidence=pending exact A/B bodies.
-- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=pending source inventory; evidence=pending exact A/B bodies.
-- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=pending source inventory; evidence=pending exact A/B bodies and data.
-- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=pending source inventory; evidence=pending exact A/B source and jar resources.
-- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=pending source inventory; evidence=pending exact A/B source and jar resources.
-- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, including corrections, pushes, pistons and mounts: status=pending; slice_ids=pending source inventory; evidence=pending exact A/B bodies.
-- `INV-EXCLUSIONS` explicit scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; evidence=pending; direct vanilla-state reads that remain in movement predicates will be identified during comparison.
+- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1-01,S1-02,S1-03,S1-04,S3-01; evidence=paired source ranges and hashes below; full call graph remains open.
+- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S1-03,S1-04,S3-01; evidence=LocalPlayer, Player, LivingEntity, Entity and packet-handler sources identified; full writer/consumer inventory open.
+- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=pending inventory; evidence=not yet inventoried.
+- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=pending inventory; evidence=not yet inventoried.
+- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S1-02,S1-03; evidence=LocalPlayer consumers identified; registration/resource closure open.
+- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, including corrections, pushes, pistons and mounts: status=pending; slice_ids=S1-04; evidence=client load status writer identified; remaining external inputs open.
+- `INV-EXCLUSIONS` explicit scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; evidence=Player.aiStep includes `tickRegeneration()` but its health/food simulation is excluded; movement gates reading vanilla food state remain in scope and will be inventoried. Non-player movement is excluded.
 
 ## Coverage ledger
 
-No bounded behavior slices have been enumerated: exact A/B readiness manifests and method diagnostics are not yet published. This is open preparation, not equivalence or a completed audit. Once sources are ready, add an individual slice per bounded behavior with exact body ranges, state producers/consumers, dependency closure, and disposition. Pending/in-progress/blocked rows will prevent completion.
+### Slice S1-01: keyboard key sample to raw directional impulse
+
+- Inventory ID(s): `INV-TICK`, `INV-STATE`
+- Exact behavior boundary and enclosing guards/order checked: `KeyboardInput.tick` samples up/down/left/right/jump/shift/sprint in record order, then `calculateImpulse` maps each opposing key pair to `0.0F`, `1.0F`, or `-1.0F`. The bounded comparison ends before A's slowdown multiplication, which is tracked separately in S1-02.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.21.3/mojmap/net/minecraft/client/player/KeyboardInput.java::net.minecraft.client.player.KeyboardInput#tick(boolean,float)`, lines 22-33, SHA-256 `2a0994e8a6a2fdf9e76480227216db4a4252734fca8ca0aedd25dde77be75ba6`; matching `Input.java` lines 6-14, SHA-256 `1c0c12af07da1f90651c3a7c4eb19bab6486b6391dcbfdd2926f06e3f36c2f06`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.21.4/mojmap/net/minecraft/client/player/KeyboardInput.java::net.minecraft.client.player.KeyboardInput#tick()`, lines 22-33, SHA-256 `c885bcc709e445c3ff91f03bf37acf9320e17fc9daf1bd2ba46ba20487f1d9ed`; matching `Input.java` lines 6-14, same SHA-256 as A.
+- State producers/writers -> consumers/readers: `Options` key mappings -> `KeyboardInput.tick` -> `ClientInput.keyPresses`, `leftImpulse`, `forwardImpulse` -> `LocalPlayer.aiStep` and sprint/auto-jump predicates. A/B `ClientPacketListener` both assign KeyboardInput on two player lifecycle paths (A lines 443/1196; B lines 444/1196); other vanilla ClientInput subclasses not found in either client source inventory. `ClientInput` contains the same no-op base `tick`, impulse fields, `getMoveVector`, `hasForwardImpulse` and `makeJump` on both sides (A SHA-256 `6bc3c2362657c0d5ce889eb1dddb203ddcb185a729d97cf577b6db0fe22abee5`; B `0f2e4d03749ab7495e386af05aa77a0414b5d1c3ef76256db2b514f42cc6e3c4`).
+- Parent slices / dependencies / closure evidence: none; modifier placement is separated into S1-02.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): identical key-state ordering and boolean-to-impulse branches for the vanilla keyboard provider. Method signatures differ because modifier handling moved; raw button-to-impulse semantics are unchanged. The removed slowdown multiplication is not covered by this row.
+- Finding IDs or checked absence/replacement path: no difference in this bounded raw key mapping.
+
+### Slice S1-02: slow-movement and item-use input scaling
+
+- Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-MODIFIERS`
+- Exact behavior boundary and enclosing guards/order checked: A `KeyboardInput.tick` applies sneak factor when its `slowly` argument is true, then `LocalPlayer.aiStep` multiplies by `0.2F` when using an item and not a passenger; B samples raw impulses, then applies `0.2F`, then applies the SNEAKING_SPEED attribute when `isMovingSlowly()` is true. Full vanilla value and alternate-producer closure remains open.
+- A evidence: `KeyboardInput.java#tick(boolean,float)`, lines 22-35, SHA-256 `2a0994e8a6a2fdf9e76480227216db4a4252734fca8ca0aedd25dde77be75ba6`; `LocalPlayer.java#aiStep()`, lines 648-671, SHA-256 `fbd40f1f47adfa66dda9b15188e5dce82af3e8e8d7c3dd0543e602a354ad3fe0`.
+- B evidence: `KeyboardInput.java#tick()`, lines 22-34, SHA-256 `c885bcc709e445c3ff91f03bf37acf9320e17fc9daf1bd2ba46ba20487f1d9ed`; `LocalPlayer.java#aiStep()`, lines 662-678, SHA-256 `145686ebdc7f0d12a64070309073665eb8695b7e09911a723e86113a77d04611`.
+- State producers/writers -> consumers/readers: local crouching/visual-crawl state and `Attributes.SNEAKING_SPEED` -> impulse scaling -> `LocalPlayer.serverAiStep` copies to xxa/zza -> `LivingEntity.aiStep` applies `0.98F` -> travel. Item use and passenger state gate the `0.2F` multiplier. Attribute/effect/equipment and pose dependencies remain open.
+- Parent slices / dependencies / closure evidence: `S1-01`; open `DEP-SNEAK-ATTR`, `DEP-POSE-SLOW`, `DEP-INPUT-PRODUCERS`, `S3-01`.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): direct code order moved. The vanilla keyboard path emits only -1/0/1 before modifiers, but exact movement-output equivalence under both modifiers and attribute values has not been closed; no finding or no-difference claim yet.
+- Finding IDs or checked absence/replacement path: pending closure.
+
+### Slice S1-03: local sprint start and active-sprint stop gates
+
+- Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-MODIFIERS`
+- Exact behavior boundary and enclosing guards/order checked: compare `LocalPlayer.aiStep` active-sprint stop block and `canStartSprinting`; B also calls `shouldStopSprinting` before modifiers and introduces a slow-movement start gate.
+- A evidence: `LocalPlayer.java#aiStep()`, lines 680-709, and `canStartSprinting()`, lines 1023-1035, SHA-256 `fbd40f1f47adfa66dda9b15188e5dce82af3e8e8d7c3dd0543e602a354ad3fe0`.
+- B evidence: `LocalPlayer.java#aiStep()`, lines 664-723, `shouldStopSprinting()`, lines 816-821, and `canStartSprinting()`, lines 1053-1062, SHA-256 `145686ebdc7f0d12a64070309073665eb8695b7e09911a723e86113a77d04611`.
+- State producers/writers -> consumers/readers: LocalPlayer crouch/slow-visual state, blindness effect, fall-flying state, vehicle/passenger identity, item-use state, underwater state and forward impulse -> B stop/start predicates -> sprint flag -> travel speed/path. Movement attributes/effects, fluid, vehicle and item state writer closure remains open.
+- Parent slices / dependencies / closure evidence: `S1-02`; open `DEP-SNEAK-ATTR`, `DEP-POSE-SLOW`, `DEP-BLINDNESS`, `DEP-FALL-FLYING`, `DEP-VEHICLE-SPRINT`, `DEP-ITEM-USE`, `DEP-FLUID-GATES`.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): B adds a new preexisting-sprint stop predicate for fall-flying, blindness, slow movement, non-camel passenger state and item use outside passenger/underwater cases; B also rejects starting while slow unless underwater. These are concrete source changes; each predicate's reachable player-state producers and interactions are being traced before disposition.
+- Finding IDs or checked absence/replacement path: pending dependency closure.
+
+### Slice S1-04: LocalPlayer tick load gate and timeout
+
+- Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-EXTERNAL`
+- Exact behavior boundary and enclosing guards/order checked: local tick entry through inherited player tick; identify the exact level-ready flag writer and all timer transitions.
+- A evidence: `LocalPlayer.java#tick()`, lines 189-212, SHA-256 `fbd40f1f47adfa66dda9b15188e5dce82af3e8e8d7c3dd0543e602a354ad3fe0`; unconditional `super.tick()` follows throttler tick at line 191.
+- B evidence: `LocalPlayer.java#tick()`, lines 191-217, SHA-256 `145686ebdc7f0d12a64070309073665eb8695b7e09911a723e86113a77d04611`; `tickClientLoadTimeout()` then `if (hasClientLoaded())` encloses `super.tick()` and input/position packet work.
+- State producers/writers -> consumers/readers: B `Player.clientLoaded=false` and timeout=60 (Player.java lines 167-168); `tickClientLoadTimeout` decrements until loaded (2096-2109); `ClientPacketListener.tick` sends loaded packet and sets true when level status reports ready (2441-2464). `Minecraft.runTick` -> ClientLevel entity tick -> LocalPlayer.tick remains active in both versions (A Minecraft.java 1724-1732 / ClientLevel.java 248-279; B Minecraft.java 1718-1727 / ClientLevel.java 252-281).
+- Parent slices / dependencies / closure evidence: open `DEP-LEVEL-READY` for exact readiness producer/lifecycle and timeout call order. The common vanilla tick caller is traced.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): B visibly suppresses inherited LocalPlayer updates until `clientLoaded` or timeout; A has no guard in its corresponding tick path. Determine exact load-state lifecycle and client tick ordering before final classification.
+- Finding IDs or checked absence/replacement path: A checked absence in `LocalPlayer.tick` and Player class (no `clientLoaded`, `hasClientLoaded`, or timeout members); B writer and timer above.
+
+### Slice S3-01: LivingEntity pre-travel velocity cutoff and input dispatch order
+
+- Inventory ID(s): `INV-TICK`, `INV-STATE`
+- Exact behavior boundary and enclosing guards/order checked: A `LivingEntity.aiStep` lines 2697-2772 and B lines 2708-2783: delta components with absolute value below `0.003` become zero; virtual AI, jump resolution, `0.98F` X/Z input attenuation, fall-flying update, movement vector construction and ridden/ordinary travel dispatch follow in the same order.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.21.3/mojmap/net/minecraft/world/entity/LivingEntity.java::aiStep()`, lines 2697-2772, SHA-256 `087390495f4fdfd14b9e12230e7aea4fdc50913bb4d1d91119e72892881cfc52`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.21.4/mojmap/net/minecraft/world/entity/LivingEntity.java::aiStep()`, lines 2708-2783, SHA-256 `e62ce650af0a5ac97e4d0a2ba7cad4ba68a8d098525609f8b5b6976a8ab0ae30`.
+- State producers/writers -> consumers/readers: incoming/current delta -> threshold replacement via `setDeltaMovement`; `LocalPlayer.serverAiStep` writes xxa/zza/jumping from input; jump branch writes vertical movement; travel vector consumes axes and dispatches to `travelRidden` or `travel`.
+- Parent slices / dependencies / closure evidence: `S1-02`; travel branch body/data closure remains a later Stage 3 slice.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): paired body expressions, comparisons, guards and ordering match exactly for this bounded section; only original line offsets differ. This is not a claim that the remaining travel/jump/helper dependency graph is equivalent.
+- Finding IDs or checked absence/replacement path: none for this bounded slice.
 
 ## Dependency queue and blockers
 
-- `SOURCE-PAIR` — originating inventory: all. Exact missing items: readiness JSONs for A=1.21.3 and B=1.21.4 in aligned `mojmap`, cited source/artifact manifests, successful generation logs, and movement-method diagnostics. Why: exact provenance, body integrity, and comparable source namespace are prerequisites. Next action: shared source owner publishes the pair; then verify JSON IDs, namespace, hashes and relevant body diagnostics before reading/comparing. Owner: shared source owner/coordinator. Status: pending; not yet a terminal blocker because comparison can start after publication.
-- `WORKTREE-GIT` — managed checkout status initially failed under the default sandbox. Dedicated task branch creation succeeded via narrowly scoped elevated Git operation; edits/commits remain confined to the returned managed checkout.
+- `DEP-SOURCE-AUDIT`: exact pair ready manifests and hashes verified; source prep resolved.
+- `DEP-SNEAK-ATTR`: resolve SNEAKING_SPEED defaults/modifiers/resources and producer/consumer closure.
+- `DEP-POSE-SLOW`: close `isMovingSlowly`, crouch/visual-crawl state and pose timing.
+- `DEP-INPUT-PRODUCERS`: verify every vanilla input writer/subclass and lifecycle replacement path.
+- `DEP-BLINDNESS`, `DEP-FALL-FLYING`, `DEP-VEHICLE-SPRINT`, `DEP-ITEM-USE`, `DEP-FLUID-GATES`: close each B sprint predicate's reachable state writers, callers and movement consumer.
+- `DEP-LEVEL-READY`: close client level ready status writer, timeout and exact tick order for S1-04.
+- `DEP-TRAVEL`, `DEP-COLLISION`, `DEP-WORLD-DATA`, `DEP-MODIFIERS`, `DEP-EXTERNAL`: later stage dependencies not yet inventoried.
+- Open dependencies: all above except `DEP-SOURCE-AUDIT`; owner: current source worker except shared release/source generation (resolved).
 
 ## Finding index
 
-No source-confirmed findings yet. Missing pair sources do not imply a difference or no difference.
+No finding files yet; S1-03 and S1-04 are source-confirmed change candidates with dependency closure pending. No equivalence is claimed outside the bounded S1-01 and S3-01 rows.
 
 ## Resume checkpoint
 
-- Last completed slice: none; workflow and templates read; task branch created; open source-preparation checkpoint committed.
-- Next: verify exact A/B readiness JSONs and cited hashes, inspect movement method diagnostics, then enumerate stage 1 filename inventory and full call graph.
-- Outstanding dependencies and owners: `SOURCE-PAIR` — shared source owner/coordinator.
-- Current assumptions requiring verification: explicit Mojmap is available and resolves successfully for both exact releases; no artifact is accepted until its ready JSON, exact IDs, hashes and relevant method bodies are validated.
+- Last completed slice: S1-01 and S3-01.
+- Next bounded slices: finish S1-02 input value closure and S1-03 sprint-state dependencies; close S1-04 client load lifecycle; then continue Stage 1 input/tick and Stage 2 state writers.
+- Outstanding dependencies and owners: see dependency queue; current source worker owns analysis.
+- Current assumptions requiring verification: whether keyboard-only modifiers are bitwise equal after reordering for all vanilla modifier values; whether B load gate can alter any tick already skipped by higher-level readiness; exact reachable preconditions of new sprint stop/start gates.
 
 ## Implementation reconciliation
 
@@ -74,14 +164,14 @@ No source-confirmed findings yet. Missing pair sources do not imply a difference
 
 ## Source audit closure
 
-- Coverage counts by status: 0 terminal; 0 bounded slices enumerated; source inventory not started; 7 required inventories pending.
-- Required inventory status and evidence: all pending; see inventory map.
-- Open dependencies: `SOURCE-PAIR` (shared source owner/coordinator); reviewer assignment pending for eventual independent audit.
-- Unresolved gaps and limits: all seven navigation stages await exact validated source pair and subsequent full inventory.
-- Evidence/hash/correspondence audit: none claimed.
+- Coverage counts by status: 2 compared-no-difference; 3 in-progress; 0 findings; additional required slices not yet enumerated.
+- Required inventory status and evidence: all inventories remain pending; see inventory map and bounded slices.
+- Open dependencies: `DEP-SNEAK-ATTR`, `DEP-POSE-SLOW`, `DEP-INPUT-PRODUCERS`, `DEP-BLINDNESS`, `DEP-FALL-FLYING`, `DEP-VEHICLE-SPRINT`, `DEP-ITEM-USE`, `DEP-FLUID-GATES`, `DEP-LEVEL-READY`, `DEP-TRAVEL`, `DEP-COLLISION`, `DEP-WORLD-DATA`, `DEP-MODIFIERS`, `DEP-EXTERNAL`.
+- Unresolved gaps and limits: remaining Stage 1 methods and all unenumerated Stage 2-7 sources/resources.
+- Evidence/hash/correspondence audit: both source manifests and cited source-file hashes validated; every terminal slice has paired ranges, source hashes, dependency edges and rationale.
 - Blind freeze: pending.
 - Implementation reconciliation: pending.
 - Independent audit: pending.
 - Runtime validation: not performed (separate workflow; not authorized).
 
-This run currently contains only `run.md`. The completion checker is a schema/status gate, not source proof; no completion claim is made.
+This run currently contains only `run.md`. The canonical checker at `C:\Users\Wolfi\.codex\worktrees\3e61\LegacyParkourCompat\workflows\movement-discovery\check_completion.py` checks schema/status only and cannot establish source truth.
