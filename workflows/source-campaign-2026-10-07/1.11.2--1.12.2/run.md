@@ -53,11 +53,11 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 ## Required source inventories
 
 - `INV-TICK` input, player tick/call graph, pre-travel, travel branches and post-travel: status=pending; slice_ids=S1.1,S1.2,S1.3,S1.4,S1.5,S1.6,S1.7,S3.1,S3.2,S3.3,S3.4,S3.5,S3.6; evidence=pair manifests verified; bounded source slices remain open
-- `INV-STATE` movement state writers/readers: status=pending; slice_ids=S1.2,S1.3,S1.4,S1.5,S1.6,S2.1,S2.2,S2.3,S2.4,S2.5,S2.6,S3.3,S3.4,S3.5,S3.6,S3.7,S4.3,S4.4,S7.1,S7.2,S7.3,S7.4; evidence=pair manifests verified; full producer/consumer inventory open
+- `INV-STATE` movement state writers/readers: status=pending; slice_ids=S1.2,S1.3,S1.4,S1.5,S1.6,S2.1,S2.2,S2.2a,S2.3,S2.4,S2.5,S2.6,S3.3,S3.4,S3.5,S3.6,S3.7,S4.3,S4.4,S7.1,S7.2,S7.3,S7.4; evidence=pair manifests verified; full producer/consumer inventory open
 - `INV-COLLISION` player collision/query, shapes, callbacks, registrations and neighbor dependencies: status=pending; slice_ids=S1.4,S2.2,S2.3,S4.1,S4.2,S4.3,S4.4,S4.5,S4.6,S5.1,S5.2,S5.3,S5.4,S5.5; evidence=pair manifests verified; full shape/provider inventory open
 - `INV-WORLD-MOVEMENT` block/fluid properties, subclasses, registries, data/tags and defaults: status=pending; slice_ids=S3.1,S3.5,S4.4,S4.6,S5.1,S5.2,S5.3,S5.4,S5.5,S6.3,S6.5,S6.6; evidence=pair manifests verified; resource inventory open
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and applications/removals/conditions: status=pending; slice_ids=S1.3,S1.4,S1.5,S2.1,S2.4,S2.5,S3.2,S3.4,S3.5,S3.7,S6.1,S6.2,S6.3,S6.4,S6.5,S6.6; evidence=pair manifests verified; modifier/data closure open
-- `INV-EXTERNAL` player-only external inputs and client consumers: status=pending; slice_ids=S1.6,S1.7,S7.1,S7.2,S7.3,S7.4; evidence=pair manifests verified; external-writer inventory open
+- `INV-EXTERNAL` player-only external inputs and client consumers: status=pending; slice_ids=S1.6,S1.7,S2.2a,S7.1,S7.2,S7.3,S7.4; evidence=pair manifests verified; external-writer inventory open
 - `INV-EXCLUSIONS` health, regeneration, hunger, food, saturation, exhaustion, damage/combat and non-player movement: status=complete; evidence=movement predicates read food level only at LocalClientPlayerEntity.mobTick A lines 696-704 / B 718-726 (source hashes under S1.2); excluded health/food simulation appears in PlayerEntity.mobTick A lines 422-430 / B 418-426 (source hashes under S1.2); direct reads remain vanilla state, producers are excluded
 
 ## Coverage ledger
@@ -193,6 +193,18 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): pending source comparison; no equivalence inferred from prior reports
 - Finding IDs or checked absence/replacement path: none assigned
+
+### Slice S2.2a: Bed sleep eligibility and player movement-state transition
+
+- Inventory ID(s): INV-STATE, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: server-side `PlayerEntity.trySleep(BlockPos)` safety query and its gate over player dismount, dimensions, position, sleeping state and velocity; bed interaction entry; server sleep result packet/teleport handoff; client packet consumer. The broad pose/dimension/eye-height writer inventory remains S2.2.
+- A evidence: `1.11.2/ornithe-feather/net/minecraft/entity/living/player/PlayerEntity.java::trySleep(BlockPos)` lines 1194-1249, SHA-256 `87fe94fa6cbf7aba18b9a5e3401664439eb8eba9958173da8fbcd05cc7ad948b`; `Entity.java::setSize(FF)V` lines 271-288, SHA-256 `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440`; `PlayerEntity.java::wakeUp(ZZZ)V` lines 1265-1287, same PlayerEntity hash; `BedBlock` call at line 64, SHA-256 `84f56aab19adae4b953a27040e5f431f65c8923d6bd169995ac5a5f629a024e1`; `ServerPlayerEntity::trySleep(BlockPos)` starts line 540, SHA-256 `c2187f10b589bbfb47bef2a1b573781fecad55a13fb80c4c5dc11260d9f12197`; client `handlePlayerSleep` lines 766-769, SHA-256 `65d362c00de1adfd55fae5f858b91bf9b227525b987c09a2d223279376a66175`.
+- B evidence: `1.12.2/ornithe-feather/net/minecraft/entity/living/player/PlayerEntity.java::trySleep(BlockPos)` lines 1185-1243, SHA-256 `e4e0fdbe07a7d0a0ae4a70cbb6739a2d7c9d045a4a12b409895c220b5d91fe1e`; `Entity.java::setSize(FF)V` lines 274-291, SHA-256 `80f091bf32166c88cf8b8bd31caf72d84fa16224410733c7d2a0f00563f294a0a`; `PlayerEntity.java::wakeUp(ZZZ)V` lines 1259-1281, same PlayerEntity hash; `BedBlock` call at line 86, SHA-256 `48c127b2df425cb8d7ff60a284207de10a8408e90ee18a8449522a004a0b4369`; `ServerPlayerEntity::trySleep(BlockPos)` starts line 600, SHA-256 `ad4effc65edd98098d86af8ba725f6d6c2c94068f996739cf2734d34ecf804a9`; client `handlePlayerSleep` lines 775-778, SHA-256 `fce21d9902e555fd46545fb04bdb6c4a912eef6398790776ad1a122e09960c7c`; `MonsterEntity::isAngryAt(PlayerEntity)` lines 162-164, SHA-256 `e96f44cf14e80d3154fdd3a8e6827000bf0f13a545ee095c1ebedac7993e41b6`; `ZombiePigmanEntity::isAngryAt(PlayerEntity)` lines 199-201, SHA-256 `aba397ad24f519dbdfcdd594a1e9ecd8ad26ef36ea030b54b7f2be35d06f9701`.
+- State producers/writers -> consumers/readers: the A/B server safety query result gates the base player sleep transition; on success both set the sleeping dimensions, bed position, sleeping flag and zero velocity, then `ServerPlayerEntity` teleports and sends the sleep packet. The client handler replays `trySleep`; `wakeUp` restores ordinary player dimensions in both versions.
+- Parent slices / dependencies / closure evidence: S2.2 retains the remaining player pose/dimension/eye-height inventory; S1.7 retains full packet authority and movement-correction closure. Finding F-SLEEP-SAFETY-TRANSITION records the concrete changed condition and consequence.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): under the same server-side conditions—living, awake player, natural dimension, nighttime, bed in range, and only a non-angry zombie pigman inside the query box—A returns `NOT_SAFE` because any monster blocks sleep; B filters for monsters angry at this player, and the pigman override returns `isAngry()`, so B proceeds to the player movement-state writes. This source-confirmed gate change is bounded to sleep eligibility; it does not close S2.2 or S1.7.
+- Finding IDs or checked absence/replacement path: F-SLEEP-SAFETY-TRANSITION; paired source evidence and hash detail in `findings/F-SLEEP-SAFETY-TRANSITION.md`
 
 ### Slice S2.3: Swimming/crawling/fall-flying pose transitions and their movement gates
 
@@ -603,12 +615,12 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 
 ## Finding index
 
-No findings in the fresh campaign yet. Prior pair claims remain navigation candidates only under `DEP-OLD-CANDIDATES`. Source-only declaration: no implementation, wiki or wiki-audit evidence opened.
+`F-SLEEP-SAFETY-TRANSITION`: source-confirmed change to the server-side bed safety predicate permits sleep, and therefore sleep dimensions/position/velocity writes, when the only nearby monster is a non-angry zombie pigman; see S2.2a. Prior pair claims remain navigation candidates only under `DEP-OLD-CANDIDATES`. Source-only declaration: no implementation, wiki or wiki-audit evidence opened.
 
 ## Resume checkpoint
 
-- Last completed slice: S2.1; S1.7 remains in-progress; S1.2a and S1.2b have bounded not-applicable dispositions.
-- Next bounded slice and exact files/members/body ranges to open: finish S1.7 packet-to-entity dispatch and remaining local movement-state writers, then inspect S2.2 pose/dimension/eye-height writers, resize gate and collision-bound dependencies.
+- Last completed slice: S2.2a; S1.7 remains in-progress; S1.2a and S1.2b have bounded not-applicable dispositions.
+- Next bounded slice and exact files/members/body ranges to open: finish S1.7 packet-to-entity dispatch and remaining local movement-state writers, then continue S2.2 pose/dimension/eye-height writers, resize gate and collision-bound dependencies.
 - Outstanding dependencies and owners: listed above; discovery author owns source inventory; shared source owner owns generation; reviewer assignment pending coordinator.
 - Current assumptions requiring verification: all prior findings and no-difference claims remain unaccepted; every cited body still requires direct review despite ready tree hashes.
 
@@ -631,7 +643,7 @@ No findings in the fresh campaign yet. Prior pair claims remain navigation candi
 
 ## Source audit closure
 
-- Coverage counts by status: 34 pending; 1 in-progress; 7 compared-no-difference; 2 not-applicable; 0 findings; 0 blocked.
+- Coverage counts by status: 34 pending; 1 in-progress; 7 compared-no-difference; 2 not-applicable; 1 findings; 0 blocked.
 - Required inventory status/evidence: INV-EXCLUSIONS complete; all other inventories pending with mapped slice IDs.
 - Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS, DEP-RELATIVE-MOVE
 - Unresolved gaps: all stages beyond bounded keyboard input and UI/tutor dispositions; exact methods, state producers/consumers, shapes/registries/resources, external writers and historical candidates remain open.
