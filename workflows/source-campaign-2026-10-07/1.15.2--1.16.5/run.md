@@ -7,7 +7,7 @@
 - Source preparation owner / command / log / readiness marker: shared source owner; both ready markers and provenance sidecars under ../../../build/movement-campaign-2026-10-07/ready. Exact command: .\gradlew.bat decompileMinecraft --versions=1.15.2,1.16.5,1.17.1,1.18.2 --mappings=mojmap --decompiler-heap=4G --output-root=D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\staging\mojmap-1.15-to-1.18-f41b958fe6b84e6eb832e0c465a0e56d --cache-directory=D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\artifacts. Provenance SHA-256 A d4802d35ee2927a44d753871f184c3255c060eb94457a5c65a8bc121a087954e; B b71df61eb775134119881915198f87c4337bae409e1f0de8d8d6c007e062902d. Success sidecars are summary excerpts only (A b8b60b3ce9a7f746be9e2023bbd9afb7c85dc58cb8582b9ac5962fc2c8a6348d; B 0974f4cdada4d0549cb730901064681d11a0f2cfbf1fc61783993b9dc4488b07); complete raw Gradle streams were not retained.
 - Toolchain/decompiler/remapper versions and options: Java 25.0.3+9-LTS; Gradle 9.7.1; Vineflower 1.12.0; ASM 9.10.1; mapping-io 0.9.1; Gson 2.14.0; TinyRemapper 0.14.1; 4G heap, C:\Users\Wolfi\.gradle. Mojmap mapping inputs are the exact 1.15.2/client_mappings.txt and 1.16.5/client_mappings.txt entries; provenance records mappingArtifacts=null, so no mapping build coordinate is asserted.
 - Discovery author(s): source-only pair researcher.
-- Independent reviewer (must differ from discovery authors): pending coordinator assignment; separate review required for each finding snapshot and later for full-pair audit.
+- Independent full-pair source reviewer: pending coordinator assignment; finding-level review decisions are recorded individually below.
 
 ## Artifact manifest
 
@@ -277,7 +277,7 @@ The historical pair report is not imported as source confirmation.
 
 ## Finding snapshots (not pair freeze)
 
-Each finding is committed as an immutable source snapshot. All are submitted and await an independent blind source reviewer; none is accepted yet. Implementation/source reconciliation remains deferred until the full-pair source freeze.
+Each finding is committed as an immutable source snapshot. F-S1-OPEN-SHULKER-ESCAPE has separate blind-source acceptance and finding-only handoff eligibility recorded below; the other eight snapshots remain submitted and await independent review. Pair-wide implementation/source reconciliation remains deferred until the full-pair source freeze.
 
 ### Snapshot event F-S1-SPRINT-RESET
 - Finding ID(s): F-S1-SPRINT-RESET
@@ -418,19 +418,22 @@ Each finding is committed as an immutable source snapshot. All are submitted and
 ### Snapshot event F-S1-OPEN-SHULKER-ESCAPE
 - Finding ID(s): F-S1-OPEN-SHULKER-ESCAPE
 - Source finding author(s): source-only pair researcher
-- Status: submitted
+- Status: accepted (incremental finding-only eligibility)
 - Immutable snapshot commit: d859478b9f6de63ba4a121a1f31d6dc90ad4f51e
 - Finding file path and SHA-256: findings/F-S1-OPEN-SHULKER-ESCAPE.md — 11860ba106197cae687735e641db4c9ef7057ddadcddeafe5c16f012e8e657e4
 - Exact A/B artifact-manifest identities/hashes: ready/1.15.2/artifacts.sha256 208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406; ready/1.16.5/artifacts.sha256 f9b9812d6995012cefcc1201a63855e5931e8551b508753be6c46d442d8b370c
 - Cited source hashes: A LocalPlayer 3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd, Player 1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793 and ShulkerBoxBlock de5e19cffb75499b509bc361fcfb3dbe0b0fa7ab490ac42adedf89466721b02d; B LocalPlayer 6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b, Blocks 3b39d5cc4cd22f146ed3195aa30cbb9fdfca49f63783fabf9924a6ce7795fa12, ShulkerBoxBlockEntity 4aab41f71aacf9e1138a225e1253e202a303276ff21c7b4974b11a76d694c322, CollisionGetter b507d6be11e5985a62cfeb249a99dcb5f8edaf346f12cb2487797d9e01763eac and CollisionSpliterator 19ab959c469b8edb5c371ff737a59a61b8a80bf397eff1db280064342094d297
 - Verified implementation boundary/evidence, or unresolved boundary reason: not inspected; source-only owner remains blind until full-pair freeze.
-- Finding-specific closed dependency IDs/evidence: S1-ESCAPE-QUERY; paired escape call sites, A/B suffocation semantics, open shulker predicate/shape query, and common piston special cases checked.
-- Independent blind source reviewer and decision date: pending coordinator assignment
-- Review basis / requested source-only revisions: pending
-- Pair run status and commit at handoff: partial at d859478b9f6de63ba4a121a1f31d6dc90ad4f51e
+- Finding-specific closed dependency IDs/evidence: S1-ESCAPE-QUERY; paired escape call sites, A/B suffocation semantics, open shulker predicate/shape query, common piston cases, and the B open-state producer-to-client-consumer route are source-verified.
+- Independent blind source reviewer and decision date: reviewer for feat/coverage-review-middle; 2026-10-07; decision record at workflows/coverage-review-2026-10-07/middle.md, commit 0b494993e7b9b40b5526c80e36c99407e7e405f3, file SHA-256 5437414a3b24a5722aba2207d245977a55aadc02e419da36793063e39801cd18
+- Reviewer-closed open-state producer route: B ShulkerBoxBlock#newBlockEntity/use -> ShulkerBoxBlockEntity#createMenu -> ShulkerBoxMenu#startOpen -> ShulkerBoxBlockEntity#startOpen writes OPENING via block event -> ServerLevel/ClientPacketListener/Level/BaseEntityBlock dispatches the update to the client. Manifest-matched B source hashes: ShulkerBoxBlock a88a18bc4c4299876053f9ec38987861fa81acf3a38289a49cc3dbee04b940d8; ShulkerBoxMenu d8061c03c502c413812f3fa22db4eebafd4f548271768e254c771a52f62658a6; ShulkerBoxBlockEntity 4aab41f71aacf9e1138a225e1253e202a303276ff21c7b4974b11a76d694c322; ServerPlayer 9fad233370c04ab17f973bc12476466d824e3c1ba59a400542b073380bf550c2; ServerLevel c3d3ccc873efb17048613f1b465401b139f05955cc2b1e1d1bdd99d0744d629f; ClientPacketListener a1c3ea65f40a527d92b1e4d637cad4a8293fdddd1a9d530d778bf39cc2d8670e; Level e9a23488863fd43a7d8975efc23f4c7cf4af874554bab5b76eaa2c79f028db80; BaseEntityBlock 211813ad33e63b550e77af30ed25cf68375521cdd8b550b5fd91035d93f9883f.
+- Accepted claim limit: only the sampled-column/clear-neighbor escape-branch comparison; no final displacement or trajectory is claimed. First changed release remains unknown in (1.15.2, 1.16.5]; runtime validation was not performed.
+- Review basis / requested source-only revisions: independent rewalk of the immutable finding, all eight cited source hashes, and the reachable open-state writer/update route; accepted with no source-only revisions requested. Review inspected no implementation or wiki-audit material.
+- Pair status at snapshot submission: partial at d859478b9f6de63ba4a121a1f31d6dc90ad4f51e; pair status remains partial with full-pair coverage open.
 - Pair complete: no
-- Implementation handoff: blocked; independent snapshot acceptance pending.
+- Implementation handoff: eligible for a separate finding-only handoff limited to the accepted source-level branch claim; no handoff was sent by the reviewer.
 - Replaces/supersedes snapshot ID and reason, if applicable: none
+
 ## Implementation reconciliation
 
 - Reconciliation status: pending
