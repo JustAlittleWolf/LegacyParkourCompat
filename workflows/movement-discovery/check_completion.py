@@ -33,6 +33,7 @@ REQUIRED_SECTIONS = {
     "Independent source audit",
     "Source audit closure",
 }
+SHA256 = re.compile(r"^[0-9a-fA-F]{64}$")
 
 
 def value(block: str, label: str) -> str | None:
@@ -57,6 +58,91 @@ def source_evidence(item: str | None) -> bool:
     return bool(re.search(r"\blines\s+\d+\s*[-–]\s*\d+\b", item, re.I) or re.search(r"checked absence", item, re.I))
 
 
+def heading_blocks(section: str, heading: str) -> list[tuple[str, str]]:
+    matches = list(re.finditer(rf"^### {re.escape(heading)} (.+?)\s*$", section, re.M))
+    blocks: list[tuple[str, str]] = []
+    for index, match in enumerate(matches):
+        end = matches[index + 1].start() if index + 1 < len(matches) else len(section)
+        blocks.append((match.group(1).strip(), section[match.start() : end]))
+    return blocks
+
+
+def section_content(content: str, heading: str) -> str | None:
+    match = re.search(rf"^## {re.escape(heading)}\s*$([\s\S]*?)(?=^## |\Z)", content, re.M)
+    return match.group(1) if match else None
+
+
+def check_evidence_identity(block: str, label: str, errors: list[str], *, require_complete: bool) -> None:
+    publication = value(block, "Publication status")
+    if publication not in {"original-verified", "revised-derived", "pending"}:
+        errors.append(f"{label}: missing or invalid publication status")
+        return
+    if publication == "pending":
+        if require_complete:
+            errors.append(f"{label}: pending publication identity prevents completion")
+        return
+
+    required = [
+        "Immutable evidence path",
+        "Evidence artifact SHA-256",
+        "Evidence manifest path",
+        "Evidence manifest SHA-256",
+        "Original artifact-manifest path",
+        "Original artifact-manifest SHA-256",
+    ]
+    if publication == "revised-derived":
+        required.extend([
+            "Revision ID",
+            "Original derived-artifact availability",
+            "Original derived-artifact SHA-256 or expected hash",
+            "Source/raw-input hash relation",
+            "Revised-to-original derived-artifact equivalence",
+            "Provenance limitations",
+        ])
+        if value(block, "Revision ID") == "none":
+            errors.append(f"{label}: revised-derived evidence requires a revision ID")
+    for field in required:
+        item = value(block, field)
+        if not concrete(item):
+            errors.append(f"{label}: missing concrete `{field}`")
+        if field.endswith("SHA-256") and concrete(item) and not SHA256.fullmatch(item.strip()):
+            errors.append(f"{label}: `{field}` must contain 64 hexadecimal characters")
+    if publication == "original-verified" and value(block, "Revision ID") not in {None, "none"}:
+        errors.append(f"{label}: original-verified evidence must use revision ID `none`")
+
+
+def check_snapshot_identity(block: str, label: str, errors: list[str]) -> None:
+    publication = value(block, "Publication status")
+    if publication not in {"original-verified", "revised-derived", "pending"}:
+        errors.append(f"{label}: missing or invalid publication status")
+        return
+    if publication == "pending":
+        return
+    fields = [
+        "Evidence artifact record IDs",
+        "Immutable evidence path(s)",
+        "Evidence artifact SHA-256(s)",
+        "Evidence manifest path(s)",
+        "Evidence manifest SHA-256(s)",
+        "Original artifact-manifest path(s)",
+        "Original artifact-manifest SHA-256(s)",
+        "Original derived-artifact availability/hash",
+        "Source/raw-input hash relation",
+        "Revised-to-original equivalence",
+        "Provenance limitations",
+    ]
+    if publication == "revised-derived":
+        fields.append("Revision ID(s)")
+    for field in fields:
+        item = value(block, field)
+        if not concrete(item):
+            errors.append(f"{label}: missing concrete `{field}`")
+    for field in ("Evidence artifact SHA-256(s)", "Evidence manifest SHA-256(s)", "Original artifact-manifest SHA-256(s)"):
+        item = value(block, field)
+        if concrete(item) and not re.search(r"(?<![0-9a-fA-F])[0-9a-fA-F]{64}(?![0-9a-fA-F])", item):
+            errors.append(f"{label}: `{field}` must include a 64-character hexadecimal SHA-256")
+
+
 def check(path: Path) -> list[str]:
     manifest = path / "run.md" if path.is_dir() else path
     errors: list[str] = []
@@ -79,6 +165,34 @@ def check(path: Path) -> list[str]:
     sections = set(re.findall(r"^## (.+?)\s*$", content, re.M))
     for missing_section in sorted(REQUIRED_SECTIONS - sections):
         errors.append(f"missing required section: {missing_section}")
+
+    artifact_section = section_content(content, "Artifact evidence identities")
+    artifact_records = heading_blocks(artifact_section or "", "Evidence artifact")
+    if top_status == "complete" and not artifact_records:
+        errors.append("Artifact evidence identities: complete report has no evidence artifact records")
+    for artifact_id, block in artifact_records:
+        check_evidence_identity(
+            block,
+            f"evidence artifact {artifact_id}",
+            errors,
+            require_complete=top_status == "complete",
+        )
+
+    snapshot_section = section_content(content, "Finding snapshots (not pair freeze)")
+    for snapshot_id, block in heading_blocks(snapshot_section or "", "Snapshot event"):
+        publication = value(block, "Publication status")
+        event_status = value(block, "Snapshot status") or value(block, "Status")
+        handoff = value(block, "Implementation handoff")
+        needs_identity = event_status in {"accepted", "source-confirmed"} or handoff == "ready"
+        if publication == "revised-derived":
+            check_snapshot_identity(block, f"snapshot {snapshot_id}", errors)
+        elif needs_identity:
+            if publication not in {"original-verified", "revised-derived"}:
+                errors.append(f"snapshot {snapshot_id}: accepted/ready handoff requires a declared publication status")
+            else:
+                check_snapshot_identity(block, f"snapshot {snapshot_id}", errors)
+        if handoff == "ready" and not concrete(value(block, "Verified implementation boundary/evidence, or unresolved boundary reason")):
+            errors.append(f"snapshot {snapshot_id}: ready handoff lacks a concrete verified boundary")
 
     inventory_rows = re.findall(r"^- `(INV-[A-Z-]+)` (.+)$", content, re.M)
     inventories = {inventory_id: row for inventory_id, row in inventory_rows}
