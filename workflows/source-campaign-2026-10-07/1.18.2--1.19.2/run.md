@@ -347,14 +347,14 @@ Artifact paths below are relative to repository root; generated artifacts remain
 ### Slice E01: correction packets and externally supplied position/velocity
 
 - Inventory ID(s): INV-EXTERNAL
-- Exact behavior boundary and enclosing guards/order checked: pending; client packet consumers that write local player position/velocity or movement flags.
-- A evidence: not yet compared; readiness is recorded in D-SOURCES.
-- B evidence: not yet compared; readiness is recorded in D-SOURCES.
+- Exact behavior boundary and enclosing guards/order checked: compared client handling of authoritative player position/rotation correction packets and entity-motion packets, plus `Entity.lerpMotion()` as the velocity writer. Relative position axes preserve existing velocity components; absolute axes zero the corresponding component; both endpoints write corrected position/rotation and acknowledge the teleport in the same order. Entity-motion packet scaling and the final delta-movement write also match. Other correction packets, player flags, and packet producer/server provenance remain open.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java`, `handleSetEntityMotion()`, lines 441-448, and `handleMovePlayer()`, lines 541-607; SHA-256 `E718016022C2AE86A2C354AF2D34FE4DE7D6E36DC8792D2E2C1F08ABB6B77B7B`. `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/Entity.java`, `lerpMotion(double,double,double)`, lines 1885-1888; SHA-256 `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java`, `handleSetEntityMotion()`, lines 457-464, and `handleMovePlayer()`, lines 563-629; SHA-256 `98453FAC8B16623D7B7F94F19199FA70C3B1D4885C464A2AB521A978A58ECBD3`. `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/Entity.java`, `lerpMotion(double,double,double)`, lines 1910-1913; SHA-256 `759DE9CDED43BD882AFCF5B7023BCF804D92419ACB656B493F3B490C83EB18B6`.
 - State producers/writers -> consumers/readers: server/network input -> local player state writers -> subsequent tick/travel consumers.
 - Parent slices / dependencies / closure evidence: D-SOURCES; P02; T02/T07.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison pending; externally supplied values will be identified as such.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no source delta in the compared client correction formulas. `handleMovePlayer()` removes the player from a vehicle when requested, constructs per-axis absolute/relative coordinates from the packet and current state, preserves velocity only for relative axes, writes position/rotation, then acknowledges the teleport and reports the corrected pose. `handleSetEntityMotion()` applies the same `/8000.0` component scaling and invokes the same `lerpMotion()` setter when the entity id resolves. These are externally supplied values and are not local movement production. Packet coverage, player-only state flags and server provenance remain open.
+- Finding IDs or checked absence/replacement path: checked absence of a delta in `ClientPacketListener.handleMovePlayer()`, `handleSetEntityMotion()` and `Entity.lerpMotion()` at the selected endpoints; other correction writers remain open.
 
 ### Slice E02: player-facing pushes, pistons and launch movement
 
@@ -437,10 +437,10 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Source audit closure
 
-- Coverage counts by status: pending 16; in-progress 9; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
+- Coverage counts by status: pending 15; in-progress 10; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
 - Required inventory status and evidence: INV-TICK pending; INV-STATE pending; INV-COLLISION pending; INV-WORLD-MOVEMENT pending; INV-MODIFIERS pending; INV-EXTERNAL pending; INV-EXCLUSIONS pending. No inventory is closed.
 - Open dependencies: D-RESOURCES (discovery worker), independent reviewer assignment (coordinator, after source-only freeze).
-- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Sixteen coverage entries are pending, nine are in progress, and two carry findings.
+- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Fifteen coverage entries are pending, ten are in progress, and two carry findings.
 - Evidence/hash/correspondence audit: F-001 through F-004 include paired endpoint source/artifact hashes and bounded source ranges; call paths and writer-to-consumer links are recorded for these deltas, while the remaining inventories and correspondence are still open.
 - Blind freeze: not frozen; implementation remains uninspected. Freeze after remaining source inventories close or are explicitly scoped for handoff.
 - Implementation reconciliation: pending and deferred outside this source-only assignment.
