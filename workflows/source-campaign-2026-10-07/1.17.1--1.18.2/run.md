@@ -38,7 +38,7 @@ A/B roles: LocalPlayer#aiStep client tick; KeyboardInput#tick input; LivingEntit
 - `INV-COLLISION` collision query/shapes/callbacks: status=pending; slice_ids=T-AUTOJUMP-ORDER,T-AUTOJUMP-BORDER,T-ENTITY-COLLISION,T-PLAYER-CORRECTION,T-PLAYER-IMPULSE,T-BOAT-PASSENGER,T-POSITION-THRESHOLD; evidence=LocalPlayer, CollisionGetter, CollisionSpliterator and BlockCollisions ranges; providers open.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties/resources: status=pending; slice_ids=T-WORLD-PROPERTIES,T-FALL-RESET; evidence=Blocks seed registrations and tag entry; exhaustive resource/property inventory open.
 - `INV-MODIFIERS` attributes/effects/enchantments/equipment: status=pending; slice_ids=T-ELYTRA,T-MODIFIERS; evidence=LivingEntity travel and Jump Boost consumer; data/application paths open.
-- `INV-EXTERNAL` player-only external inputs and direct velocity/impulse/knockback application: status=pending; slice_ids=T-EXTERNAL,T-PLAYER-CORRECTION,T-PLAYER-IMPULSE,T-BOAT-PASSENGER,T-POSITION-THRESHOLD; evidence=ClientPacketListener correction, motion/explosion and passenger handlers are now bounded below; all other external writers remain open.
+- `INV-EXTERNAL` player-only external inputs and direct velocity/impulse/knockback application: status=pending; slice_ids=T-PLAYER-CORRECTION,T-PLAYER-IMPULSE,T-BOAT-PASSENGER,T-POSITION-THRESHOLD; evidence=ClientPacketListener correction, motion/explosion and passenger handlers are now bounded below; all other external writers remain open.
 - `INV-EXCLUSIONS` health/food state production, attack/damage resolution, non-player motion and vehicle physics: status=pending; evidence=scope exclusions above; direct player-motion response remains in scope; complete boundary audit open.
 
 ## Coverage ledger
@@ -115,8 +115,8 @@ A/B roles: LocalPlayer#aiStep client tick; KeyboardInput#tick input; LivingEntit
 - A evidence: build/movement-campaign-2026-10-07/ready/1.17.1/mojmap/net/minecraft/world/entity/player/Player.java::maybeBackOffFromEdge, lines 1017-1044 and #isAboveGround, lines 1069-1072, SHA-256 724bb298499dabe489dffd5ce7ec81c9773619a8d2c70044911eae4c9e8ff481.
 - B evidence: build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/player/Player.java::maybeBackOffFromEdge, lines 1032-1060 and #isAboveGround, lines 1082-1085, SHA-256 bf639c1962ff90d69e4569b2b18f6fcf57ac46ef80b19686f0fbc1687fca744a.
 - State producers/writers -> consumers/readers: onGround/fallDistance/maxUpStep/noCollision -> edge gate.
-- Parent slices / dependencies / closure evidence: clip/collision closure open.
-- Status: compared-no-difference
+- Parent slices / dependencies / closure evidence: D-RESET-CLIP-FILTER is resolved; collision/shape closure remains open and can affect when the predicate sees support.
+- Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): paired predicate and shifted-box test match; F-005 changes a producer.
 - Finding IDs or checked absence/replacement path: F-005.
 
@@ -198,7 +198,7 @@ A/B roles: LocalPlayer#aiStep client tick; KeyboardInput#tick input; LivingEntit
 - State producers/writers -> consumers/readers: local position delta -> position packet send and xLast/yLast/zLast reset -> ServerGamePacketListenerImpl#handleMovePlayer processes each received player move using Player#move; server handler hashes are recorded in artifact manifest addendum.
 - Parent slices / dependencies / closure evidence: D-PACKET-RECONCILIATION open; packet reaches server player movement, but corrective response and net movement outcome are not closed.
 - Status: findings
-- Disposition and rationale (including concrete reachability/preconditions): when controlled-camera, not passenger, and positionReminder < 20, A sends a position packet only when squared displacement > 9.0E-4; B uses Mth.square(2.0E-4), which is 4.0E-8. Thus a displacement squared strictly between 4.0E-8 and 9.0E-4 triggers B's position packet but not A's. The position reminder fallback is unchanged.
+- Disposition and rationale (including concrete reachability/preconditions): Preconditions: the local player is not a passenger, controlled-camera is true, and positionReminder less than 20, so the reminder fallback does not send. In that reachable branch A sends only when squared displacement is greater than 9.0E-4, while B sends when squared displacement is greater than Mth.square(2.0E-4) = 4.0E-8. Any squared displacement strictly between 4.0E-8 and 9.0E-4 therefore sends a position packet in B and none in A; after either send, both versions update the position baseline.
 - Finding IDs or checked absence/replacement path: F-007.
 ## Dependency queue and blockers
 
@@ -206,19 +206,19 @@ Resolved: D-ENTITY-COLLISIONS (paired LocalPlayer entity query and EntityGetter/
 
 ## Finding index
 
-- F-001 minor collision sprint-stop — source-confirmed.
-- F-002 Elytra cosine precision — source-confirmed.
-- F-003 auto-jump candidate order — candidate; filters/geometry open.
-- F-004 auto-jump border candidate omitted — source-confirmed query delta.
-- F-005 long movement fallDistance reset before later edge check — source-confirmed writer/consumer and clip filter closed.
-- F-006 boat passenger-list refresh yaw behavior — source-confirmed player yaw write change under repeated passenger update.
-- F-007 client movement packet displacement threshold — source-confirmed packet condition; movement reconciliation consequence remains open.
+- [F-001 minor collision sprint-stop](findings/F-001-minor-horizontal-collision-sprint.md) — source-confirmed.
+- [F-002 Elytra cosine precision](findings/F-002-elytra-cosine-precision.md) — source-confirmed.
+- [F-003 auto-jump candidate order](findings/F-003-autojump-candidate-order.md) — candidate; filters/geometry open.
+- [F-004 auto-jump border candidate omitted](findings/F-004-autojump-border-shape.md) — source-confirmed query delta.
+- [F-005 long movement fallDistance reset before later edge check](findings/F-005-fall-distance-reset-edge-gate.md) — source-confirmed writer/consumer and clip filter closed.
+- [F-006 boat passenger-list refresh yaw behavior](findings/F-006-boat-passenger-yaw-refresh.md) — source-confirmed player yaw write change under repeated passenger update.
+- [F-007 client movement packet displacement threshold](findings/F-007-position-packet-threshold.md) — source-confirmed packet condition; movement reconciliation consequence remains open.
 - Discarded: KeyboardInput literal precision alone (normal inputs -1,0,1; assignments open); camera bob literal change (visual-only in inspected path). Prior report was navigation; F-001/F-002 rechecked.
 
 ## Resume checkpoint
 
-- Last completed: T-SPRINT,T-ELYTRA,T-AUTOJUMP-ORDER,T-AUTOJUMP-BORDER,T-FALL-RESET,T-EDGE-GATE.
-- Next: Entity#collide, B CollisionGetter#borderCollision, BlockCollisions, Shapes#collide; KeyboardInput/ClientPacketListener assignment; ClipContext/reset/tag.
+- Last completed: T-SPRINT,T-ELYTRA,T-AUTOJUMP-ORDER,T-AUTOJUMP-BORDER,T-FALL-RESET.
+- Next: close T-EDGE-GATE after collision support semantics; continue Entity#collide, B CollisionGetter#borderCollision, BlockCollisions, Shapes#collide; KeyboardInput/ClientPacketListener assignment; ClipContext/reset/tag.
 - Outstanding: D-* above.
 - Assumptions: entity filter equivalence, probe overlap, B border path, qualifying clip.
 
@@ -243,7 +243,7 @@ No finding snapshot has been submitted or accepted. Findings remain source-disco
 
 ## Source audit closure
 
-- Coverage counts: pending=1; in-progress=5; compared-no-difference=2; findings=7; not-applicable=0; blocked=0.
+- Coverage counts: pending=2; in-progress=4; compared-no-difference=2; findings=7; not-applicable=0; blocked=0.
 - Required inventories: all seven pending.
 - Open dependencies: above.
 - Unresolved gaps: partial; resources, shape providers, external inputs and full call graph open.
