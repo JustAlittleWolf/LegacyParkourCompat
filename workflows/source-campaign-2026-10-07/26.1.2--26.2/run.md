@@ -49,17 +49,17 @@ Initial B-only call-order anchors inspected (all SHA-256 values in B manifest ab
 
 Each inventory maps to bounded slices below; all are pending. Add all newly discovered writers, consumers, overrides, registrations and resources before disposition.
 
-- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S-TICK-ENTRY,S-IN-01,S-LOCAL-01,S-LOCAL-02,S-LIVING-01,S-LIVING-02,S-LIVING-03,S-TRAVEL-DISPATCH,S-TRAVEL-FLYING,S-TRAVEL-AIR,S-TRAVEL-RELATIVE,S-TRAVEL-FRICTION-SPEED,S-TRAVEL-FLUID-DISPATCH,S-TRAVEL-WATER,S-TRAVEL-LAVA,S-TRAVEL-FLUID-EXIT,S-TRAVEL-FLUID-ADJUST,S-TRAVEL-GLIDE-DISPATCH,S-TRAVEL-GLIDE-FORMULA,S-TRAVEL-CLIMB,S-PLAYER-01,S-POSE-UPDATE; evidence=B-only anchors in correspondence; A source pending.
-- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S-TICK-ENTRY,S-LOCAL-01,S-LOCAL-02,S-LIVING-01,S-POSE-UPDATE,S-DIMENSIONS; evidence=B source methods listed in coverage; constructor/default/reset/writer inventory still open.
+- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S-TICK-ENTRY,S-IN-01,S-LOCAL-01,S-LOCAL-02,S-VELOCITY-HORIZONTAL,S-VELOCITY-VERTICAL,S-JUMP-GATE,S-JUMP-IMPULSE,S-JUMP-LIQUID,S-LIVING-03,S-TRAVEL-DISPATCH,S-TRAVEL-FLYING,S-TRAVEL-AIR,S-TRAVEL-RELATIVE,S-TRAVEL-FRICTION-SPEED,S-TRAVEL-FLUID-DISPATCH,S-TRAVEL-WATER,S-TRAVEL-LAVA,S-TRAVEL-FLUID-EXIT,S-TRAVEL-FLUID-ADJUST,S-TRAVEL-GLIDE-DISPATCH,S-TRAVEL-GLIDE-FORMULA,S-TRAVEL-CLIMB,S-PLAYER-01,S-POSE-UPDATE; evidence=B-only anchors in correspondence; A source pending.
+- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S-TICK-ENTRY,S-LOCAL-01,S-LOCAL-02,S-VELOCITY-HORIZONTAL,S-VELOCITY-VERTICAL,S-POSE-UPDATE,S-DIMENSIONS; evidence=B source methods listed in coverage; constructor/default/reset/writer inventory still open.
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S-MOVE-POS,S-MOVE-FLAGS,S-MOVE-RESTITUTE,S-MOVE-BLOCK-SPEED,S-EDGE-PROBE,S-COLLISION-STEP,S-COLLISION-QUERY,S-COLLISION-AXIS,S-WORLD-01; evidence=B Entity.move range below; provider/registry/neighbor inventory still open.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S-WORLD-01; evidence=B block/fluid providers and original client-jar resource inventory not yet cited.
-- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S-LIVING-02,S-TRAVEL-DISPATCH,S-TRAVEL-FLYING,S-TRAVEL-AIR,S-TRAVEL-RELATIVE,S-TRAVEL-FRICTION-SPEED,S-TRAVEL-FLUID-DISPATCH,S-TRAVEL-WATER,S-TRAVEL-LAVA,S-TRAVEL-FLUID-EXIT,S-TRAVEL-FLUID-ADJUST,S-TRAVEL-GLIDE-DISPATCH,S-TRAVEL-GLIDE-FORMULA,S-TRAVEL-CLIMB,S-MOD-01; evidence=B consumers and producer/registration/resource inventory still open.
+- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S-JUMP-GATE,S-JUMP-IMPULSE,S-JUMP-LIQUID,S-TRAVEL-DISPATCH,S-TRAVEL-FLYING,S-TRAVEL-AIR,S-TRAVEL-RELATIVE,S-TRAVEL-FRICTION-SPEED,S-TRAVEL-FLUID-DISPATCH,S-TRAVEL-WATER,S-TRAVEL-LAVA,S-TRAVEL-FLUID-EXIT,S-TRAVEL-FLUID-ADJUST,S-TRAVEL-GLIDE-DISPATCH,S-TRAVEL-GLIDE-FORMULA,S-TRAVEL-CLIMB,S-MOD-01; evidence=B consumers and producer/registration/resource inventory still open.
 - `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, such as corrections, pushes, pistons and mounts: status=pending; slice_ids=S-EXT-01; evidence=B client consumer/packet mapping not yet cited.
 - `INV-EXCLUSIONS` explicit scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; evidence=explicit campaign scope above; validate direct vanilla-state reads in movement predicates during pair audit, and exclude the systems that produce those values.
 
 ## Coverage ledger
 
-These are 34 initial bounded work units, not an exhaustive inventory. All remain pending because A source is not yet in the campaign ready tree. B-only anchors are navigation evidence; do not infer equivalence or absence. Expand the ledger during the pair-specific inventory.
+These are 37 initial bounded work units, not an exhaustive inventory. All remain pending because A source is not yet in the campaign ready tree. B-only anchors are navigation evidence; do not infer equivalence or absence. Expand the ledger during the pair-specific inventory.
 
 ### Slice S-IN-01: Keyboard input sampling and movement-vector construction
 
@@ -97,30 +97,64 @@ These are 34 initial bounded work units, not an exhaustive inventory. All remain
 - Disposition and rationale (including concrete reachability/preconditions): B body read only; pair comparison pending.
 - Finding IDs or checked absence/replacement path: none yet.
 
-### Slice S-LIVING-01: Player horizontal/vertical velocity dead-zone before input and jump processing
+### Slice S-VELOCITY-HORIZONTAL: Player-specific pre-input horizontal dead-zone
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.aiStep` movement snapshot and player-specific horizontal cutoff plus vertical cutoff, lines 3060-3083; do not merge the distinct non-player per-axis branch into the player slice.
-- A evidence: pending exact source and inherited method correspondence.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::net.minecraft.world.entity.LivingEntity#aiStep(), lines 3060-3083`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: incoming/existing delta movement -> player-specific threshold -> rewritten delta -> input, jump and travel consumers.
-- Parent slices / dependencies / closure evidence: D-A-READY; velocity writers and other readers to inventory.
+- Exact behavior boundary and enclosing guards/order checked: B snapshots delta movement, enters the `EntityTypes.PLAYER` branch, compares `horizontalDistanceSqr()` against `9.0E-6`, and zeroes X/Z together; keep the non-player per-axis branch as scope context, not movement behavior; lines 3060-3077.
+- A evidence: pending exact method and player-type guard correspondence.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3060-3077`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
+- State producers/writers -> consumers/readers: prior tick/network/external X/Z velocity -> horizontal threshold and player guard -> rewritten delta -> input/jump/travel.
+- Parent slices / dependencies / closure evidence: S-TICK-ENTRY,S-EXT-01; all player velocity writers and subsequent consumers pending.
 - Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B branch distinguishes player from non-player code; no difference claimed.
+- Disposition and rationale (including concrete reachability/preconditions): B exact branch read; threshold and operation-order comparison pending.
 - Finding IDs or checked absence/replacement path: none yet.
 
-### Slice S-LIVING-02: Fluid jump gates and ground-jump cooldown
+### Slice S-VELOCITY-VERTICAL: Pre-input vertical velocity dead-zone
+
+- Inventory ID(s): INV-TICK, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: B independently tests `Math.abs(movement.y) < 0.003` and rewrites Y to zero before `setDeltaMovement`; lines 3079-3083.
+- A evidence: pending exact method and writer/caller correspondence.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3079-3083`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
+- State producers/writers -> consumers/readers: prior vertical velocity -> strict threshold -> rewritten velocity -> jump/travel branch.
+- Parent slices / dependencies / closure evidence: S-VELOCITY-HORIZONTAL,S-EXT-01; A/B direct velocity writer/packet inventory pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): B comparison threshold read; no A result.
+- Finding IDs or checked absence/replacement path: none yet.
+### Slice S-JUMP-GATE: Player jump edge, fluid-depth gates and delay
+
+- Inventory ID(s): INV-TICK, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: B jump handling requires `jumping && isAffectedByFluids`; selects fluid height, compares with threshold, checks ground/shallow-fluid state and `noJumpDelay`, dispatches ground or liquid impulse, and clears delay otherwise; lines 3098-3123.
+- A evidence: pending exact caller/method and fluid-state correspondence.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3098-3123`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
+- State producers/writers -> consumers/readers: input jump state, fluid contact/height, on-ground state and delay -> ground/liquid jump helper and cooldown -> travel.
+- Parent slices / dependencies / closure evidence: S-IN-01,S-TRAVEL-FLUID-DISPATCH; fluid tags/height helpers and A jump sequence pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): B gates read; no pairwise conclusion.
+- Finding IDs or checked absence/replacement path: none yet.
+
+### Slice S-JUMP-IMPULSE: Ground jump power and sprint impulse
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.aiStep` jump block lines 3098-3123 and direct `jumpFromGround()` helper; split fluid depth and jump-power producer dependencies separately after A inventory.
-- A evidence: pending exact source and inherited method correspondence.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::net.minecraft.world.entity.LivingEntity#aiStep(), lines 3098-3123; jumpFromGround(), lines 2388-2401`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: jump key via input -> `jumping` and no-jump delay/fluid-height guards -> liquid or ground impulse -> travel. Jump Boost consumer is in helper chain; exclude food/damage producers.
-- Parent slices / dependencies / closure evidence: S-IN-01; fluid height/threshold, jump-power and effect chains pending.
+- Exact behavior boundary and enclosing guards/order checked: B jump power positive threshold, max with current Y, sprint-angle horizontal addition and sync flag in `jumpFromGround`; inspect `getJumpPower`/attribute/effect producer chain; lines 2376-2401.
+- A evidence: pending exact methods and jump-power dependency closure.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::getJumpPower(),jumpFromGround(), lines 2376-2401`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
+- State producers/writers -> consumers/readers: jump strength attribute/effect, existing velocity, sprint flag and yaw -> ground impulse -> travel.
+- Parent slices / dependencies / closure evidence: S-JUMP-GATE; jump strength, jump boost and sprint-state provenance pending (do not emulate hunger/food producers).
 - Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B bodies read; pair behavior and data dependencies unresolved.
+- Disposition and rationale (including concrete reachability/preconditions): B body read; exact A math/effect chain pending.
 - Finding IDs or checked absence/replacement path: none yet.
 
+### Slice S-JUMP-LIQUID: Liquid jump and sink impulses
+
+- Inventory ID(s): INV-TICK, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: B `goDownInWater` and `jumpInLiquid` add vertical impulses with float literals; lines 2403-2409. Confirm separate water/lava callers from both tick and local input paths.
+- A evidence: pending exact helpers and caller mapping.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::goDownInWater(),jumpInLiquid(TagKey), lines 2403-2409`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
+- State producers/writers -> consumers/readers: local shift/jump input and liquid branch gates -> Y velocity impulse -> fluid travel.
+- Parent slices / dependencies / closure evidence: S-JUMP-GATE,S-LOCAL-01; exact call timing/order pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): B helpers read; no pairwise result.
+- Finding IDs or checked absence/replacement path: none yet.
 ### Slice S-LIVING-03: Living pre-travel and post-travel dispatch/order
 
 - Inventory ID(s): INV-TICK, INV-STATE
@@ -439,7 +473,7 @@ These are 34 initial bounded work units, not an exhaustive inventory. All remain
 - A evidence: pending exact source and resource inventory.
 - B evidence: B seed consumers include LivingEntity, Player, LocalPlayer, Attributes and effect/enchantment helpers; exact producer/consumer ranges and data entry hashes pending.
 - State producers/writers -> consumers/readers: effect/equipment/server attribute inputs -> movement modifier aggregation -> travel/sprint/jump/flight/contact consumers.
-- Parent slices / dependencies / closure evidence: S-LOCAL-01,S-LIVING-02,S-TRAVEL-DISPATCH,S-TRAVEL-FLYING,S-TRAVEL-AIR,S-TRAVEL-RELATIVE,S-TRAVEL-FRICTION-SPEED,S-TRAVEL-FLUID-DISPATCH,S-TRAVEL-WATER,S-TRAVEL-LAVA,S-TRAVEL-FLUID-EXIT,S-TRAVEL-FLUID-ADJUST,S-TRAVEL-GLIDE-DISPATCH,S-TRAVEL-GLIDE-FORMULA,S-TRAVEL-CLIMB,S-PLAYER-01; resource/tag and server-synchronization provenance pending.
+- Parent slices / dependencies / closure evidence: S-LOCAL-01,S-JUMP-GATE,S-JUMP-IMPULSE,S-JUMP-LIQUID,S-TRAVEL-DISPATCH,S-TRAVEL-FLYING,S-TRAVEL-AIR,S-TRAVEL-RELATIVE,S-TRAVEL-FRICTION-SPEED,S-TRAVEL-FLUID-DISPATCH,S-TRAVEL-WATER,S-TRAVEL-LAVA,S-TRAVEL-FLUID-EXIT,S-TRAVEL-FLUID-ADJUST,S-TRAVEL-GLIDE-DISPATCH,S-TRAVEL-GLIDE-FORMULA,S-TRAVEL-CLIMB,S-PLAYER-01; resource/tag and server-synchronization provenance pending.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): B dependency inventory unbuilt; no difference claim.
 - Finding IDs or checked absence/replacement path: none yet.
@@ -481,7 +515,7 @@ No pairwise findings confirmed. Earlier reports for this interval were consulted
 
 ## Resume checkpoint
 
-- Last completed slice: none; current B readiness/provenance and selected B method bodies verified; 34 bounded preparation slices recorded; required workflow/template hardening cherry-picked.
+- Last completed slice: none; current B readiness/provenance and selected B method bodies verified; 37 bounded preparation slices recorded; required workflow/template hardening cherry-picked.
 - Next bounded slice and exact files/members/body ranges to open: on current A marker publication, validate A exact ID/manifests/hashes/diagnostics; resolve A/B KeyboardInput and local tick callers; begin `S-IN-01`, then the complete pre-travel call path. Before any pair comparison, update exact artifact provenance and rehash all cited sources.
 - Outstanding dependencies and owners: D-A-READY (shared source owner), D-B-PROVENANCE (shared source owner), D-DEPENDENCIES (worker inventory).
 - Current assumptions requiring verification: A marker confirms native unobfuscated official names; each cited body is intact; no movement-relevant resource/data is omitted. No release introduction point can be inferred from these two endpoints alone.
@@ -505,7 +539,7 @@ No pairwise findings confirmed. Earlier reports for this interval were consulted
 
 ## Source audit closure
 
-- Coverage counts by status: 34 pending; 0 in-progress; 0 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked. This count is an initial B-prep queue, not the final exhaustive pair inventory; add every newly discovered slice and dependency.
+- Coverage counts by status: 37 pending; 0 in-progress; 0 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked. This count is an initial B-prep queue, not the final exhaustive pair inventory; add every newly discovered slice and dependency.
 - Required inventory status and evidence: all seven pending; current evidence is B-only and does not disposition any pair slice.
 - Open dependencies: D-A-READY, D-B-PROVENANCE, D-DEPENDENCIES.
 - Unresolved gaps and limits: no pairwise comparison started because the current 26.1.2 ready directory is absent. Full inventory, dependencies, findings, source freeze, independent audit and downstream reconciliation remain open.
@@ -514,6 +548,7 @@ No pairwise findings confirmed. Earlier reports for this interval were consulted
 - Implementation reconciliation: pending.
 - Independent audit: pending.
 - Runtime validation: not performed; runtime is not authorized.
+
 
 
 
