@@ -541,14 +541,14 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S7.1: incoming player velocity and position corrections
 
 - Inventory ID(s): INV-EXTERNAL
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
-- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
-- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
-- State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; exact-source evidence is a prerequisite.
-- Finding IDs or checked absence/replacement path: none established.
+- Exact behavior boundary and enclosing guards/order checked: Incoming server position/rotation correction for the local player; entity motion and teleport packet handlers and their locality guards.
+- A evidence: ready/1.20.2/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java::handleSetEntityMotion(ClientboundSetEntityMotionPacket)V lines 481-487, #handleTeleportEntity(ClientboundTeleportEntityPacket)V lines 499-514 and #handleMovePlayer(ClientboundPlayerPositionPacket)V lines 565-636 SHA-256 0208f6942035adaf2e787546851ca296f0e7ec2179d3610f694911eda5283264; ready/1.20.2/mojmap/net/minecraft/world/entity/Entity.java::lerpMotion(DDD)V SHA-256 d7ee49aaea5e862b92508e767562cabc8f10515605e8fb67565c8d8c5d23b01b.
+- B evidence: ready/1.20.4/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java::handleSetEntityMotion(ClientboundSetEntityMotionPacket)V lines 494-500, #handleTeleportEntity(ClientboundTeleportEntityPacket)V lines 512-527 and #handleMovePlayer(ClientboundPlayerPositionPacket)V lines 597-668 SHA-256 ff9c8222614551075b03454ee78712b0d39f0f51845e74bff76a81486f09b42f; ready/1.20.4/mojmap/net/minecraft/world/entity/Entity.java::lerpMotion(DDD)V SHA-256 07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9.
+- State producers/writers -> consumers/readers: ClientboundPlayerPositionPacket relative-axis flags + player position/current velocity -> local Player.setPos/setDeltaMovement and rotation writers -> teleport acknowledgement/move packet; ClientboundSetEntityMotionPacket scaled velocity -> Entity.lerpMotion; non-local ClientboundTeleportEntityPacket -> Entity.lerpTo under !isControlledByLocalInstance. The three ClientPacketListener method body hashes match A/B: motion `d1a6134d43bb5372b488c6bd3b09c61610c123dba73e5ac0485600242b97c36f`, teleport `71f8d97620952d09e831898abca7f72bffc6ecab0c5014b97045f13f52c0560f`, local correction `91fa144eb3579e5020c25f2cea8cb116d948bc277866653217f3e9d80aa6ae27`; Entity.lerpMotion hash `736512db7b13f21ac10c97470ddeb9bbd6282a95655725073ce8b4811e1f8601` matches.
+- Parent slices / dependencies / closure evidence: S2.1 position/velocity state, S3 movement consumers, S7.2 knockback/push, S7.4 mounted correction behavior; DEP-01 resolved.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Incoming local-player correction preserves relative-axis velocity components and zeros absolute-axis components before setting position/velocity; rotation follows its own relative flags. Entity motion and teleport handler bodies also match. Teleport packets do not directly move an entity controlled by the local instance. Packet writers on the server and other external movement paths remain open.
+- Finding IDs or checked absence/replacement path: none confirmed in the compared correction handlers.
 
 ### Slice S7.2: player knockback, push and explosion movement writers
 
@@ -614,7 +614,7 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ## Resume checkpoint
 
 - Last completed slices: source-pair readiness/hashes validated; initial bounded comparisons of local input and core travel/jump/movement methods completed; the outer client tick and level-load-screen path are source-closed. S2.1 state initialization/reset/writer comparison and S2.2 pose/dimension path are in progress.
-- Next bounded slice and exact files/members/body ranges to open: finish S2.1 by inspecting LivingEntity-specific defaults/initialization and external position/velocity correction writers; finish S2.2 through the exact collision query providers and shape inputs, then continue with S2.3 swimming/crawling and active-use state.
+- Next bounded slice and exact files/members/body ranges to open: finish S2.1 by inspecting LivingEntity-specific defaults/initialization and server position/velocity correction writers (S7.1 is in progress); finish S2.2 through the exact collision query providers and shape inputs, then continue with S2.3 swimming/crawling and active-use state.
 - Outstanding dependencies and owners: DEP-02; source worker. Independent reviewer not assigned yet.
 - Current assumptions requiring verification: cited source hashes remain stable while read-only; tick-rate freezing is a modern-only world-control path and does not freeze the local player; `Player.travel`/ride callback removals remain limited to excluded statistic/food state.
 
@@ -639,7 +639,7 @@ Complete only after blind-discovery freeze; not authorized for this source-only 
 
 ## Source audit closure
 
-- Coverage counts by status: pending 35; in-progress 10; compared-no-difference 0; findings 0; not-applicable 1; blocked 0.
+- Coverage counts by status: pending 34; in-progress 11; compared-no-difference 0; findings 0; not-applicable 1; blocked 0.
 - Required inventory status and evidence: INV-TICK, INV-STATE, INV-COLLISION, INV-WORLD-MOVEMENT, INV-MODIFIERS, INV-EXTERNAL, and INV-EXCLUSIONS all pending; readiness is established but their inventories are not yet closed.
 - Open dependencies: DEP-02 and the open slice dependencies listed above
 - Unresolved gaps and limits: exact source publication is validated; most source inventory remains open and no whole-run equivalence claim has been made.
