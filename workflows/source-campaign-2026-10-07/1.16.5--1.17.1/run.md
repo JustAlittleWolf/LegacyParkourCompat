@@ -237,14 +237,14 @@ Each entry is a bounded behavior slice, not an entire class/stage/travel method.
 ### Slice S3-03: Air acceleration and stored air speed
 
 - Inventory ID(s): INV-TICK; INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
-- A evidence: pending source readiness; no range accepted.
-- B evidence: pending source readiness; no range accepted.
-- State producers/writers -> consumers/readers: pending paired inventory.
-- Parent slices / dependencies / closure evidence: pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
-- Finding IDs or checked absence/replacement path: pending.
+- Exact behavior boundary and enclosing guards/order checked: player `flyingSpeed` reset and sprint increment in `Player.aiStep`, movement-speed attribute copied to `LivingEntity.speed`, and `getFrictionInfluencedSpeed` selection between ground attribute speed and stored air speed. The temporary abilities-flight override is checked in S3-01's identical `Player.travel` wrapper.
+- A evidence: `net/minecraft/world/entity/player/Player.java#aiStep` lines 498-506; `net/minecraft/world/entity/LivingEntity.java#getFrictionInfluencedSpeed/#getSpeed/#setSpeed` lines 2106-2116. Source hashes for Player and LivingEntity are in the foundational source table above.
+- B evidence: `net/minecraft/world/entity/player/Player.java#aiStep` lines 504-512; `net/minecraft/world/entity/LivingEntity.java#getFrictionInfluencedSpeed/#getSpeed/#setSpeed` lines 2200-2210. Source hashes for Player and LivingEntity are in the foundational source table above.
+- State producers/writers -> consumers/readers: after `super.aiStep()`, Player resets `flyingSpeed` to `0.02F`, adds the same float literal `0.005999999865889549` while sprinting, and stores `getAttributeValue(Attributes.MOVEMENT_SPEED)` as `speed`. The ordinary travel helper selects `speed * (0.21600002F / (friction cubed))` on ground and `flyingSpeed` in air. Player's ability-flight travel wrapper temporarily sets `flyingSpeed` to the ability value times the sprint multiplier and restores the saved value, as recorded in S3-01. Attribute/modifier producers and sprint predicates remain S6/S1 dependencies.
+- Parent slices / dependencies / closure evidence: S1-02 establishes Player.aiStep ordering; S1-03 closes sprint state; S3-01 establishes the flight wrapper and dispatch; S3-02 records the consumer helper; S6 closes movement-speed modifiers and defaults. Player's post-super bob calculation changes from `sqrt(getHorizontalDistanceSqr(...))` to a float-cast `horizontalDistance()` expression in B; that is an animation/update path routed to S3-09 and is outside this stored-air-speed comparison.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): For Player, both versions reset, sprint-adjust, and restore the same stored air-speed field in the same order; the ordinary movement helper uses the same ground/air selection and friction-influenced speed formula. No air-acceleration or stored-air-speed delta was established. The movement-speed value's attribute sources and the sprint predicate are still open in their dedicated slices.
+- Finding IDs or checked absence/replacement path: checked absence for the paired air-speed assignment and consumer formula; Player post-super bob formula is routed to S3-09.
 
 ### Slice S3-04: Gravity, drag, and velocity thresholds
 
@@ -524,8 +524,8 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ## Resume checkpoint
 
-- Last completed slice: S3-01 travel dispatch/pre-branch comparison; no dispatch delta found. Source pair verified; S1-01..S1-06 and S2-01..S2-03 remain in-progress pending their listed dependencies.
-- Next bounded slice: continue S3-02 closure for powder-snow support applicability and external friction writers, then S3-03 air acceleration and stored air speed; continue S3-02..S3-08 branch-specific travel closure and retain S1/S2 slices as in-progress until input/pose, tick-membership, ability, speed, fluid/collision, modifier, item, mount, resize and external-writer dependencies close.
+- Last completed slices: S3-01 travel dispatch/pre-branch comparison and S3-03 air-speed comparison; no dispatch or stored-air-speed delta found. Source pair verified; S1-01..S1-06, S2-01..S2-03, and S3-02 remain in-progress pending their listed dependencies.
+- Next bounded slice: continue S3-02 closure for powder-snow support applicability and external friction writers, then S3-04 gravity, drag, and velocity thresholds; S3-09 owns the Player post-super bob formula change. Retain S1/S2 slices as in-progress until input/pose, tick-membership, ability, speed, fluid/collision, modifier, item, mount, resize and external-writer dependencies close.
 - Outstanding dependencies and owners: source-owner publication is complete; source closure remains with this run, including S1-06 entity-tick membership/passenger scheduling and the remaining movement/resource inventories.
 - Assumptions requiring verification: no unresolved source-root or namespace assumptions; verify every newly selected source file against its manifest as slices are opened.
 
@@ -548,10 +548,10 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ## Source audit closure
 
-- Coverage counts by status: 23 pending, 10 in-progress, 1 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
+- Coverage counts by status: 22 pending, 10 in-progress, 2 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
 - Required inventory status and evidence: all seven pending; evidence pending.
 - Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; S1-05 abilities, Elytra/item state and travel/external writers; S1-06 chunk membership, passenger and server packet/correction closure; S2-01 collision-box and synchronized pose/position closure; S2-02 eye-height consumers; S2-03 item-use/shift state writers and travel consumers; S3-02 powder-snow support applicability and discard-friction player reachability; RESOURCE-INVENTORY and movement-diagnostic scope closure.
-- Unresolved gaps and limits: S1-01..S1-06/S2-01..S2-03 and S3-02 dependency closure, and the remaining 33 source slices (23 pending, 10 in-progress) are open.
+- Unresolved gaps and limits: S1-01..S1-06/S2-01..S2-03 and S3-02 dependency closure, and the remaining 32 source slices (22 pending, 10 in-progress) are open.
 - Evidence/hash/correspondence audit: not started.
 - Blind freeze: pending.
 - Implementation reconciliation: pending.
