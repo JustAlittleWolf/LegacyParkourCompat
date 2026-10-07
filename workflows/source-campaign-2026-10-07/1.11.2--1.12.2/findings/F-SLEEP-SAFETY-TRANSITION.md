@@ -4,7 +4,7 @@
 - Newer version B: 1.12.2
 - Mechanic / coverage slice IDs: S2.2a (bed sleep eligibility and movement-state transition); S1.7 (server position/sleep packet handoff)
 - Classification: changed behavior
-- Confidence: source-confirmed
+- Confidence: source-differential observed; artifact provenance revalidation pending
 - Applicability: historical player behavior
 - First changed release: unknown within (1.11.2, 1.12.2]
 - Runtime validation: not performed
@@ -35,4 +35,4 @@ Source proves the different sleep result and the resulting server-side player si
 
 ## Handoff
 
-This is one bed-sleep eligibility change with a player dimension/position/velocity consequence. S2.2a owns this finding. Keep the sleep-packet and correction authority trace linked to S1.7. First-changed release within the interval remains unknown.
+This is one bed-sleep eligibility change with a player dimension/position/velocity consequence. S2.2a owns this finding. Keep the sleep-packet and correction authority trace linked to S1.7. First-changed release within the interval remains unknown. Do not freeze or accept this finding until canonical artifact repair and fresh artifact/readiness verification close `DEP-ARTIFACT-INTEGRITY`; the source-owner notice reports that source-file/raw-input hashes were preserved, but derived mapped JARs were replaced.

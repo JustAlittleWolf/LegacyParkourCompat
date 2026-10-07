@@ -12,7 +12,7 @@
 
 ## Artifact manifest
 
-Shared source root `build/movement-campaign-2026-10-07/ready/` is physically in the primary checkout and read-only to this worker. Both exact readiness records, complete listed-source hashes and complete artifact hashes were verified.
+Shared source root `build/movement-campaign-2026-10-07/ready/` is physically in the primary checkout and read-only to this worker. Initial checks verified both exact readiness records, listed-source hashes and artifact hashes. A later source-owner/ops integrity notice says the reproducibility rerun preserved every source-file and raw-input hash but replaced shared-cache derived mapped JARs; the original artifact-manifest hashes may no longer match that cache. Source trees remain unchanged according to the notice. Artifact integrity is pending canonical repair and fresh verification; do not rewrite markers, waive mismatches, independently decompile, freeze the pair, or accept affected findings before that verification.
 
 ### A — 1.11.2
 
@@ -23,7 +23,7 @@ Shared source root `build/movement-campaign-2026-10-07/ready/` is physically in 
 - Mapping merged jar SHA-256: `d14500101ac23c874b0fe394eae21a382c410ec4f3bbc2e58042e5234a236757`; Tiny mapping SHA-256: `4fa160c09d83bf61ae21bb74ab1e33b6aabe9b8ec89904b266ad53cecc9c36e6`.
 - Remapped client SHA-256: `356d8efb64df6c89ab74e69b34718d5b79cbfbbc28b744913ce943d9679566b3`.
 - Source manifest SHA-256: `d908c2af76598ad26999563bfef0089f1d3c8c32483eee6b108f0defa2773df0`; 1,921/1,921 files present and matching.
-- Artifact manifest SHA-256: `69327982116b0ce1efe32e13031cb83a93dc5f30dcd1b936bf6af003a584ac5f`; 37/37 artifacts present and matching.
+- Artifact manifest SHA-256: `69327982116b0ce1efe32e13031cb83a93dc5f30dcd1b936bf6af003a584ac5f`; 37/37 artifacts present and matching at initial verification; current derived-JAR integrity pending `DEP-ARTIFACT-INTEGRITY`.
 - Movement diagnostics SHA-256: `8bb3b1169a21958a6570fc304a0a95d9c51cc3a2101869bcbd453c3588925cdc`; exact release success and required sources confirmed; jump and relative-movement anchors listed.
 
 ### B — 1.12.2
@@ -35,8 +35,14 @@ Shared source root `build/movement-campaign-2026-10-07/ready/` is physically in 
 - Mapping merged jar SHA-256: `e48244030c53979793bdfbe48d7f1f3536f7e4f678ee5890a416198037cd46ca`; Tiny mapping SHA-256: `a3aa1c8e73e81bd09432ba1f4b2e88aaacbedb2d8fa3cbf797536d2bdf0d4e58`.
 - Remapped client SHA-256: `65a08f15d18c4ec2bd0f05b89dfc1ba7ea6b8280ba93ed136245f39e63ec8a2b`.
 - Source manifest SHA-256: `b8a37ccfccd2aac5f40f5e34fec85873dbdfa93a266043c103e592e4a8c949da`; 2,050/2,050 files present and matching.
-- Artifact manifest SHA-256: `8171a095a5ee74cebbd12b3d76983fc01796c0c23c962076d1e235cd0f80fa8c`; 38/38 artifacts present and matching.
+- Artifact manifest SHA-256: `8171a095a5ee74cebbd12b3d76983fc01796c0c23c962076d1e235cd0f80fa8c`; 38/38 artifacts present and matching at initial verification; current derived-JAR integrity pending `DEP-ARTIFACT-INTEGRITY`.
 - Movement diagnostics SHA-256: `1ae1a796ac7650bf218af02eb602e1b7f46df2950e57b14263c65d3b58dc71b3`; exact release success and required sources confirmed; jump and relative-movement anchors listed.
+
+### Integrity update
+
+- Initial verification found the source and artifact manifest entries present and matching. That result predates the reported shared-cache reproducibility rerun.
+- The rerun notice reports all source-file/raw-input hashes preserved and derived mapped JARs replaced. Treat the source tree evidence as unchanged per that notice; treat mapped-JAR artifact hashes and readiness provenance as pending until the canonical source-owner/ops repair protocol supplies fresh verification.
+- Do not rewrite ready markers, waive a mismatch, or decompile independently. Do not freeze this pair or accept its findings while `DEP-ARTIFACT-INTEGRITY` remains open.
 
 ## Blind-discovery freeze
 
@@ -610,18 +616,19 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 - `DEP-EXTERNAL-WRITERS`: open; enumerate player-only velocity/position packet, push, piston, launch and mount paths; owner discovery author.
 - `DEP-OLD-CANDIDATES`: open re-verification only: prior report glide look-vector/yaw, bed landing rebound, server dismount query geometry; none accepted as current finding.
 - `DEP-DIAGNOSTICS`: readiness diagnostic hashes verified; inspect every cited method body; raw Gradle logs not retained; request exact mapped-bytecode/source assistance through commentary if a body is damaged or ambiguous.
+- `DEP-ARTIFACT-INTEGRITY`: open; source-owner/ops notice says shared-cache derived mapped JARs were replaced during a reproducibility rerun while source-file/raw-input hashes were preserved; await canonical artifact repair and fresh readiness/artifact hash verification before freeze or finding acceptance. Do not rewrite markers, waive mismatches, or decompile independently.
 - `DEP-RELATIVE-MOVE` (origin S1.2, owner discovery author): resolve all player-path writers/defaults of B-only `LivingEntity.verticalSpeed`, compare A 2D versus B 3D `moveRelative`/`Entity.updateVelocity` argument order and float operation order, then classify any zero-valued vertical write. Current source scan finds the declaration and only `MobEntity.setVerticalSpeed` writer; player inheritance path is not a `MobEntity`.
-- Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS, DEP-RELATIVE-MOVE
+- Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS, DEP-RELATIVE-MOVE, DEP-ARTIFACT-INTEGRITY
 
 ## Finding index
 
-`F-SLEEP-SAFETY-TRANSITION`: source-confirmed change to the server-side bed safety predicate permits sleep, and therefore sleep dimensions/position/velocity writes, when the only nearby monster is a non-angry zombie pigman; see S2.2a. Prior pair claims remain navigation candidates only under `DEP-OLD-CANDIDATES`. Source-only declaration: no implementation, wiki or wiki-audit evidence opened.
+`F-SLEEP-SAFETY-TRANSITION`: source-differential finding pending artifact-integrity revalidation. It records the observed server-side bed safety predicate change and resulting sleep dimensions/position/velocity writes when the only nearby monster is a non-angry zombie pigman; see S2.2a and `DEP-ARTIFACT-INTEGRITY`. Do not freeze or accept it until canonical repair and fresh verification. Prior pair claims remain navigation candidates only under `DEP-OLD-CANDIDATES`. Source-only declaration: no implementation, wiki or wiki-audit evidence opened.
 
 ## Resume checkpoint
 
 - Last completed slice: S2.2a; S1.7 remains in-progress; S1.2a and S1.2b have bounded not-applicable dispositions.
 - Next bounded slice and exact files/members/body ranges to open: finish S1.7 packet-to-entity dispatch and remaining local movement-state writers, then continue S2.2 pose/dimension/eye-height writers, resize gate and collision-bound dependencies.
-- Outstanding dependencies and owners: listed above; discovery author owns source inventory; shared source owner owns generation; reviewer assignment pending coordinator.
+- Outstanding dependencies and owners: listed above; discovery author owns source inventory; shared source owner/ops own canonical artifact repair and fresh verification; reviewer assignment pending coordinator.
 - Current assumptions requiring verification: all prior findings and no-difference claims remain unaccepted; every cited body still requires direct review despite ready tree hashes.
 
 ## Implementation reconciliation
@@ -645,9 +652,9 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 
 - Coverage counts by status: 34 pending; 1 in-progress; 7 compared-no-difference; 2 not-applicable; 1 findings; 0 blocked.
 - Required inventory status/evidence: INV-EXCLUSIONS complete; all other inventories pending with mapped slice IDs.
-- Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS, DEP-RELATIVE-MOVE
+- Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS, DEP-RELATIVE-MOVE, DEP-ARTIFACT-INTEGRITY
 - Unresolved gaps: all stages beyond bounded keyboard input and UI/tutor dispositions; exact methods, state producers/consumers, shapes/registries/resources, external writers and historical candidates remain open.
-- Evidence/hash/correspondence audit: pair source/artifact manifests fully verified; S1.1 source hashes recorded; remaining source evidence pending.
+- Evidence/hash/correspondence audit: initial pair source/artifact manifests matched; subsequent integrity notice invalidates current derived-artifact assurance pending canonical repair and fresh verification; source-tree hashes are reported preserved; S1.1 source hashes recorded; remaining source evidence pending.
 - Blind freeze: pending
 - Implementation reconciliation: pending and deferred
 - Independent audit: pending reviewer assignment
