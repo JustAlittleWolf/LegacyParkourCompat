@@ -258,7 +258,7 @@ The entries below are provisional behavior buckets from the required navigation 
 - A evidence: `build/movement-campaign-2026-10-07/ready/1.21.10/mojmap/net/minecraft/world/entity/player/Player.java`, `travel(Vec3)V` lines 1295-1318, SHA-256 `af857617b66a5776e63830771360b96f75e21d47d20db08f164a2dbeee801d82`; `world/entity/LivingEntity.java`, `canStandOnFluid(FluidState)Z` lines 2261-63 and `travel(Vec3)V` lines 2275-84, SHA-256 `b8b49d60769203f7bd5afe4a1bffcdcdbec30be28960324cdc43a2df85a6eb66`.
 - B evidence: `build/movement-campaign-2026-10-07/ready/1.21.11/mojmap/net/minecraft/world/entity/player/Player.java`, `travel(Vec3)V` lines 1360-1383, SHA-256 `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`; `world/entity/LivingEntity.java`, `canStandOnFluid(FluidState)Z` lines 2295-97, `travel(Vec3)V` lines 2309-17 and `shouldTravelInFluid(FluidState)Z` lines 2319-21, SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`.
 - State producers/writers -> consumers/readers: Player travel consumes passenger, swimming, flying ability, current motion, fluid state and fall-flying state; this bounded slice compares dispatch only, not the selected water/lava, fall-flying, air, or vehicle physics bodies. No Player override of `canStandOnFluid` or `shouldTravelInFluid` was found; `LocalPlayer` has no `travel` override, so it inherits the Player/LivingEntity dispatch chain.
-- Parent slices / dependencies / closure evidence: `S1-local-tick` owns call timing; `S3-water-travel`, `S3-fall-flying`, and `S3-air-travel` own selected branch bodies; `S3-water-float-while-ridden` separately records B's post-water mount buoyancy addition. B helper expression was checked against A's inline guard, and both `canStandOnFluid` defaults return false.
+- Parent slices / dependencies / closure evidence: `S1-local-tick` owns call timing; `S3-water`, `S3-lava`, `S3-glide`, and `S3-ground-air` own selected branch bodies; `S3-water-float-while-ridden` separately records B's post-water mount buoyancy addition. B helper expression was checked against A's inline guard, and both `canStandOnFluid` defaults return false.
 - Status: compared-no-difference
 - Disposition and rationale (including concrete reachability/preconditions): for the same player state and `Vec3` input, both Player travel wrappers take the same passenger/nonpassenger, swimming, and flying branches and preserve the same operation order. The inherited LivingEntity selector makes the same fluid/fall-flying/air choice because the extracted B helper is A's original condition verbatim. Selected branch physics and B's separate ridden-mount buoyancy remain outside this slice.
 - Finding IDs or checked absence/replacement path: checked A/B dispatch and helper correspondence; no Player travel-dispatch delta found in this bounded slice.
@@ -314,26 +314,26 @@ The entries below are provisional behavior buckets from the required navigation 
 ### Slice S3-water: water acceleration, drag, gravity, swimming and fluid-height interactions
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
-- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
-- State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
+- Exact behavior boundary and enclosing guards/order checked: Player swimming pre-adjustment in `Player.travel(Vec3)V` plus water branch of `LivingEntity.travelInFluid(Vec3)V`. A applies the same sprint/water-slowdown and water-movement-efficiency factors, halves efficiency off ground, blends the same constants, applies Dolphin's Grace, calls relative movement then self movement, climbable collision adjustment, drag and fluid-falling adjustment, and the shared horizontal-collision jump-out. B's extracted `travelInWater` preserves that operation order and calls `jumpOutOfFluid` at the point of A's shared post-branch collision check. B then calls `floatInWaterWhileRidden`, separately recorded as out of scope in `S3-water-float-while-ridden`.
+- A evidence: `Player.travel(Vec3)V` lines 1295-1318, `Player.java` SHA-256 `af857617b66a5776e63830771360b96f75e21d47d20db08f164a2dbeee801d82`; `LivingEntity.travelInFluid(Vec3)V` lines 2331-2381 and `getFluidFallingAdjustedMovement(double,boolean,Vec3)Vec3` lines 2488-2501, `LivingEntity.java` SHA-256 `b8b49d60769203f7bd5afe4a1bffcdcdbec30be28960324cdc43a2df85a6eb66`.
+- B evidence: `Player.travel(Vec3)V` lines 1360-1383, `Player.java` SHA-256 `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`; `LivingEntity.travelInFluid(Vec3)V` lines 2368-2378 and `travelInWater(Vec3,double,boolean,double)V` lines 2380-2407, `getFluidFallingAdjustedMovement(double,boolean,Vec3)Vec3` lines 2546-2559, `LivingEntity.java` SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`.
+- State producers/writers -> consumers/readers: both formulas read current delta, gravity, sprint/ground state, water movement efficiency, Dolphins Grace, fluid height and collision state, then write delta through the same calls. `Entity.move`/`moveRelative` bodies were previously compared identical; exact producers of attributes and gravity remain in `S3-attributes`. A `getFluidFallingAdjustedMovement` body matches B; no Player `canStandOnFluid` override was found and the inherited default returns false.
+- Parent slices / dependencies / closure evidence: `S3-travel-dispatch` supplies the same selection into this branch; `S3-ground-air` owns the shared relative movement primitive; `S3-attributes` retains source coverage for attribute/gravity producers; `S3-water-float-while-ridden` isolates B's extra mount-only post-water delta.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): under the same Player movement inputs and vanilla state, the swimming adjustment and water travel formulas use the same constants, guards, floating-point operation order, delta writes and collision response. B's additional ridden-vehicle buoyancy is not written to a Player target under the vanilla tag checked in its separate slice.
+- Finding IDs or checked absence/replacement path: checked paired Player and LivingEntity formula bodies and the common fluid-falling helper; no in-scope Player water-travel delta found.
 
 ### Slice S3-lava: lava travel acceleration, drag, gravity and collision outcomes
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
-- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
-- State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
+- Exact behavior boundary and enclosing guards/order checked: lava `else` branch of `LivingEntity.travelInFluid(Vec3)V`. A applies relative movement at `0.02F`, moves with current delta, compares lava height with fluid jump threshold, applies either `(0.5, 0.8F, 0.5)` damping plus fluid-falling adjustment or `scale(0.5)`, applies gravity `/ 4.0` when nonzero, then performs the shared horizontal-collision jump-out. B's `travelInLava` preserves the same order and places `jumpOutOfFluid` after the branch-local gravity adjustment.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.21.10/mojmap/net/minecraft/world/entity/LivingEntity.java`, `travelInFluid(Vec3)V` lines 2331-2381, SHA-256 `b8b49d60769203f7bd5afe4a1bffcdcdbec30be28960324cdc43a2df85a6eb66`; `getFluidFallingAdjustedMovement(double,boolean,Vec3)Vec3` lines 2488-2501.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.21.11/mojmap/net/minecraft/world/entity/LivingEntity.java`, `travelInFluid(Vec3)V` lines 2368-2378 and `travelInLava(Vec3,double,boolean,double)V` lines 2409-2425, `jumpOutOfFluid(double)V` lines 2427-2432, SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`; `getFluidFallingAdjustedMovement(double,boolean,Vec3)Vec3` lines 2546-2559.
+- State producers/writers -> consumers/readers: the branch reads current delta, effective gravity, lava fluid height, threshold and collision state. The exact falling-adjustment helper body is unchanged; producer details for gravity/attributes remain in `S3-attributes`.
+- Parent slices / dependencies / closure evidence: `S3-travel-dispatch` supplies the same fluid selector; `S3-ground-air` owns the shared relative movement primitive; `S3-attributes` retains source coverage for attribute/gravity producers. A's common post-branch collision code and B's `jumpOutOfFluid` helper were compared operation-for-operation.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): when the Player reaches the lava branch under the same state and input, both versions execute the same movement, height guard, drag, gravity, adjustment and collision response in the same order. The helper extraction changes structure without changing the bounded lava path.
+- Finding IDs or checked absence/replacement path: checked paired lava branch, `jumpOutOfFluid` and fluid-falling helper; no in-scope Player lava-travel delta found.
 
 ### Slice S3-glide: gliding travel and directly consumed movement attributes/state
 
@@ -683,7 +683,7 @@ One source-confirmed finding is recorded in `findings/F-S1-FLIGHT-VEHICLE-GATE.m
 
 ## Resume checkpoint
 
-- Last completed slice: source-gate preparation and the first bounded input-sampling comparison; five bounded slices are compared-no-difference (input sampling, knockback vector math, Player knockback sync scheduling, food/passenger sprint eligibility, and Player travel dispatch), two source-confirmed findings cover the flight-toggle and delayed-load tick gates, the tagged vehicle buoyancy addition is out of scope, and the new spear effect is modern-only; all other coverage remains open.
+- Last completed slice: source-gate preparation and the first bounded input-sampling comparison; seven bounded slices are compared-no-difference (input sampling, knockback vector math, Player knockback sync scheduling, food/passenger sprint eligibility, Player travel dispatch, water travel, and lava travel), two source-confirmed findings cover the flight-toggle and delayed-load tick gates, the tagged vehicle buoyancy addition is out of scope, and the new spear effect is modern-only; all other coverage remains open.
 - Next bounded slice and exact files/members/body ranges to open: continue with `S1-input-sampling` and `S3-travel-dispatch`; then split the remaining broad movement buckets into method-bounded slices and close their call/data dependencies.
 - Outstanding dependencies and owners: `D-METHOD-BODY-REVIEW` (discovery worker); newly discovered producer/consumer, shape, registration and data dependencies will be added with exact owners/actions.
 - Current assumptions requiring verification: all listed ready/source/artifact hashes were verified. Remaining assumptions: exact member correspondence, operation/callback order, every reachable player state writer and producer/consumer dependency, relevant jar resource entries, and source-level movement semantics.
@@ -711,7 +711,7 @@ One source-confirmed finding is recorded in `findings/F-S1-FLIGHT-VEHICLE-GATE.m
 
 ## Source audit closure
 
-- Coverage counts by status: 42 pending; 0 in-progress; 5 compared-no-difference; 2 findings; 2 not-applicable; 0 blocked. Pair provenance is verified; both finding slices have source evidence and remain subject to independent finding review; other slices remain open.
+- Coverage counts by status: 40 pending; 0 in-progress; 7 compared-no-difference; 2 findings; 2 not-applicable; 0 blocked. Pair provenance is verified; both finding slices have source evidence and remain subject to independent finding review; other slices remain open.
 - Required inventory status and evidence: all seven inventories pending method-bounded traversal, producer/consumer linkage and full closure. Source roots and artifact hashes are verified above.
 - Open dependencies: `D-METHOD-BODY-REVIEW` and all method/resource dependencies discovered during the seven-stage walk.
 - Unresolved gaps and limits: pair provenance is verified; two bounded movement/tick-gate deltas are source-confirmed, while the remaining movement behavior is not yet covered. Keep active while comparison proceeds; at handoff, any open source slice requires partial status.
