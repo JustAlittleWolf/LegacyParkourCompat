@@ -67,7 +67,7 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - `INV-COLLISION` status=pending; slice_ids=S002,S006,S009; evidence=pose fit, escape probes and entity move excerpts; query/provider enumeration open.
 - `INV-WORLD-MOVEMENT` status=pending; slice_ids=S005,S007; evidence=slipperiness/climbing consumers; providers and resources open.
 - `INV-MODIFIERS` status=pending; slice_ids=S003,S005; Jump Boost/Slow Falling consumers observed; producer/application chains open.
-- `INV-EXTERNAL` status=pending; slice_ids=S006,S009,S010,S012,S016; direct player velocity/impulse/knockback remains in scope, including reachable push response; packet corrections, other knockback sources, piston, mount and launch-item consumers remain open; exclude non-player/vehicle physics and combat cause/damage resolution.
+- `INV-EXTERNAL` status=pending; slice_ids=S006,S009,S010,S012,S016,S017; direct player velocity/impulse/knockback remains in scope, including reachable push response; packet corrections, other knockback sources, piston, mount and launch-item consumers remain open; exclude non-player/vehicle physics and combat cause/damage resolution.
 - `INV-EXCLUSIONS` status=pending; evidence=scope exclusions declared; direct-read inventory open. Exclude health/food state production and attack/damage resolution; direct player velocity/impulse/knockback response remains in scope even if combat can trigger it; exclude non-player and vehicle physics. Food/blindness may remain movement-predicate inputs without emulating their producers.
 
 ## Coverage ledger
@@ -257,6 +257,17 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): F016; A divides by a float horizontal magnitude with no zero-length guard. B normalizes the vector in double and returns `Vec3d.ZERO` for length below `1.0E-4`. Grounded vertical response also uses A's float cap `0.4F` versus B's double `0.4` in `Math.min`. Caller reachability, resistance attributes, and probability guard remain open.
 - Finding IDs or checked absence/replacement path: F016; no attack/damage calculation inspected.
+### Slice S017: sleeping guard on player entity push
+
+- Inventory ID(s): INV-EXTERNAL, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: player `push(Entity)` sleeping guard and delegation to the superclass push implementation.
+- A evidence: `PlayerEntity.java`::`push(Entity)`, lines 2016-2022, SHA-256 `4ed22f6c5a3c55d67eed782070ac722201df4d624adbc90779f1fd29c2876633`.
+- B evidence: inherited `LivingEntity.java`::`push(Entity)`, lines 1667-1671, SHA-256 `2cccf4331ce9e62013eeb8e96163e5e146e1291619eb998ce9867daa87c02b61`.
+- State producers/writers -> consumers/readers: sleeping state and collision push callback -> conditional delegation to base Entity push response.
+- Parent slices / dependencies / closure evidence: caller enumeration and base push response remain open; `D-EXTERNAL`.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): Both versions suppress the push callback while the player is sleeping and otherwise delegate to the superclass. B moves the matching override to LivingEntity while PlayerEntity also retains the same guard; no changed player push guard is identified in this bounded slice.
+- Finding IDs or checked absence/replacement path: none within the sleeping guard; push callers remain open.
 ## Dependency queue and blockers
 
 - D-TICK-CLOSURE: full local tick/pre-travel/travel branches/post-travel; source worker to trace both trees.
@@ -315,8 +326,8 @@ No snapshot has been submitted or accepted. F001-F016 remain candidates while fi
 
 ## Source audit closure
 
-- Coverage counts by status: findings=13 slices (16 deltas); compared-no-difference=3; pending inventory closure=7; in-progress=0; not-applicable=0; blocked=0.
-- Required inventory status and evidence: all seven inventories pending; initial paired evidence in S001-S016.
+- Coverage counts by status: findings=13 slices (16 deltas); compared-no-difference=4; pending inventory closure=7; in-progress=0; not-applicable=0; blocked=0.
+- Required inventory status and evidence: all seven inventories pending; initial paired evidence in S001-S017.
 - Accepted finding snapshots: none (no finding handoff ready).
 - Open dependencies: D-TICK-CLOSURE,D-COLLISION-SHAPES,D-MOVEMENT-DATA,D-EXTERNAL,D-INDEPENDENT-AUDIT.
 - Unresolved gaps and limits: full tick, shapes/resources, modifier chains, external writers beyond S016, and independent audit. First changed release unknown within (1.13.2,1.14.4].
