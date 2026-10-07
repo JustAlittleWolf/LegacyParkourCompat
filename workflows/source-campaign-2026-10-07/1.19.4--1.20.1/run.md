@@ -41,7 +41,7 @@ The shared protocol root is build/movement-campaign-2026-10-07/. Published Mojma
 
 - Status: pending
 - Freeze commit/checkpoint and timestamp: not frozen.
-- Evidence inventory and finding IDs included at freeze: pending freeze; current working ledger has S1-01, S1-02, S1-03, S1-04, S1-05, S1-PORTAL, S3-01.
+- Evidence inventory and finding IDs included at freeze: pending freeze; current working ledger has S1-01, S1-02, S1-03, S1-04, S1-05, S1-PORTAL, S3-01, S3-02, S3-03, S4-01, S4-02, S7-01, and SCOPE-01.
 - Confirmation that old mod implementation/code and isolated wiki-audit results were not opened before freeze (prior source-discovery reports may be used as navigation): confirmed. The permitted prior 1.19.4-to-1.20.6 source report was read only for candidate navigation; its findings are not evidence for this run.
 - Source/mapping hashes covered by freeze: pending freeze; paired readiness and full manifest hashes are recorded in Artifact manifest.
 
@@ -55,15 +55,15 @@ Once sources are ready, inventory the complete reachable local player tick chain
 
 These rows are mandatory pair-wide maps. Exact endpoint readiness, manifests and method-body diagnostics pass; each map remains incomplete until its reachable members and dependencies have terminal evidence.
 
-- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1-01,S1-02,S1-03,S1-04,S1-05,S1-06,S1-PORTAL,S3-01,S3-02,S3-03,S3-04; evidence=paired raw-input and pre-travel slices S1-01/S1-02 terminal, S3-01 finding F-01; remainder open.
-- `INV-STATE` movement state writers/readers: pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, support position, timers and direct predicates: status=pending; slice_ids=S1-02,S1-03,S1-04,S1-05,S1-PORTAL,S2-01,S2-02,S2-03,S4-01,S7-01; evidence=F-01 jump-velocity writer/reader path recorded; remaining state inventory open.
+- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1-01,S1-02,S1-03,S1-04,S1-05,S1-06,S1-PORTAL,S3-01,S3-02,S3-03,S3-04; evidence=paired raw-input and pre-travel slices S1-01/S1-02 terminal, S3-01/F-01 and S3-03/F-03 findings; S3-02 travel branches remain open.
+- `INV-STATE` movement state writers/readers: pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, support position, timers and direct predicates: status=pending; slice_ids=S1-02,S1-03,S1-04,S1-05,S1-06,S1-PORTAL,S2-01,S2-02,S2-03,S4-01,S7-01,S7-03; evidence=F-01 jump-velocity, F-03 fallDistance-to-edge-backoff and F-04 spectator velocity-reset writer/reader paths recorded; remaining state inventory open.
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S4-01,S4-02,S5-01,S5-02; evidence=Entity support-block selection and its movement-factor consumer route recorded in S4-01/F-02; remaining shape/query paths open.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S3-03,S5-01,S5-02,S5-03; evidence=block jump/speed-factor read sites linked in S4-01/F-02; block/fluid registrations, resources and tags remain open.
-- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S1-02,S1-03,S2-02,S3-01,S6-01,S6-02; evidence=F-01 reads Jump Boost amplifier; broader writer/application chains open.
-- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers: corrections, pushes, pistons, mounts/dismounts and launch inputs: status=pending; slice_ids=S1-PORTAL,S7-01,S7-02,S7-03,S7-04; evidence=source pair verified; packet/writer inventory open.
-- `INV-EXCLUSIONS` scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; slice_ids=SCOPE-01; evidence=source pair verified; movement predicates may read vanilla values without emulating their producer systems.
+- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S1-02,S1-03,S2-02,S3-01,S6-01,S6-02; evidence=F-01 reads Jump Boost and F-03 reads Levitation/Slow Falling; broader writer/application chains open.
+- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers: corrections, pushes, pistons, mounts/dismounts and launch inputs: status=pending; slice_ids=S1-PORTAL,S7-01,S7-02,S7-03,S7-04; evidence=S7-01 found no difference in position-correction and direct player velocity handlers; S7-03/F-04 records the spectator-entry vertical velocity reset; portal state and remaining external writers are open.
+- `INV-EXCLUSIONS` scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; slice_ids=SCOPE-01; evidence=SCOPE-01 records the agreed boundaries and a food-predicate example; producer and consumer routes still need inventory.
 
-The in-scope audit will preserve exact operation order, casts, float/double boundaries, literal suffixes and historical quirks. Modern-only blocks/features will not acquire old behavior. Other-entity code is in scope only as necessary to explain a direct player movement effect.
+The pair uses Mojmap and is not among the six early Feather derived artifacts covered by feather-r1-2026-10-07; both Mojmap artifact manifests and source manifests were freshly reverified with no mismatches. No revised Feather snapshot is cited. The in-scope audit will preserve exact operation order, casts, float/double boundaries, literal suffixes and historical quirks. Direct player velocity/impulse/knockback responses remain in scope; attack/damage resolution and non-player motion remain excluded. Modern-only blocks/features will not acquire old behavior. Other-entity code is in scope only as necessary to explain a direct player movement effect.
 
 ## Coverage ledger
 
@@ -140,6 +140,19 @@ The in-scope audit will preserve exact operation order, casts, float/double boun
 - Disposition and rationale (including concrete reachability/preconditions): bodies match after onGround accessor normalization; thresholds, packet order and sent-state updates match. Packet consumers and external movement writers remain open.
 - Finding IDs or checked absence/replacement path: no emission delta in this bounded slice.
 
+
+### Slice S1-06: LocalPlayer superclass tick chain
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-EXCLUSIONS
+- Exact behavior boundary and enclosing guards/order checked: LocalPlayer#tick loaded-chunk guard and super call; Player#tick pre-super and post-super work; LivingEntity#tick superclass call and aiStep reachability; Entity#tick/#baseTick call order, including support-state writes and movement-relevant fluid/portal callbacks.
+- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java #tick lines 187-205, SHA-256 8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58; Player.java #tick lines 227-298, SHA-256 5e4436afccb361156f8184e7a5cfd91d5b12dcfe8f5937b4ac23dd3edda737a2; LivingEntity.java #tick lines 2219-2338, SHA-256 c8d91af61f87aaa1666de79696d7cd9d4a8212d05f873bdaf28d7bb2926bf165; Entity.java #tick/#baseTick lines 405-467, SHA-256 3667fee610cbc5f58012e3a8fb8d6c4849f649fb7fe5300595158112d8b4b58b.
+- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.20.1/mojmap/net/minecraft/client/player/LocalPlayer.java #tick lines 189-207, SHA-256 69a2d043d2c0595bd364d625a5445e4934d9e07fef020cd79fafb42f59952ac2; Player.java #tick lines 228-299, SHA-256 873d82c6f5471d06812929e471d970fd973bfbe21638e4e348a6fcde45637dac; LivingEntity.java #tick lines 2238-2357, SHA-256 decf8cd70d194098ad51d0c82e5a0087e0687881e0a2dc66456f2ba6ea76676f; Entity.java #tick/#baseTick lines 409-471, SHA-256 94b9c3656715de2d61fa9a02ccef164261e50eb13d6090a6f07e58fe9c5b0759.
+- State producers/writers -> consumers/readers: LocalPlayer chunk guard -> Player tick -> LivingEntity tick -> Entity#baseTick then LivingEntity#aiStep -> Player post-tick pose update; Entity base tick refreshes fluid/portal state; Player#tick may clear onGround while spectator and thereby route to support tracking in B.
+- Parent slices / dependencies / closure evidence: S1-02/S1-05 local input and packet order; S1-PORTAL Entity/LocalPlayer portal effects; S3-02 fluid/travel branches; S4-01/F-02 support-position state; SCOPE-01 food producer boundary; pose and full tick-state inventories remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): both versions preserve the LocalPlayer -> Player -> LivingEntity -> Entity tick dispatch and the placement of LivingEntity#aiStep before Player post-tick pose work. Field/API changes include level()/onGround() accessors and the renamed below-world callback, whose checked condition still compares Y with min build height minus 64 and whose handler still discards the entity. One movement-state write is not equivalent as a call path: A's spectator branch directly writes onGround=false, while B calls setOnGround(false), which also clears the newly tracked mainSupportingBlockPos. The player is in noPhysics spectator movement at that guard; any downstream movement-factor consequence is linked to F-02 and is not resolved here. Portal/fluid callbacks and pose consumers are deliberately left to their separate inventories.
+- Finding IDs or checked absence/replacement path: no new finding; support-state route links to F-02; remaining call targets stay open under S1-PORTAL/S3-02/S4-01.
+
 ### Slice S3-01: Ground-jump upward velocity with Jump Boost
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
@@ -181,7 +194,73 @@ The in-scope audit will preserve exact operation order, casts, float/double boun
 - Finding IDs or checked absence/replacement path: no core clipping-kernel delta; support selection is handled independently by F-02.
 
 
-Both exact Mojmap source pairs and full manifests are verified. S1-01 and S1-02 are terminal, S3-01 records a source-confirmed finding, and portal/collision/external traces remain open.
+
+### Slice S3-02: LivingEntity water, lava, air and ground travel branches
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: LivingEntity#aiStep travel setup/dispatch and full #travel branches for water, lava, air and ground friction.
+- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.19.4/mojmap/net/minecraft/world/entity/LivingEntity.java #aiStep travel dispatch lines 2540-2553, #travel lines 1983-2116, SHA-256 c8d91af61f87aaa1666de79696d7cd9d4a8212d05f873bdaf28d7bb2926bf165; Player#travel lines 1440 onward, SHA-256 5e4436afccb361156f8184e7a5cfd91d5b12dcfe8f5937b4ac23dd3edda737a2.
+- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.20.1/mojmap/net/minecraft/world/entity/LivingEntity.java #aiStep travel dispatch lines 2558-2575, #travel lines 2004-2135, SHA-256 decf8cd70d194098ad51d0c82e5a0087e0687881e0a2dc66456f2ba6ea76676f; Player#travel lines 1446 onward, SHA-256 873d82c6f5471d06812929e471d970fd973bfbe21638e4e348a6fcde45637dac.
+- State producers/writers -> consumers/readers: player xxa/yya/zza and speed/effects/fluid state -> LivingEntity travel branch -> moveRelative/move -> Entity.move -> resolved position/velocity and collision flags.
+- Parent slices / dependencies / closure evidence: S1-02; S3-01; S3-03; S4-01/S4-02; S5 fluid/block providers and modifier chains.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): after normalizing level/onGround API accessors, travel formulas and branch order match except the Slow Falling reset moved into aiStep, captured in S3-03. A routes any LivingEntity controlling passenger into travelRidden; B routes only a Player controller. A LocalPlayer riding a vehicle uses the Player path on both sides; other-entity vehicle movement is excluded. Fluid/modifier producers remain open.
+- Finding IDs or checked absence/replacement path: F-03 is the player-facing state-write consequence; no other direct player travel-formula delta found in this bounded comparison.
+
+### Slice S3-03: Fall-distance reset timing and sneaking edge-backoff
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: LivingEntity#aiStep pre-travel reset, A/B LivingEntity#travel slow-fall guard, Entity.move call to Player#maybeBackOffFromEdge, Player#isAboveGround and #isStayingOnGroundSurface.
+- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.19.4/mojmap/net/minecraft/world/entity/LivingEntity.java #travel lines 1983-1991 and #aiStep travel dispatch lines 2540-2553, SHA-256 c8d91af61f87aaa1666de79696d7cd9d4a8212d05f873bdaf28d7bb2926bf165; Player#maybeBackOffFromEdge lines 1040-1093, #isAboveGround lines 1095-1099, #isStayingOnGroundSurface lines 308-310, SHA-256 5e4436afccb361156f8184e7a5cfd91d5b12dcfe8f5937b4ac23dd3edda737a2.
+- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.20.1/mojmap/net/minecraft/world/entity/LivingEntity.java #aiStep lines 2562-2567 and #travel lines 2004-2010, SHA-256 decf8cd70d194098ad51d0c82e5a0087e0687881e0a2dc66456f2ba6ea76676f; Player#maybeBackOffFromEdge lines 1043-1094, #isAboveGround lines 1097-1101, #isStayingOnGroundSurface lines 309-311, SHA-256 873d82c6f5471d06812929e471d970fd973bfbe21638e4e348a6fcde45637dac.
+- State producers/writers -> consumers/readers: LivingEntity#aiStep may clear fallDistance before inherited travel/move -> Entity.move calls Player#maybeBackOffFromEdge -> Player#isAboveGround reads fallDistance/maxUpStep -> movement vector may be reduced in 0.05 increments.
+- Parent slices / dependencies / closure evidence: S3-02 call order; S4-02 clipping kernels; collision geometry and maxUpStep sources remain in S4/S5.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): A clears fallDistance in travel only when Y velocity is non-positive and Slow Falling is active. B clears it in aiStep before travel whenever Slow Falling or Levitation is active. Player edge-backoff requires non-flying state, SELF/PLAYER movement with y <= 0, and sneaking; when not onGround, isAboveGround compares fallDistance with maxUpStep and probes collision at vertical offset fallDistance - maxUpStep. Under Levitation, or rising Slow Falling, B therefore supplies a reset value where A can retain prior fall distance; this can change the edge-backoff gate for collision layouts near the step-height boundary.
+- Finding IDs or checked absence/replacement path: F-03; gate and caller are source-confirmed; no concrete terrain or trajectory is asserted.
+
+
+
+### Slice S7-01: Server player-position corrections and direct player velocity inputs
+
+- Inventory ID(s): INV-EXTERNAL, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: ClientPacketListener#handleMovePlayer, #handleSetEntityMotion, #handleExplosion, and Entity#lerpMotion.
+- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.19.4/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java #handleSetEntityMotion lines 499-505, #handleMovePlayer lines 605-676, #handleExplosion lines 1133-1138; SHA-256 bcc74e52a32d20a3e993ebe4e08fffe8caca7481fad8f326dacdc93796b2b715; Entity#lerpMotion lines 1936-1938, SHA-256 3667fee610cbc5f58012e3a8fb8d6c4849f649fb7fe5300595158112d8b4b58b.
+- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.20.1/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java #handleSetEntityMotion lines 501-507, #handleMovePlayer lines 607-678, #handleExplosion lines 1147-1152; SHA-256 8b21ccd4106abb0698f6872250e665ae3f0fc942c8953b9ddd45976660ed624b; Entity#lerpMotion lines 2039-2041, SHA-256 94b9c3656715de2d61fa9a02ccef164261e50eb13d6090a6f07e58fe9c5b0759.
+- State producers/writers -> consumers/readers: server relative/absolute player position packet -> client Player.setPos and per-axis velocity preserve/zero -> teleport acknowledgement and position report; entity-motion packet -> Entity.lerpMotion -> delta movement; explosion packet -> local Player delta movement addition.
+- Parent slices / dependencies / closure evidence: S1-05 outbound packet encoding; S7-02 pushes/pistons/native block responses; S7-03 game-mode transition; remaining respawn/ability/cooldown paths still open; S7-04 vehicle/mount boundary.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the three packet handlers and Entity#lerpMotion bodies compare identical for the exact pair. Relative position components preserve corresponding current delta components; absolute components set position and zero that delta component. SetEntityMotion decodes each integer by dividing by 8000.0 before the same direct velocity write. Explosion applies the packet's three knockback components by adding them to the local player's current delta movement in both versions. No knockback or correction delta was found in this bounded slice.
+- Finding IDs or checked absence/replacement path: none in the inspected client handler/velocity setter path; remaining external writers are open in S7-02/S7-03.
+
+
+
+### Slice S7-03: Server-reported local game-mode transition velocity response
+
+- Inventory ID(s): INV-EXTERNAL, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: local-player spectator-transition callback and caller guard in ClientPacketListener#handlePlayerInfoUpdate; A-side ClientPacketListener#handleGameEvent path and checked absence of a LocalPlayer#onGameModeChanged callback.
+- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.19.4/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java #handleGameEvent CHANGE_GAME_MODE lines 1286-1288 only calls MultiPlayerGameMode#setLocalMode; no LocalPlayer#onGameModeChanged declaration or caller in the full A sources; SHA-256 bcc74e52a32d20a3e993ebe4e08fffe8caca7481fad8f326dacdc93796b2b715. LocalPlayer.java SHA-256 8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58.
+- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.20.1/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java #handlePlayerInfoUpdate UPDATE_GAME_MODE lines 1745-1750 calls the local player callback only when the mode changes, local player exists, and UUID matches; SHA-256 8b21ccd4106abb0698f6872250e665ae3f0fc942c8953b9ddd45976660ed624b. LocalPlayer#onGameModeChanged lines 1053-1057 writes delta movement with the Y component replaced by 0.0 only for GameType.SPECTATOR; SHA-256 69a2d043d2c0595bd364d625a5445e4934d9e07fef020cd79fafb42f59952ac2.
+- State producers/writers -> consumers/readers: server game-mode update for the local player -> guarded ClientPacketListener callback -> when new mode is SPECTATOR, preserve X/Z delta movement and set Y delta to 0.0 -> subsequent local movement tick.
+- Parent slices / dependencies / closure evidence: S1-06 superclass tick ordering; S7-01 packet position and velocity handlers; remaining respawn, abilities and portal cooldown handlers are not covered yet; direct player velocity responses are in scope under SCOPE-01.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): B adds a movement-state callback reachable for a changed server-supplied game mode belonging to the local player. When the new mode is spectator, the callback replaces only the player's vertical delta movement with 0.0 before the player-info entry's game mode is updated. A's bounded game-mode path changes the local game-mode selection and has no corresponding direct player velocity write. A local player transitioning into spectator mode with nonzero vertical velocity therefore receives a different direct velocity input in this pair; no trajectory is claimed.
+- Finding IDs or checked absence/replacement path: F-04; other respawn, ability, cooldown and external writers remain open and need separate bounded slices.
+
+### Slice SCOPE-01: In-scope direct movement effects and excluded producer systems
+
+- Inventory ID(s): INV-EXCLUSIONS, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: agreed source-audit scope routing for food-dependent sprint predicates, direct player velocity responses, attack/damage decisions, and non-player movement. This slice does not inventory all producer systems or close either required map.
+- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java #canStartSprinting lines 1022-1039 and #aiStep sprint-start call lines 653-686, SHA-256 8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58; ClientPacketListener#handleExplosion lines 1133-1138 applies packet knockback to the local player, SHA-256 bcc74e52a32d20a3e993ebe4e08fffe8caca7481fad8f326dacdc93796b2b715.
+- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.20.1/mojmap/net/minecraft/client/player/LocalPlayer.java #canStartSprinting lines 1014-1031 and #aiStep sprint-start call lines 659-692, SHA-256 69a2d043d2c0595bd364d625a5445e4934d9e07fef020cd79fafb42f59952ac2; ClientPacketListener#handleExplosion lines 1147-1152 applies packet knockback to the local player, SHA-256 8b21ccd4106abb0698f6872250e665ae3f0fc942c8953b9ddd45976660ed624b.
+- State producers/writers -> consumers/readers: vanilla food state is read by the player sprint-start predicate but its hunger, food, saturation and exhaustion producer systems are outside this movement-emulation boundary; direct player position/velocity/impulse and knockback responses remain in scope; attack/damage resolution and non-player movement remain excluded.
+- Parent slices / dependencies / closure evidence: S1-03 continues the sprint predicate and modifier dependencies; S7-01 covers packet correction/velocity; S7-03/F-04 covers one game-mode writer; remaining respawn/cooldown, push/piston, mount and SCOPE-01 routes remain open.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): this scope-routing slice does not add historical behavior for excluded systems. A movement predicate may consume a vanilla-produced value such as food data, but only the direct movement decision is considered for this campaign. A packet handler that directly adds knockback to the local player's velocity is movement behavior and remains eligible for comparison. The user-defined campaign boundary excludes damage/attack resolution and non-player motion.
+- Finding IDs or checked absence/replacement path: no finding; excluded producers are not treated as no-difference source results. Remaining exclusions inventory stays pending.
+
+
+Both exact Mojmap source pairs and full manifests are verified. S1-01/S1-02/S4-02/S7-01/S7-03/SCOPE-01 are terminal; F-01/F-02/F-03/F-04 are source-confirmed; portal, remaining collision/world inputs, exclusion producer routes and external traces remain open.
 
 ## Dependency queue and blockers
 
@@ -194,13 +273,15 @@ Both exact Mojmap source pairs and full manifests are verified. S1-01 and S1-02 
 
 - F-01: Jump Boost is summed into ground-jump power at float precision (source-confirmed; see findings/F-01-jump-boost-rounding.md).
 - F-02: Movement factors use the tracked supporting block in 1.20.1 (source-confirmed input-path change; see findings/F-02-supporting-block-factor-position.md).
+- F-03: Slow Falling or Levitation resets fall distance before the sneaking edge-backoff gate (source-confirmed; see findings/F-03-fall-distance-edge-backoff.md).
+- F-04: 1.20.1 zeros the local player's vertical velocity on a server-reported transition into spectator mode (source-confirmed; see findings/F-04-spectator-entry-vertical-velocity-reset.md).
 
 This is not a complete or no-difference conclusion. Prior reports are navigation only; evidence here comes from the exact 1.19.4/1.20.1 Mojmap pair.
 
 ## Resume checkpoint
 
-- Last completed slices: verified both exact endpoints; closed S1-01/S1-02; recorded F-01 jump precision and F-02 support-position source findings.
-- Next bounded slice: trace the LocalPlayer superclass tick chain and close S1-03 sprint predicate dependencies, then continue LivingEntity travel and collision source comparisons.
+- Last completed slices: verified both exact endpoints; closed S1-01/S1-02/S4-02/S7-01/S7-03; recorded F-01/F-02/F-03/F-04 source-confirmed movement findings and the bounded SCOPE-01 boundary map.
+- Next bounded slice: resolve the S1-06 spectator support-state route against F-02, then close S1-03 sprint predicate dependencies and continue LivingEntity travel and collision source comparisons.
 - Outstanding dependencies and owners: D2 resource/tag audit after block/fluid consumer inventory; reviewer assignment and all open movement slices.
 - Current assumptions requiring verification: portal-screen/cooldown effects, sprint modifier inputs, remaining travel/collision members, resources, data and tags; independent review remains unassigned.
 
@@ -225,8 +306,8 @@ This is a source-only assignment. Existing/old mod implementation has not been i
 
 ## Source audit closure
 
-- Coverage counts by status: 3 compared-no-difference slices (S1-01, S1-02, S4-02); 2 findings slices (S3-01, S4-01); 4 in-progress slices (S1-PORTAL, S1-03, S1-04, S1-05); remaining planned slices not yet created; 7 required inventory maps incomplete; 1 resource/tag dependency and independent audit remain open.
-- Required inventory status and evidence: all seven maps remain incomplete; exact-pair member evidence is recorded for bounded S1-01/S1-02/S1-03/S1-04/S1-05/S3-01/S4-01/S4-02 slices.
+- Coverage counts by status: 4 compared-no-difference slices (S1-01, S1-02, S4-02, S7-01); 4 findings slices (S3-01, S3-03, S4-01, S7-03); 6 in-progress slices (S1-PORTAL, S1-03, S1-04, S1-05, S1-06, S3-02); 1 not-applicable scope-routing slice (SCOPE-01); remaining planned slices not yet created; 7 required inventory maps incomplete; 1 resource/tag dependency and independent audit remain open.
+- Required inventory status and evidence: all seven maps remain incomplete; exact-pair member evidence is recorded for bounded S1-01/S1-02/S1-03/S1-04/S1-05/S1-06/S3-01/S3-02/S3-03/S4-01/S4-02/S7-01/S7-03/SCOPE-01 slices.
 - Open dependencies: D2 worker jar-resource/data audit after relevant consumers are inventoried; independent source audit and remaining slice closure.
 - Unresolved gaps and limits: remaining navigation inventories, member correspondences, resources, findings and dependency closure; independent audit.
 - Evidence/hash/correspondence audit: exact endpoint IDs, Mojmap namespaces, ready/provenance/source/artifact/diagnostic hashes, complete manifests and source range hashes verified; remaining member maps are open.
