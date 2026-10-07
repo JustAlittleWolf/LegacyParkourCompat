@@ -218,9 +218,9 @@ Resolved: D-ENTITY-COLLISIONS (paired LocalPlayer entity query and EntityGetter/
 ## Resume checkpoint
 
 - Last completed: T-SPRINT,T-ELYTRA,T-AUTOJUMP-ORDER,T-AUTOJUMP-BORDER,T-FALL-RESET.
-- Next: close T-EDGE-GATE after collision support semantics; continue Entity#collide, B CollisionGetter#borderCollision, BlockCollisions, Shapes#collide; KeyboardInput/ClientPacketListener assignment; ClipContext/reset/tag.
-- Outstanding: D-* above.
-- Assumptions: entity filter equivalence, probe overlap, B border path, qualifying clip.
+- Next: close T-EDGE-GATE, then T-ENTITY-COLLISION by comparing paired Entity#move/#collide, CollisionGetter#noCollision/#borderCollision, BlockCollisions and Shapes#collide paths; continue T-INPUT by tracing KeyboardInput and ClientPacketListener input assignments; continue T-WORLD-PROPERTIES and T-MODIFIERS through block/resource registrations, callbacks, tags, attributes, effects and equipment; expand INV-EXTERNAL beyond the four bounded slices.
+- Outstanding: D-INPUT-ASSIGNMENTS,D-SHAPE-PROVIDERS,D-BORDER-MOVE-PATH,D-ELYTRA-ENTRY,D-EFFECT-DATA,D-ATTRIBUTE-REGISTRY,D-ENCHANTMENT-DATA,D-SHAPE-REGISTRY,D-BLOCK-CALLBACKS,D-MOVEMENT-TAGS,D-EXTERNAL-VELOCITY,D-MOUNT-INPUT,D-PACKET-RECONCILIATION.
+- Resume validation command from repository root: python workflows/movement-discovery/check_completion.py workflows/source-campaign-2026-10-07/1.17.1--1.18.2/. This is a schema/status check only.
 
 ## Finding snapshots (not pair freeze)
 
