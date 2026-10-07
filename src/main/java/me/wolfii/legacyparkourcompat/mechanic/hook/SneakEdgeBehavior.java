@@ -6,15 +6,9 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
-
-/**
- * Historical sneak-edge algorithm ({@code Player#maybeBackOffFromEdge}).
- * The prevented drop distance is {@link SneakEdgeDistanceBehavior}.
- *
- * <p>Until 1.16.2, sneak-edge only applied while {@code onGround}. 1.16.2 also
- * holds the player when they are up to {@code maxUpStep} above the ground
- * (MC-2404). {@link #isAboveGround} restores the older check.
- */
+/** Resolves horizontal movement against the sneak-edge guard.
+ * The prevented drop distance resolves independently through {@link SneakEdgeDistanceBehavior}. */
+@FunctionalInterface
 @MechanicType("player.sneak.edge")
 public interface SneakEdgeBehavior extends VersionedMechanic {
     Vec3 maybeBackOffFromEdge(
@@ -24,8 +18,4 @@ public interface SneakEdgeBehavior extends VersionedMechanic {
         boolean stayingOnGroundSurface,
         float probeDistance
     );
-
-    default boolean isAboveGround(Player player, float maxDownStep, boolean vanilla) {
-        return vanilla;
-    }
 }

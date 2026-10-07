@@ -5,7 +5,6 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintStartBehavior;
 import net.minecraft.world.entity.player.Player;
 
-
 @MovementChange(emulates = ParkourVersion.V1_19_4)
 public final class SprintStart implements SprintStartBehavior {
     @Override

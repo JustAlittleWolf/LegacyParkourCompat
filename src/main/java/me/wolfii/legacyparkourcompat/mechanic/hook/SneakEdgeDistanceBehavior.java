@@ -11,6 +11,7 @@ import net.minecraft.world.entity.player.Player;
  * <p>Kept separate from {@link SneakEdgeBehavior} so the 1.16.2 step-down
  * algorithm can resolve independently.
  */
+@FunctionalInterface
 @MechanicType("player.sneak.edge.distance")
 public interface SneakEdgeDistanceBehavior extends VersionedMechanic {
     float edgeFallDistance(Player player, float vanillaMaxUpStep);

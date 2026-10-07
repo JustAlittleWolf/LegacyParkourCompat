@@ -2,12 +2,7 @@ package me.wolfii.legacyparkourcompat.change.v1_16;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
-import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
-import me.wolfii.legacyparkourcompat.mechanic.hook.ClientUnstuckBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeBehavior;
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;

@@ -4,14 +4,12 @@ import java.util.Optional;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
-import me.wolfii.legacyparkourcompat.mechanic.hook.BlockLandingBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.BlockBounceBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.BlockLandingBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.CollisionRestitutionBehavior;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-
-
 
 @MovementChange(emulates = ParkourVersion.V26_1)
 public final class CollisionRestitution implements CollisionRestitutionBehavior {

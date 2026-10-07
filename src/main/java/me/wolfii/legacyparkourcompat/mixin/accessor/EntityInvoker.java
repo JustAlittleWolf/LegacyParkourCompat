@@ -1,7 +1,5 @@
 package me.wolfii.legacyparkourcompat.mixin.accessor;
 
-
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,7 +15,6 @@ public interface EntityInvoker {
     @Invoker("getBlockSpeedFactor")
     float legacyparkourcompat$invokeGetBlockSpeedFactor();
 
-
     @Invoker("restituteMovementAfterCollisions")
     void legacyparkourcompat$invokeRestituteMovementAfterCollisions(
         BlockState effectState,
@@ -25,5 +22,4 @@ public interface EntityInvoker {
         boolean zCollision,
         Vec3 movement
     );
-
 }

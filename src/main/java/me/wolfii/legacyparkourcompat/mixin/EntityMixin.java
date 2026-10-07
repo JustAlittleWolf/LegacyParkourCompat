@@ -3,15 +3,16 @@ package me.wolfii.legacyparkourcompat.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
+import me.wolfii.legacyparkourcompat.mechanic.hook.AfterCollisionBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.BlockBounceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.BlockLandingBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.BlockSpeedFactorBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.BoatPassengerFluidPushBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.CollisionRestitutionBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.GravityBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.InsideBlockContactBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PistonMovementBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeMoverBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.SoulSandSpeedBehavior;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
@@ -64,7 +65,6 @@ abstract class EntityMixin {
             );
     }
 
-
     @ModifyReturnValue(method = "getGravity", at = @At("RETURN"))
     private double legacyparkourcompat$historicalPlayerGravity(double vanilla) {
         Entity entity = (Entity)(Object)this;
@@ -72,7 +72,6 @@ abstract class EntityMixin {
             .map(behavior -> behavior.gravity(entity, vanilla))
             .orElse(vanilla);
     }
-
 
     @Inject(
         method = "getBlockBounciness(Lnet/minecraft/world/level/block/Block;)D",
@@ -86,7 +85,6 @@ abstract class EntityMixin {
                 (double)behavior.bounceRestitution(callback.getReturnValue().floatValue(), entity)
             ));
     }
-
 
     @Redirect(
         method = "checkInsideBlocks(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/entity/InsideBlockEffectApplier$StepBasedCollector;Lit/unimi/dsi/fastutil/longs/LongSet;I)I",
@@ -124,8 +122,6 @@ abstract class EntityMixin {
         interaction.applyCurrentTo(fluid, entity, scale);
     }
 
-
-
     @ModifyArg(
         method = "move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V",
         at = @At(
@@ -158,7 +154,6 @@ abstract class EntityMixin {
         }
     }
 
-
     @Inject(
         method = "move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V",
         at = @At(
@@ -169,7 +164,7 @@ abstract class EntityMixin {
     )
     private void legacyparkourcompat$applyHistoricalBlockCallbacks(MoverType moverType, Vec3 movement, CallbackInfo ci) {
         Entity entity = (Entity)(Object)this;
-        MovementRuntime.find(SoulSandSpeedBehavior.class, entity)
+        MovementRuntime.find(AfterCollisionBehavior.class, entity)
             .ifPresent(behavior -> behavior.afterCollision(entity));
     }
 
@@ -182,10 +177,8 @@ abstract class EntityMixin {
     )
     private float legacyparkourcompat$movementSpeedFactor(Entity entity) {
         float vanilla = ((EntityInvoker)entity).legacyparkourcompat$invokeGetBlockSpeedFactor();
-        return MovementRuntime.find(SoulSandSpeedBehavior.class, entity)
+        return MovementRuntime.find(BlockSpeedFactorBehavior.class, entity)
             .map(behavior -> behavior.movementSpeedFactor(entity, vanilla))
             .orElse(vanilla);
     }
-
-
 }

@@ -6,14 +6,17 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.FallFlyingLookBehavior;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
-
 @MovementChange(emulates = ParkourVersion.V1_11_2)
 public final class FallFlyingLookAngle implements FallFlyingLookBehavior {
     // Preserve the 1.11.2 MathHelper lookup-table indexing; current Mth trig uses different double math.
     private static final float[] SINE_TABLE = createSineTable();
 
     @Override
-    public Vec3 lookVector(LivingEntity entity, Vec3 vanilla) {
+    public Vec3 lookVector(LivingEntity entity, ParkourVersion selected, Vec3 vanilla) {
+        if (selected.olderThan(ParkourVersion.V1_9)) {
+            return vanilla;
+        }
+
         float scale = (float)(Math.PI / 180.0);
         float yaw = -entity.getYHeadRot() * scale - (float)Math.PI;
         float pitch = -entity.getXRot() * scale;

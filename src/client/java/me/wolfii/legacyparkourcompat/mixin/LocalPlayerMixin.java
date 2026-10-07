@@ -5,20 +5,21 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.AutoJumpBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.ClientInputBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.ClientUnstuckBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.AutoJumpInverseSqrtBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.FlightActivationJumpBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.FlightSneakInputBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.KeyboardDiagonalInputBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PassengerCrouchBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.RideableJumpBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowWaterSprintBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakInputSlowdownBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintCollisionBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.SprintDurationBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintFallFlyingGateBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintStartBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.SprintTickBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintTriggerBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintWindowBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.SuffocationProbeBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.VehicleSprintBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.WaterDescentBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.WaterSneakBehavior;
@@ -30,14 +31,12 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.PlayerRideableJumping;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Input;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec2;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -60,7 +59,6 @@ abstract class LocalPlayerMixin {
             .map(behavior -> behavior.shouldSlowDown(player))
             .orElse(vanilla);
     }
-
 
     @WrapOperation(
         method = "aiStep",
@@ -92,26 +90,21 @@ abstract class LocalPlayerMixin {
             .orElse(vanilla);
     }
 
-
-
     @Inject(method = "aiStep", at = @At("TAIL"))
-    private void legacyParkourCompat$tickSprintDuration(CallbackInfo ci) {
+    private void legacyparkourcompat$tickSprintDuration(CallbackInfo ci) {
         LocalPlayer player = (LocalPlayer) (Object) this;
-        MovementRuntime.find(SprintDurationBehavior.class, player)
+        MovementRuntime.find(SprintTickBehavior.class, player)
             .ifPresent(behavior -> behavior.tick(player));
     }
 
     @ModifyVariable(method = "modifyInput", at = @At("HEAD"), argsOnly = true)
-    private Vec2 legacyParkourCompat$modifyInput(Vec2 input) {
+    private Vec2 legacyparkourcompat$modifyInput(Vec2 input) {
         LocalPlayer player = (LocalPlayer) (Object) this;
-        return MovementRuntime.find(ClientInputBehavior.class, player).map(behavior -> behavior.modify(
+        return MovementRuntime.find(FlightSneakInputBehavior.class, player).map(behavior -> behavior.modify(
+                player,
                 input,
-                player.isUsingItem(),
-                player.isMovingSlowly(),
-                (float) player.getAttributeValue(Attributes.SNEAKING_SPEED),
-                player.getAbilities().flying && player.isShiftKeyDown()
-                    && !MovementRuntime.find(SneakInputSlowdownBehavior.class, player)
-                        .map(slowdown -> slowdown.shouldSlowDown(player)).orElse(player.isMovingSlowly())
+                MovementRuntime.find(SneakInputSlowdownBehavior.class, player)
+                    .map(slowdown -> slowdown.shouldSlowDown(player)).orElse(player.isMovingSlowly())
             )).orElse(input);
     }
 
@@ -119,7 +112,7 @@ abstract class LocalPlayerMixin {
         method = "aiStep",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/PlayerRideableJumping;onPlayerJump(I)V")
     )
-    private void legacyParkourCompat$applyRideableJumpCharge(PlayerRideableJumping mount, int strength) {
+    private void legacyparkourcompat$applyRideableJumpCharge(PlayerRideableJumping mount, int strength) {
         LocalPlayer player = (LocalPlayer) (Object) this;
         MovementRuntime.find(RideableJumpBehavior.class, player)
             .ifPresentOrElse(
@@ -127,8 +120,6 @@ abstract class LocalPlayerMixin {
                 () -> mount.onPlayerJump(strength)
             );
     }
-
-
 
     @ModifyArg(
         method = "canStartSprinting",
@@ -167,8 +158,6 @@ abstract class LocalPlayerMixin {
         }
     }
 
-
-
     @Redirect(
         method = "updateAutoJump(FF)V",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;invSqrt(F)F", ordinal = 0)
@@ -176,7 +165,7 @@ abstract class LocalPlayerMixin {
     private float legacyparkourcompat$autoJumpInverseSqrt(float value) {
         float vanilla = org.joml.Math.invsqrt(value);
         Player player = (Player) (Object) this;
-        return MovementRuntime.find(AutoJumpBehavior.class, player)
+        return MovementRuntime.find(AutoJumpInverseSqrtBehavior.class, player)
             .map(behavior -> behavior.inverseSqrt(player, value, vanilla))
             .orElse(vanilla);
     }
@@ -189,8 +178,7 @@ abstract class LocalPlayerMixin {
         boolean vanilla = localPlayer.isFallFlying();
         Player player = localPlayer;
         return MovementRuntime.find(SprintFallFlyingGateBehavior.class, player)
-            .filter(change -> change.appliesToVersion(MovementRuntime.profile(player).target()))
-            .map(behavior -> behavior.fallFlyingForSprintGate(player, vanilla))
+            .map(behavior -> behavior.fallFlyingForSprintGate(player, MovementRuntime.profile(player).target(), vanilla))
             .orElse(vanilla);
     }
 
@@ -210,8 +198,6 @@ abstract class LocalPlayerMixin {
         );
     }
 
-
-
     @Inject(method = "shouldStopRunSprinting()Z", at = @At("RETURN"), cancellable = true)
     private void legacyparkourcompat$restoreSprintStopOnCollision(CallbackInfoReturnable<Boolean> cir) {
         LocalPlayer player = (LocalPlayer) (Object) this;
@@ -221,13 +207,12 @@ abstract class LocalPlayerMixin {
             ));
     }
 
-
     @Inject(
         method = "modifyInput(Lnet/minecraft/world/phys/Vec2;)Lnet/minecraft/world/phys/Vec2;",
         at = @At("RETURN"),
         cancellable = true
     )
-    private void legacy$diagonalInputPrecision(Vec2 raw, CallbackInfoReturnable<Vec2> callback) {
+    private void legacyparkourcompat$diagonalInputPrecision(Vec2 raw, CallbackInfoReturnable<Vec2> callback) {
         LocalPlayer player = (LocalPlayer) (Object) this;
         Input keys = player.input.keyPresses;
         float left = keys.left() == keys.right() ? 0.0F : keys.left() ? 1.0F : -1.0F;
@@ -249,7 +234,6 @@ abstract class LocalPlayerMixin {
             )));
     }
 
-
     @Inject(method = "isAutoJumpEnabled", at = @At("RETURN"), cancellable = true)
     private void legacyparkourcompat$applyAutoJumpBehavior(CallbackInfoReturnable<Boolean> cir) {
         LocalPlayer player = (LocalPlayer)(Object)this;
@@ -257,7 +241,6 @@ abstract class LocalPlayerMixin {
             cir.setReturnValue(behavior.isAutoJumpEnabled(player, cir.getReturnValue()))
         );
     }
-
 
     @Shadow
     private boolean isSlowDueToUsingItem() {
@@ -301,11 +284,10 @@ abstract class LocalPlayerMixin {
     @Inject(method = "suffocatesAt", at = @At("RETURN"), cancellable = true)
     private void legacyparkourcompat$suffocationQuery(BlockPos pos, CallbackInfoReturnable<Boolean> callback) {
         LocalPlayer player = (LocalPlayer) (Object) this;
-        MovementRuntime.find(ClientUnstuckBehavior.class, player).ifPresent(behavior ->
+        MovementRuntime.find(SuffocationProbeBehavior.class, player).ifPresent(behavior ->
             callback.setReturnValue(behavior.suffocatesAt(player, pos, callback::getReturnValue))
         );
     }
-
 
     @Redirect(
         method = "aiStep()V",
@@ -315,7 +297,7 @@ abstract class LocalPlayerMixin {
             target = "Lnet/minecraft/client/Options;sprintWindow()Lnet/minecraft/client/OptionInstance;"
         ))
     )
-    private Object legacy$doubleTapSprintWindow(OptionInstance<Integer> option) {
+    private Object legacyparkourcompat$doubleTapSprintWindow(OptionInstance<Integer> option) {
         LocalPlayer player = (LocalPlayer) (Object) this;
         int vanilla = option.get();
         return MovementRuntime.find(SprintWindowBehavior.class, player)
@@ -330,7 +312,7 @@ abstract class LocalPlayerMixin {
             target = "Lnet/minecraft/client/player/LocalPlayer;isInShallowWater()Z"
         )
     )
-    private boolean legacy$shallowWaterSprintEligibility(LocalPlayer entity) {
+    private boolean legacyparkourcompat$shallowWaterSprintEligibility(LocalPlayer entity) {
         boolean vanilla = entity.isInShallowWater();
         LocalPlayer player = entity;
         boolean sprintKeyDown = player.input.keyPresses.sprint();
@@ -343,5 +325,4 @@ abstract class LocalPlayerMixin {
             ))
             .orElse(vanilla);
     }
-
 }

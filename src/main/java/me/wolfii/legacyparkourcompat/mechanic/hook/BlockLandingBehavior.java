@@ -6,7 +6,6 @@ import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
 
-
 /**
  * Historical block response after vertical collision, keyed by the landing block.
  * The general Entity movement hook dispatches this because modern movement no

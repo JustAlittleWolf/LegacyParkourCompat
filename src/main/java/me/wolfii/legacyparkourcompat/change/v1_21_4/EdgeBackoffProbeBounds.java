@@ -9,11 +9,6 @@ import net.minecraft.world.phys.AABB;
 @MovementChange(emulates = ParkourVersion.V1_21_4)
 public final class EdgeBackoffProbeBounds implements SneakEdgeProbeBehavior {
     @Override
-    public boolean appliesTo(Player player) {
-        return true;
-    }
-
-    @Override
     public boolean canFallAtLeast(Player player, double deltaX, double deltaZ, double minHeight) {
         AABB boundingBox = player.getBoundingBox();
         AABB probe = new AABB(

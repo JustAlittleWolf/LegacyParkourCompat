@@ -9,7 +9,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.phys.Vec3;
 
-
 @MovementChange(emulates = ParkourVersion.V26_1)
 final class BlockLanding implements BlockLandingBehavior {
     private final String blockId;

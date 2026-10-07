@@ -12,7 +12,5 @@ public final class MovementChanges implements MovementChangeProvider {
         registry.register(new ElytraLiftForce());
         registry.register(new GlideFallDistance());
         registry.register(new InsideBlockContact());
-        registry.register(new SprintFallFlyingGate());
-        registry.register(new VehicleSprint());
     }
 }

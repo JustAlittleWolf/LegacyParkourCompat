@@ -5,7 +5,6 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PortalDismountBehavior;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,7 +12,6 @@ import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.vehicle.boat.Boat;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 
 @MovementChange(emulates = ParkourVersion.V1_14)
 public final class PortalDismountChange implements PortalDismountBehavior {
@@ -22,7 +20,15 @@ public final class PortalDismountChange implements PortalDismountBehavior {
     };
 
     @Override
-    public void dismountFromPortal(LivingEntity passenger, Entity vehicle) {
+    public boolean dismountFromPortal(LivingEntity passenger, Entity vehicle, ParkourVersion selected) {
+        if (!me.wolfii.legacyparkourcompat.change.common.HistoricalRideables.contains(vehicle, selected)) {
+            return false;
+        }
+        reposition(passenger, vehicle);
+        return true;
+    }
+
+    private static void reposition(LivingEntity passenger, Entity vehicle) {
         if (!(vehicle instanceof Boat) && !(vehicle instanceof AbstractHorse)) {
             double x = vehicle.getX();
             double y = vehicle.getBoundingBox().minY + vehicle.getBbHeight();
@@ -100,9 +106,5 @@ public final class PortalDismountChange implements PortalDismountBehavior {
                 passenger.setPos(vehicle.getX(), vehicle.getY() + passenger.getBbHeight() + 0.001, vehicle.getZ());
             }
         }
-    }
-    @Override
-    public boolean supportsVehicle(Entity vehicle, ParkourVersion selected) {
-        return me.wolfii.legacyparkourcompat.change.common.HistoricalRideables.contains(vehicle, selected);
     }
 }

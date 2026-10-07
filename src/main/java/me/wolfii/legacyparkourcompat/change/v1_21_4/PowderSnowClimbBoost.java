@@ -6,7 +6,6 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.PowderSnowClimbBehavior;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Blocks;
 
-
 @MovementChange(emulates = ParkourVersion.V1_21_4)
 public final class PowderSnowClimbBoost implements PowderSnowClimbBehavior {
     @Override

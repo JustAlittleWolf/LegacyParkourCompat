@@ -3,11 +3,10 @@ package me.wolfii.legacyparkourcompat.change.v1_12;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.FallFlyingLookBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.GroundSpeedBehavior;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
-/** One-ULP ground acceleration and the vertical-pitch Elytra lookup quirk. */
+/** Lookup-table rounding of the Elytra look vector at a vertical pitch. */
 @MovementChange(emulates = ParkourVersion.V1_12)
 public final class VerticalPitchGlideLook implements FallFlyingLookBehavior {
     private static final float[] LEGACY_SINE_TABLE = new float[65536];
@@ -18,10 +17,12 @@ public final class VerticalPitchGlideLook implements FallFlyingLookBehavior {
         }
     }
 
-
-
     @Override
-    public Vec3 lookVector(LivingEntity entity, Vec3 vanilla) {
+    public Vec3 lookVector(LivingEntity entity, ParkourVersion selected, Vec3 vanilla) {
+        if (selected.olderThan(ParkourVersion.V1_9)) {
+            return vanilla;
+        }
+
         if (entity.getXRot() != -90.0F) {
             return vanilla;
         }

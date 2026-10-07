@@ -1,6 +1,7 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.hook.JumpExhaustionBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.MovementExhaustionBehavior;
 import net.minecraft.server.level.ServerPlayer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -9,28 +10,20 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 @Mixin(ServerPlayer.class)
 abstract class ServerPlayerExhaustionMixin {
-    private MovementExhaustionBehavior legacyparkourcompat$exhaustionBehavior() {
-        return MovementRuntime.find(MovementExhaustionBehavior.class, (ServerPlayer)(Object)this).orElse(null);
-    }
-
     @ModifyConstant(method = "jumpFromGround()V", constant = @Constant(floatValue = 0.2F))
     private float legacyparkourcompat$sprintingJumpExhaustion(float vanilla) {
-        MovementExhaustionBehavior behavior = this.legacyparkourcompat$exhaustionBehavior();
-        return behavior == null ? vanilla : behavior.jumpExhaustion(
-            (ServerPlayer)(Object)this,
-            MovementExhaustionBehavior.JumpKind.SPRINTING,
-            vanilla
-        );
+        ServerPlayer player = (ServerPlayer)(Object)this;
+        return MovementRuntime.find(JumpExhaustionBehavior.class, player)
+            .map(behavior -> behavior.jumpExhaustion(player, JumpExhaustionBehavior.JumpKind.SPRINTING, vanilla))
+            .orElse(vanilla);
     }
 
     @ModifyConstant(method = "jumpFromGround()V", constant = @Constant(floatValue = 0.05F))
     private float legacyparkourcompat$normalJumpExhaustion(float vanilla) {
-        MovementExhaustionBehavior behavior = this.legacyparkourcompat$exhaustionBehavior();
-        return behavior == null ? vanilla : behavior.jumpExhaustion(
-            (ServerPlayer)(Object)this,
-            MovementExhaustionBehavior.JumpKind.NORMAL,
-            vanilla
-        );
+        ServerPlayer player = (ServerPlayer)(Object)this;
+        return MovementRuntime.find(JumpExhaustionBehavior.class, player)
+            .map(behavior -> behavior.jumpExhaustion(player, JumpExhaustionBehavior.JumpKind.NORMAL, vanilla))
+            .orElse(vanilla);
     }
 
     @ModifyConstant(
@@ -82,7 +75,9 @@ abstract class ServerPlayerExhaustionMixin {
     }
 
     private float legacyparkourcompat$movementFactor(MovementExhaustionBehavior.MovementKind kind, float vanilla) {
-        MovementExhaustionBehavior behavior = this.legacyparkourcompat$exhaustionBehavior();
-        return behavior == null ? vanilla : behavior.movementExhaustionFactor((ServerPlayer)(Object)this, kind, vanilla);
+        ServerPlayer player = (ServerPlayer)(Object)this;
+        return MovementRuntime.find(MovementExhaustionBehavior.class, player)
+            .map(behavior -> behavior.movementExhaustionFactor(player, kind, vanilla))
+            .orElse(vanilla);
     }
 }

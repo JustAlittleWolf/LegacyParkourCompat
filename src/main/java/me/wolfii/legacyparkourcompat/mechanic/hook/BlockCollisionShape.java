@@ -11,11 +11,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import java.util.Optional;
 
 /**
- * Historical collision / outline boxes for one block.
- *
- * <p>Return {@link Optional#empty()} from a method to keep vanilla for that
- * query. {@link #blockId()} is the mechanic variant, so ladder and soul-sand
- * shapes resolve independently.
+ * Collision shape for one block. An empty result preserves the vanilla shape query.
+ * The block identifier is the mechanic variant, so shapes resolve independently per block.
  */
 @MechanicType("block.collision")
 public interface BlockCollisionShape extends VersionedMechanic {
@@ -26,21 +23,10 @@ public interface BlockCollisionShape extends VersionedMechanic {
         return this.blockId();
     }
 
-    default Optional<VoxelShape> collisionShape(
+    Optional<VoxelShape> collisionShape(
         BlockState state,
         BlockGetter level,
         BlockPos pos,
         CollisionContext context
-    ) {
-        return Optional.empty();
-    }
-
-    default Optional<VoxelShape> outlineShape(
-        BlockState state,
-        BlockGetter level,
-        BlockPos pos,
-        CollisionContext context
-    ) {
-        return this.collisionShape(state, level, pos, context);
-    }
+    );
 }

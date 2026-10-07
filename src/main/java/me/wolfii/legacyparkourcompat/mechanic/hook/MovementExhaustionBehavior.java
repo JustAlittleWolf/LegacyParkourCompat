@@ -4,14 +4,10 @@ import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
 import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
 import net.minecraft.world.entity.player.Player;
 
-/** Historical exhaustion factors used by server-authoritative player movement. */
-@MechanicType("player.exhaustion")
+/** Exhaustion factor per distance traveled. */
+@FunctionalInterface
+@MechanicType("player.exhaustion.movement")
 public interface MovementExhaustionBehavior extends VersionedMechanic {
-    enum JumpKind {
-        SPRINTING,
-        NORMAL
-    }
-
     enum MovementKind {
         SWIMMING,
         UNDERWATER_WALKING,
@@ -21,11 +17,5 @@ public interface MovementExhaustionBehavior extends VersionedMechanic {
         WALKING
     }
 
-    default float jumpExhaustion(Player player, JumpKind kind, float vanilla) {
-        return vanilla;
-    }
-
-    default float movementExhaustionFactor(Player player, MovementKind kind, float vanilla) {
-        return vanilla;
-    }
+    float movementExhaustionFactor(Player player, MovementKind kind, float vanilla);
 }

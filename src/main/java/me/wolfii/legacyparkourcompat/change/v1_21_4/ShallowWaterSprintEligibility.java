@@ -5,7 +5,6 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowWaterSprintBehavior;
 import net.minecraft.world.entity.player.Player;
 
-
 @MovementChange(emulates = ParkourVersion.V1_21_4)
 public final class ShallowWaterSprintEligibility implements ShallowWaterSprintBehavior {
     @Override

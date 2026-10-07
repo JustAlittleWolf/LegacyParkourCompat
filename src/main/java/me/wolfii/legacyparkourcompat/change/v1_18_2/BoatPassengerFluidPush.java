@@ -7,7 +7,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 
-
 @MovementChange(emulates = ParkourVersion.V1_18_2)
 public final class BoatPassengerFluidPush implements BoatPassengerFluidPushBehavior {
     @Override

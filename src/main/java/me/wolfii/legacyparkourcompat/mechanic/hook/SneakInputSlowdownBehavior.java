@@ -5,6 +5,7 @@ import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
 import net.minecraft.world.entity.player.Player;
 
 /** Versioned gate for local-player sneak input slowdown. */
+@FunctionalInterface
 @MechanicType("player.input.sneak-slowdown")
 public interface SneakInputSlowdownBehavior extends VersionedMechanic {
     boolean shouldSlowDown(Player player);

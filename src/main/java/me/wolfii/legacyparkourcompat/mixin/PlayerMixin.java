@@ -2,14 +2,13 @@ package me.wolfii.legacyparkourcompat.mixin;
 
 import me.wolfii.legacyparkourcompat.mechanic.AirSpeedState;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
-import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
 import me.wolfii.legacyparkourcompat.mechanic.hook.AirSpeedBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.AirSpeedUpdateBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.FlightFallDistanceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeDistanceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeProbeBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SwimmingBehavior;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
@@ -25,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 abstract class PlayerMixin implements AirSpeedState {
 
     @Inject(method = "canFallAtLeast(DDD)Z", at = @At("HEAD"), cancellable = true)
-    private void legacy$historicalSupportProbe(
+    private void legacyparkourcompat$historicalSupportProbe(
         double deltaX,
         double deltaZ,
         double minHeight,
@@ -33,27 +32,22 @@ abstract class PlayerMixin implements AirSpeedState {
     ) {
         Player player = (Player) (Object) this;
         MovementRuntime.find(SneakEdgeProbeBehavior.class, player)
-            .filter(behavior -> behavior.appliesTo(player))
             .ifPresent(behavior -> callback.setReturnValue(
                 behavior.canFallAtLeast(player, deltaX, deltaZ, minHeight)));
     }
-
 
     @Redirect(
         method = "aiStep",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;resetFallDistance()V")
     )
-    private void legacyParkourCompat$resetFallDistanceBeforeMovement(Player entity) {
+    private void legacyparkourcompat$resetFallDistanceBeforeMovement(Player entity) {
         Player player = (Player) (Object) this;
-        var behavior = MovementRuntime.find(FlightFallDistanceBehavior.class, player);
-        if (behavior.isEmpty() || !player.getAbilities().flying || player.isPassenger()) {
-            entity.resetFallDistance();
-        } else {
-            behavior.orElseThrow().beforeMovement(player, entity::resetFallDistance);
-        }
+        MovementRuntime.find(FlightFallDistanceBehavior.class, player)
+            .ifPresentOrElse(
+                behavior -> behavior.beforeMovement(player, entity::resetFallDistance),
+                entity::resetFallDistance
+            );
     }
-
-
 
     @Inject(method = "isSwimming", at = @At("RETURN"), cancellable = true)
     private void legacyparkourcompat$swimmingState(CallbackInfoReturnable<Boolean> cir) {
@@ -62,8 +56,6 @@ abstract class PlayerMixin implements AirSpeedState {
             .map(behavior -> behavior.isSwimming(player, cir.getReturnValue()))
             .orElse(cir.getReturnValue()));
     }
-
-
 
     @Unique
     private float legacyparkourcompat$storedAirSpeed = 0.02F;
@@ -79,7 +71,7 @@ abstract class PlayerMixin implements AirSpeedState {
     )
     private void legacyparkourcompat$storeAirSpeedAfterTravel(CallbackInfo ci) {
         Player player = (Player) (Object) this;
-        MovementRuntime.find(AirSpeedBehavior.class, player)
+        MovementRuntime.find(AirSpeedUpdateBehavior.class, player)
             .ifPresent(behavior -> this.legacyparkourcompat$storedAirSpeed = behavior.afterAiStep(player));
     }
 
@@ -90,8 +82,6 @@ abstract class PlayerMixin implements AirSpeedState {
             cir.setReturnValue(behavior.speed(player, this.legacyparkourcompat$storedAirSpeed, cir.getReturnValue()))
         );
     }
-
-
 
     @Inject(method = "maybeBackOffFromEdge", at = @At("RETURN"), cancellable = true)
     private void legacyparkourcompat$maybeBackOffFromEdge(
@@ -116,7 +106,6 @@ abstract class PlayerMixin implements AirSpeedState {
         });
     }
 
-
     @Redirect(
         method = "maybeBackOffFromEdge(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/entity/MoverType;)Lnet/minecraft/world/phys/Vec3;",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;maxUpStep()F")
@@ -127,5 +116,4 @@ abstract class PlayerMixin implements AirSpeedState {
             .map(behavior -> behavior.edgeFallDistance(player, vanillaDistance))
             .orElse(vanillaDistance);
     }
-
 }

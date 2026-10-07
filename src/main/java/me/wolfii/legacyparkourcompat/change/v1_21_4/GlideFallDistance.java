@@ -8,7 +8,11 @@ import net.minecraft.world.entity.player.Player;
 @MovementChange(emulates = ParkourVersion.V1_21_4)
 public final class GlideFallDistance implements GlideFallDistanceBehavior {
     @Override
-    public void beforeFallFlyingTravel(Player player) {
+    public void beforeFallFlyingTravel(Player player, ParkourVersion selected) {
+        if (selected.olderThan(ParkourVersion.V1_9)) {
+            return;
+        }
+
         if (!player.onClimbable() && player.getDeltaMovement().y > -0.5 && player.fallDistance > 1.0F) {
             player.fallDistance = 1.0F;
         }

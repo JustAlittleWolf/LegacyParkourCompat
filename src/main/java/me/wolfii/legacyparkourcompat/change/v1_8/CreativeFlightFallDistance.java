@@ -10,6 +10,9 @@ import net.minecraft.world.entity.player.Player;
 public final class CreativeFlightFallDistance implements FlightFallDistanceBehavior {
     @Override
     public void beforeMovement(Player player, VanillaCall vanilla) {
+        if (!player.getAbilities().flying || player.isPassenger()) {
+            vanilla.run();
+        }
         // Version 1.8 preserves fall distance through creative-flight movement.
     }
 }

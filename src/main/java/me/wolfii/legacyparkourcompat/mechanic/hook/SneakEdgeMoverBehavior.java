@@ -6,6 +6,7 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 
 /** Movement types for which the player's sneak-edge guard runs. */
+@FunctionalInterface
 @MechanicType("player.sneak.edge.mover")
 public interface SneakEdgeMoverBehavior extends VersionedMechanic {
     MoverType edgeMoverType(Player player, MoverType vanilla);
