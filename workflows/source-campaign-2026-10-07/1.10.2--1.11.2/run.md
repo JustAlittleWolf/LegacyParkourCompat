@@ -3,6 +3,7 @@
 - Status: partial
 - Scope: source-only comparison of reachable client-player movement for exact A=1.10.2 and B=1.11.2. Endpoint differences do not establish a first changed release.
 - Repository revision and start date: base `002137b227676caea77f6832b9f4c8d0b6200bff`; campaign date 2026-10-07; report branch `feat/source-discovery-movement-source-1-10-2-1-11-2`.
+- Evidence integrity status: source trees and their cited file hashes were unchanged in the latest owner notice; derived shared-cache artifact integrity is pending repair and re-verification. All findings remain unfrozen/provisional until that dependency is closed.
 - Selected naming namespace, CLI mode per side and alignment evidence: `ornithe-feather` / `--mappings=feather` for both. Exact metadata IDs match requested IDs; both use release-specific Feather Gen2 build 2 mappings. Both source trees have 1,845 / 1,921 files and verified manifests. This establishes aligned naming convention, not member correspondence by itself.
 - Source preparation owner / command / log / readiness marker: shared source owner published the trees; worker did not decompile or write shared source/cache. Both provenance files record `.\gradlew.bat decompileMinecraft --versions=1.10.2,1.11.2,1.12.2 --mappings=feather --decompiler-heap=4G --output-root=... --cache-directory=...` (batch includes 1.12.2). Successful logs are `build/movement-campaign-2026-10-07/ready/<version>/ornithe-feather.success.log`; markers are `.../ready/<version>/ornithe-feather.ready.json`. Requested/resolved IDs are exact.
 - Toolchain/decompiler/remapper versions and options: Java 25.0.3+9-LTS; Gradle 9.7.1; Vineflower 1.12.0; ASM 9.10.1; mapping-io 0.9.1; Gson 2.14.0; Tiny Remapper 0.14.1; decompiler heap 4G.
@@ -28,9 +29,18 @@ Cited source hash inventory (SHA-256; relative roots are the source roots in the
 - `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java`: A `a9637065f21ad67464eb5c204c74ebf228c3bb0da8a96ddf4ae73c0490fed443`; B `65c2747bd8c70def6be7f41f624d4c9493342b39ae7bed7967f9ff63608f59ed`.
 - `net/minecraft/client/entity/living/player/Input.java`: both `9e704cfe7fdc55c4eab78670e60cf392ba6817adbd5e7451d3a86f11da8bf50e` (identical source content).
 - `net/minecraft/client/entity/living/player/KeyboardInput.java`: both `7be11425906be051c83e275f359816546e4677b16d212156380e8d2e9258654a`.
-- `net/minecraft/world/World.java`: A `888ed0e9de765def87b05c4126ecdf0b10e9dd448b4543dd1cb98211e9951646`; B `27cfaa5ff45c2d88c492fc5daeea4a2bb4536fd64bff8498a9a7d0cb82efb58`.
+- `net/minecraft/world/World.java`: A `888ed0e9de765def87b05c4126ecdf0b10e9dd448b4543dd1cb98211e9951646`; B `27cfaa5ff45c2d88c492fc5dae3ea4a2bb4536fd64bff8498a9a7d0cb82efb58`.
 - `net/minecraft/block/entity/MovingBlockEntity.java`: A `720e1305c494a3a316b21beef823158c435826f50383778a5bd00ad0e4ff6ac1`; B `a55ee14227fe6ac0932283cba0414e946ba8e2637f543b3a3fe13d4e45b7b16e`.
-- `net/minecraft/entity/EntityFilter.java` and `net/minecraft/util/math/Box.java` still need exact hashes before their slices can be closed.
+- `net/minecraft/block/Block.java`: A `1971dbc284d511e2ed366f77bc77fd8cd07174baad3e7732e908d3daeb640c01`; B `ab873436b24487ab0ee8055bf7a478349c7f7978398aea8e387796a6c820996a`.
+- `net/minecraft/block/RedstoneOreBlock.java`: A `0691a8df1e7ceac85ca0ec9298706b225ce5669541757d15333f2c4019a1de82`; B `5d200f042a07ad928f1f38b9d7464a1a019f53ca7e63b9f23036dc71f8939ecd`.
+- `net/minecraft/block/SlimeBlock.java`: both `38e77cdaaf3681fe3a2357ebc0dce7a86d658429463bc1e06e6e1167fe627c8a`.
+- `net/minecraft/block/MagmaBlock.java`: both `6e382a4fc307391c6776dc2ff010aec1da16b50ebc50e015b6009d82c7b76b1a`.
+- `net/minecraft/block/StairsBlock.java`: A `ee143aced2a6902563cddbae77e78d1d1a512244f278987684ebe5bcacba37cb`; B `5df1782da6eb7acdb9935b3910a0484d6417661bfd6230ecf81df0de6d782627`.
+- `net/minecraft/entity/EntityFilter.java`: A `91158a5477935c911178433e1b2628d1d063604a23b08baee4706dd286e7e813`; B `49f2c3cbeea0bb9421fdfaad49a7742394f69cd73981a9cdd51e1badcf30c629`.
+- `net/minecraft/world/World.java`: A `888ed0e9de765def87b05c4126ecdf0b10e9dd448b4543dd1cb98211e9951646`; B `27cfaa5ff45c2d88c492fc5dae3ea4a2bb4536fd64bff8498a9a7d0cb82efb58`.
+- `net/minecraft/client/entity/living/player/RemoteClientPlayerEntity.java`: both `e7e248b439f7356695b1bf196d08e997bb19b24c23b206763c772663ee7086a1`.
+- `net/minecraft/util/math/Box.java`: A `f529ef075bd933b88e3bace9020a5e23cb18b65e816154520f10bd2f26f61155`; B `f788b8146b14f299ccb58ea0854609f845c298a963295d503de2e30e15d66f3a`.
+- `net/minecraft/entity/EntityFilter.java` and `net/minecraft/util/math/Box.java` hashes are recorded above; broader query/provider and call-site closure remains open.
 
 ## Blind-discovery freeze
 
@@ -130,17 +140,41 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - Disposition and rationale (including concrete reachability/preconditions): B skips the sneak-edge restraint for a grounded sneaking player receiving piston movement because its caller passes PISTON. A has no mover category and applies the restraint to the same player state. Piston pushing is an external movement route; actual positional outcome depends on geometry and remains a source-predicted consequence.
 - Finding IDs or checked absence/replacement path: F-03.
 
+### Slice S4-step-callbacks: post-move onSteppedOn dispatch
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: A caches the pre-movement grounded/sneaking/player condition in `bl`; B checks current `onGround`, `isSneaking`, and player type after collision resolution. Audited every `onSteppedOn` override under `net/minecraft/block` and its direct movement effects.
+- A evidence: `Entity.java::move`, lines 468 and 664-694, SHA-256 `05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77`; `Block.java::onSteppedOn`, line 517-518, SHA-256 `1971dbc284d511e2ed366f77bc77fd8cd07174baad3e7732e908d3daeb640c01`; `RedstoneOreBlock.java::onSteppedOn/interact`, lines 42-69, SHA-256 `0691a8df1e7ceac85ca0ec9298706b225ce5669541757d15333f2c4019a1de82`; `SlimeBlock.java::onSteppedOn`, lines 46-54, SHA-256 `38e77cdaaf3681fe3a2357ebc0dce7a86d658429463bc1e06e6e1167fe627c8a`; `MagmaBlock.java::onSteppedOn`, lines 34-40, SHA-256 `6e382a4fc307391c6776dc2ff010aec1da16b50ebc50e015b6009d82c7b76b1a`; `StairsBlock.java::onSteppedOn`, lines 220-222, SHA-256 `ee143aced2a6902563cddbae77e78d1d1a512244f278987684ebe5bcacba37cb`.
+- B evidence: `Entity.java::move`, lines 519 and 727-759, SHA-256 `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440`; `Block.java::onSteppedOn`, line 514-515, SHA-256 `ab873436b24487ab0ee8055bf7a478349c7f7978398aea8e387796a6c820996a`; `RedstoneOreBlock.java::onSteppedOn/interact`, lines 41-59, SHA-256 `5d200f042a07ad928f1f38b9d7464a1a019f53ca7e63b9f23036dc71f8939ecd`; `SlimeBlock.java::onSteppedOn`, lines 46-54, SHA-256 same as A; `MagmaBlock.java::onSteppedOn`, lines 34-40, SHA-256 same as A; `StairsBlock.java::onSteppedOn`, lines 221-223, SHA-256 `5df1782da6eb7acdb9935b3910a0484d6417661bfd6230ecf81df0de6d782627`.
+- State producers/writers -> consumers/readers: pre-move ground flag -> A cached `bl`; collision result -> B updated `onGround`; `makesSteps` and callback dispatch -> subclass effects. Slime's horizontal velocity write is itself gated on `!entity.isSneaking`; Magma only applies fire damage (excluded); RedstoneOre lights itself and emits particles; Stairs delegates to its base block; base callback is empty.
+- Parent slices / dependencies / closure evidence: S4-sneak-probe; source search enumerated each `onSteppedOn` override under both block trees. This closes movement effects of these callbacks for the sneaking-player landing case; it does not close all block callbacks, shapes, registrations, or resource dependencies.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the dispatch guard differs when a previously airborne sneaking player lands, but every audited callback reachable through that dispatch has no movement write for a sneaking player. Slime's damping is explicitly suppressed while sneaking; Magma damage is excluded; RedstoneOre's callback changes light state/particles only; Stairs delegates. Thus this bounded callback difference produces no confirmed in-scope movement delta.
+- Finding IDs or checked absence/replacement path: no movement finding; F-01/F-03 describe separate movement-path changes. Full `onEntityCollision`, `beforeCollision`, and `onFallenOn` inventory remains open.
+
+### Slice S4-box-axis-resolution: axis clipping and step candidate selection
+
+- Inventory ID(s): INV-COLLISION, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: `Box.intersectX/Y/Z` and strict `intersects` inequalities; `Entity.move` vertical then X then Z resolution, step-up's two candidate paths, horizontal squared-distance comparison, and `>=` fallback. The comparison is conditional on identical input collision lists and initial boxes; those producers remain a separate open slice.
+- A evidence: `Box.java::intersectX/Y/Z/intersects`, lines 143-209, SHA-256 `f529ef075bd933b88e3bace9020a5e23cb18b65e816154520f10bd2f26f61155`; `Entity.java::move`, lines 514-626, SHA-256 `05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77`.
+- B evidence: `Box.java::intersectX/Y/Z/intersects`, lines 185-250, SHA-256 `f788b8146b14f299ccb58ea0854609f845c298a963295d503de2e30e15d66f3a`; `Entity.java::move`, lines 564-689, SHA-256 `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440`.
+- State producers/writers -> consumers/readers: `World.getCollisions` ordered Box list + current entity shape + requested deltas -> Box axis clipping -> vertical/X/Z box moves -> step-up alternatives -> selected box/delta -> position and collision flags.
+- Parent slices / dependencies / closure evidence: S4-sneak-probe; `World.getCollisions` traversal and block/entity shape production remain open under D-COLLISION.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the inspected Box inequalities, clipping expressions, axis order, squared horizontal comparison, and fallback boundary match. B skips a zero-delta shape translation; with the same box this is a no-op. Conclusion is scoped to matching collision-list inputs and does not close collision-list generation.
+- Finding IDs or checked absence/replacement path: no finding for this bounded algorithmic slice; provider differences remain open.
+
 ### Slice S7-pushability: living player collision eligibility
 
 - Inventory ID(s): INV-EXTERNAL, INV-COLLISION, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: `LivingEntity.isPushable` and entity-filter predicate consuming it; no non-player movement consequence is asserted.
-- A evidence: `LivingEntity.java::isPushable`, lines 1887-1889, SHA-256 `d40dd476b6b68c6ce45b4202823475deb546ecda2284da330ff6724b33815e82`; `EntityFilter.java` lines 62-70 (exact file hash pending).
-- B evidence: `LivingEntity.java::isPushable`, lines 1950-1952, SHA-256 `bb7dc6c9e423a9568d6433d51bba12e7aee4555fbf3fb3e2b87f618382279f2f`; corresponding `EntityFilter.java` lines 56-64 (exact file hash pending).
-- State producers/writers -> consumers/readers: alive/removal and climbing state -> `isPushable` -> EntityFilter/entity collision selection. The consumer context and player-player reachability require further caller audit.
-- Parent slices / dependencies / closure evidence: S1-local-order; F-04 is a source-confirmed predicate change, but collision consumer closure remains open.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): B changes the predicate from `!removed` to `isAlive() && !isClimbing()`. This can alter eligibility for a living player when climbing, and for dead living entities; the latter producer is in excluded damage/health territory and is not simulated here. Determine exact player movement caller(s) before terminal disposition.
-- Finding IDs or checked absence/replacement path: candidate F-04; pending caller closure.
+- A evidence: `LivingEntity.java::isPushable`, lines 1887-1889, SHA-256 `d40dd476b6b68c6ce45b4202823475deb546ecda2284da330ff6724b33815e82`; `EntityFilter.java::canBePushedBy`, lines 56-70, SHA-256 `91158a5477935c911178433e1b2628d1d063604a23b08baee4706dd286e7e813`; `RemoteClientPlayerEntity#mobTick`, lines 105-112, SHA-256 `e7e248b439f7356695b1bf196d08e997bb19b24c23b206763c772663ee7086a1`; `Entity#push`, lines 1085-1107, SHA-256 `05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77`; `World#getCollisions` entity-loop lines 945-964, SHA-256 `888ed0e9de765def87b05c4126ecdf0b10e9dd448b4543dd1cb98211e9951646`.
+- B evidence: `LivingEntity.java::isPushable`, lines 1950-1952, SHA-256 `bb7dc6c9e423a9568d6433d51bba12e7aee4555fbf3fb3e2b87f618382279f2f`; `EntityFilter.java::canBePushedBy`, lines 50-64, SHA-256 `49f2c3cbeea0bb9421fdfaad49a7742394f69cd73981a9cdd51e1badcf30c629`; `RemoteClientPlayerEntity#mobTick`, lines 105-112, SHA-256 same as A; `Entity#push`, lines 1153-1175, SHA-256 `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440`; `World#getCollisions` entity-loop lines 1013-1036, SHA-256 `27cfaa5ff45c2d88c492fc5dae3ea4a2bb4536fd64bff8498a9a7d0cb82efb58`.
+- State producers/writers -> consumers/readers: player climbing state and alive/removal state -> `LivingEntity.isPushable` -> `EntityFilter.canBePushedBy` candidate admission -> `RemoteClientPlayerEntity.pushAwayCollidingEntities` -> `pushAway` -> local player's `Entity.push` -> velocity via `addVelocity`.
+- Parent slices / dependencies / closure evidence: S1-local-order; client-side caller and receiver push path are traced for remote-player collision. Broader vehicle/entity push routes remain in D-EXTERNAL.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): B changes the predicate from `!removed` to `isAlive() && !isClimbing()`. With collision rule allowing interaction, a non-spectator local player who is climbing and intersects a remote player is included by A's push candidate filter but rejected by B's; A's remote-player tick then applies `Entity.push` to the local player while B omits it. Conditions in `Entity.push` (different vehicle, neither noClip, horizontal separation at least `0.01F`, target has no passengers) further gate the velocity write. Death-related exclusion is not used for this finding.
+- Finding IDs or checked absence/replacement path: F-04.
 
 ### Slice S2-resize: entity box adjustment when dimensions change
 
@@ -169,10 +203,11 @@ Other correspondence requiring further walk: remote/client corrections and packe
 ## Dependency queue and blockers
 
 - D-SOURCE-DIAGNOSTICS: retain and recheck body-level diagnostics for every cited movement method; owner markers and global hashes match, but the full method-body-by-method diagnostics audit is not recorded in this report. Owner/source paths above; open.
+- D-ARTIFACT-INTEGRITY: source owner/ops report that a reproducibility rerun replaced derived mapped JARs in shared cache for this endpoint range while source-file/raw-input hashes stayed stable. Do not rewrite markers, waive hash differences, or regenerate independently. Await canonical repair protocol, then reverify both exact releases' current artifact manifest and all cited raw/mapped artifact hashes. Owner: source owner/ops; keep this report unfrozen until resolved.
 - D-STEPHEIGHT: trace default and every writer of player `stepHeight`, its timing, and callers; needed by F-01.
 - D-COLLISION: inspect both `World.getCollisions` overloads, entity filtering, Box axis intersection, every reachable player collision shape provider/callback/neighbor dependency and registrations; needed by F-01/F-03/F-04 and all movement.
 - D-PISTON: fully compare `MovingBlockEntity` A/B progress, selection, shape and tick call order; tie movement cap to the exact reachable player path; needed by F-02.
-- D-PUSHABILITY: trace player `isPushable` consumers and player-to-player collision/movement path; obtain EntityFilter hashes; needed by candidate F-04.
+- D-PUSHABILITY: resolved for the client player-to-player climbing path in S7/F-04 using `EntityFilter.canBePushedBy` -> `RemoteClientPlayerEntity.pushAwayCollidingEntities` -> `Entity.push`. Other external push/collision producers remain open under D-EXTERNAL.
 - D-POSE: trace player dimension/pose/eye-height constructors, sleep and pose transition writers, complete `trySleep`, and all collision readers; needed by S2-resize.
 - D-TRAVEL: complete travel branch and exact operation order, including fluid/flight/climb, velocity cutoffs, jump/effect/item gates and post-travel state.
 - D-BLOCK-DATA: inventory block/fluid providers, registrations, neighbors and resources (tags/data defaults and jar entries with hashes); modern-only applicability disposition per added block.
@@ -180,13 +215,14 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - D-EXTERNAL: trace corrections/teleports, velocity writes, mounts, shulkers and all player-facing movement producers; separate player movement from non-player simulation.
 - D-REVIEWER: coordinator to assign an independent reviewer who did not author this report.
 - D-CHECKER: resolved by applying canonical workflow checker fix `8fa4ab0`; report was checked against the local checker and accepted as structurally valid partial. This is schema validation only.
-- Open dependencies: D-SOURCE-DIAGNOSTICS, D-STEPHEIGHT, D-COLLISION, D-PISTON, D-PUSHABILITY, D-POSE, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
+- Open dependencies: D-ARTIFACT-INTEGRITY, D-SOURCE-DIAGNOSTICS, D-STEPHEIGHT, D-COLLISION, D-PISTON, D-POSE, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
 
 ## Finding index
 
 - [F-01](findings/F-01-sneak-edge-probe-depth.md): grounded sneaking player edge restraint probes a different vertical depth; source-confirmed, consequence conditional on shapes/support.
 - [F-02](findings/F-02-piston-movement-cap.md): B applies per-world-time axis movement cap to piston displacement; source-confirmed, no runtime validation.
-- F-04 (candidate): `LivingEntity.isPushable` predicate differs; caller/reachability audit is open, so not yet a confirmed finding.
+- [F-03](findings/F-03-piston-sneak-edge-bypass.md): piston-driven movement bypasses sneak edge restraint in B; source-confirmed, consequence conditional on geometry.
+- [F-04](findings/F-04-climbing-player-push-eligibility.md): climbing players are excluded from B's push recipient filter; source-confirmed, scoped to the traced local-player path.
 - Discarded candidate: `LocalClientPlayerEntity.getRotationVector(float)` is added in B and reads yaw instead of inherited LivingEntity headYaw; at confirmed locally controlled travel, `PlayerEntity.serverTickAi` sets headYaw=yaw before travel. This bounds that travel use only; other callers remain open and this candidate is not globally discarded.
 - Potential null-to-empty API changes in item/equipment code are not movement findings until empty ItemStack behavior and use/Elytra call order are proven equivalent or different.
 
@@ -195,7 +231,7 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - Last completed slice: exact source readiness verification; S1-input; bounded S3-jump; source differences F-01/F-02; partial S1-local-order.
 - Next bounded slice and exact files/members/body ranges to open: `D-STEPHEIGHT` (`Entity` constructor/attribute writers/defaults), `D-COLLISION` (`World.getCollisions`, `Box` axis intersections, relevant `BlockState.addCollisions`), then `D-PISTON` (`MovingBlockEntity` complete progress/tick paths A 91-183 and B 116-285). Continue all open queue items in navigation order.
 - Outstanding dependencies and owners: shared source owner is read-only publisher; source worker owns this run and findings; coordinator must assign independent reviewer.
-- Current assumptions requiring verification: line ranges cited above remain stable under the verified source hashes; complete method correspondence, branch coverage, data resources and player-player push reachability remain open.
+- Current assumptions requiring verification: line ranges cited above remain stable under the source hashes; current mapped artifact integrity needs canonical owner repair/reverification; complete method correspondence, branch coverage, data resources and external-player call paths remain open.
 
 ## Implementation reconciliation
 
@@ -218,11 +254,11 @@ Complete only after blind-discovery freeze. No mod implementation was opened.
 
 ## Source audit closure
 
-- Coverage counts by status: 3 findings, 2 compared-no-difference, 3 in-progress, 1 pending (bounded rows only; broad inventory remains open).
+- Coverage counts by status: 4 findings, 4 compared-no-difference, 2 in-progress, 1 pending (bounded rows only; broad inventory remains open).
 - Required inventory status and evidence: only `INV-EXCLUSIONS` declaration complete; all movement inventories pending, with partial anchors above.
-- Open dependencies: D-SOURCE-DIAGNOSTICS, D-STEPHEIGHT, D-COLLISION, D-PISTON, D-PUSHABILITY, D-POSE, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
+- Open dependencies: D-ARTIFACT-INTEGRITY, D-SOURCE-DIAGNOSTICS, D-STEPHEIGHT, D-COLLISION, D-PISTON, D-POSE, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
 - Unresolved gaps and limits: complete tick graph, body-level diagnostic review, collision providers/resources, exact entity-player collision paths, modifiers, external writers, source-only freeze and independent audit remain open. Source comparison only; no gameplay behavior observed.
-- Evidence/hash/correspondence audit: readiness and all 3,766 listed Java-source hashes were checked. Obtain missing EntityFilter/Box hashes before freezing. Exact cited line ranges should be rechecked at freeze.
+- Evidence/hash/correspondence audit: readiness and all 3,766 listed Java-source hashes matched at initial verification; owner reports raw/source hashes remain unchanged, but derived mapped-JAR integrity is now pending. Reverify after canonical repair. Hashes for specifically cited source files are recorded. Exact cited line ranges should be rechecked at freeze; broad correspondence remains incomplete.
 - Blind freeze: pending
 - Implementation reconciliation: pending
 - Independent audit: pending
