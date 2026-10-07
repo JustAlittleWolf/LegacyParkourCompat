@@ -34,7 +34,7 @@ Detailed method bodies, operation order, endpoint hashes, and remaining open cla
 - **1.14:** player crouch dimensions are 0.6×1.5 at the endpoint. Jump input adds to the climb-assist predicate, verifying jump-to-climb behavior at the endpoint. Exact crouch boundary and additional reachability claims remain open.
 - **1.14.4→1.15.2 slipperiness sampling:** source changes from `minY - 1.0` to `minY - 0.5000001`. Exact bed/slab examples remain open.
 - **1.16.1→1.16.2 sneak step-down:** source replaces the `onGround` gate with a sneaking and above-ground predicate; the 0.05 movement backoff remains.
-- **1.17.1:** swimming entry requires water at the player’s block position. Powder snow collision depends on fall distance and player/boot context.
+- **1.17.1:** swimming entry requires water at the player's block position. Powder snow collision depends on fall distance and boots; source also confirms the 0.9/1.5/0.9 movement multiplier and boot climbing.
 
 ## Still unresolved
 
@@ -44,9 +44,10 @@ Detailed method bodies, operation order, endpoint hashes, and remaining open cla
 - Bed/slab examples for the 1.15 sample offset.
 - Y=256 water-exit fix boundary; lava pushing is verified at the 1.16.1 endpoint.
 - Movement math or exact version boundaries for player-affecting Elytra, Levitation, Frost Walker, Slow Falling, Dolphin’s Grace, Riptide, and Soul Speed. Damage-only details and non-player entity physics are out of scope.
-- 1.17 remaining powder-snow tick details.
+- 1.17 powder-snow frozen-speed/client-server tick timing; fall-damage details are outside movement scope.
 - 1.18 has only TODOs; the inspected wiki page has no later sections.
 
 These are explicit coverage gaps, not negative findings. Ready source endpoints do not automatically settle claims whose methods were not inspected.
+
 
 
