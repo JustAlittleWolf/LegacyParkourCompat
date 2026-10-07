@@ -64,7 +64,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - `INV-TICK` status=pending; slice_ids=TICK-01 through TICK-07; evidence=full local tick graph and player path inventory in progress
 - `INV-STATE` status=pending; slice_ids=STATE-01 through STATE-03; evidence=all player state writers/readers still being inventoried
 - `INV-COLLISION` status=pending; slice_ids=COLL-01 and COLL-02; evidence=axis, step, support, and shape-provider closure in progress
-- `INV-WORLD-MOVEMENT` status=pending; slice_ids=WORLD-01, WORLD-02, COLL-02; evidence=world states, neighboring blocks, fluids, and vehicle path in progress
+- `INV-WORLD-MOVEMENT` status=pending; slice_ids=WORLD-01, WORLD-02, WORLD-03, COLL-02; evidence=world states, neighboring blocks, fluids, and vehicle path in progress
 - `INV-MODIFIERS` status=pending; slice_ids=MOD-01, MOD-02; evidence=equipment/effect/attribute producers and consumers in progress; modern-only Elytra/Levitation are scoped out
 - `INV-EXTERNAL` status=pending; slice_ids=TICK-03 through TICK-07, WORLD-02, EXT-01, EXT-02; evidence=external velocity/position/vehicle writers in progress
 - `INV-EXCLUSIONS` status=complete; slice_ids=scope boundary; evidence=health/food production and attack/damage resolution plus non-player/vehicle physics excluded; direct player velocity/impulse/knockback response remains in movement scope
@@ -181,17 +181,17 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Disposition and rationale (including concrete reachability/preconditions): B inserts an item-use tick before movement input sampling; player-motion consequence and all writers remain open.
 - Finding IDs or checked absence/replacement path: pending.
 
-### Slice TICK-06: local pre-travel entity push
+### Slice TICK-06: local pre-travel player block push-away
 
 - Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-EXTERNAL`.
-- Exact behavior boundary and enclosing guards/order checked: four local-player `pushAwayFrom` calls before sprint/jump/flight/riding gates and `super.mobTick()`.
-- A evidence: `LocalClientPlayerEntity.mobTick()V` lines 535-560; `Entity.push()V` lines 947-973; hashes pending.
-- B evidence: `LocalClientPlayerEntity.mobTick()V` lines 645-681; `Entity.push()V` lines 1061-1088; hashes pending.
-- State producers/writers -> consumers/readers: nearby entity candidates and offsets -> push velocity writer -> local player pre-travel velocity, before superclass cutoff/travel.
-- Parent slices / dependencies / closure evidence: candidate predicates and call order relative to cutoffs/travel.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): direct pre-travel player velocity writes are reachable; candidate and formula comparison pending.
-- Finding IDs or checked absence/replacement path: pending.
+- Exact behavior boundary and enclosing guards/order checked: four local-player `pushAwayFrom` calls before sprint/jump/flight/riding gates and `super.mobTick()`; each probes block solidity at body offsets and may overwrite one horizontal velocity component.
+- A evidence: `LocalClientPlayerEntity.mobTick()V` lines 535-560, `pushAwayFrom(DDD)Z` lines 292-341 and `canSurvive(BlockPos)Z` lines 344-346; SHA-256 `1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053`.
+- B evidence: `LocalClientPlayerEntity.mobTick()V` lines 645-681, `pushAwayFrom(DDD)Z` lines 349-398 and `canSurvive(BlockPos)Z` lines 401-403; SHA-256 `8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d`.
+- State producers/writers -> consumers/readers: block state/material/shape -> `canSurvive` -> directional ±0.1 horizontal velocity overwrite -> pre-travel cutoff and movement.
+- Parent slices / dependencies / closure evidence: the state-solid predicate reaches piston base as proved in WORLD-03; remaining non-piston state providers stay in `WORLD-03` inventory follow-up.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): B's state-aware solidity changes the local player ejection gate for extended piston bases; other state/shape providers remain open.
+- Finding IDs or checked absence/replacement path: `findings/WORLD-03-piston-player-block-ejection.md`.
 
 ### Slice TICK-07: post-travel entity push
 
@@ -216,6 +216,18 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): outbound protocol behavior changes; downstream movement implications await correction closure.
 - Finding IDs or checked absence/replacement path: pending.
+
+### Slice WORLD-03: piston-base state solidity in local player ejection
+
+- Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-COLLISION`, `INV-WORLD-MOVEMENT`.
+- Exact behavior boundary and enclosing guards/order checked: `LocalClientPlayerEntity.pushAwayFrom(DDD)Z` -> `canSurvive(BlockPos)Z` -> A block-level or B state-level solidity -> existing piston-base block's cube classification -> direct player velocity write.
+- A evidence: `Block#isSolid()Z` lines 237-239 and `PistonBaseBlock#isCube()Z` lines 223-225; `Block.java` SHA-256 `ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528`, `PistonBaseBlock.java` SHA-256 `3c96698a674714446f9fd0d6cc1c4d5eb72937d9a2f396516ddb2461c3ea4929`.
+- B evidence: `Block#isSolid(BlockState)Z` lines 214-216 and `StateDefinition#isSolid()Z` lines 293-295; `Block.java` SHA-256 `e62ece80c6a7e7121346f65f8fdfd9b148c29441a27de9f568bba9afe1d84fe6`, `StateDefinition.java` SHA-256 `10ba661985c87801e1bb7e941399498e89fb67e1bd9ead2869c00d39ffff6493`.
+- State producers/writers -> consumers/readers: registered historical piston-base state including `EXTENDED`/facing -> `isSolid` branch gate -> local player ±0.1 horizontal overwrite before travel.
+- Parent slices / dependencies / closure evidence: both sides register piston bases; B `PistonBaseBlock` uses `Material.PISTON`, extended partial shape, and inherited state-cube default; A class overrides cube false. Other stateful block providers are open in `COLL-02`/world inventory.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): when a local player's non-`noClip` body probe encounters an extended piston base and an escape neighbor is available, B's state-solid gate can write directional velocity where A's block-level gate skips the push-away branch.
+- Finding IDs or checked absence/replacement path: `findings/WORLD-03-piston-player-block-ejection.md`.
 
 ### Slice STATE-02: creative-flight movement reset
 
@@ -268,14 +280,14 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 ### Slice COLL-02: pane and iron-bar collision geometry
 
 - Inventory ID(s): `INV-COLLISION`, `INV-WORLD-MOVEMENT`.
-- Exact behavior boundary and enclosing guards/order checked: pane/bar registrations and subclasses -> state/neighbor resolution -> collision union -> player collision query.
-- A evidence: `PaneBlock.addCollisions()` and `updateShape()`; provider/subclass list and hashes pending.
-- B evidence: `PaneBlock.addCollisions()`, `getShape()`, `resolveVirtualProperties()`, `shouldConnectTo()`; hashes pending.
-- State producers/writers -> consumers/readers: neighbor default-state shape -> `isOpaque()` (A) or cube test (B) -> pane connections -> collision geometry.
-- Parent slices / dependencies / closure evidence: historical pane/bar neighbors, connection combinations, registrations, B-only block exclusions, and `BlockState` path into `Entity.move()`.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): neighbor-connect predicate changes from opacity to default-state cube-ness; registration reachability and union geometry remain open.
-- Finding IDs or checked absence/replacement path: pending.
+- Exact behavior boundary and enclosing guards/order checked: era-existing PaneBlock-derived registrations -> four cardinal neighbor decisions -> all reachable connection masks -> collision-box assembly -> World query -> inherited player `Entity.move()` clipping.
+- A evidence: `PaneBlock.addCollisions()` lines 62-92; `shouldConnectTo()` lines 134-141; `Block.java` registrations for iron bars, glass panes, and stained glass panes at lines 1040-1041 and 1180. `PaneBlock.java` SHA-256 `f099cdc306c365b73632fc703f72b61bc6b304cb5df06c43234965f89e28de61`; `Block.java` SHA-256 `ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528`.
+- B evidence: `PaneBlock.addCollisions()` lines 53-70, shape map lines 25-40 and 73-101, `resolveVirtualProperties()` lines 104-110, `shouldConnectTo()` lines 133-140; `Block.java` registrations at lines 950-952 and 1099. `PaneBlock.java` SHA-256 `e6e3dd856efb96146634ab8f56c915afbc6116fd51973c25229ef7aa2ce0e5c8`; `Block.java` SHA-256 `e62ece80c6a7e7121346f65f8fdfd9b148c29441a27de9f568bba9afe1d84fe6`.
+- State producers/writers -> consumers/readers: four independently sampled neighbors -> A opacity / B default-state cube predicate -> `N/E/S/W` connection mask -> emitted boxes; stained pane subclass inherits this path on both sides.
+- Parent slices / dependencies / closure evidence: mask-conditioned geometry is closed in `findings/COLL-02-pane-collision-shapes.md`; World collision collection and `Entity.move()` consumer are paired and cited there. Iron bars, clear panes, and stained panes all use the shared class. Other collision providers and the complete movement inventory remain open.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): collision boxes differ for 13 of 16 reachable masks; opposite-pair and fully-connected masks produce the same union. The connection predicate itself also changed from opacity to cube classification, recorded as a separate source property in the finding; no rendering consequence is claimed.
+- Finding IDs or checked absence/replacement path: `findings/COLL-02-pane-collision-shapes.md`.
 
 ### Slice SCOPE-01: excluded hunger/regeneration producers
 
@@ -315,6 +327,8 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - [TICK-07 — Client-side player push](findings/TICK-07-client-player-push.md)
 - [STATE-03 — Sneak collision height](findings/STATE-03-sneak-collision-height.md)
 - [WORLD-01 — Trapdoor ladder climbing](findings/WORLD-01-trapdoor-ladder-climbing.md)
+- [WORLD-03 — Piston player block ejection](findings/WORLD-03-piston-player-block-ejection.md)
+- [COLL-02 — Pane collision shapes](findings/COLL-02-pane-collision-shapes.md)
 
 ## Incremental finding snapshot log
 
