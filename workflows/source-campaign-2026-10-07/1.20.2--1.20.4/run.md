@@ -134,14 +134,14 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S2.1: player state defaults, initialization, reset and movement-relevant writers
 
 - Inventory ID(s): INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
-- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
-- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
-- State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; exact-source evidence is a prerequisite.
-- Finding IDs or checked absence/replacement path: none established.
+- Exact behavior boundary and enclosing guards/order checked: Entity movement-state defaults, shared Entity initialization and position/velocity writers, Player spawn initialization, and LocalPlayer resetPos placement/velocity reset; subclass state producers and packet writers remain open.
+- A evidence: ready/1.20.2/mojmap/net/minecraft/world/entity/Entity.java movement fields lines 154-176, #Entity(EntityType,Level)V lines 243-262, #setPos(DDD)V lines 384-387, #getDeltaMovement()Vec3/#setDeltaMovement(Vec3)V lines 3160-3174 and #setPosRaw(DDD)V lines 3228-3244 SHA-256 d7ee49aaea5e862b92508e767562cabc8f10515605e8fb67565c8d8c5d23b01b; ready/1.20.2/mojmap/net/minecraft/world/entity/player/Player.java::Player(Level,BlockPos,float,GameProfile)V lines 181-189 SHA-256 25f263692fd6b2a737aa813315022a0caf4e18c3661ba3bd706c6297f909f25c; ready/1.20.2/mojmap/net/minecraft/client/player/LocalPlayer.java::resetPos()V lines 627-643 SHA-256 bb5cbfb03656a1866bb77c00431618befe792081223b35db4bd121ecbb151fd5.
+- B evidence: ready/1.20.4/mojmap/net/minecraft/world/entity/Entity.java movement fields lines 155-177, #Entity(EntityType,Level)V lines 244-263, #setPos(DDD)V lines 385-388, #getDeltaMovement()Vec3/#setDeltaMovement(Vec3)V lines 3166-3180 and #setPosRaw(DDD)V lines 3234-3250 SHA-256 07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9; ready/1.20.4/mojmap/net/minecraft/world/entity/player/Player.java::Player(Level,BlockPos,float,GameProfile)V lines 176-184 SHA-256 218da60bc4f8c9279f56eb87e2cf2c0af79562fbe3d818a408429c656efb95dd; ready/1.20.4/mojmap/net/minecraft/client/player/LocalPlayer.java::resetPos()V lines 627-643 SHA-256 bb5cbfb03656a1866bb77c00431618befe792081223b35db4bd121ecbb151fd5.
+- State producers/writers -> consumers/readers: Entity constructor/defaults -> bounding box, pose, position and velocity readers; Player constructor spawn position/rotation -> initial local player state; LocalPlayer.resetPos -> standing pose, collision-tested vertical placement, zero velocity and pitch reset. Direct server corrections and class-specific movement state remain separate writer dependencies.
+- Parent slices / dependencies / closure evidence: S1.1 login/respawn creation, S2.2 pose/dimensions, S3.1 movement state consumers, S7.1 corrections, S7.2 pushes, S7.4 mount transitions, S6.1 player attributes; DEP-01 resolved.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The inspected A/B Entity fields, constructor, position/velocity setters and Player constructor have the same initialization and writer behavior; full LocalPlayer.resetPos is byte-identical. For login/respawn, ClientPacketListener creates the local player and assigns input before this reset/initialization chain runs. LivingEntity-specific defaults, subclass reset behavior and external correction writers remain open.
+- Finding IDs or checked absence/replacement path: none confirmed in the bounded defaults/reset/writer ranges inspected.
 
 ### Slice S2.2: pose choice, dimensions, eye height and resize/collision timing
 
@@ -613,8 +613,8 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 
 ## Resume checkpoint
 
-- Last completed slice: source-pair readiness/hashes validated; initial bounded comparisons of local input and core travel/jump/movement methods completed; the outer client tick and level-load-screen path are source-closed.
-- Next bounded slice and exact files/members/body ranges to open: inspect S2.1 player movement-state defaults, initialization/reset and direct position/velocity writers in Entity, LivingEntity, Player and LocalPlayer; then trace each writer to its movement consumer before proceeding through stages 2-7.
+- Last completed slices: source-pair readiness/hashes validated; initial bounded comparisons of local input and core travel/jump/movement methods completed; the outer client tick and level-load-screen path are source-closed. S2.1 state initialization/reset/writer comparison is in progress.
+- Next bounded slice and exact files/members/body ranges to open: finish S2.1 by inspecting LivingEntity-specific state defaults/initialization and local-player respawn writers, then trace external position/velocity corrections; continue with S2.2 pose, dimensions and collision timing.
 - Outstanding dependencies and owners: DEP-02; source worker. Independent reviewer not assigned yet.
 - Current assumptions requiring verification: cited source hashes remain stable while read-only; tick-rate freezing is a modern-only world-control path and does not freeze the local player; `Player.travel`/ride callback removals remain limited to excluded statistic/food state.
 
@@ -639,7 +639,7 @@ Complete only after blind-discovery freeze; not authorized for this source-only 
 
 ## Source audit closure
 
-- Coverage counts by status: pending 39; in-progress 8; compared-no-difference 0; findings 0; not-applicable 1; blocked 0.
+- Coverage counts by status: pending 38; in-progress 9; compared-no-difference 0; findings 0; not-applicable 1; blocked 0.
 - Required inventory status and evidence: INV-TICK, INV-STATE, INV-COLLISION, INV-WORLD-MOVEMENT, INV-MODIFIERS, INV-EXTERNAL, and INV-EXCLUSIONS all pending; readiness is established but their inventories are not yet closed.
 - Open dependencies: DEP-02 and the open slice dependencies listed above
 - Unresolved gaps and limits: exact source publication is validated; most source inventory remains open and no whole-run equivalence claim has been made.
