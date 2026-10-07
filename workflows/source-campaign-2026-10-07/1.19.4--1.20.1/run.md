@@ -55,11 +55,11 @@ Once sources are ready, inventory the complete reachable local player tick chain
 
 These rows are mandatory pair-wide maps. Exact endpoint readiness, manifests and method-body diagnostics pass; each map remains incomplete until its reachable members and dependencies have terminal evidence.
 
-- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1-01,S1-02,S1-03,S1-04,S1-05,S1-06,S1-PORTAL,S3-01,S3-02,S3-03,S3-04; evidence=paired raw-input and pre-travel slices S1-01/S1-02 terminal, S3-01/F-01 and S3-03/F-03 findings; S3-02 travel branches remain open.
+- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1-01,S1-02,S1-03,S1-04,S1-05,S1-06,S1-PORTAL,S3-01,S3-02,S3-03,S3-04; evidence=paired raw-input, pre-travel and sprint-start predicate slices S1-01/S1-02/S1-03 terminal, S3-01/F-01 and S3-03/F-03 findings; S3-02 travel branches remain open.
 - `INV-STATE` movement state writers/readers: pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, support position, timers and direct predicates: status=pending; slice_ids=S1-02,S1-03,S1-04,S1-05,S1-06,S1-PORTAL,S2-01,S2-02,S2-03,S4-01,S7-01,S7-03; evidence=F-01 jump-velocity, F-03 fallDistance-to-edge-backoff and F-04 spectator velocity-reset writer/reader paths recorded; remaining state inventory open.
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S4-01,S4-02,S5-01,S5-02; evidence=Entity support-block selection and its movement-factor consumer route recorded in S4-01/F-02; remaining shape/query paths open.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S3-03,S5-01,S5-02,S5-03; evidence=block jump/speed-factor read sites linked in S4-01/F-02; block/fluid registrations, resources and tags remain open.
-- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S1-02,S1-03,S2-02,S3-01,S6-01,S6-02; evidence=F-01 reads Jump Boost and F-03 reads Levitation/Slow Falling; broader writer/application chains open.
+- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S1-02,S1-03,S2-02,S3-01,S6-01,S6-02; evidence=S1-03 sprint predicate reads Blindness and mayfly plus food/underwater state; F-01 reads Jump Boost and F-03 reads Levitation/Slow Falling; broader writer/application chains open.
 - `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers: corrections, pushes, pistons, mounts/dismounts and launch inputs: status=pending; slice_ids=S1-PORTAL,S7-01,S7-02,S7-03,S7-04; evidence=S7-01 found no difference in position-correction and direct player velocity handlers; S7-03/F-04 records the spectator-entry vertical velocity reset; portal state and remaining external writers are open.
 - `INV-EXCLUSIONS` scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; slice_ids=SCOPE-01; evidence=SCOPE-01 records the agreed boundaries and a food-predicate example; producer and consumer routes still need inventory.
 
@@ -107,14 +107,14 @@ The pair uses Mojmap and is not among the six early Feather derived artifacts co
 ### Slice S1-03: Local sprint-start predicates
 
 - Inventory ID(s): INV-TICK, INV-MODIFIERS, INV-EXCLUSIONS
-- Exact behavior boundary and enclosing guards/order checked: LocalPlayer#canStartSprinting, #vehicleCanSprint, #hasEnoughImpulseToStartSprinting and LocalPlayer#aiStep call site.
-- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java #aiStep lines 653-686 and #canStartSprinting lines 1022-1039, SHA-256 8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58.
-- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.20.1/mojmap/net/minecraft/client/player/LocalPlayer.java #aiStep lines 659-692 and #canStartSprinting lines 1014-1031, SHA-256 69a2d043d2c0595bd364d625a5445e4934d9e07fef020cd79fafb42f59952ac2.
+- Exact behavior boundary and enclosing guards/order checked: LocalPlayer#canStartSprinting, #vehicleCanSprint, #hasEnoughImpulseToStartSprinting, #hasEnoughFoodToStartSprinting and LocalPlayer#aiStep call site.
+- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java #aiStep lines 653-686 and #canStartSprinting lines 1022-1030, #hasEnoughImpulseToStartSprinting lines 1036-1039, #hasEnoughFoodToStartSprinting lines 1041-1043, SHA-256 8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58.
+- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.20.1/mojmap/net/minecraft/client/player/LocalPlayer.java #aiStep lines 659-692 and #canStartSprinting lines 1014-1022, #hasEnoughImpulseToStartSprinting lines 1028-1031, #hasEnoughFoodToStartSprinting lines 1033-1035, SHA-256 69a2d043d2c0595bd364d625a5445e4934d9e07fef020cd79fafb42f59952ac2.
 - State producers/writers -> consumers/readers: forward impulse/underwater state, sprinting/use-item/blindness/fall-flying, food predicate and passenger control -> sprint attempt -> travel speed.
 - Parent slices / dependencies / closure evidence: S1-01, S1-02, S3 travel; modifier and exclusion inventories remain open.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): bounded predicate bodies compare equal after onGround API normalization, including the 0.8 threshold and underwater switch to Input#hasForwardImpulse. Food/effect producers and travel consumer remain open.
-- Finding IDs or checked absence/replacement path: no LocalPlayer predicate delta in this slice.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the complete sprint-start predicate methods and their aiStep call site compare equal after onGround API normalization, including the 0.8 threshold, underwater switch to Input#hasForwardImpulse, food/mayfly alternative and predicate order. When the gate succeeds, it writes the same sprinting state in both versions. Food/effect/ability producers and travel consumers are independent open dependencies; this slice establishes no difference in the bounded local gate.
+- Finding IDs or checked absence/replacement path: no delta in the complete LocalPlayer sprint-start predicate and call-site range.
 
 ### Slice S1-04: Auto-jump movement probe
 
@@ -306,7 +306,7 @@ This is a source-only assignment. Existing/old mod implementation has not been i
 
 ## Source audit closure
 
-- Coverage counts by status: 4 compared-no-difference slices (S1-01, S1-02, S4-02, S7-01); 4 findings slices (S3-01, S3-03, S4-01, S7-03); 6 in-progress slices (S1-PORTAL, S1-03, S1-04, S1-05, S1-06, S3-02); 1 not-applicable scope-routing slice (SCOPE-01); remaining planned slices not yet created; 7 required inventory maps incomplete; 1 resource/tag dependency and independent audit remain open.
+- Coverage counts by status: 5 compared-no-difference slices (S1-01, S1-02, S1-03, S4-02, S7-01); 4 findings slices (S3-01, S3-03, S4-01, S7-03); 5 in-progress slices (S1-PORTAL, S1-04, S1-05, S1-06, S3-02); 1 not-applicable scope-routing slice (SCOPE-01); remaining planned slices not yet created; 7 required inventory maps incomplete; 1 resource/tag dependency and independent audit remain open.
 - Required inventory status and evidence: all seven maps remain incomplete; exact-pair member evidence is recorded for bounded S1-01/S1-02/S1-03/S1-04/S1-05/S1-06/S3-01/S3-02/S3-03/S4-01/S4-02/S7-01/S7-03/SCOPE-01 slices.
 - Open dependencies: D2 worker jar-resource/data audit after relevant consumers are inventoried; independent source audit and remaining slice closure.
 - Unresolved gaps and limits: remaining navigation inventories, member correspondences, resources, findings and dependency closure; independent audit.
