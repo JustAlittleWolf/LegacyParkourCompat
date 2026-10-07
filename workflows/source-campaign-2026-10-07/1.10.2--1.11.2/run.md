@@ -40,7 +40,7 @@ Cited source hash inventory (SHA-256; relative roots are the source roots in the
 - `net/minecraft/world/World.java`: A `888ed0e9de765def87b05c4126ecdf0b10e9dd448b4543dd1cb98211e9951646`; B `27cfaa5ff45c2d88c492fc5dae3ea4a2bb4536fd64bff8498a9a7d0cb82efb58`.
 - `net/minecraft/client/entity/living/player/RemoteClientPlayerEntity.java`: both `e7e248b439f7356695b1bf196d08e997bb19b24c23b206763c772663ee7086a1`.
 - `net/minecraft/util/math/Box.java`: A `f529ef075bd933b88e3bace9020a5e23cb18b65e816154520f10bd2f26f61155`; B `f788b8146b14f299ccb58ea0854609f845c298a963295d503de2e30e15d66f3a`.
-- `net/minecraft/entity/EntityFilter.java` and `net/minecraft/util/math/Box.java` hashes are recorded above; broader query/provider and call-site closure remains open.
+- `net/minecraft/entity/EntityFilter.java` and `net/minecraft/util/math/Box.java` hashes are recorded above; broader query/provider and call-site closure remains open. `net/minecraft/item/ItemStack.java`: A `a41054235eac09212065f7e20d4206aa7d83cdd159cebbc77eb8b3d1e43ab842`; B `dc929fcc42e94dacb1f2d2a32572c00612c4f9b39d4cb551634fd3dd290467d8`. `net/minecraft/entity/living/player/PlayerInventory.java`: A `eeb156c483ad1c3cb52b58a197f7321817b8c52c2cf35f4995a5758dc7871842`; B `cf956f7410c6911d2e978d2072a7d53590e4800c398687afeca6f771e74e19d6`. `net/minecraft/item/ElytraItem.java`: A `20db6fd5b7438c4957c19565e593d79497a4712d9ce71fd5af0a9a4a61ad8cf2`; B `16e02a70181c063c0643b7dfdbe17516ad46cd38053a2d88cc3fb97400652c7c`.
 
 ## Blind-discovery freeze
 
@@ -111,7 +111,7 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - A evidence: `Entity.java::move(double,double,double)`, lines 446-512, SHA-256 `05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77`.
 - B evidence: `Entity.java::move(MoverType,double,double,double)`, lines 459-562, SHA-256 `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440`.
 - State producers/writers -> consumers/readers: local sneak/ground flags and stepHeight -> probe box -> world block/entity collision query -> retained requested x/z -> position/collision flags.
-- Parent slices / dependencies / closure evidence: S1-local-order; `stepHeight` defaults/writers and `World.getCollisions`/shape-producing block path remain open. See finding F-01.
+- Parent slices / dependencies / closure evidence: S1-local-order; local player inheritance is LocalClientPlayerEntity -> ClientPlayerEntity -> PlayerEntity -> LivingEntity. Both `LivingEntity(World)` constructors set `stepHeight=0.6F`; a full exact-source `rg stepHeight` inventory finds no LocalClientPlayerEntity/PlayerEntity writer. Other assignments are remote-player, server-player, or non-player constructors. D-STEPHEIGHT is resolved for the local client player; `World.getCollisions`/shape-producing block path remains open. See F-01.
 - Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): confirmed changed probe depth from fixed `-1.0` to `-this.stepHeight` for the same SELF/PLAYER eligible grounded sneaking player path. Consequence depends on support/collision shapes; no trajectory tested.
 - Finding IDs or checked absence/replacement path: F-01.
@@ -176,6 +176,18 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - Disposition and rationale (including concrete reachability/preconditions): B changes the predicate from `!removed` to `isAlive() && !isClimbing()`. With collision rule allowing interaction, a non-spectator local player who is climbing and intersects a remote player is included by A's push candidate filter but rejected by B's; A's remote-player tick then applies `Entity.push` to the local player while B omits it. Conditions in `Entity.push` (different vehicle, neither noClip, horizontal separation at least `0.01F`, target has no passengers) further gate the velocity write. Death-related exclusion is not used for this finding.
 - Finding IDs or checked absence/replacement path: F-04.
 
+### Slice S2-elytra-empty-slot: empty chest-slot representation at local flight gates
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: the local player's Elytra start-flying check in `LocalClientPlayerEntity.mobTick` and the chest-slot gate in `LivingEntity.flyingTick`; only the empty-chest-slot case is compared, not all equipment or flight behavior.
+- A evidence: `LocalClientPlayerEntity.java::mobTick`, lines 731-734, SHA-256 `a9637065f21ad67464eb5c204c74ebf228c3bb0da8a96ddf4ae73c0490fed443`, returns through `itemStack != null` before reading the chest item. `PlayerEntity.java::getEquipment`, lines 1683-1690, SHA-256 `a055b84b98d98e828e177cad9bba47a1334ee9bf3ecd4331792979106235a302`, returns the armor array slot; `PlayerInventory.java` lines 23-25 shows the array allocation whose empty elements are null. `LivingEntity.java::flyingTick`, lines 1754-1773, SHA-256 `d40dd476b6b68c6ce45b4202823475deb546ecda2284da330ff6724b33815e82`, likewise checks non-null before Elytra item/capability checks. `ItemStack.java::getItem`, lines 113-115, SHA-256 `a41054235eac09212065f7e20d4206aa7d83cdd159cebbc77eb8b3d1e43ab842`, returns the stored item.
+- B evidence: `LocalClientPlayerEntity.java::mobTick`, lines 743-746, SHA-256 `65c2747bd8c70def6be7f41f624d4c9493342b39ae7bed7967f9ff63608f59ed`, drops the null guard. `PlayerEntity.java::getEquipment`, lines 1678-1685, SHA-256 `87fe94fa6cbf7aba18b9a5e3401664439eb8eba9958173da8fbcd05cc7ad948b`, returns a `DefaultedList` slot; `PlayerInventory.java` lines 25-27 initializes armor with `ItemStack.EMPTY`, hashes recorded above. `LivingEntity.java::flyingTick`, lines 1810-1829, SHA-256 `bb7dc6c9e423a9568d6433d51bba12e7aee4555fbf3fb3e2b87f618382279f2f`, drops its null guard. `ItemStack.EMPTY` is constructed with a null item (`ItemStack.java` line 48), and `ItemStack.getItem`, lines 134-136, returns the air item when the stack is empty; B ItemStack hash recorded above.
+- State producers/writers -> consumers/readers: empty armor-slot initialization/access -> local `mobTick` start-flight predicate and `LivingEntity.flyingTick` continuing-flight predicate -> Elytra item/canFly tests.
+- Parent slices / dependencies / closure evidence: S1-local-order; this closes the null-to-empty question for the empty chest slot at these two local flight gates only. Broader item-use, equipment modifiers, and flight call-order dependencies remain open under D-MODIFIERS/D-TRAVEL.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): A's empty slot is null and short-circuits before `getItem`; B's empty slot is `ItemStack.EMPTY`, whose `getItem()` resolves to air, so its Elytra item comparison is false. Both the local start-flying gate and ongoing `flyingTick` gate therefore reject an empty chest slot. This establishes no movement difference for this bounded empty-slot case only.
+- Finding IDs or checked absence/replacement path: no finding; non-empty Elytra checks and other equipment readers remain outside this slice.
+
 ### Slice S2-resize: entity box adjustment when dimensions change
 
 - Inventory ID(s): INV-STATE, INV-COLLISION
@@ -204,7 +216,7 @@ Other correspondence requiring further walk: remote/client corrections and packe
 
 - D-SOURCE-DIAGNOSTICS: retain and recheck body-level diagnostics for every cited movement method; owner markers and global hashes match, but the full method-body-by-method diagnostics audit is not recorded in this report. Owner/source paths above; open.
 - D-ARTIFACT-INTEGRITY: source owner/ops report that a reproducibility rerun replaced derived mapped JARs in shared cache for this endpoint range while source-file/raw-input hashes stayed stable. Do not rewrite markers, waive hash differences, or regenerate independently. Await canonical repair protocol, then reverify both exact releases' current artifact manifest and all cited raw/mapped artifact hashes. Owner: source owner/ops; keep this report unfrozen until resolved.
-- D-STEPHEIGHT: trace default and every writer of player `stepHeight`, its timing, and callers; needed by F-01.
+- D-STEPHEIGHT: resolved for the local client-player path: both `LivingEntity(World)` constructors initialize `0.6F`, and the local-player inheritance chain has no later writer. Remote/server player overrides are separate execution paths. Evidence recorded in S4-sneak-probe/F-01.
 - D-COLLISION: inspect both `World.getCollisions` overloads, entity filtering, Box axis intersection, every reachable player collision shape provider/callback/neighbor dependency and registrations; needed by F-01/F-03/F-04 and all movement.
 - D-PISTON: fully compare `MovingBlockEntity` A/B progress, selection, shape and tick call order; tie movement cap to the exact reachable player path; needed by F-02.
 - D-PUSHABILITY: resolved for the client player-to-player climbing path in S7/F-04 using `EntityFilter.canBePushedBy` -> `RemoteClientPlayerEntity.pushAwayCollidingEntities` -> `Entity.push`. Other external push/collision producers remain open under D-EXTERNAL.
@@ -215,7 +227,7 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - D-EXTERNAL: trace corrections/teleports, velocity writes, mounts, shulkers and all player-facing movement producers; separate player movement from non-player simulation.
 - D-REVIEWER: coordinator to assign an independent reviewer who did not author this report.
 - D-CHECKER: resolved by applying canonical workflow checker fix `8fa4ab0`; report was checked against the local checker and accepted as structurally valid partial. This is schema validation only.
-- Open dependencies: D-ARTIFACT-INTEGRITY, D-SOURCE-DIAGNOSTICS, D-STEPHEIGHT, D-COLLISION, D-PISTON, D-POSE, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
+- Open dependencies: D-ARTIFACT-INTEGRITY, D-SOURCE-DIAGNOSTICS, D-COLLISION, D-PISTON, D-POSE, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
 
 ## Finding index
 
@@ -224,12 +236,12 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - [F-03](findings/F-03-piston-sneak-edge-bypass.md): piston-driven movement bypasses sneak edge restraint in B; source-confirmed, consequence conditional on geometry.
 - [F-04](findings/F-04-climbing-player-push-eligibility.md): climbing players are excluded from B's push recipient filter; source-confirmed, scoped to the traced local-player path.
 - Discarded candidate: `LocalClientPlayerEntity.getRotationVector(float)` is added in B and reads yaw instead of inherited LivingEntity headYaw; at confirmed locally controlled travel, `PlayerEntity.serverTickAi` sets headYaw=yaw before travel. This bounds that travel use only; other callers remain open and this candidate is not globally discarded.
-- Potential null-to-empty API changes in item/equipment code are not movement findings until empty ItemStack behavior and use/Elytra call order are proven equivalent or different.
+- The empty chest-slot null-to-empty change is closed for the local Elytra start/continue gates in S2-elytra-empty-slot; other item-use and equipment paths remain open.
 
 ## Resume checkpoint
 
-- Last completed slice: exact source readiness verification; S1-input; bounded S3-jump; source differences F-01/F-02; partial S1-local-order.
-- Next bounded slice and exact files/members/body ranges to open: `D-STEPHEIGHT` (`Entity` constructor/attribute writers/defaults), `D-COLLISION` (`World.getCollisions`, `Box` axis intersections, relevant `BlockState.addCollisions`), then `D-PISTON` (`MovingBlockEntity` complete progress/tick paths A 91-183 and B 116-285). Continue all open queue items in navigation order.
+- Last completed slice: exact source readiness verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order.
+- Next bounded slice and exact files/members/body ranges to open: `D-COLLISION` (`World.getCollisions`, both block-query overloads, relevant `BlockState.addCollisions`, every reachable shape provider), then `D-PISTON` (`MovingBlockEntity` complete progress/tick paths A 91-183 and B 116-285). Continue all open queue items in navigation order.
 - Outstanding dependencies and owners: shared source owner is read-only publisher; source worker owns this run and findings; coordinator must assign independent reviewer.
 - Current assumptions requiring verification: line ranges cited above remain stable under the source hashes; current mapped artifact integrity needs canonical owner repair/reverification; complete method correspondence, branch coverage, data resources and external-player call paths remain open.
 
@@ -254,9 +266,9 @@ Complete only after blind-discovery freeze. No mod implementation was opened.
 
 ## Source audit closure
 
-- Coverage counts by status: 4 findings, 4 compared-no-difference, 2 in-progress, 1 pending (bounded rows only; broad inventory remains open).
+- Coverage counts by status: 4 findings, 5 compared-no-difference, 2 in-progress, 1 pending (bounded rows only; broad inventory remains open).
 - Required inventory status and evidence: only `INV-EXCLUSIONS` declaration complete; all movement inventories pending, with partial anchors above.
-- Open dependencies: D-ARTIFACT-INTEGRITY, D-SOURCE-DIAGNOSTICS, D-STEPHEIGHT, D-COLLISION, D-PISTON, D-POSE, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
+- Open dependencies: D-ARTIFACT-INTEGRITY, D-SOURCE-DIAGNOSTICS, D-COLLISION, D-PISTON, D-POSE, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
 - Unresolved gaps and limits: complete tick graph, body-level diagnostic review, collision providers/resources, exact entity-player collision paths, modifiers, external writers, source-only freeze and independent audit remain open. Source comparison only; no gameplay behavior observed.
 - Evidence/hash/correspondence audit: readiness and all 3,766 listed Java-source hashes matched at initial verification; owner reports raw/source hashes remain unchanged, but derived mapped-JAR integrity is now pending. Reverify after canonical repair. Hashes for specifically cited source files are recorded. Exact cited line ranges should be rechecked at freeze; broad correspondence remains incomplete.
 - Blind freeze: pending
