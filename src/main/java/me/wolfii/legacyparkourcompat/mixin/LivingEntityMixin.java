@@ -25,6 +25,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.PortalDismountBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PowderSnowClimbBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SlowFallingFallDistanceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintJumpImpulseBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.VelocityZeroThresholdBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.WaterGravityBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.WaterJumpBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.WaterSprintSlowdownBehavior;
@@ -312,6 +313,52 @@ abstract class LivingEntityMixin {
         return MovementRuntime.find(JumpVerticalVelocityBehavior.class, entity)
             .map(behavior -> behavior.jumpVerticalVelocity(entity, power, currentVelocity, vanilla))
             .orElse(vanilla);
+    }
+
+    @ModifyArg(
+        method = "aiStep()V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/LivingEntity;setDeltaMovement(DDD)V",
+            ordinal = 0
+        ),
+        index = 0
+    )
+    private double legacyparkourcompat$velocityZeroThresholdX(double component) {
+        return this.legacyparkourcompat$filterVelocityComponent(component);
+    }
+
+    @ModifyArg(
+        method = "aiStep()V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/LivingEntity;setDeltaMovement(DDD)V",
+            ordinal = 0
+        ),
+        index = 1
+    )
+    private double legacyparkourcompat$velocityZeroThresholdY(double component) {
+        return this.legacyparkourcompat$filterVelocityComponent(component);
+    }
+
+    @ModifyArg(
+        method = "aiStep()V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/LivingEntity;setDeltaMovement(DDD)V",
+            ordinal = 0
+        ),
+        index = 2
+    )
+    private double legacyparkourcompat$velocityZeroThresholdZ(double component) {
+        return this.legacyparkourcompat$filterVelocityComponent(component);
+    }
+
+    private double legacyparkourcompat$filterVelocityComponent(double component) {
+        LivingEntity entity = (LivingEntity)(Object)this;
+        return MovementRuntime.find(VelocityZeroThresholdBehavior.class, entity)
+            .map(behavior -> behavior.filterComponent(entity, component))
+            .orElse(component);
     }
 
     @Redirect(
