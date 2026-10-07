@@ -159,7 +159,23 @@ Source-confirmed findings (not yet blind-frozen or independently accepted): [F-S
 
 ## Finding snapshots (not pair freeze)
 
-No finding snapshot has been submitted for independent blind source review yet. The source-confirmed findings are candidates for separate immutable snapshots after the evidence files and report are committed together. A snapshot acceptance will not change this pair's partial status.
+### Snapshot event FS-2026-10-07-1.14.4-1.15.2-01
+
+- Finding ID(s): F-SOUL-SAND-SPEED, F-FRICTION-SAMPLE, F-HONEY-SLIDE, F-HONEY-FACTORS, F-ELYTRA-START
+- Source finding author(s): /root
+- Status: submitted
+- Immutable snapshot commit: `4a0c35f2008d785867c00360a7b72726e3506435`
+- Finding file path and SHA-256: `findings/F-SOUL-SAND-SPEED.md` `a43043bed85d233478d323621ed97ef7ac27e7fc9a286f439dc2cd5280604f7e`; `findings/F-FRICTION-SAMPLE.md` `ca432d90d831032a8ca4574024a1442127705a197a6f329c321944f9dadb67c3`; `findings/F-HONEY-SLIDE.md` `828e2ebfadc5d2f639bd4b3cd05d5f046804908ddcbe68c271534287829f233b`; `findings/F-HONEY-FACTORS.md` `d28defde835c9fc5d0dcfc76b3ab81e056eab9953ac1179297f2f318cd50e824`; `findings/F-ELYTRA-START.md` `b6d5091e95e7cc0d35eb696dea6d06f720aaad91540ad88915ddc61dad576e59`.
+- Exact A/B artifact-manifest identities/hashes: A `ready/1.14.4/mojmap.artifacts.sha256` SHA-256 `308cc33ef6dffc047432ade6affc88eccc9de94a736ee9a98571fd92915c2970`; B `ready/1.15.2/artifacts.sha256` SHA-256 `208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406`; each manifest was fully reverified against raw artifacts at handoff.
+- Cited source/resource hashes: source hashes are enumerated in each immutable finding; the pair source manifests are A `af98406f3d4ed31494fbdce1078d1f3df3f712501878f9a0e9ad5879bdf23c3b` and B `cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7`; no data resource entry is cited.
+- Verified implementation boundary/evidence, or unresolved boundary reason: each finding proves the difference between exact 1.14.4 and 1.15.2 sources; the first affected release within the interval is unknown. A finer release cutover is unresolved and must not be inferred from endpoint evidence.
+- Finding-specific closed dependency IDs/evidence: F-SOUL-SAND-SPEED—Soul Sand registration, all B speedFactor/jumpFactor consumers and registrations searched, player `Entity.move` path; F-FRICTION-SAMPLE—both lookup formulas, six-layer Snow collision height, Snow survival on Slime, Slime/default friction, unchanged friction consumer; F-HONEY-SLIDE—B registry/class/predicate/writes and paired `Entity.checkInsideBlocks` callback path, A complete registry absence; F-HONEY-FACTORS—A/B factor properties, registrations, post-move speed consumer, jump and auto-jump consumers; F-ELYTRA-START—paired fresh-press gates, B helper/shared-flag write and travel consumer. See the finding files for ranges and hashes.
+- Independent blind source reviewer and decision date: not assigned; coordinator review is pending.
+- Review basis / requested source-only revisions: pending independent review; review each finding's concrete preconditions, endpoint provenance, hashes, player reachability and scoped dependencies.
+- Pair run status and commit at handoff: `partial`; `4a0c35f2008d785867c00360a7b72726e3506435`.
+- Pair complete: no
+- Implementation handoff: blocked; independent source acceptance is pending and no finer-than-endpoint change boundary has been established.
+- Replaces/supersedes snapshot ID and reason, if applicable: none.
 
 ## Implementation reconciliation
 
@@ -184,8 +200,9 @@ This source-only worker has not inspected implementation and will not do so befo
 
 - Coverage counts by status: 5 findings, 3 in-progress, 0 pending.
 - Required inventory status and evidence: all seven inventories pending; source pair hashes verified, but method/dependency and registration/resource inventories remain open.
+- Accepted finding snapshots (metadata only; does not close pair): none; FS-2026-10-07-1.14.4-1.15.2-01 submitted and awaiting independent review.
 - Open dependencies: D-001,D-002,D-003,D-004
-- Unresolved gaps and limits: comparison is active and incomplete; diagnostics and initial candidates do not prove comprehensive coverage.
+- Unresolved gaps and limits: comparison is partial; input and remaining local pre-travel, full collision providers/shapes, fluids, modifier application, external player motion inputs, and explicit exclusions are not closed.
 - Evidence/hash/correspondence audit: pair manifests and hashes for the cited Entity, LivingEntity, Player, Block, Blocks, SnowLayerBlock, LocalPlayer, KeyboardInput and HoneyBlock sources recorded; complete tick correspondence and remaining source inventories pending.
 - Blind freeze: pending
 - Implementation reconciliation: pending
