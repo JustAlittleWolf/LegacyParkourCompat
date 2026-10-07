@@ -15,6 +15,7 @@ Repeat for A and B: exact release; source root; client jar hash; CLI mode; mappi
 
 ## Blind-discovery freeze
 
+- This status is the full-pair freeze. Individual finding snapshots are tracked separately and do not change it.
 - Status: pending | frozen
 - Freeze commit/checkpoint and timestamp:
 - Evidence inventory and finding IDs included at freeze:
@@ -72,6 +73,30 @@ Link each finding with its short behavioral title and confidence. Record discard
 - Outstanding dependencies and owners:
 - Current assumptions requiring verification:
 
+## Finding snapshots (not pair freeze)
+
+Append an event for each source-confirmed finding snapshot and each later invalidation/supersession. This log is source-review metadata only. Do not record implementation outcomes here while the pair is open. Snapshot acceptance never changes the pair run status or counts as a full-pair audit.
+
+### Snapshot event <ID>
+
+- Finding ID(s):
+- Source finding author(s):
+- Status: submitted | accepted | rejected | revision-required | invalidated | superseded
+- Immutable snapshot commit:
+- Finding file path and SHA-256:
+- Exact A/B artifact-manifest identities/hashes:
+- Cited source/resource hashes:
+- Verified implementation boundary/evidence, or unresolved boundary reason:
+- Finding-specific closed dependency IDs/evidence:
+- Independent blind source reviewer and decision date:
+- Review basis / requested source-only revisions:
+- Pair run status and commit at handoff:
+- Pair complete: no
+- Implementation handoff: ready | blocked; reason:
+- Replaces/supersedes snapshot ID and reason, if applicable:
+
+<!-- Append subsequent events; preserve prior records and commits. -->
+
 ## Implementation reconciliation
 
 Complete only after blind-discovery freeze. Reconcile every frozen finding against the current implementation and prior catalogs without changing discovery coverage. For each finding, record one implementation disposition: implemented (exact code/hook/provider evidence), intentionally excluded (scope rationale), or open (owner/next action). Record separately whether any previously implemented behavior lacks a source-discovery finding. Do not infer discovery completion from implementation coverage.
@@ -84,7 +109,7 @@ Complete only after blind-discovery freeze. Reconcile every frozen finding again
 
 ## Independent source audit
 
-Reviewer must not be a discovery author. Re-walk the full player tick entry/call graph and every required inventory against exact A/B source, without accepting stage labels or narrow ordinary-travel parity as whole-tick evidence. Check method ranges, state writers/consumers, shape providers/registrations/neighbors, direct vanilla-state reads, and excluded systems. For every miss, create the precise coverage slice and assign its dependency/owner before passing.
+Reviewer must not be a discovery author and must remain blind to mod implementation and wiki-audit information through this full-pair audit. Re-walk the full player tick entry/call graph and every required inventory against exact A/B source, without accepting stage labels or narrow ordinary-travel parity as whole-tick evidence. Check method ranges, state writers/consumers, shape providers/registrations/neighbors, direct vanilla-state reads, and excluded systems. For every miss, create the precise coverage slice and assign its dependency/owner before passing.
 
 - Reviewer:
 - Status: pending | passed
@@ -97,10 +122,11 @@ Reviewer must not be a discovery author. Re-walk the full player tick entry/call
 
 - Coverage counts by status:
 - Required inventory status and evidence:
+- Accepted finding snapshots (metadata only; does not close pair):
 - Open dependencies: none | <IDs and owners>
 - Unresolved gaps and limits:
 - Evidence/hash/correspondence audit:
-- Blind freeze: pending | frozen
+- Full-pair blind freeze: pending | frozen
 - Implementation reconciliation: pending | complete
 - Independent audit: pending | passed
 - Runtime validation: not performed (separate workflow; never inferred from build/source completion).
