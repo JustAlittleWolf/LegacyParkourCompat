@@ -66,14 +66,14 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 ### Slice S1.1: input sampling and vector shaping
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: input source sampling through produced movement vector; not yet checked.
-- A evidence: `build/movement-campaign-2026-10-07/ready/1.21.5/mojmap/net/minecraft/client/player/KeyboardInput.java::KeyboardInput#tick()`, lines 23-36, SHA-256 `d5cb0e93df7f66755172d74e028225012ee33c6e4f0d510a1d8e25ba5497c0a3`; `ClientInput#getMoveVector()`, lines 13-15, SHA-256 `597a44339a99f1bce1b081614c7c2984ca03e255b40e9d247675a31b6f810d78`; `Input` record/default, lines 6-39, SHA-256 `1c0c12af07da1f90651c3a7c4eb19bab6486b6391dcbfdd2926f06e3f36c2f06`; `Vec2#normalized()`, lines 48-51, SHA-256 `b637ef6899de5d8892e19273b114ffaf0397761e509170a56d52dd068f54bffe`; `LocalPlayer#applyInput()`, lines 608-621, `modifyInput(Vec2)`, lines 623-639, plus `modifyInputSpeedForSquareMovement(Vec2)` / `distanceToUnitSquare(Vec2)`, lines 641-658, file SHA-256 `f1fcfed4a938732361e7ad951f93e9b73b02320ee56f0b219e2b3c7acdbfa2ef`. A input storage/writer path: `LocalPlayer.input` initializes to `new ClientInput()` at line 120; `ClientPacketListener#handleLogin(...)` lines 436-497 and `handleRespawn(...)` lines 1152-1229 assign KeyboardInput; `LocalPlayer#aiStep()` lines 693-703 reads and ticks input. `ClientPacketListener.java` SHA-256 `284f34159a1baf30b6b540751ad2fa62344c179d5ed6a7bbcb5c888665779617`. Older-side inventory only; B correspondence pending.
-- B evidence: pending 1.21.8 publication and method inventory.
-- State producers/writers -> consumers/readers: A LocalPlayer.input default -> login/respawn KeyboardInput replacement -> KeyboardInput.tick writes keyPresses/moveVector -> LocalPlayer.aiStep reads pre-tick forward/jump/shift values, then ticks input -> LocalPlayer.applyInput reads moveVector/keyPresses and writes xxa/zza/jumping. B trace pending; no pair disposition yet.
+- Exact behavior boundary and enclosing guards/order checked: keyboard sampling through input-record packet update, movement-vector normalization/shaping and transfer into local movement impulses; shift-state packet transport also compared.
+- A evidence: `KeyboardInput#tick()`, lines 23-36, SHA-256 `d5cb0e93df7f66755172d74e028225012ee33c6e4f0d510a1d8e25ba5497c0a3`; `ClientInput#getMoveVector()`, lines 13-15, SHA-256 `597a44339a99f1bce1b081614c7c2984ca03e255b40e9d247675a31b6f810d78`; `Input` record/default, lines 6-39, SHA-256 `1c0c12af07da1f90651c3a7c4eb19bab6486b6391dcbfdd2926f06e3f36c2f06`; `Vec2#normalized()`, lines 48-51, SHA-256 `b637ef6899de5d8892e19273b114ffaf0397761e509170a56d52dd068f54bffe`; `LocalPlayer#applyInput()`, `modifyInput(Vec2)` and square-movement shaping, lines 608-658, LocalPlayer SHA-256 `f1fcfed4a938732361e7ad951f93e9b73b02320ee56f0b219e2b3c7acdbfa2ef`. A `LocalPlayer#tick()` sends the separate shift command after `super.tick()` (lines 191-217,269-280); server command handling updates shift only under `hasClientLoaded()` and resets action time (ServerGamePacketListenerImpl lines 1555-1565, SHA-256 `fdb8726f77618ebcfd4fe3973e1740d999c2fd3d220ca4a3ddba837f160e6d69`). Input assignment occurs through `ClientPacketListener#handleLogin()` / `handleRespawn()`, source hash `284f34159a1baf30b6b540751ad2fa62344c179d5ed6a7bbcb5c888665779617`.
+- B evidence: the KeyboardInput, ClientInput, Input and Vec2 source hashes are identical to A. B LocalPlayer source hash `53f2a71a886b9c71853afe36f2df857f80a9bf1cd6ec4ca8604ccd7e238d89ee`; `applyInput`, `modifyInput` and square-movement shaping remain lines 608-658 with unchanged bodies. B sends the changed Input record after `super.tick()` (LocalPlayer lines 197-205); server `handlePlayerInput` updates shift only under `hasClientLoaded()` and resets action time (ServerGamePacketListenerImpl lines 390-396, SHA-256 `100f83ae1f264dd26170147cf1319f78b7bf837d5b1b5603934b414cde63a16d`). B input assignment source is `ClientPacketListener.java`, SHA-256 `a66556678a93c63c0ceb8953f25261b82bf3bb1971048fbc15b177c6dffea8cd`.
+- State producers/writers -> consumers/readers: A/B keyboard writes the same keyPresses and normalized moveVector. LocalPlayer reads/ticks them in the same AI order and maps the same vector to xxa/zza/jumping. Shift transport differs, but it is sampled from the same record after the local superclass tick; both server paths use the same loaded-player guard and update the movement-facing crouch state/reset action time.
 - Parent slices / dependencies / closure evidence: source dependencies DEP-SRC-A and DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison; no equivalence claim.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): movement vector, local input shaping and movement-impulse writes match. Shift packet carrier changed, but the local send boundary and server-side shift update guard/consumer match, so no movement-behavior difference was found for this slice.
+- Finding IDs or checked absence/replacement path: none; S1.1 checked-no-difference.
 
 ### Slice S1.2: local-player tick and pre-travel ordering
 
@@ -246,26 +246,26 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 ### Slice S4.3: world collision queries and shape evaluation
 
 - Inventory ID(s): INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: player-reachable collision query, AABB/shape iteration, context inputs and selection/tie rules; not yet checked.
-- A evidence: pending source publication.
-- B evidence: pending source publication.
-- State producers/writers -> consumers/readers: pending entity box/context to registered shape-provider chain.
+- Exact behavior boundary and enclosing guards/order checked: one server-authoritative player packet-validation query path and its context-sensitive shape inputs are compared; the broader player collision-query/shape-iteration/provider inventory remains open.
+- A evidence: `ServerGamePacketListenerImpl#isPlayerCollidingWithAnythingNew()` lines 1131-1143 uses `CollisionGetter#getCollisions`; `CollisionGetter.java` lines 83-91 uses ordinary entity context. Hashes and paired method ranges are recorded in candidate `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8`.
+- B evidence: `ServerGamePacketListenerImpl#isEntityCollidingWithAnythingNew()` lines 1151-1163 uses `CollisionGetter#getPreMoveCollisions`; `CollisionGetter.java` lines 89-105 calls `CollisionContext.withPosition` with the old box bottom-center Y. The factory sets `placement=true`, which contextual providers may consume. Hashes and paired method ranges are recorded in the candidate finding.
+- State producers/writers -> consumers/readers: accepted position packet -> `Entity.move` -> validator's target AABB and prior box -> collision query -> block `getCollisionShape(context)` -> accept target or send position correction. Scaffolding and powder-snow providers read `isPlacement`/`isAbove`; they are unchanged across A/B, with hashes and ranges in the candidate finding.
 - Parent slices / dependencies / closure evidence: S2.1; S4.1; S4.2; S5.2; S5.4; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): candidate difference routed to `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8`; the exact query/context change and scaffolding/powder-snow consumers are confirmed, but full player collision-provider coverage and blind review remain open.
+- Finding IDs or checked absence/replacement path: candidate `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8`; no terminal disposition yet.
 
 ### Slice S4.4: collision, fluid and block callback ordering
 
 - Inventory ID(s): INV-COLLISION, INV-STATE, INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: callbacks after movement/collision and fluid contact/push that directly change local-player state; not yet checked.
-- A evidence: pending source publication.
-- B evidence: pending source publication.
-- State producers/writers -> consumers/readers: pending callback ordering and position/velocity/fluid flag edges.
+- Exact behavior boundary and enclosing guards/order checked: movement recording and the player block/fluid contact scan are being compared; the complete callback-provider and player state-write inventory remains open.
+- A evidence: `Entity#move()` lines 636-681 records each accepted displacement as axis-ordered path segments; `applyEffectsFromBlocks()` / `checkInsideBlocks()` lines 768-779 and 1079-1122 consume them; `Entity.java` SHA-256 `fc177733e9cc4b2d5cf2562e5529d0f4e0b9c3690f081fbd58aa9119eb173dc4`. `ServerGamePacketListenerImpl#handleMovePlayer()` lines 958-1028 invokes `player.move(MoverType.PLAYER, ...)` for accepted non-passenger movement packets; file SHA-256 `fdb8726f77618ebcfd4fe3973e1740d999c2fd3d220ca4a3ddba837f160e6d69`.
+- B evidence: `Entity#move()` lines 663-698 records one axis-independent displacement; `addMovementThisTick()` lines 798-807 caps history at 100 and merges its first two samples into a straight segment; `applyEffectsFromBlocks()` / `checkInsideBlocks()` lines 785-807 and 1113-1181 replay ordinary axis-independent records but scan merged paths directly; `Entity.java` SHA-256 `c403e6176d27b5bfd6aaa0dea3735ffa4fcf80dbae58766661dd84453b7e9704`. `ServerGamePacketListenerImpl#handleMovePlayer()` lines 977-1047 provides the same accepted non-passenger packet-to-`player.move` path; file SHA-256 `100f83ae1f264dd26170147cf1319f78b7bf837d5b1b5603934b414cde63a16d`.
+- State producers/writers -> consumers/readers: A/B accepted serverbound player moves write one queue sample through `Entity.move`; the player's later living tick drains samples into block/fluid collision-shape callbacks (`LivingEntity#aiStep`, A line 2770; B line 2822). Server movement packets beyond five since its last tick are logged and affect the movement-check multiplier but are not rejected solely for frequency (A `ServerGamePacketListenerImpl.java:995-1004`; B `:1015-1024`), so repeated accepted move calls can reach the new cap. The B cap can merge two recorded paths before the stateful callback consumer; details and exact precondition are routed to `F-ENTITY-MOVEMENT-QUEUE-CAP-1.21.5-1.21.8`. Piston push samples are immediately contact-processed and removed, and are not queue accumulation evidence.
 - Parent slices / dependencies / closure evidence: S3.3; S4.1; S5.2; S5.3; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): candidate difference routed to `F-ENTITY-MOVEMENT-QUEUE-CAP-1.21.5-1.21.8`; threshold, reader and server player-packet reachability are source-confirmed, but provider impact and blind review remain open. Other block/fluid callback ordering and movement-state writes still require inventory.
+- Finding IDs or checked absence/replacement path: candidate `F-ENTITY-MOVEMENT-QUEUE-CAP-1.21.5-1.21.8`; no terminal disposition yet.
 
 ### Slice S5.1: block movement properties and registrations
 
@@ -282,14 +282,14 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 ### Slice S5.2: shape providers, movement callbacks and subclasses
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: registered/overridden shape and callback providers including landing/bounce/contact/climb/slowing mechanics; not yet checked.
-- A evidence: pending source publication.
-- B evidence: pending source publication.
-- State producers/writers -> consumers/readers: pending registrations, neighboring-block inputs and player callback consumers.
+- Exact behavior boundary and enclosing guards/order checked: contextual scaffolding and powder-snow collision shapes are confirmed as consumers in server player movement validation; complete provider/callback/tag inventory remains open.
+- A evidence: `ScaffoldingBlock#getCollisionShape()` lines 133-140 and `PowderSnowBlock#getCollisionShape()` lines 114-130; their source hashes match B and are listed in `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8`.
+- B evidence: same source hashes and method ranges as A; context-selected return path can differ because the validator supplies a placement context in B.
+- State producers/writers -> consumers/readers: server movement query's CollisionContext -> context-sensitive block shape -> candidate collision overlap -> server accepts the target player location or corrects it; tag/resource and remaining movement callbacks pending.
 - Parent slices / dependencies / closure evidence: S3.4; S3.5; S4.1-S4.4; S5.4; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison; do not give modern-only states historical behavior.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): candidate difference routed to `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8`; no modern-only state is used in this candidate. Full provider inventory and blind review remain open.
+- Finding IDs or checked absence/replacement path: candidate `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8`; no terminal disposition yet.
 
 ### Slice S5.3: fluids, flow vectors, height and current
 
@@ -354,14 +354,14 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 ### Slice S7.1: incoming velocity and position corrections
 
 - Inventory ID(s): INV-EXTERNAL, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: local client packet consumers that write player position/velocity/flags and their acknowledgment/timing path; not yet checked.
-- A evidence: pending source publication.
-- B evidence: pending source publication.
-- State producers/writers -> consumers/readers: pending packet inputs to local-player state writers and following tick consumers.
+- Exact behavior boundary and enclosing guards/order checked: one direct client-to-server position movement packet validation/correction branch is compared; the local player's received correction consumer, velocity packets and acknowledgment path remain open.
+- A evidence: `ServerGamePacketListenerImpl#handleMovePlayer()` lines 958-1096 moves the server Player and either accepts/carries on or calls `teleport` on rejected/colliding movement; source SHA-256 `fdb8726f77618ebcfd4fe3973e1740d999c2fd3d220ca4a3ddba837f160e6d69`.
+- B evidence: `ServerGamePacketListenerImpl#handleMovePlayer()` lines 977-1116 has the corresponding player move and correction branch; source SHA-256 `100f83ae1f264dd26170147cf1319f78b7bf837d5b1b5603934b414cde63a16d`. Its new collision-context difference is detailed in `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8`.
+- State producers/writers -> consumers/readers: client position packet -> accepted server-player movement/shape validation -> teleport correction packet when validator finds new collision -> client local position/velocity/flag consumer (the client consumer path is not yet inventoried).
 - Parent slices / dependencies / closure evidence: S1.2; S2.2; S3.1; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison; server-supplied values identified separately.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): candidate difference routed to `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8`; local correction consumer, velocity writers and acknowledgment timing remain unreviewed.
+- Finding IDs or checked absence/replacement path: candidate `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8`; no terminal disposition yet.
 
 ### Slice S7.2: player pushes, pistons, mounts and launch items
 
@@ -397,7 +397,7 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 ## Finding index
 
 - Confirmed findings: none yet.
-- Candidate findings: none yet.
+- Candidate findings: `F-ENTITY-MOVEMENT-QUEUE-CAP-1.21.5-1.21.8` (S4.4/S5.2/S7.2; blind review and callback-provider inventory pending); `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8` (S4.3/S5.2/S7.1; blind review and full provider/correction-path inventory pending).
 - Discarded candidates: none yet.
 
 ## Resume checkpoint
@@ -428,11 +428,11 @@ Complete only after source-only freeze. No mod implementation was opened for thi
 
 ## Source audit closure
 
-- Coverage counts by status: 26 pending; 0 in-progress; 1 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked (all 7 inventories pending).
-- Required inventory status and evidence: INV-TICK has A-side input/tick-chain subsets; INV-STATE has input/timing and pose/dimension/scale subsets, with S2.1 compared; INV-COLLISION has the pose-fit query entry. Other stages and the full exclusions inventory remain pending. Both exact sources and markers are hash-verified.
-- Open dependencies: body-level slice and relevant resource inventory; source publication dependencies are resolved.
-- Unresolved gaps and limits: the A/B source comparison is in progress; only S2.1 is closed. Do not infer whole-inventory closure from this initial comparison.
-- Evidence/hash/correspondence audit: A/B readiness JSON and source/artifact/diagnostic manifest hashes verified; S2.1 A/B method bodies, dependencies and shared-source hashes checked; remaining member/resource/body diagnostics pending.
+- Coverage counts by status: 21 pending; 4 in-progress; 2 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked (all 7 inventories pending).
+- Required inventory status and evidence: INV-TICK has paired input-sampling and movement-vector evidence for S1.1, plus A-side tick-chain subsets; INV-STATE has input and pose/dimension/scale subsets, with S1.1 and S2.1 compared; INV-COLLISION has the pose-fit query and partial S4.3/S4.4 evidence; INV-WORLD-MOVEMENT and INV-EXTERNAL have partial S5.2/S7.1 evidence. Remaining stages, providers, resources and full exclusions inventory remain pending. Both exact sources and markers are hash-verified.
+- Open dependencies: body-level slice and relevant resource/provider inventory; source publication dependencies are resolved.
+- Unresolved gaps and limits: S1.1 and S2.1 are compared-no-difference; S4.3, S4.4, S5.2 and S7.1 are in progress with two source-supported candidates, neither independently reviewed. All other pair coverage remains open.
+- Evidence/hash/correspondence audit: A/B readiness JSON and source/artifact/diagnostic hashes verified; S1.1 input bodies and transport path, S2.1 bodies, S4.3 validator query, and S4.4 movement-recording/contact path checked; remaining member/resource/provider/body diagnostics pending.
 - Blind freeze: pending
 - Implementation reconciliation: pending
 - Independent audit: pending
