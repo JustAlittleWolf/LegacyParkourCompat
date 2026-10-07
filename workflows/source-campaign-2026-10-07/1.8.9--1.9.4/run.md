@@ -4,14 +4,14 @@
 - Scope: source-only direct player movement; A = 1.8.9; B = 1.9.4. No runtime implementation.
 - Repository revision and start date: base `002137b227676caea77f6832b9f4c8d0b6200bff`; 2026-10-07 Europe/Vienna.
 - Selected naming namespace, CLI mode per side and alignment evidence: Ornithe Feather (`ornithe-feather`) on both sides; release-specific Feather Gen 2 build 2 source trees admitted. Derived mapped-artifact identity is pending canonical repair.
-- Source preparation owner / command / log / readiness marker: campaign source owner (name not supplied); exact invocation/log/options requested and pending. Markers: `build/movement-campaign-2026-10-07/ready/1.8.9/ornithe-feather.ready.json` and corresponding `1.9.4` marker.
-- Toolchain/decompiler/remapper versions and options: marker reports Vineflower, Java runtime 25; source-base catalog pins Vineflower 1.12.0, Tiny Remapper 0.14.1, Mapping IO 0.9.1. Exact runtime versions/options await source-owner confirmation (`DEP-PROVENANCE`).
+- Source preparation owner / command / log / readiness marker: initial pair run was the serialized `early-feather-4ccfc872a5a44dad985e62c22a2ffb82` batch from `C:\Users\Wolfi\.codex\worktrees\3e2d\LegacyParkourCompat`; exact command, cache/staging paths and runtime tool versions are recorded in each side's `ornithe-feather.provenance.json`. Per-version `ornithe-feather.success.log` is a success excerpt only; full original stdout was streamed in Codex but not persisted. Reproduction verification log for the six-release revision is recorded in each `revision.json`. Ready markers remain unchanged.
+- Toolchain/decompiler/remapper versions and options: Gradle 9.7.1, Java 25.0.3+9-LTS, Vineflower 1.12.0, ASM 9.10.1, Mapping IO 0.9.1, Gson 2.14.0, Tiny Remapper 0.14.1; command used `--versions=1.8.9,1.9.4 --mappings=feather --decompiler-heap=4G` with isolated output root and explicit cache directory. The initial log limitation is recorded above.
 - Discovery author(s): source-campaign worker for 1.8.9 -> 1.9.4.
 - Independent reviewer: not assigned; must differ from discovery author.
 
 ## Artifact manifest
 
-Paths are repository-relative. The shared source/artifact trees are read-only inputs. Initial admission verified both exact IDs, ready JSONs, manifests, and source/artifact rows. A subsequent source-owner revision reports the original derived mapped JARs unavailable; original markers/manifests remain untouched. The versioned `feather-r1-2026-10-07` snapshots and unchanged sources/raw inputs were freshly hash-checked by this worker below. This does not prove identity with the unavailable original derived JARs or explain the hash change. Independent ops verification is pending; retain that limitation. No artifact marker was rewritten, no mismatch was waived, and no independent decompilation was performed.
+Paths are repository-relative. The shared source/artifact trees are read-only inputs. Initial admission verified both exact IDs, ready JSONs, manifests, and source/artifact rows. A subsequent source-owner revision reports the original derived mapped JARs unavailable; original markers/manifests remain untouched. The versioned `feather-r1-2026-10-07` snapshots and unchanged sources/raw inputs were freshly hash-checked by this worker below. Independent ops audit passed on 2026-10-07. This does not prove identity with the unavailable original derived JARs or explain the hash change; retain that limitation. No artifact marker was rewritten, no mismatch was waived, and no independent decompilation was performed.
 
 ### A — 1.8.9
 
@@ -43,7 +43,7 @@ Resource entry hashes will be added for data-backed slices. No test, game, TAS, 
 - Worker verification: every source-manifest row rehashed: A 1,612/1,612 and B 1,819/1,819 match; source manifest hashes match both revision records. Every original artifact-manifest row rehashed: A 36/37 and B 36/37 match. The one differing row per side is the unavailable original derived mapped JAR; all raw inputs are identical per revision records and all other artifact rows matched. Both original ready markers and manifests remain unchanged.
 - A immutable snapshot `build/movement-campaign-2026-10-07/revisions/derived-artifact-snapshots/feather-r1-2026-10-07/1.8.9/ornithe-feather/client-ornithe-feather.jar`: SHA-256 `5c4cff3e4ac10ea1e1da166279133801ad304b4557d5ee4a77a2430977afb6a5`; independently recomputed file hash matches `artifact.sha256` and `revision.json`. Revision JSON SHA-256 `95e2dc4aa3edba2d287f2bab092c61c0f66874f790af1b8c5d98196c980e105d`; full verification log SHA-256 `33b732892a03ffac60026663f7266c20b637330db6d480b4260267861bebd40c` matches `revision.json`.
 - B immutable snapshot `build/movement-campaign-2026-10-07/revisions/derived-artifact-snapshots/feather-r1-2026-10-07/1.9.4/ornithe-feather/client-ornithe-feather.jar`: SHA-256 `fbcf50795566e12b8eab0e733b136ed562c4009d707ef4a7a4994936491816a3`; independently recomputed file hash matches `artifact.sha256` and `revision.json`. Revision JSON SHA-256 `df0a26fd4c65292530cdad638e6789cc26fcd47875fe1c3eb2daef6de7e3f915`; full verification log SHA-256 `33b732892a03ffac60026663f7266c20b637330db6d480b4260267861bebd40c` matches `revision.json`.
-- Limitation: the revision says source tree and raw inputs are hash-identical; the original derived JARs are unavailable and no equivalence/metadata-only claim is made. Independent ops verification is pending.
+- Limitation: the revision says source tree and raw inputs are hash-identical; the original derived JARs are unavailable and no equivalence/metadata-only claim is made. The coordinator relayed an independent ops audit PASS on 2026-10-07 after this worker's consumer-side hash verification.
 
 ## Blind-discovery freeze
 
@@ -65,9 +65,9 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - `INV-STATE` status=pending; slice_ids=STATE-01 through STATE-03; evidence=all player state writers/readers still being inventoried
 - `INV-COLLISION` status=pending; slice_ids=COLL-01 and COLL-02; evidence=axis, step, support, and shape-provider closure in progress
 - `INV-WORLD-MOVEMENT` status=pending; slice_ids=WORLD-01, WORLD-02, COLL-02; evidence=world states, neighboring blocks, fluids, and vehicle path in progress
-- `INV-MODIFIERS` status=pending; slice_ids=TICK-03, MOD-01; evidence=equipment/effect/attribute producers and consumers in progress
-- `INV-EXTERNAL` status=pending; slice_ids=TICK-03 through TICK-07, WORLD-02, EXT-01, MOD-01; evidence=external velocity/position/vehicle writers in progress
-- `INV-EXCLUSIONS` status=complete; slice_ids=scope boundary; evidence=health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement explicitly excluded
+- `INV-MODIFIERS` status=pending; slice_ids=MOD-01, MOD-02; evidence=equipment/effect/attribute producers and consumers in progress; modern-only Elytra/Levitation are scoped out
+- `INV-EXTERNAL` status=pending; slice_ids=TICK-03 through TICK-07, WORLD-02, EXT-01, EXT-02; evidence=external velocity/position/vehicle writers in progress
+- `INV-EXCLUSIONS` status=complete; slice_ids=scope boundary; evidence=health/food production and attack/damage resolution plus non-player/vehicle physics excluded; direct player velocity/impulse/knockback response remains in movement scope
 
 ## Coverage ledger
 
@@ -241,6 +241,18 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Disposition and rationale (including concrete reachability/preconditions): Levitation is a B-only effect and cannot occur in A-era map features under project scope; do not emulate its movement branch.
 - Finding IDs or checked absence/replacement path: excluded modern-only effect; source-tree absence checked on A.
 
+### Slice MOD-02: movement attributes, effects, and equipment modifiers
+
+- Inventory ID(s): `INV-MODIFIERS`, `INV-STATE`, `INV-TICK`, `INV-WORLD-MOVEMENT`.
+- Exact behavior boundary and enclosing guards/order checked: player movement-speed attribute, sprint modifier writer, Speed/Slowness effect modifiers, jump-strength effect, and water movement enchantment/equipment consumers.
+- A evidence: `LivingEntity` registers `MOVEMENT_SPEED`; `setSprinting(Z)V`, `moveRelative(FF)V`, jump-effect and water-friction ranges; exact bounded inventory/hashes pending.
+- B evidence: corresponding `LivingEntity` attribute registration/sprint modifier, travel/jump branches and enchantment/effect consumers; exact bounded inventory/hashes pending.
+- State producers/writers -> consumers/readers: player base/equipment/effect modifiers -> movement/jump attribute reads and water friction -> pre-travel velocity and travel displacement.
+- Parent slices / dependencies / closure evidence: compare attribute base values, modifier UUID/value/operation, duration/amplifier update and removal, player reachability, enchantment equipment slots, and fluid movement order. Modern-only Elytra/Frost Walker remain excluded; Levitation is scoped separately in `MOD-01`.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): historical movement modifiers remain under comparison; do not infer parity from shared names or a common attribute API.
+- Finding IDs or checked absence/replacement path: pending.
+
 ### Slice STATE-03: player pose and dimensions
 
 - Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-COLLISION`, `INV-EXTERNAL`.
@@ -274,13 +286,23 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - State producers/writers -> consumers/readers: vanilla food state may be read by sprint predicate; natural regeneration/hunger/exhaustion simulation is outside this campaign.
 - Parent slices / dependencies / closure evidence: no excluded producer appears in finding index; direct state reads only define a movement precondition.
 - Status: findings
-- Disposition and rationale (including concrete reachability/preconditions): health, regeneration, hunger, food, saturation, exhaustion, damage and combat simulation are out of scope; excluded producers are not movement findings.
-- Finding IDs or checked absence/replacement path: excluded by scope; no implementation finding.
+- Disposition and rationale (including concrete reachability/preconditions): health/food state production and attack/damage resolution are excluded; direct player velocity/impulse/knockback application remains in scope. A sprint predicate may read vanilla food state without emulating its producer. Non-player and vehicle physics remain excluded.
+- Finding IDs or checked absence/replacement path: excluded producer/physics boundary; direct player velocity writer is separately compared in `EXT-02`.
+
+### Slice EXT-02: direct player velocity/impulse writer
+
+- Inventory ID(s): `INV-STATE`, `INV-EXTERNAL`.
+- Exact behavior boundary and enclosing guards/order checked: inherited `Entity.addVelocity(DDD)V` writer only; trigger/cause remains outside this slice, with direct player response in scope.
+- A evidence: `Entity#addVelocity(DDD)V`, lines 980-985; `PlayerEntity` inherits `LivingEntity` and `Entity`; `Entity.java` SHA-256 `d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b`.
+- B evidence: `Entity#addVelocity(DDD)V`, lines 1095-1099; `PlayerEntity` inherits `LivingEntity` and `Entity`; `Entity.java` SHA-256 `bcd7fa2206bf8d7271102f6da7fe2771f96dbe22ec79dab9f2101a3e29c17ef0`.
+- State producers/writers -> consumers/readers: direct impulse `(dx, dy, dz)` -> add to the receiver's three velocity fields and set `velocityDirty` -> player living tick cutoff/travel.
+- Parent slices / dependencies / closure evidence: local player inherits this writer; `STATE-01` records its cutoff consumer; `TICK-07` records a reachable reciprocal push producer. External combat/damage causes and non-player outcomes are excluded.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the generic inherited player velocity writer uses the same three additions and dirty-flag write in both endpoints. This closes only the application primitive, not every external velocity producer/correction.
+- Finding IDs or checked absence/replacement path: checked method body; no difference in `Entity.addVelocity(DDD)V`.
 
 ## Dependency queue and blockers
 
-- `DEP-PROVENANCE`: source owner; exact preparation command/log, pinned/runtime decompiler/remapper/mapping-io versions/options missing.
-- `DEP-ARTIFACT-OPS-AUDIT`: coordinator/ops; worker verified revised snapshots and unchanged source/raw inputs, but independent ops confirmation is pending. Original derived-JAR identity remains unproven; preserve this limitation and do not claim equivalence.
 - `DEP-STATE-01-PRODUCER-CONSUMER`: source worker; full local tick/jump/travel/external correction chain remains open for a cutoff-specific implementation boundary.
 - `DEP-AUDITOR`: coordinator; independent source reviewer not assigned.
 - All remaining `TICK-*`, `STATE-*`, `COLL-*`, `WORLD-*`, `MOD-*`, and `EXT-*` inventories remain open.
@@ -296,7 +318,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 
 ## Incremental finding snapshot log
 
-### SNAP-STATE-01-01 — blocked pending artifact integrity and dependency closure
+### SNAP-STATE-01-01 — superseded blocked evidence reference
 
 - Finding ID: `STATE-01` (`findings/STATE-01-velocity-zero-threshold.md`).
 - Evidence/snapshot commit: `f5eca2d932b7544c4eebaa13864491a4e40cba95`.
@@ -309,13 +331,29 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Timestamp: 2026-10-07 Europe/Vienna.
 - Pair run status/commit at handoff: `active`; evidence commit above. `pair complete: no`.
 - Implementation handoff: `blocked` — mapped-artifact integrity is under canonical repair, finding-specific producer/consumer closure remains open, and no independent snapshot reviewer has accepted it.
+- Snapshot event: superseded on 2026-10-07 by `SNAP-STATE-01-02` after canonical revision `feather-r1-2026-10-07` was published and freshly hash-checked. This prior entry remains in history and was never accepted.
+
+### SNAP-STATE-01-02 — candidate evidence, handoff blocked
+
+- Finding ID: `STATE-01` (`findings/STATE-01-velocity-zero-threshold.md`).
+- Snapshot/evidence commit: `7437cfb2782e7085bd63b9360ba36e07b605f23f`.
+- Finding-file SHA-256 at that commit: `8d74c339535db2e86dee838bef9b3a1cf1a52872b97b3c3a20a505552d8dc412`.
+- Exact source identity: A source manifest `9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004`, cited `LivingEntity.java` `082831c6578e3a70fa6cea5b90bc3eefc26678259b66334470de22b90b5b0e4e`; B source manifest `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`, cited `LivingEntity.java` `bbb7703f18fd5da05c4e4a43a77ea644b388e63c01d34166d308ea52054be4e5`.
+- Exact artifact identity: original A/B artifact-manifest hashes `da003358256d1c4402ebb20614651e5410310e871ee913de2b9c1295a64e1446` / `9527dca544694daa3b4a7741be1a5b4802d8b6665c8a152a408a37a27a1b4d77`; revised immutable mapped JAR hashes `5c4cff3e4ac10ea1e1da166279133801ad304b4557d5ee4a77a2430977afb6a5` / `fbcf50795566e12b8eab0e733b136ed562c4009d707ef4a7a4994936491816a3`, revision JSON SHA-256 `95e2dc4aa3edba2d287f2bab092c61c0f66874f790af1b8c5d98196c980e105d` / `df0a26fd4c65292530cdad638e6789cc26fcd47875fe1c3eb2daef6de7e3f915`. Source and raw input rows match; original derived JARs are unavailable and original identity/equivalence is unproven. Independent ops verification is pending.
+- Verified implementation boundary/evidence: only the strict per-axis cutoff in `LivingEntity#mobTick()V` before jump dispatch/travel (`0.005` A, `0.003` B). First applicable release and version activation outside these endpoints are unknown; do not generalize the threshold to other methods or claim a jump outcome.
+- Closed finding-specific dependency IDs: none. `DEP-STATE-01-PRODUCER-CONSUMER` remains open for local tick dispatch, all preceding input/external velocity writers, jump/travel consumers, and authority corrections.
+- Blind reviewer and decision: not assigned; no acceptance decision.
+- Timestamp: 2026-10-07 Europe/Vienna.
+- Pair run status/commit at handoff: `active`; snapshot evidence commit above. `pair complete: no`.
+- Implementation handoff: `blocked` — finding-specific dependency is open, independent blind snapshot review is not assigned, and independent ops verification is pending. No implementation feedback has been received.
+- Snapshot event: independent ops audit passed on 2026-10-07 after this worker verified both immutable snapshots against `artifact.sha256` and `revision.json`, rehashed source rows, and checked all raw-input manifest rows. The original derived JARs remain unavailable and equivalence remains unproven; no finding acceptance is implied.
 
 ## Resume checkpoint
 
-- Last completed slice: source roots admitted; source-backed movement candidates and explicit scope exclusions recorded; initial artifact verification invalidated by the owner integrity notice.
-- Next bounded slice and exact files/members/body ranges: close active-item and pre-travel push writers; compare input/packet authority boundaries; finish modifier/equipment and collision-provider inventories; then revisit cutoff-specific dependency closure after canonical artifact repair.
-- Outstanding dependencies and owners: `DEP-PROVENANCE` and `DEP-ARTIFACT-IMMUTABILITY` source-preparation/ops; `DEP-AUDITOR` coordinator; `DEP-STATE-01-PRODUCER-CONSUMER` source worker; remaining coverage slices.
-- Assumptions requiring verification: exact generation invocation/tool runtime; no first-version claim inside the interval; complete resource/provider inventory remains open.
+- Last completed slice: source roots and per-file hashes reverified; revised snapshots rehashed and ops audit passed; source-backed movement candidates and explicit scope exclusions recorded. Original mapped-JAR identity remains unproven.
+- Next bounded slice and exact files/members/body ranges: close active-item and pre-travel push writers; compare input/packet authority boundaries; finish modifier/equipment and collision-provider inventories; then revisit cutoff-specific dependency closure.
+- Outstanding dependencies and owners: `DEP-AUDITOR` coordinator; `DEP-STATE-01-PRODUCER-CONSUMER` source worker; remaining coverage slices.
+- Assumptions requiring verification: no first-version claim inside the interval; complete resource/provider inventory remains open.
 
 ## Implementation reconciliation
 
@@ -338,7 +376,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 
 - Coverage counts: pending.
 - Required inventory status/evidence: all inventories remain open.
-- Open dependencies: `DEP-PROVENANCE`, `DEP-ARTIFACT-OPS-AUDIT`, `DEP-STATE-01-PRODUCER-CONSUMER`, `DEP-AUDITOR`, and all pending/in-progress slices.
+- Open dependencies: `DEP-STATE-01-PRODUCER-CONSUMER`, `DEP-AUDITOR`, and all pending/in-progress slices.
 - Unresolved gaps/limits: comprehensive audit in progress; no equivalence closure claimed.
 - Evidence/hash/correspondence audit: source hashes were checked against the admitted source manifests and cited files; derived artifact hashes are stale under the integrity notice and await canonical repair.
 - Blind freeze: pending.
