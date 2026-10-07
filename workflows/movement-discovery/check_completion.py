@@ -51,7 +51,7 @@ def check(path: Path) -> list[str]:
         return [f"run manifest not found: {manifest}"]
     content = manifest.read_text(encoding="utf-8")
     header = content.split("## ", 1)[0]
-    top_statuses = re.findall(r"^- Status:\s*(\S+)\s*$", header, re.M)
+    top_statuses = re.findall(r"^- Status:\\s*(\\S+)\\s*$", header, re.M)
     if len(top_statuses) != 1:
         errors.append(f"expected exactly one top-level status, found {len(top_statuses)}")
         top_status = "invalid"
