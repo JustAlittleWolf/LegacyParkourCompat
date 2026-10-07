@@ -227,14 +227,14 @@ Artifact paths below are relative to repository root; generated artifacts remain
 ### Slice C03: collision query path, shape contexts and shape providers
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: pending; every reachable player collision query and all invoked shape provider implementations/context inputs.
-- A evidence: not yet compared; readiness is recorded in D-SOURCES.
-- B evidence: not yet compared; readiness is recorded in D-SOURCES.
+- Exact behavior boundary and enclosing guards/order checked: compared the Entity axis-collision helper chain used by movement: `collide(Vec3)`, `collideBoundingBox(...)` and `collideWithShapes(...)`. Their step-up candidate ordering, collision-shape collection and Y/Z/X/Y resolution order are identical in the checked bodies. Sampled common block shape providers are recorded in W02; full player collision queries, contextual providers, registrations and neighboring-state dependencies remain open.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/Entity.java`, `collide(Vec3)` lines 776-801, `collideBoundingBox(...)` lines 802-817 and `collideWithShapes(...)` lines 818-854; SHA-256 `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/Entity.java`, `collide(Vec3)` lines 790-815, `collideBoundingBox(...)` lines 816-831 and `collideWithShapes(...)` lines 832-868; SHA-256 `759DE9CDED43BD882AFCF5B7023BCF804D92419ACB656B493F3B490C83EB18B6`.
 - State producers/writers -> consumers/readers: world/state/context/neighbors -> shape providers -> collision/query result.
 - Parent slices / dependencies / closure evidence: D-SOURCES; P01/P02; W01/W02.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison pending; absence must be supported by registrations/inheritance, not string search.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no delta in the checked axis-collision helper chain. The path gathers block collision shapes over the swept AABB and applies the same axis clipping order, including step-up candidates. This bounded comparison does not close registrations or all context-sensitive shape providers; see W02 for selected shared providers.
+- Finding IDs or checked absence/replacement path: checked absence in the sampled `Entity` collision helper bodies; remaining providers and query families open.
 
 ### Slice C04: collision callbacks and fluid-contact query timing
 
@@ -263,14 +263,14 @@ Artifact paths below are relative to repository root; generated artifacts remain
 ### Slice W02: historical block shapes and neighboring-state dependencies
 
 - Inventory ID(s): INV-WORLD-MOVEMENT, INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: pending; movement-relevant shapes, properties, context and neighboring-block dependencies, with registration evidence.
-- A evidence: not yet compared; readiness is recorded in D-SOURCES.
-- B evidence: not yet compared; readiness is recorded in D-SOURCES.
+- Exact behavior boundary and enclosing guards/order checked: compared selected shared movement block callbacks and collision shapes: honey/slime fall and movement callbacks, soul-sand collision shape, scaffolding outline/collision shapes, bubble-column contact/outline, powder-snow slowdown/fall/collision callbacks, and web slowdown. Checked base `Block.getFriction()` / `getSpeedFactor()` and `Entity.getBlockSpeedFactor()` consumers. The sampled movement methods match; PowderSnow's `entityInside()` source differs only in the client-particle RNG type name (`Random` to `RandomSource`) while the same stuck-movement call and guards remain. Registrations, all other block families, resource data and neighboring-block dependencies remain open.
+- A evidence: `HoneyBlock.java` SHA `5FFC5F58A81F82823305C7ED02F9A465C7B3BFD2C1799DA566E1485D0CD99AD5` (`getCollisionShape()` 39-41, `fallOn()` 44-53, `entityInside()` 56-64); `SlimeBlock.java` SHA `4E552C1D1AA49B115F1549A8F19415B0C9F81C0524C0BF4AFED37277D75F6388` (`fallOn()` 19-25, `updateEntityAfterFallOn()` 28-34, `stepOn()` 45-53); `SoulSandBlock.java` SHA `2A9962D14E6E467671A6E674E82154192A5889BAC14E7F3BE4C88C4FC3599D2B` (`getCollisionShape()` 26-28); `ScaffoldingBlock.java` SHA `3503E48374C8673213523DF6F30C167CDCC0A4652CB8E134A9C99C3CEA386777` (`getShape()` 47-53, `getCollisionShape()` 117-123); `BubbleColumnBlock.java` SHA `61990E718C04229D0CF786072E586A3655C513F4D51D9B789E6FF4F56D712D7B` (`entityInside()` 40-67, `getShape()` 167-169); `PowderSnowBlock.java` SHA `454587BC25C870007F87D200DD97AFB23AC1F03AC306962ABD9DE174F3DE9C84` (`entityInside()` 56-84, `fallOn()` 87-93, `getCollisionShape()` 96-112); `WebBlock.java` SHA `EB8F4433705367AA7CE23C5A6071955B4D67728E299A2993285C6405CE638E49` (`entityInside()` 16-18); `Block.java` SHA `57C42EE375691755EF5D47FAD3F226F34A2043558704EC332C1A7E092FDABBA6` (`getFriction()` 401-403, `getSpeedFactor()` 405-407).
+- B evidence: matching named methods in each corresponding path under `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/level/block/`; `HoneyBlock.java` SHA `5FFC5F58A81F82823305C7ED02F9A465C7B3BFD2C1799DA566E1485D0CD99AD5`; `SlimeBlock.java` SHA `4E552C1D1AA49B115F1549A8F19415B0C9F81C0524C0BF4AFED37277D75F6388`; `SoulSandBlock.java` SHA `F6CC9CA6E841B16C4E739E840AC4EBCE46B5B8BD40564473911F2246D1AAB7D8`; `ScaffoldingBlock.java` SHA `FE0D38C1F1F06453FB42AAD778D0AE8A8A5E13DB335BE9B465CA8C7653339EEC`; `BubbleColumnBlock.java` SHA `34F7C5400F1B8DB997AC18333B7E57497B1667274779D4D410F4177B922CB452`; `PowderSnowBlock.java` SHA `40B15B7239A24058CC34ED9F1EDE0611EDDE897BADBEF5486C493CF620949C5D`; `WebBlock.java` SHA `EB8F4433705367AA7CE23C5A6071955B4D67728E299A2993285C6405CE638E49`; `Block.java` SHA `E95D5ABE175A3648B697E542981BA01535157093D133B774AADEF719393CCB8F` (`getFriction()` 403-405, `getSpeedFactor()` 407-409). `Entity.java` speed-factor helper evidence is in C03/T07.
 - State producers/writers -> consumers/readers: block registration/state/neighbors -> shape provider -> player support/collision path.
 - Parent slices / dependencies / closure evidence: D-SOURCES; C02/C03.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison pending; no behavior claim.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the listed shared block implementations expose the same sampled movement callbacks and shape results at both endpoints; source differences in the selected classes are unrelated RNG API/other class content as described above. This is not a registration-complete or whole-world shape equivalence claim. Other movement surfaces, special states and resource-backed defaults remain open.
+- Finding IDs or checked absence/replacement path: checked absence in the sampled provider/callback methods; full provider inventory remains open.
 
 ### Slice W03: fluid travel, flow vectors and contact
 
@@ -437,10 +437,10 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Source audit closure
 
-- Coverage counts by status: pending 14; in-progress 11; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
+- Coverage counts by status: pending 12; in-progress 13; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
 - Required inventory status and evidence: INV-TICK pending; INV-STATE pending; INV-COLLISION pending; INV-WORLD-MOVEMENT pending; INV-MODIFIERS pending; INV-EXTERNAL pending; INV-EXCLUSIONS pending. No inventory is closed.
 - Open dependencies: D-RESOURCES (discovery worker), independent reviewer assignment (coordinator, after source-only freeze).
-- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Fourteen coverage entries are pending, eleven are in progress, and two carry findings.
+- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Twelve coverage entries are pending, thirteen are in progress, and two carry findings.
 - Evidence/hash/correspondence audit: F-001 through F-004 include paired endpoint source/artifact hashes and bounded source ranges; call paths and writer-to-consumer links are recorded for these deltas, while the remaining inventories and correspondence are still open.
 - Blind freeze: not frozen; implementation remains uninspected. Freeze after remaining source inventories close or are explicitly scoped for handoff.
 - Implementation reconciliation: pending and deferred outside this source-only assignment.
