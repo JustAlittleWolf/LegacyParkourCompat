@@ -285,14 +285,14 @@ Each entry is a bounded behavior slice, not an entire class/stage/travel method.
 ### Slice S3-07: Water/lava travel and swimming
 
 - Inventory ID(s): INV-TICK; INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
-- A evidence: pending source readiness; no range accepted.
-- B evidence: pending source readiness; no range accepted.
-- State producers/writers -> consumers/readers: pending paired inventory.
-- Parent slices / dependencies / closure evidence: pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
-- Finding IDs or checked absence/replacement path: pending.
+- Exact behavior boundary and enclosing guards/order checked: water branch including sprint slowdown, Depth Strider cap/airborne scaling, Dolphin's Grace override, relative input, move, climbable collision boost, component damping, fluid-falling adjustment and collision escape; lava branch including input, move, fluid-height threshold, damping, gravity, and collision escape. Also checked the shared fluid-falling helper, liquid jump impulse, fluid jump threshold and Player swimming wrapper.
+- A evidence: `net/minecraft/world/entity/LivingEntity.java#travel` lines 1924-1978, `#getFluidFallingAdjustedMovement` lines 2074-2087, `#jumpInLiquid/#getWaterSlowDown/#canStandOnFluid` lines 1902-1912; `net/minecraft/world/entity/Entity.java#getFluidHeight/#getFluidJumpThreshold` lines 2708-2714; `Player.java#travel` lines 1391-1417. All source hashes are in the foundational source table above.
+- B evidence: `net/minecraft/world/entity/LivingEntity.java#travel` lines 2013-2067, `#getFluidFallingAdjustedMovement` lines 2168-2181, `#jumpInLiquid/#getWaterSlowDown/#canStandOnFluid` lines 1991-2001; `net/minecraft/world/entity/Entity.java#getFluidHeight/#getFluidJumpThreshold` lines 2849-2855; `Player.java#travel` lines 1413-1439. All source hashes are in the foundational source table above.
+- State producers/writers -> consumers/readers: the shared entry guard and `FluidState` select water/lava before fall-flying or ordinary travel. Water slowdown starts at sprint `0.9F` or `getWaterSlowDown()` (`0.8F`); Depth Strider is capped at 3, halved off-ground, and interpolates the slowdown/acceleration; Dolphin's Grace sets slowdown to `0.96F`. Lava chooses the `0.5, 0.8F, 0.5` damping plus fluid-falling correction when fluid height is at or below the eye-height-derived threshold, otherwise scales the full delta by `0.5`; gravity contributes `-d/4` unless disabled. Both paths preserve collision-conditioned `0.2` climbable or `0.3F` escape writes. The fluid-falling helper uses the same sprint/no-gravity guard and `0.005`, `0.003`, and `d/16` comparisons; liquid jump writes `+0.04F`. Fluid-height computation, tags, Depth Strider item/effect inputs, and eye-height predicates remain S4/S6/S2 dependencies.
+- Parent slices / dependencies / closure evidence: S1-02 establishes tick/call order; S1-04 traces liquid jump selection; S2-02 closes eye-height inputs; S3-01 closes branch order and Player swimming wrapper; S3-04 checks the shared fluid-falling helper; S4/S5/S6 close fluid height/state, collision escape, item enchantment, effect and world-resource inputs.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): A and B use the same water/lava branch guards, operand order, literals, float/double types, effects, movement calls, damping, gravity and collision escape. The fluid-falling helper, threshold, liquid jump impulse and Player swimming wrapper also match. No fluid-branch movement-code delta was established. The physical fluid surface/height inputs and applicable item/effect sources remain open in their dedicated inventories.
+- Finding IDs or checked absence/replacement path: checked absence for paired water/lava branch and fluid helper code; fluid-state/height and modifier/effect providers remain S2/S4/S6.
 
 ### Slice S3-08: Fall-flying travel
 
@@ -524,8 +524,8 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ## Resume checkpoint
 
-- Closed code-path comparisons: S3-01 travel dispatch/pre-branch, S3-03 air-speed and S3-06 climbable travel; no dispatch, stored-air-speed or climbable-code delta found. S3-02 remains in-progress with B-only powder-snow route `CD-S3-02-01`; S3-04 remains in-progress with conditional minY candidate `CD-S3-04-01`; S3-05 traces candidate `CD-S1-04-01`. Source pair verified; S1-01..S1-06 and S2-01..S2-03 remain in-progress pending their listed dependencies.
-- Next bounded slice: continue S3-02 closure for powder-snow support applicability and external friction writers, then close S3-04 build-height applicability and S3-05 block/effect dependencies while tracing S3-07 water/lava travel. S3-09 owns the Player post-super bob and B-only freezing stage. Retain S1/S2 slices as in-progress until input/pose, tick-membership, ability, speed, fluid/collision, modifier, item, mount, resize and external-writer dependencies close.
+- Closed code-path comparisons: S3-01 travel dispatch/pre-branch, S3-03 air-speed, S3-06 climbable travel and S3-07 water/lava branches; no dispatch, stored-air-speed, climbable-code or fluid-branch delta found. S3-02 remains in-progress with B-only powder-snow route `CD-S3-02-01`; S3-04 remains in-progress with conditional minY candidate `CD-S3-04-01`; S3-05 traces candidate `CD-S1-04-01`. Source pair verified; S1-01..S1-06 and S2-01..S2-03 remain in-progress pending their listed dependencies.
+- Next bounded slice: continue S3-02 closure for powder-snow support applicability and external friction writers, then close S3-04 build-height applicability and S3-05 block/effect dependencies before S3-08 fall-flying travel. S3-09 owns the Player post-super bob and B-only freezing stage. Retain S1/S2 slices as in-progress until input/pose, tick-membership, ability, speed, fluid/collision, modifier, item, mount, resize and external-writer dependencies close.
 - Outstanding dependencies and owners: source-owner publication is complete; source closure remains with this run, including S1-06 entity-tick membership/passenger scheduling and the remaining movement/resource inventories.
 - Assumptions requiring verification: no unresolved source-root or namespace assumptions; verify every newly selected source file against its manifest as slices are opened.
 
@@ -548,10 +548,10 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ## Source audit closure
 
-- Coverage counts by status: 19 pending, 12 in-progress, 3 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
+- Coverage counts by status: 18 pending, 12 in-progress, 4 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
 - Required inventory status and evidence: all seven pending; evidence pending.
-- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; S1-05 abilities, Elytra/item state and travel/external writers; S1-06 chunk membership, passenger and server packet/correction closure; S2-01 collision-box and synchronized pose/position closure; S2-02 eye-height consumers; S2-03 item-use/shift state writers and travel consumers; S3-02 powder-snow support applicability and discard-friction player reachability; S3-04 dimension minY applicability; S3-06 climbable block/tag provider closure; RESOURCE-INVENTORY and movement-diagnostic scope closure.
-- Unresolved gaps and limits: S1-01..S1-06/S2-01..S2-03, S3-02/S3-04/S3-05 dependencies, S3-06 block/tag providers, and the remaining 31 source slices (19 pending, 12 in-progress) are open.
+- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; S1-05 abilities, Elytra/item state and travel/external writers; S1-06 chunk membership, passenger and server packet/correction closure; S2-01 collision-box and synchronized pose/position closure; S2-02 eye-height consumers; S2-03 item-use/shift state writers and travel consumers; S3-02 powder-snow support applicability and discard-friction player reachability; S3-04 dimension minY applicability; S3-06 climbable block/tag provider closure; S3-07 fluid-height/state, Depth Strider and effect providers; RESOURCE-INVENTORY and movement-diagnostic scope closure.
+- Unresolved gaps and limits: S1-01..S1-06/S2-01..S2-03, S3-02/S3-04/S3-05 dependencies, S3-06 block/tag providers, S3-07 fluid and modifier providers, and the remaining 30 source slices (18 pending, 12 in-progress) are open.
 - Evidence/hash/correspondence audit: not started.
 - Blind freeze: pending.
 - Implementation reconciliation: pending.
