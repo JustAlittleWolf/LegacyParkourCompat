@@ -2,7 +2,7 @@
 
 - Run status: active
 - Scope: source-only player movement; older A = exact 1.21.3; newer B = exact 1.21.4. Direct player motion, velocity and knockback response remain in scope even when combat can trigger them. Health, regeneration, hunger, food, saturation, exhaustion, attack/damage resolution, modern-only blocks/features, non-player movement and vehicle physics are out of scope; movement predicates may read vanilla health/food state.
-- Repository revision and start date: base `002137b227676caea77f6832b9f4c8d0b6200bff` (`main`); 2026-10-07. Current report branch checkpoint before this source batch: `10d68d5`.
+- Repository revision and start date: base `002137b227676caea77f6832b9f4c8d0b6200bff` (`main`); 2026-10-07. Current report branch checkpoint before this source batch: `b81e4db`.
 - Selected namespace and alignment: release-specific official Mojang mappings (`mojmap`) for both exact releases; namespace and exact IDs verified in both readiness and provenance JSONs.
 - Source preparation owner / command / log / readiness marker: shared source owner; `.\gradlew.bat decompileMinecraft --versions=1.21.1,1.21.3,1.21.4,1.21.5 --mappings=mojmap --decompiler-heap=4G --output-root=<campaign staging> --cache-directory=<campaign artifacts>`; log `build/movement-campaign-2026-10-07/staging/mojmap-1.21.1-to-1.21.5-cd5a99cb1024417c9d370097c886a131/gradle.full.log`; both markers are `ready` and exact IDs match.
 - Toolchain/decompiler/remapper versions and options: Gradle 9.7.1; decompiler JVM Java 25.0.3+9-LTS; Vineflower 1.12.0, Tiny Remapper 0.14.1, Mapping IO 0.9.1, ASM 9.10.1, Gson 2.14.0; 4G heap.
@@ -187,6 +187,18 @@ Both provenance records point to the same exact batch and successful full Gradle
 - Disposition and rationale (including concrete reachability/preconditions): when the inherited jump branch runs and jump power exceeds `1.0E-5F`, both versions apply the same vertical maximum, sprint-direction impulse and `hasImpulse` write; liquid vertical impulses and slow-falling gravity are also unchanged.
 - Finding IDs or checked absence/replacement path: no difference in these bounded jump and vertical-adjustment methods.
 
+### Slice S3-06: local-player collision completion and fall-distance state
+
+- Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-COLLISION`
+- Exact behavior boundary and enclosing guards/order checked: `Entity.move()` rest phase after collision resolution: local vertical/horizontal collision flags, on-ground/support update, `checkFallDamage` dispatch and post-collision velocity/block callback. Trace the controlled-player guards through `Player` and `LocalPlayer`, and the `fallDistance` reader in `Player.maybeBackOffFromEdge()`.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.21.3/mojmap/net/minecraft/world/entity/Entity.java::move()`, lines 619-702, and `checkFallDamage()`, lines 1216-1231, SHA-256 `a93719c302a0381a972af75ea360465e2e3551708dd07c34d4d40b7e5173c2b9`; `Player#isControlledByClient()`, lines 2146-2148, and `LocalPlayer#isLocalPlayer()` / `isEffectiveAi()`, lines 347-349 / 478-480.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.21.4/mojmap/net/minecraft/world/entity/Entity.java::move()`, lines 627-713, and `checkFallDamage()`, lines 1237-1252, SHA-256 `05f18ef2ec0413fc010230407c812a11553eb5123b68d21b5d7b2c0c175698ad`; `Player#isControlledByClient()`, lines 2166-2168, and `LocalPlayer#isLocalPlayer()` / `isEffectiveAi()`, lines 352-354 / 483-485.
+- State producers/writers -> consumers/readers: collision-resolved downward delta -> `Entity.checkFallDamage` on A's client-local path -> `resetFallDistance()` when grounded; B's added `!isControlledByClient()` guard skips that call for `LocalPlayer` because `Player.isControlledByClient()` returns true. The state is later read by `Player.isAboveGround()` inside `maybeBackOffFromEdge()` when shift is down and vertical movement is non-positive. B's vertical-collision/on-ground guard still runs for LocalPlayer via `isControlledByOrIsLocalPlayer()`.
+- Parent slices / dependencies / closure evidence: `S3-01`, `S3-02`; this is the post-collision state-write path reached by the ordinary travel `Entity.move()` call. The full collision-shape/step-up resolver remains open under `INV-COLLISION`.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): after a locally controlled player descends and lands, A invokes `LivingEntity.checkFallDamage()` and its `Entity` parent resets `fallDistance`; B skips the call because the player reports client control. If the player then becomes airborne while holding shift and moving horizontally with non-positive Y delta, the crouch edge guard reads the retained B value; when it exceeds `maxUpStep`, `isAboveGround()` returns false without the A reset, so the two versions take different `maybeBackOffFromEdge()` branches. This finding concerns the player movement-state write/read and its edge movement guard, not fall damage or attack resolution.
+- Finding IDs or checked absence/replacement path: [F-S3-01](findings/F-S3-01-client-controlled-fall-distance-state.md). A executes the guarded check on the LocalPlayer client path; B's `&& !this.isControlledByClient()` excludes it for Player instances.
+
 ## Dependency queue and blockers
 
 - `DEP-SOURCE-AUDIT`: exact pair ready manifests and hashes verified; source prep resolved.
@@ -236,7 +248,7 @@ Both provenance records point to the same exact batch and successful full Gradle
 
 ## Source audit closure
 
-- Coverage counts by status: 8 compared-no-difference; 0 in-progress; 2 findings; additional required slices not yet enumerated.
+- Coverage counts by status: 8 compared-no-difference; 0 in-progress; 3 findings; additional required slices not yet enumerated.
 - Required inventory status and evidence: all inventories remain pending; see inventory map and bounded slices.
 - Open dependencies: `DEP-TRAVEL`, `DEP-COLLISION`, `DEP-WORLD-DATA`, `DEP-MODIFIERS`, `DEP-EXTERNAL`.
 - Unresolved gaps and limits: remaining Stage 1 methods and all unenumerated Stage 2-7 sources/resources.
