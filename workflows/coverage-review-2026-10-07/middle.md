@@ -93,3 +93,22 @@ Owner requeue for this pair: bring the current source comparisons into the new t
 All 12 owner runs remain active. The current structured reports with slice blocks are 1.16.5 → 1.17.1 (34 pending), 1.18.2 → 1.19.2 (27 pending), 1.19.2 → 1.19.3 (19 pending), 1.19.3 → 1.19.4 (7 pending), 1.20.2 → 1.20.4 (45 pending), and 1.20.4 → 1.20.6 (51 pending). Every one of these slices still lacks both-side source ranges and is pending, so none is a terminal disposition. Five other current drafts have no bounded slice blocks and no required inventory IDs; 1.20.1 → 1.20.2 has the seven inventory IDs, all pending, but no slices. This is a report-structure gap, not proof that the owners failed to research a behavior.
 
 The 1.8 jump-apex and pane/bar hypotheses are still unverified for the assigned intervals. The collision escape candidate above creates a concrete shape-query route for pane/bar applicability, but its source/provider/resource closure remains open. No report is complete or accepted.
+
+## Canonical checker refresh (2026-10-07)
+
+After the prior interim pass, owner reports changed. I ran the canonical `check_completion.py` from commit `fba28fa154d29572263ea3f2c44cf1dc23134329` read-only on the live `run.md` in each of the twelve existing owner worktrees. This refresh supersedes the interim checker and draft counts above. A structurally valid `active` result is not a frozen report or source audit.
+
+- 1.14.4 → 1.15.2: structurally valid `active`; 7 slice blocks, 7 inventories.
+- 1.15.2 → 1.16.5: missing all 7 required inventory IDs; 10 slice blocks exist, but their existence does not cover the absent inventory contract.
+- 1.16.5 → 1.17.1: structurally valid `active`; 34 slice blocks, 7 inventories.
+- 1.17.1 → 1.18.2: missing the required-source-inventories, blind-freeze, implementation-reconciliation and independent-audit sections; missing all 7 inventory IDs and has no bounded slices.
+- 1.18.2 → 1.19.2: missing the blind-discovery-freeze section; 27 slice blocks, 7 inventories.
+- 1.19.2 → 1.19.3: structurally valid `active`; 19 slice blocks, 7 inventories.
+- 1.19.3 → 1.19.4: structurally valid `active`; 7 slice blocks, 7 inventories.
+- 1.19.4 → 1.20.1: missing all 7 required inventory IDs; 2 slice blocks.
+- 1.20.1 → 1.20.2: has all 7 inventory IDs but no bounded slices.
+- 1.20.2 → 1.20.4: structurally valid `active`; 45 slice blocks, 7 inventories.
+- 1.20.4 → 1.20.6: structurally valid `active`; 51 slice blocks, 7 inventories.
+- 1.20.6 → 1.21.1: structurally valid `active`; 35 slice blocks, 7 inventories.
+
+No report has been frozen or accepted. The canonical checker specifically does not validate that a cited source range is complete, that the source hashes identify the checked files, or that the movement behavior and dependency closure are correct. Those remain source-review requirements. The 1.15.2 → 1.16.5 source candidates and missing inventory contract are therefore still requeue items.
