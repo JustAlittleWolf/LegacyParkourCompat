@@ -38,7 +38,7 @@ The source owner published both exact pairs. The `ready` markers, source manifes
 - Input producer: A/B `Minecraft` create `new KeyboardInput(this.options)` at lines 1917/1950 and 1913/1946 respectively. The produced `Input` is recalculated by the local player's `mobTick`; no alternate player movement-input producer/caller was found in either source tree.
 - Hierarchy: both `LocalClientPlayerEntity extends ClientPlayerEntity extends PlayerEntity extends LivingEntity extends Entity`; same Feather package and corresponding named classes.
 - Tick order: A `LocalClientPlayerEntity.tick()` line 143 (B line 152) calls `super.tick()` only when the player's chunk is loaded, then sends movement or vehicle/input packets. `LivingEntity.tick()` calls virtual `this.mobTick()` (A line 1551; B line 1587); dispatch enters local-player `mobTick()` (A line 604; B line 620), which samples `input.tick()` (A line 649; B line 665), performs sprint/flight/riding gates, then `super.mobTick()`. `PlayerEntity.mobTick()` chains to `LivingEntity.mobTick()`, which calls virtual `serverTickAi()` (A line 1686; B line 1722), entering the local player's override (A line 586; B line 602) to copy current axes/jump into living movement fields before `moveRelative`/`jump`/`move`. Full caller/callee bodies and changed dependencies remain under review.
-- Confirmed new B movement path: local-player `move(dx,dy,dz)` (B line 812) saves X/Z, calls `super.move`, then calls `autoJump((float)(x-d),(float)(z-e))`; no A counterpart exists in the checked class/inheritance path. The full auto-jump body and its option/collision/effect dependencies are open as S1.7/S2/S4/S5/S6, not yet closed.
+- Confirmed new B movement path: local-player `move(dx,dy,dz)` (B line 812) saves X/Z, calls `super.move`, then calls `autoJump((float)(x-d),(float)(z-e))`; no A counterpart exists in the checked class/inheritance path. The bounded timer/input/jump chain is source-confirmed in `LOCAL-AUTO-JUMP-INPUT`; broader S1.7/S2/S4/S5/S6 inventories and collision-shape coverage remain open.
 - Local player field/method writers found so far: `input.tick()` in `mobTick`; input-to-living-field copy in `serverTickAi`; local sprint timers and sprint state in `mobTick`/`setSprinting`; flight state in `mobTick`; riding jump timers/size in `mobTick`; B auto-jump timer in `autoJump` and its next-tick consumption in `mobTick`. Complete state-writer search and dependency closure remain open.
 
 ## Required source inventories
@@ -168,14 +168,26 @@ Per bounded slice, record one of `pending`, `in-progress`, `compared-no-differen
 ### Slice LOCAL-AUTO-JUMP-INPUT: obstacle-triggered local-player jump input
 
 - Inventory ID(s): `INV-TICK`, `INV-INPUT`, `INV-JUMP`, `INV-STATE`
-- Exact behavior boundary and enclosing guards/order checked: B's `LocalClientPlayerEntity.move` calls its superclass first, measures actual horizontal displacement, then runs `autoJump`; candidate timer is set only when auto-jump is enabled, timer is clear, player is grounded, not sneaking/riding, movement input is nonzero, and the forward path meets the helper's geometry checks. In B `mobTick`, a positive timer is decremented and sets `input.jumping=true`; `serverTickAi` copies input jump to the inherited `jumping` field. Tick order and full downstream jump/collision effects remain open.
+- Exact behavior boundary and enclosing guards/order checked: B's `LocalClientPlayerEntity.move` calls its superclass first, measures actual horizontal displacement, then runs `autoJump`; candidate timer is set only when auto-jump is enabled, timer is clear, player is grounded, not sneaking/riding, movement input is nonzero, and the forward path meets the helper's geometry checks. In B `mobTick`, a positive timer is decremented and sets `input.jumping=true`; then `super.mobTick()` dispatches through `LivingEntity.mobTick`, whose `serverTickAi` copies that input to the inherited `jumping` field before the same method processes the jump. A has the same ordinary jump consumer but no synthesized input path.
 - A evidence: `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java`, full source SHA-256 `8AAF711948B7602C2E6C015A37E36ED06073D39727D999D80480B4910B704F5D`; `serverTickAi` lines 586-597 copies direct input, and the local class has no `ticksToNextAutojump`, `autoJump`, or `move(double,double,double)` override. Inherited movement and the complete A tick/input caller path still require closure.
 - B evidence: `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java`, full source SHA-256 `A9637065F21AD67464EB5C204C74EBF228C3BB0DA8A96DDF4AE73C0490FED443`; timer field lines 105-106; `serverTickAi` lines 602-613; timer consumption/input write in `mobTick` lines 661-677; movement override lines 812-817; geometry/guard and timer writer `autoJump` lines 823-923.
-- State producers/writers -> consumers/readers: B movement outcome -> `autoJump` timer writer -> next `mobTick` countdown and input jump write -> `serverTickAi` copy into `LivingEntity.jumping` -> downstream jump processing. The exact same-tick/next-tick ordering and the A/B downstream comparison are not closed.
-- Parent slices / dependencies / closure evidence: initial local tick/input graph; direct B helper and timer writers/readers found. Requires paired `Entity.move` call sites, `ClientPlayerEntity`/`LivingEntity` tick order, A inherited movement path, full B/A jump processing, relevant diagnostics/bytecode closure, and geometry dependency review.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): B contains an auto-jump input path absent from A's local-player class; treat as a reachable movement candidate when auto-jump is enabled and the helper's guards pass. Do not claim a resulting trajectory or implementation boundary until the tick order, collision geometry and downstream jump path are paired and closed.
-- Finding IDs or checked absence/replacement path: none yet; continue source-only tracing before deciding whether this is a distinct finding.
+- State producers/writers -> consumers/readers: movement collision result -> B `move` override -> `autoJump` timer writer -> next `mobTick` countdown and synthetic input write -> `LivingEntity.serverTickAi` jump-state copy -> `LivingEntity.mobTick` jump branch -> virtual `PlayerEntity.jump`. B's normal `KeyboardInput` and auto-jump option writers are traced.
+- Parent slices / dependencies / closure evidence: the bounded local-player path through `LivingEntity.moveRelative`, `Entity.move`, `LocalClientPlayerEntity.move`, `LocalClientPlayerEntity.mobTick`, `LivingEntity.mobTick`, and `PlayerEntity.jump` is source-traced. B bytecode for the local-player class was inspected on the exact immutable revision jar; A's corresponding class has no auto-jump fields or methods. Relevant diagnostics contain no entries for these local-player methods. Broader tick inventory and collision-shape coverage remain open.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): source-confirmed added path. With auto-jump enabled and the local player grounded, not sneaking/riding, and moving, B tests forward collision geometry and can set a one-tick timer; the next local-player mob tick synthesizes the jump input before the ordinary player jump consumer. B explicitly prevents this generated input from triggering the creative-flight double-tap. The exact path is bound to `feather-r1-2026-10-07`; unavailable original derived-jar equivalence is not claimed.
+- Finding IDs or checked absence/replacement path: F003; A's local-player class and A client-entity tree have no corresponding helper, timer, or movement override.
+
+### Slice LOCAL-FALL-FLYING-SOUND-STATE: synchronized fall-flight audio guard
+
+- Inventory ID(s): `INV-STATE`, `INV-TICK`
+- Exact behavior boundary and enclosing guards/order checked: B updates a local `falling` boolean from `isFallFlying()` in `mobTick` and uses it only in `onDataValueChanged` to gate playback of `ElytraOnPlayerSoundInstance` when `SHARED_FLAGS` changes.
+- A evidence: `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java`, full-file SHA-256 `8AAF711948B7602C2E6C015A37E36ED06073D39727D999D80480B4910B704F5D`; `onDataValueChanged` lines 478-491 has no `falling` state or `SHARED_FLAGS` sound branch. A plays `ElytraOnPlayerSoundInstance` in `mobTick` when requesting fall flying (lines 707-713).
+- B evidence: same path, full-file SHA-256 `A9637065F21AD67464EB5C204C74EBF228C3BB0DA8A96DDF4AE73C0490FED443`; field line 107, callback lines 489-504 plays sound under the shared-flag/is-fall-flying/not-falling guard, and `mobTick` line 737 updates `falling` from `isFallFlying()`.
+- State producers/writers -> consumers/readers: shared flag update -> callback's sound-only branch; local-player `mobTick` writes the guard field. `falling` has no other source-tree read or write in this class.
+- Parent slices / dependencies / closure evidence: local-player callback and writer are source-traced. No velocity, input, movement call, collision query, or jump result is changed by this field; only sound playback is gated.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): outside player movement scope; the new boolean changes only whether an Elytra sound instance is played on a synchronized flag change.
+- Finding IDs or checked absence/replacement path: checked non-movement effect; no movement finding.
 
 ## Dependency queue and blockers
 
@@ -187,11 +199,11 @@ Per bounded slice, record one of `pending`, `in-progress`, `compared-no-differen
 
 ## Finding index
 
-F001 - [farmland player collision height](findings/F001-farmland-collision-height.md), source-confirmed. F002 - [generic no-gravity state gates fluid travel gravity](findings/F002-no-gravity-fluid-travel.md), source-confirmed for a server-loaded player whose saved `NoGravity` flag is true. Prior pair reports are historical hints only, not coverage evidence.
+F001 - [farmland player collision height](findings/F001-farmland-collision-height.md), source-confirmed. F002 - [generic no-gravity state gates fluid travel gravity](findings/F002-no-gravity-fluid-travel.md), source-confirmed for a server-loaded player whose saved `NoGravity` flag is true. F003 - [local-player auto-jump input](findings/F003-local-player-auto-jump.md), source-confirmed when B's auto-jump option and geometry/state guards pass. Prior pair reports are historical hints only, not coverage evidence.
 
 ## Resume checkpoint
 
-- Last completed slice: `BLK-RAIL-OUTLINE-COLLISION` compared-no-difference; `BLK-FARMLAND-COLLISION` and `LIVING-FLUID-NO-GRAVITY` have source-confirmed findings.
+- Last completed slices: `BLK-RAIL-OUTLINE-COLLISION` compared-no-difference; `BLK-FARMLAND-COLLISION`, `LIVING-FLUID-NO-GRAVITY`, and `LOCAL-AUTO-JUMP-INPUT` have source-confirmed findings; `LOCAL-FALL-FLYING-SOUND-STATE` is not applicable to player movement.
 - Next action: obtain blind review of the submitted finding snapshots, close remaining movement bytecode diagnostics, and continue all seven local-player and movement-state inventories.
 - Outstanding dependencies: D1–D3 and full-pair independent source audit; D-ART is resolved for source evidence with the original-derived-jar limitation recorded.
 - Assumptions requiring verification: explicit Feather exists and resolves both exact release IDs; source trees and relevant method bodies are intact; source-owner warnings do not intersect evidence without bytecode confirmation.
@@ -216,6 +228,18 @@ F001 - [farmland player collision height](findings/F001-farmland-collision-heigh
 - Timestamp: 2026-10-07 15:44 UTC. Pair status at snapshot commit: `active`; pair run checkpoint includes snapshot r2 commit `c4ca5a7c3a6ae275eac8c5c7adaffa428c9a3b93`; pair complete: no.
 - Implementation handoff: `blocked` pending independent blind review acceptance of this exact snapshot. The pair remains active while remaining slices and full-pair audit are unfinished.
 
+### Snapshot `FS-1.9.4-1.10.2-2026-10-07-auto-jump-r1` — submitted, review pending
+
+- Finding: F003; immutable finding snapshot commit `4ffe7bcc101f17fdc5f5d6edcc26a96ea6cce910`.
+- Finding-file SHA-256: `findings/F003-local-player-auto-jump.md` = `bcf01c530efa874168cfcfe347770859e399f967c42e5b381a492fbb72d4ccc3`.
+- Exact A/B artifact-manifest and source identities: A artifact manifest `9527dca544694daa3b4a7741be1a5b4802d8b6665c8a152a408a37a27a1b4d77`, source manifest `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`; B artifact manifest `6b402f3e6d6cf2f7b3647806364ff44214c47348fefd6949fad03e2011379116`, source manifest `91b0f478acb7b6f13463c35b268a30d2806f583402631a56f54ce2eb70d1ec71`.
+- Revised artifacts: revision `feather-r1-2026-10-07`; A immutable jar SHA-256 `fbcf50795566e12b8eab0e733b136ed562c4009d707ef4a7a4994936491816a3`; B immutable jar SHA-256 `0c1d71990c9c0d7cc88debf7e67663bd64c8dc7de5872176088a3119527fb28b`. Both source trees/raw inputs match their original manifests; original derived-jar equivalence is unproven.
+- Verified paired boundary and evidence: B `LocalClientPlayerEntity.move` invokes obstacle checks and schedules a jump input; A has no corresponding local-player move override, auto-jump helper, or timer in its class or client-entity source tree. B's synthetic input reaches the same-call `LivingEntity.mobTick` jump consumer. B local-player bytecode and the A class absence path were inspected on the exact immutable jars.
+- Closed finding dependencies: B option/input producer, movement call into virtual `Entity.move`, local move override/helper and geometry guards, timer writer/consumer, `serverTickAi` copy, `LivingEntity.mobTick` jump branch, and virtual `PlayerEntity.jump`; the paired A absence and ordinary consumer were checked. D0 and D-ART are resolved for source evidence. Report-wide D1–D3 and wider inventories remain open.
+- Independent blind reviewer: pending assignment. Decision: pending; no acceptance is claimed. Review basis requested: eligibility guards, input/state reachability, paired source and bytecode evidence, exact hashes, and artifact-revision limitation.
+- Timestamp: 2026-10-07 16:04 UTC. Pair status at finding commit: `active`; pair report checkpoint was `f52d696cab43c3d77b0384843a5e688a8b00a880`; pair complete: no.
+- Implementation handoff: `blocked` pending independent blind review acceptance of this exact snapshot. Full-pair discovery and audit remain open.
+
 ## Implementation reconciliation
 
 - Reconciliation status: pending
@@ -235,8 +259,8 @@ F001 - [farmland player collision height](findings/F001-farmland-collision-heigh
 
 ## Source audit closure
 
-- Coverage counts: 1 compared-no-difference; 2 source-confirmed findings submitted for review (0 accepted); 0 not-applicable; 0 blocked; 1 in-progress new slice; 51 initial planned behavior slices pending.
-- Pending bounded-slice count: 51 initial planned behavior slices remain, plus the new auto-jump slice in progress; revise upward whenever source navigation exposes additional distinct methods, writers, consumers or dependencies.
+- Coverage counts: 1 compared-no-difference; 3 source-confirmed findings submitted for review (0 accepted); 1 not-applicable; 0 blocked; 51 initial planned behavior slices pending.
+- Pending bounded-slice count: 51 initial planned behavior slices remain; revise upward whenever source navigation exposes additional distinct methods, writers, consumers or dependencies.
 - Unresolved gaps: inventories and the full-pair audit remain open; movement decompiler diagnostics (D1), resource closure (D2), and transitive state-writer/caller closure (D3) remain open. The source-provenance record and revised-artifact integrity checks are complete, with original derived-jar equivalence unproven.
-- Evidence/hash/correspondence audit: partial; F001/F002 source and revised immutable-artifact evidence and rail hashes are recorded. Independent operations verification passed; independent finding review remains pending.
+- Evidence/hash/correspondence audit: partial; F001–F003 source and revised immutable-artifact evidence and rail hashes are recorded. Independent operations verification passed; independent finding review remains pending.
 - Runtime validation: not performed (separate workflow).
