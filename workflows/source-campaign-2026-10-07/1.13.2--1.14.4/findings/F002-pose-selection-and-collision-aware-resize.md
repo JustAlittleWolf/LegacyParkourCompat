@@ -4,7 +4,7 @@
 - Newer version B: 1.14.4
 - Mechanic / coverage slice IDs: player pose/dimensions; S002
 - Classification: changed behavior
-- Confidence: source-confirmed
+- Confidence: candidate (A artifact-integrity repair pending before acceptance)
 - Applicability: historical player behavior
 - First changed release: unknown within (1.13.2, 1.14.4]
 - Runtime validation: not performed
@@ -12,7 +12,7 @@
 ## Paired evidence
 
 - A manifest: `../../../build/movement-campaign-2026-10-07/ready/1.13.2/ornithe-feather/`; `PlayerEntity.java`::`updatePlayerPose()`, lines 334-360, SHA-256 `4ed22f6c5a3c55d67eed782070ac722201df4d624adbc90779f1fd29c2876633`.
-- B manifest: `../../../build/movement-campaign-2026-10-07/ready/1.14.4/ornithe-feather/`; same member, lines 343-370, SHA-256 `2614deb3b50d11f6cdf54d9e308703bf49cb53b72646b05253857e9557d657df`.
+- B manifest: `../../../build/movement-campaign-2026-10-07/ready/1.14.4/ornithe-feather/`; same member, lines 343-370, and `getDimensionsForPose(Pose)` lines 109-117, SHA-256 `2614deb3b50d11f6cdf54d9e308703bf49cb53b72646b05253857e9557d657df`.
 
 ## Source-level difference
 

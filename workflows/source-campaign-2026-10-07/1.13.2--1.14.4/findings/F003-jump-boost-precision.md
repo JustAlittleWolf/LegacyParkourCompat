@@ -4,7 +4,7 @@
 - Newer version B: 1.14.4
 - Mechanic / coverage slice IDs: jump impulse; S003
 - Classification: changed behavior
-- Confidence: source-confirmed
+- Confidence: candidate (A artifact-integrity repair pending before acceptance)
 - Applicability: historical player behavior
 - First changed release: unknown within (1.13.2, 1.14.4]
 - Runtime validation: not performed

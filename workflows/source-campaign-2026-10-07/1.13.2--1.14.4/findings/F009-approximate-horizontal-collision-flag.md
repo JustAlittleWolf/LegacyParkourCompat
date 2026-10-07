@@ -4,7 +4,7 @@
 - Newer version B: 1.14.4
 - Mechanic / coverage slice IDs: entity movement collision flags; S006
 - Classification: changed behavior
-- Confidence: source-confirmed
+- Confidence: candidate (A artifact-integrity repair pending before acceptance)
 - Applicability: historical player behavior
 - First changed release: unknown within (1.13.2, 1.14.4]
 - Runtime validation: not performed
@@ -12,7 +12,7 @@
 ## Paired evidence
 
 - A manifest: `../../../build/movement-campaign-2026-10-07/ready/1.13.2/ornithe-feather/`; `Entity.java`::`move(MoverType,double,double,double)`, lines 674-680, SHA-256 `1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269`.
-- B manifest: `../../../build/movement-campaign-2026-10-07/ready/1.14.4/ornithe-feather/`; `Entity.java`::`move(MoverType,Vec3d)`, lines 471-475 and `MathHelper.m_68886716`, lines 155-157, SHA-256 `7315a496c195da767de9d4936d3adb6efc3c419dc0f0e95d6f32781b0da1ba55`.
+- B manifest: `../../../build/movement-campaign-2026-10-07/ready/1.14.4/ornithe-feather/`; `Entity.java`::`move(MoverType,Vec3d)`, lines 471-475 and `MathHelper.m_68886716`, lines 155-157, `MathHelper.java` SHA-256 `e39d5dfc69c17a9032be086d7d4d14cc63525962a0ff83615b1befdcca599843`; Entity SHA-256 `7315a496c195da767de9d4936d3adb6efc3c419dc0f0e95d6f32781b0da1ba55`.
 
 ## Source-level difference
 
