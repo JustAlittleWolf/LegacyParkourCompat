@@ -13,6 +13,7 @@
 
 - A: source manifest A; `build/movement-campaign-2026-10-07/ready/1.8.9/ornithe-feather/net/minecraft/entity/living/LivingEntity.java`; `LivingEntity#mobTick()V`, lines 1406-1416; SHA-256 `082831c6578e3a70fa6cea5b90bc3eefc26678259b66334470de22b90b5b0e4e`.
 - B: source manifest B; `build/movement-campaign-2026-10-07/ready/1.9.4/ornithe-feather/net/minecraft/entity/living/LivingEntity.java`; `LivingEntity#mobTick()V`, lines 1666-1676; SHA-256 `bbb7703f18fd5da05c4e4a43a77ea644b388e63c01d34166d308ea52054be4e5`.
+- Derived-artifact provenance for snapshot review: revision `feather-r1-2026-10-07`; A immutable mapped-JAR snapshot SHA-256 `5c4cff3e4ac10ea1e1da166279133801ad304b4557d5ee4a77a2430977afb6a5`; B immutable mapped-JAR snapshot SHA-256 `fbcf50795566e12b8eab0e733b136ed562c4009d707ef4a7a4994936491816a3`. The revision metadata and snapshot sidecars were rehashed; source rows and raw input rows match the original manifests. The original derived JARs are unavailable and their identity/equivalence is unproven; independent ops verification is pending. No bytecode claim is made from the revised snapshots.
 
 ## Source-level difference
 

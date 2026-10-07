@@ -11,17 +11,17 @@
 
 ## Artifact manifest
 
-Paths are repository-relative. The shared source/artifact trees are read-only inputs. At initial admission, both exact IDs, ready JSONs, source/artifact sidecar hashes, every listed source, and all 37 listed artifacts per release were verified. A subsequent source-owner integrity notice reports that a reproducibility rerun replaced shared-cache derived mapped JARs while preserving source-file/raw-input hashes. The prior artifact verification is now stale; the source owner and ops are repairing immutability/provenance. No artifact marker was rewritten, no mismatch was waived, and no independent decompilation was performed. `DEP-ARTIFACT-IMMUTABILITY` blocks report freeze and finding acceptance pending canonical repair and fresh verification.
+Paths are repository-relative. The shared source/artifact trees are read-only inputs. Initial admission verified both exact IDs, ready JSONs, manifests, and source/artifact rows. A subsequent source-owner revision reports the original derived mapped JARs unavailable; original markers/manifests remain untouched. The versioned `feather-r1-2026-10-07` snapshots and unchanged sources/raw inputs were freshly hash-checked by this worker below. This does not prove identity with the unavailable original derived JARs or explain the hash change. Independent ops verification is pending; retain that limitation. No artifact marker was rewritten, no mismatch was waived, and no independent decompilation was performed.
 
 ### A — 1.8.9
 
 - Requested/resolved/version metadata ID: `1.8.9` / `1.8.9` / `1.8.9`.
 - Source root: `build/movement-campaign-2026-10-07/ready/1.8.9/ornithe-feather/`; 1,612 files, 8,248,472 bytes.
 - Client jar `build/movement-campaign-2026-10-07/artifacts/1.8.9/client.jar`: SHA-256 `14f0d96d1a56fb4f5c3b2233d00699525893fe5ce3dcf181e7de59120595d298`.
-- Mapped jar `build/movement-campaign-2026-10-07/artifacts/1.8.9/client-ornithe-feather.jar`: SHA-256 `e36a366fd30d0adda0a803a4956782bab1f67cd644e396d4db6a1cd885548c09`.
+- Original mapped jar `build/movement-campaign-2026-10-07/artifacts/1.8.9/client-ornithe-feather.jar`: recorded SHA-256 `e36a366fd30d0adda0a803a4956782bab1f67cd644e396d4db6a1cd885548c09`; original jar unavailable and current mutable cache hash differs.
 - Mapping `feather-gen2-1.8.9+build.2`; merged jar `build/movement-campaign-2026-10-07/artifacts/yarn/feather-gen2-1.8.9+build.2-mergedv2.jar` SHA-256 `303c4530c79a593b828bd778a97d3577e67f99d6a2c50760e5f9bec6fb32a9da`; mapping file `build/movement-campaign-2026-10-07/artifacts/yarn/feather-gen2-1.8.9+build.2.tiny` SHA-256 `de2023ea2cca9921402fbfcfe6e475f41da4932ea6dbc609e35c505b76a32c63`.
 - Source manifest `build/movement-campaign-2026-10-07/ready/1.8.9/ornithe-feather.sources.sha256`: SHA-256 `9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004`; 1,612/1,612 file hashes match.
-- Artifact manifest `build/movement-campaign-2026-10-07/ready/1.8.9/artifacts.sha256`: initial SHA-256 `da003358256d1c4402ebb20614651e5410310e871ee913de2b9c1295a64e1446`; 37/37 matched at initial admission only. Current derived-JAR integrity is unverified pending canonical repair.
+- Artifact manifest `build/movement-campaign-2026-10-07/ready/1.8.9/artifacts.sha256`: SHA-256 `da003358256d1c4402ebb20614651e5410310e871ee913de2b9c1295a64e1446`; 36/37 current entries match, with only the unavailable original mapped-JAR entry differing. The separate revised snapshot is verified below.
 - Diagnostics `build/movement-campaign-2026-10-07/ready/1.8.9/movement-diagnostics.txt`: SHA-256 `62dc9b445bec2f62b6dac9da501e875377636d08682891891212aea464999d28`; exact release succeeded, required entity/living/player/local-player files exist, no damaged movement body/error reported.
 
 ### B — 1.9.4
@@ -29,13 +29,21 @@ Paths are repository-relative. The shared source/artifact trees are read-only in
 - Requested/resolved/version metadata ID: `1.9.4` / `1.9.4` / `1.9.4`.
 - Source root: `build/movement-campaign-2026-10-07/ready/1.9.4/ornithe-feather/`; 1,819 files, 9,320,183 bytes.
 - Client jar `build/movement-campaign-2026-10-07/artifacts/1.9.4/client.jar`: SHA-256 `23e90103a1ca2ac71100004c6d5846de09f85695f579843ef8da41571e60c908`.
-- Mapped jar `build/movement-campaign-2026-10-07/artifacts/1.9.4/client-ornithe-feather.jar`: SHA-256 `0df10c862f7fd4848d08597a76c0cf02cec5a9d9886975a57230a033cfb86b3a`.
+- Original mapped jar `build/movement-campaign-2026-10-07/artifacts/1.9.4/client-ornithe-feather.jar`: recorded SHA-256 `0df10c862f7fd4848d08597a76c0cf02cec5a9d9886975a57230a033cfb86b3a`; original jar unavailable and current mutable cache hash differs.
 - Mapping `feather-gen2-1.9.4+build.2`; merged jar `build/movement-campaign-2026-10-07/artifacts/yarn/feather-gen2-1.9.4+build.2-mergedv2.jar` SHA-256 `49a38d0adfbda1749e519c29844116e9f22e895cb505633261b7f587268f4125`; mapping file `build/movement-campaign-2026-10-07/artifacts/yarn/feather-gen2-1.9.4+build.2.tiny` SHA-256 `9e21708d4bc32a43ac404735ea3238465889797110204a0375bcb069a3798027`.
 - Source manifest `build/movement-campaign-2026-10-07/ready/1.9.4/ornithe-feather.sources.sha256`: SHA-256 `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`; 1,819/1,819 file hashes match.
-- Artifact manifest `build/movement-campaign-2026-10-07/ready/1.9.4/artifacts.sha256`: initial SHA-256 `9527dca544694daa3b4a7741be1a5b4802d8b6665c8a152a408a37a27a1b4d77`; 37/37 matched at initial admission only. Current derived-JAR integrity is unverified pending canonical repair.
+- Artifact manifest `build/movement-campaign-2026-10-07/ready/1.9.4/artifacts.sha256`: SHA-256 `9527dca544694daa3b4a7741be1a5b4802d8b6665c8a152a408a37a27a1b4d77`; 36/37 current entries match, with only the unavailable-original mapped JAR entry differing. The separate revised snapshot is verified below.
 - Diagnostics `build/movement-campaign-2026-10-07/ready/1.9.4/movement-diagnostics.txt`: SHA-256 `51bd42a633c04931814ab78a841cedd3bf87460e04f7877676599b51b59bbb1d`; exact release succeeded, required entity/living/player/local-player files exist, no damaged movement body/error reported.
 
 Resource entry hashes will be added for data-backed slices. No test, game, TAS, server, Docker, build, or runtime validation was performed.
+
+### Revised derived-artifact snapshot: worker hash verification
+
+- Revision: `feather-r1-2026-10-07`; canonical recipe: `workflows/source-campaign-2026-10-07/ARTIFACT-REVISION-2026-10-07.md`, source-preparation docs commit `2f71b11`.
+- Worker verification: every source-manifest row rehashed: A 1,612/1,612 and B 1,819/1,819 match; source manifest hashes match both revision records. Every original artifact-manifest row rehashed: A 36/37 and B 36/37 match. The one differing row per side is the unavailable original derived mapped JAR; all raw inputs are identical per revision records and all other artifact rows matched. Both original ready markers and manifests remain unchanged.
+- A immutable snapshot `build/movement-campaign-2026-10-07/revisions/derived-artifact-snapshots/feather-r1-2026-10-07/1.8.9/ornithe-feather/client-ornithe-feather.jar`: SHA-256 `5c4cff3e4ac10ea1e1da166279133801ad304b4557d5ee4a77a2430977afb6a5`; independently recomputed file hash matches `artifact.sha256` and `revision.json`. Revision JSON SHA-256 `95e2dc4aa3edba2d287f2bab092c61c0f66874f790af1b8c5d98196c980e105d`; full verification log SHA-256 `33b732892a03ffac60026663f7266c20b637330db6d480b4260267861bebd40c` matches `revision.json`.
+- B immutable snapshot `build/movement-campaign-2026-10-07/revisions/derived-artifact-snapshots/feather-r1-2026-10-07/1.9.4/ornithe-feather/client-ornithe-feather.jar`: SHA-256 `fbcf50795566e12b8eab0e733b136ed562c4009d707ef4a7a4994936491816a3`; independently recomputed file hash matches `artifact.sha256` and `revision.json`. Revision JSON SHA-256 `df0a26fd4c65292530cdad638e6789cc26fcd47875fe1c3eb2daef6de7e3f915`; full verification log SHA-256 `33b732892a03ffac60026663f7266c20b637330db6d480b4260267861bebd40c` matches `revision.json`.
+- Limitation: the revision says source tree and raw inputs are hash-identical; the original derived JARs are unavailable and no equivalence/metadata-only claim is made. Independent ops verification is pending.
 
 ## Blind-discovery freeze
 
@@ -272,7 +280,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 ## Dependency queue and blockers
 
 - `DEP-PROVENANCE`: source owner; exact preparation command/log, pinned/runtime decompiler/remapper/mapping-io versions/options missing.
-- `DEP-ARTIFACT-IMMUTABILITY`: source owner and ops; mapped JARs changed after initial verification; do not freeze or accept findings until canonical repair and fresh verification.
+- `DEP-ARTIFACT-OPS-AUDIT`: coordinator/ops; worker verified revised snapshots and unchanged source/raw inputs, but independent ops confirmation is pending. Original derived-JAR identity remains unproven; preserve this limitation and do not claim equivalence.
 - `DEP-STATE-01-PRODUCER-CONSUMER`: source worker; full local tick/jump/travel/external correction chain remains open for a cutoff-specific implementation boundary.
 - `DEP-AUDITOR`: coordinator; independent source reviewer not assigned.
 - All remaining `TICK-*`, `STATE-*`, `COLL-*`, `WORLD-*`, `MOD-*`, and `EXT-*` inventories remain open.
@@ -294,7 +302,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Evidence/snapshot commit: `f5eca2d932b7544c4eebaa13864491a4e40cba95`.
 - Finding-file SHA-256 at that commit: `51506e004c8ae129cf45db365f8ee5bfea0f54c8ec5170f99250003e8f0115e1`.
 - Exact source identity: A source manifest SHA-256 `9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004`, cited `LivingEntity.java` SHA-256 `082831c6578e3a70fa6cea5b90bc3eefc26678259b66334470de22b90b5b0e4e`; B source manifest SHA-256 `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`, cited `LivingEntity.java` SHA-256 `bbb7703f18fd5da05c4e4a43a77ea644b388e63c01d34166d308ea52054be4e5`. Source-owner notice says raw/source hashes are unchanged.
-- Exact artifact identity at initial verification: A artifact manifest `da003358256d1c4402ebb20614651e5410310e871ee913de2b9c1295a64e1446`; B artifact manifest `9527dca544694daa3b4a7741be1a5b4802d8b6665c8a152a408a37a27a1b4d77`; mapped JAR hashes are recorded in Artifact manifest above. **These artifact identities are stale for snapshot acceptance** because the shared-cache rerun replaced derived mapped JARs. Canonical repair and fresh verification are pending; no artifact mismatch is waived.
+- Revised snapshot identity: revision `feather-r1-2026-10-07`; A immutable mapped JAR SHA-256 `5c4cff3e4ac10ea1e1da166279133801ad304b4557d5ee4a77a2430977afb6a5`; B immutable mapped JAR SHA-256 `fbcf50795566e12b8eab0e733b136ed562c4009d707ef4a7a4994936491816a3`. Worker hash verification and the unavailable-original limitation are recorded above; independent ops review remains pending.
 - Finding scope and implementation boundary: the only candidate code boundary is the three strict per-axis `<` comparisons in `LivingEntity#mobTick()V` before jump dispatch/travel: A `0.005`, B `0.003`. Any implementation must change only the historical cutoff at the correct resolved release; first introduction release and exact release-version activation boundary are not established by this pair alone. This is not authorization or an implementation handoff.
 - Finding-specific dependencies: `DEP-STATE-01-PRODUCER-CONSUMER` remains open for complete player-path, input velocity-writer, jump/travel consumer, and external correction closure. Do not claim it closed.
 - Blind reviewer and decision: not assigned; no acceptance decision.
@@ -330,7 +338,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 
 - Coverage counts: pending.
 - Required inventory status/evidence: all inventories remain open.
-- Open dependencies: `DEP-PROVENANCE`, `DEP-ARTIFACT-IMMUTABILITY`, `DEP-STATE-01-PRODUCER-CONSUMER`, `DEP-AUDITOR`, and all pending/in-progress slices.
+- Open dependencies: `DEP-PROVENANCE`, `DEP-ARTIFACT-OPS-AUDIT`, `DEP-STATE-01-PRODUCER-CONSUMER`, `DEP-AUDITOR`, and all pending/in-progress slices.
 - Unresolved gaps/limits: comprehensive audit in progress; no equivalence closure claimed.
 - Evidence/hash/correspondence audit: source hashes were checked against the admitted source manifests and cited files; derived artifact hashes are stale under the integrity notice and await canonical repair.
 - Blind freeze: pending.
