@@ -1,6 +1,6 @@
 # Discovery: 1.19.2 to 1.19.3
 
-- Status: active
+- Status: partial
 - Scope: direct client player movement; older A = 1.19.2; newer B = 1.19.3
 - Repository revision and start date: source comparison baseline `002137b227676caea77f6832b9f4c8d0b6200bff`; started 2026-10-07 (Europe/Vienna); discovery schema commits `40c34f5`, `2422192`, `fba28fa`
 - Selected naming namespace, CLI mode per side and alignment evidence: Mojmap/Mojmap; exact releases and official mapping files verified from the published readiness/provenance manifests below
@@ -564,10 +564,10 @@ Findings F-002 and F-003 are source-confirmed paired fluid-state input differenc
 
 ## Resume checkpoint
 
-- Last completed slice: exact source provenance and several member-level input, pose, player travel, entity move, movement coefficient and client-tag slices; in-scope water/lava source-conversion differences recorded; fall-distance farmland callback path recorded as F-004; mounted sprint-state difference checked as an out-of-scope vehicle consumer.
-- Next bounded slice and exact files/members/body ranges to open: full body/member-range ledger for LocalPlayer.aiStep, LivingEntity.travel, movement collision/support helper callgraph; then effect/attribute/enchantment/equipment and packet/external-state producers, with exact resource entry hashes.
+- Last completed slice: exact source provenance; paired input, pose, player travel, entity move, coefficient/tag and movement-effect checks; bounded speed/slowness, Slow Falling/Dolphin's Grace/Levitation, Depth Strider, Soul Speed, Swift Sneak and absolute player-correction angle slices; findings F-002 through F-005; mounted sprint-state checked exclusion E-001.
+- Next bounded slice and exact files/members/body ranges to open: classify the remaining `ClientPacketListener.handleMovePlayer` previous-position/rotation writes by tracing A/B `Entity.getX(float)`, `getYRot(float)`, `getXRot(float)` and the `xo/yo/zo`, `xRotO/yRotO` readers into player movement versus interpolation; then split `LocalPlayer.aiStep` A731-898/B652-819 and `LivingEntity.travel` A2042-2256/B2052-2263 into remaining branch-specific slices. Continue the full collision-shape/provider/registration, equipment/effect, and correction/velocity producer inventories.
 - Outstanding dependencies and owners: D1–D3 discovery; D4 coordinator independent reviewer assignment.
-- Current assumptions requiring verification: current source candidates are not yet frozen, resource and movement-modifier inventories remain open, and external server/world consumption of the candidates has not been closed.
+- Current assumptions requiring verification: candidates are not frozen; the 20 initial behavior families remain pending for full callgraph closure despite 11 bounded no-difference slices, 4 bounded finding slices and 1 checked exclusion; remaining shape/data/equipment sources and external server/world packet consumers remain open. The checker confirms structure only.
 
 ## Implementation reconciliation
 
@@ -593,7 +593,7 @@ Findings F-002 and F-003 are source-confirmed paired fluid-state input differenc
 - Open dependencies: D1, D2, D3, D4 (D0 resolved)
 - Unresolved gaps and limits: exact trees and provenance are verified, but member-level slice ledger, full source coverage, resources, external producers, freeze and independent audit remain open.
 - Evidence/hash/correspondence audit: not yet performed
-- Static schema check: canonical checker exited 0 on 2026-10-07; it reported active structurally valid and made no source-completion claim.
+- Static schema check: canonical checker exited 0 on 2026-10-07; it reported partial structurally valid and made no source-completion claim.
 - Blind freeze: pending
 - Implementation reconciliation: pending
 - Independent audit: pending
