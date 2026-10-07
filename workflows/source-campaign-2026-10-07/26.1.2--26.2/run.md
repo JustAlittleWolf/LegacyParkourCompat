@@ -3,7 +3,7 @@
 - Status: active
 - Scope: source-only client player movement; older A = 26.1.2; newer B = 26.2. No runtime Java implementation, wiki browsing, release-notes mechanics, gameplay validation, tests, client/TAS/Gym/server/Docker launches.
 - Repository revision and start date: task worktree created at `002137b227676caea77f6832b9f4c8d0b6200bff` (main); discovery branch `feat/source-discovery-movement-source-26-1-2-26-2`; 2026-10-07.
-- Selected naming namespace, CLI mode per side and alignment evidence: intended official names; A 26.1.2 Mojmap request pending source-owner publication; B 26.2 native `unobfuscated`, verified `versionId=26.2` and ready marker. Official-name alignment is planned, comparison has not begun.
+- Selected naming namespace, CLI mode per side and alignment evidence: intended official names; A 26.1.2 native `unobfuscated` request pending source-owner publication; B 26.2 native `unobfuscated`, verified `versionId=26.2` and ready marker. Both are expected in Mojang official names; direct pair alignment still awaits A marker verification, and comparison has not begun.
 - Source preparation command and log: B command/log not included in ready JSON; movement method diagnostics at `build/movement-campaign-2026-10-07/ready/26.2/movement-diagnostics.txt`. A source owner was asked to publish exact 26.1.2 Mojmap and provide the readiness JSON. No decompiler was run by this worker.
 - Toolchain/decompiler/remapper versions and options: B readiness record says Vineflower, Java runtime 25; exact decompiler build/options not recorded in marker and pending source-owner provenance. Native unobfuscated B uses original client jar; mappings/remapped jar are not applicable. A pending.
 
@@ -11,7 +11,7 @@
 
 ### A — 26.1.2
 
-- Source root, exact jar identity/hash, mapping coordinate/build/path/hash, mapped jar, manifests and diagnostics: pending readiness publication. Do not use unproven historical source trees as comparison evidence.
+- Source root, exact jar identity/hash, manifests and diagnostics: pending readiness publication. Earlier pair report indicates native `unobfuscated`; this is only a namespace navigation aid, not current artifact evidence. Mapping/remapped jar should be not applicable only after the current marker confirms published unobfuscated. Do not use unproven historical source trees as comparison evidence.
 
 ### B — 26.2
 
@@ -40,7 +40,7 @@ All comparison slices remain pending. These stage rows are navigation queues, no
 
 ## Dependency queue and blockers
 
-- D-A-SOURCE: exact 26.1.2 Mojmap ready publication and readiness JSON from source owner. Required to establish direct official-name alignment, exact release, artifact provenance and begin every paired slice. Status pending; request sent in this chat commentary; no substitute source used.
+- D-A-SOURCE: exact 26.1.2 `unobfuscated` ready publication and readiness JSON from source owner. Required to establish direct official-name alignment, exact release, artifact provenance and begin every paired slice. Status pending; request sent in this chat commentary; no substitute source used.
 - D-B-PROVENANCE: resolved decompiler/remapper/options/log provenance for 26.2 if required beyond the validated marker; anchor file hashes and readiness manifests have been verified. Request only if later source review identifies relevant body-diagnostic ambiguity.
 - Resource-backed registrations/tags/defaults and jar resource provenance on both versions: not inventoried yet; queue during stages 5-6.
 
@@ -53,7 +53,7 @@ No pairwise candidates reviewed and no finding files yet. Zero findings at this 
 - Last completed slice: none; verified B readiness/provenance only.
 - Next bounded slice: validate A readiness JSON and exact IDs/hashes; establish correspondence and input/tick ordering for `KeyboardInput` -> local-player tick/aiStep -> inherited travel, including full caller/callee bodies on both sides.
 - Outstanding dependencies: D-A-SOURCE; decompiler/body diagnostics; all paired coverage units.
-- Current assumptions requiring verification: 26.1.2 can be published in Mojmap official names; native-unobfuscated 26.2 source bodies used in final claims remain intact. No release introduction point can be inferred from this endpoint pair.
+- Current assumptions requiring verification: 26.1.2 current ready marker confirms native unobfuscated; native-unobfuscated 26.2 source bodies used in final claims remain intact. No release introduction point can be inferred from this endpoint pair.
 
 ## Source audit closure
 
@@ -61,3 +61,4 @@ No pairwise candidates reviewed and no finding files yet. Zero findings at this 
 - Unresolved gaps and limits: comparison has not begun; A source absent from ready tree at checkpoint; B-only inventory is navigation preparation, not evidence of equivalence. Health/regeneration/hunger/food/saturation/exhaustion/damage/combat are excluded even when indirectly touching sprint gates; check vanilla-state consumers only. Modern-only blocks/features do not gain historical behavior. Non-player physics is out of scope.
 - Evidence/hash/correspondence audit: B ready JSON and cited source/artifact/diagnostic manifest hashes recomputed; four anchor source hashes match the B source manifest. No pairwise source conclusion yet.
 - Runtime validation: not performed (separate workflow).
+
