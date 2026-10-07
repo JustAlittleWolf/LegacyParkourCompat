@@ -20,7 +20,7 @@
 
 - Status: pending
 - Freeze commit/checkpoint and timestamp: pending source-only comparison.
-- Evidence inventory and finding IDs included at freeze: freeze not yet performed; one source-confirmed finding is recorded, one additional candidate is in progress, and 23 planning slices remain pending.
+- Evidence inventory and finding IDs included at freeze: freeze not yet performed; one source-confirmed finding is recorded, one additional candidate spans two in-progress slices, and 22 planning slices remain pending.
 - Confirmation that old mod implementation/code and isolated wiki-audit results were not opened before freeze (prior source-discovery reports may be used as navigation): confirmed; neither implementation nor wiki materials have been inspected.
 - Source/mapping hashes covered by freeze: freeze pending; exact A/B source/artifact/diagnostic hashes are recorded in the artifact manifest, with cited source hashes for L2 and L5 in their findings.
 
@@ -166,17 +166,17 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 - Disposition and rationale (including concrete reachability/preconditions): for the same player movement/effect/block/attribute inputs, jump gates, jump-power arithmetic and operation order, threshold, vertical write, sprint impulse and player exhaustion/stat calls match. The visibility change does not alter the paired vanilla player path. No broader block or modifier inventory is inferred from this bounded comparison.
 - Finding IDs or checked absence/replacement path: no L3 player jump-path finding; broader block and modifier inputs remain with their separate inventories.
 
-### Slice L4 - climbing clamps and movement callbacks: `pending`.
+### Slice L4 - climbing clamps and movement callbacks
 
-- Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: climbing clamps and movement callbacks: `pending`.; exact paired method ranges await readiness.
-- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
-- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
-- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
-- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+- Inventory ID(s): INV-TICK, INV-STATE, INV-WORLD-MOVEMENT, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: paired `LivingEntity#onClimbable()`, the ladder/powder-snow clamp in `handleRelativeFrictionAndCalculateMovement(Vec3,float)` and `handleOnClimbable(Vec3)`, and `LivingEntity#onChangedBlock` producers/call sites. Other inside-block callbacks remain open.
+- A evidence: `ready/1.20.6/mojmap/net/minecraft/world/entity/LivingEntity.java`, `onClimbable()` lines 1540-1557, `handleRelativeFrictionAndCalculateMovement` lines 2266-2281 and `handleOnClimbable` lines 2297-2314, block-position tick callback lines 412-419, `checkFallDamage` lines 309-338 without a block-change callback, and `onChangedBlock(BlockPos)` lines 557-568; SHA-256 `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`.
+- B evidence: `ready/1.21.1/mojmap/net/minecraft/world/entity/LivingEntity.java`, `onClimbable()` lines 1516-1533, `handleRelativeFrictionAndCalculateMovement` lines 2250-2265 and `handleOnClimbable` lines 2280-2297, block-position tick callback lines 433-439, `checkFallDamage` landing callback lines 327-355, and `onChangedBlock(ServerLevel,BlockPos)` lines 514-516; SHA-256 `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8`.
+- State producers/writers -> consumers/readers: the climbable tag/trapdoor test and movement clamp are the same; A invokes its server tick callback when `lastPos` changes and that callback checks Frost Walker/Soul Speed. B also invokes a `ServerLevel` location-changed effect from server `checkFallDamage` on a landing with positive fall distance, then can invoke it from the server block-position callback; the callback delegates to registered location-changed enchantment effects.
+- Parent slices / dependencies / closure evidence: L1 paired travel; L2 Soul Speed attribute candidate; E2 effect registration; X1 attribute sync. `onClimbable()` method bodies match byte-for-byte. The changed location-effect path overlaps the candidate in [soul-speed-client-friction-sync-candidate](findings/soul-speed-client-friction-sync-candidate.md); no timing-specific local prediction result is established.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the ordinary ladder/trapdoor reader and travel clamp show no source delta, but B introduces an additional server landing callback and replaces the old callback body with registered location-changed effects. Their complete writer/consumer and update ordering, plus generic inside-block callback closure, remain pending; do not infer a player trajectory difference from this source alone.
+- Finding IDs or checked absence/replacement path: no independent L4 finding yet; shared candidate is recorded under L2, with callback closure and effect ordering pending.
 
 ### Slice L5 - water
 
@@ -464,8 +464,8 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 ## Resume checkpoint
 
-- Last completed slices: I1-I4 input/tick/yaw/sprint compared; L3 jump path compared; L5 water-travel arithmetic finding recorded. L2 has a source-backed Soul Speed sync-timing candidate; P1/P2/P4 and L2 remain in progress pending dependencies.
-- Next bounded slice and exact files/members/body ranges to open: resolve L2 Soul Speed attribute sync order through the server tick/tracking path, then close remaining gravity/drag consumers and compare L4 climbing/callbacks.
+- Last completed slices: I1-I4 input/tick/yaw/sprint compared; L3 jump path compared; L5 water-travel arithmetic finding recorded. L4 has a bounded callback delta with closure pending. L2 has a source-backed Soul Speed sync-timing candidate; P1/P2/P4, L2 and L4 remain in progress pending dependencies.
+- Next bounded slice and exact files/members/body ranges to open: resolve the L2/L4 Soul Speed callback-to-attribute order through server tracking and client prediction, then close remaining gravity/drag consumers and compare L6 world movement inputs.
 - Outstanding dependencies and owners: D0/D1 readiness closed; D2 remains open for movement source dependencies and is owned by this discovery worker until handoff.
 - Current assumptions requiring verification: only cited source bodies are hash-checked so far; all remaining method correspondence, dependencies, callbacks, registrations and state writer/consumer closure are incomplete.
 
@@ -492,10 +492,10 @@ Reviewer must differ from discovery authors and must independently re-walk full 
 
 ## Source audit closure
 
-- Coverage counts by status: 1 findings; 7 compared-no-difference; 0 not-applicable; 0 blocked; 23 pending; 4 in-progress (35 planned slices; one additional source-backed candidate is in progress under L2).
+- Coverage counts by status: 1 findings; 7 compared-no-difference; 0 not-applicable; 0 blocked; 22 pending; 5 in-progress (35 planned slices; one source-backed candidate spans L2 and L4).
 - Required inventory status and evidence: all seven required inventories remain pending; L5 has one bounded source-confirmed finding and L2 one candidate, while complete inventories are not closed.
 - Open dependencies: D2 only; D0/D1 readiness and namespace alignment are closed.
-- Unresolved gaps and limits: 23 slices remain pending and 4 remain in progress, including full modifier coverage, collision/shape providers, blocks/fluids, external velocity sources, exclusions and independent audit. The confirmed finding and in-progress candidate do not close those inventories.
+- Unresolved gaps and limits: 22 slices remain pending and 5 remain in progress, including full modifier coverage, collision/shape providers, blocks/fluids, external velocity sources, exclusions and independent audit. The confirmed finding and in-progress candidate do not close those inventories.
 - Evidence/hash/correspondence audit: exact source hashes and paired ranges are recorded for the L5 finding and L2 candidate; the overall evidence audit is incomplete.
 - Blind freeze: pending until pair coverage is complete.
 - Implementation reconciliation: pending and outside this assignment before explicit post-freeze authorization.
