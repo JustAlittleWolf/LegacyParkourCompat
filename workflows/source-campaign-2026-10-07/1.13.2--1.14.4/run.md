@@ -280,7 +280,7 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 ## Finding index
 
 - [F001](findings/F001-input-scaling-and-underwater-sprint-gate.md) input scaling and underwater sprint gate; candidate; A revision cited and consumer-verified; original derived-artifact equivalence unproven; dependencies/reviewer open.
-- [F002](findings/F002-pose-selection-and-collision-aware-resize.md) pose selection and collision-aware resize; candidate; A revision cited and consumer-verified; original derived-artifact equivalence unproven; dependencies/reviewer open.
+- [F002](findings/F002-pose-selection-and-collision-aware-resize.md) pose selection and collision-aware resize; exact snapshot submitted for blind confirmation; bounded pose/dimension/helper dependencies independently confirmed; conditional world collision outcomes and original derived-artifact equivalence remain unresolved.
 - [F003](findings/F003-jump-boost-precision.md) Jump Boost precision; candidate; A revision cited and consumer-verified; original derived-artifact equivalence unproven; dependencies/reviewer open.
 - [F004](findings/F004-input-acceleration-normalization.md) acceleration normalization; candidate; A revision cited and consumer-verified; original derived-artifact equivalence unproven; dependencies/reviewer open.
 - [F005](findings/F005-jump-held-climb-impulse.md) jump-held climb impulse; candidate; A revision cited and consumer-verified; original derived-artifact equivalence unproven; dependencies/reviewer open.
@@ -305,7 +305,26 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 
 ## Finding snapshots (not pair freeze)
 
-No snapshot has been submitted or accepted. F001-F016 remain candidates while finding-specific dependencies are open; implementation boundaries are also incomplete, and no blind finding reviewer is assigned. No snapshot commit/hash or reviewer decision exists. Pair remains partial; no implementation handoff is ready.
+### Snapshot event F002-2026-10-07-01
+
+- Finding ID(s): F002.
+- Source finding author(s): source worker.
+- Status: submitted for exact-snapshot blind confirmation; no acceptance decision is recorded.
+- Immutable snapshot commit: `448934e826fb41266dc79a313ef1187899d76382` (the F002 blob is unchanged through pair-run HEAD `5bba2ff359432a554984cd6225815c3dd252cede`).
+- Finding file path and SHA-256: `workflows/source-campaign-2026-10-07/1.13.2--1.14.4/findings/F002-pose-selection-and-collision-aware-resize.md`; SHA-256 `baa5c6b30167eaa8024d34b39186440be944115061c8f39fdf5e17555b8ec67e`; Git blob `0c2b00b276604d6c20d4536722cc8304fb293148`.
+- Exact A/B artifact-manifest identities/hashes:
+  - A: Minecraft 1.13.2, Ornithe Feather `ornithe-feather`, client SHA-256 `3410887ba652f25792c7675bfaf9140e73b60e93cfbf113a803f8a98cb05c0f9`; source manifest `1.13.2/ornithe-feather.sources.sha256` SHA-256 `2c8cfb646bf622fb26ac0ca0cb5e02a354fb512e29f8b1010f1aaacd509e1211`; raw artifact manifest `1.13.2/artifacts.sha256` SHA-256 `fdcacd9150f98ea70acafc5cab754027ab1a09828ff0eaa8e542dd7890d9ce1e`; Feather mapping JAR `feather-gen2-1.13.2+build.2-mergedv2.jar` SHA-256 `317384d4faccc2939c3b14252993d31745eb42aad59f2f0ea78893cbe4e7283b`, Tiny mapping SHA-256 `b3fd787448aed2c6e115d965d9edbb437ce47794ba63c7883e9014fd41262f71`. Cited source root is the readiness-verified `ready/1.13.2/ornithe-feather/` tree. Finding cites revised immutable derived artifact `feather-r1-2026-10-07`, client JAR SHA-256 `b28c33e023928045c8fd7ed7727a860a6820241e371ddb16108366c6192b718c`, `artifact.sha256` sidecar SHA-256 `4fa7f17f639f7cff0ff9db327b3c978b049cee0c96a6b40625601868692c7dd8`, and revision record SHA-256 `a4dfb51e36d4e52e1fc26d96647942e3dfcc2302bb4568a0a50dd49acf91b8f5`. The original derived JAR SHA-256 `d118ff5b9eb93fed06680466cb26c41a30647cdb2fc8744638cf9b35cf7864e` is unavailable; equivalence is unproven.
+  - B: Minecraft 1.14.4, Ornithe Feather `ornithe-feather`, client SHA-256 `b3b2a798e2d67b566008fe4a03767ae2c7ff3f8c7ba6751e7b71fc7299672d0a`; source manifest `1.14.4/ornithe-feather.sources.sha256` SHA-256 `717b468536348557f9dae8cf57edccf80ad16eb65e5bef6c60bdb5ea3c9f75bc`; artifact manifest `1.14.4/ornithe-feather.artifacts.sha256` SHA-256 `308cc33ef6dffc047432ade6affc88eccc9de94a736ee9a98571fd92915c2970`; derived mapped client JAR SHA-256 `5e914421086acc2f244ca34bfd0df68e199dba5539a819a0eed1e4af31bb465c`; Feather mapping JAR `feather-gen2-1.14.4+build.2-mergedv2.jar` SHA-256 `3162806b9fb266d7e6d2c594be8d4cc6c91ddb09b4e55d1b566e5429edbd793f`, Tiny mapping SHA-256 `60d4906621c873dadba96425d1a233349c9afa407d09bfc8371202af6a71f25c`. Cited source root is readiness-verified `ready/1.14.4/ornithe-feather/`.
+- Cited source/resource hashes: A `PlayerEntity.java` SHA-256 `4ed22f6c5a3c55d67eed782070ac722201df4d624adbc90779f1fd29c2876633`; B `PlayerEntity.java` SHA-256 `2614deb3b50d11f6cdf54d9e308703bf49cb53b72646b05253857e9557d657df`. The paired body ranges and B pose-dimension provider are recorded in F002. No resource hash is used by this finding.
+- Finding-specific dependencies closed for this bounded finding: the early blind reviewer independently confirmed the A/B crouch-height delta and pose-selection difference, and checked the collision-fit helper semantics. The handoff is limited to these source-level pose, dimension, fallback, and query-context differences.
+- Conditional collision-fit limits: whether a requested pose fits still depends on the world collision set and query context. The source comparison does not enumerate every world/provider/neighbor shape or assert a particular collision outcome; F002’s tight-space consequence remains conditional and unsimulated.
+- Review basis / requested source-only revisions: source worker submits this exact commit/path/hash for blind confirmation. Early blind confirmation covers the height delta, pose selection, and collision-fit helper semantics; reviewer identity and an acceptance decision were not supplied to this ledger update. No implementation or wiki feedback was supplied or used.
+- Pair run status and commit at handoff: partial at `5bba2ff359432a554984cd6225815c3dd252cede`.
+- Pair complete: no.
+- Implementation handoff: blocked pending blind acceptance of this exact snapshot; no implementation reconciliation is included.
+- Replaces/supersedes snapshot ID and reason, if applicable: none.
+
+Pair remains partial. This event does not close unrelated inventories, freeze the pair, establish a first changed release, or claim runtime validation.
 
 ## Implementation reconciliation
 
@@ -328,7 +347,7 @@ No snapshot has been submitted or accepted. F001-F016 remain candidates while fi
 
 - Coverage counts by status: findings=13 slices (16 deltas); compared-no-difference=4; pending inventory closure=7; in-progress=0; not-applicable=0; blocked=0.
 - Required inventory status and evidence: all seven inventories pending; initial paired evidence in S001-S017.
-- Accepted finding snapshots: none (no finding handoff ready).
+- Accepted finding snapshots: none; F002 snapshot event F002-2026-10-07-01 is submitted and awaits exact-snapshot blind confirmation.
 - Open dependencies: D-TICK-CLOSURE,D-COLLISION-SHAPES,D-MOVEMENT-DATA,D-EXTERNAL,D-INDEPENDENT-AUDIT.
 - Unresolved gaps and limits: full tick, shapes/resources, modifier chains, external writers beyond S016, and independent audit. First changed release unknown within (1.13.2,1.14.4].
 - Evidence/hash/correspondence audit: readiness/source/artifact/diagnostic manifests and cited Java hashes verified; cited body ranges paired; full helper/call graph closure incomplete.
