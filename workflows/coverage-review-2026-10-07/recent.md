@@ -10,7 +10,7 @@ All inspected drafts remain active and incomplete. Their planned/stage ledgers a
 
 | Pair | Owner draft observed | Disposition |
 |---|---|---|
-| 1.21.1 → 1.21.3 | `run.md`, active; seven required inventory maps pending; no bounded slice blocks; exact sources pending | Not accepted; no comparison evidence. |
+| 1.21.1 → 1.21.3 | `run.md`, active; seven required inventory maps pending; no bounded slice blocks. Exact A/B Mojmap sources are now ready and independently hash-verified; owner report remains stale. | Not accepted; source comparison has begun, but no bounded evidence ledger or closure. |
 | 1.21.3 → 1.21.4 | `run.md`, active; seven required inventory maps are present but pending; no bounded slice blocks; exact pair awaits ready publication | Not accepted; no comparison evidence.  |
 | 1.21.4 → 1.21.5 | `run.md`, active; seven inventory maps and 46 pending slice templates; exact sources pending | Not accepted; no comparison evidence. |
 | 1.21.5 → 1.21.8 | `run.md`, active; seven inventory maps and 27 pending slice templates; exact sources pending | Not accepted; no comparison evidence. |
@@ -32,7 +32,7 @@ The canonical follow-up `fba28fa154d29572263ea3f2c44cf1dc23134329` was reviewed 
 
 - I reran the canonical checker against all eight current owner reports. Six returned exit 0 with `non-complete report status active is structurally valid; completion is not claimed`.
 - The 1.21.1→1.21.3 and 1.21.3→1.21.4 reports returned exit 1: `no bounded coverage slice entries found`. That is a real ledger gap; those owners must add slice blocks.
-- Structural acceptance is not source proof. All reports remain active, sources for the assigned pair endpoints remain unavailable, and no pair is accepted complete.
+- Structural acceptance is not source proof. All reports remain active; exact sources are verified here only for 1.21.1→1.21.3 and 26.2 one-sided. No pair is accepted complete.
 ## Required requeue / acceptance gaps
 
 - The three previously absent reports have now appeared as active drafts. Keep all reports open. The 1.21.1→1.21.3 and 1.21.3→1.21.4 owners must add bounded slices; all other owners must replace pending templates with exact pair evidence and close producer/dependency inventories.
@@ -45,10 +45,10 @@ The canonical follow-up `fba28fa154d29572263ea3f2c44cf1dc23134329` was reviewed 
 
 ## Current unresolved state
 
-- Pairwise findings verified: none.
+- Pairwise findings verified: no adjudicated finding yet; first textual movement deltas and ledger omissions are recorded below.
 - Accepted pairs: none.
 - Three reports initially absent are now present as active drafts; all eight remain active and no pair is accepted complete.
-- Exact source pairs validated by this reviewer: none. The current ready root has exact ready JSON only for 26.2 among the nine assigned endpoints; the other seven endpoints have no ready marker. Only 26.2's one-sided ready record and cited artifact/source hashes were independently checked.
+- Exact source pairs validated by this reviewer: 1.21.1→1.21.3; 26.2 is validated one-sided. The exact Mojmap ready records, source/artifact/diagnostic manifest hashes, release IDs, and client hashes for 1.21.1 and 1.21.3 were independently checked. Other assigned endpoints remain unavailable except 26.2.
 - Runtime validation, tests, builds, game/Gym/server/Docker launches: not performed.
 - Reviewer worktree: Git access required narrowly scoped escalation because of sandbox path access; the managed checkout, branch and commits are working. No checkout was recreated.
 
@@ -79,3 +79,16 @@ The current 26.1.2→26.2 report has seven inventory maps and 14 slice templates
 
 The 1.21.5→1.21.8 draft says it excludes food/hunger producer systems “including consequences on sprint eligibility” and its S1.3 says to exclude “any indirect sprint-gate finding.” That is broader than the campaign rule. Keep health/food/hunger producers out of emulation and do not turn producer-system differences into movement findings, but still inventory and compare direct player sprint-eligibility predicates and their reads/order as movement behavior. Reword this boundary before any closure; it is not evidence for or against a source difference.
 Reviewer task branch is `feat/coverage-review-recent`, created from main `002137b227676caea77f6832b9f4c8d0b6200bff`; final audit checkpoint hash is listed in the handoff.
+
+## 1.21.1 → 1.21.3 source handoff and first comparison
+
+The pair is now available in `build/movement-campaign-2026-10-07/ready/{1.21.1,1.21.3}/mojmap`. Both ready records identify the requested release exactly and the common Mojmap namespace. Recomputed source, artifact and diagnostic manifest hashes match each ready record; client hashes match the ready metadata, and each `version.json` metadata ID matches the release. The 1.21.1 source tree has 5,363 files / 25,773,546 bytes; 1.21.3 has 5,655 files / 26,544,115 bytes. Core source SHA-256 identities: `LocalPlayer.java` A `C555E68AC3C63AB9B4F9A9E31933E263B96350A2BC599D11A0DE5928BC24B583`, B `FBD40F1F47ADFA66DDA9B15188E5DCE82AF3E8E8D7C3DD0543E602A354AD3FE0`; `Player.java` A `ED32B88C3C7C8418B83DB41823520F2B6B0B49A98610306EF26E9681DC925C71`, B `A803203E92AA4729D5F5C9B16085B6A43CE51D9907D309EB96736E9C7C1340DE`; `LivingEntity.java` A `324A3EEE8496CAAB57CFAF5101EF576F1AE3C60C40E3857E96F35F3AF9A3A0D8`, B `087390495F4FDFD14B9E12230E7AEA4FDC50913BB4D1D91119E72892881CFC52`; `Entity.java` A `B81905C7879E2CC5C5063A41D865C4164AD919F156306705BE791D1017B99850`, B `A93719C302A0381A972AF75EA360465E2E3551708DD07C34D4D40B7E5173C2B9`.
+
+A read-only first pass over the complete bounded method bodies verifies these movement-relevant textual deltas; they are candidate findings pending call/dependency closure and semantic adjudication:
+
+- `LocalPlayer.aiStep`: A reads held `input.jumping` / `input.shiftKeyDown` (A lines 654–655); B reads `input.keyPresses.jump()` / `.shift()` (B 648–649), and auto-jump changes from setting `input.jumping = true` to `input.makeJump()` (A 672–677; B 666–671). The same key-press representation is used in flight toggle, fall-flying, descent and rideable-jump branches. This is a direct change to player input sampling/edge semantics that needs a bounded slice and caller/provider path for the input object.
+- `Player.travel`: A applies swim pitch adjustment before its flying/passenger logic, then executes the flight vertical-velocity damping and clears fall distance/shared flag (A 1456–1477). B places both swim and flight handling inside `!isPassenger()` and performs only vertical damping inside its flight branch (B 1445–1468). The passenger path, fall-distance/shared-flag writes, and `canGlide` override added in B (B 1471–1473) require separate trace before claiming the final behavior.
+- `LivingEntity.jumpFromGround`: A stores vertical velocity as `max(jump velocity, existing Y)`; B stores the computed jump velocity directly (A 2056; B 2138; body SHA identities above). Trace jump callers, jump boost/attribute and velocity writer paths before adjudicating.
+- `Entity.move`: B adds a near-zero requested-motion exception to the position-update guard (A 620; B 642); calls a changed `setOnGroundWithMovement` overload including `horizontalCollision` (A 645; B 667); guards fall-damage calculation and movement-emission effects on client-controlled ownership (B 670–694); and extracts movement-emission/sound accounting into `applyMovementEmissionAndPlaySound` (B 703 onward). Collision/step/grounding and ownership callers need additional slices; the helper extraction alone is not necessarily a physics delta.
+
+The owner’s report was re-read after publication and remains active with zero coverage slice blocks, stale “sources pending/no comparison” provenance, and pending source-queue dependency. The corrected static checker therefore still rejects it for `no bounded coverage slice entries found`. Requeue these bounded slices: input-edge sampling/auto-jump, `Player.travel` swim/passenger/flying branch, jump velocity write, Entity move/collision/grounding, plus full travel and collision dependency closure, state writers and providers. No pairwise equivalence or completion claim is made from this first pass.
