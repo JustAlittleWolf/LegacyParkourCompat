@@ -11,10 +11,10 @@ All inspected drafts remain active and incomplete. Their planned/stage ledgers a
 | Pair | Owner draft observed | Disposition |
 |---|---|---|
 | 1.21.1 → 1.21.3 | `run.md`, active; exact sources pending; seven coarse stage roots pending | Not accepted; no comparison evidence. |
-| 1.21.3 → 1.21.4 | No run file in expected owner worktree at audit time | Missing report; must publish a partial/active source-only ledger and continue. |
-| 1.21.4 → 1.21.5 | No run file in expected owner worktree at audit time | Missing report; must publish a partial/active source-only ledger and continue. |
+| 1.21.3 → 1.21.4 | `run.md`, active; requested Mojmap pair awaits both exact ready publications; seven stage roots pending | Not accepted; no comparison evidence. |
+| 1.21.4 → 1.21.5 | `run.md`, active; 17 navigation slices pending before method-level expansion; exact sources pending | Not accepted; no comparison evidence. |
 | 1.21.5 → 1.21.8 | `run.md`, active; neither endpoint had a validated ready publication; seven provisional stages pending | Not accepted; no comparison evidence. |
-| 1.21.8 → 1.21.10 | No run file in expected owner worktree at audit time | Missing report; must publish a partial/active source-only ledger and continue. |
+| 1.21.8 → 1.21.10 | `run.md`, active; seven provisional stage envelopes pending; exact sources pending | Not accepted; no comparison evidence. |
 | 1.21.10 → 1.21.11 | `run.md`, active; 50 planned slices, all pending; exact sources unavailable | Not accepted; no comparison evidence. The 50-row plan is a queue, not proof that every reachable movement method/provider was inventoried. |
 | 1.21.11 → 26.1.2 | `run.md`, active; 50 planned slices, all pending; exact sources unavailable | Not accepted; no comparison evidence. The report explicitly says source comparison has not begun. |
 | 26.1.2 → 26.2 | `run.md`, active; seven coarse stages pending; 26.1.2 source pending | Not accepted; one-sided 26.2 provenance cannot establish a difference or equality. |
@@ -23,11 +23,11 @@ All inspected drafts remain active and incomplete. Their planned/stage ledgers a
 
 For 26.2, independently read `build/movement-campaign-2026-10-07/ready/26.2/unobfuscated.ready.json`. It names exact release `26.2`, native `unobfuscated`, and the source/artifact/diagnostic manifests. Recomputed hashes match the three cited manifest hashes. The client jar hash `40896ee9f1e2bec3c934daac7e93d41e9e3d9c2f8ae0ca366d52ffbfd1afa290` was recomputed and matches `artifacts.sha256`; `version.json` SHA-256 is `4d6b3a5a27fed3c0faab2cb4b6dee7318be310bc3c627a78951519ffefaf1d0c` and its metadata ID is `26.2`. The four cited source hashes match their entries in `unobfuscated.sources.sha256`. The diagnostics contain anchors for `Entity.move`, `Entity.moveRelative`, `LivingEntity.travel`, `LivingEntity.jumpFromGround`, `Player.travel`, and `LocalPlayer.aiStep`.
 
-This validates only 26.2 artifact identity and those reported hashes/anchors. The diagnostic list is not an inventory of every movement caller, writer, provider or data dependency. It does not establish intact bodies for every reachable method, exact input-to-collision call order, state-writer closure, block/fluid registration coverage, pose-resize timing, collision/step/support coverage, or any pairwise no-difference claim. The 26.1.2 side remains unavailable in the draft.
+This validates only 26.2 artifact identity and those reported hashes/anchors. The diagnostic list is not an inventory of every movement caller, writer, provider or data dependency. It does not establish intact bodies for every reachable method, exact input-to-collision call order, state-writer closure, block/fluid registration coverage, pose-resize timing, collision/step/support coverage, or any pairwise no-difference claim. The 26.1.2 side remains unavailable in the draft. The latest owner checkpoint correctly plans native `unobfuscated` for 26.1.2 to align official names with 26.2; an earlier Mojmap request was corrected. Verify the actual A ready marker, exact release ID and input artifact before admitting that alignment.
 
 ## Required requeue / acceptance gaps
 
-- The three missing owner reports (1.21.3→1.21.4, 1.21.4→1.21.5, 1.21.8→1.21.10) need tracked source-only reports, regardless of source publication status.
+- The three previously absent reports (1.21.3→1.21.4, 1.21.4→1.21.5, 1.21.8→1.21.10) have now appeared as active drafts. Keep them open and expand their planned slices into bounded method-level coverage after source publication.
 - Every owner must keep the report partial/active until the exact aligned pair is ready and verified; source-queued stages cannot be closed as compared-no-difference or not-applicable.
 - For each pair, independently verify exact IDs/namespace and cited ready/source/artifact/diagnostic hashes, then inspect complete relevant method bodies and decompiler diagnostics. Hash validity alone is not semantic evidence.
 - Require an explicit per-tick chain through local input, tick/super-tick and travel dispatch, including velocity changes before travel and cancellation/restitution after `move`; compare jump dispatch/order and precise apex/threshold behavior; trace all pose/dimension writers and resize query timing.
@@ -39,8 +39,8 @@ This validates only 26.2 artifact identity and those reported hashes/anchors. Th
 
 - Pairwise findings verified: none.
 - Accepted pairs: none.
-- Missing owner report folders observed: three.
-- Exact source pairs validated by this reviewer: none. Only 26.2's one-sided ready record and cited artifact/source hashes were independently checked.
+- Three reports initially absent are now present as active drafts; no pair is accepted complete.
+- Exact source pairs validated by this reviewer: none. The current ready root has exact ready JSON only for 26.2 among the nine assigned endpoints; the other seven endpoints have no ready marker. Only 26.2's one-sided ready record and cited artifact/source hashes were independently checked.
 - Runtime validation, tests, builds, game/Gym/server/Docker launches: not performed.
 - Reviewer worktree Git failure: `fatal: this operation must be run in a work tree`; branch creation and commits are blocked pending the repository worktree fix. Do not treat this preliminary note as a final audit or as owner completion.
 
