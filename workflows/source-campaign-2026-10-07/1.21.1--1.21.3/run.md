@@ -57,7 +57,7 @@ No movement slice has been compared yet. Add one bounded entry per behavior and 
 
 ## Dependency queue and blockers
 
-- Open dependencies: `SRC-PAIR` (campaign source owner; exact 1.21.1 and 1.21.3 Mojmap readiness markers, trees and manifests are unpublished), `METHOD-INVENTORY` (this source worker; enumerate the full reachable player tick/movement call graph and every required producer, consumer, state writer and shape provider once sources are ready), `RESOURCE-CHAIN` (this source worker; inspect matching client-jar resources/tags/defaults after provenance is verified; identify server-supplied data explicitly).
+- Open dependencies: `SRC-PAIR` (campaign source owner; exact 1.21.1 and 1.21.3 Mojmap readiness markers, trees and manifests are unpublished), `METHOD-INVENTORY` (this source worker; enumerate the full reachable player tick/movement call graph and every required producer, consumer, state writer and shape provider once sources are ready), `RESOURCE-CHAIN` (this source worker; inspect matching client-jar resources/tags/defaults after provenance is verified; identify server-supplied data explicitly).`r`n- Resolved dependency: `DEP-CHECKER` — canonical workflow fix `fba28fa154d29572263ea3f2c44cf1dc23134329` was cherry-picked as `4223d9c`; use the corrected checker for future structure/status checks. This does not resolve any source coverage.
 - `SRC-PAIR`: next action is to read the exact owner-published records, validate requested/resolved release IDs, common Mojmap namespace, manifests/hashes and relevant body diagnostics. Do not infer readiness from a directory.
 - `METHOD-INVENTORY`: no exact method names/ranges are asserted until paired sources are ready. Expand stage labels into bounded entries and retain full guards/order and dependency closure.
 - `RESOURCE-CHAIN`: no jar entry or data absence claim is asserted until both exact client jars and their hashes are verified.
@@ -105,3 +105,4 @@ An independent reviewer has not yet been assigned and no audit has occurred.
 - Implementation reconciliation: pending
 - Independent audit: pending
 - Runtime validation: not performed (separate workflow; never inferred from build/source completion).
+
