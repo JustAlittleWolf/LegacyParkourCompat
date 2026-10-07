@@ -553,14 +553,14 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S7.2: player knockback, push and explosion movement writers
 
 - Inventory ID(s): INV-EXTERNAL
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
-- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
-- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
-- State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; exact-source evidence is a prerequisite.
-- Finding IDs or checked absence/replacement path: none established.
+- Exact behavior boundary and enclosing guards/order checked: Player-reachable entity pushes, LivingEntity knockback writer and client explosion impulse application; distinguish entity-collision movement from excluded damage/combat consequences and explosion world effects.
+- A evidence: ready/1.20.2/mojmap/net/minecraft/world/entity/Entity.java::push(Entity)V lines 1397-1426 and #push(DDD)V lines 1428-1431 SHA-256 d7ee49aaea5e862b92508e767562cabc8f10515605e8fb67565c8d8c5d23b01b; ready/1.20.2/mojmap/net/minecraft/world/entity/LivingEntity.java::knockback(DDD)V lines 1445-1453 and #push(Entity)V lines 1978-1982 SHA-256 5c481da1ffc8684c4b30171c92e61fad751e6a3a708d5bc6486ac9f96ff69828; ready/1.20.2/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java::handleExplosion(ClientboundExplodePacket)V lines 1102-1107 SHA-256 0208f6942035adaf2e787546851ca296f0e7ec2179d3610f694911eda5283264.
+- B evidence: ready/1.20.4/mojmap/net/minecraft/world/entity/Entity.java::push(Entity)V lines 1398-1427 and #push(DDD)V lines 1429-1432 SHA-256 07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9; ready/1.20.4/mojmap/net/minecraft/world/entity/LivingEntity.java::knockback(DDD)V lines 1442-1450 and #push(Entity)V lines 1975-1979 SHA-256 f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d; ready/1.20.4/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java::handleExplosion(ClientboundExplodePacket)V lines 1132-1149 SHA-256 ff9c8222614551075b03454ee78712b0d39f0f51845e74bff76a81486f09b42f.
+- State producers/writers -> consumers/readers: collision push callbacks -> Entity.push -> delta movement; LivingEntity.knockback -> velocity writer (damage/combat path excluded by scope); ClientboundExplodePacket -> finalizeExplosion -> local-player deltaMovement + packet knockback. Brace-bounded body hashes match A/B for Entity.push(Entity) `f21db61f124b2eddd6b0643d7fa207a979cf3959e4639c54161bdc601d4ea113`, Entity.push(DDD) `85f53d8458e6b485be40dbfb87f4f5e971bb00c5381f0b4e57531e330179eb99`, LivingEntity.knockback `e8d9dc28403b878fce0ba07bf41368ad4ecdf5cb76c7728b4ed0e2c8edffb86f`, and LivingEntity.push(Entity) `96c85874f5236d61d488643f011302441335e79accf4c23c6febbed3c7829401`.
+- Parent slices / dependencies / closure evidence: S3.1 velocity consumer, S4 player collision/push callbacks, S5 explosion block/shape effects, S7.1 external velocity handlers, S7.3 piston/launch movement, and INV-EXCLUSIONS combat boundary; DEP-01 resolved.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Player-reachable push and knockback method bodies match. The knockback method belongs to the excluded damage/combat path. The packet explosion impulse added to local-player velocity is the same expression and order in both versions, after `finalizeExplosion(true)`. B supplies additional block-interaction, particle and sound constructor inputs to Explosion; their world/collision effects remain for the S4/S5 provider audit.
+- Finding IDs or checked absence/replacement path: no in-scope direct-impulse difference confirmed; explosion world effects and remaining push producers are open.
 
 ### Slice S7.3: piston displacement and launch-item movement paths
 
@@ -639,7 +639,7 @@ Complete only after blind-discovery freeze; not authorized for this source-only 
 
 ## Source audit closure
 
-- Coverage counts by status: pending 34; in-progress 11; compared-no-difference 0; findings 0; not-applicable 1; blocked 0.
+- Coverage counts by status: pending 33; in-progress 12; compared-no-difference 0; findings 0; not-applicable 1; blocked 0.
 - Required inventory status and evidence: INV-TICK, INV-STATE, INV-COLLISION, INV-WORLD-MOVEMENT, INV-MODIFIERS, INV-EXTERNAL, and INV-EXCLUSIONS all pending; readiness is established but their inventories are not yet closed.
 - Open dependencies: DEP-02 and the open slice dependencies listed above
 - Unresolved gaps and limits: exact source publication is validated; most source inventory remains open and no whole-run equivalence claim has been made.
