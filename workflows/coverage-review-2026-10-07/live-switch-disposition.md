@@ -34,3 +34,7 @@ The physical crouch-height corrections retain the modern native crouching eye he
 - **Transition limitation:** live profile changes can expand the AABB into a low ceiling; policy is undefined because historical profiles had no in-game switch. This limits claims about tight-space transition safety, not steady-state historical pose correctness.
 - **Accepted F002 limit:** collision-query context differs, so tight-space results remain conditional and arbitrary-world parity is not established.
 - **Unverified:** no runtime witness, build, or test was run. Eye/camera and fluid behavior remain outside the accepted boundary.
+
+## Superseding product scope clarification (2026-10-07)
+
+The user clarified that changing the selected parkour version while in-world has undefined behavior and is outside the mod's correctness guarantee. This supersedes the transition-safety framing above for integration status: the low-ceiling AABB growth is not a mod defect, integration blocker, or required implementation follow-up. Do not add a collision guard, deferral, or relocation policy. The review observation remains as historical evidence, but verification and acceptance use one fixed selected profile; a live-switch witness is optional convenience only. This clarification does not change steady-state profile behavior, accepted F002 source limits, or the separate unvalidated eye-height/fluid scope.
