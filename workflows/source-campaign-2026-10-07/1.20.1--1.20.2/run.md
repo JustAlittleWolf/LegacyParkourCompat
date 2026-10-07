@@ -23,7 +23,7 @@ The shared exact-run log records successful decompilation and exact metadata IDs
 
 - Status: pending
 - Freeze commit/checkpoint and timestamp: pending completion of all seven inventories and independent audit.
-- Evidence inventory and finding IDs included at freeze: current working catalog has `F-1.20.2-PASSENGER-CROUCH-INPUT`, `F-1.20.2-REMOTE-PLAYER-LERP-ARITHMETIC`, and `F-1.20.2-PARTIAL-UPDATE-LERP-TARGET`; not frozen.
+- Evidence inventory and finding IDs included at freeze: current working catalog has `F-1.20.2-PASSENGER-CROUCH-INPUT`, `F-1.20.2-REMOTE-PLAYER-LERP-ARITHMETIC`, `F-1.20.2-PARTIAL-UPDATE-LERP-TARGET`, and `F-1.20.2-REPEATER-SUPPORT-COLLISION`; not frozen.
 - Confirmation that old mod implementation/code and isolated wiki-audit results were not opened before freeze (prior source-discovery reports may be used as navigation): confirmed. This worker has not opened mod implementation, older catalogs, either wiki, or wiki-audit output.
 - Source/mapping hashes covered by freeze: source manifests and all current cited source hashes are recorded above/below; source-only freeze pending.
 
@@ -190,8 +190,8 @@ These inventory maps are not completion claims. Terminal slices cover only the m
 - State producers/writers -> consumers/readers: neighbor block changes dispatch to each block's `updateShape` and/or `neighborChanged`; returned block states feed world state updates. `BlockCollisions#computeNext()` reads candidate `BlockState#getCollisionShape(...)` and intersects non-full shapes with the entity box. Pink Petals is registered with `noCollission()`, so its changed outline `getShape()` is converted to `Shapes.empty()` by the shared `BlockBehaviour#getCollisionShape()` guard. Repeater inherits DiodeBlock's constant 16x2x16 shape and has default collision enabled; its changed downward-neighbor check can return AIR.
 - Parent slices / dependencies / closure evidence: S9-ENTITY-MOVEMENT-AXES establishes the unchanged `BlockCollisions` consumer; open D-COLLISION and D-WORLD-MOVEMENT own the complete provider/neighbor/resource inventory. Repeater's A `DiodeBlock#canSurvive()` calls `canSupportRigidBlock`; the A/B `Block#canSupportRigidBlock()` bodies are identical and evaluate the same UP/RIGID face-sturdy predicate used by B `DiodeBlock#canSurviveOn()`.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): Pink Petals' changed shape is an outline-only change with a source-confirmed empty movement collision shape. For Repeater, B adds an early `Direction.DOWN` support rejection in `updateShape`, while A delegates; both use the same UP/RIGID support predicate in their survival route and the base Diode neighbor callback also removes unsupported states. The exact callback scheduling and client/server update sequence have not been closed, so no durable player-movement difference is claimed. The registry sound change from WOOD to STONE has no collision consumer. Remaining changed methods and block/fluid data, registrations, tags and resources are still under inventory.
-- Finding IDs or checked absence/replacement path: none; Pink Petals is checked as absent from the movement collision path; Repeater callback ordering remains an open route, not a confirmed finding.
+- Disposition and rationale (including concrete reachability/preconditions): Pink Petals' changed shape is an outline-only change with a source-confirmed empty movement collision shape. For Repeater, B adds an early `Direction.DOWN` support rejection in `updateShape`, while A delegates; both use the same UP/RIGID support predicate; A's separate DiodeBlock#neighborChanged route can remove unsupported states, but the common shape-update path here does not invoke it. The common `Level#setBlock` -> `updateNeighbourShapes` -> `neighborShapeChanged` -> `executeShapeUpdate` route is paired-identical and closed: on the server A updates only LOCKED and retains the collider, while B returns AIR and `updateOrDestroy` removes it when the supplied support state is not UP/RIGID face-sturdy. The registry sound change from WOOD to STONE has no collision consumer. Remaining changed methods and block/fluid data, registrations, tags and resources are still under inventory.
+- Finding IDs or checked absence/replacement path: `F-1.20.2-REPEATER-SUPPORT-COLLISION`; Pink Petals is checked as absent from the movement collision path; the remaining provider and resource inventory stays open.
 
 ### Slice S11-FLUID-CONTAINER-STATE-PATH: fluid placement predicates and movement-state inputs
 
@@ -225,11 +225,12 @@ Open:
 - [F-1.20.2-PASSENGER-CROUCH-INPUT](findings/F-1.20.2-PASSENGER-CROUCH-INPUT.md): passenger-only crouch-flag gate disables local sneak input scaling from 1.20.2; source-confirmed. No runtime validation.
 - [F-1.20.2-REMOTE-PLAYER-LERP-ARITHMETIC](findings/F-1.20.2-REMOTE-PLAYER-LERP-ARITHMETIC.md): remote-player position/rotation interpolation changes arithmetic order from division to reciprocal multiplication; source-confirmed, no trajectory validation.
 - [F-1.20.2-PARTIAL-UPDATE-LERP-TARGET](findings/F-1.20.2-PARTIAL-UPDATE-LERP-TARGET.md): rotation-only remote movement update preserves pending position target in 1.20.2; source-confirmed, no trajectory validation.
+- [F-1.20.2-REPEATER-SUPPORT-COLLISION](findings/F-1.20.2-REPEATER-SUPPORT-COLLISION.md): a DOWN neighbor-shape update removes an unsupported repeater collision shape in 1.20.2; source-confirmed, no movement trajectory validation.
 
 ## Resume checkpoint
 
 - Last completed slices: S3-PLAYER-TRAVEL, S3-LIVING-TRAVEL, S4-REMOTE-PLAYER-INTERPOLATION, S5-PARTIAL-UPDATE-LERP-TARGET, S6-LIVING-AISTEP-JUMP-GLIDE, S7-CLIENT-PLAYER-CORRECTIONS, S8-PLAYER-KNOCKBACK-PUSH, S9-ENTITY-MOVEMENT-AXES, S11-FLUID-CONTAINER-STATE-PATH.
-- Next bounded slice and exact files/members/body ranges to open: continue the `world/level/block` sweep from S10: verify changed neighbor callbacks (especially repeater `updateShape` versus `neighborChanged`) and inspect all changed state/property/shape providers; then inventory registrations, fluids, tags and registered resources.
+- Next bounded slice and exact files/members/body ranges to open: continue the `world/level/block` sweep from S10 across AbstractSkullBlock, BarrierBlock, ChorusFlowerBlock, ComparatorBlock, DispenserBlock, HopperBlockEntity/HopperBlock, PitcherCropBlock and RedStoneWireBlock; then finish changed BlockState properties, registrations, fluids, tags and registered resources.
 - Outstanding dependencies and owners: D-LIVING-TRAVEL, D-LIVING-AISTEP, D-COLLISION, D-WORLD-MOVEMENT, D-MODIFIERS, D-EXTERNAL; all owned by this worker.
 - Current assumptions requiring verification: S10 block-class/provider and callback inventory remains partial; BlockState-property, effect/modifier, fluid resource/tag and external writer inventories remain open; decompiler warnings outside cited movement classes do not damage cited movement bodies.
 
@@ -256,7 +257,7 @@ No reviewer assigned or source inventory available for a complete re-walk; this 
 
 ## Source audit closure
 
-- Coverage counts by status: 9 compared-no-difference; 3 findings; 12 terminal slices total; one additional block-provider slice is in progress; all 7 required inventories remain pending.
+- Coverage counts by slice status: 9 compared-no-difference; 3 terminal finding slices; 12 terminal slices total; S10 is in progress and contains the additional source-confirmed repeater finding; all 7 required inventories remain pending (4 finding documents are indexed).
 - Required inventory status and evidence: member-level slices S1-TICK-ORDER, S1-PASSENGER-CROUCH-INPUT, S2-POSE-CLEARANCE, S3-PLAYER-TRAVEL, S3-LIVING-TRAVEL, S4-REMOTE-PLAYER-INTERPOLATION and S5-PARTIAL-UPDATE-LERP-TARGET, S6-LIVING-AISTEP-JUMP-GLIDE, S7-CLIENT-PLAYER-CORRECTIONS, S8-PLAYER-KNOCKBACK-PUSH, S9-ENTITY-MOVEMENT-AXES and S11-FLUID-CONTAINER-STATE-PATH are populated; S10 and every remaining route stay open.
 - Open dependencies: D-LIVING-TRAVEL, D-LIVING-AISTEP, D-COLLISION, D-WORLD-MOVEMENT, D-MODIFIERS, D-EXTERNAL.
 - Unresolved gaps and limits: source comparison is in progress; collision movement axes/steps/support, block/fluid providers and resources, modifiers, full state-writer graph, and local-player knockback/piston/transition inputs are not closed. RemotePlayer findings concern client-side Player entities receiving server targets, not local-player trajectory or vehicle physics.
