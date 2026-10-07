@@ -1,7 +1,7 @@
 # Discovery: 1.17.1 to 1.18.2
 
 - Run status: partial
-- Scope: direct client player movement. A=1.17.1, B=1.18.2. Excludes health, regeneration, hunger/food/saturation/exhaustion, damage/combat simulation, non-player movement, and behavior for blocks/features absent in A.
+- Scope: direct client player movement, including direct player velocity/impulse/knockback application and resulting player state even when triggered by combat. A=1.17.1, B=1.18.2. Excludes health/food state production, attack/damage resolution, non-player movement, vehicle physics, and behavior for blocks/features absent in A.
 - Repository revision and start date: base 002137b227676caea77f6832b9f4c8d0b6200bff; 2026-10-07.
 - Selected naming namespace, CLI mode per side and alignment evidence: Mojang official mappings, mojmap; exact metadata IDs verified.
 - Source preparation owner / command / log / readiness marker: shared source owner; Gradle decompileMinecraft, explicit mojmap; build/movement-campaign-2026-10-07/mojmap.success.log; ready/{1.17.1,1.18.2}/mojmap.ready.json.
@@ -20,12 +20,12 @@ SHA-256; paths relative to repository. Each 41-entry artifact manifest and sourc
 
 ## Blind-discovery freeze
 
-- Status: frozen
-- Freeze commit/checkpoint and timestamp: 3bc0793 (catalog freeze commit; this metadata update is a follow-up checkpoint); 2026-10-07 Europe/Vienna.
-- Evidence inventory and finding IDs included at freeze: F-001..F-005; T-SPRINT,T-ELYTRA,T-AUTOJUMP-ORDER,T-AUTOJUMP-BORDER,T-FALL-RESET,T-EDGE-GATE.
-- Old mod code and isolated wiki audit outputs not opened before freeze: confirmed; prior report used for navigation only.
-- Source/mapping hashes: artifacts and source hashes above.
-
+- This status is the full-pair freeze; finding snapshots are tracked separately.
+- Status: pending
+- Freeze commit/checkpoint and timestamp: none; terminal coverage, closed dependencies and independent full-pair audit remain outstanding.
+- Evidence inventory and finding IDs included at freeze: none; F-001 through F-005 are in the partial discovery catalog.
+- Old mod implementation and isolated wiki-audit outputs opened: no; prior report used for navigation only.
+- Source/mapping hashes: pair markers, manifests and hashes above.
 ## Correspondence and call order
 
 A/B roles: LocalPlayer#aiStep client tick; KeyboardInput#tick input; LivingEntity#travel branches; Player#travel delegation; Entity#move resolution; Player#maybeBackOffFromEdge edge state. Auto-jump calls CollisionGetter and stops at first matching AABB. A collision query is block then entity and CollisionSpliterator can add border; B is entity then block, with border elsewhere. Full per-tick pre/travel/post graph and all writers/consumers remain open.
@@ -37,8 +37,8 @@ A/B roles: LocalPlayer#aiStep client tick; KeyboardInput#tick input; LivingEntit
 - `INV-COLLISION` collision query/shapes/callbacks: status=pending; slice_ids=T-AUTOJUMP-ORDER,T-AUTOJUMP-BORDER,T-ENTITY-COLLISION; evidence=LocalPlayer, CollisionGetter, CollisionSpliterator and BlockCollisions ranges; providers open.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties/resources: status=pending; slice_ids=T-WORLD-PROPERTIES,T-FALL-RESET; evidence=Blocks seed registrations and tag entry; exhaustive resource/property inventory open.
 - `INV-MODIFIERS` attributes/effects/enchantments/equipment: status=pending; slice_ids=T-ELYTRA,T-MODIFIERS; evidence=LivingEntity travel and Jump Boost consumer; data/application paths open.
-- `INV-EXTERNAL` external player movement inputs: status=pending; slice_ids=T-EXTERNAL; evidence=not inventoried.
-- `INV-EXCLUSIONS` excluded source systems: status=pending; evidence=scope exclusions above and direct sprint/fallDistance reads; complete boundary audit open.
+- `INV-EXTERNAL` player-only external inputs and direct velocity/impulse/knockback application: status=pending; slice_ids=T-EXTERNAL; evidence=not inventoried.
+- `INV-EXCLUSIONS` health/food state production, attack/damage resolution, non-player motion and vehicle physics: status=pending; evidence=scope exclusions above; direct player-motion response remains in scope; complete boundary audit open.
 
 ## Coverage ledger
 
@@ -152,9 +152,9 @@ A/B roles: LocalPlayer#aiStep client tick; KeyboardInput#tick input; LivingEntit
 - Disposition and rationale (including concrete reachability/preconditions): F-002 and Jump Boost consumer are partial.
 - Finding IDs or checked absence/replacement path: F-002.
 
-### Slice T-EXTERNAL: external movement input
+### Slice T-EXTERNAL: external inputs and direct player impulse response
 - Inventory ID(s): INV-EXTERNAL
-- Exact behavior boundary and enclosing guards/order checked: corrections, pushes, piston, launch and mounts.
+- Exact behavior boundary and enclosing guards/order checked: corrections, player velocity/impulse/knockback application, launches, player piston interaction and mounts; non-player and vehicle physics excluded.
 - A evidence: not inventoried.
 - B evidence: not inventoried.
 - State producers/writers -> consumers/readers: external input -> position/velocity/abilities.
@@ -183,6 +183,10 @@ Open: D-INPUT-ASSIGNMENTS,D-ENTITY-COLLISIONS,D-SHAPE-PROVIDERS,D-BORDER-MOVE-PA
 - Outstanding: D-* above.
 - Assumptions: entity filter equivalence, probe overlap, B border path, qualifying clip.
 
+## Finding snapshots (not pair freeze)
+
+No finding snapshot has been submitted or accepted. Findings remain source-discovery items; implementation handoff requires a separate blind source reviewer to accept an immutable finding snapshot with its dependencies closed. This does not change pair status.
+
 ## Implementation reconciliation
 
 - Reconciliation status: pending
@@ -205,6 +209,7 @@ Open: D-INPUT-ASSIGNMENTS,D-ENTITY-COLLISIONS,D-SHAPE-PROVIDERS,D-BORDER-MOVE-PA
 - Open dependencies: above.
 - Unresolved gaps: partial; resources, shape providers, external inputs and full call graph open.
 - Evidence/hash audit: exact markers/manifests and cited class/resource hashes recorded; schema validation is not proof.
-- Blind freeze: frozen; implementation reconciliation: pending; independent audit: pending.
+- Accepted finding snapshots: none.
+- Full-pair blind freeze: pending; implementation reconciliation: pending; independent audit: pending.
 - Source discovery: partial.
 - Runtime validation: not performed; no tests or gameplay run.
