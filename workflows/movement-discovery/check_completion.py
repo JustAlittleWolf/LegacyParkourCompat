@@ -183,7 +183,8 @@ def check(path: Path) -> list[str]:
         publication = value(block, "Publication status")
         event_status = value(block, "Snapshot status") or value(block, "Status")
         handoff = value(block, "Implementation handoff")
-        needs_identity = event_status in {"accepted", "source-confirmed"} or handoff == "ready"
+        handoff_ready = bool(handoff and re.match(r"^ready\b", handoff))
+        needs_identity = event_status in {"accepted", "source-confirmed"} or handoff_ready
         if publication == "revised-derived":
             check_snapshot_identity(block, f"snapshot {snapshot_id}", errors)
         elif needs_identity:
@@ -191,8 +192,9 @@ def check(path: Path) -> list[str]:
                 errors.append(f"snapshot {snapshot_id}: accepted/ready handoff requires a declared publication status")
             else:
                 check_snapshot_identity(block, f"snapshot {snapshot_id}", errors)
-        if handoff == "ready" and not concrete(value(block, "Verified implementation boundary/evidence, or unresolved boundary reason")):
-            errors.append(f"snapshot {snapshot_id}: ready handoff lacks a concrete verified boundary")
+        boundary_label = "Source-proven historical behavior boundary/evidence (phase, producers/consumers, applicability), or unresolved source question"
+        if handoff_ready and not concrete(value(block, boundary_label)):
+            errors.append(f"snapshot {snapshot_id}: ready handoff lacks a concrete source-proven historical behavior boundary")
 
     inventory_rows = re.findall(r"^- `(INV-[A-Z-]+)` (.+)$", content, re.M)
     inventories = {inventory_id: row for inventory_id, row in inventory_rows}

@@ -122,7 +122,7 @@ Append an event for each source-confirmed finding snapshot and each later invali
 - Revised-to-original equivalence:
 - Provenance limitations:
 - Cited source/resource hashes:
-- Verified implementation boundary/evidence, or unresolved boundary reason:
+- Source-proven historical behavior boundary/evidence (phase, producers/consumers, applicability), or unresolved source question:
 - Finding-specific closed dependency IDs/evidence:
 - Independent blind source reviewer and decision date:
 - Review basis / requested source-only revisions:
