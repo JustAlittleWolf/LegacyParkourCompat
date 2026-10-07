@@ -19,7 +19,7 @@ Shared artifact root, relative to the repository: `build/movement-campaign-2026-
 
 - Status: pending
 - Freeze commit/checkpoint and timestamp: pending; freeze only after source-only coverage is completed and audited for provenance.
-- Evidence inventory and finding IDs included at freeze: source-only findings F-01 and F-02 are drafted; additional coverage remains open.
+- Evidence inventory and finding IDs included at freeze: source-only findings F-01 through F-04 are drafted; additional coverage remains open.
 - Confirmation that old mod implementation/code and isolated wiki-audit results were not opened before freeze: confirmed; no mod implementation or wiki-audit outputs opened and no wiki browsing performed.
 - Source/mapping hashes covered by freeze: A/B source manifests and all listed Java source hashes were verified; freeze is pending. Manifest hashes: A `6f1cc6d07ab3902a7ea25a3f8817504723be70d82e97f541cffda95ea2c1c843`; B `6286e325371e085dfee1ab7987e66d4b6d1a984a49b6ec8ea730045cd24cecb3`.
 
@@ -32,8 +32,8 @@ Shared artifact root, relative to the repository: `build/movement-campaign-2026-
 
 ## Required source inventories
 
-- `INV-TICK` input sampling, complete player tick order and travel branches: status=pending; slice_ids=I-TICK-INPUT-SAMPLE, I-TICK-EDGE-NUDGE, I-TICK-UNSTUCK-POSITION, I-TICK-LOCAL-TRAVEL-GATE, I-TICK-TRAVEL-FLUIDS, I-TICK-TRAVEL-FALL-FLYING, I-TICK-FLIGHT-SPEED, I-TICK-SWIM-HEAD-PROBE, I-TICK-AIR-SPEED, I-TICK-AUTO-JUMP, I-TICK-MOUNT-START, I-TICK-PORTAL-PROGRESS, I-TICK-REMAINDER; evidence=paired exact member slices below; full tick and branch inventory remains open.
-- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=I-TICK-AIR-SPEED, I-STATE-REMAINDER; evidence=air-speed writer/reader chain is traced; full state inventory remains open.
+- `INV-TICK` input sampling, complete player tick order and travel branches: status=pending; slice_ids=I-TICK-INPUT-SAMPLE, I-TICK-EDGE-NUDGE, I-TICK-UNSTUCK-POSITION, I-TICK-LOCAL-TRAVEL-GATE, I-TICK-SPRINT-ELIGIBILITY, I-TICK-TRAVEL-FLUIDS, I-TICK-TRAVEL-FALL-FLYING, I-TICK-FLIGHT-SPEED, I-TICK-SWIM-HEAD-PROBE, I-TICK-AIR-SPEED, I-TICK-AUTO-JUMP, I-TICK-MOUNT-START, I-TICK-PORTAL-PROGRESS, I-TICK-REMAINDER; evidence=paired exact member slices below; full tick and branch inventory remains open.
+- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=I-TICK-AIR-SPEED, I-TICK-SPRINT-ELIGIBILITY, I-STATE-REMAINDER; evidence=air-speed writer/reader chain is traced; full state inventory remains open.
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=I-TICK-AUTO-JUMP, I-TICK-EDGE-NUDGE, I-COLLISION-ENTITY-MOVE, I-COLLISION-QUERY-ASSEMBLY, I-COLLISION-REMAINDER; evidence=auto-jump probe math is traced to collision query; providers and registrations remain open.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, registrations and resource inventory: status=pending; slice=I-WORLD; no terminal inventory evidence yet.
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and applications/removals/conditions: status=pending; slice=I-MODIFIER; no terminal inventory evidence yet.
@@ -145,6 +145,18 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 - Status: compared-no-difference
 - Disposition and rationale (including concrete reachability/preconditions): for the ordinary local player with no controlling passenger, both outer travel guards are true and dispatch the same body. The other changed expressions in this method supply a fly-into-wall damage source to the unchanged damage call (excluded damage resolution) and update entity animation state (rendering); neither changes player position/velocity math at these sites. The changed OR term does not alter local-player reachability under this precondition.
 - Finding IDs or checked absence/replacement path: checked absence of a difference in ordinary LocalPlayer travel dispatch; other receiver types are outside this player-scoped slice.
+### Slice I-TICK-SPRINT-ELIGIBILITY: sprint initiation while fall-flying
+
+- Inventory ID(s): INV-TICK, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: LocalPlayer's direct key-sprint branch for a non-passenger player already fall-flying, when the sprint key is down and all existing impulse, food, water, item-use and blindness conditions permit sprinting.
+- A evidence: `ready/1.19.3/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 709–717, SHA-256 `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`; the direct key branch has no `isFallFlying` guard and calls `setSprinting(true)` when its listed predicates pass.
+- B evidence: `ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 696–698 and `#canStartSprinting()Z`, lines 1022–1030, SHA-256 `8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58`; the shared eligibility helper adds `!this.isFallFlying()` and blocks that call while gliding.
+- State producers/writers -> consumers/readers: direct sprint key, input impulse, food/ability and item/effect predicates -> A sprint-state write versus B helper rejection; subsequent non-fall-flying player travel can consume sprint state through movement-speed selection.
+- Parent slices / dependencies / closure evidence: exact paired LocalPlayer#aiStep and B helper checked; F-01 separately records the ordinary airborne sprint-speed consumer. This slice is limited to the non-passenger key-sprint route; mounted start eligibility is recorded in F-03.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): for a non-passenger player who is fall-flying, holds sprint, is not already sprinting, and meets the remaining direct key-branch predicates, A can set sprinting while B rejects initiation solely because of the new fall-flying gate. The glide equations themselves do not use this sprint flag in the compared travel branch; no immediate glide-speed or trajectory consequence is asserted.
+- Finding IDs or checked absence/replacement path: F-04; source-confirmed sprint eligibility delta under the stated preconditions.
+
 ### Slice I-TICK-TRAVEL-FLUIDS: water and lava travel branches
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-WORLD-MOVEMENT
@@ -319,11 +331,12 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 - F-01: sprint air speed reads current sprint state in B and has a one-ULP coefficient change; source-confirmed for stated preconditions.
 - F-02: auto-jump probe uses a different inverse-square-root implementation; source-confirmed algorithm difference, with collision outcome not inferred.
 - F-03: mounted sprint state can carry into player movement after dismount under the stated conditions.
+- F-04: A can initiate sprint while fall-flying under the stated key-sprint predicates; B adds a fall-flying rejection guard.
 
 ## Resume checkpoint
 
-- Last completed slices: I-TICK-TRAVEL-FLUIDS and I-TICK-TRAVEL-FALL-FLYING; findings F-01 through F-03 drafted; report remains active.
-- Next bounded slice and exact files/members/body ranges to open: continue D-1 by tracing dismount packet creation, dispatch and `ClientPacketListener` application order; then resume I-TICK-REMAINDER from `KeyboardInput#tick`, `LocalPlayer#aiStep`, `Player#aiStep` and remaining `LivingEntity#travel` branches.
+- Last completed slices: I-TICK-SPRINT-ELIGIBILITY, I-TICK-TRAVEL-FLUIDS and I-TICK-TRAVEL-FALL-FLYING; findings F-01 through F-04 drafted; report remains active and partial.
+- Next bounded slice: resume D-1 by comparing A/B `ServerPlayer#stopRiding` and `dismountTo`, `ServerGamePacketListenerImpl#teleport`, `ClientboundPlayerPositionPacket` construction/encoding, and client `handleMovePlayer` with B `ServerEntity` passenger broadcasts; establish only source-proven ordering. Then continue `I-TICK-REMAINDER` from `KeyboardInput#tick`, `LocalPlayer#aiStep`, `Player#aiStep` and remaining `LivingEntity#travel` branches.
 - Outstanding dependencies and owners: D-1 through D-3, source worker.
 - Current assumptions requiring verification: complete behavior correspondence for all reachable travel branches; dismount packet routes; collision-provider/dependency inventory; block/fluid registrations and resources; modifiers/equipment; external player-facing inputs; direct excluded-state reads; remaining direct player knockback/impulse consumer and resistance-modifier inventory.
 
@@ -346,8 +359,8 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 
 ## Source audit closure
 
-- Coverage counts by status: findings 3; in-progress 0; pending 7; compared-no-difference 12; not-applicable 1; blocked 0. Explicit pending count: 7.
-- Required inventory status and evidence: all seven required inventories remain pending overall; named sprint-air-speed, auto-jump arithmetic and mounted sprint carry-over slices are closed as findings, while the full INV-TICK, INV-STATE and INV-COLLISION inventories and all remaining inventories remain open.
+- Coverage counts by status: findings 4; in-progress 0; pending 7; compared-no-difference 12; not-applicable 1; blocked 0. Explicit pending count: 7. This is a partial checkpoint; full source-only coverage, freeze and independent audit are not claimed.
+- Required inventory status and evidence: all seven required inventories remain pending overall; named sprint-air-speed, sprint-eligibility, auto-jump arithmetic and mounted sprint carry-over slices are closed as findings, while the full INV-TICK, INV-STATE and INV-COLLISION inventories and all remaining inventories remain open.
 - Open dependencies: D-1, D-2, D-3.
 - Unresolved gaps and limits: full tick and state inventory; additional dismount packet/timing routes; collision providers; block/fluid and data registrations; modifiers/equipment; external inputs; exclusions direct-read audit; independent reviewer.
 - Evidence/hash/correspondence audit: readiness JSONs, source manifests, every listed source hash, required artifacts and diagnostics verified for both exact sources. Member-level hashes and ranges recorded for the two findings. Canonical completion checker recognizes active reports; its result is a structure/status check, not source evidence.
