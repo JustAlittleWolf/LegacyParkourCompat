@@ -27,6 +27,7 @@
 
 - Exact paired class/member correspondence, descriptors, inheritance/callers, split/replacement evidence, read/write state and ordered calls: pending validated source roots. No guessed correspondence is accepted.
 - Navigation sequence: stage 1 local input and tick ordering; stage 2 player state and gates; stage 3 living movement; stage 4 entity movement/collision; stage 5 blocks/fluids; stage 6 attributes/effects/enchantments/equipment; stage 7 external influences and final dependency closure. Every entry point and complete method body/caller/dependency must be inventoried before disposition.
+- Navigation-only prior report consulted: workflows/movement-discovery/runs/1.19.4--1.20.6/run.md. Candidate role names include LocalPlayer, KeyboardInput, Input, Player, LivingEntity, Entity, AABB, VoxelShape, FlowingFluid, MobEffects, Enchantments, EnchantmentHelper, Blocks and ClientPacketListener. These are unverified search seeds only; no prior finding, range, hash or status is carried as evidence or coverage for this pair.
 
 ## Required source inventories
 
