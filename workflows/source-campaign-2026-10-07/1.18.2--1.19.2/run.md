@@ -329,7 +329,7 @@ Artifact paths below are relative to repository root; generated artifacts remain
 - State producers/writers -> consumers/readers: `SWIFT_SNEAK` equipment slot and item enchantment level -> `EnchantmentHelper.getSneakingSpeedBonus()` -> `LocalPlayer.aiStep()` factor -> `KeyboardInput.tick()` lateral/forward impulses.
 - Parent slices / dependencies / closure evidence: D-SOURCES; M01/M04; W03; resource dependency D-RESOURCES.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): F-001 is source-confirmed and player-reachable when leggings provide Swift Sneak and local input is crouching or visually crawling. Enchantment availability/loot/resource data still needs client-jar resource audit; other listed modifiers remain open. Server-side world mutation is not inferred from client code.
+- Disposition and rationale (including concrete reachability/preconditions): F-001 is source-confirmed and player-reachable when leggings provide Swift Sneak and local input is crouching or visually crawling. B's exact bundled ancient-city loot table includes a Swift Sneak enchanted-book entry, while A's client jar lacks that path; this establishes the bundled resource route but not world generation or server datapack state. Other listed modifiers and resource paths remain open. Server-side world mutation is not inferred from client code.
 - Finding IDs or checked absence/replacement path: F-001; remaining modifier families open.
 
 ### Slice M04: modifier data, tags and synchronized/external values
@@ -395,7 +395,7 @@ Artifact paths below are relative to repository root; generated artifacts remain
 ## Dependency queue and blockers
 
 - Resolved `D-SOURCES`: exact 1.18.2 and 1.19.2 Mojmap readiness records, source/artifact SHA-256 manifests, client jar, mapping, remapped jar and movement diagnostics were reverified after the campaign revision. Exact metadata IDs and namespace match; all cited A/B source files match their source manifests.
-- `D-RESOURCES`: originating W04/M03/M04 and newly discovered resource-backed dependencies; exact client-jar identities are verified, but resource entry names/hashes and any required external data remain uninspected. Owner: discovery worker; resource inspection is unblocked.
+- `D-RESOURCES`: originating W04/M03/M04 and newly discovered resource-backed dependencies; exact client-jar identities are verified. The Swift Sneak ancient-city loot table and `occludes_vibration_signals` block tag were inspected with entry hashes; all other movement resources and external data remain uninspected. Owner: discovery worker; resource inspection is unblocked.
 - Resolved `D-ARTIFACT-REVISION`: revision `feather-r1-2026-10-07` was reverified for all six Feather versions (1.8.9, 1.9.4, 1.10.2, 1.11.2, 1.12.2 and 1.13.2): each snapshot hash matched both `artifact.sha256` and `revision.json`; every source file matched its published source manifest; all manifest-linked raw input artifacts and verification logs matched. The original derived Feather jars are unavailable, so the revised mapped jars are not proven identical to the originals and no hash change is claimed metadata-only. Neither endpoint here uses Feather, and F-001/F-002 depend only on the reverified Mojmap source/artifact records; no revised Feather snapshot is evidence for either finding.
 - No mod implementation or wiki output has been read; no source evidence or findings have been inferred from adjacent reports.
 
