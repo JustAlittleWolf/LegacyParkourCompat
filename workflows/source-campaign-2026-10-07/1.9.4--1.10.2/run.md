@@ -23,15 +23,79 @@ No pair-specific correspondence is accepted yet. After source readiness, resolve
 
 ## Coverage ledger
 
-All seven required navigation stages are open. Each row must be split into bounded behavior slices as the call graph, producers, consumers, callbacks and dependencies are enumerated. Do not close a whole stage on unchanged top-level travel code.
+All seven required navigation stages are open. The following is a **pre-source coverage plan**, not a claim that these are the complete reachable methods. Once exact source is ready, resolve members/callers and split any item whose full body or dependency closure exceeds a bounded slice. Add newly discovered work; never close a stage on unchanged top-level travel code.
 
-- S1 — local input and tick ordering (input sampling, movement axes, sprint/jump/flight gates and timers, auto-jump, riding, tick sequencing): pending; sources not yet verified.
-- S2 — player state and gates (pose/dimensions/resize, eye height in movement queries, swimming/crawling, abilities, edge sneak, item-use slowdown, air speed): pending; sources not yet verified. Hunger/food/health emulation is excluded; record only direct vanilla sprint-gate consumers as in-scope control flow.
-- S3 — living movement integration (ground/air/water/lava/glide travel, acceleration, friction, gravity/drag, velocity cutoffs, jump and climb math, attributes/effects): pending; sources not yet verified.
-- S4 — entity collision and movement pipeline (bounding boxes, collision query timing, axis order, step candidates/tie-breaks, support, callbacks, fluid push, entity-size effects): pending; sources not yet verified.
-- S5 — historical blocks and fluids (shapes, registrations/defaults, neighboring-state dependencies, friction/speed/jump factors, callbacks and flow): pending; sources not yet verified. Modern-only blocks do not gain historical behavior.
-- S6 — movement-affecting effects, attributes, enchantments and equipment (consumer-to-registration/data dependency closure; direct motion only): pending; sources/resources not yet verified.
-- S7 — external movement inputs (velocity/position packets, knockback/push, explosions, pistons, mount transitions and launch items; player path only): pending; sources not yet verified.
+### S1 — local input and tick ordering
+
+- S1.1 input sampling and key/controller state: pending.
+- S1.2 input axes, yaw-to-motion conversion and normalization: pending.
+- S1.3 local tick, superclass tick and travel call order / previous-current flag capture: pending.
+- S1.4 sprint start/stop gates, timers and state writers: pending.
+- S1.5 jump input, jump timers/cooldowns and jump state writers: pending.
+- S1.6 flight toggle, double-tap and unstuck paths: pending.
+- S1.7 automatic jump and synthetic-input paths: pending.
+- S1.8 riding input, jump charge and mount gates affecting the player: pending.
+
+### S2 — player state and gates
+
+- S2.1 pose selection and standing/crouching/swimming/gliding transition gates: pending.
+- S2.2 dimensions, bounding-box resize and collision timing on pose change: pending.
+- S2.3 eye height only where it changes movement/fluid queries: pending.
+- S2.4 flight abilities/speed and other movement capability defaults/writers: pending.
+- S2.5 swimming/crawling state and stored air-speed state: pending.
+- S2.6 edge-sneak support probes and related movement gates: pending.
+- S2.7 item-use movement slowdown and input scaling: pending.
+- S2.8 direct vanilla sprint-gate consumers: pending; health, regeneration, hunger, food, saturation, exhaustion, damage and combat emulation are excluded.
+
+### S3 — living movement integration
+
+- S3.1 travel dispatch and branch-selection state: pending.
+- S3.2 ground acceleration, friction and movement-speed derivation: pending.
+- S3.3 air acceleration, sprint air control and relative-input math: pending.
+- S3.4 jump power, sprint impulse and movement attribute/effect inputs: pending.
+- S3.5 gravity, drag, vertical thresholds and negligible-velocity cutoffs: pending.
+- S3.6 water and lava branch movement, depth/jump gates and post-travel updates: pending.
+- S3.7 climbing clamps and climb-state producers: pending.
+- S3.8 gliding/fall-flying travel math and transitions: pending.
+- S3.9 motion callbacks/reset operations reached after travel: pending.
+
+### S4 — entity movement and collision
+
+- S4.1 entity position/velocity/bounding-box writers around movement: pending.
+- S4.2 collision query timing, candidates and shape context: pending.
+- S4.3 axis clipping order, tie-breaking and blocked-velocity response: pending.
+- S4.4 step-up candidates, comparison and selected displacement: pending.
+- S4.5 on-ground/support/vertical-collision state computation: pending.
+- S4.6 block collision callbacks and movement callback order: pending.
+- S4.7 fluid contact/push and their collision/query dependencies: pending.
+- S4.8 player push/knockback effects from other entities (player integration only): pending.
+
+### S5 — blocks and fluids
+
+- S5.1 base state/block collision and outline-shape dispatch, registration and defaults: pending.
+- S5.2 historical partial-block shape overrides and support effects: pending.
+- S5.3 friction/speed/jump-factor registrations and consumers: pending.
+- S5.4 contact/landing/climbing/collision callback overrides and state predicates: pending.
+- S5.5 fluid height, flow vector and player push producers: pending.
+- S5.6 neighbor-dependent block movement inputs, registries and checked absences: pending.
+
+### S6 — effects, attributes, enchantments and equipment
+
+- S6.1 movement effect consumers and amplification/timer formulas: pending.
+- S6.2 movement attribute defaults, aggregation and operation order: pending.
+- S6.3 enchantment consumers, level formulas, slots and applicability: pending.
+- S6.4 equipment/item-use movement consumers and lifecycle: pending.
+- S6.5 relevant registrations, tags and jar-resource/default dependency closure: pending.
+- S6.6 modern-only mechanics and server/external-data boundaries: pending.
+
+### S7 — external movement influences
+
+- S7.1 incoming velocity and position correction handlers: pending.
+- S7.2 player knockback, push and explosion integration: pending.
+- S7.3 piston displacement and client/player movement path: pending.
+- S7.4 mount/dismount and transition placement affecting the player: pending.
+- S7.5 launch-item and external impulse writers: pending.
+- S7.6 final cross-stage movement-state writer/caller closure and revisit: pending.
 
 Per bounded slice, record one of `pending`, `in-progress`, `compared-no-difference`, `findings`, `not-applicable`, or `blocked`; cite both-side paths, complete member ranges and hashes, dependency closure and rationale. Checked absence must follow inheritance, callers, registration or replacement paths. Preserve exact arithmetic, casts, comparisons and execution order.
 
@@ -55,8 +119,8 @@ No findings accepted in this fresh run yet. Add one `findings/<id>.md` per indep
 
 ## Source audit closure
 
-- Coverage counts: 0 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked; 7 stage rows pending; 0 bounded slices closed.
-- Pending bounded-slice count: not yet enumerated; the dependency/callgraph inventory starts after source validation.
+- Coverage counts: 0 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked; 51 planned bounded slices pending across 7 stages; 0 slices closed.
+- Pending bounded-slice count: 51 planned; this must be revised upward whenever source navigation exposes additional distinct methods, writers, consumers or dependencies.
 - Unresolved gaps: all comparison stages and source provenance remain open.
 - Evidence/hash/correspondence audit: not started; no Minecraft source evidence has been accepted.
 - Runtime validation: not performed (separate workflow).
