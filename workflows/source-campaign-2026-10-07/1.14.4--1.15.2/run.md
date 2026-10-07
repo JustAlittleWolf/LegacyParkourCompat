@@ -130,7 +130,7 @@ All inventories remain pending while exact method and dependency coverage is in 
 ### Slice S-HONEY-BLOCK: modern-only Honey Block player movement
 
 - Inventory ID(s): INV-WORLD-MOVEMENT, INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: B registration, collision shape, entityInside -> slide predicate -> velocity/fallDistance writes; A registry absence path to verify.
+- Exact behavior boundary and enclosing guards/order checked: B registration, collision shape, entityInside -> slide predicate -> velocity/fallDistance writes; A complete registry absence path verified.
 - A evidence: ready/1.14.4/mojmap/net/minecraft/world/level/block/Blocks.java lines 1-2035, checked absence of HONEY_BLOCK in the complete registry inventory; SHA-256 983d0cde25f55ddb055015b682bbdf3b131394208561805f26d9b2a240dee9a9; block source directory has no HoneyBlock class.
 - B evidence: ready/1.15.2/mojmap/net/minecraft/world/level/block/HoneyBlock.java lines 21-35, 49-77, 85-95; SHA-256 40760aeb3c084f1143e87e1e057f18165492eb01b8fce0815dfdd0882cdc8a03; registration `Blocks.java` lines 2118-2123, SHA-256 0cef66feacbf9d7d5bd38ac1d2065e71384a73043b0956eeaf314fedbf5cc7d9.
 - State producers/writers -> consumers/readers: HoneyBlock contact/onGround/position/vertical velocity -> X/Z scaling, Y velocity -0.05 and fallDistance reset -> following movement/fall checks.
@@ -152,10 +152,26 @@ Source-confirmed findings (not yet blind-frozen or independently accepted): [F-S
 
 ## Resume checkpoint
 
-- Last completed slice: exact pair readiness and full source/artifact hash verification.
-- Next bounded slice and exact files/members/body ranges to open: close S-ENTITY-MOVE and S-LIVING-JUMP with Entity.java, LivingEntity.java, Player.java, Block.java and Blocks.java; split LocalPlayer.aiStep into sprint/jump/flight/auto-jump.
-- Outstanding dependencies and owners: D-001 source owner; D-002/D-003 discovery author; D-004 coordinator/reviewer.
-- Current assumptions requiring verification: full factor registrations and modifier chains; partial-height friction consequences; local shift/crouch semantics and Elytra helper; collision, fluid and external state writers.
+- Checkpoint branch: `feat/source-discovery-movement-source-1-14-4-1-15-2`; this resume-only update is based on `c4e84a6cc7a026a25dce887025308890bac7ed21`. Default branch `main` (`002137b227676caea77f6832b9f4c8d0b6200bff`) was merged; the exact final tip and clean status are recorded in the checkpoint handoff.
+- Source identity: A `D:/Javastuff/LegacyParkourCompat/build/movement-campaign-2026-10-07/ready/1.14.4/mojmap/`, B `.../ready/1.15.2/mojmap/`; both markers, version metadata, source manifests, artifact manifests, original client jars and every manifested source/raw artifact entry were freshly reverified with zero mismatches. This pair uses Mojmap; the revised early-Feather snapshots are not inputs.
+- Closed bounded slices: S-ENTITY-MOVE, S-LIVING-JUMP, S-FRICTION-SAMPLE, S-HONEY-BLOCK and S-ELYTRA-START (all `findings`); finding files F-SOUL-SAND-SPEED, F-FRICTION-SAMPLE, F-HONEY-SLIDE, F-HONEY-FACTORS and F-ELYTRA-START. Snapshot event FS-2026-10-07-1.14.4-1.15.2-01 is submitted at immutable payload commit `4a0c35f2008d785867c00360a7b72726e3506435` and awaits independent blind review; the pair remains partial.
+- Materialized open slices: S-INPUT-KEYS, S-LOCAL-PRETRAVEL and S-EDGE-BACKOFF (all `in-progress`). Planned but not yet materialized as ledger rows: S-LIVING-TRAVEL, S-POST-TRAVEL, S-PLAYER-POSE, S-STATE-WRITERS, S-COLLISION-PROVIDERS, S-FLUIDS, S-EFFECTS, S-ENCHANTMENTS, S-ATTRIBUTES, S-EQUIPMENT, S-CORRECTIONS, S-PLAYER-PUSH, S-PISTON-MOUNT and the explicit exclusion audit. All seven required inventories therefore remain pending.
+- Next bounded slice: close S-INPUT-KEYS by tracing the caller slow-movement value and spectator/crouch/crawl state path. Compare `LocalPlayer.aiStep()` A 625-630/B 632-636; `LocalPlayer.isVisuallySneaking()` A 592-597 vs `isCrouching()` / `isMovingSlowly()` B 595-604; `Entity.isVisuallyCrawling()` A 1840-1842/B 1823-1825; `AbstractClientPlayer.isSpectator()` A 34-38/B 33-37; and `GameType.updatePlayerAbilities()` A/B 34-47. Then continue S-LOCAL-PRETRAVEL's sprint/ability-flight/auto-jump sub-slices and S-EDGE-BACKOFF's paired guards.
+- Exact read-only next commands (PowerShell, repo root):
+
+```powershell
+$A = 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.14.4\mojmap'
+$B = 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.15.2\mojmap'
+Get-Content -LiteralPath "$A\net\minecraft\client\player\LocalPlayer.java" | Select-Object -Skip 584 -First 15
+Get-Content -LiteralPath "$B\net\minecraft\client\player\LocalPlayer.java" | Select-Object -Skip 589 -First 17
+Get-Content -LiteralPath "$A\net\minecraft\world\entity\Entity.java" | Select-Object -Skip 1811 -First 32
+Get-Content -LiteralPath "$B\net\minecraft\world\entity\Entity.java" | Select-Object -Skip 1802 -First 24
+Get-Content -LiteralPath "$A\net\minecraft\world\level\GameType.java" | Select-Object -Skip 33 -First 16
+Get-Content -LiteralPath "$B\net\minecraft\world\level\GameType.java" | Select-Object -Skip 33 -First 16
+```
+
+- Outstanding dependencies and owners: D-001 provenance limitation (full original console streams, source-preparation repo revision and owner identity were not retained); D-002 remaining exact source ranges/hashes (discovery author); D-003 full movement/data/resource/external-input inventory (discovery author); D-004 independent finding and full-pair reviewers (coordinator).
+- Current assumptions requiring verification: sleeping/obstructed crouch equivalence and spectator slowdown; remaining local pre-travel gates; player shape and state writers; fluid/modifier/resource chains; direct player velocity corrections/pushes; external block support/collision routes; complete exclusions.
 
 ## Finding snapshots (not pair freeze)
 
