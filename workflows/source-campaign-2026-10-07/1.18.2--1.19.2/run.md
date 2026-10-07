@@ -1,0 +1,451 @@
+# Discovery: 1.18.2 to 1.19.2
+
+- Status: active
+- Scope: client player movement; older A = 1.18.2; newer B = 1.19.2. Source-only discovery track. Exclude health/food state production, attack/damage resolution, non-player movement and vehicle physics. Direct player velocity, impulse and knockback application remains in scope even when a combat event can trigger it. Direct movement predicates may read vanilla state without emulating its producer system. Modern-only blocks/features do not acquire historical behavior.
+- Repository revision and start date: base `002137b227676caea77f6832b9f4c8d0b6200bff`; started 2026-10-07.
+- Selected naming namespace, CLI mode per side and alignment evidence: Mojmap (`mojmap`) for both exact releases; both readiness records identify the exact release and Mojmap namespace, so source names align directly.
+- Source preparation owner / command / log / readiness marker: source-owner publication via canonical root `build/movement-campaign-2026-10-07/`; exact `mojmap.ready.json` markers beside each namespace tree and source-owner command/log verified in the two exact Mojmap readiness records; neither command was run by this worker. A/B logs: A success excerpt `ready/1.18.2/mojmap.success.log`; B full log under the recorded source-owner staging root.
+- Toolchain/decompiler/remapper versions and options: version catalog pins Vineflower 1.12.0, Tiny Remapper 0.14.1, Mapping-IO 0.9.1, Gson 2.14.0, ASM 9.10.1. Decompiler task forks Java 25, default heap 4G, with generic signatures and ASCII string characters enabled, synthetic members removed, four-space indent, Java runtime excluded, and allowed prefixes `net/minecraft` and `com/mojang`. Actual JDK/Gradle and exact command metadata are recorded per side below.
+- Discovery author(s): source-discovery worker for this pair.
+- Independent reviewer (must differ from discovery authors): pending coordinator assignment.
+
+## Artifact manifest
+
+Artifact paths below are relative to repository root; generated artifacts remain in ignored shared build storage and are not tracked.
+
+### A — 1.18.2
+
+- Requested/resolved release: `1.18.2` / `1.18.2`; `versionMetadataId` exact match verified.
+- Readiness marker: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap.ready.json`, status `ready`, SHA-256 `d8057d47468c37880de38d658e95070ec3b750305b7856189997604822480946`.
+- Source root: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/`; 4,236 source files.
+- Source manifest: `mojmap.sources.sha256`; SHA-256 `aea0cb9c6fc8f7a46f0eb82b0388ad58a4659f513be6c0a2be06c0df0c1eb07a`; verified against marker.
+- Artifact manifest: `artifacts.sha256`; SHA-256 `a1507e4875faee892aca4c59686bbd68933db21a2274559e81eea8a32b021036`; verified against marker.
+- Client jar: `artifacts/1.18.2/client.jar`; SHA-256 `1d09e3639644b6b2254499469d0765cc005a286d19f3fa595b0ed8fb07971ec7`; publisher SHA-1 `2e9a3e3107cca00d6bc9c97bf7d149cae163ef21`.
+- CLI mode / mapping: `mojmap`; official Mojang mappings, `artifacts/1.18.2/client_mappings.txt`, SHA-256 `a2aa6ee1030bfef79e9b2e08e79de1637fdd7ecb5bf8891cf2e9a4b186042543`; publisher SHA-1 `a661c6a55a0600bd391bdbbd6827654c05b2109c`.
+- Remapped jar: `artifacts/1.18.2/client-mojmap.jar`; SHA-256 `60a2016dd217b23df8a5ddbebac96fccb58ff747e961974696e0018f6ef12dba`.
+- Movement diagnostics: `movement-diagnostics.txt`; SHA-256 `0bc8857ee048b0ede8e696f3b7b050006618b278936cf182b3464c6c99483ac8`; verified against marker. It reports exact decompile success and movement entry/body line anchors for `Entity`, `LivingEntity`, `Player`, `LocalPlayer`, jump, travel, `move` and `moveRelative`; no movement-body decompiler errors are reported.
+- Success excerpt: `mojmap.success.log`; confirms requested 1.18.2, `Finished 1.18.2 using mojmap`, and `BUILD SUCCESSFUL` (full stdout not persisted by owner).
+- Toolchain: Java 25.0.3+9-LTS; Gradle 9.7.1; Vineflower 1.12.0; Tiny Remapper 0.14.1; Mapping-IO 0.9.1; ASM 9.10.1; Gson 2.14.0. Command used exact release in a batch with 1.15.2, 1.16.5 and 1.17.1: `decompileMinecraft --versions=1.15.2,1.16.5,1.17.1,1.18.2 --mappings=mojmap --decompiler-heap=4G --output-root=<shared staging root> --cache-directory=<shared artifacts root>`.
+- Cited source paths/hashes and cited resource entries/hashes: individual evidence hashes are recorded in coverage slices and findings as they are cited. Resource inventory remains open. Required external data/provenance: pending resource audit.
+
+### B — 1.19.2
+
+- Requested/resolved release: `1.19.2` / `1.19.2`; `versionMetadataId` exact match verified.
+- Readiness marker: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap.ready.json`, status `ready`, SHA-256 `90f5a351c60a1aab160b640567b716bbc563e62d92e7e555df55c4ce7952492c`.
+- Source root: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/`; 4,480 source files.
+- Source manifest: `mojmap.sources.sha256`; SHA-256 `95bc354ac219b9fe1ca8bf45053edad0119a75323d576902d59616a11647aac2`; verified against marker.
+- Artifact manifest: `artifacts.sha256`; SHA-256 `d0197d78578241b8cdde1123a3dee64aa279341681a7edde9f867689f9bb3490`; verified against marker.
+- Client jar: `artifacts/1.19.2/client.jar`; SHA-256 `e1ac65de9b471b6916cc457fdcff00c1bafac17027aa79100c4df893b3d956db`; publisher SHA-1 `055b30d860ead928cba3849ba920c88b6950b654`.
+- CLI mode / mapping: `mojmap`; official Mojang mappings, `artifacts/1.19.2/client_mappings.txt`, SHA-256 `c5db94c44c1ce6c5d3bfce64152831090310c202f4abe4375adbb3454afcec76`; publisher SHA-1 `8e8c9be5dc27802caba47053d4fdea328f7f89bd`.
+- Remapped jar: `artifacts/1.19.2/client-mojmap.jar`; SHA-256 `a257c4c97ceac50fbc069dc6051dff5f0263716547ede05e85c44d675ade592f`.
+- Movement diagnostics: `movement-diagnostics.txt`; SHA-256 `ce308a5f2902c3d7f7c5e330935d130e5ce56302d03b7fa687bf14493400e44e`; verified against marker. It reports exact decompile success and movement entry/body line anchors for `Entity`, `LivingEntity`, `Player`, `LocalPlayer`, jump, travel, `move` and `moveRelative`; no movement-body decompiler errors are reported.
+- Full Gradle log: `build/movement-campaign-2026-10-07/staging/mojmap-1.19.2-to-1.19.4-45d0418942a144298b19fb4ac74ff06a/gradle.full.log`; confirms `Finished 1.19.2 using mojmap` and `BUILD SUCCESSFUL`. It contains remapper access-fix warnings for GUI `OptionInstance$ValueSet` classes; those are unrelated to the movement body anchors reviewed so far.
+- Toolchain matches A: Java 25.0.3+9-LTS; Gradle 9.7.1; Vineflower 1.12.0; Tiny Remapper 0.14.1; Mapping-IO 0.9.1; ASM 9.10.1; Gson 2.14.0. Command used exact release in a batch with 1.19.3 and 1.19.4: `decompileMinecraft --versions=1.19.2,1.19.3,1.19.4 --mappings=mojmap --decompiler-heap=4G --output-root=<shared staging root> --cache-directory=<shared artifacts root>`.
+- Cited source paths/hashes and cited resource entries/hashes: individual evidence hashes are recorded in coverage slices and findings as they are cited. Resource inventory remains open. Required external data/provenance: pending resource audit.
+
+## Blind-discovery freeze
+
+- Status: pending
+- Freeze commit/checkpoint and timestamp: no full-pair freeze; previous partial checkpoint `1ed5e4b` at `2026-10-07T17:25:07+02:00` is retained as history, not a freeze.
+- Evidence inventory and finding IDs included at freeze: F-001 through F-004 are source-confirmed; remaining slice evidence and independent full-pair audit are still open.
+- Confirmation that old mod implementation/code and isolated wiki-audit results were not opened before freeze (prior source-discovery reports may be used as navigation): confirmed; neither implementation nor wiki outputs were inspected, and no wiki was browsed.
+- Source/mapping hashes covered by freeze: pending exact source verification.
+
+## Correspondence and call order
+
+- Exact sources are verified. Member correspondence is direct for the checked movement methods: `KeyboardInput.tick(boolean)` becomes `tick(boolean,float)`; `Player.maybeBackOffFromEdge(Vec3,MoverType)` keeps its signature; `Entity.move(MoverType,Vec3)` keeps its signature and routes support lookup through `getOnPosLegacy()` in B. Remaining caller ordering and dependency closure are still being inventoried.
+- Confirmed source differences are F-001 (sneaking input scale) and F-002 (ascending edge-restraint guard). Other movement-path no-difference claims are limited to the specific closed ranges in the ledger.
+
+## Required source inventories
+
+- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=T01,T02,T03,T04,T05,T06,T07; evidence=T01/T03 source sampling and F-001, plus bounded local tick/sprint/jump/flight/mount-gate and player mount-transition checks in T02/T04/T05/T06/E03; travel branch and post-travel comparisons remain open.
+- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=P01,P02,P03,P04; evidence=P01/P02 check selected pose/dimension and direct position/velocity writers, while F-002 documents the changed edge predicate; full writer/reader graph remains open.
+- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=C01,C02,C03,C04; evidence=F-002/F-004 and the legacy support lookup in `Entity.move`; shape/callback coverage remains open.
+- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=W01,W02,W03,W04; evidence=exact source trees verified; block/fluid/resource inventory remains open.
+- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=M01,M02,M03,M04; evidence=F-001 traces the new Swift Sneak level bonus and M01 checks selected speed/jump consumers and attribute aggregation; effects/resources and other modifiers remain open.
+- `INV-EXTERNAL` player-only externally supplied movement inputs and direct player velocity/impulse/knockback application, plus in-scope player-facing transitions; exclude non-player and vehicle physics: status=pending; slice_ids=E01,E02,E03; evidence=E01 correction writers, E02 push/knockback consumers, and E03 player mount-transition wrappers; remaining packet flags, piston sources and vehicle-position integration remain open.
+- `INV-EXCLUSIONS` explicit scope audit for health/food production, attack/damage resolution, non-player movement and vehicle physics. Direct player-motion response remains in scope even when combat can trigger it: status=pending; evidence=scope boundary is recorded; explicit source audit remains open.
+
+## Coverage ledger
+
+### Slice T01: input sampling and input-state capture
+
+- Inventory ID(s): INV-TICK
+- Exact behavior boundary and enclosing guards/order checked: `KeyboardInput.tick()` samples the same four directional keys, computes the same signed impulses, and captures jump/shift state; `Input` stores the same fields and exposes the same movement vector and forward-input predicate. The sole movement-scale delta is covered by F-001/T03.
+- A evidence: `KeyboardInput#tick()`, lines 19-34, and `Input#getMoveVector()` / `Input#hasForwardImpulse()`, lines 5-28, in `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/client/player/KeyboardInput.java` and `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/client/player/Input.java`; SHA-256 KeyboardInput `281622F8481654035196A7BC1554D5251C1040518375E3AC6F6439E5EC894A75`, Input `EB50A4E268EC5FF8423D2805499CA3C7BAE33765CB44CFECEF808E38FA6DE3C3`.
+- B evidence: `KeyboardInput#tick(boolean,float)`, lines 19-32, and `Input#getMoveVector()` / `Input#hasForwardImpulse()`, lines 5-28, in `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/client/player/KeyboardInput.java` and `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/client/player/Input.java`; SHA-256 KeyboardInput `A8064906872955A3520398AB5B2A326552D424F41887D1294AA6A038E2623FF0`, Input `B302FFBC45C5F900EA18A4D4AF2DF6FA0454EA7CB7744A0D249061E5FCB97FBB`.
+- State producers/writers -> consumers/readers: key bindings -> `KeyboardInput` booleans and impulses -> `Input.getMoveVector()` / `hasForwardImpulse()` -> local player consumers.
+- Parent slices / dependencies / closure evidence: source provenance `D-SOURCES`.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): directional/jump/shift sampling order and stored input fields correspond; B changes only the slow-movement factor traced in F-001/T03. The sampling remains local keyboard input and the resulting state feeds the same movement consumers.
+- Finding IDs or checked absence/replacement path: F-001 (factor change is separately bounded in T03).
+
+### Slice T02: local player tick and pre-travel call order
+
+- Inventory ID(s): INV-TICK
+- Exact behavior boundary and enclosing guards/order checked: checked the local-player tick wrapper, chunk-presence guard, inherited player tick entry, and outbound movement reporting branch. The deeper input-to-travel dispatch and full pre-travel order remain open.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/client/player/LocalPlayer.java`, `LocalPlayer#tick()`, lines 183-201, SHA-256 `99C2D18BCD23243AFB8F95C5BAFB21FB0BE7EA04AACBB14FCF7BE7CED2C9C095`; inherited `Player#tick()`, starts line 222, SHA-256 `BF639C1962FF90D69E4569B2B18F6FCF57AC46EF80B19686F0FBC1687FCA744A`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/client/player/LocalPlayer.java`, `LocalPlayer#tick()`, lines 200-218, SHA-256 `36AE4AABD609B457FFFB7A8B14ABB50DB9AC775857DDE1774C0C68A8CF50DEEF`; inherited `Player#tick()`, starts line 230, SHA-256 `155C5FCFBA322D968F3180383E7D283DDEB5EDEE4E04314906310D4E3CE0CCC1`.
+- State producers/writers -> consumers/readers: local tick's chunk guard -> `super.tick()` / inherited player and living-entity tick chain -> either vehicle-input and controlled-vehicle packets or `sendPosition()`; input sampling/travel dispatch order is still being mapped.
+- Parent slices / dependencies / closure evidence: source provenance `D-SOURCES`; T01.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the wrapper and packet branch are present in both sources with matching order and guards at the checked range; no difference is claimed for this bounded segment. The nested tick chain, `aiStep()` entry order, travel branch order and post-travel writers remain unclosed.
+- Finding IDs or checked absence/replacement path: none yet.
+
+### Slice T03: input scaling and yaw-to-motion conversion
+
+- Inventory ID(s): INV-TICK
+- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer.aiStep()` samples `isMovingSlowly()` before `KeyboardInput.tick`; the input method scales lateral and forward impulses only when that predicate is true. `isMovingSlowly()` is crouching OR visually crawling in both. `Entity.moveRelative()` and `getInputVector()` have the same squared-length threshold, normalization, yaw sine/cosine order, and delta-velocity addition in both versions.
+- A evidence: `LocalPlayer#isMovingSlowly()`, lines 601-604, `LocalPlayer#aiStep()`, lines 642-657; `KeyboardInput#tick()`, lines 20-34; `Entity#moveRelative()` / `Entity#getInputVector()`, lines 1151-1166 under `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/`; SHA-256 LocalPlayer `99C2D18BCD23243AFB8F95C5BAFB21FB0BE7EA04AACBB14FCF7BE7CED2C9C095`, KeyboardInput `281622F8481654035196A7BC1554D5251C1040518375E3AC6F6439E5EC894A75`, Entity `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A`.
+- B evidence: `LocalPlayer#isMovingSlowly()`, lines 690-693, `LocalPlayer#aiStep()`, lines 731-746; `KeyboardInput#tick(boolean,float)`, lines 19-32; `Entity#moveRelative()` / `Entity#getInputVector()`, lines 1170-1185 under `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/`; SHA-256 LocalPlayer `36AE4AABD609B457FFFB7A8B14ABB50DB9AC775857DDE1774C0C68A8CF50DEEF`, KeyboardInput `A8064906872955A3520398AB5B2A326552D424F41887D1294AA6A038E2623FF0`, Entity `759DE9CDED43BD882AFCF5B7023BCF804D92419ACB656B493F3B490C83EB18B6`.
+- State producers/writers -> consumers/readers: crouch/visual-crawl state -> `isMovingSlowly()` -> keyboard input impulses -> local player input consumers.
+- Parent slices / dependencies / closure evidence: D-SOURCES; T01; movement consumers in T07.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): F-001. When local keyboard input is slow (crouching or visually crawling), A multiplies both impulses by `0.3F`; B computes `clamp(0.3F + SwiftSneakLevel * 0.15F, 0, 1)` and passes that factor to the same two input fields. `SWIFT_SNEAK` is registered for `EquipmentSlot.LEGS`, has max level 3, and the helper derives bonus as level times `0.15F`. At levels 1-3 this raises the scale to 0.45/0.60/0.75; without it B remains 0.3. Resource applicability/data/tag audit remains open.
+- Finding IDs or checked absence/replacement path: F-001; downstream yaw conversion checked unchanged at A `Entity.java:1151-1166`, B `Entity.java:1170-1185`.
+
+### Slice T04: sprint state, start/stop gates and timers
+
+- Inventory ID(s): INV-TICK
+- Exact behavior boundary and enclosing guards/order checked: compared the local-player `aiStep()` sprint trigger countdown, seven-tick double-tap window, key-held start path, start preconditions, stop gates, and the `hasEnoughImpulseToStartSprinting()` forward-input threshold. The local method diff contains only the separate Swift Sneak scale change recorded in F-001/T03 and local-variable renumbering; sprint conditions and timer operations retain their order and expressions.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/client/player/LocalPlayer.java`, `LocalPlayer#aiStep()`, lines 642-808, and `LocalPlayer#hasEnoughImpulseToStartSprinting()`, lines 1031-1034; SHA-256 `99C2D18BCD23243AFB8F95C5BAFB21FB0BE7EA04AACBB14FCF7BE7CED2C9C095`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/client/player/LocalPlayer.java`, `LocalPlayer#aiStep()`, lines 731-898, and `LocalPlayer#hasEnoughImpulseToStartSprinting()`, lines 1121-1124; SHA-256 `36AE4AABD609B457FFFB7A8B14ABB50DB9AC775857DDE1774C0C68A8CF50DEEF`.
+- State producers/writers -> consumers/readers: input/player predicates -> sprint state/timers -> acceleration and sprint-jump paths.
+- Parent slices / dependencies / closure evidence: D-SOURCES; P03; M02; excluded-system boundary X01.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no source difference found in the compared local sprint start/stop gates or timer sequence. The gates read sampled forward impulse, on-ground/under-water state, crouch input, food level or `mayfly`, item use, blindness and collision state; producer/application audits for movement effects and other predicates remain open in M02/P03/X01. Player base travel and post-travel sprint consumers remain open in T07/M01.
+- Finding IDs or checked absence/replacement path: checked absence of a sprint-gate/timer delta in the compared `LocalPlayer.aiStep()` and `hasEnoughImpulseToStartSprinting()` bodies; F-001's separate input-scale delta is recorded in T03.
+
+### Slice T05: jump input, cooldown, auto-jump and impulse dispatch
+
+- Inventory ID(s): INV-TICK
+- Exact behavior boundary and enclosing guards/order checked: compared local jump-input capture, auto-jump timer reassertion and collision probe, flight-toggle jump trigger, rideable-jump charge reporting, LivingEntity ground/fluid jump dispatch, and player/vanilla jump velocity writers. These bounded bodies have matching expressions and order; block-dependent jump factors and collision providers remain separate open inventories.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/client/player/LocalPlayer.java`, `LocalPlayer#aiStep()`, lines 642-808; `#updateAutoJump(float,float)`, lines 900-996; `#canAutoJump()`, lines 1016-1024; SHA-256 LocalPlayer `99C2D18BCD23243AFB8F95C5BAFB21FB0BE7EA04AACBB14FCF7BE7CED2C9C095`. `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/LivingEntity.java`, `LivingEntity#aiStep()`, lines 2461-2584; `#jumpFromGround()`, lines 1981-1991; `#jumpInLiquid(TagKey)`, lines 1997-1999; SHA-256 `DB4168D531CAF18F22E3FEFD073365E776DA4075CE01452BB9F7671D9B458782`. `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/player/Player.java`, `Player#aiStep()`, lines 491-553, and `#jumpFromGround()`, lines 1411-1419; SHA-256 `BF639C1962FF90D69E4569B2B18F6FCF57AC46EF80B19686F0FBC1687FCA744A`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/client/player/LocalPlayer.java`, `LocalPlayer#aiStep()`, lines 731-898; `#updateAutoJump(float,float)`, lines 990-1086; `#canAutoJump()`, lines 1106-1114; SHA-256 LocalPlayer `36AE4AABD609B457FFFB7A8B14ABB50DB9AC775857DDE1774C0C68A8CF50DEEF`. `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/LivingEntity.java`, `LivingEntity#aiStep()`, lines 2497-2620; `#jumpFromGround()`, lines 2014-2024; `#jumpInLiquid(TagKey)`, lines 2030-2032; SHA-256 `FEE2DF5155449098556A138D2530D06B7A35979E43C6AA0AE1FFFD6251853E77`. `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/player/Player.java`, `Player#aiStep()`, lines 500-562, and `#jumpFromGround()`, lines 1453-1461; SHA-256 `155C5FCFBA322D968F3180383E7D283DDEB5EDEE4E04314906310D4E3CE0CCC1`.
+- State producers/writers -> consumers/readers: sampled jump/state/timers -> jump method -> velocity writers and travel.
+- Parent slices / dependencies / closure evidence: D-SOURCES; P04; T07; C02.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no source difference found in the checked jump input/cooldown, auto-jump query, or direct ground/fluid velocity-writer bodies. `LivingEntity.aiStep()` also contains an unrelated packet-position sync method rename earlier in the method; the jump dispatch branch itself matches. Auto-jump reachability depends on block jump factors and queried shapes, whose provider/neighbor dependencies remain open in W01/W02/C03. The rideable jump charge is player-side input/reporting only; vehicle physics remains excluded and the player integration audit remains open in E03.
+- Finding IDs or checked absence/replacement path: checked absence of a jump-dispatch/impulse formula delta in the compared bodies; W01/W02/C03 and E03 closure remain open.
+
+### Slice T06: flight, riding and unstuck movement gates
+
+- Inventory ID(s): INV-TICK
+- Exact behavior boundary and enclosing guards/order checked: compared LocalPlayer's mayfly/double-jump toggle and fall-flying request guards, controlled-camera vertical input, rideable jump charge and passenger tick dispatch, plus the four `moveTowardsClosestSpace` call guards and local/Entity helper bodies. These player-side gates and helper operations are text-identical in the checked sources. Actual flight travel formulas and mount transition/state integration remain open.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/client/player/LocalPlayer.java`, `LocalPlayer#aiStep()`, lines 642-808; `#moveTowardsClosestSpace(double,double)`, lines 412-439; `#isRidingJumpable()`, lines 540-543; `#isControlledCamera()`, lines 619-621; `#rideTick()`, lines 863-871; SHA-256 `99C2D18BCD23243AFB8F95C5BAFB21FB0BE7EA04AACBB14FCF7BE7CED2C9C095`. `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/player/Player.java`, `Player#rideTick()`, lines 468-481; SHA-256 `BF639C1962FF90D69E4569B2B18F6FCF57AC46EF80B19686F0FBC1687FCA744A`. `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/Entity.java`, `Entity#moveTowardsClosestSpace(double,double,double)`, lines 2118-2147; `#rideTick()`, lines 1674-1680; SHA-256 `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/client/player/LocalPlayer.java`, `LocalPlayer#aiStep()`, lines 731-898; `#moveTowardsClosestSpace(double,double)`, lines 501-528; `#isRidingJumpable()`, lines 629-632; `#isControlledCamera()`, lines 708-710; `#rideTick()`, lines 953-961; SHA-256 `36AE4AABD609B457FFFB7A8B14ABB50DB9AC775857DDE1774C0C68A8CF50DEEF`. `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/player/Player.java`, `Player#rideTick()`, lines 477-490; SHA-256 `155C5FCFBA322D968F3180383E7D283DDEB5EDEE4E04314906310D4E3CE0CCC1`. `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/Entity.java`, `Entity#moveTowardsClosestSpace(double,double,double)`, lines 2142-2171; `#rideTick()`, lines 1699-1705; SHA-256 `759DE9CDED43BD882AFCF5B7023BCF804D92419ACB656B493F3B490C83EB18B6`.
+- State producers/writers -> consumers/readers: abilities/vehicle/player flags -> movement branch and velocity/position.
+- Parent slices / dependencies / closure evidence: D-SOURCES; P03; E03; T07.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no player-side delta found in the compared local flight/mount gates or unstuck helper formulas. `LocalPlayer.aiStep()` checks `mayfly`, always-flying mode, jump-trigger timing, passenger state and climbability before dispatching those transitions; the `!noPhysics` guard and closest-space probe order match. Mount state/position integration remains in E03, and fall-flying/creative-flight travel physics remains in T07; this slice therefore does not close the full flight or vehicle movement paths.
+- Finding IDs or checked absence/replacement path: checked absence of a gate/helper delta in these bounded LocalPlayer/Player/Entity bodies; remaining travel and mount dependencies open.
+
+### Slice T07: travel dispatch, branch order and post-travel updates
+
+- Inventory ID(s): INV-TICK
+- Exact behavior boundary and enclosing guards/order checked: compared the `LivingEntity.aiStep()` control flow through jump dispatch and `travel(Vec3)`, the `Player.travel(Vec3)` wrapper, and the `Entity.move(MoverType,Vec3)` call path. `LivingEntity.travel()` and `Player.travel()` bodies are identical at the endpoints. `LivingEntity.aiStep()` retains its jump/travel call order, with a packet-position sync method rename earlier in the body. The Entity movement diff contains the support lookup, careful-step callback and `GameEvent.STEP` changes separately recorded in C02/C04/F-002/F-003/F-004; collision-axis resolution and later block-speed-factor velocity scaling retain their checked order.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/LivingEntity.java`, `LivingEntity#aiStep()`, lines 2461-2584, and `#travel(Vec3)`, lines 2009-2145; SHA-256 `DB4168D531CAF18F22E3FEFD073365E776DA4075CE01452BB9F7671D9B458782`. `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/player/Player.java`, `Player#travel(Vec3)`, lines 1422-1452; SHA-256 `BF639C1962FF90D69E4569B2B18F6FCF57AC46EF80B19686F0FBC1687FCA744A`. `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/Entity.java`, `Entity#move(MoverType,Vec3)`, lines 543-674; SHA-256 `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/LivingEntity.java`, `LivingEntity#aiStep()`, lines 2497-2620, and `#travel(Vec3)`, lines 2042-2178; SHA-256 `FEE2DF5155449098556A138D2530D06B7A35979E43C6AA0AE1FFFD6251853E77`. `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/player/Player.java`, `Player#travel(Vec3)`, lines 1464-1494; SHA-256 `155C5FCFBA322D968F3180383E7D283DDEB5EDEE4E04314906310D4E3CE0CCC1`. `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/Entity.java`, `Entity#move(MoverType,Vec3)`, lines 547-679; SHA-256 `759DE9CDED43BD882AFCF5B7023BCF804D92419ACB656B493F3B490C83EB18B6`.
+- State producers/writers -> consumers/readers: pre-travel state/input -> travel branches -> position/velocity/flags/timers/callbacks.
+- Parent slices / dependencies / closure evidence: D-SOURCES; T01-T06; P01-P04; C01-C04; W01-W04; M01-M04; E01-E03.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the base living/player travel formulas and travel dispatch order compared here show no source delta. `Entity.move()` still has separately documented edge, support lookup, step callback and step-event differences. Full state-writer and consumer closure across `P01-P04`, `C01-C04`, `W01-W04`, `M01-M04` and `E01-E03` is open, so no full tick equivalence or pair closure is claimed.
+- Finding IDs or checked absence/replacement path: F-002, F-003 and F-004 cover the identified movement-path deltas; `LivingEntity.travel()` / `Player.travel()` checked identical at these endpoints. Other travel consumers and dependencies remain open.
+
+### Slice P01: pose, dimensions and eye-height writers
+
+- Inventory ID(s): INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: compared `Entity.setPose()`, `refreshDimensions()`, `getDimensions()`, `getBoundingBoxForPose()` and eye height; LivingEntity scale/dimension/eye-height helpers; and Player's dimension/standing-eye-height overrides. These checked methods are identical at the endpoints. Other pose writers, synced state, and reader call paths remain open.
+- A evidence: `Entity.java`, `setPose()` 347-350, `refreshDimensions()` 2472-2493, `getBoundingBoxForPose()` 2519-2526, `getEyeHeight()` 2531-2534, `getDimensions()` 2862-2865, SHA-256 `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A`; `LivingEntity.java`, `getScale()` 544-547, `getDimensions()` 3087-3089, `getEyeHeight()` 3175-3177 and `getStandingEyeHeight()` 3178-3181, SHA-256 `DB4168D531CAF18F22E3FEFD073365E776DA4075CE01452BB9F7671D9B458782`; `Player.java`, `getStandingEyeHeight()` 1851-1862 and `getDimensions()` 1979-1981, SHA-256 `BF639C1962FF90D69E4569B2B18F6FCF57AC46EF80B19686F0FBC1687FCA744A`.
+- B evidence: `Entity.java`, `setPose()` 343-346, `refreshDimensions()` 2496-2517, `getBoundingBoxForPose()` 2543-2550, `getEyeHeight()` 2555-2558, `getDimensions()` 2890-2893, SHA-256 `759DE9CDED43BD882AFCF5B7023BCF804D92419ACB656B493F3B490C83EB18B6`; `LivingEntity.java`, `getScale()` 546-549, `getDimensions()` 3128-3130, `getEyeHeight()` 3216-3218 and `getStandingEyeHeight()` 3219-3222, SHA-256 `FEE2DF5155449098556A138D2530D06B7A35979E43C6AA0AE1FFFD6251853E77`; `Player.java`, `getStandingEyeHeight()` 1904-1915 and `getDimensions()` 2019-2021, SHA-256 `155C5FCFBA322D968F3180383E7D283DDEB5EDEE4E04314906310D4E3CE0CCC1`.
+- State producers/writers -> consumers/readers: pose/size/eye-height writers -> collision/fluid queries and movement dimensions.
+- Parent slices / dependencies / closure evidence: D-SOURCES; C03.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no source difference was found in the sampled pose setter, dimension refresh, bounding-box-for-pose, eye-height, scale or player dimension methods. The pose transition preserves the same old/current pose update and refresh ordering; this bounded comparison does not close all state producers, synchronized inputs or pose-dependent collision call paths.
+- Finding IDs or checked absence/replacement path: checked absence in the sampled Entity/LivingEntity/Player pose and dimension methods; remaining writers/readers are open.
+
+### Slice P02: position, velocity and movement-flag state writers
+
+- Inventory ID(s): INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: compared Entity direct velocity/ground setters, raw/absolute/lerped position writers, and LivingEntity ground/liquid jump impulse helpers. Their player-facing position/velocity assignments and operation order match; E01 separately records the unchanged correction packet writers. A removes a listener-notification tail from `setPosRaw()`, but the only vanilla `getGameEventListenerRegistrar()` implementation in A returns null and neither Player nor LocalPlayer overrides it, so that removed callback is unreachable for the player path. Other state writers and collision/contact flags remain open.
+- A evidence: `Entity.java`, `setOnGround()` 534-537, `absMoveTo()` 1173-1180, `lerpTo()` 1802-1806, `setDeltaMovement()` 2895-2898, `setPosRaw()` 2955-2976 and `getGameEventListenerRegistrar()` 2010-2012, SHA-256 `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A`; `LivingEntity.java`, `jumpFromGround()` / `jumpInLiquid()` source ranges already recorded in T05, SHA-256 `DB4168D531CAF18F22E3FEFD073365E776DA4075CE01452BB9F7671D9B458782`.
+- B evidence: `Entity.java`, `setOnGround()` 538-541, `absMoveTo()` 1193-1200, `lerpTo()` 1827-1831, `setDeltaMovement()` 2923-2926 and `setPosRaw()` 2983-3000; the removed listener accessor has no B declaration. SHA-256 `759DE9CDED43BD882AFCF5B7023BCF804D92419ACB656B493F3B490C83EB18B6`; `LivingEntity.java`, corresponding jump helpers already recorded in T05, SHA-256 `FEE2DF5155449098556A138D2530D06B7A35979E43C6AA0AE1FFFD6251853E77`.
+- State producers/writers -> consumers/readers: movement and external writers -> later predicates, collision queries and travel.
+- Parent slices / dependencies / closure evidence: D-SOURCES; C01-C04; E01-E03; T02/T07.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the selected player position/velocity/ground writers match, and authoritative packet writers are documented in E01. In A, `setPosRaw()` invokes `onListenerMove()` only through a base accessor that returns null; no Player or LocalPlayer override exists in the vanilla source tree. The B removal therefore does not create a player position/velocity writer difference in this path. Other timer, collision, fluid and synchronized flag writers remain open.
+- Finding IDs or checked absence/replacement path: checked absence of a direct player position/velocity delta in the bounded setters and jump helpers; A's listener notification is null for the vanilla player hierarchy. Remaining writers/readers are open.
+
+### Slice P03: direct movement predicates and vanilla-state input boundaries
+
+- Inventory ID(s): INV-STATE, INV-EXCLUSIONS
+- Exact behavior boundary and enclosing guards/order checked: pending; sprint/flight/swim/climb/item-use and other movement predicates; producer systems excluded by campaign scope.
+- A evidence: not yet compared; readiness is recorded in D-SOURCES.
+- B evidence: not yet compared; readiness is recorded in D-SOURCES.
+- State producers/writers -> consumers/readers: vanilla state reads -> movement predicates; excluded systems are not emulated.
+- Parent slices / dependencies / closure evidence: D-SOURCES; T04/T06; M02; X01.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): exact sources unavailable; predicate-only reads may be recorded without modeling health/food systems.
+- Finding IDs or checked absence/replacement path: none yet.
+
+### Slice P04: movement timers, abilities and stored speed state
+
+- Inventory ID(s): INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: pending; timer/speed/ability fields, defaults, updates and reset timing.
+- A evidence: not yet compared; readiness is recorded in D-SOURCES.
+- B evidence: not yet compared; readiness is recorded in D-SOURCES.
+- State producers/writers -> consumers/readers: field constructors/tick writers -> movement gates, acceleration and travel branches.
+- Parent slices / dependencies / closure evidence: D-SOURCES; T04-T07; M01.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): comparison pending; no behavior claim.
+- Finding IDs or checked absence/replacement path: none yet.
+
+### Slice C01: entity movement axis order and collision velocity response
+
+- Inventory ID(s): INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: pending; movement entry and axis resolution order, clipped delta and velocity cancellation.
+- A evidence: not yet compared; readiness is recorded in D-SOURCES.
+- B evidence: not yet compared; readiness is recorded in D-SOURCES.
+- State producers/writers -> consumers/readers: requested delta/velocity/AABB -> collision solver -> position, velocity and flags.
+- Parent slices / dependencies / closure evidence: D-SOURCES; P02; C03.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): comparison pending; no behavior claim.
+- Finding IDs or checked absence/replacement path: none yet.
+
+### Slice C02: stepping, edge restraint and support lookup
+
+- Inventory ID(s): INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: `Player.maybeBackOffFromEdge()` precondition and 0.05 X/Z backoff loops; `Entity.move()` call order and support lookup method; exact `getOnPos()` feet offset. Step callback dispatch changed but block movement-output audit remains open.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/player/Player.java:1032-1081`; `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/Entity.java:543-563,591-608,704-720`; SHA-256 Player `BF639C1962FF90D69E4569B2B18F6FCF57AC46EF80B19686F0FBC1687FCA744A`, Entity `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/player/Player.java:1061-1114`; `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/Entity.java:547-567,595-612,710-734`; SHA-256 Player `155C5FCFBA322D968F3180383E7D283DDEB5EDEE4E04314906310D4E3CE0CCC1`, Entity `759DE9CDED43BD882AFCF5B7023BCF804D92419ACB656B493F3B490C83EB18B6`.
+- State producers/writers -> consumers/readers: pose/AABB/velocity/support shape -> step and edge decisions -> movement delta/flags.
+- Parent slices / dependencies / closure evidence: D-SOURCES; P01/P02; C03/W02.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): F-002: A applies edge restraint to self/player moves while non-flying, crouch-ground-surface and above-ground, regardless of requested Y; B adds `requested.y <= 0.0`. The method preserves the same 0.05 decrement loops. `Entity.move()` invokes this before collision, so for an ascending player/self request under the other guards, B bypasses the horizontal edge-backoff loops that A applies. B's `getOnPosLegacy()` retains A's `position.y - 0.2F` support selection for `Entity.move`; B's new `getOnPos()` uses `1.0E-5F` for other consumers. Post-grounded `stepOn` dispatch also changes from skipping careful steps to always calling the block; movement effects/callback audit remains open and is not classified here.
+- Finding IDs or checked absence/replacement path: F-002; legacy feet lookup is a checked compatibility replacement for this `Entity.move()` consumer, not a finding.
+
+### Slice C03: collision query path, shape contexts and shape providers
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: compared the Entity axis-collision helper chain used by movement: `collide(Vec3)`, `collideBoundingBox(...)` and `collideWithShapes(...)`. Their step-up candidate ordering, collision-shape collection and Y/Z/X/Y resolution order are identical in the checked bodies. Sampled common block shape providers are recorded in W02; full player collision queries, contextual providers, registrations and neighboring-state dependencies remain open.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/Entity.java`, `collide(Vec3)` lines 776-801, `collideBoundingBox(...)` lines 802-817 and `collideWithShapes(...)` lines 818-854; SHA-256 `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/Entity.java`, `collide(Vec3)` lines 790-815, `collideBoundingBox(...)` lines 816-831 and `collideWithShapes(...)` lines 832-868; SHA-256 `759DE9CDED43BD882AFCF5B7023BCF804D92419ACB656B493F3B490C83EB18B6`.
+- State producers/writers -> consumers/readers: world/state/context/neighbors -> shape providers -> collision/query result.
+- Parent slices / dependencies / closure evidence: D-SOURCES; P01/P02; W01/W02.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no delta in the checked axis-collision helper chain. The path gathers block collision shapes over the swept AABB and applies the same axis clipping order, including step-up candidates. This bounded comparison does not close registrations or all context-sensitive shape providers; see W02 for selected shared providers.
+- Finding IDs or checked absence/replacement path: checked absence in the sampled `Entity` collision helper bodies; remaining providers and query families open.
+
+### Slice C04: collision callbacks and fluid-contact query timing
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: `Entity.move()` calls fall response then `updateEntityAfterFallOn()` after collision resolution, and invokes `stepOn()` when grounded. Compared the shared step callbacks on MagmaBlock, RedStoneOreBlock, SlimeBlock and TurtleEggBlock, A's inherited SculkSensor callback, and B's SculkSensor/SculkShrieker callbacks. Also compared the `GameEvent.STEP` emission gate/context in the same movement body; fluid-contact ordering remains open.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/Entity.java:591-608,623-645`; callback sources `net/minecraft/world/level/block/MagmaBlock.java:28-34`, `RedStoneOreBlock.java:39-42`, `SlimeBlock.java:45-53`, `TurtleEggBlock.java:46-49`; `net/minecraft/world/level/block/SculkSensorBlock.java:1-249` has no override and inherits no-op `Block#stepOn()` from `net/minecraft/world/level/block/Block.java:352-354`. SHA-256 Entity `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A`; Magma `7403EFB17BEE9EF2E1CCCB587E5CCE6B84F04F369A4C649E77263F164CD095CA`; RedStoneOre `489F0B98DAB62B5183FCBD2CF70E671DCDB2573F45D5E7488E13C31E6F98C8E5`; Slime `4E552C1D1AA49B115F1549A8F19415B0C9F81C0524C0BF4AFED37277D75F6388`; TurtleEgg `79C495789FF7183321456E357F1C34BBB678A627BB4A80D9109E8654ED1B662F`; SculkSensor `CE634F3A096382239DA149499C13308CC735E4D5A440C890C920F2EDD953B309`; Block `57C42EE375691755EF5D47FAD3F226F34A2043558704EC332C1A7E092FDABBA6`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/Entity.java:595-612,628-650`; callback sources `net/minecraft/world/level/block/MagmaBlock.java:28-34`, `RedStoneOreBlock.java:39-45`, `SlimeBlock.java:45-53`, `TurtleEggBlock.java:47-53`, `SculkSensorBlock.java:131-141`, `SculkShriekerBlock.java:51-60`. SHA-256 Entity `759DE9CDED43BD882AFCF5B7023BCF804D92419ACB656B493F3B490C83EB18B6`; Magma `CC1A02AC7EF23F61B4A5539CE3BD700BE06DDF0D8673DEE5B169413CC9236BBD`; RedStoneOre `CB408BACFFD402EAD0E04AD0A64F190141C73FB33E060BEAC8CCB0818669E511`; Slime `4E552C1D1AA49B115F1549A8F19415B0C9F81C0524C0BF4AFED37277D75F6388`; TurtleEgg `39E4E6E92B6234E33B3DBB7D9A85F1DFB26AB1A9341209E2BAFA8637B3FD4DD3`; SculkSensor `D0BAD4DD0659B89BAFF1A9766E9EB40FE061DAD1DAD85E2CFBBCEB026D1FCB44`; SculkShrieker `68C2182716EAB950B907BF7749F2CCEEB7AC9D8AACD6929F037864E21F429E4C`.
+- State producers/writers -> consumers/readers: movement/query position and shape -> callbacks/fluid state -> velocity/state updates.
+- Parent slices / dependencies / closure evidence: D-SOURCES; C01/C03; W03.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): B calls shared `stepOn()` callbacks even for careful steps, whereas A skips them. On the shared blocks inspected, B adds careful-step guards to MagmaBlock, RedStoneOreBlock and TurtleEggBlock; SlimeBlock already uses that guard in both. However, SculkSensorBlock existed in A and inherited the no-op `Block.stepOn()`; B adds an override without a careful-step guard. For an inactive sensor on the server and a non-Warden player, that callback sets the `STEP` frequency and activates it at power 15, even on a careful grounded step; F-004 records this player-facing world-state change. SculkShrieker is B-only and modern-only. Separately, `Entity.move()` changes the `GameEvent.STEP` gate and passes `GameEvent.Context.of(this, getBlockStateOn())` in B; F-003 records that event-dispatch delta. Neither changed branch directly writes player position/velocity; actual listener, redstone and resource-backed world responses remain open. Fluid contact and remaining callback families are open.
+- Finding IDs or checked absence/replacement path: F-003 records the changed step-event gate/context; F-004 records direct SculkSensor activation on careful steps; other callback families remain open.
+
+### Slice W01: block movement properties, registrations and overrides
+
+- Inventory ID(s): INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: pending; friction/speed/jump properties, registry defaults and movement-relevant subclass overrides.
+- A evidence: not yet compared; readiness is recorded in D-SOURCES.
+- B evidence: not yet compared; readiness is recorded in D-SOURCES.
+- State producers/writers -> consumers/readers: block/state registration or override -> player travel/collision consumers.
+- Parent slices / dependencies / closure evidence: D-SOURCES; C03; T07.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): comparison pending; modern-only additions remain modern-only.
+- Finding IDs or checked absence/replacement path: none yet.
+
+### Slice W02: historical block shapes and neighboring-state dependencies
+
+- Inventory ID(s): INV-WORLD-MOVEMENT, INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: compared selected shared movement block callbacks and collision shapes: honey/slime fall and movement callbacks, soul-sand collision shape, scaffolding outline/collision shapes, bubble-column contact/outline, powder-snow slowdown/fall/collision callbacks, and web slowdown. Checked base `Block.getFriction()` / `getSpeedFactor()` and `Entity.getBlockSpeedFactor()` consumers. The sampled movement methods match; PowderSnow's `entityInside()` source differs only in the client-particle RNG type name (`Random` to `RandomSource`) while the same stuck-movement call and guards remain. Registrations, all other block families, resource data and neighboring-block dependencies remain open.
+- A evidence: `HoneyBlock.java` SHA `5FFC5F58A81F82823305C7ED02F9A465C7B3BFD2C1799DA566E1485D0CD99AD5` (`getCollisionShape()` 39-41, `fallOn()` 44-53, `entityInside()` 56-64); `SlimeBlock.java` SHA `4E552C1D1AA49B115F1549A8F19415B0C9F81C0524C0BF4AFED37277D75F6388` (`fallOn()` 19-25, `updateEntityAfterFallOn()` 28-34, `stepOn()` 45-53); `SoulSandBlock.java` SHA `2A9962D14E6E467671A6E674E82154192A5889BAC14E7F3BE4C88C4FC3599D2B` (`getCollisionShape()` 26-28); `ScaffoldingBlock.java` SHA `3503E48374C8673213523DF6F30C167CDCC0A4652CB8E134A9C99C3CEA386777` (`getShape()` 47-53, `getCollisionShape()` 117-123); `BubbleColumnBlock.java` SHA `61990E718C04229D0CF786072E586A3655C513F4D51D9B789E6FF4F56D712D7B` (`entityInside()` 40-67, `getShape()` 167-169); `PowderSnowBlock.java` SHA `454587BC25C870007F87D200DD97AFB23AC1F03AC306962ABD9DE174F3DE9C84` (`entityInside()` 56-84, `fallOn()` 87-93, `getCollisionShape()` 96-112); `WebBlock.java` SHA `EB8F4433705367AA7CE23C5A6071955B4D67728E299A2993285C6405CE638E49` (`entityInside()` 16-18); `Block.java` SHA `57C42EE375691755EF5D47FAD3F226F34A2043558704EC332C1A7E092FDABBA6` (`getFriction()` 401-403, `getSpeedFactor()` 405-407).
+- B evidence: matching named methods in each corresponding path under `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/level/block/`; `HoneyBlock.java` SHA `5FFC5F58A81F82823305C7ED02F9A465C7B3BFD2C1799DA566E1485D0CD99AD5`; `SlimeBlock.java` SHA `4E552C1D1AA49B115F1549A8F19415B0C9F81C0524C0BF4AFED37277D75F6388`; `SoulSandBlock.java` SHA `F6CC9CA6E841B16C4E739E840AC4EBCE46B5B8BD40564473911F2246D1AAB7D8`; `ScaffoldingBlock.java` SHA `FE0D38C1F1F06453FB42AAD778D0AE8A8A5E13DB335BE9B465CA8C7653339EEC`; `BubbleColumnBlock.java` SHA `34F7C5400F1B8DB997AC18333B7E57497B1667274779D4D410F4177B922CB452`; `PowderSnowBlock.java` SHA `40B15B7239A24058CC34ED9F1EDE0611EDDE897BADBEF5486C493CF620949C5D`; `WebBlock.java` SHA `EB8F4433705367AA7CE23C5A6071955B4D67728E299A2993285C6405CE638E49`; `Block.java` SHA `E95D5ABE175A3648B697E542981BA01535157093D133B774AADEF719393CCB8F` (`getFriction()` 403-405, `getSpeedFactor()` 407-409). `Entity.java` speed-factor helper evidence is in C03/T07.
+- State producers/writers -> consumers/readers: block registration/state/neighbors -> shape provider -> player support/collision path.
+- Parent slices / dependencies / closure evidence: D-SOURCES; C02/C03.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the listed shared block implementations expose the same sampled movement callbacks and shape results at both endpoints; source differences in the selected classes are unrelated RNG API/other class content as described above. This is not a registration-complete or whole-world shape equivalence claim. Other movement surfaces, special states and resource-backed defaults remain open.
+- Finding IDs or checked absence/replacement path: checked absence in the sampled provider/callback methods; full provider inventory remains open.
+
+### Slice W03: fluid travel, flow vectors and contact
+
+- Inventory ID(s): INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: compared Entity fluid-contact flags and eye updates, `updateFluidHeightAndDoFluidPushing()`, fluid height/jump-threshold helpers, and `FluidState`/`FlowingFluid` height and flow delegation. The identical `FlowingFluid.java` hash confirms these flow-provider methods are byte-for-byte source-identical; Entity fluid methods are identical in the checked bodies. Water/lava subclass properties, state/resource providers and complete call timing remain open.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/Entity.java`, `isInWater()` line 1008, `isInLava()` line 1147, `updateFluidOnEyes()` lines 1071-1083, `updateFluidHeightAndDoFluidPushing()` lines 2769-2834, `getFluidHeight()` / `getFluidJumpThreshold()` lines 2845-2851; SHA-256 `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A`. `FlowingFluid.java`, `getFlow()` lines 53-98 and `getHeight()` lines 434-436, SHA-256 `BBFB661B524AC92F74579CD4B61C1A25DF00ECC4BFE775A5516F7E4A7C8768F3`; `FluidState.java`, `getHeight()` lines 48-51 and `getFlow()` lines 90-93, SHA-256 `A39D52CDAEBCFF391ABD094D17C0D8C190DF27AF7AEB5AC3810370ECA017C459`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/Entity.java`, `isInWater()` line 1018, `isInLava()` line 1166, `updateFluidOnEyes()` lines 1085-1097, `updateFluidHeightAndDoFluidPushing()` lines 2797-2862, `getFluidHeight()` / `getFluidJumpThreshold()` lines 2873-2879; SHA-256 `759DE9CDED43BD882AFCF5B7023BCF804D92419ACB656B493F3B490C83EB18B6`. `FlowingFluid.java`, `getFlow()` lines 53-98 and `getHeight()` lines 434-436, SHA-256 `BBFB661B524AC92F74579CD4B61C1A25DF00ECC4BFE775A5516F7E4A7C8768F3`; `FluidState.java`, `getHeight()` lines 48-51 and `getFlow()` lines 90-93, SHA-256 `90C3A2BE5F5009AC9644F8037734628BBEFC49F9F1FF3A08898E8120081BE73C`.
+- State producers/writers -> consumers/readers: fluid registration/state/flow -> fluid travel and player velocity/contact state.
+- Parent slices / dependencies / closure evidence: D-SOURCES; T07; C04.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no source delta in the checked fluid-state/flow-height methods. `Entity.updateFluidHeightAndDoFluidPushing()` uses the same tagged-fluid scan, height accumulation and flow vector application; `FlowingFluid.getFlow()` has identical source in both endpoints, including horizontal gradient accumulation and falling-fluid downward vector adjustment. Exact fluid block/state providers, resource tags and full tick contact ordering remain unclosed, so no full fluid equivalence is claimed.
+- Finding IDs or checked absence/replacement path: none yet.
+
+### Slice W04: movement data, tags and resource-backed defaults
+
+- Inventory ID(s): INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: pending; relevant client-jar resource entries/tags/defaults referenced by movement consumers/providers.
+- A evidence: not yet compared; readiness is recorded in D-SOURCES.
+- B evidence: not yet compared; readiness is recorded in D-SOURCES.
+- State producers/writers -> consumers/readers: jar resources/tags/registry defaults -> movement-relevant consumers.
+- Parent slices / dependencies / closure evidence: D-SOURCES; resource dependency `D-RESOURCES`.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): exact client jars and resource hashes unavailable; no Java-class absence will imply data absence.
+- Finding IDs or checked absence/replacement path: none yet.
+
+### Slice M01: movement attribute consumers, defaults and aggregation
+
+- Inventory ID(s): INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: compared the `MOVEMENT_SPEED` attribute registration, selected LivingEntity/Player speed and jump-effect consumers, sprint speed modifier dispatch, and `AttributeInstance` base/modifier aggregation and cache invalidation. These bounded methods are source-identical; gravity, flying/air-speed and remaining modifier consumers remain open.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/ai/attributes/Attributes.java`, `MOVEMENT_SPEED` line 13; `AttributeInstance.java`, `setBaseValue()`, modifier add/remove and `calculateValue()` lines 43-148; hashes `c41860b83315d5265632e9a90978e38794d83d1a0cd996dbb9c7fd8e56560df5`, `a4e677efd64a8f9c44e05afa14b83618d7dad9744e34f7e04aa463ecdd576ff0`. `LivingEntity.java`, `setSprinting()` line 1921, `getJumpPower()` 1973-1975, `getJumpBoostPower()` 1976-1979 and `getSpeed()` 2209-2212, SHA-256 `db4168d531caf18f22e3fefd073365e776da4075ce01452bb9f7671d9b458782`; `Player.java`, `getSpeed()` 1468-1470, SHA-256 `bf639c1962ff90d69e4569b2b18f6fcf57ac46ef80b19686f0fbc1687fca744a`.
+- B evidence: matching `MOVEMENT_SPEED` registration and identical full `AttributeInstance.java` at the same method bodies/ranges; hashes match A. `LivingEntity.java`, `setSprinting()` line 1954, `getJumpPower()` 2006-2008, `getJumpBoostPower()` 2009-2012 and `getSpeed()` 2242-2245, SHA-256 `fee2df5155449098556a138d2530d06b7a35979e43c6aa0ae1fffd6251853e77`; `Player.java`, `getSpeed()` 1510-1512, SHA-256 `155c5fcfba322d968f3180383e7d283ddeb5edee4e04314906310d4e3ce0ccc1`.
+- State producers/writers -> consumers/readers: attribute registrations/synchronized values/equipment/effects -> attribute instances -> movement consumers.
+- Parent slices / dependencies / closure evidence: D-SOURCES; T07; P04; M02/M03.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no delta was found in the checked movement-speed base registration, selected speed/jump consumers, sprint modifier hook or attribute aggregation operations. The player reads the resulting movement-speed attribute through `getSpeed()`; LivingEntity jump power and Jump Boost remain the same formulas. Attribute/effect producers, modifiers beyond these hooks, and synchronized/server-provided values are not yet traced, so the inventory remains open.
+- Finding IDs or checked absence/replacement path: none yet.
+
+### Slice M02: movement effects and application/removal conditions
+
+- Inventory ID(s): INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: compared the registered Speed/Slowness movement-speed modifiers, Jump Boost registration used by the unchanged jump helper, generic `MobEffect` attribute modifier add/remove methods, and the client update/remove effect packet handlers. The checked definitions and helpers match; effect-instance duration, application/removal call timing, Levitation/Slow Falling/Dolphin's Grace/Blindness producers and other effects remain open.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/effect/MobEffects.java`, Speed/Slowness definitions lines 12-24 and Jump Boost line 44, SHA-256 `92bdab264537c8acf1af38a25bbbceef557a4cd24e248446c6463fa9812a524e`; `MobEffect.java`, `addAttributeModifiers()` lines 147-159 and `removeAttributeModifiers()` lines 138-146, SHA-256 `e56c353c76c2724f8c1989d491ef631c28d714de91d49d3197b4d89c9b73eaa8`. `ClientPacketListener.java`, `handleUpdateMobEffect()` lines 1329-1342 and `handleRemoveMobEffect()` lines 1490-1496, SHA-256 `E718016022C2AE86A2C354AF2D34FE4DE7D6E36DC8792D2E2C1F08ABB6B77B7B`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/effect/MobEffects.java`, matching Speed/Slowness definitions lines 13-25 and Jump Boost line 45; unrelated Darkness registration is added before them; SHA-256 `1e8122137e459c09ceee822668c27a4bcb32100dd1f53570e868b9faee0bdcb9`. `MobEffect.java`, corresponding attribute modifier methods lines 162-174 and 153-161, SHA-256 `071a7729b6ebc458de29cc742b338933bca18fab63090722a646d8840336325a`. `ClientPacketListener.java`, `handleUpdateMobEffect()` lines 1374-1394 and `handleRemoveMobEffect()` lines 1585-1591, SHA-256 `98453FAC8B16623D7B7F94F19199FA70C3B1D4885C464A2AB521A978A58ECBD3`.
+- State producers/writers -> consumers/readers: effect registrations/amplifiers/application/removal -> modifiers/predicates -> travel/sprint/jump consumers.
+- Parent slices / dependencies / closure evidence: D-SOURCES; M01; P03/T04.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no difference was found in the selected Speed/Slowness modifier amounts/operations, Jump Boost registration, generic attribute modifier add/remove mechanics, or effect removal packet handler. B's update packet handler uses the packet's resolved effect and adds optional factor data when constructing `MobEffectInstance`; A resolves the effect from its numeric ID. The new factor-data path is associated with Darkness and does not change the selected movement-effect attributes. Effect-instance activation, stacking and removal for movement effects, plus the remaining effect families listed above, still require tracing. Health/food systems remain outside scope.
+- Finding IDs or checked absence/replacement path: none yet.
+
+### Slice M03: movement enchantments, equipment and item applicability
+
+- Inventory ID(s): INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: checked Swift Sneak's registry presence/absence, equipment slot, max level, enchantment level lookup, and local crouch/crawl input consumer. Remaining enchantment/equipment consumers remain open.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/item/enchantment/Enchantments.java:1-42` contains no `SWIFT_SNEAK` registration; SHA-256 `BB945530CB616FFE8C23156EC0BDD5819094C92D4FB808BD9254EDFDB7953BF2`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/item/enchantment/Enchantments.java:30`; `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/item/enchantment/SwiftSneakEnchantment.java:5-35`; `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/item/enchantment/EnchantmentHelper.java:171-194`; SHA-256 Enchantments `83A612CB3D234083E53358E98402B904F0F244DBE464F65C30B1658841148C93`, SwiftSneakEnchantment `6D68936DA23F57A2D9725155035B0A01D3B5017A899B5F9EC3C69F3E2256D64F`, EnchantmentHelper `0565D51D86FBD0854B4BF256C0E0EFF1CAAACE22B4C8F5F59B3A98E402F6319D`.
+- State producers/writers -> consumers/readers: `SWIFT_SNEAK` equipment slot and item enchantment level -> `EnchantmentHelper.getSneakingSpeedBonus()` -> `LocalPlayer.aiStep()` factor -> `KeyboardInput.tick()` lateral/forward impulses.
+- Parent slices / dependencies / closure evidence: D-SOURCES; M01/M04; W03; resource dependency D-RESOURCES.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): F-001 is source-confirmed and player-reachable when leggings provide Swift Sneak and local input is crouching or visually crawling. B's exact bundled ancient-city loot table includes a Swift Sneak enchanted-book entry, while A's client jar lacks that path; this establishes the bundled resource route but not world generation or server datapack state. Other listed modifiers and resource paths remain open. Server-side world mutation is not inferred from client code.
+- Finding IDs or checked absence/replacement path: F-001; remaining modifier families open.
+
+### Slice M04: modifier data, tags and synchronized/external values
+
+- Inventory ID(s): INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: pending; data-driven modifier definitions, tags, attributes and server-synchronized input provenance.
+- A evidence: not yet compared; readiness is recorded in D-SOURCES.
+- B evidence: not yet compared; readiness is recorded in D-SOURCES.
+- State producers/writers -> consumers/readers: versioned data/registries/server input -> attribute/effect/enchantment application -> movement consumer.
+- Parent slices / dependencies / closure evidence: D-SOURCES; M01-M03; D-RESOURCES.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): comparison pending; client resource evidence remains open; no equivalence claim.
+- Finding IDs or checked absence/replacement path: none yet.
+
+### Slice E01: correction packets and externally supplied position/velocity
+
+- Inventory ID(s): INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: compared client handling of authoritative player position/rotation correction packets, entity-motion packets and player-ability packets, plus `Entity.lerpMotion()` as the velocity writer. Relative position axes preserve existing velocity components; absolute axes zero the corresponding component; both endpoints write corrected position/rotation and acknowledge the teleport in the same order. Entity-motion packet scaling and the final delta-movement write also match. `handlePlayerAbilities()` receives the same server-supplied flying/mayfly flags and flying/walking speeds in both endpoints. Effect packets are traced separately in M02. Other correction packets and packet producer/server provenance remain open.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java`, `handleSetEntityMotion()`, lines 441-448, `handleMovePlayer()` lines 541-607, and `handlePlayerAbilities()` lines 1541-1550; SHA-256 `E718016022C2AE86A2C354AF2D34FE4DE7D6E36DC8792D2E2C1F08ABB6B77B7B`. `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/Entity.java`, `lerpMotion(double,double,double)`, lines 1885-1888; SHA-256 `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java`, `handleSetEntityMotion()`, lines 457-464, `handleMovePlayer()` lines 563-629, and `handlePlayerAbilities()` lines 1637-1646; SHA-256 `98453FAC8B16623D7B7F94F19199FA70C3B1D4885C464A2AB521A978A58ECBD3`. `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/Entity.java`, `lerpMotion(double,double,double)`, lines 1910-1913; SHA-256 `759DE9CDED43BD882AFCF5B7023BCF804D92419ACB656B493F3B490C83EB18B6`.
+- State producers/writers -> consumers/readers: server/network input -> local player state writers -> subsequent tick/travel consumers.
+- Parent slices / dependencies / closure evidence: D-SOURCES; P02; T02/T07.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no source delta in the compared client correction formulas. `handleMovePlayer()` removes the player from a vehicle when requested, constructs per-axis absolute/relative coordinates from the packet and current state, preserves velocity only for relative axes, writes position/rotation, then acknowledges the teleport and reports the corrected pose. `handleSetEntityMotion()` applies the same `/8000.0` component scaling and invokes the same `lerpMotion()` setter when the entity id resolves. These are externally supplied values and are not local movement production. Packet coverage, player-only state flags and server provenance remain open.
+- Finding IDs or checked absence/replacement path: checked absence of a delta in `ClientPacketListener.handleMovePlayer()`, `handleSetEntityMotion()`, `handlePlayerAbilities()` and `Entity.lerpMotion()` at the selected endpoints; other correction writers remain open.
+
+### Slice E02: player-facing pushes, pistons and launch movement
+
+- Inventory ID(s): INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: checked `LivingEntity.knockback()`, shield knockback, `Player.attack()` direct self/target velocity writes, LivingEntity-to-Entity push dispatch, and the shared piston collision push helpers. Explosion/other external impulse producers and item launch paths remain open.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/LivingEntity.java:1176-1178,1385-1392,1948-1952,2667-2669,2764-2766`; `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/player/Player.java:1087,1154-1166,1178-1193`; `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/Entity.java:1253-1280,1365-1367`. SHA-256 LivingEntity `db4168d531caf18f22e3fefd073365e776da4075ce01452bb9f7671d9b458782`, Player `bf639c1962ff90d69e4569b2b18f6fcf57ac46ef80b19686f0fbc1687fca744a`, Entity `2228fdaca5793171cbd94038306d571a6ada78ca96f5734efb4cada5b744c10a`. `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/level/block/piston/PistonMovingBlockEntity.java`, `moveCollidedEntities()` / `moveEntityByPiston()` lines 105-181 and `tick()` lines 275-309, SHA-256 `15A6AB6A1FA9E1FA41DB50E28FC19C4207D329234FA3294053807922BEFC9E0F`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/LivingEntity.java:1196-1198,1406-1413,1981-1985,2703-2705,2800-2802`; `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/player/Player.java:1120,1187-1199,1211-1226`; `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/Entity.java:1273-1304,1385-1387`. `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/level/block/piston/PistonMovingBlockEntity.java`, `moveCollidedEntities()` / `moveEntityByPiston()` lines 105-181 and `tick()` lines 275-309, SHA-256 `15A6AB6A1FA9E1FA41DB50E28FC19C4207D329234FA3294053807922BEFC9E0F`.
+- State producers/writers -> consumers/readers: direct player knockback/push or Player.attack() post-hit branch -> `LivingEntity.knockback()` / `Entity.push()` / player self-velocity attenuation -> player `deltaMovement` and `hasImpulse` -> subsequent movement tick/network correction.
+- Parent slices / dependencies / closure evidence: D-SOURCES; P02; C04/W01.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): checked direct player motion formulas are the same in both endpoints. `LivingEntity.knockback()` retains the same knockback-resistance scaling, normalized horizontal vector, grounded `min(0.4, oldY/2 + strength)` vertical update, and `hasImpulse` write. `Player.attack()` retains the same conditional target knockback and the attacker's horizontal `deltaMovement * (0.6,1.0,0.6)` attenuation. `blockedByShield()` still applies `knockback(0.5, dx, dz)`. B adds `isPushable()` checks to both halves of `Entity.push()`, but `LivingEntity.doPush()` passes the current player to `other.push(player)` and `LivingEntity.isPushable()` remains `isAlive && !isSpectator && !onClimbable`; therefore the player-side push guard is true under the same preconditions in both versions. `PistonMovingBlockEntity.java` is byte-for-byte identical across endpoints, including the player-colliding push and piston-displacement helper methods checked here. Changes to another entity's motion are outside scope. The hit/damage decision is not modeled; only the player-side motion code after its existing guard was compared. Remaining direct impulse sources stay open.
+- Finding IDs or checked absence/replacement path: checked absence of a player-side impulse formula change in these bounded knockback, push and piston methods; remaining external sources open.
+
+### Slice E03: mount, dismount and player-only vehicle integration
+
+- Inventory ID(s): INV-EXTERNAL, INV-TICK
+- Exact behavior boundary and enclosing guards/order checked: compared player-facing `startRiding`/`removeVehicle` wrappers, shared Entity mount admission/state transitions, LivingEntity and Player ride-tick delegation, and LocalPlayer passenger-tick entry. The checked method bodies match; vehicle-side passenger placement and independent vehicle physics are deliberately outside this comparison.
+- A evidence: `LocalPlayer.java`, `startRiding(Entity,boolean)` lines 153-164, `removeVehicle()` 167-170 and `rideTick()` 863-871, SHA-256 `99C2D18BCD23243AFB8F95C5BAFB21FB0BE7EA04AACBB14FCF7BE7CED2C9C095`; `Entity.java`, `startRiding(Entity)` 1704-1706, `startRiding(Entity,boolean)` 1712-1738, `removeVehicle()` 1753-1760, `stopRiding()` 1761-1764, `rideTick()` 1674-1680, SHA-256 `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A`; `LivingEntity.java`, `stopRiding()` 2679-2685 and `rideTick()` 2688-2693, SHA-256 `DB4168D531CAF18F22E3FEFD073365E776DA4075CE01452BB9F7671D9B458782`; `Player.java`, `removeVehicle()` 1016-1019 and `rideTick()` 468-481, SHA-256 `BF639C1962FF90D69E4569B2B18F6FCF57AC46EF80B19686F0FBC1687FCA744A`.
+- B evidence: `LocalPlayer.java`, `startRiding(Entity,boolean)` lines 170-181, `removeVehicle()` 184-187 and `rideTick()` 953-961, SHA-256 `36AE4AABD609B457FFFB7A8B14ABB50DB9AC775857DDE1774C0C68A8CF50DEEF`; `Entity.java`, `startRiding(Entity)` 1729-1731, `startRiding(Entity,boolean)` 1737-1763, `removeVehicle()` 1778-1785, `stopRiding()` 1786-1789, `rideTick()` 1699-1705, SHA-256 `759DE9CDED43BD882AFCF5B7023BCF804D92419ACB656B493F3B490C83EB18B6`; `LivingEntity.java`, `stopRiding()` 2715-2721 and `rideTick()` 2724-2729, SHA-256 `FEE2DF5155449098556A138D2530D06B7A35979E43C6AA0AE1FFFD6251853E77`; `Player.java`, `removeVehicle()` 1045-1048 and `rideTick()` 477-490, SHA-256 `155C5FCFBA322D968F3180383E7D283DDEB5EDEE4E04314906310D4E3CE0CCC1`.
+- State producers/writers -> consumers/readers: vehicle/player transition -> local player state/position/velocity -> tick movement gates.
+- Parent slices / dependencies / closure evidence: D-SOURCES; T06; P02.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no source delta was found in the compared player mount/dismount wrappers or shared admission and ride-tick methods. LocalPlayer's `startRiding()` delegates to the same `Entity.startRiding()` checks and retains its minecart sound branch; `removeVehicle()` delegates then clears `handsBusy`; player ride tick delegates and updates the same player-side bob/statistics state. The mount system can reposition the passenger through vehicle-owned `positionRider()` methods, which are outside scope and remain unaudited; network mount/dismount sources also remain open.
+- Finding IDs or checked absence/replacement path: checked absence of a delta in the bounded player transition/ride-tick methods; vehicle placement and external transition sources remain open.
+
+### Slice X01: excluded systems and permitted vanilla-state reads
+
+- Inventory ID(s): INV-EXCLUSIONS
+- Exact behavior boundary and enclosing guards/order checked: pending; verify discovery does not model health, regeneration, hunger, food, saturation, exhaustion, damage/combat or non-player movement; identify direct vanilla state reads in movement predicates.
+- A evidence: not yet compared; readiness is recorded in D-SOURCES.
+- B evidence: not yet compared; readiness is recorded in D-SOURCES.
+- State producers/writers -> consumers/readers: excluded producer systems are not traced as emulation targets; direct movement predicate reads are linked to their consumer only.
+- Parent slices / dependencies / closure evidence: D-SOURCES; P03/T04; campaign exclusions.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): scope boundaries are recorded; the explicit source audit remains pending.
+- Finding IDs or checked absence/replacement path: none yet.
+
+## Dependency queue and blockers
+
+- Resolved `D-SOURCES`: exact 1.18.2 and 1.19.2 Mojmap readiness records, source/artifact SHA-256 manifests, client jar, mapping, remapped jar and movement diagnostics were reverified after the campaign revision. Exact metadata IDs and namespace match; all cited A/B source files match their source manifests.
+- `D-RESOURCES`: originating W04/M03/M04 and newly discovered resource-backed dependencies; exact client-jar identities are verified. The Swift Sneak ancient-city loot table and `occludes_vibration_signals` block tag were inspected with entry hashes; all other movement resources and external data remain uninspected. Owner: discovery worker; resource inspection is unblocked.
+- Resolved `D-ARTIFACT-REVISION`: revision `feather-r1-2026-10-07` was reverified for all six Feather versions (1.8.9, 1.9.4, 1.10.2, 1.11.2, 1.12.2 and 1.13.2): each snapshot hash matched both `artifact.sha256` and `revision.json`; every source file matched its published source manifest; all manifest-linked raw input artifacts and verification logs matched. The original derived Feather jars are unavailable, so the revised mapped jars are not proven identical to the originals and no hash change is claimed metadata-only. Neither endpoint here uses Feather, and F-001/F-002 depend only on the reverified Mojmap source/artifact records; no revised Feather snapshot is evidence for either finding.
+- No mod implementation or wiki output has been read; no source evidence or findings have been inferred from adjacent reports.
+
+## Finding index
+
+- F-001 — 1.19.2 Swift Sneak raises crouch/crawl keyboard input scale from A's fixed `0.3F`; [full evidence](findings/F-001.md), also indexed in T01/T03/M03.
+- F-002 — 1.19.2 only restrains crouch-ground X/Z edge movement when requested vertical delta is nonpositive; [full evidence](findings/F-002.md), also indexed in C02.
+- F-003 — 1.19.2 changes the `GameEvent.STEP` dispatch guard and source context in the player movement path; [full evidence](findings/F-003.md), also indexed in C04/T07.
+- F-004 — 1.19.2 directly activates an inactive Sculk Sensor on a careful grounded step; [full evidence](findings/F-004.md), also indexed in C04/T07.
+
+## Resume checkpoint
+
+- Last source comparison work: after T07 identified F-003/F-004 in Entity movement callbacks, compared E01 correction/ability packets, M02 effect update/removal handling, W03 fluid helpers, C03/W02 collision resolvers/providers, E03 mount transitions, P01 pose/dimension helpers and P02 direct position/velocity writers. B's ancient-city loot resource documents a Swift Sneak book path for F-001; wider inventories remain open.
+- Next bounded slice and exact files/members/body ranges to open: trace P03 direct movement predicates and P04 timers/abilities/stored-speed writers, then continue block registrations/movement properties and resources (W01/W04/M03/M04), effect-instance transitions (M02), and the other movement attribute/effect consumers (M01).
+- Outstanding dependencies and owners: D-RESOURCES (discovery worker); independent reviewer assignment (coordinator, after source-only freeze).
+- Current assumptions requiring verification: Swift Sneak resource/tag data and all remaining modifier chains; all movement branch helpers and block callback outputs. Directory presence alone is not readiness.
+
+## Finding snapshots (not pair freeze)
+
+- No immutable finding snapshot has been submitted or accepted for this pair.
+- Independent blind review is pending coordinator assignment. A source-confirmed finding becomes an implementation handoff only after the reviewer accepts the exact finding snapshot and its source/artifact hashes; that acceptance does not freeze the full pair.
+
+## Implementation reconciliation
+
+- Reconciliation status: pending — source-only role; do not open current/old mod implementation in this track unless the parent explicitly changes the role after blind freeze.
+- Repository revision inspected: not inspected; discovery remains blind to implementation.
+- Finding -> implementation disposition/evidence: deferred to a separate authorized reconciliation owner after freeze.
+- Existing implementation without a frozen source finding: deferred to separate authorized owner.
+- Coverage gaps routed back to discovery slices: none routed yet; source comparison has started and the open inventories remain assigned to this discovery worker.
+
+## Independent source audit
+
+- Reviewer: pending coordinator assignment (must not be the discovery author).
+- Status: pending
+- Inventories and call-chain ranges re-walked: none yet.
+- Concrete missed-slice routes (or `none found`): pending reviewer work.
+- Misses routed to slice/finding IDs and owners: pending reviewer work.
+- Reviewer evidence / date: pending.
+
+## Source audit closure
+
+- Coverage counts by status: pending 7; in-progress 18; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
+- Required inventory status and evidence: INV-TICK pending; INV-STATE pending; INV-COLLISION pending; INV-WORLD-MOVEMENT pending; INV-MODIFIERS pending; INV-EXTERNAL pending; INV-EXCLUSIONS pending. No inventory is closed.
+- Open dependencies: D-RESOURCES (discovery worker), independent reviewer assignment (coordinator, after source-only freeze).
+- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Seven coverage entries are pending, eighteen are in progress, and two carry findings.
+- Evidence/hash/correspondence audit: F-001 through F-004 include paired endpoint source/artifact hashes and bounded source ranges; call paths and writer-to-consumer links are recorded for these deltas, while the remaining inventories and correspondence are still open.
+- Blind freeze: not frozen; implementation remains uninspected. Freeze after remaining source inventories close or are explicitly scoped for handoff.
+- Implementation reconciliation: pending and deferred outside this source-only assignment.
+- Independent audit: pending.
+- Runtime validation: not performed (separate workflow; never inferred from build/source completion).
+
+
+
