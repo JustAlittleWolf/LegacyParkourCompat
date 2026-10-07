@@ -1,6 +1,6 @@
 # Discovery: 1.20.4 to 1.20.6
 
-- Status: active
+- Status: partial
 - Scope: direct client-player movement, including player-side velocity/impulse/knockback response and resulting state writes; older A = 1.20.4; newer B = 1.20.6. Excludes health/food state production, attack/damage resolution, non-player movement and vehicle physics. Source-only discovery; no Minecraft wiki/MCPK sources or audit outputs, no mod implementation inspection, no runtime implementation or runtime validation.
 - Repository revision and start date: base main = 002137b227676caea77f6832b9f4c8d0b6200bff; task branch = feat/source-discovery-movement-source-1-20-4-1-20-6; 2026-10-07.
 - Selected naming namespace, CLI mode per side and alignment evidence: verified exact A and B readiness/provenance records both name Mojmap and match the requested release IDs; they cite the same successful batch log.
@@ -728,8 +728,8 @@ Each bounded behavior remains open until both exact source sides, the relevant m
 ## Resume checkpoint
 
 - Last completed slice: source provenance and exact source-tree hash validation; six bounded behaviors are closed as compared-no-difference, and ten broader behavior slices contain partial source-confirmed evidence but remain in-progress.
-- Next bounded slice and exact files/members/body ranges to open: continue closure of the recorded in-progress jump/gravity/attribute/scale/step slices, then resume stage 1 input sampling and local-player tick order in Input.java, KeyboardInput.java, LocalPlayer.java, Player.java and LivingEntity.java.
-- Outstanding dependencies and owners: method and resource closure within the pending/in-progress slices; no external source-preparation blocker.
+- Next bounded slice and exact files/members/body ranges to open: start S1-input-motion and sprint/jump scheduling by comparing `KeyboardInput.tick`, `Input.getMoveVector`, `LocalPlayer.aiStep` and its pre-travel calls, then trace into `Player.travel(Vec3)` and `LivingEntity.travel(Vec3)`; close the remaining flight input/speed gates after MC1204-1206-01.
+- Outstanding dependencies and owners: 39 pending slices and 10 in-progress slices require exact A/B methods, writers/readers, callers, resources and dependency closure; no external source-preparation blocker. A different blind source reviewer is still unassigned for both individual finding snapshots and the eventual full-pair audit.
 - Current assumptions requiring verification: per-method movement body integrity and complete class/member correspondence must still be verified despite the successful source diagnostics.
 
 ## Finding snapshots (not pair freeze)
