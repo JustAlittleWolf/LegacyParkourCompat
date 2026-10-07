@@ -3,7 +3,7 @@
 - Run status: active
 - Scope: source-only direct player movement; A = 1.8.9; B = 1.9.4. No runtime implementation.
 - Repository revision and start date: base `002137b227676caea77f6832b9f4c8d0b6200bff`; 2026-10-07 Europe/Vienna.
-- Selected naming namespace, CLI mode per side and alignment evidence: Ornithe Feather (`ornithe-feather`) on both sides; release-specific Feather Gen 2 build 2 artifacts verified.
+- Selected naming namespace, CLI mode per side and alignment evidence: Ornithe Feather (`ornithe-feather`) on both sides; release-specific Feather Gen 2 build 2 source trees admitted. Derived mapped-artifact identity is pending canonical repair.
 - Source preparation owner / command / log / readiness marker: campaign source owner (name not supplied); exact invocation/log/options requested and pending. Markers: `build/movement-campaign-2026-10-07/ready/1.8.9/ornithe-feather.ready.json` and corresponding `1.9.4` marker.
 - Toolchain/decompiler/remapper versions and options: marker reports Vineflower, Java runtime 25; source-base catalog pins Vineflower 1.12.0, Tiny Remapper 0.14.1, Mapping IO 0.9.1. Exact runtime versions/options await source-owner confirmation (`DEP-PROVENANCE`).
 - Discovery author(s): source-campaign worker for 1.8.9 -> 1.9.4.
@@ -11,7 +11,7 @@
 
 ## Artifact manifest
 
-Paths are repository-relative. The shared source/artifact trees are read-only inputs. Both exact IDs, ready JSONs, source/artifact sidecar hashes, every listed source, and all 37 listed artifacts per release were verified.
+Paths are repository-relative. The shared source/artifact trees are read-only inputs. At initial admission, both exact IDs, ready JSONs, source/artifact sidecar hashes, every listed source, and all 37 listed artifacts per release were verified. A subsequent source-owner integrity notice reports that a reproducibility rerun replaced shared-cache derived mapped JARs while preserving source-file/raw-input hashes. The prior artifact verification is now stale; the source owner and ops are repairing immutability/provenance. No artifact marker was rewritten, no mismatch was waived, and no independent decompilation was performed. `DEP-ARTIFACT-IMMUTABILITY` blocks report freeze and finding acceptance pending canonical repair and fresh verification.
 
 ### A — 1.8.9
 
@@ -21,7 +21,7 @@ Paths are repository-relative. The shared source/artifact trees are read-only in
 - Mapped jar `build/movement-campaign-2026-10-07/artifacts/1.8.9/client-ornithe-feather.jar`: SHA-256 `e36a366fd30d0adda0a803a4956782bab1f67cd644e396d4db6a1cd885548c09`.
 - Mapping `feather-gen2-1.8.9+build.2`; merged jar `build/movement-campaign-2026-10-07/artifacts/yarn/feather-gen2-1.8.9+build.2-mergedv2.jar` SHA-256 `303c4530c79a593b828bd778a97d3577e67f99d6a2c50760e5f9bec6fb32a9da`; mapping file `build/movement-campaign-2026-10-07/artifacts/yarn/feather-gen2-1.8.9+build.2.tiny` SHA-256 `de2023ea2cca9921402fbfcfe6e475f41da4932ea6dbc609e35c505b76a32c63`.
 - Source manifest `build/movement-campaign-2026-10-07/ready/1.8.9/ornithe-feather.sources.sha256`: SHA-256 `9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004`; 1,612/1,612 file hashes match.
-- Artifact manifest `build/movement-campaign-2026-10-07/ready/1.8.9/artifacts.sha256`: SHA-256 `da003358256d1c4402ebb20614651e5410310e871ee913de2b9c1295a64e1446`; 37/37 artifact hashes match.
+- Artifact manifest `build/movement-campaign-2026-10-07/ready/1.8.9/artifacts.sha256`: initial SHA-256 `da003358256d1c4402ebb20614651e5410310e871ee913de2b9c1295a64e1446`; 37/37 matched at initial admission only. Current derived-JAR integrity is unverified pending canonical repair.
 - Diagnostics `build/movement-campaign-2026-10-07/ready/1.8.9/movement-diagnostics.txt`: SHA-256 `62dc9b445bec2f62b6dac9da501e875377636d08682891891212aea464999d28`; exact release succeeded, required entity/living/player/local-player files exist, no damaged movement body/error reported.
 
 ### B — 1.9.4
@@ -32,7 +32,7 @@ Paths are repository-relative. The shared source/artifact trees are read-only in
 - Mapped jar `build/movement-campaign-2026-10-07/artifacts/1.9.4/client-ornithe-feather.jar`: SHA-256 `0df10c862f7fd4848d08597a76c0cf02cec5a9d9886975a57230a033cfb86b3a`.
 - Mapping `feather-gen2-1.9.4+build.2`; merged jar `build/movement-campaign-2026-10-07/artifacts/yarn/feather-gen2-1.9.4+build.2-mergedv2.jar` SHA-256 `49a38d0adfbda1749e519c29844116e9f22e895cb505633261b7f587268f4125`; mapping file `build/movement-campaign-2026-10-07/artifacts/yarn/feather-gen2-1.9.4+build.2.tiny` SHA-256 `9e21708d4bc32a43ac404735ea3238465889797110204a0375bcb069a3798027`.
 - Source manifest `build/movement-campaign-2026-10-07/ready/1.9.4/ornithe-feather.sources.sha256`: SHA-256 `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`; 1,819/1,819 file hashes match.
-- Artifact manifest `build/movement-campaign-2026-10-07/ready/1.9.4/artifacts.sha256`: SHA-256 `9527dca544694daa3b4a7741be1a5b4802d8b6665c8a152a408a37a27a1b4d77`; 37/37 artifact hashes match.
+- Artifact manifest `build/movement-campaign-2026-10-07/ready/1.9.4/artifacts.sha256`: initial SHA-256 `9527dca544694daa3b4a7741be1a5b4802d8b6665c8a152a408a37a27a1b4d77`; 37/37 matched at initial admission only. Current derived-JAR integrity is unverified pending canonical repair.
 - Diagnostics `build/movement-campaign-2026-10-07/ready/1.9.4/movement-diagnostics.txt`: SHA-256 `51bd42a633c04931814ab78a841cedd3bf87460e04f7877676599b51b59bbb1d`; exact release succeeded, required entity/living/player/local-player files exist, no damaged movement body/error reported.
 
 Resource entry hashes will be added for data-backed slices. No test, game, TAS, server, Docker, build, or runtime validation was performed.
@@ -115,13 +115,13 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 
 - Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-MODIFIERS`, `INV-EXTERNAL`.
 - Exact behavior boundary and enclosing guards/order checked: jump edge, airborne/falling guard, chest equipment predicate, start-flight request, server flag writer and travel consumer.
-- A evidence: exact absence/replacement path pending.
-- B evidence: `LocalClientPlayerEntity.java` `mobTick()V`, lines 707-712; hash pending.
-- State producers/writers -> consumers/readers: jump input + `velocityY<0` + Elytra eligibility -> request packet -> fall-flight bit -> `LivingEntity.moveRelative(FF)V` branch.
-- Parent slices / dependencies / closure evidence: `ElytraItem.canFly`, packet handler, server writer, flying-tick validation, gliding equations, dimensions.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): B adds a fall-flight entry and mode; complete travel characterization pending.
-- Finding IDs or checked absence/replacement path: pending.
+- A evidence: checked absence of `ELYTRA` and `START_FALL_FLYING` in the complete 1.8.9 source tree; this feature cannot be present in maps from A's era.
+- B evidence: `LocalClientPlayerEntity.mobTick()V`, lines 707-712, introduces the request only with jump input, falling airborne state, no active flight/creative flight, and usable chest Elytra; source hash awaits integrity confirmation.
+- State producers/writers -> consumers/readers: modern Elytra + jump edge -> request packet -> fall-flight bit -> gliding branch and pose dimensions.
+- Parent slices / dependencies / closure evidence: bounded exclusion only; no historical player movement claim. Artifact integrity must be repaired before freeze.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): Elytra/fall-flight is a B-only feature and cannot occur in historical A-era maps under the project scope rule; do not add its behavior to the compatibility layer.
+- Finding IDs or checked absence/replacement path: excluded modern-only feature; checked A source-tree absence above.
 
 ### Slice TICK-04: boat directional input transport
 
@@ -237,13 +237,13 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 
 - Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-COLLISION`, `INV-EXTERNAL`.
 - Exact behavior boundary and enclosing guards/order checked: all player dimensions/pose writers, resize timing, eye-height consumers and collision-fit query.
-- A evidence: `Entity` defaults/player reset size, sleep/wake writes, and `PlayerEntity.getEyeHeight()V`; exact writer inventory pending.
-- B evidence: `PlayerEntity.tick()V` calls `updatePlayerPose()` at end; fall-flight/sleep/sneak/standing dimensions and collision-free resize at lines 285-308; SHA-256 `d658a0d95452d12bb7e347bfd802240eeecaf7f938e10dcd43e2640434387f85`.
+- A evidence: `PlayerEntity#getEyeHeight()F`, lines 1640-1650, and sleep/wake size writes at lines 1108 and 1163; source-wide checked absence of any sneaking-conditioned player size writer. SHA-256 `e66cb294fc93118148a444bbafdf4dd57cbf66a23d69b1e8892cefccc690ab88`.
+- B evidence: `PlayerEntity.tick()V` calls `updatePlayerPose()` at end; sneaking/standing dimensions and collision-free resize at lines 285-308; fall-flight/sleep pose cases are excluded; SHA-256 `d658a0d95452d12bb7e347bfd802240eeecaf7f938e10dcd43e2640434387f85`.
 - State producers/writers -> consumers/readers: pose flags -> candidate dimensions -> collision query -> `setSize`/box -> next movement and eye-height probes.
 - Parent slices / dependencies / closure evidence: separately close sneak support-edge probe, size writers/queries, pose reset timing and eye-height consumers.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): B adds tick-end dynamic pose sizing including fall flight and sneaking; complete writer/call-consumer comparison pending.
-- Finding IDs or checked absence/replacement path: pending.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): B adds tick-end dynamic pose sizing for a sneaking player with a collision-free 1.65-high candidate box; A keeps standing dimensions. Elytra/sleep cases are not included in the historical finding.
+- Finding IDs or checked absence/replacement path: `findings/STATE-03-sneak-collision-height.md`.
 
 ### Slice COLL-02: pane and iron-bar collision geometry
 
@@ -272,6 +272,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 ## Dependency queue and blockers
 
 - `DEP-PROVENANCE`: source owner; exact preparation command/log, pinned/runtime decompiler/remapper/mapping-io versions/options missing.
+- `DEP-ARTIFACT-IMMUTABILITY`: source owner and ops; mapped JARs changed after initial verification; do not freeze or accept findings until canonical repair and fresh verification.
 - `DEP-AUDITOR`: coordinator; independent source reviewer not assigned.
 - All remaining `TICK-*`, `STATE-*`, `COLL-*`, `WORLD-*`, `MOD-*`, and `EXT-*` inventories remain open.
 
@@ -282,7 +283,24 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - [STATE-01 — Velocity zero threshold](findings/STATE-01-velocity-zero-threshold.md)
 - [STATE-02 — Creative-flight reset](findings/STATE-02-creative-flight-reset.md)
 - [TICK-07 — Client-side player push](findings/TICK-07-client-player-push.md)
+- [STATE-03 — Sneak collision height](findings/STATE-03-sneak-collision-height.md)
 - [WORLD-01 — Trapdoor ladder climbing](findings/WORLD-01-trapdoor-ladder-climbing.md)
+
+## Incremental finding snapshot log
+
+### SNAP-STATE-01-01 — blocked pending artifact integrity and dependency closure
+
+- Finding ID: `STATE-01` (`findings/STATE-01-velocity-zero-threshold.md`).
+- Evidence/snapshot commit: `f5eca2d932b7544c4eebaa13864491a4e40cba95`.
+- Finding-file SHA-256 at that commit: `51506e004c8ae129cf45db365f8ee5bfea0f54c8ec5170f99250003e8f0115e1`.
+- Exact source identity: A source manifest SHA-256 `9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004`, cited `LivingEntity.java` SHA-256 `082831c6578e3a70fa6cea5b90bc3eefc26678259b66334470de22b90b5b0e4e`; B source manifest SHA-256 `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`, cited `LivingEntity.java` SHA-256 `bbb7703f18fd5da05c4e4a43a77ea644b388e63c01d34166d308ea52054be4e5`. Source-owner notice says raw/source hashes are unchanged.
+- Exact artifact identity at initial verification: A artifact manifest `da003358256d1c4402ebb20614651e5410310e871ee913de2b9c1295a64e1446`; B artifact manifest `9527dca544694daa3b4a7741be1a5b4802d8b6665c8a152a408a37a27a1b4d77`; mapped JAR hashes are recorded in Artifact manifest above. **These artifact identities are stale for snapshot acceptance** because the shared-cache rerun replaced derived mapped JARs. Canonical repair and fresh verification are pending; no artifact mismatch is waived.
+- Finding scope and implementation boundary: the only candidate code boundary is the three strict per-axis `<` comparisons in `LivingEntity#mobTick()V` before jump dispatch/travel: A `0.005`, B `0.003`. Any implementation must change only the historical cutoff at the correct resolved release; first introduction release and exact release-version activation boundary are not established by this pair alone. This is not authorization or an implementation handoff.
+- Finding-specific dependencies: `DEP-STATE-01-PRODUCER-CONSUMER` remains open for complete player-path, input velocity-writer, jump/travel consumer, and external correction closure. Do not claim it closed.
+- Blind reviewer and decision: not assigned; no acceptance decision.
+- Timestamp: 2026-10-07 Europe/Vienna.
+- Pair run status/commit at handoff: `active`; evidence commit above. `pair complete: no`.
+- Implementation handoff: `blocked` — mapped-artifact integrity is under canonical repair, finding-specific producer/consumer closure remains open, and no independent snapshot reviewer has accepted it.
 
 ## Resume checkpoint
 
@@ -312,7 +330,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 
 - Coverage counts: pending.
 - Required inventory status/evidence: all inventories remain open.
-- Open dependencies: `DEP-PROVENANCE`, `DEP-AUDITOR`, and all pending/in-progress slices.
+- Open dependencies: `DEP-PROVENANCE`, `DEP-ARTIFACT-IMMUTABILITY`, `DEP-AUDITOR`, and all pending/in-progress slices.
 - Unresolved gaps/limits: comprehensive audit in progress; no equivalence closure claimed.
 - Evidence/hash/correspondence audit: sidecar manifests fully verified; source hashes to be recorded with every citation.
 - Blind freeze: pending.
