@@ -26,11 +26,11 @@ The live-switch witness remains unexecuted. Any initial witness of next-tick pro
 
 ## Eye and camera scope
 
-The physical crouch-height corrections retain the modern native crouching eye height. The accepted F002 boundary covers physical pose sizing and conditional pose selection, not eye height, camera position, fluid-state consequences, or complete pose parity. This disposition makes no eye-height or camera-parity claim.
+The physical crouch-height corrections retain modern native eye height. Camera/rendering parity is excluded from this review. Eye-height-dependent physical and fluid consumers remain an unvalidated movement follow-up, not automatically out of scope; this disposition makes no parity claim for those consumers.
 
 ## Blockers and limits
 
 - **Integration blocker for ordinary historical pose/profile behavior:** none found in this reviewed range.
 - **Transition limitation:** live profile changes can expand the AABB into a low ceiling; policy is undefined because historical profiles had no in-game switch. This limits claims about tight-space transition safety, not steady-state historical pose correctness.
 - **Accepted F002 limit:** collision-query context differs, so tight-space results remain conditional and arbitrary-world parity is not established.
-- **Unverified:** no runtime witness, build, or test was run. Eye/camera and fluid behavior remain outside the accepted boundary.
+- **Unverified:** no runtime witness, build, or test was run. Camera/rendering parity is excluded; eye-height-dependent physical and fluid consumers remain unvalidated movement follow-up.

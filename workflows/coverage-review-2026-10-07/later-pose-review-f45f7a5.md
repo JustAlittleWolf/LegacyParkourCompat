@@ -4,7 +4,7 @@ Reviewed implementation tip `f45f7a57424f824871e19daacc250b58b955a00a` on `feat/
 
 ## Summary
 
-One confirmed important issue remains in live profile changes: an epoch-triggered dimension growth can install a larger player AABB inside a tight ceiling without checking collision. Ordinary pose transitions still use the native fit path, subject to the accepted collision-query-context limitation. The resolver ranges and native fallbacks otherwise compose as intended. The historical eye-height behavior is not covered by the accepted physical-size correction and is explicitly left without a parity claim below.
+No blocker was found for steady-state historical pose/profile correctness in this range. A separate live profile switch can expand the player AABB into a low ceiling; because historical versions had no in-game profile switching, transition safety is an undefined policy and remains a documented limitation. Ordinary pose transitions still use the native fit path, subject to the accepted collision-query-context limitation. Resolver ranges and native fallbacks otherwise compose as intended. Eye-height-dependent movement consumers remain an unvalidated follow-up; camera/rendering parity is excluded.
 
 ## Resolver and hook composition
 
@@ -26,17 +26,17 @@ The earlier V1_8 `SneakingDimensions` registration continues to win at V1_8. It 
 
 The code does not replace `Player.updatePlayerPose()` or its fit query. Exact 26.2 source first requires the SWIMMING pose to fit, then tries the desired pose, then CROUCHING, then the SWIMMING fallback. Its candidate check calls `level.noCollision(this, candidateBox.deflate(1.0E-7))`. Exact 1.13.2 source instead derives target width/height from fall-flying, sleep, swimming/spin, sneak, or standing state; it applies the size only when `world.hasNoCollisions(null, box)` succeeds. The 1.13.2 source finding accepted this query-context difference and conditional tight-space outcomes, with no arbitrary-world or trajectory parity claim. The new physical dimension values leave the native 26.2 pose selector and query context in place; that is the bounded limitation, not evidence of general collision parity.
 
-## Confirmed finding: live profile growth skips collision fit
+## Confirmed limitation: live profile growth skips collision fit
 
 **Confidence: confirmed. Severity: important, limited to a live profile switch while crouched in tight clearance.** In `src/main/java/me/wolfii/legacyparkourcompat/mixin/LivingEntityMixin.java:68-88`, the epoch hook resolves the new dimensions for the current pose and calls `player.refreshDimensions()` whenever width, height, or eye height differs. Exact 26.2 `Entity.refreshDimensions()` (`Entity.java:3393-3408`) assigns the new dimensions/eye height and reapplies position without a collision check; its position-fudge path is guarded to exclude `Player`.
 
 Concrete trigger: a player is already in native V1_14/CURRENT CROUCHING dimensions (0.6×1.5) in a 1.5-block clearance, then global or per-player selection changes to V1_13. The epoch hook resolves CROUCHING to 0.6×1.65 and refreshes immediately, so the AABB intersects the ceiling. Later in the same player tick, native `Player.updatePlayerPose()` begins by checking whether SWIMMING fits; for a non-swimming, shift-key-down V1_13 player that candidate is also 1.65, so the check can fail and the selector leaves the pose unchanged. This means the native fit query does not protect the live epoch-driven resize.
 
-Smallest correction: defer a dimension *growth* on the epoch path until the candidate box fits, keeping the refresh pending so it is retried on a later player tick; dimension shrink can continue to refresh immediately. The code was not changed in this review. This finding applies to the earlier epoch-refresh change (`52a1620`) composed with the new 1.13 dimensions, rather than to ordinary pose selection alone.
+Disposition: this is not a blocker to integrating steady-state historical pose corrections, but it limits any claim that live profile changes are collision-safe in arbitrary tight spaces. No minimal native-consistent correction is established: deferring the requested profile conflicts with the next-tick effective-change promise, relocation invents transition behavior, and immediate application can overlap. Historical source defines no in-game transition policy. Do not silently skip a requested profile or relocate the player; keep the limitation explicit pending a policy decision. This applies to the earlier epoch-refresh change (`52a1620`) composed with the new 1.13 dimensions, not to ordinary pose selection alone.
 
 ## Eye-height scope caveat
 
-The V1_12 and V1_13 CROUCHING implementations call `.withEyeHeight(vanilla.eyeHeight())` (their source locations are `SwimmingDimensions.java:14-16` and `SneakingDimensions.java:15-20`). In exact current 26.2 `Avatar.POSES`, native CROUCHING eye height is 1.27 (`Avatar.java:31-34`). Exact older 1.9.4 and 1.12.2 `PlayerEntity.getEyeHeight()` returns 1.54 while sneaking; 1.13.2 also returns 1.54 while sneaking or at height 1.65. Therefore the commits correct the physical box height while retaining the modern crouching eye height. The accepted F002 is bounded to physical pose sizing/selection and lists eye-height/fluid checks as open dependencies; this report makes no eye-height, fluid-state, or complete pose-parity claim. If those behaviors are part of the requested completeness boundary, they need separate accepted evidence and review.
+The V1_12 and V1_13 CROUCHING implementations call `.withEyeHeight(vanilla.eyeHeight())` (`SwimmingDimensions.java:14-16`; `SneakingDimensions.java:15-20`). Current 26.2 native CROUCHING eye height is 1.27 (`Avatar.java:31-34`); exact older 1.9.4 and 1.12.2 sources use 1.54 while sneaking, and 1.13.2 uses 1.54 while sneaking or at height 1.65. These commits correct physical box height while retaining modern eye height. Camera/rendering parity is excluded from this review. Eye-height-dependent physical and fluid consumers remain an unvalidated movement follow-up, not automatically out of scope; this report makes no parity claim for those consumers.
 
 ## Six review angles
 
@@ -50,5 +50,5 @@ The V1_12 and V1_13 CROUCHING implementations call `.withEyeHeight(vanilla.eyeHe
 ## Not verified
 
 - No runtime pose transition, live profile switch, collision witness, build, or test was executed.
-- Eye-height/fluid consequences are source-different but outside the accepted physical-sizing boundary; no broader parity decision is made.
+- Eye-height-dependent physical and fluid consumers remain unvalidated movement follow-up; camera/rendering parity is excluded. No parity conclusion is made for those consumers.
 - The current selection and collision context do not establish arbitrary-world parity with the historical `hasNoCollisions(null, box)` path.
