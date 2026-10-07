@@ -21,7 +21,7 @@ The Version Differences page stops at 1.18 and has TODOs in all 1.18 categories.
 
 ## Source findings and integrity status
 
-Detailed method bodies, operation order, endpoint hashes, and remaining open claims are in [mcpk-source-adjudication.md](mcpk-source-adjudication.md). The initial 1.8.9→1.9.4 comparison is in [mcpk-1.8.9-1.9.4.md](mcpk-1.8.9-1.9.4.md). Feather-backed findings from 1.8.9–1.13.2, and the 1.13.2 endpoint of the collision-order comparison, are provisional until the source owner repairs artifact integrity and supplies fresh verification.
+Detailed method bodies, operation order, endpoint hashes, and remaining open claims are in [mcpk-source-adjudication.md](mcpk-source-adjudication.md). The initial 1.8.9→1.9.4 comparison is in [mcpk-1.8.9-1.9.4.md](mcpk-1.8.9-1.9.4.md). Fresh checks verified revision `feather-r1-2026-10-07` and all 11,958 listed Feather source files plus 222 unchanged raw-input records against their published hashes. Feather-backed findings remain provisional pending independent operations verification: the original derived mapped JARs are unavailable, and the revised snapshots are not claimed to be identical to them.
 
 - **1.8.9→1.9.4:** threshold and jump-apex behavior, sneak dimensions, ladder width, pane/bar neutral shape, lily-pad geometry, west piston arm, and chest/anvil shape behavior are verified at endpoints. Single-layer snow has no positive-volume collision difference. Exact first 1.9 patch is not pinned.
 - **1.10.2 auto-jump:** option and eligibility/obstacle checks exist; source uses strict `> 0.5`, not `≥ 0.5`. It is optional client input behavior.
