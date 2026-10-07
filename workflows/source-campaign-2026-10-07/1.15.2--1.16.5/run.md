@@ -117,9 +117,9 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - B evidence: LocalPlayer#moveTowardsClosestSpace/suffocatesAt, lines 414-447; four callers lines 657-660; LocalPlayer source SHA-256 in B manifest.
 - State producers/writers -> consumers/readers: position/bounding box -> four horizontal sample columns -> collision query -> selected x/z delta-velocity overwrite.
 - Parent slices / dependencies / closure evidence: A Player.freeAt; B CollisionGetter.noBlockCollision/getBlockCollisions; BlockState.isSuffocating; shape providers.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): A checks suffocation on every integer y in a selected column; B queries suffocating collision shapes over an AABB. Need establish concrete common-state difference and query semantics.
-- Finding IDs or checked absence/replacement path: pending
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): for a present open shulker block entity, A ShulkerBoxBlock.isSuffocating returns true unconditionally and A LocalPlayer checks this per block cell. B registers shulker suffocation as blockEntity.isClosed(); B collision query filters by this predicate before testing shape intersection. The open shulker is therefore a concrete common-block difference.
+- Finding IDs or checked absence/replacement path: F-S1-OPEN-SHULKER-ESCAPE; A MovingPistonBlock reports false and B MOVING_PISTON isSuffocating is Blocks::never; A/B base piston predicates both reject extended bases. The shared common-block query-path checks are documented in the finding.
 
 ### Slice S1-SPRINT-RESET: held-shift cancellation of pending sprint trigger
 - Inventory ID(s): INV-TICK, INV-STATE
@@ -139,9 +139,9 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - B evidence: LocalPlayer#aiStep lines 725-730; LivingEntity#onClimbable lines 1363-1377; source hashes in B manifest.
 - State producers/writers -> consumers/readers: feet block state/trapdoor/tag -> fall-flying initiation and movement mode; B also records lastClimbablePos.
 - Parent slices / dependencies / closure evidence: exact CLIMBABLE tag resource, legacy blocks, trapdoor helper and travel consumers.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): legacy block membership and B-only blocks not closed.
-- Finding IDs or checked absence/replacement path: pending
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): on common legacy blocks, B CLIMBABLE values ladder/vine/scaffolding match A explicit blocks; both retain the same open-trapdoor/lower-ladder-facing helper. B-only weeping/twisting vines did not exist in A and are outside historical compatibility scope; lastClimbablePos only feeds CombatTracker text.
+- Finding IDs or checked absence/replacement path: none for the common historical block set; B-only vine membership excluded by scope.
 
 ### Slice S1-WATER-DESCENT: local crouch-to-descend impulse
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
@@ -265,9 +265,149 @@ The historical pair report is not imported as source confirmation.
 ## Resume checkpoint
 
 - Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S3-WATER,S3-FALL-FLYING; findings slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S2-EDGE,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT.
-- Active slices: S1-LOCAL-TICK,S1-LOCAL-AISTEP,S1-ESCAPE,S1-ELYTRA,S3-GROUND-AIR; required stages 2-7 remain to be entered.
-- Next: close the exact suffocation-query and climbable-tag dependencies, then add bounded slices for remaining state, collision, world, modifier and external-input inventories.
-- Outstanding dependencies: S1-ESCAPE-QUERY,S1-CLIMB-TAG,remaining required stage 2-7 inventory slices, independent reviewer assignment.
+- Active slices: S1-LOCAL-TICK,S1-LOCAL-AISTEP,S3-GROUND-AIR; required stages 2-7 remain to be entered.
+- Next: add bounded slices for remaining state, collision, world, modifier and external-input inventories.
+- Outstanding dependencies: remaining required stage 2-7 inventory slices, independent reviewer assignment.
+
+## Finding snapshots (not pair freeze)
+
+Each finding is committed as an immutable source snapshot. All are submitted and await an independent blind source reviewer; none is accepted yet. Implementation/source reconciliation remains deferred until the full-pair source freeze.
+
+### Snapshot event F-S1-SPRINT-RESET
+- Finding ID(s): F-S1-SPRINT-RESET
+- Source finding author(s): source-only pair researcher
+- Status: submitted
+- Immutable snapshot commit: ce9369e
+- Finding file path and SHA-256: findings/F-S1-SPRINT-RESET.md — 7546416c26179fd4b4128fa3042280f8f24622b237299b6eeabc5010ef035cff
+- Exact A/B artifact-manifest identities/hashes: ready/1.15.2/artifacts.sha256 208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406; ready/1.16.5/artifacts.sha256 f9b9812d6995012cefcc1201a63855e5931e8551b508753be6c46d442d8b370c
+- Cited source hashes: A LocalPlayer 3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd; B LocalPlayer 6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b
+- Verified implementation boundary/evidence, or unresolved boundary reason: not inspected; source-only owner remains blind until full-pair freeze.
+- Finding-specific closed dependency IDs/evidence: S1-SPRINT-RESET timer writer/decrement/read paths and aiStep input order closed from paired LocalPlayer bodies; food/mayfly values are direct predicates only.
+- Independent blind source reviewer and decision date: pending coordinator assignment
+- Review basis / requested source-only revisions: pending
+- Pair run status and commit at handoff: active at ce9369e
+- Pair complete: no
+- Implementation handoff: blocked; independent snapshot acceptance pending.
+- Replaces/supersedes snapshot ID and reason, if applicable: none
+
+### Snapshot event F-S1-WATER-DESCENT
+- Finding ID(s): F-S1-WATER-DESCENT
+- Source finding author(s): source-only pair researcher
+- Status: submitted
+- Immutable snapshot commit: ce9369e
+- Finding file path and SHA-256: findings/F-S1-WATER-DESCENT.md — 5a74ac4924dc847e77a8edfeea771b31c93a2878a015627786f0171bd7b60226
+- Exact A/B artifact-manifest identities/hashes: ready/1.15.2/artifacts.sha256 208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406; ready/1.16.5/artifacts.sha256 f9b9812d6995012cefcc1201a63855e5931e8551b508753be6c46d442d8b370c
+- Cited source hashes: A LocalPlayer 3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd and LivingEntity 46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54; B LocalPlayer 6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b, Player d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960 and LivingEntity b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88
+- Verified implementation boundary/evidence, or unresolved boundary reason: not inspected; source-only owner remains blind until full-pair freeze.
+- Finding-specific closed dependency IDs/evidence: S1-WATER-DESCENT Player.isAffectedByFluids gate and goDownInWater helper compared on both endpoints.
+- Independent blind source reviewer and decision date: pending coordinator assignment
+- Review basis / requested source-only revisions: pending
+- Pair run status and commit at handoff: active at ce9369e
+- Pair complete: no
+- Implementation handoff: blocked; independent snapshot acceptance pending.
+- Replaces/supersedes snapshot ID and reason, if applicable: none
+
+### Snapshot event F-S2-EDGE
+- Finding ID(s): F-S2-EDGE
+- Source finding author(s): source-only pair researcher
+- Status: submitted
+- Immutable snapshot commit: ce9369e
+- Finding file path and SHA-256: findings/F-S2-EDGE.md — 7382329a99db906b15a366a6ee2b6567aa50924eb7fb15e0b07d771d5aa02a3b
+- Exact A/B artifact-manifest identities/hashes: ready/1.15.2/artifacts.sha256 208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406; ready/1.16.5/artifacts.sha256 f9b9812d6995012cefcc1201a63855e5931e8551b508753be6c46d442d8b370c
+- Cited source hashes: A Player 1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793; B Player d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960
+- Verified implementation boundary/evidence, or unresolved boundary reason: not inspected; source-only owner remains blind until full-pair freeze.
+- Finding-specific closed dependency IDs/evidence: S2-EDGE guards, inherited shift predicate, isAboveGround helper and noCollision semantics inspected in Player/CollisionGetter sources.
+- Independent blind source reviewer and decision date: pending coordinator assignment
+- Review basis / requested source-only revisions: pending
+- Pair run status and commit at handoff: active at ce9369e
+- Pair complete: no
+- Implementation handoff: blocked; independent snapshot acceptance pending.
+- Replaces/supersedes snapshot ID and reason, if applicable: none
+
+### Snapshot event F-S3-SHALLOW-LAVA-TRAVEL
+- Finding ID(s): F-S3-SHALLOW-LAVA-TRAVEL
+- Source finding author(s): source-only pair researcher
+- Status: submitted
+- Immutable snapshot commit: f8fceba272e880b0afbd4b497b50624d019e309
+- Finding file path and SHA-256: findings/F-S3-SHALLOW-LAVA-TRAVEL.md — 5aba31638bf743d19fb68dcf9f1b5441ca1d971dba32a1f72af40b688f2b6dc9
+- Exact A/B artifact-manifest identities/hashes: ready/1.15.2/artifacts.sha256 208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406; ready/1.16.5/artifacts.sha256 f9b9812d6995012cefcc1201a63855e5931e8551b508753be6c46d442d8b370c
+- Cited source hashes: A LivingEntity 46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54; B LivingEntity b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88 and Entity f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666
+- Verified implementation boundary/evidence, or unresolved boundary reason: not inspected; source-only owner remains blind until full-pair freeze.
+- Finding-specific closed dependency IDs/evidence: S3-LAVA dispatch, affected-fluid/stand-on-fluid gates, lava fluid-height writer/accessor and eye-height threshold inspected.
+- Independent blind source reviewer and decision date: pending coordinator assignment
+- Review basis / requested source-only revisions: pending
+- Pair run status and commit at handoff: partial at f8fceba272e880b0afbd4b497b50624d019e309
+- Pair complete: no
+- Implementation handoff: blocked; independent snapshot acceptance pending.
+- Replaces/supersedes snapshot ID and reason, if applicable: none
+
+### Snapshot event F-S3-FLUID-JUMP-GATE
+- Finding ID(s): F-S3-FLUID-JUMP-GATE
+- Source finding author(s): source-only pair researcher
+- Status: submitted
+- Immutable snapshot commit: f8fceba272e880b0afbd4b497b50624d019e309
+- Finding file path and SHA-256: findings/F-S3-FLUID-JUMP-GATE.md — 08eca5bb4f32db47de8012fe69c9be9648153f87cd8864494d8f76c3c606e63b
+- Exact A/B artifact-manifest identities/hashes: ready/1.15.2/artifacts.sha256 208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406; ready/1.16.5/artifacts.sha256 f9b9812d6995012cefcc1201a63855e5931e8551b508753be6c46d442d8b370c
+- Cited source hashes: A LivingEntity 46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54; B LivingEntity b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88 and Player d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960
+- Verified implementation boundary/evidence, or unresolved boundary reason: not inspected; source-only owner remains blind until full-pair freeze.
+- Finding-specific closed dependency IDs/evidence: S3-JUMP outer gate, B Player override and default fluid gate traced; A liquid-height/lava branches traced.
+- Independent blind source reviewer and decision date: pending coordinator assignment
+- Review basis / requested source-only revisions: pending
+- Pair run status and commit at handoff: partial at f8fceba272e880b0afbd4b497b50624d019e309
+- Pair complete: no
+- Implementation handoff: blocked; independent snapshot acceptance pending.
+- Replaces/supersedes snapshot ID and reason, if applicable: none
+
+### Snapshot event F-S3-SHALLOW-LAVA-JUMP
+- Finding ID(s): F-S3-SHALLOW-LAVA-JUMP
+- Source finding author(s): source-only pair researcher
+- Status: submitted
+- Immutable snapshot commit: f8fceba272e880b0afbd4b497b50624d019e309
+- Finding file path and SHA-256: findings/F-S3-SHALLOW-LAVA-JUMP.md — b3a383137d1155a71816eea1f0efc203d9849ab652620fe21a09d8613689217e
+- Exact A/B artifact-manifest identities/hashes: ready/1.15.2/artifacts.sha256 208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406; ready/1.16.5/artifacts.sha256 f9b9812d6995012cefcc1201a63855e5931e8551b508753be6c46d442d8b370c
+- Cited source hashes: A LivingEntity 46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54; B LivingEntity b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88 and Entity f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666
+- Verified implementation boundary/evidence, or unresolved boundary reason: not inspected; source-only owner remains blind until full-pair freeze.
+- Finding-specific closed dependency IDs/evidence: S3-JUMP nested lava conditions, lava height writer/accessor and eye-height threshold traced; exact jump helper implementations remain outside this call-selection finding.
+- Independent blind source reviewer and decision date: pending coordinator assignment
+- Review basis / requested source-only revisions: pending
+- Pair run status and commit at handoff: partial at f8fceba272e880b0afbd4b497b50624d019e309
+- Pair complete: no
+- Implementation handoff: blocked; independent snapshot acceptance pending.
+- Replaces/supersedes snapshot ID and reason, if applicable: none
+
+### Snapshot event F-S5-WATER-CURRENT
+- Finding ID(s): F-S5-WATER-CURRENT
+- Source finding author(s): source-only pair researcher
+- Status: submitted
+- Immutable snapshot commit: f8fceba272e880b0afbd4b497b50624d019e309
+- Finding file path and SHA-256: findings/F-S5-WATER-CURRENT.md — 1bfa35236cfcdbc66218b7240b5d498d6b2a34edf4d9a13d9780cb389f7ffe9a
+- Exact A/B artifact-manifest identities/hashes: ready/1.15.2/artifacts.sha256 208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406; ready/1.16.5/artifacts.sha256 f9b9812d6995012cefcc1201a63855e5931e8551b508753be6c46d442d8b370c
+- Cited source hashes: A Entity 191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e and Player 1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793; B Entity f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666 and Player d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960
+- Verified implementation boundary/evidence, or unresolved boundary reason: not inspected; source-only owner remains blind until full-pair freeze.
+- Finding-specific closed dependency IDs/evidence: A water-only call path, B water scale caller, Player push overrides and weak-current minimum conditions inspected.
+- Independent blind source reviewer and decision date: pending coordinator assignment
+- Review basis / requested source-only revisions: pending
+- Pair run status and commit at handoff: partial at f8fceba272e880b0afbd4b497b50624d019e309
+- Pair complete: no
+- Implementation handoff: blocked; independent snapshot acceptance pending.
+- Replaces/supersedes snapshot ID and reason, if applicable: none
+
+### Snapshot event F-S5-LAVA-CURRENT
+- Finding ID(s): F-S5-LAVA-CURRENT
+- Source finding author(s): source-only pair researcher
+- Status: submitted
+- Immutable snapshot commit: f8fceba272e880b0afbd4b497b50624d019e309
+- Finding file path and SHA-256: findings/F-S5-LAVA-CURRENT.md — dcd03f046ab14548f1d6f7049396edc30d399b1aa94e7c73e09459d0b5bcdad4
+- Exact A/B artifact-manifest identities/hashes: ready/1.15.2/artifacts.sha256 208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406; ready/1.16.5/artifacts.sha256 f9b9812d6995012cefcc1201a63855e5931e8551b508753be6c46d442d8b370c
+- Cited source hashes: A Entity 191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e and Player 1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793; B Entity f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666 and Player d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960
+- Verified implementation boundary/evidence, or unresolved boundary reason: not inspected; source-only owner remains blind until full-pair freeze.
+- Finding-specific closed dependency IDs/evidence: A water-only base-tick scan and B base-tick lava scan plus Player fluid-push gate inspected.
+- Independent blind source reviewer and decision date: pending coordinator assignment
+- Review basis / requested source-only revisions: pending
+- Pair run status and commit at handoff: partial at f8fceba272e880b0afbd4b497b50624d019e309
+- Pair complete: no
+- Implementation handoff: blocked; independent snapshot acceptance pending.
+- Replaces/supersedes snapshot ID and reason, if applicable: none
 
 ## Implementation reconciliation
 
@@ -288,9 +428,9 @@ The historical pair report is not imported as source confirmation.
 
 ## Source audit closure
 
-- Coverage counts by status: pending 0; in-progress 5; compared-no-difference 4; findings 7; remaining required stage slices not yet entered and open.
+- Coverage counts by status: pending 0; in-progress 3; compared-no-difference 5; findings 8; remaining required stage slices not yet entered and open.
 - Required inventory status and evidence: all seven pending.
-- Open dependencies: S1-ESCAPE-QUERY,S1-CLIMB-TAG,remaining required stage 2-7 inventory slices, and independent source reviewer assignment.
+- Open dependencies: remaining required stage 2-7 inventory slices, and independent source reviewer assignment.
 - Unresolved gaps and limits: exhaustive source comparison is incomplete.
 - Evidence/hash/correspondence audit: Ready/source/artifact manifest hashes and cited core source hashes verified; exact Mojmap provenance sidecars verified, mappingArtifacts=null, success logs are summary-only; full method/resource index remains pending.
 - Blind freeze: pending
