@@ -21,7 +21,7 @@ Both exact releases have ready publications under `build/movement-campaign-2026-
 
 - Status: pending; source comparison remains in progress.
 - Freeze commit/checkpoint and timestamp: pending.
-- Evidence inventory and finding IDs included at freeze: F-01 through F-09 are source-confirmed preliminary findings; freeze will record final hashes after coverage closes.
+- Evidence inventory and finding IDs included at freeze: pending; F-01 through F-12 are current source-confirmed preliminary findings, and final evidence hashes will be recorded after coverage closes.
 - Confirmation old mod implementation/code and isolated wiki-audit results were not opened before freeze: confirmed; source-navigation docs and an earlier source-discovery report were used only as navigation.
 - Source/mapping hashes covered by freeze: pending.
 
@@ -37,7 +37,7 @@ Exact-source correspondence is in progress. The verified Mojmap pair resolves `L
 - `INV-COLLISION` collision/query path, shape providers, registrations, callbacks, neighboring-block dependencies: status=pending; slices=S4-COLLISION-QUERY, S4-AXIS, S4-STEP, S4-EDGE, S4-GROUND-SUPPORT, S4-SHAPES, S4-CALLBACKS, S5-BLOCK-SHAPES, S5-NEIGHBORS; evidence=F-01, F-07, F-08, F-10 plus paired Entity/Player/NetherPortalBlock/PowderSnowBlock/BlockBehaviour paths; full collision and shape-provider inventory open.
 - `INV-WORLD-MOVEMENT` block/fluid properties, subclasses, registries, tags/data and resource-backed defaults: status=pending; slices=S5-BLOCK-SHAPES, S5-BLOCK-FACTORS, S5-NEIGHBORS, S5-FLUIDS; evidence=F-01, F-02, F-07, F-08 plus block/fluid callback excerpts; resource/tag/registry closure open.
 - `INV-MODIFIERS` movement attributes/effects/enchantments/equipment and application/removal/conditions: status=pending; slices=S6-ATTRIBUTES, S6-EFFECTS, S6-ENCHANTMENTS, S6-EQUIPMENT; evidence=F-03/F-04 cite direct sneaking and sprint movement-attribute consumers; full producer/default and equipment/effect dependency inventory not started.
-- `INV-EXTERNAL` player-only external movement inputs and client consumers: status=pending; slices=S7-CORRECTIONS, S7-PUSH, S7-PISTON-LAUNCH, S7-MOUNTS, S7-DEPENDENCIES; player packet/correction, impulse, piston and mount caller closure not started.
+- `INV-EXTERNAL` player-only external movement inputs and client consumers: status=pending; slices=S7-CORRECTIONS, S7-PUSH, S7-PISTON-LAUNCH, S7-MOUNTS, S7-DEPENDENCIES; partial client correction/pitch and push/knockback formulas inspected (F-12; S7-PUSH), while other correction writers, impulse callers, piston and mount paths remain open.
 - `INV-EXCLUSIONS` health/regen/hunger/food/saturation/exhaustion/damage/combat and non-player or vehicle movement: status=pending; evidence=scope contract and F-01 excludes fire/lava damage outcomes; direct sprint predicate reads remain in scope while producer systems are excluded. Full scope audit remains open.
 
 ## Coverage ledger
@@ -302,27 +302,27 @@ These are initial bounded navigation units. Exact sources are published; slice-b
 
 ### Slice S3-WATER: Water travel, drag, gravity and current
 
-- Inventory ID(s): slice mapping not yet inventoried
-- Exact behavior boundary and enclosing guards/order checked: not yet inspected
-- A evidence: not yet inspected in exact 1.21.4 source
-- B evidence: not yet inspected in exact 1.21.5 source
-- State producers/writers -> consumers/readers: not yet inspected
-- Parent slices / dependencies / closure evidence: pending
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): exact sources are published; this slice has not been inspected, so no behavior conclusion is recorded
-- Finding IDs or checked absence/replacement path: pending
+- Inventory ID(s): INV-TICK, INV-MODIFIERS, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: water branch of `travelInFluid`: sprint/water slowdown and efficiency scalars -> relative acceleration -> movement -> climbable collision rise -> water drag/falling adjustment. External fluid contact/current production remains open.
+- A evidence: `ready/1.21.4/mojmap.sources.sha256`; `LivingEntity.java` lines 2227-2258, 2375-2392, 2184-2187; `Entity.java` lines 3323-3325.
+- B evidence: `ready/1.21.5/mojmap.sources.sha256`; `LivingEntity.java` lines 2249-2280, 2406-2423, 2208-2211; `Entity.java` lines 3321-3323.
+- State producers/writers -> consumers/readers: water contact/height/current and affected-by-fluid state -> water branch; sprint, `WATER_MOVEMENT_EFFICIENCY`, ground state, speed, gravity and Dolphin's Grace -> acceleration/drag/falling adjustment -> `move` and velocity update.
+- Parent slices / dependencies / closure evidence: S3-DISPATCH; S3-GRAVITY-DRAG; S3-SWIM; S5-FLUIDS; S6-ATTRIBUTES; S6-EFFECTS. Travel formula helpers inspected; fluid contact/current and modifier producers remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): water branch arithmetic and helper order match in the paired sources for equal input values. Water-flow/current production and the complete attribute/effect state inventory remain open, so this branch slice is not terminal.
+- Finding IDs or checked absence/replacement path: checked absence of a `travelInFluid` water-formula delta; dependencies remain open.
 
 ### Slice S3-LAVA: Lava travel, drag, gravity and current
 
-- Inventory ID(s): slice mapping not yet inventoried
-- Exact behavior boundary and enclosing guards/order checked: not yet inspected
-- A evidence: not yet inspected in exact 1.21.4 source
-- B evidence: not yet inspected in exact 1.21.5 source
-- State producers/writers -> consumers/readers: not yet inspected
-- Parent slices / dependencies / closure evidence: pending
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): exact sources are published; this slice has not been inspected, so no behavior conclusion is recorded
-- Finding IDs or checked absence/replacement path: pending
+- Inventory ID(s): INV-TICK, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: lava branch of `travelInFluid`: fixed relative acceleration -> movement -> fluid-height/threshold choice of drag and falling adjustment -> quarter-gravity term -> collision/free-space upward move.
+- A evidence: `ready/1.21.4/mojmap.sources.sha256`; `LivingEntity.java` lines 2258-2277, 2375-2392, 2184-2187; `Entity.java` lines 3323-3325.
+- B evidence: `ready/1.21.5/mojmap.sources.sha256`; `LivingEntity.java` lines 2280-2299, 2406-2423, 2208-2211; `Entity.java` lines 3321-3323.
+- State producers/writers -> consumers/readers: lava height/current and threshold plus gravity -> branch-specific drag and falling adjustment -> quarter-gravity and collision rise -> delta movement; the fluid contact/current producer remains open.
+- Parent slices / dependencies / closure evidence: S3-DISPATCH; S3-GRAVITY-DRAG; S5-FLUIDS. Paired travel and falling-adjustment formulas inspected; fluid height/current producers remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): lava branch arithmetic and helper order match in the paired sources for equal input values. Fluid contact/current and the full gravity path remain open, so this branch slice is not terminal.
+- Finding IDs or checked absence/replacement path: checked absence of a `travelInFluid` lava-formula delta; dependencies remain open.
 
 ### Slice S3-SWIM: Swimming input/look vector and pose interaction
 
@@ -547,28 +547,27 @@ These are initial bounded navigation units. Exact sources are published; slice-b
 
 ### Slice S7-CORRECTIONS: Player corrections and position/velocity state writers
 
-- Inventory ID(s): slice mapping not yet inventoried
-- Exact behavior boundary and enclosing guards/order checked: not yet inspected
-
-- A evidence: not yet inspected in exact 1.21.4 source
-- B evidence: not yet inspected in exact 1.21.5 source
-- State producers/writers -> consumers/readers: not yet inspected
-- Parent slices / dependencies / closure evidence: pending
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): exact sources are published; this slice has not been inspected, so no behavior conclusion is recorded
-- Finding IDs or checked absence/replacement path: pending
+- Inventory ID(s): INV-EXTERNAL, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: non-passenger local-player `ClientPacketListener.handleMovePlayer` -> relative position/rotation resolution -> direct `PositionMoveRotation.calculateAbsolute` result -> local-player position, pitch and velocity state; other correction callers and writers remain uninspected.
+- A evidence: `ready/1.21.4/mojmap.sources.sha256`; `ClientPacketListener.java` lines 707-715; `PositionMoveRotation.java` lines 35-63; `Entity.java` default `lerpTargetX/Y/Z` and `LocalPlayer.java` absence of overrides (finding F-12 includes member hashes).
+- B evidence: `ready/1.21.5/mojmap.sources.sha256`; `ClientPacketListener.java` lines 720-728; `PositionMoveRotation.java` lines 34-62; `Entity.java` default `getInterpolation` and `LocalPlayer.java` absence of overrides (finding F-12 includes member hashes).
+- State producers/writers -> consumers/readers: clientbound correction packet relative flags and current local-player position/rotation/velocity -> absolute correction state; corrected pitch is later read by fall-flying travel. Other correction routes and direct movement state writers remain open.
+- Parent slices / dependencies / closure evidence: S3-GLIDE; S7-PUSH; S7-DEPENDENCIES; F-12. The handler's non-passenger guard and `false` direct-set path were checked; full packet/correction and external-writer inventory remains open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): for a non-passenger local player, the paired handler uses the direct-set path; B clamps the resolved absolute pitch to `[-90°, 90°]`, whereas A stores it unchanged. This is a confirmed source delta, but this slice is not terminal because other correction and velocity writers/callers remain open.
+- Finding IDs or checked absence/replacement path: F-12
 
 ### Slice S7-PUSH: Player push/knockback inputs; exclude damage outcomes
 
-- Inventory ID(s): slice mapping not yet inventoried
-- Exact behavior boundary and enclosing guards/order checked: not yet inspected
-- A evidence: not yet inspected in exact 1.21.4 source
-- B evidence: not yet inspected in exact 1.21.5 source
-- State producers/writers -> consumers/readers: not yet inspected
-- Parent slices / dependencies / closure evidence: pending
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): exact sources are published; this slice has not been inspected, so no behavior conclusion is recorded
-- Finding IDs or checked absence/replacement path: pending
+- Inventory ID(s): INV-EXTERNAL, INV-STATE, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: LivingEntity push override -> Entity collision push vector; direct LivingEntity knockback formula -> delta movement writer. Source formulas are compared; caller and condition inventory remains open.
+- A evidence: `ready/1.21.4/mojmap.sources.sha256`; `LivingEntity.java` lines 1502-1518 and 2101-2104; `Entity.java` lines 1554-1598.
+- B evidence: `ready/1.21.5/mojmap.sources.sha256`; `LivingEntity.java` lines 1531-1547 and 2125-2128; `Entity.java` lines 1583-1624.
+- State producers/writers -> consumers/readers: push target/position/no-physics/pushable state -> `0.05` horizontal collision impulse; knockback amount/direction and `KNOCKBACK_RESISTANCE` -> normalized horizontal vector and grounded vertical term -> `setDeltaMovement`, then later player travel.
+- Parent slices / dependencies / closure evidence: S4-COLLISION-QUERY; S6-ATTRIBUTES; S7-CORRECTIONS; S7-DEPENDENCIES. Both paired push and knockback bodies match; trigger/caller inventory and external state changes remain open. Damage outcomes excluded.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): push and knockback arithmetic is unchanged in the paired source methods. The player receives collision impulses through its non-sleeping LivingEntity push path; the `KNOCKBACK_RESISTANCE` attribute gates direct knockback magnitude. The exact caller paths, resistance producers, and other external velocity writers remain open.
+- Finding IDs or checked absence/replacement path: checked absence of a direct push/knockback formula delta in the paired methods; trigger and caller closure pending.
 
 ### Slice S7-PISTON-LAUNCH: Piston displacement and launch items
 
@@ -619,11 +618,11 @@ These are initial bounded navigation units. Exact sources are published; slice-b
 
 ## Finding index
 
-Source-confirmed findings: [F-01 movement callback path](findings/F-01-movement-callback-path.md), [F-02 bubble-column upper contact](findings/F-02-bubble-column-above-contact.md), [F-03 keyboard vector rounding](findings/F-03-keyboard-vector-rounding.md), [F-04 sprint stop gates](findings/F-04-sprint-stop-gates.md), [F-05 player horizontal velocity cutoff](findings/F-05-player-horizontal-velocity-cutoff.md), [F-06 fall-flying climbable exit](findings/F-06-fall-flying-climbable-exit.md), [F-07 Nether portal inside shape](findings/F-07-nether-portal-inside-shape.md), [F-08 powder-snow inside shape](findings/F-08-powder-snow-inside-shape.md), [F-09 local-player input damping](findings/F-09-local-player-input-damping.md), [F-10 player edge-support query](findings/F-10-player-edge-support-query.md), and [F-11 powder-snow wall-jump state](findings/F-11-powder-snow-wall-jump-state.md). Findings identify confirmed source deltas; they do not close the remaining pair-wide inventory/dependency slices.
+Source-confirmed findings: [F-01 movement callback path](findings/F-01-movement-callback-path.md), [F-02 bubble-column upper contact](findings/F-02-bubble-column-above-contact.md), [F-03 keyboard vector rounding](findings/F-03-keyboard-vector-rounding.md), [F-04 sprint stop gates](findings/F-04-sprint-stop-gates.md), [F-05 player horizontal velocity cutoff](findings/F-05-player-horizontal-velocity-cutoff.md), [F-06 fall-flying climbable exit](findings/F-06-fall-flying-climbable-exit.md), [F-07 Nether portal inside shape](findings/F-07-nether-portal-inside-shape.md), [F-08 powder-snow inside shape](findings/F-08-powder-snow-inside-shape.md), [F-09 local-player input damping](findings/F-09-local-player-input-damping.md), [F-10 player edge-support query](findings/F-10-player-edge-support-query.md), [F-11 powder-snow wall-jump state](findings/F-11-powder-snow-wall-jump-state.md), and [F-12 client correction pitch clamp](findings/F-12-player-correction-clamps-pitch.md). Findings identify confirmed source deltas; they do not close the remaining pair-wide inventory/dependency slices.
 
 ## Resume checkpoint
 
-- Last completed slice: S3-JUMP-MATH (compared-no-difference); exact-source comparisons have identified F-01 through F-11. No finding snapshot or pair freeze has been accepted.
+- Last completed slice: S3-JUMP-MATH (compared-no-difference); exact-source comparisons have identified F-01 through F-12. S3-WATER, S3-LAVA, S7-PUSH and S7-CORRECTIONS remain in-progress because dependency/caller closure is open. No finding snapshot or pair freeze has been accepted.
 - Next: close input/sample and scale dependencies, then continue ordered local tick and sprint/jump slices; continue the full travel branch comparison afterward.
 - Outstanding dependencies and owners: D1 call-graph and producer/consumer inventory (discovery); D2 resource/tag/default inspection (discovery); D3 collision/block/fluid callback and shape inventory (discovery); D4 attributes/effects/enchantments/equipment (discovery); D5 client correction/mount/push external paths (discovery).
 - Assumptions requiring verification: complete input consumers, player-only reachability through all travel branches, shape and resource dependencies, and direct movement state writers.
@@ -648,8 +647,8 @@ Source-confirmed findings: [F-01 movement callback path](findings/F-01-movement-
 
 ## Source audit closure
 
-- Coverage counts: 3 compared-no-difference; 0 terminal finding slices; 0 not-applicable; 0 blocked; 26 pending; 17 in-progress. Eleven source-confirmed findings have been recorded; slices remain open until their full inventories and dependencies close.
-- Required inventories: all remain open; bounded source work is underway across tick order, input math, collision callbacks and block/fluid contact. Inventory-level closure is not claimed.
+- Coverage counts: 3 compared-no-difference; 0 terminal finding slices; 0 not-applicable; 0 blocked; 22 pending; 21 in-progress. Twelve source-confirmed findings have been recorded; slices remain open until their full inventories and dependencies close.
+- Required inventories: all remain open; bounded source work is underway across tick order, input math, travel formulas, collision callbacks, block/fluid contact and partial external correction/push paths. Inventory-level closure is not claimed.
 - Open dependencies: D1-D5; D0 resolved.
 - Gaps: full movement call graph, branch dependencies, state writers/consumers, collision/shape provider inventory, registry/tag/resource data, modifiers/equipment and external player movement inputs.
 - Evidence/hash/correspondence audit: exact source/artifact readiness verified; finding hashes and all bounded slice evidence still require final audit at source freeze.
