@@ -213,14 +213,14 @@ Each entry is a bounded behavior slice, not an entire class/stage/travel method.
 ### Slice S3-01: Travel dispatch and pre-branch state
 
 - Inventory ID(s): INV-TICK; INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
-- A evidence: pending source readiness; no range accepted.
-- B evidence: pending source readiness; no range accepted.
-- State producers/writers -> consumers/readers: pending paired inventory.
-- Parent slices / dependencies / closure evidence: pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
-- Finding IDs or checked absence/replacement path: pending.
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.travel(Vec3)` outer `isEffectiveAi() || isControlledByLocalInstance()` gate; gravity base and slow-falling prelude; one `blockPosition()` fluid lookup; ordered water, lava, fall-flying, then ordinary ground/air dispatch. `Player.travel(Vec3)` wrapper checked through swimming and player-flight overrides, `super.travel`, and movement-statistics update.
+- A evidence: `net/minecraft/world/entity/LivingEntity.java#travel` lines 1914-2046; `net/minecraft/world/entity/player/Player.java#travel` lines 1387-1417. LivingEntity and Player source hashes are in the foundational source table above.
+- B evidence: `net/minecraft/world/entity/LivingEntity.java#travel` lines 2003-2139; `net/minecraft/world/entity/player/Player.java#travel` lines 1409-1439. LivingEntity and Player source hashes are in the foundational source table above.
+- State producers/writers -> consumers/readers: `isEffectiveAi` / `isControlledByLocalInstance`, slow-falling effect and current vertical delta select the shared prelude; the fluid state and predicates select the first two branches; the fall-flying flag selects the third; otherwise ordinary movement runs. Player swimming and flying flags select the Player wrapper branches. The wrapper bodies match exactly; LocalPlayer's effective-AI reachability and preceding input/tick transfer are traced in S1-02. Branch-specific movement state, block/fluid inputs, modifiers, and effects are closed in S3-02..S3-08 and S4/S5/S6/S7.
+- Parent slices / dependencies / closure evidence: S1-02 establishes the LocalPlayer call chain and effective-AI path; S1-03 and S1-05 establish sprint/flight state inputs; S2-02 covers eye-height consumers; S3-02..S3-08 cover branch bodies; S4/S5/S6/S7 close collision, predicate, modifier, and external-writer dependencies. Those branch and state dependencies remain open, but do not change the bounded dispatch comparison.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): Both versions use the same outer guard and pre-branch gravity/slow-falling order, read fluid state at the same position, and test branches in the same order. The paired `Player.travel` overrides are statement-for-statement identical, including swimming correction, flying-speed save/set/restore, `super.travel`, fall-distance/shared-flag writes, and movement-statistics update. No dispatch or pre-branch delta was established. Differences within the selected fall-flying and ordinary branches, including the newer discard-friction check and unloaded-chunk Y threshold, are routed to their branch-specific slices; this status does not resolve those branch outcomes.
+- Finding IDs or checked absence/replacement path: checked absence for dispatch/pre-branch behavior and Player wrapper; branch-specific paths pending S3-02..S3-08.
 
 ### Slice S3-02: Ground acceleration and friction
 
@@ -524,8 +524,8 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ## Resume checkpoint
 
-- Last completed slice: none; source pair verified, S1-01 in-progress pending S1-02/S2-01 closure.
-- Next bounded slice: S3-01 travel branch inventory and dispatch; retain S1-01..S1-06 and S2-01..S2-03 as in-progress until their listed input/pose, tick-membership, ability, speed, fluid/collision, modifier, item, mount, resize and external-writer dependencies close.
+- Last completed slice: S3-01 travel dispatch/pre-branch comparison; no dispatch delta found. Source pair verified; S1-01..S1-06 and S2-01..S2-03 remain in-progress pending their listed dependencies.
+- Next bounded slice: S3-02 ground acceleration and friction; continue S3-02..S3-08 branch-specific travel closure and retain S1/S2 slices as in-progress until input/pose, tick-membership, ability, speed, fluid/collision, modifier, item, mount, resize and external-writer dependencies close.
 - Outstanding dependencies and owners: source-owner publication is complete; source closure remains with this run, including S1-06 entity-tick membership/passenger scheduling and the remaining movement/resource inventories.
 - Assumptions requiring verification: no unresolved source-root or namespace assumptions; verify every newly selected source file against its manifest as slices are opened.
 
@@ -548,10 +548,10 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ## Source audit closure
 
-- Coverage counts by status: 25 pending, 9 in-progress, 0 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
+- Coverage counts by status: 24 pending, 9 in-progress, 1 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
 - Required inventory status and evidence: all seven pending; evidence pending.
 - Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; S1-05 abilities, Elytra/item state and travel/external writers; S1-06 chunk membership, passenger and server packet/correction closure; S2-01 collision-box and synchronized pose/position closure; S2-02 eye-height consumers; S2-03 item-use/shift state writers and travel consumers; RESOURCE-INVENTORY and movement-diagnostic scope closure.
-- Unresolved gaps and limits: S1-01..S1-06/S2-01..S2-03 dependency closure and the remaining 25 source slices are open.
+- Unresolved gaps and limits: S1-01..S1-06/S2-01..S2-03 dependency closure and the remaining 33 source slices (24 pending, 9 in-progress) are open.
 - Evidence/hash/correspondence audit: not started.
 - Blind freeze: pending.
 - Implementation reconciliation: pending.
