@@ -16,6 +16,8 @@ Both sides are pending validated `ready/<exact-version>/<namespace>.ready.json` 
 
 Pending exact sources. Index logical roles and members only after both ready records and source bodies are verified. Required ordered chain: local client input/sample and tick -> player gates/state -> living travel and jump -> entity move/collision/support/fluid -> block/fluid shape/property/callback producers -> movement attributes/effects/equipment/enchantments (excluding health/food/sprint-gate impact) -> external velocity/position writers and packet consumers. Record callers, inheritance, descriptors, state read/write/timing, line anchors and dependency closure on both sides. Do not infer correspondence from names alone.
 
+Navigation-only prior-run leads: the broader 1.20.6--1.21.11 report mentions LocalPlayer input/tick, KeyboardInput/ClientInput, LivingEntity travel, Entity movement and collision, Player edge support, powder snow, movement effects/enchantments, and correction packet handlers. Treat these only as filenames/roles to re-resolve after source publication; no prior findings, hashes, or no-difference conclusions are carried into this pair.
+
 ## Coverage ledger
 
 - S1 / local input and tick ordering: pending; source paths, members and lines await validated source publication. Inventory keyboard/controller state, yaw-to-motion, diagonal normalization, sneak/use scaling, sprint timers excluding food-state gates, jump/cooldown, auto-jump, flight toggle, unstuck, riding, previous/current input and tick ordering.
@@ -50,3 +52,4 @@ No confirmed findings. Candidate count: 0. No candidates discarded. Findings dir
 - Unresolved gaps and limits: full comparison not started because neither exact endpoint has validated ready publication. Queued source work does not make the run blocked or complete. No semantic claims have been made.
 - Evidence/hash/correspondence audit: not started; requires validating exact readiness JSON, cited SHA-256 values, and relevant method-body diagnostics before any evidence use.
 - Runtime validation: not performed (separate workflow).
+
