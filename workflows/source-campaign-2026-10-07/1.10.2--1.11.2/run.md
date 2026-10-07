@@ -176,6 +176,18 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - Disposition and rationale (including concrete reachability/preconditions): B changes the predicate from `!removed` to `isAlive() && !isClimbing()`. With collision rule allowing interaction, a non-spectator local player who is climbing and intersects a remote player is included by A's push candidate filter but rejected by B's; A's remote-player tick then applies `Entity.push` to the local player while B omits it. Conditions in `Entity.push` (different vehicle, neither noClip, horizontal separation at least `0.01F`, target has no passengers) further gate the velocity write. Death-related exclusion is not used for this finding.
 - Finding IDs or checked absence/replacement path: F-04.
 
+### Slice S1-autojump: post-move auto-jump decision body
+
+- Inventory ID(s): INV-TICK, INV-COLLISION, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: local `move` override records x/z, delegates movement, then calls `autoJump` with realized x/z displacement; exact `autoJump` body and sprint setter checked. Its collision-list producers and speed/effect inputs are not closed here.
+- A evidence: `LocalClientPlayerEntity.java::move`, lines 812-817, and `autoJump`, lines 823-923, SHA-256 `a9637065f21ad67464eb5c204c74ebf228c3bb0da8a96ddf4ae73c0490fed443`; `setSprinting`, lines 417-420, same file hash.
+- B evidence: `LocalClientPlayerEntity.java::move`, lines 824-829, and `autoJump`, lines 835-935, SHA-256 `65c2747bd8c70def6be7f41f624d4c9493342b39ae7bed7967f9ff63608f59ed`; `setSprinting`, lines 427-430, same file hash.
+- State producers/writers -> consumers/readers: movement result and `onGround` -> auto-jump gates; current input vector, speed, yaw/rotation and jump-boost state -> candidate direction/height; `World.getCollisions` output -> obstacle height -> `ticksToNextAutojump`.
+- Parent slices / dependencies / closure evidence: S1-local-order and S4-world-query; A's `move(double,double,double)` and B's `move(MoverType,double,double,double)` forward their received movement args to the superclass, then both compute realized x/z delta and invoke autoJump. The 101-line autoJump method body is text-identical. The `isSneaking`, A lines 596-599 and B lines 608-611, differs syntactically (`input != null ? input.sneaking : false` vs `input != null && input.sneaking`) but yields the same boolean for null and non-null input.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for identical local inputs, movement result, rotation/speed/effect values, and collision-list contents, the decision math, query construction, iteration order and cooldown write match exactly. This conditional result does not certify collision candidate lists or upstream movement outcomes.
+- Finding IDs or checked absence/replacement path: no finding in the bounded local post-move auto-jump decision; provider, modifier, and call-order dependencies remain open.
+
 ### Slice S2-elytra-empty-slot: empty chest-slot representation at local flight gates
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
@@ -264,7 +276,7 @@ Other correspondence requiring further walk: remote/client corrections and packe
 
 ## Resume checkpoint
 
-- Last completed slice: exact source readiness verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order; partial S4-world-query; bounded S2-sleep-size-cycle.
+- Last completed slice: exact source readiness verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order; partial S4-world-query; bounded S2-sleep-size-cycle; S1-autojump.
 - Next bounded slice and exact files/members/body ranges to open: `D-COLLISION` (`World.getCollisions`, both block-query overloads, relevant `BlockState.addCollisions`, every reachable shape provider), then `D-PISTON` (`MovingBlockEntity` complete progress/tick paths A 91-183 and B 116-285). Continue all open queue items in navigation order.
 - Outstanding dependencies and owners: shared source owner is read-only publisher; source worker owns this run and findings; coordinator must assign independent reviewer.
 - Current assumptions requiring verification: line ranges cited above remain stable under the source hashes; current mapped artifact integrity needs canonical owner repair/reverification; complete method correspondence, branch coverage, data resources and external-player call paths remain open.
@@ -290,7 +302,7 @@ Complete only after blind-discovery freeze. No mod implementation was opened.
 
 ## Source audit closure
 
-- Coverage counts by status: 4 findings, 6 compared-no-difference, 3 in-progress, 1 pending (bounded rows only; broad inventory remains open).
+- Coverage counts by status: 4 findings, 7 compared-no-difference, 3 in-progress, 1 pending (bounded rows only; broad inventory remains open).
 - Required inventory status and evidence: only `INV-EXCLUSIONS` declaration complete; all movement inventories pending, with partial anchors above.
 - Open dependencies: D-ARTIFACT-INTEGRITY, D-SOURCE-DIAGNOSTICS, D-COLLISION, D-PISTON, D-POSE, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
 - Unresolved gaps and limits: complete tick graph, body-level diagnostic review, collision providers/resources, exact entity-player collision paths, modifiers, external writers, source-only freeze and independent audit remain open. Source comparison only; no gameplay behavior observed.
