@@ -9,7 +9,7 @@
 - Discovery author(s): source-only worker for this exact pair.
 - Independent reviewer: pending assignment; must differ from discovery authors.
 - Scope declaration: no implementation, wiki, or release-note mechanics evidence. No runtime implementation or validation.
-- Exclusions: health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulation, and non-player physics. Direct vanilla-state consumers may be inspected only as movement predicates; producer systems remain excluded. Modern-only blocks/features receive no invented A-era behavior.
+- Exclusions: health/food state production, regeneration, saturation, exhaustion, attack/damage resolution, non-player movement, and vehicle physics. Predicates may read vanilla values without emulating their producer systems. Direct player velocity, impulse, and knockback application remains in scope when reachable, even when combat can trigger it; the combat cause and damage calculation remain excluded. Modern-only blocks/features receive no invented A-era behavior.
 
 ## Artifact manifest
 
@@ -38,6 +38,8 @@ Source paths below are relative to this manifest: canonical artifact root is ../
 - Official Mojang client mappings for metadata 1.17.1: client_mappings.txt SHA-256 2b28ded68f8602aaf2f35ef92dd10ee41ba2cf9723e29570155d60e1723848e9; publisher SHA-1 e4d540e0cba05a6097e885dffdf363e621f87d3f; URL https://piston-data.mojang.com/v1/objects/e4d540e0cba05a6097e885dffdf363e621f87d3f/client.txt. Remapped client-mojmap.jar SHA-256 2a2be036174902e447865498741b8c59fa2e090d352d786a8507dccb7c23008c.
 - Success excerpt SHA-256 3f00b445492efcb2a1c748c722a161719945d0a3646d403552f44ae3c16a516e; it confirms exact requested ID, mojmap output and BUILD SUCCESSFUL; full Gradle stdout was not persisted by owner.
 - Movement diagnostics SHA-256 e98f7769de9ed18eb77f5967a20643d5b67c48f0fb3914437b8bf3c8565d5dbe; owner reviewed 21 anchors. It lists the relevant entry methods, not full-scope body closure; each slice is independently checked below.
+
+The `feather-r1-2026-10-07` derived-artifact revision applies to six early Feather runs (1.8.9–1.13.2), not this exact Mojmap pair. A/B readiness, source manifests, source trees, Mojang mapping inputs and mapped-JAR hashes above were verified against the pair's original published records; no revised Feather snapshot is used as evidence here.
 
 ### Shared preparation details
 
@@ -175,14 +177,14 @@ Each entry is a bounded behavior slice, not an entire class/stage/travel method.
 ### Slice S2-01: Pose, dimensions, and resize collision query
 
 - Inventory ID(s): INV-STATE; INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
-- A evidence: pending source readiness; no range accepted.
-- B evidence: pending source readiness; no range accepted.
-- State producers/writers -> consumers/readers: pending paired inventory.
-- Parent slices / dependencies / closure evidence: pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
-- Finding IDs or checked absence/replacement path: pending.
+- Exact behavior boundary and enclosing guards/order checked: compared Player.updatePlayerPose selection/fallback order, Entity.setPose and DATA_POSE resize dispatch, canEnterPose collision query, Player pose dimensions, and Entity.refreshDimensions box/position mutation. The tick writer is Player.tick.updatePlayerPose after the superclass player tick. `stopSleeping` also writes standing pose after moving to a bed exit position and is a concrete pose-resize caller.
+- A evidence: net/minecraft/world/entity/player/Player.java#tick updatePlayerPose call line 276; #updatePlayerPose lines 350-378; #getDimensions lines 1990-1992 and pose table lines 112-121. net/minecraft/world/entity/Entity.java#setPose lines 311-313; #onSyncedDataUpdated lines 2301-2303; #canEnterPose lines 1640-1642; #refreshDimensions lines 2306-2334. net/minecraft/world/entity/LivingEntity.java#stopSleeping lines 3032-3052 and SLEEPING_DIMENSIONS line 126. Hashes are in the artifact source table above.
+- B evidence: net/minecraft/world/entity/player/Player.java#tick updatePlayerPose call line 290; #updatePlayerPose lines 364-392; #getDimensions lines 1966-1968 and pose table lines 124-133. net/minecraft/world/entity/Entity.java#setPose lines 340-342; #onSyncedDataUpdated lines 2470-2472; #canEnterPose lines 1759-1761; #refreshDimensions lines 2475-2497. net/minecraft/world/entity/LivingEntity.java#stopSleeping lines 3154-3174 and SLEEPING_DIMENSIONS line 152. Hashes are in the artifact source table above.
+- State producers/writers -> consumers/readers: Player.updatePlayerPose selects fall-flying/sleeping/swimming/spin/crouching/standing and collision fallbacks, then setPose writes DATA_POSE; the entity-data callback calls refreshDimensions, which updates dimensions, eye height and the bounding box and can move the entity. stopSleeping first positions the player at the bed exit, then sets STANDING. `canEnterPose` queries noCollision using getBoundingBoxForPose(pose). LocalPlayer.aiStep's crouching writer is an earlier state producer; movement collision and eye-height consumers are linked to S2-02/S4.
+- Parent slices / dependencies / closure evidence: S1-01/S1-02 close crouching/input and pose update timing; S2-02 closes eye height and pose consumers; S4 closes noCollision/getBoundingBoxForPose shape behavior; S5 closes pose-specific movement properties; S7-01 closes synchronized pose/position writes and the stopSleeping event path. The client and server resize branches must both be reconciled.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Player.updatePlayerPose selection and canEnterPose expressions match apart from B's direct ability-field read becoming `getAbilities().flying` in LocalPlayer.aiStep. The resize algorithm changes materially. A preserves the old box's minimum corner when the new width is not smaller and, on the server, calls `move(SELF, new Vec3(oldWidth-newWidth, 0, oldWidth-newWidth))` when width grows, the entity is past firstTick, and the level is server-side. B first calls reapplyPosition to build the box around the unchanged entity position, then runs its free-position adjustment only for nonplayers; it does not move a Player. A reachable wake-from-sleep path has 0.2-wide sleeping dimensions and 0.6-wide standing dimensions; stopSleeping moves to the bed exit, writes STANDING (dispatching refreshDimensions), then writes the captured bed-exit position again. Thus the A self-move is followed by an explicit setPos restoring the captured coordinates, while B performs no self-move and also writes that position. The remaining candidate is the extra A move's collision/state callback path and transient box state, not a claimed final coordinate offset; resolve whether its flags/callbacks persist through the later setPos in S4/S7 before terminal disposition.
+- Finding IDs or checked absence/replacement path: candidate delta CD-S2-01-01 — A performs an extra server-side Player self-move during pose-driven width growth; waking from sleep reaches the exact width transition, then resets position. Its surviving collision/flag/callback effect is open pending S4/S7 closure.
 
 ### Slice S2-02: Eye height and movement poses
 
@@ -523,7 +525,7 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 ## Resume checkpoint
 
 - Last completed slice: none; source pair verified, S1-01 in-progress pending S1-02/S2-01 closure.
-- Next bounded slice: S2-01 pose, dimensions, and resize collision query; retain S1-01..S1-06 as in-progress until their listed input/pose, tick-membership, ability, speed, fluid/collision, modifier, item, mount and external-writer dependencies close.
+- Next bounded slice: S2-02 eye height and movement poses; retain S1-01..S1-06 and S2-01 as in-progress until their listed input/pose, tick-membership, ability, speed, fluid/collision, modifier, item, mount, resize and external-writer dependencies close.
 - Outstanding dependencies and owners: source-owner publication is complete; source closure remains with this run, including S1-06 entity-tick membership/passenger scheduling and the remaining movement/resource inventories.
 - Assumptions requiring verification: no unresolved source-root or namespace assumptions; verify every newly selected source file against its manifest as slices are opened.
 
@@ -546,10 +548,10 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ## Source audit closure
 
-- Coverage counts by status: 28 pending, 6 in-progress, 0 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
+- Coverage counts by status: 27 pending, 7 in-progress, 0 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
 - Required inventory status and evidence: all seven pending; evidence pending.
-- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; S1-05 abilities, Elytra/item state and travel/external writers; S1-06 chunk membership, passenger and server packet/correction closure; RESOURCE-INVENTORY and DECOMPILER-DIAGNOSTICS scope closure.
-- Unresolved gaps and limits: S1-01..S1-06 dependency closure and the remaining 28 source slices are open.
+- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; S1-05 abilities, Elytra/item state and travel/external writers; S1-06 chunk membership, passenger and server packet/correction closure; S2-01 collision-box, eye-height and synchronized pose/position closure; RESOURCE-INVENTORY and DECOMPILER-DIAGNOSTICS scope closure.
+- Unresolved gaps and limits: S1-01..S1-06/S2-01 dependency closure and the remaining 27 source slices are open.
 - Evidence/hash/correspondence audit: not started.
 - Blind freeze: pending.
 - Implementation reconciliation: pending.
