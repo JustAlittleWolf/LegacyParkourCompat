@@ -341,10 +341,10 @@ No finding snapshots have been submitted or accepted. Pair-wide discovery remain
 
 ## Resume checkpoint
 
-- Last completed slice: none; bounded source comparison is underway, with S1.1, S1.2, S1.3 and S7.1 in-progress. Exact endpoint source files are hash-verified. No slice has a terminal disposition.
-- Next bounded slice: finish key event/rebinding call path and exact line-bounded evidence for S1.2; trace sprint predicate downstream movement consumers and close S1.3 dependencies; then continue the local tick/travel branch inventory.
-- Outstanding dependencies and owners: D2 discovery worker; D3 coordinator.
-- Current assumptions requiring verification: pair readiness/provenance and all source/artifact hashes are verified; exact method-body correspondence, call edges, and every movement-reachable state producer/consumer remain to be indexed.
+- Last completed slices: S1.5 (portal cooldown suppression during corresponding level-wait screens) and S1.6 (local slowdown/diagonal input transform; compared-no-difference). S1.1, S1.2, S1.3 and S7.1 remain in-progress; exact endpoint source manifests are hash-verified. These two narrow terminal slices do not close their broader inventory buckets.
+- Next bounded slice: close S1.2's remaining input-to-travel edges. Starting from the existing `Minecraft.handleKeybinds` / `ToggleKeyMapping` evidence, compare `LivingEntity.aiStep` call to `applyInput`, the `xxa`/`zza` read in `travelInAir`, and player client tick ordering in both `ready/<version>/mojmap/net/minecraft/client/Minecraft.java`, `net/minecraft/client/ToggleKeyMapping.java`, and `net/minecraft/world/entity/LivingEntity.java`. Then finish the remaining `LocalPlayer.aiStep` jump/flight/riding writers in S1.3 before opening the full ground, fluid and collision branches.
+- Outstanding dependencies and owners: D2 / discovery worker / complete all remaining source, collision, resource/data, modifier, external impulse and exclusion inventories; D3 / coordinator / assign an independent source reviewer before any finding snapshot or pair freeze.
+- Current assumptions requiring verification: pair readiness/provenance and all source/artifact hashes are verified; exact method-body correspondence, call edges, screen/toggle option edge cases, and every movement-reachable state producer/consumer remain to be indexed. No taxonomy or within-range finding boundary is asserted.
 
 ## Implementation reconciliation
 
