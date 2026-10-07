@@ -116,7 +116,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-MODIFIERS`, `INV-EXTERNAL`.
 - Exact behavior boundary and enclosing guards/order checked: jump edge, airborne/falling guard, chest equipment predicate, start-flight request, server flag writer and travel consumer.
 - A evidence: checked absence of `ELYTRA` and `START_FALL_FLYING` in the complete 1.8.9 source tree; this feature cannot be present in maps from A's era.
-- B evidence: `LocalClientPlayerEntity.mobTick()V`, lines 707-712, introduces the request only with jump input, falling airborne state, no active flight/creative flight, and usable chest Elytra; source hash awaits integrity confirmation.
+- B evidence: `LocalClientPlayerEntity.mobTick()V`, lines 707-712, introduces the request only with jump input, falling airborne state, no active flight/creative flight, and usable chest Elytra; source SHA-256 `8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d`.
 - State producers/writers -> consumers/readers: modern Elytra + jump edge -> request packet -> fall-flight bit -> gliding branch and pose dimensions.
 - Parent slices / dependencies / closure evidence: bounded exclusion only; no historical player movement claim. Artifact integrity must be repaired before freeze.
 - Status: not-applicable
@@ -215,23 +215,23 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Exact behavior boundary and enclosing guards/order checked: `PlayerEntity.moveRelative(FF)V` creative-flight wrapper around living movement.
 - A evidence: `PlayerEntity.moveRelative(FF)V` lines 1279-1294; SHA-256 `e66cb294fc93118148a444bbafdf4dd57cbf66a23d69b1e8892cefccc690ab88`.
 - B evidence: `PlayerEntity.moveRelative(FF)V` lines 1371-1390; SHA-256 `d658a0d95452d12bb7e347bfd802240eeecaf7f938e10dcd43e2640434387f85`.
-- State producers/writers -> consumers/readers: creative flying and not riding -> living move -> restore vertical velocity/speed -> B resets fall distance and clears flag 7.
-- Parent slices / dependencies / closure evidence: local-player branch and fall-flight state writer/consumer timing.
-- Status: findings
-- Disposition and rationale (including concrete reachability/preconditions): B adds `fallDistance = 0.0F` and flag-7 clear after living movement; A has no corresponding writes in this branch.
-- Finding IDs or checked absence/replacement path: `findings/STATE-02-creative-flight-reset.md`.
+- State producers/writers -> consumers/readers: creative flying and not riding -> living move -> B resets fall distance (damage state, excluded) and clears flag 7 (B-only fall-flight state, excluded).
+- Parent slices / dependencies / closure evidence: scoped against excluded fall-damage simulation and modern-only fall flight.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): the changed values feed excluded damage state or a modern-only flight mode; neither is a historical player-movement mechanic for A-era maps.
+- Finding IDs or checked absence/replacement path: `scope-notes/STATE-02-creative-flight-reset.md` records the evidence and scope reason; no implementation finding.
 
 ### Slice MOD-01: Levitation movement branch
 
 - Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-MODIFIERS`, `INV-EXTERNAL`.
 - Exact behavior boundary and enclosing guards/order checked: `LivingEntity.moveRelative(FF)V` after `Entity.move()`; effect registry/application/removal and amplifier writer.
-- A evidence: no Levitation status effect path; `LivingEntity.moveRelative(FF)V` lines 1119-1195; full absence search pending.
-- B evidence: `LivingEntity.moveRelative(FF)V` lines 1302-1410 branches on `StatusEffects.LEVITATION`; SHA-256 `bbb7703f18fd5da05c4e4a43a77ea644b388e63c01d34166d308ea52054be4e5`.
-- State producers/writers -> consumers/readers: registered/applied effect and amplifier -> post-move vertical-velocity blend; otherwise gravity/client unloaded-chunk branch.
-- Parent slices / dependencies / closure evidence: effect producer, registry, removal/duration, player reachability and gravity order; exclude independent projectile movement.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): B adds a player-reachable post-move Levitation branch; registration and endpoint closure pending.
-- Finding IDs or checked absence/replacement path: pending.
+- A evidence: checked absence of `LEVITATION` from the complete 1.8.9 source tree; that effect could not be present in A-era maps.
+- B evidence: `StatusEffects.LEVITATION` registration at `entity/living/effect/StatusEffects.java` lines 32 and 75, and `LivingEntity.moveRelative(FF)V` lines 1396-1399; source hashes are covered by the initial source manifest, artifact hold remains open.
+- State producers/writers -> consumers/readers: modern-only status effect -> post-move vertical-velocity blend; otherwise gravity/client unloaded-chunk branch.
+- Parent slices / dependencies / closure evidence: excluded by the modern-only feature boundary; no historical producer-to-consumer implementation claim.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): Levitation is a B-only effect and cannot occur in A-era map features under project scope; do not emulate its movement branch.
+- Finding IDs or checked absence/replacement path: excluded modern-only effect; source-tree absence checked on A.
 
 ### Slice STATE-03: player pose and dimensions
 
@@ -273,6 +273,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 
 - `DEP-PROVENANCE`: source owner; exact preparation command/log, pinned/runtime decompiler/remapper/mapping-io versions/options missing.
 - `DEP-ARTIFACT-IMMUTABILITY`: source owner and ops; mapped JARs changed after initial verification; do not freeze or accept findings until canonical repair and fresh verification.
+- `DEP-STATE-01-PRODUCER-CONSUMER`: source worker; full local tick/jump/travel/external correction chain remains open for a cutoff-specific implementation boundary.
 - `DEP-AUDITOR`: coordinator; independent source reviewer not assigned.
 - All remaining `TICK-*`, `STATE-*`, `COLL-*`, `WORLD-*`, `MOD-*`, and `EXT-*` inventories remain open.
 
@@ -281,7 +282,6 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - [TICK-01 — Sprint timeout](findings/TICK-01-sprint-timeout.md)
 - [TICK-02 — Flight sneak input rescaling](findings/TICK-02-flight-sneak-input-rescaling.md)
 - [STATE-01 — Velocity zero threshold](findings/STATE-01-velocity-zero-threshold.md)
-- [STATE-02 — Creative-flight reset](findings/STATE-02-creative-flight-reset.md)
 - [TICK-07 — Client-side player push](findings/TICK-07-client-player-push.md)
 - [STATE-03 — Sneak collision height](findings/STATE-03-sneak-collision-height.md)
 - [WORLD-01 — Trapdoor ladder climbing](findings/WORLD-01-trapdoor-ladder-climbing.md)
@@ -304,14 +304,14 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 
 ## Resume checkpoint
 
-- Last completed slice: source roots/manifests validated; four initial source-confirmed deltas recorded in the ledger.
-- Next bounded slice and exact files/members/body ranges: complete local sprint gates; trace fall-flight packet/state/travel; close boat input/propulsion; then work the remaining full-tick/state/collision/world/modifier/external inventories.
-- Outstanding dependencies and owners: `DEP-PROVENANCE` source-preparation owner; `DEP-AUDITOR` coordinator; source coverage slices.
-- Assumptions requiring verification: exact generation invocation/tool runtime; no first-version claim inside the interval; resources not yet inventoried.
+- Last completed slice: source roots admitted; source-backed movement candidates and explicit scope exclusions recorded; initial artifact verification invalidated by the owner integrity notice.
+- Next bounded slice and exact files/members/body ranges: close active-item and pre-travel push writers; compare input/packet authority boundaries; finish modifier/equipment and collision-provider inventories; then revisit cutoff-specific dependency closure after canonical artifact repair.
+- Outstanding dependencies and owners: `DEP-PROVENANCE` and `DEP-ARTIFACT-IMMUTABILITY` source-preparation/ops; `DEP-AUDITOR` coordinator; `DEP-STATE-01-PRODUCER-CONSUMER` source worker; remaining coverage slices.
+- Assumptions requiring verification: exact generation invocation/tool runtime; no first-version claim inside the interval; complete resource/provider inventory remains open.
 
 ## Implementation reconciliation
 
-- Reconciliation status: pending; must follow blind freeze.
+- Reconciliation status: pending; full-pair reconciliation follows source freeze. An incremental snapshot remains separately blocked unless its own evidence/dependencies are closed and independently accepted.
 - Repository revision inspected:
 - Finding -> implementation disposition/evidence:
 - Existing implementation without a frozen source finding:
@@ -330,9 +330,9 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 
 - Coverage counts: pending.
 - Required inventory status/evidence: all inventories remain open.
-- Open dependencies: `DEP-PROVENANCE`, `DEP-ARTIFACT-IMMUTABILITY`, `DEP-AUDITOR`, and all pending/in-progress slices.
+- Open dependencies: `DEP-PROVENANCE`, `DEP-ARTIFACT-IMMUTABILITY`, `DEP-STATE-01-PRODUCER-CONSUMER`, `DEP-AUDITOR`, and all pending/in-progress slices.
 - Unresolved gaps/limits: comprehensive audit in progress; no equivalence closure claimed.
-- Evidence/hash/correspondence audit: sidecar manifests fully verified; source hashes to be recorded with every citation.
+- Evidence/hash/correspondence audit: source hashes were checked against the admitted source manifests and cited files; derived artifact hashes are stale under the integrity notice and await canonical repair.
 - Blind freeze: pending.
 - Implementation reconciliation: pending.
 - Independent audit: pending.
