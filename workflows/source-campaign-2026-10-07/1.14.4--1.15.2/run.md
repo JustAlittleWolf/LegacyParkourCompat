@@ -10,8 +10,8 @@
 
 ## Artifact manifest
 
-- A (1.14.4): pending validated ready JSON; exact source root, client jar identity/hash, mapping artifact/build/path/hash, mapped jar hash, cited source/resource hashes not yet verified.
-- B (1.15.2): pending validated ready JSON; exact source root, client jar identity/hash, mapping artifact/build/path/hash, mapped jar hash, cited source/resource hashes not yet verified.
+- A (1.14.4): ready JSON `ready/1.14.4/ornithe-feather.ready.json`; `status=ready`, exact `versionId=1.14.4`, `mapping=ornithe-feather`, `mappingJar=feather-gen2-1.14.4+build.2-mergedv2.jar` plus `.tiny`, Vineflower, Java 25. Relative source root `ready/1.14.4/ornithe-feather/`; 3,250 files / 16,680,788 bytes. Client jar SHA-256 `b3b2a798e2d67b566008fe4a03767ae2c7ff3f8c7ba6751e7b71fc7299672d0a`; mapped jar `artifacts/1.14.4/client-ornithe-feather.jar`, SHA-256 `5e914421086acc2f244ca34bfd0df68e199dba5539a819a0eed1e4af31bb465c`; Feather mapping artifacts `artifacts/yarn/feather-gen2-1.14.4+build.2-mergedv2.jar` SHA-256 `3162806b9fb266d7e6d2c594be8d4cc6c91ddb09b4e55d1b566e5429edbd793f`, and `artifacts/yarn/feather-gen2-1.14.4+build.2.tiny` SHA-256 `60d4906621c873dadba96425d1a233349c9afa407d09bfc8371202af6a71f25c`. Source manifest SHA-256 `717b468536348557f9dae8cf57edccf80ad16eb65e5bef6c60bdb5ea3c9f75bc`; artifact manifest SHA-256 `308cc33ef6dffc047432ade6affc88eccc9de94a736ee9a98571fd92915c2970`; diagnostics SHA-256 `8b5fba7cae7c0187671005b3261d184cbc2caecf9f8cbfc25b284bb0a89d128a`. All three referenced hashes match; all 3,250 source and 40 artifact entries verify. Diagnostics confirm exact metadata ID and movement bodies in `Entity.move`, `LivingEntity.jump/moveRelative/travel`, and `PlayerEntity.jump/moveRelative`. Full source prep command/log and remapper/tool versions still require owner metadata. No comparison result is claimable until an aligned B source is verified.
+- B (1.15.2): no exact-version ready JSON yet; source root, namespace, artifact/source hashes and method diagnostics pending.
 - Shared source root: `build/movement-campaign-2026-10-07/ready/<exact-version>/<namespace>/`, with a readiness JSON beside each namespace tree and SHA-256 manifests/movement-method diagnostics referenced by it. The source owner holds `decompile.lock` and is the sole writer. At the last readiness check, no exact-version readiness JSON was published for either 1.14.4 or 1.15.2. Do not infer readiness from directory presence.
 
 ## Correspondence and call order
@@ -32,7 +32,7 @@ Initial navigation inventory only. Each row is pending until exact paired member
 
 ## Dependency queue and blockers
 
-- D-001; source pair readiness; exact release IDs, aligned namespace/modes, validated JSON, artifact and source hashes; required for all slices; source owner reports endpoints are queued serially and holds the shared decompiler lock; next action: reread the per-namespace ready JSONs under `build/movement-campaign-2026-10-07/ready/`, verify exact IDs, namespace, cited hashes and method-body diagnostics; unresolved.
+- D-001; paired source readiness/provenance; B 1.15.2 exact JSON not published, and A `1.14.4` is currently available only in `ornithe-feather`; aligned namespace, both source/artifact hashes, diagnostics and toolchain/command provenance must be verified; source owner holds the shared decompiler lock; next action: verify the 1.15.2 JSON and manifests, request an aligned source if needed, and record exact command/log/tool versions; unresolved.
 
 ## Finding index
 
@@ -51,4 +51,5 @@ None confirmed yet. No prior report or implementation catalog is treated as exha
 - Unresolved gaps and limits: source publication and all source-level coverage remain open; this is not a completed comparison.
 - Evidence/hash/correspondence audit: pending source readiness.
 - Runtime validation: not performed (separate workflow).
+
 
