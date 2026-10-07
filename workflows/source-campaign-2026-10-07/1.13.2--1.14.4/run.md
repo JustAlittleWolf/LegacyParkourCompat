@@ -59,8 +59,8 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 
 ## Required source inventories
 
-- `INV-TICK` status=pending; slice_ids=S001,S003,S004,S005,S007,S008,S009; evidence=paired client input/local player/living bodies below; complete tick call graph open.
-- `INV-STATE` status=pending; slice_ids=S001,S002,S003,S006,S008,S009; evidence=paired input, pose, jump and movement bodies below.
+- `INV-TICK` status=pending; slice_ids=S001,S003,S004,S005,S007,S008,S009,S010; evidence=paired client input/local player/living bodies below; complete tick call graph open.
+- `INV-STATE` status=pending; slice_ids=S001,S002,S003,S006,S008,S009,S010; evidence=paired input, pose, jump and movement bodies below.
 - `INV-COLLISION` status=pending; slice_ids=S002,S006,S009; evidence=pose fit, escape probes and entity move excerpts; query/provider enumeration open.
 - `INV-WORLD-MOVEMENT` status=pending; slice_ids=S005,S007; evidence=slipperiness/climbing consumers; providers and resources open.
 - `INV-MODIFIERS` status=pending; slice_ids=S003,S005; Jump Boost/Slow Falling consumers observed; producer/application chains open.
@@ -176,6 +176,17 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): F012; A tests one block and above-block solidity for non-swimming; B scans vertical body range and uses view-blocking predicate. Calls are immediately before sprint work and superclass travel.
 - Finding IDs or checked absence/replacement path: F012.
+### Slice S010: local flight sneak/jump vertical input
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: flight branch guarded by abilities.flying and local camera, with sneaking/jumping vertical input.
+- A evidence: `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java`::`mobTick`, lines 797-806, SHA-256 `2583495f3a02b4791aa036e6a8d354d7596c4984761969a0f29b29d8d9bf42bf`.
+- B evidence: same file/member, lines 728-743, SHA-256 `708af6a3880fb58b67bf4604a5509b351719a9c2a0c06a8ec261586435bf00ce`.
+- State producers/writers -> consumers/readers: flight ability/camera/input/synced fly speed -> velocityY; player input then reaches superclass travel.
+- Parent slices / dependencies / closure evidence: fly-speed ability provenance and synchronization open; D-EXTERNAL.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): F013; simultaneous sneak+jump executes sequential subtract/add in A but nets B's integer adjustment to zero, skipping the vertical velocity update. Float/double roundoff consequence is not measured.
+- Finding IDs or checked absence/replacement path: F013.
 ## Dependency queue and blockers
 
 - D-ARTIFACT-INTEGRITY: coordinator/source owner reported a 1.13.2 Feather derived-artifact cache replacement incident. Current readiness/source/artifact/diagnostics manifest hashes and cited mapping JAR/tiny hashes match, but canonical immutability repair and fresh source-owner acceptance have not been published. Do not freeze or accept any A-dependent finding until the owner provides repair protocol and verification; do not alter markers/cache. Owner: source preparation owner/ops.
@@ -200,17 +211,18 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - [F010](findings/F010-water-travel-climb-impulse.md) water-travel climb impulse; candidate pending A artifact-integrity repair.
 - [F011](findings/F011-slow-falling-water-descent-timing.md) slow-falling water descent timing; candidate pending A artifact-integrity repair.
 - [F012](findings/F012-local-stuck-block-escape-probe.md) local stuck-block escape probe; candidate pending artifact and collision review.
+- [F013](findings/F013-simultaneous-flight-input-arithmetic.md) simultaneous flight input arithmetic; candidate pending artifact and ability review.
 
 ## Resume checkpoint
 
-- Last completed slice: none; S001-S009 are initial evidence only.
+- Last completed slice: none; S001-S010 are initial evidence only.
 - Next bounded slice and exact files/members/body ranges to open: remaining LivingEntity travel branches; `Entity` axis/step helpers; full LocalClientPlayerEntity tick; pose dimensions/base resize; world collision queries and registered shape providers.
 - Outstanding dependencies and owners: D-ARTIFACT-INTEGRITY source owner/ops; D-TICK-CLOSURE/D-COLLISION-SHAPES/D-MOVEMENT-DATA/D-EXTERNAL source worker; D-INDEPENDENT-AUDIT coordinator.
 - Current assumptions requiring verification: source preparation exact invocation; full reachability and provider closure.
 
 ## Finding snapshots (not pair freeze)
 
-No snapshot has been submitted or accepted. F001-F012 remain candidates while `D-ARTIFACT-INTEGRITY` is open; finding-specific dependency closure and implementation boundaries are also incomplete, and no blind finding reviewer is assigned. No snapshot commit/hash or reviewer decision exists. Pair remains partial; no implementation handoff is ready.
+No snapshot has been submitted or accepted. F001-F013 remain candidates while `D-ARTIFACT-INTEGRITY` is open; finding-specific dependency closure and implementation boundaries are also incomplete, and no blind finding reviewer is assigned. No snapshot commit/hash or reviewer decision exists. Pair remains partial; no implementation handoff is ready.
 
 ## Implementation reconciliation
 
@@ -231,7 +243,7 @@ No snapshot has been submitted or accepted. F001-F012 remain candidates while `D
 
 ## Source audit closure
 
-- Coverage counts by status: findings=9 bounded slices (12 deltas); pending inventory closure=7; in-progress=0; compared-no-difference=0; not-applicable=0; blocked=0.
+- Coverage counts by status: findings=10 bounded slices (13 deltas); pending inventory closure=7; in-progress=0; compared-no-difference=0; not-applicable=0; blocked=0.
 - Required inventory status and evidence: all seven inventories pending; initial paired evidence in S001-S008.
 - Accepted finding snapshots: none (no finding handoff ready).
 - Open dependencies: D-ARTIFACT-INTEGRITY,D-TICK-CLOSURE,D-COLLISION-SHAPES,D-MOVEMENT-DATA,D-EXTERNAL,D-INDEPENDENT-AUDIT.
