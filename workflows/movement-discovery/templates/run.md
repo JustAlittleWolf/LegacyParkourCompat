@@ -1,6 +1,6 @@
 # Discovery: <A> to <B>
 
-- Status: active | partial | blocked | complete
+- Run status: active | partial | blocked | complete
 - Scope: client player movement; older A = ...; newer B = ...
 - Repository revision and start date:
 - Selected naming namespace, CLI mode per side and alignment evidence:
