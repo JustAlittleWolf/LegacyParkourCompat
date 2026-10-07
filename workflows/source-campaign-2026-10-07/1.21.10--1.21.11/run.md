@@ -95,4 +95,3 @@ Link each finding with its short behavioral title and confidence. Record discard
 - Runtime validation: not performed (separate workflow).
 
 Keep all tracked coverage, provenance, correspondence and resume evidence in this file. At handoff, the run folder contains only this file and, when findings exist, one file per finding under `findings/`.
-
