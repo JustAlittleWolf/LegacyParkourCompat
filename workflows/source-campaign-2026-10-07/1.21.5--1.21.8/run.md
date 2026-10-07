@@ -78,38 +78,38 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 ### Slice S1.2: local-player tick and pre-travel ordering
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: local player tick sequence through pre-travel state writes and call into superclass/travel; not yet checked.
-- A evidence: `LocalPlayer#tick()`, lines 191-217, SHA-256 `f1fcfed4a938732361e7ad951f93e9b73b02320ee56f0b219e2b3c7acdbfa2ef`; `Player#tick()` lines 271-348 and `Player#aiStep()` lines 554-607, file SHA-256 `8fc187f33999db9dfc49251e95e92a17645a50adab16ca0f93f4948209f62036`; `LivingEntity#tick()` lines 2460-2572 and `LivingEntity#aiStep()` lines 2669-2804, file SHA-256 `a8aed863d4fdc515c751dd2878a8bb9c13179228cb8dbb50edf1d19cd5404271`; `LocalPlayer#aiStep()` lines 683-835 (same LocalPlayer hash); `Entity#tick()` lines 438-440 and `Entity#baseTick()` state-init excerpt lines 442-463, file SHA-256 `fc177733e9cc4b2d5cf2562e5529d0f4e0b9c3690f081fbd58aa9119eb173dc4`.
-- B evidence: pending 1.21.8 publication and tick-chain inventory.
-- State producers/writers -> consumers/readers: A call order verified: LocalPlayer.tick -> Player.tick -> LivingEntity.tick -> Entity.tick/baseTick -> dynamic LocalPlayer.aiStep -> Player.aiStep -> LivingEntity.aiStep. Entity.baseTick initializes inBlockState and powder-snow/fluid/swimming flags before AI (Entity.java:445,459-463); Player.tick updates underwater state before super.tick and pose after it. LivingEntity.aiStep dispatches applyInput, jump, then ridden/travel branch; Player.aiStep updates movement speed after super.aiStep returns. B chain pending; no pair disposition yet.
+- Exact behavior boundary and enclosing guards/order checked: local-player/base/player/living tick chain through input, jump and player travel dispatch, including direct pre-travel state writes.
+- A evidence: `LocalPlayer#tick()` lines 191-217 and `LocalPlayer#aiStep()` lines 683-835, SHA-256 `f1fcfed4a938732361e7ad951f93e9b73b02320ee56f0b219e2b3c7acdbfa2ef`; `Player#tick()` lines 271-348 / `Player#aiStep()` lines 554-607, SHA-256 `8fc187f33999db9dfc49251e95e92a17645a50ad16ca0f93f4948209f62036`; `LivingEntity#tick()` lines 2460-2572 / `LivingEntity#aiStep()` lines 2669-2804, SHA-256 `a8aed863d4fdc515c751dd2878a8bb9c13179228cb8dbb50edf1d19cd5404271`; `Entity#tick()` / `baseTick()` lines 438-463, SHA-256 `fc177733e9cc4b2d5cf2562e5529d0f4e0b9c3690f081fbd58aa9119eb173dc4`.
+- B evidence: `LocalPlayer#tick()` starts at line 197 and its `aiStep()` remains lines 683-835; LocalPlayer SHA-256 `53f2a71a886b9c71853afe36f2df857f80a9bf1cd6ec4ca8604ccd7e238d89ee`. `Player#tick()` / `aiStep()` start at lines 281 / 564, Player SHA-256 `8dc5514fe44311f39268692f5188840b9f65cb71143228fa8b84242585ea7987`. `LivingEntity#tick()` / `aiStep()` start at lines 2512 / 2721, LivingEntity SHA-256 `609f0197a0b4551ab42279e452c11cdd256135b1d467c2a95950b0e9fd7ddef8`. `Entity#tick()` / `baseTick()` start at lines 468 / 472, Entity SHA-256 `c403e6176d27b5bfd6aaa0dea3735ffa4fcf80dbae58766661dd84453b7e9704`.
+- State producers/writers -> consumers/readers: Both retain `LocalPlayer.tick -> Player.tick -> LivingEntity.tick -> Entity.tick/baseTick -> dynamic LocalPlayer.aiStep -> Player.aiStep -> LivingEntity.aiStep`; base state initialization precedes the dynamic AI call, which dispatches input, jump and travel. The only added LivingEntity travel guard is `&& isEffectiveAi()` in B, but Player's `canSimulateMovement()` and `isEffectiveAi()` overrides have identical bodies in A/B, so the new predicate is redundant for direct player travel. The LocalPlayer.aiStep and Player.aiStep bodies are identical. B baseTick also changes fire-timer cleanup, excluded producer/damage behavior.
 - Parent slices / dependencies / closure evidence: S1.1; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison; sprint food/hunger producer systems excluded.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): player tick ordering and player travel gating remain equivalent; the new generic AI gate resolves true under the same Player overrides on the reachable direct-player path. Shift-state transport is dispositioned in S1.1.
+- Finding IDs or checked absence/replacement path: none; S1.2 checked-no-difference.
 
 ### Slice S1.3: jump, sprint timing and direct eligibility predicates
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-EXCLUSIONS
-- Exact behavior boundary and enclosing guards/order checked: jump/sprint timers, start/stop predicates and direct movement inputs; compare movement predicate/timer consumption for supplied vanilla values; exclude producer-system emulation or findings about changes in hunger/food systems.
-- A evidence: `LocalPlayer#aiStep()` sprint timer/start/stop slice, lines 683-744; `shouldStopRunSprinting()` / `shouldStopSwimSprinting()`, lines 837-852; `canStartSprinting()` / `vehicleCanSprint()` / `hasEnoughFoodToSprint()`, lines 1065-1083; all in `LocalPlayer.java`, SHA-256 `f1fcfed4a938732361e7ad951f93e9b73b02320ee56f0b219e2b3c7acdbfa2ef`.
-- B evidence: pending 1.21.8 publication and method inventory.
-- State producers/writers -> consumers/readers: A sprintTriggerTime and sprinting are written/read in `LocalPlayer#aiStep`; start/stop gates consume key/forward impulse, passenger authority, item use, blindness, water state and `hasEnoughFoodToSprint()` (directly reads food level at lines 1081-1083). This records only a vanilla-state consumer; food producers remain excluded. B path pending.
+- Exact behavior boundary and enclosing guards/order checked: jump dispatch and sprint timers/start-stop eligibility predicates, comparing movement consumers for the same supplied vanilla values.
+- A evidence: `LocalPlayer#aiStep()` lines 683-744; `shouldStopRunSprinting()` / `shouldStopSwimSprinting()` lines 837-852; `canStartSprinting()` / `vehicleCanSprint()` / `hasEnoughFoodToSprint()` lines 1065-1083; LocalPlayer SHA-256 `f1fcfed4a938732361e7ad951f93e9b73b02320ee56f0b219e2b3c7acdbfa2ef`; `LivingEntity#jumpFromGround()` source belongs to LivingEntity hash in S1.2.
+- B evidence: `LocalPlayer#aiStep()` lines 683-744, `shouldStopRunSprinting()` / `shouldStopSwimSprinting()` lines 837-852, and `canStartSprinting()` / `vehicleCanSprint()` / `hasEnoughFoodToSprint()` lines 1065-1083 have unchanged movement predicate bodies, LocalPlayer SHA-256 `53f2a71a886b9c71853afe36f2df857f80a9bf1cd6ec4ca8604ccd7e238d89ee`; jumpFromGround body unchanged in LivingEntity SHA-256 `609f0197a0b4551ab42279e452c11cdd256135b1d467c2a95950b0e9fd7ddef8`.
+- State producers/writers -> consumers/readers: LocalPlayer.aiStep and sprint predicates match; they read the same input, timers, water/passenger/item-use/blindness state and direct food-level predicate. The direct food consumer is in scope for supplied values; hunger/food producers remain excluded.
 - Parent slices / dependencies / closure evidence: S1.2; S2.3; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): exact A/B method bodies match; no change in jump eligibility, sprint timing, or start/stop predicates. Food and hunger producer systems are excluded from claims.
+- Finding IDs or checked absence/replacement path: none; S1.3 checked-no-difference.
 
 ### Slice S1.4: input modes, flight, auto-jump, unstuck and riding gates
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: alternate input producers, auto-jump, flight-toggle/unstuck behavior and riding gates on the local player path; not yet checked.
-- A evidence: `LocalPlayer#aiStep()` auto-jump/input and flight/riding slices, lines 705-716 and 746-830, SHA-256 `f1fcfed4a938732361e7ad951f93e9b73b02320ee56f0b219e2b3c7acdbfa2ef`; `ClientInput#makeJump()`, lines 21-31, SHA-256 `597a44339a99f1bce1b081614c7c2984ca03e255b40e9d247675a31b6f810d78`; input assignment evidence from `ClientPacketListener` in S1.1.
-- B evidence: pending 1.21.8 publication and method inventory.
-- State producers/writers -> consumers/readers: A `LocalPlayer#aiStep` snapshots old keyPresses before `input.tick()` (693-703); then decrements autoJumpTime and calls `ClientInput.makeJump()` (705-709), after keyboard sampling. Mayfly/fall-flying/water-descent and vehicle jump state continue in the same method. B timing and producer closure pending; no pair disposition.
+- Exact behavior boundary and enclosing guards/order checked: LocalPlayer input mode selection, post-sampling auto-jump, flight/descent toggles, unstuck path and player-facing passenger/riding gates. Vehicle motion itself is outside the player-physics scope.
+- A evidence: `LocalPlayer#aiStep()` input snapshot, auto-jump and flight/riding ranges 683-835, SHA-256 `f1fcfed4a938732361e7ad951f93e9b73b02320ee56f0b219e2b3c7acdbfa2ef`; `ClientInput#makeJump()` lines 21-31, SHA-256 `597a44339a99f1bce1b081614c7c2984ca03e255b40e9d247675a31b6f810d78`.
+- B evidence: `LocalPlayer#aiStep()` lines 683-835 and `ClientInput#makeJump()` lines 21-31 have bodies identical to A, with B hashes `53f2a71a886b9c71853afe36f2df857f80a9bf1cd6ec4ca8604ccd7e238d89ee` and `597a44339a99f1bce1b081614c7c2984ca03e255b40e9d247675a31b6f810d78`.
+- State producers/writers -> consumers/readers: Both snapshot old keyPresses before input.tick, then decrement autoJumpTime and call makeJump after keyboard sampling; mayfly/fall-flying/water-descent, unstuck, and passenger input gates execute in the same order and same bodies. Input producer/shift transport correspondence is recorded in S1.1.
 - Parent slices / dependencies / closure evidence: S1.1; S1.2; S2.2; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): A/B LocalPlayer.aiStep and ClientInput.makeJump bodies match, so their state read/write ordering and movement gates do not differ. No player movement difference found; vehicle movement is excluded by scope.
+- Finding IDs or checked absence/replacement path: none; S1.4 checked-no-difference.
 
 ### Slice S2.1: pose, dimensions and eye-height state
 
@@ -162,62 +162,62 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 ### Slice S3.1: travel dispatch and ground/air movement math
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: travel dispatch, branch predicates, ground/air acceleration/friction and exact arithmetic order; not yet checked.
-- A evidence: pending source publication.
-- B evidence: pending source publication.
-- State producers/writers -> consumers/readers: pending input/attribute/velocity consumers and post-travel writes.
+- Exact behavior boundary and enclosing guards/order checked: player dispatch among fluid/fall-flight/air travel, ground friction lookup, air acceleration and movement update order.
+- A evidence: `LivingEntity#travel(Vec3)` / `travelInAir(Vec3)` lines 2213-2247, `handleRelativeFrictionAndCalculateMovement` lines 2394-2404, `Entity#moveRelative` lines 1453-1468; LivingEntity SHA-256 `a8aed863d4fdc515c751dd2878a8bb9c13179228cb8dbb50edf1d19cd5404271`, Entity SHA-256 `fc177733e9cc4b2d5cf2562e5529d0f4e0b9c3690f081fbd58aa9119eb173dc4`.
+- B evidence: corresponding `LivingEntity#travel` / `travelInAir` lines 2245-2299, `handleRelativeFrictionAndCalculateMovement` lines 2446-2456, `Entity#moveRelative` lines 1530-1545; bodies are identical to A, with LivingEntity SHA-256 `609f0197a0b4551ab42279e452c11cdd256135b1d467c2a95950b0e9fd7ddef8`, Entity SHA-256 `c403e6176d27b5bfd6aaa0dea3735ffa4fcf80dbae58766661dd84453b7e9704`.
+- State producers/writers -> consumers/readers: player travel dispatch consumes same fluid/fall-flight flags, friction, input vector, velocity, gravity and effects and writes through identical travel bodies. B introduces `travelFlying` helper, but its only source callsites are Ghast, Allay, Phantom and HappyGhast (non-player); it is not on the Player path. Collision movement history is separately tracked in S4.4; block friction and direct modifiers remain in S5.1/S6.1.
 - Parent slices / dependencies / closure evidence: S1.1-S1.4; S2.2; S6.1; S6.2; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): paired player-reachable dispatcher and ground/air arithmetic bodies match; movement-property/modifier producer closure and the Entity.move callback interaction remain open.
+- Finding IDs or checked absence/replacement path: none for travel arithmetic; cross-reference S4.4 candidate only for movement-history callback behavior.
 
 ### Slice S3.2: jump, sprint-jump, gravity, drag and velocity thresholds
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: jump-power/impulse math, gravity/drag, negligible-velocity cutoffs and order; exclude food/hunger producer-system emulation or findings about those systems; direct movement predicates remain in scope.
-- A evidence: pending source publication.
-- B evidence: pending source publication.
-- State producers/writers -> consumers/readers: pending direct jump/effect inputs and velocity writes/readers.
+- Exact behavior boundary and enclosing guards/order checked: jump-power composition and impulse, effective-gravity selection, sprint-jump addition and local jump dispatch.
+- A evidence: `LivingEntity#getJumpPower()` / `getJumpBoostPower()` lines 2160-2170, `jumpFromGround()` lines 2173-2185 and `getEffectiveGravity()` lines 2208-2211; LivingEntity SHA-256 `a8aed863d4fdc515c751dd2878a8bb9c13179228cb8dbb50edf1d19cd5404271`.
+- B evidence: same method bodies at lines 2192-2217 and 2240-2243, LivingEntity SHA-256 `609f0197a0b4551ab42279e452c11cdd256135b1d467c2a95950b0e9fd7ddef8`; player jump dispatch in Player.aiStep is unchanged (S1.3).
+- State producers/writers -> consumers/readers: direct jump-strength, jump-boost and gravity inputs feed the same arithmetic and velocity write order in both releases; jump and sprint eligibility match in S1.3. Attribute/effect registration and modifier producer closure remains in S6.1/S6.2; food systems stay excluded.
 - Parent slices / dependencies / closure evidence: S1.3; S2.2; S6.1; S6.2; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): jump and gravity consumer formulas match exactly for supplied values; attribute/effect producer and full velocity-writer inventory remain open.
+- Finding IDs or checked absence/replacement path: none for these compared consumers.
 
 ### Slice S3.3: water, lava and swimming movement
 
 - Inventory ID(s): INV-TICK, INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: fluid travel branches, depth/current/flow decisions and swimming motion; not yet checked.
-- A evidence: pending source publication.
-- B evidence: pending source publication.
-- State producers/writers -> consumers/readers: pending fluid state/property/resource producers to local-player travel consumers.
+- Exact behavior boundary and enclosing guards/order checked: travel fluid dispatch, water/lava acceleration and damping, swim-speed/efficiency use, fluid falling adjustment and fluid jump threshold branch.
+- A evidence: `LivingEntity#travel()` lines 2213-2222, `travelInFluid()` lines 2249-2299 and `getFluidFallingAdjustedMovement()` lines 2406-2419; LivingEntity SHA-256 `a8aed863d4fdc515c751dd2878a8bb9c13179228cb8dbb50edf1d19cd5404271`.
+- B evidence: corresponding methods lines 2245-2254, 2301-2351 and 2458-2471; bodies match A, LivingEntity SHA-256 `609f0197a0b4551ab42279e452c11cdd256135b1d467c2a95950b0e9fd7ddef8`.
+- State producers/writers -> consumers/readers: identical formulas consume same `isInWater`/`isInLava`, affected-by-fluids flag, fluid height, on-ground, sprint, gravity, swim movement efficiency and velocity. Fluid state/tag/flow sources and all player fluid-state writers are still pending S2.4/S5.3, so this is not a closed end-to-end inventory.
 - Parent slices / dependencies / closure evidence: S2.1; S2.4; S5.3; S6.1; S6.2; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): paired consumer arithmetic matches; fluid provider/resource and state-writer inventories remain open.
+- Finding IDs or checked absence/replacement path: none for travel consumer formulas.
 
 ### Slice S3.4: climbing and fall-flying movement
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: climbable movement/clamps and gliding/fall-flying math, guards and direct equipment/effect inputs; not yet checked.
-- A evidence: pending source publication.
-- B evidence: pending source publication.
-- State producers/writers -> consumers/readers: pending climbable/elytra/effect/equipment producer-to-player consumer trace.
+- Exact behavior boundary and enclosing guards/order checked: climbable motion clamps/reset and fall-flying movement formulas, state guards and direct equipment/effect inputs.
+- A evidence: `LivingEntity#travelFallFlying()` lines 2301-2315, `updateFallFlyingMovement()` lines 2322-2345, and `handleOnClimbable()` starts at line 2421; LivingEntity SHA-256 `a8aed863d4fdc515c751dd2878a8bb9c13179228cb8dbb50edf1d19cd5404271`.
+- B evidence: matching bodies at lines 2353-2367, 2374-2397 and `handleOnClimbable()` line 2473 onward; LivingEntity SHA-256 `609f0197a0b4551ab42279e452c11cdd256135b1d467c2a95950b0e9fd7ddef8`.
+- State producers/writers -> consumers/readers: direct movement formulas, climbable clamps and fall-flying state updates match. Elytra/equipment and enchantment/effect producers remain in S6.2/S6.3 and contextual climbable providers in S5.2/S5.4. Fall-impact damage/sound is excluded; direct movement math remains in scope.
 - Parent slices / dependencies / closure evidence: S2.4; S5.2; S6.1; S6.2; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): compared player-reachable movement formulas match; equipment/effect/provider inputs and movement-state producer closure remain pending.
+- Finding IDs or checked absence/replacement path: none for compared formulas.
 
 ### Slice S3.5: post-travel work and callbacks
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: post-move updates, fall-distance/flags and callbacks that directly change player position/velocity/pose; not yet checked.
-- A evidence: pending source publication.
-- B evidence: pending source publication.
-- State producers/writers -> consumers/readers: pending post-travel writer-to-next-tick consumer map.
+- Exact behavior boundary and enclosing guards/order checked: post-travel fall-distance accumulation, player movement state writes and callback timing through the living-entity tick.
+- A evidence: `LivingEntity#updateFallFlying()` lines 2815-2825 calls `checkSlowFallDistance()`; `Entity#checkSlowFallDistance()` lines 2506-2511; A movement recording is consumed by `applyEffectsFromBlocks()` / `checkInsideBlocks()` as recorded in S4.4.
+- B evidence: `LivingEntity#aiStep()` lines 2721-2856 differs in its generic travel guard by adding `&& isEffectiveAi()`; Player overrides both `canSimulateMovement()` and `isEffectiveAi()` with identical A/B bodies. `LivingEntity#updateFallFlying()` at line 2871 calls the renamed `Entity#checkFallDistanceAccumulation()` at lines 2674-2679 with the same body as A; B movement callback evidence is in S4.4.
+- State producers/writers -> consumers/readers: the renamed helper applies the same `deltaMovement.y > -0.5 && fallDistance > 1.0` reset, and direct player AI remains reachable under the same gate. B's `Entity.move` recording/replay differs and is routed to S4.4; callback provider writes remain to inventory.
 - Parent slices / dependencies / closure evidence: S2.2; S4.4; S5.2; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): generic post-travel gate is equivalent for Player and fall-distance accumulation is unchanged; callback ordering/provider and complete movement-state writer inventory remain open.
+- Finding IDs or checked absence/replacement path: callback candidate `F-ENTITY-MOVEMENT-QUEUE-CAP-1.21.5-1.21.8` remains open in S4.4.
 
 ### Slice S4.1: player Entity.move collision resolution
 
@@ -428,11 +428,11 @@ Complete only after source-only freeze. No mod implementation was opened for thi
 
 ## Source audit closure
 
-- Coverage counts by status: 21 pending; 4 in-progress; 2 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked (all 7 inventories pending).
-- Required inventory status and evidence: INV-TICK has paired input-sampling and movement-vector evidence for S1.1, plus A-side tick-chain subsets; INV-STATE has input and pose/dimension/scale subsets, with S1.1 and S2.1 compared; INV-COLLISION has the pose-fit query and partial S4.3/S4.4 evidence; INV-WORLD-MOVEMENT and INV-EXTERNAL have partial S5.2/S7.1 evidence. Remaining stages, providers, resources and full exclusions inventory remain pending. Both exact sources and markers are hash-verified.
+- Coverage counts by status: 13 pending; 9 in-progress; 5 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked (all 7 inventories pending).
+- Required inventory status and evidence: INV-TICK has paired S1.1-S1.4 input/tick/jump/sprint/flight/riding comparisons and partial S3.1-S3.5 travel consumer evidence; INV-STATE has input and pose/dimension/scale subsets, with S1.1-S1.4 and S2.1 compared; S3.2/S3.5 state consumers partially checked; INV-COLLISION has the pose-fit query and partial S4.3/S4.4 evidence; INV-WORLD-MOVEMENT and INV-EXTERNAL have partial S5.2/S7.1 evidence. Remaining stages, providers, resources and full exclusions inventory remain pending. Both exact sources and markers are hash-verified.
 - Open dependencies: body-level slice and relevant resource/provider inventory; source publication dependencies are resolved.
-- Unresolved gaps and limits: S1.1 and S2.1 are compared-no-difference; S4.3, S4.4, S5.2 and S7.1 are in progress with two source-supported candidates, neither independently reviewed. All other pair coverage remains open.
-- Evidence/hash/correspondence audit: A/B readiness JSON and source/artifact/diagnostic hashes verified; S1.1 input bodies and transport path, S2.1 bodies, S4.3 validator query, and S4.4 movement-recording/contact path checked; remaining member/resource/provider/body diagnostics pending.
+- Unresolved gaps and limits: S1.1-S1.4 and S2.1 are compared-no-difference; S3.1-S3.5 remain in progress with exact travel/jump consumers compared and dependencies open; S4.3, S4.4, S5.2 and S7.1 are in progress with two source-supported candidates, neither independently reviewed. All other pair coverage remains open.
+- Evidence/hash/correspondence audit: A/B readiness JSON and source/artifact/diagnostic hashes verified; S1.1-S1.4 input/tick/jump/sprint/flight path, S2.1 bodies, and S3.1-S3.5 travel/jump consumer methods, S4.3 validator query, and S4.4 movement-recording/contact path checked; remaining member/resource/provider/body diagnostics pending.
 - Blind freeze: pending
 - Implementation reconciliation: pending
 - Independent audit: pending
