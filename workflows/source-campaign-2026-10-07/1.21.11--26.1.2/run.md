@@ -41,25 +41,23 @@ Paired source members have been identified from exact sources. This is a partial
 | Local keyboard input | A `KeyboardInput.tick()`, lines 23-36 | B `KeyboardInput.tick()`, lines 23-36 | A `d5cb0e93df7f66755172d74e028225012ee33c6e4f0d510a1d8e25ba5497c0a3`; B `b4bbb410650444c30d2a62d70fd3c6cd1aefa104b8a12e474e2a478a62089c39` | Same key read order, impulse branch and normalized `Vec2` construction; only local names differ. |
 | Input record/controller | A `Input` declaration, line 6; `ClientInput.tick()`, line 10 | B same class/member anchors | A Input `1c0c12af07da1f90651c3a7c4eb19bab6486b6391dcbfdd2926f06e3f36c2f06`; B Input `ee9ce4cfd647e09c55a9562f917fa504c0fba081bcfbbeb15871cf70818bc447`; ClientInput both `597a44339a99f1bce1b081614c7c2984ca03e255b40e9d247675a31b6f810d78` | Same dispatch and bitfield schema. A `Input.EMPTY` is mutable while B declares it final; reassignment reachability remains open. |
 | Local-player tick/pre-travel input | A `LocalPlayer.tick()` 211-235; `aiStep()` 728-890; `applyInput()` 653-666; `modifyInput()` 668-684; square helpers 686-704 | B `LocalPlayer.tick()` 227-251; `aiStep()` 767-929; `applyInput()` 692-705; `modifyInput()` 707-723; square helpers 725-743 | A LocalPlayer `948e94f8e874b2f72e9a689e6e3ba1933f5728ec381d64f3bb5e2388718bd477`; B `433fd995ad317af0f6ef0e50c1e8e3483cb8f00e0e327d4edf27a4dd99666ebe` | Bodies checked in order: local tick dispatches to `aiStep`; input sampling and application/scaling math match, including expression order. |
-| Player shared tick/aiStep/travel | A `Player.tick()` 238-280; `aiStep()` 452-493; `travel(Vec3)` 1360-1383 | B `Player.tick()` 231-274; `aiStep()` 442-483; `travel(Vec3)` 1381-1404 | A Player `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`; B `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d` | Inspected movement ordering and swim/flight travel adjustments match. Orb predicate syntax differs; its entity-touch consumer is being resolved separately. |
+| Player shared tick/aiStep/travel | A `Player.tick()` 238-294; `aiStep()` 452-493; `travel(Vec3)` 1360-1383 | B `Player.tick()` 231-291; `aiStep()` 442-483; `travel(Vec3)` 1381-1404 | A Player `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`; B `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d` | Tick movement ordering matches; impulse-context timer update relocated from Player.tick to LivingEntity.tick and is covered by S1.2.1. Swim/flight travel adjustments match. Orb predicate syntax is a separate non-movement consumer candidate. |
 | Living movement integration | A `LivingEntity.tick()` 2610-2685; `aiStep()` 2877-3000; `travel(Vec3)` 2309 onward | B `LivingEntity.tick()` 2699-2774; `aiStep()` 2976-3100; `travel(Vec3)` 2392 onward | A LivingEntity `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`; B `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd` | Dynamic `tick()` -> `aiStep()` dispatch confirmed; player velocity cutoff, input/jump/travel path and inspected travel formulas match. Type predicate and fluid-shape dependencies remain open. |
 | Entity movement/collision | A `Entity.move`, `maybeBackOffFromEdge`, `collide`, `moveRelative`, `refreshDimensions` | B corresponding `Entity` members identified in paired source | A Entity `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3`; B `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf` | Anchors identified; bounded body comparison remains open. |
 
-Partial observed dispatch: `KeyboardInput.tick()` -> `LocalPlayer.aiStep()` -> `LocalPlayer.applyInput()` then `super.aiStep()` -> `Player.aiStep()` -> `LivingEntity.aiStep()`; `LivingEntity.tick()` dynamically invokes `aiStep()` before rotation. Travel/collision closure and post-travel consumers remain open. B diagnostics omit LocalPlayer anchors; its source file exists and relevant bodies were checked manually.## Required source inventories
+Observed call order: client `LocalPlayer.tick()` -> `Player.tick()` -> `LivingEntity.tick()` -> `Entity.tick()`; `LivingEntity.tick()` dynamically invokes `LocalPlayer.aiStep()` before rotation/end-of-tick updates. That calls `Player.aiStep()` -> `LivingEntity.aiStep()`, whose `applyInput()` dynamically dispatches back to `LocalPlayer.applyInput()`, then jump/travel/post-travel. Keyboard state is sampled inside `LocalPlayer.aiStep()`. Travel/collision closure remains open. B diagnostics omit LocalPlayer anchors; its source file exists and relevant bodies were checked manually.
+
+## Required source inventories
 
 Each inventory maps to the bounded slices below. Exact A/B pair sources are ready and verified; inventory completion remains pending while paired slices, dependencies and resource-backed inputs are audited.
 
-- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1.1-S1.7,S2.5,S2.7,S3.1-S3.10,S3.1.1,S3.3.1,S3.6.1,S7.4-S7.5; evidence=exact pair sources verified; slice audit open.
-- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S1.4-S1.6,S2.1-S2.7,S3.3-S3.10,S3.3.1,S4.4-S4.7; evidence=exact pair sources verified; writer-consumer audit open.
+- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1.1-S1.7,S1.2.1-S1.2.2,S2.5,S2.7,S3.1-S3.10,S3.1.1,S3.3.1,S3.6.1,S7.4-S7.5; evidence=exact pair sources verified; slice audit open.
+- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S1.2.1,S1.4-S1.6,S2.1-S2.7,S3.3-S3.10,S3.3.1,S4.4-S4.7; evidence=exact pair sources verified; writer-consumer audit open.
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S2.2,S2.6,S4.1-S4.7,S5.3-S5.6,S5.9; evidence=exact pair sources verified; provider inventory open.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S3.2,S3.5-S3.7,S3.6.1,S4.6,S5.1-S5.9; evidence=exact pair sources verified; registrations/resources audit open.
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S2.5,S3.2,S3.4,S3.6,S3.8-S3.9,S6.1-S6.6; evidence=exact pair sources verified; resource/data audit open.
 - `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, such as corrections, pushes, pistons and mounts: status=pending; slice_ids=S7.1-S7.4; evidence=exact pair sources verified; external-input provenance audit open.
-- `INV-EXCLUSIONS` explicit scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; evidence=source-stage audit open; direct vanilla-state reads in movement predicates remain in scope as consumers only.
-
-## Required source inventories
-
-Each inventory maps to bounded slice IDs below. Exact A/B source publications are ready and their manifests were verified; these inventories remain open until each source slice and all dependencies are dispositioned.
+- `INV-EXCLUSIONS` explicit scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; slice_ids=S1.2.1; evidence=source-stage audit open; direct vanilla-state reads in movement predicates remain in scope as consumers only.
 
 ## Coverage ledger
 
@@ -77,16 +75,40 @@ Each entry is a bounded behavior boundary. Refine broad plans into exact member 
 - Disposition and rationale (including concrete reachability/preconditions): Same key read order, equal-key zero impulse and ±1 impulse cases, `Vec2(left, forward).normalized()` construction, and input record/controller behavior; local variable naming differs. The `Input.EMPTY` mutability syntax difference has no source-tree writer and the record is immutable.
 - Finding IDs or checked absence/replacement path: none; checked absence of explicit `Input.EMPTY` reassignment in both exact source trees.
 
-### Slice S1.2: Client player tick ordering, superclass tick and travel dispatch
+### Slice S1.2: LocalPlayer and Player.tick sequencing and packet updates
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: LocalPlayer tick guard, superclass tick call, movement packet dispatch and ordered client tick path.
-- A evidence: `ready/1.21.11/mojmap/net/minecraft/client/player/LocalPlayer.java` :: `tick()`, lines 211-235, SHA-256 `948e94f8e874b2f72e9a689e6e3ba1933f5728ec381d64f3bb5e2388718bd477`.
-- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/client/player/LocalPlayer.java` :: `tick()`, lines 227-251, SHA-256 `433fd995ad317af0f6ef0e50c1e8e3483cb8f00e0e327d4edf27a4dd99666ebe`.
-- State producers/writers -> consumers/readers: tick dispatch invokes `super.tick()` and then sends input/position updates under the same guards; subsequent input/travel dispatch is traced in S1.3 and S3.
-- Parent slices / dependencies / closure evidence: input producer S1.1; superclass player/living tick continues through S3.1 and post-travel ordering remains open there.
+- Exact behavior boundary and enclosing guards/order checked: client and shared player tick guards, `super.tick()` dispatch, position clamping, tick-state updates, pose update and local movement packet dispatch.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/client/player/LocalPlayer.java` :: `tick()`, lines 211-235, SHA-256 `948e94f8e874b2f72e9a689e6e3ba1933f5728ec381d64f3bb5e2388718bd477`; `ready/1.21.11/mojmap/net/minecraft/world/entity/player/Player.java` :: `tick()`, lines 238-294, SHA-256 `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/client/player/LocalPlayer.java` :: `tick()`, lines 227-251, SHA-256 `433fd995ad317af0f6ef0e50c1e8e3483cb8f00e0e327d4edf27a4dd99666ebe`; `ready/26.1.2/unobfuscated/net/minecraft/world/entity/player/Player.java` :: `tick()`, lines 231-291, SHA-256 `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d`.
+- State producers/writers -> consumers/readers: `LocalPlayer.tick()` calls `Player.tick()`; `Player.tick()` invokes `LivingEntity.tick()` before post-super clamping/pose work; the inherited living tick calls the dynamic `aiStep()` used by the input/travel chain.
+- Parent slices / dependencies / closure evidence: S1.1 input producer; S1.2.1 handles the moved damage-context timer; `LivingEntity.tick()`/dynamic `aiStep()` full order remains in S1.2.2.
 - Status: compared-no-difference
-- Disposition and rationale (including concrete reachability/preconditions): Inspected body has same guard/order and operations; only variable names differ. This closes only `LocalPlayer.tick()`, not the full inherited tick graph.
+- Disposition and rationale (including concrete reachability/preconditions): Inspected movement-relevant guard/order, position clamp, and packet/update path match; variable names differ. The non-movement impulse-context timer relocation is dispositioned separately in S1.2.1.
+- Finding IDs or checked absence/replacement path: none.
+
+### Slice S1.2.1: Impulse-context grace timer relocation
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-EXCLUSIONS
+- Exact behavior boundary and enclosing guards/order checked: A decrements `Player.currentImpulseContextResetGraceTime` after `super.tick()`; B moves the field to `LivingEntity` and decrements it in `LivingEntity.tick()` after the dynamic `aiStep()` and rotation tail.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/player/Player.java` :: `tick()` lines 288-294 and impulse-context methods lines 2004-2035, SHA-256 `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java` :: grace-timer field line 196, `tick()` decrement lines 2811-2813 and context methods lines 1785-1815, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`; B `Player.tick()` lines 231-291 SHA-256 `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d`.
+- State producers/writers -> consumers/readers: A/B timer is set/reset by impulse-context APIs and decremented once after `aiStep()` in the player tick chain. Its remaining consumers gate fall-damage context reset and explosion/fall attribution; it does not read or write player position, velocity, collision, jump or travel state.
+- Parent slices / dependencies / closure evidence: tick order verified from Player.tick -> LivingEntity.tick -> dynamic aiStep; context field consumers are fall-damage/attribution paths and are excluded by INV-EXCLUSIONS. The relocated decrement has the same once-per-player-tick post-aiStep timing.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): For Player, timer update remains after movement `aiStep()` and once per tick; B generalizes its storage to LivingEntity, but no direct player-motion read/write is added or removed. Remaining context semantics affect fall damage only, outside the movement behavior comparison.
+- Finding IDs or checked absence/replacement path: none; exact consumer search found no delta-movement or movement-state writes in the context APIs.
+
+### Slice S1.2.2: Inherited LivingEntity tick dispatch to dynamic aiStep
+
+- Inventory ID(s): INV-TICK
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.tick()` calls `super.tick()`, performs pre-step state updates, invokes dynamic `aiStep()` under `!isRemoved`, then completes rotation/head/range and end-of-tick updates; parent `Player.tick()` calls this before its post-super movement-state tail.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/LivingEntity.java` :: `tick()`, lines 2610-2723, SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`; `Player.tick()` lines 238-294, SHA-256 `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java` :: `tick()`, lines 2699-2815, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`; `Player.tick()` lines 231-291, SHA-256 `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d`.
+- State producers/writers -> consumers/readers: local player `tick()` -> `Player.tick()` -> `LivingEntity.tick()` -> dynamic `LocalPlayer.aiStep()`; returned tick then continues Player and LocalPlayer post-super paths. Same dispatch guard and update ordering hold. Non-movement damage/equipment producers are excluded.
+- Parent slices / dependencies / closure evidence: paired client/player tick bodies in S1.2; input producer S1.1; timer relocation split into S1.2.1.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): Dynamic `aiStep()` dispatch remains after `super.tick()` and before LivingEntity's rotation/end-state tail in both; same `!isRemoved` guard. Parent call chain preserves the same dispatch point; other local names differ.
 - Finding IDs or checked absence/replacement path: none.
 
 ### Slice S1.3: Yaw-to-input conversion, diagonal normalization and input scaling
@@ -296,25 +318,25 @@ Each entry is a bounded behavior boundary. Refine broad plans into exact member 
 ### Slice S3.4: Jump power, sprint-jump impulse and jump state writes
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Jump power, sprint-jump impulse and jump state writes. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.jumpFromGround()` full body, including the positive-jump-power guard, Y maximum, sprinting yaw impulse, and `needsSync` write. Broader jump selection, jump power producers/modifiers, liquid jump, and no-jump-delay state remain open.
+- A evidence: exact `ready/1.21.11/mojmap/net/minecraft/world/entity/LivingEntity.java` :: `jumpFromGround()`, lines 2269-2281, SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`.
+- B evidence: exact `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java` :: `jumpFromGround()`, lines 2352-2364, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
+- State producers/writers -> consumers/readers: method reads `getJumpPower()`, current delta movement, sprint state, and yaw; writes delta movement and `needsSync`. Producer/modifier closure for jump power and consumers of the sync flag remain open.
+- Parent slices / dependencies / closure evidence: broader `S3.4` call graph and modifier/resource dependencies remain open; this paired method body is a partial checkpoint only.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The paired method bodies have the same guard (`jumpPower > 1.0E-5F`), max-with-current-Y write, sprint check, radians conversion and operation order for `(-sin(yaw) * 0.2, 0, cos(yaw) * 0.2)`, then `needsSync = true`. Only local names and source line numbers differ. This does not close overall jump behavior.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S3.5: Climbing movement and clamps
 
 - Inventory ID(s): INV-TICK, INV-WORLD-MOVEMENT, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Climbing movement and clamps. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.handleRelativeFrictionAndCalculateMovement()`, `handleOnClimbable()`, `getFrictionInfluencedSpeed()`, and the player override of `onClimbable()`. Paired bodies and call order checked; exact block-tag/resource contents and all called-state producers remain open.
+- A evidence: exact `ready/1.21.11/mojmap/net/minecraft/world/entity/LivingEntity.java` :: `handleRelativeFrictionAndCalculateMovement()` lines 2534-2544, `handleOnClimbable()` 2561-2576, `getFrictionInfluencedSpeed()` 2578-2580, and `onClimbable()` 1669-1687; SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`. Exact `Player.java` override lines 2043-2045, SHA-256 `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`.
+- B evidence: exact `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java` :: `handleRelativeFrictionAndCalculateMovement()` lines 2623-2633, `handleOnClimbable()` 2650-2665, `getFrictionInfluencedSpeed()` 2667-2669, and `onClimbable()` 1689-1707; SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`. Exact `Player.java` override lines 2003-2005, SHA-256 `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d`.
+- State producers/writers -> consumers/readers: movement helper reads delta movement, friction, on-ground/horizontal-collision/jumping flags, climbability, powder-snow state, and Player flying ability; writes clamped delta movement before `move(SELF, ...)`, then may return a `0.2` vertical component for subsequent travel. `onClimbable()` reads spectator/fall-flying state, in-block state and block tags, trapdoor ladder checks; it writes `lastClimbablePos`. The Player override returns false while flying. Full tag data and called state producers remain open.
+- Parent slices / dependencies / closure evidence: `S3.1.1` closes travel dispatcher order. Exact tag bytes were read from each verified client jar: both `data/minecraft/tags/block/climbable.json` entries hash to `d0e3e76d7457f3f3f3d7219fe218c7746e4b2e7626d5c388fcf193089069e365`, and both `data/minecraft/tags/block/can_glide_through.json` entries hash to `e1b304a494b93be2a3280ea6cc7c73ebc0fd76e21654af801d5e4359e94232a8`. D2 still owns the remaining movement tag/resource closure; cross-method movement predicates must be reconciled before this slice closes.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Player and LivingEntity climbability dispatch and helper sequence match. Both use identical spectator and fall-flying checks, `CAN_GLIDE_THROUGH` then `CLIMBABLE` membership, trapdoor ladder fallback, `[-0.15, 0.15]` X/Z clamp, lower Y clamp, Player-only ladder slide suppression, and ground-friction factor `0.21600002F / (friction * friction * friction)`. Movement then calls `move` and applies the same `0.2` branch. Direct resource/tag and state producer closure is not yet sufficient to claim full slice equivalence.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S3.6: Water travel, swimming, buoyancy/drag and fluid effects
@@ -728,9 +750,9 @@ No findings yet. S1.1-S1.3 have paired no-difference dispositions. The pair rema
 
 ## Resume checkpoint
 
-- Last completed slices: S1.1-S1.3, S3.1.1, S3.3.1 and S3.6.1 (compared-no-difference); S5.9 (not-applicable to Player).
+- Last completed slices: S1.1-S1.3, S1.2.1-S1.2.2, S3.1.1, S3.3.1 and S3.6.1 (compared-no-difference); S5.9 (not-applicable to Player).
 - Next bounded slices: complete ground/air travel and post-travel comparisons, then close fluid-dependent data under D2.
-- Outstanding dependencies and owners: D2-D3, source worker.
+- Outstanding dependencies and owners: D2, source worker.
 - Current assumptions requiring verification: decompiled movement member bodies are semantically intact; B LocalPlayer diagnostics omit anchors, so manual body review is cited; resource-backed data closure remains open.
 
 ## Implementation reconciliation
@@ -756,7 +778,7 @@ No source-confirmed findings have been submitted. Pair run remains active; no sn
 
 ## Source audit closure
 
-- Coverage counts by status: 44 pending; 3 in-progress; 6 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (54 slices).
+- Coverage counts by status: 42 pending; 5 in-progress; 8 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices).
 - Required inventory status and evidence: all 7 pending; exact source inputs are verified, but full movement/provider/resource inventories remain incomplete.
 - Open dependencies: D2
 - Unresolved gaps and limits: inherited tick/travel/collision body comparisons, movement state producers/consumers, shape providers/registrations, and data/resource dependency closure.
