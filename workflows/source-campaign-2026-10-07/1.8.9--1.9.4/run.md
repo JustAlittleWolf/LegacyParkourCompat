@@ -315,8 +315,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 
 ## Dependency queue and blockers
 
-- `DEP-STATE-01-PRODUCER-CONSUMER`: source worker; full local tick/jump/travel/external correction chain remains open for a cutoff-specific implementation boundary.
-- `DEP-AUDITOR`: coordinator; independent source reviewer not assigned.
+- `DEP-AUDITOR`: coordinator; full-pair independent source audit not assigned. The focused review below accepts only the bounded STATE-01 cutoff snapshot and does not close the pair.
 - All remaining `TICK-*`, `STATE-*`, `COLL-*`, `WORLD-*`, `MOD-*`, and `EXT-*` inventories remain open.
 
 ## Finding index
@@ -347,22 +346,22 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Implementation handoff: `blocked` — mapped-artifact integrity is under canonical repair, finding-specific producer/consumer closure remains open, and no independent snapshot reviewer has accepted it.
 - Snapshot event: superseded on 2026-10-07 by `SNAP-STATE-01-02` after canonical revision `feather-r1-2026-10-07` was published and freshly hash-checked. This prior entry remains in history and was never accepted.
 
-### SNAP-STATE-01-02 — candidate evidence, handoff blocked
+### SNAP-STATE-01-02 — accepted bounded source cutoff; pair remains open
 
 - Finding ID: `STATE-01` (`findings/STATE-01-velocity-zero-threshold.md`).
 - Snapshot/evidence commit: `7437cfb2782e7085bd63b9360ba36e07b605f23f`.
 - Finding-file SHA-256 at that commit: `8d74c339535db2e86dee838bef9b3a1cf1a52872b97b3c3a20a505552d8dc412`.
 - Exact source identity: A source manifest `9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004`, cited `LivingEntity.java` `082831c6578e3a70fa6cea5b90bc3eefc26678259b66334470de22b90b5b0e4e`; B source manifest `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`, cited `LivingEntity.java` `bbb7703f18fd5da05c4e4a43a77ea644b388e63c01d34166d308ea52054be4e5`.
-- Exact artifact identity: original A/B artifact-manifest hashes `da003358256d1c4402ebb20614651e5410310e871ee913de2b9c1295a64e1446` / `9527dca544694daa3b4a7741be1a5b4802d8b6665c8a152a408a37a27a1b4d77`; revised immutable mapped JAR hashes `5c4cff3e4ac10ea1e1da166279133801ad304b4557d5ee4a77a2430977afb6a5` / `fbcf50795566e12b8eab0e733b136ed562c4009d707ef4a7a4994936491816a3`, revision JSON SHA-256 `95e2dc4aa3edba2d287f2bab092c61c0f66874f790af1b8c5d98196c980e105d` / `df0a26fd4c65292530cdad638e6789cc26fcd47875fe1c3eb2daef6de7e3f915`. Source and raw input rows match; original derived JARs are unavailable and original identity/equivalence is unproven. Independent ops verification is pending.
+- Exact artifact identity: original A/B artifact-manifest hashes `da003358256d1c4402ebb20614651e5410310e871ee913de2b9c1295a64e1446` / `9527dca544694daa3b4a7741be1a5b4802d8b6665c8a152a408a37a27a1b4d77`; revised immutable mapped JAR hashes `5c4cff3e4ac10ea1e1da166279133801ad304b4557d5ee4a77a2430977afb6a5` / `fbcf50795566e12b8eab0e733b136ed562c4009d707ef4a7a4994936491816a3`, revision JSON SHA-256 `95e2dc4aa3edba2d287f2bab092c61c0f66874f790af1b8c5d98196c980e105d` / `df0a26fd4c65292530cdad638e6789cc26fcd47875fe1c3eb2daef6de7e3f915`. Source and raw input rows match; original derived JARs are unavailable and original identity/equivalence is unproven. Independent ops verification passed.
 - Verified implementation boundary/evidence: only the strict per-axis cutoff in `LivingEntity#mobTick()V` before jump dispatch/travel (`0.005` A, `0.003` B). First applicable release and version activation outside these endpoints are unknown; do not generalize the threshold to other methods or claim a jump outcome.
-- Closed finding-specific dependency IDs: none. `DEP-STATE-01-PRODUCER-CONSUMER` remains open for local tick dispatch, all preceding input/external velocity writers, jump/travel consumers, and authority corrections.
-- Blind reviewer and decision: not assigned; no acceptance decision.
+- Closed finding-specific dependency IDs: bounded local cutoff producer/consumer trace closed for this exact snapshot; the wider source inventories remain open and no universal downstream trajectory is claimed.
+- Blind reviewer and decision: accepted for the bounded source-level cutoff delta by the focused blind reviewer in commit `fb0415396838962eb421768daa07f3fd9ff44796`; exact accepted file hash remains `8d74c339535db2e86dee838bef9b3a1cf1a52872b97b3c3a20a505552d8dc412`.
 - Timestamp: 2026-10-07 Europe/Vienna.
 - Pair run status/commit at handoff: `active`; snapshot evidence commit above. `pair complete: no`.
-- Implementation handoff: `blocked` — finding-specific dependency is open, independent blind snapshot review is not assigned, and independent ops verification is pending. No implementation feedback has been received.
-- Snapshot event: independent ops audit passed on 2026-10-07 after this worker verified both immutable snapshots against `artifact.sha256` and `revision.json`, rehashed source rows, and checked all raw-input manifest rows. The original derived JARs remain unavailable and equivalence remains unproven; no finding acceptance is implied.
+- Source decision: accepted for this bounded finding only. Implementation reconciliation/feedback remains sealed until full-pair freeze; no implementation or wiki feedback has been supplied.
+- Snapshot event: independent ops audit passed on 2026-10-07 after both immutable snapshots were checked against `artifact.sha256` and `revision.json`, source rows rehashed, and raw-input manifest rows checked. The original derived JARs remain unavailable and equivalence remains unproven. The later focused blind review accepted this exact finding snapshot; it did not accept the whole pair.
 
-### SNAP-COLL-02-PANE-01 — candidate evidence, blind review pending
+### SNAP-COLL-02-PANE-01 — rejected; corrected snapshot follows
 
 - Finding ID: `COLL-02` (`findings/COLL-02-pane-collision-shapes.md`).
 - Snapshot/evidence commit: `9222079631775ff5a6d0d566624ba3add7c36c2b`.
@@ -370,11 +369,38 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Exact source identity: A source manifest SHA-256 `9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004`; B source manifest SHA-256 `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`.
 - Exact artifact identity: revised snapshot `feather-r1-2026-10-07`; A immutable mapped JAR SHA-256 `5c4cff3e4ac10ea1e1da166279133801ad304b4557d5ee4a77a2430977afb6a5`; B immutable mapped JAR SHA-256 `fbcf50795566e12b8eab0e733b136ed562c4009d707ef4a7a4994936491816a3`. Source trees and raw inputs match the original records; original derived JARs are unavailable and their equivalence is unproven. Independent ops audit passed for the revised snapshots; this does not accept the finding.
 - Closed finding-specific dependencies: both-side registration and shared PaneBlock subclass path; four-neighbor virtual connection producer and same-mask reachability of all sixteen combinations; exact A/B collision assembly for every mask; World collision collection and player-reachable `Entity#move(DDD)V` consumer.
-- Blind reviewer and decision: not assigned; no acceptance decision.
+- Blind reviewer and decision: focused reviewer commit `fb0415396838962eb421768daa07f3fd9ff44796` rejected this exact snapshot solely for the wrong normal movement reference.
 - Timestamp: 2026-10-07 Europe/Vienna.
 - Pair run status/commit at handoff: `active`; `pair complete: no`.
-- Implementation handoff: `blocked` pending independent blind review of this exact finding snapshot. This candidate does not close the full pane/bar and collision-provider inventory or freeze the source pair.
-- Snapshot event: this entry references the immutable evidence commit and finding-file hash above. No implementation feedback has been received.
+- Implementation handoff: rejected for this exact snapshot; the corrected replacement is `SNAP-COLL-02-PANE-02`. This does not close the full pane/bar and collision-provider inventory or freeze the source pair.
+- Snapshot event: the focused blind review at commit `fb0415396838962eb421768daa07f3fd9ff44796` verified the geometry table and rejected this snapshot solely because its movement reachability citations pointed inside `Entity#pushAwayFrom`. See corrected replacement `SNAP-COLL-02-PANE-02` below. No geometry contradiction or implementation feedback was supplied.
+
+### SNAP-COLL-02-PANE-02 — corrected candidate, fresh blind decision pending
+
+- Finding ID: `COLL-02` (`findings/COLL-02-pane-collision-shapes.md`).
+- Snapshot/evidence commit: `cd978384d9d360c584e139f68bda5bbafd8749fa`.
+- Finding-file SHA-256 at that commit: `c24e71656773beb12e5f96f05f8c37fb56b43464b483c4abd347a35a0e368190`.
+- Exact source identity: A manifest `9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004`; B manifest `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`.
+- Exact artifact identity: revision `feather-r1-2026-10-07`; A/B immutable mapped JAR SHA-256 `5c4cff3e4ac10ea1e1da166279133801ad304b4557d5ee4a77a2430977afb6a5` / `fbcf50795566e12b8eab0e733b136ed562c4009d707ef4a7a4994936491816a3`. Original derived JARs are unavailable and equivalence is unproven; independent ops verification passed for the revised snapshots.
+- Corrected reachability evidence: A `World#getCollisions(Entity,Box)` lines 891-923 (block dispatch 921), then `Entity#move(DDD)V` lines 439 and 469; B `World#getCollisions(Entity,Box)` lines 899-935 (dispatch 933), then `Entity#move(DDD)V` lines 509 and 542 before axis clipping. All cited source hashes are in the finding.
+- Closed finding-specific dependencies: pane variant registration/inheritance; four-neighbor mask producer and all sixteen reachable masks; collision assembly; normal world-to-player movement dispatch. The neighbor predicate may map other block classes to different masks, and the full collision-provider inventory remains open.
+- Blind reviewer and decision: fresh decision pending for this exact commit and finding-file hash.
+- Timestamp: 2026-10-07 Europe/Vienna.
+- Pair run status: `active`; `pair complete: no`.
+- Implementation handoff: pending review; no implementation feedback has been supplied.
+
+### SNAP-STATE-03-01 — frozen bounded candidate, blind decision pending
+
+- Finding ID: `STATE-03` (`findings/STATE-03-sneak-collision-height.md`).
+- Snapshot/evidence commit: `c942939e8755d67ca1e3445dfd7680e7d0b68b41`.
+- Finding-file SHA-256 at that commit: `c92149bb776ae1e8a91bc7e2cbb85ca47ada9f55b46779a7daebdd80def4f7dd`.
+- Exact source identity: A manifest `9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004`; B manifest `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`.
+- Exact artifact identity: revision `feather-r1-2026-10-07`; A/B immutable mapped JAR SHA-256 `5c4cff3e4ac10ea1e1da166279133801ad304b4557d5ee4a77a2430977afb6a5` / `fbcf50795566e12b8eab0e733b136ed562c4009d707ef4a7a4994936491816a3`. Original derived JARs are unavailable and equivalence is unproven; independent ops verification passed for the revised snapshots.
+- Closed finding-specific dependencies: A's complete PlayerEntity size-writer inventory has no sneaking-conditioned write; B's tick-end pose branch, priority guards, `1.65F` candidate, `World#getCollisions(Box)` block-provider path, conditional setter, fixed-minimum resize, and unchanged width are cited. The collision-fit condition is explicit and linked to `SNAP-COLL-02-PANE-02`; the finding claims no fit result for unspecified blocks/worlds.
+- Blind reviewer and decision: pending for this exact snapshot.
+- Timestamp: 2026-10-07 Europe/Vienna.
+- Pair run status: `active`; `pair complete: no`.
+- Implementation handoff: pending blind review; no implementation feedback has been supplied.
 
 ### SNAP-TICK-02-01 — candidate evidence, blind review pending
 
@@ -392,9 +418,9 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 
 ## Resume checkpoint
 
-- Last completed slice: source roots and per-file hashes reverified; revised snapshots rehashed and ops audit passed; source-backed movement candidates and explicit scope exclusions recorded. Original mapped-JAR identity remains unproven.
-- Next bounded slice and exact files/members/body ranges: close active-item and pre-travel push writers; compare input/packet authority boundaries; finish modifier/equipment and collision-provider inventories; then revisit cutoff-specific dependency closure.
-- Outstanding dependencies and owners: `DEP-AUDITOR` coordinator; `DEP-STATE-01-PRODUCER-CONSUMER` source worker; remaining coverage slices.
+- Last completed slice: exact bounded STATE-01 cutoff snapshot independently accepted; corrected COLL-02 movement path committed as a fresh candidate; STATE-03 collision-fit guard and PaneBlock dependency frozen in an exact candidate. Revised snapshots passed independent ops verification; original mapped-JAR identity remains unproven.
+- Next bounded slice and exact files/members/body ranges: obtain fresh blind decisions for `SNAP-COLL-02-PANE-02` and `SNAP-STATE-03-01`; continue TICK-05 item-use ordering, TICK-06/TICK-07 player velocity writers, EXT-01 corrections, MOD-02 modifiers, COLL-01/COLL-02 provider inventory, and WORLD slices.
+- Outstanding dependencies and owners: `DEP-AUDITOR` coordinator for full-pair review; fresh reviewer decisions for the two exact candidates above; remaining coverage slices.
 - Assumptions requiring verification: no first-version claim inside the interval; complete resource/provider inventory remains open.
 
 ## Implementation reconciliation
@@ -407,20 +433,20 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 
 ## Independent source audit
 
-- Reviewer: not assigned.
-- Status: pending
-- Inventories and call-chain ranges re-walked:
-- Concrete missed-slice routes:
-- Misses routed to slice/finding IDs and owners:
-- Reviewer evidence/date:
+- Reviewer: focused blind source review, commit `fb0415396838962eb421768daa07f3fd9ff44796`; report SHA-256 `163150719a588bed111f01bcba60545aee37105a6f30f0309b39c8275805f73a`; path `C:/Users/Wolfi/.codex/worktrees/critical-1-8-movement-source-review/LegacyParkourCompat/workflows/coverage-review-2026-10-07/critical-1.8.9.md`.
+- Status: partial focused review; no full-pair audit or freeze.
+- Inventories and call-chain ranges re-walked: direct ground-jump impulse/height; PaneBlock collision assembly, registrations, World collision dispatch and `Entity#move`; PlayerEntity sneak pose writes, B collision-fit query and `Entity#setSize`.
+- Concrete missed-slice routes: prior COLL-02 candidate cited `Entity#pushAwayFrom`'s `getBlockCollisions` rather than the normal movement `World#getCollisions(Entity,Box)` chain. The finding was corrected in `SNAP-COLL-02-PANE-02`.
+- Misses routed to slice/finding IDs and owners: COLL-02 corrected by source worker; STATE-03 frozen with explicit collision-fit and pane dependency; STATE-01 bounded cutoff snapshot accepted. Full inventory gaps remain with source worker/coordinator.
+- Reviewer evidence/date: STATE-01 accepted at its exact immutable file hash; prior COLL-02 snapshot rejected solely for the reachability citation, geometry table confirmed; STATE-03 source path confirmed and awaits review of the new exact candidate. 2026-10-07.
 
 ## Source audit closure
 
 - Coverage counts: pending.
 - Required inventory status/evidence: all inventories remain open.
-- Open dependencies: `DEP-STATE-01-PRODUCER-CONSUMER`, `DEP-AUDITOR`, and all pending/in-progress slices.
+- Open dependencies: `DEP-AUDITOR` for full-pair review, fresh decisions for `SNAP-COLL-02-PANE-02` and `SNAP-STATE-03-01`, and all remaining pending/in-progress slices.
 - Unresolved gaps/limits: comprehensive audit in progress; no equivalence closure claimed.
-- Evidence/hash/correspondence audit: source hashes were checked against the admitted source manifests and cited files; derived artifact hashes are stale under the integrity notice and await canonical repair.
+- Evidence/hash/correspondence audit: source and raw inputs match the admitted manifests; revised immutable mapped-artifact hashes match their `artifact.sha256` and `revision.json` records, and the independent ops audit passed. Original derived mapped JARs remain unavailable; their identity/equivalence is unproven.
 - Blind freeze: pending.
 - Implementation reconciliation: pending.
 - Independent audit: pending.
