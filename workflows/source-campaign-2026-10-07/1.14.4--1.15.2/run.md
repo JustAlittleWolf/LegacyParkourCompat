@@ -1,19 +1,19 @@
 # Discovery: 1.14.4 to 1.15.2
 
 - Run status: partial
-- Scope: complete client player movement call graph; older A = 1.14.4; newer B = 1.15.2
+- Scope: client player movement; older A = exact Java Edition 1.14.4; newer B = exact Java Edition 1.15.2. Pair coverage remains partial.
 - Repository revision and start date: base 002137b227676caea77f6832b9f4c8d0b6200bff (main); 2026-10-07; task branch feat/source-discovery-movement-source-1-14-4-1-15-2
-- Selected naming namespace, CLI mode per side and alignment evidence: Mojmap for A and B. Both ready JSONs report exact version IDs and mapping=mojmap; each client jar uses its own official client mappings.
-- Source preparation owner / command / log / readiness marker: shared campaign source owner (identity not provided); exact command/log not yet published; A ready/1.14.4/mojmap.ready.json, B ready/1.15.2/mojmap.ready.json.
-- Toolchain/decompiler/remapper versions and options: both report Vineflower on Java 25; exact Gradle, TinyRemapper, Mapping-IO versions/options and invocation/log requested from source owner.
+- Selected naming namespace, CLI mode per side and alignment evidence: Mojmap output for A and B; exact IDs match marker and metadata IDs. A was produced by a dual-output `--mappings=feather,mojmap` run; only its Mojmap tree and official 1.14.4 mappings are used here. B was produced by a Mojmap batch run. This pair uses no bridge mapping.
+- Source preparation owner / command / log / readiness marker: owner checkout `C:/Users/Wolfi/.codex/worktrees/3e2d/LegacyParkourCompat` (individual identity not recorded). A exact command `gradlew.bat decompileMinecraft --versions=1.14.4 --mappings=feather,mojmap --decompiler-heap=4G --output-root=D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\staging\1.14.4-dual-7870320a676d4a4986540e7d0c40314f --cache-directory=D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\artifacts`; B exact command `gradlew.bat decompileMinecraft --versions=1.15.2,1.16.5,1.17.1,1.18.2 --mappings=mojmap --decompiler-heap=4G --output-root=D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\staging\mojmap-1.15-to-1.18-f41b958fe6b84e6eb832e0c465a0e56d --cache-directory=D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\artifacts`. Readiness records are `ready/1.14.4/mojmap.ready.json` and `ready/1.15.2/mojmap.ready.json`; each has an adjacent success excerpt, not the original full Gradle stream. SHA-256: A marker `ec7b6a6d9ba72f8a19908527977c970a8e2b3007b0e0b4323a725fb5943d3043`, provenance `9d1ad405e1e787d2fca5ed1897e6797b1f3cd79527da50d713232f46e2f30d97`, excerpt `faaa84fbb80b67131b5f0b6d6c828d59bb1c7a143d1bd92dfe2eaa99faf71e80`; B marker `64a0e40b784d525ce50937c63e465fc4f564efb1f7af17f2bac3c77a36907be0`, provenance `d4802d35ee2927a44d753871f184c3255c060eb94457a5c65a8bc121a087954e`, excerpt `b8b60b3ce9a7f746be9e2023bbd9afb7c85dc58cb8582b9ac5962fc2c8a6348d`.
+- Toolchain/decompiler/remapper versions and options: both provenance records report Java `25.0.3+9-LTS`, Gradle `9.7.1`, Vineflower `1.12.0`, ASM `9.10.1`, Mapping IO `0.9.1`, Gson `2.14.0`, Tiny Remapper `0.14.1`; heap 4G; `GRADLE_USER_HOME=C:\Users\Wolfi\.gradle`. Initial full Gradle streams were not persisted. The source-preparation repo revision was not recorded by provenance.
 - Discovery author(s): /root, source-only pair owner.
 - Independent reviewer (must differ from discovery authors): not assigned; audit pending.
 
 ## Artifact manifest
 
-- A 1.14.4: exact ID and metadata ID verified; source root ready/1.14.4/mojmap/; 3,250 files, 17,080,207 bytes; client jar artifacts/1.14.4/client.jar SHA-256 b3b2a798e2d67b566008fe4a03767ae2c7ff3f8c7ba6751e7b71fc7299672d0a; mode mojmap; official mapping artifacts/1.14.4/client_mappings.txt SHA-256 2dd53a5e70ba493cf6e33c0fc52bbdf4c57f9429c7a13842565aa825fd44d910; no community coordinate/build or bridge; mapped jar artifacts/1.14.4/client-mojmap.jar SHA-256 850d17d7e0f78e064d522474396753b3545e822feaa33c1ff9f8ff0ba2acd9aa; source manifest ready/1.14.4/mojmap.sources.sha256 SHA-256 af98406f3d4ed31494fbdce1078d1f3df3f712501878f9a0e9ad5879bdf23c3b; artifact manifest ready/1.14.4/mojmap.artifacts.sha256 SHA-256 308cc33ef6dffc047432ade6affc88eccc9de94a736ee9a98571fd92915c2970; diagnostics ready/1.14.4/mojmap.movement-diagnostics.txt SHA-256 d404e46059270c9283f6767edb6050959548253d2725443c95b6ab9cb49b1a61.
-- B 1.15.2: exact ID and metadata ID verified; source root ready/1.15.2/mojmap/; 3,332 files, 17,543,871 bytes; client jar artifacts/1.15.2/client.jar SHA-256 4a73008a73f3824b7c711750a5a37556df8614f193c0a531e292dad159a73a7c; mode mojmap; official mapping artifacts/1.15.2/client_mappings.txt SHA-256 65ad295b6cf63821f5d8f961c128128475e6d39386358d22eb238a3ce6e31777; no community coordinate/build or bridge; mapped jar artifacts/1.15.2/client-mojmap.jar SHA-256 c0fe9cfe2a273c42ff269b58c9aabb93815d6bb7bf457ca1deb8695833c4380b; source manifest ready/1.15.2/mojmap.sources.sha256 SHA-256 cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7; artifact manifest ready/1.15.2/artifacts.sha256 SHA-256 208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406; diagnostics ready/1.15.2/movement-diagnostics.txt SHA-256 1ab6c473dbbdf2c590a7a8870befbd404e634fe7c1b0ae6a796b7b5f9c63d4d5.
-- Verification: both statuses ready; exact IDs and namespace match; JSON-referenced manifest/diagnostic hashes match; source hashes checked A 3250/3250 and B 3332/3332; artifact hashes checked A 40/40 and B 38/38; zero mismatches. Diagnostics locate Entity.move, LivingEntity.jumpFromGround/travel/aiStep, Player.aiStep/jumpFromGround/travel and LocalPlayer.aiStep/move on both sides. Record per-source and resource hashes with each closed slice.
+- A 1.14.4: source root `ready/1.14.4/mojmap/`; 3,250 files, 17,080,207 bytes; original client SHA-256 `b3b2a798e2d67b566008fe4a03767ae2c7ff3f8c7ba6751e7b71fc7299672d0a`; official mapping `artifacts/1.14.4/client_mappings.txt` SHA-256 `2dd53a5e70ba493cf6e33c0fc52bbdf4c57f9429c7a13842565aa825fd44d910`; Mojmap jar SHA-256 `850d17d7e0f78e064d522474396753b3545e822feaa33c1ff9f8ff0ba2acd9aa`; no bridge. The dual run also materialized Feather artifacts; they are unused by this comparison. Source manifest hash `af98406f3d4ed31494fbdce1078d1f3df3f712501878f9a0e9ad5879bdf23c3b`; artifact manifest hash `308cc33ef6dffc047432ade6affc88eccc9de94a736ee9a98571fd92915c2970`; diagnostics hash `d404e46059270c9283f6767edb6050959548253d2725443c95b6ab9cb49b1a61`.
+- B 1.15.2: source root `ready/1.15.2/mojmap/`; 3,332 files, 17,543,871 bytes; original client SHA-256 `4a73008a73f3824b7c711750a5a37556df8614f193c0a531e292dad159a73a7c`; official mapping `artifacts/1.15.2/client_mappings.txt` SHA-256 `65ad295b6cf63821f5d8f961c128128475e6d39386358d22eb238a3ce6e31777`; Mojmap jar SHA-256 `c0fe9cfe2a273c42ff269b58c9aabb93815d6bb7bf457ca1deb8695833c4380b`; no bridge. Source manifest hash `cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7`; artifact manifest hash `208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406`; diagnostics hash `1ab6c473dbbdf2c590a7a8870befbd404e634fe7c1b0ae6a796b7b5f9c63d4d5`.
+- Fresh resume verification on 2026-10-07: status and release/metadata IDs match; readiness-referenced manifest hashes match; all source entries A 3,250/3,250 and B 3,332/3,332 verified with zero mismatches; all raw artifact-manifest entries A 40/40 and B 38/38 verified with zero mismatches; client hashes match markers. The six-release Feather artifact revision does not include either selected Mojmap artifact; no revised derived snapshot is used by this pair. Diagnostics locate Entity.move, LivingEntity.jumpFromGround/travel/aiStep, Player.aiStep/jumpFromGround/travel and LocalPlayer.aiStep/move on both sides. Record per-source and resource hashes with each closed slice.
 
 ## Blind-discovery freeze
 
@@ -33,11 +33,11 @@
 
 All inventories remain pending while exact method and dependency coverage is in progress.
 
-- `INV-TICK` input sampling, tick/call graph, pre-travel, travel branches and post-travel: status=pending; slice_ids=S-INPUT-KEYS,S-LOCAL-PRETRAVEL,S-LIVING-TRAVEL,S-POST-TRAVEL; evidence=both verified diagnostics identify LocalPlayer.aiStep, LivingEntity.aiStep/travel and Player.aiStep.
-- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags and timers: status=pending; slice_ids=S-PLAYER-POSE,S-STATE-WRITERS; evidence=paired Player/Entity/LocalPlayer sources are in verified manifests.
+- `INV-TICK` input sampling, tick/call graph, pre-travel, travel branches and post-travel: status=pending; slice_ids=S-INPUT-KEYS,S-LOCAL-PRETRAVEL,S-ELYTRA-START,S-LIVING-TRAVEL,S-POST-TRAVEL; evidence=both verified diagnostics identify LocalPlayer.aiStep, LivingEntity.aiStep/travel and Player.aiStep.
+- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags and timers: status=pending; slice_ids=S-PLAYER-POSE,S-STATE-WRITERS,S-ELYTRA-START; evidence=paired Player/Entity/LocalPlayer sources are in verified manifests.
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighbors: status=pending; slice_ids=S-ENTITY-MOVE,S-EDGE-BACKOFF,S-COLLISION-PROVIDERS; evidence=diagnostics locate Entity.move on both sides.
 - `INV-WORLD-MOVEMENT` block/fluid properties, subclasses, registries, data/tags and defaults: status=pending; slice_ids=S-BLOCK-SPEED,S-BLOCK-JUMP,S-FRICTION-SAMPLE,S-HONEY-BLOCK,S-FLUIDS; evidence=paired registries and source manifests verified.
-- `INV-MODIFIERS` movement attributes/effects/enchantments/equipment and application/removal chains: status=pending; slice_ids=S-EFFECTS,S-ENCHANTMENTS,S-ATTRIBUTES,S-EQUIPMENT; evidence=paired LivingEntity/Player anchors verified.
+- `INV-MODIFIERS` movement attributes/effects/enchantments/equipment and application/removal chains: status=pending; slice_ids=S-EFFECTS,S-ENCHANTMENTS,S-ATTRIBUTES,S-EQUIPMENT,S-ELYTRA-START; evidence=paired LivingEntity/Player anchors verified.
 - `INV-EXTERNAL` player-only external inputs and client consumers: status=pending; slice_ids=S-CORRECTIONS,S-PLAYER-PUSH,S-PISTON-MOUNT; evidence=client/entity sources are in verified manifests.
 - `INV-EXCLUSIONS` explicit audit of health, regen, hunger, food, saturation, exhaustion, damage/combat and non-player movement: status=pending; slice_ids=none; evidence=scope boundary recorded; direct vanilla predicate reads and exclusions remain to audit.
 
@@ -62,10 +62,22 @@ All inventories remain pending while exact method and dependency coverage is in 
 - A evidence: ready/1.14.4/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#aiStep(), lines 618-779; SHA-256 0795c1223198ce5acf5d2ed9e5db8435bbec4cd52b96f96b1ddf2865baaae85f.
 - B evidence: ready/1.15.2/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#aiStep(), lines 625-784; SHA-256 3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd.
 - State producers/writers -> consumers/readers: sampled keys and prior jump state -> sprint timers/abilities/fall-flying request/autoJumpTime -> travel and pose; food systems excluded, direct vanilla reads are inputs only.
-- Parent slices / dependencies / closure evidence: S-INPUT-KEYS; pose, item-use, equipment, ability and fall-flying producers open.
+- Parent slices / dependencies / closure evidence: S-INPUT-KEYS; pose, item-use, equipment and ability dependencies remain open; see bounded S-ELYTRA-START slice.
 - Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): paired diff exposes candidate flow changes; each behavior needs a bounded slice and dependency closure.
-- Finding IDs or checked absence/replacement path: candidate F-ELYTRA-START; source comparison indicates a changed start gate, but effect/equipment/client-state dependencies remain open. Honey's auto-jump gate is tracked under F-HONEY-MOVEMENT.
+- Finding IDs or checked absence/replacement path: F-ELYTRA-START is closed in its own bounded slice; sprint, ability-flight toggle and auto-jump remain open here. Honey's auto-jump gate is tracked under F-HONEY-FACTORS.
+
+### Slice S-ELYTRA-START: fresh jump press and fall-flying start
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: paired LocalPlayer.aiStep start gate, enabled Elytra check, B Player helper and shared-flag consumer in LivingEntity.travel.
+- A evidence: ready/1.14.4/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#aiStep(), lines 707-711; SHA-256 0795c1223198ce5acf5d2ed9e5db8435bbec4cd52b96f96b1ddf2865baaae85f.
+- B evidence: ready/1.15.2/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#aiStep(), lines 715-720; Player#tryToStartFallFlying(), lines 1578-1592; SHA-256 LocalPlayer 3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd; Player 1ba2724c22163862b8f7fdfdea5a04a6e4db26a119d7e5360ba024724a34793.
+- State producers/writers -> consumers/readers: jump key rising edge + Elytra slot/enable state + airborne/ability/passenger/ladder/water gates -> shared flag 7 -> LivingEntity.travel fall-flying dispatch.
+- Parent slices / dependencies / closure evidence: S-LOCAL-PRETRAVEL; B LivingEntity#travel() checks isFallFlying; Player#startFallFlying sets flag 7. Server acceptance is external and is not required to establish B's local state write.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): with an enabled Elytra, airborne and not passenger/on ladder/in water/ability flight, pressing jump while still ascending does not pass A's `deltaMovement.y < 0.0` gate. B calls its helper without a descent gate and sets local shared flag 7 before sending the command, which is consumed by the travel branch. Further sprint, flight-toggle and auto-jump pre-travel slices remain open.
+- Finding IDs or checked absence/replacement path: F-ELYTRA-START.
 
 ### Slice S-ENTITY-MOVE: collision movement ordering and post-move block factor
 
@@ -77,7 +89,7 @@ All inventories remain pending while exact method and dependency coverage is in 
 - Parent slices / dependencies / closure evidence: S-BLOCK-SPEED; all non-default factors, Player override, water/bubble case and support lookup.
 - Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): confirmed delta. B applies horizontal `getBlockSpeedFactor()` after `checkInsideBlocks`; A has no corresponding post-collision factor. Registry/property scan found Soul Sand speedFactor 0.4 in B and no speedFactor property in A; B Player override bypasses it while flying or fall-flying. Reachable for a grounded, non-flying 1.14.4 player standing on Soul Sand (A block exists in both versions).
-- Finding IDs or checked absence/replacement path: F-SOUL-SAND-SPEED; broader full inventory of dynamic block contributors remains open.
+- Finding IDs or checked absence/replacement path: F-SOUL-SAND-SPEED, F-HONEY-FACTORS; broader full inventory of dynamic block contributors remains open.
 
 ### Slice S-LIVING-JUMP: grounded jump power and block factor
 
@@ -89,7 +101,7 @@ All inventories remain pending while exact method and dependency coverage is in 
 - Parent slices / dependencies / closure evidence: S-LOCAL-PRETRAVEL; all block factors and effect application chain.
 - Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): B multiplies base jump power by block factor before the unchanged additive Jump Boost; Soul Sand's factor remains default 1.0 and Honey Block is the sole non-default jumpFactor registration found in B. The latter block did not exist in A and is treated as modern-only in S-HONEY-BLOCK. No A-era block jump change identified in the inspected registrations.
-- Finding IDs or checked absence/replacement path: F-HONEY-MOVEMENT; the complete world/modifier inventories remain open elsewhere.
+- Finding IDs or checked absence/replacement path: F-HONEY-FACTORS; the complete world/modifier inventories remain open elsewhere.
 
 ### Slice S-FRICTION-SAMPLE: ground friction support-block position
 
@@ -125,18 +137,18 @@ All inventories remain pending while exact method and dependency coverage is in 
 - Parent slices / dependencies / closure evidence: S-ENTITY-MOVE; registration, collision provider and Entity.checkInsideBlocks callback order.
 - Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): B-only block is modern-only; document its player path without assigning behavior to A-era maps.
-- Finding IDs or checked absence/replacement path: F-HONEY-MOVEMENT (modern-only, no 1.14.4 map behavior to emulate).
+- Finding IDs or checked absence/replacement path: F-HONEY-SLIDE (modern-only, no 1.14.4 map behavior to emulate); F-HONEY-FACTORS is cross-referenced from S-ENTITY-MOVE and S-LIVING-JUMP.
 
 ## Dependency queue and blockers
 
-- D-001; exact source command, successful log path and Gradle/TinyRemapper/Mapping-IO versions/options absent from ready JSONs; request source owner metadata for reproducibility.
-- D-002; cited file hashes and final bounded line spans pending; hash each evidence file as slices close.
+- D-001; exact source commands and tool versions are recovered from provenance; original full Gradle streams and source-preparation repository revision were not retained (success excerpts are hashed). Record as a provenance limitation; it does not invalidate independently reverified Mojmap sources/raw inputs.
+- D-002; hashes/spans for remaining inventory slices are still pending; record each as that slice closes.
 - D-003; block/property/resource, modifier, collision-provider, fluid and external-state closure open; trace consumers backward to producers and forward to player paths.
 - D-004; independent reviewer unassigned; after source-only freeze, coordinator must assign an independent re-walk.
 
 ## Finding index
 
-Source-confirmed findings (not yet blind-frozen): [F-SOUL-SAND-SPEED](findings/F-SOUL-SAND-SPEED.md), [F-FRICTION-SAMPLE](findings/F-FRICTION-SAMPLE.md), [F-HONEY-MOVEMENT](findings/F-HONEY-MOVEMENT.md). F-ELYTRA-START remains a candidate pending state/equipment dependency closure. The input, full local pre-travel, collision-provider, state-writer, fluids, modifiers, external-input and exclusions inventories are incomplete. No implementation disposition has been inspected.
+Source-confirmed findings (not yet blind-frozen or independently accepted): [F-SOUL-SAND-SPEED](findings/F-SOUL-SAND-SPEED.md), [F-FRICTION-SAMPLE](findings/F-FRICTION-SAMPLE.md), [F-HONEY-SLIDE](findings/F-HONEY-SLIDE.md), [F-HONEY-FACTORS](findings/F-HONEY-FACTORS.md), [F-ELYTRA-START](findings/F-ELYTRA-START.md). The input, remaining local pre-travel, collision-provider, state-writer, fluids, modifiers, external-input and exclusions inventories are incomplete. No implementation disposition has been inspected.
 
 ## Resume checkpoint
 
@@ -144,6 +156,10 @@ Source-confirmed findings (not yet blind-frozen): [F-SOUL-SAND-SPEED](findings/F
 - Next bounded slice and exact files/members/body ranges to open: close S-ENTITY-MOVE and S-LIVING-JUMP with Entity.java, LivingEntity.java, Player.java, Block.java and Blocks.java; split LocalPlayer.aiStep into sprint/jump/flight/auto-jump.
 - Outstanding dependencies and owners: D-001 source owner; D-002/D-003 discovery author; D-004 coordinator/reviewer.
 - Current assumptions requiring verification: full factor registrations and modifier chains; partial-height friction consequences; local shift/crouch semantics and Elytra helper; collision, fluid and external state writers.
+
+## Finding snapshots (not pair freeze)
+
+No finding snapshot has been submitted for independent blind source review yet. The source-confirmed findings are candidates for separate immutable snapshots after the evidence files and report are committed together. A snapshot acceptance will not change this pair's partial status.
 
 ## Implementation reconciliation
 
@@ -166,7 +182,7 @@ This source-only worker has not inspected implementation and will not do so befo
 
 ## Source audit closure
 
-- Coverage counts by status: 4 findings, 3 in-progress, 0 pending.
+- Coverage counts by status: 5 findings, 3 in-progress, 0 pending.
 - Required inventory status and evidence: all seven inventories pending; source pair hashes verified, but method/dependency and registration/resource inventories remain open.
 - Open dependencies: D-001,D-002,D-003,D-004
 - Unresolved gaps and limits: comparison is active and incomplete; diagnostics and initial candidates do not prove comprehensive coverage.

@@ -16,6 +16,7 @@
 - A `net/minecraft/world/level/block/Blocks.java::Blocks.SOUL_SAND`, lines 577-579 registers Soul Sand without a speed factor; SHA-256 `983d0cde25f55ddb055015b682bbdf3b131394208561805f26d9b2a240dee9a9`.
 - B `net/minecraft/world/level/block/Blocks.java::Blocks.SOUL_SAND`, lines 601-604 registers `.speedFactor(0.4F)`; SHA-256 `0cef66feacbf9d7d5bd38ac1d2065e71384a73043b0956eeaf314fedbf5cc7d9`.
 - A `net/minecraft/world/level/block/Block.java::Block.Properties` has friction only among these movement properties (default `0.6F`, lines 851-852); B adds `speedFactor` with default `1.0F` and accessor/builder (lines 717-723, 855-860, 915-918). Hashes: A `276022cfc5bc00437fe65a23bbcdc9c078026e68d88930eb3244581f6dbfcf5f`; B `a5819a4c676d2b7e08cce7f80ae80a13726dd17b15e0b29efdce7e37efa2bf0d`.
+- Player ordinary ground travel reaches `Entity.move(SELF, getDeltaMovement())` through A `LivingEntity.java` lines 1837-1842 and B lines 1886-1892; hashes A `428762178a876efd4069086e6b7d51f571ea0401f44e7eff0927b7d26d9ef681`, B `46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54`.
 
 ## Source-level difference
 
