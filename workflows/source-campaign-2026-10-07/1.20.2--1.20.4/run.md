@@ -6,9 +6,9 @@
 - Evidence constraints: exact-version decompiled sources and bytecode only. No Minecraft Wiki/MCPK browsing, release-note mechanics, old implementation, old patch classes, or wiki-audit outputs before freeze. Prior discovery reports are allowed only as navigation; none were used for this checkpoint.
 - Repository revision and start date: source baseline `002137b227676caea77f6832b9f4c8d0b6200bff` (`main` at worktree creation), 2026-10-07. Workflow-hardening commits cherry-picked: `40c34f5` and `2422192`.
 - Worktree / branch: `C:/Users/Wolfi/.codex/worktrees/movement-source-1-20-2-1-20-4/LegacyParkourCompat`; `feat/source-discovery-movement-source-1-20-2-1-20-4`.
-- Selected naming namespace, CLI mode per side and alignment evidence: intended `mojmap` / official Mojang names on both sides; alignment remains unverified until both readiness records and mappings are checked.
-- Source preparation owner / command / log / readiness marker: source owner only. Requested exact 1.20.2 and 1.20.4 Mojmap readiness records under `D:/Javastuff/LegacyParkourCompat/build/movement-campaign-2026-10-07`; neither marker has been published at this checkpoint. No decompile command run by this worker.
-- Toolchain/decompiler/remapper versions and options: pending validated readiness records.
+- Selected naming namespace, CLI mode per side and alignment evidence: `mojmap` / official Mojang names on both sides; both exact readiness records and mapping artifacts were checked and hashes match the source preparation manifests.
+- Source preparation owner / command / log / readiness marker: source owner only. Exact 1.20.2 and 1.20.4 Mojmap readiness records are published and validated under `D:/Javastuff/LegacyParkourCompat/build/movement-campaign-2026-10-07`. No decompile command was run by this worker.
+- Toolchain/decompiler/remapper versions and options: Gradle 9.7.1; Java 25.0.3+9-LTS; Vineflower 1.12.0; TinyRemapper 0.14.1; Mapping-IO 0.9.1; Gson 2.14.0; ASM 9.10.1; decompiler heap 4G.
 - Discovery author(s): this task's source worker.
 - Independent reviewer (must differ from discovery authors): not yet assigned.
 
@@ -28,7 +28,7 @@
 - Freeze commit/checkpoint and timestamp: pending
 - Evidence inventory and finding IDs included at freeze: none yet
 - Confirmation that old mod implementation/code and isolated wiki-audit results were not opened before freeze (prior source-discovery reports may be used as navigation): confirmed; neither wiki was browsed; no old implementation, old patch class, or wiki-audit output was opened.
-- Source/mapping hashes covered by freeze: pending source publication and comparison.
+- Source/mapping hashes covered by freeze: pending blind freeze; both source and mapping manifest hashes are validated in the Artifact manifest.
 
 ## Correspondence and call order
 
@@ -42,13 +42,13 @@
 
 Each inventory maps to bounded slice IDs below. All are pending until each member-level slice and dependency is inspected on both exact sides.
 
-- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1.1-S1.7,S3.1-S3.9; evidence=pending validated exact sources and body ranges.
-- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S1.2-S1.6,S2.1-S2.4,S3.1-S3.9,S4.1-S4.8; evidence=pending writer/consumer inventory.
-- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S2.2,S4.1-S4.8,S5.2,S5.7; evidence=pending exact providers, registrations and calls.
-- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S3.2,S3.5-S3.7,S4.5-S4.8,S5.1-S5.7; evidence=pending source/resource manifests.
-- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S2.3,S3.2,S3.4,S3.6,S3.8-S3.9,S6.1-S6.5; evidence=pending consumers through registrations/data.
-- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, such as corrections, pushes, pistons and mounts: status=pending; slice_ids=S1.7,S5.5,S7.1-S7.5; evidence=pending exact packet/callback/player state writers.
-- `INV-EXCLUSIONS` explicit scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; slice_ids=S1.3,S2.4,S3.4,S7.2; evidence=pending direct consumer bounds and explicit exclusion audit.
+- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1.1-S1.7,S3.1-S3.9; evidence=validated source roots; member-level body comparison remains open.
+- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S1.2-S1.6,S2.1-S2.4,S3.1-S3.9,S4.1-S4.8; evidence=validated source roots; writer/consumer inventory remains open.
+- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S2.2,S4.1-S4.8,S5.2,S5.7; evidence=validated source roots; exact providers, registrations and calls remain open.
+- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S3.2,S3.5-S3.7,S4.5-S4.8,S5.1-S5.7; evidence=validated source roots; provider and resource manifests remain open.
+- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S2.3,S3.2,S3.4,S3.6,S3.8-S3.9,S6.1-S6.5; evidence=validated source roots; consumers through registrations/data remain open.
+- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, such as corrections, pushes, pistons and mounts: status=pending; slice_ids=S1.7,S5.5,S7.1-S7.5; evidence=validated source roots; exact packet/callback/player state writers remain open.
+- `INV-EXCLUSIONS` explicit scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; slice_ids=S1.3,S2.4,S3.4,S7.2; evidence=validated source roots; direct consumer bounds and explicit exclusion audit remain open.
 
 ## Coverage ledger
 
@@ -57,24 +57,24 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S1.1: client input sample and local tick/superclass/travel order
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Input and local tick sequence from input assignment through local aiStep/serverAiStep into LivingEntity.aiStep; full client/network tick caller order and loading-screen gate are still open.
-- A evidence: ready/1.20.2/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#serverAiStep()V lines 610-621 and #aiStep()V lines 646-805 SHA-256 bb5cbfb03656a1866bb77c00431618befe792081223b35db4bd121ecbb151fd5; ready/1.20.2/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java::ClientPacketListener#handleLogin(ClientboundLoginPacket) lines 358-419 and #handleRespawn(ClientboundRespawnPacket) lines 1022-1099 SHA-256 0208f6942035adaf2e787546851ca296f0e7ec2179d3610f694911eda5283264; ready/1.20.2/mojmap/net/minecraft/world/entity/LivingEntity.java::LivingEntity#aiStep()V lines 2509-2633 SHA-256 5c481da1ffc8684c4b30171c92e61fad751e6a3a708d5bc6486ac9f96ff69828.
-- B evidence: ready/1.20.4/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#serverAiStep()V lines 610-621 and #aiStep()V lines 646-805 SHA-256 bb5cbfb03656a1866bb77c00431618befe792081223b35db4bd121ecbb151fd5; ready/1.20.4/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java::ClientPacketListener#handleLogin(ClientboundLoginPacket) lines 371-432 and #handleRespawn(ClientboundRespawnPacket) lines 1052-1129 SHA-256 ff9c8222614551075b03454ee78712b0d39f0f51845e74bff76a81486f09b42f; ready/1.20.4/mojmap/net/minecraft/world/entity/LivingEntity.java::LivingEntity#aiStep()V lines 2511-2635 SHA-256 f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d.
-- State producers/writers -> consumers/readers: LocalPlayer.input/KeyboardInput output -> LocalPlayer.serverAiStep xxa/zza/jumping -> LivingEntity.aiStep movement damping, jump branch and travel dispatch; Level/client/network tick entry still awaiting caller closure.
-- Parent slices / dependencies / closure evidence: DEP-03, DEP-04, S1.2-S1.7, S3.1-S3.9; caller ordering and screen/tick behavior remain dependencies.
+- Exact behavior boundary and enclosing guards/order checked: Input assignment through local aiStep/serverAiStep and LivingEntity.aiStep, plus outer Minecraft.tick -> ClientLevel.tickEntities -> Entity.tick -> LivingEntity.tick/aiStep order, network listener tick, receiving-level screen gate, and 1.20.4 tick-rate manager inputs/consumers.
+- A evidence: ready/1.20.2/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#serverAiStep()V lines 610-621 and #aiStep()V lines 646-805 SHA-256 bb5cbfb03656a1866bb77c00431618befe792081223b35db4bd121ecbb151fd5; ready/1.20.2/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java::ClientPacketListener#handleLogin(ClientboundLoginPacket) lines 358-419, #handleRespawn(ClientboundRespawnPacket) lines 1022-1099 and #tick()V lines 2239-2253 SHA-256 0208f6942035adaf2e787546851ca296f0e7ec2179d3610f694911eda5283264; ready/1.20.2/mojmap/net/minecraft/client/Minecraft.java::Minecraft#tick()V lines 1744-1861 SHA-256 c8d5717ded08d6491b1c49c7aa388c081db883059b6efeea82e09df0868f57ea; ready/1.20.2/mojmap/net/minecraft/client/multiplayer/ClientLevel.java::ClientLevel#tick(BooleanSupplier)V lines 206-216 and #tickEntities()V lines 244-254 SHA-256 6204df69a17b375e46f4405fe67a106def336c819e589ec0794c04920a31c5d7; ready/1.20.2/mojmap/net/minecraft/client/gui/screens/ReceivingLevelScreen.java lines 41-74 SHA-256 d3a2f973a72ed927c4fe8a62c95980d00aae3db8ddd6b591783293ae5f776c1b.
+- B evidence: ready/1.20.4/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#serverAiStep()V lines 610-621 and #aiStep()V lines 646-805 SHA-256 bb5cbfb03656a1866bb77c00431618befe792081223b35db4bd121ecbb151fd5; ready/1.20.4/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java::ClientPacketListener#handleLogin(ClientboundLoginPacket) lines 371-432, #handleRespawn(ClientboundRespawnPacket) lines 1052-1129, #tick()V lines 2306-2323, #handleTickingState(ClientboundTickingStatePacket) lines 529-537, #handleTickingStep(ClientboundTickingStepPacket) lines 540-545 and #startWaitingForNewLevel(LocalPlayer,ClientLevel) lines 1353-1355 SHA-256 ff9c8222614551075b03454ee78712b0d39f0f51845e74bff76a81486f09b42f; ready/1.20.4/mojmap/net/minecraft/client/Minecraft.java::Minecraft#tick()V lines 1791-1917 SHA-256 4c672a48906a76408bfbf77fda303d6cead7b22c6e4632aed7a5d8182e057b0a; ready/1.20.4/mojmap/net/minecraft/client/multiplayer/ClientLevel.java::ClientLevel#tick(BooleanSupplier)V lines 209-222 and #tickEntities()V lines 250-260 SHA-256 2bc6147b758ba25fea89e1c7c8e28000cf323f1616b01b62af461cbce230e308; ready/1.20.4/mojmap/net/minecraft/client/multiplayer/LevelLoadStatusManager.java::tick()V and #loadingPacketsReceived()V lines 19-40 SHA-256 2d871f1c73e8391e3fe049552702210566d49857d7d02d20b781f3148d75dbec; ready/1.20.4/mojmap/net/minecraft/client/gui/screens/ReceivingLevelScreen.java lines 42-56 SHA-256 ca5d060de1b0068ce44ddbe51c3de672d3dd1695073d7615caf8765c79cad320; ready/1.20.4/mojmap/net/minecraft/world/TickRateManager.java::TickRateManager#tick()V and #isEntityFrozen(Entity)Z lines 56-65 SHA-256 ba5b2cddb1850e2e510867b4642004a8b7b6b39c31afc48ef806f7988981eebb; ready/1.20.4/mojmap/net/minecraft/world/entity/Entity.java::Entity#countPlayerPassengers()I lines 2914-2916 SHA-256 07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9; these paths are present in the 1.20.4 source manifest.
+- State producers/writers -> consumers/readers: Login/respawn creates KeyboardInput; keyboard options -> LocalPlayer.aiStep input sampling/scaling -> LocalPlayer.serverAiStep xxa/zza/jumping -> LivingEntity.aiStep damping, jump branch and travel dispatch. Minecraft.tick continues non-pausing level/entity ticks with ReceivingLevelScreen open, while keybind handling is screen-gated. In B, incoming ticking-state/step packets -> TickRateManager state -> ClientLevel.tick/tickEntities; frozen non-player entities are skipped, but Player is exempt and Entity.countPlayerPassengers exempts vehicles carrying a player.
+- Parent slices / dependencies / closure evidence: DEP-04, S1.2-S1.7, S3.1-S3.9, S4/S5 collision and world-input slices. DEP-03 outer caller/screen/tick control is source-closed; travel state and environment dependencies remain open.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): Login/respawn input assignment and the LocalPlayer/LivingEntity per-player code were compared; the screens differ and the complete outer tick/event order has not yet been closed.
-- Finding IDs or checked absence/replacement path: none confirmed; paired source bodies are identical for the movement portion except the separately scoped out-of-scope callback where noted.
+- Disposition and rationale (including concrete reachability/preconditions): The A/B player input and movement methods remain byte-identical. The receiving screen differs in how it waits for chunk readiness, but is non-pausing in both versions; Minecraft.tick still invokes ClientLevel.tickEntities while it is open, although keybind processing is skipped. B adds server-controlled tick-rate freezing: direct LocalPlayer ticks are not frozen, and vehicles with player passengers are exempt, while other entities can be frozen. This is a modern world-control feature with no historical player movement delta; do not emulate it for 1.20.2 maps. Its possible effect through non-player world state stays outside the declared movement scope.
+- Finding IDs or checked absence/replacement path: none confirmed for the screen/tick caller path; A/B player input and movement bodies match, and the B-only tick-rate path is modern-only/excluded as described above.
 ### Slice S1.2: directional input conversion, yaw-relative vector math, diagonal normalization and input slowdown
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Keyboard producer, impulse construction, vector access/threshold, sneaking scale and active-use scale in the local player input path.
-- A evidence: ready/1.20.2/mojmap/net/minecraft/client/player/Input.java::Input#tick(boolean,float) lines 15-16, #getMoveVector() lines 18-20 and #hasForwardImpulse() lines 22-24 SHA-256 b302ffbc45c5f900ea18a4d4af2df6fa0454ea7cb7744a0d249061e5fcb97fbb; ready/1.20.2/mojmap/net/minecraft/client/player/KeyboardInput.java::KeyboardInput#tick(boolean,float) lines 21-34 SHA-256 a8064906872955a3520398ab5b2a326552d424f41887d1294aa6a038e2623ff0; ready/1.20.2/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#aiStep()V lines 655-669 and #serverAiStep()V lines 610-621 SHA-256 bb5cbfb03656a1866bb77c00431618befe792081223b35db4bd121ecbb151fd5.
-- B evidence: ready/1.20.4/mojmap/net/minecraft/client/player/Input.java::Input#tick(boolean,float) lines 15-16, #getMoveVector() lines 18-20 and #hasForwardImpulse() lines 22-24 SHA-256 b302ffbc45c5f900ea18a4d4af2df6fa0454ea7cb7744a0d249061e5fcb97fbb; ready/1.20.4/mojmap/net/minecraft/client/player/KeyboardInput.java::KeyboardInput#tick(boolean,float) lines 21-34 SHA-256 a8064906872955a3520398ab5b2a326552d424f41887d1294aa6a038e2623ff0; ready/1.20.4/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#aiStep()V lines 655-669 and #serverAiStep()V lines 610-621 SHA-256 bb5cbfb03656a1866bb77c00431618befe792081223b35db4bd121ecbb151fd5.
-- State producers/writers -> consumers/readers: Keyboard options -> KeyboardInput.tick -> Input impulses -> LocalPlayer slow/use scaling -> LocalPlayer.serverAiStep movement fields; LocalPlayer movement path consumes impulse threshold/vector.
-- Parent slices / dependencies / closure evidence: S1.1, S6.3 (sneak speed bonus), S6.4 (active item-use state), S2.2 (pose/crouch conditions), S3/S4 movement consumers.
+- Exact behavior boundary and enclosing guards/order checked: Keyboard producer, impulse construction, vector access/threshold, crouch/crawl slowdown, Swift Sneak bonus and active-use scale in the local player input path.
+- A evidence: ready/1.20.2/mojmap/net/minecraft/client/player/Input.java::Input#tick(boolean,float) lines 15-16, #getMoveVector() lines 18-20 and #hasForwardImpulse() lines 22-24 SHA-256 b302ffbc45c5f900ea18a4d4af2df6fa0454ea7cb7744a0d249061e5fcb97fbb; ready/1.20.2/mojmap/net/minecraft/client/player/KeyboardInput.java::KeyboardInput#tick(boolean,float) lines 21-34 SHA-256 a8064906872955a3520398ab5b2a326552d424f41887d1294aa6a038e2623ff0; ready/1.20.2/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#isMovingSlowly()Z lines 605-607 and #aiStep()V lines 655-669 SHA-256 bb5cbfb03656a1866bb77c00431618befe792081223b35db4bd121ecbb151fd5; ready/1.20.2/mojmap/net/minecraft/world/item/enchantment/EnchantmentHelper.java::getSneakingSpeedBonus(LivingEntity)F lines 193-195 SHA-256 c98b9e538aae7fea33a125560400f346745bac993e859ffd3912da58f3cc1128; ready/1.20.2/mojmap/net/minecraft/world/item/enchantment/Enchantments.java::SWIFT_SNEAK lines 27-32 SHA-256 35fa4d1f9da93971fa70bf6ec2f9218a8825ff343038b51143ae1404867f38e3; ready/1.20.2/mojmap/net/minecraft/world/item/enchantment/EnchantmentHelper.java::getEnchantmentLevel(Enchantment,LivingEntity)I lines 175-191 SHA-256 c98b9e538aae7fea33a125560400f346745bac993e859ffd3912da58f3cc1128; ready/1.20.2/mojmap/net/minecraft/world/entity/LivingEntity.java::isUsingItem()Z and #startUsingItem(InteractionHand)V lines 2888-2957 SHA-256 5c481da1ffc8684c4b30171c92e61fad751e6a3a708d5bc6486ac9f96ff69828; ready/1.20.2/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java::handleSetEntityData(ClientboundSetEntityDataPacket)V lines 490-496 SHA-256 0208f6942035adaf2e787546851ca296f0e7ec2179d3610f694911eda5283264.
+- B evidence: ready/1.20.4/mojmap/net/minecraft/client/player/Input.java::Input#tick(boolean,float) lines 15-16, #getMoveVector() lines 18-20 and #hasForwardImpulse() lines 22-24 SHA-256 b302ffbc45c5f900ea18a4d4af2df6fa0454ea7cb7744a0d249061e5fcb97fbb; ready/1.20.4/mojmap/net/minecraft/client/player/KeyboardInput.java::KeyboardInput#tick(boolean,float) lines 21-34 SHA-256 a8064906872955a3520398ab5b2a326552d424f41887d1294aa6a038e2623ff0; ready/1.20.4/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#isMovingSlowly()Z lines 605-607 and #aiStep()V lines 655-669 SHA-256 bb5cbfb03656a1866bb77c00431618befe792081223b35db4bd121ecbb151fd5; ready/1.20.4/mojmap/net/minecraft/world/item/enchantment/EnchantmentHelper.java::getSneakingSpeedBonus(LivingEntity)F lines 193-195 SHA-256 c98b9e538aae7fea33a125560400f346745bac993e859ffd3912da58f3cc1128; ready/1.20.4/mojmap/net/minecraft/world/item/enchantment/Enchantments.java::SWIFT_SNEAK lines 27-32 SHA-256 35fa4d1f9da93971fa70bf6ec2f9218a8825ff343038b51143ae1404867f38e3; ready/1.20.4/mojmap/net/minecraft/world/item/enchantment/EnchantmentHelper.java::getEnchantmentLevel(Enchantment,LivingEntity)I lines 175-191 SHA-256 c98b9e538aae7fea33a125560400f346745bac993e859ffd3912da58f3cc1128; ready/1.20.4/mojmap/net/minecraft/world/entity/LivingEntity.java::isUsingItem()Z and #startUsingItem(InteractionHand)V lines 2890-2959 SHA-256 f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d; ready/1.20.4/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java::handleSetEntityData(ClientboundSetEntityDataPacket)V lines 503-509 SHA-256 ff9c8222614551075b03454ee78712b0d39f0f51845e74bff76a81486f09b42f.
+- State producers/writers -> consumers/readers: Keyboard options -> KeyboardInput.tick -> Input impulses -> LocalPlayer slow/use scaling -> LocalPlayer.serverAiStep movement fields; Swift Sneak level -> EnchantmentHelper traverses the enchantment-defined equipment slots, takes the maximum item level, and applies 0.15F per level before the LocalPlayer clamp. Server-side LivingEntity.startUsingItem writes synchronized flags; ClientboundSetEntityDataPacket applies them through ClientPacketListener and LivingEntity.onSyncedDataUpdated supplies client use state consumed by the same local input gate.
+- Parent slices / dependencies / closure evidence: S1.1, S6.3 (broader enchantment/equipment resolution), S6.4 (broader item-use/equipment movement state), S2.2 (pose/crouch conditions), S3/S4 movement consumers. DEP-04 is resolved for this direct local-input modifier chain; broader modifier coverage remains open under S6.3/S6.4.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): Input.java, KeyboardInput.java and the full LocalPlayer.java are byte-identical; actual modifiers and consumer dependencies remain to be closed.
+- Disposition and rationale (including concrete reachability/preconditions): Input.java, KeyboardInput.java, full LocalPlayer.java, EnchantmentHelper.java and Enchantments.java are byte-identical across A/B. The crouch bonus formula and input scaling are unchanged. Swift Sneak is registered for leggings in both sources; helper traversal and item-level max selection match. Active use is read from synchronized LivingEntity flags, with the same server writer and client entity-data consumer. Broader equipment and movement-modifier consumers remain open, so this slice stays in progress.
 - Finding IDs or checked absence/replacement path: none confirmed; paired source bodies are identical for the movement portion except the separately scoped out-of-scope callback where noted.
 ### Slice S1.3: sprint start/stop predicates, timers and stored sprint state
 
@@ -134,9 +134,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S2.1: player state defaults, initialization, reset and movement-relevant writers
 
 - Inventory ID(s): INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -146,9 +146,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S2.2: pose choice, dimensions, eye height and resize/collision timing
 
 - Inventory ID(s): INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -158,9 +158,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S2.3: swimming/crawling and active-use movement state
 
 - Inventory ID(s): INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -170,9 +170,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S2.4: player edge sneaking and player-specific movement gates
 
 - Inventory ID(s): INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -205,9 +205,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S3.2: ground acceleration, support friction and speed-factor selection
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -217,9 +217,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S3.3: air acceleration, velocity cutoff/threshold and air-control math
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -229,9 +229,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S3.4: jump power, sprint-jump impulse and velocity thresholds
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -241,9 +241,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S3.5: climbing travel and vertical/horizontal clamps
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -253,9 +253,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S3.6: water travel, fluid gravity/drag, swimming and water-jump gates
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -265,9 +265,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S3.7: lava travel, fluid gravity/drag and fluid transition gates
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -277,9 +277,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S3.8: fall-flying/gliding travel and look/velocity transforms
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -289,9 +289,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S3.9: gravity, drag, levitation/slow-fall and post-travel updates
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -301,9 +301,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S4.1: bounding-box movement entry, position update and query timing
 
 - Inventory ID(s): INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -313,9 +313,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S4.2: axis collision order, clipping and velocity cancellation/restitution
 
 - Inventory ID(s): INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -325,9 +325,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S4.3: step-up candidate generation, selection and tie-breaking
 
 - Inventory ID(s): INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -337,9 +337,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S4.4: edge restraint/support probing and stored on-ground state
 
 - Inventory ID(s): INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -349,9 +349,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S4.5: collision-shape lookup, context, AABB/voxel operations and candidate ordering
 
 - Inventory ID(s): INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -361,9 +361,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S4.6: block collision callbacks, inside-block effects and movement callbacks
 
 - Inventory ID(s): INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -373,9 +373,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S4.7: fluid contact/current checks during movement and collision
 
 - Inventory ID(s): INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -385,9 +385,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S4.8: collision/support shape context from pose, neighboring blocks and repeated queries
 
 - Inventory ID(s): INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -397,9 +397,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S5.1: movement-relevant block/fluid registrations and base defaults
 
 - Inventory ID(s): INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -409,9 +409,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S5.2: all registered shape overrides and collision/support shapes
 
 - Inventory ID(s): INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -421,9 +421,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S5.3: ground friction, speed/jump factors and support block selection
 
 - Inventory ID(s): INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -433,9 +433,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S5.4: special contacts and movement callbacks (bounce, slow/contact, launch)
 
 - Inventory ID(s): INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -445,9 +445,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S5.5: climbables, bubble columns, pistons and neighboring-state movement effects
 
 - Inventory ID(s): INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -457,9 +457,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S5.6: water/lava fluid properties, heights and flow vectors
 
 - Inventory ID(s): INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -469,9 +469,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S5.7: historical partial-block shape/support inventory
 
 - Inventory ID(s): INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -481,9 +481,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S6.1: movement attribute defaults, aggregation, operations and application/removal
 
 - Inventory ID(s): INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -493,9 +493,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S6.2: movement status effect registrations, formulas, timers and consumers
 
 - Inventory ID(s): INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -505,9 +505,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S6.3: movement enchantment registrations, level formulas, predicates and consumers
 
 - Inventory ID(s): INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -517,9 +517,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S6.4: Elytra, equipment slots, active item use and movement components
 
 - Inventory ID(s): INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -529,9 +529,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S6.5: resource-backed tags, registry data, server-synchronized movement inputs
 
 - Inventory ID(s): INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -541,9 +541,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S7.1: incoming player velocity and position corrections
 
 - Inventory ID(s): INV-EXTERNAL
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -553,9 +553,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S7.2: player knockback, push and explosion movement writers
 
 - Inventory ID(s): INV-EXTERNAL
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -565,9 +565,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S7.3: piston displacement and launch-item movement paths
 
 - Inventory ID(s): INV-EXTERNAL
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -577,9 +577,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S7.4: mount, rider and dismount transitions affecting player movement
 
 - Inventory ID(s): INV-EXTERNAL
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -589,9 +589,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S7.5: cross-stage writer/caller/callback/dependency closure
 
 - Inventory ID(s): INV-EXTERNAL
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; source owner has not published either exact source tree.
-- A evidence: pending validated 1.20.2 source path, owner/member/body lines, and SHA-256.
-- B evidence: pending validated 1.20.4 source path, owner/member/body lines, and SHA-256.
+- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
+- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
+- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
 - State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
 - Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
 - Status: pending
@@ -602,9 +602,9 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 
 - DEP-01; source provenance for exact 1.20.2 and 1.20.4 Mojmap roots; resolved. Both readiness JSON records, exact IDs/namespace, source and artifact manifest hashes, movement diagnostics and relevant source/artifact file hashes have been verified. This is the source prerequisite only, not movement coverage.
 - DEP-02; originating slices S5.1-S6.5; inspect original client-jar resources and referenced movement tags/defaults/registry values. Resolve after source and registration inventories establish the needed entries; owner: source worker.
-- DEP-03; originating slice S1.1; outer tick/caller order, `ClientPacketListener` tick, new level-load manager/screen path and relationship to player input/movement are not yet closed. Exact A/B sources exist; next action: inspect bounded callers and compare screen/input gates; owner: source worker.
-- DEP-04; originating slices S1.2/S1.3/S6.3/S6.4; close `isMovingSlowly`, Swift Sneak and active-item-use state producers/consumers; explain unchanged local scaling after modifier/equipment source review; owner: source worker.
-- Open dependencies: DEP-02, DEP-03, DEP-04 and the method/data dependencies listed on open coverage slices.
+- DEP-03; originating slice S1.1; outer tick/caller order, `ClientPacketListener` tick, and the level-load manager/screen path are closed at source level. Both versions tick the level while the non-pausing receiving screen is open; keybind processing is gated by `screen == null`, but player entity ticking continues. In 1.20.4, the new tick-rate manager skips frozen non-player entities while exempting players and vehicles carrying player passengers. This is a modern world tick-rate feature, not a direct player movement delta; non-player movement remains excluded. Evidence is recorded under S1.1; owner: source worker.
+- DEP-04; originating slices S1.2/S1.3/S6.3/S6.4; resolved for direct local-input scaling: `isMovingSlowly`, crouch scaling, Swift Sneak slot registration/helper traversal, active-use flag writer and entity-data consumer are identical on A/B. Broader movement modifier, attribute, enchantment and equipment coverage remains open under S6.3/S6.4; owner: source worker.
+- Open dependencies: DEP-02 and the method/data dependencies listed on open coverage slices.
 
 ## Finding index
 
@@ -613,10 +613,10 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 
 ## Resume checkpoint
 
-- Last completed slice: source-pair readiness/hashes validated; initial bounded comparisons of local input and core travel/jump/movement methods completed, with remaining dependencies recorded.
-- Next bounded slice and exact files/members/body ranges to open: complete S1.1 by tracing `Minecraft.tick` -> client connection/packet listener tick -> `ClientLevel.tickEntities` -> `LocalPlayer` tick/aiStep order; inspect `ClientPacketListener.tick`, `LevelLoadStatusManager.tick`, and A/B `ReceivingLevelScreen` caller gates. Then close S1.2 through attributes/equipment, before continuing stages 2-7.
-- Outstanding dependencies and owners: DEP-02/03/04; source worker. Independent reviewer not assigned yet.
-- Current assumptions requiring verification: source hashes remain stable while read-only; exact caller order is the same except for the observed level-load screen and tick-rate manager additions; `Player.travel`/ride callback removals remain limited to excluded statistic/food state.
+- Last completed slice: source-pair readiness/hashes validated; initial bounded comparisons of local input and core travel/jump/movement methods completed; the outer client tick and level-load-screen path are source-closed.
+- Next bounded slice and exact files/members/body ranges to open: inspect S2.1 player movement-state defaults, initialization/reset and direct position/velocity writers in Entity, LivingEntity, Player and LocalPlayer; then trace each writer to its movement consumer before proceeding through stages 2-7.
+- Outstanding dependencies and owners: DEP-02; source worker. Independent reviewer not assigned yet.
+- Current assumptions requiring verification: cited source hashes remain stable while read-only; tick-rate freezing is a modern-only world-control path and does not freeze the local player; `Player.travel`/ride callback removals remain limited to excluded statistic/food state.
 
 ## Implementation reconciliation
 
@@ -641,7 +641,7 @@ Complete only after blind-discovery freeze; not authorized for this source-only 
 
 - Coverage counts by status: pending 39; in-progress 8; compared-no-difference 0; findings 0; not-applicable 1; blocked 0.
 - Required inventory status and evidence: INV-TICK, INV-STATE, INV-COLLISION, INV-WORLD-MOVEMENT, INV-MODIFIERS, INV-EXTERNAL, and INV-EXCLUSIONS all pending; readiness is established but their inventories are not yet closed.
-- Open dependencies: DEP-02, DEP-03, DEP-04 and the open slice dependencies listed above
+- Open dependencies: DEP-02 and the open slice dependencies listed above
 - Unresolved gaps and limits: exact source publication is validated; most source inventory remains open and no whole-run equivalence claim has been made.
 - Evidence/hash/correspondence audit: core input/travel source hashes and manifests checked; remaining cited providers/resources will be hashed at inspection.
 - Blind freeze: pending
