@@ -275,13 +275,13 @@ Artifact paths below are relative to repository root; generated artifacts remain
 ### Slice W03: fluid travel, flow vectors and contact
 
 - Inventory ID(s): INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: pending; water/lava travel, height/flow calculations, current pushes and contact timing.
-- A evidence: not yet compared; readiness is recorded in D-SOURCES.
-- B evidence: not yet compared; readiness is recorded in D-SOURCES.
+- Exact behavior boundary and enclosing guards/order checked: compared Entity fluid-contact flags and eye updates, `updateFluidHeightAndDoFluidPushing()`, fluid height/jump-threshold helpers, and `FluidState`/`FlowingFluid` height and flow delegation. The identical `FlowingFluid.java` hash confirms these flow-provider methods are byte-for-byte source-identical; Entity fluid methods are identical in the checked bodies. Water/lava subclass properties, state/resource providers and complete call timing remain open.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/Entity.java`, `isInWater()` line 1008, `isInLava()` line 1147, `updateFluidOnEyes()` lines 1071-1083, `updateFluidHeightAndDoFluidPushing()` lines 2769-2834, `getFluidHeight()` / `getFluidJumpThreshold()` lines 2845-2851; SHA-256 `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A`. `FlowingFluid.java`, `getFlow()` lines 53-98 and `getHeight()` lines 434-436, SHA-256 `BBFB661B524AC92F74579CD4B61C1A25DF00ECC4BFE775A5516F7E4A7C8768F3`; `FluidState.java`, `getHeight()` lines 48-51 and `getFlow()` lines 90-93, SHA-256 `A39D52CDAEBCFF391ABD094D17C0D8C190DF27AF7AEB5AC3810370ECA017C459`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/Entity.java`, `isInWater()` line 1018, `isInLava()` line 1166, `updateFluidOnEyes()` lines 1085-1097, `updateFluidHeightAndDoFluidPushing()` lines 2797-2862, `getFluidHeight()` / `getFluidJumpThreshold()` lines 2873-2879; SHA-256 `759DE9CDED43BD882AFCF5B7023BCF804D92419ACB656B493F3B490C83EB18B6`. `FlowingFluid.java`, `getFlow()` lines 53-98 and `getHeight()` lines 434-436, SHA-256 `BBFB661B524AC92F74579CD4B61C1A25DF00ECC4BFE775A5516F7E4A7C8768F3`; `FluidState.java`, `getHeight()` lines 48-51 and `getFlow()` lines 90-93, SHA-256 `90C3A2BE5F5009AC9644F8037734628BBEFC49F9F1FF3A08898E8120081BE73C`.
 - State producers/writers -> consumers/readers: fluid registration/state/flow -> fluid travel and player velocity/contact state.
 - Parent slices / dependencies / closure evidence: D-SOURCES; T07; C04.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison pending; resource evidence still needs auditing; no behavior claim.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no source delta in the checked fluid-state/flow-height methods. `Entity.updateFluidHeightAndDoFluidPushing()` uses the same tagged-fluid scan, height accumulation and flow vector application; `FlowingFluid.getFlow()` has identical source in both endpoints, including horizontal gradient accumulation and falling-fluid downward vector adjustment. Exact fluid block/state providers, resource tags and full tick contact ordering remain unclosed, so no full fluid equivalence is claimed.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice W04: movement data, tags and resource-backed defaults
@@ -437,10 +437,10 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Source audit closure
 
-- Coverage counts by status: pending 15; in-progress 10; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
+- Coverage counts by status: pending 14; in-progress 11; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
 - Required inventory status and evidence: INV-TICK pending; INV-STATE pending; INV-COLLISION pending; INV-WORLD-MOVEMENT pending; INV-MODIFIERS pending; INV-EXTERNAL pending; INV-EXCLUSIONS pending. No inventory is closed.
 - Open dependencies: D-RESOURCES (discovery worker), independent reviewer assignment (coordinator, after source-only freeze).
-- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Fifteen coverage entries are pending, ten are in progress, and two carry findings.
+- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Fourteen coverage entries are pending, eleven are in progress, and two carry findings.
 - Evidence/hash/correspondence audit: F-001 through F-004 include paired endpoint source/artifact hashes and bounded source ranges; call paths and writer-to-consumer links are recorded for these deltas, while the remaining inventories and correspondence are still open.
 - Blind freeze: not frozen; implementation remains uninspected. Freeze after remaining source inventories close or are explicitly scoped for handoff.
 - Implementation reconciliation: pending and deferred outside this source-only assignment.
