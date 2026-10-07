@@ -376,6 +376,20 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Implementation handoff: `blocked` pending independent blind review of this exact finding snapshot. This candidate does not close the full pane/bar and collision-provider inventory or freeze the source pair.
 - Snapshot event: this entry references the immutable evidence commit and finding-file hash above. No implementation feedback has been received.
 
+### SNAP-TICK-02-01 — candidate evidence, blind review pending
+
+- Finding ID: `TICK-02` (`findings/TICK-02-flight-sneak-input-rescaling.md`).
+- Snapshot/evidence commit: `20d100ee7d4c1f64bb905e5b05b242b42625af6e`.
+- Finding-file SHA-256 at that commit: `2e81aceef1bde41ac6597e28c2fa5f6f3e457e9a8ff22163f38e3b07546d2693`.
+- Exact source identity: A source manifest SHA-256 `9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004`; B source manifest SHA-256 `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`.
+- Exact artifact identity: revised snapshot `feather-r1-2026-10-07`; A immutable mapped JAR SHA-256 `5c4cff3e4ac10ea1e1da166279133801ad304b4557d5ee4a77a2430977afb6a5`; B immutable mapped JAR SHA-256 `fbcf50795566e12b8eab0e733b136ed562c4009d707ef4a7a4994936491816a3`. Source trees and raw inputs match the original records; original derived JARs are unavailable and their equivalence is unproven. Independent ops audit passed for the revised snapshots; this does not accept the finding.
+- Closed finding-specific dependencies: paired keyboard sneak scaling; local camera/flying/sneaking guards; no-item-use/no-riding precondition; living tick argument handoff; player flight `moveRelative` consumer. Collision, velocity cutoff, and final displacement are explicitly outside the finding claim.
+- Blind reviewer and decision: not assigned; no acceptance decision.
+- Timestamp: 2026-10-07 Europe/Vienna.
+- Pair run status/commit at handoff: `active`; `pair complete: no`.
+- Implementation handoff: `blocked` pending independent blind review of this exact finding snapshot. This does not close the full tick, input, or movement inventory.
+- Snapshot event: this entry references the immutable evidence commit and finding-file hash above. No implementation feedback has been received.
+
 ## Resume checkpoint
 
 - Last completed slice: source roots and per-file hashes reverified; revised snapshots rehashed and ops audit passed; source-backed movement candidates and explicit scope exclusions recorded. Original mapped-JAR identity remains unproven.
