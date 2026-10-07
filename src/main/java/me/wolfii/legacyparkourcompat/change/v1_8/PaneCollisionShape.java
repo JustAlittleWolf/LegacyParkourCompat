@@ -70,9 +70,20 @@ public final class PaneCollisionShape implements BlockCollisionShape {
         boolean south = this.connectsTo(level, pos.south());
         boolean west = this.connectsTo(level, pos.west());
 
-        VoxelShape xShape = east == west ? X : east ? X_EAST : X_WEST;
-        VoxelShape zShape = north == south ? Z : north ? Z_NORTH : Z_SOUTH;
-        return Optional.of(Shapes.or(xShape, zShape));
+        if (!north && !east && !south && !west) {
+            return Optional.of(Shapes.or(X, Z));
+        }
+
+        VoxelShape shape = Shapes.empty();
+        if (east || west) {
+            VoxelShape xShape = east ? (west ? X : X_EAST) : X_WEST;
+            shape = Shapes.or(shape, xShape);
+        }
+        if (north || south) {
+            VoxelShape zShape = north ? (south ? Z : Z_NORTH) : Z_SOUTH;
+            shape = Shapes.or(shape, zShape);
+        }
+        return Optional.of(shape);
     }
 
     private boolean connectsTo(BlockGetter level, BlockPos pos) {
