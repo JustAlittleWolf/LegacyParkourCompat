@@ -366,14 +366,14 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 ### Slice S7.2: player pushes, pistons, mounts and launch items
 
 - Inventory ID(s): INV-EXTERNAL, INV-STATE, INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: client-side player consumers of external pushes, piston movement, mount/dismount and launch-item movement inputs; exclude other-entity simulation.
-- A evidence: pending source publication.
-- B evidence: pending source publication.
-- State producers/writers -> consumers/readers: pending external producer-to-local-player movement state writer trace.
+- Exact behavior boundary and enclosing guards/order checked: direct player knockback and velocity pushes, piston translation/contact processing; remaining push sources, mount/dismount player-facing gates and launch-item paths remain open. Vehicle physics is excluded.
+- A evidence: `LivingEntity#knockback(double, double, double)` line 1531 and `Entity#push(Vec3)` / `push(double, double, double)` lines 1614-1624; corresponding method bodies match B. LivingEntity SHA-256 `a8aed863d4fdc515c751dd2878a8bb9c13179228cb8dbb50edf1d19cd5404271`; Entity SHA-256 `fc177733e9cc4b2d5cf2562e5529d0f4e0b9c3690f081fbd58aa9119eb173dc4`. Piston push path evidence and A method ranges are recorded in candidate `F-ENTITY-MOVEMENT-QUEUE-CAP-1.21.5-1.21.8`.
+- B evidence: `LivingEntity#knockback` line 1563 and `Entity#push(Vec3)` / `push(double, double, double)` lines 1691-1701 have bodies identical to A; LivingEntity SHA-256 `609f0197a0b4551ab42279e452c11cdd256135b1d467c2a95950b0e9fd7ddef8`; Entity SHA-256 `c403e6176d27b5bfd6aaa0dea3735ffa4fcf80dbae58766661dd84453b7e9704`. Piston path is unchanged except movement-recording cleanup API call, with B ranges in the candidate finding.
+- State producers/writers -> consumers/readers: native LivingEntity knockback and direct velocity push formulas produce the same player delta movement/impulse writes; client velocity packet consumer is in S7.1. Piston moves directly through Entity.move and immediately contact-processes/removes its sample. Remaining launch item, projectile, explosion and externally supplied velocity sources must be traced; combat/damage producers remain excluded while their supplied knockback response is in scope.
 - Parent slices / dependencies / closure evidence: S2.2; S4.4; S5.2; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison; external authority boundary will be recorded.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): compared native knockback and velocity-push formulas match; piston movement path is accounted for in S4.4, but source/provider closure for other external player movement writers remains open.
+- Finding IDs or checked absence/replacement path: candidate `F-ENTITY-MOVEMENT-QUEUE-CAP-1.21.5-1.21.8` affects server player callback replay; no direct knockback/push difference found in compared methods.
 
 ### Slice S7.3: final reachable movement-writer dependency closure
 
@@ -428,11 +428,11 @@ Complete only after source-only freeze. No mod implementation was opened for thi
 
 ## Source audit closure
 
-- Coverage counts by status: 9 pending; 13 in-progress; 5 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked (all 7 inventories pending).
-- Required inventory status and evidence: INV-TICK has paired S1.1-S1.4 input/tick/jump/sprint/flight/riding comparisons and partial S3.1-S3.5 travel consumer evidence; INV-STATE has core movement setter pairs, input and pose/dimension/scale subsets; S1.1-S1.4 and S2.1 compared, S2.2 and S3.2/S3.5 partially checked; INV-COLLISION has pose-fit, collision/edge/support method comparisons and partial S4.3/S4.4 evidence; INV-WORLD-MOVEMENT and INV-EXTERNAL have partial S5.2/S7.1/S7.3 evidence. Remaining stages, providers, resources and full exclusions inventory remain pending. Both exact sources and markers are hash-verified.
+- Coverage counts by status: 8 pending; 14 in-progress; 5 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked (all 7 inventories pending).
+- Required inventory status and evidence: INV-TICK has paired S1.1-S1.4 input/tick/jump/sprint/flight/riding comparisons and partial S3.1-S3.5 travel consumer evidence; INV-STATE has core movement setter pairs, input and pose/dimension/scale subsets; S1.1-S1.4 and S2.1 compared, S2.2 and S3.2/S3.5 partially checked; INV-COLLISION has pose-fit, collision/edge/support method comparisons and partial S4.3/S4.4 evidence; INV-WORLD-MOVEMENT and INV-EXTERNAL have partial S5.2/S7.1-S7.3 evidence. Remaining stages, providers, resources and full exclusions inventory remain pending. Both exact sources and markers are hash-verified.
 - Open dependencies: body-level slice and relevant resource/provider inventory; source publication dependencies are resolved.
-- Unresolved gaps and limits: S1.1-S1.4 and S2.1 are compared-no-difference; S3.1-S3.5 remain in progress with exact travel/jump consumers compared and dependencies open; S2.2, S4.1-S4.4, S5.2, S7.1 and S7.3 are in progress with three source-supported candidates, none independently reviewed. All other pair coverage remains open.
-- Evidence/hash/correspondence audit: A/B readiness JSON and source/artifact/diagnostic hashes verified; S1.1-S1.4 input/tick/jump/sprint/flight path, S2.1 bodies, and S3.1-S3.5 travel/jump consumer methods, S2.2 core movement setters and client correction consumers, S4.1/S4.2 collision/support methods, S4.3 validator query, S4.4 movement-recording/contact path and Nether Portal callback shape checked; remaining member/resource/provider/body diagnostics pending.
+- Unresolved gaps and limits: S1.1-S1.4 and S2.1 are compared-no-difference; S3.1-S3.5 remain in progress with exact travel/jump consumers compared and dependencies open; S2.2, S4.1-S4.4, S5.2, S7.1-S7.3 are in progress with three source-supported candidates, none independently reviewed. All other pair coverage remains open.
+- Evidence/hash/correspondence audit: A/B readiness JSON and source/artifact/diagnostic hashes verified; S1.1-S1.4 input/tick/jump/sprint/flight path, S2.1 bodies, and S3.1-S3.5 travel/jump consumer methods, S2.2 core movement setters and client correction consumers, S4.1/S4.2 collision/support methods, S4.3 validator query, S4.4 movement-recording/contact path and Nether Portal callback shape, plus S7.2 knockback/velocity push consumers checked; remaining member/resource/provider/body diagnostics pending.
 - Blind freeze: pending
 - Implementation reconciliation: pending
 - Independent audit: pending
