@@ -2,25 +2,40 @@
 
 Campaign scope: player movement from Java 1.8.9 through the native 26.2 source release. New source-only reports belong under this directory as `<A>--<B>/run.md` and optional `findings/`; prior catalogs remain untouched. Wiki research has a separate directory and owner. Normal source workers may read prior discovery reports as navigation, but must not inspect old mod implementation, browse either wiki, or read wiki-audit reports until their source-only report is frozen.
 
-## Remaining endpoint roster
+## Exact 26-pair endpoint roster
 
-Ten workers already cover the non-overlapping chain from 1.8.9 through 1.18.2. Queue the following remaining intervals. Each interval is a fresh vanilla source comparison; the final hotfix endpoint closes that content window. The human-specified 1.21 checkpoints are kept separate. The independent release-taxonomy audit may adjust the “latest hotfix” endpoint before dispatch, but its findings stay isolated until source reports are frozen.
+The coordinator and source owner validated this endpoint sequence; use each adjacent pair as one independent source-only assignment. Do not merge intervals or claim coverage between nonadjacent endpoints.
 
-| Older A | Newer B | Boundary label |
-|---|---|---|
-| 1.18.2 | 1.19.4 | Wild Update line, latest listed hotfix |
-| 1.19.4 | 1.20.6 | Trails & Tales line, latest listed hotfix |
-| 1.20.6 | 1.21.1 | Tricky Trials line, latest listed hotfix |
-| 1.21.1 | 1.21.2 | Bundles of Bravery checkpoint |
-| 1.21.2 | 1.21.4 | The Garden Awakens checkpoint |
-| 1.21.4 | 1.21.5 | Spring to Life checkpoint |
-| 1.21.5 | 1.21.6 | Chase the Skies checkpoint |
-| 1.21.6 | 1.21.9 | The Copper Age checkpoint |
-| 1.21.9 | 1.21.11 | Mounts of Mayhem checkpoint |
-| 1.21.11 | 26.1.2 | 26.1 line, latest listed hotfix |
-| 26.1.2 | 26.2 | Native 26.2 endpoint |
+| # | Older A | Newer B |
+|---:|---|---|
+| 1 | 1.8.9 | 1.9.4 |
+| 2 | 1.9.4 | 1.10.2 |
+| 3 | 1.10.2 | 1.11.2 |
+| 4 | 1.11.2 | 1.12.2 |
+| 5 | 1.12.2 | 1.13.2 |
+| 6 | 1.13.2 | 1.14.4 |
+| 7 | 1.14.4 | 1.15.2 |
+| 8 | 1.15.2 | 1.16.5 |
+| 9 | 1.16.5 | 1.17.1 |
+| 10 | 1.17.1 | 1.18.2 |
+| 11 | 1.18.2 | 1.19.2 |
+| 12 | 1.19.2 | 1.19.3 |
+| 13 | 1.19.3 | 1.19.4 |
+| 14 | 1.19.4 | 1.20.1 |
+| 15 | 1.20.1 | 1.20.2 |
+| 16 | 1.20.2 | 1.20.4 |
+| 17 | 1.20.4 | 1.20.6 |
+| 18 | 1.20.6 | 1.21.1 |
+| 19 | 1.21.1 | 1.21.3 |
+| 20 | 1.21.3 | 1.21.4 |
+| 21 | 1.21.4 | 1.21.5 |
+| 22 | 1.21.5 | 1.21.8 |
+| 23 | 1.21.8 | 1.21.10 |
+| 24 | 1.21.10 | 1.21.11 |
+| 25 | 1.21.11 | 26.1.2 |
+| 26 | 26.1.2 | 26.2 |
 
-The listed 1.21 versions must not be collapsed into a single 1.21.x interval. A worker reports only its exact interval; it must not claim a whole major line. Endpoints prove a difference somewhere in that interval unless intervening exact sources establish the first changed release. The independent taxonomy owner should confirm whether a patch such as 1.21.3 is the latest hotfix for a named content update before work is queued; do not silently replace the human-listed checkpoints.
+This chain retains each named content update/gamedrop endpoint and the conservative 1.19.3, 1.19.4 and 1.20.2 checkpoints. An endpoint comparison establishes a difference somewhere in that interval; establish a first changed version only by inspecting intervening exact sources. A run must not claim a whole release line from a single interval.
 
 ## Shared source preparation and build admission
 
@@ -40,3 +55,12 @@ The listed 1.21 versions must not be collapsed into a single 1.21.x interval. A 
 - Keep every slice pending/in-progress/terminal/blocked with both-side evidence. Pending, in-progress, blocked, dependencies, or unreviewed misses forbid `complete`.
 - Freeze source-only findings/coverage, then reconcile against current implementation. Keep source discovery, implementation disposition, and runtime validation separate.
 - Independent reviewer re-walks all inventories and routes concrete missed slices. Build/static only; no tests or runtime launches without coordinator authorization.
+
+## Rollout instructions
+
+- **Coordinator:** assign one source worker to each exact adjacent pair above, give each a separate report directory, and assign one of the independent coverage reviewers. Requeue any partial report by its exact open slice/dependency; a finished worker turn is not a coverage result.
+- **Source-preparation owner:** publish and maintain readiness markers for the exact source/mapping pair of every endpoint. Workers are read-only consumers. Serialize shared decompile/cache writes and any shared Gradle build/static check.
+- **Source worker:** copy `workflows/movement-discovery/templates/run.md` into `workflows/source-campaign-2026-10-07/<A>--<B>/run.md`, then create `findings/` only when findings exist. Prior discovery reports are permitted as navigation. Do not inspect old mod implementation or wiki-audit output, and do not browse either wiki. Freeze the vanilla-source report before any implementation reconciliation.
+- **Coverage reviewer:** independently re-walk both exact source trees and the entire player tick path, including pre-travel, all travel branches, and post-travel. Verify each named inventory has bounded method-range slices, state producer/consumer links, and evidence-backed dispositions. Route every miss to a concrete slice and owner; do not accept a stage summary or a narrow unchanged travel method as full-tick parity.
+- **Completion gate:** from the repository root run `python workflows/movement-discovery/check_completion.py workflows/source-campaign-2026-10-07/<A>--<B>/`. Replace `<A>--<B>` with the exact directory, for example `1.18.2--1.19.2`. Exit 0 means the required schema/status gate passed; it does **not** prove source truth. Reviewers still perform and record the independent audit. Pending, in-progress, or blocked slices, open dependencies, or an unpassed audit must remain non-complete.
+- **All owners:** no tests, game clients, TAS, Gym, server, or Docker launches. Keep discovery, implementation disposition, and runtime validation separate. Builds/static checks only, coordinated by the shared build owner.
