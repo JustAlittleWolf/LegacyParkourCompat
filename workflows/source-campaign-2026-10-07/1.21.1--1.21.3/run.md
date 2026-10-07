@@ -138,10 +138,19 @@ Each inventory maps to bounded source slices and remains pending until its full 
 
 ## Resume checkpoint
 
-- Last completed slices: input axes, local tick guard, block-contact path and initial move-writer comparison.
-- Next slice: travel branch math, Entity.move support/epsilon dependencies, external inputs and resource chain.
-- Outstanding dependencies: METHOD-INVENTORY, RESOURCE-CHAIN, independent SOURCE-AUDIT.
-- Runtime validation not performed.
+- Resume branch: feat/source-discovery-movement-source-1-21-1-1-21-3
+- Resume worktree: C:\Users\Wolfi\.codex\worktrees\movement-source-1-21-1-1-21-3\LegacyParkourCompat
+- Prior committed checkpoint: d1538b9; this checkpoint update is committed immediately after it. Use the latest tip of the named branch for exact current commit.
+- Closed bounded slices: S-INPUT-AXES (compared-no-difference for directional axis calculation only); S-BLOCK-CONTACT (source-confirmed difference, finding F-BLOCK-CONTACT-TRAVERSE).
+- Open slices: S-LOCAL-TICK, S-ENTITY-MOVE and S-TRAVEL in-progress; S-EXTERNAL pending. Seven required inventory gates remain pending; full-pair freeze and independent audit remain pending.
+- Finding handoff: F-BLOCK-CONTACT-TRAVERSE is in findings/F-BLOCK-CONTACT-TRAVERSE.md; no independent finding snapshot acceptance and no implementation handoff.
+- Source identities: A 1.21.1 Mojmap source manifest 900f956e00f6fc1300bb3d689ea49df2b1a57bcaa54617344ef456d95d47cb48; B 1.21.3 Mojmap source manifest d673bb5464853e3a2a92ed9b1ffe1789d4e62c097bb884f67c336fcbb3b178ce; artifact manifest identities are recorded above.
+- Next source-only commands, from the repository root:
+  1. $a='D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.21.1\mojmap'; $b='D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.21.3\mojmap'; rg -n -C 5 'travelInAir|travelInFluid|travelFallFlying|updateFallFlying|checkSlowFallDistance' "$a\net\minecraft\world\entity\LivingEntity.java" "$b\net\minecraft\world\entity\LivingEntity.java"
+  2. rg -n -C 6 'setOnGroundWithMovement|checkSupportingBlock|collide\\(|maybeBackOffFromEdge|actual.*lengthSqr|checkFallDamage' "$a\net\minecraft\world\entity\Entity.java" "$b\net\minecraft\world\entity\Entity.java"
+  3. rg -n -C 5 'lerpTo|handleMovePlayer|ServerboundMovePlayer|push\\(|knockback|recordMovementThroughBlocks|ServerboundPlayerInputPacket' "$a\net\minecraft\client\player\LocalPlayer.java" "$b\net\minecraft\client\player\LocalPlayer.java" "$a\net\minecraft\world\entity\Entity.java" "$b\net\minecraft\world\entity\Entity.java"
+- Then inspect exact paired callers/writers/readers for each hit, add bounded slices/findings under the existing source-only protocol, and run the static structure check only: python workflows\movement-discovery\check_completion.py workflows\source-campaign-2026-10-07\1.21.1--1.21.3
+- Assumptions still open: whether the missing-current-chunk guard is ordinarily reachable, near-zero position-write consequences, all travel branch arithmetic, complete collision/modifier/resource chains, and external impulse/correction reachability.
 
 ## Implementation reconciliation
 
