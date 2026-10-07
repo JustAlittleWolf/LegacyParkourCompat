@@ -41,7 +41,7 @@ The shared protocol root is build/movement-campaign-2026-10-07/. Published Mojma
 
 - Status: pending
 - Freeze commit/checkpoint and timestamp: not frozen.
-- Evidence inventory and finding IDs included at freeze: pending freeze; current working ledger has S1-01, S1-02, S1-03, S1-04, S1-05, S1-PORTAL, S3-01, S3-02, S3-03, S4-01, S4-02, S7-01, and SCOPE-01.
+- Evidence inventory and finding IDs included at freeze: pending freeze; current working ledger has S1-01, S1-02, S1-03, S1-04, S1-05, S1-06, S1-PORTAL, S3-01, S3-02, S3-03, S4-01, S4-02, S7-01, S7-02, S7-03, and SCOPE-01.
 - Confirmation that old mod implementation/code and isolated wiki-audit results were not opened before freeze (prior source-discovery reports may be used as navigation): confirmed. The permitted prior 1.19.4-to-1.20.6 source report was read only for candidate navigation; its findings are not evidence for this run.
 - Source/mapping hashes covered by freeze: pending freeze; paired readiness and full manifest hashes are recorded in Artifact manifest.
 
@@ -55,12 +55,12 @@ Once sources are ready, inventory the complete reachable local player tick chain
 
 These rows are mandatory pair-wide maps. Exact endpoint readiness, manifests and method-body diagnostics pass; each map remains incomplete until its reachable members and dependencies have terminal evidence.
 
-- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1-01,S1-02,S1-03,S1-04,S1-05,S1-06,S1-PORTAL,S3-01,S3-02,S3-03,S3-04; evidence=paired raw-input, pre-travel and sprint-start predicate slices S1-01/S1-02/S1-03 terminal, S1-06/F-02, S3-01/F-01, S3-02/F-03 and S3-03/F-03 findings.
+- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1-01,S1-02,S1-03,S1-04,S1-05,S1-06,S1-PORTAL,S3-01,S3-02,S3-03,S3-04; evidence=paired raw-input, pre-travel, sprint-start and client packet-emission slices S1-01/S1-02/S1-03/S1-05 terminal, S1-06/F-02, S3-01/F-01, S3-02/F-03 and S3-03/F-03 findings.
 - `INV-STATE` movement state writers/readers: pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, support position, timers and direct predicates: status=pending; slice_ids=S1-02,S1-03,S1-04,S1-05,S1-06,S1-PORTAL,S2-01,S2-02,S2-03,S4-01,S7-01,S7-03; evidence=F-01 jump-velocity, F-02 support-position, F-03 fallDistance-to-edge-backoff and F-04 spectator velocity-reset writer/reader paths recorded; remaining state inventory open.
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S4-01,S4-02,S5-01,S5-02; evidence=Entity support-block selection and its movement-factor consumer route recorded in S4-01/F-02; S1-04 links the auto-jump gate to that factor input; remaining shape/query paths open.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S3-03,S5-01,S5-02,S5-03; evidence=block jump/speed-factor read sites linked in S4-01/F-02; block/fluid registrations, resources and tags remain open.
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S1-02,S1-03,S2-02,S3-01,S6-01,S6-02; evidence=S1-03 sprint predicate reads Blindness and mayfly plus food/underwater state; F-01 reads Jump Boost and F-03 reads Levitation/Slow Falling; broader writer/application chains open.
-- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers: corrections, pushes, pistons, mounts/dismounts and launch inputs: status=pending; slice_ids=S1-PORTAL,S7-01,S7-02,S7-03,S7-04; evidence=S7-01 found no difference in position-correction/direct velocity handlers, and S7-02 found no difference in player push/knockback/piston response; S7-03/F-04 records the spectator-entry vertical velocity reset; S1-PORTAL client presentation/cooldown is not applicable to direct movement; remaining S7-03 respawn/ability/cooldown and S7-04 mount writers remain open.
+- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers: corrections, pushes, pistons, mounts/dismounts and launch inputs: status=pending; slice_ids=S1-05,S1-PORTAL,S7-01,S7-02,S7-03,S7-04; evidence=S1-05 found no difference in client movement packet emission; S7-01 found no difference in position-correction/direct velocity handlers, and S7-02 found no difference in player push/knockback/piston response; S7-03/F-04 records the spectator-entry vertical velocity reset; S1-PORTAL client presentation/cooldown is not applicable to direct movement; remaining S7-03 respawn/ability/cooldown and S7-04 mount writers remain open.
 - `INV-EXCLUSIONS` scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; slice_ids=SCOPE-01; evidence=SCOPE-01 records the agreed boundaries and a food-predicate example; producer and consumer routes still need inventory.
 
 The pair uses Mojmap and is not among the six early Feather derived artifacts covered by feather-r1-2026-10-07; both Mojmap artifact manifests and source manifests were freshly reverified with no mismatches. No revised Feather snapshot is cited. The in-scope audit will preserve exact operation order, casts, float/double boundaries, literal suffixes and historical quirks. Direct player velocity/impulse/knockback responses remain in scope; attack/damage resolution and non-player motion remain excluded. Modern-only blocks/features will not acquire old behavior. Other-entity code is in scope only as necessary to explain a direct player movement effect.
@@ -131,14 +131,13 @@ The pair uses Mojmap and is not among the six early Feather derived artifacts co
 
 - Inventory ID(s): INV-TICK, INV-EXTERNAL, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: LocalPlayer#tick, #sendPosition and #sendIsSprintingIfNeeded, including controlled-camera guard, movement/rotation thresholds, packet branch order and sent-state writes.
-- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java #tick lines 187-206, #sendPosition lines 218-268, SHA-256 8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58.
-- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.20.1/mojmap/net/minecraft/client/player/LocalPlayer.java #tick lines 189-208, #sendPosition lines 220-270, SHA-256 69a2d043d2c0595bd364d625a5445e4934d9e07fef020cd79fafb42f59952ac2.
-- State producers/writers -> consumers/readers: local position, angles, onGround, sprint/sneak and input -> serverbound packet fields; inbound corrections/velocity writes are in S7-01.
-- Parent slices / dependencies / closure evidence: S1-06 superclass tick; S7-01 inbound corrections; S7-02 pushes/pistons.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): bodies match after onGround accessor normalization; thresholds, packet order and sent-state updates match. Packet consumers and external movement writers remain open.
-- Finding IDs or checked absence/replacement path: no emission delta in this bounded slice.
-
+- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java #tick lines 187-206, #sendPosition lines 218-268, #sendIsSprintingIfNeeded lines 270-279; SHA-256 8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58.
+- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.20.1/mojmap/net/minecraft/client/player/LocalPlayer.java #tick lines 189-208, #sendPosition lines 220-270, #sendIsSprintingIfNeeded lines 272-281; SHA-256 69a2d043d2c0595bd364d625a5445e4934d9e07fef020cd79fafb42f59952ac2.
+- State producers/writers -> consumers/readers: local position, angles, onGround, sprint/sneak and vehicle state -> serverbound movement/player-command packets and matching sent-state caches; server processing and inbound corrections are separate external paths.
+- Parent slices / dependencies / closure evidence: S1-06 superclass tick; S7-01 inbound position/velocity handlers; S7-02 direct push/piston response; S7-03/S7-04 remaining external state producers.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): LocalPlayer tick dispatch, movement/rotation thresholds, passenger special packet, position packet selection, sprint/sneak command emission and cache writes match after onGround accessor normalization. The controlled-camera guard and 20-tick reminder threshold are unchanged. This closes the client emission logic only; server packet processing and its movement response remain in the external source inventory.
+- Finding IDs or checked absence/replacement path: no client packet-emission delta in the bounded tick/position/sprint writer path.
 
 ### Slice S1-06: LocalPlayer superclass tick chain
 
@@ -272,7 +271,7 @@ The pair uses Mojmap and is not among the six early Feather derived artifacts co
 - Finding IDs or checked absence/replacement path: no finding; excluded producers are not treated as no-difference source results. Remaining exclusions inventory stays pending.
 
 
-Both exact Mojmap source pairs and full manifests are verified. S1-01/S1-02/S1-03/S1-04/S1-06/S1-PORTAL/S3-02/S4-02/S7-01/S7-02/S7-03/SCOPE-01 are terminal; F-01/F-02/F-03/F-04 are source-confirmed; remaining collision/world inputs, exclusion producer routes and external traces remain open.
+Both exact Mojmap source pairs and full manifests are verified. S1-01/S1-02/S1-03/S1-04/S1-05/S1-06/S1-PORTAL/S3-02/S4-02/S7-01/S7-02/S7-03/SCOPE-01 are terminal; F-01/F-02/F-03/F-04 are source-confirmed; remaining collision/world inputs, exclusion producer routes and external traces remain open.
 
 ## Dependency queue and blockers
 
@@ -292,8 +291,8 @@ This is not a complete or no-difference conclusion. Prior reports are navigation
 
 ## Resume checkpoint
 
-- Last completed slices: verified both exact endpoints; closed S1-01/S1-02/S1-03/S1-04/S1-06/S1-PORTAL/S3-02/S4-02/S7-01/S7-02/S7-03; recorded F-01/F-02/F-03/F-04 source-confirmed movement findings and the bounded SCOPE-01 boundary map.
-- Next bounded slice: trace S7-03 respawn/ability/cooldown writers and S7-04 vehicle/mount boundaries, then continue the block/fluid property inventories and S1-05 packet consumers.
+- Last completed slices: verified both exact endpoints; closed S1-01/S1-02/S1-03/S1-04/S1-05/S1-06/S1-PORTAL/S3-02/S4-02/S7-01/S7-02/S7-03; recorded F-01/F-02/F-03/F-04 source-confirmed movement findings and the bounded SCOPE-01 boundary map.
+- Next bounded slice: trace S7-03 respawn/ability/cooldown writers and S7-04 vehicle/mount boundaries, then continue the block/fluid property inventories and server-side movement packet consumers.
 - Outstanding dependencies and owners: D2 resource/tag audit after block/fluid consumer inventory; reviewer assignment and all open movement slices.
 - Current assumptions requiring verification: sprint modifier inputs, remaining travel/collision members, resources, data and tags; independent review remains unassigned.
 
@@ -305,7 +304,7 @@ This is a source-only assignment. Existing/old mod implementation has not been i
 - Repository revision inspected: not inspected for implementation.
 - Finding -> implementation disposition/evidence: deferred to integrator after freeze.
 - Existing implementation without a frozen source finding: not inspected; deferred to integrator.
-- Coverage gaps routed back to discovery slices: auto-jump block-provider inputs (S1-04/S5-01), movement packet consumers (S1-05), remaining respawn/ability/cooldown and mount paths (S7-03/S7-04), and collision/support/block/fluid data (S4/S5) remain open; the bounded portal and sprint-start paths are closed.
+- Coverage gaps routed back to discovery slices: auto-jump block-provider inputs (S1-04/S5-01), server-side movement packet consumers, remaining respawn/ability/cooldown and mount paths (S7-03/S7-04), and collision/support/block/fluid data (S4/S5) remain open; the bounded portal and sprint-start paths are closed.
 
 ## Independent source audit
 
@@ -318,8 +317,8 @@ This is a source-only assignment. Existing/old mod implementation has not been i
 
 ## Source audit closure
 
-- Coverage counts by status: 6 compared-no-difference slices (S1-01, S1-02, S1-03, S4-02, S7-01, S7-02); 7 findings slices (S1-04, S1-06, S3-01, S3-02, S3-03, S4-01, S7-03); 1 in-progress slice (S1-05); 2 not-applicable slices (S1-PORTAL, SCOPE-01); remaining planned slices not yet created; 7 required inventory maps incomplete; 1 resource/tag dependency and independent audit remain open.
-- Required inventory status and evidence: all seven maps remain incomplete; exact-pair member evidence is recorded for bounded S1-01/S1-02/S1-03/S1-04/S1-05/S1-06/S3-01/S3-02/S3-03/S4-01/S4-02/S7-01/S7-03/SCOPE-01 slices.
+- Coverage counts by status: 7 compared-no-difference slices (S1-01, S1-02, S1-03, S1-05, S4-02, S7-01, S7-02); 7 findings slices (S1-04, S1-06, S3-01, S3-02, S3-03, S4-01, S7-03); 0 in-progress slices; 2 not-applicable slices (S1-PORTAL, SCOPE-01); remaining planned slices not yet created; 7 required inventory maps incomplete; 1 resource/tag dependency and independent audit remain open.
+- Required inventory status and evidence: all seven maps remain incomplete; exact-pair member evidence is recorded for bounded S1-01/S1-02/S1-03/S1-04/S1-05/S1-06/S3-01/S3-02/S3-03/S4-01/S4-02/S7-01/S7-02/S7-03/SCOPE-01 slices.
 - Open dependencies: D2 worker jar-resource/data audit after relevant consumers are inventoried; independent source audit and remaining slice closure.
 - Unresolved gaps and limits: remaining navigation inventories, member correspondences, resources, findings and dependency closure; independent audit.
 - Evidence/hash/correspondence audit: exact endpoint IDs, Mojmap namespaces, ready/provenance/source/artifact/diagnostic hashes, complete manifests and source range hashes verified; remaining member maps are open.
