@@ -5,7 +5,7 @@
 - Repository revision and start date: base 002137b227676caea77f6832b9f4c8d0b6200bff; 2026-10-07. Dedicated branch: feat/source-discovery-movement-source-1-21-10-1-21-11.
 - Selected naming namespace, CLI mode per side and alignment evidence: awaiting source owner readiness handoff; compare only after exact IDs, namespace and ready JSON are verified.
 - Source preparation command and log: source owner owns generation/publication; no local decompiler run. Requested pair-specific readiness by commentary on 2026-10-07.
-- Toolchain/decompiler/remapper versions and options: pending verified source manifests.
+- Toolchain/decompiler/remapper versions and options: Gradle fork uses Java 25; Vineflower 1.12.0, Tiny Remapper 0.14.1, Mapping IO 0.9.1, Gson 2.14.0, ASM 9.10.1 are declared in the version catalog. Exact run options and artifacts remain pending verified source manifests.
 
 ## Artifact manifest
 
@@ -19,7 +19,7 @@ Repeat per logical role: A class/member descriptor -> B class/member descriptor;
 
 ## Track declaration and source gate
 
-This is a source-only track. No Minecraft Wiki, MCPK, release notes, previous mod implementation, Java change classes, or runtime/gameplay validation are evidence. The historical implementation remains unread during discovery. Canonical shared source root: `D:/Javastuff/LegacyParkourCompat/build/movement-campaign-2026-10-07`; the source owner holds the generation lock. At this checkpoint the root exposes ready releases 1.8.9, 1.9.4, 1.10.2, 1.11.2, 1.12.2 and 26.2 only. Exact 1.21.10 and 1.21.11 readiness JSONs have not been published; the lock is in use. Presence/absence of directories is not accepted as readiness. Do not compare until pair-specific JSONs identify exact release IDs, namespace, source/artifact manifest hashes and method diagnostics; verify every cited hash and relevant source body after publication.
+This is a source-only track. No Minecraft Wiki, MCPK, release notes, previous mod implementation, Java change classes, or runtime/gameplay validation are evidence. The historical implementation remains unread during discovery. Canonical shared source root: `D:/Javastuff/LegacyParkourCompat/build/movement-campaign-2026-10-07`; the source owner holds the generation lock. At this checkpoint the root exposes ready releases 1.8.9, 1.9.4, 1.10.2, 1.11.2, 1.12.2 and 26.2 only. Exact 1.21.10 and 1.21.11 readiness JSONs have not been published; the lock is in use. Presence/absence of directories is not accepted as readiness. Do not compare until pair-specific JSONs identify exact release IDs, namespace, source/artifact manifest hashes and method diagnostics; verify every cited hash and relevant source body after publication. The local resolver exact-matches release IDs first, but if an ID is not exact it may select the newest release with that prefix; requested/resolved IDs must therefore be checked in both JSON and decompiler logs. Mapping selection must be explicit/aligned. The source saver excludes jar resources, so relevant data must be extracted from the original client jar and independently hashed. Its required-class checks only establish presence of a few source filenames; they do not establish completeness or clean method bodies. Relevant decompiler diagnostics and method bodies are mandatory.
 
 ## Pair correspondence and navigation inventory
 
@@ -95,5 +95,6 @@ Link each finding with its short behavioral title and confidence. Record discard
 - Runtime validation: not performed (separate workflow).
 
 Keep all tracked coverage, provenance, correspondence and resume evidence in this file. At handoff, the run folder contains only this file and, when findings exist, one file per finding under `findings/`.
+
 
 
