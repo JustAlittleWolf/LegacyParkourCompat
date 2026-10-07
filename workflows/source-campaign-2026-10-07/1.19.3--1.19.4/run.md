@@ -4,7 +4,7 @@
 - Scope: source-only client player movement comparison; older A = 1.19.3; newer B = 1.19.4. Health, regeneration, hunger, food, saturation, exhaustion, damage and combat emulation are excluded; vanilla state consumers are inspected only where they directly gate movement. Non-player physics and historical behavior for modern-only blocks/features are excluded.
 - Track declaration: source discovery only; no wiki/MCPK/parkourwiki research, no release-notes mechanics, and no current or historical mod implementation inspection. Decompiled exact-release sources and bytecode are the evidence base.
 - Repository revision and start date: base `002137b227676caea77f6832b9f4c8d0b6200bff`; task branch `feat/source-discovery-movement-source-1-19-3-1-19-4`; started 2026-10-07.
-- Selected naming namespace, CLI mode per side and alignment evidence: pending exact Feather source-owner handoff; comparison not started until validated readiness records and hashes are checked.
+- Selected naming namespace, CLI mode per side and alignment evidence: pending exact Mojmap source-owner handoff; comparison not started until validated readiness records and hashes are checked.
 - Source preparation command and log: source-owner managed publication; awaiting exact command/log/artifact references. This worker will not write or regenerate shared sources.
 - Toolchain/decompiler/remapper versions and options: pending readiness metadata.
 
@@ -30,8 +30,8 @@ Initial stage inventories are pending because exact source trees have not yet be
 
 ## Dependency queue and blockers
 
-- D-1; originating slice: all; exact `1.19.3` Feather readiness JSON plus SHA-256 source/artifact manifests and movement-method diagnostics; movement body integrity and exact release identity cannot be checked before receipt; next action: receive source-owner publication and validate all cited IDs/hashes and relevant diagnostics; status: pending (source-owner queue).
-- D-2; originating slice: all; exact `1.19.4` Feather readiness JSON plus SHA-256 source/artifact manifests and movement-method diagnostics; movement body integrity and exact release identity cannot be checked before receipt; next action: receive source-owner publication and validate all cited IDs/hashes and relevant diagnostics; status: pending (source-owner queue).
+- D-1; originating slice: all; exact `1.19.3` Mojmap readiness JSON plus SHA-256 source/artifact manifests and movement-method diagnostics; movement body integrity and exact release identity cannot be checked before receipt; next action: receive source-owner publication and validate all cited IDs/hashes and relevant diagnostics; status: pending (source-owner queue).
+- D-2; originating slice: all; exact `1.19.4` Mojmap readiness JSON plus SHA-256 source/artifact manifests and movement-method diagnostics; movement body integrity and exact release identity cannot be checked before receipt; next action: receive source-owner publication and validate all cited IDs/hashes and relevant diagnostics; status: pending (source-owner queue).
 
 ## Finding index
 
@@ -42,7 +42,7 @@ No source comparison has started; zero confirmed findings recorded. This is not 
 - Last completed slice: none; repository workflow, navigation sequence, templates and decompiler README read.
 - Next bounded slice and exact files/members to open: first verify source-owner readiness for exact A/B Feather trees, manifests, hashes and diagnostics; then build the ordered class/method correspondence inventory before method comparisons.
 - Outstanding dependencies: D-1 and D-2.
-- Current assumptions requiring verification: Feather mapping family and exact mapping coordinates for both releases; source-owner marker correctness; no assumption that neighboring-release reports apply.
+- Current assumptions requiring verification: Mojmap mapping family and exact mapping coordinates for both releases; source-owner marker correctness; no assumption that neighboring-release reports apply.
 
 ## Source audit closure
 
@@ -50,3 +50,4 @@ No source comparison has started; zero confirmed findings recorded. This is not 
 - Unresolved gaps and limits: exact release sources and artifacts have not yet been handed off or validated; no behavior has been compared. This run remains active while source preparation proceeds.
 - Evidence/hash/correspondence audit: not started; readiness records and each relevant body/hash must be verified before use.
 - Runtime validation: not performed; no tests, clients, TAS, gym, server or Docker were launched.
+
