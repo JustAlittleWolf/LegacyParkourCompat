@@ -57,10 +57,10 @@ Both provenance records point to the same exact batch and successful full Gradle
 
 ## Required source inventories
 
-- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1-01,S1-02,S1-03,S1-04,S1-05,S3-01..S3-07; evidence=paired LocalPlayer, LivingEntity and Entity ranges below; full call graph remains open.
-- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S1-03,S1-04,S1-05,S3-01,S3-06,S3-07; evidence=LocalPlayer, Player, LivingEntity, Entity and packet-handler sources identified; full writer/consumer inventory open.
-- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S3-06,S3-07; evidence=Entity.move/collide/checkInsideBlocks, BlockGetter.boxTraverseBlocks, BlockBehaviour inside-shape default and EndPortal callback traced; full shape/resource and neighbor inventory remains open.
-- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S3-02,S3-03,S3-07; evidence=air/fluid travel and EndPortal partial inside-shape identified; block/fluid properties, registrations, tags and resource closure remain open.
+- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1-01,S1-02,S1-03,S1-04,S1-05,S3-01..S3-09; evidence=paired LocalPlayer, LivingEntity and Entity ranges below; full call graph remains open.
+- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S1-03,S1-04,S1-05,S3-01,S3-06..S3-09; evidence=LocalPlayer, Player, LivingEntity, Entity and packet-handler sources identified; full writer/consumer inventory open.
+- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S3-06..S3-09; evidence=Entity.move/collide/checkInsideBlocks, BlockGetter.boxTraverseBlocks, BlockBehaviour inside-shape default and EndPortal callback traced; supplied-shape resolver and player edge guard compared; full shape/resource and neighbor inventory remains open.
+- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S3-02,S3-03,S3-07,S3-08; evidence=air/fluid travel, EndPortal partial inside-shape and supplied-shape resolver identified; block/fluid properties, registrations, tags and resource closure remain open.
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S1-02,S1-03,S3-02,S3-03,S3-05; evidence=LocalPlayer and LivingEntity consumers plus SNEAKING_SPEED/SWIFT_SNEAK sources identified; all movement modifier registrations/resources remain open.
 - `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, including corrections, pushes and pistons: status=pending; slice_ids=S1-04,S1-05; evidence=client load status writer and fall-flight/riding packets identified; remaining external inputs open. Vehicle physics is excluded.
 - `INV-EXCLUSIONS` explicit scope audit for health/food-state production, attack/damage resolution, non-player movement and vehicle physics: status=pending; evidence=Player.aiStep includes `tickRegeneration()` but its health/food simulation is excluded; movement gates reading vanilla food state and direct player-side knockback response remain in scope.
@@ -260,10 +260,10 @@ Both provenance records point to the same exact batch and successful full Gradle
 
 ## Resume checkpoint
 
-- Last completed slice: S1-01 and S3-01.
-- Next bounded slices: finish S1-02 input value closure and S1-03 sprint-state dependencies; then continue Stage 1 input/tick and Stage 2 state writers.
-- Outstanding dependencies and owners: see dependency queue; current source worker owns analysis.
-- Current assumptions requiring verification: whether keyboard-only modifiers are bitwise equal after reordering for all vanilla modifier values; exact reachable preconditions of new sprint stop/start gates.
+- Last recorded slices: S1-01..S1-05 and S3-01..S3-09; all listed slices are terminal, but the seven inventories remain pending and additional slices are not yet enumerated.
+- Next bounded slices: enumerate Stage 2 direct player motion/velocity writers and readers, including correction packets, pushes, piston movement and player-side knockback response; then continue dynamic collision-shape producers and their block-state/neighbor dependencies.
+- Outstanding dependencies and owners: `DEP-TRAVEL`, `DEP-COLLISION`, `DEP-WORLD-DATA`, `DEP-MODIFIERS`, `DEP-EXTERNAL`; current source worker owns source analysis, with a separate reviewer required before pair freeze.
+- Current assumptions requiring verification: full player velocity/motion writer closure; state-dependent collision shapes, registries/tags/resources, external movement inputs and explicit scope exclusions.
 
 ## Implementation reconciliation
 
