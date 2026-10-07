@@ -225,14 +225,14 @@ Each entry is a bounded behavior slice, not an entire class/stage/travel method.
 ### Slice S3-02: Ground acceleration and friction
 
 - Inventory ID(s): INV-TICK; INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
-- A evidence: pending source readiness; no range accepted.
-- B evidence: pending source readiness; no range accepted.
-- State producers/writers -> consumers/readers: pending paired inventory.
-- Parent slices / dependencies / closure evidence: pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
-- Finding IDs or checked absence/replacement path: pending.
+- Exact behavior boundary and enclosing guards/order checked: ordinary branch of `LivingEntity.travel` after water/lava/fall-flying dispatch; movement-support block selection, block friction read, ground/air friction coefficient, `handleRelativeFrictionAndCalculateMovement`, and the `moveRelative` input-vector transform. The post-move climbable/jump velocity adjustment in the helper is included. The later levitation, unloaded-client-chunk, gravity, and discard-friction result selection is recorded only where it consumes the helper result; its dedicated vertical-cutoff behavior routes to S3-04.
+- A evidence: `net/minecraft/world/entity/LivingEntity.java#travel` lines 2023-2041 and `#handleRelativeFrictionAndCalculateMovement` lines 2062-2074; `net/minecraft/world/entity/Entity.java#moveRelative/#getInputVector` lines 1075-1090. Source hashes for LivingEntity and Entity are in the foundational source table above.
+- B evidence: `net/minecraft/world/entity/LivingEntity.java#travel` lines 2112-2133 and `#handleRelativeFrictionAndCalculateMovement` lines 2155-2169; `net/minecraft/world/entity/Entity.java#moveRelative/#getInputVector` lines 1176-1191. Source hashes for LivingEntity and Entity are in the foundational source table above. `PowderSnowBlock.java` SHA-256 `4069b3ef70e2d0ce146bbff79be54b2be99b7c7b32818c1eb45f11fd66f99aa3`; the matching source-manifest entry was checked. The B friction writers are `LongJumpMidJump.java` SHA-256 `36f42f3f7b9a5ecc4f3145a07f0c14eb710af6bcc28031cb99520313255ce473` and `LongJumpToRandomPos.java` SHA-256 `4ec55d5d7915c32bf1a649b119a0e325acb2abc1d1a356890bee093c42287fd2`, both matching the B source manifest.
+- State producers/writers -> consumers/readers: the selected support block supplies `t`; `onGround` selects `getSpeed() * (0.21600002F / (t*t*t))` versus `flyingSpeed` inside `getFrictionInfluencedSpeed`; `moveRelative` normalizes only when input length squared exceeds 1, rotates by yaw, then adds the vector to stored delta movement. B's `getYRot()` accessor directly returns the same `yRot` field and is the only declaration in the B entity hierarchy inspected. The helper moves with the accumulated delta and may set y to `0.2` when collision or jumping coincides with its climbability predicate. B's powder-snow branch requires powder snow at the feet and `canEntityWalkOnPowderSnow`; that predicate accepts tagged mobs or LivingEntities wearing leather boots. A has no `PowderSnowBlock.java` and no `Blocks.POWDER_SNOW` registration, so this B-only route cannot be assigned invented 1.16.5 behavior; S4/S6 must close registration/support applicability. B's `shouldDiscardFriction()` branch bypasses x/z and y friction multipliers only when its field is true; the field defaults false and its only source writers found are the two Mob long-jump behaviors above. Vanilla Player reachability and any external player writer remain for S7 closure.
+- Parent slices / dependencies / closure evidence: S1-01/S1-02 establish input/yaw and tick reachability; S3-01 closes dispatch; S4 closes support/collision and block availability; S5 closes climbable/jump predicates; S6 closes speed/modifier/equipment inputs; S7 closes external writers. S3-04 owns unloaded-chunk vertical fallback and resulting vertical velocity.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the support lookup, friction coefficient, acceleration formula, `getInputVector` normalization/rotation math and delta addition match. B's yaw accessor is a direct getter of the same field. A's helper adjusts vertical velocity to `0.2` for `(horizontalCollision || jumping) && onClimbable()`. B extends that predicate with powder snow when `PowderSnowBlock.canEntityWalkOnPowderSnow(this)`; this is a source-confirmed B-only route whose player/map applicability is not closed. B also adds a discard-friction bypass, but the only vanilla writers found are Mob long-jump behaviors, so no vanilla Player effect is established. The ordinary branch's downstream vertical selection is not closed here.
+- Finding IDs or checked absence/replacement path: candidate `CD-S3-02-01` — B-only powder-snow climb/jump velocity route, pending S4/S5/S6 closure and not an A-era feature; no historical A behavior inferred. The discard-friction branch has no vanilla Player writer found; external-writer closure is pending S7. No delta found in the shared acceleration math.
 
 ### Slice S3-03: Air acceleration and stored air speed
 
@@ -525,7 +525,7 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 ## Resume checkpoint
 
 - Last completed slice: S3-01 travel dispatch/pre-branch comparison; no dispatch delta found. Source pair verified; S1-01..S1-06 and S2-01..S2-03 remain in-progress pending their listed dependencies.
-- Next bounded slice: S3-02 ground acceleration and friction; continue S3-02..S3-08 branch-specific travel closure and retain S1/S2 slices as in-progress until input/pose, tick-membership, ability, speed, fluid/collision, modifier, item, mount, resize and external-writer dependencies close.
+- Next bounded slice: continue S3-02 closure for powder-snow support applicability and external friction writers, then S3-03 air acceleration and stored air speed; continue S3-02..S3-08 branch-specific travel closure and retain S1/S2 slices as in-progress until input/pose, tick-membership, ability, speed, fluid/collision, modifier, item, mount, resize and external-writer dependencies close.
 - Outstanding dependencies and owners: source-owner publication is complete; source closure remains with this run, including S1-06 entity-tick membership/passenger scheduling and the remaining movement/resource inventories.
 - Assumptions requiring verification: no unresolved source-root or namespace assumptions; verify every newly selected source file against its manifest as slices are opened.
 
@@ -548,10 +548,10 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ## Source audit closure
 
-- Coverage counts by status: 24 pending, 9 in-progress, 1 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
+- Coverage counts by status: 23 pending, 10 in-progress, 1 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
 - Required inventory status and evidence: all seven pending; evidence pending.
-- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; S1-05 abilities, Elytra/item state and travel/external writers; S1-06 chunk membership, passenger and server packet/correction closure; S2-01 collision-box and synchronized pose/position closure; S2-02 eye-height consumers; S2-03 item-use/shift state writers and travel consumers; RESOURCE-INVENTORY and movement-diagnostic scope closure.
-- Unresolved gaps and limits: S1-01..S1-06/S2-01..S2-03 dependency closure and the remaining 33 source slices (24 pending, 9 in-progress) are open.
+- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; S1-05 abilities, Elytra/item state and travel/external writers; S1-06 chunk membership, passenger and server packet/correction closure; S2-01 collision-box and synchronized pose/position closure; S2-02 eye-height consumers; S2-03 item-use/shift state writers and travel consumers; S3-02 powder-snow support applicability and discard-friction player reachability; RESOURCE-INVENTORY and movement-diagnostic scope closure.
+- Unresolved gaps and limits: S1-01..S1-06/S2-01..S2-03 and S3-02 dependency closure, and the remaining 33 source slices (23 pending, 10 in-progress) are open.
 - Evidence/hash/correspondence audit: not started.
 - Blind freeze: pending.
 - Implementation reconciliation: pending.
