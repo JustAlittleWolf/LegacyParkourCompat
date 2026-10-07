@@ -265,15 +265,15 @@ The entries below are provisional behavior buckets from the required navigation 
 
 ### Slice S3-ground-air: ground/air acceleration, friction, drag and gravity with exact FP order
 
-- Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
-- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
-- State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.travelInAir(Vec3)V` uses the same below-movement block friction lookup, `0.91F` horizontal multiplier, relative-friction acceleration, levitation-or-gravity branch including the unloaded-client fallback, then either discarded-friction write or per-axis drag (`FlyingAnimal` horizontal factor vs `0.98F` vertical factor). Supporting helpers `handleRelativeFrictionAndCalculateMovement`, `getFrictionInfluencedSpeed`, `getEffectiveGravity`, and `shouldDiscardFriction` are body-identical. The direct `Entity.moveRelative`, `getBlockPosBelowThatAffectsMyMovement`, and Player `getSpeed`/`getFlyingSpeed` consumers also match.
+- A evidence: `LivingEntity.travelInAir(Vec3)V` lines 2306-2329, `handleRelativeFrictionAndCalculateMovement(Vec3,float)V` lines 2476-2486, `getFrictionInfluencedSpeed(float)F` lines 2520-2522, `getEffectiveGravity()D` lines 2270-2273, `shouldDiscardFriction()Z` lines 659-661, SHA-256 `b8b49d60769203f7bd5afe4a1bffcdcdbec30be28960324cdc43a2df85a6eb66`; `Entity.moveRelative(float,Vec3)V` line 1590 and `getBlockPosBelowThatAffectsMyMovement()BlockPos` lines 938-940, `Entity.java` SHA-256 `8361dbb86fe6c975d21f69d008377b6f191669be751150c842517e9d0346fa18`; `Player.getSpeed()F` line 1339 and `getFlyingSpeed()F` lines 1867-1873, `Player.java` SHA-256 `af857617b66a5776e63830771360b96f75e21d47d20db08f164a2dbeee801d82`.
+- B evidence: `LivingEntity.travelInAir(Vec3)V` lines 2343-2366, `handleRelativeFrictionAndCalculateMovement(Vec3,float)V` lines 2534-2544, `getFrictionInfluencedSpeed(float)F` lines 2578-2580, `getEffectiveGravity()D` lines 2304-2307, `shouldDiscardFriction()Z` lines 657-659, SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`; `Entity.moveRelative(float,Vec3)V` line 1608 and `getBlockPosBelowThatAffectsMyMovement()BlockPos` lines 957-959, `Entity.java` SHA-256 `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3`; `Player.getSpeed()F` line 1404 and `getFlyingSpeed()F` lines 1959-1965, `Player.java` SHA-256 `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`.
+- State producers/writers -> consumers/readers: current input, block friction, ground state, levitation, gravity, sprint, speed attribute and client chunk availability feed the same sequence of delta writes. Both Player speed methods return the same attribute/flying-speed results. Attribute aggregation and producer lifecycle remain open under `S3-attributes`; this slice compares the movement consumer path for equal state.
+- Parent slices / dependencies / closure evidence: `S3-travel-dispatch` selects this branch; `S3-water`, `S3-lava` and `S3-glide` cover other travel branches; `S3-attributes` retains producer/aggregation review. Exact method-body comparison found the listed helper bodies equal, and the shared relative movement primitive was previously verified byte-identical.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for equal input vector, block, player state, effect and gravity/speed inputs, both versions apply the same travel, friction, gravity, fallback and axis-drag operations in the same order. No air/ground travel formula difference was found in this bounded consumer path.
+- Finding IDs or checked absence/replacement path: checked paired LivingEntity and Entity travel helpers plus Player speed overrides; no bounded air/ground travel-consumer delta found.
 
 ### Slice S3-cutoffs: negligible velocity thresholds, comparisons, normalization and post-travel cleanup
 
@@ -684,7 +684,7 @@ Three source-confirmed findings are recorded in `findings/F-S1-FLIGHT-VEHICLE-GA
 
 ## Resume checkpoint
 
-- Last completed slice: source-gate preparation and the first bounded input-sampling comparison; nine bounded slices are compared-no-difference (input sampling, knockback vector math, Player knockback sync scheduling, food/passenger sprint eligibility, Player travel dispatch, water travel, lava travel, fall-flying travel, and jump impulse), three source-confirmed findings cover the flight-toggle, delayed-load tick gate, and fall-flying/climbable dispatch, the tagged vehicle buoyancy addition is out of scope, and the new spear effect is modern-only; all other coverage remains open.
+- Last completed slice: source-gate preparation and the first bounded input-sampling comparison; ten bounded slices are compared-no-difference (input sampling, knockback vector math, Player knockback sync scheduling, food/passenger sprint eligibility, Player travel dispatch, water travel, lava travel, fall-flying travel, jump impulse, and air/ground travel), three source-confirmed findings cover the flight-toggle, delayed-load tick gate, and fall-flying/climbable dispatch, the tagged vehicle buoyancy addition is out of scope, and the new spear effect is modern-only; all other coverage remains open.
 - Next bounded slice and exact files/members/body ranges to open: continue with `S1-input-sampling` and `S3-travel-dispatch`; then split the remaining broad movement buckets into method-bounded slices and close their call/data dependencies.
 - Outstanding dependencies and owners: `D-METHOD-BODY-REVIEW` (discovery worker); newly discovered producer/consumer, shape, registration and data dependencies will be added with exact owners/actions.
 - Current assumptions requiring verification: all listed ready/source/artifact hashes were verified. Remaining assumptions: exact member correspondence, operation/callback order, every reachable player state writer and producer/consumer dependency, relevant jar resource entries, and source-level movement semantics.
@@ -712,7 +712,7 @@ Three source-confirmed findings are recorded in `findings/F-S1-FLIGHT-VEHICLE-GA
 
 ## Source audit closure
 
-- Coverage counts by status: 37 pending; 0 in-progress; 9 compared-no-difference; 3 findings; 2 not-applicable; 0 blocked. Pair provenance is verified; all three finding slices have source evidence and remain subject to independent finding review; other slices remain open.
+- Coverage counts by status: 36 pending; 0 in-progress; 10 compared-no-difference; 3 findings; 2 not-applicable; 0 blocked. Pair provenance is verified; all three finding slices have source evidence and remain subject to independent finding review; other slices remain open.
 - Required inventory status and evidence: all seven inventories pending method-bounded traversal, producer/consumer linkage and full closure. Source roots and artifact hashes are verified above.
 - Open dependencies: `D-METHOD-BODY-REVIEW` and all method/resource dependencies discovered during the seven-stage walk.
 - Unresolved gaps and limits: pair provenance is verified; three bounded movement/tick-gate deltas are source-confirmed, while the remaining movement behavior is not yet covered. Keep active while comparison proceeds; at handoff, any open source slice requires partial status.
