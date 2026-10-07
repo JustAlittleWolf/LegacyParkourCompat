@@ -127,14 +127,14 @@ Each entry is a bounded behavior slice, not an entire class/stage/travel method.
 ### Slice S1-03: Sprint gates, timers, and writers
 
 - Inventory ID(s): INV-TICK; INV-EXCLUSIONS
-- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
-- A evidence: pending source readiness; no range accepted.
-- B evidence: pending source readiness; no range accepted.
-- State producers/writers -> consumers/readers: pending paired inventory.
-- Parent slices / dependencies / closure evidence: pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
-- Finding IDs or checked absence/replacement path: pending.
+- Exact behavior boundary and enclosing guards/order checked: compared LocalPlayer.aiStep sprint timer increment/decrement, item-use/shift resets, auto-start delay, held-key start, swimming/water/ground/collision stop gates, and all local sprint state writes. Compared the forward impulse helper and LocalPlayer/Entity sprint setters/readers. Direct hunger and blindness values are recorded only as predicates; their producer systems remain excluded.
+- A evidence: net/minecraft/client/player/LocalPlayer.java#aiStep lines 628-703, #hasEnoughImpulseToStartSprinting lines 989-992, #setSprinting lines 450-453; net/minecraft/world/entity/Entity.java#isSprinting/setSprinting lines 1833-1839; net/minecraft/world/entity/player/Player.java#getSpeed lines 1433-1435. Hashes are in the artifact source table above.
+- B evidence: net/minecraft/client/player/LocalPlayer.java#aiStep lines 650-725, #hasEnoughImpulseToStartSprinting lines 1019-1022, #setSprinting lines 455-458; net/minecraft/world/entity/Entity.java#isSprinting/setSprinting lines 1964-1970; net/minecraft/world/entity/player/Player.java#getSpeed lines 1455-1457. Hashes are in the artifact source table above.
+- State producers/writers -> consumers/readers: sampled Input.forwardImpulse and hasForwardImpulse, ground/underwater and water/swimming state, shift and sprint key state, item use, food level > 6 or mayfly ability, and blindness effect feed the same ordered start/stop predicates. LocalPlayer.setSprinting resets sprintTime and delegates the shared sprint flag write; Player speed is read from MOVEMENT_SPEED. Movement modifier installation/use is linked to S6; input and ability producers are linked to S1-01/S2-01.
+- Parent slices / dependencies / closure evidence: S1-01 closes input sampling and key state; S2-01 closes the ability accessor used for mayfly; S3 closes the travel branches that consume the sprint flag; S6 closes movement-speed modifier application and effect/attribute dependencies. S4 closes ground, collision, water and swimming predicates. Food/health/exhaustion production remains excluded.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): For a client-controlled player on the reachable aiStep path, the A/B sprint conditions, `0.8` forward-impulse threshold, seven-tick trigger, guard order, setter order, and shared-flag bit are identical. The only source-form change in this bounded gate is direct `abilities.mayfly` field access to `getAbilities().mayfly`, whose identity/equivalence is pending S2-01. The sprint flag affects later travel speed, so final no-difference disposition also waits on S3/S6. No independent sprint-gate delta is established yet.
+- Finding IDs or checked absence/replacement path: none; paired gate expressions and Entity sprint shared-flag accessors match, subject to S2-01 and S3/S6 closure.
 
 ### Slice S1-04: Jump state, cooldown, and auto-jump
 
@@ -523,7 +523,7 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 ## Resume checkpoint
 
 - Last completed slice: none; source pair verified, S1-01 in-progress pending S1-02/S2-01 closure.
-- Next bounded slice: S1-03 sprint gates, timers, and writers; retain S1-01/S1-02 as in-progress until their listed input/pose and tick-membership dependencies close.
+- Next bounded slice: S1-04 jump state, cooldown, and auto-jump; retain S1-01/S1-02/S1-03 as in-progress until their listed input/pose, tick-membership, ability, and speed dependencies close.
 - Outstanding dependencies and owners: source-owner publication is complete; source closure remains with this run, including S1-06 entity-tick membership/passenger scheduling and the remaining movement/resource inventories.
 - Assumptions requiring verification: no unresolved source-root or namespace assumptions; verify every newly selected source file against its manifest as slices are opened.
 
@@ -546,10 +546,10 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ## Source audit closure
 
-- Coverage counts by status: 32 pending, 2 in-progress, 0 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
+- Coverage counts by status: 31 pending, 3 in-progress, 0 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
 - Required inventory status and evidence: all seven pending; evidence pending.
-- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; RESOURCE-INVENTORY and DECOMPILER-DIAGNOSTICS scope closure.
-- Unresolved gaps and limits: S1-01/S1-02 dependency closure and the remaining 32 source slices are open.
+- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; RESOURCE-INVENTORY and DECOMPILER-DIAGNOSTICS scope closure.
+- Unresolved gaps and limits: S1-01/S1-02/S1-03 dependency closure and the remaining 31 source slices are open.
 - Evidence/hash/correspondence audit: not started.
 - Blind freeze: pending.
 - Implementation reconciliation: pending.
