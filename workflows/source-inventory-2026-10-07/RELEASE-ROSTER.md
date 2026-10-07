@@ -19,4 +19,3 @@ Supplemental source-only endpoints `1.16.1` and `1.16.2` are available for a spe
 - [Minecraft Wiki: Java Edition guides](https://minecraft.wiki/w/Category:Java_Edition_guides) — named update and game-drop guide index, including the 1.21 content drops.
 
 These references are for version taxonomy only. Source-only movement reports must be frozen before any worker reads taxonomy or MCPK wiki audit findings. Movement claims must come from the exact decompiled Minecraft source and bytecode.
-
