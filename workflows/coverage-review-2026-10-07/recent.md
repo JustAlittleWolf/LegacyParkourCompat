@@ -2,7 +2,7 @@
 
 - Status: preliminary; assigned owners are still active. No pair is accepted complete.
 - Assigned pairs: 1.21.1–1.21.3, 1.21.3–1.21.4, 1.21.4–1.21.5, 1.21.5–1.21.8, 1.21.8–1.21.10, 1.21.10–1.21.11, 1.21.11–26.1.2, 26.1.2–26.2.
-- Branch/worktree: requested managed worktree was created at `C:\Users\Wolfi\.codex\worktrees\coverage-review-recent\LegacyParkourCompat`; Git operations there failed with `fatal: this operation must be run in a work tree` for both `git status --short --branch` and `git switch -c feat/coverage-review-recent`. No replacement checkout was created.
+- Branch/worktree: requested managed worktree was created at `C:\Users\Wolfi\.codex\worktrees\coverage-review-recent\LegacyParkourCompat`; Git operations there failed with `fatal: this operation must be run in a work tree` for the initial `git status --short --branch` and `git switch -c feat/coverage-review-recent` attempts. The same checkout worked with the reviewed elevated operation; branch `feat/coverage-review-recent` is active. No replacement checkout was created.
 
 ## Independent disposition
 
@@ -11,13 +11,13 @@ All inspected drafts remain active and incomplete. Their planned/stage ledgers a
 | Pair | Owner draft observed | Disposition |
 |---|---|---|
 | 1.21.1 → 1.21.3 | `run.md`, active; seven required inventory maps pending; no bounded slice blocks; exact sources pending | Not accepted; no comparison evidence. |
-| 1.21.3 → 1.21.4 | `run.md`, active; seven required inventory maps are present but pending; no bounded slice blocks; exact pair awaits ready publication | Not accepted; no comparison evidence. Checker also has a false top-status error (see below). |
-| 1.21.4 → 1.21.5 | `run.md`, active; seven inventory maps and 12 bounded slice templates, all pending; exact sources pending | Not accepted; no comparison evidence. |
-| 1.21.5 → 1.21.8 | `run.md`, active; seven inventory maps and 27 bounded slice templates, all pending; exact sources pending | Not accepted; no comparison evidence. |
-| 1.21.8 → 1.21.10 | `run.md`, active; seven inventory maps and 21 bounded slice templates, all pending; exact sources pending | Not accepted; no comparison evidence. |
+| 1.21.3 → 1.21.4 | `run.md`, active; seven required inventory maps are present but pending; no bounded slice blocks; exact pair awaits ready publication | Not accepted; no comparison evidence. All seven maps remain pending. |
+| 1.21.4 → 1.21.5 | `run.md`, active; seven inventory maps and 46 pending slice templates; exact sources pending | Not accepted; no comparison evidence. |
+| 1.21.5 → 1.21.8 | `run.md`, active; seven inventory maps and 27 pending slice templates; exact sources pending | Not accepted; no comparison evidence. |
+| 1.21.8 → 1.21.10 | `run.md`, active; seven inventory maps and 21 pending slice templates; exact sources pending | Not accepted; no comparison evidence. |
 | 1.21.10 → 1.21.11 | `run.md`, active; 7 inventory maps, 44 pending slice templates plus 1 explicit out-of-scope row; exact sources unavailable | Not accepted; no comparison evidence. These are plans, not proof of producer/provider closure. |
 | 1.21.11 → 26.1.2 | `run.md`, active; 7 inventory maps and 50 pending slice templates; exact sources unavailable | Not accepted; no comparison evidence. The report explicitly says source comparison has not begun. |
-| 26.1.2 → 26.2 | `run.md`, active; seven coarse stages pending; 26.1.2 source pending | Not accepted; one-sided 26.2 provenance cannot establish a difference or equality. |
+| 26.1.2 → 26.2 | `run.md`, active; seven inventory maps and 14 pending slice templates; 26.1.2 source pending | Not accepted; one-sided 26.2 provenance cannot establish a difference or equality. |
 
 ## Verified source handoff
 
@@ -28,12 +28,12 @@ This validates only 26.2 artifact identity and those reported hashes/anchors. Th
 
 ## Hardened schema and static checker
 
-The two workflow-only commits were reviewed by file list and cherry-picked: `40c34f5` (coverage workflow/checker/template updates) and `2422192` (campaign roster). The checker was run against each owner worktree report; all eight returned exit 1. This is a schema/status signal, not source evidence:
+The two workflow-only commits were reviewed by file list and cherry-picked: `40c34f5` (coverage workflow/checker/template updates) and `2422192` (campaign roster). The original checker from `40c34f5` miscounted nested status lines. Source owner commit `5fe1eb8` fixes the header-only parsing; I reran that corrected checker against each owner worktree report. Two reports returned `no bounded coverage slice entries found`; the other six returned `run status is active; this is not a completion pass`. The status message is expected, not a semantic coverage result:
 
-- Three reports (1.21.1→1.21.3, 1.21.3→1.21.4, 26.1.2→26.2) currently have no bounded `### Slice` entries. Five have 12, 21, 27, 44, or 50 pending slice templates; none has exact source-backed dispositions yet.
-- Seven reports now contain all seven required `INV-*` maps, all pending. The 26.1.2→26.2 report still lacks the required inventory maps and bounded slices.
-- The 1.21.3→1.21.4 checker error `expected exactly one top-level status, found 3` counts its top-level status plus the intended `- Status: pending` entries under `## Blind-discovery freeze` and `## Independent source audit`. Slice-bearing reports similarly produce counts inflated by every required per-slice `- Status:`. The unscoped `^- Status:` regex is defective; fix it to inspect only the pre-section metadata block. “No bounded coverage slice entries found” is accurate for the three reports without slice blocks.
-- Reports with pending sources/slices are expected not to pass completion. No one should rewrite them as complete to satisfy the checker. The 26.1.2→26.2 report also genuinely lacks all inventory maps and slice blocks.
+- Three reports (1.21.1→1.21.3, 1.21.3→1.21.4, 26.1.2→26.2) currently have no `### Slice` blocks. The other five?
+- All eight reports now contain the seven required `INV-*` maps, all pending. Their inventory presence does not establish source coverage.
+- The checker parsing defect is resolved in `5fe1eb8` by limiting the top-level status search to the pre-section header. “No bounded coverage slice entries found” remains accurate for the three reports without slice blocks.
+- Reports with pending sources/slices are expected not to pass completion. No one should rewrite them as complete to satisfy the checker. All reports still have pending coverage; the corrected checker does not pass any as complete.
 ## Required requeue / acceptance gaps
 
 - All three previously absent reports (1.21.3→1.21.4, 1.21.4→1.21.5, 1.21.8→1.21.10) have now appeared as active drafts. Keep them open; the latter two still lack required inventory maps, and all three lack bounded `### Slice` evidence blocks.
@@ -48,7 +48,7 @@ The two workflow-only commits were reviewed by file list and cherry-picked: `40c
 
 - Pairwise findings verified: none.
 - Accepted pairs: none.
-- Three reports initially absent are now present as active drafts; no pair is accepted complete.
+- Three reports initially absent are now present as active drafts; all eight remain active and no pair is accepted complete.
 - Exact source pairs validated by this reviewer: none. The current ready root has exact ready JSON only for 26.2 among the nine assigned endpoints; the other seven endpoints have no ready marker. Only 26.2's one-sided ready record and cited artifact/source hashes were independently checked.
 - Runtime validation, tests, builds, game/Gym/server/Docker launches: not performed.
 - Reviewer worktree Git failure: `fatal: this operation must be run in a work tree`; branch creation and commits are blocked pending the repository worktree fix. Do not treat this preliminary note as a final audit or as owner completion.
@@ -65,4 +65,18 @@ Read-only inspection of the published 26.2 source confirms that the seven diagno
 
 The short diagnostics are not claimed to be comprehensive by the 26.1.2→26.2 owner, so these are required next inventory rows, not an owner misstatement of completed coverage. The source owner must still verify full method bodies and dependencies on both releases; the A source is not yet available. This side-only inventory does not establish 26.2 behavior equivalence or a historical delta.
 
+
+## New 26.2 B-side closure findings
+
+The current 26.1.2→26.2 report has seven inventory maps and 14 slice templates, all pending. I independently re-walked relevant B-side members against the validated 26.2 source manifest:
+
+- `net/minecraft/world/entity/LivingEntity.java` SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`: `travel(Vec3)` lines 2430–2437 dispatches to fluid travel, fall-flying, or air travel; `shouldTravelInFluid` lines 2444–2446 gates that selection. The B-side report’s `S-TRAVEL-01` includes the dispatcher and air helper only. Required reachable branches are absent as bounded rows: fluid dispatch/helper lines 2504–2515, water travel 2516–2548, lava travel 2549–2580, and fall-flying 2581 onward. Add separate branch slices with caller/condition and dependencies. This is a confirmed coverage omission in the pending plan, not a pairwise behavior finding.
+- `net/minecraft/client/player/LocalPlayer.java` SHA-256 `8d089aa09217e3607b38590f7c1623385562800943ac6dfd3d17804e041da6d6`: the reachable override `move(MoverType,Vec3)` lines 986–994 calls `super.move`, then `updateAutoJump` and walked-distance updates. `updateAutoJump` starts at 1005. The current inventory covers Entity.move but omits this local-player post-move path. Add bounded slices for the override and auto-jump branches, preserving their ordering after collision resolution.
+- Current `S-LOCAL-01` groups crouch/pose-fit, input ticking, auto-jump timing, four unstuck moves and sprint gating (one body range 767–829). `S-LOCAL-02` groups flight toggles, fall-flying and rideable-jump input (830–919). These contain several independently changing behaviors and should be split into bounded slices. `S-COLLISION-02` combines collision resolution, candidate collection and clipping, while the owner marks helper closure unread; split candidate/tie selection and axis/query helpers as source dependencies are inventoried.
+- `S-STATE-01` cites placeholder ranges `Entity.setPose(Pose), lines 439-?` and `refreshDimensions(), lines 3393-?`. These are not acceptable final evidence ranges. Resolve exact bodies, callers/writers, and the dimension-resize collision-query timing; keep pending until then.
+- `S-WORLD-01`, `S-MOD-01` and `S-EXT-01` are single broad umbrella rows with only seed categories/partial B-side notes. They need member- and resource-level decomposition for shape providers/registrations/neighbors, fluid properties/data, modifier/enchantment producers and consumers, and player-facing packet/correction callers. Their pending status is correct; they are not closed inventories.
+
+## Scope boundary to correct
+
+The 1.21.5→1.21.8 draft says it excludes food/hunger producer systems “including consequences on sprint eligibility” and its S1.3 says to exclude “any indirect sprint-gate finding.” That is broader than the campaign rule. Keep health/food/hunger producers out of emulation and do not turn producer-system differences into movement findings, but still inventory and compare direct player sprint-eligibility predicates and their reads/order as movement behavior. Reword this boundary before any closure; it is not evidence for or against a source difference.
 Reviewer task branch is `feat/coverage-review-recent`, created from main `002137b227676caea77f6832b9f4c8d0b6200bff`; preliminary checkpoint commit: `653b745335211dcddd867923876f0ebb15b42eac`.
