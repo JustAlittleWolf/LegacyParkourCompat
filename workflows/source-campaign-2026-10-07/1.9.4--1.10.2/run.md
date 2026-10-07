@@ -227,8 +227,18 @@ F001 - [farmland player collision height](findings/F001-farmland-collision-heigh
 
 ## Resume checkpoint
 
+- Checkpoint date/time: 2026-10-07 16:09 UTC
+- Worktree: `C:\Users\Wolfi\.codex\worktrees\movement-source-1-9-4-1-10-2\LegacyParkourCompat`; branch: `feat/source-discovery-movement-source-1-9-4-1-10-2`; prior source-evidence checkpoint before this resume-index update: `7d069846325ec7c983f440c2743a4522fd485bdb`.
+- Default-branch integration: `main` is `002137b227676caea77f6832b9f4c8d0b6200bff`; merge reported `Already up to date`. No default-branch commits landed after the recorded base.
 - Last completed slices: `BLK-RAIL-OUTLINE-COLLISION`, `PLAYER-JUMP-AND-FLIGHT-RELATIVE`, and `LIVING-WATER-FRICTION-BASE-VALUE` compared-no-difference; `BLK-FARMLAND-COLLISION`, `LIVING-FLUID-NO-GRAVITY`, and `LOCAL-AUTO-JUMP-INPUT` have source-confirmed findings; `LOCAL-FALL-FLYING-SOUND-STATE` is not applicable to player movement.
-- Next action: obtain blind review of the submitted finding snapshots, close remaining movement bytecode diagnostics, and continue all seven local-player and movement-state inventories.
+- Next action: obtain blind review of the submitted finding snapshots, close remaining movement bytecode diagnostics, and continue all seven local-player and movement-state inventories. No reviewer is assigned yet; implementation handoff remains blocked.
+- Exact resume commands (PowerShell from the worktree root):
+  1. `python workflows/movement-discovery/check_completion.py workflows/source-campaign-2026-10-07/1.9.4--1.10.2/`
+  2. `Get-Content 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.9.4\ornithe-feather\net\minecraft\entity\living\LivingEntity.java' | Select-Object -Skip 1301 -First 169`
+  3. `Get-Content 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.10.2\ornithe-feather\net\minecraft\entity\living\LivingEntity.java' | Select-Object -Skip 1331 -First 175`
+  4. `javap -c -p -classpath 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\revisions\derived-artifact-snapshots\feather-r1-2026-10-07\1.9.4\ornithe-feather\client-ornithe-feather.jar' net.minecraft.entity.living.LivingEntity`
+  5. `javap -c -p -classpath 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\revisions\derived-artifact-snapshots\feather-r1-2026-10-07\1.10.2\ornithe-feather\client-ornithe-feather.jar' net.minecraft.entity.living.LivingEntity`
+- Continue with the bounded `LivingEntity.moveRelative` branch reconciliation, then route any newly discovered callers/writers into S1–S7; do not inspect implementation or wiki material before full-pair freeze.
 - Outstanding dependencies: D1–D3 and full-pair independent source audit; D-ART is resolved for source evidence with the original-derived-jar limitation recorded.
 - Assumptions requiring verification: remaining reachable diagnostic-listed methods and dependency paths must be checked; resource/state-writer inventories and the full paired tick path remain open. Revised-artifact byte identity to unavailable original derived jars is unproven.
 
