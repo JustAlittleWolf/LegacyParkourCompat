@@ -264,10 +264,16 @@ The historical pair report is not imported as source confirmation.
 
 ## Resume checkpoint
 
-- Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S3-WATER,S3-FALL-FLYING; findings slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S2-EDGE,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT.
+- Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-ELYTRA,S1-ESCAPE,S3-WATER,S3-FALL-FLYING; finding slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT.
 - Active slices: S1-LOCAL-TICK,S1-LOCAL-AISTEP,S3-GROUND-AIR; required stages 2-7 remain to be entered.
 - Next: add bounded slices for remaining state, collision, world, modifier and external-input inventories.
 - Outstanding dependencies: remaining required stage 2-7 inventory slices, independent reviewer assignment.
+- Resume branch: feat/source-discovery-movement-source-1-15-2-1-16-5; resume from the clean tip recorded by git log -1. Local main and origin/main both point to the pair base 002137b227676caea77f6832b9f4c8d0b6200bff; no later default-branch commits were present for merge at this checkpoint.
+- First next work: finish bounded S1-LOCAL-TICK and S1-LOCAL-AISTEP slices, then S3-GROUND-AIR; add the required state/pose, collision, world, modifier and external-input slices for stages 2-7. Keep every finding submitted until an independent source reviewer records a decision.
+- Read-only resume commands from the repository root:
+  - `git status --short; git log -1 --oneline`
+  - `$A='D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.15.2\mojmap'; $B='D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.16.5\mojmap'`
+  - `Get-Content -LiteralPath "$A\net\minecraft\world\entity\LivingEntity.java"`; repeat for the paired `$B` file and each named slice dependency.
 
 ## Finding snapshots (not pair freeze)
 
