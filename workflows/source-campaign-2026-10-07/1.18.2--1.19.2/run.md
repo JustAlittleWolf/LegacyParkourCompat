@@ -61,7 +61,7 @@ Artifact paths below are relative to repository root; generated artifacts remain
 - `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=T01,T02,T03,T04,T05,T06,T07; evidence=T01/T03 source sampling and F-001, plus bounded local tick/sprint/jump/flight/mount-gate and player mount-transition checks in T02/T04/T05/T06/E03; travel branch and post-travel comparisons remain open.
 - `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=P01,P02,P03,P04; evidence=P01/P02 check selected pose/dimension and direct position/velocity writers; P03 checks selected direct predicates; F-002 documents the changed edge predicate; full writer/reader graph remains open.
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=C01,C02,C03,C04; evidence=C01 compares the core `Entity.move` solver and cross-references F-003/F-004; F-002/F-004 and the legacy support lookup are recorded; shape/callback coverage remains open.
-- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=W01,W02,W03,W04; evidence=W04 resolves selected movement-class `BlockTags` references against client-jar resources; W02/W03 cover selected callbacks and fluid helpers; full block/fluid/resource inventory remains open.
+- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=W01,W02,W03,W04; evidence=W01 compares selected movement-block registrations; W04 resolves selected movement-class `BlockTags` references against client-jar resources; W02/W03 cover selected callbacks and fluid helpers; full block/fluid/resource inventory remains open.
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=M01,M02,M03,M04; evidence=F-001 traces the new Swift Sneak level bonus and M01 checks selected speed/jump consumers and attribute aggregation; effects/resources and other modifiers remain open.
 - `INV-EXTERNAL` player-only externally supplied movement inputs and direct player velocity/impulse/knockback application, plus in-scope player-facing transitions; exclude non-player and vehicle physics: status=pending; slice_ids=E01,E02,E03; evidence=E01 correction writers, E02 push/knockback consumers, and E03 player mount-transition wrappers; remaining packet flags, piston sources and vehicle-position integration remain open.
 - `INV-EXCLUSIONS` explicit scope audit for health/food production, attack/damage resolution, non-player movement and vehicle physics. Direct player-motion response remains in scope even when combat can trigger it: status=pending; evidence=scope boundary is recorded; explicit source audit remains open.
@@ -251,14 +251,14 @@ Artifact paths below are relative to repository root; generated artifacts remain
 ### Slice W01: block movement properties, registrations and overrides
 
 - Inventory ID(s): INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: pending; friction/speed/jump properties, registry defaults and movement-relevant subclass overrides.
-- A evidence: not yet compared; readiness is recorded in D-SOURCES.
-- B evidence: not yet compared; readiness is recorded in D-SOURCES.
+- Exact behavior boundary and enclosing guards/order checked: compared static registrations/properties for the W02/C04 sampled movement blocks `COBWEB`, `REDSTONE_ORE`, `SOUL_SAND`, `SLIME_BLOCK`, `MAGMA_BLOCK`, `TURTLE_EGG`, `BUBBLE_COLUMN`, `SCAFFOLDING`, `HONEY_BLOCK`, `POWDER_SNOW` and `SCULK_SENSOR`. Ten initializer bodies match exactly. `BUBBLE_COLUMN` changes `.noDrops()` to `.noLootTable()`, whose checked property bodies both assign `BuiltInLootTables.EMPTY`; the rename changes no movement property. This is a selected registration sample, not a full registry or override inventory.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/level/block/Blocks.java`, selected initializers: `COBWEB` 294-296, `REDSTONE_ORE` 692-697, `SOUL_SAND` 770-782, `SLIME_BLOCK` 1525-1528, `MAGMA_BLOCK` 2073-2085, `TURTLE_EGG` 2345-2348, `BUBBLE_COLUMN` 2681-2683, `SCAFFOLDING` 2747-2750, `HONEY_BLOCK` 3086-3095, `POWDER_SNOW` 3479-3481 and `SCULK_SENSOR` 3482-3492; SHA-256 `CC6B87D2C5897E71E5244B889444AC040E3FA0A139E392523E87FEC99805A0F2`. `BlockBehaviour.Properties#noDrops()` lines 949-952; SHA-256 `3D82B89F13ED3108E09B64226D98FD673E5FEDD9A933AFE888AE580DB486DD89`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/level/block/Blocks.java`, corresponding initializers: `COBWEB` 348-350, `REDSTONE_ORE` 852-857, `SOUL_SAND` 930-942, `SLIME_BLOCK` 1717-1720, `MAGMA_BLOCK` 2333-2345, `TURTLE_EGG` 2605-2608, `BUBBLE_COLUMN` 2948-2950, `SCAFFOLDING` 3015-3018, `HONEY_BLOCK` 3369-3378, `POWDER_SNOW` 3762-3764 and `SCULK_SENSOR` 3765-3775; SHA-256 `F532585F836EE7AD685D368889ED13D735C570EF38971DB0C1D2A7DEBB4CF27B`. `BlockBehaviour.Properties#noLootTable()` lines 964-967; SHA-256 `C0E62233FA21BE352953EDDA6B411727762165FA2CC8D645C7C08406F92DF08B`.
 - State producers/writers -> consumers/readers: block/state registration or override -> player travel/collision consumers.
 - Parent slices / dependencies / closure evidence: D-SOURCES; C03; T07.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison pending; modern-only additions remain modern-only.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): selected registered block instances retain their checked movement-relevant property construction. The only source delta in the selected initializers is the no-drop helper rename with the same empty loot table assignment. Remaining registrations, dynamic/resource-backed state properties and block subclass overrides remain open.
+- Finding IDs or checked absence/replacement path: checked absence of a movement-property delta in the sampled registrations; remaining block families and registry paths open.
 
 ### Slice W02: historical block shapes and neighboring-state dependencies
 
@@ -408,8 +408,8 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Resume checkpoint
 
-- Last source comparison work: after T07 identified F-003/F-004 in Entity movement callbacks, compared C01 core `Entity.move` axis/response order, selected W04 nested block-tag resources, M02 effect-instance merge/tick and LivingEntity application/removal paths, E01 correction/ability packets, W03 fluid helpers, C03/W02 collision resolvers/providers, E03 mount transitions, P01 pose/dimension helpers, P02 direct position/velocity writers, P03 selected direct predicates and bounded P04 ability/speed/jump-timer state. B's ancient-city loot resource documents a Swift Sneak book path for F-001; wider inventories remain open.
-- Next bounded slice and exact files/members/body ranges to open: continue C02 step-up/edge and collision-query dependencies; then W01 selected registrations/properties and W04/M04 resource-backed movement inputs, effect-instance transitions (M02), and remaining movement attribute/effect consumers (M01).
+- Last source comparison work: after T07 identified F-003/F-004 in Entity movement callbacks, compared W01 selected movement-block registrations, C01 core `Entity.move` axis/response order, W04 selected nested block-tag resources, M02 effect-instance merge/tick and LivingEntity application/removal paths, E01 correction/ability packets, W03 fluid helpers, C03/W02 collision resolvers/providers, E03 mount transitions, P01 pose/dimension helpers, P02 direct position/velocity writers, P03 selected direct predicates and bounded P04 ability/speed/jump-timer state. B's ancient-city loot resource documents a Swift Sneak book path for F-001; wider inventories remain open.
+- Next bounded slice and exact files/members/body ranges to open: continue the remaining W01 block registry/override families and W04/M04 resource-backed movement inputs; C02 edge/step dependencies, effect application provenance (M02) and remaining movement attribute/effect consumers (M01) remain open.
 - Outstanding dependencies and owners: D-RESOURCES (discovery worker); independent reviewer assignment (coordinator, after source-only freeze).
 - Current assumptions requiring verification: Swift Sneak resource/tag data and all remaining modifier chains; all movement branch helpers and block callback outputs. Directory presence alone is not readiness.
 
@@ -437,10 +437,10 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Source audit closure
 
-- Coverage counts by status: pending 3; in-progress 22; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
+- Coverage counts by status: pending 2; in-progress 23; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
 - Required inventory status and evidence: INV-TICK pending; INV-STATE pending; INV-COLLISION pending; INV-WORLD-MOVEMENT pending; INV-MODIFIERS pending; INV-EXTERNAL pending; INV-EXCLUSIONS pending. No inventory is closed.
 - Open dependencies: D-RESOURCES (discovery worker), independent reviewer assignment (coordinator, after source-only freeze).
-- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Three coverage entries are pending, twenty-two are in progress, and two carry findings.
+- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Two coverage entries are pending, twenty-three are in progress, and two carry findings.
 - Evidence/hash/correspondence audit: F-001 through F-004 include paired endpoint source/artifact hashes and bounded source ranges; call paths and writer-to-consumer links are recorded for these deltas, while the remaining inventories and correspondence are still open.
 - Blind freeze: not frozen; implementation remains uninspected. Freeze after remaining source inventories close or are explicitly scoped for handoff.
 - Implementation reconciliation: pending and deferred outside this source-only assignment.
