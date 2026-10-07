@@ -125,6 +125,12 @@ The source comparison establishes two concrete shape changes in blocks registere
 
 These source-proven shape changes reach player collision queries and are in scope. The owner still needs to record the paired collision-query caller/order and cite both-side shape/registration evidence in separate findings; verify all 16 connection combinations and every relevant historical neighbor override before closing the slice. Do not infer exact player displacement without the collision path and surrounding shapes.
 
+### Fresh blind review: `COLL-02` (1.8.9→1.9.4)
+
+**Decision: accepted for this bounded finding only.** The owner’s immutable evidence commit is `9222079631775ff5a6d0d566624ba3add7c36c2b`; finding-file SHA-256 `C9D5EF96FCE3DFFC0B433DA08B7DDCBB3BD615C69AA773EF9FC36193AE50CEB2` matches the current file and snapshot log. I independently rehashed all twelve cited ready-source files: paired `PaneBlock`, `Block`, `StainedGlassPaneBlock`, `World`, `Entity`, and `AirBlock`; every hash matches. The finding cites the revised A/B snapshot hashes and states that unavailable original mapped-JAR identity is unproven.
+
+The two collision builders differ as described: A conditionally emits crossing/half strips; B emits the center post plus selected arms. The table covers all sixteen reachable direction masks, witnessed independently by stone and air neighbors, and its three equal unions are N+S, E+W, and all four. The comparison is explicitly for equal masks; it does not misstate the changed connection predicates as equivalent for every block type. Both worlds route block collisions to `Entity.move`, which the paired living-player travel path invokes. The finding establishes different collision inputs, not a resulting trajectory. Its registrations, subclass inheritance, mask production, collision collection and player consumer are bounded and cited. This accepts the pane collision finding only; pair-level collision/provider and movement inventories remain open.
+
 ### 1.8.9 → 1.9.4: bounded acceptance of STATE-01 velocity cutoff
 
 **Finding snapshot reviewed:** owner branch `feat/source-discovery-movement-source-1-8-9-1-9-4`, commit `f5eca2d932b7544c4eebaa13864491a4e40cba95`; finding file `workflows/source-campaign-2026-10-07/1.8.9--1.9.4/findings/STATE-01-velocity-zero-threshold.md`, SHA-256 `51506E004C8AE129CF45DB365F8EE5BFEA0F54C8EC5170F99250003E8F0115E1`. The containing `run.md` SHA-256 is `EBB05525F1749B51073765425622ACD81D0710D0359502614C659C175C5BFC97`.
