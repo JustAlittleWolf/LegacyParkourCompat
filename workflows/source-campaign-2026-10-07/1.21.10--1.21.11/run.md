@@ -289,15 +289,15 @@ The entries below are provisional behavior buckets from the required navigation 
 
 ### Slice S3-jump-impulse: jump power, sprint jump impulse, yaw trigonometry and velocity writes
 
-- Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
-- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
-- State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: inherited `LivingEntity.getJumpPower()` and `jumpFromGround()`. Both calculate jump power from `JUMP_STRENGTH * 1.0F * blockJumpFactor + jumpBoostPower`; if above `1.0E-5F`, preserve existing X/Z and set Y to `max(jumpPower,currentY)`. If sprinting, both use yaw in radians and add `(-sin(yaw)*0.2,0,cos(yaw)*0.2)`. Only the final sync marker changes from `hasImpulse` to `needsSync`.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.21.10/mojmap/net/minecraft/world/entity/LivingEntity.java`, `getJumpPower()F` / `getJumpPower(F)F` lines 2222-2232 and `jumpFromGround()V` lines 2235-2247, SHA-256 `b8b49d60769203f7bd5afe4a1bffcdcdbec30be28960324cdc43a2df85a6eb66`; Player has no jump-method override, `Player.java` SHA-256 `af857617b66a5776e63830771360b96f75e21d47d20db08f164a2dbeee801d82`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.21.11/mojmap/net/minecraft/world/entity/LivingEntity.java`, `getJumpPower()F` / `getJumpPower(F)F` lines 2256-2266 and `jumpFromGround()V` lines 2269-2281, SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`; Player has no jump-method override, `Player.java` SHA-256 `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`.
+- State producers/writers -> consumers/readers: jump-strength attribute, block jump factor, jump-boost effect, sprint flag, yaw and existing delta feed the same formula. The Player wrapper has no override of the impulse method. Marker consumer applicability for active, non-spectator ServerPlayer targets is covered by `S7-entity-sync-scheduling`; attribute aggregation and jump-input/timing remain in their dedicated open slices.
+- Parent slices / dependencies / closure evidence: `S1-jump` owns input, cooldown and invocation timing; `S3-attributes` owns producer/aggregation order; `S7-entity-sync-scheduling` closes direct Player marker scheduling under the active Player-ticket precondition. Compared both jump-power and impulse methods, including exact float constants and multiplication/addition order.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for the same current state and jump call, both versions write the same vertical and sprint-horizontal velocity in the same order. The changed sync marker is the already-closed `needsSync` rename for active Player targets; this slice does not claim parity for jump eligibility or timing.
+- Finding IDs or checked absence/replacement path: checked paired jump-power and impulse methods plus Player override absence; no jump-impulse formula delta found.
 
 ### Slice S3-climb: climbing detection, clamps, movement and exit velocity behavior
 
@@ -683,7 +683,7 @@ One source-confirmed finding is recorded in `findings/F-S1-FLIGHT-VEHICLE-GATE.m
 
 ## Resume checkpoint
 
-- Last completed slice: source-gate preparation and the first bounded input-sampling comparison; eight bounded slices are compared-no-difference (input sampling, knockback vector math, Player knockback sync scheduling, food/passenger sprint eligibility, Player travel dispatch, water travel, lava travel, and fall-flying travel), two source-confirmed findings cover the flight-toggle and delayed-load tick gates, the tagged vehicle buoyancy addition is out of scope, and the new spear effect is modern-only; all other coverage remains open.
+- Last completed slice: source-gate preparation and the first bounded input-sampling comparison; nine bounded slices are compared-no-difference (input sampling, knockback vector math, Player knockback sync scheduling, food/passenger sprint eligibility, Player travel dispatch, water travel, lava travel, fall-flying travel, and jump impulse), two source-confirmed findings cover the flight-toggle and delayed-load tick gates, the tagged vehicle buoyancy addition is out of scope, and the new spear effect is modern-only; all other coverage remains open.
 - Next bounded slice and exact files/members/body ranges to open: continue with `S1-input-sampling` and `S3-travel-dispatch`; then split the remaining broad movement buckets into method-bounded slices and close their call/data dependencies.
 - Outstanding dependencies and owners: `D-METHOD-BODY-REVIEW` (discovery worker); newly discovered producer/consumer, shape, registration and data dependencies will be added with exact owners/actions.
 - Current assumptions requiring verification: all listed ready/source/artifact hashes were verified. Remaining assumptions: exact member correspondence, operation/callback order, every reachable player state writer and producer/consumer dependency, relevant jar resource entries, and source-level movement semantics.
@@ -711,7 +711,7 @@ One source-confirmed finding is recorded in `findings/F-S1-FLIGHT-VEHICLE-GATE.m
 
 ## Source audit closure
 
-- Coverage counts by status: 39 pending; 0 in-progress; 8 compared-no-difference; 2 findings; 2 not-applicable; 0 blocked. Pair provenance is verified; both finding slices have source evidence and remain subject to independent finding review; other slices remain open.
+- Coverage counts by status: 38 pending; 0 in-progress; 9 compared-no-difference; 2 findings; 2 not-applicable; 0 blocked. Pair provenance is verified; both finding slices have source evidence and remain subject to independent finding review; other slices remain open.
 - Required inventory status and evidence: all seven inventories pending method-bounded traversal, producer/consumer linkage and full closure. Source roots and artifact hashes are verified above.
 - Open dependencies: `D-METHOD-BODY-REVIEW` and all method/resource dependencies discovered during the seven-stage walk.
 - Unresolved gaps and limits: pair provenance is verified; two bounded movement/tick-gate deltas are source-confirmed, while the remaining movement behavior is not yet covered. Keep active while comparison proceeds; at handoff, any open source slice requires partial status.
