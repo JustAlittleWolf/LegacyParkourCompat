@@ -333,14 +333,14 @@ Each entry is a bounded behavior slice, not an entire class/stage/travel method.
 ### Slice S4-02: Step candidates, selection, and tie-breaking
 
 - Inventory ID(s): INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
-- A evidence: pending source readiness; no range accepted.
-- B evidence: pending source readiness; no range accepted.
-- State producers/writers -> consumers/readers: pending paired inventory.
-- Parent slices / dependencies / closure evidence: pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
-- Finding IDs or checked absence/replacement path: pending.
+- Exact behavior boundary and enclosing guards/order checked: compared the `Entity.collide` base sweep result, step eligibility guards, two raised movement candidates, horizontal-distance ranking, strict tie handling and final downward clip. Collision-result production and shape iteration remain S4-03 dependencies.
+- A evidence: `net/minecraft/world/entity/Entity.java#collide` lines 668-706 and `#getHorizontalDistanceSqr` lines 709-711; Entity hash is in the foundational source table above.
+- B evidence: `net/minecraft/world/entity/Entity.java#collide` lines 750-788, using `Vec3.horizontalDistanceSqr()` lines 135-137 (Vec3 SHA-256 `eb52a20224767daeb5ddc500552c673df2daf9cd6868d7e74356411e94ef402e`, already verified against the B source manifest). Entity hash is in the foundational source table above.
+- State producers/writers -> consumers/readers: A and B use the same base clipped result, compare the same x/y/z components, require positive max-up-step plus prior grounding or downward vertical clipping and a horizontal collision, then calculate full-height and horizontal-first step candidates in the same order. Each candidate is ranked using strict `>` on `x*x + z*z`; equal distances preserve the earlier candidate. The chosen candidate is clipped downward by `-stepY + requestedY`. B's Vec3 helper uses the same multiplication/addition expression and order as A's Entity helper. Result vectors come from collision shape processing, not closed here.
+- Parent slices / dependencies / closure evidence: S4-01 move entry and prior onGround state; S4-03 axis clipping/shape iteration for candidate vectors; S4-04 support/grounding producer. S4-01 is in-progress and S4-03/S4-04 remain pending.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no step eligibility, candidate-order, ranking or tie-breaking code delta found in the paired source. Final behavior still depends on the unresolved collision-vector and support producers, so this slice remains open.
+- Finding IDs or checked absence/replacement path: checked absence in the compared step-selection formulas; no finding accepted.
 
 ### Slice S4-03: Collision iteration and shape algorithms
 
@@ -524,8 +524,8 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ## Resume checkpoint
 
-- Closed code-path comparisons: S3-01 travel dispatch/pre-branch, S3-03 air-speed, S3-06 climbable travel and S3-07 water/lava branches; no dispatch, stored-air-speed, climbable-code or fluid-branch delta found. S3-02 remains in-progress with B-only powder-snow route `CD-S3-02-01`; S3-04 remains in-progress with conditional minY candidate `CD-S3-04-01`; S3-05 traces candidate `CD-S1-04-01`; S3-08 has matching glide math plus open B-only event candidate `CD-S3-08-01`; S3-09 has equivalent bob math plus open B-only freezing-speed candidate `CD-S3-09-01`; S4-01 is in-progress with position/bounding-box reconstruction candidate `CD-S4-01-01`. Source pair verified; S1-01..S1-06 and S2-01..S2-03 remain in-progress pending their listed dependencies.
-- Next bounded slice: continue S4-01 position/bounding-box arithmetic and axis clipping, then compare S4-02 step selection. Keep S3-02 powder-snow applicability, S3-04 custom build-height applicability and S3-05 block/effect dependencies open. Retain S1/S2 slices as in-progress until input/pose, tick-membership, ability, speed, fluid/collision, modifier, item, mount, resize and external-writer dependencies close.
+- Closed code-path comparisons: S3-01 travel dispatch/pre-branch, S3-03 air-speed, S3-06 climbable travel and S3-07 water/lava branches; no dispatch, stored-air-speed, climbable-code or fluid-branch delta found. S3-02 remains in-progress with B-only powder-snow route `CD-S3-02-01`; S3-04 remains in-progress with conditional minY candidate `CD-S3-04-01`; S3-05 traces candidate `CD-S1-04-01`; S3-08 has matching glide math plus open B-only event candidate `CD-S3-08-01`; S3-09 has equivalent bob math plus open B-only freezing-speed candidate `CD-S3-09-01`; S4-01 is in-progress with position/bounding-box reconstruction candidate `CD-S4-01-01`; S4-02 selection formulas match while collision-result producers remain open. Source pair verified; S1-01..S1-06 and S2-01..S2-03 remain in-progress pending their listed dependencies.
+- Next bounded slice: continue S4-01 position/bounding-box arithmetic and axis clipping, then close S4-02 dependencies and compare S4-03 shape processing. Keep S3-02 powder-snow applicability, S3-04 custom build-height applicability and S3-05 block/effect dependencies open. Retain S1/S2 slices as in-progress until input/pose, tick-membership, ability, speed, fluid/collision, modifier, item, mount, resize and external-writer dependencies close.
 - Outstanding dependencies and owners: source-owner publication is complete; source closure remains with this run, including S1-06 entity-tick membership/passenger scheduling and the remaining movement/resource inventories.
 - Assumptions requiring verification: no unresolved source-root or namespace assumptions; verify every newly selected source file against its manifest as slices are opened.
 
@@ -548,10 +548,10 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ## Source audit closure
 
-- Coverage counts by status: 15 pending, 15 in-progress, 4 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
+- Coverage counts by status: 14 pending, 16 in-progress, 4 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
 - Required inventory status and evidence: all seven pending; evidence pending.
-- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership, position callbacks and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; S1-05 abilities, Elytra/item state and travel/external writers; S1-06 chunk membership, passenger and server packet/correction closure; S2-01 collision-box and synchronized pose/position closure; S2-02 eye-height consumers; S2-03 item-use/shift state writers and travel consumers; S3-02 powder-snow support applicability; S3-04 dimension minY applicability; S3-06 climbable block/tag provider closure; S3-07 fluid-height/state, Depth Strider and effect providers; S3-08 `ELYTRA_FREE_FALL` event consumer/resource applicability; S3-09 powder-snow freeze-modifier and freeze-immune wearable resource applicability; S4-01 position/bounding-box reconstruction and collision-path closure; RESOURCE-INVENTORY and movement-diagnostic scope closure.
-- Unresolved gaps and limits: S1-01..S1-06/S2-01..S2-03, S3-02/S3-04/S3-05 dependencies, S3-06 block/tag providers, S3-07 fluid and modifier providers, S3-08 event applicability, S3-09 freeze-speed applicability, S4-01 position/collision closure, and the remaining 30 source slices (15 pending, 15 in-progress) are open.
+- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership, position callbacks and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; S1-05 abilities, Elytra/item state and travel/external writers; S1-06 chunk membership, passenger and server packet/correction closure; S2-01 collision-box and synchronized pose/position closure; S2-02 eye-height consumers; S2-03 item-use/shift state writers and travel consumers; S3-02 powder-snow support applicability; S3-04 dimension minY applicability; S3-06 climbable block/tag provider closure; S3-07 fluid-height/state, Depth Strider and effect providers; S3-08 `ELYTRA_FREE_FALL` event consumer/resource applicability; S3-09 powder-snow freeze-modifier and freeze-immune wearable resource applicability; S4-01 position/bounding-box reconstruction; S4-02 clipped-vector dependency; S4-03 axis clipping and shape iteration; S4-04 support/grounding; RESOURCE-INVENTORY and movement-diagnostic scope closure.
+- Unresolved gaps and limits: S1-01..S1-06/S2-01..S2-03, S3-02/S3-04/S3-05 dependencies, S3-06 block/tag providers, S3-07 fluid and modifier providers, S3-08 event applicability, S3-09 freeze-speed applicability, S4-01 position/collision closure, S4-02 clipped-vector dependency, and the remaining 30 source slices (14 pending, 16 in-progress) are open.
 - Evidence/hash/correspondence audit: not started.
 - Blind freeze: pending.
 - Implementation reconciliation: pending.
