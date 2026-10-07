@@ -74,24 +74,25 @@ All rows remain `pending` until exact-pair source evidence and dependency closur
 - Slice `X-scope-exclusions` / all stages / health, regeneration, hunger/food/saturation/exhaustion/damage/combat emulation and non-player physics: `not-applicable` by delegated scope; vanilla-state consumption (for example sprint gates) remains covered in its owning slice.
 ## Dependency queue and blockers
 
-For each: ID; originating slice; precise missing member/resource/question; why it can affect movement; next retrieval action; resolution evidence or blocked reason.
+- `D-PAIR-READY` / source gate / exact 1.21.10 and 1.21.11 ready JSONs, selected namespace, artifact manifests and logs are missing; without these, neither source provenance nor mapping alignment can be verified. Next action: receive the source-owner handoff and verify exact requested/resolved IDs, cited manifest hashes and source roots. Status: pending.
+- `D-METHOD-DIAGNOSTICS` / source gate / pair-specific movement-method diagnostics and body integrity are missing; the decompiler's class-name checks do not establish relevant method completeness. Next action: after readiness, inspect diagnostics and verify each selected full method body (bytecode/source assistance if damaged). Status: pending; depends on `D-PAIR-READY`.
 
 ## Finding index
 
-Link each finding with its short behavioral title and confidence. Record discarded candidates and reasons so they are not rediscovered.
+No findings confirmed yet; source comparison has not started. This is not an equivalence claim.
 
 ## Resume checkpoint
 
-- Last completed slice:
-- Next bounded slice and exact files/members to open:
-- Outstanding dependencies:
-- Current assumptions requiring verification:
+- Last completed slice: source-gate preparation and 43-slice stage ledger; no pair-specific Minecraft source slice completed.
+- Next bounded slice and exact files/members to open: after verified pair publication, stage 1 input sampling and local player tick; resolve each side's actual local-player/input class and full tick call chain first.
+- Outstanding dependencies: `D-PAIR-READY`, `D-METHOD-DIAGNOSTICS`; subsequently queue all callers, overrides, state writers, shape providers, resource entries and data dependencies found while traversing stages.
+- Current assumptions requiring verification: exact namespace/mapping family; both requested and resolved release IDs; artifact and cited-source hashes; relevant decompiler diagnostics; actual class/member correspondence; availability/provenance of client jar resources.
 
 ## Source audit closure
 
-- Coverage counts by status:
-- Unresolved gaps and limits:
-- Evidence/hash/correspondence audit:
+- Coverage counts by status: 43 pending; 1 not-applicable by explicitly excluded scope; 0 compared-no-difference; 0 findings; 0 blocked slices pending source publication.
+- Unresolved gaps and limits: pair sources and readiness JSONs are not yet published; all movement behavior remains unexamined. The run is active while source generation/publication is underway; at handoff, any still-open slice requires `partial` status.
+- Evidence/hash/correspondence audit: no Minecraft source evidence cited yet. Readiness JSON and hashes must be checked before promotion of any row.
 - Runtime validation: not performed (separate workflow).
 
 Keep all tracked coverage, provenance, correspondence and resume evidence in this file. At handoff, the run folder contains only this file and, when findings exist, one file per finding under `findings/`.
