@@ -146,14 +146,14 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S2.2: pose choice, dimensions, eye height and resize/collision timing
 
 - Inventory ID(s): INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
-- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
-- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
-- State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; exact-source evidence is a prerequisite.
-- Finding IDs or checked absence/replacement path: none established.
+- Exact behavior boundary and enclosing guards/order checked: Player pose priority and fit fallback, pose/dimension table, eye-height selection, and the shared pose-change dimension refresh/collision timing path.
+- A evidence: ready/1.20.2/mojmap/net/minecraft/world/entity/player/Player.java::updatePlayerPose()V and #canPlayerFitWithinBlocksAndEntitiesWhen(Pose)Z lines 373-405, #getStandingEyeHeight(Pose,EntityDimensions)F lines 1907-1918, #getDimensions(Pose)EntityDimensions lines 2017-2020, and POSES table lines 122-139 SHA-256 25f263692fd6b2a737aa813315022a0caf4e18c3661ba3bd706c6297f909f25c; ready/1.20.2/mojmap/net/minecraft/world/entity/Entity.java::setPose(Pose)V lines 352-354, #onSyncedDataUpdated(EntityDataAccessor)V lines 2706-2710, #refreshDimensions()V lines 2720-2755 and #getEyeHeight(Pose,EntityDimensions)F lines 2773-2775 SHA-256 d7ee49aaea5e862b92508e767562cabc8f10515605e8fb67565c8d8c5d23b01b.
+- B evidence: ready/1.20.4/mojmap/net/minecraft/world/entity/player/Player.java::updatePlayerPose()V and #canPlayerFitWithinBlocksAndEntitiesWhen(Pose)Z lines 373-405, #getStandingEyeHeight(Pose,EntityDimensions)F lines 1833-1844, #getDimensions(Pose)EntityDimensions lines 1943-1946, and POSES table lines 121-138 SHA-256 218da60bc4f8c9279f56eb87e2cf2c0af79562fbe3d818a408429c656efb95dd; ready/1.20.4/mojmap/net/minecraft/world/entity/Entity.java::setPose(Pose)V lines 353-355, #onSyncedDataUpdated(EntityDataAccessor)V lines 2708-2712, #refreshDimensions()V lines 2722-2757 and #getEyeHeight(Pose,EntityDimensions)F lines 2777-2779 SHA-256 07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9.
+- State producers/writers -> consumers/readers: Player.aiStep pose predicates (flight/sleep/swim/spin/sneak) -> can-fit queries for swimming, desired pose, crouch fallback and swim fallback -> synchronized DATA_POSE -> Entity.onSyncedDataUpdated -> refreshDimensions updates EntityDimensions, eyeHeight, bounding box and position cache. Player pose table and eye-height switch are equal; collision-query implementation/provider dependencies are tracked in S4/S5.
+- Parent slices / dependencies / closure evidence: S1.1/S1.4/S1.5 (player input, jump/fall-flying), S2.1 defaults/reset, S4.1-S4.8 collision queries, S5.2/S5.7 shape providers and S6.4 equipment gates; DEP-01 resolved.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The player pose priority/fallback, fit box deflation, pose dimensions table and player eye-height values match in A/B. Brace-bounded body SHA-256 fingerprints match for Player.updatePlayerPose (`1874d3b4fe473a84fd95328271d08579ff80179835eab6957cfc25cfe7247cc2`), can-fit query (`62ac4e2bbf754c5668843b5d547fad0c2f0908e707ef525a63023f160b4c3220`), eye-height switch (`77933313220a9f488ed693b3b27d5d21e421f5db47b8a8b91c8c5500dfb09683`), dimensions lookup (`80d7809ce5cc5e72e23ae4c4ef4f397bd623879d87a1a52e74e3c5a25f6106ad`), Entity.onSyncedDataUpdated (`d2be3afdbd031facde741b118eb9091ab94e924feff69636c903e3215210e826`) and Entity.refreshDimensions (`5a1e863d4a72d75ea3e47733398a2e47acd8a23e4029c854802fd4007c7e7e80`). The common pose-change handler recalculates dimensions/eye height and reapplies position in both versions. Its free-position expansion is guarded to server-side non-Player entities, so it does not alter the local player branch. Exact collision query providers and pose predicate producers remain dependencies.
+- Finding IDs or checked absence/replacement path: none confirmed in the inspected player pose/dimension path.
 
 ### Slice S2.3: swimming/crawling and active-use movement state
 
@@ -613,8 +613,8 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 
 ## Resume checkpoint
 
-- Last completed slices: source-pair readiness/hashes validated; initial bounded comparisons of local input and core travel/jump/movement methods completed; the outer client tick and level-load-screen path are source-closed. S2.1 state initialization/reset/writer comparison is in progress.
-- Next bounded slice and exact files/members/body ranges to open: finish S2.1 by inspecting LivingEntity-specific state defaults/initialization and local-player respawn writers, then trace external position/velocity corrections; continue with S2.2 pose, dimensions and collision timing.
+- Last completed slices: source-pair readiness/hashes validated; initial bounded comparisons of local input and core travel/jump/movement methods completed; the outer client tick and level-load-screen path are source-closed. S2.1 state initialization/reset/writer comparison and S2.2 pose/dimension path are in progress.
+- Next bounded slice and exact files/members/body ranges to open: finish S2.1 by inspecting LivingEntity-specific defaults/initialization and external position/velocity correction writers; finish S2.2 through the exact collision query providers and shape inputs, then continue with S2.3 swimming/crawling and active-use state.
 - Outstanding dependencies and owners: DEP-02; source worker. Independent reviewer not assigned yet.
 - Current assumptions requiring verification: cited source hashes remain stable while read-only; tick-rate freezing is a modern-only world-control path and does not freeze the local player; `Player.travel`/ride callback removals remain limited to excluded statistic/food state.
 
@@ -639,7 +639,7 @@ Complete only after blind-discovery freeze; not authorized for this source-only 
 
 ## Source audit closure
 
-- Coverage counts by status: pending 38; in-progress 9; compared-no-difference 0; findings 0; not-applicable 1; blocked 0.
+- Coverage counts by status: pending 37; in-progress 10; compared-no-difference 0; findings 0; not-applicable 1; blocked 0.
 - Required inventory status and evidence: INV-TICK, INV-STATE, INV-COLLISION, INV-WORLD-MOVEMENT, INV-MODIFIERS, INV-EXTERNAL, and INV-EXCLUSIONS all pending; readiness is established but their inventories are not yet closed.
 - Open dependencies: DEP-02 and the open slice dependencies listed above
 - Unresolved gaps and limits: exact source publication is validated; most source inventory remains open and no whole-run equivalence claim has been made.
