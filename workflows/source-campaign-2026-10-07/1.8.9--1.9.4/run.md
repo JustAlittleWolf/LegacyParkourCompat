@@ -268,13 +268,13 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 ### Slice STATE-03: player pose and dimensions
 
 - Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-COLLISION`, `INV-EXTERNAL`.
-- Exact behavior boundary and enclosing guards/order checked: all player dimensions/pose writers, resize timing, eye-height consumers and collision-fit query.
-- A evidence: `PlayerEntity#getEyeHeight()F`, lines 1640-1650, and sleep/wake size writes at lines 1108 and 1163; source-wide checked absence of any sneaking-conditioned player size writer. SHA-256 `e66cb294fc93118148a444bbafdf4dd57cbf66a23d69b1e8892cefccc690ab88`.
-- B evidence: `PlayerEntity.tick()V` calls `updatePlayerPose()` at end; sneaking/standing dimensions and collision-free resize at lines 285-308; fall-flight/sleep pose cases are excluded; SHA-256 `d658a0d95452d12bb7e347bfd802240eeecaf7f938e10dcd43e2640434387f85`.
-- State producers/writers -> consumers/readers: pose flags -> candidate dimensions -> collision query -> `setSize`/box -> next movement and eye-height probes.
-- Parent slices / dependencies / closure evidence: separately close sneak support-edge probe, size writers/queries, pose reset timing and eye-height consumers.
+- Exact behavior boundary and enclosing guards/order checked: source-wide player size writers, tick-end pose branch, B candidate-box collision query and its block-provider dispatch, `setSize` box rebuild, and separate eye-height behavior.
+- A evidence: no `updatePlayerPose()` call or sneak-conditioned `setSize` path in `PlayerEntity#tick()V`; only PlayerEntity size writes are reset line 417, death line 515, sleep line 1108, and wake line 1163. Sneak eye-height adjustment is lines 1640-1650. SHA-256 `e66cb294fc93118148a444bbafdf4dd57cbf66a23d69b1e8892cefccc690ab88`.
+- B evidence: end-of-`tick()V` pose call line 245; `updatePlayerPose()V` lines 285-308 selects `0.6F`/`1.65F` for ordinary sneaking and resizes only when `World#getCollisions(Box)` reports no collision. `getEyeHeight()F` lines 1740-1750; SHA-256 `d658a0d95452d12bb7e347bfd802240eeecaf7f938e10dcd43e2640434387f85`.
+- State producers/writers -> consumers/readers: sneaking/pose priority -> candidate dimensions -> `World#getCollisions(Box)` over block-state providers (including PaneBlock) -> `Entity#setSize` at fixed minima -> later collision and eye-height reads.
+- Parent slices / dependencies / closure evidence: B's fit guard is explicit and conditional; the PaneBlock provider is tied to the exact `SNAP-COLL-02-PANE-02` source snapshot, and no fit result is claimed for an unspecified world. A's complete PlayerEntity `setSize` writer inventory is recorded above. `Entity#setSize` preserves minima and width is unchanged, so the width-growth branch does not run. Support-edge probing remains separate in `COLL-01`.
 - Status: findings
-- Disposition and rationale (including concrete reachability/preconditions): B adds tick-end dynamic pose sizing for a sneaking player with a collision-free 1.65-high candidate box; A keeps standing dimensions. Elytra/sleep cases are not included in the historical finding.
+- Disposition and rationale (including concrete reachability/preconditions): B adds tick-end dynamic pose sizing to `1.65F` when the sneaking candidate box is collision-free; A has no sneak-conditioned player dimension write and retains `1.8F`. The collision-fit provider dependency and guard are included in the frozen finding; Elytra/sleep cases are excluded.
 - Finding IDs or checked absence/replacement path: `findings/STATE-03-sneak-collision-height.md`.
 
 ### Slice COLL-02: pane and iron-bar collision geometry
