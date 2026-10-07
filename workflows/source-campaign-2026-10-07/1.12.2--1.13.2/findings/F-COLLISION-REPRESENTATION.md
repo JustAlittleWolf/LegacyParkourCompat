@@ -1,0 +1,9 @@
+# F-COLLISION-REPRESENTATION — 1.13.2 changes player collision resolution representation
+
+- Status: provisional candidate; concrete shape cases and artifact-integrity closure pending
+- A evidence: `ready/1.12.2/ornithe-feather/net/minecraft/entity/Entity.java`, move(MoverType,DDD)V lines 462-796; `World.java` collision collector lines 964-1063; Entity SHA-256 `80f091bf32166c88cf8bbd31caf72d84fa16224410733c7d2a0f00563f294a0a`; World SHA-256 `e9fa9b8d6d31ad57a5b876f5f63a5e3c554a23437decf1845a493daf48233594`.
+- B evidence: corresponding Entity.move lines 473-782; `WorldView.getCollisions` stream path and `World.getCollisions` lines 1755-1756; Entity SHA-256 `1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269`; World SHA-256 `0023de30da608db73c6c6188334d2bb19039d86fe4d6f5e4ad79d732a5d2cd1a`.
+- Difference observed: A collects translated Box candidates and clips each axis against the list; B collects VoxelShapes and uses VoxelShapes.calculateMaxOffset for axis clipping. Both use Y, X, then Z axis resolution and step alternatives, but candidate representation/helper semantics differ.
+- Reachability: Entity.move is the player collision path for self/player moves. Sneak edge probes, step height, support lookup, border and block callbacks are within the caller's reachable path.
+- Limits: representation change alone does not prove a movement outcome differs. Every old block's effective collision shape, registration/defaults, neighbors, WorldView collision stream, entity exclusions, border and voxel offset/tie behavior must be compared with concrete reachable cases before this becomes a behavioral finding.
+- Integrity hold: source owner/ops reported derived mapped-JAR cache replacement during reproducibility; source tree hashes remain unchanged. Do not accept/freeze until canonical repair and fresh verification.
