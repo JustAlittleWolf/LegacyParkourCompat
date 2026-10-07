@@ -165,6 +165,18 @@ Per bounded slice, record one of `pending`, `in-progress`, `compared-no-differen
 - Disposition and rationale (including concrete reachability/preconditions): source-confirmed difference: B guards vertical `-0.08` (loaded-client/server fallback branch) and `-0.02` (water/lava) gravity subtractions with `!isNoGravity()`; A has no generic player flag gate. The flag defaults false, but saved server-player NBT can set it and the server tracker sends the update back to that player's client entity; the client handler applies it. Therefore the condition is reachable for a player whose saved `NoGravity` state is true. The exact source and bytecode evidence is bound to revision `feather-r1-2026-10-07`; unavailable original derived-jar equivalence is not claimed.
 - Finding IDs or checked absence/replacement path: F002; B writer/default path is `Entity` synced data and NBT.
 
+### Slice LOCAL-AUTO-JUMP-INPUT: obstacle-triggered local-player jump input
+
+- Inventory ID(s): `INV-TICK`, `INV-INPUT`, `INV-JUMP`, `INV-STATE`
+- Exact behavior boundary and enclosing guards/order checked: B's `LocalClientPlayerEntity.move` calls its superclass first, measures actual horizontal displacement, then runs `autoJump`; candidate timer is set only when auto-jump is enabled, timer is clear, player is grounded, not sneaking/riding, movement input is nonzero, and the forward path meets the helper's geometry checks. In B `mobTick`, a positive timer is decremented and sets `input.jumping=true`; `serverTickAi` copies input jump to the inherited `jumping` field. Tick order and full downstream jump/collision effects remain open.
+- A evidence: `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java`, full source SHA-256 `8AAF711948B7602C2E6C015A37E36ED06073D39727D999D80480B4910B704F5D`; `serverTickAi` lines 586-597 copies direct input, and the local class has no `ticksToNextAutojump`, `autoJump`, or `move(double,double,double)` override. Inherited movement and the complete A tick/input caller path still require closure.
+- B evidence: `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java`, full source SHA-256 `A9637065F21AD67464EB5C204C74EBF228C3BB0DA8A96DDF4AE73C0490FED443`; timer field lines 105-106; `serverTickAi` lines 602-613; timer consumption/input write in `mobTick` lines 661-677; movement override lines 812-817; geometry/guard and timer writer `autoJump` lines 823-923.
+- State producers/writers -> consumers/readers: B movement outcome -> `autoJump` timer writer -> next `mobTick` countdown and input jump write -> `serverTickAi` copy into `LivingEntity.jumping` -> downstream jump processing. The exact same-tick/next-tick ordering and the A/B downstream comparison are not closed.
+- Parent slices / dependencies / closure evidence: initial local tick/input graph; direct B helper and timer writers/readers found. Requires paired `Entity.move` call sites, `ClientPlayerEntity`/`LivingEntity` tick order, A inherited movement path, full B/A jump processing, relevant diagnostics/bytecode closure, and geometry dependency review.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): B contains an auto-jump input path absent from A's local-player class; treat as a reachable movement candidate when auto-jump is enabled and the helper's guards pass. Do not claim a resulting trajectory or implementation boundary until the tick order, collision geometry and downstream jump path are paired and closed.
+- Finding IDs or checked absence/replacement path: none yet; continue source-only tracing before deciding whether this is a distinct finding.
+
 ## Dependency queue and blockers
 
 - D0 — source provenance: resolved from both provenance JSONs; full original Gradle stdout, JVM vendor/options and named preparation-owner identity were not retained. The excerpt hashes, exact command, worktree, mapping mode, tool versions and ready markers are recorded above.
@@ -223,8 +235,8 @@ F001 - [farmland player collision height](findings/F001-farmland-collision-heigh
 
 ## Source audit closure
 
-- Coverage counts: 1 compared-no-difference; 2 source-confirmed findings submitted for review (0 accepted); 0 not-applicable; 0 blocked; 51 initial planned behavior slices pending.
-- Pending bounded-slice count: 51 initial planned behavior slices remain; this must be revised upward whenever source navigation exposes additional distinct methods, writers, consumers or dependencies.
+- Coverage counts: 1 compared-no-difference; 2 source-confirmed findings submitted for review (0 accepted); 0 not-applicable; 0 blocked; 1 in-progress new slice; 51 initial planned behavior slices pending.
+- Pending bounded-slice count: 51 initial planned behavior slices remain, plus the new auto-jump slice in progress; revise upward whenever source navigation exposes additional distinct methods, writers, consumers or dependencies.
 - Unresolved gaps: inventories and the full-pair audit remain open; movement decompiler diagnostics (D1), resource closure (D2), and transitive state-writer/caller closure (D3) remain open. The source-provenance record and revised-artifact integrity checks are complete, with original derived-jar equivalence unproven.
 - Evidence/hash/correspondence audit: partial; F001/F002 source and revised immutable-artifact evidence and rail hashes are recorded. Independent operations verification passed; independent finding review remains pending.
 - Runtime validation: not performed (separate workflow).
