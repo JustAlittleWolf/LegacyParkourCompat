@@ -2,7 +2,7 @@
 
 - Run status: active
 - Scope: source-only player movement; older A = exact 1.21.3; newer B = exact 1.21.4. Direct player motion, velocity and knockback response remain in scope even when combat can trigger them. Health, regeneration, hunger, food, saturation, exhaustion, attack/damage resolution, modern-only blocks/features, non-player movement and vehicle physics are out of scope; movement predicates may read vanilla health/food state.
-- Repository revision and start date: base `002137b227676caea77f6832b9f4c8d0b6200bff` (`main`); 2026-10-07. Current report branch checkpoint: `5ab5bc4`.
+- Repository revision and start date: base `002137b227676caea77f6832b9f4c8d0b6200bff` (`main`); 2026-10-07. Current report branch checkpoint: `0a1a5c1`.
 - Selected namespace and alignment: release-specific official Mojang mappings (`mojmap`) for both exact releases; namespace and exact IDs verified in both readiness and provenance JSONs.
 - Source preparation owner / command / log / readiness marker: shared source owner; `.\gradlew.bat decompileMinecraft --versions=1.21.1,1.21.3,1.21.4,1.21.5 --mappings=mojmap --decompiler-heap=4G --output-root=<campaign staging> --cache-directory=<campaign artifacts>`; log `build/movement-campaign-2026-10-07/staging/mojmap-1.21.1-to-1.21.5-cd5a99cb1024417c9d370097c886a131/gradle.full.log`; both markers are `ready` and exact IDs match.
 - Toolchain/decompiler/remapper versions and options: Gradle 9.7.1; decompiler JVM Java 25.0.3+9-LTS; Vineflower 1.12.0, Tiny Remapper 0.14.1, Mapping IO 0.9.1, ASM 9.10.1, Gson 2.14.0; 4G heap.
@@ -82,14 +82,14 @@ Both provenance records point to the same exact batch and successful full Gradle
 ### Slice S1-02: slow-movement and item-use input scaling
 
 - Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-MODIFIERS`
-- Exact behavior boundary and enclosing guards/order checked: A `KeyboardInput.tick` applies sneak factor when its `slowly` argument is true, then `LocalPlayer.aiStep` multiplies by `0.2F` when using an item and not a passenger; B samples raw impulses, then applies `0.2F`, then applies the SNEAKING_SPEED attribute when `isMovingSlowly()` is true. Full vanilla value and alternate-producer closure remains open.
+- Exact behavior boundary and enclosing guards/order checked: A `KeyboardInput.tick` applies the SNEAKING_SPEED factor when `slowly` is true, then `LocalPlayer.aiStep` multiplies by `0.2F` when using an item and not a passenger; B samples raw impulses, then applies `0.2F`, then applies SNEAKING_SPEED when `isMovingSlowly()` is true. Both releases have only `KeyboardInput` as a `ClientInput` subclass; `calculateImpulse` produces exactly −1/0/1. With the same gates, the two finite factors commute bit-for-bit for those signed unit values, including the zero case. `SNEAKING_SPEED` is identically defined with default 0.3 and range [0,1], and both Player attribute builders include it; Swift Sneak adds the same per-level 0.15 value in both releases.
 - A evidence: `KeyboardInput.java#tick(boolean,float)`, lines 22-35, SHA-256 `2a0994e8a6a2fdf9e76480227216db4a4252734fca8ca0aedd25dde77be75ba6`; `LocalPlayer.java#aiStep()`, lines 648-671, SHA-256 `fbd40f1f47adfa66dda9b15188e5dce82af3e8e8d7c3dd0543e602a354ad3fe0`.
 - B evidence: `KeyboardInput.java#tick()`, lines 22-34, SHA-256 `c885bcc709e445c3ff91f03bf37acf9320e17fc9daf1bd2ba46ba20487f1d9ed`; `LocalPlayer.java#aiStep()`, lines 662-678, SHA-256 `145686ebdc7f0d12a64070309073665eb8695b7e09911a723e86113a77d04611`.
-- State producers/writers -> consumers/readers: local crouching/visual-crawl state and `Attributes.SNEAKING_SPEED` -> impulse scaling -> `LocalPlayer.serverAiStep` copies to xxa/zza -> `LivingEntity.aiStep` applies `0.98F` -> travel. Item use and passenger state gate the `0.2F` multiplier. Attribute/effect/equipment and pose dependencies remain open.
-- Parent slices / dependencies / closure evidence: `S1-01`; open `DEP-SNEAK-ATTR`, `DEP-POSE-SLOW`, `DEP-INPUT-PRODUCERS`, `S3-01`.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): direct code order moved. The vanilla keyboard path emits only -1/0/1 before modifiers, but exact movement-output equivalence under both modifiers and attribute values has not been closed; no finding or no-difference claim yet.
-- Finding IDs or checked absence/replacement path: pending closure.
+- State producers/writers -> consumers/readers: local crouching/visual-crawl state and `Attributes.SNEAKING_SPEED` -> impulse scaling -> `LocalPlayer.serverAiStep` copies to xxa/zza -> `LivingEntity.aiStep` applies `0.98F` -> travel. Item use and passenger state gate the `0.2F` multiplier. `isMovingSlowly()` reads local crouch state or visual swimming pose while not in water; both are sampled in the same position in the player AI step.
+- Parent slices / dependencies / closure evidence: `S1-01`, `S3-01`; `DEP-SNEAK-ATTR`, `DEP-POSE-SLOW` and `DEP-INPUT-PRODUCERS` closed for this input-scaling slice by paired `LocalPlayer`, `KeyboardInput`, `Entity`, `Player`, `Attributes` and `Enchantments` sources. No item/equipment producer can change the input subclass or modifier operation.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): although the multiplications moved across `KeyboardInput.tick` and `LocalPlayer.aiStep`, vanilla raw input is only −1, 0 or 1; the gates and factors match; for these values the reordered operations return the same float for every allowed SNEAKING_SPEED value. Other consequences of the new sprint gates are tracked separately in S1-03.
+- Finding IDs or checked absence/replacement path: no difference in bounded input scaling.
 
 ### Slice S1-03: local sprint start and active-sprint stop gates
 
@@ -97,11 +97,11 @@ Both provenance records point to the same exact batch and successful full Gradle
 - Exact behavior boundary and enclosing guards/order checked: compare `LocalPlayer.aiStep` active-sprint stop block and `canStartSprinting`; B also calls `shouldStopSprinting` before modifiers and introduces a slow-movement start gate.
 - A evidence: `LocalPlayer.java#aiStep()`, lines 680-709, and `canStartSprinting()`, lines 1023-1035, SHA-256 `fbd40f1f47adfa66dda9b15188e5dce82af3e8e8d7c3dd0543e602a354ad3fe0`.
 - B evidence: `LocalPlayer.java#aiStep()`, lines 664-723, `shouldStopSprinting()`, lines 816-821, and `canStartSprinting()`, lines 1053-1062, SHA-256 `145686ebdc7f0d12a64070309073665eb8695b7e09911a723e86113a77d04611`.
-- State producers/writers -> consumers/readers: LocalPlayer crouch/slow-visual state, blindness effect, fall-flying state, vehicle/passenger identity, item-use state, underwater state and forward impulse -> B stop/start predicates -> sprint flag -> travel speed/path. Movement attributes/effects, fluid, vehicle and item state writer closure remains open.
-- Parent slices / dependencies / closure evidence: `S1-02`; open `DEP-SNEAK-ATTR`, `DEP-POSE-SLOW`, `DEP-BLINDNESS`, `DEP-FALL-FLYING`, `DEP-VEHICLE-SPRINT`, `DEP-ITEM-USE`, `DEP-FLUID-GATES`.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): B adds a new preexisting-sprint stop predicate for fall-flying, blindness, slow movement, non-camel passenger state and item use outside passenger/underwater cases; B also rejects starting while slow unless underwater. These are concrete source changes; each predicate's reachable player-state producers and interactions are being traced before disposition.
-- Finding IDs or checked absence/replacement path: pending dependency closure.
+- State producers/writers -> consumers/readers: LocalPlayer sets crouching from abilities, swim/passenger state, pose-fit queries and shift input; `isVisuallyCrawling()` reads swimming pose plus water state. Fall flight is entered through `Player.tryToStartFallFlying()` and replicated via shared entity flags. Blindness is read from `LivingEntity` active effects; effect additions/removals arrive through player effect state synchronization. Passenger/camel identity comes from the local entity riding relation and vehicle type. Item-use state is maintained by `LivingEntity.startUsingItem`/`stopUsingItem` and the LocalPlayer use handlers. Underwater and water state are updated by the entity fluid-state tick. These are consumed by B's stop/start predicates, the sprint flag, then travel speed/path; vehicle movement remains out of scope.
+- Parent slices / dependencies / closure evidence: `S1-02`; `DEP-SNEAK-ATTR`, `DEP-POSE-SLOW`, `DEP-BLINDNESS`, `DEP-FALL-FLYING`, `DEP-VEHICLE-SPRINT`, `DEP-ITEM-USE`, and `DEP-FLUID-GATES` closed for the sprint predicates by paired `LocalPlayer`, `Player`, `LivingEntity`, `Entity`, and `ClientPacketListener` sources. `INV-STATE` and the later fluid/world inventory remain open outside this bounded predicate slice.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): B adds a reachable active-sprint stop predicate for fall-flying, blindness, slow movement, non-camel passenger state and item use outside passenger/underwater cases; B also rejects starting while slow unless underwater. A's existing active sprint stop block has only forward impulse/food, horizontal collision and water/swimming stops, while its start predicate already rejects blindness, fall-flying, item use and most passenger cases. Therefore these new B stop conditions change the sprint flag for an already-sprinting local player when the corresponding state becomes true; the slow-start gate additionally prevents a crouching/crawling player from starting unless underwater.
+- Finding IDs or checked absence/replacement path: [F-S1-02](findings/F-S1-02-sprint-policy-gates.md). A has no `shouldStopSprinting`, `isRidingCamel`, or `hasBlindness` helper; the B-only calls are in `LocalPlayer.aiStep()` before the modifiers and sprint start checks.
 
 ### Slice S1-04: LocalPlayer tick load gate and timeout
 
@@ -130,17 +130,17 @@ Both provenance records point to the same exact batch and successful full Gradle
 ## Dependency queue and blockers
 
 - `DEP-SOURCE-AUDIT`: exact pair ready manifests and hashes verified; source prep resolved.
-- `DEP-SNEAK-ATTR`: resolve SNEAKING_SPEED defaults/modifiers/resources and producer/consumer closure.
-- `DEP-POSE-SLOW`: close `isMovingSlowly`, crouch/visual-crawl state and pose timing.
-- `DEP-INPUT-PRODUCERS`: verify every vanilla input writer/subclass and lifecycle replacement path.
-- `DEP-BLINDNESS`, `DEP-FALL-FLYING`, `DEP-VEHICLE-SPRINT`, `DEP-ITEM-USE`, `DEP-FLUID-GATES`: close each B sprint predicate's reachable state writers, callers and movement consumer.
+- `DEP-SNEAK-ATTR`: closed for S1-02; same default 0.3/range [0,1] and Player attribute registration on both sides, with the same Swift Sneak per-level addition and movement consumer.
+- `DEP-POSE-SLOW`: closed for S1-02/S1-03; crouch refresh, visual-crawl predicate and player pose-fit path checked on both sides.
+- `DEP-INPUT-PRODUCERS`: closed for S1-01/S1-02; `KeyboardInput` is the only vanilla `ClientInput` subtype and its key-pair mapping yields only −1/0/1.
+- `DEP-BLINDNESS`, `DEP-FALL-FLYING`, `DEP-VEHICLE-SPRINT`, `DEP-ITEM-USE`, `DEP-FLUID-GATES`: closed for the S1-03 sprint predicates; their local state readers/writers and the movement consumer are recorded in F-S1-02. Broader fluid/world movement inventory remains open.
 - `DEP-TRAVEL`, `DEP-COLLISION`, `DEP-WORLD-DATA`, `DEP-MODIFIERS`, `DEP-EXTERNAL`: later stage dependencies not yet inventoried.
-- Open dependencies: all above except `DEP-SOURCE-AUDIT`; owner: current source worker except shared release/source generation (resolved).
+- Open dependencies: `DEP-TRAVEL`, `DEP-COLLISION`, `DEP-WORLD-DATA`, `DEP-MODIFIERS`, `DEP-EXTERNAL`; owner: current source worker except shared release/source generation (resolved).
 
 ## Finding index
 
 - [F-S1-01: 1.21.4 defers the local player movement tick until level readiness or timeout](findings/F-S1-01-load-state-defers-local-movement-tick.md) — source-confirmed; applies while the local client load flag is false and its timeout remains positive.
-- S1-03 contains additional source-confirmed sprint-policy candidates; producer/consumer dependencies remain open, so no finding is frozen yet.
+- [F-S1-02: 1.21.4 adds local sprint stop and slow-movement start gates](findings/F-S1-02-sprint-policy-gates.md) — source-confirmed; applies to an already sprinting player when a new stop state becomes true and to slow-moving sprint-start attempts outside water.
 - Finding snapshot log: none accepted; the pair is not frozen and this finding has not been independently snapshot-reviewed.
 
 ## Finding snapshots (not pair freeze)
@@ -176,9 +176,9 @@ Both provenance records point to the same exact batch and successful full Gradle
 
 ## Source audit closure
 
-- Coverage counts by status: 2 compared-no-difference; 2 in-progress; 1 findings; additional required slices not yet enumerated.
+- Coverage counts by status: 3 compared-no-difference; 0 in-progress; 2 findings; additional required slices not yet enumerated.
 - Required inventory status and evidence: all inventories remain pending; see inventory map and bounded slices.
-- Open dependencies: `DEP-SNEAK-ATTR`, `DEP-POSE-SLOW`, `DEP-INPUT-PRODUCERS`, `DEP-BLINDNESS`, `DEP-FALL-FLYING`, `DEP-VEHICLE-SPRINT`, `DEP-ITEM-USE`, `DEP-FLUID-GATES`, `DEP-TRAVEL`, `DEP-COLLISION`, `DEP-WORLD-DATA`, `DEP-MODIFIERS`, `DEP-EXTERNAL`.
+- Open dependencies: `DEP-TRAVEL`, `DEP-COLLISION`, `DEP-WORLD-DATA`, `DEP-MODIFIERS`, `DEP-EXTERNAL`.
 - Unresolved gaps and limits: remaining Stage 1 methods and all unenumerated Stage 2-7 sources/resources.
 - Evidence/hash/correspondence audit: both source manifests and cited source-file hashes validated; every terminal slice has paired ranges, source hashes, dependency edges and rationale.
 - Accepted finding snapshots: none.
