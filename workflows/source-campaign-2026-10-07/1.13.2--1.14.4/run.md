@@ -187,6 +187,17 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): F013; simultaneous sneak+jump executes sequential subtract/add in A but nets B's integer adjustment to zero, skipping the vertical velocity update. Float/double roundoff consequence is not measured.
 - Finding IDs or checked absence/replacement path: F013.
+### Slice S011: land-travel Levitation consumer
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: ordinary non-fluid/non-glide travel after move; Levitation branch, fallDistance reset, and vertical damping.
+- A evidence: `net/minecraft/entity/living/LivingEntity.java`::`moveRelative(float,float,float)`, lines 1575-1599, SHA-256 `bb691358c9a43c9f46e85575bf4d0a4ad671d0eb912502acc3a6a3f625e42f1c`.
+- B evidence: `net/minecraft/entity/living/LivingEntity.java`::`moveRelative(Vec3d)`, lines 1846-1867, SHA-256 `2cccf4331ce9e62013eeb8e96163e5e146e1291619eb998ce9867daa87c02b61`.
+- State producers/writers -> consumers/readers: Levitation amplifier/current vertical velocity -> post-move vertical adjustment and fallDistance reset -> 0.98 vertical damping.
+- Parent slices / dependencies / closure evidence: effect registration, application, amplifier/lifetime and attribute sources open; D-MOVEMENT-DATA.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): Within this land-travel branch, both sides use `vY += (0.05 * (amplifier + 1) - vY) * 0.2`, reset fallDistance, and apply 0.98 vertical damping after the effect branch. A uses the velocity field directly and B a local vector component; the expression's ordering matches. This is limited to the consumer body.
+- Finding IDs or checked absence/replacement path: none within the bounded consumer slice; producer closure remains pending.
 ## Dependency queue and blockers
 
 - D-ARTIFACT-INTEGRITY: coordinator/source owner reported a 1.13.2 Feather derived-artifact cache replacement incident. Current readiness/source/artifact/diagnostics manifest hashes and cited mapping JAR/tiny hashes match, but canonical immutability repair and fresh source-owner acceptance have not been published. Do not freeze or accept any A-dependent finding until the owner provides repair protocol and verification; do not alter markers/cache. Owner: source preparation owner/ops.
@@ -215,7 +226,7 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 
 ## Resume checkpoint
 
-- Last completed slice: none; S001-S010 are initial evidence only.
+- Last completed slice: none; S001-S011 are initial evidence only.
 - Next bounded slice and exact files/members/body ranges to open: remaining LivingEntity travel branches; `Entity` axis/step helpers; full LocalClientPlayerEntity tick; pose dimensions/base resize; world collision queries and registered shape providers.
 - Outstanding dependencies and owners: D-ARTIFACT-INTEGRITY source owner/ops; D-TICK-CLOSURE/D-COLLISION-SHAPES/D-MOVEMENT-DATA/D-EXTERNAL source worker; D-INDEPENDENT-AUDIT coordinator.
 - Current assumptions requiring verification: source preparation exact invocation; full reachability and provider closure.
@@ -243,7 +254,7 @@ No snapshot has been submitted or accepted. F001-F013 remain candidates while `D
 
 ## Source audit closure
 
-- Coverage counts by status: findings=10 bounded slices (13 deltas); pending inventory closure=7; in-progress=0; compared-no-difference=0; not-applicable=0; blocked=0.
+- Coverage counts by status: findings=10 finding slices (13 deltas); compared-no-difference=1; pending inventory closure=7; in-progress=0; compared-no-difference=0; not-applicable=0; blocked=0.
 - Required inventory status and evidence: all seven inventories pending; initial paired evidence in S001-S008.
 - Accepted finding snapshots: none (no finding handoff ready).
 - Open dependencies: D-ARTIFACT-INTEGRITY,D-TICK-CLOSURE,D-COLLISION-SHAPES,D-MOVEMENT-DATA,D-EXTERNAL,D-INDEPENDENT-AUDIT.
