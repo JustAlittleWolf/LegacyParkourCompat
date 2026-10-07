@@ -188,6 +188,10 @@ Snapshot commit `c4ca5a7c3a6ae275eac8c5c7adaffa428c9a3b93` binds F001 SHA-256 `F
 
 The pair is still active and incomplete; neither bounded decision is whole-pair acceptance.
 
+## Current campaign gate (2026-10-07 15:49 UTC)
+
+I refreshed the six owner threads and current reports. None marks its pair complete: 1.8.9→1.9.4 and 1.13.2→1.14.4 are still actively progressing; 1.9.4→1.10.2, 1.10.2→1.11.2, 1.11.2→1.12.2, and 1.12.2→1.13.2 have latest turns complete/idle but their pair reports remain active. Pair 1 now has an uncommitted pane/bar candidate, pair 3 has five source findings with collision/provider inventory open, and pair 6 has a new S013/F014 candidate under review. Pair 2 has 51 planned slices and the full-pair audit open; pair 4 has pose/collision inventory open; pair 5 has seven no-difference slices, ten in-progress slices, and inventories open. Therefore the independent full-pair audit is not complete. Accepted dispositions above apply only to exact bounded snapshots; all candidates without immutable snapshots remain unaccepted.
+
 ## Fresh verification of Feather derived-artifact revision
 
 Read `workflows/source-campaign-2026-10-07/SOURCE-PREPARATION.md` and `ARTIFACT-REVISION-2026-10-07.md` from the canonical docs worktree. Independently verified the six relevant immutable snapshots under `build/movement-campaign-2026-10-07/revisions/derived-artifact-snapshots/feather-r1-2026-10-07/` on 2026-10-07 15:31 UTC. For each version, the snapshot JAR hash matches both `artifact.sha256` and `revision.json`; the revision ID, version ID and namespace match; the revision log path exists and its hash matches; the original artifact manifest/source manifest hashes match the ready record and revision record; the ready diagnostics file matches its marker; all source-manifest entries and files match with no missing/mismatch; and all artifact-manifest entries except the mutable old `client-ornithe-feather.jar` cache path match, covering the raw client, mapping and libraries. Source-file and raw-input difference counts are zero.
