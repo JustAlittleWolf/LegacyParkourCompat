@@ -234,6 +234,17 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): F015 records that A re-reads onGround and slipperiness after movement before horizontal damping, while B reuses the pre-move `w`. This can differ when movement changes support or the block under the player. B's extra scaffolding exclusion in sneak-climb logic is not treated as a historical movement finding because scaffolding did not exist in A's target era.
 - Finding IDs or checked absence/replacement path: F015; scaffolding predicate excluded by target-era feature scope.
+### Slice S015: fall-flying movement calculation
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: `isFallFlying()` branch within `moveRelative`, look projection, glide velocity adjustments, damping, and SELF move; server-only collision damage excluded.
+- A evidence: `LivingEntity.java`::`moveRelative(float,float,float)`, lines 1488-1536, SHA-256 `bb691358c9a43c9f46e85575bf4d0a4ad671d0eb912502acc3a6a3f625e42f1c`.
+- B evidence: `LivingEntity.java`::`moveRelative(Vec3d)`, lines 1797-1839, SHA-256 `2cccf4331ce9e62013eeb8e96163e5e146e1291619eb998ce9867daa87c02b61`; `Entity.java`::`m_23572928`, lines 688-690, SHA-256 `7315a496c195da767de9d4936d3adb6efc3c419dc0f0e95d6f32781b0da1ba55`.
+- State producers/writers -> consumers/readers: fall-flying flag, look vector, pitch, current velocity, and Slow Falling gravity scale -> glide acceleration/projection/damping -> Entity.move.
+- Parent slices / dependencies / closure evidence: Elytra eligibility/equipment and state synchronization remain open; `D-TICK-CLOSURE`, `D-EXTERNAL`, `D-MOVEMENT-DATA`.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): In the bounded movement path both versions set fallDistance at the same velocity threshold, calculate look-vector horizontal magnitude and current horizontal speed, apply the same pitch-dependent vertical and horizontal terms in order, damp with `(0.99F,0.98F,0.99F)`, and call SELF movement. A uses scalar fields; B uses Vec3d additions/components. No movement difference is identified in this consumer slice.
+- Finding IDs or checked absence/replacement path: none within this bounded branch; equipment/eligibility producers and other tick behavior remain open.
 ## Dependency queue and blockers
 
 - D-TICK-CLOSURE: full local tick/pre-travel/travel branches/post-travel; source worker to trace both trees.
@@ -291,8 +302,8 @@ No snapshot has been submitted or accepted. F001-F015 remain candidates while fi
 
 ## Source audit closure
 
-- Coverage counts by status: findings=12 slices (15 deltas); compared-no-difference=2; pending inventory closure=7; in-progress=0; not-applicable=0; blocked=0.
-- Required inventory status and evidence: all seven inventories pending; initial paired evidence in S001-S014.
+- Coverage counts by status: findings=12 slices (15 deltas); compared-no-difference=3; pending inventory closure=7; in-progress=0; not-applicable=0; blocked=0.
+- Required inventory status and evidence: all seven inventories pending; initial paired evidence in S001-S015.
 - Accepted finding snapshots: none (no finding handoff ready).
 - Open dependencies: D-TICK-CLOSURE,D-COLLISION-SHAPES,D-MOVEMENT-DATA,D-EXTERNAL,D-INDEPENDENT-AUDIT.
 - Unresolved gaps and limits: full tick, shapes/resources, modifier chains, external writers beyond S012, and independent audit. First changed release unknown within (1.13.2,1.14.4].
