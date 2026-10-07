@@ -175,7 +175,7 @@ Per bounded slice, record one of `pending`, `in-progress`, `compared-no-differen
 
 ## Finding index
 
-F001 — [farmland player collision height](findings/F001-farmland-collision-height.md), candidate pending D-ART. Prior pair reports are historical hints only and are not coverage evidence.
+F001 - [farmland player collision height](findings/F001-farmland-collision-height.md), candidate pending D-ART. F002 - [generic no-gravity state gates fluid travel gravity](findings/F002-no-gravity-fluid-travel-candidate.md), candidate pending player-state reachability and D-ART. Prior pair reports are historical hints only, not coverage evidence.
 
 ## Resume checkpoint
 
@@ -183,6 +183,10 @@ F001 — [farmland player collision height](findings/F001-farmland-collision-hei
 - Next action: await canonical artifact repair and fresh hashes; then close mapped-jar diagnostics and continue the full local-player and movement-state inventories.
 - Outstanding dependencies: D1–D3 and D-ART.
 - Assumptions requiring verification: explicit Feather exists and resolves both exact release IDs; source trees and relevant method bodies are intact; source-owner warnings do not intersect evidence without bytecode confirmation.
+
+## Finding snapshots (not pair freeze)
+
+No finding snapshot is eligible or accepted. F001 handoff is blocked pending canonical repair and fresh verification of both mapped jars; its current candidate file SHA-256 is `458f150ba65fbdbf35f5dc3e1413f1af3fd70bd30489fb057fc4b7829d959f67` at report checkpoint `9047519ffbeae27d7766be04b6d496530ee0376f`. Independent blind source review has not been requested because artifact integrity and finding acceptance criteria remain open. Pair status is `active`; pair complete: no.
 
 ## Implementation reconciliation
 
