@@ -11,6 +11,7 @@ import live.minehub.polarpaper.PolarPaper;
 import live.minehub.polarpaper.core.config.Config;
 import live.minehub.polarpaper.core.generator.PolarGenerator;
 import live.minehub.polarpaper.core.source.FilePolarSource;
+import live.minehub.polarpaper.core.source.BytesPolarSource;
 import live.minehub.polarpaper.core.world.PolarWorld;
 import live.minehub.polarpaper.core.world.PolarWriter;
 import net.kyori.adventure.text.Component;
@@ -57,10 +58,11 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
     private static final int LOAD_RETRY_TICKS = 200;
 
     private final AtomicBoolean polarReady = new AtomicBoolean();
+    private final AtomicBoolean polarInitializing = new AtomicBoolean();
     private final AtomicBoolean createStarted = new AtomicBoolean();
     private final Map<UUID, World> privateWorlds = new ConcurrentHashMap<>();
     private final Set<UUID> readyPrivateWorlds = ConcurrentHashMap.newKeySet();
-    private final Set<UUID> creatingPrivateWorlds = ConcurrentHashMap.newKeySet();
+    private final Map<UUID, UUID> creatingPrivateWorlds = new ConcurrentHashMap<>();
     private GymControlApi controlApi;
     private int loadAttempts;
 
@@ -200,6 +202,7 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         readyPrivateWorlds.remove(event.getPlayer().getUniqueId());
+        creatingPrivateWorlds.remove(event.getPlayer().getUniqueId());
         World world = privateWorlds.remove(event.getPlayer().getUniqueId());
         if (world != null) {
             Bukkit.getGlobalRegionScheduler().runDelayed(this, task -> {
@@ -219,31 +222,64 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
             });
             return;
         }
-        if (!creatingPrivateWorlds.add(id)) return;
-        String name = "lpc_" + id.toString().replace("-", "");
-        runOnGlobalRegion(() -> Polar.createWorld(new FilePolarSource(polarFile()), name,
-            physicsConfig().toBuilder().loadOnStartup(false).saveOnStop(false).build())
-            .whenComplete((world, error) -> {
-                creatingPrivateWorlds.remove(id);
-                if (error != null || world == null) {
+        UUID creationId = UUID.randomUUID();
+        if (creatingPrivateWorlds.putIfAbsent(id, creationId) != null) return;
+        // A reconnect may happen before the previous world's delayed unload.
+        String name = "lpc_" + id.toString().replace("-", "")
+            + "_" + creationId.toString().replace("-", "");
+        runOnGlobalRegion(() -> copySharedWorld(name)
+            .whenComplete((world, error) -> runOnGlobalRegion(() -> {
+                boolean currentCreation = creatingPrivateWorlds.remove(id, creationId);
+                if (error != null) {
                     getLogger().log(Level.SEVERE, "Could not create isolated Gym world for " + player.getName(), error);
+                }
+                if (!currentCreation || !player.isOnline()) {
+                    if (world != null) {
+                        if (!Bukkit.unloadWorld(world, false)) {
+                            getLogger().warning("Could not unload abandoned Gym world " + world.getName());
+                        }
+                    }
+                    return;
+                }
+                if (error != null || world == null) {
+                    if (error == null) getLogger().severe("Isolated Gym world creation returned no world for " + player.getName());
                     player.getScheduler().execute(this,
                         () -> player.kick(Component.text("Could not create isolated Gym world.")),
                         () -> getLogger().warning("Player left while isolated world creation failed"), 1L);
-                    return;
-                }
-                if (!player.isOnline()) {
-                    runOnGlobalRegion(() -> Bukkit.unloadWorld(world, false));
                     return;
                 }
                 privateWorlds.put(id, world);
                 Bukkit.getRegionScheduler().run(this, spawnLocation(world), task -> {
                     applyWorldSettings(world);
                     if (player.isOnline()) player.teleportAsync(spawnLocation(world)).thenAccept(success -> {
-                        if (success) readyPrivateWorlds.add(id);
+                        if (success && player.isOnline() && privateWorlds.get(id) == world) readyPrivateWorlds.add(id);
                     });
                 });
-            }));
+            })));
+    }
+
+    private CompletableFuture<World> copySharedWorld(String name) {
+        World shared = java.util.Objects.requireNonNull(findPolarWorld(), "Shared Gym world is not loaded");
+        java.util.Objects.requireNonNull(PolarGenerator.fromWorld(shared), "Shared Gym world is not Polar");
+        // Capture loaded edits, including the generated spawn platform, instead
+        // of re-reading the last saved file. Each clone owns its snapshot.
+        BytesPolarSource snapshot = new BytesPolarSource();
+        return Polar.saveWorld(shared, snapshot).thenCompose(ignored -> {
+            CompletableFuture<World> result = new CompletableFuture<>();
+            runOnGlobalRegion(() -> {
+                try {
+                    Polar.createWorld(snapshot, name,
+                        physicsConfig().toBuilder().loadOnStartup(false).saveOnStop(false).build())
+                        .whenComplete((world, error) -> {
+                            if (error != null) result.completeExceptionally(error);
+                            else result.complete(world);
+                        });
+                } catch (Exception exception) {
+                    result.completeExceptionally(exception);
+                }
+            });
+            return result;
+        });
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -307,7 +343,7 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
             getLogger().severe("Polar physics world did not load");
             return;
         }
-        if (!polarReady.compareAndSet(false, true)) {
+        if (!polarInitializing.compareAndSet(false, true)) {
             return;
         }
         Location spawn = spawnLocation(world);
@@ -315,6 +351,7 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
             applyWorldSettings(world);
             ensureSpawnPlatform(world);
             unloadVanillaWorlds(world);
+            polarReady.set(true);
             getLogger().info("Physics testing world '" + world.getKey() + "' is ready (height "
                 + world.getMinHeight() + " to " + world.getMaxHeight() + ")");
             for (Player player : Bukkit.getOnlinePlayers()) {
@@ -358,6 +395,13 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
         World world = findPolarWorld();
         if (world == null) {
             sender.sendMessage(Component.text("Physics world is not loaded.", NamedTextColor.RED));
+            return;
+        }
+        if (sender instanceof Player player && player.getWorld() != world) {
+            sender.sendMessage(Component.text(
+                "Edit and save the shared world, not a disposable player copy. Join it with "
+                    + "/execute in polarpaper:physics_test run tp @s 8.5 65 8.5",
+                NamedTextColor.RED));
             return;
         }
         if (PolarGenerator.fromWorld(world) == null) {
