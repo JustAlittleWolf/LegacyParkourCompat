@@ -4,7 +4,7 @@
 - Track declaration: no wiki, MCPK, release-notes, or mod-implementation evidence; no runtime implementation in this track.
 - Repository revision and start date: base 002137b227676caea77f6832b9f4c8d0b6200bff; 2026-10-07. Branch: feat/source-discovery-movement-source-1-15-2-1-16-5.
 - Selected naming namespace: pending source-owner confirmation; candidate is Feather for A and Mojmap for B, pending validated readiness.
-- Source preparation: exact pair/readiness requested from source owner. This researcher will not regenerate or modify shared sources.
+- Source preparation: exact pair/readiness requested from source owner. Canonical shared root is D:/Javastuff/LegacyParkourCompat/build/movement-campaign-2026-10-07; the source owner is the sole writer and this researcher will not regenerate, write or clean shared sources.
 
 ## Artifact manifest
 
@@ -89,11 +89,12 @@ No confirmed findings in this fresh run. Add only reverified behavioral deltas, 
 - Last completed slice: none; source readiness is outstanding.
 - Next: validate exact resolved IDs, namespace, artifacts/hashes, successful logs and body diagnostics; then map correspondences and execute all stages.
 - Pending coverage count: 30 slices; all pending.
-- Explicit unresolved count: 1 source-provenance dependency plus 30 movement slices.
+- Explicit unresolved count: 1 source-provenance dependency plus 33 movement slices.
 
 ## Source audit closure
 
-- Counts: pending 30; in-progress 0; compared-no-difference 0; findings 0; not-applicable 0; blocked 0.
+- Counts: pending 33; in-progress 0; compared-no-difference 0; findings 0; not-applicable 0; blocked 0.
 - Closure: not complete; no difference/equivalence claims yet.
 - Hash/correspondence audit: pending readiness.
 - Runtime validation: not performed.
+
