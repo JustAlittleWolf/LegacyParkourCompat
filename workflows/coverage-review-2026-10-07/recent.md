@@ -28,12 +28,11 @@ This validates only 26.2 artifact identity and those reported hashes/anchors. Th
 
 ## Hardened schema and static checker
 
-The two workflow-only commits were reviewed by file list and cherry-picked: `40c34f5` (coverage workflow/checker/template updates) and `2422192` (campaign roster). The checker shipped in workflow commit `40c34f5` has status-count and required-arrow parsing false positives. A pair-report branch temporarily contains a header-only status fix at `5fe1eb8`; the coordinator requested that branch revert it and is preparing the canonical tooling fix. I used that temporary version read-only as a provisional check: two reports returned `no bounded coverage slice entries found`; six returned `run status is active; this is not a completion pass`. Rerun the canonical checker after it is published. These outputs do not establish source truth:
+The canonical follow-up `fba28fa154d29572263ea3f2c44cf1dc23134329` was reviewed and cherry-picked as `8cde578`. It fixes top-level status parsing and the required `->` field parsing, and accepts structurally valid non-complete reports without claiming closure. `DEP-CHECKER` is resolved by this commit.
 
-- Two reports (1.21.1→1.21.3 and 1.21.3→1.21.4) currently have no `### Slice` blocks. Six have 14, 21, 27, 44, 46, or 50 pending slice templates; none has source-backed dispositions yet.
-- All eight reports now contain the seven required `INV-*` maps, all pending. Their inventory presence does not establish source coverage.
-- The pair-branch `5fe1eb8` change is not canonical and should not be retained; the canonical workflow fix must cover both parser issues. “No bounded coverage slice entries found” is accurate for the two reports without slice blocks.
-- Reports with pending sources/slices are expected not to pass completion. No one should rewrite them as complete to satisfy the checker. All reports still have pending coverage; the corrected checker does not pass any as complete.
+- I reran the canonical checker against all eight current owner reports. Six returned exit 0 with `non-complete report status active is structurally valid; completion is not claimed`.
+- The 1.21.1→1.21.3 and 1.21.3→1.21.4 reports returned exit 1: `no bounded coverage slice entries found`. That is a real ledger gap; those owners must add slice blocks.
+- Structural acceptance is not source proof. All reports remain active, sources for the assigned pair endpoints remain unavailable, and no pair is accepted complete.
 ## Required requeue / acceptance gaps
 
 - The three previously absent reports have now appeared as active drafts. Keep all reports open. The 1.21.1→1.21.3 and 1.21.3→1.21.4 owners must add bounded slices; all other owners must replace pending templates with exact pair evidence and close producer/dependency inventories.
