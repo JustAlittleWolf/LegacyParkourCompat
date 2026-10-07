@@ -59,7 +59,7 @@ Artifact paths below are relative to repository root; generated artifacts remain
 ## Required source inventories
 
 - `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=T01,T02,T03,T04,T05,T06,T07; evidence=T01/T03 source sampling and F-001, plus bounded local tick/sprint/jump/flight/mount-gate and player mount-transition checks in T02/T04/T05/T06/E03; travel branch and post-travel comparisons remain open.
-- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=P01,P02,P03,P04; evidence=P01/P02 check selected pose/dimension and direct position/velocity writers, while F-002 documents the changed edge predicate; full writer/reader graph remains open.
+- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=P01,P02,P03,P04; evidence=P01/P02 check selected pose/dimension and direct position/velocity writers; P03 checks selected direct predicates; F-002 documents the changed edge predicate; full writer/reader graph remains open.
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=C01,C02,C03,C04; evidence=F-002/F-004 and the legacy support lookup in `Entity.move`; shape/callback coverage remains open.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=W01,W02,W03,W04; evidence=exact source trees verified; block/fluid/resource inventory remains open.
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=M01,M02,M03,M04; evidence=F-001 traces the new Swift Sneak level bonus and M01 checks selected speed/jump consumers and attribute aggregation; effects/resources and other modifiers remain open.
@@ -179,14 +179,14 @@ Artifact paths below are relative to repository root; generated artifacts remain
 ### Slice P03: direct movement predicates and vanilla-state input boundaries
 
 - Inventory ID(s): INV-STATE, INV-EXCLUSIONS
-- Exact behavior boundary and enclosing guards/order checked: pending; sprint/flight/swim/climb/item-use and other movement predicates; producer systems excluded by campaign scope.
-- A evidence: not yet compared; readiness is recorded in D-SOURCES.
-- B evidence: not yet compared; readiness is recorded in D-SOURCES.
+- Exact behavior boundary and enclosing guards/order checked: compared selected direct movement predicates for ground, water/lava, wall collision, passenger, sprinting, crouching, swimming, fall-flying, fluid contact, fluid pushability and local slow-input. These return the same movement-state results at the endpoints. B rewrites `isCrouching()` to call `hasPose(Pose.CROUCHING)`, whose body is the same `getPose() == pose` check; the accessor is a source refactor, not a predicate delta. Other callers, state producers and modifier/ability provenance remain open.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/Entity.java`, `isOnGround()` 539-542, `isInWater()` 1008-1011, `isInLava()` 1147-1150, `isInWall()` 1642-1661, `isPassenger()` 1919-1922, `isSprinting()` 1959-1962, `isCrouching()` 1955-1958, `isSwimming()` 1967-1970, `isUnderWater()` 1033-1036, `isInWaterRainOrBubble()` 1025-1028, `isInBubbleColumn()` 1017-1020 and `isControlledByLocalInstance()` 2685-2689; SHA-256 `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A`. `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/LivingEntity.java`, `isFallFlying()` 3007-3010, `isAffectedByFluids()` 549-552, `isSleeping()` 3112-3115, `isUsingItem()` 2816-2819, `onClimbable()` 1433-1450 and `isPushable()` 2765-2767; SHA-256 `DB4168D531CAF18F22E3FEFD073365E776DA4075CE01452BB9F7671D9B458782`. `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/client/player/LocalPlayer.java`, `isMovingSlowly()` 601-604, `isControlledCamera()` 619-621 and `isRidingJumpable()` 540-543; SHA-256 `99C2D18BCD23243AFB8F95C5BAFB21FB0BE7EA04AACBB14FCF7BE7CED2C9C095`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/Entity.java`, `isOnGround()` 543-546, `isInWater()` 1018-1021, `isInLava()` 1166-1169, `isInWall()` 1667-1686, `isPassenger()` 1944-1947, `isSprinting()` 1984-1987, `isCrouching()` 1980-1983, `isSwimming()` 1992-1995, `isUnderWater()` 1043-1046, `isInWaterRainOrBubble()` 1035-1038, `isInBubbleColumn()` 1027-1030, `isControlledByLocalInstance()` 2713-2717 and `hasPose(Pose)` 352-355; SHA-256 `759DE9CDED43BD882AFCF5B7023BCF804D92419ACB656B493F3B490C83EB18B6`. `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/LivingEntity.java`, corresponding methods `isFallFlying()` 3048-3051, `isAffectedByFluids()` 551-554, `isSleeping()` 3153-3156, `isUsingItem()` 2852-2855, `onClimbable()` 1462-1479 and `isPushable()` 2801-2803; SHA-256 `FEE2DF5155449098556A138D2530D06B7A35979E43C6AA0AE1FFFD6251853E77`. `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/client/player/LocalPlayer.java`, `isMovingSlowly()` 690-693, `isControlledCamera()` 708-710 and `isRidingJumpable()` 629-632; SHA-256 `36AE4AABD609B457FFFB7A8B14ABB50DB9AC775857DDE1774C0C68A8CF50DEEF`.
 - State producers/writers -> consumers/readers: vanilla state reads -> movement predicates; excluded systems are not emulated.
 - Parent slices / dependencies / closure evidence: D-SOURCES; T04/T06; M02; X01.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): exact sources unavailable; predicate-only reads may be recorded without modeling health/food systems.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no player movement predicate delta was found in the sampled methods. `Entity.isCrouching()` has a B-only accessor indirection that returns the same enum equality result. The comparison records direct reads only; it does not expand the emulation target to excluded producers such as health/food or server ability state. Full predicate call sites and their external/state dependencies remain open.
+- Finding IDs or checked absence/replacement path: checked absence in the sampled direct predicates; `isCrouching()`'s `hasPose()` indirection is behavior-equivalent by its exact body.
 
 ### Slice P04: movement timers, abilities and stored speed state
 
@@ -408,8 +408,8 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Resume checkpoint
 
-- Last source comparison work: after T07 identified F-003/F-004 in Entity movement callbacks, compared E01 correction/ability packets, M02 effect update/removal handling, W03 fluid helpers, C03/W02 collision resolvers/providers, E03 mount transitions, P01 pose/dimension helpers and P02 direct position/velocity writers. B's ancient-city loot resource documents a Swift Sneak book path for F-001; wider inventories remain open.
-- Next bounded slice and exact files/members/body ranges to open: trace P03 direct movement predicates and P04 timers/abilities/stored-speed writers, then continue block registrations/movement properties and resources (W01/W04/M03/M04), effect-instance transitions (M02), and the other movement attribute/effect consumers (M01).
+- Last source comparison work: after T07 identified F-003/F-004 in Entity movement callbacks, compared E01 correction/ability packets, M02 effect update/removal handling, W03 fluid helpers, C03/W02 collision resolvers/providers, E03 mount transitions, P01 pose/dimension helpers, P02 direct position/velocity writers and P03 selected direct movement predicates. B's ancient-city loot resource documents a Swift Sneak book path for F-001; wider inventories remain open.
+- Next bounded slice and exact files/members/body ranges to open: P04 `Entity`/`LivingEntity`/`Player`/`LocalPlayer` timer, ability and stored-speed field declarations, defaults, writers, reset timing and movement consumers; then continue block registrations/movement properties and resources (W01/W04/M03/M04), effect-instance transitions (M02), and the other movement attribute/effect consumers (M01).
 - Outstanding dependencies and owners: D-RESOURCES (discovery worker); independent reviewer assignment (coordinator, after source-only freeze).
 - Current assumptions requiring verification: Swift Sneak resource/tag data and all remaining modifier chains; all movement branch helpers and block callback outputs. Directory presence alone is not readiness.
 
@@ -437,10 +437,10 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Source audit closure
 
-- Coverage counts by status: pending 7; in-progress 18; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
+- Coverage counts by status: pending 6; in-progress 19; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
 - Required inventory status and evidence: INV-TICK pending; INV-STATE pending; INV-COLLISION pending; INV-WORLD-MOVEMENT pending; INV-MODIFIERS pending; INV-EXTERNAL pending; INV-EXCLUSIONS pending. No inventory is closed.
 - Open dependencies: D-RESOURCES (discovery worker), independent reviewer assignment (coordinator, after source-only freeze).
-- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Seven coverage entries are pending, eighteen are in progress, and two carry findings.
+- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Six coverage entries are pending, nineteen are in progress, and two carry findings.
 - Evidence/hash/correspondence audit: F-001 through F-004 include paired endpoint source/artifact hashes and bounded source ranges; call paths and writer-to-consumer links are recorded for these deltas, while the remaining inventories and correspondence are still open.
 - Blind freeze: not frozen; implementation remains uninspected. Freeze after remaining source inventories close or are explicitly scoped for handoff.
 - Implementation reconciliation: pending and deferred outside this source-only assignment.
