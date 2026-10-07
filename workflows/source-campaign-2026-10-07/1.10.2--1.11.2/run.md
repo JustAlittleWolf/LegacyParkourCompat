@@ -268,14 +268,14 @@ Other correspondence requiring further walk: remote/client corrections and packe
 ### Slice S2-resize: entity box adjustment when dimensions change
 
 - Inventory ID(s): INV-STATE, INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: `Entity.setSize`; B adds early return for width shrink, re-centering the new box on current x/z; A reconstructs from prior minX/minZ. Direct `trySleep` and `wakeUp` call orders are closed separately in S2-sleep-size-cycle; `updatePlayerPose` collision-check/setSize order and dimension restoration remain open.
-- A evidence: `Entity.java::setSize`, lines 264-274, SHA-256 `05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77`.
-- B evidence: `Entity.java::setSize`, lines 271-287, SHA-256 `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440`.
-- State producers/writers -> consumers/readers: pose/sleep dimensions -> bounding box -> position and collision queries; width/height defaults and eye height not yet closed.
-- Parent slices / dependencies / closure evidence: S4-move-order; PlayerEntity sleep/pose calls require full guard and order comparison.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): source difference identified; direct sleep/wake callers overwrite the transient resized box through `setPosition`, but `updatePlayerPose` and remaining player dimension paths still need exact call-order and collision checks before classifying the broader size change.
-- Finding IDs or checked absence/replacement path: candidate only; not indexed as finding.
+- Exact behavior boundary and enclosing guards/order checked: paired `Entity` and `PlayerEntity` constructors; all `PlayerEntity.setSize` call sites; full `updatePlayerPose` body and collision-test-before-resize order; direct sleep/wake, death and reset-position dimension sequences. This closes the local player dimension/pose writers, conditional on the collision query returning the same list.
+- A evidence: `Entity.java` constructor, lines 165-184, and `setSize`, lines 264-274, SHA-256 `05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77`; `PlayerEntity.java` constructor, lines 144-154, `updatePlayerPose`, lines 296-320, and size call sites at lines 398-400, 495-499, 1213 and 1270-1291, SHA-256 `a055b84b98d98e828e177cad9bba47a1334ee9bf3ecd4331792979106235a302`.
+- B evidence: `Entity.java` constructor, lines 172-195, and `setSize`, lines 271-287, SHA-256 `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440`; `PlayerEntity.java` constructor, lines 144-153, `updatePlayerPose`, lines 295-319, and size call sites at lines 403-405, 501-503, 1228 and 1266-1287, SHA-256 `87fe94fa6cbf7aba18b9a5e3401664439eb8eba9958173da8fbcd05cc7ad948b`.
+- State producers/writers -> consumers/readers: player sleep/sneak/fall-flying state -> target dimensions -> `World.getCollisions` fit check -> `setSize` -> entity box and later movement/collision queries; wake/death/reset calls may position the player after the dimension update.
+- Parent slices / dependencies / closure evidence: S2-sleep-size-cycle and S2-eye-height. `updatePlayerPose` has identical dimensions, priority order, candidate box, collision check and `setSize` call in both versions. It uses width 0.6 for non-sleeping poses, so B's new width-shrink branch is not entered during those pose changes. The other player shrink call sites are `trySleep` and `die`, each followed by `setPosition`; wake and `resetPos` grow back to 0.6 and use the unchanged growth branch. Player constructor defaults are 0.6 x 1.8 in both endpoints. The pose fit check remains conditional on identical collision-query results; provider coverage remains open under D-COLLISION.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): B's generic `setSize` behavior differs when width decreases, but the paired local player shrink sequences immediately rebuild the box from the same position, while `updatePlayerPose` does not shrink width. With equal collision-query results, the inspected local player dimension paths produce the same final boxes. No player movement finding is established for this bounded resize difference.
+- Finding IDs or checked absence/replacement path: no finding for the traced local player resize/pose paths; collision-list equivalence and broader external dimension writers remain separate.
 
 ### Slice S3-travel-and-world-dependencies: all remaining tick movement
 
@@ -294,17 +294,17 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - D-SOURCE-DIAGNOSTICS: retain and recheck body-level diagnostics for every cited movement method; owner markers and global hashes match, but the full method-body-by-method diagnostics audit is not recorded in this report. Owner/source paths above; open.
 - D-ARTIFACT-INTEGRITY: resolved for evidence integrity after worker verification of both endpoint snapshots/manifests/source/raw records and independent ops verification of the six-bundle revision set. Evidence: `feather-r1-2026-10-07`; source/raw manifests and snapshot hashes recorded above and in each finding. Original derived mapped JARs are unavailable and the new hashes differ; identity/metadata-only change is not established. This limitation is retained in every finding; no old cache hash is waived.
 - D-STEPHEIGHT: resolved for the local client-player path: both `LivingEntity(World)` constructors initialize `0.6F`, and the local-player inheritance chain has no later writer. Remote/server player overrides are separate execution paths. Evidence recorded in S4-sneak-probe/F-01.
+- D-POSE: resolved for local player constructors, dimension writers, pose sizing, sleep/wake and death/reset sequences. The `updatePlayerPose` method body is identical; all reachable local player shrink call sequences and reset order were traced. Collision query results are conditional and remain under D-COLLISION; non-player dimensions are out of scope.
 - D-COLLISION: inspect both `World.getCollisions` overloads, entity filtering, Box axis intersection, every reachable player collision shape provider/callback/neighbor dependency and registrations; needed by F-01/F-03/F-04 and all movement.
 - D-PISTON: resolved for the moving-piston player path: paired `MovingBlockEntity` progress/tick/selection methods and retracting-source creation were traced; B calls `moveEntities(f)` before writing progress, while A updates progress before `moveEntities()`; B's PISTON caller and movement path are covered by F-02/F-03; ordinary retracting-source collision dispatch and shape construction are covered by S4-piston-collision-geometry/F-05. Broader collision-provider/data dependencies remain under D-COLLISION/D-BLOCK-DATA.
 - D-PUSHABILITY: resolved for the client player-to-player climbing path in S7/F-04 using `EntityFilter.canBePushedBy` -> `RemoteClientPlayerEntity.pushAwayCollidingEntities` -> `Entity.push`. Other external push/collision producers remain open under D-EXTERNAL.
-- D-POSE: trace player dimension/pose/eye-height constructors, sleep and pose transition writers, complete `trySleep`, and all collision readers; needed by S2-resize.
 - D-TRAVEL: complete travel branch and exact operation order, including fluid/flight/climb, velocity cutoffs, jump/effect/item gates and post-travel state.
 - D-BLOCK-DATA: inventory block/fluid providers, registrations, neighbors and resources (tags/data defaults and jar entries with hashes); modern-only applicability disposition per added block.
 - D-MODIFIERS: trace movement attributes, effects, enchantments, equipment slots/applicability and application/removal timing; identify server-synchronized values and client-only boundary.
 - D-EXTERNAL: trace corrections/teleports, velocity writes, mounts, shulkers and all player-facing movement producers; separate player movement from non-player simulation.
 - D-REVIEWER: coordinator to assign an independent reviewer who did not author this report.
 - D-CHECKER: resolved by applying canonical workflow checker fix `8fa4ab0`; report was checked against the local checker and accepted as structurally valid partial. This is schema validation only.
-- Open dependencies: D-SOURCE-DIAGNOSTICS, D-COLLISION, D-POSE, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
+- Open dependencies: D-SOURCE-DIAGNOSTICS, D-COLLISION, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
 
 ## Finding index
 
@@ -318,7 +318,7 @@ Other correspondence requiring further walk: remote/client corrections and packe
 
 ## Resume checkpoint
 
-- Last completed slice: exact source readiness verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order; partial S4-world-query; bounded S2-sleep-size-cycle; S1-autojump; S5-wall-collision-shapes; S2-eye-height.
+- Last completed slice: exact source readiness verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order; partial S4-world-query; bounded S2-sleep-size-cycle/S2-resize; S1-autojump; S5-wall-collision-shapes; S2-eye-height; S4-piston-collision-geometry/F-05.
 - Next bounded slice and exact files/members/body ranges to open: `D-COLLISION` (`World.getCollisions`, both block-query overloads, relevant `BlockState.addCollisions`, every reachable shape provider). Piston progress/tick and retracting-source collision paths are covered by S4-piston-collision-geometry and F-02/F-03/F-05. Continue all open queue items in navigation order.
 - Outstanding dependencies and owners: shared source owner is read-only publisher; source worker owns this run and findings; coordinator must assign independent reviewer.
 - Current assumptions requiring verification: line ranges cited above remain stable under the source hashes; original mapped-artifact identity with the revised snapshots remains unproven; complete method correspondence, branch coverage, data resources and external-player call paths remain open.
@@ -344,9 +344,9 @@ Complete only after blind-discovery freeze. No mod implementation was opened.
 
 ## Source audit closure
 
-- Coverage counts by status: 5 findings, 9 compared-no-difference, 3 in-progress, 1 pending (bounded rows only; broad inventory remains open).
+- Coverage counts by status: 5 findings, 10 compared-no-difference, 2 in-progress, 1 pending (bounded rows only; broad inventory remains open).
 - Required inventory status and evidence: only `INV-EXCLUSIONS` declaration complete; all movement inventories pending, with partial anchors above.
-- Open dependencies: D-SOURCE-DIAGNOSTICS, D-COLLISION, D-POSE, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
+- Open dependencies: D-SOURCE-DIAGNOSTICS, D-COLLISION, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
 - Unresolved gaps and limits: complete tick graph, body-level diagnostic review, collision providers/resources, exact entity-player collision paths, modifiers, external writers, source-only freeze and independent audit remain open. Source comparison only; no gameplay behavior observed.
 - Evidence/hash/correspondence audit: on resume, both revised snapshots, ready/source/artifact manifest identities, all 3,766 listed Java-source hashes, all 72 raw artifact entries, diagnostics and the shared verification-log hash were reverified; independent ops verification passed. Original mapped JARs remain unavailable and snapshot identity is unproven. Cited Java source hashes are recorded. Recheck line ranges at freeze; broad correspondence remains incomplete.
 - Blind freeze: pending
