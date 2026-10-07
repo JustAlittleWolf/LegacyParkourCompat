@@ -139,14 +139,14 @@ Each entry is a bounded behavior slice, not an entire class/stage/travel method.
 ### Slice S1-04: Jump state, cooldown, and auto-jump
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
-- A evidence: pending source readiness; no range accepted.
-- B evidence: pending source readiness; no range accepted.
-- State producers/writers -> consumers/readers: pending paired inventory.
-- Parent slices / dependencies / closure evidence: pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
-- Finding IDs or checked absence/replacement path: pending.
+- Exact behavior boundary and enclosing guards/order checked: compared LocalPlayer auto-jump timer sample/decrement/forced-jump write, Player jump-trigger cooldown decrement, LivingEntity noJumpDelay decrement and jump branch order, and jumpFromGround vertical/horizontal velocity writes. The predicate requires the normal client-player aiStep path; jumpFromGround is reached when jumping is set, fluid handling is enabled, the ground or shallow-fluid branch allows it, and noJumpDelay is zero. Auto-jump collision search and block jump-factor dependencies remain linked to S2/S4/S5.
+- A evidence: net/minecraft/client/player/LocalPlayer.java#aiStep autoJumpTime lines 649-654, jump/flight preconditions lines 713-730, #updateAutoJump lines 874-972, #canAutoJump/#isMoving lines 974-987; net/minecraft/world/entity/player/Player.java#aiStep lines 483-506; LivingEntity.java#getJumpPower lines 1878-1880, #jumpFromGround lines 1882-1896, and #aiStep lines 2368-2472. Hashes are in the artifact source table above.
+- B evidence: net/minecraft/client/player/LocalPlayer.java#aiStep autoJumpTime lines 671-676, jump/flight preconditions lines 735-752, #updateAutoJump lines 904-1002, #canAutoJump/#isMoving lines 1004-1017; net/minecraft/world/entity/player/Player.java#aiStep lines 489-512; LivingEntity.java#getJumpPower/#getJumpBoostPower lines 1967-1973, #jumpFromGround lines 1975-1985, and #aiStep lines 2455-2578. Hashes are in the artifact source table above.
+- State producers/writers -> consumers/readers: LocalPlayer auto-jump collision/contact code sets autoJumpTime=1; the next LocalPlayer.aiStep decrements a positive timer and forces input.jumping before Player/LivingEntity.aiStep. Player.aiStep decrements jumpTriggerTime before the superclass call; LocalPlayer flight-toggle logic reads/resets it in its own earlier portion. LivingEntity.aiStep decrements noJumpDelay, resolves ground/water/lava jumping, invokes jumpFromGround or jumpInLiquid, then later travel consumes the resulting velocity. S1-05 owns flight-toggle behavior; S2/S4/S5 own its pose, fluid, collision and block-jump-factor predicates.
+- Parent slices / dependencies / closure evidence: S1-01 closes sampled jump input; S1-02 closes the local-player/superclass tick dispatch; S1-05 closes jump-trigger interaction with flight; S3 closes resulting velocity through travel; S4/S5 close `isAffectedByFluids`, ground support, collision and block jump factor; S6 closes Jump Boost effect identity/amplifier provenance; S7-01 closes direct-field versus rotation-accessor inputs in the auto-jump and sprint-jump branches.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Auto-jump timer and Player jumpTriggerTime/noJumpDelay decrement order match across endpoints. A/B `jumpFromGround` differ in numeric type and addition order when Jump Boost is active: A starts from float `getJumpPower()` and adds `0.1F * (amplifier + 1)` into that float before widening it through `setDeltaMovement`; B widens the float base and adds a separately float-evaluated boost through a double `d`, then writes that double. With block jump factor 1 and Jump Boost I, A computes float-rounded `0.42F + 0.1F` (0.5199999809265137 after widening), whereas B computes the double sum of the two float values (0.5199999883770943). This is an exact reachable vertical-velocity delta under the jump branch above. Block jump factor/effect-state closure remains open; retain the candidate finding until those dependencies and the travel consumer are closed.
+- Finding IDs or checked absence/replacement path: candidate delta CD-S1-04-01 — Jump Boost vertical impulse is assembled with float addition in A and double addition in B; evidence/ranges above. Exact movement consequence is established; endpoint effect/block-factor producer closure remains S5/S6.
 
 ### Slice S1-05: Flight, abilities, and flight toggle
 
@@ -523,7 +523,7 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 ## Resume checkpoint
 
 - Last completed slice: none; source pair verified, S1-01 in-progress pending S1-02/S2-01 closure.
-- Next bounded slice: S1-04 jump state, cooldown, and auto-jump; retain S1-01/S1-02/S1-03 as in-progress until their listed input/pose, tick-membership, ability, and speed dependencies close.
+- Next bounded slice: S1-05 flight, abilities, and flight toggle; retain S1-01..S1-04 as in-progress until their listed input/pose, tick-membership, ability, speed, fluid/collision, and modifier dependencies close.
 - Outstanding dependencies and owners: source-owner publication is complete; source closure remains with this run, including S1-06 entity-tick membership/passenger scheduling and the remaining movement/resource inventories.
 - Assumptions requiring verification: no unresolved source-root or namespace assumptions; verify every newly selected source file against its manifest as slices are opened.
 
@@ -546,10 +546,10 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ## Source audit closure
 
-- Coverage counts by status: 31 pending, 3 in-progress, 0 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
+- Coverage counts by status: 30 pending, 4 in-progress, 0 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
 - Required inventory status and evidence: all seven pending; evidence pending.
-- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; RESOURCE-INVENTORY and DECOMPILER-DIAGNOSTICS scope closure.
-- Unresolved gaps and limits: S1-01/S1-02/S1-03 dependency closure and the remaining 31 source slices are open.
+- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; RESOURCE-INVENTORY and DECOMPILER-DIAGNOSTICS scope closure.
+- Unresolved gaps and limits: S1-01..S1-04 dependency closure and the remaining 30 source slices are open.
 - Evidence/hash/correspondence audit: not started.
 - Blind freeze: pending.
 - Implementation reconciliation: pending.
