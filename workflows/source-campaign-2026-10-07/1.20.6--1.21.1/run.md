@@ -4,33 +4,33 @@
 - Scope: direct client-player movement; older A = 1.20.6; newer B = 1.21.1
 - Repository revision and start date: base 002137b227676caea77f6832b9f4c8d0b6200bff (main); started 2026-10-07. Workflow hardening 40c34f5 and campaign roster 2422192 cherry-picked onto this task branch.
 - Task branch: feat/source-discovery-movement-source-1-20-6-1-21-1
-- Selected naming namespace, CLI mode per side and alignment evidence: requested Mojmap for A and Mojmap for B, per the campaign rule for endpoints after 1.14.4. Both exact ready markers and resolved mapping builds are pending verification; do not begin comparison until alignment is evidenced.
-- Source preparation owner / command / log / readiness marker: shared campaign source owner (identity not provided); worker does not run decompilation. Exact command/log and ready/<exact-version>/<namespace>.ready.json markers pending publication.
-- Toolchain/decompiler/remapper versions and options: pending exact readiness metadata.
+- Selected naming namespace, CLI mode per side and alignment evidence: requested Mojmap for A and Mojmap for B, per the campaign rule for endpoints after 1.14.4. Both exact Mojmap ready markers, source/artifact/diagnostic hashes, provenance and exact run metadata are verified; shared namespace alignment is established.
+- Source preparation owner / command / log / readiness marker: shared campaign source owner (identity not provided); worker does not run decompilation. Source owner published A and B via the recorded exact-batch Gradle commands; provenance and success-log hashes for both are listed below; ready/1.20.6/mojmap.ready.json and ready/1.21.1/mojmap.ready.json verified.
+- Toolchain/decompiler/remapper versions and options: Gradle 9.7.1, Java 25.0.3+9-LTS, TinyRemapper 0.14.1, Mapping IO 0.9.1, Vineflower 1.12.0, ASM 9.10.1; heap 4G for B as recorded in provenance.
 - Discovery author(s): delegated source-discovery worker on this task branch.
 - Independent reviewer (must differ from discovery authors): pending coordinator assignment.
 
 ## Artifact manifest
 
-- A 1.20.6: requested/resolved exact ID pending marker verification; requested Mojmap; source root, original client jar identity/hash, mapping coordinate/build/path/hash, remapped jar hash, source/resource manifests and diagnostics pending validated readiness JSON.
-- B 1.21.1: requested/resolved exact ID pending marker verification; requested Mojmap; source root, original client jar identity/hash, mapping coordinate/build/path/hash, remapped jar hash, source/resource manifests and diagnostics pending validated readiness JSON.
+- A 1.20.6: requested ID 1.20.6 in provenance exactRun.batchVersionIds and success log; resolved version metadata ID 1.20.6 confirmed by movement diagnostics and exact-metadata success message. Namespace Mojmap; source root ready/1.20.6/mojmap; original client.jar SHA-256 02dfd345ac1ad55692d5dbc8486ac7e4fea72cd54ac494a79cd48963048e56b2; mapped client-mojmap.jar SHA-256 2add08d295773a0615ca595877f5fd055fa454d7c68fac56d6a4894a1e055284; client_mappings.txt SHA-256 27f4ef3a9362e9874e2c33edac981b6f485ad97f92c4e35b497525b646aae745. Source manifest SHA-256 56aae10684471d7abb1c366bd5dd431ab976112a87e6cc5c687a68f1eff06311 (5,329 entries); artifact manifest SHA-256 e5882622bcf22b3e3c2c96c73843a1308e11e3096f4feefd945ea5808933ce31; diagnostics SHA-256 558c501d2956cfa2445e9a75512dcf6c8ff7fec453c7b2f439af171162cab498; provenance ready/1.20.6/mojmap.provenance.json SHA-256 ee53e67e7ab51069a0eaae5a0ce13d49a9f972bdc13e3c31e041afa77f4d26e8 records exact command and batch IDs; success log staging/mojmap-1.20.1-to-1.20.6-3e08bcae66a145b296f7f85b12623999/gradle.full.log SHA-256 e5acf99c0bf01e2a65818cea95da4873b5f8a3c610f795f887c7184216b160fe. Toolchain Gradle 9.7.1, Java 25.0.3+9-LTS, TinyRemapper 0.14.1, Mapping IO 0.9.1, Vineflower 1.12.0, ASM 9.10.1. The batch also resolved 1.20.1, 1.20.2 and 1.20.4; only the exact 1.20.6 tree is used for this pair.
+- B 1.21.1: requested ID 1.21.1 in provenance exactRun.batchVersionIds and success log; resolved version metadata ID 1.21.1 confirmed by movement diagnostics and exact-metadata success message. Namespace Mojmap; source root ready/1.21.1/mojmap; original client.jar SHA-256 499f6897d1837516680f3114072d8106e11c9adcd933fe5cf051b551089b0c99; mapped client-mojmap.jar SHA-256 6b36d2ccc99e7eeb98e942b6dc093388d66eb6ede06b64238f35a0e26b092abe; client_mappings.txt SHA-256 140c47931cccc8fc9e4c22d7603e2d714d1a953a146f51ea7397d95c955536ec. Source manifest SHA-256 900f956e00f6fc1300bb3d689ea49df2b1a57bcaa54617344ef456d95d47cb48 (5,363 entries); artifact manifest SHA-256 09ced418cbc7530a1d6d8802ee10c05cd576b217a2129655a71f30a2ae38f486; diagnostics SHA-256 44c184cd1385e5b23991b2698ff0ae9f1e62a9491de8dcac27e5a3f9af88cd4f; provenance ready/1.21.1/mojmap.provenance.json SHA-256 6f84a596ea944a1d40c79b53ead9d2cdd2b3c726d710a977758d15b5578ce7a9 records exact command and batch IDs; success log staging/mojmap-1.21.1-to-1.21.5-cd5a99cb1024417c9d370097c886a131/gradle.full.log SHA-256 610191fd377703263d0a7040f9874f56a167712bc25c440f35c58a8a44fa3f4b. The batch also resolved 1.21.3, 1.21.4 and 1.21.5; only the exact 1.21.1 tree is used for this pair.
 - No source tree is treated as ready based on directory presence. Verify exact requested/resolved IDs, namespace, cited hashes, method bodies and diagnostics from each marker before evidence comparison.
 
 ## Blind-discovery freeze
 
 - Status: pending
 - Freeze commit/checkpoint and timestamp: pending source-only comparison.
-- Evidence inventory and finding IDs included at freeze: none yet; all 35 planned slices remain pending.
+- Evidence inventory and finding IDs included at freeze: freeze not yet performed; one bounded finding is recorded; 34 other planning slices remain pending.
 - Confirmation that old mod implementation/code and isolated wiki-audit results were not opened before freeze (prior source-discovery reports may be used as navigation): confirmed; neither implementation nor wiki materials have been inspected.
-- Source/mapping hashes covered by freeze: pending validated markers and source comparison.
+- Source/mapping hashes covered by freeze: freeze pending; exact A/B source/artifact/diagnostic hashes are recorded in the artifact manifest, and the L5 cited source hashes are recorded in the finding.
 
 ## Correspondence and call order
 
-Not started: exact source trees are not published. After readiness, establish exact class/member descriptors and inheritance per role on both sides, then record the complete reachable local-player tick sequence through input, pre-travel work, each travel branch and post-travel work. Trace callers, method/body ranges, state reads/writes, changed callees and dependencies. No guessed member correspondence will be recorded.
+Partial correspondence established for the first bounded movement paths: `LocalPlayer#tick` -> `LocalPlayer#aiStep` -> `LivingEntity#aiStep` -> `Player#travel` -> `LivingEntity#travel`, with `Entity#moveRelative` and `Entity#move` as movement helpers. Paired method line ranges and the limited observed deltas are recorded in the coverage rows/finding; full tick-sequence, callback, collision and external-input closure remain in progress.
 
 ## Required source inventories
 
-All inventories remain pending until both exact source trees are verified and every bounded slice and dependency has evidence.
+Both exact source trees are verified. Required inventories remain pending until every bounded paired slice and dependency has evidence.
 
 - `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=I1-I4,L1-L6; evidence=awaiting exact A/B source readiness and full callgraph.
 - `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=P1-P4,I1-I4,L1-L6,C1-C5,X1-X4; evidence=awaiting exact source ranges and producer-to-consumer closure.
@@ -47,35 +47,33 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 ### Slice I1 - local input sampling, input fields and keyboard
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: local input sampling, input fields and keyboard; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
-- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
-- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+- Exact behavior boundary and enclosing guards/order checked: `Input#tick(boolean,float)`, `getMoveVector()`, `hasForwardImpulse()`, `KeyboardInput#calculateImpulse(boolean,boolean)`, and `KeyboardInput#tick(boolean,float)`; `LocalPlayer#aiStep` calls the active input object's tick before using its movement vector.
+- A evidence: `ready/1.20.6/mojmap/net/minecraft/client/player/Input.java`, lines 15-24, SHA-256 `b302ffbc45c5f900ea18a4d4af2df6fa0454ea7cb7744a0d249061e5fcb97fbb`; `KeyboardInput.java`, lines 12-34, SHA-256 `a8064906872955a3520398ab5b2a326552d424f41887d1294aa6a038e2623ff0`.
+- B evidence: `ready/1.21.1/mojmap/net/minecraft/client/player/Input.java`, lines 15-24, SHA-256 `b302ffbc45c5f900ea18a4d4af2df6fa0454ea7cb7744a0d249061e5fcb97fbb`; `KeyboardInput.java`, lines 12-34, SHA-256 `a8064906872955a3520398ab5b2a326552d424f41887d1294aa6a038e2623ff0`.
+- State producers/writers -> consumers/readers: input device state -> `KeyboardInput#calculateImpulse` -> `leftImpulse`/`forwardImpulse`/`jumping`/`shiftKeyDown` -> `Input#getMoveVector` and sprint predicates -> `LivingEntity#travel`/`moveRelative`; the inspected classes are byte-identical between A and B.
+- Parent slices / dependencies / closure evidence: I2 local player tick/aiStep call order remains pending; this row closes only the input sampling classes and their direct fields.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): corresponding A/B class hashes are identical for both input classes; the bounded input behavior is unchanged. This does not imply later travel behavior is unchanged.
+- Finding IDs or checked absence/replacement path: checked absence of source change in both complete source classes by matching SHA-256; no finding.
+### Slice I2 - local player tick order, superclass tick, travel dispatch and repeated movement calls
 
-### Slice I2 - local player tick order, superclass tick, travel dispatch and repeated movement calls: `pending`.
-
-- Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: local player tick order, superclass tick, travel dispatch and repeated movement calls: `pending`.; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
-- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
-- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
-
+- Inventory ID(s): INV-TICK, INV-STATE, INV-EXCLUSIONS
+- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer#tick`, `LocalPlayer#aiStep` from portal processing through `super.aiStep()`, `Player#tick`, `Player#travel`, `LivingEntity#aiStep` and the reachable local-player movement dispatch order. Bounded call order is unchanged; two `LocalPlayer#aiStep` expressions were traced separately to their producer/effect paths.
+- A evidence: `LocalPlayer.java::tick()` lines 190-209 and `aiStep()` lines 648-812, SHA-256 `6b429dfa6e0681251ec985dda1627f808652a7bbe5b70dc85c8fa0fe0ed46ffa`; `Player.java::tick()` lines 244-315, SHA-256 `785d93ccc94e1f912e545b2b0c355edeb352b44ee8e83a69364daec35266dbe2`; `Player.java::travel(Vec3)` lines 1473-1495; `LivingEntity.java::aiStep()` lines 2591-2715, SHA-256 `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`.
+- B evidence: `LocalPlayer.java::tick()` lines 191-210 and `aiStep()` lines 644-809, SHA-256 `c555e68ac3c63ab9b4f9a9e31933e263b96350a2bc599d11a0de5928bc24b583`; `Player.java::tick()` lines 249-323, SHA-256 `ed32b88c3c7c8418b83db41823520f2b6b0b49a98610306ef26e9681dc925c71`; `Player.java::travel(Vec3)` lines 1456-1478; `LivingEntity.java::aiStep()` lines 2586-2710, SHA-256 `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8`.
+- State producers/writers -> consumers/readers: `LocalPlayer#tick` -> `LocalPlayer#aiStep` -> `LivingEntity#aiStep` -> `Player#travel` -> `LivingEntity#travel` -> `Entity#moveRelative`/`Entity#move`; `LocalPlayer#move` dispatch remains paired. `LocalPlayer#aiStep` changes portal visual-state update and the crouch input factor source. Portal helpers write only spinning-effect/UI and portal-process/cooldown state; the cooldown helper remains called at the same point. The crouch factor routes to `Input#tick`; Swift Sneak modifier/default and levels 0-3 produce the same float factor on both sides. `Player#tick` adds a grace timer for current impulse damage context; traced consumers reset damage/explosion context and do not write movement velocity or position, so that state is excluded under INV-EXCLUSIONS.
+- Parent slices / dependencies / closure evidence: I1 input fields; I3 yaw/normalization; I4 sprint; L1-L6 travel branch comparison; X1 external movement writers remain separate.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the local player tick/travel call order and repeated movement dispatch are unchanged. The two changed portal expressions affect transition presentation/cooldown bookkeeping rather than player motion. The changed sneak factor is numerically equal for vanilla Swift Sneak levels 0-3; the added impulse grace timer is damage-context state and out of scope. The water travel formula difference is separately recorded under L5.
+- Finding IDs or checked absence/replacement path: no tick-order finding; the water formula finding is linked only to L5.
 ### Slice I3 - yaw-to-motion conversion, normalization and input scaling (sneak
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: yaw-to-motion conversion, normalization and input scaling (sneak; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -84,10 +82,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: sprint start; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -96,10 +94,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: pose selection, dimensions, eye height, resize timing and collision; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -108,10 +106,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: abilities, flight state; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -120,10 +118,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: sprint gates and their vanilla state consumers; exclude hunger; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -132,10 +130,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: active-item state, edge sneaking, defaults, initialization, updates and reset timing: `pending`.; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -144,10 +142,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: travel dispatch and ground; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -156,10 +154,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: friction, gravity, drag and velocity thresholds; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -168,10 +166,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: jump power, sprint-jump impulse and jump gates: `pending`.; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -180,34 +178,33 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: climbing clamps and movement callbacks: `pending`.; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
 
 ### Slice L5 - water
 
-- Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: water; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
-- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
-- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
-
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: paired `LivingEntity#travel(Vec3)` water branch, from the water/fluids/stand-on-fluid guard through the `$5` horizontal multiplier update and following move/drag calls; input is sprinting, on ground, depth strider III, no Dolphin's Grace.
+- A evidence: `ready/1.20.6/mojmap/net/minecraft/world/entity/LivingEntity.java::LivingEntity#travel(Vec3)`, lines 2104-2129, SHA-256 `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`; producer `ready/1.20.6/mojmap/net/minecraft/world/item/enchantment/EnchantmentHelper.java::getDepthStrider(LivingEntity)`, lines 184-186, SHA-256 `e0b4c410e0aa9499d67b38f57b34467628e882be960dce6958d4bc8ef717a6b6`.
+- B evidence: `ready/1.21.1/mojmap/net/minecraft/world/entity/LivingEntity.java::LivingEntity#travel(Vec3)`, lines 2091-2127, SHA-256 `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8`; producer/default `Enchantments.java` lines 344-368 (SHA-256 `7848a2cd677aa0700434f85de37d8a0c47597741d2d1f26c8dc270f73d65b266`), `Attributes.java` lines 101-103 (SHA-256 `a9a19f556bb77fc218b5b2f4831eb6b285f4398c24fa2a3519009ca8dad2db7c`), and `LevelBasedValue.java` lines 126-138 (SHA-256 `f9a0bed1d7693606f8657fadd4a59d95eea9955fcc036687e7a9dd08a8b360e3`).
+- State producers/writers -> consumers/readers: A equipment enchantment level -> A helper -> `$7` -> water formula -> `$5` drag multiplier; B equipped Depth Strider attribute modifier -> entity attribute value -> `$7` -> water formula -> `$5` drag multiplier. B `EnchantmentHelper#forEachModifier` and `EnchantmentAttributeEffect` apply/remove the equipped modifier; both sources and exact hashes are cited in the finding.
+- Parent slices / dependencies / closure evidence: I2/L1 travel dispatch; E2 Depth Strider registration/level bounds. The reachable branch guards and producer chain are closed for this finding; other water branches and B6 block/fluid data inventory remain separate.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): source-confirmed binary32 difference for the stated vanilla-reachable Depth Strider III preconditions; see [water-depth-strider-rounding](findings/water-depth-strider-rounding.md). The compared water branch otherwise preserves its call order. No runtime trace is claimed.
+- Finding IDs or checked absence/replacement path: `water-depth-strider-rounding`.
 ### Slice L6 - movement speed, jump and gravity attributes
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: movement speed, jump and gravity attributes; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -216,10 +213,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: bounding-box movement, position updates and axis ordering: `pending`.; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -228,10 +225,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: step-up candidates, tie-breaking, edge probes and support; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -240,10 +237,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: velocity cancellation; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -252,10 +249,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: world collision queries, AABB; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -264,10 +261,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: fluid contact, block callbacks and callback order; track repeated queries; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -276,10 +273,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: base block; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -288,10 +285,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: landing; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -300,10 +297,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: friction; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -312,10 +309,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: contact slowdown (webs, honey, powder snow) and historical applicability: `pending`.; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -324,10 +321,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: climbables (ladders, vines and related blocks), callbacks and support: `pending`.; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -336,10 +333,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: water; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -348,10 +345,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: moving pistons and player displacement: `pending`.; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -360,10 +357,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: shape; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -372,10 +369,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-MODIFIERS
 - Exact behavior boundary and enclosing guards/order checked: Speed, Slowness, Jump Boost, Levitation, Slow Falling, Dolphin's Grace and Blindness consumers; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -384,10 +381,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-MODIFIERS
 - Exact behavior boundary and enclosing guards/order checked: Depth Strider, Soul Speed, Swift Sneak, Frost Walker and Riptide consumer-to-registration; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -396,10 +393,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-MODIFIERS
 - Exact behavior boundary and enclosing guards/order checked: Elytra, use-item slowdown, equipment, movement item components and application; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -408,10 +405,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-MODIFIERS
 - Exact behavior boundary and enclosing guards/order checked: other discovered movement-affecting attributes; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -420,10 +417,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-EXTERNAL
 - Exact behavior boundary and enclosing guards/order checked: incoming velocity; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -432,10 +429,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-EXTERNAL
 - Exact behavior boundary and enclosing guards/order checked: player knockback; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -444,10 +441,10 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-EXTERNAL
 - Exact behavior boundary and enclosing guards/order checked: mount; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
@@ -456,28 +453,28 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 - Inventory ID(s): INV-EXTERNAL
 - Exact behavior boundary and enclosing guards/order checked: final unresolved movement-state writers, changed dependencies and cross-mechanic interactions: `pending`.; exact paired method ranges await readiness.
-- A evidence: pending 1.20.6 Mojmap readiness and source hash verification.
-- B evidence: pending 1.21.1 Mojmap readiness and source hash verification.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
 - State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0 and D1; add pair-specific dependency IDs during source traversal.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
 ## Dependency queue and blockers
 
-- Open dependencies: D0 (exact 1.20.6 and 1.21.1 Mojmap readiness markers, manifests and movement-method diagnostics; source-owner publication; required before comparison); D1 (verify resolved IDs, namespace/build, source/artifact hashes and exact relevant body diagnostics against those markers); D2 (pair-specific callers, state writers, shapes, registrations, resources/tags and dependencies discovered during traversal; add precise retrieval actions and owners as found).
+- Open dependencies: D0 closed (both exact Mojmap markers, source/artifact/diagnostic manifests and provenance verified); D1 closed for readiness/alignment (cited methods and dependencies continue to be checked per slice); D2 open for remaining paired callers, collision/state writers, block/fluid shapes, registrations, callbacks, external velocity sources and modifier conditions.
 - These are queued source-publication dependencies, not evidence of equivalence or differences. If a relevant damaged/missing body or absent data prevents a slice, record its exact path/range and blocked dependency.
 
 ## Finding index
 
-No findings recorded yet. A missing findings directory means zero confirmed findings, not equivalence. Every candidate will be paired, reachable and independently scoped before it is retained.
+- [water-depth-strider-rounding](findings/water-depth-strider-rounding.md): Depth Strider III water speed factor changes by one binary32 ulp; source-confirmed. Every candidate will be paired, reachable and independently scoped before it is retained.
 
 ## Resume checkpoint
 
-- Last completed slice: none; comparison has not begun.
-- Next bounded slice and exact files/members/body ranges to open: validate both pair readiness markers, hashes and diagnostics; then inventory filename/callgraph and open first bounded stage-1 methods on both sides.
-- Outstanding dependencies and owners: D0 and D1 with shared source owner; D2 dependencies to be assigned as found.
-- Current assumptions requiring verification: both Mojmap markers exist and are fresh; requested and resolved IDs match exactly; mapping builds align; cited source/artifact hashes validate; movement-relevant decompiler diagnostics are sound.
+- Last completed slices: I1 input sampling and I2 tick/travel dispatch compared; L5 water-travel arithmetic compared with finding `water-depth-strider-rounding`.
+- Next bounded slice and exact files/members/body ranges to open: compare `LocalPlayer#aiStep` yaw-to-motion conversion, `LivingEntity#getFrictionInfluencedSpeed`, and `Entity#moveRelative` for I3; then continue sprint gates and the remaining movement inventories.
+- Outstanding dependencies and owners: D0/D1 readiness closed; D2 remains open for movement source dependencies and is owned by this discovery worker until handoff.
+- Current assumptions requiring verification: only cited source bodies are hash-checked so far; all remaining method correspondence, dependencies, callbacks, registrations and state writer/consumer closure are incomplete.
 
 ## Implementation reconciliation
 
@@ -502,12 +499,12 @@ Reviewer must differ from discovery authors and must independently re-walk full 
 
 ## Source audit closure
 
-- Coverage counts by status: 0 findings; 0 compared-no-difference; 0 not-applicable; 0 blocked; 0 pending; 0 in-progress.
-- Required inventory status and evidence: all seven required inventories pending; no pair evidence yet.
-- Open dependencies: D0, D1, D2.
-- Unresolved gaps and limits: all seven source-navigation stages remain open pending source readiness and exhaustive pair-specific inventories. Queued sources are not a comparison result.
-- Evidence/hash/correspondence audit: not started; no exact A/B source lines or hashes cited.
-- Blind freeze: pending.
+- Coverage counts by status: 1 findings; 2 compared-no-difference; 0 not-applicable; 0 blocked; 32 pending; 0 in-progress (35 planned slices).
+- Required inventory status and evidence: all seven required inventories remain pending; L5 has one bounded source-confirmed water-travel finding, while the complete inventories are not closed.
+- Open dependencies: D2 only; D0/D1 readiness and namespace alignment are closed.
+- Unresolved gaps and limits: 34 planned slices remain pending, including full input/tick and modifier coverage, collision/shape providers, blocks/fluids, external velocity sources, exclusions and independent audit. The finding is limited to its cited branch and does not close those inventories.
+- Evidence/hash/correspondence audit: exact source hashes and paired ranges are recorded for the L5 finding; the overall evidence audit is incomplete.
+- Blind freeze: pending until pair coverage is complete.
 - Implementation reconciliation: pending and outside this assignment before explicit post-freeze authorization.
 - Independent audit: pending coordinator assignment.
 - Source-only declaration: no runtime Java implementation/mod implementation inspection; no wiki/MCPK browsing or wiki-audit output; no release-notes-derived movement claims; health/regen/hunger/food/saturation/exhaustion/damage/combat simulations and non-player movement excluded. Vanilla values may be traced only as direct movement predicate inputs.
