@@ -1,73 +1,109 @@
-# Movement source campaign: 1.19.4 to 1.20.1
+# Discovery: 1.19.4 to 1.20.1
 
 - Status: active
 - Scope: direct client-player movement; older A = 1.19.4; newer B = 1.20.1.
-- Track: source-only discovery; no wiki comparison and no mod implementation inspection.
-- Repository base revision: 002137b227676caea77f6832b9f4c8d0b6200bff (main, verified).
-- Dedicated branch: feat/source-discovery-movement-source-1-19-4-1-20-1.
-- Start date: 2026-10-07 (Europe/Vienna).
-- Source request: exact 1.19.4/feather and 1.20.1/feather publications requested from the source owner; both are absent from the currently published ready catalog.
-- Source preparation command/log and toolchain: pending source-owner publication; this worker will not invoke the shared decompiler.
-- Release taxonomy: adjacent content-update endpoints 1.19.4 -> 1.20.1; no release-note evidence used.
+- Repository revision and start date: Base main 002137b227676caea77f6832b9f4c8d0b6200bff; task branch feat/source-discovery-movement-source-1-19-4-1-20-1; started 2026-10-07 Europe/Vienna.
+- Selected naming namespace, CLI mode per side and alignment evidence: Mojmap / mojmap on both sides, as required by the source-campaign roster for pairs from 1.14.4 onward; endpoint artifact alignment and exact mapping builds remain unverified pending ready markers.
+- Source preparation owner / command / log / readiness marker: campaign source owner is sole writer. Exact 1.19.4/mojmap and 1.20.1/mojmap publications requested. No ready JSON for either endpoint is currently published; worker will not invoke the shared decompiler.
+- Toolchain/decompiler/remapper versions and options: pending exact ready/provenance JSON.
+- Discovery author(s): /root (delegated source-only worker).
+- Independent reviewer (must differ from discovery authors): pending assignment.
 
 ## Artifact manifest
 
-Source-owner protocol root: build/movement-campaign-2026-10-07/. The checked-in checkout currently contains ready markers for 1.8.9, 1.9.4, 1.10.2, 1.11.2, 1.12.2, 1.13.2 (Feather) and 26.2 (unobfuscated). Exact pair readiness is not established by folder presence and remains pending.
+The shared protocol root is build/movement-campaign-2026-10-07/. At the last catalog inspection, published Mojmap ready/provenance pairs included 1.14.4, 1.15.2, 1.16.5, 1.17.1 and 1.18.2; 1.19.4 and 1.20.1 were absent. Published earlier Feather sources and native 26.2 are unrelated to this exact pair and are not used as comparison evidence.
 
 ### A — 1.19.4
 
-- Requested/resolved release: pending exact ready JSON verification.
-- Namespace/CLI mode: Feather / feather, requested; alignment pending.
-- Source root, client jar identity/hash, source/artifact manifest hashes, mapping coordinate/build/hash, remapped jar hash, logs and method diagnostics: pending.
+- Exact release/source root/client jar SHA-256: pending 1.19.4/mojmap ready and provenance JSON.
+- CLI mode/mapping coordinate/build/path/hash/mapped jar SHA-256: Mojmap requested; exact values pending source-owner publication.
+- Cited source/resource paths and SHA-256 hashes: none accepted yet.
+- Required external data and provenance: pending dependency inventory.
 
 ### B — 1.20.1
 
-- Requested/resolved release: pending exact ready JSON verification.
-- Namespace/CLI mode: Feather / feather, requested; alignment pending.
-- Source root, client jar identity/hash, source/artifact manifest hashes, mapping coordinate/build/hash, remapped jar hash, logs and method diagnostics: pending.
+- Exact release/source root/client jar SHA-256: pending 1.20.1/mojmap ready and provenance JSON.
+- CLI mode/mapping coordinate/build/path/hash/mapped jar SHA-256: Mojmap requested; exact values pending source-owner publication.
+- Cited source/resource paths and SHA-256 hashes: none accepted yet.
+- Required external data and provenance: pending dependency inventory.
 
-No source code, Minecraft jar, or generated artifact has been copied into the worktree or committed.
+## Blind-discovery freeze
+
+- Status: pending
+- Freeze commit/checkpoint and timestamp: not frozen.
+- Evidence inventory and finding IDs included at freeze: none; exact source pair unavailable.
+- Confirmation that old mod implementation/code and isolated wiki-audit results were not opened before freeze (prior source-discovery reports may be used as navigation): confirmed. The permitted prior 1.19.4-to-1.20.6 source report was read only for candidate navigation; its findings are not evidence for this run.
+- Source/mapping hashes covered by freeze: none.
 
 ## Correspondence and call order
 
-Pending the exact published pair. The inventory will resolve each role to exact class/member descriptors, inheritance, callers, dependencies, and read/write state on both sides before assigning correspondence. No names or behavior are presumed equivalent from neighboring reports.
+Pending exact pair publication. Resolve each logical class/member descriptor, inheritance/caller chain, rename/split/replacement evidence and dependencies independently in both Mojmap trees. No guessed names or copied member correspondence from prior reports will be accepted.
+
+Once sources are ready, inventory the complete reachable local player tick chain: input sampling, local tick and superclass tick; pre-travel predicates/state writes; every reachable travel dispatch and branch; collision/move calls; post-travel callbacks/state writes. Link each relevant movement-state writer to its readers and record exact per-side source ranges and hashes.
+
+## Required source inventories
+
+These inventory rows are mandatory pair-wide maps. Their behavior slices cannot be created or dispositioned until both exact source trees pass ready-manifest and method-body-diagnostic checks.
+
+- INV-TICK input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=pending source pair; evidence=pending.
+- INV-STATE movement state writers/readers: pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, support position, timers and direct predicates: status=pending; slice_ids=pending source pair; evidence=pending.
+- INV-COLLISION player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=pending source pair; evidence=pending.
+- INV-WORLD-MOVEMENT block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=pending source pair; evidence=pending.
+- INV-MODIFIERS movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=pending source pair; evidence=pending.
+- INV-EXTERNAL player-only externally supplied movement inputs and client consumers: corrections, pushes, pistons, mounts/dismounts and launch inputs: status=pending; slice_ids=pending source pair; evidence=pending.
+- INV-EXCLUSIONS scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; evidence=pending; movement predicates may read vanilla values without emulating their producer systems.
+
+The in-scope audit will preserve exact operation order, casts, float/double boundaries, literal suffixes and historical quirks. Modern-only blocks/features will not acquire old behavior. Other-entity code is in scope only as necessary to explain a direct player movement effect.
 
 ## Coverage ledger
 
-Every row is open until paired methods, reachable callers/writers and dependency closure have been inspected. Work proceeds in source-navigation order.
-
-- I1 / Stage 1: local input, client-player tick order, input sampling, sprint/jump/flight/auto-jump/riding gates — pending source pair.
-- I2 / Stage 2: player state, pose/dimensions/resize, eye height, flight and movement-relevant state — pending source pair.
-- I3 / Stage 3: living travel dispatch, ground/air/fluid/climbing/glide physics, jump, velocity thresholds and post-travel — pending source pair.
-- I4 / Stage 4: entity move/collision, axis/step candidates, edge/support queries, callbacks, AABB/shapes and collision-query timing — pending source pair.
-- I5 / Stage 5: block/fluid registrations, shapes/providers, neighbors, friction/speed/jump factors, movement callbacks — pending source pair.
-- I6 / Stage 6: in-scope effects, attributes, enchantments and equipment consumer-to-registration/data chains — pending source pair. Health, regeneration, hunger, food, saturation, exhaustion, damage and combat emulation are excluded.
-- I7 / Stage 7: client-consumed external velocity/position, knockback/push, explosion, piston displacement, mount transitions and launch-item inputs — pending source pair.
-- Cross-stage closure: enumerate and revisit changed callees, state writers, callback implementations, registries/resources and newly reachable dependencies — pending pair plus I1–I7 inventories.
-
-The movement math audit will preserve source operation order, casts, suffixes, float/double boundaries and historical quirks. Modern-only blocks/features will not be assigned old behavior; non-player physics are out of scope.
+No member-level comparison slices exist yet because neither required exact ready manifest has been published. The source request is open under dependency D0. Directory presence or previous-report claims will not be treated as readiness or coverage.
 
 ## Dependency queue and blockers
 
-- D0 — source owner: publish/confirm exact 1.19.4/feather and 1.20.1/feather ready JSON, source/artifact SHA-256 manifests, exact IDs/namespaces, successful decompiler provenance and method-body diagnostics. The source owner exclusively writes shared sources. No source-level comparison can close until both markers and cited files are validated.
-- D1 — after D0: inspect relevant decompiler body diagnostics and queue any damaged body or missing artifact with exact member and side.
-- D2 — after I5/I6: inspect matched client-jar resources/tags/defaults referenced by movement consumers; establish version-matched provenance and hashes.
-- No game/TAS/gym/server/Docker actions, Gradle build, tests, source generation, wiki browsing, release-notes evidence, mod implementation inspection or runtime validation are part of this track.
+- D0 — source owner; originating scope: pair provenance. Publish exact 1.19.4/mojmap and 1.20.1/mojmap ready JSON plus provenance/source/artifact SHA-256 manifests, requested/resolved IDs, successful decompiler records, exact mappings and method-body diagnostics. These records are required to trust and cite any source. Next action: consume the owner publication read-only, verify both exact release IDs/namespaces/hashes and inspect relevant body diagnostics. This is an active external dependency, not a mapping blocker.
+- D1 — after D0; originating slices: all inventories. Identify any relevant damaged/missing method body from the diagnostic inventory; request exact-version bytecode/source assistance for the specific member and side.
+- D2 — after INV-WORLD-MOVEMENT and INV-MODIFIERS inventories; inspect matching client-jar resource/tag/default entries reached by movement consumers, hash cited uncompressed entries, and identify synchronized/datapack inputs.
+- Open dependencies: D0, D1, D2.
 
 ## Finding index
 
-No source-confirmed findings yet. This is not a no-difference conclusion; the exact pair is not yet ready.
+No source-confirmed findings. This is not a no-difference conclusion. The 1.19.4-to-1.20.6 prior report is only a navigation aid; its later endpoint does not establish behavior at 1.20.1. All candidates must be rechecked against the exact source pair and complete dependencies.
 
 ## Resume checkpoint
 
-- Last completed slice: project and workflow instructions read; dedicated worktree branch created from verified main commit.
-- Next bounded slice: validate exact Ready JSON for A/B, hashes/manifests and method diagnostics, then inventory Stage 1 input/tick entry points on both source trees.
-- Outstanding dependencies: D0–D2.
-- Current assumptions requiring verification: both releases can be decompiled in aligned Feather namespace; each ready marker names the requested exact release and source/artifact hashes.
+- Last completed slice: read current project/workflow/campaign rules; created the dedicated task branch and initial provenance checkpoint; read the updated workflow hardening commits; corrected the status checker’s top-level parser.
+- Next bounded slice: verify both exact Mojmap ready and provenance JSON files, all referenced hashes and relevant movement-body diagnostics; then resolve Stage 1 input/tick class/member correspondence and call order.
+- Outstanding dependencies and owners: D0 source owner; D1 and D2 worker follow-ups after pair readiness and inventories.
+- Current assumptions requiring verification: both exact releases successfully resolve to themselves; both Mojmap outputs are valid and use aligned release-specific mappings; relevant methods decompile without damage.
+
+## Implementation reconciliation
+
+This is a source-only assignment. Existing/old mod implementation has not been inspected. No reconciliation is authorized or appropriate before blind discovery is frozen; the parent may route a separate integrator after freeze.
+
+- Reconciliation status: pending
+- Repository revision inspected: not inspected for implementation.
+- Finding -> implementation disposition/evidence: deferred to integrator after freeze.
+- Existing implementation without a frozen source finding: not inspected; deferred to integrator.
+- Coverage gaps routed back to discovery slices: none yet; source pair is pending.
+
+## Independent source audit
+
+- Reviewer: pending; must differ from discovery author.
+- Status: pending
+- Inventories and call-chain ranges re-walked: none; source pair is not published.
+- Concrete missed-slice routes (or none found): pending source review.
+- Misses routed to slice/finding IDs and owners: pending source review.
+- Reviewer evidence / date: pending.
 
 ## Source audit closure
 
-- Coverage counts: 0 terminal; 7 stage-level rows pending source publication; cross-stage closure pending.
-- Unresolved gaps: exact endpoint source publication and provenance; all method inventories, correspondences, resource dependencies and mechanics comparison.
-- Evidence/hash/correspondence audit: no source evidence accepted yet; do not promote any row from directory presence or a prior report.
-- Runtime validation: not performed (separate workflow).
+- Coverage counts by status: 0 member-level slices created; 7 required inventory maps pending; 3 dependencies open.
+- Required inventory status and evidence: all pending exact source publication; none has member-level evidence yet.
+- Open dependencies: D0 source owner; D1 worker method-diagnostic follow-up; D2 worker jar-resource/data audit.
+- Unresolved gaps and limits: exact endpoint sources/provenance/diagnostics; all navigation inventories, member correspondences, resources, findings and dependency closure; independent audit.
+- Evidence/hash/correspondence audit: no source evidence accepted. Require exact IDs, namespace, manifest hashes and relevant method body diagnostics before comparison.
+- Blind freeze: pending
+- Implementation reconciliation: pending
+- Independent audit: pending
+- Runtime validation: not performed; explicitly not authorized by campaign coordinator.
