@@ -12,7 +12,7 @@
 
 ## Artifact manifest
 
-The source owner has not published either exact pair endpoint yet. Shared `ready/` currently contains records through `1.20.2` plus native `26.2`; neither `1.21.8` nor `1.21.10` source tree, readiness marker, nor artifact directory is present. The shared `decompile.lock` is held. This is a preparation dependency, not evidence of equivalence or a terminal source blocker. Do not infer readiness from directories. After publication verify exact requested/resolved IDs, namespace, cited hashes, movement-method diagnostics, and relevant decompiler diagnostics. Record per side: exact release, source root, original client jar SHA-256, CLI mode, mapping coordinate/build/path/hash, mapped jar SHA-256, source/resource hashes, toolchain versions/options, owner command/log/readiness marker. Reject prefix substitution or damaged relevant method bodies.
+The source owner has not published either exact pair endpoint yet. Shared `ready/` currently contains records through `1.20.6` plus native `26.2`; neither `1.21.8` nor `1.21.10` source tree, readiness marker, nor artifact directory is present. The shared `decompile.lock` is held. This is a preparation dependency, not evidence of equivalence or a terminal source blocker. Do not infer readiness from directories. After publication verify exact requested/resolved IDs, namespace, cited hashes, movement-method diagnostics, and relevant decompiler diagnostics. Record per side: exact release, source root, original client jar SHA-256, CLI mode, mapping coordinate/build/path/hash, mapped jar SHA-256, source/resource hashes, toolchain versions/options, owner command/log/readiness marker. Reject prefix substitution or damaged relevant method bodies.
 
 ## Blind-discovery freeze
 
