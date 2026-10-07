@@ -189,6 +189,18 @@ Per bounded slice, record one of `pending`, `in-progress`, `compared-no-differen
 - Disposition and rationale (including concrete reachability/preconditions): outside player movement scope; the new boolean changes only whether an Elytra sound instance is played on a synchronized flag change.
 - Finding IDs or checked absence/replacement path: checked non-movement effect; no movement finding.
 
+### Slice LIVING-WATER-FRICTION-BASE-VALUE: player water drag accessor
+
+- Inventory ID(s): `INV-TICK`, `INV-MODIFIERS`
+- Exact behavior boundary and enclosing guards/order checked: A's water travel branch initializes horizontal drag `f` to `0.8F`; B obtains the same value from `getBaseMovementSpeedMultiplier()` before applying the same Depth Strider interpolation and velocity multiplications.
+- A evidence: `net/minecraft/entity/living/LivingEntity.java`, full-file SHA-256 `bbb7703f18fd5da05c4e4a43a77ea644b388e63c01d34166d308ea52054be4e5`; water branch lines 1430-1455 uses `float f = 0.8F`.
+- B evidence: same path, full-file SHA-256 `d40dd476b6b68c6ce45b4202823475deb546ecda2284da330ff6724b33815e82`; `getBaseMovementSpeedMultiplier()` lines 1328-1330 returns `0.8F`, and the water branch lines 1462-1491 calls it for `f` before the unchanged drag operation order.
+- State producers/writers -> consumers/readers: the inherited accessor supplies the base water drag; only `PolarBearEntity` overrides it in B's source tree. Neither `PlayerEntity` nor either client-player class overrides it; the player receives the same `0.8F` value on both sides.
+- Parent slices / dependencies / closure evidence: source search traced all B accessor overrides and the player hierarchy; non-player PolarBear behavior is outside this report. The adjacent gravity gate remains separately tracked as F002.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for the direct player class chain, the old literal and new accessor both yield `0.8F`; the remaining Depth Strider arithmetic and multiplication sequence is unchanged. No player water-drag difference is established.
+- Finding IDs or checked absence/replacement path: checked accessor replacement; only B PolarBear override is non-player and excluded.
+
 ### Slice PLAYER-JUMP-AND-FLIGHT-RELATIVE: player jump and flight input overrides
 
 - Inventory ID(s): `INV-TICK`, `INV-JUMP`, `INV-MODIFIERS`
@@ -215,7 +227,7 @@ F001 - [farmland player collision height](findings/F001-farmland-collision-heigh
 
 ## Resume checkpoint
 
-- Last completed slices: `BLK-RAIL-OUTLINE-COLLISION` and `PLAYER-JUMP-AND-FLIGHT-RELATIVE` compared-no-difference; `BLK-FARMLAND-COLLISION`, `LIVING-FLUID-NO-GRAVITY`, and `LOCAL-AUTO-JUMP-INPUT` have source-confirmed findings; `LOCAL-FALL-FLYING-SOUND-STATE` is not applicable to player movement.
+- Last completed slices: `BLK-RAIL-OUTLINE-COLLISION`, `PLAYER-JUMP-AND-FLIGHT-RELATIVE`, and `LIVING-WATER-FRICTION-BASE-VALUE` compared-no-difference; `BLK-FARMLAND-COLLISION`, `LIVING-FLUID-NO-GRAVITY`, and `LOCAL-AUTO-JUMP-INPUT` have source-confirmed findings; `LOCAL-FALL-FLYING-SOUND-STATE` is not applicable to player movement.
 - Next action: obtain blind review of the submitted finding snapshots, close remaining movement bytecode diagnostics, and continue all seven local-player and movement-state inventories.
 - Outstanding dependencies: D1–D3 and full-pair independent source audit; D-ART is resolved for source evidence with the original-derived-jar limitation recorded.
 - Assumptions requiring verification: remaining reachable diagnostic-listed methods and dependency paths must be checked; resource/state-writer inventories and the full paired tick path remain open. Revised-artifact byte identity to unavailable original derived jars is unproven.
@@ -228,10 +240,23 @@ F001 - [farmland player collision height](findings/F001-farmland-collision-heigh
 - Finding-file SHA-256: `findings/F001-farmland-collision-height.md` = `31dd34ef5a227aa139d68a3457faf5ef54dc7071ac098fbadee443eec516bd3c`; `findings/F002-no-gravity-fluid-travel.md` = `36fa38a1414d2007ca7259d17341ed9aabb21f22685b7e9e422cc3d8aaff95db`.
 - Event: superseded before reviewer submission to correct the B `World#getCollisions` end line from 984 to 985. No reviewer used this snapshot and no acceptance was claimed.
 
-### Snapshot `FS-1.9.4-1.10.2-2026-10-07-r2` — submitted, review pending
+### Snapshot `FS-1.9.4-1.10.2-2026-10-07-r2` — superseded before review
 
 - Findings: F001 and F002; immutable finding snapshot commit `c4ca5a7c3a6ae275eac8c5c7adaffa428c9a3b93` (F001 correction atop snapshot r1 commit `e399f2b306aacde492fd9d5427e9fc5b29acc7b9`).
 - Finding-file SHA-256: `findings/F001-farmland-collision-height.md` = `f2f3af8b4d5efcf9c1a208fc84b57a4cd39938a3ae97f6235598f26431115a78`; `findings/F002-no-gravity-fluid-travel.md` = `36fa38a1414d2007ca7259d17341ed9aabb21f22685b7e9e422cc3d8aaff95db`.
+- Event: superseded before reviewer submission to clarify that the unloaded-client fallback uses the separate `y > 0 ? -0.1 : 0.0` assignment and is not gated by `NoGravity`. No reviewer used this snapshot and no acceptance was claimed.
+
+### Snapshot `FS-1.9.4-1.10.2-2026-10-07-r3` — submitted, review pending
+
+- Findings: F001 and F002; immutable finding snapshot commit `163841261802b34cbb2b6eb9c607e1baef6bb468` (F002 fallback clarification atop snapshot r2 commit `c4ca5a7c3a6ae275eac8c5c7adaffa428c9a3b93`).
+- Finding-file SHA-256: `findings/F001-farmland-collision-height.md` = `f2f3af8b4d5efcf9c1a208fc84b57a4cd39938a3ae97f6235598f26431115a78`; `findings/F002-no-gravity-fluid-travel.md` = `6a26dc88f71e6ab1e7c79d1e59e4db003a444253d98b924971f39df50559805d`.
+- Exact A/B artifact-manifest and source identities: A artifact manifest `9527dca544694daa3b4a7741be1a5b4802d8b6665c8a152a408a37a27a1b4d77`, source manifest `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`; B artifact manifest `6b402f3e6d6cf2f7b3647806364ff44214c47348fefd6949fad03e2011379116`, source manifest `91b0f478acb7b6f13463c35b268a30d2806f583402631a56f54ce2eb70d1ec71`.
+- Revised mapped artifacts: revision `feather-r1-2026-10-07`; A immutable jar SHA-256 `fbcf50795566e12b8eab0e733b136ed562c4009d707ef4a7a4994936491816a3`; B immutable jar SHA-256 `0c1d71990c9c0d7cc88debf7e67663bd64c8dc7de5872176088a3119527fb28b`. Revision JSON hashes: A `df0a26fd4c65292530cdad638e6789cc26fcd47875fe1c3eb2daef6de7e3f915`; B `79b5688af6f5cf6eb5c006a867de841de0033b42408c8461283cd9c4b9389856`. Operations audit passed. Both source trees/raw inputs match original manifests; original derived-jar equivalence is unproven.
+- Verified paired boundary and source evidence: F001 is present in A 1.9.4 and differs in B 1.10.2 at farmland collision dispatch. F002's B `NoGravity` gates cover water/lava `-0.02` and the ordinary loaded-client/server `-0.08` subtraction; the unloaded-client fallback remains `y > 0 ? -0.1 : 0.0`. Saved player NBT can set the flag and the server syncs it to that player's client. A has no generic player flag. These establish the endpoint difference for this pair only.
+- Closed finding dependencies: F001 paired farmland shape dispatch through `StateDefinition`, `Block`, `World.getCollisions`, and `Entity.move`; F002 paired `LivingEntity.moveRelative` body plus B saved-player NBT → synced data → owning-player packet → client entity path, with exact unloaded-client fallback disposition. D0 and D-ART are resolved for source evidence. Report-wide D1–D3 and open navigation inventories remain open.
+- Independent blind reviewer: pending assignment. Decision: pending; no acceptance is claimed. Review basis requested: source-only reachability/preconditions, both-side evidence, exact artifact/file hashes, scope, and revision limitation.
+- Timestamp: 2026-10-07 16:09 UTC. Pair status at finding commit: `active`; report checkpoint `1de64ada358f42ae12034ccc34444e187c8d70fb`; pair complete: no.
+- Implementation handoff: `blocked` pending independent blind review acceptance of this exact snapshot. The pair remains active while remaining slices and the full-pair audit are unfinished.
 - Exact A/B artifact-manifest and source identities: A artifact manifest `9527dca544694daa3b4a7741be1a5b4802d8b6665c8a152a408a37a27a1b4d77`, source manifest `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`; B artifact manifest `6b402f3e6d6cf2f7b3647806364ff44214c47348fefd6949fad03e2011379116`, source manifest `91b0f478acb7b6f13463c35b268a30d2806f583402631a56f54ce2eb70d1ec71`.
 - Revised mapped artifacts: revision `feather-r1-2026-10-07`; A `../../../build/movement-campaign-2026-10-07/revisions/derived-artifact-snapshots/feather-r1-2026-10-07/1.9.4/ornithe-feather/client-ornithe-feather.jar`, SHA-256 `fbcf50795566e12b8eab0e733b136ed562c4009d707ef4a7a4994936491816a3`; B `../../../build/movement-campaign-2026-10-07/revisions/derived-artifact-snapshots/feather-r1-2026-10-07/1.10.2/ornithe-feather/client-ornithe-feather.jar`, SHA-256 `0c1d71990c9c0d7cc88debf7e67663bd64c8dc7de5872176088a3119527fb28b`. Revision JSON hashes: A `df0a26fd4c65292530cdad638e6789cc26fcd47875fe1c3eb2daef6de7e3f915`; B `79b5688af6f5cf6eb5c006a867de841de0033b42408c8461283cd9c4b9389856`. Independent operations audit passed. Both source trees and raw inputs match their original manifests; original derived jars are unavailable and their byte identity with the revised jars is unproven.
 - Verified pair boundary and source evidence: F001 is present in A 1.9.4 and differs in B 1.10.2 at farmland collision dispatch. F002 is present in B 1.10.2 for a player whose saved `NoGravity=true` flag reaches the client; A 1.9.4 has no generic player flag. These establish the endpoint difference for this pair only; no releases outside this pair were assessed.
@@ -271,7 +296,7 @@ F001 - [farmland player collision height](findings/F001-farmland-collision-heigh
 
 ## Source audit closure
 
-- Coverage counts: 2 compared-no-difference; 3 source-confirmed findings submitted for review (0 accepted); 1 not-applicable; 0 blocked; 51 initial planned behavior slices pending.
+- Coverage counts: 3 compared-no-difference; 3 source-confirmed findings submitted for review (0 accepted); 1 not-applicable; 0 blocked; 51 initial planned behavior slices pending.
 - Pending bounded-slice count: 51 initial planned behavior slices remain; revise upward whenever source navigation exposes additional distinct methods, writers, consumers or dependencies.
 - Unresolved gaps: inventories and the full-pair audit remain open; movement decompiler diagnostics (D1), resource closure (D2), and transitive state-writer/caller closure (D3) remain open. The source-provenance record and revised-artifact integrity checks are complete, with original derived-jar equivalence unproven.
 - Evidence/hash/correspondence audit: partial; F001–F003 source and revised immutable-artifact evidence and rail hashes are recorded. Independent operations verification passed; independent finding review remains pending.
