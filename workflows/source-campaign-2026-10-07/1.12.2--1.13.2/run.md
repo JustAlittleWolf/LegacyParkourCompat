@@ -70,10 +70,20 @@ Provisional source candidates being traced after revised snapshot verification: 
 
 ## Resume checkpoint
 
-- Last completed slice: KB-SAMPLE (bounded no-difference); exact source pair/provenance and primary movement source manifests verified.
-- Next bounded slice and exact files/members/body ranges to open: compare LocalClientPlayerEntity.mobTick() A lines 649-817 vs B lines 653-842, then split water sprint start/maintenance, flight-toggle, water sneak descent and swimming gates with their field producers/consumers.
-- Outstanding dependencies and owners: all required inventory slices; resource jar audit; movement-body diagnostics and unmapped method descriptors; independent reviewer and post-freeze implementation reconciliation.
-- Current assumptions requiring verification: f_85121000/m_74407200 names in B need producer/caller/descriptor resolution; no semantic alias will be assumed.
+- Handoff status: partial and resumable; blind source comparison remains active. Current task branch: `feat/source-discovery-movement-source-1-12-2-1-13-2`. Latest source checkpoint before this handoff update: `65a0225`.
+- Source identity: Feather Gen2 build 2 for both releases; immutable revised snapshots revision `feather-r1-2026-10-07`. Continue using `build/movement-campaign-2026-10-07/ready/1.12.2/ornithe-feather` and `.../ready/1.13.2/ornithe-feather` for verified source files, and retain the original-derived-JAR identity limitation above.
+- Last completed work: seven bounded no-difference slices and ten in-progress slices are listed under Source audit closure. Latest closures recorded in `PLAYER-CORRECTION`, `PISTON-DELTA-CLAMP`, and `DEPTH-STRIDER`; swimming eye-height evidence was added to `POSE-DIMENSIONS` and `F-SWIM-POSE.md`.
+- Next bounded slice: close or disposition the World collision collectors before expanding the already enumerated shape-provider set. Compare A `World.getCollisions` lines 964-1063 against B `WorldView.getBlockCollisions` lines 112-151 and `WorldView.getCollisions` lines 154-180, plus B `World.getCollisions` lines 1755-1756. Then trace the returned block-shape stream into paired registry-backed shape providers and neighboring-block dependencies.
+- Read-only commands to resume that slice in PowerShell:
+  ```powershell
+  $ready = 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready'
+  Get-Content "$ready\1.12.2\ornithe-feather\net\minecraft\world\World.java" | Select-Object -Skip 963 -First 105
+  Get-Content "$ready\1.13.2\ornithe-feather\net\minecraft\world\WorldView.java" | Select-Object -Skip 111 -First 92
+  Get-Content "$ready\1.13.2\ornithe-feather\net\minecraft\world\World.java" | Select-Object -Skip 1754 -First 8
+  ```
+- Other pending source work: complete client/player tick and state-writer call graph, pose/size writers, all collision shape providers and neighbors, world movement properties/resources, remaining effect/enchantment/equipment paths, all external player-input routes, movement decompiler diagnostics, and explicit excluded-system audit. Keep findings provisional until every required inventory is closed.
+- Required later steps: finish blind pair coverage; run the structural completion checker; obtain an independent source reviewer; freeze the source report; only then inspect implementation for reconciliation. No implementation or wiki lane was opened in this task.
+- Git integration: `main` was merged into this branch on 2026-10-07 and was already an ancestor (`git merge --no-edit main` returned `Already up to date`). `main` had no commits beyond the pair's base, so there were no intervening semantic changes to reconcile.
 
 ## Implementation reconciliation
 
