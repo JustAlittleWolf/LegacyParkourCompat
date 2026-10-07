@@ -161,3 +161,47 @@ A final canonical checker pass over the live owner reports returned 10 structura
 - 1.20.6 → 1.21.1: active; 35 slices, 7 inventories.
 
 No pair is frozen or accepted. The two 1.15.2 → 1.16.5 snapshots have reviewer decisions `revision required`, so neither can be used as an implementation handoff.
+
+## Scope and artifact-integrity refresh (2026-10-07)
+
+The latest scope clarification in workflow commit `8ad33f978aa65e68108959a028b99313a96f5607` keeps direct player-side velocity, impulse, and knockback response in scope, while excluding attack/damage resolution, other-entity movement and vehicle physics. This changes the external-movement coverage audit. The assigned reports were scanned for bounded player-knockback coverage; several still list only packets, pushes, pistons, mounts or launches.
+
+### New 1.15.2 → 1.16.5 player-knockback route
+
+The latest owner run now explicitly states the broadened player-motion scope and has 16 slice blocks. Its `INV-EXTERNAL` row still lists only corrections, pushes, mounts, pistons and launches, with no knockback response slice. The paired `LivingEntity.knockback` bodies are a concrete missed route: A 1.15.2 lines 1195–1202 checks `random.nextDouble() < KNOCKBACK_RESISTANCE` and otherwise applies the full strength; B 1.16.5 lines 1319–1327 multiplies strength by `(1.0 - KNOCKBACK_RESISTANCE)` before the same velocity response. `Player` extends `LivingEntity` in both versions and has no override. With equal positive strength and resistance strictly between 0 and 1, A applies the full impulse probabilistically while B applies a reduced impulse deterministically. This is a source-confirmed direct motion delta under the clarified scope; the external attribute value and invocation-side boundary remain open. No attack/damage code was examined.
+
+Candidate evidence snapshot: `1.15.2--1.16.5-S7-player-knockback.md`, commit `30a26b3`, SHA-256 `372249fe7a53dca98154f0ce90bb102a321efeb6468104b87d2aae1c8f75fbee`. Reviewer decision: **revision required**, handoff blocked until the owner adds and closes the player-only slice and commits an owner-authored snapshot for fresh blind review.
+
+A scan of all twelve assigned runs found explicit knockback coverage language or a slice in only a subset. Concrete missing/underspecified external slice routes remain for 1.14.4 → 1.15.2, 1.16.5 → 1.17.1, 1.17.1 → 1.18.2, 1.18.2 → 1.19.2, 1.19.3 → 1.19.4, 1.19.4 → 1.20.1, and 1.20.1 → 1.20.2. Existing mentions in other reports remain active work, not independent acceptance; their method ranges, player reachability, state dependencies and evidence still need review.
+
+### Independent Feather revision verification
+
+I freshly verified revision `feather-r1-2026-10-07` for all six early Feather versions. For each version, the revised jar hash matched both `artifact.sha256` and `revision.json`; the revision metadata matched the exact version and namespace; the original ready source-manifest hash and artifact-manifest hash matched the revision record; every published source file and every original raw input entry except the unavailable old derived jar matched its manifest; and the referenced verification-log hash matched. Counts and results:
+
+- 1.8.9: 1,612 source files, 36 raw inputs, zero differences; revised jar `5c4cff3e4ac10ea1e1da166279133801ad304b4557d5ee4a77a2430977afb6a5`.
+- 1.9.4: 1,819 source files, 36 raw inputs, zero differences; revised jar `fbcf50795566e12b8eab0e733b136ed562c4009d707ef4a7a4994936491816a3`.
+- 1.10.2: 1,845 source files, 36 raw inputs, zero differences; revised jar `0c1d71990c9c0d7cc88debf7e67663bd64c8dc7de5872176088a3119527fb28b`.
+- 1.11.2: 1,921 source files, 36 raw inputs, zero differences; revised jar `ba1872d5fd341770a45aeeb8d372776a1b89f0b88a11a72f15aa0fe879b6a29f`.
+- 1.12.2: 2,050 source files, 37 raw inputs, zero differences; revised jar `fcc17537a14a423e2086f600047725ec1fcfd4c7fcf5c0d1a5bda491966c1b87`.
+- 1.13.2: 2,711 source files, 41 raw inputs, zero differences; revised jar `b28c33e023928045c8fd7ed7727a860a6820241e371ddb16108366c6192b718c`.
+
+For every revision, `originalDerivedArtifactAvailable=false`. This proves consistency of the new snapshot with its revision record and preserves the unchanged source/raw-input evidence; it does not prove identity with the unavailable original mapped jar or that the hash change was metadata-only. None of my twelve assigned pair snapshots relies on Feather: the 1.14.4 → 1.15.2 pair uses Mojmap at both ends, and later assigned pairs use Mojmap. The 1.14.4 Feather and Mojmap ready records were both independently verified with matching exact IDs and namespace-specific source, artifact and diagnostics hashes.
+
+### Latest owner report status
+
+A fresh canonical checker pass over the twelve live runs returned 11 structurally valid non-complete reports and one structural failure. Current pair counts:
+
+- 1.14.4 → 1.15.2: partial; 7 slices, 7 inventories.
+- 1.15.2 → 1.16.5: active; 16 slices; checker reports all 7 inventories missing because their labels do not use canonical ID syntax.
+- 1.16.5 → 1.17.1: active; 34 slices, 7 inventories.
+- 1.17.1 → 1.18.2: partial; 11 slices, 7 inventories.
+- 1.18.2 → 1.19.2: partial; 27 slices, 7 inventories.
+- 1.19.2 → 1.19.3: active; 22 slices, 7 inventories.
+- 1.19.3 → 1.19.4: active; 12 slices, 7 inventories.
+- 1.19.4 → 1.20.1: active; 13 slices, 7 inventories.
+- 1.20.1 → 1.20.2: active; 4 slices, 7 inventories.
+- 1.20.2 → 1.20.4: active; 46 slices, 7 inventories.
+- 1.20.4 → 1.20.6: partial; 56 slices, 7 inventories.
+- 1.20.6 → 1.21.1: active; 35 slices, 7 inventories.
+
+All endpoints for the assigned pairs are now ready with verified Mojmap metadata and manifest hashes. No pair is frozen or accepted. The sprint, water and knockback candidate snapshots for 1.15.2 → 1.16.5 all remain `revision required`, so none is an implementation handoff.
