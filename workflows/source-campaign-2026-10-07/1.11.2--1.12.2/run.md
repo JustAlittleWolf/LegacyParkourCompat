@@ -674,6 +674,42 @@ Append-only source-review history. An accepted finding snapshot would release on
 - Implementation handoff: blocked; independent ops confirmation and fresh blind finding review remain pending.
 - Replaces/supersedes snapshot ID and reason, if applicable: replaces `F-SLEEP-SAFETY-TRANSITION-r1`; the B PlayerEntity hash was corrected and the revision provenance was added.
 
+### Snapshot event F-SLEEP-SAFETY-TRANSITION-r2-superseded
+
+- Finding ID(s): F-SLEEP-SAFETY-TRANSITION
+- Source finding author(s): Codex source worker
+- Status: superseded
+- Immutable snapshot commit: `77192ea412d8af36bdf2b4fe66c4db48459e45d6`
+- Finding file path and SHA-256: `workflows/source-campaign-2026-10-07/1.11.2--1.12.2/findings/F-SLEEP-SAFETY-TRANSITION.md`; `ea3b84e4da7733a41832fce9af55c2dc15cec9e62a41f969f6d96f8be7bceb3b`
+- Exact A/B artifact-manifest identities/hashes: A `1.11.2/ornithe-feather/artifacts.sha256`, `69327982116b0ce1efe32e13031cb83a93dc5f30dcd1b936bf6af003a584ac5f`; B `1.12.2/ornithe-feather/artifacts.sha256`, `8171a095a5ee74cebbd12b3d76983fc01796c0c23c962076d1e235cd0f80fa8c`; revision `feather-r1-2026-10-07` was cited, but independent ops confirmation was not yet recorded in that finding snapshot.
+- Cited source/resource hashes: corrected A/B source evidence as in r2; finding file SHA recorded above.
+- Verified implementation boundary/evidence, or unresolved boundary reason: corrected B-side PlayerEntity source hash and source-worker artifact verification were present; ops audit result and revision record file hashes were not yet included in the finding text.
+- Finding-specific closed dependency IDs/evidence: direct sleep route inspected; independent ops confirmation was pending at r2.
+- Independent blind source reviewer and decision date: fresh review pending.
+- Review basis / requested source-only revisions: superseded to capture the later independent ops pass and exact revision.json hashes in the immutable finding evidence.
+- Pair run status and commit at handoff: active at `77192ea412d8af36bdf2b4fe66c4db48459e45d6`.
+- Pair complete: no
+- Implementation handoff: blocked; r2 lacked the subsequent ops confirmation.
+- Replaces/supersedes snapshot ID and reason, if applicable: replaced by `F-SLEEP-SAFETY-TRANSITION-r3` after independent ops passed the revision and the finding citation was expanded.
+
+### Snapshot event F-SLEEP-SAFETY-TRANSITION-r3
+
+- Finding ID(s): F-SLEEP-SAFETY-TRANSITION
+- Source finding author(s): Codex source worker
+- Status: submitted
+- Immutable snapshot commit: `cdc8db327b9d99fb6344c1f98e2f12f8774dc6a1`
+- Finding file path and SHA-256: `workflows/source-campaign-2026-10-07/1.11.2--1.12.2/findings/F-SLEEP-SAFETY-TRANSITION.md`; `d98ec64359ac2cc8857383a9f6ddffdcf3c3b003c8752f9b85bfb290f470b797`
+- Exact A/B artifact-manifest identities/hashes: A original artifact manifest `69327982116b0ce1efe32e13031cb83a93dc5f30dcd1b936bf6af003a584ac5f`, source manifest `d908c2af76598ad26999563bfef0089f1d3c8c32483eee6b108f0defa2773df0`; B original artifact manifest `8171a095a5ee74cebbd12b3d76983fc01796c0c23c962076d1e235cd0f80fa8c`, source manifest `b8a37ccfccd2aac5f40f5e34fec85873dbdfa93a266043c103e592e4a8c949da`. Revised artifact revision `feather-r1-2026-10-07`: A immutable JAR hash `ba1872d5fd341770a45aeeb8d372776a1b89f0b88a11a72f15aa0fe879b6a29f`, revision.json hash `49fca091d3ef83551745119f740d7a66a2773e81262db137bfc747369e8f61ac`; B immutable JAR hash `fcc17537a14a423e2086f600047725ec1fcfd4c7fcf5c0d1a5bda491966c1b87`, revision.json hash `2be8645d57ca5c00411b037e7617f9860ac700f7fa8ef50d28220c2e1b0c60dc`.
+- Cited source/resource hashes: A PlayerEntity `87fe94fa6cbf7aba18b9a5e3401664439eb8eba9958173da8fbcd05cc7ad948b`; B PlayerEntity `e4e0fdbe07a7d0a0ae4a70cbb6739a287c9d045a4a12b409895c220b5d91fe1e`; B MonsterEntity `e96f44cf14e80d3154fdd3a8e6827000bf0f13a545ee095c1ebedac7993e41b6`; B ZombiePigmanEntity `aba397ad24f519dbdfcdd594a1e9ecd8ad26ef36ea030b54b7f2be35d06f9701`; remaining cited source hashes and exact ranges are in the finding file.
+- Verified implementation boundary/evidence, or unresolved boundary reason: under the stated server-side bed condition, A rejects sleep because any monster in the box blocks it; B permits it when the only monster is a non-angry zombie pigman, reaching the player dimensions, bed position, sleeping flag and velocity writes. Full pair packet-authority and pose-provider closure remain open outside this bounded finding.
+- Finding-specific closed dependency IDs/evidence: the bed interaction, server eligibility predicate, anger default/override, player writes and client/server sleep packet path are traced; `DEP-ARTIFACT-INTEGRITY` is closed for this pair by the discovery author's fresh source/raw/snapshot verification and independent ops pass. Original mapped JAR equivalence remains unproven.
+- Independent blind source reviewer and decision date: fresh acceptance review pending; the prior reviewer requested and received the corrected source hash, but identity/date are not yet supplied.
+- Review basis / requested source-only revisions: replacement snapshot records the corrected B PlayerEntity hash, exact revision paths/hashes and `revision.json` hashes, unchanged original source/raw manifest hashes, independent ops pass, and the explicit unavailable-original limitation.
+- Pair run status and commit at handoff: active at `cdc8db327b9d99fb6344c1f98e2f12f8774dc6a1`.
+- Pair complete: no
+- Implementation handoff: blocked pending independent blind acceptance of this exact snapshot.
+- Replaces/supersedes snapshot ID and reason, if applicable: supersedes `F-SLEEP-SAFETY-TRANSITION-r2`; r2 preceded ops confirmation and did not record revision.json hashes. The earlier invalidated r1 remains in history.
+
 <!-- Append subsequent events; preserve prior records and commits. -->
 
 ## Implementation reconciliation
