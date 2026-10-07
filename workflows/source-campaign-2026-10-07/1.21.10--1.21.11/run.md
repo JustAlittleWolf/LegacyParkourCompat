@@ -1,20 +1,26 @@
 # Discovery: 1.21.10 to 1.21.11
 
-- Status: active
-- Scope: fresh source-only direct client-player movement comparison; older A = 1.21.10; newer B = 1.21.11. Do not read old/current mod implementation or wiki-audit output, browse Minecraft Wiki/MCPK, use release notes, implement Java, or perform runtime validation before the blind source report is frozen. Exclude health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulation and non-player movement; direct vanilla-state reads by movement predicates remain in scope.
+- Run status: active
+- Scope: fresh source-only direct client-player movement comparison; older A = 1.21.10; newer B = 1.21.11. Do not read old/current mod implementation or wiki-audit output, browse Minecraft Wiki/MCPK, or use release notes. Exclude health/food-state production, attack/damage resolution, non-player movement and vehicle physics; direct player-motion, velocity, impulse and knockback response triggered by native movement events remains in scope. No Java implementation or runtime validation before the required handoff.
 - Repository revision and start date: comparison branch created from `main` at `002137b227676caea77f6832b9f4c8d0b6200bff`; 2026-10-07. Branch `feat/source-discovery-movement-source-1-21-10-1-21-11`.
-- Selected naming namespace, CLI mode per side and alignment evidence: campaign roster selects Mojmap from 1.14.4 onward; intended CLI mode is `mojmap` for both sides, pending exact readiness-marker verification.
-- Source preparation owner / command / log / readiness marker: shared source owner owns all generation/publication; identity, exact commands, logs and pair markers not yet supplied. No local decompiler run. Canonical root relative to repository: `build/movement-campaign-2026-10-07`.
-- Toolchain/decompiler/remapper versions and options: Java 25 fork; Vineflower 1.12.0, Tiny Remapper 0.14.1, Mapping IO 0.9.1, Gson 2.14.0, ASM 9.10.1 from the version catalog. Exact pair options pending readiness records.
+- Selected naming namespace, CLI mode per side and alignment evidence: Mojmap on both sides; exact pair markers confirm matching `mojmap` namespace and exact release IDs 1.21.10 and 1.21.11.
+- Source preparation owner / command / log / readiness marker: shared source-preparation owner; exact command is in both provenance records. One serialized batch decompiled 1.21.8, 1.21.10 and 1.21.11 using Mojmap, 4G heap, Java 25.0.3+9-LTS, Gradle 9.7.1. Pair logs: `build/movement-campaign-2026-10-07/staging/mojmap-1.21.8-to-1.21.11-9a8c76419cd14660b88f9fc90225e127/gradle.full.log` (SHA-256 `2be0eaf67f24c0f1cfa585da9072572d1ac16b0c79c9864c67e5fb8c1bcd2c91`). Readiness markers and provenance hashes are recorded below. This worker did not run decompilation.
+- Toolchain/decompiler/remapper versions and options: Java `25.0.3+9-LTS`; Gradle `9.7.1`; Vineflower `1.12.0`; Tiny Remapper `0.14.1`; Mapping IO `0.9.1`; Gson `2.14.0`; ASM `9.10.1`; `--mappings=mojmap --decompiler-heap=4G`.
 - Discovery author(s): this worker.
 - Independent reviewer (must differ from discovery authors): pending assignment.
 
 ## Artifact manifest
 
-A = 1.21.10; B = 1.21.11. No exact-pair readiness JSON has been published under `build/movement-campaign-2026-10-07/ready/` at this checkpoint. The shared decompile lock was observed held. Per side, source root, exact resolved release ID, client jar SHA-256, Mojmap mapping artifact/build/path/SHA-256, mapped jar SHA-256, source inventory and source hashes are pending the source-owner marker. Verify the marker itself and every cited hash before opening evidence. The local decompiler resolver can map a non-exact ID to the newest matching prefix; confirm both requested and resolved IDs in marker/log. Required-class checks do not establish method-body completeness. The Java source saver omits jar resources; hash relevant original jar resource entries separately. Do not regenerate or modify shared artifacts.
+Both exact markers, provenance files, source manifests, artifact manifests, diagnostics and every file listed in the source/artifact manifests were verified read-only. Requested IDs, metadata IDs, resolved IDs and marker IDs all match exactly. Both sides are Mojmap in the same official-name mapping family. The artifact manifest paths are relative to the provenance-recorded batch cache, not the campaign `artifacts/` root.
+
+- A 1.21.10 source root: `build/movement-campaign-2026-10-07/ready/1.21.10/mojmap`; 6,386 Java files; 28,999,290 bytes; source manifest `mojmap.sources.sha256`, SHA-256 `4be26049350c1b314a0b198022cb1e7ab1e745e104047de7a5c7d099a9d7b7e1`; source hashes/count/bytes all match. Artifact manifest `artifacts.sha256`, SHA-256 `c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c`; all 257 listed cache artifacts match. Readiness marker SHA-256 `2374d901074b72cd69f0229381d6a11edea7983613c538a2e2e18d9fc73dbeb0`; provenance SHA-256 `9a1db4c050c3caa28a1313f89dae9da3b28feaa5f8afba42cab798b47d7ad77c`; diagnostics SHA-256 `5642b893edbb01bc1dd57386e013c61572c20f75fd25542877bace1f1f457eb0`. Original client jar SHA-256 `e65ca028bc58da12bf8413066c90ecd4d48c94fb351d9bbd22ecdff5c87f9482`; official `client_mappings.txt` SHA-256 `2a6f53f4c1fd048e8fa956e3a3fbbb0afc02d5bbc23e52a16b328aed61b9bf39`; derived `client-mojmap.jar` SHA-256 `0885181c5e4c2f21dd2f95591dd095fa0176807edbe239ef77218e861f0751da`.
+- B 1.21.11 source root: `build/movement-campaign-2026-10-07/ready/1.21.11/mojmap`; 6,622 Java files; 29,464,971 bytes; source manifest `mojmap.sources.sha256`, SHA-256 `0c4d83fef84c101d9db88f331acec7960f3c8346228c28995e6cf57bbfcae555`; source hashes/count/bytes all match. Artifact manifest `artifacts.sha256`, SHA-256 `c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c`; all 257 listed cache artifacts match. Readiness marker SHA-256 `0ad98d0ebd654650492c97eb58bc324d33864787f0ce10d99faec3ae2f5b804b`; provenance SHA-256 `99c9fb741eb5e4ac8fb5780e2158da324d7c8b6afc179d494e5986f78fe29f72`; diagnostics SHA-256 `a97183dfdbeb5000aac0c66aaed9bb85aa2f2655594e5e4dece254a7c46a13aa`. Original client jar SHA-256 `1473c9489ac50fda3c435049a76a70d61a10b8610db27f5ba9d8756b686cd3bd`; official `client_mappings.txt` SHA-256 `517799a8485e107e932dc1bd27c002b2d0b9207eb2396b685bcfe6c3321a9fbd`; derived `client-mojmap.jar` SHA-256 `7055b6a734a8f9f0d80229c2438ba12d10952a57c3795f32b8611020b34eb89a`.
+
+The provenance batch command is `decompileMinecraft --versions=1.21.8,1.21.10,1.21.11 --mappings=mojmap --decompiler-heap=4G` with isolated `staging/mojmap-1.21.8-to-1.21.11-9a8c76419cd14660b88f9fc90225e127/output` and `.../cache`; successful exit 0 is recorded in each `.success.log`. The shared full log reports remapper access warnings for `OptionInstance$ValueSet` from `VideoSettingsScreen`/`OnlineOptionsScreen`, and Gradle deprecation warnings; no exception, Vineflower error, or error loading a selected movement class was found. Movement diagnostics mark exact required source identities and list nine methods per side; each body still requires direct inspection before its slice can close. The Java source saver excludes jar resources; source-derived resource claims must cite the original client jar and entry hash. The separate Feather derived-artifact revision `feather-r1-2026-10-07` does not apply to this Mojmap pair.
 
 ## Blind-discovery freeze
 
+- This status is the full-pair freeze. Individual finding snapshots are tracked separately and do not change it.
 - Status: pending
 - Freeze commit/checkpoint and timestamp: pending source coverage and independent audit.
 - Evidence inventory and finding IDs included at freeze: pending; no source finding is confirmed yet.
@@ -23,7 +29,7 @@ A = 1.21.10; B = 1.21.11. No exact-pair readiness JSON has been published under 
 
 ## Correspondence and call order
 
-Pending pair publication. Resolve exact classes, descriptors, inheritance, callers, overrides and source anchors separately for both releases. Required end-to-end sequence: local input sampling → local tick/superclass tick → pre-travel state/input preparation → travel dispatch and every reachable branch → move/collision/support callbacks → post-travel state updates. Record exact call sequence and state read/write edges for input history/yaw; pose, dimensions and eye height; position, velocity and box; collision/ground/fluid/support flags; movement attributes; sprint/jump timers; and equipment/effect state. Follow every changed or influential helper, writer, consumer, registration and resource.
+Exact source roots and diagnostic anchors are now verified; member correspondence and call order remain in progress. Initial movement diagnostics identify `Entity.move`/`moveRelative`, `LivingEntity.jumpFromGround`/`travel`/`aiStep`, `Player.aiStep`/`travel`, and `LocalPlayer.aiStep`/`move` on both sides. Resolve exact descriptors, callers, overrides and source anchors before using these method names as correspondence. Required end-to-end sequence: local input sampling → local tick/superclass tick → pre-travel state/input preparation → travel dispatch and every reachable branch → move/collision/support callbacks → post-travel state updates. Record exact call sequence and state read/write edges for input history/yaw; pose, dimensions and eye height; position, velocity and box; collision/ground/fluid/support flags; movement attributes; sprint/jump timers; and equipment/effect state. Follow every changed or influential helper, writer, consumer, registration and resource.
 
 ## Required source inventories
 
@@ -32,7 +38,7 @@ Pending pair publication. Resolve exact classes, descriptors, inheritance, calle
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S4-*,S5-contact-shapes,S5-landing-bounce,S5-neighbors,S5-climbables; evidence=exact pair sources unavailable.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S5-*,S6-data-resources; evidence=exact pair sources unavailable.
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S3-attributes,S6-*; evidence=exact pair sources unavailable.
-- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, such as corrections, pushes, pistons and mounts: status=pending; slice_ids=S7-*; evidence=exact pair sources unavailable.
+- `INV-EXTERNAL` player-only externally supplied movement inputs and direct player velocity/impulse/knockback application, plus in-scope player-facing transitions; exclude non-player and vehicle physics: status=pending; slice_ids=S7-*; evidence=exact pair sources unavailable.
 - `INV-EXCLUSIONS` explicit scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; evidence=delegated scope set; direct vanilla-state consumers remain covered by owning movement slices.
 
 ## Coverage ledger
@@ -568,9 +574,7 @@ The entries below are provisional behavior buckets from the required navigation 
 
 ## Dependency queue and blockers
 
-- Open dependencies: `D-PAIR-READY`, `D-METHOD-DIAGNOSTICS`.
-- `D-PAIR-READY` / source gate / exact readiness markers for 1.21.10 and 1.21.11 plus selected namespace, artifact manifests and logs are unavailable; provenance and alignment cannot yet be verified. Next: read the source-owner markers, verify requested/resolved IDs and all cited hashes. Owner: shared source owner. Status: pending.
-- `D-METHOD-DIAGNOSTICS` / source gate / pair-specific movement-method diagnostics and relevant full bodies are unavailable; required-class checks are insufficient to establish method completeness. Next: inspect diagnostics and every selected body; request exact source/bytecode help for any damaged body. Owner: source owner for artifacts, discovery worker for slice audit. Status: pending; depends on `D-PAIR-READY`.
+- Open dependencies: `D-METHOD-BODY-REVIEW` and all method/resource dependencies discovered during the seven-stage walk.
 
 ## Finding index
 
@@ -579,9 +583,13 @@ No source findings confirmed yet; comparison has not started. This is not a no-d
 ## Resume checkpoint
 
 - Last completed slice: source-gate preparation and 44 provisional stage behavior buckets; no exact-pair source slice completed.
-- Next bounded slice and exact files/members/body ranges to open: after marker/hash verification, start `S1-input-sampling`; resolve the exact local player/input classes and complete input sampling → local tick → superclass/tick/travel call sequence in both releases.
-- Outstanding dependencies and owners: `D-PAIR-READY` (shared source owner); `D-METHOD-DIAGNOSTICS` (shared source owner, then discovery worker verification).
-- Current assumptions requiring verification: intended Mojmap alignment; exact resolved release IDs; marker/source/artifact hashes; decompiler diagnostics; class/member correspondence; relevant jar resource availability and provenance.
+- Next bounded slice and exact files/members/body ranges to open: start `S1-input-sampling` with `net/minecraft/client/player/KeyboardInput.java` and `LocalPlayer.java`; resolve full input sampling → local tick → superclass tick/travel sequence, exact descriptors, callsites and body ranges on both sides.
+- Outstanding dependencies and owners: `D-METHOD-BODY-REVIEW` (discovery worker); newly discovered producer/consumer, shape, registration and data dependencies will be added with exact owners/actions.
+- Current assumptions requiring verification: all listed ready/source/artifact hashes were verified. Remaining assumptions: exact member correspondence, operation/callback order, every reachable player state writer and producer/consumer dependency, relevant jar resource entries, and source-level movement semantics.
+
+## Finding snapshots (not pair freeze)
+
+- No finding snapshots submitted or accepted yet. An accepted source-confirmed finding snapshot may be handed off independently while this full-pair run remains active; snapshot acceptance does not change pair coverage or full-pair freeze status.
 
 ## Implementation reconciliation
 
@@ -602,14 +610,14 @@ No source findings confirmed yet; comparison has not started. This is not a no-d
 
 ## Source audit closure
 
-- Coverage counts by status: 44 pending; 0 in-progress; 0 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked.
-- Required inventory status and evidence: all seven inventories pending exact-pair readiness and source traversal.
-- Open dependencies: `D-PAIR-READY`, `D-METHOD-DIAGNOSTICS`.
-- Unresolved gaps and limits: both exact source sets and method diagnostics are unavailable; no movement behavior has been examined. Keep active while source publication is in progress; at handoff, any open source slice requires partial status.
-- Evidence/hash/correspondence audit: no Minecraft source evidence cited yet. Verify exact JSON and artifact hashes before promoting any slice.
-- Blind freeze: pending
+- Coverage counts by status: 44 pending; 0 in-progress; 0 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked. Pair source provenance is verified; behavior review has not yet closed any slice.
+- Required inventory status and evidence: all seven inventories pending method-bounded traversal, producer/consumer linkage and full closure. Source roots and artifact hashes are verified above.
+- Open dependencies: `D-METHOD-BODY-REVIEW` and all method/resource dependencies discovered during the seven-stage walk.
+- Unresolved gaps and limits: pair provenance is verified, but all movement behavior remains unexamined. Keep active while comparison proceeds; at handoff, any open source slice requires partial status.
+- Evidence/hash/correspondence audit: ready JSON, provenance, source/artifact manifests and diagnostics hashes are verified; full source-file and cache-artifact inventories match the markers. Per-slice source ranges and hashes are pending direct inspection.
+- Full-pair blind freeze: pending
 - Implementation reconciliation: pending
 - Independent audit: pending
-- Runtime validation: not performed; explicit authorization not given.
+- Accepted finding snapshots: none. Full-pair freeze: pending. Implementation reconciliation: pending. Independent audit: pending. Runtime validation: not performed; not authorized.
 
 The completion checker validates schema/status only and cannot establish source truth. The independent source audit remains mandatory. Keep this folder limited to run.md and optional findings/*.md.
