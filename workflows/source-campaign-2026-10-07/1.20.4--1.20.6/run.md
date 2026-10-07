@@ -728,8 +728,18 @@ Each bounded behavior remains open until both exact source sides, the relevant m
 ## Resume checkpoint
 
 - Last completed slice: source provenance and exact source-tree hash validation; six bounded behaviors are closed as compared-no-difference, and ten broader behavior slices contain partial source-confirmed evidence but remain in-progress.
+- Task branch / checkpoint: `feat/source-discovery-movement-source-1-20-4-1-20-6`, prior committed tip `23603b4`; `main` is `002137b` and is already an ancestor of the task branch.
 - Next bounded slice and exact files/members/body ranges to open: start S1-input-motion and sprint/jump scheduling by comparing `KeyboardInput.tick`, `Input.getMoveVector`, `LocalPlayer.aiStep` and its pre-travel calls, then trace into `Player.travel(Vec3)` and `LivingEntity.travel(Vec3)`; close the remaining flight input/speed gates after MC1204-1206-01.
-- Outstanding dependencies and owners: 39 pending slices and 10 in-progress slices require exact A/B methods, writers/readers, callers, resources and dependency closure; no external source-preparation blocker. A different blind source reviewer is still unassigned for both individual finding snapshots and the eventual full-pair audit.
+
+Resume with these read-only source navigation commands from the repository root (use outputs only as navigation, then record exact method ranges/hashes in the ledger):
+
+```powershell
+$A = 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.20.4\mojmap'
+$B = 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.20.6\mojmap'
+rg -n -C 6 'calculateImpulse|public void tick|public Vec2 getMoveVector|hasForwardImpulse' "$A/net/minecraft/client/player/KeyboardInput.java" "$B/net/minecraft/client/player/KeyboardInput.java" "$A/net/minecraft/client/player/Input.java" "$B/net/minecraft/client/player/Input.java"
+rg -n -C 8 'public void aiStep|jumpTriggerTime|isAlwaysFlying|isSprinting|input\.jumping|public void travel\(Vec3\)' "$A/net/minecraft/client/player/LocalPlayer.java" "$B/net/minecraft/client/player/LocalPlayer.java" "$A/net/minecraft/world/entity/player/Player.java" "$B/net/minecraft/world/entity/player/Player.java" "$A/net/minecraft/world/entity/LivingEntity.java" "$B/net/minecraft/world/entity/LivingEntity.java"
+```
+- Outstanding dependencies and owners: 40 pending slices and 10 in-progress slices require exact A/B methods, writers/readers, callers, resources and dependency closure; no external source-preparation blocker. A different blind source reviewer is still unassigned for both individual finding snapshots and the eventual full-pair audit.
 - Current assumptions requiring verification: per-method movement body integrity and complete class/member correspondence must still be verified despite the successful source diagnostics.
 
 ## Finding snapshots (not pair freeze)
@@ -755,10 +765,11 @@ Each bounded behavior remains open until both exact source sides, the relevant m
 
 ## Source audit closure
 
-- Coverage counts by status: pending 39; in-progress 10; compared-no-difference 6; findings 0; not-applicable 0; blocked 0. The in-progress slices contain bounded source-confirmed findings but remain open for broader dependency closure.
+- Coverage counts by status: pending 40; in-progress 10; compared-no-difference 6; findings 0; not-applicable 0; blocked 0. The in-progress slices contain bounded source-confirmed findings but remain open for broader dependency closure.
+- Slice IDs by status: pending (40): S1-input-motion, S1-sprint-gates, S1-jump-gates, S1-tick-order, S2-pose-selection, S2-player-state, S2-sprint-consumers, S2-flight-abilities, S3-travel-dispatch, S3-ground-acceleration, S3-air-acceleration, S3-climbing, S3-water, S3-lava, S3-gliding, S3-effects-branch, S4-box-movement, S4-edge-probes, S4-grounding, S4-collision-query, S4-shapes, S4-callbacks, S4-fluid-contact, S5-landing-bounce, S5-friction-speed, S5-slowdown-contact, S5-climbables, S5-fluid-blocks, S5-pistons, S5-partial-shapes, S5-registrations, S5-modern-only, S6-effects, S6-enchantments, S6-equipment, S6-resources, S7-position-writers, S7-riding, S7-closure, SCOPE-exclusions; in-progress (10): S1-flight-tick, S2-dimensions, S3-velocity-cutoffs, S3-gravity-drag, S3-ground-jump, S3-sprint-jump, S4-step-candidates, S6-attributes, S6-server-boundary, S7-velocity-writers; compared-no-difference (6): S1-input-sampling, S1-local-tick-call-order, S5-powder-snow-contact-state, S5-current-block-state-consumers, S7-client-motion-payloads, S7-player-knockback-push.
 - Required inventory status and evidence: all seven pending; exact source roots and hashes validated, method-level inventory remains.
-- Open dependencies: no unresolved source-preparation blocker; dependencies remain within the 39 pending and 10 in-progress slices, including full method/caller closure, resource-backed block data and external attribute provenance.
-- Unresolved gaps and limits: 39 bounded slices remain pending and 10 remain in-progress; the six compared-no-difference rows cover input sampling, LocalPlayer.tick wrapper order, bounded current-block query consumers, packet-to-player motion application, and direct player knockback/push response. Pair-wide member correspondence, semantic comparison and dependency closure are incomplete; no campaign-level equivalence or completion claim is made.
+- Open dependencies: no unresolved source-preparation blocker; dependencies remain within the 40 pending and 10 in-progress slices, including full method/caller closure, resource-backed block data and external attribute provenance.
+- Unresolved gaps and limits: 40 bounded slices remain pending and 10 remain in-progress; the six compared-no-difference rows cover input sampling, LocalPlayer.tick wrapper order, bounded current-block query consumers, packet-to-player motion application, and direct player knockback/push response. Pair-wide member correspondence, semantic comparison and dependency closure are incomplete; no campaign-level equivalence or completion claim is made.
 - Evidence/hash/correspondence audit: readiness, source and artifact manifests and all source hashes verified; pair-specific method ranges and hashes are recorded for six findings and six bounded no-difference slices; remaining slices are not yet audited.
 - Blind freeze: pending
 - Implementation reconciliation: pending
