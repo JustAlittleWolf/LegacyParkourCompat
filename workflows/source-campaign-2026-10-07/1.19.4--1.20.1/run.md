@@ -82,15 +82,14 @@ The pair uses Mojmap and is not among the six early Feather derived artifacts co
 ### Slice S1-PORTAL: Local portal-screen and cooldown state
 
 - Inventory ID(s): INV-STATE, INV-EXTERNAL
-- Exact behavior boundary and enclosing guards/order checked: LocalPlayer.aiStep caller guard and LocalPlayer.handleNetherPortalClient updates, including processPortalCooldown; client portal-contact consumer and tick reachability still need closure.
-- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#aiStep(), lines 645-654, and #handleNetherPortalClient(), lines 810-851, SHA-256 8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58.
-- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.20.1/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#aiStep(), lines 648-657, and #handleNetherPortalClient(), lines 816-844, SHA-256 69a2d043d2c0595bd364d625a5445e4934d9e07fef020cd79fafb42f59952ac2.
-- State producers/writers -> consumers/readers: A calls the client helper every AI step; B skips while ReceivingLevelScreen is active. A helper writes portalTime/oPortalTime; B writes spinningEffectIntensity/oSpinningEffectIntensity; both call Entity.processPortalCooldown. Entity.handleInsidePortal reads cooldown and sets portal-contact state. Actual dimension change and server position are supplied through the server/entity path; direct client position/velocity effect is not yet closed.
-- Parent slices / dependencies / closure evidence: S1-06 tick/screen reachability; S4-01 portal block contact; S7-01 respawn and position correction; compare Entity.handleInsidePortal and client/server movement boundary.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): code differs while the level-reception screen is active. The helper writes portal presentation/cooldown state and does not directly set local position or velocity, but the relevant caller execution and portal-contact/position dependency chain remains open.
-- Finding IDs or checked absence/replacement path: candidate only pending dependency closure; not a confirmed player movement finding.
-
+- Exact behavior boundary and enclosing guards/order checked: LocalPlayer#aiStep caller guard and #handleNetherPortalClient complete state updates; Entity#handleInsidePortal and #handleNetherPortal/Entity#baseTick portal call order, including client/server side guards.
+- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java #aiStep lines 645-654 and #handleNetherPortalClient lines 810-852, SHA-256 8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58; Entity.java #handleInsidePortal lines 1889-1899, #handleNetherPortal lines 1901-1930, #processPortalCooldown lines 487-491, SHA-256 3667fee610cbc5f58012e3a8fb8d6c4849f649fb7fe5300595158112d8b4b58b.
+- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.20.1/mojmap/net/minecraft/client/player/LocalPlayer.java #aiStep lines 648-657 and #handleNetherPortalClient lines 816-844, SHA-256 69a2d043d2c0595bd364d625a5445e4934d9e07fef020cd79fafb42f59952ac2; Entity.java #handleInsidePortal lines 1992-2002, #handleNetherPortal lines 2004-2033, #processPortalCooldown lines 499-503, SHA-256 94b9c3656715de2d61fa9a02ccef164261e50eb13d6090a6f07e58fe9c5b0759.
+- State producers/writers -> consumers/readers: client portal block contact sets isInsidePortal; LocalPlayer's helper consumes it for portal overlay intensity/time, sound and cooldown; Entity#handleNetherPortal only performs dimension-change processing when the entity level is a ServerLevel.
+- Parent slices / dependencies / closure evidence: S1-06 superclass tick reachability; S7-01 client position corrections; direct movement and external-input boundary in SCOPE-01.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): A invokes the client helper every LocalPlayer.aiStep; B skips it while ReceivingLevelScreen is active. The helper bodies update only client portal presentation fields, screen/sound state and portal cooldown, and neither writes the local player's position nor delta movement. Client Entity#handleNetherPortal is guarded by `level instanceof ServerLevel`, so the actual dimension change is not executed by this local-player client path. Server position/dimension updates arrive through the separate packet path already inventoried in S7-01. The screen/cooldown difference therefore has no direct client-player movement disposition in this bounded source path.
+- Finding IDs or checked absence/replacement path: no direct client position/velocity writer in the complete A/B helper bodies; the server-only dimension-change path is checked and excluded from the local client movement slice.
 
 ### Slice S1-02: LocalPlayer pre-travel input transforms
 
@@ -260,7 +259,7 @@ The pair uses Mojmap and is not among the six early Feather derived artifacts co
 - Finding IDs or checked absence/replacement path: no finding; excluded producers are not treated as no-difference source results. Remaining exclusions inventory stays pending.
 
 
-Both exact Mojmap source pairs and full manifests are verified. S1-01/S1-02/S1-03/S1-06/S4-02/S7-01/S7-03/SCOPE-01 are terminal; F-01/F-02/F-03/F-04 are source-confirmed; portal, remaining collision/world inputs, exclusion producer routes and external traces remain open.
+Both exact Mojmap source pairs and full manifests are verified. S1-01/S1-02/S1-03/S1-06/S1-PORTAL/S4-02/S7-01/S7-03/SCOPE-01 are terminal; F-01/F-02/F-03/F-04 are source-confirmed; portal, remaining collision/world inputs, exclusion producer routes and external traces remain open.
 
 ## Dependency queue and blockers
 
@@ -280,7 +279,7 @@ This is not a complete or no-difference conclusion. Prior reports are navigation
 
 ## Resume checkpoint
 
-- Last completed slices: verified both exact endpoints; closed S1-01/S1-02/S1-03/S1-06/S4-02/S7-01/S7-03; recorded F-01/F-02/F-03/F-04 source-confirmed movement findings and the bounded SCOPE-01 boundary map.
+- Last completed slices: verified both exact endpoints; closed S1-01/S1-02/S1-03/S1-06/S1-PORTAL/S4-02/S7-01/S7-03; recorded F-01/F-02/F-03/F-04 source-confirmed movement findings and the bounded SCOPE-01 boundary map.
 - Next bounded slice: finish S1-04 auto-jump shape dependencies, then continue LivingEntity travel and the remaining collision/world-movement source comparisons.
 - Outstanding dependencies and owners: D2 resource/tag audit after block/fluid consumer inventory; reviewer assignment and all open movement slices.
 - Current assumptions requiring verification: portal-screen/cooldown effects, sprint modifier inputs, remaining travel/collision members, resources, data and tags; independent review remains unassigned.
