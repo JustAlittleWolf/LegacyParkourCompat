@@ -318,38 +318,38 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 ### Slice S6.1: movement effects and attribute aggregation
 
 - Inventory ID(s): INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: direct movement attribute consumers, modifier aggregation/order, effect formulas and movement-affecting registration values; not yet checked.
-- A evidence: pending source publication and matching resources.
-- B evidence: pending source publication and matching resources.
-- State producers/writers -> consumers/readers: pending effect/application/attribute producers to jump/travel/input consumers.
-- Parent slices / dependencies / closure evidence: S1.1; S3.1-S3.4; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source and resource comparison; exclude health/food producer systems.
-- Finding IDs or checked absence/replacement path: none yet.
+- Exact behavior boundary and enclosing guards/order checked: base movement attribute registrations and direct attribute value/modifier aggregation methods; item/effect producer and attribute-sync closure remains open.
+- A evidence: `AttributeInstance#getValue()` line 145 and modifier mutation `addPermanentModifier()` line 107; `AttributeMap` and `Attributes` source hashes: `6e557daca10617e6a8f4af17d6436a8d1165cd175048e98ea795629a274c44cb`, `60651acdcd2cc66c590b1203978b26e2b253892861f1156004d5040d728210bf`, `14bcc5821d0f67f41fdc3e512556181823cff5c43f84fc1007e51d25f413a3ea`.
+- B evidence: same `AttributeInstance#getValue()` and modifier mutation method bodies; B `AttributeInstance`, `AttributeMap`, `Attributes`, `DefaultAttributes` hashes are `c2d4f89e7ae2abbe856e7e1aa5bff2ca613073cbda282c1975636e479ba8e346`, `06088d7aeedd65b468b807c3a500da7a3a16d787917812a55dd7b81ad60cd079`, `b941c0556d9ed3c3ce1ffd4c993c9902287a690230e1510696ff13f9efdf2020`, `56e43f365ae0971e3c8417faeb025f9e3e73983ba83517cb853b80f25fa01991`.
+- State producers/writers -> consumers/readers: attribute value and modifier operation order remain unchanged. Among the changed registration entries, new `CAMERA_DISTANCE` and waypoint range attributes do not feed player travel; player attribute builder additions in B are waypoint-only. `AttributeInstance`/`AttributeMap` changes are pack/apply persistence shape, not movement aggregation. Item/effect modifiers and resource-defined entries remain to inventory.
+- Parent slices / dependencies / closure evidence: S1.1; S2.3; S3.1-S3.4; DEP-SRC-A; DEP-SRC-B.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): core attribute aggregation and listed player movement attributes are unchanged; full attribute producers, item resources and effect application paths remain open.
+- Finding IDs or checked absence/replacement path: no difference found in the compared aggregation methods.
 
-### Slice S6.2: movement enchantments and equipment conditions
+### Slice S6.2: enchantment/effect movement consumers
 
-- Inventory ID(s): INV-MODIFIERS, INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: Depth Strider, Soul Speed, Swift Sneak, Frost Walker, Riptide, Elytra and any other direct movement equipment/enchantment formulas, slots, predicates and tags; not yet checked.
-- A evidence: pending source publication and matching resources.
-- B evidence: pending source publication and matching resources.
-- State producers/writers -> consumers/readers: pending equipment/tag/condition producers through attribute/helper to player movement consumer.
-- Parent slices / dependencies / closure evidence: S3.1-S3.4; S5.4; S6.1; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source and resource comparison; server-side Frost Walker world mutation is an explicit provenance boundary.
-- Finding IDs or checked absence/replacement path: none yet.
+- Inventory ID(s): INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: movement-relevant vanilla effect registrations referenced by player jump/travel formulas; complete effect application, enchantment and resource producer inventory remains open.
+- A evidence: `MobEffects.java` SHA-256 `1511be2a9bfd2bd17112ef03b26d645e0cfaf315019b1d906d9d34c54d4ee245`; movement registrations include speed/slowness, jump boost, levitation, slow falling and dolphin's grace at source lines 15-109.
+- B evidence: `MobEffects.java` SHA-256 `59460ae5a2087122e88eb4e6f799466ed3ea313a04a9e9162a9abf76dea440ae`; the manifest-listed file difference adds a waypoint-range modifier to invisibility only. The named movement effect registrations retain their A values/operations. Existing `LivingEntity` jump/travel consumers match, as recorded in S3.1-S3.4.
+- State producers/writers -> consumers/readers: paired movement consumers read the same effect presence/amplifier values and perform the same formulas; invisibility's added waypoint attribute is not read by the player movement path. Enchantment-driven effects and item/resource-defined effects remain pending.
+- Parent slices / dependencies / closure evidence: S3.1-S3.4; S5.2; DEP-SRC-A; DEP-SRC-B.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no change found in the compared built-in movement effect registrations; effect/enchantment producer and data inventory remains open.
+- Finding IDs or checked absence/replacement path: none for the compared built-in movement registrations.
 
-### Slice S6.3: use-item slowdown and movement components
+### Slice S6.3: equipment, active-item and conditional modifiers
 
 - Inventory ID(s): INV-MODIFIERS, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: active item/use state, slowdown and movement-relevant item components along reachable player input path; not yet checked.
-- A evidence: pending source publication and matching resources.
-- B evidence: pending source publication and matching resources.
-- State producers/writers -> consumers/readers: pending item/application/component producer-to-input scaling consumer trace.
-- Parent slices / dependencies / closure evidence: S1.1; S2.3; S6.1; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source and resource comparison.
-- Finding IDs or checked absence/replacement path: none yet.
+- Exact behavior boundary and enclosing guards/order checked: item attribute modifier iteration and conditional-effect validation entry; equipment, active-item, enchantment and resource producer routes remain open.
+- A evidence: `ItemAttributeModifiers#forEach(EquipmentSlotGroup, BiConsumer)` line 51 and `ConditionalEffect.conditionCodec` source SHA-256 `b3df278b9967e886e52cf117e0516143b28cfe0a2020b59a7aa184d2ce450f08`, `ce16e6ccd714f73bd9e2e3d32507a82e3d45410936ba380bca25b769e7537b12`.
+- B evidence: existing BiConsumer modifier iteration body is unchanged at line 74; new display-aware overload is presentation-only. `ConditionalEffect.conditionCodec` validation retains the same validation and error/success condition in a refactored expression. B hashes are `de6e2f7df09d37c20a653915b6db9910335da16fbb6b48fd471b901f18a7f289`, `edc7955872fbb5f8c1c8d341e6e438a32e6eeef426375889373019ef0ef4f51e`.
+- State producers/writers -> consumers/readers: the compared modifier enumeration still passes the same attribute holder and modifier to consumers; conditional-effect codec change validates data rather than changing application. Actual equipped item/enchantment data and direct active-item movement predicates still require trace.
+- Parent slices / dependencies / closure evidence: S2.3; S3.4; DEP-SRC-A; DEP-SRC-B.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no movement change found in the compared modifier iteration or validation expression; full equipment, active-item, enchantment and resource producer inventory remains open.
+- Finding IDs or checked absence/replacement path: none for the compared methods.
 
 ### Slice S7.1: incoming velocity and position corrections
 
@@ -428,11 +428,11 @@ Complete only after source-only freeze. No mod implementation was opened for thi
 
 ## Source audit closure
 
-- Coverage counts by status: 8 pending; 14 in-progress; 5 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked (all 7 inventories pending).
-- Required inventory status and evidence: INV-TICK has paired S1.1-S1.4 input/tick/jump/sprint/flight/riding comparisons and partial S3.1-S3.5 travel consumer evidence; INV-STATE has core movement setter pairs, input and pose/dimension/scale subsets; S1.1-S1.4 and S2.1 compared, S2.2 and S3.2/S3.5 partially checked; INV-COLLISION has pose-fit, collision/edge/support method comparisons and partial S4.3/S4.4 evidence; INV-WORLD-MOVEMENT and INV-EXTERNAL have partial S5.2/S7.1-S7.3 evidence. Remaining stages, providers, resources and full exclusions inventory remain pending. Both exact sources and markers are hash-verified.
+- Coverage counts by status: 5 pending; 17 in-progress; 5 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked (all 7 inventories pending).
+- Required inventory status and evidence: INV-TICK has paired S1.1-S1.4 input/tick/jump/sprint/flight/riding comparisons and partial S3.1-S3.5 travel consumer evidence; INV-STATE has core movement setter pairs, input and pose/dimension/scale subsets; S1.1-S1.4 and S2.1 compared, S2.2 and S3.2/S3.5 partially checked; INV-COLLISION has pose-fit, collision/edge/support method comparisons and partial S4.3/S4.4 evidence; INV-WORLD-MOVEMENT and INV-EXTERNAL have partial S5.2/S7.1-S7.3 evidence; INV-MODIFIERS has partial attribute/effect/modifier-source evidence in S6.1-S6.3. Remaining stages, providers, resources and full exclusions inventory remain pending. Both exact sources and markers are hash-verified.
 - Open dependencies: body-level slice and relevant resource/provider inventory; source publication dependencies are resolved.
-- Unresolved gaps and limits: S1.1-S1.4 and S2.1 are compared-no-difference; S3.1-S3.5 remain in progress with exact travel/jump consumers compared and dependencies open; S2.2, S4.1-S4.4, S5.2, S7.1-S7.3 are in progress with three source-supported candidates, none independently reviewed. All other pair coverage remains open.
-- Evidence/hash/correspondence audit: A/B readiness JSON and source/artifact/diagnostic hashes verified; S1.1-S1.4 input/tick/jump/sprint/flight path, S2.1 bodies, and S3.1-S3.5 travel/jump consumer methods, S2.2 core movement setters and client correction consumers, S4.1/S4.2 collision/support methods, S4.3 validator query, S4.4 movement-recording/contact path and Nether Portal callback shape, plus S7.2 knockback/velocity push consumers checked; remaining member/resource/provider/body diagnostics pending.
+- Unresolved gaps and limits: S1.1-S1.4 and S2.1 are compared-no-difference; S3.1-S3.5 remain in progress with exact travel/jump consumers compared and dependencies open; S2.2, S4.1-S4.4, S5.2, S6.1-S6.3 and S7.1-S7.3 are in progress with three source-supported candidates, none independently reviewed. All other pair coverage remains open.
+- Evidence/hash/correspondence audit: A/B readiness JSON and source/artifact/diagnostic hashes verified; S1.1-S1.4 input/tick/jump/sprint/flight path, S2.1 bodies, and S3.1-S3.5 travel/jump consumer methods, S2.2 core movement setters and client correction consumers, S4.1/S4.2 collision/support methods, S4.3 validator query, S4.4 movement-recording/contact path and Nether Portal callback shape, S6 attribute/effect/modifier method subsets, plus S7.2 knockback/velocity push consumers checked; remaining member/resource/provider/body diagnostics pending.
 - Blind freeze: pending
 - Implementation reconciliation: pending
 - Independent audit: pending
