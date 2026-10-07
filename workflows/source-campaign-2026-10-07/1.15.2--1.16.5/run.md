@@ -23,7 +23,7 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - Version JSON: e974511243e845b2427ab635eba5612481cb420a70c0630aa041eab3eeb590c5
 - Official client mappings: 65ad295b6cf63821f5d8f961c128128475e6d39386358d22eb238a3ce6e31777
 - Mojmap client jar: c0fe9cfe2a273c42ff269b58c9aabb93815d6bb7bf457ca1deb8695833c4380b
-- Cited source hashes verified against the source manifest: LocalPlayer.java 3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd; Input.java 367c3a9b0b21d8f106a21fd2c73a3018685dbf07d9c8a9340e2d4c9d73359201; KeyboardInput.java 746ea654cf4f46a5f4b94a237c4307652252a44807a488b606dc993e088396f7; Player.java 1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793; LivingEntity.java 46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54; Entity.java 191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e; AABB.java 82324c0e6a3d69e80424656e6098b39ce41f0f17a5e6efbe6542fe8eaca24a18; VoxelShape.java 5faceea0e4ce9ad0f2a1a9d8a768ab877c8728ae2968fe34aa1e03d3ea; FlowingFluid.java e8a395552e53f33bcb5648325615d31bc1796ce2a8aeb501bdda3127622dccdf.
+- Cited source hashes verified against the source manifest: LocalPlayer.java 3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd; Input.java 367c3a9b0b21d8f106a21fd2c73a3018685dbf07d9c8a9340e2d4c9d73359201; KeyboardInput.java 746ea654cf4f46a5f4b94a237c4307652252a44807a488b606dc993e088396f7; Player.java 1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793; LivingEntity.java 46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54; Entity.java 191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e; AABB.java 82324c0e6a3d69e80424656e6098b39ce41f0f17a5e6efbe6542fe8eaca24a18; VoxelShape.java 5faceea0e4ce9ad0f2a1a2c72a89d9a768ab877c8728ae2968fe34aa1e03d3ea; FlowingFluid.java e8a395552e53f33bcb5648325615d31bc1796ce2a8aeb501bdda3127622dccdf.
 
 ### B — 1.16.5, Mojmap
 - Source root: ../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap
@@ -35,7 +35,7 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - Version JSON: 3eeeab7b3165cc5263dc26ff8fe114fdb718b75a0244efead9d19635d090ba72
 - Official client mappings: 7931ed6d723eceb1d621d05a76e10ddf643bf468c6ecf1c4ecf377bd72cf8b8c
 - Mojmap client jar: 7c1a9f30983fa3c777d00116bdf3f3cef97c1c1aaf8294027052f5337fcde940
-- Cited source hashes verified against the source manifest: LocalPlayer.java 6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b; Input.java 367c3a9b0b21d8f106a21fd2c73a3018685dbf07d9c8a9340e2d4c9d73359201; KeyboardInput.java 746ea654cf4f46a5f4b94a237c4307652252a44807a488b606DC993E088396F7; Player.java d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960; LivingEntity.java b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88; Entity.java f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666; AABB.java 514558cf4827679d84a4debd4f400d7d65bd4b8982b7ae8124a0d83a916ba878; VoxelShape.java 6747647a5b94e69747340d432932b77ce5ad701c8f06e141e15b3dd68f8c3bde; FlowingFluid.java a85a5cd6625b1b4a047bd693399e1f78c2978ae207af927d4abfac3b34229552.
+- Cited source hashes verified against the source manifest: LocalPlayer.java 6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b; Input.java 367c3a9b0b21d8f106a21fd2c73a3018685dbf07d9c8a9340e2d4c9d73359201; KeyboardInput.java 746ea654cf4f46a5f4b94a237c4307652252a44807a488b606dc993e088396f7; Player.java d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960; LivingEntity.java b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88; Entity.java f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666; AABB.java 514558cf4827679d84a4debd4f400d7d65bd4b8982b7ae8124a0d83a916ba878; VoxelShape.java 6747647a5b94e69747340d432932b77ce5ad701c8f06e141e15b3dd68f8c3bde; FlowingFluid.java a85a5cd6625b1b4a047bd693399e1f78c2978ae207af927d4abfac3b34229552.
 
 ## Blind-discovery freeze
 
@@ -128,9 +128,9 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - B evidence: LocalPlayer#aiStep, lines 627-647 and 663-681; source SHA-256 in B manifest.
 - State producers/writers -> consumers/readers: previous Input.shiftKeyDown -> sprintTriggerTime; later sprint gate consumes timer.
 - Parent slices / dependencies / closure evidence: S1-LOCAL-AISTEP, all sprintTriggerTime reads/writes in LocalPlayer.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): B adds a reset while prior shift input is true; verify all timer writers and gate preconditions.
-- Finding IDs or checked absence/replacement path: pending
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): B clears a live double-tap timer whenever the previously sampled shift input is held; A only suppresses sprint initiation during that sample and retains the timer.
+- Finding IDs or checked absence/replacement path: F-S1-SPRINT-RESET
 
 ### Slice S1-ELYTRA: fall-flying start and climbability gate
 - Inventory ID(s): INV-TICK, INV-STATE, INV-WORLD-MOVEMENT
@@ -150,9 +150,9 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - B evidence: LocalPlayer#aiStep lines 732-735; Player#isAffectedByFluids lines 1005-1007; goDownInWater lines 1898-1900; hashes in B manifest.
 - State producers/writers -> consumers/readers: input shift and water contact; abilities.flying -> isAffectedByFluids; goDownInWater adds (0,-0.04F,0) to delta movement.
 - Parent slices / dependencies / closure evidence: all Player abilities writers/defaults and LocalPlayer.aiStep.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): B adds a flying-state gate; exact reachability and ability state sources pending.
-- Finding IDs or checked absence/replacement path: pending
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): for a flying player in water with shift held, A calls the shared -0.04F helper and B skips it through Player.isAffectedByFluids().
+- Finding IDs or checked absence/replacement path: F-S1-WATER-DESCENT
 
 ### Slice S2-EDGE: edge-restraint trigger
 - Inventory ID(s): INV-STATE, INV-COLLISION
@@ -161,9 +161,9 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - B evidence: Player#maybeBackOffFromEdge lines 1010-1060 and isAboveGround lines 1062-1065; SHA-256 d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960.
 - State producers/writers -> consumers/readers: flying/onGround/fallDistance/maxUpStep/support query -> reduced x/z movement -> Entity.move.
 - Parent slices / dependencies / closure evidence: Player.isStayingOnGroundSurface; Entity.move caller; Level.noCollision/support query.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): B removes onGround as the direct requirement, adds not-flying and permits support within maxUpStep; close query semantics.
-- Finding IDs or checked absence/replacement path: pending
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): B replaces onGround with isAboveGround() plus a not-flying guard; the common x/z reduction loops remain the same.
+- Finding IDs or checked absence/replacement path: F-S2-EDGE
 
 ### Slice S3-TRAVEL: LivingEntity travel dispatch
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS, INV-WORLD-MOVEMENT
@@ -186,7 +186,11 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 
 ## Finding index
 
-No findings are complete yet. Candidate records remain in-progress until evidence closure. The historical pair report is not imported as source confirmation.
+- F-S1-SPRINT-RESET — held shift cancels pending double-tap sprint window (source-confirmed).
+- F-S1-WATER-DESCENT — creative flight suppresses crouch descent in water (source-confirmed).
+- F-S2-EDGE — edge restraint applies during a near-ground fall (source-confirmed).
+
+The historical pair report is not imported as source confirmation.
 
 ## Resume checkpoint
 
@@ -214,7 +218,7 @@ No findings are complete yet. Candidate records remain in-progress until evidenc
 
 ## Source audit closure
 
-- Coverage counts by status: pending 1; in-progress 6; compared-no-difference 2; findings 0; remaining required stage slices not yet entered and open.
+- Coverage counts by status: pending 1; in-progress 4; compared-no-difference 2; findings 3; remaining required stage slices not yet entered and open.
 - Required inventory status and evidence: all seven pending.
 - Open dependencies: SRC-OWNER-PROVENANCE,S1-ESCAPE-QUERY,S1-CLIMB-TAG,S2-EDGE-QUERY plus all stage 2-7 work.
 - Unresolved gaps and limits: exhaustive source comparison is incomplete.
