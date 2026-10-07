@@ -178,9 +178,10 @@ Behavior-slice inventory, all pending exact member correspondence and source ava
 
 ## Source audit closure
 
-- Coverage counts by status: pending 44 behavior-slice registrations; in-progress 0; compared-no-difference 0; findings 0; not-applicable 0; blocked 0. The stage registrations are intentionally coarse and must be expanded to exhaustive per-stage method/dependency slices before closure.
-- Explicit pending count: 44 behavior-slice registrations plus 2 source/data dependencies; exact method-level inventory is not yet established.
+- Coverage counts by status: pending 45 behavior-slice registrations; in-progress 0; compared-no-difference 0; findings 0; not-applicable 0; blocked 0. These are behavior-level planning rows and must be refined to exhaustive exact method/dependency slices before closure.
+- Explicit pending count: 45 behavior-slice registrations plus 2 source/data dependencies; exact method-level inventory is not yet established.
 - Unresolved gaps and limits: all substantive comparison remains pending source publication. No equivalence claim.
 - Evidence/hash/correspondence audit: not started; readiness records must be validated before use.
 - Runtime validation: not performed (separate workflow).
+
 
