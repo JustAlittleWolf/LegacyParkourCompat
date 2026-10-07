@@ -1,6 +1,13 @@
 # Fix: <discovery run / finding ID>
 
 - Discovery finding and manifest links:
+- Incremental snapshot ID (if pair not frozen):
+- Immutable source snapshot commit and finding-file SHA-256:
+- Exact A/B artifact-manifest and cited source/resource hashes:
+- Blind source reviewer acceptance and date:
+- Pair discovery status/commit at handoff (`active` or `partial`; pair complete = no):
+- Implementation status: not started | active | implemented | intentionally excluded | open
+- Implementation commit/evidence (tracked separately from source coverage):
 - Source-confirmed behavior and exact evidence hashes:
 - Verified release boundary and `ParkourVersion` group:
 - Current build target, decompilation mode, resolved source path, method descriptor:
@@ -11,3 +18,4 @@
 - Build command and result:
 - Runtime validation questions for the TAS lab:
 - Integration overlaps or semantic conflicts:
+- Feedback isolation: confirm no implementation-derived result was sent to source-only owners before full-pair source freeze:
