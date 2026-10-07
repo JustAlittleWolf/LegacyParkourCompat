@@ -60,7 +60,7 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 - `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=T01,T02,T03,T04,T05,T06,T07; evidence=T01/T03 source sampling and F-001, plus bounded local tick/sprint/jump/flight/mount-gate and player mount-transition checks in T02/T04/T05/T06/E03; travel branch and post-travel comparisons remain open.
 - `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=P01,P02,P03,P04; evidence=P01/P02 check selected pose/dimension and direct position/velocity writers; P03 checks selected direct predicates; F-002 documents the changed edge predicate; full writer/reader graph remains open.
-- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=C01,C02,C03,C04; evidence=F-002/F-004 and the legacy support lookup in `Entity.move`; shape/callback coverage remains open.
+- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=C01,C02,C03,C04; evidence=C01 compares the core `Entity.move` solver and cross-references F-003/F-004; F-002/F-004 and the legacy support lookup are recorded; shape/callback coverage remains open.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=W01,W02,W03,W04; evidence=exact source trees verified; block/fluid/resource inventory remains open.
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=M01,M02,M03,M04; evidence=F-001 traces the new Swift Sneak level bonus and M01 checks selected speed/jump consumers and attribute aggregation; effects/resources and other modifiers remain open.
 - `INV-EXTERNAL` player-only externally supplied movement inputs and direct player velocity/impulse/knockback application, plus in-scope player-facing transitions; exclude non-player and vehicle physics: status=pending; slice_ids=E01,E02,E03; evidence=E01 correction writers, E02 push/knockback consumers, and E03 player mount-transition wrappers; remaining packet flags, piston sources and vehicle-position integration remain open.
@@ -203,14 +203,14 @@ Artifact paths below are relative to repository root; generated artifacts remain
 ### Slice C01: entity movement axis order and collision velocity response
 
 - Inventory ID(s): INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: pending; movement entry and axis resolution order, clipped delta and velocity cancellation.
-- A evidence: not yet compared; readiness is recorded in D-SOURCES.
-- B evidence: not yet compared; readiness is recorded in D-SOURCES.
+- Exact behavior boundary and enclosing guards/order checked: compared the full `Entity.move(MoverType, Vec3)` method. The movement clipping/axis-resolution order, clipped displacement, position update, collision/ground flags and collision response remain in the same order. B calls `getOnPosLegacy()` for the support block; its `0.2F` path matches A `getOnPos()` exactly. Other in-method deltas are the already scoped player-step callback changes F-003/F-004 and a local-variable-only refactor of the climbable/Powder Snow predicate.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/Entity.java`, `Entity#move(MoverType,Vec3)`, lines 543-674; `getOnPos()`, lines 704-718; SHA-256 `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/entity/Entity.java`, `Entity#move(MoverType,Vec3)`, lines 547-679; `getOnPosLegacy()` / private `getOnPos(float)`, lines 710-732; SHA-256 `759DE9CDED43BD882AFCF5B7023BCF804D92419ACB656B493F3B490C83EB18B6`.
 - State producers/writers -> consumers/readers: requested delta/velocity/AABB -> collision solver -> position, velocity and flags.
 - Parent slices / dependencies / closure evidence: D-SOURCES; P02; C03.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison pending; no behavior claim.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the player solver's axis order and collision response match in the compared method. The support-position call rename preserves the old `0.2F` lookup. Reachable callback branches contain F-003/F-004; callback behavior, selected support shapes and neighboring-block dependencies are not closed by this comparison.
+- Finding IDs or checked absence/replacement path: F-003 and F-004 are cross-referenced for the in-method event/step callback deltas; checked absence of an axis-order or clipped-velocity-response delta in this method.
 
 ### Slice C02: stepping, edge restraint and support lookup
 
@@ -408,8 +408,8 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Resume checkpoint
 
-- Last source comparison work: after T07 identified F-003/F-004 in Entity movement callbacks, compared E01 correction/ability packets, M02 effect update/removal handling, W03 fluid helpers, C03/W02 collision resolvers/providers, E03 mount transitions, P01 pose/dimension helpers, P02 direct position/velocity writers, P03 selected direct predicates and the bounded P04 ability/speed/jump-timer state. B's ancient-city loot resource documents a Swift Sneak book path for F-001; wider inventories remain open.
-- Next bounded slice and exact files/members/body ranges to open: continue `Entity`/`LivingEntity`/`Player`/`LocalPlayer` timer, ability and stored-state writers/consumers beyond P04's sampled fields; then continue block registrations/movement properties and resources (W01/W04/M03/M04), effect-instance transitions (M02), and the other movement attribute/effect consumers (M01).
+- Last source comparison work: after T07 identified F-003/F-004 in Entity movement callbacks, compared C01 core `Entity.move` axis/response order, E01 correction/ability packets, M02 effect update/removal handling, W03 fluid helpers, C03/W02 collision resolvers/providers, E03 mount transitions, P01 pose/dimension helpers, P02 direct position/velocity writers, P03 selected direct predicates and bounded P04 ability/speed/jump-timer state. B's ancient-city loot resource documents a Swift Sneak book path for F-001; wider inventories remain open.
+- Next bounded slice and exact files/members/body ranges to open: C02 step-up and collision query bounds in `Entity` and player subclasses, then continue movement block registrations/properties and resources (W01/W04/M03/M04), effect-instance transitions (M02), and the other movement attribute/effect consumers (M01).
 - Outstanding dependencies and owners: D-RESOURCES (discovery worker); independent reviewer assignment (coordinator, after source-only freeze).
 - Current assumptions requiring verification: Swift Sneak resource/tag data and all remaining modifier chains; all movement branch helpers and block callback outputs. Directory presence alone is not readiness.
 
@@ -437,10 +437,10 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Source audit closure
 
-- Coverage counts by status: pending 5; in-progress 20; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
+- Coverage counts by status: pending 4; in-progress 21; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
 - Required inventory status and evidence: INV-TICK pending; INV-STATE pending; INV-COLLISION pending; INV-WORLD-MOVEMENT pending; INV-MODIFIERS pending; INV-EXTERNAL pending; INV-EXCLUSIONS pending. No inventory is closed.
 - Open dependencies: D-RESOURCES (discovery worker), independent reviewer assignment (coordinator, after source-only freeze).
-- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Five coverage entries are pending, twenty are in progress, and two carry findings.
+- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Four coverage entries are pending, twenty-one are in progress, and two carry findings.
 - Evidence/hash/correspondence audit: F-001 through F-004 include paired endpoint source/artifact hashes and bounded source ranges; call paths and writer-to-consumer links are recorded for these deltas, while the remaining inventories and correspondence are still open.
 - Blind freeze: not frozen; implementation remains uninspected. Freeze after remaining source inventories close or are explicitly scoped for handoff.
 - Implementation reconciliation: pending and deferred outside this source-only assignment.
