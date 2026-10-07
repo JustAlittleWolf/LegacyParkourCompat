@@ -223,6 +223,17 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - Disposition and rationale (including concrete reachability/preconditions): F014; tick dispatch order is structurally aligned. B adds a client-reachable `if (isSleeping()) pitch = 0.0F` after `mobTick` and walk/fall-flying updates; A has no counterpart. Server-only sleeping cleanup in B is excluded from the local client branch.
 - Finding IDs or checked absence/replacement path: F014.
 
+### Slice S014: ordinary ground travel resampling and climb helper
+
+- Inventory ID(s): INV-TICK, INV-WORLD-MOVEMENT, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: non-water, non-lava, non-fall-flying ordinary travel; slipperiness read before acceleration and after movement; climb clamping and post-move impulse.
+- A evidence: `LivingEntity.java`::`moveRelative(float,float,float)`, lines 1537-1578, SHA-256 `bb691358c9a43c9f46e85575bf4d0a4ad671d0eb912502acc3a6a3f625e42f1c`.
+- B evidence: `LivingEntity.java`::`moveRelative(Vec3d)`, lines 1840-1866, and helpers `m_19439509` / `m_70235197`, lines 1944-1963, SHA-256 `2cccf4331ce9e62013eeb8e96163e5e146e1291619eb998ce9867daa87c02b61`.
+- State producers/writers -> consumers/readers: onGround and block below current shape -> slipperiness/acceleration -> movement/collision -> post-move velocity damping; climb state and input -> clamp/impulse.
+- Parent slices / dependencies / closure evidence: F006 acceleration formula and F005 climb impulse are parent findings; block-property assignments and transition reachability remain open; `D-MOVEMENT-DATA`, `D-TICK-CLOSURE`.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): F015 records that A re-reads onGround and slipperiness after movement before horizontal damping, while B reuses the pre-move `w`. This can differ when movement changes support or the block under the player. B's extra scaffolding exclusion in sneak-climb logic is not treated as a historical movement finding because scaffolding did not exist in A's target era.
+- Finding IDs or checked absence/replacement path: F015; scaffolding predicate excluded by target-era feature scope.
 ## Dependency queue and blockers
 
 - D-TICK-CLOSURE: full local tick/pre-travel/travel branches/post-travel; source worker to trace both trees.
@@ -248,6 +259,7 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - [F012](findings/F012-local-stuck-block-escape-probe.md) local stuck-block escape probe; candidate pending collision/dependency review.
 - [F013](findings/F013-simultaneous-flight-input-arithmetic.md) simultaneous flight input arithmetic; candidate pending ability/dependency review.
 - [F014](findings/F014-sleeping-pitch-reset-after-travel.md) sleeping pitch reset after travel; candidate pending movement-scope/dependency review.
+- [F015](findings/F015-ground-drag-resamples-support.md) ground drag resamples post-move support; candidate pending world-movement/dependency review.
 
 ## Resume checkpoint
 
@@ -258,7 +270,7 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 
 ## Finding snapshots (not pair freeze)
 
-No snapshot has been submitted or accepted. F001-F014 remain candidates while finding-specific dependencies are open; implementation boundaries are also incomplete, and no blind finding reviewer is assigned. No snapshot commit/hash or reviewer decision exists. Pair remains partial; no implementation handoff is ready.
+No snapshot has been submitted or accepted. F001-F015 remain candidates while finding-specific dependencies are open; implementation boundaries are also incomplete, and no blind finding reviewer is assigned. No snapshot commit/hash or reviewer decision exists. Pair remains partial; no implementation handoff is ready.
 
 ## Implementation reconciliation
 
@@ -279,8 +291,8 @@ No snapshot has been submitted or accepted. F001-F014 remain candidates while fi
 
 ## Source audit closure
 
-- Coverage counts by status: findings=11 slices (14 deltas); compared-no-difference=2; pending inventory closure=7; in-progress=0; not-applicable=0; blocked=0.
-- Required inventory status and evidence: all seven inventories pending; initial paired evidence in S001-S013.
+- Coverage counts by status: findings=12 slices (15 deltas); compared-no-difference=2; pending inventory closure=7; in-progress=0; not-applicable=0; blocked=0.
+- Required inventory status and evidence: all seven inventories pending; initial paired evidence in S001-S014.
 - Accepted finding snapshots: none (no finding handoff ready).
 - Open dependencies: D-TICK-CLOSURE,D-COLLISION-SHAPES,D-MOVEMENT-DATA,D-EXTERNAL,D-INDEPENDENT-AUDIT.
 - Unresolved gaps and limits: full tick, shapes/resources, modifier chains, external writers beyond S012, and independent audit. First changed release unknown within (1.13.2,1.14.4].
