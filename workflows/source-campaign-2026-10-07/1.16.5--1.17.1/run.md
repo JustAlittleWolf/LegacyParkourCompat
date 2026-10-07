@@ -189,26 +189,26 @@ Each entry is a bounded behavior slice, not an entire class/stage/travel method.
 ### Slice S2-02: Eye height and movement poses
 
 - Inventory ID(s): INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
-- A evidence: pending source readiness; no range accepted.
-- B evidence: pending source readiness; no range accepted.
-- State producers/writers -> consumers/readers: pending paired inventory.
-- Parent slices / dependencies / closure evidence: pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
-- Finding IDs or checked absence/replacement path: pending.
+- Exact behavior boundary and enclosing guards/order checked: compared Entity's generic pose/dimension eye-height formula, LivingEntity's sleeping special case, and Player's pose-specific eye heights. Entity.refreshDimensions writes the selected value after updating pose dimensions; values are identical across both endpoint bodies.
+- A evidence: net/minecraft/world/entity/Entity.java#getEyeHeight(Pose,EntityDimensions)/getEyeHeight lines 2372-2382; LivingEntity.java#getEyeHeight/getStandingEyeHeight lines 3067-3072; Player.java#getStandingEyeHeight lines 1818-1829. Source hashes are in the artifact source table above.
+- B evidence: net/minecraft/world/entity/Entity.java#getEyeHeight(Pose,EntityDimensions)/getEyeHeight lines 2536-2546; LivingEntity.java#getEyeHeight/getStandingEyeHeight lines 3188-3194; Player.java#getStandingEyeHeight lines 1838-1849. Source hashes are in the artifact source table above.
+- State producers/writers -> consumers/readers: pose selection -> getDimensions(pose) -> Entity.refreshDimensions writes eyeHeight; sleeping yields 0.2F, swimming/fall-flying/spin-attack yields 0.4F, crouching yields 1.27F, and standing/default yields 1.62F. Player's superclass default is dimensions.height * 0.85F. getEyeY and eye-in-fluid/block-state queries consume this field; their movement consequences are linked to S4/S5.
+- Parent slices / dependencies / closure evidence: S2-01 closes pose/dimension producers and refresh timing; S4/S5 close eye-height consumers in fluid, block and movement predicates. Player-specific and generic formula bodies are identical, including float literals and multiplication order.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): No difference is present in the paired eye-height formulas or Player pose values. The B LivingEntity override is additionally declared `final`, which changes subclass overrideability but not the vanilla Player result; no mod/subclass behavior is in scope. Keep this slice in-progress until eye-height movement consumers and S2-01 dimension selection are closed.
+- Finding IDs or checked absence/replacement path: none in the bounded formulas; checked absence pending consumer closure in S4/S5.
 
 ### Slice S2-03: Item use, edge sneak, and stored movement state
 
 - Inventory ID(s): INV-STATE; INV-EXCLUSIONS
-- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
-- A evidence: pending source readiness; no range accepted.
-- B evidence: pending source readiness; no range accepted.
-- State producers/writers -> consumers/readers: pending paired inventory.
-- Parent slices / dependencies / closure evidence: pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
-- Finding IDs or checked absence/replacement path: pending.
+- Exact behavior boundary and enclosing guards/order checked: compared the LocalPlayer active-item input scaling and its nonpassenger guard, sprint-trigger reset, shared shift flag read/write, and the local state transfer of sampled impulses to LivingEntity movement fields. Item, hunger, and damage systems are not modeled; only the active-use predicate's effect on player input is in scope.
+- A evidence: net/minecraft/client/player/LocalPlayer.java#aiStep lines 643-647 and #serverAiStep lines 609-620; net/minecraft/world/entity/Entity.java#setShiftKeyDown/isShiftKeyDown lines 1805-1811; net/minecraft/world/entity/LivingEntity.java#isUsingItem lines 2706-2708, #setLivingEntityFlag lines 2749-2758, and #stopUsingItem lines 2869-2876. Hashes are in the artifact source table above.
+- B evidence: net/minecraft/client/player/LocalPlayer.java#aiStep lines 665-669 and #serverAiStep lines 613-624; net/minecraft/world/entity/Entity.java#setShiftKeyDown/isShiftKeyDown lines 1936-1942; net/minecraft/world/entity/LivingEntity.java#isUsingItem lines 2824-2826 and #setLivingEntityFlag lines 2871-2880. Hashes are in the artifact source table above.
+- State producers/writers -> consumers/readers: sampled shift state is stored in Input and the Entity shared shift flag; active-item use is read by LocalPlayer.aiStep. For `isUsingItem && !isPassenger`, the same ordered writes scale leftImpulse and forwardImpulse by 0.2F and reset sprintTriggerTime. Later LocalPlayer.serverAiStep transfers those fields to xxa/zza and jumping for the controlled camera, then LivingEntity.travel consumes the resulting movement vector. The source item-use producer and hunger/food outcomes remain excluded; riding input is S1-06.
+- Parent slices / dependencies / closure evidence: S1-01 closes key sampling; S1-02 closes controlled-camera transfer and travel ordering; S1-06 closes passenger scheduling; S3 closes downstream travel consumption; S7 closes synchronized/server-originated shift and active-use state writers. S4/S5 close movement predicates that read crouch/pose state.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The paired active-use scaling statements, 0.2F literal, operand order, passenger guard, and sprint-trigger reset match. Entity shift state uses the same shared-flag bit in both endpoints. B's LivingEntity `isUsingItem` reads the same DATA_LIVING_ENTITY_FLAGS bit used by the A getter; remaining item-use and external-state writers and downstream movement consumers are open. There is no separate item-use movement delta established in this bounded comparison.
+- Finding IDs or checked absence/replacement path: none for the paired input scaling/shared shift-bit expressions; producer/consumer closure remains S1/S3/S7.
 
 ### Slice S3-01: Travel dispatch and pre-branch state
 
@@ -525,7 +525,7 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 ## Resume checkpoint
 
 - Last completed slice: none; source pair verified, S1-01 in-progress pending S1-02/S2-01 closure.
-- Next bounded slice: S2-02 eye height and movement poses; retain S1-01..S1-06 and S2-01 as in-progress until their listed input/pose, tick-membership, ability, speed, fluid/collision, modifier, item, mount, resize and external-writer dependencies close.
+- Next bounded slice: S3-01 travel branch inventory and dispatch; retain S1-01..S1-06 and S2-01..S2-03 as in-progress until their listed input/pose, tick-membership, ability, speed, fluid/collision, modifier, item, mount, resize and external-writer dependencies close.
 - Outstanding dependencies and owners: source-owner publication is complete; source closure remains with this run, including S1-06 entity-tick membership/passenger scheduling and the remaining movement/resource inventories.
 - Assumptions requiring verification: no unresolved source-root or namespace assumptions; verify every newly selected source file against its manifest as slices are opened.
 
@@ -548,10 +548,10 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ## Source audit closure
 
-- Coverage counts by status: 27 pending, 7 in-progress, 0 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
+- Coverage counts by status: 25 pending, 9 in-progress, 0 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
 - Required inventory status and evidence: all seven pending; evidence pending.
-- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; S1-05 abilities, Elytra/item state and travel/external writers; S1-06 chunk membership, passenger and server packet/correction closure; S2-01 collision-box, eye-height and synchronized pose/position closure; RESOURCE-INVENTORY and DECOMPILER-DIAGNOSTICS scope closure.
-- Unresolved gaps and limits: S1-01..S1-06/S2-01 dependency closure and the remaining 27 source slices are open.
+- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; S1-05 abilities, Elytra/item state and travel/external writers; S1-06 chunk membership, passenger and server packet/correction closure; S2-01 collision-box and synchronized pose/position closure; S2-02 eye-height consumers; S2-03 item-use/shift state writers and travel consumers; RESOURCE-INVENTORY and movement-diagnostic scope closure.
+- Unresolved gaps and limits: S1-01..S1-06/S2-01..S2-03 dependency closure and the remaining 25 source slices are open.
 - Evidence/hash/correspondence audit: not started.
 - Blind freeze: pending.
 - Implementation reconciliation: pending.
