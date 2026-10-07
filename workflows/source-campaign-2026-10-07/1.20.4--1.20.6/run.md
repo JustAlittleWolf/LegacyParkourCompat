@@ -3,7 +3,7 @@
 - Status: active
 - Scope: direct client-player movement; older A = 1.20.4; newer B = 1.20.6. Source-only discovery; no Minecraft wiki/MCPK sources or audit outputs, no mod implementation inspection, no runtime implementation or runtime validation.
 - Repository revision and start date: base main = 002137b227676caea77f6832b9f4c8d0b6200bff; task branch = feat/source-discovery-movement-source-1-20-4-1-20-6; 2026-10-07.
-- Selected naming namespace, CLI mode per side and alignment evidence: pending validated source-owner handoff; requested alignment is Mojmap / Mojmap.
+- Selected naming namespace, CLI mode per side and alignment evidence: verified exact A and B readiness/provenance records both name Mojmap and match the requested release IDs; they cite the same successful batch log.
 - Source preparation owner / command / log / readiness marker: sole shared source owner; batch command was decompileMinecraft --versions=1.20.1,1.20.2,1.20.4,1.20.6 --mappings=mojmap --decompiler-heap=4G, with shared campaign staging/cache roots. Full successful log: ../../../build/movement-campaign-2026-10-07/staging/mojmap-1.20.1-to-1.20.6-3e08bcae66a145b296f7f85b12623999/gradle.full.log (SHA-256 e5acf99c0bf01e2a65818cea95da4873b5f8a3c610f795f887c7184216b160fe). This worker did not run decompileMinecraft or write shared artifacts.
 - Toolchain/decompiler/remapper versions and options: Gradle 9.7.1; Java 25.0.3+9-LTS; Vineflower 1.12.0; TinyRemapper 0.14.1; Mapping-IO 0.9.1; ASM 9.10.1; Gson 2.14.0; decompiler heap 4G.
 - Discovery author(s): Codex source worker in this task.
@@ -33,28 +33,28 @@
 ## Required source inventories
 
 - `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1-input-sampling, S1-input-motion, S1-sprint-gates, S1-jump-gates, S1-flight-tick, S1-tick-order, S2-pose-selection, S2-dimensions, S2-player-state, S2-sprint-consumers, S2-flight-abilities, S3-travel-dispatch, S3-ground-acceleration, S3-air-acceleration, S3-velocity-cutoffs, S3-gravity-drag, S3-ground-jump, S3-sprint-jump, S3-climbing, S3-water, S3-lava, S3-gliding, S3-effects-branch; evidence=pending exact-source inventory and method ranges.
-- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S1-input-sampling, S1-input-motion, S1-sprint-gates, S1-jump-gates, S1-flight-tick, S1-tick-order, S2-pose-selection, S2-dimensions, S2-player-state, S2-sprint-consumers, S2-flight-abilities, S3-travel-dispatch, S3-ground-acceleration, S3-air-acceleration, S3-velocity-cutoffs, S3-gravity-drag, S3-ground-jump, S3-sprint-jump, S3-climbing, S3-water, S3-lava, S3-gliding, S3-effects-branch, S4-box-movement, S4-step-candidates, S4-edge-probes, S4-grounding, S4-collision-query, S4-shapes, S4-callbacks, S4-fluid-contact, S7-velocity-writers, S7-position-writers, S7-riding, S7-closure; evidence=pending exact-source inventory and method ranges.
-- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S4-box-movement, S4-step-candidates, S4-edge-probes, S4-grounding, S4-collision-query, S4-shapes, S4-callbacks, S4-fluid-contact, S5-landing-bounce, S5-friction-speed, S5-slowdown-contact, S5-climbables, S5-fluid-blocks, S5-pistons, S5-partial-shapes, S5-registrations, S5-modern-only; evidence=pending exact-source inventory and method ranges.
-- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S5-landing-bounce, S5-friction-speed, S5-slowdown-contact, S5-climbables, S5-fluid-blocks, S5-pistons, S5-partial-shapes, S5-registrations, S5-modern-only, S6-attributes, S6-effects, S6-enchantments, S6-equipment, S6-resources, S6-server-boundary; evidence=pending exact-source inventory and method ranges.
+- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S1-input-sampling, S1-input-motion, S1-sprint-gates, S1-jump-gates, S1-flight-tick, S1-tick-order, S2-pose-selection, S2-dimensions, S2-player-state, S2-sprint-consumers, S2-flight-abilities, S3-travel-dispatch, S3-ground-acceleration, S3-air-acceleration, S3-velocity-cutoffs, S3-gravity-drag, S3-ground-jump, S3-sprint-jump, S3-climbing, S3-water, S3-lava, S3-gliding, S3-effects-branch, S4-box-movement, S4-step-candidates, S4-edge-probes, S4-grounding, S4-collision-query, S4-shapes, S4-callbacks, S4-fluid-contact, S5-powder-snow-contact-state, S7-velocity-writers, S7-position-writers, S7-riding, S7-closure; evidence=pending exact-source inventory and method ranges.
+- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S4-box-movement, S4-step-candidates, S4-edge-probes, S4-grounding, S4-collision-query, S4-shapes, S4-callbacks, S4-fluid-contact, S5-landing-bounce, S5-friction-speed, S5-slowdown-contact, S5-climbables, S5-fluid-blocks, S5-pistons, S5-partial-shapes, S5-registrations, S5-modern-only, S5-powder-snow-contact-state; evidence=pending exact-source inventory and method ranges.
+- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S5-landing-bounce, S5-friction-speed, S5-slowdown-contact, S5-climbables, S5-fluid-blocks, S5-pistons, S5-partial-shapes, S5-registrations, S5-modern-only, S5-powder-snow-contact-state, S6-attributes, S6-effects, S6-enchantments, S6-equipment, S6-resources, S6-server-boundary; evidence=pending exact-source inventory and method ranges.
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S3-ground-acceleration, S3-air-acceleration, S3-gravity-drag, S3-ground-jump, S3-sprint-jump, S3-climbing, S3-water, S3-lava, S3-gliding, S3-effects-branch, S6-attributes, S6-effects, S6-enchantments, S6-equipment, S6-resources, S6-server-boundary; evidence=pending exact-source inventory and method ranges.
 - `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, such as corrections, pushes, pistons and mounts: status=pending; slice_ids=S7-velocity-writers, S7-position-writers, S7-riding, S7-closure; evidence=pending exact-source inventory and method ranges.
 - `INV-EXCLUSIONS` explicit scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement; direct vanilla-state reads in movement predicates remain in scope: status=pending; slice_ids=SCOPE-exclusions; evidence=pending exact-source inventory and method ranges.
 
 ## Coverage ledger
 
-Each bounded behavior below is pending until both exact source sides, the entire relevant method body/callers, state producer/consumer links and dependency closure have been verified. A terminal disposition requires paired source ranges, exact hashes, reachability and a concrete rationale.
+Each bounded behavior remains open until both exact source sides, the relevant method/caller boundary, state producer/consumer links and dependencies are verified. A terminal disposition requires paired source ranges, exact hashes, reachability and a concrete rationale; a narrow terminal slice does not close neighboring behavior.
 
 ### Slice S1-input-sampling: 1 / local input sampling, input defaults and per-tick capture
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: 1 / local input sampling, input defaults and per-tick capture; pending source navigation and full enclosing method review.
-- A evidence: pending validated 1.20.4 Mojmap source; no method body inspected.
-- B evidence: pending validated 1.20.6 Mojmap source; no method body inspected.
-- State producers/writers -> consumers/readers: pending exact member-level inventory.
-- Parent slices / dependencies / closure evidence: source dependency D-SOURCES; planned dependencies: input class, options/key state producers; pending source verification.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison not started; no equivalence or difference claim.
-- Finding IDs or checked absence/replacement path: none; source comparison not started.
+- Exact behavior boundary and enclosing guards/order checked: complete `KeyboardInput.tick(boolean,float)` sampling order and `Input` input defaults/representation/forward-impulse predicate; keyboard state values come from key mappings/options.
+- A evidence: 1.20.4 `KeyboardInput.tick(boolean,float)` lines 21-36 and `Input.tick/getMoveVector/hasForwardImpulse` lines 15-24; full source hashes `KeyboardInput.java` `a8064906872955a3520398ab5b2a326552d424f41887d1294aa6a038e2623ff0`, `Input.java` `b302ffbc45c5f900ea18a4d4af2df6fa0454ea7cb7744a0d249061e5fcb97fbb`.
+- B evidence: 1.20.6 `KeyboardInput.tick(boolean,float)` lines 21-36 and `Input.tick/getMoveVector/hasForwardImpulse` lines 15-24; full source hashes exactly match A: `KeyboardInput.java` `a8064906872955a3520398ab5b2a326552d424f41887d1294aa6a038e2623ff0`, `Input.java` `b302ffbc45c5f900ea18a4d4af2df6fa0454ea7cb7744a0d249061e5fcb97fbb`.
+- State producers/writers -> consumers/readers: external key mappings/options state -> KeyboardInput.tick assigns directional/jump/shift impulses -> Input stores impulses and getMoveVector/hasForwardImpulse reads them. The two full source files are byte-identical across the exact pair.
+- Parent slices / dependencies / closure evidence: D-SOURCES resolved; whole A/B KeyboardInput.java and Input.java hashes match, closing this bounded source-only input-sampling behavior. Key mapping values are external inputs; LocalPlayer consumption and later movement-vector transformation remain separate slices.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): The complete paired source files are identical, so field defaults, which key states are sampled, impulse calculation, assignment order, slowdown multiplication and Input readers are unchanged. This disposition does not cover key mapping configuration or LocalPlayer consumers.
+- Finding IDs or checked absence/replacement path: checked no difference for these byte-identical input classes and bounded members; no finding.
 
 ### Slice S1-input-motion: 1 / yaw-to-motion, diagonal normalization, input scaling and move-relative dispatch
 
@@ -644,6 +644,18 @@ Each bounded behavior below is pending until both exact source sides, the entire
 - Disposition and rationale (including concrete reachability/preconditions): comparison not started; no equivalence or difference claim.
 - Finding IDs or checked absence/replacement path: none; source comparison not started.
 
+### Slice S5-powder-snow-contact-state: 5 / powder-snow current-block query in contact slowdown and movement boost
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: powder-snow contact predicate in `PowderSnowBlock.entityInside` and powder-snow vertical movement boost in `LivingEntity.handleRelativeFrictionAndCalculateMovement`; compare only the cached current `blockPosition()` state path.
+- A evidence: 1.20.4 `LivingEntity.handleRelativeFrictionAndCalculateMovement(Vec3,float)` lines 2202-2213 reads `getFeetBlockState`; `Entity.getFeetBlockState()` lines 3154-3160 reads level state at `blockPosition`; `PowderSnowBlock.entityInside` lines 64-69 uses the same getter for its living-entity guard. File hashes: `LivingEntity.java` `f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d`, `Entity.java` `07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9`, `PowderSnowBlock.java` `302e784a106a37b00aafa0ff7ac5d638c78ccb61f34c2efac4d952f6a284a55c`.
+- B evidence: 1.20.6 corresponding `LivingEntity.handleRelativeFrictionAndCalculateMovement(Vec3,float)` lines 2269-2280 reads `getInBlockState`; `Entity.getInBlockState()` lines 3169-3175 reads level state at `blockPosition`; `PowderSnowBlock.entityInside` lines 64-69 uses that same getter. File hashes: `LivingEntity.java` `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`, `Entity.java` `71cd6b9f6c002684154dce11d3745e8714d82f13c8e1b3aa56743930131c18f3`, `PowderSnowBlock.java` `7a6d6ad2e6d6d719344de4bb4f4e4973387aa88e61757988afea25b46c176ad3`.
+- State producers/writers -> consumers/readers: entity `blockPosition()` and level block-state lookup -> lazy A `feetBlockState` / B `inBlockState` cache -> powder-snow entity-inside guard and living friction helper. Both clear their cache in `Entity.baseTick()` and when block position changes in `Entity.setPosRaw`/movement position update (A lines 415-420 and 3238-3244; B lines 417-422 and 3253-3259).
+- Parent slices / dependencies / closure evidence: D-SOURCES resolved; direct powder-snow current-block lookup, invalidation and these two consumers were compared. Other powder-snow contact callbacks and slowdown formulas, snow collision shapes, tags and neighboring-state behavior remain in S5-slowdown-contact/S5-partial-shapes.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for an entity in the same block position, both cache getters obtain the same current level `BlockState`; both cache lifetimes are reset at tick base and on block-position change. Both callbacks retain the same `instanceof LivingEntity` disjunction and `makeStuckInBlock` call, while the living friction helper retains the same `(horizontalCollision || jumping) && (onClimbable || powder-snow && canEntityWalkOnPowderSnow)` guard and writes Y `0.2`. This closes only the getter rename/cached-state path for these two powder-snow consumers; it makes no claim about other powder-snow mechanics.
+- Finding IDs or checked absence/replacement path: checked no difference for this bounded cached current-block-state path; no finding.
+
 ### Slice SCOPE-exclusions: excluded producers and direct vanilla-state reads
 
 - Inventory ID(s): INV-EXCLUSIONS
@@ -667,9 +679,9 @@ Each bounded behavior below is pending until both exact source sides, the entire
 
 ## Resume checkpoint
 
-- Last completed slice: source provenance and exact source-tree hash validation; nine behavior slices now have partial source-confirmed evidence but remain in-progress.
+- Last completed slice: source provenance and exact source-tree hash validation; two bounded behaviors are closed as compared-no-difference, and nine broader behavior slices contain partial source-confirmed evidence but remain in-progress.
 - Next bounded slice and exact files/members/body ranges to open: continue closure of the recorded in-progress jump/gravity/attribute/scale/step slices, then resume stage 1 input sampling and local-player tick order in Input.java, KeyboardInput.java, LocalPlayer.java, Player.java and LivingEntity.java.
-- Outstanding dependencies and owners: none presently; add source-method/data retrieval items as encountered.
+- Outstanding dependencies and owners: method and resource closure within the pending/in-progress slices; no external source-preparation blocker.
 - Current assumptions requiring verification: per-method movement body integrity and complete class/member correspondence must still be verified despite the successful source diagnostics.
 
 ## Implementation reconciliation
@@ -678,7 +690,7 @@ Each bounded behavior below is pending until both exact source sides, the entire
 - Repository revision inspected: none; implementation/code intentionally not opened during blind source discovery.
 - Finding -> implementation disposition/evidence: deferred until blind discovery is frozen and parent explicitly assigns implementation reconciliation.
 - Existing implementation without a frozen source finding: not inspected.
-- Coverage gaps routed back to discovery slices: none yet; comparison is not started.
+- Coverage gaps routed back to discovery slices: no implementation-reconciliation gaps have been routed; source comparison continues in the pending and in-progress slices.
 
 ## Independent source audit
 
@@ -691,11 +703,11 @@ Each bounded behavior below is pending until both exact source sides, the entire
 
 ## Source audit closure
 
-- Coverage counts by status: pending 42; in-progress 9; compared-no-difference 0; findings 0; not-applicable 0; blocked 0. The in-progress slices contain bounded source-confirmed findings but remain open for broader dependency closure.
+- Coverage counts by status: pending 41; in-progress 9; compared-no-difference 2; findings 0; not-applicable 0; blocked 0. The in-progress slices contain bounded source-confirmed findings but remain open for broader dependency closure.
 - Required inventory status and evidence: all seven pending; exact source roots and hashes validated, method-level inventory remains.
-- Open dependencies: none currently; source comparisons will add exact member/resource dependencies as discovered.
-- Unresolved gaps and limits: all bounded comparison slices pending; pair-specific member correspondence and semantic comparison not yet complete; no equivalence claims made.
-- Evidence/hash/correspondence audit: readiness, source and artifact manifests and all source hashes verified; exact source member hashes and ranges will be recorded per slice.
+- Open dependencies: no unresolved source-preparation blocker; dependencies remain within the 41 pending and 9 in-progress slices, including full method/caller closure, resource-backed block data and external attribute provenance.
+- Unresolved gaps and limits: 41 bounded slices remain pending and 9 remain in-progress; the two compared-no-difference rows cover identical input classes and powder-snow cached current-block lookup only. Pair-wide member correspondence, semantic comparison and dependency closure are incomplete; no campaign-level equivalence or completion claim is made.
+- Evidence/hash/correspondence audit: readiness, source and artifact manifests and all source hashes verified; pair-specific method ranges and hashes are recorded for six findings and two bounded no-difference slices; remaining slices are not yet audited.
 - Blind freeze: pending
 - Implementation reconciliation: pending
 - Independent audit: pending
