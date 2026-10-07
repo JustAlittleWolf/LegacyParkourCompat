@@ -85,3 +85,13 @@ I independently checked the ready Feather source for the two collision changes a
 - The owner must check the mapped-jar bytecode for these movement methods if diagnostics or malformed bodies affect the cited ranges. The default method text alone does not prove complete axis ordering, step-up alternatives, support state, flags, or post-move callbacks.
 
 Requeue for the 1.10.2 → 1.11.2 report: add separate bounded slices for the `MoverType` dispatch, sneak support probe, piston accumulated-delta clamp, moving-block producer and their cross-interaction; enumerate player-reachable callsites and state writers; retain the rest of axis/step/support/callback coverage as open until independently closed.
+
+### 1.11.2 → 1.12.2: vertical-input field producer closure
+
+The owner’s active report notes that the B-side `LivingEntity.moveRelative()` call now receives a `verticalSpeed` field. I checked the complete available 1.12.2 Feather source tree for assignments: the only write is `MobEntity.java:475`; the field is declared in `LivingEntity.java:136` and consumed at `LivingEntity.java:1847`. `PlayerEntity` extends `LivingEntity`, while `MobEntity` is a separate subclass, so this new field is not directly written by the local player input path. The owner should not count the changed signature as a player movement finding without tracing the local-player override/call and proving a player-reachable nonzero producer.
+
+Required disposition: compare the 1.11.2 two-component call with the 1.12.2 three-component call; record the sole `MobEntity` writer and demonstrate checked absence of player writes across the exact tree. Separately inventory the player passenger/mount transform path if the field can move a ridden player, while keeping independent mount physics outside scope. A `not-applicable` row must state that boundary and cite both sides, not rely on the type name alone.
+
+## Source admission update
+
+After the initial disposition table, the exact 1.14.4 Feather readiness record appeared at `ready/1.14.4/ornithe-feather.ready.json`. I opened the actual JSON and diagnostics file, verified exact ID/metadata ID `1.14.4`, namespace `ornithe-feather`, ready status, and hash agreement for the source manifest, artifact manifest, and diagnostics. I recomputed every listed source and artifact entry: 3,250 source files and 40 artifacts, with zero missing or mismatched hashes. This admits B-side source reading for 1.13.2 → 1.14.4. The earlier table records the observed state before publication; the pair still has no accepted behavior coverage and its owner report remains active.
