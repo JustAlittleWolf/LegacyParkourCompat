@@ -179,8 +179,8 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - D-MODIFIERS: trace movement attributes, effects, enchantments, equipment slots/applicability and application/removal timing; identify server-synchronized values and client-only boundary.
 - D-EXTERNAL: trace corrections/teleports, velocity writes, mounts, shulkers and all player-facing movement producers; separate player movement from non-player simulation.
 - D-REVIEWER: coordinator to assign an independent reviewer who did not author this report.
-- D-CHECKER: canonical workflow checker fix is available as `fba28fa154d29572263ea3f2c44cf1dc23134329`; cherry-pick into this task branch, then rerun against this report. Current run was structurally checked using the canonical script by absolute path. Owner: source worker.
-- Open dependencies: D-SOURCE-DIAGNOSTICS, D-STEPHEIGHT, D-COLLISION, D-PISTON, D-PUSHABILITY, D-POSE, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER, D-CHECKER.
+- D-CHECKER: resolved by applying canonical workflow checker fix `8fa4ab0`; report was checked against the local checker and accepted as structurally valid partial. This is schema validation only.
+- Open dependencies: D-SOURCE-DIAGNOSTICS, D-STEPHEIGHT, D-COLLISION, D-PISTON, D-PUSHABILITY, D-POSE, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
 
 ## Finding index
 
@@ -220,7 +220,7 @@ Complete only after blind-discovery freeze. No mod implementation was opened.
 
 - Coverage counts by status: 3 findings, 2 compared-no-difference, 3 in-progress, 1 pending (bounded rows only; broad inventory remains open).
 - Required inventory status and evidence: only `INV-EXCLUSIONS` declaration complete; all movement inventories pending, with partial anchors above.
-- Open dependencies: D-SOURCE-DIAGNOSTICS, D-STEPHEIGHT, D-COLLISION, D-PISTON, D-PUSHABILITY, D-POSE, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER, D-CHECKER.
+- Open dependencies: D-SOURCE-DIAGNOSTICS, D-STEPHEIGHT, D-COLLISION, D-PISTON, D-PUSHABILITY, D-POSE, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
 - Unresolved gaps and limits: complete tick graph, body-level diagnostic review, collision providers/resources, exact entity-player collision paths, modifiers, external writers, source-only freeze and independent audit remain open. Source comparison only; no gameplay behavior observed.
 - Evidence/hash/correspondence audit: readiness and all 3,766 listed Java-source hashes were checked. Obtain missing EntityFilter/Box hashes before freezing. Exact cited line ranges should be rechecked at freeze.
 - Blind freeze: pending
