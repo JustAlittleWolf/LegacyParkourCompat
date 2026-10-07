@@ -383,14 +383,14 @@ Artifact paths below are relative to repository root; generated artifacts remain
 ### Slice X01: excluded systems and permitted vanilla-state reads
 
 - Inventory ID(s): INV-EXCLUSIONS
-- Exact behavior boundary and enclosing guards/order checked: pending; verify discovery does not model health, regeneration, hunger, food, saturation, exhaustion, damage/combat or non-player movement; identify direct vanilla state reads in movement predicates.
-- A evidence: not yet compared; readiness is recorded in D-SOURCES.
-- B evidence: not yet compared; readiness is recorded in D-SOURCES.
+- Exact behavior boundary and enclosing guards/order checked: audited the current slice/finding scopes against the campaign boundary. Direct movement readers may use food level, effects, abilities, pose, fluid, collision and vehicle state; health/food/damage producers, combat resolution and non-player movement remain excluded. T04 directly reads food level for sprint eligibility and effect/ability predicates, P03 records the bounded direct state reads, and E02 keeps player-facing impulses in scope without tracing attack/damage resolution. Shared `Entity` methods are only treated as reachable through player paths; no non-player movement behavior is claimed.
+- A evidence: scope-relevant reader paths are cross-referenced to `LocalPlayer#aiStep()` in T04 A, lines 642-808, and the selected direct predicates in P03 A (`Entity`, `LivingEntity`, `LocalPlayer`); player-facing impulse consumers are in E02 A. Exact Mojmap readiness and source hashes are recorded in those slices.
+- B evidence: scope-relevant reader paths are cross-referenced to `LocalPlayer#aiStep()` in T04 B, lines 731-898, and the selected direct predicates in P03 B (`Entity`, `LivingEntity`, `LocalPlayer`); player-facing impulse consumers are in E02 B. Exact Mojmap readiness and source hashes are recorded in those slices.
 - State producers/writers -> consumers/readers: excluded producer systems are not traced as emulation targets; direct movement predicate reads are linked to their consumer only.
 - Parent slices / dependencies / closure evidence: D-SOURCES; P03/T04; campaign exclusions.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): scope boundaries are recorded; the explicit source audit remains pending.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): current findings and bounded comparisons describe player-reachable movement behavior, not a model of excluded food/health, combat or non-player movement systems. Hunger/food remains a vanilla-state gate where directly read by sprint logic; damage-triggered player motion remains included in E02, while attack/damage production is excluded. The remaining source inventory and call-path checks are not closed.
+- Finding IDs or checked absence/replacement path: checked scope boundary for F-001 through F-004 and bounded T04/P03/E02 paths; other producer and external-state paths remain open.
 
 ## Dependency queue and blockers
 
@@ -408,7 +408,7 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Resume checkpoint
 
-- Last source comparison work: after T07 identified F-003/F-004 in Entity movement callbacks, compared W01 selected movement-block registrations, C01 core `Entity.move` axis/response order, W04 selected nested block-tag resources, M02 effect-instance merge/tick and LivingEntity application/removal paths, E01 correction/ability packets, W03 fluid helpers, C03/W02 collision resolvers/providers, E03 mount transitions, P01 pose/dimension helpers, P02 direct position/velocity writers, P03 selected direct predicates and bounded P04 ability/speed/jump-timer state. B's ancient-city loot resource documents a Swift Sneak book path for F-001; wider inventories remain open.
+- Last source comparison work: after T07 identified F-003/F-004 in Entity movement callbacks, compared the X01 campaign-scope boundary, W01 selected movement-block registrations, C01 core `Entity.move` axis/response order, W04 selected nested block-tag resources, M02 effect-instance merge/tick and LivingEntity application/removal paths, E01 correction/ability packets, W03 fluid helpers, C03/W02 collision resolvers/providers, E03 mount transitions, P01 pose/dimension helpers, P02 direct position/velocity writers, P03 selected direct predicates and bounded P04 ability/speed/jump-timer state. B's ancient-city loot resource documents a Swift Sneak book path for F-001; wider inventories remain open.
 - Next bounded slice and exact files/members/body ranges to open: continue the remaining W01 block registry/override families and W04/M04 resource-backed movement inputs; C02 edge/step dependencies, effect application provenance (M02) and remaining movement attribute/effect consumers (M01) remain open.
 - Outstanding dependencies and owners: D-RESOURCES (discovery worker); independent reviewer assignment (coordinator, after source-only freeze).
 - Current assumptions requiring verification: Swift Sneak resource/tag data and all remaining modifier chains; all movement branch helpers and block callback outputs. Directory presence alone is not readiness.
@@ -437,10 +437,10 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Source audit closure
 
-- Coverage counts by status: pending 2; in-progress 23; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
+- Coverage counts by status: pending 1; in-progress 24; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
 - Required inventory status and evidence: INV-TICK pending; INV-STATE pending; INV-COLLISION pending; INV-WORLD-MOVEMENT pending; INV-MODIFIERS pending; INV-EXTERNAL pending; INV-EXCLUSIONS pending. No inventory is closed.
 - Open dependencies: D-RESOURCES (discovery worker), independent reviewer assignment (coordinator, after source-only freeze).
-- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Two coverage entries are pending, twenty-three are in progress, and two carry findings.
+- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. One coverage entry is pending, twenty-four are in progress, and two carry findings.
 - Evidence/hash/correspondence audit: F-001 through F-004 include paired endpoint source/artifact hashes and bounded source ranges; call paths and writer-to-consumer links are recorded for these deltas, while the remaining inventories and correspondence are still open.
 - Blind freeze: not frozen; implementation remains uninspected. Freeze after remaining source inventories close or are explicitly scoped for handoff.
 - Implementation reconciliation: pending and deferred outside this source-only assignment.
