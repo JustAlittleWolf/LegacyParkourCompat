@@ -273,14 +273,14 @@ Each entry is a bounded behavior slice, not an entire class/stage/travel method.
 ### Slice S3-06: Climbable travel
 
 - Inventory ID(s): INV-TICK; INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
-- A evidence: pending source readiness; no range accepted.
-- B evidence: pending source readiness; no range accepted.
-- State producers/writers -> consumers/readers: pending paired inventory.
-- Parent slices / dependencies / closure evidence: pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
-- Finding IDs or checked absence/replacement path: pending.
+- Exact behavior boundary and enclosing guards/order checked: climbable detection from the player's feet block, trapdoor-as-ladder check, last-climbable-position write, ladder/sliding suppression predicate, and the climbable velocity clamp applied before movement. Checked the `Block` to `BlockState` tag-test call-site change and the relocation of `getFeetBlockState` from `LivingEntity` to `Entity`.
+- A evidence: `net/minecraft/world/entity/LivingEntity.java#onClimbable/#trapdoorUsableAsLadder` lines 1363-1395, `#getFeetBlockState` lines 1382-1384, `#handleOnClimbable` lines 2089-2104, and `#isSuppressingSlidingDownLadder` lines 2887-2889. `Block.java` / `BlockBehaviour.java#BlockStateBase.is(Tag)` sources support the tag call. LivingEntity and Block hashes are in the foundational table; A BlockBehaviour.java SHA-256 `c62e2f07094e5a7bcad00cbae7d24497bf636cc740232a1472f4128a472def8b` matched the source manifest.
+- B evidence: `net/minecraft/world/entity/LivingEntity.java#onClimbable/#trapdoorUsableAsLadder` lines 1427-1454, `net/minecraft/world/entity/Entity.java#getFeetBlockState` lines 2880-2882, `LivingEntity.java#handleOnClimbable` lines 2183-2198, and `#isSuppressingSlidingDownLadder` lines 3009-3011. `BlockBehaviour.java#BlockStateBase.is(Tag)` SHA-256 `920896e6bc9d7f8794aba3c5f325d9dffd9c2c9422a0be2e5dd0b7474e980515` matched the source manifest; Entity and LivingEntity hashes are in the foundational table.
+- State producers/writers -> consumers/readers: both versions test the feet block against `BlockTags.CLIMBABLE`, then recognize an open trapdoor only when the block below is a ladder with matching facing; either success stores the feet position in `lastClimbablePos`. During movement, `handleOnClimbable` clamps x/z to ±0.15, clamps downward y to at least -0.15, clears fall distance, and for Player suppresses negative y when the feet block is not scaffolding and shift is down. B's state tag check resolves to `tag.contains(block)`; A's `Block.is(tag)` also resolves to `tag.contains(this)`. The vanilla source tree has no override of `Block.is(Tag)`. `getFeetBlockState` in both versions reads the block at `blockPosition()`. Exact tag membership and all referenced block shape/provider behavior remain in S4/S6.
+- Parent slices / dependencies / closure evidence: S1-02 establishes tick reachability; S2-03 establishes shift sampling/shared flag; S3-02 covers the helper's caller and its separate powder-snow extension; S4/S5/S6 close block shape, ladder/trapdoor/scaffolding registration, tag membership and climbable predicates; S7 closes synchronized shift state.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the climbable velocity math, scaffolding exception, shift guard, tag-membership outcome, trapdoor-neighbor/facing test, last-position write, and branch order match. A calls `Block.is(CLIMBABLE)` and B calls `BlockState.is(CLIMBABLE)`; their paired source bodies both test tag membership of the same block. B relocates `getFeetBlockState` to `Entity` with the same block-position lookup body. No climbable-travel code delta was established. This comparison does not close whether individual block shapes/tags or the S3-02 powder-snow route apply to A-era maps.
+- Finding IDs or checked absence/replacement path: checked absence for the paired climbable detection and velocity-clamp code; block/tag provider closure remains S4/S6, and powder snow remains candidate `CD-S3-02-01`.
 
 ### Slice S3-07: Water/lava travel and swimming
 
@@ -524,8 +524,8 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ## Resume checkpoint
 
-- Last completed comparisons: S3-01 travel dispatch/pre-branch and S3-03 air-speed; no dispatch or stored-air-speed delta found. S3-02 remains in-progress with B-only powder-snow route `CD-S3-02-01`; S3-04 remains in-progress with conditional minY candidate `CD-S3-04-01`; S3-05 traces candidate `CD-S1-04-01`. Source pair verified; S1-01..S1-06 and S2-01..S2-03 remain in-progress pending their listed dependencies.
-- Next bounded slice: continue S3-02 closure for powder-snow support applicability and external friction writers, then close S3-04 build-height applicability and S3-05 block/effect dependencies before S3-06 climbable travel. S3-07 owns fluid gravity and S3-09 owns the Player post-super bob and B-only freezing stage. Retain S1/S2 slices as in-progress until input/pose, tick-membership, ability, speed, fluid/collision, modifier, item, mount, resize and external-writer dependencies close.
+- Closed code-path comparisons: S3-01 travel dispatch/pre-branch, S3-03 air-speed and S3-06 climbable travel; no dispatch, stored-air-speed or climbable-code delta found. S3-02 remains in-progress with B-only powder-snow route `CD-S3-02-01`; S3-04 remains in-progress with conditional minY candidate `CD-S3-04-01`; S3-05 traces candidate `CD-S1-04-01`. Source pair verified; S1-01..S1-06 and S2-01..S2-03 remain in-progress pending their listed dependencies.
+- Next bounded slice: continue S3-02 closure for powder-snow support applicability and external friction writers, then close S3-04 build-height applicability and S3-05 block/effect dependencies while tracing S3-07 water/lava travel. S3-09 owns the Player post-super bob and B-only freezing stage. Retain S1/S2 slices as in-progress until input/pose, tick-membership, ability, speed, fluid/collision, modifier, item, mount, resize and external-writer dependencies close.
 - Outstanding dependencies and owners: source-owner publication is complete; source closure remains with this run, including S1-06 entity-tick membership/passenger scheduling and the remaining movement/resource inventories.
 - Assumptions requiring verification: no unresolved source-root or namespace assumptions; verify every newly selected source file against its manifest as slices are opened.
 
@@ -548,10 +548,10 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ## Source audit closure
 
-- Coverage counts by status: 20 pending, 12 in-progress, 2 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
+- Coverage counts by status: 19 pending, 12 in-progress, 3 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
 - Required inventory status and evidence: all seven pending; evidence pending.
-- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; S1-05 abilities, Elytra/item state and travel/external writers; S1-06 chunk membership, passenger and server packet/correction closure; S2-01 collision-box and synchronized pose/position closure; S2-02 eye-height consumers; S2-03 item-use/shift state writers and travel consumers; S3-02 powder-snow support applicability and discard-friction player reachability; S3-04 dimension minY applicability; RESOURCE-INVENTORY and movement-diagnostic scope closure.
-- Unresolved gaps and limits: S1-01..S1-06/S2-01..S2-03, S3-02/S3-04/S3-05 dependency closure, and the remaining 32 source slices (20 pending, 12 in-progress) are open.
+- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; S1-05 abilities, Elytra/item state and travel/external writers; S1-06 chunk membership, passenger and server packet/correction closure; S2-01 collision-box and synchronized pose/position closure; S2-02 eye-height consumers; S2-03 item-use/shift state writers and travel consumers; S3-02 powder-snow support applicability and discard-friction player reachability; S3-04 dimension minY applicability; S3-06 climbable block/tag provider closure; RESOURCE-INVENTORY and movement-diagnostic scope closure.
+- Unresolved gaps and limits: S1-01..S1-06/S2-01..S2-03, S3-02/S3-04/S3-05 dependencies, S3-06 block/tag providers, and the remaining 31 source slices (19 pending, 12 in-progress) are open.
 - Evidence/hash/correspondence audit: not started.
 - Blind freeze: pending.
 - Implementation reconciliation: pending.
