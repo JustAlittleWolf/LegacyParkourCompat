@@ -14,7 +14,7 @@
 Neither exact release currently has a ready publication under build/movement-campaign-2026-10-07/ready/. Verify the readiness JSONs, IDs, namespace, cited source/artifact SHA-256 manifests, method diagnostics and relevant bodies before comparison.
 
 - A 1.21.4: exact readiness ID and metadata ID both 1.21.4; namespace/mode mojmap; source root build/movement-campaign-2026-10-07/ready/1.21.4/mojmap/; client jar SHA-256 c17c450c6e72cc51297daa57ce38f800aa01cf022b743daa21a0512d326d894e; official client_mappings.txt SHA-256 48b502ccc5e855b49da8aa9c0c0d7c565bec54c9f5da3a3664528aff7b9fdf23; mapped client-mojmap.jar SHA-256 56995548c9cb8bd7cdb9996b676daeafae02bde9d6ef4029b9eeca6bfd7dcc74. Readiness JSON: ready/1.21.4/mojmap.ready.json; source manifest hash f90b61197928632e061ea877955a19055c92ae6f357c2daf1bc646172c6f51f0 (5,744 entries; all present and matching); artifact manifest hash 1a0929ca8c88cfe7874f323918dfa3b044964007d3ff0d3943317bdb35caf841 (89 entries; all present and matching); diagnostics hash fb5d4cfc7238ea634c47ad148e22539fec30a1b33bb5d3353ff8c34a3e44a421 (22 movement-method rows; each cited signature found at its line in the published source body). Toolchain: Gradle 9.7.1, Java 25.0.3+9-LTS, Vineflower 1.12.0, Tiny Remapper 0.14.1, Mapping IO 0.9.1, ASM 9.10.1, Gson 2.14.0. Owner batch command and full log: build/movement-campaign-2026-10-07/staging/mojmap-1.21.1-to-1.21.5-cd5a99cb1024417c9d370097c886a131/gradle.full.log; command used --versions=1.21.1,1.21.3,1.21.4,1.21.5 --mappings=mojmap --decompiler-heap=4G. A is verified and ready; no 1.21.5 marker exists yet.
-- B 1.21.5: readiness JSON, jar identity/hash, CLI mode, mapping coordinate/build/file/hash, remapped jar hash, source root and cited source/resource hashes: pending.
+- B 1.21.5: exact readiness ID and metadata ID both 1.21.5; namespace/mode mojmap; source root build/movement-campaign-2026-10-07/ready/1.21.5/mojmap/; client jar SHA-256 522672ad20b460c02c2e39b6c5035ef6a849af28eb11ab2ac7eb293d395a8c11; official client_mappings.txt SHA-256 3907657ade3e61bc8cffb4ca0a1bcba15f57986be4e613900947119364a206e5; mapped client-mojmap.jar SHA-256 124561e91a61714ca5a73495784c14c03a7a927d1f715eafbcb56ae115a6712a. Readiness JSON: ready/1.21.5/mojmap.ready.json; source manifest hash 365cc2d22446ceba0e36f46aa1c95ce4cc31514dbd657505680fb660f3adefd9 (5,921 entries; all present and matching); artifact manifest hash d35b1b9389d8958e33893faa63d94c86f22af30385233ca947fd410aa5c36656 (89 entries; all present and matching); diagnostics hash d43c0fdfc627492b043962c0379b744461ebbb6b2ffb24f326fe72a63a039755 (22 movement-method rows; each cited signature found at its line in the published source body). Toolchain and owner command/log are the same exact batch documented for A. Both sides are now verified and source comparison may proceed.
 - Generated sources and artifacts are owned by the shared source preparer. This branch does not write or regenerate them.
 
 ## Blind-discovery freeze
@@ -611,7 +611,7 @@ These are initial bounded navigation units, all pending because exact sources ar
 
 ## Dependency queue and blockers
 
-- D0: Obtain exact 1.21.4/1.21.5 readiness JSONs, SHA-256 manifests and diagnostics; verify IDs, namespace, hashes and bodies. Owner: shared source preparer.
+- D0: RESOLVED: both exact Mojmap readiness records, IDs, provenance, all source/artifact manifest entries, diagnostics hashes and 22 cited method bodies per side were verified.
 - D1: Inventory both player/input/travel/collision hierarchies, callers and writers; follow changed/influential helpers into bounded slices. Owner: discovery.
 - D2: Inspect matching client-jar resources and referenced defaults/tags/components omitted by source output; hash entries. Owner: discovery after D0.
 - Current dependency: exact-pair ready publications absent; this is not equivalence evidence.
@@ -657,6 +657,7 @@ No confirmed findings. This is not a no-difference claim; create one file per in
 - Independent audit: pending.
 - Completion checker: the owner-published checker at workflow commit fba28fa154d29572263ea3f2c44cf1dc23134329 accepts this active run structure and explicitly does not claim completion; this is schema status only, not source proof.
 - Runtime validation: not performed; separate workflow and not authorized.
+
 
 
 
