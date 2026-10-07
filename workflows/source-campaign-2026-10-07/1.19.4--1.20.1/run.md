@@ -60,7 +60,7 @@ These rows are mandatory pair-wide maps. Exact endpoint readiness, manifests and
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S4-01,S4-02,S5-01,S5-02; evidence=Entity support-block selection and its movement-factor consumer route recorded in S4-01/F-02; S1-04 links the auto-jump gate to that factor input; remaining shape/query paths open.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S3-03,S5-01,S5-02,S5-03; evidence=block jump/speed-factor read sites linked in S4-01/F-02; block/fluid registrations, resources and tags remain open.
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S1-02,S1-03,S2-02,S3-01,S6-01,S6-02; evidence=S1-03 sprint predicate reads Blindness and mayfly plus food/underwater state; F-01 reads Jump Boost and F-03 reads Levitation/Slow Falling; broader writer/application chains open.
-- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers: corrections, pushes, pistons, mounts/dismounts and launch inputs: status=pending; slice_ids=S1-PORTAL,S7-01,S7-02,S7-03,S7-04; evidence=S7-01 found no difference in position-correction and direct player velocity handlers; S7-03/F-04 records the spectator-entry vertical velocity reset; S1-PORTAL client presentation/cooldown is not applicable to direct movement; S7-02/S7-04 external writers remain open.
+- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers: corrections, pushes, pistons, mounts/dismounts and launch inputs: status=pending; slice_ids=S1-PORTAL,S7-01,S7-02,S7-03,S7-04; evidence=S7-01 found no difference in position-correction/direct velocity handlers, and S7-02 found no difference in player push/knockback/piston response; S7-03/F-04 records the spectator-entry vertical velocity reset; S1-PORTAL client presentation/cooldown is not applicable to direct movement; remaining S7-03 respawn/ability/cooldown and S7-04 mount writers remain open.
 - `INV-EXCLUSIONS` scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; slice_ids=SCOPE-01; evidence=SCOPE-01 records the agreed boundaries and a food-predicate example; producer and consumer routes still need inventory.
 
 The pair uses Mojmap and is not among the six early Feather derived artifacts covered by feather-r1-2026-10-07; both Mojmap artifact manifests and source manifests were freshly reverified with no mismatches. No revised Feather snapshot is cited. The in-scope audit will preserve exact operation order, casts, float/double boundaries, literal suffixes and historical quirks. Direct player velocity/impulse/knockback responses remain in scope; attack/damage resolution and non-player motion remain excluded. Modern-only blocks/features will not acquire old behavior. Other-entity code is in scope only as necessary to explain a direct player movement effect.
@@ -230,9 +230,22 @@ The pair uses Mojmap and is not among the six early Feather derived artifacts co
 - Parent slices / dependencies / closure evidence: S1-05 outbound packet encoding; S7-02 pushes/pistons/native block responses; S7-03 game-mode transition; remaining respawn/ability/cooldown paths still open; S7-04 vehicle/mount boundary.
 - Status: compared-no-difference
 - Disposition and rationale (including concrete reachability/preconditions): the three packet handlers and Entity#lerpMotion bodies compare identical for the exact pair. Relative position components preserve corresponding current delta components; absolute components set position and zero that delta component. SetEntityMotion decodes each integer by dividing by 8000.0 before the same direct velocity write. Explosion applies the packet's three knockback components by adding them to the local player's current delta movement in both versions. No knockback or correction delta was found in this bounded slice.
-- Finding IDs or checked absence/replacement path: none in the inspected client handler/velocity setter path; remaining external writers are open in S7-02/S7-03.
+- Finding IDs or checked absence/replacement path: none in the inspected client handler/velocity setter path; remaining external writers are open in S7-03/S7-04.
 
 
+
+
+### Slice S7-02: Direct player push, knockback and piston movement responses
+
+- Inventory ID(s): INV-EXTERNAL, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: LivingEntity#aiStep pushEntities call and #pushEntities/#doPush path into Entity#push; LivingEntity#knockback writer and its bounded hurt caller guard; Entity#move piston gate/#limitPistonMovement; PistonMovingBlockEntity#moveEntityByPiston caller.
+- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.19.4/mojmap/net/minecraft/world/entity/Entity.java #move piston guard lines 549-559, #limitPistonMovement/#applyPistonMovementRestriction lines 768-799, #push(Entity)/#push(double,double,double) lines 1284-1318; SHA-256 3667fee610cbc5f58012e3a8fb8d6c4849f649fb7fe5300595158112d8b4b58b. LivingEntity.java #knockback lines 1386-1394, #push(Entity) lines 1922-1926, #aiStep pushEntities call line 2577, #pushEntities lines 2618-2645, #doPush lines 2669-2671, and hurt knockback call guard lines 1124-1136; SHA-256 c8d91af61f87aaa1666de79696d7cd9d4a8212d05f873bdaf28d7bb2926bf165. PistonMovingBlockEntity.java #moveEntityByPiston lines 180-184; SHA-256 0089969b2ca412ec2edb3a2a58adaec245c392e51fc114e403b43ac7f301ec03.
+- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.20.1/mojmap/net/minecraft/world/entity/Entity.java #move piston guard lines 593-603, #limitPistonMovement/#applyPistonMovementRestriction lines 837-868, #push(Entity)/#push(double,double,double) lines 1387-1421; SHA-256 94b9c3656715de2d61fa9a02ccef164261e50eb13d6090a6f07e58fe9c5b0759. LivingEntity.java #knockback lines 1419-1427, #push(Entity) lines 1944-1948, #aiStep pushEntities call line 2599, #pushEntities lines 2640-2667, #doPush lines 2691-2693, and hurt knockback call guard lines 1158-1170; SHA-256 decf8cd70d194098ad51d0c82e5a0087e0687881e0a2dc66456f2ba6ea76676f. PistonMovingBlockEntity.java #moveEntityByPiston lines 180-184; SHA-256 ecbe61885f9d5ecb3229427fd4082e8324b50894da83d65e2d2a4b5f0db2d4d0.
+- State producers/writers -> consumers/readers: client-side player overlap -> LivingEntity pushEntities/doPush -> Entity.push adds horizontal delta movement; guarded LivingEntity knockback -> delta-movement write; piston moving-block tick -> Entity.move(MoverType.PISTON) -> per-tick axis budget -> collision-resolved player position.
+- Parent slices / dependencies / closure evidence: S1-06 tick order; S4-02 collision/move kernels; S5 block and piston registrations; S7-01 packet-supplied velocity; attack/damage resolution is excluded by SCOPE-01.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the player-side push/knockback writers, their bounded movement call paths, and piston displacement limiter compare equal after level/onGround API normalization. The client push loop and doPush dispatch are unchanged; Entity#push preserves its same passenger/noPhysics guards, normalization and horizontal impulse writes; LivingEntity#knockback has the same horizontal halving and grounded vertical cap; piston axis accumulation and 1.0E-5F cutoff match. The damage method is inspected only at the same non-explosion attacker knockback guard; no attack/damage decision parity is claimed. This closes these direct player response kernels, not every external or block-provided impulse.
+- Finding IDs or checked absence/replacement path: no difference found in the bounded player push/knockback/piston response bodies; remaining external writers are open under S7-03/S7-04 and S5.
 
 ### Slice S7-03: Server-reported local game-mode transition velocity response
 
@@ -259,7 +272,7 @@ The pair uses Mojmap and is not among the six early Feather derived artifacts co
 - Finding IDs or checked absence/replacement path: no finding; excluded producers are not treated as no-difference source results. Remaining exclusions inventory stays pending.
 
 
-Both exact Mojmap source pairs and full manifests are verified. S1-01/S1-02/S1-03/S1-04/S1-06/S1-PORTAL/S3-02/S4-02/S7-01/S7-03/SCOPE-01 are terminal; F-01/F-02/F-03/F-04 are source-confirmed; remaining collision/world inputs, exclusion producer routes and external traces remain open.
+Both exact Mojmap source pairs and full manifests are verified. S1-01/S1-02/S1-03/S1-04/S1-06/S1-PORTAL/S3-02/S4-02/S7-01/S7-02/S7-03/SCOPE-01 are terminal; F-01/F-02/F-03/F-04 are source-confirmed; remaining collision/world inputs, exclusion producer routes and external traces remain open.
 
 ## Dependency queue and blockers
 
@@ -279,8 +292,8 @@ This is not a complete or no-difference conclusion. Prior reports are navigation
 
 ## Resume checkpoint
 
-- Last completed slices: verified both exact endpoints; closed S1-01/S1-02/S1-03/S1-04/S1-06/S1-PORTAL/S3-02/S4-02/S7-01/S7-03; recorded F-01/F-02/F-03/F-04 source-confirmed movement findings and the bounded SCOPE-01 boundary map.
-- Next bounded slice: trace the outstanding S1-05 packet consumers and S7-02 player push/piston writers, then continue the block/fluid property inventories.
+- Last completed slices: verified both exact endpoints; closed S1-01/S1-02/S1-03/S1-04/S1-06/S1-PORTAL/S3-02/S4-02/S7-01/S7-02/S7-03; recorded F-01/F-02/F-03/F-04 source-confirmed movement findings and the bounded SCOPE-01 boundary map.
+- Next bounded slice: trace S7-03 respawn/ability/cooldown writers and S7-04 vehicle/mount boundaries, then continue the block/fluid property inventories and S1-05 packet consumers.
 - Outstanding dependencies and owners: D2 resource/tag audit after block/fluid consumer inventory; reviewer assignment and all open movement slices.
 - Current assumptions requiring verification: sprint modifier inputs, remaining travel/collision members, resources, data and tags; independent review remains unassigned.
 
@@ -292,7 +305,7 @@ This is a source-only assignment. Existing/old mod implementation has not been i
 - Repository revision inspected: not inspected for implementation.
 - Finding -> implementation disposition/evidence: deferred to integrator after freeze.
 - Existing implementation without a frozen source finding: not inspected; deferred to integrator.
-- Coverage gaps routed back to discovery slices: auto-jump block-provider inputs (S1-04/S5-01), movement packet consumers (S1-05/S7), and collision/support/block/fluid data (S4/S5/S7) remain open; the bounded portal and sprint-start paths are closed.
+- Coverage gaps routed back to discovery slices: auto-jump block-provider inputs (S1-04/S5-01), movement packet consumers (S1-05), remaining respawn/ability/cooldown and mount paths (S7-03/S7-04), and collision/support/block/fluid data (S4/S5) remain open; the bounded portal and sprint-start paths are closed.
 
 ## Independent source audit
 
@@ -305,7 +318,7 @@ This is a source-only assignment. Existing/old mod implementation has not been i
 
 ## Source audit closure
 
-- Coverage counts by status: 5 compared-no-difference slices (S1-01, S1-02, S1-03, S4-02, S7-01); 7 findings slices (S1-04, S1-06, S3-01, S3-02, S3-03, S4-01, S7-03); 1 in-progress slice (S1-05); 2 not-applicable slices (S1-PORTAL, SCOPE-01); remaining planned slices not yet created; 7 required inventory maps incomplete; 1 resource/tag dependency and independent audit remain open.
+- Coverage counts by status: 6 compared-no-difference slices (S1-01, S1-02, S1-03, S4-02, S7-01, S7-02); 7 findings slices (S1-04, S1-06, S3-01, S3-02, S3-03, S4-01, S7-03); 1 in-progress slice (S1-05); 2 not-applicable slices (S1-PORTAL, SCOPE-01); remaining planned slices not yet created; 7 required inventory maps incomplete; 1 resource/tag dependency and independent audit remain open.
 - Required inventory status and evidence: all seven maps remain incomplete; exact-pair member evidence is recorded for bounded S1-01/S1-02/S1-03/S1-04/S1-05/S1-06/S3-01/S3-02/S3-03/S4-01/S4-02/S7-01/S7-03/SCOPE-01 slices.
 - Open dependencies: D2 worker jar-resource/data audit after relevant consumers are inventoried; independent source audit and remaining slice closure.
 - Unresolved gaps and limits: remaining navigation inventories, member correspondences, resources, findings and dependency closure; independent audit.
