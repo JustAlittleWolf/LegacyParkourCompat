@@ -130,9 +130,6 @@ abstract class LocalPlayerMixin {
 
 
 
-    @Shadow
-    protected abstract void goDownInWater();
-
     @ModifyArg(
         method = "canStartSprinting",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isSprintingPossible(Z)Z"),
@@ -157,16 +154,16 @@ abstract class LocalPlayerMixin {
             .orElse(vanilla);
     }
 
-    @Redirect(
+    @WrapOperation(
         method = "aiStep",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;goDownInWater()V")
     )
-    private void legacyparkourcompat$waterSneakDescent(LocalPlayer player) {
+    private void legacyparkourcompat$waterSneakDescent(LocalPlayer player, Operation<Void> vanilla) {
         boolean apply = MovementRuntime.find(WaterSneakBehavior.class, player)
             .map(behavior -> behavior.shouldApplyDownwardImpulse(player, true))
             .orElse(true);
         if (apply) {
-            this.goDownInWater();
+            vanilla.call(player);
         }
     }
 
