@@ -300,7 +300,6 @@ The following are pending scope atoms for source-led member indexing. Each must 
   - D1 / source owner / exact `1.21.8` and `1.21.10` Mojmap output and readiness markers with exact resolved IDs, source/artifact hashes, movement-method diagnostics, warnings, logs and tool versions; required by all slices. Next action: await shared publication; source owners alone run generation.
   - D2 / discovery worker / after D1, verify cited source hashes and relevant body diagnostics, then enumerate matching client-jar resources/tags/defaults and classify vanilla default vs server-synchronized vs external input.
   - D3 / coordinator / assign independent source auditor before closure.
-  - D4 / workflow owner / fix the checker top-level status selection: `check_completion.py` line 53 matches every `- Status:` line in the document, including the template-required bounded-slice and section statuses, while line 92 also reads each slice status. Current compliant pending report is rejected with `expected exactly one top-level status, found 24`. Keep per-slice statuses; define an unambiguous top-level selector or status field.
 
 ## Finding index
 
@@ -338,8 +337,8 @@ Independent reviewer not yet assigned; no source audit performed.
 
 - Coverage counts by status: pending 21; in-progress 0; compared-no-difference 0; findings 0; not-applicable 0; blocked 0. These pending atoms must be split further into member-bounded slices after source inventory.
 - Required inventory status and evidence: INV-TICK pending; INV-STATE pending; INV-COLLISION pending; INV-WORLD-MOVEMENT pending; INV-MODIFIERS pending; INV-EXTERNAL pending; INV-EXCLUSIONS pending. No source inventories complete.
-- Open dependencies: D1, D2, D3, D4
-- Unresolved gaps and limits: exact sources not yet published; no method-level correspondence, source hashes, data/resource closure, findings, or bounded terminal dispositions established. The completion checker currently rejects the template’s own repeated slice/section statuses (D4); no completion gate pass is claimed.
+- Open dependencies: D1, D2, D3
+- Unresolved gaps and limits: exact sources not yet published; no method-level correspondence, source hashes, data/resource closure, findings, or bounded terminal dispositions established. The canonical completion checker accepts this active report structurally; no completion pass is claimed.
 - Evidence/hash/correspondence audit: no source evidence yet; no claims of equivalence.
 - Blind freeze: pending
 - Implementation reconciliation: pending
