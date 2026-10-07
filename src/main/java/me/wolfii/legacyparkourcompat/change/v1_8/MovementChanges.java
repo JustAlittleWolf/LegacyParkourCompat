@@ -6,12 +6,12 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
 public final class MovementChanges implements MovementChangeProvider {
     @Override
     public void register(MovementChangeRegistry registry) {
-        registry.register(new SprintDuration_1_8());
-        registry.register(new CreativeFlightSneakInput_1_8());
-        registry.register(new TruncatedMovementChunkLookup_1_8());
-        registry.register(new CreativeFlightFallDistance_1_8());
-        registry.register(new NaturalRegeneration_1_8());
-        registry.register(new BoatRiderInput_1_8());
-        registry.register(new RideableJumpCharge_1_8());
+        registry.register(new BoatRiderInput());
+        registry.register(new CreativeFlightFallDistance());
+        registry.register(new CreativeFlightSneakInput());
+        registry.register(new NaturalRegeneration());
+        registry.register(new RideableJumpCharge());
+        registry.register(new SprintDuration());
+        registry.register(new TruncatedMovementChunkLookup());
     }
 }

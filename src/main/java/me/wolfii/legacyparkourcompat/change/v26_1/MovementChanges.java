@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.SlimeBlock;
 public final class MovementChanges implements MovementChangeProvider {
     @Override
     public void register(MovementChangeRegistry registry) {
-        registry.register(new CollisionRestitution26_1());
+        registry.register(new CollisionRestitution());
         for (Block block : BuiltInRegistries.BLOCK) {
             boolean slime = block instanceof SlimeBlock;
             if (slime || block instanceof BedBlock) {
@@ -24,7 +24,7 @@ public final class MovementChanges implements MovementChangeProvider {
                 registry.register(
                     BlockLandingBehavior.class,
                     ParkourVersion.V26_1,
-                    new BlockLanding26_1(id.toString(), slime)
+                    new BlockLanding(id.toString(), slime)
                 );
             }
         }
