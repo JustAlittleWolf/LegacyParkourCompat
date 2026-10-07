@@ -273,7 +273,7 @@ These are 22 initial bounded work units, not an exhaustive inventory. All remain
 - A evidence: pending exact source, registry and resource inventory.
 - B evidence: B seed files include Block, BlockBehaviour, Blocks, all registered block subclasses, Fluid/FlowingFluid, shape classes and client-jar data; individual members/entry hashes not yet inventoried.
 - State producers/writers -> consumers/readers: block/fluid registration/state/resource values -> player shape/contact/property/fluid queries -> movement, support, velocity and callback consumers.
-- Parent slices / dependencies / closure evidence: S-STATE-01,S-COLLISION-01,S-COLLISION-02,S-TRAVEL-01; registry/resource inventory and all reachable providers pending.
+- Parent slices / dependencies / closure evidence: S-STATE-01,S-MOVE-POS,S-MOVE-FLAGS,S-MOVE-RESTITUTE,S-MOVE-BLOCK-SPEED,S-EDGE-PROBE,S-COLLISION-STEP,S-COLLISION-QUERY,S-COLLISION-AXIS,S-TRAVEL-01; registry/resource inventory and all reachable providers pending.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): B root inventory unbuilt; no pairwise no-difference or absence conclusion.
 - Finding IDs or checked absence/replacement path: none yet.
@@ -321,7 +321,7 @@ These are 22 initial bounded work units, not an exhaustive inventory. All remain
 - A evidence: pending exact source and method/caller correspondence.
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/player/Player.java::tick(),updatePlayerPose(),canPlayerFitWithinBlocksAndEntitiesWhen(Pose), lines 231-285, 343-374`, SHA-256 `8decc71b9c780664578ddb14591db2a2f207c72c05b676edded6f8e964576531`.
 - State producers/writers -> consumers/readers: swimming/sleeping/fall-flying/shift/flight and collision-space predicates -> pose -> dimensions/eye height/bounding box -> next tick collision and fluid queries.
-- Parent slices / dependencies / closure evidence: S-TICK-ENTRY,S-LOCAL-01,S-STATE-01,S-COLLISION-02; A pose/update timing, dimension defaults and all pose writers pending.
+- Parent slices / dependencies / closure evidence: S-TICK-ENTRY,S-LOCAL-01,S-STATE-01,S-COLLISION-STEP,S-COLLISION-QUERY,S-COLLISION-AXIS; A pose/update timing, dimension defaults and all pose writers pending.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): B body read; post-super ordering is a comparison target, not a finding without A evidence.
 - Finding IDs or checked absence/replacement path: none yet.
@@ -371,5 +371,6 @@ No pairwise findings confirmed. Earlier reports for this interval were consulted
 - Implementation reconciliation: pending.
 - Independent audit: pending.
 - Runtime validation: not performed; runtime is not authorized.
+
 
 
