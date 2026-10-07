@@ -9,8 +9,13 @@ public final class MovementChanges implements MovementChangeProvider {
         registry.register(new BoatRiderInput());
         registry.register(new CreativeFlightFallDistance());
         registry.register(new CreativeFlightSneakInput());
+        for (String blockId : PaneCollisionShape.BLOCK_IDS) {
+            registry.register(new PaneCollisionShape(blockId));
+        }
         registry.register(new RideableJumpCharge());
+        registry.register(new SneakingDimensions());
         registry.register(new SprintDuration());
         registry.register(new TruncatedMovementChunkLookup());
+        registry.register(new VelocityZeroThreshold());
     }
 }
