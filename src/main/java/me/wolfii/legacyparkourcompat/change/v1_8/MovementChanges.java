@@ -9,7 +9,6 @@ public final class MovementChanges implements MovementChangeProvider {
         registry.register(new BoatRiderInput());
         registry.register(new CreativeFlightFallDistance());
         registry.register(new CreativeFlightSneakInput());
-        registry.register(new NaturalRegeneration());
         registry.register(new RideableJumpCharge());
         registry.register(new SprintDuration());
         registry.register(new TruncatedMovementChunkLookup());
