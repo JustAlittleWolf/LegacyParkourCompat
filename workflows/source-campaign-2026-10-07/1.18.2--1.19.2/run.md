@@ -1,6 +1,6 @@
 # Discovery: 1.18.2 to 1.19.2
 
-- Status: active
+- Status: partial
 - Scope: client player movement; older A = 1.18.2; newer B = 1.19.2. Source-only discovery track. Explicit exclusions: health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations, and non-player movement. Direct movement predicates may read vanilla state without emulating its producer system. Modern-only blocks/features do not acquire historical behavior.
 - Repository revision and start date: base `002137b227676caea77f6832b9f4c8d0b6200bff`; started 2026-10-07.
 - Selected naming namespace, CLI mode per side and alignment evidence: Mojmap (`mojmap`) for both exact releases; both readiness records identify the exact release and Mojmap namespace, so source names align directly.
@@ -45,9 +45,9 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Blind-discovery freeze
 
-- Status: pending
-- Freeze commit/checkpoint and timestamp: pending.
-- Evidence inventory and finding IDs included at freeze: pending source comparison.
+- Status: partial handoff; source discovery is still blind to implementation.
+- Freeze commit/checkpoint and timestamp: no final blind freeze; partial report checkpoint will be recorded in Git at handoff.
+- Evidence inventory and finding IDs included at freeze: F-001 and F-002 are source-confirmed; remaining slice evidence is not frozen.
 - Confirmation that old mod implementation/code and isolated wiki-audit results were not opened before freeze (prior source-discovery reports may be used as navigation): confirmed; neither implementation nor wiki outputs were inspected, and no wiki was browsed.
 - Source/mapping hashes covered by freeze: pending exact source verification.
 
@@ -61,24 +61,24 @@ Artifact paths below are relative to repository root; generated artifacts remain
 - `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=T01,T02,T03,T04,T05,T06,T07; evidence=F-001 links local sneaking input to Swift Sneak; remaining per-branch comparison is open.
 - `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=P01,P02,P03,P04; evidence=F-002 documents the changed edge predicate; full writer/reader graph remains open.
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=C01,C02,C03,C04; evidence=F-002 and the legacy support lookup in `Entity.move`; shape/callback coverage remains open.
-- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=W01,W02,W03,W04; evidence=pending exact sources and client-jar resource access.
+- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=W01,W02,W03,W04; evidence=exact source trees verified; block/fluid/resource inventory remains open.
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=M01,M02,M03,M04; evidence=F-001 traces the new Swift Sneak level bonus; resources and other modifiers remain open.
 - `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, such as corrections, pushes, pistons and mounts: status=pending; slice_ids=E01,E02,E03; evidence=exact source trees verified; method comparison is in progress.
-- `INV-EXCLUSIONS` explicit scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; evidence=pending exact sources; direct vanilla-state reads, if any, will be recorded as movement inputs only.
+- `INV-EXCLUSIONS` explicit scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; evidence=scope boundaries are recorded; direct vanilla-state reads, if any, will be recorded as movement inputs only.
 
 ## Coverage ledger
 
 ### Slice T01: input sampling and input-state capture
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: pending; bound to input sample, current/previous input fields, and consumers after exact source inventory.
-- A evidence: not yet compared; readiness is recorded in D-SOURCES.
-- B evidence: not yet compared; readiness is recorded in D-SOURCES.
-- State producers/writers -> consumers/readers: input sampling/writers -> local player movement predicates and travel input; exact fields pending.
+- Exact behavior boundary and enclosing guards/order checked: `KeyboardInput.tick()` samples the same four directional keys, computes the same signed impulses, and captures jump/shift state; `Input` stores the same fields and exposes the same movement vector and forward-input predicate. The sole movement-scale delta is covered by F-001/T03.
+- A evidence: KeyboardInput lines 19-34 and Input lines 5-28 in `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/client/player/KeyboardInput.java` and `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/client/player/Input.java`; SHA-256 KeyboardInput `281622F8481654035196A7BC1554D5251C1040518375E3AC6F6439E5EC894A75`, Input `EB50A4E268EC5FF8423D2805499CA3C7BAE33765CB44CFECEF808E38FA6DE3C3`.
+- B evidence: KeyboardInput lines 19-32 and Input lines 5-28 in `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/client/player/KeyboardInput.java` and `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/client/player/Input.java`; SHA-256 KeyboardInput `A8064906872955A3520398AB5B2A326552D424F41887D1294AA6A038E2623FF0`, Input `B302FFBC45C5F900EA18A4D4AF2DF6FA0454EA7CB7744A0D249061E5FCB97FBB`.
+- State producers/writers -> consumers/readers: key bindings -> `KeyboardInput` booleans and impulses -> `Input.getMoveVector()` / `hasForwardImpulse()` -> local player consumers.
 - Parent slices / dependencies / closure evidence: source provenance `D-SOURCES`.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison pending; no behavior claim.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): directional/jump/shift sampling order and stored input fields correspond; B changes only the slow-movement factor traced in F-001/T03. The sampling remains local keyboard input and the resulting state feeds the same movement consumers.
+- Finding IDs or checked absence/replacement path: F-001 (factor change is separately bounded in T03).
 
 ### Slice T02: local player tick and pre-travel call order
 
@@ -95,14 +95,14 @@ Artifact paths below are relative to repository root; generated artifacts remain
 ### Slice T03: input scaling and yaw-to-motion conversion
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer.aiStep()` samples `isMovingSlowly()` before `KeyboardInput.tick`; the input method scales lateral and forward impulses only when that predicate is true. `isMovingSlowly()` is crouching OR visually crawling in both. The downstream relative movement conversion is not yet closed.
-- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/client/player/LocalPlayer.java:601-604,642-657` and `.../client/player/KeyboardInput.java:20-34`; SHA-256 LocalPlayer `99C2D18BCD23243AFB8F95C5BAFB21FB0BE7EA04AACBB14FCF7BE7CED2C9C095`, KeyboardInput `281622F8481654035196A7BC1554D5251C1040518375E3AC6F6439E5EC894A75`.
-- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/client/player/LocalPlayer.java:690-693,731-746` and `.../client/player/KeyboardInput.java:19-32`; SHA-256 LocalPlayer `36AE4AABD609B457FFFB7A8B14ABB50DB9AC775857DDE1774C0C68A8CF50DEEF`, KeyboardInput `A8064906872955A3520398AB5B2A326552D424F41887D1294AA6A038E2623FF0`.
+- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer.aiStep()` samples `isMovingSlowly()` before `KeyboardInput.tick`; the input method scales lateral and forward impulses only when that predicate is true. `isMovingSlowly()` is crouching OR visually crawling in both. `Entity.moveRelative()` and `getInputVector()` have the same squared-length threshold, normalization, yaw sine/cosine order, and delta-velocity addition in both versions.
+- A evidence: LocalPlayer lines 601-604, 642-657; KeyboardInput lines 20-34; Entity lines 1151-1166 under `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/`; SHA-256 LocalPlayer `99C2D18BCD23243AFB8F95C5BAFB21FB0BE7EA04AACBB14FCF7BE7CED2C9C095`, KeyboardInput `281622F8481654035196A7BC1554D5251C1040518375E3AC6F6439E5EC894A75`, Entity `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A`.
+- B evidence: LocalPlayer lines 690-693, 731-746; KeyboardInput lines 19-32; Entity lines 1170-1185 under `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/`; SHA-256 LocalPlayer `36AE4AABD609B457FFFB7A8B14ABB50DB9AC775857DDE1774C0C68A8CF50DEEF`, KeyboardInput `A8064906872955A3520398AB5B2A326552D424F41887D1294AA6A038E2623FF0`, Entity `759DE9CDED43BD882AFCF5B7023BCF804D92419ACB656B493F3B490C83EB18B6`.
 - State producers/writers -> consumers/readers: crouch/visual-crawl state -> `isMovingSlowly()` -> keyboard input impulses -> local player input consumers.
 - Parent slices / dependencies / closure evidence: D-SOURCES; T01; movement consumers in T07.
-- Status: in-progress
+- Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): F-001. When local keyboard input is slow (crouching or visually crawling), A multiplies both impulses by `0.3F`; B computes `clamp(0.3F + SwiftSneakLevel * 0.15F, 0, 1)` and passes that factor to the same two input fields. `SWIFT_SNEAK` is registered for `EquipmentSlot.LEGS`, has max level 3, and the helper derives bonus as level times `0.15F`. At levels 1-3 this raises the scale to 0.45/0.60/0.75; without it B remains 0.3. Resource applicability/data/tag audit remains open.
-- Finding IDs or checked absence/replacement path: F-001.
+- Finding IDs or checked absence/replacement path: F-001; downstream yaw conversion checked unchanged at A `Entity.java:1151-1166`, B `Entity.java:1170-1185`.
 
 ### Slice T04: sprint state, start/stop gates and timers
 
@@ -400,12 +400,12 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Finding index
 
-- F-001 — 1.19.2 Swift Sneak raises crouch/crawl keyboard input scale from A's fixed `0.3F`; evidence and reachability in T03/M03.
-- F-002 — 1.19.2 only restrains crouch-ground X/Z edge movement when requested vertical delta is nonpositive; evidence and caller order in C02.
+- F-001 — 1.19.2 Swift Sneak raises crouch/crawl keyboard input scale from A's fixed `0.3F`; [full evidence](findings/F-001.md), also indexed in T01/T03/M03.
+- F-002 — 1.19.2 only restrains crouch-ground X/Z edge movement when requested vertical delta is nonpositive; [full evidence](findings/F-002.md), also indexed in C02.
 
 ## Resume checkpoint
 
-- Last source comparison work: T03 sneaking input scaling, C02 edge/support lookup, C04 shared step callback outputs, and M03 Swift Sneak applicability; these rows remain in-progress where their wider dependency boundaries are still open.
+- Last source comparison work: T01/T03 input capture and scaling, C02 edge/support lookup, C04 shared step callback outputs, and M03 Swift Sneak applicability; T01/T03 are closed with F-001, while the broader C02/C04/M03 dependency boundaries remain open.
 - Next bounded slice and exact files/members/body ranges to open: finish `LocalPlayer.aiStep()`/`Input` consumer path and the full `Player`/`LivingEntity` travel and jump branch inventories (T01/T02/T04-T07); then finish block callbacks/resources (C04/W04/M03).
 - Outstanding dependencies and owners: D-RESOURCES (discovery worker); independent reviewer assignment (coordinator, after source-only freeze).
 - Current assumptions requiring verification: Swift Sneak resource/tag data and all remaining modifier chains; all movement branch helpers and block callback outputs. Directory presence alone is not readiness.
@@ -429,12 +429,12 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Source audit closure
 
-- Coverage counts by status: pending 23; in-progress 4; compared-no-difference 0; findings 0; not-applicable 0; blocked 0.
+- Coverage counts by status: pending 22; in-progress 3; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
 - Required inventory status and evidence: INV-TICK pending; INV-STATE pending; INV-COLLISION pending; INV-WORLD-MOVEMENT pending; INV-MODIFIERS pending; INV-EXTERNAL pending; INV-EXCLUSIONS pending. No inventory is closed.
 - Open dependencies: D-RESOURCES (discovery worker), independent reviewer assignment (coordinator, after source-only freeze).
-- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Twenty-three coverage entries are pending and four are in progress.
+- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Twenty-two coverage entries are pending, three are in progress, and two carry findings.
 - Evidence/hash/correspondence audit: two bounded difference slices include paired source hashes, ranges, call paths, and writer-to-consumer links; the remaining source hashes and correspondence are not yet inventoried.
-- Blind freeze: pending.
+- Blind freeze: not frozen; implementation remains uninspected. Freeze after remaining source inventories close or are explicitly scoped for handoff.
 - Implementation reconciliation: pending and deferred outside this source-only assignment.
 - Independent audit: pending.
 - Runtime validation: not performed (separate workflow; never inferred from build/source completion).
