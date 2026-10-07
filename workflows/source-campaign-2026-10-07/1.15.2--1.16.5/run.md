@@ -3,7 +3,7 @@
 - Scope: source-only client player movement; older A = exact Java Edition 1.15.2; newer B = exact Java Edition 1.16.5.
 - Track declaration: no wiki, MCPK, release-notes, or mod-implementation evidence; no runtime implementation in this track.
 - Repository revision and start date: base 002137b227676caea77f6832b9f4c8d0b6200bff; 2026-10-07. Branch: feat/source-discovery-movement-source-1-15-2-1-16-5.
-- Selected naming namespace: pending source-owner confirmation; candidate is Feather for A and Mojmap for B, pending validated readiness.
+- Selected naming namespace: pending source-owner confirmation; both sides must use the same verified mapping family. Mojmap is a candidate to probe on both exact releases; no availability is assumed until ready artifacts confirm it.
 - Source preparation: exact pair/readiness requested from source owner. Canonical shared root is D:/Javastuff/LegacyParkourCompat/build/movement-campaign-2026-10-07; the source owner is the sole writer and this researcher will not regenerate, write or clean shared sources.
 
 ## Artifact manifest
@@ -97,4 +97,5 @@ No confirmed findings in this fresh run. Add only reverified behavioral deltas, 
 - Closure: not complete; no difference/equivalence claims yet.
 - Hash/correspondence audit: pending readiness.
 - Runtime validation: not performed.
+
 
