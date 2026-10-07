@@ -409,6 +409,22 @@ Each finding is committed as an immutable source snapshot. All are submitted and
 - Implementation handoff: blocked; independent snapshot acceptance pending.
 - Replaces/supersedes snapshot ID and reason, if applicable: none
 
+### Snapshot event F-S1-OPEN-SHULKER-ESCAPE
+- Finding ID(s): F-S1-OPEN-SHULKER-ESCAPE
+- Source finding author(s): source-only pair researcher
+- Status: submitted
+- Immutable snapshot commit: d859478b9f6de63ba4a121a1f31d6dc90ad4f51e
+- Finding file path and SHA-256: findings/F-S1-OPEN-SHULKER-ESCAPE.md — 11860ba106197cae687735e641db4c9ef7057ddadcddeafe5c16f012e8e657e4
+- Exact A/B artifact-manifest identities/hashes: ready/1.15.2/artifacts.sha256 208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406; ready/1.16.5/artifacts.sha256 f9b9812d6995012cefcc1201a63855e5931e8551b508753be6c46d442d8b370c
+- Cited source hashes: A LocalPlayer 3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd, Player 1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793 and ShulkerBoxBlock de5e19cffb75499b509bc361fcfb3dbe0b0fa7ab490ac42adedf89466721b02d; B LocalPlayer 6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b, Blocks 3b39d5cc4cd22f146ed3195aa30cbb9fdfca49f63783fabf9924a6ce7795fa12, ShulkerBoxBlockEntity 4aab41f71aacf9e1138a225e1253e202a303276ff21c7b4974b11a76d694c322, CollisionGetter b507d6be11e5985a62cfeb249a99dcb5f8edaf346f12cb2487797d9e01763eac and CollisionSpliterator 19ab959c469b8edb5c371ff737a59a61b8a80bf397eff1db280064342094d297
+- Verified implementation boundary/evidence, or unresolved boundary reason: not inspected; source-only owner remains blind until full-pair freeze.
+- Finding-specific closed dependency IDs/evidence: S1-ESCAPE-QUERY; paired escape call sites, A/B suffocation semantics, open shulker predicate/shape query, and common piston special cases checked.
+- Independent blind source reviewer and decision date: pending coordinator assignment
+- Review basis / requested source-only revisions: pending
+- Pair run status and commit at handoff: partial at d859478b9f6de63ba4a121a1f31d6dc90ad4f51e
+- Pair complete: no
+- Implementation handoff: blocked; independent snapshot acceptance pending.
+- Replaces/supersedes snapshot ID and reason, if applicable: none
 ## Implementation reconciliation
 
 - Reconciliation status: pending
