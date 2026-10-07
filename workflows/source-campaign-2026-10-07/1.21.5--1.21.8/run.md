@@ -222,26 +222,26 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 ### Slice S4.1: player Entity.move collision resolution
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: bounding-box and position movement, collision query/order, axis resolution and velocity cancellation; not yet checked.
-- A evidence: pending source publication.
-- B evidence: pending source publication.
-- State producers/writers -> consumers/readers: pending movement input and box/velocity/on-ground writes to later travel readers.
+- Exact behavior boundary and enclosing guards/order checked: direct player movement entry, stuck-speed/edge gates, collision query, step/collision branch, axis clipping and post-collision velocity cancellation.
+- A evidence: `Entity#move(MoverType, Vec3)` begins at line 636; `collide(Vec3)` line 968; `collideBoundingBox(...)` line 1020; `collideWithShapes(...)` line 1041; Entity SHA-256 `fc177733e9cc4b2d5cf2562e5529d0f4e0b9c3690f081fbd58aa9119eb173dc4`.
+- B evidence: corresponding methods begin at lines 663, 1002, 1054 and 1075; collision clipping/arithmetic bodies match A. Entity SHA-256 `c403e6176d27b5bfd6aaa0dea3735ffa4fcf80dbae58766661dd84453b7e9704`. The only semantic change found inside `Entity#move` is recording one whole displacement for callback replay instead of per-axis movement segments; routed to S4.4.
+- State producers/writers -> consumers/readers: accepted move vector -> identical collision clip/step result -> position and collision flags/velocity are written by matching bodies; queue representation differs only for later contact callback sampling. Collision query/provider inventory remains open in S4.3/S5.2/S5.4.
 - Parent slices / dependencies / closure evidence: S2.1; S2.2; S4.3; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): collision displacement and velocity resolution match for compared methods; callback replay dependency and full world-shape provider inventory remain open.
+- Finding IDs or checked absence/replacement path: `F-ENTITY-MOVEMENT-QUEUE-CAP-1.21.5-1.21.8` concerns callback path replay, not collision clipping.
 
 ### Slice S4.2: step-up, edge probes and support lookup
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: candidate step paths/tie-breaks, edge restraint, support position and on-ground query bounds; not yet checked.
-- A evidence: pending source publication.
-- B evidence: pending source publication.
-- State producers/writers -> consumers/readers: pending collision shape/support query producer-to-ground and movement consumer map.
+- Exact behavior boundary and enclosing guards/order checked: player-specific edge restraint, generic back-off, supporting-block check and collision/step shape clipping entry.
+- A evidence: `Entity#checkSupportingBlock()` starts at line 610, `Entity#maybeBackOffFromEdge()` at 931; `Player#maybeBackOffFromEdge()` at 1026; `Entity#collideBoundingBox()` at 1020, with source hashes in S4.1 and S2.2.
+- B evidence: corresponding generic methods start at 637 and 965, `Player#maybeBackOffFromEdge()` at 1038, and `Entity#collideBoundingBox()` at 1054; bodies are identical to A.
+- State producers/writers -> consumers/readers: same support and collision results feed the same on-ground/step decision; provider shapes and neighboring-block/resource dependencies are still pending S5.2/S5.4.
 - Parent slices / dependencies / closure evidence: S2.1; S4.1; S4.3; S5.2; S5.4; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): compared support, player edge and collision clipping methods match; full collision-shape and neighboring-block inventory remains open.
+- Finding IDs or checked absence/replacement path: no direct difference found in these compared methods.
 
 ### Slice S4.3: world collision queries and shape evaluation
 
@@ -253,7 +253,7 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 - Parent slices / dependencies / closure evidence: S2.1; S4.1; S4.2; S5.2; S5.4; DEP-SRC-A; DEP-SRC-B.
 - Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): candidate difference routed to `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8`; the exact query/context change and scaffolding/powder-snow consumers are confirmed, but full player collision-provider coverage and blind review remain open.
-- Finding IDs or checked absence/replacement path: candidate `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8`; no terminal disposition yet.
+- Finding IDs or checked absence/replacement path: candidates `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8` and `F-NETHER-PORTAL-INSIDE-SHAPE-1.21.5-1.21.8`; no terminal disposition yet.
 
 ### Slice S4.4: collision, fluid and block callback ordering
 
@@ -261,10 +261,10 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 - Exact behavior boundary and enclosing guards/order checked: movement recording and the player block/fluid contact scan are being compared; the complete callback-provider and player state-write inventory remains open.
 - A evidence: `Entity#move()` lines 636-681 records each accepted displacement as axis-ordered path segments; `applyEffectsFromBlocks()` / `checkInsideBlocks()` lines 768-779 and 1079-1122 consume them; `Entity.java` SHA-256 `fc177733e9cc4b2d5cf2562e5529d0f4e0b9c3690f081fbd58aa9119eb173dc4`. `ServerGamePacketListenerImpl#handleMovePlayer()` lines 958-1028 invokes `player.move(MoverType.PLAYER, ...)` for accepted non-passenger movement packets; file SHA-256 `fdb8726f77618ebcfd4fe3973e1740d999c2fd3d220ca4a3ddba837f160e6d69`.
 - B evidence: `Entity#move()` lines 663-698 records one axis-independent displacement; `addMovementThisTick()` lines 798-807 caps history at 100 and merges its first two samples into a straight segment; `applyEffectsFromBlocks()` / `checkInsideBlocks()` lines 785-807 and 1113-1181 replay ordinary axis-independent records but scan merged paths directly; `Entity.java` SHA-256 `c403e6176d27b5bfd6aaa0dea3735ffa4fcf80dbae58766661dd84453b7e9704`. `ServerGamePacketListenerImpl#handleMovePlayer()` lines 977-1047 provides the same accepted non-passenger packet-to-`player.move` path; file SHA-256 `100f83ae1f264dd26170147cf1319f78b7bf837d5b1b5603934b414cde63a16d`.
-- State producers/writers -> consumers/readers: A/B accepted serverbound player moves write one queue sample through `Entity.move`; the player's later living tick drains samples into block/fluid collision-shape callbacks (`LivingEntity#aiStep`, A line 2770; B line 2822). Server movement packets beyond five since its last tick are logged and affect the movement-check multiplier but are not rejected solely for frequency (A `ServerGamePacketListenerImpl.java:995-1004`; B `:1015-1024`), so repeated accepted move calls can reach the new cap. The B cap can merge two recorded paths before the stateful callback consumer; details and exact precondition are routed to `F-ENTITY-MOVEMENT-QUEUE-CAP-1.21.5-1.21.8`. Piston push samples are immediately contact-processed and removed, and are not queue accumulation evidence.
+- State producers/writers -> consumers/readers: A/B accepted serverbound player moves write one queue sample through `Entity.move`; the player's later living tick drains samples into block/fluid collision-shape callbacks (`LivingEntity#aiStep`, A line 2770; B line 2822). Server movement packets beyond five since its last tick are logged and affect the movement-check multiplier but are not rejected solely for frequency (A `ServerGamePacketListenerImpl.java:995-1004`; B `:1015-1024`), so repeated accepted move calls can reach the new cap. The B cap can merge two recorded paths before the stateful callback consumer; details and exact precondition are routed to `F-ENTITY-MOVEMENT-QUEUE-CAP-1.21.5-1.21.8`. Separately, Nether portal callback dispatch now uses the inherited full-block entity-inside sentinel instead of the portal plane; candidate `F-NETHER-PORTAL-INSIDE-SHAPE-1.21.5-1.21.8` records the exact player transition route. Piston push samples are immediately contact-processed and removed, and are not queue accumulation evidence.
 - Parent slices / dependencies / closure evidence: S3.3; S4.1; S5.2; S5.3; DEP-SRC-A; DEP-SRC-B.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): candidate difference routed to `F-ENTITY-MOVEMENT-QUEUE-CAP-1.21.5-1.21.8`; threshold, reader and server player-packet reachability are source-confirmed, but provider impact and blind review remain open. Other block/fluid callback ordering and movement-state writes still require inventory.
+- Disposition and rationale (including concrete reachability/preconditions): candidates `F-ENTITY-MOVEMENT-QUEUE-CAP-1.21.5-1.21.8` and `F-NETHER-PORTAL-INSIDE-SHAPE-1.21.5-1.21.8`; threshold and player-packet reachability for the cap and the portal plane-vs-sentinel callback path are source-confirmed, but provider impact and blind review remain open. Other block/fluid callback ordering and movement-state writes still require inventory.
 - Finding IDs or checked absence/replacement path: candidate `F-ENTITY-MOVEMENT-QUEUE-CAP-1.21.5-1.21.8`; no terminal disposition yet.
 
 ### Slice S5.1: block movement properties and registrations
@@ -282,14 +282,14 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 ### Slice S5.2: shape providers, movement callbacks and subclasses
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: contextual scaffolding and powder-snow collision shapes are confirmed as consumers in server player movement validation; complete provider/callback/tag inventory remains open.
-- A evidence: `ScaffoldingBlock#getCollisionShape()` lines 133-140 and `PowderSnowBlock#getCollisionShape()` lines 114-130; their source hashes match B and are listed in `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8`.
-- B evidence: same source hashes and method ranges as A; context-selected return path can differ because the validator supplies a placement context in B.
-- State producers/writers -> consumers/readers: server movement query's CollisionContext -> context-sensitive block shape -> candidate collision overlap -> server accepts the target player location or corrects it; tag/resource and remaining movement callbacks pending.
+- Exact behavior boundary and enclosing guards/order checked: contextual scaffolding and powder-snow collision shapes are confirmed in server player validation, and NetherPortalBlock’s entity-inside shape override changes; complete provider/callback/tag inventory remains open.
+- A evidence: `ScaffoldingBlock#getCollisionShape()` lines 133-140 and `PowderSnowBlock#getCollisionShape()` lines 114-130; their source hashes match B and are listed in `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8`. `NetherPortalBlock#getEntityInsideCollisionShape()` returns its thin portal shape (lines 61-69; hash `1cb1b0a796f491deb2317d8a2706442741a627582ca86e3cc7adb6345f975d1b`).
+- B evidence: scaffolding/powder-snow hashes and method ranges match A; context-selected return path can differ because the validator supplies a placement context. NetherPortalBlock removes the inside-shape override (hash `883beec01685148971b2b284be2267b5a6a1f258c49e2da4dd28fb4155d49967`) and inherits shared `BlockBehaviour` default `Shapes.block()`; the inside-block scanner calls its unchanged portal callback based on that sentinel, routed to `F-NETHER-PORTAL-INSIDE-SHAPE-1.21.5-1.21.8`.
+- State producers/writers -> consumers/readers: server movement query's CollisionContext -> context-sensitive block shape -> candidate collision overlap -> server accepts the target player location or corrects it; tag/resource and remaining movement callbacks pending. The changed Nether portal callback can initiate portal processing under a broader block-inside condition; candidate is separately recorded. In the changed block paths screened by shape/inside-callback signatures, EndPortal’s modified Overworld angle returns through the ServerPlayer respawn path before use; rail changes route through rail-shape rotation/mirroring, while newly added B-only blocks are outside the historical pair. Cauldron callback changes apply fire/extinguish effects, which are excluded. This targeted screen does not close the remaining provider, tag, property or resource inventory.
 - Parent slices / dependencies / closure evidence: S3.4; S3.5; S4.1-S4.4; S5.4; DEP-SRC-A; DEP-SRC-B.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): candidate difference routed to `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8`; no modern-only state is used in this candidate. Full provider inventory and blind review remain open.
-- Finding IDs or checked absence/replacement path: candidate `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8`; no terminal disposition yet.
+- Disposition and rationale (including concrete reachability/preconditions): candidates `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8` and `F-NETHER-PORTAL-INSIDE-SHAPE-1.21.5-1.21.8`; no modern-only state is used in these candidates. The `EndPortalBlock` spawn-angle source change is also checked: A/B player return to Overworld takes the earlier `ServerPlayer` respawn-position return path, so the changed angle is only used for non-player destination handling; that path is out of scope. Full provider inventory and blind review remain open.
+- Finding IDs or checked absence/replacement path: candidates `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8` and `F-NETHER-PORTAL-INSIDE-SHAPE-1.21.5-1.21.8`; no terminal disposition yet.
 
 ### Slice S5.3: fluids, flow vectors, height and current
 
@@ -378,14 +378,14 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 ### Slice S7.3: final reachable movement-writer dependency closure
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-COLLISION, INV-WORLD-MOVEMENT, INV-MODIFIERS, INV-EXTERNAL, INV-EXCLUSIONS
-- Exact behavior boundary and enclosing guards/order checked: cross-stage revisit of all discovered reachable player movement state writers, changed helpers, registrations, resources and producer/consumer edges; not yet checked.
-- A evidence: pending full pair inventory.
-- B evidence: pending full pair inventory.
-- State producers/writers -> consumers/readers: pending all-stage dependency graph.
+- Exact behavior boundary and enclosing guards/order checked: cross-stage revisit of discovered reachable player movement state writers and changed helpers, including one movement-triggered portal position transition; registration/resource and full producer/consumer closure remains open.
+- A evidence: `NetherPortalBlock#entityInside()` calls `Entity#setAsInsidePortal()` when `canUsePortal(false)`; `Entity#handlePortal()` later applies its transition (ranges and hashes in `F-NETHER-PORTAL-INSIDE-SHAPE-1.21.5-1.21.8`).
+- B evidence: those callback and transition methods are unchanged, but the callback's shape gate is broader because the Nether portal now inherits `Shapes.block()`; see candidate finding for exact ranges and hashes.
+- State producers/writers -> consumers/readers: player movement callback -> portal process state -> later native position/dimension transition; other external writers/providers remain to trace.
 - Parent slices / dependencies / closure evidence: S1.1-S7.2; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending final source audit; cannot close any stage from a narrow travel comparison.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): portal transition path is source-confirmed, while all-stage writer/resource/modifier/exclusion closure remains pending.
+- Finding IDs or checked absence/replacement path: candidate `F-NETHER-PORTAL-INSIDE-SHAPE-1.21.5-1.21.8`; no terminal disposition.
 
 ## Dependency queue and blockers
 
@@ -397,15 +397,15 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 ## Finding index
 
 - Confirmed findings: none yet.
-- Candidate findings: `F-ENTITY-MOVEMENT-QUEUE-CAP-1.21.5-1.21.8` (S4.4/S5.2/S7.2; blind review and callback-provider inventory pending); `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8` (S4.3/S5.2/S7.1; blind review and full provider/correction-path inventory pending).
+- Candidate findings: `F-ENTITY-MOVEMENT-QUEUE-CAP-1.21.5-1.21.8` (S4.4/S5.2/S7.2; blind review and callback-provider inventory pending); `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8` (S4.3/S5.2/S7.1; blind review and full provider/correction-path inventory pending); `F-NETHER-PORTAL-INSIDE-SHAPE-1.21.5-1.21.8` (S4.4/S5.2/S7.3; blind review and portal/provider closure pending).
 - Discarded candidates: none yet.
 
 ## Resume checkpoint
 
 - Last completed slice: S2.1 compared-no-difference.
-- Next bounded slice and exact files/members/body ranges to open: continue stage 1 and stage 2 aligned input/tick and movement-state paths, starting with KeyboardInput/ClientInput/LocalPlayer input and pose timing, then complete state-writer and collision/query caller inventories.
-- Outstanding dependencies and owners: body-level slice comparison, class/member correspondence beyond S2.1, and relevant resource inventory; no source-publication dependency remains open.
-- Current assumptions requiring verification: B input/tick source hashes and class/member correspondence; resource availability and contents; movement paths and their external writer/consumer edges.
+- Next bounded slice and exact files/members/body ranges to open: continue S2.2 movement-flag/state writers and S2.3/S2.4 direct predicates; trace the remaining collision provider, fluid, movement-property, modifier and external-input call chains before final dependency closure.
+- Outstanding dependencies and owners: remaining state writer/consumer routes, collision/provider callback inventory, block/fluid property and resource inventory, movement modifiers, external movement inputs, exclusion disposition and independent source audit; source publications are ready.
+- Current assumptions requiring verification: remaining changed provider behavior and resources, all movement writer/consumer edges, and the exact preconditions of each candidate.
 
 ## Implementation reconciliation
 
@@ -428,11 +428,11 @@ Complete only after source-only freeze. No mod implementation was opened for thi
 
 ## Source audit closure
 
-- Coverage counts by status: 12 pending; 10 in-progress; 5 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked (all 7 inventories pending).
-- Required inventory status and evidence: INV-TICK has paired S1.1-S1.4 input/tick/jump/sprint/flight/riding comparisons and partial S3.1-S3.5 travel consumer evidence; INV-STATE has core movement setter pairs, input and pose/dimension/scale subsets; S1.1-S1.4 and S2.1 compared, S2.2 and S3.2/S3.5 partially checked; INV-COLLISION has the pose-fit query and partial S4.3/S4.4 evidence; INV-WORLD-MOVEMENT and INV-EXTERNAL have partial S5.2/S7.1 evidence. Remaining stages, providers, resources and full exclusions inventory remain pending. Both exact sources and markers are hash-verified.
+- Coverage counts by status: 9 pending; 13 in-progress; 5 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked (all 7 inventories pending).
+- Required inventory status and evidence: INV-TICK has paired S1.1-S1.4 input/tick/jump/sprint/flight/riding comparisons and partial S3.1-S3.5 travel consumer evidence; INV-STATE has core movement setter pairs, input and pose/dimension/scale subsets; S1.1-S1.4 and S2.1 compared, S2.2 and S3.2/S3.5 partially checked; INV-COLLISION has pose-fit, collision/edge/support method comparisons and partial S4.3/S4.4 evidence; INV-WORLD-MOVEMENT and INV-EXTERNAL have partial S5.2/S7.1/S7.3 evidence. Remaining stages, providers, resources and full exclusions inventory remain pending. Both exact sources and markers are hash-verified.
 - Open dependencies: body-level slice and relevant resource/provider inventory; source publication dependencies are resolved.
-- Unresolved gaps and limits: S1.1-S1.4 and S2.1 are compared-no-difference; S3.1-S3.5 remain in progress with exact travel/jump consumers compared and dependencies open; S2.2, S4.3, S4.4, S5.2 and S7.1 are in progress with two source-supported candidates, neither independently reviewed. All other pair coverage remains open.
-- Evidence/hash/correspondence audit: A/B readiness JSON and source/artifact/diagnostic hashes verified; S1.1-S1.4 input/tick/jump/sprint/flight path, S2.1 bodies, and S3.1-S3.5 travel/jump consumer methods, S2.2 core movement setters and client correction consumers, S4.3 validator query, and S4.4 movement-recording/contact path checked; remaining member/resource/provider/body diagnostics pending.
+- Unresolved gaps and limits: S1.1-S1.4 and S2.1 are compared-no-difference; S3.1-S3.5 remain in progress with exact travel/jump consumers compared and dependencies open; S2.2, S4.1-S4.4, S5.2, S7.1 and S7.3 are in progress with three source-supported candidates, none independently reviewed. All other pair coverage remains open.
+- Evidence/hash/correspondence audit: A/B readiness JSON and source/artifact/diagnostic hashes verified; S1.1-S1.4 input/tick/jump/sprint/flight path, S2.1 bodies, and S3.1-S3.5 travel/jump consumer methods, S2.2 core movement setters and client correction consumers, S4.1/S4.2 collision/support methods, S4.3 validator query, S4.4 movement-recording/contact path and Nether Portal callback shape checked; remaining member/resource/provider/body diagnostics pending.
 - Blind freeze: pending
 - Implementation reconciliation: pending
 - Independent audit: pending
