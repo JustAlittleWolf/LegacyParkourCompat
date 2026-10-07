@@ -11,13 +11,13 @@ All inspected drafts remain active and incomplete. Their planned/stage ledgers a
 | Pair | Owner draft observed | Disposition |
 |---|---|---|
 | 1.21.1 → 1.21.3 | `run.md`, active; seven required inventory maps pending; no bounded slice blocks. Exact A/B Mojmap sources are now ready and independently hash-verified; owner report remains stale. | Not accepted; source comparison has begun, but no bounded evidence ledger or closure. |
-| 1.21.3 → 1.21.4 | `run.md`, active; seven required inventory maps are present but pending; no bounded slice blocks; exact pair awaits ready publication | Not accepted; no comparison evidence.  |
-| 1.21.4 → 1.21.5 | `run.md`, active; seven inventory maps and 46 pending slice templates; exact sources pending | Not accepted; no comparison evidence. |
-| 1.21.5 → 1.21.8 | `run.md`, active; seven inventory maps and 27 pending slice templates; exact sources pending | Not accepted; no comparison evidence. |
-| 1.21.8 → 1.21.10 | `run.md`, active; seven inventory maps and 21 pending slice templates; exact sources pending | Not accepted; no comparison evidence. |
-| 1.21.10 → 1.21.11 | `run.md`, active; 7 inventory maps, 44 pending slice templates plus 1 explicit out-of-scope row; exact sources unavailable | Not accepted; no comparison evidence. These are plans, not proof of producer/provider closure. |
-| 1.21.11 → 26.1.2 | `run.md`, active; 7 inventory maps and 50 pending slice templates; exact sources unavailable | Not accepted; no comparison evidence. The report explicitly says source comparison has not begun. |
-| 26.1.2 → 26.2 | `run.md`, active; seven inventory maps and 14 pending slice templates; 26.1.2 source pending | Not accepted; one-sided 26.2 provenance cannot establish a difference or equality. |
+| 1.21.3 → 1.21.4 | `run.md`, active; seven required inventory maps pending; no bounded slice blocks. Exact Mojmap ready marker is now published; pair hashes not independently checked here. | Not accepted; no comparison evidence.  |
+| 1.21.4 → 1.21.5 | `run.md`, active; seven inventory maps and 46 pending slice templates. Exact Mojmap ready markers are published; pair hashes not independently checked here. | Not accepted; no comparison evidence. |
+| 1.21.5 → 1.21.8 | `run.md`, active; seven inventory maps and 27 pending slice templates. Exact Mojmap ready markers are published; pair hashes not independently checked here. | Not accepted; no comparison evidence. |
+| 1.21.8 → 1.21.10 | `run.md`, active; seven inventory maps and 21 pending slice templates. Exact Mojmap ready markers are published; pair hashes not independently checked here. | Not accepted; no comparison evidence. |
+| 1.21.10 → 1.21.11 | `run.md`, active; 7 inventory maps, 44 pending slice templates plus 1 explicit out-of-scope row. Exact Mojmap ready markers are published; pair hashes not independently checked here. | Not accepted; no comparison evidence. These are plans, not proof of producer/provider closure. |
+| 1.21.11 → 26.1.2 | `run.md`, active; 7 inventory maps and 50 pending slice templates. Exact Mojmap/obfuscated ready markers are published; pair hashes not independently checked here. | Not accepted; no comparison evidence. The report explicitly says source comparison has not begun. |
+| 26.1.2 → 26.2 | `run.md`, active; seven inventory maps and 14 pending slice templates. Both exact unobfuscated ready markers are published; only 26.2 was previously hash-verified by this reviewer. | Not accepted; one-sided 26.2 provenance cannot establish a difference or equality. |
 
 ## Verified source handoff
 
@@ -48,7 +48,7 @@ The canonical follow-up `fba28fa154d29572263ea3f2c44cf1dc23134329` was reviewed 
 - Pairwise findings verified: no adjudicated finding yet; first textual movement deltas and ledger omissions are recorded below.
 - Accepted pairs: none.
 - Three reports initially absent are now present as active drafts; all eight remain active and no pair is accepted complete.
-- Exact source pairs validated by this reviewer: 1.21.1→1.21.3; 26.2 is validated one-sided. The exact Mojmap ready records, source/artifact/diagnostic manifest hashes, release IDs, and client hashes for 1.21.1 and 1.21.3 were independently checked. Other assigned endpoints remain unavailable except 26.2.
+- Exact source pairs validated by this reviewer: 1.21.1→1.21.3; 26.2 is validated one-sided. The exact Mojmap ready records, source/artifact/diagnostic manifest hashes, release IDs, and client hashes for 1.21.1 and 1.21.3 were independently checked. Other assigned endpoint markers and IDs/namespaces are present, but their manifest hashes have not been independently checked here.
 - Runtime validation, tests, builds, game/Gym/server/Docker launches: not performed.
 - Reviewer worktree: Git access required narrowly scoped escalation because of sandbox path access; the managed checkout, branch and commits are working. No checkout was recreated.
 
