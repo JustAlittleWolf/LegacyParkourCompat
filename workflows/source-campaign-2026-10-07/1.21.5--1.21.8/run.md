@@ -52,7 +52,7 @@ Prior-run navigation-only leads to re-resolve include LocalPlayer input/tick, Ke
 ## Required source inventories
 
 - `INV-TICK` input sampling, local-player tick, pre-travel predicates/writes, travel dispatch/branches and post-travel: status=pending; slice_ids=S1.1,S1.2,S1.3,S1.4,S3.1,S3.2,S3.3,S3.4,S3.5; evidence=A exact source marker and selected tick/input bodies/hash entries verified; full branch inventory pending, B publication pending.
-- `INV-STATE` movement-state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, support, timers and direct predicates: status=pending; slice_ids=S2.1,S2.2,S2.3,S2.4; evidence=A exact source marker verified with tick/input and pose/dimension/scale subsets inventoried; remaining producer/consumer inventory and B pending.
+- `INV-STATE` movement-state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, support, timers and direct predicates: status=pending; slice_ids=S2.1,S2.2,S2.3,S2.4; evidence=A/B exact source manifests verified; paired S1.1-S1.4 input/tick, S2.1 pose/dimension/scale, S2.2 core movement setter, and S3.2/S3.5 movement-state consumer subsets inventoried; remaining producer/consumer inventory pending.
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S4.1,S4.2,S4.3,S4.4,S5.2,S5.4; evidence=A exact source tree ready/hash-verified with pose-fit query entry inventoried; collision/shape inventory pending, B publication pending.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, resource data/tags and defaults: status=pending; slice_ids=S5.1,S5.2,S5.3,S5.4; evidence=A exact source/artifact manifest verified; behavior/resource inventory pending, B publication pending.
 - `INV-MODIFIERS` direct movement attributes, effects, enchantments, equipment and application/removal/conditions: status=pending; slice_ids=S6.1,S6.2,S6.3; evidence=A exact source/artifact manifest verified; producer/consumer and resource inventory pending, B publication pending.
@@ -126,14 +126,14 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 ### Slice S2.2: movement flags and repeated state writers
 
 - Inventory ID(s): INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: position, velocity, on-ground/collision/fluid/support flags, stored air speed and transition/reset timing; not yet checked.
-- A evidence: pending source publication.
-- B evidence: pending source publication.
-- State producers/writers -> consumers/readers: pending all-writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: S2.1; S3.1-S3.5; S4.1-S4.4; S7.1-S7.3; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison.
-- Finding IDs or checked absence/replacement path: none yet.
+- Exact behavior boundary and enclosing guards/order checked: paired core position, bounding-box, pose, velocity, on-ground, sprint/shift/swimming/shared movement-flag setters; the all-writer producer/consumer closure remains open.
+- A evidence: `Entity#setPose`, `setPos`, `setOnGround`, `absSnapTo`, `setShiftKeyDown`, `setSprinting`, `setSwimming`, `setSharedFlag`, `setBoundingBox`, `setDeltaMovement` and `addDeltaMovement`; `LivingEntity#setSprinting` and `setJumping`; Entity SHA-256 `fc177733e9cc4b2d5cf2562e5529d0f4e0b9c3690f081fbd58aa9119eb173dc4`, LivingEntity SHA-256 `a8aed863d4fdc515c751dd2878a8bb9c13179228cb8dbb50edf1d19cd5404271`.
+- B evidence: the same core setter method bodies match A; Entity SHA-256 `c403e6176d27b5bfd6aaa0dea3735ffa4fcf80dbae58766661dd84453b7e9704`, LivingEntity SHA-256 `609f0197a0b4551ab42279e452c11cdd256135b1d467c2a95950b0e9fd7ddef8`. Server player correction receiver methods are also paired unchanged in `ClientPacketListener.java` (A/B hashes and ranges recorded in S7.1).
+- State producers/writers -> consumers/readers: core writers preserve field/flag update behavior; A/B server corrections set the server player target then the client `handleMovePlayer` applies relative/absolute position and delta movement, acknowledges teleport, and sends the resulting position in identical order. The distinct B server pre-move collision query is recorded in S4.3. Other direct position/velocity writers, environmental flags, support state and external producers remain to enumerate.
+- Parent slices / dependencies / closure evidence: S1.1-S1.4; S2.1; S3.1-S3.5; S4.1-S4.4; S7.1-S7.3; DEP-SRC-A; DEP-SRC-B.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the enumerated movement-state setter bodies are equal; the broad reachable writer/consumer map is incomplete and includes the S4.3 candidate path.
+- Finding IDs or checked absence/replacement path: candidate `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8` affects a server-side collision decision before position correction; full state inventory remains open.
 
 ### Slice S2.3: direct movement predicates and active-item state
 
@@ -354,14 +354,14 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 ### Slice S7.1: incoming velocity and position corrections
 
 - Inventory ID(s): INV-EXTERNAL, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: one direct client-to-server position movement packet validation/correction branch is compared; the local player's received correction consumer, velocity packets and acknowledgment path remain open.
-- A evidence: `ServerGamePacketListenerImpl#handleMovePlayer()` lines 958-1096 moves the server Player and either accepts/carries on or calls `teleport` on rejected/colliding movement; source SHA-256 `fdb8726f77618ebcfd4fe3973e1740d999c2fd3d220ca4a3ddba837f160e6d69`.
-- B evidence: `ServerGamePacketListenerImpl#handleMovePlayer()` lines 977-1116 has the corresponding player move and correction branch; source SHA-256 `100f83ae1f264dd26170147cf1319f78b7bf837d5b1b5603934b414cde63a16d`. Its new collision-context difference is detailed in `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8`.
-- State producers/writers -> consumers/readers: client position packet -> accepted server-player movement/shape validation -> teleport correction packet when validator finds new collision -> client local position/velocity/flag consumer (the client consumer path is not yet inventoried).
+- Exact behavior boundary and enclosing guards/order checked: incoming entity velocity packets and local-player position/teleport correction consumer plus serverbound accepted movement validation/correction branch.
+- A evidence: server `ServerGamePacketListenerImpl#handleMovePlayer()` lines 958-1096, hash `fdb8726f77618ebcfd4fe3973e1740d999c2fd3d220ca4a3ddba837f160e6d69`; client `ClientPacketListener#handleSetEntityMotion()` lines 549-555 and `handleMovePlayer()` / `setValuesFromPositionPacket()` lines 720-749, ClientPacketListener hash `284f34159a1baf30b6b540751ad2fa62344c179d5ed6a7bbcb5c888665779617`.
+- B evidence: server `ServerGamePacketListenerImpl#handleMovePlayer()` lines 977-1116, hash `100f83ae1f264dd26170147cf1319f78b7bf837d5b1b5603934b414cde63a16d`; client `handleSetEntityMotion()` lines 598-604 and `handleMovePlayer()` / `setValuesFromPositionPacket()` lines 769-798, ClientPacketListener hash `a66556678a93c63c0ceb8953f25261b82bf3bb1971048fbc15b177c6dffea8cd`. Client receive bodies are identical to A.
+- State producers/writers -> consumers/readers: incoming entity-motion packet -> `lerpMotion`; relative/absolute player position correction -> write position, delta movement and rotation -> send teleport acceptance and current PosRot packet. The client consumers and acknowledgment order match. Server-side player move validator now uses B pre-move collision context; the exact changed query and concrete shape consumers are in candidate `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8`.
 - Parent slices / dependencies / closure evidence: S1.2; S2.2; S3.1; DEP-SRC-A; DEP-SRC-B.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): candidate difference routed to `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8`; local correction consumer, velocity writers and acknowledgment timing remain unreviewed.
-- Finding IDs or checked absence/replacement path: candidate `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8`; no terminal disposition yet.
+- Disposition and rationale (including concrete reachability/preconditions): client velocity/position correction consumers match, but the server validator candidate and remaining external writer inputs/correction routes remain open.
+- Finding IDs or checked absence/replacement path: candidate `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8`; no terminal disposition.
 
 ### Slice S7.2: player pushes, pistons, mounts and launch items
 
@@ -428,11 +428,11 @@ Complete only after source-only freeze. No mod implementation was opened for thi
 
 ## Source audit closure
 
-- Coverage counts by status: 13 pending; 9 in-progress; 5 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked (all 7 inventories pending).
-- Required inventory status and evidence: INV-TICK has paired S1.1-S1.4 input/tick/jump/sprint/flight/riding comparisons and partial S3.1-S3.5 travel consumer evidence; INV-STATE has input and pose/dimension/scale subsets, with S1.1-S1.4 and S2.1 compared; S3.2/S3.5 state consumers partially checked; INV-COLLISION has the pose-fit query and partial S4.3/S4.4 evidence; INV-WORLD-MOVEMENT and INV-EXTERNAL have partial S5.2/S7.1 evidence. Remaining stages, providers, resources and full exclusions inventory remain pending. Both exact sources and markers are hash-verified.
+- Coverage counts by status: 12 pending; 10 in-progress; 5 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked (all 7 inventories pending).
+- Required inventory status and evidence: INV-TICK has paired S1.1-S1.4 input/tick/jump/sprint/flight/riding comparisons and partial S3.1-S3.5 travel consumer evidence; INV-STATE has core movement setter pairs, input and pose/dimension/scale subsets; S1.1-S1.4 and S2.1 compared, S2.2 and S3.2/S3.5 partially checked; INV-COLLISION has the pose-fit query and partial S4.3/S4.4 evidence; INV-WORLD-MOVEMENT and INV-EXTERNAL have partial S5.2/S7.1 evidence. Remaining stages, providers, resources and full exclusions inventory remain pending. Both exact sources and markers are hash-verified.
 - Open dependencies: body-level slice and relevant resource/provider inventory; source publication dependencies are resolved.
-- Unresolved gaps and limits: S1.1-S1.4 and S2.1 are compared-no-difference; S3.1-S3.5 remain in progress with exact travel/jump consumers compared and dependencies open; S4.3, S4.4, S5.2 and S7.1 are in progress with two source-supported candidates, neither independently reviewed. All other pair coverage remains open.
-- Evidence/hash/correspondence audit: A/B readiness JSON and source/artifact/diagnostic hashes verified; S1.1-S1.4 input/tick/jump/sprint/flight path, S2.1 bodies, and S3.1-S3.5 travel/jump consumer methods, S4.3 validator query, and S4.4 movement-recording/contact path checked; remaining member/resource/provider/body diagnostics pending.
+- Unresolved gaps and limits: S1.1-S1.4 and S2.1 are compared-no-difference; S3.1-S3.5 remain in progress with exact travel/jump consumers compared and dependencies open; S2.2, S4.3, S4.4, S5.2 and S7.1 are in progress with two source-supported candidates, neither independently reviewed. All other pair coverage remains open.
+- Evidence/hash/correspondence audit: A/B readiness JSON and source/artifact/diagnostic hashes verified; S1.1-S1.4 input/tick/jump/sprint/flight path, S2.1 bodies, and S3.1-S3.5 travel/jump consumer methods, S2.2 core movement setters and client correction consumers, S4.3 validator query, and S4.4 movement-recording/contact path checked; remaining member/resource/provider/body diagnostics pending.
 - Blind freeze: pending
 - Implementation reconciliation: pending
 - Independent audit: pending
