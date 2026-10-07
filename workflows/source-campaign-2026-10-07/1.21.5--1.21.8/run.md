@@ -270,14 +270,14 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 ### Slice S5.1: block movement properties and registrations
 
 - Inventory ID(s): INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: friction, speed/jump factors, registry defaults and all relevant assignments/overrides; not yet checked.
-- A evidence: pending source publication.
-- B evidence: pending source publication.
-- State producers/writers -> consumers/readers: pending registration/property producer-to-player travel consumer trace.
+- Exact behavior boundary and enclosing guards/order checked: block friction, speed-factor and jump-factor getters plus explicit vanilla block property assignments and their player travel consumers.
+- A evidence: `Block#getFriction/getSpeedFactor/getJumpFactor()` source SHA-256 `d66c7efd4afb3e52f8d239a1b5fcd00a5c24874d75b61b5b16b794faf200f2c2`; `BlockBehaviour` property writers source SHA-256 `15418b0026919ef5ab97780a6ce8844677dc82d36cc4433a58f379b837d5cc50`; `Blocks.java` explicit friction/speed/jump assignments source SHA-256 `026290c103c399d94ba4218317e3e627e7275836c5abe91fc4711443b7d2bec0`.
+- B evidence: Block and BlockBehaviour hashes are identical to A. `Blocks.java` source hash is `5f929198d7e975bdf82582e7448be45601b9a0e140d435a1a6013e1b6d10ca9f`; the enumerated explicit movement-property assignments match A's values: friction `0.98F`, `0.8F`, `0.989F`; speed factor `0.4F`; jump factor `0.5F`.
+- State producers/writers -> consumers/readers: player travel reads block friction and jump/speed factors through unchanged consumers; the searched block source property call sites and values match. Registry additions and their associated modern-only blocks are outside the historical pair. State/tag/resource overrides and any data-driven property inputs remain pending S5.4.
 - Parent slices / dependencies / closure evidence: S3.1; S3.2; S4.1; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): compared built-in block movement-property accessors and explicit registration values match; remaining tags/resources and complete property source inventory are open.
+- Finding IDs or checked absence/replacement path: no difference found in the compared property accessors and assignments.
 
 ### Slice S5.2: shape providers, movement callbacks and subclasses
 
@@ -294,14 +294,14 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 ### Slice S5.3: fluids, flow vectors, height and current
 
 - Inventory ID(s): INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: fluid state, contact, height/flow/current calculation and movement push providers; not yet checked.
-- A evidence: pending source publication.
-- B evidence: pending source publication.
-- State producers/writers -> consumers/readers: pending fluid registry/data to player immersion/travel/push consumers.
+- Exact behavior boundary and enclosing guards/order checked: water/lava travel consumer, fluid height/current/flow source code, player immersion-state and current-push update path.
+- A evidence: movement methods in `LivingEntity#travel/travelInFluid` and Entity fluid-state readers/writers are recorded in S3.3; `Fluid`, `FluidState`, `FlowingFluid`, `Fluids`, `WaterFluid`, and `LavaFluid` source hashes are respectively `e98bdfd14b3092096c6ba763642c3724f852b7589edbf0052b2c8767a874bf94`, `1bfc76676cc7cf136220c05f3506ae4d931cfa33ce0833d307b28048a5d28c61`, `fd3f64f3739a9aded48358bd76362abf6a1248b42a636035cc5ca988b3f8238d`, `913cb5d937af92a7f90f7dc233a3d02c05f75e70a2a740300b2f26eedcbed931`, `9a829ec0d8083d6a3e73a98d40d6c674fd3431aafdb7d05a78cca1daff6e1674`, `04134f233b68e7a8856fbf410414eca8ee75f6acb565276d4c4859dc28a6308c`.
+- B evidence: all listed fluid source hashes are identical to A; fluid package manifest diff contains only `FogType.java`. Exact `Entity#updateInWaterStateAndDoFluidPushing`, `updateFluidOnEyes`, `getFluidHeight`, `getFluidJumpThreshold`, `isInWater`, and `LivingEntity#isAffectedByFluids` method bodies also match A (Entity and LivingEntity hashes in S2.2/S3.3).
+- State producers/writers -> consumers/readers: fluid travel consumes the same immersion flags, heights, current/flow and jump threshold; in-water current pushes and eye immersion update through identical methods. Fluid tag membership/data resources and full block-fluid callback reachability remain pending S5.4/S4.4.
 - Parent slices / dependencies / closure evidence: S3.3; S4.4; S5.4; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): compared source-side fluid classes, player travel formulas and immersion/current methods match; relevant resource/tag data and full callback inventory remain open.
+- Finding IDs or checked absence/replacement path: no difference found in the compared fluid source bodies.
 
 ### Slice S5.4: neighboring blocks, tags, states and resource defaults
 
@@ -428,10 +428,10 @@ Complete only after source-only freeze. No mod implementation was opened for thi
 
 ## Source audit closure
 
-- Coverage counts by status: 5 pending; 17 in-progress; 5 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked (all 7 inventories pending).
-- Required inventory status and evidence: INV-TICK has paired S1.1-S1.4 input/tick/jump/sprint/flight/riding comparisons and partial S3.1-S3.5 travel consumer evidence; INV-STATE has core movement setter pairs, input and pose/dimension/scale subsets; S1.1-S1.4 and S2.1 compared, S2.2 and S3.2/S3.5 partially checked; INV-COLLISION has pose-fit, collision/edge/support method comparisons and partial S4.3/S4.4 evidence; INV-WORLD-MOVEMENT and INV-EXTERNAL have partial S5.2/S7.1-S7.3 evidence; INV-MODIFIERS has partial attribute/effect/modifier-source evidence in S6.1-S6.3. Remaining stages, providers, resources and full exclusions inventory remain pending. Both exact sources and markers are hash-verified.
+- Coverage counts by status: 3 pending; 19 in-progress; 5 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked (all 7 inventories pending).
+- Required inventory status and evidence: INV-TICK has paired S1.1-S1.4 input/tick/jump/sprint/flight/riding comparisons and partial S3.1-S3.5 travel consumer evidence; INV-STATE has core movement setter pairs, input and pose/dimension/scale subsets; S1.1-S1.4 and S2.1 compared, S2.2 and S3.2/S3.5 partially checked; INV-COLLISION has pose-fit, collision/edge/support method comparisons and partial S4.3/S4.4 evidence; INV-WORLD-MOVEMENT has partial S5.1-S5.3 property/fluid source evidence and S5.2 provider evidence; INV-EXTERNAL has partial S7.1-S7.3 evidence; INV-MODIFIERS has partial attribute/effect/modifier-source evidence in S6.1-S6.3. Remaining stages, providers, resources and full exclusions inventory remain pending. Both exact sources and markers are hash-verified.
 - Open dependencies: body-level slice and relevant resource/provider inventory; source publication dependencies are resolved.
-- Unresolved gaps and limits: S1.1-S1.4 and S2.1 are compared-no-difference; S3.1-S3.5 remain in progress with exact travel/jump consumers compared and dependencies open; S2.2, S4.1-S4.4, S5.2, S6.1-S6.3 and S7.1-S7.3 are in progress with three source-supported candidates, none independently reviewed. All other pair coverage remains open.
+- Unresolved gaps and limits: S1.1-S1.4 and S2.1 are compared-no-difference; S3.1-S3.5 remain in progress with exact travel/jump consumers compared and dependencies open; S2.2, S4.1-S4.4, S5.1-S5.3, S6.1-S6.3 and S7.1-S7.3 are in progress with three source-supported candidates, none independently reviewed. All other pair coverage remains open.
 - Evidence/hash/correspondence audit: A/B readiness JSON and source/artifact/diagnostic hashes verified; S1.1-S1.4 input/tick/jump/sprint/flight path, S2.1 bodies, and S3.1-S3.5 travel/jump consumer methods, S2.2 core movement setters and client correction consumers, S4.1/S4.2 collision/support methods, S4.3 validator query, S4.4 movement-recording/contact path and Nether Portal callback shape, S6 attribute/effect/modifier method subsets, plus S7.2 knockback/velocity push consumers checked; remaining member/resource/provider/body diagnostics pending.
 - Blind freeze: pending
 - Implementation reconciliation: pending
