@@ -54,13 +54,13 @@ Cited Java files and whole-file SHA-256:
 
 ## Correspondence and call order
 
-Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (no-arg to boolean args), `LivingEntity.jump`, `LivingEntity.moveRelative` (three floats to Vec3d), `Entity.updateVelocity` (float components to vector helper), `Entity.move` (three doubles to vector), and `PlayerEntity.updatePlayerPose`. Full local tick, superclass, pre-travel, all dispatch branches and post-travel call chain are not closed. S001-S008 contain first bounded paired evidence; no stage label alone is treated as coverage.
+Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (no-arg to boolean args), `LivingEntity.jump`, `LivingEntity.moveRelative` (three floats to Vec3d), `Entity.updateVelocity` (float components to vector helper), `Entity.move` (three doubles to vector), and `PlayerEntity.updatePlayerPose`. Full local tick, superclass, pre-travel, all dispatch branches and post-travel call chain are not closed. S001-S009 contain first bounded paired evidence; no stage label alone is treated as coverage.
 
 ## Required source inventories
 
 - `INV-TICK` status=pending; slice_ids=S001,S003,S004,S005,S007,S008; evidence=paired client input/local player/living bodies below; complete tick call graph open.
-- `INV-STATE` status=pending; slice_ids=S001,S002,S003,S006,S008; evidence=paired input, pose, jump and movement bodies below.
-- `INV-COLLISION` status=pending; slice_ids=S002,S006; evidence=pose fit and entity move excerpts; query/provider enumeration open.
+- `INV-STATE` status=pending; slice_ids=S001,S002,S003,S006,S008,S009; evidence=paired input, pose, jump and movement bodies below.
+- `INV-COLLISION` status=pending; slice_ids=S002,S006,S009; evidence=pose fit, escape probes and entity move excerpts; query/provider enumeration open.
 - `INV-WORLD-MOVEMENT` status=pending; slice_ids=S005,S007; evidence=slipperiness/climbing consumers; providers and resources open.
 - `INV-MODIFIERS` status=pending; slice_ids=S003,S005; Jump Boost/Slow Falling consumers observed; producer/application chains open.
 - `INV-EXTERNAL` status=pending; slice_ids=S006; Entity move piston path observed; packet/push/mount consumers open.
@@ -163,6 +163,17 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): F011; A checks post-move velocity direction for the special descent case; B gates it using direction captured before travel. Applicable only with Slow Falling in water and velocity direction changing across movement.
 - Finding IDs or checked absence/replacement path: F011.
+### Slice S009: local stuck-block escape probes and velocity writes
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: four LocalClientPlayerEntity push-away calls before sprint checks, noClip guard, current/neighbor block probe and direct velocity component write.
+- A evidence: `LocalClientPlayerEntity.java`::`mobTick`, lines 717-721; `pushAwayFrom`/`wouldCollideAt`, lines 401-455; `PlayerEntity.java` suffocation helpers, lines 1479-1485. Hashes in source manifest.
+- B evidence: `LocalClientPlayerEntity.java`::`mobTick`, lines 645-651; `pushAwayFrom`/`wouldCollideAt`, lines 388-447; `PlayerEntity.java`::`shouldSuffocate`, lines 1420-1422. Hashes in source manifest.
+- State producers/writers -> consumers/readers: pose/dimensions and block state -> suffocation tests -> chosen neighbor -> player velocity write.
+- Parent slices / dependencies / closure evidence: pose dimension and block collision semantics open; D-COLLISION-SHAPES,D-ARTIFACT-INTEGRITY.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): F012; A tests one block and above-block solidity for non-swimming; B scans vertical body range and uses view-blocking predicate. Calls are immediately before sprint work and superclass travel.
+- Finding IDs or checked absence/replacement path: F012.
 ## Dependency queue and blockers
 
 - D-ARTIFACT-INTEGRITY: coordinator/source owner reported a 1.13.2 Feather derived-artifact cache replacement incident. Current readiness/source/artifact/diagnostics manifest hashes and cited mapping JAR/tiny hashes match, but canonical immutability repair and fresh source-owner acceptance have not been published. Do not freeze or accept any A-dependent finding until the owner provides repair protocol and verification; do not alter markers/cache. Owner: source preparation owner/ops.
@@ -186,6 +197,7 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - [F009](findings/F009-approximate-horizontal-collision-flag.md) collision flag tolerance; candidate pending A artifact-integrity repair.
 - [F010](findings/F010-water-travel-climb-impulse.md) water-travel climb impulse; candidate pending A artifact-integrity repair.
 - [F011](findings/F011-slow-falling-water-descent-timing.md) slow-falling water descent timing; candidate pending A artifact-integrity repair.
+- [F012](findings/F012-local-stuck-block-escape-probe.md) local stuck-block escape probe; candidate pending artifact and collision review.
 
 ## Resume checkpoint
 
@@ -194,6 +206,9 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - Outstanding dependencies and owners: D-ARTIFACT-INTEGRITY source owner/ops; D-TICK-CLOSURE/D-COLLISION-SHAPES/D-MOVEMENT-DATA/D-EXTERNAL source worker; D-INDEPENDENT-AUDIT coordinator.
 - Current assumptions requiring verification: source preparation exact invocation; full reachability and provider closure.
 
+## Finding snapshots (not pair freeze)
+
+No snapshot has been submitted or accepted. F001-F012 remain candidates while `D-ARTIFACT-INTEGRITY` is open; finding-specific dependency closure and implementation boundaries are also incomplete, and no blind finding reviewer is assigned. No snapshot commit/hash or reviewer decision exists. Pair remains partial; no implementation handoff is ready.
 ## Implementation reconciliation
 
 - Reconciliation status: pending
@@ -213,8 +228,9 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 
 ## Source audit closure
 
-- Coverage counts by status: findings=8 bounded slices (11 deltas); pending inventory closure=7; in-progress=0; compared-no-difference=0; not-applicable=0; blocked=0.
-- Required inventory status and evidence: all seven inventories pending; initial paired evidence in S001-S006.
+- Coverage counts by status: findings=9 bounded slices (12 deltas); pending inventory closure=7; in-progress=0; compared-no-difference=0; not-applicable=0; blocked=0.
+- Required inventory status and evidence: all seven inventories pending; initial paired evidence in S001-S008.
+- Accepted finding snapshots: none (no finding handoff ready).
 - Open dependencies: D-ARTIFACT-INTEGRITY,D-TICK-CLOSURE,D-COLLISION-SHAPES,D-MOVEMENT-DATA,D-EXTERNAL,D-INDEPENDENT-AUDIT.
 - Unresolved gaps and limits: full tick, shapes/resources, modifier chains, external writers, exact prep log and independent audit. First changed release unknown within (1.13.2,1.14.4].
 - Evidence/hash/correspondence audit: readiness/source/artifact/diagnostic manifests and cited Java hashes verified; cited body ranges paired; full helper/call graph closure incomplete.
