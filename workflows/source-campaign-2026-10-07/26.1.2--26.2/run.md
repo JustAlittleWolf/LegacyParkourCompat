@@ -49,7 +49,7 @@ Initial B-only call-order anchors inspected (all SHA-256 values in B manifest ab
 
 Each inventory maps to bounded slices below; all are pending. Add all newly discovered writers, consumers, overrides, registrations and resources before disposition.
 
-- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S-TICK-ENTRY,S-IN-01,S-LOCAL-SNAPSHOT,S-LOCAL-UNSTUCK,S-SPRINT-START,S-SPRINT-STOP,S-FLIGHT-TOGGLE,S-FALLFLY-REQUEST,S-SINK-INPUT,S-FLIGHT-VERTICAL-INPUT,S-RIDEABLE-JUMP,S-LOCAL-INPUT-MODIFIERS,S-SQUARE-MOVE,S-VELOCITY-HORIZONTAL,S-VELOCITY-VERTICAL,S-JUMP-GATE,S-JUMP-IMPULSE,S-JUMP-LIQUID,S-LIVING-03,S-TRAVEL-DISPATCH,S-TRAVEL-FLYING,S-TRAVEL-AIR,S-TRAVEL-RELATIVE,S-TRAVEL-FRICTION-SPEED,S-TRAVEL-FLUID-DISPATCH,S-TRAVEL-WATER,S-TRAVEL-LAVA,S-TRAVEL-FLUID-EXIT,S-TRAVEL-FLUID-ADJUST,S-TRAVEL-GLIDE-DISPATCH,S-TRAVEL-GLIDE-FORMULA,S-TRAVEL-CLIMB,S-PLAYER-01,S-POSE-UPDATE; evidence=B-only anchors in correspondence; A source pending.
+- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S-TICK-ENTRY,S-IN-01,S-LOCAL-SNAPSHOT,S-LOCAL-UNSTUCK,S-SPRINT-START,S-SPRINT-STOP,S-FLIGHT-TOGGLE,S-FALLFLY-REQUEST,S-SINK-INPUT,S-FLIGHT-VERTICAL-INPUT,S-RIDEABLE-JUMP,S-LOCAL-INPUT-MODIFIERS,S-SQUARE-MOVE,S-VELOCITY-HORIZONTAL,S-VELOCITY-VERTICAL,S-JUMP-GATE,S-JUMP-IMPULSE,S-JUMP-LIQUID,S-LIVING-GLIDE-UPDATE,S-TRAVEL-PREP,S-FALL-DISTANCE-RESET,S-TRAVEL-GATE,S-POST-BLOCK-EFFECTS,S-POST-ANIMATION,S-TRAVEL-DISPATCH,S-TRAVEL-FLYING,S-TRAVEL-AIR,S-TRAVEL-RELATIVE,S-TRAVEL-FRICTION-SPEED,S-TRAVEL-FLUID-DISPATCH,S-TRAVEL-WATER,S-TRAVEL-LAVA,S-TRAVEL-FLUID-EXIT,S-TRAVEL-FLUID-ADJUST,S-TRAVEL-GLIDE-DISPATCH,S-TRAVEL-GLIDE-FORMULA,S-TRAVEL-CLIMB,S-PLAYER-01,S-POSE-UPDATE; evidence=B-only anchors in correspondence; A source pending.
 - `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S-TICK-ENTRY,S-LOCAL-SNAPSHOT,S-LOCAL-UNSTUCK,S-SPRINT-START,S-SPRINT-STOP,S-FLIGHT-TOGGLE,S-FALLFLY-REQUEST,S-SINK-INPUT,S-FLIGHT-VERTICAL-INPUT,S-RIDEABLE-JUMP,S-LOCAL-INPUT-MODIFIERS,S-SQUARE-MOVE,S-VELOCITY-HORIZONTAL,S-VELOCITY-VERTICAL,S-POSE-UPDATE,S-DIMENSIONS; evidence=B source methods listed in coverage; constructor/default/reset/writer inventory still open.
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S-MOVE-POS,S-MOVE-FLAGS,S-MOVE-RESTITUTE,S-MOVE-BLOCK-SPEED,S-EDGE-PROBE,S-COLLISION-STEP,S-COLLISION-QUERY,S-COLLISION-AXIS,S-WORLD-01; evidence=B Entity.move range below; provider/registry/neighbor inventory still open.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S-WORLD-01; evidence=B block/fluid providers and original client-jar resource inventory not yet cited.
@@ -59,7 +59,7 @@ Each inventory maps to bounded slices below; all are pending. Add all newly disc
 
 ## Coverage ledger
 
-These are 46 initial bounded work units, not an exhaustive inventory. All remain pending because A source is not yet in the campaign ready tree. B-only anchors are navigation evidence; do not infer equivalence or absence. Expand the ledger during the pair-specific inventory.
+These are 51 initial bounded work units, not an exhaustive inventory. All remain pending because A source is not yet in the campaign ready tree. B-only anchors are navigation evidence; do not infer equivalence or absence. Expand the ledger during the pair-specific inventory.
 
 ### Slice S-IN-01: Keyboard input sampling and movement-vector construction
 
@@ -262,18 +262,77 @@ These are 46 initial bounded work units, not an exhaustive inventory. All remain
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): B helpers read; no pairwise result.
 - Finding IDs or checked absence/replacement path: none yet.
-### Slice S-LIVING-03: Living pre-travel and post-travel dispatch/order
+### Slice S-LIVING-GLIDE-UPDATE: Fall-flying eligibility update before travel
 
-- Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.aiStep` interpolation/dead-zone context, `applyInput`, fall-flying update, box snapshot, fall-distance reset, ridden-vs-self travel dispatch, block effects and client animation; cover lines 3043-3059, 3084-3097, 3125-3151 and related post-travel callers.
-- A evidence: pending exact source and inherited method correspondence.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::net.minecraft.world.entity.LivingEntity#aiStep(), lines 3043-3059, 3084-3097, 3125-3151`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: interpolation/input/pose/movement flags -> travel and its guards -> block callbacks, fall state and animation; caller tick ordering still open.
-- Parent slices / dependencies / closure evidence: S-LOCAL-SNAPSHOT,S-LOCAL-UNSTUCK,S-SPRINT-START,S-SPRINT-STOP,S-FLIGHT-TOGGLE,S-FALLFLY-REQUEST,S-SINK-INPUT,S-FLIGHT-VERTICAL-INPUT,S-RIDEABLE-JUMP; local/player/entity tick callers and all nested travel branches pending.
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: B tests `isFallFlying()` after jump handling and calls `updateFallFlying()` before travel; lines 3125-3130. Trace the eligibility flag and equipment/effect conditions separately.
+- A evidence: pending exact tick order, glide-state writer and caller correspondence.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3125-3130`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
+- State producers/writers -> consumers/readers: equipment/effects/ground/passenger state -> glide flag/update -> travel dispatch.
+- Parent slices / dependencies / closure evidence: S-FALLFLY-REQUEST,S-TRAVEL-GLIDE-DISPATCH; `updateFallFlying`, `canGlide`, equipment/item data and A timing pending.
 - Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B body read; no pairwise order comparison yet.
+- Disposition and rationale (including concrete reachability/preconditions): B call order read; exact A path unresolved.
 - Finding IDs or checked absence/replacement path: none yet.
 
+### Slice S-TRAVEL-PREP: Bounding-box snapshot and movement input construction
+
+- Inventory ID(s): INV-TICK, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: B captures `beforeTravelBox`, constructs `Vec3` from xxa/yya/zza, and does so immediately before travel gating; lines 3131-3132.
+- A evidence: pending exact fields, call order and method correspondence.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3131-3132`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
+- State producers/writers -> consumers/readers: `applyInput` xxa/yya/zza and current AABB -> travel vector and pre-movement AABB used by later tick logic.
+- Parent slices / dependencies / closure evidence: S-LOCAL-INPUT-MODIFIERS,S-POSE-UPDATE; A input fields/call order pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): B method body read; pair comparison pending.
+- Finding IDs or checked absence/replacement path: none yet.
+
+### Slice S-FALL-DISTANCE-RESET: Slow-falling/levitation fall-distance reset before travel
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS, INV-EXCLUSIONS
+- Exact behavior boundary and enclosing guards/order checked: B resets fall distance when Slow Falling or Levitation is active before travel; lines 3133-3135. Determine whether any in-scope movement consumer reads the field; damage/fall-damage production remains excluded.
+- A evidence: pending exact effect check, writer and consumer closure.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3133-3135`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
+- State producers/writers -> consumers/readers: active movement effect -> fall-distance write; inspect every in-scope reader and exclude damage-only consequence.
+- Parent slices / dependencies / closure evidence: S-TRAVEL-AIR,S-TRAVEL-GLIDE-FORMULA; fall-distance readers and A method pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): B guard read; disposition remains open until consumer inventory proves scope.
+- Finding IDs or checked absence/replacement path: none yet.
+
+### Slice S-TRAVEL-GATE: Ridden-player-controller versus self-travel dispatch
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: B selects `travelRidden` when a controlling passenger is a live Player; otherwise calls self travel only when movement simulation and effective AI gates pass; lines 3137-3141.
+- A evidence: pending exact gate and mount/player caller correspondence.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3137-3141`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
+- State producers/writers -> consumers/readers: vehicle/controller/alive/simulation/AI state -> movement branch and input; only local player movement and player-facing mount transitions are in scope, not independent vehicle physics.
+- Parent slices / dependencies / closure evidence: S-TRAVEL-PREP,S-EXT-01,S-PLAYER-01; A player-side mount state/callers pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): B gate read; branch ownership must be resolved before disposition.
+- Finding IDs or checked absence/replacement path: none yet.
+
+### Slice S-POST-BLOCK-EFFECTS: Block effects after movement
+
+- Inventory ID(s): INV-TICK, INV-WORLD-MOVEMENT, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: after travel, B applies block effects only on server or authoritative local instance; lines 3143-3145. Trace movement-history collection, block callback/provider dispatch and player movement writers.
+- A evidence: pending exact guard, call order and block-effect dependency closure.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3143-3145`; `Entity.applyEffectsFromBlocks()`, `lines 903-915`; source hashes in manifest.
+- State producers/writers -> consumers/readers: recorded movement segments and encountered block states -> block effects/callbacks -> any movement-relevant player flags or velocity.
+- Parent slices / dependencies / closure evidence: S-TRAVEL-GATE,S-COLLISION-QUERY,S-WORLD-01; callback method and registration/resource inventory pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): B call order identified; providers and A behavior unresolved.
+- Finding IDs or checked absence/replacement path: none yet.
+
+### Slice S-POST-ANIMATION: Client animation update after travel
+
+- Inventory ID(s): INV-TICK, INV-EXCLUSIONS
+- Exact behavior boundary and enclosing guards/order checked: B client-only branch calls `calculateEntityAnimation(omnidirectionalAirMover())` after block effects; lines 3147-3149. Check its state writes/readers to establish whether any feed movement or can be explicitly not-applicable.
+- A evidence: pending exact call/method and consumer audit.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(),calculateEntityAnimation(boolean), lines 3147-3149,2662-2675`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
+- State producers/writers -> consumers/readers: post-travel position delta -> animation state; inspect whether any movement predicate reads those animation fields before assigning a scope disposition.
+- Parent slices / dependencies / closure evidence: S-TRAVEL-GATE,S-STATE inventory; all readers and A method pending.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): B branch read; not assumed irrelevant without consumer evidence.
+- Finding IDs or checked absence/replacement path: none yet.
 ### Slice S-TRAVEL-DISPATCH: Fluid, fall-flying or air travel branch selection
 
 - Inventory ID(s): INV-TICK, INV-STATE
@@ -281,7 +340,7 @@ These are 46 initial bounded work units, not an exhaustive inventory. All remain
 - A evidence: pending exact method, enclosing tick call and correspondence.
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::travel(Vec3),shouldTravelInFluid(FluidState), lines 2430-2446`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
 - State producers/writers -> consumers/readers: fluid contacts/standing state and fall-flying state -> branch selection -> branch-specific velocity/position consumers.
-- Parent slices / dependencies / closure evidence: S-LIVING-03,S-PLAYER-01; fluid contact and gliding state writers pending.
+- Parent slices / dependencies / closure evidence: S-LIVING-GLIDE-UPDATE,S-TRAVEL-PREP,S-FALL-DISTANCE-RESET,S-TRAVEL-GATE,S-POST-BLOCK-EFFECTS,S-POST-ANIMATION,S-PLAYER-01; fluid contact and gliding state writers pending.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): B methods read; no pairwise branch disposition.
 - Finding IDs or checked absence/replacement path: none yet.
@@ -436,7 +495,7 @@ These are 46 initial bounded work units, not an exhaustive inventory. All remain
 - A evidence: pending exact source and inheritance correspondence.
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/player/Player.java::net.minecraft.world.entity.player.Player#travel(Vec3), lines 1402-1429`, SHA-256 `8decc71b9c780664578ddb14591db2a2f207c72c05b676edded6f8e964576531`.
 - State producers/writers -> consumers/readers: passenger/swimming/abilities/look/fluid state -> vertical delta writer and living travel; abilities and fluid checks pending.
-- Parent slices / dependencies / closure evidence: S-LIVING-03; abilities/defaults and shape/fluid queries pending.
+- Parent slices / dependencies / closure evidence: S-LIVING-GLIDE-UPDATE,S-TRAVEL-PREP,S-FALL-DISTANCE-RESET,S-TRAVEL-GATE,S-POST-BLOCK-EFFECTS,S-POST-ANIMATION; abilities/defaults and shape/fluid queries pending.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): B body read; no A pair yet.
 - Finding IDs or checked absence/replacement path: none yet.
@@ -604,7 +663,7 @@ These are 46 initial bounded work units, not an exhaustive inventory. All remain
 - A evidence: pending exact source and inheritance/caller correspondence.
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/client/player/LocalPlayer.java::tick(), lines 227-251`, SHA-256 `8d089aa09217e3607b38590f7c1623385562800943ac6dfd3d17804e041da6d6`; `world/entity/player/Player.java::tick(), lines 231-285`, SHA-256 `8decc71b9c780664578ddb14591db2a2f207c72c05b676edded6f8e964576531`; `world/entity/LivingEntity.java::tick(), lines 2765-2808`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`; `world/entity/Entity.java::tick(),baseTick(), lines 506-535`, SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`.
 - State producers/writers -> consumers/readers: local input tick/packet lifecycle; Entity fluid/powder-snow/swimming state -> LivingEntity.tick -> virtual LocalPlayer.aiStep -> `super.aiStep()` travel; `Player.tick` performs pose update after its superclass tick returns.
-- Parent slices / dependencies / closure evidence: S-IN-01,S-LOCAL-SNAPSHOT,S-LOCAL-UNSTUCK,S-SPRINT-START,S-SPRINT-STOP,S-FLIGHT-TOGGLE,S-FALLFLY-REQUEST,S-SINK-INPUT,S-FLIGHT-VERTICAL-INPUT,S-RIDEABLE-JUMP,S-LIVING-03,S-POSE-UPDATE; caller chain must be resolved on A.
+- Parent slices / dependencies / closure evidence: S-IN-01,S-LOCAL-SNAPSHOT,S-LOCAL-UNSTUCK,S-SPRINT-START,S-SPRINT-STOP,S-FLIGHT-TOGGLE,S-FALLFLY-REQUEST,S-SINK-INPUT,S-FLIGHT-VERTICAL-INPUT,S-RIDEABLE-JUMP,S-LIVING-GLIDE-UPDATE,S-TRAVEL-PREP,S-FALL-DISTANCE-RESET,S-TRAVEL-GATE,S-POST-BLOCK-EFFECTS,S-POST-ANIMATION,S-POSE-UPDATE; caller chain must be resolved on A.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): B call order read only; A timing and correspondence are unknown, so no pairwise disposition.
 - Finding IDs or checked absence/replacement path: none yet.
@@ -622,7 +681,7 @@ No pairwise findings confirmed. Earlier reports for this interval were consulted
 
 ## Resume checkpoint
 
-- Last completed slice: none; current B readiness/provenance and selected B method bodies verified; 46 bounded preparation slices recorded; required workflow/template hardening cherry-picked.
+- Last completed slice: none; current B readiness/provenance and selected B method bodies verified; 51 bounded preparation slices recorded; required workflow/template hardening cherry-picked.
 - Next bounded slice and exact files/members/body ranges to open: on current A marker publication, validate A exact ID/manifests/hashes/diagnostics; resolve A/B KeyboardInput and local tick callers; begin `S-IN-01`, then the complete pre-travel call path. Before any pair comparison, update exact artifact provenance and rehash all cited sources.
 - Outstanding dependencies and owners: D-A-READY (shared source owner), D-B-PROVENANCE (shared source owner), D-DEPENDENCIES (worker inventory).
 - Current assumptions requiring verification: A marker confirms native unobfuscated official names; each cited body is intact; no movement-relevant resource/data is omitted. No release introduction point can be inferred from these two endpoints alone.
@@ -646,7 +705,7 @@ No pairwise findings confirmed. Earlier reports for this interval were consulted
 
 ## Source audit closure
 
-- Coverage counts by status: 46 pending; 0 in-progress; 0 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked. This count is an initial B-prep queue, not the final exhaustive pair inventory; add every newly discovered slice and dependency.
+- Coverage counts by status: 51 pending; 0 in-progress; 0 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked. This count is an initial B-prep queue, not the final exhaustive pair inventory; add every newly discovered slice and dependency.
 - Required inventory status and evidence: all seven pending; current evidence is B-only and does not disposition any pair slice.
 - Open dependencies: D-A-READY, D-B-PROVENANCE, D-DEPENDENCIES.
 - Unresolved gaps and limits: no pairwise comparison started because the current 26.1.2 ready directory is absent. Full inventory, dependencies, findings, source freeze, independent audit and downstream reconciliation remain open.
@@ -655,6 +714,7 @@ No pairwise findings confirmed. Earlier reports for this interval were consulted
 - Implementation reconciliation: pending.
 - Independent audit: pending.
 - Runtime validation: not performed; runtime is not authorized.
+
 
 
 
