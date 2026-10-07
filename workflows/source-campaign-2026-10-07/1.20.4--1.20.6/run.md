@@ -96,13 +96,13 @@ Each bounded behavior below is pending until both exact source sides, the entire
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: 1 / flight toggle, flight input/speed and unstuck/riding gates; pending source navigation and full enclosing method review.
-- A evidence: pending validated 1.20.4 Mojmap source; no method body inspected.
-- B evidence: pending validated 1.20.6 Mojmap source; no method body inspected.
-- State producers/writers -> consumers/readers: pending exact member-level inventory.
-- Parent slices / dependencies / closure evidence: source dependency D-SOURCES; planned dependencies: abilities, packet/state inputs; pending source verification.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison not started; no equivalence or difference claim.
-- Finding IDs or checked absence/replacement path: none; source comparison not started.
+- A evidence: 1.20.4 `LocalPlayer.aiStep()` lines 726-732, `LocalPlayer.java` SHA-256 `bb5cbfb03656a1866bb77c00431618befe792081223b35db4bd121ecbb151fd5`; grounded flight-toggle branch has no jump call.
+- B evidence: 1.20.6 `LocalPlayer.aiStep()` lines 729-739, `LocalPlayer.java` SHA-256 `6b429dfa6e0681251ec985dda1627f808652a7bbe5b70dc85c8fa0fe0ed46ffa`; calls `jumpFromGround()` after enabling flight when grounded. Finding MC1204-1206-01.
+- State producers/writers -> consumers/readers: KeyboardInput captures jump state -> LocalPlayer.aiStep double-tap timer/toggle -> virtual Player.jumpFromGround -> LivingEntity.jumpFromGround; jump power/cutoff is a dependency. Flight input/speed and unstuck/riding gates remain open.
+- Parent slices / dependencies / closure evidence: D-SOURCES resolved; partial flight-toggle call chain is closed in MC1204-1206-01. Ability update writers/defaults, the rest of LocalPlayer.aiStep and jump-power branch remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Confirmed B-only ground-jump call on the mayfly double-tap activation path; bounded finding is source-confirmed, but flight input/speed and unstuck/riding behaviors are not yet inventoried.
+- Finding IDs or checked absence/replacement path: MC1204-1206-01; dependent jump-power threshold MC1204-1206-02.
 
 ### Slice S1-tick-order: 1 / local tick, superclass tick, travel call and previous/current flags
 
@@ -132,13 +132,13 @@ Each bounded behavior below is pending until both exact source sides, the entire
 
 - Inventory ID(s): INV-STATE, INV-TICK
 - Exact behavior boundary and enclosing guards/order checked: 2 / entity dimensions, eye height, resize ordering and collision checks; pending source navigation and full enclosing method review.
-- A evidence: pending validated 1.20.4 Mojmap source; no method body inspected.
-- B evidence: pending validated 1.20.6 Mojmap source; no method body inspected.
-- State producers/writers -> consumers/readers: pending exact member-level inventory.
-- Parent slices / dependencies / closure evidence: source dependency D-SOURCES; planned dependencies: dimensions, pose, AABB/query timing; pending source verification.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison not started; no equivalence or difference claim.
-- Finding IDs or checked absence/replacement path: none; source comparison not started.
+- A evidence: 1.20.4 `LivingEntity.getScale()` lines 556-558 and `getDimensions(Pose)` lines 3161-3163, `LivingEntity.java` SHA-256 `f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d`; player uses its pose dimensions.
+- B evidence: 1.20.6 `LivingEntity.getScale()` lines 578-581, `getDimensions(Pose)` lines 3240-3245 and tick refresh lines 2456-2461, `LivingEntity.java` SHA-256 `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`; see MC1204-1206-06.
+- State producers/writers -> consumers/readers: B synchronized SCALE attribute -> LivingEntity.tick appliedScale check -> Entity.refreshDimensions updates dimensions, eye height and bounding box -> pose-fit/collision consumers. Exact server value and update timing remain external.
+- Parent slices / dependencies / closure evidence: D-SOURCES resolved; MC1204-1206-06 closes the attribute-to-dimension path at tick tail. Pose transitions, scale-dependent consumers/collision and pre-refresh ordering remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Default player scale stays 1.0; B adds a syncable non-default scale input that changes player dimensions and refreshes active dimensions at tick tail. Full dimensions/collision slice remains open.
+- Finding IDs or checked absence/replacement path: MC1204-1206-06.
 
 ### Slice S2-player-state: 2 / player movement state initialization/update/reset (excluding excluded health/food systems)
 
@@ -216,49 +216,49 @@ Each bounded behavior below is pending until both exact source sides, the entire
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: 3 / negligible-velocity thresholds, comparisons, casts and zeroing; pending source navigation and full enclosing method review.
-- A evidence: pending validated 1.20.4 Mojmap source; no method body inspected.
-- B evidence: pending validated 1.20.6 Mojmap source; no method body inspected.
-- State producers/writers -> consumers/readers: pending exact member-level inventory.
-- Parent slices / dependencies / closure evidence: source dependency D-SOURCES; planned dependencies: exact literals and caller timing; pending source verification.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison not started; no equivalence or difference claim.
-- Finding IDs or checked absence/replacement path: none; source comparison not started.
+- A evidence: 1.20.4 `LivingEntity.jumpFromGround()` lines 2008-2017, `LivingEntity.java` SHA-256 `f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d`; unconditional vertical velocity write and impulse flag.
+- B evidence: 1.20.6 `LivingEntity.jumpFromGround()` lines 2069-2082, `LivingEntity.java` SHA-256 `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`; guarded by `! (power <= 1.0E-5F)`. MC1204-1206-02.
+- State producers/writers -> consumers/readers: jump callers -> jump-power calculation -> guarded velocity write and hasImpulse state -> later travel. B jump power additionally reads JUMP_STRENGTH (MC1204-1206-03); broader velocity cutoff inventory remains open.
+- Parent slices / dependencies / closure evidence: D-SOURCES resolved; jump-specific threshold is source-confirmed in MC1204-1206-02. Other negligible-velocity thresholds/casts/zeroing in travel have not been closed.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The ground-jump cutoff is confirmed: A always writes and marks impulse; B skips both at power <= 1.0E-5F. Slice includes other travel thresholds not yet compared.
+- Finding IDs or checked absence/replacement path: MC1204-1206-02.
 
 ### Slice S3-gravity-drag: 3 / gravity, drag, levitation/slow-falling and post-travel updates
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
 - Exact behavior boundary and enclosing guards/order checked: 3 / gravity, drag, levitation/slow-falling and post-travel updates; pending source navigation and full enclosing method review.
-- A evidence: pending validated 1.20.4 Mojmap source; no method body inspected.
-- B evidence: pending validated 1.20.6 Mojmap source; no method body inspected.
-- State producers/writers -> consumers/readers: pending exact member-level inventory.
-- Parent slices / dependencies / closure evidence: source dependency D-SOURCES; planned dependencies: effects/attributes and exact operation order; pending source verification.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison not started; no equivalence or difference claim.
-- Finding IDs or checked absence/replacement path: none; source comparison not started.
+- A evidence: 1.20.4 `LivingEntity.travel(Vec3)` lines 2035-2166, SHA-256 `f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d`; base gravity 0.08 and descending Slow Falling replaces it with 0.01.
+- B evidence: 1.20.6 `LivingEntity.travel(Vec3)` lines 2104-2233 and `getDefaultGravity()` lines 2099-2102, SHA-256 `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`; reads attribute gravity and applies `Math.min(gravity, 0.01)`. MC1204-1206-04.
+- State producers/writers -> consumers/readers: B synced GRAVITY attribute -> Entity.getGravity/ LivingEntity.getDefaultGravity -> land/fluid travel gravity and fluid-falling gravity gate -> velocity updates. Effect state and chunk-availability branch also affect this method.
+- Parent slices / dependencies / closure evidence: D-SOURCES resolved; default and attribute/Slow Falling differences recorded in MC1204-1206-04. Need close every branch, gravity-dependent helper and post-travel drag/update before terminal disposition.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Default gravity remains 0.08. Non-default synced gravity is newly consumed; B Slow Falling caps gravity at 0.01 while A replaces it. Full gravity/drag/effect branch comparison remains open.
+- Finding IDs or checked absence/replacement path: MC1204-1206-04.
 
 ### Slice S3-ground-jump: 3 / ground jump power, jump boost and jump attribute path
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
 - Exact behavior boundary and enclosing guards/order checked: 3 / ground jump power, jump boost and jump attribute path; pending source navigation and full enclosing method review.
-- A evidence: pending validated 1.20.4 Mojmap source; no method body inspected.
-- B evidence: pending validated 1.20.6 Mojmap source; no method body inspected.
-- State producers/writers -> consumers/readers: pending exact member-level inventory.
-- Parent slices / dependencies / closure evidence: source dependency D-SOURCES; planned dependencies: attributes, effects, callbacks; pending source verification.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison not started; no equivalence or difference claim.
-- Finding IDs or checked absence/replacement path: none; source comparison not started.
+- A evidence: 1.20.4 `LivingEntity.getJumpPower()` lines 2000-2006 and `jumpFromGround()` lines 2008-2017, SHA-256 `f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d`.
+- B evidence: 1.20.6 `LivingEntity.getJumpPower()` lines 2057-2067 and `jumpFromGround()` lines 2069-2082, SHA-256 `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`; JUMP_STRENGTH path and cutoff findings MC1204-1206-02/03.
+- State producers/writers -> consumers/readers: jump input/ground or fluid gate -> block jump factor, Jump Boost and (B) JUMP_STRENGTH -> jump-power guard -> vertical velocity/hasImpulse. Food/stat side effects excluded.
+- Parent slices / dependencies / closure evidence: D-SOURCES resolved; jump formula, cutoff and call path findings MC1204-1206-01 through -03. Block jump-factor producers and complete effect/attribute application chain remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Confirmed B default jump-strength value preserves the old base multiplier; non-default attribute input and changed threshold are source-confirmed. Block-factor/effect dependencies keep the full slice open.
+- Finding IDs or checked absence/replacement path: MC1204-1206-01, MC1204-1206-02, MC1204-1206-03.
 
 ### Slice S3-sprint-jump: 3 / sprint jump impulse direction, arithmetic order and velocity writes
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
 - Exact behavior boundary and enclosing guards/order checked: 3 / sprint jump impulse direction, arithmetic order and velocity writes; pending source navigation and full enclosing method review.
-- A evidence: pending validated 1.20.4 Mojmap source; no method body inspected.
-- B evidence: pending validated 1.20.6 Mojmap source; no method body inspected.
-- State producers/writers -> consumers/readers: pending exact member-level inventory.
-- Parent slices / dependencies / closure evidence: source dependency D-SOURCES; planned dependencies: yaw, sprint and jump call chain; pending source verification.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison not started; no equivalence or difference claim.
-- Finding IDs or checked absence/replacement path: none; source comparison not started.
+- A evidence: 1.20.4 `LivingEntity.jumpFromGround()` lines 2008-2017, SHA-256 `f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d`; sprint uses `Mth.sin/cos(yaw) * 0.2F`.
+- B evidence: 1.20.6 `LivingEntity.jumpFromGround()` lines 2069-2082, SHA-256 `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`; sprint uses float trig result times double `0.2` within jump guard. MC1204-1206-02.
+- State producers/writers -> consumers/readers: sprint state and yaw -> sine/cosine -> sprint-jump delta -> vector addition and setDeltaMovement; ground jump power/cutoff gates this path.
+- Parent slices / dependencies / closure evidence: D-SOURCES resolved; arithmetic and velocity write difference documented in MC1204-1206-02. Sprint state producer, yaw update path and other sprint-gate consumers remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Under a sprinting ground jump above B cutoff, operation precision differs because B widens the float trig value for multiplication by a double literal. Other sprint scheduling/gates remain unreviewed.
+- Finding IDs or checked absence/replacement path: MC1204-1206-02.
 
 ### Slice S3-climbing: 3 / climbable branch, clamps, fall resets and wall contact
 
@@ -336,13 +336,13 @@ Each bounded behavior below is pending until both exact source sides, the entire
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: 4 / step-up candidates, comparison, tie-breaking and step height; pending source navigation and full enclosing method review.
-- A evidence: pending validated 1.20.4 Mojmap source; no method body inspected.
-- B evidence: pending validated 1.20.6 Mojmap source; no method body inspected.
-- State producers/writers -> consumers/readers: pending exact member-level inventory.
-- Parent slices / dependencies / closure evidence: source dependency D-SOURCES; planned dependencies: full step helper/dependencies; pending source verification.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison not started; no equivalence or difference claim.
-- Finding IDs or checked absence/replacement path: none; source comparison not started.
+- A evidence: 1.20.4 `LivingEntity.maxUpStep()` lines 3423-3426 reads inherited 0.6F step field; `Entity.move()` lines 596-725 uses virtual maxUpStep for step-candidate checks.
+- B evidence: 1.20.6 `LivingEntity.maxUpStep()` lines 3490-3493 reads STEP_HEIGHT; `Entity.move()` lines 597-726 has step-candidate checks. Source hashes Entity A/B: `07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9` / `71cd6b9f6c002684154dce11d3745e8714d82f13c8e1b3aa56743930131c18f3`. MC1204-1206-05.
+- State producers/writers -> consumers/readers: B synced STEP_HEIGHT attribute -> LivingEntity.maxUpStep -> unchanged Entity.move candidate heights; controlling-player passenger still floors result at 1.0F.
+- Parent slices / dependencies / closure evidence: D-SOURCES resolved; input-height finding MC1204-1206-05. Collision candidate/shape/tie-break path remains open for this broad step-candidate slice.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Default 0.6 matches A; B non-default STEP_HEIGHT changes candidate height. The remainder of candidate collision behavior has not been closed.
+- Finding IDs or checked absence/replacement path: MC1204-1206-05.
 
 ### Slice S4-edge-probes: 4 / edge sneaking/probes, support checks and query timing
 
@@ -528,13 +528,13 @@ Each bounded behavior below is pending until both exact source sides, the entire
 
 - Inventory ID(s): INV-MODIFIERS, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: 6 / movement attributes, defaults, aggregation and modifier order; pending source navigation and full enclosing method review.
-- A evidence: pending validated 1.20.4 Mojmap source; no method body inspected.
-- B evidence: pending validated 1.20.6 Mojmap source; no method body inspected.
-- State producers/writers -> consumers/readers: pending exact member-level inventory.
-- Parent slices / dependencies / closure evidence: source dependency D-SOURCES; planned dependencies: consumers, constructors, registration/resource data; pending source verification.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison not started; no equivalence or difference claim.
-- Finding IDs or checked absence/replacement path: none; source comparison not started.
+- A evidence: 1.20.4 `Attributes.java` hash `287dcd477ccca2aebd24ad28db7b0e7a1e9dc9bbeb272d330cd15504b8669ff7`; no generic GRAVITY/SCALE/STEP_HEIGHT/JUMP_STRENGTH player inputs; jump strength entry is horse-specific.
+- B evidence: 1.20.6 `Attributes.java` hash `7e30d87c7a58b14d0052d2f9f7319d997b49ae7d025579cd762d28e845b2e82e`; generic gravity/jump-strength/scale/step-height are syncable and added by LivingEntity.createLivingAttributes(). Findings MC1204-1206-03 through -06.
+- State producers/writers -> consumers/readers: Player.createAttributes inherits living attributes -> externally supplied/synchronized attribute values -> jump, travel gravity, dimensions and step-limit consumers. Only these four attribute paths have been reviewed.
+- Parent slices / dependencies / closure evidence: D-SOURCES resolved; four movement attribute deltas are recorded. Remaining movement attributes, modifier order, registration/default-source coverage and resource/sync closure remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Four source-confirmed player movement attribute paths were found; this broad attributes inventory is still incomplete, so no terminal disposition is claimed.
+- Finding IDs or checked absence/replacement path: MC1204-1206-03, MC1204-1206-04, MC1204-1206-05, MC1204-1206-06.
 
 ### Slice S6-effects: 6 / Speed, Slowness, Jump Boost, Levitation, Slow Falling, Dolphin's Grace, Blindness
 
@@ -588,13 +588,13 @@ Each bounded behavior below is pending until both exact source sides, the entire
 
 - Inventory ID(s): INV-MODIFIERS, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: 6 / server-synchronized movement attributes/data and client-only conclusion; pending source navigation and full enclosing method review.
-- A evidence: pending validated 1.20.4 Mojmap source; no method body inspected.
-- B evidence: pending validated 1.20.6 Mojmap source; no method body inspected.
-- State producers/writers -> consumers/readers: pending exact member-level inventory.
-- Parent slices / dependencies / closure evidence: source dependency D-SOURCES; planned dependencies: establish provenance; mark unavailable inputs blocked; pending source verification.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison not started; no equivalence or difference claim.
-- Finding IDs or checked absence/replacement path: none; source comparison not started.
+- A evidence: 1.20.4 `Attributes.java` has only horse-specific jump strength and no generic gravity/scale/step-height player attributes; SHA-256 `287dcd477ccca2aebd24ad28db7b0e7a1e9dc9bbeb272d330cd15504b8669ff7`.
+- B evidence: 1.20.6 `Attributes.java` lines 42-47, 66-74 defines syncable GRAVITY/JUMP_STRENGTH/SCALE/STEP_HEIGHT; B LivingEntity attribute builder includes them at lines 292-305. SHA-256 `7e30d87c7a58b14d0052d2f9f7319d997b49ae7d025579cd762d28e845b2e82e`.
+- State producers/writers -> consumers/readers: Attribute builder supplies player instances; synchronization/source of non-default values remains external; client movement consumes current values at jump/travel/dimension/step paths.
+- Parent slices / dependencies / closure evidence: D-SOURCES resolved; bounded attribute additions are evidenced by MC1204-1206-03 through -06. Client attribute packet handling and exact external value provenance have not been audited.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The attributes are marked syncable and flow into inherited player movement calculations, but the client update handler and complete server boundary remain unreviewed.
+- Finding IDs or checked absence/replacement path: MC1204-1206-03, MC1204-1206-04, MC1204-1206-05, MC1204-1206-06.
 
 ### Slice S7-velocity-writers: 7 / incoming velocity, explosions, knockback/push and player velocity writes
 
@@ -663,12 +663,12 @@ Each bounded behavior below is pending until both exact source sides, the entire
 
 ## Finding index
 
-- No source-confirmed findings yet. No previous movement catalogs or implementation changes were used as proof of coverage.
+- MC1204-1206-01 grounded flight activation additionally invokes the jump routine. MC1204-1206-02 ground-jump cutoff and sprint impulse arithmetic differ. MC1204-1206-03 generic jump-strength attribute; MC1204-1206-04 gravity attribute and Slow Falling cap; MC1204-1206-05 step-height attribute; MC1204-1206-06 scale-driven player dimensions. Findings are source-only and do not claim observed trajectories. No implementation reconciliation or independent audit has been performed.
 
 ## Resume checkpoint
 
-- Last completed slice: source provenance and exact source-tree hash validation; no behavior slice completed.
-- Next bounded slice and exact files/members/body ranges to open: stage 1 input sampling and local-player tick order in Input.java, KeyboardInput.java, LocalPlayer.java, Player.java and LivingEntity.java; establish pair-specific ranges and callers before disposition.
+- Last completed slice: source provenance and exact source-tree hash validation; nine behavior slices now have partial source-confirmed evidence but remain in-progress.
+- Next bounded slice and exact files/members/body ranges to open: continue closure of the recorded in-progress jump/gravity/attribute/scale/step slices, then resume stage 1 input sampling and local-player tick order in Input.java, KeyboardInput.java, LocalPlayer.java, Player.java and LivingEntity.java.
 - Outstanding dependencies and owners: none presently; add source-method/data retrieval items as encountered.
 - Current assumptions requiring verification: per-method movement body integrity and complete class/member correspondence must still be verified despite the successful source diagnostics.
 
@@ -691,7 +691,7 @@ Each bounded behavior below is pending until both exact source sides, the entire
 
 ## Source audit closure
 
-- Coverage counts by status: pending 51; in-progress 0; compared-no-difference 0; findings 0; not-applicable 0; blocked 0.
+- Coverage counts by status: pending 42; in-progress 9; compared-no-difference 0; findings 0; not-applicable 0; blocked 0. The in-progress slices contain bounded source-confirmed findings but remain open for broader dependency closure.
 - Required inventory status and evidence: all seven pending; exact source roots and hashes validated, method-level inventory remains.
 - Open dependencies: none currently; source comparisons will add exact member/resource dependencies as discovered.
 - Unresolved gaps and limits: all bounded comparison slices pending; pair-specific member correspondence and semantic comparison not yet complete; no equivalence claims made.
