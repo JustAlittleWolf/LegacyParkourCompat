@@ -61,7 +61,7 @@ Other correspondence requiring further walk: remote/client corrections and packe
 ## Required source inventories
 
 - `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1-input,S1-local-order,S3-travel,S3-post; evidence=`Input.java` lines 15-19 (both), `LocalClientPlayerEntity.mobTick` A 620-790 / B 632-802, `LivingEntity.mobTick` A 1681-1752 / B 1737-1808; only input method identity and partial ordering have been checked.
-- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S2-resize,S2-state-writers,S3-jump,S4-collision-flags; evidence=`Entity.java` A 264-274 / B 271-287, and move bodies A 446-700 / B 459-724; only resize logic and part of collision are reviewed.
+- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S2-resize,S2-eye-height,S2-state-writers,S3-jump,S4-collision-flags; evidence=`Entity.java` A 264-274 / B 271-287, and move bodies A 446-700 / B 459-724; only resize logic and part of collision are reviewed.
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S4-sneak-probe,S4-move-order,S4-step,S4-callbacks,S5-shapes; evidence=`Entity.java` A 468-512 / B 519-562 for the sneak probe and `World.getCollisions` A line 903 / B lines 960-1013; full providers/registrations not inventoried.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S5-blocks,S5-fluids,S5-resources; no source/resource inventory yet. Relevant `MovingBlockEntity` A 91-183 / B 116-285 identified.
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S6-attributes,S6-effects,S6-enchantments,S6-equipment; `LivingEntity` has `flyingTick` A 1754-1773 / B 1810-1830, with Elytra read at A 1757 / B 1813. Dependencies/data remain open.
@@ -238,6 +238,18 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - Disposition and rationale (including concrete reachability/preconditions): the final box after the direct sleep/wake methods is rebuilt from the same final x/y/z and dimensions in both endpoints. This closes only those explicit method call sequences, not pose-transition callers or all player resize paths.
 - Finding IDs or checked absence/replacement path: no finding for direct trySleep/wake size sequencing; `updatePlayerPose` remains open under S2-resize.
 
+### Slice S2-eye-height: player eye-height selection
+
+- Inventory ID(s): INV-STATE, INV-TICK
+- Exact behavior boundary and enclosing guards/order checked: full `PlayerEntity.getEyeHeight` branch order and returned float for sleep, sneak/height, fall-flying/height, and default states.
+- A evidence: `PlayerEntity.java::getEyeHeight`, lines 1759-1770, SHA-256 `a055b84b98d98e828e177cad9bba47a1334ee9bf3ecd4331792979106235a302`.
+- B evidence: `PlayerEntity.java::getEyeHeight`, lines 1759-1770, SHA-256 `87fe94fa6cbf7aba18b9a5e3401664439eb8eba9958173da8fbcd05cc7ad948b`.
+- State producers/writers -> consumers/readers: sleeping/sneaking/fall-flying flags and height -> ordered eye-height selection -> movement-adjacent fluid/view-origin consumers.
+- Parent slices / dependencies / closure evidence: S2-resize; upstream flag/dimension writers and all eye-height consumers remain open in INV-STATE/INV-TICK.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): both complete method bodies match: default `1.62F`, sleeping `0.2F`, sneaking or `height == 1.65F` subtracts `0.08F`, and fall-flying or `height == 0.6F` returns `0.4F`, in the same branch order.
+- Finding IDs or checked absence/replacement path: no finding for the bounded getter; no whole-state equivalence is claimed.
+
 ### Slice S2-resize: entity box adjustment when dimensions change
 
 - Inventory ID(s): INV-STATE, INV-COLLISION
@@ -290,7 +302,7 @@ Other correspondence requiring further walk: remote/client corrections and packe
 
 ## Resume checkpoint
 
-- Last completed slice: exact source readiness verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order; partial S4-world-query; bounded S2-sleep-size-cycle; S1-autojump; S5-wall-collision-shapes.
+- Last completed slice: exact source readiness verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order; partial S4-world-query; bounded S2-sleep-size-cycle; S1-autojump; S5-wall-collision-shapes; S2-eye-height.
 - Next bounded slice and exact files/members/body ranges to open: `D-COLLISION` (`World.getCollisions`, both block-query overloads, relevant `BlockState.addCollisions`, every reachable shape provider), then `D-PISTON` (`MovingBlockEntity` complete progress/tick paths A 91-183 and B 116-285). Continue all open queue items in navigation order.
 - Outstanding dependencies and owners: shared source owner is read-only publisher; source worker owns this run and findings; coordinator must assign independent reviewer.
 - Current assumptions requiring verification: line ranges cited above remain stable under the source hashes; current mapped artifact integrity needs canonical owner repair/reverification; complete method correspondence, branch coverage, data resources and external-player call paths remain open.
@@ -316,7 +328,7 @@ Complete only after blind-discovery freeze. No mod implementation was opened.
 
 ## Source audit closure
 
-- Coverage counts by status: 4 findings, 8 compared-no-difference, 3 in-progress, 1 pending (bounded rows only; broad inventory remains open).
+- Coverage counts by status: 4 findings, 9 compared-no-difference, 3 in-progress, 1 pending (bounded rows only; broad inventory remains open).
 - Required inventory status and evidence: only `INV-EXCLUSIONS` declaration complete; all movement inventories pending, with partial anchors above.
 - Open dependencies: D-ARTIFACT-INTEGRITY, D-SOURCE-DIAGNOSTICS, D-COLLISION, D-PISTON, D-POSE, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
 - Unresolved gaps and limits: complete tick graph, body-level diagnostic review, collision providers/resources, exact entity-player collision paths, modifiers, external writers, source-only freeze and independent audit remain open. Source comparison only; no gameplay behavior observed.
