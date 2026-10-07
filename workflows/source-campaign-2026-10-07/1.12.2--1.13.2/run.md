@@ -1,6 +1,6 @@
 # Discovery: 1.12.2 to 1.13.2
 
-- Status: active
+- Run status: active
 - Scope: exact source-only client player movement comparison; older A = 1.12.2; newer B = 1.13.2. No wiki evidence or runtime validation.
 - Repository revision and start date: base 002137b227676caea77f6832b9f4c8d0b6200bff; 2026-10-07.
 - Selected naming namespace, CLI mode per side and alignment evidence: Ornithe Feather; explicit feather mode on both sides. Exact Feather Gen2 build 2 mapping artifacts verified per version; output namespace is ornithe-feather.
@@ -15,7 +15,7 @@ All paths are relative to shared campaign root build/movement-campaign-2026-10-0
 
 - A: requested/resolved release 1.12.2; source root ready/1.12.2/ornithe-feather; client jar artifacts/1.12.2/client.jar SHA-256 8ada07da5ee77dad3527bd7278fbd05ee1fc8a597813b216a871a2d7d64cc64f; CLI --versions=1.10.2,1.11.2,1.12.2 --mappings=feather --decompiler-heap=4G; mapping feather-gen2-1.12.2+build.2, artifacts/yarn/feather-gen2-1.12.2+build.2-mergedv2.jar SHA-256 e48244030c53979793bdfbe48d7f1f3536f7e4f678ee5890a416198037cd46ca and .tiny SHA-256 a3aa1c8e73e81bd09432ba1f4b2e88aaacbedb2d8fa3cbf797536d2bdf0d4e58; mapped jar artifacts/1.12.2/client-ornithe-feather.jar SHA-256 65a08f15d18c4ec2bd0f05b89dfc1ba7ea6b8280ba93ed136245f39e63ec8a2b. Source manifest ready/1.12.2/ornithe-feather.sources.sha256 SHA-256 b8a37ccfccd2aac5f40f5e34fec85873dbdfa93a266043c103e592e4a8c949da (2,050 files); artifact manifest ready/1.12.2/artifacts.sha256 SHA-256 8171a095a5ee74cebbd12b3d76983fc01796c0c23c962076d1e235cd0f80fa8c; ready JSON SHA-256 b0aeec721e5c0af02d11dc575ad834f4f72489124701d9b2b90357f43dc37b38; provenance JSON SHA-256 747425a26da363d1abc8a2cecd83a74504aeb1f58be93aa53f48c690e35318ce; success excerpt SHA-256 986a06a8704103b61888040300fe5f5b2e4c00d3337971c0ff24ec66af3178af; movement diagnostics SHA-256 1ae1a796ac7650bf218af02eb602e1b7f46df2950e57b14263c65d3b58dc71b3.
 - B: requested/resolved release 1.13.2; source root ready/1.13.2/ornithe-feather; client jar artifacts/1.13.2/client.jar SHA-256 3410887ba652f25792c7675bfaf9140e73b60e93cfbf113a803f8a98cb05c0f9; CLI --versions=1.13.2 --mappings=feather --decompiler-heap=4G; mapping feather-gen2-1.13.2+build.2, artifacts/yarn/feather-gen2-1.13.2+build.2-mergedv2.jar SHA-256 317384d4faccc2939c3b14252993d31745eb42aad59f2f0ea78893cbe4e7283b and .tiny SHA-256 b3fd787448aed2c6e115d965d9edbb437ce47794ba63c7883e9014fd41262f71; mapped jar artifacts/1.13.2/client-ornithe-feather.jar SHA-256 d118ff5b9eb93fed06680466cb26c41a30647cdb2fc8744638cf9b35cf7864e5. Source manifest ready/1.13.2/ornithe-feather.sources.sha256 SHA-256 2c8cfb646bf622fb26ac0ca0cb5e02a354fb512e29f8b1010f1aaacd509e1211 (2,711 files); artifact manifest ready/1.13.2/artifacts.sha256 SHA-256 fdcacd9150f98ea70acafc5cab754027ab1a09828ff0eaa8e542dd7890d9ce1e; ready JSON SHA-256 1d1c644c1deb05c02d11dc575ad834f4f72489124701d9b2b90357f43dc37b38; provenance JSON SHA-256 e25950b7855fc4f2aee1a662f0be6b0af9f28788d9e27293075cfc5a3aa5d383; success excerpt SHA-256 2df48800e85ef769115801593f62f5e26827082e7623fda318559721bc49bcd1; movement diagnostics SHA-256 a89e4e3cefe704b58339a1e342e4d8a0fffe7e49dba3ca18402647b69c398a45.
-- Validation at discovery start: both ready markers said status ready and exact versionId; each JSON's source-manifest, artifact-manifest and diagnostic hash matched; client, mapped-client and both mapping artifact files matched artifact-manifest SHA-256 entries. Subsequent source-owner notice: a reproducibility rerun replaced shared-cache derived mapped JARs while preserving source-file/raw-input hashes. Original artifact-manifest hashes may no longer match current shared cache. Source owner/ops repair and fresh verification are pending; do not waive or rewrite marker hashes, and do not freeze or accept affected findings until canonical repair is supplied. Success excerpts are summary excerpts, not full stdout.
+- Initial validation: both ready markers reported status ready and the exact versionId; source-manifest, artifact-manifest and diagnostic hashes matched their JSON records; the then-current client, mapped-client and mapping artifacts matched their manifests. A later reproducibility rerun replaced shared-cache derived mapped JARs while preserving source-file/raw-input hashes. This discovery did not rewrite shared markers or cache. Resolution: the source owner supplied revision feather-r1-2026-10-07 immutable snapshots; this worker independently rehashed every source file against each source manifest, every original raw input except the unavailable mutable derived JAR, and both revision snapshots against revision records/manifests. The independent ops audit passed. Snapshot paths and hashes are cited in affected findings. Limitation: the original mapped JARs are unavailable, so snapshot equivalence to the original mapped bytecode (or metadata-only differences) is unproven; retain this limitation and do not claim original mapped-bytecode identity. Success excerpts are summary excerpts, not full stdout.
 - Cited source-file hashes are repeated in each coverage slice. Original jar resources and referenced resource hashes are still to be inventoried; none have been cited. Required external/server data and provenance remain open.
 
 ## Blind-discovery freeze
@@ -60,11 +60,13 @@ Each inventory maps to bounded slice IDs. An inventory remains pending until eve
 
 ## Dependency queue and blockers
 
-- Open dependencies: SRC-MANIFEST-ROWS (this discovery owner): populate and close every required member-level slice from all seven inventories; SOURCE-RESOURCE-ENTRIES (this discovery owner): inspect matching original jar entries, data, tags and defaults; METHODS-DIAGNOSTICS (this discovery owner): resolve movement-related decompiler diagnostics and use mapped-jar bytecode/descriptors for any damaged or unmapped methods; ARTIFACT-INTEGRITY (source owner/ops): repair cache immutability/provenance and supply fresh verified artifact identity; INDEPENDENT-REVIEWER (coordinator): name a non-author to re-walk the inventories and full call graph after freeze; IMPLEMENTATION-RECONCILIATION (coordinator/integrator): defer until blind source report is frozen.
+- Resolved artifact dependency: revised Feather snapshots independently verified against `artifact.sha256`, `revision.json`, original source manifests, and raw input manifests; independent ops audit passed on 2026-10-07. Original derived JARs remain unavailable and their equivalence is unproven.
+
+- Open dependencies: SRC-MANIFEST-ROWS (this discovery owner): populate and close every required member-level slice from all seven inventories; SOURCE-RESOURCE-ENTRIES (this discovery owner): inspect matching original jar entries, data, tags and defaults; METHODS-DIAGNOSTICS (this discovery owner): resolve movement-related decompiler diagnostics and use the immutable revised snapshots for ambiguous descriptors; INDEPENDENT-REVIEWER (coordinator): name a non-author to re-walk the inventories and full call graph after freeze; IMPLEMENTATION-RECONCILIATION (coordinator/integrator): defer until blind source report is frozen.
 
 ## Finding index
 
-Provisional source candidates being traced while the artifact-integrity hold is open: 1.13 water/sprint/swimming gates; shallow-water jump and tagged-fluid jump; swimming pose and water-relative pitch acceleration; Slow Falling gravity and fall-distance state; changes to elytra acceleration/clamps; water movement multipliers (sprint, Depth Strider, Dolphin's Grace); collision shape/axis resolution and step candidates. These are navigation checkpoints, not yet the exhaustive findings catalog. Modern-only equipment mechanics such as Riptide are separately classified against 1.12.2 scope.
+Provisional source candidates being traced after revised snapshot verification: 1.13 water/sprint/swimming gates; shallow-water jump and tagged-fluid jump; swimming pose and water-relative pitch acceleration; Slow Falling gravity and fall-distance state; changes to elytra acceleration/clamps; water movement multipliers (sprint, Depth Strider, Dolphin's Grace); collision shape/axis resolution and step candidates. These are navigation checkpoints, not yet the exhaustive findings catalog. Modern-only equipment mechanics such as Riptide are separately classified against 1.12.2 scope.
 
 ## Resume checkpoint
 
@@ -94,9 +96,9 @@ Complete only after blind-discovery freeze; not started and no mod implementatio
 
 ## Source audit closure
 
-- Coverage counts by status: 1 compared-no-difference (KB-SAMPLE); 9 in-progress bounded slices (CLIENT-TICK, SPRINT-STATE, SWIM-STATE, JUMP-GATES, POSE-DIMENSIONS, TRAVEL-MODIFIERS, VELOCITY-CUTOFF, ENTITY-MOVE-AXES, SUPPORT-CALLBACKS); remaining required member/resource slices not yet enumerated; all seven required inventories pending.
+- Coverage counts by status: 4 compared-no-difference (KB-SAMPLE, VELOCITY-PACKETS, BLOCK-FRICTION, PLAYER-PUSH-PRIMITIVE); 11 in-progress bounded slices (CLIENT-TICK, SPRINT-STATE, SWIM-STATE, JUMP-GATES, POSE-DIMENSIONS, TRAVEL-MODIFIERS, VELOCITY-CUTOFF, ENTITY-MOVE-AXES, SUPPORT-CALLBACKS, ATTRIBUTES/SPEED-SLOWNESS/JUMP-BOOST, DEPTH-STRIDER); remaining required member/resource slices not yet enumerated; all seven required inventories pending.
 - Required inventory status and evidence: all pending; see inventory map above.
-- Open dependencies: SRC-MANIFEST-ROWS, SOURCE-RESOURCE-ENTRIES, METHODS-DIAGNOSTICS, INDEPENDENT-REVIEWER, IMPLEMENTATION-RECONCILIATION.
+- Open dependencies: SRC-MANIFEST-ROWS, SOURCE-RESOURCE-ENTRIES, METHODS-DIAGNOSTICS, INDEPENDENT-REVIEWER, IMPLEMENTATION-RECONCILIATION. Resolved: revised artifact snapshot verification (feather-r1-2026-10-07; ops audit passed); original derived-artifact identity remains a limitation.
 - Unresolved gaps and limits: full paired tick sequence, all state writers/consumers, all block/fluid collision shapes, modifiers/equipment, external inputs, resources, and reviewer audit remain open.
 - Evidence/hash/correspondence audit: readiness/artifact/source manifest chain verified; cited KeyboardInput hashes verified; future source citations require per-file hashes and exact member ranges.
 - Blind freeze: pending
@@ -108,110 +110,110 @@ The run folder contains only run.md and, when findings exist, one file per findi
 ### Slice CLIENT-TICK and PLAYER-TICK: paired client/player tick entry and input transfer
 
 - Inventory ID(s): INV-TICK
-- Exact boundary checked: LocalClientPlayerEntity.tick() A 165-179 / B 181-195 and PlayerEntity.tick() A 174-247 / B 176-256; the applicable PlayerEntity.tick() calls `super.tick()` and updates player pose, while LocalClientPlayerEntity performs its client tick around that superclass route. Source routes then enter Entity.tick/baseTick, LivingEntity.tick/baseTick, and virtual `mobTick`; exact client/server call-order remains pending bytecode/diagnostic reconciliation where decompiler member names differ.
+- Exact behavior boundary and enclosing guards/order checked: LocalClientPlayerEntity.tick() A 165-179 / B 181-195 and PlayerEntity.tick() A 174-247 / B 176-256; the applicable PlayerEntity.tick() calls `super.tick()` and updates player pose, while LocalClientPlayerEntity performs its client tick around that superclass route. Source routes then enter Entity.tick/baseTick, LivingEntity.tick/baseTick, and virtual `mobTick`; exact client/server call-order remains pending bytecode/diagnostic reconciliation where decompiler member names differ.
 - A evidence: LocalClientPlayerEntity.java SHA-256 01a58e94d8c6ff98a8e3794227cdc76a5fcbdbad795c70c9cf28854aff9823cc; PlayerEntity.java SHA-256 e4e0fdbe07a7d0a0ae4a70cbb6739a287c9d045a4a12b409895c220b5d91fe1e.
 - B evidence: LocalClientPlayerEntity.java SHA-256 2583495f3a02b4791aa036e6a8d354d7596c4984761969a0f29b29d8d9bf42bf; PlayerEntity.java SHA-256 4ed22f6c5a3c55d67eed782070ac722201df4d624adbc90779f1fd29c2876633.
-- Producers -> consumers: client tick and player tick -> inherited Entity/LivingEntity tick/baseTick -> virtual LocalClientPlayerEntity.mobTick -> serverTickAi copies current input to LivingEntity speed/jump fields -> LivingEntity.mobTick jump/travel.
-- Parent slices/dependencies: KB-SAMPLE; input transfer and tick-body call-order still need terminal exact ranges and diagnostics closure.
-- Status: in-progress (entry windows inspected; whole route open)
-- Disposition: 1.13.2 adds water-state preparation in the PlayerEntity/Entity tick route (tracked separately as SWIM-STATE/FLUID-HEIGHT); no global call-order equivalence is claimed while this inventory remains open.
-- Finding IDs: F-WATER-STATE.
+- State producers/writers -> consumers/readers: client tick and player tick -> inherited Entity/LivingEntity tick/baseTick -> virtual LocalClientPlayerEntity.mobTick -> serverTickAi copies current input to LivingEntity speed/jump fields -> LivingEntity.mobTick jump/travel.
+- Parent slices / dependencies / closure evidence: KB-SAMPLE; input transfer and tick-body call-order still need terminal exact ranges and diagnostics closure.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): 1.13.2 adds water-state preparation in the PlayerEntity/Entity tick route (tracked separately as SWIM-STATE/FLUID-HEIGHT); no global call-order equivalence is claimed while this inventory remains open.
+- Finding IDs or checked absence/replacement path: F-WATER-STATE.
 
 ### Slice SPRINT-STATE, FLIGHT-TOGGLE, and WATER-DESCENT: local input decisions
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-EXCLUSIONS
-- Exact boundary checked: LocalClientPlayerEntity.mobTick() A 694-782 / B 698-807; setSprinting() A 444-447 / B 458-461; serverTickAi() A 631-642 / B 635-646. Differences are ordered in the same tick after KeyboardInput.tick() and item-use scaling and before superclass travel.
+- Exact behavior boundary and enclosing guards/order checked: LocalClientPlayerEntity.mobTick() A 694-782 / B 698-807; setSprinting() A 444-447 / B 458-461; serverTickAi() A 631-642 / B 635-646. Differences are ordered in the same tick after KeyboardInput.tick() and item-use scaling and before superclass travel.
 - A evidence: LocalClientPlayerEntity.java SHA-256 01a58e94d8c6ff98a8e3794227cdc76a5fcbdbad795c70c9cf28854aff9823cc.
 - B evidence: LocalClientPlayerEntity.java SHA-256 2583495f3a02b4791aa036e6a8d354d7596c4984761969a0f29b29d8d9bf42bf.
-- Producers -> consumers: key state -> `input`; `input.jumping/sneaking/movementForward`, onGround, sprint flag, collision flag, water/submerged/swimming flags, canFly and food level -> sprint/flight decisions -> movement field copy and LivingEntity travel. Food level is only the vanilla sprint eligibility predicate here; food/exhaustion simulation is excluded.
-- Parent slices/dependencies: KB-SAMPLE, SWIM-STATE, FLUID-HEIGHT, ITEM-USE-SCALE; prove state writers/timing before source closure.
+- State producers/writers -> consumers/readers: key state -> `input`; `input.jumping/sneaking/movementForward`, onGround, sprint flag, collision flag, water/submerged/swimming flags, canFly and food level -> sprint/flight decisions -> movement field copy and LivingEntity travel. Food level is only the vanilla sprint eligibility predicate here; food/exhaustion simulation is excluded.
+- Parent slices / dependencies / closure evidence: KB-SAMPLE, SWIM-STATE, FLUID-HEIGHT, ITEM-USE-SCALE; prove state writers/timing before source closure.
 - Status: in-progress
-- Disposition: A sprint starts via ground-only double tap or held sprint and stops when forward input, horizontal collision, or food/canFly gate fails. B permits double-tap while on ground or submerged, held sprint when not in water or submerged, distinguishes swimming sprint cancellation from ordinary sprint cancellation, and prevents flight double-tap toggle while swimming. B additionally applies `knockDownwards()` whenever the player is in water and sneaking (B lines 785-787); the A body has no corresponding call. These are reachable local-player movement changes; B's separate underwater visibility counter is not classified as movement.
-- Finding IDs: F-WATER-SPRINT; F-FLIGHT-TOGGLE; F-SNEAK-WATER-DESCENT.
+- Disposition and rationale (including concrete reachability/preconditions): A sprint starts via ground-only double tap or held sprint and stops when forward input, horizontal collision, or food/canFly gate fails. B permits double-tap while on ground or submerged, held sprint when not in water or submerged, distinguishes swimming sprint cancellation from ordinary sprint cancellation, and prevents flight double-tap toggle while swimming. B additionally applies `knockDownwards()` whenever the player is in water and sneaking (B lines 785-787); the A body has no corresponding call. These are reachable local-player movement changes; B's separate underwater visibility counter is not classified as movement.
+- Finding IDs or checked absence/replacement path: F-WATER-SPRINT; F-FLIGHT-TOGGLE; F-SNEAK-WATER-DESCENT.
 
 ### Slice SWIM-STATE and FLUID-HEIGHT: water sampling and swimming transition
 
 - Inventory ID(s): INV-STATE, INV-TICK, INV-WORLD-MOVEMENT
-- Exact boundary checked: Entity.baseTick() A 328 onward / B 340 onward; B Entity helper m_03231680() lines 947-951, checkWaterState() lines 961-975 and updateSwimming() lines 953-959; PlayerEntity.updateSwimming() B 1471-1476; water-depth sampler m_69693160(Tag<Fluid>) B 2509-2570 and getter m_02485546() B 2573-2575. A Entity.checkWaterState() lines 944-946 delegates to World.applyLiquidDrag(..., Material.WATER, entity); `checkWaterCollisions()` A 948-964 updates inWater.
+- Exact behavior boundary and enclosing guards/order checked: Entity.baseTick() A 328 onward / B 340 onward; B Entity helper m_03231680() lines 947-951, checkWaterState() lines 961-975 and updateSwimming() lines 953-959; PlayerEntity.updateSwimming() B 1471-1476; water-depth sampler m_69693160(Tag<Fluid>) B 2509-2570 and getter m_02485546() B 2573-2575. A Entity.checkWaterState() lines 944-946 delegates to World.applyLiquidDrag(..., Material.WATER, entity); `checkWaterCollisions()` A 948-964 updates inWater.
 - A evidence: Entity.java SHA-256 80f091bf32166c88cf8bbd31caf72d84fa16224410733c7d2a0f00563f294a0a; World.java SHA-256 e9fa9b8d6d31ad57a5b876f5f63a5e3c554a23437decf1845a493daf48233594.
 - B evidence: Entity.java SHA-256 1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269; PlayerEntity.java SHA-256 4ed22f6c5a3c55d67eed782070ac722201df4d624adbc90779f1fd29c2876633.
-- Producers -> consumers: B fluid-state grid intersection/flow calculation writes inWater and raw `f_85121000` sampled depth; Entity base tick then caches submerged-in-water state and updates swimming; PlayerEntity suppresses swimming when flying; LivingEntity.mobTick consumes sampled depth for jump selection; LocalClientPlayerEntity consumes submerged/swimming predicates for sprint and flight. Source timing indicates base-tick sampling precedes local input decisions; owner diagnostics and mapped-jar correspondence for the raw helper remain an open dependency.
-- Parent slices/dependencies: CLIENT-TICK, JUMP-GATES, FLUID-STATE, FLUID-FLOW, WATER-SPRINT; resource/flow closure pending.
+- State producers/writers -> consumers/readers: B fluid-state grid intersection/flow calculation writes inWater and raw `f_85121000` sampled depth; Entity base tick then caches submerged-in-water state and updates swimming; PlayerEntity suppresses swimming when flying; LivingEntity.mobTick consumes sampled depth for jump selection; LocalClientPlayerEntity consumes submerged/swimming predicates for sprint and flight. Source timing indicates base-tick sampling precedes local input decisions; owner diagnostics and mapped-jar correspondence for the raw helper remain an open dependency.
+- Parent slices / dependencies / closure evidence: CLIENT-TICK, JUMP-GATES, FLUID-STATE, FLUID-FLOW, WATER-SPRINT; resource/flow closure pending.
 - Status: in-progress
-- Disposition: A uses the legacy material drag callback to set water contact and has no submerged-depth/swimming state. B samples fluid states and summed flow over the entity box, stores a maximum depth, and has a distinct swimming transition (already swimming uses sprint+inWater; entering uses sprint+isSubmergedInWater; both require not riding). This directly changes player gates; the sampler's exact bytecode/member-name pairing still requires closure before freeze.
-- Finding IDs: F-WATER-STATE; F-FLUID-DRAG.
+- Disposition and rationale (including concrete reachability/preconditions): A uses the legacy material drag callback to set water contact and has no submerged-depth/swimming state. B samples fluid states and summed flow over the entity box, stores a maximum depth, and has a distinct swimming transition (already swimming uses sprint+inWater; entering uses sprint+isSubmergedInWater; both require not riding). This directly changes player gates; the sampler's exact bytecode/member-name pairing still requires closure before freeze.
+- Finding IDs or checked absence/replacement path: F-WATER-STATE; F-FLUID-DRAG.
 
 ### Slice JUMP-GATES: water-height-dependent jump selection
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-WORLD-MOVEMENT
-- Exact boundary checked: LivingEntity.mobTick() A 1827-1839 / B 1903-1917; A jumpInWater()/jumpInLava() and B m_74407200(Tag<Fluid>) exact descriptor `(Lnet/minecraft/tag/Tag;)V` confirmed in B mapped jar. The source method adds `0.04F` to velocityY for WATER and LAVA tags.
+- Exact behavior boundary and enclosing guards/order checked: LivingEntity.mobTick() A 1827-1839 / B 1903-1917; A jumpInWater()/jumpInLava() and B m_74407200(Tag<Fluid>) exact descriptor `(Lnet/minecraft/tag/Tag;)V` confirmed in B mapped jar. The source method adds `0.04F` to velocityY for WATER and LAVA tags.
 - A evidence: LivingEntity.java SHA-256 190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6.
 - B evidence: LivingEntity.java SHA-256 bb691358c9a43c9f46e85575bf4d0a4ad671d0eb912502acc3a6a3f625e42f1c.
-- Producers -> consumers: KeyboardInput/local input -> jumping field; onGround/cooldown and B fluid depth -> either water/lava impulse or ordinary jump -> velocityY -> travel. B depth is sourced by F-WATER-STATE.
-- Parent slices/dependencies: SWIM-STATE, FLUID-HEIGHT, JUMP-BOOST, VELOCITY-CUTOFF.
+- State producers/writers -> consumers/readers: KeyboardInput/local input -> jumping field; onGround/cooldown and B fluid depth -> either water/lava impulse or ordinary jump -> velocityY -> travel. B depth is sourced by F-WATER-STATE.
+- Parent slices / dependencies / closure evidence: SWIM-STATE, FLUID-HEIGHT, JUMP-BOOST, VELOCITY-CUTOFF.
 - Status: in-progress
-- Disposition: A applies a water or lava upward impulse whenever the respective `isInWater`/`isInLava` predicate holds; otherwise a grounded jump is accepted when cooldown is zero. B routes positive depth above 0.4 to water impulse, allows a ground jump in shallow depth `(0, 0.4]` when cooldown is zero, checks lava only in its non-water branch, and otherwise performs ordinary grounded jump. This creates a new water-height threshold on the reachable player jump path.
-- Finding IDs: F-WATER-JUMP.
+- Disposition and rationale (including concrete reachability/preconditions): A applies a water or lava upward impulse whenever the respective `isInWater`/`isInLava` predicate holds; otherwise a grounded jump is accepted when cooldown is zero. B routes positive depth above 0.4 to water impulse, allows a ground jump in shallow depth `(0, 0.4]` when cooldown is zero, checks lava only in its non-water branch, and otherwise performs ordinary grounded jump. This creates a new water-height threshold on the reachable player jump path.
+- Finding IDs or checked absence/replacement path: F-WATER-JUMP.
 
 ### Slice POSE-DIMENSIONS and SWIM-ACCELERATION
 
 - Inventory ID(s): INV-STATE, INV-COLLISION, INV-TICK
-- Exact boundary checked: PlayerEntity.updatePlayerPose() A 291-315 / B 334-361; PlayerEntity.moveRelative() A 1386-1410 / B 1442-1487; LivingEntity.moveRelative() A 1425-1618 / B 1478-1688. B swimming-or-spin-attack pose assigns 0.6-wide/0.6-high dimensions and checks collision fit through `world.hasNoCollisions(null, box)`; A has neither pose branch. B PlayerEntity.moveRelative adds pitch-dependent vertical motion when swimming and not riding, using look-vector Y and a 0.085/0.06 coefficient selected by the -0.2 pitch threshold.
+- Exact behavior boundary and enclosing guards/order checked: PlayerEntity.updatePlayerPose() A 291-315 / B 334-361; PlayerEntity.moveRelative() A 1386-1410 / B 1442-1487; LivingEntity.moveRelative() A 1425-1618 / B 1478-1688. B swimming-or-spin-attack pose assigns 0.6-wide/0.6-high dimensions and checks collision fit through `world.hasNoCollisions(null, box)`; A has neither pose branch. B PlayerEntity.moveRelative adds pitch-dependent vertical motion when swimming and not riding, using look-vector Y and a 0.085/0.06 coefficient selected by the -0.2 pitch threshold.
 - A evidence: PlayerEntity.java SHA-256 e4e0fdbe07a7d0a0ae4a70cbb6739a287c9d045a4a12b409895c220b5d91fe1e; LivingEntity.java SHA-256 190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6.
 - B evidence: PlayerEntity.java SHA-256 4ed22f6c5a3c55d67eed782070ac722201df4d624adbc90779f1fd29c2876633; LivingEntity.java SHA-256 bb691358c9a43c9f46e85575bf4d0a4ad671d0eb912502acc3a6a3f625e42f1c.
-- Producers -> consumers: swimming state and pose preference -> collision-tested dimension transition -> getShape/eye height/collision queries; look pitch, swimming, riding and jumping -> additive velocityY -> later travel/collision.
-- Parent slices/dependencies: SWIM-STATE, WORLD-COLLISIONS, ENTITY-MOVE-AXES, SUPPORT-CALLBACKS.
+- State producers/writers -> consumers/readers: swimming state and pose preference -> collision-tested dimension transition -> getShape/eye height/collision queries; look pitch, swimming, riding and jumping -> additive velocityY -> later travel/collision.
+- Parent slices / dependencies / closure evidence: SWIM-STATE, WORLD-COLLISIONS, ENTITY-MOVE-AXES, SUPPORT-CALLBACKS.
 - Status: in-progress
-- Disposition: B adds reachable swim pose/dimensions and a direct swimming vertical acceleration. The full pose method is bounded; all other dimension/eye-height writers and collision-query equivalence remain to be cataloged, so the parent inventory stays open.
-- Finding IDs: F-SWIM-POSE; F-SWIM-LOOK.
+- Disposition and rationale (including concrete reachability/preconditions): B adds reachable swim pose/dimensions and a direct swimming vertical acceleration. The full pose method is bounded; all other dimension/eye-height writers and collision-query equivalence remain to be cataloged, so the parent inventory stays open.
+- Finding IDs or checked absence/replacement path: F-SWIM-POSE; F-SWIM-LOOK.
 
 ### Slice TRAVEL-MODIFIERS: slow falling, elytra, fluid travel, ground/air coefficients
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact boundary checked: LivingEntity.travel()/m_74407200 body A 1425-1618 / B 1478-1688; modifiers are read in the body, with Depth Strider via EnchantmentHelper and B Dolphin's Grace, Slow Falling, Levitation and Elytra branches. Need split terminal findings by elytra, water, lava, land, effects, and exact float operation order before freeze.
+- Exact behavior boundary and enclosing guards/order checked: LivingEntity.travel()/m_74407200 body A 1425-1618 / B 1478-1688; modifiers are read in the body, with Depth Strider via EnchantmentHelper and B Dolphin's Grace, Slow Falling, Levitation and Elytra branches. Need split terminal findings by elytra, water, lava, land, effects, and exact float operation order before freeze.
 - A evidence: LivingEntity.java SHA-256 190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6.
 - B evidence: LivingEntity.java SHA-256 bb691358c9a43c9f46e85575bf4d0a4ad671d0eb912502acc3a6a3f625e42f1c.
-- Producers -> consumers: status effects/equipment/enchantment and block slipperiness -> travel branch gravity/friction/acceleration -> velocity and Entity.move.
-- Parent slices/dependencies: ELYTRA, SLOW-FALLING, LEVITATION, DEPTH-STRIDER, DOLPHINS-GRACE, ATTRIBUTES, COLLISION-SHAPES.
-- Status: in-progress (candidate paths traced; split evidence remains open)
-- Disposition: B initializes gravity factor `d=0.08`; Slow Falling with nonpositive Y sets it to 0.01 and clears fallDistance. Elytra vertical acceleration is expressed as `d * (-1.0 + n * 0.75)` instead of A's `-0.08 + m * 0.06`; the B pitch-up branch also adds a positive-horizontal-look guard before division. Water travel adds sprint/Dolphin's Grace handling, conditional gravity and terminal downward clamp; ground/air acceleration changes `0.16277136F` to `0.16277137F`; lava uses `d / 4.0`. These are source candidates requiring one finding per branch and direct effect/enchantment registration closure.
-- Finding IDs: F-SLOW-FALLING (modern-only disposition); F-ELYTRA-GLIDE-MATH; F-ELYTRA-LOOK-GUARD; F-WATER-GRAVITY; F-WATER-SPRINT-TRAVEL; F-GROUND-ACCEL.
+- State producers/writers -> consumers/readers: status effects/equipment/enchantment and block slipperiness -> travel branch gravity/friction/acceleration -> velocity and Entity.move.
+- Parent slices / dependencies / closure evidence: ELYTRA, SLOW-FALLING, LEVITATION, DEPTH-STRIDER, DOLPHINS-GRACE, ATTRIBUTES, COLLISION-SHAPES.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): B initializes gravity factor `d=0.08`; Slow Falling with nonpositive Y sets it to 0.01 and clears fallDistance. Elytra vertical acceleration is expressed as `d * (-1.0 + n * 0.75)` instead of A's `-0.08 + m * 0.06`; the B pitch-up branch also adds a positive-horizontal-look guard before division. Water travel adds sprint/Dolphin's Grace handling, conditional gravity and terminal downward clamp; ground/air acceleration changes `0.16277136F` to `0.16277137F`; lava uses `d / 4.0`. These are source candidates requiring one finding per branch and direct effect/enchantment registration closure.
+- Finding IDs or checked absence/replacement path: F-SLOW-FALLING (modern-only disposition); F-ELYTRA-GLIDE-MATH; F-ELYTRA-LOOK-GUARD; F-WATER-GRAVITY; F-WATER-SPRINT-TRAVEL; F-GROUND-ACCEL.
 
 ### Slice VELOCITY-CUTOFF and POST-TRAVEL
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-EXTERNAL
-- Exact boundary checked: LivingEntity.mobTick() A 1781-1853 / B 1852-1936. Three per-axis `<0.003` velocity zeroing checks remain textually equivalent, with shifted surrounding order. Both damp local sideways/forward movement by `0.98F`, rotation by `0.9F`, call flyingTick then moveRelative, and push colliding entities. B additionally snapshots shape before travel and performs size-change collision adjustment when spin-attack timer is positive.
+- Exact behavior boundary and enclosing guards/order checked: LivingEntity.mobTick() A 1781-1853 / B 1852-1936. Three per-axis `<0.003` velocity zeroing checks remain textually equivalent, with shifted surrounding order. Both damp local sideways/forward movement by `0.98F`, rotation by `0.9F`, call flyingTick then moveRelative, and push colliding entities. B additionally snapshots shape before travel and performs size-change collision adjustment when spin-attack timer is positive.
 - A evidence: LivingEntity.java SHA-256 190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6.
 - B evidence: LivingEntity.java SHA-256 bb691358c9a43c9f46e85575bf4d0a4ad671d0eb912502acc3a6a3f625e42f1c.
-- Producers -> consumers: external/network velocity and earlier travel -> threshold zeroing -> jump/input/travel; Riptide spin timer and pose/shape -> post-travel collision adjustment; push-away callback -> velocity writer audit.
-- Parent slices/dependencies: VELOCITY-PACKETS, PLAYER-PUSHES, LAUNCH-ITEMS, RIPTIDE, ENTITY-MOVE-AXES.
+- State producers/writers -> consumers/readers: external/network velocity and earlier travel -> threshold zeroing -> jump/input/travel; Riptide spin timer and pose/shape -> post-travel collision adjustment; push-away callback -> velocity writer audit.
+- Parent slices / dependencies / closure evidence: VELOCITY-PACKETS, PLAYER-PUSHES, LAUNCH-ITEMS, RIPTIDE, ENTITY-MOVE-AXES.
 - Status: in-progress
-- Disposition: `<0.003` is a no-difference bounded sub-slice; B's head-yaw interpolation is not a movement input, while its spin-attack shape adjustment is player-reachable only from 1.13 equipment and remains a modern-only disposition pending call closure. Push implementation remains open.
-- Finding IDs: modern-only spin-attack shape adjustment (pending exact item/source trace; not in 1.12.2 scope).
+- Disposition and rationale (including concrete reachability/preconditions): `<0.003` is a no-difference bounded sub-slice; B's head-yaw interpolation is not a movement input, while its spin-attack shape adjustment is player-reachable only from 1.13 equipment and remains a modern-only disposition pending call closure. Push implementation remains open.
+- Finding IDs or checked absence/replacement path: modern-only spin-attack shape adjustment (pending exact item/source trace; not in 1.12.2 scope).
 
 ### Slice ENTITY-MOVE-AXES and STEP-CANDIDATES
 
 - Inventory ID(s): INV-COLLISION, INV-STATE, INV-WORLD-MOVEMENT
-- Exact boundary checked: Entity.move() A 462-796 / B 473-782; includes sneak-edge probes, collision collection, vertical/X/Z offset resolution, step alternatives, flags, support checks and callbacks.
+- Exact behavior boundary and enclosing guards/order checked: Entity.move() A 462-796 / B 473-782; includes sneak-edge probes, collision collection, vertical/X/Z offset resolution, step alternatives, flags, support checks and callbacks.
 - A evidence: Entity.java SHA-256 80f091bf32166c88cf8bbd31caf72d84fa16224410733c7d2a0f00563f294a0a.
 - B evidence: Entity.java SHA-256 1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269.
-- Producers -> consumers: requested velocity/move type and current shape -> world collision candidates -> Y then X then Z clipping; step candidates may replace clipped horizontal path based on squared distance -> position, collision flags, onGround/support, velocity zeroing and block callbacks.
-- Parent slices/dependencies: WORLD-COLLISIONS, SHAPE-PROVIDERS, BLOCK-CALLBACKS, NEIGHBOR-SHAPES.
-- Status: in-progress (algorithm boundary identified; helper/world providers open)
-- Disposition: A queries `List<Box>` through `World.getCollisions` and intersects candidates sequentially; B queries voxel shapes and applies `VoxelShapes.calculateMaxOffset` per axis. Sneak-edge probe decrements by 0.05 in both. Vertical, X, Z axis order is retained; step alternatives use changed shape representation. Full semantic comparison requires helper algorithm, shape providers, border/world collision collection and block callback closure.
-- Finding IDs: F-COLLISION-REPRESENTATION.
+- State producers/writers -> consumers/readers: requested velocity/move type and current shape -> world collision candidates -> Y then X then Z clipping; step candidates may replace clipped horizontal path based on squared distance -> position, collision flags, onGround/support, velocity zeroing and block callbacks.
+- Parent slices / dependencies / closure evidence: WORLD-COLLISIONS, SHAPE-PROVIDERS, BLOCK-CALLBACKS, NEIGHBOR-SHAPES.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): A queries `List<Box>` through `World.getCollisions` and intersects candidates sequentially; B queries voxel shapes and applies `VoxelShapes.calculateMaxOffset` per axis. Sneak-edge probe decrements by 0.05 in both. Vertical, X, Z axis order is retained; step alternatives use changed shape representation. Full semantic comparison requires helper algorithm, shape providers, border/world collision collection and block callback closure.
+- Finding IDs or checked absence/replacement path: F-COLLISION-REPRESENTATION.
 
 ### Slice SUPPORT-CALLBACKS
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT, INV-STATE
-- Exact boundary checked: Entity.move() A 695-796 / B 675-782; setPositionFromShape, collision/onGround flags, support block lookup and stepped-on/beforeCollision callbacks.
+- Exact behavior boundary and enclosing guards/order checked: Entity.move() A 695-796 / B 675-782; setPositionFromShape, collision/onGround flags, support block lookup and stepped-on/beforeCollision callbacks.
 - A evidence: Entity.java SHA-256 80f091bf32166c88cf8bbd31caf72d84fa16224410733c7d2a0f00563f294a0a.
 - B evidence: Entity.java SHA-256 1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269.
-- Producers -> consumers: resolved axis offsets -> position and flags -> support block at floor(y-0.2), fence/wall/gate fallback, fall-distance callback, velocity component zeroing, beforeCollision, stepped-on and step sounds.
-- Parent slices/dependencies: ENTITY-MOVE-AXES, SHAPE-PROVIDERS, BLOCK-CALLBACKS, FALL-DISTANCE (damage excluded except direct movement state write).
-- Status: in-progress (callbacks identified; providers pending)
-- Disposition: post-resolution path has shared callback ordering with changed source APIs (`Material.AIR`/Box-era versus `isAir`/voxel-shape-era); all support block shape and callback implementations are not yet closed.
-- Finding IDs: F-COLLISION-REPRESENTATION.
+- State producers/writers -> consumers/readers: resolved axis offsets -> position and flags -> support block at floor(y-0.2), fence/wall/gate fallback, fall-distance callback, velocity component zeroing, beforeCollision, stepped-on and step sounds.
+- Parent slices / dependencies / closure evidence: ENTITY-MOVE-AXES, SHAPE-PROVIDERS, BLOCK-CALLBACKS, FALL-DISTANCE (damage excluded except direct movement state write).
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): post-resolution path has shared callback ordering with changed source APIs (`Material.AIR`/Box-era versus `isAir`/voxel-shape-era); all support block shape and callback implementations are not yet closed.
+- Finding IDs or checked absence/replacement path: F-COLLISION-REPRESENTATION.
 
 ### Shape-provider discovery inventory (enumeration, not closure)
 
@@ -221,6 +223,89 @@ The run folder contains only run.md and, when findings exist, one file per findi
 The source-level provider enumeration is driven by every `getShape`/`getCollisionShape` occurrence under each version's `net/minecraft/block` package, including state-dependent shapes. It must still be normalized into overrides versus call sites, paired by registry identity, and checked against constructors/default properties and neighbors. The 1.13.2 WorldView/World collectors return VoxelShape streams; the 1.12.2 World collector appends translated Box candidates. WorldView collision expansion, borders, entity collisions, VoxelShapes offset math, and individual neighboring block shape methods remain open.
 
 
-### Artifact-integrity hold
+### Artifact-revision provenance and limitation
 
-Source-owner notice received 2026-10-07: the shared source-owner reproducibility rerun preserved source-file/raw-input hashes but replaced derived mapped JARs in the shared cache. Initial manifest verification was valid at discovery start; it is not safe to assume those current cache artifacts still match. The exact source trees remain unchanged per notice, so source reading may continue. Artifact repair and a fresh canonical verification are required before marking any source finding accepted, freezing this report, or using mapped-jar checks as current proof. This is owned by source owner/ops and is not a discovery-local decompile/cache rewrite.
+The provisional hold is cleared: this worker verified both immutable revision snapshots and all source/raw manifests, and independent ops audit passed on 2026-10-07. Original derived mapped jars are unavailable; revised snapshots are not proven identical or metadata-only, so no original-bytecode identity claim is made. Keep this limitation in source evidence and use only the immutable snapshot paths.
+
+### Slice VELOCITY-PACKETS: authoritative entity velocity update
+
+- Inventory ID(s): INV-EXTERNAL, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: ClientPlayNetworkHandler.handleEntityVelocity() A 464-470 / B 507-513; handler resolves the packet entity and calls `lerpVelocity(packet velocity / 8000.0)` on each axis.
+- A evidence: `ready/1.12.2/ornithe-feather/net/minecraft/client/network/handler/ClientPlayNetworkHandler.java::handleEntityVelocity, lines 464-470, SHA-256 fce21d9902e555fd46545fb04bdb6c4a912eef6398790776ad1a122e09960c7c.
+- B evidence: corresponding member, lines 507-513, SHA-256 4f65502fbee6476cef0838563f03a66f07a1a9ed8c63e580f5338ba5fe274f11.
+- State producers/writers -> consumers/readers: server EntityVelocityS2CPacket -> client handler -> Entity.lerpVelocity -> Entity velocity fields -> later LivingEntity cutoff/travel and Entity.move.
+- Parent slices / dependencies / closure evidence: VELOCITY-CUTOFF; other writers/corrections remain pending.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the bounded packet application order, entity lookup, divisor and null guard are identical in A and B source. This does not close server velocity generation, teleport corrections, push writers, pistons, mounts or launch-item inputs.
+- Finding IDs or checked absence/replacement path: none for this bounded handler.
+
+### Original-jar resource data and modern-only feature dispositions
+
+- A original client jar: `artifacts/1.12.2/client.jar`, SHA-256 8ada07da5ee77dad3527bd7278fbd05ee1fc8a597813b216a871a2d7d64cc64f. `jar tf` found no `data/minecraft/tags/fluids/{water,lava}.json` entries in this jar.
+- B original client jar: `artifacts/1.13.2/client.jar`, SHA-256 3410887ba652f25792c7675bfaf9140e73b60e93cfbf113a803f8a98cb05c0f9. `data/minecraft/tags/fluids/water.json` is 94 bytes, SHA-256 698e1662335b6241879b380a58d478ee019a1e789362b004050b5ccac421ad18; entries are `minecraft:water` and `minecraft:flowing_water`. `data/minecraft/tags/fluids/lava.json` is 92 bytes, SHA-256 f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd; entries are `minecraft:lava` and `minecraft:flowing_lava`. Hashes are computed directly from original jar entries; no resource was extracted or changed.
+- B source: `tag/FluidTags.java` SHA-256 b9d4c2d93f4594f27e235e2d5973cd0c81d269597cbdc400a11333cc617247aa; `fluid/state/FluidState.java` 05e2df9377a3bc1e91645ce4282bcaa4edebe93d7ef1907407961baaecff23a6; `FluidStateImpl.java` cffddf7de4779c0d6e7508b827db506ea3b0cfe1a010fe24c2a8e042c2398b71; `WaterFluid.java` 183894d0a4f7a85becd97eb2c0f6cedc1d5adc4648dc6d3d2b5624df173df28b; `LavaFluid.java` 1db521d50ec5b5fa744b9a5151bd32e5282638355ecedb51c31e4e09f7fb2924.
+- BUBBLE-COLUMNS: B registers `Blocks.BUBBLE_COLUMN` (`Blocks.java` line 652, SHA-256 3e128c9a4f6b53e1037fb85269c4d00bc85112ae52fe48f9534232e13ee2a303); `BubbleColumnBlock.onEntityCollision` calls Entity surface/column handlers (lines 38-71; SHA-256 0320e1b70b215dfff209f8e5003b97cac3a247fd3d642597f2db8ab46d251b2e), which write movement velocity in Entity (lines 1873-1893). A `Blocks.java` SHA-256 8d34c5e531407689108668a84bb8fe705bf987b1481ae8b6d3a6e39424243e2e has no BUBBLE_COLUMN registration or class source. This is a B-only block/state; mark its upward/downward bubble push modern-only, not historical behavior for 1.12.2 maps.
+- Other remaining data: movement effects/enchantment registrations are Java-backed and still need source-member closure; check server/datapack supplied data separately. The lack of client-jar tag entries in A alone is not proof of absent server-provided state.
+
+### Slice ATTRIBUTES, SPEED-SLOWNESS and JUMP-BOOST
+
+- Inventory ID(s): INV-MODIFIERS, INV-TICK
+- Exact behavior boundary and enclosing guards/order checked: EntityAttributes.MOVEMENT_SPEED registration (A/B EntityAttributes.java line 19); PlayerEntity constructor base movement speed A line 157 / B nearby constructor; LivingEntity.setSprinting A 1295-1305 / B 1349-1359; jump() A 1398-1411 / B 1451-1464; StatusEffect speed/slowness modifier registrations A around lines 213-230 / B 209-221.
+- A evidence: PlayerEntity.java SHA-256 e4e0fdbe07a7d0a0ae4a70cbb6739a287c9d045a4a12b409895c220b5d91fe1e; LivingEntity.java 190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6; EntityAttributes.java 495f2845c167f9429611c847296cdc543cd37a6e55649ab07bbbd21ef92741da; StatusEffect.java b7953929609d29d36fb4714013870f9d3b6362b71682f3c06b597536de3eb2db.
+- B evidence: PlayerEntity.java SHA-256 4ed22f6c5a3c55d67eed782070ac722201df4d624adbc90779f1fd29c2876633; LivingEntity.java bb691358c9a43c9f46e85575bf4d0a4ad671d0eb912502acc3a6a3f625e42f1c; EntityAttributes.java 19b33da74fcfbb08b98e80c15554929229b1c3b36d009215b1803190f2ff755d; StatusEffect.java 60cc53e7233d28413d3c93292fd216babe8ea9edeb70774141b68101c515c639.
+- State producers/writers -> consumers/readers: player constructor sets movement-speed base; Speed/Slowness effect registrations add the same movement-speed modifiers (0.2F and -0.15F, operation 2); sprint setter removes/re-adds the same sprint modifier; jump() adds the same `(amplifier + 1) * 0.1F` Jump Boost term; all values feed movement input acceleration or velocityY.
+- Parent slices / dependencies / closure evidence: ATTRIBUTES, SPEED-SLOWNESS, JUMP-BOOST, SPRINT-STATE.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): bounded Java values and operations observed identical for these direct consumers. Full effect registry/application source, player base assignment, attribute synchronization/external modifiers and any relevant resource defaults remain to be closed; no whole modifier inventory conclusion is claimed.
+- Finding IDs or checked absence/replacement path: none for the bounded identical formulas.
+
+### Slice DEPTH-STRIDER aggregation
+
+- Inventory ID(s): INV-MODIFIERS, INV-TICK
+- Exact behavior boundary and enclosing guards/order checked: EnchantmentHelper.getDepthStriderLevel() A 183-185 / B 179-181 and water travel A 1557-1579 / B 1618-1649.
+- A evidence: EnchantmentHelper.java SHA-256 226243b031824fbea660520a891f461272482808318787f6c04679e9a241d9c9; LivingEntity.java SHA-256 190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6.
+- B evidence: EnchantmentHelper.java SHA-256 0c94bd4d076c2c7b39b6480dfb8c29b7e37d98817c9b878de67a0dd5c4f3a750; LivingEntity.java SHA-256 bb691358c9a43c9f46e85575bf4d0a4ad671d0eb912502acc3a6a3f625e42f1c.
+- State producers/writers -> consumers/readers: equipped enchantment levels -> cap at 3; halve while airborne; linear adjustment of water horizontal multiplier and movement acceleration. B's sprint base multiplier and Dolphin's Grace override are separate branches already called out in F-WATER-SPRINT-TRAVEL.
+- Parent slices / dependencies / closure evidence: ENCHANTMENT-REGISTRY, EQUIPMENT-SLOTS, WATER-TRAVEL.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): helper delegates to the same named level lookup, and travel's cap/air halving/linear adjustment source expressions match; enchantment registration, supported equipment slots, attribute/modifier inputs and original-data availability remain open.
+- Finding IDs or checked absence/replacement path: none for this bounded formula; F-WATER-SPRINT-TRAVEL remains independently provisional.
+
+### Modern-only modifiers and launch equipment
+
+- B `StatusEffects` registers SLOW_FALLING and DOLPHINS_GRACE (B StatusEffects.java lines 286-288; SHA-256 d982a7e051da6014286e07dcbfd36fd62dd0faa4ae5218a1c2d89bff02a78d9e); A's same source file SHA-256 65a621ba5a80957f742aa14f109224088388340d0b28b94023440ad0f8f74dd2 has no such registrations. The former selects B travel factor `d`; the latter overrides B water drag multiplier to `0.96F`. These effects are modern-only dispositions for this one-way 1.12.2 target.
+- B TridentItem.java SHA-256 97e5b7c3a84ba25c0dd229b78f571c936d7370006585c531896d5c49c76437f3 is a B-only class; its Riptide path and LivingEntity spin timer can affect velocity/pose/collision. A has no trident item or spin-attack timer path. Still trace exact registration, guards and item tags before closing INV-EXCLUSIONS; do not assign those mechanics to A-era maps.
+- B bubble-column source and registration are documented above. `data/minecraft/tags/fluids/*` entries are B-only resource-backed type groups; relevant B hashes are listed above. Original resource/source inspection found no corresponding A-era tag entries, but server-provided state remains an explicit external dependency.
+
+### Slice BLOCK-FRICTION: registered slipperiness values
+
+- Inventory ID(s): INV-MODIFIERS, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: all direct `slipperiness` assignments/defaults under `net/minecraft/block` in both source trees. A: Block default 0.6F (line 70), IceBlock 0.98F, PackedIceBlock 0.98F, SlimeBlock 0.8F. B: Block.Properties default 0.6F (line 1907), registry values ice/frosted_ice/packed_ice 0.98F and slime_block 0.8F; B-only blue_ice is 0.989F (line 1870).
+- A evidence: `Block.java` lines 70-70 and registry assignment sites; `IceBlock.java` line 23; `PackedIceBlock.java` line 10; `SlimeBlock.java` line 16; Block.java SHA-256 e4a90eca411e7b0e14f5018f7385ec29891f6cdf1a1e917fa648b5712f9b33a1; direct class assignments confirmed by source search across the exact A block package.
+- B evidence: `Block.java` lines 1068-1949, including registry values and default/property setter; SHA-256 735030e8bb5fc7ead2d6dbcb1b262a36a414b4349daf197456337f460b444cd4; property defaults and every explicit registration captured by source search across the exact B block package.
+- State producers/writers -> consumers/readers: block registry/property values -> LivingEntity ground friction lookup of block below `getShape().minY - 1.0` -> `s * 0.91F` -> ground acceleration denominator and post-travel friction.
+- Parent slices / dependencies / closure evidence: GROUND-ACCEL, SHAPE-PROVIDERS, BLOCK-REGISTRATIONS.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): default and every A-era assigned slipperiness remain 0.6F / 0.98F / 0.8F in B for corresponding blocks. Blue Ice's 0.989F is introduced only in B and is modern-only; do not map it onto an A-era block. Collision shape, neighbor interactions and other movement properties remain separate.
+- Finding IDs or checked absence/replacement path: none for shared historical friction values; modern-only Blue Ice is an exclusion disposition.
+
+### Slice PLAYER-PUSH-PRIMITIVE: direct entity-to-entity velocity push
+
+- Inventory ID(s): INV-EXTERNAL, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: PlayerEntity.push(Entity) A 1918-1922 / B 2016-2020 and Entity.push(Entity) A 1176-1207 / B 1186-1217.
+- A evidence: PlayerEntity.push lines 1918-1922, PlayerEntity.java SHA-256 e4e0fdbe07a7d0a0ae4a70cbb6739a287c9d045a4a12b409895c220b5d91fe1e; Entity.push lines 1176-1207, Entity.java SHA-256 80f091bf32166c88cf8bbd31caf72d84fa16224410733c7d2a0f00563f294a0a.
+- B evidence: PlayerEntity.push lines 2016-2020, PlayerEntity.java SHA-256 4ed22f6c5a3c55d67eed782070ac722201df4d624adbc90779f1fd29c2876633; Entity.push lines 1186-1217, Entity.java SHA-256 1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269.
+- State producers/writers -> consumers/readers: push-away call sites -> PlayerEntity sleeping guard -> Entity push distance normalization and 0.05F impulse, gated by same vehicle/noClip/passenger checks -> Entity.addVelocity changes horizontal velocity.
+- Parent slices / dependencies / closure evidence: POST-TRAVEL, ENTITY-PUSH-DISCOVERY, MOUNT-TRANSITIONS.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): both full direct push primitive bodies use the same guards, normalization, operation order, coefficient and velocity writes. This does not close which entities are enumerated, push-away call timing, server velocity synchronization, mounts or piston movement.
+- Finding IDs or checked absence/replacement path: none for the bounded primitive.
+
+### Revised derived-artifact verification (feather-r1-2026-10-07)
+
+- Source owner revision protocol: `workflows/source-campaign-2026-10-07/ARTIFACT-REVISION-2026-10-07.md` in the source-owner published worktree; revised immutable snapshots are under `build/movement-campaign-2026-10-07/revisions/derived-artifact-snapshots/feather-r1-2026-10-07/<version>/ornithe-feather/`.
+- Independent local verification: 1.12.2 snapshot SHA-256 fcc17537a14a423e2086f600047725ec1fcfd4c7fcf5c0d1a5bda491966c1b87 matched both `artifact.sha256` and `revision.json`; 1.13.2 snapshot SHA-256 b28c33e023928045c8fd7ed7727a860a6820241e371ddb16108366c6192b718c matched both records. Revision log SHA-256 on both sides matched revision.json: 33b732892a03ffac60026663f7266c20b637330db6d480b4260267861bebd40c.
+- Independently rehashed complete source trees against unchanged ready manifests: A 2,050 / 2,050 files, source-manifest SHA-256 b8a37ccfccd2aac5f40f5e34fec85873dbdfa93a266043c103e592e4a8c949da; B 2,711 / 2,711 files, source-manifest SHA-256 2c8cfb646bf622fb26ac0ca0cb5e02a354fb512e29f8b1010f1aaacd509e1211. Independently rehashed all original raw artifact-manifest entries except the mutable derived mapped-jar path: A 37 / 37 and B 41 / 41 matched; the artifact manifests and ready markers still matched their originally published hashes.
+- Verified B/A method descriptors against the revised snapshots using `javap -p -s`: `LivingEntity.jump()V`, A `jumpInWater()V`/`jumpInLava()V`, B `m_74407200(Tag)V`, and `moveRelative(FFF)V`; B Entity sampler `m_69693160(Tag)Z` and getter `m_02485546()D`. Any finding relying on these bytecode checks must cite revision ID `feather-r1-2026-10-07` and its exact snapshot hash.
+- Material limitation: original mapped jars (A `65a08f...`, B `d118dc...`) are unavailable; revised snapshots differ and are not proven identical or metadata-only. This does not invalidate unchanged source-file hashes but prevents claims of original mapped-bytecode identity. Independent ops audit passed on 2026-10-07. Original derived artifact equivalence remains unproven.
+- Do not rewrite ready markers, artifact manifests or source trees. No decompilation or cache mutation was performed by this discovery worker.
