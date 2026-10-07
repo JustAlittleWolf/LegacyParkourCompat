@@ -62,11 +62,11 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 ## Required source inventories
 
 - `INV-TICK` input, player tick/call graph, pre-travel, travel branches and post-travel: status=pending; slice_ids=S1.1,S1.2,S1.3,S1.4,S1.5,S1.6,S1.7,S3.1,S3.2,S3.3,S3.4,S3.5,S3.6; evidence=pair manifests verified; bounded source slices remain open
-- `INV-STATE` movement state writers/readers: status=pending; slice_ids=S1.2,S1.3,S1.4,S1.5,S1.6,S2.1,S2.2,S2.2a,S2.3,S2.4,S2.5,S2.6,S3.3,S3.4,S3.5,S3.6,S3.7,S4.3,S4.4,S7.1,S7.2,S7.3,S7.4; evidence=pair manifests verified; full producer/consumer inventory open
+- `INV-STATE` movement state writers/readers: status=pending; slice_ids=S1.2,S1.3,S1.4,S1.5,S1.6,S2.1,S2.2,S2.2a,S2.3,S2.3a,S2.4,S2.5,S2.6,S3.3,S3.4,S3.5,S3.6,S3.7,S4.3,S4.4,S7.1,S7.2,S7.3,S7.4; evidence=pair manifests verified; full producer/consumer inventory open
 - `INV-COLLISION` player collision/query, shapes, callbacks, registrations and neighbor dependencies: status=pending; slice_ids=S1.4,S2.2,S2.3,S4.1,S4.2,S4.3,S4.4,S4.5,S4.6,S5.1,S5.2,S5.3,S5.4,S5.5; evidence=pair manifests verified; full shape/provider inventory open
 - `INV-WORLD-MOVEMENT` block/fluid properties, subclasses, registries, data/tags and defaults: status=pending; slice_ids=S3.1,S3.5,S4.4,S4.6,S5.1,S5.2,S5.3,S5.4,S5.5,S6.3,S6.5,S6.6; evidence=pair manifests verified; resource inventory open
-- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and applications/removals/conditions: status=pending; slice_ids=S1.3,S1.4,S1.5,S2.1,S2.4,S2.5,S3.2,S3.4,S3.5,S3.7,S6.1,S6.2,S6.3,S6.4,S6.5,S6.6; evidence=pair manifests verified; modifier/data closure open
-- `INV-EXTERNAL` player-only external inputs and client consumers: status=pending; slice_ids=S1.6,S1.7,S2.2a,S7.1,S7.2,S7.3,S7.4; evidence=pair manifests verified; external-writer inventory open
+- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and applications/removals/conditions: status=pending; slice_ids=S1.3,S1.4,S1.5,S2.1,S2.3a,S2.4,S2.5,S3.2,S3.4,S3.5,S3.7,S6.1,S6.2,S6.3,S6.4,S6.5,S6.6; evidence=pair manifests verified; modifier/data closure open
+- `INV-EXTERNAL` player-only external inputs and client consumers: status=pending; slice_ids=S1.6,S1.7,S2.2a,S2.3a,S7.1,S7.2,S7.3,S7.4; evidence=pair manifests verified; external-writer inventory open
 - `INV-EXCLUSIONS` health, regeneration, hunger, food, saturation, exhaustion, damage/combat and non-player movement: status=complete; evidence=movement predicates read food level only at LocalClientPlayerEntity.mobTick A lines 696-704 / B 718-726 (source hashes under S1.2); excluded health/food simulation appears in PlayerEntity.mobTick A lines 422-430 / B 418-426 (source hashes under S1.2); direct reads remain vanilla state, producers are excluded
 
 ## Coverage ledger
@@ -218,14 +218,26 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 ### Slice S2.3: Swimming/crawling/fall-flying pose transitions and their movement gates
 
 - Inventory ID(s): INV-STATE, INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Swimming/crawling/fall-flying pose transitions and their movement gates; exact local guards and enclosing call order recorded per bounded behavior
-- A evidence: pending exact A member/body range and SHA-256 from verified source root
-- B evidence: pending exact B member/body range and SHA-256 from verified source root
-- State producers/writers -> consumers/readers: pending exact source writer/consumer closure
-- Parent slices / dependencies / closure evidence: parent/dependency links pending source inventory
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison; no equivalence inferred from prior reports
+- Exact behavior boundary and enclosing guards/order checked: swimming/crawling/fall-flying pose transitions and movement gates; bounded fall-flying activation, server revalidation, flag storage and pose consumption are recorded in S2.3a. Remaining swimming/crawling transitions and glide movement math stay in this parent slice.
+- A evidence: `1.11.2/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java::mobTick()V` lines 742-749, SHA-256 `65c2747bd8c70def6be7f41f624d4c9493342b39ae7bed7967f9ff63608f59ed`; server `ServerPlayNetworkHandler::handlePlayerMovementAction(PlayerMovementActionC2SPacket)V` lines 799-854, SHA-256 `947be17cf3d7217e7c8e563d4dd312cd133de1dc06bcd82b4431c9e5e74bc0bf`; `ServerPlayerEntity::setFlying()V`/`clearFlying()V` lines 1067-1074, SHA-256 `c2187f10b589bbfb47bef2a1b573781fecad55a13fb80c4c5dc11260d9f12197`; `LivingEntity::isFallFlying()Z` lines 2145-2147, `flyingTick()V` lines 1810-1829 and NBT flag persistence lines 468/505, SHA-256 `bb7dc6c9e423a9568d6433d51bba12e7aee4555fbf3fb3e2b87f618382279f2f`; packet enum file SHA-256 `4ee656c36ee827ade80a70c6f5052deff17aa8feb96ca6508341e590d615c341`; `ElytraItem::canFly(ItemStack)Z` lines 29-31, SHA-256 `16e02a70181c063c0643b7dfdbe17516ad46cd38053a2d88cc3fb97400652c7c`.
+- B evidence: `1.12.2/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java::mobTick()V` lines 764-771, SHA-256 `01a58e94d8c6ff98a8e3794227cdc76a5fcbdbad795c70c9cf28854aff9823cc`; server `ServerPlayNetworkHandler::handlePlayerMovementAction(PlayerMovementActionC2SPacket)V` lines 835-890, SHA-256 `77bf65b2c48ff952713942e183af1cd5fb243ad4f8fd2e53aa1b97272e7acd7c`; `ServerPlayerEntity::setFlying()V`/`clearFlying()V` lines 1188-1195, SHA-256 `ad4effc65edd98098d86af8ba725f6d6c2c94068f996739cf2734d34ecf804a9`; `LivingEntity::isFallFlying()Z` lines 2184-2186, `flyingTick()V` lines 1854-1873 and NBT flag persistence lines 471/508, SHA-256 `190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6`; packet enum file SHA-256 `4ee656c36ee827ade80a70c6f5052deff17aa8feb96ca6508341e590d615c341`; `ElytraItem::canFly(ItemStack)Z` lines 29-31, SHA-256 `16e02a70181c063c0643b7dfdbe17516ad46cd38053a2d88cc3fb97400652c7c`.
+- State producers/writers -> consumers/readers: S2.3a traces local activation request, server-side validation, player flag writes/clears, `LivingEntity` flag read and Elytra durability check. The tree scan found flag-7 writes in `PlayerEntity.moveRelative`, `LivingEntity` NBT restore / flying tick, and `ServerPlayerEntity.setFlying` / `clearFlying` in both releases; the movement-related `moveRelative` difference stays under S3.2/`DEP-RELATIVE-MOVE`.
+- Parent slices / dependencies / closure evidence: S2.3a closes only the fall-flying state-entry/revalidation path. `DEP-RELATIVE-MOVE` remains open for glide motion; `DEP-COLLISION-SHAPES` and `DEP-MODIFIER-DATA` remain open for pose clearance and equipment/resource closure. S1.7 remains open for broader packet authority.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the fall-flight request and server transition methods match. The client request requires jump while airborne, descending, not already fall-flying and not in abilities flight; the server independently checks airborne, descending, not already fall-flying, not in water, and a usable Elytra chest item. Matching state-entry code does not close glide math or swimming/crawling behavior.
 - Finding IDs or checked absence/replacement path: none assigned
+
+### Slice S2.3a: Fall-flying activation, server revalidation and state flag
+
+- Inventory ID(s): INV-STATE, INV-EXTERNAL, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: local player START_FALL_FLYING request; server packet handler guards and set/clear transition; fall-flying flag consumer, flight tick eligibility/durability check and NBT persistence. Glide velocity math and pose collision-provider closure are excluded.
+- A evidence: `1.11.2/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java::mobTick()V` lines 742-749, SHA-256 `65c2747bd8c70def6be7f41f624d4c9493342b39ae7bed7967f9ff63608f59ed`; `ServerPlayNetworkHandler.java::handlePlayerMovementAction(...)` lines 799-854, SHA-256 `947be17cf3d7217e7c8e563d4dd312cd133de1dc06bcd82b4431c9e5e74bc0bf`; `ServerPlayerEntity.java::setFlying()`/`clearFlying()` lines 1067-1074, SHA-256 `c2187f10b589bbfb47bef2a1b573781fecad55a13fb80c4c5dc11260d9f12197`; `LivingEntity.java::isFallFlying()` lines 2145-2147 and `flyingTick()` lines 1810-1829, SHA-256 `bb7dc6c9e423a9568d6433d51bba12e7aee4555fbf3fb3e2b87f618382279f2f`; `PlayerMovementActionC2SPacket.java` SHA-256 `4ee656c36ee827ade80a70c6f5052deff17aa8feb96ca6508341e590d615c341`; `ElytraItem.java::canFly(ItemStack)Z` lines 29-31, SHA-256 `16e02a70181c063c0643b7dfdbe17516ad46cd38053a2d88cc3fb97400652c7c`.
+- B evidence: `1.12.2/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java::mobTick()V` lines 764-771, SHA-256 `01a58e94d8c6ff98a8e3794227cdc76a5fcbdbad795c70c9cf28854aff9823cc`; `ServerPlayNetworkHandler.java::handlePlayerMovementAction(...)` lines 835-890, SHA-256 `77bf65b2c48ff952713942e183af1cd5fb243ad4f8fd2e53aa1b97272e7acd7c`; `ServerPlayerEntity.java::setFlying()`/`clearFlying()` lines 1188-1195, SHA-256 `ad4effc65edd98098d86af8ba725f6d6c2c94068f996739cf2734d34ecf804a9`; `LivingEntity.java::isFallFlying()` lines 2184-2186 and `flyingTick()` lines 1854-1873, SHA-256 `190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6`; `PlayerMovementActionC2SPacket.java` SHA-256 `4ee656c36ee827ade80a70c6f5052deff17aa8feb96ca6508341e590d615c341`; `ElytraItem.java::canFly(ItemStack)Z` lines 29-31, SHA-256 `16e02a70181c063c0643b7dfdbe17516ad46cd38053a2d88cc3fb97400652c7c`.
+- State producers/writers -> consumers/readers: client sends the common enum action; handler calls the matching `ServerPlayerEntity` transition; both transition methods write flag 7; `LivingEntity.isFallFlying()` reads flag 7; `flyingTick()` consumes it and damages Elytra every 20 eligible flight ticks server-side; NBT stores/restores the flag. Full-tree `setFlag(7)` scan found corresponding writes in PlayerEntity, LivingEntity and ServerPlayerEntity for each version.
+- Parent slices / dependencies / closure evidence: bounded activation and flag path compared; `DEP-RELATIVE-MOVE` remains open for PlayerEntity movement integration and glide math; `DEP-COLLISION-SHAPES` and `DEP-MODIFIER-DATA` remain open for pose clearance and Elytra/item closure; S1.7 packet-authority inventory remains open.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): within the stated activation and server-validation preconditions, packet action, server acceptance gates, flag transitions, flag reader, durability cadence and persistence match. This establishes no pair-specific difference for this state path only; it does not infer equal glide movement.
+- Finding IDs or checked absence/replacement path: none; paired methods and flag writers were directly compared.
 
 ### Slice S2.4: Active item use and direct movement slowdown state
 
@@ -629,8 +641,8 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 
 ## Resume checkpoint
 
-- Last completed slice: S2.2a; S1.7 and S2.2 remain in-progress; S1.2a and S1.2b have bounded not-applicable dispositions.
-- Next bounded slice and exact files/members/body ranges to open: close the S2.2 clearance query's shape/provider dependency and finish its remaining player state-writer scan; then finish S1.7 packet-to-entity dispatch and remaining local movement-state writers.
+- Last completed slice: S2.2a and S2.3a; S1.7, S2.2 and S2.3 remain in-progress; S1.2a and S1.2b have bounded not-applicable dispositions.
+- Next bounded slice and exact files/members/body ranges to open: close S2.2's `World.getCollisions(Box)` shape/provider dependency and finish its player state-writer scan; then compare the remaining `PlayerEntity.updatePlayerPose` inputs and swimming/crawling transition writers in both `PlayerEntity.java` / `LivingEntity.java` trees, keeping `LivingEntity.travel` glide movement under S3.6 and `PlayerEntity.moveRelative` under S3.2/`DEP-RELATIVE-MOVE`; then resume S1.7 packet-to-entity dispatch and remaining local movement-state writers.
 - Outstanding dependencies and owners: listed above; discovery author owns source inventory; artifact provenance is independently verified; blind finding reviewer and full-pair reviewer assignment pending coordinator.
 - Current assumptions requiring verification: all prior findings and no-difference claims remain unaccepted; every cited body still requires direct review despite ready tree hashes.
 
@@ -731,10 +743,10 @@ Append-only source-review history. An accepted finding snapshot would release on
 
 ## Source audit closure
 
-- Coverage counts by status: 33 pending; 2 in-progress; 7 compared-no-difference; 2 not-applicable; 1 findings; 0 blocked.
+- Coverage counts by status: 32 pending; 3 in-progress; 8 compared-no-difference; 2 not-applicable; 1 findings; 0 blocked (46 slices total).
 - Required inventory status/evidence: INV-EXCLUSIONS complete; all other inventories pending with mapped slice IDs.
 - Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS, DEP-RELATIVE-MOVE
-- Unresolved gaps: all stages beyond bounded keyboard input and UI/tutor dispositions; exact methods, state producers/consumers, shapes/registries/resources, external writers and historical candidates remain open.
+- Unresolved gaps: all stages beyond bounded keyboard input, UI/tutor dispositions and fall-flying state entry; S2.2 shape providers, swimming/crawling transitions, glide movement, exact state producers/consumers, registries/resources, external writers and historical candidates remain open.
 - Evidence/hash/correspondence audit: source manifests, every source file, all raw-input entries and both revised artifact snapshots freshly verified under `feather-r1-2026-10-07`; independent ops audit passed; original derived mapped JARs unavailable; equivalence unproven; remaining source evidence pending.
 - Blind freeze: pending
 - Implementation reconciliation: pending and deferred
