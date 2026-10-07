@@ -200,7 +200,7 @@ Open: D-INPUT-ASSIGNMENTS,D-ENTITY-COLLISIONS,D-SHAPE-PROVIDERS,D-BORDER-MOVE-PA
 
 ## Source audit closure
 
-- Coverage counts: pending=2; in-progress=3; compared-no-difference=1; findings=5; not-applicable=0; blocked=0.
+- Coverage counts: pending=2; in-progress=4; compared-no-difference=0; findings=5; not-applicable=0; blocked=0.
 - Required inventories: all seven pending.
 - Open dependencies: above.
 - Unresolved gaps: partial; resources, shape providers, external inputs and full call graph open.
