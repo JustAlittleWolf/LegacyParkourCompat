@@ -35,8 +35,8 @@ Each inventory is a top-level map to bounded coverage-slice IDs, not a single br
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending | complete; slice_ids=<...>; evidence=<...>
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending | complete; slice_ids=<...>; evidence=<...>
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending | complete; slice_ids=<...>; evidence=<...>
-- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, such as corrections, pushes, pistons and mounts: status=pending | complete; slice_ids=<...>; evidence=<...>
-- `INV-EXCLUSIONS` explicit scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending | complete; evidence=<...>; explain any direct vanilla-state reads that remain in movement predicates.
+- `INV-EXTERNAL` player-only external movement inputs and direct player velocity/impulse/knockback application, plus in-scope player-facing transitions; exclude non-player and vehicle physics: status=pending | complete; slice_ids=<...>; evidence=<...>
+- `INV-EXCLUSIONS` explicit scope audit for health/food state production, attack/damage resolution, non-player movement and vehicle physics. Direct player-motion response remains in scope even when combat can trigger it: status=pending | complete; evidence=<...>; explain direct vanilla-state reads without emulating their producers.
 
 ## Coverage ledger
 
