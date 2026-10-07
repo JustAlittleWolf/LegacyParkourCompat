@@ -21,7 +21,7 @@ SHA-256; paths relative to repository. Each 41-entry artifact manifest and sourc
 ## Blind-discovery freeze
 
 - Status: frozen
-- Freeze commit/checkpoint and timestamp: commit adding this run and finding files; hash recorded in next metadata checkpoint; 2026-10-07 Europe/Vienna.
+- Freeze commit/checkpoint and timestamp: 3bc0793 (catalog freeze commit; this metadata update is a follow-up checkpoint); 2026-10-07 Europe/Vienna.
 - Evidence inventory and finding IDs included at freeze: F-001..F-005; T-SPRINT,T-ELYTRA,T-AUTOJUMP-ORDER,T-AUTOJUMP-BORDER,T-FALL-RESET,T-EDGE-GATE.
 - Old mod code and isolated wiki audit outputs not opened before freeze: confirmed; prior report used for navigation only.
 - Source/mapping hashes: artifacts and source hashes above.
