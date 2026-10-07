@@ -2,7 +2,7 @@
 
 - Run status: active
 - Scope: source-only player movement; older A = exact 1.21.3; newer B = exact 1.21.4. Direct player motion, velocity and knockback response remain in scope even when combat can trigger them. Health, regeneration, hunger, food, saturation, exhaustion, attack/damage resolution, modern-only blocks/features, non-player movement and vehicle physics are out of scope; movement predicates may read vanilla health/food state.
-- Repository revision and start date: base `002137b227676caea77f6832b9f4c8d0b6200bff` (`main`); 2026-10-07. Current report branch checkpoint: `0a1a5c1`.
+- Repository revision and start date: base `002137b227676caea77f6832b9f4c8d0b6200bff` (`main`); 2026-10-07. Current report branch checkpoint before this source batch: `10d68d5`.
 - Selected namespace and alignment: release-specific official Mojang mappings (`mojmap`) for both exact releases; namespace and exact IDs verified in both readiness and provenance JSONs.
 - Source preparation owner / command / log / readiness marker: shared source owner; `.\gradlew.bat decompileMinecraft --versions=1.21.1,1.21.3,1.21.4,1.21.5 --mappings=mojmap --decompiler-heap=4G --output-root=<campaign staging> --cache-directory=<campaign artifacts>`; log `build/movement-campaign-2026-10-07/staging/mojmap-1.21.1-to-1.21.5-cd5a99cb1024417c9d370097c886a131/gradle.full.log`; both markers are `ready` and exact IDs match.
 - Toolchain/decompiler/remapper versions and options: Gradle 9.7.1; decompiler JVM Java 25.0.3+9-LTS; Vineflower 1.12.0, Tiny Remapper 0.14.1, Mapping IO 0.9.1, ASM 9.10.1, Gson 2.14.0; 4G heap.
@@ -115,6 +115,18 @@ Both provenance records point to the same exact batch and successful full Gradle
 - Disposition and rationale (including concrete reachability/preconditions): if a local player is in the ticking entity list and `clientLoaded` is false with timeout above zero, A reaches inherited player/AI/movement tick while B only decrements the timer and returns. The receiving-level screen does not pause the world tick. If level readiness sets the flag, B resumes on the next entity tick; if not, the timer reaches zero on the 60th local-player tick and the guard permits inherited ticking that same tick.
 - Finding IDs or checked absence/replacement path: [F-S1-01](findings/F-S1-01-load-state-defers-local-movement-tick.md). A checked path: `LocalPlayer.tick()` calls `super.tick()` unconditionally; A `Player` has no client-loaded field or methods; A `ClientPacketListener.tick()` only advances the same load manager and never gates the local-player tick.
 
+### Slice S1-05: local jump, flight-toggle and fall-flight input transitions
+
+- Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-EXTERNAL`
+- Exact behavior boundary and enclosing guards/order checked: compare the local jump edge, auto-jump override, abilities flight toggle and its grounded jump, fall-flight start request, water descent, and direct vertical flight impulse through the ordinary `super.aiStep()` call. The rideable jump-charge/vehicle packet branch is excluded with vehicle physics.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.21.3/mojmap/net/minecraft/client/player/LocalPlayer.java::aiStep()`, auto-jump lines 667-672, jump/flight transition lines 710-765 and inherited tail lines 795-798, SHA-256 `fbd40f1f47adfa66dda9b15188e5dce82af3e8e8d7c3dd0543e602a354ad3fe0`; player glide gate `Player#tryToStartFallFlying()`, lines 1525-1533, SHA-256 `a803203e92aa4729d5f5c9b16085b6a43ce51d9907d309eb96736e9c7c1340de`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.21.4/mojmap/net/minecraft/client/player/LocalPlayer.java::aiStep()`, auto-jump lines 681-686, jump/flight transition lines 726-779 and inherited tail lines 809-812, SHA-256 `145686ebdc7f0d12a64070309073665eb8695b7e09911a723e86113a77d04611`; player glide gate `Player#tryToStartFallFlying()`, lines 1528-1536, SHA-256 `c45f41b9784ce50a88a498e84a13edcef0a23e175233d726ed7f90940f19ebc1`.
+- State producers/writers -> consumers/readers: sampled jump/shift buttons and auto-jump timer -> local ability toggle, `jumpFromGround`, glide-start command, water descent or direct vertical velocity write -> `super.aiStep()` and the subsequent inherited jump/travel dispatch. Player glide eligibility uses the existing glide equipment/pose and water predicates; exact glide entry body is paired above.
+- Parent slices / dependencies / closure evidence: `S1-01`, `S1-04`, `S3-01`; keyboard input closure is in S1-01, inherited jump/travel dispatch in S3-01. The independent A/B body order and expressions in this bounded local jump/flight section are unchanged. `DEP-VEHICLE-SPRINT`'s vehicle movement remains outside this slice.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for the same local jump/shift input, auto-jump timer, abilities and glide eligibility, both bodies use the same edge checks, timer transitions, calls and arithmetic in the same order. The S1-03 sprint predicate changes occur before this section and are reported there; this row makes no claim about vehicle jump physics or the rest of inherited travel.
+- Finding IDs or checked absence/replacement path: no difference in this bounded local jump/flight transition path.
+
 ### Slice S3-01: LivingEntity pre-travel velocity cutoff and input dispatch order
 
 - Inventory ID(s): `INV-TICK`, `INV-STATE`
@@ -126,6 +138,54 @@ Both provenance records point to the same exact batch and successful full Gradle
 - Status: compared-no-difference
 - Disposition and rationale (including concrete reachability/preconditions): paired body expressions, comparisons, guards and ordering match exactly for this bounded section; only original line offsets differ. This is not a claim that the remaining travel/jump/helper dependency graph is equivalent.
 - Finding IDs or checked absence/replacement path: none for this bounded slice.
+
+### Slice S3-02: grounded/air travel branch and friction movement input
+
+- Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-COLLISION`, `INV-WORLD-MOVEMENT`, `INV-MODIFIERS`
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.travel()` branch selection and ordinary `travelInAir()`, including block friction lookup, relative movement, climbable/powder-snow vertical handling, levitation/gravity selection and post-move friction attenuation.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.21.3/mojmap/net/minecraft/world/entity/LivingEntity.java::travel()`, lines 2178-2190; `travelInAir()`, lines 2191-2215; `handleRelativeFrictionAndCalculateMovement()`, lines 2351-2363; SHA-256 `087390495f4fdfd14b9e12230e7aea4fdc50913bb4d1d91119e72892881cfc52`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.21.4/mojmap/net/minecraft/world/entity/LivingEntity.java::travel()`, lines 2189-2201; `travelInAir()`, lines 2202-2226; `handleRelativeFrictionAndCalculateMovement()`, lines 2362-2374; SHA-256 `e62ce650af0a5ac97e4d0a2ba7cad4ba68a8d098525609f8b5b6976a8ab0ae30`.
+- State producers/writers -> consumers/readers: post-jump delta and input vector -> friction-scaled `moveRelative` -> climbable adjustment -> `Entity.move(SELF, delta)` collision resolution -> levitation/effective-gravity selection -> final per-axis friction write. Ground state, block friction, movement attributes and status effects are inputs; collision and resource providers remain separate dependent inventories.
+- Parent slices / dependencies / closure evidence: `S3-01`; paired travel selectors and these method bodies preserve conditions, expressions and operation order. Entity collision implementation, block friction source data and modifier resource closure remain in `INV-COLLISION`, `INV-WORLD-MOVEMENT` and `INV-MODIFIERS`.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for a locally controlled player not routed to fluid or fall-flight travel, both versions select the same ground/air friction, move and gravity sequence. The paired bounded bodies match; no equivalence claim is made for collision resolution or friction providers.
+- Finding IDs or checked absence/replacement path: no difference in this bounded ordinary travel branch.
+
+### Slice S3-03: water and lava travel branch
+
+- Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-COLLISION`, `INV-WORLD-MOVEMENT`, `INV-MODIFIERS`
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.travel()` fluid selection and `travelInFluid()` water/lava branches, including sprint slowdown, Water Movement Efficiency, Dolphin's Grace, climb-up, lava jump-threshold damping, fluid falling adjustment and free-space wall lift.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.21.3/mojmap/net/minecraft/world/entity/LivingEntity.java::travel()`, lines 2178-2190; `travelInFluid()`, lines 2216-2267; `getFluidFallingAdjustedMovement()`, lines 2364-2378; SHA-256 `087390495f4fdfd14b9e12230e7aea4fdc50913bb4d1d91119e72892881cfc52`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.21.4/mojmap/net/minecraft/world/entity/LivingEntity.java::travel()`, lines 2189-2201; `travelInFluid()`, lines 2227-2278; `getFluidFallingAdjustedMovement()`, lines 2375-2389; SHA-256 `e62ce650af0a5ac97e4d0a2ba7cad4ba68a8d098525609f8b5b6976a8ab0ae30`.
+- State producers/writers -> consumers/readers: sampled input, sprint flag, fluid kind/height, on-ground state, water slowdown, movement speed, Water Movement Efficiency, Dolphin's Grace and effective gravity -> relative movement and collision-resolved move -> fluid-specific damping/falling adjustment -> horizontal-collision free-space test and vertical lift. Fluid-state production, collision and modifier sources are separately inventoried.
+- Parent slices / dependencies / closure evidence: `S3-01`, `S3-02`; `travelInFluid` and `getFluidFallingAdjustedMovement` paired bodies preserve branch guards, constants and operation order. Fluid tags/data, attribute/effect lifecycle and Entity collision implementation remain open dependencies outside the compared bodies.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): when the local player is in water or lava, is affected by fluids and cannot stand on the current fluid, A and B execute the same water/lava branch order and formulas. This excludes changes to the upstream production of fluid flags and the downstream collision engine.
+- Finding IDs or checked absence/replacement path: no difference in the bounded fluid travel branch.
+
+### Slice S3-04: fall-flight movement sequence
+
+- Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-COLLISION`, `INV-MODIFIERS`
+- Exact behavior boundary and enclosing guards/order checked: `travel()` fall-flight branch, `travelFallFlying()` and `updateFallFlyingMovement()` through velocity update and move; post-move wall collision branch is compared only for its movement-independent call/guard, while damage resolution is excluded.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.21.3/mojmap/net/minecraft/world/entity/LivingEntity.java::travel()`, lines 2178-2190; `travelFallFlying()`, lines 2268-2278; `updateFallFlyingMovement()`, lines 2279-2303; SHA-256 `087390495f4fdfd14b9e12230e7aea4fdc50913bb4d1d91119e72892881cfc52`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.21.4/mojmap/net/minecraft/world/entity/LivingEntity.java::travel()`, lines 2189-2201; `travelFallFlying()`, lines 2279-2289; `updateFallFlyingMovement()`, lines 2290-2314; SHA-256 `e62ce650af0a5ac97e4d0a2ba7cad4ba68a8d098525609f8b5b6976a8ab0ae30`.
+- State producers/writers -> consumers/readers: fall-flight flag and look direction, pitch, current delta and effective gravity -> lift/dive/steer calculations -> 0.99/0.98 drag -> self move and horizontal-collision observation. Entity collision and wall-damage resolution are separately scoped.
+- Parent slices / dependencies / closure evidence: `S1-05`, `S3-01`; fall-flight input entry and travel dispatch are paired, and the movement formulas/operation order are unchanged. Collision mechanics remain open under `INV-COLLISION`.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): when the player is fall-flying and reaches `travelFallFlying()`, both versions apply the same gravity correction, directional lift/dive/steering, drag, and move order. The guarded server-side fly-into-wall damage call is outside damage-resolution scope.
+- Finding IDs or checked absence/replacement path: no movement difference in the bounded fall-flight travel formulas.
+
+### Slice S3-05: ground jump impulse and liquid vertical impulses
+
+- Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-MODIFIERS`
+- Exact behavior boundary and enclosing guards/order checked: `jumpFromGround()` jump-power threshold, vertical max, sprint impulse and impulse flag; `goDownInWater()` and `jumpInLiquid()` direct vertical additions; `getEffectiveGravity()` slow-falling selection.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.21.3/mojmap/net/minecraft/world/entity/LivingEntity.java`, lines 2138-2177, SHA-256 `087390495f4fdfd14b9e12230e7aea4fdc50913bb4d1d91119e72892881cfc52`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.21.4/mojmap/net/minecraft/world/entity/LivingEntity.java`, lines 2149-2188, SHA-256 `e62ce650af0a5ac97e4d0a2ba7cad4ba68a8d098525609f8b5b6976a8ab0ae30`.
+- State producers/writers -> consumers/readers: jump input and jump-power sources, sprint flag, current Y velocity and slow-falling effect -> direct delta movement/impulse writes -> S3-01 jump/travel dispatch. The jump-power attribute/effect sources remain under modifier inventory.
+- Parent slices / dependencies / closure evidence: `S1-05`, `S3-01`; paired method bodies match by operation, threshold and order. `DEP-MODIFIERS` remains open for other movement attributes/effects.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): when the inherited jump branch runs and jump power exceeds `1.0E-5F`, both versions apply the same vertical maximum, sprint-direction impulse and `hasImpulse` write; liquid vertical impulses and slow-falling gravity are also unchanged.
+- Finding IDs or checked absence/replacement path: no difference in these bounded jump and vertical-adjustment methods.
 
 ## Dependency queue and blockers
 
@@ -176,7 +236,7 @@ Both provenance records point to the same exact batch and successful full Gradle
 
 ## Source audit closure
 
-- Coverage counts by status: 3 compared-no-difference; 0 in-progress; 2 findings; additional required slices not yet enumerated.
+- Coverage counts by status: 8 compared-no-difference; 0 in-progress; 2 findings; additional required slices not yet enumerated.
 - Required inventory status and evidence: all inventories remain pending; see inventory map and bounded slices.
 - Open dependencies: `DEP-TRAVEL`, `DEP-COLLISION`, `DEP-WORLD-DATA`, `DEP-MODIFIERS`, `DEP-EXTERNAL`.
 - Unresolved gaps and limits: remaining Stage 1 methods and all unenumerated Stage 2-7 sources/resources.
