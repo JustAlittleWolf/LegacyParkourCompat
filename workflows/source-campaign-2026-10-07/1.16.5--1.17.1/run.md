@@ -261,14 +261,14 @@ Each entry is a bounded behavior slice, not an entire class/stage/travel method.
 ### Slice S3-05: Jump and sprint-jump power
 
 - Inventory ID(s): INV-TICK; INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
-- A evidence: pending source readiness; no range accepted.
-- B evidence: pending source readiness; no range accepted.
-- State producers/writers -> consumers/readers: pending paired inventory.
-- Parent slices / dependencies / closure evidence: pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
-- Finding IDs or checked absence/replacement path: pending.
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.getJumpPower`, Jump Boost addition and `jumpFromGround` vertical delta write, sprint-conditioned horizontal impulse, and the Player override's post-jump statistics/exhaustion wrapper. Reachability is the ordinary `LivingEntity.aiStep` ground or shallow-water jump branch with jumping enabled and `noJumpDelay == 0`, as traced in S1-04.
+- A evidence: `net/minecraft/world/entity/LivingEntity.java#getJumpPower/#jumpFromGround` lines 1878-1896; `net/minecraft/world/entity/player/Player.java#jumpFromGround` lines 1376-1384. LivingEntity and Player hashes are in the foundational source table above.
+- B evidence: `net/minecraft/world/entity/LivingEntity.java#getJumpPower/#getJumpBoostPower/#jumpFromGround` lines 1967-1985; `net/minecraft/world/entity/player/Player.java#jumpFromGround` lines 1398-1406. LivingEntity and Player hashes are in the foundational source table above.
+- State producers/writers -> consumers/readers: the block jump factor supplies the base `0.42F * factor`; when Jump Boost is active, A adds `0.1F * (amplifier + 1)` into a float accumulator, while B returns the float-evaluated effect amount widened to double and adds it to the widened float base. Both write the resulting y delta before applying the same sprint-only horizontal impulse (`0.2F` along yaw) and set `hasImpulse=true`. Player's override then performs matching jump-stat and exhaustion calls; their food effects are out of scope. The changed vertical delta is carried into the later travel call. Input/cooldown/branch reachability is traced in S1-04; block factor and effect provenance remain S4/S5/S6 dependencies.
+- Parent slices / dependencies / closure evidence: S1-01/S1-02/S1-04 establish input, tick order, branch guards and the candidate; S3-01/S3-04 cover travel dispatch and resulting vertical movement; S4/S5 close support and block-jump-factor sources; S6 closes Jump Boost effect identity/amplifier and movement modifiers; S7 closes external velocity writers.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): candidate `CD-S1-04-01` is source-confirmed in the jump writer. With block jump factor 1 and Jump Boost I, A writes float-rounded `0.5199999809265137`, while B writes the sum of the two float operands as double, `0.5199999883770943`. The jump branch is reachable for a client-controlled player with jumping true, the ground/shallow-fluid guard satisfied, and no jump delay. Sprint horizontal impulse and Player wrapper statements match; B's `getYRot()` accessor is a direct getter of the same field. The candidate remains pending block-factor/effect producer closure and full travel-consumer closure.
+- Finding IDs or checked absence/replacement path: candidate `CD-S1-04-01` — Jump Boost vertical impulse float-versus-double accumulation; same evidence as S1-04. Checked absence for the paired sprint-jump horizontal impulse and Player wrapper.
 
 ### Slice S3-06: Climbable travel
 
@@ -524,8 +524,8 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ## Resume checkpoint
 
-- Last completed slices: S3-01 travel dispatch/pre-branch comparison and S3-03 air-speed comparison; no dispatch or stored-air-speed delta found. S3-04 is in-progress with conditional minY candidate `CD-S3-04-01`. Source pair verified; S1-01..S1-06, S2-01..S2-03, and S3-02 remain in-progress pending their listed dependencies.
-- Next bounded slice: continue S3-02 closure for powder-snow support applicability and external friction writers, then close S3-04 build-height applicability before S3-05 jump power; S3-07 owns fluid gravity and S3-09 owns the Player post-super bob and B-only freezing stage. Retain S1/S2 slices as in-progress until input/pose, tick-membership, ability, speed, fluid/collision, modifier, item, mount, resize and external-writer dependencies close.
+- Last completed comparisons: S3-01 travel dispatch/pre-branch and S3-03 air-speed; no dispatch or stored-air-speed delta found. S3-02 remains in-progress with B-only powder-snow route `CD-S3-02-01`; S3-04 remains in-progress with conditional minY candidate `CD-S3-04-01`; S3-05 traces candidate `CD-S1-04-01`. Source pair verified; S1-01..S1-06 and S2-01..S2-03 remain in-progress pending their listed dependencies.
+- Next bounded slice: continue S3-02 closure for powder-snow support applicability and external friction writers, then close S3-04 build-height applicability and S3-05 block/effect dependencies before S3-06 climbable travel. S3-07 owns fluid gravity and S3-09 owns the Player post-super bob and B-only freezing stage. Retain S1/S2 slices as in-progress until input/pose, tick-membership, ability, speed, fluid/collision, modifier, item, mount, resize and external-writer dependencies close.
 - Outstanding dependencies and owners: source-owner publication is complete; source closure remains with this run, including S1-06 entity-tick membership/passenger scheduling and the remaining movement/resource inventories.
 - Assumptions requiring verification: no unresolved source-root or namespace assumptions; verify every newly selected source file against its manifest as slices are opened.
 
@@ -548,10 +548,10 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ## Source audit closure
 
-- Coverage counts by status: 21 pending, 11 in-progress, 2 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
+- Coverage counts by status: 20 pending, 12 in-progress, 2 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
 - Required inventory status and evidence: all seven pending; evidence pending.
 - Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; S1-05 abilities, Elytra/item state and travel/external writers; S1-06 chunk membership, passenger and server packet/correction closure; S2-01 collision-box and synchronized pose/position closure; S2-02 eye-height consumers; S2-03 item-use/shift state writers and travel consumers; S3-02 powder-snow support applicability and discard-friction player reachability; S3-04 dimension minY applicability; RESOURCE-INVENTORY and movement-diagnostic scope closure.
-- Unresolved gaps and limits: S1-01..S1-06/S2-01..S2-03, S3-02 and S3-04 dependency closure, and the remaining 32 source slices (21 pending, 11 in-progress) are open.
+- Unresolved gaps and limits: S1-01..S1-06/S2-01..S2-03, S3-02/S3-04/S3-05 dependency closure, and the remaining 32 source slices (20 pending, 12 in-progress) are open.
 - Evidence/hash/correspondence audit: not started.
 - Blind freeze: pending.
 - Implementation reconciliation: pending.
