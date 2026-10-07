@@ -5,21 +5,51 @@
 - Track: source-only discovery; no wiki/MCPK, release-note mechanics, or mod implementation consulted
 - Repository base: `main` at `002137b227676caea77f6832b9f4c8d0b6200bff`; task branch `feat/source-discovery-movement-source-1-9-4-1-10-2`
 - Start date: 2026-10-07
+- Discovery author(s): Codex source-discovery worker
+- Independent reviewer (must differ from discovery authors): pending assignment
 - Source-only constraint: do not read or change runtime implementation; do not launch tests, clients, TAS, Gym, servers or Docker
 
 ## Artifact manifest
 
-Source publication is pending from the designated source owner. No source tree is treated as ready by directory presence or by the historical pair report. Required next action: consume the owner's validated ready JSON, verify requested and resolved IDs are exactly 1.9.4 and 1.10.2, verify per-side namespace and SHA-256 artifacts, and inspect diagnostics for every cited method body before using source evidence.
+The source owner published both exact pairs. The `ready` markers, source manifests, artifact manifests and diagnostics were read from the canonical campaign output and their recorded SHA-256 values match. Both ready records say `status=ready`; `versionId` and `versionMetadataId` exactly match the requested release. No source tree is accepted on directory presence alone.
 
-- Candidate aligned namespace: explicit Ornithe Feather on both releases. The pair predates Mojmap/native-unobfuscated official names; do not mix mapping families. Candidate mapping resolution is not yet evidence.
-- A (1.9.4): exact client jar, mapping artifact/build, mapping file, remapped jar, source root, toolchain, decompiler log and hashes: pending validated source-owner record.
-- B (1.10.2): exact client jar, mapping artifact/build, mapping file, remapped jar, source root, toolchain, decompiler log and hashes: pending validated source-owner record.
-- Relevant source-body error/warning overlap and bytecode follow-up: pending source-owner diagnostics and method inventory.
-- Resource provenance: pending; inspect only jar entries that become relevant through reachable movement dependencies.
+- Selected aligned namespace: Ornithe Feather (`ornithe-feather`) for both sides; exact common family and release-specific Feather gen2 build.
+- Preparation commands / successful logs: A provenance records `.\gradlew.bat decompileMinecraft --versions=1.8.9,1.9.4 --mappings=feather --decompiler-heap=4G` with the shared staging/cache arguments in `ornithe-feather.provenance.json`; B records `.\gradlew.bat decompileMinecraft --versions=1.10.2,1.11.2,1.12.2 --mappings=feather --decompiler-heap=4G` with its staging/cache arguments. Each has a successful `ornithe-feather.success.log` summary excerpt in its version ready directory. The full original Gradle stdout was not persisted. Exact provenance JSON and success-log SHA-256 values are recorded below.
+- Toolchain: Java `25.0.3+9-LTS`; Gradle `9.7.1`; Vineflower `1.12.0`; ASM `9.10.1`; Tiny Remapper `0.14.1`; Mapping IO `0.9.1`; Gson `2.14.0`; heap `4G`. JVM vendor/options were not recorded in provenance.
+- A (1.9.4): requested/resolved `versionId=1.9.4`, `versionMetadataId=1.9.4`; CLI mode `feather`, resolved namespace `ornithe-feather`; source root `../../../build/movement-campaign-2026-10-07/ready/1.9.4/ornithe-feather/`; Feather `net.ornithemc:feather-gen2:1.9.4+build.2`; client jar SHA-256 `23e90103a1ca2ac71100004c6d5846de09f85695f579843ef8da41571e60c908`; mapped client jar `0df10c862f7fd4848d08597a76c0cf02cec5a9d9886975a57230a033cfb86b3a`; merged-v2 mapping jar `49a38d0adfbda1749e519c29844116e9f22e895cb505633261b7f587268f4125`; extracted Tiny mapping `9e21708d4bc32a43ac404735ea3238465889797110204a0375bcb069a3798027`; ready JSON SHA-256 `3d0a810d9f3a93233d880ca07ffc806ea232230d33197197ad50ba69181171c6`; provenance JSON SHA-256 `5c913715bed763369ceb5fd171cab3e63c43298023078c3683f96c7ea8fed3cd`; success-log excerpt SHA-256 `6cc7b346031356ca3dc697557eeee26d870eaf20e44d01d48c0ddc1dfa27ab9f`; version metadata SHA-256 `4b21379203f0d87df8cc2ab4dd3c3689f139772f1cdb37b40688252547e2d5be`; source manifest SHA-256 `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`; artifact manifest SHA-256 `9527dca544694daa3b4a7741be1a5b4802d8b6665c8a152a408a37a27a1b4d77`; diagnostics SHA-256 `51bd42a633c04931814ab78a841cedd3bf87460e04f7877676599b51b59bbb1d`.
+- B (1.10.2): requested/resolved `versionId=1.10.2`, `versionMetadataId=1.10.2`; CLI mode `feather`, resolved namespace `ornithe-feather`; source root `../../../build/movement-campaign-2026-10-07/ready/1.10.2/ornithe-feather/`; Feather `net.ornithemc:feather-gen2:1.10.2+build.2`; client jar SHA-256 `7cdf7fcdc1c92584a233bf3c42bd7f0df1bdad3007d306831fe50410692be1e9`; mapped client jar `ab7aa536f52e94c4c099999bc731020c11a1b29e2979a566cedcc2ffb00e701d`; merged-v2 mapping jar `18cffc56c2d8de89b50cb0328b174566236553c4aafb62afdc58a1e0ff0cadb0`; extracted Tiny mapping `7c4055aa9becb027462fe4f4a9af8822de4df9b70ecb80a84e38fd9e81e33af1`; ready JSON SHA-256 `4c6d236e1d06ffc365452c48e73dfa2bf2414bbf4ea67a24a7010c5583906a2d`; provenance JSON SHA-256 `13b208320bd6316d4b20eb0733f226cae151cae0ffd55ef3331a97223114adf6`; success-log excerpt SHA-256 `c5354936e70714a24eb5996ddfafb256a9f7c2521de1218f8964919c7a650ba2`; version metadata SHA-256 `d0624badea6367233d47c830341952126cdb0f99b1e11fb60428dd530a0d4db5`; source manifest SHA-256 `91b0f478acb7b6f13463c35b268a30d2806f583402631a56f54ce2eb70d1ec71`; artifact manifest SHA-256 `6b402f3e6d6cf2f7b3647806364ff44214c47348fefd6949fad03e2011379116`; diagnostics SHA-256 `3a8622864d424ff3ddd4d55febaf453d4201c8f1e05638c758616cea5443ab9e`.
+- Body diagnostics: A flags `Entity` line 1838 and movement methods `PlayerEntity.moveRelative` lines 1372/1380/1386, `PlayerEntity.jump` lines 1361/1362 and `LivingEntity.jump`/`moveRelative` lines 1279/1302/1711/1698. B flags `Entity` line 1880 and movement methods `LivingEntity.jump`/`moveRelative` lines 1305/1332/1734/1747 and `PlayerEntity.jump`/`moveRelative` lines 1380/1391/1399/1405. These methods remain open for mapped-jar bytecode parity checks before their slices can close.
+- Artifact-manifest, source-manifest and diagnostics-file hashes were independently recomputed and match both ready JSON records. Source-tree method-body hashes are checked per citation. Jar resources will be inspected/hash-recorded only when reached by a movement dependency.
+- Artifact integrity follow-up: read-only current-cache hashes for `artifacts/1.9.4/client-ornithe-feather.jar` (`fbcf50795566e12b8eab0e733b136ed562c4009d707ef4a7a4994936491816a3`) and `artifacts/1.10.2/client-ornithe-feather.jar` (`0c1d71990c9c0d7cc88debf7e67663bd64c8dc7de5872176088a3119527fb28b`) differ from their ready-manifest hashes (`0df10c...` and `ab7aa5...`). A coordinator notice attributes this to a shared-cache rerun replacing derived mapped jars while source/raw-input hashes remained unchanged. No marker was rewritten and no independent decompile was run. Findings and source freeze remain provisional until canonical repair and fresh verification.
+
+## Blind-discovery freeze
+
+- Status: pending
+- Freeze commit/checkpoint and timestamp: pending
+- Evidence inventory and finding IDs included at freeze: pending; this report is still being expanded
+- Confirmation that old mod implementation/code and isolated wiki-audit results were not opened before freeze (prior source-discovery reports may be used as navigation): confirmed
+- Source/mapping hashes covered by freeze: source and artifact manifest hashes listed in Artifact manifest; discovery is not frozen
 
 ## Correspondence and call order
 
-No pair-specific correspondence is accepted yet. After source readiness, resolve exact classes, inheritance, descriptors, callers and state reads/writes for each stage. Preserve method-level call order and line anchors separately for A and B; class-name similarity alone is not correspondence.
+### S1 input/tick correspondence (in progress)
+
+- Input: A/B `net.minecraft.client.entity.living.player.KeyboardInput extends Input`. Both exact `KeyboardInput.tick()` methods are text-identical (A and B source-manifest hash `7be11425906be051c83e275f359816546e4677b16d212156380e8d2e9258654a`): zero both axes, apply forward/back then left/right key increments/decrements, capture booleans, then apply `(float)(axis * 0.3)` to both axes when sneaking. `Input` has the same fields and no-op `tick()` on A; B adds `getMovement()` returning `new Vec2f(movementSideways, movementForward)`, used only from the new local-player auto-jump scan at B `LocalClientPlayerEntity.java:826` (whole-tree caller search).
+- Input producer: A/B `Minecraft` create `new KeyboardInput(this.options)` at lines 1917/1950 and 1913/1946 respectively. The produced `Input` is recalculated by the local player's `mobTick`; no alternate player movement-input producer/caller was found in either source tree.
+- Hierarchy: both `LocalClientPlayerEntity extends ClientPlayerEntity extends PlayerEntity extends LivingEntity extends Entity`; same Feather package and corresponding named classes.
+- Tick order: A `LocalClientPlayerEntity.tick()` line 143 (B line 152) calls `super.tick()` only when the player's chunk is loaded, then sends movement or vehicle/input packets. `LivingEntity.tick()` calls virtual `this.mobTick()` (A line 1551; B line 1587); dispatch enters local-player `mobTick()` (A line 604; B line 620), which samples `input.tick()` (A line 649; B line 665), performs sprint/flight/riding gates, then `super.mobTick()`. `PlayerEntity.mobTick()` chains to `LivingEntity.mobTick()`, which calls virtual `serverTickAi()` (A line 1686; B line 1722), entering the local player's override (A line 586; B line 602) to copy current axes/jump into living movement fields before `moveRelative`/`jump`/`move`. Full caller/callee bodies and changed dependencies remain under review.
+- Confirmed new B movement path: local-player `move(dx,dy,dz)` (B line 812) saves X/Z, calls `super.move`, then calls `autoJump((float)(x-d),(float)(z-e))`; no A counterpart exists in the checked class/inheritance path. The full auto-jump body and its option/collision/effect dependencies are open as S1.7/S2/S4/S5/S6, not yet closed.
+- Local player field/method writers found so far: `input.tick()` in `mobTick`; input-to-living-field copy in `serverTickAi`; local sprint timers and sprint state in `mobTick`/`setSprinting`; flight state in `mobTick`; riding jump timers/size in `mobTick`; B auto-jump timer in `autoJump` and its next-tick consumption in `mobTick`. Complete state-writer search and dependency closure remain open.
+
+## Required source inventories
+
+- `INV-TICK` status=pending; slice_ids=S1.1–S1.8,S3.1–S3.9; evidence=initial local tick/input call graph in Correspondence and call order; travel and post-travel closures remain open
+- `INV-STATE` status=pending; slice_ids=S2.1–S2.8,S4.1,S4.5; evidence=initial local-player state-writer index; pose, dimensions, flags and external writers remain open
+- `INV-COLLISION` status=pending; slice_ids=S4.2–S4.6,S5.1–S5.2; evidence=F001 farmland collision dispatch and S5.2 rail outline/collision check below; broader shape registry and callback closure remains open
+- `INV-WORLD-MOVEMENT` status=pending; slice_ids=S5.3–S5.6; evidence=initial block property search; complete registries, fluids, neighbors, tags and resource defaults remain open
+- `INV-MODIFIERS` status=pending; slice_ids=S6.1–S6.6; evidence=initial jump-strength/effect lookup; modifiers, enchantments, equipment and defaults remain open
+- `INV-EXTERNAL` status=pending; slice_ids=S7.1–S7.6; evidence=none; external player movement writers remain open
+- `INV-EXCLUSIONS` status=pending; evidence=scope rules exclude health, regeneration, hunger/food/saturation/exhaustion, damage/combat simulation and non-player movement; direct movement-gate reads still need inventory
 
 ## Coverage ledger
 
@@ -99,28 +129,82 @@ All seven required navigation stages are open. The following is a **pre-source c
 
 Per bounded slice, record one of `pending`, `in-progress`, `compared-no-difference`, `findings`, `not-applicable`, or `blocked`; cite both-side paths, complete member ranges and hashes, dependency closure and rationale. Checked absence must follow inheritance, callers, registration or replacement paths. Preserve exact arithmetic, casts, comparisons and execution order.
 
+### Slice BLK-FARMLAND-COLLISION: farmland player collision height
+
+- Inventory ID(s): `INV-COLLISION`, `INV-WORLD-MOVEMENT`
+- Exact behavior boundary and enclosing guards/order checked: block-state collision-shape dispatch for farmland through the world block-collision collector used by Entity.move; outline shape is not substituted for collision shape.
+- A evidence: `net/minecraft/block/FarmlandBlock.java::FarmlandBlock#getCollisionShape(BlockState,World,BlockPos)`, lines 31-40, SHA-256 `9df445485ba7e1603c20b5dede847fe412558148acefe1eedc9bb3b62b14c25`; `net/minecraft/block/Block.java::Block#addCollisions` and `#getCollisionShape`, lines 336-354, SHA-256 `e62ece80c6a7e7121346f65f8fdfd9b148c29441a27de9f568bba9afe1d84fe6`; `net/minecraft/world/World.java::World#getCollisions`, lines 899-981, SHA-256 `2fe063e0ec224eed9fc7d01b8f788c32035eed5fee5a9d98ea5e82296236e05a`; `net/minecraft/entity/Entity.java::Entity#move(double,double,double)`, lines 441-721, SHA-256 `bcd7fa2206bf8d7271102f6da7fe2771f96dbe22ec79dab9f2101a3e29c17ef0`.
+- B evidence: `net/minecraft/block/FarmlandBlock.java::FarmlandBlock#getShape` with checked absence of a `getCollisionShape` override, lines 20-39, SHA-256 `63d9048ebed65b890c370a1da6e79733904f67d953aff9fd8c0316f97f9d4e7f`; inherited `net/minecraft/block/Block.java::Block#getCollisionShape`, lines 355-359, SHA-256 `1971dbc284d511e2ed366f77bc77fd8cd07174baad3e7732e908d3daeb640c01`; `net/minecraft/world/World.java::World#getCollisions`, lines 903-985, SHA-256 `888ed0e9de765def87b05c4126ecdf0b10e9dd448b4543dd1cb98211e9951646`; `net/minecraft/entity/Entity.java::Entity#move(double,double,double)`, lines 446-726, SHA-256 `05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77`.
+- State producers/writers -> consumers/readers: registered farmland block state -> `BlockState.getCollisionShape` -> `Block.addCollisions` -> `World.getCollisions` -> `Entity.move` axis clipping. Farmland outline remains `Box(0,0,0,1,0.9375,1)` on both sides.
+- Parent slices / dependencies / closure evidence: depends on S4.2 collision dispatch; `net/minecraft/block/state/StateDefinition.java` inner-state `getCollisionShape` and `addCollisions`, A lines 357-370 SHA-256 `10ba661985c87801e1bb7e941399498e89fb67e1bd9ead2869c00d39ffff6493`, B lines 362-375 SHA-256 `00fea8cdf8a0cabf1af21e7e7ff47f071bd87a16f91697a3b31efce6c78bfda4`, forward state collision to block override. General player movement consumer remains open; this local producer-to-consumer path is established.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): provisional source-tree delta. A farmland overrides collision to `FULL_BLOCK_SHAPE`; B has no override and inherits base `Block.getCollisionShape`, which returns the farmland state outline shape at height 0.9375. World collision enumeration dispatches through this method, so player movement collision can differ when intersecting farmland. The shared-cache mapped-jar integrity mismatch must be repaired and freshly verified before accepting this finding. No trajectory is inferred.
+- Finding IDs or checked absence/replacement path: F001; B replacement path is inherited `Block.getCollisionShape`.
+
+### Slice BLK-RAIL-OUTLINE-COLLISION: ascending rail outline versus movement collision
+
+- Inventory ID(s): `INV-COLLISION`
+- Exact behavior boundary and enclosing guards/order checked: `AbstractRailBlock.getShape` ascending-state branch and `getCollisionShape`, then block collision dispatch; this slice covers player collision geometry only.
+- A evidence: `net/minecraft/block/AbstractRailBlock.java::AbstractRailBlock#getShape` and `#getCollisionShape`, lines 39-54, SHA-256 `96256ad09e5833f44f1da66a1da255ad7e380ab63bdc60f74646f7089e1dabec`; empty collision is returned for all rail states.
+- B evidence: `net/minecraft/block/AbstractRailBlock.java::AbstractRailBlock#getShape` and `#getCollisionShape`, lines 38-53, SHA-256 `b27f39a823f921c206f21ae8ec7afecf04bea049bded7d1748c3e5251507147e`; empty collision is returned for all rail states.
+- State producers/writers -> consumers/readers: rail shape state -> `getShape` (outline); movement collision calls `BlockState.addCollisions` -> `Block.addCollisions` -> `getCollisionShape`.
+- Parent slices / dependencies / closure evidence: S4.2 collision dispatch; `Block.addCollisions` and `World.getCollisions` use collision shape rather than outline shape on A and B.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): provisional source-tree result: A ascending outline height is 0.15625; B ascending outline uses full-block outline. Both versions return `EMPTY_BLOCK_SHAPE` from rail `getCollisionShape`, so this outline change does not change player movement collision through the inspected block-collision path. Pair artifact integrity must be freshly verified before accepting this disposition.
+- Finding IDs or checked absence/replacement path: checked non-collision geometry; `getCollisionShape` returns the shared empty sentinel on both versions.
+
+### Slice LIVING-FLUID-NO-GRAVITY: fluid travel vertical gravity gates
+
+- Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-MODIFIERS`
+- Exact behavior boundary and enclosing guards/order checked: full `LivingEntity.moveRelative(float,float)` fluid, climb, and fallback branches, preserving water/lava/player-flight guards, collision check, fluid drag and vertical gravity order.
+- A evidence: `net/minecraft/entity/living/LivingEntity.java::LivingEntity#moveRelative(float,float)`, lines 1302-1470, SHA-256 `bbb7703f18fd5da05c4e4a43a77ea644b388e63c01d34166d308ea52054be4e5`.
+- B evidence: `net/minecraft/entity/living/LivingEntity.java::LivingEntity#moveRelative(float,float)`, lines 1332-1506, SHA-256 `d40dd476b6b68c6ce45b4202823475deb546ecda2284da330ff6724b33815e82`.
+- State producers/writers -> consumers/readers: LivingEntity travel dispatch passes current player velocities and fluid/contact state into `moveRelative`; B’s inherited `Entity.NO_GRAVITY` synced Boolean defaults false, is read by `isNoGravity`, and conditionally gates fluid gravity subtraction. Server-synced/external player state path remains open under S7.
+- Parent slices / dependencies / closure evidence: S1.3/S3.1 travel dispatch and S4.7 fluid state; D1 mapped-jar diagnostic parity, D-ART mapped-artifact integrity, and S7 player synced-data writers remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): preliminary source difference: B guards vertical `-0.08` (unloaded-fluid fallback branch) and `-0.02` (water/lava) gravity subtractions with `!isNoGravity()`; A has no equivalent generic player flag gate. B also rewrites the unloaded-client-chunk branch as an equivalent condition when `isNoGravity()` is false. Confirm whether a player can receive true through the synced-data path and verify mapped artifact integrity before accepting an applicable finding. The B default is false.
+- Finding IDs or checked absence/replacement path: candidate F002 pending reachability and D-ART; B writer/default path is `Entity` synced data and NBT.
+
 ## Dependency queue and blockers
 
-- D0 — source publication: obtain and validate ready JSON for the exact Feather pair; verify exact IDs, mapping alignment, artifacts and method-body diagnostics. Until then all source comparisons remain pending.
-- D1 — decompiler warning closure: for each reachable relevant member intersecting a reported remapper/decompiler repair or error, inspect mapped jar bytecode/descriptors or mark the slice blocked.
+- D0 — source provenance: resolved from both provenance JSONs; full original Gradle stdout, JVM vendor/options and named preparation-owner identity were not retained. The excerpt hashes, exact command, worktree, mapping mode, tool versions and ready markers are recorded above.
+- D1 — decompiler warning closure: for each reachable relevant member intersecting a reported remapper/decompiler repair or error, inspect mapped-jar bytecode/descriptors or mark the slice blocked. Movement diagnostics remain open for bytecode parity review.
+- D-ART — shared-cache artifact integrity: exact current mapped-jar hashes differ from the manifest and ready record (values above). Owner/ops canonical repair and fresh hash verification are required before findings or source freeze are accepted; do not rewrite markers or run a separate decompile.
 - D2 — resource closure: once movement consumers identify tags/defaults/equipment/effects, check matching versioned client-jar entries and hash cited resources; identify synchronized/external data boundaries.
 - D3 — transitive movement-state writers/callers: enumerate after all navigation stages, revisit unchanged callers when a dependency changes.
 
 ## Finding index
 
-No findings accepted in this fresh run yet. Add one `findings/<id>.md` per independently describable, source-confirmed delta; candidate findings must state unresolved dependencies. Prior pair reports are historical hints only and are not coverage evidence.
+F001 — [farmland player collision height](findings/F001-farmland-collision-height.md), candidate pending D-ART. Prior pair reports are historical hints only and are not coverage evidence.
 
 ## Resume checkpoint
 
-- Last completed slice: none; repository instructions, discovery contract, navigation stages, templates and decompiler implementation have been read.
-- Next action: receive source-owner ready JSON; validate both endpoints/hashes/diagnostics; then begin S1 with full local-player input/tick call graph and producers.
-- Outstanding dependencies: D0–D3.
+- Last completed slice: none; two bounded block-shape slices have provisional dispositions but remain in progress pending D-ART.
+- Next action: await canonical artifact repair and fresh hashes; then close mapped-jar diagnostics and continue the full local-player and movement-state inventories.
+- Outstanding dependencies: D1–D3 and D-ART.
 - Assumptions requiring verification: explicit Feather exists and resolves both exact release IDs; source trees and relevant method bodies are intact; source-owner warnings do not intersect evidence without bytecode confirmation.
+
+## Implementation reconciliation
+
+- Reconciliation status: pending
+- Repository revision inspected: none; blind-discovery freeze has not occurred
+- Finding -> implementation disposition/evidence: pending
+- Existing implementation without a frozen source finding: pending
+- Coverage gaps routed back to discovery slices: pending
+
+## Independent source audit
+
+- Reviewer: pending assignment; must differ from discovery author
+- Status: pending
+- Inventories and call-chain ranges re-walked: none
+- Concrete missed-slice routes (or `none found`): pending
+- Misses routed to slice/finding IDs and owners: pending
+- Reviewer evidence / date: pending
 
 ## Source audit closure
 
-- Coverage counts: 0 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked; 51 planned bounded slices pending across 7 stages; 0 slices closed.
-- Pending bounded-slice count: 51 planned; this must be revised upward whenever source navigation exposes additional distinct methods, writers, consumers or dependencies.
+- Coverage counts: 0 compared-no-difference; 0 findings accepted; 0 not-applicable; 0 blocked; 51 initial planned behavior slices pending, plus 3 provisional slices in progress.
+- Pending bounded-slice count: 51 initial planned behavior slices remain; this must be revised upward whenever source navigation exposes additional distinct methods, writers, consumers or dependencies.
 - Unresolved gaps: all comparison stages and source provenance remain open.
-- Evidence/hash/correspondence audit: not started; no Minecraft source evidence has been accepted.
+- Evidence/hash/correspondence audit: partial; source-tree hashes/ranges are recorded for F001 and the rail slice, but paired derived-jar integrity is unresolved, so neither disposition is accepted.
 - Runtime validation: not performed (separate workflow).
