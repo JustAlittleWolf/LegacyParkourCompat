@@ -58,12 +58,12 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Required source inventories
 
-- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=T01,T02,T03,T04,T05,T06,T07; evidence=T01/T03 source sampling and F-001, plus bounded local tick/sprint/jump/flight/mount-gate checks in T02/T04/T05/T06; travel branch and post-travel comparisons remain open.
+- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=T01,T02,T03,T04,T05,T06,T07; evidence=T01/T03 source sampling and F-001, plus bounded local tick/sprint/jump/flight/mount-gate and player mount-transition checks in T02/T04/T05/T06/E03; travel branch and post-travel comparisons remain open.
 - `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=P01,P02,P03,P04; evidence=F-002 documents the changed edge predicate; full writer/reader graph remains open.
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=C01,C02,C03,C04; evidence=F-002/F-004 and the legacy support lookup in `Entity.move`; shape/callback coverage remains open.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=W01,W02,W03,W04; evidence=exact source trees verified; block/fluid/resource inventory remains open.
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=M01,M02,M03,M04; evidence=F-001 traces the new Swift Sneak level bonus; resources and other modifiers remain open.
-- `INV-EXTERNAL` player-only externally supplied movement inputs and direct player velocity/impulse/knockback application, plus in-scope player-facing transitions; exclude non-player and vehicle physics: status=pending; slice_ids=E01,E02,E03; evidence=E02 rechecks push and knockback consumers; packet/piston/mount coverage remains open.
+- `INV-EXTERNAL` player-only externally supplied movement inputs and direct player velocity/impulse/knockback application, plus in-scope player-facing transitions; exclude non-player and vehicle physics: status=pending; slice_ids=E01,E02,E03; evidence=E01 correction writers, E02 push/knockback consumers, and E03 player mount-transition wrappers; remaining packet flags, piston sources and vehicle-position integration remain open.
 - `INV-EXCLUSIONS` explicit scope audit for health/food production, attack/damage resolution, non-player movement and vehicle physics. Direct player-motion response remains in scope even when combat can trigger it: status=pending; evidence=scope boundary is recorded; explicit source audit remains open.
 
 ## Coverage ledger
@@ -371,14 +371,14 @@ Artifact paths below are relative to repository root; generated artifacts remain
 ### Slice E03: mount, dismount and player-only vehicle integration
 
 - Inventory ID(s): INV-EXTERNAL, INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: pending; player state and movement inputs at mount/dismount transitions, without auditing another entity's independent physics.
-- A evidence: not yet compared; readiness is recorded in D-SOURCES.
-- B evidence: not yet compared; readiness is recorded in D-SOURCES.
+- Exact behavior boundary and enclosing guards/order checked: compared player-facing `startRiding`/`removeVehicle` wrappers, shared Entity mount admission/state transitions, LivingEntity and Player ride-tick delegation, and LocalPlayer passenger-tick entry. The checked method bodies match; vehicle-side passenger placement and independent vehicle physics are deliberately outside this comparison.
+- A evidence: `LocalPlayer.java`, `startRiding(Entity,boolean)` lines 153-164, `removeVehicle()` 167-170 and `rideTick()` 863-871, SHA-256 `99C2D18BCD23243AFB8F95C5BAFB21FB0BE7EA04AACBB14FCF7BE7CED2C9C095`; `Entity.java`, `startRiding(Entity)` 1704-1706, `startRiding(Entity,boolean)` 1712-1738, `removeVehicle()` 1753-1760, `stopRiding()` 1761-1764, `rideTick()` 1674-1680, SHA-256 `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A`; `LivingEntity.java`, `stopRiding()` 2679-2685 and `rideTick()` 2688-2693, SHA-256 `DB4168D531CAF18F22E3FEFD073365E776DA4075CE01452BB9F7671D9B458782`; `Player.java`, `removeVehicle()` 1016-1019 and `rideTick()` 468-481, SHA-256 `BF639C1962FF90D69E4569B2B18F6FCF57AC46EF80B19686F0FBC1687FCA744A`.
+- B evidence: `LocalPlayer.java`, `startRiding(Entity,boolean)` lines 170-181, `removeVehicle()` 184-187 and `rideTick()` 953-961, SHA-256 `36AE4AABD609B457FFFB7A8B14ABB50DB9AC775857DDE1774C0C68A8CF50DEEF`; `Entity.java`, `startRiding(Entity)` 1729-1731, `startRiding(Entity,boolean)` 1737-1763, `removeVehicle()` 1778-1785, `stopRiding()` 1786-1789, `rideTick()` 1699-1705, SHA-256 `759DE9CDED43BD882AFCF5B7023BCF804D92419ACB656B493F3B490C83EB18B6`; `LivingEntity.java`, `stopRiding()` 2715-2721 and `rideTick()` 2724-2729, SHA-256 `FEE2DF5155449098556A138D2530D06B7A35979E43C6AA0AE1FFFD6251853E77`; `Player.java`, `removeVehicle()` 1045-1048 and `rideTick()` 477-490, SHA-256 `155C5FCFBA322D968F3180383E7D283DDEB5EDEE4E04314906310D4E3CE0CCC1`.
 - State producers/writers -> consumers/readers: vehicle/player transition -> local player state/position/velocity -> tick movement gates.
 - Parent slices / dependencies / closure evidence: D-SOURCES; T06; P02.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison pending; player-only integration retained in scope.
-- Finding IDs or checked absence/replacement path: none yet.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no source delta was found in the compared player mount/dismount wrappers or shared admission and ride-tick methods. LocalPlayer's `startRiding()` delegates to the same `Entity.startRiding()` checks and retains its minecart sound branch; `removeVehicle()` delegates then clears `handsBusy`; player ride tick delegates and updates the same player-side bob/statistics state. The mount system can reposition the passenger through vehicle-owned `positionRider()` methods, which are outside scope and remain unaudited; network mount/dismount sources also remain open.
+- Finding IDs or checked absence/replacement path: checked absence of a delta in the bounded player transition/ride-tick methods; vehicle placement and external transition sources remain open.
 
 ### Slice X01: excluded systems and permitted vanilla-state reads
 
@@ -408,8 +408,8 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Resume checkpoint
 
-- Last source comparison work: compared the base living/player travel bodies and Entity movement call path (T07), identifying F-003's step-event dispatch and F-004's SculkSensor callback deltas, after bounded LocalPlayer tick/sprint/jump/flight/mount/unstuck checks (T02/T04-T06); T01/T03 remain closed with F-001, while wider T02/T04-T07 and C02/C04/M03/E02 dependencies remain open.
-- Next bounded slice and exact files/members/body ranges to open: trace `Entity.move()` support/callback/event consumers into remaining collision and world dependencies (C01/C03/C04/W01-W04), then continue direct correction/piston/mount and remaining external velocity writers (E01-E03) and modifier/resource chains (M01-M04).
+- Last source comparison work: after T07 identified F-003/F-004 in Entity movement callbacks, compared client correction writers (E01), fluid height/flow helpers (W03), the axis collision resolver and selected shared shape providers (C03/W02), and player mount/dismount wrappers (E03). B's ancient-city loot resource now documents a Swift Sneak acquisition path for F-001; T01/T03 remain bounded with F-001, while wider inventories remain open.
+- Next bounded slice and exact files/members/body ranges to open: inspect player-facing piston motion sources and remaining correction/state flags (E01/E02), then continue block registrations/movement properties and remaining resource dependencies (W01/W04/M03/M04) plus movement attribute/effect consumers (M01/M02).
 - Outstanding dependencies and owners: D-RESOURCES (discovery worker); independent reviewer assignment (coordinator, after source-only freeze).
 - Current assumptions requiring verification: Swift Sneak resource/tag data and all remaining modifier chains; all movement branch helpers and block callback outputs. Directory presence alone is not readiness.
 
@@ -437,10 +437,10 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Source audit closure
 
-- Coverage counts by status: pending 12; in-progress 13; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
+- Coverage counts by status: pending 11; in-progress 14; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
 - Required inventory status and evidence: INV-TICK pending; INV-STATE pending; INV-COLLISION pending; INV-WORLD-MOVEMENT pending; INV-MODIFIERS pending; INV-EXTERNAL pending; INV-EXCLUSIONS pending. No inventory is closed.
 - Open dependencies: D-RESOURCES (discovery worker), independent reviewer assignment (coordinator, after source-only freeze).
-- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Twelve coverage entries are pending, thirteen are in progress, and two carry findings.
+- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Eleven coverage entries are pending, fourteen are in progress, and two carry findings.
 - Evidence/hash/correspondence audit: F-001 through F-004 include paired endpoint source/artifact hashes and bounded source ranges; call paths and writer-to-consumer links are recorded for these deltas, while the remaining inventories and correspondence are still open.
 - Blind freeze: not frozen; implementation remains uninspected. Freeze after remaining source inventories close or are explicitly scoped for handoff.
 - Implementation reconciliation: pending and deferred outside this source-only assignment.
