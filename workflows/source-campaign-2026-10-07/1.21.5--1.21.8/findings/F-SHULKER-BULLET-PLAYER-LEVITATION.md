@@ -1,4 +1,4 @@
-# Candidate: Shulker Bullet target reacquisition can alter Player Levitation hits
+# Discarded candidate: Shulker Bullet target reacquisition and Player Levitation
 
 - Finding ID: `F-SHULKER-BULLET-PLAYER-LEVITATION-1.21.5-1.21.8`
 - Status: discarded; the changed path is non-player projectile steering and effect application, both outside the movement-emulation scope. The direct Player Levitation movement consumer is unchanged.

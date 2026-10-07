@@ -1,4 +1,4 @@
-# Candidate: splash-potion impact geometry changes Player movement-effect strength
+# Discarded candidate: splash-potion impact geometry and movement-effect state
 
 - Finding ID: `F-SPLASH-POTION-MOVEMENT-EFFECT-AREA-1.21.5-1.21.8`
 - Status: discarded; the changed path controls potion effect application, which is outside the movement-emulation scope. The direct Player movement consumers are unchanged.
