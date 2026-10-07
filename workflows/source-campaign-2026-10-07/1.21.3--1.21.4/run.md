@@ -2,7 +2,7 @@
 
 - Run status: active
 - Scope: source-only player movement; older A = exact 1.21.3; newer B = exact 1.21.4. Direct player motion, velocity and knockback response remain in scope even when combat can trigger them. Health, regeneration, hunger, food, saturation, exhaustion, attack/damage resolution, modern-only blocks/features, non-player movement and vehicle physics are out of scope; movement predicates may read vanilla health/food state.
-- Repository revision and start date: base `002137b227676caea77f6832b9f4c8d0b6200bff` (`main`); 2026-10-07. Current report branch checkpoint before this source batch: `b81e4db`.
+- Repository revision and start date: base `002137b227676caea77f6832b9f4c8d0b6200bff` (`main`); 2026-10-07. Current report branch checkpoint before this source batch: `a6a3aee`.
 - Selected namespace and alignment: release-specific official Mojang mappings (`mojmap`) for both exact releases; namespace and exact IDs verified in both readiness and provenance JSONs.
 - Source preparation owner / command / log / readiness marker: shared source owner; `.\gradlew.bat decompileMinecraft --versions=1.21.1,1.21.3,1.21.4,1.21.5 --mappings=mojmap --decompiler-heap=4G --output-root=<campaign staging> --cache-directory=<campaign artifacts>`; log `build/movement-campaign-2026-10-07/staging/mojmap-1.21.1-to-1.21.5-cd5a99cb1024417c9d370097c886a131/gradle.full.log`; both markers are `ready` and exact IDs match.
 - Toolchain/decompiler/remapper versions and options: Gradle 9.7.1; decompiler JVM Java 25.0.3+9-LTS; Vineflower 1.12.0, Tiny Remapper 0.14.1, Mapping IO 0.9.1, ASM 9.10.1, Gson 2.14.0; 4G heap.
@@ -211,6 +211,30 @@ Both provenance records point to the same exact batch and successful full Gradle
 - Disposition and rationale (including concrete reachability/preconditions): when a local player movement segment reaches a block cell whose non-full entity-inside shape intersects one swept box but not the other (including a segment near EndPortal's partial y slab or a grid-boundary traversal), A and B can select different `entityInside()` callbacks. EndPortal's callback records portal-entry state when portal use is allowed, changing the player's subsequent portal-processing/position path. No portal runtime outcome is claimed.
 - Finding IDs or checked absence/replacement path: [F-S3-02](findings/F-S3-02-movement-block-shape-sweep.md). A/B full-block `Shapes.block()` callbacks remain unchanged; the difference is bounded to cell enumeration and non-full inside-shape sweep.
 
+### Slice S3-08: supplied-shape AABB collision and step-up solver
+
+- Inventory ID(s): `INV-TICK`, `INV-COLLISION`, `INV-WORLD-MOVEMENT`
+- Exact behavior boundary and enclosing guards/order checked: `Entity.collide()`, candidate step-up height enumeration/sort, `collideBoundingBox()`, world-border/block-shape aggregation and axis-ordered `collideWithShapes()`, with the supplied collider list held constant. Dynamic block/entity shape production is not included in this slice.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.21.3/mojmap/net/minecraft/world/entity/Entity.java`, `collide()`, lines 908-938; `collectCandidateStepUpHeights()`, lines 939-959; `collideBoundingBox()` / `collectColliders()`, lines 960-980; `collideWithShapes()`, lines 981-1008; SHA-256 `a93719c302a0381a972af75ea360465e2e3551708dd07c34d4d40b7e5173c2b9`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.21.4/mojmap/net/minecraft/world/entity/Entity.java`, `collide()`, lines 920-950; `collectCandidateStepUpHeights()`, lines 951-971; `collideBoundingBox()` / `collectColliders()`, lines 972-992; `collideWithShapes()`, lines 993-1020; SHA-256 `05f18ef2ec0413fc010230407c812a11553eb5123b68d21b5d7b2c0c175698ad`.
+- State producers/writers -> consumers/readers: requested movement and current player AABB -> fetched entity shapes -> `collideBoundingBox` adds world-border and block shapes -> Y, then Z/X axis shape clipping -> step-up candidates and selected player movement delta. Paired `BlockCollisions`, `CollisionGetter`, `Shapes`, `VoxelShape` and `AABB` source files have identical A/B hashes; the outer `Entity` resolver expressions also match.
+- Parent slices / dependencies / closure evidence: `S3-06`, `S3-07`; the collision-list computation and supplied-shape clipping mechanics are bounded here. `INV-COLLISION` remains open for dynamic state-dependent block and entity shape producers and neighboring-block dependencies.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): when A and B receive the same AABB, movement vector and ordered VoxelShape list, both use the same candidate heights, stable/unstable sort choice, world-border/block collection order and Y/Z/X axis clipping operations. This makes no claim that the producers always return the same shapes.
+- Finding IDs or checked absence/replacement path: no difference in this bounded supplied-shape resolver.
+
+### Slice S3-09: player crouch edge backoff predicate
+
+- Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-COLLISION`
+- Exact behavior boundary and enclosing guards/order checked: `Player.maybeBackOffFromEdge()` through its diagonal/horizontal 0.05-step support checks, `isAboveGround()`, `canFallAtLeast()`, and the `isStayingOnGroundSurface()` shift predicate; compare the base `Entity` default override target as well.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.21.3/mojmap/net/minecraft/world/entity/player/Player.java`, lines 345-347 and 1066-1123, SHA-256 `a803203e92aa4729d5f5c9b16085b6a43ce51d9907d309eb96736e9c7c1340de`; base `Entity.maybeBackOffFromEdge()`, lines 871-873, SHA-256 `a93719c302a0381a972af75ea360465e2e3551708dd07c34d4d40b7e5173c2b9`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.21.4/mojmap/net/minecraft/world/entity/player/Player.java`, lines 348-350 and 1069-1126, SHA-256 `c45f41b9784ce50a88a498e84a13edcef0a23e175233d726ed7f90940f19ebc1`; base `Entity.maybeBackOffFromEdge()`, lines 883-885, SHA-256 `05f18ef2ec0413fc010230407c812a11553eb5123b68d21b5d7b2c0c175698ad`.
+- State producers/writers -> consumers/readers: local shift state -> `isStayingOnGroundSurface()`; abilities, requested delta Y, mover type, on-ground state and fallDistance -> edge guard; Player AABB and support collision query -> per-axis 0.05 decrements -> adjusted horizontal movement into Entity.collide().
+- Parent slices / dependencies / closure evidence: `S3-06`, `S3-08`; the A/B guard bodies, expressions and loops match. The fallDistance producer/collision callback difference is isolated in S3-06/F-S3-01; shape/support-query providers remain open under `INV-COLLISION`.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for identical state and support-query results, A and B run the same crouch-edge guards and 0.05 reductions in the same order. The fallDistance difference can feed this unchanged predicate as recorded separately in F-S3-01.
+- Finding IDs or checked absence/replacement path: no difference in the bounded player edge guard itself.
+
 ## Dependency queue and blockers
 
 - `DEP-SOURCE-AUDIT`: exact pair ready manifests and hashes verified; source prep resolved.
@@ -260,7 +284,7 @@ Both provenance records point to the same exact batch and successful full Gradle
 
 ## Source audit closure
 
-- Coverage counts by status: 8 compared-no-difference; 0 in-progress; 4 findings; additional required slices not yet enumerated.
+- Coverage counts by status: 10 compared-no-difference; 0 in-progress; 4 findings; additional required slices not yet enumerated.
 - Required inventory status and evidence: all inventories remain pending; see inventory map and bounded slices.
 - Open dependencies: `DEP-TRAVEL`, `DEP-COLLISION`, `DEP-WORLD-DATA`, `DEP-MODIFIERS`, `DEP-EXTERNAL`.
 - Unresolved gaps and limits: remaining Stage 1 methods and all unenumerated Stage 2-7 sources/resources.
