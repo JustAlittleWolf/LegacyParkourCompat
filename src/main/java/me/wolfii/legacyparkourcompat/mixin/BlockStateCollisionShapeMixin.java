@@ -15,7 +15,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
  * Dispatches player-specific historical shapes after the block's own virtual shape implementation.
- * This also covers BlockStateBase's cache path and subclasses that override BlockBehaviour.getCollisionShape.
+ * BlockCollisions uses this player-context overload, which bypasses the two-argument cached shape and
+ * preserves subclass overrides before the historical shape is selected.
  */
 @Mixin(BlockBehaviour.BlockStateBase.class)
 abstract class BlockStateCollisionShapeMixin {
