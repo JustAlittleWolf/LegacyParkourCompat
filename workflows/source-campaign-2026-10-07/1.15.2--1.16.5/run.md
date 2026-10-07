@@ -1,13 +1,13 @@
 # Discovery: 1.15.2 to 1.16.5
 
-- Status: active
-- Scope: source-only comparison of exact Java Edition A=1.15.2 and B=1.16.5; direct client player movement.
+- Run status: partial
+- Scope: source-only comparison of exact Java Edition A=1.15.2 and B=1.16.5; direct player movement and player velocity/impulse/knockback response are in scope; exclude health/food-state production, attack/damage resolution, non-player movement and vehicle physics.
 - Repository revision and start date: campaign base 002137b227676caea77f6832b9f4c8d0b6200bff; 2026-10-07. Branch feat/source-discovery-movement-source-1-15-2-1-16-5.
 - Selected naming namespace, CLI mode per side and alignment evidence: Mojmap/Mojmap. Both ready records report exact requested/resolved metadata IDs and Mojmap; source and artifact manifests and cited Java files hash-match.
-- Source preparation owner / command / log / readiness marker: shared source owner is sole writer. Command/log and mapping-build details requested, not yet provided. Ready markers are ../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap.ready.json and ../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap.ready.json.
-- Toolchain/decompiler/remapper versions and options: pending source-owner provenance.
+- Source preparation owner / command / log / readiness marker: shared source owner; both ready markers and provenance sidecars under ../../../build/movement-campaign-2026-10-07/ready. Exact command: .\gradlew.bat decompileMinecraft --versions=1.15.2,1.16.5,1.17.1,1.18.2 --mappings=mojmap --decompiler-heap=4G --output-root=D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\staging\mojmap-1.15-to-1.18-f41b958fe6b84e6eb832e0c465a0e56d --cache-directory=D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\artifacts. Provenance SHA-256 A d4802d35ee2927a44d753871f184c3255c060eb94457a5c65a8bc121a087954e; B b71df61eb775134119881915198f87c4337bae409e1f0de8d8d6c007e062902d. Success sidecars are summary excerpts only (A b8b60b3ce9a7f746be9e2023bbd9afb7c85dc58cb8582b9ac5962fc2c8a6348d; B 0974f4cdada4d0549cb730901064681d11a0f2cfbf1fc61783993b9dc4488b07); complete raw Gradle streams were not retained.
+- Toolchain/decompiler/remapper versions and options: Java 25.0.3+9-LTS; Gradle 9.7.1; Vineflower 1.12.0; ASM 9.10.1; mapping-io 0.9.1; Gson 2.14.0; TinyRemapper 0.14.1; 4G heap, C:\Users\Wolfi\.gradle. Mojmap mapping inputs are the exact 1.15.2/client_mappings.txt and 1.16.5/client_mappings.txt entries; provenance records mappingArtifacts=null, so no mapping build coordinate is asserted.
 - Discovery author(s): source-only pair researcher.
-- Independent reviewer (must differ from discovery authors): pending coordinator assignment.
+- Independent reviewer (must differ from discovery authors): pending coordinator assignment; separate review required for each finding snapshot and later for full-pair audit.
 
 ## Artifact manifest
 
@@ -90,13 +90,13 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 
 ### Slice S1-LOCAL-TICK: local tick and reporting order
 - Inventory ID(s): INV-TICK, INV-STATE, INV-EXTERNAL
-- Exact behavior boundary and enclosing guards/order checked: LocalPlayer.tick() and movement reporting; detailed body comparison pending.
-- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/client/player/LocalPlayer.java, tick(), lines 179-?, SHA-256 3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd.
-- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/client/player/LocalPlayer.java, tick(), lines 184-?, SHA-256 6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b.
-- State producers/writers -> consumers/readers: local tick/superclass tick -> player movement input and subsequent movement reporting; detailed call closure pending.
-- Parent slices / dependencies / closure evidence: S1-LOCAL-AISTEP, packet handlers in S7.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending exact body ranges.
+- Exact behavior boundary and enclosing guards/order checked: LocalPlayer.tick(), passenger packet path, sendPosition() sprint/shift state commands and positional reporting.
+- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/client/player/LocalPlayer.java, tick lines 179-197 and sendPosition lines 199-260; SHA-256 3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd.
+- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/client/player/LocalPlayer.java, tick lines 184-202 and sendPosition lines 214-275; SHA-256 6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b.
+- State producers/writers -> consumers/readers: superclass tick -> local aiStep/state; passenger input and player movement/rotation/ground state -> serverbound packets; sprint/crouch state -> command packets.
+- Parent slices / dependencies / closure evidence: S1-LOCAL-AISTEP,S7-CORRECTIONS,S7-INPUT-PACKETS; exact remaining sendPosition tail pending.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): tick call and packet branches correspond in the inspected ranges; full sendPosition tail and movement-reporting correspondence remain open.
 - Finding IDs or checked absence/replacement path: pending
 
 ### Slice S1-LOCAL-AISTEP: local movement inputs and gates
@@ -165,39 +165,109 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - Disposition and rationale (including concrete reachability/preconditions): B replaces onGround with isAboveGround() plus a not-flying guard; the common x/z reduction loops remain the same.
 - Finding IDs or checked absence/replacement path: F-S2-EDGE
 
-### Slice S3-TRAVEL: LivingEntity travel dispatch
+### Slice S3-WATER: water travel branch and falling adjustment
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS, INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: all A/B LivingEntity.travel branches, split into bounded ground/air, water, lava, fall-flying and climbing slices.
-- A evidence: LivingEntity#travel lines 1831-1987; SHA-256 46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54.
-- B evidence: LivingEntity#travel lines 1914-2046; SHA-256 b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88.
-- State producers/writers -> consumers/readers: per-branch records pending.
-- Parent slices / dependencies / closure evidence: S3-GROUND-AIR,S3-WATER,S3-LAVA,S3-GLIDE,S3-CLIMB,S3-JUMP; extracted-helper correspondence pending.
+- Exact behavior boundary and enclosing guards/order checked: LivingEntity.travel water dispatch, movement/friction, climb correction and post-move vertical adjustment.
+- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/entity/LivingEntity.java, lines 1927-1973; SHA-256 46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54.
+- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/entity/LivingEntity.java, lines 1923-1958 and helper getFluidFallingAdjustedMovement lines 2074-2087; SHA-256 b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88.
+- State producers/writers -> consumers/readers: fluid contact/height and flying/stand-on-fluid predicates -> dispatch; sprinting, gravity, depth strider and dolphin's grace -> branch math; move -> collision and post-move velocity.
+- Parent slices / dependencies / closure evidence: S1-WATER-DESCENT,S3-STATE,S3-ATTRS,S3-ENCHANTMENTS,S5-FLUIDS,S4-MOVE; verify Player affected-fluid and canStandOnFluid defaults.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for Player, B isAffectedByFluids is false only while flying and canStandOnFluid returns false; this matches A explicit flying bypass. B extracted falling-adjustment helper preserves A gravity/sprint conditions and y operation order after the shared x/z/y fluid friction.
+- Finding IDs or checked absence/replacement path: none; helper and Player gates compared.
+
+### Slice S3-LAVA: lava travel branch
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: lava dispatch, input scaling, movement, velocity scaling, shallow-fluid branch and horizontal escape.
+- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/entity/LivingEntity.java, lines 1913-1926; SHA-256 46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54.
+- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/entity/LivingEntity.java, lines 1959-1978 and getFluidJumpThreshold lines 2712-2714; SHA-256 b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88.
+- State producers/writers -> consumers/readers: lava contact and fluid-height map -> dispatch/threshold; eye height -> threshold; gravity and horizontal collision escape -> velocity result.
+- Parent slices / dependencies / closure evidence: S3-STATE,S3-JUMP,S5-FLUIDS,S4-MOVE; exact lava fluid-height producer and player threshold reachability pending.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): B adds shallow-lava vertical scaling and falling adjustment when fluid height is at or below the eye-height-derived threshold; A always scales all components by 0.5 before gravity.
+- Finding IDs or checked absence/replacement path: F-S3-SHALLOW-LAVA-TRAVEL
+
+### Slice S3-FALL-FLYING: fall-flying travel equations and collision response
+- Inventory ID(s): INV-TICK, INV-STATE, INV-COLLISION, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: fall-distance initialization, look/velocity equations, drag, movement, wall impact and landing flag reset.
+- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/entity/LivingEntity.java, lines 1842-1884; SHA-256 46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54.
+- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/entity/LivingEntity.java, lines 1979-2022; SHA-256 b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88.
+- State producers/writers -> consumers/readers: fall-flying flag, look vector, pitch, delta movement, horizontal collision and onGround -> drag, move, wall/landing response.
+- Parent slices / dependencies / closure evidence: S1-ELYTRA,S4-MOVE,S2-STATE; arithmetic line-by-line correspondence pending.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): paired fall-flying equations preserve constants, casts, expression order, movement and landing collision response; local variable names and source positions differ.
+- Finding IDs or checked absence/replacement path: none; damage/attack resolution remains in INV-EXCLUSIONS.
+
+### Slice S3-GROUND-AIR: ordinary non-fluid travel and climbing response
+- Inventory ID(s): INV-TICK, INV-STATE, INV-COLLISION, INV-MODIFIERS, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: ordinary ground/air branch, friction lookup, relative input, climbable correction, move and gravity/levitation; B helper extraction included.
+- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/entity/LivingEntity.java, lines 1885-1912 and handleOnClimbable lines 1989-2018; SHA-256 46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54.
+- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/entity/LivingEntity.java, lines 2022-2042, handleRelativeFrictionAndCalculateMovement lines 2062-2071 and handleOnClimbable lines 2089-2118; SHA-256 b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88.
+- State producers/writers -> consumers/readers: support block friction, input vector, movement attributes, climbability, gravity/levitation and collision flags -> requested/real movement and delta movement.
+- Parent slices / dependencies / closure evidence: S1-ELYTRA,S4-MOVE,S5-SHAPES,S3-ATTRS,S3-CLIMB; helper-equivalence and climbable tag correspondence pending.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): B restructures fluid predicates and extracts helpers; each player path is compared separately.
+- Disposition and rationale (including concrete reachability/preconditions): B extracts ordinary relative-friction and climb handling and changes ladder terminology; full player-specific equality requires helper and tag closure.
 - Finding IDs or checked absence/replacement path: pending
 
+### Slice S3-JUMP: liquid jump branch and delay reset
+- Inventory ID(s): INV-TICK, INV-STATE, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: LivingEntity.aiStep jump block from outer input gate through water/lava/ground jump choice and noJumpDelay update.
+- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/entity/LivingEntity.java, lines 2265-2279; SHA-256 46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54.
+- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/entity/LivingEntity.java, lines 2427-2451; SHA-256 b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88.
+- State producers/writers -> consumers/readers: jumping/onGround/noJumpDelay and A waterHeight/lava flag or B fluidHeight/affected-fluid gate -> selected jump helper and delay reset.
+- Parent slices / dependencies / closure evidence: S1-LOCAL-AISTEP,S3-STATE; B Player.isAffectedByFluids and Entity fluid-height writer/threshold inspected.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): B gates the liquid jump branch on isAffectedByFluids and selects ground jump for grounded lava at or below threshold; A can invoke the liquid helper under those states.
+- Finding IDs or checked absence/replacement path: F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP
+
+### Slice S5-WATER-CURRENT: water-flow velocity application
+- Inventory ID(s): INV-WORLD-MOVEMENT, INV-EXTERNAL, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: per-tick water flow scan, velocity aggregation and application for Player.
+- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/entity/Entity.java, checkAndHandleWater lines 2593-2652; Player.isPushedByWater lines 1846-1849; source hashes in artifact manifest.
+- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/entity/Entity.java, updateFluidHeightAndDoFluidPushing lines 2641-2705 and water caller lines 965-979; Player.isPushedByFluid lines 1788-1791; source hashes in artifact manifest.
+- State producers/writers -> consumers/readers: fluid flow/height and current velocity -> flow sum, scaling and player delta movement; baseTick/move check-fall path -> update call.
+- Parent slices / dependencies / closure evidence: Entity baseTick, updateWaterState, Player push override, fluid scan inspected.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): B adds a conditional minimum current vector for sufficiently slow non-flying players; vector scan and Player normalization exclusion correspond.
+- Finding IDs or checked absence/replacement path: F-S5-WATER-CURRENT
+
+### Slice S5-LAVA-CURRENT: lava-flow velocity application
+- Inventory ID(s): INV-WORLD-MOVEMENT, INV-EXTERNAL, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: baseTick lava flow scan and player push gate.
+- A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/entity/Entity.java, baseTick lines 361-384 and updateWaterState lines 943-972; Entity source SHA-256 191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e.
+- B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/entity/Entity.java, baseTick call line 380 and updateInWaterStateAndDoFluidPushing lines 957-963; Player.isPushedByFluid lines 1788-1791; Entity/Player hashes in artifact manifest.
+- State producers/writers -> consumers/readers: matching lava fluid state -> height/flow scan -> baseTick delta-velocity addition when Player is not flying.
+- Parent slices / dependencies / closure evidence: A checkAndHandleWater callers and B baseTick/current scan/push gate inspected.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): B adds the lava-tag scan and dimension-scaled current push; A's base tick current path scans water only.
+- Finding IDs or checked absence/replacement path: F-S5-LAVA-CURRENT
+
+## Dependency queue and blockers
 ## Dependency queue and blockers
 
-- SRC-OWNER-PROVENANCE: command/log, mapping build and toolchain versions/options absent from ready records; requested through commentary. Owner: source-preparation owner.
-- S1-ESCAPE-QUERY: compare A per-block suffocation tests with B collision-shape AABB query; inspect exact query implementation and relevant shapes. Owner: discovery author.
-- S1-CLIMB-TAG: verify B CLIMBABLE tag and compare with A explicit set; establish legacy vs B-only membership and state writers. Owner: discovery author.
-- S2-EDGE-QUERY: close noCollision/support query dependency. Owner: discovery author.
-- Stages 2-7: method-level slices/dependencies still to be inventoried.
+- S1-ESCAPE-QUERY: pair A blocked/freeAt/isSuffocating with B noBlockCollision/getBlockCollisions and relevant shapes; establish same-state reachability. Owner: discovery author.
+- S1-CLIMB-TAG: inspect B CLIMBABLE resource membership against A explicit ladder/vine/scaffolding and open-trapdoor path; cite resource hash. Owner: discovery author.
+- Remaining stage 2-7 slices: create bounded source rows for state/pose/dimensions, collision/shape providers/registrations, modifiers/equipment/effects, world/fluid registrations and client external inputs. Owner: discovery author.
+- Independent source reviewer: assign someone who did not author discovery; finding-snapshot decisions and eventual full-pair audit remain pending. Owner: coordinator.
 
 ## Finding index
-
 - F-S1-SPRINT-RESET — held shift cancels pending double-tap sprint window (source-confirmed).
-- F-S1-WATER-DESCENT — creative flight suppresses crouch descent in water (source-confirmed).
-- F-S2-EDGE — edge restraint applies during a near-ground fall (source-confirmed).
+- F-S1-WATER-DESCENT — flying players skip crouch descent in water (source-confirmed).
+- F-S2-EDGE — edge restraint applies during supported near-ground motion and excludes flying players (source-confirmed).
+- F-S3-SHALLOW-LAVA-TRAVEL — shallow lava uses a different vertical scale and falling adjustment (source-confirmed).
+- F-S3-FLUID-JUMP-GATE — flying players skip liquid jump processing (source-confirmed).
+- F-S3-SHALLOW-LAVA-JUMP — grounded shallow-lava jump selects the ground-jump helper (source-confirmed).
+- F-S5-WATER-CURRENT — weak water currents receive a minimum player push (source-confirmed).
+- F-S5-LAVA-CURRENT — non-flying players receive lava-current force (source-confirmed).
 
 The historical pair report is not imported as source confirmation.
 
 ## Resume checkpoint
 
-- Last completed slices: S1-INPUT-VECTOR and S1-KEYBOARD.
-- Active slices: local tick/input order, suffocation-space escape, sprint timer, climbing/elytra, fluid descent, edge restraint and LivingEntity travel.
-- Next: close the four dependencies above; then finish all navigation stages and resource inventories.
-- Outstanding dependencies: SRC-OWNER-PROVENANCE,S1-ESCAPE-QUERY,S1-CLIMB-TAG,S2-EDGE-QUERY plus all pending stage work.
+- Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S3-WATER,S3-FALL-FLYING; findings slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S2-EDGE,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT.
+- Active slices: S1-LOCAL-TICK,S1-LOCAL-AISTEP,S1-ESCAPE,S1-ELYTRA,S3-GROUND-AIR; required stages 2-7 remain to be entered.
+- Next: close the exact suffocation-query and climbable-tag dependencies, then add bounded slices for remaining state, collision, world, modifier and external-input inventories.
+- Outstanding dependencies: S1-ESCAPE-QUERY,S1-CLIMB-TAG,remaining required stage 2-7 inventory slices, independent reviewer assignment.
 
 ## Implementation reconciliation
 
@@ -218,11 +288,11 @@ The historical pair report is not imported as source confirmation.
 
 ## Source audit closure
 
-- Coverage counts by status: pending 1; in-progress 4; compared-no-difference 2; findings 3; remaining required stage slices not yet entered and open.
+- Coverage counts by status: pending 0; in-progress 5; compared-no-difference 4; findings 7; remaining required stage slices not yet entered and open.
 - Required inventory status and evidence: all seven pending.
-- Open dependencies: SRC-OWNER-PROVENANCE,S1-ESCAPE-QUERY,S1-CLIMB-TAG,S2-EDGE-QUERY plus all stage 2-7 work.
+- Open dependencies: S1-ESCAPE-QUERY,S1-CLIMB-TAG,remaining required stage 2-7 inventory slices, and independent source reviewer assignment.
 - Unresolved gaps and limits: exhaustive source comparison is incomplete.
-- Evidence/hash/correspondence audit: Ready marker, artifact manifest, source manifest and core-file hashes verified; toolchain provenance and full method index pending.
+- Evidence/hash/correspondence audit: Ready/source/artifact manifest hashes and cited core source hashes verified; exact Mojmap provenance sidecars verified, mappingArtifacts=null, success logs are summary-only; full method/resource index remains pending.
 - Blind freeze: pending
 - Implementation reconciliation: pending
 - Independent audit: pending
