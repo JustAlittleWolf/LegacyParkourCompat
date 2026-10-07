@@ -86,13 +86,13 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 ### Slice TICK-02: sneaking during creative flight
 
 - Inventory ID(s): `INV-TICK`, `INV-STATE`.
-- Exact behavior boundary and enclosing guards/order checked: keyboard sneak input scaling and local flight branch before `moveRelative`.
-- A evidence: `LocalClientPlayerEntity.java` `mobTick()V`, lines 596-603; SHA-256 `1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053`.
-- B evidence: `LocalClientPlayerEntity.java` `mobTick()V`, lines 715-725; SHA-256 `8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d`.
-- State producers/writers -> consumers/readers: keyboard scales sideways/forward values by `0.3F`; B divides both by `0.3` while flying and sneaking before travel; vertical fly-speed update remains guarded by sneak/jump.
-- Parent slices / dependencies / closure evidence: `KeyboardInput.tick()` and `PlayerEntity.moveRelative(FF)V`.
+- Exact behavior boundary and enclosing guards/order checked: keyboard sneak scale -> local camera/flying/sneaking branch -> `LivingEntity.mobTick()` argument handoff to the player flight `moveRelative`; no item use or riding.
+- A evidence: `KeyboardInput.tick()V` lines 34-36, SHA-256 `a5e5b2033322f8867cd845e4095cea7a82888f6382cbfafefc559cf9ba3a76dd`; `LocalClientPlayerEntity.mobTick()V` lines 596-603, SHA-256 `1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053`; `LivingEntity.mobTick()V` line 1450, SHA-256 `082831c6578e3a70fa6cea5b90bc3eefc26678259b66334470de22b90b5b0e4e`; `PlayerEntity.moveRelative(FF)V` lines 1279-1294, SHA-256 `e66cb294fc93118148a444bbafdf4dd57cbf66a23d69b1e8892cefccc690ab88`.
+- B evidence: `KeyboardInput.tick()V` lines 46-48, SHA-256 `7be11425906be051c83e275f359816546e4677b16d212156380e8d2e9258654a`; `LocalClientPlayerEntity.mobTick()V` lines 715-725, SHA-256 `8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d`; `LivingEntity.mobTick()V` line 1711, SHA-256 `bbb7703f18fd5da05c4e4a43a77ea644b388e63c01d34166d308ea52054be4e5`; `PlayerEntity.moveRelative(FF)V` lines 1372-1390, SHA-256 `d658a0d95452d12bb7e347bfd802240eeecaf7f938e10dcd43e2640434387f85`.
+- State producers/writers -> consumers/readers: keyboard multiplies both axes by `0.3`; B divides the resulting floats by double `0.3` and casts before travel; the living tick passes the resulting axes to the player flight branch.
+- Parent slices / dependencies / closure evidence: exact keyboard producer, local branch guards, living call site, and player flight consumer are recorded in TICK-02. Item-use attenuation is excluded by the finding precondition; no trajectory/displacement claim depends on open collision/cutoff slices.
 - Status: findings
-- Disposition and rationale (including concrete reachability/preconditions): B cancels crouch input scaling for horizontal creative flight; A retains it.
+- Disposition and rationale (including concrete reachability/preconditions): B changes the horizontal arguments to flight travel for a sneaking local camera player who is flying, not riding, and not using an item; A retains the `0.3` keyboard scale.
 - Finding IDs or checked absence/replacement path: `findings/TICK-02-flight-sneak-input-rescaling.md`.
 
 ### Slice STATE-01: living velocity zero threshold
