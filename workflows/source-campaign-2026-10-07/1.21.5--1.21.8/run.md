@@ -138,15 +138,14 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 ### Slice S2.3: direct movement predicates and active-item state
 
 - Inventory ID(s): INV-STATE, INV-EXCLUSIONS
-- Exact behavior boundary and enclosing guards/order checked: in-scope predicates reading player/active-item/vanilla system state; exclude producing/emulating health, food, exhaustion, damage and combat systems.
-- A evidence: pending source publication.
-- B evidence: pending source publication.
-- State producers/writers -> consumers/readers: pending direct read map; excluded producer systems will be marked out of scope.
-- Parent slices / dependencies / closure evidence: S1.3; S6.3; DEP-SRC-A; DEP-SRC-B.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison.
-- Finding IDs or checked absence/replacement path: none yet.
-
+- Exact behavior boundary and enclosing guards/order checked: client sprint-start/stop predicates, active-use and slow-movement state reads, food/Blindness gates, server-side player `canSprint`, and health predicates encountered in player tick. This is a scoped predicate comparison, not closure of every LivingEntity state read.
+- A evidence: `LocalPlayer#shouldStopRunSprinting()` / `shouldStopSwimSprinting()` / `hasBlindness()` lines 837-855; `canStartSprinting()` / `vehicleCanSprint()` / `hasEnoughFoodToSprint()` lines 1065-1082; `isMovingSlowly()` line 603 and `isUsingItem()` line 489. `Player#canSprint()` line 2025; `LivingEntity#isDeadOrDying()` line 1108 and `isAlive()` line 1628. Source hashes: LocalPlayer `f1fcfed4a938732361e7ad951f93e9b73b02320ee56f0b219e2b3c7acdbfa2ef`, Player `8fc187f33999db9dfc49251e95e92a17645a50adab16ca0f93f4948209f62036`, LivingEntity as recorded in S1/S3.
+- B evidence: corresponding LocalPlayer ranges 837-855, 1065-1082, 603 and 484; Player `canSprint()` line 2040; LivingEntity health predicate methods lines 1140 and 1660. Source hashes: LocalPlayer `53f2a71a886b9c71853afe36f2df857f80a9bf1cd6ec4ca8604ccd7e238d89ee`, Player `8dc5514fe44311f39268692f5188840b9f65cb71143228fa8b84242585ea7987`, LivingEntity as recorded in S1/S3. Exact method-body hashes match A/B for both sprint-stop predicates, sprint-start, food and blindness gates, `isMovingSlowly`, `Player#canSprint`, `LivingEntity#isUsingItem`, `isDeadOrDying`, `isAlive`, and `hasEffect`.
+- State producers/writers -> consumers/readers: sprint can start only with forward input, enough food or passenger/mayfly allowance, no active item use or Blindness, compatible vehicle, and the same water/fall-flight/slow-movement conditions; sprint-stop guards read the same predicates. `isMovingSlowly()` is crouching or visually crawling. Active-use state is the same local `startedUsingItem` read or LivingEntity synchronized flag read. Food/health/effect producer systems remain excluded; their directly read values are tracked as movement predicates. `Player#aiStep()` also checks health/death for bobbing/interaction work, not for the physical travel calculation. Other direct predicate call sites still need inventory.
+- Parent slices / dependencies / closure evidence: S1.1-S1.4; S2.2; S2.4; S3.1-S3.4; S6.2; DEP-SRC-A; DEP-SRC-B.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no difference found in the compared local sprint gates, active-item state, player sprint capability, or named health/effect readers. This does not close the full direct-predicate or excluded-producer map.
+- Finding IDs or checked absence/replacement path: no movement difference in the compared S2.3 methods; additional predicate call sites remain open.
 ### Slice S2.4: swimming/crawling pose and flight ability state
 
 - Inventory ID(s): INV-STATE, INV-TICK
@@ -402,7 +401,7 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 ## Resume checkpoint
 
 - Last completed slice: S2.1 compared-no-difference.
-- Next bounded slice and exact files/members/body ranges to open: continue S2.2 movement-flag/state writers and S2.3 direct predicates; trace the remaining collision provider, fluid, movement-property, modifier and external-input call chains before final dependency closure.
+- Next bounded slice and exact files/members/body ranges to open: continue S2.2 remaining movement-state writer closure; trace the remaining collision provider, fluid, movement-property, modifier and external-input call chains before final dependency closure.
 - Outstanding dependencies and owners: remaining state writer/consumer routes, collision/provider callback inventory, block/fluid property and resource inventory, movement modifiers, external movement inputs, exclusion disposition and independent source audit; source publications are ready.
 - Current assumptions requiring verification: remaining changed provider behavior and resources, all movement writer/consumer edges, and the exact preconditions of each candidate.
 
@@ -427,8 +426,8 @@ Complete only after source-only freeze. No mod implementation was opened for thi
 
 ## Source audit closure
 
-- Coverage counts by status: 2 pending; 19 in-progress; 6 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked (all 7 inventories pending).
-- Required inventory status and evidence: INV-TICK has paired S1.1-S1.4 input/tick/jump/sprint/flight/riding comparisons and partial S3.1-S3.5 travel consumer evidence; INV-STATE has core movement setter pairs, input, pose/dimension/scale and swimming/fall-flight subsets; S1.1-S1.4, S2.1 and S2.4 compared, S2.2 and S3.2/S3.5 partially checked; INV-COLLISION has pose-fit, collision/edge/support method comparisons and partial S4.3/S4.4 evidence; INV-WORLD-MOVEMENT has partial S5.1-S5.3 property/fluid source evidence and S5.2 provider evidence; INV-EXTERNAL has partial S7.1-S7.3 evidence; INV-MODIFIERS has partial attribute/effect/modifier-source evidence in S6.1-S6.3. Remaining stages, providers, resources and full exclusions inventory remain pending. Both exact sources and markers are hash-verified.
+- Coverage counts by status: 1 pending; 20 in-progress; 6 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked (all 7 inventories pending).
+- Required inventory status and evidence: INV-TICK has paired S1.1-S1.4 input/tick/jump/sprint/flight/riding comparisons and partial S3.1-S3.5 travel consumer evidence; INV-STATE has core movement setter pairs, input, pose/dimension/scale and swimming/fall-flight subsets; S1.1-S1.4, S2.1 and S2.4 compared, S2.2-S2.3 and S3.2/S3.5 partially checked; INV-COLLISION has pose-fit, collision/edge/support method comparisons and partial S4.3/S4.4 evidence; INV-WORLD-MOVEMENT has partial S5.1-S5.3 property/fluid source evidence and S5.2 provider evidence; INV-EXTERNAL has partial S7.1-S7.3 evidence; INV-MODIFIERS has partial attribute/effect/modifier-source evidence in S6.1-S6.3. Remaining stages, providers, resources and full exclusions inventory remain pending. Both exact sources and markers are hash-verified.
 - Open dependencies: body-level slice and relevant resource/provider inventory; source publication dependencies are resolved.
 - Unresolved gaps and limits: S1.1-S1.4, S2.1 and S2.4 are compared-no-difference; S3.1-S3.5 remain in progress with exact travel/jump consumers compared and dependencies open; S2.2-S2.3, S4.1-S4.4, S5.1-S5.3, S6.1-S6.3 and S7.1-S7.3 are in progress with three source-supported candidates, none independently reviewed. All other pair coverage remains open.
 - Evidence/hash/correspondence audit: A/B readiness JSON and source/artifact/diagnostic hashes verified; S1.1-S1.4 input/tick/jump/sprint/flight path, S2.1 bodies, and S3.1-S3.5 travel/jump consumer methods, S2.2 core movement setters and client correction consumers, S4.1/S4.2 collision/support methods, S4.3 validator query, S4.4 movement-recording/contact path and Nether Portal callback shape, S6 attribute/effect/modifier method subsets, plus S7.2 knockback/velocity push consumers checked; remaining member/resource/provider/body diagnostics pending.
