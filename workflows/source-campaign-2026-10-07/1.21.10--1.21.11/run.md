@@ -1,6 +1,6 @@
 # Discovery: 1.21.10 to 1.21.11
 
-- Run status: active
+- Run status: partial
 - Scope: fresh source-only direct client-player movement comparison; older A = 1.21.10; newer B = 1.21.11. Do not read old/current mod implementation or wiki-audit output, browse Minecraft Wiki/MCPK, or use release notes. Exclude health/food-state production, attack/damage resolution, non-player movement and vehicle physics; direct player-motion, velocity, impulse and knockback response triggered by native movement events remains in scope. No Java implementation or runtime validation before the required handoff.
 - Repository revision and start date: comparison branch created from `main` at `002137b227676caea77f6832b9f4c8d0b6200bff`; 2026-10-07. Branch `feat/source-discovery-movement-source-1-21-10-1-21-11`.
 - Selected naming namespace, CLI mode per side and alignment evidence: Mojmap on both sides; exact pair markers confirm matching `mojmap` namespace and exact release IDs 1.21.10 and 1.21.11.
@@ -109,15 +109,14 @@ The entries below are provisional behavior buckets from the required navigation 
 ### Slice S1-sneak-use: sneak and item-use input scaling, edge-sneak path and timing
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
-- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
-- State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
-
+- Exact behavior boundary and enclosing guards/order checked: A/B `LocalPlayer.applyInput(Vec2)V` scales the sampled vector via `modifyInput(Vec2)V` before assigning movement impulses; the bounded comparison covers `isMovingSlowly()Z`, the scaling sequence and square-movement normalization, plus the `Player.maybeBackOffFromEdge(Vec3,MoverType)V` override and its `Entity.move(MoverType,Vec3)V` dispatch before collision resolution.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.21.10/mojmap/net/minecraft/client/player/LocalPlayer.java`, `isMovingSlowly()Z` lines 607-09, `applyInput(Vec2)V` lines 612-25, `modifyInput(Vec2)V` lines 627-43 and `modifyInputSpeedForSquareMovement(Vec2)V` lines 645-55, SHA-256 `9c1df00e2f8379b2c19577a3691fee28071d8925210be3d3df928b5352e367e1`; `world/entity/player/Player.java`, `isStayingOnGroundSurface()Z` lines 309-11 and `maybeBackOffFromEdge(Vec3,MoverType)V` / `isAboveGround(F)Z` / `canFallAtLeast(DDD)Z` lines 891-951, SHA-256 `af857617b66a5776e63830771360b96f75e21d47d20db08f164a2dbeee801d82`; `world/entity/Entity.java`, `move(MoverType,Vec3)V` lines 670-766 calls the edge hook at line 696 before `collide`, SHA-256 `8361dbb86fe6c975d21f69d008377b6f191669be751150c842517e9d0346fa18`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.21.11/mojmap/net/minecraft/client/player/LocalPlayer.java`, `isMovingSlowly()Z` lines 648-50, `applyInput(Vec2)V` lines 653-66, `modifyInput(Vec2)V` lines 668-84 and `modifyInputSpeedForSquareMovement(Vec2)V` lines 686-96, SHA-256 `948e94f8e874b2f72e9a689e6e3ba1933f5728ec381d64f3bb5e2388718bd477`; `world/entity/player/Player.java`, `isStayingOnGroundSurface()Z` lines 309-11 and `maybeBackOffFromEdge(Vec3,MoverType)V` / `isAboveGround(F)Z` / `canFallAtLeast(DDD)Z` lines 889-951, SHA-256 `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`; `world/entity/Entity.java`, `move(MoverType,Vec3)V` lines 685-781 calls the edge hook at line 711 before `collide`, SHA-256 `32314478c6036fa9f3f3cc409c61c622eeffc5a282d60e1011a1a33cc29cf18a3`.
+- State producers/writers -> consumers/readers: sampled directional input, item-use state, crouch/crawl state and `SNEAKING_SPEED` feed LocalPlayer input scaling; shift state, flying ability, requested Y movement, mover type, step height, ground state, fall distance and collision support checks gate edge retreat. The input is later consumed by player travel; edge retreat feeds the shared entity collision path.
+- Parent slices / dependencies / closure evidence: `S1-input-sampling` verifies the input source and capture order; `S1-use-effects-modern-spear` covers the B item-use multiplier component and modern-only spear exception; `S3-ground-air` covers relative movement consumption. Full entity movement/collision remains open in `S4-move-core` and its child slices.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for A-era vanilla items, both versions scale nonzero input by `0.98F`, apply the item-use multiplier, apply `SNEAKING_SPEED` when crouching or visually crawling, then normalize/clamp through the same square-movement formula. B obtains its multiplier from the component; the default remains `0.2F`, while the only inspected vanilla override is the B-only spear family recorded separately as modern-only. The Player edge-retreat body and its shift-key surface predicate match; `Entity.move` invokes it at the same point before collision resolution. No historical-content difference was found in this bounded input/edge slice; this does not close the remaining movement/collision inventory.
+- Finding IDs or checked absence/replacement path: no historical-content delta found in the compared methods; B-only spear applicability is recorded in `S1-use-effects-modern-spear`.
 ### Slice S1-use-effects-modern-spear: item-use slowdown and sprint permission component
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
@@ -684,8 +683,8 @@ Three source-confirmed findings are recorded in `findings/F-S1-FLIGHT-VEHICLE-GA
 
 ## Resume checkpoint
 
-- Last completed slice: source-gate preparation and the first bounded input-sampling comparison; eleven bounded slices are compared-no-difference (input sampling, sprint transitions, knockback vector math, Player knockback sync scheduling, food/passenger sprint eligibility, Player travel dispatch, water travel, lava travel, fall-flying travel, jump impulse, and air/ground travel), three source-confirmed findings cover the flight-toggle, delayed-load tick gate, and fall-flying/climbable dispatch, the tagged vehicle buoyancy addition is out of scope, and the new spear effect is modern-only; all other coverage remains open.
-- Next bounded slice and exact files/members/body ranges to open: continue with `S1-input-sampling` and `S3-travel-dispatch`; then split the remaining broad movement buckets into method-bounded slices and close their call/data dependencies.
+- Last completed slice: source-gate preparation; twelve bounded slices are compared-no-difference (input sampling, sprint transitions, knockback vector math, Player knockback sync scheduling, food/passenger sprint eligibility, Player travel dispatch, water travel, lava travel, fall-flying travel, jump impulse, air/ground travel, and sneak/item-use input scaling with edge retreat); three source-confirmed findings cover the flight-toggle, delayed-load tick gate, and fall-flying/climbable dispatch; tagged vehicle buoyancy is out of scope and the new spear effect is modern-only; all other coverage remains open.
+- Next bounded slice and exact files/members/body ranges to open: `S4-move-core`, A `Entity.move(MoverType,Vec3)V` lines 670-766 and B lines 685-781; then split its collision, step, support, velocity and callback dependencies into method-bounded slices.
 - Outstanding dependencies and owners: `D-METHOD-BODY-REVIEW` (discovery worker); newly discovered producer/consumer, shape, registration and data dependencies will be added with exact owners/actions.
 - Current assumptions requiring verification: all listed ready/source/artifact hashes were verified. Remaining assumptions: exact member correspondence, operation/callback order, every reachable player state writer and producer/consumer dependency, relevant jar resource entries, and source-level movement semantics.
 
@@ -712,14 +711,14 @@ Three source-confirmed findings are recorded in `findings/F-S1-FLIGHT-VEHICLE-GA
 
 ## Source audit closure
 
-- Coverage counts by status: 35 pending; 0 in-progress; 11 compared-no-difference; 3 findings; 2 not-applicable; 0 blocked. Pair provenance is verified; all three finding slices have source evidence and remain subject to independent finding review; other slices remain open.
+- Coverage counts by status: 34 pending; 0 in-progress; 12 compared-no-difference; 3 findings; 2 not-applicable; 0 blocked. Pair provenance is verified; all three finding slices have source evidence and remain subject to independent finding review; other slices remain open.
 - Required inventory status and evidence: all seven inventories pending method-bounded traversal, producer/consumer linkage and full closure. Source roots and artifact hashes are verified above.
 - Open dependencies: `D-METHOD-BODY-REVIEW` and all method/resource dependencies discovered during the seven-stage walk.
-- Unresolved gaps and limits: pair provenance is verified; three bounded movement/tick-gate deltas are source-confirmed, while the remaining movement behavior is not yet covered. Keep active while comparison proceeds; at handoff, any open source slice requires partial status.
-- Evidence/hash/correspondence audit: ready JSON, provenance, source/artifact manifests and diagnostics hashes are verified; full source-file and cache-artifact inventories match the markers. Per-slice source ranges and hashes are pending direct inspection.
+- Unresolved gaps and limits: pair provenance is verified; three bounded movement/tick-gate deltas are source-confirmed, while the remaining movement behavior is not yet covered. At this handoff, open source slices and unassigned independent review require partial status.
+- Evidence/hash/correspondence audit: ready JSON, provenance, source/artifact manifests and diagnostics hashes are verified; full source-file and cache-artifact inventories match the markers. Per-slice source ranges and hashes are recorded for closed slices; direct inspection remains pending for open slices.
 - Full-pair blind freeze: pending
 - Implementation reconciliation: pending
 - Independent audit: pending
 - Accepted finding snapshots: none. Full-pair freeze: pending. Implementation reconciliation: pending. Independent audit: pending. Runtime validation: not performed; not authorized.
 
-The completion checker validates schema/status only and cannot establish source truth. The independent source audit remains mandatory. Keep this folder limited to run.md and optional findings/*.md.
+The completion checker validates schema/status only and cannot establish source truth. The independent source audit remains mandatory. This is a partial checkpoint; no pair-complete conclusion is claimed. Keep this folder limited to run.md and optional findings/*.md.
