@@ -34,4 +34,3 @@ In 1.9.4, `PlayerEntity.updatePlayerPose` (`PlayerEntity.java:285–307`, called
 - **Chests/anvils:** 1.8.9 updates mutable block-instance shape bounds from nearby chest/facing state; 1.9.4 returns a box for the queried state/world instead (`ChestBlock.getShape`, `AnvilBlock.getShape`). This supports the MCPK manipulation-page claim that the cross-variant bounds trick was patched. “Fixed collision box” is imprecise if read as one invariant box: double chests still depend on neighbors and anvils still depend on orientation. The source-backed change is per-query/per-variant bounds instead of the old shared mutable bounds.
 
 The MCPK labels the relevant movement/shape boundary “1.9.” The checked endpoint diff proves these deltas are present by 1.9.4, but this two-endpoint check alone does not prove whether any individual change first shipped in 1.9.0 or a later 1.9 patch.
-

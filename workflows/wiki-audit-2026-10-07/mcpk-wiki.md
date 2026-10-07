@@ -48,6 +48,3 @@ Detailed method bodies, operation order, endpoint hashes, and remaining open cla
 - 1.18 has only TODOs; the inspected wiki page has no later sections.
 
 These are explicit coverage gaps, not negative findings. Ready source endpoints do not automatically settle claims whose methods were not inspected.
-
-
-
