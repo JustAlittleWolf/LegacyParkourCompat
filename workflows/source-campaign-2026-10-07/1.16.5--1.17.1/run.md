@@ -163,14 +163,14 @@ Each entry is a bounded behavior slice, not an entire class/stage/travel method.
 ### Slice S1-06: Riding and local movement transitions
 
 - Inventory ID(s): INV-TICK; INV-EXTERNAL
-- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
-- A evidence: pending source readiness; no range accepted.
-- B evidence: pending source readiness; no range accepted.
-- State producers/writers -> consumers/readers: pending paired inventory.
-- Parent slices / dependencies / closure evidence: pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
-- Finding IDs or checked absence/replacement path: pending.
+- Exact behavior boundary and enclosing guards/order checked: compared ClientLevel root/passenger scheduling, Player-specific passenger branches, Entity/LivingEntity.rideTick dispatch, LocalPlayer passenger packets, charged jump-riding input, and local tick membership. The server-controlled vehicle's physics are outside the player movement scope; player input, player tick scheduling, passenger placement and player-side transitions remain in scope.
+- A evidence: net/minecraft/client/multiplayer/ClientLevel.java#tickEntities lines 152-179, #tickNonPassenger lines 181-202 and #tickPassenger lines 204-223; LocalPlayer.java#tick passenger packet branch lines 187-196 and #aiStep riding-jump state lines 761-787; #sendRidingJump lines 362-367; Entity.java#rideTick lines 1577-1583; LivingEntity.java#rideTick lines 2577-2582. Hashes are in the artifact source table above.
+- B evidence: net/minecraft/client/multiplayer/ClientLevel.java#tickEntities lines 161-171, #tickNonPassenger lines 173-183 and #tickPassenger lines 185-195; LocalPlayer.java#tick passenger packet branch lines 194-202 and #aiStep riding-jump state lines 783-809; #sendRidingJump lines 367-372; Player.java#isAlwaysTicking lines 2048-2050; Entity.java#rideTick lines 1689-1695; LivingEntity.java#rideTick lines 2689-2694. Hashes are in the artifact source table above.
+- State producers/writers -> consumers/readers: vehicle passenger relation and server updates feed ClientLevel passenger recursion; LocalPlayer's sampled input and jump edge feed xxa/zza/jump/shift packet values and the PlayerRideableJumping charge sequence; LocalPlayer.rideTick dynamically invokes LocalPlayer.tick, which runs the superclass player movement path only when its local chunk gate passes; `sendRidingJump` emits START_RIDING_JUMP with floor(scale*100). Server packet consumers and server-originated player/vehicle corrections remain open under S7. Non-player vehicle movement is excluded.
+- Parent slices / dependencies / closure evidence: S1-02 closes top-level entity/tick-list membership; S1-01/S1-04/S1-05 close input, jump and flight edges; S3 closes player passenger travel; S7-01/S7-03 close serverbound input/jump and correction writers. A ClientLevel's `inChunk` writer/update path and B's entity-section ticking callbacks are required to resolve player membership edge cases.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): For a valid Player passenger whose vehicle is ticking, A enters the Player branch even when the passenger is not in an entity-ticking chunk, but increments tickCount and calls rideTick only if `inChunk`; it then updates chunk registration and recurses only while inChunk. B enters the Player branch unconditionally after vehicle/removal guards, increments tickCount and calls rideTick regardless of tickingEntities membership; entity-section move callbacks replace A's explicit updateChunkPos call. A Player with `inChunk=false` and a still-valid passenger relation therefore reaches rideTick in B but not A on that pass. Resolve whether LocalPlayer can satisfy that state with a loaded chunk and close the resulting player-side behavior before terminal disposition. The ride-jump charge formula/order and START_RIDING_JUMP payload expression match; ordinary passenger packet call order is aligned apart from rotation accessors pending S7-01.
+- Finding IDs or checked absence/replacement path: candidate delta CD-S1-06-01 — Player passenger rideTick admission changes from A's inChunk gate to unconditional Player handling in B; concrete reachable effect pending membership/correction closure in S7. The charged jump formula/payload is pair-matched but server consumer closure remains open.
 
 ### Slice S2-01: Pose, dimensions, and resize collision query
 
@@ -523,7 +523,7 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 ## Resume checkpoint
 
 - Last completed slice: none; source pair verified, S1-01 in-progress pending S1-02/S2-01 closure.
-- Next bounded slice: S1-06 riding and local movement transitions; retain S1-01..S1-05 as in-progress until their listed input/pose, tick-membership, ability, speed, fluid/collision, modifier, item and travel dependencies close.
+- Next bounded slice: S2-01 pose, dimensions, and resize collision query; retain S1-01..S1-06 as in-progress until their listed input/pose, tick-membership, ability, speed, fluid/collision, modifier, item, mount and external-writer dependencies close.
 - Outstanding dependencies and owners: source-owner publication is complete; source closure remains with this run, including S1-06 entity-tick membership/passenger scheduling and the remaining movement/resource inventories.
 - Assumptions requiring verification: no unresolved source-root or namespace assumptions; verify every newly selected source file against its manifest as slices are opened.
 
@@ -546,10 +546,10 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ## Source audit closure
 
-- Coverage counts by status: 29 pending, 5 in-progress, 0 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
+- Coverage counts by status: 28 pending, 6 in-progress, 0 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
 - Required inventory status and evidence: all seven pending; evidence pending.
-- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; S1-05 abilities, Elytra/item state and travel/external writers; RESOURCE-INVENTORY and DECOMPILER-DIAGNOSTICS scope closure.
-- Unresolved gaps and limits: S1-01..S1-05 dependency closure and the remaining 29 source slices are open.
+- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; S1-05 abilities, Elytra/item state and travel/external writers; S1-06 chunk membership, passenger and server packet/correction closure; RESOURCE-INVENTORY and DECOMPILER-DIAGNOSTICS scope closure.
+- Unresolved gaps and limits: S1-01..S1-06 dependency closure and the remaining 28 source slices are open.
 - Evidence/hash/correspondence audit: not started.
 - Blind freeze: pending.
 - Implementation reconciliation: pending.
