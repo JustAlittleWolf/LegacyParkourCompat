@@ -16,7 +16,7 @@ The current namespace plan is Feather for older releases where available, both F
 
 ## Ready versions
 
-- The latest shared-store snapshot has readiness records for exact endpoints through `1.19.4`, plus `26.2` (including `1.8.9/ornithe-feather`, `1.9.4/ornithe-feather`, and `26.2/unobfuscated`). The `1.20.x` and `1.21.x` batches remain in progress or queued.
+- The latest shared-store snapshot has readiness records through `1.20.6`, plus the boundary sources `1.16.1` and `1.16.2`, and `26.2` (including `1.8.9/ornithe-feather`, `1.9.4/ornithe-feather`, `1.14.4` in Feather and Mojmap, and `26.2/unobfuscated`). The `1.21.x` batch remains in progress or queued.
 - Before comparing a pair, each worker reads both actual readiness JSON files and verifies exact requested/resolved IDs, namespace, source/artifact/diagnostics hashes, and the cited method bodies. A directory listing or a different pair's marker is not evidence that the requested pair is ready.
 
 See each `ready/<version>/` directory for its marker, source manifest, artifact manifest, and movement diagnostics.
