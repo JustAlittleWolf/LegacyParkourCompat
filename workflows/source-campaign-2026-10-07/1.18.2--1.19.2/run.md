@@ -46,7 +46,7 @@ Artifact paths below are relative to repository root; generated artifacts remain
 ## Blind-discovery freeze
 
 - Status: partial handoff; source discovery is still blind to implementation.
-- Freeze commit/checkpoint and timestamp: no final blind freeze; partial report checkpoint will be recorded in Git at handoff.
+- Freeze commit/checkpoint and timestamp: no final blind freeze; partial handoff checkpoint is commit `1ed5e4b` at `2026-10-07T17:25:07+02:00`.
 - Evidence inventory and finding IDs included at freeze: F-001 and F-002 are source-confirmed; remaining slice evidence is not frozen.
 - Confirmation that old mod implementation/code and isolated wiki-audit results were not opened before freeze (prior source-discovery reports may be used as navigation): confirmed; neither implementation nor wiki outputs were inspected, and no wiki was browsed.
 - Source/mapping hashes covered by freeze: pending exact source verification.
