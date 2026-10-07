@@ -50,8 +50,7 @@ def check(path: Path) -> list[str]:
     if not manifest.is_file():
         return [f"run manifest not found: {manifest}"]
     content = manifest.read_text(encoding="utf-8")
-    header = content.split("\n## ", 1)[0]
-    top_statuses = re.findall(r"^- Status:\s*(\S+)\s*$", header, re.M)
+    header = content.split("\n## ", 1)[0]`n    top_statuses = re.findall(r"^- Status:\s*(\S+)\s*$", header, re.M)
     if len(top_statuses) != 1:
         errors.append(f"expected exactly one top-level status, found {len(top_statuses)}")
         top_status = "invalid"
@@ -121,8 +120,7 @@ def check(path: Path) -> list[str]:
                 errors.append(f"{heading}: expected status `{expected}`")
         audit = re.search(r"^## Independent source audit\s*$([\s\S]*?)(?=^## |\Z)", content, re.M)
         if audit:
-            for label in ("Reviewer", "Inventories and call-chain ranges re-walked", "Concrete missed-slice routes (or 
-one found`)", "Misses routed to slice/finding IDs and owners", "Reviewer evidence / date"):
+            for label in ("Reviewer", "Inventories and call-chain ranges re-walked", "Concrete missed-slice routes (or `none found`)", "Misses routed to slice/finding IDs and owners", "Reviewer evidence / date"):
                 if not concrete(value(audit.group(1), label)):
                     errors.append(f"Independent source audit: missing concrete `{label}`")
         if not re.search(r"^- Open dependencies:\s*none\s*$", content, re.M):
@@ -147,5 +145,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
 
