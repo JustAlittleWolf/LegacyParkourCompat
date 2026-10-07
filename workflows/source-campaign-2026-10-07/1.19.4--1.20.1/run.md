@@ -167,6 +167,20 @@ The in-scope audit will preserve exact operation order, casts, float/double boun
 - Finding IDs or checked absence/replacement path: F-02, source-confirmed changed support-position input path; exact affected blocks and trajectories not claimed.
 
 
+
+### Slice S4-02: Entity collision clipping kernels
+
+- Inventory ID(s): INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: Entity#collide, #collideBoundingBox, #collideWithShapes, CollisionGetter#getCollisions/#getBlockCollisions, BlockCollisions#computeNext when producing VoxelShape values, Shapes#collide and shared box/shape primitives.
+- A evidence: Entity#collide lines 801-825, #collideBoundingBox lines 827-841 and #collideWithShapes lines 843-878; Entity.java SHA-256 3667fee610cbc5f58012e3a8fb8d6c4849f649fb7fe5300595158112d8b4b58b. CollisionGetter#getCollisions/#getBlockCollisions lines 67-75; CollisionGetter.java ed62e6b800ec057c1269d3cc4e2fb7c0cc2037370223fac99f41371e000c6b5c. BlockCollisions#computeNext lines 65-96; BlockCollisions.java 11fecadc012d0a544097bf0febfa1a83da5a534e6182ee7df7b2334b6ee80127. Shapes#collide lines 204-214; AABB.java 594239bb50298d34533fc8efc113f4c4b5312a41d3dc1713cc85130d5020ee5e; VoxelShape.java 99f8b6e44e6c249b251d98a99e38158ebcb459733b26cc98bae15d51d3b87417; Shapes.java ec207e73b8e9de4b1234132f81126973f0cb2bb37646b070d273259f2e91311a.
+- B evidence: Entity#collide lines 870-894, #collideBoundingBox lines 896-910 and #collideWithShapes lines 912-947; Entity.java SHA-256 94b9c3656715de2d61fa9a02ccef164261e50eb13d6090a6f07e58fe9c5b0759. CollisionGetter#getCollisions/#getBlockCollisions lines 67-75; CollisionGetter.java 8e4863afe40705497b36d0a58d8ee11e5103f4e72cb642aa63cc57f57649a130. BlockCollisions#computeNext lines 65-96; BlockCollisions.java 3313a38f9ebbd389f62e95dcbedab6a4f7f3cd3920b9ffa0ecf1a77dd869725b. Shapes#collide lines 204-214; AABB.java 594239bb50298d34533fc8efc113f4c4b5312a41d3dc1713cc85130d5020ee5e; VoxelShape.java 99f8b6e44e6c249b251d98a99e38158ebcb459733b26cc98bae15d51d3b87417; Shapes.java ec207e73b8e9de4b1234132f81126973f0cb2bb37646b070d273259f2e91311a.
+- State producers/writers -> consumers/readers: LocalPlayer#move -> Entity.move/Entity.collide -> CollisionGetter shape iterator -> axis clipping kernel -> resolved displacement and collision flags. This slice stops before block shape providers and support-block selection.
+- Parent slices / dependencies / closure evidence: S4-01/F-02 support lookup; S5 provider/registration inventory remains open.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): Entity collision/step clipping bodies match after field/API access normalization; AABB, VoxelShape and Shapes source files have identical hashes. CollisionGetter retains the same getCollisions composition and BlockCollisions scans the same cursor, chunk and collision-shape gates; B adapts its yielded result through a callback and adds an explicit nonempty-shape guard before intersection, which leaves the bounded shape candidate stream unchanged. This closes only core clipping/query kernels, not block-specific shape selection.
+- Finding IDs or checked absence/replacement path: no core clipping-kernel delta; support selection is handled independently by F-02.
+
+
 Both exact Mojmap source pairs and full manifests are verified. S1-01 and S1-02 are terminal, S3-01 records a source-confirmed finding, and portal/collision/external traces remain open.
 
 ## Dependency queue and blockers
@@ -211,8 +225,8 @@ This is a source-only assignment. Existing/old mod implementation has not been i
 
 ## Source audit closure
 
-- Coverage counts by status: 2 compared-no-difference slices (S1-01, S1-02); 2 findings slices (S3-01, S4-01); 4 in-progress slices (S1-PORTAL, S1-03, S1-04, S1-05); remaining planned slices not yet created; 7 required inventory maps incomplete; 1 resource/tag dependency and independent audit remain open.
-- Required inventory status and evidence: all seven maps remain incomplete; exact-pair member evidence is recorded for bounded S1-01/S1-02/S1-03/S1-04/S1-05/S3-01/S4-01 slices.
+- Coverage counts by status: 3 compared-no-difference slices (S1-01, S1-02, S4-02); 2 findings slices (S3-01, S4-01); 4 in-progress slices (S1-PORTAL, S1-03, S1-04, S1-05); remaining planned slices not yet created; 7 required inventory maps incomplete; 1 resource/tag dependency and independent audit remain open.
+- Required inventory status and evidence: all seven maps remain incomplete; exact-pair member evidence is recorded for bounded S1-01/S1-02/S1-03/S1-04/S1-05/S3-01/S4-01/S4-02 slices.
 - Open dependencies: D2 worker jar-resource/data audit after relevant consumers are inventoried; independent source audit and remaining slice closure.
 - Unresolved gaps and limits: remaining navigation inventories, member correspondences, resources, findings and dependency closure; independent audit.
 - Evidence/hash/correspondence audit: exact endpoint IDs, Mojmap namespaces, ready/provenance/source/artifact/diagnostic hashes, complete manifests and source range hashes verified; remaining member maps are open.
