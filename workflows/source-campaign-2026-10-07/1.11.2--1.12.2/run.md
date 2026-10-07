@@ -128,8 +128,9 @@ No findings recorded in this fresh campaign yet. Prior `1.11.2--1.12.2` run cont
 
 ## Source audit closure
 
-- Coverage counts: 38 pending; 0 in-progress; 0 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked.
+- Coverage counts: 42 pending; 0 in-progress; 0 compared-no-difference; 0 findings; 0 not-applicable; 0 blocked.
 - Findings in this fresh run: 0.
 - Unresolved gaps: source readiness, full seven-stage inventory, dependency closure and warning disposition.
 - Evidence/hash/correspondence audit: not started; no source evidence admitted yet.
 - Runtime validation: not performed (separate workflow).
+
