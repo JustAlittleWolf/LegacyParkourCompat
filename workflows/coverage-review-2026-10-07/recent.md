@@ -8,7 +8,7 @@
 
 All inspected drafts remain active and incomplete. Their planned/stage ledgers are not source coverage. Exact pair-specific readiness records, body-level evidence, full caller/callee closure, registrations/resources and semantic comparisons are still outstanding. No draft is accepted complete.
 
-| Pair | Owner draft observed | Disposition |
+The initial disposition matrix below is a historical reviewer snapshot; use the current owner-branch refresh at the end for live owner status. The earlier independent review evidence remains in force where explicitly preserved.\n\n| Pair | Owner draft observed | Disposition |
 |---|---|---|
 | 1.21.1 → 1.21.3 | `run.md`, active; seven required inventory maps pending; no bounded slice blocks. Exact A/B Mojmap sources are now ready and independently hash-verified; owner report remains stale. | Not accepted; source comparison has begun, but no bounded evidence ledger or closure. |
 | 1.21.3 → 1.21.4 | `run.md`, active; seven required inventory maps pending; no bounded slice blocks. Exact Mojmap ready marker is now published; pair hashes not independently checked here. | Not accepted; no comparison evidence.  |
