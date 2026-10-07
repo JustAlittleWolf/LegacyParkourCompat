@@ -1,6 +1,6 @@
 # Discovery: 1.14.4 to 1.15.2
 
-- Run status: active
+- Run status: partial
 - Scope: complete client player movement call graph; older A = 1.14.4; newer B = 1.15.2
 - Repository revision and start date: base 002137b227676caea77f6832b9f4c8d0b6200bff (main); 2026-10-07; task branch feat/source-discovery-movement-source-1-14-4-1-15-2
 - Selected naming namespace, CLI mode per side and alignment evidence: Mojmap for A and B. Both ready JSONs report exact version IDs and mapping=mojmap; each client jar uses its own official client mappings.
@@ -46,62 +46,62 @@ All inventories remain pending while exact method and dependency coverage is in 
 ### Slice S-INPUT-KEYS: keyboard sampling, normalization and sneak scaling
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Input.tick dispatch to KeyboardInput.tick; key booleans -> forward/side impulses -> optional 0.3 scaling.
-- A evidence: ready/1.14.4/mojmap/net/minecraft/client/player/KeyboardInput.java::KeyboardInput#tick(boolean,boolean), lines 13-26; file hash pending.
-- B evidence: ready/1.15.2/mojmap/net/minecraft/client/player/KeyboardInput.java::KeyboardInput#tick(boolean), lines 13-26; file hash pending.
+- Exact behavior boundary and enclosing guards/order checked: Input.tick dispatch to KeyboardInput.tick; key booleans -> forward/side impulses -> optional 0.3 scaling. Caller boolean and spectator guard still require semantic closure.
+- A evidence: ready/1.14.4/mojmap/net/minecraft/client/player/KeyboardInput.java::KeyboardInput#tick(boolean,boolean), lines 13-26; SHA-256 33daa0833a95e09e728c1b8f509020dd13b70e38aba922e2b1e10ec5c9b7739a.
+- B evidence: ready/1.15.2/mojmap/net/minecraft/client/player/KeyboardInput.java::KeyboardInput#tick(boolean), lines 13-26; SHA-256 746ea654cf4f46a5f4b94a237c4307652252a44807a488b606dc993e088396f7.
 - State producers/writers -> consumers/readers: options keys -> Input booleans/impulses -> LocalPlayer pre-travel predicates and LivingEntity.travel.
 - Parent slices / dependencies / closure evidence: S-LOCAL-PRETRAVEL; Input.java both sides and local-player caller gates remain open.
 - Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): direct local-player path confirmed; compare slow-movement and spectator caller predicates before disposition.
-- Finding IDs or checked absence/replacement path: pending.
+- Finding IDs or checked absence/replacement path: none frozen; input callers remain open.
 
 ### Slice S-LOCAL-PRETRAVEL: local input, sprint/jump/flight and auto-jump
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: paired LocalPlayer.aiStep bodies; split input scaling, sprint, flight/Elytra and auto-jump helpers before disposition.
-- A evidence: ready/1.14.4/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#aiStep(), lines 618-779; file hash pending.
-- B evidence: ready/1.15.2/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#aiStep(), lines 625-778; file hash pending.
+- A evidence: ready/1.14.4/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#aiStep(), lines 618-779; SHA-256 0795c1223198ce5acf5d2ed9e5db8435bbec4cd52b96f96b1ddf2865baaae85f.
+- B evidence: ready/1.15.2/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#aiStep(), lines 625-784; SHA-256 3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd.
 - State producers/writers -> consumers/readers: sampled keys and prior jump state -> sprint timers/abilities/fall-flying request/autoJumpTime -> travel and pose; food systems excluded, direct vanilla reads are inputs only.
 - Parent slices / dependencies / closure evidence: S-INPUT-KEYS; pose, item-use, equipment, ability and fall-flying producers open.
 - Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): paired diff exposes candidate flow changes; each behavior needs a bounded slice and dependency closure.
-- Finding IDs or checked absence/replacement path: pending.
+- Finding IDs or checked absence/replacement path: candidate F-ELYTRA-START; source comparison indicates a changed start gate, but effect/equipment/client-state dependencies remain open. Honey's auto-jump gate is tracked under F-HONEY-MOVEMENT.
 
 ### Slice S-ENTITY-MOVE: collision movement ordering and post-move block factor
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: Entity.move after checkInsideBlocks through post-move velocity updates; block lookup and Player override are linked dependencies.
-- A evidence: ready/1.14.4/mojmap/net/minecraft/world/entity/Entity.java::Entity#move(MoverType,Vec3), lines 446-573; file hash pending.
-- B evidence: ready/1.15.2/mojmap/net/minecraft/world/entity/Entity.java::Entity#move(MoverType,Vec3), lines 450-565; Entity#getBlockSpeedFactor(), lines 590-598; file hash pending.
+- A evidence: ready/1.14.4/mojmap/net/minecraft/world/entity/Entity.java::Entity#move(MoverType,Vec3), lines 446-573; SHA-256 31c6be42d165102d3e6dc4295dfef6e8971fc3aea13f938a5b3a33b91d524a7.
+- B evidence: ready/1.15.2/mojmap/net/minecraft/world/entity/Entity.java::Entity#move(MoverType,Vec3), lines 450-565; `getBlockSpeedFactor()` lines 590-598; SHA-256 191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e.
 - State producers/writers -> consumers/readers: block state and collision result -> horizontal delta movement after collision; Player override disables factor while flying/fall-flying.
 - Parent slices / dependencies / closure evidence: S-BLOCK-SPEED; all non-default factors, Player override, water/bubble case and support lookup.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): B has a post-collision horizontal scale; enumerate contributors and player applicability before final finding.
-- Finding IDs or checked absence/replacement path: candidate F-BLOCK-SPEED; pending.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): confirmed delta. B applies horizontal `getBlockSpeedFactor()` after `checkInsideBlocks`; A has no corresponding post-collision factor. Registry/property scan found Soul Sand speedFactor 0.4 in B and no speedFactor property in A; B Player override bypasses it while flying or fall-flying. Reachable for a grounded, non-flying 1.14.4 player standing on Soul Sand (A block exists in both versions).
+- Finding IDs or checked absence/replacement path: F-SOUL-SAND-SPEED; broader full inventory of dynamic block contributors remains open.
 
 ### Slice S-LIVING-JUMP: grounded jump power and block factor
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-WORLD-MOVEMENT, INV-MODIFIERS
 - Exact behavior boundary and enclosing guards/order checked: LivingEntity.getJumpPower -> jumpFromGround -> sprint impulse and Jump Boost addition; Entity.getBlockJumpFactor and registrations are dependencies.
-- A evidence: ready/1.14.4/mojmap/net/minecraft/world/entity/LivingEntity.java::LivingEntity#getJumpPower()/jumpFromGround(), lines 1740-1775; exact boundaries/hash pending.
-- B evidence: ready/1.15.2/mojmap/net/minecraft/world/entity/LivingEntity.java::LivingEntity#getJumpPower()/jumpFromGround(), lines 1790-1830; Entity#getBlockJumpFactor(), lines 584-588; exact boundaries/hash pending.
+- A evidence: ready/1.14.4/mojmap/net/minecraft/world/entity/LivingEntity.java::LivingEntity#getJumpPower()/jumpFromGround(), lines 1748-1775; SHA-256 428762178a876efd4069086e6b7d51f571ea0401f44e7eff0927b7d26d9ef681.
+- B evidence: ready/1.15.2/mojmap/net/minecraft/world/entity/LivingEntity.java::LivingEntity#getJumpPower()/jumpFromGround(), lines 1799-1817; Entity#getBlockJumpFactor(), lines 584-588; SHA-256 LivingEntity 46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54 and Entity 191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e.
 - State producers/writers -> consumers/readers: jump input/ground gate -> vertical velocity; block factor and Jump Boost amplifier -> jump power; sprint yaw -> separate horizontal impulse.
 - Parent slices / dependencies / closure evidence: S-LOCAL-PRETRAVEL; all block factors and effect application chain.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): B multiplies base jump power by a block factor before Jump Boost; enumerate sources and player path.
-- Finding IDs or checked absence/replacement path: candidate F-BLOCK-JUMP; pending.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): B multiplies base jump power by block factor before the unchanged additive Jump Boost; Soul Sand's factor remains default 1.0 and Honey Block is the sole non-default jumpFactor registration found in B. The latter block did not exist in A and is treated as modern-only in S-HONEY-BLOCK. No A-era block jump change identified in the inspected registrations.
+- Finding IDs or checked absence/replacement path: F-HONEY-MOVEMENT; the complete world/modifier inventories remain open elsewhere.
 
 ### Slice S-FRICTION-SAMPLE: ground friction support-block position
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: grounded LivingEntity.travel branch from support BlockPos through friction and acceleration.
-- A evidence: ready/1.14.4/mojmap/net/minecraft/world/entity/LivingEntity.java::LivingEntity#travel(Vec3), lookup new BlockPos(x,minY-1.0,z) near line 1835; file hash pending.
-- B evidence: ready/1.15.2/mojmap/net/minecraft/world/entity/LivingEntity.java::LivingEntity#travel(Vec3), helper lookup near line 1886; Entity#getBlockPosBelowThatAffectsMyMovement(), lines 600-602; file hash pending.
+- A evidence: ready/1.14.4/mojmap/net/minecraft/world/entity/LivingEntity.java::LivingEntity#travel(Vec3), grounded lookup lines 1837-1842; SHA-256 428762178a876efd4069086e6b7d51f571ea0401f44e7eff0927b7d26d9ef681.
+- B evidence: ready/1.15.2/mojmap/net/minecraft/world/entity/LivingEntity.java::LivingEntity#travel(Vec3), grounded lookup lines 1886-1891; Entity#getBlockPosBelowThatAffectsMyMovement(), lines 600-602; SHA-256 LivingEntity 46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54 and Entity 191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e.
 - State producers/writers -> consumers/readers: pose/dimensions/support -> sampled BlockPos -> friction -> getFrictionInfluencedSpeed and travel acceleration.
 - Parent slices / dependencies / closure evidence: S-ENTITY-MOVE; support shapes, friction registrations and partial-height blocks open.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): lookup differs; establish a reachable surface that selects a different block and friction value.
-- Finding IDs or checked absence/replacement path: candidate F-FRICTION-SAMPLE; pending.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): confirmed delta. A samples `floor(minY - 1.0)`; B samples `floor(minY - 0.5000001)`. A reachable example uses six-layer snow over Slime: collision top is 0.625 above the snow cell (snow collision shape uses layers minus one); A samples the Slime below, friction 0.8, while B samples Snow, default friction 0.6. Both snow implementations allow survival on Slime; Ice support is disallowed and is not used as the example.
+- Finding IDs or checked absence/replacement path: F-FRICTION-SAMPLE.
 
 ### Slice S-EDGE-BACKOFF: careful player edge probing
 
@@ -111,21 +111,21 @@ All inventories remain pending while exact method and dependency coverage is in 
 - B evidence: ready/1.15.2/mojmap/net/minecraft/world/entity/Entity.java::Entity#move(MoverType,Vec3), lines 469-470; Player#maybeBackOffFromEdge(Vec3,MoverType), lines 1002-1050; file hash pending.
 - State producers/writers -> consumers/readers: shift/sneak and onGround -> X then Z then diagonal 0.05 backoff -> collision input.
 - Parent slices / dependencies / closure evidence: S-ENTITY-MOVE; shift-state, noCollision and bounding-box dependencies.
-- Status: pending
+- Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): method ownership/call changed; compare guards, loops and key-state semantics.
-- Finding IDs or checked absence/replacement path: pending.
+- Finding IDs or checked absence/replacement path: no delta established; A and B backoff loops are structurally alike, but the player guard's shift/sneak state path needs closure.
 
 ### Slice S-HONEY-BLOCK: modern-only Honey Block player movement
 
 - Inventory ID(s): INV-WORLD-MOVEMENT, INV-COLLISION, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: B registration, collision shape, entityInside -> slide predicate -> velocity/fallDistance writes; A registry absence path to verify.
-- A evidence: ready/1.14.4/mojmap/net/minecraft/world/level/block/Blocks.java registration inventory; checked absence range/hash pending.
-- B evidence: ready/1.15.2/mojmap/net/minecraft/world/level/block/HoneyBlock.java getCollisionShape/entityInside/isSlidingDown/doSlideMovement; exact lines/hash pending.
+- A evidence: ready/1.14.4/mojmap/net/minecraft/world/level/block/Blocks.java lines 1-2035, checked absence of HONEY_BLOCK in the complete registry inventory; SHA-256 983d0cde25f55ddb055015b682bbdf3b131394208561805f26d9b2a240dee9a9; block source directory has no HoneyBlock class.
+- B evidence: ready/1.15.2/mojmap/net/minecraft/world/level/block/HoneyBlock.java lines 21-35, 49-77, 85-95; SHA-256 40760aeb3c084f1143e87e1e057f18165492eb01b8fce0815dfdd0882cdc8a03; registration `Blocks.java` lines 2118-2123, SHA-256 0cef66feacbf9d7d5bd38ac1d2065e71384a73043b0956eeaf314fedbf5cc7d9.
 - State producers/writers -> consumers/readers: HoneyBlock contact/onGround/position/vertical velocity -> X/Z scaling, Y velocity -0.05 and fallDistance reset -> following movement/fall checks.
 - Parent slices / dependencies / closure evidence: S-ENTITY-MOVE; registration, collision provider and Entity.checkInsideBlocks callback order.
-- Status: in-progress
+- Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): B-only block is modern-only; document its player path without assigning behavior to A-era maps.
-- Finding IDs or checked absence/replacement path: candidate F-HONEY-SLIDE; pending.
+- Finding IDs or checked absence/replacement path: F-HONEY-MOVEMENT (modern-only, no 1.14.4 map behavior to emulate).
 
 ## Dependency queue and blockers
 
@@ -136,7 +136,7 @@ All inventories remain pending while exact method and dependency coverage is in 
 
 ## Finding index
 
-No findings frozen. Candidate roots: block speed factor, block jump factor, friction lookup, auto-jump gate and Honey Block slide behavior. Candidates require both-side evidence, hashes, dependencies, applicability and concrete preconditions before becoming findings.
+Source-confirmed findings (not yet blind-frozen): [F-SOUL-SAND-SPEED](findings/F-SOUL-SAND-SPEED.md), [F-FRICTION-SAMPLE](findings/F-FRICTION-SAMPLE.md), [F-HONEY-MOVEMENT](findings/F-HONEY-MOVEMENT.md). F-ELYTRA-START remains a candidate pending state/equipment dependency closure. The input, full local pre-travel, collision-provider, state-writer, fluids, modifiers, external-input and exclusions inventories are incomplete. No implementation disposition has been inspected.
 
 ## Resume checkpoint
 
@@ -166,11 +166,11 @@ This source-only worker has not inspected implementation and will not do so befo
 
 ## Source audit closure
 
-- Coverage counts by status: 6 in-progress, 1 pending.
+- Coverage counts by status: 4 findings, 3 in-progress, 0 pending.
 - Required inventory status and evidence: all seven inventories pending; source pair hashes verified, but method/dependency and registration/resource inventories remain open.
 - Open dependencies: D-001,D-002,D-003,D-004
 - Unresolved gaps and limits: comparison is active and incomplete; diagnostics and initial candidates do not prove comprehensive coverage.
-- Evidence/hash/correspondence audit: pair manifests verified; cited body hashes and complete correspondence pending.
+- Evidence/hash/correspondence audit: pair manifests and hashes for the cited Entity, LivingEntity, Player, Block, Blocks, SnowLayerBlock, LocalPlayer, KeyboardInput and HoneyBlock sources recorded; complete tick correspondence and remaining source inventories pending.
 - Blind freeze: pending
 - Implementation reconciliation: pending
 - Independent audit: pending
