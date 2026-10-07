@@ -11,7 +11,7 @@ All inspected drafts remain active and incomplete. Their planned/stage ledgers a
 | Pair | Owner draft observed | Disposition |
 |---|---|---|
 | 1.21.1 → 1.21.3 | `run.md`, active; exact sources pending; seven coarse stage roots pending | Not accepted; no comparison evidence. |
-| 1.21.3 → 1.21.4 | `run.md`, active; requested Mojmap pair awaits both exact ready publications; seven stage roots pending | Not accepted; no comparison evidence. |
+| 1.21.3 → 1.21.4 | `run.md`, active; seven required inventory maps are present but pending; no bounded slice blocks; exact pair awaits ready publication | Not accepted; no comparison evidence. Checker also has a false top-status error (see below). |
 | 1.21.4 → 1.21.5 | `run.md`, active; 17 navigation slices pending before method-level expansion; exact sources pending | Not accepted; no comparison evidence. |
 | 1.21.5 → 1.21.8 | `run.md`, active; neither endpoint had a validated ready publication; seven provisional stages pending | Not accepted; no comparison evidence. |
 | 1.21.8 → 1.21.10 | `run.md`, active; seven provisional stage envelopes pending; exact sources pending | Not accepted; no comparison evidence. |
@@ -25,9 +25,18 @@ For 26.2, independently read `build/movement-campaign-2026-10-07/ready/26.2/unob
 
 This validates only 26.2 artifact identity and those reported hashes/anchors. The diagnostic list is not an inventory of every movement caller, writer, provider or data dependency. It does not establish intact bodies for every reachable method, exact input-to-collision call order, state-writer closure, block/fluid registration coverage, pose-resize timing, collision/step/support coverage, or any pairwise no-difference claim. The 26.1.2 side remains unavailable in the draft. The latest owner checkpoint correctly plans native `unobfuscated` for 26.1.2 to align official names with 26.2; an earlier Mojmap request was corrected. Verify the actual A ready marker, exact release ID and input artifact before admitting that alignment.
 
+
+## Hardened schema and static checker
+
+The two workflow-only commits were reviewed by file list and cherry-picked: `40c34f5` (coverage workflow/checker/template updates) and `2422192` (campaign roster). The checker was run against each owner worktree report; all eight returned exit 1. This is a schema/status signal, not source evidence:
+
+- All eight reports currently have no bounded `### Slice` entries. Their tables, 7-stage envelopes and 17/50-row navigation plans are not the required per-slice method/body evidence.
+- Seven reports omit the seven required `INV-*` maps. The 1.21.3→1.21.4 report has all seven maps but each is pending and it has no bounded slices.
+- The 1.21.3→1.21.4 checker error `expected exactly one top-level status, found 3` is a false positive in the checker: it counts the intended `- Status: pending` lines under `## Blind-discovery freeze` and `## Independent source audit` along with the single top-level status. The checker implementation's unscoped regex `^- Status:` causes it. Its other error (`no bounded coverage slice entries found`) is accurate.
+- Reports with pending sources/slices are expected not to pass completion. No one should rewrite them as complete to satisfy the checker.
 ## Required requeue / acceptance gaps
 
-- The three previously absent reports (1.21.3→1.21.4, 1.21.4→1.21.5, 1.21.8→1.21.10) have now appeared as active drafts. Keep them open and expand their planned slices into bounded method-level coverage after source publication.
+- All three previously absent reports (1.21.3→1.21.4, 1.21.4→1.21.5, 1.21.8→1.21.10) have now appeared as active drafts. Keep them open; the latter two still lack required inventory maps, and all three lack bounded `### Slice` evidence blocks.
 - Every owner must keep the report partial/active until the exact aligned pair is ready and verified; source-queued stages cannot be closed as compared-no-difference or not-applicable.
 - For each pair, independently verify exact IDs/namespace and cited ready/source/artifact/diagnostic hashes, then inspect complete relevant method bodies and decompiler diagnostics. Hash validity alone is not semantic evidence.
 - Require an explicit per-tick chain through local input, tick/super-tick and travel dispatch, including velocity changes before travel and cancellation/restitution after `move`; compare jump dispatch/order and precise apex/threshold behavior; trace all pose/dimension writers and resize query timing.
