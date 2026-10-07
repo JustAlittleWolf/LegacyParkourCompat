@@ -151,14 +151,14 @@ Each entry is a bounded behavior slice, not an entire class/stage/travel method.
 ### Slice S1-05: Flight, abilities, and flight toggle
 
 - Inventory ID(s): INV-TICK; INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: pending source inspection.
-- A evidence: pending source readiness; no range accepted.
-- B evidence: pending source readiness; no range accepted.
-- State producers/writers -> consumers/readers: pending paired inventory.
-- Parent slices / dependencies / closure evidence: pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no source conclusion.
-- Finding IDs or checked absence/replacement path: pending.
+- Exact behavior boundary and enclosing guards/order checked: compared the LocalPlayer.aiStep ability-toggle, Elytra-start, fall-flying snapshot, water descent, camera-flight vertical input and post-super grounded flight-disable regions. The saved `bl` is the prior sampled jump state; `bl4` records an auto-jump timer override, and the toggle branch checks the rising edge before Player.aiStep decrements jumpTriggerTime in the superclass call. Field/accessor and Elytra item predicate equivalence remain dependencies.
+- A evidence: net/minecraft/client/player/LocalPlayer.java#aiStep lines 705-793, including abilities toggle lines 705-730, fall-flight/water handling lines 732-743, camera-flight velocity writer lines 745-757 and grounded post-super reset at method tail; net/minecraft/world/entity/player/Player.java#aiStep lines 483-506 for the later jumpTriggerTime decrement. Hashes are in the artifact source table above.
+- B evidence: net/minecraft/client/player/LocalPlayer.java#aiStep lines 727-815, including abilities toggle lines 727-752, fall-flight/water handling lines 754-765, camera-flight velocity writer lines 767-779 and grounded post-super reset at method tail; net/minecraft/world/entity/player/Player.java#aiStep lines 489-512 for the later jumpTriggerTime decrement. Hashes are in the artifact source table above.
+- State producers/writers -> consumers/readers: Input jumping/shift plus prior jump edge, autoJumpTime, mayfly/flying ability state, game mode always-flying state, passenger/climbable/fluid predicates and chest Elytra state select flight transitions. LocalPlayer writes ability flying and vertical delta movement, calls Elytra start-flight state/packet path, snapshots fall-flying, and clears ordinary flight after superclass travel when grounded. Player/Entity travel later consumes flying and sprint state. Remote ability synchronization and Elytra/effect producers are linked to S6/S7.
+- Parent slices / dependencies / closure evidence: S1-01/S1-04 close sampled jump and auto-jump semantics; S2-01 closes direct abilities field versus getter; S1-06 closes passenger/riding and packet transitions; S3 closes Player.travel/fall-flying movement consumption; S4/S5 close water, climbable and collision predicates; S6/S7 close Elytra, ability and external server-state writers.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The ability toggle, Elytra-start, water descent, camera-flight vertical input and post-super grounded-disable order are structurally aligned. B's `getAbilities()` calls replace A's direct `abilities` field reads/writes, and B's `ItemStack.is(Items.ELYTRA)` replaces A's `getItem() == Items.ELYTRA`; exact behavior equivalence has not yet been closed. The writes are movement-reachable when mayfly/flight, jump-edge, fluid or Elytra preconditions hold. No formula delta was observed in this bounded pass; do not mark terminal until the listed state/item/travel dependencies are resolved.
+- Finding IDs or checked absence/replacement path: no independent flight delta established in this pass; ability, item and travel dependencies remain open.
 
 ### Slice S1-06: Riding and local movement transitions
 
@@ -523,7 +523,7 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 ## Resume checkpoint
 
 - Last completed slice: none; source pair verified, S1-01 in-progress pending S1-02/S2-01 closure.
-- Next bounded slice: S1-05 flight, abilities, and flight toggle; retain S1-01..S1-04 as in-progress until their listed input/pose, tick-membership, ability, speed, fluid/collision, and modifier dependencies close.
+- Next bounded slice: S1-06 riding and local movement transitions; retain S1-01..S1-05 as in-progress until their listed input/pose, tick-membership, ability, speed, fluid/collision, modifier, item and travel dependencies close.
 - Outstanding dependencies and owners: source-owner publication is complete; source closure remains with this run, including S1-06 entity-tick membership/passenger scheduling and the remaining movement/resource inventories.
 - Assumptions requiring verification: no unresolved source-root or namespace assumptions; verify every newly selected source file against its manifest as slices are opened.
 
@@ -546,10 +546,10 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ## Source audit closure
 
-- Coverage counts by status: 30 pending, 4 in-progress, 0 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
+- Coverage counts by status: 29 pending, 5 in-progress, 0 compared-no-difference, 0 findings, 0 not-applicable, 0 blocked.
 - Required inventory status and evidence: all seven pending; evidence pending.
-- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; RESOURCE-INVENTORY and DECOMPILER-DIAGNOSTICS scope closure.
-- Unresolved gaps and limits: S1-01..S1-04 dependency closure and the remaining 30 source slices are open.
+- Open dependencies: S1-01 input/state-writer closure; S1-02 entity tick-list membership and passenger scheduling; S1-03 abilities, travel consumers, movement-speed modifiers and predicates; S1-04 block jump factor and Jump Boost effect provenance; S1-05 abilities, Elytra/item state and travel/external writers; RESOURCE-INVENTORY and DECOMPILER-DIAGNOSTICS scope closure.
+- Unresolved gaps and limits: S1-01..S1-05 dependency closure and the remaining 29 source slices are open.
 - Evidence/hash/correspondence audit: not started.
 - Blind freeze: pending.
 - Implementation reconciliation: pending.
