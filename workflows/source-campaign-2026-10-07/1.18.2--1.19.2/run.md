@@ -62,7 +62,7 @@ Artifact paths below are relative to repository root; generated artifacts remain
 - `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=P01,P02,P03,P04; evidence=F-002 documents the changed edge predicate; full writer/reader graph remains open.
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=C01,C02,C03,C04; evidence=F-002/F-004 and the legacy support lookup in `Entity.move`; shape/callback coverage remains open.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=W01,W02,W03,W04; evidence=exact source trees verified; block/fluid/resource inventory remains open.
-- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=M01,M02,M03,M04; evidence=F-001 traces the new Swift Sneak level bonus; resources and other modifiers remain open.
+- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=M01,M02,M03,M04; evidence=F-001 traces the new Swift Sneak level bonus and M01 checks selected speed/jump consumers and attribute aggregation; effects/resources and other modifiers remain open.
 - `INV-EXTERNAL` player-only externally supplied movement inputs and direct player velocity/impulse/knockback application, plus in-scope player-facing transitions; exclude non-player and vehicle physics: status=pending; slice_ids=E01,E02,E03; evidence=E01 correction writers, E02 push/knockback consumers, and E03 player mount-transition wrappers; remaining packet flags, piston sources and vehicle-position integration remain open.
 - `INV-EXCLUSIONS` explicit scope audit for health/food production, attack/damage resolution, non-player movement and vehicle physics. Direct player-motion response remains in scope even when combat can trigger it: status=pending; evidence=scope boundary is recorded; explicit source audit remains open.
 
@@ -299,25 +299,25 @@ Artifact paths below are relative to repository root; generated artifacts remain
 ### Slice M01: movement attribute consumers, defaults and aggregation
 
 - Inventory ID(s): INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: pending; movement speed/jump/gravity/air-speed consumers, defaults, modifier order and aggregation.
-- A evidence: not yet compared; readiness is recorded in D-SOURCES.
-- B evidence: not yet compared; readiness is recorded in D-SOURCES.
+- Exact behavior boundary and enclosing guards/order checked: compared the `MOVEMENT_SPEED` attribute registration, selected LivingEntity/Player speed and jump-effect consumers, sprint speed modifier dispatch, and `AttributeInstance` base/modifier aggregation and cache invalidation. These bounded methods are source-identical; gravity, flying/air-speed and remaining modifier consumers remain open.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/ai/attributes/Attributes.java`, `MOVEMENT_SPEED` line 13; `AttributeInstance.java`, `setBaseValue()`, modifier add/remove and `calculateValue()` lines 43-148; hashes `c41860b83315d5265632e9a90978e38794d83d1a0cd996dbb9c7fd8e56560df5`, `a4e677efd64a8f9c44e05afa14b83618d7dad9744e34f7e04aa463ecdd576ff0`. `LivingEntity.java`, `setSprinting()` line 1921, `getJumpPower()` 1973-1975, `getJumpBoostPower()` 1976-1979 and `getSpeed()` 2209-2212, SHA-256 `db4168d531caf18f22e3fefd073365e776da4075ce01452bb9f7671d9b458782`; `Player.java`, `getSpeed()` 1468-1470, SHA-256 `bf639c1962ff90d69e4569b2b18f6fcf57ac46ef80b19686f0fbc1687fca744a`.
+- B evidence: matching `MOVEMENT_SPEED` registration and identical full `AttributeInstance.java` at the same method bodies/ranges; hashes match A. `LivingEntity.java`, `setSprinting()` line 1954, `getJumpPower()` 2006-2008, `getJumpBoostPower()` 2009-2012 and `getSpeed()` 2242-2245, SHA-256 `fee2df5155449098556a138d2530d06b7a35979e43c6aa0ae1fffd6251853e77`; `Player.java`, `getSpeed()` 1510-1512, SHA-256 `155c5fcfba322d968f3180383e7d283ddeb5edee4e04314906310d4e3ce0ccc1`.
 - State producers/writers -> consumers/readers: attribute registrations/synchronized values/equipment/effects -> attribute instances -> movement consumers.
 - Parent slices / dependencies / closure evidence: D-SOURCES; T07; P04; M02/M03.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison pending; synchronized/server-provided inputs will be labeled.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no delta was found in the checked movement-speed base registration, selected speed/jump consumers, sprint modifier hook or attribute aggregation operations. The player reads the resulting movement-speed attribute through `getSpeed()`; LivingEntity jump power and Jump Boost remain the same formulas. Attribute/effect producers, modifiers beyond these hooks, and synchronized/server-provided values are not yet traced, so the inventory remains open.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice M02: movement effects and application/removal conditions
 
 - Inventory ID(s): INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: pending; Speed, Slowness, Jump Boost, Levitation, Slow Falling, Dolphin's Grace, Blindness and other discovered movement effects.
-- A evidence: not yet compared; readiness is recorded in D-SOURCES.
-- B evidence: not yet compared; readiness is recorded in D-SOURCES.
+- Exact behavior boundary and enclosing guards/order checked: compared the registered Speed/Slowness movement-speed modifiers, Jump Boost registration used by the unchanged jump helper, and the generic `MobEffect` attribute modifier add/remove methods. The checked definitions and helpers match; effect-instance duration, application/removal call timing, Levitation/Slow Falling/Dolphin's Grace/Blindness producers and other effects remain open.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/effect/MobEffects.java`, Speed/Slowness definitions lines 12-24 and Jump Boost line 44, SHA-256 `92bdab264537c8acf1af38a25bbbceef557a4cd24e248446c6463fa9812a524e`; `MobEffect.java`, `addAttributeModifiers()` lines 147-159 and `removeAttributeModifiers()` lines 138-146, SHA-256 `e56c353c76c2724f8c1989d491ef631c28d714de91d49d3197b4d89c9b73eaa8`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.19.2/mojmap/net/minecraft/world/effect/MobEffects.java`, matching Speed/Slowness definitions lines 13-25 and Jump Boost line 45; unrelated Darkness registration is added before them; SHA-256 `1e8122137e459c09ceee822668c27a4bcb32100dd1f53570e868b9faee0bdcb9`. `MobEffect.java`, corresponding attribute modifier methods lines 162-174 and 153-161, SHA-256 `071a7729b6ebc458de29cc742b338933bca18fab63090722a646d8840336325a`.
 - State producers/writers -> consumers/readers: effect registrations/amplifiers/application/removal -> modifiers/predicates -> travel/sprint/jump consumers.
 - Parent slices / dependencies / closure evidence: D-SOURCES; M01; P03/T04.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison pending; excluded health/food systems remain outside scope.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no difference was found in the selected Speed/Slowness modifier amounts/operations, Jump Boost registration, or generic attribute modifier add/remove mechanics. `MobEffectInstance` has a B-only optional factor-data update associated with the new Darkness effect; that is not treated as a movement change. The effect-instance activation, stacking and removal chain for movement effects, plus the remaining effect families listed above, still require tracing. Health/food systems remain outside scope.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice M03: movement enchantments, equipment and item applicability
@@ -408,8 +408,8 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Resume checkpoint
 
-- Last source comparison work: after T07 identified F-003/F-004 in Entity movement callbacks, compared client correction writers (E01), fluid height/flow helpers (W03), the axis collision resolver and selected shared shape providers (C03/W02), and player mount/dismount wrappers (E03). B's ancient-city loot resource now documents a Swift Sneak acquisition path for F-001; T01/T03 remain bounded with F-001, while wider inventories remain open.
-- Next bounded slice and exact files/members/body ranges to open: inspect player-facing piston motion sources and remaining correction/state flags (E01/E02), then continue block registrations/movement properties and remaining resource dependencies (W01/W04/M03/M04) plus movement attribute/effect consumers (M01/M02).
+- Last source comparison work: after T07 identified F-003/F-004 in Entity movement callbacks, compared E01 corrections, W03 fluid helpers, C03/W02 collision resolvers/providers, E03 mount transitions, and selected movement attribute/effect consumers (M01/M02). B's ancient-city loot resource documents a Swift Sneak book path for F-001; wider inventories remain open.
+- Next bounded slice and exact files/members/body ranges to open: inspect remaining correction/state flags (E01), then continue block registrations/movement properties and resources (W01/W04/M03/M04), effect-instance transition chains (M02), and other movement attribute/effect consumers (M01).
 - Outstanding dependencies and owners: D-RESOURCES (discovery worker); independent reviewer assignment (coordinator, after source-only freeze).
 - Current assumptions requiring verification: Swift Sneak resource/tag data and all remaining modifier chains; all movement branch helpers and block callback outputs. Directory presence alone is not readiness.
 
@@ -437,10 +437,10 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Source audit closure
 
-- Coverage counts by status: pending 11; in-progress 14; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
+- Coverage counts by status: pending 9; in-progress 16; compared-no-difference 0; findings 2; not-applicable 0; blocked 0.
 - Required inventory status and evidence: INV-TICK pending; INV-STATE pending; INV-COLLISION pending; INV-WORLD-MOVEMENT pending; INV-MODIFIERS pending; INV-EXTERNAL pending; INV-EXCLUSIONS pending. No inventory is closed.
 - Open dependencies: D-RESOURCES (discovery worker), independent reviewer assignment (coordinator, after source-only freeze).
-- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Eleven coverage entries are pending, fourteen are in progress, and two carry findings.
+- Unresolved gaps and limits: exact sources are ready and comparison has begun; method-level inventories, resources, and dispositions remain incomplete. Nine coverage entries are pending, sixteen are in progress, and two carry findings.
 - Evidence/hash/correspondence audit: F-001 through F-004 include paired endpoint source/artifact hashes and bounded source ranges; call paths and writer-to-consumer links are recorded for these deltas, while the remaining inventories and correspondence are still open.
 - Blind freeze: not frozen; implementation remains uninspected. Freeze after remaining source inventories close or are explicitly scoped for handoff.
 - Implementation reconciliation: pending and deferred outside this source-only assignment.
