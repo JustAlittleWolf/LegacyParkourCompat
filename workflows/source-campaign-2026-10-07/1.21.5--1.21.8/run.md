@@ -133,7 +133,7 @@ Every row below is an unfinished discovery unit, not a claim that a method has b
 - Parent slices / dependencies / closure evidence: S1.1-S1.4; S2.1; S3.1-S3.5; S4.1-S4.4; S7.1-S7.3; DEP-SRC-A; DEP-SRC-B.
 - Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): the enumerated movement-state setter bodies are equal; the broad reachable writer/consumer map is incomplete and includes the S4.3 candidate path.
-- Finding IDs or checked absence/replacement path: candidate `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8` affects a server-side collision decision before position correction; full state inventory remains open.
+- Finding IDs or checked absence/replacement path: candidate `F-PLAYER-MOVE-VALIDATION-CONTEXT-1.21.5-1.21.8` affects a server-side collision decision before position correction; `F-PLAYER-FRESH-LOGIN-SPAWN-ANGLE-1.21.5-1.21.8` records the new fresh-login yaw writer; `F-SPECTATOR-DIMENSION-FOLLOW-1.21.5-1.21.8` and `F-CLIENT-PASSENGER-POSITION-SYNC-1.21.5-1.21.8` record additional direct Player position paths. Full state inventory remains open.
 
 ### Slice S2.3: direct movement predicates and active-item state
 
