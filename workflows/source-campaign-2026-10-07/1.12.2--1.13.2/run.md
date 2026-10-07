@@ -96,7 +96,7 @@ Complete only after blind-discovery freeze; not started and no mod implementatio
 
 ## Source audit closure
 
-- Coverage counts by status: 4 compared-no-difference (KB-SAMPLE, VELOCITY-PACKETS, BLOCK-FRICTION, PLAYER-PUSH-PRIMITIVE); 11 in-progress bounded slices (CLIENT-TICK, SPRINT-STATE, SWIM-STATE, JUMP-GATES, POSE-DIMENSIONS, TRAVEL-MODIFIERS, VELOCITY-CUTOFF, ENTITY-MOVE-AXES, SUPPORT-CALLBACKS, ATTRIBUTES/SPEED-SLOWNESS/JUMP-BOOST, DEPTH-STRIDER); remaining required member/resource slices not yet enumerated; all seven required inventories pending.
+- Coverage counts by status: 7 compared-no-difference (KB-SAMPLE, VELOCITY-PACKETS, BLOCK-FRICTION, PLAYER-PUSH-PRIMITIVE, PLAYER-CORRECTION, PISTON-DELTA-CLAMP, DEPTH-STRIDER); 10 in-progress bounded slices (CLIENT-TICK, SPRINT-STATE, SWIM-STATE, JUMP-GATES, POSE-DIMENSIONS, TRAVEL-MODIFIERS, VELOCITY-CUTOFF, ENTITY-MOVE-AXES, SUPPORT-CALLBACKS, ATTRIBUTES/SPEED-SLOWNESS/JUMP-BOOST); remaining required member/resource slices not yet enumerated; all seven required inventories pending.
 - Required inventory status and evidence: all pending; see inventory map above.
 - Open dependencies: SRC-MANIFEST-ROWS, SOURCE-RESOURCE-ENTRIES, METHODS-DIAGNOSTICS, INDEPENDENT-REVIEWER, IMPLEMENTATION-RECONCILIATION. Resolved: revised artifact snapshot verification (feather-r1-2026-10-07; ops audit passed); original derived-artifact identity remains a limitation.
 - Unresolved gaps and limits: full paired tick sequence, all state writers/consumers, all block/fluid collision shapes, modifiers/equipment, external inputs, resources, and reviewer audit remain open.
@@ -158,13 +158,13 @@ The run folder contains only run.md and, when findings exist, one file per findi
 ### Slice POSE-DIMENSIONS and SWIM-ACCELERATION
 
 - Inventory ID(s): INV-STATE, INV-COLLISION, INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: PlayerEntity.updatePlayerPose() A 291-315 / B 334-361; PlayerEntity.moveRelative() A 1386-1410 / B 1442-1487; LivingEntity.moveRelative() A 1425-1618 / B 1478-1688. B swimming-or-spin-attack pose assigns 0.6-wide/0.6-high dimensions and checks collision fit through `world.hasNoCollisions(null, box)`; A has neither pose branch. B PlayerEntity.moveRelative adds pitch-dependent vertical motion when swimming and not riding, using look-vector Y and a 0.085/0.06 coefficient selected by the -0.2 pitch threshold.
+- Exact behavior boundary and enclosing guards/order checked: PlayerEntity.updatePlayerPose() A 291-315 / B 334-361; getEyeHeight() A 1756-1768 / B 1859-1870; PlayerEntity.moveRelative() A 1386-1410 / B 1442-1487; LivingEntity.moveRelative() A 1425-1618 / B 1478-1688. B swimming-or-spin-attack pose assigns 0.6-wide/0.6-high dimensions and checks collision fit through `world.hasNoCollisions(null, box)`; A has neither pose branch. B swimming eye height is 0.4F. B PlayerEntity.moveRelative adds pitch-dependent vertical motion when swimming and not riding, using look-vector Y and a 0.085/0.06 coefficient selected by the -0.2 pitch threshold.
 - A evidence: PlayerEntity.java SHA-256 e4e0fdbe07a7d0a0ae4a70cbb6739a287c9d045a4a12b409895c220b5d91fe1e; LivingEntity.java SHA-256 190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6.
 - B evidence: PlayerEntity.java SHA-256 4ed22f6c5a3c55d67eed782070ac722201df4d624adbc90779f1fd29c2876633; LivingEntity.java SHA-256 bb691358c9a43c9f46e85575bf4d0a4ad671d0eb912502acc3a6a3f625e42f1c.
 - State producers/writers -> consumers/readers: swimming state and pose preference -> collision-tested dimension transition -> getShape/eye height/collision queries; look pitch, swimming, riding and jumping -> additive velocityY -> later travel/collision.
 - Parent slices / dependencies / closure evidence: SWIM-STATE, WORLD-COLLISIONS, ENTITY-MOVE-AXES, SUPPORT-CALLBACKS.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): B adds reachable swim pose/dimensions and a direct swimming vertical acceleration. The full pose method is bounded; all other dimension/eye-height writers and collision-query equivalence remain to be cataloged, so the parent inventory stays open.
+- Disposition and rationale (including concrete reachability/preconditions): B adds reachable swim pose/dimensions, sets swimming eye height to 0.4F, and adds direct swimming vertical acceleration. The main pose method and player eye-height override are now bounded; all other dimension writers and collision-query equivalence remain to be cataloged, so the parent inventory stays open.
 - Finding IDs or checked absence/replacement path: F-SWIM-POSE; F-SWIM-LOOK.
 
 ### Slice TRAVEL-MODIFIERS: slow falling, elytra, fluid travel, ground/air coefficients
@@ -239,6 +239,18 @@ The provisional hold is cleared: this worker verified both immutable revision sn
 - Disposition and rationale (including concrete reachability/preconditions): the bounded packet application order, entity lookup, divisor and null guard are identical in A and B source. This does not close server velocity generation, teleport corrections, push writers, pistons, mounts or launch-item inputs.
 - Finding IDs or checked absence/replacement path: none for this bounded handler.
 
+### Slice PLAYER-CORRECTION and PISTON-DELTA-CLAMP: bounded external movement inputs
+
+- Inventory ID(s): INV-EXTERNAL, INV-STATE, INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: `ClientPlayNetworkHandler.handlePlayerMove(PlayerMoveS2CPacket)` A lines 578-620 / B 621-663; `Entity.move(MoverType.PISTON,...)` per-tick accumulated-axis clamp A lines 462-501 / B 473-512.
+- A evidence: `ClientPlayNetworkHandler.handlePlayerMove`, lines 578-620; `Entity.move` piston clamp, lines 467-500; `ClientPlayNetworkHandler.java` SHA-256 `fce21d9902e555fd46545fb04bdb6c4a912eef6398790776ad1a122e09960c7c`; `Entity.java` SHA-256 `80f091bf32166c88cf8bbd31caf72d84fa16224410733c7d2a0f00563f294a0a`.
+- B evidence: `ClientPlayNetworkHandler.handlePlayerMove`, lines 621-663; `Entity.move` piston clamp, lines 478-511; `ClientPlayNetworkHandler.java` SHA-256 `4f65502fbee6476cef0838563f03a66f07a1a9ed8c63e580f5338ba5fe274f11`; `Entity.java` SHA-256 `1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269`.
+- State producers/writers -> consumers/readers: authoritative player move packet -> resolve each relative position/angle flag; absolute position axes clear the corresponding local velocity component; update player position/angles, acknowledge teleport and send corrected position. MovingBlockEntity piston moves -> Entity piston mover type -> reset accumulated delta on world-time change, clamp the current axis total to ±0.51, update the axis accumulator, and ignore negligible remainder.
+- Parent slices / dependencies / closure evidence: VELOCITY-PACKETS; MovingBlockEntity scheduling and full push path, MOUNT-TRANSITIONS, WORLD-COLLISIONS.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): both bounded source paths match in axis order, relative-flag handling, velocity clearing, position/angle update and acknowledgement; both piston branches use the same X-then-Y-then-Z selection, per-world-time reset, ±0.51 clamp and `1.0E-5F` early return. This closes only these consumers; complete packet producers, moving-block scheduling/collision effects and mount transitions remain open.
+- Finding IDs or checked absence/replacement path: none for these bounded sub-slices.
+
 ### Original-jar resource data and modern-only feature dispositions
 
 - A original client jar: `artifacts/1.12.2/client.jar`, SHA-256 8ada07da5ee77dad3527bd7278fbd05ee1fc8a597813b216a871a2d7d64cc64f. `jar tf` found no `data/minecraft/tags/fluids/{water,lava}.json` entries in this jar.
@@ -262,14 +274,14 @@ The provisional hold is cleared: this worker verified both immutable revision sn
 ### Slice DEPTH-STRIDER aggregation
 
 - Inventory ID(s): INV-MODIFIERS, INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: EnchantmentHelper.getDepthStriderLevel() A 183-185 / B 179-181 and water travel A 1557-1579 / B 1618-1649.
-- A evidence: EnchantmentHelper.java SHA-256 226243b031824fbea660520a891f461272482808318787f6c04679e9a241d9c9; LivingEntity.java SHA-256 190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6.
-- B evidence: EnchantmentHelper.java SHA-256 0c94bd4d076c2c7b39b6480dfb8c29b7e37d98817c9b878de67a0dd5c4f3a750; LivingEntity.java SHA-256 bb691358c9a43c9f46e85575bf4d0a4ad671d0eb912502acc3a6a3f625e42f1c.
-- State producers/writers -> consumers/readers: equipped enchantment levels -> cap at 3; halve while airborne; linear adjustment of water horizontal multiplier and movement acceleration. B's sprint base multiplier and Dolphin's Grace override are separate branches already called out in F-WATER-SPRINT-TRAVEL.
-- Parent slices / dependencies / closure evidence: ENCHANTMENT-REGISTRY, EQUIPMENT-SLOTS, WATER-TRAVEL.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): helper delegates to the same named level lookup, and travel's cap/air halving/linear adjustment source expressions match; enchantment registration, supported equipment slots, attribute/modifier inputs and original-data availability remain open.
-- Finding IDs or checked absence/replacement path: none for this bounded formula; F-WATER-SPRINT-TRAVEL remains independently provisional.
+- Exact behavior boundary and enclosing guards/order checked: `EnchantmentHelper.getDepthStriderLevel` and its equipment-level lookup; Depth Strider registration, max level, valid armor category/slots; travel cap at 3, airborne halving, and water travel coefficient adjustment.
+- A evidence: `Enchantment.java` registration/equipment slots lines 131-150 and lookup lines 45-54, SHA-256 `02d9f335263bf167421c126e3291d12f33fa9801b7ca709c4e8108a512e2e6c9`; `DepthStriderEnchantment.java` lines 1-28, SHA-256 `dd39c3a98d6d468dbb8b9f21288a788eef9934c061549acba120a8fed5d5b739`; `EnchantmentHelper.java` item/entity level lookup lines 31-48 and 153-166, SHA-256 `226243b031824fbea660520a891f461272482808318787f6c04679e9a241d9c9`; travel source `LivingEntity.java` lines 1557-1579, SHA-256 `190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6`.
+- B evidence: `Enchantment.java` registration/equipment slots lines 133-142 and lookup lines 38-47, SHA-256 `fcffa719e9c249261e69552c63a4041632b34a9044d4aa8b31022750822d3373`; `DepthStriderEnchantment.java` lines 1-26, SHA-256 `d2daf7d22ada9f56bc3a486560cac446b0280a3fb294ceb27da8cdd197234063`; `EnchantmentHelper.java` item/entity level lookup lines 31-48 and 149-162, SHA-256 `0c94bd4d076c2c7b39b6480dfb8c29b7e37d98817c9b878de67a0dd5c4f3a750`; travel source `LivingEntity.java` lines 1618-1649, SHA-256 `bb691358c9a43c9f46e85575bf4d0a4ad671d0eb912502acc3a6a3f625e42f1c`.
+- State producers/writers -> consumers/readers: equipped item stacks in armor slots -> registry-resolved enchantment level, selecting the maximum level across slots -> travel cap at 3 and airborne halving -> water horizontal multiplier and acceleration adjustment.
+- Parent slices / dependencies / closure evidence: WATER-TRAVEL; full effect/application and attribute synchronization audit remains in ATTRIBUTES/SPEED-SLOWNESS/JUMP-BOOST and INV-MODIFIERS.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the registry key is `depth_strider` in both, both register the same rare `DepthStriderEnchantment`, max level 3, armor-feet category, and HEAD/CHEST/LEGS/FEET equipment slots. Both enumerate the same selected equipment and use the same level cap, airborne division and travel expressions. NBT representation differs (A short numeric ID/level, B namespaced string ID/integer level), which is a serialization change; it does not change the bounded movement result for valid corresponding equipped enchantments. This closes only the Depth Strider path, not the whole modifier inventory.
+- Finding IDs or checked absence/replacement path: none for the bounded Depth Strider path; F-WATER-SPRINT-TRAVEL remains provisional for the independent sprint/Dolphin's Grace branch.
 
 ### Modern-only modifiers and launch equipment
 
