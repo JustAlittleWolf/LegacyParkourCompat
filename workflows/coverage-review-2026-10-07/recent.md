@@ -21,7 +21,7 @@ All inspected drafts remain active and incomplete. Their planned/stage ledgers a
 
 ## Verified source handoff
 
-For 26.2, independently read `build/movement-campaign-2026-10-07/ready/26.2/unobfuscated.ready.json`. It names exact release `26.2`, native `unobfuscated`, and the source/artifact/diagnostic manifests. Recomputed hashes match the three cited manifest hashes. The reported client jar hash and four cited source hashes match the listed source manifest entries; source files are present. The diagnostics contain anchors for `Entity.move`, `Entity.moveRelative`, `LivingEntity.travel`, `LivingEntity.jumpFromGround`, `Player.travel`, and `LocalPlayer.aiStep`.
+For 26.2, independently read `build/movement-campaign-2026-10-07/ready/26.2/unobfuscated.ready.json`. It names exact release `26.2`, native `unobfuscated`, and the source/artifact/diagnostic manifests. Recomputed hashes match the three cited manifest hashes. The client jar hash `40896ee9f1e2bec3c934daac7e93d41e9e3d9c2f8ae0ca366d52ffbfd1afa290` was recomputed and matches `artifacts.sha256`; `version.json` SHA-256 is `4d6b3a5a27fed3c0faab2cb4b6dee7318be310bc3c627a78951519ffefaf1d0c` and its metadata ID is `26.2`. The four cited source hashes match their entries in `unobfuscated.sources.sha256`. The diagnostics contain anchors for `Entity.move`, `Entity.moveRelative`, `LivingEntity.travel`, `LivingEntity.jumpFromGround`, `Player.travel`, and `LocalPlayer.aiStep`.
 
 This validates only 26.2 artifact identity and those reported hashes/anchors. The diagnostic list is not an inventory of every movement caller, writer, provider or data dependency. It does not establish intact bodies for every reachable method, exact input-to-collision call order, state-writer closure, block/fluid registration coverage, pose-resize timing, collision/step/support coverage, or any pairwise no-difference claim. The 26.1.2 side remains unavailable in the draft.
 
@@ -43,3 +43,17 @@ This validates only 26.2 artifact identity and those reported hashes/anchors. Th
 - Exact source pairs validated by this reviewer: none. Only 26.2's one-sided ready record and cited artifact/source hashes were independently checked.
 - Runtime validation, tests, builds, game/Gym/server/Docker launches: not performed.
 - Reviewer worktree Git failure: `fatal: this operation must be run in a work tree`; branch creation and commits are blocked pending the repository worktree fix. Do not treat this preliminary note as a final audit or as owner completion.
+
+
+## Additional 26.2 B-side inventory seeds
+
+Read-only inspection of the published 26.2 source confirms that the seven diagnostic anchors leave substantial reachable paths to inventory before comparison. These are navigation seeds, not paired findings or closure:
+
+- `net/minecraft/client/player/LocalPlayer.java` (source SHA-256 `8d089aa09217e3607b38590f7c1623385562800943ac6dfd3d17804e041da6d6`): `tick` lines 227–251 calls `super.tick`, then sends input and movement packets; `aiStep` lines 767–919 reads prior/current jump and shift input, performs crouch-fit checks, ticks input, applies auto-jump, calls four `moveTowardsClosestSpace` probes, toggles sprint/flight, dispatches player jump/fall-flight/riding-jump behavior, and then calls `super.aiStep`; `move` begins at line 986 and needs its complete body/callees included for post-collision velocity handling.
+- `net/minecraft/world/entity/player/Player.java`: `tick` begins at line 232; pose-fit checks appear at lines 355–374; `aiStep` begins at 442; player edge-backoff override begins at 880 (the base `Entity.maybeBackOffFromEdge` at lines 1097–1099 is identity); `travel` begins at 1402. These entry/override paths are not in the seven-item diagnostics list.
+- `net/minecraft/world/entity/LivingEntity.java` (source SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`): `jumpFromGround` begins at 2389; diagnostics anchor selected travel helpers, but jump dispatch, conditions, stored velocity and call order still need a complete chain.
+- `net/minecraft/world/entity/Entity.java` (source SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`): `collide` begins at 1141; step candidate collection/sorting at 1172–1193; collision collection and axis resolution at 1195–1260; synced pose updates call `refreshDimensions` at 3379–3409. `move` starts at line 711; shape, support, post-move velocity cancellation and callbacks must be traced through full callers/callees. These collision/pose methods are absent from the short diagnostic anchors.
+
+The short diagnostics are not claimed to be comprehensive by the 26.1.2→26.2 owner, so these are required next inventory rows, not an owner misstatement of completed coverage. The source owner must still verify full method bodies and dependencies on both releases; the A source is not yet available. This side-only inventory does not establish 26.2 behavior equivalence or a historical delta.
+
+Reviewer task branch is `feat/coverage-review-recent`, created from main `002137b227676caea77f6832b9f4c8d0b6200bff`; preliminary checkpoint commit: `653b745335211dcddd867923876f0ebb15b42eac`.
