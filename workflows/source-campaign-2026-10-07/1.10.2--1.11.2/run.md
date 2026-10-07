@@ -40,7 +40,7 @@ Cited source hash inventory (SHA-256; relative roots are the source roots in the
 - `net/minecraft/world/World.java`: A `888ed0e9de765def87b05c4126ecdf0b10e9dd448b4543dd1cb98211e9951646`; B `27cfaa5ff45c2d88c492fc5dae3ea4a2bb4536fd64bff8498a9a7d0cb82efb58`.
 - `net/minecraft/client/entity/living/player/RemoteClientPlayerEntity.java`: both `e7e248b439f7356695b1bf196d08e997bb19b24c23b206763c772663ee7086a1`.
 - `net/minecraft/util/math/Box.java`: A `f529ef075bd933b88e3bace9020a5e23cb18b65e816154520f10bd2f26f61155`; B `f788b8146b14f299ccb58ea0854609f845c298a963295d503de2e30e15d66f3a`.
-- `net/minecraft/entity/EntityFilter.java` and `net/minecraft/util/math/Box.java` hashes are recorded above; broader query/provider and call-site closure remains open. `net/minecraft/item/ItemStack.java`: A `a41054235eac09212065f7e20d4206aa7d83cdd159cebbc77eb8b3d1e43ab842`; B `dc929fcc42e94dacb1f2d2a32572c00612c4f9b39d4cb551634fd3dd290467d8`. `net/minecraft/entity/living/player/PlayerInventory.java`: A `eeb156c483ad1c3cb52b58a197f7321817b8c52c2cf35f4995a5758dc7871842`; B `cf956f7410c6911d2e978d2072a7d53590e4800c398687afeca6f771e74e19d6`. `net/minecraft/item/ElytraItem.java`: A `20db6fd5b7438c4957c19565e593d79497a4712d9ce71fd5af0a9a4a61ad8cf2`; B `16e02a70181c063c0643b7dfdbe17516ad46cd38053a2d88cc3fb97400652c7c`.
+- `net/minecraft/entity/EntityFilter.java` and `net/minecraft/util/math/Box.java` hashes are recorded above; broader query/provider and call-site closure remains open. `net/minecraft/item/ItemStack.java`: A `a41054235eac09212065f7e20d4206aa7d83cdd159cebbc77eb8b3d1e43ab842`; B `dc929fcc42e94dacb1f2d2a32572c00612c4f9b39d4cb551634fd3dd290467d8`. `net/minecraft/entity/living/player/PlayerInventory.java`: A `eeb156c483ad1c3cb52b58a197f7321817b8c52c2cf35f4995a5758dc7871842`; B `cf956f7410c6911d2e978d2072a7d53590e4800c398687afeca6f771e74e19d6`. `net/minecraft/item/ElytraItem.java`: A `20db6fd5b7438c4957c19565e593d79497a4712d9ce71fd5af0a9a4a61ad8cf2`; B `16e02a70181c063c0643b7dfdbe17516ad46cd38053a2d88cc3fb97400652c7c`. `net/minecraft/block/state/StateDefinition.java`: A `00fea8cdf8a0cabf1af21e7e7ff47f071bd87a16f91697a3b31efce6c78bfda4` (typo marker to be corrected).
 
 ## Blind-discovery freeze
 
@@ -159,7 +159,7 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - A evidence: `Box.java::intersectX/Y/Z/intersects`, lines 143-209, SHA-256 `f529ef075bd933b88e3bace9020a5e23cb18b65e816154520f10bd2f26f61155`; `Entity.java::move`, lines 514-626, SHA-256 `05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77`.
 - B evidence: `Box.java::intersectX/Y/Z/intersects`, lines 185-250, SHA-256 `f788b8146b14f299ccb58ea0854609f845c298a963295d503de2e30e15d66f3a`; `Entity.java::move`, lines 564-689, SHA-256 `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440`.
 - State producers/writers -> consumers/readers: `World.getCollisions` ordered Box list + current entity shape + requested deltas -> Box axis clipping -> vertical/X/Z box moves -> step-up alternatives -> selected box/delta -> position and collision flags.
-- Parent slices / dependencies / closure evidence: S4-sneak-probe; `World.getCollisions` traversal and block/entity shape production remain open under D-COLLISION.
+- Parent slices / dependencies / closure evidence: S4-sneak-probe; `World.getCollisions` traversal is partially inventoried in S4-world-query; every reachable block/entity shape provider, override, registration and support dependency remains open under D-COLLISION.
 - Status: compared-no-difference
 - Disposition and rationale (including concrete reachability/preconditions): the inspected Box inequalities, clipping expressions, axis order, squared horizontal comparison, and fallback boundary match. B skips a zero-delta shape translation; with the same box this is a no-op. Conclusion is scoped to matching collision-list inputs and does not close collision-list generation.
 - Finding IDs or checked absence/replacement path: no finding for this bounded algorithmic slice; provider differences remain open.
@@ -188,16 +188,40 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - Disposition and rationale (including concrete reachability/preconditions): A's empty slot is null and short-circuits before `getItem`; B's empty slot is `ItemStack.EMPTY`, whose `getItem()` resolves to air, so its Elytra item comparison is false. Both the local start-flying gate and ongoing `flyingTick` gate therefore reject an empty chest slot. This establishes no movement difference for this bounded empty-slot case only.
 - Finding IDs or checked absence/replacement path: no finding; non-empty Elytra checks and other equipment readers remain outside this slice.
 
+### Slice S4-world-query: block and entity collision-list construction
+
+- Inventory ID(s): INV-COLLISION, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: ordinary `World.getCollisions(entity, shape)` used by entity movement; A's public query body versus B's public list wrapper/private block-query helper, followed by entity candidate collection. Border-only boolean query is not closed here.
+- A evidence: `World.java::getCollisions(Entity,Box)`, lines 903-965, SHA-256 `888ed0e9de765def87b05c4126ecdf0b10e9dd448b4543dd1cb98211e9951646`; `Block.java::addCollisions`, lines 342-353, SHA-256 `1971dbc284d511e2ed366f77bc77fd8cd07174baad3e7732e908d3daeb640c01`; `StateDefinition.java::addCollisions`, lines 369-371, SHA-256 `00fea8cdf8a0cabf1af21e7e7ff47f071bd87a16f91697a3b31efce6c78bfda4`.
+- B evidence: `World.java::getCollisions(Entity,Box)` and private helper, lines 960-1036, SHA-256 `27cfaa5ff45c2d88c492fc5dae3ea4a2bb4536fd64bff8498a9a7d0cb82efb58`; `Block.java::addCollisions`, lines 353-364, SHA-256 `ab873436b24487ab0ee8055bf7a478349c7f7978398aea8e387796a6c820996a`; `StateDefinition.java::addCollisions`, lines 374-376, SHA-256 `95704c944742efb2ec9cba7eb73399a330195556e669451131ba542e6a9fac65`.
+- State producers/writers -> consumers/readers: requested/current entity box -> padded block-coordinate scan and border/chunk state selection -> block-state `addCollisions` -> entity candidate query (`shape.expand(0.25)`) and both entities' collision shapes -> ordered list consumed by `Entity.move` clipping/step candidates.
+- Parent slices / dependencies / closure evidence: S4-box-axis-resolution; B's ordinary wrapper passes `enforceWorldBorder=false` and `collisions=list`, and passes `forceShape=false`. The World scan has a different y-boundary inclusion rule and new boolean-query short-circuit; candidate effects are not resolved until every reachable provider/override and shape bound is audited.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the entity-candidate loop, shared-vehicle guard, shape intersection tests, and append order match in the inspected bodies. The world-border state selection is algebraically equivalent for this ordinary path. The block scan and `addCollisions` API changed; A excludes both vertical end rows at x/z side columns while B excludes only the upper row, and B adds a `forceShape` parameter. Source search enumerates paired `addCollisions` overrides in `Block`, `BrewingStandBlock`, `CauldronBlock`, `ChorusPlantBlock`, `EndPortalBlock`, `EndPortalFrameBlock`, `FenceBlock`, `HopperBlock`, `LilyPadBlock`, `PaneBlock`, `PistonBaseBlock`, `PistonHeadBlock`, and `StairsBlock`; B additionally has `MovingBlock`, `MovingBlockEntity`, and `WallBlock`. Bodies, shape bounds and registration/reachability of these providers are not yet paired. Their movement consequence is unresolved pending that coverage.
+- Finding IDs or checked absence/replacement path: no finding yet; `Block.addCollisions` override/provider inventory and state/resource reachability remain open under D-COLLISION/D-BLOCK-DATA.
+
+### Slice S2-sleep-size-cycle: direct player sleep and wake box updates
+
+- Inventory ID(s): INV-STATE, INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: player `trySleep` shrinks to 0.2F then positions the player at the selected bed coordinates on both loaded and unloaded chunk branches; `wakeUp` restores 0.6F dimensions and later positions the player at a wake location. This does not cover `updatePlayerPose` or other size writers.
+- A evidence: `PlayerEntity.java::trySleep`, lines 1213-1248, and `wakeUp`, lines 1269-1291, SHA-256 `a055b84b98d98e828e177cad9bba47a1334ee9bf3ecd4331792979106235a302`; `Entity.java::setPosition`, lines 282-289, SHA-256 `05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77`, reconstructs a centered box from current width/height and x/y/z.
+- B evidence: `PlayerEntity.java::trySleep`, lines 1228-1248, and `wakeUp`, lines 1265-1287, SHA-256 `87fe94fa6cbf7aba18b9a5e3401664439eb8eba9958173da8fbcd05cc7ad948b`; `Entity.java::setPosition`, lines 295-302, SHA-256 `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440`, has the same centered-box reconstruction.
+- State producers/writers -> consumers/readers: sleep state/bed facing -> `setSize` -> explicit `setPosition` at bed; wake call -> `setSize` -> explicit wake-position selection and `setPosition` -> later movement queries.
+- Parent slices / dependencies / closure evidence: S2-resize; A's direct sleep shrink and B's recentering shrink can make an intermediate box differ, but both `trySleep` branches immediately reset it with `setPosition`. Wake uses width growth, not B's new shrink branch; on the bed branch, both versions position the player afterward. No intervening collision or movement query consumes the intermediate box in these inspected call sequences.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the final box after the direct sleep/wake methods is rebuilt from the same final x/y/z and dimensions in both endpoints. This closes only those explicit method call sequences, not pose-transition callers or all player resize paths.
+- Finding IDs or checked absence/replacement path: no finding for direct trySleep/wake size sequencing; `updatePlayerPose` remains open under S2-resize.
+
 ### Slice S2-resize: entity box adjustment when dimensions change
 
 - Inventory ID(s): INV-STATE, INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: `Entity.setSize`; B adds early return for width shrink, re-centering the new box on current x/z; A reconstructs from prior minX/minZ. Player call sites include sleep and dimension restoration.
+- Exact behavior boundary and enclosing guards/order checked: `Entity.setSize`; B adds early return for width shrink, re-centering the new box on current x/z; A reconstructs from prior minX/minZ. Direct `trySleep` and `wakeUp` call orders are closed separately in S2-sleep-size-cycle; `updatePlayerPose` collision-check/setSize order and dimension restoration remain open.
 - A evidence: `Entity.java::setSize`, lines 264-274, SHA-256 `05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77`.
 - B evidence: `Entity.java::setSize`, lines 271-287, SHA-256 `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440`.
 - State producers/writers -> consumers/readers: pose/sleep dimensions -> bounding box -> position and collision queries; width/height defaults and eye height not yet closed.
 - Parent slices / dependencies / closure evidence: S4-move-order; PlayerEntity sleep/pose calls require full guard and order comparison.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): source difference identified; exact player pose paths and resulting position semantics remain to be checked before finding classification.
+- Disposition and rationale (including concrete reachability/preconditions): source difference identified; direct sleep/wake callers overwrite the transient resized box through `setPosition`, but `updatePlayerPose` and remaining player dimension paths still need exact call-order and collision checks before classifying the broader size change.
 - Finding IDs or checked absence/replacement path: candidate only; not indexed as finding.
 
 ### Slice S3-travel-and-world-dependencies: all remaining tick movement
@@ -240,7 +264,7 @@ Other correspondence requiring further walk: remote/client corrections and packe
 
 ## Resume checkpoint
 
-- Last completed slice: exact source readiness verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order.
+- Last completed slice: exact source readiness verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order; partial S4-world-query; bounded S2-sleep-size-cycle.
 - Next bounded slice and exact files/members/body ranges to open: `D-COLLISION` (`World.getCollisions`, both block-query overloads, relevant `BlockState.addCollisions`, every reachable shape provider), then `D-PISTON` (`MovingBlockEntity` complete progress/tick paths A 91-183 and B 116-285). Continue all open queue items in navigation order.
 - Outstanding dependencies and owners: shared source owner is read-only publisher; source worker owns this run and findings; coordinator must assign independent reviewer.
 - Current assumptions requiring verification: line ranges cited above remain stable under the source hashes; current mapped artifact integrity needs canonical owner repair/reverification; complete method correspondence, branch coverage, data resources and external-player call paths remain open.
@@ -266,7 +290,7 @@ Complete only after blind-discovery freeze. No mod implementation was opened.
 
 ## Source audit closure
 
-- Coverage counts by status: 4 findings, 5 compared-no-difference, 2 in-progress, 1 pending (bounded rows only; broad inventory remains open).
+- Coverage counts by status: 4 findings, 6 compared-no-difference, 3 in-progress, 1 pending (bounded rows only; broad inventory remains open).
 - Required inventory status and evidence: only `INV-EXCLUSIONS` declaration complete; all movement inventories pending, with partial anchors above.
 - Open dependencies: D-ARTIFACT-INTEGRITY, D-SOURCE-DIAGNOSTICS, D-COLLISION, D-PISTON, D-POSE, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
 - Unresolved gaps and limits: complete tick graph, body-level diagnostic review, collision providers/resources, exact entity-player collision paths, modifiers, external writers, source-only freeze and independent audit remain open. Source comparison only; no gameplay behavior observed.
