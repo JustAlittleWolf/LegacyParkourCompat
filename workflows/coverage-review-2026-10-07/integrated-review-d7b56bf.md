@@ -24,3 +24,21 @@ The exact accepted 1.9.4 source evidence still shows a crouching height of 1.65 
 - No test, build, client/server, game, TAS, gym, Docker, or runtime command was run for this static review. The integration owner may run the requested combined build separately.
 - The earlier foundation report contains unrelated conditional handshake/UI findings; this incremental pass did not re-audit those paths: `integration-static.md`.
 
+
+## Follow-up: V1_8 swimming-pose fallback
+
+`PlayerDimensionsBehavior` and both `SneakingDimensions` and `SwimmingDimensions` use mechanic key `player.dimensions`. `ChangeResolver` groups registrations by `MechanicKey`, filters to changes whose emulated version is at or after the selected version, and selects the earliest such version. Therefore for V1_8 the V1_8 `SneakingDimensions` replaces the V1_12 `SwimmingDimensions` for the entire dimensions hook; there is not a second V1_12 callback for `Pose.SWIMMING`.
+
+This does **not** fall through to native 0.6×0.6 dimensions. `SneakingDimensions.dimensions` explicitly handles `Pose.SWIMMING && !player.isSwimming()`: it obtains `player.getDimensions(Pose.STANDING)` and returns that width/height with the vanilla eye height for the queried pose. The standing-pose recursive lookup returns the vanilla standing dimensions because neither historical branch matches `Pose.STANDING`. Separately, the V1_12 `SwimmingState` change has mechanic key `player.swim`, so it still resolves for selected V1_8 and returns `false`; `PlayerMixin` applies it to the return from `Player.isSwimming()`.
+
+Exact 26.2 `Player.updatePlayerPose` first requires `canPlayerFitWithinBlocksAndEntitiesWhen(Pose.SWIMMING)`, then tries the desired pose, then CROUCHING, and uses SWIMMING as the forced fallback only if the earlier checks fail. Its fit helper checks `getDimensions(newPose)` against world collision. Under V1_8, the SWIMMING candidate is standing height (1.8), so the native forced-crawl path cannot enter a space shorter than the standing box. The desired-pose selector also sees the V1_8 `isSwimming() == false`, so water does not request a modern swimming pose. This matches the exact 1.8.9 player source: ordinary 0.6×1.8 dimensions, no sneak resize, and no swimming pose. The V1_12 hook is hidden by resolver choice, but its needed V1_8 swimming-pose fallback behavior is explicitly supplied by `SneakingDimensions`; no correction is needed. The base `c1c5ea3` would instead have selected `SwimmingDimensions` for V1_8 and allowed 1.65 height while shift-key-down in a SWIMMING pose, which was modern forced-crawl behavior rather than historical 1.8 behavior.
+
+## Disposition of prior conditional handshake/UI findings
+
+These are baseline findings recorded in `integration-static.md`, not issues introduced by the integrated 1.8 movement commits:
+
+- `selectFor` is public, but the handshake sends the global selected version. No in-repository caller uses the per-player override. This is a conditional limitation for external server integrations that use per-player profiles; it does not block the reviewed built-in 1.8 movement path.
+- An unknown required profile ID can map to CURRENT on the client while the acknowledgement echoes the raw ID. This is a real conditional handshake correctness limitation under mod/profile version skew and can permit client/server movement disagreement. It does not originate in or block the reviewed movement delta, but it remains separately actionable if the handshake is expected to guarantee matching profiles under version skew.
+- Via can select a profile without updating the version screen's draft model, and closing that screen can overwrite the Via selection. This is a conditional UI state limitation, not a blocker for the integrated movement implementation.
+
+No code change is recommended for the V1_8 swimming-pose concern. These conclusions are source/resolver analysis only; no runtime pose witness was run.
