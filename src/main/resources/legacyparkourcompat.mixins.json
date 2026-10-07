@@ -5,7 +5,7 @@
   "mixins": [
     "LivingEntityMixin",
     "PlayerMixin",
-    "BlockBehaviourMixin",
+    "BlockStateCollisionShapeMixin",
     "BlockPushEntitiesMixin",
     "FarmlandBlockMixin",
     "EntityMixin",
