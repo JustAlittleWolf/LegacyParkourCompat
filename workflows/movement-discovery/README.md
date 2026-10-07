@@ -8,6 +8,15 @@ Cover the complete reachable per-tick player movement call graph, not only ordin
 
 The campaign excludes health, regeneration, hunger, food, saturation, exhaustion, and the damage/combat systems that produce those values or decide attacks/damage. Preserve those vanilla systems; a movement predicate may read their vanilla state without emulating its producer. This exclusion does not remove direct player-motion response: inspect player-side velocity/impulse/knockback application and resulting player state writes when they are reachable movement behavior, even if a combat event can trigger them. Do not derive or emulate damage/attack results, non-player motion, or vehicle physics. Preserve the one-way scope for modern-only blocks/states.
 
+### Source findings versus emulation eligibility
+
+Keep two decisions separate: whether exact-version vanilla source proves a behavioral difference, and whether that behavior is eligible for emulation under this project's scope. Preserve source evidence for a real difference even when its scope disposition is out of scope; do not turn every source change into a player-movement mechanic.
+
+- A repeater/comparator being removed when a neighbor update makes it unsupported is a block-state lifecycle change, so it is not an emulatable player-collision finding. The historical collision shape of that same native block state remains eligible when it affects player movement; describe that shape difference separately and keep block states vanilla.
+- Potion/effect production and projectile physics are excluded. A player-movement consumer of an already-present effect state, and direct player velocity/impulse application, remain in scope when reachable. Do not classify the excluded producer or projectile trajectory as an eligible movement change merely because it can eventually affect a player.
+
+For each candidate, record the source-proven behavior and player path, then state the scope disposition and rationale. If the source change is real but excluded, retain it as an explicit out-of-scope disposition and continue checking any distinct in-scope consumer or collision-shape behavior.
+
 Use release history or wiki material only to choose major/content-release boundary endpoints, never as movement evidence. Do not assume obsolete release-family groupings (including one interval for all of 1.21). Record exact coordinator-selected endpoints and inspect intermediate exact releases when establishing a first changed version. An endpoint comparison is not a whole release-line claim.
 
 Required inputs: exact A and B; repository revision; available source/cache locations. If versions are missing, ask for them before a comparison. Do not substitute `latest`, nearby patches, release notes, mod implementations or remembered vanilla behavior for source evidence.
