@@ -64,7 +64,7 @@ All inventories remain pending while exact method and dependency coverage is in 
 - Parent slices / dependencies / closure evidence: S-INPUT-KEYS; pose, item-use, equipment and ability dependencies remain open; see bounded S-ELYTRA-START slice.
 - Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): paired diff exposes candidate flow changes; each behavior needs a bounded slice and dependency closure.
-- Finding IDs or checked absence/replacement path: F-ELYTRA-START is closed in its own bounded slice; sprint, ability-flight toggle and auto-jump remain open here. Honey's auto-jump gate is tracked under F-HONEY-FACTORS.
+- Finding IDs or checked absence/replacement path: F-ELYTRA-START is closed in its own bounded slice; F-FLYING-CRAWL-SNEAK-RESCALE freezes the flight crawl/sneak compensation; sprint, remaining flight-toggle order and non-Honey auto-jump eligibility remain open here. Honey's block-factor auto-jump gate is tracked under F-HONEY-FACTORS.
 
 ### Slice S-ELYTRA-START: fresh jump press and fall-flying start
 
@@ -147,13 +147,13 @@ All inventories remain pending while exact method and dependency coverage is in 
 
 ## Finding index
 
-Source-confirmed findings (not yet pair-frozen or independently accepted): [F-SOUL-SAND-SPEED](findings/F-SOUL-SAND-SPEED.md), [F-FRICTION-SAMPLE](findings/F-FRICTION-SAMPLE.md), [F-HONEY-SLIDE](findings/F-HONEY-SLIDE.md), [F-HONEY-FACTORS](findings/F-HONEY-FACTORS.md), [F-ELYTRA-START](findings/F-ELYTRA-START.md), [F-SPECTATOR-CRAWL-SCALING](findings/F-SPECTATOR-CRAWL-SCALING.md). The full tick and state inventories remain incomplete, including broader local pre-travel, collision-provider, fluids, modifiers, external-input and exclusions work. No implementation disposition has been inspected.
+Source-confirmed findings (not yet pair-frozen or independently accepted): [F-SOUL-SAND-SPEED](findings/F-SOUL-SAND-SPEED.md), [F-FRICTION-SAMPLE](findings/F-FRICTION-SAMPLE.md), [F-HONEY-SLIDE](findings/F-HONEY-SLIDE.md), [F-HONEY-FACTORS](findings/F-HONEY-FACTORS.md), [F-ELYTRA-START](findings/F-ELYTRA-START.md), [F-SPECTATOR-CRAWL-SCALING](findings/F-SPECTATOR-CRAWL-SCALING.md), [F-FLYING-CRAWL-SNEAK-RESCALE](findings/F-FLYING-CRAWL-SNEAK-RESCALE.md). The full tick and state inventories remain incomplete, including broader local pre-travel, collision-provider, fluids, modifiers, external-input and exclusions work. No implementation disposition has been inspected.
 
 ## Resume checkpoint
 
-- Checkpoint branch: `feat/source-discovery-movement-source-1-14-4-1-15-2`; the earlier checkpoint was based on `c4e84a6cc7a026a25dce887025308890bac7ed21`; resumed from `1d776787edfd53b5230d51b012454cb4e4921d3d`, with `main` (`002137b227676caea77f6832b9f4c8d0b6200bff`) already merged; latest finding payload is `9d2da16e265d2fed8c4c57b55270bf9f8918f2e1`.
+- Checkpoint branch: `feat/source-discovery-movement-source-1-14-4-1-15-2`; the earlier checkpoint was based on `c4e84a6cc7a026a25dce887025308890bac7ed21`; resumed from `1d776787edfd53b5230d51b012454cb4e4921d3d`, with `main` (`002137b227676caea77f6832b9f4c8d0b6200bff`) already merged; latest finding payload is `8eb4d395210d6886982e5735f8d7b0b189e70b6e`.
 - Source identity: A `D:/Javastuff/LegacyParkourCompat/build/movement-campaign-2026-10-07/ready/1.14.4/mojmap/`, B `.../ready/1.15.2/mojmap/`; both markers, version metadata, source manifests, artifact manifests, original client jars and every manifested source/raw artifact entry were freshly reverified with zero mismatches. This pair uses Mojmap; the revised early-Feather snapshots are not inputs.
-- Closed bounded slices: S-ENTITY-MOVE, S-LIVING-JUMP, S-FRICTION-SAMPLE, S-HONEY-BLOCK, S-ELYTRA-START and S-INPUT-KEYS (findings); finding files F-SOUL-SAND-SPEED, F-FRICTION-SAMPLE, F-HONEY-SLIDE, F-HONEY-FACTORS, F-ELYTRA-START and F-SPECTATOR-CRAWL-SCALING. Snapshot event -01 remains submitted; event -02 freezes F-SOUL-SAND-SPEED at `68af793511194dbcb35752ab1f17cf75831ab82b`; event -03 freezes F-SPECTATOR-CRAWL-SCALING at `9d2da16e265d2fed8c4c57b55270bf9f8918f2e1`; events -02 and -03 await independent review; the pair remains partial.
+- Closed bounded slices: S-ENTITY-MOVE, S-LIVING-JUMP, S-FRICTION-SAMPLE, S-HONEY-BLOCK, S-ELYTRA-START and S-INPUT-KEYS (findings); finding files F-SOUL-SAND-SPEED, F-FRICTION-SAMPLE, F-HONEY-SLIDE, F-HONEY-FACTORS, F-ELYTRA-START and F-SPECTATOR-CRAWL-SCALING. Snapshot event -01 remains submitted; event -02 freezes F-SOUL-SAND-SPEED at `68af793511194dbcb35752ab1f17cf75831ab82b`; event -03 freezes F-SPECTATOR-CRAWL-SCALING at `9d2da16e265d2fed8c4c57b55270bf9f8918f2e1`; event -04 freezes F-FLYING-CRAWL-SNEAK-RESCALE at `8eb4d395210d6886982e5735f8d7b0b189e70b6e`; events -02, -03 and -04 await independent review; the pair remains partial.
 - Materialized open slices: S-LOCAL-PRETRAVEL and S-EDGE-BACKOFF (both `in-progress`). Planned but not yet materialized as ledger rows: S-LIVING-TRAVEL, S-POST-TRAVEL, S-PLAYER-POSE, S-STATE-WRITERS, S-COLLISION-PROVIDERS, S-FLUIDS, S-EFFECTS, S-ENCHANTMENTS, S-ATTRIBUTES, S-EQUIPMENT, S-CORRECTIONS, S-PLAYER-PUSH, S-PISTON-MOUNT and the explicit exclusion audit. All seven required inventories therefore remain pending.
 - Next bounded slice: continue S-LOCAL-PRETRAVEL by closing the remaining sprint start/stop, ability-flight toggle, Elytra-start and auto-jump branches and their guards; begin at `LocalPlayer.aiStep()` A 637-772/B 643-778, then follow `updateAutoJump` and the local travel caller. S-EDGE-BACKOFF follows.
 - Exact read-only next commands (PowerShell, repo root):
@@ -224,6 +224,23 @@ Get-Content -LiteralPath "$B\net\minecraft\client\player\LocalPlayer.java" | Sel
 - Implementation handoff: blocked pending independent acceptance; no precise cutover within the interval is claimed.
 - Replaces/supersedes snapshot ID and reason, if applicable: none.
 
+### Snapshot event FS-2026-10-07-1.14.4-1.15.2-04
+
+- Finding ID(s): F-FLYING-CRAWL-SNEAK-RESCALE
+- Source finding author(s): /root
+- Status: submitted; reviewer decision pending
+- Immutable snapshot commit: `8eb4d395210d6886982e5735f8d7b0b189e70b6e`
+- Finding file path and SHA-256: `findings/F-FLYING-CRAWL-SNEAK-RESCALE.md` `f214e1fd29ac67af9de86f87325eea1cd765a8490694dc19e4838476f8af18aa`
+- Exact A/B source identity: `ready/1.14.4/mojmap/` and `ready/1.15.2/mojmap/`; release IDs, Mojmap markers, source manifests and artifact manifests match the run ledger. Cited source bodies were revalidated for KeyboardInput, LocalPlayer, Player and Entity; hashes and exact ranges are listed in the finding.
+- Verified implementation boundary/evidence, or unresolved boundary reason: exact endpoints prove the input scale difference for a local flying player in a dry crawl pose while holding sneak and a direction; earliest affected release inside the interval remains unknown. This partial snapshot does not freeze or close the pair.
+- Finding-specific closed dependency IDs/evidence: S-INPUT-KEYS, flight-compensation portion of S-LOCAL-PRETRAVEL; forced crawl pose selection, controlled-camera input writes, flying Player.travel and the paired moveRelative/getInputVector consumer. Other pre-travel gates remain open.
+- Independent blind source reviewer and decision date: `01a116ce-b44d-75f0-974f-5038e0d227c7`; pending.
+- Review basis / requested source-only revisions: independently re-check crawling pose reachability while ability-flying, key slowdown and compensating divide order, exact source hashes/ranges, and the movement-vector consumer.
+- Pair run status and commit at handoff: `partial`; payload `8eb4d395210d6886982e5735f8d7b0b189e70b6e`.
+- Pair complete: no
+- Implementation handoff: blocked pending independent acceptance; no precise cutover within the interval is claimed.
+- Replaces/supersedes snapshot ID and reason, if applicable: none.
+
 ## Implementation reconciliation
 
 This source-only worker has not inspected implementation and will not do so before blind-discovery freeze.
@@ -245,9 +262,9 @@ This source-only worker has not inspected implementation and will not do so befo
 
 ## Source audit closure
 
-- Coverage counts by status: 6 findings, 2 in-progress, 0 pending.
+- Coverage counts by status: 7 findings, 2 in-progress, 0 pending.
 - Required inventory status and evidence: all seven inventories pending; source pair hashes verified, but method/dependency and registration/resource inventories remain open.
-- Accepted finding snapshots (metadata only; does not close pair): none; events -01, -02 and -03 are submitted and awaiting independent review.
+- Accepted finding snapshots (metadata only; does not close pair): none; events -01, -02, -03 and -04 are submitted and awaiting independent review.
 - Open dependencies: D-001,D-002,D-003,D-004
 - Unresolved gaps and limits: comparison is partial; the full tick inventory remains open beyond the bounded input-key slice, along with remaining local pre-travel, full collision providers/shapes, fluids, modifier application, external player motion inputs, and explicit exclusions.
 - Evidence/hash/correspondence audit: pair manifests and hashes for the cited Entity, LivingEntity, Player, Block, Blocks, SnowLayerBlock, LocalPlayer, KeyboardInput and HoneyBlock sources recorded; complete tick correspondence and remaining source inventories pending.
