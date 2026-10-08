@@ -865,6 +865,24 @@ Append-only source-review history. An accepted finding snapshot would release on
 - Implementation handoff: awaiting independent blind acceptance of this exact snapshot.
 - Replaces/supersedes snapshot ID and reason, if applicable: none; first snapshot for this finding.
 
+### Snapshot event F-PLAYER-DISMOUNT-CLEARANCE-BOX-r1
+
+- Finding ID(s): F-PLAYER-DISMOUNT-CLEARANCE-BOX
+- Source finding author(s): Codex source worker
+- Status: submitted
+- Immutable snapshot commit: `a15fc257`
+- Finding file path and SHA-256: `workflows/source-campaign-2026-10-07/1.11.2--1.12.2/findings/F-PLAYER-DISMOUNT-CLEARANCE-BOX.md`; `d6e1c4c945f0d2c6ba797a7ddebbdfe40eff2169149fb701881081ec755ded83`
+- Exact A/B evidence artifact records and revised artifact hashes: `EA-FEATHER-R1-1.11.2`, `EA-FEATHER-R1-1.12.2`; A JAR `ba1872d5fd341770a45aeeb8d372776a1b89f0b88a11a72f15aa0fe879b6a29f`, revision.json `49fca091d3ef83551745119f740d7a66a2773e81262db137bfc747369e8f61ac`; B JAR `fcc17537a14a423e2086f600047725ec1fcfd4c7fcf5c0d1a5bda491966c1b87`, revision.json `2be8645d57ca5c00411b037e7617f9860ac700f7fa8ef50d28220c2e1b0c60dc`. Original source/artifact manifest hashes and equivalence limitations are preserved in the finding.
+- Cited source/resource hashes: `LivingEntity`, `PlayerEntity`, and `PigEntity` A/B hashes and exact method hashes are recorded in the finding and S7.2 ledger entry; S4.4/S5 retain collision shape-provider dependencies.
+- Verified implementation boundary/evidence, or unresolved boundary reason: the paired general dismount branches query different clearance volumes on a reachable server-side pig dismount path. This can change candidate acceptance and the player exit coordinates; no specific arrangement or measured trajectory is claimed.
+- Finding-specific closed dependency IDs/evidence: `INV-STATE` and `INV-EXTERNAL` evidence for the bounded dismount transition/position writer only; collision, full mount, and broad inventory closure remain pending.
+- Independent blind source reviewer and decision date: reviewer assignment and review pending.
+- Review basis / requested source-only revisions: independently re-walk the exact clearance boxes, candidate loop/offset, server-side pig mounting path and correction calls before accepting or requesting a correction.
+- Pair run status and commit at handoff: active at `a15fc257`.
+- Pair complete: no
+- Implementation handoff: awaiting independent blind acceptance of this exact snapshot.
+- Replaces/supersedes snapshot ID and reason, if applicable: none; first snapshot for this finding.
+
 ## Implementation reconciliation
 
 - Reconciliation status: pending (source-only worker; explicit parent role change required)
