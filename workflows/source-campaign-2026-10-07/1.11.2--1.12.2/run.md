@@ -367,25 +367,25 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 ### Slice S3.1: Travel dispatch and branch guards; ground, air, water, lava, climb and fall-flying paths
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: Travel dispatch and branch guards; ground, air, water, lava, climb and fall-flying paths; exact local guards and enclosing call order recorded per bounded behavior
-- A evidence: pending exact A member/body range and SHA-256 from verified source root
-- B evidence: pending exact B member/body range and SHA-256 from verified source root
-- State producers/writers -> consumers/readers: pending exact source writer/consumer closure
-- Parent slices / dependencies / closure evidence: parent/dependency links pending source inventory
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison; no equivalence inferred from prior reports
+- Exact behavior boundary and enclosing guards/order checked (bounded dispatch subcase): `LivingEntity.mobTick()`'s post-`flyingTick` movement dispatch, immediately before profiler pop and push-away handling. This is a caller-side input change only; ground/air/water/lava/climb/glide branch formulas remain open under S3.2-S3.7.
+- A evidence (bounded dispatch subcase): `LivingEntity.mobTick()` lines 1737-1808 calls `moveRelative(this.sidewaysSpeed, this.forwardSpeed)` after scaling sideways/forward by `0.98F`, scaling rotation speed by `0.9F`, and running `flyingTick`; whole-file SHA-256 `bb7dc6c9e423a9568d6433d51bba12e7aee4555fbf3fb3e2b87f618382279f2f`.
+- B evidence (bounded dispatch subcase): `LivingEntity.mobTick()` lines 1781-1852 makes the same ordered writes, then calls `moveRelative(this.sidewaysSpeed, this.verticalSpeed, this.forwardSpeed)`; whole-file SHA-256 `190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6`. Both source hashes matched the exact `ornithe-feather.sources.sha256` entries.
+- State producers/writers -> consumers/readers: A has no `verticalSpeed` occurrence in the paired Minecraft source. B declares an uninitialized `LivingEntity.verticalSpeed` field (therefore Java default `0.0F` for a plain player), reads it at this dispatch and at the three-argument movement consumer; the only source writer found is `MobEntity.setVerticalSpeed(float)`, on the non-player mob path. PlayerEntity and its local subclass have no `verticalSpeed` writes. The direct player route therefore passes zero as the new vertical input, but S3.2 must compare the exact three-argument `moveRelative` calculation before claiming equal movement response.
+- Parent slices / dependencies / closure evidence: S3.2 owns A/B `LivingEntity.moveRelative` and `PlayerEntity.moveRelative` signatures/formulas, including effects of an exact zero vertical input; S3.3-S3.7 own subsequent velocity, medium and glide paths. `DEP-RELATIVE-MOVE` remains open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The per-tick dispatch differs by one added B argument sourced from `verticalSpeed`. Its player value has no player-side writer and defaults to zero, but the resulting three-dimensional acceleration path must be checked in S3.2; no movement-equivalence conclusion is made here.
 - Finding IDs or checked absence/replacement path: none assigned
 
 ### Slice S3.2: Relative input acceleration, normalization, friction and sprint multipliers
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: Relative input acceleration, normalization, friction and sprint multipliers; exact local guards and enclosing call order recorded per bounded behavior
-- A evidence: pending exact A member/body range and SHA-256 from verified source root
-- B evidence: pending exact B member/body range and SHA-256 from verified source root
-- State producers/writers -> consumers/readers: pending exact source writer/consumer closure
-- Parent slices / dependencies / closure evidence: parent/dependency links pending source inventory
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison; no equivalence inferred from prior reports
+- Exact behavior boundary and enclosing guards/order checked (bounded player subcase): `LivingEntity.moveRelative` ground/air/water/lava/climb/glide callers and direct `PlayerEntity.moveRelative` wrapper, including the new three-axis dispatch and `Entity.updateVelocity` consequence. Other per-medium friction, jump and travel ordering remains under S3.1/S3.3-S3.7.
+- A evidence: `LivingEntity.moveRelative(float sideways,float forwards)` lines 1388-1561, extracted body SHA-256 `37da15b2aaad8d56f1f5908759fa60da8ce4fd49ca314b9fb28de8c4f70bd1bb`; `PlayerEntity.moveRelative(float sideways,float forwards)` lines 1387-1405, body SHA-256 `e477b0d2123caa60eba3661c3273fb36a7f3f99c0b1319c67645e197cae3c4b4`; `Entity.updateVelocity(float sideways,float forwards,float scale)` lines 1028-1044, body SHA-256 `36357c34525b74aa100738f8e843cf6e51f82646c271a4546b4f40612e150b23`. Whole-file hashes: LivingEntity `bb7dc6c9e423a9568d6433d51bba12e7aee4555fbf3fb3e2b87f618382279f2f`; PlayerEntity `87fe94fa6cbf7aba18b9a5e3401664439eb8eba9958173da8fbcd05cc7ad948b`; Entity `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440`.
+- B evidence: `LivingEntity.moveRelative(float forwards,float sideways,float upwards)` lines 1425-1599, extracted body SHA-256 `c336b9240c99be7f4bc066c2536dedea38f6f5ec3e9439b5adaf8fa23bd1e03c`; `PlayerEntity.moveRelative(float forwards,float sideways,float upwards)` lines 1386-1404, body SHA-256 `4f6cfd1cd93faa4f02f96f20a5c2a48c05297254287277c8068de73ad9cf1e27`; `Entity.updateVelocity(float sideways,float forwards,float upwards,float scale)` lines 1049-1067, body SHA-256 `ebe04cd2de8e04cccceefc1291ea1fb47838d8721f33272ae81f77e71d3efef0`. Whole-file hashes: LivingEntity `190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6`; PlayerEntity `e4e0fdbe07a7d0a0ae4a70cbb6739a287c9d045a4a12b409895c220b5d91fe1e`; Entity `80f091bf32166c88cf8bbd31caf72d84fa16224410733c7d2a0f00563f294a0a`. Whole-file hashes match each exact source-manifest entry.
+- State producers/writers -> consumers/readers: S3.1 records B's added `verticalSpeed` input; vanilla sources have no player-side writer, so the player argument is the Java default `+0.0F`. B's four-argument-normalization squares `sideways`, then `forwards`, then `upwards`; for the player call these are the same sideways input, zero vertical input, and forward input. Thus horizontal normalization sums the former two squares plus zero, and the X/Z expressions retain their respective side/forward roles. B additionally executes `velocityY += forwards` in `Entity.updateVelocity`; for a player this adds the zero vertical component. Whether any reachable negative-zero Y state or downstream signed-zero consumer makes that added operation an observable player movement-state delta remains unresolved. The B walk-animation expression also adds a zero vertical-distance square for PlayerEntity (not a `FlyingAnimal`); its terminal player reachability/response is still being checked.
+- Parent slices / dependencies / closure evidence: S3.1 owns the caller and `verticalSpeed` default/writer inventory; S3.3 owns gravity, drag and velocity cutoffs, which consume `velocityY`; S3.4-S3.7 own medium/glide responses. `DEP-RELATIVE-MOVE` remains open until zero-input arithmetic and any reachable signed-zero consequence are resolved.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Input-axis mapping preserves the same horizontal components; the added vertical argument is zero on the vanilla player path. B nevertheless adds that zero to `velocityY`, while A leaves Y untouched in `updateVelocity`, and also changes the walk-animation distance expression. Do not collapse these operations as equivalent until direct writers, exact Java zero-sign behavior and consumers are closed.
 - Finding IDs or checked absence/replacement path: none assigned
 
 ### Slice S3.3: Gravity, drag, negligible-velocity cutoffs, clamps and post-travel velocity/flag updates
@@ -744,8 +744,8 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 
 ## Resume checkpoint
 
-- Last completed bounded slices: S1.7, S2.2a, S2.3, S2.3a, S2.4, S2.5 and S4.4a; S2.2 and S2.6 remain in-progress; S1.2a and S1.2b have bounded not-applicable dispositions.
-- Next bounded slice and exact files/members/body ranges to open: continue S2.2 by closing remaining player-reachable state/default and neighbor-provider dependencies around `World.getCollisions(Box)`; the WallBlock connection subcase is dispositioned with no reachable player response for its 0.6-wide active hitbox. Continue S2.6 with stored air speed and remaining local movement-state writer/consumer bodies. Keep `LivingEntity.travel` glide movement under S3.6 and `PlayerEntity.moveRelative` under S3.2/`DEP-RELATIVE-MOVE`.
+- Last completed bounded slices: S1.7, S2.2a, S2.3, S2.3a, S2.4, S2.5 and S4.4a; S2.2, S2.6, S3.1 and S3.2 remain in-progress; S1.2a and S1.2b have bounded not-applicable dispositions.
+- Next bounded slice and exact files/members/body ranges to open: continue S2.2 by closing remaining player-reachable state/default and neighbor-provider dependencies around `World.getCollisions(Box)`; the WallBlock connection subcase is dispositioned with no reachable player response for its 0.6-wide active hitbox. Continue S2.6 with remaining local movement-state writer/consumer bodies. For S3.2, finish the mapped-axis `updateVelocity` body and scan player writers/consumers of signed-zero `velocityY` and walk-animation values before disposition. Continue S3.1 travel ordering/branch closure and keep glide math under S3.6.
 - Outstanding dependencies and owners: listed above; discovery author owns source inventory; artifact provenance is independently verified; blind finding reviewer and full-pair reviewer assignment pending coordinator.
 - Current assumptions requiring verification: all prior findings and no-difference claims remain unaccepted; every cited body still requires direct review despite ready tree hashes.
 
@@ -864,7 +864,7 @@ Append-only source-review history. An accepted finding snapshot would release on
 
 ## Source audit closure
 
-- Coverage counts by status: 29 pending; 2 in-progress; 11 compared-no-difference; 3 not-applicable; 2 findings; 0 blocked (47 slices total).
+- Coverage counts by status: 27 pending; 4 in-progress; 11 compared-no-difference; 3 not-applicable; 2 findings; 0 blocked (47 slices total).
 - Required inventory status/evidence: INV-EXCLUSIONS complete; all other inventories pending with mapped slice IDs.
 - Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS, DEP-RELATIVE-MOVE
 - Unresolved gaps: stages beyond bounded keyboard input and completed UI/tutor dispositions; S2.2 shape providers, glide movement, exact state producers/consumers, registries/resources, external writers and historical candidates remain open.
