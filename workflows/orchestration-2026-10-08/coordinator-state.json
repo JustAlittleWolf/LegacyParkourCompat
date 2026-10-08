@@ -121,7 +121,7 @@
     {
       "threadId": "01a11bb3-d102-7723-b35b-cae34a76f976",
       "role": "wiki_minecraft",
-      "status": "active independent Minecraft Wiki remaining claim inventory, sealed from MCPK/source reports/implementation",
+      "status": "Completed partial Wiki checkpoint 5e353798 with six bounded records; wider catalog open, behind main reconciliation deferred by owner.",
       "ref": "feat/minecraft-wiki-audit@2d20e330083ca7bb738e750ae329bbf67d618ac2"
     },
     {
@@ -187,7 +187,7 @@
       "threadId": "01a11bc2-03b2-7443-bc8f-698902c67f29",
       "role": "wiki_minecraft_review",
       "ref": "005e647; b20730f",
-      "status": "completed; corrected fence103786e ACCEPT0979bee",
+      "status": "Active independent Wiki-aware review of six immutable Minecraft Wiki records at checkpoint 5e353798.",
       "resultCommit": "22849555;main merge c80b31f",
       "decisions": {
         "swimmingPitch": "ACCEPT b20730f SHA dd0abd5a90ac1813197e4c09ab97ed0e0027c48e237a148bbf95bde2f64e6a89",
@@ -370,7 +370,7 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T15:27:31.5805691Z",
+    "observedAt": "2026-10-08T15:29:13.7190102Z",
     "oldCompleted": 43,
     "oldActive": 0,
     "unknownSlotReserved": 0,
@@ -674,5 +674,21 @@
       "pair": "26.1.2--26.2",
       "commit": "8eb345d5973158e7e1bc26a2044d63fb77b45e19"
     }
-  ]
+  ],
+  "minecraftWikiNewCheckpoint": {
+    "branch": "feat/minecraft-wiki-audit",
+    "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/minecraft-wiki-audit-resume",
+    "records": [
+      "jump-apex-1.8.9-to-1.9.4.md",
+      "sprint-swimming-1.12.2-to-1.13.2.md",
+      "iron-bars-unconnected-shape-1.8.9-to-1.9.4.md",
+      "creative-flight-retained-1.8.9-to-1.9.4.md",
+      "climbable-trapdoor-ladder-1.8.9-to-1.9.4.md",
+      "bed-walk-lead-before-baseline.md"
+    ],
+    "reviewer": "01a11bc2-03b2-7443-bc8f-698902c67f29",
+    "remaining": "Connected pane/bar states, other fence/wall neighbors, later creative-flight/ladder intervals, full swim/crawl transitions, main merge before final lane handoff.",
+    "status": "Independent per-snapshot review active; lane PARTIAL, no source-pair completion.",
+    "head": "5e353798e5411b00c766905a1ed7c34aaa493c16"
+  }
 }
