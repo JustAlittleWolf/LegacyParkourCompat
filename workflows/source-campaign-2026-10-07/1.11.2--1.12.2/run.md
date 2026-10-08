@@ -693,14 +693,14 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 ### Slice S7.3: Client packet/authority boundaries and reconciliation of externally supplied velocity/position
 
 - Inventory ID(s): INV-STATE, INV-EXTERNAL
-- Exact behavior boundary and enclosing guards/order checked: Client packet/authority boundaries and reconciliation of externally supplied velocity/position; exact local guards and enclosing call order recorded per bounded behavior
-- A evidence: pending exact A member/body range and SHA-256 from verified source root
-- B evidence: pending exact B member/body range and SHA-256 from verified source root
-- State producers/writers -> consumers/readers: pending exact source writer/consumer closure
-- Parent slices / dependencies / closure evidence: parent/dependency links pending source inventory
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison; no equivalence inferred from prior reports
-- Finding IDs or checked absence/replacement path: none assigned
+- Exact behavior boundary and enclosing guards/order checked: A/B inbound `PlayerMoveC2SPacket` validation and its first caller in `ServerPlayNetworkHandler.handlePlayerMove` are paired. The direct server acceptance/rejection boundary is bounded; correction/velocity consumers and remaining server position packet producers remain open.
+- A evidence: `1.11.2/ornithe-feather/net/minecraft/server/network/handler/ServerPlayNetworkHandler.java::isInvalidMove(PlayerMoveC2SPacket)` lines 263-270, method SHA-256 `e9ca333b68d4c4d320ae0687fac055cf9f7d0cbf5bab9693470c9363704d6136`, file SHA-256 `947be17cf3d7217e7c8e563d4dd312cd133de1dc06bcd82b4431c9e5e74bc0bf`; `handlePlayerMove(PlayerMoveC2SPacket)` calls the predicate at line 371. `PlayerMoveC2SPacket::getMinY(double)` lines 43-45, SHA-256 `f318be2366ec55f2b9bb2ffd42170a23797a14b91b6267ef9595d5298bc52759`.
+- B evidence: `1.12.2/ornithe-feather/net/minecraft/server/network/handler/ServerPlayNetworkHandler.java::isInvalidMove(PlayerMoveC2SPacket)` lines 276-283, method SHA-256 `92b3040198192627aabe9062ca10ac4d5f48152cf0ff5964f17a3c331cee7999`, file SHA-256 `77bf65b2c48ff952713942e183af1cd5fb243ad4f8fd2e53aa1b97272e7acd7c`; `handlePlayerMove(PlayerMoveC2SPacket)` calls the predicate at line 407. `PlayerMoveC2SPacket::getMinY(double)` lines 43-45 has the same SHA-256 as A.
+- State producers/writers -> consumers/readers: the packet handler evaluates validation before position updates. A's predicate accepts all-finite coordinates regardless of range, while B rejects finite X/minY/Z magnitudes above `3.0E7` and all non-finite values. The equal packet accessor supplies the transmitted minY; accepted packets enter the server move/update path, while rejected packets take the disconnection path.
+- Parent slices / dependencies / closure evidence: S1.7 owns incoming movement packet consumers; S7.2 owns mount/dismount position writes; S7.4 owns remaining player state writers. A/B vehicle-move validator bodies match, isolating this delta to the player packet validator. Outbound movement packet formation, remaining correction consumers, and server writer inventory are still open.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): a received player movement packet with finite out-of-range position or non-finite values crosses different server guards. A can proceed to player position processing in cases B rejects before those writes. The finding is limited to the source-confirmed packet authority boundary and does not claim ordinary clients emit such values.
+- Finding IDs or checked absence/replacement path: `F-PLAYER-MOVE-PACKET-VALIDATION`; exact paired evidence in `findings/F-PLAYER-MOVE-PACKET-VALIDATION.md`.
 
 ### Slice S7.4: Final scan of reachable player movement-state writers, callbacks, overrides, registries and newly discovered dependencies
 
@@ -902,7 +902,7 @@ Append-only source-review history. An accepted finding snapshot would release on
 
 ## Source audit closure
 
-- Coverage counts by status: 16 pending; 5 in-progress; 19 compared-no-difference; 3 not-applicable; 4 findings; 0 blocked (47 slices total).
+- Coverage counts by status: 15 pending; 5 in-progress; 19 compared-no-difference; 3 not-applicable; 5 findings; 0 blocked (47 slices total).
 - Required inventory status/evidence: INV-EXCLUSIONS complete; all other inventories pending with mapped slice IDs.
 - Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS
 - Unresolved gaps: stages beyond bounded keyboard input and completed UI/tutor dispositions; S2.2 shape providers, glide movement, exact state producers/consumers, registries/resources, external writers and historical candidates remain open.
