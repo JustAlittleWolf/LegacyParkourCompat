@@ -15,7 +15,7 @@
 ## Still open
 
 - Independent reviewer acceptance of the exact `mcpk-feather-r1-finding-snapshot.md` and its dependencies. Until then, affected source/wiki pairs remain partial and no pair freeze is claimed.
-- A clean independent review of all four r2 candidates is pending. The prior review technically accepted the edge-backoff and Big Dripleaf claims, requested changes to swimming and slipperiness, but its own process note blocks formal acceptance for all four. The original snapshot files remain immutable and are superseded.
+- A clean independent review of all four r2 candidates is pending. The prior review technically accepted the edge-backoff and Big Dripleaf claims, requested changes to swimming and slipperiness, but its own process note blocks formal acceptance for all four. The original snapshot files remain immutable and are superseded. Exact commit:path, Git blob, and content SHA-256 identities are recorded in [the re-review candidate register](mcpk-clean-rereview-candidates-2026-10-08.md).
 - Continue the remaining MCPK claim checks listed under “Still unresolved” in [mcpk-wiki.md](mcpk-wiki.md): exact 1.11.1 wall-height interval; full 1.13 water math/flow and remaining shapes; 1.14 movement edge cases; Y=256 water-exit boundary; player-affecting effects/enchantments; and 1.17 powder-snow tick timing.
 - Do not treat the wiki's TODO-only 1.18 section or its lack of later sections as evidence for 1.19+ or 26.x behavior.
 
@@ -37,4 +37,7 @@
 
 - Worktree: `C:\Users\Wolfi\.codex\worktrees\mcpk-wiki-audit-recovered\LegacyParkourCompat`
 - Branch: `feat/mcpk-wiki-audit`
-- The prior checkpoint branch tip was `ae651e6` (`docs: hand off MCPK wiki audit checkpoint`). The repository `main` branch was not advanced for this documentation-only continuation; no full pair or wiki-lane acceptance is claimed.
+- Corrected immutable r2 snapshots and the lane links were committed at `78683ba65928004ce8b7b6b9371359164a68d43b`.
+- Merged default branch tip `6e0803b3fb17eeb8a3a9861ac2638828ab3200ea` in merge commit `de69ddb1f016a062bec36238ea2c40e4c7cceed5`.
+- The merge conflicted in the MCPK catalog/checkpoint because `main` removed the r2 candidates and restored the older unresolved wording. Resolution retained the explicitly requested corrected candidates and partial-review status; unrelated main changes were merged unchanged.
+- No full pair or wiki-lane acceptance is claimed.
