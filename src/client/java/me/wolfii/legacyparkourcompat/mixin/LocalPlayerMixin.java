@@ -4,17 +4,20 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.hook.FallFlyingStartBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.AutoJumpBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.AutoJumpInverseSqrtBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.FlightActivationJumpBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.FlightSneakInputBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.KeyboardDiagonalInputBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PassengerCrouchBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.PushAwayVelocityBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.RideableJumpBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowWaterSprintBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakInputSlowdownBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintCollisionBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintFallFlyingGateBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.SprintInputStartBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintStartBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintTickBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintTriggerBehavior;
@@ -48,6 +51,38 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LocalPlayer.class)
 abstract class LocalPlayerMixin {
+
+    @WrapOperation(
+        method = "aiStep",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/player/Player;tryToStartFallFlying()Z"
+        )
+    )
+    private boolean legacyparkourcompat$fallFlyingJumpStart(Player player, Operation<Boolean> vanilla) {
+        return MovementRuntime.find(FallFlyingStartBehavior.class, player)
+            .map(behavior -> behavior.shouldStartFallFlying(player))
+            .orElseGet(() -> vanilla.call(player));
+    }
+
+    @ModifyExpressionValue(
+        method = "aiStep",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;onClimbable()Z")
+    )
+    private boolean legacyparkourcompat$fallFlyingClimbableGate(boolean vanilla) {
+        Player player = (Player)(Object)this;
+        return MovementRuntime.find(FallFlyingStartBehavior.class, player)
+            .map(behavior -> behavior.isOnClimbableForFallFlyingStart(player, vanilla))
+            .orElse(vanilla);
+    }
+
+    @ModifyVariable(method = "aiStep", at = @At("STORE"), name = "justToggledCreativeFlight")
+    private boolean legacyparkourcompat$fallFlyingToggleGate(boolean vanilla) {
+        Player player = (Player)(Object)this;
+        return MovementRuntime.find(FallFlyingStartBehavior.class, player)
+            .map(behavior -> behavior.justToggledCreativeFlightForStart(player, vanilla))
+            .orElse(vanilla);
+    }
 
     @Redirect(
         method = "modifyInput(Lnet/minecraft/world/phys/Vec2;)Lnet/minecraft/world/phys/Vec2;",
@@ -90,7 +125,7 @@ abstract class LocalPlayerMixin {
             .orElse(vanilla);
     }
 
-    @Inject(method = "aiStep", at = @At("TAIL"))
+    @Inject(method = "aiStep", at = @At("HEAD"))
     private void legacyparkourcompat$tickSprintDuration(CallbackInfo ci) {
         LocalPlayer player = (LocalPlayer) (Object) this;
         MovementRuntime.find(SprintTickBehavior.class, player)
@@ -128,9 +163,46 @@ abstract class LocalPlayerMixin {
     )
     private boolean legacyparkourcompat$allowWaterSprintStart(boolean vanilla) {
         Player player = (Player)(Object)this;
-        return MovementRuntime.find(WaterSprintGateBehavior.class, player)
+        boolean allowed = MovementRuntime.find(WaterSprintGateBehavior.class, player)
             .map(behavior -> behavior.allowShallowWaterSprint(player, vanilla))
             .orElse(vanilla);
+        return MovementRuntime.find(SprintInputStartBehavior.class, player)
+            .map(behavior -> behavior.allowShallowWaterStart(player, allowed))
+            .orElse(allowed);
+    }
+
+    @WrapOperation(
+        method = "aiStep",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/player/LocalPlayer;setSprinting(Z)V",
+            ordinal = 0
+        )
+    )
+    private void legacyparkourcompat$doubleTapSprintStart(LocalPlayer player, boolean sprinting, Operation<Void> vanilla) {
+        boolean allowed = MovementRuntime.find(SprintInputStartBehavior.class, player)
+            .map(behavior -> behavior.allowDoubleTapStart(player, sprinting))
+            .orElse(sprinting);
+        if (allowed) {
+            vanilla.call(player, sprinting);
+        }
+    }
+
+    @WrapOperation(
+        method = "aiStep",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/player/LocalPlayer;setSprinting(Z)V",
+            ordinal = 1
+        )
+    )
+    private void legacyparkourcompat$sprintKeyStart(LocalPlayer player, boolean sprinting, Operation<Void> vanilla) {
+        boolean allowed = MovementRuntime.find(SprintInputStartBehavior.class, player)
+            .map(behavior -> behavior.allowSprintKeyStart(player, sprinting))
+            .orElse(sprinting);
+        if (allowed) {
+            vanilla.call(player, sprinting);
+        }
     }
 
     @ModifyArg(
@@ -281,11 +353,49 @@ abstract class LocalPlayerMixin {
             .orElse(vanilla);
     }
 
+    @ModifyArg(
+        method = "moveTowardsClosestSpace(DD)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/player/LocalPlayer;setDeltaMovement(DDD)V",
+            ordinal = 0
+        ),
+        index = 0
+    )
+    private double legacyparkourcompat$pushAwayVelocityX(double vanilla) {
+        return this.legacyparkourcompat$pushAwayVelocity(vanilla);
+    }
+
+    @ModifyArg(
+        method = "moveTowardsClosestSpace(DD)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/player/LocalPlayer;setDeltaMovement(DDD)V",
+            ordinal = 1
+        ),
+        index = 2
+    )
+    private double legacyparkourcompat$pushAwayVelocityZ(double vanilla) {
+        return this.legacyparkourcompat$pushAwayVelocity(vanilla);
+    }
+
+    private double legacyparkourcompat$pushAwayVelocity(double vanilla) {
+        LocalPlayer player = (LocalPlayer) (Object) this;
+        return MovementRuntime.find(PushAwayVelocityBehavior.class, player)
+            .map(behavior -> behavior.pushAwayVelocity(player, MovementRuntime.profile(player).target(), vanilla))
+            .orElse(vanilla);
+    }
+
     @Inject(method = "suffocatesAt", at = @At("RETURN"), cancellable = true)
     private void legacyparkourcompat$suffocationQuery(BlockPos pos, CallbackInfoReturnable<Boolean> callback) {
         LocalPlayer player = (LocalPlayer) (Object) this;
         MovementRuntime.find(SuffocationProbeBehavior.class, player).ifPresent(behavior ->
-            callback.setReturnValue(behavior.suffocatesAt(player, pos, callback::getReturnValue))
+            callback.setReturnValue(behavior.suffocatesAt(
+                player,
+                MovementRuntime.profile(player).target(),
+                pos,
+                callback::getReturnValue
+            ))
         );
     }
 
