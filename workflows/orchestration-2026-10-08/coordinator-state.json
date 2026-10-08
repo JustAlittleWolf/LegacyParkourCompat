@@ -339,10 +339,19 @@
       "ref": "1f4f0d0e753d8b6999a37e4e81f8fc2b32fbaf18",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
+    },
+    {
+      "threadId": "01a11bf5-4419-7d21-8193-a88ca9f6eba3",
+      "role": "source",
+      "pair": "1.21.5--1.21.8",
+      "status": "active",
+      "ref": "846d88672a0a7c216fea8e6ee68d29a7af0937e3",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:40:36.5443976Z",
+    "observedAt": "2026-10-08T14:41:50.3945120Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
