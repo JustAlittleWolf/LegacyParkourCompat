@@ -1003,7 +1003,7 @@
   "latestReconciliation": {
     "mainCommit": "dc1b65b29e3c2561175bd54276ae83e37cd1c045",
     "backlogBranch": "feat/accepted-finding-backlog-2026-10-08",
-    "backlogCommit": "4803310c51f997b57aa276915e1f02d06a17b528",
+    "backlogCommit": "e5e0db49b11618fb9dd3917a30e53afbcc1c243e",
     "integrationRecords": {
       "sleep": "a5c191df557cd152d578150c689227897ac33256; accepted source chain independently verified at 33baf5c6; implementation corrected, independently accepted, integrated and built with all Test tasks disabled; runtime unverified",
       "slime": "a5c191df557cd152d578150c689227897ac33256; bounded no-code disposition integrated; runtime unverified",
@@ -1342,7 +1342,7 @@
       "1.15.2--1.16.5": "owner terminal at f5636dd2; all seven inventories remain open; pair remains PARTIAL",
       "1.8.9--1.9.4": "Terminal/idle at clean checkpoint 690577535f5fe081cc6314485c937af4adc7631c; only INV-EXCLUSIONS complete, six inventories and full audit open; pair partial.",
       "1.16.5--1.17.1": "owner terminal at main-merged checkpoint aca4dfb24d5f1e9ec00b375eaf9b8f8b1c57c8b9; pair discovery remains PARTIAL",
-      "remainingActiveOwners": "No source discovery remains active. F14 owner is performing only metadata/Git merge of exact current main dc1b65b2 after its disclosed implementation-diff exposure; all other owners/workers are stopped or paused.",
+      "remainingActiveOwners": "No source discovery remains active. 1.11.2–1.12.2 is paused clean at f4d23537 with main dc1 ancestor. All collaborative workers are terminal. F14 metadata-only merge is complete at 1d027c70; fresh blind source audit is queued for a future session.",
       "status": "Preserve exact pair partial/open states; do not infer completion.",
       "F013": "Corrected immutable finding and binding ACCEPTED identity-only at review 2fd121e1; merged to main at df418e06. Original REQUEST CHANGES remains attached to original bytes. No pair-discovery reopen; coverage ACCEPT e0e36eff remains separate; pair PARTIAL.",
       "wikiMcpk": "Wiki and MCPK owners terminal; bounded catalogs do not close their open review/release/source gaps.",
@@ -1350,7 +1350,7 @@
       "1.10.2--1.11.2": "terminal/idle at 5a4034c; 8 findings, 44 no-difference, 6 progress, 5 N/A, 1 pending; pair partial",
       "1.13.2--1.14.4": "terminal/idle at fda384a2 + c7fda155 main merge; 69 slices; F023 candidate pending, seven inventories/audit open",
       "1.12.2--1.13.2": "Pane owner terminal/idle at clean checkpoint 2853716b2031da05abe991e3913078f9a668f3bb with main d8 via 1ac8050754be3fcef159739376bba13ca19feda3; 38 no-difference, 5 findings, 17 open slices. Farmland two-player player-step +0.051 vs +0.05 candidate pending independent review; pair partial.",
-      "1.21.4--1.21.5": "Terminal/idle at clean checkpoint 8fc02900, merged only through main d8f39566. Source owner disclosed implementation-diff exposure during that merge: LocalPlayerMixin, PlayerMixin, LivingEntityMixin, SneakEdgeBackoff, ShallowWaterCurrentCutoff. Preserve earlier bounded snapshot review as immutable evidence, but do not call the lane fully blind. Queue fresh independent source-only discovery/coverage audit and blind review before full-pair freeze. Pair remains PARTIAL.",
+      "1.21.4--1.21.5": "Terminal clean handoff at 1d027c70; current main dc1b65b2 merged as 681f87ed, main is ancestor. Earlier implementation-diff exposure remains documented at e5c96816. Pair PARTIAL; prior bounded review preserved and fresh source-only blind discovery/coverage queued before freeze.",
       "1.11.2--1.12.2": "Owner stopped source inspection and paused goal at clean checkpoint f4d235379ea451da227a34e710bb66609fe37235; current main dc1b65b29e3c2561175bd54276ae83e37cd1c045 is an ancestor. Existing dependency queue and open slices remain; pair partial.",
       "1.21.11--26.1.2": "Collaborative owner terminal/idle clean at ea6ca59bd217e9ad36ede00122a6952be914839b, merged current main dc1b65b29e3c2561175bd54276ae83e37cd1c045. Pair partial: 45 progress, 10 no-difference, 1 N/A, 7 inventories open, D2 open, full audit pending. F-1 ACCEPT snapshot only; F-2/F-3 pending review."
     },
@@ -1372,8 +1372,8 @@
     "bedProof": "Bound report rereview ACCEPTed proof-only at 4071cee1; no Java/provider change. Original identity-only REQUEST CHANGES d027b9db remains in history and is resolved by bound rereview. Accepted author/review documents are routed for integration.",
     "waterSprint": "Bounded source ACCEPT now closes the candidate acceptance gap for the two identified immutable snapshots only; no broader parity or pair closure.",
     "collaborationSlots": "Keep <=20 roles including root and reserved catalog reviewer. Suffocation reviewer role reused by integration owner; catalog preflight reviewer remains reserved, not a free role.",
-    "currentTimeObservation": "2026-10-08 17:31 UTC / 19:31 Europe/Vienna; metadata-only 1.21.4 main catch-up in progress; final handoff by 19:40.",
-    "backlogCommit": "bcc1ffca305d2332478082e93aaf78bed99fb221",
+    "currentTimeObservation": "2026-10-08 17:32 UTC / 19:32 Europe/Vienna; final coordinator handoff due 19:40.",
+    "backlogCommit": "e5e0db49b11618fb9dd3917a30e53afbcc1c243e",
     "catalogIncident": "Wrong-workdir deletion by catalog author was restored. Primary main was independently verified clean at d8f39566; do not mutate primary until architecture review and coordinated merge.",
     "sourceOwnerRoleSwap": "1.16.5–1.17.1 source owner terminal at aca4dfb; role replaced by BED no-code proof reviewer. 1.15.2–1.16.5 owner terminal at f5636dd2 with all seven inventories open. 1.8.9–1.9.4 owner still closing.",
     "primaryMainStatus": "Verified clean at dc1b65b29e3c2561175bd54276ae83e37cd1c045 after successful reviewed integration/build; 57 commits ahead of origin/main; no push.",
@@ -1404,26 +1404,21 @@
       "jarSha256": "da749785311afe8eafb772f61d463b4a10accc30ed97865ee70146eeba3da372",
       "runtime": "unverified"
     },
-    "roleTurnover": "All source discovery owners stopped or paused. 1.11.2–1.12.2 clean partial checkpoint f4d23537 is paused; F14 owner doing metadata-only main catch-up and then will stop. No active discovery slots.",
+    "roleTurnover": "All source/review/integration worker roles are terminal, paused, or released. No active discovery roles remain.",
     "pane": "Pane owner active on bounded two-player Farmland conditional candidate; broader path open.",
     "sourcePairsLatest": {
       "1.17.1--1.18.2": "All 14 finding snapshots have bounded ACCEPTs; corrected F013 identity-only ACCEPT at 2fd121e1, original REQUEST CHANGES remains bound to original bytes; independent full-pair coverage ACCEPT e0e36eff remains separate; pair PARTIAL.",
-      "1.21.4--1.21.5": "Terminal partial at 8fc02900, main parent d8. Provenance disclosure at 19:30: owner read LocalPlayerMixin, PlayerMixin, LivingEntityMixin, SneakEdgeBackoff, ShallowWaterCurrentCutoff implementation diffs during merge. Prior bounded snapshot review remains distinct; full-pair blind review/coverage must be fresh; no freeze.",
+      "1.21.4--1.21.5": "Terminal partial clean at 1d027c70 with main dc1 ancestor. Implementation-diff exposure during earlier merge is explicitly retained; do not claim lane fully blind. Fresh independent source-only discovery/coverage and blind review required before full-pair freeze.",
       "1.21.11--26.1.2": "Terminal partial ea6ca59b: 0 pending, 45 progress, 10 no-difference, 1 N/A; 7 inventories/D2/full audit open. F-1 ACCEPT snapshot only (blob 90c8a482, SHA 9d2c273a); F-2/F-3 pending independent review.",
       "1.11.2--1.12.2": "Terminal/paused clean checkpoint f4d23537 with main dc1 ancestor. Source inspection stopped; resumable dependency queue remains. Pair PARTIAL."
     },
-    "activeRolesAtLastUpdate": [
-      "coordinator/root",
-      "exclusive integration owner 01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
-      "other active source/review roles from current saved roster; terminal roles removed above",
-      "Independent reviewer for BlockLanding visibility candidate (reactivated; target 19:27, latest 19:30; scope includes static catalog class/constructor access sweep)"
-    ],
+    "activeRolesAtLastUpdate": [],
     "roleCap": "20 maximum including root and active catalog reviewer; no new worker roles.",
     "safeNextActions": [
-      "Verify the metadata-only current-main merge for 1.21.4–1.21.5 and record its final clean branch head; preserve the earlier implementation-diff disclosure and fresh blind-review queue.",
-      "Keep 1.11.2–1.12.2 paused at f4d235379ea451da227a34e710bb66609fe37235 with its dependency queue; resume later from its run.md.",
-      "Keep local main clean at dc1b65b29e3c2561175bd54276ae83e37cd1c045; no push or runtime validation.",
-      "Resume incomplete pair inventories and blind audits in a future session; no pair is complete based on this checkpoint."
+      "Final-validate clean main dc1b65b29e3c2561175bd54276ae83e37cd1c045 and clean coordinator/backlog worktrees; retain all durable queue states.",
+      "Close the coordinator by 19:40. Source discovery stays stopped; all active campaign worker threads are terminal or paused.",
+      "Preserve the 1.21.4–1.21.5 exposure record and fresh blind source-audit queue; keep all pair states partial/open.",
+      "Leave unknown persistent-goal states for idle/terminal threads unclaimed; any pause must be owner-controlled through normal app controls, not database edits."
     ],
     "sourcePair2626Latest": {
       "branch": "feat/source-26-1-2-26-2-resume-oct8",
@@ -1442,6 +1437,18 @@
       "commit": "2853716b2031da05abe991e3913078f9a668f3bb",
       "mainMerge": "1ac8050754be3fcef159739376bba13ca19feda3",
       "status": "terminal/idle clean; 38 no-difference, 5 findings, 17 open slices; Farmland player-step +0.051 vs +0.05 candidate pending independent review; pair partial"
+    },
+    "goalLifecycleAudit": {
+      "checkedAt": "2026-10-08 19:32 Europe/Vienna",
+      "method": "Codex list_threads/read_thread status and explicit worker final messages only; no direct application database inspection.",
+      "visibleAppThreadStatus": "Coordinator thread is the only campaign task observed active. Source worker tasks are terminal or idle.",
+      "confirmedPaused": [
+        "1.11.2–1.12.2 source owner persistent goal explicitly paused at clean f4d23537 checkpoint."
+      ],
+      "goalStateUnknown": [
+        "Other idle/terminal campaign threads: task status does not establish persistent-goal status. No explicit pause confirmation is recorded for every worker."
+      ],
+      "safeClose": "Do not resume source discovery after cutoff. The coordinator can close after final state commit; any later automation/goal continuation must be explicitly paused by its owner through normal Codex controls. Do not mutate application database state."
     }
   },
   "latestIndependentReviews": [
