@@ -1,0 +1,200 @@
+[
+  {
+    "id": "01a116c5-2693-7f61-a50e-713b2c46e28a",
+    "role": "source",
+    "assignment": "1.8.9--1.9.4"
+  },
+  {
+    "id": "01a116c5-37bb-7581-9435-0344a548c269",
+    "role": "source",
+    "assignment": "1.9.4--1.10.2"
+  },
+  {
+    "id": "01a116c5-4acc-7683-9d8f-6553954f8ff5",
+    "role": "source",
+    "assignment": "1.10.2--1.11.2"
+  },
+  {
+    "id": "01a116c5-5dfb-7d21-a408-71bc4c4ea08f",
+    "role": "source",
+    "assignment": "1.11.2--1.12.2"
+  },
+  {
+    "id": "01a116c5-6dee-7202-9b10-6ccb3c2cdfa4",
+    "role": "source",
+    "assignment": "1.12.2--1.13.2"
+  },
+  {
+    "id": "01a116c5-9cbc-7820-ab25-6155b30449fe",
+    "role": "source",
+    "assignment": "1.13.2--1.14.4"
+  },
+  {
+    "id": "01a116c5-b0f5-78f1-b223-1f32f0c0232a",
+    "role": "source",
+    "assignment": "1.14.4--1.15.2"
+  },
+  {
+    "id": "01a116c5-c37a-7550-a674-790f5f411bfd",
+    "role": "source",
+    "assignment": "1.15.2--1.16.5"
+  },
+  {
+    "id": "01a116c5-dbcd-7ae1-984e-e20a2b873da0",
+    "role": "source",
+    "assignment": "1.16.5--1.17.1"
+  },
+  {
+    "id": "01a116c5-ef2e-7990-97d5-835aee2a0ce8",
+    "role": "source",
+    "assignment": "1.17.1--1.18.2"
+  },
+  {
+    "id": "01a116cc-a8fa-79b0-becd-d47467c862d1",
+    "role": "source",
+    "assignment": "1.18.2--1.19.2"
+  },
+  {
+    "id": "01a116cc-bcb1-7162-98d8-3b94f9c7a699",
+    "role": "source",
+    "assignment": "1.19.2--1.19.3"
+  },
+  {
+    "id": "01a116cc-d2c5-7bc1-b9ad-c9f226ad5868",
+    "role": "source",
+    "assignment": "1.19.3--1.19.4"
+  },
+  {
+    "id": "01a116cc-e6b1-7e71-81da-ec43bb6f75d1",
+    "role": "source",
+    "assignment": "1.19.4--1.20.1"
+  },
+  {
+    "id": "01a116cd-3896-79c1-b873-c1315db28740",
+    "role": "source",
+    "assignment": "1.20.1--1.20.2"
+  },
+  {
+    "id": "01a116cd-4e53-7832-8dbd-7854d8fc7bc2",
+    "role": "source",
+    "assignment": "1.20.2--1.20.4"
+  },
+  {
+    "id": "01a116cd-6a77-7c72-89eb-86e3734ffd45",
+    "role": "source",
+    "assignment": "1.20.4--1.20.6"
+  },
+  {
+    "id": "01a116ca-5538-7612-9a49-ca9332e28835",
+    "role": "source",
+    "assignment": "1.20.6--1.21.1"
+  },
+  {
+    "id": "01a116ca-712f-7712-b42d-6bb3697e1e04",
+    "role": "source",
+    "assignment": "1.21.1--1.21.3"
+  },
+  {
+    "id": "01a116ca-8d40-70f3-bfb1-a6545374626a",
+    "role": "source",
+    "assignment": "1.21.3--1.21.4"
+  },
+  {
+    "id": "01a116ca-aa00-74c0-b073-86b0dd05cdb3",
+    "role": "source",
+    "assignment": "1.21.4--1.21.5"
+  },
+  {
+    "id": "01a116ca-d248-7610-a68e-3ea97b42416d",
+    "role": "source",
+    "assignment": "1.21.5--1.21.8"
+  },
+  {
+    "id": "01a116cb-3c17-7090-b2de-4065adde123f",
+    "role": "source",
+    "assignment": "1.21.8--1.21.10"
+  },
+  {
+    "id": "01a116cb-627e-71e0-9739-f8805177eaa2",
+    "role": "source",
+    "assignment": "1.21.10--1.21.11"
+  },
+  {
+    "id": "01a116cb-8c14-7883-9e25-953ef8212465",
+    "role": "source",
+    "assignment": "1.21.11--26.1.2"
+  },
+  {
+    "id": "01a116cb-f0e4-7870-a1f1-f1a8f30f6218",
+    "role": "source",
+    "assignment": "26.1.2--26.2"
+  },
+  {
+    "id": "01a11705-64a1-79d3-a42e-45ac8a7c155f",
+    "role": "blind"
+  },
+  {
+    "id": "01a116ce-b44d-75f0-974f-5038e0d227c7",
+    "role": "blind"
+  },
+  {
+    "id": "01a116ce-c937-7613-a49b-716e99582357",
+    "role": "blind"
+  },
+  {
+    "id": "01a116ce-dfe4-7b11-b7e6-d62f5014e356",
+    "role": "blind"
+  },
+  {
+    "id": "01a11715-583f-71c1-b397-2f531b571512",
+    "role": "implementation"
+  },
+  {
+    "id": "01a11752-6a61-70b1-a073-27fc4387938f",
+    "role": "implementation"
+  },
+  {
+    "id": "01a11af3-f1bd-7571-8701-84c43c2ebe5d",
+    "role": "implementation"
+  },
+  {
+    "id": "01a11af4-3356-78d2-8357-0dfeff91a494",
+    "role": "implementation"
+  },
+  {
+    "id": "01a11b45-7f77-7381-a3d0-7f2899ee847b",
+    "role": "implementation"
+  },
+  {
+    "id": "01a11755-6389-7cf3-a4ca-c344ad087fac",
+    "role": "implementation"
+  },
+  {
+    "id": "01a116d0-d90d-7ed0-bea3-232c513eed9c",
+    "role": "integration"
+  },
+  {
+    "id": "01a1171c-9325-76e2-9670-fb4498142cdd",
+    "role": "static_review"
+  },
+  {
+    "id": "01a116c2-a60c-74e3-a50b-cd39723ecf1e",
+    "role": "wiki"
+  },
+  {
+    "id": "01a116c2-b902-7fd2-bf73-72c10cbb43b5",
+    "role": "wiki"
+  },
+  {
+    "id": "01a116dc-d318-79f3-a5f8-6c1b14cdf20e",
+    "role": "queue"
+  },
+  {
+    "id": "01a116c1-9b7b-7d63-977c-b2e6b4fe9ac9",
+    "role": "ops"
+  },
+  {
+    "id": "01a116c0-7d7b-71a2-83b8-3f55585932b3",
+    "role": "source_prep"
+  }
+]

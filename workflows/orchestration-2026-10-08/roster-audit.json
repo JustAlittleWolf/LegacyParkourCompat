@@ -1,0 +1,435 @@
+{
+  "observedAt": "2026-10-08T13:41:59.452Z",
+  "roles": [
+    {
+      "id": "01a116c5-2693-7f61-a50e-713b2c46e28a",
+      "role": "source",
+      "pair": "1.8.9--1.9.4",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116c5-37bb-7581-9435-0344a548c269",
+      "role": "source",
+      "pair": "1.9.4--1.10.2",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116c5-4acc-7683-9d8f-6553954f8ff5",
+      "role": "source",
+      "pair": "1.10.2--1.11.2",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116c5-5dfb-7d21-a408-71bc4c4ea08f",
+      "role": "source",
+      "pair": "1.11.2--1.12.2",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116c5-6dee-7202-9b10-6ccb3c2cdfa4",
+      "role": "source",
+      "pair": "1.12.2--1.13.2",
+      "status": "idle",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116c5-9cbc-7820-ab25-6155b30449fe",
+      "role": "source",
+      "pair": "1.13.2--1.14.4",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116c5-b0f5-78f1-b223-1f32f0c0232a",
+      "role": "source",
+      "pair": "1.14.4--1.15.2",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116c5-c37a-7550-a674-790f5f411bfd",
+      "role": "source",
+      "pair": "1.15.2--1.16.5",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116c5-dbcd-7ae1-984e-e20a2b873da0",
+      "role": "source",
+      "pair": "1.16.5--1.17.1",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116c5-ef2e-7990-97d5-835aee2a0ce8",
+      "role": "source",
+      "pair": "1.17.1--1.18.2",
+      "status": "active",
+      "turn": "inProgress"
+    },
+    {
+      "id": "01a116cc-a8fa-79b0-becd-d47467c862d1",
+      "role": "source",
+      "pair": "1.18.2--1.19.2",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116cc-bcb1-7162-98d8-3b94f9c7a699",
+      "role": "source",
+      "pair": "1.19.2--1.19.3",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116cc-d2c5-7bc1-b9ad-c9f226ad5868",
+      "role": "source",
+      "pair": "1.19.3--1.19.4",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116cc-e6b1-7e71-81da-ec43bb6f75d1",
+      "role": "source",
+      "pair": "1.19.4--1.20.1",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116cd-3896-79c1-b873-c1315db28740",
+      "role": "source",
+      "pair": "1.20.1--1.20.2",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116cd-4e53-7832-8dbd-7854d8fc7bc2",
+      "role": "source",
+      "pair": "1.20.2--1.20.4",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116cd-6a77-7c72-89eb-86e3734ffd45",
+      "role": "source",
+      "pair": "1.20.4--1.20.6",
+      "status": "idle",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116ca-5538-7612-9a49-ca9332e28835",
+      "role": "source",
+      "pair": "1.20.6--1.21.1",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116ca-712f-7712-b42d-6bb3697e1e04",
+      "role": "source",
+      "pair": "1.21.1--1.21.3",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116ca-8d40-70f3-bfb1-a6545374626a",
+      "role": "source",
+      "pair": "1.21.3--1.21.4",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116ca-aa00-74c0-b073-86b0dd05cdb3",
+      "role": "source",
+      "pair": "1.21.4--1.21.5",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116ca-d248-7610-a68e-3ea97b42416d",
+      "role": "source",
+      "pair": "1.21.5--1.21.8",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116cb-3c17-7090-b2de-4065adde123f",
+      "role": "source",
+      "pair": "1.21.8--1.21.10",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116cb-627e-71e0-9739-f8805177eaa2",
+      "role": "source",
+      "pair": "1.21.10--1.21.11",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116cb-8c14-7883-9e25-953ef8212465",
+      "role": "source",
+      "pair": "1.21.11--26.1.2",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116cb-f0e4-7870-a1f1-f1a8f30f6218",
+      "role": "source",
+      "pair": "26.1.2--26.2",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a11705-64a1-79d3-a42e-45ac8a7c155f",
+      "role": "blind",
+      "status": "idle",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116ce-b44d-75f0-974f-5038e0d227c7",
+      "role": "blind",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116ce-c937-7613-a49b-716e99582357",
+      "role": "blind",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116ce-dfe4-7b11-b7e6-d62f5014e356",
+      "role": "blind",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a11715-583f-71c1-b397-2f531b571512",
+      "role": "implementation",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a11752-6a61-70b1-a073-27fc4387938f",
+      "role": "implementation",
+      "status": "idle",
+      "turn": "completed"
+    },
+    {
+      "id": "01a11af3-f1bd-7571-8701-84c43c2ebe5d",
+      "role": "implementation",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a11af4-3356-78d2-8357-0dfeff91a494",
+      "role": "implementation",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a11b45-7f77-7381-a3d0-7f2899ee847b",
+      "role": "implementation",
+      "status": "idle",
+      "turn": "completed"
+    },
+    {
+      "id": "01a11755-6389-7cf3-a4ca-c344ad087fac",
+      "role": "implementation",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116d0-d90d-7ed0-bea3-232c513eed9c",
+      "role": "integration",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a1171c-9325-76e2-9670-fb4498142cdd",
+      "role": "static_review",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116c2-a60c-74e3-a50b-cd39723ecf1e",
+      "role": "wiki",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116c2-b902-7fd2-bf73-72c10cbb43b5",
+      "role": "wiki",
+      "status": "idle",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116dc-d318-79f3-a5f8-6c1b14cdf20e",
+      "role": "queue",
+      "status": "idle",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116c1-9b7b-7d63-977c-b2e6b4fe9ac9",
+      "role": "ops",
+      "status": "idle",
+      "turn": "completed"
+    },
+    {
+      "id": "01a116c0-7d7b-71a2-83b8-3f55585932b3",
+      "role": "source_prep",
+      "status": "notLoaded",
+      "turn": "completed"
+    },
+    {
+      "id": "01a11bb1-adb2-7212-9a90-26537278d788",
+      "role": "fresh",
+      "status": "idle",
+      "turn": "completed"
+    },
+    {
+      "id": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
+      "role": "fresh",
+      "status": "active",
+      "turn": "inProgress"
+    },
+    {
+      "id": "01a11bb1-d0cb-75f1-846c-6886638ad64b",
+      "role": "fresh",
+      "status": "idle",
+      "turn": "completed"
+    },
+    {
+      "id": "01a11bb3-59d0-72c0-ab62-71a6d301d1d8",
+      "role": "fresh",
+      "status": "active",
+      "turn": "inProgress"
+    },
+    {
+      "id": "01a11bb3-6dd8-7710-8f54-0b2d444da4b6",
+      "role": "fresh",
+      "status": "active",
+      "turn": "inProgress"
+    },
+    {
+      "id": "01a11bb3-7ca7-7510-8ec7-03f97db0cc9b",
+      "role": "fresh",
+      "status": "active",
+      "turn": "inProgress"
+    },
+    {
+      "id": "01a11bb3-9057-7283-b264-f6ff0befbb34",
+      "role": "fresh",
+      "status": "idle",
+      "turn": "completed"
+    },
+    {
+      "id": "01a11bb3-9efb-7962-b77b-722fbec5de31",
+      "role": "fresh",
+      "status": "active",
+      "turn": "inProgress"
+    },
+    {
+      "id": "01a11bb3-aee2-7a81-b21f-e3b3b002ab9a",
+      "role": "fresh",
+      "status": "active",
+      "turn": "inProgress"
+    },
+    {
+      "id": "01a11bb3-bfe4-75a3-97b4-888907814e44",
+      "role": "fresh",
+      "status": "active",
+      "turn": "inProgress"
+    },
+    {
+      "id": "01a11bb3-d102-7723-b35b-cae34a76f976",
+      "role": "fresh",
+      "status": "idle",
+      "turn": "completed"
+    },
+    {
+      "id": "01a11bb3-e236-7343-86a7-4c51ecc20b98",
+      "role": "fresh",
+      "status": "idle",
+      "turn": "completed"
+    },
+    {
+      "id": "01a11bb5-8eb0-7813-bb21-160e97f4652c",
+      "role": "fresh",
+      "status": "active",
+      "turn": "inProgress"
+    },
+    {
+      "id": "01a11bb8-92db-7630-ad50-8a02225dc3d4",
+      "role": "fresh",
+      "status": "active",
+      "turn": "inProgress"
+    }
+  ],
+  "updates": [
+    {
+      "id": "01a116c5-ef2e-7990-97d5-835aee2a0ce8",
+      "status": "active",
+      "turn": "inProgress",
+      "cursor": "23e35980-d73d-4ae0-9d89-70c1116825ed:1"
+    },
+    {
+      "id": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
+      "status": "active",
+      "turn": "inProgress",
+      "cursor": "0df650da-3510-42f4-abbf-3cf4abda90f4:11"
+    },
+    {
+      "id": "01a11bb3-59d0-72c0-ab62-71a6d301d1d8",
+      "status": "idle",
+      "turn": "completed",
+      "cursor": "6a3b8a82-8ca2-426e-b32f-a00c02589d24:6"
+    },
+    {
+      "id": "01a11bb3-6dd8-7710-8f54-0b2d444da4b6",
+      "status": "active",
+      "turn": "inProgress",
+      "cursor": "50e977ed-4b83-4e4b-be8a-d084adc9906a:9"
+    },
+    {
+      "id": "01a11bb3-7ca7-7510-8ec7-03f97db0cc9b",
+      "status": "active",
+      "turn": "inProgress",
+      "cursor": "c487d070-4027-412e-804e-41d10fbba5e5:8"
+    },
+    {
+      "id": "01a11bb3-9efb-7962-b77b-722fbec5de31",
+      "status": "active",
+      "turn": "inProgress",
+      "cursor": "839d6077-e74c-42f0-a151-56fce45d26ba:9"
+    },
+    {
+      "id": "01a11bb3-aee2-7a81-b21f-e3b3b002ab9a",
+      "status": "active",
+      "turn": "inProgress",
+      "cursor": "1d91c008-5f10-43bd-8c3a-c5a362679b6c:11"
+    },
+    {
+      "id": "01a11bb3-bfe4-75a3-97b4-888907814e44",
+      "status": "idle",
+      "turn": "completed",
+      "cursor": "10094da7-c3a6-429a-b36f-e588b033c369:2"
+    },
+    {
+      "id": "01a11bb5-8eb0-7813-bb21-160e97f4652c",
+      "status": "active",
+      "turn": "inProgress",
+      "cursor": "358540f0-0b3a-43d1-9bec-8013b0d8b7b5:1"
+    },
+    {
+      "id": "01a11bb8-92db-7630-ad50-8a02225dc3d4",
+      "status": "active",
+      "turn": "inProgress",
+      "cursor": "6eea996f-cbc8-48ad-b11e-071e04b8b9ac:1"
+    }
+  ]
+}
