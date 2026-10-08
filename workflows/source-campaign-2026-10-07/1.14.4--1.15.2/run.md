@@ -43,18 +43,17 @@ All inventories remain pending while exact method and dependency coverage is in 
 
 ## Coverage ledger
 
-### Slice S-INPUT-KEYS: keyboard sampling, normalization and sneak scaling
+### Slice S-INPUT-KEYS: keyboard sampling, normalization and slow-input gates
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Input.tick dispatch to KeyboardInput.tick; key booleans -> forward/side impulses -> optional 0.3 scaling. Caller boolean and spectator guard still require semantic closure.
-- A evidence: ready/1.14.4/mojmap/net/minecraft/client/player/KeyboardInput.java::KeyboardInput#tick(boolean,boolean), lines 13-26; SHA-256 33daa0833a95e09e728c1b8f509020dd13b70e38aba922e2b1e10ec5c9b7739a.
-- B evidence: ready/1.15.2/mojmap/net/minecraft/client/player/KeyboardInput.java::KeyboardInput#tick(boolean), lines 13-26; SHA-256 746ea654cf4f46a5f4b94a237c4307652252a44807a488b606dc993e088396f7.
-- State producers/writers -> consumers/readers: options keys -> Input booleans/impulses -> LocalPlayer pre-travel predicates and LivingEntity.travel.
-- Parent slices / dependencies / closure evidence: S-LOCAL-PRETRAVEL; Input.java both sides and local-player caller gates remain open.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): direct local-player path confirmed; compare slow-movement and spectator caller predicates before disposition.
-- Finding IDs or checked absence/replacement path: none frozen; input callers remain open.
-
+- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer.aiStep` refreshes key state and computes the slow-input condition before the tutorial, item-use modifier, sprint gates and `super.aiStep`; `KeyboardInput.tick` sets directional impulses and applies the 0.3 multiplier. At `Player.tick` end, `updatePlayerPose` recalculates dimensions/state after the input sample.
+- A evidence: `ready/1.14.4/mojmap/net/minecraft/client/player/KeyboardInput.java::KeyboardInput#tick(boolean,boolean)`, lines 13-26, SHA-256 `33daa0833a95e09e728c1b8f509020dd13b70e38aba922e2b1e10ec5c9b7739a`; `LocalPlayer.java` lines 593-605, 618-630, SHA-256 `0795c1223198ce5acf5d2ed9e5db8435bbec4cd52b96f96b1ddf2865baaae85f`; `Player.java` tick/pose, SHA-256 `e9ce5eb18c5581ffe2b610b273ffd85786587a00ba853e5dba0ac96593622b12`; `Entity.java` visual crawl/collision pose, SHA-256 `31c6be42d165102d3e6dc4295dfef6e8971fc3aea13f938a5b3a33b91d524a7`.
+- B evidence: `ready/1.15.2/mojmap/net/minecraft/client/player/KeyboardInput.java::KeyboardInput#tick(boolean)`, lines 13-26, SHA-256 `746ea654cf4f46a5f4b94a237c4307652252a44807a488b606dc993e088396f7`; `LocalPlayer.java` lines 596-612, 625-636, SHA-256 `3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd`; `Player.java` tick/pose, SHA-256 `1ba2724c22163862b8f7fdfdea5a04a6e4db26a119d7e5360ba024724a34793`; `Entity.java` visual crawl/collision pose, SHA-256 `191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e`.
+- State producers/writers -> consumers/readers: Options movement/sneak keys -> Input fields/impulses -> LocalPlayer `serverAiStep` writes `xxa`/`zza` -> LivingEntity `aiStep` passes them to `travel`; Player pose and spectator state guard the slow-input predicate. Both LocalPlayer classes return true from `isEffectiveAi`; the normal input-to-travel path is reachable.
+- Parent slices / dependencies / closure evidence: closed bounded input path; `S-LOCAL-PRETRAVEL` remains open for other sprint, flight, and auto-jump decisions. `Player.isImmobile` plus the paired `LivingEntity.aiStep` zero-input guard closes the sleeping-only auto-crouch predicate difference as no movement effect.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): directional key sampling and the 0.3 arithmetic are equivalent. Normal non-spectator slow input is equivalent. A sleep-specific condition difference is nullified by `isImmobile` zeroing both horizontal movement inputs before travel. Confirmed `F-SPECTATOR-CRAWL-SCALING`: if a controlled local player enters spectator mode with a dry swimming/crawl pose carried from the previous tick, `LocalPlayer.aiStep` samples it before end-of-tick pose recalculation; A's explicit spectator guard bypasses the 0.3 factor, while B applies it.
+- Finding IDs or checked absence/replacement path: `F-SPECTATOR-CRAWL-SCALING`; no additional difference in key sampling or impulse normalization found.
 ### Slice S-LOCAL-PRETRAVEL: local input, sprint/jump/flight and auto-jump
 
 - Inventory ID(s): INV-TICK, INV-STATE
@@ -148,26 +147,24 @@ All inventories remain pending while exact method and dependency coverage is in 
 
 ## Finding index
 
-Source-confirmed findings (not yet blind-frozen or independently accepted): [F-SOUL-SAND-SPEED](findings/F-SOUL-SAND-SPEED.md), [F-FRICTION-SAMPLE](findings/F-FRICTION-SAMPLE.md), [F-HONEY-SLIDE](findings/F-HONEY-SLIDE.md), [F-HONEY-FACTORS](findings/F-HONEY-FACTORS.md), [F-ELYTRA-START](findings/F-ELYTRA-START.md). The input, remaining local pre-travel, collision-provider, state-writer, fluids, modifiers, external-input and exclusions inventories are incomplete. No implementation disposition has been inspected.
+Source-confirmed findings (not yet pair-frozen or independently accepted): [F-SOUL-SAND-SPEED](findings/F-SOUL-SAND-SPEED.md), [F-FRICTION-SAMPLE](findings/F-FRICTION-SAMPLE.md), [F-HONEY-SLIDE](findings/F-HONEY-SLIDE.md), [F-HONEY-FACTORS](findings/F-HONEY-FACTORS.md), [F-ELYTRA-START](findings/F-ELYTRA-START.md), [F-SPECTATOR-CRAWL-SCALING](findings/F-SPECTATOR-CRAWL-SCALING.md). The full tick and state inventories remain incomplete, including broader local pre-travel, collision-provider, fluids, modifiers, external-input and exclusions work. No implementation disposition has been inspected.
 
 ## Resume checkpoint
 
-- Checkpoint branch: `feat/source-discovery-movement-source-1-14-4-1-15-2`; the prior checkpoint was based on `c4e84a6cc7a026a25dce887025308890bac7ed21`; resumed from `1d776787edfd53b5230d51b012454cb4e4921d3d`, with `main` (`002137b227676caea77f6832b9f4c8d0b6200bff`) already merged.
+- Checkpoint branch: `feat/source-discovery-movement-source-1-14-4-1-15-2`; the earlier checkpoint was based on `c4e84a6cc7a026a25dce887025308890bac7ed21`; resumed from `1d776787edfd53b5230d51b012454cb4e4921d3d`, with `main` (`002137b227676caea77f6832b9f4c8d0b6200bff`) already merged; latest finding payload is `9d2da16e265d2fed8c4c57b55270bf9f8918f2e1`.
 - Source identity: A `D:/Javastuff/LegacyParkourCompat/build/movement-campaign-2026-10-07/ready/1.14.4/mojmap/`, B `.../ready/1.15.2/mojmap/`; both markers, version metadata, source manifests, artifact manifests, original client jars and every manifested source/raw artifact entry were freshly reverified with zero mismatches. This pair uses Mojmap; the revised early-Feather snapshots are not inputs.
-- Closed bounded slices: S-ENTITY-MOVE, S-LIVING-JUMP, S-FRICTION-SAMPLE, S-HONEY-BLOCK and S-ELYTRA-START (all `findings`); finding files F-SOUL-SAND-SPEED, F-FRICTION-SAMPLE, F-HONEY-SLIDE, F-HONEY-FACTORS and F-ELYTRA-START. Snapshot event FS-2026-10-07-1.14.4-1.15.2-01 is submitted at immutable payload commit `4a0c35f2008d785867c00360a7b72726e3506435`; event -02 freezes F-SOUL-SAND-SPEED alone at `68af793511194dbcb35752ab1f17cf75831ab82b` for independent review; the pair remains partial.
-- Materialized open slices: S-INPUT-KEYS, S-LOCAL-PRETRAVEL and S-EDGE-BACKOFF (all `in-progress`). Planned but not yet materialized as ledger rows: S-LIVING-TRAVEL, S-POST-TRAVEL, S-PLAYER-POSE, S-STATE-WRITERS, S-COLLISION-PROVIDERS, S-FLUIDS, S-EFFECTS, S-ENCHANTMENTS, S-ATTRIBUTES, S-EQUIPMENT, S-CORRECTIONS, S-PLAYER-PUSH, S-PISTON-MOUNT and the explicit exclusion audit. All seven required inventories therefore remain pending.
-- Next bounded slice: close S-INPUT-KEYS by tracing the caller slow-movement value and spectator/crouch/crawl state path. Compare `LocalPlayer.aiStep()` A 625-630/B 632-636; `LocalPlayer.isVisuallySneaking()` A 592-597 vs `isCrouching()` / `isMovingSlowly()` B 595-604; `Entity.isVisuallyCrawling()` A 1840-1842/B 1823-1825; `AbstractClientPlayer.isSpectator()` A 34-38/B 33-37; and `GameType.updatePlayerAbilities()` A/B 34-47. Then continue S-LOCAL-PRETRAVEL's sprint/ability-flight/auto-jump sub-slices and S-EDGE-BACKOFF's paired guards.
+- Closed bounded slices: S-ENTITY-MOVE, S-LIVING-JUMP, S-FRICTION-SAMPLE, S-HONEY-BLOCK, S-ELYTRA-START and S-INPUT-KEYS (findings); finding files F-SOUL-SAND-SPEED, F-FRICTION-SAMPLE, F-HONEY-SLIDE, F-HONEY-FACTORS, F-ELYTRA-START and F-SPECTATOR-CRAWL-SCALING. Snapshot event -01 remains submitted; event -02 freezes F-SOUL-SAND-SPEED at `68af793511194dbcb35752ab1f17cf75831ab82b`; event -03 freezes F-SPECTATOR-CRAWL-SCALING at `9d2da16e265d2fed8c4c57b55270bf9f8918f2e1`; events -02 and -03 await independent review; the pair remains partial.
+- Materialized open slices: S-LOCAL-PRETRAVEL and S-EDGE-BACKOFF (both `in-progress`). Planned but not yet materialized as ledger rows: S-LIVING-TRAVEL, S-POST-TRAVEL, S-PLAYER-POSE, S-STATE-WRITERS, S-COLLISION-PROVIDERS, S-FLUIDS, S-EFFECTS, S-ENCHANTMENTS, S-ATTRIBUTES, S-EQUIPMENT, S-CORRECTIONS, S-PLAYER-PUSH, S-PISTON-MOUNT and the explicit exclusion audit. All seven required inventories therefore remain pending.
+- Next bounded slice: continue S-LOCAL-PRETRAVEL by closing the remaining sprint start/stop, ability-flight toggle, Elytra-start and auto-jump branches and their guards; begin at `LocalPlayer.aiStep()` A 637-772/B 643-778, then follow `updateAutoJump` and the local travel caller. S-EDGE-BACKOFF follows.
 - Exact read-only next commands (PowerShell, repo root):
 
 ```powershell
 $A = 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.14.4\mojmap'
 $B = 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.15.2\mojmap'
-Get-Content -LiteralPath "$A\net\minecraft\client\player\LocalPlayer.java" | Select-Object -Skip 584 -First 15
-Get-Content -LiteralPath "$B\net\minecraft\client\player\LocalPlayer.java" | Select-Object -Skip 589 -First 17
-Get-Content -LiteralPath "$A\net\minecraft\world\entity\Entity.java" | Select-Object -Skip 1811 -First 32
-Get-Content -LiteralPath "$B\net\minecraft\world\entity\Entity.java" | Select-Object -Skip 1802 -First 24
-Get-Content -LiteralPath "$A\net\minecraft\world\level\GameType.java" | Select-Object -Skip 33 -First 16
-Get-Content -LiteralPath "$B\net\minecraft\world\level\GameType.java" | Select-Object -Skip 33 -First 16
+Get-Content -LiteralPath "$A\net\minecraft\client\player\LocalPlayer.java" | Select-Object -Skip 636 -First 145
+Get-Content -LiteralPath "$B\net\minecraft\client\player\LocalPlayer.java" | Select-Object -Skip 642 -First 145
+Get-Content -LiteralPath "$A\net\minecraft\client\player\LocalPlayer.java" | Select-Object -Skip 835 -First 55
+Get-Content -LiteralPath "$B\net\minecraft\client\player\LocalPlayer.java" | Select-Object -Skip 847 -First 55
 ```
 
 - Outstanding dependencies and owners: D-001 provenance limitation (full original console streams, source-preparation repo revision and owner identity were not retained); D-002 remaining exact source ranges/hashes (discovery author); D-003 full movement/data/resource/external-input inventory (discovery author); D-004 independent finding and full-pair reviewers (coordinator).
@@ -210,6 +207,23 @@ Get-Content -LiteralPath "$B\net\minecraft\world\level\GameType.java" | Select-O
 - Implementation handoff: blocked pending independent acceptance; no precise cutover within the interval is claimed.
 - Replaces/supersedes snapshot ID and reason, if applicable: none.
 
+### Snapshot event FS-2026-10-07-1.14.4-1.15.2-03
+
+- Finding ID(s): F-SPECTATOR-CRAWL-SCALING
+- Source finding author(s): /root
+- Status: submitted; reviewer decision pending
+- Immutable snapshot commit: `9d2da16e265d2fed8c4c57b55270bf9f8918f2e1`
+- Finding file path and SHA-256: `findings/F-SPECTATOR-CRAWL-SCALING.md` `dd205ec23634d701e33adaa47268a5752f602c71b8bc2263b8511efd2aa880a7`
+- Exact A/B source identity: `ready/1.14.4/mojmap/` and `ready/1.15.2/mojmap/`; ready markers match exact release IDs and `mojmap`. Source manifests A `af98406f3d4ed31494fbdce1078d1f3df3f712501878f9a0e9ad5879bdf23c3b`, B `cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7`; artifact manifests A `308cc33ef6dffc047432ade6affc88eccc9de94a736ee9a98571fd92915c2970`, B `208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406`. Cited source body hashes were revalidated against published roots for KeyboardInput, LocalPlayer, AbstractClientPlayer, Player, Entity and LivingEntity; each is listed in the finding.
+- Verified implementation boundary/evidence, or unresolved boundary reason: exact endpoints establish a one-tick input multiplier delta under the documented stale crawl pose and spectator transition; the first affected release inside (1.14.4, 1.15.2] is unknown. This partial snapshot does not freeze or close the pair.
+- Finding-specific closed dependency IDs/evidence: pre-input pose tick order; `isVisuallyCrawling` pose/water predicate; LocalPlayer input refresh and spectator guard; serverAiStep impulse writes; LivingEntity.aiStep travel vector; spectator flying travel branch. The sleeping auto-crouch path was checked and has no movement effect because `isImmobile` zeros movement impulses.
+- Independent blind source reviewer and decision date: `01a116ce-b44d-75f0-974f-5038e0d227c7`; pending.
+- Review basis / requested source-only revisions: independently re-check carried-pose transition ordering, keyboard multiplier guard, paired source ranges/hashes, and local travel reachability.
+- Pair run status and commit at handoff: `partial`; payload `9d2da16e265d2fed8c4c57b55270bf9f8918f2e1`.
+- Pair complete: no
+- Implementation handoff: blocked pending independent acceptance; no precise cutover within the interval is claimed.
+- Replaces/supersedes snapshot ID and reason, if applicable: none.
+
 ## Implementation reconciliation
 
 This source-only worker has not inspected implementation and will not do so before blind-discovery freeze.
@@ -231,11 +245,11 @@ This source-only worker has not inspected implementation and will not do so befo
 
 ## Source audit closure
 
-- Coverage counts by status: 5 findings, 3 in-progress, 0 pending.
+- Coverage counts by status: 6 findings, 2 in-progress, 0 pending.
 - Required inventory status and evidence: all seven inventories pending; source pair hashes verified, but method/dependency and registration/resource inventories remain open.
-- Accepted finding snapshots (metadata only; does not close pair): none; FS-2026-10-07-1.14.4-1.15.2-01 submitted and awaiting independent review.
+- Accepted finding snapshots (metadata only; does not close pair): none; events -01, -02 and -03 are submitted and awaiting independent review.
 - Open dependencies: D-001,D-002,D-003,D-004
-- Unresolved gaps and limits: comparison is partial; input and remaining local pre-travel, full collision providers/shapes, fluids, modifier application, external player motion inputs, and explicit exclusions are not closed.
+- Unresolved gaps and limits: comparison is partial; the full tick inventory remains open beyond the bounded input-key slice, along with remaining local pre-travel, full collision providers/shapes, fluids, modifier application, external player motion inputs, and explicit exclusions.
 - Evidence/hash/correspondence audit: pair manifests and hashes for the cited Entity, LivingEntity, Player, Block, Blocks, SnowLayerBlock, LocalPlayer, KeyboardInput and HoneyBlock sources recorded; complete tick correspondence and remaining source inventories pending.
 - Blind freeze: pending
 - Implementation reconciliation: pending
