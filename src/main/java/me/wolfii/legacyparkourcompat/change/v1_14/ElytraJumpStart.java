@@ -11,7 +11,7 @@ import net.minecraft.world.entity.player.Player;
 public final class ElytraJumpStart implements FallFlyingStartBehavior {
     @Override
     public boolean tryStartFallFlying(Player player, VanillaFn<Boolean> vanilla) {
-        if (player.getDeltaMovement().y >= 0.0) {
+        if (!(player.getDeltaMovement().y < 0.0)) {
             return false;
         }
 
