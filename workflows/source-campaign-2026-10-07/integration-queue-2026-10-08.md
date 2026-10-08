@@ -81,3 +81,10 @@ Independent exact-patch review is recorded at review commit `fddb263`.
 - Integrated after WORLD03 at `8352994616ce1fb64c2939f9240f21121b2ce76b`; build passed with all Gradle Test tasks disabled. JAR SHA-256 `E6ACA9E4FF063022ABB390BB2F207E86CD3BBDB2171B0233C118D6245315C8ED`.
 - Big Dripleaf snapshot SHA-256 `89c43e33dc7c5d9581950cf1f09e9b9d811e6d210899cee54eac01013f47f6ee` is ACCEPTED as no-code; its reconciliation is included without adding behavior.
 - Runtime validation not performed. Slipperiness remains pending.
+
+## Bounded slipperiness sampler integration — 2026-10-08
+
+- Source `78683ba65928004ce8b7b6b9371359164a68d43b` / blob `96ca89de5ef2b4e84e2fd591296ab620651ee7c3` / SHA-256 `1edaad992b3993fad310d568490421e48f6d4d32d836647f137f71261c67988c`; corrected-identity source review `bdda49ac76ce8b6e136917349e8b59a61d2fabe4` ACCEPT.
+- Code `ad653ac30465d990b34e98601b6566ab3f150bc0`, reviewed tip `ad684f454d969117ae786f4c038ae573c3170a99`; implementation review `e1866cc05f6c2b6a77caa6f30432efa8ec3fa74e` ACCEPT. Integrated at `67bd9ed485933af705950953a783d51cdef8a23d` against main `de8eaa594677588f4a70e260561cfd2e872f69d3`.
+- Test-disabled build succeeded; standalone log, absolute worktree/artifact paths, and JAR SHA-256 are recorded in `workflows/fix-implementation/runs/1.15.2-slipperiness-sampler-2026-10-08.md`.
+- The accepted edge-backoff proof is no-code. The new sampler is bounded to V1_15/V1_15_2; the later legacy sampler gap remains separate. Unaccepted wider-range commit `5688e68528861c91031a021f484f80a90c887f2f` was excluded. No runtime validation was performed.

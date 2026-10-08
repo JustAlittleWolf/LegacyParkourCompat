@@ -6,6 +6,7 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
 public final class MovementChanges implements MovementChangeProvider {
     @Override
     public void register(MovementChangeRegistry registry) {
+        registry.register(new GroundFrictionSamplePoint());
         registry.register(new SuffocationProbe());
         registry.register(new FluidCurrentMinimum());
         registry.register(new FluidJump());
