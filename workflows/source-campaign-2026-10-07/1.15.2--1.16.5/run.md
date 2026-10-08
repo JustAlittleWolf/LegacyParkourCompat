@@ -265,6 +265,28 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - Disposition and rationale (including concrete reachability/preconditions): the compared base route preserves `hasCollision ? state.getShape(blockGetter, blockPos) : Shapes.empty()`; the base fallback uses the empty-context state overload in both versions. This is not evidence that common block shapes are equal or that the provider inventory is complete. Modern-only B blocks remain excluded from A-version claims.
 - Finding IDs or checked absence/replacement path: no result from the dispatch-only comparison; pose-clearance shape dependency remains under S2-POSE.
 
+### Slice S5-WALL: wall collision geometry and connection-state producers
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT, INV-STATE
+- Exact behavior boundary and enclosing guards checked: WallBlock.getShape/getCollisionShape dispatch and the wall connection/state update path; player reachability is through S4-QUERY's block collision request.
+- A evidence: `../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/level/block/WallBlock.java`, lines 21-128, SHA-256 `4ad01bfd8d84b77abe161289294667e9f482cf9477cd81f725162aa9dc891850`; inherited array/index helpers are in CrossCollisionBlock and remain a dependency.
+- B evidence: `../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/level/block/WallBlock.java`, lines 30-258, SHA-256 `aa770704573ee65ca0d0b102bc55e3ece81f7b25aef452bb5c89ec0350a23442`.
+- State producers/writers -> consumers/readers: horizontal neighbor connection predicates, sturdy-face queries, wall-above support-shape query and wall state properties -> state-keyed visual/collision shapes -> CollisionGetter sweep.
+- Parent slices / dependencies / closure evidence: S4-QUERY,S5-SHAPES; exact dispatch methods and source ranges inspected, but full shape construction, connection predicates and neighbor/state writers are not yet compared.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): A selects array-backed shapes using `getAABBIndex` and an UP guard; B looks up state-keyed shape maps. Both are reachable for player movement collision, but this dispatch-level structural difference does not establish a geometric or trajectory difference. Connection predicates and wall-above support checks differ in structure and require state/neighbor/resource closure before disposition.
+- Finding IDs or checked absence/replacement path: none; no behavior claim pending full paired state and geometry comparison.
+
+### Slice S5-SLAB-SHAPE: slab collision-shape selection
+- Inventory ID(s): INV-COLLISION, INV-STATE
+- Exact behavior boundary and enclosing guards checked: SlabBlock.getShape selection by TYPE; placement, waterlogging, neighbor updates and support-shape behavior are excluded from this method-only slice.
+- A evidence: `../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/level/block/SlabBlock.java`, lines 47-58, SHA-256 `5a57ae37e77fc93074100d7e3eff1c5e23b43d8a23e0289b68ad8c9914df0d86`.
+- B evidence: `../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/level/block/SlabBlock.java`, lines 48-59, SHA-256 `21ff767d6bcf05ff225e864f4360b724b6fe70cad8636566c046dd22b5509e6b`.
+- State producers/writers -> consumers/readers: slab TYPE (BOTTOM/TOP/DOUBLE) -> full, upper-half or lower-half shape -> collision query and movement resolution.
+- Parent slices / dependencies / closure evidence: S4-QUERY,S5-SHAPES; paired getShape bodies inspected and return the same named static shapes for each TYPE value.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): both methods use the same TYPE switch: DOUBLE returns Shapes.block(), TOP returns TOP_AABB, and the remaining value returns BOTTOM_AABB. This establishes only shape selection once TYPE is supplied; its writers, state resources and other shape consumers remain outside this row.
+- Finding IDs or checked absence/replacement path: none within the bounded getShape method.
+
 ### Slice S5-SCAFFOLDING-COLLISION: collision shape selection
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: ScaffoldingBlock.getCollisionShape state/context decision only; DISTANCE/BOTTOM writer and block/tag registration not included.
@@ -302,7 +324,7 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 
 - S1-ESCAPE-QUERY: pair A blocked/freeAt/isSuffocating with B noBlockCollision/getBlockCollisions and relevant shapes; establish same-state reachability. Owner: discovery author.
 - S4-MOVE/S4-QUERY: close the callback/provider edges and re-evaluate the B border guard after the newer main snapshot removed the prior standalone border finding. Owner: discovery author.
-- S5-SHAPES: compare common-block provider methods, B support-shape overrides, shape caches, neighboring-state writers, block/tag registrations and relevant resources. S5-SCAFFOLDING-COLLISION closes only one provider method. Owner: discovery author.
+- S5-SHAPES: compare common-block provider methods, B support-shape overrides, shape caches, neighboring-state writers, block/tag registrations and relevant resources. S5-SCAFFOLDING-COLLISION and S5-SLAB-SHAPE close bounded provider methods; S5-WALL is active with full geometry/state comparison open, including A's inherited CrossCollisionBlock shape/index helpers. Owner: discovery author.
 - Remaining stage 2-7 slices: add bounded rows for state/pose/dimensions, movement attributes/effects/enchantments/equipment/resources, block/fluid registrations/callbacks, and client external inputs. Owner: discovery author.
 - Independent source reviewer: assign someone who did not author discovery; finding-snapshot decisions and eventual full-pair audit remain pending. Owner: coordinator.
 
@@ -321,7 +343,7 @@ The historical pair report is not imported as source confirmation.
 ## Resume checkpoint
 
 - Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-ELYTRA,S1-ESCAPE,S3-WATER,S3-FALL-FLYING,S4-STEP,S5-SCAFFOLDING-COLLISION; finding slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT.
-- Active slices: S1-LOCAL-TICK,S1-LOCAL-AISTEP,S3-GROUND-AIR,S4-MOVE,S4-QUERY,S5-SHAPES; all required producer/consumer inventories remain partial.
+- Active slices: S1-LOCAL-TICK,S1-LOCAL-AISTEP,S3-GROUND-AIR,S4-MOVE,S4-QUERY,S5-SHAPES,S5-WALL; all required producer/consumer inventories remain partial.
 - Next: compare high-reachability common-block shapes and their neighbor/state/registration routes; then continue pose/dimensions, modifiers/resources, fluid/callback and external-input inventories.
 - Outstanding dependencies: S1 escape-query shape providers; S4 callback/entity-collider and border-guard disposition; S5 common-block providers, support shapes, registrations and neighboring state writers; remaining stage 2-7 slices; independent reviewer assignment.
 - Resume branch: feat/source-discovery-1-15-2-1-16-5-resume. Main commit d4c4f154a0c2487dd6dd7d20d92eb57b3d8ab1ae has been merged; the merge checkpoint and current tip are recorded by git log -1.
