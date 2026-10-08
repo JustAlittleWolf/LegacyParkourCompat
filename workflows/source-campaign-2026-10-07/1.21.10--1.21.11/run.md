@@ -685,19 +685,20 @@ The entries below are provisional behavior buckets from the required navigation 
 
 ## Finding index
 
-Three source-confirmed findings are recorded in `findings/F-S1-FLIGHT-VEHICLE-GATE.md`, `findings/F-S1-CLIENT-LOAD-GATE.md`, and `findings/F-S3-GLIDE-THROUGH-CLIMBABLE.md`. Independent finding-specific source review is pending for all three; none has been snapshotted or accepted. This is not a pair-complete conclusion.
+Three source-confirmed findings are recorded in `findings/F-S1-FLIGHT-VEHICLE-GATE.md`, `findings/F-S1-CLIENT-LOAD-GATE.md`, and `findings/F-S3-GLIDE-THROUGH-CLIMBABLE.md`. Finding-specific independent review is pending for all three. `F-S3-GLIDE-THROUGH-CLIMBABLE` has an immutable, unaccepted finding snapshot; the other two findings have no snapshot. No implementation handoff or pair-complete conclusion is authorized by this state.
 
 ## Resume checkpoint
 
-- Last completed slice: source-gate preparation; twelve bounded slices are compared-no-difference (input sampling, sprint transitions, knockback vector math, Player knockback sync scheduling, food/passenger sprint eligibility, Player travel dispatch, water travel, lava travel, fall-flying travel, jump impulse, air/ground travel, and sneak/item-use input scaling with edge retreat); three source-confirmed findings cover the flight-toggle, delayed-load tick gate, and fall-flying/climbable dispatch; tagged vehicle buoyancy is out of scope and the new spear effect is modern-only; all other coverage remains open.
+- Last completed slice: twelve bounded slices are compared-no-difference (input sampling, sprint transitions, knockback vector math, Player knockback sync scheduling, food/passenger sprint eligibility, Player travel dispatch, water travel, lava travel, fall-flying travel, jump impulse, air/ground travel, and sneak/item-use input scaling with edge retreat); three source-confirmed findings remain in source review, and `F-S3-GLIDE-THROUGH-CLIMBABLE` now has immutable snapshot commit `1bc51109c02daf84c84c622ebf0bdd88f25f6729` with reviewer decision pending. The other two findings have not been snapshotted; all other source coverage remains open.
 - Next bounded slice and exact files/members/body ranges to open: `S4-move-core`, A `Entity.move(MoverType,Vec3)V` lines 670-766 and B lines 685-781; then split its collision, step, support, velocity and callback dependencies into method-bounded slices.
 - Outstanding dependencies and owners: `D-METHOD-BODY-REVIEW` (discovery worker); newly discovered producer/consumer, shape, registration and data dependencies will be added with exact owners/actions.
 - Current assumptions requiring verification: all listed ready/source/artifact hashes were verified. Remaining assumptions: exact member correspondence, operation/callback order, every reachable player state writer and producer/consumer dependency, relevant jar resource entries, and source-level movement semantics.
 
 ## Finding snapshots (not pair freeze)
 
-- `F-S1-FLIGHT-VEHICLE-GATE` and `F-S1-CLIENT-LOAD-GATE` are source-confirmed in the coverage ledger but have not been submitted to or accepted by an independent reviewer. They are not implementation-ready snapshots. No immutable snapshot commit exists yet. An accepted source-confirmed finding snapshot may be handed off independently while this full-pair run remains active; snapshot acceptance does not change pair coverage or full-pair freeze status.
-
+- `F-S3-GLIDE-THROUGH-CLIMBABLE`: immutable finding snapshot commit `1bc51109c02daf84c84c622ebf0bdd88f25f6729`; finding file SHA-256 `3d3f9a035bc14e7d4ef016acdb47184a372e6880f74d5afa061d45ab6218e3ed`. It cites original-verified publication records `PUB-1.21.10-MOJMAP-2026-10-07` and `PUB-1.21.11-MOJMAP-2026-10-07` and is bounded to the direct `travelFallFlying()` Player branch under the stated block, fall-flying, spectator, flight-ability and fluid-branch preconditions. The separate inherited `isPushable()` consumer remains open under `S4-move-core`; it is not claimed by this snapshot. Finding-specific blind source review is routed to reviewer thread `01a116ce-dfe4-7b11-b7e6-d62f5014e356`; decision pending. Snapshot acceptance and implementation handoff are pending.
+- `F-S1-FLIGHT-VEHICLE-GATE` and `F-S1-CLIENT-LOAD-GATE` remain source-confirmed but have no immutable snapshot; finding-specific independent review is pending.
+- No accepted finding snapshot exists. This incremental snapshot does not freeze the pair, complete any other coverage slice, or authorize a pair-complete claim.
 ## Implementation reconciliation
 
 - Reconciliation status: pending
