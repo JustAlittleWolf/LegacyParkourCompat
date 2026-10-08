@@ -174,7 +174,7 @@
       "role": "blind_source_review",
       "pair": null,
       "ref": "aa66894 and105ec98",
-      "status": "active blind review of six immutable1.20.4--1.20.6 findings plus1.21.4--1.21.5 F14; no full-pair coverage claim"
+      "status": "Completed blind source review 581b5bd2: ACCEPT01/02/03/05/06; REQUEST CHANGES04 and F14."
     },
     {
       "threadId": "01a11bc1-f2a2-7342-82ea-4072acd7ff4b",
@@ -204,7 +204,7 @@
       "threadId": "01a11bc2-2e8a-78e2-a4ec-cee2b9b52ee6",
       "role": "rising_crouch_implementation",
       "ref": "accepted source1d5f181;review0648b843",
-      "status": "completed; swimming entry5c419e8d950cf8e62174a4562cc352a1d952747f tip7376c93a5dbdc3313482cd9f04c5742650756b54 pendingreview; BigDripleaf nativeproofd3733a4"
+      "status": "Active accepted MC1204-1206-01 and02 implementation reconciliation; separate minimal deltas, no modern-only attribute producer emulation."
     },
     {
       "threadId": "01a11bc4-153a-78d1-8b2a-74e92c3b249d",
@@ -300,7 +300,7 @@
       "threadId": "01a11be8-f958-7630-8261-391bbac955a0",
       "role": "source",
       "pair": "1.20.4--1.20.6",
-      "status": "completed source checkpoint; pair remains partial",
+      "status": "Active source04 correction for omitted fall-flying gravity consumer, then remaining 1.20.4--1.20.6 inventories.",
       "ref": "477b6afcb4d890bae82437ff98795592695b9e43",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -327,7 +327,7 @@
       "threadId": "01a11bf0-aa16-7381-9a75-0cdcc465b52f",
       "role": "source",
       "pair": "1.21.3--1.21.4",
-      "status": "active",
+      "status": "Completed partial source checkpoint5a528073; Shulker scale push query finding pending review and provider dependencies open.",
       "ref": "0f60e99ba7aca36b9d4b2aaedd21a5fb5003a0fe",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -336,7 +336,7 @@
       "threadId": "01a11bf3-b68d-72a3-9fde-198291e05948",
       "role": "source",
       "pair": "1.21.4--1.21.5",
-      "status": "completed partial sourcecheckpoint ebd2e6ea513d3b41a12307cfb2980b5206c5d211",
+      "status": "Active F14 exact source hash correction and replacement snapshot, then remaining 1.21.4--1.21.5 inventories.",
       "ref": "ebd2e6ea513d3b41a12307cfb2980b5206c5d211",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -363,14 +363,14 @@
       "threadId": "01a11bf8-7a0d-7e00-b330-37ebbb161c3d",
       "role": "source",
       "pair": "1.21.10--1.21.11",
-      "status": "active",
+      "status": "Completed partial source checkpointbacbfd25; provider state/neighbor/resource closure remains open, accidental wiki-output exposure documented.",
       "ref": "da3a98ccca40807587102c958747a2c0488fb18a",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T15:16:49.8243210Z",
+    "observedAt": "2026-10-08T15:18:54.9320250Z",
     "oldCompleted": 43,
     "oldActive": 0,
     "unknownSlotReserved": 0,
@@ -409,14 +409,13 @@
     "mainStatus": "code already integrated; source binding/provenance being independently reconciled"
   },
   "nextCoordinatorActions": [
-    "Collect bounded sampler integration/build with retained standalone log and exact artifact path; independently audit.",
-    "Collect independent slipperiness range source review before minimal registration extension.",
-    "Collect passenger crouch input reconciliation then obtain independent implementation review.",
-    "Collect blind seven-finding source review1.20.4--1.20.6 plus1.21.4--1.21.5F14.",
-    "Continue all source inventories and separate reopened Minecraft Wiki/MCPK claim inventories; no full pair complete yet.",
-    "Resume earlier partials as slots free, then commission independent full-pair coverage audits only after evidence complete.",
-    "Record unexplained remote-main push tracking update without attributing actor or rewriting remote; campaign no-push instruction remains.",
-    "Maximum 20 concurrent roles including coordinator, explicitly requested by user. Coordinator Sol Medium, all workers Luna High; no tests/runtime/Docker/push."
+    "Collect independent slipperiness extension implementation review, then serial integration/build if ACCEPT.",
+    "Collect passenger crouch no-code and source provenance review before recording covered.",
+    "Collect MC1204-1206-01 and02 granular code/proof handoffs, then independent static reviews.",
+    "Collect corrected04 andF14 immutable source snapshots for focused independent re-review.",
+    "Collect all-11-batch independent operations audit and backlog update; add five new accepted source bindings.",
+    "Continue all 26 source pairs and both independent wiki inventories; resume partials as slots free; full-pair audit only after exhaustive source closure.",
+    "Maximum 20 concurrent roles including coordinator, user authorized on 2026-10-08. Sol Medium coordinator, Luna High workers; no tests/runtime/Docker/push."
   ],
   "nextAcceptedIntegrationBatch": {
     "finding": "F005 saved FallFlying",
@@ -596,5 +595,22 @@
     "date": "2026-10-08",
     "includesCoordinator": true,
     "supersedes": "Earlier 15-role cap in persistent goal objective and checkpoint text."
+  },
+  "newSourceReview581b5bd2": {
+    "requestChanges": [
+      "MC1204-1206-04: omitted fall-flying consumer of gravity local.",
+      "F-14: source-supported reachable behavior, incorrect 1.21.5 LivingEntity SHA; replace immutable snapshot."
+    ],
+    "pairCoverage": "Both pairs remain PARTIAL; no full-pair audit or runtime claim.",
+    "accepted": [
+      "MC1204-1206-01",
+      "MC1204-1206-02",
+      "MC1204-1206-03",
+      "MC1204-1206-05",
+      "MC1204-1206-06"
+    ],
+    "path": "workflows/source-campaign-2026-10-07/independent-review-1204-1206-and-f14-2026-10-08.md",
+    "review": "581b5bd2cb44981c4889eaf05ea739134e332b87",
+    "implementation": "01 and02 reconciliation assigned;03/05/06 conditional source inputs require separate eligibility and implementation disposition."
   }
 }
