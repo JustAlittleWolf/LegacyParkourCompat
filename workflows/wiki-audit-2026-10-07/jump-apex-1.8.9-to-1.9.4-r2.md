@@ -6,7 +6,7 @@ Status: **source recurrence accepted under the stated assumptions; direct Jumpin
 
 ## Accepted bounded source calculation
 
-Independent review at commit `b48a12bd3ef62cce13784fffc8b413cd29639ebc`, report `workflows/wiki-audit-2026-10-07/reviews/independent-review-new-wiki-lane-snapshots-2026-10-08.md`, ACCEPTED the recurrence for a normal, unassisted, locally controlled ground jump in empty air. The review limits this to source-ordered mathematics and does not accept the Wiki-attribution subclaim.
+Independent review at commit `b48a12bd3ef62cce13784fffc8b413cd29639ebc`, preserved byte-for-byte in [reviews/independent-review-new-wiki-lane-snapshots-2026-10-08.md](reviews/independent-review-new-wiki-lane-snapshots-2026-10-08.md), ACCEPTED the recurrence for a normal, unassisted, locally controlled ground jump in empty air. The review limits this to source-ordered mathematics and does not accept the Wiki-attribution subclaim.
 
 Both exact release sources launch with `0.42F`. For the bounded path, travel adds the current Y velocity to displacement before updating velocity as `(velocityY - 0.08) * 0.98F`; on the following `mobTick()`, values below the version's near-zero cutoff are cleared before travel. Local control skips the intervening `0.98` entity damping.
 
