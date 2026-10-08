@@ -681,14 +681,14 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 ### Slice S7.2: Mount/dismount transitions and player-specific mounted state/position writes
 
 - Inventory ID(s): INV-STATE, INV-EXTERNAL
-- Exact behavior boundary and enclosing guards/order checked: Mount/dismount transitions and player-specific mounted state/position writes; exact local guards and enclosing call order recorded per bounded behavior
-- A evidence: pending exact A member/body range and SHA-256 from verified source root
-- B evidence: pending exact B member/body range and SHA-256 from verified source root
-- State producers/writers -> consumers/readers: pending exact source writer/consumer closure
-- Parent slices / dependencies / closure evidence: parent/dependency links pending source inventory
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison; no equivalence inferred from prior reports
-- Finding IDs or checked absence/replacement path: none assigned
+- Exact behavior boundary and enclosing guards/order checked: the server-side player dismount trigger and post-detach exit-coordinate selection are traced through `PlayerEntity.rideTick()`, `LivingEntity.stopRiding()`, and `LivingEntity.dismountRider(Entity)`. The general non-boat/non-horse clearance-box difference is bounded; other vehicle passenger offsets, mount steering/travel and packet/authority consumers remain open.
+- A evidence: `1.11.2/ornithe-feather/net/minecraft/entity/living/player/PlayerEntity.java::rideTick()V` lines 379-395, SHA-256 `9ffcd4fe7b7f716a9771902cb6fa3c6a3b6da8226057702a53e5d38057ab26fd`; `LivingEntity::stopRiding()V` SHA-256 `8d7dcc8789790a6efefae18e0b4646bc5c26654b828d72846b16c2722c055917`; `LivingEntity::dismountRider(Entity)` lines 1282-1352, whole-file SHA-256 `bb7dc6c9e423a9568d6433d51bba12e7aee4555fbf3fb3e2b87f618382279f2f`, method SHA-256 `d987f0d9585201450d3280a30de7a5ce8544f09ca6c2887901d201befb55d9ee`; `PigEntity::interactMob(PlayerEntity,InteractionHand)` lines 147-170, file SHA-256 `2b842d630a6e9c8369252e5779c014d1294ebf0e72ca19afc0308353d8b66b50`.
+- B evidence: `1.12.2/ornithe-feather/net/minecraft/entity/living/player/PlayerEntity.java::rideTick()V` lines 375-391, SHA-256 `9ffcd4fe7b7f716a9771902cb6fa3c6a3b6da8226057702a53e5d38057ab26fd`; `LivingEntity::stopRiding()V` SHA-256 `8d7dcc8789790a6efefae18e0b4646bc5c26654b828d72846b16c2722c055917`; `LivingEntity::dismountRider(Entity)` lines 1321-1389, whole-file SHA-256 `190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6`, method SHA-256 `591e7ede8fce1aa2343770bb8e9405ffd198d8f41a4c5ac294417c071dea8ba9`; `PigEntity::interactMob(PlayerEntity,InteractionHand)` lines 146-169, file SHA-256 `3800063a4d5739fec54389fd054967384e4576d7fa69b89fe42f798ac0c04324`.
+- State producers/writers -> consumers/readers: on server sneaking while riding, the player calls `stopRiding`; after the mount link changes, the living entity invokes `dismountRider(oldMount)`, and the player subclass sends the resulting position correction. For a saddled pig with no passenger, server interaction starts riding. The changed clearance query can accept a different candidate and therefore change the player exit coordinates; collision-shape/provider closure remains in S4.4/S5.
+- Parent slices / dependencies / closure evidence: S1.6 owns mounted jump/input production; S4.4/S5 own collision boxes and shape providers; S7.3 owns server/client authority and position packets; S7.4 owns remaining player movement writers. `Entity::teleport`, `Entity::startRiding`, `PlayerEntity::getRideHeight`, and `ServerPlayerEntity::stopRiding` were paired and equal. The general dismount clearance difference is source-confirmed; the complete S7.2 mount/vehicle inventory remains open.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): a reachable server-side player dismount from a saddled pig reaches the changed general clearance branch. A checks its rider-derived box after a `+1.0` vertical offset; B constructs a mount-minY/rider-height box and queries at offset `0.0`. Since the queried world-space volumes differ, collision arrangements can change candidate acceptance and the resulting player exit position. No particular arrangement or measured trajectory is claimed.
+- Finding IDs or checked absence/replacement path: `F-PLAYER-DISMOUNT-CLEARANCE-BOX`; exact paired evidence in `findings/F-PLAYER-DISMOUNT-CLEARANCE-BOX.md`. BoatEntity/HorseBaseEntity special branch and remaining mounted behaviors stay open.
 
 ### Slice S7.3: Client packet/authority boundaries and reconciliation of externally supplied velocity/position
 
@@ -847,6 +847,24 @@ Append-only source-review history. An accepted finding snapshot would release on
 - Implementation handoff: awaiting independent blind acceptance of this exact snapshot.
 - Replaces/supersedes snapshot ID and reason, if applicable: none; first snapshot for this finding.
 
+### Snapshot event F-ENDER-PEARL-OWNER-DIMENSION-r1
+
+- Finding ID(s): F-ENDER-PEARL-OWNER-DIMENSION
+- Source finding author(s): Codex source worker
+- Status: submitted
+- Immutable snapshot commit: `c480bedc`
+- Finding file path and SHA-256: `workflows/source-campaign-2026-10-07/1.11.2--1.12.2/findings/F-ENDER-PEARL-OWNER-DIMENSION.md`; `4050eae26de8614001bb339b537f1b68b8292e4620f57723eb2162db086e816`
+- Exact A/B evidence artifact records and revised artifact hashes: `EA-FEATHER-R1-1.11.2`, `EA-FEATHER-R1-1.12.2`; A JAR `ba1872d5fd341770a45aeeb8d372776a1b89f0b88a11a72f15aa0fe879b6a29f`, revision.json `49fca091d3ef83551745119f740d7a66a2773e81262db137bfc747369e8f61ac`; B JAR `fcc17537a14a423e2086f600047725ec1fcfd4c7fcf5c0d1a5bda491966c1b87`, revision.json `2be8645d57ca5c00411b037e7617f9860ac700f7fa8ef50d28220c2e1b0c60dc`. Original source/artifact manifest hashes and equivalence limitations are preserved in the finding.
+- Cited source/resource hashes: exact EnderPearlEntity, ThrownEntity, Entity, EnderPearlItem and EndGatewayBlockEntity A/B source hashes are in the finding.
+- Verified implementation boundary/evidence, or unresolved boundary reason: B clears a pearl's live player thrower before inherited dimension-transfer serialization; on a fresh pearl with no saved owner name, the later collision's same-world player teleport branch can therefore differ. This is conditional; endpoint identity does not establish first-changed release inside the interval.
+- Finding-specific closed dependency IDs/evidence: `INV-STATE` and `INV-EXTERNAL` evidence for the bounded pearl transfer/collision path only; broad inventory closure remains pending.
+- Independent blind source reviewer and decision date: reviewer assignment and review pending.
+- Review basis / requested source-only revisions: independently re-walk the exact A/B override, inherited transfer serialization, saved-owner guard and later player teleport preconditions before accepting or requesting a correction.
+- Pair run status and commit at handoff: active at `c480bedc`.
+- Pair complete: no
+- Implementation handoff: awaiting independent blind acceptance of this exact snapshot.
+- Replaces/supersedes snapshot ID and reason, if applicable: none; first snapshot for this finding.
+
 ## Implementation reconciliation
 
 - Reconciliation status: pending (source-only worker; explicit parent role change required)
@@ -866,7 +884,7 @@ Append-only source-review history. An accepted finding snapshot would release on
 
 ## Source audit closure
 
-- Coverage counts by status: 17 pending; 5 in-progress; 19 compared-no-difference; 3 not-applicable; 3 findings; 0 blocked (47 slices total).
+- Coverage counts by status: 16 pending; 5 in-progress; 19 compared-no-difference; 3 not-applicable; 4 findings; 0 blocked (47 slices total).
 - Required inventory status/evidence: INV-EXCLUSIONS complete; all other inventories pending with mapped slice IDs.
 - Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS
 - Unresolved gaps: stages beyond bounded keyboard input and completed UI/tutor dispositions; S2.2 shape providers, glide movement, exact state producers/consumers, registries/resources, external writers and historical candidates remain open.
