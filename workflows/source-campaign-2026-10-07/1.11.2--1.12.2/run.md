@@ -197,11 +197,89 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 - Exact behavior boundary and enclosing guards/order checked: `PlayerEntity.updatePlayerPose()` runs once in player tick after item cooldown update; priority is fall-flying `0.6 x 0.6`, sleeping `0.2 x 0.2`, sneaking `0.6 x 1.65`, then standing `0.6 x 1.8`. It creates a candidate box from current minimum coordinates and calls `setSize` only if `World.getCollisions(candidate)` is false. The clearance query scans the candidate region expanded by one block, delegates to `BlockState.addCollisions`, then to each block's collision provider and intersection helper. All direct player `setSize` sites found in the player packages: pose update, reset, death, sleep and wake; sleep is split into S2.2a.
 - A evidence: `1.11.2/ornithe-feather/net/minecraft/entity/living/player/PlayerEntity.java` tick call line 249, `updatePlayerPose()` lines 295-319, `getEyeHeight()` lines 1759-1769, `resetPos()` lines 402-407, `die(DamageSource)` lines 499-525, `wakeUp()` lines 1265-1287, file SHA-256 `87fe94fa6cbf7aba18b9a5e3401664439eb8eba9958173da8fbcd05cc7ad948b`; `Entity.java` default dimensions lines 176-177 and `setSize()` lines 271-288, SHA-256 `ce8104a17ce783df639cf9726e7b1cd0936563ea7ba308603335bbe05d49440`; `LocalClientPlayerEntity::isSneaking()` lines 608-611, SHA-256 `65c2747bd8c70def6be7f41f624d4c9493342b39ae7bed7967f9ff63608f59ed`; `World.java::getCollisions(Box)` lines 1058-1060 and collision helper lines 960-1011, SHA-256 `27cfaa5ff45c2d88c492fc5dae3ea4a2bb4536fd64bff8498a9a7d0cb82efb58`.
 - B evidence: `1.12.2/ornithe-feather/net/minecraft/entity/living/player/PlayerEntity.java` tick call line 245, `updatePlayerPose()` lines 291-315, `getEyeHeight()` lines 1756-1766, `resetPos()` lines 398-403, `die(DamageSource)` lines 510-536, `wakeUp()` lines 1259-1281, file SHA-256 `e4e0fdbe07a7d0a0ae4a70cbb6739a287c9d045a4a12b409895c220b5d91fe1e`; `Entity.java` default dimensions lines 178-179 and `setSize()` lines 274-291, SHA-256 `80f091bf32166c88cf8b8bd31caf72d84fa16224410733c7d2a0f00563f294a0a`; `LocalClientPlayerEntity::isSneaking()` lines 625-628, SHA-256 `01a58e94d8c6ff98a8e3794227cdc76a5fcbdbad795c70c9cf28854aff9823cc`; `World.java::getCollisions(Box)` lines 1062-1064 and collision helper lines 964-1015, SHA-256 `e9fa9b8d6d31ad57a5b876f5f63a5e3c554a23437decf1845a493daf48233594`.
-- Collision dispatch evidence: A `World.getCollisions(Entity,Box,boolean,List)` lines 960-1011 -> `StateDefinition.State.addCollisions(...)` line 374 -> `Block.addCollisions(...)` lines 353-361 -> `BlockState.getCollisionShape(...)` / `Block.getCollisionShape(...)` lines 368-369. B corresponding methods are `World.java` lines 964-1015 -> `StateDefinition.State.addCollisions(...)` line 375 -> `Block.addCollisions(...)` lines 372-380 -> `BlockState.getCollisionShape(...)` / `Block.getCollisionShape(...)` lines 387-388. A/B dispatch bodies match; `StateDefinition.java` hashes A `95704c944742efb2ec9cba7eb73399a330195556e669451131ba542e6a9fac65`, B `934493deb8dad66936edf94264bda735ae8062c6ef091b1ff6a1501eed2b8d37`; `Block.java` hashes A `ab873436b24487ab0ee8055bf7a478349c7f7978398aea8e387796a6c820996a`, B `e4a90eca411e7b0e14f5018f7385ec29891f6cdf1a1e917fa648b5712f9b33a1`. The entity/block tree declaration scan found the same 41 Java files declaring `getCollisionShape` or `addCollisions`; provider bodies and block registrations remain open. Farmland's `getShape()` returns the same `0..0.9375` box on both sides (A `FarmlandBlock.java` hash `09e260528fd78b4bbdbc302726c7ae937fbc49f17b674c4a7ad802e0f7b6f5e8`; B `d84c75dae139181b5d58cfa34f3cb77c5b2d4bda63d6ad9c3b52a47350bd0b98`).
+- Collision dispatch evidence: A `World.getCollisions(Entity,Box,boolean,List)` lines 960-1011 -> `StateDefinition.State.addCollisions(...)` line 374 -> `Block.addCollisions(...)` lines 353-361 -> `BlockState.getCollisionShape(...)` / `Block.getCollisionShape(...)` lines 368-369. B corresponding methods are `World.java` lines 964-1015 -> `StateDefinition.State.addCollisions(...)` line 375 -> `Block.addCollisions(...)` lines 372-380 -> `BlockState.getCollisionShape(...)` / `Block.getCollisionShape(...)` lines 387-388. A/B dispatch bodies match; `StateDefinition.java` hashes A `95704c944742efb2ec9cba7eb73399a330195556e669451131ba542e6a9fac65`, B `934493deb8dad66936edf94264bda735ae8062c6ef091b1ff6a1501eed2b8d37`; `Block.java` hashes A `ab873436b24487ab0ee8055bf7a478349c7f7978398aea8e387796a6c820996a`, B `e4a90eca411e7b0e14f5018f7385ec29891f6cdf1a1e917fa648b5712f9b33a1`. The complete shape/collision-provider body census and the A-to-B block ID correspondence are recorded below; state properties/defaults and neighboring-state dependencies remain open. Farmland's `getShape()` returns the same `0..0.9375` box on both sides (A `FarmlandBlock.java` hash `09e260528fd78b4bbdbc302726c7ae937fbc49f17b674c4a7ad802e0f7b6f5e8`; B `d84c75dae139181b5d58cfa34f3cb77c5b2d4bda63d6ad9c3b52a47350bd0b98`).
+- Complete collision-provider body census: scanned A's 230 and B's 235 Java files below `net/minecraft/block/`. All 117 paired declarations across the same 76 relative files for `getShape`, `getCollisionShape` and `addCollisions` have identical non-whitespace method bodies. Exact A/B body ranges, relative to each version's `ornithe-feather/net/minecraft/block/` source root:
+  - `AbstractPressurePlateBlock.java`: `getCollisionShape` A/B 45-47; `getShape` A/B 33-36.
+  - `AbstractRailBlock.java`: `getCollisionShape` A/B 41-43; `getShape` A/B 51-54.
+  - `AirBlock.java`: `getCollisionShape` A 24-26 / B 25-27.
+  - `AnvilBlock.java`: `getShape` A 88-91 / B 92-95.
+  - `BannerBlock.java`: `getCollisionShape` A/B 39-41; `getShape` A/B 116-118; second `getShape` A 177-189 / B 182-194.
+  - `BedBlock.java`: `getShape` A 134-136 / B 174-176.
+  - `BeetrootsBlock.java`: `getShape` A/B 63-65.
+  - `Block.java`: `addCollisions` A 353-355 / B 372-374; `getCollisionShape` A 368-370 / B 387-389; `getShape` A 289-291 / B 307-309.
+  - `BrewingStandBlock.java`: `addCollisions` A/B 70-73; `getShape` A/B 76-78.
+  - `ButtonBlock.java`: `getCollisionShape` A/B 48-50; `getShape` A 114-132 / B 117-135.
+  - `CactusBlock.java`: `getCollisionShape` A/B 55-57.
+  - `CakeBlock.java`: `getShape` A/B 40-42.
+  - `CarpetBlock.java`: `getShape` A 31-33 / B 30-32.
+  - `CarrotsBlock.java`: `getShape` A/B 33-35.
+  - `CauldronBlock.java`: `addCollisions` A/B 47-53; `getShape` A/B 56-58.
+  - `ChestBlock.java`: `getShape` A/B 68-78.
+  - `ChorusPlantBlock.java`: `addCollisions` A/B 66-97; `getShape` A/B 53-63.
+  - `CobwebBlock.java`: `getCollisionShape` A 39-41 / B 40-42.
+  - `CocoaBlock.java`: `getShape` A/B 77-90.
+  - `DaylightDetectorBlock.java`: `getShape` A/B 42-44.
+  - `DeadBushBlock.java`: `getShape` A/B 27-29.
+  - `DiodeBlock.java`: `getShape` A/B 25-27.
+  - `DoorBlock.java`: `getShape` A/B 51-67.
+  - `DoublePlantBlock.java`: `getShape` A/B 42-44.
+  - `DragonEggBlock.java`: `getShape` A/B 25-27.
+  - `EnchantingTableBlock.java`: `getShape` A/B 32-34.
+  - `EndGatewayBlock.java`: `getCollisionShape` A/B 38-40.
+  - `EndPortalBlock.java`: `addCollisions` A/B 44-45; `getShape` A/B 34-36.
+  - `EndPortalFrameBlock.java`: `addCollisions` A/B 50-55; `getShape` A/B 45-47.
+  - `EndRodBlock.java`: `getShape` A/B 40-50.
+  - `EnderChestBlock.java`: `getShape` A/B 37-39.
+  - `FarmlandBlock.java`: `getShape` A 30-32 / B 31-33.
+  - `FenceBlock.java`: `addCollisions` A/B 59-80; `getShape` A/B 83-86.
+  - `FenceGateBlock.java`: `getCollisionShape` A/B 81-87; `getShape` A/B 36-43.
+  - `FireBlock.java`: `getCollisionShape` A/B 98-100.
+  - `FlowerBlock.java`: `getShape` A 33-35 / B 32-34.
+  - `FlowerPotBlock.java`: `getShape` A/B 47-49.
+  - `GrassPathBlock.java`: `getShape` A/B 52-54.
+  - `HopperBlock.java`: `addCollisions` A/B 56-62; `getShape` A/B 51-53.
+  - `LadderBlock.java`: `getShape` A/B 30-42.
+  - `LeverBlock.java`: `getCollisionShape` A/B 40-42; `getShape` A 113-131 / B 111-129.
+  - `LilyPadBlock.java`: `addCollisions` A/B 23-27; `getShape` A/B 38-40.
+  - `LiquidBlock.java`: `getCollisionShape` A/B 41-43; `getShape` A/B 35-37.
+  - `MovingBlock.java`: `addCollisions` A/B 135-140; `getCollisionShape` A/B 129-132; `getShape` A/B 143-146.
+  - `MushroomPlantBlock.java`: `getShape` A/B 20-22.
+  - `NetherWartBlock.java`: `getShape` A/B 34-36.
+  - `PaneBlock.java`: `addCollisions` A/B 54-75; `getShape` A/B 82-85.
+  - `PistonBaseBlock.java`: `addCollisions` A/B 80-82; `getShape` A/B 52-72.
+  - `PistonHeadBlock.java`: `addCollisions` A/B 71-74; `getShape` A/B 52-68.
+  - `PlantBlock.java`: `getCollisionShape` A 70-72 / B 71-73; `getShape` A 64-66 / B 65-67.
+  - `PortalBlock.java`: `getCollisionShape` A/B 76-78; `getShape` A/B 40-50.
+  - `PotatoesBlock.java`: `getShape` A/B 45-47.
+  - `RedstoneWireBlock.java`: `getCollisionShape` A/B 130-132; `getShape` A/B 69-71.
+  - `SaplingBlock.java`: `getShape` A 38-40 / B 37-39.
+  - `ShulkerBoxBlock.java`: `getShape` A 217-220 / B 221-224.
+  - `SignBlock.java`: `getCollisionShape` A/B 34-36; `getShape` A/B 28-30.
+  - `SkullBlock.java`: `getShape` A 81-95 / B 82-96.
+  - `SlabBlock.java`: `getShape` A/B 39-45.
+  - `SnowLayerBlock.java`: `getCollisionShape` A 61-66 / B 66-71; `getShape` A/B 45-47.
+  - `SoulSandBlock.java`: `getCollisionShape` A/B 24-26.
+  - `StairsBlock.java`: `addCollisions` A/B 66-74.
+  - `StemBlock.java`: `getShape` A/B 43-45.
+  - `StructureVoidBlock.java`: `getCollisionShape` A 27-29 / B 28-30; `getShape` A 32-34 / B 33-35.
+  - `SugarCaneBlock.java`: `getCollisionShape` A/B 101-103; `getShape` A/B 30-32.
+  - `TallPlantBlock.java`: `getShape` A/B 33-35.
+  - `TorchBlock.java`: `getCollisionShape` A/B 57-59; `getShape` A 40-53 / B 40-53.
+  - `TrapdoorBlock.java`: `getShape` A/B 40-64.
+  - `TripwireBlock.java`: `getCollisionShape` A/B 64-66; `getShape` A/B 50-52.
+  - `TripwireHookBlock.java`: `getCollisionShape` A/B 56-58; `getShape` A 40-52 / B 40-52.
+  - `VineBlock.java`: `getCollisionShape` A/B 46-48; `getShape` A 51-81 / B 51-81.
+  - `WallBlock.java`: `addCollisions` A 92-98 / B 90-96; `getCollisionShape` A 102-105 / B 100-103; `getShape` A 86-89 / B 84-87.
+  - `WallSignBlock.java`: `getShape` A/B 24-36.
+  - `WheatBlock.java`: `getShape` A/B 40-42.
+  - `entity/MovingBlockEntity.java`: `addCollisions` A/B 318-346; first `getShape` A/B 96-98; second `getShape` A/B 100-105.
+  - `entity/ShulkerBoxBlockEntity.java`: first `getShape` A/B 88-90; second `getShape` A/B 92-99.
+  - `state/StateDefinition.java`: `addCollisions` A 374-376 / B 375-377; `getCollisionShape` A 369-371 / B 370-372; `getShape` A 379-381 / B 380-382.
+- Registration and state identity evidence: A `Block.java` registration block lines 728-1321 has 236 indexed entries. B lines 747-1358 has those same 236 index/key pairs and 18 B-only entries at IDs 235-252 (glazed terracotta, concrete and concrete powder), which could not occur in an A-era map. The sole shared registration constructor change is ID 159: A `new ColoredBlock(Material.STONE)` versus B `new StainedHardenedClayBlock()` (A lines 1103-1107; B lines 1122-1126). B's class extends `ColoredBlock`, calls `super(Material.STONE)` and only overrides `getMapColor`; both constructors use the same inherited `COLOR` property/default and inherited block shape path. Registration source hashes: `Block.java` A `ab873436b24487ab0ee8055bf7a478349c7f7978398aea8e387796a6c820996a`, B `e4a90eca411e7b0e14f5018f7385ec29891f6cdf1a1e917fa648b5712f9b33a1`; `Blocks.java` A `69e47950c2d9761deff0ce1e1c46fefb2472bf61cb3d6c155fcb15457d03e64d`, B `8d34c5e531407689108668a84bb8fe705bf987b1481ae8b6d3a6e39424243e2e`; `ColoredBlock.java` A `c6d07db17d2ca94837358d9fef909853c55b6fd380e60bb03510c65bf0d4eb0e`, B `6edb1087c63d2d2547cc0bda6726a4407661c474b4df013cc73a456bbb7c64e0`; B `StainedHardenedClayBlock.java` `9aa86b43c1db88734bfe16f9ff15c3ead7c647cd0e6d89b81c0111a3cba8ae08`. Block-state property/default and neighboring-state dependencies remain open outside this bounded registry correspondence.
 - State producers/writers -> consumers/readers: sleeping/sneaking/fall-flying flags select pose dimensions; `updatePlayerPose` collision clearance gates the new shape; shared `Entity.setSize` writes width, height and bounding shape, and may move a server entity horizontally when widening after its first tick. `getEyeHeight` consumes pose flags and current height. Respawn reset and death write the same size/position/velocity values on both releases; sleep writes are compared in S2.2a.
-- Parent slices / dependencies / closure evidence: S2.2a owns the sleep eligibility difference. S2.3/S3.6 track pose input transitions; `DEP-COLLISION-SHAPES` remains open for the player-reachable block shape/provider and registration inventory used by the clearance gate. S1.7 remains open for broader packet authority outside the direct pose comparison.
+- Parent slices / dependencies / closure evidence: S2.2a owns the sleep eligibility difference. S2.3a owns fall-flight state entry; `DEP-COLLISION-SHAPES` remains open for state properties/defaults, neighboring-state dependencies and the broader collision slices even though this query's provider method bodies and old-block ID correspondence are compared. S1.7 remains open for broader packet authority outside the direct pose comparison.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): `updatePlayerPose`, `getEyeHeight`, `resetPos`, `die`, `wakeUp`, `Entity.setSize`, `getShape`/`setShape`, local-player `isSneaking`, and both `World.getCollisions` method bodies are identical between A and B. The only changed PlayerEntity size transition found so far is the sleep gate in S2.2a. Keep this slice open until collision shape providers/registrations and the remaining player-only writer scan close.
+- Disposition and rationale (including concrete reachability/preconditions): `updatePlayerPose`, `getEyeHeight`, `resetPos`, `die`, `wakeUp`, `Entity.setSize`, `getShape`/`setShape`, local-player `isSneaking`, the query dispatch and all 117 paired shape/collision-provider method bodies are unchanged for corresponding old blocks. The only changed PlayerEntity size transition found so far is the sleep gate in S2.2a. Keep this slice open until state-property/default and neighboring-state dependencies plus the remaining player-only writer scan close.
 - Finding IDs or checked absence/replacement path: F-SLEEP-SAFETY-TRANSITION is bounded in S2.2a; no other pose-size difference found in the compared methods.
 
 ### Slice S2.2a: Bed sleep eligibility and player movement-state transition
