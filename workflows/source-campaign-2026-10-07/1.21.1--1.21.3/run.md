@@ -44,8 +44,8 @@ Partial correspondence: LocalPlayer.tick -> inherited player tick -> LivingEntit
 Each inventory maps to bounded source slices and remains pending until its full producer/consumer chain closes.
 
 - `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S-INPUT-AXES,S-LOCAL-TICK,S-BLOCK-CONTACT,S-ENTITY-MOVE,S-TRAVEL,S-TRAVEL-AIR,S-TRAVEL-FLUID,S-TRAVEL-FALLFLY,S-FALLFLY-ELIGIBILITY; evidence=paired source ranges in coverage ledger.
-- `INV-STATE` movement state writers/readers: status=pending; slice_ids=S-BLOCK-CONTACT,S-ENTITY-MOVE,S-TRAVEL; evidence=paired source ranges in coverage ledger.
-- `INV-COLLISION` player collision/query, shapes, providers, callbacks and neighbors: status=pending; slice_ids=S-BLOCK-CONTACT,S-ENTITY-MOVE; evidence=paired source ranges in coverage ledger.
+- `INV-STATE` movement state writers/readers: status=pending; slice_ids=S-BLOCK-CONTACT,S-ENTITY-MOVE,S-SUPPORT-GROUND,S-TRAVEL; evidence=paired source ranges in coverage ledger.
+- `INV-COLLISION` player collision/query, shapes, providers, callbacks and neighbors: status=pending; slice_ids=S-BLOCK-CONTACT,S-ENTITY-MOVE,S-SUPPORT-GROUND; evidence=paired source ranges in coverage ledger.
 - `INV-WORLD-MOVEMENT` block/fluid properties, subclasses, registries, data/tags and resources: status=pending; slice_ids=S-BLOCK-CONTACT; evidence=WebBlock and BlockBehaviour ranges in coverage ledger.
 - `INV-MODIFIERS` attributes, effects, enchantments and equipment applications: status=pending; slice_ids=S-TRAVEL,S-TRAVEL-AIR,S-TRAVEL-FLUID,S-TRAVEL-FALLFLY,S-FALLFLY-ELIGIBILITY; evidence=travel, gravity/effect and equipment ranges in coverage ledger.
 - `INV-EXTERNAL` player corrections, pushes, pistons, mounts and launch effects: status=pending; slice_ids=S-LOCAL-TICK,S-ENTITY-MOVE,S-EXTERNAL,S-FALLFLY-ELIGIBILITY; evidence=outer tick, move and fall-flying command ranges in coverage ledger.
@@ -96,10 +96,34 @@ Each inventory maps to bounded source slices and remains pending until its full 
 - A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.21.1/mojmap/net/minecraft/world/entity/Entity.java move lines 598-649, SHA-256 b81905c7879e2cc5c5063a41d865c4164ad919f156306705be791d1017b99850.
 - B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.21.3/mojmap/net/minecraft/world/entity/Entity.java move lines 619-680, SHA-256 a93719c302a0381a972af75ea360465e2e3551708dd07c34d4d40b7e5173c2b9.
 - State producers/writers -> consumers/readers: requested vector -> piston/edge transforms -> collision result -> conditional setPos; deltas -> collision flags -> support/fall checks; stuck multiplier read/reset.
-- Parent slices / dependencies / closure evidence: S-BLOCK-CONTACT; the tiny-position-write branch is isolated in finding F-MOVE-TINY-POSITION-WRITE. Collision implementation, support query, other epsilon consequences and callers remain open.
+- Parent slices / dependencies / closure evidence: S-BLOCK-CONTACT; the tiny-position-write branch is isolated in S-MOVE-TINY-POS-WRITE/F-MOVE-TINY-POSITION-WRITE, and support-state assignment is isolated in S-SUPPORT-GROUND. Collision implementation, fall consequences, other epsilon effects and callers remain open.
 - Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): B adds a second position-write condition at requested-length-squared minus actual-length-squared below 1.0E-7; near-zero consequences are unresolved.
-- Finding IDs or checked absence/replacement path: F-MOVE-TINY-POSITION-WRITE; other position/support/collision differences remain under review.
+- Finding IDs or checked absence/replacement path: F-MOVE-TINY-POSITION-WRITE; other position/collision differences remain under review.
+
+### Slice S-MOVE-TINY-POS-WRITE: conditional position update after collision
+
+- Inventory ID(s): INV-STATE, INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: requested movement after stuck multiplier and edge backoff -> collision result -> squared-length predicate -> position and bounding-box write.
+- A evidence: `Entity.java` `move(MoverType, Vec3)` lines 617-630, SHA-256 `b81905c7879e2cc5c5063a41d865c4164ad919f156306705be791d1017b99850`.
+- B evidence: `Entity.java` `move(MoverType, Vec3)` lines 639-652, SHA-256 `a93719c302a0381a972af75ea360465e2e3551708dd07c34d4d40b7e5173c2b9`.
+- State producers/writers -> consumers/readers: requested vector -> edge backoff/collision -> actual vector squared length and requested-minus-actual squared lengths -> `setPos`/bounding box -> later position and collision queries.
+- Parent slices / dependencies / closure evidence: S-ENTITY-MOVE; exact behavior and local-player route are detailed in `findings/F-MOVE-TINY-POSITION-WRITE.md`. Other collision/epsilon paths remain open in the parent.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): with a nonzero, unobstructed post-backoff request whose squared length is at most `1.0E-7`, A skips the position write while B's second predicate passes and writes the position. The exact consequences beyond that state write are not runtime tested.
+- Finding IDs or checked absence/replacement path: F-MOVE-TINY-POSITION-WRITE; its earlier snapshot was invalidated for an A-source hash transcription error, now corrected and recorded in the snapshot history.
+
+### Slice S-SUPPORT-GROUND: support-block and ground-state selection
+
+- Inventory ID(s): INV-STATE, INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: `Entity.move` writes collision flags, then on-ground state, chooses support blocks at the resulting box or a reverse-horizontal probe, and updates the no-block/support-position fields; only the `move` caller is claimed.
+- A evidence: `Entity.java` `setOnGroundWithMovement`/`checkSupportingBlock` lines 563-592 and `move` lines 634-646, SHA-256 `b81905c7879e2cc5c5063a41d865c4164ad919f156306705be791d1017b99850`; `CollisionGetter.java` `findSupportingBlock` lines 105-120, SHA-256 `f21daa1ed0365cc16a2638373d702fbaeb4242ad12a80a41105cf43c711e6d95`.
+- B evidence: `Entity.java` `setOnGroundWithMovement`/`checkSupportingBlock` lines 583-613 and `move` lines 656-669, SHA-256 `a93719c302a0381a972af75ea360465e2e3551708dd07c34d4d40b7e5173c2b9`; `CollisionGetter.java` `findSupportingBlock` lines 128-143, SHA-256 `42301653b90eea59caf787a92699bd707d2454155b7aa19e4ff2de57beef774f`.
+- State producers/writers -> consumers/readers: collision result -> verticalCollisionBelow/horizontalCollision -> onGround/mainSupportingBlockPos/onGroundNoBlocks; `findSupportingBlock` iterates `BlockCollisions`, picks minimum block-center distance to entity position, and breaks ties using `BlockPos.compareTo`.
+- Parent slices / dependencies / closure evidence: S-ENTITY-MOVE. Exact-source search found `setOnGroundWithMovement` only at its declaration and the paired `Entity.move` caller on each side; B's extra `horizontalCollision` parameter reassigns the same flag already written before minor-collision classification.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for the paired `Entity.move` call, support-box epsilon, fallback movement reversal, `onGroundNoBlocks` persistence, candidate iteration and distance/tie-break order are textually equivalent. Block collision-shape/provider inventory remains open, so this closes support selection only for the same collision candidates.
+- Finding IDs or checked absence/replacement path: no support-state difference in this bounded slice.
 
 ### Slice S-TRAVEL: travel branch formulas
 
@@ -164,18 +188,18 @@ Each inventory maps to bounded source slices and remains pending until its full 
 ### Slice S-EXTERNAL: corrections and externally supplied movement
 
 - Inventory ID(s): INV-EXTERNAL
-- Exact behavior boundary and enclosing guards/order checked: none closed.
-- A evidence: LocalPlayer.tick lines 191-210 and Entity.move piston path; packet handlers and impulse sources remain open.
-- B evidence: LocalPlayer.tick lines 189-212 and Entity.move lines 619-680; packet handlers and impulse sources remain open.
-- State producers/writers -> consumers/readers: server corrections, impulses, mounts and piston sources -> player movement state; edges not mapped.
-- Parent slices / dependencies / closure evidence: S-LOCAL-TICK, S-ENTITY-MOVE; packet/world caller inventory required.
+- Exact behavior boundary and enclosing guards/order checked: packet movement flag writer/decoder and accepted server movement handler traced; correction, impulse, mount, piston and tick-order consumers remain open.
+- A evidence: `ServerboundMovePlayerPacket.java` contains no horizontal-collision field/flag (SHA-256 `03ff21dba5a0937e25c8ea0fe8d11146bf8595560115e4235176dc8e5d9d75db`); `ServerGamePacketListenerImpl.handleMovePlayer` lines 822-924 ends accepted movement with two-argument `setOnGroundWithMovement(onGround, movementDelta)` (SHA-256 `cc73bb8fab95346aea10f7018ba7de6c723cde8a52a4ae40629b5370b6ff6d10`). LocalPlayer.tick lines 191-210 and Entity.move piston path are also in scope.
+- B evidence: `ServerboundMovePlayerPacket.java` adds `horizontalCollision`, reads/writes it in packet flag paths (lines 17, 49, 85-86, 120, 156, 186, 212; SHA-256 `d66f0025ee8606944fd5abb4a5ebd0d46c09556c3c2192d8c61d11d49b3a6519`); `ServerGamePacketListenerImpl.handleMovePlayer` lines 827-928 passes the flag to `setOnGroundWithMovement(onGround, horizontalCollision, movementDelta)` (SHA-256 `e4ad1ac2fa3236f659220c44dd4d5f63d9ef2ab5791bdabbfa2d229b14452a38`). LocalPlayer.tick lines 189-212 and Entity.move lines 619-680 are also in scope.
+- State producers/writers -> consumers/readers: B LocalPlayer collision state -> movement packet -> accepted server handler -> server `horizontalCollision` writer. `Entity.move` recomputes that field; `LivingEntity` has later reads in travel/friction and auto-spin handling. Relative server-player tick and packet-handler ordering, plus any movement-relevant reads before recomputation, remain unclosed, so no effect or equivalence disposition is claimed.
+- Parent slices / dependencies / closure evidence: S-LOCAL-TICK, S-ENTITY-MOVE; exact flag transport is mapped, but packet/world caller and writer-to-consumer order inventory remains required.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): no absence or equivalence claim.
 - Finding IDs or checked absence/replacement path: none.
 ## Dependency queue and blockers
 
 - Open dependencies: METHOD-INVENTORY, RESOURCE-CHAIN, SOURCE-AUDIT.
-- METHOD-INVENTORY: close LocalPlayer and LivingEntity tick/input order; Entity.move support/collision/epsilon dependencies; fall-flying look-vector range/operation-order review; and external player correction/impulse callers.
+- METHOD-INVENTORY: close LocalPlayer and LivingEntity tick/input order; Entity.move support/collision/epsilon dependencies; fall-flying look-vector range/operation-order review; external player correction/impulse callers; and the B horizontal-collision packet writer-to-reader ordering before server movement recomputes collision state.
 - RESOURCE-CHAIN: client jar hashes verified; compare referenced water/lava tags, movement block/fluid defaults/providers and applicable effect/attribute/equipment data from exact pair artifacts.
 - SOURCE-AUDIT: independent reviewer assignment and full call-graph/inventory audit remain pending; the source worker must not self-audit this requirement.
 - DEP-CHECKER resolved by canonical fix fba28fa154d29572263ea3f2c44cf1dc23134329, cherry-picked as 4223d9c; static schema gate only.
@@ -192,7 +216,7 @@ Each inventory maps to bounded source slices and remains pending until its full 
 - Resume worktree: D:\Javastuff\LegacyParkourCompat\.task-worktrees\source-1211-1213-resume-2026-10-08.
 - Starting checkpoint: `9efca3a29af87debd09cf76d92affbf475e98e16`. Source evidence checkpoint: `097fed3` (`docs: resume 1.21.1 movement source discovery`). Main at `6d89340a2f84a7aa045f119d73396346522c077d` was merged in `dda6efe`; the remaining report metadata update follows that merge.
 - Main-merge review: the only main-side change to this pair was an earlier partial import of the same run and block-contact finding; the branch's fuller call-path/disposition evidence and all newer pair slices/findings were retained. Updated shared workflow guidance came from main. No additional source-semantic repair was needed.
-- Closed bounded slices: S-INPUT-AXES (directional normalization/slow scaling only); S-BLOCK-CONTACT (intermediate-path callback difference); S-MOVE-TINY-POS-WRITE (tiny position-write condition); S-TRAVEL-AIR (air-branch formula only); S-TRAVEL-FLUID (water/lava formula only); S-FALLFLY-ELIGIBILITY (component-only B extension dispositioned out of scope; default Elytra gates compared).
+- Closed bounded slices: S-INPUT-AXES (directional normalization/slow scaling only); S-BLOCK-CONTACT (intermediate-path callback difference); S-MOVE-TINY-POS-WRITE (tiny position-write condition); S-SUPPORT-GROUND (support-state selection for paired Entity.move only); S-TRAVEL-AIR (air-branch formula only); S-TRAVEL-FLUID (water/lava formula only); S-FALLFLY-ELIGIBILITY (component-only B extension dispositioned out of scope; default Elytra gates compared).
 - Open slices: S-LOCAL-TICK, S-ENTITY-MOVE, S-TRAVEL, S-TRAVEL-FALLFLY in-progress; S-EXTERNAL pending. Required inventories remain partial/pending; full-pair freeze and independent audit remain pending.
 - Finding handoff: F-BLOCK-CONTACT-TRAVERSE remains in immutable finding commit `07902783e412b7055b1b8d15d99ed5df92388f26`, SHA-256 `3538afb87392bd856c3b358af9b12c84341163d188c77738244603641900d686`. The tiny-position snapshot at `6aa873efa6f2fb7ffe3f545674859a9fff82273e` is superseded; corrected F-MOVE-TINY-POSITION-WRITE and F-FALLFLY-EQUIPMENT-COMPONENT are in `097fed3`, SHA-256s `771f4ac4f720f2a8bdfcc5b025a809448bcbee83619e861e248515fd8336a0d1` and `405af71090ba5bfe2a31b8c526df35be1810170fdf5d1ad8360bf78575801ff3`. These are source findings, not independently accepted snapshots. Independent acceptance and implementation handoff remain pending.
 - Source identities: A 1.21.1 Mojmap source manifest 900f956e00f6fc1300bb3d689ea49df2b1a57bcaa54617344ef456d95d47cb48; B 1.21.3 Mojmap source manifest d673bb5464853e3a2a92ed9b1ffe1789d4e62c097bb884f67c336fcbb3b178ce; artifact manifest identities are recorded above.
@@ -239,7 +263,7 @@ An independent reviewer has not yet been assigned and no audit has occurred.
 
 ## Source audit closure
 
-- Coverage counts: 3 findings, 3 compared-no-difference, 4 in-progress, 1 pending (bounded rows; parent slices remain open where listed above).
+- Coverage counts: 3 findings, 4 compared-no-difference, 4 in-progress, 1 pending (bounded rows; parent slices remain open where listed above; S-EXTERNAL now has partial packet evidence but remains pending).
 - Inventory status: INV-TICK partial; INV-STATE partial; INV-COLLISION partial; INV-WORLD-MOVEMENT partial; INV-MODIFIERS partial; INV-EXTERNAL pending; INV-EXCLUSIONS partial.
 - Open dependencies: METHOD-INVENTORY, RESOURCE-CHAIN, SOURCE-AUDIT.
 - Full-pair blind freeze: pending
