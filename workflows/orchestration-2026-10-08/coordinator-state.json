@@ -266,7 +266,7 @@
       "threadId": "01a11bd5-5936-72e2-8ddc-2669bace33e6",
       "role": "source",
       "pair": "1.19.4--1.20.1",
-      "status": "active",
+      "status": "completed; sourcepartialeb6e736 onfeat/source-discovery-1-19-4-1-20-1-continuation; F07/F08 pendingreview",
       "ref": "9ed617bf3bfb7666b6596570509d95b9db995092",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -306,7 +306,7 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:29:44.5258938Z",
+    "observedAt": "2026-10-08T14:30:43.6814518Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
