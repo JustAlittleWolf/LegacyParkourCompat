@@ -2,7 +2,7 @@
 
 Snapshot ID: `wiki-jump-apex-cutoff-1.8.9-1.9.4`
 
-Status: source-confirmed bounded calculation; independent Wiki-lane review pending; no runtime validation performed.
+Status: exploratory source-ordered calculation for one bounded path; independent Wiki-lane review pending. The catalog keeps the numeric Wiki claim Wiki-only until that review accepts the derivation. No runtime validation was performed.
 
 ## Candidate and boundary
 
