@@ -37,7 +37,7 @@
     {
       "threadId": "01a11bb1-adb2-7212-9a90-26537278d788",
       "role": "implementation_static_review",
-      "status": "Active independent passenger crouch no-code and exact source provenance review.",
+      "status": "Completed passenger crouch no-code ACCEPT and source identity resolved in private-clone review 0cea9296; provenance erratum assigned to ops.",
       "scope": "four pending code patches",
       "resultCommit": "bdb6443; notes d3190b4"
     },
@@ -174,7 +174,7 @@
       "role": "blind_source_review",
       "pair": null,
       "ref": "aa66894 and105ec98",
-      "status": "Completed blind source review 581b5bd2: ACCEPT01/02/03/05/06; REQUEST CHANGES04 and F14."
+      "status": "Active blind source review of shallow water candidate 6374ff904; corrected04/F14 queued afterward."
     },
     {
       "threadId": "01a11bc1-f2a2-7342-82ea-4072acd7ff4b",
@@ -370,7 +370,7 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T15:21:18.3440495Z",
+    "observedAt": "2026-10-08T15:23:09.6926383Z",
     "oldCompleted": 43,
     "oldActive": 0,
     "unknownSlotReserved": 0,
@@ -571,7 +571,7 @@
   "goalTurnAudit": {
     "previousTurn": "progress",
     "evidence": "User cap raised to20, six available roles assigned, five source acceptances collected and granular implementation/source correction assignments committed.",
-    "evidenceNow": "New immutable shallow water candidate captured; exact source review gate queued; all20 role handles verified live.",
+    "evidenceNow": "Passenger no-code accepted and exact source identity resolved; ops erratum assigned; shallow water blind review active; corrected F14 snapshot queued.",
     "currentTurn": "progress"
   },
   "oldSourceHandoff": {
@@ -583,11 +583,15 @@
   "passengerCrouchReconciliation": {
     "reviewer": "01a11bb1-adb2-7212-9a90-26537278d788",
     "bindingIssue": "Original raw blob digest reported e1d51ee7 prefix; supplied 5e22fc1b digest matches later copy with evidence bullet omitted. Exact original acceptance binding must be independently reconciled.",
-    "verdict": "Worker reports already covered; independent review pending.",
+    "verdict": "Independent no-code ACCEPT 0cea9296; exact source identity resolved, metadata erratum required before documentation integration.",
     "proof": "dee9c6f",
     "sourceCommit": "4ee5bbce85b193f972766c324c262e375fed9bd6",
     "proofBranch": "fix/passenger-crouch-reconcile-oct8",
-    "sourceBlob": "5037e1f8f12ac444c5f565f63111733c65ce5f6e"
+    "sourceBlob": "5037e1f8f12ac444c5f565f63111733c65ce5f6e",
+    "review": "0cea9296f492f5d619bdec93b6cc118c16828d84",
+    "originalSha256": "e1d51ee7f7395415dbe5d9d9692ea1f55cdd83cf0172de27c555e70c362a29d7",
+    "reviewClone": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mcpk-slipperiness-1-15-2-2026-10-08",
+    "erratumStatus": "Ops worker assigned explicit provenance erratum, corrected ledger binding and labelled/restored shortened copy; integration remains pending."
   },
   "concurrencyAuthorization": {
     "userRequest": "please up the limit to 20 workers",
@@ -622,7 +626,15 @@
     "path": "workflows/source-campaign-2026-10-07/1.21.11--26.1.2/findings/F-1-water-current-shallow-overlap.md",
     "blob": "90c8a48282c036e6082c85f0be7a69e041ac0cb7",
     "sha256": "9d2c273a1c3b358eac7ebaa1e4cbe9e91a126648a90e89d8d6bdeb1953159cdd",
-    "status": "Immutable candidate queued for independent blind source review when a role frees. No implementation authorization.",
+    "status": "Active independent blind source review by 01a11bbe-a775-7180-a017-d2386dcd9fb3. No implementation authorization.",
     "pair": "1.21.11--26.1.2"
+  },
+  "correctedF14Snapshot": {
+    "path": "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/findings/F-14-sleep-fall-flying-pose-priority.md",
+    "sha256": "c64be4794ee553e3adf11e0b1bb3f57428e2fb9e32292df940526279d44ae14c",
+    "owner": "01a11bf3-b68d-72a3-9fde-198291e05948",
+    "commit": "6f0a567c47d57071e1e22c89efaeb74fbc531491",
+    "status": "Replacement immutable snapshot queued for focused independent re-review after shallow water review.",
+    "correction": "LivingEntity source SHA matches ready manifest; abilities-based flight off precondition explicit."
   }
 }
