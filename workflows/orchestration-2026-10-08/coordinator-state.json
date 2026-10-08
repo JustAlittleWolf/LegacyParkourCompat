@@ -276,10 +276,19 @@
       "role": "clean_mcpk_snapshot_review",
       "status": "completed; clean review6e045f3d50f9248ab329c5bd698caa935e8a9be3: BigDripleaf/swimming ACCEPT, edge/slipperiness requestchanges",
       "ref": "identity register93a01b8; four r2 snapshots"
+    },
+    {
+      "threadId": "01a11be2-ad84-75a3-bd6f-567ff693fc2d",
+      "role": "source",
+      "pair": "1.20.1--1.20.2",
+      "status": "active",
+      "ref": "51a7f175431ae746de6630df0d2ea1940ad9d69d",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:20:08.0428037Z",
+    "observedAt": "2026-10-08T14:21:03.0338611Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
@@ -309,7 +318,7 @@
     }
   ],
   "elytraEvidenceAudit": {
-    "status": "pending",
+    "status": "review owner resolved transcription error in937a502; independent ops verification pending; docs not yet integrated",
     "reviewTip": "b8dfbc3e4d092141861759cab36272ea223a4d17",
     "sourceCommit": "4a0c35f2008d785867c00360a7b72726e3506435",
     "issue": "integration owner reports finding SHA differs from recomputed immutable Gitblob bytes",
