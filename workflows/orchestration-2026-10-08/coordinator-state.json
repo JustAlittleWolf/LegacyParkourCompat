@@ -37,14 +37,14 @@
     {
       "threadId": "01a11bb1-adb2-7212-9a90-26537278d788",
       "role": "implementation_static_review",
-      "status": "CompletedsleepREQUESTCHANGES0e1a3bf8; idle.",
+      "status": "Active sleep revised-code fc9962a8/proof04ba4630 independent review; private object locator supplied.",
       "scope": "four pending code patches",
       "resultCommit": "bdb6443; notes d3190b4"
     },
     {
       "threadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
       "role": "integration_build_owner",
-      "status": "Completed passenger no-code docs integration + exact1.20.5 source publication61f278e2; idle, exclusivebuildowner retained.",
+      "status": "Active exclusive serial water code integration/build with all Test disabled; separate MC01 no-code docs integration afterward.",
       "ref": "feat/movement-campaign-integration-2026-10-08@958b0916f08cba25e3be86d67d48a9d1e8651d1f",
       "resultCommit": "ea812dc9171fdf41e02b3a2292db7d40b105c9c4"
     },
@@ -121,7 +121,7 @@
     {
       "threadId": "01a11bb3-d102-7723-b35b-cae34a76f976",
       "role": "wiki_minecraft",
-      "status": "Active Wiki sprint-swimming hash/branch correction and wider remaining independent claim catalog.",
+      "status": "Active remaining independent Wiki catalog from56a19fe9, correctedr2 nowaccepted47ae83bd; lane partial.",
       "ref": "feat/minecraft-wiki-audit@2d20e330083ca7bb738e750ae329bbf67d618ac2"
     },
     {
@@ -153,7 +153,7 @@
       "role": "posefit_correction",
       "pair": null,
       "ref": "e6b61bd7f1334b7e4fa49a9bd0a5929e833338a8",
-      "status": "Active sleep patch correction from0e1a3bf8; originalcode not accepted."
+      "status": "Completed sleep correction fc9962a8/proof04ba4630 in private build/codex-worktrees clone; independent re-review active, owner idle."
     },
     {
       "threadId": "01a11bbc-b876-7182-9025-3b589c5cd50c",
@@ -224,19 +224,19 @@
     {
       "threadId": "01a11bcd-f62a-7610-8eff-f9782f3d072d",
       "role": "elytra_independent_review",
-      "status": "Completed9cf9c723: MC01no-codeACCEPT, SwimmingUpdateboundedACCEPT, historicalsprint-startREQUESTCHANGES; idle.",
+      "status": "Active independent slime no-code coverage review4bb2bd61.",
       "ref": "fix/elytra-start-full-request; accepted flight-toggle finding"
     },
     {
       "threadId": "01a11bce-05d9-7c80-9a1e-0f65525c141b",
       "role": "rising_crouch_independent_review",
-      "status": "Active independent water-current implementation review c33269b0/48050492.",
+      "status": "Completed water implementation ACCEPTe023dd454513b625a0a1d9c9cad3958545803cba; idle.",
       "ref": "14a6e23432ab6a885b5c5ce265cf2404283756f6"
     },
     {
       "threadId": "01a11bcf-351e-7b32-9a56-9a6800c65644",
       "role": "world03_implementation",
-      "status": "Active accepted slime restitution reconciliation/implementation; sourced6664c08 accepts8eb345d bounded snapshot.",
+      "status": "Completed slime no-code proof4bb2bd611711a184f474017d90ce8e5ac857026d; independent review active; unrelated Polar preserved.",
       "ref": "accepted aa66894; reviewa2e510bd"
     },
     {
@@ -409,13 +409,13 @@
     "mainStatus": "code already integrated; source binding/provenance being independently reconciled"
   },
   "nextCoordinatorActions": [
-    "Collect canonical1.20.5 publication, assign MC02 boundary-source comparison and blind review.",
-    "Collect independent water code decision, exclusive serial build only after ACCEPT.",
-    "Collect slime/sprint-start/sleep revised implementations and dispatch independent reviews.",
-    "Collect F14/bed/MCPK corrected immutable bindings and re-review.",
-    "Collect pane-epsilon review including marker identity caveat.",
-    "Integrate MC01 no-code documentation serially; update backlog with d666/47ae/9cf9 decisions on next ops pass.",
-    "Continue all26full inventories and eventual independent coverage audits; cap20includingroot, LunaHigh workers, no tests/runtime/push."
+    "Collect water test-disabled build/main/artifact/log handoff and independently verify.",
+    "Collect exact1.20.5 boundary memo binding, dispatch blind source review before MC02 code.",
+    "Collect pane-epsilon request-changes report and assign bounded correction.",
+    "Collect slime no-code and revised sleep independent decisions.",
+    "Collect bed/F14/MCPK replacement source bindings and re-review.",
+    "Audit potential full1.17.1--1.18.2 freeze only after all seven inventories actually closed.",
+    "Maintaincap20includingroot; source scopes/exclusions and original mapped-JAR caveats retained; no tests/runtime/push."
   ],
   "nextAcceptedIntegrationBatch": {
     "finding": "F005 saved FallFlying",
@@ -582,17 +582,16 @@
   },
   "goalTurnAudit": {
     "previousTurnClassification": "progress",
+    "previousEvidence": "Exact1.20.5 publication verified and assigned source-boundary comparison; commit e7ec3a71.",
     "currentProgress": [
-      "Corrected Wiki snapshot independently accepted",
-      "Collected source4review decisions; dispatched F14/bed corrections and slime implementation",
-      "Water code handed off and independent review active",
-      "Swimming input gap confirmed and correction active; MC01 no-code accepted",
-      "Ops audited backlog adopted; coordinator conflicts resolved, clean verified",
-      "Exact1.20.5 canonical source publication verified and boundary source comparison dispatched; coordinator merge clean."
+      "Water static implementation ACCEPT collected and serial build/integration dispatched",
+      "Sleep correction retrieved from private object store and independent re-review assigned",
+      "Slime no-code proof collected and independent review assigned",
+      "Wiki corrected r2 path identity resolved and owner catalog continuation assigned"
     ],
+    "liveRoleAudit": "3 collaboration source workers plus16app roles plusroot; cap20. Seven long-running source app roles independently confirmed active.",
     "blocked": false,
-    "all26Pairs": "PARTIAL",
-    "capIncludingRoot": 20
+    "all26Pairs": "PARTIAL"
   },
   "oldSourceHandoff": {
     "scope": "All remaining source inventories, preserving border and external-response evidence.",
@@ -795,14 +794,17 @@
     "code": "c33269b0bd44e1e8c03895e704dac3ad40f826f6",
     "tip": "48050492ffa08411375759596e18fb331d4ebdfa",
     "branch": "fix/shallow-water-current-cutoff-1-21-11-2026-10-08",
-    "status": "Independent implementation review active; no build or integration yet.",
-    "reviewWorker": "01a11bce-05d9-7c80-9a1e-0f65525c141b"
+    "status": "Independent static ACCEPT; exclusive owner serial integration/build active with every Test task disabled. No runtime parity claim.",
+    "reviewWorker": "01a11bce-05d9-7c80-9a1e-0f65525c141b",
+    "review": "e023dd454513b625a0a1d9c9cad3958545803cba"
   },
   "correctedWikiSwimmingAcceptance": {
     "snapshot": "1e5b3a65cdb9946f1fe9553022950454038d9c68",
     "rawSHA256": "62140b4d629831c430702bf7aff78fa87784beddd65dbfcb28b47dbb7a19fa782",
     "review": "47ae83bd235260b9667a33f1830c020bc0c33549",
-    "status": "ACCEPT corrected bounded record; original rejection preserved; lane partial."
+    "status": "ACCEPT corrected bounded record; original rejection preserved; lane partial.",
+    "path": "workflows/wiki-audit-2026-10-07/sprint-swimming-1.12.2-to-1.13.2-r2.md",
+    "reviewPath": "workflows/wiki-audit-2026-10-07/reviews/independent-review-sprint-swimming-r2-2026-10-08.md"
   },
   "paneEpsilonReview": {
     "snapshot": "e10bc0dd046cb968564301eca5986ce81c77c6c7",
@@ -822,5 +824,26 @@
     "ownerVerification": "5328 source entries and75artifact entries rehashed; diagnostics/log retained, allTestdisabled, no runtime.",
     "rootVerification": "Marker exactrelease/mapping/status read and rehashed; source/artifact manifest hashes independently recomputed and matched.",
     "comparison": "Not performed by preparation owner. MC02 boundary source worker active; blind review required before implementation."
+  },
+  "slimeLandingNoCodeReconciliation": {
+    "proof": "4bb2bd611711a184f474017d90ce8e5ac857026d",
+    "branch": "fix/slime-landing-restitution-26-2",
+    "status": "Existing V26_1 CollisionRestitution/BlockLanding reported to cover accepted witness; independent no-code review active.",
+    "reviewWorker": "01a11bcd-f62a-7610-8eff-f9782f3d072d",
+    "codeChanged": false
+  },
+  "sleepSafetyCorrectedImplementation": {
+    "code": "fc9962a8aa967101ec0c4d3a1447b933678e1e79",
+    "proofTipPrefix": "04ba4630",
+    "privateRepository": "D:/Javastuff/LegacyParkourCompat/build/codex-worktrees/sleep-safety-transition-r3",
+    "branch": "fix/sleep-safety-transition-r3-2026-10-08",
+    "status": "Independent corrected-code re-review active; exact1.11/1.11.1 source request and later creative gate cutoff remain explicit.",
+    "reviewWorker": "01a11bb1-adb2-7212-9a90-26537278d788"
+  },
+  "wikiBindingPathCorrection": {
+    "incorrectPriorCoordinatorPrompt": "sprint-swimming-1.12.2-to-1.13.2.md at1e5b3a65",
+    "correctImmutablePath": "sprint-swimming-1.12.2-to-1.13.2-r2.md at1e5b3a65",
+    "rawSHA256Unchanged": "62140b4d629831c430702bf7aff78fa87784beddd65dbfcb28b47dbb7a19fa782",
+    "evidence": "Root git show --stat1e5b3a65 confirms new r2 file; exact re-review47ae83bd bound r2 correctly. Sprint implementer notified to use corrected binding."
   }
 }
