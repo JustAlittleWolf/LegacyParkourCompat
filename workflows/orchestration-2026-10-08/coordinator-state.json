@@ -20,8 +20,8 @@
       "threadId": "01a116c5-ef2e-7990-97d5-835aee2a0ce8",
       "role": "source",
       "pair": "1.17.1--1.18.2",
-      "status": "active after stop requests; do not duplicate pair writes",
-      "slotReserved": true
+      "status": "Completed checkpoint 58bbb3b; fresh owner /root/source_1171_1182_fresh now continues the pair.",
+      "slotReserved": false
     },
     {
       "title": "Implement rising crouch edge restraint",
@@ -36,7 +36,7 @@
     {
       "threadId": "01a11bb1-adb2-7212-9a90-26537278d788",
       "role": "implementation_static_review",
-      "status": "completed bounded sampler ACCEPT e1866cc05f6c2b6a77caa6f30432efa8ec3fa74e and separate source-range snapshot5688e685",
+      "status": "Active independent passenger crouch no-code and exact source provenance review.",
       "scope": "four pending code patches",
       "resultCommit": "bdb6443; notes d3190b4"
     },
@@ -179,7 +179,7 @@
       "threadId": "01a11bc1-f2a2-7342-82ea-4072acd7ff4b",
       "role": "passenger_yaw_correction",
       "ref": "8722bc476159b79f7e249f48b0e1076f209ced12",
-      "status": "active accepted passenger-crouch-input implementation reconciliation source4ee5bbce/review626fd4ff",
+      "status": "Completed passenger crouch no-code proof at dee9c6f; original snapshot digest mismatch awaits independent review.",
       "resultCommit": "5c2cc08;main merge32c8b0a"
     },
     {
@@ -369,9 +369,9 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T15:09:07.8909937Z",
-    "oldCompleted": 42,
-    "oldActive": 1,
+    "observedAt": "2026-10-08T15:12:31.1530064Z",
+    "oldCompleted": 43,
+    "oldActive": 0,
     "unknownSlotReserved": 0,
     "conservativeSlots": 15,
     "workersRequested": "gpt-6-luna high",
@@ -525,6 +525,14 @@
       "snapshot": "5688e68528861c91031a021f484f80a90c887f2f",
       "task": "/root/review_slipperiness_range",
       "clone": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mcpk-slipperiness-1-15-2-2026-10-08"
+    },
+    {
+      "savedRef": "58bbb3b",
+      "pair": "1.17.1--1.18.2",
+      "task": "/root/source_1171_1182_fresh",
+      "status": "Active fresh source-only continuation after old worker completed 58bbb3b.",
+      "reasoningEffort": "high",
+      "model": "gpt-6-luna"
     }
   ],
   "sourceCheckpointCorrection": {
@@ -554,8 +562,23 @@
   },
   "goalTurnAudit": {
     "previousTurn": "progress",
-    "evidence": "accepted WORLD03 and swimming integratedmain8e76298, durable coordinator commits, artifact verified this turn",
-    "evidenceNow": "artifact path/hash verified, source range independent review assigned, bounded sampler integration assigned, two earlier partial source owners resumed",
+    "evidence": "Verified retained artifact, adopted corrected backlog, accepted range source evidence, assigned implementation and independent wiki continuations.",
+    "evidenceNow": "Fresh 1.17 source owner assigned after verified old-worker completion; independent passenger proof and provenance review assigned.",
     "currentTurn": "progress"
+  },
+  "oldSourceHandoff": {
+    "scope": "All remaining source inventories, preserving border and external-response evidence.",
+    "status": "Completed clean checkpoint 58bbb3b; no longer reserved as an active writer.",
+    "replacement": "/root/source_1171_1182_fresh",
+    "threadId": "01a116c5-ef2e-7990-97d5-835aee2a0ce8"
+  },
+  "passengerCrouchReconciliation": {
+    "reviewer": "01a11bb1-adb2-7212-9a90-26537278d788",
+    "bindingIssue": "Original raw blob digest reported e1d51ee7 prefix; supplied 5e22fc1b digest matches later copy with evidence bullet omitted. Exact original acceptance binding must be independently reconciled.",
+    "verdict": "Worker reports already covered; independent review pending.",
+    "proof": "dee9c6f",
+    "sourceCommit": "4ee5bbce85b193f972766c324c262e375fed9bd6",
+    "proofBranch": "fix/passenger-crouch-reconcile-oct8",
+    "sourceBlob": "5037e1f8f12ac444c5f565f63111733c65ce5f6e"
   }
 }
