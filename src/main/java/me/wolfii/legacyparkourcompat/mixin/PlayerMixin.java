@@ -109,7 +109,8 @@ abstract class PlayerMixin implements AirSpeedState {
         );
     }
 
-    @Inject(method = "maybeBackOffFromEdge", at = @At("RETURN"), cancellable = true)
+    // Historical handlers replace the result, so resolve them before the modern probe loops run.
+    @Inject(method = "maybeBackOffFromEdge", at = @At("HEAD"), cancellable = true)
     private void legacyparkourcompat$maybeBackOffFromEdge(
         Vec3 movement,
         MoverType moverType,
