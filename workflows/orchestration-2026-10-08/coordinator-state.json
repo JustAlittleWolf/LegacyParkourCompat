@@ -1372,7 +1372,7 @@
     "bedProof": "Bound report rereview ACCEPTed proof-only at 4071cee1; no Java/provider change. Original identity-only REQUEST CHANGES d027b9db remains in history and is resolved by bound rereview. Accepted author/review documents are routed for integration.",
     "waterSprint": "Bounded source ACCEPT now closes the candidate acceptance gap for the two identified immutable snapshots only; no broader parity or pair closure.",
     "collaborationSlots": "Keep <=20 roles including root and reserved catalog reviewer. Suffocation reviewer role reused by integration owner; catalog preflight reviewer remains reserved, not a free role.",
-    "currentTimeObservation": "2026-10-08 17:32 UTC / 19:32 Europe/Vienna; final coordinator handoff due 19:40.",
+    "currentTimeObservation": "2026-10-08 17:33 UTC / 19:33 Europe/Vienna; final clean coordinator handoff due 19:40.",
     "backlogCommit": "e5e0db49b11618fb9dd3917a30e53afbcc1c243e",
     "catalogIncident": "Wrong-workdir deletion by catalog author was restored. Primary main was independently verified clean at d8f39566; do not mutate primary until architecture review and coordinated merge.",
     "sourceOwnerRoleSwap": "1.16.5–1.17.1 source owner terminal at aca4dfb; role replaced by BED no-code proof reviewer. 1.15.2–1.16.5 owner terminal at f5636dd2 with all seven inventories open. 1.8.9–1.9.4 owner still closing.",
@@ -1439,16 +1439,16 @@
       "status": "terminal/idle clean; 38 no-difference, 5 findings, 17 open slices; Farmland player-step +0.051 vs +0.05 candidate pending independent review; pair partial"
     },
     "goalLifecycleAudit": {
-      "checkedAt": "2026-10-08 19:32 Europe/Vienna",
+      "checkedAt": "2026-10-08 19:33 Europe/Vienna",
       "method": "Codex list_threads/read_thread status and explicit worker final messages only; no direct application database inspection.",
-      "visibleAppThreadStatus": "Coordinator thread is the only campaign task observed active. Source worker tasks are terminal or idle.",
+      "visibleAppThreadStatus": "Only the coordinator campaign task is observed active after the four metadata-only checks. Other source/worker tasks inspected are idle or terminal; this does not establish their persistent-goal state.",
       "confirmedPaused": [
-        "1.11.2–1.12.2 source owner persistent goal explicitly paused at clean f4d23537 checkpoint."
+        "1.11.2–1.12.2 source owner explicitly reported its persistent goal paused at clean f4d23537."
       ],
       "goalStateUnknown": [
-        "Other idle/terminal campaign threads: task status does not establish persistent-goal status. No explicit pause confirmation is recorded for every worker."
+        "Other idle/terminal campaign threads, including F14 after its metadata-only handoff: no explicit goal-state report is present. Do not infer paused from idle status."
       ],
-      "safeClose": "Do not resume source discovery after cutoff. The coordinator can close after final state commit; any later automation/goal continuation must be explicitly paused by its owner through normal Codex controls. Do not mutate application database state.",
+      "safeClose": "No source discovery or implementation resumes. Close coordinator by 19:40 after final clean-tree/JSON checks. Do not mutate app database; owners must use normal Codex controls if a goal is later found active.",
       "activeMetadataPauseSweep": [
         {
           "thread": "01a11bb3-59d0-72c0-ab62-71a6d301d1d8",
@@ -1471,7 +1471,29 @@
           "scope": "own goal status only; pause if active; report existing checkpoint SHA; no source/worktree reads"
         }
       ],
-      "status": "Four previously terminal owner threads were reactivated solely for metadata-only own-goal status checks and pause-if-active, below the 20-role cap. Await their self-reported goal status and existing checkpoint SHA; do not infer from idle status."
+      "status": "Four metadata-only self-reports received; all four report goal=null/no persistent goal. 1.11.2 owner previously explicitly paused its goal. Other idle/terminal workers remain unknown unless they self-report.",
+      "noGoalReported": [
+        {
+          "thread": "01a11bb3-59d0-72c0-ab62-71a6d301d1d8",
+          "checkpoint": "690577535f5fe081cc6314485c937af4adc7631c",
+          "result": "No active persistent goal (goal null); no pause needed."
+        },
+        {
+          "thread": "01a11bb3-6dd8-7710-8f54-0b2d444da4b6",
+          "checkpoint": "8d4deeedacd03de0c84e175128726b5f6ab63ef3",
+          "result": "No persistent goal; no pause needed."
+        },
+        {
+          "thread": "01a11bb3-7ca7-7510-8ec7-03f97db0cc9b",
+          "checkpoint": "645656e32b402e041abde917fca0ce228c5414fc",
+          "result": "No persistent goal; no pause needed."
+        },
+        {
+          "thread": "01a11bb3-9efb-7962-b77b-722fbec5de31",
+          "checkpoint": "2853716b2031da05abe991e3913078f9a668f3bb",
+          "result": "No active goal (goal null); no pause needed."
+        }
+      ]
     }
   },
   "latestIndependentReviews": [
