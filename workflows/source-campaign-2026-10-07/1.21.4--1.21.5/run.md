@@ -620,6 +620,12 @@ These are initial bounded navigation units. Exact sources are published; slice-b
 
 Source-confirmed findings: [F-01 movement callback path](findings/F-01-movement-callback-path.md), [F-02 bubble-column upper contact](findings/F-02-bubble-column-above-contact.md), [F-03 keyboard vector rounding](findings/F-03-keyboard-vector-rounding.md), [F-04 sprint stop gates](findings/F-04-sprint-stop-gates.md), [F-05 player horizontal velocity cutoff](findings/F-05-player-horizontal-velocity-cutoff.md), [F-06 fall-flying climbable exit](findings/F-06-fall-flying-climbable-exit.md), [F-07 Nether portal inside shape](findings/F-07-nether-portal-inside-shape.md), [F-08 powder-snow inside shape](findings/F-08-powder-snow-inside-shape.md), [F-09 local-player input damping](findings/F-09-local-player-input-damping.md), [F-10 player edge-support query](findings/F-10-player-edge-support-query.md), [F-11 powder-snow wall-jump state](findings/F-11-powder-snow-wall-jump-state.md), and [F-12 client correction pitch clamp](findings/F-12-player-correction-clamps-pitch.md). Findings identify confirmed source deltas; they do not close the remaining pair-wide inventory/dependency slices.
 
+## Incremental finding snapshot log
+
+- Candidate S-01: F-09 controlled local-player input damping; immutable finding snapshot commit `95061345541a2b5a8c56e57a7fe71a6007e9d684`; finding path `findings/F-09-local-player-input-damping.md`; finding-file SHA-256 `3a1680c5e724a935cbc576705088f03e3a9d4c6a8e29e5375d4ddb8e93b1e328`.
+- Exact publication identity: A 1.21.4 Mojmap source manifest SHA-256 `f90b61197928632e061ea877955a19055c92ae6f357c2daf1bc646172c6f51f0`, artifact manifest SHA-256 `1a0929ca8c88cfe7874f323918dfa3b044964007d3ff0d3943317bdb35caf841`; B 1.21.5 Mojmap source manifest SHA-256 `365cc2d22446ceba0e36f46aa1c95ce4cc31514dbd657505680fb660f3adefd9`, artifact manifest SHA-256 `d35b1b9389d8958e33893faa63d94c86f22af30385233ca947fd410aa5c36656`. Finding lists the cited LocalPlayer/LivingEntity/Entity file hashes and jar/mapping identities.
+- Review status: pending coordinator-routed independent blind source review; no acceptance or implementation handoff is recorded. This candidate does not freeze the pair or close its coverage slices.
+
 ## Resume checkpoint
 
 - Last completed slice: S3-JUMP-MATH (compared-no-difference); exact-source comparisons have identified F-01 through F-12. S3-WATER, S3-LAVA, S7-PUSH and S7-CORRECTIONS remain in-progress because dependency/caller closure is open. No finding snapshot or pair freeze has been accepted.
