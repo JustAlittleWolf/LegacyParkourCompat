@@ -839,6 +839,24 @@ Append-only source-review history. An accepted finding snapshot would release on
 
 <!-- Append subsequent events; preserve prior records and commits. -->
 
+### Snapshot event F-FENCE-CAULDRON-SIDE-COLLISION-r1
+
+- Finding ID(s): F-FENCE-CAULDRON-SIDE-COLLISION
+- Source finding author(s): Codex source worker
+- Status: submitted
+- Immutable snapshot commit: `906114c1d52bef4ab92ca8b6b5a29f2967dcb112`
+- Finding file path and SHA-256: `workflows/source-campaign-2026-10-07/1.11.2--1.12.2/findings/F-FENCE-CAULDRON-SIDE-COLLISION.md`; `38351d5ccf41c1891e165fe1eaa9296dc1382b072539600d6bec7057a3ab4d3f`
+- Exact A/B evidence artifact records and revised artifact hashes: `EA-FEATHER-R1-1.11.2`, `EA-FEATHER-R1-1.12.2`; A JAR `ba1872d5fd341770a45aeeb8d372776a1b89f0b88a11a72f15aa0fe879b6a29f`, revision.json `49fca091d3ef83551745119f740d7a66a2773e81262db137bfc747369e8f61ac`; B JAR `fcc17537a14a423e2086f600047725ec1fcfd4c7fcf5c0d1a5bda491966c1b87`, revision.json `2be8645d57ca5c00411b037e7617f9860ac700f7fa8ef50d28220c2e1b0c60dc`. Original source/artifact manifest hashes and equivalence limitations are preserved in the finding.
+- Cited source/resource hashes: exact `FenceBlock.java` and `CauldronBlock.java` A/B hashes, changed connection predicate hashes, matching collision provider hashes and B-only horizontal face-shape method hash are recorded in the finding; `World`, `StateDefinition` and `Block` dispatch evidence is in S2.2.
+- Verified implementation boundary/evidence, or unresolved boundary reason: for one isolated east-adjacent cauldron and a non-spectator flying player above its rim, B resolves an east rail and clips westward player motion before A's center post. The cauldron collision volumes clear the stated AABB. This endpoint is source-derived, not runtime-measured. Other neighbor/state/default/provider paths and movement inventories remain open.
+- Finding-specific closed dependency IDs/evidence: paired fence/cauldron providers, neighbor predicate, face-shape result, world collision dispatch and the stated player flight/noClip path were inspected. Broad `INV-COLLISION`, `INV-STATE`, S2.2, S4 and S5 closure remains pending.
+- Independent blind source reviewer and decision date: reviewer assignment and review pending.
+- Review basis / requested source-only revisions: independently re-walk the paired neighbor predicate and face-shape exception set, exact collision boxes and `Entity.move` reachability for the stated geometry; verify artifact identity within the recorded provenance limitation.
+- Pair run status and commit at handoff: active at `906114c1d52bef4ab92ca8b6b5a29f2967dcb112`.
+- Pair complete: no
+- Implementation handoff: awaiting independent blind acceptance of this exact snapshot.
+- Replaces/supersedes snapshot ID and reason, if applicable: none; first snapshot for this finding.
+
 ### Snapshot event F-FARMLAND-PLAYER-RELOCATION-r1
 
 - Finding ID(s): F-FARMLAND-PLAYER-RELOCATION
@@ -930,7 +948,7 @@ Append-only source-review history. An accepted finding snapshot would release on
 
 ## Source audit closure
 
-- Coverage counts by status: 14 pending; 6 in-progress; 19 compared-no-difference; 3 not-applicable; 5 findings; 0 blocked (47 slices total).
+- Coverage counts by status: 14 pending; 6 in-progress; 19 compared-no-difference; 3 not-applicable; 6 findings; 0 blocked (47 slices total).
 - Required inventory status/evidence: INV-EXCLUSIONS complete; all other inventories pending with mapped slice IDs.
 - Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS
 - Unresolved gaps: stages beyond bounded keyboard input and completed UI/tutor dispositions; S2.2 shape providers, glide movement, exact state producers/consumers, registries/resources, external writers and historical candidates remain open.
