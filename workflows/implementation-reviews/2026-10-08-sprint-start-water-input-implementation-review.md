@@ -1,6 +1,6 @@
 # Implementation review — sprint start in water (1.12–1.13)
 
-**Decision on the submitted code: REQUEST CHANGES (one confirmed, important profile regression).** A reviewer-authored proposed correction is preserved separately as `4ade0220f045bb3a97d4c2d98a96ce7dd8d6ab88` on the isolated review branch. It has **not** been independently reviewed or accepted and is not an integration decision. This report does not accept the modified code. No build, tests, game client, server, TAS, Gym, Docker, or push was performed.
+**Decision on the submitted code: REQUEST CHANGES (one confirmed, important profile regression).** A reviewer-authored proposed correction is preserved separately as `4ade0220a6c5cfa299c08acab57594270d444660` on the isolated review branch. It has **not** been independently reviewed or accepted and is not an integration decision. This report does not accept the modified code. No build, tests, game client, server, TAS, Gym, Docker, or push was performed.
 
 ## Scope and evidence bindings
 
@@ -10,7 +10,7 @@ Reviewed the seven-file implementation diff from base `a5612be5107c9e4e3d604e43e
 - Its main integration: `b2f2e6c13a557d117c79fb27d79f323ca9419ecf`, merging `main` at `61f278e268c3ed2bcc4d95e8f7bb6e9c543cfa82`. That main commit only publishes 1.20.5 source-readiness documentation; it has no Java overlap or semantic conflict with the sprint changes.
 - Implementation evidence handoff/final tip: `bd396a4f122f0253c806515b3991df81df6ea8e3`.
 - The review branch also merges latest `main` at `7e7b7bb7068ec7b68f3a8f09cbb42bc498a04bf4` via review merge `1a6d61d8ff9ae3adda3e9a733724cb0648390587`. Its new Java changes implement the separate 1.21.11 fluid-current hook in `Entity`/`EntityFluidInteraction`; they do not change `LocalPlayerMixin` or the V1_12/V1_13 sprint-input change classes. No semantic conflict with the reviewed sprint behavior was found.
-- Proposed reviewer-authored correction, awaiting independent review: `4ade0220f045bb3a97d4c2d98a96ce7dd8d6ab88`.
+- Proposed reviewer-authored correction, awaiting independent review: `4ade0220a6c5cfa299c08acab57594270d444660`.
 - Finding: `workflows/source-campaign-2026-10-07/1.12.2--1.13.2/findings/F-WATER-SPRINT.md`, handoff SHA-256 `8698af8d4474a11725abdcfb1aabcea8a84e6fb44c31a8254bf6a40810b5f114`. The pair remains active/partial; no full-pair source freeze is asserted.
 - Exact ready-source `LocalClientPlayerEntity.java` hashes: 1.8.9 `1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053`; 1.9.4 `8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d`; 1.10.2 `a9637065f21ad67464eb5c204c74ebf228c3bb0da8a96ddf4ae73c0490fed443`; 1.11.2 `65c2747bd8c70def6be7f41f624d4c9493342b39ae7bed7967f9ff63608f59ed`; 1.12.2 `01a58e94d8c6ff98a8e3794227cdc76a5fcbdbad795c70c9cf28854aff9823cc`; 1.13.2 `2583495f3a02b4791aa036e6a8d354d7596c4984761969a0f29b29d8d9bf42bf`.
 - Current target source: 26.2 `LocalPlayer.java`, SHA-256 `8d089aa09217e3607b38590f7c1623385562800943ac6dfd3d17804e041da6d6`.
