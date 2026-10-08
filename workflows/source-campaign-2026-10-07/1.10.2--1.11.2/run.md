@@ -383,6 +383,18 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - Disposition and rationale (including concrete reachability/preconditions): both registered piston base variants contribute the same collision box for equal `FACING`/`EXTENDED` state. This is provider equivalence only and does not assert matching piston state transitions or push behavior.
 - Finding IDs or checked absence/replacement path: no finding for the equal-state piston-base collision provider; transition path and broader collision/data coverage remain open.
 
+### Slice S3-move-relative: relative input, fluid/fall-flying movement math
+
+- Inventory ID(s): INV-TICK, INV-WORLD-MOVEMENT, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: paired `LivingEntity.moveRelative(float,float)` bodies, including local/logical-side, water/lava/flying, fall-flying, ground/air, and velocity update branches; this is the method body only, not the full travel caller graph.
+- A evidence: `LivingEntity.java::moveRelative`, lines 1332-1506, SHA-256 `d40dd476b6b68c6ce45b4202823475deb546ecda2284da330ff6724b33815e82`.
+- B evidence: `LivingEntity.java::moveRelative`, lines 1388-1562, SHA-256 `bb7dc6c9e423a9568d6433d51bba12e7aee4555fbf3fb3e2b87f618382279f2f`.
+- State producers/writers -> consumers/readers: same fluid/fall-flying/grounded/velocity state -> same trigonometric, acceleration and drag operations in the same order -> same velocity writes -> movement calls with corresponding deltas.
+- Parent slices / dependencies / closure evidence: S1-input, S1-local-order, S3-jump, F-02/F-03, S4-step-callbacks. The only body differences are four calls changing from `move(dx,dy,dz)` to `move(MoverType.SELF,dx,dy,dz)`. Under the traced local-player path this selects B's ordinary SELF handling; its PISTON-only cap is skipped, and the paired ground-sneak restraint and callback dependencies are already bounded by F-03/S4-step-callbacks. Broader callers, travel order and modifier/data inputs remain open under D-TRAVEL/D-MODIFIERS/D-BLOCK-DATA.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for matching inputs/state in this method, its movement math and velocity writes match; the typed SELF calls enter ordinary movement handling and do not select B's piston-only branch. This does not claim full `mobTick`/travel parity or close the broad S3 slice.
+- Finding IDs or checked absence/replacement path: no new finding for this bounded relative-movement body; downstream shared movement differences remain F-02/F-03/F-05 as applicable.
+
 ### Slice S2-sleep-size-cycle: direct player sleep and wake box updates
 
 - Inventory ID(s): INV-STATE, INV-COLLISION
@@ -466,7 +478,7 @@ Other correspondence requiring further walk: remote/client corrections and packe
 
 ## Resume checkpoint
 
-- Last completed slice: exact source readiness and revision verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order; partial S4-world-query; bounded S2-sleep-size-cycle/S2-resize; S1-autojump; S5-wall-collision-shapes; S5-stairs-collision-shapes; S5-fence-collision-shapes; S5-pane-collision-shapes; S5-hopper-collision-shapes; S5-cauldron-collision-shapes; S5-brewing-stand-collision-shapes; S5-chorus-plant-collision-shapes; S5-end-portal-collision; S5-end-portal-frame-collision; S5-lily-pad-collision-shape; S5-piston-base-collision-shape; S2-eye-height; S4-piston-collision-geometry/F-05. F-02 snapshot is committed; this is an active partial run, not a pair freeze.
+- Last completed slice: exact source readiness and revision verification; S1-input; bounded S3-jump; S3-move-relative; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order; partial S4-world-query; bounded S2-sleep-size-cycle/S2-resize; S1-autojump; S5-wall-collision-shapes; S5-stairs-collision-shapes; S5-fence-collision-shapes; S5-pane-collision-shapes; S5-hopper-collision-shapes; S5-cauldron-collision-shapes; S5-brewing-stand-collision-shapes; S5-chorus-plant-collision-shapes; S5-end-portal-collision; S5-end-portal-frame-collision; S5-lily-pad-collision-shape; S5-piston-base-collision-shape; S2-eye-height; S4-piston-collision-geometry/F-05. F-02 snapshot is committed; this is an active partial run, not a pair freeze.
 - Next bounded slice: continue `D-COLLISION` by pairing `World#getCollisions` A lines 903-964 and B lines 960-1010 plus `getBlockCollisions`, then inventory and compare every remaining reachable `addCollisions` override and its collision boxes. Source roots are `build/movement-campaign-2026-10-07/ready/1.10.2/ornithe-feather/` and `.../ready/1.11.2/ornithe-feather/`; provider inventory leads are in S4-world-query. Continue with D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS and D-EXTERNAL. Do not open implementation or wiki lanes before the pair's blind freeze.
 - Managed worktree: `C:\Users\Wolfi\.codex\worktrees\movement-source-1-10-2-1-11-2-resume\LegacyParkourCompat`; branch ref `feat/source-discovery-movement-source-1-10-2-1-11-2` is not checked out in this detached worktree. Resume commands after restoring a valid branch checkout: `git status --short --branch`; `git rev-parse HEAD`; `python workflows/movement-discovery/check_completion.py workflows/source-campaign-2026-10-07/1.10.2--1.11.2`. Then open the paired `World.java` roots above and continue the provider inventory.
 - Outstanding dependencies and owners: D-SOURCE-DIAGNOSTICS, D-COLLISION, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS and D-EXTERNAL remain with the source worker; coordinator must assign the independent source reviewer (D-REVIEWER). Shared source owner remains a read-only publisher.
@@ -493,7 +505,7 @@ Complete only after blind-discovery freeze. No mod implementation was opened.
 
 ## Source audit closure
 
-- Coverage counts by status: 5 findings, 21 compared-no-difference, 2 in-progress, 1 pending (bounded rows only; broad inventory remains open).
+- Coverage counts by status: 5 findings, 22 compared-no-difference, 2 in-progress, 1 pending (bounded rows only; broad inventory remains open).
 - Required inventory status and evidence: only `INV-EXCLUSIONS` declaration complete; all movement inventories pending, with partial anchors above.
 - Open dependencies: D-SOURCE-DIAGNOSTICS, D-COLLISION, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
 - Unresolved gaps and limits: complete tick graph, body-level diagnostic review, collision providers/resources, exact entity-player collision paths, modifiers, external writers, source-only freeze and independent audit remain open. Source comparison only; no gameplay behavior observed.
