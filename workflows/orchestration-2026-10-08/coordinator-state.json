@@ -1404,7 +1404,7 @@
       "jarSha256": "da749785311afe8eafb772f61d463b4a10accc30ed97865ee70146eeba3da372",
       "runtime": "unverified"
     },
-    "roleTurnover": "All source/review/integration worker roles are terminal, paused, or released. No active discovery roles remain.",
+    "roleTurnover": "No discovery/implementation work remains active. Four owner threads are temporarily active only for metadata-only persistent-goal pause checks requested by the coordinator; no source/worktree reads and no new discovery roles.",
     "pane": "Pane owner active on bounded two-player Farmland conditional candidate; broader path open.",
     "sourcePairsLatest": {
       "1.17.1--1.18.2": "All 14 finding snapshots have bounded ACCEPTs; corrected F013 identity-only ACCEPT at 2fd121e1, original REQUEST CHANGES remains bound to original bytes; independent full-pair coverage ACCEPT e0e36eff remains separate; pair PARTIAL.",
@@ -1415,10 +1415,10 @@
     "activeRolesAtLastUpdate": [],
     "roleCap": "20 maximum including root and active catalog reviewer; no new worker roles.",
     "safeNextActions": [
-      "Final-validate clean main dc1b65b29e3c2561175bd54276ae83e37cd1c045 and clean coordinator/backlog worktrees; retain all durable queue states.",
-      "Close the coordinator by 19:40. Source discovery stays stopped; all active campaign worker threads are terminal or paused.",
-      "Preserve the 1.21.4–1.21.5 exposure record and fresh blind source-audit queue; keep all pair states partial/open.",
-      "Leave unknown persistent-goal states for idle/terminal threads unclaimed; any pause must be owner-controlled through normal app controls, not database edits."
+      "Receive only the four metadata-only own-goal status/checkpoint reports; pause active goals through their owner controls, then stop.",
+      "Final-validate clean main dc1b65b29e3c2561175bd54276ae83e37cd1c045 and clean coordinator/backlog worktrees; retain durable queues.",
+      "Close the coordinator by 19:40. Source discovery remains stopped and all pair states remain partial/open.",
+      "Leave unknown persistent-goal states unclaimed; never mutate application database state."
     ],
     "sourcePair2626Latest": {
       "branch": "feat/source-26-1-2-26-2-resume-oct8",
@@ -1448,7 +1448,30 @@
       "goalStateUnknown": [
         "Other idle/terminal campaign threads: task status does not establish persistent-goal status. No explicit pause confirmation is recorded for every worker."
       ],
-      "safeClose": "Do not resume source discovery after cutoff. The coordinator can close after final state commit; any later automation/goal continuation must be explicitly paused by its owner through normal Codex controls. Do not mutate application database state."
+      "safeClose": "Do not resume source discovery after cutoff. The coordinator can close after final state commit; any later automation/goal continuation must be explicitly paused by its owner through normal Codex controls. Do not mutate application database state.",
+      "activeMetadataPauseSweep": [
+        {
+          "thread": "01a11bb3-59d0-72c0-ab62-71a6d301d1d8",
+          "pair": "1.8.9–1.9.4",
+          "scope": "own goal status only; pause if active; report existing checkpoint SHA; no source/worktree reads"
+        },
+        {
+          "thread": "01a11bb3-6dd8-7710-8f54-0b2d444da4b6",
+          "pair": "1.9.4–1.10.2",
+          "scope": "own goal status only; pause if active; report existing checkpoint SHA; no source/worktree reads"
+        },
+        {
+          "thread": "01a11bb3-7ca7-7510-8ec7-03f97db0cc9b",
+          "pair": "1.10.2–1.11.2",
+          "scope": "own goal status only; pause if active; report existing checkpoint SHA; no source/worktree reads"
+        },
+        {
+          "thread": "01a11bb3-9efb-7962-b77b-722fbec5de31",
+          "pair": "1.12.2–1.13.2",
+          "scope": "own goal status only; pause if active; report existing checkpoint SHA; no source/worktree reads"
+        }
+      ],
+      "status": "Four previously terminal owner threads were reactivated solely for metadata-only own-goal status checks and pause-if-active, below the 20-role cap. Await their self-reported goal status and existing checkpoint SHA; do not infer from idle status."
     }
   },
   "latestIndependentReviews": [
