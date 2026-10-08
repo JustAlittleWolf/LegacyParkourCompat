@@ -3,13 +3,11 @@
   "package": "me.wolfii.legacyparkourcompat.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "FoodDataMixin",
     "LivingEntityMixin",
     "PlayerMixin",
-    "BlockBehaviourMixin",
+    "BlockStateCollisionShapeMixin",
     "BlockPushEntitiesMixin",
     "FarmlandBlockMixin",
-    "ServerPlayerExhaustionMixin",
     "EntityMixin",
     "accessor.EntityInvoker",
     "EntityFluidCurrentMixin",
@@ -20,6 +18,7 @@
   ],
   "client": [
     "AbstractBoatMixin",
+    "ClientPacketListenerMixin",
     "LocalPlayerMixin",
     "LocalPlayerSprintMixin",
     "client.LocalPlayerAccessor"

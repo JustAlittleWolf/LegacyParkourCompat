@@ -9,6 +9,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeDistanceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeProbeBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SwimmingBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.SwimmingPitchBehavior;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
@@ -57,6 +58,20 @@ abstract class PlayerMixin implements AirSpeedState {
             .orElse(cir.getReturnValue()));
     }
 
+    @Redirect(
+        method = "travel(Lnet/minecraft/world/phys/Vec3;)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/player/Player;getLookAngle()Lnet/minecraft/world/phys/Vec3;"
+        )
+    )
+    private Vec3 legacyparkourcompat$swimmingPitchLook(Player player) {
+        Vec3 vanilla = player.getLookAngle();
+        return MovementRuntime.find(SwimmingPitchBehavior.class, player)
+            .map(behavior -> new Vec3(vanilla.x, behavior.lookY(player, vanilla.y), vanilla.z))
+            .orElse(vanilla);
+    }
+
     @Unique
     private float legacyparkourcompat$storedAirSpeed = 0.02F;
 
@@ -91,9 +106,8 @@ abstract class PlayerMixin implements AirSpeedState {
     ) {
         Player player = (Player) (Object) this;
         MovementRuntime.find(SneakEdgeBehavior.class, player).ifPresent(behavior -> {
-            boolean stayingOnGroundSurface = (moverType == MoverType.SELF || moverType == MoverType.PLAYER)
-                && player.onGround()
-                && ((PlayerMovementAccessor) player).legacyparkourcompat$isStayingOnGroundSurface();
+            boolean stayingOnGroundSurface = ((PlayerMovementAccessor) player)
+                .legacyparkourcompat$isStayingOnGroundSurface();
             callback.setReturnValue(behavior.maybeBackOffFromEdge(
                 player,
                 movement,
