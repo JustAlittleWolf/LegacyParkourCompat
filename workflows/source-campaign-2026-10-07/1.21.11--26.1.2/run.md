@@ -162,13 +162,13 @@ Each entry is a bounded behavior boundary. Refine broad plans into exact member 
 ### Slice S1.7: Unstuck behavior and other input-to-tick movement gates
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Unstuck behavior and other input-to-tick movement gates. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: LocalPlayer's four ordered `moveTowardsClosestSpace()` probes during `aiStep()` when `!noPhysics`, plus the inherited Entity neighbor scan and direct random velocity write. Other sprint/jump/flight input-to-tick gates are separately inventoried in S1.4-S1.6.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/client/player/LocalPlayer.java` :: four probe calls at lines 756-761; SHA-256 `948e94f8e874b2f72e9a689e6e3ba1933f5728ec381d64f3bb5e2388718bd477`. `ready/1.21.11/mojmap/net/minecraft/world/entity/Entity.java` :: `moveTowardsClosestSpace()` lines 2779-2808; SHA-256 `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3`. `BlockBehaviour.BlockStateBase.isCollisionShapeFullBlock()` lines 873-875; SHA-256 `cf7eff07efb53d95c8ffa633ff38c7d3f454e185f197de49eb4da279a8da9d17`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/client/player/LocalPlayer.java` :: four probe calls at lines 795-800; SHA-256 `433fd995ad317af0f6ef0e50c1e8e3483cb8f00e0e327d4edf27a4dd99666ebe`. `ready/26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java` :: `moveTowardsClosestSpace()` lines 2845-2874; SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`. `BlockBehaviour.BlockStateBase.isCollisionShapeFullBlock()` lines 894-896; SHA-256 `9db85de84e502903e6fe497f043b58620b92089236ffb213f0b93db979428d13`.
+- State producers/writers -> consumers/readers: Four corner probes are skipped only under no-physics. Each computes containing block and fractional position, then scans neighbors in fixed `NORTH,SOUTH,WEST,EAST,UP` order (no DOWN query). It accepts only neighbors whose block state reports a non-full collision shape, computes signed distance to that face, and replaces the selected direction only on strict smaller distance, preserving earlier-direction ties. Every call consumes one `random.nextFloat()` and derives speed as `random * 0.2F + 0.1F`; it scales the existing velocity by `0.75` and overwrites only the selected axis with direction step times speed. The state method uses cached full-collision shape when available, otherwise dispatches to the block's context/position collision-shape predicate.
+- Parent slices / dependencies / closure evidence: Entity collision-shape behavior is paired; all possible selected block states, dynamic shape providers and relevant registry/data entries remain under S4/S5/D2. Random source/seed lifecycle is an entity-state dependency. S1.4-S1.6 still own other input/tick gates.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Both releases call all four probes in the same order under the same `!noPhysics` guard and preserve the same neighbor order, strict nearest-face tie rule, random draw count, float speed expression, `0.75` scale and axis-selective write. The selected face depends on each candidate state's collision shape and the random value depends on entity random state; provider/random-writer closure remains open, so no terminal conclusion is claimed.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S2.1: Player pose selection and pose transition timing
@@ -779,7 +779,7 @@ F-1 candidate snapshot submitted for blind review; acceptance is pending and doe
 
 ## Source audit closure
 
-- Coverage counts by status: 23 pending; 22 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
+- Coverage counts by status: 22 pending; 23 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
 - Required inventory status and evidence: all 7 pending; exact source inputs are verified, but full movement/provider/resource inventories remain incomplete.
 - Open dependencies: D2
 - Unresolved gaps and limits: inherited tick/travel/collision body comparisons, movement state producers/consumers, shape providers/registrations, and data/resource dependency closure.
