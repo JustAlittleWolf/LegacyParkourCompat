@@ -61,12 +61,12 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 
 ## Required source inventories
 
-- `INV-TICK` status=pending; slice_ids=TICK-01 through TICK-09, WORLD-05, WORLD-06, WORLD-09, WORLD-LIQUID-FLOW; evidence=full local tick graph and player path inventory in progress
+- `INV-TICK` status=pending; slice_ids=TICK-01 through TICK-09, WORLD-05, WORLD-06, WORLD-09, WORLD-13, WORLD-LIQUID-FLOW; evidence=full local tick graph and player path inventory in progress
 - `INV-STATE` status=pending; slice_ids=STATE-01 through STATE-03, WORLD-05, WORLD-06, WORLD-09; evidence=all player state writers/readers still being inventoried
-- `INV-COLLISION` status=pending; slice_ids=COLL-01, COLL-01-NOCLIP, COLL-01-SNEAK-EDGE, COLL-01-AXES, COLL-01-STEP, COLL-01-FLAGS, COLL-01-VEHICLE, COLL-01-SUPPORT-TARGET, COLL-01-BLOCK-OVERLAP-DISPATCH, COLL-02, WORLD-06, WORLD-07, WORLD-08, WORLD-09, WORLD-SLAB-SHAPES, WORLD-SNOW-SHAPE, WORLD-TRAPDOOR-SHAPES, WORLD-LADDER-SHAPES, WORLD-04, WORLD-DOOR-SHAPES, WORLD-GATE-SHAPES, WORLD-SIMPLE-SHAPES, WORLD-FENCE-WALL-SHAPES, WORLD-STAIRS-STRAIGHT, WORLD-STAIRS-OUTER-SELECT, WORLD-STAIRS-INNER-SELECT, WORLD-STAIRS-CORNER-BOXES; most block callbacks, post-collision support logic and shape providers remain open; bounded shape and movement callback paths compared
-- `INV-WORLD-MOVEMENT` status=pending; slice_ids=WORLD-01, WORLD-02, WORLD-03, WORLD-05, WORLD-06, WORLD-07, WORLD-08, WORLD-09, WORLD-LIQUID-FLOW, COLL-02, COLL-01-SUPPORT-TARGET, COLL-01-BLOCK-OVERLAP-DISPATCH, WORLD-SLAB-SHAPES, WORLD-SNOW-SHAPE, WORLD-TRAPDOOR-SHAPES, WORLD-LADDER-SHAPES, WORLD-04, WORLD-DOOR-SHAPES, WORLD-GATE-SHAPES, WORLD-SIMPLE-SHAPES, WORLD-FENCE-WALL-SHAPES, WORLD-STAIRS-STRAIGHT, WORLD-STAIRS-OUTER-SELECT, WORLD-STAIRS-INNER-SELECT, WORLD-STAIRS-CORNER-BOXES; other world states, neighboring blocks, fluids, and non-boat vehicle passenger paths remain open; bounded shape and movement callback dispositions recorded
+- `INV-COLLISION` status=pending; slice_ids=COLL-01, COLL-01-NOCLIP, COLL-01-SNEAK-EDGE, COLL-01-AXES, COLL-01-STEP, COLL-01-FLAGS, COLL-01-VEHICLE, COLL-01-SUPPORT-TARGET, COLL-01-BLOCK-OVERLAP-DISPATCH, COLL-02, WORLD-06 through WORLD-17, WORLD-SLAB-SHAPES, WORLD-SNOW-SHAPE, WORLD-TRAPDOOR-SHAPES, WORLD-LADDER-SHAPES, WORLD-04, WORLD-DOOR-SHAPES, WORLD-GATE-SHAPES, WORLD-SIMPLE-SHAPES, WORLD-FENCE-WALL-SHAPES, WORLD-STAIRS-STRAIGHT, WORLD-STAIRS-OUTER-SELECT, WORLD-STAIRS-INNER-SELECT, WORLD-STAIRS-CORNER-BOXES; most block callbacks, post-collision support logic and shape providers remain open; bounded shape and movement callback paths compared
+- `INV-WORLD-MOVEMENT` status=pending; slice_ids=WORLD-01 through WORLD-17, WORLD-LIQUID-FLOW, COLL-02, COLL-01-SUPPORT-TARGET, COLL-01-BLOCK-OVERLAP-DISPATCH, WORLD-SLAB-SHAPES, WORLD-SNOW-SHAPE, WORLD-TRAPDOOR-SHAPES, WORLD-LADDER-SHAPES, WORLD-04, WORLD-DOOR-SHAPES, WORLD-GATE-SHAPES, WORLD-SIMPLE-SHAPES, WORLD-FENCE-WALL-SHAPES, WORLD-STAIRS-STRAIGHT, WORLD-STAIRS-OUTER-SELECT, WORLD-STAIRS-INNER-SELECT, WORLD-STAIRS-CORNER-BOXES; other world states, neighboring blocks, fluids, and non-boat vehicle passenger paths remain open; bounded shape and movement callback dispositions recorded
 - `INV-MODIFIERS` status=pending; slice_ids=MOD-01, MOD-02; evidence=equipment/effect/attribute producers and consumers in progress; modern-only Elytra/Levitation are scoped out
-- `INV-EXTERNAL` status=pending; slice_ids=TICK-03 through TICK-07, WORLD-02, WORLD-05, WORLD-06, WORLD-09, WORLD-LIQUID-FLOW, EXT-01, EXT-02, EXT-02-PACKETS, EXT-03, EXT-04; evidence=direct corrections, packet velocity application, knockback, death-handler velocity and liquid-flow velocity paths compared; remaining velocity/position/vehicle writers and consumers open
+- `INV-EXTERNAL` status=pending; slice_ids=TICK-03 through TICK-07, WORLD-02, WORLD-05, WORLD-06, WORLD-09, WORLD-12, WORLD-13, WORLD-LIQUID-FLOW, EXT-01, EXT-02, EXT-02-PACKETS, EXT-03, EXT-04; evidence=direct corrections, packet velocity application, knockback, death-handler velocity and liquid-flow velocity paths compared; remaining velocity/position/vehicle writers and consumers open
 - `INV-EXCLUSIONS` status=complete; slice_ids=scope boundary; evidence=health/food production and attack/damage resolution plus non-player/vehicle physics excluded; direct player velocity/impulse/knockback response remains in movement scope
 
 ## Coverage ledger
@@ -653,6 +653,78 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Parent/dependencies: WORLD-02 closes the local mounted-player tick/input route; WORLD-05 supplies the differing state writer. WORLD-06 bounds the water scan. Collision-list equality and downstream clipping remain open.
 - Status: findings.
 
+### Slice WORLD-10: age-dependent CocoaBlock collision shape
+
+- Inventory ID(s): `INV-COLLISION`, `INV-WORLD-MOVEMENT`.
+- Exact boundary: registered CocoaBlock collision-shape provider across all 3 age values and 4 horizontal facings; no block intersection or final displacement is simulated.
+- A/B source hashes, formula/array comparison, registrations, dispatch path, and player reachability: `findings/WORLD-10-cocoa-age-2-collision-shape.md`.
+- Disposition: age 0 and 1 shapes match; for age 2 A computes a wider/lower box while B reuses the age-1 box in all facings.
+- Parent/dependencies: collision shapes flow to the open COLL-01 list/clipping path. This is a bounded provider finding only.
+- Status: findings.
+
+### Slice WORLD-11: SkullBlock collision shape
+
+- Inventory ID(s): `INV-COLLISION`, `INV-WORLD-MOVEMENT`.
+- Exact boundary: registered SkullBlock local collision boxes for floor/default and all four wall-facing states.
+- A/B source hashes, geometry and registration evidence: `findings/WORLD-11-skull-collision-shape.md`.
+- Disposition: five directional boxes match exactly after A's dynamic `updateShape` selection and B's state-indexed constants.
+- Parent/dependencies: `World.getCollisions` and player clipping are in COLL-01; this does not close those consumers.
+- Status: compared-no-difference.
+
+### Slice WORLD-12: moving piston collision shape
+
+- Inventory ID(s): `INV-COLLISION`, `INV-WORLD-MOVEMENT`, `INV-EXTERNAL`.
+- Exact boundary: registered piston-extension collision shape in moving progress, including interpolation source values and collision-vs-outline provider selection.
+- Paired MovingBlock/MovingBlockEntity sources, a bounded advancing full-cube example, registration and player query reachability: `findings/WORLD-12-moving-piston-collision-shape.md`.
+- Disposition: A adjusts one collision-shape bound from `getProgress(0)`; B unions translated state-shape boxes for current and previous progress. A concrete shape output differs during an advancing full-cube movement.
+- Parent/dependencies: World collision assembly/clipping remains open in COLL-01. The block-entity tick's direct push/velocity response for players is separately inventoried under WORLD-13; non-player entity movement stays excluded.
+- Status: findings.
+
+### Slice WORLD-13: moving piston direct player response
+
+- Inventory ID(s): `INV-TICK`, `INV-COLLISION`, `INV-WORLD-MOVEMENT`, `INV-EXTERNAL`.
+- Exact boundary: paired ticking block-entity call, entity query, piston move-behavior filter and direct player velocity/position writes; no other-entity response or trajectory.
+- A/B sources and method-level comparison, world tick callsites and PlayerEntity eligibility: `findings/WORLD-13-moving-piston-player-response.md`.
+- Disposition: B's default PlayerEntity behavior is NORMAL. For an extending piston-moving slime state, A writes facing-axis velocity and skips `Entity.move`, while B writes the velocity and still moves the player. For other moved states, A uses progress-derived displacement; B computes shape-edge displacement plus 0.01.
+- Parent/dependencies: WORLD-12 records the differing collision/query shapes; collision response and player movement caused by the subsequent `Entity.move` remain open in COLL-01.
+- Status: findings.
+
+### Slice WORLD-14: extended piston-base collision shape
+
+- Inventory ID(s): `INV-COLLISION`, `INV-WORLD-MOVEMENT`.
+- Exact boundary: single registered PistonBaseBlock collision provider for extended/unextended and six facing values; adjacent piston head is separate.
+- A/B provider source hashes, registrations, exact boxes and player movement-path reachability: `findings/WORLD-14-extended-piston-base-shape.md`.
+- Disposition: unextended boxes match; for each extended facing A omits the 0.25 head-side slab from the base block while B still contributes a full cube.
+- Parent/dependencies: WORLD-12/13 cover moving piston extension; PistonHeadBlock geometry and COLL-01 list composition remain independent open dependencies.
+- Status: findings.
+
+### Slice WORLD-15: piston-head arm collision shapes
+
+- Inventory ID(s): `INV-COLLISION`, `INV-WORLD-MOVEMENT`.
+- Exact boundary: registered PistonHeadBlock face and arm boxes across six facings.
+- A/B method hashes, arm-box coordinates, registration and local-player collision reachability: `findings/WORLD-15-piston-head-arm-collision.md`.
+- Disposition: face boxes match; all six arm collision boxes differ in length, axis, thickness or extent.
+- Parent/dependencies: WORLD-14 records the adjacent piston base shape; COLL-01 box assembly/clipping remains open.
+- Status: findings.
+
+### Slice WORLD-16: hopper collision-list order
+
+- Inventory ID(s): `INV-COLLISION`, `INV-WORLD-MOVEMENT`.
+- Exact boundary: registered hopper's five collision boxes, local coordinates and append order.
+- A/B provider and generic append-helper hashes, exact local boxes, registry and player-query reachability: `findings/WORLD-16-hopper-collision-list-order.md`.
+- Disposition: same five boxes; B appends east before north while A appends north before east. Downstream order observability is open.
+- Parent/dependencies: `World.getCollisions` and axis clipping are in COLL-01. The provider-list difference alone does not establish a changed player result.
+- Status: findings.
+
+### Slice WORLD-17: utility-block collision shapes
+
+- Inventory ID(s): `INV-COLLISION`, `INV-WORLD-MOVEMENT`.
+- Exact boundary: player-reachable cake bites, brewing stand post/base, cauldron base/walls, and lily pad shape/provider predicate.
+- A/B source hashes, geometry, append order, player eligibility and registrations: `findings/WORLD-17-utility-collision-shapes.md`.
+- Disposition: the four bounded providers emit matching player collision geometry in matching order; the lily pad BoatEntity filter also agrees for non-null PlayerEntity queries.
+- Parent/dependencies: collision-list assembly/clipping stays open in COLL-01; other callbacks and provider families remain inventoried separately.
+- Status: compared-no-difference.
+
 ### Slice WORLD-FENCE-WALL-SHAPES: fence and wall neighbor-derived collision boxes
 
 - Inventory ID(s): `INV-COLLISION`, `INV-WORLD-MOVEMENT`.
@@ -743,6 +815,14 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - [WORLD-07 — Nether portal entity eligibility](findings/WORLD-07-nether-portal-entity-eligibility.md)
 - [WORLD-08 — End portal overlap gate](findings/WORLD-08-end-portal-overlap-gate.md)
 - [WORLD-09 — Boat-passenger water travel branch](findings/WORLD-09-boat-water-travel-branch.md)
+- [WORLD-10 — Cocoa age-2 collision shape](findings/WORLD-10-cocoa-age-2-collision-shape.md)
+- [WORLD-11 — SkullBlock collision shape](findings/WORLD-11-skull-collision-shape.md)
+- [WORLD-12 — Moving piston collision shape](findings/WORLD-12-moving-piston-collision-shape.md)
+- [WORLD-13 — Moving piston direct player response](findings/WORLD-13-moving-piston-player-response.md)
+- [WORLD-14 — Extended piston-base collision shape](findings/WORLD-14-extended-piston-base-shape.md)
+- [WORLD-15 — Piston-head arm collision shapes](findings/WORLD-15-piston-head-arm-collision.md)
+- [WORLD-16 — Hopper collision-list order](findings/WORLD-16-hopper-collision-list-order.md)
+- [WORLD-17 — Utility-block collision shapes](findings/WORLD-17-utility-collision-shapes.md)
 
 ## Incremental finding snapshot log
 
@@ -855,8 +935,8 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 
 - Last completed slices/checkpoints: TICK-05 active-item countdown and local input consumer compared with no equivalent-main-hand movement delta; TICK-07 paired client-push source evidence committed; TICK-08 local jump-input/ground-impulse path compared with no difference; TICK-09 normal relative-input rotation finding added; WORLD-04 cobweb, soul-sand and slime movement callbacks compared with no bounded-write difference; WORLD-DOOR-SHAPES seven shared door registrations and 16 paired state geometry cases compared with no difference; WORLD-GATE-SHAPES axis/open state geometry compared with no movement collision difference; WORLD-SIMPLE-SHAPES cactus, farmland, soul-sand and cobweb providers compared with no difference; WORLD-STAIRS-STRAIGHT straight geometry across facings and halves compared with no difference; EXT-01 packet-selection/correction source finding recorded with downstream server effect unresolved; EXT-02 inherited impulse and EXT-02-PACKETS inbound velocity application compared with no writer difference; EXT-03 paired player knockback and EXT-04 death-handler velocity findings added; MOD-02 paired attribute/effect inventory committed at `313e7909e0bf4be57ff33df1412a378b3a6de390`, including the conditional NBT equipment-slot filter finding; exact bounded STATE-01 cutoff snapshot independently accepted; corrected COLL-02 and STATE-03 candidates preserved. Original mapped-JAR identity remains unproven.
 - Supersession of the piston candidate: the prior finding-file SHA-256 was `a3125e53e15bbe8f4a7692bd3494716f9845ff69c13db551b379654852c5d07d`. B `PistonBaseBlock#isCube(BlockState)` returns false at lines 216-218 (file SHA-256 `4ef15129e660397ba3a531c8ff4a4810393973ea56417d8830f4445d14035e36`); A `PistonBaseBlock#isCube()` returns false at 223-225 (SHA-256 `3c96698a674714446f9fd0d6cc1c4d5eb72937d9a2f396516ddb2461c3ea4929`). The prior piston-specific finding is withdrawn. The provider comparison found a distinct non-piston End Portal Frame delta, now recorded in the corrected `WORLD-03-end-portal-frame-player-ejection.md` finding; the prior claim and exact evidence are retained in its superseded-candidate record.
-- Last completed slices/checkpoints: TICK-05 active-item countdown and local input consumer compared with no equivalent-main-hand movement delta; TICK-07 paired client-push source evidence committed; TICK-08 local jump-input/ground-impulse path compared with no difference; TICK-09 normal relative-input rotation finding added; WORLD-04 cobweb, soul-sand and slime movement callbacks compared with no bounded-write difference; WORLD-DOOR-SHAPES seven shared door registrations and 16 paired state geometry cases compared with no difference; WORLD-GATE-SHAPES axis/open state geometry compared with no movement collision difference; WORLD-SIMPLE-SHAPES cactus, farmland, soul-sand and cobweb providers compared with no difference; WORLD-FENCE-WALL-SHAPES fence and wall neighbor masks/collision boxes compared with no difference; WORLD-STAIRS-STRAIGHT straight geometry across facings and halves compared with no difference; WORLD-STAIRS-OUTER-SELECT and WORLD-STAIRS-INNER-SELECT neighbor predicates/precedence compared with no difference; WORLD-STAIRS-CORNER-BOXES all corner quadrants/half offsets compared with no difference; COLL-01-SUPPORT-TARGET support selection and callback order compared with no movement-path difference; WORLD-05 boat-passenger water-state/drag gate and WORLD-06 exact-integer liquid scan upper-bound deltas recorded with full-pair dependencies open; EXT-01 packet-selection/correction source finding recorded with downstream server effect unresolved; EXT-02 inherited impulse and EXT-02-PACKETS inbound velocity application compared with no writer difference; EXT-03 paired player knockback and EXT-04 death-handler velocity findings added; MOD-02 paired attribute/effect inventory committed at `313e7909e0bf4be57ff33df1412a378b3a6de390`, including the conditional NBT equipment-slot filter finding; exact bounded STATE-01 cutoff snapshot independently accepted; corrected COLL-02 and STATE-03 candidates preserved. Original mapped-JAR identity remains unproven.
-- Next bounded comparison: continue remaining per-block movement callback and neighbor-shape providers, then audit other post-collision support logic and outstanding player state/equipment/external writers. Fence/wall plus the stair family cover their checked connected collision shapes, not the broader provider inventory. Split open `COLL-01` downstream movement into named axis clipping / step selection / support-edge / callbacks, then close its TICK-06 cutoff/travel dependencies. WORLD-02 covers direct boat passenger transforms; WORLD-09 closes the mounted player's water/land travel branch selection downstream of WORLD-05, while collision response and subsequent velocity consumers remain open. WORLD-06 scan-bound and `LiquidBlock` flow-vector providers are compared, while runtime conditions remain source-level only. WORLD-07 records conditional Nether portal eligibility; WORLD-08 records End Portal callback overlap predicates while dimension-transfer continuations remain open. Resolve canonical artifact identity if bytecode-level claims depend on the unavailable original mapped JARs. State-solid providers are closed for paired historical block classes; End Portal Frame remains in WORLD-03. Shared source trees remain read-only.
+- Last completed slices/checkpoints: TICK-05 active-item countdown and local input consumer compared with no equivalent-main-hand movement delta; TICK-07 paired client-push source evidence committed; TICK-08 local jump-input/ground-impulse path compared with no difference; TICK-09 normal relative-input rotation finding added; WORLD-04 cobweb, soul-sand and slime movement callbacks compared with no bounded-write difference; WORLD-DOOR-SHAPES seven shared door registrations and 16 paired state geometry cases compared with no difference; WORLD-GATE-SHAPES axis/open state geometry compared with no movement collision difference; WORLD-SIMPLE-SHAPES cactus, farmland, soul-sand and cobweb providers compared with no difference; WORLD-FENCE-WALL-SHAPES fence and wall neighbor masks/collision boxes compared with no difference; WORLD-STAIRS-STRAIGHT straight geometry across facings and halves compared with no difference; WORLD-STAIRS-OUTER-SELECT and WORLD-STAIRS-INNER-SELECT neighbor predicates/precedence compared with no difference; WORLD-STAIRS-CORNER-BOXES all corner quadrants/half offsets compared with no difference; COLL-01-SUPPORT-TARGET support selection and callback order compared with no movement-path difference; WORLD-05 boat-passenger water-state/drag gate and WORLD-06 exact-integer liquid scan upper-bound deltas recorded with full-pair dependencies open; WORLD-10 through WORLD-15 cocoa, skull, moving piston, piston base/head shape and mover comparisons recorded; WORLD-16 hopper box-set match with north/east append-order difference recorded; WORLD-17 cake, brewing stand, cauldron and lily pad bounded providers compared with no geometry/order/player-filter difference; EXT-01 packet-selection/correction source finding recorded with downstream server effect unresolved; EXT-02 inherited impulse and EXT-02-PACKETS inbound velocity application compared with no writer difference; EXT-03 paired player knockback and EXT-04 death-handler velocity findings added; MOD-02 paired attribute/effect inventory committed at `313e7909e0bf4be57ff33df1412a378b3a6de390`, including the conditional NBT equipment-slot filter finding; exact bounded STATE-01 cutoff snapshot independently accepted; corrected COLL-02 and STATE-03 candidates preserved. Original mapped-JAR identity remains unproven.
+- Next bounded comparison: continue the remaining collision-provider inventory and per-block movement callbacks, then audit other post-collision support logic and outstanding player state/equipment/external writers. WORLD-16 is an append-order candidate with downstream consequence open; WORLD-17 closes only four provider-local comparisons. Fence/wall plus the stair family cover their checked connected collision shapes, not the broader provider inventory. Split open `COLL-01` downstream movement into named axis clipping / step selection / support-edge / callbacks, then close its TICK-06 cutoff/travel dependencies. WORLD-02 covers direct boat passenger transforms; WORLD-09 closes the mounted player's water/land travel branch selection downstream of WORLD-05, while collision response and subsequent velocity consumers remain open. WORLD-06 scan-bound and `LiquidBlock` flow-vector providers are compared, while runtime conditions remain source-level only. WORLD-07 records conditional Nether portal eligibility; WORLD-08 records End Portal callback overlap predicates while dimension-transfer continuations remain open. Resolve canonical artifact identity if bytecode-level claims depend on the unavailable original mapped JARs. State-solid providers are closed for paired historical block classes; End Portal Frame remains in WORLD-03. Shared source trees remain read-only.
 - Outstanding dependencies and owners: `DEP-AUDITOR` coordinator for full-pair review; fresh independent decisions for exact candidates `SNAP-COLL-02-PANE-02` and `SNAP-STATE-03-01`; `WORLD-03` End Portal Frame snapshot awaits independent review; remaining open `INV-TICK`, `INV-STATE`, `INV-COLLISION`, `INV-WORLD-MOVEMENT`, `INV-MODIFIERS`, and `INV-EXTERNAL` source inventories. The pair remains active and incomplete.
 - Assumptions requiring verification: no first-version claim inside the interval; complete resource/provider inventory remains open; original mapped-JAR identity/equivalence remains unproven.
 - Source evidence checkpoint: branch `feat/source-discovery-movement-source-1-8-9-1-9-4-solid-resume`, commit `9940996` (`docs: compare straight stair collision geometry`). Since the prior checkpoint, the run records EXT-02-PACKETS/EXT-03/EXT-04, TICK-08/TICK-09, WORLD-04, WORLD-DOOR-SHAPES, WORLD-GATE-SHAPES, WORLD-SIMPLE-SHAPES and WORLD-STAIRS-STRAIGHT. Pair status is still `active`; no full-pair freeze or independent audit has occurred. Source artifacts remain read-only. No tests, builds, runtime, decompile, or gameplay validation was run.
