@@ -4,13 +4,13 @@ Integration branch: `feat/movement-campaign-integration-2026-10-08`, based at `9
 
 ## Accepted and integrated
 
-- **TICK-01 sprint timeout** — ACCEPT. Source review: `fddb263`, section “TICK-01 sprint timeout — ACCEPT”. Code commit: `3c531180287b3cecff49e557083db73352b258f7`, integrated as `3699009`. Moving the callback to `LocalPlayer.aiStep` HEAD places the 600-tick stop before local sprint eligibility and travel, matching the 1.8.9 timeout phase. First changed release remains unknown within `(1.8.9, 1.9.4]`. Runtime parity is unverified.
+- **TICK-01 sprint timeout** — ACCEPT. Corrected source identity and review: `bdb6443`, section “TICK-01 sprint timeout — ACCEPT” (initial review `fddb263`). Code commit: `3c531180287b3cecff49e557083db73352b258f7`, integrated as `3699009`. Moving the callback to `LocalPlayer.aiStep` HEAD places the 600-tick stop before local sprint eligibility and travel, matching the 1.8.9 timeout phase. First changed release remains unknown within `(1.8.9, 1.9.4]`. Runtime parity is unverified.
 
 ## Held for correction and renewed review
 
-- **Boat passenger yaw refresh** — REQUEST CHANGES in `fddb263`. The implementation must restore all historical yaw writes and restrict the path to direct player mount transitions; indirect/nested passengers do not run the old local-player mount callback. The current code and its direct-passenger interim edit were reverted from the active diff.
-- **1.13 pose resize fit** — REQUEST CHANGES in `fddb263`. Compare requested float dimensions to the entity's float width/height using historical comparison semantics, not double AABB extents. The implementation was reverted from the active diff.
-- **Elytra jump start** — REQUEST CHANGES in `fddb263`. The exact comparator correction `a5d07341d941ce2c0b9df1e392af9a40b1fbb9e9` correctly preserves strict `y < 0.0` including NaN, but the implementation still delegates to the newer helper and sits under newer caller gates. It needs a hook that can reproduce the accepted 1.14.4 eligibility/request behavior. The implementation and comparator fix were reverted from the active diff.
+- **Boat passenger yaw refresh** — REQUEST CHANGES in `bdb6443`. Restrict the path to direct player mount transitions; indirect/nested passengers do not run the old local-player mount callback. The bounded movement finding supports `yRot`, which current movement consumes through `Entity.moveRelative`/`getYRot()`. Although 1.17.1 also writes `yRotO` and `yHeadRot`, no movement consumer for those fields is established by the accepted finding, so this review does not require restoring them. The current code and its direct-passenger interim edit were reverted from the active diff.
+- **1.13 pose resize fit** — REQUEST CHANGES in `bdb6443`. Compare requested float dimensions to the entity's float width/height using historical comparison semantics, not double AABB extents. The implementation was reverted from the active diff.
+- **Elytra jump start** — REQUEST CHANGES in `bdb6443`. The exact comparator correction `a5d07341d941ce2c0b9df1e392af9a40b1fbb9e9` correctly preserves strict `y < 0.0` including NaN. Against the 26.2 `LocalPlayer.aiStep` and helper, the implementation still delegates to the newer helper and sits under newer caller/helper gates. It needs a hook that can reproduce the accepted 1.14.4 eligibility/request behavior. The implementation and comparator fix were reverted from the active diff.
 
 ## Verification
 
