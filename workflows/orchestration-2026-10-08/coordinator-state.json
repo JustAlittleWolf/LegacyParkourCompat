@@ -43,7 +43,7 @@
     {
       "threadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
       "role": "integration_build_owner",
-      "status": "completed; Elytra and swimming serial builds/integrations at1ea23480755a2574abd5b5855827ded5d5f50702; no push/runtime/tests",
+      "status": "active; documentation-only Elytra937a502 integration",
       "ref": "feat/movement-campaign-integration-2026-10-08@958b0916f08cba25e3be86d67d48a9d1e8651d1f",
       "resultCommit": "ea812dc9171fdf41e02b3a2292db7d40b105c9c4"
     },
@@ -166,7 +166,7 @@
       "role": "ops_audit",
       "pair": null,
       "ref": null,
-      "status": "active; independent currentmain/buildartifact and Elytra digest discrepancy audit; isolated checkout required"
+      "status": "completed; auditfa340fe73562e1a79090dfdc589ceaf375669b1d adopted; exact finalJAR andElytra correction verified"
     },
     {
       "threadId": "01a11bbe-a775-7180-a017-d2386dcd9fb3",
@@ -223,7 +223,7 @@
     {
       "threadId": "01a11bcd-f62a-7610-8eff-f9782f3d072d",
       "role": "elytra_independent_review",
-      "status": "active; WORLD03 code independent review; previous Elytra ACCEPT",
+      "status": "completed; WORLD03 REQUEST CHANGES1900fa4: vertical sample and0.1F widening",
       "ref": "fix/elytra-start-full-request; accepted flight-toggle finding"
     },
     {
@@ -235,7 +235,7 @@
     {
       "threadId": "01a11bcf-351e-7b32-9a56-9a6800c65644",
       "role": "world03_implementation",
-      "status": "completed; WORLD03 code8d8cf27 merged tipa312338f89b7b73b8a4c82bd6a7dffce0c5923c2 independent review pending",
+      "status": "active; WORLD03 vertical sample andfloat velocity correction",
       "ref": "accepted aa66894; reviewa2e510bd"
     },
     {
@@ -288,7 +288,7 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:21:03.0338611Z",
+    "observedAt": "2026-10-08T14:23:06.9519179Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
@@ -297,14 +297,14 @@
     "coordinatorObserved": "gpt-6.1-sol medium",
     "mainHead": "1ea23480755a2574abd5b5855827ded5d5f50702",
     "mainUntracked": "generated worktrees preserved; local exclude applied by integration owner",
-    "TICK01": "independently accepted, built with all Test tasks disabled, merged into main; ops verification pending",
+    "TICK01": "independently accepted, built with all Test tasks disabled, integrated; main net source auditfa340fe confirms five acceptedbatches",
     "passengerYaw": "integrated; test-disabled build success; no runtime",
     "poseFit": "reviewee651bcc requests block-only collision query and older-profile fallback correction",
-    "elytraStart": "corrected; independent review assigned",
+    "elytraStart": "integrated; ACCEPT source binding independentlyverified; docs-only correction integrationpending",
     "oldCoordinator": "idle/completed verified",
     "reviewReport": "bdb6443;notes d3190b4",
-    "jarReportedSha256": "193877F2902C2D375A2F3F1C7439EDD5CAFD92F884ED3134C24747261689A1A0",
-    "jarAudit": "prior sprint artifact independently audited; current passenger artifact reported by exclusive build owner",
+    "jarReportedSha256": "C717F4F74B51D5F41A7D6B1A1034683377C6744478B41AC863E30DF9602ADA08",
+    "jarAudit": "independently verified exact final artifact hash and all-Test-disabled script/build output; consoleoutput retained in integrationhistory, no standalonelog",
     "sourceQueue": "adopted audit4e6517f; all26partial; corrected stale references below"
   },
   "pendingSourceCorrections": [
@@ -318,7 +318,7 @@
     }
   ],
   "elytraEvidenceAudit": {
-    "status": "review owner resolved transcription error in937a502; independent ops verification pending; docs not yet integrated",
+    "status": "independently resolved byopsfa340fe; docs correction937a502 integrationassigned",
     "reviewTip": "b8dfbc3e4d092141861759cab36272ea223a4d17",
     "sourceCommit": "4a0c35f2008d785867c00360a7b72726e3506435",
     "issue": "integration owner reports finding SHA differs from recomputed immutable Gitblob bytes",
