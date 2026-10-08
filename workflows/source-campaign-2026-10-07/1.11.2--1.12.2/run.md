@@ -619,13 +619,13 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 ### Slice S6.3: Depth Strider, Frost Walker and all registered movement-relevant enchantment formulas, conditions and consumers
 
 - Inventory ID(s): INV-MODIFIERS, INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: Depth Strider, Frost Walker and all registered movement-relevant enchantment formulas, conditions and consumers; exact local guards and enclosing call order recorded per bounded behavior
-- A evidence: pending exact A member/body range and SHA-256 from verified source root
-- B evidence: pending exact B member/body range and SHA-256 from verified source root
-- State producers/writers -> consumers/readers: pending exact source writer/consumer closure
-- Parent slices / dependencies / closure evidence: parent/dependency links pending source inventory
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison; no equivalence inferred from prior reports
+- Exact behavior boundary and enclosing guards/order checked: Depth Strider and Frost Walker registration, slot and equipment lookup, level resolution, water travel formula, post-movement ice-placement conditions/effects; knockback- and Punch-enchantment paths that can feed player-only velocity producers routed to S7.1.
+- A evidence: `Enchantments` whole-file SHA-256 `aa59739e5b7d22cb355c478158e29258d2f2925e0a3bd39c3fae55b65829f995`; `FrostWalkerEnchantment` / `DepthStriderEnchantment` hashes `be9ba7e04598e863de7193cbd899059f42e28b152632b0b6ae492140f4b5ed98` / `dd39c3a98d6d468dbb8b9f21288a788eef9934c061549acba120a8fed5d5b739`; `EnchantmentHelper` whole-file hash `be67a6c43e624fc5eebfe2f57b0680cf2b537c23f76df3ca2beb691071f7f8c4` and `ItemStack` hash `dc929fcc42e94dacb1f2d2a32572c00612c4f9b39d4cb551634fd3dd290467d8`; `getEquipment()` line 44, `getLevel(enchantment,item/entity)` lines 31/156, Depth Strider getter line 186, Frost Walker getter line 210; `FrostWalkerEnchantment.apply()` line 40; `LivingEntity.applyMovementEffects()` line 318; water travel `LivingEntity.moveRelative()` line 1522 (whole-file hash `bb7dc6c9e423a9568d6433d51bba12e7aee4555fbf3fb3e2b87f618382279f2f`).
+- B evidence: `Enchantments`, `FrostWalkerEnchantment`, and `DepthStriderEnchantment` whole files are byte-identical to A; `EnchantmentHelper` whole-file hash `226243b031824fbea660520a891f461272482808318787f6c04679e9a241d9c9`; `ItemStack` hash `61964c5fd859eb16cdaa548575a1f348ce73748f45d8671afc8dd317ba5eac26`; corresponding helper, equipment, frost application and `LivingEntity.applyMovementEffects()` bodies are exact matches. B `LivingEntity` whole-file hash is `190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6`.
+- State producers/writers -> consumers/readers: Depth Strider level resolves across configured equipment slots through `getEquipment()`; direct travel clamps level to 3, halves it off ground, then blends water friction from `0.54600006F` and acceleration from `getSpeed()` with the source's existing float operation order. Frost Walker is registered for feet and `LivingEntity.applyMovementEffects()` checks its level; on ground, `FrostWalkerEnchantment.apply()` scans to `min(16, 2 + level)`, requires candidate distance squared `<= radius²`, air above source water (`LEVEL == 0`) plus `World.canPlace`, places frosted ice and schedules its 60–120 tick update. The A/B `getLevel(ItemStack)` bodies differ in null-list handling, paired with the changed `ItemStack.getEnchantments()` contract: A returns null without NBT and explicitly returns 0; B returns an empty `NbtList` and naturally iterates zero entries. Nonempty enchanted stacks follow the same lookup and level result. `getLevel(LivingEntity)`, level wrappers, configured equipment lookup and Frost Walker effect bodies are equal.
+- Parent slices / dependencies / closure evidence: S3.3 contains the paired water travel body and formula; S6.4 retains equipment-slot and item-stack source closure; S5.5/S6.5 retain placement, liquid-state and world-resource dependencies. Registered Knockback and Punch can affect player velocity when a player is the target; those direct player response paths remain routed to S7.1, while attack/damage resolution itself stays outside campaign scope.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Depth Strider and Frost Walker lookup, formula/application and player-reachable call paths show no A/B movement difference, including the null-list to empty-list contract adjustment for unenchanted equipment. Keep the slice open until S7.1 closes the player-target velocity path influenced by Knockback/Punch and S6.4 closes the equipment producer inventory.
 - Finding IDs or checked absence/replacement path: none assigned
 
 ### Slice S6.4: Equipment slots, item-use movement effects, relevant defaults and applicability predicates
@@ -864,7 +864,7 @@ Append-only source-review history. An accepted finding snapshot would release on
 
 ## Source audit closure
 
-- Coverage counts by status: 20 pending; 4 in-progress; 18 compared-no-difference; 3 not-applicable; 2 findings; 0 blocked (47 slices total).
+- Coverage counts by status: 19 pending; 5 in-progress; 18 compared-no-difference; 3 not-applicable; 2 findings; 0 blocked (47 slices total).
 - Required inventory status/evidence: INV-EXCLUSIONS complete; all other inventories pending with mapped slice IDs.
 - Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS
 - Unresolved gaps: stages beyond bounded keyboard input and completed UI/tutor dispositions; S2.2 shape providers, glide movement, exact state producers/consumers, registries/resources, external writers and historical candidates remain open.
