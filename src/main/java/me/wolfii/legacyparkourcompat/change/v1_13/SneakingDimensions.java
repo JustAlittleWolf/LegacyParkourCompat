@@ -4,7 +4,6 @@ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerDimensionsBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerPoseBehavior;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
@@ -30,7 +29,7 @@ public final class SneakingDimensions implements PlayerDimensionsBehavior, Playe
             current.minY + dimensions.height(),
             current.minZ + dimensions.width()
         );
-        if (player.level().noCollision((Entity) null, requested)) {
+        if (player.level().noBlockCollision(null, requested)) {
             Pose previous = player.getPose();
             player.setPose(pose);
             if (previous == pose) {
