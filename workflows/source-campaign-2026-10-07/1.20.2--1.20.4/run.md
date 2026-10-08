@@ -183,7 +183,7 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 - State producers/writers -> consumers/readers: LocalPlayer input updates `shiftKeyDown`, read through `Player.isShiftKeyDown`/`isStayingOnGroundSurface`; vanilla Player movement invokes Entity.move with SELF/PLAYER as applicable; the override reads abilities, requested Y and movement type, on-ground/fall-distance state, maxUpStep, and collision shapes through `noCollision`. `maybeBackOffFromEdge` returns the bounded horizontal vector while preserving Y.
 - Parent slices / dependencies / closure evidence: DEP-01; S1.1 input producer and S2.2 pose/dimensions; S3.1 travel caller; S4 collision resolution and `noCollision`; S5 collision-shape providers; S6 movement attributes/maxUpStep; S7.1 synchronized player/entity state. Collision and shape dependencies remain open.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): The A/B `Entity.move`, `Player.isStayingOnGroundSurface`, `Player.maybeBackOffFromEdge`, `Player.isAboveGround`, and `LocalPlayer.isShiftKeyDown` method bodies match (hashes respectively `588c69517734402d091e08e14bf2213a8e52ed13783b17426476c5e222175fd3`, `589af726310432ce918729b2206ed69b33e7a014f965a32a1643f3c5517e554b`, `51cf66f10d41efea444cc96e839b7c1e44398bad690d417d5f7aad2a0a0ea43`, `b82fd95f9d5679cefd3fcd6834b1fd7b4eebd74af4a41ae838774fdbfc77e939`, `0acaee847c5b00a944bccdf8893b0e415aed9c3dd7693eb7ab84b91423a301af`). No A/B delta is established in the bounded edge-restraint path. The behavior is reachable for a non-flying Player moving downward or horizontally with shift held, on ground/within the step-height probe, for SELF or PLAYER movement; its collision-shape inputs remain open.
+- Disposition and rationale (including concrete reachability/preconditions): The A/B `Entity.move`, `Player.isStayingOnGroundSurface`, `Player.maybeBackOffFromEdge`, `Player.isAboveGround`, and `LocalPlayer.isShiftKeyDown` method bodies match (hashes respectively `c11d0404dff943a22d3f38d7a23cbfed58280dfa004a23be788cff67e023d373`, `589af726310432ce918729b2206ed69b33e7a014f965a32a1643f3c5517e554b`, `51cf66f10d41efea444cc96e839b7c1e44398bad690d417d5f7aad2a0a0ea43`, `b82fd95f9d5679cefd3fcd6834b1fd7b4eebd74af4a41ae838774fdbfc77e939`, `0acaee847c5b00a944bccdf8893b0e415aed9c3dd7693eb7ab84b91423a301af`). No A/B delta is established in the bounded edge-restraint path. The behavior is reachable for a non-flying Player moving downward or horizontally with shift held, on ground/within the step-height probe, for SELF or PLAYER movement; its collision-shape inputs remain open.
 - Finding IDs or checked absence/replacement path: no in-scope difference confirmed in this slice; route input production to S1.1 and collision/support/maxUpStep dependencies to S4-S6.
 
 ### Slice S3.1: travel dispatch and branch predicates before motion
@@ -248,98 +248,98 @@ Every row below is a bounded behavior planning slice, not a claim of inspected m
 ### Slice S3.5: climbing travel and vertical/horizontal clamps
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
-- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
-- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
-- State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; exact-source evidence is a prerequisite.
-- Finding IDs or checked absence/replacement path: none established.
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.onClimbable` predicate and its block-state reads; `travel` collision response when horizontal collision occurs in water; `handleRelativeFrictionAndCalculateMovement` -> `handleOnClimbable` horizontal/vertical clamps and Player ladder-slide suppression; `LivingEntity.aiStep` jump and climbing-related motion gates.
+- A evidence: `ready/1.20.2/mojmap/net/minecraft/world/entity/LivingEntity.java`::`travel(Vec3)` 2038-2169, `onClimbable()` 1511-1527, `handleRelativeFrictionAndCalculateMovement(Vec3,float)` 2205-2216, `handleOnClimbable(Vec3)` 2233-2248, `aiStep()` 2509-2633; source SHA-256 `5c481da1ffc8684c4b30171c92e61fad751e6a3a708d5bc6486ac9f96ff69828`.
+- B evidence: `ready/1.20.4/mojmap/net/minecraft/world/entity/LivingEntity.java`::`travel(Vec3)` 2035-2166, `onClimbable()` 1508-1524, `handleRelativeFrictionAndCalculateMovement(Vec3,float)` 2202-2213, `handleOnClimbable(Vec3)` 2230-2245, `aiStep()` 2511-2635; source SHA-256 `f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d`.
+- State producers/writers -> consumers/readers: `onClimbable` reads the feet block state, accepts the climbable tag or a usable ladder trapdoor, and updates `lastClimbablePos`; the relative-friction path applies climb clamping after input acceleration. While climbing, horizontal components are limited to +/-0.15, vertical velocity is lower-bounded at -0.15, fall distance resets, and a Player suppressing ladder slide has negative vertical speed set to zero except on scaffolding. Horizontal collision in water can add 0.2 vertical velocity when climbable. `aiStep` contains jump request and delay gates; their input producers are inventoried under S1.4.
+- Parent slices / dependencies / closure evidence: DEP-01; S1.4 jump and sneak inputs; S3.1/S3.2 travel and acceleration; S4.1-S4.5 collision/contact and bounding-box queries; S5.2/S5.5 climbable registrations, block shape/contact and scaffolding; S6.1 step-height and movement attributes; S7.1 synchronized velocity. The block/contact and attribute inputs remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): A/B `LivingEntity.travel`, `onClimbable`, `handleRelativeFrictionAndCalculateMovement`, `handleOnClimbable`, and `aiStep` bodies match (method hashes respectively `99920004029d2cbf1c5aeb7e15b9ba31cf2d742cbda9fa9ffb0ca60bf732faf9`, `924b83f8387d043e43c27fb1088844c689848a87353d7448e5c98b35d4bb4140`, `cbd1b1381f3338bdd1536a8f982e44334162cd52279238c981d7e1ea7676e910`, `5eb01a8c53ed97b3a4770c869c13b8219463d9b489608e7808a42c72643d83fc`, `8c642261fc8310e94dacf25679acf68b47623798875a067e4a0968b61760d8bc`). No A/B delta is established in the checked climbing movement methods. Reachability and block contact inventory remain open.
+- Finding IDs or checked absence/replacement path: no in-scope difference confirmed in checked climbing control path; route support to S4/S5 and movement attributes to S6.
 
 ### Slice S3.6: water travel, fluid gravity/drag, swimming and water-jump gates
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
-- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
-- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
-- State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; exact-source evidence is a prerequisite.
-- Finding IDs or checked absence/replacement path: none established.
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.travel` water branch and its exact guards/order; sprint and water slowdown, Depth Strider, Dolphin's Grace, relative movement, collision move, horizontal collision/climb response, drag, fluid-falling correction and free-space jump; `aiStep` water-jump request/threshold path; fluid-affect and jump-threshold readers.
+- A evidence: `ready/1.20.2/mojmap/net/minecraft/world/entity/LivingEntity.java`::`travel(Vec3)` 2038-2169, `getWaterSlowDown()` 2030-2032, `isAffectedByFluids()` 561-563, `getFluidFallingAdjustedMovement(double,boolean,Vec3)` 2218-2231, `aiStep()` 2509-2633; source SHA-256 `5c481da1ffc8684c4b30171c92e61fad751e6a3a708d5bc6486ac9f96ff69828`. `Entity.java`::`getFluidJumpThreshold()` 3111-3113; source SHA-256 `d7ee49aaea5e862b92508e767562cabc8f10515605e8fb67565c8d8c5d23b01b`.
+- B evidence: `ready/1.20.4/mojmap/net/minecraft/world/entity/LivingEntity.java`::`travel(Vec3)` 2035-2166, `getWaterSlowDown()` 2027-2029, `isAffectedByFluids()` 560-562, `getFluidFallingAdjustedMovement(double,boolean,Vec3)` 2215-2228, `aiStep()` 2511-2635; source SHA-256 `f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d`. `Entity.java`::`getFluidJumpThreshold()` 3117-3119; source SHA-256 `07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9`.
+- State producers/writers -> consumers/readers: Water branch requires `isInWater && isAffectedByFluids && !canStandOnFluid`; sprint selects 0.9F drag instead of water slowdown. Depth Strider is capped at 3 and halved off ground, then blends drag and acceleration using the source's ordered float operations; Dolphin's Grace sets drag to 0.96F. The branch moves, applies X/Z and Y drag, fluid-fall correction, and a horizontal-collision free-space check that can set Y to 0.3F. `aiStep` reaches water-jump logic from jumping plus fluid-affect state and reads the fluid-jump threshold. Fluid depth/current and fluid tags are upstream inputs.
+- Parent slices / dependencies / closure evidence: DEP-01; S1.4 jump request, S2.3 swim state, S3.1 dispatch, S3.2/S3.3 acceleration, S4 collision/free-space checks, S5.6 fluid heights/properties/flow and S5.5 climbables, S6.2 Dolphin's Grace, S6.3 Depth Strider, S7.1 synchronized velocity. Those producers remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): A/B `LivingEntity.travel`, `getWaterSlowDown`, `isAffectedByFluids`, `getFluidFallingAdjustedMovement`, `aiStep`, and `Entity.getFluidJumpThreshold` bodies match (method hashes respectively `99920004029d2cbf1c5aeb7e15b9ba31cf2d742cbda9fa9ffb0ca60bf732faf9`, `1d95fdbc438de7bd64fc53a77cf61172d098a3835b9fa7d02988393c78e6c1d3`, `bd11c47a7bb16515cc5d2038f95c8a6aecdc8f39e6d34cab2dcbb6b9c06deaf6`, `b8f0d1c2981ce0a68b51d01a5bc791cb74a4db0bb3e9651a8d1d4662a9c3925e`, `8c642261fc8310e94dacf25679acf68b47623798875a067e4a0968b61760d8bc`, `9cd5b37ec5ecf500a68980d5b70814f6f0acff403f044a22b191fd4c653629c8`). No A/B delta is established in these water-travel/jump methods; exact fluid-resource and collision-provider closure is outstanding.
+- Finding IDs or checked absence/replacement path: no in-scope difference confirmed in checked water travel/jump subpaths; remaining dependencies route to S4-S7.
 
 ### Slice S3.7: lava travel, fluid gravity/drag and fluid transition gates
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
-- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
-- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
-- State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; exact-source evidence is a prerequisite.
-- Finding IDs or checked absence/replacement path: none established.
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.travel` lava branch guard, input acceleration, move, fluid-height comparison with jump threshold, shallow/deep fluid drag and falling adjustment, no-gravity branch, horizontal-collision free-space response.
+- A evidence: `ready/1.20.2/mojmap/net/minecraft/world/entity/LivingEntity.java`::`travel(Vec3)` 2038-2169; source SHA-256 `5c481da1ffc8684c4b30171c92e61fad751e6a3a708d5bc6486ac9f96ff69828`. `Entity.java`::`getFluidJumpThreshold()` 3111-3113; source SHA-256 `d7ee49aaea5e862b92508e767562cabc8f10515605e8fb67565c8d8c5d23b01b`.
+- B evidence: `ready/1.20.4/mojmap/net/minecraft/world/entity/LivingEntity.java`::`travel(Vec3)` 2035-2166; source SHA-256 `f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d`. `Entity.java`::`getFluidJumpThreshold()` 3117-3119; source SHA-256 `07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9`.
+- State producers/writers -> consumers/readers: Branch requires lava contact, fluid-affect permission and inability to stand on that fluid. It applies relative acceleration and movement, then compares lava height to the fluid-jump threshold; at/below threshold it multiplies X/Y/Z by `(0.5, 0.8F, 0.5)` before fluid-fall adjustment, above threshold it scales velocity by 0.5. Gravity is subtracted by one quarter unless disabled; horizontal collision can set Y to 0.3F when the free-space probe passes.
+- Parent slices / dependencies / closure evidence: DEP-01; S1/S2 movement inputs; S3.1 dispatch; S4 movement/free-space collision; S5.6 lava height, properties and fluid tags; S6.2 effects; S7.1 velocity. All fluid and collision inputs remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): A/B `LivingEntity.travel` and `Entity.getFluidJumpThreshold` bodies match (method hashes respectively `99920004029d2cbf1c5aeb7e15b9ba31cf2d742cbda9fa9ffb0ca60bf732faf9` and `9cd5b37ec5ecf500a68980d5b70814f6f0acff403f044a22b191fd4c653629c8`). No A/B delta is established in these branch methods; exact fluid/resource and collision-provider closure remains pending.
+- Finding IDs or checked absence/replacement path: no in-scope difference confirmed in the checked lava branch; remaining inputs route to S4-S7.
 
 ### Slice S3.8: fall-flying/gliding travel and look/velocity transforms
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
-- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
-- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
-- State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; exact-source evidence is a prerequisite.
-- Finding IDs or checked absence/replacement path: none established.
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.travel` fall-flying branch, slow-fall-distance check, gravity/pitch/look-angle transform, dive lift, horizontal speed matching, drag, movement, ground-landing flag clear and server-only wall-collision damage call (damage resolution excluded).
+- A evidence: `ready/1.20.2/mojmap/net/minecraft/world/entity/LivingEntity.java`::`travel(Vec3)` 2038-2169; source SHA-256 `5c481da1ffc8684c4b30171c92e61fad751e6a3a708d5bc6486ac9f96ff69828`.
+- B evidence: `ready/1.20.4/mojmap/net/minecraft/world/entity/LivingEntity.java`::`travel(Vec3)` 2035-2166; source SHA-256 `f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d`.
+- State producers/writers -> consumers/readers: Branch requires `isFallFlying`; reads current delta, look vector, pitch and gravity state; transforms and damps velocity, calls Entity.move, then clears fall-flying shared flag on ground on the server. Collision damage is excluded; player velocity response, fall-flying state writers, equipment and look producers remain movement inputs.
+- Parent slices / dependencies / closure evidence: DEP-01; S1.5 flight/ability state; S3.1 dispatch; S4 collision and free-space; S5.2/S5.5 block contacts; S6.4 Elytra/equipment and S7.1 synchronized state/velocity. These producer and collision inventories remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): A/B `LivingEntity.travel` bodies match (method hash `99920004029d2cbf1c5aeb7e15b9ba31cf2d742cbda9fa9ffb0ca60bf732faf9`). No A/B difference is established in this branch. This does not disposition the excluded damage producer or close equipment/state reachability.
+- Finding IDs or checked absence/replacement path: no in-scope difference confirmed in the checked fall-flying branch; remaining dependencies route to S1/S4/S5/S6/S7.
 
 ### Slice S3.9: gravity, drag, levitation/slow-fall and post-travel updates
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
-- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
-- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
-- State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; exact-source evidence is a prerequisite.
-- Finding IDs or checked absence/replacement path: none established.
+- Exact behavior boundary and enclosing guards/order checked: shared `LivingEntity.travel` gravity selection before fluid branches; levitation, unloaded-client-chunk fallback, no-gravity and slow-falling inputs; normal branch support friction, `shouldDiscardFriction`, horizontal drag, vertical 0.98F drag, and post-branch entity animation update.
+- A evidence: `ready/1.20.2/mojmap/net/minecraft/world/entity/LivingEntity.java`::`travel(Vec3)` 2038-2169; source SHA-256 `5c481da1ffc8684c4b30171c92e61fad751e6a3a708d5bc6486ac9f96ff69828`.
+- B evidence: `ready/1.20.4/mojmap/net/minecraft/world/entity/LivingEntity.java`::`travel(Vec3)` 2035-2166; source SHA-256 `f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d`.
+- State producers/writers -> consumers/readers: Initial gravity is 0.08, reduced to 0.01 when vertical velocity is nonpositive and Slow Falling applies. Levitation interpolates vertical motion toward `0.05 * (amplifier + 1)`; client-only missing-chunk fallback sets -0.1 above min build height or zero below; otherwise gravity is subtracted unless disabled. The normal branch applies ground support friction times 0.91 or air 0.91 horizontally and 0.98 vertically unless friction is discarded. Entity animation is calculated after branch handling.
+- Parent slices / dependencies / closure evidence: DEP-01; S3.2 support friction; S3.6/S3.7/S3.8 fluid/glide branches; S4 collision/on-ground state; S5 support/environment inputs; S6.2 gravity effects and S7.1 velocity/state updates. These dependencies remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): A/B `LivingEntity.travel` bodies match (method hash `99920004029d2cbf1c5aeb7e15b9ba31cf2d742cbda9fa9ffb0ca60bf732faf9`). No A/B difference is established in the checked gravity/drag dispatch; full caller ordering and effect/world-state producer inventories remain open.
+- Finding IDs or checked absence/replacement path: no in-scope difference confirmed in the checked gravity/drag dispatch; remaining dependencies route to S3-S7.
 
 ### Slice S4.1: bounding-box movement entry, position update and query timing
 
 - Inventory ID(s): INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
-- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
-- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
-- State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; exact-source evidence is a prerequisite.
-- Finding IDs or checked absence/replacement path: none established.
+- Exact behavior boundary and enclosing guards/order checked: `Entity.move` entry, Player edge adjustment dispatch, original and candidate AABBs, `collideBoundingBox` query and axis/step candidate calls, final position/bounding-box update and collision-state writes. Provider enumeration and full collision math are routed to S4.2-S4.8.
+- A evidence: `ready/1.20.2/mojmap/net/minecraft/world/entity/Entity.java`::`move(MoverType,Vec3)` 595-724, `collideBoundingBox(Entity,Vec3,AABB,Level,List<VoxelShape>)` 898-912, `collideWithShapes(Vec3,AABB,List<VoxelShape>)` 914-949, `setBoundingBox(AABB)` 2769-2771, `setPosRaw(double,double,double)` 3228-3244; source SHA-256 `d7ee49aaea5e862b92508e767562cabc8f10515605e8fb67565c8d8c5d23b01b`.
+- B evidence: `ready/1.20.4/mojmap/net/minecraft/world/entity/Entity.java`::`move(MoverType,Vec3)` 596-725, `collideBoundingBox(Entity,Vec3,AABB,Level,List<VoxelShape>)` 899-913, `collideWithShapes(Vec3,AABB,List<VoxelShape>)` 915-950, `setBoundingBox(AABB)` 2771-2773, `setPosRaw(double,double,double)` 3234-3250; source SHA-256 `07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9`.
+- State producers/writers -> consumers/readers: `move` applies `maybeBackOffFromEdge` before collision; collision candidates are queried against the movement box and shape list, including ordinary and step-up candidates; final movement updates position from the box, sets horizontal/vertical collision and on-ground state, and updates velocity/callback state. `setPosRaw` and `setBoundingBox` are the inspected position/box writers; neighboring shape providers and query producers remain open.
+- Parent slices / dependencies / closure evidence: DEP-01; S2.4 edge adjustment; S3 travel callers; S4.2-S4.8 axis math, stepping, support, shapes, block callbacks and fluid contact; S5 all shape/provider inventories; S6 maxUpStep; S7 external position/velocity writers. Those dependencies remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): A/B `Entity.move`, `collideBoundingBox`, `collideWithShapes`, `setBoundingBox`, and `setPosRaw` bodies match (method hashes respectively `c11d0404dff943a22d3f38d7a23cbfed58280dfa004a23be788cff67e023d373`, `0ceda9860d1e91e084032487fe1ddd2b65700f949692ef9e992b94ec368d4d98`, `e52291d72a8f4cece135e38cf4c956e98c8db1055730a1562292ce8e758f9855`, `497c4c00b82f31604e36ca7b2b0b5007cd2fcabef7f2d85b94400084de29afbc`, `a55b17c73e94a5d82609c5bb7ddf2ab910b2b1e7a3bfc2e3176814c1c8a4ea7e`). No A/B difference is established in this entry/position path; collision providers and later stages remain open.
+- Finding IDs or checked absence/replacement path: no in-scope difference confirmed in the checked movement entry/position path; further collision slices remain open.
 
 ### Slice S4.2: axis collision order, clipping and velocity cancellation/restitution
 
 - Inventory ID(s): INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
-- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
-- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
-- State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; exact-source evidence is a prerequisite.
-- Finding IDs or checked absence/replacement path: none established.
+- Exact behavior boundary and enclosing guards/order checked: `Entity.collideWithShapes` empty-shape fast path; vertical clipping first; horizontal order selected by comparing absolute X/Z request; first horizontal axis updates the working AABB before the other axis; resulting vector feeds `Entity.move` velocity cancellation and collision flags. Underlying `Shapes.collide` method remains a dependency.
+- A evidence: `ready/1.20.2/mojmap/net/minecraft/world/entity/Entity.java`::`collideWithShapes(Vec3,AABB,List<VoxelShape>)` 914-949 and `move(MoverType,Vec3)` 595-724; source SHA-256 `d7ee49aaea5e862b92508e767562cabc8f10515605e8fb67565c8d8c5d23b01b`.
+- B evidence: `ready/1.20.4/mojmap/net/minecraft/world/entity/Entity.java`::`collideWithShapes(Vec3,AABB,List<VoxelShape>)` 915-950 and `move(MoverType,Vec3)` 596-725; source SHA-256 `07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9`.
+- State producers/writers -> consumers/readers: requested delta and starting box feed axis clips; Y clipping updates the box, then the smaller absolute horizontal axis runs first, followed by X/Z in the remaining order. `Entity.move` consumes the clipped vector to update position, on-ground and collision state and to cancel blocked velocity components. Exact `Shapes.collide`, candidate ordering and shape inputs are still open.
+- Parent slices / dependencies / closure evidence: DEP-01; S4.1 movement entry; S4.3 step candidates; S4.5 Shapes/AABB/VoxelShape operations and ordering; S5.2 block shape providers; S7.1 velocity state. These dependencies remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): A/B `Entity.collideWithShapes` and `Entity.move` method bodies match (hashes `e52291d72a8f4cece135e38cf4c956e98c8db1055730a1562292ce8e758f9855` and `c11d0404dff943a22d3f38d7a23cbfed58280dfa004a23be788cff67e023d373`). No A/B delta is established in this driver/order path; shape clipper and provider dependencies remain open.
+- Finding IDs or checked absence/replacement path: no in-scope difference confirmed in checked axis-driver path; detailed geometry and providers route to S4.3-S5.
 
 ### Slice S4.3: step-up candidate generation, selection and tie-breaking
 
 - Inventory ID(s): INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not yet inspected; validated exact source trees are available.
-- A evidence: pending exact 1.20.2 owner/member/body ranges and SHA-256 comparison.
-- B evidence: pending exact 1.20.4 owner/member/body ranges and SHA-256 comparison.
-- State producers/writers -> consumers/readers: pending exact caller/writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: DEP-01 (both source publications); expand after exact method correspondence.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; exact-source evidence is a prerequisite.
-- Finding IDs or checked absence/replacement path: none established.
+- Exact behavior boundary and enclosing guards/order checked: `Entity.collide(Vec3)` computes ordinary candidate and horizontal/vertical clipping flags, gates step-up on positive `maxUpStep`, grounded or downward-clipped state, and horizontal collision; generates two raised candidates, compares horizontal distance strictly, then applies the downward remainder to the winning step candidate.
+- A evidence: `ready/1.20.2/mojmap/net/minecraft/world/entity/Entity.java`::`collide(Vec3)` 872-896; source SHA-256 `d7ee49aaea5e862b92508e767562cabc8f10515605e8fb67565c8d8c5d23b01b`.
+- B evidence: `ready/1.20.4/mojmap/net/minecraft/world/entity/Entity.java`::`collide(Vec3)` 873-897; source SHA-256 `07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9`.
+- State producers/writers -> consumers/readers: `collide` queries entity and block shapes once for the expanded movement box, computes ordinary collision, derives horizontal clipping and on-ground/downward-clipping flags, then builds the raised candidates with the same shape list. Candidate choice uses strict `>` on horizontal-distance-squared; ties retain the prior candidate. The selected raised vector is corrected by a vertical collision query for the unconsumed Y movement. Shape generation and `maxUpStep` producers remain open.
+- Parent slices / dependencies / closure evidence: DEP-01; S4.1/S4.2 movement and clipping; S4.5 shape operations; S5.2 collision shapes/providers; S6.1 maxUpStep attribute; S7.1 ground/velocity state. These dependencies remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): A/B `Entity.collide(Vec3)` bodies match (method hash `6dbfcce32fcc0abecb349b5b746c595dc5663b7328789255f080e70897a9dca4`). No A/B difference is established in candidate generation or selection; geometry and support state remain open dependencies.
+- Finding IDs or checked absence/replacement path: no in-scope difference confirmed in checked step-candidate logic; shape and maxUpStep providers route to S4.5/S5/S6.
 
 ### Slice S4.4: edge restraint/support probing and stored on-ground state
 
@@ -652,8 +652,8 @@ Complete only after blind-discovery freeze; not authorized for this source-only 
 
 ## Source audit closure
 
-- Coverage counts by status: pending 25; in-progress 20; compared-no-difference 0; findings 0; not-applicable 1; blocked 0.
-- Required inventory status and evidence: INV-TICK and INV-STATE are in-progress with checked input, travel, swim-state, edge-restraint, land-friction, air-control, and jump-impulse subpaths; INV-COLLISION, INV-WORLD-MOVEMENT, INV-MODIFIERS, INV-EXTERNAL, and INV-EXCLUSIONS remain open. No required inventory is closed.
+- Coverage counts by status: pending 17; in-progress 28; compared-no-difference 0; findings 0; not-applicable 1; blocked 0.
+- Required inventory status and evidence: INV-TICK and INV-STATE are in-progress with checked input, travel dispatch, swim-state, edge-restraint, land-friction, air-control, jump-impulse, climbing, water/lava travel, fall-flying, and gravity/drag subpaths. INV-COLLISION is in-progress for movement entry, axis clipping and step-candidate selection; INV-WORLD-MOVEMENT, INV-MODIFIERS, INV-EXTERNAL, and INV-EXCLUSIONS remain open. No required inventory is closed.
 - Open dependencies: DEP-02 and the open slice dependencies listed above
 - Unresolved gaps and limits: exact source publication is validated; most source inventory remains open and no whole-run equivalence claim has been made.
 - Evidence/hash/correspondence audit: cited core Entity, LivingEntity, Player, and LocalPlayer source files and methods are checked against both source manifests; remaining providers, resources, and producer/consumer dependencies will be hashed at inspection.
