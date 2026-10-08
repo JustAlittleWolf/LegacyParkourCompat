@@ -126,7 +126,7 @@
     {
       "threadId": "01a11bb3-e236-7343-86a7-4c51ecc20b98",
       "role": "wiki_mcpk",
-      "status": "active; edge r3 predicate correction and slipperiness register blobID typo",
+      "status": "completed; r3edge+register corrections through7dffdda43c77330e8eedff1d09344648c4805ef2",
       "ref": "feat/mcpk-wiki-audit@ae651e6"
     },
     {
@@ -257,7 +257,7 @@
       "threadId": "01a11bd3-4bae-7593-94a0-718e3bca6cad",
       "role": "source",
       "pair": "1.19.3--1.19.4",
-      "status": "active",
+      "status": "completed; sourcepartial6505395, F05 authoritative underwaterdismount11adc62 pending blindreview",
       "ref": "b5f7a155c702484d24b9195ecd3833de80c55143",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -274,7 +274,7 @@
     {
       "threadId": "01a11bd7-45d2-7310-be8a-85f73e8d668d",
       "role": "clean_mcpk_snapshot_review",
-      "status": "completed; clean review6e045f3d50f9248ab329c5bd698caa935e8a9be3: BigDripleaf/swimming ACCEPT, edge/slipperiness requestchanges",
+      "status": "active; clean edge r3 and slipperiness identity re-review",
       "ref": "identity register93a01b8; four r2 snapshots"
     },
     {
@@ -288,7 +288,7 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:23:06.9519179Z",
+    "observedAt": "2026-10-08T14:24:28.2133829Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
