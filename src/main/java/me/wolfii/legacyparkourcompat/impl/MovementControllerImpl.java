@@ -5,8 +5,8 @@ import me.wolfii.legacyparkourcompat.api.ActiveMovementProfile;
 import me.wolfii.legacyparkourcompat.api.MovementController;
 import me.wolfii.legacyparkourcompat.api.MovementVersionListener;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+import me.wolfii.legacyparkourcompat.change.MovementChangeCatalog;
 import me.wolfii.legacyparkourcompat.mechanic.MechanicKey;
-import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -39,6 +39,7 @@ public final class MovementControllerImpl implements MovementController {
     }
 
     public void initialize() {
+        MovementChangeCatalog.register(this.registry);
         this.rebuild();
         LegacyParkourCompat.LOGGER.info(
             "Movement controller ready (native {}, selected {})",
@@ -127,11 +128,6 @@ public final class MovementControllerImpl implements MovementController {
             return this.globalProfile;
         }
         return this.profileOf(version);
-    }
-
-    @Override
-    public MovementChangeRegistry registry() {
-        return this.registry;
     }
 
     @Override
