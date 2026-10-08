@@ -149,6 +149,54 @@ These are initial bounded behavior families and all are open. After exact source
 - Disposition and rationale (including concrete reachability/preconditions): exact reachability and arithmetic are not established.
 - Finding IDs or checked absence/replacement path: none yet
 
+### Slice S3-glide-state-validation: Pre-travel glide-state validation
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.updateFallFlying()` checks the shared glide flag, ground/passenger/Levitation gates and enabled chest-slot Elytra before `travel()`.
+- A evidence: `net/minecraft/world/entity/LivingEntity.java` `updateFallFlying()` lines 2626-2651; file SHA-256 `fee2df5155449098556a138d2530d06b7a35979e43c6aa0ae1fffd6251853e77`.
+- B evidence: same member lines 2637-2662; file SHA-256 `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db`.
+- State producers/writers -> consumers/readers: shared fall-flying flag and player pose/equipment/ground/passenger/effect state -> validation -> server shared-flag update and next travel branch. Client start eligibility, equipment data and packet/server transition remain in S3-glide/S6-enchantments-equipment.
+- Parent slices / dependencies / closure evidence: S2-player-state, S3-travel-dispatch, S3-glide, S6-enchantments-equipment.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the paired guard order, Elytra identity/enable checks, durability/event timing and server-only flag write are text-identical. This closes only this helper body.
+- Finding IDs or checked absence/replacement path: paired `updateFallFlying()` body checked; no difference.
+
+### Slice S3-water-travel-branch: Water travel arithmetic
+
+- Inventory ID(s): INV-TICK, INV-WORLD-MOVEMENT, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: water travel guard, Depth Strider and Dolphin's Grace inputs, relative acceleration, move, drag and fluid-fall adjustment in `LivingEntity.travel()`.
+- A evidence: `net/minecraft/world/entity/LivingEntity.java` lines 2051-2086; full file SHA-256 `fee2df5155449098556a138d2530d06b7a35979e43c6aa0ae1fffd6251853e77`.
+- B evidence: same branch lines 2061-2096; full file SHA-256 `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db`.
+- State producers/writers -> consumers/readers: fluid contact/height, ground, sprint, speed, Depth Strider and Dolphin's Grace -> branch arithmetic -> player velocity and position writes. Fluid topology remains an external world input; related source-conversion findings F-002/F-003 remain conditional on server/world state.
+- Parent slices / dependencies / closure evidence: S3-climb-swim, S5-fluid-data, S5-water-source, S6-depth-strider-fluid, S6-direct-travel-effect-gates, S4-move-core.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): paired water guards, casts, constants, arithmetic grouping, call order and collision response are text-identical. This is limited to the `LivingEntity.travel()` water branch and its call sequence; inputs and downstream helpers retain their own rows.
+- Finding IDs or checked absence/replacement path: paired branch body checked; no difference.
+
+### Slice S3-lava-travel-branch: Lava travel arithmetic
+
+- Inventory ID(s): INV-TICK, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: lava travel guard, relative acceleration, move, fluid-height threshold, drag, falling adjustment, gravity and horizontal-collision climb-out.
+- A evidence: `net/minecraft/world/entity/LivingEntity.java` lines 2087-2106; full file SHA-256 `fee2df5155449098556a138d2530d06b7a35979e43c6aa0ae1fffd6251853e77`.
+- B evidence: same branch lines 2097-2116; full file SHA-256 `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db`.
+- State producers/writers -> consumers/readers: lava contact/height and player velocity/ground/gravity -> branch movement writes; source conversion and world fluid states remain external inputs.
+- Parent slices / dependencies / closure evidence: S3-climb-swim, S5-fluid-data, S5-lava-source, S4-move-core.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the paired lava branch retains the same guards, `0.02F` acceleration, half/0.8F drag, `-gravity / 4.0` and climb-out ordering. This is a branch-only disposition.
+- Finding IDs or checked absence/replacement path: paired branch body checked; no difference.
+
+### Slice S3-ground-travel-branch: Ordinary ground and air travel arithmetic
+
+- Inventory ID(s): INV-TICK, INV-WORLD-MOVEMENT, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: friction block selection, relative acceleration, Levitation, unloaded-client-chunk gravity fallback, gravity, and the friction-discard branch in `LivingEntity.travel()`.
+- A evidence: `net/minecraft/world/entity/LivingEntity.java` lines 2150-2178; full file SHA-256 `fee2df5155449098556a138d2530d06b7a35979e43c6aa0ae1fffd6251853e77`.
+- B evidence: same branch lines 2157-2185; full file SHA-256 `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db`.
+- State producers/writers -> consumers/readers: support block friction, on-ground, movement speed, Levitation and gravity -> acceleration/travel helpers -> player velocity and position; those input providers and collision results have separate open rows.
+- Parent slices / dependencies / closure evidence: S3-ground-air, S4-move-core, S5-block-coefficients, S6-direct-travel-effect-gates, S6-effects-attributes.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the paired ordinary branch retains identical block lookup, friction multipliers, Levitation equation, missing-chunk fallback, gravity and friction-discard order. This does not close its block, collision, attribute or effect inputs.
+- Finding IDs or checked absence/replacement path: paired branch body checked; no difference.
+
 ### Slice S4-move-core: Entity movement, position and collision response
 
 - Inventory ID(s): INV-STATE, INV-COLLISION
@@ -196,6 +244,18 @@ These are initial bounded behavior families and all are open. After exact source
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): base and overriding callback bodies not yet enumerated.
 - Finding IDs or checked absence/replacement path: none yet
+
+### Slice S4-client-push-candidate-filter: Client-side entity push candidate query
+
+- Inventory ID(s): INV-TICK, INV-EXTERNAL, INV-EXCLUSIONS
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.aiStep()` post-travel `pushEntities()` caller, its client/server query split in B, and the shared selector/receiver path through `doPush`, `LivingEntity.push(Entity)` and `Entity.push(Entity)`.
+- A evidence: `LivingEntity.pushEntities()` lines 2656-2679 and `doPush(Entity)` lines 2703-2705; `Entity.push(Entity)` lines 1273-1302 and `push(double,double,double)` lines 1304-1307. Full source hashes: `LivingEntity.java` `fee2df5155449098556a138d2530d06b7a35979e43c6aa0ae1fffd6251853e77`; `Entity.java` `759de9cded43bd882afcf5b7023bcf804d92419acb656b493f3b490c83eb18b6`.
+- B evidence: `LivingEntity.pushEntities()` lines 2667-2694 adds a client-side `Player.class` query while keeping the server query; `doPush(Entity)` lines 2718-2720; `Entity.push(Entity)` lines 1278-1307 and `push(double,double,double)` lines 1309-1312. Full source hashes: `LivingEntity.java` `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db`; `Entity.java` `8c35bdef3bf2de7b70ac76ad767ba2c194305e0dda2e03fdf6548983667adc32`.
+- State producers/writers -> consumers/readers: nearby entity AABB and `EntitySelector.pushableBy(this)` -> `doPush` -> receiver-side `Entity.push` can add horizontal velocity to a local player; `LivingEntity.isPushable()` is the same alive/non-spectator/non-climbable predicate on both sides (A lines 2800-2802; B 2815-2817).
+- Parent slices / dependencies / closure evidence: S3-livingentity-aiStep-order, S7-external-velocity, S4-move-core. `EntitySelector.java` and `EntityGetter.java` are byte-identical across A/B (`5c1e4848a1afed5c19ee57b6fa3b7d5c7cdc33a2f978c75a6b3f0940554dbf9e`, `f7fa5641d3287d5084f4450e1c09cd4d5816c5cff5412c6f07b14779bb60215f`). Their client selector permits only `Player.isLocalPlayer()`; `Player.isLocalPlayer()` returns false and `LocalPlayer.isLocalPlayer()` returns true in both versions. B's `EntityTypeTest.forClass(Player.class)` type filter was confirmed from the 1.19.3 `EntityTypeTest$1.tryCast(Object)` bytecode in the published `client-mojmap.jar` (SHA-256 `3be15cd54092cbac9853a67445a42b38d5c3b0d61503bd79b0d76589357d871e`); the adapter calls the captured `Class.isInstance`. The decompiled anonymous-class parameter names are ambiguous, so the classfile resolves only that member.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): on the client, A's all-entity query is already reduced by the shared `pushableBy` predicate to the local player; B prefilters to `Player` and then applies the same predicate. For a remote living-entity caller this retains the same local-player candidate. If B's unexcluded query includes the local player when it is also the caller, the shared `Entity.push` sees zero horizontal separation and fails its `>= 0.01F` threshold, so it adds no velocity. The server-side candidate query remains all-entity in both versions. This source change does not establish a player-motion difference.
+- Finding IDs or checked absence/replacement path: paired caller, selector, query adapter and velocity receiver checked; no player-movement difference.
 
 ### Slice S5-block-registration: Movement properties and registrations
 
@@ -280,6 +340,30 @@ These are initial bounded behavior families and all are open. After exact source
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): player-only method/caller closure not yet inspected.
 - Finding IDs or checked absence/replacement path: none yet
+
+### Slice S7-rider-sprint-status-sync: Sprint command transmission while riding
+
+- Inventory ID(s): INV-EXTERNAL, INV-TICK
+- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer.tick()`'s passenger branch, conditional controlled-root-vehicle packet sends, sprint-state packet emission and the paired server command consumer.
+- A evidence: `net/minecraft/client/player/LocalPlayer.java` `tick()` lines 200-218; full file SHA-256 `36ae4aabd609b457fffb7a8b14abb50db9ac775857dde1774c0c68a8cf50deef`. `sendPosition()` is reached only on the non-passenger branch and sends sprint state there (lines 230-238). A `ServerGamePacketListenerImpl.handlePlayerCommand` lines 1484-1497 sets the server player's sprint flag for START/STOP; full file SHA-256 `976992cd0cf4ce387e12543861aab66cc7cf8a58f078f00e0fe8f91df47b4cd2`.
+- B evidence: `net/minecraft/client/player/LocalPlayer.java` `tick()` lines 188-207 adds `sendIsSprintingIfNeeded()` after `ServerboundMoveVehiclePacket` when the root vehicle is locally controlled; helper lines 271-279 sends the changed sprint state and updates `wasSprinting`; full file SHA-256 `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`. B `ServerGamePacketListenerImpl.handlePlayerCommand` lines 1380-1393 applies the same state writes; full file SHA-256 `81288e1e99d88796e096c1386e8a1f108a077078467d4843a56d14f7cb48006b`.
+- State producers/writers -> consumers/readers: local `isSprinting()` / `wasSprinting` -> START/STOP packet -> server `Player.setSprinting`; the paired `LivingEntity.jumpFromGround()` reads that flag and adds horizontal impulse (A lines 2014-2024, B 2024-2034; full `LivingEntity.java` hashes `fee2df5155449098556a138d2530d06b7a35979e43c6aa0ae1fffd6251853e77` / `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db`).
+- Parent slices / dependencies / closure evidence: S3-mounted-sprint, S3-player-jump-travel and S7-mount-transition. Exact server packet ordering against dismount and the first on-foot movement tick is unresolved.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): B can synchronize a changed sprint flag during a locally controlled passenger tick; A waits until `sendPosition()` runs after the player is no longer a passenger. Source proves a transmission-time difference and a direct player-jump consumer of server sprint state, but this slice does not yet prove a differing on-foot player velocity after packet and dismount ordering. While still mounted, resulting mount movement is excluded.
+- Finding IDs or checked absence/replacement path: no new finding until the dismount/server-tick dependency is closed; the separate client-local carryover path is F-006.
+
+### Slice S7-riding-jump-client-control: Ride-jump API and local input dispatch
+
+- Inventory ID(s): INV-TICK, INV-EXTERNAL, INV-EXCLUSIONS
+- Exact behavior boundary and enclosing guards/order checked: paired `LocalPlayer.aiStep()` ride-jump branch, its eligibility helper/interface and every exact-source implementation of `PlayerRideableJumping` in A/B.
+- A evidence: `LocalPlayer.aiStep()` lines 865-891 dispatches through `isRidingJumpable()`; helper lines 629-632 calls `canJump()` and the A interface lines 3-10 declares it. `AbstractHorse.canJump()` lines 876-879 returns `isSaddled()`, and its callback lines 859-874 writes the horse's pending jump scale; full source hashes are listed on the paired implementation evidence line.
+- B evidence: `LocalPlayer.aiStep()` lines 786-812 dispatches through `jumpableVehicle()` and additionally requires `getJumpCooldown() == 0`; helper lines 541-544 passes the player to `canJump(Player)`. B interface lines 5-16 makes that contract explicit and defaults cooldown to zero. The only A implementation is `AbstractHorse`; B retains that base and adds the B-only `Camel` implementation. B `AbstractHorse.canJump(Player)` lines 916-919 still returns `isSaddled()`, while its jump callback lines 899-914 changes the vehicle's `stand()` call to `standIfPossible()`. `Camel.canJump(Player)` lines 250-253 adds its own movement/controller guards; its cooldown override lines 299-302 returns `dashCooldown`. Hashes: A/B `PlayerRideableJumping.java` `7f9d0612d15ebf84046f08490c9fa1bc8d3d837d0d7c4c3ddc2254dac621b82a` / `afc2ca4502f47822b30620ded5fc3f9cd9383fd9d80b463c13bfd0f928e20570`; A/B `AbstractHorse.java` `4baae95bc36b9ba150ee03b1a8c103f73629f0d28d93b14cac8886d4ea81e0c0` / `6384878a658b6c9e093026c582022480a153a2e8db0f3fada3b3cf58d6840287`; B `Camel.java` `6fe3c267d62c3ef163b4f74f69912e99fcb75464fb0e278735f8cc4a150f66ea`.
+- State producers/writers -> consumers/readers: jump input and previous/current button state -> local helper/cooldown checks -> `onPlayerJump(scale)` and riding-jump packets -> vehicle jump fields/motion. The older horse's B eligibility and default cooldown preserve the A gate; the B-only camel and changed horse standing behavior affect vehicle state.
+- Parent slices / dependencies / closure evidence: S1-input, S3-jump, S7-mount-transition. The interface implementation inventory was searched in both exact source roots; A has only `AbstractHorse`, while B adds `Camel` under its new package.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): the source changes in this bounded branch control mount jump state and vehicle motion. A pre-existing rideable horse has the same saddled eligibility and B's default cooldown is zero; the changed callback's stand behavior is on the horse. The additional nonzero cooldown/controller behavior belongs to the B-only Camel. Player movement while passenger is excluded, and no direct player velocity write from this callback is established.
+- Finding IDs or checked absence/replacement path: explicit out-of-scope vehicle-motion disposition; B-only Camel has no A counterpart and gains no historical behavior.
 
 ### Slice S7-closure: Cross-stage state writers and dependencies
 
@@ -485,6 +569,30 @@ These are initial bounded behavior families and all are open. After exact source
 - Disposition and rationale (including concrete reachability/preconditions): both paired player-specific wrapper bodies are text-identical with unchanged expression and branch order. No claim is made about inherited `LivingEntity` branches or indirect dependencies.
 - Finding IDs or checked absence/replacement path: checked paired method bodies; no difference.
 
+### Slice S1-player-aiStep-wrapper: Player superclass movement wrapper
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: jump timer decrement, `Player.aiStep()` call into `LivingEntity.aiStep()`, post-super flying speed/sprint state and `MOVEMENT_SPEED` assignment.
+- A evidence: `net/minecraft/world/entity/player/Player.java` lines 500-562; file SHA-256 `155c5fcfba322d968f3180383e7d283ddeb5edee4e04314906310d4e3ce0ccc1`.
+- B evidence: same body lines 496-558; file SHA-256 `02e64e197aec3f4f2a8abc9c5ce4545121ac5bcbbc71592ce478601a0db17203`.
+- State producers/writers -> consumers/readers: `jumpTriggerTime` -> `LivingEntity.aiStep`; its movement result -> `flyingSpeed`, sprint increment, and movement `speed` attribute snapshot after the superclass call.
+- Parent slices / dependencies / closure evidence: S1-input, S3-travel-dispatch, S3-ground-air, S3-jump, S6-effects-attributes. The unchanged wrapper order is closed; superclass and attribute producers retain their own rows.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): paired wrapper body is text-identical after line relocation. `jumpTriggerTime` order, `super.aiStep()`, sprint flying-speed increment, attribute read and speed write all match. Health and food producers are excluded by the campaign.
+- Finding IDs or checked absence/replacement path: paired method bodies checked; no difference.
+
+### Slice S3-livingentity-aiStep-order: Inherited jump/travel/post-travel order
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.aiStep()` motion cutoff, AI branch, fluid/ground jump dispatch, input damping, glide validation, `travel()` dispatch, and post-travel push callback order.
+- A evidence: `net/minecraft/world/entity/LivingEntity.java` lines 2497-2620; file SHA-256 `fee2df5155449098556a138d2530d06b7a35979e43c6aa0ae1fffd6251853e77`.
+- B evidence: same method lines 2508-2631; file SHA-256 `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db`.
+- State producers/writers -> consumers/readers: lerp/current position, velocity cutoffs, immobility and jump state -> jump helper; input -> `travel`; post-travel position -> push overlap query. `pushEntities`' sole client-query textual delta is separately closed by S4-client-push-candidate-filter; the glide fall-distance value is F-004.
+- Parent slices / dependencies / closure evidence: S1-input, S2-player-state, S3-jump, S3-glide, S3-climb-swim, S3-ground-air, S4-client-push-candidate-filter.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the paired method's guards and order for position lerp, three velocity cutoffs at `0.003`, AI callback, jump, `xxa`/`zza` multiplication by `0.98F`, glide validation, travel and post-travel callbacks are text-identical. Callee branch behavior and cross-state inputs are separately tracked and not inferred from this method-level result.
+- Finding IDs or checked absence/replacement path: F-004 is the bounded glide fall-distance delta; otherwise the paired call-order ranges were checked.
+
 ### Slice S4-entity-move-method: Entity axis collision response body
 
 - Inventory ID(s): INV-STATE, INV-COLLISION
@@ -502,7 +610,7 @@ These are initial bounded behavior families and all are open. After exact source
 - D0 — readiness/provenance: resolved. IDs and official metadata are exactly 1.19.2/1.19.3, namespace `mojmap`; both ready statuses are `ready`; physical Java counts and manifest entries match (4,480/4,618); readiness/provenance/source/artifact/diagnostic manifest hashes match; original client jar, mapping file and remapped-jar hashes match both artifact manifests; 21 relevant diagnostic anchors per side have no error/warning/missing/failed/exception text.
 - D1 — paired member correspondence and full player tick graph. Why: names do not establish correspondence or reachability. Next action: finish bounded body ranges, callers, writers/readers and closure for all stages. Owner: discovery author. State: open.
 - D2 — version-matched resources/tags/defaults. Why: Java source saver omits resources. Next action: inspect relevant jar entries and hashes once provenance is verified. Owner: discovery author; server/datapack provision if identified. State: open.
-- D3 — external/synchronized movement inputs. Why: client sources cannot prove server rules or value origin. Next action: trace concrete player consumer and label each producer boundary. Owner: discovery author. State: open.
+- D3 — external/synchronized movement inputs. Why: client sources cannot prove server rules or value origin. Next action: close the in-progress rider sprint-status packet against dismount and the first on-foot server movement tick; continue direct player velocity/correction producer-consumer closure. Owner: discovery author. State: open.
 - D4 — independent coverage reviewer. Why: source completion requires an author-independent re-walk. Next action: coordinator assignment after freeze. Owner: coordinator. State: pending; does not block source comparison.
 
 
@@ -597,10 +705,10 @@ Findings F-002 and F-003 are source-confirmed paired fluid-state input differenc
 
 ## Resume checkpoint
 
-- Last completed slice: exact source provenance; paired input, pose, player travel, entity move, coefficient/tag and movement-effect checks; bounded speed/slowness, Slow Falling/Dolphin's Grace/Levitation, Depth Strider, Soul Speed, Swift Sneak and absolute player-correction angle slices; findings F-002 through F-006; E-001 narrowed to mounted vehicle motion; correction interpolation-history route classified as outside movement scope in S7-correction-interpolation-history.
-- Next bounded slice and exact files/members/body ranges to open: continue splitting `LocalPlayer.aiStep` A731-898/B652-819; F-006 covers passenger sprint carryover, while ride-jump/cooldown and remaining input/post-travel branches stay open. Then split `LivingEntity.travel` A2042-2256/B2052-2263 into branch-specific slices. `Entity.getX(float)` is absent in these Mojmap trees; the paired position interpolation readers are `getPosition(float)` / `getEyePosition(float)` and are dispositioned above. Continue the full collision-shape/provider/registration, equipment/effect, and correction/velocity producer inventories.
+- Last completed slice: exact source provenance; full paired `LocalPlayer.aiStep` body and bounded ride-jump API disposition; `Player.aiStep` wrapper; `LivingEntity.aiStep` jump/travel/post-travel ordering; pre-travel glide-state helper; water, lava and ordinary ground/air `LivingEntity.travel` branches; client entity-push query closure; existing input, pose, player travel, entity move, coefficient/tag and movement-effect checks; findings F-002 through F-006; E-001 narrowed to mounted vehicle motion; correction interpolation-history route classified as outside movement scope in S7-correction-interpolation-history.
+- Next bounded slice and exact files/members/body ranges to open: close S7-rider-sprint-status-sync by tracing A/B `ServerboundPlayerInputPacket` and dismount handling through the server's first on-foot tick, then resume remaining `LocalPlayer.tick` packet consumers and direct player velocity/correction writers. Continue `LivingEntity` state/equipment/effect writer inventories, collision queries/shapes/callbacks and registered block providers. The `LocalPlayer.aiStep` ride-jump API path is now dispositioned for vehicle-only movement; its broader mount-transition inventory remains open.
 - Outstanding dependencies and owners: D1–D3 discovery; D4 coordinator independent reviewer assignment.
-- Current assumptions requiring verification: candidates are not frozen; the 20 initial behavior families remain pending for full callgraph closure despite 11 bounded no-difference slices, 5 bounded finding slices and 2 checked out-of-scope dispositions; the immutable F-005 and F-006 snapshots await independent review. Remaining shape/data/equipment sources and external server/world packet consumers remain open. The checker confirms structure only.
+- Current assumptions requiring verification: candidates are not frozen; the 20 initial behavior families remain pending for full callgraph closure despite 18 bounded no-difference slices, 5 bounded finding slices, 3 checked out-of-scope dispositions and one in-progress bounded sprint-sync slice; the immutable F-005 and F-006 snapshots await independent review. Remaining shape/data/equipment sources and external server/world packet consumers remain open. The checker confirms structure only.
 
 ## Implementation reconciliation
 
@@ -621,7 +729,7 @@ Findings F-002 and F-003 are source-confirmed paired fluid-state input differenc
 
 ## Source audit closure
 
-- Coverage counts by status: pending 20 initial families; in-progress 0; compared-no-difference 11 bounded member slices; findings 5 bounded member slices; not-applicable 2 checked scope/interpolation dispositions; blocked 0. The initial families are not member-range closure and must be split before terminal dispositions.
+- Coverage counts by status: pending 20 initial families; in-progress 1 bounded member slice; compared-no-difference 18 bounded member slices; findings 5 bounded member slices; not-applicable 3 checked scope/interpolation dispositions; blocked 0. The initial families are not member-range closure and must be split before terminal dispositions.
 - Required inventory status and evidence: INV-TICK pending; INV-STATE pending; INV-COLLISION pending; INV-WORLD-MOVEMENT pending; INV-MODIFIERS pending; INV-EXTERNAL pending; INV-EXCLUSIONS pending.
 - Open dependencies: D1, D2, D3, D4 (D0 resolved)
 - Unresolved gaps and limits: exact trees and provenance are verified, but member-level slice ledger, full source coverage, resources, external producers, freeze and independent audit remain open.
