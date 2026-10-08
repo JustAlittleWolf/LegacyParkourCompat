@@ -56,6 +56,7 @@ Cited source hash inventory (SHA-256; relative roots are the source roots in the
 - `net/minecraft/block/CauldronBlock.java`: A `84b346d09f7badf7821a43ef8a6a16fbcd161972ad67a8030c7574780ca6b205`; B `8b95c69febce0002140c2f960cfa191737dd51dabf5ab99f7e74416dd382c0e7`.
 - `net/minecraft/block/BrewingStandBlock.java`: A `60f630f152ae5d28d3ec2a1f8640bff7d7e14ce9ee8ac7c7cb07776ec9156b1b`; B `d890d11f9123d2f82f3358b732f7a93464a8e3117d8ae7183fb0a66527be5e18`.
 - `net/minecraft/block/ChorusPlantBlock.java`: A `f7c2bfa088788d7c634dc1889e69ebe868e9ca4eb0a658b0357bfbb193fd54dc`; B `ecd52ae5749b6112ccd58100f6e043713cf111592455b7988f5479a8fa87a8ba`.
+- `net/minecraft/block/AbstractRailBlock.java`: A `b27f39a823f921c206f21ae8ec7afecf04bea049bded7d1748c3e5251507147e`; B `879e954f3eae6cabb2a5129cbdd071e02e9ad1f235b84712db41d2087c5dd621`.
 - `net/minecraft/block/EndPortalBlock.java`: A `c77215a83473b32c4ed20a6168126208d0607b0e054c4ce3a8e46e423df73bb9`; B `3e246cd437d5ca61758cd03e3dd258a14f84de9121d043193016274d1b6c03d2`.
 - `net/minecraft/block/EndPortalFrameBlock.java`: A `905f1b6b838d0d75f65ef385b1771d03b516d4f21f425561c2991c72d263e875`; B `e4e9b5aeca29eff111a8ecce69c7267a6bc1d0458a9e528f9522d08f58584af4`.
 - `net/minecraft/block/LilyPadBlock.java`: A `91004173b4287d244c671ffe565ca0935d0c04983d598027f37f26d9c111136d`; B `873b93062318b692cae5c071edb6489cbac6621bdda4b139f08df493b075fb9`.
@@ -323,6 +324,30 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): during a reachable partial westward piston extension moving an oak fence, at progress `0.5F`, a local-player query whose box overlaps the translated fence center post receives the collision box in B and not A. The source proves the collision-list difference; any particular final movement remains geometry-dependent.
 - Finding IDs or checked absence/replacement path: F-06. This scan-row delta is distinct from F-05's retracting piston collision-shape construction.
+
+### Slice S5-newer-block-registration-applicability: observer and shulker boxes
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: numeric block registry entries added in B at IDs 218-234 and checked class/registration absence in A.
+- A evidence: `Block.java` registration table, SHA-256 `1971dbc284d511e2ed366f77bc77fd8cd07174baad3e7732e908d3daeb640c01`; the source tree has no `ObserverBlock` or `ShulkerBoxBlock` declaration or registration, and no IDs 218-234 entries.
+- B evidence: `Block.java` registers `observer` at ID 218 and sixteen colored `shulker_box` variants at IDs 219-234, lines 1300-1321, SHA-256 `ab873436b24487ab0ee8055bf7a478349c7f7978398aea8e387796a6c820996a`; the corresponding `ObserverBlock` and `ShulkerBoxBlock` declarations exist only in B's source tree.
+- State producers/writers -> consumers/readers: B registry ID/name -> block class/default state -> collision or block-entity behavior. There is no corresponding A state identity or registration.
+- Parent slices / dependencies / closure evidence: A/B `Block.java` registry inventory; exact IDs and names compared across the registry, with no A-only IDs or renamed entries found. Current report scope is the paired old-map era: a B-only block identity cannot occur in an A-era map state.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): the observer and all shulker-box variants are absent from A's block registry and class inventory. Although B has these blocks, their B-only collision/block-entity behavior is modern-only for this pair and is not a historical player-movement mechanic to reproduce.
+- Finding IDs or checked absence/replacement path: none; A registry/classes checked for IDs 218-234 and the two B classes, B registration entries recorded. Other registrations and shared-block provider behavior remain under D-COLLISION/D-BLOCK-DATA.
+
+### Slice S5-rail-outline-shape: ascending rail outline is not a player collision shape
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: registered rail classes' collision provider and state-selected `getShape` for ascending states; trace the player world collision dispatcher to distinguish collision geometry from the rail outline.
+- A evidence: `AbstractRailBlock.getShape`, lines 50-53, returns `FULL_BLOCK_SHAPE` for ascending states and otherwise `FLAT_SHAPE`; `getCollisionShape`, lines 38-42, always returns `EMPTY_BLOCK_SHAPE`; SHA-256 `b27f39a823f921c206f21ae8ec7afecf04bea049bded7d1748c3e5251507147e`. `Block.java` registers powered, detector, ordinary and activator rails at IDs 27, 28, 66 and 157, lines 777-778, 867 and 1097, SHA-256 `1971dbc284d511e2ed366f77bc77fd8cd07174baad3e7732e908d3daeb640c01`.
+- B evidence: `AbstractRailBlock.getShape`, lines 51-54, returns `ASCENDING_SHAPE` for ascending states and otherwise `FLAT_SHAPE`; `getCollisionShape`, lines 39-43, still always returns `EMPTY_BLOCK_SHAPE`; SHA-256 `879e954f3eae6cabb2a5129cbdd071e02e9ad1f235b84712db41d2087c5dd621`. The same four rail classes and numeric IDs are registered at lines 782-783, 872 and 1102, `Block.java` SHA-256 `ab873436b24487ab0ee8055bf7a478349c7f7978398aea8e387796a6c820996a`.
+- State producers/writers -> consumers/readers: rail shape property -> `getShape` selection/outline; player collision queries dispatch `getCollisionShape` through `Block.addCollisions` instead.
+- Parent slices / dependencies / closure evidence: S4-world-query and the base `Block.addCollisions/addCollision` path, which appends a box only when the returned shape is not the empty sentinel. `World.getCollisions` and related block-collision collection call `BlockState.getCollisionShape`; they do not use rail `getShape` as a movement box. Non-player minecart rail movement is excluded.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): ascending rail outline geometry differs in B, but every registered rail's collision provider returns `EMPTY_BLOCK_SHAPE` in both versions, so the changed `FULL_BLOCK_SHAPE`/`ASCENDING_SHAPE` value is not supplied to player collision or support movement. The shape difference belongs to outline/rendering consumers and does not establish a player movement mechanic.
+- Finding IDs or checked absence/replacement path: none; rail registration and the empty collision-provider path were checked. Non-player vehicle motion remains outside scope.
 
 ### Slice S5-wall-collision-shapes: existing cobblestone wall provider
 
@@ -613,7 +638,7 @@ Complete only after blind-discovery freeze. No mod implementation was opened.
 
 ## Source audit closure
 
-- Coverage counts by status: 7 findings, 25 compared-no-difference, 4 in-progress, 1 pending (bounded rows only; broad inventory remains open).
+- Coverage counts by status: 7 findings, 25 compared-no-difference, 4 in-progress, 2 not-applicable, 1 pending (bounded rows only; broad inventory remains open).
 - Required inventory status and evidence: only `INV-EXCLUSIONS` declaration complete; all movement inventories pending, with partial anchors above.
 - Open dependencies: D-SOURCE-DIAGNOSTICS, D-COLLISION, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
 - Unresolved gaps and limits: complete tick graph, body-level diagnostic review, collision providers/resources, exact entity-player collision paths, modifiers, external writers, source-only freeze and independent audit remain open. Source comparison only; no gameplay behavior observed.
