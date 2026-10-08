@@ -45,6 +45,9 @@ Cited source hash inventory (SHA-256; relative roots are the source roots in the
 - `net/minecraft/block/SlimeBlock.java`: both `38e77cdaaf3681fe3a2357ebc0dce7a86d658429463bc1e06e6e1167fe627c8a`.
 - `net/minecraft/block/MagmaBlock.java`: both `6e382a4fc307391c6776dc2ff010aec1da16b50ebc50e015b6009d82c7b76b1a`.
 - `net/minecraft/block/FarmlandBlock.java`: A `63d9048ebed65b890c370a1da6e79733904f67d953aff9fd8c0316f97f9d4e7f`; B `09e260528fd78b4bbdbc302726c7ae937fbc49f17b674c4a7ad802e0f7b6f5e8`.
+- `net/minecraft/block/CobwebBlock.java`: A `6e0ee2bc0bf52300b1d0f9445e01d98b148470cc6b8aeacc138f8acab8d70f8e`; B `f458efc121d33ace844824d6fcde3b2676960583c14b03e982f1ae487aa2f7c7`.
+- `net/minecraft/block/PortalBlock.java`: A `4796d1a6ff2ddc7e56323f0b3793e11b796364fe7057dd7b9bc64535c0b02e7a`; B `cc1f875bd9daab78fd628ec9c321be02e00f5ba2fe7a4d5246b035968e13f287`.
+- `net/minecraft/block/SoulSandBlock.java`: A `09e3a3f47faf5a755420c3d0cb2b09298ba8fb4dd0776a6f9817eb387bb6ab46`; B `d07145d0a4bdc40e7b1ac43a09a43dd7957a4bf145d9be45e9e0ed1970041448`.
 - `net/minecraft/block/StairsBlock.java`: A `ee143aced2a6902563cddbae77e78d1d1a512244f278987684ebe5bcacba37cb`; B `5df1782da6eb7acdb9935b3910a0484d6417661bfd6230ecf81df0de6d782627`.
 - `net/minecraft/block/FenceBlock.java`: A `d9375bba3b41ae408bdf65d69b25aecad522a6d0b45b38d30f77d12b343a4909`; B `856cb92d4613289747a34a6bc85f306ca9d44b7057a45c79f2020d13025d1cf7`.
 - `net/minecraft/block/PaneBlock.java`: A `e6e3dd856efb96146634ab8f56c915afbc6116fd51973c25229ef7aa2ce0e5c8`; B `1e8968e7d642358cce90f0d3156f07f19c5bca28d2008d5d2d4bf0eccc7266a9`.
@@ -184,6 +187,18 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): a server player landing near the center of registered farmland with fall distance 2.0 satisfies the unchanged collapse guard; `nextFloat() < 1.5F` always passes. The player's feet at `posY + 0.9375` intersect the new dirt box ending at `posY + 1.0`. B's default entity query includes that non-spectator player and writes its y position to the dirt top; A has no corresponding position write. This is a direct source-proven player movement response. Runtime validation and client correction timing were not performed.
 - Finding IDs or checked absence/replacement path: F-08. Original mapped-JAR equivalence is unverified; introduction is unknown within the endpoint pair.
+
+### Slice S4-entity-block-contact-movement-callbacks: movement-relevant block contact effects
+
+- Inventory ID(s): INV-COLLISION, INV-STATE, INV-WORLD-MOVEMENT, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: `Entity.checkBlockCollisions` occupied-box traversal and the paired registered callback bodies for cobwebs, soul sand, Nether portals, and End portals; downstream portal transfer execution is not included.
+- A evidence: `Entity.java::checkBlockCollisions`, lines 742-770, SHA-256 `05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77`; `CobwebBlock.onEntityCollision`, line 27-29, SHA-256 `6e0ee2bc0bf52300b1d0f9445e01d98b148470cc6b8aeacc138f8acab8d70f8e`; `SoulSandBlock.onEntityCollision`, lines 28-31, SHA-256 `09e3a3f47faf5a755420c3d0cb2b09298ba8fb4dd0776a6f9817eb387bb6ab46`; `PortalBlock.onEntityCollision`, lines 170-174, SHA-256 `4796d1a6ff2ddc7e56323f0b3793e11b796364fe7057dd7b9bc64535c0b02e7a`; `EndPortalBlock.onEntityCollision`, lines 63-70, SHA-256 `c77215a83473b32c4ed20a6168126208d0607b0e054c4ce3a8e46e423df73bb9`.
+- B evidence: `Entity.java::checkBlockCollisions`, lines 807-835, SHA-256 `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440`; `CobwebBlock.onEntityCollision`, lines 28-30, SHA-256 `f458efc121d33ace844824d6fcde3b2676960583c14b03e982f1ae487aa2f7c7`; `SoulSandBlock.onEntityCollision`, lines 29-32, SHA-256 `d07145d0a4bdc40e7b1ac43a09a43dd7957a4bf145d9be45e9e0ed1970041448`; `PortalBlock.onEntityCollision`, lines 171-175, SHA-256 `cc1f875bd9daab78fd628ec9c321be02e00f5ba2fe7a4d5246b035968e13f287`; `EndPortalBlock.onEntityCollision`, lines 63-70, SHA-256 `3e246cd437d5ca61758cd03e3dd258a14f84de9121d043193016274d1b6c03d2`.
+- State producers/writers -> consumers/readers: post-move entity bounds -> loaded-area block scan -> block contact callback -> `inCobweb`/fall-distance state, horizontal velocity, or portal contact/dimension transition.
+- Parent slices / dependencies / closure evidence: S4-callbacks and S4-farmland-fall-player-position. Direct registrations match for cobweb ID 30, soul sand ID 88, Nether portal ID 90 and End portal ID 119; the dispatcher has the same bounds, loop order and callback invocation. The selected movement-relevant callback bodies match despite shifted source lines and signature changes elsewhere in their classes.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): when a player box overlaps these registered blocks in a loaded area, both versions invoke the same callback order. Cobweb sets the same `inCobweb` and fall-distance values, soul sand applies the same `0.4` multipliers to X/Z velocity, Nether portal sets the same portal-contact state when its entity guards pass, and End portal invokes the same server-side dimension change under its intersection guards. No callback difference is established. The complete callbacks/portal execution and unrelated damage effects remain open.
+- Finding IDs or checked absence/replacement path: no finding for these bounded callback bodies; F-08 records the distinct farmland fall callback position write. Full callback and downstream external movement inventories remain open.
 
 ### Slice S4-step-callbacks: post-move onSteppedOn dispatch
 
@@ -586,7 +601,7 @@ Complete only after blind-discovery freeze. No mod implementation was opened.
 
 ## Source audit closure
 
-- Coverage counts by status: 7 findings, 23 compared-no-difference, 4 in-progress, 1 pending (bounded rows only; broad inventory remains open).
+- Coverage counts by status: 7 findings, 24 compared-no-difference, 4 in-progress, 1 pending (bounded rows only; broad inventory remains open).
 - Required inventory status and evidence: only `INV-EXCLUSIONS` declaration complete; all movement inventories pending, with partial anchors above.
 - Open dependencies: D-SOURCE-DIAGNOSTICS, D-COLLISION, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
 - Unresolved gaps and limits: complete tick graph, body-level diagnostic review, collision providers/resources, exact entity-player collision paths, modifiers, external writers, source-only freeze and independent audit remain open. Source comparison only; no gameplay behavior observed.
