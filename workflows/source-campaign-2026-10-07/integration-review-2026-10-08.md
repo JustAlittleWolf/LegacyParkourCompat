@@ -105,3 +105,11 @@ This update supersedes the earlier REQUEST CHANGES disposition for the first pas
 - Test-disabled build: `gradlew.bat build -x test --init-script build/no-tests.init.gradle`; `BUILD SUCCESSFUL`, 18 actionable tasks (4 executed, 14 up-to-date). Every Gradle `Test` task type was disabled; no tests ran.
 - JAR `build/libs/LegacyParkourCompat+26.2-1.0.0.jar`, SHA-256 `E6ACA9E4FF063022ABB390BB2F207E86CD3BBDB2171B0233C118D6245315C8ED`.
 - The preserved MCPK fetch returned HTTP 403; findings rely on the accepted exact vanilla source snapshots. Runtime behavior, Mixin application, and the first changed 1.17 patch were not validated. Slipperiness remains pending.
+
+## Build artifact location verification — 2026-10-08
+
+- Both accepted builds ran in `D:\Javastuff\LegacyParkourCompat\.task-worktrees\integrate-world03-swimming-entry-2026-10-08`, writing `build\libs\LegacyParkourCompat+26.2-1.0.0.jar` at that worktree's absolute path.
+- WORLD03 JAR SHA-256 `E42DB354624E47055220349F196A86EDE8480037DA264242F68203B9B332BF41` was independently captured after its successful build (18 tasks executed). The subsequent swimming build reused that path, so the E42 binary is not currently retained. Its successful build output and immediate hash result are retained in the originating task history and the WORLD03 run record.
+- The current retained JAR at that same path independently hashes to swimming SHA-256 `E6ACA9E4FF063022ABB390BB2F207E86CD3BBDB2171B0233C118D6245315C8ED`; its successful build had 18 actionable tasks (4 executed, 14 up-to-date).
+- The separate C: integration worktree remains at `0bfb72a0bc08726f2ee3a984203c08b5d90cf34e` with its older F-005 JAR SHA-256 `0B5A12CDFA61C2C55C08FE3EB499AE6F8F0E4699347FC52AFF4132FDC096C3BC`. The primary checkout's unrelated root `build\libs` JAR hashes to `732BB1EE056335178F8BF4E58E809D4552FC0B17A14092CCB3BAB8C40CA42112`; neither is the WORLD03 or swimming artifact.
+- No standalone raw Gradle stdout log files were found. The successful command outputs are retained in the originating task history, and their task counts, commands, and artifact hashes are recorded in the two run records above. No build was rerun for this verification.
