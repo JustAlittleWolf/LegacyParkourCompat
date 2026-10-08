@@ -1,0 +1,16 @@
+{
+  "oldCoordinator": "01a116a7-73f3-7562-8aba-0de2936e4c19",
+  "newCoordinator": "01a11bae-d354-7931-8746-2ef6befcce75",
+  "newCoordinatorStatus": "active; durable handoff read, old roles being checked",
+  "handoffCommit": "34fad0d",
+  "maxConcurrentAgents": 15,
+  "countCoordinatorConservatively": true,
+  "replaceWorkersWithFreshChats": true,
+  "lastKnownActiveOldChat": "01a116c5-ef2e-7990-97d5-835aee2a0ce8",
+  "unresolvedCreateTitle": "Implement rising crouch edge restraint",
+  "unresolvedCreateMustReserveOneSlot": true,
+  "oldCoordinatorRetiresAfterVerification": true,
+  "buildsAndStaticOnly": true,
+  "testsAndRuntimeLaunchesAuthorized": false,
+  "completedWorkMustMergeIntoMain": true
+}
