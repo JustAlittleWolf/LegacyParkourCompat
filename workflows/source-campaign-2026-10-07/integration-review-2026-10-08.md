@@ -14,4 +14,12 @@ Integration branch: `feat/movement-campaign-integration-2026-10-08`, based at `9
 
 ## Verification
 
-No tests, game clients, TAS, Gym/server, Docker, or runtime simulations were run. The final compile build is reserved for the accepted integration batch after review decisions are recorded.
+No tests, game clients, TAS, Gym/server, Docker, or runtime simulations were run.
+
+## Build checkpoint
+
+- Accepted batch: TICK-01 only.
+- Command: `gradlew.bat build -x test --init-script build/no-tests.init.gradle`.
+- Result: `BUILD SUCCESSFUL`; 18 actionable tasks executed. The init script disabled every Gradle `Test` task type across all projects; `-x test` also excluded the root test task. No test task executed.
+- JAR: `build/libs/LegacyParkourCompat+26.2-1.0.0.jar`, SHA-256 `1C3198B1E05AC5FD4CE4D84683060576CA34ED636CA81E88728FF9F6A07BCBD1`.
+- Build verifies compilation/packaging only; runtime movement and Mixin application remain unverified.

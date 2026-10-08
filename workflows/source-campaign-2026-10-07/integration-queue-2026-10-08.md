@@ -23,3 +23,9 @@ Independent exact-patch review is recorded at review commit `fddb263`.
 - Passenger yaw and 1.13 pose fit are held for the requested corrections in `integration-review-2026-10-08.md`.
 - Elytra comparator commit `a5d07341d941ce2c0b9df1e392af9a40b1fbb9e9` was verified, but the full patch is held because the newer callsite/helper gates remain. The correction and original code are preserved in branch history and reverted from the active diff.
 - No build runs until accepted review scope is recorded. Runtime validation remains unperformed.
+
+## Build result — 2026-10-08
+
+- TICK-01-only batch: `BUILD SUCCESSFUL` with `gradlew.bat build -x test --init-script build/no-tests.init.gradle`; every Gradle `Test` task type was disabled and no tests ran.
+- Packaged JAR SHA-256: `1C3198B1E05AC5FD4CE4D84683060576CA34ED636CA81E88728FF9F6A07BCBD1`.
+- Runtime parity remains unverified. Passenger yaw, pose fit, and Elytra remain held for correction and renewed review.
