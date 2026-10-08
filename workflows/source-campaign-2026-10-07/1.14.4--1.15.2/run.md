@@ -64,7 +64,7 @@ All inventories remain pending while exact method and dependency coverage is in 
 - Parent slices / dependencies / closure evidence: S-INPUT-KEYS; pose, item-use, equipment and ability dependencies remain open; see bounded S-ELYTRA-START slice.
 - Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): paired diff exposes candidate flow changes; each behavior needs a bounded slice and dependency closure.
-- Finding IDs or checked absence/replacement path: F-ELYTRA-START is closed in its own bounded slice; F-FLYING-CRAWL-SNEAK-RESCALE freezes the flight crawl/sneak compensation; sprint, remaining flight-toggle order and non-Honey auto-jump eligibility remain open here. Honey's block-factor auto-jump gate is tracked under F-HONEY-FACTORS.
+- Finding IDs or checked absence/replacement path: F-ELYTRA-START is closed in its own bounded slice; F-ELYTRA-FLIGHT-TOGGLE-ORDER closes the ability-flight/Elytra same-tick arbitration; F-FLYING-CRAWL-SNEAK-RESCALE records flight crawl/sneak compensation. Sprint and non-Honey auto-jump eligibility remain open here. Honey's block-factor auto-jump gate is tracked under F-HONEY-FACTORS.
 
 ### Slice S-ELYTRA-START: fresh jump press and fall-flying start
 
@@ -117,14 +117,26 @@ All inventories remain pending while exact method and dependency coverage is in 
 ### Slice S-EDGE-BACKOFF: careful player edge probing
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: guard and axis/backoff loops directly before collision resolution.
-- A evidence: ready/1.14.4/mojmap/net/minecraft/world/entity/Entity.java::Entity#move(MoverType,Vec3), lines 465-466; Entity#applySneaking(Vec3,MoverType), lines 575 onward; file hash pending.
-- B evidence: ready/1.15.2/mojmap/net/minecraft/world/entity/Entity.java::Entity#move(MoverType,Vec3), lines 469-470; Player#maybeBackOffFromEdge(Vec3,MoverType), lines 1002-1050; file hash pending.
-- State producers/writers -> consumers/readers: shift/sneak and onGround -> X then Z then diagonal 0.05 backoff -> collision input.
-- Parent slices / dependencies / closure evidence: S-ENTITY-MOVE; shift-state, noCollision and bounding-box dependencies.
+- Exact behavior boundary and enclosing guards/order checked: virtual hook immediately before collision resolution; compared the movement-type/on-ground/sneak guard and all three ordered backoff loops (X, Z, then diagonal), including `noCollision` probes at `-maxUpStep` and the signed 0.05 adjustment/clamp.
+- A evidence: `ready/1.14.4/mojmap/net/minecraft/world/entity/Entity.java::Entity#move(MoverType,Vec3)`, lines 446-467, and `Entity#applySneaking(Vec3,MoverType)`, lines 575-623; SHA-256 `31c6be42d165102d3e6dc4295dfef6e8971fc3aea13f938a5b3a33b91d524a7`. The client call is `LocalPlayer#move(MoverType,Vec3)`, lines 845-851, then `super.move`; its `isSneaking()` / `isTryingToSneak()` path is lines 584-589 and uses the `KeyboardInput` value set at line 21. `LocalPlayer.java` SHA-256 `0795c1223198ce5acf5d2ed9e5db8435bbec4cd52b96f96b1ddf2865baaae85f`; `KeyboardInput.java` SHA-256 `33daa0833a95e09e728c1b8f509020dd13b70e38aba922e2b1e10ec5c9b7739a`.
+- B evidence: `ready/1.15.2/mojmap/net/minecraft/world/entity/Entity.java::Entity#move(MoverType,Vec3)`, lines 450-471, and base `Entity#maybeBackOffFromEdge(Vec3,MoverType)`, lines 604-606; `Player#maybeBackOffFromEdge(Vec3,MoverType)`, lines 1002-1051, overrides the base no-op. `Player#isStayingOnGroundSurface()`, lines 294-295, delegates to `isShiftKeyDown`; `LocalPlayer#isShiftKeyDown()`, lines 591-592, reads `input.shiftKeyDown`, set by `KeyboardInput#tick(boolean)`, line 21. `LocalPlayer#move(MoverType,Vec3)`, lines 851-856, reaches `super.move`. SHA-256: `Entity.java` `191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e`; `Player.java` `1ba2724c22163862b8f7fdfdea5a04a6e4db26a119d7e5360ba024724a34793`; `LocalPlayer.java` `3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd`; `KeyboardInput.java` `746ea654cf4f46a5f4b94a237c4307652252a44807a488b606dc993e088396f7`.
+- State producers/writers -> consumers/readers: A `keySneak` -> `KeyboardInput.sneakKeyDown` -> `LocalPlayer.isSneaking()` -> `Entity.applySneaking`; B `keyShift` -> `KeyboardInput.shiftKeyDown` -> `LocalPlayer.isShiftKeyDown()` -> `Player.isStayingOnGroundSurface()` -> the Player override. Both paths gate on SELF or PLAYER mover type and `onGround`, and pass the resulting vector to `collide` in `Entity.move`.
+- Parent slices / dependencies / closure evidence: S-ENTITY-MOVE; guard and local input route were traced. Exact loop behavior is unchanged under corresponding configured sneak/shift input. Collision-shape providers and the full `noCollision`/bounding-box producer inventory remain open under S-COLLISION-PROVIDERS (D-003), so this slice is not terminal.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): method ownership/call changed; compare guards, loops and key-state semantics.
-- Finding IDs or checked absence/replacement path: no delta established; A and B backoff loops are structurally alike, but the player guard's shift/sneak state path needs closure.
+- Disposition and rationale (including concrete reachability/preconditions): no difference found in the bounded guard/loop comparison for a player using the corresponding configured sneak control while grounded with SELF or PLAYER movement. A guards on `this instanceof Player` and `isSneaking()`; B dispatches to the Player override and guards on `isStayingOnGroundSurface()`, which resolves to the local shift input. The X, Z and diagonal loops have the same operations and order. This is source comparison only; the result of each probe still depends on the not-yet-audited collision providers/shapes.
+- Finding IDs or checked absence/replacement path: none; class ownership changed (Entity helper with Player predicate in A, Player override plus Entity no-op in B), with no bounded backoff delta established.
+
+### Slice S-COLLISION-PROBE-QUERY: block collision scan used by edge probing
+
+- Inventory ID(s): INV-COLLISION, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: `noCollision(Entity,AABB)` -> `getCollisions` -> block-collision stream; compared bounds, expansion epsilon, iteration order, collision context, world-border check, candidate filters and shape intersection before each edge-probe result.
+- A evidence: `ready/1.14.4/mojmap/net/minecraft/world/level/LevelReader.java::noCollision(Entity,AABB)` / `getCollisions` / `getBlockCollisions(Entity,AABB)`, lines 110-187; SHA-256 `1f86a029e4404b91aa532ca33ab0dbb63b085334c561ce44e0d0875aa50fdbc9`.
+- B evidence: `ready/1.15.2/mojmap/net/minecraft/world/level/CollisionGetter.java::noCollision(Entity,AABB)` / `getCollisions` / `getBlockCollisions(Entity,AABB)`, lines 43-120; SHA-256 `63daec0623c816d53f5dbdde407a27222fa21e62680c1096b63cf9082b1c25fd`.
+- State producers/writers -> consumers/readers: backoff's proposed AABB -> `noCollision` -> candidate block positions and `BlockState.getCollisionShape` under `CollisionContext.of(entity)` -> emptiness/intersection result -> X/Z/diagonal loop continuation.
+- Parent slices / dependencies / closure evidence: S-EDGE-BACKOFF. The `noCollision`, stream concatenation and block scan math/order match in this bounded comparison. Chunk lookup changed from `getChunk(mx,nx,statusForCollisions(),false)` to `getChunkForCollisions(mx,nx)`; implementation of those providers and full block collision-shape registrations/subclasses remain open under S-COLLISION-PROVIDERS (D-003).
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no difference found in the compared query bounds, cursor iteration, world-border predicate, filters or shape/AABB intersection. The changed chunk lookup contract may affect returned blocks and is not yet closed; therefore this slice does not claim a terminal no-difference disposition. Reachability is through S-EDGE-BACKOFF's local-player `move` call.
+- Finding IDs or checked absence/replacement path: none; the A/B provider boundary was renamed/moved and must be followed through `LevelReader.statusForCollisions`/`getChunk` and B `LevelReader`/`Level.getChunkForCollisions` before closure.
 
 ### Slice S-HONEY-BLOCK: modern-only Honey Block player movement
 
@@ -140,31 +152,33 @@ All inventories remain pending while exact method and dependency coverage is in 
 
 ## Dependency queue and blockers
 
-- D-001; exact source commands and tool versions are recovered from provenance; original full Gradle streams and source-preparation repository revision were not retained (success excerpts are hashed). Record as a provenance limitation; it does not invalidate independently reverified Mojmap sources/raw inputs.
-- D-002; hashes/spans for remaining inventory slices are still pending; record each as that slice closes.
-- D-003; block/property/resource, modifier, collision-provider, fluid and external-state closure open; trace consumers backward to producers and forward to player paths.
-- D-004; reviewer `01a116ce-b44d-75f0-974f-5038e0d227c7` assigned to finding snapshots; whole-pair independent re-walk remains unassigned.
+- D-001; exact source commands and tool versions are recovered from provenance; original full Gradle streams and source-preparation repository revision were not retained (success excerpts are hashed). This is a provenance limitation; it does not invalidate the independently reverified Mojmap sources/raw inputs. No recoverable original stream or preparation revision was found in the published pair artifacts.
+- D-002; exact source ranges and hashes were added for the bounded S-EDGE-BACKOFF guard, loops and input path, and S-COLLISION-PROBE-QUERY's query scan. Remaining inventory slices still need their own exact spans/hashes as they close.
+- D-003; S-EDGE-BACKOFF's collision-result dependency remains open: the A `statusForCollisions`/`getChunk` and B `getChunkForCollisions` implementations, complete collision-shape providers/registrations/neighbors, and their `noCollision`/bounding-box consumer path must be closed, alongside block/property/resource, modifier, fluid and external-state inventories traced to reachable player paths.
+- D-004; reviewer `01a116ce-b44d-75f0-974f-5038e0d227c7` is assigned to finding snapshots; whole-pair independent inventory/call-graph re-walk remains unassigned. Snapshot review events -02 through -05 remain pending; none constitutes the required full-pair audit.
 
 ## Finding index
 
-Source-confirmed findings (not yet pair-frozen or independently accepted): [F-SOUL-SAND-SPEED](findings/F-SOUL-SAND-SPEED.md), [F-FRICTION-SAMPLE](findings/F-FRICTION-SAMPLE.md), [F-HONEY-SLIDE](findings/F-HONEY-SLIDE.md), [F-HONEY-FACTORS](findings/F-HONEY-FACTORS.md), [F-ELYTRA-START](findings/F-ELYTRA-START.md), [F-SPECTATOR-CRAWL-SCALING](findings/F-SPECTATOR-CRAWL-SCALING.md), [F-FLYING-CRAWL-SNEAK-RESCALE](findings/F-FLYING-CRAWL-SNEAK-RESCALE.md). The full tick and state inventories remain incomplete, including broader local pre-travel, collision-provider, fluids, modifiers, external-input and exclusions work. No implementation disposition has been inspected.
+Source-confirmed findings (not yet pair-frozen or independently accepted): [F-SOUL-SAND-SPEED](findings/F-SOUL-SAND-SPEED.md), [F-FRICTION-SAMPLE](findings/F-FRICTION-SAMPLE.md), [F-HONEY-SLIDE](findings/F-HONEY-SLIDE.md), [F-HONEY-FACTORS](findings/F-HONEY-FACTORS.md), [F-ELYTRA-START](findings/F-ELYTRA-START.md), [F-ELYTRA-FLIGHT-TOGGLE-ORDER](findings/F-ELYTRA-FLIGHT-TOGGLE-ORDER.md), [F-SPECTATOR-CRAWL-SCALING](findings/F-SPECTATOR-CRAWL-SCALING.md), [F-FLYING-CRAWL-SNEAK-RESCALE](findings/F-FLYING-CRAWL-SNEAK-RESCALE.md). The full tick and state inventories remain incomplete, including broader local pre-travel, collision-provider, fluids, modifiers, external-input and exclusions work. No implementation disposition has been inspected.
 
 ## Resume checkpoint
 
-- Checkpoint branch: `feat/source-discovery-movement-source-1-14-4-1-15-2`; the earlier checkpoint was based on `c4e84a6cc7a026a25dce887025308890bac7ed21`; resumed from `1d776787edfd53b5230d51b012454cb4e4921d3d`, with `main` (`002137b227676caea77f6832b9f4c8d0b6200bff`) already merged; latest finding payload is `8eb4d395210d6886982e5735f8d7b0b189e70b6e`.
+- Checkpoint branch: `feat/source-discovery-movement-source-1-14-4-1-15-2`; this continuation resumed at preserved commit `105ec98f7b092a8b68e3d93a9739a720fe10e578` (which adds F-ELYTRA-FLIGHT-TOGGLE-ORDER), with `main` (`002137b227676caea77f6832b9f4c8d0b6200bff`) already merged. This report update is the continuation checkpoint; latest finding payload: `105ec98f7b092a8b68e3d93a9739a720fe10e578`.
 - Source identity: A `D:/Javastuff/LegacyParkourCompat/build/movement-campaign-2026-10-07/ready/1.14.4/mojmap/`, B `.../ready/1.15.2/mojmap/`; both markers, version metadata, source manifests, artifact manifests, original client jars and every manifested source/raw artifact entry were freshly reverified with zero mismatches. This pair uses Mojmap; the revised early-Feather snapshots are not inputs.
-- Closed bounded slices: S-ENTITY-MOVE, S-LIVING-JUMP, S-FRICTION-SAMPLE, S-HONEY-BLOCK, S-ELYTRA-START and S-INPUT-KEYS (findings); finding files F-SOUL-SAND-SPEED, F-FRICTION-SAMPLE, F-HONEY-SLIDE, F-HONEY-FACTORS, F-ELYTRA-START and F-SPECTATOR-CRAWL-SCALING. Snapshot event -01 remains submitted; event -02 freezes F-SOUL-SAND-SPEED at `68af793511194dbcb35752ab1f17cf75831ab82b`; event -03 freezes F-SPECTATOR-CRAWL-SCALING at `9d2da16e265d2fed8c4c57b55270bf9f8918f2e1`; event -04 freezes F-FLYING-CRAWL-SNEAK-RESCALE at `8eb4d395210d6886982e5735f8d7b0b189e70b6e`; events -02, -03 and -04 await independent review; the pair remains partial.
-- Materialized open slices: S-LOCAL-PRETRAVEL and S-EDGE-BACKOFF (both `in-progress`). Planned but not yet materialized as ledger rows: S-LIVING-TRAVEL, S-POST-TRAVEL, S-PLAYER-POSE, S-STATE-WRITERS, S-COLLISION-PROVIDERS, S-FLUIDS, S-EFFECTS, S-ENCHANTMENTS, S-ATTRIBUTES, S-EQUIPMENT, S-CORRECTIONS, S-PLAYER-PUSH, S-PISTON-MOUNT and the explicit exclusion audit. All seven required inventories therefore remain pending.
-- Next bounded slice: continue S-LOCAL-PRETRAVEL by closing the remaining sprint start/stop, ability-flight toggle, Elytra-start and auto-jump branches and their guards; begin at `LocalPlayer.aiStep()` A 637-772/B 643-778, then follow `updateAutoJump` and the local travel caller. S-EDGE-BACKOFF follows.
+- Closed bounded slices: S-ENTITY-MOVE, S-LIVING-JUMP, S-FRICTION-SAMPLE, S-HONEY-BLOCK, S-ELYTRA-START and S-INPUT-KEYS (findings); finding files F-SOUL-SAND-SPEED, F-FRICTION-SAMPLE, F-HONEY-SLIDE, F-HONEY-FACTORS, F-ELYTRA-START, F-ELYTRA-FLIGHT-TOGGLE-ORDER, F-SPECTATOR-CRAWL-SCALING and F-FLYING-CRAWL-SNEAK-RESCALE. Snapshot event -01 remains submitted; event -02 freezes F-SOUL-SAND-SPEED at `68af793511194dbcb35752ab1f17cf75831ab82b`; event -03 freezes F-SPECTATOR-CRAWL-SCALING at `9d2da16e265d2fed8c4c57b55270bf9f8918f2e1`; event -04 freezes F-FLYING-CRAWL-SNEAK-RESCALE at `8eb4d395210d6886982e5735f8d7b0b189e70b6e`; event -05 submits F-ELYTRA-FLIGHT-TOGGLE-ORDER from source commit `105ec98f7b092a8b68e3d93a9739a720fe10e578`; events -02 through -05 await independent review; the pair remains partial.
+- Materialized open slices: S-LOCAL-PRETRAVEL, S-EDGE-BACKOFF and S-COLLISION-PROBE-QUERY (all `in-progress`). S-EDGE-BACKOFF's bounded guard/loop comparison found no delta; the query scan matches except for the chunk-provider call, whose semantics and collision-shape inputs remain open. Planned but not yet materialized as ledger rows: S-LIVING-TRAVEL, S-POST-TRAVEL, S-PLAYER-POSE, S-STATE-WRITERS, S-COLLISION-PROVIDERS, S-FLUIDS, S-EFFECTS, S-ENCHANTMENTS, S-ATTRIBUTES, S-EQUIPMENT, S-CORRECTIONS, S-PLAYER-PUSH, S-PISTON-MOUNT and the explicit exclusion audit. All seven required inventories therefore remain pending.
+- Next bounded slice: continue S-COLLISION-PROBE-QUERY by tracing A `LevelReader.statusForCollisions()` plus `getChunk(..., false)` and B `LevelReader.getChunkForCollisions()` / `Level.getChunkForCollisions()`, then inventory registered block collision-shape providers and neighbor-dependent shapes. Revisit S-EDGE-BACKOFF after those dependencies close. Local pre-travel remains open for sprint start/stop and auto-jump branches.
 - Exact read-only next commands (PowerShell, repo root):
 
 ```powershell
 $A = 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.14.4\mojmap'
 $B = 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.15.2\mojmap'
-Get-Content -LiteralPath "$A\net\minecraft\client\player\LocalPlayer.java" | Select-Object -Skip 636 -First 145
-Get-Content -LiteralPath "$B\net\minecraft\client\player\LocalPlayer.java" | Select-Object -Skip 642 -First 145
-Get-Content -LiteralPath "$A\net\minecraft\client\player\LocalPlayer.java" | Select-Object -Skip 835 -First 55
-Get-Content -LiteralPath "$B\net\minecraft\client\player\LocalPlayer.java" | Select-Object -Skip 847 -First 55
+Get-Content -LiteralPath "$A\net\minecraft\world\level\LevelReader.java" | Select-Object -Skip 90 -First 20
+Get-Content -LiteralPath "$A\net\minecraft\world\level\Level.java" | Select-Object -Skip 870 -First 18
+Get-Content -LiteralPath "$A\net\minecraft\world\level\PathNavigationRegion.java" | Select-Object -Skip 54 -First 16
+Get-Content -LiteralPath "$B\net\minecraft\world\level\LevelReader.java" | Select-Object -Skip 92 -First 20
+Get-Content -LiteralPath "$B\net\minecraft\world\level\Level.java" | Select-Object -Skip 748 -First 18
+Get-Content -LiteralPath "$B\net\minecraft\world\level\PathNavigationRegion.java" | Select-Object -Skip 64 -First 16
 ```
 
 - Outstanding dependencies and owners: D-001 provenance limitation (full original console streams, source-preparation repo revision and owner identity were not retained); D-002 remaining exact source ranges/hashes (discovery author); D-003 full movement/data/resource/external-input inventory (discovery author); D-004 independent finding and full-pair reviewers (coordinator).
@@ -241,6 +255,24 @@ Get-Content -LiteralPath "$B\net\minecraft\client\player\LocalPlayer.java" | Sel
 - Implementation handoff: blocked pending independent acceptance; no precise cutover within the interval is claimed.
 - Replaces/supersedes snapshot ID and reason, if applicable: none.
 
+### Snapshot event FS-2026-10-07-1.14.4-1.15.2-05
+
+- Finding ID(s): F-ELYTRA-FLIGHT-TOGGLE-ORDER
+- Source finding author(s): /root
+- Status: submitted; reviewer decision pending
+- Immutable snapshot commit: `105ec98f7b092a8b68e3d93a9739a720fe10e578`
+- Finding file path and SHA-256: `findings/F-ELYTRA-FLIGHT-TOGGLE-ORDER.md` `b6668fc03b614b70bed323f73ded8e816e919d9f3d34112b162726501505b403`
+- Exact A/B artifact-manifest identities: A `ready/1.14.4/mojmap.artifacts.sha256` SHA-256 `308cc33ef6dffc047432ade6affc88eccc9de94a736ee9a98571fd92915c2970`; B `ready/1.15.2/artifacts.sha256` SHA-256 `208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406`.
+- Cited source identities and hashes: A/B `LocalPlayer.java` hashes and exact ranges are recorded in the finding; both source roots and artifact manifests match the pair identities recorded above.
+- Verified implementation boundary/evidence, or unresolved boundary reason: endpoint sources establish same-tick local Elytra request arbitration after an ability-flight toggle; earliest affected release within (1.14.4, 1.15.2] remains unknown. This snapshot does not freeze or close the pair.
+- Finding-specific closed dependency IDs/evidence: S-LOCAL-PRETRAVEL ability-flight toggle branch, fresh jump edge and `bl8` transition marker; Elytra slot/enable checks are cross-referenced to F-ELYTRA-START. Server acceptance and runtime behavior are not claimed.
+- Independent blind source reviewer and decision date: `01a116ce-b44d-75f0-974f-5038e0d227c7`; pending.
+- Review basis / requested source-only revisions: independently re-check ability-toggle guards and order, same-tick marker behavior, fresh jump precondition, source ranges/hashes and separation from F-ELYTRA-START.
+- Pair run status and commit at handoff: `partial`; payload source commit `105ec98f7b092a8b68e3d93a9739a720fe10e578`.
+- Pair complete: no
+- Implementation handoff: blocked pending independent acceptance; no precise cutover within the interval is claimed.
+- Replaces/supersedes snapshot ID and reason, if applicable: none.
+
 ## Implementation reconciliation
 
 This source-only worker has not inspected implementation and will not do so before blind-discovery freeze.
@@ -262,12 +294,12 @@ This source-only worker has not inspected implementation and will not do so befo
 
 ## Source audit closure
 
-- Coverage counts by status: 7 findings, 2 in-progress, 0 pending.
+- Coverage counts by status: 7 findings, 3 in-progress, 0 pending.
 - Required inventory status and evidence: all seven inventories pending; source pair hashes verified, but method/dependency and registration/resource inventories remain open.
-- Accepted finding snapshots (metadata only; does not close pair): none; events -01, -02, -03 and -04 are submitted and awaiting independent review.
+- Accepted finding snapshots (metadata only; does not close pair): none; events -01 through -05 are submitted and awaiting independent review.
 - Open dependencies: D-001,D-002,D-003,D-004
 - Unresolved gaps and limits: comparison is partial; the full tick inventory remains open beyond the bounded input-key slice, along with remaining local pre-travel, full collision providers/shapes, fluids, modifier application, external player motion inputs, and explicit exclusions.
-- Evidence/hash/correspondence audit: pair manifests and hashes for the cited Entity, LivingEntity, Player, Block, Blocks, SnowLayerBlock, LocalPlayer, KeyboardInput and HoneyBlock sources recorded; complete tick correspondence and remaining source inventories pending.
+- Evidence/hash/correspondence audit: pair manifests and hashes for the cited Entity, LivingEntity, Player, Block, Blocks, SnowLayerBlock, LocalPlayer, KeyboardInput, HoneyBlock, A LevelReader and B CollisionGetter sources recorded; complete tick correspondence and remaining source inventories pending.
 - Blind freeze: pending
 - Implementation reconciliation: pending
 - Independent audit: pending
