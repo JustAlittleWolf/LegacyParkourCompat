@@ -1,0 +1,102 @@
+{
+  "audit": "production-changing unmerged branch dispositions",
+  "auditedMain": "bdd31fe258e8642a2e036a526071dd45dcc2a685",
+  "mergeCandidates": [],
+  "refs": [
+    {
+      "branch": "feat/implement-1144-1152-deltas",
+      "tip": "cfe7d22767170ec021952c0c98ea9fd9e3f70b44",
+      "disposition": "b",
+      "reason": "F06 portal placement is already represented by PortalDismountBehavior plus v1_14/PortalDismountChange and current portal-tagged dismount dispatch; branch would duplicate old hook architecture.",
+      "evidence": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_14/PortalDismountChange.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/mixin/LivingEntityMixin.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/MovementChangeCatalog.java",
+        "workflows/fix-implementation/runs/1.14.4--1.15.2.md"
+      ]
+    },
+    {
+      "branch": "feat/implement-movement-1-8-9-1-9-4",
+      "tip": "95fbb1478105db19eb3669d4808895209a55919d",
+      "disposition": "b",
+      "reason": "Client chunk lookup and creative-flight fall-distance behavior already exist in main; branch natural-regeneration/FoodData hooks alter expressly excluded health/food systems.",
+      "evidence": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_8/TruncatedMovementChunkLookup.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_8/CreativeFlightFallDistance.java",
+        "workflows/fix-implementation/runs/1.8.9--1.9.4.md",
+        "AGENTS.md"
+      ]
+    },
+    {
+      "branch": "feat/movement-deltas-1206-12111",
+      "tip": "8319fd1fec9875deeea7b943681c50bd4efd3a45",
+      "disposition": "b",
+      "reason": "Sprint window, shallow-water eligibility and powder-snow boost are represented in main at source-reviewed V1_21_5/V1_21_4 groups. Unique TwoRouteStepUp candidate is explicitly rejected/no-code under MC05.",
+      "evidence": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_5/DoubleTapSprintWindow.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_4/ShallowWaterSprintEligibility.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_4/PowderSnowClimbBoost.java",
+        "workflows/fix-implementation/reconciliations/MC1204-1206-feature-scope-2026-10-08.md",
+        "workflows/implementation-reviews/2026-10-08-mc1204-1206-feature-scope-review.md"
+      ]
+    },
+    {
+      "branch": "feat/movement-sprint-timeout-2026-10-08",
+      "tip": "3c531180287b3cecff49e557083db73352b258f7",
+      "disposition": "b",
+      "reason": "Accepted TICK-01 implementation is integrated on main; backlog binds code 3c531180 to integration 3699009 and ACCEPT review fddb263.",
+      "evidence": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_8/SprintDuration.java",
+        "workflows/accepted-findings-backlog-2026-10-08/accepted-findings.jsonl",
+        "workflows/accepted-findings-backlog-2026-10-08/integrated-code-batches.jsonl"
+      ]
+    },
+    {
+      "branch": "fix/fence-end-portal-frame-1-9",
+      "tip": "44882452607d58457d44e1aa4940f15dca9e72c8",
+      "disposition": "b",
+      "reason": "Accepted implementation commit 51ecf89 and ACCEPT review 8838f92 are integrated on main; implementation commit is an ancestor of main.",
+      "evidence": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_8/FencePortalFrameConnection.java",
+        "workflows/accepted-findings-backlog-2026-10-08/accepted-findings.jsonl",
+        "workflows/accepted-findings-backlog-2026-10-08/integrated-code-batches.jsonl",
+        "workflows/fix-implementation/reviews/fence-end-portal-frame-1.8.9-to-1.9.4.md"
+      ]
+    },
+    {
+      "branch": "fix/review-sprint-start-water-input-1-12-1-13-2026-10-08",
+      "tip": "4a01f7e2f589231ee9abe8787e6327f3f04eea1c",
+      "disposition": "b",
+      "reason": "Correction 4ade022 was accepted; its grounded V1_12 and separate V1_13 rules are present in main under refactored hook interfaces. Main contains corresponding commits 21358a4a/83b4cde5.",
+      "evidence": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/SprintInputStart.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_13/SprintInputStart.java",
+        "workflows/implementation-reviews/2026-10-08-sprint-start-water-input-correction-review.md"
+      ]
+    },
+    {
+      "branch": "fix/review-world-03-end-portal-2026-10-08",
+      "tip": "1900fa485525dd7ad61323db6a2ce0b7d29ac36b",
+      "disposition": "b",
+      "reason": "Stale pre-correction candidate. Corrected 8ae7701 code, ACCEPT review c1dee45, and integration b8332d7 are on main; never merge stale sampling/velocity code.",
+      "evidence": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_8/EndPortalFramePlayerEjection.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_9/PushAwayVelocity.java",
+        "workflows/implementation-reviews/2026-10-08-world-03-end-portal-correction-review.md",
+        "workflows/fix-implementation/runs/1.8.9-world-03-correction-2026-10-08.md"
+      ]
+    },
+    {
+      "branch": "fix/sprint-start-water-input-1-12-1-13-2026-10-08",
+      "tip": "bd396a4f122f0253c806515b3991df81df6ea8e3",
+      "disposition": "b",
+      "reason": "Initial code bc1e178 precedes the correction requested by review; superseded by corrected/accepted sibling and equivalent main behavior. Never merge uncorrected ref.",
+      "evidence": [
+        "workflows/implementation-reviews/2026-10-08-sprint-start-water-input-implementation-review.md",
+        "workflows/implementation-reviews/2026-10-08-sprint-start-water-input-correction-review.md",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/SprintInputStart.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_13/SprintInputStart.java"
+      ]
+    }
+  ]
+}

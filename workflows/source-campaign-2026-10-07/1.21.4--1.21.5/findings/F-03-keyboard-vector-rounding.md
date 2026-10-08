@@ -18,7 +18,7 @@
 
 For simultaneous forward-plus-side keyboard input, 1.21.4 keeps two raw unit impulses through the local-player setup and reaches `Entity#getInputVector` with the scaled Vec3, which normalizes in double precision when its squared length exceeds `1.0`. 1.21.5 first normalizes the two keyboard axes as a float `Vec2`, then scales and applies the new square-movement correction before the same Vec3 consumer. The client player path is supplied by `KeyboardInput`; the source inventory found it as the only `ClientInput` subclass and both `ClientPacketListener` construction sites install it for the local player.
 
-The ideal diagonal direction and magnitude are normalized in both paths. The operation order and precision differ: B rounds the direction in float before the later movement speed and yaw operations, while A carries the scaled raw components into a double Vec3 normalization. The new correction also preserves scaled diagonal movement under the item-use and sneaking multipliers.
+The ideal diagonal direction and magnitude are normalized in both paths. The operation order and precision differ: B rounds the direction in float before the later movement speed and yaw operations, while A carries the scaled raw components into a double Vec3 normalization. The new correction also preserves scaled diagonal movement under the item-use and sneaking multipliers. This finding isolates the normalization precision; the separate `0.98F` input-damping difference on B's controlled-camera path is recorded in F-09.
 
 ## Reachability and dependencies
 

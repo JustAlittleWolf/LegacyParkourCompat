@@ -1,4 +1,4 @@
-# F-02: Bubble columns apply their above-column impulse below any empty-fluid collision space
+# F-02: Bubble-column upper contact accepts empty shapes without fluid
 
 - Older version A: 1.21.4
 - Newer version B: 1.21.5

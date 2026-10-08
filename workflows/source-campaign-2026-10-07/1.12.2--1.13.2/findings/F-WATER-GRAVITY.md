@@ -9,6 +9,7 @@
 - First changed release: unknown within (1.12.2, 1.13.2].
 - Runtime validation: not performed.
 - Artifact manifests: A original artifact-manifest SHA-256 8171a095a5ee74cebbd12b3d76983fc01796c0c23c962076d1e235cd0f80fa8c; B fdcacd9150f98ea70acafc5cab754027ab1a09828ff0eaa8e542dd7890d9ce1e. Source trees were rehashed against their ready manifests. Revised snapshot revision feather-r1-2026-10-07: A fcc17537a14a423e2086f600047725ec1fcfd4c7fcf5c0d1a5bda491966c1b87; B b28c33e023928045c8fd7ed7727a860a6820241e371ddb16108366c6192b718c. Original mapped jars unavailable; snapshots not proven identical or metadata-only.
+- Evidence artifact records: `EA-FEATHER-R1-A` and `EA-FEATHER-R1-B` (see `run.md`, Artifact evidence identities).
 
 ## Paired evidence
 

@@ -1,6 +1,6 @@
 # Discovery: 1.19.2 to 1.19.3
 
-- Status: partial
+- Status: active
 - Scope: direct client player movement; older A = 1.19.2; newer B = 1.19.3
 - Repository revision and start date: source comparison baseline `002137b227676caea77f6832b9f4c8d0b6200bff`; started 2026-10-07 (Europe/Vienna); discovery schema commits `40c34f5`, `2422192`, `fba28fa`
 - Selected naming namespace, CLI mode per side and alignment evidence: Mojmap/Mojmap; exact releases and official mapping files verified from the published readiness/provenance manifests below
@@ -53,12 +53,12 @@ Health, regeneration, hunger/food, saturation, exhaustion, damage/combat simulat
 
 ## Required source inventories
 
-- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1-input,S3-travel-dispatch,S3-ground-air,S3-jump,S3-mounted-sprint,S3-climb-swim,S3-glide,S3-fall-distance-farm-trample,S7-player-rotation-correction; evidence=paired core method anchors, checked exclusion E-001 and findings F-002/F-003/F-004/F-005 recorded; complete tick graph still open
-- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S2-player-state,S4-move-core,S4-step-edge,S3-fall-distance-farm-trample,S7-player-rotation-correction; evidence=fallDistance and correction-rotation writer-to-movement-consumer paths recorded in F-004/F-005; full both-side writer/consumer map remains open
-- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S4-move-core,S4-step-edge,S4-shapes-query,S4-callbacks,S5-block-shapes,S3-fall-distance-farm-trample; evidence=FarmBlock landing callback and its shape transition recorded in F-004; full provider/registration/neighbor inventory remains open
-- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S5-block-registration,S5-block-shapes,S5-fluid-data,S5-block-coefficients,S5-movement-tags,S5-water-source,S5-lava-source,S3-fall-distance-farm-trample; evidence=bounded coefficient/tag checks plus F-002/F-003/F-004; remaining Java/resource inventory open
-- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and applications/removals/conditions: status=pending; slice_ids=S6-effects-attributes,S6-enchantments-equipment,S6-player-movement-speed-effects,S6-direct-travel-effect-gates,S6-depth-strider-fluid,S6-soul-speed-ground,S6-swift-sneak; evidence=bounded movement effect and enchantment consumers compared-no-difference; other effect/enchantment/equipment paths remain open
-- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, such as corrections, pushes, pistons and mounts: status=pending; slice_ids=S7-external-velocity,S7-mount-transition,S3-mounted-sprint,S5-water-source,S5-lava-source,S3-fall-distance-farm-trample,S7-player-rotation-correction; evidence=E-001 checked mounted consumer boundary and F-002/F-003/F-004/F-005 external-state inputs; full producer/consumer inventory open
+- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1-input,S3-travel-dispatch,S3-ground-air,S3-jump,S3-mounted-sprint,S3-climb-swim,S3-glide,S3-fall-distance-farm-trample,S7-boat-passenger-water-state,S7-player-rotation-correction; evidence=paired core method anchors, checked vehicle-only exclusion E-001 and findings F-002/F-003/F-004/F-005/F-006 recorded; complete tick graph still open
+- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S2-player-state,S2-pose-refresh,S2-sleep-exit-position,S4-move-core,S4-step-edge,S3-fall-distance-farm-trample,S7-boat-passenger-water-state,S7-player-rotation-correction,S7-correction-interpolation-history; evidence=bounded pose refresh and sleep-exit selection, fallDistance, underwater-boat water-state and correction-rotation writer-to-movement-consumer paths recorded; full both-side writer/consumer map remains open
+- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S4-move-core,S4-step-edge,S4-shapes-query,S4-callbacks,S5-block-shapes,S5-collision-shape-methods,S5-bamboo-shape-rename,S5-b-only-hanging-sign-shapes,S3-fall-distance-farm-trample; evidence=FarmBlock landing callback and its shape transition recorded in F-004; full provider/registration/neighbor inventory remains open
+- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S5-block-registration,S5-block-shapes,S5-bamboo-shape-rename,S5-b-only-hanging-sign-shapes,S5-fluid-data,S5-block-coefficients,S5-movement-tags,S5-water-source,S5-lava-source,S3-fall-distance-farm-trample; evidence=bounded coefficient/tag checks, B-only shape exclusions and F-002/F-003/F-004; remaining Java/resource inventory open
+- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and applications/removals/conditions: status=pending; slice_ids=S6-effects-attributes,S6-enchantments-equipment,S6-player-movement-speed-effects,S6-direct-travel-effect-gates,S6-depth-strider-fluid,S6-soul-speed-ground,S6-swift-sneak,S6-elytra-durability-unbreaking; evidence=bounded movement effect and enchantment consumers compared-no-difference; other effect/enchantment/equipment paths remain open
+- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, such as corrections, pushes, pistons and mounts: status=pending; slice_ids=S7-external-velocity,S7-mount-transition,S3-mounted-sprint,S7-boat-passenger-water-state,S5-water-source,S5-lava-source,S3-fall-distance-farm-trample,S7-player-rotation-correction,S7-correction-interpolation-history; evidence=E-001 vehicle-only boundary and F-002/F-003/F-004/F-005/F-006 player-state paths; full producer/consumer inventory open
 - `INV-EXCLUSIONS` explicit scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; evidence=pending scope/consumer audit; direct vanilla-state reads will be listed as movement inputs only
 
 ## Coverage ledger
@@ -149,6 +149,66 @@ These are initial bounded behavior families and all are open. After exact source
 - Disposition and rationale (including concrete reachability/preconditions): exact reachability and arithmetic are not established.
 - Finding IDs or checked absence/replacement path: none yet
 
+### Slice S3-glide-state-validation: Pre-travel glide-state validation
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.updateFallFlying()` checks the shared glide flag, ground/passenger/Levitation gates and enabled chest-slot Elytra before `travel()`.
+- A evidence: `net/minecraft/world/entity/LivingEntity.java` `updateFallFlying()` lines 2626-2651; file SHA-256 `fee2df5155449098556a138d2530d06b7a35979e43c6aa0ae1fffd6251853e77`.
+- B evidence: same member lines 2637-2662; file SHA-256 `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db`.
+- State producers/writers -> consumers/readers: shared fall-flying flag and player pose/equipment/ground/passenger/effect state -> validation -> server shared-flag update and next travel branch. Client start eligibility, equipment data and packet/server transition remain in S3-glide/S6-enchantments-equipment.
+- Parent slices / dependencies / closure evidence: S2-player-state, S3-travel-dispatch, S3-glide, S6-enchantments-equipment.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the paired guard order, Elytra identity/enable checks, durability/event timing and server-only flag write are text-identical. This closes only this helper body.
+- Finding IDs or checked absence/replacement path: paired `updateFallFlying()` body checked; no difference.
+
+### Slice S3-glide-start-request: Player Elytra start gate and packet consumer
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-EXTERNAL, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: jump-edge client request, `Player.tryToStartFallFlying()`, Elytra enabled/durability predicate and server `START_FALL_FLYING` command handling.
+- A evidence: `LocalPlayer.aiStep()` lines 830-835; `Player.tryToStartFallFlying()` lines 1602-1612; `ElytraItem.isFlyEnabled()` lines 21-23; `Items.ELYTRA` registration lines 809-810 sets durability 432; `ServerGamePacketListenerImpl` consumes `START_FALL_FLYING` at lines 1525-1529. Full hashes: `LocalPlayer.java` `36ae4aabd609b457fffb7a8b14abb50db9ac775857dde1774c0c68a8cf50deef`; `Player.java` `155c5fcfba322d968f3180383e7d283ddeb5edee4e04314906310d4e3ce0ccc1`; `ElytraItem.java` `f6859e9d245a2b34c4e2c24af5bf6a2bb956f05ba8eaf3dbef74ba543ea0993c`; `Items.java` `af1cdd38108b4487f61c734ed813ec7304ea3d777c61ba1b44b6640d0f1b376f`; `ServerGamePacketListenerImpl.java` `976992cd0cf4ce387e12543861aab66cc7cf8a58f078f00e0fe8f91df47b4cd2`.
+- B evidence: `LocalPlayer.aiStep()` lines 751-756; `Player.tryToStartFallFlying()` lines 1581-1591; `ElytraItem.isFlyEnabled()` lines 21-23; `Items.ELYTRA` registration line 767 also sets durability 432. `ServerGamePacketListenerImpl` consumes `START_FALL_FLYING` at lines 1421-1425. Full hashes: `LocalPlayer.java` `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`; `Player.java` `02e64e197aec3f4f2a8abc9c5ce4545121ac5bcbbc71592ce478601a0db17203`; `ElytraItem.java` `f6859e9d245a2b34c4e2c24af5bf6a2bb956f05ba8eaf3dbef74ba543ea0993c`; `Items.java` `815da3375c7900f95827acb6d20e60cd11f5a60cbb3f785f9274fbf11ba93567`; `ServerGamePacketListenerImpl.java` `81288e1e99d88796e096c1386e8a1f108a077078467d4843a56d14f7cb48006b`.
+- State producers/writers -> consumers/readers: jump input edge and player state/effect/equipment gates -> `startFallFlying()` shared flag write -> server command validation -> `updateFallFlying()` and `LivingEntity.travel()` glide branch. Elytra Unbreaking/durability behavior remains in S6-enchantments-equipment.
+- Parent slices / dependencies / closure evidence: S1-input, S2-player-state, S3-glide, S3-glide-state-validation, S6-enchantments-equipment.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the local guards, chest-slot lookup, enabled threshold (`damage < maxDamage - 1`), client flag write and server accept/stop fallback are identical. Elytra durability remains 432 on both sides; the newer registration's creative-tab metadata does not affect movement. Enchantment-driven item wear is not closed by this request slice.
+- Finding IDs or checked absence/replacement path: paired client predicate, player helper, item predicate/default and server consumer checked; no difference.
+
+### Slice S3-water-travel-branch: Water travel arithmetic
+
+- Inventory ID(s): INV-TICK, INV-WORLD-MOVEMENT, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: water travel guard, Depth Strider and Dolphin's Grace inputs, relative acceleration, move, drag and fluid-fall adjustment in `LivingEntity.travel()`.
+- A evidence: `net/minecraft/world/entity/LivingEntity.java` lines 2051-2086; full file SHA-256 `fee2df5155449098556a138d2530d06b7a35979e43c6aa0ae1fffd6251853e77`.
+- B evidence: same branch lines 2061-2096; full file SHA-256 `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db`.
+- State producers/writers -> consumers/readers: fluid contact/height, ground, sprint, speed, Depth Strider and Dolphin's Grace -> branch arithmetic -> player velocity and position writes. Fluid topology remains an external world input; related source-conversion findings F-002/F-003 remain conditional on server/world state.
+- Parent slices / dependencies / closure evidence: S3-climb-swim, S5-fluid-data, S5-water-source, S6-depth-strider-fluid, S6-direct-travel-effect-gates, S4-move-core.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): paired water guards, casts, constants, arithmetic grouping, call order and collision response are text-identical. This is limited to the `LivingEntity.travel()` water branch and its call sequence; inputs and downstream helpers retain their own rows.
+- Finding IDs or checked absence/replacement path: paired branch body checked; no difference.
+
+### Slice S3-lava-travel-branch: Lava travel arithmetic
+
+- Inventory ID(s): INV-TICK, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: lava travel guard, relative acceleration, move, fluid-height threshold, drag, falling adjustment, gravity and horizontal-collision climb-out.
+- A evidence: `net/minecraft/world/entity/LivingEntity.java` lines 2087-2106; full file SHA-256 `fee2df5155449098556a138d2530d06b7a35979e43c6aa0ae1fffd6251853e77`.
+- B evidence: same branch lines 2097-2116; full file SHA-256 `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db`.
+- State producers/writers -> consumers/readers: lava contact/height and player velocity/ground/gravity -> branch movement writes; source conversion and world fluid states remain external inputs.
+- Parent slices / dependencies / closure evidence: S3-climb-swim, S5-fluid-data, S5-lava-source, S4-move-core.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the paired lava branch retains the same guards, `0.02F` acceleration, half/0.8F drag, `-gravity / 4.0` and climb-out ordering. This is a branch-only disposition.
+- Finding IDs or checked absence/replacement path: paired branch body checked; no difference.
+
+### Slice S3-ground-travel-branch: Ordinary ground and air travel arithmetic
+
+- Inventory ID(s): INV-TICK, INV-WORLD-MOVEMENT, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: friction block selection, relative acceleration, Levitation, unloaded-client-chunk gravity fallback, gravity, and the friction-discard branch in `LivingEntity.travel()`.
+- A evidence: `net/minecraft/world/entity/LivingEntity.java` lines 2150-2178; full file SHA-256 `fee2df5155449098556a138d2530d06b7a35979e43c6aa0ae1fffd6251853e77`.
+- B evidence: same branch lines 2157-2185; full file SHA-256 `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db`.
+- State producers/writers -> consumers/readers: support block friction, on-ground, movement speed, Levitation and gravity -> acceleration/travel helpers -> player velocity and position; those input providers and collision results have separate open rows.
+- Parent slices / dependencies / closure evidence: S3-ground-air, S4-move-core, S5-block-coefficients, S6-direct-travel-effect-gates, S6-effects-attributes.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the paired ordinary branch retains identical block lookup, friction multipliers, Levitation equation, missing-chunk fallback, gravity and friction-discard order. This does not close its block, collision, attribute or effect inputs.
+- Finding IDs or checked absence/replacement path: paired branch body checked; no difference.
+
 ### Slice S4-move-core: Entity movement, position and collision response
 
 - Inventory ID(s): INV-STATE, INV-COLLISION
@@ -197,6 +257,18 @@ These are initial bounded behavior families and all are open. After exact source
 - Disposition and rationale (including concrete reachability/preconditions): base and overriding callback bodies not yet enumerated.
 - Finding IDs or checked absence/replacement path: none yet
 
+### Slice S4-client-push-candidate-filter: Client-side entity push candidate query
+
+- Inventory ID(s): INV-TICK, INV-EXTERNAL, INV-EXCLUSIONS
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.aiStep()` post-travel `pushEntities()` caller, its client/server query split in B, and the shared selector/receiver path through `doPush`, `LivingEntity.push(Entity)` and `Entity.push(Entity)`.
+- A evidence: `LivingEntity.pushEntities()` lines 2656-2679 and `doPush(Entity)` lines 2703-2705; `Entity.push(Entity)` lines 1273-1302 and `push(double,double,double)` lines 1304-1307. Full source hashes: `LivingEntity.java` `fee2df5155449098556a138d2530d06b7a35979e43c6aa0ae1fffd6251853e77`; `Entity.java` `759de9cded43bd882afcf5b7023bcf804d92419acb656b493f3b490c83eb18b6`.
+- B evidence: `LivingEntity.pushEntities()` lines 2667-2694 adds a client-side `Player.class` query while keeping the server query; `doPush(Entity)` lines 2718-2720; `Entity.push(Entity)` lines 1278-1307 and `push(double,double,double)` lines 1309-1312. Full source hashes: `LivingEntity.java` `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db`; `Entity.java` `8c35bdef3bf2de7b70ac76ad767ba2c194305e0dda2e03fdf6548983667adc32`.
+- State producers/writers -> consumers/readers: nearby entity AABB and `EntitySelector.pushableBy(this)` -> `doPush` -> receiver-side `Entity.push` can add horizontal velocity to a local player; `LivingEntity.isPushable()` is the same alive/non-spectator/non-climbable predicate on both sides (A lines 2800-2802; B 2815-2817).
+- Parent slices / dependencies / closure evidence: S3-livingentity-aiStep-order, S7-external-velocity, S4-move-core. `EntitySelector.java` and `EntityGetter.java` are byte-identical across A/B (`5c1e4848a1afed5c19ee57b6fa3b7d5c7cdc33a2f978c75a6b3f0940554dbf9e`, `f7fa5641d3287d5084f4450e1c09cd4d5816c5cff5412c6f07b14779bb60215f`). Their client selector permits only `Player.isLocalPlayer()`; `Player.isLocalPlayer()` returns false and `LocalPlayer.isLocalPlayer()` returns true in both versions. B's `EntityTypeTest.forClass(Player.class)` type filter was confirmed from the 1.19.3 `EntityTypeTest$1.tryCast(Object)` bytecode in the published `client-mojmap.jar` (SHA-256 `3be15cd54092cbac9853a67445a42b38d5c3b0d61503bd79b0d76589357d871e`); the adapter calls the captured `Class.isInstance`. The decompiled anonymous-class parameter names are ambiguous, so the classfile resolves only that member.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): on the client, A's all-entity query is already reduced by the shared `pushableBy` predicate to the local player; B prefilters to `Player` and then applies the same predicate. For a remote living-entity caller this retains the same local-player candidate. If B's unexcluded query includes the local player when it is also the caller, the shared `Entity.push` sees zero horizontal separation and fails its `>= 0.01F` threshold, so it adds no velocity. The server-side candidate query remains all-entity in both versions. This source change does not establish a player-motion difference.
+- Finding IDs or checked absence/replacement path: paired caller, selector, query adapter and velocity receiver checked; no player-movement difference.
+
 ### Slice S5-block-registration: Movement properties and registrations
 
 - Inventory ID(s): INV-WORLD-MOVEMENT
@@ -220,6 +292,42 @@ These are initial bounded behavior families and all are open. After exact source
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): modern-only blocks will not receive emulated behavior; prove version registries before classification.
 - Finding IDs or checked absence/replacement path: none yet
+
+### Slice S5-bamboo-shape-rename: Bamboo stalk collision provider rename
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: the existing minecraft:bamboo registration across class rename, collision/outline shape constants and methods, and dynamic XZ state offset applied to both shapes.
+- A evidence: BambooBlock.java defines SMALL_SHAPE (5..11), LARGE_SHAPE (3..13), and COLLISION_SHAPE (6.5..9.5), lines 33-35; getShape lines 61-66 and getCollisionShape lines 73-76 apply the same block-state offset. Blocks.java registers "bamboo" using new BambooBlock and the BAMBOO material, .noOcclusion(), .dynamicShape() and XZ offset; full hashes e2f6a534d9d2dd45996e20e0109aa5bd428536cf7931d810b0eb01f1e73a4012 / f532585f836ee7ad685d368889ed13d735c570ef38971db0c1d2a7debb4cf27b.
+- B evidence: BambooStalkBlock.java defines the same three shape constants and corresponding shape bodies at lines 33-35, 61-66 and 73-76. Blocks.java still registers "bamboo" with the same properties, now using new BambooStalkBlock; full hashes fbd9af0ff7562328e7bb9dc7ea29006a957c52437aed1f78121870778a95e27b / 9944877c941fa209d2a8b9a7d4eb6333edf2dfca255a3e90601242483eb7a476.
+- State producers/writers -> consumers/readers: Bamboo block state and position -> identical XZ offset and collision shape -> player movement collision query; old maps can contain this block in both versions.
+- Parent slices / dependencies / closure evidence: S4-shapes-query, S5-block-registration and S5-block-shapes; broader shape-provider and neighbor dependency inventory remains open.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for the existing Bamboo block, the class rename leaves the listed shape constants, offset application, collision flags and registry properties unchanged. The player receives the same collision shape for corresponding state and position; no difference is established in this bounded provider.
+- Finding IDs or checked absence/replacement path: paired Bamboo registration, shape constants and shape accessors checked; no difference.
+
+### Slice S5-b-only-hanging-sign-shapes: B-only hanging-sign shape providers
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT, INV-EXCLUSIONS
+- Exact behavior boundary and enclosing guards/order checked: B-only CeilingHangingSignBlock outline shape and WallHangingSignBlock outline/collision shape providers, plus their B-only block registrations.
+- A evidence: checked absence: CeilingHangingSignBlock.java and WallHangingSignBlock.java are absent from the exact 1.19.2 source tree, and A Blocks.java contains no hanging-sign registrations (full-file SHA-256 f532585f836ee7ad685d368889ed13d735c570ef38971db0c1d2a7debb4cf27b); no A block states exist.
+- B evidence: CeilingHangingSignBlock.java SHA-256 53772cdc6d3a5b760378352e13dcc721b272932f3b0a5e93c9b8dea5b2991272 defines an outline shape but no collision override; WallHangingSignBlock.java SHA-256 0303218a588fc4dc1be89276c10b5fa52b437f418c943927a190759c9afc7204 defines the wall plank collision shape. Both are present in 1.19.3. Its Blocks.java (SHA-256 9944877c941fa209d2a8b9a7d4eb6333edf2dfca255a3e90601242483eb7a476) registers the hanging-sign variants at lines 850-1075; no corresponding entries occur in A Blocks.java (SHA-256 f532585f836ee7ad685d368889ed13d735c570ef38971db0c1d2a7debb4cf27b).
+- State producers/writers -> consumers/readers: B-only block registration/world state -> new shape providers -> B client collision query; these block types have no A-era map representation.
+- Parent slices / dependencies / closure evidence: project scope excludes historical emulation for blocks that did not exist in A.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): these blocks have no 1.19.2 counterpart and cannot occur in an A-version map; assigning them an older movement collision shape would invent historical behavior outside scope.
+- Finding IDs or checked absence/replacement path: exact A source/registry absence and B class/registration presence checked; explicit modern-only exclusion.
+
+### Slice S5-collision-shape-methods: Declared block collision-shape method inventory
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: every source declaration of VoxelShape getCollisionShape under world/level/block in both published Mojmap trees; excludes visual-only getShape methods unless they feed an explicit collision override.
+- A evidence: 21 declaring source files found in the exact A source subtree. The 20 shared method paths, exact A/B line spans and matching complete-body SHA-256 fingerprints are recorded in collision-shape-methods.tsv. BambooBlock is the sole unmatched A path and is paired with B BambooStalkBlock in S5-bamboo-shape-rename; checked absence of other unmatched declarations.
+- B evidence: 22 declaring source files found in the exact B source subtree. The same 20 shared methods and their line spans/fingerprints are recorded in collision-shape-methods.tsv. BambooStalkBlock is paired with A BambooBlock in S5-bamboo-shape-rename; B-only WallHangingSignBlock is covered by S5-b-only-hanging-sign-shapes; checked absence of additional declared collision-shape methods.
+- State producers/writers -> consumers/readers: block-state/provider plus world/context inputs -> block collision-shape methods -> shared collision query; provider registration, neighboring-block topology and the consumer call graph remain parent-slice dependencies.
+- Parent slices / dependencies / closure evidence: S4-shapes-query, S4-callbacks, S5-block-registration, S5-block-shapes, S5-bamboo-shape-rename and S5-b-only-hanging-sign-shapes; full inherited-shape, registration and neighbor/provider dependency closure remains open.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): all 20 same-path declared collision-shape method bodies have identical extracted SHA-256 fingerprints; Bamboo's renamed method body and registration are equivalent; the only extra collision override is the B-only hanging-sign wall provider and is excluded because that block has no A-era registration. This closes the declared block collision-shape method census, but not inherited shapes or the complete collision query/provider graph.
+- Finding IDs or checked absence/replacement path: paired declaration inventory and body fingerprints checked; no existing-block collision-shape difference in this method census.
 
 ### Slice S5-fluid-data: Fluid state, flow and push data
 
@@ -257,6 +365,18 @@ These are initial bounded behavior families and all are open. After exact source
 - Disposition and rationale (including concrete reachability/preconditions): explicitly inspect Depth Strider, Soul Speed, Swift Sneak, Frost Walker, Riptide, Elytra and other discovered entries; record synchronized/server data boundary.
 - Finding IDs or checked absence/replacement path: none yet
 
+### Slice S6-elytra-durability-unbreaking: Elytra wear and Unbreaking gate
+
+- Inventory ID(s): INV-MODIFIERS, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: the server-side every-20-tick Elytra damage call in `LivingEntity.updateFallFlying`, `ItemStack.hurt` / `hurtAndBreak`, the Unbreaking durability-drop predicate, and the resulting Elytra durability read by the fall-flying enable predicate. This does not disposition other equipment or enchantment paths.
+- A evidence: `LivingEntity.java` `updateFallFlying` lines 2117-2122 invokes `ItemStack.hurtAndBreak(1,...)` under the same twentieth-tick guard as B, full source SHA-256 `fee2df5155449098556a138d2530d06b7a35979e43c6aa0ae1fffd6251853e77`; `ItemStack.java` `hurt` lines 293-321 and `hurtAndBreak` lines 323-338, SHA-256 `c5cd62fbcabcd076592c7302d5019eafff245e7d1be939a37885136e8d290336`; `DigDurabilityEnchantment.java` `shouldIgnoreDurabilityDrop` lines 33-35, SHA-256 `40d38d3e0183f86fdb2a8a81c44041ab7738146cc498d9243e81e0a19aa1b8ee`; `EnchantmentHelper.java` `getItemEnchantmentLevel` and `getEnchantments` lines 63-85, SHA-256 `0565d51d86fbd0854b4bf256c0e0eff1caaace22b4c8f5f59b3a98e402f6319d`; `Enchantments.java` `UNBREAKING` registration line 44, SHA-256 `83a612cb3d234083e53358e98402b904f0f244dbe464f65c30b1658841148c93`; `ElytraItem.java` durability 432 line 21, SHA-256 `f6859e9d245a2b34c4e2c24af5bf6a2bb956f05ba8eaf3dbef74ba543ea0993c`.
+- B evidence: `LivingEntity.java` `updateFallFlying` lines 2127-2132 invokes the same damage call under the same twentieth-tick guard, full source SHA-256 `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db`; `ItemStack.java` `hurt` lines 301-329 and `hurtAndBreak` lines 331-346, SHA-256 `b8762664412744fb8c63383d5fad8caa2cbbdbab23ab0aaba76f233b6e4ef2e4`; `DigDurabilityEnchantment.java` and `EnchantmentHelper` selected bodies are identical to A; `Enchantments.java` `UNBREAKING` registration line 45, SHA-256 `35fa4d1f9da93971fa70bf6ec2f9218a8825ff343038b51143ae1404867f38e3`; `ElytraItem.java` durability and helper are byte-identical to A.
+- State producers/writers -> consumers/readers: synchronized equipped Elytra and Unbreaking level -> server periodic durability attempt and random Unbreaking check -> stack damage/breakage -> Elytra durability / `isFlyEnabled` gate on a subsequent glide-start request; packet synchronization and the wider equipment producer chain remain external.
+- Parent slices / dependencies / closure evidence: S3-glide, S3-glide-start-request, S6-enchantments-equipment and S7-external-velocity; D3 equipment synchronization and the remaining S6 item/enchantment inventory remain open.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for an equipped Elytra with Unbreaking, both versions run the same every-20-tick server damage attempt, use the same generic `ItemStack` durability path, and apply the same `nextInt(level + 1) > 0` Unbreaking gate. `ElytraItem` is not an `ArmorItem`, so the separate armor durability probability branch does not apply. Elytra durability and the fly-enabled check are also unchanged. No difference is established for this bounded wear path; other equipment and the arrival timing of synchronized stack state remain open.
+- Finding IDs or checked absence/replacement path: paired `updateFallFlying` caller, Elytra item, generic durability methods, Unbreaking predicate/registration and enchantment lookup checked; no difference.
+
 ### Slice S7-external-velocity: External player movement inputs
 
 - Inventory ID(s): INV-EXTERNAL
@@ -281,6 +401,42 @@ These are initial bounded behavior families and all are open. After exact source
 - Disposition and rationale (including concrete reachability/preconditions): player-only method/caller closure not yet inspected.
 - Finding IDs or checked absence/replacement path: none yet
 
+### Slice S7-rider-sprint-status-sync: Sprint command transmission while riding
+
+- Inventory ID(s): INV-EXTERNAL, INV-TICK
+- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer.tick()`'s passenger branch, conditional controlled-root-vehicle packet sends, sprint-state packet emission and the paired server command consumer.
+- A evidence: `net/minecraft/client/player/LocalPlayer.java` `tick()` lines 200-218; full file SHA-256 `36ae4aabd609b457fffb7a8b14abb50db9ac775857dde1774c0c68a8cf50deef`. `sendPosition()` is reached only on the non-passenger branch and sends sprint state there (lines 230-238). A `ServerGamePacketListenerImpl.handlePlayerCommand` lines 1484-1497 sets the server player's sprint flag for START/STOP; full file SHA-256 `976992cd0cf4ce387e12543861aab66cc7cf8a58f078f00e0fe8f91df47b4cd2`.
+- B evidence: `net/minecraft/client/player/LocalPlayer.java` `tick()` lines 188-207 adds `sendIsSprintingIfNeeded()` after `ServerboundMoveVehiclePacket` when the root vehicle is locally controlled; helper lines 271-279 sends the changed sprint state and updates `wasSprinting`; full file SHA-256 `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`. B `ServerGamePacketListenerImpl.handlePlayerCommand` lines 1380-1393 applies the same state writes; full file SHA-256 `81288e1e99d88796e096c1386e8a1f108a077078467d4843a56d14f7cb48006b`.
+- State producers/writers -> consumers/readers: local `isSprinting()` / `wasSprinting` -> START/STOP packet -> server `Player.setSprinting`; the paired `LivingEntity.jumpFromGround()` reads that flag and adds horizontal impulse (A lines 2014-2024, B 2024-2034; full `LivingEntity.java` hashes `fee2df5155449098556a138d2530d06b7a35979e43c6aa0ae1fffd6251853e77` / `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db`).
+- Parent slices / dependencies / closure evidence: S3-mounted-sprint, S3-player-jump-travel and S7-mount-transition. Exact server packet ordering against dismount and the first on-foot movement tick is unresolved.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): B can synchronize a changed sprint flag during a locally controlled passenger tick; A waits until `sendPosition()` runs after the player is no longer a passenger. Source proves a transmission-time difference and a direct player-jump consumer of server sprint state, but this slice does not yet prove a differing on-foot player velocity after packet and dismount ordering. While still mounted, resulting mount movement is excluded.
+- Finding IDs or checked absence/replacement path: no new finding until the dismount/server-tick dependency is closed; the separate client-local carryover path is F-006.
+
+### Slice S7-boat-passenger-water-state: Underwater boat passenger water-contact flag
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: `Entity.updateInWaterStateAndDoWaterCurrentPushing` boat-passenger guard and `wasTouchingWater` write, the `isInWater` reader, LocalPlayer's inherited travel route while mounted, and the mounted tick/reposition order.
+- A evidence: `Entity.java` `updateInWaterStateAndDoWaterCurrentPushing()` lines 1069-1085 clears `wasTouchingWater` whenever `getVehicle() instanceof Boat`; `isInWater()` lines 1018-1020 reads the flag; `rideTick()` lines 1699-1705 zeroes velocity, calls `tick`, then positions a remaining passenger. Full file SHA-256 `759de9cded43bd882afcf5b7023bcf804d92419acb656b493f3b490c83eb18b6`.
+- B evidence: `Entity.java` `updateInWaterStateAndDoWaterCurrentPushing()` lines 1074-1093 clears the flag only when the vehicle is a Boat that is not underwater; when the boat is underwater it proceeds through player fluid-height/contact update. `isInWater()` lines 1027-1029 reads the flag; generic `rideTick()` has the same reset/tick/reposition order. Full file SHA-256 `8c35bdef3bf2de7b70ac76ad767ba2c194305e0dda2e03fdf6548983667adc32`. `LivingEntity.aiStep` and `Player.travel` retain the paired inherited movement route; `LocalPlayer.isEffectiveAi()` returns true in both versions, and its `rideTick()` override calls `super.rideTick()` before copying input to Boat (A lines 953-963, B lines 874-884; LocalPlayer full-file hashes are recorded in S7-rider-sprint-status-sync).
+- State producers/writers -> consumers/readers: underwater-boat state plus local player's fluid overlap -> `wasTouchingWater` -> `isInWater` -> inherited `LivingEntity.travel` water/land branch and player delta-movement writes; LocalPlayer's `rideTick` calls the generic reset/tick/reposition sequence before copying controls to Boat, while post-rideTick and dismount-time velocity consumers remain to be closed.
+- Parent slices / dependencies / closure evidence: S1-input, S3-water-travel-branch, S3-player-jump-travel, S7-mount-transition and S7-rider-sprint-status-sync; D3 remains open for the final player velocity/correction and dismount-consumer closure.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): when the local player rides an underwater Boat and the player's bounds intersect water, A clears the player's water-contact flag while B computes it from fluid contact. The paired LocalPlayer passenger tick runs `Player.travel`, whose inherited branch selector reads that flag and writes player delta movement. The vehicle repositions the player after the tick, but paired dismount methods retain delta movement; the next on-foot tick can consume the branch-specific player state. The mounted position remains vehicle-controlled and excluded. This is a source-confirmed direct player-state path; no realized trajectory is claimed.
+- Finding IDs or checked absence/replacement path: F-007, `findings/F-007-underwater-boat-player-travel.md`.
+
+### Slice S7-riding-jump-client-control: Ride-jump API and local input dispatch
+
+- Inventory ID(s): INV-TICK, INV-EXTERNAL, INV-EXCLUSIONS
+- Exact behavior boundary and enclosing guards/order checked: paired `LocalPlayer.aiStep()` ride-jump branch, its eligibility helper/interface and every exact-source implementation of `PlayerRideableJumping` in A/B.
+- A evidence: `LocalPlayer.aiStep()` lines 865-891 dispatches through `isRidingJumpable()`; helper lines 629-632 calls `canJump()` and the A interface lines 3-10 declares it. `AbstractHorse.canJump()` lines 876-879 returns `isSaddled()`, and its callback lines 859-874 writes the horse's pending jump scale; full source hashes are listed on the paired implementation evidence line.
+- B evidence: `LocalPlayer.aiStep()` lines 786-812 dispatches through `jumpableVehicle()` and additionally requires `getJumpCooldown() == 0`; helper lines 541-544 passes the player to `canJump(Player)`. B interface lines 5-16 makes that contract explicit and defaults cooldown to zero. The only A implementation is `AbstractHorse`; B retains that base and adds the B-only `Camel` implementation. B `AbstractHorse.canJump(Player)` lines 916-919 still returns `isSaddled()`, while its jump callback lines 899-914 changes the vehicle's `stand()` call to `standIfPossible()`. `Camel.canJump(Player)` lines 250-253 adds its own movement/controller guards; its cooldown override lines 299-302 returns `dashCooldown`. Hashes: A/B `PlayerRideableJumping.java` `7f9d0612d15ebf84046f08490c9fa1bc8d3d837d0d7c4c3ddc2254dac621b82a` / `afc2ca4502f47822b30620ded5fc3f9cd9383fd9d80b463c13bfd0f928e20570`; A/B `AbstractHorse.java` `4baae95bc36b9ba150ee03b1a8c103f73629f0d28d93b14cac8886d4ea81e0c0` / `6384878a658b6c9e093026c582022480a153a2e8db0f3fada3b3cf58d6840287`; B `Camel.java` `6fe3c267d62c3ef163b4f74f69912e99fcb75464fb0e278735f8cc4a150f66ea`.
+- State producers/writers -> consumers/readers: jump input and previous/current button state -> local helper/cooldown checks -> `onPlayerJump(scale)` and riding-jump packets -> vehicle jump fields/motion. The older horse's B eligibility and default cooldown preserve the A gate; the B-only camel and changed horse standing behavior affect vehicle state.
+- Parent slices / dependencies / closure evidence: S1-input, S3-jump, S7-mount-transition. The interface implementation inventory was searched in both exact source roots; A has only `AbstractHorse`, while B adds `Camel` under its new package.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): the source changes in this bounded branch control mount jump state and vehicle motion. A pre-existing rideable horse has the same saddled eligibility and B's default cooldown is zero; the changed callback's stand behavior is on the horse. The additional nonzero cooldown/controller behavior belongs to the B-only Camel. Player movement while passenger is excluded, and no direct player velocity write from this callback is established.
+- Finding IDs or checked absence/replacement path: explicit out-of-scope vehicle-motion disposition; B-only Camel has no A counterpart and gains no historical behavior.
+
 ### Slice S7-closure: Cross-stage state writers and dependencies
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-COLLISION, INV-WORLD-MOVEMENT, INV-MODIFIERS, INV-EXTERNAL, INV-EXCLUSIONS
@@ -296,14 +452,14 @@ These are initial bounded behavior families and all are open. After exact source
 ### Slice S3-mounted-sprint: Passenger sprint eligibility state
 
 - Inventory ID(s): INV-TICK, INV-EXTERNAL
-- Exact behavior boundary and enclosing guards/order checked: the local sprint-start condition, its food/permission condition and passenger ground clause; preserve surrounding shift, impulse, item-use and blindness guards. Sprint command send is an external boundary, not proof of a mounted trajectory change.
+- Exact behavior boundary and enclosing guards/order checked: the local sprint-start condition, its food/permission condition and passenger ground clause, followed through dismount into the later on-foot jump consumer in F-006; preserve surrounding shift, impulse, item-use and blindness guards. Direct vehicle movement remains outside scope.
 - A evidence: `net/minecraft/client/player/LocalPlayer.java`::`aiStep()`, lines 772-780, SHA-256 `36ae4aabd609b457fffb7a8b14abb50db9ac775857dde1774c0c68a8cf50deef`; older food predicate and ground/water gate.
 - B evidence: `net/minecraft/client/player/LocalPlayer.java`::`aiStep()`, lines 693-701, and `hasEnoughFoodToStartSprinting()`, lines 1047-1049, SHA-256 `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`; passenger ground and food bypass predicates. `tick()` lines 188-207 and `sendIsSprintingIfNeeded()` lines 271-279 expose the outbound state command.
-- State producers/writers -> consumers/readers: sampled forward/shift input and vehicle grounded state + food/ability predicate -> `setSprinting`; sprint state -> client command packet -> external server consumer (not yet closed).
-- Parent slices / dependencies / closure evidence: S1-input and S7-mount-transition; D3 mounted sprint-state consumer remains open for trajectory relevance.
-- Status: not-applicable
-- Disposition and rationale (including concrete reachability/preconditions): paired source change only updates sprint state/command while passenger. `Player.travel` skips the affected swimming/flight operations for passengers, the passenger position is assigned by the vehicle `positionRider` path, and a B low-food sprint is cleared after dismount before normal travel. Vehicle physics/command consumption is outside player-movement scope. This source delta is retained as checked exclusion E-001, not an in-scope finding.
-- Finding IDs or checked absence/replacement path: checked scope exclusion E-001 above; no in-scope finding file
+- State producers/writers -> consumers/readers: sampled forward/shift input and vehicle grounded state + food/ability predicate -> `setSprinting`; client sprint command -> paired server `handlePlayerCommand` accepts `START_SPRINTING`; after dismount, the player flag can reach `LivingEntity.jumpFromGround` and write player velocity.
+- Parent slices / dependencies / closure evidence: S1-input, S3-player-jump-travel and S7-mount-transition; the bounded command consumer is checked in F-006, while wider D3 external inputs remain open.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): under F-006's bounded precondition, B sets and retains the player's sprint flag through dismount, where a later on-foot jump consumes it as player velocity. The flag-only effect while still mounted remains excluded as E-001 because passenger position/velocity is supplied through vehicle movement. The low-food shortcut is not used for F-006.
+- Finding IDs or checked absence/replacement path: F-006, `findings/F-006-passenger-sprint-carries-to-player-jump.md`; E-001 remains the vehicle-only exclusion.
 
 ### Slice S5-water-source: Water source-conversion rule
 
@@ -413,6 +569,18 @@ These are initial bounded behavior families and all are open. After exact source
 - Disposition and rationale (including concrete reachability/preconditions): when an absolute correction contains a pitch outside `[-90.0F, 90.0F]`, such as pitch `100.0F` sent by the paired server teleport method, A clamps the client player to `90.0F`; B stores `100.0F` because `setXRot` only checks finiteness. A later fall-flying travel call consumes pitch through `getLookAngle` and the glide steering calculations, so the player movement input differs. This is conditional on an externally supplied out-of-range correction; no ordinary gameplay frequency or realized trajectory is claimed. Yaw `% 360.0F` normalization is also bypassed for absolute out-of-range yaw, but this slice's concrete movement consequence is the pitch/glide route.
 - Finding IDs or checked absence/replacement path: F-005, `findings/F-005-player-correction-angle-normalization.md`
 
+### Slice S7-correction-interpolation-history: Position and rotation history consumers
+
+- Inventory ID(s): INV-STATE, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: the `xo/yo/zo` and `xRotO/yRotO` writes in the paired `ClientPacketListener.handleMovePlayer`, plus partial-tick position/view readers reachable from the local player.
+- A evidence: `ClientPacketListener.handleMovePlayer` lines 579-625; `Entity.getPosition(float)`, `getEyePosition(float)`, `getViewXRot(float)` and `getViewYRot(float)` lines 1322-1371; `LocalPlayer.getViewXRot(float)` / `getViewYRot(float)` lines 190-196 and `getRopeHoldPosition(float)` lines 1168-1177. Full source hashes: `ClientPacketListener.java` `98453fac8b16623d7b7f94f19199fa70c3b1d4885c464a2ab521a978a58ecbd3`, `Entity.java` `759de9cded43bd882afcf5b7023bcf804d92419acb656b493f3b490c83eb18b6`, `LocalPlayer.java` `36ae4aabd609b457fffb7a8b14abb50db9ac775857dde1774c0c68a8cf50deef`.
+- B evidence: `ClientPacketListener.handleMovePlayer` lines 608-662; `Entity.getPosition(float)`, `getEyePosition(float)`, `getViewXRot(float)` and `getViewYRot(float)` lines 1327-1376; `LocalPlayer.getViewXRot(float)` / `getViewYRot(float)` lines 178-184 and `getRopeHoldPosition(float)` lines 1093-1102. Full source hashes: `ClientPacketListener.java` `c01c3c362e5eb7de780f4ca0f1b8964a49e40cfc166ae63cbe392cd71b6b1b9e`, `Entity.java` `8c35bdef3bf2de7b70ac76ad767ba2c194305e0dda2e03fdf6544983667adc32`, `LocalPlayer.java` `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`.
+- State producers/writers -> consumers/readers: the correction handler writes interpolation-history fields; `Entity.getPosition(float)` / `getEyePosition(float)` interpolate positions and `getViewXRot/YRot(float)` interpolate rotations for partial ticks. The local-player view overrides return current rotations; its rope-hold override uses previous rotations and partial eye position. `LivingEntity.isDamageSourceBlocked` calls `getViewVector(1.0F)`, which selects current angles and belongs to the excluded damage decision. Player movement reads current coordinates/rotations; the bounded `LocalPlayer.aiStep`, `LivingEntity.travel`, `Entity.move` and collision readers do not consume these partial-tick fields.
+- Parent slices / dependencies / closure evidence: S7-player-rotation-correction, S1-input-sample, S3-player-jump-travel, S4-entity-move-method; exact paired handler and helper sources were opened.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): A and B write different interpolation-history values on relative corrections, and those values can change partial-tick view/position interpolation. The checked local-player view override and movement consumers show no route from those interpolated values into player movement or collision response; rope-hold and picking paths are presentation/selection paths, while the other current-angle read is in excluded damage blocking. This is a real source-level history change, outside this run's movement scope.
+- Finding IDs or checked absence/replacement path: excluded interpolation-only state path; keep the separate current-angle fall-flying movement finding F-005.
+
 ### Slice S5-block-coefficients: Existing friction, speed and jump factors
 
 - Inventory ID(s): INV-WORLD-MOVEMENT, INV-TICK
@@ -461,6 +629,18 @@ These are initial bounded behavior families and all are open. After exact source
 - Disposition and rationale (including concrete reachability/preconditions): the bounded setter, refresh and player pose-selection method bodies are text-identical; method movement line offsets are recorded above. This does not close every pose writer or dimension consumer.
 - Finding IDs or checked absence/replacement path: checked paired method bodies; no difference.
 
+### Slice S2-sleep-exit-position: Bed wake-up position and pose restoration
+
+- Inventory ID(s): INV-STATE, INV-COLLISION, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: player `stopSleeping` bed-state guard and ordered occupancy update, stand-up-position search, fallback position, rotation reset and restoration to `Pose.STANDING`; paired `Entity.setPose`, pose-synced `refreshDimensions`, player pose selection, dimension/eye-height readers and collision clearance predicate.
+- A evidence: `Player.java` `stopSleeping` lines 3199-3228 and `updatePlayerPose` lines 375-405, SHA-256 `155c5fcfba322d968f3180383e7d283ddeb5edee4e04314906310d4e3ce0ccc1`; `Entity.java` `setPose` lines 344-347, `onSyncedDataUpdated` lines 2489-2494, `refreshDimensions` lines 2497-2518 and `canEnterPose` lines 1769-1772, SHA-256 `759de9cded43bd882afcf5b7023bcf804d92419acb656b493f3b490c83eb18b6`; `LivingEntity.java` `getDimensions` lines 3128-3130 and `getEyeHeight` lines 3216-3222, SHA-256 `fee2df5155449098556a138d2530d06b7a35979e43c6aa0ae1fffd6251853e77`; `BedBlock.java` `findStandUpPosition`, bunk-bed ordering and offset search lines 230-286, SHA-256 `70575ca67741fe2b011cb54283874cf39291a793eef43dbde4da7d8c055937dc`.
+- B evidence: `Player.java` `stopSleeping` lines 3210-3240 and `updatePlayerPose` lines 368-398, SHA-256 `02e64e197aec3f4f2a8abc9c5ce4545121ac5bcbbc71592ce478601a0db17203`; `Entity.java` paired `setPose`, synced update, `refreshDimensions` and `canEnterPose` methods have the same bounded bodies as A (B additionally declares `fixupDimensions`, whose only source caller is `Slime`); full SHA-256 `8c35bdef3bf2de7b70ac76ad767ba2c194305e0dda2e03fdf6548983667adc32`; `LivingEntity.java` paired dimension and eye-height methods have the same bodies as A, SHA-256 `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db`; `BedBlock.java` paired stand-up search order and offset helper bodies are the same, SHA-256 `5868a92e07fbe55af93a592ea2b2077177139fd4cd58d9bfb5cbe7cbbb19876c`.
+- State producers/writers -> consumers/readers: bed facing and collision world -> stand-up position search -> player `setPos` / yaw -> sleeping pose clears to standing -> pose metadata triggers dimension and eye-height refresh -> collision bounding box and subsequent movement queries. The client-side wake-up execution and bed world state are externally supplied conditions.
+- Parent slices / dependencies / closure evidence: S2-player-state, S2-pose-refresh, S4-shapes-query, S4-callbacks and S7-external-velocity; remaining pose writers, complete shape providers and packet/world-state routes remain open.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): when the sleeping-position block remains a BedBlock and the player reaches the paired `stopSleeping` path, A's helper reads `FACING` from the bed state before the occupancy write; B captures that same `FACING` from the already-read state before the same occupancy write and passes it to the helper. Both use the same bed/bunk-bed offset order, safe-dismount search, fallback, yaw calculation, position update, pose transition, dimensions and eye-height formulas. B's added dimension-fixup helper has no player caller. This closes only the bounded bed-exit and refresh path; no difference is established here.
+- Finding IDs or checked absence/replacement path: paired player wake-up path, bed helper call graph, pose/refresh methods, dimensions, eye height and collision clearance checked; no difference.
+
 ### Slice S3-player-jump-travel: Player-specific jump and travel wrapper
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
@@ -472,6 +652,30 @@ These are initial bounded behavior families and all are open. After exact source
 - Status: compared-no-difference
 - Disposition and rationale (including concrete reachability/preconditions): both paired player-specific wrapper bodies are text-identical with unchanged expression and branch order. No claim is made about inherited `LivingEntity` branches or indirect dependencies.
 - Finding IDs or checked absence/replacement path: checked paired method bodies; no difference.
+
+### Slice S1-player-aiStep-wrapper: Player superclass movement wrapper
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: jump timer decrement, `Player.aiStep()` call into `LivingEntity.aiStep()`, post-super flying speed/sprint state and `MOVEMENT_SPEED` assignment.
+- A evidence: `net/minecraft/world/entity/player/Player.java` lines 500-562; file SHA-256 `155c5fcfba322d968f3180383e7d283ddeb5edee4e04314906310d4e3ce0ccc1`.
+- B evidence: same body lines 496-558; file SHA-256 `02e64e197aec3f4f2a8abc9c5ce4545121ac5bcbbc71592ce478601a0db17203`.
+- State producers/writers -> consumers/readers: `jumpTriggerTime` -> `LivingEntity.aiStep`; its movement result -> `flyingSpeed`, sprint increment, and movement `speed` attribute snapshot after the superclass call.
+- Parent slices / dependencies / closure evidence: S1-input, S3-travel-dispatch, S3-ground-air, S3-jump, S6-effects-attributes. The unchanged wrapper order is closed; superclass and attribute producers retain their own rows.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): paired wrapper body is text-identical after line relocation. `jumpTriggerTime` order, `super.aiStep()`, sprint flying-speed increment, attribute read and speed write all match. Health and food producers are excluded by the campaign.
+- Finding IDs or checked absence/replacement path: paired method bodies checked; no difference.
+
+### Slice S3-livingentity-aiStep-order: Inherited jump/travel/post-travel order
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.aiStep()` motion cutoff, AI branch, fluid/ground jump dispatch, input damping, glide validation, `travel()` dispatch, and post-travel push callback order.
+- A evidence: `net/minecraft/world/entity/LivingEntity.java` lines 2497-2620; file SHA-256 `fee2df5155449098556a138d2530d06b7a35979e43c6aa0ae1fffd6251853e77`.
+- B evidence: same method lines 2508-2631; file SHA-256 `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db`.
+- State producers/writers -> consumers/readers: lerp/current position, velocity cutoffs, immobility and jump state -> jump helper; input -> `travel`; post-travel position -> push overlap query. `pushEntities`' sole client-query textual delta is separately closed by S4-client-push-candidate-filter; the glide fall-distance value is F-004.
+- Parent slices / dependencies / closure evidence: S1-input, S2-player-state, S3-jump, S3-glide, S3-climb-swim, S3-ground-air, S4-client-push-candidate-filter.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the paired method's guards and order for position lerp, three velocity cutoffs at `0.003`, AI callback, jump, `xxa`/`zza` multiplication by `0.98F`, glide validation, travel and post-travel callbacks are text-identical. Callee branch behavior and cross-state inputs are separately tracked and not inferred from this method-level result.
+- Finding IDs or checked absence/replacement path: F-004 is the bounded glide fall-distance delta; otherwise the paired call-order ranges were checked.
 
 ### Slice S4-entity-move-method: Entity axis collision response body
 
@@ -490,7 +694,7 @@ These are initial bounded behavior families and all are open. After exact source
 - D0 — readiness/provenance: resolved. IDs and official metadata are exactly 1.19.2/1.19.3, namespace `mojmap`; both ready statuses are `ready`; physical Java counts and manifest entries match (4,480/4,618); readiness/provenance/source/artifact/diagnostic manifest hashes match; original client jar, mapping file and remapped-jar hashes match both artifact manifests; 21 relevant diagnostic anchors per side have no error/warning/missing/failed/exception text.
 - D1 — paired member correspondence and full player tick graph. Why: names do not establish correspondence or reachability. Next action: finish bounded body ranges, callers, writers/readers and closure for all stages. Owner: discovery author. State: open.
 - D2 — version-matched resources/tags/defaults. Why: Java source saver omits resources. Next action: inspect relevant jar entries and hashes once provenance is verified. Owner: discovery author; server/datapack provision if identified. State: open.
-- D3 — external/synchronized movement inputs. Why: client sources cannot prove server rules or value origin. Next action: trace concrete player consumer and label each producer boundary. Owner: discovery author. State: open.
+- D3 — external/synchronized movement inputs. Why: client sources cannot prove server rules or value origin. Next action: close the in-progress rider sprint-status packet against dismount and the first on-foot server movement tick; continue direct player velocity/correction producer-consumer closure. Owner: discovery author. State: open.
 - D4 — independent coverage reviewer. Why: source completion requires an author-independent re-walk. Next action: coordinator assignment after freeze. Owner: coordinator. State: pending; does not block source comparison.
 
 
@@ -507,7 +711,7 @@ All source roots below are read-only under `build/movement-campaign-2026-10-07/r
 - `Player.aiStep`: A lines 500-563, B 496-559; text-identical. `LivingEntity.aiStep`: A 2497-2621, B 2508-2632; text-identical. `LivingEntity.tick`: A 2257-2377, B 2264-2384; text-identical.
 - `Player.jumpFromGround`: A 1453-1463, B 1437-1447; text-identical. `Player.travel`: A 1464-1496, B 1448-1480; text-identical. `LivingEntity.jumpFromGround`: A 2014-2041, B 2024-2051; text-identical. `LivingEntity.travel`: A 2042-2256, B 2052-2263; only fall-distance update in fall-flying branch differs (see F-004 below); remaining compared body is text-identical.
 - `Entity.tick`: A/B 403-406; `baseTick`: A/B 407-466; text-identical. `Entity.move`: A/B 547-680; text-identical. `Entity.refreshDimensions`: A 2497-2518, B 2522-2543; text-identical. `Entity.setPose`: A/B 344-347; `setPos` overload: A/B 372-380; text-identical. `Player.updatePlayerPose`: A 375-405, B 368-398; text-identical. `LocalPlayer.move`, `moveTowardsClosestSpace`, `suffocatesAt`, `setSprinting`, `updateAutoJump`, `canAutoJump`, `isMoving`/sprint impulse helpers, `isMovingSlowly`, `sendRidingJump`: compared bodies text-identical; individual exact paired ranges and hashes remain to be entered as member slices before these slices can close.
-- `LocalPlayer.aiStep`: A 731-898, B 652-819. In addition to the mounted sprint-state exclusion below, the input/crouch, double-tap, auto-jump, flight, glide, rider charge arithmetic and other compared branches retain their order and expressions. This one large body is not considered closed until it is split into method-range slices.
+- `LocalPlayer.aiStep`: A 731-898, B 652-819. The B passenger sprint-state path now has a direct post-dismount player-jump consumer in F-006; E-001 is limited to vehicle movement while mounted. The remaining input/crouch, double-tap, auto-jump, flight, glide, ride-jump/cooldown and post-travel branches still need separate bounded dispositions; the large body remains open.
 - `LocalPlayer.tick` B also adds a sprint-state send within the locally controlled vehicle branch. `Player.tick`: A 230-303, B 224-296; differences are removed warden spawn tracking and `ItemStack.isSameIgnoreDurability` -> `isSame`, both outside movement scope.
 
 ### Movement-property/resource checkpoint
@@ -538,9 +742,9 @@ All source roots below are read-only under `build/movement-campaign-2026-10-07/r
 
 - A `LocalPlayer.aiStep` lines 772-780 uses `foodLevel > 6.0F || mayfly`; its ground eligibility is `onGround || isUnderWater` (A lines 772-778). B `LocalPlayer.aiStep` lines 693-701 adds `isPassenger() && getVehicle().isOnGround()` to the ground eligibility and delegates food eligibility to B `hasEnoughFoodToStartSprinting` lines 1047-1049, which returns true for passengers before reading food/flight permission. B calls the helper from the sprint continuation check as well (verify exact relevant body lines before slice closure).
 - A/B `LocalPlayer.java` SHA-256: A `36ae4aabd609b457fffb7a8b14abb50db9ac775857dde1774c0c68a8cf50deef`; B `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`.
-- Preconditions: local passenger, non-sprinting, not shift-keyed, forward impulse threshold met, and no item-use or blindness gate; the new ground clause needs the vehicle grounded, while passenger food bypass applies even at food <= 6. The changed state is player sprint eligibility/state and corresponding sprint command synchronization; whether this changes the mounted vehicle trajectory depends on server-side consumer behavior and remains an external dependency, not claimed here.
-- Scope disposition: the code changes only the player's sprint flag and its command synchronization while mounted. Player `Player.travel` explicitly skips swimming and flight branches when `isPassenger()` is true (A 1464-1496; B 1448-1480); passenger position is subsequently assigned through `Entity.rideTick` -> vehicle `positionRider` (A 1699-1705; B 1704-1710), which enters excluded vehicle movement. When dismounted, the B sprint continuation condition clears sprint when the non-passenger food/impulse guards fail (B 719-728), before ordinary player travel. The server-side mounted sprint consumer is vehicle behavior and outside player-only scope. Record the paired source change for traceability, but do not treat it as a player movement finding under the clarified scope.
-- Inventory/slices: INV-TICK, INV-EXTERNAL; S3-mounted-sprint and S7-mount-transition. Checked exclusion only; no implementation recommendation.
+- Preconditions: local passenger, non-sprinting, not shift-keyed, forward impulse threshold met, vehicle grounded, and no item-use or blindness gate; F-006 isolates the path to food above 6 and a sprint press while the player's own `onGround` and underwater guards are false.
+- Scope disposition: **superseded in part on 2026-10-08 by F-006**. The earlier broad exclusion missed that B's sprint flag can survive dismount and feed a later on-foot jump impulse. E-001 now excludes only direct movement while still mounted: `Player.travel` skips relevant swimming/flight branches for passengers and passenger position is supplied by vehicle `positionRider` (A 1464-1496 / 1699-1705; B 1448-1480 / 1704-1710). The newly traced on-foot consumer is separately recorded as F-006. The B low-food shortcut that is cleared at dismount is not included in F-006.
+- Inventory/slices: INV-TICK, INV-EXTERNAL; S3-mounted-sprint and S7-mount-transition. Vehicle-only checked exclusion; direct player carryover is F-006.
 
 ### Source-confirmed candidates F-002 / F-003 — fluid source conversion inputs
 
@@ -560,14 +764,35 @@ All source roots below are read-only under `build/movement-campaign-2026-10-07/r
 
 ## Finding index
 
-Findings F-002 and F-003 are source-confirmed paired fluid-state input differences with externally contingent player movement effects; F-004 is a source-confirmed fall-distance-to-farmland callback delta with an external server-world update and conditional later collision-shape effect; F-005 is a source-confirmed correction-angle normalization delta with a conditional fall-flight consumer. All four are indexed in `findings/`. E-001 is a checked scope exclusion for a mounted sprint-state/command difference whose trajectory consumer is vehicle behavior. None of these dispositions closes the source inventories or claims runtime trajectory impact. Record every discarded candidate with inspected dependency path and reason after source verification.
+Findings F-002 and F-003 are source-confirmed paired fluid-state input differences with externally contingent player movement effects; F-004 is a source-confirmed fall-distance-to-farmland callback delta with an external server-world update and conditional later collision-shape effect; F-005 is a source-confirmed correction-angle normalization delta with a conditional fall-flight consumer; F-006 is a source-confirmed passenger sprint-state carryover path into direct player jump velocity. E-001 remains a checked exclusion for movement performed while mounted under vehicle control. None of these dispositions closes the source inventories or claims runtime trajectory impact. Record every discarded candidate with inspected dependency path and reason after source verification.
+
+## Incremental finding snapshot log
+
+### F-005 — Absolute player correction angle normalization
+
+- Immutable finding snapshot commit: `4d21523c392d888c1a171d385190503d38aafcd7` (`docs: record player correction angle finding`)
+- Finding path and SHA-256 at that commit: `findings/F-005-player-correction-angle-normalization.md`; `85ac58eac14b1873aaeedbb6ed4295a67d58a8089dbe9eaf923370bfcabf1b47`
+- Cited publication identity: A readiness `90f5a351c60a1aab160b640567b716bbc563e62d92e7e555df55c4ce7952492c`, provenance `c0c148d3c3a0092adc59c29c25f2106f3a5398156a4f266882384804b3534280`, source manifest `95bc354ac219b9fe1ca8bf45053edad0119a75323d576902d59616a11647aac2`, artifact manifest `d0197d78578241b8cdde1123a3dee64aa279341681a7edde9f867689f9bb3490`, original client jar `e1ac65de9b471b6916cc457fdcff00c1bafac17027aa79100c4df893b3d956db`; B readiness `c1c6abc850d52b0dac399ef6ac68974fb15750cb3bdced2f947fad21c79289b6`, provenance `f733352c574a2f70f9218f709dcaaf6b19a9d968d5fa19aad4e25c2eed25a9fe`, source manifest `6f1cc6d07ab3902a7ea25a3f8817504723be70d82e97f541cffda95ea2c1c843`, artifact manifest `13e9e1a1458d0c6352207dac6edb36745427b012d30408e7cb42035b2f042652`, original client jar `b7228c23dbc8988129561af3918dd469577de842d2eb3c7dabe00316bf9a44d6`. Readiness, provenance, source-manifest, and artifact-manifest bytes were rehashed on 2026-10-08 and match these identities.
+- Reverified cited sources: A/B `ClientPacketListener.java` SHA-256 `98453fac8b16623d7b7f94f19199fa70c3b1d4885c464a2ab521a978a58ecbd3` / `c01c3c362e5eb7de780f4ca0f1b8964a49e40cfc166ae63cbe392cd71b6b1b9e`; A/B `Entity.java` `759de9cded43bd882afcf5b7023bcf804d92419acb656b493f3b490c83eb18b6` / `8c35bdef3bf2de7b70ac76ad767ba2c194305e0dda2e03fdf6548983667adc32`; A/B `ServerGamePacketListenerImpl.java` `976992cd0cf4ce387e12543861aab66cc7cf8a58f078f00e0fe8f91df47b4cd2` / `81288e1e99d88796e096c1386e8a1f108a077078467d4843a56d14f7cb48006b`; A/B `LivingEntity.java` `fee2df5155449098556a138d2530d06b7a35979e43c6aa0ae1fffd6251853e77` / `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db`.
+- Bounded player path and guards: an absolute server correction without relative `X_ROT` may carry pitch outside `[-90.0F, 90.0F]`; the paired vanilla server `teleport` clamps its own player through `absMoveTo` while sending the original angle. A's client handler calls `absMoveTo`; B directly calls `setXRot`. The fall-flying branch in `LivingEntity.travel` consumes pitch and look angle. Position-history/interpolation writes in that same handler remain a separate open slice.
+- Version boundary: first change remains `unknown within (1.19.2, 1.19.3]`.
+- Independent blind source review: pending. Reviewer must verify this exact commit and finding SHA-256 before implementation handoff; this snapshot does not freeze or complete the pair.
+
+### F-006 — Passenger sprint state can change a later on-foot jump impulse
+
+- Immutable finding snapshot commit: `bd20e07ccf1d3b64625ed2079ddacea4819345fc` (`docs: add passenger sprint player-jump finding`)
+- Finding path and SHA-256 at that commit: `findings/F-006-passenger-sprint-carries-to-player-jump.md`; `0f89778c55b444af8ab2fe53d8a9114f453d1d2e071da854c8c7f1aa62fa38a9`
+- Cited publication identity: A readiness `90f5a351c60a1aab160b640567b716bbc563e62d92e7e555df55c4ce7952492c`, provenance `c0c148d3c3a0092adc59c29c25f2106f3a5398156a4f266882384804b3534280`, source manifest `95bc354ac219b9fe1ca8bf45053edad0119a75323d576902d59616a11647aac2`, artifact manifest `d0197d78578241b8cdde1123a3dee64aa279341681a7edde9f867689f9bb3490`, original client jar `e1ac65de9b471b6916cc457fdcff00c1bafac17027aa79100c4df893b3d956db`; B readiness `c1c6abc850d52b0dac399ef6ac68974fb15750cb3bdced2f947fad21c79289b6`, provenance `f733352c574a2f70f9218f709dcaaf6b19a9d968d5fa19aad4e25c2eed25a9fe`, source manifest `6f1cc6d07ab3902a7ea25a3f8817504723be70d82e97f541cffda95ea2c1c843`, artifact manifest `13e9e1a1458d0c6352207dac6edb36745427b012d30408e7cb42035b2f042652`, original client jar `b7228c23dbc8988129561af3918dd469577de842d2eb3c7dabe00316bf9a44d6`. Relevant source file hashes are recorded in the immutable finding.
+- Bounded player path and guards: B passenger on a grounded vehicle, player not grounded/underwater, forward impulse at least `0.8`, food above 6, sprint pressed, and common shift/item/blindness/already-sprinting guards clear; flag survives dismount under forward/food/clear-dry guards and is consumed by a subsequent grounded player jump. Vehicle position/velocity is excluded.
+- Version boundary: first change remains `unknown within (1.19.2, 1.19.3]`.
+- Independent blind source review: pending. Reviewer must verify this exact commit and finding SHA-256 before implementation handoff; E-001's broad prior exclusion is superseded only for this separately evidenced player-motion path.
 
 ## Resume checkpoint
 
-- Last completed slice: exact source provenance; paired input, pose, player travel, entity move, coefficient/tag and movement-effect checks; bounded speed/slowness, Slow Falling/Dolphin's Grace/Levitation, Depth Strider, Soul Speed, Swift Sneak and absolute player-correction angle slices; findings F-002 through F-005; mounted sprint-state checked exclusion E-001.
-- Next bounded slice and exact files/members/body ranges to open: classify the remaining `ClientPacketListener.handleMovePlayer` previous-position/rotation writes by tracing A/B `Entity.getX(float)`, `getYRot(float)`, `getXRot(float)` and the `xo/yo/zo`, `xRotO/yRotO` readers into player movement versus interpolation; then split `LocalPlayer.aiStep` A731-898/B652-819 and `LivingEntity.travel` A2042-2256/B2052-2263 into remaining branch-specific slices. Continue the full collision-shape/provider/registration, equipment/effect, and correction/velocity producer inventories.
+- Last completed slice: exact source provenance; full paired `LocalPlayer.aiStep` body and bounded ride-jump API disposition; `Player.aiStep` wrapper; `LivingEntity.aiStep` jump/travel/post-travel ordering; Elytra start request, validation, periodic wear and Unbreaking paths; water, lava and ordinary ground/air `LivingEntity.travel` branches; client entity-push query closure; bed-exit position/pose refresh; declared block collision-shape method census with exact spans/hashes; bamboo provider rename and B-only hanging-sign scope; existing input, player travel, entity move, coefficient/tag and movement-effect checks; findings F-002 through F-007; E-001 narrowed to mounted vehicle motion; correction interpolation-history route classified as outside movement scope in S7-correction-interpolation-history.
+- Next bounded slice and exact files/members/body ranges to open: close S7-rider-sprint-status-sync by tracing A/B `ServerboundPlayerInputPacket` and dismount handling through the server's first on-foot tick. Then continue the pending full `LocalPlayer.tick` packet-consumer inventory, direct player velocity/correction producers, `LivingEntity` state/equipment/effect writers, remaining collision-query/shape/callback dependencies, registered block/fluid providers, and the explicit exclusion audit. The underwater-boat player-state path is separately closed as F-007; the broader mount-transition and external authority inventories remain open.
 - Outstanding dependencies and owners: D1–D3 discovery; D4 coordinator independent reviewer assignment.
-- Current assumptions requiring verification: candidates are not frozen; the 20 initial behavior families remain pending for full callgraph closure despite 11 bounded no-difference slices, 4 bounded finding slices and 1 checked exclusion; remaining shape/data/equipment sources and external server/world packet consumers remain open. The checker confirms structure only.
+- Current assumptions requiring verification: candidates are not frozen; the 20 initial behavior families remain pending for full callgraph closure despite 23 bounded no-difference slices, 6 bounded finding slices, 4 checked out-of-scope dispositions and one in-progress bounded rider-sprint synchronization slice. Immutable F-005 and F-006 snapshots and new F-007 remain unreviewed by an independent blind source reviewer. Remaining shape/data/equipment sources, exclusions, and external server/world packet consumers remain open. The checker confirms structure only.
 
 ## Implementation reconciliation
 
@@ -588,12 +813,12 @@ Findings F-002 and F-003 are source-confirmed paired fluid-state input differenc
 
 ## Source audit closure
 
-- Coverage counts by status: pending 20 initial families; in-progress 0; compared-no-difference 11 bounded member slices; findings 4 bounded member slices; not-applicable 1 checked scope exclusion; blocked 0. The initial families are not member-range closure and must be split before terminal dispositions.
+- Coverage counts by status: pending 20 initial families; in-progress 1 bounded member slice; compared-no-difference 23 bounded member slices; findings 6 bounded member slices; not-applicable 4 checked scope/interpolation dispositions; blocked 0. The initial families are not member-range closure and must be split before terminal dispositions.
 - Required inventory status and evidence: INV-TICK pending; INV-STATE pending; INV-COLLISION pending; INV-WORLD-MOVEMENT pending; INV-MODIFIERS pending; INV-EXTERNAL pending; INV-EXCLUSIONS pending.
 - Open dependencies: D1, D2, D3, D4 (D0 resolved)
 - Unresolved gaps and limits: exact trees and provenance are verified, but member-level slice ledger, full source coverage, resources, external producers, freeze and independent audit remain open.
 - Evidence/hash/correspondence audit: not yet performed
-- Static schema check: canonical checker exited 0 on 2026-10-07; it reported partial structurally valid and made no source-completion claim.
+- Static schema check: canonical checker exited 0 on 2026-10-08; it reported active structurally valid and made no source-completion claim.
 - Blind freeze: pending
 - Implementation reconciliation: pending
 - Independent audit: pending

@@ -1,0 +1,10 @@
+# WORLD-08: End portal overlap gate
+
+- Status: source finding; downstream dimension-transfer behavior remains outside this bounded callback comparison.
+- Slice: WORLD-08, from the Entity.move -> checkBlockCollisions callback path in COLL-01-BLOCK-OVERLAP-DISPATCH.
+- Scope: End Portal block player callback eligibility predicate. Records the direct dimension-transition call condition only; destination selection and post-transfer positioning are not compared.
+- A source: build/movement-campaign-2026-10-07/ready/1.8.9/ornithe-feather/net/minecraft/block/EndPortalBlock.java, onEntityCollision lines 61-64, SHA-256 1cb419f44592e68244e06b34799c6354a2bcc3d08bd849e0709fca36b54e1e40. On the server it calls entity.changeDimension(1) whenever vehicle == null && rider == null.
+- B source: build/movement-campaign-2026-10-07/ready/1.9.4/ornithe-feather/net/minecraft/block/EndPortalBlock.java, onEntityCollision lines 63-71, SHA-256 7afd1729a13ee3e14e191a6fb2ce41b847a94fc01fac526a4121183074da8650. It additionally requires !isRiding(), !hasPassengers(), canUsePortals(), and intersection between the entity shape and the block state's translated shape.
+- Provider geometry: B EndPortalBlock.getShape() returns Box(0,0,0,1,0.75,1) at lines 21-35. A's update-time outline shape is only 1/16 high at lines 34-40, but its callback does not consult that shape. Registration is paired as Block.java ID 119 end_portal in A line 1077 and B line 988; registration families are catalogued in WORLD-03.
+- Reachability: Entity.checkBlockCollisions() dispatches callbacks for every overlapped block cell, independent of collision-box intersection; local players reach this through Entity.move as recorded in COLL-01. Therefore B's 0.75-high shape test is distinct from A's block-cell callback guard. Runtime positions and dimension-transfer continuation are not inferred.
+- Disposition: direct callback predicate delta established for server-side player block-overlap calls. B can decline transition when the player box does not intersect the lower 0.75 block shape, and introduces mount/passenger/portal-use gates. Destination and player-position writer inventory remains open.

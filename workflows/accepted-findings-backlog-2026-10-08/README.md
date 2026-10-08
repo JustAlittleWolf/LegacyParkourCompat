@@ -1,13 +1,16 @@
 # Accepted movement finding backlog
 
-Implementation-side ledger for bounded findings accepted from immutable source or wiki snapshots. This stays separate from the 26-pair discovery campaign: finding acceptance does not complete a pair and does not imply implementation, code review, integration, build, or runtime validation.
+Implementation-side ledger for bounded findings accepted from immutable vanilla-source or Wiki snapshots. Finding acceptance does not complete a pair and does not imply implementation, code review, integration, build, or runtime validation. Pair state belongs to the source-campaign ledger.
 
-- accepted-findings.jsonl: accepted immutable snapshots, one JSON object per line, with reviewer identities and known implementation status.
-- pending-and-rejected.jsonl: rejected/superseded items, unresolved identities, and current reviews. Rejected findings stay separate from the accepted list.
+- `accepted-findings.jsonl`: accepted immutable snapshots and implementation status.
+- `integrated-code-batches.jsonl`: exact code, review, integration, and artifact bindings, distinct from source-finding acceptance.
+- `pending-and-rejected.jsonl`: rejected/superseded items, unresolved identities, active reviews, source checkpoints, and provenance caveats.
+- `passenger-crouch-source-provenance-erratum-2026-10-08.md`: corrects the accepted source digest and marks the shortened copy non-binding.
 
-Unknown full identities are marked as abbreviated or unresolved with a next lookup. Runtime remains unverified unless an entry says otherwise. Pair state belongs to the source-campaign ledger.
+This branch includes local `main` `dc1b65b29e3c2561175bd54276ae83e37cd1c045`. The architecture batch is integrated on main after independent review and a successful repair build: 18 actionable tasks, every Gradle Test task disabled and `-x test` supplied. The first compile failure, accepted two-modifier repair, repair log, packaged/source JAR hashes, and prior artifacts are all preserved in the integration record. Runtime remains unverified; no push was made.
 
-Task began from main 64895d266fcee5da774c3236295ba949045200c7. The focused correction branch is merged with current main d4c4f154a0c2487dd6dd7d20d92eb57b3d8ab1ae via merge commits 47532cedee393b53ae189c22040f404265cc447f and e5acb412ffc8011b3a6df2bff82422c2eb8938fd. Task branch: feat/accepted-finding-backlog-2026-10-08. No tests, builds, clients, TAS, servers, or Docker were run for this documentation change. The current main sampler artifact and standalone Gradle log were independently rehashed from their absolute integration-worktree paths (see audit record); the WORLD03 E42DB JAR was overwritten by later builds. All 26 source pairs remain partial; coordinator correction for 1.21.11--26.1.2 is recorded in pending-and-rejected.jsonl without editing source reports.
+All 14 1.17.1–1.18.2 finding snapshots now have bounded ACCEPTs, including the corrected F-013 identity-only snapshot. The original REQUEST CHANGES remains bound to the original immutable bytes. The separately accepted full-pair coverage audit does not complete the pair; pair state remains PARTIAL.
 
-- passenger-crouch-source-provenance-erratum-2026-10-08.md: corrects the accepted snapshot digest and labels the shortened copy as non-binding.
-- integrated-code-batches.jsonl: exact code/review identities for integrated implementation batches already on the baseline, kept distinct from finding-source acceptance.
+The 1.21.4–1.21.5 owner disclosed implementation-diff exposure during a prior merge. That evidence remains recorded; a fresh source-only discovery/coverage pass and blind review are required before full-pair freeze. The 1.21.11–26.1.2 pair is partial with F-1 snapshot-only ACCEPT, F-2/F-3 pending, and seven inventories open. Other terminal source checkpoints, Wiki/MCPK gaps, and resumable queues are recorded in `pending-and-rejected.jsonl` and the coordinator resume note.
+
+All 26 source intervals remain partial/open. Tests, game/runtime validation, Docker, and pushes were not performed for this checkpoint.
