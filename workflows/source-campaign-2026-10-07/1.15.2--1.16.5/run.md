@@ -132,6 +132,17 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - Disposition and rationale (including concrete reachability/preconditions): B calls the same level.noCollision predicate on the same pose-derived candidate AABB, but first applies `deflate(1.0E-7)`; A passes the full box. AABB scalar deflation shrinks every axis. This changes collision clearance at the box boundary and can affect the player pose selected by the shared priority/fallback logic.
 - Finding IDs or checked absence/replacement path: F-S2-POSE-EPSILON.
 
+### Slice S4-MOVE: player displacement and collision-result state
+- Inventory ID(s): INV-TICK, INV-STATE, INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: complete Entity.move(MoverType,Vec3) resolver, collision-result flags, delta-velocity clipping, fall callback, grounded step callback, inside-block callback and post-move block-speed/fire handling.
+- A evidence: `../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/entity/Entity.java`, lines 450-589; SHA-256 `191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e`.
+- B evidence: `../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/entity/Entity.java`, lines 485-616; SHA-256 `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666`.
+- State producers/writers -> consumers/readers: requested movement and collision-resolved vector -> x/y/z movement, horizontalCollision, verticalCollision and onGround, fall/step/contact callbacks, clipped delta movement and block-speed factor; downstream tick readers remain linked in travel/state rows.
+- Parent slices / dependencies / closure evidence: S3-WATER,S3-LAVA,S3-GROUND-AIR,F-S3-SOUL-SPEED,S4-QUERY,S4-STEP,S5-SHAPES,S5-CONTACT. A/B requested-versus-resolved movement and collision/onGround calculation align; resolver helpers and contact/shape producers still need paired closure.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the player collision-result and velocity-clipping sequence matches. The removed A Entity.collision field has only a FireworkRocketEntity reader, outside player scope. B's CLIMBABLE tag predicate is in movement-noise/statistics accounting; the changed lava/fire-state code is outside direct movement, and lava contact/travel is tracked separately. The shared virtual getBlockSpeedFactor call reaches the already-recorded B-only Soul Speed override.
+- Finding IDs or checked absence/replacement path: no additional in-scope delta established in this method; F-S3-SOUL-SPEED covers the block-speed override. S4-QUERY and block callback/shape closure remain open.
+
 ### Slice S1-SPRINT-RESET: held-shift cancellation of pending sprint trigger
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: LocalPlayer.aiStep prior input capture, input tick, sprint trigger writers and double-tap consumer.
@@ -276,11 +287,11 @@ The historical pair report is not imported as source confirmation.
 ## Resume checkpoint
 
 - Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-LOCAL-TICK,S1-LOCAL-AISTEP,S1-ELYTRA,S1-ESCAPE,S2-POSE,S3-WATER,S3-FALL-FLYING,S3-GROUND-AIR; finding slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S2-POSE-EPSILON,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S3-SOUL-SPEED,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT.
-- Active slices: none in the current travel pass; required stages 2-7 remain to be entered.
+- Active slices: S4-MOVE; remaining required stage 2-7 slices remain open.
 - Next: add bounded slices for remaining state, collision, world, modifier and external-input inventories.
 - Outstanding dependencies: remaining required stage 2-7 inventory slices, independent reviewer assignment.
 - Resume branch: feat/source-discovery-movement-source-1-15-2-1-16-5; resume from the clean tip recorded by git log -1. Local main and origin/main both point to the pair base 002137b227676caea77f6832b9f4c8d0b6200bff; no later default-branch commits were present for merge at this checkpoint.
-- First next work: continue remaining state, collision, world, modifier and external-input slices for stages 2-7. Keep the ten unreviewed snapshots submitted; F-S1-OPEN-SHULKER-ESCAPE remains accepted for finding-only eligibility.
+- First next work: close the S4-QUERY/S4-STEP dependencies for the player resolver, then continue remaining state, shape, world, modifier and external-input slices. Keep the ten unreviewed snapshots submitted; F-S1-OPEN-SHULKER-ESCAPE remains accepted for finding-only eligibility.
 - Read-only resume commands from the repository root:
   - `git status --short; git log -1 --oneline`
   - `$A='D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.15.2\mojmap'; $B='D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.16.5\mojmap'`
@@ -499,7 +510,7 @@ Each finding is committed as an immutable source snapshot. F-S1-OPEN-SHULKER-ESC
 
 ## Source audit closure
 
-- Coverage counts by status: pending 0; in-progress 0; compared-no-difference 6; findings 11; remaining required stage slices not yet entered and open.
+- Coverage counts by status: pending 0; in-progress 1; compared-no-difference 6; findings 11; remaining required stage slices not yet entered and open.
 - Required inventory status and evidence: all seven pending.
 - Open dependencies: remaining required stage 2-7 inventory slices, and independent source reviewer assignment.
 - Unresolved gaps and limits: exhaustive source comparison is incomplete.
