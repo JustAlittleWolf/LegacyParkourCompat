@@ -59,8 +59,27 @@ abstract class LocalPlayerMixin {
     )
     private boolean legacyparkourcompat$fallFlyingJumpStart(Player player, Operation<Boolean> vanilla) {
         return MovementRuntime.find(FallFlyingStartBehavior.class, player)
-            .map(behavior -> behavior.tryStartFallFlying(player, () -> vanilla.call(player)))
+            .map(behavior -> behavior.shouldStartFallFlying(player))
             .orElseGet(() -> vanilla.call(player));
+    }
+
+    @ModifyExpressionValue(
+        method = "aiStep",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;onClimbable()Z")
+    )
+    private boolean legacyparkourcompat$fallFlyingClimbableGate(boolean vanilla) {
+        Player player = (Player)(Object)this;
+        return MovementRuntime.find(FallFlyingStartBehavior.class, player)
+            .map(behavior -> behavior.isOnClimbableForFallFlyingStart(player, vanilla))
+            .orElse(vanilla);
+    }
+
+    @ModifyVariable(method = "aiStep", at = @At("STORE"), name = "justToggledCreativeFlight")
+    private boolean legacyparkourcompat$fallFlyingToggleGate(boolean vanilla) {
+        Player player = (Player)(Object)this;
+        return MovementRuntime.find(FallFlyingStartBehavior.class, player)
+            .map(behavior -> behavior.justToggledCreativeFlightForStart(player, vanilla))
+            .orElse(vanilla);
     }
 
     @Redirect(
