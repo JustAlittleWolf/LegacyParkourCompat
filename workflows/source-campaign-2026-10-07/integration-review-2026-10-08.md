@@ -56,3 +56,13 @@ This update supersedes the earlier REQUEST CHANGES disposition for the first pas
 - Test-disabled build succeeded with `gradlew.bat build -x test --init-script build/no-tests.init.gradle`; all Gradle `Test` task types disabled. 18 actionable tasks: 3 executed, 15 up-to-date; no tests ran.
 - JAR `build/libs/LegacyParkourCompat+26.2-1.0.0.jar`, SHA-256 `C717F4F74B51D5F41A7D6B1A1034683377C6744478B41AC863E30DF9602ADA08`.
 - Runtime movement parity and Mixin application remain unverified. The finding bounds the behavior to the reviewed 1.13 endpoint; the pair and exact first-change release remain unresolved.
+## 1.8.9 fence arm beside End Portal Frame — 2026-10-08
+
+- Implementation commit `51ecf89cfdb2d077a34a56e7e1c05a9d1236f46d`; handoff tip `44882452607d58457d44e1aa4940f15dca9e72c8`; exact reviewed code files match byte-for-byte at the final review tip.
+- Independent implementation review tip `8838f92d46d064a7da314f4d0ca02be9ec3148bc`, ACCEPT. Report `workflows/fix-implementation/reviews/fence-end-portal-frame-1.8.9-to-1.9.4.md`, SHA-256 `bd272c43f137929d2988f6500ad65fdb210ca82dc9fce9024dffc13d070422de`.
+- Accepted source snapshot `103786e872f13a44aa0232a562f2eaab8eb5e185`, file `workflows/wiki-audit-2026-10-07/fence-end-portal-frame-1.8.9-to-1.9.4.md`, SHA-256 `e5edb59eaa858f4905ec9f87862344bfbece0fe5e22315e86c531c071e638852`. Provenance re-review `0979bee9878fc1351a03c183a50ff96c28d79e21` ACCEPT, report SHA-256 `20df73aca35e20e16479eea7ca212ac902824ba27eed0042f2246fe1d8251dab`.
+- Integrated against current local main `64895d266fcee5da774c3236295ba949045200c7`. Net patch adds the V1_8 `FencePortalFrameConnection` hook and registers exactly the seven 1.8.9 fences. It restores only missing End Portal Frame-side arms while preserving native collision when no such arm is missing; no block states are changed.
+- Fence IDs are distinct from existing pane IDs; both register through the existing `BlockCollisionShape` provider. Existing `BlockStateCollisionShapeMixin` dispatch resolves player collision context through `MovementRuntime.playerFrom`, so the hook remains player-only. All previous accepted batches remain intact.
+- Test-disabled build succeeded with `gradlew.bat build -x test --init-script build/no-tests.init.gradle`; all Gradle `Test` task types were disabled. The confirming run completed with 18 actionable tasks, all up-to-date; no tests ran.
+- JAR `build/libs/LegacyParkourCompat+26.2-1.0.0.jar`, SHA-256 `91E9C2CA3883EB6F782B871AC9107F21143A8949B03B5094D9C591F40CB874E2`.
+- Runtime collision parity remains unverified. Pose, F-005, WORLD03, and swimming-entry remain pending review; no changes to those items are included.
