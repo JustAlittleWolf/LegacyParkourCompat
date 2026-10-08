@@ -553,7 +553,7 @@ No findings accepted. Earlier 1.16.5--1.17.1 reports are candidate/navigation co
 
 ### Incremental finding snapshot log
 
-- `CD-S1-04-01`: initial evidence snapshot commit and finding-file SHA-256 will be recorded immediately after that commit; reviewer handoff will follow with both immutable identifiers.
+- `CD-S1-04-01`: snapshot commit `5cf13c2f538ee420ed8c13bdc2a65605c20d0d6f`; `findings/CD-S1-04-01.md` SHA-256 `a9e70192a493008498b0fe658b2c89439c831429eff992a5bbc8a55d22e1107b`; reviewer handoff routed after recording these identifiers.
 
 ## Resume checkpoint
 
