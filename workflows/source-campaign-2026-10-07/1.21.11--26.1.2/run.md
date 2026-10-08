@@ -510,13 +510,13 @@ Each entry is a bounded behavior boundary. Refine broad plans into exact member 
 ### Slice S5.2: Friction/speed/jump factors and their consumers
 
 - Inventory ID(s): INV-WORLD-MOVEMENT, INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Friction/speed/jump factors and their consumers. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: `Block` friction/speed/jump getters, `Entity.getBlockSpeedFactor()` current/support-block selection, `LivingEntity` ground friction and movement-efficiency speed-factor application, and the Player override that suppresses block speed factor while flying/fall-flying. Full travel/post-travel ordering remains in S3.2.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/level/block/Block.java` :: `getFriction()`/`getSpeedFactor()`/`getJumpFactor()` lines 463-472; SHA-256 `bd7f69ffe617fa1008c9311ad7c731b23f242acb5ff3bab8c1a81e41e7d15a73`. `Entity.java` :: `getBlockSpeedFactor()` lines 990-995; SHA-256 `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3`. `LivingEntity.java` :: movement-efficiency wrapper lines 495-497, ground friction read in `travelInAir()` line 2345, and `getFrictionInfluencedSpeed()` lines 2578-2580; SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`. `Player.java` :: flying/fall-flying block-speed override lines 1839-1841; SHA-256 `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/level/block/Block.java` :: `getFriction()`/`getSpeedFactor()`/`getJumpFactor()` lines 502-511; SHA-256 `1693cfb7b84190a2fe664470a56d59e78ed5bd7d722a2bd16888b036d4d8e977`. `Entity.java` :: `getBlockSpeedFactor()` lines 1021-1028; SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`. `LivingEntity.java` :: movement-efficiency wrapper lines 491-493, ground friction read in `travelInAir()` line 2432, and `getFrictionInfluencedSpeed()` lines 2667-2669; SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`. `Player.java` :: flying/fall-flying block-speed override lines 1833-1835; SHA-256 `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d`.
+- State producers/writers -> consumers/readers: Ground travel reads current block friction only when on-ground (otherwise uses `1.0F`); the friction helper preserves `getSpeed() * (0.21600002F / (friction * friction * friction))` for ground and delegates to flying speed otherwise. Post-move speed factor uses the current movement-affecting block, and only when it equals exactly `1.0` falls back to the block below that affects movement. LivingEntity lerps that factor toward `1.0F` by `Attributes.MOVEMENT_EFFICIENCY`; Player bypasses block speed factor when flying or fall-flying. Jump factor consumer and values are recorded separately in S3.4.
+- Parent slices / dependencies / closure evidence: S3.2 owns full travel/post-travel call order; S3.4 owns jump-factor consumers. S5.1 has the direct property defaults/setter census. Block state copy-registration graph, exact block/provider resource data, and movement-efficiency attribute modifier sources remain open under S3/S5/S6/D2.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The paired getter, support-block fallback, ground friction formula, movement-efficiency lerp and Player flying override preserve the same conditions and operation order. Concrete values can still arrive through block property copy chains and movement-efficiency modifiers, and the full travel producer chain remains open; this is not a terminal disposition.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S5.3: Landing/bounce callbacks and support behavior
@@ -779,7 +779,7 @@ F-1 candidate snapshot submitted for blind review; acceptance is pending and doe
 
 ## Source audit closure
 
-- Coverage counts by status: 21 pending; 24 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
+- Coverage counts by status: 20 pending; 25 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
 - Required inventory status and evidence: all 7 pending; exact source inputs are verified, but full movement/provider/resource inventories remain incomplete.
 - Open dependencies: D2
 - Unresolved gaps and limits: inherited tick/travel/collision body comparisons, movement state producers/consumers, shape providers/registrations, and data/resource dependency closure.
