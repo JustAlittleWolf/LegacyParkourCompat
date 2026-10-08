@@ -1,9 +1,9 @@
 # Source-only movement comparison: Minecraft 1.21.4 to 1.21.5
 
-- Status: active
+- Status: partial
 - Scope: direct client player movement; older A = 1.21.4; newer B = 1.21.5.
 - Track: source-only discovery; no wiki comparison, mod implementation inspection, or runtime implementation.
-- Repository base: 002137b227676caea77f6832b9f4c8d0b6200bff (main); branch feat/source-discovery-movement-source-1-21-4-1-21-5; start date 2026-10-07.
+- Repository base: 1f4f0d0e753d8b6999a37e4e81f8fc2b32fbaf18 (resume source-discovery checkpoint); branch feat/source-discovery-movement-source-1-21-4-1-21-5-resume; start date 2026-10-08.
 - Source preparation owner: shared source preparer; published records and artifact identity below were reverified before source comparison.
 - Namespace and CLI mode: Mojmap for both releases; exact alignment verified against each release's source marker, official mapping file and mapped jar.
 - Discovery author: this task.
@@ -17,17 +17,22 @@ Both exact releases have ready publications under `build/movement-campaign-2026-
 - B 1.21.5: readiness and metadata IDs both `1.21.5`; mode/namespace `mojmap`; source root `build/movement-campaign-2026-10-07/ready/1.21.5/mojmap/`; client SHA-256 `522672ad20b460c02c2e39b6c5035ef6a849af28eb11ab2ac7eb293d395a8c11`; official `client_mappings.txt` SHA-256 `3907657ade3e61bc8cffb4ca0a1bcba15f57986be4e613900947119364a206e5`; mapped `client-mojmap.jar` SHA-256 `124561e91a61714ca5a73495784c14c03a7a927d1f715eafbcb56ae115a6712a`. Marker `ready/1.21.5/mojmap.ready.json`; source-manifest SHA-256 `365cc2d22446ceba0e36f46aa1c95ce4cc31514dbd657505680fb660f3adefd9` (5,921 entries, verified); artifact-manifest SHA-256 `d35b1b9389d8958e33893faa63d94c86f22af30385233ca947fd410aa5c36656` (89 entries, verified); diagnostics SHA-256 `d43c0fdfc627492b043962c0379b744461ebbb6b2ffb24f326fe72a63a039755` (22 method rows, signatures verified at cited lines).
 - Shared command: `gradlew decompileMinecraft --versions=1.21.1,1.21.3,1.21.4,1.21.5 --mappings=mojmap --decompiler-heap=4G --output-root=...\staging\mojmap-1.21.1-to-1.21.5-cd5a99cb1024417c9d370097c886a131 --cache-directory=...\artifacts`; full log: `build/movement-campaign-2026-10-07/staging/mojmap-1.21.1-to-1.21.5-cd5a99cb1024417c9d370097c886a131/gradle.full.log`. Toolchain: Gradle 9.7.1; Java 25.0.3+9-LTS; Vineflower 1.12.0; Tiny Remapper 0.14.1; Mapping IO 0.9.1; ASM 9.10.1; Gson 2.14.0. Generated source and artifacts are owned by the shared source preparer and remain read-only here.
 
+### Evidence artifact identities
+
+- Evidence artifact A1: original-verified publication for exact release 1.21.4, Mojmap. Immutable evidence path `build/movement-campaign-2026-10-07/ready/1.21.4/mojmap/`; readiness marker `build/movement-campaign-2026-10-07/ready/1.21.4/mojmap.ready.json` SHA-256 `1c6617b7acf8bb357f77c6c6c276881c73d882bda1f93f6dd217bb54eb8aa4be`; source manifest `build/movement-campaign-2026-10-07/ready/1.21.4/mojmap.sources.sha256` SHA-256 `f90b61197928632e061ea877955a19055c92ae6f357c2daf1bc646172c6f51f0`; artifact manifest `build/movement-campaign-2026-10-07/ready/1.21.4/artifacts.sha256` SHA-256 `1a0929ca8c88cfe7874f323918dfa3b044964007d3ff0d3943317bdb35caf841`; diagnostics `build/movement-campaign-2026-10-07/ready/1.21.4/movement-diagnostics.txt` SHA-256 `fb5d4cfc7238ea634c47ad148e22539fec30a1b33bb5d3353ff8c34a3e44a421`. Client SHA-256 `c17c450c6e72cc51297daa57ce38f800aa01cf022b743daa21a0512d326d894e`; official mappings SHA-256 `48b502ccc5e855b49da8aa9c0c0d7c565bec54c9f5da3a3664528aff7b9fdf23`; mapped client jar SHA-256 `56995548c9cb8bd7cdb9996b676daeafae02bde9d6ef4029b9eeca6bfd7dcc74`. At resume, marker, source/artifact manifest, diagnostics hashes and the cited source-file hashes for this finding were rechecked against the canonical publication. No revised-derived artifact is used.
+- Evidence artifact B1: original-verified publication for exact release 1.21.5, Mojmap. Immutable evidence path `build/movement-campaign-2026-10-07/ready/1.21.5/mojmap/`; readiness marker `build/movement-campaign-2026-10-07/ready/1.21.5/mojmap.ready.json` SHA-256 `5f65fb143209abcc6e28e77a7150aecefdbc9de00b6ef3fc924e53bc0e1a667e`; source manifest `build/movement-campaign-2026-10-07/ready/1.21.5/mojmap.sources.sha256` SHA-256 `365cc2d22446ceba0e36f46aa1c95ce4cc31514dbd657505680fb660f3adefd9`; artifact manifest `build/movement-campaign-2026-10-07/ready/1.21.5/artifacts.sha256` SHA-256 `d35b1b9389d8958e33893faa63d94c86f22af30385233ca947fd410aa5c36656`; diagnostics `build/movement-campaign-2026-10-07/ready/1.21.5/movement-diagnostics.txt` SHA-256 `d43c0fdfc627492b043962c0379b744461ebbb6b2ffb24f326fe72a63a039755`. Client SHA-256 `522672ad20b460c02c2e39b6c5035ef6a849af28eb11ab2ac7eb293d395a8c11`; official mappings SHA-256 `3907657ade3e61bc8cffb4ca0a1bcba15f57986be4e613900947119364a206e5`; mapped client jar SHA-256 `124561e91a61714ca5a73495784c14c03a7a927d1f715eafbcb56ae115a6712a`. At resume, marker, source/artifact manifest, diagnostics hashes and the cited source-file hashes for this finding were rechecked against the canonical publication. No revised-derived artifact is used.
+
 ## Blind-discovery freeze
 
 - Status: pending; source comparison remains in progress.
 - Freeze commit/checkpoint and timestamp: pending.
-- Evidence inventory and finding IDs included at freeze: pending; F-01 through F-12 are current source-confirmed preliminary findings, and final evidence hashes will be recorded after coverage closes.
+- Evidence inventory and finding IDs included at freeze: pending; F-01 through F-14 are current source-confirmed findings, and final evidence hashes will be recorded after coverage closes.
 - Confirmation old mod implementation/code and isolated wiki-audit results were not opened before freeze: confirmed; source-navigation docs and an earlier source-discovery report were used only as navigation.
 - Source/mapping hashes covered by freeze: pending.
 
 ## Correspondence and call order
 
-Exact-source correspondence is in progress. The verified Mojmap pair resolves `LocalPlayer`, `ClientInput`, `KeyboardInput`, `Player`, `LivingEntity`, `Entity`, `BlockBehaviour`, `BlockGetter`, `CollisionGetter`, `BlockCollisions`, `BubbleColumnBlock`, `NetherPortalBlock`, `PowderSnowBlock`, `HoneyBlock`, `FluidState`, `WaterFluid` and `LavaFluid` through source members and caller paths. Confirmed call order: client `LocalPlayer.aiStep` samples input and sprint/jump state, calls `super.aiStep`; `LivingEntity.aiStep` performs velocity cutoff and input application, jump, travel dispatch, block effects, then post-travel work. The full tick graph, inherited dispatch, collision/pose writers, resources and external inputs remain open. Similar names and adjacent reports are not proof.
+Exact-source correspondence is in progress. The verified Mojmap pair resolves `LocalPlayer`, `ClientInput`, `KeyboardInput`, `Player`, `LivingEntity`, `Entity`, `BlockBehaviour`, `BlockGetter`, `CollisionGetter`, `BlockCollisions`, `BubbleColumnBlock`, `NetherPortalBlock`, `PowderSnowBlock`, `HoneyBlock`, `FluidState`, `WaterFluid` and `LavaFluid` through source members and caller paths. Confirmed call order: client `LocalPlayer.aiStep` samples input and sprint/jump state, calls `super.aiStep`; `LivingEntity.aiStep` performs velocity cutoff and input application, jump, travel dispatch, block effects, then post-travel work. For bed start, server `startSleeping` leaves the existing fall-flying flag untouched; `Player.tick` reaches `updatePlayerPose` after `super.tick`, with the paired pose priority in S2-POSE. The full tick graph, inherited dispatch, collision/pose writers, resources and external inputs remain open. Similar names and adjacent reports are not proof.
 
 ## Required source inventories
 
@@ -167,52 +172,52 @@ These are initial bounded navigation units. Exact sources are published; slice-b
 
 ### Slice S2-POSE: Pose selection transitions and movement predicates
 
-- Inventory ID(s): slice mapping not yet inventoried
-- Exact behavior boundary and enclosing guards/order checked: not yet inspected
-- A evidence: not yet inspected in exact 1.21.4 source
-- B evidence: not yet inspected in exact 1.21.5 source
-- State producers/writers -> consumers/readers: not yet inspected
-- Parent slices / dependencies / closure evidence: pending
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): exact sources are published; this slice has not been inspected, so no behavior conclusion is recorded
-- Finding IDs or checked absence/replacement path: pending
+- Inventory ID(s): INV-STATE, INV-TICK
+- Exact behavior boundary and enclosing guards/order checked: `ServerPlayer.startSleepInBed` -> `LivingEntity.startSleeping` writes sleeping pose/position/state and zero velocity without clearing the fall-flying shared flag; next `Player.tick` calls `super.tick()` before `updatePlayerPose`; under a retained fall-flying flag, A's pose choice prioritizes `FALL_FLYING`, while B's `getDesiredPose` prioritizes `SLEEPING`. Both pose selectors first require the 0.6 x 0.6 swimming-pose fit check and then the selected pose fit/fallback logic.
+- A evidence: `ready/1.21.4/mojmap.sources.sha256`; `BedBlock#useWithoutItem` lines 83-119; `ServerPlayer#startSleepInBed` lines 1113-1157; `LivingEntity#startSleeping` lines 3395-3410; `Player#tick` line 329 and `Player#updatePlayerPose` lines 434-461; `LivingEntity#aiStep` lines 2769-2771 and `#canGlide` lines 2847-2859; `LocalPlayer#tick` lines 191-195 calls `super.tick`, `LocalPlayer` extends `AbstractClientPlayer` line 93, `AbstractClientPlayer` extends `Player` line 17, and `RemotePlayer#updatePlayerPose` is empty at lines 87-89. Source hashes: BedBlock `6fa509ef173bb0d670294c66495ee5aa388a0fb2bbed07e21757ac44a0e56d20`; ServerPlayer `d4fd29d9bed9698797e14cf9883e53f04ff4735afb2fee2972085cd82bf0d8f2`; Player `c45f41b9784ce50a88a498e84a13edcef0a23e175233d726ed7f90940f19ebc1`; LivingEntity `e62ce650af0a5ac97e4d0a2ba7cad4ba68a8d098525609f8b5b6976a8ab0ae30`; LocalPlayer `145686ebdc7f0d12a64070309073665eb8695b7e09911a723e86113a77d04611`; AbstractClientPlayer `fa15cd69238b46b410bc709c8ae0a629d5f3f817a6bc454e70a1d60bf7aa785c`; RemotePlayer `2bac53020610475374bfbcee937be72baba11fceeb1c64f88a09989f21fce0fe`.
+- B evidence: `ready/1.21.5/mojmap.sources.sha256`; `BedBlock#useWithoutItem` lines 81-117; `ServerPlayer#startSleepInBed` lines 1067-1111; `LivingEntity#startSleeping` lines 3386-3401; `Player#tick` line 344 and `Player#updatePlayerPose` lines 449-461 plus `#getDesiredPose` lines 465-475; `LivingEntity#aiStep` lines 2753-2755 and `#canGlide` lines 2837-2849; `LocalPlayer#tick` lines 191-195 calls `super.tick`, `LocalPlayer` extends `AbstractClientPlayer` line 93, `AbstractClientPlayer` extends `Player` line 17, and `RemotePlayer#updatePlayerPose` is empty at lines 86-88. Source hashes: BedBlock `93231daf73d11a6b8d72e6f42f4dcf8b928e443d34708e0a4c2ee50c1c88d4dd`; ServerPlayer `81ec90de6bf1521f45f1552c60af1ebb1a83fbcfa2eefb41b99e25b99d2f0d1b`; Player `8fc187f33999db9dfc49251e95e92a17645a50adab16ca0f93f4948209f62036`; LivingEntity `a8aed863d4fdc515c751dd2878a8bbc9b13179228cb8dbb50edf1d19cd5404271`; LocalPlayer `f1fcfed4a938732361e7ad951f93e9b73b02320ee56f0b219e2b3c7acdbfa2ef`; AbstractClientPlayer `971bc296fe1feeb3fc54a2b78c0a0a6d0df2578fb79428c451f25be57c20a648`; RemotePlayer `db4508961b75904ebcefc64baae2a3f613be4c4136333152972d320e7b533e08`.
+- State producers/writers -> consumers/readers: server bed interaction -> sleeping pose and sleeping-position data; pre-existing fall-flying flag -> `LivingEntity.aiStep` glide validation/travel -> `Player.updatePlayerPose`; pose data update -> `Entity.onSyncedDataUpdated` -> `refreshDimensions` writes current box dimensions and eye height. `startSleeping` writes position to bed, zeroes delta movement and sets `hasImpulse`; next glide travel can write velocity again if server `canGlide` still passes.
+- Parent slices / dependencies / closure evidence: S1-LOCAL-TICK; S1-FLIGHT; S1-RIDING; S2-DIMENSIONS; S2-EYE-HEIGHT; S2-STATE-WRITERS; S3-GLIDE; S3-POST; S7-MOUNTS; F-06; F-14. The bed action is server-authoritative (`BedBlock#useWithoutItem` returns on the client); `ServerPlayer` sleep gates contain no grounded/fall-flying check. The required player pose update is reached from `Player.tick` on server and local-player paths; remote players override the pose update. Modifier/component producer inventory and remaining pose writers stay open.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): source confirms a pose-priority delta when sleeping and fall-flying states coexist, the swimming-pose fit precheck succeeds, and the selected pose fits. A glide-capable player can retain the flag through the next server `aiStep` while not grounded, not riding, without Levitation and with a non-breaking equippable GLIDER component; `startSleeping` itself does not clear it. The bed caller has no ground-state gate. This is a bounded reachable state path, not a claim about how often it occurs.
+- Finding IDs or checked absence/replacement path: F-14
 
 ### Slice S2-DIMENSIONS: Dimensions, box resize and collision rejection timing
 
-- Inventory ID(s): slice mapping not yet inventoried
-- Exact behavior boundary and enclosing guards/order checked: not yet inspected
-- A evidence: not yet inspected in exact 1.21.4 source
-- B evidence: not yet inspected in exact 1.21.5 source
-- State producers/writers -> consumers/readers: not yet inspected
-- Parent slices / dependencies / closure evidence: pending
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): exact sources are published; this slice has not been inspected, so no behavior conclusion is recorded
-- Finding IDs or checked absence/replacement path: pending
+- Inventory ID(s): INV-STATE, INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: `DATA_POSE` update -> `Entity.refreshDimensions`; pose-specific Player dimensions; player exclusion from server `fudgePositionAfterSizeChange`; position and box recomputation after sleeping/fall-flying priority update.
+- A evidence: `ready/1.21.4/mojmap.sources.sha256`; `Entity#onSyncedDataUpdated`/`refreshDimensions` lines 2934-2964; `LivingEntity#getDimensions` lines 3352-3358; `Player` pose table lines 136-147, `getDefaultDimensions` lines 1985-1986, and `LivingEntity.SLEEPING_DIMENSIONS` line 177. Hashes are recorded under S2-POSE.
+- B evidence: `ready/1.21.5/mojmap.sources.sha256`; `Entity#onSyncedDataUpdated`/`refreshDimensions` lines 2926-2957; `LivingEntity#getDimensions` lines 3343-3349; `Player` pose table lines 137-148, `getDefaultDimensions` lines 1927-1928, and `LivingEntity.SLEEPING_DIMENSIONS` line 176. Hashes are recorded under S2-POSE.
+- State producers/writers -> consumers/readers: pose setter -> synced pose callback -> dimensions/eye-height fields and `reapplyPosition`; player bounding-box reads and collision/fluid queries consume the current pose dimensions. Player pose changes do not run the non-player position-fudge path.
+- Parent slices / dependencies / closure evidence: S2-POSE; S2-EYE-HEIGHT; S4-COLLISION-QUERY; S4-SHAPES; F-14. Only the sleeping/fall-flying consequence is closed; all other player pose transitions, dynamic scale writes and shape/query consumers remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): under F-14's preconditions, A refreshes to player fall-flying dimensions 0.6 x 0.6 with 0.4 eye height; B refreshes to sleeping dimensions 0.2 x 0.2 with 0.2 eye height. Both versions run the same refresh logic and do not fudge player position. Broader pose/dimension inventory remains in progress.
+- Finding IDs or checked absence/replacement path: F-14; remaining pose transitions pending.
 
 
 ### Slice S2-EYE-HEIGHT: Eye height in fluid and collision checks
 
-- Inventory ID(s): slice mapping not yet inventoried
-- Exact behavior boundary and enclosing guards/order checked: not yet inspected
-- A evidence: not yet inspected in exact 1.21.4 source
-- B evidence: not yet inspected in exact 1.21.5 source
-- State producers/writers -> consumers/readers: not yet inspected
-- Parent slices / dependencies / closure evidence: pending
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): exact sources are published; this slice has not been inspected, so no behavior conclusion is recorded
-- Finding IDs or checked absence/replacement path: pending
+- Inventory ID(s): INV-STATE, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: pose dimensions supply eye height; F-14's next pose update changes the stored eye-height field through `refreshDimensions` while the direct active fall-flying state may persist.
+- A evidence: `ready/1.21.4/mojmap.sources.sha256`; `LivingEntity.SLEEPING_DIMENSIONS` line 177 and Player pose table lines 136-147; `Entity#refreshDimensions` lines 2948-2964; source hashes recorded under S2-POSE.
+- B evidence: `ready/1.21.5/mojmap.sources.sha256`; `LivingEntity.SLEEPING_DIMENSIONS` line 176 and Player pose table lines 137-148; `Entity#refreshDimensions` lines 2941-2957; source hashes recorded under S2-POSE.
+- State producers/writers -> consumers/readers: current pose -> stored eyeHeight via dimensions -> eye position/fluid checks and other eye-position readers. Fall-flying pose uses 0.4F; sleeping pose uses 0.2F in both versions.
+- Parent slices / dependencies / closure evidence: S2-POSE; S2-DIMENSIONS; S3-WATER; S3-LAVA; S3-SWIM; S4-COLLISION-QUERY; F-14. Other direct eye-height consumers and all pose variants remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the bounded F-14 state produces different stored eye height in A and B as a consequence of the pose-priority difference. Eye-height use in water/lava queries and other movement consumers is not fully inventoried.
+- Finding IDs or checked absence/replacement path: F-14; remaining consumer inventory pending.
 
 ### Slice S2-STATE-WRITERS: Movement flags, defaults, resets, timers and consumers
 
-- Inventory ID(s): slice mapping not yet inventoried
-- Exact behavior boundary and enclosing guards/order checked: not yet inspected
-- A evidence: not yet inspected in exact 1.21.4 source
-- B evidence: not yet inspected in exact 1.21.5 source
-- State producers/writers -> consumers/readers: not yet inspected
-- Parent slices / dependencies / closure evidence: pending
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): exact sources are published; this slice has not been inspected, so no behavior conclusion is recorded
-- Finding IDs or checked absence/replacement path: pending
+- Inventory ID(s): INV-STATE, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: paired direct writers for fall-flying shared flag (`startFallFlying`, `stopFallFlying`, server `updateFallFlying` validation), sleeping pose/position writer, sleeping-position sync data, delta movement reset and next Player pose update. This is a bounded producer/consumer trail, not the full state-writer inventory.
+- A evidence: `ready/1.21.4/mojmap.sources.sha256`; `LivingEntity#startSleeping` lines 3395-3410; `#stopFallFlying` and `#updateFallFlying` lines 2769-2771, 2825-2859; Player pose update lines 434-461; hashes recorded under S2-POSE.
+- B evidence: `ready/1.21.5/mojmap.sources.sha256`; `LivingEntity#startSleeping` lines 3386-3401; `#stopFallFlying` and `#updateFallFlying` lines 2753-2755, 2815-2849; Player pose update lines 449-475; hashes recorded under S2-POSE.
+- State producers/writers -> consumers/readers: bed interaction writes sleeping pose, sleeping-position data, bed position, zero delta and impulse; fall-flying flag is unchanged there and is consumed by glide validation/travel and the pose selector. Pose refresh writes current dimensions/eye height. `canGlideUsing` reads synchronized equipment components and durability state.
+- Parent slices / dependencies / closure evidence: S1-FLIGHT; S1-RIDING; S2-POSE; S2-DIMENSIONS; S2-EYE-HEIGHT; S3-GLIDE; S6-EQUIPMENT; S7-MOUNTS; F-14. Other state fields, defaults and reset/transition callers remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the specific bed-start path leaves an already active fall-flying flag untouched; it remains until the server-side glide validator clears it or another state writer changes it. State combination reachability conditions and pose consequence are documented in F-14. Full writers/readers remain open.
+- Finding IDs or checked absence/replacement path: F-14; broader state writer inventory pending.
 
 ### Slice S3-DISPATCH: Travel dispatch and branch guards
 
@@ -610,13 +615,14 @@ These are initial bounded navigation units. Exact sources are published; slice-b
 - D1: IN PROGRESS. Inventory both player/input/travel/collision hierarchies, callers, state producers and readers; follow changed/influential helpers into bounded slices. Owner: discovery.
 - D2: OPEN. Inspect matching client-jar resources and referenced defaults/tags/components omitted by source output; hash entries. Owner: discovery.
 - D3: OPEN. Close all block/fluid callbacks, contact shapes, registration and neighbor data; parent slices S4-CALLBACKS/S5-BLOCK-SHAPES/S5-NEIGHBORS/S5-FLUIDS. Owner: discovery.
-- D4: OPEN. Close movement attributes, effects, enchantments, equipment tick/applicability and defaults; parent slices S6-ATTRIBUTES through S6-EQUIPMENT. Owner: discovery.
+- D4: OPEN. Close movement attributes, effects, enchantments, equipment tick/applicability and defaults; resolve GLIDER/EQUIPPABLE component provenance used by `canGlideUsing`; parent slices S6-ATTRIBUTES through S6-EQUIPMENT. Owner: discovery.
 - D5: OPEN. Trace client corrections, direct velocity/impulse writers, piston launches and mount input consumers on both sides; parent slices S7-CORRECTIONS through S7-MOUNTS. Owner: discovery.
-- Current dependency: full exact-pair call graph, state writer/consumer chains, resource data and external movement inputs remain open; source readiness is resolved and is not a blocker.
+- D6: OPEN. Coordinator must assign a different source-only reviewer for a blind audit of the completed full-pair inventory; the author cannot self-close this gate. Owner: coordinator.
+- Current dependency: full exact-pair call graph, state writer/consumer chains, resource data, external movement inputs and independent full-pair review remain open; source readiness is resolved and is not a blocker.
 
 ## Finding index
 
-Source-confirmed findings: [F-01 movement callback path](findings/F-01-movement-callback-path.md), [F-02 bubble-column upper contact](findings/F-02-bubble-column-above-contact.md), [F-03 keyboard vector rounding](findings/F-03-keyboard-vector-rounding.md), [F-04 sprint stop gates](findings/F-04-sprint-stop-gates.md), [F-05 player horizontal velocity cutoff](findings/F-05-player-horizontal-velocity-cutoff.md), [F-06 fall-flying climbable exit](findings/F-06-fall-flying-climbable-exit.md), [F-07 Nether portal inside shape](findings/F-07-nether-portal-inside-shape.md), [F-08 powder-snow inside shape](findings/F-08-powder-snow-inside-shape.md), [F-09 local-player input damping](findings/F-09-local-player-input-damping.md), [F-10 player edge-support query](findings/F-10-player-edge-support-query.md), [F-11 powder-snow wall-jump state](findings/F-11-powder-snow-wall-jump-state.md), [F-12 client correction pitch clamp](findings/F-12-player-correction-clamps-pitch.md), and [F-13 airborne forward double-tap sprint](findings/F-13-airborne-double-tap-sprint.md). Findings identify confirmed source deltas; they do not close the remaining pair-wide inventory/dependency slices.
+Source-confirmed findings: [F-01 movement callback path](findings/F-01-movement-callback-path.md), [F-02 bubble-column upper contact](findings/F-02-bubble-column-above-contact.md), [F-03 keyboard vector rounding](findings/F-03-keyboard-vector-rounding.md), [F-04 sprint stop gates](findings/F-04-sprint-stop-gates.md), [F-05 player horizontal velocity cutoff](findings/F-05-player-horizontal-velocity-cutoff.md), [F-06 fall-flying climbable exit](findings/F-06-fall-flying-climbable-exit.md), [F-07 Nether portal inside shape](findings/F-07-nether-portal-inside-shape.md), [F-08 powder-snow inside shape](findings/F-08-powder-snow-inside-shape.md), [F-09 local-player input damping](findings/F-09-local-player-input-damping.md), [F-10 player edge-support query](findings/F-10-player-edge-support-query.md), [F-11 powder-snow wall-jump state](findings/F-11-powder-snow-wall-jump-state.md), [F-12 client correction pitch clamp](findings/F-12-player-correction-clamps-pitch.md), [F-13 airborne forward double-tap sprint](findings/F-13-airborne-double-tap-sprint.md), and [F-14 sleeping pose priority during retained fall-flying](findings/F-14-sleep-fall-flying-pose-priority.md). Findings identify confirmed source deltas; they do not close the remaining pair-wide inventory/dependency slices.
 
 ## Incremental finding snapshot log
 
@@ -626,9 +632,9 @@ Source-confirmed findings: [F-01 movement callback path](findings/F-01-movement-
 
 ## Resume checkpoint
 
-- Last completed slice: S3-JUMP-MATH (compared-no-difference); exact-source comparisons have identified F-01 through F-13. S1-SPRINT-GATE/TIMER/JUMP-GATE/SPRINT-JUMP/AUTOJUMP/FLIGHT/RIDING, S3-WATER/LAVA and S7-PUSH/CORRECTIONS remain in-progress because dependency/caller closure is open. F-09 has a candidate snapshot pending independent review; no snapshot has been accepted and no pair freeze has been accepted.
-- Next: close input sampling/scale dependencies and the remaining local pre-travel state writers; continue ordered travel, collision, modifier and external-player inventories.
-- Outstanding dependencies and owners: D1 call-graph and producer/consumer inventory (discovery); D2 resource/tag/default inspection (discovery); D3 collision/block/fluid callback and shape inventory (discovery); D4 attributes/effects/enchantments/equipment (discovery); D5 client correction/mount/push external paths (discovery).
+- Last completed slice: S3-JUMP-MATH (compared-no-difference); exact-source comparisons have identified F-01 through F-14. S2-POSE now records the retained fall-flying/sleeping pose-priority difference and its next-update dimension consequence. S2-DIMENSIONS, S2-EYE-HEIGHT and S2-STATE-WRITERS remain in-progress because their full inventories and consumer closure are broader than F-14. S1-SPRINT-GATE/TIMER/JUMP-GATE/SPRINT-JUMP/AUTOJUMP/FLIGHT/RIDING, S3-WATER/LAVA and S7-PUSH/CORRECTIONS remain in-progress because dependency/caller closure is open. F-09 has a candidate snapshot pending independent review; no snapshot has been accepted and no pair freeze has been accepted.
+- Next: close input sampling/scale dependencies and remaining local pre-travel state writers; continue ordered travel, collision, modifier, resource and external-player inventories.
+- Outstanding dependencies and owners: D1 call-graph and producer/consumer inventory (discovery); D2 resource/tag/default inspection (discovery); D3 collision/block/fluid callback and shape inventory (discovery); D4 attributes/effects/enchantments/equipment and GLIDER/EQUIPPABLE data (discovery); D5 client correction/mount/push external paths (discovery); D6 independent full-pair source reviewer assignment and audit (coordinator).
 - Assumptions requiring verification: complete input consumers, player-only reachability through all travel branches, shape and resource dependencies, and direct movement state writers.
 
 ## Implementation reconciliation
@@ -651,15 +657,15 @@ Source-confirmed findings: [F-01 movement callback path](findings/F-01-movement-
 
 ## Source audit closure
 
-- Coverage counts: 3 compared-no-difference; 0 terminal finding slices; 0 not-applicable; 0 blocked; 17 pending; 26 in-progress. Thirteen source-confirmed findings have been recorded; slices remain open until their full inventories and dependencies close.
-- Required inventories: all remain open; bounded source work is underway across tick order, sprint/jump/flight gates and timers, riding input state, auto-jump, input math, travel formulas, collision callbacks, block/fluid contact and partial external correction/push paths. Inventory-level closure is not claimed.
-- Open dependencies: D1-D5; D0 resolved.
+- Coverage counts: 3 compared-no-difference; 1 terminal finding slice; 0 not-applicable; 0 blocked; 13 pending; 29 in-progress. Fourteen source-confirmed findings have been recorded; slices remain open until their full inventories and dependencies close.
+- Required inventories: all remain open; bounded source work is underway across tick order, sprint/jump/flight gates and timers, riding input state, auto-jump, input math, travel formulas, pose/dimension state, collision callbacks, block/fluid contact and partial external correction/push paths. Inventory-level closure is not claimed.
+- Open dependencies: D1-D6; D0 resolved.
 - Gaps: full movement call graph, branch dependencies, state writers/consumers, collision/shape provider inventory, registry/tag/resource data, modifiers/equipment and external player movement inputs.
 - Evidence/hash/correspondence audit: exact source/artifact readiness verified; finding hashes and all bounded slice evidence still require final audit at source freeze.
 - Blind freeze: pending.
 - Implementation reconciliation: pending.
 - Independent audit: pending.
-- Completion checker: the owner-published checker at workflow commit fba28fa154d29572263ea3f2c44cf1dc23134329 accepts this active run structure and explicitly does not claim completion; this is schema status only, not source proof.
+- Completion checker: the owner-published checker at workflow commit fba28fa154d29572263ea3f2c44cf1dc23134329 accepted the prior active run structure; not rerun for this partial handoff. Schema status is not source proof.
 - Runtime validation: not performed; separate workflow and not authorized.
 
 
