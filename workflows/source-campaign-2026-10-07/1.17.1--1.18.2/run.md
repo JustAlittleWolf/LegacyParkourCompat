@@ -112,13 +112,13 @@ A/B roles: LocalPlayer#aiStep client tick; KeyboardInput#tick input; LivingEntit
 ### Slice T-EDGE-GATE: player edge predicate
 - Inventory ID(s): INV-STATE, INV-COLLISION
 - Exact behavior boundary and enclosing guards/order checked: Player#maybeBackOffFromEdge/#isAboveGround.
-- A evidence: build/movement-campaign-2026-10-07/ready/1.17.1/mojmap/net/minecraft/world/entity/player/Player.java::maybeBackOffFromEdge, lines 1017-1044 and #isAboveGround, lines 1069-1072, SHA-256 724bb298499dabe489dffd5ce7ec81c9773619a8d2c70044911eae4c9e8ff481.
-- B evidence: build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/player/Player.java::maybeBackOffFromEdge, lines 1032-1060 and #isAboveGround, lines 1082-1085, SHA-256 bf639c1962ff90d69e4569b2b18f6fcf57ac46ef80b19686f0fbc1687fca744a.
+- A evidence: build/movement-campaign-2026-10-07/ready/1.17.1/mojmap/net/minecraft/world/entity/player/Player.java::maybeBackOffFromEdge, lines 1017-1067 and #isAboveGround, lines 1069-1072, SHA-256 724bb298499dabe489dffd5ce7ec81c9773619a8d2c70044911eae4c9e8ff481.
+- B evidence: build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/player/Player.java::maybeBackOffFromEdge, lines 1032-1080 and #isAboveGround, lines 1082-1085, SHA-256 bf639c1962ff90d69e4569b2b18f6fcf57ac46ef80b19686f0fbc1687fca744a.
 - State producers/writers -> consumers/readers: onGround/fallDistance/maxUpStep/noCollision -> edge gate.
-- Parent slices / dependencies / closure evidence: D-RESET-CLIP-FILTER is resolved. A noCollision uses CollisionSpliterator, which may emit border shape based on the source bounding box; B noCollision checks block shapes, entities, then borderCollision using the queried box. Border/support geometry equivalence remains open under D-SHAPE-PROVIDERS and D-BORDER-MOVE-PATH.
+- Parent slices / dependencies / closure evidence: D-RESET-CLIP-FILTER is resolved. A noCollision's CollisionSpliterator border check can omit the border when the source player box remains inside the floored/ceiled border bounds; B noCollision can include borderCollision from the queried candidate box via isInsideCloseToBorder. With a crouching player on ground and an outward edge query crossing the border shape where no floor block remains, this changes noCollision and the pre-solver vector returned by maybeBackOffFromEdge (F-008). The final movement solver remains open under D-SHAPE-PROVIDERS and D-BORDER-MOVE-PATH.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): for non-flying players using SELF/PLAYER movement and staying-on-ground-surface, the paired edge loops and 0.05 step updates match; isAboveGround also reads onGround/fallDistance. Query results can still differ through block/entity/border shapes, and F-005 adds a later fallDistance writer.
-- Finding IDs or checked absence/replacement path: F-005.
+- Disposition and rationale (including concrete reachability/preconditions): for non-flying players using SELF/PLAYER movement and staying-on-ground-surface, the paired edge loops and 0.05 step updates match; isAboveGround also reads onGround/fallDistance. For the player, staying-on-ground-surface is crouching. A near-border candidate query can cross the border collision volume while the current player box is still inside the integer-aligned bounds, producing the bounded noCollision/vector delta in F-008; F-005 separately adds a later fallDistance writer. Resolved movement after the collision solver remains open.
+- Finding IDs or checked absence/replacement path: F-005,F-008.
 
 ### Slice T-ENTITY-COLLISION: solver and state writes
 - Inventory ID(s): INV-STATE, INV-COLLISION
@@ -236,6 +236,7 @@ Movement enchantment/equipment source chain (D-ENCHANTMENT-DATA resolved): `Ench
 - [F-005 long movement fallDistance reset before later edge check](findings/F-005-fall-distance-reset-edge-gate.md) — source-confirmed writer/consumer and clip filter closed.
 - [F-006 boat passenger-list refresh yaw behavior](findings/F-006-boat-passenger-yaw-refresh.md) — source-confirmed player yaw write change under repeated passenger update.
 - [F-007 client movement packet displacement threshold](findings/F-007-position-packet-threshold.md) — source-confirmed bounded packet condition and clear-path server position update; other correction paths remain open.
+- [F-008 edge gate admits world border as support](findings/F-008-border-edge-gate.md) — source-confirmed noCollision/pre-solver edge-vector delta; final movement resolution remains open.
 - Discarded: KeyboardInput literal precision alone (normal inputs -1,0,1; input assignment path now closed); camera bob literal change (visual-only in inspected path). Prior report was navigation; F-001/F-002 rechecked.
 
 ## Resume checkpoint
@@ -247,7 +248,7 @@ Movement enchantment/equipment source chain (D-ENCHANTMENT-DATA resolved): `Ench
 
 ## Finding snapshots (not pair freeze)
 
-The pair remains partial. Accepted snapshot count is zero; F-001, F-002, F-006 and F-007 are immutable candidates submitted for blind source review. Snapshot acceptance releases only that finding for a separate implementation task and does not close other slices or freeze the pair.
+The pair remains partial. Accepted snapshot count is zero; F-001, F-002, F-006, F-007 and F-008 are immutable candidates submitted for blind source review. Snapshot acceptance releases only that finding for a separate implementation task and does not close other slices or freeze the pair.
 
 - Snapshot ID: F001-1.17.1-1.18.2-d02139e
 - Finding: findings/F-001-minor-horizontal-collision-sprint.md
