@@ -13,7 +13,7 @@
     "runtimeLaunches": false,
     "allGradleTestTasksDisabledForBuild": true,
     "integrationBuildOwnerThreadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
-    "primaryMainLastVerified": "d4c4f154a0c2487dd6dd7d20d92eb57b3d8ab1ae",
+    "primaryMainLastVerified": "270e8c85d656a0d2fae0770799e207ed1557d9ba",
     "maximumConcurrentRolesIncludingCoordinator": 20
   },
   "reservedOldSlots": [
@@ -44,7 +44,7 @@
     {
       "threadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
       "role": "integration_build_owner",
-      "status": "Active accepted range extension integration/build and explicit source-review digest erratum.",
+      "status": "Active serial passenger-crouch no-code review + ops902161 provenance integration, then exact1.20.5 source publication; no tests/runtime/push.",
       "ref": "feat/movement-campaign-integration-2026-10-08@958b0916f08cba25e3be86d67d48a9d1e8651d1f",
       "resultCommit": "ea812dc9171fdf41e02b3a2292db7d40b105c9c4"
     },
@@ -59,7 +59,7 @@
       "threadId": "01a11bb3-59d0-72c0-ab62-71a6d301d1d8",
       "role": "source",
       "pair": "1.8.9--1.9.4",
-      "status": "active source-only continuation all remaining1.8.9--1.9.4 inventories",
+      "status": "Active full remaining source inventory continuation from3e9b6ed, corner stairs first, partial.",
       "ref": "feat/source-discovery-movement-source-1-8-9-1-9-4@0481dfe227ccc14b935352c306afbd04035cc635",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -104,7 +104,7 @@
       "threadId": "01a11bb3-aee2-7a81-b21f-e3b3b002ab9a",
       "role": "source",
       "pair": "1.13.2--1.14.4",
-      "status": "Active source-only continuation 1.13.2--1.14.4 from 02407720.",
+      "status": "Active full remaining source inventory continuation fromafe5d48; lifecycle wall/fence excluded, partial.",
       "ref": "feat/source-movement-1-13-2-1-14-4-resume5@f3f93635916e61622baad51449b2069446cb0d7d",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -127,14 +127,14 @@
     {
       "threadId": "01a11bb3-e236-7343-86a7-4c51ecc20b98",
       "role": "wiki_mcpk",
-      "status": "active independent MCPK remaining claim inventory, sealed from Minecraft Wiki/source reports/implementation",
+      "status": "Completed partial MCPK followup ee60e5c7ede07dc7a33851cd98f0657d867a9c9f; new independent review active.",
       "ref": "feat/mcpk-wiki-audit@ae651e6"
     },
     {
       "threadId": "01a11bb5-8eb0-7813-bb21-160e97f4652c",
       "role": "source",
       "pair": "1.15.2--1.16.5",
-      "status": "Active source-only continuation 1.15.2--1.16.5 from 33fb5e3f.",
+      "status": "Active remaining source inventory continuation from58ce0a4bd48f55765b8e977c4bf1b31a93f39bb0; piston head threshold frozen binding requested, partial.",
       "ref": "feat/source-discovery-movement-source-1-15-2-1-16-5@d2511a34e9586231464fee42ab94f566c3f0459f",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -160,7 +160,7 @@
       "role": "elytra_gate_correction",
       "pair": null,
       "ref": "a5d07341d941ce2c0b9df1e392af9a40b1fbb9e9",
-      "status": "Completed range extension dd725b49 and main merge 5acdad5; independent implementation review pending."
+      "status": "Active shallow-water F-1 reconciliation/implementation after source ACCEPT f222615; range extension completed and integrated."
     },
     {
       "threadId": "01a11bbe-910d-7c02-9261-b0d01b6822ed",
@@ -174,7 +174,7 @@
       "role": "blind_source_review",
       "pair": null,
       "ref": "aa66894 and105ec98",
-      "status": "Active blind source review of shallow water candidate 6374ff904; corrected04/F14 queued afterward."
+      "status": "F-1 source ACCEPT f222615; active corrected04/F14 and bed/slime independent source reviews, four separate decisions."
     },
     {
       "threadId": "01a11bc1-f2a2-7342-82ea-4072acd7ff4b",
@@ -204,7 +204,7 @@
       "threadId": "01a11bc2-2e8a-78e2-a4ec-cee2b9b52ee6",
       "role": "rising_crouch_implementation",
       "ref": "accepted source1d5f181;review0648b843",
-      "status": "Active MC02 exact 1.20.5 boundary reconciliation and publication command planning; no Gradle execution, exclusive owner publishes later."
+      "status": "Completed exact1.20.5 publication command planning; missing canonical source. Idle until exclusive owner publication, then boundary source comparison/review."
     },
     {
       "threadId": "01a11bc4-153a-78d1-8b2a-74e92c3b249d",
@@ -275,7 +275,7 @@
     {
       "threadId": "01a11bd7-45d2-7310-be8a-85f73e8d668d",
       "role": "clean_mcpk_snapshot_review",
-      "status": "completed; edge r3/slipperiness ACCEPTbdda49ac76ce8b6e136917349e8b59a61d2fabe4 mergee2c3ecb43a2badacf6beb6098c4f6f4f354ec7bc",
+      "status": "Active independent MCPK followup ee60e5c7 source/provenance/scope review; sealed other lanes and implementation.",
       "ref": "identity register93a01b8; four r2 snapshots"
     },
     {
@@ -409,13 +409,12 @@
     "mainStatus": "code already integrated; source binding/provenance being independently reconciled"
   },
   "nextCoordinatorActions": [
-    "Collect independent slipperiness extension implementation review, then serial integration/build if ACCEPT.",
-    "Collect passenger crouch no-code and source provenance review before recording covered.",
-    "Collect MC1204-1206-01 and02 granular code/proof handoffs, then independent static reviews.",
-    "Collect corrected04 andF14 immutable source snapshots for focused independent re-review.",
-    "Collect all-11-batch independent operations audit and backlog update; add five new accepted source bindings.",
-    "Continue all 26 source pairs and both independent wiki inventories; resume partials as slots free; full-pair audit only after exhaustive source closure.",
-    "Maximum 20 concurrent roles including coordinator, user authorized on 2026-10-08. Sol Medium coordinator, Luna High workers; no tests/runtime/Docker/push."
+    "Collect corrected04/F14 and bed/slime blind decisions; keep modern attribute scope explicit.",
+    "Collect shallow-water code/proof, dispatch independent implementation review when slot frees.",
+    "Collect passenger docs integration and exact1.20.5 canonical source publication; then MC02 boundary comparison and blind review.",
+    "Collect Wiki/MCPK independent decisions and exact correction bindings.",
+    "Continue full source inventories; all26 pairs remain partial.",
+    "Maintain cap20 including root; only Luna High workers; exclusive serial build/source publication; no tests/runtime/push."
   ],
   "nextAcceptedIntegrationBatch": {
     "finding": "F005 saved FallFlying",
@@ -690,5 +689,44 @@
     "remaining": "Connected pane/bar states, other fence/wall neighbors, later creative-flight/ladder intervals, full swim/crawl transitions, main merge before final lane handoff.",
     "status": "Independent per-snapshot review active; lane PARTIAL, no source-pair completion.",
     "head": "5e353798e5411b00c766905a1ed7c34aaa493c16"
+  },
+  "latestVerifiedIntegration": {
+    "main": "270e8c85d656a0d2fae0770799e207ed1557d9ba",
+    "batch": "V1_19_4 slipperiness registration reuses accepted V1_15_2 sampler",
+    "implementation": "dd725b49a343a478b26a88528b2e3c61698a752e",
+    "review": "df697d4c0ad1f884551313d6f6e8c58ba40d2087",
+    "jarSHA256": "f4035fbb47ac5169de7a3510cd3728c68256fc3c778834839c79c1418d674f9c",
+    "buildLog": "workflows/fix-implementation/runs/1.19.4-slipperiness-build-2026-10-08.log",
+    "buildLogSHA256": "77af6ef6f85f9d77d3453d13551962b52382f2a3f8d3fb04e540209395f2f115",
+    "rootVerification": "Clean main, JAR/log independently rehashed; retained log BUILD SUCCESSFUL in 8s, exit 0, 18 tasks. All Test tasks disabled.",
+    "pairStatus": "All 26 PARTIAL; no runtime validation"
+  },
+  "shallowWaterCurrentAccepted": {
+    "snapshot": "6374ff904018e102afd8353864d3cbcbb1b99ddd",
+    "path": "workflows/source-campaign-2026-10-07/1.21.11--26.1.2/findings/F-1-water-current-shallow-overlap.md",
+    "blob": "90c8a48282c036e6082c85f0be7a69e041ac0cb7",
+    "sha256": "9d2c273a1c3b358eac7ebaa1e4cbe9e91a126648a90e89d8d6bdeb1953159cdd",
+    "sourceReview": "f222615162499441f959899600744813b1276614",
+    "status": "Source-only ACCEPT; reconciliation/implementation active, independent implementation review pending",
+    "implementationWorker": "01a11bbc-b876-7182-9025-3b589c5cd50c"
+  },
+  "correctedGravitySnapshot": {
+    "commit": "13cf725ab0ac943f78c2ec7e5851a473022edfb4",
+    "path": "workflows/source-campaign-2026-10-07/1.20.4--1.20.6/findings/MC1204-1206-04.md",
+    "blob": "a0f45a5a2ae43c5f3bce2fcc4931c9ecb329f8d0",
+    "rawSHA256": "3354ad673e73ec35247699184eb26fcf82519f4dd2cf6963164d71c35add0a2f",
+    "status": "Independent corrected-snapshot source review active; modern attribute scope not adjudicated"
+  },
+  "currentDispatchAudit": {
+    "maxIncludingCoordinator": 20,
+    "coordinatorModel": "gpt-6.1-sol",
+    "coordinatorEffort": "medium",
+    "workerModel": "gpt-6-luna",
+    "workerEffort": "high",
+    "activeRolesAtDispatch": 20,
+    "appRoles": 16,
+    "collaborationSourceRoles": 3,
+    "coordinatorRoles": 1,
+    "note": "Four verified terminal app roles reused: source1.8.9, source1.13.2, source1.15.2, independent MCPK review. No new app chats."
   }
 }
