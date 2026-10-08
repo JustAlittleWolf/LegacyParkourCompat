@@ -4,7 +4,9 @@
     "threadId": "01a11bae-d354-7931-8746-2ef6befcce75",
     "branch": "feat/movement-coordinator-2026-10-08",
     "baseCommit": "cbd753a83c669642b0d385568b2becf06a3e8694",
-    "maxConcurrentIncludingCoordinator": 15
+    "maxConcurrentIncludingCoordinator": 15,
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "medium"
   },
   "limits": {
     "tests": false,
@@ -32,7 +34,7 @@
     {
       "threadId": "01a11bb1-adb2-7212-9a90-26537278d788",
       "role": "implementation_static_review",
-      "status": "active",
+      "status": "active; review identity and yaw movement-consumer audit",
       "scope": "four pending code patches"
     },
     {
@@ -52,69 +54,119 @@
       "threadId": "01a11bb3-59d0-72c0-ab62-71a6d301d1d8",
       "role": "source",
       "pair": "1.8.9--1.9.4",
-      "status": "launched",
+      "status": "completed",
       "ref": "feat/source-discovery-movement-source-1-8-9-1-9-4@0481dfe227ccc14b935352c306afbd04035cc635"
     },
     {
       "threadId": "01a11bb3-6dd8-7710-8f54-0b2d444da4b6",
       "role": "source",
       "pair": "1.9.4--1.10.2",
-      "status": "launched",
+      "status": "active",
       "ref": "feat/source-discovery-movement-source-1-9-4-1-10-2@96e35bb8cb7c906e2978dea93898bd34c3e504d3"
     },
     {
       "threadId": "01a11bb3-7ca7-7510-8ec7-03f97db0cc9b",
       "role": "source",
       "pair": "1.10.2--1.11.2",
-      "status": "launched",
+      "status": "active",
       "ref": "feat/source-discovery-movement-source-1-10-2-1-11-2@4c87723 (full ref to verify)"
     },
     {
       "threadId": "01a11bb3-9057-7283-b264-f6ff0befbb34",
       "role": "source",
       "pair": "1.11.2--1.12.2",
-      "status": "launched",
+      "status": "completed",
       "ref": "feat/source-discovery-movement-source-1-11-2-1-12-2@d624c8e35b67056fb66ef5fd2422b9cffd693d56"
     },
     {
       "threadId": "01a11bb3-9efb-7962-b77b-722fbec5de31",
       "role": "source",
       "pair": "1.12.2--1.13.2",
-      "status": "launched",
+      "status": "active",
       "ref": "feat/source-discovery-movement-source-1-12-2-1-13-2@f744f3e5ca418ba8797341eca50ab1677933d1d7"
     },
     {
       "threadId": "01a11bb3-aee2-7a81-b21f-e3b3b002ab9a",
       "role": "source",
       "pair": "1.13.2--1.14.4",
-      "status": "launched",
+      "status": "active",
       "ref": "feat/source-movement-1-13-2-1-14-4-resume5@f3f93635916e61622baad51449b2069446cb0d7d"
     },
     {
       "threadId": "01a11bb3-bfe4-75a3-97b4-888907814e44",
       "role": "source",
       "pair": "1.14.4--1.15.2",
-      "status": "launched",
+      "status": "completed",
       "ref": "feat/source-discovery-movement-source-1-14-4-1-15-2@105ec98f7b092a8b68e3d93a9739a720fe10e578"
     },
     {
       "threadId": "01a11bb3-d102-7723-b35b-cae34a76f976",
       "role": "wiki_minecraft",
-      "status": "launched",
+      "status": "completed",
       "ref": "feat/minecraft-wiki-audit@2d20e330083ca7bb738e750ae329bbf67d618ac2"
     },
     {
       "threadId": "01a11bb3-e236-7343-86a7-4c51ecc20b98",
       "role": "wiki_mcpk",
-      "status": "launched",
+      "status": "completed",
       "ref": "feat/mcpk-wiki-audit@ae651e6"
     },
     {
       "threadId": "01a11bb5-8eb0-7813-bb21-160e97f4652c",
       "role": "source",
       "pair": "1.15.2--1.16.5",
-      "status": "launched",
+      "status": "active",
       "ref": "feat/source-discovery-movement-source-1-15-2-1-16-5@d2511a34e9586231464fee42ab94f566c3f0459f"
+    },
+    {
+      "threadId": "01a11bb8-92db-7630-ad50-8a02225dc3d4",
+      "role": "source",
+      "pair": "1.16.5--1.17.1",
+      "ref": "01b6522",
+      "status": "active"
+    },
+    {
+      "threadId": "01a11bbc-a6b5-71e0-a621-4188022be823",
+      "role": "posefit_correction",
+      "pair": null,
+      "ref": "e6b61bd7f1334b7e4fa49a9bd0a5929e833338a8",
+      "status": "active"
+    },
+    {
+      "threadId": "01a11bbc-b876-7182-9025-3b589c5cd50c",
+      "role": "elytra_gate_correction",
+      "pair": null,
+      "ref": "a5d07341d941ce2c0b9df1e392af9a40b1fbb9e9",
+      "status": "active"
+    },
+    {
+      "threadId": "01a11bbe-910d-7c02-9261-b0d01b6822ed",
+      "role": "ops_audit",
+      "pair": null,
+      "ref": null,
+      "status": "active"
+    },
+    {
+      "threadId": "01a11bbe-a775-7180-a017-d2386dcd9fb3",
+      "role": "blind_source_review",
+      "pair": null,
+      "ref": "aa66894 and105ec98",
+      "status": "active"
     }
-  ]
+  ],
+  "lastAudit": {
+    "observedAt": "2026-10-08T13:41:59.452Z",
+    "oldCompleted": 42,
+    "oldActive": 1,
+    "unknownSlotReserved": 1,
+    "conservativeSlots": 15,
+    "workersRequested": "gpt-6-luna high",
+    "coordinatorObserved": "gpt-6.1-sol medium",
+    "mainHead": "002137b227676caea77f6832b9f4c8d0b6200bff",
+    "mainUntracked": ".task-worktrees/; preserve/exclude",
+    "TICK01": "accepted; build/integration pending",
+    "passengerYaw": "request changes; nested riders and field movement scope audit",
+    "poseFit": "request changes; float dimension gate",
+    "elytraStart": "request changes; caller eligibility"
+  }
 }
