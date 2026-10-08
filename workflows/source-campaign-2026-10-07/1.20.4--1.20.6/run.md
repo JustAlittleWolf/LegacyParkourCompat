@@ -744,7 +744,10 @@ rg -n -C 8 'public void aiStep|jumpTriggerTime|isAlwaysFlying|isSprinting|input\
 
 ## Finding snapshots (not pair freeze)
 
-- No individual finding snapshot has been submitted for independent blind source review or accepted. The six findings remain source-report evidence only; no implementation handoff has been made. Snapshot acceptance, if later requested and independently reviewed, will not alter this pair's active status or open-slice counts.
+- MC1204-1206-01 snapshot `1985fa829eb597acbc23685935c5f6929c078f78` was accepted by blind source review commit `581b5bd2cb44981c4889eaf05ea739134e332b87` on 2026-10-08. The reviewed path is `findings/MC1204-1206-01.md`, Git blob `28b3534a690e497a570f2936a2b08e1ef2a803ee`, raw SHA-256 `eb15d0f72764cf783cb0ac260d28f8a31827f3bb407015dd66f1601ca3ad0fda`; an exact byte copy is retained at `findings/snapshots/MC1204-1206-01-1985fa829.md`.
+- The accepted snapshot's A/B ready source-manifest hashes are `fd3c8668483e5ff208c847474f6cbd3952a909c4aa602ed98b24e3d11a9602a1` / `56aae10684471d7abb1c366bd5dd431ab976112a87e6cc5c687a68f1eff06311`; artifact-manifest hashes are `ee3efc771d264c0bc49d5472abb9763a646f8d221841d0a61201ecd991cb3948` / `e5882622bcf22b3e3c2c96c73843a1308e11e3096f4feefd945ea5808933ce31`.
+- The current mutable `findings/MC1204-1206-01.md` at this integration checkpoint differs from that accepted blob (current raw SHA-256 `ce59cbc33f0c280fa2da45d3c2548a5dab2cd0c1b53cbd857dff31d58e5c1bd8`). It changes the caller-chain and dependency wording. Review `581b` accepts only the exact immutable `1985fa8` snapshot; it does not accept the current mutable copy. The no-code reconciliation in this integration uses only the accepted snapshot. Any implementation handoff relying on the revised copy requires a fresh snapshot review.
+- This integration records MC1204-1206-01 only. Other findings' decisions remain in the independent review report `independent-review-1204-1206-and-f14-2026-10-08.md` (commit `581b5bd2cb44981c4889eaf05ea739134e332b87`) and are not reconciled by this batch. Pair status remains active/partial with 40 pending and 10 in-progress slices; `pair complete: no`.
 
 ## Implementation reconciliation
 

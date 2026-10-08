@@ -8,7 +8,7 @@ This is a release-taxonomy inventory for source preparation. It contains no clai
 
 This preserves `1.19.2`, `1.19.3`, and `1.19.4` as distinct boundaries and does not fold the 1.20.2 standalone update into another endpoint. `1.20.4` is the final patch selected for the 1.20.3 Bats and Pots release; `1.20.6` is the final patch selected for Armored Paws 1.20.5. For named 1.21 drops, the selected release/final-patch endpoints are Bundles of Bravery `1.21.2`/`1.21.3`, The Garden Awakens `1.21.4`, Spring to Life `1.21.5`, Chase the Skies `1.21.6`/`1.21.8`, The Copper Age `1.21.9`/`1.21.10`, and Mounts of Mayhem `1.21.11`. Native `26.1.2` and `26.2` complete the requested range.
 
-Supplemental source-only endpoints `1.16.1` and `1.16.2` are available for a specific boundary audit; they are outside the main adjacent roster.
+Supplemental source-only endpoints `1.16.1` and `1.16.2` are available for a specific boundary audit; they are outside the main adjacent roster. Exact `1.20.5` Mojmap source is also prepared for boundary inspection inside the `1.20.4`–`1.20.6` interval; it does not change the assigned adjacent pair or establish a movement conclusion.
 
 ## Taxonomy references
 
