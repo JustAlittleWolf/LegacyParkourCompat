@@ -13,7 +13,7 @@
     "runtimeLaunches": false,
     "allGradleTestTasksDisabledForBuild": true,
     "integrationBuildOwnerThreadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
-    "primaryMainLastVerified": "b0e7300a46aeb3fe4087bfafbcf1bcc49c76542a"
+    "primaryMainLastVerified": "1ea23480755a2574abd5b5855827ded5d5f50702"
   },
   "reservedOldSlots": [
     {
@@ -43,7 +43,7 @@
     {
       "threadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
       "role": "integration_build_owner",
-      "status": "active; rising integratedb0e7300; next Elytra then swimming accepted batches",
+      "status": "completed; Elytra and swimming serial builds/integrations at1ea23480755a2574abd5b5855827ded5d5f50702; no push/runtime/tests",
       "ref": "feat/movement-campaign-integration-2026-10-08@958b0916f08cba25e3be86d67d48a9d1e8651d1f",
       "resultCommit": "ea812dc9171fdf41e02b3a2292db7d40b105c9c4"
     },
@@ -126,7 +126,7 @@
     {
       "threadId": "01a11bb3-e236-7343-86a7-4c51ecc20b98",
       "role": "wiki_mcpk",
-      "status": "completed; four corrected r2 snapshots register93a01b8; clean review assigned",
+      "status": "active; edge r3 predicate correction and slipperiness register blobID typo",
       "ref": "feat/mcpk-wiki-audit@ae651e6"
     },
     {
@@ -166,7 +166,7 @@
       "role": "ops_audit",
       "pair": null,
       "ref": null,
-      "status": "completed; audit4e6517f adopted; primary checkout switching violation reported"
+      "status": "active; independent currentmain/buildartifact and Elytra digest discrepancy audit; isolated checkout required"
     },
     {
       "threadId": "01a11bbe-a775-7180-a017-d2386dcd9fb3",
@@ -274,19 +274,19 @@
     {
       "threadId": "01a11bd7-45d2-7310-be8a-85f73e8d668d",
       "role": "clean_mcpk_snapshot_review",
-      "status": "active",
+      "status": "completed; clean review6e045f3d50f9248ab329c5bd698caa935e8a9be3: BigDripleaf/swimming ACCEPT, edge/slipperiness requestchanges",
       "ref": "identity register93a01b8; four r2 snapshots"
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:11:12.7511582Z",
+    "observedAt": "2026-10-08T14:16:54.0316830Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
     "conservativeSlots": 15,
     "workersRequested": "gpt-6-luna high",
     "coordinatorObserved": "gpt-6.1-sol medium",
-    "mainHead": "b0e7300a46aeb3fe4087bfafbcf1bcc49c76542a",
+    "mainHead": "1ea23480755a2574abd5b5855827ded5d5f50702",
     "mainUntracked": "generated worktrees preserved; local exclude applied by integration owner",
     "TICK01": "independently accepted, built with all Test tasks disabled, merged into main; ops verification pending",
     "passengerYaw": "integrated; test-disabled build success; no runtime",
@@ -307,5 +307,14 @@
       "reviewer": "01a11bbe-a775-7180-a017-d2386dcd9fb3",
       "implementation": "not authorized"
     }
-  ]
+  ],
+  "elytraEvidenceAudit": {
+    "status": "pending",
+    "reviewTip": "b8dfbc3e4d092141861759cab36272ea223a4d17",
+    "sourceCommit": "4a0c35f2008d785867c00360a7b72726e3506435",
+    "issue": "integration owner reports finding SHA differs from recomputed immutable Gitblob bytes",
+    "ops": "01a11bbe-910d-7c02-9261-b0d01b6822ed",
+    "reviewOwner": "01a11bcd-f62a-7610-8eff-f9782f3d072d",
+    "mainStatus": "code already integrated; source binding/provenance being independently reconciled"
+  }
 }
