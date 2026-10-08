@@ -1,7 +1,6 @@
 package me.wolfii.legacyparkourcompat.api;
 
 import me.wolfii.legacyparkourcompat.impl.MovementControllerImpl;
-import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import org.jspecify.annotations.Nullable;
@@ -10,7 +9,8 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Public API for selecting the movement version and registering deltas.
+ * Public API for selecting the movement version. Built-in historical deltas are
+ * statically registered by the mod.
  *
  * <p>The UI should list {@link #selectableVersions()}. Patch releases with the
  * same parkour mechanics share one {@link ParkourVersion}: selecting
@@ -77,8 +77,6 @@ public interface MovementController {
     ActiveMovementProfile profile();
 
     ActiveMovementProfile profileFor(@Nullable Entity entity);
-
-    MovementChangeRegistry registry();
 
     /**
      * Incremented whenever the selected version or registered changes change, so
