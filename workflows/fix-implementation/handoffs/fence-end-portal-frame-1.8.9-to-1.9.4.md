@@ -1,0 +1,32 @@
+# Fix handoff: fence connection to End Portal Frame
+
+- Finding: `wiki-fence-end-portal-frame-1.8.9-1.9.4`.
+- Corrected accepted snapshot: commit `103786e872f13a44aa0232a562f2eaab8eb5e185`, path `workflows/wiki-audit-2026-10-07/fence-end-portal-frame-1.8.9-to-1.9.4.md`; exact file SHA-256 `e5edb59eaa858f4905ec9f87862344bfbece0fe5e22315e86c531c071e638852`.
+- Provenance re-review: commit `0979bee9878fc1351a03c183a50ff96c28d79e21`, `workflows/wiki-audit-2026-10-07/reviews/fence-provenance-rereview-2026-10-08.md`, exact file SHA-256 `20df73aca35e20e16479eea7ca212ac902824ba27eed0042f2246fe1d8251dab`; decision ACCEPT. Review-branch merge `60128b32be1039f396168ac1707529d9c0d9a98a` is `Merge branch 'main' into feat/minecraft-wiki-review-2026-10-08`.
+- Pair status: source comparison establishes the difference in `(1.8.9, 1.9.4]`; the first release containing it remains unknown. The implementation is registered as `V1_8`, the old source behavior/profile, without claiming a first changed 1.9 patch.
+- Implementation status: implemented. The current branch had no fence collision change; its only historical neighbor collision-shape class was for panes.
+- Source provenance caveat: the finding uses verified published Java source hashes and manifests, not original derived Feather bytecode. Equivalence to unavailable original derived JARs remains unproven. The Wiki Hitbox page remains a discovery lead, not evidence for the specific predicate.
+
+## Source behavior and player path
+
+In 1.8.9, `FenceBlock.shouldConnectTo()` checks the adjacent block's solid-blocking material and inherited `isCube()` (except pumpkins). The End Portal Frame has `Material.STONE` and inherits `Block.isCube() == true`. `FenceBlock.addCollisions()` therefore emits the matching arm with height `1.5`; the north arm bounds are X `0.375..0.625`, Y `0..1.5`, Z `0..0.625`, with corresponding rotated bounds on the other sides. The 1.9.4 fence instead checks `BlockState.isCube()`, and `EndPortalFrameBlock.isCube(state)` returns false, so it omits that directional arm.
+
+The exact roots are `build/movement-campaign-2026-10-07/ready/1.8.9/ornithe-feather` and `.../ready/1.9.4/ornithe-feather`. Checked source ranges are 1.8.9 `FenceBlock.java` `addCollisions()` 36-81 / `shouldConnectTo()` 128-136, `EndPortalFrameBlock.java` 23-25, `Block.java` 245-247; and 1.9.4 `FenceBlock.java` 45-76 / 120-130, `EndPortalFrameBlock.java` 33-35 / 108-111, `StateDefinition.java` 267-270. SHA-256 values: 1.8.9 `FenceBlock.java` `8d6a803988d77fc51f364520f2e0cd5567b1d5c29a4d28d01cdcf93e6d5890d9`; 1.8.9 `EndPortalFrameBlock.java` `c2c876aefe34d001ff0e3eebddd0df01ee85b0bf499e205eb1eb95ec44857b9e`; 1.8.9 `Block.java` `ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528`; 1.9.4 `FenceBlock.java` `d9375bba3b41ae408bdf65d69b25aecad522a6d0b45b38d30f77d12b343a4909`; 1.9.4 `EndPortalFrameBlock.java` `1c6495a6d6c5d777eb643983c7e7b8151bb5b99ef1a4a3b991655792a0ad58eb`; 1.9.4 `StateDefinition.java` `10ba661985c87801e1bb7e941399498e89fb67e1bd9ead2869c00d39ffff6493`. The source-manifest SHA-256 values are 1.8.9 `9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004` and 1.9.4 `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`; artifact-manifest SHA-256 values are `da003358256d1c4402ebb20614651e5410310e871ee913de2b9c1295a64e1446` and `9527dca544694daa3b4a7741be1a5b4802d8b6665c8a152a408a37a27a1b4d77`.
+
+The accepted reviewer traced player collision from `Entity.move()` through `World.getCollisions()` and block collision collection. On current 26.2, `Entity.move()` collects block collisions using the entity collision context; `BlockCollisions` invokes the state collision-shape query with that context. The existing `BlockStateCollisionShapeMixin` resolves `MovementRuntime.playerFrom(context)`, which rejects non-players, then dispatches `BlockCollisionShape` by block ID and active profile. Its hook covers this exact player path without another mixin.
+
+Current source identities in `build/movement-campaign-2026-10-07/ready/26.2/unobfuscated`: `FenceBlock.java` SHA-256 `be5e1aa19a07d68457ff21968fb4e264669588fb6e83a86a6f51e76833f17f93`; `CrossCollisionBlock.java` `dcd2dbbcd093a68dee4ee282e5f3101c519d633f3f173dd33383bd4b548c1ba5`; `BlockCollisions.java` `eb8a8f6f07b1d6384f17987818f056d41adfd6b2ad120d26774bfa550f4fc51e`; `Entity.java` `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`; `Blocks.java` `f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435`. The ready marker at `ready/26.2/unobfuscated.ready.json` identifies exact version `26.2`, mapping `unobfuscated`, source-manifest SHA-256 `a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894`.
+
+## Code change
+
+`change.v1_8.FencePortalFrameConnection` registers a `BlockCollisionShape` variant for the seven fence blocks present in 1.8.9: the six wood fences (the old `fence` registry entry is current `oak_fence`) and nether-brick fence. It checks only End Portal Frame neighbors. Where the current fence state already has a side arm, its existing side property contributes that arm; where an End Portal Frame neighbor lacks the current connection property, the source-matched 1.8 arm is added. When no End Portal Frame touches the fence, the hook returns empty and the native collision shape remains unchanged. Current-only fence types are excluded. No block state is rewritten.
+
+The existing provider registers these variants under `@MovementChange(emulates = V1_8)`. `ChangeResolver` selects changes per block-shape mechanic and returns no historical changes for `CURRENT`, leaving default modern behavior intact. No mechanic key or mixin overlap exists with the pane shapes; both use the existing `BlockCollisionShape` variant hook independently.
+
+## Code and verification identity
+
+- Base: `main` at `6e0803b3fb17eeb8a3a9861ac2638828ab3200ea`; branch `fix/fence-end-portal-frame-1-9`.
+- Changed files: `src/main/java/me/wolfii/legacyparkourcompat/change/v1_8/FencePortalFrameConnection.java`, `src/main/java/me/wolfii/legacyparkourcompat/change/v1_8/MovementChanges.java`, and this handoff.
+- Static verification: exact cited source hashes match their ready manifests; shape bounds match the accepted 1.8.9 collision body; `git diff --check` passed.
+- No build, tests, runtime, Docker, push, or cross-chat message was run/sent, as instructed.
+- Runtime validation remains open for fences with an End Portal Frame on each cardinal side and combinations with other connected neighbors.
