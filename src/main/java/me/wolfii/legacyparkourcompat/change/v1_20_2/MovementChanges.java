@@ -9,5 +9,6 @@ public final class MovementChanges implements MovementChangeProvider {
         registry.register(new AttributeGravity());
         registry.register(new EffectFallDistanceReset());
         registry.register(new FlightActivationJump());
+        registry.register(new SprintJumpImpulse());
     }
 }
