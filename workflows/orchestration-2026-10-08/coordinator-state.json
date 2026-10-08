@@ -44,7 +44,7 @@
     {
       "threadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
       "role": "integration_build_owner",
-      "status": "Completed bounded sampler integration at main d4c4f154; exclusive build owner currently idle.",
+      "status": "Active accepted range extension integration/build and explicit source-review digest erratum.",
       "ref": "feat/movement-campaign-integration-2026-10-08@958b0916f08cba25e3be86d67d48a9d1e8651d1f",
       "resultCommit": "ea812dc9171fdf41e02b3a2292db7d40b105c9c4"
     },
@@ -224,7 +224,7 @@
     {
       "threadId": "01a11bcd-f62a-7610-8eff-f9782f3d072d",
       "role": "elytra_independent_review",
-      "status": "Active independent implementation review of range extension dd725b49 / final 5acdad5.",
+      "status": "Completed range extension implementation ACCEPT df697d4c; identified source-review raw SHA transcription error, identity unambiguous.",
       "ref": "fix/elytra-start-full-request; accepted flight-toggle finding"
     },
     {
@@ -370,7 +370,7 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T15:23:09.6926383Z",
+    "observedAt": "2026-10-08T15:24:46.7815990Z",
     "oldCompleted": 43,
     "oldActive": 0,
     "unknownSlotReserved": 0,
@@ -471,6 +471,13 @@
       "finding": "Bounded V1_15_2 slipperiness sampler and edge-backoff no-code proof",
       "main": "d4c4f154a0c2487dd6dd7d20d92eb57b3d8ab1ae",
       "review": "e1866cc05f6c2b6a77caa6f30432efa8ec3fa74e"
+    },
+    {
+      "finding": "Slipperiness sampler through V1_19_4",
+      "featureTip": "5acdad5baa7261251cb442b00c6890e65f583b29",
+      "review": "df697d4c0ad1f884551313d6f6e8c58ba40d2087",
+      "status": "ACCEPT; exclusive owner assigned build/main integration after source-binding erratum.",
+      "code": "dd725b49a343a478b26a88528b2e3c61698a752e"
     }
   ],
   "bigDripleafDisposition": {
@@ -499,14 +506,19 @@
     "next": "reactivate isolated opsaudit when slot frees; add missing exactrecords and fixmislinks, then prioritize uncoveredacceptedmechanics includingpassengercrouchinput/sleep/sprint resets"
   },
   "slipperinessRangeFollowUp": {
-    "status": "Source-only ACCEPT 65b711d6; extension dd725b49 / final 5acdad5 awaits independent implementation review by WORLD03 reviewer.",
+    "status": "Implementation ACCEPT df697d4c; exclusive owner assigned serial build/main integration plus exact raw-source hash erratum.",
     "sourceObservation": "implementationreviewer reports exact ready sources minY-.5000001 through1.19.4, getOnPos(.500001F) by1.20.1",
     "currentPatch": "ad653ac/ad684f4 adds1.15.2 handler only; selected1.16+ defaults native, pre-existinggap remains",
     "next": "collect final review sourcepaths/hashes, obtain immutable independent source-family range snapshot/review before minimal registration extension; keep normaldiscovery owners blind to implementation",
     "claimLimit": "bounded1.15.2 ACCEPT would not prove all laterprofiles correct",
     "sourceSnapshot": "5688e68528861c91031a021f484f80a90c887f2f",
     "sourceReview": "65b711d6a5145dbcc979d982de334e2a762f401c",
-    "sourceReviewLimit": "ten exact ready endpoints1.15.2..1.19.4 accepted,1.20.1cache/float fallback; intermediate cutoversunknown; implementation-resolution not reviewed; no fullpair/runtimeclaim"
+    "sourceReviewLimit": "ten exact ready endpoints1.15.2..1.19.4 accepted,1.20.1cache/float fallback; intermediate cutoversunknown; implementation-resolution not reviewed; no fullpair/runtimeclaim",
+    "code": "dd725b49a343a478b26a88528b2e3c61698a752e",
+    "implementationReview": "df697d4c0ad1f884551313d6f6e8c58ba40d2087",
+    "sourceBlob": "17f0906b1fa7d5e6c7995835786fb9516fc5a6d7",
+    "correctSourceSha256": "dd7d64037fb206eb5f69bf73bb5b80d929889d03c7e94a9c8a9918efb8357c8e",
+    "erratum": "65b711d6 prints dd7d640f prefix instead of actual dd7d6403; implementation reviewer rehashed original blob and source files. Integration owner must independently rehash and append explicit correction, retaining original event."
   },
   "collaborationWorkers": [
     {
@@ -571,7 +583,7 @@
   "goalTurnAudit": {
     "previousTurn": "progress",
     "evidence": "User cap raised to20, six available roles assigned, five source acceptances collected and granular implementation/source correction assignments committed.",
-    "evidenceNow": "Passenger no-code accepted and exact source identity resolved; ops erratum assigned; shallow water blind review active; corrected F14 snapshot queued.",
+    "evidenceNow": "Range extension independently ACCEPT and assigned integration; passenger no-code accepted and source identity resolved with erratum in progress; shallow water blind review active; corrected F14 snapshot queued.",
     "currentTurn": "progress"
   },
   "oldSourceHandoff": {
