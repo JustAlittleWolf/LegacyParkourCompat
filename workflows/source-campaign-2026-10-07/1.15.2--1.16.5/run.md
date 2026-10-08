@@ -143,6 +143,17 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - Disposition and rationale (including concrete reachability/preconditions): the player collision-result and velocity-clipping sequence matches. The removed A Entity.collision field has only a FireworkRocketEntity reader, outside player scope. B's CLIMBABLE tag predicate is in movement-noise/statistics accounting; the changed lava/fire-state code is outside direct movement, and lava contact/travel is tracked separately. The shared virtual getBlockSpeedFactor call reaches the already-recorded B-only Soul Speed override.
 - Finding IDs or checked absence/replacement path: no additional in-scope delta established in this method; F-S3-SOUL-SPEED covers the block-speed override. S4-QUERY and block callback/shape closure remain open.
 
+### Slice S4-QUERY: player block and entity collision query stream
+- Inventory ID(s): INV-COLLISION, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: Entity.collide movement query; A CollisionGetter inline cursor and border scan; B CollisionSpliterator cursor and border scan; paired entity-collider query for Player input.
+- A evidence: Entity.java, collide lines 641-684; SHA-256 `191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e`. CollisionGetter.java, getBlockCollisions lines 67-109; SHA-256 `63daec0623c816d53f5dbdde407a27222fa21e62680c1096b63cf9082b1c25fd`. EntityGetter.java, getEntityCollisions lines 53-67; SHA-256 `f2c614b216f498069b0e4a033705afef96509599c42eb21a6b612387207fcd2c`.
+- B evidence: Entity.java, collide lines 668-711; SHA-256 `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666`. CollisionGetter.java, getBlockCollisions lines 52-68; SHA-256 `b507d6be11e5985a62cfeb249a99dcb5f8edaf346f12cb2487797d9e01763eac`. CollisionSpliterator.java, cursor and border scan lines 13-135; SHA-256 `19ab959c469b8edb5c371ff737a59a61b8a80bf397eff1db280064342094d297`. EntityGetter.java, getEntityCollisions lines 59-78; SHA-256 `12b4ad28f0a92414ec1478dd42b6a41ff6cd0a0a00650ae37490ea8cd0a1bba5`.
+- State producers/writers -> consumers/readers: player source entity and current AABB plus requested vector -> expanded query box, collision shapes and world-border shape -> resolved movement vector and subsequent horizontal/vertical/on-ground flags.
+- Parent slices / dependencies / closure evidence: S2-POSE,S4-MOVE,S4-STEP,S5-SHAPES. Entity collider overrides and filters were traced for Player movement; provider/registration and complete border-extent reachability remain broader inventory work.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): B's CollisionSpliterator preserves the examined cursor bounds, collision context, large-shape and moving-piston filters, and block-shape intersection. For a Player source, the changed entity-collider API maps the examined live Boat/Shulker boxes and filters to the same candidates. B adds an interior world-border fast path that can skip A's deflate/inflate boundary-shape test; the exact bounded condition is F-S4-WORLD-BORDER-QUERY.
+- Finding IDs or checked absence/replacement path: F-S4-WORLD-BORDER-QUERY.
+
 ### Slice S1-SPRINT-RESET: held-shift cancellation of pending sprint trigger
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: LocalPlayer.aiStep prior input capture, input tick, sprint trigger writers and double-tap consumer.
@@ -275,6 +286,7 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - F-S1-OPEN-SHULKER-ESCAPE — an open shulker does not trigger B player escape (source-confirmed; incrementally accepted for a separate finding-only handoff).
 - F-S2-EDGE — edge restraint applies during supported near-ground motion and excludes flying players (source-confirmed).
 - F-S2-POSE-EPSILON — 1.16.5 deflates the player pose candidate box before the clearance query (source-confirmed).
+- F-S4-WORLD-BORDER-QUERY — 1.16.5 skips the near-border shape check for boxes passing its interior predicate (source-confirmed).
 - F-S3-SHALLOW-LAVA-TRAVEL — shallow lava uses a different vertical scale and falling adjustment (source-confirmed).
 - F-S3-FLUID-JUMP-GATE — flying players skip liquid jump processing (source-confirmed).
 - F-S3-SHALLOW-LAVA-JUMP — grounded shallow-lava jump selects the ground-jump helper (source-confirmed).
@@ -286,12 +298,12 @@ The historical pair report is not imported as source confirmation.
 
 ## Resume checkpoint
 
-- Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-LOCAL-TICK,S1-LOCAL-AISTEP,S1-ELYTRA,S1-ESCAPE,S2-POSE,S3-WATER,S3-FALL-FLYING,S3-GROUND-AIR; finding slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S2-POSE-EPSILON,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S3-SOUL-SPEED,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT.
+- Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-LOCAL-TICK,S1-LOCAL-AISTEP,S1-ELYTRA,S1-ESCAPE,S2-POSE,S3-WATER,S3-FALL-FLYING,S3-GROUND-AIR,S4-QUERY; finding slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S2-POSE-EPSILON,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S3-SOUL-SPEED,F-S4-WORLD-BORDER-QUERY,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT.
 - Active slices: S4-MOVE; remaining required stage 2-7 slices remain open.
 - Next: add bounded slices for remaining state, collision, world, modifier and external-input inventories.
 - Outstanding dependencies: remaining required stage 2-7 inventory slices, independent reviewer assignment.
 - Resume branch: feat/source-discovery-movement-source-1-15-2-1-16-5; resume from the clean tip recorded by git log -1. Local main and origin/main both point to the pair base 002137b227676caea77f6832b9f4c8d0b6200bff; no later default-branch commits were present for merge at this checkpoint.
-- First next work: close the S4-QUERY/S4-STEP dependencies for the player resolver, then continue remaining state, shape, world, modifier and external-input slices. Keep the ten unreviewed snapshots submitted; F-S1-OPEN-SHULKER-ESCAPE remains accepted for finding-only eligibility.
+- First next work: close the S4-STEP and remaining shape/border extent dependencies for the player resolver, then continue remaining state, world, modifier and external-input slices. Keep the eleven unreviewed snapshots submitted; F-S1-OPEN-SHULKER-ESCAPE remains accepted for finding-only eligibility.
 - Read-only resume commands from the repository root:
   - `git status --short; git log -1 --oneline`
   - `$A='D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.15.2\mojmap'; $B='D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.16.5\mojmap'`
@@ -491,6 +503,23 @@ Each finding is committed as an immutable source snapshot. F-S1-OPEN-SHULKER-ESC
 - Implementation handoff: no; snapshot awaits independent source review.
 - Replaces/supersedes snapshot ID and reason, if applicable: none.
 
+### Snapshot event F-S4-WORLD-BORDER-QUERY
+- Finding ID(s): F-S4-WORLD-BORDER-QUERY
+- Source finding author(s): source-only pair researcher
+- Status: submitted
+- Immutable snapshot commit: acb87a2353ef135d2bba78ab9ff6d4ab4c434b3f
+- Finding file path and SHA-256: findings/F-S4-WORLD-BORDER-QUERY.md — 47d17a1fb90fbe2a36904e830da9f2e6f682523ddf6639e27b61b20e5aeeaade
+- Exact A/B artifact-manifest identities/hashes: ready/1.15.2/artifacts.sha256 208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406; ready/1.16.5/artifacts.sha256 f9b9812d6995012cefcc1201a63855e5931e8551b508753be6c46d442d8b370c
+- Cited source hashes: A Entity 191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e, CollisionGetter 63daec0623c816d53f5dbdde407a27222fa21e62680c1096b63cf9082b1c25fd, EntityGetter f2c614b216f498069b0e4a033705afef96509599c42eb21a6b612387207fcd2c, WorldBorder 5030e47d299d2741339dae0274dab41e63ae1eb1468171ef14f181a71a03086f; B Entity f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666, CollisionGetter b507d6be11e5985a62cfeb249a99dcb5f8edaf346f12cb2487797d9e01763eac, CollisionSpliterator 19ab959c469b8edb5c371ff737a59a61b8a80bf397eff1db280064342094d297, EntityGetter 12b4ad28f0a92414ec1478dd42b6a41ff6cd0a0a00650ae37490ea8cd0a1bba5, WorldBorder 2925df8d985d0ec2d075d4f5c57538dcc628528b72a1d35e90af27fe4fbadb2a.
+- Verified implementation boundary/evidence, or unresolved boundary reason: implementation not inspected; finding is limited to the player movement world-border collision-shape query.
+- Finding-specific closed dependency IDs/evidence: A inline and B extracted cursor scan, candidate bounds, entity filter and border guard compared; entity-collider eligibility and boxes checked for all found overrides. Remaining border extent and shape registrations stay open.
+- Independent blind source reviewer and decision date: pending coordinator assignment.
+- Review basis / requested source-only revisions: pending.
+- Pair run status and commit at handoff: partial at acb87a2353ef135d2bba78ab9ff6d4ab4c434b3f.
+- Pair complete: no.
+- Implementation handoff: no; snapshot awaits independent source review.
+- Replaces/supersedes snapshot ID and reason, if applicable: none.
+
 ## Implementation reconciliation
 
 - Reconciliation status: pending
@@ -510,7 +539,7 @@ Each finding is committed as an immutable source snapshot. F-S1-OPEN-SHULKER-ESC
 
 ## Source audit closure
 
-- Coverage counts by status: pending 0; in-progress 1; compared-no-difference 6; findings 11; remaining required stage slices not yet entered and open.
+- Coverage counts by status: pending 0; in-progress 1; compared-no-difference 6; findings 12; remaining required stage slices not yet entered and open.
 - Required inventory status and evidence: all seven pending.
 - Open dependencies: remaining required stage 2-7 inventory slices, and independent source reviewer assignment.
 - Unresolved gaps and limits: exhaustive source comparison is incomplete.
