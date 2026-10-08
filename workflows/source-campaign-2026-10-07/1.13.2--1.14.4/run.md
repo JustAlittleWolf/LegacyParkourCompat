@@ -383,9 +383,9 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 ## Resume checkpoint
 
 - Last completed slice: S024, special wall-neighbor shape categories; S001-S023 remain as previously recorded evidence and dispositions.
-- Next bounded slice and exact files/members/body ranges to open: enumerate A-era `SOLID` face providers and compare B full-collision-face/cache/exception results for wall connections (S025), then continue pane and inherited collision-shape paths and remaining LocalClientPlayerEntity pre-travel/tick branches.
+- Next bounded slice and exact files/members/body ranges to open: S025: compare A `PistonBaseBlock.getFaceShape` (lines 367-369) and A `Block.isExceptionForAttachment` / `WallBlock.isExceptionForConnection` against the B `PistonBaseBlock` shape provider, `Block.isFaceSolid` / `isExceptionForAttachment`, and `BlockState.m_87223014` cache path for retracted-piston adjacency to a wall. Source roots are the manifest paths above; A/B file hashes: PistonBaseBlock `1722edaf96c15af587b4e169b62c5af1d352800e82a2070e1f4af86bdde4cb31` / `37409c9f2390642103155dcec3e922e0d387e9d0bbca069fb334277d5d84a058`; Block `735030e8bb5fc7ead2d6dbcb1b262a36a414b4349daf197456337f460b444cd4` / `1f8ec3628f08e196c2793e91ca0b94feacea6bc3939e7fb770f0682a6e66f2c5`; BlockState `0496fda381628e90b3ff8ae376a5baea24cbd662366f34d70991252fab2fe70` / `6c6703c7c2f7203a7507d8a621bc83e1dd613b32089394f5af4fbd8636b165f`; WallBlock `aeb67adf292a3b750e72a7d2fdc13f7b42f8633c6183964d00dfe8d6960e07bf` / `033da2cef0973f5d380a81b53ee76e23324fffece72edc74e12fcee0d8764be7`. Then continue remaining A-era SOLID face providers and pane/inherited collision-shape paths.
 - Outstanding dependencies and owners: D-TICK-CLOSURE/D-COLLISION-SHAPES/D-MOVEMENT-DATA/D-EXTERNAL source worker; D-INDEPENDENT-AUDIT coordinator.
-- Current assumptions requiring verification: full reachability and provider closure; original A derived-artifact equivalence remains unproven.
+- Current assumptions requiring verification: full reachability, A-era SOLID-provider closure, B tag/cache closure, and remaining tick/external dependencies; original A derived-artifact equivalence remains unproven.
 
 ## Finding snapshots (not pair freeze)
 
