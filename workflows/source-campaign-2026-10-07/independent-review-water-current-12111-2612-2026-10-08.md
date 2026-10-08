@@ -27,6 +27,22 @@ The mapped 1.21.11 client jar cited through its artifact manifest hashes to `705
 
 Every source file hash cited by the finding was compared against its bytes and the corresponding exact-version source manifest. The uppercase `DC` characters in the finding's 26.1.2 `Vec3.java` digest are hexadecimal case only; normalized, it matches both bytes and manifest.
 
+The decisive source ranges re-walked for this review are:
+
+| Path rooted at the ready source directory | Ranges / behavior |
+|---|---|
+| `1.21.11/mojmap/net/minecraft/world/entity/Entity.java` | 1509–1521 caller; 3509–3573 deflated scan, float top addition, overlap scaling, Player exception and impulse; 3576–3582 loaded-chunk guard |
+| `26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java` | 499–525 entity base tick route; 1558–1581 tracker update/application; 3601–3607 unloaded-chunk query; 4015–4027 deflated fluid box and vehicle modification |
+| `26.1.2/unobfuscated/net/minecraft/world/entity/EntityFluidInteraction.java` | 32–89 box scan and accumulated height/current; 91–118 full-chunk/section gate; 121–129 tag lookup; 132–150 tracker consumers; 153–188 reset, strict squared-vector gate, Player averaging and velocity addition |
+| `1.21.11/mojmap/net/minecraft/world/entity/player/Player.java`; `26.1.2/unobfuscated/net/minecraft/world/entity/player/Player.java` | A 238–266 and B 231–259 Player tick to superclass; A 1678–1681 and B 1672–1675 fluid-push gate |
+| `1.21.11/mojmap/net/minecraft/world/entity/LivingEntity.java`; `26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java` | A 2610–2651 and B 2699–2739 superclass tick to `aiStep` and subsequent player movement |
+| `1.21.11/mojmap/net/minecraft/world/level/material/FlowingFluid.java`; `26.1.2/unobfuscated/net/minecraft/world/level/material/FlowingFluid.java` | Both 55–100 current calculation; A 118–158 and B 118–157 spread path; A 160–195 and B 161–195 amount/drop-off chain; A 197–215 and B 198–220 wall gate; A 411–427 and B 443–459 scheduled fluid tick |
+| `1.21.11/mojmap/net/minecraft/world/level/material/WaterFluid.java`; `26.1.2/unobfuscated/net/minecraft/world/level/material/WaterFluid.java` | Both 107–109 water drop-off; A 131–157 and B 131–157 flowing/source amount semantics |
+| `1.21.11/mojmap/net/minecraft/world/level/material/FluidState.java`; `26.1.2/unobfuscated/net/minecraft/world/level/material/FluidState.java` | A 95–97 and B 95–97 flow delegation |
+| `1.21.11/mojmap/net/minecraft/world/phys/Vec3.java`; `26.1.2/unobfuscated/net/minecraft/world/phys/Vec3.java` | A 80–83 and B 83–86 normalization floor; squared-length methods cited in the finding |
+| `1.21.11/mojmap/net/minecraft/core/Direction.java`; `26.1.2/unobfuscated/net/minecraft/core/Direction.java` | Horizontal direction-plane declaration, A 568 and B 574 |
+| `1.21.11/mojmap/net/minecraft/world/entity/EntityType.java`; `26.1.2/unobfuscated/net/minecraft/world/entity/EntityType.java` | Player box dimensions, A 1191–1198 and B 1189–1196 |
+
 ## Source and reachability review
 
 1. **Actual water current:** `WaterFluid` reports drop-off 1; a flowing state with amount 1 has own height `1 / 9.0F`, and amount 2 has `2 / 9.0F`. `getNewLiquid` computes the highest horizontal neighbor amount minus that drop-off and creates a non-falling flowing state when positive. Thus a source at x=107 can sustain a supported horizontal chain through amounts 7…1 at x=106…100. A floor blocks downward spread; full side walls block north/south spread. The west empty neighbor at x=99 has no water below and therefore contributes no fallback current.
