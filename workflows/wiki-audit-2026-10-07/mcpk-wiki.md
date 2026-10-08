@@ -1,6 +1,6 @@
 # MCPK wiki audit — 2026-10-07
 
-Current resumable status and next steps: [mcpk-checkpoint.md](mcpk-checkpoint.md). This audit remains partial. The Feather revision-specific snapshot still awaits reviewer acceptance. Clean independent review accepted Big Dripleaf, swimming, edge-backoff r3, and the corrected slipperiness identity. Exact snapshot identities and dispositions are in [the clean re-review candidate register](mcpk-clean-rereview-candidates-2026-10-08.md). Fresh browser retrieval and endpoint source checks are in [the independent follow-up](mcpk-independent-followup-2026-10-08.md).
+Current resumable status and next steps: [mcpk-checkpoint.md](mcpk-checkpoint.md). This audit remains partial. The Feather revision-specific snapshot still awaits reviewer acceptance. Clean independent review accepted Big Dripleaf, swimming, edge-backoff r3, and the corrected slipperiness identity. Exact snapshot identities and dispositions are in [the clean re-review candidate register](mcpk-clean-rereview-candidates-2026-10-08.md). Fresh browser retrieval and endpoint source checks are in [the corrected independent follow-up r2](mcpk-independent-followup-2026-10-08-r2.md); the original r1 remains frozen unchanged.
 
 Scope: MCPK parkour wiki only, matched against supplied exact-release source snapshots where available. No Minecraft Wiki pages or other audit-track findings were consulted. No implementation files were changed; no tests, builds, servers, or Docker actions were run.
 
