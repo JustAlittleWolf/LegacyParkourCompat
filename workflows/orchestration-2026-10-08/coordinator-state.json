@@ -37,7 +37,7 @@
     {
       "threadId": "01a11bb1-adb2-7212-9a90-26537278d788",
       "role": "implementation_static_review",
-      "status": "Completed passenger crouch no-code ACCEPT and source identity resolved in private-clone review 0cea9296; provenance erratum assigned to ops.",
+      "status": "Active independent sleep-safety code d892a7a/proof4197c0c review.",
       "scope": "four pending code patches",
       "resultCommit": "bdb6443; notes d3190b4"
     },
@@ -121,7 +121,7 @@
     {
       "threadId": "01a11bb3-d102-7723-b35b-cae34a76f976",
       "role": "wiki_minecraft",
-      "status": "Completed partial Wiki checkpoint 5e353798 with six bounded records; wider catalog open, behind main reconciliation deferred by owner.",
+      "status": "Active Wiki sprint-swimming hash/branch correction and wider remaining independent claim catalog.",
       "ref": "feat/minecraft-wiki-audit@2d20e330083ca7bb738e750ae329bbf67d618ac2"
     },
     {
@@ -153,7 +153,7 @@
       "role": "posefit_correction",
       "pair": null,
       "ref": "e6b61bd7f1334b7e4fa49a9bd0a5929e833338a8",
-      "status": "Active accepted sleep-safety transition implementation reconciliation; eligibility and existing-hook proof first."
+      "status": "Completed sleep-safety code d892a7a/proof4197c0c; independent review active, owner idle."
     },
     {
       "threadId": "01a11bbc-b876-7182-9025-3b589c5cd50c",
@@ -167,7 +167,7 @@
       "role": "ops_audit",
       "pair": null,
       "ref": null,
-      "status": "Completed independent 11-batch audit and passenger erratum at 902161eb; adopted on coordinator branch."
+      "status": "Active accepted/integrated/pending backlog audit including fiveMCsourceacceptances, water and rangeintegration; no coordinator-state edits."
     },
     {
       "threadId": "01a11bbe-a775-7180-a017-d2386dcd9fb3",
@@ -187,7 +187,7 @@
       "threadId": "01a11bc2-03b2-7443-bc8f-698902c67f29",
       "role": "wiki_minecraft_review",
       "ref": "005e647; b20730f",
-      "status": "Active independent Wiki-aware review of six immutable Minecraft Wiki records at checkpoint 5e353798.",
+      "status": "Completed Wiki independent review5c94a3d1, mergedmain084bb3f4; fourboundedACCEPT, bedOUTOFSCOPE, sprintswimREQUESTCHANGES; idle.",
       "resultCommit": "22849555;main merge c80b31f",
       "decisions": {
         "swimmingPitch": "ACCEPT b20730f SHA dd0abd5a90ac1813197e4c09ab97ed0e0027c48e237a148bbf95bde2f64e6a89",
@@ -224,7 +224,7 @@
     {
       "threadId": "01a11bcd-f62a-7610-8eff-f9782f3d072d",
       "role": "elytra_independent_review",
-      "status": "Completed range extension implementation ACCEPT df697d4c; identified source-review raw SHA transcription error, identity unambiguous.",
+      "status": "Active independent integrated swimming branch reconciliation, then MC01 no-code coverage review.",
       "ref": "fix/elytra-start-full-request; accepted flight-toggle finding"
     },
     {
@@ -300,7 +300,7 @@
       "threadId": "01a11be8-f958-7630-8261-391bbac955a0",
       "role": "source",
       "pair": "1.20.4--1.20.6",
-      "status": "Active source04 correction for omitted fall-flying gravity consumer, then remaining 1.20.4--1.20.6 inventories.",
+      "status": "Completed partial source checkpointf14b8d63;28pending20inprogress8nodiff; idle.",
       "ref": "477b6afcb4d890bae82437ff98795592695b9e43",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -336,7 +336,7 @@
       "threadId": "01a11bf3-b68d-72a3-9fde-198291e05948",
       "role": "source",
       "pair": "1.21.4--1.21.5",
-      "status": "Active F14 exact source hash correction and replacement snapshot, then remaining 1.21.4--1.21.5 inventories.",
+      "status": "Completed partial source checkpointf1401ec63e48bc9ebc4aac54629c678a2e939a94; correctedF14supplement eaa873aa; idle.",
       "ref": "ebd2e6ea513d3b41a12307cfb2980b5206c5d211",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -409,12 +409,12 @@
     "mainStatus": "code already integrated; source binding/provenance being independently reconciled"
   },
   "nextCoordinatorActions": [
-    "Collect corrected04/F14 and bed/slime blind decisions; keep modern attribute scope explicit.",
-    "Collect shallow-water code/proof, dispatch independent implementation review when slot frees.",
-    "Collect passenger docs integration and exact1.20.5 canonical source publication; then MC02 boundary comparison and blind review.",
-    "Collect Wiki/MCPK independent decisions and exact correction bindings.",
-    "Continue full source inventories; all26 pairs remain partial.",
-    "Maintain cap20 including root; only Luna High workers; exclusive serial build/source publication; no tests/runtime/push."
+    "Collect independent sleep patch decision before exclusiveowner build.",
+    "Collect corrected04/F14/bed/slime source decisions and water implementation.",
+    "Collect passenger no-code docs integration and canonical1.20.5 source publication; then boundary source comparison/review.",
+    "Collect Wiki corrected snapshot, MCPK review, integrated swimming and MC01 independent code decisions.",
+    "Adopt operations backlog checkpoint and reconcile newly frozen source candidates.",
+    "Maintain cap20 includingroot; LunaHigh workers, serial build/source publication; all26pairs partial."
   ],
   "nextAcceptedIntegrationBatch": {
     "finding": "F005 saved FallFlying",
@@ -580,10 +580,20 @@
     "clone": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mcpk-slipperiness-1-15-2-2026-10-08"
   },
   "goalTurnAudit": {
-    "previousTurn": "progress",
-    "evidence": "User cap raised to20, six available roles assigned, five source acceptances collected and granular implementation/source correction assignments committed.",
-    "evidenceNow": "Range extension independently ACCEPT and assigned integration; passenger no-code accepted and source identity resolved with erratum in progress; shallow water blind review active; corrected F14 snapshot queued.",
-    "currentTurn": "progress"
+    "previousTurnClassification": "progress",
+    "evidence": [
+      "Verified main270e8c85 plus independently rehashed retained JAR/log",
+      "Committed coordinator26f512d2 with cap20 and immutable source/review bindings",
+      "Dispatched corrected04/F14/bed/slime blind review, water implementation, MCPK review and source continuations"
+    ],
+    "currentTurnProgress": [
+      "Independent Wiki review5c94a3d1 collected; owner correction and wider catalog active",
+      "Sleep code d892a7a + proof4197c0c dispatched independent review",
+      "Swim integrated-code reconciliation and MC01 no-code independent review dispatched",
+      "Operations accepted backlog reconciliation active"
+    ],
+    "blocked": false,
+    "allPairsPartial": true
   },
   "oldSourceHandoff": {
     "scope": "All remaining source inventories, preserving border and external-response evidence.",
@@ -728,5 +738,36 @@
     "collaborationSourceRoles": 3,
     "coordinatorRoles": 1,
     "note": "Four verified terminal app roles reused: source1.8.9, source1.13.2, source1.15.2, independent MCPK review. No new app chats."
+  },
+  "sleepSafetyImplementationReview": {
+    "code": "d892a7a",
+    "proof": "4197c0c",
+    "branch": "fix/sleep-safety-transition-r3-2026-10-08",
+    "reviewWorker": "01a11bb1-adb2-7212-9a90-26537278d788",
+    "status": "Independent static review active; no build/integration yet"
+  },
+  "minecraftWikiIndependentReview": {
+    "reportCommit": "5c94a3d106f010cd033d19c9aa48f47089987b30",
+    "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-new-snapshots-2026-10-08.md",
+    "decision": "Four bounded ACCEPT records; bed first-introduction lead OUT OF SCOPE; sprint-swimming REQUEST CHANGES",
+    "corrections": "1.12.2 LocalClientPlayer source hash transcription; double-tap onGround vs direct sprint key no ground/water gate. 1.13.2 submerged airborne double-tap is new, direct key narrows partially submerged eligibility.",
+    "owner": "01a11bb3-d102-7723-b35b-cae34a76f976",
+    "status": "Corrected immutable snapshot and wider remaining catalog active; lane partial"
+  },
+  "swimmingCodeEvidenceReconciliation": {
+    "reviewWorker": "01a11bcd-f62a-7610-8eff-f9782f3d072d",
+    "status": "Independent code reconciliation active against exact1.12.2/1.13.2 source and Wiki branch-path correction. No bug assumed from narrative."
+  },
+  "mc01NoCodeReview": {
+    "proof": "da579ba8ef35f91aae0bb42fd79376057a1dddae",
+    "reviewWorker": "01a11bcd-f62a-7610-8eff-f9782f3d072d",
+    "status": "Independent no-code coverage review active after swimming reconciliation"
+  },
+  "correctedF14SupplementalSnapshot": {
+    "commit": "eaa873aa5402065fb7f0070d11521b4e054f7683",
+    "rawSHA256": "f95d6b53ebd3a43ad775d72998a7dac9e8a9a9fa9296b1d578b9abf99df7353d",
+    "ownerFinalTip": "f1401ec63e48bc9ebc4aac54629c678a2e939a94",
+    "status": "Separate bounded supplemental review requested; original6f0a binding/history preserved",
+    "remaining": "33 in-progress,9 pending; pair partial; source owner currently terminal"
   }
 }
