@@ -173,13 +173,13 @@
       "role": "blind_source_review",
       "pair": null,
       "ref": "aa66894 and105ec98",
-      "status": "active; blind F005 savedFallFlying and F07 stair pose-fit review"
+      "status": "completed; blindreviewa02e52d rejectsF07 and ACCEPTsF005"
     },
     {
       "threadId": "01a11bc1-f2a2-7342-82ea-4072acd7ff4b",
       "role": "passenger_yaw_correction",
       "ref": "8722bc476159b79f7e249f48b0e1076f209ced12",
-      "status": "completed; passenger correction independently ACCEPT7c409519",
+      "status": "active; accepted F005 savedFallFlying implementation/capability assessment; passenger correction completed",
       "resultCommit": "5c2cc08;main merge32c8b0a"
     },
     {
@@ -279,7 +279,7 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:16:54.0316830Z",
+    "observedAt": "2026-10-08T14:18:06.9577496Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
@@ -303,7 +303,7 @@
       "pair": "1.10.2--1.11.2",
       "finding": "F-07",
       "snapshot": "bd95d35bd9a9a0ae468b9cf035f99f08639e91c0",
-      "status": "blind reviewer refutes forceShape=true premise; owner asked to verify and supersede, formal report pending",
+      "status": "owner confirms invalid; formal blindreviewa02e52d REQUEST CHANGES; preserve snapshot and commit withdrawal",
       "reviewer": "01a11bbe-a775-7180-a017-d2386dcd9fb3",
       "implementation": "not authorized"
     }
@@ -316,5 +316,15 @@
     "ops": "01a11bbe-910d-7c02-9261-b0d01b6822ed",
     "reviewOwner": "01a11bcd-f62a-7610-8eff-f9782f3d072d",
     "mainStatus": "code already integrated; source binding/provenance being independently reconciled"
-  }
+  },
+  "nextCoordinatorActions": [
+    "Collect pose correction review and assign focused fixes before integration.",
+    "Collect WORLD03 and fence implementation independent reviews; integrate only exact accepted patches via exclusive integration owner.",
+    "Resolve Elytra cited-source digest discrepancy through ops and original reviewer; source binding audit remains open.",
+    "Collect MCPK edge r3 and corrected slipperiness identity register, obtain clean re-review; BigDripleaf/swimming accepted source snapshots still need implementation reconciliation.",
+    "Collect F005 savedFallFlying capability assessment and source F07 withdrawal.",
+    "Continue source waves across all26pairs; all remain partial. Current active later pairs1.19.2--1.19.3,1.19.3--1.19.4,1.19.4--1.20.1. Start1.20.1--1.20.2 when slot frees; use exact workqueue refs.",
+    "Never exceed15 active including coordinator/old1.17 source; verify snapshots before assigning. All new workers LunaHigh, coordinator SolMedium.",
+    "Ops future accepted-finding backlog audit needed after narrow build/digest audit; primary checkout exclusive integration owner."
+  ]
 }
