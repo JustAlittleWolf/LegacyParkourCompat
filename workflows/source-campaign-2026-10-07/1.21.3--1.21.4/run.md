@@ -296,6 +296,37 @@ Both provenance records point to the same exact batch and successful full Gradle
 - Independent finding reviewer: pending coordinator assignment; reviewer must not be an author of the finding.
 - Pair status: active and unfrozen. A finding-level snapshot does not freeze the pair; pair freeze requires every slice terminal, dependencies closed and the full independent source audit complete.
 
+### Snapshot event SNAP-F-S1-02-098afc2
+
+- Finding ID(s): `F-S1-02`
+- Source finding author(s): current source-discovery worker on `feat/source-discovery-movement-source-1-21-3-1-21-4`.
+- Status: submitted
+- Immutable snapshot commit: `098afc2049c76c3697ae6f5b785beda4d80e8be1`
+- Finding file path and SHA-256: `workflows/source-campaign-2026-10-07/1.21.3--1.21.4/findings/F-S1-02-sprint-policy-gates.md` / `e753ccb47be9a69ff8977741d7863d637c182648a7574f3a87280d5cf1991fa1`.
+- Exact A/B artifact-manifest identities/hashes: A `build/movement-campaign-2026-10-07/ready/1.21.3/artifacts.sha256` / `0587668e5c70bb06dacf3496a4442f66dc9cdcab23f2350b844f14259cc40dcf`; B `build/movement-campaign-2026-10-07/ready/1.21.4/artifacts.sha256` / `1a0929ca8c88cfe7874f323918dfa3b044964007d3ff0d3943317bdb35caf841`. Source manifests: A `d673bb5464853e3a2a92ed9b1ffe1789d4e62c097bb884f67c336fcbb3b178ce`; B `f90b61197928632e061ea877955a19055c92ae6f357c2daf1bc646172c6f51f0`.
+- Evidence artifact record IDs: `A-1.21.3-MOJMAP`, `B-1.21.4-MOJMAP`.
+- Publication status: original-verified
+- Revision ID(s): none
+- Immutable evidence path(s): `build/movement-campaign-2026-10-07/ready/1.21.3/mojmap/`; `build/movement-campaign-2026-10-07/ready/1.21.4/mojmap/`.
+- Evidence artifact SHA-256(s): A mapped client JAR `9e5d42c42acaf0076ee92b41b13aa7440667967266ca67ecd50b08e5e4ba8024`; B mapped client JAR `56995548c9cb8bd7cdb9996b676daeafae02bde9d6ef4029b9eeca6bfd7dcc74`.
+- Evidence manifest path(s): A `build/movement-campaign-2026-10-07/ready/1.21.3/mojmap.sources.sha256`; B `build/movement-campaign-2026-10-07/ready/1.21.4/mojmap.sources.sha256`.
+- Evidence manifest SHA-256(s): A `d673bb5464853e3a2a92ed9b1ffe1789d4e62c097bb884f67c336fcbb3b178ce`; B `f90b61197928632e061ea877955a19055c92ae6f357c2daf1bc646172c6f51f0`.
+- Original artifact-manifest path(s): A `build/movement-campaign-2026-10-07/ready/1.21.3/artifacts.sha256`; B `build/movement-campaign-2026-10-07/ready/1.21.4/artifacts.sha256`.
+- Original artifact-manifest SHA-256(s): A `0587668e5c70bb06dacf3496a4442f66dc9cdcab23f2350b844f14259cc40dcf`; B `1a0929ca8c88cfe7874f323918dfa3b044964007d3ff0d3943317bdb35caf841`.
+- Original derived-artifact availability/hash: verified; A `client-mojmap.jar` `9e5d42c42acaf0076ee92b41b13aa7440667967266ca67ecd50b08e5e4ba8024`; B `client-mojmap.jar` `56995548c9cb8bd7cdb9996b676daeafae02bde9d6ef4029b9eeca6bfd7dcc74`.
+- Source/raw-input hash relation: verified by both exact-version ready markers, provenance records and the successful shared batch log; ready/provenance file hashes are recorded in each evidence-artifact record.
+- Revised-to-original equivalence: not applicable; both sides are original-verified Mojmap publications.
+- Provenance limitations: decompiled Java is verified against each source manifest and mapped client JAR identity; no original-source archive equivalence or runtime outcome is claimed.
+- Cited source/resource hashes: LocalPlayer A `fbd40f1f47adfa66dda9b15188e5dce82af3e8e8d7c3dd0543e602a354ad3fe0`, B `145686ebdc7f0d12a64070309073665eb8695b7e09911a723e86113a77d04611`; Player A `a803203e92aa4729d5f5c9b16085b6a43ce51d9907d309eb96736e9c7c1340de`, B `c45f41b9784ce50a88a498e84a13edcef0a23e175233d726ed7f90940f19ebc1`; LivingEntity A `087390495f4fdfd14b9e12230e7aea4fdc50913bb4d1d91119e72881cfc52`, B `e62ce650af0a5ac97e4d0a2ba7cad4ba68a8d098525609f8b5b6976a8ab0ae30`; Entity A `a93719c302a0381a972af75ea360465e2e3551708dd07c34d4d40b7e5173c2b9`, B `05f18ef2ec0413fc010230407c812a11553eb5123b68d21b5d7b2c0c175698ad`.
+- Source-proven historical behavior boundary/evidence: in an executing `LocalPlayer.aiStep()` (B first passes the separate F-S1-01 load/timeout gate), B calls a new active-sprint stop predicate after crouch refresh/input sampling and before later start checks, and adds a slow-movement start condition with an underwater exception. The later same-tick start path can rewrite sprint state; the finding does not claim a final flag for every predicate combination or a movement trajectory. Applicability boundary unknown within (1.21.3, 1.21.4].
+- Finding-specific closed dependency IDs/evidence: S1-02; `DEP-SNEAK-ATTR`, `DEP-POSE-SLOW`, `DEP-INPUT-PRODUCERS`, `DEP-BLINDNESS`, `DEP-FALL-FLYING`, `DEP-VEHICLE-SPRINT`, `DEP-ITEM-USE`, and `DEP-FLUID-GATES` are closed for the S1-03 sprint predicates in the parent slice and finding. S3-01 bounds the downstream travel consumer; S1-04/F-S1-01 supplies the separate B tick-gate precondition.
+- Independent blind source reviewer and decision date: pending coordinator assignment; snapshot not yet accepted.
+- Review basis / requested source-only revisions: independently verify only the cited finding file/hash, A/B method bodies and file hashes, bounded local-player reachability/order, and the listed S1-03 dependency closure; report acceptance or exact required revisions.
+- Pair run status and commit at handoff: active and unfrozen; candidate snapshot is commit `098afc2049c76c3697ae6f5b785beda4d80e8be1`.
+- Pair complete: no
+- Implementation handoff: blocked; separate implementation handoff requires independent blind source acceptance of this exact snapshot.
+- Replaces/supersedes snapshot ID and reason, if applicable: none.
+
 ## Resume checkpoint
 
 - Last recorded slices: S1-01..S1-05 and S3-01..S3-09; all listed slices are terminal, but the seven inventories remain pending and additional slices are not yet enumerated.
