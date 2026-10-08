@@ -200,6 +200,18 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - Disposition and rationale (including concrete reachability/preconditions): when a player box overlaps these registered blocks in a loaded area, both versions invoke the same callback order. Cobweb sets the same `inCobweb` and fall-distance values, soul sand applies the same `0.4` multipliers to X/Z velocity, Nether portal sets the same portal-contact state when its entity guards pass, and End portal invokes the same server-side dimension change under its intersection guards. No callback difference is established. The complete callbacks/portal execution and unrelated damage effects remain open.
 - Finding IDs or checked absence/replacement path: no finding for these bounded callback bodies; F-08 records the distinct farmland fall callback position write. Full callback and downstream external movement inventories remain open.
 
+### Slice S4-before-collision-velocity-callbacks: vertical clip velocity response
+
+- Inventory ID(s): INV-COLLISION, INV-STATE, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: post-Y-axis clipping dispatch in `Entity.move` and every `beforeCollision` override under both block source trees.
+- A evidence: `Entity.java::move`, lines 659-662, SHA-256 `05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77`; `Block.java::beforeCollision`, lines 636-638, SHA-256 `1971dbc284d511e2ed366f77bc77fd8cd07174baad3e7732e908d3daeb640c01`; `SlimeBlock.java::beforeCollision`, lines 34-43, SHA-256 `38e77cdaaf3681fe3a2357ebc0dce7a86d658429463bc1e06e6e1167fe627c8a`; block ID 165 registration in `Block.java`, line 1111.
+- B evidence: `Entity.java::move`, lines 722-725, SHA-256 `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440`; `Block.java::beforeCollision`, lines 624-626, SHA-256 `ab873436b24487ab0ee8055bf7a478349c7f7978398aea8e387796a6c820996a`; `SlimeBlock.java::beforeCollision`, lines 34-43, SHA-256 identical to A; block ID 165 registration in `Block.java`, line 1116.
+- State producers/writers -> consumers/readers: requested Y movement -> axis clipping -> selected supporting block -> `beforeCollision` -> vertical velocity.
+- Parent slices / dependencies / closure evidence: S4-box-axis-resolution and S4-step-callbacks. Source search found only the base `Block` and `SlimeBlock` overrides in either endpoint; registered slime IDs match. This comparison assumes the same selected block and same incoming sneak/velocity state.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): when vertical movement clips, both versions call the selected block's callback at the same point. Base blocks set vertical velocity to zero in both. Slime blocks preserve the same sneaking zero response and, otherwise, reflect negative vertical velocity; the entity-type damping clause does not damp a LivingEntity player. No callback delta is established.
+- Finding IDs or checked absence/replacement path: no finding for the bounded vertical response; broader collision-provider and callback inventories remain open.
+
 ### Slice S4-step-callbacks: post-move onSteppedOn dispatch
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT, INV-STATE
@@ -210,7 +222,7 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - Parent slices / dependencies / closure evidence: S4-sneak-probe; source search enumerated each `onSteppedOn` override under both block trees. This closes movement effects of these callbacks for the sneaking-player landing case; it does not close all block callbacks, shapes, registrations, or resource dependencies.
 - Status: compared-no-difference
 - Disposition and rationale (including concrete reachability/preconditions): the dispatch guard differs when a previously airborne sneaking player lands, but every audited callback reachable through that dispatch has no movement write for a sneaking player. Slime's damping is explicitly suppressed while sneaking; Magma damage is excluded; RedstoneOre's callback changes light state/particles only; Stairs delegates. Thus this bounded callback difference produces no confirmed in-scope movement delta.
-- Finding IDs or checked absence/replacement path: no movement finding; F-01/F-03 describe separate movement-path changes. Full `onEntityCollision`, `beforeCollision`, and `onFallenOn` inventory remains open.
+- Finding IDs or checked absence/replacement path: no movement finding; F-01/F-03 describe separate movement-path changes. `beforeCollision` is bounded in S4-before-collision-velocity-callbacks and F-08 covers the farmland `onFallenOn` delta; remaining `onEntityCollision` and fall callback inventory stays open.
 
 ### Slice S4-box-axis-resolution: axis clipping and step candidate selection
 
@@ -601,7 +613,7 @@ Complete only after blind-discovery freeze. No mod implementation was opened.
 
 ## Source audit closure
 
-- Coverage counts by status: 7 findings, 24 compared-no-difference, 4 in-progress, 1 pending (bounded rows only; broad inventory remains open).
+- Coverage counts by status: 7 findings, 25 compared-no-difference, 4 in-progress, 1 pending (bounded rows only; broad inventory remains open).
 - Required inventory status and evidence: only `INV-EXCLUSIONS` declaration complete; all movement inventories pending, with partial anchors above.
 - Open dependencies: D-SOURCE-DIAGNOSTICS, D-COLLISION, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
 - Unresolved gaps and limits: complete tick graph, body-level diagnostic review, collision providers/resources, exact entity-player collision paths, modifiers, external writers, source-only freeze and independent audit remain open. Source comparison only; no gameplay behavior observed.
