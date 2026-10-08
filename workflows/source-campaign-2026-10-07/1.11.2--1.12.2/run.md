@@ -403,13 +403,13 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 ### Slice S3.4: Ground jump impulse, sprint-jump impulse, jump strength and jump providers
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: Ground jump impulse, sprint-jump impulse, jump strength and jump providers; exact local guards and enclosing call order recorded per bounded behavior
-- A evidence: pending exact A member/body range and SHA-256 from verified source root
-- B evidence: pending exact B member/body range and SHA-256 from verified source root
-- State producers/writers -> consumers/readers: pending exact source writer/consumer closure
-- Parent slices / dependencies / closure evidence: parent/dependency links pending source inventory
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison; no equivalence inferred from prior reports
+- Exact behavior boundary and enclosing guards/order checked (bounded vanilla-player jump subcase): local sampled `jumping` value feeds the shared `LivingEntity.mobTick` jump gate; ground jump requires on-ground and zero cooldown, water/lava select their dedicated impulse, and grounded success writes a ten-tick cooldown. `LivingEntity.jump` applies jump strength and sprint horizontal impulse; player override delegates then adds fatigue (excluded state).
+- A evidence: `LivingEntity.getJumpStrength()` lines 1357-1359, `jump()` 1361-1374, `jumpInWater()` 1376-1378, `jumpInLava()` 1380-1382, source SHA-256 `bb7dc6c9e423a9568d6433d51bba12e7aee4555fbf3fb3e2b87f618382279f2f`; `PlayerEntity.jump()` lines 1376-1384, SHA-256 `87fe94fa6cbf7aba18b9a5e3401664439eb8eba9958173da8fbcd05cc7ad948b`; local jump sampling/gates in `LocalClientPlayerEntity.mobTick()` lines 632-795, SHA-256 `65c2747bd8c70def6be7f41f624d4c9493342b39ae7bed7967f9ff63608f59ed`.
+- B evidence: `LivingEntity.getJumpStrength()` lines 1394-1396, `jump()` 1398-1411, `jumpInWater()` 1413-1415, `jumpInLava()` 1417-1419, source SHA-256 `190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6`; `PlayerEntity.jump()` lines 1375-1383, SHA-256 `e4e0fdbe07a7d0a0ae4a70cbb6739a287c9d045a4a12b409895c220b5d91fe1e`; local jump sampling/gates in `LocalClientPlayerEntity.mobTick()` lines 649-817, SHA-256 `01a58e94d8c6ff98a8e3794227cdc76a5fcbdbad795c70c9cf28854aff9823cc`. Source hashes matched the exact source-manifest entries.
+- State producers/writers -> consumers/readers: S1.1 samples the jump binding and S1.2 carries it into local `jumping`; the common tick consumes it after `jumpingCooldown` decrement and before travel. `jump()` writes vertical impulse from `getJumpStrength`, optionally adds Jump Boost and, when sprinting, modifies horizontal velocity; water and lava paths add `0.04F`. `PlayerEntity.jump()` calls this before the excluded fatigue/exhaustion writes. B's portal inventory-close and tutorial callback are the only local-mobTick body deltas and are separately traced in S1.2a/S1.2b; jump guards, local input and impulse call remain unchanged. Jump Boost producer/removal is S6.2; block landing/rebound providers are S4.5; mounted jump input is S7.2.
+- Parent slices / dependencies / closure evidence: the regular ground, sprint, water and lava player impulses are directly compared here; S6.2, S4.5 and S7.2 retain provider-specific closure. The broader `DEP-MODIFIER-DATA` and `DEP-COLLISION-SHAPES` remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): paired jump-strength getter, base ground/sprint impulse, water/lava impulses, player override ordering and local sampled-jump gate are body-identical. No difference is established for these ordinary player jump paths. Keep S3.4 open for jump-strength/effect and block-provider inventory, which has not yet been closed.
 - Finding IDs or checked absence/replacement path: none assigned
 
 ### Slice S3.5: Climbing, levitation, slow-falling and other movement-effect consumers
@@ -744,8 +744,8 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 
 ## Resume checkpoint
 
-- Last completed bounded slices: S1.7, S2.2a, S2.3, S2.3a, S2.4, S2.5, S3.1, S3.2, S3.3 and S4.4a; S2.2 and S2.6 remain in-progress; S1.2a and S1.2b have bounded not-applicable dispositions.
-- Next bounded slice and exact files/members/body ranges to open: continue S2.2 by closing remaining player-reachable state/default and neighbor-provider dependencies around `World.getCollisions(Box)`; the WallBlock connection subcase is dispositioned with no reachable player response for its 0.6-wide active hitbox. Continue S2.6 with remaining local movement-state writer/consumer bodies. Continue S3.4 at `LivingEntity.jump`, `jumpInWater`/`jumpInLava`, player sprint-jump gates and jump-strength providers, then S3.5-S3.7 for medium, effect and glide branches.
+- Last completed bounded slices: S1.7, S2.2a, S2.3, S2.3a, S2.4, S2.5, S3.1, S3.2, S3.3 and S4.4a; S2.2, S2.6 and S3.4 remain in-progress; S1.2a and S1.2b have bounded not-applicable dispositions.
+- Next bounded slice and exact files/members/body ranges to open: continue S2.2 by closing remaining player-reachable state/default and neighbor-provider dependencies around `World.getCollisions(Box)`; the WallBlock connection subcase is dispositioned with no reachable player response for its 0.6-wide active hitbox. Continue S2.6 with remaining local movement-state writer/consumer bodies. For S3.4, trace `getJumpStrength` providers and Jump Boost producer/consumer paths through S6.2, plus collision-triggered rebound sources through S4.5. Then continue S3.5-S3.7 for medium, effect and glide branches.
 - Outstanding dependencies and owners: listed above; discovery author owns source inventory; artifact provenance is independently verified; blind finding reviewer and full-pair reviewer assignment pending coordinator.
 - Current assumptions requiring verification: all prior findings and no-difference claims remain unaccepted; every cited body still requires direct review despite ready tree hashes.
 
@@ -864,7 +864,7 @@ Append-only source-review history. An accepted finding snapshot would release on
 
 ## Source audit closure
 
-- Coverage counts by status: 27 pending; 1 in-progress; 14 compared-no-difference; 3 not-applicable; 2 findings; 0 blocked (47 slices total).
+- Coverage counts by status: 26 pending; 2 in-progress; 14 compared-no-difference; 3 not-applicable; 2 findings; 0 blocked (47 slices total).
 - Required inventory status/evidence: INV-EXCLUSIONS complete; all other inventories pending with mapped slice IDs.
 - Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS, DEP-RELATIVE-MOVE
 - Unresolved gaps: stages beyond bounded keyboard input and completed UI/tutor dispositions; S2.2 shape providers, glide movement, exact state producers/consumers, registries/resources, external writers and historical candidates remain open.
