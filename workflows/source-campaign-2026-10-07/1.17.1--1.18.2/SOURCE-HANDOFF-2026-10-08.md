@@ -26,7 +26,7 @@ Author-side dependency closure includes `D-PACKET-RECONCILIATION`, `D-EXTERNAL-V
 
 ## Immutable report and finding bindings
 
-The following Git blob and raw SHA-256 values bind the exact report/findings at author-side freeze candidate commit `9ce2300628fe6d16b47656e3c65ee943129d86d6`. Every finding is paired to the exact A/B source and artifact identities above. Existing earlier candidate snapshot commits and prior histories are preserved in Git and documented in `run.md`.
+The following Git blob and raw SHA-256 values bind the exact report/findings at author-side freeze candidate commit `9ce2300628fe6d16b47656e3c65ee943129d86d6`. Every finding is paired to the exact A/B source and artifact identities above. Earlier candidate snapshot records present in `run.md` remain intact; this table binds all 14 source findings at the final author-side closure commit. Both the branch and main histories remain reachable through the merge commit.
 
 | ID | Repository path | Git blob | Raw file SHA-256 |
 | --- | --- | --- | --- |
