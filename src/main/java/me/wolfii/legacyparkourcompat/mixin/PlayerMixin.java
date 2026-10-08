@@ -5,6 +5,7 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.AirSpeedBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.AirSpeedUpdateBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.FlightFallDistanceBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerPoseBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeDistanceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeProbeBehavior;
@@ -23,6 +24,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
 abstract class PlayerMixin implements AirSpeedState {
+
+    @Inject(method = "updatePlayerPose()V", at = @At("HEAD"), cancellable = true)
+    private void legacyparkourcompat$historicalPoseUpdate(CallbackInfo callback) {
+        Player player = (Player) (Object) this;
+        if (MovementRuntime.find(PlayerPoseBehavior.class, player)
+            .map(behavior -> behavior.updatePose(player))
+            .orElse(false)) {
+            callback.cancel();
+        }
+    }
 
     @Inject(method = "canFallAtLeast(DDD)Z", at = @At("HEAD"), cancellable = true)
     private void legacyparkourcompat$historicalSupportProbe(
