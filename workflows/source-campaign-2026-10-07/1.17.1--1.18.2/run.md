@@ -126,9 +126,9 @@ A/B roles: LocalPlayer#aiStep client tick; KeyboardInput#tick input; LivingEntit
 - A evidence: Entity#move lines 534-651, #collide 750-789, #collideBoundingBoxHeuristically 791-805, #collideBoundingBoxLegacy 807-838, and #collideBoundingBox 840-873, SHA-256 ab28e1fba924771ec048140dfd293ee5a46a7dfe81f71a1a0b1aecc1927232de; CollisionGetter#noCollision/#getCollisions/#getBlockCollisions lines 44-63, SHA-256 eb707479e75cf200731df4546a546fb984be33cf3e4a8e17d3065a916497f747; CollisionSpliterator#collisionCheck/#worldBorderCheck lines 61-117, SHA-256 c4f8158bd6778159946ebf16c22a6c12f5a4bccb40e2f1215f4fc930bb218bd0.
 - B evidence: Entity#move lines 543-674, #collide 777-801, #collideBoundingBox 803-817, and #collideWithShapes 819-854, SHA-256 2228fdaca5793171cbd94038306d571a6ada78ca96f5734efb4cada5b744c10a; CollisionGetter#noCollision/#getBlockCollisions/#borderCollision lines 46-78, SHA-256 ed62e6b800ec057c1269d3cc4e2fb7c0cc2037370223fac99f41371e000c6b5c; BlockCollisions#computeNext lines 18-96, SHA-256 11fecadc012d0a544097bf0febfa1a83da5a534e6182ee7df7b2334b6ee80127.
 - State producers/writers -> consumers/readers: requested delta -> collision result -> position, horizontal/vertical/onGround flags, velocity cancellation, fallDistance; B additionally writes minorHorizontalCollision and verticalCollisionBelow. LocalPlayer reads minorHorizontalCollision for sprint-stop; server player packet handling also reads verticalCollisionBelow and remains within D-PACKET-RECONCILIATION.
-- Parent slices / dependencies / closure evidence: D-SHAPE-PROVIDERS,D-BORDER-MOVE-PATH,D-SHAPES-COLLIDE-OVERLOAD open; D-ENTITY-COLLISIONS filter equivalence is resolved for the local-player query.
+- Parent slices / dependencies / closure evidence: D-SHAPE-PROVIDERS and D-BORDER-MOVE-PATH remain open; D-SHAPES-COLLIDE-OVERLOAD is resolved for per-candidate arithmetic/order by the paired Shapes and VoxelShape bodies; D-ENTITY-COLLISIONS filter equivalence is resolved for the local-player query.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): A selects the legacy shape solver when at least two requested components are nonzero; B uses collideWithShapes for all movement. The inspected solvers request Y, then the smaller-magnitude horizontal axis, then X and the remaining horizontal axis; delegated Shapes.collide overloads, candidate materialization/order, border admission and shape providers remain open. B adds two movement collision flags.
+- Disposition and rationale (including concrete reachability/preconditions): A selects the legacy shape solver when at least two requested components are nonzero; B uses collideWithShapes for all movement. Both solver paths request Y, then the smaller-magnitude horizontal axis, then X and the remaining horizontal axis. A stream and B iterable Shapes.collide overloads both apply each shape sequentially and return zero below the 1.0E-7 remaining-delta cutoff; paired VoxelShape.collide/collideX bodies match in axis cycling, index bounds, traversal and cutoffs. Candidate materialization/order, border admission and shape providers remain open. B adds two movement collision flags.
 - Finding IDs or checked absence/replacement path: F-001 consumes B minorHorizontalCollision; F-004 covers auto-jump border query; F-005 consumes B fallDistance reset.
 
 ### Slice T-WORLD-PROPERTIES: block/fluid registrations
@@ -202,7 +202,7 @@ A/B roles: LocalPlayer#aiStep client tick; KeyboardInput#tick input; LivingEntit
 - Finding IDs or checked absence/replacement path: F-007.
 ## Dependency queue and blockers
 
-Resolved: D-ENTITY-COLLISIONS (paired LocalPlayer entity query and EntityGetter/Entity.canCollideWith); D-INPUT-ASSIGNMENTS (on-foot local input path; passenger packet is excluded); D-RESET-CLIP-FILTER (B ClipContext block/fluid predicates, resetFallDistance assignment, tag and water resource entries). Open: D-SHAPE-PROVIDERS,D-BORDER-MOVE-PATH,D-SHAPES-COLLIDE-OVERLOAD,D-ELYTRA-ENTRY,D-EFFECT-DATA,D-ATTRIBUTE-REGISTRY,D-ENCHANTMENT-DATA,D-SHAPE-REGISTRY,D-BLOCK-CALLBACKS,D-MOVEMENT-TAGS,D-EXTERNAL-VELOCITY,D-MOUNT-INPUT,D-PACKET-RECONCILIATION. Each can affect movement; pair discovery owns retrieval. No external blocker.
+Resolved: D-ENTITY-COLLISIONS (paired LocalPlayer entity query and EntityGetter/Entity.canCollideWith); D-SHAPES-COLLIDE-OVERLOAD (paired sequential stream/iterable loop and matching VoxelShape collision kernel; source candidate ordering remains separate); D-INPUT-ASSIGNMENTS (on-foot local input path; passenger packet is excluded); D-RESET-CLIP-FILTER (B ClipContext block/fluid predicates, resetFallDistance assignment, tag and water resource entries). Open: D-SHAPE-PROVIDERS,D-BORDER-MOVE-PATH,D-ELYTRA-ENTRY,D-EFFECT-DATA,D-ATTRIBUTE-REGISTRY,D-ENCHANTMENT-DATA,D-SHAPE-REGISTRY,D-BLOCK-CALLBACKS,D-MOVEMENT-TAGS,D-EXTERNAL-VELOCITY,D-MOUNT-INPUT,D-PACKET-RECONCILIATION. Each can affect movement; pair discovery owns retrieval. No external blocker.
 
 ## Finding index
 
@@ -213,20 +213,30 @@ Resolved: D-ENTITY-COLLISIONS (paired LocalPlayer entity query and EntityGetter/
 - [F-005 long movement fallDistance reset before later edge check](findings/F-005-fall-distance-reset-edge-gate.md) — source-confirmed writer/consumer and clip filter closed.
 - [F-006 boat passenger-list refresh yaw behavior](findings/F-006-boat-passenger-yaw-refresh.md) — source-confirmed player yaw write change under repeated passenger update.
 - [F-007 client movement packet displacement threshold](findings/F-007-position-packet-threshold.md) — source-confirmed packet condition; movement reconciliation consequence remains open.
-- Discarded: KeyboardInput literal precision alone (normal inputs -1,0,1; assignments open); camera bob literal change (visual-only in inspected path). Prior report was navigation; F-001/F-002 rechecked.
+- Discarded: KeyboardInput literal precision alone (normal inputs -1,0,1; input assignment path now closed); camera bob literal change (visual-only in inspected path). Prior report was navigation; F-001/F-002 rechecked.
 
 ## Resume checkpoint
 
 - Last completed: T-INPUT,T-SPRINT,T-ELYTRA,T-AUTOJUMP-ORDER,T-AUTOJUMP-BORDER,T-FALL-RESET.
-- Next: resolve D-SHAPES-COLLIDE-OVERLOAD, D-SHAPE-PROVIDERS and D-BORDER-MOVE-PATH to close T-EDGE-GATE/T-ENTITY-COLLISION; continue by comparing paired Shapes#collide paths and actual block collision providers; continue the remaining slices; continue T-WORLD-PROPERTIES and T-MODIFIERS through block/resource registrations, callbacks, tags, attributes, effects and equipment; expand INV-EXTERNAL beyond the four bounded slices.
-- Outstanding: D-SHAPE-PROVIDERS,D-BORDER-MOVE-PATH,D-SHAPES-COLLIDE-OVERLOAD,D-ELYTRA-ENTRY,D-EFFECT-DATA,D-ATTRIBUTE-REGISTRY,D-ENCHANTMENT-DATA,D-SHAPE-REGISTRY,D-BLOCK-CALLBACKS,D-MOVEMENT-TAGS,D-EXTERNAL-VELOCITY,D-MOUNT-INPUT,D-PACKET-RECONCILIATION.
+- Next: resolve D-SHAPE-PROVIDERS and D-BORDER-MOVE-PATH to close T-EDGE-GATE/T-ENTITY-COLLISION; compare actual block collision providers; continue the remaining slices; continue T-WORLD-PROPERTIES and T-MODIFIERS through block/resource registrations, callbacks, tags, attributes, effects and equipment; expand INV-EXTERNAL beyond the four bounded slices.
+- Outstanding: D-SHAPE-PROVIDERS,D-BORDER-MOVE-PATH,D-ELYTRA-ENTRY,D-EFFECT-DATA,D-ATTRIBUTE-REGISTRY,D-ENCHANTMENT-DATA,D-SHAPE-REGISTRY,D-BLOCK-CALLBACKS,D-MOVEMENT-TAGS,D-EXTERNAL-VELOCITY,D-MOUNT-INPUT,D-PACKET-RECONCILIATION.
 - Resume validation command from repository root: python workflows/movement-discovery/check_completion.py workflows/source-campaign-2026-10-07/1.17.1--1.18.2/. This is a schema/status check only.
 
 ## Finding snapshots (not pair freeze)
 
 The pair remains partial. Accepted snapshot count is zero; F-001 and F-006 are immutable candidates submitted for blind source review. Snapshot acceptance releases only that finding for a separate implementation task and does not close other slices or freeze the pair.
 
-- Snapshot ID: F001-1.17.1-1.18.2-8ae1f9d
+- Snapshot ID: F001-1.17.1-1.18.2-d02139e
+- Finding: findings/F-001-minor-horizontal-collision-sprint.md
+- Immutable snapshot commit: d02139e186935317274fa7df16976eeeae8e4eb0
+- Finding file SHA-256: 77957564feaa103b7817055c71c0a9d9e31d7af4bacae5432b4b18d82c99e2fd
+- Source/artifact identity: A Mojmap 1.17.1 source manifest 93270d229acfb751bf56daf1e7be26ce3dcff26b29e94aa157de621405a3463b, artifact manifest e52c5dbae7d9663190ccc55a4f9b44a8e0615fb1fbbd8280811df43f70ec8aaa, mapped jar 2a2be036174902e447865498741b8c59fa2e090d352d786a8507dccb7c23008c; B Mojmap 1.18.2 source manifest aea0cb9c6fc8f7a46f0eb82b0388ad58a4659f513be6c0a2be06c0df0c1eb07a, artifact manifest a1507e4875faee892aca4c59686bbd68933db21a2274559e81eea8a32b021036, mapped jar 60a2017dd217b23df8a5ddbebac96fccb58ff747e961974696e0018f6ef12dba.
+- Bounded player path and guards: discrete forward keyboard input -> xxa/zza assignment -> horizontal collision after two-axis movement into existing one-block stone; 0.1 blocked-X/unblocked-Z ratio yields atan(0.1) below B's 0.13962634F classifier cutoff; maxUpStep=0.6F prevents a step candidate clearing the one-block wall; next tick A stops sprint and B retains it when other gates pass.
+- Version boundary: exact 1.17.1 vs 1.18.2; first changed release within the interval unknown.
+- Finding dependencies: finding-specific input assignment, tick order, stop gate, flag writer/classifier, Shapes overloads, VoxelShape collision kernel, and stone-wall collision path checked; candidate order/providers/border and full input inventory remain open pair-wide.
+- Reviewer: 01a116ce-c937-7613-a49b-716e99582357; decision pending.
+- Pair state at handoff: partial; immutable snapshot commit d02139e; pair complete: no; implementation status: not started; runtime validation: not performed.
+- Snapshot ID: F001-1.17.1-1.18.2-8ae1f9d (superseded before review; B Shapes.java checksum transcription corrected in d02139e)
 - Finding: findings/F-001-minor-horizontal-collision-sprint.md
 - Immutable snapshot commit: 8ae1f9d
 - Finding file SHA-256: 9289e77076d1203eb8be4756d5e8d3cb9276090a2e97a004c7f1b5f0a79559d2
@@ -234,7 +244,7 @@ The pair remains partial. Accepted snapshot count is zero; F-001 and F-006 are i
 - Bounded player path and guards: discrete forward keyboard input -> xxa/zza assignment -> horizontal collision after two-axis movement into existing one-block stone; 0.1 blocked-X/unblocked-Z ratio yields atan(0.1) below B's 0.13962634F classifier cutoff; maxUpStep=0.6F prevents a step candidate clearing the one-block wall; next tick A stops sprint and B retains it when other gates pass.
 - Version boundary: exact 1.17.1 vs 1.18.2; first changed release within the interval unknown.
 - Finding dependencies: finding-specific input assignment, tick order, stop gate, flag writer/classifier, and stone-wall collision path checked; full input and collision inventories remain open pair-wide.
-- Reviewer: 01a116ce-c937-7613-a49b-716e99582357; decision pending.
+- Reviewer: not submitted; superseded before review.
 - Pair state at handoff: partial; immutable snapshot commit 8ae1f9d; pair complete: no; implementation status: not started; runtime validation: not performed.
 - Snapshot ID: F006-1.17.1-1.18.2-064fc24
 - Finding: findings/F-006-boat-passenger-yaw-refresh.md
