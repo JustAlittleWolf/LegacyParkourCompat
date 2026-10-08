@@ -20,7 +20,7 @@
 
 - Status: pending
 - Freeze commit/checkpoint and timestamp: pending source-only comparison.
-- Evidence inventory and finding IDs included at freeze: freeze not yet performed; one source-confirmed finding is recorded, one additional candidate spans two in-progress slices, and 22 planning slices remain pending.
+- Evidence inventory and finding IDs included at freeze: freeze not yet performed; one source-confirmed finding is recorded, one additional candidate spans two in-progress slices, and 21 planning slices remain pending.
 - Confirmation that old mod implementation/code and isolated wiki-audit results were not opened before freeze (prior source-discovery reports may be used as navigation): confirmed; neither implementation nor wiki materials have been inspected.
 - Source/mapping hashes covered by freeze: freeze pending; exact A/B source/artifact/diagnostic hashes are recorded in the artifact manifest, with cited source hashes for L2 and L5 in their findings.
 
@@ -32,13 +32,13 @@ Partial correspondence established for the first bounded movement paths: `LocalP
 
 Both exact source trees are verified. Required inventories remain pending until every bounded paired slice and dependency has evidence.
 
-- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=I1-I4,L1-L6; evidence=awaiting exact A/B source readiness and full callgraph.
-- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=P1-P4,I1-I4,L1-L6,C1-C5,X1-X4; evidence=awaiting exact source ranges and producer-to-consumer closure.
-- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=C1-C5,B1-B8; evidence=awaiting exact source ranges, registries, shape providers and neighbor chains.
-- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=B1-B8,L5; evidence=awaiting paired code and resource manifests.
-- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=L6,E1-E4; evidence=awaiting paired consumers, producers and resource/data chains.
-- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, such as corrections, pushes, pistons and mounts: status=pending; slice_ids=X1-X4,B7; evidence=awaiting paired consumers and call chains.
-- `INV-EXCLUSIONS` explicit scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; evidence=after source inventory, document excluded producer systems and any direct vanilla-state reads retained as movement predicate inputs.
+- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=I1-I4,L1-L6; evidence=partial paired input/tick/travel/jump paths; full tick graph, pre/post-travel callers, callbacks and all reachable branches remain open.
+- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=P1-P4,I1-I4,L1-L6,C1-C5,X1-X4; evidence=partial input/travel/jump and Soul Speed writer/consumer paths; pose, dimensions, collision state, timers and many direct predicates remain open.
+- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=C1-C5,B1-B8; evidence=callback and movement call sites partially indexed; collision bodies, shape providers, registries and neighbor chains remain open.
+- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=B1-B8,L5; evidence=Depth Strider water path and Soul Speed tag/block factor checked; remaining block/fluid registries, shapes, callbacks and resources remain open.
+- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=L2,L5,L6,E1-E4; evidence=bounded Depth Strider and Soul Speed paths plus player base/sneak attributes checked; other effect, equipment, modifier and data chains remain open.
+- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, such as corrections, pushes, pistons and mounts: status=pending; slice_ids=X1-X4,B7; evidence=attribute packet consumer indexed; correction, push, piston and mount/dismount paths remain open.
+- `INV-EXCLUSIONS` explicit scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; evidence=campaign exclusions stated; full movement-predicate reads and direct player velocity/impulse/knockback separation still need audit.
 
 ## Coverage ledger
 
@@ -191,15 +191,15 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 - Finding IDs or checked absence/replacement path: `water-depth-strider-rounding`.
 ### Slice L6 - movement speed, jump and gravity attributes
 
-- Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: movement speed, jump and gravity attributes; exact paired method ranges await readiness.
-- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
-- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
-- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
-- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: player movement-speed attribute creation/readback, gravity and jump-strength defaults/consumers, and the Swift Sneak input-speed producer migration in `LocalPlayer#aiStep`.
+- A evidence: `Attributes.java` lines 36-61 declares `FLYING_SPEED=0.4F`, `GRAVITY=0.08`, `JUMP_STRENGTH=0.42F`, and generic `MOVEMENT_SPEED=0.7F`, SHA-256 `7e30d87c7a58b14d0052d2f9f7319d997b49ae7d025579cd762d28e845b2e82e`; `Entity#getGravity()` lines 1104-1107, SHA-256 `71cd6b9f6c002684154dce11d3745e8714d82f13c8e1b3aa56743930131c18f3`; `Player#createAttributes()` lines 220-230, speed write in `aiStep` line 533, load-time base writer line 779, `getSpeed()` lines 1511-1513 and `getFlyingSpeed()` lines 2117-2123, SHA-256 `785d93ccc94e1f912e545b2b0c355edeb352b44ee8e83a69364daec35266dbe2`; `LocalPlayer#aiStep` sneak factor lines 666-667, SHA-256 `6b429dfa6e0681251ec985dda1627f808652a7bbe5b70dc85c8fa0fe0ed46ffa`; `EnchantmentHelper#getSneakingSpeedBonus` lines 168-169, SHA-256 `e0b4c410e0aa9499d67b38f57b34467628e882be960dce6958d4bc8ef717a6b6`.
+- B evidence: `Attributes.java` lines 44-75 declares `FLYING_SPEED=0.4`, `GRAVITY=0.08`, `JUMP_STRENGTH=0.42F`, generic `MOVEMENT_SPEED=0.7`, and `SNEAKING_SPEED=0.3` at lines 86-88, SHA-256 `a9a19f556bb77fc218b5b2f4831eb6b285f4398c24fa2a3519009ca8dad2db7c`; `Entity#getGravity()` lines 1143-1146, SHA-256 `b81905c7879e2cc5c5063a41d865c4164ad919f156306705be791d1017b99850`; `Player#createAttributes()` lines 221-235, speed write in `aiStep` line 535, load-time base writer line 785, `getSpeed()` lines 1494-1496 and `getFlyingSpeed()` lines 2119-2125, SHA-256 `ed32b88c3c7c8418b83db41823520f2b6b0b49a98610306ef26e9681dc925c71`; `LocalPlayer#aiStep` attribute read lines 663-664, SHA-256 `c555e68ac3c63ab9b4f9a9e31933e263b96350a2bc599d11a0de5928bc24b583`; Swift Sneak `ATTRIBUTES` registration lines 561-580 in `Enchantments.java`, SHA-256 `7848a2cd677aa0700434f85de37d8a0c47597741d2d1f26c8dc270f73d65b266`, using `LevelBasedValue.perLevel(0.15F)` whose definition/calculation is lines 30-36/126-138, SHA-256 `f9a0bed1d7693606f8657fadd4a59d95eea9955fcc036687e7a9dd08a8b360e3`; shared equipment modifier application via `ItemStack#forEachModifier(EquipmentSlot,BiConsumer)` lines 915-923, SHA-256 `15094cc5a115bbbc81c550fafcfba51451fcc7afed2ad374ca1029ba1d1db687`, `EnchantmentHelper#forEachModifier` lines 311-316, SHA-256 `9e2f9acd5bc6a8f3b5292d720db81464954d41c9afb635f1a7c6cb31d5a2bf84`, and `LivingEntity` equipment update lines 2488-2502, B `LivingEntity.java` SHA-256 `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8`.
+- State producers/writers -> consumers/readers: player `MOVEMENT_SPEED` is created at `0.1F` on both sides, then set from the same abilities walking-speed value and read/cast by the same `Player#getSpeed()`; `Entity#getGravity()` has the same body and `GRAVITY`/`JUMP_STRENGTH` defaults are equal. A's `0.3F + level * 0.15F` Swift Sneak input factor is replaced by B's `SNEAKING_SPEED` default plus the registered additive attribute modifier; after the same float cast the reachable levels 0-3 yield `0.30000001192092896`, `0.45000001788139343`, `0.6000000238418579`, and `0.75` on both sides. Related water and Soul Speed efficiency attributes are separately covered by L5 and L2.
+- Parent slices / dependencies / closure evidence: I1 input fields; I2 local player tick; I3 movement input conversion; L2 gravity/travel and Soul Speed; L3 jump power; L5 water efficiency; E2 Swift Sneak registration. Other effect/enchantment writers of movement attributes remain in E1-E4.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the inspected player speed/jump/gravity values and consumers preserve the same movement inputs, and the changed Swift Sneak factor is numerically identical at all vanilla levels 0-3. B changes generic `MOVEMENT_SPEED` and `FLYING_SPEED` defaults from float literals `0.7F`/`0.4F` to double literals `0.7`/`0.4`; the player factory overrides movement speed with `0.1F` and player flight reads abilities speed. These generic defaults have no path into the client player's compared movement and the non-player path is outside campaign scope. This row does not close other modifier producers.
+- Finding IDs or checked absence/replacement path: no player-path delta; generic entity default literal precision is recorded as out of scope; remaining modifier producers are linked to E1-E4.
 
 ### Slice C1 - bounding-box movement, position updates and axis ordering: `pending`.
 
@@ -473,7 +473,7 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 ## Resume checkpoint
 
-- Last completed slices: I1-I4 input/tick/yaw/sprint compared; L3 jump path compared; L5 water-travel arithmetic finding recorded. L4 has a bounded callback delta with closure pending. L2 has a source-backed Soul Speed sync-timing candidate; P1/P2/P4, L2 and L4 remain in progress pending dependencies.
+- Last completed slices: I1-I4 input/tick/yaw/sprint compared; L3 jump path and L6 player movement attributes compared; L5 water-travel arithmetic finding recorded. L4 has a bounded callback delta with closure pending. L2 has a source-backed Soul Speed sync-timing candidate; P1/P2/P4, L2 and L4 remain in progress pending dependencies.
 - Next bounded slice and exact files/members/body ranges to open: first continue L2/L4 with A `LivingEntity#baseTick` block-position callback lines 412-419 and `onChangedBlock(BlockPos)` lines 557-568; B `LivingEntity#checkFallDamage` lines 327-355, `baseTick` callback lines 433-439 and `onChangedBlock(ServerLevel,BlockPos)` lines 514-516; then B `ServerEntity#sendChanges` lines 322-329 and `ClientPacketListener#handleUpdateAttributes` lines 2062-2076. Keep client prediction packet timing unresolved unless source establishes a happens-before relation. Next L6 compare A/B `Attributes.java` movement/default ranges (A lines 43-73; B lines 50-102) against `Player#createAttributes`, `Player#aiStep`, `Player#getSpeed`, and `Entity#getGravity`; then resume queued velocity-threshold/external-source slices.
 - Outstanding dependencies and owners: D0/D1 readiness closed; D2 remains open for movement source dependencies and is owned by this discovery worker until handoff.
 - Current assumptions requiring verification: only cited source bodies are hash-checked so far; all remaining method correspondence, dependencies, callbacks, registrations and state writer/consumer closure are incomplete.
@@ -501,11 +501,11 @@ Reviewer must differ from discovery authors and must independently re-walk full 
 
 ## Source audit closure
 
-- Coverage counts by status: 1 findings; 7 compared-no-difference; 0 not-applicable; 0 blocked; 22 pending; 5 in-progress (35 planned slices; one source-backed candidate spans L2 and L4).
+- Coverage counts by status: 1 findings; 8 compared-no-difference; 0 not-applicable; 0 blocked; 21 pending; 5 in-progress (35 planned slices; one source-backed candidate spans L2 and L4).
 - Required inventory status and evidence: all seven required inventories remain pending; L5 has one bounded source-confirmed finding and L2 one candidate, while complete inventories are not closed.
 - Open dependencies: D2 only; D0/D1 readiness and namespace alignment are closed.
-- Unresolved gaps and limits: 22 slices remain pending and 5 remain in progress, including full modifier coverage, collision/shape providers, blocks/fluids, external velocity sources, exclusions and independent audit. The confirmed finding and in-progress candidate do not close those inventories.
-- Evidence/hash/correspondence audit: exact source hashes and paired ranges are recorded for the L5 finding and L2 candidate; the overall evidence audit is incomplete.
+- Unresolved gaps and limits: 21 slices remain pending and 5 remain in progress, including full modifier coverage, collision/shape providers, blocks/fluids, external velocity sources, exclusions and independent audit. The confirmed finding and in-progress candidate do not close those inventories.
+- Evidence/hash/correspondence audit: exact source hashes and paired ranges are recorded for L2-L6 bounded rows and findings; the overall evidence audit is incomplete.
 - Blind freeze: pending until pair coverage is complete.
 - Implementation reconciliation: pending and outside this assignment before explicit post-freeze authorization.
 - Independent audit: pending coordinator assignment.
