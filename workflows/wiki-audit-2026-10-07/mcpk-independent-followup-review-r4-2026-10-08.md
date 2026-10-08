@@ -22,10 +22,10 @@ It is present in the supplied owner tip `66d9e2735a88f2f0bf35d5f5499efdb6f4de223
 
 ### Y=256 jump consumer — REQUEST CHANGES to the source label/call path; ACCEPT the bounded branch
 
-The endpoint behavior is supported, but r4 calls the 1.13.2 body `LivingEntity.aiStep`. In the cited Feather source the body at lines 1852–1920 is `LivingEntity.mobTick()`; the water-depth jump branch is lines 1903–1914. Add the exact player and producer edges:
+The endpoint behavior is supported, but r4 calls the 1.13.2 body `LivingEntity.aiStep`. In Feather `net/minecraft/entity/living/LivingEntity.java` (SHA-256 `bb691358c9a43c9f46e85575bf4d0a4ad671d0eb912502acc3a6a3f625e42f1c`), the body at lines 1852–1920 is `LivingEntity.mobTick()`; the water-depth jump branch is lines 1903–1914. Add the exact player and producer edges:
 
-- `LivingEntity.tick()` calls `super.tick()` and then `this.mobTick()` at lines 1689–1692 and 1752. `PlayerEntity.mobTick()` overrides and calls `super.mobTick()` at lines 463–481. This makes the cited base jump branch player-reachable.
-- `Entity.baseTick()` calls `m_03231680()` at line 394; that helper calls `checkWaterState()` at lines 947–951. The water overlap scan at lines 2509–2570 stores the measured depth in `f_85121000`; the player-reachable `mobTick()` branch reads that value to select normal jump or water jump.
+- `LivingEntity.tick()` in the same file calls `super.tick()` and then `this.mobTick()` at lines 1689–1692 and 1752. Feather `net/minecraft/entity/living/player/PlayerEntity.java` (SHA-256 `4ed22f6c5a3c55d67eed782070ac722201df4d624adbc90779f1fd29c2876633`) overrides `mobTick()` and calls `super.mobTick()` at lines 463–481. This makes the cited base jump branch player-reachable.
+- Feather `net/minecraft/entity/Entity.java` (SHA-256 `1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269`) calls `m_03231680()` from `baseTick()` at line 394; that helper calls `checkWaterState()` at lines 947–951. The water overlap scan at lines 2509–2570 stores the measured depth in `f_85121000`; the player-reachable `mobTick()` branch reads that value to select normal jump or water jump.
 
 These call edges confirm the described jump consumer, but they do not establish a Y=256 condition or explain the reported symptom’s initiating state change. The 1.15.2 and 1.16.1 water-height/fluid-height producer and jump branches cited in r4 also match their sources. Keep the cause and exact fix boundary open: 1.16.0 has no ready source, and the `resetPos()` loop is not a caller of this jump branch.
 
