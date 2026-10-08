@@ -77,17 +77,17 @@ Each inventory maps to bounded source slices and remains pending until its full 
 - Disposition and rationale (including concrete reachability/preconditions): source behavior differs if the player's current chunk is unavailable; do not generalize beyond the exact condition until reachability is established.
 - Finding IDs or checked absence/replacement path: candidate only; no source-confirmed finding.
 
-### Slice S-BLOCK-CONTACT: post-travel swept block effects
+### Slice S-BLOCK-CONTACT: local-client block callback reachability
 
 - Inventory ID(s): INV-TICK, INV-COLLISION, INV-WORLD-MOVEMENT, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: A per-move current-box callback; B post-travel recorded-path callback; one existing movement-relevant callback and shape provider.
+- Exact behavior boundary and enclosing guards/order checked: A per-move current-box callback; B post-travel callback guarded to server-side or locally controlled entities; normal local client-player reachability; unchanged cobweb callback and registration.
 - A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.21.1/mojmap/net/minecraft/world/entity/Entity.java move lines 598-727 and checkInsideBlocks lines 1001-1031, SHA-256 b81905c7879e2cc5c5063a41d865c4164ad919f156306705be791d1017b99850; WebBlock.entityInside lines 26-33, SHA-256 ece9f8840481748d2d1542990b442cc9a97d670255d693b85f528fa618f48414; Blocks.java registers COBWEB at lines 765-770, SHA-256 538ac50c164484ca4c2367a2a6c07cf2faedcac0c4d5117d8817d36c2d1bde6d.
 - B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.21.3/mojmap/net/minecraft/world/entity/Entity.java move lines 619-701, applyEffectsFromBlocks lines 736-771, checkInsideBlocks lines 1038-1078, SHA-256 a93719c302a0381a972af75ea360465e2e3551708dd07c34d4d40b7e5173c2b9; LivingEntity.aiStep lines 2755-2779, SHA-256 087390495f4fdfd14b9e12230e7aea4fdc50913bb4d1d91119e72892881cfc52; WebBlock body unchanged; Blocks.java registers COBWEB at lines 701-706, SHA-256 28a66da36ce98800226ec6d8e5fb4904fc7b137322a31f6d7ec822450374e62a; BlockBehaviour default inside shape lines 353-355, SHA-256 4d92417129eb6def084a67d249d2ff8c7a30a4767fa46e63a045667ea70d5133.
-- State producers/writers -> consumers/readers: movement path cells -> shape predicate -> entityInside -> WebBlock.makeStuckInBlock writes stuckSpeedMultiplier -> next Entity.move reads/scales/resets it (A lines 611-615; B lines 633-637).
-- Parent slices / dependencies / closure evidence: S-TRAVEL and S-ENTITY-MOVE; other block callback/provider/resource inventory remains open.
+- State producers/writers -> consumers/readers: A current bounding-box cells -> entityInside -> WebBlock.makeStuckInBlock writes stuckSpeedMultiplier -> next Entity.move reads/scales/resets it (A lines 611-615; B lines 633-637). In B the ordinary local client-player path does not reach the post-travel callback because `isControlledByLocalInstance()` is false client-side for the player itself.
+- Parent slices / dependencies / closure evidence: S-TRAVEL and S-ENTITY-MOVE; callback reachability and multiplier consumer are closed for this finding. Other block callback/provider/resource inventory remains open.
 - Status: findings
-- Disposition and rationale (including concrete reachability/preconditions): if player movement intersects an inside-block shape but ends with no final-box overlap, A final-box scan does not call entityInside while B path scan can. Existing WebBlock writes a movement multiplier, so movement changes under that geometry/velocity precondition.
-- Finding IDs or checked absence/replacement path: F-BLOCK-CONTACT-TRAVERSE.
+- Disposition and rationale (including concrete reachability/preconditions): ordinary local client player, noPhysics false, eligible current-box cobweb callback and available chunks: A calls the current-box callback from Entity.move; B omits it there and skips its guarded post-travel replacement for this client player. The unchanged WebBlock writer therefore affects the next move in A but not B's local-client path.
+- Finding IDs or checked absence/replacement path: F-BLOCK-CONTACT-CLIENT-GATE.
 
 ### Slice S-ENTITY-MOVE: collision result to position/support state
 
@@ -134,16 +134,16 @@ Each inventory maps to bounded source slices and remains pending until its full 
 
 ## Finding index
 
-- F-BLOCK-CONTACT-TRAVERSE — findings/F-BLOCK-CONTACT-TRAVERSE.md.
+- F-BLOCK-CONTACT-CLIENT-GATE — findings/F-BLOCK-CONTACT-CLIENT-GATE.md.
 
 ## Resume checkpoint
 
 - Resume branch: feat/source-discovery-movement-source-1-21-1-1-21-3
-- Resume worktree: C:\Users\Wolfi\.codex\worktrees\movement-source-1-21-1-1-21-3\LegacyParkourCompat
-- Prior committed checkpoint: d1538b9; this checkpoint update is committed immediately after it. Use the latest tip of the named branch for exact current commit.
-- Closed bounded slices: S-INPUT-AXES (compared-no-difference for directional axis calculation only); S-BLOCK-CONTACT (source-confirmed difference, finding F-BLOCK-CONTACT-TRAVERSE).
+- Resume worktree: C:\Users\Wolfi\.codex\worktrees\source-1211-1213-resume-6551\LegacyParkourCompat
+- Prior committed checkpoint: e8271b2 corrects the block-callback finding after the prior report checkpoint. Use the latest tip of the named branch for exact current commit.
+- Closed bounded slices: S-INPUT-AXES (compared-no-difference for directional axis calculation only); S-BLOCK-CONTACT (source-confirmed local-client callback reachability difference, finding F-BLOCK-CONTACT-CLIENT-GATE).
 - Open slices: S-LOCAL-TICK, S-ENTITY-MOVE and S-TRAVEL in-progress; S-EXTERNAL pending. Seven required inventory gates remain pending; full-pair freeze and independent audit remain pending.
-- Finding handoff: F-BLOCK-CONTACT-TRAVERSE is in findings/F-BLOCK-CONTACT-TRAVERSE.md; no independent finding snapshot acceptance and no implementation handoff.
+- Finding handoff: F-BLOCK-CONTACT-CLIENT-GATE is in findings/F-BLOCK-CONTACT-CLIENT-GATE.md; immutable finding snapshot submitted at `e8271b2f1737729282ad93dacdadb43167202b80` with file SHA-256 `71d9783c2f5d8bd5636907ea710079ee8f088c15b9f26d73a92810c18338781c`; independent acceptance and implementation handoff are pending.
 - Source identities: A 1.21.1 Mojmap source manifest 900f956e00f6fc1300bb3d689ea49df2b1a57bcaa54617344ef456d95d47cb48; B 1.21.3 Mojmap source manifest d673bb5464853e3a2a92ed9b1ffe1789d4e62c097bb884f67c336fcbb3b178ce; artifact manifest identities are recorded above.
 - Next source-only commands, from the repository root:
   1. $a='D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.21.1\mojmap'; $b='D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.21.3\mojmap'; rg -n -C 5 'travelInAir|travelInFluid|travelFallFlying|updateFallFlying|checkSlowFallDistance' "$a\net\minecraft\world\entity\LivingEntity.java" "$b\net\minecraft\world\entity\LivingEntity.java"
@@ -175,7 +175,11 @@ An independent reviewer has not yet been assigned and no audit has occurred.
 
 ## Finding snapshots (not pair freeze)
 
-No finding snapshot submitted; independent source-finding review is required before implementation handoff.
+- Status: submitted; this is a finding-only snapshot, not the full-pair freeze.
+- Finding: F-BLOCK-CONTACT-CLIENT-GATE; immutable source commit `e8271b2f1737729282ad93dacdadb43167202b80`; file SHA-256 `71d9783c2f5d8bd5636907ea710079ee8f088c15b9f26d73a92810c18338781c`.
+- Evidence identities: A Mojmap source manifest `900f956e00f6fc1300bb3d689ea49df2b1a57bcaa54617344ef456d95d47cb48`, artifact manifest `09ced418cbc7530a1d6d8802ee10c05cd576b217a2129655a71f30a2ae38f486`; B Mojmap source manifest `d673bb5464853e3a2a92ed9b1ffe1789d4e62c097bb884f67c336fcbb3b178ce`, artifact manifest `0587668e5c70bb06dacf3496a4442f66dc9cdcab23f2350b844f14259cc40dcf`.
+- Independent reviewer: `01a116ce-dfe4-7b11-b7e6-d62f5014e356`; acceptance pending.
+- Implementation handoff: blocked until that reviewer accepts this exact finding snapshot. Pair status remains active; remaining inventories and full-pair audit are open.
 
 ## Source audit closure
 
