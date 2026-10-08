@@ -45,14 +45,14 @@ A/B roles: LocalPlayer#aiStep client tick; KeyboardInput#tick input; LivingEntit
 
 ### Slice T-INPUT: keyboard sampling
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: KeyboardInput#tick slowdown; ClientPacketListener replacement sites located.
-- A evidence: KeyboardInput.java SHA ea41065c909e53f1a2cc29ecdb6a9a8f9265d2801cd8b95b996e182c318ecd69; ClientPacketListener about lines 376,961.
-- B evidence: KeyboardInput.java SHA 281622f8481654035196a7bc1554d5251c1040518375e3ac6f6439e5ec894a75; ClientPacketListener about lines 375,960.
+- Exact behavior boundary and enclosing guards/order checked: KeyboardInput#tick key sampling/slowdown, Input vector and forward-impulse helpers, ClientPacketListener login/respawn replacement sites, LocalPlayer#serverAiStep assignment and LocalPlayer#aiStep consumers.
+- A evidence: KeyboardInput.java::tick lines 14-27, SHA ea41065c909e53f1a2cc29ecdb6a9a8f9265d2801cd8b95b996e182c318ecd69; Input.java lines 5-24, SHA 367c3a9b0b21d8f106a21fd2c73a3018685dbf07d9c8a9340e2d4c9d73359201; ClientPacketListener#handleLogin line 376 and respawn line 961, SHA a59ba067bb0b9cdf026159a87534fd456ed766ec287cfd23e24356f84f078a5a; LocalPlayer#serverAiStep lines 613-622, LocalPlayer SHA c9a91cb6cb57806bc8d22e5bfe2d97daaf21d5d2a48f34a6e2c53164c61c5812.
+- B evidence: KeyboardInput.java::tick lines 22-36, SHA 281622f8481654035196a7bc1554d5251c1040518375e3ac6f6439e5ec894a75; Input.java lines 5-24, SHA eb50a4e268ec5ff8423d2805499ca3c7bae33765cb44cfecef808e38fa6de3c3; ClientPacketListener#handleLogin line 375 and respawn line 960, SHA e718016022c2ae86a2c354af2d34fe4de7d6e36dc8792d2e2c1f08abb6b77b7b; LocalPlayer#serverAiStep lines 606-615, LocalPlayer SHA 99c2d18bcd23243afb8f95c5bafb21fb0be7ea04aacbb14fcf7be7ced2c9c095.
 - State producers/writers -> consumers/readers: key state -> impulses -> LocalPlayer/LivingEntity.
-- Parent slices / dependencies / closure evidence: D-INPUT-ASSIGNMENTS remains open pair-wide; F-001-specific keyboard-to-xxa/zza assignment is checked at LocalPlayer#serverAiStep A lines 613-622 and B lines 606-615, and its next-tick consumer order is closed in F-001.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): A double 0.3 then float cast; B 0.3F. Normal inputs -1,0,1; assignment closure open.
-- Finding IDs or checked absence/replacement path: none.
+- Parent slices / dependencies / closure evidence: D-INPUT-ASSIGNMENTS resolved for direct on-foot local player input: paired keyboard tick, vector helpers, all client-side assignment sites, login/respawn replacement, LocalPlayer copy/consumer and packet paths checked; serverbound setPlayerInput is passenger-gated and excluded with vehicle movement.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): A and B sample the same four keys and produce -1/0/1 impulses. Their slowdown expressions differ in literal type, but are applied only to those discrete values and produce the same float result. LocalPlayer copies the same fields before travel; vector/forward-impulse helpers match. The additional serverbound setPlayerInput path writes only for passengers and is outside this direct on-foot slice.
+- Finding IDs or checked absence/replacement path: F-001 uses this checked input path; no separate input finding.
 
 ### Slice T-SPRINT: minor collision stop gate
 - Inventory ID(s): INV-TICK, INV-STATE
@@ -202,7 +202,7 @@ A/B roles: LocalPlayer#aiStep client tick; KeyboardInput#tick input; LivingEntit
 - Finding IDs or checked absence/replacement path: F-007.
 ## Dependency queue and blockers
 
-Resolved: D-ENTITY-COLLISIONS (paired LocalPlayer entity query and EntityGetter/Entity.canCollideWith); D-RESET-CLIP-FILTER (B ClipContext block/fluid predicates, resetFallDistance assignment, tag and water resource entries). Open: D-INPUT-ASSIGNMENTS,D-SHAPE-PROVIDERS,D-BORDER-MOVE-PATH,D-SHAPES-COLLIDE-OVERLOAD,D-ELYTRA-ENTRY,D-EFFECT-DATA,D-ATTRIBUTE-REGISTRY,D-ENCHANTMENT-DATA,D-SHAPE-REGISTRY,D-BLOCK-CALLBACKS,D-MOVEMENT-TAGS,D-EXTERNAL-VELOCITY,D-MOUNT-INPUT,D-PACKET-RECONCILIATION. Each can affect movement; pair discovery owns retrieval. No external blocker.
+Resolved: D-ENTITY-COLLISIONS (paired LocalPlayer entity query and EntityGetter/Entity.canCollideWith); D-INPUT-ASSIGNMENTS (on-foot local input path; passenger packet is excluded); D-RESET-CLIP-FILTER (B ClipContext block/fluid predicates, resetFallDistance assignment, tag and water resource entries). Open: D-SHAPE-PROVIDERS,D-BORDER-MOVE-PATH,D-SHAPES-COLLIDE-OVERLOAD,D-ELYTRA-ENTRY,D-EFFECT-DATA,D-ATTRIBUTE-REGISTRY,D-ENCHANTMENT-DATA,D-SHAPE-REGISTRY,D-BLOCK-CALLBACKS,D-MOVEMENT-TAGS,D-EXTERNAL-VELOCITY,D-MOUNT-INPUT,D-PACKET-RECONCILIATION. Each can affect movement; pair discovery owns retrieval. No external blocker.
 
 ## Finding index
 
@@ -217,9 +217,9 @@ Resolved: D-ENTITY-COLLISIONS (paired LocalPlayer entity query and EntityGetter/
 
 ## Resume checkpoint
 
-- Last completed: T-SPRINT,T-ELYTRA,T-AUTOJUMP-ORDER,T-AUTOJUMP-BORDER,T-FALL-RESET.
-- Next: resolve D-SHAPES-COLLIDE-OVERLOAD, D-SHAPE-PROVIDERS and D-BORDER-MOVE-PATH to close T-EDGE-GATE/T-ENTITY-COLLISION; continue by comparing paired Shapes#collide paths and actual block collision providers; continue T-INPUT by tracing KeyboardInput and ClientPacketListener input assignments; continue T-WORLD-PROPERTIES and T-MODIFIERS through block/resource registrations, callbacks, tags, attributes, effects and equipment; expand INV-EXTERNAL beyond the four bounded slices.
-- Outstanding: D-INPUT-ASSIGNMENTS,D-SHAPE-PROVIDERS,D-BORDER-MOVE-PATH,D-SHAPES-COLLIDE-OVERLOAD,D-ELYTRA-ENTRY,D-EFFECT-DATA,D-ATTRIBUTE-REGISTRY,D-ENCHANTMENT-DATA,D-SHAPE-REGISTRY,D-BLOCK-CALLBACKS,D-MOVEMENT-TAGS,D-EXTERNAL-VELOCITY,D-MOUNT-INPUT,D-PACKET-RECONCILIATION.
+- Last completed: T-INPUT,T-SPRINT,T-ELYTRA,T-AUTOJUMP-ORDER,T-AUTOJUMP-BORDER,T-FALL-RESET.
+- Next: resolve D-SHAPES-COLLIDE-OVERLOAD, D-SHAPE-PROVIDERS and D-BORDER-MOVE-PATH to close T-EDGE-GATE/T-ENTITY-COLLISION; continue by comparing paired Shapes#collide paths and actual block collision providers; continue the remaining slices; continue T-WORLD-PROPERTIES and T-MODIFIERS through block/resource registrations, callbacks, tags, attributes, effects and equipment; expand INV-EXTERNAL beyond the four bounded slices.
+- Outstanding: D-SHAPE-PROVIDERS,D-BORDER-MOVE-PATH,D-SHAPES-COLLIDE-OVERLOAD,D-ELYTRA-ENTRY,D-EFFECT-DATA,D-ATTRIBUTE-REGISTRY,D-ENCHANTMENT-DATA,D-SHAPE-REGISTRY,D-BLOCK-CALLBACKS,D-MOVEMENT-TAGS,D-EXTERNAL-VELOCITY,D-MOUNT-INPUT,D-PACKET-RECONCILIATION.
 - Resume validation command from repository root: python workflows/movement-discovery/check_completion.py workflows/source-campaign-2026-10-07/1.17.1--1.18.2/. This is a schema/status check only.
 
 ## Finding snapshots (not pair freeze)
@@ -264,7 +264,7 @@ The pair remains partial. Accepted snapshot count is zero; F-001 and F-006 are i
 
 ## Source audit closure
 
-- Coverage counts: pending=2; in-progress=4; compared-no-difference=2; findings=7; not-applicable=0; blocked=0.
+- Coverage counts: pending=2; in-progress=3; compared-no-difference=3; findings=7; not-applicable=0; blocked=0.
 - Required inventories: all seven pending.
 - Open dependencies: above.
 - Unresolved gaps: partial; resources, shape providers, external inputs and full call graph open.
