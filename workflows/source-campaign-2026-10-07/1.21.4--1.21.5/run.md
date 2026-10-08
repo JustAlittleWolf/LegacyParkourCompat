@@ -143,16 +143,15 @@ These are initial bounded navigation units. Exact sources are published; slice-b
 
 ### Slice S1-FLIGHT: Flight input, toggles and movement speed state
 
-- Inventory ID(s): slice mapping not yet inventoried
-- Exact behavior boundary and enclosing guards/order checked: not yet inspected
-
-- A evidence: not yet inspected in exact 1.21.4 source
-- B evidence: not yet inspected in exact 1.21.5 source
-- State producers/writers -> consumers/readers: not yet inspected
-- Parent slices / dependencies / closure evidence: pending
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): exact sources are published; this slice has not been inspected, so no behavior conclusion is recorded
-- Finding IDs or checked absence/replacement path: pending
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: Player `jumpTriggerTime` decrement -> LocalPlayer `mayfly`/always-flying and jump-edge toggle gates -> ability flag write -> controlled-camera vertical jump/shift delta; grounded forced-flight reset; Player flying-speed consumer.
+- A evidence: `ready/1.21.4/mojmap.sources.sha256`; `Player.java` lines 546-555, 2087-2095; `LocalPlayer.java` lines 726-781, 809-813.
+- B evidence: `ready/1.21.5/mojmap.sources.sha256`; `Player.java` lines 554-563, 2030-2038; `LocalPlayer.java` lines 743-798, 830-834.
+- State producers/writers -> consumers/readers: server/game-mode ability inputs (`mayfly`, always-flying) and current/previous jump plus auto-jump state -> `abilities.flying` toggle/reset -> Player flying-speed selection and controlled-camera vertical delta; abilities/equipment producers and full travel consumers remain open.
+- Parent slices / dependencies / closure evidence: S1-INPUT-SAMPLE; S1-JUMP-GATE; S1-LOCAL-TICK; S3-AIR; S6-ATTRIBUTES; S7-DEPENDENCIES. The paired seven-tick toggle window, gates, vertical-input operation and `getFlyingSpeed` formula match in cited ranges; ability synchronization and all flight consumers remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no delta was found in the inspected local flight toggle, cooldown decrement, vertical input or player flying-speed formula. Flight state writers outside the local key path and complete travel/attribute dependencies have not been closed.
+- Finding IDs or checked absence/replacement path: checked absence of a delta in the cited flight-toggle/cooldown/vertical-input/speed bodies; remaining ability and consumer paths open.
 
 ### Slice S1-RIDING: Player riding gates, jump charge and mount transition
 
@@ -627,7 +626,7 @@ Source-confirmed findings: [F-01 movement callback path](findings/F-01-movement-
 
 ## Resume checkpoint
 
-- Last completed slice: S3-JUMP-MATH (compared-no-difference); exact-source comparisons have identified F-01 through F-13. S1-SPRINT-GATE/TIMER/JUMP-GATE/SPRINT-JUMP/AUTOJUMP, S3-WATER/LAVA and S7-PUSH/CORRECTIONS remain in-progress because dependency/caller closure is open. F-09 has a candidate snapshot pending independent review; no snapshot has been accepted and no pair freeze has been accepted.
+- Last completed slice: S3-JUMP-MATH (compared-no-difference); exact-source comparisons have identified F-01 through F-13. S1-SPRINT-GATE/TIMER/JUMP-GATE/SPRINT-JUMP/AUTOJUMP/FLIGHT, S3-WATER/LAVA and S7-PUSH/CORRECTIONS remain in-progress because dependency/caller closure is open. F-09 has a candidate snapshot pending independent review; no snapshot has been accepted and no pair freeze has been accepted.
 - Next: close input sampling/scale dependencies and the remaining local pre-travel state writers; continue ordered travel, collision, modifier and external-player inventories.
 - Outstanding dependencies and owners: D1 call-graph and producer/consumer inventory (discovery); D2 resource/tag/default inspection (discovery); D3 collision/block/fluid callback and shape inventory (discovery); D4 attributes/effects/enchantments/equipment (discovery); D5 client correction/mount/push external paths (discovery).
 - Assumptions requiring verification: complete input consumers, player-only reachability through all travel branches, shape and resource dependencies, and direct movement state writers.
@@ -652,8 +651,8 @@ Source-confirmed findings: [F-01 movement callback path](findings/F-01-movement-
 
 ## Source audit closure
 
-- Coverage counts: 3 compared-no-difference; 0 terminal finding slices; 0 not-applicable; 0 blocked; 19 pending; 24 in-progress. Thirteen source-confirmed findings have been recorded; slices remain open until their full inventories and dependencies close.
-- Required inventories: all remain open; bounded source work is underway across tick order, sprint/jump gates and timers, auto-jump, input math, travel formulas, collision callbacks, block/fluid contact and partial external correction/push paths. Inventory-level closure is not claimed.
+- Coverage counts: 3 compared-no-difference; 0 terminal finding slices; 0 not-applicable; 0 blocked; 18 pending; 25 in-progress. Thirteen source-confirmed findings have been recorded; slices remain open until their full inventories and dependencies close.
+- Required inventories: all remain open; bounded source work is underway across tick order, sprint/jump/flight gates and timers, auto-jump, input math, travel formulas, collision callbacks, block/fluid contact and partial external correction/push paths. Inventory-level closure is not claimed.
 - Open dependencies: D1-D5; D0 resolved.
 - Gaps: full movement call graph, branch dependencies, state writers/consumers, collision/shape provider inventory, registry/tag/resource data, modifiers/equipment and external player movement inputs.
 - Evidence/hash/correspondence audit: exact source/artifact readiness verified; finding hashes and all bounded slice evidence still require final audit at source freeze.
