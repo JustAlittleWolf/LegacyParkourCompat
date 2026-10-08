@@ -1,6 +1,6 @@
 # MCPK wiki audit — 2026-10-07
 
-Current resumable status and next steps: [mcpk-checkpoint.md](mcpk-checkpoint.md). This audit is partial pending independent reviewer acceptance of its revision-specific finding snapshot.
+Current resumable status and next steps: [mcpk-checkpoint.md](mcpk-checkpoint.md). This audit remains partial. The Feather revision-specific snapshot still awaits reviewer acceptance. Clean independent review accepted Big Dripleaf, swimming, edge-backoff r3, and the corrected slipperiness identity. Exact snapshot identities and dispositions are in [the clean re-review candidate register](mcpk-clean-rereview-candidates-2026-10-08.md). Fresh browser retrieval and endpoint source checks are in [the independent follow-up](mcpk-independent-followup-2026-10-08.md).
 
 Scope: MCPK parkour wiki only, matched against supplied exact-release source snapshots where available. No Minecraft Wiki pages or other audit-track findings were consulted. No implementation files were changed; no tests, builds, servers, or Docker actions were run.
 
@@ -21,6 +21,8 @@ Scope: MCPK parkour wiki only, matched against supplied exact-release source sna
 
 The Version Differences page stops at 1.18 and has TODOs in all 1.18 categories. It does not support coverage claims for 1.19+ or 26.x releases.
 
+The research fetcher continues to return 403 or inaccessible for direct/canonical/raw/API requests. A normal in-app browser read on 2026-10-08 captured exact page revisions for Version Differences, Slipperiness, Water and Lava, Ladders and Vines, Stepping, and Collisions; see the independent follow-up for permanent revision IDs and limitations.
+
 ## Source findings and integrity status
 
 Detailed method bodies, operation order, endpoint hashes, and remaining open claims are in [mcpk-source-adjudication.md](mcpk-source-adjudication.md). The initial 1.8.9→1.9.4 comparison is in [mcpk-1.8.9-1.9.4.md](mcpk-1.8.9-1.9.4.md). The revision-specific evidence snapshot is [mcpk-feather-r1-finding-snapshot.md](mcpk-feather-r1-finding-snapshot.md). Consumer checks matched all six immutable snapshots, all 11,958 listed Feather source files, and 222 unchanged raw-input records; the independent operations audit was reported passed. Feather-backed findings now await independent reviewer acceptance of that exact snapshot and its dependencies. The original derived mapped JARs are unavailable, and equivalence to the revised snapshots remains unproven.
@@ -34,19 +36,20 @@ Detailed method bodies, operation order, endpoint hashes, and remaining open cla
 - **1.13 Blue Ice:** slipperiness is `0.989F`.
 - **1.13.2→1.14.4 collision order:** requested X/Z displacement magnitudes select the first horizontal axis; equality takes X first. The Version Differences table matches source. The MCPK Collisions page states the opposite inequality and is wrong on that condition.
 - **1.14:** player crouch dimensions are 0.6×1.5 at the endpoint. Jump input adds to the climb-assist predicate, verifying jump-to-climb behavior at the endpoint. Exact crouch boundary and additional reachability claims remain open.
-- **1.14.4→1.15.2 slipperiness sampling:** source changes from `minY - 1.0` to `minY - 0.5000001`. Exact bed/slab examples remain open.
-- **1.16.1→1.16.2 sneak step-down:** source replaces the `onGround` gate with a sneaking and above-ground predicate; the 0.05 movement backoff remains.
+- **1.14.4→1.15.2 slipperiness sampling:** source changes from `minY - 1.0` to `minY - 0.5000001`. Bed, bottom half-slab, and Soul Sand examples are resolved at the endpoints; a top slab samples inside itself. See [the r2 bounded example snapshot](mcpk-1.15-slipperiness-examples-snapshot-r2.md); its source content is accurate, and its Git blob identity is corrected in the re-review register.
+- **1.16.1→1.16.2 sneak step-down:** source replaces the `onGround` gate with a sneaking and above-ground predicate; the 0.05 movement backoff remains. See [the r3 corrected snapshot](mcpk-1.16.2-step-down-snapshot-r3.md).
 - **1.17.1:** swimming entry requires water at the player's block position. Powder snow collision depends on fall distance and boots; source also confirms the 0.9/1.5/0.9 movement multiplier and boot climbing.
+- **1.17 Big Dripleaf:** player contact enters UNSTABLE immediately, with no collision-height change; source schedules the first lower shape after 10 ticks and an empty leaf collision shape after a second 10 ticks. The MCPK page's stated 20-tick delay before the first reduction conflicts with this endpoint source; see [the r2 bounded snapshot](mcpk-1.17-big-dripleaf-snapshot-r2.md); clean review accepted this finding.
+- **1.16.5→1.17.1 swimming entry:** adds a water-tag check at the player’s block position only on entry; the existing-swimming continuation branch is unchanged. See [the r2 bounded snapshot](mcpk-1.17-swimming-snapshot-r2.md); clean review accepted this finding.
 
 ## Still unresolved
 
 - Exact 1.11.1 wall-height bug interval.
 - Full 1.13 water math and flow-height boundaries, plus remaining block-shape dimensions.
 - 1.14 sprint input while crouched, ceiling-induced poses, blips, and listed movement bugs; whether jump climbing adds reachable jumps and unsupported-vine details.
-- Bed/slab examples for the 1.15 sample offset.
 - Y=256 water-exit fix boundary; lava pushing is verified at the 1.16.1 endpoint.
 - Movement math or exact version boundaries for player-affecting Elytra, Levitation, Frost Walker, Slow Falling, Dolphin’s Grace, Riptide, and Soul Speed. Damage-only details and non-player entity physics are out of scope.
 - 1.17 powder-snow frozen-speed/client-server tick timing; fall-damage details are outside movement scope.
 - 1.18 has only TODOs; the inspected wiki page has no later sections.
 
-These are explicit coverage gaps, not negative findings. Ready source endpoints do not automatically settle claims whose methods were not inspected.
+The original r2 snapshots remain immutable; edge-backoff r3 supersedes its r2 summary only. Clean review accepted Big Dripleaf, swimming, edge-backoff r3, and the corrected slipperiness identity. Normal-browser MCPK reads are fresh page evidence despite research-fetcher 403 failures. Broader coverage remains partial; no claim is made about 1.19+ or 26.x.
