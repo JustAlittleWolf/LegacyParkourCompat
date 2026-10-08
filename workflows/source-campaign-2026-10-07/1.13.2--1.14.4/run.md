@@ -63,11 +63,11 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 ## Required source inventories
 
 - `INV-TICK` status=pending; slice_ids=S001,S003,S004,S005,S007,S008,S009,S010; evidence=paired client input/local player/living bodies below; complete tick call graph open.
-- `INV-STATE` status=pending; slice_ids=S001,S002,S003,S006,S008,S009,S010; evidence=paired input, pose, jump and movement bodies below.
+- `INV-STATE` status=pending; slice_ids=S001,S002,S003,S006,S008,S009,S010,S018; evidence=paired input, pose, jump, movement and client correction velocity bodies below.
 - `INV-COLLISION` status=pending; slice_ids=S002,S006,S009; evidence=pose fit, escape probes and entity move excerpts; query/provider enumeration open.
 - `INV-WORLD-MOVEMENT` status=pending; slice_ids=S005,S007; evidence=slipperiness/climbing consumers; providers and resources open.
 - `INV-MODIFIERS` status=pending; slice_ids=S003,S005; Jump Boost/Slow Falling consumers observed; producer/application chains open.
-- `INV-EXTERNAL` status=pending; slice_ids=S006,S009,S010,S012,S016,S017; direct player velocity/impulse/knockback remains in scope, including reachable push response; packet corrections, other knockback sources, piston, mount and launch-item consumers remain open; exclude non-player/vehicle physics and combat cause/damage resolution.
+- `INV-EXTERNAL` status=pending; slice_ids=S006,S009,S010,S012,S016,S017,S018; direct player velocity/impulse/knockback remains in scope, including reachable push response; S018 compares the client player-correction velocity reset, while other correction paths, knockback sources, piston, mount and launch-item consumers remain open; exclude non-player/vehicle physics and combat cause/damage resolution.
 - `INV-EXCLUSIONS` status=pending; evidence=scope exclusions declared; direct-read inventory open. Exclude health/food state production and attack/damage resolution; direct player velocity/impulse/knockback response remains in scope even if combat can trigger it; exclude non-player and vehicle physics. Food/blindness may remain movement-predicate inputs without emulating their producers.
 
 ## Coverage ledger
@@ -268,12 +268,23 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - Status: compared-no-difference
 - Disposition and rationale (including concrete reachability/preconditions): Both versions suppress the push callback while the player is sleeping and otherwise delegate to the superclass. B moves the matching override to LivingEntity while PlayerEntity also retains the same guard; no changed player push guard is identified in this bounded slice.
 - Finding IDs or checked absence/replacement path: none within the sleeping guard; push callers remain open.
+### Slice S018: client player correction velocity reset
+
+- Inventory ID(s): INV-EXTERNAL, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: client `handlePlayerMove(PlayerMoveS2CPacket)` after same-thread packet dispatch; per-axis relative position flags, velocity clearing/preservation, relative rotation, and position/angle application. Server packet production and render interpolation are outside this movement slice.
+- A evidence: `ClientPlayNetworkHandler.java`::`handlePlayerMove`, lines 621-671, SHA-256 `4f65502fbee6476cef0838563f03a66f07a1a9ed8c63e580f5338ba5fe274f11`; `Entity.java`::`updatePositionAndAngles`, lines 1096-1119, SHA-256 `1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269`.
+- B evidence: `ClientPlayNetworkHandler.java`::`handlePlayerMove`, lines 652-713, SHA-256 `6c840580285c7c7d4617e895edac82d4eebf8289dd4994e7b593cebeb49b43ef`; `Entity.java`::`updatePositionAndAngles`, lines 1098-1121, and velocity helpers `m_94091929` / `m_32166403`, lines 2646-2656, SHA-256 `7315a496c195da767de9d4936d3adb6efc3c419dc0f0e95d6f32781b0da1ba55`.
+- State producers/writers -> consumers/readers: server-supplied packet coordinates and relative-axis set -> local player position/rotation; absolute axes clear the corresponding current velocity component, relative axes preserve it -> next local movement tick.
+- Parent slices / dependencies / closure evidence: packet values remain external inputs; direct client velocity reset and position helper semantics are paired; `D-EXTERNAL` remains open for other correction paths and external writers.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): Both handlers apply on the client thread to `minecraft.player`. Each adds packet coordinates to current coordinates on relative axes and uses absolute packet coordinates otherwise; both apply relative yaw/pitch values and call `updatePositionAndAngles` with the resulting values. A writes zero to each velocity field whose position axis is absolute and leaves relative-axis velocity unchanged. B reads the velocity vector, zeroes those same components, and writes the resulting vector through a helper that stores the three components directly. The paired position helpers perform the same coordinate clamp, last-position update, rotation clamp and assignment, and shape-position refresh. B additionally updates `prevX/Y/Z` for interpolation; those values feed presentation paths and are excluded by the campaign's movement-only scope. No difference is identified in the bounded correction velocity or position application.
+- Finding IDs or checked absence/replacement path: none within the bounded player-correction consumer; other packet correction and direct-motion paths remain open.
 ## Dependency queue and blockers
 
 - D-TICK-CLOSURE: full local tick/pre-travel/travel branches/post-travel; source worker to trace both trees.
 - D-COLLISION-SHAPES: world queries, shape providers, registrations, neighbor-state inputs; source worker to enumerate.
 - D-MOVEMENT-DATA: effects/attributes/enchantments/equipment/block property producer chains; source worker to trace.
-- D-EXTERNAL: direct player velocity/impulse/knockback writers plus correction/push/piston/mount/launch-item consumers; exclude combat causation and non-player/vehicle physics; source worker to enumerate.
+- D-EXTERNAL: direct player velocity/impulse/knockback writers plus correction/push/piston/mount/launch-item consumers; S018 closes only the bounded client player-correction velocity reset; other corrections/callers remain open; exclude combat causation and non-player/vehicle physics; source worker to enumerate.
 - D-INDEPENDENT-AUDIT: reviewer unassigned; coordinator to assign.
 - Open dependencies: above.
 
@@ -298,8 +309,8 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 
 ## Resume checkpoint
 
-- Last completed slice: none; S001-S013 are initial evidence only.
-- Next bounded slice and exact files/members/body ranges to open: remaining LivingEntity travel branches; `Entity` axis/step helpers; full LocalClientPlayerEntity tick and sleeping transition; pose dimensions/base resize; world collision queries and registered shape providers.
+- Last completed slice: S018, bounded client player-correction velocity reset; S001-S017 remain as previously recorded evidence and dispositions.
+- Next bounded slice and exact files/members/body ranges to open: continue INV-EXTERNAL with client player velocity/impulse writers and correction consumers beyond S012/S018; then resume INV-COLLISION provider/query enumeration and close the remaining LocalClientPlayerEntity pre-travel/tick call chain.
 - Outstanding dependencies and owners: D-TICK-CLOSURE/D-COLLISION-SHAPES/D-MOVEMENT-DATA/D-EXTERNAL source worker; D-INDEPENDENT-AUDIT coordinator.
 - Current assumptions requiring verification: full reachability and provider closure; original A derived-artifact equivalence remains unproven.
 
@@ -345,8 +356,8 @@ Pair remains partial. This event does not close unrelated inventories, freeze th
 
 ## Source audit closure
 
-- Coverage counts by status: findings=13 slices (16 deltas); compared-no-difference=4; pending inventory closure=7; in-progress=0; not-applicable=0; blocked=0.
-- Required inventory status and evidence: all seven inventories pending; initial paired evidence in S001-S017.
+- Coverage counts by status: findings=13 slices (16 deltas); compared-no-difference=5; pending inventory closure=7; in-progress=0; not-applicable=0; blocked=0.
+- Required inventory status and evidence: all seven inventories pending; paired evidence in S001-S018.
 - Accepted finding snapshots: none; F002 snapshot event F002-2026-10-07-01 is submitted and awaits exact-snapshot blind confirmation.
 - Open dependencies: D-TICK-CLOSURE,D-COLLISION-SHAPES,D-MOVEMENT-DATA,D-EXTERNAL,D-INDEPENDENT-AUDIT.
 - Unresolved gaps and limits: full tick, shapes/resources, modifier chains, external writers beyond S016, and independent audit. First changed release unknown within (1.13.2,1.14.4].
