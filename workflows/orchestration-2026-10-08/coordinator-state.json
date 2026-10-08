@@ -1169,7 +1169,8 @@
       "reviewSha256": "4ac9ea05ed521ba39fd01daba952c64898cfa01a98e9a4481c630a4da44ff92a",
       "reviewDecision": "ACCEPT, 0 functional findings",
       "reviewerStatus": "terminal; role released and reused for integration",
-      "integrationStatus": "accepted and integrated into architecture batch on clean main dc1b65b2; successful test-disabled repair build; runtime unverified"
+      "integrationStatus": "accepted and integrated into architecture batch on clean main dc1b65b2; successful test-disabled repair build; runtime unverified",
+      "mainBaseMeaning": "Historical author branch base before architecture integration; current main is recorded separately as dc1b65b29e3c2561175bd54276ae83e37cd1c045."
     },
     "sneakEdgeBackoff": {
       "codeCommit": "504f45a91fbbd5627ee9695bc2033c1ca02b69de",
@@ -1578,7 +1579,9 @@
     "currentMainAtFinalHandoff": "dc1b65b29e3c2561175bd54276ae83e37cd1c045",
     "preMainMergeCheckpoint": "8fc02900",
     "mainMergeCommit": "681f87edf2afe836a147e8d78af528b915cdf1f6",
-    "historicalExposureRecord": "e5c96816ac82abdaa60c6a309d9ac4e639877208"
+    "historicalExposureRecord": "e5c96816ac82abdaa60c6a309d9ac4e639877208",
+    "mainAtMergeIsHistorical": true,
+    "mainAtMergeMeaning": "The initial source-owner merge occurred at d8f39566; final metadata-only handoff later merged dc1b65b2 at 681f87ed. The historical field is retained without rewriting the prior event."
   },
   "resumeDocument": "workflows/orchestration-2026-10-08/RESUME-2026-10-08.md",
   "resumeDocumentStatus": "Current continuation instructions; HANDOFF.md is historical/superseded."
