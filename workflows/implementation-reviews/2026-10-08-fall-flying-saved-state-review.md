@@ -33,4 +33,3 @@ Changing a profile after player data has loaded is live version switching. That 
 The isolated review branch started at exact code handoff tip `7d80e2eacea2ff6d088a522d8f0c1abb5768fdf3`. I merged current `main` (`b099aa02d82e57c1672f68375edcbcacdf8e3973`) at `12d880d499fd5cc07d0c6718e4080faa7aa55112`; Git reported a clean merge. Main's intervening implementation adds the separate V1_8 fence/end-portal-frame mechanic and its registration; its accompanying integration notes continue to list F005 as outside the accepted code batch. That mechanic does not share the saved-state hook, profile selector, NBT methods, or flag consumer. The F005 candidate remains intact in this review branch and was not merged to primary. No code conflict required edits.
 
 Reviewer: independent static implementation review. Decision date: 2026-10-08.
-

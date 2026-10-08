@@ -75,3 +75,12 @@ This update supersedes the earlier REQUEST CHANGES disposition for the first pas
 - Test-disabled build succeeded with `gradlew.bat build -x test --init-script build/no-tests.init.gradle`; all Gradle `Test` task types were disabled. 18 actionable tasks: 3 executed, 15 up-to-date; no tests ran.
 - JAR `build/libs/LegacyParkourCompat+26.2-1.0.0.jar`, SHA-256 `59B6910B612092D3CE6566EBEBC2C5B4217BF1375EDDF471CD10210ED24F9805`.
 - Runtime collision/pose behavior remains unverified. F-005 is next in the authorized serial queue; WORLD03 and swimming-entry remain pending review.
+## F005 fall-flying saved state — 2026-10-08
+
+- Code commit `b215d723c22cf2c73601b7807056ba0d23fdbf23`; accepted code/handoff tip `7d80e2eacea2ff6d088a522d8f0c1abb5768fdf3`; independent review tip `dd6958193b9f188341fb47f96e4cca56dd5a9a89`, ACCEPT. Review report `workflows/implementation-reviews/2026-10-08-fall-flying-saved-state-review.md`, SHA-256 `962ef7169f8fdb2cb2309286682fab4cd8d96e2cc0cfa8f17e2f80736103aaca`.
+- Accepted source F005 snapshot `4bded1c9cda9fd3dae61675d6f3083956806b8af`, file `workflows/source-campaign-2026-10-07/1.9.4--1.10.2/findings/F005-fall-flying-state-persists-across-player-load.md`, SHA-256 `3e55452cc24c5684544afc3c6f17af2fe06ad2712b2512c8399d6cdff89b5a4b`; blind source review `a02e52db9d6212449610caefa5a2a630736a2447` ACCEPT.
+- Integrated against current local main `6d89340a2f84a7aa045f119d73396346522c077d` after Pose. The V1_9 save/load behavior is limited to server-player saved state; the loaded FallFlying flag is cleared for exact V1_9 and omitted on save. V1_8 remains a no-op; V1_10/V1_10_1 and CURRENT keep native persistence.
+- The supported configured server profile is selected before player data is loaded. A public per-player override must likewise be set before that player's data read; later profile switching is outside this implementation. The server-only mixins and mixin config entries do not overlap the preserved Pose `PlayerMixin` hook or V1_8 fence collision provider.
+- Test-disabled build succeeded with `gradlew.bat build -x test --init-script build/no-tests.init.gradle`; every Gradle `Test` task type was disabled. 18 actionable tasks: 5 executed, 13 up-to-date; no tests ran.
+- JAR `build/libs/LegacyParkourCompat+26.2-1.0.0.jar`, SHA-256 `0B5A12CDFA61C2C55C08FE3EB499AE6F8F0E4699347FC52AFF4132FDC096C3BC`.
+- Runtime persistence/synchronization was not validated. WORLD03, swimming-entry, and slipperiness remain pending review.
