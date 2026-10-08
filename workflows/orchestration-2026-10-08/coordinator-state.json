@@ -13,7 +13,7 @@
     "runtimeLaunches": false,
     "allGradleTestTasksDisabledForBuild": true,
     "integrationBuildOwnerThreadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
-    "primaryMainLastVerified": "61f278e268c3ed2bcc4d95e8f7bb6e9c543cfa82",
+    "primaryMainLastVerified": "7e7b7bb7068ec7b68f3a8f09cbb42bc498a04bf4",
     "maximumConcurrentRolesIncludingCoordinator": 20
   },
   "reservedOldSlots": [
@@ -377,7 +377,7 @@
     "conservativeSlots": 20,
     "workersRequested": "gpt-6-luna high",
     "coordinatorObserved": "gpt-6.1-sol medium",
-    "mainHead": "d4c4f154a0c2487dd6dd7d20d92eb57b3d8ab1ae",
+    "mainHead": "7e7b7bb7068ec7b68f3a8f09cbb42bc498a04bf4",
     "mainUntracked": "generated worktrees preserved; local exclude applied by integration owner",
     "TICK01": "independently accepted, built with all Test tasks disabled, integrated; main net source auditfa340fe confirms five acceptedbatches",
     "passengerYaw": "integrated; test-disabled build success; no runtime",
@@ -387,7 +387,14 @@
     "reviewReport": "bdb6443;notes d3190b4",
     "jarReportedSha256": "0F5A5B1574CAE22C96F58EB75162FF770F3DF9D1F11F413D6E0FCCF5846FD980",
     "jarAudit": "Root independently rehashed retained D: integration JAR and standalone log 396493BD5074B206B37CF9AB0A48BA19BC96715C52504255A8DC0A1E34B79CEA; log confirms BUILD SUCCESSFUL, 18 tasks, 3 executed/15 up-to-date, exit 0. All-Test-disabling script previously read directly.",
-    "sourceQueue": "adopted audit4e6517f; all26partial; corrected stale references below"
+    "sourceQueue": "adopted audit4e6517f; all26partial; corrected stale references below",
+    "latestOperationsAudit": "f0c53d60b6a7b494ec3211e839ac259dd6a78f5a",
+    "waterCurrent": "independently accepted, built with all Gradle Test tasks disabled, integrated on 7e7b7bb7; runtime unverified",
+    "MC1204-1206-01": "accepted no-code disposition integrated on 7e7b7bb7",
+    "slimeNoCode": "independently accepted; documentation integration queued",
+    "sleepCorrection": "independent corrected-code ACCEPT; integration/build queued; adjacent source and creative-query gaps remain open",
+    "sprintSwimming": "corrected source r2 ACCEPT; original code REQUEST CHANGES; fresh independent review active on reviewer-authored correction",
+    "source1171to1182": "partial report from stale base; owner active to merge primary main before final freeze"
   },
   "pendingSourceCorrections": [
     {
@@ -418,12 +425,12 @@
     "Maintaincap20includingroot; source scopes/exclusions and original mapped-JAR caveats retained; no tests/runtime/push."
   ],
   "nextAcceptedIntegrationBatch": {
-    "finding": "F005 saved FallFlying",
-    "code": "b215d723c22cf2c73601b7807056ba0d23fdbf23",
-    "codeBranch": "feat/fall-flying-state-1-10-2-2026-10-08",
-    "review": "dd69581",
-    "reviewBranch": "fix/review-fall-flying-state-1-9-2026-10-08",
-    "status": "integratedmain0bfb72a"
+    "ownerThreadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
+    "serialOrder": [
+      "sleep-safety correction integration/build",
+      "slime no-code documentation integration"
+    ],
+    "status": "exclusive owner reactivated; no build rerun or integration performed by coordinator."
   },
   "poseLocalObjectSource": {
     "clone": "D:/Javastuff/LegacyParkourCompat/build/codex-worktrees/movement-posefit",
@@ -478,6 +485,18 @@
       "review": "df697d4c0ad1f884551313d6f6e8c58ba40d2087",
       "status": "ACCEPT; exclusive owner assigned build/main integration after source-binding erratum.",
       "code": "dd725b49a343a478b26a88528b2e3c61698a752e"
+    },
+    {
+      "finding": "1.11.2 sleep-safety transition correction",
+      "code": "fc9962a8aa967101ec0c4d3a1447b933678e1e79",
+      "review": "c34f9830ad11569272964b93f697eab3a9a584bf",
+      "status": "bounded code ACCEPT; queued for exclusive-owner integration/build; exact source and adjacent creative-query questions remain open."
+    },
+    {
+      "finding": "26.1.2 slime landing restitution no-code disposition",
+      "proof": "4bb2bd611711a184f474017d90ce8e5ac857026d",
+      "review": "b36612a06b5f2247320681a90743457f7cfa0948",
+      "status": "no-code ACCEPT; documentation integration queued with exclusive owner."
     }
   ],
   "bigDripleafDisposition": {
@@ -547,12 +566,32 @@
       "clone": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mcpk-slipperiness-1-15-2-2026-10-08"
     },
     {
-      "savedRef": "58bbb3b",
-      "pair": "1.17.1--1.18.2",
-      "task": "/root/source_1171_1182_fresh",
-      "status": "Active fresh source-only continuation after old worker completed 58bbb3b.",
-      "reasoningEffort": "high",
-      "model": "gpt-6-luna"
+      "task": "/root/sprint-correction-independent-rereview",
+      "status": "active fresh reviewer 01a11bb1-adb2; complete code re-review of 4ade0220; report-only"
+    },
+    {
+      "task": "bed replacement plus piston candidate review",
+      "status": "active sequential reviewer 01a11bbe-a775-7180-a017-d2386dcd9fb3"
+    },
+    {
+      "task": "pane epsilon correction and inventories",
+      "status": "active correction owner 01a11bb3-9efb"
+    },
+    {
+      "task": "F14 wider producer/consumer inventory",
+      "status": "active correction owner 01a11bf3-b68d-72a3-9fde-198291e05948"
+    },
+    {
+      "task": "MCPK r4 corrected snapshot review",
+      "status": "active reviewer 01a11bd7-45d2; no verdict"
+    },
+    {
+      "task": "sleep/slime serial integration queue",
+      "status": "active exclusive owner 01a11bb1-c29c-7f93-a858-c0d55f71ddc1"
+    },
+    {
+      "task": "1.15.2--1.16.5 report",
+      "status": "complete partial report 286ad2e4; owner idle; campaign remains partial"
     }
   ],
   "sourceCheckpointCorrection": {
@@ -654,8 +693,9 @@
     "sha256": "c64be4794ee553e3adf11e0b1bb3f57428e2fb9e32292df940526279d44ae14c",
     "owner": "01a11bf3-b68d-72a3-9fde-198291e05948",
     "commit": "6f0a567c47d57071e1e22c89efaeb74fbc531491",
-    "status": "Replacement immutable snapshot queued for focused independent re-review after shallow water review.",
-    "correction": "LivingEntity source SHA matches ready manifest; abilities-based flight off precondition explicit."
+    "status": "Replacement/supplemental findings remain REQUEST CHANGES pending active broader inventory correction; no independent ACCEPT.",
+    "correction": "LivingEntity source SHA matches ready manifest; abilities-based flight off precondition explicit.",
+    "ownerStatus": "active correction plus broader flag/item/equipment producer-consumer inventory"
   },
   "jumpReconciliation": {
     "status01": "Worker reports existing FlightActivationJump/V1_20_2 covers MC01; independent no-code review pending.",
@@ -716,8 +756,8 @@
     "blob": "90c8a48282c036e6082c85f0be7a69e041ac0cb7",
     "sha256": "9d2c273a1c3b358eac7ebaa1e4cbe9e91a126648a90e89d8d6bdeb1953159cdd",
     "sourceReview": "f222615162499441f959899600744813b1276614",
-    "status": "Source-only ACCEPT; reconciliation/implementation active, independent implementation review pending",
-    "implementationWorker": "01a11bbc-b876-7182-9025-3b589c5cd50c"
+    "status": "Source-only ACCEPT; implementation independently accepted and integrated on main 7e7b7bb7; runtime unverified.",
+    "implementationWorker": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1 (serial integration/build completed; now sleep/slime documentation queue)"
   },
   "correctedGravitySnapshot": {
     "commit": "13cf725ab0ac943f78c2ec7e5851a473022edfb4",
@@ -743,7 +783,10 @@
     "proof": "4197c0cc411fe7f83a2a1c6f4392752ee3edc4fa",
     "review": "0e1a3bf8cc64f2ba7a87e9b75ba2a840c9387ab2",
     "decision": "REQUEST CHANGES: creative players bypass monster query, and exact-version guard defeats earlier resolver selections.",
-    "status": "Original implementation worker active correction; no build/integration."
+    "status": "Original implementation worker active correction; no build/integration.",
+    "correctedReviewCommit": "c34f9830ad11569272964b93f697eab3a9a584bf",
+    "correctedReviewDecision": "ACCEPT bounded correction; original REQUEST CHANGES review preserved as historical.",
+    "correctedReviewPath": "workflows/implementation-reviews/2026-10-08-sleep-safety-transition-correction-rereview.md"
   },
   "minecraftWikiIndependentReview": {
     "reportCommit": "5c94a3d106f010cd033d19c9aa48f47089987b30",
@@ -751,7 +794,10 @@
     "decision": "Four bounded ACCEPT records; bed first-introduction lead OUT OF SCOPE; sprint-swimming REQUEST CHANGES",
     "corrections": "1.12.2 LocalClientPlayer source hash transcription; double-tap onGround vs direct sprint key no ground/water gate. 1.13.2 submerged airborne double-tap is new, direct key narrows partially submerged eligibility.",
     "owner": "01a11bb3-d102-7723-b35b-cae34a76f976",
-    "status": "Corrected immutable snapshot and wider remaining catalog active; lane partial"
+    "status": "Corrected r2 independently ACCEPTED; broader wiki catalog active; lane PARTIAL.",
+    "correctedR2ReviewCommit": "47ae83bd235260b9667a33f1830c020bc0c33549",
+    "correctedR2ReviewPath": "workflows/wiki-audit-2026-10-07/reviews/independent-review-sprint-swimming-r2-2026-10-08.md",
+    "correctedR2Decision": "ACCEPT corrected bounded sprint-swimming snapshot only; preserve r1 REQUEST CHANGES history."
   },
   "swimmingCodeEvidenceReconciliation": {
     "review": "9cf9c7232c8280376034ed5d4a0ba7f84f0cf483",
@@ -763,14 +809,16 @@
   "mc01NoCodeReview": {
     "proof": "da579ba8ef35f91aae0bb42fd79376057a1dddae",
     "review": "9cf9c7232c8280376034ed5d4a0ba7f84f0cf483",
-    "decision": "ACCEPT no code needed; documentation integration queued after source publication."
+    "decision": "ACCEPT no code needed; documentation integration queued after source publication.",
+    "integrationCommit": "7e7b7bb7068ec7b68f3a8f09cbb42bc498a04bf4",
+    "integration": "ACCEPT no-code documentation disposition integrated on main; no runtime claim."
   },
   "correctedF14SupplementalSnapshot": {
     "commit": "eaa873aa5402065fb7f0070d11521b4e054f7683",
     "rawSHA256": "f95d6b53ebd3a43ad775d72998a7dac9e8a9a9fa9296b1d578b9abf99df7353d",
     "ownerFinalTip": "f1401ec63e48bc9ebc4aac54629c678a2e939a94",
-    "status": "Separate bounded supplemental review requested; original6f0a binding/history preserved",
-    "remaining": "33 in-progress,9 pending; pair partial; source owner currently terminal"
+    "status": "Both 6f0a and eaa873aa were REQUEST CHANGES; correction owner active on missing canGlide/flag/equipment inventory.",
+    "remaining": "Broader inventories remain open; pair partial."
   },
   "latestPassengerDocumentationIntegration": {
     "main": "a5612be5107c9e4e3d604e43e7a481c5d868c56c",
@@ -780,40 +828,56 @@
     "status": "No-code proof and provenance erratum integrated; source tree unchanged."
   },
   "latestOperationsAudit": {
-    "commit": "50f25cde7a9d8a32d4c7f5876e4168e6400ad2e0",
-    "coordinatorAdoption": "b18775b7e73491ebdf2757d14f129d3b26dc47fa",
-    "status": "Backlog audit adopted and five coordinator documentation conflicts reconciled. Root verified clean worktree. Newer review decisions below supersede pending labels in this audit."
+    "commit": "f0c53d60b6a7b494ec3211e839ac259dd6a78f5a",
+    "branch": "feat/accepted-finding-backlog-2026-10-08",
+    "coordinatorAdoption": "16dc60b7 (merge commit adopting backlog after merging main 7e7b7bb7)",
+    "status": "Updated accepted/rejected/pending and integration ledgers adopted. Water and MC01 no-code docs are on main. Sprint original code REQUEST CHANGES; reviewer-authored correction has fresh independent review active. Sleep correction code ACCEPT awaiting serial integration; slime no-code docs integration pending. All 26 source pairs remain PARTIAL."
   },
   "sourceReviewD6664c08": {
     "commit": "d6664c08d015b6d301b5498302d9f64f32ebec92",
     "MC1204-1206-04": "Corrected13cf725 snapshot ACCEPT, source only; modern attribute eligibility not adjudicated.",
-    "F14": "6f0a567c and eaa873aa REQUEST CHANGES: reachable flag writer and vanilla equipped-glider dependencies missing. Owner active correction.",
-    "bed": "118cc0d REQUEST CHANGES: clipped movement Y generally nonzero for positive surface gap; exact witness/gravity/air-drag arithmetic needs correction. Source owner active.",
-    "slime": "8eb345d snapshot ACCEPT for bounded nonzero-clipped-displacement carpet-to-slime witness; implementation assigned01a11bcf-351e-7b32-9a56-9a6800c65644."
+    "F14": "6f0a567c and eaa873aa REQUEST CHANGES; both omit necessary producers/dependencies. Replacement and wider flag/equipment inventory remain active; no acceptance.",
+    "bed": "118cc0d REQUEST CHANGES; corrected replacement 2c1ed97 is under independent review. Preserve original rejection.",
+    "slime": "8eb345d snapshot ACCEPT for bounded nonzero-clipped-displacement carpet-to-slime witness; separate no-code reconciliation independently ACCEPT; docs integration pending.",
+    "MC01": "1985fa snapshot ACCEPT at review 581b5bd2 for archived source; accepted no-code disposition independently reviewed and integrated on current main."
   },
   "waterCurrentImplementation": {
     "code": "c33269b0bd44e1e8c03895e704dac3ad40f826f6",
     "tip": "48050492ffa08411375759596e18fb331d4ebdfa",
     "branch": "fix/shallow-water-current-cutoff-1-21-11-2026-10-08",
-    "status": "Independent static ACCEPT; exclusive owner serial integration/build active with every Test task disabled. No runtime parity claim.",
+    "status": "Independent static ACCEPT; integrated on current main 7e7b7bb7. Build passed with all Gradle Test tasks disabled; no runtime parity claim.",
     "reviewWorker": "01a11bce-05d9-7c80-9a1e-0f65525c141b",
-    "review": "e023dd454513b625a0a1d9c9cad3958545803cba"
+    "review": "e023dd454513b625a0a1d9c9cad3958545803cba",
+    "integrationCommit": "7e7b7bb7068ec7b68f3a8f09cbb42bc498a04bf4",
+    "integrationPath": "workflows/fix-implementation/runs/1.21.11-shallow-water-current-cutoff-integration-2026-10-08.md",
+    "integrationGitBlob": "1dbef2012a73075d394377aa3f4214dd92ef451c",
+    "integrationRawSHA256": "0f155b543d30d967c0e92c1b9f6ac26d9492ebd57451281c0362965657ab1fb0",
+    "buildLogPath": "workflows/fix-implementation/runs/1.21.11-shallow-water-current-cutoff-build-2026-10-08.log",
+    "buildLogGitBlob": "c689b8302bf2ba57e8e59976dab6cea0b395e59d",
+    "buildLogRawSHA256": "4f78a61dcd98d785fda83f95fc6dbf42d9b447943cddf18887033ac09d94472c",
+    "jarSha256": "B0E7B58B91311C34DE30BA192CC4B03362EC1F59615800875607A7D7AF3DA1A4",
+    "runtime": "unverified",
+    "exclusiveOwnerThread": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1 (reactivated for sleep/slime documentation integration)"
   },
   "correctedWikiSwimmingAcceptance": {
     "snapshot": "1e5b3a65cdb9946f1fe9553022950454038d9c68",
-    "rawSHA256": "62140b4d629831c430702bf7aff78fa87784beddd65dbfcb28b47dbb7a19fa782",
+    "rawSHA256": "62140b4d629831c430702bf7aff78fa87784bedd65dbfcb28b47dbb7a19fa782",
     "review": "47ae83bd235260b9667a33f1830c020bc0c33549",
-    "status": "ACCEPT corrected bounded record; original rejection preserved; lane partial.",
+    "status": "ACCEPT corrected bounded record; exact 64-character raw digest verified; original rejection preserved; lane partial.",
     "path": "workflows/wiki-audit-2026-10-07/sprint-swimming-1.12.2-to-1.13.2-r2.md",
-    "reviewPath": "workflows/wiki-audit-2026-10-07/reviews/independent-review-sprint-swimming-r2-2026-10-08.md"
+    "reviewPath": "workflows/wiki-audit-2026-10-07/reviews/independent-review-sprint-swimming-r2-2026-10-08.md",
+    "priorTranscribedRawSHA256": "62140b4d629831c430702bf7aff78fa87784beddd65dbfcb28b47dbb7a19fa782"
   },
   "paneEpsilonReview": {
     "snapshot": "e10bc0dd046cb968564301eca5986ce81c77c6c7",
     "path": "workflows/source-campaign-2026-10-07/1.12.2--1.13.2/findings/F-PANE-OFFSET-EPSILON.md",
     "blob": "f5322d10366c848889c200a40508ec8a273ba25e",
     "rawSHA256": "5941f0b4fc505646e18c2b275cc372b50645ac3151ab1982776e47c0fe176dca",
-    "status": "Blind review active, including A ready-marker hash caveat.",
-    "worker": "01a11bbe-a775-7180-a017-d2386dcd9fb3"
+    "status": "REQUEST CHANGES; bounded correction plus required inventories active; A ready-marker hash caveat remains.",
+    "worker": "01a11bbe-a775-7180-a017-d2386dcd9fb3",
+    "owner": "01a11bb3-9efb",
+    "ownerStatus": "active correction and inventories",
+    "reviewer": "01a11bbe-a775-7180-a017-d2386dcd9fb3 (independent reviewer handling bed/piston sequentially; pane review pending queue)"
   },
   "exact1205SourcePublication": {
     "mainCommit": "61f278e268c3ed2bcc4d95e8f7bb6e9c543cfa82",
@@ -829,23 +893,45 @@
   "slimeLandingNoCodeReconciliation": {
     "proof": "4bb2bd611711a184f474017d90ce8e5ac857026d",
     "branch": "fix/slime-landing-restitution-26-2",
-    "status": "Existing V26_1 CollisionRestitution/BlockLanding reported to cover accepted witness; independent no-code review active.",
+    "status": "Independent ACCEPT no-code; existing V26_1 CollisionRestitution/BlockLanding covers accepted bounded witness. Documentation integration queued.",
     "reviewWorker": "01a11bcd-f62a-7610-8eff-f9782f3d072d",
-    "codeChanged": false
+    "codeChanged": false,
+    "proofPath": "workflows/fix-implementation/runs/26.1.2-slime-landing-restitution-reconciliation.md",
+    "proofBlob": "d7431e9fd0ebe404bea8058347a8b1c343631932",
+    "proofSHA256": "25d16354dd0b758305ec03cca37c938164f2c5a89f4d552bed86f9b21019d91c",
+    "review": "b36612a06b5f2247320681a90743457f7cfa0948",
+    "reviewPath": "workflows/implementation-reviews/2026-10-08-slime-landing-restitution-no-code-review.md",
+    "reviewBlob": "957964d621cff918dcf66a79f5dc53491954abf1",
+    "reviewSHA256": "122650e0f240d227dda831d836964988dc421d9aab641deadceca2e64f43ed19",
+    "integration": "pending documentation-only integration by exclusive owner 01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
+    "runtime": "unverified"
   },
   "sleepSafetyCorrectedImplementation": {
     "code": "fc9962a8aa967101ec0c4d3a1447b933678e1e79",
     "proofTipPrefix": "04ba4630",
     "privateRepository": "D:/Javastuff/LegacyParkourCompat/build/codex-worktrees/sleep-safety-transition-r3",
     "branch": "fix/sleep-safety-transition-r3-2026-10-08",
-    "status": "Independent corrected-code re-review active; exact1.11/1.11.1 source request and later creative gate cutoff remain explicit.",
-    "reviewWorker": "01a11bb1-adb2-7212-9a90-26537278d788"
+    "status": "Independent corrected-code re-review ACCEPT for bounded sleep-safety transition. Exact 1.11/1.11.1 source remains open; separate V1_12+ creative-player query gap and cutoff remain open. Integration/build queued with exclusive owner.",
+    "reviewWorker": "01a11bb1-adb2-7212-9a90-26537278d788",
+    "proofCommit": "04ba46308c389b2b171525193ad3d15a31a11ee4",
+    "proofPath": "workflows/fix-implementation/runs/1.11.2-sleep-safety-transition-2026-10-08.md",
+    "proofGitBlob": "a9a5a54dca118b5f51a4f4a880f6a62fe8a016e7",
+    "proofRawSHA256": "6ad8c4624b459dc07d6f3220cc0b3e62b5c78644057948408016bd5f23836413",
+    "reviewCommit": "c34f9830ad11569272964b93f697eab3a9a584bf",
+    "reviewPath": "workflows/implementation-reviews/2026-10-08-sleep-safety-transition-correction-rereview.md",
+    "reviewGitBlob": "669a83ba1055ed1b61df51a4353450b5a9e9fc02",
+    "reviewRawSHA256": "bf06338062928a4e371542ffda6ec96d2457dcd5338c4ce4aaeeb80863172ac4",
+    "reviewRepository": "D:/Javastuff/LegacyParkourCompat/build/codex-worktrees/review-sleep-safety-transition-r3-2026-10-08",
+    "reviewDecision": "ACCEPT bounded finding; prior review request-changes preserved as superseded history.",
+    "integrationOwner": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
+    "integrationStatus": "queued; no integration/build claimed"
   },
   "wikiBindingPathCorrection": {
     "incorrectPriorCoordinatorPrompt": "sprint-swimming-1.12.2-to-1.13.2.md at1e5b3a65",
     "correctImmutablePath": "sprint-swimming-1.12.2-to-1.13.2-r2.md at1e5b3a65",
-    "rawSHA256Unchanged": "62140b4d629831c430702bf7aff78fa87784beddd65dbfcb28b47dbb7a19fa782",
-    "evidence": "Root git show --stat1e5b3a65 confirms new r2 file; exact re-review47ae83bd bound r2 correctly. Sprint implementer notified to use corrected binding."
+    "rawSHA256Unchanged": "62140b4d629831c430702bf7aff78fa87784bedd65dbfcb28b47dbb7a19fa782",
+    "evidence": "Exact r2 raw bytes are 5902 bytes and hash to the corrected 64-character digest. Independent ACCEPT report 47ae83bd binds this r2 path and digest. Earlier 65-character coordinator transcription is retained in provenanceErrata; no review event is rebound.",
+    "priorTranscribedRawSHA256": "62140b4d629831c430702bf7aff78fa87784beddd65dbfcb28b47dbb7a19fa782"
   },
   "mc1204ExactBoundaryReview": {
     "snapshot": "e277edd19eb8f8ce63681ab7985a5d92df8a259f",
@@ -854,6 +940,66 @@
     "status": "Blind source review active; no code before acceptance.",
     "reviewWorker": "01a11bc2-03b2-7443-bc8f-698902c67f29",
     "claim": "Jump cutoff, sprint double0.2, and flight-activation jump call appear1.20.5 and remain1.20.6. Source-only claim pending review.",
-    "eligibilityCaution": "Separate ordinary sprint math from low-power cutoff. Require old-player vanilla reachable low-power input or mark modern-attribute-dependent applicability open; no invented historical modern-only inputs."
+    "eligibilityCaution": "Separate ordinary sprint math from low-power cutoff. Require old-player vanilla reachable low-power input or mark modern-attribute-dependent applicability open; no invented historical modern-only inputs.",
+    "mainCommit": "7e7b7bb7068ec7b68f3a8f09cbb42bc498a04bf4"
+  },
+  "provenanceErrata": [
+    {
+      "id": "wiki-sprint-r2-coordinator-digest-transcription-erratum-2026-10-08",
+      "priorCheckpoint": "95c53ed65be63f25bdb14169b324ad285443a367",
+      "priorTranscribedRawSHA256": "62140b4d629831c430702bf7aff78fa87784beddd65dbfcb28b47dbb7a19fa782",
+      "correctedRawSHA256": "62140b4d629831c430702bf7aff78fa87784bedd65dbfcb28b47dbb7a19fa782",
+      "snapshot": {
+        "commit": "1e5b3a65cdb9946f1fe9553022950454038d9c68",
+        "path": "workflows/wiki-audit-2026-10-07/sprint-swimming-1.12.2-to-1.13.2-r2.md",
+        "gitBlob": "d7118dc7b16a16df254e1b85836bd107690b955f",
+        "bytes": 5902
+      },
+      "acceptanceReview": {
+        "commit": "47ae83bd235260b9667a33f1830c020bc0c33549",
+        "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-sprint-swimming-r2-2026-10-08.md",
+        "gitBlob": "06a96547ce2123ef59be443899efd101282ed118",
+        "rawSHA256": "bd39e6656d11ad03713a3d319ff03924384639064505fa70ed3978a1484de72a"
+      },
+      "disposition": "Correct current bindings; preserve prior transcription and parent checkpoint history; no acceptance event rebound."
+    }
+  ],
+  "sprintWaterImplementationReview": {
+    "originalCodeCommit": "bc1e178f7d05786eea357896ddf90c6a0e5cf25d",
+    "handoffCommit": "bd396a4f122f0253c806515b3991df81df6ea8e3",
+    "reviewCommit": "fd5a41534d703a1145a7010e6d2a2bf16fe70ae8",
+    "reviewPath": "workflows/implementation-reviews/2026-10-08-sprint-start-water-input-implementation-review.md",
+    "reviewGitBlob": "865c4f67c1d23abd04918389d248519fd1033157",
+    "reviewRawSHA256": "7b06a12485b05d8d61ceee4cc7f92baa0036dd9d1bc8474877722a93c619101f",
+    "decision": "REQUEST CHANGES on original candidate; grounded double-tap behavior was incorrectly limited to only V1_11_2/V1_12 profiles.",
+    "reviewerAuthoredFixCommit": "4ade0220a6c5cfa299c08acab57594270d444660",
+    "fixPath": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/SprintInputStart.java",
+    "fixGitBlob": "e16062995226572d5bc72ea28935f1a6a28d737b",
+    "fixRawSHA256": "66cd44a3ac4f3cd150c768fd71ceaf032c022a7f93fe1957adf6530c7f9c03b2",
+    "reportCommitIdErratum": {
+      "reportTranscription": "4ade0220f045bb3a97d4c2d98a96ce7dd8d6ab88",
+      "verifiedCommit": "4ade0220a6c5cfa299c08acab57594270d444660"
+    },
+    "fixStatus": "Not independently accepted; original reviewer authored the correction.",
+    "freshIndependentReviewer": "01a11bb1-adb2",
+    "freshReviewStatus": "active; full resulting code review, report-only and no code edits",
+    "integration": "neither original REQUEST CHANGES code nor proposed correction integrated; runtime unverified"
+  },
+  "sourcePair1171to1182": {
+    "workerReportCommit": "263d111b",
+    "status": "PARTIAL; worker report was based on stale origin/main 0bfb72a.",
+    "primaryMainRequired": "7e7b7bb7068ec7b68f3a8f09cbb42bc498a04bf4",
+    "ownerTask": "/root/source_1171_1182_fresh",
+    "ownerStatus": "active follow-up to merge primary main and publish terminal immutable freeze.",
+    "next": "After final freeze, schedule a blind full-pair coverage audit. Do not mark complete."
+  },
+  "all26SourcePairsStatus": "PARTIAL; all 26 pairs remain partial pending complete inventories and independent full-pair audits.",
+  "priorNextAcceptedIntegrationBatch": {
+    "finding": "F005 saved FallFlying",
+    "code": "b215d723c22cf2c73601b7807056ba0d23fdbf23",
+    "codeBranch": "feat/fall-flying-state-1-10-2-2026-10-08",
+    "review": "dd69581",
+    "reviewBranch": "fix/review-fall-flying-state-1-9-2026-10-08",
+    "status": "Historical queue entry; already integrated on main 0bfb72a."
   }
 }
