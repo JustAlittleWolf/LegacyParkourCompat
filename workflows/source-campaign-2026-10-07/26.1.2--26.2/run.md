@@ -46,6 +46,7 @@
 - Additional B source hashes cited by the post-move block-speed slice: `net/minecraft/world/level/block/Block.java` `cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab`; `net/minecraft/world/level/block/state/BlockBehaviour.java` `9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e`.
 - Additional B source hashes cited by local input modifier inventory: `net/minecraft/world/item/component/UseEffects.java` `18525e459d066a046a20dce6176b3a9764de09f0d91e79c61c2203709744c8dd`; `net/minecraft/core/component/DataComponents.java` `717ec4347940ff05f93116c74ecaac3adbafd3df0f732860464ad259d6b8b0b2`; `net/minecraft/world/item/Item.java` `215fb193bc9fc45702f55a19572ced3f03cc567a851c19050619255b2e59d01d`; `net/minecraft/world/item/enchantment/Enchantments.java` `9af5f89778ad9bd8667953049045027d8426fc692121a6842fe59178b6767ba0`.
 - Original client-jar resource inspected at `data/minecraft/tags/block/suppresses_bounce.json`: only `minecraft:honey_block` is listed; entry SHA-256 `a477a87ac4bcb97971cb0b445f4cc9b6b8e02cd31ba3d01bc842b17a6a8477a8`.
+- Additional A/B source hash cited by jump-gate and liquid-state inventory: `net/minecraft/world/entity/EntityFluidInteraction.java` SHA-256 `5264ff4f1fddebc3fa9d63ad2edbe2eaf617392ff946a867a6817a78b478ee62` on both endpoints; its matching tracker reset/height producer is cited in S-JUMP-GATE and S-JUMP-LIQUID.
 
 ## Blind-discovery freeze
 
@@ -277,37 +278,37 @@ These are now 61 bounded work units, not an exhaustive inventory: 35 pending, 9 
 ### Slice S-JUMP-GATE: Player jump edge, fluid-depth gates and delay
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: B jump handling requires `jumping && isAffectedByFluids`; selects fluid height, compares with threshold, checks ground/shallow-fluid state and `noJumpDelay`, dispatches ground or liquid impulse, and clears delay otherwise; lines 3098-3123.
-- A evidence: pending exact caller/method and fluid-state correspondence.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3098-3123`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: input jump state, fluid contact/height, on-ground state and delay -> ground/liquid jump helper and cooldown -> travel.
-- Parent slices / dependencies / closure evidence: S-IN-01,S-TRAVEL-FLUID-DISPATCH; fluid tags/height helpers and A jump sequence pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B gates read; no pairwise conclusion.
+- Exact behavior boundary and enclosing guards/order checked: inherited `LivingEntity.aiStep()` decrements positive `noJumpDelay` before input application, applies input, then handles jump before `travel`. Jump path checks `jumping && isAffectedByFluids`, selects lava height when in lava and water height otherwise, computes water-only `inWaterAndHasFluidHeight`, then dispatches ground/liquid impulse or clears delay. A lines 2976-3056; B lines 3043-3123.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 2976-3056`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3043-3123`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
+- State producers/writers -> consumers/readers: `LocalPlayer.applyInput()` writes `jumping` from sampled jump key at `LocalPlayer.java:692-704` in both versions; `EntityFluidInteraction` resets height to `0.0`, scans loaded fluid states, and uses `Math.max(fluidTop - entityY, tracker.height)` at `EntityFluidInteraction.java:33,40-78` in both; `Entity.getFluidJumpThreshold()` reads eye height and returns `0.0` below `0.4`, else `0.4` (A `Entity.java:3614-3616`, B `3687-3689`); ground state and `noJumpDelay` are read before jump call. Player reaches inherited `LivingEntity.aiStep()` through the already compared local-player tick/super dispatch (`S-TICK-ENTRY`).
+- Parent slices / dependencies / closure evidence: S-IN-01,S-TICK-ENTRY,S-TRAVEL-FLUID-DISPATCH,S-POSE-UPDATE,S-DIMENSIONS,S-JUMP-IMPULSE,S-JUMP-LIQUID; `isInShallowFluid(FluidTags.LAVA)` in B (`LivingEntity.java:2545-2546`) expands to `getFluidHeight(fluidTag) <= getFluidJumpThreshold()`. A uses `!(fluidHeight > fluidJumpThreshold)` in the grounded-lava guard; both select the same ground branch for finite fluid heights. The exact predicate differs for NaN, which is not produced by valid finite fluid-block heights/finite player bounds; non-finite/corrupt position provenance remains part of the external-input inventory.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): for equivalent finite movement state, branch order, water/shallow-water conditions, ground and cooldown gates match. B factors its grounded-lava `!(height > threshold)` check through `isInShallowFluid`, whose `height <= threshold` is equivalent on finite heights. The NaN predicate edge is retained as an explicit dependency on external position-input closure rather than silently treated as equivalent.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-JUMP-IMPULSE: Ground jump power and sprint impulse
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: B jump power positive threshold, max with current Y, sprint-angle horizontal addition and sync flag in `jumpFromGround`; inspect `getJumpPower`/attribute/effect producer chain; lines 2376-2401.
-- A evidence: pending exact methods and jump-power dependency closure.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::getJumpPower(),jumpFromGround(), lines 2376-2401`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: jump strength attribute/effect, existing velocity, sprint flag and yaw -> ground impulse -> travel.
-- Parent slices / dependencies / closure evidence: S-JUMP-GATE; jump strength, jump boost and sprint-state provenance pending (do not emulate hunger/food producers).
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B body read; exact A math/effect chain pending.
+- Exact behavior boundary and enclosing guards/order checked: `getJumpPower()` returns the float cast of jump-strength attribute times multiplier times block jump factor, plus jump-boost power. `jumpFromGround()` only acts when `!(jumpPower <= 1.0E-5F)`, reads current movement, sets Y to `Math.max(jumpPower, movement.y)`, then for sprint adds yaw-derived X/Z impulse, and sets `needsSync`; A lines 2343-2364; B lines 2380-2401.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::getJumpPower(),getJumpBoostPower(),jumpFromGround(), lines 2343-2364`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::getJumpPower(),getJumpBoostPower(),jumpFromGround(), lines 2380-2401`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
+- State producers/writers -> consumers/readers: jump-strength attribute/equipment/effect modifiers feed `getAttributeValue`; `getJumpBoostPower()` reads active JUMP_BOOST amplifier and adds `0.1F * (amplifier + 1.0F)`; existing Y feeds `Math.max`; sprint state and yaw feed horizontal impulse. Input/tick caller is the matched S-JUMP-GATE and LocalPlayer flight-toggle ground-launch path (S-FLIGHT-TOGGLE). Both versions retain identical source expression order, float/double literals, casts, strict/non-strict comparisons, and vector add order. Modifier/effect producer inventory remains open under S-MOD-01.
+- Parent slices / dependencies / closure evidence: S-JUMP-GATE,S-SPRINT-START,S-SPRINT-STOP,S-MOD-01; do not emulate jump-boost or attribute producers here.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): exact A/B method bodies match, with same virtual dispatch and player path; for equivalent attribute/effect/velocity/sprint/yaw inputs the direct jump response is identical. The producer inventory is deliberately left to S-MOD-01.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-JUMP-LIQUID: Liquid jump and sink impulses
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: B `goDownInWater` and `jumpInLiquid` add vertical impulses with float literals; lines 2403-2409. Confirm separate water/lava callers from both tick and local input paths.
-- A evidence: pending exact helpers and caller mapping.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::goDownInWater(),jumpInLiquid(TagKey), lines 2403-2409`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: local shift/jump input and liquid branch gates -> Y velocity impulse -> fluid travel.
-- Parent slices / dependencies / closure evidence: S-JUMP-GATE,S-LOCAL-SNAPSHOT,S-LOCAL-UNSTUCK,S-SPRINT-START,S-SPRINT-STOP; exact call timing/order pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B helpers read; no pairwise result.
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.jumpInLiquid(TagKey)` adds `(0.0, 0.04F, 0.0)` to current velocity. `goDownInWater()` adds `(0.0, -0.04F, 0.0)`. Liquid jump is reached from `LivingEntity.aiStep()` for the water/lava gate in S-JUMP-GATE; local sink is reached in `LocalPlayer.aiStep()` before `super.aiStep()` when `isInWater() && shift && isAffectedByFluids` (A/B lines 858-861; `super.aiStep()` line 914). A helper ranges 2366-2372; B 2403-2409.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::goDownInWater(),jumpInLiquid(TagKey), lines 2366-2372`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`; `LocalPlayer.java:858-861`, SHA-256 `433fd995ad317af0f6ef0e50c1e8e3483cb8f00e0e327d4edf27a4dd99666ebe`.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::goDownInWater(),jumpInLiquid(TagKey), lines 2403-2409`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`; `LocalPlayer.java:858-861`, SHA-256 `8d089aa09217e3607b38590f7c1623385562800943ac6dfd3d17804e041da6d6`.
+- State producers/writers -> consumers/readers: key jump/shifting are read from `LocalPlayer.input.keyPresses`; fluid contact and `isAffectedByFluids()` guard response; both helpers read current Vec3, add Y impulse using float literals promoted to double by Vec3 API, then write `setDeltaMovement`; LocalPlayer applies the shift impulse before invoking LivingEntity.aiStep(), so the inherited per-tick velocity dead-zone and jump gate consume the updated Y. Input sampling and local order were compared at S-IN-01,S-LOCAL-SNAPSHOT.
+- Parent slices / dependencies / closure evidence: S-JUMP-GATE,S-LOCAL-SNAPSHOT,S-LOCAL-UNSTUCK,S-TRAVEL-FLUID-DISPATCH. A/B callers and helper bodies are now paired; `EntityFluidInteraction.java` produces matching fluid-height inputs (source SHA-256 `5264ff4f1fddebc3fa9d63ad2edbe2eaf617392ff946a867a6817a78b478ee62` on both sides).
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): both exact helper bodies and both reachable LocalPlayer call sites match. The impulses preserve the existing velocity components and add the same `+0.04F` or `-0.04F` in the same input/tick order; the local sink occurs before inherited aiStep on both sides, and the liquid state producer also matches. S-JUMP-GATE retains its separate lava NaN-predicate caveat.
 - Finding IDs or checked absence/replacement path: none yet.
 ### Slice S-LIVING-GLIDE-UPDATE: Fall-flying eligibility update before travel
 
