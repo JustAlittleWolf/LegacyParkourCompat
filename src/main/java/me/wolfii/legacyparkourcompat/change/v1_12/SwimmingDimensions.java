@@ -11,6 +11,9 @@ import net.minecraft.world.entity.player.Player;
 public final class SwimmingDimensions implements PlayerDimensionsBehavior {
     @Override
     public EntityDimensions dimensions(Player player, Pose pose, EntityDimensions vanilla) {
+        if (pose == Pose.CROUCHING) {
+            return EntityDimensions.scalable(0.6F, 1.65F).withEyeHeight(vanilla.eyeHeight());
+        }
         if (pose == Pose.SWIMMING) {
             return EntityDimensions.scalable(0.6F, player.isShiftKeyDown() ? 1.65F : 1.8F);
         }

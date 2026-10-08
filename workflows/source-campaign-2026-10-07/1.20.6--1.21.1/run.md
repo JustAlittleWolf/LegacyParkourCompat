@@ -1,0 +1,504 @@
+# Discovery: 1.20.6 to 1.21.1
+
+- Status: active
+- Scope: direct client-player movement; older A = 1.20.6; newer B = 1.21.1
+- Repository revision and start date: base 002137b227676caea77f6832b9f4c8d0b6200bff (main); started 2026-10-07. Workflow hardening 40c34f5 and campaign roster 2422192 cherry-picked onto this task branch.
+- Task branch: feat/source-discovery-movement-source-1-20-6-1-21-1
+- Selected naming namespace, CLI mode per side and alignment evidence: requested Mojmap for A and Mojmap for B, per the campaign rule for endpoints after 1.14.4. Both exact Mojmap ready markers, source/artifact/diagnostic hashes, provenance and exact run metadata are verified; shared namespace alignment is established.
+- Source preparation owner / command / log / readiness marker: shared campaign source owner (identity not provided); worker does not run decompilation. Source owner published A and B via the recorded exact-batch Gradle commands; provenance and success-log hashes for both are listed below; ready/1.20.6/mojmap.ready.json and ready/1.21.1/mojmap.ready.json verified.
+- Toolchain/decompiler/remapper versions and options: Gradle 9.7.1, Java 25.0.3+9-LTS, TinyRemapper 0.14.1, Mapping IO 0.9.1, Vineflower 1.12.0, ASM 9.10.1; heap 4G for B as recorded in provenance.
+- Discovery author(s): delegated source-discovery worker on this task branch.
+- Independent reviewer (must differ from discovery authors): pending coordinator assignment.
+
+## Artifact manifest
+
+- A 1.20.6: requested ID 1.20.6 in provenance exactRun.batchVersionIds and success log; resolved version metadata ID 1.20.6 confirmed by movement diagnostics and exact-metadata success message. Namespace Mojmap; source root ready/1.20.6/mojmap; original client.jar SHA-256 02dfd345ac1ad55692d5dbc8486ac7e4fea72cd54ac494a79cd48963048e56b2; mapped client-mojmap.jar SHA-256 2add08d295773a0615ca595877f5fd055fa454d7c68fac56d6a4894a1e055284; client_mappings.txt SHA-256 27f4ef3a9362e9874e2c33edac981b6f485ad97f92c4e35b497525b646aae745. Source manifest SHA-256 56aae10684471d7abb1c366bd5dd431ab976112a87e6cc5c687a68f1eff06311 (5,329 entries); artifact manifest SHA-256 e5882622bcf22b3e3c2c96c73843a1308e11e3096f4feefd945ea5808933ce31; diagnostics SHA-256 558c501d2956cfa2445e9a75512dcf6c8ff7fec453c7b2f439af171162cab498; provenance ready/1.20.6/mojmap.provenance.json SHA-256 ee53e67e7ab51069a0eaae5a0ce13d49a9f972bdc13e3c31e041afa77f4d26e8 records exact command and batch IDs; success log staging/mojmap-1.20.1-to-1.20.6-3e08bcae66a145b296f7f85b12623999/gradle.full.log SHA-256 e5acf99c0bf01e2a65818cea95da4873b5f8a3c610f795f887c7184216b160fe. Toolchain Gradle 9.7.1, Java 25.0.3+9-LTS, TinyRemapper 0.14.1, Mapping IO 0.9.1, Vineflower 1.12.0, ASM 9.10.1. The batch also resolved 1.20.1, 1.20.2 and 1.20.4; only the exact 1.20.6 tree is used for this pair.
+- B 1.21.1: requested ID 1.21.1 in provenance exactRun.batchVersionIds and success log; resolved version metadata ID 1.21.1 confirmed by movement diagnostics and exact-metadata success message. Namespace Mojmap; source root ready/1.21.1/mojmap; original client.jar SHA-256 499f6897d1837516680f3114072d8106e11c9adcd933fe5cf051b551089b0c99; mapped client-mojmap.jar SHA-256 6b36d2ccc99e7eeb98e942b6dc093388d66eb6ede06b64238f35a0e26b092abe; client_mappings.txt SHA-256 140c47931cccc8fc9e4c22d7603e2d714d1a953a146f51ea7397d95c955536ec. Source manifest SHA-256 900f956e00f6fc1300bb3d689ea49df2b1a57bcaa54617344ef456d95d47cb48 (5,363 entries); artifact manifest SHA-256 09ced418cbc7530a1d6d8802ee10c05cd576b217a2129655a71f30a2ae38f486; diagnostics SHA-256 44c184cd1385e5b23991b2698ff0ae9f1e62a9491de8dcac27e5a3f9af88cd4f; provenance ready/1.21.1/mojmap.provenance.json SHA-256 6f84a596ea944a1d40c79b53ead9d2cdd2b3c726d710a977758d15b5578ce7a9 records exact command and batch IDs; success log staging/mojmap-1.21.1-to-1.21.5-cd5a99cb1024417c9d370097c886a131/gradle.full.log SHA-256 610191fd377703263d0a7040f9874f56a167712bc25c440f35c58a8a44fa3f4b. The batch also resolved 1.21.3, 1.21.4 and 1.21.5; only the exact 1.21.1 tree is used for this pair.
+- No source tree is treated as ready based on directory presence. Verify exact requested/resolved IDs, namespace, cited hashes, method bodies and diagnostics from each marker before evidence comparison.
+
+## Blind-discovery freeze
+
+- Status: pending
+- Freeze commit/checkpoint and timestamp: pending source-only comparison.
+- Evidence inventory and finding IDs included at freeze: freeze not yet performed; one source-confirmed finding is recorded, one additional candidate spans two in-progress slices, and 22 planning slices remain pending.
+- Confirmation that old mod implementation/code and isolated wiki-audit results were not opened before freeze (prior source-discovery reports may be used as navigation): confirmed; neither implementation nor wiki materials have been inspected.
+- Source/mapping hashes covered by freeze: freeze pending; exact A/B source/artifact/diagnostic hashes are recorded in the artifact manifest, with cited source hashes for L2 and L5 in their findings.
+
+## Correspondence and call order
+
+Partial correspondence established for the first bounded movement paths: `LocalPlayer#tick` -> `LocalPlayer#aiStep` -> `LivingEntity#aiStep` -> `Player#travel` -> `LivingEntity#travel`, with `Entity#moveRelative` and `Entity#move` as movement helpers. Paired method line ranges and the limited observed deltas are recorded in the coverage rows/finding; full tick-sequence, callback, collision and external-input closure remain in progress.
+
+## Required source inventories
+
+Both exact source trees are verified. Required inventories remain pending until every bounded paired slice and dependency has evidence.
+
+- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=I1-I4,L1-L6; evidence=awaiting exact A/B source readiness and full callgraph.
+- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=P1-P4,I1-I4,L1-L6,C1-C5,X1-X4; evidence=awaiting exact source ranges and producer-to-consumer closure.
+- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=C1-C5,B1-B8; evidence=awaiting exact source ranges, registries, shape providers and neighbor chains.
+- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=B1-B8,L5; evidence=awaiting paired code and resource manifests.
+- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=L6,E1-E4; evidence=awaiting paired consumers, producers and resource/data chains.
+- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, such as corrections, pushes, pistons and mounts: status=pending; slice_ids=X1-X4,B7; evidence=awaiting paired consumers and call chains.
+- `INV-EXCLUSIONS` explicit scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; evidence=after source inventory, document excluded producer systems and any direct vanilla-state reads retained as movement predicate inputs.
+
+## Coverage ledger
+
+Create bounded pair-specific slices for every discovered method/behavior and dependency. The rows below are planning units; split them wherever source bodies contain separately scoped behavior. Keep each unit pending until both-side method ranges, producer/consumer links and dependency closure are recorded.
+
+### Slice I1 - local input sampling, input fields and keyboard
+
+- Inventory ID(s): INV-TICK, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: `Input#tick(boolean,float)`, `getMoveVector()`, `hasForwardImpulse()`, `KeyboardInput#calculateImpulse(boolean,boolean)`, and `KeyboardInput#tick(boolean,float)`; `LocalPlayer#aiStep` calls the active input object's tick before using its movement vector.
+- A evidence: `ready/1.20.6/mojmap/net/minecraft/client/player/Input.java`, lines 15-24, SHA-256 `b302ffbc45c5f900ea18a4d4af2df6fa0454ea7cb7744a0d249061e5fcb97fbb`; `KeyboardInput.java`, lines 12-34, SHA-256 `a8064906872955a3520398ab5b2a326552d424f41887d1294aa6a038e2623ff0`.
+- B evidence: `ready/1.21.1/mojmap/net/minecraft/client/player/Input.java`, lines 15-24, SHA-256 `b302ffbc45c5f900ea18a4d4af2df6fa0454ea7cb7744a0d249061e5fcb97fbb`; `KeyboardInput.java`, lines 12-34, SHA-256 `a8064906872955a3520398ab5b2a326552d424f41887d1294aa6a038e2623ff0`.
+- State producers/writers -> consumers/readers: input device state -> `KeyboardInput#calculateImpulse` -> `leftImpulse`/`forwardImpulse`/`jumping`/`shiftKeyDown` -> `Input#getMoveVector` and sprint predicates -> `LivingEntity#travel`/`moveRelative`; the inspected classes are byte-identical between A and B.
+- Parent slices / dependencies / closure evidence: I2 local player tick/aiStep call order remains pending; this row closes only the input sampling classes and their direct fields.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): corresponding A/B class hashes are identical for both input classes; the bounded input behavior is unchanged. This does not imply later travel behavior is unchanged.
+- Finding IDs or checked absence/replacement path: checked absence of source change in both complete source classes by matching SHA-256; no finding.
+### Slice I2 - local player tick order, superclass tick, travel dispatch and repeated movement calls
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-EXCLUSIONS
+- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer#tick`, `LocalPlayer#aiStep` from portal processing through `super.aiStep()`, `Player#tick`, `Player#travel`, `LivingEntity#aiStep` and the reachable local-player movement dispatch order. Bounded call order is unchanged; two `LocalPlayer#aiStep` expressions were traced separately to their producer/effect paths.
+- A evidence: `LocalPlayer.java::tick()` lines 190-209 and `aiStep()` lines 648-812, SHA-256 `6b429dfa6e0681251ec985dda1627f808652a7bbe5b70dc85c8fa0fe0ed46ffa`; `Player.java::tick()` lines 244-315, SHA-256 `785d93ccc94e1f912e545b2b0c355edeb352b44ee8e83a69364daec35266dbe2`; `Player.java::travel(Vec3)` lines 1473-1495; `LivingEntity.java::aiStep()` lines 2591-2715, SHA-256 `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`.
+- B evidence: `LocalPlayer.java::tick()` lines 191-210 and `aiStep()` lines 644-809, SHA-256 `c555e68ac3c63ab9b4f9a9e31933e263b96350a2bc599d11a0de5928bc24b583`; `Player.java::tick()` lines 249-323, SHA-256 `ed32b88c3c7c8418b83db41823520f2b6b0b49a98610306ef26e9681dc925c71`; `Player.java::travel(Vec3)` lines 1456-1478; `LivingEntity.java::aiStep()` lines 2586-2710, SHA-256 `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8`.
+- State producers/writers -> consumers/readers: `LocalPlayer#tick` -> `LocalPlayer#aiStep` -> `LivingEntity#aiStep` -> `Player#travel` -> `LivingEntity#travel` -> `Entity#moveRelative`/`Entity#move`; `LocalPlayer#move` dispatch remains paired. `LocalPlayer#aiStep` changes portal visual-state update and the crouch input factor source. Portal helpers write only spinning-effect/UI and portal-process/cooldown state; the cooldown helper remains called at the same point. The crouch factor routes to `Input#tick`; Swift Sneak modifier/default and levels 0-3 produce the same float factor on both sides. `Player#tick` adds a grace timer for current impulse damage context; traced consumers reset damage/explosion context and do not write movement velocity or position, so that state is excluded under INV-EXCLUSIONS.
+- Parent slices / dependencies / closure evidence: I1 input fields; I3 yaw/normalization; I4 sprint; L1-L6 travel branch comparison; X1 external movement writers remain separate.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the local player tick/travel call order and repeated movement dispatch are unchanged. The two changed portal expressions affect transition presentation/cooldown bookkeeping rather than player motion. The changed sneak factor is numerically equal for vanilla Swift Sneak levels 0-3; the added impulse grace timer is damage-context state and out of scope. The water travel formula difference is separately recorded under L5.
+- Finding IDs or checked absence/replacement path: no tick-order finding; the water formula finding is linked only to L5.
+### Slice I3 - yaw-to-motion conversion, normalization and input scaling
+
+- Inventory ID(s): INV-TICK, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: `Input#getMoveVector()` output -> `Entity#moveRelative(float,Vec3)` -> `Entity#getInputVector(Vec3,float,float)`, including zero-length threshold, length-squared normalization boundary, scaling, yaw sin/cos and component order; checked paired `LivingEntity#getFrictionInfluencedSpeed(float)` formula.
+- A evidence: `ready/1.20.6/mojmap/net/minecraft/world/entity/Entity.java`, `moveRelative` lines 1311-1314 and `getInputVector` lines 1316-1326, SHA-256 `71cd6b9f6c002684154dce11d3745e8714d82f13c8e1b3aa56743930131c18f3`; `LivingEntity#getFrictionInfluencedSpeed(float)` lines 2314-2316, SHA-256 `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`.
+- B evidence: `ready/1.21.1/mojmap/net/minecraft/world/entity/Entity.java`, `moveRelative` lines 1350-1353 and `getInputVector` lines 1355-1365, SHA-256 `b81905c7879e2cc5c5063a41d865c4164ad919f156306705be791d1017b99850`; `LivingEntity#getFrictionInfluencedSpeed(float)` lines 2297-2299, SHA-256 `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8`.
+- State producers/writers -> consumers/readers: `Input` impulses -> `Vec3` movement input -> `getInputVector` normalization/rotation using entity yaw -> `Entity#moveRelative` adds to delta movement; ground friction is supplied by travel and consumed by `getFrictionInfluencedSpeed`. Compared bodies retain the same constants, guards, float conversions and expression order.
+- Parent slices / dependencies / closure evidence: I1 input fields and I2 call order closed; L1/L2 travel and friction branches remain separate for full closure.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the paired yaw conversion, normalization, and ground/flying speed selection expressions are identical, including `1.0E-7`, `0.21600002F`, and sin/cos operation order. This bounded input-to-motion slice has no source difference.
+- Finding IDs or checked absence/replacement path: checked absence in paired method bodies; no finding.
+### Slice I4 - sprint start and stop gates
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-EXCLUSIONS, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer#aiStep` sprint start/stop section; `canStartSprinting`, `vehicleCanSprint`, `hasEnoughImpulseToStartSprinting`, `hasEnoughFoodToStartSprinting`, `isMoving`, `isMovingSlowly`, and `Player#canSprint`.
+- A evidence: `ready/1.20.6/mojmap/net/minecraft/client/player/LocalPlayer.java`, `aiStep()` lines 693-718 and sprint helpers lines 1011-1041, SHA-256 `6b429dfa6e0681251ec985dda1627f808652a7bbe5b70dc85c8fa0fe0ed46ffa`; `ready/1.20.6/mojmap/net/minecraft/world/entity/player/Player.java::canSprint()`, lines 2112-2114, SHA-256 `785d93ccc94e1f912e545b2b0c355edeb352b44ee8e83a69364daec35266dbe2`.
+- B evidence: `ready/1.21.1/mojmap/net/minecraft/client/player/LocalPlayer.java`, `aiStep()` lines 690-715 and sprint helpers lines 1014-1044, SHA-256 `c555e68ac3c63ab9b4f9a9e31933e263b96350a2bc599d11a0de5928bc24b583`; `ready/1.21.1/mojmap/net/minecraft/world/entity/player/Player.java::canSprint()`, lines 2114-2116, SHA-256 `ed32b88c3c7c8418b83db41823520f2b6b0b49a98610306ef26e9681dc925c71`.
+- State producers/writers -> consumers/readers: keyboard input -> forward impulse/forward-impulse predicate -> sprint thresholds (`0.8` on land, `hasForwardImpulse()` underwater) -> `setSprinting`; crouch/use-item/blindness/fall-flying/passenger and ground/fluid/collision predicates gate start/stop. `Player#canSprint` returns true; a passenger gate reads its vehicle's `canSprint` and local-control status. Food level is read directly as a sprint predicate input; its producer remains explicitly excluded. Vehicle physics remain in X3.
+- Parent slices / dependencies / closure evidence: I1 input sampling and I2 tick call order; X3 passenger/mount movement remains open as a separate external influence.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the paired guards, thresholds, tick counters, sprint writes and Player predicate are the same. Vanilla food level is only read as the existing gate; its production is out of scope. No sprint-gate source difference found.
+- Finding IDs or checked absence/replacement path: checked paired sprint-gate bodies; no finding.
+### Slice P1 - pose selection, dimensions, eye height, resize timing and collision
+
+- Inventory ID(s): INV-STATE, INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer#aiStep` crouch decision; `Player#updatePlayerPose` and `canPlayerFitWithinBlocksAndEntitiesWhen`; inherited `LivingEntity#getDimensions(Pose)`; `Entity#setPose` and `refreshDimensions` resize/effective-eye-height sequence. Collision-shape providers remain delegated to C4/C5.
+- A evidence: `ready/1.20.6/mojmap/net/minecraft/client/player/LocalPlayer.java`, lines 661-665, SHA-256 `6b429dfa6e0681251ec985dda1627f808652a7bbe5b70dc85c8fa0fe0ed46ffa`; `Player.java`, `updatePlayerPose()`/`canPlayerFitWithinBlocksAndEntitiesWhen(Pose)` lines 393-425, SHA-256 `785d93ccc94e1f912e545b2b0c355edeb352b44ee8e83a69364daec35266dbe2`; `LivingEntity.java#getDimensions(Pose)` lines 3240-3246, SHA-256 `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`; `Entity.java#setPose(Pose)` lines 355-357 and `refreshDimensions()` lines 2733-2755, SHA-256 `71cd6b9f6c002684154dce11d3745e8714d82f13c8e1b3aa56743930131c18f3`.
+- B evidence: `ready/1.21.1/mojmap/net/minecraft/client/player/LocalPlayer.java`, lines 658-662, SHA-256 `c555e68ac3c63ab9b4f9a9e31933e263b96350a2bc599d11a0de5928bc24b583`; `Player.java`, `updatePlayerPose()`/`canPlayerFitWithinBlocksAndEntitiesWhen(Pose)` lines 401-433, SHA-256 `ed32b88c3c7c8418b83db41823520f2b6b0b49a98610306ef26e9681dc925c71`; `LivingEntity.java#getDimensions(Pose)` lines 3242-3248, SHA-256 `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8`; `Entity.java#setPose(Pose)` lines 356-358 and `refreshDimensions()` lines 2762-2778, SHA-256 `b81905c7879e2cc5c5063a41d865c4164ad919f156306705be791d1017b99850`.
+- State producers/writers -> consumers/readers: input shift/flying/swimming/sleeping/fall-flying/auto-spin and fit predicates -> pose choice -> `setPose`; `LivingEntity` pose dimensions -> dimensions/eyeHeight assignment -> `reapplyPosition`; pose-fit test uses `Level#noCollision`. The new `Entity#fudgePositionAfterSizeChange` path is guarded by `!(this instanceof Player)`, so it does not change the player resize path. `Player#tick` still refreshes dimensions when pose changes.
+- Parent slices / dependencies / closure evidence: I2 tick order; C4 world collision query and C5 callback/neighbor path remain open dependencies for the fit predicate.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): player pose precedence, dimensions scaling, eye-height update and resize order match. B's new free-position resize fallback is for non-player entities only. The player fit predicate's underlying collision/shape call chain is not yet closed, so the whole P1 slice remains in progress.
+- Finding IDs or checked absence/replacement path: no player pose/dimension delta identified in inspected bodies; pending C4/C5 collision dependency.
+### Slice P2 - abilities, flight state
+
+- Inventory ID(s): INV-STATE, INV-TICK, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: local ability-toggle logic in `LocalPlayer#aiStep`; shared `Abilities` fields/default and flying-speed access; `Player#travel` flying branch; `Player#getFlyingSpeed` and `getBlockSpeedFactor`; clientbound ability packet consumer identified, with full external packet writer/call-chain closure assigned to X1.
+- A evidence: `ready/1.20.6/mojmap/net/minecraft/client/player/LocalPlayer.java`, flight toggle lines 721-741 and ground-triggered flight reset lines 808-810, SHA-256 `6b429dfa6e0681251ec985dda1627f808652a7bbe5b70dc85c8fa0fe0ed46ffa`; `Player.java#travel(Vec3)` lines 1473-1495, `getBlockSpeedFactor()` lines 1978-1980 and `getFlyingSpeed()` lines 2117-2122, SHA-256 `785d93ccc94e1f912e545b2b0c355edeb352b44ee8e83a69364daec35266dbe2`; `Abilities.java`, full class, SHA-256 `a4f952ada7bc3b21406feaf13c171bfa22d36b01e265e3b987612f28b5609edc`.
+- B evidence: `ready/1.21.1/mojmap/net/minecraft/client/player/LocalPlayer.java`, flight toggle lines 718-738 and ground-triggered flight reset lines 805-807, SHA-256 `c555e68ac3c63ab9b4f9a9e31933e263b96350a2bc599d11a0de5928bc24b583`; `Player.java#travel(Vec3)` lines 1456-1478, `getBlockSpeedFactor()` lines 1973-1975 and `getFlyingSpeed()` lines 2119-2124, SHA-256 `ed32b88c3c7c8418b83db41823520f2b6b0b49a98610306ef26e9681dc925c71`; `Abilities.java`, full class, SHA-256 `a4f952ada7bc3b21406feaf13c171bfa22d36b01e265e3b987612f28b5609edc`.
+- State producers/writers -> consumers/readers: local jump/fly-toggle input and ground reset -> `Abilities.flying` -> crouch/pose and Player travel/flying-speed/block-factor consumers. Serverbound ability update is sent by the local client; `ClientPacketListener#handlePlayerAbilities` consumes the server-authoritative ability packet. A/B shared Abilities class and local flight/travel expressions are equal. Attribute `FLYING_SPEED` exists in both version sources; Player's flight speed reads `Abilities#getFlyingSpeed` on both.
+- Parent slices / dependencies / closure evidence: I2 tick order; P1 pose change; X1 server-supplied position/ability updates remains open for packet writer/consumer comparison.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): inspected flight-toggle, reset, travel and speed expressions match. The local flight state can also be overwritten from the server; its packet application/update producer must be closed with X1 before this external state slice is terminal.
+- Finding IDs or checked absence/replacement path: no local flight-path source delta identified; X1 external ability update closure pending.
+### Slice P3 - sprint gates and their vanilla state consumers; exclude hunger
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-EXCLUSIONS
+- Exact behavior boundary and enclosing guards/order checked: I4 sprint entry/exit gates plus `LivingEntity#setSprinting(boolean)` modifier lifecycle, sprint modifier registration, and `Player#getSpeed()` / `Player#aiStep` movement-speed read.
+- A evidence: I4's `LocalPlayer` sprint gate ranges; `ready/1.20.6/mojmap/net/minecraft/world/entity/LivingEntity.java`, sprint modifier declaration lines 134-136 and `setSprinting` lines 2008-2015, SHA-256 `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`; `Player.java#getSpeed()` lines 1511-1513 and `aiStep()` movement speed read near lines 533-534, SHA-256 `785d93ccc94e1f912e545b2b0c355edeb352b44ee8e83a69364daec35266dbe2`.
+- B evidence: I4's `LocalPlayer` sprint gate ranges; `ready/1.21.1/mojmap/net/minecraft/world/entity/LivingEntity.java`, sprint modifier declaration lines 140-142 and `setSprinting` lines 1994-2001, SHA-256 `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8`; `Player.java#getSpeed()` lines 1494-1496 and `aiStep()` movement speed read near lines 535-536, SHA-256 `ed32b88c3c7c8418b83db41823520f2b6b0b49a98610306ef26e9681dc925c71`.
+- State producers/writers -> consumers/readers: sprint gate sets the sprint flag -> `LivingEntity#setSprinting` removes/re-adds a transient `MOVEMENT_SPEED` modifier of `0.3F` with `ADD_MULTIPLIED_TOTAL` -> `Player#getSpeed`/attribute value -> travel speed. Gate reads food level, blindness, water/ground/impulse, item-use and passenger status; the food system is excluded while the direct vanilla food read stays as a predicate.
+- Parent slices / dependencies / closure evidence: I4 gate comparison; L1/L2 movement travel and friction branches remain separate; food/regeneration producers are intentionally outside scope.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): paired sprint modifier amount, operation, replace-before-add order and speed consumer are unchanged. The new ResourceLocation identifier in B replaces A's UUID for the same single sprint modifier and `setSprinting` removes that identifier before each optional addition. Sprinting contributes the same 1.3 total multiplier. No movement delta found in the sprint-speed path.
+- Finding IDs or checked absence/replacement path: checked paired sprint modifier writers and consumers; no finding.
+### Slice P4 - active-item state, edge sneaking, defaults, initialization, updates and reset timing
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-COLLISION, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer#aiStep` active-item slowdown and auto-jump/reset state; `LivingEntity#isUsingItem`; `LocalPlayer#move`; `Player#maybeBackOffFromEdge`; input shift state. `LivingEntity` use-item start/update timing is an E3 dependency because item use-duration APIs changed between endpoints.
+- A evidence: `ready/1.20.6/mojmap/net/minecraft/client/player/LocalPlayer.java`, item slowdown lines 669-673 and `move(MoverType,Vec3)` lines 878-883, SHA-256 `6b429dfa6e0681251ec985dda1627f808652a7bbe5b70dc85c8fa0fe0ed46ffa`; `Player.java#maybeBackOffFromEdge(Vec3,MoverType)` lines 1067-1104, SHA-256 `785d93ccc94e1f912e545b2b0c355edeb352b44ee8e83a69364daec35266dbe2`; `LivingEntity#isUsingItem()` lines 2970-2972, SHA-256 `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`.
+- B evidence: `ready/1.21.1/mojmap/net/minecraft/client/player/LocalPlayer.java`, item slowdown lines 666-670 and `move(MoverType,Vec3)` lines 881-886, SHA-256 `c555e68ac3c63ab9b4f9a9e31933e263b96350a2bc599d11a0de5928bc24b583`; `Player.java#maybeBackOffFromEdge(Vec3,MoverType)` lines 1070-1107, SHA-256 `ed32b88c3c7c8418b83db41823520f2b6b0b49a98610306ef26e9681dc925c71`; `LivingEntity#isUsingItem()` lines 2967-2969, SHA-256 `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8`.
+- State producers/writers -> consumers/readers: synchronized using-item flag -> `LocalPlayer#aiStep` multiplies left/forward impulses by `0.2F` and clears sprint trigger when not a passenger. Shift input -> player discrete/staying-on-ground predicate -> `Entity#move` -> `Player#maybeBackOffFromEdge` reduction loops -> collision support queries. Item-use lifecycle also reads active item and remaining-use duration; exact component-driven duration dependencies are E3. The paired direct slowdown and edge-backoff constants/guards inspected so far match.
+- Parent slices / dependencies / closure evidence: I1 input state; I2 tick order; C2/C4 edge-backoff support/collision query; E3 item use duration/stack behavior; X1 server-supplied use/shift state remain open dependencies.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the active-item slowdown expression and local move override match. The edge-backoff source follows the same 0.05 decrement loops, but closure depends on its full `canFallAtLeast` collision query and server-supplied sneaking/input path. The use-item active state consumer matches, while its producer timing remains coupled to the changed item-use API.
+- Finding IDs or checked absence/replacement path: no direct slowdown expression delta found; C2/C4/E3/X1 closure pending.
+### Slice L1 - travel dispatch and ground
+
+- Inventory ID(s): INV-TICK, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: local-player `LivingEntity#aiStep` dispatch into `Player#travel(Vec3)` and `LivingEntity#travel(Vec3)`; paired non-water movement branches and ground travel dispatch. The water-only formula change is isolated under L5.
+- A evidence: `ready/1.20.6/mojmap/net/minecraft/world/entity/LivingEntity.java#aiStep()` lines 2591-2715 and `travel(Vec3)` lines 2104-2233, SHA-256 `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`; `Player.java#travel(Vec3)` lines 1473-1495, SHA-256 `785d93ccc94e1f912e545b2b0c355edeb352b44ee8e83a69364daec35266dbe2`.
+- B evidence: `ready/1.21.1/mojmap/net/minecraft/world/entity/LivingEntity.java#aiStep()` lines 2586-2710 and `travel(Vec3)` lines 2091-2216, SHA-256 `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8`; `Player.java#travel(Vec3)` lines 1456-1478, SHA-256 `ed32b88c3c7c8418b83db41823520f2b6b0b49a98610306ef26e9681dc925c71`.
+- State producers/writers -> consumers/readers: controlled local-player tick -> `LivingEntity#aiStep` -> `Player#travel` -> `LivingEntity#travel`; land/air movement reads movement input, gravity, ground state and block friction, then writes delta movement through relative movement and collision movement. A/B travel call order and every non-water branch expression are paired; the changed water factor is addressed separately in L5.
+- Parent slices / dependencies / closure evidence: I2 dispatch call order; I3 yaw/input conversion; L2 friction/gravity/drag and L5 water factor are separate slices.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for the same local-control and non-water ground/air branch preconditions, dispatch order, jump/travel call placement and non-water travel expressions match. The water enchantment arithmetic is not counted as equivalence and is recorded under L5.
+- Finding IDs or checked absence/replacement path: no non-water dispatch/ground travel finding; water finding linked to L5 only.
+### Slice L2 - friction, gravity, drag and velocity thresholds
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-WORLD-MOVEMENT, INV-MODIFIERS, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: paired `LivingEntity#travel` friction/gravity/drag paths, `Entity#move` post-movement block-speed multiplier, and the player Soul Speed block-speed factor producer/consumer chain. The Soul Speed local-client attribute sync timing remains unresolved.
+- A evidence: `ready/1.20.6/mojmap/net/minecraft/world/entity/LivingEntity.java#travel(Vec3)` lines 2104-2233, `getFrictionInfluencedSpeed(float)` lines 2314-2317, `getBlockSpeedFactor()` and `onSoulSpeedBlock()` lines 489-496, SHA-256 `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`; `Player.java` lines 975-977 and 1978-1980, SHA-256 `785d93ccc94e1f912e545b2b0c355edeb352b44ee8e83a69364daec35266dbe2`; `Entity#move` post-movement block multiplier lines 705-706, SHA-256 `71cd6b9f6c002684154dce11d3745e8714d82f13c8e1b3aa56743930131c18f3`.
+- B evidence: `ready/1.21.1/mojmap/net/minecraft/world/entity/LivingEntity.java#travel(Vec3)` lines 2091-2216, `getFrictionInfluencedSpeed(float)` lines 2297-2300, `getBlockSpeedFactor()` lines 485-488 and server-only location-change callback lines 433-439/514-516, SHA-256 `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8`; `Entity#move` block multiplier lines 706-707, SHA-256 `b81905c7879e2cc5c5063a41d865c4164ad919f156306705be791d1017b99850`; movement-efficiency default, Soul Speed effect registration, modifier application and attribute packet route are recorded in [soul-speed-client-friction-sync-candidate](findings/soul-speed-client-friction-sync-candidate.md).
+- State producers/writers -> consumers/readers: A local player pose/block tag/equipped Soul Speed level -> direct `getBlockSpeedFactor()` -> post-movement horizontal delta multiplier. B server-side location effect -> syncable `MOVEMENT_EFFICIENCY` -> local `getBlockSpeedFactor()` -> same consumer; ServerEntity sends dirty tracked attributes and ClientPacketListener applies them. The paired travel bodies differ only in the water branch recorded under L5; the friction-speed helper and remaining gravity/drag expressions match.
+- Parent slices / dependencies / closure evidence: I2 call order; L1 paired non-water travel; E2 Soul Speed registration/data; X1 clientbound attribute updates. The Soul Speed tag matches between jars and Soul Sand's base speed factor is `0.4F` on both sides.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the consumer changes from a local block/enchantment predicate to an attribute set by a server-only location effect. A local non-flying/non-fall-flying player entering Soul Sand with Soul Speed can use the `0.4F` base factor in B while its syncable modifier is absent or stale, whereas A directly returns `1.0F`. Source proves the distinct paths; exact packet timing before local prediction is unresolved, so this remains a candidate.
+- Finding IDs or checked absence/replacement path: candidate [soul-speed-client-friction-sync](findings/soul-speed-client-friction-sync-candidate.md); remaining velocity-threshold and external velocity-source closure pending.
+### Slice L3 - jump power, sprint-jump impulse and jump gates
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-WORLD-MOVEMENT, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity#aiStep` fluid/ground jump gate, `getJumpPower(float)`, `getJumpBoostPower()`, `jumpFromGround()`, `jumpInLiquid(TagKey<Fluid>)`, `Entity#getBlockJumpFactor()`, and `Player#jumpFromGround()`.
+- A evidence: `ready/1.20.6/mojmap/net/minecraft/world/entity/LivingEntity.java`, jump helpers lines 2061-2081 and aiStep gate lines 2643-2664, SHA-256 `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`; `Entity.java#getBlockJumpFactor()` lines 820-825, SHA-256 `71cd6b9f6c002684154dce11d3745e8714d82f13c8e1b3aa56743930131c18f3`; `Player.java#jumpFromGround()` lines 1462-1470, SHA-256 `785d93ccc94e1f912e545b2b0c355edeb352b44ee8e83a69364daec35266dbe2`; `Attributes.java` line 46 sets syncable `JUMP_STRENGTH` default `0.42F`, SHA-256 `7e30d87c7a58b14d0052d2f9f7319d997b49ae7d025579cd762d28e845b2e82e`.
+- B evidence: `ready/1.21.1/mojmap/net/minecraft/world/entity/LivingEntity.java`, jump helpers lines 2047-2068 and aiStep gate lines 2638-2659, SHA-256 `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8`; `Entity.java#getBlockJumpFactor()` lines 821-826, SHA-256 `b81905c7879e2cc5c5063a41d865c4164ad919f156306705be791d1017b99850`; `Player.java#jumpFromGround()` lines 1445-1453, SHA-256 `ed32b88c3c7c8418b83db41823520f2b6b0b49a98610306ef26e9681dc925c71`; `Attributes.java` line 54 sets syncable `JUMP_STRENGTH` default `0.42F`, SHA-256 `a9a19f556bb77fc218b5b2f4831eb6b285f4398c24fa2a3519009ca8dad2db7c`.
+- State producers/writers -> consumers/readers: the same `jumping`, fluid height, `onGround`, `noJumpDelay`, sprint state, `JUMP_STRENGTH`, block jump factor, and Jump Boost amplifier feed the same gate and formula; the same Y velocity write and sprint-horizontal impulse follow. `jumpInLiquid` and `getBlockJumpFactor` bodies are byte-for-byte equal; the block-property default jump factor is `1.0F`, and Honey Block's `0.5F` jump factor is identical in both `Blocks.java` sources.
+- Parent slices / dependencies / closure evidence: I1/I2 input and tick dispatch; L1 travel dispatch; L6 block-property inventory remains open for broader world coverage. `LivingEntity#jumpFromGround` changes visibility from protected to public in B, but its body is identical and the Player override/call path is unchanged.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for the same player movement/effect/block/attribute inputs, jump gates, jump-power arithmetic and operation order, threshold, vertical write, sprint impulse and player exhaustion/stat calls match. The visibility change does not alter the paired vanilla player path. No broader block or modifier inventory is inferred from this bounded comparison.
+- Finding IDs or checked absence/replacement path: no L3 player jump-path finding; broader block and modifier inputs remain with their separate inventories.
+
+### Slice L4 - climbing clamps and movement callbacks
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-WORLD-MOVEMENT, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: paired `LivingEntity#onClimbable()`, the ladder/powder-snow clamp in `handleRelativeFrictionAndCalculateMovement(Vec3,float)` and `handleOnClimbable(Vec3)`, and `LivingEntity#onChangedBlock` producers/call sites. Other inside-block callbacks remain open.
+- A evidence: `ready/1.20.6/mojmap/net/minecraft/world/entity/LivingEntity.java`, `onClimbable()` lines 1540-1557, `handleRelativeFrictionAndCalculateMovement` lines 2266-2281 and `handleOnClimbable` lines 2297-2314, block-position tick callback lines 412-419, `checkFallDamage` lines 309-338 without a block-change callback, and `onChangedBlock(BlockPos)` lines 557-568; SHA-256 `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`.
+- B evidence: `ready/1.21.1/mojmap/net/minecraft/world/entity/LivingEntity.java`, `onClimbable()` lines 1516-1533, `handleRelativeFrictionAndCalculateMovement` lines 2250-2265 and `handleOnClimbable` lines 2280-2297, block-position tick callback lines 433-439, `checkFallDamage` landing callback lines 327-355, and `onChangedBlock(ServerLevel,BlockPos)` lines 514-516; SHA-256 `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8`.
+- State producers/writers -> consumers/readers: the climbable tag/trapdoor test and movement clamp are the same; A invokes its server tick callback when `lastPos` changes and that callback checks Frost Walker/Soul Speed. B also invokes a `ServerLevel` location-changed effect from server `checkFallDamage` on a landing with positive fall distance, then can invoke it from the server block-position callback; the callback delegates to registered location-changed enchantment effects.
+- Parent slices / dependencies / closure evidence: L1 paired travel; L2 Soul Speed attribute candidate; E2 effect registration; X1 attribute sync. `onClimbable()` method bodies match byte-for-byte. The changed location-effect path overlaps the candidate in [soul-speed-client-friction-sync-candidate](findings/soul-speed-client-friction-sync-candidate.md); no timing-specific local prediction result is established.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the ordinary ladder/trapdoor reader and travel clamp show no source delta, but B introduces an additional server landing callback and replaces the old callback body with registered location-changed effects. Their complete writer/consumer and update ordering, plus generic inside-block callback closure, remain pending; do not infer a player trajectory difference from this source alone.
+- Finding IDs or checked absence/replacement path: no independent L4 finding yet; shared candidate is recorded under L2, with callback closure and effect ordering pending.
+
+### Slice L5 - water
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: paired `LivingEntity#travel(Vec3)` water branch, from the water/fluids/stand-on-fluid guard through the `$$5` horizontal multiplier update and following move/drag calls; input is sprinting, on ground, depth strider III, no Dolphin's Grace.
+- A evidence: `ready/1.20.6/mojmap/net/minecraft/world/entity/LivingEntity.java::LivingEntity#travel(Vec3)`, lines 2104-2129, SHA-256 `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`; producer `ready/1.20.6/mojmap/net/minecraft/world/item/enchantment/EnchantmentHelper.java::getDepthStrider(LivingEntity)`, lines 184-186, SHA-256 `e0b4c410e0aa9499d67b38f57b34467628e882be960dce6958d4bc8ef717a6b6`.
+- B evidence: `ready/1.21.1/mojmap/net/minecraft/world/entity/LivingEntity.java::LivingEntity#travel(Vec3)`, lines 2091-2127, SHA-256 `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8`; producer/default `Enchantments.java` lines 344-368 (SHA-256 `7848a2cd677aa0700434f85de37d8a0c47597741d2d1f26c8dc270f73d65b266`), `Attributes.java` lines 101-103 (SHA-256 `a9a19f556bb77fc218b5b2f4831eb6b285f4398c24fa2a3519009ca8dad2db7c`), and `LevelBasedValue.java` lines 126-138 (SHA-256 `f9a0bed1d7693606f8657fadd4a59d95eea9955fcc036687e7a9dd08a8b360e3`).
+- State producers/writers -> consumers/readers: A equipment enchantment level -> A helper -> `$$7` -> water formula -> `$$5` drag multiplier; B equipped Depth Strider attribute modifier -> entity attribute value -> `$$7` -> water formula -> `$$5` drag multiplier. B `ItemStack#forEachModifier` delegates to `EnchantmentHelper#forEachModifier`, and the equipment-change path applies/removes the returned modifier; exact sources and hashes are cited in the finding.
+- Parent slices / dependencies / closure evidence: I2/L1 travel dispatch; E2 Depth Strider registration/level bounds. The reachable branch guards and producer chain are closed for this finding; other water branches and B6 block/fluid data inventory remain separate.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): source-confirmed binary32 difference for the stated vanilla-reachable Depth Strider III preconditions; see [water-depth-strider-rounding](findings/water-depth-strider-rounding.md). The compared water branch otherwise preserves its call order. No runtime trace is claimed.
+- Finding IDs or checked absence/replacement path: `water-depth-strider-rounding`.
+### Slice L6 - movement speed, jump and gravity attributes
+
+- Inventory ID(s): INV-TICK, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: movement speed, jump and gravity attributes; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+
+### Slice C1 - bounding-box movement, position updates and axis ordering: `pending`.
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: bounding-box movement, position updates and axis ordering: `pending`.; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+
+### Slice C2 - step-up candidates, tie-breaking, edge probes and support
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: step-up candidates, tie-breaking, edge probes and support; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+
+### Slice C3 - velocity cancellation
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: velocity cancellation; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+
+### Slice C4 - world collision queries, AABB
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: world collision queries, AABB; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+
+### Slice C5 - fluid contact, block callbacks and callback order; track repeated queries
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: fluid contact, block callbacks and callback order; track repeated queries; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+
+### Slice B1 - base block
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: base block; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+
+### Slice B2 - landing
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: landing; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+
+### Slice B3 - friction
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: friction; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+
+### Slice B4 - contact slowdown (webs, honey, powder snow) and historical applicability: `pending`.
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: contact slowdown (webs, honey, powder snow) and historical applicability: `pending`.; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+
+### Slice B5 - climbables (ladders, vines and related blocks), callbacks and support: `pending`.
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: climbables (ladders, vines and related blocks), callbacks and support: `pending`.; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+
+### Slice B6 - water
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: water; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+
+### Slice B7 - moving pistons and player displacement: `pending`.
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: moving pistons and player displacement: `pending`.; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+
+### Slice B8 - shape
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: shape; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+
+### Slice E1 - Speed, Slowness, Jump Boost, Levitation, Slow Falling, Dolphin's Grace and Blindness consumers
+
+- Inventory ID(s): INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: Speed, Slowness, Jump Boost, Levitation, Slow Falling, Dolphin's Grace and Blindness consumers; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+
+### Slice E2 - Depth Strider, Soul Speed, Swift Sneak, Frost Walker and Riptide consumer-to-registration
+
+- Inventory ID(s): INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: Depth Strider, Soul Speed, Swift Sneak, Frost Walker and Riptide consumer-to-registration; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+
+### Slice E3 - Elytra, use-item slowdown, equipment, movement item components and application
+
+- Inventory ID(s): INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: Elytra, use-item slowdown, equipment, movement item components and application; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+
+### Slice E4 - other discovered movement-affecting attributes
+
+- Inventory ID(s): INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: other discovered movement-affecting attributes; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+
+### Slice X1 - incoming velocity
+
+- Inventory ID(s): INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: incoming velocity; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+
+### Slice X2 - player knockback
+
+- Inventory ID(s): INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: player knockback; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+
+### Slice X3 - mount
+
+- Inventory ID(s): INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: mount; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+
+### Slice X4 - final unresolved movement-state writers, changed dependencies and cross-mechanic interactions: `pending`.
+
+- Inventory ID(s): INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: final unresolved movement-state writers, changed dependencies and cross-mechanic interactions: `pending`.; exact paired method ranges await readiness.
+- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
+- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
+- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
+- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
+- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+## Dependency queue and blockers
+
+- Open dependencies: D0 closed (both exact Mojmap markers, source/artifact/diagnostic manifests and provenance verified); D1 closed for readiness/alignment (cited methods and dependencies continue to be checked per slice); D2 open for remaining paired callers, collision/state writers, block/fluid shapes, registrations, callbacks, external velocity sources, modifier conditions and the Soul Speed attribute update timing against client prediction.
+- These are queued source-publication dependencies, not evidence of equivalence or differences. If a relevant damaged/missing body or absent data prevents a slice, record its exact path/range and blocked dependency.
+
+## Finding index
+
+- [water-depth-strider-rounding](findings/water-depth-strider-rounding.md): Depth Strider III water speed factor changes by one binary32 ulp; source-confirmed.
+- [soul-speed-client-friction-sync-candidate](findings/soul-speed-client-friction-sync-candidate.md): Soul Speed block friction now consumes a server-activated movement-efficiency attribute; source-backed candidate pending exact sync timing.
+
+## Resume checkpoint
+
+- Last completed slices: I1-I4 input/tick/yaw/sprint compared; L3 jump path compared; L5 water-travel arithmetic finding recorded. L4 has a bounded callback delta with closure pending. L2 has a source-backed Soul Speed sync-timing candidate; P1/P2/P4, L2 and L4 remain in progress pending dependencies.
+- Next bounded slice and exact files/members/body ranges to open: first continue L2/L4 with A `LivingEntity#baseTick` block-position callback lines 412-419 and `onChangedBlock(BlockPos)` lines 557-568; B `LivingEntity#checkFallDamage` lines 327-355, `baseTick` callback lines 433-439 and `onChangedBlock(ServerLevel,BlockPos)` lines 514-516; then B `ServerEntity#sendChanges` lines 322-329 and `ClientPacketListener#handleUpdateAttributes` lines 2062-2076. Keep client prediction packet timing unresolved unless source establishes a happens-before relation. Next L6 compare A/B `Attributes.java` movement/default ranges (A lines 43-73; B lines 50-102) against `Player#createAttributes`, `Player#aiStep`, `Player#getSpeed`, and `Entity#getGravity`; then resume queued velocity-threshold/external-source slices.
+- Outstanding dependencies and owners: D0/D1 readiness closed; D2 remains open for movement source dependencies and is owned by this discovery worker until handoff.
+- Current assumptions requiring verification: only cited source bodies are hash-checked so far; all remaining method correspondence, dependencies, callbacks, registrations and state writer/consumer closure are incomplete.
+
+## Implementation reconciliation
+
+Complete only after blind-discovery freeze and explicit authorization from the coordinator. This source-only assignment does not inspect or reconcile mod implementation.
+
+- Reconciliation status: pending
+- Repository revision inspected: not authorized in this source-only phase.
+- Finding -> implementation disposition/evidence: pending; no findings frozen.
+- Existing implementation without a frozen source finding: pending separate implementation owner.
+- Coverage gaps routed back to discovery slices: pending.
+
+## Independent source audit
+
+Reviewer must differ from discovery authors and must independently re-walk full exact source callgraph and all inventories. No reviewer assigned yet.
+
+- Reviewer: pending coordinator assignment
+- Status: pending
+- Inventories and call-chain ranges re-walked: pending
+- Concrete missed-slice routes (or none found): pending
+- Misses routed to slice/finding IDs and owners: pending
+- Reviewer evidence / date: pending
+
+## Source audit closure
+
+- Coverage counts by status: 1 findings; 7 compared-no-difference; 0 not-applicable; 0 blocked; 22 pending; 5 in-progress (35 planned slices; one source-backed candidate spans L2 and L4).
+- Required inventory status and evidence: all seven required inventories remain pending; L5 has one bounded source-confirmed finding and L2 one candidate, while complete inventories are not closed.
+- Open dependencies: D2 only; D0/D1 readiness and namespace alignment are closed.
+- Unresolved gaps and limits: 22 slices remain pending and 5 remain in progress, including full modifier coverage, collision/shape providers, blocks/fluids, external velocity sources, exclusions and independent audit. The confirmed finding and in-progress candidate do not close those inventories.
+- Evidence/hash/correspondence audit: exact source hashes and paired ranges are recorded for the L5 finding and L2 candidate; the overall evidence audit is incomplete.
+- Blind freeze: pending until pair coverage is complete.
+- Implementation reconciliation: pending and outside this assignment before explicit post-freeze authorization.
+- Independent audit: pending coordinator assignment.
+- Source-only declaration: no runtime Java implementation/mod implementation inspection; no wiki/MCPK browsing or wiki-audit output; no release-notes-derived movement claims; health/regen/hunger/food/saturation/exhaustion/damage/combat simulations and non-player movement excluded. Vanilla values may be traced only as direct movement predicate inputs.
+- Runtime validation: not performed (separate workflow; not authorized).
