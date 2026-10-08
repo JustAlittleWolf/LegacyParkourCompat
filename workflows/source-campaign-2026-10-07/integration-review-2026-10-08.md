@@ -32,3 +32,11 @@ This update supersedes the earlier REQUEST CHANGES disposition for the first pas
 - Base main before integration: ea812dc9171fdf41e02b3a2292db7d40b105c9c4. Net patch: 7 files, 193 insertions. The earlier TICK-01 remains integrated.
 - Test-disabled build succeeded: 18 tasks (5 executed, 13 up-to-date), with all Gradle Test task types disabled and -x test. No tests or runtime programs ran.
 - JAR SHA-256: 0EFADAB8C4FC87ABE8137C3E1F3E6A57CBAC15BB470E1048B739422839A7CB93.
+## 1.18.2 ascending sneak edge — 2026-10-08
+
+- Independent exact-code review: `c24391cc31a774da64b5d3e6d319a56a4a01e9a3`, ACCEPT for code commit `14a6e23432ab6a885b5c5ce265cf2404283756f6`; report: `workflows/implementation-reviews/2026-10-08-ascending-sneak-edge-implementation-review.md`.
+- Source finding F-002 snapshot: `1d5f18176eccc5103c08bd1807b2f2c32f2b3376`; finding SHA-256 `4a4a23d071397f4cd3a1c82ef4e4ff59885df9b63c79b425c927c310bd1dbbb9`; blind acceptance `0648b843fecf2358165a7c387cf348b02c66396b`.
+- Integrated on current main base `6e0803b3fb17eeb8a3a9861ac2638828ab3200ea`. Net incoming patch is limited to shared X/Z backoff factoring, the 1.18.2 historical hook/provider, and the Player mixin dispatch. The existing passenger-yaw path remains present and registered.
+- Test-disabled build succeeded with `gradlew.bat build -x test --init-script build/no-tests.init.gradle`; all Gradle `Test` task types were disabled. 18 actionable tasks: 3 executed, 15 up-to-date. No tests or runtime programs ran.
+- JAR `build/libs/LegacyParkourCompat+26.2-1.0.0.jar`, SHA-256 `193877F2902C2D375A2F3F1C7439EDD5CAFD92F884ED3134C24747261689A1A0`.
+- Static compilation/packaging only. Runtime movement parity and Mixin application remain unverified. No source pair is completed by this integration.
