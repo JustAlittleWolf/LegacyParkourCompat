@@ -43,7 +43,7 @@
     {
       "threadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
       "role": "integration_build_owner",
-      "status": "completed; docs937a502 integratedmain64895d266fcee5da774c3236295ba949045200c7",
+      "status": "active; accepted fence51ecf89/review8838f92 build andmain integration",
       "ref": "feat/movement-campaign-integration-2026-10-08@958b0916f08cba25e3be86d67d48a9d1e8651d1f",
       "resultCommit": "ea812dc9171fdf41e02b3a2292db7d40b105c9c4"
     },
@@ -241,7 +241,7 @@
     {
       "threadId": "01a11bd0-d66c-71c3-b7b7-3b3f11e2773d",
       "role": "swimming_pitch_independent_review",
-      "status": "active; independent fence implementation review",
+      "status": "completed; fence code51ecf89 ACCEPT8838f92 onfix/review-fence-end-portal-frame-1-9",
       "ref": "fix/swimming-pitch-control-1-13@f24fdcd"
     },
     {
@@ -306,7 +306,7 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:28:15.8189772Z",
+    "observedAt": "2026-10-08T14:28:41.4729739Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
