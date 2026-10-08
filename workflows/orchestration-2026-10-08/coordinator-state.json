@@ -153,7 +153,7 @@
       "role": "posefit_correction",
       "pair": null,
       "ref": "e6b61bd7f1334b7e4fa49a9bd0a5929e833338a8",
-      "status": "completed; corrected poseea62550bbecc8233917fb293dbe3ee627529f621 pending independent re-review"
+      "status": "Active accepted sleep-safety transition implementation reconciliation; eligibility and existing-hook proof first."
     },
     {
       "threadId": "01a11bbc-b876-7182-9025-3b589c5cd50c",
@@ -167,7 +167,7 @@
       "role": "ops_audit",
       "pair": null,
       "ref": null,
-      "status": "Active independent audit of all 11 accepted code batches and latest artifact/log; update backlog and pending provenance."
+      "status": "Completed independent 11-batch audit and passenger erratum at 902161eb; adopted on coordinator branch."
     },
     {
       "threadId": "01a11bbe-a775-7180-a017-d2386dcd9fb3",
@@ -204,7 +204,7 @@
       "threadId": "01a11bc2-2e8a-78e2-a4ec-cee2b9b52ee6",
       "role": "rising_crouch_implementation",
       "ref": "accepted source1d5f181;review0648b843",
-      "status": "Active accepted MC1204-1206-01 and02 implementation reconciliation; separate minimal deltas, no modern-only attribute producer emulation."
+      "status": "Active MC02 exact 1.20.5 boundary reconciliation and publication command planning; no Gradle execution, exclusive owner publishes later."
     },
     {
       "threadId": "01a11bc4-153a-78d1-8b2a-74e92c3b249d",
@@ -370,7 +370,7 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T15:24:46.7815990Z",
+    "observedAt": "2026-10-08T15:27:31.5805691Z",
     "oldCompleted": 43,
     "oldActive": 0,
     "unknownSlotReserved": 0,
@@ -603,7 +603,7 @@
     "review": "0cea9296f492f5d619bdec93b6cc118c16828d84",
     "originalSha256": "e1d51ee7f7395415dbe5d9d9692ea1f55cdd83cf0172de27c555e70c362a29d7",
     "reviewClone": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mcpk-slipperiness-1-15-2-2026-10-08",
-    "erratumStatus": "Ops worker assigned explicit provenance erratum, corrected ledger binding and labelled/restored shortened copy; integration remains pending."
+    "erratumStatus": "Ops provenance erratum completed in 902161eb and adopted; no-code proof and erratum await serialized documentation integration."
   },
   "concurrencyAuthorization": {
     "userRequest": "please up the limit to 20 workers",
@@ -648,5 +648,31 @@
     "commit": "6f0a567c47d57071e1e22c89efaeb74fbc531491",
     "status": "Replacement immutable snapshot queued for focused independent re-review after shallow water review.",
     "correction": "LivingEntity source SHA matches ready manifest; abilities-based flight off precondition explicit."
-  }
+  },
+  "jumpReconciliation": {
+    "status01": "Worker reports existing FlightActivationJump/V1_20_2 covers MC01; independent no-code review pending.",
+    "next": "Assigned worker to inspect caches and prepare exact decompile/publication command; exclusive integration owner executes only after active range batch.",
+    "status02": "Current hooks do not cover cutoff; 1.20.5 exact evidence needed before grouped-profile implementation.",
+    "proof02": "388baa3595af9f459b88c8b909dea2041350a0bf",
+    "branch": "fix/mc1204-jump-toggles",
+    "proof01": "da579ba8ef35f91aae0bb42fd79376057a1dddae"
+  },
+  "restitutionSourceCandidates": [
+    {
+      "status": "Candidate queued for separate blind source review; no implementation authorization.",
+      "blob": "ddeacbffb7db229000dc14af1d6805582f35a4f7",
+      "sha256": "ce0a428abe3a3c66e15a90be9d289b41227d650616d1f8945f7e9e088b650fc5",
+      "path": "workflows/source-campaign-2026-10-07/26.1.2--26.2/findings/F-26.2-BED-LANDING-RESTITUTION.md",
+      "pair": "26.1.2--26.2",
+      "commit": "118cc0d89130c9b0709e71a4455cf8585031fb14"
+    },
+    {
+      "status": "Candidate queued for separate blind source review; no implementation authorization.",
+      "blob": "7e1487f380b34b900408d7ad33be3c410a0b2bf9",
+      "sha256": "c14302ffa5b0a773d1e27adbb7f8fbe12188066c80763bdac4a8a02ef0446a05",
+      "path": "workflows/source-campaign-2026-10-07/26.1.2--26.2/findings/F-26.2-SLIME-LANDING-RESTITUTION.md",
+      "pair": "26.1.2--26.2",
+      "commit": "8eb345d5973158e7e1bc26a2044d63fb77b45e19"
+    }
+  ]
 }
