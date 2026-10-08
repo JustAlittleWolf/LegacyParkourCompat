@@ -3,6 +3,6 @@
  *
  * <p>Select a version with {@link me.wolfii.legacyparkourcompat.api.MovementController#select(me.wolfii.legacyparkourcompat.api.ParkourVersion)}.
  * {@link me.wolfii.legacyparkourcompat.api.MovementController#disable()} restores native mechanics.
- * Register historical deltas through {@link me.wolfii.legacyparkourcompat.api.MovementController#registry()}.
+ * Historical movement deltas are statically registered by the mod.
  */
 package me.wolfii.legacyparkourcompat.api;
