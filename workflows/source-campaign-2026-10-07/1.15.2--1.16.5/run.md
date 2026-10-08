@@ -298,6 +298,17 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - Disposition and rationale (including concrete reachability/preconditions): both methods return `SHAPE_BY_LAYER[LAYERS - 1]`; this is only collision-shape selection after LAYERS is supplied. B also adds a separate `getBlockSupportShape` method returning `SHAPE_BY_LAYER[LAYERS]`; its support-predicate consumers remain open under S5-SHAPES.
 - Finding IDs or checked absence/replacement path: none within the bounded collision method.
 
+### Slice S5-SUPPORT-SHAPES: sturdy-face support dispatch
+- Inventory ID(s): INV-COLLISION, INV-STATE, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards checked: A Block.isFaceSturdy collision-face test versus B BlockStateBase.isFaceSturdy/SupportType dispatch and the B Leaves/SnowLayer/SoulSand support providers.
+- A evidence: `../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/level/block/Block.java`, lines 419-425, SHA-256 `a5819a4c676d2b7e08cce7f80ae80a13726dd17b15e0b29efdce7e37efa2bf0d`; BlockState.java lines 184-199, SHA-256 `77320fd1e50e58d7a3ed593ccbcf21853c97d125fcebd2e0e305dc47524f21`.
+- B evidence: `../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/level/block/state/BlockBehaviour.java`, support dispatch lines 231-237, 532-533 and 703-712, SHA-256 `c62e2f07094e5a7bcad00cbae7d24497bf636cc740232a1472f4128a472def8b`; SupportType.java FULL/CENTER/RIGID consumers lines 11-40, SHA-256 `7a0fd4eb61a3cc444116af052dea22fb52c60fccb754bead28f5219f6ad99d19`; LeavesBlock.java lines 32-34, SHA-256 `4a39d80f4c709b74c8a0e87a5c49140eec40679c32a008b5ef64e1b07d098498`; SnowLayerBlock.java lines 67-69, SHA-256 `b7c42f5797f41f9281f850cbd9ff7af9256018f092135cc799d76c019d850f70`; SoulSandBlock.java lines 30-32, SHA-256 `da92572788c9416b511c003e50688d802e8248ccdb3e2d5eb155aa482549b095`.
+- State producers/writers -> consumers/readers: support-shape provider -> FULL/CENTER/RIGID face test -> consumers such as wall/fence/ladder state updates -> collision shape selected by movement sweep.
+- Parent slices / dependencies / closure evidence: S4-QUERY,S5-WALL,S5-FENCE-CONNECTION,S5-LADDER-SHAPE,S5-SHAPES; common support dispatch and the three B overrides inspected, but A/B per-block support equivalence, tag membership and movement-relevant consumers remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): A's default sturdy-face test excludes LEAVES then tests the collision face; B asks SupportType against getBlockSupportShape. B explicitly returns empty for Leaves, full layer shape for SnowLayer and Shapes.block for SoulSand. The state/neighbor consumer path is movement-reachable for wall/fence/ladder shapes, but the exact common-state consequences and all callers are not yet closed.
+- Finding IDs or checked absence/replacement path: none pending paired support-state and consumer closure.
+
 ### Slice S5-LADDER-SHAPE: ladder facing-to-shape selection
 - Inventory ID(s): INV-COLLISION, INV-STATE
 - Exact behavior boundary and enclosing guards checked: LadderBlock.getShape selection by FACING; attachment and survival writers are excluded from this method-only slice.
@@ -368,7 +379,7 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 
 - S1-ESCAPE-QUERY: pair A blocked/freeAt/isSuffocating with B noBlockCollision/getBlockCollisions and relevant shapes; establish same-state reachability. Owner: discovery author.
 - S4-MOVE/S4-QUERY: close the callback/provider edges and re-evaluate the B border guard after the newer main snapshot removed the prior standalone border finding. Owner: discovery author.
-- S5-SHAPES: compare common-block provider methods, B support-shape overrides, shape caches, neighboring-state writers, block/tag registrations and relevant resources. S5-SCAFFOLDING-COLLISION, S5-SLAB-SHAPE, S5-SNOW-COLLISION and S5-LADDER-SHAPE close bounded provider methods; S5-WALL and S5-FENCE-CONNECTION are active with geometry/state/resource comparison open, including inherited CrossCollisionBlock helpers. Ladder attachment and support-predicate consumers remain open. Owner: discovery author.
+- S5-SHAPES: compare common-block provider methods, B support-shape overrides, shape caches, neighboring-state writers, block/tag registrations and relevant resources. S5-SCAFFOLDING-COLLISION, S5-SLAB-SHAPE, S5-SNOW-COLLISION and S5-LADDER-SHAPE close bounded provider methods; S5-WALL, S5-FENCE-CONNECTION and S5-SUPPORT-SHAPES are active with geometry/state/resource comparison open, including inherited CrossCollisionBlock helpers. Ladder attachment and support-predicate consumers remain open. Owner: discovery author.
 - Remaining stage 2-7 slices: add bounded rows for state/pose/dimensions, movement attributes/effects/enchantments/equipment/resources, block/fluid registrations/callbacks, and client external inputs. Owner: discovery author.
 - Independent source reviewer: assign someone who did not author discovery; finding-snapshot decisions and eventual full-pair audit remain pending. Owner: coordinator.
 
@@ -388,9 +399,9 @@ The historical pair report is not imported as source confirmation.
 ## Resume checkpoint
 
 - Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-ELYTRA,S1-ESCAPE,S3-WATER,S3-FALL-FLYING,S4-STEP,S5-SLAB-SHAPE,S5-SNOW-COLLISION,S5-LADDER-SHAPE,S5-PISTON-SHAPE,S5-SCAFFOLDING-COLLISION; finding slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT,F-S5-PISTON-HEAD-THRESHOLD.
-- Active slices: S1-LOCAL-TICK,S1-LOCAL-AISTEP,S3-GROUND-AIR,S4-MOVE,S4-QUERY,S5-SHAPES,S5-WALL,S5-FENCE-CONNECTION; all required producer/consumer inventories remain partial.
+- Active slices: S1-LOCAL-TICK,S1-LOCAL-AISTEP,S3-GROUND-AIR,S4-MOVE,S4-QUERY,S5-SHAPES,S5-WALL,S5-FENCE-CONNECTION,S5-SUPPORT-SHAPES; all required producer/consumer inventories remain partial.
 - Next: compare high-reachability common-block shapes and their neighbor/state/registration routes; then continue pose/dimensions, modifiers/resources, fluid/callback and external-input inventories.
-- Outstanding dependencies: S1 escape-query shape providers; S4 callback/entity-collider and border-guard disposition; S5 common-block providers, support shapes, registrations and neighboring state writers (including ladder attachment, fence material/tag equivalence, and remaining piston push/tick paths); remaining stage 2-7 slices; independent reviewer assignment.
+- Outstanding dependencies: S1 escape-query shape providers; S4 callback/entity-collider and border-guard disposition; S5 common-block providers, support-shape consumers, registrations and neighboring state writers (including ladder attachment, fence material/tag equivalence, and remaining piston push/tick paths); remaining stage 2-7 slices; independent reviewer assignment.
 - Resume branch: feat/source-discovery-1-15-2-1-16-5-resume. Main commit d4c4f154a0c2487dd6dd7d20d92eb57b3d8ab1ae has been merged; the merge checkpoint and current tip are recorded by git log -1.
 - First next work: inventory exact common-block shape providers and compare the fence/wall, slab/stair, ladder/vine, moving-piston and scaffolding state/neighbor routes. Continue S1 tick/call-order and S3 helper/resource closure, then fill remaining stage 2-7 rows. Keep pair PARTIAL and findings limited to independently supported source claims.
 - Read-only resume commands from the repository root:
@@ -400,7 +411,7 @@ The historical pair report is not imported as source confirmation.
 
 ## Finding snapshots (not pair freeze)
 
-Each finding is committed as an immutable source snapshot. F-S1-OPEN-SHULKER-ESCAPE has separate blind-source acceptance and finding-only handoff eligibility recorded below; the other eight snapshots remain submitted and await independent review. Pair-wide implementation/source reconciliation remains deferred until the full-pair source freeze.
+Each finding is committed as an immutable source snapshot. F-S1-OPEN-SHULKER-ESCAPE has separate blind-source acceptance and finding-only handoff eligibility recorded below; the other nine snapshots remain submitted and await independent review. Pair-wide implementation/source reconciliation remains deferred until the full-pair source freeze.
 
 ### Snapshot event F-S1-SPRINT-RESET
 - Finding ID(s): F-S1-SPRINT-RESET
@@ -555,6 +566,23 @@ Each finding is committed as an immutable source snapshot. F-S1-OPEN-SHULKER-ESC
 - Pair status at snapshot submission: partial at d859478b9f6de63ba4a121a1f31d6dc90ad4f51e; pair status remains partial with full-pair coverage open.
 - Pair complete: no
 - Implementation handoff: eligible for a separate finding-only handoff limited to the accepted source-level branch claim; no handoff was sent by the reviewer.
+- Replaces/supersedes snapshot ID and reason, if applicable: none
+
+### Snapshot event F-S5-PISTON-HEAD-THRESHOLD
+- Finding ID(s): F-S5-PISTON-HEAD-THRESHOLD
+- Source finding author(s): source-only pair researcher
+- Status: submitted; independent blind review pending
+- Immutable snapshot commit: 58e56ee
+- Finding file path and SHA-256: findings/F-S5-PISTON-HEAD-THRESHOLD.md — 58cd05981150b0c162ecd10ea16560e7cfbb50cdf5027cb57577cf32a4c30163
+- Exact A/B artifact-manifest identities/hashes: ready/1.15.2/artifacts.sha256 208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406; ready/1.16.5/artifacts.sha256 f9b9812d6995012cefcc1201a63855e5931e8551b508753be6c46d442d8b370c
+- Cited source hashes: A PistonMovingBlockEntity 43ef9a249446cac093eb1f755bd55c4db5416474fa1668772f0f1257672e57a, MovingPistonBlock 7b767f2f15974a36734037b7342c00f609b13d85505ff818cde18620d733a79e, PistonHeadBlock 3db4ed7ed90f66b2534c4c19de8adb62416c9092091ae83a5d39bbdd5fe5165f; B PistonMovingBlockEntity 75d58043d5a9951f9b505a42b7656a5f01028633d971ba948167a9a95729a8b5, MovingPistonBlock 34f882c090cfec263f767e72f6104fc546d189688cfc4094f67022a6413e0b3b, PistonHeadBlock 9854f1d4728809cf9d89ac2632b0458eea12d1ea4488e36585922b1cadddb4bb
+- Verified implementation boundary/evidence, or unresolved boundary reason: implementation not inspected; source-only owner remains blind until full-pair freeze.
+- Finding-specific closed dependency IDs/evidence: S4-QUERY,S5-PISTON-SHAPE; moving-block collision dispatch, piston-head SHORT consumer, and 0.5F progress writer verified in the exact endpoint sources.
+- Independent blind source reviewer and decision date: pending.
+- Accepted claim limit: short/long collision-shape selection differs for a retracting source piston at progress 0.5F outside the matching NOCLIP direction; no displacement or trajectory is claimed. First changed release remains unknown in (1.15.2, 1.16.5]; runtime validation was not performed.
+- Pair status at snapshot submission: partial at 58e56ee; pair status remains partial with full-pair coverage open.
+- Pair complete: no
+- Implementation handoff: pending independent snapshot review; no handoff was sent.
 - Replaces/supersedes snapshot ID and reason, if applicable: none
 
 ## Implementation reconciliation
