@@ -54,14 +54,18 @@ Resource inventory is pending except for the cited B powder-snow entity tag. Nei
 | Entity horizontal squared distance | `net/minecraft/world/entity/Entity.java` | `F9A9A073FE3105A0AA53D0F21EC72E59084E8D21A14C1CD3BE75703865EE2666` | `AB28E1FBA924771EC048140DFD293EE5A46A7DFE81F71A1A0B1AECC1927232DE` |
 | Vector distance | `net/minecraft/world/phys/Vec3.java` | `B889010C321C45B497E71FF782D108A718ED23A5F605D6162904045E1E01FD48` | `EB52A20224767DAEB5DDC500552C673DF2DAF9CD6868D7E74356411E94EF402E` |
 | Math helper | `net/minecraft/util/Mth.java` | `0E4424FFA12923314C309AE13E012768271DFCACE4B5A84727F74E8170AFE290` | `24515C4549E01E985017227DCCF7159166A675B232BE9135D5F896022A9CB113` |
-| Level height lookup | `net/minecraft/world/level/LevelReader.java` | `D301B992D71B05306A3139E69F3F1529190F82404791EC60F9A693188D29577A` | `4D041CDBC702D532C5B9DA800C34BD1C23F8F3D3B554ECBDD89DECBB765A6B451A` |
+| Level height lookup | `net/minecraft/world/level/LevelReader.java` | `D301B992D71B05306A3139E69F3F1529190F82404791EC60F9A693188D29577A` | `4D041CDBC702D532C5B9DA800C34BD1C23F8D3B554ECBDD89DECBB765A6B451A` |
 | Dimension type | `net/minecraft/world/level/dimension/DimensionType.java` | `E2F87508C846871CE9A302509E5057E925AB242FA0A5C1BB953FB2B8BFB20DAC` | `2DC118F16B671D3B1B9736C10E960E199790F7930CFA18983F379BEB8D00F27B` |
 | Block registry | `net/minecraft/world/level/block/Blocks.java` | `3B39D5CC4CD22F146ED3195AA30CBB9FDFCA49F63783FABF9924A6CE7795FA12` | `87D72A113A3F8937A6A585EF917A4FD29CC5B335C00A858F6800E38F3C1BF7A8` |
 | Powder snow | `net/minecraft/world/level/block/PowderSnowBlock.java` | absent in A | `4069B3EF70E2D0CE146BBFF79BE54B2BE99B7C7B32818C1EB45F11FD66F99AA3` |
 
 | Coordinate constructor/floor | `net/minecraft/core/Vec3i.java` | `2C04952E6A5CECBC641E69EA6376AF91A13EBC4D8D6F427FC5392B50A5619FC2` | not cited in B |
 | Section-coordinate conversion | `net/minecraft/core/SectionPos.java` | — | `D17E6D4FF5E7573DDE74FDDAEB2733A39ECAC9C9EF4621A10BF868CC0513F52A` |
+| Collision-shape dispatch | `net/minecraft/world/level/CollisionGetter.java` | `B507D6BE11E5985A62CFEB249A99DCB5F8EDAF346F12CB2487797D9E01763EAC` | `EB707479E75CF200731DF4546A546FB984BE33CF3E4A8E17D3065A916497F747` |
+| Block-state shape dispatch | `net/minecraft/world/level/block/state/BlockState.java` | `EDD2D9DBA0C10D035774F8B2DD7DCF00D112D7A2D67734FBA1851A2D2F91BD36` | `EDD2D9DBA0C10D035774F8B2DD7DCF00D112D7A2D67734FBA1851A2D2F91BD36` |
 B client-jar resource cited by the powder-snow finding: `data/minecraft/tags/entity_types/powder_snow_walkable_mobs.json`, SHA-256 `A1D2F5C240C8D21446675AC242F898CC23EF3C343A2BC5FE125249192C9FBC3E`.
+
+The ready-tree source manifests used for hash rechecks are `build/movement-campaign-2026-10-07/ready/1.16.5/mojmap.sources.sha256` (SHA-256 `9499F2611D0E6DDE37CB635F1A28A591416382D6BC188B37D5F99E2B2A20823B`) and `build/movement-campaign-2026-10-07/ready/1.17.1/mojmap.sources.sha256` (SHA-256 `93270D229ACFB751BF56DAF1E7BE26CE3DCFF26B29E94AA157DE621405A3463B`). Recheck corrected the B `LevelReader.java` source hash to the manifest value above.
 ## Correspondence and call order
 
 See [Navigation index](#navigation-index). Names and signatures are resolved independently in both exact Mojmap trees; no name-only inference is used for a behavioral conclusion.
@@ -78,41 +82,65 @@ Each row below is one scoped slice. `pending` means no paired comparison has bee
 - `S2-PLAYER-STATE-POSE`, stage 2: `pending`; compare player abilities/food/effects defaults, pose and dimensions, eye height, swimming and active-item writers plus reachable local-player gates.
 - `S3-JUMP-BOOST`, stage 3: `findings`; source-confirmed precision difference on the player jump path. See [finding](findings/S3-jump-boost-precision.md).
 - `S3-POWDER-SNOW-CLIMB`, stage 3: `findings`; modern-only climb assist; related block registration/resource slice `S5-POWDER-SNOW` is recorded below. See [finding](findings/S3-powder-snow-climb.md).
+- `S3-02-POWDER-SNOW-STUCK-MOTION`, stage 3: `findings`; B's player-reachable powder-snow contact callback writes the existing stuck multiplier consumed by `Entity.move`; modern-only. See [finding](findings/S3-powder-snow-stuck-motion.md).
 - `S3-LEVITATION-UNLOADED-CHUNK`, stage 3: `blocked` for environment-specific disposition pending exact active dimension data and its source/synchronization path. See [finding](findings/S3-levitation-dimension-min.md).
 - `S3-GLIDE-DISTANCE-MATH`, stage 3: `compared-no-difference`, scoped to horizontal distance and animation speed helper expressions: A `Entity.getHorizontalDistanceSqr` returns `x*x + z*z` before `Math.sqrt`; B `Vec3.horizontalDistance` computes the same terms in the same order then calls `Math.sqrt`. A `Mth.sqrt(double)` returns `(float)Math.sqrt(d)`, matching B's explicit cast in `calculateEntityAnimation`.
 - `S3-DISCARD-FRICTION-PLAYER`, stage 3: `not-applicable`; B field defaults false, and the only B vanilla writers are `LongJumpToRandomPos<E extends Mob>` and `LongJumpMidJump extends Behavior<Mob>`. B writer source SHA-256 values: `4EC55D5D7915C32BF1A649B119A0E325ACB2ABC1D1A356890BEE093C42287FD2` and `36F42F3F7B9A5ECC4F3145A07F0C14EB710AF6BCC28031CB99520313255CE473`; this mob-only state path is not reachable by the local player.
 - `S3-TRAVEL-BRANCHES`, stage 3: `pending`; separately compare ground/air, water/lava, climb, fluid, friction and post-travel state paths beyond the bounded slices above.
 - `S4-ENTITY-COLLISION`, stage 4: `pending`; compare `Entity.move`, axis clipping, stepping, shape iteration, callbacks and position/box updates.
-- `S5-BLOCK-FLUID-PROPERTIES`, stage 5: `pending`; enumerate player-reachable block/fluid friction, speed/jump factors, flow and callbacks, registrations and tags beyond powder snow.\n- `S5-POWDER-SNOW`, stage 5: `findings`; the powder snow registration, block class and tag data are source-confirmed modern-only; see [finding](findings/S3-powder-snow-climb.md). It is excluded from historical behavior for A-era maps.
+- `S4-03-POWDER-SNOW-SHAPE-CONSUMER`, stage 4: `findings`; paired generic collision dispatch reaches B's entity-context powder-snow shape override. See [finding](findings/S4-powder-snow-collision-shape.md); the broader collision slice remains open.
+- `S5-BLOCK-FLUID-PROPERTIES`, stage 5: `pending`; enumerate player-reachable block/fluid friction, speed/jump factors, flow and callbacks, registrations and tags beyond powder snow.
+- `S5-03-CONTACT-CALLBACK-INVENTORY`, stage 5: `in-progress`; exact-source declaration inventory reproduced (29 A files, 33 B files, 28 shared). The replaced cauldron owners and four B-only owners are recorded below; body-by-body behavior comparison remains open.
+- `S5-05-RESOURCE-AND-REGISTRATION-CLOSURE`, stage 5: `pending`; complete all block/fluid registration, tag and resource dependencies.
+- `S5-POWDER-SNOW`, stage 5: `findings`; registration, block class, contact behavior and tag data are source-confirmed modern-only; see [findings](findings/S3-powder-snow-climb.md), [findings](findings/S3-powder-snow-stuck-motion.md) and [findings](findings/S4-powder-snow-collision-shape.md). It is excluded from historical behavior for A-era maps.
 - `S6-EFFECT-ENCHANTMENT-EQUIPMENT`, stage 6: `pending` except the Jump Boost consumer path documented under `S3-JUMP-BOOST`; compare effect application, enchantment formulas/conditions, attribute aggregation and equipment writers/data.
 - `S7-EXTERNAL-STATE`, stage 7: `pending`; compare packet-driven velocity/position corrections, pushes, explosions, pistons and riding transitions, distinguishing client-computed movement from server-supplied state.
+- `S3-04-TRAVEL-BRANCH-DEPENDENCIES`, stage 3: `pending`; keep the remaining travel and post-travel paths open.
+- `S4-01-ENTITY-COLLISION-BASELINE`, stage 4: `pending`; keep axis clipping, stepping and position/box update comparison open.
+- `S1-REMAINING-INPUT-TICK-AND-GATES` and `S2-PLAYER-STATE-POSE`, stages 1–2: `pending`; retain the existing entity tick, sprint/jump gates, player state, pose and dimensions dependencies.
 ## Dependency queue and blockers
 
 - `A-LOG`: obtain the 1.16.5 owner's raw successful log or preserve its transcript location; completion was confirmed, but no raw log is present in the accessible owner build directory.
 - `RESOURCES`: inspect exact client-jar resources and relevant server-supplied inputs for stages 5–7.
 - `DECOMPILER-WARNINGS`: determine whether B's two `ModelBakery` duplicate-lambda warnings intersect any movement dependency; otherwise disposition them as unrelated.
+- `CD-S1-04-01`: external acceptance remains pending for snapshot `5cf13c2f538ee420ed8c13bdc2a65605c20d0d6f`, file SHA-256 `a9e70192a493008498b0fe658b2c89439c831429eff992a5bbc8a55d22e1107b`.
+- `S5-03`: continue from the recorded callback owner inventory by comparing shared callback bodies and resolving the cauldron replacement and new B owners; do not treat filename overlap as behavioral equivalence.
 
 ## Finding index
 
 - [Jump Boost addition precision](findings/S3-jump-boost-precision.md) — source-confirmed; player behavior.
 - [Powder snow climb assist](findings/S3-powder-snow-climb.md) — source-confirmed; modern-only mechanic.
+- [Powder snow stuck movement multiplier](findings/S3-powder-snow-stuck-motion.md) — source-confirmed; modern-only contact behavior.
+- [Powder snow collision shape](findings/S4-powder-snow-collision-shape.md) — source-confirmed; modern-only player collision shape.
 - [Levitation dimension minimum](findings/S3-levitation-dimension-min.md) — candidate; blocked pending external dimension data.
 
 ## Resume checkpoint
 
-- Compared/resolved slices: `S1-INPUT-KEYBOARD`, `S1-LOCAL-AISTEP`, `S1-LOCAL-TICK-GATE`, `S3-JUMP-BOOST`, `S3-POWDER-SNOW-CLIMB`, `S3-GLIDE-DISTANCE-MATH`, `S3-DISCARD-FRICTION-PLAYER`; `S3-LEVITATION-UNLOADED-CHUNK` remains blocked for environment-specific disposition.
-- Next: compare stage 1 parent entity/living tick order, then close stage 2 player state and stage 3 travel branches.
-- Outstanding: A raw log, source hashes and dependencies for future slices, resource/data review.
+- Compared/resolved slices: prior slices plus the source-confirmed `S3-02-POWDER-SNOW-STUCK-MOTION` and `S4-03-POWDER-SNOW-SHAPE-CONSUMER`; callback declaration inventory `S5-03` is recorded but remains in progress. `S3-LEVITATION-UNLOADED-CHUNK` remains blocked for environment-specific disposition.
+- Next: continue the `S5-03` callback-body comparison, retain the open `S5-05`, `S3-04`, `S4-01` and remaining `S1`/`S2` dependencies, and follow the source-navigation stages in order.
+- Outstanding: A raw log, callback body review, resource/data review, external `CD-S1-04-01` acceptance, dimension data, and decompiler-warning disposition.
 - Runtime validation: not performed.
 
 ## Source audit closure
 
-Partial and in progress. Three stage-1 slices are compared; one stage-3 source-confirmed player finding, one modern-only finding, one blocked external-data candidate, one bounded no-difference math slice and one not-applicable player slice are recorded. All remaining stage rows are explicitly pending in the ledger. Outstanding dependencies include the A raw log, dimension-type data and source path, client resources, and the relevance disposition for B decompiler notices. This catalog does not claim exhaustive equivalence.
+Partial and in progress. Stage-1 slices remain partly open; stage-3 now has the jump-boost precision finding, powder-snow climb assist and stuck multiplier, one blocked external-data candidate, one bounded no-difference math slice and one not-applicable player slice. Stage-4 records the powder-snow shape consumer while general collision comparison remains open. Stage-5 has a reproduced callback declaration inventory but no full callback-body closure. `CD-S1-04-01` acceptance is pending. Outstanding dependencies include the A raw log, dimension-type data and source path, client resources, shared callback behavior, and the relevance disposition for B decompiler notices. This catalog does not claim exhaustive equivalence.
 
 
 ## Supporting audit evidence
 
 ### Navigation index
+
+#### S5-03 contact-callback owner inventory
+
+Rechecked against the exact ready Mojmap trees using declarations of `entityInside`, `stepOn`, `fallOn` and `updateEntityAfterFallOn` under `net/minecraft/world/level/block`. The source-manifest files and their SHA-256 values are recorded in the artifact manifest. The inventory reproduces 29 A-side files and 33 B-side files, with 28 paths shared. It is a declaration inventory only; shared callback bodies have not all been compared.
+
+Shared paths: `BaseFireBlock.java`, `BasePressurePlateBlock.java`, `BedBlock.java`, `Block.java`, `BubbleColumnBlock.java`, `ButtonBlock.java`, `CactusBlock.java`, `CampfireBlock.java`, `CropBlock.java`, `DetectorRailBlock.java`, `EndPortalBlock.java`, `entity/HopperBlockEntity.java`, `FarmBlock.java`, `HayBlock.java`, `HoneyBlock.java`, `HopperBlock.java`, `MagmaBlock.java`, `NetherPortalBlock.java`, `RedStoneOreBlock.java`, `SlimeBlock.java`, `StairBlock.java`, `state/BlockBehaviour.java`, `SweetBerryBushBlock.java`, `TripWireBlock.java`, `TurtleEggBlock.java`, `WaterlilyBlock.java`, `WebBlock.java` and `WitherRoseBlock.java`. `HopperBlockEntity.entityInside` is a static helper, not a `Block` override, but matched the same declaration filter and is retained in the inventory.
+
+The only A-only path is `CauldronBlock.java`, `entityInside(...)` (SHA-256 `A96D4F3AA5AE2D46A01D8302D4763080C6102426933F13496A9571309B7A0131`). B-only callback owners are `BigDripleafBlock.entityInside(...)` (`BigDripleafBlock.java`, `1E1315B0A53EB85A3365335131E7819C1B667A55E14343D839C5211C671FD59F`), `LavaCauldronBlock.entityInside(...)` (`LavaCauldronBlock.java`, `E9BE04409F64BEEAEEEA0F83E5B0220EF980FB083C4621CAA9D4692DDFF3EFC8`), `LayeredCauldronBlock.entityInside(...)` (`LayeredCauldronBlock.java`, `00DCCE7A9B773ED366F32937BB6A455B6614115EBCF66E4A032BCCF69291B4AA`), `PointedDripstoneBlock.fallOn(...)` (`PointedDripstoneBlock.java`, `A1EAADF6B494B378F4E075DCDFCAD398B3AC5BE86D9541EE919963E786702DB3`) and `PowderSnowBlock.entityInside(...)` (hash in the cited-source table). The cauldron split is a path replacement, not an absence claim. The four new B owners need behavior-level disposition; Powder Snow is traced in the findings below.
+
+#### S4-03 shape-consumer correspondence
+
+On both sides, `Entity.collide(Vec3)` gets block collision shapes through `CollisionGetter.getBlockCollisions(Entity, AABB)`; that dispatch asks `BlockState.getCollisionShape(...)` with a collision context, then the entity collision path resolves the requested axes through `Shapes.collide`. Relevant correspondences are `Entity.java` (`collide`, A lines 668 onward; B lines 750 onward), `CollisionGetter.java` (A lines 58 onward; B lines 61 onward), and `BlockState.java`. Their hashes are recorded in the cited-source table. The generic consumer exists on both sides; B adds the Powder Snow shape provider. This closes only that consumer correspondence and the new block's path, not the full S4-01 axis-clipping audit.
 
 #### Navigation index: 1.16.5 to 1.17.1
 
