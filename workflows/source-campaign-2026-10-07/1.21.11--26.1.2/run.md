@@ -585,13 +585,13 @@ Each entry is a bounded behavior boundary. Refine broad plans into exact member 
 ### Slice S5.8: Relevant block/fluid tags, data and resource defaults
 
 - Inventory ID(s): INV-WORLD-MOVEMENT, INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Relevant block/fluid tags, data and resource defaults. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: Began tag-backed values found on the player movement/collision paths. Core readers include `LivingEntity.onClimbable` (`CAN_GLIDE_THROUGH`, `CLIMBABLE`), `Entity.isStateClimbable` (`CLIMBABLE`), edge backoff (`FENCES`, `WALLS`, direct FenceGate check), fluid height/current trackers (`WATER`, `LAVA`), and BubbleColumn state creation (`ENABLES_BUBBLE_COLUMN_PUSH_UP`, `...DRAG_DOWN`, `BUBBLE_COLUMN_CAN_OCCUPY`).
+- A evidence: `VanillaBlockTagsProvider.java` lines 289-324 supplies the checked CLIMBABLE and CAN_GLIDE_THROUGH memberships (SHA-256 `8c17f2a6c6654721019e575377523edb0ac68c71b8325188a4e6412962c83474`); its explicit CLIMBABLE values are recorded in S5.5. `BlockItemTagsProvider.java` lines 323-327 and 467-468 supplies WALLS and FENCES/FENCE_GATES/SOUL_FIRE_BASE_BLOCKS values (SHA-256 `42745021bd044a287b8dccaef2a036e17daf973d964f025d5ed6f816a56f3bfe`). `FluidTagsProvider.java` lines 18-19 provides WATER={WATER,FLOWING_WATER}, LAVA={LAVA,FLOWING_LAVA} (SHA-256 `ab9fa0839166ea355bd34ca6c3f789415ee5dddc93779d97c2d6f6d0a931d2b7`). Bubble-column lower-block logic is direct SOUL_SAND/MAGMA in A (BubbleColumn source SHA-256 `5c48f8d09298ccfb26a2ad4d877816c6b264313f41ae07116e08795b4afba6e8`).
+- B evidence: corresponding `VanillaBlockTagsProvider.java` lines 289-323 has the same checked climb/glide data plus lines 1209-1210 assign MAGMA_BLOCK to ENABLES_BUBBLE_COLUMN_DRAG_DOWN and SOUL_SAND to ENABLES_BUBBLE_COLUMN_PUSH_UP (SHA-256 `e34485a342b377f530a28e4eb81c40163d69a0697acf7cfd19ee13baaab7ffbe`). `BlockItemTagsProvider.java` lines 323-327 and 467-468 has the same checked fence/wall tag expressions (SHA-256 `eb5fa6a7837ba01ccc9dfe8e15a21fe0428a5e24670c36c6b4af09937fa1cf13`). `FluidTagsProvider.java` lines 18-23 preserves WATER/LAVA membership and adds WATER to BUBBLE_COLUMN_CAN_OCCUPY (SHA-256 `3e3fab74c346256ba325b8953f4d6a6d8cf0670b182652c111053b51de8bec05`). These sources explain the B BubbleColumn state producer refactor without claiming all resources equivalent.
+- State producers/writers -> consumers/readers: the exact direct consumer-to-tag set above is paired; provider/tag layers or registry-derived memberships determine selected climbable states, edge-backoff support cases, and recognized fluids. B introduces data-driven bubble-column state membership where A tested fixed blocks. The vanilla provider values reviewed so far reproduce the corresponding A direct values.
+- Parent slices / dependencies / closure evidence: This is a first partial tag/value inventory, not D2 closure. Audit every tag/component/data/resource read from the complete movement and collision call graph, provider overrides and inherited/required-tag edges, all block/fluid defaults feeding S3-S6, state/resource registration for S5.1-S5.7 and fluid-source/member provenance for S4.6. Resolve the tag-backed BubbleColumn and climbable dependencies across S5.5/S5.7. Full D2 remains pending.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The checked built-in memberships for climb/glide/fences/walls and water/lava tags are paired for the listed readers; B's bubble-column data abstraction resolves to the same built-in vanilla source blocks/fluids. Remaining tags/resources and override inheritance are not exhaustively audited, so this slice has no terminal disposition.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S5.9: New liquid collision shape provider and player applicability
@@ -782,7 +782,7 @@ F-1 candidate snapshot submitted for blind review; acceptance is pending and doe
 
 ## Source audit closure
 
-- Coverage counts by status: 16 pending; 29 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
+- Coverage counts by status: 15 pending; 30 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
 - Required inventory status and evidence: all 7 pending; exact source inputs are verified, but full movement/provider/resource inventories remain incomplete.
 - Open dependencies: D2
 - Unresolved gaps and limits: inherited tick/travel/collision body comparisons, movement state producers/consumers, shape providers/registrations, and data/resource dependency closure.
