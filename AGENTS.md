@@ -47,7 +47,7 @@ Fabric Loom separates `src/main/` (shared), `src/client/` (client only), and `sr
 
 - `src/main/api/`: public version and movement controller API.
 - `src/main/mechanic/` and `mechanic/hook/`: hook interfaces and runtime lookup.
-- `src/main/change/`: granular historical deltas, registered through the `legacyparkourcompat:movement-change` entrypoint.
+- `src/main/change/`: granular historical deltas, statically registered by the per-version methods in `MovementChangeCatalog`.
 - `src/main/impl/`: registry and version resolution; for each mechanic, the closest applicable historical change wins.
 - `src/main/mixin/`: injections that dispatch to hooks. `src/main/network/`: join handshake and optional ViaVersion lookup.
 - `src/client/`: version UI and client handshake. `src/server/`: dedicated server config.

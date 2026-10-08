@@ -3,16 +3,14 @@ package me.wolfii.legacyparkourcompat.impl;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MechanicKey;
 import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
-import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MovementChangeRegistryImplTest {
     @MechanicType("test.alpha")
@@ -23,28 +21,32 @@ class MovementChangeRegistryImplTest {
     interface Beta extends VersionedMechanic {
     }
 
-    @MovementChange(emulates = ParkourVersion.V1_8)
     static final class Both implements Alpha, Beta {
     }
 
-    @MovementChange(emulates = ParkourVersion.V1_12)
     static final class LaterAlpha implements Alpha {
     }
 
     @Test
-    void mechanicTypesCollectsEveryHookInterface() {
-        List<Class<? extends VersionedMechanic>> types = MovementChangeRegistryImpl.mechanicTypes(Both.class);
-        assertEquals(2, types.size());
-        assertTrue(types.contains(Alpha.class));
-        assertTrue(types.contains(Beta.class));
-    }
-
-    @Test
-    void registerAnnotatesEachImplementedHook() {
+    void explicitRegistrationAddsOnlyTheDeclaredHook() {
         MovementChangeRegistryImpl registry = new MovementChangeRegistryImpl(() -> {
         });
         Both both = new Both();
-        registry.register(both);
+        registry.register(Alpha.class, ParkourVersion.V1_8, both);
+
+        Map<MechanicKey, RegisteredChange> resolved = ChangeResolver.resolve(registry.snapshot(), ParkourVersion.V1_8);
+        assertEquals(1, resolved.size());
+        assertSame(both, resolved.get(MechanicKey.of(Alpha.class)).implementation());
+        assertFalse(resolved.containsKey(MechanicKey.of(Beta.class)));
+    }
+
+    @Test
+    void explicitRegistrationsCanShareOneImplementationAcrossHooks() {
+        MovementChangeRegistryImpl registry = new MovementChangeRegistryImpl(() -> {
+        });
+        Both both = new Both();
+        registry.register(Alpha.class, ParkourVersion.V1_8, both);
+        registry.register(Beta.class, ParkourVersion.V1_8, both);
 
         Map<MechanicKey, RegisteredChange> resolved = ChangeResolver.resolve(registry.snapshot(), ParkourVersion.V1_8);
         assertEquals(2, resolved.size());
@@ -58,8 +60,9 @@ class MovementChangeRegistryImplTest {
         });
         Both both = new Both();
         LaterAlpha later = new LaterAlpha();
-        registry.register(both);
-        registry.register(later);
+        registry.register(Alpha.class, ParkourVersion.V1_8, both);
+        registry.register(Beta.class, ParkourVersion.V1_8, both);
+        registry.register(Alpha.class, ParkourVersion.V1_12, later);
 
         Map<MechanicKey, RegisteredChange> for18 = ChangeResolver.resolve(registry.snapshot(), ParkourVersion.V1_8);
         assertSame(both, for18.get(MechanicKey.of(Alpha.class)).implementation());

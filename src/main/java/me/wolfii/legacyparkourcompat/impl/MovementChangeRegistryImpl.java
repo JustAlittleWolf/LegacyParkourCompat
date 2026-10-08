@@ -5,9 +5,7 @@ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.*;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 final class MovementChangeRegistryImpl implements MovementChangeRegistry {
     private final List<RegisteredChange> changes = new ArrayList<>();
@@ -17,63 +15,8 @@ final class MovementChangeRegistryImpl implements MovementChangeRegistry {
         this.onChanged = onChanged;
     }
 
-    /**
-     * Every {@link MechanicType} interface this class implements, including those
-     * inherited through super-interfaces and superclasses.
-     */
-    @SuppressWarnings("unchecked")
-    static List<Class<? extends VersionedMechanic>> mechanicTypes(Class<?> implementation) {
-        Set<Class<?>> seen = new LinkedHashSet<>();
-        collectMechanicTypes(implementation, seen);
-        List<Class<? extends VersionedMechanic>> types = new ArrayList<>();
-        for (Class<?> type : seen) {
-            if (type.isInterface()
-                && VersionedMechanic.class.isAssignableFrom(type)
-                && type.isAnnotationPresent(MechanicType.class)
-            ) {
-                types.add((Class<? extends VersionedMechanic>) type);
-            }
-        }
-        if (types.isEmpty()) {
-            throw new IllegalArgumentException(
-                implementation.getName() + " does not implement a @MechanicType interface"
-            );
-        }
-        return List.copyOf(types);
-    }
-
-    private static void collectMechanicTypes(Class<?> type, Set<Class<?>> seen) {
-        if (type == null || type == Object.class || !seen.add(type)) {
-            return;
-        }
-        for (Class<?> iface : type.getInterfaces()) {
-            collectMechanicTypes(iface, seen);
-        }
-        collectMechanicTypes(type.getSuperclass(), seen);
-    }
-
     List<RegisteredChange> snapshot() {
         return List.copyOf(this.changes);
-    }
-
-    @Override
-    public void register(Object implementation) {
-        if (!(implementation instanceof VersionedMechanic mechanic)) {
-            throw new IllegalArgumentException(
-                implementation.getClass().getName() + " must implement a @MechanicType interface"
-            );
-        }
-        MovementChange annotation = implementation.getClass().getAnnotation(MovementChange.class);
-        if (annotation == null) {
-            throw new IllegalArgumentException(
-                implementation.getClass().getName() + " is missing @MovementChange"
-            );
-        }
-        for (Class<? extends VersionedMechanic> type : mechanicTypes(implementation.getClass())) {
-            @SuppressWarnings("unchecked")
-            Class<VersionedMechanic> cast = (Class<VersionedMechanic>) type;
-            this.register(cast, annotation.emulates(), mechanic);
-        }
     }
 
     @Override
