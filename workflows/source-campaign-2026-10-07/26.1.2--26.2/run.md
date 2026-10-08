@@ -25,6 +25,7 @@
 - Additional A source hash cited by the bed landing finding: `net/minecraft/world/level/block/BedBlock.java` `996e4ca63f4bfaea14b215648f2318d52c49f6c802317381a670d87c0a6d0b03`.
 - Additional A source hashes cited by the creative-flight speed input: `net/minecraft/client/MouseHandler.java` `887e11f879c5172c773d35020ea9ae5c98452b184607ec19b684a26c357a60dd`; `net/minecraft/network/protocol/game/ClientboundPlayerAbilitiesPacket.java` `2c13a4dcf511c99ab48b84b204c413835e3ccee3d8ad8b10d5a7bd13133f2c69` (also identical in B).
 - Additional A source hash cited by the piston movement slice: `net/minecraft/world/level/block/piston/PistonMovingBlockEntity.java` `67bceb946c172c5c022663fda32d123a6bbb85ca4171705ca9dc2c54105ab6e6`.
+- Additional A source hashes cited by the post-move block-speed slice: `net/minecraft/world/level/block/Block.java` `1693cfb7b84190a2fe664470a56d59e78ed5bd7d722a2bd16888b036d4d8e977`; `net/minecraft/world/level/block/state/BlockBehaviour.java` `9db85de84e502903e6fe497f043b58620b92089236ffb213f0b93db979428d13`.
 - Additional A source hashes cited by local input modifier inventory: `net/minecraft/world/item/component/UseEffects.java` `18525e459d066a046a20dce6176b3a9764de09f0d91e79c61c2203709744c8dd`; `net/minecraft/core/component/DataComponents.java` `64c8592c21c83c35dee0d4cc780b273d18ff30c4fea92c0868f296a164b2a11e`; `net/minecraft/world/item/Item.java` `a92a71ef9acd0a98e26914b61382e87f1ba098f779587d452f7373dfa8690ba4`; `net/minecraft/world/item/enchantment/Enchantments.java` `87c4d7799516cf33a0399398f4e7b503dc8ef1ebb8588fa2d5decfc33fa12157`.
 
 ### B — 26.2
@@ -42,6 +43,7 @@
 - Additional B source hashes cited by the bed landing finding: `net/minecraft/world/level/block/BedBlock.java` `22f515c272d52eebd75456e4a78eb7f38708d682f8d2cb5fdc170e7c3105af2b`; `net/minecraft/tags/BlockTags.java` `9834ecbe2facd79cf3d9fc79babd452ed0e000684029b2bb5e9f90aa4f51529e`.
 - Additional B source hash cited by the creative-flight speed input: `net/minecraft/client/MouseHandler.java` `049c4f21b6e1b724e1f0ed8b6784e55eae11c50ccd88c2a483a7253429ef8c15`.
 - Additional B source hash cited by the piston movement slice: `net/minecraft/world/level/block/piston/PistonMovingBlockEntity.java` `706bab1a13ba99bbd334aad853b99f72df58fce5b6b67d30d41f902b63dd8e06`.
+- Additional B source hashes cited by the post-move block-speed slice: `net/minecraft/world/level/block/Block.java` `cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab`; `net/minecraft/world/level/block/state/BlockBehaviour.java` `9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e`.
 - Additional B source hashes cited by local input modifier inventory: `net/minecraft/world/item/component/UseEffects.java` `18525e459d066a046a20dce6176b3a9764de09f0d91e79c61c2203709744c8dd`; `net/minecraft/core/component/DataComponents.java` `717ec4347940ff05f93116c74ecaac3adbafd3df0f732860464ad259d6b8b0b2`; `net/minecraft/world/item/Item.java` `215fb193bc9fc45702f55a19572ced3f03cc567a851c19050619255b2e59d01d`; `net/minecraft/world/item/enchantment/Enchantments.java` `9af5f89778ad9bd8667953049045027d8426fc692121a6842fe59178b6767ba0`.
 - Original client-jar resource inspected at `data/minecraft/tags/block/suppresses_bounce.json`: only `minecraft:honey_block` is listed; entry SHA-256 `a477a87ac4bcb97971cb0b445f4cc9b6b8e02cd31ba3d01bc842b17a6a8477a8`.
 
@@ -79,7 +81,7 @@ Each inventory maps to bounded slices below; all are pending. Add all newly disc
 
 ## Coverage ledger
 
-These are now 61 bounded work units, not an exhaustive inventory: 36 pending, 12 in-progress, 9 compared-no-difference, 2 findings, and 2 not-applicable. Pair comparison has started now that A is ready. B-only anchors are navigation evidence; do not infer equivalence or absence. Expand the ledger during the pair-specific inventory.
+These are now 61 bounded work units, not an exhaustive inventory: 35 pending, 11 in-progress, 11 compared-no-difference, 2 findings, and 2 not-applicable. Pair comparison has started now that A is ready. B-only anchors are navigation evidence; do not infer equivalence or absence. Expand the ledger during the pair-specific inventory.
 
 ### Slice S-IN-01: Keyboard input sampling and movement-vector construction
 
@@ -631,13 +633,13 @@ These are now 61 bounded work units, not an exhaustive inventory: 36 pending, 12
 ### Slice S-MOVE-BLOCK-SPEED: Post-move block speed factor applied to horizontal velocity
 
 - Inventory ID(s): INV-STATE, INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: B `Entity.move` reads `getBlockSpeedFactor()` after collision and movement emissions and multiplies X/Z delta; lines 788-797, with getter and support-block lookup as dependencies.
-- A evidence: pending exact source and caller/member correspondence.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/Entity.java::move(MoverType,Vec3),getBlockSpeedFactor(), lines 788-797,1085-1095`, SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`.
-- State producers/writers -> consumers/readers: support block/state and block speed property -> post-move horizontal velocity -> next tick; neighbor/support computation and registrations pending.
-- Parent slices / dependencies / closure evidence: S-MOVE-POS,S-MOVE-FLAGS; S-WORLD-01 registration inventory pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B body anchors read; no A comparison.
+- Exact behavior boundary and enclosing guards/order checked: A/B `Entity.move` scales X and Z of the current delta movement by `getBlockSpeedFactor()` after collision/response and movement emissions. The getter uses the block at `blockPosition()`, falling back to the block below that affects movement when the current factor is exactly `1.0F`, except water and bubble columns, which use the current factor. The full-source property search found exactly two non-default `.speedFactor(0.4F)` registrations in each endpoint (soul sand and honey); other blocks retain the `1.0F` property default.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java::move,getBlockSpeedFactor, lines 795-796,1021-1030`, SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`; `Block.getSpeedFactor(), lines 506-508`, SHA-256 `1693cfb7b84190a2fe664470a56d59e78ed5bd7d722a2bd16888b036d4d8e977`; `BlockBehaviour` speed factor default/copy/registration, lines 987,1052,1102-1103, SHA-256 `9db85de84e502903e6fe497f043b58620b92089236ffb213f0b93db979428d13`; `Blocks` soul-sand and honey registrations at lines 2144-2153,5929-5932, SHA-256 `ba8a258b33f73fe03f93e7b02f9c25d4f66cf3aaab04c4580d0863cc71bc866f`.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/Entity.java::move,getBlockSpeedFactor, lines 795-796,1085-1094`, SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`; `Block.getSpeedFactor(), lines 502-504`, SHA-256 `cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab`; `BlockBehaviour` speed factor default/copy/registration, lines 993,1059,1110-1111, SHA-256 `9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e`; `Blocks` soul-sand and honey registrations at lines 2045-2054,4964-4967, SHA-256 `f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435`.
+- State producers/writers -> consumers/readers: current/support block state and movement speed-factor property -> post-collision horizontal velocity scale -> subsequent tick/travel. Both endpoints have identical `1.0F` defaults and `0.4F` soul-sand/honey properties. Collision restitution before this call remains separately tracked in `S-MOVE-RESTITUTE`.
+- Parent slices / dependencies / closure evidence: S-MOVE-POS,S-MOVE-FLAGS,S-MOVE-RESTITUTE,S-WORLD-01; exact getter, factor registration scan and post-move multiplication were compared. The full block/fluid registry and unrelated movement properties remain open in `S-WORLD-01`.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for equivalent position/support block states and incoming delta movement, A/B use the same property fallback conditions and multiply X/Z by the same float factor. The complete setter/override source search found the same sole exceptional values (soul sand and honey at `0.4F`) and the same default (`1.0F`) in both endpoints. No block-speed consumer difference was found.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-EDGE-PROBE: Movement edge backoff hook
@@ -822,7 +824,7 @@ Two source-confirmed candidates are recorded: `F-26.2-SLIME-LANDING-RESTITUTION`
 
 ## Resume checkpoint
 
-- Last dispositioned slices: S-IN-01,S-IN-BASE,S-LOCAL-SNAPSHOT,S-SQUARE-MOVE,S-TICK-ENTRY,S-EXT-ENTITY-MOTION-PACKET,S-EXT-PLAYER-CORRECTIONS,S-PLAYER-IMPULSE-RESPONSE,S-SINK-INPUT,S-FLIGHT-VERTICAL-INPUT; `S-RIDEABLE-JUMP` and `S-CLIENT-AVATAR-STATE` are not applicable; `S-MOVE-RESTITUTE-SLIME` and `S-MOVE-RESTITUTE-BED` each have one source-confirmed finding. `S-LOCAL-UNSTUCK`, sprint start/stop, flight toggle/fall-flying request, input modifiers, Player aiStep pre/post, `S-EXT-01`, `S-EXT-PISTON-MOVEMENT`, and generic `S-MOVE-RESTITUTE` remain in progress. The active ledger has 61 units: 36 pending, 11 in-progress, 10 compared-no-difference, 2 findings, 2 not-applicable.
+- Last dispositioned slices: S-IN-01,S-IN-BASE,S-LOCAL-SNAPSHOT,S-SQUARE-MOVE,S-TICK-ENTRY,S-EXT-ENTITY-MOTION-PACKET,S-EXT-PLAYER-CORRECTIONS,S-PLAYER-IMPULSE-RESPONSE,S-SINK-INPUT,S-FLIGHT-VERTICAL-INPUT,S-MOVE-BLOCK-SPEED; `S-RIDEABLE-JUMP` and `S-CLIENT-AVATAR-STATE` are not applicable; `S-MOVE-RESTITUTE-SLIME` and `S-MOVE-RESTITUTE-BED` each have one source-confirmed finding. `S-LOCAL-UNSTUCK`, sprint start/stop, flight toggle/fall-flying request, input modifiers, Player aiStep pre/post, `S-EXT-01`, `S-EXT-PISTON-MOVEMENT`, and generic `S-MOVE-RESTITUTE` remain in progress. The active ledger has 61 units: 35 pending, 11 in-progress, 11 compared-no-difference, 2 findings, 2 not-applicable.
 - Next bounded slice and exact files/members/body ranges to open: finish the LocalPlayer pre-travel dependencies, beginning with `S-LOCAL-UNSTUCK`'s suffocation query/block-property inventory and then close the sprint, flight, fall-flying and input modifier predicates; continue with `LocalPlayer.aiStep()` and player-specific `LivingEntity.aiStep()/travel()` in each endpoint. Rehash newly cited source files before disposition.
 - Outstanding dependencies and owners: D-B-PROVENANCE (shared source owner), D-DEPENDENCIES (worker inventory).
 - Current assumptions requiring verification: no movement-relevant resource/data is omitted. No release introduction point can be inferred from these two endpoints alone.
@@ -846,7 +848,7 @@ Two source-confirmed candidates are recorded: `F-26.2-SLIME-LANDING-RESTITUTION`
 
 ## Source audit closure
 
-- Coverage counts by status: 36 pending; 11 in-progress; 10 compared-no-difference; 2 findings; 2 not-applicable; 0 blocked. This remains a working inventory; expand it as source/provider reachability is enumerated.
+- Coverage counts by status: 35 pending; 11 in-progress; 11 compared-no-difference; 2 findings; 2 not-applicable; 0 blocked. This remains a working inventory; expand it as source/provider reachability is enumerated.
 - Required inventory status and evidence: `INV-TICK` pending, with `S-IN-01`, `S-IN-BASE`, `S-LOCAL-SNAPSHOT`, `S-SQUARE-MOVE`, `S-TICK-ENTRY`, `S-SINK-INPUT`, and `S-PLAYER-IMPULSE-RESPONSE` compared; `S-RIDEABLE-JUMP` and `S-CLIENT-AVATAR-STATE` routed to `INV-EXCLUSIONS`; `S-LOCAL-UNSTUCK`, sprint start/stop, flight toggle/fall-flying request, `S-LOCAL-INPUT-MODIFIERS`, `S-PLAYER-AISTEP-PRE`, `S-PLAYER-AISTEP-POST`, and `S-FLIGHT-VERTICAL-INPUT` remain in-progress; other slices await source/provider closure.
 - Open dependencies: D-B-PROVENANCE (missing owner name/full stdout only), D-DEPENDENCIES. D-A-READY is resolved for exact `26.1.2/unobfuscated`.
 - Unresolved gaps and limits: current dispositions cover keyboard sampling/vector construction, neutral client-input fallback, the selected pre-travel input snapshot range and square-movement math; paired tick topology and direct flight/knockback velocity formulas have bounded source comparisons but retain open dependencies. Input modifier producers and conditions, player-facing external impulse/correction routes, the full call-path/provider inventory, findings, source freeze, independent audit and downstream reconciliation remain open.
