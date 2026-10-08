@@ -11,6 +11,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.FlightActivationJumpBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.FlightSneakInputBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.KeyboardDiagonalInputBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PassengerCrouchBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.PushAwayVelocityBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.RideableJumpBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowWaterSprintBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakInputSlowdownBehavior;
@@ -311,6 +312,39 @@ abstract class LocalPlayerMixin {
         boolean vanilla = player.isAffectedByFluids();
         return MovementRuntime.find(WaterDescentBehavior.class, player)
             .map(behavior -> behavior.mayDescend(player, vanilla))
+            .orElse(vanilla);
+    }
+
+    @ModifyArg(
+        method = "moveTowardsClosestSpace(DD)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/player/LocalPlayer;setDeltaMovement(DDD)V",
+            ordinal = 0
+        ),
+        index = 0
+    )
+    private double legacyparkourcompat$pushAwayVelocityX(double vanilla) {
+        return this.legacyparkourcompat$pushAwayVelocity(vanilla);
+    }
+
+    @ModifyArg(
+        method = "moveTowardsClosestSpace(DD)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/player/LocalPlayer;setDeltaMovement(DDD)V",
+            ordinal = 1
+        ),
+        index = 2
+    )
+    private double legacyparkourcompat$pushAwayVelocityZ(double vanilla) {
+        return this.legacyparkourcompat$pushAwayVelocity(vanilla);
+    }
+
+    private double legacyparkourcompat$pushAwayVelocity(double vanilla) {
+        LocalPlayer player = (LocalPlayer) (Object) this;
+        return MovementRuntime.find(PushAwayVelocityBehavior.class, player)
+            .map(behavior -> behavior.pushAwayVelocity(player, MovementRuntime.profile(player).target(), vanilla))
             .orElse(vanilla);
     }
 

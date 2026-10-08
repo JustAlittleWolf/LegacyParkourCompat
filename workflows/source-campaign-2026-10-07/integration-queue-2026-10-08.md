@@ -66,3 +66,18 @@ Independent exact-patch review is recorded at review commit `fddb263`.
 - Code `b215d723c22cf2c73601b7807056ba0d23fdbf23`; accepted tip `7d80e2eacea2ff6d088a522d8f0c1abb5768fdf3`; independent review `dd6958193b9f188341fb47f96e4cca56dd5a9a89` ACCEPTED.
 - Integrated after Pose and built with all Gradle `Test` tasks disabled. Source, review, profile-load boundary, and JAR SHA-256 are recorded in `integration-review-2026-10-08.md`.
 - WORLD03, swimming-entry, and slipperiness remain pending review. Runtime validation was not performed.
+
+## WORLD03 corrected ejection integration — 2026-10-08
+
+- Source snapshot `aa66894e64733ee729bf7176e08232d73b3bc03f` and finding SHA-256 `f45dfb003c1dfcc64df5c5d7710fd22a4e6c311b1b8b50a3d77ed1537689479d`; blind source acceptance `a2e510bdc7b284b4b4d0e7b323f6eea079abee80`.
+- Corrective code `8ae770141c4e9ca1b3f5fa3a1459d94132195306`; corrected tip `ff24abc4f199f6460f79dafd2c83a9a19d0f6121`; exact independent review `c1dee45d82c041fa83e42e35a0af8aefee35557f`, ACCEPT. Review report and exact net diff are recorded in `integration-review-2026-10-08.md`.
+- Integrated at `b8332d734a3d2b64030f9ed5658c8dc990348f46` against main `0bfb72a0bc08726f2ee3a984203c08b5d90cf34e`. The merge preserves fence, ejection, F-005, pose, and prior accepted registrations.
+- Test-disabled build succeeded; JAR SHA-256 `E42DB354624E47055220349F196A86EDE8480037DA264242F68203B9B332BF41`. Runtime validation not performed.
+- Swimming-entry is next in the authorized serial sequence; slipperiness remains pending.
+
+## Swimming-entry and Big Dripleaf disposition — 2026-10-08
+
+- Swimming source snapshot `78683ba65928004ce8b7b6b9371359164a68d43b`, finding SHA-256 `17284668382004ed3101a20c9f810d3b5cdb42721bc3efca8a7d5dfc641b3a32`; clean source review `6e045f3d50f9248ab329c5bd698caa935e8a9be3` ACCEPT. Code `5c419e8d950cf8e62174a4562cc352a1d952747f`, final tip `7376c93a5dbdc3313482cd9f04c5742650756b54`; exact implementation review `6ce9b54d1b9eb3bd623e1ab172d1654da3d7af47` ACCEPT.
+- Integrated after WORLD03 at `8352994616ce1fb64c2939f9240f21121b2ce76b`; build passed with all Gradle Test tasks disabled. JAR SHA-256 `E6ACA9E4FF063022ABB390BB2F207E86CD3BBDB2171B0233C118D6245315C8ED`.
+- Big Dripleaf snapshot SHA-256 `89c43e33dc7c5d9581950cf1f09e9b9d811e6d210899cee54eac01013f47f6ee` is ACCEPTED as no-code; its reconciliation is included without adding behavior.
+- Runtime validation not performed. Slipperiness remains pending.
