@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "capturedDate": "2026-10-08",
+  "purpose": "Durable scheduling proposal for the 26 exact adjacent source-discovery pairs and distinct review, implementation, and wiki lanes.",
+  "coveragePolicy": {
+    "sourcePairStatus": "partial",
+    "statusAppliesToAllPairs": true,
+    "reason": "Worker completion, an accepted finding snapshot, a branch checkpoint, or a build does not establish full-pair discovery coverage.",
+    "resumeRule": "Resume the exact recorded bounded action after verifying the saved ref, report, source markers, and hashes. Update the checkpoint after each closed slice.",
+    "sourceIsolation": "Source workers remain blind to implementation and wiki findings until a full-pair source freeze. Keep source discovery, implementation disposition, and runtime validation separate."
+  },
+  "coordinationAudit": {
+    "coordinatorThreadId": "01a11bae-d354-7931-8746-2ef6befcce75",
+    "coordinatorStateBranch": "feat/movement-coordinator-2026-10-08@fa867b5b2650ec524ad782bcfd9deb110952fe54",
+    "coordinatorModel": "gpt-6.1-sol",
+    "coordinatorReasoningEffort": "medium",
+    "workerModel": "gpt-6-luna",
+    "workerReasoningEffort": "high",
+    "maximumConcurrentRolesIncludingCoordinator": 15,
+    "observedConcurrentRoleCountIncludingCoordinator": 15,
+    "concurrencyNote": "Latest coordinator update adds the WORLD-03 implementation worker; conservative current count is at most the configured limit of 15 pending completions.",
+    "activeOldSourceReservation": {
+      "threadId": "01a116c5-ef2e-7990-97d5-835aee2a0ce8",
+      "pair": "1.17.1--1.18.2",
+      "status": "active; preserve its current writes and do not assign another writer to this pair"
+    },
+    "unknownCreation": {
+      "title": "Implement rising crouch edge restraint",
+      "threadId": "01a11b4a-7214-7b32-bc5c-2561635549af",
+      "pair": "1.18.2--1.19.2",
+      "observedStatus": "notLoaded; sole turn interrupted; no user, assistant, or tool items; no task branch/checkpoint found",
+      "slotDisposition": "released after independent confirmation",
+      "replacementWorkerThreadId": "01a11bc2-2e8a-78e2-a4ec-cee2b9b52ee6"
+    },
+    "primaryMain": {
+      "head": "ea812dc9171fdf41e02b3a2292db7d40b105c9c4",
+      "status": "clean; no tracked or untracked paths reported",
+      "relationToOriginMain": "ahead by 78 commits"
+    },
+    "integrationWorktree": {
+      "path": "C:/Users/Wolfi/.codex/worktrees/movement-campaign-integration/LegacyParkourCompat",
+      "branch": "feat/movement-campaign-integration-2026-10-08",
+      "head": "ea812dc9171fdf41e02b3a2292db7d40b105c9c4",
+      "verification": "Identity verified through git worktree list; the linked checkout's Git status was inaccessible from this audit context. Its committed integration result and build artifact were verified from the primary checkout and readable artifact path."
+    },
+    "activeRoster": [
+      { "role": "coordinator", "threadId": "01a11bae-d354-7931-8746-2ef6befcce75", "status": "active", "model": "gpt-6.1-sol", "reasoningEffort": "medium" },
+      { "role": "source 1.10.2--1.11.2", "threadId": "01a11bb3-7ca7-7510-8ec7-03f97db0cc9b", "status": "active" },
+      { "role": "source 1.12.2--1.13.2", "threadId": "01a11bb3-9efb-7962-b77b-722fbec5de31", "status": "active" },
+      { "role": "source 1.16.5--1.17.1", "threadId": "01a11bb8-92db-7630-ad50-8a02225dc3d4", "status": "active" },
+      { "role": "source 1.17.1--1.18.2 (reserved old worker)", "threadId": "01a116c5-ef2e-7990-97d5-835aee2a0ce8", "status": "active" },
+      { "role": "source 1.18.2--1.19.2", "threadId": "01a11bc4-153a-78d1-8b2a-74e92c3b249d", "status": "active" },
+      { "role": "integration/build owner (passenger-yaw-only batch)", "threadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1", "status": "active" },
+      { "role": "operations audit and queue", "threadId": "01a11bbe-910d-7c02-9261-b0d01b6822ed", "status": "active" },
+      { "role": "swimming finding reconciliation", "threadId": "01a11bc7-1a05-7291-a58f-613b83331a78", "status": "active" },
+      { "role": "movement-patch static re-review (pose-fit)", "threadId": "01a11bb1-adb2-7212-9a90-26537278d788", "status": "active" },
+      { "role": "Minecraft Wiki source correction", "threadId": "01a11bb3-d102-7723-b35b-cae34a76f976", "status": "active" },
+      { "role": "MCPK Wiki source correction", "threadId": "01a11bb3-e236-7343-86a7-4c51ecc20b98", "status": "active" },
+      { "role": "independent Elytra implementation review", "threadId": "01a11bcd-f62a-7610-8eff-f9782f3d072d", "status": "active" },
+      { "role": "independent rising-crouch implementation review", "threadId": "01a11bce-05d9-7c80-9a1e-0f65525c141b", "status": "active" }
+      ,{ "role": "WORLD-03 implementation", "threadId": "01a11bcf-351e-7b32-9a56-9a6800c65644", "status": "active", "model": "gpt-6-luna", "reasoningEffort": "high" }
+    ],
+    "completedRoles": [
+      { "role": "integration/build owner", "threadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1", "status": "completed prior TICK-01 batch; reactivated for passenger-yaw-only build/main batch", "priorIntegratedCommit": "ea812dc9171fdf41e02b3a2292db7d40b105c9c4" },
+      { "role": "source 1.9.4--1.10.2", "threadId": "01a11bb3-6dd8-7710-8f54-0b2d444da4b6", "status": "completed handoff; pair remains partial", "latestCommit": "b8740e806e52b6b51b7f9ae740f51a4f48c1af16" },
+      { "role": "source 1.10.2--1.11.2", "threadId": "01a11bb3-7ca7-7510-8ec7-03f97db0cc9b", "status": "completed handoff; pair remains partial", "latestCommit": "9d1b875b9d4e4a2bf8bcf2babfbda6adc788c5e0" },
+      { "role": "passenger yaw correction", "threadId": "01a11bc1-f2a2-7342-82ea-4072acd7ff4b", "status": "completed; independent re-review pending", "codeCommit": "5c2cc08", "mergeFromMainIntoTaskBranch": "32c8b0a" },
+      { "role": "Minecraft Wiki snapshot review", "threadId": "01a11bc2-03b2-7443-bc8f-698902c67f29", "status": "completed", "decisions": "swimming pitch accepted; fence requested changes only for incorrect 1.9.4 source-manifest SHA" },
+      { "role": "blind review early movement snapshots", "threadId": "01a11bbe-a775-7180-a017-d2386dcd9fb3", "status": "completed" },
+      { "role": "MCPK Wiki snapshot review", "threadId": "01a11bc2-1af1-7263-a36e-fb0ea5e4c509", "status": "completed; clean independent acceptance remains pending", "reviewCommit": "4fa5f57", "mergeFromMainIntoReviewBranch": "fcfd448" },
+      { "role": "passenger yaw correction review", "threadId": "01a11b95-a5c1-7fc2-acb7-652e40083fa4", "status": "accepted", "reviewCommit": "7c40951938a925fbb6fae541a95b462006113c09" },
+      { "role": "pose-fit correction", "threadId": "01a11bbc-a6b5-71e0-a621-4188022be823", "status": "implementation complete; review/integration pending", "branchHead": "88546aec1358009d3bdfb4e05ad3756348c16639" },
+      { "role": "Elytra start correction", "threadId": "01a11bbc-b876-7182-9025-3b589c5cd50c", "status": "implementation complete; independent review pending", "codeCommit": "361c15c", "branchHead": "bb84848" },
+      { "role": "rising crouch implementation", "threadId": "01a11bc2-2e8a-78e2-a4ec-cee2b9b52ee6", "status": "implementation complete; pair remains partial", "codeCommit": "14a6e23432ab6a885b5c5ce265cf2404283756f6" },
+      { "role": "previous coordinator", "threadId": "01a116a7-73f3-7562-8aba-0de2936e4c19", "status": "idle/completed" }
+    ]
+  },
+  "integrationEvidence": {
+    "acceptedCodeBatch": "TICK-01 only",
+    "sourceDiffBase": "457b350fa5490b90b08de4f97033718c77efec1d",
+    "sourceDiffHead": "ea812dc9171fdf41e02b3a2292db7d40b105c9c4",
+    "sourceDiffFiles": [
+      "src/client/java/me/wolfii/legacyparkourcompat/mixin/LocalPlayerMixin.java",
+      "src/main/java/me/wolfii/legacyparkourcompat/mechanic/hook/SprintTickBehavior.java"
+    ],
+    "sourceDiffSummary": "Two one-line changes: LocalPlayer.aiStep injection moved from TAIL to HEAD; callback Javadoc changed from end to start of AI tick.",
+    "buildCommand": "gradlew.bat build -x test --init-script build/no-tests.init.gradle",
+    "testDisableScript": "build/no-tests.init.gradle; beforeProject and projectsEvaluated hooks disable every Gradle Test task type across projects.",
+    "buildResult": "BUILD SUCCESSFUL; 18 actionable tasks executed; no test tasks ran.",
+    "artifactPath": "C:/Users/Wolfi/.codex/worktrees/movement-campaign-integration/LegacyParkourCompat/build/libs/LegacyParkourCompat+26.2-1.0.0.jar",
+    "artifactSha256": "1C3198B1E05AC5FD4CE4D84683060576CA34ED636CA81E88728FF9F6A07BCBD1",
+    "artifactHashVerification": "Verified directly from the readable artifact path during this audit. No build was run by the auditor.",
+    "runtimeValidation": "not performed"
+  },
+  "sourceReadinessCorrection": {
+    "canonicalReadyMarker": "D:/Javastuff/LegacyParkourCompat/build/movement-campaign-2026-10-07/ready/26.2/unobfuscated.ready.json",
+    "canonicalMarkerStatus": "present; status ready; versionId 26.2; mapping unobfuscated",
+    "canonicalSource": "D:/Javastuff/LegacyParkourCompat/build/movement-campaign-2026-10-07/ready/26.2/unobfuscated/net/minecraft/client/player/LocalPlayer.java",
+    "canonicalSourceSha256": "8D089AA09217E3607B38590F7C1623385562800943AC6DFD3D17804E041DA6D6",
+    "obsoleteMarkerPathChecks": [
+      { "path": "D:/Javastuff/LegacyParkourCompat/build/stable-shared-minecraft/ready/26.2--unobfuscated.json", "result": "missing (ObjectNotFound)" },
+      { "path": "C:/Users/Wolfi/.codex/worktrees/df7f/LegacyParkourCompat/build/stable-shared-minecraft/ready/26.2--unobfuscated.json", "result": "missing (ObjectNotFound), not an access-denied result" }
+    ],
+    "action": "Use the canonical campaign ready marker and source path above. Do not re-decompile, rehash the whole tree, or treat the obsolete paths as the shared-source contract."
+  },
+  "sourcePairs": [
+    { "index": 1, "pair": "1.8.9--1.9.4", "status": "partial", "workerThreadId": "01a11bb3-59d0-72c0-ab62-71a6d301d1d8", "workerStatus": "completed; no active source writer", "savedRef": "feat/source-discovery-movement-source-1-8-9-1-9-4@0481dfe227ccc14b935352c306afbd04035cc635", "checkpoint": "TICK-06/WORLD-03 state-solid provider inventory", "nextBoundedSourceAction": "Compare A block-level isSolid inputs and cube/signal predicates with B's state-aware path; determine whether any non-piston provider changes canSurvive.", "oldCheckpointThreadId": "01a116c5-2693-7f61-a50e-713b2c46e28a" },
+    { "index": 2, "pair": "1.9.4--1.10.2", "status": "partial", "workerThreadId": "01a11bb3-6dd8-7710-8f54-0b2d444da4b6", "workerStatus": "completed handoff; pair remains incomplete", "savedRef": "feat/source-discovery-movement-source-1-9-4-1-10-2-resume3@b8740e806e52b6b51b7f9ae740f51a4f48c1af16", "checkpoint": "12 no-difference slices, 5 findings awaiting review, 40 planned slices open", "nextBoundedSourceAction": "Continue the NoGravity movement branch, then inspect the Levitation vertical correction as an independent tick-ordered mechanic; retain the 40 open planned slices.", "oldCheckpointThreadId": "01a116c5-37bb-7581-9435-0344a548c269" },
+    { "index": 3, "pair": "1.10.2--1.11.2", "status": "partial", "workerThreadId": "01a11bb3-7ca7-7510-8ec7-03f97db0cc9b", "workerStatus": "active", "savedRef": "feat/source-discovery-movement-source-1-10-2-1-11-2@4d131ba91d13ad9da0a2e99bfa83093720b76a60", "checkpoint": "Pose-fit collision finding confirmed with forceShape=true; report remains open", "nextBoundedSourceAction": "Trace pose-fit state writers and dismount query after the confirmed forceShape=true collision finding; keep the pair partial.", "oldCheckpointThreadId": "01a116c5-4acc-7683-9d8f-6553954f8ff5" },
+    { "index": 4, "pair": "1.11.2--1.12.2", "status": "partial", "workerThreadId": "01a11bb3-9057-7283-b264-f6ff0befbb34", "workerStatus": "completed; no active source writer", "savedRef": "feat/source-discovery-movement-source-1-11-2-1-12-2@caae05ceebfdd46b86ccaf735426b9cb28450cc4", "checkpoint": "player geometry writer scan closed; exact wall collision comparison remains", "nextBoundedSourceAction": "Inspect east-only versus center-pole collision boxes and trace the case through PlayerEntity collision handling.", "oldCheckpointThreadId": "01a116c5-5dfb-7d21-a408-71bc4c4ea08f" },
+    { "index": 5, "pair": "1.12.2--1.13.2", "status": "partial", "workerThreadId": "01a11bb3-9efb-7962-b77b-722fbec5de31", "workerStatus": "active", "savedRef": "feat/source-discovery-movement-source-1-12-2-1-13-2@3a4a8a5c15b6a1de6bd86b8cbc194e3178081024", "checkpoint": "Closed stairs for fixed neighbor state; fence/provider lifecycle remains open", "nextBoundedSourceAction": "Scan the fence provider and callback/chunk lifecycle dependencies after closing stairs for the fixed neighbor state.", "oldCheckpointThreadId": "01a116c5-6dee-7202-9b10-6ccb3c2cdfa4" },
+    { "index": 6, "pair": "1.13.2--1.14.4", "status": "partial", "workerThreadId": "01a11bb3-aee2-7a81-b21f-e3b3b002ab9a", "workerStatus": "completed; no active source writer", "savedRef": "feat/source-movement-1-13-2-1-14-4-resume5@024077201f847dc5edcfa4d9bc7ce77a356dbea3", "checkpoint": "report partial after S024; no later source slice started", "nextBoundedSourceAction": "Close D-TICK-CLOSURE, D-COLLISION-SHAPES, D-MOVEMENT-DATA, D-EXTERNAL, and D-INDEPENDENT-AUDIT one dependency at a time.", "oldCheckpointThreadId": "01a116c5-9cbc-7820-ab25-6155b30449fe" },
+    { "index": 7, "pair": "1.14.4--1.15.2", "status": "partial", "workerThreadId": "01a11bb3-bfe4-75a3-97b4-888907814e44", "workerStatus": "completed; no active source writer", "savedRef": "feat/source-discovery-movement-source-1-14-4-1-15-2@16134a5a25a395521baabb9e9c40fb247ecb81a3", "checkpoint": "D-001 through D-004 remain unresolved", "nextBoundedSourceAction": "Resolve D-001 provenance, D-002 remaining source spans/hashes, D-003 movement/data/resource/external-input inventory, and D-004 independent reviews.", "oldCheckpointThreadId": "01a116c5-b0f5-78f1-b223-1f32f0c0232a" },
+    { "index": 8, "pair": "1.15.2--1.16.5", "status": "partial", "workerThreadId": "01a11bb5-8eb0-7813-bb21-160e97f4652c", "workerStatus": "completed; no active source writer", "savedRef": "feat/source-discovery-movement-source-1-15-2-1-16-5@d2511a34e9586231464fee42ab94f566c3f0459f", "checkpoint": "latest checkpoint save was blocked by invalid worktree metadata; preserve the recorded report/ref", "nextBoundedSourceAction": "On any resumed chat, verify branch and report access first, then record the bounded block-shape route and open dependencies before continuing.", "oldCheckpointThreadId": "01a116c5-c37a-7550-a674-790f5f411bfd" },
+    { "index": 9, "pair": "1.16.5--1.17.1", "status": "partial", "workerThreadId": "01a11bb8-92db-7630-ad50-8a02225dc3d4", "workerStatus": "active", "savedRef": "feat/source-discovery-movement-source-1-16-5-1-17-1-audit-oct8@1c61fa9a1d4b6f6d4dd2616d222a44e2e56f0659", "checkpoint": "Four source findings; packaged vibration-tag dependency remains open", "nextBoundedSourceAction": "Verify the report against manifests and close the packaged vibration-tag dependency; pair remains partial.", "oldCheckpointThreadId": "01a116c5-dbcd-7ae1-984e-e20a2b873da0" },
+    { "index": 10, "pair": "1.17.1--1.18.2", "status": "partial", "workerThreadId": "01a116c5-ef2e-7990-97d5-835aee2a0ce8", "workerStatus": "active; reserved old worker", "savedRef": "feat/source-discovery-movement-1-17-1-1-18-2-resume@b88ddb929a12324df0c15a02fa4432abeeb2d11a", "checkpoint": "F-007 position-packet threshold trace; movement-tag inventory closed; border collection guard under comparison", "nextBoundedSourceAction": "Check remaining item and enchantment attribute writers after closing the effects and enchantments inventories; preserve the border-guard findings and pair partial status.", "oldCheckpointThreadId": "01a116c5-ef2e-7990-97d5-835aee2a0ce8" },
+    { "index": 11, "pair": "1.18.2--1.19.2", "status": "partial", "workerThreadId": "01a11bc4-153a-78d1-8b2a-74e92c3b249d", "workerStatus": "active", "savedRef": "feat/source-discovery-movement-source-1-18-2-1-19-2@3d848610924c6b9f0ff19065dc26cef5fa1d0cec", "checkpoint": "Riptide no-difference result; tick/state/collision/environment dependency closures remain open", "nextBoundedSourceAction": "Continue the open tick/state/collision/environment dependency closures after the Riptide no-difference result; pair remains partial.", "oldCheckpointThreadId": "01a116cc-a8fa-79b0-becd-d47467c862d1" },
+    { "index": 12, "pair": "1.19.2--1.19.3", "status": "partial", "workerThreadId": null, "workerStatus": "unassigned; prior chat stopped", "savedRef": "feat/source-discovery-movement-source-1-19-2-1-19-3@5eae28a0d18041bdebca7427e45a379912ab88af", "checkpoint": "passenger sprint carryover routed; pair report remains partial", "nextBoundedSourceAction": "Record that disposition in the pair ledger, then continue the remaining LocalPlayer tick-path inventory.", "oldCheckpointThreadId": "01a116cc-bcb1-7162-98d8-3b94f9c7a699" },
+    { "index": 13, "pair": "1.19.3--1.19.4", "status": "partial", "workerThreadId": null, "workerStatus": "unassigned; prior chat stopped", "savedRef": "feat/source-discovery-movement-source-1-19-3-1-19-4@b5f7a155c702484d24b9195ecd3833de80c55143", "checkpoint": "D-1 through D-3 remain open", "nextBoundedSourceAction": "Close D-1 dismount/packet/tick timing, D-2 auto-jump collision providers, and D-3 remaining tick/state/world/modifier/external-input inventories.", "oldCheckpointThreadId": "01a116cc-d2c5-7bc1-b9ad-c9f226ad5868" },
+    { "index": 14, "pair": "1.19.4--1.20.1", "status": "partial", "workerThreadId": null, "workerStatus": "unassigned; prior chat stopped", "savedRef": "feat/source-discovery-movement-source-1-19-4-1-20-1@9ed617bf3bfb7666b6596570509d95b9db995092", "checkpoint": "S7-04 vehicle control and dismount routes saved", "nextBoundedSourceAction": "Trace S5-01 auto-jump block-provider inputs from Player.aiStep into block behavior and shape providers.", "oldCheckpointThreadId": "01a116cc-e6b1-7e71-81da-ec43bb6f75d1" },
+    { "index": 15, "pair": "1.20.1--1.20.2", "status": "partial", "workerThreadId": null, "workerStatus": "unassigned for source discovery; separate implementation assignment is checkpointed", "savedRef": "feat/source-discovery-movement-source-1-20-1-1-20-2@51a7f175431ae746de6630df0d2ea1940ad9d69d", "checkpoint": "D-LIVING-TRAVEL, D-LIVING-AISTEP, D-COLLISION, D-WORLD-MOVEMENT, D-MODIFIERS, and D-EXTERNAL remain open", "nextBoundedSourceAction": "Resume one dependency at a time, beginning with D-LIVING-TRAVEL; do not treat the separate passenger-crouch implementation assignment as source-pair completion.", "oldCheckpointThreadId": "01a116cd-3896-79c1-b873-c1315db28740" },
+    { "index": 16, "pair": "1.20.2--1.20.4", "status": "partial", "workerThreadId": null, "workerStatus": "unassigned; prior chat stopped", "savedRef": "feat/source-discovery-movement-source-1-20-2-1-20-4@847f34d18d59d55777633cd8a9fb93091234d645", "checkpoint": "DEP-02 boat-turning tag membership check", "nextBoundedSourceAction": "Verify exact 1.20.4 Player membership in the minecraft:can_turn_in_boats default tag and record both source/resource evidence hashes.", "oldCheckpointThreadId": "01a116cd-4e53-7832-8dbd-7854d8fc7bc2" },
+    { "index": 17, "pair": "1.20.4--1.20.6", "status": "partial", "workerThreadId": null, "workerStatus": "unassigned; six snapshots await independent review", "savedRef": "feat/source-discovery-movement-source-1-20-4-1-20-6@477b6afcb4d890bae82437ff98795592695b9e43", "checkpoint": "six finding snapshots pending; earliest changed release unresolved", "nextBoundedSourceAction": "Continue the exact-version boundary audit for each source-confirmed snapshot and close remaining source dependencies; route snapshots to review separately.", "oldCheckpointThreadId": "01a116cd-6a77-7c72-89eb-86e3734ffd45" },
+    { "index": 18, "pair": "1.20.6--1.21.1", "status": "partial", "workerThreadId": null, "workerStatus": "unassigned; prior chat stopped", "savedRef": "feat/source-discovery-movement-source-1-20-6-1-21-1@f8593bc61e95ff738998cb4c4614b918ded95f66", "checkpoint": "immutable X2 knockback finding and S7 tracker baseline route saved", "nextBoundedSourceAction": "Continue X1's server tracker baseline comparison between A ServerEntity and B's equivalent, keeping X2's finding status distinct.", "oldCheckpointThreadId": "01a116ca-5538-7612-9a49-ca9332e28835" },
+    { "index": 19, "pair": "1.21.1--1.21.3", "status": "partial", "workerThreadId": null, "workerStatus": "unassigned; prior chat stopped", "savedRef": "feat/source-discovery-movement-source-1-21-1-1-21-3@9efca3a29af87debd09cf76d92affbf475e98e16", "checkpoint": "method, resource, and independent source-audit dependencies remain open", "nextBoundedSourceAction": "Close METHOD-INVENTORY, RESOURCE-CHAIN, and SOURCE-AUDIT with evidence-backed terminal dispositions.", "oldCheckpointThreadId": "01a116ca-712f-7712-b42d-6bb3697e1e04" },
+    { "index": 20, "pair": "1.21.3--1.21.4", "status": "partial", "workerThreadId": null, "workerStatus": "unassigned; prior chat stopped", "savedRef": "feat/source-discovery-movement-source-1-21-3-1-21-4@0f60e99ba7aca36b9d4b2aaedd21a5fb5003a0fe", "checkpoint": "S2-06 recorded; S2-07 remains next", "nextBoundedSourceAction": "Trace the shulker box dynamic collision shape through its block entity and progress AABB methods (S2-07).", "oldCheckpointThreadId": "01a116ca-8d40-70f3-bfb1-a6545374626a" },
+    { "index": 21, "pair": "1.21.4--1.21.5", "status": "partial", "workerThreadId": null, "workerStatus": "unassigned; prior chat stopped", "savedRef": "feat/source-discovery-movement-source-1-21-4-1-21-5-resume@1f4f0d0e753d8b6999a37e4e81f8fc2b32fbaf18", "checkpoint": "pose/dimension/eye-height entries updated", "nextBoundedSourceAction": "Trace whether bed-start can preserve fall-flying through the next pose update and whether that affects dimensions or motion.", "oldCheckpointThreadId": "01a116ca-aa00-74c0-b073-86b0dd05cdb3" },
+    { "index": 22, "pair": "1.21.5--1.21.8", "status": "partial", "workerThreadId": null, "workerStatus": "unassigned; prior chat stopped", "savedRef": "feat/source-discovery-movement-source-1-21-5-1-21-8@846d88672a0a7c216fea8e6ee68d29a7af0937e3", "checkpoint": "checkpoint save blocked by missing owned worktree; committed branch tip preserved", "nextBoundedSourceAction": "Compare A/B FishingHook.tick with the recorded body hashes; resolve the gravity supplier and one-tick position delta before rod retrieval.", "oldCheckpointThreadId": "01a116ca-d248-7610-a68e-3ea97b42416d" },
+    { "index": 23, "pair": "1.21.8--1.21.10", "status": "partial", "workerThreadId": null, "workerStatus": "unassigned; prior chat stopped", "savedRef": "feat/source-discovery-movement-source-1-21-8-1-21-10@71bfe059d83766f4e60d83ad5642f48c8ffaa559", "checkpoint": "S2.1 Level.isClientSide accessor/field comparison is next", "nextBoundedSourceAction": "Verify B's Level.isClientSide accessor against A's field read, then close the S2.1 caller/provider chain.", "oldCheckpointThreadId": "01a116cb-3c17-7090-b2de-4065adde123f" },
+    { "index": 24, "pair": "1.21.10--1.21.11", "status": "partial", "workerThreadId": null, "workerStatus": "unassigned; prior chat stopped", "savedRef": "feat/source-discovery-movement-source-1-21-10-1-21-11@da3a98ccca40807587102c958747a2c0488fb18a", "checkpoint": "S4 collision-query slice next", "nextBoundedSourceAction": "Compare the exact A/B Entity collision query behavior in S4-collision-query, then follow its player caller and shape providers.", "oldCheckpointThreadId": "01a116cb-627e-71e0-9739-f8805177eaa2" },
+    { "index": 25, "pair": "1.21.11--26.1.2", "status": "partial", "workerThreadId": null, "workerStatus": "unassigned; prior chat stopped", "savedRef": "feat/source-discovery-movement-source-1-21-11-26-1-2@8925319ec400364f53fd07f2a156a6da1268f6cb", "checkpoint": "37 pending, 10 in progress, and 8 no-difference slices were recorded; pair remains partial", "nextBoundedSourceAction": "Record the verified partial S7 findings and dependencies, then continue the remaining pending/in-progress inventories without upgrading pair status.", "oldCheckpointThreadId": "01a116cb-8c14-7883-9e25-953ef8212465" },
+    { "index": 26, "pair": "26.1.2--26.2", "status": "partial", "workerThreadId": null, "workerStatus": "unassigned; prior chat stopped", "savedRef": "feat/source-discovery-movement-source-26-1-2-26-2@b43d35babb5bec9467691ae5043fcf24b6efacde", "checkpoint": "entity-push caller route remains in player-source audit", "nextBoundedSourceAction": "Compare the LivingEntity player entity-push caller path across the exact pair and close its state/producer dependencies.", "oldCheckpointThreadId": "01a116cb-f0e4-7870-a1f1-f1a8f30f6218" }
+  ],
+  "reviewQueue": [
+    { "lane": "blind finding-snapshot review", "threadId": "01a11bbe-a775-7180-a017-d2386dcd9fb3", "status": "completed", "savedRefs": ["aa66894", "105ec98"], "scope": "Early snapshots; preserve the blind review boundary." },
+    { "lane": "movement-patch static re-review", "threadId": "01a11bb1-adb2-7212-9a90-26537278d788", "status": "active", "priorReviewCommit": "bdb6443", "priorNotesCommit": "d3190b4", "scope": "Independent re-review of updated implementation; not a source-pair completion audit." },
+    { "lane": "Minecraft Wiki snapshot review", "threadId": "01a11bc2-03b2-7443-bc8f-698902c67f29", "status": "completed", "savedRefs": ["005e647", "b20730f"], "decisions": "swimming pitch accepted; fence requested changes only for incorrect 1.9.4 source-manifest SHA", "followUp": "wiki provenance correction queued" },
+    { "lane": "MCPK Wiki snapshot review", "threadId": "01a11bc2-1af1-7263-a36e-fb0ea5e4c509", "status": "completed; review separation contaminated, clean acceptance still pending", "savedRefs": ["8c83d93", "f4d5dcf", "3de1093", "bb05061"], "reviewCommit": "4fa5f57", "mergeFromMainIntoReviewBranch": "fcfd448", "limitations": "MCPK catalog HTTP 403; no live-page verification claimed; repeat four dispositions with a clean reviewer after owner correction." }
+  ],
+  "wikiLanes": [
+    { "lane": "Minecraft Wiki", "priorAuditThreadId": "01a11bb3-d102-7723-b35b-cae34a76f976", "priorAuditStatus": "active; correcting fence manifest SHA", "reviewThreadId": "01a11bc2-03b2-7443-bc8f-698902c67f29", "reviewStatus": "completed", "decisions": "swimming pitch accepted; fence requested changes for the 1.9.4 source-manifest SHA only", "provenanceCorrection": "active owner correction" },
+    { "lane": "MCPK Wiki", "priorAuditThreadId": "01a11bb3-e236-7343-86a7-4c51ecc20b98", "priorAuditStatus": "active; correcting swimming flying guard/slipperiness path", "reviewThreadId": "01a11bc2-1af1-7263-a36e-fb0ea5e4c509", "reviewStatus": "completed; separation contaminated, clean independent acceptance remains pending", "reviewCommit": "4fa5f57", "limitation": "No live-page verification claimed because the MCPK catalog returned HTTP 403." }
+  ],
+  "implementationQueue": [
+    { "finding": "TICK-01 sprint timeout", "status": "integrated", "commit": "ea812dc9171fdf41e02b3a2292db7d40b105c9c4", "runtimeValidation": "not performed" },
+    { "lane": "passenger yaw correction", "threadId": "01a11bc1-f2a2-7342-82ea-4072acd7ff4b", "status": "implemented; independent review accepted; integration/main pending", "codeCommit": "5c2cc08", "taskBranchTip": "32c8b0a7e089e32d2b755a513241ac0e58d1d562", "mainMergedIntoTaskCommit": "32c8b0a", "reviewThreadId": "01a11b95-a5c1-7fc2-acb7-652e40083fa4", "reviewCommit": "7c40951938a925fbb6fae541a95b462006113c09" },
+    { "lane": "pose-fit correction", "threadId": "01a11bbc-a6b5-71e0-a621-4188022be823", "status": "implemented; review and integration pending", "branch": "fix/movement-pose-fit-float-state-2026-10-08", "branchHead": "88546aec1358009d3bdfb4e05ad3756348c16639" },
+    { "lane": "Elytra start correction", "threadId": "01a11bbc-b876-7182-9025-3b589c5cd50c", "status": "implemented; independent review and integration pending", "branch": "fix/elytra-start-full-request", "codeCommit": "361c15c", "branchHead": "bb84848", "canonicalSourceReadiness": "verified at sourceReadinessCorrection.canonicalReadyMarker" },
+    { "lane": "rising crouch edge restraint", "threadId": "01a11bc2-2e8a-78e2-a4ec-cee2b9b52ee6", "status": "implemented; integration pending", "branch": "fix/1182-ascending-sneak-edge", "codeCommit": "14a6e23432ab6a885b5c5ce265cf2404283756f6", "acceptedFindingSnapshot": "1d5f181", "reviewCommit": "0648b843" },
+    { "lane": "swimming pitch finding reconciliation / V1_13 look-Y", "threadId": "01a11bc7-1a05-7291-a58f-613b83331a78", "status": "active; implementing narrow difference", "trigger": "Float-versus-double sine lookup difference found; implement V1_13 look-Y delta" },
+    { "lane": "independent Elytra implementation review", "threadId": "01a11bcd-f62a-7610-8eff-f9782f3d072d", "status": "active", "model": "gpt-6-luna", "reasoningEffort": "high" },
+    { "lane": "independent rising-crouch implementation review", "threadId": "01a11bce-05d9-7c80-9a1e-0f65525c141b", "status": "active; authoritative clean review", "model": "gpt-6-luna", "reasoningEffort": "high" },
+    { "lane": "WORLD-03 implementation", "threadId": "01a11bcf-351e-7b32-9a56-9a6800c65644", "status": "active", "model": "gpt-6-luna", "reasoningEffort": "high" },
+    { "lane": "passenger crouch input", "priorThreadId": "01a11af3-f1bd-7571-8701-84c43c2ebe5d", "priorStatus": "checkpointed; no implementation changes", "checkpointCommit": "3d4909ebebfe5b3e936bc591f85f2de711a6c1df", "runtimeValidation": "not performed" }
+  ]
+}
