@@ -7,6 +7,7 @@ Read [README.md](README.md) for project behavior and commands. The module guides
 - This is a one-way compatibility layer: newer clients emulate old player movement to play maps from that era. Do not invent historical behavior for features those maps could not contain.
 - Block states stay vanilla. Historical collision *shapes* of blocks that existed in the emulated version are movement mechanics and are in scope. Movement of non-player entities is out of scope.
 - Implement each historical mechanic change as an independent, minimal delta. For a selected version, `ChangeResolver` applies changes from that version or later and chooses the closest change for each mechanic. Do not duplicate whole movement loops or physics classes between versions.
+- Keep each mechanic hook tied to one independently resolved technical operation. A change may implement several narrow hook interfaces when one historical behavior affects those operations, but each interface remains separately registered and resolved. Implement version changes independently; do not inherit one release's behavior from another release's change class. Share only neutral helpers for operations that are truly identical, and prefer vanilla accessors/invokers when they preserve the historical operation's exact math and gates. Never call modern behavior that differs from the historical source.
 - Match historical math tick for tick. Preserve floating-point operation order, casts, and quirks even when a simpler expression looks equivalent. Decompiled source from the exact Minecraft version is the primary reference; the MCPK and Minecraft wikis are secondary references.
 - Keep mixins thin and general: inject at a shared Minecraft hook where practical, then let `MovementRuntime` and the mechanic hook decide the block or situation. Put historical changes in `change/`, not in dedicated block mixins.
 - Never swallow errors. Crash on broken invariants or unexpected nulls on movement paths. Log expected failures such as unreadable config, unknown version IDs, and rejected joins with `LegacyParkourCompat.LOGGER` and handle them.
@@ -47,7 +48,7 @@ Fabric Loom separates `src/main/` (shared), `src/client/` (client only), and `sr
 
 - `src/main/api/`: public version and movement controller API.
 - `src/main/mechanic/` and `mechanic/hook/`: hook interfaces and runtime lookup.
-- `src/main/change/`: granular historical deltas, statically registered by the per-version methods in `MovementChangeCatalog`.
+- `src/main/change/`: granular historical deltas, independently implementing their mechanic hooks and statically registered by explicit per-version methods in the single `MovementChangeCatalog`. Register a multi-hook change under each interface it implements; do not add per-version providers or movement entrypoints.
 - `src/main/impl/`: registry and version resolution; for each mechanic, the closest applicable historical change wins.
 - `src/main/mixin/`: injections that dispatch to hooks. `src/main/network/`: join handshake and optional ViaVersion lookup.
 - `src/client/`: version UI and client handshake. `src/server/`: dedicated server config.
