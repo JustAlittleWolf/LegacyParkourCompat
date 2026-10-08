@@ -287,6 +287,17 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - Disposition and rationale (including concrete reachability/preconditions): both methods use the same TYPE switch: DOUBLE returns Shapes.block(), TOP returns TOP_AABB, and the remaining value returns BOTTOM_AABB. This establishes only shape selection once TYPE is supplied; its writers, state resources and other shape consumers remain outside this row.
 - Finding IDs or checked absence/replacement path: none within the bounded getShape method.
 
+### Slice S5-SNOW-COLLISION: snow-layer collision shape
+- Inventory ID(s): INV-COLLISION, INV-STATE
+- Exact behavior boundary and enclosing guards checked: SnowLayerBlock.getCollisionShape selection by LAYERS; support-shape behavior and layer-state writers remain separate.
+- A evidence: `../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/level/block/SnowLayerBlock.java`, lines 56-63, SHA-256 `89a20299049e7b33f92bc5a6d18f3c0c5d429a7891d85179315b68845a1ff486`.
+- B evidence: `../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/level/block/SnowLayerBlock.java`, lines 57-64, SHA-256 `b7c42f5797f41f9281f850cbd9ff7af9256018f092135cc799d76c019d850f70`.
+- State producers/writers -> consumers/readers: LAYERS -> `SHAPE_BY_LAYER[LAYERS - 1]` collision shape -> movement collision sweep.
+- Parent slices / dependencies / closure evidence: S4-QUERY,S5-SHAPES; paired collision-shape methods select the same indexed shape.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): both methods return `SHAPE_BY_LAYER[LAYERS - 1]`; this is only collision-shape selection after LAYERS is supplied. B also adds a separate `getBlockSupportShape` method returning `SHAPE_BY_LAYER[LAYERS]`; its support-predicate consumers remain open under S5-SHAPES.
+- Finding IDs or checked absence/replacement path: none within the bounded collision method.
+
 ### Slice S5-LADDER-SHAPE: ladder facing-to-shape selection
 - Inventory ID(s): INV-COLLISION, INV-STATE
 - Exact behavior boundary and enclosing guards checked: LadderBlock.getShape selection by FACING; attachment and survival writers are excluded from this method-only slice.
@@ -357,7 +368,7 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 
 - S1-ESCAPE-QUERY: pair A blocked/freeAt/isSuffocating with B noBlockCollision/getBlockCollisions and relevant shapes; establish same-state reachability. Owner: discovery author.
 - S4-MOVE/S4-QUERY: close the callback/provider edges and re-evaluate the B border guard after the newer main snapshot removed the prior standalone border finding. Owner: discovery author.
-- S5-SHAPES: compare common-block provider methods, B support-shape overrides, shape caches, neighboring-state writers, block/tag registrations and relevant resources. S5-SCAFFOLDING-COLLISION, S5-SLAB-SHAPE and S5-LADDER-SHAPE close bounded provider methods; S5-WALL and S5-FENCE-CONNECTION are active with geometry/state/resource comparison open, including inherited CrossCollisionBlock helpers. Ladder attachment and neighbor writers remain open. Owner: discovery author.
+- S5-SHAPES: compare common-block provider methods, B support-shape overrides, shape caches, neighboring-state writers, block/tag registrations and relevant resources. S5-SCAFFOLDING-COLLISION, S5-SLAB-SHAPE, S5-SNOW-COLLISION and S5-LADDER-SHAPE close bounded provider methods; S5-WALL and S5-FENCE-CONNECTION are active with geometry/state/resource comparison open, including inherited CrossCollisionBlock helpers. Ladder attachment and support-predicate consumers remain open. Owner: discovery author.
 - Remaining stage 2-7 slices: add bounded rows for state/pose/dimensions, movement attributes/effects/enchantments/equipment/resources, block/fluid registrations/callbacks, and client external inputs. Owner: discovery author.
 - Independent source reviewer: assign someone who did not author discovery; finding-snapshot decisions and eventual full-pair audit remain pending. Owner: coordinator.
 
@@ -376,7 +387,7 @@ The historical pair report is not imported as source confirmation.
 
 ## Resume checkpoint
 
-- Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-ELYTRA,S1-ESCAPE,S3-WATER,S3-FALL-FLYING,S4-STEP,S5-SLAB-SHAPE,S5-LADDER-SHAPE,S5-PISTON-SHAPE,S5-SCAFFOLDING-COLLISION; finding slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT,F-S5-PISTON-HEAD-THRESHOLD.
+- Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-ELYTRA,S1-ESCAPE,S3-WATER,S3-FALL-FLYING,S4-STEP,S5-SLAB-SHAPE,S5-SNOW-COLLISION,S5-LADDER-SHAPE,S5-PISTON-SHAPE,S5-SCAFFOLDING-COLLISION; finding slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT,F-S5-PISTON-HEAD-THRESHOLD.
 - Active slices: S1-LOCAL-TICK,S1-LOCAL-AISTEP,S3-GROUND-AIR,S4-MOVE,S4-QUERY,S5-SHAPES,S5-WALL,S5-FENCE-CONNECTION; all required producer/consumer inventories remain partial.
 - Next: compare high-reachability common-block shapes and their neighbor/state/registration routes; then continue pose/dimensions, modifiers/resources, fluid/callback and external-input inventories.
 - Outstanding dependencies: S1 escape-query shape providers; S4 callback/entity-collider and border-guard disposition; S5 common-block providers, support shapes, registrations and neighboring state writers (including ladder attachment, fence material/tag equivalence, and remaining piston push/tick paths); remaining stage 2-7 slices; independent reviewer assignment.
