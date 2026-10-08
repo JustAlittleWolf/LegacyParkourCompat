@@ -36,7 +36,7 @@
     {
       "threadId": "01a11bb1-adb2-7212-9a90-26537278d788",
       "role": "implementation_static_review",
-      "status": "active; pose float correction independent review; passenger ACCEPT7c409519",
+      "status": "completed; pose REQUEST CHANGES ee651bcc71e8828e7609ff12fdff3e9490c6285d: block-only query and older-profile fallback",
       "scope": "four pending code patches",
       "resultCommit": "bdb6443; notes d3190b4"
     },
@@ -94,7 +94,7 @@
       "threadId": "01a11bb3-9efb-7962-b77b-722fbec5de31",
       "role": "source",
       "pair": "1.12.2--1.13.2",
-      "status": "active",
+      "status": "completed; source partial at1c027c68c8bcbe72b0891ee213458c14c32d3dff",
       "ref": "feat/source-discovery-movement-source-1-12-2-1-13-2@f744f3e5ca418ba8797341eca50ab1677933d1d7",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -143,7 +143,7 @@
       "role": "source",
       "pair": "1.16.5--1.17.1",
       "ref": "01b6522",
-      "status": "active",
+      "status": "completed; source partial at2efc80f3103b656480eb08b036cf2ea3bfb03fcb",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
     },
@@ -152,7 +152,7 @@
       "role": "posefit_correction",
       "pair": null,
       "ref": "e6b61bd7f1334b7e4fa49a9bd0a5929e833338a8",
-      "status": "completed; code88546aec1358009d3bdfb4e05ad3756348c16639 awaiting independent review"
+      "status": "active; focused block-only query/profile fallback pose correction"
     },
     {
       "threadId": "01a11bbc-b876-7182-9025-3b589c5cd50c",
@@ -203,7 +203,7 @@
       "threadId": "01a11bc2-2e8a-78e2-a4ec-cee2b9b52ee6",
       "role": "rising_crouch_implementation",
       "ref": "accepted source1d5f181;review0648b843",
-      "status": "completed; internal review subagent finished; dedicated fresh review pending"
+      "status": "active; MCPK BigDripleaf and swimming implementation reconciliation"
     },
     {
       "threadId": "01a11bc4-153a-78d1-8b2a-74e92c3b249d",
@@ -217,7 +217,7 @@
     {
       "threadId": "01a11bc7-1a05-7291-a58f-613b83331a78",
       "role": "swimming_pitch_reconciliation",
-      "status": "active; accepted fence103786e reconciliation; prior swimming code accepted",
+      "status": "completed; fence code51ecf89cfdb2d077a34a56e7e1c05a9d1236f46d handoff4488245 awaiting review",
       "ref": "source b20730f; wiki-aware review22849555"
     },
     {
@@ -241,7 +241,7 @@
     {
       "threadId": "01a11bd0-d66c-71c3-b7b7-3b3f11e2773d",
       "role": "swimming_pitch_independent_review",
-      "status": "completed; swimmingf24fdcd ACCEPT90eaed02",
+      "status": "active; independent fence implementation review",
       "ref": "fix/swimming-pitch-control-1-13@f24fdcd"
     },
     {
@@ -279,7 +279,7 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:18:06.9577496Z",
+    "observedAt": "2026-10-08T14:20:08.0428037Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
@@ -290,7 +290,7 @@
     "mainUntracked": "generated worktrees preserved; local exclude applied by integration owner",
     "TICK01": "independently accepted, built with all Test tasks disabled, merged into main; ops verification pending",
     "passengerYaw": "integrated; test-disabled build success; no runtime",
-    "poseFit": "corrected; independent review assigned",
+    "poseFit": "reviewee651bcc requests block-only collision query and older-profile fallback correction",
     "elytraStart": "corrected; independent review assigned",
     "oldCoordinator": "idle/completed verified",
     "reviewReport": "bdb6443;notes d3190b4",
