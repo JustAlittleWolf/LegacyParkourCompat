@@ -59,14 +59,14 @@ Each bounded behavior remains open until both exact source sides, the relevant m
 ### Slice S1-input-motion: 1 / yaw-to-motion, diagonal normalization, input scaling and move-relative dispatch
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: 1 / yaw-to-motion, diagonal normalization, input scaling and move-relative dispatch; pending source navigation and full enclosing method review.
-- A evidence: pending validated 1.20.4 Mojmap source; no method body inspected.
-- B evidence: pending validated 1.20.6 Mojmap source; no method body inspected.
-- State producers/writers -> consumers/readers: pending exact member-level inventory.
-- Parent slices / dependencies / closure evidence: source dependency D-SOURCES; planned dependencies: local input to movement vector; pending source verification.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): comparison not started; no equivalence or difference claim.
-- Finding IDs or checked absence/replacement path: none; source comparison not started.
+- Exact behavior boundary and enclosing guards/order checked: local input impulses copied to LivingEntity's xxa/zza movement vector, the regular travel call, `handleRelativeFrictionAndCalculateMovement`'s relative-move dispatch, and `Entity.moveRelative/getInputVector` normalization, speed scaling, yaw rotation and velocity addition. Branch-specific acceleration and travel physics are separate S3 slices.
+- A evidence: 1.20.4 `LocalPlayer.aiStep()` copies `input.leftImpulse`/`forwardImpulse` at lines 613-614; `LivingEntity.aiStep()` damps `xxa`/`zza` by `0.98F`, forms the movement vector at line 2595 and dispatches `travel` at lines 2601-2603. `Player.travel()` forwards to `super.travel()` on both branches, lines 1451-1469. The living ground movement helper dispatches `moveRelative` at line 2203. `Entity.moveRelative/getInputVector` lines 1295-1308. File hashes: LocalPlayer `bb5cbfb03656a1866bb77c00431618befe792081223b35db4bd121ecbb151fd5`; Player `218da60bc4f8c9279f56eb87e2cf2c0af79562fbe3d818a408429c656efb95dd`; LivingEntity `f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d`; Entity `07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9`.
+- B evidence: 1.20.6 corresponding input assignments at lines 615-616; LivingEntity damps `xxa`/`zza` by `0.98F`, forms the movement vector at line 2675 and calls travel at lines 2681-2683. `Player.travel()` forwards to `super.travel()` on both branches, lines 1473-1491. Relative-move dispatch is at line 2270. `Entity.moveRelative/getInputVector` lines 1311-1324. File hashes: LocalPlayer `6b429dfa6e0681251ec985dda1627f808652a7bbe5b70dc85c8fa0fe0ed46ffa`; Player `785d93ccc94e1f912e545b2b0c355edeb352b44ee8e83a69364daec35266dbe2`; LivingEntity `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`; Entity `71cd6b9f6c002684154dce11d3745e8714d82f13c8e1b3aa56743930131c18f3`.
+- State producers/writers -> consumers/readers: sampled input impulses -> LocalPlayer xxa/zza -> LivingEntity movement vector -> regular player travel and friction helper -> Entity relative-motion helper -> delta movement. The paired normalization, scalar application, trigonometric yaw transform, and vector addition bodies are textually identical. Only this vector-transform subpath is closed; branch-specific input scalar producers, jump/flight transforms, and travel equations remain in their own open slices.
+- Parent slices / dependencies / closure evidence: D-SOURCES resolved; `S1-input-sampling` is compared-no-difference and supplies the input reader; the exact player input-to-relative-motion call chain is source-verified. No claim is made about the surrounding travel branch outcomes.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): In the regular non-riding local-player movement path, both versions copy the same directional impulses and route them through the same movement-vector construction, relative-move dispatch and `getInputVector` body. That body returns zero below the same squared-length threshold, normalizes only above unit squared length, applies the same scalar, uses the same sine/cosine yaw formula and adds the same vector to delta movement. This closes that bounded transform only.
+- Finding IDs or checked absence/replacement path: checked no difference for the paired input-to-relative-motion transform; no finding.
 
 ### Slice S1-sprint-gates: 1 / sprint start/stop, timers, gates, item-use and blindness consumers only
 
@@ -350,8 +350,8 @@ Each bounded behavior remains open until both exact source sides, the relevant m
 - Exact behavior boundary and enclosing guards/order checked: 4 / step-up candidates, comparison, tie-breaking and step height; pending source navigation and full enclosing method review.
 - A evidence: 1.20.4 `LivingEntity.maxUpStep()` lines 3423-3426 reads inherited 0.6F step field; `Entity.move()` lines 596-725 uses virtual maxUpStep for step-candidate checks.
 - B evidence: 1.20.6 `LivingEntity.maxUpStep()` lines 3490-3493 reads STEP_HEIGHT; `Entity.move()` lines 597-726 has step-candidate checks. Source hashes Entity A/B: `07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9` / `71cd6b9f6c002684154dce11d3745e8714d82f13c8e1b3aa56743930131c18f3`. MC1204-1206-05.
-- State producers/writers -> consumers/readers: B synced STEP_HEIGHT attribute -> LivingEntity.maxUpStep -> unchanged Entity.move candidate heights; controlling-player passenger still floors result at 1.0F.
-- Parent slices / dependencies / closure evidence: D-SOURCES resolved; input-height finding MC1204-1206-05. Collision candidate/shape/tie-break path remains open for this broad step-candidate slice.
+- State producers/writers -> consumers/readers: B syncable STEP_HEIGHT attribute -> `ClientPacketListener.handleUpdateAttributes` applies supplied living-entity values -> `LivingEntity.maxUpStep` -> unchanged `Entity.move` candidate-height input; controlling-player passenger still floors the result at 1.0F. A player constructor sets the inherited field to 0.6F.
+- Parent slices / dependencies / closure evidence: D-SOURCES resolved. Finding-specific input-to-consumer dependency is closed in MC1204-1206-05. The wider collision candidate/shape/tie-break path remains open for this broad step-candidate slice and is outside the finding's stated consequence.
 - Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): Default 0.6 matches A; B non-default STEP_HEIGHT changes candidate height. The remainder of candidate collision behavior has not been closed.
 - Finding IDs or checked absence/replacement path: MC1204-1206-05.
@@ -602,8 +602,8 @@ Each bounded behavior remains open until both exact source sides, the relevant m
 - Exact behavior boundary and enclosing guards/order checked: 6 / server-synchronized movement attributes/data and client-only conclusion; pending source navigation and full enclosing method review.
 - A evidence: 1.20.4 `Attributes.java` has only horse-specific jump strength and no generic gravity/scale/step-height player attributes; SHA-256 `287dcd477ccca2aebd24ad28db7b0e7a1e9dc9bbeb272d330cd15504b8669ff7`.
 - B evidence: 1.20.6 `Attributes.java` lines 42-47, 66-74 defines syncable GRAVITY/JUMP_STRENGTH/SCALE/STEP_HEIGHT; B LivingEntity attribute builder includes them at lines 292-305. SHA-256 `7e30d87c7a58b14d0052d2f9f7319d997b49ae7d025579cd762d28e845b2e82e`.
-- State producers/writers -> consumers/readers: Attribute builder supplies player instances; synchronization/source of non-default values remains external; client movement consumes current values at jump/travel/dimension/step paths.
-- Parent slices / dependencies / closure evidence: D-SOURCES resolved; bounded attribute additions are evidenced by MC1204-1206-03 through -06. Client attribute packet handling and exact external value provenance have not been audited.
+- State producers/writers -> consumers/readers: Attribute builder supplies player instances. A/B `ClientPacketListener.handleUpdateAttributes` accepts snapshots for living entities and applies base values/modifiers (A lines 2049-2073, SHA-256 `ff9c8222614551075b03454ee78712b0d39f0f51845e74bff76a81486f09b42f`; B lines 2059-2083, SHA-256 `e121e998ec25211aaecf91fffd0ea699cebd47eddea9134efd3f2ffbef8eb7cd`). Client movement consumes current values at jump/travel/dimension/step paths. The upstream producer of non-default values remains external and unverified.
+- Parent slices / dependencies / closure evidence: D-SOURCES resolved; bounded attribute additions are evidenced by MC1204-1206-03 through -06. Client-side receipt/application is now verified; exact external value provenance and broader server boundary remain open.
 - Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): The attributes are marked syncable and flow into inherited player movement calculations, but the client update handler and complete server boundary remain unreviewed.
 - Finding IDs or checked absence/replacement path: MC1204-1206-03, MC1204-1206-04, MC1204-1206-05, MC1204-1206-06.
@@ -744,7 +744,11 @@ rg -n -C 8 'public void aiStep|jumpTriggerTime|isAlwaysFlying|isSprinting|input\
 
 ## Finding snapshots (not pair freeze)
 
-- No individual finding snapshot has been submitted for independent blind source review or accepted. The six findings remain source-report evidence only; no implementation handoff has been made. Snapshot acceptance, if later requested and independently reviewed, will not alter this pair's active status or open-slice counts.
+- `MC1204-1206-05` submitted for independent blind source review: finding file `findings/MC1204-1206-05.md`, SHA-256 `a6296dcbedc454962625693587baf4d4a3a950f4453518178d6799bca92a26d4`; immutable snapshot commit `8797e40a04bbcb2de46fa4a689b181afb8a1a4ad`. Exact A/B artifact manifest hashes are `ee3efc771d264c0bc49d5472abb9763a646f8d221841d0a61201ecd991cb3948` / `e5882622bcf22b3e3c2c96c73843a1308e11e3096f4feefd945ea5808933ce31`; source manifest hashes are `fd3c8668483e5ff208c847474f6cbd3952a909c4aa602ed98b24e3d11a9602a1` / `56aae10684471d7abb1c366bd5dd431ab976112a87e6cc5c687a68f1eff06311`.
+  - Review status: submitted; independent reviewer not yet assigned, decision pending. No acceptance is claimed.
+  - Finding dependency status: input-to-consumer path closed; wider S4 collision audit is out of the stated finding consequence.
+  - Implementation handoff: blocked. Exact first changed release remains unknown within (1.20.4, 1.20.6]; 1.20.5 source is not in this pair's published source roster. The snapshot records a source finding, not an implementation-ready release boundary.
+  - The pair remains partial; snapshot review does not alter active status or open-slice counts.
 
 ## Implementation reconciliation
 
