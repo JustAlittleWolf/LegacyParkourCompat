@@ -121,6 +121,17 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - Disposition and rationale (including concrete reachability/preconditions): for a present open shulker block entity, A ShulkerBoxBlock.isSuffocating returns true unconditionally and A LocalPlayer checks this per block cell. B registers shulker suffocation as blockEntity.isClosed(); B collision query filters by this predicate before testing shape intersection. The open shulker is therefore a concrete common-block difference.
 - Finding IDs or checked absence/replacement path: F-S1-OPEN-SHULKER-ESCAPE; A MovingPistonBlock reports false and B MOVING_PISTON isSuffocating is Blocks::never; A/B base piston predicates both reject extended bases. The shared common-block query-path checks are documented in the finding.
 
+### Slice S2-POSE: player pose entry and pose-derived dimensions
+- Inventory ID(s): INV-STATE, INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: Player.updatePlayerPose pose priority/fallback; Entity.canEnterPose candidate AABB; pose-data update and dimension refresh; player pose dimensions and eye heights.
+- A evidence: `../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/entity/player/Player.java`, updatePlayerPose lines 357-384; Player SHA-256 `1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793`. `Entity.java`, canEnterPose lines 1605-1607 and getBoundingBoxForPose lines 2320-2325; Entity SHA-256 `191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e`. `AABB.java`, inflate lines 157-159 and deflate lines 246-248; SHA-256 `82324c0e6a3d69e80424656e6098b39ce41f0f17a5e6efbe6542fe8eaca24a18`.
+- B evidence: `../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/entity/player/Player.java`, updatePlayerPose lines 350-377; Player SHA-256 `d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960`. `Entity.java`, canEnterPose lines 1640-1642 and getBoundingBoxForPose lines 2360-2365; Entity SHA-256 `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666`. `AABB.java`, inflate lines 161-163 and deflate lines 250-252; SHA-256 `514558cf4827679d84a4debd4f400d7d65bd4b8982b7ae8124a0d83a916ba878`. A/B Pose.java hash matches: `3e3d6c8f1d28686e5bee8b2e8a043832fd8af03e4eb8df35551a5db3d2bacebd`.
+- State producers/writers -> consumers/readers: Player selects pose through matching priority/fallback; Entity#setPose writes synced pose; onSyncedDataUpdated calls refreshDimensions; refreshed pose dimensions, eye height and bounding box feed collision and fluid queries.
+- Parent slices / dependencies / closure evidence: S1-LOCAL-AISTEP,S4-MOVE,S4-QUERY,S5-SHAPES. Pose map, enum, target-box construction, player eye-height values, synchronized writer and dimension refresh compared; full shape-provider reachability remains under INV-COLLISION.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): B calls the same level.noCollision predicate on the same pose-derived candidate AABB, but first applies `deflate(1.0E-7)`; A passes the full box. AABB scalar deflation shrinks every axis. This changes collision clearance at the box boundary and can affect the player pose selected by the shared priority/fallback logic.
+- Finding IDs or checked absence/replacement path: F-S2-POSE-EPSILON.
+
 ### Slice S1-SPRINT-RESET: held-shift cancellation of pending sprint trigger
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: LocalPlayer.aiStep prior input capture, input tick, sprint trigger writers and double-tap consumer.
@@ -252,6 +263,7 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - F-S1-WATER-DESCENT — flying players skip crouch descent in water (source-confirmed).
 - F-S1-OPEN-SHULKER-ESCAPE — an open shulker does not trigger B player escape (source-confirmed; incrementally accepted for a separate finding-only handoff).
 - F-S2-EDGE — edge restraint applies during supported near-ground motion and excludes flying players (source-confirmed).
+- F-S2-POSE-EPSILON — 1.16.5 deflates the player pose candidate box before the clearance query (source-confirmed).
 - F-S3-SHALLOW-LAVA-TRAVEL — shallow lava uses a different vertical scale and falling adjustment (source-confirmed).
 - F-S3-FLUID-JUMP-GATE — flying players skip liquid jump processing (source-confirmed).
 - F-S3-SHALLOW-LAVA-JUMP — grounded shallow-lava jump selects the ground-jump helper (source-confirmed).
@@ -263,12 +275,12 @@ The historical pair report is not imported as source confirmation.
 
 ## Resume checkpoint
 
-- Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-LOCAL-TICK,S1-LOCAL-AISTEP,S1-ELYTRA,S1-ESCAPE,S3-WATER,S3-FALL-FLYING,S3-GROUND-AIR; finding slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S3-SOUL-SPEED,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT.
+- Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-LOCAL-TICK,S1-LOCAL-AISTEP,S1-ELYTRA,S1-ESCAPE,S2-POSE,S3-WATER,S3-FALL-FLYING,S3-GROUND-AIR; finding slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S2-POSE-EPSILON,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S3-SOUL-SPEED,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT.
 - Active slices: none in the current travel pass; required stages 2-7 remain to be entered.
 - Next: add bounded slices for remaining state, collision, world, modifier and external-input inventories.
 - Outstanding dependencies: remaining required stage 2-7 inventory slices, independent reviewer assignment.
 - Resume branch: feat/source-discovery-movement-source-1-15-2-1-16-5; resume from the clean tip recorded by git log -1. Local main and origin/main both point to the pair base 002137b227676caea77f6832b9f4c8d0b6200bff; no later default-branch commits were present for merge at this checkpoint.
-- First next work: begin required state/pose, collision, world, modifier and external-input slices for stages 2-7. Keep the nine unreviewed snapshots submitted; F-S1-OPEN-SHULKER-ESCAPE remains accepted for finding-only eligibility.
+- First next work: continue remaining state, collision, world, modifier and external-input slices for stages 2-7. Keep the ten unreviewed snapshots submitted; F-S1-OPEN-SHULKER-ESCAPE remains accepted for finding-only eligibility.
 - Read-only resume commands from the repository root:
   - `git status --short; git log -1 --oneline`
   - `$A='D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.15.2\mojmap'; $B='D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.16.5\mojmap'`
@@ -451,6 +463,23 @@ Each finding is committed as an immutable source snapshot. F-S1-OPEN-SHULKER-ESC
 - Implementation handoff: no; snapshot awaits independent source review and has no 1.15.2 implementation claim.
 - Replaces/supersedes snapshot ID and reason, if applicable: none.
 
+### Snapshot event F-S2-POSE-EPSILON
+- Finding ID(s): F-S2-POSE-EPSILON
+- Source finding author(s): source-only pair researcher
+- Status: submitted
+- Immutable snapshot commit: 8482fa93d7d5f61e45e367208047ca9956df7191
+- Finding file path and SHA-256: findings/F-S2-POSE-EPSILON.md — 1d2f9b677914d05739759834f7bdaa38da5626a95afe841a0bedb5d2284089ab
+- Exact A/B artifact-manifest identities/hashes: ready/1.15.2/artifacts.sha256 208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406; ready/1.16.5/artifacts.sha256 f9b9812d6995012cefcc1201a63855e5931e8551b508753be6c46d442d8b370c
+- Cited source hashes: A Entity 191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e, Player 1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793, AABB 82324c0e6a3d69e80424656e6098b39ce41f0f17a5e6efbe6542fe8eaca24a18; B Entity f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666, Player d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960, AABB 514558cf4827679d84a4debd4f400d7d65bd4b8982b7ae8124a0d83a916ba878; A/B Pose.java `3e3d6c8f1d28686e5bee8b2e8a043832fd8af03e4eb8df35551a5db3d2bacebd`.
+- Verified implementation boundary/evidence, or unresolved boundary reason: implementation not inspected; the difference is limited to the player pose-clearance candidate box.
+- Finding-specific closed dependency IDs/evidence: paired pose selection, same pose maps and eye heights, same candidate-box constructor, same synced pose-to-dimension refresh; AABB deflation operation inspected. Shape-provider applicability remains open in INV-COLLISION.
+- Independent blind source reviewer and decision date: pending coordinator assignment.
+- Review basis / requested source-only revisions: pending.
+- Pair run status and commit at handoff: partial at 8482fa93d7d5f61e45e367208047ca9956df7191.
+- Pair complete: no.
+- Implementation handoff: no; snapshot awaits independent source review.
+- Replaces/supersedes snapshot ID and reason, if applicable: none.
+
 ## Implementation reconciliation
 
 - Reconciliation status: pending
@@ -470,7 +499,7 @@ Each finding is committed as an immutable source snapshot. F-S1-OPEN-SHULKER-ESC
 
 ## Source audit closure
 
-- Coverage counts by status: pending 0; in-progress 0; compared-no-difference 6; findings 10; remaining required stage slices not yet entered and open.
+- Coverage counts by status: pending 0; in-progress 0; compared-no-difference 6; findings 11; remaining required stage slices not yet entered and open.
 - Required inventory status and evidence: all seven pending.
 - Open dependencies: remaining required stage 2-7 inventory slices, and independent source reviewer assignment.
 - Unresolved gaps and limits: exhaustive source comparison is incomplete.
