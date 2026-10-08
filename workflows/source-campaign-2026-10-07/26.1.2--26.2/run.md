@@ -23,6 +23,9 @@
 - Additional A source hashes cited by the external-impulse review: `net/minecraft/client/multiplayer/ClientPacketListener.java` `eb70d05e4f8429341fc41823eae2cc662560efa1e44c8b729db5477501718d82`; `net/minecraft/world/entity/ai/attributes/Attribute.java` `854d1c12ab0b49a2136d5807db70676fe041671d40d44140cc2fda7c4ab4db59` (also identical in B).
 - Additional A source hashes cited by the player push and local unstuck slices: `net/minecraft/client/player/RemotePlayer.java` `b9154c415720ecf330e1aeeb87b6de6f26b03168bc652fbff5ac1cc08ff6be94`; `net/minecraft/world/entity/EntitySelector.java` `0735f67b48018b7fc12737e06085cdf194a138edb75f5f95b83c0a9451be589b`; `net/minecraft/world/level/Level.java` `77cc835fc1a79cd970bc3f4897fe5f398958fcbc874400c297f465f0c7819f01`; `net/minecraft/world/level/CollisionGetter.java` `dddff4897e8d5d01e3ac132d85c474e6a3b9bae928e48b8c907aa9eabdb7fb01`; `net/minecraft/world/level/BlockCollisions.java` `eb8a8f6f07b1d6384f17987818f056d41adfd6b2ad120d26774bfa550f4fc51e`; `net/minecraft/world/entity/player/Abilities.java` `0be56964201d7cae7ff4ba7c296afd568f9a65cd74f8926145c15714f82edae7`.
 - Additional A source hash cited by the bed landing finding: `net/minecraft/world/level/block/BedBlock.java` `996e4ca63f4bfaea14b215648f2318d52c49f6c802317381a670d87c0a6d0b03`.
+- Additional A source hash cited by the corrected bed contact witness: `net/minecraft/world/phys/shapes/Shapes.java` `cfa63cbed77c922a68e7e8a6a3b78b09a22c7de51e0146e481e9c9d26db66f58`.
+- Additional A source hashes cited by the corrected bed packet witness: `net/minecraft/network/protocol/game/ClientboundSetEntityMotionPacket.java` `1d96b8b4eb40eefbdd88dbadf67c1b9f5c10216123df60ddfb0f4b5ea0e0b0da`; `net/minecraft/network/LpVec3.java` `a63ca8d0f99ddf271007d7aa6688c8d3043ce4d887bfedfc38341d839ed3daa6`.
+- Additional A source hash cited by the corrected bed restitution arithmetic: `net/minecraft/util/Mth.java` `19d00e9745368c34692d0dfd7eddec07797790ac7f6e0bc579208b7a4b682d33`.
 - Additional A source hashes cited by the creative-flight speed input: `net/minecraft/client/MouseHandler.java` `887e11f879c5172c773d35020ea9ae5c98452b184607ec19b684a26c357a60dd`; `net/minecraft/network/protocol/game/ClientboundPlayerAbilitiesPacket.java` `2c13a4dcf511c99ab48b84b204c413835e3ccee3d8ad8b10d5a7bd13133f2c69` (also identical in B).
 - Additional A source hash cited by the piston movement slice: `net/minecraft/world/level/block/piston/PistonMovingBlockEntity.java` `67bceb946c172c5c022663fda32d123a6bbb85ca4171705ca9dc2c54105ab6e6`.
 - Additional A source hashes cited by the post-move block-speed slice: `net/minecraft/world/level/block/Block.java` `1693cfb7b84190a2fe664470a56d59e78ed5bd7d722a2bd16888b036d4d8e977`; `net/minecraft/world/level/block/state/BlockBehaviour.java` `9db85de84e502903e6fe497f043b58620b92089236ffb213f0b93db979428d13`.
@@ -44,7 +47,9 @@
 - Additional source hashes cited by the slime landing finding: `net/minecraft/client/player/AbstractClientPlayer.java` `7825a8d4e8e24928cba18f68109c91479b78fb14fcd8b81f0e045b8d02a559cc`; `net/minecraft/world/entity/Avatar.java` `01a8092bc2637e7d42a261fb564bffcabadd28625cc02b120e943559e2d4fe78`; `net/minecraft/world/level/block/SlimeBlock.java` `e0fc3087b66777a2800676aaeee47a6e98395ea4c964d5a301f3a73b3577c754`; `net/minecraft/world/level/block/Blocks.java` `f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435`; `net/minecraft/world/entity/LivingEntity.java::getEffectiveGravity()` is covered by the already listed LivingEntity hash.
 - Additional B source hashes cited by the external-impulse review: `net/minecraft/client/multiplayer/ClientPacketListener.java` `9cb0cc8afeba9e4f42f428a52719c645817d03893dc371e6711c7bd16eac1b6`; `net/minecraft/world/entity/ai/attributes/Attributes.java` `4a7c33552f256b5d35c6d46fd5810405f4e98182e2b26a9a3009ef4f1d3fdd5c`; `net/minecraft/world/entity/ai/attributes/Attribute.java` `854d1c12ab0b49a2136d5807db70676fe041671d40d44140cc2fda7c4ab4db59` (also identical in A).
 - Additional B source hashes cited by the player push and local unstuck slices: `net/minecraft/client/player/RemotePlayer.java` `b9154c415720ecf330e1aeeb87b6de6f26b03168bc652fbff5ac1cc08ff6be94`; `net/minecraft/world/entity/EntitySelector.java` `0735f67b48018b7fc12737e06085cdf194a138edb75f5f95b83c0a9451be589b`; `net/minecraft/world/level/Level.java` `1ae4f565ad909f4e90786089b5b4f125e8a7d18e2ef7d8c376172a5787fc5639`; `net/minecraft/world/level/CollisionGetter.java` `8e7d1a54d27e0f187667439539c59b8892f966f1b9c8107eb162c6d43f830f6c`; `net/minecraft/world/level/BlockCollisions.java` `eb8a8f6f07b1d6384f17987818f056d41adfd6b2ad120d26774bfa550f4fc51e`.
-- Additional B source hashes cited by the bed landing finding: `net/minecraft/world/level/block/BedBlock.java` `22f515c272d52eebd75456e4a78eb7f38708d682f8d2cb5fdc170e7c3105af2b`; `net/minecraft/tags/BlockTags.java` `9834ecbe2facd79cf3d9fc79babd452ed0e000684029b2bb5e9f90aa4f51529e`.
+- Additional B source hashes cited by the bed landing finding: `net/minecraft/world/level/block/BedBlock.java` `22f515c272d52eebd75456e4a78eb7f38708d682f8d2cb5fdc170e7c3105af2b`; `net/minecraft/tags/BlockTags.java` `9834ecbe2facd79cf3d9fc79babd452ed0e000684029b2bb5e9f90aa4f51529e`; `net/minecraft/world/phys/shapes/Shapes.java` `6ed9460d58727770bdec59c4f3184f075644f3c411be1eeab2eae17e8ece1891`.
+- Additional B source hashes cited by the corrected bed packet witness: `net/minecraft/network/protocol/game/ClientboundSetEntityMotionPacket.java` `1d96b8b4eb40eefbdd88dbadf67c1b9f5c10216123df60ddfb0f4b5ea0e0b0da`; `net/minecraft/network/LpVec3.java` `a63ca8d0f99ddf271007d7aa6688c8d3043ce4d887bfedfc38341d839ed3daa6` (both files are byte-identical across A/B).
+- Additional B source hash cited by the corrected bed restitution arithmetic: `net/minecraft/util/Mth.java` `30455c684f2401c79290847822bca82e77162c4a2bcf8618e85cac9898a2dc17`.
 - Additional B source hash cited by the creative-flight speed input: `net/minecraft/client/MouseHandler.java` `049c4f21b6e1b724e1f0ed8b6784e55eae11c50ccd88c2a483a7253429ef8c15`.
 - Additional B source hash cited by the piston movement slice: `net/minecraft/world/level/block/piston/PistonMovingBlockEntity.java` `706bab1a13ba99bbd334aad853b99f72df58fce5b6b67d30d41f902b63dd8e06`.
 - Additional B source hashes cited by the post-move block-speed slice: `net/minecraft/world/level/block/Block.java` `cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab`; `net/minecraft/world/level/block/state/BlockBehaviour.java` `9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e`.
@@ -452,85 +457,85 @@ These are now 61 bounded work units, not an exhaustive inventory: 35 pending, 9 
 ### Slice S-TRAVEL-FLUID-DISPATCH: Water versus lava travel setup
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: B computes falling state, old Y and effective gravity once, then selects water travel plus float-while-ridden or lava travel; lines 2504-2514.
-- A evidence: pending exact source and branch/caller correspondence.
+- Exact behavior boundary and enclosing guards/order checked: both `travelInFluid` bodies compute falling state from `deltaMovement.y <= 0.0`, snapshot old Y and effective gravity once, then select water travel plus float-while-ridden or lava travel in the same order.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::travelInFluid(Vec3), lines 2455-2465`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::travelInFluid(Vec3), lines 2504-2514`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: fluid state/current Y/vertical velocity/effective gravity -> water/lava parameters -> branch movement.
-- Parent slices / dependencies / closure evidence: S-TRAVEL-DISPATCH; fluid-height and gravity dependency chains pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B method read; no pairwise conclusion.
+- State producers/writers -> consumers/readers: `LivingEntity.aiStep` travel gate -> fluid state/current Y/vertical velocity/effective gravity -> water/lava parameters -> branch movement; paired body uses same expressions and branch order.
+- Parent slices / dependencies / closure evidence: S-TRAVEL-DISPATCH,S-TRAVEL-WATER,S-TRAVEL-LAVA; fluid-height/gravity source providers remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): direct dispatch formula/order is paired; slice remains open until fluid-state/height and gravity dependency chains close.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-TRAVEL-WATER: Water acceleration, slowdown and falling adjustment
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS, INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: B sprinting slowdown/water slowdown, movement-efficiency scaling and airborne half factor, Dolphin's Grace override, movement/collision, climb response, slowdown and fluid vertical adjustment; lines 2516-2547.
-- A evidence: pending exact body and attribute/effect/data chain.
+- Exact behavior boundary and enclosing guards/order checked: paired water bodies apply sprinting slowdown/water slowdown, movement-efficiency scaling and airborne half factor, Dolphin's Grace override, relative movement and collision, climb response, per-axis slowdown and fluid vertical adjustment in the same order; the local vector names differ only.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::travelInWater(Vec3,double,boolean,double), lines 2467-2493`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::travelInWater(Vec3,double,boolean,double), lines 2516-2543`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: sprint/ground/fluid state, WATER_MOVEMENT_EFFICIENCY and Dolphin's Grace -> speed/slowdown -> delta movement.
-- Parent slices / dependencies / closure evidence: S-TRAVEL-FLUID-DISPATCH,S-TRAVEL-FLUID-ADJUST; effect/attribute/enchantment/resource providers and fluid data pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B body read; no pairwise formula disposition.
+- State producers/writers -> consumers/readers: sprint/ground/fluid state, WATER_MOVEMENT_EFFICIENCY and Dolphin's Grace -> speed/slowdown -> `moveRelative`, `move` and final delta movement; A/B formulas and literals match.
+- Parent slices / dependencies / closure evidence: S-TRAVEL-FLUID-DISPATCH,S-TRAVEL-FLUID-ADJUST,S-TRAVEL-CLIMB,S-MOVE-POS,S-MOVE-RESTITUTE; effect/attribute/resource producers and fluid data remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): direct water formula/order is paired. Closure depends on modifier/effect data and shared collision/shape behavior that supplies collision state to this path.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-TRAVEL-LAVA: Lava acceleration and depth-dependent damping
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: B lava movement-relative step, move, shallow-fluid test, branch-specific damping, gravity quarter-step and fluid-exit helper call; lines 2549-2565.
-- A evidence: pending exact source and fluid-threshold correspondence.
+- Exact behavior boundary and enclosing guards/order checked: paired lava bodies perform movement-relative input, collision move, the shallow-fluid `<=` test, branch-specific damping, quarter-gravity addition and fluid-exit helper in identical order. B factors the same `getFluidHeight(tag) <= threshold` expression through `isInShallowFluid`.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::travelInLava(Vec3,double,boolean,double), lines 2496-2512`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::travelInLava(Vec3,double,boolean,double), lines 2549-2565`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: fluid height/threshold, gravity and input -> lava movement/damping -> delta movement.
-- Parent slices / dependencies / closure evidence: S-TRAVEL-FLUID-DISPATCH,S-TRAVEL-FLUID-EXIT; tags and height consumers pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B method read; pairwise comparison pending.
+- State producers/writers -> consumers/readers: lava height/threshold, gravity and input -> same branch and damping arithmetic -> delta movement; B helper compares `<=`, exactly as A.
+- Parent slices / dependencies / closure evidence: S-TRAVEL-FLUID-DISPATCH,S-TRAVEL-FLUID-EXIT,S-WORLD-01; lava tag/height providers and collision query remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): direct formula is pair-matched including comparison operator and literals; provider and free-space-query dependencies remain open.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-TRAVEL-FLUID-EXIT: Horizontal-collision exit impulse from water/lava
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: B `jumpOutOfFluid` checks horizontal collision and a clearance query with `movement.y + 0.6F - this.getY() + oldY`, then sets vertical velocity to `0.3F`; lines 2567-2572.
-- A evidence: pending exact method, caller and clearance-query correspondence.
+- Exact behavior boundary and enclosing guards/order checked: both `jumpOutOfFluid` bodies test horizontal collision and query free space with `movement.y + 0.6F - this.getY() + oldY`, then replace only Y velocity with `0.3F`.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::jumpOutOfFluid(double), lines 2514-2519`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::jumpOutOfFluid(double), lines 2567-2572`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: fluid travel old Y/current velocity and horizontal collision -> free-space query -> vertical velocity.
-- Parent slices / dependencies / closure evidence: S-TRAVEL-WATER,S-TRAVEL-LAVA; AABB/free-space query dependency pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B helper read; no pair conclusion.
+- State producers/writers -> consumers/readers: fluid travel old Y/current velocity and collision state -> paired free-space query -> same vertical velocity write.
+- Parent slices / dependencies / closure evidence: S-TRAVEL-WATER,S-TRAVEL-LAVA,S-COLLISION-QUERY,S-COLLISION-AXIS; underlying AABB/free-space query inventory remains open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): helper formula and call order match for equivalent inputs; shared collision query behavior remains an explicit dependency.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-TRAVEL-FLUID-ADJUST: Vertical fluid falling and tiny-velocity adjustment
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: B nonzero gravity and non-sprinting guard; falling plus epsilon comparisons choose `-0.003`, otherwise subtract gravity/16; lines 2688-2701.
-- A evidence: pending exact helper and caller correspondence.
+- Exact behavior boundary and enclosing guards/order checked: both helpers use the same nonzero-gravity/non-sprinting guard, falling predicate and ordered absolute-difference epsilon comparisons (`>= 0.003` and `< 0.003`); the falling-special case writes `-0.003`, otherwise subtracts gravity/16, preserving the same `Vec3` components.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::getFluidFallingAdjustedMovement(double,boolean,Vec3), lines 2635-2648`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::getFluidFallingAdjustedMovement(double,boolean,Vec3), lines 2688-2701`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: gravity/sprint/falling/current Y velocity -> adjusted fluid velocity -> water/lava travel writers.
-- Parent slices / dependencies / closure evidence: S-TRAVEL-WATER,S-TRAVEL-LAVA; effective-gravity producer pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B exact comparisons read; A arithmetic/order pending.
+- State producers/writers -> consumers/readers: gravity/sprint/falling/current Y velocity -> same adjusted fluid velocity -> water/lava travel writers.
+- Parent slices / dependencies / closure evidence: S-TRAVEL-WATER,S-TRAVEL-LAVA; effective-gravity and modifier/provider chains remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): helper arithmetic/order is pair-matched; closure awaits gravity/effect producers and caller dependency closure.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-TRAVEL-GLIDE-DISPATCH: Fall-flying branch and collision response
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: B climbable condition falls back to air travel and stops fall-flying; otherwise updates glide velocity, moves, then runs server-side fall-flying collision handler; lines 2581-2600.
-- A evidence: pending exact branch and player glide-state correspondence.
+- Exact behavior boundary and enclosing guards/order checked: paired travel bodies use the same climbable fallback/stop order, glide-velocity update, self move, server-side collision-handler gate and old/new horizontal speed arguments.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::travelFallFlying(Vec3),stopFallFlying(),handleFallFlyingCollisions(double,double), lines 2528-2589`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::travelFallFlying(Vec3),stopFallFlying(),handleFallFlyingCollisions(double,double), lines 2581-2600,2629-2636`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: fall-flying/climbable/collision state -> glide movement or air fallback and flag transition; server damage response is excluded, but its movement-state dependencies remain bounded.
-- Parent slices / dependencies / closure evidence: S-TRAVEL-DISPATCH,S-TRAVEL-GLIDE-FORMULA,S-TRAVEL-CLIMB; Elytra/player transition inputs pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B method read; no A/elytra dependency closure.
+- State producers/writers -> consumers/readers: fall-flying/climbable/collision state -> same glide movement or air fallback and flag transition; the server damage call is identical and its damage production is excluded.
+- Parent slices / dependencies / closure evidence: S-TRAVEL-DISPATCH,S-TRAVEL-GLIDE-FORMULA,S-TRAVEL-CLIMB,S-FALLFLY-REQUEST,S-MOD-01,S-MOVE-POS; Elytra/player transition and equipment applicability remain pending.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): direct dispatch/call order is pair-matched. Fall-flying state/equipment and collision-state dependencies remain open.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-TRAVEL-GLIDE-FORMULA: Fall-flying velocity update arithmetic
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: B `updateFallFlyingMovement` computes look/lean lengths, gravity lift, downward/forward conversion, horizontal alignment and final per-axis drag; lines 2602-2635.
-- A evidence: pending exact helper and look/attribute correspondence.
+- Exact behavior boundary and enclosing guards/order checked: paired `updateFallFlyingMovement` methods use the same look/lean conversions, arithmetic grouping and operation order: horizontal look length, movement horizontal length, effective gravity, cosine-square lift, downward conversion, upward-look pull, horizontal alignment, and final `(0.99F, 0.98F, 0.99F)` multiply.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::updateFallFlyingMovement(Vec3), lines 2549-2574`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::updateFallFlyingMovement(Vec3), lines 2602-2627`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: look vector, pitch, velocity, gravity and elytra state -> exact arithmetic -> glide delta movement.
-- Parent slices / dependencies / closure evidence: S-TRAVEL-GLIDE-DISPATCH; gravity, equipment and item-component applicability pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B formulas read; no pairwise operation-order conclusion.
+- State producers/writers -> consumers/readers: look vector, pitch, velocity, effective gravity and fall-flying/equipment state -> same exact arithmetic -> glide delta movement.
+- Parent slices / dependencies / closure evidence: S-TRAVEL-GLIDE-DISPATCH,S-FALLFLY-REQUEST,S-MOD-01; gravity and Elytra/equipment applicability remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): direct velocity formula/constants/order are paired. Closure awaits gravity and Elytra/state producer dependencies.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-TRAVEL-CLIMB: Climbable velocity clamps and player ladder predicate
@@ -633,11 +638,11 @@ These are now 61 bounded work units, not an exhaustive inventory: 35 pending, 9 
 - Exact behavior boundary and enclosing guards/order checked: A's vertical collision path dispatches to `BedBlock.updateEntityMovementAfterFallOn`, which uses `0.66F` for living entities when bounce is not suppressed. B replaces that callback with generic collision restitution. The B bed registration sets block restitution to `0.75F`; B's default living-entity bounciness is zero and syncable, and its vertical restitution applies the greater of entity and block restitution only when the downward speed meets/exceeds effective gravity and the block is not suppression-tagged.
 - A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java::move(MoverType,Vec3), lines 781-785`, SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`; `BedBlock.updateEntityMovementAfterFallOn,bounceUp`, lines 138-151, SHA-256 `996e4ca63f4bfaea14b215648f2318d52c49f6c802317381a670d87c0a6d0b03`; `Blocks.registerBed`, lines 674-689,7069-7078, SHA-256 `ba8a258b33f73fe03f93e7b02f9c25d4f66cf3aaab04c4580d0863cc71bc866f`.
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/Entity.java::move,restituteMovementAfterCollisions`, lines 784-786,802-843, SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`; `Blocks.BED` palette registration, lines 696-706, SHA-256 `f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435`; `Attributes.BOUNCINESS`, line 31, SHA-256 `4a7c33552f256b5d35c6d46fd5810405f4e98182e2b26a9a3009ef4f1d3fdd5c`; `LivingEntity.createLivingAttributes,getEntityBounciness`, lines 332-359,2202-2204, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`; `BlockTags.SUPPRESSES_BOUNCE`, line 243, SHA-256 `9834ecbe2facd79cf3d9fc79babd452ed0e000684029b2bb5e9f90aa4f51529e`; resource `data/minecraft/tags/block/suppresses_bounce.json`, SHA-256 `a477a87ac4bcb97971cb0b445f4cc9b6b8e02cd31ba3d01bc842b17a6a8477a8`.
-- State producers/writers -> consumers/readers: vertical clipped local-player movement and bed support state -> A bed callback or B restitution formula / bed restitution property / living BOUNCINESS -> player Y velocity -> subsequent travel. Player reachability and the exact `0.66F` versus `0.75` formulas, default attribute, and suppression conditions are captured in the immutable finding snapshot.
-- Parent slices / dependencies / closure evidence: S-MOVE-RESTITUTE,S-MOVE-FLAGS,S-WORLD-01,S-TICK-ENTRY,S-MOD-01; the bounded bed landing formula, registration, attribute default and suppression resource are closed for this case. Generic restitution, non-bed block values, movement producer/consumer inventory and full pair audit remain open.
+- State producers/writers -> consumers/readers: decoded server velocity packet `y=-1.0` -> paired dead-zone preserves value -> `Player.travel`/`travelInAir` invokes `Entity.move` before gravity/drag -> exact-contact bed collision resolves `movement.y=0.0` while `currentMovement.y=-1.0` -> A/B restitution response -> same-tick gravity/drag continues from differing response values. Exact outputs, packet quantization, producer path, default attributes and suppression conditions are captured in the corrected finding snapshot.
+- Parent slices / dependencies / closure evidence: S-MOVE-RESTITUTE,S-MOVE-FLAGS,S-WORLD-01,S-TICK-ENTRY,S-MOD-01,S-EXT-ENTITY-MOTION-PACKET,S-VELOCITY-VERTICAL,S-PLAYER-01,S-TRAVEL-AIR; the exact-contact collision, packet write, cutoff, travel order, bed registration, attribute default and suppression resource are closed for this bounded witness. Generic restitution, non-bed block values, broader movement producer/consumer inventory and full pair audit remain open.
 - Status: findings
-- Disposition and rationale (including concrete reachability/preconditions): for a nonsuppressed local-player downward collision on a bed with `-currentMovement.y >= getEffectiveGravity()` and BOUNCINESS no greater than `0.75`, A writes `-currentMovement.y * 0.66F`; B resolves zero clipped Y movement and writes `-currentMovement.y * 0.75`. Under the same qualifying input these differ. B's low-speed zero branch is not used for this finding; the separate slime snapshot covers its bounded low-speed case.
-- Finding IDs or checked absence/replacement path: `F-26.2-BED-LANDING-RESTITUTION`; immutable finding snapshot commit `118cc0dd1a` (SHA-256 `ce0a428abe3a3c66e15a90be9d289b41227d650616d1f8945f7e9e088b650fc5`).
+- Disposition and rationale (including concrete reachability/preconditions): an exact `-1.0` packet velocity round-trips in both versions and remains above the vertical dead-zone. At bed-surface contact the travel helper calls `Entity.move` before later travel gravity/drag; resolved movement is zero while current movement remains `-1.0`. A writes `0.6600000262260437`; B's movement fraction and gravity compensation are signed zero, `Mth.lerp` returns `1.0`, and restitution writes `0.75`. The same-tick air integration then writes `0.56840003676414541` in A and `0.65660001277923585` in B. Positive-gap landings are not generalized by this calculation. The low-speed branch is not used; the separate slime snapshot covers its bounded low-speed case.
+- Finding IDs or checked absence/replacement path: `F-26.2-BED-LANDING-RESTITUTION`; corrected finding snapshot is checkpointed below, superseding original reviewed snapshot commit `118cc0d89130c9b0709e71a4455cf8585031fb14` (raw SHA-256 `ce0a428abe3a3c66e15a90be9d289b41227d650616d1f8945f7e9e088b650fc5`).
 
 ### Slice S-MOVE-BLOCK-SPEED: Post-move block speed factor applied to horizontal velocity
 
@@ -850,6 +855,7 @@ Two source-confirmed candidates are recorded: `F-26.2-SLIME-LANDING-RESTITUTION`
 
 - Reviewer: not assigned in available task instructions; reviewer must not be a discovery author.
 - Status: pending
+- Finding-level review history: the immutable bed snapshot at commit `118cc0d89130c9b0709e71a4455cf8585031fb14` received `REQUEST CHANGES` in review commit `d6664c08d015b6d301b5498302d9f64f32ebec92` because it generalized zero resolved movement to all clipped bed landings. The corrected exact-contact witness is recorded in the new finding snapshot; its re-review and full-pair inventory audit remain pending.
 - Inventories and call-chain ranges re-walked: none; discovery currently has B-only prep.
 - Concrete missed-slice routes (or `none found`): not audited.
 - Misses routed to slice/finding IDs and owners: not applicable before reviewer assignment.
