@@ -55,8 +55,8 @@ Health, regeneration, hunger/food, saturation, exhaustion, damage/combat simulat
 
 - `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1-input,S3-travel-dispatch,S3-ground-air,S3-jump,S3-mounted-sprint,S3-climb-swim,S3-glide,S3-fall-distance-farm-trample,S7-boat-passenger-water-state,S7-player-rotation-correction; evidence=paired core method anchors, checked vehicle-only exclusion E-001 and findings F-002/F-003/F-004/F-005/F-006 recorded; complete tick graph still open
 - `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S2-player-state,S2-pose-refresh,S2-sleep-exit-position,S4-move-core,S4-step-edge,S3-fall-distance-farm-trample,S7-boat-passenger-water-state,S7-player-rotation-correction,S7-correction-interpolation-history; evidence=bounded pose refresh and sleep-exit selection, fallDistance, underwater-boat water-state and correction-rotation writer-to-movement-consumer paths recorded; full both-side writer/consumer map remains open
-- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S4-move-core,S4-step-edge,S4-shapes-query,S4-callbacks,S5-block-shapes,S3-fall-distance-farm-trample; evidence=FarmBlock landing callback and its shape transition recorded in F-004; full provider/registration/neighbor inventory remains open
-- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S5-block-registration,S5-block-shapes,S5-fluid-data,S5-block-coefficients,S5-movement-tags,S5-water-source,S5-lava-source,S3-fall-distance-farm-trample; evidence=bounded coefficient/tag checks plus F-002/F-003/F-004; remaining Java/resource inventory open
+- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S4-move-core,S4-step-edge,S4-shapes-query,S4-callbacks,S5-block-shapes,S5-bamboo-shape-rename,S5-b-only-hanging-sign-shapes,S3-fall-distance-farm-trample; evidence=FarmBlock landing callback and its shape transition recorded in F-004; full provider/registration/neighbor inventory remains open
+- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S5-block-registration,S5-block-shapes,S5-bamboo-shape-rename,S5-b-only-hanging-sign-shapes,S5-fluid-data,S5-block-coefficients,S5-movement-tags,S5-water-source,S5-lava-source,S3-fall-distance-farm-trample; evidence=bounded coefficient/tag checks, B-only shape exclusions and F-002/F-003/F-004; remaining Java/resource inventory open
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and applications/removals/conditions: status=pending; slice_ids=S6-effects-attributes,S6-enchantments-equipment,S6-player-movement-speed-effects,S6-direct-travel-effect-gates,S6-depth-strider-fluid,S6-soul-speed-ground,S6-swift-sneak,S6-elytra-durability-unbreaking; evidence=bounded movement effect and enchantment consumers compared-no-difference; other effect/enchantment/equipment paths remain open
 - `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, such as corrections, pushes, pistons and mounts: status=pending; slice_ids=S7-external-velocity,S7-mount-transition,S3-mounted-sprint,S7-boat-passenger-water-state,S5-water-source,S5-lava-source,S3-fall-distance-farm-trample,S7-player-rotation-correction,S7-correction-interpolation-history; evidence=E-001 vehicle-only boundary and F-002/F-003/F-004/F-005/F-006 player-state paths; full producer/consumer inventory open
 - `INV-EXCLUSIONS` explicit scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending; evidence=pending scope/consumer audit; direct vanilla-state reads will be listed as movement inputs only
@@ -292,6 +292,30 @@ These are initial bounded behavior families and all are open. After exact source
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): modern-only blocks will not receive emulated behavior; prove version registries before classification.
 - Finding IDs or checked absence/replacement path: none yet
+
+### Slice S5-bamboo-shape-rename: Bamboo stalk collision provider rename
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: the existing minecraft:bamboo registration across class rename, collision/outline shape constants and methods, and dynamic XZ state offset applied to both shapes.
+- A evidence: BambooBlock.java defines SMALL_SHAPE (5..11), LARGE_SHAPE (3..13), and COLLISION_SHAPE (6.5..9.5), lines 33-35; getShape lines 61-66 and getCollisionShape lines 73-76 apply the same block-state offset. Blocks.java registers "bamboo" using new BambooBlock and the BAMBOO material, .noOcclusion(), .dynamicShape() and XZ offset; full hashes e2f6a534d9d2dd45996e20e0109aa5bd428536cf7931d810b0eb01f1e73a4012 / f532585f836ee7ad685d368889ed13d735c570ef38971db0c1d2a7debb4cf27b.
+- B evidence: BambooStalkBlock.java defines the same three shape constants and corresponding shape bodies at lines 33-35, 61-66 and 73-76. Blocks.java still registers "bamboo" with the same properties, now using new BambooStalkBlock; full hashes fbd9af0ff7562328e7bb9dc7ea29006a957c52437aed1f78121870778a95e27b / 9944877c941fa209d2a8b9a7d4eb6333edf2dfca255a3e90601242483eb7a476.
+- State producers/writers -> consumers/readers: Bamboo block state and position -> identical XZ offset and collision shape -> player movement collision query; old maps can contain this block in both versions.
+- Parent slices / dependencies / closure evidence: S4-shapes-query, S5-block-registration and S5-block-shapes; broader shape-provider and neighbor dependency inventory remains open.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for the existing Bamboo block, the class rename leaves the listed shape constants, offset application, collision flags and registry properties unchanged. The player receives the same collision shape for corresponding state and position; no difference is established in this bounded provider.
+- Finding IDs or checked absence/replacement path: paired Bamboo registration, shape constants and shape accessors checked; no difference.
+
+### Slice S5-b-only-hanging-sign-shapes: B-only hanging-sign collision providers
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT, INV-EXCLUSIONS
+- Exact behavior boundary and enclosing guards/order checked: B-only CeilingHangingSignBlock and WallHangingSignBlock shape providers and their B-only block registrations.
+- A evidence: checked absence: CeilingHangingSignBlock.java and WallHangingSignBlock.java are absent from the exact 1.19.2 source tree, and A Blocks.java contains no hanging-sign registrations (full-file SHA-256 f532585f836ee7ad685d368889ed13d735c570ef38971db0c1d2a7debb4cf27b); no A block states exist.
+- B evidence: CeilingHangingSignBlock.java SHA-256 53772cdc6d3a5b760378352e13dcc721b272932f3b0a5e93c9b8dea5b2991272 and WallHangingSignBlock.java SHA-256 0303218a588fc4dc1be89276c10b5fa52b437f418c943927a190759c9afc7204 are present in 1.19.3. Its Blocks.java (SHA-256 9944877c941fa209d2a8b9a7d4eb6333edf2dfca255a3e90601242483eb7a476) registers the hanging-sign variants at lines 850-1075; no corresponding entries occur in A Blocks.java (SHA-256 f532585f836ee7ad685d368889ed13d735c570ef38971db0c1d2a7debb4cf27b).
+- State producers/writers -> consumers/readers: B-only block registration/world state -> new shape providers -> B client collision query; these block types have no A-era map representation.
+- Parent slices / dependencies / closure evidence: project scope excludes historical emulation for blocks that did not exist in A.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): these blocks have no 1.19.2 counterpart and cannot occur in an A-version map; assigning them an older movement collision shape would invent historical behavior outside scope.
+- Finding IDs or checked absence/replacement path: exact A source/registry absence and B class/registration presence checked; explicit modern-only exclusion.
 
 ### Slice S5-fluid-data: Fluid state, flow and push data
 
@@ -777,7 +801,7 @@ Findings F-002 and F-003 are source-confirmed paired fluid-state input differenc
 
 ## Source audit closure
 
-- Coverage counts by status: pending 20 initial families; in-progress 1 bounded member slice; compared-no-difference 21 bounded member slices; findings 6 bounded member slices; not-applicable 3 checked scope/interpolation dispositions; blocked 0. The initial families are not member-range closure and must be split before terminal dispositions.
+- Coverage counts by status: pending 20 initial families; in-progress 1 bounded member slice; compared-no-difference 22 bounded member slices; findings 6 bounded member slices; not-applicable 4 checked scope/interpolation dispositions; blocked 0. The initial families are not member-range closure and must be split before terminal dispositions.
 - Required inventory status and evidence: INV-TICK pending; INV-STATE pending; INV-COLLISION pending; INV-WORLD-MOVEMENT pending; INV-MODIFIERS pending; INV-EXTERNAL pending; INV-EXCLUSIONS pending.
 - Open dependencies: D1, D2, D3, D4 (D0 resolved)
 - Unresolved gaps and limits: exact trees and provenance are verified, but member-level slice ledger, full source coverage, resources, external producers, freeze and independent audit remain open.
