@@ -66,3 +66,11 @@ Independent exact-patch review is recorded at review commit `fddb263`.
 - Code `b215d723c22cf2c73601b7807056ba0d23fdbf23`; accepted tip `7d80e2eacea2ff6d088a522d8f0c1abb5768fdf3`; independent review `dd6958193b9f188341fb47f96e4cca56dd5a9a89` ACCEPTED.
 - Integrated after Pose and built with all Gradle `Test` tasks disabled. Source, review, profile-load boundary, and JAR SHA-256 are recorded in `integration-review-2026-10-08.md`.
 - WORLD03, swimming-entry, and slipperiness remain pending review. Runtime validation was not performed.
+
+## WORLD03 corrected ejection integration — 2026-10-08
+
+- Source snapshot `aa66894e64733ee729bf7176e08232d73b3bc03f` and finding SHA-256 `f45dfb003c1dfcc64df5c5d7710fd22a4e6c311b1b8b50a3d77ed1537689479d`; blind source acceptance `a2e510bdc7b284b4b4d0e7b323f6eea079abee80`.
+- Corrective code `8ae770141c4e9ca1b3f5fa3a1459d94132195306`; corrected tip `ff24abc4f199f6460f79dafd2c83a9a19d0f6121`; exact independent review `c1dee45d82c041fa83e42e35a0af8aefee35557f`, ACCEPT. Review report and exact net diff are recorded in `integration-review-2026-10-08.md`.
+- Integrated at `b8332d734a3d2b64030f9ed5658c8dc990348f46` against main `0bfb72a0bc08726f2ee3a984203c08b5d90cf34e`. The merge preserves fence, ejection, F-005, pose, and prior accepted registrations.
+- Test-disabled build succeeded; JAR SHA-256 `E42DB354624E47055220349F196A86EDE8480037DA264242F68203B9B332BF41`. Runtime validation not performed.
+- Swimming-entry is next in the authorized serial sequence; slipperiness remains pending.
