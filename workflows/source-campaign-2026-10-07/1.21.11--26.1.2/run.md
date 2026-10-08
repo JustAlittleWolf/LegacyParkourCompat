@@ -621,13 +621,13 @@ Each entry is a bounded behavior boundary. Refine broad plans into exact member 
 ### Slice S6.2: Movement attributes: definitions, operations, aggregation and movement consumers
 
 - Inventory ID(s): INV-MODIFIERS, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Movement attributes: definitions, operations, aggregation and movement consumers. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: Began paired shared attribute modifier aggregation for movement attributes. `AttributeInstance.calculateValue()` starts with base, applies each ADD_VALUE amount, snapshots that base, adds `base * amount` for each ADD_MULTIPLIED_BASE, sequentially multiplies by `1.0 + amount` for each ADD_MULTIPLIED_TOTAL, then calls attribute sanitization. A/B exact body lines 147-165. `AttributeModifier.Operation` ordinals/string IDs are ADD_VALUE=0, ADD_MULTIPLIED_BASE=1, ADD_MULTIPLIED_TOTAL=2 (A/B lines 38-41). The operation grouping/order and arithmetic pair exactly; no expression reassociation observed.
+- A evidence: `AttributeInstance.java` SHA-256 `4b89cf81cf75b16ed743b6bd0a683154c481247230b56dfa37c11ccfe17004c1`; `AttributeModifier.java` `210d6ad593257e70ee0c1ac844e94eccb0a54ca4454536e8eb5f05a8e8ea15e3`; `Attributes.java` `62129028c2f7beb6d2f87bcd3345e63a7be8fc3950a7ecdbc6ee21f8fb89f843`; `RangedAttribute.java` `7885aa1e82e9b1e89427ce81a5ed8f0e1cfad796e12d577ead81a52fd9791c3c`. Movement definitions observed: GRAVITY base `0.08`, JUMP_STRENGTH base `0.42F`, MOVEMENT_SPEED base `0.7`, movement range `[0,1024]`; `RangedAttribute.sanitizeValue` clamps to registered min/max.
+- B evidence: `AttributeInstance.java` SHA-256 `ca262f3d973642a2887b235a549b14f335706413f9551b417059e72e6bcf8cfd`; `AttributeModifier.java` `0e2e2eb04f437b58ff89d48d22a635875909df868d552c5a2cf06028cc2525f5`; `Attributes.java` `8eee57d8375c7af39525ccd25593618fcbcbe0348da6a8738556baaabea3c1d5`; `RangedAttribute.java` `f00a8c1e10fda17320c08f1dc849a8e4230ff28c8e9549f44ff807e6d9eed62f`. The same operation IDs, default values and ranges occur in the inspected movement definitions.
+- State producers/writers -> consumers/readers: Base values and installed modifiers produce the cached attribute result; consumers read it via `getAttributeValue` for movement speed, gravity, jump strength and relevant block/effect-derived motion. Player ability load/set writes MOVEMENT_SPEED base from walking speed (S2.4); Speed/Slowness install MOVEMENT_SPEED modifiers (S6.1); jump consumers and block jump factor are in S3.4/S5.1. Full `AttributeInstance` modifier storage iteration/order, dirty-cache invalidation, AttributeMap/AttributeSupplier defaults, entity/player base writers and each modifier source/reapplication/removal remain open.
+- Parent slices / dependencies / closure evidence: S3.4, S3.5 and S3.9 own movement consumers; S2.4 has the ability walking-speed base writer; S6.1 and S6.3-S6.6 own effect/enchantment/equipment modifier sources. Need close modifier iteration and collection order, definitions/defaults for every used movement attribute, consumers, custom/effect modifiers, persistence and packet writers before terminal disposition.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Paired operation order and selected movement attribute defaults/ranges match in the inspected source members. Full producer-to-consumer and stored-modifier ordering closure remains open, so no no-difference conclusion.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S6.3: Depth Strider, Soul Speed, Swift Sneak and Riptide paths
@@ -782,7 +782,7 @@ F-1 candidate snapshot submitted for blind review; acceptance is pending and doe
 
 ## Source audit closure
 
-- Coverage counts by status: 14 pending; 31 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
+- Coverage counts by status: 13 pending; 32 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
 - Required inventory status and evidence: all 7 pending; exact source inputs are verified, but full movement/provider/resource inventories remain incomplete.
 - Open dependencies: D2
 - Unresolved gaps and limits: inherited tick/travel/collision body comparisons, movement state producers/consumers, shape providers/registrations, and data/resource dependency closure.
