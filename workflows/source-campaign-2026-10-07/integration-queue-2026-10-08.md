@@ -36,3 +36,8 @@ Independent exact-patch review is recorded at review commit `fddb263`.
 - Build succeeded with every Gradle Test task type disabled and -x test; 18 tasks, 5 executed and 13 up-to-date. No tests or runtime checks ran.
 - JAR SHA-256: 0EFADAB8C4FC87ABE8137C3E1F3E6A57CBAC15BB470E1048B739422839A7CB93.
 - Pose fit and Elytra remain held for correction and renewed review.
+## Ascending sneak edge integration — 2026-10-08
+
+- F-002 accepted source snapshot `1d5f18176eccc5103c08bd1807b2f2c32f2b3376`; finding SHA-256 `4a4a23d071397f4cd3a1c82ef4e4ff59885df9b63c79b425c927c310bd1dbbb9`; blind acceptance `0648b843fecf2358165a7c387cf348b02c66396b`.
+- Exact code `14a6e23432ab6a885b5c5ce265cf2404283756f6`; independent exact-code review `c24391cc31a774da64b5d3e6d319a56a4a01e9a3` ACCEPTED. Integrated and built; see `integration-review-2026-10-08.md` for build and JAR evidence.
+- Runtime validation not performed. The corrected Elytra start patch is accepted and queued as the next serial integration batch; this build contains only the ascending edge patch. Pose resize, swimming pitch, and WORLD03 remain pending.
