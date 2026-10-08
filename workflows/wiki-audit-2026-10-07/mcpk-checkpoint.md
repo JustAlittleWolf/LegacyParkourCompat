@@ -32,7 +32,7 @@
 1. Resume this worktree and branch, then confirm the clean state:
 
    ```powershell
-   Set-Location 'C:\Users\Wolfi\.codex\worktrees\mcpk-clean-rereview\LegacyParkourCompat'
+   Set-Location 'D:\Javastuff\LegacyParkourCompat\.task-worktrees\mcpk-clean-rereview-continuation'
    git status --short --branch
    git log --oneline -5
    ```
@@ -50,3 +50,4 @@
 - The latest merge had no Git conflicts and did not touch the `workflows/wiki-audit-2026-10-07/` MCPK audit files. It brought implementation and reconciliation paths from `main`; those implementation sources were not inspected as part of this MCPK-only lane. The MCPK audit remains independent and partial.
 - No full pair or wiki-lane acceptance is claimed.
 - The clean acceptance commit `bdda49ac76ce8b6e136917349e8b59a61d2fabe4` was cherry-picked into this lane as `dfceacf`; the independent follow-up is a bounded source/page record only.
+- Continuation commits `39ce7c1c`, `ae5f090a`, `25dc88a2`, `98b3e726`, `20894469`, and `e80f47e8` corrected and extended the immutable follow-up evidence through r4. Current branch tip is merge commit `985bc71a509abbdd644369e38510cc3541d8c157`, which merges `main` tip `61f278e268c3ed2bcc4d95e8f7bb6e9c543cfa82`; Git reported no conflicts. The merge changed no MCPK audit files. The merged implementation/source campaign files were not inspected to preserve this MCPK-only lane boundary; no MCPK file overlaps those changes.
