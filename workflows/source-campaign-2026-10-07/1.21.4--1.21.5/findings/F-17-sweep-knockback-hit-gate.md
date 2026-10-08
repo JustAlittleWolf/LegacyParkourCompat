@@ -2,7 +2,7 @@
 
 - Older version A: 1.21.4
 - Newer version B: 1.21.5
-- Mechanic / coverage slice IDs: S1-EXTERNAL, S7-PUSH
+- Mechanic / coverage slice IDs: S7-PUSH
 - Classification: changed behavior
 - Confidence: source-confirmed
 - Applicability: player sweep attacks against a target Player whose damage is rejected
@@ -34,4 +34,4 @@ In the stated branch, A applies a directional sweep impulse to the target Player
 
 ## Handoff
 
-Independent delta: the 1.21.5 sweep-target damage-acceptance gate suppresses the direct sweep knockback impulse after a rejected hit. Related slices: S1-EXTERNAL, S7-PUSH. Pending independent source review; no implementation handoff.
+Independent delta: the 1.21.5 sweep-target damage-acceptance gate suppresses the direct sweep knockback impulse after a rejected hit. Related slice: S7-PUSH. Pending independent source review; no implementation handoff.
