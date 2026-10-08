@@ -12,7 +12,7 @@ Seeds: `LocalClientPlayerEntity`, `LocalPlayer`, `ClientPlayerEntity`, `Keyboard
 
 Follow the local player's superclass: pose selection, dimensions, eye height where it affects movement/fluid checks, swimming/crawling, flight abilities/speed, hunger and blindness sprint gates, item-use state, edge sneaking and stored air speed. Compare defaults, initialization, updates and reset timing of every influential field.
 
-Seeds: `PlayerEntity`, `Player`, `Abilities`, pose/dimension definitions, food state and active-item state.
+Seeds: `PlayerEntity`, `Player`, `Abilities`, pose/dimension definitions and active-item state. Food/health objects are checked only as direct predicate inputs and remain outside implementation scope.
 
 ## 3. Living movement integration
 
@@ -44,7 +44,7 @@ Resources are omitted by this repository's Java source saver. Inspect matching j
 
 ## 7. External influences and dependency closure
 
-Inspect client consumers of incoming velocity/position corrections, player knockback/push, explosions, piston displacement, mount/dismount transitions and launch items insofar as they change local player movement. Follow the relevant packet handler to player state updates. Separate client-computed behavior from externally supplied values. Other entities' independent simulation, rendering-only changes and unrelated server rules are outside scope.
+Inspect client consumers of incoming velocity/position corrections and direct player-only velocity, impulse or knockback application insofar as they write the local player's movement state. The triggering event is not the scope: a combat event may trigger a player knockback response, or an external update may supply a player impulse. Compare the player-side motion operation and state write, not attack/damage resolution or the system producing damage. Follow the relevant player method or packet handler and separate client-computed response from externally supplied values. Do not audit non-player knockback, vehicle physics, or another entity's independent simulation. Other rendering-only changes and unrelated server rules are outside scope.
 
 Finally enumerate unresolved movement-state writers, callback implementations, changed helpers, registries and newly reachable dependencies from all stages. Revisit unchanged callers affected by changed dependencies. Document cross-mechanic interactions without enumerating every possible gameplay state.
 
@@ -89,3 +89,17 @@ In the inspected 26.2 unobfuscated output, `Enchantments.java` registers Depth S
 - `src/main/java/me/wolfii/legacyparkourcompat/change/`: existing historical deltas.
 
 These identify useful entry points. Return to vanilla source to establish every finding, and keep the coverage inventory broader than the mod's current hook set.
+
+## Mandatory closure inventories and campaign exclusions
+
+For each exact pair, the run ledger must split the following into method/body-range slices and link producer-to-consumer dependencies. A stage heading or a narrow travel-method comparison cannot substitute for these inventories:
+
+- **Full player tick:** input sampling and local player tick order; each pre-travel predicate and state write; travel dispatch and every reachable branch; post-travel work, callbacks and state writes. Record callers, enclosing guards, source ranges and important operation order on both sides.
+- **Player dimensions and state:** every movement-relevant writer/reader for pose, dimensions, eye height, position, velocity, bounding box, on-ground/collision/fluid flags, support position, sprint/jump timers, and direct movement predicates. Include constructors, defaults, reset/transition paths and repeated updates.
+- **Collision and shapes:** the player collision/query path; every reachable shape provider and override; block/entity registrations and state/property/context inputs; support and neighboring-block dependencies; callback order and shape construction. A vanilla block-state registration inventory is needed to prove absence or modern-only status.
+- **Movement producers/data:** block and fluid properties/callbacks, resource and registry values, attributes, effect/enchantment formulas and conditions, equipment/item applicability, and external/synchronized values. Trace consumers back to producers and then verify the forward chain. Mark server/datapack inputs explicitly.
+- **External player influences:** player-facing consumers of corrections and direct velocity/impulse application, plus in-scope player-facing piston and mount/dismount transitions. Include direct player knockback response math/state writes when reachable, even if a combat event triggers them. Do not simulate attack/damage resolution, other entities' knockback, or vehicle physics.
+
+Out-of-scope inventory: health, regeneration, hunger, food, saturation, exhaustion, attack/damage simulation and resolution, non-player movement, and vehicle physics. Preserve vanilla production of those states. Record direct reads of vanilla values only as movement inputs; do not emulate the excluded producer system or turn health/food-state differences into movement findings merely because a sprint predicate reads them. Direct player velocity/impulse/knockback response remains in scope as player movement; do not trace or implement the combat cause or damage calculation.
+
+For the 2026 source campaign, previous discovery reports may be consulted as navigation aids. Old mod implementation and isolated wiki-audit findings must remain unseen until the source-only report is frozen. Normal source workers do not browse the MCPK or Minecraft wikis. Freeze a report under `workflows/source-campaign-2026-10-07/<A>--<B>/` before implementation reconciliation. Keep `discovery`, `implementation`, and `runtime validation` statuses independent.

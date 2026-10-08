@@ -10,12 +10,13 @@
 - Recorded the Feather-backed findings and exact endpoint evidence in [mcpk-source-adjudication.md](mcpk-source-adjudication.md) and [mcpk-1.8.9-1.9.4.md](mcpk-1.8.9-1.9.4.md).
 - Published bounded, revision-independent snapshots for 1.15 Soul Sand, 1.15 Honey, 1.17 Powder Snow, 1.17 Big Dripleaf, the 1.17 swimming-entry gate, 1.15 slipperiness sample examples, and the 1.16.1→1.16.2 sneak edge-backoff predicate. The latest comparison preserves the separate `onGround` versus `isAboveGround()` gate and hashes both ready Mojmap endpoints.
 - The Big Dripleaf snapshot records a discrepancy in the MCPK page's first collision-shape timing. The swimming snapshot distinguishes first-entry from continuation behavior.
+- The bounded snapshot source comparison is recorded in [mcpk-independent-review-2026-10-08.md](mcpk-independent-review-2026-10-08.md): the edge-backoff and Big Dripleaf claims are technically accepted; the swimming snapshot needs the unchanged player flying guard; the slipperiness snapshot needs the exact `SoulsandBlock.java` path spelling.
 - The original derived mapped JARs remain unavailable. Their equivalence to the revised snapshots is **UNPROVEN**; the old cache mismatch is not waived.
 
 ## Still open
 
 - Independent reviewer acceptance of the exact `mcpk-feather-r1-finding-snapshot.md` and its dependencies. Until then, affected source/wiki pairs remain partial and no pair freeze is claimed.
-- Independent wiki-lane review of the bounded snapshots, including the new 1.16.2 edge-backoff snapshot.
+- Formal independent wiki-lane acceptance of the bounded snapshots remains blocked because the reviewer’s preliminary broad search surfaced unrelated workflow/source-report excerpts. A clean isolated reviewer must repeat the four dispositions before any snapshot is treated as independently accepted. Keep the two concrete requested corrections in the review report open.
 - Continue the remaining MCPK claim checks listed under “Still unresolved” in [mcpk-wiki.md](mcpk-wiki.md): exact 1.11.1 wall-height interval; full 1.13 water math/flow and remaining shapes; 1.14 movement edge cases; Y=256 water-exit boundary; player-affecting effects/enchantments; and 1.17 powder-snow tick timing.
 - Do not treat the wiki's TODO-only 1.18 section or its lack of later sections as evidence for 1.19+ or 26.x behavior.
 
