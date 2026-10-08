@@ -883,6 +883,24 @@ Append-only source-review history. An accepted finding snapshot would release on
 - Implementation handoff: awaiting independent blind acceptance of this exact snapshot.
 - Replaces/supersedes snapshot ID and reason, if applicable: none; first snapshot for this finding.
 
+### Snapshot event F-PLAYER-MOVE-PACKET-VALIDATION-r1
+
+- Finding ID(s): F-PLAYER-MOVE-PACKET-VALIDATION
+- Source finding author(s): Codex source worker
+- Status: submitted
+- Immutable snapshot commit: `7684fdac`
+- Finding file path and SHA-256: `workflows/source-campaign-2026-10-07/1.11.2--1.12.2/findings/F-PLAYER-MOVE-PACKET-VALIDATION.md`; `1cd826819dc27e7ca7de96b33c61fa13e7472a53bda3e7f5bdd882f191d3ee50`
+- Exact A/B evidence artifact records and revised artifact hashes: `EA-FEATHER-R1-1.11.2`, `EA-FEATHER-R1-1.12.2`; A JAR `ba1872d5fd341770a45aeeb8d372776a1b89f0b88a11a72f15aa0fe879b6a29f`, revision.json `49fca091d3ef83551745119f740d7a66a2773e81262db137bfc747369e8f61ac`; B JAR `fcc17537a14a423e2086f600047725ec1fcfd4c7fcf5c0d1a5bda491966c1b87`, revision.json `2be8645d57ca5c00411b037e7617f9860ac700f7fa8ef50d28220c2e1b0c60dc`. Original source/artifact manifest hashes and equivalence limitations are preserved in the finding.
+- Cited source/resource hashes: exact `ServerPlayNetworkHandler` A/B files and player-validator bodies are recorded in the finding; the paired `PlayerMoveC2SPacket` source is byte-identical and the `VehicleMoveC2SPacket` validator body matches.
+- Verified implementation boundary/evidence, or unresolved boundary reason: the server's player-move validator is called before its ordinary player position acceptance path. The paired predicate differs in range and finite-value handling; the bounded effect is packet rejection/disconnection versus continuing to position processing. Ordinary-client packet generation is not claimed.
+- Finding-specific closed dependency IDs/evidence: `INV-STATE` and `INV-EXTERNAL` evidence for the bounded inbound player movement validation edge only; full packet producer/consumer and position-writer inventories remain pending.
+- Independent blind source reviewer and decision date: reviewer assignment and review pending.
+- Review basis / requested source-only revisions: independently re-walk both validator predicates, packet getter behavior, their first caller and the subsequent acceptance/rejection branches before accepting or requesting a correction.
+- Pair run status and commit at handoff: active at `7684fdac`.
+- Pair complete: no
+- Implementation handoff: awaiting independent blind acceptance of this exact snapshot.
+- Replaces/supersedes snapshot ID and reason, if applicable: none; first snapshot for this finding.
+
 ## Implementation reconciliation
 
 - Reconciliation status: pending (source-only worker; explicit parent role change required)
