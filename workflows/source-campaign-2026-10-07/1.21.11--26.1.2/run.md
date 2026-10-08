@@ -558,13 +558,13 @@ Each entry is a bounded behavior boundary. Refine broad plans into exact member 
 ### Slice S5.6: Partial-block collision/support shapes and neighbor-dependent shapes
 
 - Inventory ID(s): INV-WORLD-MOVEMENT, INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Partial-block collision/support shapes and neighbor-dependent shapes. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: Began the climbable-family shape subset that feeds S5.5 and S4.4 support consumers. `LadderBlock.getShape` chooses the prebuilt shape by FACING (A/B lines 42-44). `VineBlock.getShape` applies its state-derived shape function (A/B lines 70-72). `ScaffoldingBlock.getShape` selects stable/unstable outline based on BOTTOM and held-item context (A/B lines 61-67); `getCollisionShape` is empty for placement, stable while context is above a full block and not descending, otherwise permits the unstable bottom only when DISTANCE != 0, BOTTOM and the context is above its lower support shape (A 133-141; B 140-150). These selected collision shapes feed the already traced `BlockCollisions`/support query; outlines are separate from collision behavior.
+- A evidence: `LadderBlock.java` SHA-256 `2ecda32f482b2a4eb9293f7b289758ad75a2a464e77a46f41df23282aef2c574`; `VineBlock.java` `4ada4f8ac41de648e05119f167be185a6c49f1d7bc2aa489cee8e6fe515da22b`; `ScaffoldingBlock.java` `9cf5e367ef3c237238ab8ff1f63cec907134af8328ad09f7ee2ce8956946d74b`. `getCollisionShape` results and property/context predicates in these checked methods are paired; the direct shape formulas above are unchanged.
+- B evidence: `LadderBlock.java` SHA-256 `8603bfb9a55aebab196d245c9bb8527e1fa40385d125c5df64540c4f6652b0c0`; `VineBlock.java` `c7668689bccdaae1b8ac689ea671bc3b4bbb647c5529a31efaa1b1ce28c8938e`; `ScaffoldingBlock.java` `a55b102f47b261f808ef31c0b74cda9efdbc6fa53ccc4bda8ce46230904b22fa`. Same outcomes under renamed parameters and reformatted ternary.
+- State producers/writers -> consumers/readers: ladder state FACING supplies shape and must agree with the oriented supporting block for the open-trapdoor climb exception; vine state attachment booleans feed its `shapes` function; scaffolding BOTTOM and DISTANCE are read by both outline/collision selectors and still need exact writers/callers closed. EntityCollisionContext/CollisionContext queries are read by these providers. The selected VoxelShape then reaches Player AABB collision/support through `BlockBehaviour` state dispatch and `BlockCollisions`/`CollisionGetter` (S4.4/S4.7 evidence).
+- Parent slices / dependencies / closure evidence: This only audits ladder/vine/scaffolding shape methods, not the slice-wide shape census. Need source-compare the static ladder shapes; vine property-to-shape function and neighboring attachments; scaffolding distance/bottom state writers; trapdoor collision/support provider; and all other reachable partial, offset, dynamic and neighbor-dependent shapes for blocks available in 1.21.11. Keep coupled to S5.5, S4.4, S4.7 and D2.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The checked shape-selector methods compare equal and their consumers are traced. Full partial-block and neighbor-provider inventory remains open; this is not a no-difference disposition.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S5.7: Pistons, bubble columns and other movement-producing block/fluid paths
@@ -779,7 +779,7 @@ F-1 candidate snapshot submitted for blind review; acceptance is pending and doe
 
 ## Source audit closure
 
-- Coverage counts by status: 18 pending; 27 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
+- Coverage counts by status: 17 pending; 28 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
 - Required inventory status and evidence: all 7 pending; exact source inputs are verified, but full movement/provider/resource inventories remain incomplete.
 - Open dependencies: D2
 - Unresolved gaps and limits: inherited tick/travel/collision body comparisons, movement state producers/consumers, shape providers/registrations, and data/resource dependency closure.
