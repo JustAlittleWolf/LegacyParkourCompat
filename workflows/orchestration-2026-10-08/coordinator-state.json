@@ -187,7 +187,7 @@
       "threadId": "01a11bc2-03b2-7443-bc8f-698902c67f29",
       "role": "wiki_minecraft_review",
       "ref": "005e647; b20730f",
-      "status": "Completed corrected Wiki sprint-swim ACCEPT47ae83bd and mainmerge4e77925a; idle.",
+      "status": "Active blind exact1.20.4/1.20.5/1.20.6 jump/flight source-boundary review e277edd19, including low-power applicability caveat.",
       "resultCommit": "22849555;main merge c80b31f",
       "decisions": {
         "swimmingPitch": "ACCEPT b20730f SHA dd0abd5a90ac1813197e4c09ab97ed0e0027c48e237a148bbf95bde2f64e6a89",
@@ -204,7 +204,7 @@
       "threadId": "01a11bc2-2e8a-78e2-a4ec-cee2b9b52ee6",
       "role": "rising_crouch_implementation",
       "ref": "accepted source1d5f181;review0648b843",
-      "status": "Active exact1.20.4/1.20.5/1.20.6 MC02 jump and MC01 flight boundary source comparison; immutable snapshot and blind review before code."
+      "status": "Completed source-boundary memo e277edd19eb8f8ce63681ab7985a5d92df8a259f; idle pending blind review, no code yet."
     },
     {
       "threadId": "01a11bc4-153a-78d1-8b2a-74e92c3b249d",
@@ -587,7 +587,8 @@
       "Water static implementation ACCEPT collected and serial build/integration dispatched",
       "Sleep correction retrieved from private object store and independent re-review assigned",
       "Slime no-code proof collected and independent review assigned",
-      "Wiki corrected r2 path identity resolved and owner catalog continuation assigned"
+      "Wiki corrected r2 path identity resolved and owner catalog continuation assigned",
+      "Collected frozen exact1.20.5 boundary memo e277edd19 and assigned independent blind source review; cutoff applicability kept distinct from boundary evidence."
     ],
     "liveRoleAudit": "3 collaboration source workers plus16app roles plusroot; cap20. Seven long-running source app roles independently confirmed active.",
     "blocked": false,
@@ -845,5 +846,14 @@
     "correctImmutablePath": "sprint-swimming-1.12.2-to-1.13.2-r2.md at1e5b3a65",
     "rawSHA256Unchanged": "62140b4d629831c430702bf7aff78fa87784beddd65dbfcb28b47dbb7a19fa782",
     "evidence": "Root git show --stat1e5b3a65 confirms new r2 file; exact re-review47ae83bd bound r2 correctly. Sprint implementer notified to use corrected binding."
+  },
+  "mc1204ExactBoundaryReview": {
+    "snapshot": "e277edd19eb8f8ce63681ab7985a5d92df8a259f",
+    "path": "workflows/fix-implementation/reconciliations/MC1204-1206-boundary-2026-10-08.md",
+    "rawSHA256": "a97e20b5abaa131f9ec090d1d186eae63592d839e8cd9c3c254b80acdea8de82",
+    "status": "Blind source review active; no code before acceptance.",
+    "reviewWorker": "01a11bc2-03b2-7443-bc8f-698902c67f29",
+    "claim": "Jump cutoff, sprint double0.2, and flight-activation jump call appear1.20.5 and remain1.20.6. Source-only claim pending review.",
+    "eligibilityCaution": "Separate ordinary sprint math from low-power cutoff. Require old-player vanilla reachable low-power input or mark modern-attribute-dependent applicability open; no invented historical modern-only inputs."
   }
 }
