@@ -1,0 +1,28 @@
+# Implementation review — shallow water current cutoff
+
+**Decision: ACCEPT** — static implementation correspondence for commit `c33269b0` (code preserved at final tip `48050492ffa08411375759596e18fb331d4ebdfa`). The review was performed in an isolated worktree and does not change implementation files. No build, tests, client, server, TAS, Gym, Docker, or runtime validation were run.
+
+## Evidence identities
+
+- Accepted source finding: `workflows/source-campaign-2026-10-07/1.21.11--26.1.2/findings/F-1-water-current-shallow-overlap.md`; snapshot commit `6374ff904018e102afd8353864d3cbcbb1b99ddd`; blob `90c8a48282c036e6082c85f0be7a69e041ac0cb7`; SHA-256 `9d2c273a1c3b358eac7ebaa1e4cbe9e91a126648a90e89d8d6bdeb1953159cdd`.
+- Independent blind source review: `workflows/source-campaign-2026-10-07/independent-review-water-current-12111-2612-2026-10-08.md`; commit `f222615162499441f959899600744813b1276614`; accepts the finding snapshot only and leaves the pair `PARTIAL`.
+- Exact sources used for the current hook: 26.2 `Entity.java`, SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`; `EntityFluidInteraction.java`, SHA-256 `5264ff4f1fddebc3fa9d63ed2adbe2eaf617392ff946a867a6817a78b478ee62` (same tracker implementation as 26.1.2); `Player.java`, SHA-256 `8decc71b9c780664578ddb14591db2a2f207c72c05b676edded6f8e964576531`; `LivingEntity.java`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`; `FlowingFluid.java`, SHA-256 `f8c0c4430e81efdf39b221968272ed8e3a4d030fa5192e04e04d34c9fbd37b28`; `WaterFluid.java`, SHA-256 `14cb3d49ef1db28fdab367cd6a4f196f20b7886b8768153c6e82906e9d25f0ad`.
+- Implementation files reviewed: `change/v1_21_11/ShallowWaterCurrentCutoff.java`, its provider and hook, `mixin/EntityMixin.java`, `mixin/EntityFluidCurrentMixin.java`, `mixin/ShallowWaterCurrentContext.java`, and existing `change/v1_15_2/FluidCurrentMinimum.java`.
+
+## Review
+
+The accepted witness is implemented at the specific branch where the 26.2 tracker loses it. In current 26.2, `Entity.updateFluidInteraction()` invokes water at ordinal 0 with scale `0.014` and lava at ordinal 1. The mixin redirects that water call, preserves the existing boat-passenger suppression first, checks that the tag is exactly `FluidTags.WATER` and the entity is a player, then resolves the historical behavior using the interaction's water height. It wraps only the selected `applyCurrentTo` call in a scoped context. Thus lava, non-player entities, and suppressed boat-passenger water calls do not acquire the bypass.
+
+The cutoff behavior is registered at `V1_21_11` and returns true only for positive heights below `0.4`. During the nested tracker call, the `lengthSqr()` redirect substitutes positive infinity only while the context contains that exact entity. This makes the source condition `!(accumulatedCurrent.lengthSqr() < 1.0E-5F)` pass, allowing the player averaging, water scale, minimum impulse check, and movement addition to run. Outside the dynamic scope, the original squared length is returned. The `ThreadLocal` saves and restores a prior value in `finally`, including nested calls and exceptions.
+
+For the accepted witness, the checked 1.21.11 source produces a nonzero shallow current whose legacy player impulse reaches the minimum `0.0045000000000000005`; the accepted 26.1.2/26.2 tracker would reject its accumulated current at the earlier strict squared-length cutoff. The patch changes only that cutoff decision for the resolved shallow-water player call. A zero accumulated vector reaches the later native math but normalizes to zero and leaves movement unchanged; non-finite movement remains discarded by the vanilla finite-vector guard. The bypass uses the same comparison shape as the native strict threshold, so exact boundary equality is not accidentally treated as below the cutoff.
+
+The existing `FluidCurrentMinimumBehavior` remains a separate redirect at `Vec3.length()`. It continues to apply the 1.15.2-era minimum impulse independently of this new early `lengthSqr()` bypass. The new `ShallowWaterCurrentCutoffBehavior` is a separate mechanic key, so closest-change resolution does not overwrite or conflate these two rules. `ChangeResolver` returns no changes for `CURRENT`; the new V1_21_11 change resolves for V1_21_11 and older profiles, while V26_1 and CURRENT do not resolve it. The V1_15_2 profile can resolve both changes: the early current rejection is bypassed for eligible shallow water and the later historical minimum-impulse behavior still runs.
+
+The target selectors match the inspected 26.2 sources: the outer mixin targets `Entity.updateFluidInteraction()Z` and the exact `EntityFluidInteraction.applyCurrentTo(TagKey,Entity,double)` descriptor, ordinal 0; the tracker mixin targets `EntityFluidInteraction$Tracker.applyCurrentTo` and its `Vec3.lengthSqr()` invocation. The tracker source still contains the same early threshold in 26.2. The current profile keeps the native cutoff because no versioned behavior resolves.
+
+## Limits
+
+This accepts implementation correspondence for the single finding and its player/water witness. It does not establish the first changed patch release within `(1.21.11, 26.1.2]`; exact 26.1.0 and 26.1.1 source evidence was unavailable, and those releases are grouped under the 26.1 representative. It does not complete the source pair or broader movement-discovery inventories. The source review accepted a conditional source-level velocity difference, not a runtime trajectory. No runtime validation was performed.
+
+Reviewer: isolated static implementation review. Decision date: 2026-10-08.
