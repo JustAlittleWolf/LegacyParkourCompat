@@ -93,6 +93,7 @@ The following are pending scope atoms for source-led member indexing. Each must 
 - Exact behavior boundary and enclosing guards/order checked: sprint start/stop, jump input/cooldown/state and reachable pre-travel impulse ordering; boundaries pending.
 - A evidence: `LocalPlayer.java` SHA-256 `53F2A71A886B9C71853AFE36F2DF857F80A9BF1CD6EC4CA8604CCD7E238D89EE`; `aiStep` at 683 has the fixed seven-tick assignment at 727; sprint stop gates at 837-852 and `canStartSprinting` at 1065-1075 opened. `Options.java` SHA-256 `24B6E50A9376761ADFC935113DA78B58D11A88376097F9A6A5947B520CD3A3C3` has no `sprintWindow` option/accessor/serialization member. `Entity.isUnderWater` is at 1394-1396 in `Entity.java` SHA-256 `C403E6176D27B5BFD6AAA0DEA3735FFA4FCF80DBAE58766661DD84453B7E9704`; `LivingEntity.travelInFluid` (2301-2351) reads `isSprinting()` to choose water drag in `LivingEntity.java` SHA-256 `609F0197A0B4551AB42279E452C11CDD256135B1D467C2A95950B0E9FD7DDEF8`.
 - B evidence: `LocalPlayer.java` SHA-256 `9C1DF00E2F8379B2C19577A3691FEE28071D8925210BE3D3DF928B5352E367E1`; `aiStep` at 687 reads `options.sprintWindow` at 731; new shared predicate at 1055-1060, start/stop gates at 841-848, `canStartSprinting` at 1062-1069. `Options.java` SHA-256 `791DF2C2FD5B37C6E8C3D7775EF7797A20A5839DB00445B383CBC37662E7CEC8` defines range 0..10/default 7 at 496-505 and serializes at 1268. `Entity.isInShallowWater` (1454-1456) is in `Entity.java` SHA-256 `8361DBB86FE6C975D21F69D008377B6F191669BE751150C842517E9D0346FA18`; `LivingEntity.travelInFluid` (2331-2381) reads `isSprinting()` to choose water drag in `LivingEntity.java` SHA-256 `B8B49D60769203F7BD5AFE4A1BFFCDCDBEC30BE28960324CDC43A2DF85A6EB66`.
+- A/B jump and direct impulse evidence: `LocalPlayer.aiStep` jump-trigger timer is 7 in both sources (A line 756, B 760); corresponding blocks also preserve the jump-to-fall-flying guard, shift-to-descend-in-water call, creative-flight vertical delta expression, and jumpable-vehicle charge curve (A lines 748–830; B 752–834; `LocalPlayer.java` hashes above). `LivingEntity.jumpFromGround` has the same bounded body: jump-power epsilon guard, vertical `Math.max`, sprint impulse `0.2`, and impulse flag (A lines 2205–2216; B 2235–2247; `LivingEntity.java` hashes above). These expression-level matches do not close all pre-travel state writers.
 - State producers/writers -> consumers/readers: sprint/jump input and timer writers -> gates, velocity writers and travel consumers; exact members pending.
 - Parent slices / dependencies / closure evidence: S1.1, S1.2; movement predicates may read vanilla food/hunger state, whose producer systems remain excluded (S8.1).
 - Status: in-progress
@@ -102,14 +103,14 @@ The following are pending scope atoms for source-led member indexing. Each must 
 ### Slice S1.4: Auto-jump, flight toggles, unstuck and riding gates
 
 - Inventory ID(s): INV-TICK, INV-EXTERNAL
-- Exact behavior boundary and enclosing guards/order checked: player-local control branches and state transitions affecting movement; boundaries pending.
-- A evidence: validated `1.21.8` Mojmap source; this control slice has not been indexed yet.
-- B evidence: validated `1.21.10` Mojmap source; this control slice has not been indexed yet.
-- State producers/writers -> consumers/readers: control inputs/abilities/riding transitions -> movement flags and velocity/position consumers; exact members pending.
-- Parent slices / dependencies / closure evidence: S1.1; S7.2; source readiness D1.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): not compared; no conclusion.
-- Finding IDs or checked absence/replacement path: none; no candidate disposition yet.
+- Exact behavior boundary and enclosing guards/order checked: player-local control branches and state transitions affecting movement; auto-jump probe and bounded LocalPlayer jump/flight/riding writers compared, remaining unstuck and transition paths pending.
+- A evidence: `LocalPlayer.updateAutoJump` lines 935–1031 and `canAutoJump` lines 1051–1058; `LocalPlayer.java` SHA-256 `53F2A71A886B9C71853AFE36F2DF857F80A9BF1CD6EC4CA8604CCD7E238D89EE`. The probe scans movement collision shapes and sets `autoJumpTime=1`; the complete bounded method body was compared with B.
+- B evidence: corresponding `updateAutoJump` lines 925–1021 and `canAutoJump` lines 1041–1048; `LocalPlayer.java` SHA-256 `9C1DF00E2F8379B2C19577A3691FEE28071D8925210BE3D3DF928B5352E367E1`. The bounded method body and eligibility clauses match A.
+- State producers/writers -> consumers/readers: jump/flight input and collision probe -> local jump/flying/auto-jump state -> movement input and travel; riding-jump scale callbacks are indexed but vehicle physics is excluded.
+- Parent slices / dependencies / closure evidence: S1.1; S7.2; source readiness D1. Collision provider inventory remains S4.1–S5.1.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): paired `updateAutoJump` method bodies and `canAutoJump` predicates match in the inspected range. S1.3's bounded creative-flight vertical movement and riding charge expressions also match. Remaining unstuck movement and player transition/impulse paths have not been indexed; no slice-wide equivalence is claimed.
+- Finding IDs or checked absence/replacement path: none for the compared auto-jump member; no candidate disposition for the remaining S1.4 scope.
 
 ### Slice S1.5: Portal cooldown ticking while the client waits for a replacement level
 
@@ -378,7 +379,7 @@ Independent reviewer not yet assigned; no source audit performed.
 
 ## Source audit closure
 
-- Coverage counts by status: pending 17; in-progress 4; compared-no-difference 2; findings 0; not-applicable 0; blocked 0. Planned broad atoms still need splitting into member-bounded slices; no terminal disposition is claimed.
+- Coverage counts by status: pending 16; in-progress 5; compared-no-difference 2; finding snapshots 4 (submitted, none independently accepted); not-applicable 0; blocked 0. Planned broad atoms still need splitting into member-bounded slices; no terminal disposition is claimed.
 - Required inventory status and evidence: INV-TICK pending (partial sources indexed); INV-STATE pending (partial sources indexed); INV-COLLISION pending; INV-WORLD-MOVEMENT pending; INV-MODIFIERS pending; INV-EXTERNAL pending (partial packet consumers indexed); INV-EXCLUSIONS pending. No source inventories complete.
 - Open dependencies: D2, D3
 - Unresolved gaps and limits: source pair and manifests are verified, but broad client movement/input, state, collision/shape, resource/data, modifier, external impulse, and exclusion slices remain open. Member-level correspondence is partial; no terminal disposition or finding snapshot has been accepted. This active report claims no pair completion.
