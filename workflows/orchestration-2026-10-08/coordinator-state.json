@@ -166,7 +166,7 @@
       "role": "ops_audit",
       "pair": null,
       "ref": null,
-      "status": "active; campaign-wide accepted finding implementation backlog audit, isolated branch"
+      "status": "completed; backlog506ffc47e9210097bcb7dd142538e5b16c8d4b62 adopted; coordinator found missingacceptedrecords and STATE03 mislink, followupauditpending"
     },
     {
       "threadId": "01a11bbe-a775-7180-a017-d2386dcd9fb3",
@@ -223,7 +223,7 @@
     {
       "threadId": "01a11bcd-f62a-7610-8eff-f9782f3d072d",
       "role": "elytra_independent_review",
-      "status": "active; focusedWORLD03 8ae77014 re-review",
+      "status": "completed; WORLD03 8ae77014 ACCEPTc1dee45, mergece6d3cd preserves fence/ejection registrations",
       "ref": "fix/elytra-start-full-request; accepted flight-toggle finding"
     },
     {
@@ -348,10 +348,28 @@
       "ref": "846d88672a0a7c216fea8e6ee68d29a7af0937e3",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
+    },
+    {
+      "threadId": "01a11bf8-556c-70e2-a3aa-22d7510b8e10",
+      "role": "source",
+      "pair": "1.21.8--1.21.10",
+      "status": "active",
+      "ref": "71bfe059d83766f4e60d83ad5642f48c8ffaa559",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
+    },
+    {
+      "threadId": "01a11bf8-7a0d-7e00-b330-37ebbb161c3d",
+      "role": "source",
+      "pair": "1.21.10--1.21.11",
+      "status": "active",
+      "ref": "da3a98ccca40807587102c958747a2c0488fb18a",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:41:50.3945120Z",
+    "observedAt": "2026-10-08T14:45:24.7039436Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
@@ -436,6 +454,15 @@
       "review": "6ce9b54",
       "reviewBranch": "fix/review-swimming-entry-gate-1-17",
       "status": "ACCEPT; dispatch after currentpose/F005batch finishes"
+    },
+    {
+      "finding": "WORLD03 frame player ejection andfloat response",
+      "code": "8ae770141c4e9ca1b3f5fa3a1459d94132195306",
+      "codeBranch": "fix/world-03-end-portal-frame-push",
+      "review": "c1dee45",
+      "reviewBranch": "fix/review-world-03-correction-2026-10-08",
+      "mergeResolution": "ce6d3cd preserves fence/ejection registrations",
+      "status": "ACCEPT; dispatch after currentpose/F005batch, alongsidequeued swimmingentry"
     }
   ],
   "bigDripleafDisposition": {
@@ -444,5 +471,23 @@
     "review": "6ce9b54",
     "pre17": "blockabsent, excluded",
     "runtime": "unverified"
+  },
+  "acceptedBacklogAuditFollowUp": {
+    "status": "pending free slot; do not treat backlog as complete",
+    "missing": [
+      "TICK01 acceptedsource1dbafbb/review304b6a58",
+      "WORLD03 aa66894/reviewa2e510bd",
+      "MinecraftWiki swimmingpitchb20730f/review22849555",
+      "MCPK edge r3/reviewbdda49ac",
+      "MCPK slipperiness78683ba/reviewbdda49ac"
+    ],
+    "wrongAssociation": "STATE03 old1.8 sneaking height is linked to1.13 poseea62550 without mechanism proof; reconcile independently",
+    "staleStatuses": [
+      "Elytra flighttoggle already covered361c15c reviewedb8dfbc3",
+      "F005 nowaccepteddd69581",
+      "swimmingentry accepted6ce9b54",
+      "BigDripleaf no-code proof reviewed6ce9b54"
+    ],
+    "next": "reactivate isolated opsaudit when slot frees; add missing exactrecords and fixmislinks, then prioritize uncoveredacceptedmechanics includingpassengercrouchinput/sleep/sprint resets"
   }
 }
