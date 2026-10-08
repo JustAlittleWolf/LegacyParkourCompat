@@ -424,5 +424,8 @@
       "reason": "Its current report is already represented by an accepted current review; no unique branch-only content remains.",
       "additiveFiles": []
     }
-  ]
+  ],
+  "archiveBranch": "fix/docs-history-preservation",
+  "historyMergeHead": "950407c8e0152d5379711d974f520e164e4bb6ac",
+  "historyMergeCommitsReachable": 38
 }
