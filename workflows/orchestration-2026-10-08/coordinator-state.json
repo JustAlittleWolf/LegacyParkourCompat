@@ -13,7 +13,7 @@
     "runtimeLaunches": false,
     "allGradleTestTasksDisabledForBuild": true,
     "integrationBuildOwnerThreadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
-    "primaryMainLastVerified": "64895d266fcee5da774c3236295ba949045200c7"
+    "primaryMainLastVerified": "b099aa02d82e57c1672f68375edcbcacdf8e3973"
   },
   "reservedOldSlots": [
     {
@@ -36,14 +36,14 @@
     {
       "threadId": "01a11bb1-adb2-7212-9a90-26537278d788",
       "role": "implementation_static_review",
-      "status": "active; focused poseea62550 independent re-review",
+      "status": "completed; poseea62550 ACCEPT88792a06e72fb88f8841d8e413cdb6da026248b3",
       "scope": "four pending code patches",
       "resultCommit": "bdb6443; notes d3190b4"
     },
     {
       "threadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
       "role": "integration_build_owner",
-      "status": "active; accepted fence51ecf89/review8838f92 build andmain integration",
+      "status": "active; fence integratedb099aa02d82e57c1672f68375edcbcacdf8e3973; nextacceptedposeea62550 buildintegration",
       "ref": "feat/movement-campaign-integration-2026-10-08@958b0916f08cba25e3be86d67d48a9d1e8651d1f",
       "resultCommit": "ea812dc9171fdf41e02b3a2292db7d40b105c9c4"
     },
@@ -223,19 +223,19 @@
     {
       "threadId": "01a11bcd-f62a-7610-8eff-f9782f3d072d",
       "role": "elytra_independent_review",
-      "status": "completed; WORLD03 REQUEST CHANGES1900fa4: vertical sample and0.1F widening",
+      "status": "active; focusedWORLD03 8ae77014 re-review",
       "ref": "fix/elytra-start-full-request; accepted flight-toggle finding"
     },
     {
       "threadId": "01a11bce-05d9-7c80-9a1e-0f65525c141b",
       "role": "rising_crouch_independent_review",
-      "status": "active; F005 savedFallFlying code review including profile availability atload",
+      "status": "active; F005 initialprofile/loadpath review; version switching explicitlyexcluded",
       "ref": "14a6e23432ab6a885b5c5ce265cf2404283756f6"
     },
     {
       "threadId": "01a11bcf-351e-7b32-9a56-9a6800c65644",
       "role": "world03_implementation",
-      "status": "active; WORLD03 vertical sample andfloat velocity correction",
+      "status": "completed; WORLD03 correction8ae770141c4e9ca1b3f5fa3a1459d94132195306 tipff24abc4f199f6460f79dafd2c83a9a19d0f6121 awaitingre-review",
       "ref": "accepted aa66894; reviewa2e510bd"
     },
     {
@@ -312,21 +312,30 @@
       "ref": "f8593bc61e95ff738998cb4c4614b918ded95f66",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
+    },
+    {
+      "threadId": "01a11bef-63b2-7051-a26b-ecb85fefec53",
+      "role": "source",
+      "pair": "1.21.1--1.21.3",
+      "status": "active",
+      "ref": "9efca3a29af87debd09cf76d92affbf475e98e16",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:32:37.9960173Z",
+    "observedAt": "2026-10-08T14:34:29.2553492Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
     "conservativeSlots": 15,
     "workersRequested": "gpt-6-luna high",
     "coordinatorObserved": "gpt-6.1-sol medium",
-    "mainHead": "64895d266fcee5da774c3236295ba949045200c7",
+    "mainHead": "b099aa02d82e57c1672f68375edcbcacdf8e3973",
     "mainUntracked": "generated worktrees preserved; local exclude applied by integration owner",
     "TICK01": "independently accepted, built with all Test tasks disabled, integrated; main net source auditfa340fe confirms five acceptedbatches",
     "passengerYaw": "integrated; test-disabled build success; no runtime",
-    "poseFit": "correctedea62550; focused independent re-review active",
+    "poseFit": "ACCEPT88792a06; exactcodeea62550 integrationassigned",
     "elytraStart": "integrated; ACCEPT source binding independentlyverified; docs-only correction integrationpending",
     "oldCoordinator": "idle/completed verified",
     "reviewReport": "bdb6443;notes d3190b4",
