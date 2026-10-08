@@ -857,6 +857,24 @@ Append-only source-review history. An accepted finding snapshot would release on
 - Implementation handoff: awaiting independent blind acceptance of this exact snapshot.
 - Replaces/supersedes snapshot ID and reason, if applicable: none; first snapshot for this finding.
 
+### Snapshot event F-FENCE-CAULDRON-SIDE-COLLISION-r2
+
+- Finding ID(s): F-FENCE-CAULDRON-SIDE-COLLISION
+- Source finding author(s): Codex source worker
+- Status: submitted
+- Immutable snapshot commit: `fe144d88fec9fab540a091fe4b6611dc2c9df5b8`
+- Finding file path and SHA-256: `workflows/source-campaign-2026-10-07/1.11.2--1.12.2/findings/F-FENCE-CAULDRON-SIDE-COLLISION.md`; `2a7e15011ca4d9d3b8bc18d2e4966204d9642719b6268d1f62307db825c5f085`
+- Exact A/B evidence artifact records and revised artifact hashes: unchanged from r1; `EA-FEATHER-R1-1.11.2` JAR `ba1872d5fd341770a45aeeb8d372776a1b89f0b88a11a72f15aa0fe879b6a29f`, revision.json `49fca091d3ef83551745119f740d7a66a2773e81262db137bfc747369e8f61ac`; `EA-FEATHER-R1-1.12.2` JAR `fcc17537a14a423e2086f600047725ec1fcfd4c7fcf5c0d1a5bda491966c1b87`, revision.json `2be8645d57ca5c00411b037e7617f9860ac700f7fa8ef50d28220c2e1b0c60dc`. Original source/artifact manifests and unverified revised-to-original equivalence limitation are unchanged.
+- Cited source/resource hashes: r2 adds explicit A/B `PlayerEntity`, `Entity`, `World` and `Block` file hashes and identifies `Entity.move` source locations for the reachability/dispatch path; FenceBlock/CauldronBlock evidence is unchanged from r1.
+- Verified implementation boundary/evidence, or unresolved boundary reason: the evidence boundary and source-derived endpoint are unchanged from r1; runtime validation was not performed and broad collision/movement inventories remain open.
+- Finding-specific closed dependency IDs/evidence: unchanged from r1; source-specificity improved, but full `INV-COLLISION`, `INV-STATE`, S2.2, S4 and S5 closure remains pending.
+- Independent blind source reviewer and decision date: reviewer assignment and review pending.
+- Review basis / requested source-only revisions: independently re-walk exact predicate, exception set, collision boxes and flight/noClip/player movement path; verify artifact identity within the recorded provenance limitation.
+- Pair run status and commit at handoff: active at `fe144d88fec9fab540a091fe4b6611dc2c9df5b8`.
+- Pair complete: no
+- Implementation handoff: awaiting independent blind acceptance of this exact snapshot.
+- Replaces/supersedes snapshot ID and reason, if applicable: supersedes `F-FENCE-CAULDRON-SIDE-COLLISION-r1`; r2 adds direct player/entity/world/block source identities and the exact `Entity.move` anchor needed to recheck reachability. r1 remains in history as the first submitted snapshot.
+
 ### Snapshot event F-FARMLAND-PLAYER-RELOCATION-r1
 
 - Finding ID(s): F-FARMLAND-PLAYER-RELOCATION
