@@ -445,7 +445,7 @@ Both provenance records point to the same exact batch and successful full Gradle
 ## Finding index
 
 - [F-S1-01: 1.21.4 defers the local player movement tick until level readiness or timeout](findings/F-S1-01-load-state-defers-local-movement-tick.md) — source-confirmed; applies while the local client load flag is false and its timeout remains positive.
-- [F-S1-02: 1.21.4 adds local sprint stop and slow-movement start gates](findings/F-S1-02-sprint-policy-gates.md) — source-confirmed; applies during an executing local-player AI step, subject to the later same-tick sprint-start path described in the finding.
+- [F-S1-02: 1.21.4 adds local sprint stop and slow-movement start gates](findings/F-S1-02-sprint-policy-gates.md) — source-confirmed; applies to an already sprinting player when a new stop state becomes true and to slow-moving sprint-start attempts outside water.
 - [F-S3-01: 1.21.4 leaves client-controlled player fall distance uncleared after movement](findings/F-S3-01-client-controlled-fall-distance-state.md) — source-confirmed; movement-state effect only, with damage resolution excluded.
 - [F-S3-02: 1.21.4 changes movement-through-block shape traversal](findings/F-S3-02-movement-block-shape-sweep.md) — source-confirmed; callback candidate-selection difference for the bounded swept geometry.
 - [F-S2-01: 1.21.4 centers the scaled Shulker peek-push query](findings/F-S2-01-shulker-scaled-peek-push.md) — source-confirmed for non-default synchronized SCALE while peek increases; the local player can enter the changed candidate region.
