@@ -6,7 +6,9 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
 public final class MovementChanges implements MovementChangeProvider {
     @Override
     public void register(MovementChangeRegistry registry) {
+        registry.register(new ElytraJumpStart());
         registry.register(new GroundFrictionSupportCellChange());
+        registry.register(new NativePoseDimensions());
         registry.register(new PortalDismountChange());
         registry.register(new SneakInputSlowdown());
         registry.register(new SoulSandOverlapChange());
