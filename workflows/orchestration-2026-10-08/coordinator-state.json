@@ -1001,9 +1001,9 @@
     "status": "Historical queue entry; already integrated on main 0bfb72a."
   },
   "latestReconciliation": {
-    "mainCommit": "d8f3956602da94bf0cf67753cc0a9f4665397729",
+    "mainCommit": "dc1b65b29e3c2561175bd54276ae83e37cd1c045",
     "backlogBranch": "feat/accepted-finding-backlog-2026-10-08",
-    "backlogCommit": "9d48c964ebd7b6d65987312e3fde86a7d73c3df5",
+    "backlogCommit": "4803310c51f997b57aa276915e1f02d06a17b528",
     "integrationRecords": {
       "sleep": "a5c191df557cd152d578150c689227897ac33256; accepted source chain independently verified at 33baf5c6; implementation corrected, independently accepted, integrated and built with all Test tasks disabled; runtime unverified",
       "slime": "a5c191df557cd152d578150c689227897ac33256; bounded no-code disposition integrated; runtime unverified",
@@ -1023,6 +1023,37 @@
           "rawSHA256": "ebc678ad4522a14a10549bc38a1f7958dcedcabd6de290a262c81d6c726d46f1"
         },
         "note": "Two immutable versions differ; do not transfer acceptance between bytes. Newer source version includes revised Feather provenance."
+      },
+      "architectureBatch": {
+        "integrationBranch": "fix/architecture-integration-2026-10-08",
+        "integrationCommit": "dc1b65b29e3c2561175bd54276ae83e37cd1c045",
+        "mainMerge": "dc1b65b29e3c2561175bd54276ae83e37cd1c045",
+        "buildRecord": "workflows/fix-implementation/runs/architecture-integration-build-2026-10-08.md",
+        "initialFailure": {
+          "result": "compileJava failed; package-private BlockLanding class and constructor",
+          "log": "build/movement-campaign-2026-10-07/integration-artifacts/architecture-2026-10-08/build.full.log",
+          "sha256": "36d1fb4d9fdf1312a4c8d90b47e7a4e1d858fdbc6e3e0a5785b7de2051171218"
+        },
+        "repair": {
+          "result": "BUILD SUCCESSFUL in 19s; 18 actionable tasks: 8 executed, 10 up-to-date; all Gradle Test tasks disabled by init and -x test; zero Test-task log entries",
+          "log": "build/movement-campaign-2026-10-07/integration-artifacts/architecture-2026-10-08/repair-build.full.log",
+          "logSha256": "ef0980eb181be9ea83a423a032f11f72045317ff369f9b81f47ddb795725511f",
+          "jarSha256": "da749785311afe8eafb772f61d463b4a10accc30ed97865ee70146eeba3da372",
+          "sourcesJarSha256": "7a86508e3ff983a4d64cb89c90ebc610603122ce587caf2a10f202e2736497c9"
+        },
+        "preservedPrior": {
+          "jarSha256": "0e256017f7112850ef4f217244d99f80438996c21ad68d465e166f907bfd02ec",
+          "sourcesJarSha256": "079f77fbbc5addad9f843f678adfc761143b5e447602c1a428868a847cc63578"
+        },
+        "reviews": {
+          "SuffocationProbe": "6b65fc3db1cac56d6fdbe9a89799b41b862895e0 ACCEPT",
+          "SneakEdgeBackoff": "b3f4fc4e6bf4a98d29753e8c7b9750eac9b26313 ACCEPT",
+          "centralCatalog": "ff38dfbd2ab857d89ad1abe9d4a4b39b225c1d7d ACCEPT static",
+          "BlockLandingVisibility": "aa756668a63d3c73cc53787a8931b1ef81701312 ACCEPT static"
+        },
+        "docs": "Accepted BED proof-only and water-sprint source provenance records integrated",
+        "runtime": "not performed; unverified",
+        "push": "none"
       }
     },
     "mc1204To1206": {
@@ -1338,33 +1369,37 @@
     "bedProof": "Bound report rereview ACCEPTed proof-only at 4071cee1; no Java/provider change. Original identity-only REQUEST CHANGES d027b9db remains in history and is resolved by bound rereview. Accepted author/review documents are routed for integration.",
     "waterSprint": "Bounded source ACCEPT now closes the candidate acceptance gap for the two identified immutable snapshots only; no broader parity or pair closure.",
     "collaborationSlots": "Keep <=20 roles including root and reserved catalog reviewer. Suffocation reviewer role reused by integration owner; catalog preflight reviewer remains reserved, not a free role.",
-    "currentTimeObservation": "2026-10-08 17:26 UTC / 19:26 Europe/Vienna; repair build in progress; clean handoff due 19:40.",
-    "backlogCommit": "43f57c346146035fe24d8e5422aba5607aa6801a",
+    "currentTimeObservation": "2026-10-08 17:28 UTC / 19:28 Europe/Vienna; architecture integration complete; final source-owner checkpoint due 19:40.",
+    "backlogCommit": "4803310c51f997b57aa276915e1f02d06a17b528",
     "catalogIncident": "Wrong-workdir deletion by catalog author was restored. Primary main was independently verified clean at d8f39566; do not mutate primary until architecture review and coordinated merge.",
     "sourceOwnerRoleSwap": "1.16.5–1.17.1 source owner terminal at aca4dfb; role replaced by BED no-code proof reviewer. 1.15.2–1.16.5 owner terminal at f5636dd2 with all seven inventories open. 1.8.9–1.9.4 owner still closing.",
-    "primaryMainStatus": "Independently checked clean at d8f3956602da94bf0cf67753cc0a9f4665397729. Do not mutate primary until architecture changes have frozen and passed review.",
+    "primaryMainStatus": "Verified clean at dc1b65b29e3c2561175bd54276ae83e37cd1c045 after successful reviewed integration/build; 57 commits ahead of origin/main; no push.",
     "catalogAuthor": "Terminal/idle at corrected commit dbc088f70a1bbec73f7b6ff53a7820d3e19be09c; clean branch includes main d8; test-source/API/docs correction; no tests/build. Author role released.",
     "integrationQueue": {
       "owner": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
-      "status": "Visibility candidate 1310bfbb independently ACCEPTED by aa756668; candidate and review merged only to isolated integration branch b5df96141e18cdcc2b575b912c0d99343ac4c4f0. One authorized repair build is running now.",
-      "batchBuildGate": "One authorized repair build running with all Test tasks disabled and -x test. It uses a distinct repair log/result path; verify the retained record, exact task outcomes, and artifact hashes before any main merge.",
+      "status": "Completed successfully; integration branch fast-forwarded/merged into clean local main dc1b65b29e3c2561175bd54276ae83e37cd1c045. Independent verification confirmed retained logs/JAR hashes and no Test-task entries.",
+      "batchBuildGate": "Satisfied by successful authorized repair build; no further build requested.",
       "bedNoCode": "Bound proof-only ACCEPT; docs integrated on isolated branch; no code change and no extra build requirement.",
-      "primaryMain": "d8f3956602da94bf0cf67753cc0a9f4665397729 remains verified clean; no integration merge after failed build.",
-      "acceptedCode": "SuffocationProbe, SneakEdgeBackoff, and corrected central catalog are independently accepted and merged to isolated integration branch; batch integration is blocked by package-private BlockLanding visibility compile error.",
+      "primaryMain": "dc1b65b29e3c2561175bd54276ae83e37cd1c045 is clean; local main is 57 commits ahead of origin/main, no push.",
+      "acceptedCode": "SuffocationProbe, SneakEdgeBackoff, corrected central catalog, and independently accepted BlockLanding visibility fix are integrated at main dc1b65b2.",
       "acceptedDocs": "BED proof-only report/review and water-sprint provenance ACCEPT docs integrated on isolated branch.",
-      "buildGate": "Failed at compileJava; no artifacts accepted. Isolate and independently review a narrow BlockLanding visibility fix before any authorized retry. Keep primary main at d8.",
+      "buildGate": "Repair build successful: 18 actionable tasks (8 executed, 10 up-to-date), all Test tasks disabled and -x test; artifacts rehashed and prior artifacts preserved.",
       "failureDisposition": "Initial failure record/log remains preserved. The only code repair is accepted public visibility for v26_1.BlockLanding and its constructor; no movement body/registration order changed. Main remains d8.",
       "candidateBranch": "fix/architecture-blocklanding-visibility-candidate-2026-10-08",
       "candidateCommit": "1310bfbb",
       "candidateReport": "workflows/fix-implementation/candidates/2026-10-08-v26-1-blocklanding-catalog-visibility.md",
-      "integrationBranchHead": "b5df96141e18cdcc2b575b912c0d99343ac4c4f0",
+      "integrationBranchHead": "dc1b65b29e3c2561175bd54276ae83e37cd1c045",
       "failedBuildRecord": "workflows/fix-implementation/runs/architecture-integration-build-2026-10-08.md",
       "failedBuildLogSha256": "36d1fb4d9fdf1312a4c8d90b47e7a4e1d858fdbc6e3e0a5785b7de2051171218",
       "candidateReviewStatus": "Terminal independent static ACCEPT on exact candidate. Review checked public class/constructor and all catalog-instantiated class/constructor accessibility.",
       "candidateReviewCommit": "aa756668a63d3c73cc53787a8931b1ef81701312",
       "candidateReviewPath": "workflows/implementation-reviews/2026-10-08-v26-1-blocklanding-catalog-visibility-review.md",
       "candidateReviewBlob": "9ad0ff65c25d3ac1f15f83060612702d75a9c75a",
-      "candidateReviewSha256": "c84f2650bfbd60a1eb17b068cee0779771d918da9d36e8b37e6713f5ad4b584e"
+      "candidateReviewSha256": "c84f2650bfbd60a1eb17b068cee0779771d918da9d36e8b37e6713f5ad4b584e",
+      "mainMerge": "dc1b65b29e3c2561175bd54276ae83e37cd1c045",
+      "repairLogSha256": "ef0980eb181be9ea83a423a032f11f72045317ff369f9b81f47ddb795725511f",
+      "jarSha256": "da749785311afe8eafb772f61d463b4a10accc30ed97865ee70146eeba3da372",
+      "runtime": "unverified"
     },
     "roleTurnover": "F013 author/reviewer and 1.8.9–1.9.4 and pane source-owner roles are terminal/released. All 14 reviewed 1.17.1–1.18.2 finding snapshots have bounded ACCEPTs; its pair remains PARTIAL.",
     "pane": "Pane owner active on bounded two-player Farmland conditional candidate; broader path open.",
@@ -1382,9 +1417,9 @@
     ],
     "roleCap": "20 maximum including root and active catalog reviewer; no new worker roles.",
     "safeNextActions": [
-      "Wait for the single authorized repair build and verify its full retained log, Test-task exclusion, actionable tasks, output JAR hashes, and clean integration commit.",
-      "If repair succeeds, complete the recorded serial merge to local main by 19:40; if it fails, retain the failure and leave main unchanged without another retry.",
-      "Preserve source-owner terminal checkpoints and partial pair states; no discovery work after the 19:25 cutoff."
+      "Record final clean checkpoints from the remaining active source owners by 19:40; preserve each pair partial/open state and do not infer coverage completion.",
+      "Keep local main at clean dc1b65b29e3c2561175bd54276ae83e37cd1c045; do not push or run runtime validation.",
+      "Resume tomorrow from the coordinator and backlog branches; no new discovery dispatch tonight."
     ],
     "sourcePair2626Latest": {
       "branch": "feat/source-26-1-2-26-2-resume-oct8",
@@ -1429,5 +1464,5 @@
       "status": "terminal ACCEPT on corrected commit dbc088f70a1bbec73f7b6ff53a7820d3e19be09c; report ff38dfbd2ab857d89ad1abe9d4a4b39b225c1d7d; static only"
     }
   ],
-  "sourcePreparationAndIntegrationOwnerStatus": "1.11/1.11.1/1.16 preparations complete and hash-verified; owner reactivated as exclusive integration owner."
+  "sourcePreparationAndIntegrationOwnerStatus": "Exclusive integration owner completed accepted code/docs integration; authorized repair build succeeded with all Test tasks disabled and -x test; local main clean at dc1b65b2; no runtime or push."
 }
