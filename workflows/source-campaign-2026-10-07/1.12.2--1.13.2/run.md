@@ -123,7 +123,7 @@ Provisional source candidates being traced after revised snapshot verification: 
   ```
 - Other pending source work: complete client/player tick and state-writer call graph, pose/size writers, all collision shape providers and neighbors, world movement properties/resources, remaining effect/enchantment/equipment paths, all external player-input routes, movement decompiler diagnostics, and explicit excluded-system audit. Keep findings provisional until every required inventory is closed.
 - Required later steps: finish blind pair coverage; run the structural completion checker; obtain an independent source reviewer; freeze the source report; only then inspect implementation for reconciliation. No implementation or wiki lane was opened in this task.
-- Git integration: `main` was merged into this branch on 2026-10-07 and was already an ancestor (`git merge --no-edit main` returned `Already up to date`). `main` had no commits beyond the pair's base, so there were no intervening semantic changes to reconcile.
+- Git integration: latest local `main` at `270e8c85d656a0d2fae0770799e207ed1557d9ba` was merged by commit `5b7d0f774b0aba71df1d882f304f004ba30539a5`. Add/add conflicts in this pair's run ledger and prior finding documents were resolved to the active source-only branch versions; this preserved this worker's source-only evidence boundary. Per the explicit source-only assignment, no implementation files or implementation-derived material were inspected during this merge, so semantic review of the merged implementation changes remains outside this run's evidence.
 
 ## Finding snapshots (not pair freeze)
 
