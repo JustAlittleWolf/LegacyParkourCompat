@@ -107,8 +107,8 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - State producers/writers -> consumers/readers: input, sprintTriggerTime, crouching, abilities.flying, fluid gates, fall-flying and super.aiStep; closure pending.
 - Parent slices / dependencies / closure evidence: S1-ESCAPE,S1-SPRINT-RESET,S1-ELYTRA,S1-WATER-DESCENT,S2-LOCAL-CROUCHING-STATE,S2-STATE,S3-TRAVEL.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): extracted full-body comparison routes the escape search, shift-reset of sprint trigger, elytra climbability gate and fluid descent gate to their named slices. It also reveals B's new cached-crouching writer before `input.tick`; its effective timing and pose/input consumers remain open in S2-LOCAL-CROUCHING-STATE.
-- Finding IDs or checked absence/replacement path: F-S1-OPEN-SHULKER-ESCAPE,F-S1-SPRINT-RESET,F-S1-WATER-DESCENT; common climb-gate evidence in S1-ELYTRA/S3-CLIMB-COMMON; cached-crouching producer still open.
+- Disposition and rationale (including concrete reachability/preconditions): extracted full-body comparison routes the escape search, shift-reset of sprint trigger, elytra climbability gate and fluid descent gate to their named slices. B's cached-crouching writer and same-tick keyboard consumer are now closed for the bounded slowdown route; its other readers and the broader pose/state chain remain open in S2-LOCAL-CROUCHING-STATE.
+- Finding IDs or checked absence/replacement path: F-S1-OPEN-SHULKER-ESCAPE,F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-CROUCH-SLOWDOWN-EPSILON; common climb-gate evidence in S1-ELYTRA/S3-CLIMB-COMMON; remaining crouching readers are open.
 
 ### Slice S2-LOCAL-CROUCHING-STATE: cached local crouching state writer
 - Inventory ID(s): INV-TICK, INV-STATE
@@ -116,10 +116,21 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - A evidence: `../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/client/player/LocalPlayer.java`, aiStep lines 625-641 and isCrouching/isMovingSlowly lines 595-604, SHA-256 `3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd`.
 - B evidence: `../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/client/player/LocalPlayer.java`, aiStep lines 627-647 and isCrouching/isMovingSlowly lines 597-607, SHA-256 `6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b`.
 - State producers/writers -> consumers/readers: B snapshots `!flying && !swimming && canEnterPose(CROUCHING) && (shift || (!sleeping && !canEnterPose(STANDING)))` before input tick -> `isCrouching()` -> `isMovingSlowly()` -> same-tick `input.tick` slowdown argument. A computes the crouching predicate on demand from current state/input.
-- Parent slices / dependencies / closure evidence: S1-LOCAL-AISTEP,S1-LOCAL-TICK,S2-POSE,S2-STATE; the B writer order is source-confirmed, but same-tick input consumption, pose-clearance/canEnterPose call edges and all crouching-field readers are not yet inventoried.
+- Parent slices / dependencies / closure evidence: S1-LOCAL-AISTEP,S1-LOCAL-TICK,S2-POSE,S2-STATE; same-tick input consumption and the bounded canEnterPose epsilon route are closed in F-S1-CROUCH-SLOWDOWN-EPSILON. Other crouching-field readers and the broader pose/state chain remain open.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): B adds a stored field and assigns it before `input.tick`, while A's `isCrouching()` evaluates the condition when called. Since `input.tick` consumes `isMovingSlowly()` and pose clearance can affect the stored value, this is a candidate ordering/state delta. Exact consumer and call-order closure is pending; no movement finding is claimed yet.
-- Finding IDs or checked absence/replacement path: source-level candidate for S2 pose/state inventory; pending consumer/call-order disposition.
+- Disposition and rationale (including concrete reachability/preconditions): B adds a stored field and assigns it before `input.tick`, while A's `isCrouching()` evaluates the condition when called. The same-tick keyboard slowdown consumer and pose-clearance epsilon dependency are closed in the bounded finding; the remaining readers and broader state/presentation applicability are still pending.
+- Finding IDs or checked absence/replacement path: F-S1-CROUCH-SLOWDOWN-EPSILON closes the same-tick input route; remaining readers and pose/state inventory are open.
+
+### Slice S1-CROUCH-SLOWDOWN-GATE: pose-clearance input slowdown gate
+- Inventory ID(s): INV-TICK, INV-STATE, INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: LocalPlayer.aiStep -> isMovingSlowly -> crouching predicate -> Input.tick(boolean) -> KeyboardInput.tick(boolean); candidate pose AABB clearance dependency.
+- A evidence: `../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/client/player/LocalPlayer.java`, lines 591-604 and 625-641, SHA-256 `3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd`; `Entity.java`, lines 1605-1607, SHA-256 `191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e`; `KeyboardInput.java`, lines 13-28, SHA-256 `746ea654cf4f46a5f4b94a237c4307652252a44807a488b606dc993e088396f7`.
+- B evidence: `../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/client/player/LocalPlayer.java`, lines 595-605 and 627-641, SHA-256 `6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b`; `Entity.java`, lines 1640-1642, SHA-256 `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666`; `KeyboardInput.java`, lines 13-28, same SHA-256 as A.
+- State producers/writers -> consumers/readers: pose-clearance result -> same-tick crouching/slow-movement boolean -> keyboard forward/lateral impulse multiplier.
+- Parent slices / dependencies / closure evidence: S1-LOCAL-AISTEP,S2-LOCAL-CROUCHING-STATE,S2-POSE; conditional input difference is source-supported, while concrete provider/registration coverage and full pose/state inventory remain open.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): when shift is down, the player is neither flying nor swimming nor visually crawling, and a collision shape intersects only the `1.0E-7` shell removed by B's candidate-box deflation, A's crouching clearance predicate is false and B's is true. The shared keyboard consumer applies `0.3` to both input axes only when true. No final movement is claimed.
+- Finding IDs or checked absence/replacement path: F-S1-CROUCH-SLOWDOWN-EPSILON; related pose-selection clearance is separately bounded by F-S2-POSE-EPSILON.
 
 ### Slice S1-ESCAPE: player suffocation-space escape
 - Inventory ID(s): INV-TICK, INV-COLLISION, INV-STATE
@@ -220,6 +231,29 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): B extracts ordinary relative-friction and climb handling and changes ladder terminology; full player-specific equality requires helper and tag closure.
 - Finding IDs or checked absence/replacement path: pending
+
+### Slice S3-SOUL-SPEED: Soul Speed support factor and movement attribute routes
+- Inventory ID(s): INV-MODIFIERS, INV-WORLD-MOVEMENT, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: Entity movement application of block speed factor; LivingEntity Soul Speed modifier triggers and support-block checks; Player flight/fall-flying overrides; feet enchantment registration and tag resource membership.
+- A evidence: `../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/entity/Entity.java`, SHA-256 `191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e`; `Player.java`, SHA-256 `1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793`; `Blocks.java`, Soul Sand registration, SHA-256 `0cef66feacbf9d7d5bd38ac1d2065e71384a73043b0956eeaf314fedbf5cc7d9`; no Soul Speed enchantment registration in A.
+- B evidence: `Entity.java`, SHA-256 `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666`; `LivingEntity.java`, SHA-256 `b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88`; `Player.java`, SHA-256 `d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960`; `SoulSpeedEnchantment.java`, SHA-256 `79e4cb0c3521a08432b8c9d9e175b3bb9d73367315c0af5b77ffc2ef2690a0a4`; `EnchantmentHelper.java`, SHA-256 `cb4ff36f66976365247cf4fa0e052182e7896aa5c363ccc7236be91e84a99eef`; `Blocks.java`, SHA-256 `3b39d5cc4cd22f146ed3195aa30cbb9fdfca49f63783fabf9924a6ce7795fa12`.
+- B resource evidence: `data/minecraft/tags/blocks/soul_speed_blocks.json` in the exact 1.16.5 client artifact, SHA-256 `c86fbd7bcfa2b94c881f0ba9980a694b28150a5b0b628aec0cfedc552f68994f`; members are Soul Sand and Soul Soil. Soul Soil is B-only and excluded from shared historical-block applicability.
+- State producers/writers -> consumers/readers: equipped Soul Speed level and support-block tag -> block-factor override and conditional movement-speed attribute modifier -> horizontal delta movement and player speed attribute.
+- Parent slices / dependencies / closure evidence: S3-GROUND-AIR,S5-SOUL-SAND-COLLISION; common Soul Sand registration is `0.4F` at both endpoints. The bounded B-only route is closed; the broader movement-modifier writer/reader inventory remains open.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): B adds feet-slot Soul Speed. For an enchanted, non-flying player on shared Soul Sand, the block factor is overridden to `1.0F`; B also adds the source-defined movement-speed modifier on its trigger paths. A has no corresponding enchantment. This records a B-only mechanic and does not infer a 1.15.2 implementation behavior.
+- Finding IDs or checked absence/replacement path: F-S3-SOUL-SPEED; Soul Soil is explicitly excluded as a modern-only support block.
+
+### Slice S3-ATTR-BASE-WRITER: player movement-speed base writer lifecycle
+- Inventory ID(s): INV-MODIFIERS, INV-STATE, INV-TICK
+- Exact behavior boundary and enclosing guards/order checked: Player.aiStep movement-speed base update and speed read after `super.aiStep`; Player.readAdditionalSaveData base initialization.
+- A evidence: `../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/entity/player/Player.java`, `Player#aiStep()` around lines 486-520, SHA-256 `1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793`; `Player#readAdditionalSaveData()` lines 741-766, same hash.
+- B evidence: `../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/entity/player/Player.java`, `Player#aiStep()` around lines 486-520, SHA-256 `d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960`; `Player#readAdditionalSaveData()` lines 742-760, same hash.
+- State producers/writers -> consumers/readers: A server-side player tick resets MOVEMENT_SPEED base from abilities after superclass aiStep; B reads the attribute value into player speed without that per-tick reset and sets the base during additional-save-data loading. Attribute modifiers, ability updates, persistence/synchronization and downstream consumers require broader enumeration.
+- Parent slices / dependencies / closure evidence: S3-GROUND-AIR,S3-SOUL-SPEED; paired writer locations and immediate Player speed consumer checked, external writer and server/client synchronization routes unresolved.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): A's server-side Player.aiStep overwrites the base movement speed each tick; B has no matching write in this tick body, but writes the base during readAdditionalSaveData. The player speed value is then read from the attribute. This is a real source asymmetry, but its effective movement reachability depends on other ability/base-value writers, synchronization, modifiers and tick timing not yet closed.
+- Finding IDs or checked absence/replacement path: candidate writer lifecycle only; no movement finding until producers and consumers are closed.
 
 ### Slice S3-RELATIVE-MOVEMENT: extracted ground/air relative-movement helper
 - Inventory ID(s): INV-TICK, INV-STATE, INV-COLLISION
@@ -591,16 +625,18 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - S1-ESCAPE-QUERY: pair A blocked/freeAt/isSuffocating with B noBlockCollision/getBlockCollisions and relevant shapes; establish same-state reachability. Owner: discovery author.
 - S4-MOVE/S4-QUERY: the named common honey/slime/bed/web/bubble-column movement callbacks are compared in S4-COMMON-CONTACT-CALLBACKS; close remaining callback/provider edges and entity-candidate/query-provider routes. The bounded lazy border omission for epsilon-near player support queries is recorded in F-S4-BORDER-EPSILON. Owner: discovery author.
 - S5-SHAPES: compare common-block provider methods, block/tag registrations and relevant resources; retain bounded cache/state rows independently from pair closure. S5-SCAFFOLDING-COLLISION, S5-SLAB-SHAPE, S5-SNOW-COLLISION, S5-LADDER-SHAPE, S5-CACTUS-COLLISION, S5-BAMBOO-COLLISION, S5-BAMBOO-OFFSET, S5-HONEY-COLLISION, S5-COMPOSTER-COLLISION, S5-SOUL-SAND-COLLISION, S5-FENCE-GATE-COLLISION, S5-VINE-SHAPE, S5-BELL-COLLISION, S5-LECTERN-COLLISION, S5-GRINDSTONE-COLLISION, S5-WALL-FIXED-COLLISION, S5-FENCE-FIXED-COLLISION and S5-CROSS-CACHE close only their named provider/cache behaviors. S5-WALL and S5-FENCE-CONNECTION are out-of-scope lifecycle producers; S5-SUPPORT-SHAPES is out-of-scope support/lifecycle behavior after exact player-consumer search. Registry/resource/provider callback chains remain open; ladder attachment and piston push/tick paths remain open. Owner: discovery author.
-- Remaining stage 2-7 slices: continue pose/dimensions and state writers/readers after S2-LOCAL-CROUCHING-STATE; add movement attributes/effects/enchantments/equipment/resources, block/fluid registrations/callbacks, and client external inputs. Owner: discovery author.
+- Remaining stage 2-7 slices: continue pose/dimensions and state writers/readers after S2-LOCAL-CROUCHING-STATE; finish movement attributes/effects/enchantments/equipment/resources beyond bounded S3-SOUL-SPEED; continue block/fluid registrations/callbacks and client external inputs. Owner: discovery author.
 - Independent source reviewer: assign someone who did not author discovery; finding-snapshot decisions and eventual full-pair audit remain pending. Owner: coordinator.
 
 ## Finding index
+- F-S1-CROUCH-SLOWDOWN-EPSILON — pose-clearance epsilon changes the same-tick keyboard slowdown gate (source-confirmed; submitted for independent review).
 - F-S1-SPRINT-RESET — held shift cancels pending double-tap sprint window (source-confirmed).
 - F-S1-WATER-DESCENT — flying players skip crouch descent in water (source-confirmed).
 - F-S2-EDGE — edge restraint applies during supported near-ground motion and excludes flying players (source-confirmed).
 - F-S3-SHALLOW-LAVA-TRAVEL — shallow lava uses a different vertical scale and falling adjustment (source-confirmed).
 - F-S3-FLUID-JUMP-GATE — flying players skip liquid jump processing (source-confirmed).
 - F-S3-SHALLOW-LAVA-JUMP — grounded shallow-lava jump selects the ground-jump helper (source-confirmed).
+- F-S3-SOUL-SPEED — B-only Soul Speed bypasses the shared Soul Sand block factor and adds a movement-speed modifier (source-confirmed; submitted for independent review).
 - F-S5-WATER-CURRENT — weak water currents receive a minimum player push (source-confirmed).
 - F-S5-LAVA-CURRENT — non-flying players receive lava-current force (source-confirmed).
 - F-S5-PISTON-HEAD-THRESHOLD — retracting source-piston intermediate progress selects a different short-head collision shape (source-confirmed).
@@ -610,10 +646,10 @@ The historical pair report is not imported as source confirmation.
 
 ## Resume checkpoint
 
-- Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-LOCAL-TICK,S1-ELYTRA,S1-ESCAPE,S3-WATER,S3-FALL-FLYING,S3-RELATIVE-MOVEMENT,S3-CLIMB-COMMON,S4-STEP,S4-COMMON-CONTACT-CALLBACKS,S5-SLAB-SHAPE,S5-SNOW-COLLISION,S5-LADDER-SHAPE,S5-PISTON-SHAPE,S5-SCAFFOLDING-COLLISION,S5-WALL-FIXED-COLLISION,S5-FENCE-FIXED-COLLISION,S5-CROSS-CACHE,S5-CACTUS-COLLISION,S5-BAMBOO-COLLISION,S5-BAMBOO-OFFSET,S5-HONEY-COLLISION,S5-COMPOSTER-COLLISION,S5-SOUL-SAND-COLLISION,S5-FENCE-GATE-COLLISION,S5-VINE-SHAPE,S5-BELL-COLLISION,S5-LECTERN-COLLISION,S5-GRINDSTONE-COLLISION; finding slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S4-BORDER-EPSILON,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT,F-S5-PISTON-HEAD-THRESHOLD.
-- Active slices: S1-LOCAL-AISTEP,S2-LOCAL-CROUCHING-STATE,S3-GROUND-AIR,S4-MOVE,S4-QUERY,S5-SHAPES; S4-BORDER-GUARD is findings, S5-WALL and S5-FENCE-CONNECTION are lifecycle not-applicable, and S5-SUPPORT-SHAPES is support/lifecycle not-applicable. Required pair inventories remain partial.
-- Next: close the cached-crouching writer's same-tick pose/input reader chain, then continue common-block registration/resource routes and remaining S1/S3, state/pose, modifier, fluid/callback and external-input inventories.
-- Outstanding dependencies: S1 escape-query shape providers; S2 crouching pose/input readers and remaining dimensions/state; S4 remaining callback/entity-collider enumeration and other query providers; S5 remaining state/neighbor writers, registrations/resources, ladder attachment and piston push/tick paths; remaining stage 2-7 slices; independent reviewer assignment.
+- Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-LOCAL-TICK,S1-ELYTRA,S1-ESCAPE,S1-CROUCH-SLOWDOWN-GATE,S3-WATER,S3-FALL-FLYING,S3-RELATIVE-MOVEMENT,S3-CLIMB-COMMON,S3-SOUL-SPEED,S4-STEP,S4-COMMON-CONTACT-CALLBACKS,S5-SLAB-SHAPE,S5-SNOW-COLLISION,S5-LADDER-SHAPE,S5-PISTON-SHAPE,S5-SCAFFOLDING-COLLISION,S5-WALL-FIXED-COLLISION,S5-FENCE-FIXED-COLLISION,S5-CROSS-CACHE,S5-CACTUS-COLLISION,S5-BAMBOO-COLLISION,S5-BAMBOO-OFFSET,S5-HONEY-COLLISION,S5-COMPOSTER-COLLISION,S5-SOUL-SAND-COLLISION,S5-FENCE-GATE-COLLISION,S5-VINE-SHAPE,S5-BELL-COLLISION,S5-LECTERN-COLLISION,S5-GRINDSTONE-COLLISION; finding slices F-S1-CROUCH-SLOWDOWN-EPSILON,F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S3-SOUL-SPEED,F-S4-BORDER-EPSILON,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT,F-S5-PISTON-HEAD-THRESHOLD.
+- Active slices: S1-LOCAL-AISTEP,S2-LOCAL-CROUCHING-STATE,S3-GROUND-AIR,S3-ATTR-BASE-WRITER,S4-MOVE,S4-QUERY,S5-SHAPES; S4-BORDER-GUARD is findings, S5-WALL and S5-FENCE-CONNECTION are lifecycle not-applicable, and S5-SUPPORT-SHAPES is support/lifecycle not-applicable. Required pair inventories remain partial.
+- Next: continue remaining crouching readers and pose/state writers; expand modifier/effect/equipment inventories beyond Soul Speed; continue common-block registration/resource routes and remaining S1/S3, fluid/callback and external-input inventories.
+- Outstanding dependencies: S1 escape-query shape providers; S2 crouching readers beyond the bounded same-tick input route and remaining dimensions/state; S3 attribute base writers/synchronization and remaining effects/equipment; S4 remaining callback/entity-collider enumeration and other query providers; S5 remaining state/neighbor writers, registrations/resources, ladder attachment and piston push/tick paths; other required stage 2-7 slices; independent reviewer assignment.
 - Resume branch: feat/source-discovery-1-15-2-1-16-5-resume. Main commit 61f278e268c3ed2bcc4d95e8f7bb6e9c543cfa82 has been merged; the merge checkpoint and current tip are recorded by git log -1.
 - First next work: finish remaining exact common-block provider helpers and their registration/resource/callback dependencies; then continue S1 tick/call-order, S3 helper/resource closure and remaining stage 2-7 rows. Keep pair PARTIAL and findings limited to independently supported source claims.
 - Read-only resume commands from the repository root:
@@ -623,7 +659,7 @@ The historical pair report is not imported as source confirmation.
 
 ## Finding snapshots (not pair freeze)
 
-Each finding is committed as an immutable source snapshot. F-S1-OPEN-SHULKER-ESCAPE has separate blind-source acceptance and finding-only handoff eligibility recorded below; the other ten snapshots remain submitted and await independent review. Pair-wide implementation/source reconciliation remains deferred until the full-pair source freeze.
+Each finding is committed as an immutable source snapshot. Snapshot review status is recorded individually below; F-S1-OPEN-SHULKER-ESCAPE and F-S5-PISTON-HEAD-THRESHOLD have incremental blind-source acceptance, while pair-wide reconciliation remains deferred until the full-pair source freeze. The older F-S4-WORLD-BORDER-QUERY snapshot is preserved and marked superseded by the narrower F-S4-BORDER-EPSILON snapshot.
 
 ### Snapshot event F-S1-SPRINT-RESET
 - Finding ID(s): F-S1-SPRINT-RESET
@@ -783,7 +819,7 @@ Each finding is committed as an immutable source snapshot. F-S1-OPEN-SHULKER-ESC
 ### Snapshot event F-S5-PISTON-HEAD-THRESHOLD
 - Finding ID(s): F-S5-PISTON-HEAD-THRESHOLD
 - Source finding author(s): source-only pair researcher
-- Status: submitted; independent blind review pending
+- Status: accepted (incremental finding-only eligibility), per user-provided update; blind review commit `c2a57d14` (review record not consulted)
 - Immutable snapshot commit: 58e56ee59d7cc4015d499e3e2a37ec1d45049d56
 - Finding file path and SHA-256: findings/F-S5-PISTON-HEAD-THRESHOLD.md — 58cd05981150b0c162ecd10ea16560e7cfbb50cdf5027cb57577cf32a4c30163
 - Git blob: `54def810126026ecb51f389c346b564f4b7503d3`
@@ -795,8 +831,50 @@ Each finding is committed as an immutable source snapshot. F-S1-OPEN-SHULKER-ESC
 - Accepted claim limit: short/long collision-shape selection differs for a retracting source piston at progress 0.5F outside the matching NOCLIP direction; no displacement or trajectory is claimed. First changed release remains unknown in (1.15.2, 1.16.5]; runtime validation was not performed.
 - Pair status at snapshot submission: partial at 58e56ee59d7cc4015d499e3e2a37ec1d45049d56; pair status remains partial with full-pair coverage open.
 - Pair complete: no
-- Implementation handoff: pending independent snapshot review; no handoff was sent.
+- Implementation handoff: eligible for a separate finding-only handoff limited to the accepted source-level piston-shape claim; no handoff was sent.
 - Replaces/supersedes snapshot ID and reason, if applicable: none
+
+### Snapshot event F-S3-SOUL-SPEED
+- Finding ID(s): F-S3-SOUL-SPEED
+- Source finding author(s): source-only pair researcher
+- Status: submitted; independent blind review pending
+- Immutable snapshot commit: `4a60373a07eaf72ccfa7048df6984302c00a81ed`
+- Finding file path and SHA-256: findings/F-S3-SOUL-SPEED.md — `94a6ed4c12e9314247d3d5ef76dccbf36d9eebdbd56ec4c82feefa5dc40cadc2`
+- Git blob: `16424799e0f5177645533198bcfbf5640cbc0e7a`
+- Exact A/B artifact-manifest identities/hashes: ready/1.15.2/artifacts.sha256 `208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406`; ready/1.16.5/artifacts.sha256 `f9b9812d6995012cefcc1201a63855e5931e8551b508753be6c46d442d8b370c`.
+- Cited source hashes: A Entity `191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e`, Player `1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793`, Blocks `0cef66feacbf9d7d5bd38ac1d2065e71384a73043b0956eeaf314fedbf5cc7d9`; B Entity `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666`, LivingEntity `b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88`, Player `d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960`, Enchantments `c9d388097fd4bbf03609258486dc02d7d24bf18ab813f20f4f0db8d86e3dbdb8`, SoulSpeedEnchantment `79e4cb0c3521a08432b8c9d9e175b3bb9d73367315c0af5b77ffc2ef2690a0a4`, EnchantmentHelper `cb4ff36f66976365247cf4fa0e052182e7896aa5c363ccc7236be91e84a99eef`, Blocks `3b39d5cc4cd22f146ed3195aa30cbb9fdfca49f63783fabf9924a6ce7795fa12`.
+- Resource SHA-256: B `data/minecraft/tags/blocks/soul_speed_blocks.json` `c86fbd7bcfa2b94c881f0ba9980a694b28150a5b0b628aec0cfedc552f68994f`; modern-only Soul Soil excluded.
+- Finding-specific closed dependency IDs/evidence: B feet enchantment registration, tagged shared Soul Sand support, block-factor consumer, modifier trigger and player flight overrides are documented in the finding. Broader INV-MODIFIERS closure remains open.
+- Independent blind source reviewer and decision date: pending coordinator assignment.
+- Pair status at snapshot submission: partial at `4a60373a07eaf72ccfa7048df6984302c00a81ed`; pair remains partial.
+- Pair complete: no
+- Implementation handoff: pending independent snapshot review; no handoff was sent.
+- Replaces/supersedes snapshot ID and reason, if applicable: none.
+
+### Snapshot event F-S1-CROUCH-SLOWDOWN-EPSILON
+- Finding ID(s): F-S1-CROUCH-SLOWDOWN-EPSILON
+- Source finding author(s): source-only pair researcher
+- Status: submitted; independent blind review pending
+- Immutable snapshot commit: `c73e8c6a5f5c9e6c7b8b451d84706f28104cc2a6`
+- Finding file path and SHA-256: findings/F-S1-CROUCH-SLOWDOWN-EPSILON.md — `ff72958d03bba8dc9916f0c602c31e69d4046f1a5ee4f22f64332617c4667c09`
+- Git blob: `899dbbaedc51971fcaf4b77b9f99637dc164d21f`
+- Exact A/B artifact-manifest identities/hashes: ready/1.15.2/artifacts.sha256 `208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406`; ready/1.16.5/artifacts.sha256 `f9b9812d6995012cefcc1201a63855e5931e8551b508753be6c46d442d8b370c`.
+- Cited source hashes: A LocalPlayer `3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd`, KeyboardInput `746ea654cf4f46a5f4b94a237c4307652252a44807a488b606dc993e088396f7`, Entity `191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e`; B LocalPlayer `6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b`, KeyboardInput same as A, Entity `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666`.
+- Finding-specific closed dependency IDs/evidence: same-tick crouch/slowdown argument, canEnterPose collision-box epsilon and shared keyboard axis multiplier are paired; provider and registration inventory remains open.
+- Independent blind source reviewer and decision date: pending coordinator assignment.
+- Pair status at snapshot submission: partial at `c73e8c6a5f5c9e6c7b8b451d84706f28104cc2a6`; pair remains partial.
+- Pair complete: no
+- Implementation handoff: pending independent snapshot review; no handoff was sent.
+- Replaces/supersedes snapshot ID and reason, if applicable: none.
+
+### Snapshot event F-S4-WORLD-BORDER-QUERY
+- Finding ID(s): F-S4-WORLD-BORDER-QUERY
+- Status: superseded / consolidated by F-S4-BORDER-EPSILON; immutable source snapshot retained.
+- Immutable snapshot commit: `acb87a2353ef135d2bba78ab9ff6d4ab4c434b3f`
+- Finding file path and SHA-256: findings/F-S4-WORLD-BORDER-QUERY.md — `47d17a1fb90fbe2a36904e830da9f2e6f682523ddf6639e27b61b20e5aeeaade`
+- Git blob: `97f9600894c7bfb9dcba0d5337bcbbf47ba346b5`
+- Superseding snapshot: F-S4-BORDER-EPSILON, commit `24be762ab611a5ac64f76f3f2fbfd5d6d09e97c3`; the newer snapshot gives the tighter player support-query route and directly bounded claim.
+- Pair complete: no; historical snapshot retained for provenance and excluded from current finding count.
 
 ### Snapshot event F-S4-BORDER-EPSILON
 - Finding ID(s): F-S4-BORDER-EPSILON
@@ -835,9 +913,9 @@ Each finding is committed as an immutable source snapshot. F-S1-OPEN-SHULKER-ESC
 
 ## Source audit closure
 
-- Coverage counts by status at this checkpoint: pending 0; in-progress 6; compared-no-difference 28; findings 10; not-applicable 3; required stage slices not yet entered and open.
+- Coverage counts by status at this checkpoint: pending 0; in-progress 7; compared-no-difference 28; findings 12; not-applicable 3; total recorded slices 50; required stage slices not yet entered and open.
 - Required inventory status and evidence: all seven pending.
-- Open dependencies: S1 escape-query provider coverage and CLIMBABLE resource consumers; S4 callback/entity-collider filters and remaining query providers; S5 shape registration/resource/neighbor routes; remaining required stage 2-7 inventory slices; independent source reviewer assignment.
+- Open dependencies: S1 escape-query provider coverage and CLIMBABLE resource consumers; S2 remaining pose/state readers; S3 attribute-base writer/synchronization and remaining effects/equipment/resource routes; S4 callback/entity-collider filters and remaining query providers; S5 shape registration/resource/neighbor routes; remaining required stage 2-7 inventory slices; independent source reviewer assignment.
 - Unresolved gaps and limits: exhaustive source comparison is incomplete.
 - Evidence/hash/correspondence audit: Ready/source/artifact manifest hashes verified; cited block collision providers, border query/collision bounds, and paired LocalPlayer/Player/LivingEntity sources checked against the exact published Mojmap files; exact provenance sidecars verified, mappingArtifacts=null, success logs are summary-only; the full provider method/resource index remains pending.
 - Blind freeze: pending
