@@ -27,7 +27,7 @@ The player tick refreshes crouching from current local input/pose-fit state, the
 
 ## Consequence and uncertainty
 
-Source proves that B can clear local sprinting in the added reachable cases and that a slow-moving player cannot start sprinting outside underwater conditions. It does not measure the resulting trajectory or establish a game-runtime outcome. Vehicle movement and attack/damage resolution are outside this finding. The exact release introduction is unknown within the endpoint interval.
+Source proves that B can write sprint=false in the added reachable cases and that a slow-moving player cannot start sprinting outside underwater conditions. A later start path in the same AI step can write sprint=true again when its own guards pass, so the early stop write does not prove a final flag for every predicate combination. Slow movement permits that later start only underwater. The finding does not measure the resulting trajectory or establish a game-runtime outcome. Vehicle movement and attack/damage resolution are outside this finding. The exact release introduction is unknown within the endpoint interval.
 
 ## Handoff
 
