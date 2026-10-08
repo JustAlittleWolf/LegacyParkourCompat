@@ -48,6 +48,7 @@ Cited source hash inventory (SHA-256; relative roots are the source roots in the
 - `net/minecraft/block/CauldronBlock.java`: A `84b346d09f7badf7821a43ef8a6a16fbcd161972ad67a8030c7574780ca6b205`; B `8b95c69febce0002140c2f960cfa191737dd51dabf5ab99f7e74416dd382c0e7`.
 - `net/minecraft/block/BrewingStandBlock.java`: A `60f630f152ae5d28d3ec2a1f8640bff7d7e14ce9ee8ac7c7cb07776ec9156b1b`; B `d890d11f9123d2f82f3358b732f7a93464a8e3117d8ae7183fb0a66527be5e18`.
 - `net/minecraft/block/ChorusPlantBlock.java`: A `f7c2bfa088788d7c634dc1889e69ebe868e9ca4eb0a658b0357bfbb193fd54dc`; B `ecd52ae5749b6112ccd58100f6e043713cf111592455b7988f5479a8fa87a8ba`.
+- `net/minecraft/block/EndPortalBlock.java`: A `c77215a83473b32c4ed20a6168126208d0607b0e054c4ce3a8e46e423df73bb9`; B `3e246cd437d5ca61758cd03e3dd258a14f84de9121d043193016274d1b6c03d2`.
 - `net/minecraft/entity/EntityFilter.java`: A `91158a5477935c911178433e1b2628d1d063604a23b08baee4706dd286e7e813`; B `49f2c3cbeea0bb9421fdfaad49a7742394f69cd73981a9cdd51e1badcf30c629`.
 - `net/minecraft/world/World.java`: A `888ed0e9de765def87b05c4126ecdf0b10e9dd448b4543dd1cb98211e9951646`; B `27cfaa5ff45c2d88c492fc5dae3ea4a2bb4536fd64bff8498a9a7d0cb82efb58`.
 - `net/minecraft/client/entity/living/player/RemoteClientPlayerEntity.java`: both `e7e248b439f7356695b1bf196d08e997bb19b24c23b206763c772663ee7086a1`.
@@ -332,6 +333,18 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - Disposition and rationale (including concrete reachability/preconditions): with the same six neighbor block identities, both registered chorus plants produce identical collision boxes for player queries. No movement difference is established by this provider slice.
 - Finding IDs or checked absence/replacement path: no finding for this chorus plant provider; broader provider and block/data coverage remain open.
 
+### Slice S5-end-portal-collision: registered end portal contributes no collision boxes
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: ID 119 `end_portal`, block collision-provider dispatch for ordinary entity/player queries; portal activation/teleport behavior is outside this slice.
+- A evidence: `Block.java` registers ID 119 as `EndPortalBlock(Material.PORTAL)` at line 993, SHA-256 `1971dbc284d511e2ed366f77bc77fd8cd07174baad3e7732e908d3daeb640c01`; `EndPortalBlock.java::getShape` returns `SHAPE` and `addCollisions` is empty, lines 33-45, SHA-256 `c77215a83473b32c4ed20a6168126208d0607b0e054c4ce3a8e46e423df73bb9`.
+- B evidence: `Block.java` registers the same ID/name/class at line 998, SHA-256 `ab873436b24487ab0ee8055bf7a478349c7f7978398aea8e387796a6c820996a`; `EndPortalBlock.java::getShape` returns `SHAPE` and `addCollisions` is empty, lines 33-45, SHA-256 `3e246cd437d5ca61758cd03e3dd258a14f84de9121d043193016274d1b6c03d2`.
+- State producers/writers -> consumers/readers: registered block -> ordinary world query calls provider -> empty collision append -> no EndPortalBlock box added to the movement collision list.
+- Parent slices / dependencies / closure evidence: S4-world-query and the paired registrations in this report. The callback bodies and registration path match; B only adds the `forceShape` parameter. This makes no claim about portal contact, entity transfer or other external movement producers (D-EXTERNAL remains open).
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): both registered providers append no collision boxes for the portal block. Its non-collision contact effects are not evaluated here. No collision movement difference is established.
+- Finding IDs or checked absence/replacement path: no finding for this EndPortalBlock collision callback; portal/external movement effects remain outside this slice.
+
 ### Slice S2-sleep-size-cycle: direct player sleep and wake box updates
 
 - Inventory ID(s): INV-STATE, INV-COLLISION
@@ -414,7 +427,7 @@ Other correspondence requiring further walk: remote/client corrections and packe
 
 ## Resume checkpoint
 
-- Last completed slice: exact source readiness and revision verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order; partial S4-world-query; bounded S2-sleep-size-cycle/S2-resize; S1-autojump; S5-wall-collision-shapes; S5-stairs-collision-shapes; S5-fence-collision-shapes; S5-pane-collision-shapes; S5-hopper-collision-shapes; S5-cauldron-collision-shapes; S5-brewing-stand-collision-shapes; S5-chorus-plant-collision-shapes; S2-eye-height; S4-piston-collision-geometry/F-05. F-02 snapshot is committed; this is an active partial run, not a pair freeze.
+- Last completed slice: exact source readiness and revision verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order; partial S4-world-query; bounded S2-sleep-size-cycle/S2-resize; S1-autojump; S5-wall-collision-shapes; S5-stairs-collision-shapes; S5-fence-collision-shapes; S5-pane-collision-shapes; S5-hopper-collision-shapes; S5-cauldron-collision-shapes; S5-brewing-stand-collision-shapes; S5-chorus-plant-collision-shapes; S5-end-portal-collision; S2-eye-height; S4-piston-collision-geometry/F-05. F-02 snapshot is committed; this is an active partial run, not a pair freeze.
 - Next bounded slice: continue `D-COLLISION` by pairing `World#getCollisions` A lines 903-964 and B lines 960-1010 plus `getBlockCollisions`, then inventory and compare every remaining reachable `addCollisions` override and its collision boxes. Source roots are `build/movement-campaign-2026-10-07/ready/1.10.2/ornithe-feather/` and `.../ready/1.11.2/ornithe-feather/`; provider inventory leads are in S4-world-query. Continue with D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS and D-EXTERNAL. Do not open implementation or wiki lanes before the pair's blind freeze.
 - Managed worktree: `C:\Users\Wolfi\.codex\worktrees\movement-source-1-10-2-1-11-2-resume\LegacyParkourCompat`; branch ref `feat/source-discovery-movement-source-1-10-2-1-11-2` is not checked out in this detached worktree. Resume commands after restoring a valid branch checkout: `git status --short --branch`; `git rev-parse HEAD`; `python workflows/movement-discovery/check_completion.py workflows/source-campaign-2026-10-07/1.10.2--1.11.2`. Then open the paired `World.java` roots above and continue the provider inventory.
 - Outstanding dependencies and owners: D-SOURCE-DIAGNOSTICS, D-COLLISION, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS and D-EXTERNAL remain with the source worker; coordinator must assign the independent source reviewer (D-REVIEWER). Shared source owner remains a read-only publisher.
@@ -441,7 +454,7 @@ Complete only after blind-discovery freeze. No mod implementation was opened.
 
 ## Source audit closure
 
-- Coverage counts by status: 5 findings, 17 compared-no-difference, 2 in-progress, 1 pending (bounded rows only; broad inventory remains open).
+- Coverage counts by status: 5 findings, 18 compared-no-difference, 2 in-progress, 1 pending (bounded rows only; broad inventory remains open).
 - Required inventory status and evidence: only `INV-EXCLUSIONS` declaration complete; all movement inventories pending, with partial anchors above.
 - Open dependencies: D-SOURCE-DIAGNOSTICS, D-COLLISION, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
 - Unresolved gaps and limits: complete tick graph, body-level diagnostic review, collision providers/resources, exact entity-player collision paths, modifiers, external writers, source-only freeze and independent audit remain open. Source comparison only; no gameplay behavior observed.
