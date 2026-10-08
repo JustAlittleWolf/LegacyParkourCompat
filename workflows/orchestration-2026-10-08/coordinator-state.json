@@ -173,7 +173,7 @@
       "role": "blind_source_review",
       "pair": null,
       "ref": "aa66894 and105ec98",
-      "status": "completed; both immutable findings ACCEPTa2e510bdc7b284b4b4d0e7b323f6eea079abee80"
+      "status": "active; blind F005 savedFallFlying and F07 stair pose-fit review"
     },
     {
       "threadId": "01a11bc1-f2a2-7342-82ea-4072acd7ff4b",
@@ -186,7 +186,7 @@
       "threadId": "01a11bc2-03b2-7443-bc8f-698902c67f29",
       "role": "wiki_minecraft_review",
       "ref": "005e647; b20730f",
-      "status": "active; corrected fence103786e re-review",
+      "status": "completed; corrected fence103786e ACCEPT0979bee",
       "resultCommit": "22849555;main merge c80b31f",
       "decisions": {
         "swimmingPitch": "ACCEPT b20730f SHA dd0abd5a90ac1813197e4c09ab97ed0e0027c48e237a148bbf95bde2f64e6a89",
@@ -217,13 +217,13 @@
     {
       "threadId": "01a11bc7-1a05-7291-a58f-613b83331a78",
       "role": "swimming_pitch_reconciliation",
-      "status": "completed; codef24fdcd independent review pending",
+      "status": "active; accepted fence103786e reconciliation; prior swimming code accepted",
       "ref": "source b20730f; wiki-aware review22849555"
     },
     {
       "threadId": "01a11bcd-f62a-7610-8eff-f9782f3d072d",
       "role": "elytra_independent_review",
-      "status": "active",
+      "status": "completed; Elytra361c15c ACCEPT reviewtipb8dfbc3e4d092141861759cab36272ea223a4d17",
       "ref": "fix/elytra-start-full-request; accepted flight-toggle finding"
     },
     {
@@ -241,7 +241,7 @@
     {
       "threadId": "01a11bd0-d66c-71c3-b7b7-3b3f11e2773d",
       "role": "swimming_pitch_independent_review",
-      "status": "active",
+      "status": "completed; swimmingf24fdcd ACCEPT90eaed02",
       "ref": "fix/swimming-pitch-control-1-13@f24fdcd"
     },
     {
@@ -261,10 +261,19 @@
       "ref": "b5f7a155c702484d24b9195ecd3833de80c55143",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
+    },
+    {
+      "threadId": "01a11bd5-5936-72e2-8ddc-2669bace33e6",
+      "role": "source",
+      "pair": "1.19.4--1.20.1",
+      "status": "active",
+      "ref": "9ed617bf3bfb7666b6596570509d95b9db995092",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:03:36.2630543Z",
+    "observedAt": "2026-10-08T14:06:09.4486276Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
