@@ -37,6 +37,7 @@ Cited source hash inventory (SHA-256; relative roots are the source roots in the
 - `net/minecraft/block/PistonBaseBlock.java`: A `4ef15129e660397ba3a531c8ff4a4810393973ea56417d8830f4445d14035e36`; B `3a055f33949305827c3159bb5fbddf8bf51d0ec942f1b30f1fa59ff1bab9be64`.
 - `net/minecraft/block/PistonHeadBlock.java`: A `9e8bd56219d3a00e57082481d6e17a2c9383e994dac6cecac2534918f4aeb579`; B `da30307abf1e88698a220ab3b61538be9b2f5f16d6648c8f41a2671dc06b7ed9`.
 - `net/minecraft/block/Block.java`: A `1971dbc284d511e2ed366f77bc77fd8cd07174baad3e7732e908d3daeb640c01`; B `ab873436b24487ab0ee8055bf7a478349c7f7978398aea8e387796a6c820996a`.
+- `net/minecraft/block/Blocks.java`: A `40ed1ada6eb5a36221b3b576a7eec21824911c92131d54d4f620615e1e71d1c9`; B `69e47950c2d9761deff0ce1e1c46fefb2472bf61cb3d6c155fcb15457d03e64d`.
 - `net/minecraft/block/RedstoneOreBlock.java`: A `0691a8df1e7ceac85ca0ec9298706b225ce5669541757d15333f2c4019a1de82`; B `5d200f042a07ad928f1f38b9d7464a1a019f53ca7e63b9f23036dc71f8939ecd`.
 - `net/minecraft/block/SlimeBlock.java`: both `38e77cdaaf3681fe3a2357ebc0dce7a86d658429463bc1e06e6e1167fe627c8a`.
 - `net/minecraft/block/MagmaBlock.java`: both `6e382a4fc307391c6776dc2ff010aec1da16b50ebc50e015b6009d82c7b76b1a`.
@@ -241,6 +242,18 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - Disposition and rationale (including concrete reachability/preconditions): the registered wall's neighbor-connect predicates, state resolution, shape selection and 1.5-block collision height match for ordinary player collision queries given the same neighbor state/material results. The changed `forceShape=true` branch is outside this movement query. Other collision providers and block/data inventory remain open.
 - Finding IDs or checked absence/replacement path: no finding for this existing wall provider; general block registration/resource and other provider coverage remains under D-BLOCK-DATA/D-COLLISION.
 
+### Slice S5-stairs-collision-shapes: existing oak stairs provider
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: registered oak-stairs collision shape under ordinary entity/player collision queries, given the same queried cell and neighbor block states; B `forceShape=false`.
+- A evidence: `Block.java` registers numeric ID 53 as `oak_stairs` using `StairsBlock` at line 840, SHA-256 `1971dbc284d511e2ed366f77bc77fd8cd07174baad3e7732e908d3daeb640c01`; `StairsBlock.java::addCollisions`, `getCollisionShapes`, inner/outer step selection and virtual-property resolution, lines 67-136 and 311-346, SHA-256 `ee143aced2a6902563cddbae77e78d1d1a512244f278987684ebe5bcacba37cb`.
+- B evidence: `Block.java` registers numeric ID 53 as `oak_stairs` using `StairsBlock` at line 845, SHA-256 `ab873436b24487ab0ee8055bf7a478349c7f7978398aea8e387796a6c820996a`; `StairsBlock.java::addCollisions`, `getCollisionShapes`, inner/outer step selection and virtual-property resolution, lines 66-137 and 303-339, SHA-256 `5df1782da6eb7acdb9935b3910a0484d6417661bfd6230ecf81df0de6d782627`; `World.getCollisions` passes `forceShape=false` through the normal state dispatch in S4-world-query.
+- State producers/writers -> consumers/readers: queried state plus forward/back neighbor stair half/facing relationships -> resolved virtual stair properties -> matching inner/outer/straight shape selection -> matching slab-plus-step collision boxes -> ordinary world collision list -> movement clipping.
+- Parent slices / dependencies / closure evidence: S4-world-query and S5-wall-collision-shapes. `Block.java` registrations establish the same numeric/key/class path at both endpoints; the paired shape tables, selection branches, and neighbor-resolution bodies match. This is conditional on identical queried and neighbor states. General provider, registration, resource, and data coverage remains open under D-COLLISION/D-BLOCK-DATA.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for the existing registered oak stairs block on the normal player collision query, both endpoints select the same shape for the same block/neighbor states and emit the same collision boxes. No movement difference is established by this provider slice.
+- Finding IDs or checked absence/replacement path: no finding for this existing stairs provider; remaining collision providers and block/data reachability are open.
+
 ### Slice S2-sleep-size-cycle: direct player sleep and wake box updates
 
 - Inventory ID(s): INV-STATE, INV-COLLISION
@@ -323,9 +336,9 @@ Other correspondence requiring further walk: remote/client corrections and packe
 
 ## Resume checkpoint
 
-- Last completed slice: exact source readiness and revision verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order; partial S4-world-query; bounded S2-sleep-size-cycle/S2-resize; S1-autojump; S5-wall-collision-shapes; S2-eye-height; S4-piston-collision-geometry/F-05. F-02 snapshot is committed; this is an active partial run, not a pair freeze.
-- Next bounded slice: continue `D-COLLISION` by pairing `World#getCollisions` A lines 903-964 and B lines 960-1010 plus `getBlockCollisions`, then inventory and compare every reachable `addCollisions` override and its collision boxes. Source roots are `build/movement-campaign-2026-10-07/ready/1.10.2/ornithe-feather/` and `.../ready/1.11.2/ornithe-feather/`; provider inventory leads are in S4-world-query. Continue with D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS and D-EXTERNAL. Do not open implementation or wiki lanes before the pair's blind freeze.
-- Managed worktree: `C:\Users\Wolfi\.codex\worktrees\movement-source-1-10-2-1-11-2-7769\LegacyParkourCompat`; branch `feat/source-discovery-movement-source-1-10-2-1-11-2`. Resume commands from this worktree: `git status --short --branch`; `git rev-parse HEAD`; `python workflows/movement-discovery/check_completion.py workflows/source-campaign-2026-10-07/1.10.2--1.11.2`. Then open the paired `World.java` roots above and continue the provider inventory.
+- Last completed slice: exact source readiness and revision verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order; partial S4-world-query; bounded S2-sleep-size-cycle/S2-resize; S1-autojump; S5-wall-collision-shapes; S5-stairs-collision-shapes; S2-eye-height; S4-piston-collision-geometry/F-05. F-02 snapshot is committed; this is an active partial run, not a pair freeze.
+- Next bounded slice: continue `D-COLLISION` by pairing `World#getCollisions` A lines 903-964 and B lines 960-1010 plus `getBlockCollisions`, then inventory and compare every remaining reachable `addCollisions` override and its collision boxes. Source roots are `build/movement-campaign-2026-10-07/ready/1.10.2/ornithe-feather/` and `.../ready/1.11.2/ornithe-feather/`; provider inventory leads are in S4-world-query. Continue with D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS and D-EXTERNAL. Do not open implementation or wiki lanes before the pair's blind freeze.
+- Managed worktree: `C:\Users\Wolfi\.codex\worktrees\movement-source-1-10-2-1-11-2-resume\LegacyParkourCompat`; branch ref `feat/source-discovery-movement-source-1-10-2-1-11-2` is not checked out in this detached worktree. Resume commands after restoring a valid branch checkout: `git status --short --branch`; `git rev-parse HEAD`; `python workflows/movement-discovery/check_completion.py workflows/source-campaign-2026-10-07/1.10.2--1.11.2`. Then open the paired `World.java` roots above and continue the provider inventory.
 - Outstanding dependencies and owners: D-SOURCE-DIAGNOSTICS, D-COLLISION, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS and D-EXTERNAL remain with the source worker; coordinator must assign the independent source reviewer (D-REVIEWER). Shared source owner remains a read-only publisher.
 - Current assumptions requiring verification: line ranges cited above remain stable under the source hashes; original mapped-artifact identity with the revised snapshots remains unproven; complete method correspondence, branch coverage, data resources and external-player call paths remain open. No implementation reconciliation, wiki audit or runtime validation has started.
 
@@ -350,7 +363,7 @@ Complete only after blind-discovery freeze. No mod implementation was opened.
 
 ## Source audit closure
 
-- Coverage counts by status: 5 findings, 10 compared-no-difference, 2 in-progress, 1 pending (bounded rows only; broad inventory remains open).
+- Coverage counts by status: 5 findings, 11 compared-no-difference, 2 in-progress, 1 pending (bounded rows only; broad inventory remains open).
 - Required inventory status and evidence: only `INV-EXCLUSIONS` declaration complete; all movement inventories pending, with partial anchors above.
 - Open dependencies: D-SOURCE-DIAGNOSTICS, D-COLLISION, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
 - Unresolved gaps and limits: complete tick graph, body-level diagnostic review, collision providers/resources, exact entity-player collision paths, modifiers, external writers, source-only freeze and independent audit remain open. Source comparison only; no gameplay behavior observed.
