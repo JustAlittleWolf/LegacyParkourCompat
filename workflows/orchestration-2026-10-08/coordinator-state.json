@@ -44,7 +44,7 @@
     {
       "threadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
       "role": "source_preparation_and_integration_owner",
-      "status": "Completed and hash-verified 1.11 Feather, 1.11.1 Feather, and 1.16 Mojmap preparation; idle pending independently reviewed architecture integration.",
+      "status": "Reactivated exclusive integration owner. Merges accepted SuffocationProbe now; batch build after accepted catalog/SprintInputStart split/Sneak refs arrive or 19:25 cutoff; no Test tasks and -x test; clean primary merge by 19:40.",
       "ref": "feat/movement-campaign-integration-2026-10-08@958b0916f08cba25e3be86d67d48a9d1e8651d1f",
       "resultCommit": "ea812dc9171fdf41e02b3a2292db7d40b105c9c4"
     },
@@ -150,17 +150,17 @@
     },
     {
       "threadId": "01a11bbc-a6b5-71e0-a621-4188022be823",
-      "role": "bed_restitution_implementation",
+      "role": "bed_proof_metadata_locator",
       "pair": null,
       "ref": "e6b61bd7f1334b7e4fa49a9bd0a5929e833338a8",
-      "status": "Active BED implementation after source ACCEPT daab0b80; continue with registration overlap explicitly coordinated; ready 19:15 Europe/Vienna."
+      "status": "Metadata-only quick task to locate exact private worktree/gitdir/object store/full SHA/report binding after reviewer REQUEST CHANGES for identity only; no edits."
     },
     {
       "threadId": "01a11bbc-b876-7182-9025-3b589c5cd50c",
       "role": "movement_architecture",
       "pair": null,
       "ref": "a5d07341d941ce2c0b9df1e392af9a40b1fbb9e9",
-      "status": "Active: split SprintInputStartBehavior into three mechanics/interfaces and replace per-version MovementChanges providers plus Fabric movement-change entrypoint with one static central catalog; ready 19:15, handoff 19:25 Europe/Vienna."
+      "status": "Author census 104 baseline mappings + 4 split-hook mappings = 108; final commit in progress, no frozen commit yet; ready 19:15/handoff 19:25."
     },
     {
       "threadId": "01a11bbe-910d-7c02-9261-b0d01b6822ed",
@@ -236,7 +236,7 @@
     {
       "threadId": "01a11bcf-351e-7b32-9a56-9a6800c65644",
       "role": "suffocation_probe_implementation",
-      "status": "SuffocationProbe implementation frozen at 42885fae; proof dba9a4b2; author idle/reserved for requested corrections. Independent full static review active on reviewer prefix 01a11bc2-2e8a.",
+      "status": "Independent static code/proof ACCEPT at 6b65fc3d; author idle/reserved for correction only if new evidence requires it; reviewer role reused by exclusive integration owner.",
       "ref": "accepted aa66894; reviewa2e510bd",
       "pair": null
     },
@@ -1003,7 +1003,7 @@
   "latestReconciliation": {
     "mainCommit": "d8f3956602da94bf0cf67753cc0a9f4665397729",
     "backlogBranch": "feat/accepted-finding-backlog-2026-10-08",
-    "backlogCommit": "e4b9cadc71a55bff548e956257785b4ca1221995",
+    "backlogCommit": "082fef2e9d0b3b0039268bf2d7ee8b6a0b4d7c6e",
     "integrationRecords": {
       "sleep": "a5c191df557cd152d578150c689227897ac33256; accepted source chain independently verified at 33baf5c6; implementation corrected, independently accepted, integrated and built with all Test tasks disabled; runtime unverified",
       "slime": "a5c191df557cd152d578150c689227897ac33256; bounded no-code disposition integrated; runtime unverified",
@@ -1131,7 +1131,41 @@
       "reviewerPrefix": "01a11bc2-2e8a",
       "reviewStatus": "active full static review of frozen refs; no acceptance yet",
       "scope": "Independent V1_15_2 SuffocationProbe; no extension of V1_16. Also review v1_8 EndPortalFramePlayerEjection cross-version inheritance cleanup only via a neutral helper if technical reuse is proven; preserve exact behavior and do not edit registry.",
-      "runtime": "not run"
+      "runtime": "not run",
+      "reviewCommit": "6b65fc3db1cac56d6fdbe9a89799b41b862895e0",
+      "reviewPath": "workflows/implementation-reviews/2026-10-08-suffocation-probe-independent-implementations-review.md",
+      "reviewBlob": "a499c3fab0d8e9c8af0e11a2b7609cf128f87371",
+      "reviewSha256": "4ac9ea05ed521ba39fd01daba952c64898cfa01a98e9a4481c630a4da44ff92a",
+      "reviewDecision": "ACCEPT, 0 functional findings",
+      "reviewerStatus": "idle; role reused by exclusive integration owner",
+      "integrationStatus": "accepted code to merge in isolated architecture integration branch; build queued with architecture batch"
+    },
+    "sneakEdgeBackoff": {
+      "codeCommit": "504f45a91fbbd5627ee9695bc2033c1ca02b69de",
+      "branch": "fix/sneak-edge-backoff-2026-10-08",
+      "investigationProofCommit": "0c1a2d27f1091e87b46302909652a275fc80f037",
+      "investigationPath": "workflows/implementation-reviews/2026-10-08-sneak-edge-backoff-reuse-review.md",
+      "investigationBlob": "483eea60fcd59c44ba4c600e1ed589a64f01c6f8",
+      "investigationSha256": "6e36b1c20b29ce8a6d98eb84587c7fd6329be6eef65fe58111e92471b2ed536e",
+      "reviewerPrefix": "01a11bbe-a775",
+      "reviewStatus": "active independent implementation review; investigation proof is not acceptance",
+      "scope": "Narrow HEAD dispatch-placement improvement; shared historical helper remains because modern vanilla gates/geometry differ."
+    },
+    "bedNoCodeProof": {
+      "authorReportedCommit": "d506bfca",
+      "branch": "fix/bed-landing-restitution-2026-10-08",
+      "reviewCommitPrefix": "d027b9db",
+      "reviewDecision": "REQUEST CHANGES, artifact identity/binding only",
+      "reviewerFinding": "Existing V26_1 bed handler matches accepted witness and older V1_11_2 hook is selectable; no Java change indicated. This is not an accepted no-code disposition.",
+      "hold": "Do not integrate until metadata-only locator binds exact worktree/private gitdir/object store/full SHA/report, then rerun independent review.",
+      "locatorAuthor": "01a11bbc-a6b5-71e0-a621-4188022be823",
+      "locatorStatus": "active quick task, metadata only, no edits",
+      "reviewerRole": "terminal and replaced by locator task.",
+      "reviewCommit": "d027b9db7ece15beb68c85df67adde2ea5674669",
+      "reviewPath": "workflows/source-campaign-2026-10-07/independent-review-bed-landing-restitution-reconciliation-2026-10-08.md",
+      "reviewBlob": "a8aa4b6f29cccaff6a4a7be60f736bd1585f12c8",
+      "reviewSha256": "634cdb7225eed79a672c32db3dd3cc5f4ee302ac840c970e1c1f533602e9dc2d",
+      "exactDecision": "REQUEST CHANGES because the author commit, branch, and report are absent from primary local refs, worktrees, and object database. No Java change is indicated for bounded witness; this is not acceptance of the unbound no-code report."
     }
   },
   "deadlineCheckpoint": {
@@ -1187,29 +1221,38 @@
       {
         "reviewer": "root/review_architecture_catalog_sprint",
         "model": "Luna High",
-        "status": "reserved preflight after frozen author output",
-        "scope": "provider count and central catalog coverage"
+        "status": "preflight complete; idle/reserved for frozen central-catalog commit"
       },
       {
         "reviewerPrefix": "01a11bc2-2e8a",
         "model": "Luna High",
-        "status": "active full static review of frozen SuffocationProbe refs",
-        "scope": "SuffocationProbe plus v1_8 neutral-helper behavior"
+        "status": "terminal SuffocationProbe ACCEPT; role reused by exclusive integration owner"
+      },
+      {
+        "reviewerPrefix": "01a11bbe-a775",
+        "status": "active independent SneakEdgeBackoff code review"
       },
       {
         "reviewerPrefix": "01a11bd7",
-        "status": "active",
-        "scope": "BED no-code proof review after author terminal d506bfca"
+        "status": "terminal BED no-code proof REQUEST CHANGES for artifact identity; role replaced by author metadata locator"
       }
     ],
-    "bedProof": "Author terminal at d506bfca; no-code proof is bounded to existing V26_1 bed handler/native 26.2; independent review active with reviewer prefix 01a11bd7.",
+    "bedProof": "Full review d027b9db7ece15beb68c85df67adde2ea5674669 (blob a8aa4b6f29cccaff6a4a7be60f736bd1585f12c8, SHA-256 634cdb7225eed79a672c32db3dd3cc5f4ee302ac840c970e1c1f533602e9dc2d) REQUEST CHANGES solely for author report identity/binding. Hold integration until author metadata locator provides exact worktree/private gitdir/object store/full SHA/report binding and independent rereview.",
     "waterSprint": "Bounded source ACCEPT now closes the candidate acceptance gap for the two identified immutable snapshots only; no broader parity or pair closure.",
-    "collaborationSlots": "Current coordination reports 19 active/reserved roles and one free global role; collaboration surface is full at root plus two source owners and one fresh reviewer. Do not fill the free global role or spawn workers/chats.",
-    "currentTimeObservation": "2026-10-08 17:01:38 UTC / 19:01:38 Europe/Vienna, checked with the clock tool; human deadline remains 20:00.",
-    "backlogCommit": "e4b9cadc71a55bff548e956257785b4ca1221995",
+    "collaborationSlots": "Keep <=20 roles including root and reserved catalog reviewer. Suffocation reviewer role reused by integration owner; catalog preflight reviewer remains reserved, not a free role.",
+    "currentTimeObservation": "2026-10-08 17:06:55 UTC / 19:06:55 Europe/Vienna, checked with the clock tool; human deadline remains 20:00.",
+    "backlogCommit": "082fef2e9d0b3b0039268bf2d7ee8b6a0b4d7c6e",
     "catalogIncident": "Wrong-workdir deletion by catalog author was restored. Primary main was independently verified clean at d8f39566; do not mutate primary until architecture review and coordinated merge.",
     "sourceOwnerRoleSwap": "1.16.5–1.17.1 source owner terminal at aca4dfb; role replaced by BED no-code proof reviewer. 1.15.2–1.16.5 owner terminal at f5636dd2 with all seven inventories open. 1.8.9–1.9.4 owner still closing.",
-    "primaryMainStatus": "Independently checked clean at d8f3956602da94bf0cf67753cc0a9f4665397729. Do not mutate primary until architecture changes have frozen and passed review."
+    "primaryMainStatus": "Independently checked clean at d8f3956602da94bf0cf67753cc0a9f4665397729. Do not mutate primary until architecture changes have frozen and passed review.",
+    "catalogAuthor": "01a11bbc-b876-7182-9025-3b589c5cd50c; census 104 baseline + 4 mappings from hook split = 108; final commit in progress, no frozen commit received.",
+    "integrationQueue": {
+      "owner": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
+      "status": "Exclusive owner active; accepted SuffocationProbe to merge now; batch build only after accepted catalog/SprintInputStart split/Sneak refs arrive or 19:25 cutoff.",
+      "batchBuildGate": "Build after accepted catalog + SprintInputStart three-way split + SneakEdgeBackoff refs arrive, or at 19:25 cutoff; include accepted/reviewed code only. Use all-Test-disabled init plus -x test. Clean merge to primary after success by 19:40.",
+      "bedNoCode": "held until exact report object binding and independent rereview",
+      "primaryMain": "d8f3956602da94bf0cf67753cc0a9f4665397729 is clean; no mutations until reviewed merge"
+    }
   },
   "latestIndependentReviews": [
     {
@@ -1218,5 +1261,6 @@
       "model": "Luna High",
       "status": "Active full static review of frozen author refs 42885fae/dba9a4b2; correction only after findings, no acceptance yet."
     }
-  ]
+  ],
+  "sourcePreparationAndIntegrationOwnerStatus": "1.11/1.11.1/1.16 preparations complete and hash-verified; owner reactivated as exclusive integration owner."
 }
