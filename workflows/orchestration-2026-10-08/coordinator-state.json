@@ -303,10 +303,19 @@
       "ref": "477b6afcb4d890bae82437ff98795592695b9e43",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
+    },
+    {
+      "threadId": "01a11bec-527c-78b2-9e32-ba4eaab9af1f",
+      "role": "source",
+      "pair": "1.20.6--1.21.1",
+      "status": "active",
+      "ref": "f8593bc61e95ff738998cb4c4614b918ded95f66",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:30:43.6814518Z",
+    "observedAt": "2026-10-08T14:32:37.9960173Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
@@ -345,13 +354,15 @@
     "mainStatus": "code already integrated; source binding/provenance being independently reconciled"
   },
   "nextCoordinatorActions": [
-    "Collect pose correction review and assign focused fixes before integration.",
-    "Collect WORLD03 and fence implementation independent reviews; integrate only exact accepted patches via exclusive integration owner.",
-    "Resolve Elytra cited-source digest discrepancy through ops and original reviewer; source binding audit remains open.",
-    "Collect MCPK edge r3 and corrected slipperiness identity register, obtain clean re-review; BigDripleaf/swimming accepted source snapshots still need implementation reconciliation.",
-    "Collect F005 savedFallFlying capability assessment and source F07 withdrawal.",
-    "Continue source waves across all26pairs; all remain partial. Current active later pairs1.19.2--1.19.3,1.19.3--1.19.4,1.19.4--1.20.1. Start1.20.1--1.20.2 when slot frees; use exact workqueue refs.",
-    "Never exceed15 active including coordinator/old1.17 source; verify snapshots before assigning. All new workers LunaHigh, coordinator SolMedium.",
-    "Ops future accepted-finding backlog audit needed after narrow build/digest audit; primary checkout exclusive integration owner."
+    "Collect fence integration completion and exact main/JAR evidence; build passed, final commit pending.",
+    "Collect focused poseea62550 review formal commit; reviewer reports no remaining actionable mismatch but stillactive. Integrate only after committedACCEPT via exclusive owner.",
+    "Collect WORLD03 corrected vertical sample/0.1F code then independent re-review.",
+    "Collect F005 server persistence activation-path review.",
+    "Collect swimmingentry5c419e8 andBigDripleaf nativeproof review.",
+    "Collect MCPK edge/slipperiness existing-code coverage proof; accepted cleanreviewbdda49ac.",
+    "Collect ops campaign-wide acceptedfinding implementationbacklog and adopt into coordinator branch.",
+    "Continue all26 exact source pairs from durablequeue; all remainpartial. Current laterpair1.20.6--1.21.1 active; next1.21.1--1.21.3 when slot frees. Earlier partialpairs still needcontinuationwaves and independentcoverageaudits.",
+    "F07 stairpremise invalid andwithdrawn224d601; preserve immutableaudittrail. New farmland/directplayerposition findingF08 pendingreview.",
+    "No tests/runtime/Docker/push; everybuild disablesALLGradleTesttasks; maximum15 includingroot andold1.17source. WorkersLunaHigh/coordinatorSolMedium."
   ]
 }
