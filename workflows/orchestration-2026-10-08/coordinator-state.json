@@ -126,7 +126,7 @@
     {
       "threadId": "01a11bb3-e236-7343-86a7-4c51ecc20b98",
       "role": "wiki_mcpk",
-      "status": "active; immutable MCPK snapshot corrections",
+      "status": "completed; four corrected r2 snapshots register93a01b8; clean review assigned",
       "ref": "feat/mcpk-wiki-audit@ae651e6"
     },
     {
@@ -270,10 +270,16 @@
       "ref": "9ed617bf3bfb7666b6596570509d95b9db995092",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
+    },
+    {
+      "threadId": "01a11bd7-45d2-7310-be8a-85f73e8d668d",
+      "role": "clean_mcpk_snapshot_review",
+      "status": "active",
+      "ref": "identity register93a01b8; four r2 snapshots"
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:06:09.4486276Z",
+    "observedAt": "2026-10-08T14:08:06.4128079Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
