@@ -9,5 +9,6 @@ public final class MovementChanges implements MovementChangeProvider {
         registry.register(new BedBounce());
         registry.register(new DismountPosition());
         registry.register(new FallFlyingLookAngle());
+        registry.register(new SleepSafetyTransition());
     }
 }
