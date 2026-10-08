@@ -241,7 +241,7 @@
     {
       "threadId": "01a11bd0-d66c-71c3-b7b7-3b3f11e2773d",
       "role": "swimming_pitch_independent_review",
-      "status": "active; swimmingentry5c419e8 andBigDripleaf no-code proof independentreview; fenceACCEPT8838f92",
+      "status": "completed; swimmingentry5c419e8 ACCEPT6ce9b54; BigDripleaf native/no-code ACCEPTsame review",
       "ref": "fix/swimming-pitch-control-1-13@f24fdcd"
     },
     {
@@ -342,7 +342,7 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:39:36.7226443Z",
+    "observedAt": "2026-10-08T14:40:36.5443976Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
@@ -406,5 +406,34 @@
     "review": "88792a06e72fb88f8841d8e413cdb6da026248b3",
     "verification": "both cat-file types commit; exactheads independentlyread",
     "action": "integration owner fetch localclone into freshrefs, never stale pose ref"
+  },
+  "acceptedIntegrationQueue": [
+    {
+      "finding": "posefit",
+      "code": "ea62550bbecc8233917fb293dbe3ee627529f621",
+      "review": "88792a06e72fb88f8841d8e413cdb6da026248b3",
+      "status": "exclusiveintegrationowner active, exactobjects located in separateclone"
+    },
+    {
+      "finding": "F005 saved FallFlying",
+      "code": "b215d723c22cf2c73601b7807056ba0d23fdbf23",
+      "review": "dd69581",
+      "status": "exclusiveintegrationowner instructed afterpose, selectedprofile mustprecededata load"
+    },
+    {
+      "finding": "swimmingentry",
+      "code": "5c419e8d950cf8e62174a4562cc352a1d952747f",
+      "codeBranch": "fix/mcpk-1-17-movement-reconcile",
+      "review": "6ce9b54",
+      "reviewBranch": "fix/review-swimming-entry-gate-1-17",
+      "status": "ACCEPT; dispatch after currentpose/F005batch finishes"
+    }
+  ],
+  "bigDripleafDisposition": {
+    "status": "no-code nativeproof independentlyaccepted",
+    "proof": "d3733a4872cb8735efa90b2b2a83553dcf2022d3",
+    "review": "6ce9b54",
+    "pre17": "blockabsent, excluded",
+    "runtime": "unverified"
   }
 }
