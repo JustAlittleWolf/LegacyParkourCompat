@@ -402,13 +402,13 @@ Each entry is a bounded behavior boundary. Refine broad plans into exact member 
 ### Slice S3.10: Travel post-updates, velocity reset/restitution and fall-state writes
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Travel post-updates, velocity reset/restitution and fall-state writes. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: Paired `LivingEntity.aiStep()` travel phase after jump handling, lines A 2960-2985 / B 3059-3084, plus its outer state setup at A 2961-2975 / B 3060-3074. Both call `updateFallFlying()` only when fall-flying; snapshot the pre-travel bounding box; build input from `xxa,yya,zza`; reset fall distance when Slow Falling or Levitation is active; select `travelRidden(controller,input)` for a living entity whose controlling passenger is Player, otherwise `travel(input)` only when movement simulation and effective AI are enabled; then apply block effects only on server or locally authoritative client and calculate client animation. Before that call, both normalize tiny player horizontal velocity when horizontalDistanceSqr `< 9.0E-6`, independently zero Y when `abs(y)<0.003`, and write the adjusted vector. Fluid-jump dispatch immediately preceding it uses the same strict/weak threshold comparisons and cooldown order. The method segment through `pushEntities()` has no post-travel velocity reset/restitution write; the bbox snapshot is consumed by auto-spin collision checks after travel. Exact full-body source hashes are the paired LivingEntity hashes already cited in S3.1.1/S3.6.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/LivingEntity.java` :: `aiStep()`, lines 2877-3012, SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java` :: `aiStep()`, lines 2976-3111, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
+- State producers/writers -> consumers/readers: tiny-velocity filter reads delta movement and Player type, then writes adjusted delta; jump input and fluid height/threshold choose ground/fluid jump writers before travel; Slow Falling/Levitation reset fall distance; ride/simulation/effective-AI gates select the movement consumer; travel writes movement and collision state; post-travel block effects may update movement state; prior bbox and resulting bbox feed auto-spin overlap check. Effect producers, fluid state, travel branch bodies and collision providers remain in their slices.
+- Parent slices / dependencies / closure evidence: `S1.2.2` closes dynamic tick/aiStep dispatch; `S3.1.1` closes branch selection; `S3.3.1` owns tiny player horizontal cutoff; `S3.4` owns jump outputs; `S3.6`/`S3.7` own fluid jumps/travel; `S3.8` owns fall-flying travel; S4/S5 close bbox/collision and block-effect providers; S6 closes effect inputs. Those remain open and prevent terminal disposition.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The inspected paired aiStep segment has matching branch and write order for velocity cleanup, fluid/ground jump dispatch, fall reset, ride/simulation travel dispatch, post-travel block effects, and animation. Exact strict comparisons and constants match. No direct delta was observed in this bounded sequence. The remaining state, call, collision and resource producers are open, so this is not a terminal no-difference conclusion.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S4.1: Entity move entry, bounding-box and position updates
@@ -782,7 +782,7 @@ F-1 candidate snapshot submitted for blind review; acceptance is pending and doe
 
 ## Source audit closure
 
-- Coverage counts by status: 9 pending; 36 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
+- Coverage counts by status: 8 pending; 37 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
 - Required inventory status and evidence: all 7 pending; exact source inputs are verified, but full movement/provider/resource inventories remain incomplete.
 - Open dependencies: D2
 - Unresolved gaps and limits: inherited tick/travel/collision body comparisons, movement state producers/consumers, shape providers/registrations, and data/resource dependency closure.
