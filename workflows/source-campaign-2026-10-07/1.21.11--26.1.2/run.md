@@ -234,13 +234,13 @@ Each entry is a bounded behavior boundary. Refine broad plans into exact member 
 ### Slice S2.6: Edge sneaking and support probing
 
 - Inventory ID(s): INV-STATE, INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Edge sneaking and support probing. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: Player `maybeBackOffFromEdge()`, `isAboveGround()`, `canFallAtLeast()`, and `isStayingOnGroundSurface()`, including X-only then Z-only then combined support probes; backing collision query implementation checked through `CollisionGetter.noCollision()`.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/player/Player.java` :: `isStayingOnGroundSurface()` 309-311, `maybeBackOffFromEdge()` 889-938, `isAboveGround()` 940-942, `canFallAtLeast()` 944-951; SHA-256 `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/player/Player.java` :: `isStayingOnGroundSurface()` 299-301, `maybeBackOffFromEdge()` 880-929, `isAboveGround()` 931-933, `canFallAtLeast()` 935-949; SHA-256 `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d`.
+- State producers/writers -> consumers/readers: reads flying ability, vertical/horizontal proposed movement, mover type, shift state, grounded/fall-distance state, max-up-step and bounding box; writes only a reduced proposed X/Z motion returned to `Entity.move()` before collision. The support probe tests a 1e-7 inset AABB lowered by minHeight plus 1e-7 with `noCollision(player, box)`.
+- Parent slices / dependencies / closure evidence: `Entity.move()` caller ordering is recorded in `S4.1`. `CollisionGetter.noCollision(entity, aabb)` A 51-53 / 59-67 / 69-80 (SHA-256 `ca2a5c4561fa8b263d7ce8513a152f9c1d6537f4f011859351ce58b39a7f4e70`) and B 51-67 / 69-80 (SHA-256 `dddff4897e8d5d01e3ac132d85c474e6a3b9bae928e48b8c907aa9eabdb7fb01`) use the same block-then-entity-then-border checks, with `alwaysCollideWithFluids=false`; exact block-shape provider closure remains open under S4/S5 and D2.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The paired player path has the same flying/upward/mover-type/staying-ground/above-ground gates, 0.05 step magnitude and sign, X-then-Z decrement loops, combined decrement loop, and returned Y preservation. The helper constructs the same epsilon-inset support AABB; `noCollision` selects the same ordered block/entity/border checks. Local names/formatting differ. Provider and relevant shape closure remain open, so no complete disposition is claimed.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S2.7: Sprint-gate consumers of hunger/blindness state
@@ -426,25 +426,25 @@ Each entry is a bounded behavior boundary. Refine broad plans into exact member 
 ### Slice S4.2: Axis resolution, collision candidates and tie-breaking
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Axis resolution, collision candidates and tie-breaking. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: `Entity.collide()`, `collectColliders()`, `collideWithShapes()`, `Shapes.collide()`, `VoxelShape.collide/collideX()`, `Direction.axisStepOrder()`, and AABB sweep/offset helpers. Axis iteration, collider iteration and per-shape clipping order checked; world/shape provider contents remain open.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/Entity.java` :: `collide()` 1044-1073, `collectColliders()` 1106-1120, `collideWithShapes()` 1122-1138; SHA-256 `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3`. `ready/1.21.11/mojmap/net/minecraft/world/phys/shapes/Shapes.java` :: `collide()` 210-220, SHA-256 `fbe1aa9c92b4806128325ed82a5255aba5158de68ba62eb1afd53e7811b6b40b`; `VoxelShape.java` :: `collide()`/`collideX()` 247-306, SHA-256 `9655dca09dfb10e942ac88fb6e31a44f2611a5c61472136649269f248569f44d`; `AABB.java` :: `expandTowards()` 151-177, `move()` 217-229, SHA-256 `b8ace04fa09628266e3e12ec5423dbceb7ecef000041824c00510a5ddca6e9a1`; `ready/1.21.11/mojmap/net/minecraft/core/Direction.java` :: axis-order constants 48-49 and `axisStepOrder()` 372-374, SHA-256 `eaefe276ef6732d1f99c6d8268458714d1f84a37dd24654e238a710cc707b5be`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java` :: `collide()` 1077-1106, `collectColliders()` 1143-1159, `collideWithShapes()` 1161-1177; SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`. `ready/26.1.2/unobfuscated/net/minecraft/world/phys/shapes/Shapes.java` :: `collide()` 233-243, SHA-256 `cfa63cbed77c922a68e7e8a6a3b78b09a22c7de51e0146e481e9c9d26db66f58`; `VoxelShape.java` :: `collide()`/`collideX()` 252-311, SHA-256 `419a46bbcc8b48e1c075127954eb243dcc60d10d4087bf256d895cf91a2ff854`; `AABB.java` :: `expandTowards()` 151-177, `move()` 217-229, SHA-256 `22f23018fd588c2c4893d872f730381127e3d3ddd1a8c960901ecb8dae626392`; `ready/26.1.2/unobfuscated/net/minecraft/core/Direction.java` :: axis-order constants 48-49 and `axisStepOrder()` 378-380, SHA-256 `30fb61592f1a154bb8fc239ab8df1cd2b209f63317e0c7dde4d5b9b3e260d754`.
+- State producers/writers -> consumers/readers: reads proposed movement, bounding box, current on-ground/max-step state and gathered entity/world-border/block shapes; writes per-axis clipped movement. `Direction.axisStepOrder()` selects YZX when `abs(x) < abs(z)`, otherwise YXZ; each axis clips against the moved box and the same shape list in sequence. Collider contents and collision-context/provider chains remain open.
+- Parent slices / dependencies / closure evidence: `S4.1` establishes the reachable `move()` call path; `S4.3` covers the step-up alternative. D2/S5 provider and shape-data closure remains open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The inspected resolver order and arithmetic match: collect current entity shapes, then optional world border, then block shapes; clip on the same axis order; for each shape stop below the same `1.0E-7` distance threshold; apply the same positive/negative coordinate scan and min/max updates; and build the same swept/offset AABBs by sign-dependent expansion and coordinate addition. This is a bounded method comparison only; shape-list iteration/content and all provider dependencies remain unclosed.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S4.3: Step-up candidates, comparison and selection
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Step-up candidates, comparison and selection. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: Step-up branch within `Entity.collide()` and `collectCandidateStepUpHeights()`, including the negative-Y/on-ground and horizontal-collision gates, candidate generation, unstable sort, horizontal-distance comparison and first winning candidate return.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/Entity.java` :: `collide()` 1044-1073 and `collectCandidateStepUpHeights()` 1075-1094; SHA-256 `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java` :: `collide()` 1077-1106 and `collectCandidateStepUpHeights()` 1108-1129; SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`.
+- State producers/writers -> consumers/readers: reads horizontal/vertical clipped movement, bounding-box minY, maxUpStep and the collision shape list; creates candidate Y heights from each shape's ordered Y coordinates and returns the first resolved step whose horizontal distance squared exceeds the ordinary clipped movement. Shape coordinate/provider order and exact fastutil candidate-set dependency remain to be closed.
+- Parent slices / dependencies / closure evidence: uses the collider list from `S4.2` and returns to `S4.1` position application. `FloatArraySet`/unstable-sort and world shape sources remain open; no candidate-order conclusion beyond the source body is claimed.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Both sources use the same branch guards, expanded AABB construction, optional `-1.0E-5F` downward extension, candidate filters (`>= 0`, not equal to clipped-Y, at most max step), FloatArraySet materialization and unstable sort; each candidate uses the same `horizontalDistanceSqr() > ordinaryMovement.horizontalDistanceSqr()` strict comparison and returns the first winner. The method bodies match; shape and iteration dependencies remain open.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S4.4: Edge probes, on-ground and support lookup
@@ -751,7 +751,7 @@ No findings yet. S1.1-S1.3 have paired no-difference dispositions. The pair rema
 ## Resume checkpoint
 
 - Last completed slices: S1.1-S1.3, S1.2.1-S1.2.2, S3.1.1, S3.3.1 and S3.6.1 (compared-no-difference); S5.9 (not-applicable to Player).
-- Next bounded slices: finish `S3.4` jump-factor/modifier providers and `S3.5` movement-state providers; resolve `S3.6`-`S3.8` fluid/gliding dependencies; close `S3.9` speed/attribute sources and `S3.2`-`S3.3` ground/air branches; then continue `S4.1` collision results through `S4.7`. Reconcile all movement-referenced resources/tags under D2 before dispositioning dependent slices.
+- Next bounded slices: finish `S3.4` jump-factor/modifier providers and `S3.5` movement-state providers; resolve `S3.6`-`S3.8` fluid/gliding dependencies; close `S3.9` speed/attribute sources and `S3.2`-`S3.3` ground/air branches; continue `S2.6` support-shape providers and `S4.1`-`S4.7` collision results. Reconcile all movement-referenced resources/tags under D2 before dispositioning dependent slices.
 - Outstanding dependencies and owners: D2, source worker.
 - Current assumptions requiring verification: decompiled movement member bodies are semantically intact; B LocalPlayer diagnostics omit anchors, so manual body review is cited; resource-backed data closure remains open.
 - Resumable state: branch `feat/source-discovery-movement-source-1-21-11-26-1-2`; this report is the pair ledger. Exact A/B source roots and artifact manifests are recorded above. The report checker accepts the current active, non-complete state; no source finding snapshot exists. Preserve the source-only blind phase and do not inspect implementation/wiki material until the campaign explicitly transitions.
@@ -779,7 +779,7 @@ No source-confirmed findings have been submitted. Pair run remains active; no sn
 
 ## Source audit closure
 
-- Coverage counts by status: 40 pending; 7 in-progress; 8 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices).
+- Coverage counts by status: 37 pending; 10 in-progress; 8 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices).
 - Required inventory status and evidence: all 7 pending; exact source inputs are verified, but full movement/provider/resource inventories remain incomplete.
 - Open dependencies: D2
 - Unresolved gaps and limits: inherited tick/travel/collision body comparisons, movement state producers/consumers, shape providers/registrations, and data/resource dependency closure.
