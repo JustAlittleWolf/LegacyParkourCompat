@@ -47,6 +47,7 @@ Cited source hash inventory (SHA-256; relative roots are the source roots in the
 - `net/minecraft/block/HopperBlock.java`: A `8e5e8e99260c2ef3f1897e5988633ef4d9cf6a02e0a870fe9f620c341bbfc021`; B `c372402b14b648b0c2ab9ef5629accc9ae0e4cb5a9a78b7a0d4b7e2fa524a828`.
 - `net/minecraft/block/CauldronBlock.java`: A `84b346d09f7badf7821a43ef8a6a16fbcd161972ad67a8030c7574780ca6b205`; B `8b95c69febce0002140c2f960cfa191737dd51dabf5ab99f7e74416dd382c0e7`.
 - `net/minecraft/block/BrewingStandBlock.java`: A `60f630f152ae5d28d3ec2a1f8640bff7d7e14ce9ee8ac7c7cb07776ec9156b1b`; B `d890d11f9123d2f82f3358b732f7a93464a8e3117d8ae7183fb0a66527be5e18`.
+- `net/minecraft/block/ChorusPlantBlock.java`: A `f7c2bfa088788d7c634dc1889e69ebe868e9ca4eb0a658b0357bfbb193fd54dc`; B `ecd52ae5749b6112ccd58100f6e043713cf111592455b7988f5479a8fa87a8ba`.
 - `net/minecraft/entity/EntityFilter.java`: A `91158a5477935c911178433e1b2628d1d063604a23b08baee4706dd286e7e813`; B `49f2c3cbeea0bb9421fdfaad49a7742394f69cd73981a9cdd51e1badcf30c629`.
 - `net/minecraft/world/World.java`: A `888ed0e9de765def87b05c4126ecdf0b10e9dd448b4543dd1cb98211e9951646`; B `27cfaa5ff45c2d88c492fc5dae3ea4a2bb4536fd64bff8498a9a7d0cb82efb58`.
 - `net/minecraft/client/entity/living/player/RemoteClientPlayerEntity.java`: both `e7e248b439f7356695b1bf196d08e997bb19b24c23b206763c772663ee7086a1`.
@@ -319,6 +320,18 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - Disposition and rationale (including concrete reachability/preconditions): the registered brewing stand always emits the same two boxes in both endpoints for player queries. Differences in its use/drop paths are outside this movement slice. No movement difference is established.
 - Finding IDs or checked absence/replacement path: no finding for this brewing-stand provider; remaining collision providers and data coverage remain open.
 
+### Slice S5-chorus-plant-collision-shapes: registered chorus plant provider
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: ID 199 `chorus_plant`, collision boxes selected from the same six adjacent block identities/connection properties during ordinary entity/player queries; B `forceShape=false`.
+- A evidence: `Block.java` registers ID 199 as `ChorusPlantBlock` at line 1229, SHA-256 `1971dbc284d511e2ed366f77bc77fd8cd07174baad3e7732e908d3daeb640c01`; `ChorusPlantBlock.java::resolveVirtualProperties`, `getShape`, and `addCollisions`, lines 36-98, SHA-256 `f7c2bfa088788d7c634dc1889e69ebe868e9ca4eb0a658b0357bfbb193fd54dc`.
+- B evidence: `Block.java` registers the same ID/name/class at line 1234, SHA-256 `ab873436b24487ab0ee8055bf7a478349c7f7978398aea8e387796a6c820996a`; `ChorusPlantBlock.java::resolveVirtualProperties`, `getShape`, and `addCollisions`, lines 37-99, SHA-256 `ecd52ae5749b6112ccd58100f6e043713cf111592455b7988f5479a8fa87a8ba`; normal collision dispatch passes `forceShape=false` per S4-world-query.
+- State producers/writers -> consumers/readers: six adjacent block identities -> same north/east/south/west/up/down booleans -> same center core and directional extension boxes -> ordinary collision list -> movement clipping.
+- Parent slices / dependencies / closure evidence: S4-world-query and S5-brewing-stand-collision-shapes. The registration, neighbor-property resolution, box construction/selection, and add order match. This remains conditional on equivalent neighbor block identities; B's constructor map-color change does not enter collision selection. Broader neighbor/data provider equivalence remains open.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): with the same six neighbor block identities, both registered chorus plants produce identical collision boxes for player queries. No movement difference is established by this provider slice.
+- Finding IDs or checked absence/replacement path: no finding for this chorus plant provider; broader provider and block/data coverage remain open.
+
 ### Slice S2-sleep-size-cycle: direct player sleep and wake box updates
 
 - Inventory ID(s): INV-STATE, INV-COLLISION
@@ -401,7 +414,7 @@ Other correspondence requiring further walk: remote/client corrections and packe
 
 ## Resume checkpoint
 
-- Last completed slice: exact source readiness and revision verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order; partial S4-world-query; bounded S2-sleep-size-cycle/S2-resize; S1-autojump; S5-wall-collision-shapes; S5-stairs-collision-shapes; S5-fence-collision-shapes; S5-pane-collision-shapes; S5-hopper-collision-shapes; S5-cauldron-collision-shapes; S5-brewing-stand-collision-shapes; S2-eye-height; S4-piston-collision-geometry/F-05. F-02 snapshot is committed; this is an active partial run, not a pair freeze.
+- Last completed slice: exact source readiness and revision verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order; partial S4-world-query; bounded S2-sleep-size-cycle/S2-resize; S1-autojump; S5-wall-collision-shapes; S5-stairs-collision-shapes; S5-fence-collision-shapes; S5-pane-collision-shapes; S5-hopper-collision-shapes; S5-cauldron-collision-shapes; S5-brewing-stand-collision-shapes; S5-chorus-plant-collision-shapes; S2-eye-height; S4-piston-collision-geometry/F-05. F-02 snapshot is committed; this is an active partial run, not a pair freeze.
 - Next bounded slice: continue `D-COLLISION` by pairing `World#getCollisions` A lines 903-964 and B lines 960-1010 plus `getBlockCollisions`, then inventory and compare every remaining reachable `addCollisions` override and its collision boxes. Source roots are `build/movement-campaign-2026-10-07/ready/1.10.2/ornithe-feather/` and `.../ready/1.11.2/ornithe-feather/`; provider inventory leads are in S4-world-query. Continue with D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS and D-EXTERNAL. Do not open implementation or wiki lanes before the pair's blind freeze.
 - Managed worktree: `C:\Users\Wolfi\.codex\worktrees\movement-source-1-10-2-1-11-2-resume\LegacyParkourCompat`; branch ref `feat/source-discovery-movement-source-1-10-2-1-11-2` is not checked out in this detached worktree. Resume commands after restoring a valid branch checkout: `git status --short --branch`; `git rev-parse HEAD`; `python workflows/movement-discovery/check_completion.py workflows/source-campaign-2026-10-07/1.10.2--1.11.2`. Then open the paired `World.java` roots above and continue the provider inventory.
 - Outstanding dependencies and owners: D-SOURCE-DIAGNOSTICS, D-COLLISION, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS and D-EXTERNAL remain with the source worker; coordinator must assign the independent source reviewer (D-REVIEWER). Shared source owner remains a read-only publisher.
@@ -428,7 +441,7 @@ Complete only after blind-discovery freeze. No mod implementation was opened.
 
 ## Source audit closure
 
-- Coverage counts by status: 5 findings, 16 compared-no-difference, 2 in-progress, 1 pending (bounded rows only; broad inventory remains open).
+- Coverage counts by status: 5 findings, 17 compared-no-difference, 2 in-progress, 1 pending (bounded rows only; broad inventory remains open).
 - Required inventory status and evidence: only `INV-EXCLUSIONS` declaration complete; all movement inventories pending, with partial anchors above.
 - Open dependencies: D-SOURCE-DIAGNOSTICS, D-COLLISION, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
 - Unresolved gaps and limits: complete tick graph, body-level diagnostic review, collision providers/resources, exact entity-player collision paths, modifiers, external writers, source-only freeze and independent audit remain open. Source comparison only; no gameplay behavior observed.
