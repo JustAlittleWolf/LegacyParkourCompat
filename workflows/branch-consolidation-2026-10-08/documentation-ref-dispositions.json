@@ -7,7 +7,9 @@
     "uniqueHeads": 44,
     "historyOnlyMergeHeads": 44,
     "staleCodeHistoryOnlyHeads": 6,
-    "newlyAddedReviewFiles": 7
+    "newlyAddedReviewFiles": 7,
+    "distinctOursMergeCommits": 43,
+    "preservedHeadCount": 44
   },
   "immutableConstraints": [
     "No source/build/runtime code or shared guidance changes.",
@@ -428,5 +430,5 @@
   ],
   "archiveBranch": "fix/docs-history-preservation",
   "historyMergeHead": "0d30df961b2b2791be99055deed96958cd2313d9",
-  "historyMergeCommitsReachable": 44
+  "historyMergeCommitsReachable": 43
 }
