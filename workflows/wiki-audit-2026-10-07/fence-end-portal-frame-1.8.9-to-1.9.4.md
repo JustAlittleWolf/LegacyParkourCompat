@@ -2,6 +2,8 @@
 
 Snapshot ID: `wiki-fence-end-portal-frame-1.8.9-1.9.4`
 
+Supersedes commit `005e6475f09a4126ff8265651626fe71a5ccf616` (finding-file SHA-256 `5ee806799aff8caa4f5ef25b0d2e836773752176013f3f8ca715f0ddc45a1523`) solely to correct the 1.9.4 source-manifest SHA-256 below.
+
 Status: source-confirmed bounded finding; independent Wiki-lane review pending; runtime validation not performed.
 
 ## Candidate and boundary
@@ -29,7 +31,7 @@ All source paths are rooted at `D:\Javastuff\LegacyParkourCompat\build\movement-
 | 1.9.4 | `net/minecraft/block/state/StateDefinition.java`, `BlockStateImpl.isCube()` 267-270 delegates to `this.block.isCube(this)` | `10ba661985c87801e1bb7e941399498e89fb67e1bd9ead2869c00d39ffff6493` |
 | 1.9.4 | `net/minecraft/block/material/Material.java`, `STONE` 7-10, `blocksMovement()` 70-72, `isSolidBlocking()` 102-103 | `f198b08007c0acbe4e2737f7e484a9c85ec183220daef03b954cc90d0af95d19` |
 
-The 1.8.9 source-manifest SHA-256 is `9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004`; its artifact-manifest SHA-256 is `da003358256d1c4402ebb20614651e5410310e871ee913de2b9c1295a64e1446`. The 1.9.4 source-manifest SHA-256 is `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248a37a27a1b4d77`; its artifact-manifest SHA-256 is `9527dca544694daa3b4a7741be1a5b4802d8b6665c8a152a408a37a27a1b4d77`.
+The 1.8.9 source-manifest SHA-256 is `9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004`; its artifact-manifest SHA-256 is `da003358256d1c4402ebb20614651e5410310e871ee913de2b9c1295a64e1446`. The 1.9.4 source-manifest SHA-256 is `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`; its artifact-manifest SHA-256 is `9527dca544694daa3b4a7741be1a5b4802d8b6665c8a152a408a37a27a1b4d77`.
 
 The source manifests establish the hashes for the Java files; artifact-manifest verification establishes the ready bundle's input identity. The Feather-derived JARs for 1.8.9 and 1.9.4 are not used to make a bytecode claim here. Where revised Feather artifacts are discussed elsewhere in this audit, equivalence to the unavailable original derived JARs remains **unproven**.
 

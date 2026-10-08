@@ -10,7 +10,7 @@ This snapshot records the Wiki-derived candidate findings whose exact source evi
 
 ## Findings captured
 
-- **1.8.9 → 1.9.4:** the source changes the negligible-motion cutoff from `0.005` to `0.003`; the unconnected pane collision changes from crossing strips to a central post; the player gains a collision-checked `0.6 × 1.65` sneaking box; and ladder thickness changes from `2/16` to `3/16`. The reported jump-apex difference remains Wiki-only; both inspected jump methods launch at `0.42F`, and this audit did not independently derive the apex.
+- **1.8.9 → 1.9.4:** the source changes the negligible-motion cutoff from `0.005` to `0.003`; the unconnected pane collision changes from crossing strips to a central post; the player gains a collision-checked `0.6 × 1.65` sneaking box; and ladder thickness changes from `2/16` to `3/16`. Both inspected jump methods launch at `0.42F`. The Wiki's numeric apex difference remains Wiki-only; the separate recurrence report is pending independent review and is not part of this accepted snapshot. Equivalence to the unavailable original derived JARs remains unproven.
 - **1.8.9 → 1.10.2:** auto-jump is added and defaults on. The relevant 1.8.9/1.9.4 source lacks the option and movement hook.
 - **1.8.9/1.9.4 → 1.11.2:** sneak-edge protection gains movement-type gating and a probe based on `stepHeight`; the older baseline already has the guard.
 - **1.12.2 → 1.13.2:** swimming pose support adds a `0.6 × 0.6` player box; wall collision moves from one enclosing box per state to unions of component voxel shapes preserving concavities.
