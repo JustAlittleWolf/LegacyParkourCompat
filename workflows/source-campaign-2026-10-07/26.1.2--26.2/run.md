@@ -362,25 +362,25 @@ These are now 61 bounded work units, not an exhaustive inventory: 35 pending, 9 
 ### Slice S-TRAVEL-GATE: Ridden-player-controller versus self-travel dispatch
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-EXTERNAL
-- Exact behavior boundary and enclosing guards/order checked: B selects `travelRidden` when a controlling passenger is a live Player; otherwise calls self travel only when movement simulation and effective AI gates pass; lines 3137-3141.
-- A evidence: pending exact gate and mount/player caller correspondence.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3137-3141`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
+- Exact behavior boundary and enclosing guards/order checked: the paired `LivingEntity.aiStep()` bodies dispatch `travelRidden(controller,input)` when `getControllingPassenger()` is a live Player, otherwise call virtual `travel(input)` only when `canSimulateMovement() && isEffectiveAi()`. Both then apply block effects only on server or an authoritative local instance. In the ridden branch, `travelRidden` derives ridden input, invokes `tickRidden`, and if simulation is allowed writes ridden speed then dispatches travel; otherwise it zeros delta movement. The branch bodies match across endpoints. Player travel immediately delegates to superclass when the player is a passenger; normal local-player vehicle entry and vehicle-to-passenger movement still need full caller/transition closure.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(),travelRidden(Player,Vec3), lines 3065-3078,2584-2593`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`; `Player.travel(Vec3), lines 1381-1384`, SHA-256 `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d`.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(),travelRidden(Player,Vec3), lines 3132-3145,2640-2649`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`; `Player.travel(Vec3), lines 1402-1405`, SHA-256 `8decc71b9c780664578ddb14591db2a2f207c72c05b676edded6f8e964576531`.
 - State producers/writers -> consumers/readers: vehicle/controller/alive/simulation/AI state -> movement branch and input; only local player movement and player-facing mount transitions are in scope, not independent vehicle physics.
-- Parent slices / dependencies / closure evidence: S-TRAVEL-PREP,S-EXT-01,S-PLAYER-01; A player-side mount state/callers pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B gate read; branch ownership must be resolved before disposition.
+- Parent slices / dependencies / closure evidence: S-TRAVEL-PREP,S-EXT-01,S-PLAYER-01; exact gate and body comparison is complete, but player `startRiding`/`stopRiding` callers, vehicle passenger updates, local-player ride tick ordering, and reachable controlling-passenger cases remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): equivalent dispatch code is present at both endpoints; no whole-slice no-difference claim until player-specific mount and caller reachability is closed.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-POST-BLOCK-EFFECTS: Block effects after movement
 
 - Inventory ID(s): INV-TICK, INV-WORLD-MOVEMENT, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: after travel, B applies block effects only on server or authoritative local instance; lines 3143-3145. Trace movement-history collection, block callback/provider dispatch and player movement writers.
-- A evidence: pending exact guard, call order and block-effect dependency closure.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3143-3145`; `Entity.applyEffectsFromBlocks()`, `lines 903-915`; source hashes in manifest.
+- Exact behavior boundary and enclosing guards/order checked: after travel, paired `LivingEntity.aiStep()` calls `applyEffectsFromBlocks()` only on server or an authoritative local instance. Paired Entity bodies normalize `movementThisTick` into final from/to segments (including a `9.9999994E-11F` endpoint threshold), then dispatch ground `stepOn`, `checkInsideBlocks`, and collected effect application in the same order. `checkInsideBlocks` traverses each movement segment (or the ordered axis segments when `axisDependentOriginalMovement` is present), limits checks to 16 iterations per movement, uses a deflated target AABB, and invokes block `entityInside` and fluid `entityInside` callbacks for intersecting shapes. The `BlockGetter.forEachBlockIntersectedBetween` helper is byte-identical across endpoints. Direct callback writers and resource/shape providers are not yet closed.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3065-3078`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`; `Entity.applyEffectsFromBlocks(),checkInsideBlocks(), lines 839-904,1195-1324`, SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`; `BlockGetter.forEachBlockIntersectedBetween(), lines 175-232`, SHA-256 `623a44206db93d8fb2eefc9353345689cc35e0c1742b5d61789eab2b098b687d`.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3132-3145`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`; `Entity.applyEffectsFromBlocks(),checkInsideBlocks(), lines 903-968,1278-1406`, SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`; paired `BlockGetter.forEachBlockIntersectedBetween(), lines 175-232`, same SHA-256 as A after exact-file comparison. `InsideBlockEffectApplier.java` is byte-identical in A/B (SHA-256 `3ed01ec7fec19d9c06c8d40eacc81bbb2e6e0276e5f8cf11d26b4a5706c8e132`).
 - State producers/writers -> consumers/readers: recorded movement segments and encountered block states -> block effects/callbacks -> any movement-relevant player flags or velocity.
-- Parent slices / dependencies / closure evidence: S-TRAVEL-GATE,S-COLLISION-QUERY,S-WORLD-01; callback method and registration/resource inventory pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B call order identified; providers and A behavior unresolved.
+- Parent slices / dependencies / closure evidence: S-TRAVEL-GATE,S-COLLISION-QUERY,S-WORLD-01; paired segment traversal and callback dispatch are compared; movement-relevant callback methods, class registration, inside-collision shapes, neighboring providers, fluid callbacks, and resource/tag conditions remain open. The first callback inventory found 27 block source files with `entityInside` declarations per endpoint; these must be triaged by reachable player movement writes and exclusions.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the top-level call order and shared segment traversal match, but callback outputs can update player state, so this slice cannot close until the paired callback/provider inventory is dispositioned.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-POST-ANIMATION: Client animation update after travel
