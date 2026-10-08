@@ -66,7 +66,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - `INV-COLLISION` status=pending; slice_ids=COLL-01, COLL-01-NOCLIP, COLL-01-SNEAK-EDGE, COLL-01-AXES, COLL-01-STEP, COLL-01-FLAGS, COLL-01-VEHICLE, COLL-02, WORLD-SLAB-SHAPES, WORLD-SNOW-SHAPE, WORLD-TRAPDOOR-SHAPES, WORLD-LADDER-SHAPES; block callbacks, post-collision support logic and most shape providers remain open; bounded slab, snow-layer, trapdoor and ladder shapes compared
 - `INV-WORLD-MOVEMENT` status=pending; slice_ids=WORLD-01, WORLD-02, WORLD-03, COLL-02, WORLD-SLAB-SHAPES, WORLD-SNOW-SHAPE, WORLD-TRAPDOOR-SHAPES, WORLD-LADDER-SHAPES; other world states, neighboring blocks, fluids, and non-boat vehicle passenger paths remain open; bounded shape dispositions recorded
 - `INV-MODIFIERS` status=pending; slice_ids=MOD-01, MOD-02; evidence=equipment/effect/attribute producers and consumers in progress; modern-only Elytra/Levitation are scoped out
-- `INV-EXTERNAL` status=pending; slice_ids=TICK-03 through TICK-07, WORLD-02, EXT-01, EXT-02; evidence=external velocity/position/vehicle writers in progress
+- `INV-EXTERNAL` status=pending; slice_ids=TICK-03 through TICK-07, WORLD-02, EXT-01, EXT-02, EXT-02-PACKETS, EXT-03, EXT-04; evidence=direct corrections, packet velocity application, knockback and death-handler velocity writes compared; remaining velocity/position/vehicle writers and consumers open
 - `INV-EXCLUSIONS` status=complete; slice_ids=scope boundary; evidence=health/food production and attack/damage resolution plus non-player/vehicle physics excluded; direct player velocity/impulse/knockback response remains in movement scope
 
 ## Coverage ledger
@@ -438,6 +438,42 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Disposition and rationale (including concrete reachability/preconditions): the generic inherited player velocity writer uses the same three additions and dirty-flag write in both endpoints. This closes only the application primitive, not every external velocity producer/correction.
 - Finding IDs or checked absence/replacement path: checked method body; no difference in `Entity.addVelocity(DDD)V`.
 
+### Slice EXT-03: direct player knockback response
+
+- Inventory ID(s): `INV-STATE`, `INV-EXTERNAL`.
+- Exact behavior boundary and enclosing guards/order checked: inherited `LivingEntity.applyKnockback(Entity, F, D, D)V` velocity writer and the in-scope player receiver paths in `takeDamage()`; combat/damage resolution excluded. B's additional shield-bypass call targets the living source attacker and can include a player.
+- A evidence: `LivingEntity.applyKnockback()` lines 763-777 halves X/Y/Z, subtracts normalized horizontal input times fixed `0.4F`, adds fixed `0.4F` to Y, and caps upward Y at `0.4F`. `takeDamage()` calls it on the damaged receiver at 681-690. SHA-256 `082831c6578e3a70fa6cea5b90bc3eefc26678259b66334470de22b90b5b0e4e`.
+- B evidence: `applyKnockback()` lines 870-885 halves X/Z, uses its `amount` for horizontal response, and only halves/adds/caps Y when on ground; `takeDamage()` calls it on the receiver at lines 765-773. The shield-bypass branch calls it on a living source attacker at 707-709. SHA-256 `bbb7703f18fd5da05c4e4a43a77ea644b388e63c01d34166d308ea52054be4e`.
+- State producers/writers -> consumers/readers: a player instance receiving the inherited method call -> direct velocity component writes/dirty flag -> player living tick cutoff and travel. B shield-bypass recoil may instead write velocity on a player attacker. Input damage/attack state and its production are excluded.
+- Parent slices / dependencies / closure evidence: exact method body, superclass inheritance, target-receiver call and B source-attacker call inspected. Downstream cutoff remains in `STATE-01`; motion outcome remains open in the tick/collision inventories.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): the in-scope direct player response differs: A always adds fixed upward knockback and uses fixed horizontal strength; B scales horizontal strength by `amount` and only adds vertical response while grounded. B adds a source-attacker response under the shield-bypass guard. No damage outcome or trajectory is claimed.
+- Finding IDs or checked absence/replacement path: `findings/EXT-03-player-knockback-application.md`.
+
+### Slice EXT-04: player death velocity assignment
+
+- Inventory ID(s): `INV-STATE`, `INV-EXTERNAL`.
+- Exact behavior boundary and enclosing guards/order checked: `PlayerEntity.die(DamageSource)V` direct velocity writes only; health/damage production and death lifecycle excluded.
+- A evidence: lines 512-531 set vertical velocity to `0.1F`, then use float-PI multiply/divide ordering for source-directed horizontal velocity or zero X/Z for a null source. `PlayerEntity.java` SHA-256 `e66cb294fc93118148a444bbafdf4dd57cbf66a23d69b1e8892cefccc690ab88`.
+- B evidence: lines 483-502 make the same assignments and branch, but divide `Math.PI / 180.0` in double precision before casting to float for the horizontal formula. `PlayerEntity.java` SHA-256 `d658a0d95452d12bb7e347bfd802240eeeecaf7f938e10dcd43e2640434387f85`.
+- State producers/writers -> consumers/readers: death handler -> direct player velocity fields -> possible later player tick; post-death lifecycle and motion are not evaluated.
+- Parent slices / dependencies / closure evidence: paired direct writes and branch checked; no claim about death-state production or resulting motion.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): the direct X/Z velocity formula changes float/double conversion order when the source is non-null; vertical and null-source assignments match. Retained for scope reconciliation under the direct-player-response boundary.
+- Finding IDs or checked absence/replacement path: `findings/EXT-04-player-death-velocity.md`.
+
+### Slice EXT-02-PACKETS: inbound external velocity application
+
+- Inventory ID(s): `INV-STATE`, `INV-EXTERNAL`.
+- Exact behavior boundary and enclosing guards/order checked: inbound `EntityVelocityS2CPacket` resolution and `lerpVelocity` call; `ExplosionS2CPacket` application of the three player-velocity components after block damage processing. Combat/explosion production and damage resolution are excluded; the direct velocity response is in scope.
+- A evidence: `ClientPlayNetworkHandler.handleEntityVelocity()` lines 402-408 looks up the packet entity and, when present, calls `lerpVelocity(packet velocity / 8000.0)` for each axis. `handleExplosion()` lines 821-830 invokes excluded explosion block damage then adds the three packet player-velocity values to the local player's current velocity. `ClientPlayNetworkHandler.java` SHA-256 `7fa3d587325068eaa158526cb59e4850b704ac237938df6592d1a09148db40c3`.
+- B evidence: `handleEntityVelocity()` lines 435-441 has the same lookup, null guard, divisors and call order. `handleExplosion()` lines 886-895 performs the same three additions after block damage processing. `ClientPlayNetworkHandler.java` SHA-256 `5a2fc039b81ec0e77df3354826aaaf00dfa6e0d1296cf111864900932e811a4c`.
+- State producers/writers -> consumers/readers: server-supplied entity velocity may target the local player and is passed to the same `Entity.lerpVelocity(DDD)V` consumer in both endpoints; server-supplied explosion player impulse is added to each local-player velocity component in both endpoints. Subsequent player cutoff/travel is separately tracked in `STATE-01` and the open tick inventories.
+- Parent slices / dependencies / closure evidence: paired client handler bodies and player velocity state writes inspected. `handlePlayerMove()` correction and per-axis absolute-velocity reset are already covered under `EXT-01`. Spawn packet velocity writes target newly created living entities and are not local-player movement paths; other-entity simulation is excluded.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for a present packet entity, the `8000.0` double division and `lerpVelocity` dispatch match; explosion packet values are added to local player velocity in X/Y/Z order in both versions. The surrounding explosion block-damage call is out of scope. This closes only the paired inbound velocity application methods, not all external velocity writers or consumers.
+- Finding IDs or checked absence/replacement path: checked method bodies; no difference in `handleEntityVelocity()` or the direct player-velocity portion of `handleExplosion()`.
+
 ## Dependency queue and blockers
 
 - `DEP-AUDITOR`: coordinator; full-pair independent source audit not assigned. The focused review below accepts only the bounded STATE-01 cutoff snapshot and does not close the pair.
@@ -457,6 +493,8 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - [WORLD-01 â€” Trapdoor ladder climbing](findings/WORLD-01-trapdoor-ladder-climbing.md)
 - [WORLD-03 - End Portal Frame player ejection](findings/WORLD-03-end-portal-frame-player-ejection.md)
 - [WORLD-02 — Boat rider transform](findings/WORLD-02-boat-rider-transform.md)
+- [EXT-03 — Player knockback application](findings/EXT-03-player-knockback-application.md)
+- [EXT-04 — Player death velocity](findings/EXT-04-player-death-velocity.md)
 - [COLL-01 — Same-vehicle collision exclusion](findings/COLL-01-vehicle-collision-exclusion.md)
 - [COLL-02 â€” Pane collision shapes](findings/COLL-02-pane-collision-shapes.md)
 
@@ -560,7 +598,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 
 ## Resume checkpoint
 
-- Last completed slices/checkpoints: TICK-05 active-item countdown and local input consumer compared with no equivalent-main-hand movement delta; TICK-07 paired client-push source evidence committed; EXT-01 packet-selection/correction source finding recorded with downstream server effect unresolved; MOD-02 paired attribute/effect inventory committed at `313e7909e0bf4be57ff33df1412a378b3a6de390`, including the conditional NBT equipment-slot filter finding; exact bounded STATE-01 cutoff snapshot independently accepted; corrected COLL-02 and STATE-03 candidates preserved. Original mapped-JAR identity remains unproven.
+- Last completed slices/checkpoints: TICK-05 active-item countdown and local input consumer compared with no equivalent-main-hand movement delta; TICK-07 paired client-push source evidence committed; EXT-01 packet-selection/correction source finding recorded with downstream server effect unresolved; EXT-02 inherited impulse and EXT-02-PACKETS inbound velocity application compared with no writer difference; EXT-03 paired player knockback and EXT-04 death-handler velocity findings added; MOD-02 paired attribute/effect inventory committed at `313e7909e0bf4be57ff33df1412a378b3a6de390`, including the conditional NBT equipment-slot filter finding; exact bounded STATE-01 cutoff snapshot independently accepted; corrected COLL-02 and STATE-03 candidates preserved. Original mapped-JAR identity remains unproven.
 - Supersession of the piston candidate: the prior finding-file SHA-256 was `a3125e53e15bbe8f4a7692bd3494716f9845ff69c13db551b379654852c5d07d`. B `PistonBaseBlock#isCube(BlockState)` returns false at lines 216-218 (file SHA-256 `4ef15129e660397ba3a531c8ff4a4810393973ea56417d8830f4445d14035e36`); A `PistonBaseBlock#isCube()` returns false at 223-225 (SHA-256 `3c96698a674714446f9fd0d6cc1c4d5eb72937d9a2f396516ddb2461c3ea4929`). The prior piston-specific finding is withdrawn. The provider comparison found a distinct non-piston End Portal Frame delta, now recorded in the corrected `WORLD-03-end-portal-frame-player-ejection.md` finding; the prior claim and exact evidence are retained in its superseded-candidate record.
 - Next bounded comparison: split remaining `COLL-01` normal movement into named axis clipping / step selection / support-edge / callbacks, then close downstream TICK-06 velocity-cutoff/travel dependencies. Also continue player state/equipment and external influence inventories; WORLD-02 covers only direct boat passenger writes and does not close other mount/authority paths. Resolve canonical artifact identity if further bytecode-level claims depend on the unavailable original mapped JARs. The state-solid provider subinventory is closed for paired A historical block classes: shared cube overrides were compared; A/B signal-source overrides and B state-material lookup were compared; Air and modern-only block cases were dispositioned; the End Portal Frame difference is recorded in WORLD-03. Entry paths: A `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java` lines 292-346 and `Block.java` lines 237-239; B same-named local-player file lines 349-403, `block/state/StateDefinition.java` lines 293-300, and `Block.java` lines 214-216. Shared sources remain read-only. TICK-06 source hashes: A `1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053`, B `8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d`.
 - Outstanding dependencies and owners: `DEP-AUDITOR` coordinator for full-pair review; fresh independent decisions for exact candidates `SNAP-COLL-02-PANE-02` and `SNAP-STATE-03-01`; `WORLD-03` End Portal Frame snapshot awaits independent review; remaining open `INV-TICK`, `INV-STATE`, `INV-COLLISION`, `INV-WORLD-MOVEMENT`, `INV-MODIFIERS`, and `INV-EXTERNAL` source inventories. The pair remains active and incomplete.
