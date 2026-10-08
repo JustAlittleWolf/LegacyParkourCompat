@@ -51,12 +51,13 @@ Findings are tracked one per file under `findings/`; add only after the bounded 
 ## Resume checkpoint
 
 - Completed: exact source provenance for both releases; input correspondence; paired block/fluid tags; friction, Soul Sand, Honey speed/jump/slide, portal dismount and Bee player-knockback findings.
-- Next: close the open rows in [Detailed coverage ledger](#detailed-coverage-ledger), continuing player-state gates and living travel, then collision, blocks/fluids, remaining effects/equipment and external updates. The bounded movement-attribute and Depth Strider correspondence is recorded in [Stage 6 modifier correspondence](#stage-6-modifier-correspondence).
+- Additional paired work: F08–F12; ability storage and network transfer; bounded collision clipping, support-cell and edge-backoff paths; common player-facing push overrides and piston restriction; movement attributes and Depth Strider.
+- Next: continue the open rows in [Detailed coverage ledger](#detailed-coverage-ledger), especially remaining player-state writers, living travel, block/fluid callbacks and formulas, remaining effects/equipment and mounted/external updates. The bounded movement-attribute and Depth Strider correspondence is recorded in [Stage 6 modifier correspondence](#stage-6-modifier-correspondence).
 - Assumptions: no gameplay trajectory was observed; findings are source-level. Server-synchronized state is identified as externally authoritative rather than locally computed.
 
 ## Source audit closure
 
-- Coverage status: partial; seven source-confirmed findings, a terminal input-refactor row, and bounded no-difference attribute/effect/Depth Strider correspondences are recorded. Other navigation stages have explicit open coverage gaps in [Detailed coverage ledger](#detailed-coverage-ledger).
+- Coverage status: partial; twelve source-confirmed findings, a terminal input-refactor row, and bounded no-difference ability-transfer, collision, push, piston, attribute/effect and Depth Strider correspondences are recorded. Other navigation stages have explicit open coverage gaps in [Detailed coverage ledger](#detailed-coverage-ledger).
 - Unresolved gaps: remaining paired player-state, living-travel, collision-order, block/fluid consumer, effect/equipment and external-update audits.
 - Evidence/hash/correspondence audit: exact original client jars and release-specific Mojmap mappings are recorded. Each finding records cited source hashes; paired tags and resource hashes are in [Paired block and fluid tags](#paired-block-and-fluid-tags).
 - Runtime validation: not performed; gameplay trajectory validation is a separate workflow.
@@ -103,7 +104,7 @@ The stage numbers follow the established source-navigation order. Rows marked te
 
 ##### Dependency queue and blockers
 
-- `PLAYER-STATE`: complete paired audit of dimensions, hunger/sprint, pose and ability gates.
+- `PLAYER-STATE`: finish pairing remaining player-state producers and consumers beyond the completed dimensions, sprint, pose and bounded ability-transfer slices.
 - `LIVING-TRAVEL`: pair jump timing, gravity, water/lava travel and flow, ladders, flight/fall-flying and attribute consumers.
 - `COLLISION-ORDER`: pair collision clipping, step height, edge probing, callbacks and velocity mutation ordering beyond F02/F05.
 - `BLOCK-FLUID-CONSUMERS`: exhaustively enumerate relevant movement registrations and paired fluid/block consumers.
