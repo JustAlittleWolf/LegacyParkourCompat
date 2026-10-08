@@ -462,6 +462,15 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 - [water-depth-strider-rounding](findings/water-depth-strider-rounding.md): Depth Strider III water speed factor changes by one binary32 ulp; source-confirmed.
 - [soul-speed-client-friction-sync-candidate](findings/soul-speed-client-friction-sync-candidate.md): Soul Speed block friction now consumes a server-activated movement-efficiency attribute; source-backed candidate pending exact sync timing.
 
+### Incremental source snapshot log
+
+- Snapshot ID: `l5-water-depth-strider-2337ef4`
+- Immutable finding commit: `2337ef4dbcab9a99b48f0212b218726c004462b5` (parent `a004acf793b7ba3ea6a12f14407fcb81fdc2b8a6`); this commit adds the finding file, whose current bytes were re-read from the commit and match the working copy.
+- Finding file: `findings/water-depth-strider-rounding.md`; `findingSHA256=25e4a6799a9f56b830c5e0c814a50ea04a0abf4c8219f2ab6a790fd48b436ca2`.
+- A artifact identity: exact ready marker `ready/1.20.6/mojmap.ready.json`, status ready, version 1.20.6, Mojmap; source manifest SHA-256 `56aae10684471d7abb1c366bd5dd431ab976112a87e6cc5c687a68f1eff06311`; artifact manifest SHA-256 `e5882622bcf22b3e3c2c96c73843a1308e11e3096f4feefd945ea5808933ce31`; cited source hashes and ranges are in the finding. Marker, manifests, diagnostics, provenance and all cited Java source hashes were revalidated on 2026-10-08.
+- B artifact identity: exact ready marker `ready/1.21.1/mojmap.ready.json`, status ready, version 1.21.1, Mojmap; source manifest SHA-256 `900f956e00f6fc1300bb3d689ea49df2b1a57bcaa54617344ef456d95d47cb48`; artifact manifest SHA-256 `09ced418cbc7530a1d6d8802ee10c05cd576b217a2129655a71f30a2ae38f486`; cited source hashes and ranges are in the finding. Marker, manifests, diagnostics, provenance and all cited Java source hashes were revalidated on 2026-10-08.
+- Snapshot review: pending independent source review by coordinator-designated reviewer `01a116ce-dfe4-7b11-b7e6-d62f5014e356`; not yet accepted for implementation handoff. Pair discovery remains active and partial.
+
 ## Resume checkpoint
 
 - Last completed slices: I1-I4 input/tick/yaw/sprint compared; L3 jump path compared; L5 water-travel arithmetic finding recorded. L4 has a bounded callback delta with closure pending. L2 has a source-backed Soul Speed sync-timing candidate; P1/P2/P4, L2 and L4 remain in progress pending dependencies.
