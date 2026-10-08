@@ -7,6 +7,7 @@
 - Confidence: source-confirmed (wall flags and collision-shape selection differ for TNT, frosted-ice and retracted-piston adjacency; resulting player displacement remains unmeasured)
 - Applicability: A-era wall placement and neighbor updates; first changed release unknown within (1.13.2,1.14.4]
 - Runtime validation: not performed
+- Assignment scope disposition: source-only record. The observed wall connection-flag differences are caused by block-state placement/neighbor-update lifecycle, which the current assignment excludes. They are not accepted as implementation findings or handoff requirements. Fixed-state collision geometry remains a separate in-scope question.
 
 ## Paired evidence
 
@@ -27,12 +28,12 @@ For a retracted piston base, A's `PistonBaseBlock.getFaceShape` returns `SOLID`,
 
 ## Reachability and dependencies
 
-Placement and neighbor updates beside vanilla TNT, frosted ice or a retracted piston are ordinary reachable wall-state transitions. The changed direction flag selects a different wall collision shape that can be queried during player movement through the paired world block-collision path in S020. `D-COLLISION-SHAPES` remains open for the remaining A-era `getFaceShape` providers and B face-solid/cache/tag paths. Modern-only block registrations are excluded. No general block-state emulation is proposed.
+Placement and neighbor updates beside vanilla TNT, frosted ice or a retracted piston are ordinary reachable wall-state transitions. The changed direction flag selects a different wall collision shape that can be queried during player movement through the paired world block-collision path in S020. This assignment explicitly excludes block-state lifecycle, so these producer differences are retained only as source evidence and are not accepted as player-movement findings or implementation handoff requirements. `D-COLLISION-SHAPES` remains open for the remaining A-era `getFaceShape` providers and B face-solid/cache/tag paths, evaluated for fixed states. Modern-only block registrations are excluded.
 
 ## Consequence and uncertainty
 
-Source confirms different wall connection flags for adjacency to vanilla TNT, frosted ice and retracted pistons, with the corresponding different collision-shape selection. These are source-proven state and shape differences; the resulting difference in player displacement/clipping has not been measured. Runtime validation is deferred; first changed release unknown within (1.13.2,1.14.4].
+Source confirms different wall connection flags for adjacency to vanilla TNT, frosted ice and retracted pistons, with the corresponding different collision-shape selection. This report preserves those facts as source-only evidence of an excluded block-state-lifecycle change; it does not accept them for implementation. The resulting difference in player displacement/clipping has not been measured. Runtime validation is deferred; first changed release unknown within (1.13.2,1.14.4].
 
 ## Handoff
 
-Independent source candidate with multiple common-era neighbor preconditions under one changed wall-connection predicate. Continue the A-era face-shape provider inventory and tag/cache dependency analysis. No implementation or wiki feedback was used.
+Source-only record of an excluded block-state-lifecycle difference with multiple common-era neighbor preconditions. Continue the A-era face-shape provider inventory and tag/cache dependency analysis for fixed-state collision behavior. No implementation or wiki feedback was used; no implementation handoff is accepted.
