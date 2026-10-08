@@ -39,7 +39,7 @@ abstract class ClientPacketListenerMixin {
         LocalPlayer player = this.minecraft.player;
         this.legacyparkourcompat$refreshVehicle = null;
         this.legacyparkourcompat$hadLocalPlayerPassenger = false;
-        if (vehicle instanceof Boat boat && player != null && vehicle.hasIndirectPassenger(player)) {
+        if (vehicle instanceof Boat boat && player != null && player.getVehicle() == vehicle) {
             this.legacyparkourcompat$refreshVehicle = boat;
             this.legacyparkourcompat$hadLocalPlayerPassenger = true;
         }
@@ -57,7 +57,7 @@ abstract class ClientPacketListenerMixin {
         this.legacyparkourcompat$hadLocalPlayerPassenger = false;
 
         LocalPlayer player = this.minecraft.player;
-        if (hadLocalPlayerPassenger && vehicle != null && player != null && vehicle.hasIndirectPassenger(player)) {
+        if (hadLocalPlayerPassenger && vehicle != null && player != null && player.getVehicle() == vehicle) {
             MovementRuntime.find(BoatPassengerYawRefreshBehavior.class, player)
                 .ifPresent(behavior -> behavior.onPassengerRefresh(
                     player,
