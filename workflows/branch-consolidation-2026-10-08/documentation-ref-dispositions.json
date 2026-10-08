@@ -1,0 +1,428 @@
+{
+  "schemaVersion": 1,
+  "createdOn": "2026-10-08",
+  "baseMain": "f2f1da12fb17b9d26e3181392e42fba09926265e",
+  "review": "Independent reviewer approved the seven absent bounded review files; water-current F-1 is already byte-identical in main.",
+  "counts": {
+    "uniqueHeads": 44,
+    "historyOnlyMergeHeads": 38,
+    "noBranchOnlyDocsCleanupCandidates": 6,
+    "newlyAddedReviewFiles": 7
+  },
+  "immutableConstraints": [
+    "No source/build/runtime code or shared guidance changes.",
+    "All discovery/source/wiki pair states remain partial or open; accepted verdicts are bounded to their cited finding/snapshot.",
+    "Do not modify immutable finding bytes."
+  ],
+  "refs": [
+    {
+      "branch": "feat/blind-source-snapshot-review-pose-fallfly-2026-10-08",
+      "oid": "a02e52db9d6212449610caefa5a2a630736a2447",
+      "tree": "cc6ef5e6664dd53248ed96b26ac3cbb7db915200",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": [
+        "workflows/source-campaign-2026-10-07/SNAPSHOT-REVIEW-POSE-FALLFLY-2026-10-08.md"
+      ]
+    },
+    {
+      "branch": "feat/coverage-review-early",
+      "oid": "960ce5644ceacd8e27bd3cb9145bd4eaf221379c",
+      "tree": "5eccad925021e9fcade838345dfd1e2b470b4984",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/coverage-review-early-resume",
+      "oid": "cf1b65bf1bc69a04505863f0f3f01a63bc9cf923",
+      "tree": "fbc26c9a2f190791ca53d7dff16da6d4b100749a",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/coverage-review-middle",
+      "oid": "4fe0e809579ea9e60e65966eff635c7f9380adf1",
+      "tree": "f9705af9c79c39e4ed7136540c075b6ef6f1171c",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/coverage-review-recent",
+      "oid": "c352dbfa3c661a2c427f821fc8e7d472894450d3",
+      "tree": "130f930838739dd67c066fe2133f5e96ec1cf29f",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/critical-1-8-movement-source-review",
+      "oid": "67030ba73b0428d3c8c71d7a4375d57661efa16e",
+      "tree": "97aeb81326b6aa81ab1aa46581a1cfcedfc547ee",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/critical-1-8-source-review-2026-10-08",
+      "oid": "6434daa0abbd2229cad20b2f810bdf534de17576",
+      "tree": "ae35748f07d549eec0c5156371c900ceb632b16d",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/emulation-eligibility-scope",
+      "oid": "611cd30eaf2a7136a0b8dae7d67d40e93778021a",
+      "tree": "e370ccb72d9859aa9d02b6fc43726c0f760648e0",
+      "disposition": "NO_BRANCH_ONLY_DOCUMENT_CONTENT",
+      "mergeMode": "NO_MERGE_CLEANUP_CANDIDATE",
+      "reason": "Exact branch-only tracked docs were already integrated; no unique branch-only content remains.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/fix-movement-1-11-2-1-12-2",
+      "oid": "5c8b94290fbc98100b0c482d11b003ba69470959",
+      "tree": "eed376f03e189c16ff502e7f859c8ef4f4f62478",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/implement-1-19-4-1-20-6-movement-deltas",
+      "oid": "888c0a41a87b7ccfd8aff6a484cccade214f41d4",
+      "tree": "9df7cb1a5458076be6acade661653a6c609d33d6",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/implement-1.15.2-1.16.5-deltas",
+      "oid": "068c262717231c68f33ded2db1e3b2c6b46b9995",
+      "tree": "67d9d47d6dabf53f5c97f98b9176abc30edb4dbc",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/implement-movement-deltas-1.9.4-1.10.2",
+      "oid": "340762a19902a025db7cbbb26bd80fda63997297",
+      "tree": "300f519823606931626eb9219ef3d16908b24d0e",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/legacy-movement-1.10.2-deltas",
+      "oid": "afe9cfc377aa5b2e195e70419664d0f5279639fa",
+      "tree": "e07074eb1602aa2992dedee7c4bcf3184584d884",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/movement-1.17.1-1.18.2-deltas",
+      "oid": "6a8286797976677192b315b35d27c1fe7e6fe14d",
+      "tree": "c0073adc0c25a277cdf8304a5f8c07a6e7fc262d",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/movement-campaign-sources",
+      "oid": "2f71b119e09f21de71152a55ce2789efb4d50cf1",
+      "tree": "b0862b6bb943ba87d9c7c9937e3f40f50ba1b875",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/movement-completeness-static-review",
+      "oid": "ac96c6fdf541744240def2f885c0a6e459589d2c",
+      "tree": "45eee7973773afd2e4299fa311fcfe373377688f",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/movement-discovery-1.21.11-26.1.2",
+      "oid": "e1b19152451f6d7ce539d3df34fe5ad1b76bd76d",
+      "tree": "bef488de646ab2e06cb9bce6772caae487c34464",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/movement-live-switch-review-disposition",
+      "oid": "46ec62be7f3ec6cef7cac1b3c2f184d4272a2463",
+      "tree": "7b80e1ecd6ac712ca586b32025a58e0dc71b2be7",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/movement-orchestration-recovery-2026-10-08",
+      "oid": "fd2b1a5e078b0a6792de2c598d150dd6e07801ad",
+      "tree": "3b17704f6fc5c660880492ad1efa479bac7d4127",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/movement-passenger-crouch-input-2026-10-08",
+      "oid": "3d4909ebebfe5b3e936bc591f85f2de711a6c1df",
+      "tree": "bc8b492b25f48029b305a92bd0497d7ee34134d9",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/movement-static-review-2026-10-08",
+      "oid": "1f5fe40ec77f2003f7245cac6da91a996d88bd69",
+      "tree": "f3bde605cad6cc81ebf756604a7189607404df33",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/movement-workflow-completeness",
+      "oid": "40947818948415cea20ba75782503289b164168b",
+      "tree": "aed9eb6429e6e739d16f1b56618b2edc838637be",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/movement-workflow-retrospective",
+      "oid": "9c03e36af9b7b51126b1ed7abe555a26c8767196",
+      "tree": "9cb08c392197b375fed1a5df2abb3fbf85f427d3",
+      "disposition": "NO_BRANCH_ONLY_DOCUMENT_CONTENT",
+      "mergeMode": "NO_MERGE_CLEANUP_CANDIDATE",
+      "reason": "Exact branch-only tracked docs were already integrated; no unique branch-only content remains.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/piston-head-threshold-scope-proof-2026-10-08",
+      "oid": "8d300b4f5902cb4741193a09d4a95b5bdbb7087a",
+      "tree": "6b57f16ae0f93c5254f680fcd6159df66be473cb",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/prepare-movement-sources",
+      "oid": "1573556424b77ecbcb3eb3591db5b6073ee084be",
+      "tree": "e83df0ec34ee830ba82f8c9ecbc5f6fc7932db53",
+      "disposition": "NO_BRANCH_ONLY_DOCUMENT_CONTENT",
+      "mergeMode": "NO_MERGE_CLEANUP_CANDIDATE",
+      "reason": "Exact branch-only tracked docs were already integrated; no unique branch-only content remains.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "feat/review-water-current-12111-2612-2026-10-08",
+      "oid": "d6664c08d015b6d301b5498302d9f64f32ebec92",
+      "tree": "b9fbaac5af44b5ee380d3b9ed05e3e4073f21c28",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": [
+        "workflows/source-campaign-2026-10-07/independent-review-F-26.2-SLIME-LANDING-RESTITUTION-2026-10-08.md",
+        "workflows/source-campaign-2026-10-07/independent-review-MC1204-1206-04-2026-10-08.md"
+      ]
+    },
+    {
+      "branch": "feat/source-discovery-movement-source-1-19-4-continuation",
+      "oid": "29efba068552a377fb9c56cbc5819575e6c5188e",
+      "tree": "4c25b56a3da99ee6afcfce4103c29df63fc3794d",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "fix/incremental-review-ledger",
+      "oid": "84ce9f447e040f7c8530ca8bbca234d31fece7e6",
+      "tree": "b885d3abc06dd94db79a3926317b15f48fc1dbb4",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "fix/mc1204-1206-boundary-source-review-2026-10-08",
+      "oid": "1e5de3b32966e8766cdcf9f7ad56a9278fb79bb0",
+      "tree": "7d581bde661a15015e7cfb8a685bf152840620f4",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": [
+        "workflows/source-boundary-reviews/2026-10-08-MC1204-1206-independent-review.md"
+      ]
+    },
+    {
+      "branch": "fix/mcpk-1-17-movement-reconcile",
+      "oid": "7376c93a5dbdc3313482cd9f04c5742650756b54",
+      "tree": "4e013fc3bd5b1f791d7a79be57fa5cb16af0ae2c",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "fix/mcpk-defect-followup-review",
+      "oid": "e2c3ecb43a2badacf6beb6098c4f6f4f354ec7bc",
+      "tree": "94a039e6cf9b6fbf03b44d4417c1a66784796fcb",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "fix/mcpk-r4-independent-review",
+      "oid": "d514d2444f44709e8f6e4007b92f9a3bb4e6ebfe",
+      "tree": "b8a9ce23f9d2faee67e62dd265024861a3366bff",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "fix/mcpk-r5-independent-review",
+      "oid": "7bca10fe8bc1995459e3ad9fc3913cebbee24fd2",
+      "tree": "8f93ed0f2d995c1459d799cbead800c238e9577d",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": [
+        "workflows/wiki-audit-2026-10-07/mcpk-independent-followup-review-r5-2026-10-08.md"
+      ]
+    },
+    {
+      "branch": "fix/piston-head-scope-review-2026-10-08",
+      "oid": "4b04193a4bd45a3ca8541590448476cc5af226f0",
+      "tree": "fb2d3af06433adc0b5f229d2582d6c26d4d00092",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "fix/review-bed-ordinaryfall-witness-2026-10-08",
+      "oid": "daab0b806cf4fb33185ac294bea18d4f4a108e7f",
+      "tree": "b1401469a8ee88b0f188460d33cdf373f68bf362",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": [
+        "workflows/source-campaign-2026-10-07/independent-review-bed-ordinaryfall-witness-2026-10-08.md"
+      ]
+    },
+    {
+      "branch": "fix/review-bed-piston-snapshots-2026-10-08",
+      "oid": "c2a57d1415919265ba93209109f5c679932b8304",
+      "tree": "db63b48062afc7ac3ae438246e6469290e722198",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": [
+        "workflows/source-campaign-2026-10-07/independent-review-F-S5-PISTON-HEAD-THRESHOLD-2026-10-08.md"
+      ]
+    },
+    {
+      "branch": "fix/review-historical-movement-impl-2026-10-08",
+      "oid": "d3190b4a21f509b136feb7a5d43402566177a1cf",
+      "tree": "95e56bef3275402deec65fd0e58b2b7bd4e53232",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "fix/review-pane-offset-epsilon-2026-10-08",
+      "oid": "91193a2c01f4ca8f0ae6efb48ba1ea41b8888eda",
+      "tree": "87f358567c206e81caba95acee65474f95461bde",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "fix/review-pane-offset-epsilon-corrected-2026-10-08",
+      "oid": "034695c8d6a4d6c2cf943c9eb880588648cfbc62",
+      "tree": "a31b39e148df39da3626e315d6411db4f003614d",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "fix/review-passenger-yaw-remount-2026-10-08",
+      "oid": "7c40951938a925fbb6fae541a95b462006113c09",
+      "tree": "11100d0b2f9a3a75a560ce437c41645863b2dc17",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "fix/review-shallow-water-current-cutoff-1-21-11-2026-10-08",
+      "oid": "e023dd454513b625a0a1d9c9cad3958545803cba",
+      "tree": "2aa43045cc09d594bf7e936ede6c5f4e859d7f4d",
+      "disposition": "NO_BRANCH_ONLY_DOCUMENT_CONTENT",
+      "mergeMode": "NO_MERGE_CLEANUP_CANDIDATE",
+      "reason": "Its current review report is already represented by accepted current review records; no unique branch-only content remains.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "fix/review-slime-landing-restitution-2026-10-08",
+      "oid": "b36612a06b5f2247320681a90743457f7cfa0948",
+      "tree": "30ea7233c63384d8aa5fd206d0145e1db8b739bf",
+      "disposition": "PRESERVE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Preserve unique/superseded documentation evidence in Git ancestry; do not replace current canonical reports, instructions, or partial coverage state.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "fix/review-swim-entry-and-mc1204-jump-2026-10-08",
+      "oid": "9cf9c7232c8280376034ed5d4a0ba7f84f0cf483",
+      "tree": "21dda6c532aecf535c884911f2f4a25f5b074a3c",
+      "disposition": "NO_BRANCH_ONLY_DOCUMENT_CONTENT",
+      "mergeMode": "NO_MERGE_CLEANUP_CANDIDATE",
+      "reason": "Its current review report is already represented by accepted current review records; no unique branch-only content remains.",
+      "additiveFiles": []
+    },
+    {
+      "branch": "fix/slime-landing-restitution-26-2",
+      "oid": "4bb2bd611711a184f474017d90ce8e5ac857026d",
+      "tree": "b9c7160f70e6f788e4f0b17cc706e04802babf91",
+      "disposition": "NO_BRANCH_ONLY_DOCUMENT_CONTENT",
+      "mergeMode": "NO_MERGE_CLEANUP_CANDIDATE",
+      "reason": "Its current report is already represented by an accepted current review; no unique branch-only content remains.",
+      "additiveFiles": []
+    }
+  ]
+}
