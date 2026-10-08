@@ -345,17 +345,17 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
 
-### Slice B8 - shape
+### Slice B8 - historical collision and support-shape providers
 
-- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: shape; exact paired method ranges await readiness.
-- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
-- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
-- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
-- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: initial paired scan of shape-provider source files under `world/level/block`: declarations of `getShape`, `getCollisionShape`, `getBlockSupportShape`, and `getOcclusionShape`, plus static `VoxelShape` field declarations. This scan established the common provider set and method/field equality, but block registration/property inputs, neighbor-dependent providers and the full player query/support routes remain open.
+- A evidence: ready source tree `ready/1.20.6/mojmap`, source manifest SHA-256 `56aae10684471d7abb1c366bd5dd431ab976112a87e6cc5c687a68f1eff06311`; paired provider set is 140 files selected by those exact method names. `state/BlockBehaviour.java` (A SHA-256 `5ccc577c6b257badf8bffab54181c45b6c57779c8545efe5c54a9766687e685b`) contains shared default and state-delegating shape paths. Major era-existing providers include `FenceBlock`, `WallBlock`, `StairBlock`, `SlabBlock`, `DoorBlock`, `TrapDoorBlock`, `SnowLayerBlock`, `FarmBlock` and `DirtPathBlock`.
+- B evidence: ready source tree `ready/1.21.1/mojmap`, source manifest SHA-256 `900f956e00f6fc1300bb3d689ea49df2b1a57bcaa54617344ef456d95d47cb48`; the same 140-file provider set is present, with no A-only or B-only provider path. Every paired declared shape method body and static `VoxelShape` field declaration in that set compared byte-for-byte equal. `state/BlockBehaviour.java` B SHA-256 `35420ee4fca120ccf1d1542a6b1746fcdd1e9dafd125cf0b8193f9b8b406b292`; its shape defaults and `BlockStateBase` delegates were compared despite unrelated file changes. The major era-existing provider method bodies listed on A are unchanged on B.
+- State producers/writers -> consumers/readers: registered block/state properties and neighboring blocks feed shape providers -> `BlockState` shape accessors -> `BlockGetter` collision/support queries -> `Entity#collide`, step/edge resolution and support-state writes. The method/field scan closes only the provider-body layer. It does not yet establish matching `Blocks` registrations, state/property defaults, contextual or neighboring-state shapes, piston movement shapes, or that all query consumers and shape contexts have been enumerated.
+- Parent slices / dependencies / closure evidence: C1-C4 bounding-box/step/support/query routes remain pending; B1-B7 block-specific registration and movement dependencies remain pending; L4 callback closure still depends on B8. A/B `Blocks.java` source hashes differ due broader release content, so exact registrations for the old block provider set still require paired checking.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no changed declared shape method body or static `VoxelShape` field was found in the paired 140-file source scan. This is only an intermediate no-difference observation. Registration, blockstate, neighboring-provider and collision-query dependency closure is incomplete, so B8 has no terminal equivalence disposition.
+- Finding IDs or checked absence/replacement path: no shape finding yet. The changed End/Nether portal `entityInside` transition behavior is outside this shape-only scan and remains queued for X4 movement-state review; the portal shape methods/constants are unchanged.
 
 ### Slice E1 - Speed, Slowness, Jump Boost, Levitation, Slow Falling, Dolphin's Grace and Blindness consumers
 
@@ -480,8 +480,8 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 ## Resume checkpoint
 
-- Last completed slices: I1-I4 input/tick/yaw/sprint compared; L3 jump path and L6 player movement attributes compared; L5 water-travel arithmetic finding recorded; X1 tracked velocity packet and tracker-baseline reachability compared-no-difference for the locally controlled player; B4 contact slowdowns compared with the modern-only Weaving state explicitly excluded; B6 fluid currents and bubble-column velocity producers compared-no-difference. L4 has callback closure pending through B8. L2 has a committed source-confirmed first-entry Soul Speed snapshot awaiting independent review; P1/P2/P4, L2 and L4 remain in progress pending dependencies.
-- Next bounded slice and exact files/members/body ranges to open: continue L2/L4 through external movement-state closure: X2 player knockback producer/math is still separate and uninspected; then inspect B8 collision-shape providers and their player-reachable query callers. Entity movement thresholds, the generic inside-block dispatcher, B4 contact slowdowns and B6 fluid movement producers are now paired. L6 player movement attributes are complete.
+- Last completed slices: I1-I4 input/tick/yaw/sprint compared; L3 jump path and L6 player movement attributes compared; L5 water-travel arithmetic finding recorded; X1 tracked velocity packet and tracker-baseline reachability compared-no-difference for the locally controlled player; B4 contact slowdowns compared with the modern-only Weaving state explicitly excluded; B6 fluid currents and bubble-column velocity producers compared-no-difference. B8 has a common-provider method/field scan with registration/query closure open. L4 callback closure remains open through B8. L2 has a committed source-confirmed first-entry Soul Speed snapshot awaiting independent review; P1/P2/P4, L2 and L4 remain in progress pending dependencies.
+- Next bounded slice and exact files/members/body ranges to open: continue B8 through paired registration/property, contextual-shape, neighbor-support and query-consumer paths; then resume C1-C4 and B1-B7 routes. X2 player knockback remains separate. Record the End/Nether portal transition callback change under X4 if its player position/timing path is reachable. Entity movement thresholds, generic inside-block dispatch, B4 and B6 are now compared. L6 player movement attributes are complete.
 - Outstanding dependencies and owners: D0/D1 readiness closed; D2 remains open for movement source dependencies and is owned by this discovery worker until handoff.
 - Current assumptions requiring verification: only cited source bodies are hash-checked so far; all remaining method correspondence, dependencies, callbacks, registrations and state writer/consumer closure are incomplete.
 
@@ -508,10 +508,10 @@ Reviewer must differ from discovery authors and must independently re-walk full 
 
 ## Source audit closure
 
-- Coverage counts by status: 1 findings; 11 compared-no-difference; 0 not-applicable; 0 blocked; 18 pending; 5 in-progress (35 planned slices; one source-confirmed finding spans L2 and L4, with broader closure still in progress).
+- Coverage counts by status: 1 findings; 11 compared-no-difference; 0 not-applicable; 0 blocked; 17 pending; 6 in-progress (35 planned slices; one source-confirmed finding spans L2 and L4, with broader closure still in progress).
 - Required inventory status and evidence: all seven required inventories remain pending; L5 and L2 have bounded source-confirmed findings (L2 snapshot review pending), while complete inventories are not closed.
 - Open dependencies: D2 only; D0/D1 readiness and namespace alignment are closed.
-- Unresolved gaps and limits: 18 slices remain pending and 5 remain in progress, including full modifier coverage, collision/shape providers, blocks, X2 player knockback and other external-input slices, exclusions and independent audit. The two bounded findings and X1/B4/B6 closures do not close those inventories.
+- Unresolved gaps and limits: 17 slices remain pending and 6 remain in progress, including registration/query closure for collision/shape providers, full modifier coverage, blocks, X2 player knockback and other external-input slices, exclusions and independent audit. The two bounded findings and X1/B4/B6 closures do not close those inventories.
 - Evidence/hash/correspondence audit: exact source hashes and paired ranges are recorded for L2-L6 bounded rows and findings; the overall evidence audit is incomplete.
 - Blind freeze: pending until pair coverage is complete.
 - Implementation reconciliation: pending and outside this assignment before explicit post-freeze authorization.
