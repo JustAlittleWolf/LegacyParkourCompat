@@ -712,7 +712,7 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 - Parent slices / dependencies / closure evidence: S1.7 packet consumers; S4/S5 collision/callback writers; S7.1 external impulses; S7.2 mounted player positions; S7.3 packet authority; pending method-family, callback and indirect-writer inventory under `DEP-EXTERNAL-WRITERS`.
 - Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): bounded alias scan only; observed hits are routed and paired in their owning slices, but the source inventory is deliberately left open until indirect writers and producer-to-consumer dependencies are closed.
-- Finding IDs or checked absence/replacement path: `F-ENDER-PEARL-OWNER-DIMENSION`, `F-PLAYER-DISMOUNT-CLEARANCE-BOX`, `F-PLAYER-MOVE-PACKET-VALIDATION`, and the prior S4.4a farmland finding are linked; additional hits remain possible.
+- Finding IDs or checked absence/replacement path: `F-ENDER-PEARL-OWNER-DIMENSION`, `F-PLAYER-DISMOUNT-CLEARANCE-BOX`, `F-PLAYER-MOVE-PACKET-VALIDATION`, and `F-FARMLAND-PLAYER-RELOCATION` are linked; additional hits remain possible.
 
 ### Slice S7.5: Cross-mechanic interactions and final dependency closure/revisit of affected unchanged callers
 
