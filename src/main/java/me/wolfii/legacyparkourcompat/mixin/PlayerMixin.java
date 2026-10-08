@@ -9,6 +9,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeDistanceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeProbeBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SwimmingBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.SwimmingPitchBehavior;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
@@ -55,6 +56,20 @@ abstract class PlayerMixin implements AirSpeedState {
         cir.setReturnValue(MovementRuntime.find(SwimmingBehavior.class, player)
             .map(behavior -> behavior.isSwimming(player, cir.getReturnValue()))
             .orElse(cir.getReturnValue()));
+    }
+
+    @Redirect(
+        method = "travel(Lnet/minecraft/world/phys/Vec3;)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/player/Player;getLookAngle()Lnet/minecraft/world/phys/Vec3;"
+        )
+    )
+    private Vec3 legacyparkourcompat$swimmingPitchLook(Player player) {
+        Vec3 vanilla = player.getLookAngle();
+        return MovementRuntime.find(SwimmingPitchBehavior.class, player)
+            .map(behavior -> new Vec3(vanilla.x, behavior.lookY(player, vanilla.y), vanilla.z))
+            .orElse(vanilla);
     }
 
     @Unique
