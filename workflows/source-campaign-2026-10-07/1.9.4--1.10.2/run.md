@@ -57,7 +57,7 @@ All seven required navigation stages are open. The following is a **pre-source c
 
 ### S1 — local input and tick ordering
 
-- S1.1 input sampling and key/controller state: pending.
+- S1.1 input sampling and key/controller state: findings for the character-code keybinding reacquisition path (F004); B's additive Input.getMovement() read is separately covered by F003.
 - S1.2 input axes, yaw-to-motion conversion and normalization: pending.
 - S1.3 local tick, superclass tick and travel call order / previous-current flag capture: pending.
 - S1.4 sprint start/stop gates, timers and state writers: pending.
@@ -165,6 +165,17 @@ Per bounded slice, record one of `pending`, `in-progress`, `compared-no-differen
 - Disposition and rationale (including concrete reachability/preconditions): source-confirmed difference: B guards vertical `-0.08` (loaded-client/server fallback branch) and `-0.02` (water/lava) gravity subtractions with `!isNoGravity()`; A has no generic player flag gate. The flag defaults false, but saved server-player NBT can set it and the server tracker sends the update back to that player's client entity; the client handler applies it. Therefore the condition is reachable for a player whose saved `NoGravity` state is true. The exact source and bytecode evidence is bound to revision `feather-r1-2026-10-07`; unavailable original derived-jar equivalence is not claimed.
 - Finding IDs or checked absence/replacement path: F002; B writer/default path is `Entity` synced data and NBT.
 
+### Slice LOCAL-KEYBOARD-INPUT-SAMPLING: keyboard and mouse state into player movement input
+
+- Inventory ID(s): `INV-TICK`
+- Exact behavior boundary and enclosing guards/order checked: option key bindings and keyboard/mouse events update `KeyBinding.pressed`; the camera local player's `KeyboardInput.tick()` samples forward/back/left/right/jump/sneak, then applies sneak scaling; `LocalClientPlayerEntity.serverTickAi()` copies axes and jump only under `isCamera()`. Axis-to-world-yaw conversion remains S1.2/S3.3.
+- A evidence: `KeyboardInput.tick()` lines 11-46, SHA-256 `7be11425906be051c83e275f359816546e4677b16d212156380e8d2e9258654a`; `KeyBinding.setAll()` lines 40-47, SHA-256 `29cf0668c652d8d830b3926c2be5d87bf3e8ddc43411dacbc1319c1a96eb4ecb`; `Minecraft.handleKeyboardEvents()` lines 1497-1541 and `openScreen()/lockMouse()` lines 761-795/1130-1141, SHA-256 `6778bd1f0e8aa8a29fdce3bc5285cbd3ea56fa18ca8a43afc4d88439ab12133e`; `ControlsOptionsScreen` lines 93-105, SHA-256 `a3b878360e97a06e44cc352bb6a7f23afa86a3d7dc4aea594e65b4ae212fc5b2`; `ChatScreen.keyPressed` lines 58-75, SHA-256 `2e7a96577f91e4e688b5cc4a598bae3656cede55d0c76a428b9d0d61d15c5cfe`; local-player `serverTickAi()` lines 586-597, SHA-256 `8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d`.
+- B evidence: `KeyboardInput.tick()` lines 11-46, SHA-256 `7be11425906be051c83e275f359816546e4677b16d212156380e8d2e9258654a`; `KeyBinding.setAll()` lines 40-47, SHA-256 `208ee44f87b9cbc99b5fdfa5f99f026be68677f11c25f6dd02aebf3cce9321b`; `Minecraft.handleKeyboardEvents()` lines 1486-1530 and `openScreen()/lockMouse()` lines 763-798/1120-1131, SHA-256 `0979d770e8742a07bb8c54cf7fd3449a8c43a4f48910600ffabf75f1f67ba2d9`; `ControlsOptionsScreen` lines 92-104, SHA-256 `ddf26d661ea89ec9580cbd5432b18c2325e3864ae686269e3f339d83a47ffb2e`; `ChatScreen.keyPressed` lines 58-75, SHA-256 `cfd95fa9a2dbc32d52a8b3138353fcee3de1c93887f6cba87b4bb9e54474d099`; local-player `serverTickAi()` lines 602-613, SHA-256 `a9637065f21ad67464eb5c204c74ebf228c3bb0da8a96ddf4ae73c0490fed443`.
+- State producers/writers -> consumers/readers: Controls binds a positive character as `char + 256`. `Minecraft.handleKeyboardEvents` encodes `eventKey == 0` as `eventCharacter + 256`, calls screen handling, then writes `KeyBinding.set(code,true/false)`. ChatScreen closes via `openScreen(null)`; its null branch calls `lockMouse()`, whose active non-Mac focus-reacquisition branch calls `KeyBinding.setAll()` without `releaseAll()`. The resulting pressed state is consumed by `KeyboardInput.tick()` and copied by the camera local player's `serverTickAi()` into living movement axes.
+- Parent slices / dependencies / closure evidence: S1.3 local-player sampling/camera guard; S1.2/S3.3 axis transform remains open. A/B `KeyboardInput.java` body is identical; B's additional `Input.getMovement()` is read only by the F003 auto-jump path. Vanilla version metadata selects LWJGL 2.9.4 off macOS for both versions; exact revised Feather and LWJGL bytecode verifies A's caught out-of-range poll and B's >=256 false branch. Revised source/artifact hashes and the unavailable original derived-jar limitation are recorded in F004.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): F004 identifies a reachable difference when a user-bound character-code movement key remains physically held across chat closure and its release is not handled before the next input sample. A catches the LWJGL bounds exception, preserving the pressed state; B sets the binding false. Default movement keys below 256 are unaffected.
+- Finding IDs or checked absence/replacement path: F004; B's keyCode < 256 guard replaces A's caught out-of-range poll.
 ### Slice LOCAL-AUTO-JUMP-INPUT: obstacle-triggered local-player jump input
 
 - Inventory ID(s): `INV-TICK`, `INV-INPUT`, `INV-JUMP`, `INV-STATE`
@@ -292,6 +303,15 @@ F001 - [farmland player collision height](findings/F001-farmland-collision-heigh
 - Timestamp: 2026-10-07 16:04 UTC. Pair status at finding commit: `active`; pair report checkpoint was `f52d696cab43c3d77b0384843a5e688a8b00a880`; pair complete: no.
 - Implementation handoff: `blocked` pending independent blind review acceptance of this exact snapshot. Full-pair discovery and audit remain open.
 
+### Snapshot `FS-1.9.4-1.10.2-2026-10-08-character-key-r1` — submitted, review pending
+
+- Finding: F004; immutable finding snapshot commit `0202863998a8c6d9a3ff6555235f2add358eca1d`.
+- Finding-file SHA-256: `findings/F004-character-key-stale-movement-input.md` = `2AA3AC152B00EB0B3EB19F29D133227D3968A8534DBF69E2EE583B502D650282`.
+- Exact A/B artifact/source identities: A artifact manifest `9527dca544694daa3b4a7741be1a5b4802d8b6665c8a152a408a37a27a1b4d77`, source manifest `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`; B artifact manifest `6b402f3e6d6cf2f7b3647806364ff44214c47348fefd6949fad03e2011379116`, source manifest `91b0f478acb7b6f13463c35b268a30d2806f583402631a56f54ce2eb70d1ec71`.
+- Revised mapped artifacts: revision `feather-r1-2026-10-07`; A immutable jar SHA-256 `fbcf50795566e12b8eab0e733b136ed562c4009d707ef4a7a4994936491816a3`, revision JSON `df0a26fd4c65292530cdad638e6789cc26fcd47875fe1c3eb2daef6de7e3f915`; B jar `0c1d71990c9c0d7cc88debf7e67663bd64c8dc7de5872176088a3119527fb28b`, revision JSON `79b5688af6f5cf6eb5c006a867de841de0033b42408c8461283cd9c4b9389856`. Original derived-jar byte identity remains unproven.
+- Verified paired boundary: Controls supports character-code movement bindings; event processing writes the binding after screen handling; ChatScreen closes through `openScreen(null)`; active non-Mac focus reacquisition invokes `setAll()` without `releaseAll()`. A catches the out-of-range LWJGL poll and preserves state; B clears codes at least 256. `KeyboardInput.tick()` consumes that state into camera-player movement axes. The release-before-next-sample condition is explicit. No runtime validation or trajectory claim.
+- Independent blind reviewer: pending assignment; decision pending and no acceptance is claimed. Review F004 as this exact immutable snapshot; implementation handoff remains blocked pending review.
+- Timestamp: 2026-10-08 11:26 UTC. Pair status at finding commit: `active`; pair complete: no.
 ## Implementation reconciliation
 
 - Reconciliation status: pending
@@ -311,8 +331,8 @@ F001 - [farmland player collision height](findings/F001-farmland-collision-heigh
 
 ## Source audit closure
 
-- Coverage counts: 3 compared-no-difference; 3 source-confirmed findings submitted for review (0 accepted); 1 not-applicable; 0 blocked; 51 initial planned behavior slices pending.
-- Pending bounded-slice count: 51 initial planned behavior slices remain; revise upward whenever source navigation exposes additional distinct methods, writers, consumers or dependencies.
+- Coverage counts: 3 compared-no-difference; 4 source-confirmed findings submitted for review (0 accepted); 1 not-applicable; 0 blocked; 50 initial planned behavior slices pending.
+- Pending bounded-slice count: 50 initial planned behavior slices remain; revise upward whenever source navigation exposes additional distinct methods, writers, consumers or dependencies.
 - Unresolved gaps: inventories and the full-pair audit remain open; movement decompiler diagnostics (D1), resource closure (D2), and transitive state-writer/caller closure (D3) remain open. The source-provenance record and revised-artifact integrity checks are complete, with original derived-jar equivalence unproven.
-- Evidence/hash/correspondence audit: partial; F001–F003 source and revised immutable-artifact evidence and rail hashes are recorded. Independent operations verification passed; independent finding review remains pending.
+- Evidence/hash/correspondence audit: partial; F001–F004 source and revised immutable-artifact evidence and rail hashes are recorded. Independent operations verification passed; independent finding review remains pending.
 - Runtime validation: not performed (separate workflow).
