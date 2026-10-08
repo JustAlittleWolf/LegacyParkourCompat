@@ -90,7 +90,7 @@ abstract class LocalPlayerMixin {
             .orElse(vanilla);
     }
 
-    @Inject(method = "aiStep", at = @At("TAIL"))
+    @Inject(method = "aiStep", at = @At("HEAD"))
     private void legacyparkourcompat$tickSprintDuration(CallbackInfo ci) {
         LocalPlayer player = (LocalPlayer) (Object) this;
         MovementRuntime.find(SprintTickBehavior.class, player)
@@ -285,7 +285,12 @@ abstract class LocalPlayerMixin {
     private void legacyparkourcompat$suffocationQuery(BlockPos pos, CallbackInfoReturnable<Boolean> callback) {
         LocalPlayer player = (LocalPlayer) (Object) this;
         MovementRuntime.find(SuffocationProbeBehavior.class, player).ifPresent(behavior ->
-            callback.setReturnValue(behavior.suffocatesAt(player, pos, callback::getReturnValue))
+            callback.setReturnValue(behavior.suffocatesAt(
+                player,
+                MovementRuntime.profile(player).target(),
+                pos,
+                callback::getReturnValue
+            ))
         );
     }
 
