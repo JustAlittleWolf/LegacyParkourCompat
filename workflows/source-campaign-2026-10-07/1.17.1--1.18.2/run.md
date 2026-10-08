@@ -115,21 +115,21 @@ A/B roles: LocalPlayer#aiStep client tick; KeyboardInput#tick input; LivingEntit
 - A evidence: build/movement-campaign-2026-10-07/ready/1.17.1/mojmap/net/minecraft/world/entity/player/Player.java::maybeBackOffFromEdge, lines 1017-1044 and #isAboveGround, lines 1069-1072, SHA-256 724bb298499dabe489dffd5ce7ec81c9773619a8d2c70044911eae4c9e8ff481.
 - B evidence: build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/player/Player.java::maybeBackOffFromEdge, lines 1032-1060 and #isAboveGround, lines 1082-1085, SHA-256 bf639c1962ff90d69e4569b2b18f6fcf57ac46ef80b19686f0fbc1687fca744a.
 - State producers/writers -> consumers/readers: onGround/fallDistance/maxUpStep/noCollision -> edge gate.
-- Parent slices / dependencies / closure evidence: D-RESET-CLIP-FILTER is resolved; collision/shape closure remains open and can affect when the predicate sees support.
+- Parent slices / dependencies / closure evidence: D-RESET-CLIP-FILTER is resolved. A noCollision uses CollisionSpliterator, which may emit border shape based on the source bounding box; B noCollision checks block shapes, entities, then borderCollision using the queried box. Border/support geometry equivalence remains open under D-SHAPE-PROVIDERS and D-BORDER-MOVE-PATH.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): paired predicate and shifted-box test match; F-005 changes a producer.
+- Disposition and rationale (including concrete reachability/preconditions): for non-flying players using SELF/PLAYER movement and staying-on-ground-surface, the paired edge loops and 0.05 step updates match; isAboveGround also reads onGround/fallDistance. Query results can still differ through block/entity/border shapes, and F-005 adds a later fallDistance writer.
 - Finding IDs or checked absence/replacement path: F-005.
 
 ### Slice T-ENTITY-COLLISION: solver and state writes
 - Inventory ID(s): INV-STATE, INV-COLLISION
 - Exact behavior boundary and enclosing guards/order checked: Entity#move/#collide axis/step resolution, flags, velocity.
-- A evidence: Entity/CollisionGetter/CollisionSpliterator identified and hashed; body splitting pending.
-- B evidence: Entity/CollisionGetter/BlockCollisions identified and hashed; body splitting pending.
-- State producers/writers -> consumers/readers: delta -> position/flags/velocity/fallDistance -> player gates.
-- Parent slices / dependencies / closure evidence: D-SHAPE-PROVIDERS,D-BORDER-MOVE-PATH open.
+- A evidence: Entity#move lines 534-651, #collide 750-789, #collideBoundingBoxHeuristically 791-805, #collideBoundingBoxLegacy 807-838, and #collideBoundingBox 840-873, SHA-256 ab28e1fba924771ec048140dfd293ee5a46a7dfe81f71a1a0b1aecc1927232de; CollisionGetter#noCollision/#getCollisions/#getBlockCollisions lines 44-63, SHA-256 eb707479e75cf200731df4546a546fb984be33cf3e4a8e17d3065a916497f747; CollisionSpliterator#collisionCheck/#worldBorderCheck lines 61-117, SHA-256 c4f8158bd6778159946ebf16c22a6c12f5a4bccb40e2f1215f4fc930bb218bd0.
+- B evidence: Entity#move lines 543-674, #collide 777-801, #collideBoundingBox 803-817, and #collideWithShapes 819-854, SHA-256 2228fdaca5793171cbd94038306d571a6ada78ca96f5734efb4cada5b744c10a; CollisionGetter#noCollision/#getBlockCollisions/#borderCollision lines 46-78, SHA-256 ed62e6b800ec057c1269d3cc4e2fb7c0cc2037370223fac99f41371e000c6b5c; BlockCollisions#computeNext lines 18-96, SHA-256 11fecadc012d0a544097bf0febfa1a83da5a534e6182ee7df7b2334b6ee80127.
+- State producers/writers -> consumers/readers: requested delta -> collision result -> position, horizontal/vertical/onGround flags, velocity cancellation, fallDistance; B additionally writes minorHorizontalCollision and verticalCollisionBelow. LocalPlayer reads minorHorizontalCollision for sprint-stop; server player packet handling also reads verticalCollisionBelow and remains within D-PACKET-RECONCILIATION.
+- Parent slices / dependencies / closure evidence: D-SHAPE-PROVIDERS,D-BORDER-MOVE-PATH,D-SHAPES-COLLIDE-OVERLOAD open; D-ENTITY-COLLISIONS filter equivalence is resolved for the local-player query.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): solver changed; axes, ties, providers and post-move writes not closed.
-- Finding IDs or checked absence/replacement path: downstream F-001,F-004,F-005.
+- Disposition and rationale (including concrete reachability/preconditions): A selects the legacy shape solver when at least two requested components are nonzero; B uses collideWithShapes for all movement. The inspected solvers request Y, then the smaller-magnitude horizontal axis, then X and the remaining horizontal axis; delegated Shapes.collide overloads, candidate materialization/order, border admission and shape providers remain open. B adds two movement collision flags.
+- Finding IDs or checked absence/replacement path: F-001 consumes B minorHorizontalCollision; F-004 covers auto-jump border query; F-005 consumes B fallDistance reset.
 
 ### Slice T-WORLD-PROPERTIES: block/fluid registrations
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
@@ -202,7 +202,7 @@ A/B roles: LocalPlayer#aiStep client tick; KeyboardInput#tick input; LivingEntit
 - Finding IDs or checked absence/replacement path: F-007.
 ## Dependency queue and blockers
 
-Resolved: D-ENTITY-COLLISIONS (paired LocalPlayer entity query and EntityGetter/Entity.canCollideWith); D-RESET-CLIP-FILTER (B ClipContext block/fluid predicates, resetFallDistance assignment, tag and water resource entries). Open: D-INPUT-ASSIGNMENTS,D-SHAPE-PROVIDERS,D-BORDER-MOVE-PATH,D-ELYTRA-ENTRY,D-EFFECT-DATA,D-ATTRIBUTE-REGISTRY,D-ENCHANTMENT-DATA,D-SHAPE-REGISTRY,D-BLOCK-CALLBACKS,D-MOVEMENT-TAGS,D-EXTERNAL-VELOCITY,D-MOUNT-INPUT,D-PACKET-RECONCILIATION. Each can affect movement; pair discovery owns retrieval. No external blocker.
+Resolved: D-ENTITY-COLLISIONS (paired LocalPlayer entity query and EntityGetter/Entity.canCollideWith); D-RESET-CLIP-FILTER (B ClipContext block/fluid predicates, resetFallDistance assignment, tag and water resource entries). Open: D-INPUT-ASSIGNMENTS,D-SHAPE-PROVIDERS,D-BORDER-MOVE-PATH,D-SHAPES-COLLIDE-OVERLOAD,D-ELYTRA-ENTRY,D-EFFECT-DATA,D-ATTRIBUTE-REGISTRY,D-ENCHANTMENT-DATA,D-SHAPE-REGISTRY,D-BLOCK-CALLBACKS,D-MOVEMENT-TAGS,D-EXTERNAL-VELOCITY,D-MOUNT-INPUT,D-PACKET-RECONCILIATION. Each can affect movement; pair discovery owns retrieval. No external blocker.
 
 ## Finding index
 
@@ -218,8 +218,8 @@ Resolved: D-ENTITY-COLLISIONS (paired LocalPlayer entity query and EntityGetter/
 ## Resume checkpoint
 
 - Last completed: T-SPRINT,T-ELYTRA,T-AUTOJUMP-ORDER,T-AUTOJUMP-BORDER,T-FALL-RESET.
-- Next: close T-EDGE-GATE, then T-ENTITY-COLLISION by comparing paired Entity#move/#collide, CollisionGetter#noCollision/#borderCollision, BlockCollisions and Shapes#collide paths; continue T-INPUT by tracing KeyboardInput and ClientPacketListener input assignments; continue T-WORLD-PROPERTIES and T-MODIFIERS through block/resource registrations, callbacks, tags, attributes, effects and equipment; expand INV-EXTERNAL beyond the four bounded slices.
-- Outstanding: D-INPUT-ASSIGNMENTS,D-SHAPE-PROVIDERS,D-BORDER-MOVE-PATH,D-ELYTRA-ENTRY,D-EFFECT-DATA,D-ATTRIBUTE-REGISTRY,D-ENCHANTMENT-DATA,D-SHAPE-REGISTRY,D-BLOCK-CALLBACKS,D-MOVEMENT-TAGS,D-EXTERNAL-VELOCITY,D-MOUNT-INPUT,D-PACKET-RECONCILIATION.
+- Next: resolve D-SHAPES-COLLIDE-OVERLOAD, D-SHAPE-PROVIDERS and D-BORDER-MOVE-PATH to close T-EDGE-GATE/T-ENTITY-COLLISION; continue by comparing paired Shapes#collide paths and actual block collision providers; continue T-INPUT by tracing KeyboardInput and ClientPacketListener input assignments; continue T-WORLD-PROPERTIES and T-MODIFIERS through block/resource registrations, callbacks, tags, attributes, effects and equipment; expand INV-EXTERNAL beyond the four bounded slices.
+- Outstanding: D-INPUT-ASSIGNMENTS,D-SHAPE-PROVIDERS,D-BORDER-MOVE-PATH,D-SHAPES-COLLIDE-OVERLOAD,D-ELYTRA-ENTRY,D-EFFECT-DATA,D-ATTRIBUTE-REGISTRY,D-ENCHANTMENT-DATA,D-SHAPE-REGISTRY,D-BLOCK-CALLBACKS,D-MOVEMENT-TAGS,D-EXTERNAL-VELOCITY,D-MOUNT-INPUT,D-PACKET-RECONCILIATION.
 - Resume validation command from repository root: python workflows/movement-discovery/check_completion.py workflows/source-campaign-2026-10-07/1.17.1--1.18.2/. This is a schema/status check only.
 
 ## Finding snapshots (not pair freeze)
