@@ -260,22 +260,23 @@ F001 - [farmland player collision height](findings/F001-farmland-collision-heigh
 
 ## Resume checkpoint
 
-- Checkpoint date/time: 2026-10-08 09:44 UTC
-- Worktree: `C:\Users\Wolfi\.codex\worktrees\movement-source-1-9-4-1-10-2\LegacyParkourCompat`; branch: `feat/source-discovery-movement-source-1-9-4-1-10-2`; prior source-evidence checkpoint before this resume-index update: `dcd8b8e69f96ececae8b724d4a0ac53dfe2f2feb`.
-- Default-branch integration: `main` is `002137b227676caea77f6832b9f4c8d0b6200bff`; merge reported `Already up to date`. No default-branch commits landed after the recorded base.
-- Last completed slices: `BLK-RAIL-OUTLINE-COLLISION`, `PLAYER-JUMP-AND-FLIGHT-RELATIVE`, and `LIVING-WATER-FRICTION-BASE-VALUE` compared-no-difference; `BLK-FARMLAND-COLLISION`, `LIVING-FLUID-NO-GRAVITY`, and `LOCAL-AUTO-JUMP-INPUT` have source-confirmed findings; `LOCAL-FALL-FLYING-SOUND-STATE` is not applicable to player movement.
-- Last resumed work: revalidated the exact ready JSON IDs and immutable Feather revision records; checked current `LivingEntity.moveRelative`, `LivingEntity.mobTick`, player override/accessor dispatch, and targeted bytecode for both revision jars. D1 is resolved for the published diagnostics list; F001–F003 remain source findings awaiting reviewer decisions. Broader inventories are still open.
-- Next action: continue the S1 local-player tick/input inventory and close each newly discovered producer/consumer dependency into a bounded slice; then proceed through the required state, collision, world, modifier and external inventories. No pair freeze or implementation handoff is claimed.
-- Exact resume commands (PowerShell from the worktree root):
+- Checkpoint date/time: 2026-10-08 13:15 UTC
+- Worktree: `C:\Users\Wolfi\.codex\worktrees\movement-source-1-9-4-1-10-2-resume2\LegacyParkourCompat`; branch: `feat/source-discovery-movement-source-1-9-4-1-10-2`; parent HEAD before this checkpoint update: `644a006e7e0addb6240ee1d97a3eb2e5ef947b88`. Worktree was clean before this report edit.
+- Default-branch base: `main` at `002137b227676caea77f6832b9f4c8d0b6200bff`; existing integration check reported already up to date. Pair remains incomplete; no handoff integration is claimed.
+- Last commits: F004 immutable finding `0202863998a8c6d9a3ff6555235f2add358eca1d`; F004 snapshot ledger `69825c9549d1089d5f3bda040142cb02455db51f`; input-rotation no-difference slice `64f4ae147158c04d04191427cbadb183e18bc223`; local-player tick-entry no-difference slice `644a006e7e0addb6240ee1d97a3eb2e5ef947b88`.
+- Completed bounded slices: `BLK-RAIL-OUTLINE-COLLISION`, `PLAYER-JUMP-AND-FLIGHT-RELATIVE`, `LIVING-WATER-FRICTION-BASE-VALUE`, `ENTITY-RELATIVE-INPUT-ROTATION`, and `LOCAL-PLAYER-TICK-ENTRY` are compared-no-difference; `BLK-FARMLAND-COLLISION`, `LIVING-FLUID-NO-GRAVITY`, `LOCAL-AUTO-JUMP-INPUT`, and `LOCAL-KEYBOARD-INPUT-SAMPLING` have findings F001-F004; `LOCAL-FALL-FLYING-SOUND-STATE` is not applicable. S1.3 and S1.4 remain open.
+- Finding review: F001-F003 are source findings with reviewer decisions pending; F004 snapshot `FS-1.9.4-1.10.2-2026-10-08-character-key-r1` (finding commit `0202863998a8c6d9a3ff6555235f2add358eca1d`, finding SHA-256 `2AA3AC152B00EB0B3EB19F29D133227D3968A8534DBF69E2EE583B502D650282`) awaits reviewer assignment/decision. No acceptance is claimed.
+- Last source work: verified the character-key stale-state route; compared `Entity.updateVelocity` body A/B (identical hash) and identical `MathHelper` helper; compared the exact local-player tick wrapper body (identical hash). D1 is resolved for the published diagnostics list. Broader movement inventories remain open.
+- Next bounded comparison (not yet recorded as a slice): rewalk local-player sprint start/stop gates and timer ordering, `LOCAL-PLAYER-SPRINT-GATES`, in the exact published source paths:
+  - A `D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.9.4\ornithe-feather\net\minecraft\client\entity\living\player\LocalClientPlayerEntity.java`, full-file SHA-256 `8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d`; candidate sprint block lines 645-688; full `mobTick()` body SHA-256 `fb296e6b9f336c4050ad0ad2e40cd295a07b6de469d5febd0ca8ffd366f7c194`.
+  - B `D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.10.2\ornithe-feather\net\minecraft\client\entity\living\player\LocalClientPlayerEntity.java`, full-file SHA-256 `a9637065f21ad67464eb5c204c74ebf228c3bb0da8a96ddf4ae73c0490fed443`; candidate sprint block lines 685-711; full `mobTick()` body SHA-256 `1bb48dea9ee6a346f7229154504012276d59d5d57a9b9a71155808f14a9806cd`.
+  - Preliminary source read indicates A aliases threshold `0.8F` through local `f` while B uses literal `0.8F` in the sprint gates; B's distinct auto-jump timer block precedes them (F003). Recheck exact guards/order, timer and sprint-state writers, and the `S2.8` direct sprint-gate consumers before recording any disposition. No S1.4 result is claimed.
+- Other open dependencies: `D2` resource/default closure; `D3` transitive state-writer/caller closure; remaining `S1.3` prior/current capture and complete tick dispatch; S1.4 sprint gates/timers; `S3.1-S3.9` travel branches/scales; `S2/S4-S7` inventories; and the full-pair independent source audit. Original derived-jar identity to revised immutable artifacts remains unproven.
+- Exact resume commands (PowerShell from worktree root):
   1. `python workflows/movement-discovery/check_completion.py workflows/source-campaign-2026-10-07/1.9.4--1.10.2/`
-  2. `Get-Content 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.9.4\ornithe-feather\net\minecraft\entity\living\LivingEntity.java' | Select-Object -Skip 1301 -First 169`
-  3. `Get-Content 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.10.2\ornithe-feather\net\minecraft\entity\living\LivingEntity.java' | Select-Object -Skip 1331 -First 175`
-  4. `javap -c -p -classpath 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\revisions\derived-artifact-snapshots\feather-r1-2026-10-07\1.9.4\ornithe-feather\client-ornithe-feather.jar' net.minecraft.entity.living.LivingEntity`
-  5. `javap -c -p -classpath 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\revisions\derived-artifact-snapshots\feather-r1-2026-10-07\1.10.2\ornithe-feather\client-ornithe-feather.jar' net.minecraft.entity.living.LivingEntity`
-- Continue with S1 local-player input/tick ordering, then route each discovered caller and state writer into the bounded S1–S7 coverage slices; do not inspect implementation or wiki material before full-pair freeze.
-- Outstanding dependencies: D2–D3 and full-pair independent source audit; D1 and D-ART are resolved for the recorded evidence, with the original-derived-jar limitation preserved.
-- Assumptions requiring verification: although the current movement-diagnostics list is reviewed, the broader per-tick call graph and transitive state-writer dependencies remain open; resource/state-writer inventories and full paired tick coverage are incomplete. Revised-artifact byte identity to unavailable original derived jars is unproven.
-
+  2. `Get-Content 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.9.4\ornithe-feather\net\minecraft\client\entity\living\player\LocalClientPlayerEntity.java' | Select-Object -Skip 644 -First 50`
+  3. `Get-Content 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.10.2\ornithe-feather\net\minecraft\client\entity\living\player\LocalClientPlayerEntity.java' | Select-Object -Skip 684 -First 28`
+- Pair status: active; no blind-discovery freeze, pair closure, implementation handoff, or runtime validation is claimed.
 ## Finding snapshots (not pair freeze)
 
 ### Snapshot `FS-1.9.4-1.10.2-2026-10-07-r1` — superseded before review
@@ -353,7 +354,7 @@ F001 - [farmland player collision height](findings/F001-farmland-collision-heigh
 
 ## Source audit closure
 
-- Coverage counts: 3 compared-no-difference; 4 source-confirmed findings submitted for review (0 accepted); 1 not-applicable; 0 blocked; 50 initial planned behavior slices pending.
+- Coverage counts: 5 compared-no-difference; 4 source-confirmed findings submitted for review (0 accepted); 1 not-applicable; 0 blocked; 48 initial planned behavior slices pending.
 - Pending bounded-slice count: 48 initial planned behavior slices remain; revise upward whenever source navigation exposes additional distinct methods, writers, consumers or dependencies.
 - Unresolved gaps: inventories and the full-pair audit remain open; movement decompiler diagnostics (D1), resource closure (D2), and transitive state-writer/caller closure (D3) remain open. The source-provenance record and revised-artifact integrity checks are complete, with original derived-jar equivalence unproven.
 - Evidence/hash/correspondence audit: partial; F001–F004 source and revised immutable-artifact evidence and rail hashes are recorded. Independent operations verification passed; independent finding review remains pending.
