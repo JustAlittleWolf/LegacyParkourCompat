@@ -282,13 +282,13 @@ Each entry is a bounded behavior boundary. Refine broad plans into exact member 
 ### Slice S3.2: Ground friction, speed-factor consumption and post-travel drag
 
 - Inventory ID(s): INV-TICK, INV-WORLD-MOVEMENT, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Ground friction, speed-factor consumption and post-travel drag. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: Paired `LivingEntity.handleRelativeFrictionAndCalculateMovement()`, `handleOnClimbable()`, `getFrictionInfluencedSpeed()`, `getFlyingSpeed()` and `getBlockSpeedFactor()`, plus `Entity.getBlockPosBelowThatAffectsMyMovement()`, `getOnPos()` and `getBlockSpeedFactor()`. A helper ranges 2534-2544, 2561-2584, LivingEntity block-speed override 495-497; B ranges 2623-2633, 2650-2673, override 491-493. Both helpers add relative movement first, clamp climbable movement and reset fall distance, call `move`, then optionally replace Y with `0.2` when horizontal collision or jumping and climbable/powder-snow support applies. Friction speed uses the same grounded `speed * (0.21600002F / (friction * friction * friction))` expression, otherwise passenger-dependent flying speed. Ground-support block lookup remains `getOnPos(0.500001F)`. Both Entity block-speed methods first inspect current block; WATER/BUBBLE_COLUMN current state returns its speed factor directly, otherwise a non-1 current factor wins or falls back to the movement-support block. LivingEntity applies the same `Mth.lerp((float)MOVEMENT_EFFICIENCY, superFactor, 1.0F)` afterward.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/LivingEntity.java` SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`; `ready/1.21.11/mojmap/net/minecraft/world/entity/Entity.java` SHA-256 `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java` SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`; `ready/26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java` SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`.
+- State producers/writers -> consumers/readers: Ground flag and support block friction determine acceleration; input/yaw and movement speed feed relative acceleration; climbable and powder-snow state affect pre/post-move Y; `Entity.move()` consumes delta and collision/support results; block speed factor is multiplied into remaining X/Z delta after movement, with LivingEntity movement-efficiency interpolation. Exact support position, collision and shape providers and block property/resource registrations remain open in S4/S5/D2; movement attributes remain S6.2.
+- Parent slices / dependencies / closure evidence: S3.1/S3.3/S3.5/S3.9/S4.1-S4.7/S5.1-S5.8/S6.2 provide call, air/climbing branch, vector, collision, shape, block and attribute dependencies. The paired helper/property-consumption source paths are now exact, but those providers are not closed.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The paired math and operation order match across friction-influenced speed, climbable clamping, movement, post-collision Y override and block-speed-factor selection. The support coordinate offset, water/bubble special case and movement-efficiency interpolation are also the same. This is a bounded consumer comparison; exact support/collision/resource values remain open, so it is not terminal.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S3.3: Air acceleration, drag/gravity and velocity thresholds
@@ -782,7 +782,7 @@ F-1 candidate snapshot submitted for blind review; acceptance is pending and doe
 
 ## Source audit closure
 
-- Coverage counts by status: 7 pending; 38 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
+- Coverage counts by status: 6 pending; 39 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
 - Required inventory status and evidence: all 7 pending; exact source inputs are verified, but full movement/provider/resource inventories remain incomplete.
 - Open dependencies: D2
 - Unresolved gaps and limits: inherited tick/travel/collision body comparisons, movement state producers/consumers, shape providers/registrations, and data/resource dependency closure.
