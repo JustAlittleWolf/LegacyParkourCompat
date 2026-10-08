@@ -37,7 +37,7 @@
     {
       "threadId": "01a11bb1-adb2-7212-9a90-26537278d788",
       "role": "implementation_static_review",
-      "status": "Active sleep revised-code fc9962a8/proof04ba4630 independent review; private object locator supplied.",
+      "status": "completed scope revision2 ACCEPT baeb1852; idle",
       "scope": "four pending code patches",
       "resultCommit": "bdb6443; notes d3190b4"
     },
@@ -134,7 +134,7 @@
       "threadId": "01a11bb5-8eb0-7813-bb21-160e97f4652c",
       "role": "source",
       "pair": "1.15.2--1.16.5",
-      "status": "Active remaining source inventory continuation from58ce0a4bd48f55765b8e977c4bf1b31a93f39bb0; piston head threshold frozen binding requested, partial.",
+      "status": "active full remaining source inventory continuation from 7cb6757d",
       "ref": "feat/source-discovery-movement-source-1-15-2-1-16-5@d2511a34e9586231464fee42ab94f566c3f0459f",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -153,7 +153,7 @@
       "role": "posefit_correction",
       "pair": null,
       "ref": "e6b61bd7f1334b7e4fa49a9bd0a5929e833338a8",
-      "status": "Completed sleep correction fc9962a8/proof04ba4630 in private build/codex-worktrees clone; independent re-review active, owner idle."
+      "status": "active BED restitution minimal implementation/coverage reconciliation after source ACCEPT daab0b80"
     },
     {
       "threadId": "01a11bbc-b876-7182-9025-3b589c5cd50c",
@@ -167,14 +167,14 @@
       "role": "ops_audit",
       "pair": null,
       "ref": null,
-      "status": "Completed backlog50f25cde and coordinator conflict reconciliation/adoption b18775b7; idle."
+      "status": "completed checkpoints fcc875ec and 6c9592e; idle; backlog adopted by root"
     },
     {
       "threadId": "01a11bbe-a775-7180-a017-d2386dcd9fb3",
       "role": "blind_source_review",
       "pair": null,
       "ref": "aa66894 and105ec98",
-      "status": "Completedd6664c08 four-source reviews; active pane-epsilon blind review e10bc0dd."
+      "status": "active blind F-WATER-SPRINT dual-snapshot source review after bounded BED ACCEPT daab0b80"
     },
     {
       "threadId": "01a11bc1-f2a2-7342-82ea-4072acd7ff4b",
@@ -980,20 +980,20 @@
       "reportTranscription": "4ade0220f045bb3a97d4c2d98a96ce7dd8d6ab88",
       "verifiedCommit": "4ade0220a6c5cfa299c08acab57594270d444660"
     },
-    "fixStatus": "Not independently accepted; original reviewer authored the correction.",
+    "fixStatus": "Independently ACCEPTED by fresh reviewer at 4a01f7e2f589231ee9abe8787e6327f3f04eea1c",
     "freshIndependentReviewer": "01a11bb1-adb2",
-    "freshReviewStatus": "active; full resulting code review, report-only and no code edits",
-    "integration": "neither original REQUEST CHANGES code nor proposed correction integrated; runtime unverified"
+    "freshReviewStatus": "completed ACCEPT",
+    "integration": "Corrected code integrated and built with all Test tasks disabled on local main 3a60fe735560e478bf0aa0d05f5e306c74800f6a; vanilla source acceptance gap separately under review; runtime unverified"
   },
   "sourcePair1171to1182": {
-    "workerReportCommit": "263d111b",
-    "status": "PARTIAL; worker report was based on stale origin/main 0bfb72a.",
+    "workerReportCommit": "e531086eecc778432b40b2b9ef39499b8a7f0dba",
+    "status": "Full-pair SOURCE COVERAGE freeze ACCEPT at e0e36eff36a92be82327bf2a8140f18141d7cc21; individual 14 findings not yet accepted; mutable pair ledger remains partial",
     "primaryMainRequired": "7e7b7bb7068ec7b68f3a8f09cbb42bc498a04bf4",
     "ownerTask": "/root/source_1171_1182_fresh",
-    "ownerStatus": "active follow-up to merge primary main and publish terminal immutable freeze.",
-    "next": "After final freeze, schedule a blind full-pair coverage audit. Do not mark complete."
+    "ownerStatus": "completed author response 6334207dcbd1f06a97c99d489de12df3d4e474e2; final 351b75fdcd166ea8a1d05d4158996697fac59576 includes current main 3a60fe735560e478bf0aa0d05f5e306c74800f6a",
+    "next": "Complete independent F001-F014 snapshot reviews on 01a11bcd-f62a-7610-8eff-f9782f3d072d, then scope/implementation adjudication. Preserve count erratum and F014 environment condition."
   },
-  "all26SourcePairsStatus": "PARTIAL; all 26 pairs remain partial pending complete inventories and independent full-pair audits.",
+  "all26SourcePairsStatus": "Campaign PARTIAL. 1.17.1--1.18.2 source coverage freeze accepted; its individual finding acceptance/implementation gates remain open. Other pair inventories/audits remain open; no runtime parity claimed.",
   "priorNextAcceptedIntegrationBatch": {
     "finding": "F005 saved FallFlying",
     "code": "b215d723c22cf2c73601b7807056ba0d23fdbf23",
@@ -1009,11 +1009,27 @@
     "integrationRecords": {
       "sleep": "a5c191df557cd152d578150c689227897ac33256; accepted source chain independently verified at 33baf5c6; implementation corrected, independently accepted, integrated and built with all Test tasks disabled; runtime unverified",
       "slime": "a5c191df557cd152d578150c689227897ac33256; bounded no-code disposition integrated; runtime unverified",
-      "sprintStartWaterInput": "3a60fe735560e478bf0aa0d05f5e306c74800f6a; corrected code ACCEPT and integrated/build recorded, all Test tasks disabled; F-WATER-SPRINT vanilla source snapshot remains candidate with no exact independent acceptance chain found"
+      "sprintStartWaterInput": "3a60fe735560e478bf0aa0d05f5e306c74800f6a; corrected code ACCEPT and integrated/build recorded, all Test tasks disabled; F-WATER-SPRINT vanilla source snapshot remains candidate with no exact independent acceptance chain found",
+      "sprintSourceAcceptanceGap": {
+        "reviewer": "01a11bbe-a775-7180-a017-d2386dcd9fb3",
+        "status": "active independent source review; integrated code/build acceptance is separate",
+        "integratedSnapshot": {
+          "commit": "3a60fe735560e478bf0aa0d05f5e306c74800f6a",
+          "path": "workflows/source-campaign-2026-10-07/1.12.2--1.13.2/findings/F-WATER-SPRINT.md",
+          "gitBlob": "ec3f21a967cb1b71e775295de3e5d1be060cd95f",
+          "rawSHA256": "8698af8d4474a11725abdcfb1aabcea8a84e6fb44c31a8254bf6a40810b5f114"
+        },
+        "newerSourceSnapshot": {
+          "commit": "2dae7b235bde47c7837fd4092ec67ccb014352f2",
+          "gitBlob": "2595ba0c83a20f5543235759e789121bb1b0aa68",
+          "rawSHA256": "ebc678ad4522a14a10549bc38a1f7958dcedcabd6de290a262c81d6c726d46f1"
+        },
+        "note": "Two immutable versions differ; do not transfer acceptance between bytes. Newer source version includes revised Feather provenance."
+      }
     },
     "mc1204To1206": {
       "boundaryMemo": "source boundary independently ACCEPTED for bounded claims",
-      "scopeProof": "r1 received REQUEST CHANGES for stale boundary wording despite per-claim ACCEPT; author published r2 at 2d88ee12481b66b739d613f746bc421cc32e0db5 (SHA-256 da6236f402ebbdd6dac5cfdc84c7d54384439050c15950639f4c33d342c2412c); fresh independent review 01a11bb1-adb2-7212-9a90-26537278d788 active",
+      "scopeProof": "Revision 2 at 2d88ee12481b66b739d613f746bc421cc32e0db5 independently ACCEPTED at baeb1852; accepted proof/review queued with MC02 serial integration. Prior REQUEST CHANGES preserved.",
       "mc02Code": "implementation review ACCEPTED; integration/build remain queued behind exact source preparation",
       "laneSeparation": "scope proof and code review are distinct; do not infer full-pair completion or runtime"
     },
@@ -1038,8 +1054,21 @@
       "mcpkOwner": "01a11bb3-e236-7343-86a7-4c51ecc20b98 active on full remaining independent MCPK audit from r5; no partial-batch stop"
     },
     "piston": "source finding accepted; scope proof review remains active; first exact cutover unknown, 1.15.1 unassigned; no production code/decompilation",
-    "sourcePreparation": "exclusive owner 01a11bb1-c29c-7f93-a858-c0d55f71ddc1 is hash-validating exact 1.11 sources before 1.11.1/1.16 preparation; no full handoff yet",
+    "sourcePreparation": "Exclusive owner published and verified exact 1.11 and 1.11.1 Feather sources; preparing 1.16 Mojmap before accepted MC02 serial build/integration. Full publication handoff pending.",
     "roleCap": "20 concurrent roles including coordinator; latest owner reports preserve cap; no additional nested dispatch authorized or recorded",
-    "testsBuildRuntime": "no tests/build/runtime were run by this documentation checkpoint; prior integration build evidence is recorded above only"
+    "testsBuildRuntime": "no tests/build/runtime were run by this documentation checkpoint; prior integration build evidence is recorded above only",
+    "bed": {
+      "snapshot": "d90a4c13d7ac63984a758aa3f3a6ce320cecac69",
+      "sourceReview": "daab0b806cf4fb33185ac294bea18d4f4a108e7f",
+      "decision": "ACCEPT for bounded fresh-entity ordinary-fall witness only; not settled standing departure",
+      "implementationOwner": "01a11bbc-a6b5-71e0-a621-4188022be823",
+      "implementationStatus": "active minimal coverage reconciliation/implementation; preserve older closer bed deltas and existing slime behavior; no build yet"
+    },
+    "source1516Continuation": {
+      "threadId": "01a11bb5-8eb0-7813-bb21-160e97f4652c",
+      "checkpoint": "7cb6757d",
+      "status": "active continuation of all remaining inventories; no arbitrary batch stop; no nested workers"
+    },
+    "checkpointOwner": "Root adopted completed ops backlog fcc875ecf28b11ae381d7fd6ecc5a9bab540c4bc; ops checkpoint owner is idle. Latest event updates are recorded here."
   }
 }
