@@ -159,7 +159,7 @@
       "role": "elytra_gate_correction",
       "pair": null,
       "ref": "a5d07341d941ce2c0b9df1e392af9a40b1fbb9e9",
-      "status": "completed; slipperinessnew minY-.5000001 code tipad684f4 pendingreview; edgebackoff alreadycovered proof"
+      "status": "active accepted-source slipperiness extension1.16..1.19.4 implementation; independent code review required"
     },
     {
       "threadId": "01a11bbe-910d-7c02-9261-b0d01b6822ed",
@@ -369,7 +369,7 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T15:08:10.3810587Z",
+    "observedAt": "2026-10-08T15:09:07.8909937Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
@@ -491,11 +491,14 @@
     "next": "reactivate isolated opsaudit when slot frees; add missing exactrecords and fixmislinks, then prioritize uncoveredacceptedmechanics includingpassengercrouchinput/sleep/sprint resets"
   },
   "slipperinessRangeFollowUp": {
-    "status": "active focused reconciliation worker preparing immutable source-family snapshot; independent blind review pending",
+    "status": "source-only independent ACCEPT65b711d6; minimal implementation extension assigned; code review pending",
     "sourceObservation": "implementationreviewer reports exact ready sources minY-.5000001 through1.19.4, getOnPos(.500001F) by1.20.1",
     "currentPatch": "ad653ac/ad684f4 adds1.15.2 handler only; selected1.16+ defaults native, pre-existinggap remains",
     "next": "collect final review sourcepaths/hashes, obtain immutable independent source-family range snapshot/review before minimal registration extension; keep normaldiscovery owners blind to implementation",
-    "claimLimit": "bounded1.15.2 ACCEPT would not prove all laterprofiles correct"
+    "claimLimit": "bounded1.15.2 ACCEPT would not prove all laterprofiles correct",
+    "sourceSnapshot": "5688e68528861c91031a021f484f80a90c887f2f",
+    "sourceReview": "65b711d6a5145dbcc979d982de334e2a762f401c",
+    "sourceReviewLimit": "ten exact ready endpoints1.15.2..1.19.4 accepted,1.20.1cache/float fallback; intermediate cutoversunknown; implementation-resolution not reviewed; no fullpair/runtimeclaim"
   },
   "collaborationWorkers": [
     {
@@ -517,7 +520,7 @@
     {
       "reasoningEffort": "high",
       "model": "gpt-6-luna",
-      "status": "active independent exact-source snapshot review",
+      "status": "completed SOURCE-ONLY ACCEPT65b711d6a5145dbcc979d982de334e2a762f401c; implementation-resolution claims not reviewed",
       "tip": "2f777be9b4472bc4490864b738a99969ff983413",
       "snapshot": "5688e68528861c91031a021f484f80a90c887f2f",
       "task": "/root/review_slipperiness_range",
