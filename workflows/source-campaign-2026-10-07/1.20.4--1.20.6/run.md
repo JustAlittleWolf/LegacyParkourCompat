@@ -241,12 +241,12 @@ Each bounded behavior remains open until both exact source sides, the relevant m
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
 - Exact behavior boundary and enclosing guards/order checked: 3 / gravity, drag, levitation/slow-falling and post-travel updates; pending source navigation and full enclosing method review.
-- A evidence: 1.20.4 `LivingEntity.travel(Vec3)` lines 2035-2166, SHA-256 `f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d`; base gravity 0.08 and descending Slow Falling replaces it with 0.01.
-- B evidence: 1.20.6 `LivingEntity.travel(Vec3)` lines 2104-2233 and `getDefaultGravity()` lines 2099-2102, SHA-256 `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`; reads attribute gravity and applies `Math.min(gravity, 0.01)`. MC1204-1206-04.
-- State producers/writers -> consumers/readers: B synced GRAVITY attribute -> Entity.getGravity/ LivingEntity.getDefaultGravity -> land/fluid travel gravity and fluid-falling gravity gate -> velocity updates. Effect state and chunk-availability branch also affect this method.
-- Parent slices / dependencies / closure evidence: D-SOURCES resolved; default and attribute/Slow Falling differences recorded in MC1204-1206-04. Need close every branch, gravity-dependent helper and post-travel drag/update before terminal disposition.
+- A evidence: 1.20.4 `LivingEntity.travel(Vec3)` lines 2035-2166 and `getFluidFallingAdjustedMovement(double, boolean, Vec3)` lines 2215-2231, SHA-256 `f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d`; base gravity 0.08 and descending Slow Falling replaces it with 0.01. Water/lava quarter-gravity adjustment is gated by `!isNoGravity()`; the fluid-falling helper is gated by `!isNoGravity() && !isSprinting()`.
+- B evidence: 1.20.6 `LivingEntity.travel(Vec3)` lines 2104-2233, `getDefaultGravity()` lines 2100-2102 and `getFluidFallingAdjustedMovement(double, boolean, Vec3)` lines 2282-2298, SHA-256 `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`; reads attribute gravity and applies `Math.min(gravity, 0.01)`. Travel numeric gravity gates and the helper's `gravity != 0.0` gate consume that effective value. MC1204-1206-04.
+- State producers/writers -> consumers/readers: B syncable GRAVITY attribute -> `LivingEntity.getDefaultGravity()` / `Entity.getGravity()` -> land, fluid-falling, water and lava travel branches -> velocity updates. The paired client attribute receiver installs base values and modifiers. Server-side value provenance, effect state, chunk-availability branches and post-travel drag remain open.
+- Parent slices / dependencies / closure evidence: D-SOURCES resolved; the finding-specific player gravity source, client receiver and bounded travel/helper branches are recorded in MC1204-1206-04. Full gravity/drag/effect branch comparison remains open, including chunk fallback and post-travel updates.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): Default gravity remains 0.08. Non-default synced gravity is newly consumed; B Slow Falling caps gravity at 0.01 while A replaces it. Full gravity/drag/effect branch comparison remains open.
+- Disposition and rationale (including concrete reachability/preconditions): Default gravity remains 0.08. Non-default synced gravity is newly consumed; B Slow Falling caps effective gravity at 0.01 while A replaces it. The fluid-falling helper and water/lava quarter-gravity gates were compared for player reachability. Full gravity/drag/effect branch comparison remains open.
 - Finding IDs or checked absence/replacement path: MC1204-1206-04.
 
 ### Slice S3-ground-jump: 3 / ground jump power, jump boost and jump attribute path
@@ -728,9 +728,9 @@ Each bounded behavior remains open until both exact source sides, the relevant m
 
 ## Resume checkpoint
 
-- Last completed slice: exact source provenance/hash validation; seven bounded behaviors are compared-no-difference, including local input-to-relative-motion conversion. Snapshots MC1204-1206-01/02/03/05/06 are submitted for independent review; implementation handoffs are blocked on exact release boundaries. Sprint and jump gates have partial paired evidence and remain in-progress.
-- Task branch / checkpoint: `feat/source-discovery-movement-source-1-20-4-1-20-6`, current committed tip `d6479a0`; default-branch merge check remains for handoff.
-- Next bounded slice and exact files/members/body ranges to open: continue remaining LocalPlayer jump consumers and flight input/speed gates, then inspect pose/dimension transitions and player collision queries; preserve S1 and S3 findings as dependencies only where exact source links close.
+- Last completed checkpoint: gravity-finding helper and player-receiver dependencies were paired; MC1204-1206-04 is snapshotted at commit `0251c08`. The seven previously recorded bounded no-difference comparisons remain unchanged. Findings MC1204-1206-01/02/03/04/05/06 await independent blind review; no reviewer is assigned. Implementation handoff remains blocked because the first changed release is unknown within (1.20.4, 1.20.6].
+- Task branch / checkpoint: `feat/source-discovery-movement-source-1-20-4-1-20-6`, current committed tip `0251c08`; default-branch merge check remains for handoff. No unsaved finding edits remain; the resume/log update following this snapshot is the next report-only commit.
+- Next bounded comparison (do not start until resuming): S2 player pose selection and dimensions. Read only the published 1.20.4 and 1.20.6 Mojmap files under `D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\<version>\mojmap`; begin with `net/minecraft/world/entity/LivingEntity.java` and `net/minecraft/world/entity/player/Player.java`. Trace the complete player-reachable pose selection, dimensions lookup/refresh and eye-height consumers in paired methods; record exact body ranges and file hashes before closing either slice. Do not use mod code, wiki material, or other worker checkouts.
 
 Resume with these read-only source navigation commands from the repository root (use outputs only as navigation, then record exact method ranges/hashes in the ledger):
 
@@ -740,7 +740,7 @@ $B = 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\
 rg -n -C 6 'calculateImpulse|public void tick|public Vec2 getMoveVector|hasForwardImpulse' "$A/net/minecraft/client/player/KeyboardInput.java" "$B/net/minecraft/client/player/KeyboardInput.java" "$A/net/minecraft/client/player/Input.java" "$B/net/minecraft/client/player/Input.java"
 rg -n -C 8 'public void aiStep|jumpTriggerTime|isAlwaysFlying|isSprinting|input\.jumping|public void travel\(Vec3\)' "$A/net/minecraft/client/player/LocalPlayer.java" "$B/net/minecraft/client/player/LocalPlayer.java" "$A/net/minecraft/world/entity/player/Player.java" "$B/net/minecraft/world/entity/player/Player.java" "$A/net/minecraft/world/entity/LivingEntity.java" "$B/net/minecraft/world/entity/LivingEntity.java"
 ```
-- Outstanding dependencies and owners: 37 pending slices and 12 in-progress slices require exact A/B methods, writers/readers, callers, resources and dependency closure; seven slices are compared-no-difference. No external source-preparation blocker. A different blind source reviewer is still unassigned for the submitted individual finding snapshots and eventual full-pair audit.
+- Outstanding dependencies and owners: S3-gravity-drag remains in-progress for complete drag, levitation/Slow Falling and post-travel update closure; S2-pose-selection and S2-dimensions remain open for the next bounded comparison. The audit-closure tally currently records 40 pending, 10 in-progress and 6 compared-no-difference; reconcile that tally against the detailed ledger before pair freeze. No external source-preparation blocker. A different blind source reviewer is still unassigned for the six submitted finding snapshots and eventual full-pair audit.
 - Current assumptions requiring verification: per-method movement body integrity and complete class/member correspondence must still be verified despite the successful source diagnostics.
 
 ## Finding snapshots (not pair freeze)
@@ -765,6 +765,11 @@ rg -n -C 8 'public void aiStep|jumpTriggerTime|isAlwaysFlying|isSprinting|input\
   - Review status: submitted; independent reviewer not yet assigned, decision pending. No acceptance is claimed.
   - Finding dependency status: input-to-consumer path closed; wider S4 collision audit is out of the stated finding consequence.
   - Implementation handoff: blocked. Exact first changed release remains unknown within (1.20.4, 1.20.6]; 1.20.5 source is not in this pair's published source roster. The snapshot records a source finding, not an implementation-ready release boundary.
+  - The pair remains partial; snapshot review does not alter active status or open-slice counts.
+- `MC1204-1206-04` submitted for independent blind source review: finding file `findings/MC1204-1206-04.md`, SHA-256 `405a295fd0ca7b7b00311f234745e748ff50acdd437ca9cc019bd4e746966918`; immutable snapshot commit `0251c08`. Exact A/B artifact manifest hashes are `ee3efc771d264c0bc49d5472abb9763a646f8d221841d0a61201ecd991cb3948` / `e5882622bcf22b3e3c2c96c73843a1308e11e3096f4feefd945ea5808933ce31`; source manifest hashes are `fd3c8668483e5ff208c847474f6cbd3952a909c4aa602ed98b24e3d11a9602a1` / `56aae10684471d7abb1c366bd5dd431ab976112a87e6cc5c687a68f1eff06311`.
+  - Review status: submitted; independent reviewer not yet assigned, decision pending. No acceptance is claimed.
+  - Finding dependency status: player gravity attribute builder, client attribute receiver, `Entity.getGravity`, travel, water/lava adjustments and fluid-falling helper are paired; server-side producer provenance and broader drag closure remain open.
+  - Implementation handoff: blocked. Exact first changed release remains unknown within (1.20.4, 1.20.6]; 1.20.5 source is not in this pair's published source roster.
   - The pair remains partial; snapshot review does not alter active status or open-slice counts.
 
 ## Implementation reconciliation
