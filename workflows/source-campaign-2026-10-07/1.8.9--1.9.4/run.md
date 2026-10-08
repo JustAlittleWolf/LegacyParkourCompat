@@ -775,8 +775,8 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Inventory ID(s): `INV-COLLISION`, `INV-WORLD-MOVEMENT`.
 - Exact boundary: ten paired blocks without local collision overrides; A mutable-bound access via generic collision dispatch vs B state-dependent `getShape` collision dispatch.
 - A/B provider, World, Block, and StateDefinition hashes, ten class hashes, local shape formulas and mutable-bound call sources: `findings/WORLD-23-inherited-state-shape-providers.md`.
-- Disposition: the candidate set is explicit. Most A/B literal boxes align, but Anvil and neighbor-derived Chest depend on A's singleton mutable-bound update lifecycle; the generic collision query does not refresh those bounds. No candidate is called movement-equivalent and no player result is claimed.
-- Parent/dependencies: COLL-01 establishes player reachability; enumerate the A shape-mutator producers and their order relative to collision queries before closing any of these provider behaviors.
+- Disposition: the candidate set is explicit. Most A/B literal boxes align, but Anvil and neighbor-derived Chest depend on A's singleton mutable-bound update lifecycle; the generic collision query does not refresh those bounds. WORLD-25 closes the bounded vanilla writer/consumer inventory as a conditional history/order-dependent source finding; no per-query writer is mandatory and no player trajectory is claimed.
+- Parent/dependencies: COLL-01 establishes player reachability; WORLD-25 records vanilla A bound writers and the shared collision reader. Exact runtime call order remains conditional, not a provider-local no-difference claim.
 - Status: findings.
 
 ### Slice WORLD-24: fixed inherited state-shape collision providers
@@ -787,6 +787,26 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Disposition: all eight provider-local boxes match, with no state-dependent geometry in the compared providers.
 - Parent/dependencies: world collision list and movement clipping remain open in COLL-01.
 - Status: compared-no-difference.
+
+### Slice WORLD-25: mutable-bound writers and Anvil/Chest collision consumers
+
+- Inventory ID(s): `INV-COLLISION`, `INV-WORLD-MOVEMENT`, `INV-STATE`.
+- Exact behavior boundary: A Anvil/Chest `updateShape(WorldView,BlockPos)` writes registered singleton bounds; generic A `World.getCollisions`/`Block.addCollisions` consume those fields without refreshing them; B obtains the queried state shape during collision dispatch.
+- A/B class, World, Block, Entity and vanilla updater call-site hashes, including ray tracing, player targeting, render, precipitation, arrow, rain-particle and dye callers: `findings/WORLD-25-mutable-bound-writers-anvil-chest.md`.
+- State producers/writers -> consumers/readers: latest invocation of the registered Anvil/Chest singleton's updater -> shared min/max fields -> each later A block-collision query; B candidate `BlockState` -> state-resolved shape -> collision list.
+- Disposition: bounded source writer/consumer inventory closed as a conditional history/order-dependent finding. No source call forces the relevant updater immediately before each player movement query; the exact A bounds depend on the latest preceding writer. No final clipping/trajectory result is claimed.
+- Parent/dependencies: COLL-01 player movement-to-World collision path; WORLD-23 provider candidates; render/target/other vanilla updater callers cited in the finding.
+- Status: findings.
+
+### Slice WORLD-26: neighboring-cell collision scan and protruding piston-head arms
+
+- Inventory ID(s): `INV-COLLISION`, `INV-WORLD-MOVEMENT`, `INV-STATE`.
+- Exact behavior boundary: paired A/B `World.getCollisions(Entity,Box)` block-cell enumeration plus translated piston-head state/arm boxes before collision-list append.
+- A/B World, Block, PistonHeadBlock and Entity evidence hashes, scan bounds, player-sized conditional geometric examples and dispatch reachability: `findings/WORLD-26-neighbor-cell-collision-scan.md`.
+- State producers/writers -> consumers/readers: player query box + current registered block states -> enumerated cell set -> translated/intersecting collision boxes -> COLL-01 clipping/step consumers.
+- Disposition: conditional player collision-list difference at the candidate boundary. B can append protruding head/arm boxes from cells A's range omits for the documented player-sized boxes. Full ordered collision list in a particular world and the resulting clip remain open.
+- Parent/dependencies: COLL-01 movement collision query; WORLD-15 piston-head geometry; remaining block-provider inventory and other candidate boxes.
+- Status: findings.
 
 ### Slice WORLD-FENCE-WALL-SHAPES: fence and wall neighbor-derived collision boxes
 
