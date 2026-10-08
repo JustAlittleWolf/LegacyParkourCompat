@@ -96,10 +96,10 @@ Each inventory maps to bounded source slices and remains pending until its full 
 - A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.21.1/mojmap/net/minecraft/world/entity/Entity.java move lines 598-649, SHA-256 b81905c7879e2cc5c5063a41d865c4164ad919f156306705be791d1017b99850.
 - B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.21.3/mojmap/net/minecraft/world/entity/Entity.java move lines 619-680, SHA-256 a93719c302a0381a972af75ea360465e2e3551708dd07c34d4d40b7e5173c2b9.
 - State producers/writers -> consumers/readers: requested vector -> piston/edge transforms -> collision result -> conditional setPos; deltas -> collision flags -> support/fall checks; stuck multiplier read/reset.
-- Parent slices / dependencies / closure evidence: S-BLOCK-CONTACT; collision implementation, support query, epsilon consequences and callers remain open.
+- Parent slices / dependencies / closure evidence: S-BLOCK-CONTACT; the tiny-position-write branch is isolated in finding F-MOVE-TINY-POSITION-WRITE. Collision implementation, support query, other epsilon consequences and callers remain open.
 - Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): B adds a second position-write condition at requested-length-squared minus actual-length-squared below 1.0E-7; near-zero consequences are unresolved.
-- Finding IDs or checked absence/replacement path: pending closure.
+- Finding IDs or checked absence/replacement path: F-MOVE-TINY-POSITION-WRITE; other position/support/collision differences remain under review.
 
 ### Slice S-TRAVEL: travel branch formulas
 
@@ -135,15 +135,16 @@ Each inventory maps to bounded source slices and remains pending until its full 
 ## Finding index
 
 - F-BLOCK-CONTACT-TRAVERSE — findings/F-BLOCK-CONTACT-TRAVERSE.md.
+- F-MOVE-TINY-POSITION-WRITE — findings/F-MOVE-TINY-POSITION-WRITE.md.
 
 ## Resume checkpoint
 
 - Resume branch: feat/source-discovery-movement-source-1-21-1-1-21-3
 - Resume worktree: C:\Users\Wolfi\.codex\worktrees\source-1211-1213-correction\LegacyParkourCompat
-- Prior committed checkpoint: 0790278 completes the swept-contact finding's exact BlockGetter evidence after the LocalPlayer override invalidated the earlier guard conclusion. Use the latest tip of the named branch for exact current commit.
+- Prior committed checkpoint: 6aa873e records a separate tiny-position-write delta; 0790278 completes the swept-contact finding's exact BlockGetter evidence. Use the latest tip of the named branch for exact current commit.
 - Closed bounded slices: S-INPUT-AXES (compared-no-difference for directional axis calculation only); S-BLOCK-CONTACT (source-confirmed intermediate-path callback difference, finding F-BLOCK-CONTACT-TRAVERSE).
 - Open slices: S-LOCAL-TICK, S-ENTITY-MOVE and S-TRAVEL in-progress; S-EXTERNAL pending. Seven required inventory gates remain pending; full-pair freeze and independent audit remain pending.
-- Finding handoff: F-BLOCK-CONTACT-TRAVERSE is in findings/F-BLOCK-CONTACT-TRAVERSE.md; current immutable finding snapshot `07902783e412b7055b1b8d15d99ed5df92388f26` has file SHA-256 `3538afb87392bd856c3b358af9b12c84341163d188c77738244603641900d686`. The earlier guard-only snapshot was superseded after source review found that LocalPlayer overrides `isEffectiveAi()` to true on both sides; the intermediate swept snapshot was replaced after adding exact BlockGetter evidence. Current independent acceptance and implementation handoff remain pending.
+- Finding handoff: F-BLOCK-CONTACT-TRAVERSE is in findings/F-BLOCK-CONTACT-TRAVERSE.md (snapshot commit `07902783e412b7055b1b8d15d99ed5df92388f26`, SHA-256 `3538afb87392bd856c3b358af9b12c84341163d188c77738244603641900d686`); F-MOVE-TINY-POSITION-WRITE is in findings/F-MOVE-TINY-POSITION-WRITE.md (snapshot commit `6aa873efa6f2fb7ffe3f545674859a9fff82273e`, SHA-256 `bc3bcb15fe51d8cf3917d788c069ada356c332f609bcc139b0703313ce5368c1`). Earlier swept snapshots were superseded as recorded below. Independent acceptance and implementation handoff remain pending.
 - Source identities: A 1.21.1 Mojmap source manifest 900f956e00f6fc1300bb3d689ea49df2b1a57bcaa54617344ef456d95d47cb48; B 1.21.3 Mojmap source manifest d673bb5464853e3a2a92ed9b1ffe1789d4e62c097bb884f67c336fcbb3b178ce; artifact manifest identities are recorded above.
 - Next source-only commands, from the repository root:
   1. $a='D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.21.1\mojmap'; $b='D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.21.3\mojmap'; rg -n -C 5 'travelInAir|travelInFluid|travelFallFlying|updateFallFlying|checkSlowFallDistance' "$a\net\minecraft\world\entity\LivingEntity.java" "$b\net\minecraft\world\entity\LivingEntity.java"
@@ -179,9 +180,10 @@ An independent reviewer has not yet been assigned and no audit has occurred.
 - Superseded finding snapshot: F-BLOCK-CONTACT-CLIENT-GATE at commit `e8271b2f1737729282ad93dacdadb43167202b80`, file SHA-256 `71d9783c2f5d8bd5636907ea710079ee8f088c15b9f26d73a92810c18338781c`. Invalidated after source review found both `LocalPlayer.isEffectiveAi()` overrides return true, making B's local-player callback guard reachable.
 - Superseded swept snapshot: F-BLOCK-CONTACT-TRAVERSE at commit `3c595d1139b6f85f3cc525a7f9e370f2fc61a114`, file SHA-256 `ccdf65eaf5177d7e92a349d8faadad86bd46f4dbdd769c964d65b8647f7ffb4c`; replaced by a snapshot that records the exact `BlockGetter.boxTraverseBlocks` member and source hash.
 - Current finding: F-BLOCK-CONTACT-TRAVERSE; immutable source commit `07902783e412b7055b1b8d15d99ed5df92388f26`; file SHA-256 `3538afb87392bd856c3b358af9b12c84341163d188c77738244603641900d686`.
+- Current finding: F-MOVE-TINY-POSITION-WRITE; immutable source commit `6aa873efa6f2fb7ffe3f545674859a9fff82273e`; file SHA-256 `bc3bcb15fe51d8cf3917d788c069ada356c332f609bcc139b0703313ce5368c1`.
 - Evidence identities: A Mojmap source manifest `900f956e00f6fc1300bb3d689ea49df2b1a57bcaa54617344ef456d95d47cb48`, artifact manifest `09ced418cbc7530a1d6d8802ee10c05cd576b217a2129655a71f30a2ae38f486`; B Mojmap source manifest `d673bb5464853e3a2a92ed9b1ffe1789d4e62c097bb884f67c336fcbb3b178ce`, artifact manifest `0587668e5c70bb06dacf3496a4442f66dc9cdcab23f2350b844f14259cc40dcf`.
-- Independent reviewer: `01a116ce-dfe4-7b11-b7e6-d62f5014e356`; prior review request is superseded; acceptance pending for the current finding hash.
-- Implementation handoff: blocked until that reviewer accepts this exact finding snapshot. Pair status remains active; remaining inventories and full-pair audit are open.
+- Independent reviewer: `01a116ce-dfe4-7b11-b7e6-d62f5014e356`; prior block-contact review request is superseded; acceptance is pending for both current finding hashes.
+- Implementation handoff: blocked until that reviewer accepts both exact finding snapshots. Pair status remains active; remaining inventories and full-pair audit are open.
 
 ## Source audit closure
 
