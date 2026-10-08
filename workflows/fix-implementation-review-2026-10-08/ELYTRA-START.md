@@ -22,5 +22,3 @@
 ## Boundary
 
 The accepted pair proves endpoint behavior at 1.14.4 and 1.15.2, not the exact first release at which the newer behavior appeared. This review makes no finer cutover claim. Runtime validation was not performed; tests, builds, and game/TAS/server runs were intentionally not run under the task instructions.
-
-
