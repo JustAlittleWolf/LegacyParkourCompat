@@ -1,0 +1,50 @@
+# Independent blind source review: F-PANE-OFFSET-EPSILON
+
+- Decision: **REQUEST CHANGES** for this immutable finding snapshot.
+- Pair: 1.12.2 → 1.13.2; the pair remains `PARTIAL`.
+- Scope: the bound finding, exact cited vanilla source/artifact records, and its supplied collision witness. No run ledger, other finding, implementation, wiki, or MCPK material was reviewed.
+- Runtime validation: not performed.
+
+## Immutable snapshot binding
+
+- Commit: `e10bc0dd046cb968564301eca5986ce81c77c6c7`
+- Path: `workflows/source-campaign-2026-10-07/1.12.2--1.13.2/findings/F-PANE-OFFSET-EPSILON.md`
+- Blob: `f5322d10366c848889c200a40508ec8a273ba25e`
+- Raw SHA-256: `5941f0b4fc505646e18c2b275cc372b50645ac3151ab1982776e47c0fe176dca`
+
+## Source and artifact provenance
+
+The exact ready markers and manifest bytes were checked directly. For A, the ready JSON raw SHA-256 is `b0aeec721e5c0af02b33d9e217cb8272889fa139ded1ecc2a31e42b930138f7a`; it declares source-manifest SHA-256 `b8a37ccfccd2aac5f40f5e34fec85873dbdfa93a266043c103e592e4a8c949da` and artifact-manifest SHA-256 `8171a095a5ee74cebbd12b3d76983fc01796c0c23c962076d1e235cd0f80fa8c`. Both manifest bytes match. For B, ready JSON SHA-256 is `1d1c644c1deb05c02d11dc575ad834f4f72489124701d9b2b90357f43dc37b38`; source-manifest SHA-256 is `2c8cfb646bf622fb26ac0ca0cb5e02a354fb512e29f8b1010f1aaacd509e1211` and artifact-manifest SHA-256 is `fdcacd9150f98ea70acafc5cab754027ab1a09828ff0eaa8e542dd7890d9ce1e`. Those manifest bytes also match. The source-file hashes cited in the finding match their source trees and manifests.
+
+The reported 1.12.2 ready-marker digest discrepancy is a metadata transcription/citation mismatch, not evidence that A's source or input artifact was swapped: the actual ready JSON is the file with SHA-256 `b0ae…f7a`, and its declared source/artifact manifest digests match the actual manifests. The finding itself does not cite a raw ready-JSON digest; the full actual digest is recorded here so the discrepancy is not carried forward as an unverified identity claim.
+
+There is a separate, real provenance limit. The original derived Feather 1.12.2 mapped JAR recorded as SHA-256 `65a08f15d18c4ec2bd0f05b89dfc1ba7ea6b8280ba93ed136245f39e63ec8a2b` is unavailable. The revised derived snapshot has SHA-256 `fcc17537a14a423e2086f600047725ec1fcfd4c7fcf5c0d1a5bda491966c1b87`; its revision record says the raw inputs and source tree match, but expressly does not establish JAR identity. B's corresponding original is also unavailable; its revised snapshot SHA-256 is `b28c33e023928045c8fd7ed7727a860a6820241e371ddb16108366c6192b718c`. The finding disclaims an original mapped-bytecode identity claim, so this limitation remains explicit but is not itself a blocker for this source-only geometric claim.
+
+## Exact vanilla slices checked
+
+All paths below are relative to their ready source manifest, and each file digest matches that manifest.
+
+- **A (1.12.2):** `net/minecraft/block/PaneBlock.java` SHA-256 `83862f6633b8241c3788e9c9a7e4fd0275c010ec790019b8003908996f4814b3` — default connection state and center-shape table, lines 21–49; collision contribution, lines 53–75; virtual connection resolution, lines 108–140. `net/minecraft/block/Block.java` SHA-256 `e4a90eca411e7b0e14f5018f7385ec29891f6cdf1a1e917fa648b5712f9b33a1` — strict collision collection, lines 372–381. `net/minecraft/util/math/Box.java` SHA-256 `f788b8146b14f299ccb58ea0854609f845c298a963295d503de2e30e15d66f3a` — positive X clipping, lines 185–202; strict intersection, lines 245–251. `net/minecraft/entity/Entity.java` SHA-256 `80f091bf32166c88cf8bbd31caf72d84fa16224410733c7d2a0f00563f294a0a` — swept query and Y/X/Z resolution, lines 567–601; base dimensions, lines 174–192. `net/minecraft/world/World.java` SHA-256 `e9fa9b8d6d31ad57a5b876f5f63a5e3c554a23437decf1845a493daf48233594` — floored/ceiled candidate bounds and `addCollisions` dispatch, lines 964–1001.
+- **B (1.13.2):** `net/minecraft/block/GlassPaneBlock.java` SHA-256 `7abf507b21b920c76e63e34293e6f40bbdefc95df396eb4847406a6d41df96a0` — actual glass-pane inheritance, lines 9–12. `net/minecraft/block/IronBarsBlock.java` SHA-256 `df6d956bb2745241e59294056f31513151b976dbd9ceed3f5478fd72b66c68a0` — base class/default false connection state, lines 15–19; state update, lines 22–53; connection predicate, lines 77–80. `net/minecraft/block/PaneBlock.java` SHA-256 `9422e3f2aa9843ecd041f5ced13d05a4c7472d697f7dfd838450e49969e5326c` — shape construction and `getCollisionShape`, lines 32–84. `net/minecraft/world/WorldView.java` SHA-256 `9577360b1a1bdde9280f0b72593e5e6dde45d9a54719cd7ff933f3ecd31b971f` — block collision candidate collection, lines 112–151; swept query expansion, lines 154–163. `net/minecraft/block/shape/VoxelShape.java` SHA-256 `d95b0607647da11595e24e1e26e9615cb7da7705ea7885908544362df62275c1` — coordinate index lookup, lines 133–141; orthogonal index inset and axis distance, lines 184–239. `net/minecraft/block/shape/VoxelShapes.java` SHA-256 `313968d4e5855b5ec380272b6ababcc5849d478ab771926355912a8cb6aa9c95` — box-to-voxel construction, lines 34–75; stream axis clipping, lines 194–205. `net/minecraft/entity/Entity.java` SHA-256 `1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269` — Y/X/Z movement resolution, lines 578–599; base dimensions, lines 186–203. `net/minecraft/block/Blocks.java` SHA-256 `3e128c9a4f6b53e1037fb85269c4d00bc85112ae52fe48f9534232e13ee2a303` — `GLASS_PANE` registry field, lines 251 and 865.
+
+## Independent geometry reconstruction
+
+The supplied player box has width `0.6` and height `1.8`, matching the base `Entity` dimensions in both trees. Its center is X `0.13749`, Z `0.13750005`, and its feet are at Y `64.2`; this is a geometrically reachable airborne player box at the stated location. The pane at `(0,64,0)` has its center shape on X/Z `[7/16,9/16]` and Y `[0,1]` relative to the block. With four AIR neighbors and `WATERLOGGED=false`, the connected arms are absent in both versions.
+
+In 1.12.2, `PaneBlock.addCollisions` contributes `SHAPES[0]` for that state. The player move query expands the box by `(1,0,0)`, giving X `[-0.16251,1.43749]`; Y and Z retain the supplied intervals. The world scan uses `floor(min)-1` and `ceil(max)+1`, so it visits the pane block. `Block.addCollision` translates the pane box and retains it because `Box.intersects` uses strict interval overlap: Y overlaps `[64.2,65]` and Z overlaps by `0.00000005` above the pane's `0.4375` boundary. `Entity.move` clips Y, then X, then Z. For positive X, `Box.intersectX` sees the `0.00001` gap from player maxX `0.43749` to pane minX `0.4375` and reduces requested X `1.0` to that gap. A applies X `0.00001`.
+
+In 1.13.2, the swept query expands the box by the requested displacement and then by `1.0E-7`, so its maxZ is `0.43750015`. The world block scan includes the pane, and the swept shape overlaps its collision shape. Therefore the pane is present in B's collision-shape stream; this is not a broadphase omission. `Entity.move` still resolves Y, X, then Z. During the X clip, `VoxelShape.calculateMaxDistance` computes the orthogonal Z upper index from `box.maxZ - 1.0E-7`, which is `0.43749995`, below the pane-center interval's lower edge `7/16 = 0.4375`. At the pane shape's sixteenth-block grid, this gives coordinate index 6 and an upper-exclusive range ending at 7; the center voxel begins at index 7, so it is never tested. No voxel from this pane blocks X, and B applies the full `1.0` displacement. The ignored axis is orthogonal Z during X-axis clipping. The source calculation supports the claimed epsilon effect independently of the sweep's candidate bounds.
+
+The panes are existing vanilla blocks in both endpoints. No tags select this collision shape; B's extra pane state is waterlogging, held false in the witness. No other collision, entity, or world-border shape is needed. The source math therefore supports a real query-level difference for the supplied box and movement argument.
+
+## Reasons this snapshot needs revision
+
+1. The B inheritance claim is reversed. The snapshot says `PaneBlock` inherits `IronBarsBlock`'s collision shape. In source, `IronBarsBlock extends PaneBlock`, while the actual `GlassPaneBlock extends IronBarsBlock`. This is the path that must be cited to connect `glass_pane` to the center-pane shape.
+2. The cited intervals do not bind the complete geometry/state chain. A's shape bounds are initialized outside the cited `PaneBlock.addCollisions` range. B needs the actual `GlassPaneBlock`/`IronBarsBlock`/`PaneBlock` path, including the constructor arguments, center-shape construction and `getCollisionShape`; the finding names files but omits exact line ranges for several B methods and the relevant connection/waterlogged state path.
+3. The box dimensions are reachable, but this snapshot does not bind the requested `(1.0,0,0)` displacement to a player movement-state producer/caller. Its assertion is an exact `Entity.move` query, not yet a closed reachable player-movement witness. Cite the applicable player travel/velocity path for that value, or replace it with a smaller positive X displacement above the `0.00001` gap and bind that displacement to a reachable player state. The pane geometry result does not require a full-block movement.
+
+For a replacement snapshot, cite the paired source ranges for A's pane shape table and collision call; A's world scan and strict box intersection/X clip; B's `GlassPaneBlock` → `IronBarsBlock` → `PaneBlock` inheritance, connection state and collision shape; B's swept-query construction, block-shape collection, voxel coordinate indexing and X clip; and the player caller/state that produces the bounded displacement. Recompute the output if that input changes. Keep the pair `PARTIAL` and keep original Feather mapped-JAR equivalence unproven.
+
+## Limits
+
+This review verifies the exact supplied geometric calculation and its source provenance within the available revised-source publication. It does not establish a first changed release inside the interval, whole-pair coverage, implementation eligibility, or runtime movement.
