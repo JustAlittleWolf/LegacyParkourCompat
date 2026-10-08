@@ -1,7 +1,7 @@
 # Discovery: 1.21.3 to 1.21.4
 
 - Run status: active
-- Scope: source-only player movement; older A = exact 1.21.3; newer B = exact 1.21.4. Direct player motion, velocity and knockback response remain in scope even when combat can trigger them. Health, regeneration, hunger, food, saturation, exhaustion, attack/damage resolution, modern-only blocks/features, non-player movement and vehicle physics are out of scope; movement predicates may read vanilla health/food state.
+- Scope: source-only player movement; older A = exact 1.21.3; newer B = exact 1.21.4. Direct player motion, velocity and knockback response remain in scope even when combat can trigger them. Health, regeneration, hunger, food, saturation, exhaustion, attack/damage resolution, modern-only blocks/features, non-player movement and vehicle physics are out of scope; movement predicates may read vanilla health/food state. Block states and rendering stay vanilla. Cross-version switching is undefined behavior and outside correctness guarantees.
 - Repository revision and start date: base `002137b227676caea77f6832b9f4c8d0b6200bff` (`main`); 2026-10-07. Current report branch checkpoint before this source batch: `a6a3aee`.
 - Selected namespace and alignment: release-specific official Mojang mappings (`mojmap`) for both exact releases; namespace and exact IDs verified in both readiness and provenance JSONs.
 - Source preparation owner / command / log / readiness marker: shared source owner; `.\gradlew.bat decompileMinecraft --versions=1.21.1,1.21.3,1.21.4,1.21.5 --mappings=mojmap --decompiler-heap=4G --output-root=<campaign staging> --cache-directory=<campaign artifacts>`; log `build/movement-campaign-2026-10-07/staging/mojmap-1.21.1-to-1.21.5-cd5a99cb1024417c9d370097c886a131/gradle.full.log`; both markers are `ready` and exact IDs match.
@@ -94,12 +94,12 @@ Both provenance records point to the same exact batch and successful full Gradle
 ## Required source inventories
 
 - `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S1-01,S1-02,S1-03,S1-04,S1-05,S3-01..S3-09; evidence=paired LocalPlayer, LivingEntity and Entity ranges below; full call graph remains open.
-- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S1-03,S1-04,S1-05,S3-01,S3-06..S3-09; evidence=LocalPlayer, Player, LivingEntity, Entity and packet-handler sources identified; full writer/consumer inventory open.
-- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S3-06..S3-09; evidence=Entity.move/collide/checkInsideBlocks, BlockGetter.boxTraverseBlocks, BlockBehaviour inside-shape default and EndPortal callback traced; supplied-shape resolver and player edge guard compared; full shape/resource and neighbor inventory remains open.
-- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S3-02,S3-03,S3-07,S3-08; evidence=air/fluid travel, EndPortal partial inside-shape and supplied-shape resolver identified; block/fluid properties, registrations, tags and resource closure remain open.
-- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S1-02,S1-03,S3-02,S3-03,S3-05; evidence=LocalPlayer and LivingEntity consumers plus SNEAKING_SPEED/SWIFT_SNEAK sources identified; all movement modifier registrations/resources remain open.
-- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, including corrections, pushes and pistons: status=pending; slice_ids=S1-04,S1-05; evidence=client load status writer and fall-flight/riding packets identified; remaining external inputs open. Vehicle physics is excluded.
-- `INV-EXCLUSIONS` explicit scope audit for health/food-state production, attack/damage resolution, non-player movement and vehicle physics: status=pending; evidence=Player.aiStep includes `tickRegeneration()` but its health/food simulation is excluded; movement gates reading vanilla food state and direct player-side knockback response remain in scope.
+- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=S1-03,S1-04,S1-05,S2-01..S2-05,S3-01,S3-06..S3-09; evidence=LocalPlayer, Player, LivingEntity, Entity and packet-handler sources identified; full writer/consumer inventory open.
+- `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S2-05,S3-06..S3-09; evidence=Entity.move/collide/checkInsideBlocks, BlockGetter.boxTraverseBlocks, BlockBehaviour inside-shape default and EndPortal callback traced; supplied-shape resolver and player edge guard compared; piston movement source path compared; full shape/resource and neighbor inventory remains open.
+- `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S2-05,S3-02,S3-03,S3-07,S3-08; evidence=air/fluid travel, EndPortal partial inside-shape and supplied-shape resolver identified; block/fluid properties, registrations, tags and resource closure remain open.
+- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=S1-02,S1-03,S2-01,S3-02,S3-03,S3-05; evidence=LocalPlayer and LivingEntity consumers plus SNEAKING_SPEED/SWIFT_SNEAK sources identified; all movement modifier registrations/resources remain open.
+- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, including corrections, pushes and pistons: status=pending; slice_ids=S1-04,S1-05,S2-01..S2-05; evidence=client load status writer, player impulse/position packet consumers, respawn reset and piston movement paths compared; outgoing correction packet order explicitly excluded; remaining external inputs open. Vehicle physics is excluded.
+- `INV-EXCLUSIONS` explicit scope audit for health/food-state production, attack/damage resolution, non-player movement, vehicle physics, block-state/rendering changes and cross-version protocol behavior: status=pending; evidence=Player.aiStep includes `tickRegeneration()` but its health/food simulation is excluded; movement gates reading vanilla food state and direct player-side knockback response remain in scope; outgoing correction-packet ordering is documented as protocol-only and outside correctness guarantees.
 
 ## Coverage ledger
 
@@ -162,6 +162,66 @@ Both provenance records point to the same exact batch and successful full Gradle
 - Status: compared-no-difference
 - Disposition and rationale (including concrete reachability/preconditions): for the same local jump/shift input, auto-jump timer, abilities and glide eligibility, both bodies use the same edge checks, timer transitions, calls and arithmetic in the same order. The S1-03 sprint predicate changes occur before this section and are reported there; this row makes no claim about vehicle jump physics or the rest of inherited travel.
 - Finding IDs or checked absence/replacement path: no difference in this bounded local jump/flight transition path.
+
+### Slice S2-01: direct player velocity and impulse response
+
+- Inventory ID(s): `INV-STATE`, `INV-EXTERNAL`, `INV-MODIFIERS`
+- Exact behavior boundary and enclosing guards/order checked: local player delta-velocity setters and push/knockback response, plus client consumers of server-supplied entity motion and explosion knockback. Compare response operations for identical current delta, on-ground state, knockback-resistance value and supplied vector; do not trace attack/damage or other-entity motion production.
+- A evidence: `Entity#push(Entity)`, lines 1533-1563; `push(Vec3)`, 1564-1566; `push(double,double,double)`, 1568-1575; `lerpMotion(double,double,double)`, 2256-2258; `setDeltaMovement` / `addDeltaMovement`, 3352-3362; `Entity.java` SHA-256 `a93719c302a0381a972af75ea360465e2e3551708dd07c34d4d40b7e5173c2b9`. `LivingEntity#knockback(double,double,double)`, lines 1492-1506, SHA-256 `087390495f4fdfd14b9e12230e7aea4fdc50913bb4d1d91119e72881cfc52`. `ClientPacketListener#handleSetEntityMotion`, lines 537-543, and `handleExplosion`, 1225-1242, SHA-256 `169e1edaf666ebeb4ad736323565e28935a247748fecb67333dd5db53f24fb8a`; `ClientboundSetEntityMotionPacket` SHA-256 `bc6c957cb33fd07b3b2b6e22f62aa15f9f68872e44d67b172bb0249f81950d91`; `ClientboundExplodePacket` SHA-256 `54ccf7ddc395f360de1b6f84ed4d0489fdc4a36db3ce83e71d02c31a9138fcc7`.
+- B evidence: `Entity#push(Entity)`, lines 1554-1584; `push(Vec3)`, 1585-1587; `push(double,double,double)`, 1589-1596; `lerpMotion(double,double,double)`, 2284-2286; `setDeltaMovement` / `addDeltaMovement`, 3376-3385; `Entity.java` SHA-256 `05f18ef2ec0413fc010230407c812a11553eb5123b68d21b5d7b2c0c175698ad`. `LivingEntity#knockback(double,double,double)`, lines 1502-1516, SHA-256 `e62ce650af0a5ac97e4d0a2ba7cad4ba68a8d098525609f8b5b6976a8ab0ae30`. `ClientPacketListener#handleSetEntityMotion`, lines 538-544, and `handleExplosion`, 1225-1242, SHA-256 `eef170dd22b5711e7d9527601592093a0456590f192b54fefef170b5791165b4`; the two clientbound packet classes have the same A/B hashes listed above.
+- State producers/writers -> consumers/readers: local entity contact or direct player knockback response -> `Entity`/`LivingEntity` delta write; `ClientboundSetEntityMotionPacket` -> `lerpMotion` -> `setDeltaMovement`; `ClientboundExplodePacket.playerKnockback()` -> `LocalPlayer.addDeltaMovement()` -> `setDeltaMovement`; `LivingEntity.travel()` consumes the resulting delta. Packet vectors and already-computed attribute/state values are inputs, not producers emulated here.
+- Parent slices / dependencies / closure evidence: `S3-01`, `S3-06`; paired setters, response arithmetic and client packet consumers are compared. `DEP-EXTERNAL` remains open for other incoming movement inputs and `DEP-MODIFIERS` remains open for full modifier production; this slice is conditional on equal supplied packet vectors/current attribute values and makes no claim about those producers.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for the same local-player state and supplied vectors, A and B use the same push/knockback arithmetic, setter calls and client motion/explosion handlers. The direct player response remains in scope; attack/damage resolution, server vector production and non-player movement are not covered.
+- Finding IDs or checked absence/replacement path: no difference in the bounded player impulse response and packet-consumer operations.
+
+### Slice S2-02: client player position-correction state application
+
+- Inventory ID(s): `INV-STATE`, `INV-EXTERNAL`
+- Exact behavior boundary and enclosing guards/order checked: local-player `ClientboundPlayerPositionPacket` correction and the removed-vehicle teleport fallback through absolute/relative position calculation, position/delta/rotation writes and old-position reset; outbound packet order is isolated in S2-04.
+- A evidence: `ClientPacketListener#handleMovePlayer`, lines 706-715; `setValuesFromPositionPacket`, 717-735; `handleTeleportEntity`, 581-600; file SHA-256 `169e1edaf666ebeb4ad736323565e28935a247748fecb67333dd5db53f24fb8a`. `Entity#setPos(double,double,double)`, lines 399-402, `makeBoundingBox()`, 404-406, `setOldPosAndRot(Vec3,float,float)`, 1477-1480, and `setDeltaMovement`, 3352-3362; `Entity.java` SHA-256 `a93719c302a0381a972af75ea360465e2e3551708dd07c34d4d40b7e5173c2b9`. `PositionMoveRotation.java` SHA-256 `74b39fb0907043885e7cfeb6376c8d39eba7131ee6befa2df57a08ea53571436`; `EntityDimensions.java` SHA-256 `9fb9575ec615d4aefe6316c443e87a902f44e955393778a4b93623e8b680adc4`; `ClientboundPlayerPositionPacket.java` SHA-256 `658e5968d7c83bd6b176e7b061078e0def68abcc2558f7d9ffd59640a88f317f`.
+- B evidence: `ClientPacketListener#handleMovePlayer`, lines 707-716; `setValuesFromPositionPacket`, 718-736; `handleTeleportEntity`, 582-601; file SHA-256 `eef170dd22b5711e7d9527601592093a0456590f192b54fefef170b5791165b4`. `Entity#setPos(double,double,double)`, lines 399-402, `makeBoundingBox()` / `makeBoundingBox(Vec3)`, 404-410, `setOldPosAndRot(Vec3,float,float)`, 1498-1501, and `setDeltaMovement`, 3376-3385; `Entity.java` SHA-256 `05f18ef2ec0413fc010230407c812a11553eb5123b68d21b5d7b2c0c175698ad`. `PositionMoveRotation.java`, `EntityDimensions.java`, and `ClientboundPlayerPositionPacket.java` have the same A/B hashes listed above.
+- State producers/writers -> consumers/readers: server-supplied absolute/relative position, rotation and delta -> `PositionMoveRotation.calculateAbsolute()` -> local player `setPos`, `setDeltaMovement`, rotation and old-position writes -> next movement tick. The base bounding-box refactor reaches the same `EntityDimensions.makeBoundingBox(position)` provider; no `makeBoundingBox` override exists in the LocalPlayer/Player class chain. The correction handlers pass `false` for interpolation on this local-player path.
+- Parent slices / dependencies / closure evidence: `S1-04` bounds the separate local tick gate; correction handlers execute independently of that movement-tick gate. The packet, relative-value helper and position providers are paired; collision results and server-supplied correction values are held equal.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): when the same correction packet and player state arrive, both versions apply the same resolved position, velocity and rotations and refresh old-position state with the same expressions. The base bounding-box helper refactor delegates to the same dimension provider. The source-proven outbound packet order change is recorded separately and is not part of this state-application comparison.
+- Finding IDs or checked absence/replacement path: no difference in the bounded local-player correction state writes.
+
+### Slice S2-03: local-player respawn movement reset
+
+- Inventory ID(s): `INV-STATE`, `INV-EXTERNAL`, `INV-COLLISION`
+- Exact behavior boundary and enclosing guards/order checked: `ClientPacketListener.handleRespawn()` call to `LocalPlayer.resetPos()`; compare standing-pose reset, upward collision-free position search, velocity clear and pitch reset. Health restoration in the same method is excluded.
+- A evidence: `ClientPacketListener#handleRespawn()` calls `LocalPlayer.resetPos()`, line 440; `LocalPlayer#resetPos()`, lines 619-635, SHA-256 `fbd40f1f47adfa66dda9b15188e5dce82af3e8e8d7c3dd0543e602a354ad3fe0`.
+- B evidence: paired `ClientPacketListener#handleRespawn()` call, line 441; `LocalPlayer#resetPos()`, lines 624-640, SHA-256 `145686ebdc7f0d12a64070309073665eb8695b7e09911a723e86113a77d04611`.
+- State producers/writers -> consumers/readers: respawn event and current player/world state -> standing pose -> upward `setPos` checks against `Level.noCollision` -> zero delta and pitch -> later local movement. The same `noCollision` results are assumed; their full block-shape providers remain open under `INV-COLLISION`.
+- Parent slices / dependencies / closure evidence: `S1-04`; paired respawn caller and `LocalPlayer.resetPos()` are checked. `DEP-COLLISION` remains open outside the identical bounded reset operations. `setHealth()` is out of scope and is not compared as a movement behavior.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for the same respawn state, world bounds and collision-query answers, both versions reset standing pose, perform the same upward position search, clear delta movement and pitch in the same order. This does not claim equality of uninspected shape providers or health state.
+- Finding IDs or checked absence/replacement path: no difference in the bounded local-player movement reset.
+
+### Slice S2-04: outbound player-correction packet order
+
+- Inventory ID(s): `INV-EXTERNAL`, `INV-EXCLUSIONS`
+- Exact behavior boundary and enclosing guards/order checked: after `handleMovePlayer()` applies a correction to a non-passenger local player, compare the order of `ServerboundMovePlayerPacket.PosRot` and `ServerboundAcceptTeleportationPacket` sends.
+- A evidence: `ClientPacketListener#handleMovePlayer()V`, lines 706-715, SHA-256 `169e1edaf666ebeb4ad736323565e28935a247748fecb67333dd5db53f24fb8a`; A sends `PosRot` before `AcceptTeleportation`.
+- B evidence: `ClientPacketListener#handleMovePlayer()V`, lines 707-716, SHA-256 `eef170dd22b5711e7d9527601592093a0456590f192b54fefef170b5791165b4`; B sends `AcceptTeleportation` before `PosRot`.
+- State producers/writers -> consumers/readers: corrected local position/rotation -> two ordered client-to-server protocol writes; the handler's direct player state writes are compared in S2-02. Server processing and subsequent server movement rules are outside this client movement audit.
+- Parent slices / dependencies / closure evidence: `S2-02`; the outgoing packet sequence is source-confirmed, but it does not itself change client player movement state. Cross-version protocol switching is explicitly outside correctness guarantees.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): this protocol order changes when a non-passenger local player receives a position correction, but no distinct client-side movement state or operation changes. Because compatibility does not guarantee cross-version protocol switching and server movement semantics are not in scope, the packet-order difference is retained as an explicit exclusion and is not an emulatable movement mechanic.
+- Finding IDs or checked absence/replacement path: checked as an out-of-scope protocol-order delta; no player movement finding.
+
+### Slice S2-05: player movement from moving pistons
+
+- Inventory ID(s): `INV-STATE`, `INV-COLLISION`, `INV-WORLD-MOVEMENT`, `INV-EXTERNAL`
+- Exact behavior boundary and enclosing guards/order checked: piston tick's collided/stuck-entity enumeration, piston movement vector dispatch via `Entity.move(MoverType.PISTON, ...)`, and `Entity.limitPistonMovement()` accumulated per-tick/axis restriction. Block state and resulting collision shape are held equal.
+- A evidence: `PistonMovingBlockEntity#moveCollidedEntities()`, lines 110-180; `moveEntityByPiston()`, 182-187; `moveStuckEntities()`, 189-203; `matchesStickyCritera()` / `getMovement()` / `moveByPositionAndProgress()`, 204-240; `fixEntityWithinPistonBase()`, 241-285; exact file SHA-256 `426442149f89a28fc5973a52b8156aec7c18d76faf8b62eecae9f120b2fdba16`. `Entity#move()` piston dispatch, lines 624-629, and `limitPistonMovement()`, 875-898, with `applyPistonMovementRestriction()`, 900-906; `Entity.java` SHA-256 `a93719c302a0381a972af75ea360465e2e3551708dd07c34d4d40b7e5173c2b9`.
+- B evidence: paired `PistonMovingBlockEntity` methods at lines 110-180, 182-187, 189-203, 204-240 and 241-285; exact file SHA-256 is identical to A. `Entity#move()` piston dispatch, lines 632-637, and `limitPistonMovement()`, 887-910, with `applyPistonMovementRestriction()`, 912-918; `Entity.java` SHA-256 `05f18ef2ec0413fc010230407c812a11553eb5123b68d21b5d7b2c0c175698ad`.
+- State producers/writers -> consumers/readers: piston moved state and collision shape -> collided/stuck player candidates -> directional piston delta -> `Entity.move(MoverType.PISTON)` -> axis/time movement cap -> player position and collision resolution. Existing `F-S3-01` describes the independent local-player fall-distance callback difference in the shared move rest phase.
+- Parent slices / dependencies / closure evidence: `S3-06`, `S3-08`; piston callers and the bounded movement cap are paired. `INV-COLLISION` and `INV-WORLD-MOVEMENT` remain open for state-dependent piston/block shapes and complete registration/resource providers.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): when the same piston state/shape and candidate local-player position are supplied, the piston movement vector, entity enumeration/selection mechanics, axis restriction and dispatch are identical. This does not claim whole-pair collision-shape equivalence; the shared `Entity.move()` fall-distance difference remains F-S3-01.
+- Finding IDs or checked absence/replacement path: no difference in the bounded piston vector/dispatch and movement cap.
 
 ### Slice S3-01: LivingEntity pre-travel velocity cutoff and input dispatch order
 
@@ -329,10 +389,10 @@ Both provenance records point to the same exact batch and successful full Gradle
 
 ## Resume checkpoint
 
-- Last recorded slices: S1-01..S1-05 and S3-01..S3-09; all listed slices are terminal, but the seven inventories remain pending and additional slices are not yet enumerated.
-- Next bounded slices: enumerate Stage 2 direct player motion/velocity writers and readers, including correction packets, pushes, piston movement and player-side knockback response; then continue dynamic collision-shape producers and their block-state/neighbor dependencies.
+- Last recorded slices: S1-01..S1-05, S2-01..S2-05 and S3-01..S3-09; all listed slices are terminal, but the seven inventories remain pending and additional slices are not yet enumerated.
+- Next bounded slices: finish remaining Stage 2 player-state writers, beginning with pose/dimension/eye-height transitions in `Entity`, `LivingEntity`, `Player` and `LocalPlayer`; then continue dynamic collision-shape providers and their block-state/neighbor dependencies.
 - Outstanding dependencies and owners: `DEP-TRAVEL`, `DEP-COLLISION`, `DEP-WORLD-DATA`, `DEP-MODIFIERS`, `DEP-EXTERNAL`; current source worker owns source analysis, with a separate reviewer required before pair freeze.
-- Current assumptions requiring verification: full player velocity/motion writer closure; state-dependent collision shapes, registries/tags/resources, external movement inputs and explicit scope exclusions.
+- Current assumptions requiring verification: full pose/dimension/eye-height and remaining direct-motion writer closure; state-dependent collision shapes, registries/tags/resources, external movement inputs and explicit scope exclusions.
 
 ## Implementation reconciliation
 
@@ -353,10 +413,10 @@ Both provenance records point to the same exact batch and successful full Gradle
 
 ## Source audit closure
 
-- Coverage counts by status: 10 compared-no-difference; 0 in-progress; 4 findings; additional required slices not yet enumerated.
+- Coverage counts by status: 14 compared-no-difference; 0 in-progress; 1 not-applicable; 4 findings; additional required slices not yet enumerated.
 - Required inventory status and evidence: all inventories remain pending; see inventory map and bounded slices.
 - Open dependencies: `DEP-TRAVEL`, `DEP-COLLISION`, `DEP-WORLD-DATA`, `DEP-MODIFIERS`, `DEP-EXTERNAL`.
-- Unresolved gaps and limits: remaining Stage 1 methods and all unenumerated Stage 2-7 sources/resources.
+- Unresolved gaps and limits: remaining Stage 1 methods, remaining Stage 2 state writers, and unenumerated Stage 3-7 sources/resources.
 - Evidence/hash/correspondence audit: both source manifests and cited source-file hashes validated; every terminal slice has paired ranges, source hashes, dependency edges and rationale.
 - Accepted finding snapshots: none.
 - Full-pair blind freeze: pending; requires every slice terminal, dependencies closed and independent source audit complete.
