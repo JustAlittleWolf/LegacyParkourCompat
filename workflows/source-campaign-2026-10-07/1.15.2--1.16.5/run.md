@@ -298,6 +298,17 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - Disposition and rationale (including concrete reachability/preconditions): with FACING supplied, both methods select identical NORTH/SOUTH/WEST/EAST collision planes. This is bounded to shape selection; the attachment predicate differs and remains open under the block state/neighbor inventory.
 - Finding IDs or checked absence/replacement path: none within the bounded getShape method.
 
+### Slice S5-FENCE-CONNECTION: fence collision-state neighbor inputs
+- Inventory ID(s): INV-COLLISION, INV-STATE, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards checked: FenceBlock.connectsTo, placement/neighbor updates and CrossCollisionBlock state-to-shape dispatch dependency.
+- A evidence: `../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/level/block/FenceBlock.java`, lines 46-103, SHA-256 `81eda679e834659db079607b64a14d79284221b852f75aad43655ae7e0b96ab5`.
+- B evidence: `../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/level/block/FenceBlock.java`, lines 53-114, SHA-256 `ded56e297e8711e382d485aed4cb34ab0e827bec9a033b1f6c16947592fa15f2`.
+- State producers/writers -> consumers/readers: neighbor block/tag/material/sturdy-face checks -> NORTH/EAST/SOUTH/WEST fence state -> inherited CrossCollisionBlock collision shape -> CollisionGetter movement sweep.
+- Parent slices / dependencies / closure evidence: S4-QUERY,S5-SHAPES; paired connection and update paths inspected, but block/tag registration and common-era membership are not closed.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): A identifies a same-material fence through `BlockState.getMaterial()`; B tests the FENCES and WOODEN_FENCES tags against the current fence's tag classification. Both feed the state properties consumed by the inherited collision-shape index, so this route is movement-reachable. No historical difference is asserted until tag membership and relevant common-state cases are compared.
+- Finding IDs or checked absence/replacement path: none; material/tag equivalence remains open for the common historical block set.
+
 ### Slice S5-SCAFFOLDING-COLLISION: collision shape selection
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: ScaffoldingBlock.getCollisionShape state/context decision only; DISTANCE/BOTTOM writer and block/tag registration not included.
@@ -335,7 +346,7 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 
 - S1-ESCAPE-QUERY: pair A blocked/freeAt/isSuffocating with B noBlockCollision/getBlockCollisions and relevant shapes; establish same-state reachability. Owner: discovery author.
 - S4-MOVE/S4-QUERY: close the callback/provider edges and re-evaluate the B border guard after the newer main snapshot removed the prior standalone border finding. Owner: discovery author.
-- S5-SHAPES: compare common-block provider methods, B support-shape overrides, shape caches, neighboring-state writers, block/tag registrations and relevant resources. S5-SCAFFOLDING-COLLISION, S5-SLAB-SHAPE and S5-LADDER-SHAPE close bounded provider methods; S5-WALL is active with full geometry/state comparison open, including A's inherited CrossCollisionBlock shape/index helpers. Ladder attachment and neighbor writers remain open. Owner: discovery author.
+- S5-SHAPES: compare common-block provider methods, B support-shape overrides, shape caches, neighboring-state writers, block/tag registrations and relevant resources. S5-SCAFFOLDING-COLLISION, S5-SLAB-SHAPE and S5-LADDER-SHAPE close bounded provider methods; S5-WALL and S5-FENCE-CONNECTION are active with geometry/state/resource comparison open, including inherited CrossCollisionBlock helpers. Ladder attachment and neighbor writers remain open. Owner: discovery author.
 - Remaining stage 2-7 slices: add bounded rows for state/pose/dimensions, movement attributes/effects/enchantments/equipment/resources, block/fluid registrations/callbacks, and client external inputs. Owner: discovery author.
 - Independent source reviewer: assign someone who did not author discovery; finding-snapshot decisions and eventual full-pair audit remain pending. Owner: coordinator.
 
@@ -354,9 +365,9 @@ The historical pair report is not imported as source confirmation.
 ## Resume checkpoint
 
 - Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-ELYTRA,S1-ESCAPE,S3-WATER,S3-FALL-FLYING,S4-STEP,S5-SCAFFOLDING-COLLISION; finding slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT.
-- Active slices: S1-LOCAL-TICK,S1-LOCAL-AISTEP,S3-GROUND-AIR,S4-MOVE,S4-QUERY,S5-SHAPES,S5-WALL; all required producer/consumer inventories remain partial.
+- Active slices: S1-LOCAL-TICK,S1-LOCAL-AISTEP,S3-GROUND-AIR,S4-MOVE,S4-QUERY,S5-SHAPES,S5-WALL,S5-FENCE-CONNECTION; all required producer/consumer inventories remain partial.
 - Next: compare high-reachability common-block shapes and their neighbor/state/registration routes; then continue pose/dimensions, modifiers/resources, fluid/callback and external-input inventories.
-- Outstanding dependencies: S1 escape-query shape providers; S4 callback/entity-collider and border-guard disposition; S5 common-block providers, support shapes, registrations and neighboring state writers (including ladder attachment predicate); remaining stage 2-7 slices; independent reviewer assignment.
+- Outstanding dependencies: S1 escape-query shape providers; S4 callback/entity-collider and border-guard disposition; S5 common-block providers, support shapes, registrations and neighboring state writers (including ladder attachment and fence material/tag equivalence); remaining stage 2-7 slices; independent reviewer assignment.
 - Resume branch: feat/source-discovery-1-15-2-1-16-5-resume. Main commit d4c4f154a0c2487dd6dd7d20d92eb57b3d8ab1ae has been merged; the merge checkpoint and current tip are recorded by git log -1.
 - First next work: inventory exact common-block shape providers and compare the fence/wall, slab/stair, ladder/vine, moving-piston and scaffolding state/neighbor routes. Continue S1 tick/call-order and S3 helper/resource closure, then fill remaining stage 2-7 rows. Keep pair PARTIAL and findings limited to independently supported source claims.
 - Read-only resume commands from the repository root:
