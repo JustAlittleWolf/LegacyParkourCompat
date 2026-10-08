@@ -61,3 +61,8 @@ Independent exact-patch review is recorded at review commit `fddb263`.
 - Corrected code `ea62550bbecc8233917fb293dbe3ee627529f621`; independent review `88792a06e72fb88f8841d8e413cdb6da026248b3` ACCEPTED. Source snapshot and report hashes plus build/JAR evidence are recorded in `integration-review-2026-10-08.md`.
 - Integrated after the fence batch and built with all Gradle `Test` tasks disabled; JAR SHA-256 `59B6910B612092D3CE6566EBEBC2C5B4217BF1375EDDF471CD10210ED24F9805`.
 - F-005 is next in the authorized serial queue. WORLD03 and swimming-entry remain pending review; runtime validation was not performed.
+## F005 fall-flying saved-state integration — 2026-10-08
+
+- Code `b215d723c22cf2c73601b7807056ba0d23fdbf23`; accepted tip `7d80e2eacea2ff6d088a522d8f0c1abb5768fdf3`; independent review `dd6958193b9f188341fb47f96e4cca56dd5a9a89` ACCEPTED.
+- Integrated after Pose and built with all Gradle `Test` tasks disabled. Source, review, profile-load boundary, and JAR SHA-256 are recorded in `integration-review-2026-10-08.md`.
+- WORLD03, swimming-entry, and slipperiness remain pending review. Runtime validation was not performed.

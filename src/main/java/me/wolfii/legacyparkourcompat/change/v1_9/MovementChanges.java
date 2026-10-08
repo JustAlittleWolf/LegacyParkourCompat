@@ -7,5 +7,6 @@ public final class MovementChanges implements MovementChangeProvider {
     @Override
     public void register(MovementChangeRegistry registry) {
         registry.register(new NoAutoJump());
+        registry.register(new FallFlyingSavedState());
     }
 }
