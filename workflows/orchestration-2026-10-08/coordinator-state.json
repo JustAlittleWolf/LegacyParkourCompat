@@ -321,10 +321,19 @@
       "ref": "9efca3a29af87debd09cf76d92affbf475e98e16",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
+    },
+    {
+      "threadId": "01a11bf0-aa16-7381-9a75-0cdcc465b52f",
+      "role": "source",
+      "pair": "1.21.3--1.21.4",
+      "status": "active",
+      "ref": "0f60e99ba7aca36b9d4b2aaedd21a5fb5003a0fe",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:35:26.0316658Z",
+    "observedAt": "2026-10-08T14:36:28.8441005Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
@@ -363,16 +372,14 @@
     "mainStatus": "code already integrated; source binding/provenance being independently reconciled"
   },
   "nextCoordinatorActions": [
-    "Collect fence integration completion and exact main/JAR evidence; build passed, final commit pending.",
-    "Collect focused poseea62550 review formal commit; reviewer reports no remaining actionable mismatch but stillactive. Integrate only after committedACCEPT via exclusive owner.",
-    "Collect WORLD03 corrected vertical sample/0.1F code then independent re-review.",
-    "Collect F005 server persistence activation-path review.",
+    "Collect current accepted pose integration result then dispatch ACCEPT F005 b215d723/reviewdd69581 via exclusiveintegrationowner.",
+    "Collect WORLD03 correction8ae77014 focused independent re-review before integration.",
     "Collect swimmingentry5c419e8 andBigDripleaf nativeproof review.",
-    "Collect MCPK edge/slipperiness existing-code coverage proof; accepted cleanreviewbdda49ac.",
-    "Collect ops campaign-wide acceptedfinding implementationbacklog and adopt into coordinator branch.",
-    "Continue all26 exact source pairs from durablequeue; all remainpartial. Current laterpair1.20.6--1.21.1 active; next1.21.1--1.21.3 when slot frees. Earlier partialpairs still needcontinuationwaves and independentcoverageaudits.",
-    "F07 stairpremise invalid andwithdrawn224d601; preserve immutableaudittrail. New farmland/directplayerposition findingF08 pendingreview.",
-    "No tests/runtime/Docker/push; everybuild disablesALLGradleTesttasks; maximum15 includingroot andold1.17source. WorkersLunaHigh/coordinatorSolMedium."
+    "Collect MCPK edge/slipperiness already-covered proof and ops full accepted-finding implementationbacklog.",
+    "Continue all26 exactsourcepairs; current source21.3--21.4 active, next21.4--21.5 when slot frees; earlierpartialpairs still need continuation and independentcoverageaudit.",
+    "F005 server activation proven forconfiguredprofilebeforeload; per-player override mustprecedeload. Later live switching explicitlyexcluded, not a requiredfeature.",
+    "Fence integratedmainb099aa0 with all-Test-disabled build; exactnewJARhash recorded inintegrationnotes, awaiting nextops artifactaudit.",
+    "Keep15 maximumincludingroot/old1.17source; allworkersLunaHigh, rootSolMedium; no tests/runtime/Docker/push."
   ],
   "nextAcceptedIntegrationBatch": {
     "finding": "F005 saved FallFlying",
