@@ -18,6 +18,7 @@
   ],
   "client": [
     "AbstractBoatMixin",
+    "ClientPacketListenerMixin",
     "LocalPlayerMixin",
     "LocalPlayerSprintMixin",
     "client.LocalPlayerAccessor"
