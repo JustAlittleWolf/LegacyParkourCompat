@@ -44,6 +44,7 @@ Cited source hash inventory (SHA-256; relative roots are the source roots in the
 - `net/minecraft/block/RedstoneOreBlock.java`: A `0691a8df1e7ceac85ca0ec9298706b225ce5669541757d15333f2c4019a1de82`; B `5d200f042a07ad928f1f38b9d7464a1a019f53ca7e63b9f23036dc71f8939ecd`.
 - `net/minecraft/block/SlimeBlock.java`: both `38e77cdaaf3681fe3a2357ebc0dce7a86d658429463bc1e06e6e1167fe627c8a`.
 - `net/minecraft/block/MagmaBlock.java`: both `6e382a4fc307391c6776dc2ff010aec1da16b50ebc50e015b6009d82c7b76b1a`.
+- `net/minecraft/block/FarmlandBlock.java`: A `63d9048ebed65b890c370a1da6e79733904f67d953aff9fd8c0316f97f9d4e7f`; B `09e260528fd78b4bbdbc302726c7ae937fbc49f17b674c4a7ad802e0f7b6f5e8`.
 - `net/minecraft/block/StairsBlock.java`: A `ee143aced2a6902563cddbae77e78d1d1a512244f278987684ebe5bcacba37cb`; B `5df1782da6eb7acdb9935b3910a0484d6417661bfd6230ecf81df0de6d782627`.
 - `net/minecraft/block/FenceBlock.java`: A `d9375bba3b41ae408bdf65d69b25aecad522a6d0b45b38d30f77d12b343a4909`; B `856cb92d4613289747a34a6bc85f306ca9d44b7057a45c79f2020d13025d1cf7`.
 - `net/minecraft/block/PaneBlock.java`: A `e6e3dd856efb96146634ab8f56c915afbc6116fd51973c25229ef7aa2ce0e5c8`; B `1e8968e7d642358cce90f0d3156f07f19c5bca28d2008d5d2d4bf0eccc7266a9`.
@@ -59,6 +60,7 @@ Cited source hash inventory (SHA-256; relative roots are the source roots in the
 - `net/minecraft/world/World.java`: A `888ed0e9de765def87b05c4126ecdf0b10e9dd448b4543dd1cb98211e9951646`; B `27cfaa5ff45c2d88c492fc5dae3ea4a2bb4536fd64bff8498a9a7d0cb82efb58`.
 - `net/minecraft/client/entity/living/player/RemoteClientPlayerEntity.java`: both `e7e248b439f7356695b1bf196d08e997bb19b24c23b206763c772663ee7086a1`.
 - `net/minecraft/util/math/Box.java`: A `f529ef075bd933b88e3bace9020a5e23cb18b65e816154520f10bd2f26f61155`; B `f788b8146b14f299ccb58ea0854609f845c298a963295d503de2e30e15d66f3a`.
+- `net/minecraft/world/chunk/WorldChunk.java`: A `dcfcda41f28cc205f17a547c69efdf70aede8f4770a43101d20ead08e8ed86b5`; B `b80c4962661b31c9015faa9bb3d42e390528b59473956ba20e424c76625b844f`.
 - `net/minecraft/entity/EntityFilter.java` and `net/minecraft/util/math/Box.java` hashes are recorded above; broader query/provider and call-site closure remains open. `net/minecraft/item/ItemStack.java`: A `a41054235eac09212065f7e20d4206aa7d83cdd159cebbc77eb8b3d1e43ab842`; B `dc929fcc42e94dacb1f2d2a32572c00612c4f9b39d4cb551634fd3dd290467d8`. `net/minecraft/entity/living/player/PlayerInventory.java`: A `eeb156c483ad1c3cb52b58a197f7321817b8c52c2cf35f4995a5758dc7871842`; B `cf956f7410c6911d2e978d2072a7d53590e4800c398687afeca6f771e74e19d6`. `net/minecraft/item/ElytraItem.java`: A `20db6fd5b7438c4957c19565e593d79497a4712d9ce71fd5af0a9a4a61ad8cf2`; B `16e02a70181c063c0643b7dfdbe17516ad46cd38053a2d88cc3fb97400652c7c`. `net/minecraft/block/state/StateDefinition.java`: A `00fea8cdf8a0cabf1af21e7e7ff47f071bd87a16f91697a3b31efce6c78bfda4`; B `95704c944742efb2ec9cba7eb73399a330195556e669451131ba542e6a9fac65`.
 
 ## Blind-discovery freeze
@@ -170,6 +172,18 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): for a player whose collision box intersects a retracting source during its partial-progress ticks, the providers return different collision-box sets. B represents the stationary extended base and moving head/arm separately, including a shortened arm; A translates and unions the moved piston-base shape at current and previous progress. This is a source-confirmed collision-input change reachable in the ordinary player world query. The resulting final position depends on the player's box and surrounding geometry; no trajectory is claimed.
 - Finding IDs or checked absence/replacement path: F-05; distinct from F-02's piston displacement cap and F-03's sneak-restraint mover gate.
+
+### Slice S4-farmland-fall-player-position: farmland replacement callback position write
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT, INV-STATE, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: server-side `FarmlandBlock.onFallenOn` collapse condition, its replacement callback, dirt collision box entity query, and the local player landing-to-callback path.
+- A evidence: `FarmlandBlock.java::onFallenOn`, lines 61-71, SHA-256 `63d9048ebed65b890c370a1da6e79733904f67d953aff9fd8c0316f97f9d4e7f`; `Entity.java::move/checkFallDamage/setPosition`, lines 630-660, 808-817 and 282-288, SHA-256 `05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77`; farmland registration in `Block.java`, lines 856-857.
+- B evidence: `FarmlandBlock.java::onFallenOn/setDirt`, lines 59-79, SHA-256 `09e260528fd78b4bbdbc302726c7ae937fbc49f17b674c4a7ad802e0f7b6f5e8`; `Entity.java::move/checkFallDamage/setPosition`, lines 690-721, 873-882 and 295-301, SHA-256 `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440`; `World.java::getEntities`, lines 2127-2147, SHA-256 `27cfaa5ff45c2d88c492fc5dae3ea4a2bb4536fd64bff849a9a7d0cb82efb58`; `WorldChunk.java::getEntities`, lines 667-688, SHA-256 `b80c4962661b31c9015faa9bb3d42e390528b59473956ba20e424c76625b844f`; farmland registration in `Block.java`, lines 861-862.
+- State producers/writers -> consumers/readers: clipped player landing -> accumulated fall distance -> block under `floor(y - 0.2F)` -> farmland `onFallenOn` -> dirt replacement -> entity bounds query -> `Entity.setPosition` and rebuilt player bounds.
+- Parent slices / dependencies / closure evidence: S4-callbacks, S4-box-axis-resolution, INV-WORLD-MOVEMENT farmland registration/collision shape, and INV-EXTERNAL direct position writers. The guard and landing dispatch are paired; A only replaces the block, while B queries the new full-cube dirt box and moves every included non-spectator entity to its top. Damage simulation remains excluded.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): a server player landing near the center of registered farmland with fall distance 2.0 satisfies the unchanged collapse guard; `nextFloat() < 1.5F` always passes. The player's feet at `posY + 0.9375` intersect the new dirt box ending at `posY + 1.0`. B's default entity query includes that non-spectator player and writes its y position to the dirt top; A has no corresponding position write. This is a direct source-proven player movement response. Runtime validation and client correction timing were not performed.
+- Finding IDs or checked absence/replacement path: F-08. Original mapped-JAR equivalence is unverified; introduction is unknown within the endpoint pair.
 
 ### Slice S4-step-callbacks: post-move onSteppedOn dispatch
 
@@ -525,6 +539,7 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - [F-05](findings/F-05-retracting-piston-collision-shapes.md): B builds retracting moving-piston collisions from a stationary base plus a translating piston head/arm, including a shortened arm; A translates the moved piston-base shape.
 - [F-06](findings/F-06-lower-row-moving-fence-collision.md): B's perimeter query includes a lower padded row and appends an intersecting translated fence box from a partial westward piston move; A skips that candidate row.
 - [F-07 — withdrawn](findings/F-07-player-pose-fit-stale-outer-stair-shape.md): superseded by [the helper argument correction](findings/F-07-correction-helper-argument-flow.md); `true` controls world-border enforcement and providers receive `forceShape=false`, so the claimed stair-shape query difference is invalid.
+- [F-08](findings/F-08-farmland-landing-player-position.md): on a qualifying server player landing, B replaces farmland with dirt and raises intersecting entities to the dirt top; source-confirmed for the bounded landing path.
 - Discarded candidate: `LocalClientPlayerEntity.getRotationVector(float)` is added in B and reads yaw instead of inherited LivingEntity headYaw; at confirmed locally controlled travel, `PlayerEntity.serverTickAi` sets headYaw=yaw before travel. This bounds that travel use only; other callers remain open and this candidate is not globally discarded.
 - The empty chest-slot null-to-empty change is closed for the local Elytra start/continue gates in S2-elytra-empty-slot; other item-use and equipment paths remain open.
 
@@ -534,6 +549,7 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - F-05 immutable source snapshot: `findings/F-05-retracting-piston-collision-shapes.md`, SHA-256 `480864fa8225e6eb0cddd478223bf6e715ab4533970c120520830c420c3c7ddf`, committed at `2d4e1ecfc2ab35aad491c60fe5c880ad2e276a4a`. The bounded path is the registered retracting moving-piston source through ordinary player `World.getCollisions`; B supplies a stationary base plus translating head/arm boxes including the `SHORT` arm, while A supplies the moving base shape at current/previous progress. Original mapped-JAR equivalence remains unproven. Independent blind source review: pending assignment/decision.
   - F-06 immutable source snapshot: `findings/F-06-lower-row-moving-fence-collision.md`, SHA-256 `2b6340bd527119f69ae31d932ea7bac5709020ac69f48bc93d9ac3993a3e64db`, committed at `cdca5efba02335a6213aa892f8750a779dae5f1e`. The bounded source path is a partial westward piston extension moving a registered oak fence into B's lower padded y-row perimeter scan; the exact query box intersects the translated fence center post, which A's scan skips. The finding claims collision-list difference only; original mapped-JAR equivalence remains unproven. Independent blind source review: pending assignment/decision.
 - F-07 immutable snapshot, withdrawn: `findings/F-07-player-pose-fit-stale-outer-stair-shape.md`, SHA-256 `e2e44bc72fd166294d6fdae72e145d2a483b286f7700b5eedf82d41e1afef3d1`, committed at `bd95d35bd9a9a0ae468b9cf035f99f08639e91c0`. The blind reviewer identified that B's helper `true` means `enforceWorldBorder`; provider dispatch passes `forceShape=false`. The stair-shape premise is invalid. The superseding source correction is `findings/F-07-correction-helper-argument-flow.md`; preserve the original snapshot as an audit record only.
+- F-07 superseding correction snapshot: `findings/F-07-correction-helper-argument-flow.md`, SHA-256 `ae0e8f16bf91da6fcc48f93c4cf1b93bfe693ae7555fe8eef9c93f72899839bc`, committed at `84d850f`. It records the wrapper/helper/provider argument flow and withdraws the stale stair claim; F-07's original file remains unchanged as an immutable audit record.
 - Independent blind source review: pending assignment/acceptance. This is a source-finding snapshot only; it is not pair freeze or implementation approval. The source worker has not opened implementation or wiki material.
 
 ## Resume checkpoint
@@ -569,7 +585,7 @@ Complete only after blind-discovery freeze. No mod implementation was opened.
 
 ## Source audit closure
 
-- Coverage counts by status: 6 findings, 23 compared-no-difference, 4 in-progress, 1 pending (bounded rows only; broad inventory remains open).
+- Coverage counts by status: 7 findings, 23 compared-no-difference, 4 in-progress, 1 pending (bounded rows only; broad inventory remains open).
 - Required inventory status and evidence: only `INV-EXCLUSIONS` declaration complete; all movement inventories pending, with partial anchors above.
 - Open dependencies: D-SOURCE-DIAGNOSTICS, D-COLLISION, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
 - Unresolved gaps and limits: complete tick graph, body-level diagnostic review, collision providers/resources, exact entity-player collision paths, modifiers, external writers, source-only freeze and independent audit remain open. Source comparison only; no gameplay behavior observed.
