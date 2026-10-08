@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Public API for selecting the movement version and registering deltas.
+ * Public API for selecting the movement version. Built-in historical deltas are
+ * statically registered by the mod.
  *
  * <p>The UI should list {@link #selectableVersions()}. Patch releases with the
  * same parkour mechanics share one {@link ParkourVersion}: selecting

@@ -46,3 +46,7 @@ Each row maps a removed provider’s historical change classes to the new mechan
 - Prior class-to-mechanic mappings: 104.
 - Catalog class-to-mechanic mappings: 108.
 - Keyed block variants remain enumerated by the existing V1_8 lists and V26_1 block registry scan.
+
+## Follow-up source correction
+
+The follow-up correction is based on commit `e9e5a059` and leaves that commit in history. The existing `MovementChangeRegistryImplTest` now exercises explicit typed registration: one test confirms registering one interface does not implicitly register another, another confirms a shared instance can be registered under both interfaces, and the resolver override assertion remains scoped to Alpha. The retired reflective `mechanicTypes` assertions and Object registration calls were removed. The current effective-routing audit and public API documentation were updated; remaining provider/entrypoint references are historical implementation records.
