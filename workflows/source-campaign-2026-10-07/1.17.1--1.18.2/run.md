@@ -49,7 +49,7 @@ A/B roles: LocalPlayer#aiStep client tick; KeyboardInput#tick input; LivingEntit
 - A evidence: KeyboardInput.java SHA ea41065c909e53f1a2cc29ecdb6a9a8f9265d2801cd8b95b996e182c318ecd69; ClientPacketListener about lines 376,961.
 - B evidence: KeyboardInput.java SHA 281622f8481654035196a7bc1554d5251c1040518375e3ac6f6439e5ec894a75; ClientPacketListener about lines 375,960.
 - State producers/writers -> consumers/readers: key state -> impulses -> LocalPlayer/LivingEntity.
-- Parent slices / dependencies / closure evidence: D-INPUT-ASSIGNMENTS open.
+- Parent slices / dependencies / closure evidence: D-INPUT-ASSIGNMENTS remains open pair-wide; F-001-specific keyboard-to-xxa/zza assignment is checked at LocalPlayer#serverAiStep A lines 613-622 and B lines 606-615, and its next-tick consumer order is closed in F-001.
 - Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): A double 0.3 then float cast; B 0.3F. Normal inputs -1,0,1; assignment closure open.
 - Finding IDs or checked absence/replacement path: none.
@@ -60,7 +60,7 @@ A/B roles: LocalPlayer#aiStep client tick; KeyboardInput#tick input; LivingEntit
 - A evidence: build/movement-campaign-2026-10-07/ready/1.17.1/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#aiStep, lines 715-724, SHA-256 c9a91cb6cb57806bc8d22e5bfe2d97daaf21d5d2a48f34a6e2c53164c61c5812; Entity.java::Entity#move, lines 553-565, SHA-256 ab28e1fba924771ec048140dfd293ee5a46a7dfe81f71a1a0b1aecc1927232de.
 - B evidence: build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#aiStep, lines 708-718, SHA-256 99c2d18bcd23243afb8f95c5bafb21fb0be7ea04aacbb14fcf7be7ced2c9c095; #isHorizontalCollisionMinor, lines 998-1014, same hash; Entity.java::Entity#move, lines 543-584 and base classifier lines 676-678, SHA-256 2228fdaca5793171cbd94038306d571a6ada78ca96f5734efb4cada5b744c10a.
 - State producers/writers -> consumers/readers: resolved movement -> collision flags -> sprint decision.
-- Parent slices / dependencies / closure evidence: flag edge traced; full solver open.
+- Parent slices / dependencies / closure evidence: full shape-provider/border/solver inventory remains open pair-wide; F-001-specific stone-wall path is closed with A legacy and B shape solver order, default full-cube stone collision, and maxUpStep=0.6F evidence in findings/F-001-minor-horizontal-collision-sprint.md.
 - Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): A stops for any horizontal collision; B exempts minor collision if other stop terms are false.
 - Finding IDs or checked absence/replacement path: F-001.
@@ -224,8 +224,18 @@ Resolved: D-ENTITY-COLLISIONS (paired LocalPlayer entity query and EntityGetter/
 
 ## Finding snapshots (not pair freeze)
 
-The pair remains partial. Accepted snapshot count is zero; the following immutable candidate is submitted for blind source review. Snapshot acceptance releases only this finding for a separate implementation task and does not close other slices or freeze the pair.
+The pair remains partial. Accepted snapshot count is zero; F-001 and F-006 are immutable candidates submitted for blind source review. Snapshot acceptance releases only that finding for a separate implementation task and does not close other slices or freeze the pair.
 
+- Snapshot ID: F001-1.17.1-1.18.2-8ae1f9d
+- Finding: findings/F-001-minor-horizontal-collision-sprint.md
+- Immutable snapshot commit: 8ae1f9d
+- Finding file SHA-256: 9289e77076d1203eb8be4756d5e8d3cb9276090a2e97a004c7f1b5f0a79559d2
+- Source/artifact identity: A Mojmap 1.17.1 source manifest 93270d229acfb751bf56daf1e7be26ce3dcff26b29e94aa157de621405a3463b, artifact manifest e52c5dbae7d9663190ccc55a4f9b44a8e0615fb1fbbd8280811df43f70ec8aaa, mapped jar 2a2be036174902e447865498741b8c59fa2e090d352d786a8507dccb7c23008c; B Mojmap 1.18.2 source manifest aea0cb9c6fc8f7a46f0eb82b0388ad58a4659f513be6c0a2be06c0df0c1eb07a, artifact manifest a1507e4875faee892aca4c59686bbd68933db21a2274559e81eea8a32b021036, mapped jar 60a2017dd217b23df8a5ddbebac96fccb58ff747e961974696e0018f6ef12dba.
+- Bounded player path and guards: discrete forward keyboard input -> xxa/zza assignment -> horizontal collision after two-axis movement into existing one-block stone; 0.1 blocked-X/unblocked-Z ratio yields atan(0.1) below B's 0.13962634F classifier cutoff; maxUpStep=0.6F prevents a step candidate clearing the one-block wall; next tick A stops sprint and B retains it when other gates pass.
+- Version boundary: exact 1.17.1 vs 1.18.2; first changed release within the interval unknown.
+- Finding dependencies: finding-specific input assignment, tick order, stop gate, flag writer/classifier, and stone-wall collision path checked; full input and collision inventories remain open pair-wide.
+- Reviewer: 01a116ce-c937-7613-a49b-716e99582357; decision pending.
+- Pair state at handoff: partial; immutable snapshot commit 8ae1f9d; pair complete: no; implementation status: not started; runtime validation: not performed.
 - Snapshot ID: F006-1.17.1-1.18.2-064fc24
 - Finding: findings/F-006-boat-passenger-yaw-refresh.md
 - Immutable snapshot commit: 064fc24e5e3d8b4dab4f12c2000dcb13d37514ca
