@@ -91,9 +91,8 @@ abstract class PlayerMixin implements AirSpeedState {
     ) {
         Player player = (Player) (Object) this;
         MovementRuntime.find(SneakEdgeBehavior.class, player).ifPresent(behavior -> {
-            boolean stayingOnGroundSurface = (moverType == MoverType.SELF || moverType == MoverType.PLAYER)
-                && player.onGround()
-                && ((PlayerMovementAccessor) player).legacyparkourcompat$isStayingOnGroundSurface();
+            boolean stayingOnGroundSurface = ((PlayerMovementAccessor) player)
+                .legacyparkourcompat$isStayingOnGroundSurface();
             callback.setReturnValue(behavior.maybeBackOffFromEdge(
                 player,
                 movement,
