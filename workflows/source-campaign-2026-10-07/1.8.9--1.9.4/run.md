@@ -63,7 +63,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 
 - `INV-TICK` status=pending; slice_ids=TICK-01 through TICK-07; evidence=full local tick graph and player path inventory in progress
 - `INV-STATE` status=pending; slice_ids=STATE-01 through STATE-03; evidence=all player state writers/readers still being inventoried
-- `INV-COLLISION` status=pending; slice_ids=COLL-01 and COLL-02; evidence=axis, step, support, and shape-provider closure in progress
+- `INV-COLLISION` status=pending; slice_ids=COLL-01, COLL-01-NOCLIP, and COLL-02; evidence=normal axis/step/support/callback paths remain open; no-clip displacement is bounded and compared; shape-provider closure in progress
 - `INV-WORLD-MOVEMENT` status=pending; slice_ids=WORLD-01, WORLD-02, WORLD-03, COLL-02; evidence=world states, neighboring blocks, fluids, and vehicle path in progress
 - `INV-MODIFIERS` status=pending; slice_ids=MOD-01, MOD-02; evidence=equipment/effect/attribute producers and consumers in progress; modern-only Elytra/Levitation are scoped out
 - `INV-EXTERNAL` status=pending; slice_ids=TICK-03 through TICK-07, WORLD-02, EXT-01, EXT-02; evidence=external velocity/position/vehicle writers in progress
@@ -134,31 +134,31 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 ### Slice TICK-04: boat directional input transport
 
 - Inventory ID(s): `INV-TICK`, `INV-EXTERNAL`.
-- Exact behavior boundary and enclosing guards/order checked: input booleans through `LocalClientPlayerEntity.rideTick()` to boat input fields and paddle packet.
-- A evidence: `Input.java` has no directional boolean fields; local ride transfer and exact absence evidence pending.
-- B evidence: `Input.java`, `KeyboardInput.java`, `LocalClientPlayerEntity.rideTick()V` lines 763-769, `BoatEntity.setInput(ZZZZ)V`.
-- State producers/writers -> consumers/readers: directional key flags -> boat `inputLeft/inputRight/inputUp/inputDown` -> boat update-paddles movement.
-- Parent slices / dependencies / closure evidence: boat input consumers and rider update.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): B adds direction-specific boat input; movement effect pending.
-- Finding IDs or checked absence/replacement path: pending.
+- Exact behavior boundary and enclosing guards/order checked: keyboard input sampling during local player's inherited `tick()` inside `Entity.rideTick()`, then B-only directional-field transfer after `super.rideTick()` to `BoatEntity.setInput(ZZZZ)V`.
+- A evidence: `Input.java` declares only movement magnitudes plus jumping/sneaking (SHA-256 `aabf9cfed6156121c67c9f16002ccc02f14fa6213d5717732dcf9a1d26368b74`); `KeyboardInput.tick()V` writes magnitudes/jump/sneak (SHA-256 `a5e5b2033322f8867cd845e4095cea7a82888f6382cbfafefc559cf9ba3a76dd`); `LocalClientPlayerEntity.mobTick()V` polls input at line 539 and writes movement speeds at 473-474 (SHA-256 `1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053`); inherited `Entity.rideTick()V` calls virtual `this.tick()` at 1282 and returns to the vehicle update at 1284 (SHA-256 `d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b`). `BoatEntity.tick()V` consumes rider `sidewaysSpeed`/`forwardSpeed` at 259-263 (SHA-256 `77ef72c28024b754ff76f2c67e14dd61832394bac2bd7b62b29708560e588da2`).
+- B evidence: `Input.java` adds four directional booleans (SHA-256 `206dea2ff5977599596c907c54f36300c4e72d07d6778d82e8850f57bb0fb009`); `KeyboardInput.tick()V` samples them (SHA-256 `7be11425906be051c83e275f359816546e4677b16d212156380e8d2e9258654a`); `LocalClientPlayerEntity.mobTick()V` polls input at line 649 and copies movement speeds at 589-590, while `rideTick()V` sets boat inputs at 763-769 after inherited `rideTick()` (SHA-256 `8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d`). `BoatEntity.setInput(ZZZZ)V` writes directional fields and `updatePaddles()V` consumes them at 527-554 (SHA-256 `3d41b9df0ef0d36158105235c92b35dac4b51070476e7ef688520961d1d56e57`).
+- State producers/writers -> consumers/readers: keyboard state -> B direction booleans -> B boat input fields -> boat paddle/velocity/yaw state. A's boat consumes the passenger's movement magnitudes instead. The last consumers write vehicle state, whose physics is explicitly outside this campaign's scope.
+- Parent slices / dependencies / closure evidence: the complete input polling -> passenger tick -> B transfer path and both boat consumer forms are paired. Direct player passenger position/yaw writes are tracked separately in WORLD-02; boat velocity, buoyancy, water, collision and vehicle motion are excluded.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): B adds directional input transport for client-authoritative boat steering, replacing A's passenger movement-magnitude reads inside boat physics. The only changed consumer is vehicle state/motion, which the campaign excludes; no player-motion finding is based on the boat's resulting trajectory.
+- Finding IDs or checked absence/replacement path: direct passenger transform finding is `WORLD-02-boat-rider-transform.md`; movement-magnitude path and B field consumer are cited above.
 
 ### Slice WORLD-02: boat movement and rider path
 
 - Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-EXTERNAL`.
-- Exact behavior boundary and enclosing guards/order checked: boat tick authority, water state, buoyancy/drag, propulsion, yaw, movement, collision and rider positioning.
-- A evidence: `BoatEntity.java` `tick()V` lines 176-365; hash pending.
-- B evidence: `BoatEntity.java` `tick()V` lines 207-281, `updateVelocity()V` 484-525, `updatePaddles()V` 527-556; hash pending.
-- State producers/writers -> consumers/readers: rider inputs/authority -> boat velocity/yaw -> boat `Entity.move` -> passenger position.
-- Parent slices / dependencies / closure evidence: LocalClient ride input and boat water/status, dimensions, collision, passenger methods.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): B replaces A's passenger forward-speed thrust and liquid-height fraction with directional paddle inputs and status-dependent movement; bounded findings pending.
-- Finding IDs or checked absence/replacement path: pending.
+- Exact behavior boundary and enclosing guards/order checked: loaded passenger dispatch through `Entity.rideTick()V`, vehicle-specific passenger position callback, and direct player position/yaw/head-yaw writers. Boat water classification, buoyancy, drag, propulsion, collisions and vehicle displacement are inventoried as excluded vehicle physics, not compared as player movement.
+- A evidence: `World.tickEntities()V` selects `rideTick()` for mounted entities at lines 1341-1346 (World.java SHA-256 `3c04f5b874fbb6692039164c882a3c47fe28c7eca864e91c9ac57798153888ee`); `Entity.rideTick()V` calls `this.tick()` and then `vehicle.updateRiderPositon()` at 1275-1286 (SHA-256 `d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b`); `BoatEntity.updateRiderPositon()V` writes player position with a yaw-based 0.4 horizontal offset and mount/ride heights at 366-372 (SHA-256 `77ef72c28024b754ff76f2c67e14dd61832394bac2bd7b62b29708560e588da2`). A `Entity.rideTick()` has no rider yaw/head-yaw write; its yaw/pitch delta accumulators are only normalized, clamped and reduced at 1285-1324, and source-wide reference search found no other consumers.
+- B evidence: `World.tickEntities()V` selects `rideTick()` for mounted entities at lines 1406-1413 (World.java SHA-256 `2fe063e0ec224eed9fc7d01b8f788c32035eed5fee5a9d98ea5e82296236e05a`); `Entity.rideTick()V` dispatches `entity.updateRiderPositon(this)` after `this.tick()` at 1432-1444 (SHA-256 `bcd7fa2206bf8d7271102f6da7fe2771f96dbe22ec79dab9f2101a3e29c17ef0`); `BoatEntity.updateRiderPositon(Entity)V` sets passenger position, increments rider yaw and head yaw by `yawVelocity`, and calls `copyEntityData` at 558-595 (SHA-256 `3d41b9df0ef0d36158105235c92b35dac4b51070476e7ef688520961d1d56e57`).
+- State producers/writers -> consumers/readers: boat yaw/mount geometry -> direct rider x/y/z assignment; B boat `yawVelocity` -> rider yaw/head-yaw assignment and clamped body/head orientation. This is a player-state response after vehicle tick; source comparison does not trace how the boat acquired its velocity or trajectory.
+- Parent slices / dependencies / closure evidence: input acquisition/transfer is paired in TICK-04. Both-side world passenger dispatch, base rider callback and BoatEntity override are checked. Boat movement/physics remains excluded; other rideable entities and external authority/correction paths remain separate open inventory work.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): for a locally controlled player riding a boat that reaches the normal passenger-update callback, A positions the passenger 0.4 blocks from the boat center along boat yaw and does not directly change rider yaw/head yaw; B centers a single passenger horizontally and directly modifies rider yaw/head yaw from boat yaw velocity before applying its orientation clamp. This is a direct player position/orientation write, not a claim about vehicle movement or a resulting trajectory.
+- Finding IDs or checked absence/replacement path: `findings/WORLD-02-boat-rider-transform.md`.
 
 ### Slice COLL-01: axis collision and step resolution
 
 - Inventory ID(s): `INV-COLLISION`, `INV-STATE`.
-- Exact behavior boundary and enclosing guards/order checked: collision list, Y/X/Z clipping, two step candidates/tie-break, support block, velocity cancellation and callbacks.
+- Exact behavior boundary and enclosing guards/order checked: normal clipped movement path only; collision list, Y/X/Z clipping, two step candidates/tie-break, support block, velocity cancellation and callbacks. Remaining behaviors are split for subsequent checkpoints.
 - A evidence: `Entity.java` `move(DDD)V` lines 371-638; hash pending.
 - B evidence: `Entity.java` `move(DDD)V` lines 441-722; hash pending.
 - State producers/writers -> consumers/readers: requested displacement + shape providers -> clipped displacement -> position/ground/collision/support flags -> callbacks and velocity writes.
@@ -166,6 +166,18 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): axis ordering and step candidate selection appear structurally aligned; no no-difference claim until dependency closure.
 - Finding IDs or checked absence/replacement path: pending.
+
+### Slice COLL-01-NOCLIP: direct shape translation
+
+- Inventory ID(s): `INV-COLLISION`, `INV-STATE`.
+- Exact behavior boundary and enclosing guards/order checked: `Entity.move(DDD)V` no-clip branch and `setPositionFromShape()V`; collision queries and callbacks are bypassed by this branch.
+- A evidence: `Entity.move(DDD)V` lines 371-375 moves the existing box by `(dx,dy,dz)` and recomputes entity coordinates; `setPositionFromShape()V` lines 638-642 sets X/Z to the box center and Y to `minY`; `Box.moved(DDD)LBox;` lines 89-91 adds the same deltas independently to all six bounds. Entity.java SHA-256 `d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b`; Box.java SHA-256 `8fc7bb57b1132afc7ae9539c30ff9c2585f0e36c2b0e59c60946cb1e3cee9eea`.
+- B evidence: `Entity.move(DDD)V` lines 441-445 performs the same moved-box call and coordinate recomputation; `setPositionFromShape()V` lines 722-727 uses the same center/minY expressions; `Box.moved(DDD)LBox;` lines 124-126 adds the deltas in the same bound order. Entity.java SHA-256 `bcd7fa2206bf8d7271102f6da7fe2771f96dbe22ec79dab9f2101a3e29c17ef0`; Box.java SHA-256 `055d57e1e555cc378fd1d7ea14d57036190ae335238175d284b969f439abe198`.
+- State producers/writers -> consumers/readers: caller-provided requested displacement -> Box bounds -> recomputed entity x/y/z. `noClip` guard bypasses the ordinary collision provider and all subsequent clipping/callback code.
+- Parent slices / dependencies / closure evidence: paired `move` branch, coordinate recomputation helper and Box translation body checked. No block/entity collision shape dependency is reachable from this branch.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for an entity with `noClip == true`, both versions translate all box bounds by the requested double deltas, then derive x/z from the same midpoint sums divided by `2.0` and y from the minimum bound. B caches the box in a local before those expressions; the floating-point operation order for each coordinate is unchanged.
+- Finding IDs or checked absence/replacement path: none; ordinary clipped movement remains in COLL-01.
 
 <!-- Add one bounded slice per behavior/dependency. Pending and in-progress slices forbid completion. -->
 
@@ -319,6 +331,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - `DEP-AUDITOR`: coordinator; full-pair independent source audit not assigned. The focused review below accepts only the bounded STATE-01 cutoff snapshot and does not close the pair.
 - `DEP-TICK-06-STATE-SOLID-PROVIDERS`: closed for paired A historical block classes after comparing `isSolid` material/cube/signal inputs, B state dispatch/accessors, registrations, and non-piston providers. Piston is no-difference; End Portal Frame is routed to corrected `WORLD-03`; B-only modern blocks are out of scope. Full collision-shape inventory and downstream velocity/travel closure remain separate open dependencies.
 - `DEP-WORLD-03-BLIND-SNAPSHOT`: open; independent review of the corrected End Portal Frame candidate is pending.
+- `DEP-WORLD-02-BOAT-PHYSICS`: closed by scope disposition; input-controlled boat velocity, buoyancy, water interaction, collision and vehicle trajectory are out of scope. Direct player passenger position/orientation callback is retained as `WORLD-02` and recorded in its finding.
 - All remaining `TICK-*`, `STATE-*`, `COLL-*`, `WORLD-*`, `MOD-*`, and `EXT-*` inventories remain open.
 
 ## Finding index
@@ -330,6 +343,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - [STATE-03 â€” Sneak collision height](findings/STATE-03-sneak-collision-height.md)
 - [WORLD-01 â€” Trapdoor ladder climbing](findings/WORLD-01-trapdoor-ladder-climbing.md)
 - [WORLD-03 - End Portal Frame player ejection](findings/WORLD-03-end-portal-frame-player-ejection.md)
+- [WORLD-02 — Boat rider transform](findings/WORLD-02-boat-rider-transform.md)
 - [COLL-02 â€” Pane collision shapes](findings/COLL-02-pane-collision-shapes.md)
 
 ## Incremental finding snapshot log
@@ -434,7 +448,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 
 - Last completed slices/checkpoints: TICK-05 active-item countdown and local input consumer compared with no equivalent-main-hand movement delta; TICK-07 paired client-push source evidence committed; EXT-01 packet-selection/correction source finding recorded with downstream server effect unresolved; MOD-02 paired attribute/effect inventory committed at `313e7909e0bf4be57ff33df1412a378b3a6de390`, including the conditional NBT equipment-slot filter finding; exact bounded STATE-01 cutoff snapshot independently accepted; corrected COLL-02 and STATE-03 candidates preserved. Original mapped-JAR identity remains unproven.
 - Supersession of the piston candidate: the prior finding-file SHA-256 was `a3125e53e15bbe8f4a7692bd3494716f9845ff69c13db551b379654852c5d07d`. B `PistonBaseBlock#isCube(BlockState)` returns false at lines 216-218 (file SHA-256 `4ef15129e660397ba3a531c8ff4a4810393973ea56417d8830f4445d14035e36`); A `PistonBaseBlock#isCube()` returns false at 223-225 (SHA-256 `3c96698a674714446f9fd0d6cc1c4d5eb72937d9a2f396516ddb2461c3ea4929`). The prior piston-specific finding is withdrawn. The provider comparison found a distinct non-piston End Portal Frame delta, now recorded in the corrected `WORLD-03-end-portal-frame-player-ejection.md` finding; the prior claim and exact evidence are retained in its superseded-candidate record.
-- Next bounded comparison: continue the remaining collision-shape/provider inventory and downstream TICK-06 velocity-cutoff/travel consumer closure. The state-solid provider subinventory is closed for paired A historical block classes: shared cube overrides were compared; A/B signal-source overrides and B state-material lookup were compared; Air and modern-only block cases were dispositioned; the End Portal Frame difference is recorded in WORLD-03. Entry paths: A `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java` lines 292-346 and `Block.java` lines 237-239; B same-named local-player file lines 349-403, `block/state/StateDefinition.java` lines 293-300, and `Block.java` lines 214-216. Shared sources remain read-only. TICK-06 source hashes: A `1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053`, B `8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d`.
+- Next bounded comparison: split remaining `COLL-01` normal movement into named axis clipping / step selection / support-edge / callbacks, then close downstream TICK-06 velocity-cutoff/travel dependencies. Also continue player state/equipment and external influence inventories; WORLD-02 covers only direct boat passenger writes and does not close other mount/authority paths. The state-solid provider subinventory is closed for paired A historical block classes: shared cube overrides were compared; A/B signal-source overrides and B state-material lookup were compared; Air and modern-only block cases were dispositioned; the End Portal Frame difference is recorded in WORLD-03. Entry paths: A `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java` lines 292-346 and `Block.java` lines 237-239; B same-named local-player file lines 349-403, `block/state/StateDefinition.java` lines 293-300, and `Block.java` lines 214-216. Shared sources remain read-only. TICK-06 source hashes: A `1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053`, B `8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d`.
 - Outstanding dependencies and owners: `DEP-AUDITOR` coordinator for full-pair review; fresh independent decisions for exact candidates `SNAP-COLL-02-PANE-02` and `SNAP-STATE-03-01`; `WORLD-03` End Portal Frame snapshot awaits independent review; remaining open `INV-TICK`, `INV-STATE`, `INV-COLLISION`, `INV-WORLD-MOVEMENT`, `INV-MODIFIERS`, and `INV-EXTERNAL` source inventories. The pair remains active and incomplete.
 - Assumptions requiring verification: no first-version claim inside the interval; complete resource/provider inventory remains open; original mapped-JAR identity/equivalence remains unproven.
 - Stop checkpoint: follow-up branch `feat/source-discovery-movement-source-1-8-9-1-9-4-solid-resume`, based on requested source branch commit `0481dfe227ccc14b935352c306afbd04035cc635`; the named resume branch is checked out by another task. Candidate evidence is commit `a1fd03a9ce1446633b09c295c806f3ffa2a7522a`; the worktree checkpoint was committed after it. This checkpoint includes the bounded TICK-06/WORLD-03 provider comparison and corrected finding. No tests, builds, runtime, decompile, or gameplay validation was run.
