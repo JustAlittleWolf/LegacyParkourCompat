@@ -14,3 +14,12 @@ Baseline: `457b350fa5490b90b08de4f97033718c77efec1d` (`feat/movement-completenes
 | Passenger yaw | Implementation underway in separate owner task. | Code pending. | Pending. | Pending. | Not performed. |
 
 The baseline contains yesterday's integrated fixes and its successful test-disabled build. Build status for any new integrated code remains pending. When a patch is accepted, record its exact code and review commits, integrate it, then use the exclusive compile slot with every Gradle Test task explicitly disabled and `-x test`. No tests, client/TAS, Gym/server, Docker, or runtime simulations are authorized. This queue does not close any source pair or claim runtime parity. Cross-version switching remains outside the correctness guarantee.
+
+## Integration review update — 2026-10-08
+
+Independent exact-patch review is recorded at review commit `fddb263`.
+
+- TICK-01 is accepted and integrated as `3699009`; test-disabled compile/build remains pending.
+- Passenger yaw and 1.13 pose fit are held for the requested corrections in `integration-review-2026-10-08.md`.
+- Elytra comparator commit `a5d07341d941ce2c0b9df1e392af9a40b1fbb9e9` was verified, but the full patch is held because the newer callsite/helper gates remain. The correction and original code are preserved in branch history and reverted from the active diff.
+- No build runs until accepted review scope is recorded. Runtime validation remains unperformed.
