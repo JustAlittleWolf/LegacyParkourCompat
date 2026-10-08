@@ -6,6 +6,8 @@
 
 Implementation commit: `ad653ac` (`feat: restore 1.15.2 friction sample position`). Independent implementation review is still required; this handoff asks the reviewer to verify the exact double literal, the selected profile behavior, and the shared friction call site. No runtime parity is claimed.
 
+Default-branch merge: `747cda4` merges `main` at `b099aa0`. Main added an unrelated V1_8 fence/portal-frame collision hook and integration notes. Its files and mechanic key are disjoint from this sampler; the merge was clean and the change was retained.
+
 ## Accepted source identity
 
 - Finding: 1.14.4 → 1.15.2 slipperiness sampling examples.
