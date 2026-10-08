@@ -1,3 +1,5 @@
+> **SUPERSEDED — HISTORICAL HANDOFF (2026-10-08).** This document predates the current coordinator checkpoint. Its main SHA, role cap, worker instructions, build status, and integration queue are stale. Preserve it as historical evidence only; do not use it as current instructions. Continue from [RESUME-2026-10-08.md](RESUME-2026-10-08.md) and verify [coordinator-state.json](coordinator-state.json) before acting.
+
 # Coordinator handoff — 2026-10-08
 
 This file is for the new coordinator only. It mixes lane metadata; do not give it or old-chat-checkpoints.json to normal source discovery or blind source reviewers.

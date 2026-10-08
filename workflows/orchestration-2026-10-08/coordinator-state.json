@@ -13,7 +13,7 @@
     "runtimeLaunches": false,
     "allGradleTestTasksDisabledForBuild": true,
     "integrationBuildOwnerThreadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
-    "primaryMainLastVerified": "d8f3956602da94bf0cf67753cc0a9f4665397729",
+    "primaryMainLastVerified": "dc1b65b29e3c2561175bd54276ae83e37cd1c045",
     "maximumConcurrentRolesIncludingCoordinator": 20
   },
   "reservedOldSlots": [
@@ -1003,7 +1003,7 @@
   "latestReconciliation": {
     "mainCommit": "dc1b65b29e3c2561175bd54276ae83e37cd1c045",
     "backlogBranch": "feat/accepted-finding-backlog-2026-10-08",
-    "backlogCommit": "e5e0db49b11618fb9dd3917a30e53afbcc1c243e",
+    "backlogCommit": "0645b0078f0301d255826e3f28eb5bf18c0e9730",
     "integrationRecords": {
       "sleep": "a5c191df557cd152d578150c689227897ac33256; accepted source chain independently verified at 33baf5c6; implementation corrected, independently accepted, integrated and built with all Test tasks disabled; runtime unverified",
       "slime": "a5c191df557cd152d578150c689227897ac33256; bounded no-code disposition integrated; runtime unverified",
@@ -1158,9 +1158,9 @@
       "codeCommit": "42885fae364acfb20e8e03f84d0a3eeb756b2e7c",
       "proofCommit": "dba9a4b2458d91561adbd8ba5e24ff050b65ca8f",
       "branchTip": "dba9a4b2458d91561adbd8ba5e24ff050b65ca8f",
-      "mainBase": "d8f3956602da94bf0cf67753cc0a9f4665397729",
+      "mainBase": "d8f3956602da94bf0cf67753cc0a9f4665397729 (historical author branch base; preserved)",
       "reviewerPrefix": "01a11bc2-2e8a",
-      "reviewStatus": "active full static review of frozen refs; no acceptance yet",
+      "reviewStatus": "terminal independent ACCEPT, zero functional findings; review 6b65fc3db1cac56d6fdbe9a89799b41b862895e0",
       "scope": "Independent V1_15_2 SuffocationProbe; no extension of V1_16. Also review v1_8 EndPortalFramePlayerEjection cross-version inheritance cleanup only via a neutral helper if technical reuse is proven; preserve exact behavior and do not edit registry.",
       "runtime": "not run",
       "reviewCommit": "6b65fc3db1cac56d6fdbe9a89799b41b862895e0",
@@ -1168,8 +1168,8 @@
       "reviewBlob": "a499c3fab0d8e9c8af0e11a2b7609cf128f87371",
       "reviewSha256": "4ac9ea05ed521ba39fd01daba952c64898cfa01a98e9a4481c630a4da44ff92a",
       "reviewDecision": "ACCEPT, 0 functional findings",
-      "reviewerStatus": "idle; role reused by exclusive integration owner",
-      "integrationStatus": "accepted code to merge in isolated architecture integration branch; build queued with architecture batch"
+      "reviewerStatus": "terminal; role released and reused for integration",
+      "integrationStatus": "accepted and integrated into architecture batch on clean main dc1b65b2; successful test-disabled repair build; runtime unverified"
     },
     "sneakEdgeBackoff": {
       "codeCommit": "504f45a91fbbd5627ee9695bc2033c1ca02b69de",
@@ -1373,7 +1373,7 @@
     "waterSprint": "Bounded source ACCEPT now closes the candidate acceptance gap for the two identified immutable snapshots only; no broader parity or pair closure.",
     "collaborationSlots": "Keep <=20 roles including root and reserved catalog reviewer. Suffocation reviewer role reused by integration owner; catalog preflight reviewer remains reserved, not a free role.",
     "currentTimeObservation": "2026-10-08 17:34 UTC / 19:34 Europe/Vienna; final canonical handoff due 19:40.",
-    "backlogCommit": "e5e0db49b11618fb9dd3917a30e53afbcc1c243e",
+    "backlogCommit": "0645b0078f0301d255826e3f28eb5bf18c0e9730",
     "catalogIncident": "Wrong-workdir deletion by catalog author was restored. Primary main was independently verified clean at d8f39566; do not mutate primary until architecture review and coordinated merge.",
     "sourceOwnerRoleSwap": "1.16.5–1.17.1 source owner terminal at aca4dfb; role replaced by BED no-code proof reviewer. 1.15.2–1.16.5 owner terminal at f5636dd2 with all seven inventories open. 1.8.9–1.9.4 owner still closing.",
     "primaryMainStatus": "Verified clean at dc1b65b29e3c2561175bd54276ae83e37cd1c045 after successful reviewed integration/build; 57 commits ahead of origin/main; no push.",
@@ -1562,7 +1562,7 @@
     "disclosureTime": "2026-10-08 19:30 Europe/Vienna",
     "sourceOwnerThread": "01a11bf3-b68d-72a3-9fde-198291e05948",
     "terminalBranch": "feat/source-discovery-movement-source-1-21-4-1-21-5-resume",
-    "terminalCommit": "8fc02900",
+    "terminalCommit": "1d027c706dd22fd6df2fe14deaf3a02695d6094e",
     "mainAtMerge": "d8f3956602da94bf0cf67753cc0a9f4665397729",
     "readImplementationDiffs": [
       "LocalPlayerMixin",
@@ -1572,6 +1572,14 @@
       "ShallowWaterCurrentCutoff"
     ],
     "priorBoundedSnapshotReview": "Preserve as immutable prior evidence, do not erase or upgrade to fully blind/full-pair acceptance.",
-    "pairStatus": "PARTIAL; fresh source-only discovery/coverage plus blind review required before full-pair freeze."
-  }
+    "pairStatus": "PARTIAL; fresh source-only discovery/coverage plus blind review required before full-pair freeze.",
+    "finalMainMerge": "681f87ed",
+    "finalHandoffCommit": "1d027c706dd22fd6df2fe14deaf3a02695d6094e",
+    "currentMainAtFinalHandoff": "dc1b65b29e3c2561175bd54276ae83e37cd1c045",
+    "preMainMergeCheckpoint": "8fc02900",
+    "mainMergeCommit": "681f87edf2afe836a147e8d78af528b915cdf1f6",
+    "historicalExposureRecord": "e5c96816ac82abdaa60c6a309d9ac4e639877208"
+  },
+  "resumeDocument": "workflows/orchestration-2026-10-08/RESUME-2026-10-08.md",
+  "resumeDocumentStatus": "Current continuation instructions; HANDOFF.md is historical/superseded."
 }
