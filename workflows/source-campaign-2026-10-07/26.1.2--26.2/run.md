@@ -29,6 +29,8 @@
 - Additional A source hash cited by the pre-input velocity dead-zone slices: `net/minecraft/world/phys/Vec3.java` `57b08ae818868a4fffdc9b5dadba2b127138c8945c2194f6f4b01e6150cd3bcb`.
 - Additional A source hashes cited by local input modifier inventory: `net/minecraft/world/item/component/UseEffects.java` `18525e459d066a046a20dce6176b3a9764de09f0d91e79c61c2203709744c8dd`; `net/minecraft/core/component/DataComponents.java` `64c8592c21c83c35dee0d4cc780b273d18ff30c4fea92c0868f296a164b2a11e`; `net/minecraft/world/item/Item.java` `a92a71ef9acd0a98e26914b61382e87f1ba098f779587d452f7373dfa8690ba4`; `net/minecraft/world/item/enchantment/Enchantments.java` `87c4d7799516cf33a0399398f4e7b503dc8ef1ebb8588fa2d5decfc33fa12157`.
 - Additional A source hash cited by post-animation consumer check: `net/minecraft/client/renderer/entity/LivingEntityRenderer.java` `b4469477f2c93dd63948b43b5848e383737ba17b878aa7ba042f28b80f0b8d5f`.
+- Additional A source hashes cited by `travelFlying` caller inventory: `net/minecraft/world/entity/animal/allay/Allay.java` `62df149a5e27d2d0dd74a2e9fefc1ae8dd38ba3f368c1d0124a5142ee68aa7fe`; `animal/happyghast/HappyGhast.java` `798c1eb723e4e9640dd342c645829460b98029360d88a1467dc8170cfa54606e`; `monster/Ghast.java` `a6d9ac582672d31b83bc30988db49353928f3672f312d0c90ce55cfaeeb63edf`; `monster/Phantom.java` `9fe92088f88822ad3505f0d2bf3b67563245d2568a6a16fd2100d7626f594d89`.
+- Additional A source hash cited by powder-snow movement provider check: `net/minecraft/world/level/block/PowderSnowBlock.java` `5733056253c3f9c7d843e8e7c29deaee67d235d830c63c0641f3a7b70604970f`.
 
 ### B — 26.2
 
@@ -49,6 +51,8 @@
 - Additional B source hash cited by the pre-input velocity dead-zone slices: `net/minecraft/world/phys/Vec3.java` `026c8461113b32116f0183ec42fa1cb4c7414cec38b685484d2309f9a0cb9a33`.
 - Additional B source hashes cited by local input modifier inventory: `net/minecraft/world/item/component/UseEffects.java` `18525e459d066a046a20dce6176b3a9764de09f0d91e79c61c2203709744c8dd`; `net/minecraft/core/component/DataComponents.java` `717ec4347940ff05f93116c74ecaac3adbafd3df0f732860464ad259d6b8b0b2`; `net/minecraft/world/item/Item.java` `215fb193bc9fc45702f55a19572ced3f03cc567a851c19050619255b2e59d01d`; `net/minecraft/world/item/enchantment/Enchantments.java` `9af5f89778ad9bd8667953049045027d8426fc692121a6842fe59178b6767ba0`.
 - Additional B source hash cited by post-animation consumer check: `net/minecraft/client/renderer/entity/LivingEntityRenderer.java` `d7fa752eae2ff9580b93274b802ad85387f050c5bfb005c7aab55e6d593565c8`.
+- Additional B source hashes cited by `travelFlying` caller inventory: `net/minecraft/world/entity/animal/allay/Allay.java` `13c17a23dcf58da0fc0ab539d72b990c923ac72a2f5de12dc1b52643810e0d1c`; `animal/happyghast/HappyGhast.java` `2c7b59000af618f3eeab3714ffbe6c6bb90bf0356f12b62d097c78743d8bb5da`; `monster/Ghast.java` `68d4931a67b5e7da6e3fb9bdb12a367fc7123a713c3218011ec4165268fab2e8`; `monster/Phantom.java` `086a6ad32bcc28c11351ec4682f8fc829a6fb845eb2696222e8f2835afb54a3e`.
+- Additional B source hash cited by air-friction and powder-snow movement provider checks: `net/minecraft/world/entity/ai/attributes/Attributes.java` `4a7c33552f256b5d35c6d46fd5810405f4e98182e2b26a9a3009ef4f1d3fdd5c`; `net/minecraft/world/entity/SulfurCubeArchetypes.java` `acab354d7cc91f12cd9433f40317ec3407b5782ad4a82c6bc134e40eba1aadab`; `net/minecraft/world/level/block/PowderSnowBlock.java` `2b693be4a4d3cf2b1895096431c16d7ba3ae51b9cf4320773d384bdd146ba417`.
 - Original client-jar resource inspected at `data/minecraft/tags/block/suppresses_bounce.json`: only `minecraft:honey_block` is listed; entry SHA-256 `a477a87ac4bcb97971cb0b445f4cc9b6b8e02cd31ba3d01bc842b17a6a8477a8`.
 - Additional A/B source hash cited by jump-gate and liquid-state inventory: `net/minecraft/world/entity/EntityFluidInteraction.java` SHA-256 `5264ff4f1fddebc3fa9d63ad2edbe2eaf617392ff946a867a6817a78b478ee62` on both endpoints; its matching tracker reset/height producer is cited in S-JUMP-GATE and S-JUMP-LIQUID.
 
@@ -341,13 +345,13 @@ These are now 61 bounded work units, not an exhaustive inventory: 35 pending, 9 
 ### Slice S-FALL-DISTANCE-RESET: Slow-falling/levitation fall-distance reset before travel
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS, INV-EXCLUSIONS
-- Exact behavior boundary and enclosing guards/order checked: B resets fall distance when Slow Falling or Levitation is active before travel; lines 3133-3135. Determine whether any in-scope movement consumer reads the field; damage/fall-damage production remains excluded.
-- A evidence: pending exact effect check, writer and consumer closure.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3133-3135`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: active movement effect -> fall-distance write; inspect every in-scope reader and exclude damage-only consequence.
-- Parent slices / dependencies / closure evidence: S-TRAVEL-AIR,S-TRAVEL-GLIDE-FORMULA; fall-distance readers and A method pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B guard read; disposition remains open until consumer inventory proves scope.
+- Exact behavior boundary and enclosing guards/order checked: both `LivingEntity.aiStep` bodies check Slow Falling or Levitation after jump handling and before travel dispatch, then call `resetFallDistance`; the fall-distance-dependent Powder Snow collision provider returns the same 0.9-high shape for `fallDistance > 2.5` in both endpoints. Fall damage, sound, and advancement consumers are excluded.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3065-3068`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`; `PowderSnowBlock.getCollisionShape, lines 121-132`.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3132-3135`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`; `PowderSnowBlock.getCollisionShape, lines 121-132`.
+- State producers/writers -> consumers/readers: Slow Falling/Levitation effect state -> identical pre-travel fall-distance reset -> `Entity.fallDistance` read by Powder Snow collision-shape selection. Both Powder Snow bodies and `FALLING_COLLISION_SHAPE` declaration are identical (A/B file SHA-256 `5733056253c3f9c7d843e8e7c29deaee67d235d830c63c0641f3a7b70604970f` / `2b693be4a4d3cf2b1895096431c16d7ba3ae51b9cf4320773d384bdd146ba417`). Damage/fall-damage and sound consumers do not produce an in-scope movement response.
+- Parent slices / dependencies / closure evidence: S-TRAVEL-AIR,S-TRAVEL-GLIDE-FORMULA,S-COLLISION-QUERY,S-WORLD-01; direct reset writer and known movement-relevant field reader are pair-matched. Full collision-provider and world registry inventories remain open in their parent slices.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for equivalent player effect and movement state, the same pre-travel guard resets fall distance at the same point in both versions; the identified player collision-shape reader uses the same strict `> 2.5` condition and returns the same shape. Other discovered field uses concern fall damage, sounds, or events and are outside scope. This bounded reset slice has no direct player movement response difference.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-TRAVEL-GATE: Ridden-player-controller versus self-travel dispatch
@@ -400,49 +404,49 @@ These are now 61 bounded work units, not an exhaustive inventory: 35 pending, 9 
 ### Slice S-TRAVEL-FLYING: Generic fluid/air flying travel
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: B `travelFlying` has separate water, lava and air input speeds, movement calls and per-branch damping; lines 2448-2466.
-- A evidence: pending exact source and caller applicability.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::travelFlying(Vec3,float),travelFlying(Vec3,float,float,float), lines 2448-2466`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: flight/input speed and current velocity -> moveRelative/move -> water/lava/air damping -> next movement tick.
-- Parent slices / dependencies / closure evidence: S-TRAVEL-DISPATCH; all player callers and abilities pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B branch read; player reachability and A behavior unresolved.
+- Exact behavior boundary and enclosing guards/order checked: A/B generic `LivingEntity.travelFlying` has water/lava/air speeds and `moveRelative`, `move`, and branch-specific damping, but is reached only through subclass call sites. Complete source-tree caller search found A/B calls only in `Allay`, `HappyGhast`, `Ghast`, and `Phantom`; Player's paired `travel` calls `super.travel`, whose LivingEntity dispatcher selects travelInFluid/fall-flying/air, never `travelFlying`.
+- A evidence: `LivingEntity.java::travelFlying(float),travelFlying(float,float,float), lines 2410-2427`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`; non-player call sites: `Allay.java:150` `62df149a5e27d2d0dd74a2e9fefc1ae8dd38ba3f368c1d0124a5142ee68aa7fe`; `HappyGhast.java:174` `798c1eb723e4e9640dd342c645829460b98029360d88a1467dc8170cfa54606e`; `Ghast.java:97` `a6d9ac582672d31b83bc30988db49353928f3672f312d0c90ce55cfaeeb63edf`; `Phantom.java:149` `9fe92088f88822ad3505f0d2bf3b67563245d2568a6a16fd2100d7626f594d89`.
+- B evidence: `LivingEntity.java::travelFlying(float),travelFlying(float,float,float), lines 2448-2465`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`; non-player call sites: `Allay.java:151` `13c17a23dcf58da0fc0ab539d72b990c923ac72a2f5de12dc1b52643810e0d1c`; `HappyGhast.java:178` `2c7b59000af618f3eeab3714ffbe6c6bb90bf0356f12b62d097c78743d8bb5da`; `Ghast.java:97` `68d4931a67b5e7da6e3fb9bdb12a367fc7123a713c3218011ec4165268fab2e8`; `Phantom.java:149` `086a6ad32bcc28c11351ec4682f8fc829a6fb845eb2696222e8f2835afb54a3e`.
+- State producers/writers -> consumers/readers: the only vanilla caller subtypes are non-player entities, whose independent physics is excluded; no Player or LocalPlayer call site exists.
+- Parent slices / dependencies / closure evidence: S-TRAVEL-DISPATCH,S-PLAYER-01; complete vanilla caller search and Player travel wrapper establish no player-reachable path.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): no player movement path calls this helper in either endpoint. The remaining callers are non-player flying entities, excluded by campaign scope.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-TRAVEL-AIR: Ground/air acceleration, gravity and damping integration
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: B `travelInAir` chooses supporting-block friction, gets movement from the relative-friction helper, applies levitation/gravity/chunk guards, then air-drag and vertical-friction terms; `getAirDrag`; lines 2468-2502.
-- A evidence: pending exact method body and support/attribute correspondence.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::travelInAir(Vec3),getAirDrag(), lines 2468-2502`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: on-ground/support-block friction and input -> movement vector; levitation/gravity/chunk state -> vertical movement; drag attributes -> delta movement.
-- Parent slices / dependencies / closure evidence: S-MOVE-FLAGS,S-TRAVEL-RELATIVE,S-TRAVEL-FRICTION-SPEED; block friction, attributes, effects and helper chains pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B bodies read; exact math and pair comparison pending.
+- Exact behavior boundary and enclosing guards/order checked: A `travelInAir` reads support friction, obtains relative movement, applies Levitation or gravity/chunk fallback, then horizontal friction and vertical friction; lines 2430-2452. B lines 2468-2497 reads new `FRICTION_MODIFIER` and `AIR_DRAG_MODIFIER`, calls `computeModifiedFriction`, then applies drag. A/B Levitation/gravity/chunk branch and `shouldDiscardFriction` ordering match.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::travelInAir(Vec3),getFrictionInfluencedSpeed(float), lines 2430-2452,2667-2669`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`; block friction default `BlockBehaviour.Properties`, line 986, source hash `9db85de84e502903e6fe497f043b58620b92089236ffb213f0b93db979428d13`.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::travelInAir(Vec3),computeModifiedFriction(float,float),getAirDrag(), lines 2468-2502,514-516`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`; `Attributes.AIR_DRAG_MODIFIER` and `FRICTION_MODIFIER` each register base value `1.0` (lines 10-11,52-54), SHA-256 `4a7c33552f256b5d35c6d46fd5810405f4e98182e2b26a9a3009ef4f1d3fdd5c`; `BlockBehaviour.Properties` friction default is `0.6F`, line 992, source hash `9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e`.
+- State producers/writers -> consumers/readers: support-block friction and input -> `blockFriction` and relative acceleration; Levitation/gravity/chunk state -> movementY; new friction/air-drag attributes -> modified block friction and drag. B adds both attributes to living-entity attribute builder; targeted source inventory found their only explicit modifier registration on `SulfurCubeArchetypes`, not a vanilla Player item/effect writer. `Entity.omnidirectionalAirMover()` returns false; no Player override exists. B's modifier helper is `clamp(1.0F - (1.0F - friction) * modifier,0,1)`.
+- Parent slices / dependencies / closure evidence: S-MOVE-FLAGS,S-TRAVEL-RELATIVE,S-TRAVEL-FRICTION-SPEED,S-MOD-01,S-WORLD-01; default attribute and block-property values were compared, but full modifier/resource/effect and support-block inventories remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): with vanilla Player attribute base values `1.0`, A/B default block friction, and `omnidirectionalAirMover=false`, B's modified values reduce to A's horizontal `0.91F` and vertical `0.98F`; `getFrictionInfluencedSpeed` is handled separately in S-TRAVEL-FRICTION-SPEED. No direct Player divergence is established for these inputs. Non-default player attribute writes remain pending S-MOD-01/S-EXT-01, so this slice stays open.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-TRAVEL-RELATIVE: Relative input acceleration and in-air climb response
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: B relative-friction helper calls `moveRelative`, applies climbable motion handling, moves, then has a separate horizontal-collision/jump climb or powder-snow vertical override; lines 2676-2686.
-- A evidence: pending exact helper, caller and block-state dependencies.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::handleRelativeFrictionAndCalculateMovement(Vec3,float), lines 2676-2686`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: input/yaw/speed and collision/climbing/powder-snow state -> relative acceleration/movement -> velocity/position.
-- Parent slices / dependencies / closure evidence: S-TRAVEL-AIR,S-TRAVEL-CLIMB; `moveRelative`, climbable and powder-snow support providers pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B helper read; no A correspondence or disposition.
+- Exact behavior boundary and enclosing guards/order checked: helper calls `moveRelative(getFrictionInfluencedSpeed(friction),input)`, clamps climbable velocity, moves SELF, then if horizontal collision or jumping and either climbable or powder-snow-walkable returns movement with Y `0.2`; A `LivingEntity.java:2623-2633`; B `2676-2686`. `Entity.moveRelative/getInputVector` A lines 1659-1674, B 1746-1761.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::handleRelativeFrictionAndCalculateMovement(Vec3,float), lines 2623-2633`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`; `Entity.moveRelative/getInputVector, lines 1659-1674`, SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`; `PowderSnowBlock.canEntityWalkOnPowderSnow(Entity), lines 144-150`, SHA-256 `5733056253c3f9c7d843e8e7c29deaee67d235d830c63c0641f3a7b70604970f`.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::handleRelativeFrictionAndCalculateMovement(Vec3,float), lines 2676-2686`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`; `Entity.moveRelative/getInputVector, lines 1746-1761`, SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`; `PowderSnowBlock.canEntityWalkOnPowderSnow(Entity), lines 144-150`, SHA-256 `2b693be4a4d3cf2b1895096431c16d7ba3ae51b9cf4320773d384bdd146ba417`.
+- State producers/writers -> consumers/readers: input vector and yaw -> length-squared check, normalize only when length>1, scale, yaw sin/cos rotation, then add to existing delta; climbable and powder-snow support predicates may override Y to `0.2`. The exact helper arithmetic and operation order match. Player-specific block/tag and equipment inputs are in S-TRAVEL-CLIMB/S-WORLD-01.
+- Parent slices / dependencies / closure evidence: S-TRAVEL-AIR,S-TRAVEL-CLIMB,S-WORLD-01; `moveRelative/getInputVector` bodies and direct powder-snow helper are paired. Block/tag membership and player boot source inventory remain pending.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): A/B relative-vector construction, movement call, collision/jump condition and powder-snow helper match. The direct state response is equivalent for equivalent support/equipment/input state; resource and equipment producer closures still remain.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-TRAVEL-FRICTION-SPEED: Ground friction conversion to input speed
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: B `getFrictionInfluencedSpeed` uses a ground-only cubic block-friction expression above its threshold and the flying-speed path otherwise; lines 2720-2726.
-- A evidence: pending exact method and block-friction/speed producer chain.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::getFrictionInfluencedSpeed(float), lines 2720-2726`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: ground flag/block friction/speed attribute -> moveRelative acceleration.
-- Parent slices / dependencies / closure evidence: S-TRAVEL-AIR,S-WORLD-01,S-MOD-01; property and attribute chains pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B method read; comparison pending.
+- Exact behavior boundary and enclosing guards/order checked: A always uses `onGround ? speed * (0.21600002F / (blockFriction * blockFriction * blockFriction)) : getFlyingSpeed()` at lines 2667-2669. B uses the same cubic expression when grounded and `blockFriction > 0.6`, otherwise `getSpeed()`, and the same flying-speed branch off-ground; lines 2720-2726.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::getFrictionInfluencedSpeed(float),getFlyingSpeed(), lines 2667-2673`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`; `BlockBehaviour.Properties` default `0.6F`, A line 986, SHA-256 `9db85de84e502903e6fe497f043b58620b92089236ffb213f0b93db979428d13`.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::getFrictionInfluencedSpeed(float),getFlyingSpeed(), lines 2720-2730`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`; `BlockBehaviour.Properties` default `0.6F`, B line 992, SHA-256 `9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e`.
+- State producers/writers -> consumers/readers: support block friction, player onGround and `speed` field -> input acceleration in `moveRelative`; B friction modifier base is `1.0`, preserving default block friction. Vanilla registry source scan found only explicit friction literals `0.8F`, `0.989F`, `0.98F`; other blocks inherit `0.6F` (the block/property registration inventory remains under S-WORLD-01).
+- Parent slices / dependencies / closure evidence: S-TRAVEL-AIR,S-WORLD-01,S-MOD-01,S-PLAYER-AISTEP-POST; movement speed, support block properties and attribute modifier producers remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): for all vanilla block friction values found (`0.6F` default and explicit values above `0.6F`), B's modifier default `1.0` preserves the value and the strict `blockFriction > 0.6` comparison promotes `0.6F` to double (`0.6000000238418579`), so even the default block takes the same cubic branch as A. At `0.6F`, the cubic denominator equals `0.21600002F`, yielding multiplier `1.0`. Non-default friction modifiers and complete block registration provenance remain pending.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-TRAVEL-FLUID-DISPATCH: Water versus lava travel setup
@@ -532,13 +536,13 @@ These are now 61 bounded work units, not an exhaustive inventory: 35 pending, 9 
 ### Slice S-TRAVEL-CLIMB: Climbable velocity clamps and player ladder predicate
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: B `handleOnClimbable` resets fall distance, clamps X/Z and downward Y, then applies the player-only ladder-slide suppression condition with scaffolding check; lines 2703-2718.
-- A evidence: pending exact helper, player predicate and climbable block-state correspondence.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::handleOnClimbable(Vec3), lines 2703-2718; `onClimbable()`, lines 1722-1739`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: block/entity climbing state, player identity and scaffolding state -> velocity clamps/predicate -> air/water travel.
-- Parent slices / dependencies / closure evidence: S-TRAVEL-RELATIVE,S-TRAVEL-WATER,S-TRAVEL-GLIDE-DISPATCH; all climbable providers and exact predicate line/hash pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B helper read; player-only precondition and A comparison unverified.
+- Exact behavior boundary and enclosing guards/order checked: `handleOnClimbable` resets fall distance, clamps X/Z to ±0.15F and lower Y to −0.15F; negative Y is suppressed only when not on scaffolding, `isSuppressingSlidingDownLadder()` and Player. A ranges 2650-2665,1689-1706,3593-3595; B 2703-2718,1722-1739,3659-3661. `onClimbable` checks spectator, gliding-through tag, climbable tag, then open trapdoor over aligned ladder.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::handleOnClimbable(Vec3),onClimbable(),trapdoorUsableAsLadder(BlockPos,BlockState),isSuppressingSlidingDownLadder(), lines 1689-1716,2650-2665,3593-3595`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::handleOnClimbable(Vec3),onClimbable(),trapdoorUsableAsLadder(BlockPos,BlockState),isSuppressingSlidingDownLadder(), lines 1722-1749,2703-2718,3659-3661`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
+- State producers/writers -> consumers/readers: current in-block state, `CAN_GLIDE_THROUGH`/`CLIMBABLE` membership, aligned open trapdoor+ladder, gliding flag, spectator and player shift state -> climb predicate and exact clamps. Both paired bodies and their Player shift-state reader match; tag/resource registration and neighboring/support block sources remain in S-WORLD-01.
+- Parent slices / dependencies / closure evidence: S-TRAVEL-RELATIVE,S-TRAVEL-WATER,S-TRAVEL-GLIDE-DISPATCH,S-WORLD-01; direct predicates/clamps paired, membership/provider inventory pending.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): identical source-level guard order, constants, casts, block-state tests and velocity writes for equivalent player state. Pair-wide disposition waits on exact block tag/provider inventory.
 - Finding IDs or checked absence/replacement path: none yet.
 ### Slice S-PLAYER-01: Player swimming and ability-flight travel wrapper
 
@@ -603,10 +607,10 @@ These are now 61 bounded work units, not an exhaustive inventory: 35 pending, 9 
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: B `Entity.move` restitution call gate plus `restituteMovementAfterCollisions`, including horizontal axes, vertical restitution, gravity/drag compensation and bounce event; lines 781-786 and 802-843.
-- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java::move(MoverType,Vec3), lines 781-785`, and `net/minecraft/world/level/block/SlimeBlock.java::updateEntityMovementAfterFallOn(BlockGetter,Entity),bounceUp(Entity), lines 32-46`; the paired slime callback path is closed in child slice `S-MOVE-RESTITUTE-SLIME`.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java::move(MoverType,Vec3), lines 781-785`; A's clipped vertical movement delegates to `Block.updateEntityMovementAfterFallOn` (default Y velocity reset), while registered slime and bed override it in child slices `S-MOVE-RESTITUTE-SLIME` and `S-MOVE-RESTITUTE-BED`. Hashes are recorded in the artifact manifest and those finding snapshots.
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/Entity.java::move(MoverType,Vec3),restituteMovementAfterCollisions(BlockState,boolean,boolean,Vec3), lines 781-786,802-843`, SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`.
 - State producers/writers -> consumers/readers: current velocity, collision flags, effect block, gravity/air-drag attributes and bounce-suppression tag -> restitution -> rewritten velocity and sync/event state -> next tick/travel.
-- Parent slices / dependencies / closure evidence: S-MOVE-FLAGS,S-WORLD-01,S-MOD-01,S-MOVE-RESTITUTE-SLIME,S-MOVE-RESTITUTE-BED,S-EXT-PISTON-MOVEMENT; slime low-speed and bed high-speed branches have source snapshots, while remaining restitution block registrations, entity attributes/modifiers, suppression data/tags and all other collision-state routes remain pending.
+- Parent slices / dependencies / closure evidence: S-MOVE-FLAGS,S-WORLD-01,S-MOD-01,S-MOVE-RESTITUTE-SLIME,S-MOVE-RESTITUTE-BED,S-EXT-PISTON-MOVEMENT,S-EDGE-PROBE,S-COLLISION-STEP,S-COLLISION-QUERY,S-COLLISION-AXIS; slime low-speed and bed high-speed branches have source snapshots, while remaining restitution block registrations, entity attributes/modifiers, suppression data/tags, collision-selected states and all other collision-state routes remain pending.
 - Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): the slime low-speed and bed high-speed branches have separate bounded snapshots; other horizontal and non-bed restitution behavior remains open.
 - Finding IDs or checked absence/replacement path: none yet.
