@@ -1450,7 +1450,7 @@
         "1.11.2–1.12.2 source owner explicitly reported its persistent goal paused at clean f4d23537."
       ],
       "goalStateUnknown": [],
-      "safeClose": "No worker persistent goal remains active among the inspected campaign roles. No source/worktree changes were made during the final sweep. Close coordinator before 20:00 Europe/Vienna.",
+      "safeClose": "The coordinator operations task has no goal. Parent/root will pause the active campaign goal after final verification via normal goal controls; any resumption requires an explicit human request. Do not mutate app database state.",
       "activeMetadataPauseSweep": [
         {
           "thread": "01a11bb3-59d0-72c0-ab62-71a6d301d1d8",
@@ -1473,7 +1473,7 @@
           "scope": "own goal status only; pause if active; report existing checkpoint SHA; no source/worktree reads"
         }
       ],
-      "status": "Final metadata-only goal sweep complete: all inspected worker goals are null except 1.11.2–1.12.2, which is explicitly paused. No persistent goals remain among the inspected campaign workers.",
+      "status": "Final metadata-only worker goal sweep complete: all inspected worker goals are null except 1.11.2–1.12.2, which is explicitly paused. Parent/root campaign goal remains active and will be paused after final verification per the human stop deadline.",
       "noGoalReported": [
         {
           "thread": "01a11bb3-59d0-72c0-ab62-71a6d301d1d8",
@@ -1531,7 +1531,9 @@
           "result": "get_goal returned null; current main dc1 ancestor; no persistent goal."
         }
       ],
-      "coordinatorGoal": "get_goal returned null; no coordinator persistent goal exists to pause."
+      "coordinatorGoal": "get_goal returned null; no coordinator persistent goal exists to pause.",
+      "coordinatorOpsGoal": "This operations task get_goal returned null. This does not describe the parent/root campaign goal.",
+      "parentCampaignGoal": "Active; parent/root will call update_goal paused immediately after final verification at the human stop deadline. Resume only on explicit human request."
     }
   },
   "latestIndependentReviews": [
