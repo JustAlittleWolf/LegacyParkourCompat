@@ -486,13 +486,13 @@ Each entry is a bounded behavior boundary. Refine broad plans into exact member 
 ### Slice S4.7: Pose/dimension-dependent collision query repetition
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Pose/dimension-dependent collision query repetition. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: The player's desired-pose fit probe, `CollisionGetter.noCollision()` branch order and block/entity/border queries, and `Entity.refreshDimensions()` pose-to-dimensions/eye-height write and size-change collision relocation guard. Player-only pose-fit and resize paths are considered; generic non-player relocation is outside scope.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/player/Player.java` :: `canPlayerFitWithinBlocksAndEntitiesWhen()` lines 382-384; SHA-256 `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`. `ready/1.21.11/mojmap/net/minecraft/world/level/CollisionGetter.java` :: `noCollision()`/block/entity/border methods lines 51-80; SHA-256 `ca2a5c4561fa8b263d7ce8513a152f9c1d6537f4f011859351ce58b39a7f4e70`. `ready/1.21.11/mojmap/net/minecraft/world/entity/Entity.java` :: `refreshDimensions()` lines 3226-3242; SHA-256 `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/player/Player.java` :: `canPlayerFitWithinBlocksAndEntitiesWhen()` lines 372-374; SHA-256 `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d`. `ready/26.1.2/unobfuscated/net/minecraft/world/level/CollisionGetter.java` :: `noCollision()`/block/entity/border methods lines 51-80; SHA-256 `dddff4897e8d5d01e3ac132d85c474e6a3b9bae928e48b8c907aa9eabdb7fb01`. `ready/26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java` :: `refreshDimensions()` lines 3320-3336; SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`.
+- State producers/writers -> consumers/readers: Player pose transitions ask whether target-pose dimensions at the current position fit, using a `1.0E-7` deflated AABB. `noCollision(entity, box)` short-circuits in the same order: block collisions with fluids excluded, entity collision, then world border. `refreshDimensions()` reads current pose, writes dimensions and eye height, reapplies position, and only attempts size-growth relocation when server-side, not first tick, physics-enabled, dimensions <=4 in each dimension, growth occurred, and the entity is not a Player; thus that relocation branch is unreachable for the player. Pose data and dimensions remain writers/readers from S2.1-S2.2.
+- Parent slices / dependencies / closure evidence: S2.1/S2.2 cover pose selection and pose/dimension tables. Block collision enumeration is traced in S4.4 and still depends on S5 provider/resource closures; entity-collision enumeration and world-border shape results are external query inputs and remain open in the collision inventory.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Paired player fit tests use the same target pose dimensions, position, deflation and collision query. The same three collision classes are short-circuited in the same order, and the refresh write/guard ordering is unchanged; Player is excluded from the post-size-change relocation branch on both sides. Full pose-state producers, entity collision providers, border query results and block shape sources remain open, so no terminal no-difference disposition is claimed.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S5.1: Block/state movement defaults and registrations
@@ -779,7 +779,7 @@ F-1 candidate snapshot submitted for blind review; acceptance is pending and doe
 
 ## Source audit closure
 
-- Coverage counts by status: 26 pending; 19 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
+- Coverage counts by status: 25 pending; 20 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
 - Required inventory status and evidence: all 7 pending; exact source inputs are verified, but full movement/provider/resource inventories remain incomplete.
 - Open dependencies: D2
 - Unresolved gaps and limits: inherited tick/travel/collision body comparisons, movement state producers/consumers, shape providers/registrations, and data/resource dependency closure.
