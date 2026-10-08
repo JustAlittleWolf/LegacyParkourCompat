@@ -13,7 +13,7 @@
     "runtimeLaunches": false,
     "allGradleTestTasksDisabledForBuild": true,
     "integrationBuildOwnerThreadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
-    "primaryMainLastVerified": "3a60fe735560e478bf0aa0d05f5e306c74800f6a",
+    "primaryMainLastVerified": "95107011b19de53b8d4540a77cfe3d34a7771b68",
     "maximumConcurrentRolesIncludingCoordinator": 20
   },
   "reservedOldSlots": [
@@ -1003,7 +1003,7 @@
     "status": "Historical queue entry; already integrated on main 0bfb72a."
   },
   "latestReconciliation": {
-    "mainCommit": "3a60fe735560e478bf0aa0d05f5e306c74800f6a",
+    "mainCommit": "95107011b19de53b8d4540a77cfe3d34a7771b68",
     "backlogBranch": "feat/accepted-finding-backlog-2026-10-08",
     "backlogCommit": "fcc875ecf28b11ae381d7fd6ecc5a9bab540c4bc",
     "integrationRecords": {
@@ -1054,7 +1054,7 @@
       "mcpkOwner": "01a11bb3-e236-7343-86a7-4c51ecc20b98 active on full remaining independent MCPK audit from r5; no partial-batch stop"
     },
     "piston": "source finding accepted; scope proof review remains active; first exact cutover unknown, 1.15.1 unassigned; no production code/decompilation",
-    "sourcePreparation": "Exclusive owner published and verified exact 1.11 and 1.11.1 Feather sources; preparing 1.16 Mojmap before accepted MC02 serial build/integration. Full publication handoff pending.",
+    "sourcePreparation": "Exact 1.11/1.11.1 Feather and 1.16 Mojmap source preparation published on local main 95107011b19de53b8d4540a77cfe3d34a7771b68. Root independently rehashed ready markers and source/artifact manifests against preparation records; all nine digests matched. Source preparation only; no behavior acceptance. Exclusive owner continues queued MC02 build/integration.",
     "roleCap": "20 concurrent roles including coordinator; latest owner reports preserve cap; no additional nested dispatch authorized or recorded",
     "testsBuildRuntime": "no tests/build/runtime were run by this documentation checkpoint; prior integration build evidence is recorded above only",
     "bed": {
@@ -1069,6 +1069,23 @@
       "checkpoint": "7cb6757d",
       "status": "active continuation of all remaining inventories; no arbitrary batch stop; no nested workers"
     },
-    "checkpointOwner": "Root adopted completed ops backlog fcc875ecf28b11ae381d7fd6ecc5a9bab540c4bc; ops checkpoint owner is idle. Latest event updates are recorded here."
+    "checkpointOwner": "Root adopted completed ops backlog fcc875ecf28b11ae381d7fd6ecc5a9bab540c4bc; ops checkpoint owner is idle. Latest event updates are recorded here.",
+    "exactSourcePreparationRootBindings": {
+      "1.11": {
+        "ornithe-feather.ready.json": "3c4102230dba0f9d2d07f752bbd2a19d2717375f6e31fb618c0450b7fd82bd45",
+        "ornithe-feather.sources.sha256": "8b3e5da58494f1dba77410960753b0bf646425a1ada491d8242cc71e6c7a59ca",
+        "artifacts.sha256": "ae874615f961d67e402c978ff01cd3f26f61145e6b3c21ef318c1ab71f7794fd"
+      },
+      "1.11.1": {
+        "ornithe-feather.ready.json": "454036a978074d3a34359dfebf03d6ef3e3335d1318b88d6b17e4f1f5ab566cf",
+        "ornithe-feather.sources.sha256": "0d5f4697d4e4ce53b36d0dbfec89d44830eb76753a6643b49e42f0857753066d",
+        "artifacts.sha256": "ebbf181f60d7bc922df56826f528d1ea8a064783ac0f0f2b576e73db1fc2a958"
+      },
+      "1.16": {
+        "mojmap.ready.json": "5b6cb24f95e83b856c53f646d6477f2e46dae2276737dee56dd07c5bd745e4a2",
+        "mojmap.sources.sha256": "e3c23e94ac985c25dec0c768aed17b443ba4823662cf1e152235c99756ae5d4a",
+        "artifacts.sha256": "b482d7aa44422dfafebad3a0b2a886d47d1f01135f99055aea5973faa110e8b2"
+      }
+    }
   }
 }
