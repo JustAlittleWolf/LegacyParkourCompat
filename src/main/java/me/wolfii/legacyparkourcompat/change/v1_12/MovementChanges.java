@@ -13,6 +13,7 @@ public final class MovementChanges implements MovementChangeProvider {
         registry.register(new WaterJump());
         registry.register(new WaterSneak());
         registry.register(new WaterSprintGate());
+        registry.register(new SprintInputStart());
         registry.register(new WaterTravel());
     }
 }

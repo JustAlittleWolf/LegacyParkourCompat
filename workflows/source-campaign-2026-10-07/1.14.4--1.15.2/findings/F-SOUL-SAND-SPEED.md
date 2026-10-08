@@ -7,12 +7,11 @@
 - Confidence: source-confirmed
 - Applicability: historical player behavior
 - First changed release: within (1.14.4, 1.15.2]
-- Boundary resolution: the endpoint difference is confirmed; the earliest changed release inside the interval has not been established, and no intermediate-release source check is claimed.
 - Runtime validation: not performed
 
 ## Paired evidence
 
-- A `net/minecraft/world/entity/Entity.java::Entity#move(MoverType,Vec3)`, lines 533-550 performs `checkInsideBlocks()` and then proceeds to fluid/fire handling without block-speed scaling; SHA-256 `31c6be42d165102d3e6dc4295fdfef6e8971fc3aea13f938a5b3a33b91d524a7`.
+- A `net/minecraft/world/entity/Entity.java::Entity#move(MoverType,Vec3)`, lines 533-550 performs `checkInsideBlocks()` and then proceeds to fluid/fire handling without block-speed scaling; SHA-256 `31c6be42d165102d3e6dc4295dfef6e8971fc3aea13f938a5b3a33b91d524a7`.
 - B `net/minecraft/world/entity/Entity.java::Entity#move(MoverType,Vec3)`, lines 533-544 performs `checkInsideBlocks()` then `setDeltaMovement(getDeltaMovement().multiply(getBlockSpeedFactor(), 1.0, getBlockSpeedFactor()))`; `getBlockSpeedFactor()` lines 590-598 checks current and support blocks, with water/bubble special handling; SHA-256 `191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e`.
 - A `net/minecraft/world/level/block/Blocks.java::Blocks.SOUL_SAND`, lines 577-579 registers Soul Sand without a speed factor; SHA-256 `983d0cde25f55ddb055015b682bbdf3b131394208561805f26d9b2a240dee9a9`.
 - B `net/minecraft/world/level/block/Blocks.java::Blocks.SOUL_SAND`, lines 601-604 registers `.speedFactor(0.4F)`; SHA-256 `0cef66feacbf9d7d5bd38ac1d2065e71384a73043b0956eeaf314fedbf5cc7d9`.
@@ -25,7 +24,7 @@ For a player moving normally on Soul Sand, A retains the post-collision horizont
 
 ## Reachability and dependencies
 
-Player `LivingEntity.travel` calls `Entity.move(SELF, deltaMovement)` in ordinary ground travel. `Player#getBlockSpeedFactor()` in B returns the superclass factor when neither ability flying nor fall-flying, and returns 1 otherwise (`Player.java` lines 2027-2029; SHA-256 `1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793`). The movement-delta conclusion therefore applies to a grounded/non-flying player whose current/support lookup resolves to Soul Sand. The same factor hook can affect other blocks; the complete registration inventory remains open in the run ledger.
+Player `LivingEntity.travel` calls `Entity.move(SELF, deltaMovement)` in ordinary ground travel. `Player#getBlockSpeedFactor()` in B returns the superclass factor when neither ability flying nor fall-flying, and returns 1 otherwise (`Player.java` lines 2027-2029; SHA-256 `1ba2724c22163862b8f7fdfdea5a04a6e4db26a119d7e5360ba024724a34793`). The movement-delta conclusion therefore applies to a grounded/non-flying player whose current/support lookup resolves to Soul Sand. The same factor hook can affect other blocks; the complete registration inventory remains open in the run ledger.
 
 ## Consequence and uncertainty
 
