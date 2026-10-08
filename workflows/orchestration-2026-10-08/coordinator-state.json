@@ -76,7 +76,7 @@
       "threadId": "01a11bb3-7ca7-7510-8ec7-03f97db0cc9b",
       "role": "source",
       "pair": "1.10.2--1.11.2",
-      "status": "active",
+      "status": "completed; sourcepartial224d601; F07withdrawn andF08farmland playerposition pendingreview",
       "ref": "feat/source-discovery-movement-source-1-10-2-1-11-2@4c87723 (full ref to verify)",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -159,7 +159,7 @@
       "role": "elytra_gate_correction",
       "pair": null,
       "ref": "a5d07341d941ce2c0b9df1e392af9a40b1fbb9e9",
-      "status": "completed; implementation361c15c merged tipbb84848 awaiting independent review"
+      "status": "active; accepted MCPK edgebackoff/slipperiness implementation reconciliation"
     },
     {
       "threadId": "01a11bbe-910d-7c02-9261-b0d01b6822ed",
@@ -274,7 +274,7 @@
     {
       "threadId": "01a11bd7-45d2-7310-be8a-85f73e8d668d",
       "role": "clean_mcpk_snapshot_review",
-      "status": "active; clean edge r3 and slipperiness identity re-review",
+      "status": "completed; edge r3/slipperiness ACCEPTbdda49ac76ce8b6e136917349e8b59a61d2fabe4 mergee2c3ecb43a2badacf6beb6098c4f6f4f354ec7bc",
       "ref": "identity register93a01b8; four r2 snapshots"
     },
     {
@@ -294,10 +294,19 @@
       "ref": "847f34d18d59d55777633cd8a9fb93091234d645",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
+    },
+    {
+      "threadId": "01a11be8-f958-7630-8261-391bbac955a0",
+      "role": "source",
+      "pair": "1.20.4--1.20.6",
+      "status": "active",
+      "ref": "477b6afcb4d890bae82437ff98795592695b9e43",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:25:45.6909294Z",
+    "observedAt": "2026-10-08T14:27:22.8649436Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
@@ -321,7 +330,7 @@
       "pair": "1.10.2--1.11.2",
       "finding": "F-07",
       "snapshot": "bd95d35bd9a9a0ae468b9cf035f99f08639e91c0",
-      "status": "owner confirms invalid; formal blindreviewa02e52d REQUEST CHANGES; preserve snapshot and commit withdrawal",
+      "status": "withdrawn by sourceowner in224d601; formal blindreviewa02e52d refutes forceShape premise; originalsnapshot preserved",
       "reviewer": "01a11bbe-a775-7180-a017-d2386dcd9fb3",
       "implementation": "not authorized"
     }
