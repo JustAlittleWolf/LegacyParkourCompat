@@ -1,7 +1,7 @@
 # Discovery: 1.15.2 to 1.16.5
 
 - Run status: partial
-- Scope: source-only comparison of exact Java Edition A=1.15.2 and B=1.16.5; direct player movement and player velocity/impulse/knockback response are in scope; exclude health/food-state production, attack/damage resolution, non-player movement and vehicle physics.
+- Scope: source-only comparison of exact Java Edition A=1.15.2 and B=1.16.5; direct player movement and player velocity/impulse/knockback response are in scope; exclude health/food-state production, attack/damage resolution, non-player movement and vehicle physics. Cross-version switching is undefined behavior outside correctness guarantees.
 - Repository revision and start date: campaign base 002137b227676caea77f6832b9f4c8d0b6200bff; 2026-10-07. Branch feat/source-discovery-movement-source-1-15-2-1-16-5.
 - Selected naming namespace, CLI mode per side and alignment evidence: Mojmap/Mojmap. Both ready records report exact requested/resolved metadata IDs and Mojmap; source and artifact manifests and cited Java files hash-match.
 - Source preparation owner / command / log / readiness marker: shared source owner; both ready markers and provenance sidecars under ../../../build/movement-campaign-2026-10-07/ready. Exact command: .\gradlew.bat decompileMinecraft --versions=1.15.2,1.16.5,1.17.1,1.18.2 --mappings=mojmap --decompiler-heap=4G --output-root=D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\staging\mojmap-1.15-to-1.18-f41b958fe6b84e6eb832e0c465a0e56d --cache-directory=D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\artifacts. Provenance SHA-256 A d4802d35ee2927a44d753871f184c3255c060eb94457a5c65a8bc121a087954e; B b71df61eb775134119881915198f87c4337bae409e1f0de8d8d6c007e062902d. Success sidecars are summary excerpts only (A b8b60b3ce9a7f746be9e2023bbd9afb7c85dc58cb8582b9ac5962fc2c8a6348d; B 0974f4cdada4d0549cb730901064681d11a0f2cfbf1fc61783993b9dc4488b07); complete raw Gradle streams were not retained.
@@ -93,22 +93,22 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - Exact behavior boundary and enclosing guards/order checked: LocalPlayer.tick(), passenger packet path, sendPosition() sprint/shift state commands and positional reporting.
 - A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/client/player/LocalPlayer.java, tick lines 179-197 and sendPosition lines 199-260; SHA-256 3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd.
 - B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/client/player/LocalPlayer.java, tick lines 184-202 and sendPosition lines 214-275; SHA-256 6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b.
-- State producers/writers -> consumers/readers: superclass tick -> local aiStep/state; passenger input and player movement/rotation/ground state -> serverbound packets; sprint/crouch state -> command packets.
-- Parent slices / dependencies / closure evidence: S1-LOCAL-AISTEP,S7-CORRECTIONS,S7-INPUT-PACKETS; exact remaining sendPosition tail pending.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): tick call and packet branches correspond in the inspected ranges; full sendPosition tail and movement-reporting correspondence remain open.
-- Finding IDs or checked absence/replacement path: pending
+- State producers/writers -> consumers/readers: superclass tick -> local aiStep/state; passenger input and player movement/rotation/ground state -> serverbound movement packets; sprint/crouch state -> command packets; report baselines/counters update after packet selection.
+- Parent slices / dependencies / closure evidence: S1-LOCAL-AISTEP (now terminal); downstream packet correction/receiver behavior remains in INV-EXTERNAL and is not claimed here.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the complete tick and sendPosition method bodies match after line alignment. Both call super.tick before local reporting, use the same passenger packet order, and select/update position, rotation, on-ground, sprint and shift reports with the same guards and reset order. B's separate getCurrentMood() method is not called from this tick path.
+- Finding IDs or checked absence/replacement path: none within the client tick and packet-emission boundary; downstream packet consumers remain unreviewed.
 
 ### Slice S1-LOCAL-AISTEP: local movement inputs and gates
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: LocalPlayer.aiStep(), prior-state capture through super.aiStep(), exact order.
 - A evidence: LocalPlayer#aiStep, lines 625-783, source hash in A manifest.
 - B evidence: LocalPlayer#aiStep, lines 627-791, source hash in B manifest.
-- State producers/writers -> consumers/readers: input, sprintTriggerTime, crouching, abilities.flying, fluid gates, fall-flying and super.aiStep; closure pending.
+- State producers/writers -> consumers/readers: input, sprintTriggerTime, crouching, abilities.flying, fluid gates, fall-flying and super.aiStep; movement preconditions and read/write order compared.
 - Parent slices / dependencies / closure evidence: S1-ESCAPE,S1-SPRINT-RESET,S1-ELYTRA,S1-WATER-DESCENT,S2-STATE,S3-TRAVEL.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): candidate changes identified in escape search, shift-reset of sprint trigger, elytra climbability gate and fluid descent gate. Each is checked separately before conclusion.
-- Finding IDs or checked absence/replacement path: pending
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): identified movement differences are separately bounded by S1-ESCAPE, S1-SPRINT-RESET, S1-ELYTRA and S1-WATER-DESCENT. B writes cached crouching before input sampling, but its slowdown predicate equals A's isCrouching predicate at that call; both continue through the same input and superclass order. B waterVisionTime reads are confined to visual fog/light consumers, outside the movement boundary. Rendering, advancement, player stats/food reads and leash/non-player reads are out of scope.
+- Finding IDs or checked absence/replacement path: F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE; no additional local-aiStep movement finding.
 
 ### Slice S1-ESCAPE: player suffocation-space escape
 - Inventory ID(s): INV-TICK, INV-COLLISION, INV-STATE
@@ -204,10 +204,10 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/entity/LivingEntity.java, lines 1885-1912 and handleOnClimbable lines 1989-2018; SHA-256 46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54.
 - B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/entity/LivingEntity.java, lines 2022-2042, handleRelativeFrictionAndCalculateMovement lines 2062-2071 and handleOnClimbable lines 2089-2118; SHA-256 b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88.
 - State producers/writers -> consumers/readers: support block friction, input vector, movement attributes, climbability, gravity/levitation and collision flags -> requested/real movement and delta movement.
-- Parent slices / dependencies / closure evidence: S1-ELYTRA,S4-MOVE,S5-SHAPES,S3-ATTRS,S3-CLIMB; helper-equivalence and climbable tag correspondence pending.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): B extracts ordinary relative-friction and climb handling and changes ladder terminology; full player-specific equality requires helper and tag closure.
-- Finding IDs or checked absence/replacement path: pending
+- Parent slices / dependencies / closure evidence: S1-ELYTRA,S4-MOVE,S5-SHAPES,S3-ATTRS,S3-CLIMB; paired helper bodies and player overrides inspected. Common legacy climbable block set is unchanged; B-only vines are excluded from A-era applicability.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): B extracts the ordinary relative-friction and climb sequence without changing its operation order or arithmetic for shared historical blocks. Player ground speed remains movement-attribute-derived on both sides; the friction formula is identical. B adds Soul Speed equipment handling: on a tagged support block and with Soul Speed level > 0, LivingEntity returns block-speed factor 1.0F, which Entity multiplies into horizontal delta movement. Player suppresses this for flight/fall-flying as shown by the override chain. The 1.16.5 data tag includes common Soul Sand and modern Soul Soil; only Soul Sand is within the pair's shared historical block set. Soul Speed gear/enchantment is B-only, so the source delta is recorded with modern-only applicability and does not assert 1.15.2 historical emulation behavior.
+- Finding IDs or checked absence/replacement path: F-S3-SOUL-SPEED; no other ordinary-ground/air delta found on common legacy block, effect and player paths inspected.
 
 ### Slice S3-JUMP: liquid jump branch and delay reset
 - Inventory ID(s): INV-TICK, INV-STATE, INV-WORLD-MOVEMENT
@@ -243,20 +243,19 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - Finding IDs or checked absence/replacement path: F-S5-LAVA-CURRENT
 
 ## Dependency queue and blockers
-## Dependency queue and blockers
 
-- S1-ESCAPE-QUERY: pair A blocked/freeAt/isSuffocating with B noBlockCollision/getBlockCollisions and relevant shapes; establish same-state reachability. Owner: discovery author.
-- S1-CLIMB-TAG: inspect B CLIMBABLE resource membership against A explicit ladder/vine/scaffolding and open-trapdoor path; cite resource hash. Owner: discovery author.
 - Remaining stage 2-7 slices: create bounded source rows for state/pose/dimensions, collision/shape providers/registrations, modifiers/equipment/effects, world/fluid registrations and client external inputs. Owner: discovery author.
-- Independent source reviewer: assign someone who did not author discovery; finding-snapshot decisions and eventual full-pair audit remain pending. Owner: coordinator.
+- Independent source reviewer: F-S1-OPEN-SHULKER-ESCAPE has finding-level acceptance; assign a separate reviewer for all remaining snapshots and the eventual full-pair audit. Owner: coordinator.
 
 ## Finding index
 - F-S1-SPRINT-RESET — held shift cancels pending double-tap sprint window (source-confirmed).
 - F-S1-WATER-DESCENT — flying players skip crouch descent in water (source-confirmed).
+- F-S1-OPEN-SHULKER-ESCAPE — an open shulker does not trigger B player escape (source-confirmed; incrementally accepted for a separate finding-only handoff).
 - F-S2-EDGE — edge restraint applies during supported near-ground motion and excludes flying players (source-confirmed).
 - F-S3-SHALLOW-LAVA-TRAVEL — shallow lava uses a different vertical scale and falling adjustment (source-confirmed).
 - F-S3-FLUID-JUMP-GATE — flying players skip liquid jump processing (source-confirmed).
 - F-S3-SHALLOW-LAVA-JUMP — grounded shallow-lava jump selects the ground-jump helper (source-confirmed).
+- F-S3-SOUL-SPEED — Soul Speed bypasses common Soul Sand's horizontal block-speed reduction in 1.16.5 (source-confirmed; B-only equipment applicability).
 - F-S5-WATER-CURRENT — weak water currents receive a minimum player push (source-confirmed).
 - F-S5-LAVA-CURRENT — non-flying players receive lava-current force (source-confirmed).
 
@@ -264,12 +263,12 @@ The historical pair report is not imported as source confirmation.
 
 ## Resume checkpoint
 
-- Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-ELYTRA,S1-ESCAPE,S3-WATER,S3-FALL-FLYING; finding slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT.
-- Active slices: S1-LOCAL-TICK,S1-LOCAL-AISTEP,S3-GROUND-AIR; required stages 2-7 remain to be entered.
+- Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-LOCAL-TICK,S1-LOCAL-AISTEP,S1-ELYTRA,S1-ESCAPE,S3-WATER,S3-FALL-FLYING,S3-GROUND-AIR; finding slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S3-SOUL-SPEED,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT.
+- Active slices: none in the current travel pass; required stages 2-7 remain to be entered.
 - Next: add bounded slices for remaining state, collision, world, modifier and external-input inventories.
 - Outstanding dependencies: remaining required stage 2-7 inventory slices, independent reviewer assignment.
 - Resume branch: feat/source-discovery-movement-source-1-15-2-1-16-5; resume from the clean tip recorded by git log -1. Local main and origin/main both point to the pair base 002137b227676caea77f6832b9f4c8d0b6200bff; no later default-branch commits were present for merge at this checkpoint.
-- First next work: finish bounded S1-LOCAL-TICK and S1-LOCAL-AISTEP slices, then S3-GROUND-AIR; add the required state/pose, collision, world, modifier and external-input slices for stages 2-7. Keep every finding submitted until an independent source reviewer records a decision.
+- First next work: begin required state/pose, collision, world, modifier and external-input slices for stages 2-7. Keep the nine unreviewed snapshots submitted; F-S1-OPEN-SHULKER-ESCAPE remains accepted for finding-only eligibility.
 - Read-only resume commands from the repository root:
   - `git status --short; git log -1 --oneline`
   - `$A='D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.15.2\mojmap'; $B='D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.16.5\mojmap'`
@@ -434,6 +433,24 @@ Each finding is committed as an immutable source snapshot. F-S1-OPEN-SHULKER-ESC
 - Implementation handoff: eligible for a separate finding-only handoff limited to the accepted source-level branch claim; no handoff was sent by the reviewer.
 - Replaces/supersedes snapshot ID and reason, if applicable: none
 
+### Snapshot event F-S3-SOUL-SPEED
+- Finding ID(s): F-S3-SOUL-SPEED
+- Source finding author(s): source-only pair researcher
+- Status: submitted
+- Immutable snapshot commit: 4a60373a07eaf72ccfa7048df6984302c00a81ed
+- Finding file path and SHA-256: findings/F-S3-SOUL-SPEED.md — 94a6ed4c12e9314247d3d5ef76dccbf36d9eebdbd56ec4c82feefa5dc40cadc2
+- Exact A/B artifact-manifest identities/hashes: ready/1.15.2/artifacts.sha256 208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406; ready/1.16.5/artifacts.sha256 f9b9812d6995012cefcc1201a63855e5931e8551b508753be6c46d442d8b370c
+- Cited source hashes: A Entity 191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e, Player 1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793, Blocks 0cef66feacbf9d7d5bd38ac1d2065e71384a73043b0956eeaf314fedbf5cc7d9; B Entity f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666, LivingEntity b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88, Player d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960, Blocks 3b39d5cc4cd22f146ed3195aa30cbb9fdfca49f63783fabf9924a6ce7795fa12, Enchantments c9d388097fd4bbf03609258486dc02d7d24bf18ab813f20f4f0db8d86e3dbdb8, SoulSpeedEnchantment 79e4cb0c3521a08432b8c9d9e175b3bb9d73367315c0af5b77ffc2ef2690a0a4, EnchantmentHelper cb4ff36f66976365247cf4fa0e052182e7896aa5c363ccc7236be91e84a99eef.
+- Additional artifact evidence: B client jar SHA-256 00b5ebbc33e95ea88c1ab80601599c9827e9aa861d93ccc2cfcbbfd996e86263; `data/minecraft/tags/blocks/soul_speed_blocks.json` entry SHA-256 c86fbd7bcfa2b94c881f0ba9980a694b28150a5b0b628aec0cfedc552f68994f. The A client artifact has no entry by that path.
+- Verified implementation boundary/evidence, or unresolved boundary reason: implementation not inspected; the 1.16.5 source-only behavior is bounded to its feet enchantment and tagged support blocks.
+- Finding-specific closed dependency IDs/evidence: shared Soul Sand factor registrations, Entity block-factor multiplication, B LivingEntity Soul Speed predicates and modifier writer, Player flight overrides, B feet-slot enchantment registration, and exact B tag entry inspected.
+- Independent blind source reviewer and decision date: pending coordinator assignment.
+- Review basis / requested source-only revisions: pending.
+- Pair run status and commit at handoff: partial at 4a60373a07eaf72ccfa7048df6984302c00a81ed.
+- Pair complete: no.
+- Implementation handoff: no; snapshot awaits independent source review and has no 1.15.2 implementation claim.
+- Replaces/supersedes snapshot ID and reason, if applicable: none.
+
 ## Implementation reconciliation
 
 - Reconciliation status: pending
@@ -453,7 +470,7 @@ Each finding is committed as an immutable source snapshot. F-S1-OPEN-SHULKER-ESC
 
 ## Source audit closure
 
-- Coverage counts by status: pending 0; in-progress 3; compared-no-difference 5; findings 8; remaining required stage slices not yet entered and open.
+- Coverage counts by status: pending 0; in-progress 0; compared-no-difference 6; findings 10; remaining required stage slices not yet entered and open.
 - Required inventory status and evidence: all seven pending.
 - Open dependencies: remaining required stage 2-7 inventory slices, and independent source reviewer assignment.
 - Unresolved gaps and limits: exhaustive source comparison is incomplete.
