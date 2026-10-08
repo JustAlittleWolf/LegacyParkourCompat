@@ -11,4 +11,3 @@ Task began from main 64895d266fcee5da774c3236295ba949045200c7. The focused corre
 
 - passenger-crouch-source-provenance-erratum-2026-10-08.md: corrects the accepted snapshot digest and labels the shortened copy as non-binding.
 - integrated-code-batches.jsonl: exact code/review identities for integrated implementation batches already on the baseline, kept distinct from finding-source acceptance.
-
