@@ -33,7 +33,7 @@ Exact-source correspondence is in progress. The verified Mojmap pair resolves `L
 
 
 - `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slices=S1-INPUT-SAMPLE, S1-INPUT-SCALE, S1-LOCAL-TICK, S3-DISPATCH, S3-GROUND, S3-AIR, S3-GRAVITY-DRAG, S3-JUMP-MATH, S3-SPRINT-MATH, S3-CLIMB, S3-WATER, S3-LAVA, S3-SWIM, S3-GLIDE, S3-POST; evidence=F-03, F-05, F-06, F-09, F-11, F-13 plus paired LocalPlayer/LivingEntity/Entity excerpts; remaining branch/member closure open.
-- `INV-STATE` movement state writers/readers: status=pending; slices=S1-SPRINT-GATE, S1-SPRINT-TIMER, S1-JUMP-GATE, S1-SPRINT-JUMP, S1-FLIGHT, S1-RIDING, S2-POSE, S2-DIMENSIONS, S2-EYE-HEIGHT, S2-STATE-WRITERS; evidence=F-04 plus paired LocalPlayer/LivingEntity/Entity writers; timer, pose, dimensions and external writer closure open.
+- `INV-STATE` movement state writers/readers: status=pending; slices=S1-SPRINT-GATE, S1-SPRINT-TIMER, S1-JUMP-GATE, S1-SPRINT-JUMP, S1-FLIGHT, S1-RIDING, S2-POSE, S2-DIMENSIONS, S2-EYE-HEIGHT, S2-STATE-WRITERS; evidence=F-04, F-13 plus paired LocalPlayer/LivingEntity/Entity writers; timer, pose, dimensions and external writer closure open.
 - `INV-COLLISION` collision/query path, shape providers, registrations, callbacks, neighboring-block dependencies: status=pending; slices=S4-COLLISION-QUERY, S4-AXIS, S4-STEP, S4-EDGE, S4-GROUND-SUPPORT, S4-SHAPES, S4-CALLBACKS, S5-BLOCK-SHAPES, S5-NEIGHBORS; evidence=F-01, F-07, F-08, F-10 plus paired Entity/Player/NetherPortalBlock/PowderSnowBlock/BlockBehaviour paths; full collision and shape-provider inventory open.
 - `INV-WORLD-MOVEMENT` block/fluid properties, subclasses, registries, tags/data and resource-backed defaults: status=pending; slices=S5-BLOCK-SHAPES, S5-BLOCK-FACTORS, S5-NEIGHBORS, S5-FLUIDS; evidence=F-01, F-02, F-07, F-08 plus block/fluid callback excerpts; resource/tag/registry closure open.
 - `INV-MODIFIERS` movement attributes/effects/enchantments/equipment and application/removal/conditions: status=pending; slices=S6-ATTRIBUTES, S6-EFFECTS, S6-ENCHANTMENTS, S6-EQUIPMENT; evidence=F-03/F-04 cite direct sneaking and sprint movement-attribute consumers; full producer/default and equipment/effect dependency inventory not started.
@@ -107,15 +107,15 @@ These are initial bounded navigation units. Exact sources are published; slice-b
 
 ### Slice S1-JUMP-GATE: Jump input, eligibility, cooldown and stored state
 
-- Inventory ID(s): slice mapping not yet inventoried
-- Exact behavior boundary and enclosing guards/order checked: not yet inspected
-- A evidence: not yet inspected in exact 1.21.4 source
-- B evidence: not yet inspected in exact 1.21.5 source
-- State producers/writers -> consumers/readers: not yet inspected
-- Parent slices / dependencies / closure evidence: pending
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): exact sources are published; this slice has not been inspected, so no behavior conclusion is recorded
-- Finding IDs or checked absence/replacement path: pending
+- Inventory ID(s): INV-TICK, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: local-player jump input snapshot and `jumping` writer -> `LivingEntity.aiStep` immobile/AI branch -> fluid/ground jump dispatch; `noJumpDelay` decrement, eligibility read, ten-tick write and reset path checked. Local-player flight-toggle and rideable-jump paths are tracked separately.
+- A evidence: `ready/1.21.4/mojmap.sources.sha256`; `LocalPlayer.java` lines 607-617, 643-656, 733-749; `LivingEntity.java` lines 2692-2693, 2728-2762, 2149-2169.
+- B evidence: `ready/1.21.5/mojmap.sources.sha256`; `LocalPlayer.java` lines 608-621, 683-695, 754-770; `LivingEntity.java` lines 2670-2671, 2712-2748, 2173-2193.
+- State producers/writers -> consumers/readers: local jump key state -> `LocalPlayer` controlled-camera input write to `jumping`; inherited `LivingEntity.aiStep` clears it if immobile, otherwise dispatches ground or fluid jump and updates `noJumpDelay`; jump response writes velocity through the separately inventoried `jumpFromGround`/`jumpInLiquid` paths.
+- Parent slices / dependencies / closure evidence: S1-INPUT-SAMPLE; S1-LOCAL-TICK; S1-FLIGHT; S1-RIDING; S3-JUMP-MATH; S3-SWIM; S3-WATER. Paired ground/fluid gate and cooldown bodies match in the inspected ranges; overlapping flight/riding/swimming paths and jump response dependencies remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no source delta was seen in the paired `LivingEntity.aiStep` jump-dispatch conditions or `noJumpDelay` lifecycle. This is a bounded comparison only: the full player jump-input, ability-toggle, swimming, riding and response inventory is not closed.
+- Finding IDs or checked absence/replacement path: checked absence of a delta in the cited ground/fluid dispatch and `noJumpDelay` ranges; no conclusion on the open overlapping paths.
 
 ### Slice S1-SPRINT-JUMP: Sprint-jump impulse and state writes
 
@@ -627,8 +627,8 @@ Source-confirmed findings: [F-01 movement callback path](findings/F-01-movement-
 
 ## Resume checkpoint
 
-- Last completed slice: S3-JUMP-MATH (compared-no-difference); exact-source comparisons have identified F-01 through F-13. S1-SPRINT-GATE/TIMER, S3-WATER/LAVA and S7-PUSH/CORRECTIONS remain in-progress because dependency/caller closure is open. F-09 has a candidate snapshot pending independent review; no snapshot has been accepted and no pair freeze has been accepted.
-- Next: close input/sample and scale dependencies, then continue ordered local tick and sprint/jump slices; continue the full travel branch comparison afterward.
+- Last completed slice: S3-JUMP-MATH (compared-no-difference); exact-source comparisons have identified F-01 through F-13. S1-SPRINT-GATE/TIMER/JUMP-GATE, S3-WATER/LAVA and S7-PUSH/CORRECTIONS remain in-progress because dependency/caller closure is open. F-09 has a candidate snapshot pending independent review; no snapshot has been accepted and no pair freeze has been accepted.
+- Next: close input sampling/scale dependencies and the remaining local pre-travel state writers; continue ordered travel, collision, modifier and external-player inventories.
 - Outstanding dependencies and owners: D1 call-graph and producer/consumer inventory (discovery); D2 resource/tag/default inspection (discovery); D3 collision/block/fluid callback and shape inventory (discovery); D4 attributes/effects/enchantments/equipment (discovery); D5 client correction/mount/push external paths (discovery).
 - Assumptions requiring verification: complete input consumers, player-only reachability through all travel branches, shape and resource dependencies, and direct movement state writers.
 
@@ -652,8 +652,8 @@ Source-confirmed findings: [F-01 movement callback path](findings/F-01-movement-
 
 ## Source audit closure
 
-- Coverage counts: 3 compared-no-difference; 0 terminal finding slices; 0 not-applicable; 0 blocked; 22 pending; 21 in-progress. Thirteen source-confirmed findings have been recorded; slices remain open until their full inventories and dependencies close.
-- Required inventories: all remain open; bounded source work is underway across tick order, input math, travel formulas, collision callbacks, block/fluid contact and partial external correction/push paths. Inventory-level closure is not claimed.
+- Coverage counts: 3 compared-no-difference; 0 terminal finding slices; 0 not-applicable; 0 blocked; 21 pending; 22 in-progress. Thirteen source-confirmed findings have been recorded; slices remain open until their full inventories and dependencies close.
+- Required inventories: all remain open; bounded source work is underway across tick order, sprint/jump gates and timers, input math, travel formulas, collision callbacks, block/fluid contact and partial external correction/push paths. Inventory-level closure is not claimed.
 - Open dependencies: D1-D5; D0 resolved.
 - Gaps: full movement call graph, branch dependencies, state writers/consumers, collision/shape provider inventory, registry/tag/resource data, modifiers/equipment and external player movement inputs.
 - Evidence/hash/correspondence audit: exact source/artifact readiness verified; finding hashes and all bounded slice evidence still require final audit at source freeze.
