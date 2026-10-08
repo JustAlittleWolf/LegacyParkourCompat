@@ -36,14 +36,14 @@
     {
       "threadId": "01a11bb1-adb2-7212-9a90-26537278d788",
       "role": "implementation_static_review",
-      "status": "active exact object-store handoff and separate slipperiness range source snapshot; bounded implementation ACCEPT e1866cc",
+      "status": "completed bounded sampler ACCEPT e1866cc05f6c2b6a77caa6f30432efa8ec3fa74e and separate source-range snapshot5688e685",
       "scope": "four pending code patches",
       "resultCommit": "bdb6443; notes d3190b4"
     },
     {
       "threadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
       "role": "integration_build_owner",
-      "status": "active artifact absolute-path verification and origin/main local-ref explanation; WORLD03/swimmingentry integrated",
+      "status": "active bounded slipperiness integration/build after artifact provenance docsde8eaa5",
       "ref": "feat/movement-campaign-integration-2026-10-08@958b0916f08cba25e3be86d67d48a9d1e8651d1f",
       "resultCommit": "ea812dc9171fdf41e02b3a2292db7d40b105c9c4"
     },
@@ -67,7 +67,7 @@
       "threadId": "01a11bb3-6dd8-7710-8f54-0b2d444da4b6",
       "role": "source",
       "pair": "1.9.4--1.10.2",
-      "status": "completed; source pair partial",
+      "status": "active source-only continuation all remaining1.9.4--1.10.2 inventories",
       "ref": "feat/source-discovery-movement-source-1-9-4-1-10-2@96e35bb8cb7c906e2978dea93898bd34c3e504d3",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -76,7 +76,7 @@
       "threadId": "01a11bb3-7ca7-7510-8ec7-03f97db0cc9b",
       "role": "source",
       "pair": "1.10.2--1.11.2",
-      "status": "completed; sourcepartial224d601; F07withdrawn andF08farmland playerposition pendingreview",
+      "status": "active source-only continuation1.10.2--1.11.2 after withdrawnF07",
       "ref": "feat/source-discovery-movement-source-1-10-2-1-11-2@4c87723 (full ref to verify)",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -281,7 +281,7 @@
       "threadId": "01a11be2-ad84-75a3-bd6f-567ff693fc2d",
       "role": "source",
       "pair": "1.20.1--1.20.2",
-      "status": "active",
+      "status": "completed partial checkpoint6872a29/mainmergece5a7c2; four inventories and independent audit open",
       "ref": "51a7f175431ae746de6630df0d2ea1940ad9d69d",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -353,7 +353,7 @@
       "threadId": "01a11bf8-556c-70e2-a3aa-22d7510b8e10",
       "role": "source",
       "pair": "1.21.8--1.21.10",
-      "status": "active",
+      "status": "completed partial checkpoint2642f94 includesmainde8eaa5; inventories/auditopen",
       "ref": "71bfe059d83766f4e60d83ad5642f48c8ffaa559",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -369,14 +369,14 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T15:00:31.0667714Z",
+    "observedAt": "2026-10-08T15:04:57.9922722Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
     "conservativeSlots": 15,
     "workersRequested": "gpt-6-luna high",
     "coordinatorObserved": "gpt-6.1-sol medium",
-    "mainHead": "8e76298f42eb67d9f745f413846c5e8b37866487",
+    "mainHead": "de8eaa5",
     "mainUntracked": "generated worktrees preserved; local exclude applied by integration owner",
     "TICK01": "independently accepted, built with all Test tasks disabled, integrated; main net source auditfa340fe confirms five acceptedbatches",
     "passengerYaw": "integrated; test-disabled build success; no runtime",
@@ -385,7 +385,7 @@
     "oldCoordinator": "idle/completed verified",
     "reviewReport": "bdb6443;notes d3190b4",
     "jarReportedSha256": "E6ACA9E4FF063022ABB390BB2F207E86CD3BBDB2171B0233C118D6245315C8ED",
-    "jarAudit": "pending actual new build artifact path: old C managed integration checkout remains0bfb72a and old JAR0B5A12...; exclusive owner verifying fresh worktree absolute paths and logs",
+    "jarAudit": "independently rehashed latest D:/.task-worktrees/integrate-world03-swimming-entry-2026-10-08/build/libs JAR E6ACA9E...; all-Test disable script directly read; WORLD03 prior JAR overwritten, history/hash retained; docsde8eaa5 clarify",
     "sourceQueue": "adopted audit4e6517f; all26partial; corrected stale references below"
   },
   "pendingSourceCorrections": [
@@ -511,6 +511,15 @@
       "model": "gpt-6-luna",
       "reasoningEffort": "high",
       "task": "/root/source_2612_262"
+    },
+    {
+      "reasoningEffort": "high",
+      "model": "gpt-6-luna",
+      "status": "active independent exact-source snapshot review",
+      "tip": "2f777be9b4472bc4490864b738a99969ff983413",
+      "snapshot": "5688e68528861c91031a021f484f80a90c887f2f",
+      "task": "/root/review_slipperiness_range",
+      "clone": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mcpk-slipperiness-1-15-2-2026-10-08"
     }
   ],
   "sourceCheckpointCorrection": {
@@ -520,15 +529,28 @@
   },
   "slipperinessImplementationReview": {
     "verdict": "ACCEPT bounded1.15.2",
-    "status": "exact object-store/fullref requested; integration waits current WORLD03/swimming-entry batches",
+    "status": "exclusive owner assigned bounded integration, exact localclone verified",
     "reviewShort": "e1866cc",
     "edgeBackoff": "no-code existing implementation ACCEPT same review",
     "range": "separate focused snapshot in progress; independent source review still required"
   },
   "remoteTrackingAudit": {
     "primaryAheadCount": 15,
-    "status": "origin/main differs from prior tracking baseline; integration owner asked to explain exact local fetch/ref command; no push authorized or reported",
+    "status": "read-only git ls-remote confirms remote main0bfb72a; reflogupdatebypush at2026-10-08T16:46:53+02; no actor/command attributed; no push/rewrite performed by this verification",
     "observedOriginMain": "0bfb72a0bc08726f2ee3a984203c08b5d90cf34e",
-    "realRemote": "not verified by tracking-ref comparison"
+    "realRemote": "0bfb72a0bc08726f2ee3a984203c08b5d90cf34e"
+  },
+  "slipperinessLocalObjectSource": {
+    "report": "workflows/implementation-reviews/2026-10-08-mcpk-slipperiness-and-edge-backoff-review.md",
+    "reviewBranch": "fix/review-mcpk-slipperiness-1-15-2-2026-10-08",
+    "review": "e1866cc05f6c2b6a77caa6f30432efa8ec3fa74e",
+    "code": "ad653ac30465d990b34e98601b6566ab3f150bc0",
+    "clone": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mcpk-slipperiness-1-15-2-2026-10-08"
+  },
+  "goalTurnAudit": {
+    "previousTurn": "progress",
+    "evidence": "accepted WORLD03 and swimming integratedmain8e76298, durable coordinator commits, artifact verified this turn",
+    "evidenceNow": "artifact path/hash verified, source range independent review assigned, bounded sampler integration assigned, two earlier partial source owners resumed",
+    "currentTurn": "progress"
   }
 }
