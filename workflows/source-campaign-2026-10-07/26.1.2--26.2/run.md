@@ -587,25 +587,25 @@ These are now 61 bounded work units, not an exhaustive inventory: 35 pending, 9 
 ### Slice S-MOVE-POS: Entity movement clipping, position integration and zero-motion threshold
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: B `Entity.move` call from edge adjustment through collision result acceptance, movement record, and `setPos`; lines 737-757. Compare its enclosing no-physics/piston/stuck guards separately.
-- A evidence: pending exact source and caller correspondence.
+- Exact behavior boundary and enclosing guards/order checked: paired `Entity.move` applies no-physics position directly; otherwise piston limiting, stuck multiplier, edge adjustment and collision precede the same movement-length acceptance threshold, fall-reset query, movement record and `setPos`. A uses an inline `Math.abs(delta.y)>0.0` condition later tracked in S-MOVE-FLAGS; the accepted-position section has the same operation order.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java::move(MoverType,Vec3), lines 704-749`, SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`.
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/Entity.java::move(MoverType,Vec3), lines 737-757`, SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`.
 - State producers/writers -> consumers/readers: edge-adjusted requested movement -> collided movement and squared-length threshold -> movement history and position -> later collision/support/tick readers.
-- Parent slices / dependencies / closure evidence: S-TICK-ENTRY,S-TRAVEL-DISPATCH,S-TRAVEL-FLYING,S-TRAVEL-AIR,S-TRAVEL-RELATIVE,S-TRAVEL-FRICTION-SPEED,S-TRAVEL-FLUID-DISPATCH,S-TRAVEL-WATER,S-TRAVEL-LAVA,S-TRAVEL-FLUID-EXIT,S-TRAVEL-FLUID-ADJUST,S-TRAVEL-GLIDE-DISPATCH,S-TRAVEL-GLIDE-FORMULA,S-TRAVEL-CLIMB; `collide`, AABB and collision result producers pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B body read only; A comparison pending.
+- Parent slices / dependencies / closure evidence: S-TICK-ENTRY,S-TRAVEL-DISPATCH,S-TRAVEL-FLYING,S-TRAVEL-AIR,S-TRAVEL-RELATIVE,S-TRAVEL-FRICTION-SPEED,S-TRAVEL-FLUID-DISPATCH,S-TRAVEL-WATER,S-TRAVEL-LAVA,S-TRAVEL-FLUID-EXIT,S-TRAVEL-FLUID-ADJUST,S-TRAVEL-GLIDE-DISPATCH,S-TRAVEL-GLIDE-FORMULA,S-TRAVEL-CLIMB,S-EDGE-PROBE,S-COLLISION-STEP; paired direct position-integration order checked. `collide`, AABB and collision-query provider coverage remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the equivalent-input accepted-movement threshold and position write order match. Source disposition waits for collision result, movement-mode gates and state consumers to close.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-MOVE-FLAGS: Collision-axis, vertical support and on-ground state updates
 
 - Inventory ID(s): INV-STATE, INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: B `Entity.move` computes X/Z and vertical collision flags, vertical-below, then calls `setOnGroundWithMovement`; lines 759-778. Keep damage processing excluded while tracing any movement-state writers and callers.
-- A evidence: pending exact source and caller/member correspondence.
+- Exact behavior boundary and enclosing guards/order checked: both `Entity.move` bodies compare X/Z with `Mth.equal`, set horizontal and minor-horizontal collision state, compare vertical requested/resolved movement, set vertical-below and call `setOnGroundWithMovement` in the same order. B names the equivalent `Math.abs(delta.y)>0.0` result `movedVertically`; `checkFallDamage` remains separately bounded with its producer excluded.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java::move(MoverType,Vec3),setOnGroundWithMovement(boolean,boolean,Vec3), lines 750-779,664-700`, SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`.
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/Entity.java::move(MoverType,Vec3),setOnGroundWithMovement(boolean,boolean,Vec3), lines 759-778, 671-706`, SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`.
 - State producers/writers -> consumers/readers: requested vs clipped movement -> collision/ground flags -> next jump, friction, support and travel gates.
-- Parent slices / dependencies / closure evidence: S-MOVE-POS,S-COLLISION-STEP; support-position lookup and flag consumers pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B body read; player authoritative guard and A semantics pending.
+- Parent slices / dependencies / closure evidence: S-MOVE-POS,S-COLLISION-STEP,S-WORLD-01,S-TRAVEL-FRICTION-SPEED,S-JUMP-GATE; flag writer code is paired, while support-position lookup, collision result, and grounded/jump/friction/travel readers remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): same requested/resolved movement yields the same collision flags and on-ground writer inputs in these bodies. The complete state disposition depends on support-position and collision-query closure.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-MOVE-RESTITUTE: Post-collision player velocity response
@@ -659,49 +659,49 @@ These are now 61 bounded work units, not an exhaustive inventory: 35 pending, 9 
 ### Slice S-EDGE-PROBE: Movement edge backoff hook
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: B `Entity.move` invokes `maybeBackOffFromEdge(delta,moverType)` before collision; base implementation currently returns the input unchanged. Enumerate player-reachable overrides before deciding applicability.
-- A evidence: pending exact method, subclasses and caller inventory.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/Entity.java::move(MoverType,Vec3),maybeBackOffFromEdge(Vec3,MoverType), lines 737,1097-1099`, SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`.
-- State producers/writers -> consumers/readers: input movement and mover type -> virtual edge adjustment -> collision query; player-specific override/callability must be verified.
-- Parent slices / dependencies / closure evidence: S-TICK-ENTRY,S-MOVE-POS; inheritance/override search on both trees pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B base method read; no no-difference claim from base alone.
+- Exact behavior boundary and enclosing guards/order checked: paired `Entity.move` calls the virtual `maybeBackOffFromEdge(delta,moverType)` before collision; Player overrides the base identity method in both endpoints. The override guards ability flight, upward movement, mover type SELF/PLAYER, ground-surface staying and above-ground state; it then probes X, Z and diagonal displacement in 0.05 double increments, preserving Y, or returns the original vector.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java::move(MoverType,Vec3),maybeBackOffFromEdge(Vec3,MoverType), lines 730,1033-1035`, SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`; `Player.maybeBackOffFromEdge,isAboveGround,canFallAtLeast, lines 880-950`, SHA-256 `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d`.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/Entity.java::move(MoverType,Vec3),maybeBackOffFromEdge(Vec3,MoverType), lines 737,1097-1099`, SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`; `Player.maybeBackOffFromEdge,isAboveGround,canFallAtLeast, lines 880-953`, SHA-256 `8decc71b9c780664578ddb14591db2a2f207c72c05b676edded6f8e964576531`.
+- State producers/writers -> consumers/readers: player abilities, SELF/PLAYER mover type, onGround/fallDistance, maxUpStep and AABB -> same noCollision support probes -> pre-collision X/Z movement reduction.
+- Parent slices / dependencies / closure evidence: S-TICK-ENTRY,S-MOVE-POS,S-MOVE-FLAGS,S-DIMENSIONS,S-COLLISION-QUERY,S-MOD-01; both Player overrides and the virtual Entity.move call are paired. Maximum-step attribute and the paired noCollision/AABB provider chain remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): exact Player guard order, 0.05 decrement loops, axis/diagonal probe order, thresholds and return vectors match. Player self-travel reaches this override. Pair disposition awaits its movement-flag, max-step and collision-query dependencies.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-COLLISION-STEP: Candidate movement and step-up selection
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: B `Entity.collide` clipping, collision-axis tests, step-up guard, grounded/expanded boxes, candidate iteration and horizontal-distance winner; `collectCandidateStepUpHeights` candidate filtering and sort; lines 1141-1192.
-- A evidence: pending exact methods and caller/member correspondence.
+- Exact behavior boundary and enclosing guards/order checked: paired `Entity.collide` uses the same initial clip, axis collision tests, downward/support guard, grounded and expanded AABBs, step-height cast, candidate iteration, horizontal-distance winner and vertical correction. Candidate heights use the same cast-to-float, negative/equal exclusion, greater-than break, insertion and unstable float sort. The grounded candidate collider source is `collectColliders` in A and the entity overload of `collectCollidersIgnoringWorldBorder` in B; source/provider mapping stays under S-COLLISION-QUERY.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java::collide(Vec3),collectCandidateStepUpHeights(AABB,List<VoxelShape>,float,float), lines 1077-1127`, SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`.
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/Entity.java::collide(Vec3),collectCandidateStepUpHeights(AABB,List<VoxelShape>,float,float), lines 1141-1192`, SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`.
 - State producers/writers -> consumers/readers: input movement/on-ground/max-step -> candidate heights from collision shapes -> ordered step candidate and clipped movement -> position/ground flags.
-- Parent slices / dependencies / closure evidence: S-MOVE-POS,S-MOVE-FLAGS; AABB, shape coordinate ordering and candidate dependencies pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B body read; no pair result.
+- Parent slices / dependencies / closure evidence: S-MOVE-POS,S-MOVE-FLAGS,S-COLLISION-QUERY,S-COLLISION-AXIS,S-MOD-01; direct candidate arithmetic/order matches. AABB expansion, maximum-step producer and source shape coordinate ordering remain pending.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): same collision inputs and collider list produce the same direct step candidates and selection logic. Pair disposition awaits support/collider and max-step dependencies.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-COLLISION-QUERY: Collider gathering and axis clipping
 
 - Inventory ID(s): INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: B collision-bounding-box entry points and source-specific collider gathering, including entity collisions, close world-border shape and block-context collision queries; compare axis order/clipping separately in `collideWithShapes`; lines 1195-1243.
-- A evidence: pending exact methods and world-call correspondence.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/Entity.java::collideBoundingBox(...),collectAllColliders(...),collectCollidersIgnoringWorldBorder(...), lines 1195-1243`, SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`.
-- State producers/writers -> consumers/readers: entity/player collision context and expanded AABB -> world/entity/border/block shape lists -> clipping.
-- Parent slices / dependencies / closure evidence: S-COLLISION-STEP; Level collision-query, border, entity and block provider dependencies pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B body read; A and provider closure pending.
+- Exact behavior boundary and enclosing guards/order checked: for entity/player callers, both `collideBoundingBox` paths add entity colliders, conditionally add the world-border shape when `isInsideCloseToBorder(source,boundingBox)`, then append `level.getBlockCollisions(source,boundingBox)` before clipping. The A `collectColliders` and B entity overload `collectCollidersIgnoringWorldBorder` bodies have this same order; B also adds a `CollisionContext` overload that is not used by `Entity.move`'s Player path. `CollisionGetter.getBlockCollisions` delegates to the same `BlockCollisions` construction in both endpoints; B widens the context helper from private to default for that overload. `EntityGetter.getEntityCollisions`, `CommonLevelAccessor.getEntityCollisions`, and the entire `BlockCollisions` source are byte-identical across A/B; the border predicates match, though the outer WorldBorder source and its collision-shape extent providers still require inventory.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java::collideBoundingBox,collectAllColliders,collectColliders, lines 1131-1158`, SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`; `CollisionGetter.getBlockCollisions,getBlockCollisionsFromContext, lines 96-106`, SHA-256 `dddff4897e8d5d01e3ac132d85c474e6a3b9bae928e48b8c907aa9eabdb7fb01`; `EntityGetter.getEntityCollisions`, lines 54-73, SHA-256 `e37ea40ed0f9ebb8234addc98a5e05271bfad2fe9ffce5a7babf3bfaaa700d29`; `CommonLevelAccessor.getEntityCollisions`, lines 21-22, SHA-256 `fde68eff0742833b09fcb1018bed81b6c7d58aece6adfff2f1d504d87d4574b1`; `BlockCollisions`, lines 19-109, SHA-256 `eb8a8f6f07b1d6384f17987818f056d41adfd6b2ad120d26774bfa550f4fc51e`; `WorldBorder.getCollisionShape,isInsideCloseToBorder`, lines 100-118, SHA-256 `49a6ee08f1fdddc7951be74e420da5741e67a16d8992e426a5f34dba13dc518b`; `Level.java` source SHA-256 `77cc835fc1a79cd970bc3f4897fe5f398958fcbc874400c297f465f0c7819f01`.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/Entity.java::collideBoundingBox,collectAllColliders,collectCollidersIgnoringWorldBorder, lines 1195-1238`, SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`; `CollisionGetter.getBlockCollisions,getBlockCollisionsFromContext, lines 96-106`, SHA-256 `8e7d1a54d27e0f187667439539c59b8892f966f1b9c8107eb162c6d43f830f6c`; `EntityGetter.getEntityCollisions`, lines 54-73, SHA-256 `e37ea40ed0f9ebb8234addc98a5e05271bfad2fe9ffce5a7babf3bfaaa700d29`; `CommonLevelAccessor.getEntityCollisions`, lines 21-22, SHA-256 `fde68eff0742833b09fcb1018bed81b6c7d58aece6adfff2f1d504d87d4574b1`; `BlockCollisions`, lines 19-109, SHA-256 `eb8a8f6f07b1d6384f17987818f056d41adfd6b2ad120d26774bfa550f4fc51e`; `WorldBorder.getCollisionShape,isInsideCloseToBorder`, lines 100-118, SHA-256 `d2d9ad6e9407779b486531602d26207df9496a4486ca9642b76976a1a910c981`; `Level.java` source SHA-256 `1ae4f565ad909f4e90786089b5b4f125e8a7d18e2ef7d8c376172a5787fc5639`.
+- State producers/writers -> consumers/readers: player AABB and source/context -> entity collision list, close-border shape and block collision iterator -> clipped movement.
+- Parent slices / dependencies / closure evidence: S-COLLISION-STEP,S-COLLISION-AXIS,S-DIMENSIONS,S-WORLD-01; `Level`/`CollisionGetter` block enumeration, `BlockCollisions`, entity-push collision state and world-border shape providers remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the direct Player entity-collider assembly order is paired. No collision-provider equivalence is claimed until Level, BlockCollisions, entity-list and world-border providers are checked.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-COLLISION-AXIS: Sequential clipping axis order
 
 - Inventory ID(s): INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: B `Entity.collideWithShapes` iterates `Direction.axisStepOrder(movement)`, carries resolved movement into the next-axis bounding box, and calls `Shapes.collide`; lines 1244-1262.
-- A evidence: pending exact method and vector/shape-helper correspondence.
+- Exact behavior boundary and enclosing guards/order checked: A/B `collideWithShapes` returns requested movement for an empty shape list; otherwise it starts at `Vec3.ZERO`, visits `Direction.axisStepOrder(movement)`, skips zero axis movement, calls `Shapes.collide` using the box translated by previously resolved axes, and writes the result with `Vec3.with`.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java::collideWithShapes(Vec3,AABB,List<VoxelShape>), lines 1161-1177`, SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`.
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/Entity.java::collideWithShapes(Vec3,AABB,List<VoxelShape>), lines 1244-1262`, SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`.
 - State producers/writers -> consumers/readers: movement vector/axis order/shape list -> per-axis resolved vector -> final clipped movement.
-- Parent slices / dependencies / closure evidence: S-COLLISION-QUERY; `Direction.axisStepOrder`, `Shapes.collide`, `VoxelShape` dependencies pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B method body read; pair comparison pending.
+- Parent slices / dependencies / closure evidence: S-COLLISION-QUERY; A/B method body matches, while exact `Direction.axisStepOrder`, `Shapes.collide` and `VoxelShape` coordinate/order dependencies remain pending.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): same ordered input axes and shape list produce the same per-axis call sequence here. Pair disposition awaits the called axis-order and shape clipping implementations.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-WORLD-01: Block/fluid movement providers, registrations and resource data
@@ -837,8 +837,8 @@ Two source-confirmed candidates are recorded: `F-26.2-SLIME-LANDING-RESTITUTION`
 
 ## Resume checkpoint
 
-- Last dispositioned slices: S-IN-01,S-IN-BASE,S-LOCAL-SNAPSHOT,S-SPRINT-START,S-SPRINT-STOP,S-SQUARE-MOVE,S-TICK-ENTRY,S-EXT-ENTITY-MOTION-PACKET,S-EXT-PLAYER-CORRECTIONS,S-PLAYER-IMPULSE-RESPONSE,S-SINK-INPUT,S-FLIGHT-VERTICAL-INPUT,S-MOVE-BLOCK-SPEED; `S-RIDEABLE-JUMP` and `S-CLIENT-AVATAR-STATE` are not applicable; `S-MOVE-RESTITUTE-SLIME` and `S-MOVE-RESTITUTE-BED` each have one source-confirmed finding. The corrected bed witness is frozen in `2c1ed97d01bcda8ad3f347d82d3fc4599e94a3cf`. The vanilla friction registration inventory advanced in `6cf97314`; `S-TRAVEL-FRICTION-SPEED` and `S-WORLD-01` remain in progress for their other dependencies. `S-LOCAL-UNSTUCK`, flight toggle/fall-flying request, input modifiers, Player aiStep pre/post, `S-EXT-01`, `S-EXT-PISTON-MOVEMENT`, and generic `S-MOVE-RESTITUTE` remain in progress. The active ledger has 61 units: 34 pending, 10 in-progress, 13 compared-no-difference, 2 findings, 2 not-applicable.
-- Next bounded slice and exact files/members/body ranges to open: finish the LocalPlayer pre-travel dependencies, beginning with `S-LOCAL-UNSTUCK`'s suffocation query/block-property inventory and then close the sprint, flight, fall-flying and input modifier predicates; continue with `LocalPlayer.aiStep()` and player-specific `LivingEntity.aiStep()/travel()` in each endpoint. Rehash newly cited source files before disposition.
+- Last dispositioned slices: S-IN-01,S-IN-BASE,S-LOCAL-SNAPSHOT,S-SPRINT-START,S-SPRINT-STOP,S-SQUARE-MOVE,S-TICK-ENTRY,S-EXT-ENTITY-MOTION-PACKET,S-EXT-PLAYER-CORRECTIONS,S-PLAYER-IMPULSE-RESPONSE,S-SINK-INPUT,S-FLIGHT-VERTICAL-INPUT,S-MOVE-BLOCK-SPEED; `S-RIDEABLE-JUMP` and `S-CLIENT-AVATAR-STATE` are not applicable; `S-MOVE-RESTITUTE-SLIME` and `S-MOVE-RESTITUTE-BED` each have one source-confirmed finding. The corrected bed witness is frozen in `2c1ed97d01bcda8ad3f347d82d3fc4599e94a3cf`. Paired source work advanced the vanilla friction provider, player pose/dimension state, edge probe, movement position/flags, step selection and collision-query/axis slices; these remain in-progress where producer or shape dependencies are open. The active ledger has 61 units: 3 pending, 30 in-progress, 22 compared-no-difference, 2 findings, 4 not-applicable.
+- Next bounded slice and exact files/members/body ranges to open: close the two remaining pending travel slices (`LivingEntity.aiStep`'s ridden-player-controller/self-travel gate and `Entity.move`'s post-movement block effects), then expand `S-MOD-01` into exact A/B attribute, effect, enchantment and equipment producer/consumer inventories. Continue the open state, collision-shape, fluid, and external-input slices and rehash newly cited source files before disposition.
 - Outstanding dependencies and owners: D-B-PROVENANCE (shared source owner), D-DEPENDENCIES (worker inventory).
 - Current assumptions requiring verification: no movement-relevant resource/data is omitted. No release introduction point can be inferred from these two endpoints alone.
 
