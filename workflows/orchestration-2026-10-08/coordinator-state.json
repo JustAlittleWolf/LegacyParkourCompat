@@ -370,7 +370,7 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T15:18:54.9320250Z",
+    "observedAt": "2026-10-08T15:21:18.3440495Z",
     "oldCompleted": 43,
     "oldActive": 0,
     "unknownSlotReserved": 0,
@@ -570,8 +570,8 @@
   },
   "goalTurnAudit": {
     "previousTurn": "progress",
-    "evidence": "Verified retained artifact, adopted corrected backlog, accepted range source evidence, assigned implementation and independent wiki continuations.",
-    "evidenceNow": "Bounded accepted sampler integrated and independently verified; fresh source handoff and passenger provenance review assigned.",
+    "evidence": "User cap raised to20, six available roles assigned, five source acceptances collected and granular implementation/source correction assignments committed.",
+    "evidenceNow": "New immutable shallow water candidate captured; exact source review gate queued; all20 role handles verified live.",
     "currentTurn": "progress"
   },
   "oldSourceHandoff": {
@@ -612,5 +612,17 @@
     "path": "workflows/source-campaign-2026-10-07/independent-review-1204-1206-and-f14-2026-10-08.md",
     "review": "581b5bd2cb44981c4889eaf05ea739134e332b87",
     "implementation": "01 and02 reconciliation assigned;03/05/06 conditional source inputs require separate eligibility and implementation disposition."
+  },
+  "shallowWaterCurrentCandidate": {
+    "owner": "/root/source_12111_2612",
+    "claim": "Concrete shallow occupied flowing-water cell reaches older minimum impulse while newer tiny-vector tracker exits; exact float/scan/normalization/stable-state proof requires review.",
+    "pairCoverage": "Partial; owner continues broader inventory.",
+    "followup": "b8ef335",
+    "snapshot": "6374ff904018e102afd8353864d3cbcbb1b99ddd",
+    "path": "workflows/source-campaign-2026-10-07/1.21.11--26.1.2/findings/F-1-water-current-shallow-overlap.md",
+    "blob": "90c8a48282c036e6082c85f0be7a69e041ac0cb7",
+    "sha256": "9d2c273a1c3b358eac7ebaa1e4cbe9e91a126648a90e89d8d6bdeb1953159cdd",
+    "status": "Immutable candidate queued for independent blind source review when a role frees. No implementation authorization.",
+    "pair": "1.21.11--26.1.2"
   }
 }
