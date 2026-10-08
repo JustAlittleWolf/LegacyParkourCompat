@@ -13,7 +13,7 @@
 
 Paths are repository-relative. The shared source/artifact trees are read-only inputs. Initial admission verified both exact IDs, ready JSONs, manifests, and source/artifact rows. A subsequent source-owner revision reports the original derived mapped JARs unavailable; original markers/manifests remain untouched. The versioned `feather-r1-2026-10-07` snapshots and unchanged sources/raw inputs were freshly hash-checked by this worker below. Independent ops audit passed on 2026-10-07. This does not prove identity with the unavailable original derived JARs or explain the hash change; retain that limitation. No artifact marker was rewritten, no mismatch was waived, and no independent decompilation was performed.
 
-### A — 1.8.9
+### A â€” 1.8.9
 
 - Requested/resolved/version metadata ID: `1.8.9` / `1.8.9` / `1.8.9`.
 - Source root: `build/movement-campaign-2026-10-07/ready/1.8.9/ornithe-feather/`; 1,612 files, 8,248,472 bytes.
@@ -24,7 +24,7 @@ Paths are repository-relative. The shared source/artifact trees are read-only in
 - Artifact manifest `build/movement-campaign-2026-10-07/ready/1.8.9/artifacts.sha256`: SHA-256 `da003358256d1c4402ebb20614651e5410310e871ee913de2b9c1295a64e1446`; 36/37 current entries match, with only the unavailable original mapped-JAR entry differing. The separate revised snapshot is verified below.
 - Diagnostics `build/movement-campaign-2026-10-07/ready/1.8.9/movement-diagnostics.txt`: SHA-256 `62dc9b445bec2f62b6dac9da501e875377636d08682891891212aea464999d28`; exact release succeeded, required entity/living/player/local-player files exist, no damaged movement body/error reported.
 
-### B — 1.9.4
+### B â€” 1.9.4
 
 - Requested/resolved/version metadata ID: `1.9.4` / `1.9.4` / `1.9.4`.
 - Source root: `build/movement-campaign-2026-10-07/ready/1.9.4/ornithe-feather/`; 1,819 files, 9,320,183 bytes.
@@ -187,11 +187,11 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Exact behavior boundary and enclosing guards/order checked: four local-player `pushAwayFrom` calls before sprint/jump/flight/riding gates and `super.mobTick()`; each probes block solidity at body offsets and may overwrite one horizontal velocity component.
 - A evidence: `LocalClientPlayerEntity.mobTick()V` lines 535-560, `pushAwayFrom(DDD)Z` lines 292-341 and `canSurvive(BlockPos)Z` lines 344-346; SHA-256 `1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053`.
 - B evidence: `LocalClientPlayerEntity.mobTick()V` lines 645-681, `pushAwayFrom(DDD)Z` lines 349-398 and `canSurvive(BlockPos)Z` lines 401-403; SHA-256 `8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d`.
-- State producers/writers -> consumers/readers: block state/material/shape -> `canSurvive` -> directional ±0.1 horizontal velocity overwrite -> pre-travel cutoff and movement.
-- Parent slices / dependencies / closure evidence: the state-solid predicate reaches piston base as proved in WORLD-03; remaining non-piston state providers stay in `WORLD-03` inventory follow-up.
+- State producers/writers -> consumers/readers: block state/material/shape -> `canSurvive` -> directional Â±0.1 horizontal velocity overwrite -> pre-travel cutoff and movement.
+- Parent slices / dependencies / closure evidence: the state-solid provider subinventory is checked in WORLD-03. The piston-base predicate is unchanged; the EndPortalFrameBlock cube predicate differs. Player velocity cutoff and downstream travel remain separate open consumers.
 - Status: findings
-- Disposition and rationale (including concrete reachability/preconditions): B's state-aware solidity changes the local player ejection gate for extended piston bases; other state/shape providers remain open.
-- Finding IDs or checked absence/replacement path: `findings/WORLD-03-piston-player-block-ejection.md`.
+- Disposition and rationale (including concrete reachability/preconditions): a non-`noClip` local-player body sample in an End Portal Frame with a survivable horizontal escape neighbor reaches the unchanged A/B push-away code; A may overwrite one horizontal velocity component while B skips that branch. This is a gate-level source result, not a trajectory claim.
+- Finding IDs or checked absence/replacement path: `findings/WORLD-03-end-portal-frame-player-ejection.md` (prior piston claim withdrawn).
 
 ### Slice TICK-07: post-travel entity push
 
@@ -217,17 +217,18 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Disposition and rationale (including concrete reachability/preconditions): source-confirmed external authority-path difference for a loaded local-camera tick. A and B apply the same client-side position/rotation correction and per-axis velocity reset for the same relative-argument flags. Their server-side pending-teleport release differs: A accepts a positional response within squared distance `0.25`; B accepts a matching teleport-ID acknowledgment and gates regular movement until then. Outbound stationary packet cadence and position resend counter order also differ. Source shows the player movement/state writes after acceptance; no packet sequence or resulting trajectory is simulated.
 - Finding IDs or checked absence/replacement path: `findings/EXT-01-player-authority-packet-differences.md`.
 
-### Slice WORLD-03: piston-base state solidity in local player ejection
+### Slice WORLD-03: state-solid providers in local player ejection
 
 - Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-COLLISION`, `INV-WORLD-MOVEMENT`.
-- Exact behavior boundary and enclosing guards/order checked: `LocalClientPlayerEntity.pushAwayFrom(DDD)Z` -> `canSurvive(BlockPos)Z` -> A block-level or B state-level solidity -> existing piston-base block's cube classification -> direct player velocity write.
-- A evidence: `Block#isSolid()Z` lines 237-239 and `PistonBaseBlock#isCube()Z` lines 223-225; `Block.java` SHA-256 `ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528`, `PistonBaseBlock.java` SHA-256 `3c96698a674714446f9fd0d6cc1c4d5eb72937d9a2f396516ddb2461c3ea4929`.
-- B evidence: `Block#isSolid(BlockState)Z` lines 214-216 and `StateDefinition#isSolid()Z` lines 293-295; `Block.java` SHA-256 `e62ece80c6a7e7121346f65f8fdfd9b148c29441a27de9f568bba9afe1d84fe6`, `StateDefinition.java` SHA-256 `10ba661985c87801e1bb7e941399498e89fb67e1bd9ead2869c00d39ffff6493`.
-- State producers/writers -> consumers/readers: registered historical piston-base state including `EXTENDED`/facing -> `isSolid` branch gate -> local player ±0.1 horizontal overwrite before travel.
-- Parent slices / dependencies / closure evidence: both sides register piston bases; B `PistonBaseBlock` uses `Material.PISTON`, extended partial shape, and inherited state-cube default; A class overrides cube false. Other stateful block providers are open in `COLL-02`/world inventory.
+- Exact behavior boundary and enclosing guards/order checked: `LocalClientPlayerEntity.mobTick()`'s four `pushAwayFrom(DDD)Z` calls -> `canSurvive(BlockPos)Z` -> A `Block#isSolid()Z` inputs (`Material.isSolidBlocking`, block `isCube`, block `isSignalSource`) versus B `BlockState#isSolid()Z` -> `Block#isSolid(BlockState)Z` (state material, state `isCube`, state `isSignalSource`) -> directional horizontal velocity writes.
+- A evidence: `LocalClientPlayerEntity.java` SHA-256 `1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053`; `Block.java` SHA-256 `ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528` (`isSolid` 237-239, default `isCube` 245-247, default `isSignalSource` 643-645); `EndPortalFrameBlock.java` SHA-256 `c2c876aefe34d001ff0e3eebddd0df01ee85b0bf499e205eb1eb95ec44857b9e` (STONE constructor 23-25; analog source only 61-63); `Material.java` SHA-256 `017713d76afe726ca243ce32cbc35c13d3f0f0e7e5d90d122f81103cc2ca1bd2` (STONE and `isSolidBlocking` 100-102).
+- B evidence: `LocalClientPlayerEntity.java` SHA-256 `8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d`; `Block.java` SHA-256 `e62ece80c6a7e7121346f65f8fdfd9b148c29441a27de9f568bba9afe1d84fe6` (`isSolid(BlockState)` 214-216, default `isCube(BlockState)` 223-225, default `isSignalSource(BlockState)` 532-534); `StateDefinition.java` SHA-256 `10ba661985c87801e1bb7e941399498e89fb67e1bd9ead2869c00d39ffff6493` (`isSolid` 293-295, `isSignalSource` 298-300); `EndPortalFrameBlock.java` SHA-256 `1c6495a6d6c5d777eb643983c7e7b8151bb5b99ef1a4a3b991655792a0ad58eb` (STONE constructor 30-32; `isCube(BlockState)` false at 109-111; analog source at 68-70); `Material.java` SHA-256 `f198b08007c0acbe4e2737f7e484a9c85ec183220daef03b954cc90d0af95d19` (STONE and `isSolidBlocking` 102-104).
+- Provider/registration comparison: both registries contain `end_portal_frame` at `Block.java` A 1077-1087 / B 988-998; both constructors use `Material.STONE`. A EndPortalFrame inherits `Block#isCube()==true`; `isAnalogSignalSource()==true` does not override the separate `isSignalSource()`, whose A default is false. B EndPortalFrame explicitly returns false from `isCube(BlockState)`, and B's signal-source default remains false. Thus the block is solid in A and non-solid in B for this gate. For piston bases, A `PistonBaseBlock#isCube()` and B `PistonBaseBlock#isCube(BlockState)` both explicitly return false; the earlier piston-only candidate is refuted. A AirBlock inherits cube=true and B returns false, but both produce non-solid results because `Material.AIR.isSolidBlocking()` is false. The remaining B overrides with changed/default-false outcomes are ChorusFlower, ChorusPlant, EndGateway, EndRod, and GrassPath, which have no A counterpart in the paired source tree and are outside this one-way historical-block scope. The paired `isSignalSource` override inventory is semantically equivalent: the only expression rewrite is ChestBlock A `type == 1` versus B `type == ChestBlock.Type.TRAP`, with matching trapped-chest registrations; B's only `getMaterial(BlockState)` override returns the unchanged block material. Source hashes: A/B `ChestBlock.java` `8072bc317398297d1327a3be4edd8a66381a1a1021a6c4a8f3fbeebca2891d51` / `0fc74197f3f4710268944bb802a1621dc8ee359c29289ec8ce878ad0b2b834ce`; registry `Block.java` hashes are the A/B values above.
+- State producers/writers -> consumers/readers: registered End Portal Frame block/state -> material/cube/signal predicates -> `canSurvive`'s current and above positions -> local player `pushAwayFrom` escape search -> `velocityX` or `velocityZ` set to `±0.1F` -> pre-travel velocity cutoff/travel. The four local-player call sites and helper bodies are A `LocalClientPlayerEntity.java` lines 292-346 and 546-549, B lines 349-403 and 657-660; their file hashes are above.
+- Parent slices / dependencies / closure evidence: checked shared block classes' `isCube` overrides for the pair, state `isSignalSource` overrides, B state material accessor, `EndPortalFrameBlock` registration/material and A/B helper call sites. This closes only the solid-provider comparison feeding TICK-06; collision-shape/provider inventories and downstream velocity/travel consumers remain open.
 - Status: findings
-- Disposition and rationale (including concrete reachability/preconditions): when a local player's non-`noClip` body probe encounters an extended piston base and an escape neighbor is available, B's state-solid gate can write directional velocity where A's block-level gate skips the push-away branch.
-- Finding IDs or checked absence/replacement path: `findings/WORLD-03-piston-player-block-ejection.md`.
+- Disposition and rationale (including concrete reachability/preconditions): when a non-`noClip` body probe lands in an End Portal Frame block and at least one horizontal neighbor position is survivable, A enters escape search and can write the nearest-direction horizontal velocity; B treats that frame state as non-solid, can accept the sampled location when the upper position is also non-solid, and skips that write. The method's unchanged tie-breaking and velocity writes are not generalized to a resulting trajectory.
+- Finding IDs or checked absence/replacement path: `findings/WORLD-03-end-portal-frame-player-ejection.md`; piston-base path checked no-difference.
 
 ### Slice STATE-02: creative-flight movement reset
 
@@ -316,22 +317,35 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 ## Dependency queue and blockers
 
 - `DEP-AUDITOR`: coordinator; full-pair independent source audit not assigned. The focused review below accepts only the bounded STATE-01 cutoff snapshot and does not close the pair.
+- `DEP-TICK-06-STATE-SOLID-PROVIDERS`: closed for paired A historical block classes after comparing `isSolid` material/cube/signal inputs, B state dispatch/accessors, registrations, and non-piston providers. Piston is no-difference; End Portal Frame is routed to corrected `WORLD-03`; B-only modern blocks are out of scope. Full collision-shape inventory and downstream velocity/travel closure remain separate open dependencies.
+- `DEP-WORLD-03-BLIND-SNAPSHOT`: open; independent review of the corrected End Portal Frame candidate is pending.
 - All remaining `TICK-*`, `STATE-*`, `COLL-*`, `WORLD-*`, `MOD-*`, and `EXT-*` inventories remain open.
 
 ## Finding index
 
-- [TICK-01 — Sprint timeout](findings/TICK-01-sprint-timeout.md)
-- [TICK-02 — Flight sneak input rescaling](findings/TICK-02-flight-sneak-input-rescaling.md)
-- [STATE-01 — Velocity zero threshold](findings/STATE-01-velocity-zero-threshold.md)
-- [TICK-07 — Client-side player push](findings/TICK-07-client-player-push.md)
-- [STATE-03 — Sneak collision height](findings/STATE-03-sneak-collision-height.md)
-- [WORLD-01 — Trapdoor ladder climbing](findings/WORLD-01-trapdoor-ladder-climbing.md)
-- [WORLD-03 — Piston player block ejection](findings/WORLD-03-piston-player-block-ejection.md)
-- [COLL-02 — Pane collision shapes](findings/COLL-02-pane-collision-shapes.md)
+- [TICK-01 â€” Sprint timeout](findings/TICK-01-sprint-timeout.md)
+- [TICK-02 â€” Flight sneak input rescaling](findings/TICK-02-flight-sneak-input-rescaling.md)
+- [STATE-01 â€” Velocity zero threshold](findings/STATE-01-velocity-zero-threshold.md)
+- [TICK-07 â€” Client-side player push](findings/TICK-07-client-player-push.md)
+- [STATE-03 â€” Sneak collision height](findings/STATE-03-sneak-collision-height.md)
+- [WORLD-01 â€” Trapdoor ladder climbing](findings/WORLD-01-trapdoor-ladder-climbing.md)
+- [WORLD-03 - End Portal Frame player ejection](findings/WORLD-03-end-portal-frame-player-ejection.md)
+- [COLL-02 â€” Pane collision shapes](findings/COLL-02-pane-collision-shapes.md)
 
 ## Incremental finding snapshot log
 
-### SNAP-STATE-01-01 — superseded blocked evidence reference
+### SNAP-WORLD-03-STATE-SOLID-01 — piston candidate withdrawn; End Portal Frame candidate recorded
+
+- Prior finding ID/file: `WORLD-03` / `findings/WORLD-03-piston-player-block-ejection.md`; prior candidate file SHA-256 `a3125e53e15bbe8f4a7692bd3494716f9845ff69c13db551b379654852c5d07d`.
+- Exact source identity: source manifests A/B remain SHA-256 `9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004` / `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`; cited source files match their manifests.
+- Correction evidence: piston `isCube` false on A and B; EndPortalFrame inherits A cube=true but B explicitly returns false, with `Material.STONE` and signal-source inputs making A solid and B non-solid. Exact file hashes and call-path evidence are in the corrected `WORLD-03-end-portal-frame-player-ejection.md` finding.
+- Provider inventory boundary: paired historical block cube overrides, signal-source overrides, state-material accessor, relevant block registrations, and local-player `canSurvive` consumers compared. Air yields no final predicate change; B-only modern blocks are excluded under one-way scope. Full collision shape and movement consumer inventories remain open.
+- Corrected finding file SHA-256: `f45dfb003c1dfcc64df5c5d7710fd22a4e6c311b1b8b50a3d77ed1537689479d`.
+- Decision: prior piston-specific finding withdrawn; corrected End Portal Frame finding is a new candidate at the same coverage slice and awaits independent blind review. No pair freeze or implementation handoff is implied.
+- Timestamp: 2026-10-08 Europe/Vienna.
+
+
+### SNAP-STATE-01-01 â€” superseded blocked evidence reference
 
 - Finding ID: `STATE-01` (`findings/STATE-01-velocity-zero-threshold.md`).
 - Evidence/snapshot commit: `f5eca2d932b7544c4eebaa13864491a4e40cba95`.
@@ -343,10 +357,10 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Blind reviewer and decision: not assigned; no acceptance decision.
 - Timestamp: 2026-10-07 Europe/Vienna.
 - Pair run status/commit at handoff: `active`; evidence commit above. `pair complete: no`.
-- Implementation handoff: `blocked` — mapped-artifact integrity is under canonical repair, finding-specific producer/consumer closure remains open, and no independent snapshot reviewer has accepted it.
+- Implementation handoff: `blocked` â€” mapped-artifact integrity is under canonical repair, finding-specific producer/consumer closure remains open, and no independent snapshot reviewer has accepted it.
 - Snapshot event: superseded on 2026-10-07 by `SNAP-STATE-01-02` after canonical revision `feather-r1-2026-10-07` was published and freshly hash-checked. This prior entry remains in history and was never accepted.
 
-### SNAP-STATE-01-02 — accepted bounded source cutoff; pair remains open
+### SNAP-STATE-01-02 â€” accepted bounded source cutoff; pair remains open
 
 - Finding ID: `STATE-01` (`findings/STATE-01-velocity-zero-threshold.md`).
 - Snapshot/evidence commit: `7437cfb2782e7085bd63b9360ba36e07b605f23f`.
@@ -361,7 +375,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Source decision: accepted for this bounded finding only. Implementation reconciliation/feedback remains sealed until full-pair freeze; no implementation or wiki feedback has been supplied.
 - Snapshot event: independent ops audit passed on 2026-10-07 after both immutable snapshots were checked against `artifact.sha256` and `revision.json`, source rows rehashed, and raw-input manifest rows checked. The original derived JARs remain unavailable and equivalence remains unproven. The later focused blind review accepted this exact finding snapshot; it did not accept the whole pair.
 
-### SNAP-COLL-02-PANE-01 — rejected; corrected snapshot follows
+### SNAP-COLL-02-PANE-01 â€” rejected; corrected snapshot follows
 
 - Finding ID: `COLL-02` (`findings/COLL-02-pane-collision-shapes.md`).
 - Snapshot/evidence commit: `9222079631775ff5a6d0d566624ba3add7c36c2b`.
@@ -375,7 +389,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Implementation handoff: rejected for this exact snapshot; the corrected replacement is `SNAP-COLL-02-PANE-02`. This does not close the full pane/bar and collision-provider inventory or freeze the source pair.
 - Snapshot event: the focused blind review at commit `fb0415396838962eb421768daa07f3fd9ff44796` verified the geometry table and rejected this snapshot solely because its movement reachability citations pointed inside `Entity#pushAwayFrom`. See corrected replacement `SNAP-COLL-02-PANE-02` below. No geometry contradiction or implementation feedback was supplied.
 
-### SNAP-COLL-02-PANE-02 — corrected candidate, fresh blind decision pending
+### SNAP-COLL-02-PANE-02 â€” corrected candidate, fresh blind decision pending
 
 - Finding ID: `COLL-02` (`findings/COLL-02-pane-collision-shapes.md`).
 - Snapshot/evidence commit: `cd978384d9d360c584e139f68bda5bbafd8749fa`.
@@ -389,7 +403,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Pair run status: `active`; `pair complete: no`.
 - Implementation handoff: pending review; no implementation feedback has been supplied.
 
-### SNAP-STATE-03-01 — frozen bounded candidate, blind decision pending
+### SNAP-STATE-03-01 â€” frozen bounded candidate, blind decision pending
 
 - Finding ID: `STATE-03` (`findings/STATE-03-sneak-collision-height.md`).
 - Snapshot/evidence commit: `c942939e8755d67ca1e3445dfd7680e7d0b68b41`.
@@ -402,7 +416,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Pair run status: `active`; `pair complete: no`.
 - Implementation handoff: pending blind review; no implementation feedback has been supplied.
 
-### SNAP-TICK-02-01 — candidate evidence, blind review pending
+### SNAP-TICK-02-01 â€” candidate evidence, blind review pending
 
 - Finding ID: `TICK-02` (`findings/TICK-02-flight-sneak-input-rescaling.md`).
 - Snapshot/evidence commit: `20d100ee7d4c1f64bb905e5b05b242b42625af6e`.
@@ -419,11 +433,11 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 ## Resume checkpoint
 
 - Last completed slices/checkpoints: TICK-05 active-item countdown and local input consumer compared with no equivalent-main-hand movement delta; TICK-07 paired client-push source evidence committed; EXT-01 packet-selection/correction source finding recorded with downstream server effect unresolved; MOD-02 paired attribute/effect inventory committed at `313e7909e0bf4be57ff33df1412a378b3a6de390`, including the conditional NBT equipment-slot filter finding; exact bounded STATE-01 cutoff snapshot independently accepted; corrected COLL-02 and STATE-03 candidates preserved. Original mapped-JAR identity remains unproven.
-- Latest verified correction to carry forward: the current `WORLD-03-piston-player-block-ejection.md` candidate claims B inherits `Block#isCube(BlockState) == true`, but published B `PistonBaseBlock.java` explicitly overrides it to `false` at lines 215-218 (SHA-256 `4ef15129e9e12767774d9ef01057f0c981e5a9bb666e2d11cba3517062cc8dd7`). A's `PistonBaseBlock#isCube()Z` also returns `false` at lines 223-225 (SHA-256 `3c96698a674714446f9fd0d6cc1c4d5eb72937d9a2f396516ddb2461c3ea4929`). Since A `Block#isSolid()Z` includes `isCube()` (Block.java SHA-256 `ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528`) and B `BlockState#isSolid()Z` delegates to state-based `Block#isSolid(BlockState)Z` (StateDefinition.java SHA-256 `10ba661985c87801e1bb7e941399498e89fb67e1bd9ead2869c00d39ffff6493`; Block.java SHA-256 `e62ece80c6a7e7121346f65f8fdfd9b148c29441a27de9f568bba9afe1d84fe6`), the piston-base solidity predicate is false on both sides. The candidate's claimed B-only ejection branch is contradicted by its own cited source hash and must be withdrawn or replaced after the broader provider comparison. No correction file or run-ledger edit for this issue has been committed yet; the existing candidate snapshot remains preserved.
-- Next bounded comparison: complete the TICK-06/WORLD-03 state-solid provider inventory. Compare all A historical block classes' `Block#isSolid()Z` inputs and block-level `isCube()Z` / `isSignalSource()Z` with their B state-aware counterparts reached through `BlockState#isSolid()Z` -> `StateDefinition#isSolid()Z` -> `Block#isSolid(BlockState)Z`; determine whether any non-piston class/state changes the `canSurvive(BlockPos)Z` gate. Entry paths: A `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java` lines 292-346 and `Block.java` lines 237-239; B same-named local-player file lines 349-403, `block/state/StateDefinition.java` lines 293-295, and `Block.java` lines 214-216. Preserve shared source trees read-only. TICK-06 source hashes remain A `1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053`, B `8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d`.
-- Outstanding dependencies and owners: `DEP-AUDITOR` coordinator for full-pair review; fresh independent decisions for exact candidates `SNAP-COLL-02-PANE-02` and `SNAP-STATE-03-01`; remaining open `INV-TICK`, `INV-STATE`, `INV-COLLISION`, `INV-WORLD-MOVEMENT`, `INV-MODIFIERS`, and `INV-EXTERNAL` source inventories. The pair remains active and incomplete.
+- Supersession of the piston candidate: the prior finding-file SHA-256 was `a3125e53e15bbe8f4a7692bd3494716f9845ff69c13db551b379654852c5d07d`. B `PistonBaseBlock#isCube(BlockState)` returns false at lines 216-218 (file SHA-256 `4ef15129e660397ba3a531c8ff4a4810393973ea56417d8830f4445d14035e36`); A `PistonBaseBlock#isCube()` returns false at 223-225 (SHA-256 `3c96698a674714446f9fd0d6cc1c4d5eb72937d9a2f396516ddb2461c3ea4929`). The prior piston-specific finding is withdrawn. The provider comparison found a distinct non-piston End Portal Frame delta, now recorded in the corrected `WORLD-03-end-portal-frame-player-ejection.md` finding; the prior claim and exact evidence are retained in its superseded-candidate record.
+- Next bounded comparison: continue the remaining collision-shape/provider inventory and downstream TICK-06 velocity-cutoff/travel consumer closure. The state-solid provider subinventory is closed for paired A historical block classes: shared cube overrides were compared; A/B signal-source overrides and B state-material lookup were compared; Air and modern-only block cases were dispositioned; the End Portal Frame difference is recorded in WORLD-03. Entry paths: A `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java` lines 292-346 and `Block.java` lines 237-239; B same-named local-player file lines 349-403, `block/state/StateDefinition.java` lines 293-300, and `Block.java` lines 214-216. Shared sources remain read-only. TICK-06 source hashes: A `1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053`, B `8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d`.
+- Outstanding dependencies and owners: `DEP-AUDITOR` coordinator for full-pair review; fresh independent decisions for exact candidates `SNAP-COLL-02-PANE-02` and `SNAP-STATE-03-01`; `WORLD-03` End Portal Frame snapshot awaits independent review; remaining open `INV-TICK`, `INV-STATE`, `INV-COLLISION`, `INV-WORLD-MOVEMENT`, `INV-MODIFIERS`, and `INV-EXTERNAL` source inventories. The pair remains active and incomplete.
 - Assumptions requiring verification: no first-version claim inside the interval; complete resource/provider inventory remains open; original mapped-JAR identity/equivalence remains unproven.
-- Stop checkpoint: branch `feat/source-discovery-movement-source-1-8-9-1-9-4`; current HEAD before this checkpoint is `313e7909e0bf4be57ff33df1412a378b3a6de390`; worktree `C:\Users\Wolfi\.codex\worktrees\source-pair-189194-resume2\LegacyParkourCompat`; no uncommitted edits at checkpoint start. Only the checkpoint text above is being saved now. No tests, builds, runtime, decompile, or further discovery slice was started.
+- Stop checkpoint: follow-up branch `feat/source-discovery-movement-source-1-8-9-1-9-4-solid-resume` from requested source branch commit `0481dfe227ccc14b935352c306afbd04035cc635`; the named resume branch is checked out by another task. This checkpoint includes the bounded TICK-06/WORLD-03 provider comparison and corrected finding. No tests, builds, runtime, decompile, or gameplay validation was run.
 
 ## Implementation reconciliation
 
