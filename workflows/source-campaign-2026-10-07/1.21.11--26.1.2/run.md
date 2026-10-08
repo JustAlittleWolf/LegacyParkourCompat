@@ -294,13 +294,13 @@ Each entry is a bounded behavior boundary. Refine broad plans into exact member 
 ### Slice S3.3: Air acceleration, drag/gravity and velocity thresholds
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Air acceleration, drag/gravity and velocity thresholds. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: Paired airborne `LivingEntity.travelInAir()` vertical update and final friction branches (A 2343-2366; B 2430-2453), plus `getEffectiveGravity()` (A 2304-2307; B 2387-2390) and `shouldDiscardFriction()` (A 657-659; B 653-655). After the shared relative-movement helper returns, both apply Levitation interpolation when present; otherwise subtract effective gravity only when server-side or the support chunk is loaded, falling back client-side to `-0.1` above minY or zero at/below minY. They then either write unfactored movement when discard-friction is set or multiply X/Z by `blockFriction*0.91F` and Y by `FlyingAnimal ? friction : 0.98F`. Effective gravity uses `deltaY <= 0.0` and caps gravity at `0.01` under Slow Falling; all comparison operators, constants, casts and operation ordering match. Player-specific tiny horizontal cleanup is separately closed in S3.3.1.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/LivingEntity.java` :: `travelInAir()`, `getEffectiveGravity()`, `shouldDiscardFriction()`, SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java` :: corresponding methods, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
+- State producers/writers -> consumers/readers: delta Y selects Slow Falling gravity cap; effect state, world side, chunk-loaded state and minY select vertical update; `discardFriction`, `FlyingAnimal`, and support-block friction select final axis multipliers. The preceding helper writes movement after input acceleration and collision, then this method writes final airborne velocity. Attribute/effect producers, support lookup, collision and resource values remain S3.2/S4/S5/S6/D2 dependencies.
+- Parent slices / dependencies / closure evidence: S3.1 documents the full air-travel body; S3.2 documents friction and helper calls; S3.3.1 documents player-specific cutoff; S3.8 documents gliding path; S4/S5 close collision/support/chunk inputs and S6/D2 close effect/resource inputs. Those providers remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): For the paired airborne branch, gravity selection, client unloaded-chunk fallback, Levitation override, discard-friction branch, axis-specific damping and final write match exactly. No direct difference appears in these compared expressions. State, collision and resource producers remain open, so this comparison does not close the broader inventory.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S3.3.1: Player low-horizontal-velocity cutoff
@@ -782,7 +782,7 @@ F-1 candidate snapshot submitted for blind review; acceptance is pending and doe
 
 ## Source audit closure
 
-- Coverage counts by status: 6 pending; 39 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
+- Coverage counts by status: 5 pending; 40 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
 - Required inventory status and evidence: all 7 pending; exact source inputs are verified, but full movement/provider/resource inventories remain incomplete.
 - Open dependencies: D2
 - Unresolved gaps and limits: inherited tick/travel/collision body comparisons, movement state producers/consumers, shape providers/registrations, and data/resource dependency closure.
