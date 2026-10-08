@@ -187,6 +187,17 @@ Per bounded slice, record one of `pending`, `in-progress`, `compared-no-differen
 - Status: compared-no-difference
 - Disposition and rationale (including concrete reachability/preconditions): both method bodies are text-identical: form `sideways * sideways + forwards * forwards`; skip when below `1.0E-4F`; square-root and clamp norm to at least `1.0F`; compute `scale / norm`; scale both axes; compute yaw radians with the same float cast/order; use the identical sine/cosine table helper; add `sideways*cos - forwards*sin` to X and `forwards*cos + sideways*sin` to Z. The helper class is identical and no player-side override exists. No transform difference is established; caller-selected scales remain in the open travel slices.
 - Finding IDs or checked absence/replacement path: no additional finding; checked unique base implementation in `Entity`, with no A/B override signature in either source tree.
+### Slice LOCAL-PLAYER-TICK-ENTRY: chunk guard and local-player superclass tick call
+
+- Inventory ID(s): `INV-TICK`
+- Exact behavior boundary and enclosing guards/order checked: `LocalClientPlayerEntity.tick()` only, from chunk-loaded guard through `super.tick()` and subsequent vehicle/input or movement-packet branch. Superclass body closure and other previous/current state writers remain open.
+- A evidence: `LocalClientPlayerEntity.tick()` lines 143-155, method-body SHA-256 `522084d075dd61a0c53b236f3507f230172463bf1fb02bb9e5bc5b7012bc1590`, full-file SHA-256 `8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d`. `Entity.tick()` lines 299-305 delegates to `baseTick()`; full-file SHA-256 `bcd7fa2206bf8d7271102f6da7fe2771f96dbe22ec79dab9f2101a3e29c17ef0`.
+- B evidence: `LocalClientPlayerEntity.tick()` lines 152-164, method-body SHA-256 `522084d075dd61a0c53b236f3507f230172463bf1fb02bb9e5bc5b7012bc1590`, full-file SHA-256 `a9637065f21ad67464eb5c204c74ebf228c3bb0da8a96ddf4ae73c0490fed443`. `Entity.tick()` lines 304-310 delegates to `baseTick()`; full-file SHA-256 `05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77`.
+- State producers/writers -> consumers/readers: when the local player's chunk is loaded, wrapper dispatches its superclass tick before sending movement or vehicle input state. Inside the shared inherited path, `LivingEntity.tick` invokes virtual `mobTick` (A line 1551, B line 1587); its later travel call is recorded under S1.3 and `ENTITY-RELATIVE-INPUT-ROTATION`. Chunk-unloaded ticks skip both superclass update and packet branch on both versions.
+- Parent slices / dependencies / closure evidence: S1.1 input sample and S1.2 input transform. This slice closes only the local-player wrapper; inherited `Entity.baseTick` position/rotation history writes, complete player tick chain, travel ordering, and post-travel behavior remain open under S1.3/S4/S7.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): method-body hashes are identical. Both require `world.isChunkLoaded(new BlockPos(x,0,z))`, call `super.tick()` first, then send the same riding angle/input packets and conditional vehicle packet, or call `sendMovementToServer()` when not riding. No local-player tick-entry order difference is established; this does not close superclass or travel state coverage.
+- Finding IDs or checked absence/replacement path: no additional finding; paired body hash confirms identity for this bounded wrapper.
 ### Slice LOCAL-AUTO-JUMP-INPUT: obstacle-triggered local-player jump input
 
 - Inventory ID(s): `INV-TICK`, `INV-INPUT`, `INV-JUMP`, `INV-STATE`
@@ -343,7 +354,7 @@ F001 - [farmland player collision height](findings/F001-farmland-collision-heigh
 ## Source audit closure
 
 - Coverage counts: 3 compared-no-difference; 4 source-confirmed findings submitted for review (0 accepted); 1 not-applicable; 0 blocked; 50 initial planned behavior slices pending.
-- Pending bounded-slice count: 49 initial planned behavior slices remain; revise upward whenever source navigation exposes additional distinct methods, writers, consumers or dependencies.
+- Pending bounded-slice count: 48 initial planned behavior slices remain; revise upward whenever source navigation exposes additional distinct methods, writers, consumers or dependencies.
 - Unresolved gaps: inventories and the full-pair audit remain open; movement decompiler diagnostics (D1), resource closure (D2), and transitive state-writer/caller closure (D3) remain open. The source-provenance record and revised-artifact integrity checks are complete, with original derived-jar equivalence unproven.
 - Evidence/hash/correspondence audit: partial; F001–F004 source and revised immutable-artifact evidence and rail hashes are recorded. Independent operations verification passed; independent finding review remains pending.
 - Runtime validation: not performed (separate workflow).
