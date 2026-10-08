@@ -119,27 +119,27 @@ These are initial bounded navigation units. Exact sources are published; slice-b
 
 ### Slice S1-SPRINT-JUMP: Sprint-jump impulse and state writes
 
-- Inventory ID(s): slice mapping not yet inventoried
-- Exact behavior boundary and enclosing guards/order checked: not yet inspected
-- A evidence: not yet inspected in exact 1.21.4 source
-- B evidence: not yet inspected in exact 1.21.5 source
-- State producers/writers -> consumers/readers: not yet inspected
-- Parent slices / dependencies / closure evidence: pending
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): exact sources are published; this slice has not been inspected, so no behavior conclusion is recorded
-- Finding IDs or checked absence/replacement path: pending
+- Inventory ID(s): INV-TICK, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: fluid/ground jump gate reaches `LivingEntity.jumpFromGround()`; method raises vertical delta to jump power, adds the sprint yaw impulse when `isSprinting()`, and sets `hasImpulse`.
+- A evidence: `ready/1.21.4/mojmap.sources.sha256`; `LivingEntity.java` lines 2149-2164; dispatcher `aiStep()` lines 2751-2754.
+- B evidence: `ready/1.21.5/mojmap.sources.sha256`; `LivingEntity.java` lines 2173-2188; dispatcher `aiStep()` lines 2737-2740.
+- State producers/writers -> consumers/readers: `jumping`, on-ground/fluid and `noJumpDelay` state -> grounded/fluid jump dispatch -> `jumpFromGround`; the sprint flag gates the horizontal `0.2` yaw impulse. Resulting delta movement and impulse flag feed subsequent entity movement.
+- Parent slices / dependencies / closure evidence: S1-SPRINT-GATE; S1-JUMP-GATE; S3-JUMP-MATH; S6-ATTRIBUTES. The paired jump velocity writer and sprint impulse formula match; upstream sprint/jump predicates and modifier dependencies remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no formula delta was found in the paired `jumpFromGround` body. The sprint gate findings F-04 and F-13 can alter whether the unchanged sprint impulse branch is reached; input gate and movement-attribute dependencies are not closed.
+- Finding IDs or checked absence/replacement path: checked absence of a delta in the cited `jumpFromGround`/dispatch bodies; F-04 and F-13 affect upstream sprint-state reachability.
 
 ### Slice S1-AUTOJUMP: Auto-jump probes, timing, normalization and trigger
 
-- Inventory ID(s): slice mapping not yet inventoried
-- Exact behavior boundary and enclosing guards/order checked: not yet inspected
-- A evidence: not yet inspected in exact 1.21.4 source
-- B evidence: not yet inspected in exact 1.21.5 source
-- State producers/writers -> consumers/readers: not yet inspected
-- Parent slices / dependencies / closure evidence: pending
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): exact sources are published; this slice has not been inspected, so no behavior conclusion is recorded
-- Finding IDs or checked absence/replacement path: pending
+- Inventory ID(s): INV-TICK, INV-STATE, INV-COLLISION, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: option-backed enable flag and one-tick timer -> post-move `updateAutoJump` callback -> input/direction fallback, forward-projection test, collision-shape sweeps and height checks -> `autoJumpTime=1` -> next local tick's `input.makeJump()`.
+- A evidence: `ready/1.21.4/mojmap.sources.sha256`; `LocalPlayer.java` lines 136, 269, 681-683, 900-910, 922-1036, 1038-1051.
+- B evidence: `ready/1.21.5/mojmap.sources.sha256`; `LocalPlayer.java` lines 136, 265, 705-707, 913-923, 935-1049, 1051-1064.
+- State producers/writers -> consumers/readers: options auto-jump value -> `autoJumpEnabled`; movement callback delta and player bounds -> contextual block shapes/collision iterator -> one-tick timer -> next-tick jump input. Jump Boost adjusts maximum probe height.
+- Parent slices / dependencies / closure evidence: S1-INPUT-SAMPLE; S1-INPUT-SCALE; S1-JUMP-GATE; S2-DIMENSIONS; S4-COLLISION-QUERY; S4-SHAPES; S5-BLOCK-SHAPES; S6-EFFECTS. Paired probe/order bodies inspected; full shape, dimension, input and effect producer closure remains open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): timer, option guard, probe geometry, thresholds and resulting timer write match in the inspected bodies. `isMoving()` changes from component-nonzero checks in A to `lengthSquared() > 0.0F` in B; the paired vanilla keyboard input sources produce discrete or normalized nonzero vectors for which both predicates agree. The complete collision-shape provider inventory remains open.
+- Finding IDs or checked absence/replacement path: checked absence of a reachable auto-jump behavior delta for vanilla keyboard input in the compared predicate; shape/provider and wider input dependencies remain open.
 
 ### Slice S1-FLIGHT: Flight input, toggles and movement speed state
 
@@ -627,7 +627,7 @@ Source-confirmed findings: [F-01 movement callback path](findings/F-01-movement-
 
 ## Resume checkpoint
 
-- Last completed slice: S3-JUMP-MATH (compared-no-difference); exact-source comparisons have identified F-01 through F-13. S1-SPRINT-GATE/TIMER/JUMP-GATE, S3-WATER/LAVA and S7-PUSH/CORRECTIONS remain in-progress because dependency/caller closure is open. F-09 has a candidate snapshot pending independent review; no snapshot has been accepted and no pair freeze has been accepted.
+- Last completed slice: S3-JUMP-MATH (compared-no-difference); exact-source comparisons have identified F-01 through F-13. S1-SPRINT-GATE/TIMER/JUMP-GATE/SPRINT-JUMP/AUTOJUMP, S3-WATER/LAVA and S7-PUSH/CORRECTIONS remain in-progress because dependency/caller closure is open. F-09 has a candidate snapshot pending independent review; no snapshot has been accepted and no pair freeze has been accepted.
 - Next: close input sampling/scale dependencies and the remaining local pre-travel state writers; continue ordered travel, collision, modifier and external-player inventories.
 - Outstanding dependencies and owners: D1 call-graph and producer/consumer inventory (discovery); D2 resource/tag/default inspection (discovery); D3 collision/block/fluid callback and shape inventory (discovery); D4 attributes/effects/enchantments/equipment (discovery); D5 client correction/mount/push external paths (discovery).
 - Assumptions requiring verification: complete input consumers, player-only reachability through all travel branches, shape and resource dependencies, and direct movement state writers.
@@ -652,8 +652,8 @@ Source-confirmed findings: [F-01 movement callback path](findings/F-01-movement-
 
 ## Source audit closure
 
-- Coverage counts: 3 compared-no-difference; 0 terminal finding slices; 0 not-applicable; 0 blocked; 21 pending; 22 in-progress. Thirteen source-confirmed findings have been recorded; slices remain open until their full inventories and dependencies close.
-- Required inventories: all remain open; bounded source work is underway across tick order, sprint/jump gates and timers, input math, travel formulas, collision callbacks, block/fluid contact and partial external correction/push paths. Inventory-level closure is not claimed.
+- Coverage counts: 3 compared-no-difference; 0 terminal finding slices; 0 not-applicable; 0 blocked; 19 pending; 24 in-progress. Thirteen source-confirmed findings have been recorded; slices remain open until their full inventories and dependencies close.
+- Required inventories: all remain open; bounded source work is underway across tick order, sprint/jump gates and timers, auto-jump, input math, travel formulas, collision callbacks, block/fluid contact and partial external correction/push paths. Inventory-level closure is not claimed.
 - Open dependencies: D1-D5; D0 resolved.
 - Gaps: full movement call graph, branch dependencies, state writers/consumers, collision/shape provider inventory, registry/tag/resource data, modifiers/equipment and external player movement inputs.
 - Evidence/hash/correspondence audit: exact source/artifact readiness verified; finding hashes and all bounded slice evidence still require final audit at source freeze.
