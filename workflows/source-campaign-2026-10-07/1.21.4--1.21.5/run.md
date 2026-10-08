@@ -32,7 +32,7 @@ Exact-source correspondence is in progress. The verified Mojmap pair resolves `L
 ## Required source inventories
 
 
-- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slices=S1-INPUT-SAMPLE, S1-INPUT-SCALE, S1-LOCAL-TICK, S3-DISPATCH, S3-GROUND, S3-AIR, S3-GRAVITY-DRAG, S3-JUMP-MATH, S3-SPRINT-MATH, S3-CLIMB, S3-WATER, S3-LAVA, S3-SWIM, S3-GLIDE, S3-POST; evidence=F-03, F-05, F-06, F-09, F-11 plus paired LocalPlayer/LivingEntity/Entity excerpts; remaining branch/member closure open.
+- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slices=S1-INPUT-SAMPLE, S1-INPUT-SCALE, S1-LOCAL-TICK, S3-DISPATCH, S3-GROUND, S3-AIR, S3-GRAVITY-DRAG, S3-JUMP-MATH, S3-SPRINT-MATH, S3-CLIMB, S3-WATER, S3-LAVA, S3-SWIM, S3-GLIDE, S3-POST; evidence=F-03, F-05, F-06, F-09, F-11, F-13 plus paired LocalPlayer/LivingEntity/Entity excerpts; remaining branch/member closure open.
 - `INV-STATE` movement state writers/readers: status=pending; slices=S1-SPRINT-GATE, S1-SPRINT-TIMER, S1-JUMP-GATE, S1-SPRINT-JUMP, S1-FLIGHT, S1-RIDING, S2-POSE, S2-DIMENSIONS, S2-EYE-HEIGHT, S2-STATE-WRITERS; evidence=F-04 plus paired LocalPlayer/LivingEntity/Entity writers; timer, pose, dimensions and external writer closure open.
 - `INV-COLLISION` collision/query path, shape providers, registrations, callbacks, neighboring-block dependencies: status=pending; slices=S4-COLLISION-QUERY, S4-AXIS, S4-STEP, S4-EDGE, S4-GROUND-SUPPORT, S4-SHAPES, S4-CALLBACKS, S5-BLOCK-SHAPES, S5-NEIGHBORS; evidence=F-01, F-07, F-08, F-10 plus paired Entity/Player/NetherPortalBlock/PowderSnowBlock/BlockBehaviour paths; full collision and shape-provider inventory open.
 - `INV-WORLD-MOVEMENT` block/fluid properties, subclasses, registries, tags/data and resource-backed defaults: status=pending; slices=S5-BLOCK-SHAPES, S5-BLOCK-FACTORS, S5-NEIGHBORS, S5-FLUIDS; evidence=F-01, F-02, F-07, F-08 plus block/fluid callback excerpts; resource/tag/registry closure open.
@@ -83,28 +83,27 @@ These are initial bounded navigation units. Exact sources are published; slice-b
 
 ### Slice S1-SPRINT-GATE: Sprint eligibility predicates and vanilla state reads
 
-- Inventory ID(s): slice mapping not yet inventoried
-- Exact behavior boundary and enclosing guards/order checked: not yet inspected
-- A evidence: not yet inspected in exact 1.21.4 source
-- B evidence: not yet inspected in exact 1.21.5 source
-- State producers/writers -> consumers/readers: not yet inspected
-- Parent slices / dependencies / closure evidence: pending
+- Inventory ID(s): INV-TICK, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer.aiStep` snapshots previous forward impulse -> `canStartSprinting` checks current input and eligibility -> distinct double-tap and sprint-key branches -> `setSprinting`; active sprint state is later checked by run/swim stop predicates.
+- A evidence: `ready/1.21.4/mojmap.sources.sha256`; `LocalPlayer.java` lines 653-656, 698-724, 816-830, 1053-1077; `LivingEntity.java` sprint-state writer lines 2077-2084.
+- B evidence: `ready/1.21.5/mojmap.sources.sha256`; `LocalPlayer.java` lines 693-695, 722-745, 837-852, 1065-1084; `ClientInput.java` lines 17-19 (`hasForwardImpulse`); `LivingEntity.java` sprint-state writer lines 2101-2108.
+- State producers/writers -> consumers/readers: key/input sampling and current/previous forward state -> sprint-start eligibility and timer; sprint flag -> `LivingEntity#setSprinting` movement-speed modifier -> travel. Food/Blindness are direct vanilla predicate reads; their producers remain excluded/open as applicable.
+- Parent slices / dependencies / closure evidence: S1-INPUT-SAMPLE; S1-INPUT-SCALE; S1-SPRINT-TIMER; S1-LOCAL-TICK; S6-ATTRIBUTES; F-04; F-13. Gate/timer and downstream speed-attribute producer/default closure remain open.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): paired `LocalPlayer.aiStep`/start-stop predicates compared; food producer excluded, but full gates, consumer speed path and dependencies remain open.
-- Finding IDs or checked absence/replacement path: F-04
+- Disposition and rationale (including concrete reachability/preconditions): the paired eligibility and stop predicates were inspected. F-13 records a double-tap start-path difference for non-passenger players; F-04 records the active-sprint stop differences. Food production is excluded, while input-timing and speed-attribute dependencies remain open.
+- Finding IDs or checked absence/replacement path: F-04, F-13
 
 ### Slice S1-SPRINT-TIMER: Sprint start/stop state, windows and timers
 
-- Inventory ID(s): slice mapping not yet inventoried
-- Exact behavior boundary and enclosing guards/order checked: not yet inspected
-- A evidence: not yet inspected in exact 1.21.4 source
-- B evidence: not yet inspected in exact 1.21.5 source
-- State producers/writers -> consumers/readers: not yet inspected
-
-- Parent slices / dependencies / closure evidence: pending
+- Inventory ID(s): INV-TICK, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: timer decrement at `LocalPlayer.aiStep` entry -> shift/item-use reset -> double-tap arm at seven ticks -> transition to sprint while eligibility holds; the B reset additionally includes backward input.
+- A evidence: `ready/1.21.4/mojmap.sources.sha256`; `LocalPlayer.java` lines 644-645, 668-671, 694-708; previous/current impulse capture lines 653-656.
+- B evidence: `ready/1.21.5/mojmap.sources.sha256`; `LocalPlayer.java` lines 684-685, 718-733; previous/current impulse capture lines 693-695; `ClientInput.java` lines 17-19.
+- State producers/writers -> consumers/readers: timer field is decremented, reset or assigned in the paired `LocalPlayer.aiStep` bodies; its positive value gates the second forward transition to `setSprinting`. Current/previous input timing and sprint eligibility are parent dependencies.
+- Parent slices / dependencies / closure evidence: S1-INPUT-SAMPLE; S1-SPRINT-GATE; S1-LOCAL-TICK; F-04; F-13. All direct timer writes in the paired `LocalPlayer.java` bodies were enumerated; full key-state producer/timing closure remains open.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): timer writes and backward/shift/item-use reset predicates compared; full preceding/current input edge timing remains open.
-- Finding IDs or checked absence/replacement path: F-04
+- Disposition and rationale (including concrete reachability/preconditions): timer decrement, reset, arm and consume paths were compared. B adds backward-input reset (F-04); the paired double-tap transition also differs under airborne conditions (F-13). The key-state edge history remains open.
+- Finding IDs or checked absence/replacement path: F-04, F-13
 
 ### Slice S1-JUMP-GATE: Jump input, eligibility, cooldown and stored state
 
@@ -618,7 +617,7 @@ These are initial bounded navigation units. Exact sources are published; slice-b
 
 ## Finding index
 
-Source-confirmed findings: [F-01 movement callback path](findings/F-01-movement-callback-path.md), [F-02 bubble-column upper contact](findings/F-02-bubble-column-above-contact.md), [F-03 keyboard vector rounding](findings/F-03-keyboard-vector-rounding.md), [F-04 sprint stop gates](findings/F-04-sprint-stop-gates.md), [F-05 player horizontal velocity cutoff](findings/F-05-player-horizontal-velocity-cutoff.md), [F-06 fall-flying climbable exit](findings/F-06-fall-flying-climbable-exit.md), [F-07 Nether portal inside shape](findings/F-07-nether-portal-inside-shape.md), [F-08 powder-snow inside shape](findings/F-08-powder-snow-inside-shape.md), [F-09 local-player input damping](findings/F-09-local-player-input-damping.md), [F-10 player edge-support query](findings/F-10-player-edge-support-query.md), [F-11 powder-snow wall-jump state](findings/F-11-powder-snow-wall-jump-state.md), and [F-12 client correction pitch clamp](findings/F-12-player-correction-clamps-pitch.md). Findings identify confirmed source deltas; they do not close the remaining pair-wide inventory/dependency slices.
+Source-confirmed findings: [F-01 movement callback path](findings/F-01-movement-callback-path.md), [F-02 bubble-column upper contact](findings/F-02-bubble-column-above-contact.md), [F-03 keyboard vector rounding](findings/F-03-keyboard-vector-rounding.md), [F-04 sprint stop gates](findings/F-04-sprint-stop-gates.md), [F-05 player horizontal velocity cutoff](findings/F-05-player-horizontal-velocity-cutoff.md), [F-06 fall-flying climbable exit](findings/F-06-fall-flying-climbable-exit.md), [F-07 Nether portal inside shape](findings/F-07-nether-portal-inside-shape.md), [F-08 powder-snow inside shape](findings/F-08-powder-snow-inside-shape.md), [F-09 local-player input damping](findings/F-09-local-player-input-damping.md), [F-10 player edge-support query](findings/F-10-player-edge-support-query.md), [F-11 powder-snow wall-jump state](findings/F-11-powder-snow-wall-jump-state.md), [F-12 client correction pitch clamp](findings/F-12-player-correction-clamps-pitch.md), and [F-13 airborne forward double-tap sprint](findings/F-13-airborne-double-tap-sprint.md). Findings identify confirmed source deltas; they do not close the remaining pair-wide inventory/dependency slices.
 
 ## Incremental finding snapshot log
 
@@ -628,7 +627,7 @@ Source-confirmed findings: [F-01 movement callback path](findings/F-01-movement-
 
 ## Resume checkpoint
 
-- Last completed slice: S3-JUMP-MATH (compared-no-difference); exact-source comparisons have identified F-01 through F-12. S3-WATER, S3-LAVA, S7-PUSH and S7-CORRECTIONS remain in-progress because dependency/caller closure is open. No finding snapshot or pair freeze has been accepted.
+- Last completed slice: S3-JUMP-MATH (compared-no-difference); exact-source comparisons have identified F-01 through F-13. S1-SPRINT-GATE/TIMER, S3-WATER/LAVA and S7-PUSH/CORRECTIONS remain in-progress because dependency/caller closure is open. F-09 has a candidate snapshot pending independent review; no snapshot has been accepted and no pair freeze has been accepted.
 - Next: close input/sample and scale dependencies, then continue ordered local tick and sprint/jump slices; continue the full travel branch comparison afterward.
 - Outstanding dependencies and owners: D1 call-graph and producer/consumer inventory (discovery); D2 resource/tag/default inspection (discovery); D3 collision/block/fluid callback and shape inventory (discovery); D4 attributes/effects/enchantments/equipment (discovery); D5 client correction/mount/push external paths (discovery).
 - Assumptions requiring verification: complete input consumers, player-only reachability through all travel branches, shape and resource dependencies, and direct movement state writers.
@@ -653,7 +652,7 @@ Source-confirmed findings: [F-01 movement callback path](findings/F-01-movement-
 
 ## Source audit closure
 
-- Coverage counts: 3 compared-no-difference; 0 terminal finding slices; 0 not-applicable; 0 blocked; 22 pending; 21 in-progress. Twelve source-confirmed findings have been recorded; slices remain open until their full inventories and dependencies close.
+- Coverage counts: 3 compared-no-difference; 0 terminal finding slices; 0 not-applicable; 0 blocked; 22 pending; 21 in-progress. Thirteen source-confirmed findings have been recorded; slices remain open until their full inventories and dependencies close.
 - Required inventories: all remain open; bounded source work is underway across tick order, input math, travel formulas, collision callbacks, block/fluid contact and partial external correction/push paths. Inventory-level closure is not claimed.
 - Open dependencies: D1-D5; D0 resolved.
 - Gaps: full movement call graph, branch dependencies, state writers/consumers, collision/shape provider inventory, registry/tag/resource data, modifiers/equipment and external player movement inputs.
