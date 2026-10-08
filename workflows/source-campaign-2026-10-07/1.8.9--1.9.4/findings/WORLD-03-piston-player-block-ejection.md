@@ -1,3 +1,5 @@
+> Withdrawn candidate, retained for history. The piston-specific claim below is contradicted by B `PistonBaseBlock#isCube(BlockState)==false` at lines 216-218 (SHA-256 `4ef15129e660397ba3a531c8ff4a4810393973ea56417d8830f4445d14035e36`), matching A `PistonBaseBlock#isCube()==false` at lines 223-225 (SHA-256 `3c96698a674714446f9fd0d6cc1c4d5eb72937d9a2f396516ddb2461c3ea4929`). Original candidate SHA-256: `a3125e53e15bbe8f4a7692bd3494716f9845ff69c13db551b379654852c5d07d`. Do not treat it as a current finding or implementation handoff; see `WORLD-03-end-portal-frame-player-ejection.md` for the corrected candidate.
+
 # WORLD-03: extended piston state changes local player block-ejection gate
 
 - Older version A: 1.8.9

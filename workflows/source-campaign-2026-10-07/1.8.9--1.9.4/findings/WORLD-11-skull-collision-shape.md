@@ -1,0 +1,9 @@
+# WORLD-11: SkullBlock collision shape
+
+- Status: compared-no-difference for the bounded local shape provider.
+- Slice: registered SkullBlock collision box by FACING state, before block-origin translation and world collision-list assembly.
+- A source: `build/movement-campaign-2026-10-07/ready/1.8.9/ornithe-feather/net/minecraft/block/SkullBlock.java`, SHA-256 `d5f90d6a355b261127ff6bfaa36abd64a4c5982cae75641df2fc970b217299ac`. `getCollisionShape()` calls `updateShape(world,pos)` (91-94); `updateShape()` selects the floor box for UP/default and fixed boxes for NORTH/SOUTH/WEST/EAST (70-89).
+- B source: paired `SkullBlock.java`, SHA-256 `1fa4c17ffb34e9ba8786c1f19425da98d504ede48ebb8e92c750fce5c7c63f7f`. `getShape(state,world,pos)` maps the same five direction outcomes to constants at lines 39-57; the constants reproduce every A bound at 25-37.
+- Registration and consumer: both `Block.java` registries register ID 144 as `skull` with `SkullBlock` (A line 1140, B line 1055); `Block.java` source hashes are `ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528` / `e62ece80c6a7e7121346f65f8fdfd9b148c29441a27de9f568bba9afe1d84fe6`. A generic collision assembly calls the legacy collision-shape method; B's generic state collision provider resolves the same state shape. Normal player reachability is through `World.getCollisions` and `Entity.move` in COLL-01.
+- Geometry checked: floor/default is (0.25,0,0.25)-(0.75,0.5,0.75); north is (0.25,0.25,0.5)-(0.75,0.75,1); south is (0.25,0.25,0)-(0.75,0.75,0.5); west is (0.5,0.25,0.25)-(1,0.75,0.75); east is (0,0.25,0.25)-(0.5,0.75,0.75). The local boxes and FACING selection match for all values.
+- Disposition: representation changed from mutating shared block bounds to returning state-selected constants, but the bounded boxes match. World list intersection and final player clipping remain separate open dependencies.
