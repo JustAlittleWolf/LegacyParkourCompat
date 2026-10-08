@@ -13,7 +13,7 @@
     "runtimeLaunches": false,
     "allGradleTestTasksDisabledForBuild": true,
     "integrationBuildOwnerThreadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
-    "primaryMainLastVerified": "1ea23480755a2574abd5b5855827ded5d5f50702"
+    "primaryMainLastVerified": "64895d266fcee5da774c3236295ba949045200c7"
   },
   "reservedOldSlots": [
     {
@@ -36,14 +36,14 @@
     {
       "threadId": "01a11bb1-adb2-7212-9a90-26537278d788",
       "role": "implementation_static_review",
-      "status": "completed; pose REQUEST CHANGES ee651bcc71e8828e7609ff12fdff3e9490c6285d: block-only query and older-profile fallback",
+      "status": "active; focused poseea62550 independent re-review",
       "scope": "four pending code patches",
       "resultCommit": "bdb6443; notes d3190b4"
     },
     {
       "threadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
       "role": "integration_build_owner",
-      "status": "active; documentation-only Elytra937a502 integration",
+      "status": "completed; docs937a502 integratedmain64895d266fcee5da774c3236295ba949045200c7",
       "ref": "feat/movement-campaign-integration-2026-10-08@958b0916f08cba25e3be86d67d48a9d1e8651d1f",
       "resultCommit": "ea812dc9171fdf41e02b3a2292db7d40b105c9c4"
     },
@@ -152,7 +152,7 @@
       "role": "posefit_correction",
       "pair": null,
       "ref": "e6b61bd7f1334b7e4fa49a9bd0a5929e833338a8",
-      "status": "active; focused block-only query/profile fallback pose correction"
+      "status": "completed; corrected poseea62550bbecc8233917fb293dbe3ee627529f621 pending independent re-review"
     },
     {
       "threadId": "01a11bbc-b876-7182-9025-3b589c5cd50c",
@@ -166,7 +166,7 @@
       "role": "ops_audit",
       "pair": null,
       "ref": null,
-      "status": "completed; auditfa340fe73562e1a79090dfdc589ceaf375669b1d adopted; exact finalJAR andElytra correction verified"
+      "status": "active; campaign-wide accepted finding implementation backlog audit, isolated branch"
     },
     {
       "threadId": "01a11bbe-a775-7180-a017-d2386dcd9fb3",
@@ -285,21 +285,30 @@
       "ref": "51a7f175431ae746de6630df0d2ea1940ad9d69d",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
+    },
+    {
+      "threadId": "01a11be6-a5a7-7660-b42d-02033cc331ae",
+      "role": "source",
+      "pair": "1.20.2--1.20.4",
+      "status": "active",
+      "ref": "847f34d18d59d55777633cd8a9fb93091234d645",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:24:28.2133829Z",
+    "observedAt": "2026-10-08T14:25:45.6909294Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
     "conservativeSlots": 15,
     "workersRequested": "gpt-6-luna high",
     "coordinatorObserved": "gpt-6.1-sol medium",
-    "mainHead": "1ea23480755a2574abd5b5855827ded5d5f50702",
+    "mainHead": "64895d266fcee5da774c3236295ba949045200c7",
     "mainUntracked": "generated worktrees preserved; local exclude applied by integration owner",
     "TICK01": "independently accepted, built with all Test tasks disabled, integrated; main net source auditfa340fe confirms five acceptedbatches",
     "passengerYaw": "integrated; test-disabled build success; no runtime",
-    "poseFit": "reviewee651bcc requests block-only collision query and older-profile fallback correction",
+    "poseFit": "correctedea62550; focused independent re-review active",
     "elytraStart": "integrated; ACCEPT source binding independentlyverified; docs-only correction integrationpending",
     "oldCoordinator": "idle/completed verified",
     "reviewReport": "bdb6443;notes d3190b4",
@@ -318,7 +327,7 @@
     }
   ],
   "elytraEvidenceAudit": {
-    "status": "independently resolved byopsfa340fe; docs correction937a502 integrationassigned",
+    "status": "resolved byopsfa340fe; docs correction937a502 integratedmain64895d2",
     "reviewTip": "b8dfbc3e4d092141861759cab36272ea223a4d17",
     "sourceCommit": "4a0c35f2008d785867c00360a7b72726e3506435",
     "issue": "integration owner reports finding SHA differs from recomputed immutable Gitblob bytes",
