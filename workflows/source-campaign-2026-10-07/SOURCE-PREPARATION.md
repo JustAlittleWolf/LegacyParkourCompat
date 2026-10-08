@@ -7,8 +7,8 @@ Canonical store: `D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-
 - `artifacts/` holds Mojang version metadata, exact client jars, mappings, and decompiler dependencies.
 - `staging/<unique-run-id>/<version>/<namespace>/` is a fresh destination for each decompile run.
 - `ready/<version>/<namespace>/` contains the published, immutable Java source tree.
-- `ready/<version>/<namespace>.ready.json` records the exact release ID and namespace, source and artifact manifest hashes, source counts, and reviewed movement-method diagnostics. A marker is written last.
-- `ready/<version>/<namespace>.provenance.json` records the exact Gradle invocation, staging/cache roots, and tool versions. Its sibling `<namespace>.success.log` is a concise success excerpt for the initial batches; those original Gradle streams were displayed in Codex but not persisted as raw log files.
+- `ready/<version>/<namespace>.ready.json` records the exact release ID and namespace, source and artifact manifest hashes, source counts, and movement-method diagnostic status. A marker is written last.
+- `ready/<version>/<namespace>.provenance.json` records the exact Gradle invocation, staging/cache roots, and tool versions. New runs retain the complete Gradle stream under their unique staging root; older runs may have only a concise success excerpt because their original streams were displayed in Codex but not persisted.
 - `decompile.lock` is the shared exclusive admission lock. Hold an open file handle with `FileShare.None` for the entire decompile and publish operation. A file's mere existence does not mean the lock is held.
 - `revisions/derived-artifact-snapshots/feather-r1-2026-10-07/` contains the revised immutable artifact snapshots for six early Feather runs. Read `ARTIFACT-REVISION-2026-10-07.md` before relying on any artifact provenance.
 
@@ -18,7 +18,7 @@ The current namespace plan is Feather for older releases where available, both F
 
 ## Ready versions
 
-- The 30 ready marker sets are: Feather `1.8.9`, `1.9.4`, `1.10.2`, `1.11.2`, `1.12.2`, `1.13.2`, and `1.14.4`; Mojmap `1.14.4`, `1.15.2`, `1.16.1`, `1.16.2`, `1.16.5`, `1.17.1`, `1.18.2`, `1.19.2`, `1.19.3`, `1.19.4`, `1.20.1`, `1.20.2`, `1.20.4`, `1.20.6`, `1.21.1`, `1.21.3`, `1.21.4`, `1.21.5`, `1.21.8`, `1.21.10`, and `1.21.11`; unobfuscated `26.1.2` and `26.2`. The exact requested endpoint chain and supplemental versions are listed in [the release roster](../../source-inventory-2026-10-07/RELEASE-ROSTER.md).
+- The 31 ready marker sets are: Feather `1.8.9`, `1.9.4`, `1.10.2`, `1.11.2`, `1.12.2`, `1.13.2`, and `1.14.4`; Mojmap `1.14.4`, `1.15.2`, `1.16.1`, `1.16.2`, `1.16.5`, `1.17.1`, `1.18.2`, `1.19.2`, `1.19.3`, `1.19.4`, `1.20.1`, `1.20.2`, `1.20.4`, `1.20.5`, `1.20.6`, `1.21.1`, `1.21.3`, `1.21.4`, `1.21.5`, `1.21.8`, `1.21.10`, and `1.21.11`; unobfuscated `26.1.2` and `26.2`. The exact requested endpoint chain and supplemental versions are listed in [the release roster](../../source-inventory-2026-10-07/RELEASE-ROSTER.md).
 - Before comparing a pair, each worker reads both actual readiness JSON files and verifies exact requested/resolved IDs, namespace, source/artifact/diagnostics hashes, and the cited method bodies. A directory listing or a different pair's marker is not evidence that the requested pair is ready.
 
 See each `ready/<version>/` directory for its marker, source manifest, artifact manifest, and movement diagnostics.
