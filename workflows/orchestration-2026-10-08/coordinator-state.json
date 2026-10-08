@@ -13,7 +13,7 @@
     "runtimeLaunches": false,
     "allGradleTestTasksDisabledForBuild": true,
     "integrationBuildOwnerThreadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
-    "primaryMainLastVerified": "270e8c85d656a0d2fae0770799e207ed1557d9ba",
+    "primaryMainLastVerified": "a5612be5107c9e4e3d604e43e7a481c5d868c56c",
     "maximumConcurrentRolesIncludingCoordinator": 20
   },
   "reservedOldSlots": [
@@ -37,7 +37,7 @@
     {
       "threadId": "01a11bb1-adb2-7212-9a90-26537278d788",
       "role": "implementation_static_review",
-      "status": "Active independent sleep-safety code d892a7a/proof4197c0c review.",
+      "status": "CompletedsleepREQUESTCHANGES0e1a3bf8; idle.",
       "scope": "four pending code patches",
       "resultCommit": "bdb6443; notes d3190b4"
     },
@@ -77,7 +77,7 @@
       "threadId": "01a11bb3-7ca7-7510-8ec7-03f97db0cc9b",
       "role": "source",
       "pair": "1.10.2--1.11.2",
-      "status": "active source-only continuation1.10.2--1.11.2 after withdrawnF07",
+      "status": "Active remaining sixinprogress/onepending and seveninventory1.10.2--1.11.2 closure toward honestfreeze.",
       "ref": "feat/source-discovery-movement-source-1-10-2-1-11-2@4c87723 (full ref to verify)",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -95,7 +95,7 @@
       "threadId": "01a11bb3-9efb-7962-b77b-722fbec5de31",
       "role": "source",
       "pair": "1.12.2--1.13.2",
-      "status": "Active source-only continuation 1.12.2--1.13.2 from 1c027c68.",
+      "status": "Completedpartial143ac67e; newpaneepsilonsnapshot e10bc0dd blindreviewactive; sourceowneridle.",
       "ref": "feat/source-discovery-movement-source-1-12-2-1-13-2@f744f3e5ca418ba8797341eca50ab1677933d1d7",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -153,28 +153,28 @@
       "role": "posefit_correction",
       "pair": null,
       "ref": "e6b61bd7f1334b7e4fa49a9bd0a5929e833338a8",
-      "status": "Completed sleep-safety code d892a7a/proof4197c0c; independent review active, owner idle."
+      "status": "Active sleep patch correction from0e1a3bf8; originalcode not accepted."
     },
     {
       "threadId": "01a11bbc-b876-7182-9025-3b589c5cd50c",
       "role": "elytra_gate_correction",
       "pair": null,
       "ref": "a5d07341d941ce2c0b9df1e392af9a40b1fbb9e9",
-      "status": "Active shallow-water F-1 reconciliation/implementation after source ACCEPT f222615; range extension completed and integrated."
+      "status": "Watercodec33269b0/tip48050492 handedoff, reviewactive; owner nowactive branch-specific sprint-start correction."
     },
     {
       "threadId": "01a11bbe-910d-7c02-9261-b0d01b6822ed",
       "role": "ops_audit",
       "pair": null,
       "ref": null,
-      "status": "Active accepted/integrated/pending backlog audit including fiveMCsourceacceptances, water and rangeintegration; no coordinator-state edits."
+      "status": "Completed backlog50f25cde and coordinator conflict reconciliation/adoption b18775b7; idle."
     },
     {
       "threadId": "01a11bbe-a775-7180-a017-d2386dcd9fb3",
       "role": "blind_source_review",
       "pair": null,
       "ref": "aa66894 and105ec98",
-      "status": "F-1 source ACCEPT f222615; active corrected04/F14 and bed/slime independent source reviews, four separate decisions."
+      "status": "Completedd6664c08 four-source reviews; active pane-epsilon blind review e10bc0dd."
     },
     {
       "threadId": "01a11bc1-f2a2-7342-82ea-4072acd7ff4b",
@@ -187,7 +187,7 @@
       "threadId": "01a11bc2-03b2-7443-bc8f-698902c67f29",
       "role": "wiki_minecraft_review",
       "ref": "005e647; b20730f",
-      "status": "Completed Wiki independent review5c94a3d1, mergedmain084bb3f4; fourboundedACCEPT, bedOUTOFSCOPE, sprintswimREQUESTCHANGES; idle.",
+      "status": "Completed corrected Wiki sprint-swim ACCEPT47ae83bd and mainmerge4e77925a; idle.",
       "resultCommit": "22849555;main merge c80b31f",
       "decisions": {
         "swimmingPitch": "ACCEPT b20730f SHA dd0abd5a90ac1813197e4c09ab97ed0e0027c48e237a148bbf95bde2f64e6a89",
@@ -224,19 +224,19 @@
     {
       "threadId": "01a11bcd-f62a-7610-8eff-f9782f3d072d",
       "role": "elytra_independent_review",
-      "status": "Active independent integrated swimming branch reconciliation, then MC01 no-code coverage review.",
+      "status": "Completed9cf9c723: MC01no-codeACCEPT, SwimmingUpdateboundedACCEPT, historicalsprint-startREQUESTCHANGES; idle.",
       "ref": "fix/elytra-start-full-request; accepted flight-toggle finding"
     },
     {
       "threadId": "01a11bce-05d9-7c80-9a1e-0f65525c141b",
       "role": "rising_crouch_independent_review",
-      "status": "completed; F005b215d723 ACCEPTdd69581, configuredprofilebeforeload; later switchingexcluded; integrationpending",
+      "status": "Active independent water-current implementation review c33269b0/48050492.",
       "ref": "14a6e23432ab6a885b5c5ce265cf2404283756f6"
     },
     {
       "threadId": "01a11bcf-351e-7b32-9a56-9a6800c65644",
       "role": "world03_implementation",
-      "status": "completed; WORLD03 correction8ae770141c4e9ca1b3f5fa3a1459d94132195306 tipff24abc4f199f6460f79dafd2c83a9a19d0f6121 awaitingre-review",
+      "status": "Active accepted slime restitution reconciliation/implementation; sourced6664c08 accepts8eb345d bounded snapshot.",
       "ref": "accepted aa66894; reviewa2e510bd"
     },
     {
@@ -336,7 +336,7 @@
       "threadId": "01a11bf3-b68d-72a3-9fde-198291e05948",
       "role": "source",
       "pair": "1.21.4--1.21.5",
-      "status": "Completed partial source checkpointf1401ec63e48bc9ebc4aac54629c678a2e939a94; correctedF14supplement eaa873aa; idle.",
+      "status": "Active F14 reachableflagwriter/glideritem correction and broad sourceinventory continuation.",
       "ref": "ebd2e6ea513d3b41a12307cfb2980b5206c5d211",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -409,12 +409,13 @@
     "mainStatus": "code already integrated; source binding/provenance being independently reconciled"
   },
   "nextCoordinatorActions": [
-    "Collect independent sleep patch decision before exclusiveowner build.",
-    "Collect corrected04/F14/bed/slime source decisions and water implementation.",
-    "Collect passenger no-code docs integration and canonical1.20.5 source publication; then boundary source comparison/review.",
-    "Collect Wiki corrected snapshot, MCPK review, integrated swimming and MC01 independent code decisions.",
-    "Adopt operations backlog checkpoint and reconcile newly frozen source candidates.",
-    "Maintain cap20 includingroot; LunaHigh workers, serial build/source publication; all26pairs partial."
+    "Collect canonical1.20.5 publication, assign MC02 boundary-source comparison and blind review.",
+    "Collect independent water code decision, exclusive serial build only after ACCEPT.",
+    "Collect slime/sprint-start/sleep revised implementations and dispatch independent reviews.",
+    "Collect F14/bed/MCPK corrected immutable bindings and re-review.",
+    "Collect pane-epsilon review including marker identity caveat.",
+    "Integrate MC01 no-code documentation serially; update backlog with d666/47ae/9cf9 decisions on next ops pass.",
+    "Continue all26full inventories and eventual independent coverage audits; cap20includingroot, LunaHigh workers, no tests/runtime/push."
   ],
   "nextAcceptedIntegrationBatch": {
     "finding": "F005 saved FallFlying",
@@ -581,19 +582,16 @@
   },
   "goalTurnAudit": {
     "previousTurnClassification": "progress",
-    "evidence": [
-      "Verified main270e8c85 plus independently rehashed retained JAR/log",
-      "Committed coordinator26f512d2 with cap20 and immutable source/review bindings",
-      "Dispatched corrected04/F14/bed/slime blind review, water implementation, MCPK review and source continuations"
-    ],
-    "currentTurnProgress": [
-      "Independent Wiki review5c94a3d1 collected; owner correction and wider catalog active",
-      "Sleep code d892a7a + proof4197c0c dispatched independent review",
-      "Swim integrated-code reconciliation and MC01 no-code independent review dispatched",
-      "Operations accepted backlog reconciliation active"
+    "currentProgress": [
+      "Corrected Wiki snapshot independently accepted",
+      "Collected source4review decisions; dispatched F14/bed corrections and slime implementation",
+      "Water code handed off and independent review active",
+      "Swimming input gap confirmed and correction active; MC01 no-code accepted",
+      "Ops audited backlog adopted; coordinator conflicts resolved, clean verified"
     ],
     "blocked": false,
-    "allPairsPartial": true
+    "all26Pairs": "PARTIAL",
+    "capIncludingRoot": 20
   },
   "oldSourceHandoff": {
     "scope": "All remaining source inventories, preserving border and external-response evidence.",
@@ -740,11 +738,11 @@
     "note": "Four verified terminal app roles reused: source1.8.9, source1.13.2, source1.15.2, independent MCPK review. No new app chats."
   },
   "sleepSafetyImplementationReview": {
-    "code": "d892a7a",
-    "proof": "4197c0c",
-    "branch": "fix/sleep-safety-transition-r3-2026-10-08",
-    "reviewWorker": "01a11bb1-adb2-7212-9a90-26537278d788",
-    "status": "Independent static review active; no build/integration yet"
+    "code": "d892a7ad527fa5a52f57fdb4ef48c178f8a21f41",
+    "proof": "4197c0cc411fe7f83a2a1c6f4392752ee3edc4fa",
+    "review": "0e1a3bf8cc64f2ba7a87e9b75ba2a840c9387ab2",
+    "decision": "REQUEST CHANGES: creative players bypass monster query, and exact-version guard defeats earlier resolver selections.",
+    "status": "Original implementation worker active correction; no build/integration."
   },
   "minecraftWikiIndependentReview": {
     "reportCommit": "5c94a3d106f010cd033d19c9aa48f47089987b30",
@@ -755,13 +753,16 @@
     "status": "Corrected immutable snapshot and wider remaining catalog active; lane partial"
   },
   "swimmingCodeEvidenceReconciliation": {
-    "reviewWorker": "01a11bcd-f62a-7610-8eff-f9782f3d072d",
-    "status": "Independent code reconciliation active against exact1.12.2/1.13.2 source and Wiki branch-path correction. No bug assumed from narrative."
+    "review": "9cf9c7232c8280376034ed5d4a0ba7f84f0cf483",
+    "predicate": "SwimmingUpdate ACCEPT for bounded1.16.2-profile source correspondence.",
+    "sprintInput": "Confirmed pre-existing branch-specific double-tap/held-key profile gap; REQUEST CHANGES.",
+    "implementationWorker": "01a11bbc-b876-7182-9025-3b589c5cd50c",
+    "status": "Dedicated sprint-start correction active; water branch preserved separately."
   },
   "mc01NoCodeReview": {
     "proof": "da579ba8ef35f91aae0bb42fd79376057a1dddae",
-    "reviewWorker": "01a11bcd-f62a-7610-8eff-f9782f3d072d",
-    "status": "Independent no-code coverage review active after swimming reconciliation"
+    "review": "9cf9c7232c8280376034ed5d4a0ba7f84f0cf483",
+    "decision": "ACCEPT no code needed; documentation integration queued after source publication."
   },
   "correctedF14SupplementalSnapshot": {
     "commit": "eaa873aa5402065fb7f0070d11521b4e054f7683",
@@ -769,5 +770,45 @@
     "ownerFinalTip": "f1401ec63e48bc9ebc4aac54629c678a2e939a94",
     "status": "Separate bounded supplemental review requested; original6f0a binding/history preserved",
     "remaining": "33 in-progress,9 pending; pair partial; source owner currently terminal"
+  },
+  "latestPassengerDocumentationIntegration": {
+    "main": "a5612be5107c9e4e3d604e43e7a481c5d868c56c",
+    "codeChanged": false,
+    "rootVerifiedSourceTree": "48a1860611af47da1067857776237c8ae760b4fc",
+    "priorMainSourceTree": "48a1860611af47da1067857776237c8ae760b4fc",
+    "status": "No-code proof and provenance erratum integrated; source tree unchanged."
+  },
+  "latestOperationsAudit": {
+    "commit": "50f25cde7a9d8a32d4c7f5876e4168e6400ad2e0",
+    "coordinatorAdoption": "b18775b7e73491ebdf2757d14f129d3b26dc47fa",
+    "status": "Backlog audit adopted and five coordinator documentation conflicts reconciled. Root verified clean worktree. Newer review decisions below supersede pending labels in this audit."
+  },
+  "sourceReviewD6664c08": {
+    "commit": "d6664c08d015b6d301b5498302d9f64f32ebec92",
+    "MC1204-1206-04": "Corrected13cf725 snapshot ACCEPT, source only; modern attribute eligibility not adjudicated.",
+    "F14": "6f0a567c and eaa873aa REQUEST CHANGES: reachable flag writer and vanilla equipped-glider dependencies missing. Owner active correction.",
+    "bed": "118cc0d REQUEST CHANGES: clipped movement Y generally nonzero for positive surface gap; exact witness/gravity/air-drag arithmetic needs correction. Source owner active.",
+    "slime": "8eb345d snapshot ACCEPT for bounded nonzero-clipped-displacement carpet-to-slime witness; implementation assigned01a11bcf-351e-7b32-9a56-9a6800c65644."
+  },
+  "waterCurrentImplementation": {
+    "code": "c33269b0bd44e1e8c03895e704dac3ad40f826f6",
+    "tip": "48050492ffa08411375759596e18fb331d4ebdfa",
+    "branch": "fix/shallow-water-current-cutoff-1-21-11-2026-10-08",
+    "status": "Independent implementation review active; no build or integration yet.",
+    "reviewWorker": "01a11bce-05d9-7c80-9a1e-0f65525c141b"
+  },
+  "correctedWikiSwimmingAcceptance": {
+    "snapshot": "1e5b3a65cdb9946f1fe9553022950454038d9c68",
+    "rawSHA256": "62140b4d629831c430702bf7aff78fa87784beddd65dbfcb28b47dbb7a19fa782",
+    "review": "47ae83bd235260b9667a33f1830c020bc0c33549",
+    "status": "ACCEPT corrected bounded record; original rejection preserved; lane partial."
+  },
+  "paneEpsilonReview": {
+    "snapshot": "e10bc0dd046cb968564301eca5986ce81c77c6c7",
+    "path": "workflows/source-campaign-2026-10-07/1.12.2--1.13.2/findings/F-PANE-OFFSET-EPSILON.md",
+    "blob": "f5322d10366c848889c200a40508ec8a273ba25e",
+    "rawSHA256": "5941f0b4fc505646e18c2b275cc372b50645ac3151ab1982776e47c0fe176dca",
+    "status": "Blind review active, including A ready-marker hash caveat.",
+    "worker": "01a11bbe-a775-7180-a017-d2386dcd9fb3"
   }
 }
