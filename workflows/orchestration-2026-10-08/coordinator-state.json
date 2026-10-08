@@ -1182,7 +1182,7 @@
       "reportBlob": "e10384d8c5f4e3aba841a85174c9bf7a6dba8f32",
       "reportSha256": "a4ddbfad79491139dfa843ff10d1eebfa631642f549b785debe69044a1ac1832",
       "reviewBase": "3b2b4c0a3fc309f5ddcc8661ff5d736fbe0c989f, stale versus current main d8f39566",
-      "decisions": "F001-F012 and F014 ACCEPT bounded source claims; F013 REQUEST CHANGES solely because two AbstractChestedHorse producer hashes were wrong. Behavior is supported but snapshot stays unaccepted until new immutable binding and separate rereview.",
+      "decisions": "F001-F012 and F014 ACCEPT bounded source claims; corrected F013 producer-hash identity snapshot ACCEPTED in separate rereview 2fd121e1. Original REQUEST CHANGES remains bound to the original immutable snapshot. Pair remains PARTIAL.",
       "F013": {
         "correctedFindingCommit": "d7b09d64445c8d4700e1ad76b4d7b95cd0a33ca6",
         "correctedFindingRawSha256": "1fbd87afa13a28150fef0cb6acfaa1d06751883b00b319e7d56e7bebc9263bbc9",
@@ -1191,11 +1191,17 @@
         "bindingMemoCommit": "2f0ce04016c94ad82ec62f481d9c6ba9b03516c8",
         "bindingMemoRawSha256": "7e6f25b7eb80813cd9f21734ae4a36d31c9032233a40b6a7362efc992cca8739",
         "mainMerge": "df418e06b957399aa4c31eaf69d38422146ac296",
-        "scope": "Only the two producer source hashes corrected; original handoff and snapshot unchanged."
+        "scope": "Only the two producer source hashes corrected; original handoff and snapshot unchanged.",
+        "identityReviewCommit": "2fd121e1",
+        "identityReviewPath": "workflows/source-boundary-reviews/2026-10-08-mc1171-1182-snapshot-review.md",
+        "identityReviewBlob": "871ad5bccde2194ccc733ed8fef92472a1c96c2a",
+        "identityReviewSha256": "ee96f6564b366b9622bfed23bb31331018613d64589ee1215d842a2165307d3e",
+        "decision": "ACCEPT, identity-only correction",
+        "checks": "Corrected snapshot binding verified; restoring only prior wrong hashes reproduces original raw SHA; corrected hashes match canonical source files and ready-manifest rows."
       },
       "coverageAudit": "Separate full-pair source coverage ACCEPT e0e36eff remains valid; snapshot-review disclaimer does not negate it. Pair remains PARTIAL pending ledger state.",
-      "next": "Original separate reviewer 01a11bcd-f62a-7610-8eff-f9782f3d072d reactivated for identity-only rereview by 19:25; no pair-discovery reopen.",
-      "reviewerStatus": "F001-F012 and F014 accepted; corrected F013 snapshot published/merged, identity-only rereview active."
+      "next": "No further F013 work. Preserve the original immutable snapshot and review history. Pair discovery remains partial; the accepted full-pair coverage audit stays separate.",
+      "reviewerStatus": "Terminal identity-only ACCEPT on corrected F013 snapshot; other 13 finding verdicts unchanged."
     },
     "wikiLadderClimbable": {
       "ownerThread": "01a11bb3-d102-7723-b35b-cae34a76f976",
@@ -1307,7 +1313,7 @@
       "1.16.5--1.17.1": "owner terminal at main-merged checkpoint aca4dfb24d5f1e9ec00b375eaf9b8f8b1c57c8b9; pair discovery remains PARTIAL",
       "remainingActiveOwners": "12 active owners, including 1.21.11--26.1.2 and 26.1.2--26.2, asked to stop new work by 19:25 and checkpoint cleanly by 19:40",
       "status": "Preserve exact pair partial/open states; do not infer completion.",
-      "F013": "Corrected immutable finding and binding memo merged into main at df418e06; original separate reviewer reactivated for identity-only rereview by 19:25. No pair discovery reopen; independent full-pair coverage ACCEPT e0e36eff remains valid, pair PARTIAL.",
+      "F013": "Corrected immutable finding and binding ACCEPTED identity-only at review 2fd121e1; merged to main at df418e06. Original REQUEST CHANGES remains attached to original bytes. No pair-discovery reopen; coverage ACCEPT e0e36eff remains separate; pair PARTIAL.",
       "wikiMcpk": "Wiki and MCPK owners terminal; bounded catalogs do not close their open review/release/source gaps.",
       "1.9.4--1.10.2": "terminal/idle at 8d4deeed; 69 no-difference, 5 findings awaiting review, 3 N/A, 12 pending, 2 piston progress; pair partial",
       "1.10.2--1.11.2": "terminal/idle at 5a4034c; 8 findings, 44 no-difference, 6 progress, 5 N/A, 1 pending; pair partial",
@@ -1332,7 +1338,7 @@
     "waterSprint": "Bounded source ACCEPT now closes the candidate acceptance gap for the two identified immutable snapshots only; no broader parity or pair closure.",
     "collaborationSlots": "Keep <=20 roles including root and reserved catalog reviewer. Suffocation reviewer role reused by integration owner; catalog preflight reviewer remains reserved, not a free role.",
     "currentTimeObservation": "2026-10-08 17:23 UTC / 19:23 Europe/Vienna; clean checkpoint due 19:40.",
-    "backlogCommit": "bcb832ea8b08c249a59420468a32a911f4f9f5d3",
+    "backlogCommit": "e3ba0a2ff6054be0a627dd7ae6abac0492334641",
     "catalogIncident": "Wrong-workdir deletion by catalog author was restored. Primary main was independently verified clean at d8f39566; do not mutate primary until architecture review and coordinated merge.",
     "sourceOwnerRoleSwap": "1.16.5–1.17.1 source owner terminal at aca4dfb; role replaced by BED no-code proof reviewer. 1.15.2–1.16.5 owner terminal at f5636dd2 with all seven inventories open. 1.8.9–1.9.4 owner still closing.",
     "primaryMainStatus": "Independently checked clean at d8f3956602da94bf0cf67753cc0a9f4665397729. Do not mutate primary until architecture changes have frozen and passed review.",
@@ -1352,12 +1358,13 @@
       "candidateReport": "workflows/fix-implementation/candidates/2026-10-08-v26-1-blocklanding-catalog-visibility.md",
       "integrationBranchHead": "9d9aa7dfb637420008485e473361c900481bedae",
       "failedBuildRecord": "workflows/fix-implementation/runs/architecture-integration-build-2026-10-08.md",
-      "failedBuildLogSha256": "36d1fb4d9fdf1312a4c8d90b47e7a4e1d858fdbc6e3e0a5785b7de2051171218"
+      "failedBuildLogSha256": "36d1fb4d9fdf1312a4c8d90b47e7a4e1d858fdbc6e3e0a5785b7de2051171218",
+      "candidateReviewStatus": "Fresh independent review active on commit 1310bfbb, target 19:27 (latest 19:30), including a static sweep of referenced catalog class/constructor access. No merge or build retry until ACCEPT and explicit coordinator gate."
     },
-    "roleTurnover": "Catalog author/reviewer roles terminal after corrected snapshot ACCEPT; F013 bounded identity-correction author active now. Integration owner active; no additional workers/chats.",
+    "roleTurnover": "F013 author and identity-only reviewer are terminal. Corrected F013 snapshot received identity-only ACCEPT. Integration owner active on failure record; separate candidate review active; no discovery roles added.",
     "pane": "Pane owner active on bounded two-player Farmland conditional candidate; broader path open.",
     "sourcePairsLatest": {
-      "1.17.1--1.18.2": "F001-F012 and F014 bounded ACCEPT; corrected F013 finding+binding merged at df418e06, identity-only rereview active; independent full-pair coverage ACCEPT e0e36eff remains distinct; pair PARTIAL."
+      "1.17.1--1.18.2": "F001-F012,F014 bounded ACCEPT; corrected F013 identity snapshot ACCEPTED by 2fd121e1; original REQUEST CHANGES preserved for original bytes; independent full-pair coverage ACCEPT e0e36eff remains distinct; pair PARTIAL."
     },
     "activeRolesAtLastUpdate": [
       "coordinator/root",
@@ -1368,7 +1375,7 @@
       "source F14 owner 1.21.4–1.21.5 01a11bf3-b68d-72a3-9fde-198291e05948",
       "two collaboration source roles",
       "other active source/review roles from current saved roster; terminal roles removed above",
-      "F013 identity-only reviewer 01a11bcd-f62a-7610-8eff-f9782f3d072d (reactivated; target 19:25)"
+      "Independent reviewer for BlockLanding visibility candidate (reactivated; target 19:27, latest 19:30; scope includes static catalog class/constructor access sweep)"
     ],
     "roleCap": "20 maximum including root and active catalog reviewer; no new worker roles.",
     "safeNextActions": [
