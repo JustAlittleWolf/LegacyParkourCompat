@@ -41,4 +41,3 @@ The witness is not shift-suppressing and has no horizontal clipping, so neither 
 No tests, builds, Gradle, client, server, TAS, Gym, Docker, or runtime checks were run. The separate bed finding, other restitution source slices, full-pair status, and modern attribute/producer questions remain open.
 
 Reviewer: independent static no-code coverage review. Date: 2026-10-08.
-
