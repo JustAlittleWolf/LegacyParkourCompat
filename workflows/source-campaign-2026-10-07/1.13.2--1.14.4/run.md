@@ -336,12 +336,12 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - State producers/writers -> consumers/readers: neighboring vanilla block state/face shape or collision-face/cache/tag result -> wall horizontal flags and `UP` -> wall collision-shape array -> local player collision query.
 - Parent slices / dependencies / closure evidence: S020-S021 block query/static provider slices; D-COLLISION-SHAPES remains open for the A-era face-shape providers and B tag/cache paths.
 - Status: findings
-- Disposition and rationale (including concrete reachability/preconditions): F019. A accepts `MIDDLE_POLE_THICK`, `MIDDLE_POLE` for a fence gate, or a non-exempt `SOLID` face. B accepts a non-exempt full collision face, a block tagged as a wall, or a direction-compatible fence gate. These predicates and inputs are not textually identical; whether a common-era vanilla neighbor state changes a wall flag and resulting collision shape remains conditional on the incomplete provider/tag/cache comparison.
-- Finding IDs or checked absence/replacement path: F019; modern-only block types excluded.
+- Disposition and rationale (including concrete reachability/preconditions): F019. A accepts `MIDDLE_POLE_THICK`, `MIDDLE_POLE` for a fence gate, or a non-exempt `SOLID` face. B accepts a non-exempt full collision face, a block tagged as a wall, or a direction-compatible fence gate. For vanilla TNT and frosted ice, A rejects the connection via `isExceptionForConnection` while B sees a full collision face and does not exclude either block; placement/update therefore changes the direction flag and collision-shape selection. Player displacement/clipping remains unmeasured; other providers remain open.
+- Finding IDs or checked absence/replacement path: F019; source-confirmed flag/shape selection difference for TNT and frosted-ice adjacency; modern-only block types excluded.
 ## Dependency queue and blockers
 
 - D-TICK-CLOSURE: full local tick/pre-travel/travel branches/post-travel; S019 adds the post-move auto-jump callback; surrounding call-order closure remains open.
-- D-COLLISION-SHAPES: world queries, shape providers, registrations, neighbor-state inputs; S019 records the auto-jump entity query, S020 compares block enumerators, S021 checks four static providers, and S022 compares the normal piston source guard; full provider and neighbor-state enumeration remains open.
+- D-COLLISION-SHAPES: world queries, shape providers, registrations, neighbor-state inputs; S019 records the auto-jump entity query, S020 compares block enumerators, S021 checks four static providers, and S022 compares the normal piston source guard; F019 confirms a wall shape-input difference beside TNT/frosted ice; remaining provider and neighbor-state enumeration remains open.
 - D-MOVEMENT-DATA: effects/attributes/enchantments/equipment/block property producer chains; source worker to trace.
 - D-EXTERNAL: direct player velocity/impulse/knockback writers plus correction/push/piston/mount/launch-item consumers; S018 closes only the bounded client player-correction velocity reset; S019 records entity-obstacle input to local auto-jump; other corrections/callers remain open; exclude combat causation and non-player/vehicle physics; source worker to enumerate.
 - D-INDEPENDENT-AUDIT: reviewer unassigned; coordinator to assign.
@@ -367,7 +367,7 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - [F016](findings/F016-knockback-normalization-response.md) knockback response normalization; candidate pending external/state dependency review.
 - [F017](findings/F017-auto-jump-entity-collision-query.md) auto-jump entity collision-query bounds; candidate; conditional collision outcomes and provider closure remain open.
 - [F018](findings/F018-world-block-collision-enumeration.md) world block-collision enumeration; candidate; common-era obstacle outcomes remain unresolved.
-- [F019](findings/F019-wall-neighbor-connection-predicate.md) wall neighbor connection predicate; candidate; common-era neighbor-state outcome remains unresolved.
+- [F019](findings/F019-wall-neighbor-connection-predicate.md) wall neighbor connection predicate; candidate; TNT/frosted-ice wall flag and shape selection confirmed, player motion result unmeasured.
 
 ## Resume checkpoint
 
