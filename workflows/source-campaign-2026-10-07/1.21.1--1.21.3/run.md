@@ -43,12 +43,12 @@ Partial correspondence: LocalPlayer.tick -> inherited player tick -> LivingEntit
 
 Each inventory maps to bounded source slices and remains pending until its full producer/consumer chain closes.
 
-- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S-INPUT-AXES,S-LOCAL-TICK,S-BLOCK-CONTACT,S-ENTITY-MOVE,S-TRAVEL; evidence=paired source ranges in coverage ledger.
+- `INV-TICK` input sampling, player tick/call graph, pre-travel, travel branches, post-travel: status=pending; slice_ids=S-INPUT-AXES,S-LOCAL-TICK,S-BLOCK-CONTACT,S-ENTITY-MOVE,S-TRAVEL,S-TRAVEL-AIR,S-TRAVEL-FLUID,S-TRAVEL-FALLFLY,S-FALLFLY-ELIGIBILITY; evidence=paired source ranges in coverage ledger.
 - `INV-STATE` movement state writers/readers: status=pending; slice_ids=S-BLOCK-CONTACT,S-ENTITY-MOVE,S-TRAVEL; evidence=paired source ranges in coverage ledger.
 - `INV-COLLISION` player collision/query, shapes, providers, callbacks and neighbors: status=pending; slice_ids=S-BLOCK-CONTACT,S-ENTITY-MOVE; evidence=paired source ranges in coverage ledger.
 - `INV-WORLD-MOVEMENT` block/fluid properties, subclasses, registries, data/tags and resources: status=pending; slice_ids=S-BLOCK-CONTACT; evidence=WebBlock and BlockBehaviour ranges in coverage ledger.
-- `INV-MODIFIERS` attributes, effects, enchantments and equipment applications: status=pending; slice_ids=S-TRAVEL; evidence=travel ranges in coverage ledger.
-- `INV-EXTERNAL` player corrections, pushes, pistons, mounts and launch effects: status=pending; slice_ids=S-LOCAL-TICK,S-ENTITY-MOVE,S-EXTERNAL; evidence=outer tick and move ranges in coverage ledger.
+- `INV-MODIFIERS` attributes, effects, enchantments and equipment applications: status=pending; slice_ids=S-TRAVEL,S-TRAVEL-AIR,S-TRAVEL-FLUID,S-TRAVEL-FALLFLY,S-FALLFLY-ELIGIBILITY; evidence=travel, gravity/effect and equipment ranges in coverage ledger.
+- `INV-EXTERNAL` player corrections, pushes, pistons, mounts and launch effects: status=pending; slice_ids=S-LOCAL-TICK,S-ENTITY-MOVE,S-EXTERNAL,S-FALLFLY-ELIGIBILITY; evidence=outer tick, move and fall-flying command ranges in coverage ledger.
 - `INV-EXCLUSIONS` explicit excluded-system audit: status=pending; evidence=scope rules recorded above; full source audit open.
 
 ## Coverage ledger
@@ -104,14 +104,62 @@ Each inventory maps to bounded source slices and remains pending until its full 
 ### Slice S-TRAVEL: travel branch formulas
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS, INV-EXTERNAL
-- Exact behavior boundary and enclosing guards/order checked: method correspondence and dispatch only; travel formulas are not closed.
+- Exact behavior boundary and enclosing guards/order checked: method correspondence, controlled-local gate and branch dispatch; formulas were split into bounded child rows below. This parent remains open for cross-branch modifiers, fluid/block data and caller inventory.
 - A evidence: ../../../build/movement-campaign-2026-10-07/ready/1.21.1/mojmap/net/minecraft/world/entity/LivingEntity.java aiStep lines 2586-2681 and travel lines 2091-2217, SHA-256 324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8.
 - B evidence: ../../../build/movement-campaign-2026-10-07/ready/1.21.3/mojmap/net/minecraft/world/entity/LivingEntity.java aiStep lines 2690-2779 and travel lines 2178-2314, SHA-256 087390495f4fdfd14b9e12230e7aea4fdc50913bb4d1d91119e72892881cfc52.
 - State producers/writers -> consumers/readers: input, attributes, fluids, effects, equipment, collision and external velocity feed travel; outputs feed later tick/callbacks.
-- Parent slices / dependencies / closure evidence: S-LOCAL-TICK, S-INPUT-AXES, S-BLOCK-CONTACT; formula and operation-order audit required for each branch.
+- Parent slices / dependencies / closure evidence: S-LOCAL-TICK, S-INPUT-AXES, S-BLOCK-CONTACT; child rows close only their formulas, not the full modifier/data chains.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): B splits travel into helpers and changes fall-flying call placement; no branch equivalence is claimed.
-- Finding IDs or checked absence/replacement path: pending branch audit.
+- Disposition and rationale (including concrete reachability/preconditions): B splits travel into air, fluid and fall-flying helpers and relocates the fall-flying state update in aiStep. Air/fluid formula rows are compared narrowly; fall-flying math and eligibility dependencies remain open.
+- Finding IDs or checked absence/replacement path: F-FALLFLY-EQUIPMENT-COMPONENT records B's generalized modern-only component gate; full branch and modifier audit remains open.
+
+### Slice S-TRAVEL-AIR: land/air gravity and friction formulas
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: A's non-fluid/non-fall-flying branch, B's travelInAir, getEffectiveGravity and shared relative-friction helper; no conclusion about block-friction providers or caller branch state.
+- A evidence: `LivingEntity.java` lines 2191-2211; gravity preamble lines 2092-2098; `handleRelativeFrictionAndCalculateMovement` lines 2252-2263; SHA-256 `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8`.
+- B evidence: `LivingEntity.java` lines 2173-2176, 2191-2214, 2351-2362; SHA-256 `087390495f4fdfd14b9e12230e7aea4fdc50913bb4d1d91119e72892881cfc52`.
+- State producers/writers -> consumers/readers: current delta Y plus slow-falling effect -> gravity (`min(getGravity(), 0.01)` when descending with Slow Falling); ground-friction block -> horizontal/y decay; levitation amplifier -> vertical adjustment; resulting movement -> next tick.
+- Parent slices / dependencies / closure evidence: S-TRAVEL. Formula correspondence is direct; Attributes.GRAVITY, block friction, effects, and exact default/data producers remain open in INV-MODIFIERS and INV-WORLD-MOVEMENT.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): within the matched air branch, B's helper returns the same gravity value A computes inline, and both retain the same levitation formula, gravity subtraction, chunk-availability fallback, `shouldDiscardFriction` gate, horizontal `friction * 0.91F` and flying-animal vertical multiplier. This closes only these expressions, not their input producers or reachable branch conditions.
+- Finding IDs or checked absence/replacement path: no bounded air-formula finding.
+
+### Slice S-TRAVEL-FLUID: water/lava formula factoring
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: A's water and lava branches versus B's travelInFluid water/else-lava branches, from relative input through movement/drag/gravity and horizontal-collision free-space check.
+- A evidence: `LivingEntity.java` lines 2092-2150; SHA-256 `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8`.
+- B evidence: `LivingEntity.java` lines 2178-2187, 2216-2266; SHA-256 `087390495f4fdfd14b9e12230e7aea4fdc50913bb4d1d91119e72892881cfc52`.
+- State producers/writers -> consumers/readers: water slowdown and WATER_MOVEMENT_EFFICIENCY; sprint and Dolphin's Grace; lava fluid height and jump threshold; descending/Slow Falling gravity; collision and `isFree` result.
+- Parent slices / dependencies / closure evidence: S-TRAVEL; water/lava tag and fluid-height resources, effect/attribute values, and branch producer inventory remain open.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for the corresponding water and lava cases, arithmetic and order match, including `0.54600006F`, `0.8F`, `0.02F`, float casts, `getFluidFallingAdjustedMovement`, lava half-scaling, `-gravity / 4.0`, and the final horizontal-collision jump. B factors gravity into `getEffectiveGravity` and factors the common post-branch test without changing the inspected formula. This is not a claim that all water/lava inputs or tags are equivalent.
+- Finding IDs or checked absence/replacement path: no bounded fluid-formula finding.
+
+### Slice S-TRAVEL-FALLFLY: gliding velocity formula
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: A inline fall-flying movement and B `travelFallFlying`/`updateFallFlyingMovement`, excluding collision damage, eligibility and gear state.
+- A evidence: `LivingEntity.java` lines 2151-2190; SHA-256 `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8`.
+- B evidence: `LivingEntity.java` lines 2268-2302; SHA-256 `087390495f4fdfd14b9e12230e7aea4fdc50913bb4d1d91119e72892881cfc52`.
+- State producers/writers -> consumers/readers: look vector and pitch; velocity and effective gravity; horizontal velocity feeds pull-up adjustment and collision-speed loss.
+- Parent slices / dependencies / closure evidence: S-TRAVEL and S-FALLFLY-ELIGIBILITY. `calculateViewVector` is unchanged in both Entity sources (A lines 1530-1538, B lines 1619-1627), but proving the removed `min(1.0, look.length() / 0.4)` factor cannot affect reachable player movement still needs exact orientation/input bounds. Fall-flying collision response and flight-state update are separately open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): B replaces `cos(pitch)^2 * min(1.0, look.length() / 0.4)` with `Mth.square(cos(pitch))`. The view-vector method returns trigonometric components but no enforced length postcondition has been established for every reachable player rotation; no movement equivalence is claimed yet.
+- Finding IDs or checked absence/replacement path: none pending closure of the look-vector range and exact operation-order consequence.
+
+### Slice S-FALLFLY-ELIGIBILITY: fall-flying equipment gates
+
+- Inventory ID(s): INV-TICK, INV-MODIFIERS, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: LocalPlayer jump input -> `Player.tryToStartFallFlying` -> server START_FALL_FLYING handler -> shared flag/update gate; ordinary Elytra and generalized component equipment.
+- A evidence: `LocalPlayer.java` lines 741-745, SHA-256 `c555e68ac3c63ab9b4f9a9e31933e263b96350a2bc599d11a0de5928bc24b583`; `Player.java` lines 1529-1538, SHA-256 `ed32b88c3c7c8418b83db41823520f2b6b0b49a98610306ef26e9681dc925c71`; `LivingEntity.java` lines 2716-2741, SHA-256 `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8`; ElytraItem line 20 and Items registration line 883, hashes recorded in `findings/F-FALLFLY-EQUIPMENT-COMPONENT.md`.
+- B evidence: `LocalPlayer.java` lines 735-737, SHA-256 `fbd40f1f47adfa66dda9b15188e5dce82af3e8e8d7c3dd0543e602a354ad3fe0`; `Player.java` lines 1471-1472 and 1525-1536, SHA-256 `a803203e92aa4729d5f5c9b16085b6a43ce51d9907d309eb96736e9c7c1340de`; `LivingEntity.java` lines 2814-2848 and 3615-3622, SHA-256 `087390495f4fdfd14b9e12230e7aea4fdc50913bb4d1d91119e72892881cfc52`; `DataComponents.java` GLIDER and `Items.java` Elytra default, hashes recorded in the finding.
+- State producers/writers -> consumers/readers: client jump -> command packet -> server equipment check -> shared fall-flying flag -> B fall-flying travel branch.
+- Parent slices / dependencies / closure evidence: S-TRAVEL-FALLFLY; client and server gates plus A/B built-in Elytra durability boundary are paired. Custom/server-supplied item-component production remains an external-data dependency.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): source confirms B adds a component-based, any-matching-slot glide eligibility path; its built-in Elytra retains the A chest/Elytra/durability gate. The additional component case has no A representation and is explicitly dispositioned modern-only/out of scope, not a historical movement difference.
+- Finding IDs or checked absence/replacement path: F-FALLFLY-EQUIPMENT-COMPONENT.
 
 ### Slice S-EXTERNAL: corrections and externally supplied movement
 
@@ -127,23 +175,24 @@ Each inventory maps to bounded source slices and remains pending until its full 
 ## Dependency queue and blockers
 
 - Open dependencies: METHOD-INVENTORY, RESOURCE-CHAIN, SOURCE-AUDIT.
-- METHOD-INVENTORY: compare LivingEntity.travel branch-by-branch; close Entity.move support/epsilon dependencies and external player inputs.
-- RESOURCE-CHAIN: client jar hashes verified; inspect relevant entries before resource/tag claims.
-- SOURCE-AUDIT: independent reviewer not yet assigned.
+- METHOD-INVENTORY: close LocalPlayer and LivingEntity tick/input order; Entity.move support/collision/epsilon dependencies; fall-flying look-vector range/operation-order review; and external player correction/impulse callers.
+- RESOURCE-CHAIN: client jar hashes verified; compare referenced water/lava tags, movement block/fluid defaults/providers and applicable effect/attribute/equipment data from exact pair artifacts.
+- SOURCE-AUDIT: independent reviewer assignment and full call-graph/inventory audit remain pending; the source worker must not self-audit this requirement.
 - DEP-CHECKER resolved by canonical fix fba28fa154d29572263ea3f2c44cf1dc23134329, cherry-picked as 4223d9c; static schema gate only.
 
 ## Finding index
 
 - F-BLOCK-CONTACT-TRAVERSE — findings/F-BLOCK-CONTACT-TRAVERSE.md.
 - F-MOVE-TINY-POSITION-WRITE — findings/F-MOVE-TINY-POSITION-WRITE.md.
+- F-FALLFLY-EQUIPMENT-COMPONENT — findings/F-FALLFLY-EQUIPMENT-COMPONENT.md (B-side component generalization; explicitly out of scope for historical emulation).
 
 ## Resume checkpoint
 
-- Resume branch: feat/source-discovery-movement-source-1-21-1-1-21-3
-- Resume worktree: C:\Users\Wolfi\.codex\worktrees\source-1211-1213-correction\LegacyParkourCompat
-- Prior committed checkpoint: 6aa873e records a separate tiny-position-write delta; 0790278 completes the swept-contact finding's exact BlockGetter evidence. Use the latest tip of the named branch for exact current commit.
-- Closed bounded slices: S-INPUT-AXES (compared-no-difference for directional axis calculation only); S-BLOCK-CONTACT (source-confirmed intermediate-path callback difference, finding F-BLOCK-CONTACT-TRAVERSE).
-- Open slices: S-LOCAL-TICK, S-ENTITY-MOVE and S-TRAVEL in-progress; S-EXTERNAL pending. Seven required inventory gates remain pending; full-pair freeze and independent audit remain pending.
+- Resume branch: feat/source-discovery-1-21-1-1-21-3-resume-2026-10-08 (created from immutable source checkpoint `9efca3a29af87debd09cf76d92affbf475e98e16`).
+- Resume worktree: D:\Javastuff\LegacyParkourCompat\.task-worktrees\source-1211-1213-resume-2026-10-08.
+- Prior committed checkpoint: `9efca3a29af87debd09cf76d92affbf475e98e16`; new bounded travel/glide evidence in this worktree is committed as a separate checkpoint before handoff.
+- Closed bounded slices: S-INPUT-AXES (directional normalization/slow scaling only); S-BLOCK-CONTACT (intermediate-path callback difference); S-MOVE-TINY-POS-WRITE (tiny position-write condition); S-TRAVEL-AIR (air-branch formula only); S-TRAVEL-FLUID (water/lava formula only); S-FALLFLY-ELIGIBILITY (component-only B extension dispositioned out of scope; default Elytra gates compared).
+- Open slices: S-LOCAL-TICK, S-ENTITY-MOVE, S-TRAVEL, S-TRAVEL-FALLFLY in-progress; S-EXTERNAL pending. Required inventories remain partial/pending; full-pair freeze and independent audit remain pending.
 - Finding handoff: F-BLOCK-CONTACT-TRAVERSE is in findings/F-BLOCK-CONTACT-TRAVERSE.md (snapshot commit `07902783e412b7055b1b8d15d99ed5df92388f26`, SHA-256 `3538afb87392bd856c3b358af9b12c84341163d188c77738244603641900d686`); F-MOVE-TINY-POSITION-WRITE is in findings/F-MOVE-TINY-POSITION-WRITE.md (snapshot commit `6aa873efa6f2fb7ffe3f545674859a9fff82273e`, SHA-256 `bc3bcb15fe51d8cf3917d788c069ada356c332f609bcc139b0703313ce5368c1`). Earlier swept snapshots were superseded as recorded below. Independent acceptance and implementation handoff remain pending.
 - Source identities: A 1.21.1 Mojmap source manifest 900f956e00f6fc1300bb3d689ea49df2b1a57bcaa54617344ef456d95d47cb48; B 1.21.3 Mojmap source manifest d673bb5464853e3a2a92ed9b1ffe1789d4e62c097bb884f67c336fcbb3b178ce; artifact manifest identities are recorded above.
 - Next source-only commands, from the repository root:
@@ -180,14 +229,16 @@ An independent reviewer has not yet been assigned and no audit has occurred.
 - Superseded finding snapshot: F-BLOCK-CONTACT-CLIENT-GATE at commit `e8271b2f1737729282ad93dacdadb43167202b80`, file SHA-256 `71d9783c2f5d8bd5636907ea710079ee8f088c15b9f26d73a92810c18338781c`. Invalidated after source review found both `LocalPlayer.isEffectiveAi()` overrides return true, making B's local-player callback guard reachable.
 - Superseded swept snapshot: F-BLOCK-CONTACT-TRAVERSE at commit `3c595d1139b6f85f3cc525a7f9e370f2fc61a114`, file SHA-256 `ccdf65eaf5177d7e92a349d8faadad86bd46f4dbdd769c964d65b8647f7ffb4c`; replaced by a snapshot that records the exact `BlockGetter.boxTraverseBlocks` member and source hash.
 - Current finding: F-BLOCK-CONTACT-TRAVERSE; immutable source commit `07902783e412b7055b1b8d15d99ed5df92388f26`; file SHA-256 `3538afb87392bd856c3b358af9b12c84341163d188c77738244603641900d686`.
-- Current finding: F-MOVE-TINY-POSITION-WRITE; immutable source commit `6aa873efa6f2fb7ffe3f545674859a9fff82273e`; file SHA-256 `bc3bcb15fe51d8cf3917d788c069ada356c332f609bcc139b0703313ce5368c1`.
+- Superseded tiny-position snapshot: F-MOVE-TINY-POSITION-WRITE at commit `6aa873efa6f2fb7ffe3f545674859a9fff82273e`, file SHA-256 `bc3bcb15fe51d8cf3917d788c069ada356c332f609bcc139b0703313ce5368c1`; invalidated because its A `Entity.java` digest contained a transcription error (`...c063...`) and did not match the verified source file hash. The source conclusion is unchanged; corrected evidence and review remain pending.
+- Current corrected finding: F-MOVE-TINY-POSITION-WRITE; file SHA-256 `771f4ac4f720f2a8bdfcc5b025a809448bcbee83619e861e248515fd8336a0d1`.
+- Current source-only finding: F-FALLFLY-EQUIPMENT-COMPONENT; file SHA-256 `405af71090ba5bfe2a31b8c526df35be1810170fdf5d1ad8360bf78575801ff3`; new snapshot not independently reviewed. Its added component path is explicitly modern-only/out of scope; it does not assert changed movement for default Elytra.
 - Evidence identities: A Mojmap source manifest `900f956e00f6fc1300bb3d689ea49df2b1a57bcaa54617344ef456d95d47cb48`, artifact manifest `09ced418cbc7530a1d6d8802ee10c05cd576b217a2129655a71f30a2ae38f486`; B Mojmap source manifest `d673bb5464853e3a2a92ed9b1ffe1789d4e62c097bb884f67c336fcbb3b178ce`, artifact manifest `0587668e5c70bb06dacf3496a4442f66dc9cdcab23f2350b844f14259cc40dcf`.
 - Independent reviewer: `01a116ce-dfe4-7b11-b7e6-d62f5014e356`; prior block-contact review request is superseded; acceptance is pending for both current finding hashes.
 - Implementation handoff: blocked until that reviewer accepts both exact finding snapshots. Pair status remains active; remaining inventories and full-pair audit are open.
 
 ## Source audit closure
 
-- Coverage counts: 1 findings, 1 compared-no-difference, 3 in-progress, 1 pending.
+- Coverage counts: 3 findings, 3 compared-no-difference, 4 in-progress, 1 pending (bounded rows; parent slices remain open where listed above).
 - Inventory status: INV-TICK partial; INV-STATE partial; INV-COLLISION partial; INV-WORLD-MOVEMENT partial; INV-MODIFIERS partial; INV-EXTERNAL pending; INV-EXCLUSIONS partial.
 - Open dependencies: METHOD-INVENTORY, RESOURCE-CHAIN, SOURCE-AUDIT.
 - Full-pair blind freeze: pending
