@@ -167,3 +167,13 @@ A's `Entity.move` reaches virtual `checkFallDamage` for a client-local player be
 Checked endpoint source/artifact manifests: A `d673bb5464853e3a2a92ed9b1ffe1789d4e62c097bb884f67c336fcbb3b178ce` / `0587668e5c70bb06dacf3496a4442f66dc9cdcab23f2350b844f14259cc40dcf`; B `f90b61197928632e061ea877955a19055c92ae6f357c2daf1bc646172c6f51f0` / `1a0929ca8c88cfe7874f323918dfa3b044964007d3ff0d3943317bdb35caf841`. Recomputed cited `Entity.java`, `LivingEntity.java`, `Player.java` and `LocalPlayer.java` hashes match the ready sources. First changed release remains unknown within `(1.21.3, 1.21.4]`.
 
 This accepts only the bounded finding content, not a pair snapshot or full-pair closure. Collision, travel, world-data, modifier and external-input inventories remain open. No implementation handoff is authorized. No tests, builds, runtime validation, implementation or wiki material used.
+
+## Independent finding review — 1.21.3 → 1.21.4
+
+**Decision: accepted for the bounded local sprint-policy finding.** Owner commit: `f9de0b781d098689f1d129e8fec48edf24919e9f`; finding file `workflows/source-campaign-2026-10-07/1.21.3--1.21.4/findings/F-S1-02-sprint-policy-gates.md`, SHA-256 `6dc845bc6e340130168ba8e996f16725e21e98569ce63048751bf51aba063f7f`.
+
+The paired `LocalPlayer.aiStep` sources confirm that B evaluates its new active-sprint stop predicate before the sprint-start checks and adds a slow-movement restriction to `canStartSprinting` (underwater remains exempt). In particular, a reachable crouching/slow state can clear an already-set sprint flag in B while A's existing active-stop conditions leave it set; B also disallows a slow sprint start. The shared crouch/slow predicate is refreshed/read before that decision. `LivingEntity.setSprinting` updates the movement-speed modifier in both releases, and the normal player AI path then dispatches to travel. This confirms a direct movement-policy effect without claiming a measured trajectory or comparing excluded producer systems.
+
+Checked endpoint source/artifact manifests: A `d673bb5464853e3a2a92ed9b1ffe1789d4e62c097bb884f67c336fcbb3b178ce` / `0587668e5c70bb06dacf3496a4442f66dc9cdcab23f2350b844f14259cc40dcf`; B `f90b61197928632e061ea877955a19055c92ae6f357c2daf1bc646172c6f51f0` / `1a0929ca8c88cfe7874f323918dfa3b044964007d3ff0d3943317bdb35caf841`. Recomputed cited `LocalPlayer.java` and `LivingEntity.java` hashes match the ready sources. First changed release remains unknown within `(1.21.3, 1.21.4]`.
+
+This accepts only the bounded finding content, not a pair snapshot or full-pair closure. Travel, collision, world-data, modifier and external-input inventories remain open. No implementation handoff is authorized. No tests, builds, runtime validation, implementation or wiki material used.
