@@ -43,7 +43,7 @@
     {
       "threadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
       "role": "integration_build_owner",
-      "status": "active; pose/F005 integrated0bfb72a; nextacceptedWORLD03 then swimmingentry serializedbuildintegration",
+      "status": "active artifact absolute-path verification and origin/main local-ref explanation; WORLD03/swimmingentry integrated",
       "ref": "feat/movement-campaign-integration-2026-10-08@958b0916f08cba25e3be86d67d48a9d1e8651d1f",
       "resultCommit": "ea812dc9171fdf41e02b3a2292db7d40b105c9c4"
     },
@@ -58,7 +58,7 @@
       "threadId": "01a11bb3-59d0-72c0-ab62-71a6d301d1d8",
       "role": "source",
       "pair": "1.8.9--1.9.4",
-      "status": "completed",
+      "status": "active source-only continuation all remaining1.8.9--1.9.4 inventories",
       "ref": "feat/source-discovery-movement-source-1-8-9-1-9-4@0481dfe227ccc14b935352c306afbd04035cc635",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -344,8 +344,8 @@
       "threadId": "01a11bf5-4419-7d21-8193-a88ca9f6eba3",
       "role": "source",
       "pair": "1.21.5--1.21.8",
-      "status": "active",
-      "ref": "846d88672a0a7c216fea8e6ee68d29a7af0937e3",
+      "status": "completed partial source checkpoint affd655/mainmergeec84e77; FishingHook excluded producer response unchanged",
+      "ref": "ec84e77",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
     },
@@ -369,14 +369,14 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:57:43.1541338Z",
+    "observedAt": "2026-10-08T15:00:31.0667714Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
     "conservativeSlots": 15,
     "workersRequested": "gpt-6-luna high",
     "coordinatorObserved": "gpt-6.1-sol medium",
-    "mainHead": "c9a9b973",
+    "mainHead": "8e76298f42eb67d9f745f413846c5e8b37866487",
     "mainUntracked": "generated worktrees preserved; local exclude applied by integration owner",
     "TICK01": "independently accepted, built with all Test tasks disabled, integrated; main net source auditfa340fe confirms five acceptedbatches",
     "passengerYaw": "integrated; test-disabled build success; no runtime",
@@ -384,8 +384,8 @@
     "elytraStart": "integrated; ACCEPT source binding independentlyverified; docs-only correction integrationpending",
     "oldCoordinator": "idle/completed verified",
     "reviewReport": "bdb6443;notes d3190b4",
-    "jarReportedSha256": "0B5A12CDFA61C2C55C08FE3EB499AE6F8F0E4699347FC52AFF4132FDC096C3BC",
-    "jarAudit": "independently verified exact final artifact hash and all-Test-disabled script/build output; consoleoutput retained in integrationhistory, no standalonelog",
+    "jarReportedSha256": "E6ACA9E4FF063022ABB390BB2F207E86CD3BBDB2171B0233C118D6245315C8ED",
+    "jarAudit": "pending actual new build artifact path: old C managed integration checkout remains0bfb72a and old JAR0B5A12...; exclusive owner verifying fresh worktree absolute paths and logs",
     "sourceQueue": "adopted audit4e6517f; all26partial; corrected stale references below"
   },
   "pendingSourceCorrections": [
@@ -451,7 +451,7 @@
       "codeBranch": "fix/mcpk-1-17-movement-reconcile",
       "review": "6ce9b54",
       "reviewBranch": "fix/review-swimming-entry-gate-1-17",
-      "status": "ACCEPT; exclusiveowner assigned serialWORLD03 then swimmingentry"
+      "status": "accepted built/integratedmain8e76298; exact new artifact absolute-path audit active"
     },
     {
       "finding": "WORLD03 frame player ejection andfloat response",
@@ -460,7 +460,7 @@
       "review": "c1dee45d82c041fa83e42e35a0af8aefee35557f",
       "reviewBranch": "fix/review-world-03-correction-2026-10-08",
       "mergeResolution": "ce6d3cd6b9f5d5a413201cfb564e134995d03c97 preserves fence/ejection registrations",
-      "status": "integration owner reports accepted build and mainc9a9b973; independent artifact audit pending"
+      "status": "accepted built/integratedmain8e76298; exact new artifact absolute-path audit active"
     }
   ],
   "bigDripleafDisposition": {
@@ -524,5 +524,11 @@
     "reviewShort": "e1866cc",
     "edgeBackoff": "no-code existing implementation ACCEPT same review",
     "range": "separate focused snapshot in progress; independent source review still required"
+  },
+  "remoteTrackingAudit": {
+    "primaryAheadCount": 15,
+    "status": "origin/main differs from prior tracking baseline; integration owner asked to explain exact local fetch/ref command; no push authorized or reported",
+    "observedOriginMain": "0bfb72a0bc08726f2ee3a984203c08b5d90cf34e",
+    "realRemote": "not verified by tracking-ref comparison"
   }
 }
