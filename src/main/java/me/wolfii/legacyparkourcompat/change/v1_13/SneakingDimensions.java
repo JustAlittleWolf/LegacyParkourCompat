@@ -18,7 +18,7 @@ public final class SneakingDimensions implements PlayerDimensionsBehavior, Playe
         Pose pose = desiredPose(player);
         EntityDimensions dimensions = player.getDimensions(pose);
         var current = player.getBoundingBox();
-        if (dimensions.width() == current.getXsize() && dimensions.height() == current.getYsize()) {
+        if (dimensions.width() == player.getBbWidth() && dimensions.height() == player.getBbHeight()) {
             return false;
         }
 
