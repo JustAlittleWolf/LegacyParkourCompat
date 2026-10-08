@@ -540,7 +540,7 @@ These are initial bounded navigation units. Exact sources are published; slice-b
 - Parent slices / dependencies / closure evidence: S3-TRAVEL; S4-COLLISION; S5-BLOCK-SHAPES; S5-FLUIDS; S6-ATTRIBUTES; S6-EFFECTS; S6-EQUIPMENT; S7-PUSH; D2; D3. `ReplaceDisk` and `FrostedIceBlock` implementations and selected enchantment/tag resources match by source hash. The Frosted Ice inherited collision shape/factors and full tag/equipment/component inventory remain open. Effect lifecycle/aggregation, all movement attribute consumers, and Riptide start/use callers remain open.
 - Status: in-progress
 - Disposition and rationale (including concrete reachability/preconditions): the selected movement enchantment definitions and bounded consumer/impulse methods show no movement delta. This is not terminal: resource/tag membership, equipment applicability, complete location-effect lifecycle, complete attribute aggregation/consumer inventory, inherited Frosted Ice shape/factors, and player Trident use caller order still require paired source evidence.
-- Finding IDs or checked absence/replacement path: checked absence of a delta in the cited selected registrations and bounded Riptide movement route; no whole-enchantment inventory conclusion.
+- Finding IDs or checked absence/replacement path: F-16 records the changed Wind Burst attacker impulse gate and F-17 records the separate direct sweep knockback to the target Player. The other cited selected registrations, Knockback-enchantment primary-hit route, Riptide impulse arithmetic, and Frost Walker effect implementations are unchanged in the bounded source comparisons; no whole-enchantment inventory conclusion.
 
 ### Slice S6-EQUIPMENT: Equipment/components, applicability and use slowdown
 
