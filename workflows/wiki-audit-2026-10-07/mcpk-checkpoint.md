@@ -18,6 +18,7 @@
 - Independent reviewer acceptance of the exact `mcpk-feather-r1-finding-snapshot.md` and its dependencies. Until then, affected source/wiki pairs remain partial and no pair freeze is claimed.
 - No acceptance is pending for the four named snapshots. Their original files remain immutable. Exact commit:path, Git blob, and content SHA-256 identities are recorded in [the re-review candidate register](mcpk-clean-rereview-candidates-2026-10-08.md) and the [independent follow-up](mcpk-independent-followup-2026-10-08.md).
 - Continue the remaining MCPK claim checks listed under “Still unresolved” in [mcpk-wiki.md](mcpk-wiki.md): exact 1.11.1 wall-height interval; full 1.13 water math/flow and remaining shapes; 1.14 movement edge cases; Y=256 water-exit boundary; player-affecting effects/enchantments; and 1.17 powder-snow tick timing.
+- The bounded browser/source follow-up is in [mcpk-independent-followup-2026-10-08.md](mcpk-independent-followup-2026-10-08.md). It resolves endpoint details for wall collision versus outline shape, 1.14 axis order, selected 1.13 water calculations, slipperiness examples, and 1.17 freeze/effect timing; it explicitly leaves exact cutovers and incomplete caller/shape inventories open.
 - Do not treat the wiki's TODO-only 1.18 section or its lack of later sections as evidence for 1.19+ or 26.x behavior.
 - Fresh normal-browser page revision IDs and additional exact-source endpoint comparisons are recorded in [the independent follow-up](mcpk-independent-followup-2026-10-08.md). The Y=256 check found a `resetPos` respawn search, not the alleged water-exit movement consumer, so that claim remains unresolved.
 
@@ -40,7 +41,7 @@
 - Worktree: `C:\Users\Wolfi\.codex\worktrees\mcpk-clean-rereview\LegacyParkourCompat`
 - Branch: `fix/mcpk-clean-rereview-dispositions`
 - The clean-review disposition updates were committed at `10d4937470804e6ffd75b35930a9c3d62044b9be` (edge-backoff r3) and `59b6d55a88d724a91026553fff52e4027831d2f1` (registry/catalog/checkpoint updates).
-- Merged default branch tip `1ea23480755a2574abd5b5855827ded5d5f50702` in merge commit `7b221a6909c23d4e6423cd41023e5bca122607de`.
-- Compared with `main`, its MCPK lane removed the r2 candidates and restored older unresolved wording. The merge completed without Git file conflicts; this branch retained the explicitly requested corrected candidates and partial-review status, while unrelated main changes merged unchanged.
+- Merged default branch tip `1ea23480755a2574abd5b5855827ded5d5f50702` in merge commit `7b221a6909c23d4e6423cd41023e5bca122607de`, then merged current `main` tip `d4c4f154a0c2487dd6dd7d20d92eb57b3d8ab1ae` in merge commit `6473cb0f6f442e4c300f8b8eb70904e8791fee30`.
+- The latest merge had no Git conflicts and did not touch the `workflows/wiki-audit-2026-10-07/` MCPK audit files. It brought implementation and reconciliation paths from `main`; those implementation sources were not inspected as part of this MCPK-only lane. The MCPK audit remains independent and partial.
 - No full pair or wiki-lane acceptance is claimed.
 - The clean acceptance commit `bdda49ac76ce8b6e136917349e8b59a61d2fabe4` was cherry-picked into this lane as `dfceacf`; the independent follow-up is a bounded source/page record only.
