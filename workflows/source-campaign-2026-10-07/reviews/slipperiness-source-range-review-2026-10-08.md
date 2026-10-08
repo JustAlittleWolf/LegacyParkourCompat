@@ -63,10 +63,15 @@ and Git blob `17f0906b1fa7d5e6c7995835786fb9516fc5a6d7`. Independently reading
 that exact committed blob as raw bytes (13,301 bytes) and computing SHA-256
 gives
 `dd7d64037fb206eb5f69bf73bb5b80d929889d03c7e94a9c8a9918efb8357c8e`.
+The original acceptance report at
+`workflows/source-campaign-2026-10-07/reviews/slipperiness-source-range-review-2026-10-08.md`
+has Git blob `6c0a65c310974eb69bb2dad6189ebeb79d9cdcd6` and raw SHA-256
+`07c00cfedf8cf328ec42b2e7e350d65a167b3857a06f352fb59eefa06c15b918` at the
+accepted commit.
 
 The original acceptance text prints
 `dd7d640f7fb206eb5f69bf73bb5b80d929889d03c7e94a9c8a9918efb8357c8e`; its
-ninth hexadecimal character is a transcription error (`f` instead of `3`).
+eighth hexadecimal character is a transcription error (`f` instead of `3`).
 The immutable acceptance commit and verdict are retained unchanged in Git
 history. This appended correction binds that verdict to the unchanged commit,
 path, blob, and recomputed raw-file hash; it does not waive the discrepancy or
