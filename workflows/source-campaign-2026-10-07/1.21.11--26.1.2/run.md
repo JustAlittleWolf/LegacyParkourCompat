@@ -390,13 +390,13 @@ Each entry is a bounded behavior boundary. Refine broad plans into exact member 
 ### Slice S3.9: Relative movement helpers, vector math and attributes
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Relative movement helpers, vector math and attributes. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: `Entity.moveRelative()` and its `getInputVector()` helper through `Vec3.lengthSqr()`, `normalize()`, `scale()`, `add()` and componentwise multiplication. The movement-speed/attribute producer chain remains open.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/Entity.java` :: `moveRelative()`/`getInputVector()`, lines 1608-1623, SHA-256 `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3`; `ready/1.21.11/mojmap/net/minecraft/world/phys/Vec3.java` :: `normalize()` 80-83, `add()` 109-115, `scale()`/`multiply()` 149-163, `lengthSqr()` 181-183, SHA-256 `a4050765738a0cfdb1100b83f2ba4effd40155de99bb703a8381dbe775148ec1`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java` :: `moveRelative()`/`getInputVector()`, lines 1659-1674, SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`; `ready/26.1.2/unobfuscated/net/minecraft/world/phys/Vec3.java` :: `normalize()` 83-86, `add()` 112-118, `scale()`/`multiply()` 152-166, `lengthSqr()` 184-186, SHA-256 `57b08ae818868a4fffdc9b5dadba2b127138c8945c2194f6f4b01e6150cd3bcb`.
+- State producers/writers -> consumers/readers: `moveRelative()` reads its input vector, speed and yaw, builds the rotated delta, then adds it to current delta movement through `setDeltaMovement`. The caller-selected speed depends on ground friction, movement attributes and mode-specific helpers; those producers and external input producers remain open.
+- Parent slices / dependencies / closure evidence: caller order is covered in `S3.1`-`S3.8`; ground friction/flying-speed consumer evidence is recorded in `S3.5`. The forward attribute/effect/default and caller-selected speed audit remains open under `INV-MODIFIERS` and D2.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The helper bodies match in operation order: compute squared length, return `Vec3.ZERO` only below `1.0E-7`, normalize only when length squared exceeds `1.0`, scale by the supplied speed, compute sine then cosine from yaw radians, rotate X/Z with the same expression order, preserve Y, and add the resulting vector to current delta movement. Paired `Vec3` normalization threshold, length arithmetic, scale and component additions also match. This bounded math comparison has no difference; broader speed/attribute dependency closure is incomplete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S3.10: Travel post-updates, velocity reset/restitution and fall-state writes
@@ -414,13 +414,13 @@ Each entry is a bounded behavior boundary. Refine broad plans into exact member 
 ### Slice S4.1: Entity move entry, bounding-box and position updates
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Entity move entry, bounding-box and position updates. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: Full `Entity.move(MoverType, Vec3)` body, including no-physics position update; piston limit; stuck-speed reset; edge-backoff then collision call order; movement threshold and position write; collision flags/ground update; horizontal velocity cancellation; block callback and movement emission ordering; final block speed factor multiplication. Nested movement/collision providers remain open.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/Entity.java` :: `move()` lines 685-781; SHA-256 `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java` :: `move()` lines 704-800; SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`.
+- State producers/writers -> consumers/readers: reads delta, no-physics, mover type, stuck multiplier, fall distance, local authority and collision result; writes position, per-tick movement record, collision/ground flags, horizontal delta components and block-speed-adjusted movement. It dispatches `updateEntityMovementAfterFallOn` when Y is clipped, and movement emission callbacks after state updates. Damage/fall-resolution internals remain excluded; movement-state producers/consumers and collision result closure remain open.
+- Parent slices / dependencies / closure evidence: `S3.2` owns friction/speed-factor values; `S4.2`-`S4.7` own collision, support and fluid result providers; `S5.1`-`S5.8` own block callback and data providers. All remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The inspected paired `move()` bodies preserve the same branch and write order, including `movementLength > 1.0E-7 || delta.lengthSqr() - movementLength < 1.0E-7`, fall-reset clip gate, set-position path, collision flags, ground-state dispatch, horizontal X/Z cancellation, fall-on callback, movement emissions, and final X/Z block-speed multiplication. Local names, profiler labels and line numbers differ. The overall slice remains open until collision result and callback/provider dependencies are traced.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S4.2: Axis resolution, collision candidates and tie-breaking
@@ -751,7 +751,7 @@ No findings yet. S1.1-S1.3 have paired no-difference dispositions. The pair rema
 ## Resume checkpoint
 
 - Last completed slices: S1.1-S1.3, S1.2.1-S1.2.2, S3.1.1, S3.3.1 and S3.6.1 (compared-no-difference); S5.9 (not-applicable to Player).
-- Next bounded slices: close the remaining `S3.4` jump-factor/modifier providers and `S3.5` movement-state providers; continue `S3.6`-`S3.8` fluid/gliding and then ground/air travel, collision and post-travel closure. Reconcile all movement-referenced resources/tags under D2 before dispositioning dependent slices.
+- Next bounded slices: finish `S3.4` jump-factor/modifier providers and `S3.5` movement-state providers; resolve `S3.6`-`S3.8` fluid/gliding dependencies; close `S3.9` speed/attribute sources and `S3.2`-`S3.3` ground/air branches; then continue `S4.1` collision results through `S4.7`. Reconcile all movement-referenced resources/tags under D2 before dispositioning dependent slices.
 - Outstanding dependencies and owners: D2, source worker.
 - Current assumptions requiring verification: decompiled movement member bodies are semantically intact; B LocalPlayer diagnostics omit anchors, so manual body review is cited; resource-backed data closure remains open.
 - Resumable state: branch `feat/source-discovery-movement-source-1-21-11-26-1-2`; this report is the pair ledger. Exact A/B source roots and artifact manifests are recorded above. The report checker accepts the current active, non-complete state; no source finding snapshot exists. Preserve the source-only blind phase and do not inspect implementation/wiki material until the campaign explicitly transitions.
@@ -779,7 +779,7 @@ No source-confirmed findings have been submitted. Pair run remains active; no sn
 
 ## Source audit closure
 
-- Coverage counts by status: 42 pending; 5 in-progress; 8 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices).
+- Coverage counts by status: 40 pending; 7 in-progress; 8 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices).
 - Required inventory status and evidence: all 7 pending; exact source inputs are verified, but full movement/provider/resource inventories remain incomplete.
 - Open dependencies: D2
 - Unresolved gaps and limits: inherited tick/travel/collision body comparisons, movement state producers/consumers, shape providers/registrations, and data/resource dependency closure.
