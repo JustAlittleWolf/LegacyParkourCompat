@@ -333,6 +333,13 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 - F-03: mounted sprint state can carry into player movement after dismount under the stated conditions.
 - F-04: A can initiate sprint while fall-flying under the stated key-sprint predicates; B adds a fall-flying rejection guard.
 
+## Finding snapshot log
+
+- Snapshot `F-04@df40695a6319a70dd28cf81448e39fce9f5675ff`: immutable finding-only commit `df40695a6319a70dd28cf81448e39fce9f5675ff`; file `findings/F-04-sprint-during-fall-flying.md`, SHA-256 `60029df6f5bd84c0c0a91d67d23ea9f36d93f4af2618f9889fb1946eabaa3d2d`.
+- Exact source identity: A `1.19.3` Mojmap source manifest SHA-256 `6f1cc6d07ab3902a7ea25a3f8817504723be70d82e97f541cffda95ea2c1c843`; B `1.19.4` Mojmap source manifest SHA-256 `6286e325371e085dfee1ab7987e66d4b6d1a984a49b6ec8ea730045cd24cecb3`. Cited A/B `LocalPlayer.java` SHA-256 `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479` / `8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58`; cited A/B `LivingEntity.java` SHA-256 `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db` / `c8d91af61f87aaa1666de79696d7cd9d4a8212d05f873bdaf28d7bb2926bf165`.
+- Exact mapped artifact identity: A `artifacts.sha256` manifest SHA-256 `13e9e1a1458d0c6352207dac6edb36745427b012d30408e7cb42035b2f042652`, `client-mojmap.jar` SHA-256 `3be15cd54092cbac9853a67445a42b38d5c3b0d61503bd79b0d76589357d871e`; B `artifacts.sha256` manifest SHA-256 `e84b8441615fd386ccdd3bfde71b7b1d658061e9383daffe41842e9acb7afb72`, `client-mojmap.jar` SHA-256 `efbf38c89b396faae60cfe3bdb91671cb8d1ec3ccf2e27d3ffab4d261acd016d`.
+- Bounded player path / guards: reachable non-passenger `LocalPlayer#aiStep` direct key-sprint route while fall-flying; A's food, impulse, water, item-use, blindness and not-already-sprinting gates permit the write, while B `canStartSprinting` adds `!isFallFlying`; paired inherited setter applies the same movement-speed modifier. This establishes sprint-state eligibility only, not a glide trajectory difference.
+- Version boundary: source-confirmed A/B difference, first changed release unknown within (1.19.3, 1.19.4]. Reviewer: independent source reviewer `01a116ce-c937-7613-a49b-716e99582357`. Status: submitted for blind source review; acceptance pending. The snapshot does not close any other pair coverage or freeze the pair.
 ## Resume checkpoint
 
 - Last completed slices: I-TICK-SPRINT-ELIGIBILITY, I-TICK-TRAVEL-FLUIDS and I-TICK-TRAVEL-FALL-FLYING; findings F-01 through F-04 drafted; report remains active and partial.
@@ -350,7 +357,7 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 
 ## Independent source audit
 
-- Reviewer: not yet assigned; must differ from discovery author.
+- Reviewer: independent source reviewer `01a116ce-c937-7613-a49b-716e99582357`; F-04 snapshot review pending. Full-pair reviewer must differ from discovery author.
 - Status: pending
 - Inventories and call-chain ranges re-walked: none.
 - Concrete missed-slice routes (or `none found`): pending independent review.
