@@ -34,8 +34,8 @@ Detailed method bodies, operation order, endpoint hashes, and remaining open cla
 - **1.13 Blue Ice:** slipperiness is `0.989F`.
 - **1.13.2→1.14.4 collision order:** requested X/Z displacement magnitudes select the first horizontal axis; equality takes X first. The Version Differences table matches source. The MCPK Collisions page states the opposite inequality and is wrong on that condition.
 - **1.14:** player crouch dimensions are 0.6×1.5 at the endpoint. Jump input adds to the climb-assist predicate, verifying jump-to-climb behavior at the endpoint. Exact crouch boundary and additional reachability claims remain open.
-- **1.14.4→1.15.2 slipperiness sampling:** source changes from `minY - 1.0` to `minY - 0.5000001`. Bed, bottom half-slab, and Soul Sand examples are now resolved at the endpoints; a top slab samples inside itself. See [the bounded example snapshot](mcpk-1.15-slipperiness-examples-snapshot.md).
-- **1.16.1→1.16.2 sneak step-down:** source replaces the `onGround` gate with a sneaking and above-ground predicate; the 0.05 movement backoff remains.
+- **1.14.4→1.15.2 slipperiness sampling:** source changes from `minY - 1.0` to `minY - 0.5000001`. Bed, bottom half-slab, and Soul Sand examples are resolved at the endpoints; a top slab samples inside itself. See [the bounded example snapshot](mcpk-1.15-slipperiness-examples-snapshot.md).
+- **1.16.1→1.16.2 sneak step-down:** source replaces the `onGround` gate with a sneaking and above-ground predicate; the 0.05 movement backoff remains. See [the bounded snapshot](mcpk-1.16.2-step-down-snapshot.md).
 - **1.17.1:** swimming entry requires water at the player's block position. Powder snow collision depends on fall distance and boots; source also confirms the 0.9/1.5/0.9 movement multiplier and boot climbing.
 - **1.17 Big Dripleaf:** player contact enters UNSTABLE immediately, with no collision-height change; source schedules the first lower shape after 10 ticks and an empty leaf collision shape after a second 10 ticks. The MCPK page's stated 20-tick delay before the first reduction conflicts with this endpoint source; see [the bounded snapshot](mcpk-1.17-big-dripleaf-snapshot.md).
 - **1.16.5→1.17.1 swimming entry:** adds a water-tag check at the player’s block position only on entry; the existing-swimming continuation branch is unchanged. See [the bounded snapshot](mcpk-1.17-swimming-snapshot.md).
@@ -45,7 +45,6 @@ Detailed method bodies, operation order, endpoint hashes, and remaining open cla
 - Exact 1.11.1 wall-height bug interval.
 - Full 1.13 water math and flow-height boundaries, plus remaining block-shape dimensions.
 - 1.14 sprint input while crouched, ceiling-induced poses, blips, and listed movement bugs; whether jump climbing adds reachable jumps and unsupported-vine details.
-- Bed/slab examples for the 1.15 sample offset.
 - Y=256 water-exit fix boundary; lava pushing is verified at the 1.16.1 endpoint.
 - Movement math or exact version boundaries for player-affecting Elytra, Levitation, Frost Walker, Slow Falling, Dolphin’s Grace, Riptide, and Soul Speed. Damage-only details and non-player entity physics are out of scope.
 - 1.17 powder-snow frozen-speed/client-server tick timing; fall-damage details are outside movement scope.
