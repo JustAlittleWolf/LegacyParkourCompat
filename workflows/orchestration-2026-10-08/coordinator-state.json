@@ -279,7 +279,7 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:09:25.9500493Z",
+    "observedAt": "2026-10-08T14:11:12.7511582Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
@@ -297,5 +297,15 @@
     "jarReportedSha256": "193877F2902C2D375A2F3F1C7439EDD5CAFD92F884ED3134C24747261689A1A0",
     "jarAudit": "prior sprint artifact independently audited; current passenger artifact reported by exclusive build owner",
     "sourceQueue": "adopted audit4e6517f; all26partial; corrected stale references below"
-  }
+  },
+  "pendingSourceCorrections": [
+    {
+      "pair": "1.10.2--1.11.2",
+      "finding": "F-07",
+      "snapshot": "bd95d35bd9a9a0ae468b9cf035f99f08639e91c0",
+      "status": "blind reviewer refutes forceShape=true premise; owner asked to verify and supersede, formal report pending",
+      "reviewer": "01a11bbe-a775-7180-a017-d2386dcd9fb3",
+      "implementation": "not authorized"
+    }
+  ]
 }
