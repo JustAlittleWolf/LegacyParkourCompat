@@ -56,3 +56,8 @@ Independent exact-patch review is recorded at review commit `fddb263`.
 - Code `51ecf89cfdb2d077a34a56e7e1c05a9d1236f46d`; handoff `44882452607d58457d44e1aa4940f15dca9e72c8`; independent review `8838f92d46d064a7da314f4d0ca02be9ec3148bc` ACCEPTED.
 - Source snapshot and provenance review identities, build command, and JAR SHA-256 are recorded in `integration-review-2026-10-08.md`.
 - Seven legacy fence IDs only; pane registrations are unchanged and disjoint. Runtime validation was not performed. Pose, F-005, WORLD03, and swimming-entry remain pending review.
+## F002 pose-fit float correction integration — 2026-10-08
+
+- Corrected code `ea62550bbecc8233917fb293dbe3ee627529f621`; independent review `88792a06e72fb88f8841d8e413cdb6da026248b3` ACCEPTED. Source snapshot and report hashes plus build/JAR evidence are recorded in `integration-review-2026-10-08.md`.
+- Integrated after the fence batch and built with all Gradle `Test` tasks disabled; JAR SHA-256 `59B6910B612092D3CE6566EBEBC2C5B4217BF1375EDDF471CD10210ED24F9805`.
+- F-005 is next in the authorized serial queue. WORLD03 and swimming-entry remain pending review; runtime validation was not performed.
