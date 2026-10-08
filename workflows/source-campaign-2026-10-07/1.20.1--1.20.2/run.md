@@ -42,8 +42,8 @@ These inventory maps are not completion claims. Terminal slices cover only the m
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=S2-POSE-CLEARANCE,S9-ENTITY-MOVEMENT-AXES,S10-BLOCK-COLLISION-PROVIDER-SWEEP; evidence=pose AABB and core move/axis clipping bodies match; first common-block provider sweep is in progress, registrations and callback ordering remain open
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending; slice_ids=S10-BLOCK-COLLISION-PROVIDER-SWEEP,S11-FLUID-CONTAINER-STATE-PATH,pending full provider/registry inventory; evidence=source roots and exact jars validated; common-block and fluid-container passes are bounded, resources and full property inventory remain open
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending; slice_ids=pending bounded movement modifier inventory; evidence=source roots and exact jars validated, semantic inventory not yet completed
-- `INV-EXTERNAL` player-only external movement inputs and direct player velocity/impulse/knockback application, plus player-facing transitions: status=pending; slice_ids=S4-REMOTE-PLAYER-INTERPOLATION,S5-PARTIAL-UPDATE-LERP-TARGET,S7-CLIENT-PLAYER-CORRECTIONS,S8-PLAYER-KNOCKBACK-PUSH; evidence=remote-player and packet/direct player impulse slices cited below; piston and transition inventory open; non-player/vehicle physics excluded
-- `INV-EXCLUSIONS` health/food state production, attack/damage resolution, non-player movement and vehicle physics: status=pending; evidence=scope is recorded; direct movement-state reads and full exclusion audit remain open
+- `INV-EXTERNAL` player-only external movement inputs and direct player velocity/impulse/knockback application, plus player-facing transitions: status=pending; slice_ids=S4-REMOTE-PLAYER-INTERPOLATION,S5-PARTIAL-UPDATE-LERP-TARGET,S7-CLIENT-PLAYER-CORRECTIONS,S8-PLAYER-KNOCKBACK-PUSH,S12-PLAYER-KNOCKBACK-SOURCE-TAG-GATE; evidence=remote-player, packet/direct player impulse and conditional knockback-tag gate slices cited below; piston, tag membership and transition inventory open; non-player/vehicle physics excluded
+- `INV-EXCLUSIONS` health/food state production, attack/damage resolution, non-player movement and vehicle physics: status=pending; slice_ids=S12-PLAYER-KNOCKBACK-SOURCE-TAG-GATE; evidence=the direct player-motion response gate is bounded separately from damage production; full exclusion audit remains open
 
 ## Coverage ledger
 
@@ -207,6 +207,18 @@ These inventory maps are not completion claims. Terminal slices cover only the m
 - Disposition and rationale (including concrete reachability/preconditions): for the block/container implementations present at A, adding nullable Player to the B interface does not change the flow-placement predicate: `SimpleWaterloggedBlock` ignores the player, SlabBlock delegates to it, and all four direct plant/kelp overrides return false in both releases. B-only Barrier waterlogging can produce a fluid state read by player movement, but the WATERLOGGED property and container behavior are absent at A and are a modern-only state outside the one-way compatibility target. No movement difference is claimed for states representable in A; registered-fluid/resource and full state-writer inventory remains open.
 - Finding IDs or checked absence/replacement path: none; checked absence at A of BarrierBlock's WATERLOGGED state and `canPlaceLiquid(Player,...)` override.
 
+### Slice S12-PLAYER-KNOCKBACK-SOURCE-TAG-GATE: direct player knockback call-site gate
+
+- Inventory ID(s): INV-EXTERNAL, INV-EXCLUSIONS
+- Boundary: paired accepted-hit continuation and complete direct knockback writer; Player inheritance and addressed-entity client velocity consumer. Damage production and tag data are not inferred.
+- A evidence: LivingEntity#hurt lines 1158-1166 and #knockback lines 1419-1427; full SHA-256 decf8cd70d194098ad51d0c82e5a0087e0687881e0a2dc66456f2ba6ea76676f. DamageTypeTags.java SHA-256 8a2083fbfbad3bcf1a4392d8b676f4c3dc7ba6ffc427f3d9c867d65f49ebba06.
+- B evidence: LivingEntity#hurt lines 1183-1191 and #knockback lines 1445-1453; full SHA-256 5c481da1ffc8684c4b30171c92e61fad751e6a3a708d5bc6486ac9f96ff69828. DamageTypeTags.java SHA-256 8f80dee1a5e4e154dafd107a28c719ff4948440fe2c8177aeece51e2988c846e.
+- Player extends LivingEntity at A Player.java line 118 / B line 117; hashes A 873d82c6f5471d06812929e471d970fd973bfbe21638e4e348a6fcde45637dac / B 25f263692fd6b2a737aa813315022a0caf4e18c3661ba3bd706c6297f909f25c.
+- ClientPacketListener#handleSetEntityMotion looks up the addressed entity and calls lerpMotion (A lines 501-506 / B 481-486; hashes A 8b21ccd4106abb0698f6872250e665ae3f0fc942c8953b9ddd45976660ed624b / B 0208f6942035adf2e787546851ca296f0e7ec2179d3610f694911eda5283264). Entity#lerpMotion delegates to setDeltaMovement (A lines 2039-2040 / B 2073-2074; hashes A 94b9c3656715de2d61fa9a02ccef164261e50eb13d6090a6f07e58fe9c5b0759 / B d7ee49aaea5e862b92508e767562cabc8f10515605e8fb67565c8c8d5c23b01b). This does not prove named-source packet emission.
+- Disposition: A filters this generic call through IS_EXPLOSION; B filters it through NO_KNOCKBACK. The writer math is identical. Tag membership is unavailable from the published client-only artifacts, so concrete source categories and affected events remain unknown; this conditional finding does not close the full impulse/tag/transition inventory.
+- Finding ID: F-1.20.2-KNOCKBACK-SOURCE-TAG-GATE.
+- Status: terminal candidate finding pending independent review; local client damage prediction, attack/damage production, named tag membership and trajectories are not claimed.
+
 ## Dependency queue and blockers
 
 Resolved:
@@ -228,10 +240,11 @@ Open:
 - [F-1.20.2-REMOTE-PLAYER-LERP-ARITHMETIC](findings/F-1.20.2-REMOTE-PLAYER-LERP-ARITHMETIC.md): remote-player position/rotation interpolation changes arithmetic order from division to reciprocal multiplication; source-confirmed, no trajectory validation.
 - [F-1.20.2-PARTIAL-UPDATE-LERP-TARGET](findings/F-1.20.2-PARTIAL-UPDATE-LERP-TARGET.md): rotation-only remote movement update preserves pending position target in 1.20.2; source-confirmed, no trajectory validation.
 - [F-1.20.2-DIODE-SUPPORT-COLLISION](findings/F-1.20.2-DIODE-SUPPORT-COLLISION.md): a DOWN neighbor-shape update removes unsupported Repeater and Comparator block states in 1.20.2; the source behavior is confirmed but excluded from historical movement emulation because no same-state collision-shape delta is established.
+- [F-1.20.2-KNOCKBACK-SOURCE-TAG-GATE](findings/F-1.20.2-KNOCKBACK-SOURCE-TAG-GATE.md): direct player knockback call-site switches from IS_EXPLOSION to NO_KNOCKBACK filtering; source-confirmed, tag membership and named-source applicability unresolved.
 
 ## Resume checkpoint
 
-- Last completed slices: S3-PLAYER-TRAVEL, S3-LIVING-TRAVEL, S4-REMOTE-PLAYER-INTERPOLATION, S5-PARTIAL-UPDATE-LERP-TARGET, S6-LIVING-AISTEP-JUMP-GLIDE, S7-CLIENT-PLAYER-CORRECTIONS, S8-PLAYER-KNOCKBACK-PUSH, S9-ENTITY-MOVEMENT-AXES, S11-FLUID-CONTAINER-STATE-PATH.
+- Last completed slices: S3-PLAYER-TRAVEL, S3-LIVING-TRAVEL, S4-REMOTE-PLAYER-INTERPOLATION, S5-PARTIAL-UPDATE-LERP-TARGET, S6-LIVING-AISTEP-JUMP-GLIDE, S7-CLIENT-PLAYER-CORRECTIONS, S8-PLAYER-KNOCKBACK-PUSH, S9-ENTITY-MOVEMENT-AXES, S11-FLUID-CONTAINER-STATE-PATH, S12-PLAYER-KNOCKBACK-SOURCE-TAG-GATE (conditional finding; concrete tag applicability unresolved).
 - Next bounded slice and exact files/members/body ranges to open: close BarrierBlock against the A-absent waterlogged state already traced in S11; finish any remaining AbstractSkullBlock dependency; complete the direct same-state collision-provider and registration inventory for the 402 common block classes, then trace remaining changed BlockState properties, fluids, tags and registered resources. Revisit Chorus Flower only if a changed support consumer enters the player collision/support path.
 - Outstanding dependencies and owners: D-LIVING-TRAVEL, D-LIVING-AISTEP, D-COLLISION, D-WORLD-MOVEMENT, D-MODIFIERS, D-EXTERNAL; all owned by this worker.
 - Current assumptions requiring verification: S10 block-class/provider and callback inventory remains partial; BlockState-property, effect/modifier, fluid resource/tag and external writer inventories remain open; decompiler warnings outside cited movement classes do not damage cited movement bodies. Resolved hash-output attribution for the passenger candidate: `5e22fc1bf04bee71559848d15ce5eaacfc86294b5abb0549b6ea63a20140c3b5` was the finding Markdown digest, not B `LocalPlayer.java`; the canonical source file `build/movement-campaign-2026-10-07/ready/1.20.2/mojmap/net/minecraft/client/player/LocalPlayer.java` hashes to `bb5cbfb03656a1866bb77c00431618befe792081223b35db4bd121ecbb151fd5`, matching manifest line 881 and the ready marker. The publication owner subsequently verified the entire canonical publication and this exact source identity; no source integrity discrepancy remains.
@@ -269,6 +282,16 @@ Append an event for each source-confirmed finding snapshot and each later invali
 - Implementation handoff: blocked; await independent blind source review acceptance of this exact snapshot.
 - Replaces/supersedes snapshot ID and reason, if applicable: none.
 
+### Snapshot event F-1.20.2-KNOCKBACK-SOURCE-TAG-GATE-2026-10-08
+
+- Finding ID: F-1.20.2-KNOCKBACK-SOURCE-TAG-GATE; status submitted for independent blind source review.
+- Immutable snapshot: commit 432cac33bf5700d1832c00e9562096d29afeb8fc; file workflows/source-campaign-2026-10-07/1.20.1--1.20.2/findings/F-1.20.2-KNOCKBACK-SOURCE-TAG-GATE.md; SHA-256 483930e5673efa241f5026bc5580b2b4d29d7ab0aea616bcb2c25a0c9e0811ea.
+- Exact endpoints: A metadata ID 1.20.1 / mojmap; B metadata ID 1.20.2 / mojmap. Artifact manifest hashes A 5f1fc7dcd4ee82ddb7ea0c3be6fd21ceb1910cc691594bda163bfa19b01c7db2 / B ee67da9733953b30ae4077c587184e59772b745d780abd27a7b023780b459f54; source-manifest hashes A 858b56764113e591c60d09bc63e4d90f9c1d67a705645f0c793e8b28f2378465 / B e439ff7e1d3f1d31e01be1edd141f94d917a9dc7fa0de5f69904544cbbe62887.
+- Publication status: original-verified; cited Java payloads match the exact A/B manifests. Raw inputs are the client.jar, official client mappings and mapped client jar identified in the artifact manifest.
+- Provenance and claim boundary: endpoints establish a difference only within (1.20.1, 1.20.2]; client-only artifacts omit runtime membership data for IS_EXPLOSION and NO_KNOCKBACK. No named damage source, packet emission or runtime trajectory is claimed.
+- Blind review: reviewer pending coordinator assignment. Verify paired hurt gates, shared knockback writer, Player inheritance, client velocity consumer and tag-data limitation; implementation remains pending review.
+- Pair status: active, not complete. No prior snapshot is superseded.
+
 ## Implementation reconciliation
 
 Complete only after blind-discovery freeze. Do not open implementation or prior catalogs before then.
@@ -292,10 +315,10 @@ No reviewer assigned or source inventory available for a complete re-walk; this 
 
 ## Source audit closure
 
-- Coverage counts by slice status: 9 compared-no-difference; 3 terminal finding slices; 12 terminal slices total; S10 is in progress and contains the source-confirmed, movement-scope-excluded diode state-removal observation; all 7 required inventories remain pending (4 finding documents are indexed).
-- Required inventory status and evidence: member-level slices S1-TICK-ORDER, S1-PASSENGER-CROUCH-INPUT, S2-POSE-CLEARANCE, S3-PLAYER-TRAVEL, S3-LIVING-TRAVEL, S4-REMOTE-PLAYER-INTERPOLATION and S5-PARTIAL-UPDATE-LERP-TARGET, S6-LIVING-AISTEP-JUMP-GLIDE, S7-CLIENT-PLAYER-CORRECTIONS, S8-PLAYER-KNOCKBACK-PUSH, S9-ENTITY-MOVEMENT-AXES and S11-FLUID-CONTAINER-STATE-PATH are populated; S10 and every remaining route stay open.
+- Coverage counts by slice status: 9 compared-no-difference; 4 terminal finding slices; 13 terminal slices total; S10 is in progress and contains the source-confirmed, movement-scope-excluded diode state-removal observation; all 7 required inventories remain pending (5 finding documents are indexed).
+- Required inventory status and evidence: member-level slices S1-TICK-ORDER, S1-PASSENGER-CROUCH-INPUT, S2-POSE-CLEARANCE, S3-PLAYER-TRAVEL, S3-LIVING-TRAVEL, S4-REMOTE-PLAYER-INTERPOLATION and S5-PARTIAL-UPDATE-LERP-TARGET, S6-LIVING-AISTEP-JUMP-GLIDE, S7-CLIENT-PLAYER-CORRECTIONS, S8-PLAYER-KNOCKBACK-PUSH, S9-ENTITY-MOVEMENT-AXES, S11-FLUID-CONTAINER-STATE-PATH and S12-PLAYER-KNOCKBACK-SOURCE-TAG-GATE are populated; S10 and every remaining route stay open.
 - Open dependencies: D-LIVING-TRAVEL, D-LIVING-AISTEP, D-COLLISION, D-WORLD-MOVEMENT, D-MODIFIERS, D-EXTERNAL.
-- Unresolved gaps and limits: source comparison is in progress; collision movement axes/steps/support, block/fluid providers and resources, modifiers, full state-writer graph, and local-player knockback/piston/transition inputs are not closed. RemotePlayer findings concern client-side Player entities receiving server targets, not local-player trajectory or vehicle physics.
+- Unresolved gaps and limits: source comparison is in progress; collision movement axes/steps/support, block/fluid providers and resources, modifiers, full state-writer graph, concrete knockback tag membership and other local-player impulse/piston/transition inputs are not closed. RemotePlayer findings concern client-side Player entities receiving server targets, not local-player trajectory or vehicle physics.
 - Evidence/hash/correspondence audit: exact source/artifact manifests and all payloads verified; cited bodies have SHA-256 and paired line ranges; no source tree or raw diff is tracked.
 - Blind freeze: pending
 - Implementation reconciliation: pending
