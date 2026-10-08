@@ -15,6 +15,9 @@ public interface EntityInvoker {
     @Invoker("getBlockSpeedFactor")
     float legacyparkourcompat$invokeGetBlockSpeedFactor();
 
+    @Invoker("setSharedFlag")
+    void legacyparkourcompat$setSharedFlag(int flag, boolean value);
+
     @Invoker("restituteMovementAfterCollisions")
     void legacyparkourcompat$invokeRestituteMovementAfterCollisions(
         BlockState effectState,
