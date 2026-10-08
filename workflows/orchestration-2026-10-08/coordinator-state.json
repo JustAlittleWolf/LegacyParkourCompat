@@ -13,7 +13,7 @@
     "runtimeLaunches": false,
     "allGradleTestTasksDisabledForBuild": true,
     "integrationBuildOwnerThreadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
-    "primaryMainLastVerified": "b099aa02d82e57c1672f68375edcbcacdf8e3973"
+    "primaryMainLastVerified": "0bfb72a0bc08726f2ee3a984203c08b5d90cf34e"
   },
   "reservedOldSlots": [
     {
@@ -43,7 +43,7 @@
     {
       "threadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
       "role": "integration_build_owner",
-      "status": "active; pose commits located in separate localclone movement-posefit; localfetch thenpose/F005 serialbuildintegration",
+      "status": "active; pose/F005 integrated0bfb72a; nextacceptedWORLD03 then swimmingentry serializedbuildintegration",
       "ref": "feat/movement-campaign-integration-2026-10-08@958b0916f08cba25e3be86d67d48a9d1e8651d1f",
       "resultCommit": "ea812dc9171fdf41e02b3a2292db7d40b105c9c4"
     },
@@ -369,22 +369,22 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:45:24.7039436Z",
+    "observedAt": "2026-10-08T14:47:08.3454364Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
     "conservativeSlots": 15,
     "workersRequested": "gpt-6-luna high",
     "coordinatorObserved": "gpt-6.1-sol medium",
-    "mainHead": "b099aa02d82e57c1672f68375edcbcacdf8e3973",
+    "mainHead": "0bfb72a0bc08726f2ee3a984203c08b5d90cf34e",
     "mainUntracked": "generated worktrees preserved; local exclude applied by integration owner",
     "TICK01": "independently accepted, built with all Test tasks disabled, integrated; main net source auditfa340fe confirms five acceptedbatches",
     "passengerYaw": "integrated; test-disabled build success; no runtime",
-    "poseFit": "ACCEPT88792a06; exactcodeea62550 integrationassigned",
+    "poseFit": "integratedmain0bfb72a; accepted88792a06 andbuildpassed",
     "elytraStart": "integrated; ACCEPT source binding independentlyverified; docs-only correction integrationpending",
     "oldCoordinator": "idle/completed verified",
     "reviewReport": "bdb6443;notes d3190b4",
-    "jarReportedSha256": "C717F4F74B51D5F41A7D6B1A1034683377C6744478B41AC863E30DF9602ADA08",
+    "jarReportedSha256": "0B5A12CDFA61C2C55C08FE3EB499AE6F8F0E4699347FC52AFF4132FDC096C3BC",
     "jarAudit": "independently verified exact final artifact hash and all-Test-disabled script/build output; consoleoutput retained in integrationhistory, no standalonelog",
     "sourceQueue": "adopted audit4e6517f; all26partial; corrected stale references below"
   },
@@ -423,7 +423,7 @@
     "codeBranch": "feat/fall-flying-state-1-10-2-2026-10-08",
     "review": "dd69581",
     "reviewBranch": "fix/review-fall-flying-state-1-9-2026-10-08",
-    "status": "ACCEPT; dispatch after current pose integration finishes; profile must precede playerdata load"
+    "status": "integratedmain0bfb72a"
   },
   "poseLocalObjectSource": {
     "clone": "D:/Javastuff/LegacyParkourCompat/build/codex-worktrees/movement-posefit",
@@ -439,13 +439,13 @@
       "finding": "posefit",
       "code": "ea62550bbecc8233917fb293dbe3ee627529f621",
       "review": "88792a06e72fb88f8841d8e413cdb6da026248b3",
-      "status": "exclusiveintegrationowner active, exactobjects located in separateclone"
+      "status": "integratedmain0bfb72a; independentlyaccepted andall-Test-disabled buildpassed"
     },
     {
       "finding": "F005 saved FallFlying",
       "code": "b215d723c22cf2c73601b7807056ba0d23fdbf23",
       "review": "dd69581",
-      "status": "exclusiveintegrationowner instructed afterpose, selectedprofile mustprecededata load"
+      "status": "integratedmain0bfb72a; independentlyaccepted andall-Test-disabled buildpassed"
     },
     {
       "finding": "swimmingentry",
@@ -453,7 +453,7 @@
       "codeBranch": "fix/mcpk-1-17-movement-reconcile",
       "review": "6ce9b54",
       "reviewBranch": "fix/review-swimming-entry-gate-1-17",
-      "status": "ACCEPT; dispatch after currentpose/F005batch finishes"
+      "status": "ACCEPT; exclusiveowner assigned serialWORLD03 then swimmingentry"
     },
     {
       "finding": "WORLD03 frame player ejection andfloat response",
@@ -462,7 +462,7 @@
       "review": "c1dee45",
       "reviewBranch": "fix/review-world-03-correction-2026-10-08",
       "mergeResolution": "ce6d3cd preserves fence/ejection registrations",
-      "status": "ACCEPT; dispatch after currentpose/F005batch, alongsidequeued swimmingentry"
+      "status": "ACCEPT; exclusiveowner assigned serialWORLD03 then swimmingentry"
     }
   ],
   "bigDripleafDisposition": {
