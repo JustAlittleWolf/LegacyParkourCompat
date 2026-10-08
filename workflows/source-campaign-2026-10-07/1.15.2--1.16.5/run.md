@@ -614,7 +614,7 @@ The historical pair report is not imported as source confirmation.
 - Active slices: S1-LOCAL-AISTEP,S2-LOCAL-CROUCHING-STATE,S3-GROUND-AIR,S4-MOVE,S4-QUERY,S5-SHAPES; S4-BORDER-GUARD is findings, S5-WALL and S5-FENCE-CONNECTION are lifecycle not-applicable, and S5-SUPPORT-SHAPES is support/lifecycle not-applicable. Required pair inventories remain partial.
 - Next: close the cached-crouching writer's same-tick pose/input reader chain, then continue common-block registration/resource routes and remaining S1/S3, state/pose, modifier, fluid/callback and external-input inventories.
 - Outstanding dependencies: S1 escape-query shape providers; S2 crouching pose/input readers and remaining dimensions/state; S4 remaining callback/entity-collider enumeration and other query providers; S5 remaining state/neighbor writers, registrations/resources, ladder attachment and piston push/tick paths; remaining stage 2-7 slices; independent reviewer assignment.
-- Resume branch: feat/source-discovery-1-15-2-1-16-5-resume. Main commit d4c4f154a0c2487dd6dd7d20d92eb57b3d8ab1ae has been merged; the merge checkpoint and current tip are recorded by git log -1.
+- Resume branch: feat/source-discovery-1-15-2-1-16-5-resume. Main commit 61f278e268c3ed2bcc4d95e8f7bb6e9c543cfa82 has been merged; the merge checkpoint and current tip are recorded by git log -1.
 - First next work: finish remaining exact common-block provider helpers and their registration/resource/callback dependencies; then continue S1 tick/call-order, S3 helper/resource closure and remaining stage 2-7 rows. Keep pair PARTIAL and findings limited to independently supported source claims.
 - Read-only resume commands from the repository root:
   - `git status --short; git log -1 --oneline`
