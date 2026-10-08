@@ -51,3 +51,8 @@ Independent exact-patch review is recorded at review commit `fddb263`.
 - Code `f24fdcd2dc82906f4e111cf804de6bdb199f7f54`; independent review tip `90eaed02a299761f925f54d43a36759f26cdb650` ACCEPTED. Source snapshot and report hashes are recorded in `integration-review-2026-10-08.md`.
 - Integrated after the Elytra batch and built with all Gradle `Test` tasks disabled; JAR SHA-256 `C717F4F74B51D5F41A7D6B1A1034683377C6744478B41AC863E30DF9602ADA08`.
 - Pose resize and WORLD03 remain pending. No runtime validation was performed.
+## Fence arm beside End Portal Frame integration — 2026-10-08
+
+- Code `51ecf89cfdb2d077a34a56e7e1c05a9d1236f46d`; handoff `44882452607d58457d44e1aa4940f15dca9e72c8`; independent review `8838f92d46d064a7da314f4d0ca02be9ec3148bc` ACCEPTED.
+- Source snapshot and provenance review identities, build command, and JAR SHA-256 are recorded in `integration-review-2026-10-08.md`.
+- Seven legacy fence IDs only; pane registrations are unchanged and disjoint. Runtime validation was not performed. Pose, F-005, WORLD03, and swimming-entry remain pending review.
