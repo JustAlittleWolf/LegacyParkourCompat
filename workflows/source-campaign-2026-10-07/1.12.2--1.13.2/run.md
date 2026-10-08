@@ -18,6 +18,42 @@ All paths are relative to shared campaign root build/movement-campaign-2026-10-0
 - Initial validation: both ready markers reported status ready and the exact versionId; source-manifest, artifact-manifest and diagnostic hashes matched their JSON records; the then-current client, mapped-client and mapping artifacts matched their manifests. A later reproducibility rerun replaced shared-cache derived mapped JARs while preserving source-file/raw-input hashes. This discovery did not rewrite shared markers or cache. Resolution: the source owner supplied revision feather-r1-2026-10-07 immutable snapshots; this worker independently rehashed every source file against each source manifest, every original raw input except the unavailable mutable derived JAR, and both revision snapshots against revision records/manifests. The independent ops audit passed. Snapshot paths and hashes are cited in affected findings. Limitation: the original mapped JARs are unavailable, so snapshot equivalence to the original mapped bytecode (or metadata-only differences) is unproven; retain this limitation and do not claim original mapped-bytecode identity. Success excerpts are summary excerpts, not full stdout.
 - Cited source-file hashes are repeated in each coverage slice. Original jar resources and referenced resource hashes are still to be inventoried; none have been cited. Required external/server data and provenance remain open.
 
+## Artifact evidence identities
+
+### Evidence artifact EA-FEATHER-R1-A
+
+- Publication status: revised-derived
+- Revision ID: `feather-r1-2026-10-07`
+- Immutable evidence path: `revisions/derived-artifact-snapshots/feather-r1-2026-10-07/1.12.2/ornithe-feather/client-ornithe-feather.jar`
+- Evidence artifact SHA-256: fcc17537a14a423e2086f600047725ec1fcfd4c7fcf5c0d1a5bda491966c1b87
+- Evidence manifest path: `revisions/derived-artifact-snapshots/feather-r1-2026-10-07/1.12.2/ornithe-feather/artifact.sha256`
+- Evidence manifest SHA-256: 162170b94be0fa6393a515ea3beed10210b2c86a006366cf9d351eba136bae2d
+- Revision record path / SHA-256: `revisions/derived-artifact-snapshots/feather-r1-2026-10-07/1.12.2/ornithe-feather/revision.json`, `2be8645d57ca5c00411b037e7617f9860ac700f7fa8ef50d28220c2e1b0c60dc`
+- Original artifact-manifest path: `ready/1.12.2/artifacts.sha256`
+- Original artifact-manifest SHA-256: 8171a095a5ee74cebbd12b3d76983fc01796c0c23c962076d1e235cd0f80fa8c
+- Original derived-artifact availability: unavailable
+- Original derived-artifact SHA-256 or expected hash: `65a08f15d18c4ec2bd0f05b89dfc1ba7ea6b8280ba93ed136245f39e63ec8a2b`
+- Source/raw-input hash relation: revision record says source tree and raw inputs are identical to original; this worker independently verified all 2,050 source files and 37/37 original raw inputs except the unavailable mutable derived JAR. Source manifest `ready/1.12.2/ornithe-feather.sources.sha256`, SHA-256 `b8a37ccfccd2aac5f40f5e34fec85873dbdfa93a266043c103e592e4a8c949da`.
+- Revised-to-original derived-artifact equivalence: unverified; original derived JAR is unavailable. Snapshot provenance does not establish byte identity or metadata-only changes.
+- Provenance limitations: derived source snapshot only; do not claim original mapped-bytecode identity.
+
+### Evidence artifact EA-FEATHER-R1-B
+
+- Publication status: revised-derived
+- Revision ID: `feather-r1-2026-10-07`
+- Immutable evidence path: `revisions/derived-artifact-snapshots/feather-r1-2026-10-07/1.13.2/ornithe-feather/client-ornithe-feather.jar`
+- Evidence artifact SHA-256: b28c33e023928045c8fd7ed7727a860a6820241e371ddb16108366c6192b718c
+- Evidence manifest path: `revisions/derived-artifact-snapshots/feather-r1-2026-10-07/1.13.2/ornithe-feather/artifact.sha256`
+- Evidence manifest SHA-256: 4fa7f17f639f7cff0ff9db327b3c978b049cee0c96a6b40625601868692c7dd8
+- Revision record path / SHA-256: `revisions/derived-artifact-snapshots/feather-r1-2026-10-07/1.13.2/ornithe-feather/revision.json`, `a4dfb51e36d4e52e1fc26d96647942e3dfcc2302bb4568a0a50dd49acf91b8f5`
+- Original artifact-manifest path: `ready/1.13.2/artifacts.sha256`
+- Original artifact-manifest SHA-256: fdcacd9150f98ea70acafc5cab754027ab1a09828ff0eaa8e542dd7890d9ce1e
+- Original derived-artifact availability: unavailable
+- Original derived-artifact SHA-256 or expected hash: `d118ff5b9eb93fed06680466cb26c41a30647cdb2fc8744638cf9b35cf7864e5`
+- Source/raw-input hash relation: revision record says source tree and raw inputs are identical to original; this worker independently verified all 2,711 source files and 41/41 original raw inputs except the unavailable mutable derived JAR. Source manifest `ready/1.13.2/ornithe-feather.sources.sha256`, SHA-256 `2c8cfb646bf622fb26ac0ca0cb5e02a354fb512e29f8b1010f1aaacd509e1211`.
+- Revised-to-original derived-artifact equivalence: unverified; original derived JAR is unavailable. Snapshot provenance does not establish byte identity or metadata-only changes.
+- Provenance limitations: derived source snapshot only; do not claim original mapped-bytecode identity.
+
 ## Blind-discovery freeze
 
 - Status: pending
@@ -65,6 +101,8 @@ Each inventory maps to bounded slice IDs. An inventory remains pending until eve
 - Open dependencies: SRC-MANIFEST-ROWS (this discovery owner): populate and close every required member-level slice from all seven inventories; SOURCE-RESOURCE-ENTRIES (this discovery owner): inspect matching original jar entries, data, tags and defaults; METHODS-DIAGNOSTICS (this discovery owner): resolve movement-related decompiler diagnostics and use the immutable revised snapshots for ambiguous descriptors; INDEPENDENT-REVIEWER (coordinator): name a non-author to re-walk the inventories and full call graph after freeze; IMPLEMENTATION-RECONCILIATION (coordinator/integrator): defer until blind source report is frozen.
 
 ## Finding index
+
+Source-confirmed bounded finding: `F-GROUND-ACCEL` (grounded coefficient and concrete default-friction scalar difference); independent finding-snapshot review is pending. The full `TRAVEL-MODIFIERS` slice and pair remain active.
 
 Provisional source candidates being traced after revised snapshot verification: 1.13 water/sprint/swimming gates; shallow-water jump and tagged-fluid jump; swimming pose and water-relative pitch acceleration; Slow Falling gravity and fall-distance state; changes to elytra acceleration/clamps; water movement multipliers (sprint, Depth Strider, Dolphin's Grace); collision shape/axis resolution and step candidates. These are navigation checkpoints, not yet the exhaustive findings catalog. Modern-only equipment mechanics such as Riptide are separately classified against 1.12.2 scope.
 
