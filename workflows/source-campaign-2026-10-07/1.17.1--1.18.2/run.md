@@ -196,9 +196,9 @@ A/B roles: LocalPlayer#aiStep client tick; KeyboardInput#tick input; LivingEntit
 - A evidence: LocalPlayer#sendPosition, lines 240-269, SHA-256 c9a91cb6cb57806bc8d22e5bfe2d97daaf21d5d2a48f34a6e2c53164c61c5812.
 - B evidence: LocalPlayer#sendPosition, lines 232-261, SHA-256 99c2d18bcd23243afb8f95c5bafb21fb0be7ea04aacbb14fcf7be7ced2c9c095; Mth#square(double), lines 739-741, and #lengthSquared(double,double,double), lines 799-801, SHA-256 32747c5b09fc184baae356e39a0088fd66c9f08f69d9e98b67c19e1de6f1bb2e.
 - State producers/writers -> consumers/readers: local position delta -> position packet send and xLast/yLast/zLast reset -> ServerGamePacketListenerImpl#handleMovePlayer processes each received player move using Player#move; server handler hashes are recorded in artifact manifest addendum.
-- Parent slices / dependencies / closure evidence: D-PACKET-RECONCILIATION open; packet reaches server player movement, but corrective response and net movement outcome are not closed.
+- Parent slices / dependencies / closure evidence: client send predicate, paired packet receiver and clear-path server target-position update are checked in F-007; D-PACKET-RECONCILIATION remains open for other packet paths and collision-induced correction behavior.
 - Status: findings
-- Disposition and rationale (including concrete reachability/preconditions): Preconditions: the local player is not a passenger, controlled-camera is true, and positionReminder less than 20, so the reminder fallback does not send. In that reachable branch A sends only when squared displacement is greater than 9.0E-4, while B sends when squared displacement is greater than Mth.square(2.0E-4) = 4.0E-8. Any squared displacement strictly between 4.0E-8 and 9.0E-4 therefore sends a position packet in B and none in A; after either send, both versions update the position baseline.
+- Disposition and rationale (including concrete reachability/preconditions): Preconditions: the local player is on foot, controlled-camera is true, positionReminder is less than 20, and the server path is unobstructed. At squared displacement 1.0E-6 from the last-sent baseline, B sends a position packet and A does not. The paired server handler accepts that small packet and updates the server player to its target on the clear path in the same tick; A retains the prior server position until a later update. The wider threshold band remains 4.0E-8 < squared displacement < 9.0E-4; collision corrections are not claimed.
 - Finding IDs or checked absence/replacement path: F-007.
 ## Dependency queue and blockers
 
@@ -214,7 +214,7 @@ D-BORDER-MOVE-PATH trace: A Entity#collide lines 750-758 conditionally includes 
 - [F-004 auto-jump border candidate omitted](findings/F-004-autojump-border-shape.md) — source-confirmed query delta.
 - [F-005 long movement fallDistance reset before later edge check](findings/F-005-fall-distance-reset-edge-gate.md) — source-confirmed writer/consumer and clip filter closed.
 - [F-006 boat passenger-list refresh yaw behavior](findings/F-006-boat-passenger-yaw-refresh.md) — source-confirmed player yaw write change under repeated passenger update.
-- [F-007 client movement packet displacement threshold](findings/F-007-position-packet-threshold.md) — source-confirmed packet condition; movement reconciliation consequence remains open.
+- [F-007 client movement packet displacement threshold](findings/F-007-position-packet-threshold.md) — source-confirmed bounded packet condition and clear-path server position update; other correction paths remain open.
 - Discarded: KeyboardInput literal precision alone (normal inputs -1,0,1; input assignment path now closed); camera bob literal change (visual-only in inspected path). Prior report was navigation; F-001/F-002 rechecked.
 
 ## Resume checkpoint
@@ -226,7 +226,7 @@ D-BORDER-MOVE-PATH trace: A Entity#collide lines 750-758 conditionally includes 
 
 ## Finding snapshots (not pair freeze)
 
-The pair remains partial. Accepted snapshot count is zero; F-001 and F-006 are immutable candidates submitted for blind source review. Snapshot acceptance releases only that finding for a separate implementation task and does not close other slices or freeze the pair.
+The pair remains partial. Accepted snapshot count is zero; F-001, F-006 and F-007 are immutable candidates submitted for blind source review. Snapshot acceptance releases only that finding for a separate implementation task and does not close other slices or freeze the pair.
 
 - Snapshot ID: F001-1.17.1-1.18.2-d02139e
 - Finding: findings/F-001-minor-horizontal-collision-sprint.md
@@ -248,6 +248,16 @@ The pair remains partial. Accepted snapshot count is zero; F-001 and F-006 are i
 - Finding dependencies: finding-specific input assignment, tick order, stop gate, flag writer/classifier, and stone-wall collision path checked; full input and collision inventories remain open pair-wide.
 - Reviewer: not submitted; superseded before review.
 - Pair state at handoff: partial; immutable snapshot commit 8ae1f9d; pair complete: no; implementation status: not started; runtime validation: not performed.
+- Snapshot ID: F007-1.17.1-1.18.2-ac5cdaa
+- Finding: findings/F-007-position-packet-threshold.md
+- Immutable snapshot commit: ac5cdaa7e2a77294a945e6d661a97fdb71b77242
+- Finding file SHA-256: e311648628d45ab6680d0715ae85817399933157d243bfc6ed37b30b1f5aba09
+- Source/artifact identity: A Mojmap 1.17.1 source manifest 93270d229acfb751bf56daf1e7be26ce3dcff26b29e94aa157de621405a3463b, artifact manifest e52c5dbae7d9663190ccc55a4f9b44a8e0615fb1fbbd8280811df43f70ec8aaa, mapped jar 2a2be036174902e447865498741b8c59fa2e090d352d786a8507dccb7c23008c; B Mojmap 1.18.2 source manifest aea0cb9c6fc8f7a46f0eb82b0388ad58a4659f513be6c0a2be06c0df0c1eb07a, artifact manifest a1507e4875faee892aca4c59686bbd68933db21a2274559e81eea8a32b021036, mapped jar 60a2017dd217b23df8a5ddbebac96fccb58ff747e961974696e0018f6ef12dba.
+- Bounded path: non-passenger client packet threshold -> ServerboundMovePlayerPacket -> paired ServerGamePacketListenerImpl#handleMovePlayer -> player.move and clear-path absMoveTo target. At displacement 0.001, B updates server position while A sends no packet.
+- Version boundary: exact 1.17.1 vs 1.18.2; first changed release within the interval unknown.
+- Finding dependencies: server receiver and clear-path position acceptance checked; broad correction/reconciliation remains open.
+- Reviewer: 01a116ce-c937-7613-a49b-716e99582357; decision pending.
+- Pair state at handoff: partial; immutable snapshot commit ac5cdaa; pair complete: no; implementation status: not started; runtime validation: not performed.
 - Snapshot ID: F006-1.17.1-1.18.2-064fc24
 - Finding: findings/F-006-boat-passenger-yaw-refresh.md
 - Immutable snapshot commit: 064fc24e5e3d8b4dab4f12c2000dcb13d37514ca
