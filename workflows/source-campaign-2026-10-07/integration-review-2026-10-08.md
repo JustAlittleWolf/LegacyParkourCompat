@@ -48,3 +48,11 @@ This update supersedes the earlier REQUEST CHANGES disposition for the first pas
 - Test-disabled build succeeded with `gradlew.bat build -x test --init-script build/no-tests.init.gradle`; every Gradle `Test` task type was disabled. 18 actionable tasks: 4 executed, 14 up-to-date; no tests ran.
 - JAR `build/libs/LegacyParkourCompat+26.2-1.0.0.jar`, SHA-256 `FEA5D9F547EC251FBAFC12C4257F9450167E6376C64153FA8C1BAA029CA3B09C`.
 - Runtime movement parity and Mixin application remain unverified; this does not refine the historical release boundary.
+## 1.13 swimming pitch control — 2026-10-08
+
+- Code commit `f24fdcd2dc82906f4e111cf804de6bdb199f7f54`; independent review tip `90eaed02a299761f925f54d43a36759f26cdb650`, ACCEPT. Review report `workflows/fix-implementation/reviews/swimming-pitch-control-1.12.2-to-1.13.2.md`, SHA-256 `0ab635172f2058831fc76f7d154f968f8286c05090b637b8d9f534a99cd886d0`.
+- Accepted source snapshot `b20730f64ed07090b618f6101467f8bde07e0024`, file `workflows/wiki-audit-2026-10-07/swimming-pitch-control-1.12.2-to-1.13.2.md`, SHA-256 `dd0abd5a90ac1813197e4c09ab97ed0e0027c48e237a148bbf95bde2f64e6a89`; this matches the report.
+- Integrated against local main `d39482fcd0e3f82fac21d35207297a41f1dec78a` after the Elytra batch. Net code delta: `SwimmingPitch`, its versioned hook/provider, and one `Player.travel` look-angle redirect. Existing native swimming predicates/math remain in place. Separate from Elytra `LocalPlayer.aiStep`, passenger yaw, edge backoff, and fall-flying look hooks; all remain present.
+- Test-disabled build succeeded with `gradlew.bat build -x test --init-script build/no-tests.init.gradle`; all Gradle `Test` task types disabled. 18 actionable tasks: 3 executed, 15 up-to-date; no tests ran.
+- JAR `build/libs/LegacyParkourCompat+26.2-1.0.0.jar`, SHA-256 `C717F4F74B51D5F41A7D6B1A1034683377C6744478B41AC863E30DF9602ADA08`.
+- Runtime movement parity and Mixin application remain unverified. The finding bounds the behavior to the reviewed 1.13 endpoint; the pair and exact first-change release remain unresolved.

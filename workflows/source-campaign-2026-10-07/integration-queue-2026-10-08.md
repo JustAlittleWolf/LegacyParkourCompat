@@ -46,3 +46,8 @@ Independent exact-patch review is recorded at review commit `fddb263`.
 - Code commit `361c15c687a16bbbaaef2525d27a4d2277b33c3a`, reviewed code tip `bb8484823980d8f44c33c712b964275917cc93bb`; independent review tip `b8dfbc3e4d092141861759cab36272ea223a4d17` ACCEPTED.
 - Integrated and built against local main `b0e7300a46aeb3fe4087bfafbcf1bcc49c76542a`; see `integration-review-2026-10-08.md` for identities, source-digest discrepancy, and JAR hash.
 - Swimming pitch is the next accepted serial batch. Pose resize and WORLD03 remain pending; no runtime validation was performed.
+## Swimming pitch integration — 2026-10-08
+
+- Code `f24fdcd2dc82906f4e111cf804de6bdb199f7f54`; independent review tip `90eaed02a299761f925f54d43a36759f26cdb650` ACCEPTED. Source snapshot and report hashes are recorded in `integration-review-2026-10-08.md`.
+- Integrated after the Elytra batch and built with all Gradle `Test` tasks disabled; JAR SHA-256 `C717F4F74B51D5F41A7D6B1A1034683377C6744478B41AC863E30DF9602ADA08`.
+- Pose resize and WORLD03 remain pending. No runtime validation was performed.
