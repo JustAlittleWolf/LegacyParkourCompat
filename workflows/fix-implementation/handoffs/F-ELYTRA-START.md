@@ -26,5 +26,5 @@ Independently review the corrected 1.14.4 fall-flying start request path on bran
 
 - The source comparison proves the 1.14.4-to-1.15.2 endpoint difference. The exact first changed release remains unknown within `(1.14.4, 1.15.2]`; this patch does not claim a finer boundary.
 - Server acceptance and subsequent glide trajectory are outside this finding. Runtime validation was not performed.
-- No build, tests, client, TAS, server, or Docker run was performed, per task instruction. `git diff --check` passed before handoff creation.
+- No build, tests, client, TAS, server, or Docker run was performed, per task instruction. `git diff --check main...HEAD` passed after the handoff was committed and main was merged.
 - No implementation-derived feedback was sent to source-only owners.
