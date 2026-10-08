@@ -58,13 +58,13 @@ Cited Java files and whole-file SHA-256:
 
 ## Correspondence and call order
 
-Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (no-arg to boolean args), `LivingEntity.jump`, `LivingEntity.moveRelative` (three floats to Vec3d), `Entity.updateVelocity` (float components to vector helper), `Entity.move` (three doubles to vector), and `PlayerEntity.updatePlayerPose`. Full local tick, superclass, pre-travel, all dispatch branches and post-travel call chain are not closed. S001-S019 contain bounded paired evidence; no stage label alone is treated as coverage.
+Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (no-arg to boolean args), `LivingEntity.jump`, `LivingEntity.moveRelative` (three floats to Vec3d), `Entity.updateVelocity` (float components to vector helper), `Entity.move` (three doubles to vector), and `PlayerEntity.updatePlayerPose`. Full local tick, superclass, pre-travel, all dispatch branches and post-travel call chain are not closed. S001-S020 contain bounded paired evidence; no stage label alone is treated as coverage.
 
 ## Required source inventories
 
 - `INV-TICK` status=pending; slice_ids=S001,S003,S004,S005,S007,S008,S009,S010,S019; evidence=paired client input/local player/living bodies below; complete tick call graph open.
 - `INV-STATE` status=pending; slice_ids=S001,S002,S003,S006,S008,S009,S010,S018; evidence=paired input, pose, jump, movement and client correction velocity bodies below.
-- `INV-COLLISION` status=pending; slice_ids=S002,S006,S009,S019; evidence=pose fit, escape probes, entity move and auto-jump collision-query excerpts; query/provider enumeration open.
+- `INV-COLLISION` status=pending; slice_ids=S002,S006,S009,S019,S020; evidence=pose fit, escape probes, entity move, auto-jump entity query, and paired block collision enumerators; provider and neighbor-state enumeration open.
 - `INV-WORLD-MOVEMENT` status=pending; slice_ids=S005,S007; evidence=slipperiness/climbing consumers; providers and resources open.
 - `INV-MODIFIERS` status=pending; slice_ids=S003,S005; Jump Boost/Slow Falling consumers observed; producer/application chains open.
 - `INV-EXTERNAL` status=pending; slice_ids=S006,S009,S010,S012,S016,S017,S018,S019; direct player velocity/impulse/knockback remains in scope, including reachable push response; S018 compares the client player-correction velocity reset and S019 inventories entity obstacles in the player auto-jump scan, while other correction paths, knockback sources, piston, mount and launch-item consumers remain open; exclude non-player/vehicle physics and combat cause/damage resolution.
@@ -292,10 +292,23 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): F017. The same enabled, timer-expired, grounded, non-sneaking, unmounted, nonzero-input conditions reach the post-move scan. A queries entities in the shape bounds expanded by `0.25` but retains only collision shapes intersecting the original bounds. B queries entities in a `1.0E-7`-expanded box and retains shapes intersecting that expanded box; its `Collections.emptySet()` matches A's default empty exclusion set. Thus candidate sets can differ at the epsilon boundary or when a collision shape extends beyond the entity-query bounds. Both versions include entity obstacles in addition to block shapes. B's block collision context is passed into shape providers; the only context-reading collision-shape provider identified is 1.14-only scaffolding, excluded as modern-only. Full common-era provider and boundary reachability remains conditional.
 - Finding IDs or checked absence/replacement path: F017; scaffolding context behavior excluded as a modern-only block.
+
+### Slice S020: world block-collision enumeration
+
+- Inventory ID(s): INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: paired block-shape query invoked by player collision resolution and auto-jump; compare bounds, position traversal, chunk/world-border guards, and shape stream construction.
+- A evidence: `WorldView.java`::`getBlockCollisions(VoxelShape,VoxelShape,boolean)`, lines 112-151, SHA-256 `9577360b1a1bdde9280f0b72593e5e6dde45d9a54719cd7ff933f3ecd31b971f`; `World.java`::`getCollisions(Entity,VoxelShape,VoxelShape,Set)`, lines 1755-1757, SHA-256 `0023de30da608db73c6c6188334d2bb19039d86fe4d6f5e4ad79d732a5d2cd1a`.
+- B evidence: `WorldView.java`::`getCollisions(Entity,Box,Set)`, lines 129-130, and `getBlockCollisions(Entity,Box)`, lines 133-187, SHA-256 `fcdf8dc98f97781f4639c4b8cda8a238edf834f3963e401e6eeef6cb475c4909`; `C_29205863.java`::`m_97468855`, lines 24-48, SHA-256 `d15373ef21f58ed67755269d32b2dd5ff65eb33dd4eea33e854b505b9ac9afd`.
+- State producers/writers -> consumers/readers: player query box/entity context, block states and chunk status, world-border state -> collision-shape stream -> displacement resolution/clipping/step and auto-jump obstacle scan.
+- Parent slices / dependencies / closure evidence: S007-S009 and S019; D-COLLISION-SHAPES and D-TICK-CLOSURE remain open.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): F018. A traverses floor(min)-1 through ceil(max)+1 (exclusive upper iterator endpoint), skips selected outer corners, checks chunk-loaded state, aggregates full blocks, and uses the world-border mode flag. B uses epsilon-adjusted bounds and inclusive endpoints, chunk-status lookup, collision-shape flags, entity context, and separately emits border and block shapes. Exact integral query bounds can visit an extra outer cell in B; whether any extra or differently constructed shape intersects a reachable player query for a common-era block remains conditional.
+- Finding IDs or checked absence/replacement path: F018; no common-era provider outcome established.
+
 ## Dependency queue and blockers
 
 - D-TICK-CLOSURE: full local tick/pre-travel/travel branches/post-travel; S019 adds the post-move auto-jump callback; surrounding call-order closure remains open.
-- D-COLLISION-SHAPES: world queries, shape providers, registrations, neighbor-state inputs; S019 records the auto-jump block/entity query path, but full provider and neighbor-state enumeration remains open.
+- D-COLLISION-SHAPES: world queries, shape providers, registrations, neighbor-state inputs; S019 records the auto-jump entity query and S020 compares block enumerators, but full provider and neighbor-state enumeration remains open.
 - D-MOVEMENT-DATA: effects/attributes/enchantments/equipment/block property producer chains; source worker to trace.
 - D-EXTERNAL: direct player velocity/impulse/knockback writers plus correction/push/piston/mount/launch-item consumers; S018 closes only the bounded client player-correction velocity reset; S019 records entity-obstacle input to local auto-jump; other corrections/callers remain open; exclude combat causation and non-player/vehicle physics; source worker to enumerate.
 - D-INDEPENDENT-AUDIT: reviewer unassigned; coordinator to assign.
@@ -320,11 +333,12 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - [F015](findings/F015-ground-drag-resamples-support.md) ground drag resamples post-move support; candidate pending world-movement/dependency review.
 - [F016](findings/F016-knockback-normalization-response.md) knockback response normalization; candidate pending external/state dependency review.
 - [F017](findings/F017-auto-jump-entity-collision-query.md) auto-jump entity collision-query bounds; candidate; conditional collision outcomes and provider closure remain open.
+- [F018](findings/F018-world-block-collision-enumeration.md) world block-collision enumeration; candidate; common-era obstacle outcomes remain unresolved.
 
 ## Resume checkpoint
 
-- Last completed slice: S019, local-player auto-jump entity collision-query bounds; S001-S018 remain as previously recorded evidence and dispositions.
-- Next bounded slice and exact files/members/body ranges to open: compare A/B `WorldView.getBlockCollisions` and `BlockState.getCollisionShape` callers for player movement paths; enumerate collision-shape registrations and neighboring-state providers for blocks present in A, then resume remaining LocalClientPlayerEntity pre-travel/tick branches.
+- Last completed slice: S020, world block-collision enumeration; S001-S019 remain as previously recorded evidence and dispositions.
+- Next bounded slice and exact files/members/body ranges to open: compare collision-shape registrations and neighboring-state providers for blocks present in A (S021), then resume remaining LocalClientPlayerEntity pre-travel/tick branches.
 - Outstanding dependencies and owners: D-TICK-CLOSURE/D-COLLISION-SHAPES/D-MOVEMENT-DATA/D-EXTERNAL source worker; D-INDEPENDENT-AUDIT coordinator.
 - Current assumptions requiring verification: full reachability and provider closure; original A derived-artifact equivalence remains unproven.
 
@@ -370,8 +384,8 @@ Pair remains partial. This event does not close unrelated inventories, freeze th
 
 ## Source audit closure
 
-- Coverage counts by status: findings=14 slices (17 deltas); compared-no-difference=5; pending inventory closure=7; in-progress=0; not-applicable=0; blocked=0.
-- Required inventory status and evidence: all seven inventories pending; paired evidence in S001-S019.
+- Coverage counts by status: findings=15 slices (18 deltas); compared-no-difference=5; pending inventory closure=7; in-progress=0; not-applicable=0; blocked=0.
+- Required inventory status and evidence: all seven inventories pending; paired evidence in S001-S020.
 - Accepted finding snapshots: none; F002 snapshot event F002-2026-10-07-01 is submitted and awaits exact-snapshot blind confirmation.
 - Open dependencies: D-TICK-CLOSURE,D-COLLISION-SHAPES,D-MOVEMENT-DATA,D-EXTERNAL,D-INDEPENDENT-AUDIT.
 - Unresolved gaps and limits: full tick, shapes/resources, modifier chains, external writers beyond S016, and independent audit. First changed release unknown within (1.13.2,1.14.4].
