@@ -48,3 +48,17 @@ The targeted checks confirmed the listed reachability and exact operation distin
 2. **F-014 is environment-input conditional.** A's default Overworld minY is 0 and B's is -64, and the ordinary-air client fallback reads the active level's `getMinBuildHeight()`. The reported `-64 < Y <= 0` divergence exists for the respective built-in default Overworld inputs with a missing XZ chunk. If the active dimension sends the same minY to both sides, this delta disappears. Keep that precondition attached to F-014 and make any later emulation-eligibility decision separately; this does not invalidate the source-observed default-dimension delta.
 
 Because of finding 1, the independent full-pair audit does **not** accept full-pair freeze. The source path and listed inventory scope otherwise have no independently routed missed slice in this audit. Once the source author resolves the exact pending row and corrects the `13/15/0` coverage count while preserving all immutable bindings, a new audit of that revision can decide freeze. Finding-snapshot acceptance and runtime validation remain separate gates.
+
+## Erratum and author-response re-audit (2026-10-08)
+
+This section supersedes the historical verdict and finding 1 above; those entries are retained as the original audit event.
+
+- Corrected verdict: **ACCEPT — full-pair source coverage freeze** for the exact frozen report object below.
+- Frozen target: `run.md` Git blob `53bef7aae76bef026d5f5d19bc111635ddc6265d`, raw SHA-256 `70610a914b440ab651163f1ccd708000f4261da24727f7a4614eca473095b3f5`.
+- Re-audited author response: commit `6334207dcbd1f06a97c99d489de12df3d4e474e2`, file blob `b96bd3fbea36491926e41acb528ef8662c1d3333`, raw SHA-256 `26917ce02ec68ea360503f571a451e8a671407d44033eb97c26c2fe16ba62c29`. Its final commit `351b75fdcd166ea8a1d05d4158996697fac59576` includes current primary local `main` `3a60fe735560e478bf0aa0d05f5e306c74800f6a` as an ancestor.
+
+The author's count reproduces exactly when the parser is bounded to `## Coverage ledger` through the next `##` heading and reads the first `- Status:` within each `### Slice` section: 28 rows = 13 `compared-no-difference`, 15 `findings`, zero pending/in-progress/not-applicable/blocked. `T-PLAYER-UNLOADED-CHUNK` is `findings` at line 354 in the frozen object. My earlier parser continued past the last slice into the later independent-audit template and let its out-of-scope `- Status: pending` placeholder at line 476 overwrite the final slice status. The resulting `13/14/1` count and pending-row request were wrong.
+
+The response's other source-coverage claims agree with the exact frozen ledger reviewed earlier: all seven required inventories are marked complete, the dependency queue lists no unresolved source dependency, and `D-OVERWORLD-MIN-Y` is explicitly resolved. The prior call-graph and producer/consumer audit found no additional reachable player-movement slice. F-014 remains source-confirmed only under its stated active-dimension inputs: the built-in default Overworld minY changes from 0 to -64; equal server-synchronized minY removes that delta. This scope does not decide map/implementation eligibility.
+
+This ACCEPT is limited to **full-pair source coverage and freeze review** against the bound report and response. It does not accept any of the 14 individual finding snapshots, claim implementation disposition, or claim runtime validation. The pair's mutable run status may remain `partial` until its owner records the accepted freeze; the independent coverage gate is cleared by this review.
