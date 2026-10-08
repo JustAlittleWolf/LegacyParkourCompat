@@ -61,12 +61,12 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 
 ## Required source inventories
 
-- `INV-TICK` status=pending; slice_ids=TICK-01 through TICK-11, STATE-04, WORLD-05, WORLD-06, WORLD-09, WORLD-13, WORLD-20, WORLD-21, WORLD-22, WORLD-LIQUID-FLOW; evidence=full local tick graph and player path inventory in progress
-- `INV-STATE` status=pending; slice_ids=STATE-01 through STATE-04, TICK-10, TICK-11, WORLD-05, WORLD-06, WORLD-08, WORLD-09, EXT-05; evidence=all player state writers/readers still being inventoried
-- `INV-COLLISION` status=pending; slice_ids=COLL-01, COLL-01-BORDER-PREDICATES, COLL-01-NOCLIP, COLL-01-SNEAK-EDGE, COLL-01-AXES, COLL-01-STEP, COLL-01-FLAGS, COLL-01-VEHICLE, COLL-01-ENTITY-QUERY, COLL-01-SUPPORT-TARGET, COLL-01-BLOCK-OVERLAP-DISPATCH, COLL-02, STATE-04, WORLD-06 through WORLD-21, WORLD-23 through WORLD-26, WORLD-SLAB-SHAPES, WORLD-SNOW-SHAPE, WORLD-TRAPDOOR-SHAPES, WORLD-LADDER-SHAPES, WORLD-04, WORLD-DOOR-SHAPES, WORLD-GATE-SHAPES, WORLD-SIMPLE-SHAPES, WORLD-FENCE-WALL-SHAPES, WORLD-STAIRS-STRAIGHT, WORLD-STAIRS-OUTER-SELECT, WORLD-STAIRS-INNER-SELECT, WORLD-STAIRS-CORNER-BOXES; direct block-provider declaration census routed below; remaining candidate, neighboring-block, support-provider and callback inventory still open. The paired source search for state `getShape()` providers with no local collision override found ten candidates; eight fixed candidates are compared in WORLD-24. WORLD-25 closes the bounded Anvil/Chest updater/consumer source inventory as conditional on the latest singleton writer; final clipping remains open. WORLD-26 records a conditional neighboring piston-head arm candidate difference.
-- `INV-WORLD-MOVEMENT` status=pending; slice_ids=WORLD-01 through WORLD-26, WORLD-LIQUID-FLOW, TICK-11, COLL-01-BORDER-PREDICATES, COLL-01-ENTITY-QUERY, COLL-02, COLL-01-SUPPORT-TARGET, COLL-01-BLOCK-OVERLAP-DISPATCH, WORLD-SLAB-SHAPES, WORLD-SNOW-SHAPE, WORLD-TRAPDOOR-SHAPES, WORLD-LADDER-SHAPES, WORLD-04, WORLD-DOOR-SHAPES, WORLD-GATE-SHAPES, WORLD-SIMPLE-SHAPES, WORLD-FENCE-WALL-SHAPES, WORLD-STAIRS-STRAIGHT, WORLD-STAIRS-OUTER-SELECT, WORLD-STAIRS-INNER-SELECT, WORLD-STAIRS-CORNER-BOXES; other world states, neighboring blocks, fluids, and non-boat vehicle passenger paths remain open; bounded shape and movement callback dispositions recorded
+- `INV-TICK` status=pending; slice_ids=TICK-01 through TICK-11, STATE-04, WORLD-05, WORLD-06, WORLD-09, WORLD-13, WORLD-20, WORLD-21, WORLD-22, WORLD-27, WORLD-LIQUID-FLOW; evidence=full local tick graph and player path inventory in progress
+- `INV-STATE` status=pending; slice_ids=STATE-01 through STATE-04, TICK-10, TICK-11, WORLD-05, WORLD-06, WORLD-08, WORLD-09, WORLD-27, EXT-05; evidence=all player state writers/readers still being inventoried
+- `INV-COLLISION` status=pending; slice_ids=COLL-01, COLL-01-BORDER-PREDICATES, COLL-01-NOCLIP, COLL-01-SNEAK-EDGE, COLL-01-AXES, COLL-01-STEP, COLL-01-FLAGS, COLL-01-VEHICLE, COLL-01-ENTITY-QUERY, COLL-01-SUPPORT-TARGET, COLL-01-BLOCK-OVERLAP-DISPATCH, COLL-02, STATE-04, WORLD-06 through WORLD-21, WORLD-23 through WORLD-27, WORLD-SLAB-SHAPES, WORLD-SNOW-SHAPE, WORLD-TRAPDOOR-SHAPES, WORLD-LADDER-SHAPES, WORLD-04, WORLD-DOOR-SHAPES, WORLD-GATE-SHAPES, WORLD-SIMPLE-SHAPES, WORLD-FENCE-WALL-SHAPES, WORLD-STAIRS-STRAIGHT, WORLD-STAIRS-OUTER-SELECT, WORLD-STAIRS-INNER-SELECT, WORLD-STAIRS-CORNER-BOXES; direct block-provider declaration census routed below; remaining candidate, neighboring-block, support-provider and callback inventory still open. The paired source search for state `getShape()` providers with no local collision override found ten candidates; eight fixed candidates are compared in WORLD-24. WORLD-25 closes the bounded Anvil/Chest updater/consumer source inventory as conditional on the latest singleton writer; final clipping remains open. WORLD-26 has a conditional clipped-displacement witness; WORLD-27 records the client world-limit/border fallback boundary.
+- `INV-WORLD-MOVEMENT` status=pending; slice_ids=WORLD-01 through WORLD-27, WORLD-LIQUID-FLOW, TICK-11, COLL-01-BORDER-PREDICATES, COLL-01-ENTITY-QUERY, COLL-02, COLL-01-SUPPORT-TARGET, COLL-01-BLOCK-OVERLAP-DISPATCH, WORLD-SLAB-SHAPES, WORLD-SNOW-SHAPE, WORLD-TRAPDOOR-SHAPES, WORLD-LADDER-SHAPES, WORLD-04, WORLD-DOOR-SHAPES, WORLD-GATE-SHAPES, WORLD-SIMPLE-SHAPES, WORLD-FENCE-WALL-SHAPES, WORLD-STAIRS-STRAIGHT, WORLD-STAIRS-OUTER-SELECT, WORLD-STAIRS-INNER-SELECT, WORLD-STAIRS-CORNER-BOXES; other world states, neighboring blocks, fluids, and non-boat vehicle passenger paths remain open; bounded shape and movement callback dispositions recorded
 - `INV-MODIFIERS` status=pending; slice_ids=MOD-01, MOD-02, TICK-11; evidence=equipment/effect/attribute producers and consumers in progress; modern-only Elytra/Levitation are scoped out
-- `INV-EXTERNAL` status=pending; slice_ids=TICK-03 through TICK-07, TICK-10, WORLD-02, WORLD-05, WORLD-06, WORLD-08, WORLD-09, WORLD-12, WORLD-13, WORLD-LIQUID-FLOW, COLL-01-ENTITY-QUERY, EXT-01, EXT-02, EXT-02-PACKETS, EXT-03, EXT-04, EXT-05; evidence=direct corrections, packet velocity application, knockback, death-handler velocity, liquid-flow velocity, client chunk-loadedness gate, entity collision-candidate collector, and End transfer position sequence compared; remaining velocity/position/vehicle writers and consumers open
+- `INV-EXTERNAL` status=pending; slice_ids=TICK-03 through TICK-07, TICK-10, WORLD-02, WORLD-05, WORLD-06, WORLD-08, WORLD-09, WORLD-12, WORLD-13, WORLD-27, WORLD-LIQUID-FLOW, COLL-01-ENTITY-QUERY, EXT-01, EXT-02, EXT-02-PACKETS, EXT-03, EXT-04, EXT-05; evidence=direct corrections, packet velocity application, knockback, death-handler velocity, liquid-flow velocity, client chunk-loadedness gate, entity collision-candidate collector, and End transfer position sequence compared; remaining velocity/position/vehicle writers and consumers open
 - `INV-EXCLUSIONS` status=complete; slice_ids=scope boundary; evidence=health/food production and attack/damage resolution plus non-player/vehicle physics excluded; direct player velocity/impulse/knockback response remains in movement scope
 
 ### INV-COLLISION direct block-provider census
@@ -886,6 +886,16 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Parent/dependencies: COLL-01 movement collision query; WORLD-15 piston-head geometry; remaining block-provider inventory and other candidate boxes.
 - Status: findings.
 
+### Slice WORLD-27: client world-limit and border collision fallback
+
+- Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-COLLISION`, `INV-WORLD-MOVEMENT`, `INV-EXTERNAL`.
+- Exact behavior boundary: A world horizontal-coordinate containment gate before client chunk availability; B client `allowEmpty` chunk gate; outside-border fallback block state; generic collision append and player X clipping.
+- A/B source hashes, conditional edge coordinates, client empty-chunk behavior, world-border precondition and clipped-displacement arithmetic: `findings/WORLD-27-client-limit-collision-fallback.md`.
+- State producers/writers -> consumers/readers: configured world-border bounds + player position/outside-border flag + client chunk state -> candidate block/fallback-stone state -> full-block collision box -> player X clip.
+- Disposition: conditional source-level client collision-list and clipped-displacement difference at the intersection of `maxX=30,000,000` and A's exclusive horizontal world-coordinate bound. The bounded case does not generalize to ordinary coordinates or the default world border; server-side loaded-chunk behavior remains open.
+- Parent/dependencies: COLL-01 collision scan and axis clipping; COLL-01-BORDER-PREDICATES; WORLD-26 query expansion; entity movement path. Other collision candidates remain absent by witness precondition.
+- Status: findings.
+
 ### Slice WORLD-FENCE-WALL-SHAPES: fence and wall neighbor-derived collision boxes
 
 - Inventory ID(s): `INV-COLLISION`, `INV-WORLD-MOVEMENT`.
@@ -993,6 +1003,9 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - [WORLD-22 — Ground slipperiness providers and reader](findings/WORLD-22-ground-slipperiness.md)
 - [WORLD-23 — Inherited state-shape collision providers](findings/WORLD-23-inherited-state-shape-providers.md)
 - [WORLD-24 — Fixed inherited state-shape collision providers](findings/WORLD-24-fixed-inherited-state-shapes.md)
+- [WORLD-25 — Mutable-bound Anvil and Chest providers](findings/WORLD-25-mutable-bound-writers-anvil-chest.md)
+- [WORLD-26 — Neighbor-cell piston-head collision scan](findings/WORLD-26-neighbor-cell-collision-scan.md)
+- [WORLD-27 — Client world-limit collision fallback](findings/WORLD-27-client-limit-collision-fallback.md)
 
 ## Incremental finding snapshot log
 
