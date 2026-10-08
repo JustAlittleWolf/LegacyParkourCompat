@@ -132,6 +132,17 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - Disposition and rationale (including concrete reachability/preconditions): when shift is down, the player is neither flying nor swimming nor visually crawling, and a collision shape intersects only the `1.0E-7` shell removed by B's candidate-box deflation, A's crouching clearance predicate is false and B's is true. The shared keyboard consumer applies `0.3` to both input axes only when true. No final movement is claimed.
 - Finding IDs or checked absence/replacement path: F-S1-CROUCH-SLOWDOWN-EPSILON; related pose-selection clearance is separately bounded by F-S2-POSE-EPSILON.
 
+### Slice S2-POSE-EPSILON: player pose-entry candidate-box clearance
+- Inventory ID(s): INV-STATE, INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: Player.updatePlayerPose pose-selection order and Entity.canEnterPose(Pose) collision argument.
+- A evidence: `../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/entity/player/Player.java`, lines 357-384, SHA-256 `1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793`; `Entity.java`, lines 1605-1607 and 2320-2325, SHA-256 `191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e`; `AABB.java`, SHA-256 `82324c0e6a3d69e80424656e6098b39ce41f0f17a5e6efbe6542fe8eaca24a18`.
+- B evidence: `../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/entity/player/Player.java`, lines 350-377, SHA-256 `d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960`; `Entity.java`, lines 1640-1642 and 2360-2365, SHA-256 `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666`; `AABB.java`, SHA-256 `514558cf4827679d84a4debd4f400d7d65bd4b8982b7ae8124a0d83a916ba878`.
+- State producers/writers -> consumers/readers: target pose -> candidate pose bounding box -> noCollision result -> selected pose -> synced pose listener and dimension refresh.
+- Parent slices / dependencies / closure evidence: S2-LOCAL-CROUCHING-STATE,S4-QUERY,S5-SHAPES; pose maps, decision order and dimensions match, while concrete shape-provider/registration reachability remains open.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): B deflates the candidate AABB by `1.0E-7` before collision testing; A tests the full candidate. The shared pose decision order means a collision intersection confined to the removed shell can change clearance/pose selection. No specific world geometry or displacement is claimed.
+- Finding IDs or checked absence/replacement path: F-S2-POSE-EPSILON; the separate same-tick keyboard consumer route is bounded in F-S1-CROUCH-SLOWDOWN-EPSILON.
+
 ### Slice S1-ESCAPE: player suffocation-space escape
 - Inventory ID(s): INV-TICK, INV-COLLISION, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: A LocalPlayer.checkInBlock/blocked/Player.freeAt and B LocalPlayer.moveTowardsClosestSpace/suffocatesAt plus four aiStep callers.
@@ -633,6 +644,7 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - F-S1-SPRINT-RESET — held shift cancels pending double-tap sprint window (source-confirmed).
 - F-S1-WATER-DESCENT — flying players skip crouch descent in water (source-confirmed).
 - F-S2-EDGE — edge restraint applies during supported near-ground motion and excludes flying players (source-confirmed).
+- F-S2-POSE-EPSILON — B tests an inset candidate box for player pose entry (source-confirmed; submitted for independent review).
 - F-S3-SHALLOW-LAVA-TRAVEL — shallow lava uses a different vertical scale and falling adjustment (source-confirmed).
 - F-S3-FLUID-JUMP-GATE — flying players skip liquid jump processing (source-confirmed).
 - F-S3-SHALLOW-LAVA-JUMP — grounded shallow-lava jump selects the ground-jump helper (source-confirmed).
@@ -646,7 +658,7 @@ The historical pair report is not imported as source confirmation.
 
 ## Resume checkpoint
 
-- Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-LOCAL-TICK,S1-ELYTRA,S1-ESCAPE,S1-CROUCH-SLOWDOWN-GATE,S3-WATER,S3-FALL-FLYING,S3-RELATIVE-MOVEMENT,S3-CLIMB-COMMON,S3-SOUL-SPEED,S4-STEP,S4-COMMON-CONTACT-CALLBACKS,S5-SLAB-SHAPE,S5-SNOW-COLLISION,S5-LADDER-SHAPE,S5-PISTON-SHAPE,S5-SCAFFOLDING-COLLISION,S5-WALL-FIXED-COLLISION,S5-FENCE-FIXED-COLLISION,S5-CROSS-CACHE,S5-CACTUS-COLLISION,S5-BAMBOO-COLLISION,S5-BAMBOO-OFFSET,S5-HONEY-COLLISION,S5-COMPOSTER-COLLISION,S5-SOUL-SAND-COLLISION,S5-FENCE-GATE-COLLISION,S5-VINE-SHAPE,S5-BELL-COLLISION,S5-LECTERN-COLLISION,S5-GRINDSTONE-COLLISION; finding slices F-S1-CROUCH-SLOWDOWN-EPSILON,F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S3-SOUL-SPEED,F-S4-BORDER-EPSILON,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT,F-S5-PISTON-HEAD-THRESHOLD.
+- Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-LOCAL-TICK,S1-ELYTRA,S1-ESCAPE,S1-CROUCH-SLOWDOWN-GATE,S2-POSE-EPSILON,S3-WATER,S3-FALL-FLYING,S3-RELATIVE-MOVEMENT,S3-CLIMB-COMMON,S3-SOUL-SPEED,S4-STEP,S4-COMMON-CONTACT-CALLBACKS,S5-SLAB-SHAPE,S5-SNOW-COLLISION,S5-LADDER-SHAPE,S5-PISTON-SHAPE,S5-SCAFFOLDING-COLLISION,S5-WALL-FIXED-COLLISION,S5-FENCE-FIXED-COLLISION,S5-CROSS-CACHE,S5-CACTUS-COLLISION,S5-BAMBOO-COLLISION,S5-BAMBOO-OFFSET,S5-HONEY-COLLISION,S5-COMPOSTER-COLLISION,S5-SOUL-SAND-COLLISION,S5-FENCE-GATE-COLLISION,S5-VINE-SHAPE,S5-BELL-COLLISION,S5-LECTERN-COLLISION,S5-GRINDSTONE-COLLISION; finding slices F-S1-CROUCH-SLOWDOWN-EPSILON,F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S2-POSE-EPSILON,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S3-SOUL-SPEED,F-S4-BORDER-EPSILON,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT,F-S5-PISTON-HEAD-THRESHOLD.
 - Active slices: S1-LOCAL-AISTEP,S2-LOCAL-CROUCHING-STATE,S3-GROUND-AIR,S3-ATTR-BASE-WRITER,S4-MOVE,S4-QUERY,S5-SHAPES; S4-BORDER-GUARD is findings, S5-WALL and S5-FENCE-CONNECTION are lifecycle not-applicable, and S5-SUPPORT-SHAPES is support/lifecycle not-applicable. Required pair inventories remain partial.
 - Next: continue remaining crouching readers and pose/state writers; expand modifier/effect/equipment inventories beyond Soul Speed; continue common-block registration/resource routes and remaining S1/S3, fluid/callback and external-input inventories.
 - Outstanding dependencies: S1 escape-query shape providers; S2 crouching readers beyond the bounded same-tick input route and remaining dimensions/state; S3 attribute base writers/synchronization and remaining effects/equipment; S4 remaining callback/entity-collider enumeration and other query providers; S5 remaining state/neighbor writers, registrations/resources, ladder attachment and piston push/tick paths; other required stage 2-7 slices; independent reviewer assignment.
@@ -851,6 +863,22 @@ Each finding is committed as an immutable source snapshot. Snapshot review statu
 - Implementation handoff: pending independent snapshot review; no handoff was sent.
 - Replaces/supersedes snapshot ID and reason, if applicable: none.
 
+### Snapshot event F-S2-POSE-EPSILON
+- Finding ID(s): F-S2-POSE-EPSILON
+- Source finding author(s): source-only pair researcher
+- Status: submitted; independent blind review pending
+- Immutable snapshot commit: `8482fa93d7d5f61e45e367208047ca9956df7191`
+- Finding file path and SHA-256: findings/F-S2-POSE-EPSILON.md — `11c46c22b09fd4b77d25935d68942e0be0e999db`
+- Git blob: `d53e736af6cce19aa5f3e85c984c36000dbd1884`
+- Exact A/B artifact-manifest identities/hashes: ready/1.15.2/artifacts.sha256 `208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406`; ready/1.16.5/artifacts.sha256 `f9b9812d6995012cefcc1201a63855e5931e8551b508753be6c46d442d8b370c`.
+- Cited source hashes: A Player `1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793`, Entity `191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e`, AABB `82324c0e6a3d69e80424656e6098b39ce41f0f17a5e6efbe6542fe8eaca24a18`; B Player `d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960`, Entity `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666`, AABB `514558cf4827679d84a4debd4f400d7d65bd4b8982b7ae8124a0d83a916ba878`.
+- Finding-specific closed dependency IDs/evidence: paired pose selection order, canEnterPose argument, AABB deflation, and pose-triggered dimension refresh are documented in the finding; shape-provider and registration inventory remains open.
+- Independent blind source reviewer and decision date: pending coordinator assignment.
+- Pair status at snapshot submission: partial at `8482fa93d7d5f61e45e367208047ca9956df7191`; pair remains partial.
+- Pair complete: no
+- Implementation handoff: pending independent snapshot review; no handoff was sent.
+- Replaces/supersedes snapshot ID and reason, if applicable: none.
+
 ### Snapshot event F-S1-CROUCH-SLOWDOWN-EPSILON
 - Finding ID(s): F-S1-CROUCH-SLOWDOWN-EPSILON
 - Source finding author(s): source-only pair researcher
@@ -913,7 +941,7 @@ Each finding is committed as an immutable source snapshot. Snapshot review statu
 
 ## Source audit closure
 
-- Coverage counts by status at this checkpoint: pending 0; in-progress 7; compared-no-difference 28; findings 12; not-applicable 3; total recorded slices 50; required stage slices not yet entered and open.
+- Coverage counts by status at this checkpoint: pending 0; in-progress 7; compared-no-difference 28; findings 13; not-applicable 3; total recorded slices 51; required stage slices not yet entered and open.
 - Required inventory status and evidence: all seven pending.
 - Open dependencies: S1 escape-query provider coverage and CLIMBABLE resource consumers; S2 remaining pose/state readers; S3 attribute-base writer/synchronization and remaining effects/equipment/resource routes; S4 callback/entity-collider filters and remaining query providers; S5 shape registration/resource/neighbor routes; remaining required stage 2-7 inventory slices; independent source reviewer assignment.
 - Unresolved gaps and limits: exhaustive source comparison is incomplete.
