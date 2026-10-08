@@ -8,7 +8,7 @@
 - Published the exact Feather consumer evidence snapshot [mcpk-feather-r1-finding-snapshot.md](mcpk-feather-r1-finding-snapshot.md), keyed by revision `feather-r1-2026-10-07`.
 - Consumer-verified all six immutable Feather JAR snapshots against their sidecars and `revision.json`; verified all 11,958 source files and 222 original artifact-manifest inputs other than the unavailable original derived JAR, with zero hash mismatches. The source owner reported that the independent operations audit passed.
 - Recorded the Feather-backed findings and exact endpoint evidence in [mcpk-source-adjudication.md](mcpk-source-adjudication.md) and [mcpk-1.8.9-1.9.4.md](mcpk-1.8.9-1.9.4.md).
-- Published bounded, revision-independent snapshots for 1.15 Soul Sand, 1.15 Honey, 1.17 Powder Snow, 1.17 Big Dripleaf, and the 1.17 swimming-entry gate. They confirm source-specific movement/collision details while leaving all broad pair freezes and independent wiki-lane acceptance open. The Big Dripleaf snapshot records a discrepancy in the MCPK page's first collision-shape timing.
+- Published bounded, revision-independent snapshots for 1.15 Soul Sand, 1.15 Honey, 1.17 Powder Snow, 1.17 Big Dripleaf, the 1.17 swimming-entry gate, and 1.15 slipperiness sample examples. They confirm source-specific movement/collision details while leaving all broad pair freezes and independent wiki-lane acceptance open. The Big Dripleaf snapshot records a discrepancy in the MCPK page's first collision-shape timing.
 - The original derived mapped JARs remain unavailable. Their equivalence to the revised snapshots is **UNPROVEN**; the old cache mismatch is not waived.
 
 ## Still open
@@ -35,6 +35,6 @@
 
 - Worktree: `C:\Users\Wolfi\.codex\worktrees\mcpk-wiki-audit-recovered\LegacyParkourCompat`
 - Branch: `feat/mcpk-wiki-audit`
-- Task tip before this checkpoint commit: `f4d5dcf` (`docs: snapshot MCPK Big Dripleaf collision timing`)
+- Task tip before this checkpoint commit: `3de1093` (`docs: snapshot MCPK swimming entry gate`)
 - `main` remained at `002137b`; it is an ancestor of the task branch, so there were no newer main commits to merge or semantically reconcile.
 - The checkpoint itself is committed separately; see the current branch tip in `git log`.
