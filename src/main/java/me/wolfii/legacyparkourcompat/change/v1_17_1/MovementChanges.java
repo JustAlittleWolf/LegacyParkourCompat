@@ -7,6 +7,5 @@ public final class MovementChanges implements MovementChangeProvider {
     @Override
     public void register(MovementChangeRegistry registry) {
         registry.register(new SprintCollision());
-        registry.register(new BoatPassengerYawRefresh());
     }
 }
