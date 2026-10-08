@@ -317,13 +317,13 @@ These are now 61 bounded work units, not an exhaustive inventory: 35 pending, 9 
 ### Slice S-LIVING-GLIDE-UPDATE: Fall-flying eligibility update before travel
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: B tests `isFallFlying()` after jump handling and calls `updateFallFlying()` before travel; lines 3125-3130. Trace the eligibility flag and equipment/effect conditions separately.
-- A evidence: pending exact tick order, glide-state writer and caller correspondence.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3125-3130`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: equipment/effects/ground/passenger state -> glide flag/update -> travel dispatch.
-- Parent slices / dependencies / closure evidence: S-FALLFLY-REQUEST,S-TRAVEL-GLIDE-DISPATCH; `updateFallFlying`, `canGlide`, equipment/item data and A timing pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B call order read; exact A path unresolved.
+- Exact behavior boundary and enclosing guards/order checked: after jump handling and before travel, both endpoints test `isFallFlying()` and call `updateFallFlying()`. The updater first calls `checkFallDistanceAccumulation()`; server-side it clears shared flag 7 when `canGlide()` fails; otherwise increments the glide tick for durability/event cadence. A lines 3060-3062,3126-3160; B lines 3127-3129,3193-3227.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(),updateFallFlying(),canGlide(),canGlideUsing(), lines 3060-3062,3126-3160,3946-3953`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`; `Entity.checkFallDistanceAccumulation(), lines 2835-2843`, SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(),updateFallFlying(),canGlide(),canGlideUsing(), lines 3127-3129,3193-3227,4012-4019`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`; `Entity.checkFallDistanceAccumulation(), lines 2902-2910`, SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`.
+- State producers/writers -> consumers/readers: fall-flying shared flag is written by glide request/server state paths; eligibility reads airborne, passenger, levitation, equipment slot, GLIDER/EQUIPPABLE components and break state. `canGlideUsing` checks these in identical order and update clears the same flag. Client-side local tick only runs `checkFallDistanceAccumulation`; server durability cadence is also identical. The B/A `fallFlyTicks` cadence affects equipment wear/event only, not velocity directly.
+- Parent slices / dependencies / closure evidence: S-FALLFLY-REQUEST,S-TRAVEL-DISPATCH,S-TRAVEL-GLIDE-DISPATCH,S-TRAVEL-GLIDE-FORMULA,S-MOD-01,S-TRAVEL-FALL-DISTANCE; request producers and equipment/effect data inventory remain open.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): compared updater, eligibility guard, slot iteration, component checks, tick arithmetic and clear-flag path are identical. Under equivalent glide flag, equipment/effects and pose state, the direct update matches; producer and equipment inventories are still separately open.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-TRAVEL-PREP: Bounding-box snapshot and movement input construction
@@ -388,13 +388,13 @@ These are now 61 bounded work units, not an exhaustive inventory: 35 pending, 9 
 ### Slice S-TRAVEL-DISPATCH: Fluid, fall-flying or air travel branch selection
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: B `LivingEntity.travel` selects `shouldTravelInFluid`, fall-flying, or ordinary air path; `shouldTravelInFluid` requires in-water/lava, affected-by-fluids, and not standing on the current fluid; lines 2430-2446.
-- A evidence: pending exact method, enclosing tick call and correspondence.
+- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.travel(input)` selects `travelInFluid`, `travelFallFlying`, or `travelInAir` in that order; fluid predicate requires water or lava, `isAffectedByFluids()`, and `!canStandOnFluid(current-cell FluidState)`. A lines 2392-2408; B lines 2430-2446. This dispatch runs from the player-reachable inherited `LivingEntity.aiStep()` path in S-TICK-ENTRY.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::travel(Vec3),shouldTravelInFluid(FluidState), lines 2392-2408`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::travel(Vec3),shouldTravelInFluid(FluidState), lines 2430-2446`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: fluid contacts/standing state and fall-flying state -> branch selection -> branch-specific velocity/position consumers.
-- Parent slices / dependencies / closure evidence: S-LIVING-GLIDE-UPDATE,S-TRAVEL-PREP,S-FALL-DISTANCE-RESET,S-TRAVEL-GATE,S-POST-BLOCK-EFFECTS,S-POST-ANIMATION,S-PLAYER-01; fluid contact and gliding state writers pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B methods read; no pairwise branch disposition.
+- State producers/writers -> consumers/readers: `EntityFluidInteraction` supplies contact/height; `isAffectedByFluids()` reads player abilities (creative flying disables fluid effects); current block-position fluid is read at dispatch; `isFallFlying()` selects glide; selected routine consumes `input` and writes movement. These readers and branch order match; corresponding state producers remain in S-SINK-INPUT,S-LIVING-GLIDE-UPDATE,S-WORLD-01.
+- Parent slices / dependencies / closure evidence: S-TICK-ENTRY,S-SINK-INPUT,S-LIVING-GLIDE-UPDATE,S-TRAVEL-PREP,S-FALL-DISTANCE-RESET,S-TRAVEL-GATE,S-POST-BLOCK-EFFECTS,S-PLAYER-01; upstream contact/gliding writers and downstream bodies remain separate slices.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): exact A/B `if / else if / else` order and predicate bodies match, including current block fluid lookup and standing-on-fluid gate. For equivalent player input/fluid/ability/glide state, branch selection is identical.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-TRAVEL-FLYING: Generic fluid/air flying travel
@@ -543,13 +543,13 @@ These are now 61 bounded work units, not an exhaustive inventory: 35 pending, 9 
 ### Slice S-PLAYER-01: Player swimming and ability-flight travel wrapper
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: `Player.travel(Vec3)` passenger, swim-look, flight and superclass path, lines 1402-1429; downstream conditions and abilities are dependencies.
-- A evidence: pending exact source and inheritance correspondence.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/player/Player.java::net.minecraft.world.entity.player.Player#travel(Vec3), lines 1402-1429`, SHA-256 `8decc71b9c780664578ddb14591db2a2f207c72c05b676edded6f8e964576531`.
-- State producers/writers -> consumers/readers: passenger/swimming/abilities/look/fluid state -> vertical delta writer and living travel; abilities and fluid checks pending.
-- Parent slices / dependencies / closure evidence: S-LIVING-GLIDE-UPDATE,S-TRAVEL-PREP,S-FALL-DISTANCE-RESET,S-TRAVEL-GATE,S-POST-BLOCK-EFFECTS,S-POST-ANIMATION; abilities/defaults and shape/fluid queries pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B body read; no A pair yet.
+- Exact behavior boundary and enclosing guards/order checked: `Player.travel(Vec3)` calls superclass immediately for passengers; otherwise performs swim-look correction when `isSwimming()`, then either snapshots original Y, calls superclass and multiplies resulting Y by `0.6`, or calls superclass directly. A lines 1381-1404; B lines 1402-1425. `canGlide()` disables gliding while flying; `updateSwimming()` clears swimming while flying; those adjacent overrides also match.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/player/Player.java::travel(Vec3),canGlide(),updateSwimming(), lines 1381-1418`, SHA-256 `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d`.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/player/Player.java::travel(Vec3),canGlide(),updateSwimming(), lines 1402-1439`, SHA-256 `8decc71b9c780664578ddb14591db2a2f207c72c05b676edded6f8e964576531`.
+- State producers/writers -> consumers/readers: passenger and swimming flags, look-angle Y, `jumping`, fluid state at `BlockPos.containing(x,y + 1.0 - 0.1,z)`, and `abilities.flying` select branches. Swimming correction evaluates multiplier `lookY < -0.2 ? 0.085 : 0.06`; when permitted it adds `(0.0,(lookY - movement.y) * multiplier,0.0)`. Flying path preserves pre-super Y then writes `postSuperY` from `originalMovementY * 0.6`. LocalPlayer dynamic dispatch reaches this wrapper through S-TICK-ENTRY, except when riding.
+- Parent slices / dependencies / closure evidence: S-TICK-ENTRY,S-FLIGHT-TOGGLE,S-FLIGHT-VERTICAL-INPUT,S-LIVING-GLIDE-UPDATE,S-TRAVEL-PREP,S-TRAVEL-DISPATCH,S-FALL-DISTANCE-RESET,S-TRAVEL-GATE,S-POST-BLOCK-EFFECTS; branch readers and operation order are paired. Passenger behavior remains outside non-player vehicle physics scope.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): exact A/B branch order, fluid query coordinates, look thresholds, multiplier literals, vector expression and Y restore/damping expression match. For equivalent player state/input the wrapper's movement response is identical; upstream and downstream travel routines remain separate inventories.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-POSE-UPDATE: Player pose selection, fit predicate and post-super tick timing
