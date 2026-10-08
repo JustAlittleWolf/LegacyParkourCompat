@@ -224,7 +224,18 @@ Resolved: D-ENTITY-COLLISIONS (paired LocalPlayer entity query and EntityGetter/
 
 ## Finding snapshots (not pair freeze)
 
-No finding snapshot has been submitted or accepted. Findings remain source-discovery items; implementation handoff requires a separate blind source reviewer to accept an immutable finding snapshot with its dependencies closed. This does not change pair status.
+The pair remains partial. Accepted snapshot count is zero; the following immutable candidate is submitted for blind source review. Snapshot acceptance releases only this finding for a separate implementation task and does not close other slices or freeze the pair.
+
+- Snapshot ID: F006-1.17.1-1.18.2-064fc24
+- Finding: findings/F-006-boat-passenger-yaw-refresh.md
+- Immutable snapshot commit: 064fc24e5e3d8b4dab4f12c2000dcb13d37514ca
+- Finding file SHA-256: 3994115e3789a8280aa61228b2b092a007e57985cde72492f19731a8f150db95
+- Source/artifact identity: A Mojmap 1.17.1 source manifest 93270d229acfb751bf56daf1e7be26ce3dcff26b29e94aa157de621405a3463b, artifact manifest e52c5dbae7d9663190ccc55a4f9b44a8e0615fb1fbbd8280811df43f70ec8aaa, mapped jar 2a2be036174902e447865498741b8c59fa2e090d352d786a8507dccb7c23008c; B Mojmap 1.18.2 source manifest aea0cb9c6fc8f7a46f0eb82b0388ad58a4659f513be6c0a2be06c0df0c1eb07a, artifact manifest a1507e4875faee892aca4c59686bbd68933db21a2274559e81eea8a32b021036, mapped jar 60a2017dd217b23df8a5ddbebac96fccb58ff747e961974696e0018f6ef12dba.
+- Bounded player path and guards: inbound ClientboundSetPassengersPacket -> prior passenger-tree check -> eject/rebuild -> LocalPlayer#startRiding boat yaw writes; already-present local player is reset in A and skipped by B; later Entity#moveRelative reads yRot for player movement input.
+- Version boundary: exact 1.17.1 vs 1.18.2; first changed release within the interval unknown.
+- Finding dependencies: receiver guard, passenger enumeration/rebuild and yaw consumer checked on both sides; no vehicle-motion dependency.
+- Reviewer: 01a116ce-c937-7613-a49b-716e99582357; decision pending.
+- Pair state at handoff: partial; run commit 7813662; pair complete: no; implementation status: not started; runtime validation: not performed.
 
 ## Implementation reconciliation
 
