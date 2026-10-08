@@ -108,9 +108,9 @@ Provisional source candidates being traced after revised snapshot verification: 
 
 ## Resume checkpoint
 
-- Handoff status: partial and resumable; blind source comparison remains active. Current task branch: `feat/source-discovery-movement-source-1-12-2-1-13-2`. Latest source checkpoint before this handoff update: `65a0225`.
+- Handoff status: partial and resumable; blind source comparison remains active. Current task branch: `feat/source-discovery-movement-source-1-12-2-1-13-2`. Latest source-confirmed finding snapshot: `F-GROUND-ACCEL` at `2dae7b235bde47c7837fd4092ec67ccb014352f2`; its independent finding review is pending.
 - Source identity: Feather Gen2 build 2 for both releases; immutable revised snapshots revision `feather-r1-2026-10-07`. Continue using `build/movement-campaign-2026-10-07/ready/1.12.2/ornithe-feather` and `.../ready/1.13.2/ornithe-feather` for verified source files, and retain the original-derived-JAR identity limitation above.
-- Last completed work: seven bounded no-difference slices and ten in-progress slices are listed under Source audit closure. Latest closures recorded in `PLAYER-CORRECTION`, `PISTON-DELTA-CLAMP`, and `DEPTH-STRIDER`; swimming eye-height evidence was added to `POSE-DIMENSIONS` and `F-SWIM-POSE.md`.
+- Last completed work: seven bounded no-difference slices and ten in-progress slices are listed under Source audit closure. Latest closures recorded in `PLAYER-CORRECTION`, `PISTON-DELTA-CLAMP`, and `DEPTH-STRIDER`; swimming eye-height evidence was added to `POSE-DIMENSIONS` and `F-SWIM-POSE.md`. `F-GROUND-ACCEL` is source-confirmed for its bounded grounded multiplier and is awaiting separate review; the full `TRAVEL-MODIFIERS` slice remains in progress.
 - Next bounded slice: close or disposition the World collision collectors before expanding the already enumerated shape-provider set. Compare A `World.getCollisions` lines 964-1063 against B `WorldView.getBlockCollisions` lines 112-151 and `WorldView.getCollisions` lines 154-180, plus B `World.getCollisions` lines 1755-1756. Then trace the returned block-shape stream into paired registry-backed shape providers and neighboring-block dependencies.
 - Read-only commands to resume that slice in PowerShell:
   ```powershell
@@ -122,6 +122,35 @@ Provisional source candidates being traced after revised snapshot verification: 
 - Other pending source work: complete client/player tick and state-writer call graph, pose/size writers, all collision shape providers and neighbors, world movement properties/resources, remaining effect/enchantment/equipment paths, all external player-input routes, movement decompiler diagnostics, and explicit excluded-system audit. Keep findings provisional until every required inventory is closed.
 - Required later steps: finish blind pair coverage; run the structural completion checker; obtain an independent source reviewer; freeze the source report; only then inspect implementation for reconciliation. No implementation or wiki lane was opened in this task.
 - Git integration: `main` was merged into this branch on 2026-10-07 and was already an ancestor (`git merge --no-edit main` returned `Already up to date`). `main` had no commits beyond the pair's base, so there were no intervening semantic changes to reconcile.
+
+## Finding snapshots (not pair freeze)
+
+### Snapshot event F-GROUND-ACCEL-2026-10-08
+
+- Snapshot status: source-confirmed; independent blind finding review pending.
+- Snapshot commit: 2dae7b235bde47c7837fd4092ec67ccb014352f2.
+- Finding file SHA-256: 6d217c9984cc02b85370d3892b9094a5454e43f4c42b2e93e6b044ebff5cac0c.
+- Publication status: revised-derived
+- Evidence artifact record IDs: EA-FEATHER-R1-A, EA-FEATHER-R1-B
+- Revision ID(s): feather-r1-2026-10-07 on both sides
+- Immutable evidence path(s): revisions/derived-artifact-snapshots/feather-r1-2026-10-07/1.12.2/ornithe-feather/client-ornithe-feather.jar; revisions/derived-artifact-snapshots/feather-r1-2026-10-07/1.13.2/ornithe-feather/client-ornithe-feather.jar
+- Evidence artifact SHA-256(s): A fcc17537a14a423e2086f600047725ec1fcfd4c7fcf5c0d1a5bda491966c1b87; B b28c33e023928045c8fd7ed7727a860a6820241e371ddb16108366c6192b718c
+- Evidence manifest path(s): A revisions/derived-artifact-snapshots/feather-r1-2026-10-07/1.12.2/ornithe-feather/artifact.sha256; B revisions/derived-artifact-snapshots/feather-r1-2026-10-07/1.13.2/ornithe-feather/artifact.sha256
+- Evidence manifest SHA-256(s): A 162170b94be0fa6393a515ea3beed10210b2c86a006366cf9d351eba136bae2d; B 4fa7f17f639f7cff0ff9db327b3c978b049cee0c96a6b40625601868692c7dd8
+- Original artifact-manifest path(s): ready/1.12.2/artifacts.sha256; ready/1.13.2/artifacts.sha256
+- Original artifact-manifest SHA-256(s): A 8171a095a5ee74cebbd12b3d76983fc01796c0c23c962076d1e235cd0f80fa8c; B fdcacd9150f98ea70acafc5cab754027ab1a09828ff0eaa8e542dd7890d9ce1e
+- Original derived-artifact availability/hash: unavailable; expected original mapped JAR SHA-256 A 65a08f15d18c4ec2bd0f05b89dfc1ba7ea6b8280ba93ed136245f39e63ec8a2b, B d118ff5b9eb93fed06680466cb26c41a30647cdb2fc8744638cf9b35cf7864e5
+- Source/raw-input hash relation: source files cited by F-GROUND-ACCEL were rehashed against unchanged ready manifests; revision records describe source trees and raw inputs as identical, with all original raw inputs except unavailable derived JARs verified. Full publication verification is recorded above.
+- Revised-to-original equivalence: unverified because original derived JARs are unavailable.
+- Provenance limitations: revised derived snapshots are verified; original mapped-bytecode identity and metadata-only equivalence are unproven.
+- Source-proven historical behavior boundary/evidence (phase, producers/consumers, applicability), or unresolved source question: the grounded branch in LivingEntity.moveRelative(FFF)V changes the scalar passed to updateVelocity; the local-player call path, guards, 0.6F friction denominator and one-ULP multiplier difference are cited in F-GROUND-ACCEL.md.
+- Finding-specific closed dependency IDs/evidence: TRAVEL-MODIFIERS grounded branch and direct caller ranges; BLOCK-FRICTION shared default and historical assigned values; bounded CLIENT-TICK input transfer. See F-GROUND-ACCEL.md source hashes and exact ranges.
+- Independent blind source reviewer and decision date: reviewer 01a116ce-b44d-75f0-974f-5038e0d227c7; decision pending.
+- Review basis / requested source-only revisions: verify the exact paired expression, local player reachability/guards, shared default slipperiness result, and artifact/source identities. Do not inspect implementation or wiki material.
+- Pair run status and commit at handoff: active; snapshot commit 2dae7b235bde47c7837fd4092ec67ccb014352f2.
+- Pair complete: no.
+- Implementation handoff: blocked pending reviewer acceptance of this exact snapshot.
+- Replaces/supersedes snapshot ID and reason: none.
 
 ## Implementation reconciliation
 
@@ -144,6 +173,7 @@ Complete only after blind-discovery freeze; not started and no mod implementatio
 
 ## Source audit closure
 
+- Accepted finding snapshots (metadata only; does not close pair): none accepted yet; F-GROUND-ACCEL source-confirmed snapshot 2dae7b235bde47c7837fd4092ec67ccb014352f2 awaits independent review.
 - Coverage counts by status: 7 compared-no-difference (KB-SAMPLE, VELOCITY-PACKETS, BLOCK-FRICTION, PLAYER-PUSH-PRIMITIVE, PLAYER-CORRECTION, PISTON-DELTA-CLAMP, DEPTH-STRIDER); 10 in-progress bounded slices (CLIENT-TICK, SPRINT-STATE, SWIM-STATE, JUMP-GATES, POSE-DIMENSIONS, TRAVEL-MODIFIERS, VELOCITY-CUTOFF, ENTITY-MOVE-AXES, SUPPORT-CALLBACKS, ATTRIBUTES/SPEED-SLOWNESS/JUMP-BOOST); remaining required member/resource slices not yet enumerated; all seven required inventories pending.
 - Required inventory status and evidence: all pending; see inventory map above.
 - Open dependencies: SRC-MANIFEST-ROWS, SOURCE-RESOURCE-ENTRIES, METHODS-DIAGNOSTICS, INDEPENDENT-REVIEWER, IMPLEMENTATION-RECONCILIATION. Resolved: revised artifact snapshot verification (feather-r1-2026-10-07; ops audit passed); original derived-artifact identity remains a limitation.
