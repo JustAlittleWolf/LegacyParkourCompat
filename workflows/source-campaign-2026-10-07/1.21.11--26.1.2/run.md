@@ -126,37 +126,37 @@ Each entry is a bounded behavior boundary. Refine broad plans into exact member 
 ### Slice S1.4: Sprint transitions, timers and start/stop gates
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Sprint transitions, timers and start/stop gates. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: LocalPlayer `aiStep()` sprint-trigger reset/decrement, double-tap and sprint-key start, run/swim stop checks, `canStartSprinting()`, `isSprintingPossible()`, and `sendIsSprintingIfNeeded()` packet edge; Entity sprint-flag getter/setter.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/client/player/LocalPlayer.java` :: `aiStep()` lines 728-890, `sendIsSprintingIfNeeded()` lines 287-296, `shouldStopRunSprinting()`/`shouldStopSwimSprinting()` lines 882-891, `isSprintingPossible()`/`canStartSprinting()`/`vehicleCanSprint()` lines 1096-1117; SHA-256 `948e94f8e874b2f72e9a689e6e3ba1933f5728ec381d64f3bb5e2388718bd477`. `Entity.isSprinting()`/`setSprinting()` lines 2582-2588; SHA-256 `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/client/player/LocalPlayer.java` :: `aiStep()` lines 767-929, `sendIsSprintingIfNeeded()` lines 303-312, `shouldStopRunSprinting()`/`shouldStopSwimSprinting()` lines 921-930, `isSprintingPossible()`/`canStartSprinting()`/`vehicleCanSprint()` lines 1135-1156; SHA-256 `433fd995ad317af0f6ef0e50c1e8e3483cb8f00e0e327d4edf27a4dd99666ebe`. `Entity.isSprinting()`/`setSprinting()` lines 2646-2652; SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`.
+- State producers/writers -> consumers/readers: sampled forward/sprint/back/shift input, prior sprint-trigger timer, current sprint/shared-flag state, water/fall-flying/slow-movement state, collision flags, passenger/vehicle sprint capability, mobility restriction and shallow-water state feed the same gates; state transitions write shared flag 3 and the transition packet is sent only when the client sprint state differs from `wasSprinting`. The non-passenger gate reads `hasEnoughFoodToDoExhaustiveManoeuvres()`; its food-state producer is excluded, while this direct movement consumer remains in scope under S2.7/INV-EXCLUSIONS.
+- Parent slices / dependencies / closure evidence: LocalPlayer tick/input producer is in S1.1-S1.2. Entity stores sprint state in shared flag 3 in both. S2.5 item-use slowdown, S2.7 hunger/blindness consumers, swimming state and external vehicle sprint capability remain dependency rows; do not infer their producer behavior from this bounded gate comparison.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Inspected sprint start/stop and packet-edge bodies preserve the same two-tap timer reset/start order, held-sprint start, start gates, run/swim stop predicates, and flag-3 write. Paired expressions and comparison/order match; only locals/formatting differ. Food/mobility restriction producers, item-use, swim/fall-flying predicates, and vehicle behavior still require closure, so no terminal no-difference claim is made.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S1.5: Jump input, jump cooldown/state, auto-jump and riding gates
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Jump input, jump cooldown/state, auto-jump and riding gates. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: LocalPlayer `aiStep()` auto-jump timer synthesis, `wasJumping` edge gates, flight-jump trigger interaction, rideable-jump cooldown check, charge/release state, scale arithmetic and `super.aiStep()` order.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/client/player/LocalPlayer.java` :: `aiStep()` lines 728-890, including auto-jump lines 750-755 and riding-jump block 850-880; SHA-256 `948e94f8e874b2f72e9a689e6e3ba1933f5728ec381d64f3bb5e2388718bd477`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/client/player/LocalPlayer.java` :: `aiStep()` lines 767-929, including auto-jump lines 789-794 and riding-jump block 889-919; SHA-256 `433fd995ad317af0f6ef0e50c1e8e3483cb8f00e0e327d4edf27a4dd99666ebe`.
+- State producers/writers -> consumers/readers: jump key state and auto-jump timer produce the synthetic jump input; `wasJumping`, `jumpTriggerTime`, vehicle jump cooldown, `jumpRidingTicks`, and `jumpRidingScale` control toggles and charge. A release edge writes `jumpRidingTicks=-10`, calls `PlayerRideableJumping.onPlayerJump(floor(scale*100))`, then sends the riding-jump packet; a press edge resets tick/scale, and held input increments charge with the same two scale branches. `super.aiStep()` follows the riding block.
+- Parent slices / dependencies / closure evidence: S1.1-S1.2 input/tick order; S1.6 owns the mayfly/fall-flying branch encountered in the same method; S3.4 owns the resulting ground-jump impulse. Vehicle cooldown/capability and vehicle-side jump behavior are external dependencies; do not emulate vehicle physics.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The inspected auto-jump and rideable charge/release bodies preserve the same timer decrement, synthetic input order, cooldown gate, prior-jump release/press checks, floor conversion, tick/scale updates and `super.aiStep()` position. No player movement delta is established here. The interface callback may update a non-player vehicle and is excluded; player-side call and packet ordering remain in scope. Whole method input-state and vehicle eligibility dependencies are not yet closed.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S1.6: Flight toggle/input, abilities and flight-speed path
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Flight toggle/input, abilities and flight-speed path. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: LocalPlayer `aiStep()` mayfly/spectator enable, double-jump flight toggle, ground jump-on-enable, ability synchronization, fall-flying request edge, vertical flight input velocity, and ground flight reset.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/client/player/LocalPlayer.java` :: `aiStep()` lines 728-890; SHA-256 `948e94f8e874b2f72e9a689e6e3ba1933f5728ec381d64f3bb5e2388718bd477`. A Player `getFlyingSpeed()` lines 1959-1964; SHA-256 `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/client/player/LocalPlayer.java` :: `aiStep()` lines 767-929; SHA-256 `433fd995ad317af0f6ef0e50c1e8e3483cb8f00e0e327d4edf27a4dd99666ebe`. B Player `getFlyingSpeed()` lines 1953-1958; SHA-256 `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d`.
+- State producers/writers -> consumers/readers: ability `mayfly/flying`, spectator/game-mode state, jump prior-state/timer, swim/vehicle eligibility, `isControlledCamera`, shift/jump input and on-ground state feed the same branch order. Flight toggle writes ability state and syncs it; vertical input adds `inputYA * flyingSpeed * 3.0F` to Y velocity; landing clears flight for non-spectators. Player flying speed returns ability flying speed (doubled while sprinting) while flying and `0.025999999F` sprint / `0.02F` otherwise.
+- Parent slices / dependencies / closure evidence: S1.5 owns the shared jump edge and vehicle interaction; S1.2 input order; S3 travel owns the downstream flight path. Server-supplied ability state and flight speed defaults, game-mode transition and packet application remain external producer dependencies.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Paired player branches retain the same spectator grant, double-jump gate, swimming/jumpable-vehicle condition, flight toggle, optional `jumpFromGround()`, ability update, jump-trigger reset, fall-flying command guard, vertical delta expression and non-spectator ground reset. Player `getFlyingSpeed()` constants and sprint multiplier match. Ability provenance and downstream flight-state closure remain open, so this is a bounded comparison.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S1.7: Unstuck behavior and other input-to-tick movement gates
@@ -751,7 +751,7 @@ No findings yet. S1.1-S1.3 have paired no-difference dispositions. The pair rema
 ## Resume checkpoint
 
 - Last completed slices: S1.1-S1.3, S1.2.1-S1.2.2, S3.1.1, S3.3.1 and S3.6.1 (compared-no-difference); S5.9 (not-applicable to Player).
-- Next bounded slices: complete `S3.4` attribute/effect application and block-state source closure; continue `S3.5` movement-state providers; resolve `S3.6`-`S3.8` fluid/gliding dependencies; close `S3.9` speed/attribute sources and `S3.2`-`S3.3` ground/air branches; continue `S2.6` support-shape providers and `S4.1`-`S4.7` collision results. Reconcile all movement-referenced resources/tags under D2 before dispositioning dependent slices. Earlier resume wording implied verified S7 work, but review of the saved report found no S7 evidence: S7.1-S7.5 remain pending.
+- Next bounded slices: close `S1.4` dependencies (S2.5 item-use, S2.7 input consumer, swimming and vehicle predicates), then continue S1.5-S1.6 external ability/vehicle producers; finish `S3.4` attribute/effect application and block-state source closure; continue `S3.5` movement-state providers; resolve `S3.6`-`S3.8` fluid/gliding dependencies; close `S3.9` speed/attribute sources and `S3.2`-`S3.3` ground/air branches; continue `S2.6` support-shape providers and `S4.1`-`S4.7` collision results. Reconcile all movement-referenced resources/tags under D2 before dispositioning dependent slices. Earlier resume wording implied verified S7 work, but review of the saved report found no S7 evidence: S7.1-S7.5 remain pending.
 - Outstanding dependencies and owners: D2, source worker.
 - Current assumptions requiring verification: decompiled movement member bodies are semantically intact; B LocalPlayer diagnostics omit anchors, so manual body review is cited; resource-backed data closure remains open.
 - Resumable state: branch `feat/source-discovery-movement-source-1-21-11-26-1-2`; this report is the pair ledger. Exact A/B source roots and artifact manifests are recorded above. The report checker accepts the current active, non-complete state; no source finding snapshot exists. Preserve the source-only blind phase and do not inspect implementation/wiki material until the campaign explicitly transitions.
@@ -779,7 +779,7 @@ No source-confirmed findings have been submitted. Pair run remains active; no sn
 
 ## Source audit closure
 
-- Coverage counts by status: 37 pending; 10 in-progress; 8 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices).
+- Coverage counts by status: 34 pending; 13 in-progress; 8 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices).
 - Required inventory status and evidence: all 7 pending; exact source inputs are verified, but full movement/provider/resource inventories remain incomplete.
 - Open dependencies: D2
 - Unresolved gaps and limits: inherited tick/travel/collision body comparisons, movement state producers/consumers, shape providers/registrations, and data/resource dependency closure.
