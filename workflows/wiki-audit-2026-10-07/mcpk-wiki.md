@@ -1,6 +1,6 @@
 # MCPK wiki audit — 2026-10-07
 
-Current resumable status and next steps: [mcpk-checkpoint.md](mcpk-checkpoint.md). This audit remains partial. The Feather revision-specific snapshot still awaits reviewer acceptance. Clean independent review accepted Big Dripleaf, swimming, edge-backoff r3, and the corrected slipperiness identity. Exact snapshot identities and dispositions are in [the clean re-review candidate register](mcpk-clean-rereview-candidates-2026-10-08.md). Fresh browser retrieval and endpoint source checks are in [the corrected independent follow-up r2](mcpk-independent-followup-2026-10-08-r2.md); the original r1 remains frozen unchanged.
+Current resumable status and next steps: [mcpk-checkpoint.md](mcpk-checkpoint.md). This audit remains partial. The Feather revision-specific snapshot still awaits reviewer acceptance. Clean independent review accepted Big Dripleaf, swimming, edge-backoff r3, and the corrected slipperiness identity. Exact snapshot identities and dispositions are in [the clean re-review candidate register](mcpk-clean-rereview-candidates-2026-10-08.md). Fresh browser retrieval, the reviewed corrections, and expanded water/1.14 source-path dispositions are in [independent follow-up r3](mcpk-independent-followup-2026-10-08-r3.md); frozen r1 and corrected r2 remain immutable.
 
 Scope: MCPK parkour wiki only, matched against supplied exact-release source snapshots where available. No Minecraft Wiki pages or other audit-track findings were consulted. No implementation files were changed; no tests, builds, servers, or Docker actions were run.
 
@@ -35,7 +35,7 @@ Detailed method bodies, operation order, endpoint hashes, and remaining open cla
 - **1.12.2→1.13.2 single snow layer:** degenerate zero-height box becomes an empty shape; no positive-volume collision at either endpoint.
 - **1.13 Blue Ice:** slipperiness is `0.989F`.
 - **1.13.2→1.14.4 collision order:** requested X/Z displacement magnitudes select the first horizontal axis; equality takes X first. The Version Differences table matches source. The MCPK Collisions page states the opposite inequality and is wrong on that condition.
-- **1.14:** player crouch dimensions are 0.6×1.5 at the endpoint. Jump input adds to the climb-assist predicate, verifying jump-to-climb behavior at the endpoint. Exact crouch boundary and additional reachability claims remain open.
+- **1.14:** endpoint source confirms 0.6×1.5 sneaking dimensions; pose fallback under constrained collision space; explicit sprint-key activation while sneaking; and the jump-to-climb predicate for ladder/vine states. Input packets, pose refresh, and movement order are traced. Exact patch boundary, transition/ledge-speed behavior, external ceiling sequence, blip trajectories, X-speed conservation, and hover symptom remain open.
 - **1.14.4→1.15.2 slipperiness sampling:** source changes from `minY - 1.0` to `minY - 0.5000001`. Bed, bottom half-slab, and Soul Sand examples are resolved at the endpoints; a top slab samples inside itself. See [the r2 bounded example snapshot](mcpk-1.15-slipperiness-examples-snapshot-r2.md); its source content is accurate, and its Git blob identity is corrected in the re-review register.
 - **1.16.1→1.16.2 sneak step-down:** source replaces the `onGround` gate with a sneaking and above-ground predicate; the 0.05 movement backoff remains. See [the r3 corrected snapshot](mcpk-1.16.2-step-down-snapshot-r3.md).
 - **1.17.1:** swimming entry requires water at the player's block position. Powder snow collision depends on fall distance and boots; source also confirms the 0.9/1.5/0.9 movement multiplier and boot climbing.
@@ -47,9 +47,9 @@ Detailed method bodies, operation order, endpoint hashes, and remaining open cla
 - Exact 1.11.1 wall-height bug interval.
 - Full 1.13 water math and flow-height boundaries, plus remaining block-shape dimensions.
 - 1.14 sprint input while crouched, ceiling-induced poses, blips, and listed movement bugs; whether jump climbing adds reachable jumps and unsupported-vine details.
-- Y=256 water-exit fix boundary; lava pushing is verified at the 1.16.1 endpoint.
+- Y=256 water-exit: the actual consumer is traced to the fluid-depth jump branch that chooses a normal ground jump or a liquid jump. 1.15.2 and 1.16.1 producer paths are recorded, and no Y=256 condition appears in those bodies. The exact state transition/cause and first 1.16 patch remain unresolved because 1.16.0 source is absent. Lava pushing is verified at the 1.16.1 endpoint.
 - Movement math or exact version boundaries for player-affecting Elytra, Levitation, Frost Walker, Slow Falling, Dolphin’s Grace, Riptide, and Soul Speed. Damage-only details and non-player entity physics are out of scope.
-- 1.17 powder-snow frozen-speed/client-server tick timing; fall-damage details are outside movement scope.
+- 1.17 powder snow: collision, stuck-movement producer/consumer (including the Player flying override), and synchronized frozen-counter order are endpoint-verified. Further prediction reconciliation and historical cutovers remain open; damage details are outside movement scope.
 - 1.18 has only TODOs; the inspected wiki page has no later sections.
 
 The original r2 snapshots remain immutable; edge-backoff r3 supersedes its r2 summary only. Clean review accepted Big Dripleaf, swimming, edge-backoff r3, and the corrected slipperiness identity. Normal-browser MCPK reads are fresh page evidence despite research-fetcher 403 failures. Broader coverage remains partial; no claim is made about 1.19+ or 26.x.
