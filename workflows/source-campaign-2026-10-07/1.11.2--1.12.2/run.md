@@ -705,14 +705,14 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 ### Slice S7.4: Final scan of reachable player movement-state writers, callbacks, overrides, registries and newly discovered dependencies
 
 - Inventory ID(s): INV-STATE, INV-EXTERNAL
-- Exact behavior boundary and enclosing guards/order checked: Final scan of reachable player movement-state writers, callbacks, overrides, registries and newly discovered dependencies; exact local guards and enclosing call order recorded per bounded behavior
-- A evidence: pending exact A member/body range and SHA-256 from verified source root
-- B evidence: pending exact B member/body range and SHA-256 from verified source root
-- State producers/writers -> consumers/readers: pending exact source writer/consumer closure
-- Parent slices / dependencies / closure evidence: parent/dependency links pending source inventory
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison; no equivalence inferred from prior reports
-- Finding IDs or checked absence/replacement path: none assigned
+- Exact behavior boundary and enclosing guards/order checked: an initial bounded source scan searched direct player/living-player aliases for `teleport`, `setPosition`, `updatePosition`, `updatePositionAndAngles`, and velocity-axis accesses across both exact source trees. Its hits were routed to already bounded S1.7 packet consumers, S7.1 external impulse/pearl writers, S7.2 passenger/dismount writes and S7.3 server packet/authority writes. General callback/override/resource writer scans remain open.
+- A evidence: exact hit groups include `ClientPlayNetworkHandler` correction/velocity/explosion consumers (S1.7 source/file SHA-256 `65d362c00de1adfd55fae5f858b91bf9b227525b987c09a2d223279376a66175`); `EnderPearlEntity::onCollision` direct player teleport (S7.1, file SHA-256 `290f7923d6467e252d2c96dd0f6939c37eef3597a85faeb022fd4be8bb3b7714`); and `ServerPlayNetworkHandler` accepted movement, rollback/teleport acknowledgement, and spectator camera-target position writes (S7.3, file SHA-256 `947be17cf3d7217e7c8e563d4dd312cd133de1dc06bcd82b4431c9e5e74bc0bf`). The matching references and their bounded callers are indexed in those slices/findings.
+- B evidence: the same hit groups route to `ClientPlayNetworkHandler` (S1.7 source/file SHA-256 `fce21d9902e555fd46545fb04bdb6c4a912eef6398790776ad1a122e09960c7c`); `EnderPearlEntity::onCollision` (S7.1, file SHA-256 `ef91e2979a5027f5d28a40af9b809bc312bccb19cb2016b6d20f5c145cdd0e35`); and `ServerPlayNetworkHandler` (S7.3, file SHA-256 `77bf65b2c48ff952713942e183af1cd5fb243ad4f8fd2e53aa1b97272e7acd7c`). Bounded findings are `F-ENDER-PEARL-OWNER-DIMENSION` and `F-PLAYER-MOVE-PACKET-VALIDATION`; no claim is made that this alias scan is a complete census.
+- State producers/writers -> consumers/readers: every direct alias hit observed so far has a route to an existing paired consumer/writer slice or finding. This scan does not capture writes through `this`, inherited calls, callbacks, registries, packet constructors or indirect `Entity` references; those dependency paths must still be enumerated and checked.
+- Parent slices / dependencies / closure evidence: S1.7 packet consumers; S4/S5 collision/callback writers; S7.1 external impulses; S7.2 mounted player positions; S7.3 packet authority; pending method-family, callback and indirect-writer inventory under `DEP-EXTERNAL-WRITERS`.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): bounded alias scan only; observed hits are routed and paired in their owning slices, but the source inventory is deliberately left open until indirect writers and producer-to-consumer dependencies are closed.
+- Finding IDs or checked absence/replacement path: `F-ENDER-PEARL-OWNER-DIMENSION`, `F-PLAYER-DISMOUNT-CLEARANCE-BOX`, `F-PLAYER-MOVE-PACKET-VALIDATION`, and the prior S4.4a farmland finding are linked; additional hits remain possible.
 
 ### Slice S7.5: Cross-mechanic interactions and final dependency closure/revisit of affected unchanged callers
 
@@ -920,7 +920,7 @@ Append-only source-review history. An accepted finding snapshot would release on
 
 ## Source audit closure
 
-- Coverage counts by status: 15 pending; 5 in-progress; 19 compared-no-difference; 3 not-applicable; 5 findings; 0 blocked (47 slices total).
+- Coverage counts by status: 14 pending; 6 in-progress; 19 compared-no-difference; 3 not-applicable; 5 findings; 0 blocked (47 slices total).
 - Required inventory status/evidence: INV-EXCLUSIONS complete; all other inventories pending with mapped slice IDs.
 - Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS
 - Unresolved gaps: stages beyond bounded keyboard input and completed UI/tutor dispositions; S2.2 shape providers, glide movement, exact state producers/consumers, registries/resources, external writers and historical candidates remain open.
