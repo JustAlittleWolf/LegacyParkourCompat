@@ -10,11 +10,16 @@
 - The original derived JARs are unavailable. Their equivalence to the revised snapshots remains **unproven**; the old cache mismatch is not waived.
 - Source trees are published through 1.21.11 and 26.2; exact source identities and comparison citations for closed findings are in [minecraft-wiki.md](minecraft-wiki.md) and [feather-r1-findings-snapshot.md](feather-r1-findings-snapshot.md).
 
+## Newly published, awaiting Wiki-lane review
+
+- Swimming pitch control: exact 1.12.2→1.13.2 source comparison; snapshot `wiki-swimming-pitch-1.12.2-1.13.2`, commit `b20730f64ed07090b618f6101467f8bde07e0024`, SHA-256 `dd0abd5a90ac1813197e4c09ab97ed0e0027c48e237a148bbf95bde2f64e6a89`. It is source-confirmed and not yet independently accepted; original revised Feather-JAR equivalence remains unproven.
+
 ## Pending slice
 
 - The wider Wiki candidate catalog in `minecraft-wiki.md` remains open wherever it lacks a direct exact-release-pair source comparison. The numeric 1.9 jump-apex claim remains Wiki-only. Sprint-swimming input/acceleration and the full swim/crawl transition sequence remain open beyond the checked pose dimensions. Creative-flight sprint acceleration and drag exceptions, collision states for iron bars/fences and remaining pane/wall states, walking onto beds, and any later-version change to the pre-1.8.9 ladder/slope behaviors remain open. Reconcile each unexamined boundary against the candidate-claim table before treating the catalog as covered.
 - The 1.17.1→1.18.2 sprint collision predicate, the 1.21.3→1.21.5 sprint-stop add/revert with later checks, and the released 1.21.3→1.21.11 diagonal input path have already been source-compared in `minecraft-wiki.md`; they are not pending items in this checkpoint.
 - The exact-version source roster being available does not itself establish those boundaries. Keep health/food/damage/combat-state production and non-player/vehicle physics excluded.
+- The committed swimming pitch snapshot is an additional narrow finding, not closure of the broader swim/crawl inventory.
 - Do not provide implementation feedback or treat bounded findings as a whole-pair freeze. Continue this Wiki lane independently; other source-only comparisons remain blind and Wiki lanes stay sealed until their respective full-pair freeze.
 
 ## Resume instructions
@@ -26,4 +31,4 @@
 
 ## Branch
 
-Branch: `feat/minecraft-wiki-audit`. The accepted finding snapshot is commit `4c1a8a01e26b6f2c50a589cc64d51f43ddb53aeb`; reviewer acceptance and current audit status are recorded in the branch history. `main` was merged and was up to date at the last audit commit.
+Branch: `feat/minecraft-wiki-audit`. At resume, the accepted Feather finding snapshot is commit `4c1a8a01e26b6f2c50a589cc64d51f43ddb53aeb`, and the swimming pitch finding is commit `b20730f64ed07090b618f6101467f8bde07e0024`. Verify the current tip/status when resuming; the main audit report has an uncommitted summary of the swimming finding. Merge `main` before handoff and check its post-branch semantic changes.
