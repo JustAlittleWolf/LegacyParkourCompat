@@ -26,6 +26,7 @@
 - Additional A source hashes cited by the creative-flight speed input: `net/minecraft/client/MouseHandler.java` `887e11f879c5172c773d35020ea9ae5c98452b184607ec19b684a26c357a60dd`; `net/minecraft/network/protocol/game/ClientboundPlayerAbilitiesPacket.java` `2c13a4dcf511c99ab48b84b204c413835e3ccee3d8ad8b10d5a7bd13133f2c69` (also identical in B).
 - Additional A source hash cited by the piston movement slice: `net/minecraft/world/level/block/piston/PistonMovingBlockEntity.java` `67bceb946c172c5c022663fda32d123a6bbb85ca4171705ca9dc2c54105ab6e6`.
 - Additional A source hashes cited by the post-move block-speed slice: `net/minecraft/world/level/block/Block.java` `1693cfb7b84190a2fe664470a56d59e78ed5bd7d722a2bd16888b036d4d8e977`; `net/minecraft/world/level/block/state/BlockBehaviour.java` `9db85de84e502903e6fe497f043b58620b92089236ffb213f0b93db979428d13`.
+- Additional A source hash cited by the pre-input velocity dead-zone slices: `net/minecraft/world/phys/Vec3.java` `57b08ae818868a4fffdc9b5dadba2b127138c8945c2194f6f4b01e6150cd3bcb`.
 - Additional A source hashes cited by local input modifier inventory: `net/minecraft/world/item/component/UseEffects.java` `18525e459d066a046a20dce6176b3a9764de09f0d91e79c61c2203709744c8dd`; `net/minecraft/core/component/DataComponents.java` `64c8592c21c83c35dee0d4cc780b273d18ff30c4fea92c0868f296a164b2a11e`; `net/minecraft/world/item/Item.java` `a92a71ef9acd0a98e26914b61382e87f1ba098f779587d452f7373dfa8690ba4`; `net/minecraft/world/item/enchantment/Enchantments.java` `87c4d7799516cf33a0399398f4e7b503dc8ef1ebb8588fa2d5decfc33fa12157`.
 
 ### B — 26.2
@@ -44,6 +45,7 @@
 - Additional B source hash cited by the creative-flight speed input: `net/minecraft/client/MouseHandler.java` `049c4f21b6e1b724e1f0ed8b6784e55eae11c50ccd88c2a483a7253429ef8c15`.
 - Additional B source hash cited by the piston movement slice: `net/minecraft/world/level/block/piston/PistonMovingBlockEntity.java` `706bab1a13ba99bbd334aad853b99f72df58fce5b6b67d30d41f902b63dd8e06`.
 - Additional B source hashes cited by the post-move block-speed slice: `net/minecraft/world/level/block/Block.java` `cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab`; `net/minecraft/world/level/block/state/BlockBehaviour.java` `9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e`.
+- Additional B source hash cited by the pre-input velocity dead-zone slices: `net/minecraft/world/phys/Vec3.java` `026c8461113b32116f0183ec42fa1cb4c7414cec38b685484d2309f9a0cb9a33`.
 - Additional B source hashes cited by local input modifier inventory: `net/minecraft/world/item/component/UseEffects.java` `18525e459d066a046a20dce6176b3a9764de09f0d91e79c61c2203709744c8dd`; `net/minecraft/core/component/DataComponents.java` `717ec4347940ff05f93116c74ecaac3adbafd3df0f732860464ad259d6b8b0b2`; `net/minecraft/world/item/Item.java` `215fb193bc9fc45702f55a19572ced3f03cc567a851c19050619255b2e59d01d`; `net/minecraft/world/item/enchantment/Enchantments.java` `9af5f89778ad9bd8667953049045027d8426fc692121a6842fe59178b6767ba0`.
 - Original client-jar resource inspected at `data/minecraft/tags/block/suppresses_bounce.json`: only `minecraft:honey_block` is listed; entry SHA-256 `a477a87ac4bcb97971cb0b445f4cc9b6b8e02cd31ba3d01bc842b17a6a8477a8`.
 - Additional A/B source hash cited by jump-gate and liquid-state inventory: `net/minecraft/world/entity/EntityFluidInteraction.java` SHA-256 `5264ff4f1fddebc3fa9d63ad2edbe2eaf617392ff946a867a6817a78b478ee62` on both endpoints; its matching tracker reset/height producer is cited in S-JUMP-GATE and S-JUMP-LIQUID.
@@ -255,25 +257,25 @@ These are now 61 bounded work units, not an exhaustive inventory: 35 pending, 9 
 ### Slice S-VELOCITY-HORIZONTAL: Player-specific pre-input horizontal dead-zone
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: B snapshots delta movement, enters the `EntityTypes.PLAYER` branch, compares `horizontalDistanceSqr()` against `9.0E-6`, and zeroes X/Z together; keep the non-player per-axis branch as scope context, not movement behavior; lines 3060-3077.
-- A evidence: pending exact method and player-type guard correspondence.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3060-3077`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: prior tick/network/external X/Z velocity -> horizontal threshold and player guard -> rewritten delta -> input/jump/travel.
-- Parent slices / dependencies / closure evidence: S-TICK-ENTRY,S-EXT-01; all player velocity writers and subsequent consumers pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B exact branch read; threshold and operation-order comparison pending.
+- Exact behavior boundary and enclosing guards/order checked: `aiStep()` snapshots delta movement before input application; for `EntityType.PLAYER`, it uses `movement.horizontalDistanceSqr() < 9.0E-6` and zeroes X/Z together. The non-player per-axis branch is context only and outside scope. A lines 2992-3016; B lines 3060-3083. Shared helper is `Vec3.horizontalDistanceSqr()`, exact `x * x + z * z` order at `Vec3.java:192-194`.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 2992-3016`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`; `Vec3.java:192-194`, SHA-256 `57b08ae818868a4fffdc9b5dadba2b127138c8945c2194f6f4b01e6150cd3bcb`.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3060-3083`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`; `Vec3.java:192-194`, SHA-256 `026c8461113b32116f0183ec42fa1cb4c7414cec38b685484d2309f9a0cb9a33`.
+- State producers/writers -> consumers/readers: prior movement/network/external impulse writes X/Z, then the player-type guard and squared-distance threshold run before `applyInput()`; result is written once through `setDeltaMovement(dx,dy,dz)` and feeds the jump/travel stages. Player reachability is the inherited `LivingEntity.aiStep()` call established by S-TICK-ENTRY. Source writer inventories remain open at S-EXT-01 and S-PLAYER-IMPULSE-RESPONSE; this slice's transformation is closed for equivalent incoming velocity.
+- Parent slices / dependencies / closure evidence: S-TICK-ENTRY,S-VELOCITY-VERTICAL,S-EXT-01,S-PLAYER-IMPULSE-RESPONSE; A/B player type guard differs only in renamed `EntityType`/`EntityTypes` identifier; both represent the current PLAYER type.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): A/B player branch uses the same strict threshold, helper multiplication/addition order, simultaneous X/Z zeroing, unchanged Y snapshot, and one delta write before input. For equivalent player velocity the direct response matches.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-VELOCITY-VERTICAL: Pre-input vertical velocity dead-zone
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: B independently tests `Math.abs(movement.y) < 0.003` and rewrites Y to zero before `setDeltaMovement`; lines 3079-3083.
-- A evidence: pending exact method and writer/caller correspondence.
+- Exact behavior boundary and enclosing guards/order checked: after horizontal normalization and before the single delta write/input, independently test `Math.abs(movement.y) < 0.003` and rewrite only Y to zero. A lines 3012-3016; B lines 3079-3083.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3012-3016`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3079-3083`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: prior vertical velocity -> strict threshold -> rewritten velocity -> jump/travel branch.
-- Parent slices / dependencies / closure evidence: S-VELOCITY-HORIZONTAL,S-EXT-01; A/B direct velocity writer/packet inventory pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B comparison threshold read; no A result.
+- State producers/writers -> consumers/readers: prior-tick, collision, packet or external impulse Y velocity -> strict absolute threshold -> normalized Y in `setDeltaMovement` -> jump gate and travel; player call path established at S-TICK-ENTRY. The jump and liquid impulses immediately before inherited aiStep are covered by S-JUMP-IMPULSE and S-JUMP-LIQUID.
+- Parent slices / dependencies / closure evidence: S-TICK-ENTRY,S-VELOCITY-HORIZONTAL,S-JUMP-IMPULSE,S-JUMP-LIQUID,S-EXT-01,S-PLAYER-IMPULSE-RESPONSE; external source inventories stay separate from this direct transform.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): exact A/B test and strict `< 0.003` threshold match. Both preserve X/Z results, zero Y only below the threshold, and write in the same order before input. For equivalent player input velocity the direct response matches.
 - Finding IDs or checked absence/replacement path: none yet.
 ### Slice S-JUMP-GATE: Player jump edge, fluid-depth gates and delay
 
