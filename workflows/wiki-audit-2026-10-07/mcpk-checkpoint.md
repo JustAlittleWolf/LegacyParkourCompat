@@ -24,7 +24,7 @@
 1. Resume this worktree and branch, then confirm the clean state:
 
    ```powershell
-   Set-Location 'C:\Users\Wolfi\.codex\worktrees\mcpk-wiki-audit-recovered\LegacyParkourCompat'
+   Set-Location 'C:\Users\Wolfi\.codex\worktrees\mcpk-clean-rereview\LegacyParkourCompat'
    git status --short --branch
    git log --oneline -5
    ```
@@ -35,9 +35,9 @@
 
 ## Git checkpoint
 
-- Worktree: `C:\Users\Wolfi\.codex\worktrees\mcpk-wiki-audit-recovered\LegacyParkourCompat`
-- Branch: `feat/mcpk-wiki-audit`
-- Corrected immutable r2 snapshots and the lane links were committed at `78683ba65928004ce8b7b6b9371359164a68d43b`.
-- Merged default branch tip `6e0803b3fb17eeb8a3a9861ac2638828ab3200ea` in merge commit `de69ddb1f016a062bec36238ea2c40e4c7cceed5`.
+- Worktree: `C:\Users\Wolfi\.codex\worktrees\mcpk-clean-rereview\LegacyParkourCompat`
+- Branch: `fix/mcpk-clean-rereview-dispositions`
+- The clean-review disposition updates were committed at `10d4937470804e6ffd75b35930a9c3d62044b9be` (edge-backoff r3) and `59b6d55a88d724a91026553fff52e4027831d2f1` (registry/catalog/checkpoint updates).
+- Merged default branch tip `1ea23480755a2574abd5b5855827ded5d5f50702` in merge commit `7b221a6909c23d4e6423cd41023e5bca122607de`.
 - The merge conflicted in the MCPK catalog/checkpoint because `main` removed the r2 candidates and restored the older unresolved wording. Resolution retained the explicitly requested corrected candidates and partial-review status; unrelated main changes were merged unchanged.
 - No full pair or wiki-lane acceptance is claimed.
