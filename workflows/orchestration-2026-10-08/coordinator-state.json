@@ -369,7 +369,7 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:47:08.3454364Z",
+    "observedAt": "2026-10-08T14:49:15.0888915Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
@@ -459,9 +459,9 @@
       "finding": "WORLD03 frame player ejection andfloat response",
       "code": "8ae770141c4e9ca1b3f5fa3a1459d94132195306",
       "codeBranch": "fix/world-03-end-portal-frame-push",
-      "review": "c1dee45",
+      "review": "c1dee45d82c041fa83e42e35a0af8aefee35557f",
       "reviewBranch": "fix/review-world-03-correction-2026-10-08",
-      "mergeResolution": "ce6d3cd preserves fence/ejection registrations",
+      "mergeResolution": "ce6d3cd6b9f5d5a413201cfb564e134995d03c97 preserves fence/ejection registrations",
       "status": "ACCEPT; exclusiveowner assigned serialWORLD03 then swimmingentry"
     }
   ],
@@ -489,5 +489,12 @@
       "BigDripleaf no-code proof reviewed6ce9b54"
     ],
     "next": "reactivate isolated opsaudit when slot frees; add missing exactrecords and fixmislinks, then prioritize uncoveredacceptedmechanics includingpassengercrouchinput/sleep/sprint resets"
+  },
+  "slipperinessRangeFollowUp": {
+    "status": "known wider legacy-range coverage needs separate evidence-backed follow-up; do not claim covered",
+    "sourceObservation": "implementationreviewer reports exact ready sources minY-.5000001 through1.19.4, getOnPos(.500001F) by1.20.1",
+    "currentPatch": "ad653ac/ad684f4 adds1.15.2 handler only; selected1.16+ defaults native, pre-existinggap remains",
+    "next": "collect final review sourcepaths/hashes, obtain immutable independent source-family range snapshot/review before minimal registration extension; keep normaldiscovery owners blind to implementation",
+    "claimLimit": "bounded1.15.2 ACCEPT would not prove all laterprofiles correct"
   }
 }
