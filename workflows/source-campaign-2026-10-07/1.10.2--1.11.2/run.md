@@ -43,6 +43,7 @@ Cited source hash inventory (SHA-256; relative roots are the source roots in the
 - `net/minecraft/block/MagmaBlock.java`: both `6e382a4fc307391c6776dc2ff010aec1da16b50ebc50e015b6009d82c7b76b1a`.
 - `net/minecraft/block/StairsBlock.java`: A `ee143aced2a6902563cddbae77e78d1d1a512244f278987684ebe5bcacba37cb`; B `5df1782da6eb7acdb9935b3910a0484d6417661bfd6230ecf81df0de6d782627`.
 - `net/minecraft/block/FenceBlock.java`: A `d9375bba3b41ae408bdf65d69b25aecad522a6d0b45b38d30f77d12b343a4909`; B `856cb92d4613289747a34a6bc85f306ca9d44b7057a45c79f2020d13025d1cf7`.
+- `net/minecraft/block/PaneBlock.java`: A `e6e3dd856efb96146634ab8f56c915afbc6116fd51973c25229ef7aa2ce0e5c8`; B `1e8968e7d642358cce90f0d3156f07f19c5bca28d2008d5d2d4bf0eccc7266a9`.
 - `net/minecraft/entity/EntityFilter.java`: A `91158a5477935c911178433e1b2628d1d063604a23b08baee4706dd286e7e813`; B `49f2c3cbeea0bb9421fdfaad49a7742394f69cd73981a9cdd51e1badcf30c629`.
 - `net/minecraft/world/World.java`: A `888ed0e9de765def87b05c4126ecdf0b10e9dd448b4543dd1cb98211e9951646`; B `27cfaa5ff45c2d88c492fc5dae3ea4a2bb4536fd64bff8498a9a7d0cb82efb58`.
 - `net/minecraft/client/entity/living/player/RemoteClientPlayerEntity.java`: both `e7e248b439f7356695b1bf196d08e997bb19b24c23b206763c772663ee7086a1`.
@@ -267,6 +268,18 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - Disposition and rationale (including concrete reachability/preconditions): the existing oak fence emits the same center/arm collision boxes for the same neighbor results on the ordinary player collision query. The changed lead-use branch is unrelated to collision movement. No difference is established by this provider slice.
 - Finding IDs or checked absence/replacement path: no finding for this existing fence provider; remaining collision providers and block/data reachability are open.
 
+### Slice S5-pane-collision-shapes: registered iron bars and glass pane providers
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: ID 101 `iron_bars` and ID 102 `glass_pane`, both directly registered as `PaneBlock`, on ordinary entity/player collision queries with matching neighboring block identities. B `forceShape=false`.
+- A evidence: `Block.java` registers IDs 101/102 as `PaneBlock(Material.IRON, true)` and `PaneBlock(Material.GLASS, false)` at lines 954-957, SHA-256 `1971dbc284d511e2ed366f77bc77fd8cd07174baad3e7732e908d3daeb640c01`; `PaneBlock.java::SHAPES`, lines 26-41, and `addCollisions`, shape-index helpers, `resolveVirtualProperties`, and `shouldConnectTo`, lines 53-140, SHA-256 `e6e3dd856efb96146634ab8f56c915afbc6116fd51973c25229ef7aa2ce0e5c8`.
+- B evidence: `Block.java` registers the same IDs/classes/materials at lines 959-962, SHA-256 `ab873436b24487ab0ee8055bf7a478349c7f7978398aea8e387796a6c820996a`; `PaneBlock.java::SHAPES`, lines 27-42, and `addCollisions`, shape-index helpers, `resolveVirtualProperties`, and `shouldConnectTo`, lines 54-143, SHA-256 `1e8968e7d642358cce90f0d3156f07f19c5bca28d2008d5d2d4bf0eccc7266a9`; S4-world-query records the normal `forceShape=false` world dispatch.
+- State producers/writers -> consumers/readers: four neighboring block identities -> identical `shouldConnectTo` predicates and virtual properties -> center pane plus selected north/south/east/west arm boxes -> ordinary collision list -> movement clipping.
+- Parent slices / dependencies / closure evidence: S4-world-query and S5-fence-collision-shapes. The two direct registrations, shape table, arm order, connection predicate and property-resolution order match. This comparison is conditional on equal neighbor block identities and equivalent default-state `isCube` outcomes. Other pane subclasses, provider registrations and block/data resources remain under D-COLLISION/D-BLOCK-DATA.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for the directly registered iron bars and glass pane providers, matching neighbors lead to the same center/arm boxes in the ordinary player collision query. B gates virtual-property resolution on `!forceShape`; the movement query passes false. Drop-item changes are outside this collision slice. No movement difference is established.
+- Finding IDs or checked absence/replacement path: no finding for these direct PaneBlock registrations; subclass and general collision/data coverage remain open.
+
 ### Slice S2-sleep-size-cycle: direct player sleep and wake box updates
 
 - Inventory ID(s): INV-STATE, INV-COLLISION
@@ -349,7 +362,7 @@ Other correspondence requiring further walk: remote/client corrections and packe
 
 ## Resume checkpoint
 
-- Last completed slice: exact source readiness and revision verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order; partial S4-world-query; bounded S2-sleep-size-cycle/S2-resize; S1-autojump; S5-wall-collision-shapes; S5-stairs-collision-shapes; S5-fence-collision-shapes; S2-eye-height; S4-piston-collision-geometry/F-05. F-02 snapshot is committed; this is an active partial run, not a pair freeze.
+- Last completed slice: exact source readiness and revision verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order; partial S4-world-query; bounded S2-sleep-size-cycle/S2-resize; S1-autojump; S5-wall-collision-shapes; S5-stairs-collision-shapes; S5-fence-collision-shapes; S5-pane-collision-shapes; S2-eye-height; S4-piston-collision-geometry/F-05. F-02 snapshot is committed; this is an active partial run, not a pair freeze.
 - Next bounded slice: continue `D-COLLISION` by pairing `World#getCollisions` A lines 903-964 and B lines 960-1010 plus `getBlockCollisions`, then inventory and compare every remaining reachable `addCollisions` override and its collision boxes. Source roots are `build/movement-campaign-2026-10-07/ready/1.10.2/ornithe-feather/` and `.../ready/1.11.2/ornithe-feather/`; provider inventory leads are in S4-world-query. Continue with D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS and D-EXTERNAL. Do not open implementation or wiki lanes before the pair's blind freeze.
 - Managed worktree: `C:\Users\Wolfi\.codex\worktrees\movement-source-1-10-2-1-11-2-resume\LegacyParkourCompat`; branch ref `feat/source-discovery-movement-source-1-10-2-1-11-2` is not checked out in this detached worktree. Resume commands after restoring a valid branch checkout: `git status --short --branch`; `git rev-parse HEAD`; `python workflows/movement-discovery/check_completion.py workflows/source-campaign-2026-10-07/1.10.2--1.11.2`. Then open the paired `World.java` roots above and continue the provider inventory.
 - Outstanding dependencies and owners: D-SOURCE-DIAGNOSTICS, D-COLLISION, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS and D-EXTERNAL remain with the source worker; coordinator must assign the independent source reviewer (D-REVIEWER). Shared source owner remains a read-only publisher.
@@ -376,7 +389,7 @@ Complete only after blind-discovery freeze. No mod implementation was opened.
 
 ## Source audit closure
 
-- Coverage counts by status: 5 findings, 12 compared-no-difference, 2 in-progress, 1 pending (bounded rows only; broad inventory remains open).
+- Coverage counts by status: 5 findings, 13 compared-no-difference, 2 in-progress, 1 pending (bounded rows only; broad inventory remains open).
 - Required inventory status and evidence: only `INV-EXCLUSIONS` declaration complete; all movement inventories pending, with partial anchors above.
 - Open dependencies: D-SOURCE-DIAGNOSTICS, D-COLLISION, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS, D-EXTERNAL, D-REVIEWER.
 - Unresolved gaps and limits: complete tick graph, body-level diagnostic review, collision providers/resources, exact entity-player collision paths, modifiers, external writers, source-only freeze and independent audit remain open. Source comparison only; no gameplay behavior observed.
