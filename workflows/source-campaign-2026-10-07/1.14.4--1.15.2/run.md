@@ -7,7 +7,7 @@
 - Source preparation owner / command / log / readiness marker: owner checkout `C:/Users/Wolfi/.codex/worktrees/3e2d/LegacyParkourCompat` (individual identity not recorded). A exact command `gradlew.bat decompileMinecraft --versions=1.14.4 --mappings=feather,mojmap --decompiler-heap=4G --output-root=D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\staging\1.14.4-dual-7870320a676d4a4986540e7d0c40314f --cache-directory=D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\artifacts`; B exact command `gradlew.bat decompileMinecraft --versions=1.15.2,1.16.5,1.17.1,1.18.2 --mappings=mojmap --decompiler-heap=4G --output-root=D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\staging\mojmap-1.15-to-1.18-f41b958fe6b84e6eb832e0c465a0e56d --cache-directory=D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\artifacts`. Readiness records are `ready/1.14.4/mojmap.ready.json` and `ready/1.15.2/mojmap.ready.json`; each has an adjacent success excerpt, not the original full Gradle stream. SHA-256: A marker `ec7b6a6d9ba72f8a19908527977c970a8e2b3007b0e0b4323a725fb5943d3043`, provenance `9d1ad405e1e787d2fca5ed1897e6797b1f3cd79527da50d713232f46e2f30d97`, excerpt `faaa84fbb80b67131b5f0b6d6c828d59bb1c7a143d1bd92dfe2eaa99faf71e80`; B marker `64a0e40b784d525ce50937c63e465fc4f564efb1f7af17f2bac3c77a36907be0`, provenance `d4802d35ee2927a44d753871f184c3255c060eb94457a5c65a8bc121a087954e`, excerpt `b8b60b3ce9a7f746be9e2023bbd9afb7c85dc58cb8582b9ac5962fc2c8a6348d`.
 - Toolchain/decompiler/remapper versions and options: both provenance records report Java `25.0.3+9-LTS`, Gradle `9.7.1`, Vineflower `1.12.0`, ASM `9.10.1`, Mapping IO `0.9.1`, Gson `2.14.0`, Tiny Remapper `0.14.1`; heap 4G; `GRADLE_USER_HOME=C:\Users\Wolfi\.gradle`. Initial full Gradle streams were not persisted. The source-preparation repo revision was not recorded by provenance.
 - Discovery author(s): /root, source-only pair owner.
-- Independent reviewer (must differ from discovery authors): not assigned; audit pending.
+- Independent reviewer (must differ from discovery authors): snapshot reviewer `01a116ce-b44d-75f0-974f-5038e0d227c7` assigned; whole-pair audit reviewer still pending.
 
 ## Artifact manifest
 
@@ -144,7 +144,7 @@ All inventories remain pending while exact method and dependency coverage is in 
 - D-001; exact source commands and tool versions are recovered from provenance; original full Gradle streams and source-preparation repository revision were not retained (success excerpts are hashed). Record as a provenance limitation; it does not invalidate independently reverified Mojmap sources/raw inputs.
 - D-002; hashes/spans for remaining inventory slices are still pending; record each as that slice closes.
 - D-003; block/property/resource, modifier, collision-provider, fluid and external-state closure open; trace consumers backward to producers and forward to player paths.
-- D-004; independent reviewer unassigned; after source-only freeze, coordinator must assign an independent re-walk.
+- D-004; reviewer `01a116ce-b44d-75f0-974f-5038e0d227c7` assigned to finding snapshots; whole-pair independent re-walk remains unassigned.
 
 ## Finding index
 
@@ -152,9 +152,9 @@ Source-confirmed findings (not yet blind-frozen or independently accepted): [F-S
 
 ## Resume checkpoint
 
-- Checkpoint branch: `feat/source-discovery-movement-source-1-14-4-1-15-2`; this resume-only update is based on `c4e84a6cc7a026a25dce887025308890bac7ed21`. Default branch `main` (`002137b227676caea77f6832b9f4c8d0b6200bff`) was merged; the exact final tip and clean status are recorded in the checkpoint handoff.
+- Checkpoint branch: `feat/source-discovery-movement-source-1-14-4-1-15-2`; the prior checkpoint was based on `c4e84a6cc7a026a25dce887025308890bac7ed21`; resumed from `1d776787edfd53b5230d51b012454cb4e4921d3d`, with `main` (`002137b227676caea77f6832b9f4c8d0b6200bff`) already merged.
 - Source identity: A `D:/Javastuff/LegacyParkourCompat/build/movement-campaign-2026-10-07/ready/1.14.4/mojmap/`, B `.../ready/1.15.2/mojmap/`; both markers, version metadata, source manifests, artifact manifests, original client jars and every manifested source/raw artifact entry were freshly reverified with zero mismatches. This pair uses Mojmap; the revised early-Feather snapshots are not inputs.
-- Closed bounded slices: S-ENTITY-MOVE, S-LIVING-JUMP, S-FRICTION-SAMPLE, S-HONEY-BLOCK and S-ELYTRA-START (all `findings`); finding files F-SOUL-SAND-SPEED, F-FRICTION-SAMPLE, F-HONEY-SLIDE, F-HONEY-FACTORS and F-ELYTRA-START. Snapshot event FS-2026-10-07-1.14.4-1.15.2-01 is submitted at immutable payload commit `4a0c35f2008d785867c00360a7b72726e3506435` and awaits independent blind review; the pair remains partial.
+- Closed bounded slices: S-ENTITY-MOVE, S-LIVING-JUMP, S-FRICTION-SAMPLE, S-HONEY-BLOCK and S-ELYTRA-START (all `findings`); finding files F-SOUL-SAND-SPEED, F-FRICTION-SAMPLE, F-HONEY-SLIDE, F-HONEY-FACTORS and F-ELYTRA-START. Snapshot event FS-2026-10-07-1.14.4-1.15.2-01 is submitted at immutable payload commit `4a0c35f2008d785867c00360a7b72726e3506435`; event -02 freezes F-SOUL-SAND-SPEED alone at `68af793511194dbcb35752ab1f17cf75831ab82b` for independent review; the pair remains partial.
 - Materialized open slices: S-INPUT-KEYS, S-LOCAL-PRETRAVEL and S-EDGE-BACKOFF (all `in-progress`). Planned but not yet materialized as ledger rows: S-LIVING-TRAVEL, S-POST-TRAVEL, S-PLAYER-POSE, S-STATE-WRITERS, S-COLLISION-PROVIDERS, S-FLUIDS, S-EFFECTS, S-ENCHANTMENTS, S-ATTRIBUTES, S-EQUIPMENT, S-CORRECTIONS, S-PLAYER-PUSH, S-PISTON-MOUNT and the explicit exclusion audit. All seven required inventories therefore remain pending.
 - Next bounded slice: close S-INPUT-KEYS by tracing the caller slow-movement value and spectator/crouch/crawl state path. Compare `LocalPlayer.aiStep()` A 625-630/B 632-636; `LocalPlayer.isVisuallySneaking()` A 592-597 vs `isCrouching()` / `isMovingSlowly()` B 595-604; `Entity.isVisuallyCrawling()` A 1840-1842/B 1823-1825; `AbstractClientPlayer.isSpectator()` A 34-38/B 33-37; and `GameType.updatePlayerAbilities()` A/B 34-47. Then continue S-LOCAL-PRETRAVEL's sprint/ability-flight/auto-jump sub-slices and S-EDGE-BACKOFF's paired guards.
 - Exact read-only next commands (PowerShell, repo root):
@@ -186,11 +186,28 @@ Get-Content -LiteralPath "$B\net\minecraft\world\level\GameType.java" | Select-O
 - Cited source/resource hashes: source hashes are enumerated in each immutable finding; the pair source manifests are A `af98406f3d4ed31494fbdce1078d1f3df3f712501878f9a0e9ad5879bdf23c3b` and B `cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7`; no data resource entry is cited.
 - Verified implementation boundary/evidence, or unresolved boundary reason: each finding proves the difference between exact 1.14.4 and 1.15.2 sources; the first affected release within the interval is unknown. A finer release cutover is unresolved and must not be inferred from endpoint evidence.
 - Finding-specific closed dependency IDs/evidence: F-SOUL-SAND-SPEED—Soul Sand registration, all B speedFactor/jumpFactor consumers and registrations searched, player `Entity.move` path; F-FRICTION-SAMPLE—both lookup formulas, six-layer Snow collision height, Snow survival on Slime, Slime/default friction, unchanged friction consumer; F-HONEY-SLIDE—B registry/class/predicate/writes and paired `Entity.checkInsideBlocks` callback path, A complete registry absence; F-HONEY-FACTORS—A/B factor properties, registrations, post-move speed consumer, jump and auto-jump consumers; F-ELYTRA-START—paired fresh-press gates, B helper/shared-flag write and travel consumer. See the finding files for ranges and hashes.
-- Independent blind source reviewer and decision date: not assigned; coordinator review is pending.
+- Independent blind source reviewer and decision date: `01a116ce-b44d-75f0-974f-5038e0d227c7` assigned for event -02; decision pending.
 - Review basis / requested source-only revisions: pending independent review; review each finding's concrete preconditions, endpoint provenance, hashes, player reachability and scoped dependencies.
 - Pair run status and commit at handoff: `partial`; `4a0c35f2008d785867c00360a7b72726e3506435`.
 - Pair complete: no
 - Implementation handoff: blocked; independent source acceptance is pending and no finer-than-endpoint change boundary has been established.
+- Replaces/supersedes snapshot ID and reason, if applicable: none.
+
+### Snapshot event FS-2026-10-07-1.14.4-1.15.2-02
+
+- Finding ID(s): F-SOUL-SAND-SPEED
+- Source finding author(s): /root
+- Status: submitted; reviewer decision pending
+- Immutable snapshot commit: `68af793511194dbcb35752ab1f17cf75831ab82b`
+- Finding file path and SHA-256: `findings/F-SOUL-SAND-SPEED.md` `93de76cba69e7e697a5fddf83efc0b6e36586c1348007e3a2a89542321d1947d`
+- Exact A/B source identity: `ready/1.14.4/mojmap/` and `ready/1.15.2/mojmap/`; ready markers match IDs 1.14.4/1.15.2 and mapping `mojmap`. Source manifests A `af98406f3d4ed31494fbdce1078d1f3df3f712501878f9a0e9ad5879bdf23c3b`, B `cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7`; artifact manifests A `308cc33ef6dffc047432ade6affc88eccc9de94a736ee9a98571fd92915c2970`, B `208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406`. Cited source body hashes were revalidated against the published source roots for Entity.java, Blocks.java, Block.java, LivingEntity.java and Player.java; see the immutable finding for each hash and range.
+- Verified implementation boundary/evidence, or unresolved boundary reason: exact endpoints establish the delta; earliest affected release inside (1.14.4, 1.15.2] is not established. This snapshot covers only the bounded Soul Sand speed-factor finding and does not freeze or close the pair.
+- Finding-specific closed dependency IDs/evidence: S-ENTITY-MOVE and the grounded/non-flying Player path; registry/property and factor-consumer search is recorded in the finding and coverage ledger. Other pair inventories remain open.
+- Independent blind source reviewer and decision date: `01a116ce-b44d-75f0-974f-5038e0d227c7`; pending.
+- Review basis / requested source-only revisions: independently re-check endpoint pairing/provenance, cited body hashes/ranges, speed-factor guards, Soul Sand registration, and grounded player reachability.
+- Pair run status and commit at handoff: `partial`; payload `68af793511194dbcb35752ab1f17cf75831ab82b`.
+- Pair complete: no
+- Implementation handoff: blocked pending independent acceptance; no precise cutover within the interval is claimed.
 - Replaces/supersedes snapshot ID and reason, if applicable: none.
 
 ## Implementation reconciliation
