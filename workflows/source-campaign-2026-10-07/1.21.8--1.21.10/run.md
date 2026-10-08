@@ -70,8 +70,8 @@ The following are pending scope atoms for source-led member indexing. Each must 
 - State producers/writers -> consumers/readers: input/key/options producers -> movement input fields -> pre-travel/travel consumers; exact members pending.
 - Parent slices / dependencies / closure evidence: S1.1; source readiness D1.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): F01 records the source-confirmed duplicate forward/back mapping delta and input-to-travel path. The first changed release and A winning mapping remain unknown. B's optional toggle-use mode remains a separate unconfirmed candidate (default false, matching A's held-mapping behavior); finish its input-to-travel proof and other S1.2 coverage before terminal disposition.
-- Finding IDs or checked absence/replacement path: F01 submitted as an immutable source-confirmed snapshot; independent review pending.
+- Disposition and rationale (including concrete reachability/preconditions): F01 records the source-confirmed duplicate forward/back mapping delta. F02 records the default-off use-toggle path and its conditional movement slowdown consequence. Both snapshot consequences are bounded by their user/input state preconditions; first changed releases remain unknown. Other S1.2 input-to-travel and transformation coverage remains open.
+- Finding IDs or checked absence/replacement path: F01 and F02 submitted as immutable source-confirmed snapshots; independent review pending.
 
 ### Slice S1.6: Local movement-input slowdown and diagonal normalization
 
@@ -333,11 +333,16 @@ The following are pending scope atoms for source-led member indexing. Each must 
 
 ## Finding index
 
-F01 is a source-confirmed immutable snapshot submitted for independent review; no finding has yet been independently accepted. Remaining source-only candidates (unconfirmed): (1) B adds optional toggle-use mode, which can prolong held item-use state and movement slowdown (default off, matching A); (2) B's sprint double-tap window is configurable, defaulting to A's fixed 7 ticks; (3) B's sprint predicate bypasses shallow-water restriction while flying, affecting start/continuation in that precondition. Exact callsites and downstream water drag are noted in S1.3; remaining input-to-travel reachability and independent review remain open. Pair discovery remains active.
+F01 and F02 are source-confirmed immutable snapshots submitted for independent review; no finding has yet been independently accepted. Remaining source-only candidates (unconfirmed): (1) B's sprint double-tap window is configurable, defaulting to A's fixed 7 ticks; (2) B's sprint predicate bypasses shallow-water restriction while flying, affecting start/continuation in that precondition. Exact callsites and downstream water drag are noted in S1.3; remaining input-to-travel reachability and independent review remain open. Pair discovery remains active.
 
 ## Finding snapshots (not pair freeze)
 
-Submitted snapshot: F01 at `findings/F01-duplicate-movement-key-input.md`; finding SHA-256 `AF5FDD8F1576EEC5B8B6F54622D8F55AC7F661AB3ABF85E3FFC4AA50167B14BD`; finding-only commit `104349e28134e004b0039bf0296a5e3c047b7a17`; submitted 2026-10-08 11:48:57 CEST. Source identity: A source manifest `8ffb76cea647a2ba4fe58e000678f751bea2c40ea6358bae492e962ed1d9d008`, B source manifest `4be26049350c1b314a0b198022cb1e7ab1e745e104047de7a5c7d099a9d7b7e1`, shared artifact manifest `c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c` (all per the artifact manifest above). Independent review requested; status submitted, not accepted. Pair-wide discovery remains active.
+Submitted snapshots (not pair freeze):
+
+- F01 at `findings/F01-duplicate-movement-key-input.md`; finding SHA-256 `AF5FDD8F1576EEC5B8B6F54622D8F55AC7F661AB3ABF85E3FFC4AA50167B14BD`; finding-only commit `104349e28134e004b0039bf0296a5e3c047b7a17`; submitted 2026-10-08 11:48:57 CEST.
+- F02 at `findings/F02-toggle-use-extends-player-use-slowdown.md`; finding SHA-256 `FAE80150DA2E2A466FC61B438332E01E595E35461B02307C4650114A8638F1EA`; finding-only commit `3ddf2f5adb27ae17c95c8010593da35b718bca16`; submitted 2026-10-08 11:59:05 CEST.
+
+Both use the verified source identity: A source manifest `8ffb76cea647a2ba4fe58e000678f751bea2c40ea6358bae492e962ed1d9d008`, B source manifest `4be26049350c1b314a0b198022cb1e7ab1e745e104047de7a5c7d099a9d7b7e1`, shared artifact manifest `c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c` (all per the artifact manifest above). Independent review requested; both statuses are submitted, not accepted. Pair-wide discovery remains active.
 
 ## Resume checkpoint
 
