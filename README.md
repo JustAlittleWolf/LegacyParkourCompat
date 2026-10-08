@@ -4,6 +4,8 @@ Legacy Parkour Compat is a Fabric client and server mod for playing parkour maps
 
 This is one-way compatibility for old maps on newer clients. It does not rewrite block states, invent historical behavior for blocks added later, or change non-player entities.
 
+The mod emulates player movement only. Health, healing, food, and combat rules remain vanilla; movement mechanics may read vanilla player state as an input.
+
 ## Getting started
 
 Use a JDK supported by the current Minecraft target and the Gradle wrapper. Run commands from the repository root. On Windows, use `gradlew.bat` (or `.\gradlew.bat` in PowerShell).
