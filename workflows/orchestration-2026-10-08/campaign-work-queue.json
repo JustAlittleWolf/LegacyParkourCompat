@@ -16,9 +16,9 @@
     "coordinatorReasoningEffort": "medium",
     "workerModel": "gpt-6-luna",
     "workerReasoningEffort": "high",
-    "maximumConcurrentRolesIncludingCoordinator": 15,
-    "observedConcurrentRoleCountIncludingCoordinator": 15,
-    "concurrencyNote": "Latest coordinator update adds the WORLD-03 implementation worker; conservative current count is at most the configured limit of 15 pending completions.",
+    "maximumConcurrentRolesIncludingCoordinator": 20,
+    "observedConcurrentRoleCountIncludingCoordinator": 20,
+    "concurrencyNote": "User raised cap to 20 on 2026-10-08; fresh status is maintained in coordinator-state.json. Six verified idle roles resumed after range implementation handoff freed another slot.",
     "activeOldSourceReservation": {
       "threadId": "01a116c5-ef2e-7990-97d5-835aee2a0ce8",
       "pair": "1.17.1--1.18.2",

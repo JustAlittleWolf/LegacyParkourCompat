@@ -4,7 +4,7 @@
     "threadId": "01a11bae-d354-7931-8746-2ef6befcce75",
     "branch": "feat/movement-coordinator-2026-10-08",
     "baseCommit": "cbd753a83c669642b0d385568b2becf06a3e8694",
-    "maxConcurrentIncludingCoordinator": 15,
+    "maxConcurrentIncludingCoordinator": 20,
     "model": "gpt-6.1-sol",
     "reasoningEffort": "medium"
   },
@@ -13,7 +13,8 @@
     "runtimeLaunches": false,
     "allGradleTestTasksDisabledForBuild": true,
     "integrationBuildOwnerThreadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
-    "primaryMainLastVerified": "0bfb72a0bc08726f2ee3a984203c08b5d90cf34e"
+    "primaryMainLastVerified": "d4c4f154a0c2487dd6dd7d20d92eb57b3d8ab1ae",
+    "maximumConcurrentRolesIncludingCoordinator": 20
   },
   "reservedOldSlots": [
     {
@@ -85,7 +86,7 @@
       "threadId": "01a11bb3-9057-7283-b264-f6ff0befbb34",
       "role": "source",
       "pair": "1.11.2--1.12.2",
-      "status": "completed",
+      "status": "Active source-only continuation 1.11.2--1.12.2 from caae05ce.",
       "ref": "feat/source-discovery-movement-source-1-11-2-1-12-2@d624c8e35b67056fb66ef5fd2422b9cffd693d56",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -94,7 +95,7 @@
       "threadId": "01a11bb3-9efb-7962-b77b-722fbec5de31",
       "role": "source",
       "pair": "1.12.2--1.13.2",
-      "status": "completed; source partial at1c027c68c8bcbe72b0891ee213458c14c32d3dff",
+      "status": "Active source-only continuation 1.12.2--1.13.2 from 1c027c68.",
       "ref": "feat/source-discovery-movement-source-1-12-2-1-13-2@f744f3e5ca418ba8797341eca50ab1677933d1d7",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -103,7 +104,7 @@
       "threadId": "01a11bb3-aee2-7a81-b21f-e3b3b002ab9a",
       "role": "source",
       "pair": "1.13.2--1.14.4",
-      "status": "completed",
+      "status": "Active source-only continuation 1.13.2--1.14.4 from 02407720.",
       "ref": "feat/source-movement-1-13-2-1-14-4-resume5@f3f93635916e61622baad51449b2069446cb0d7d",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -112,7 +113,7 @@
       "threadId": "01a11bb3-bfe4-75a3-97b4-888907814e44",
       "role": "source",
       "pair": "1.14.4--1.15.2",
-      "status": "completed",
+      "status": "Active source-only continuation 1.14.4--1.15.2 from 16134a5a.",
       "ref": "feat/source-discovery-movement-source-1-14-4-1-15-2@105ec98f7b092a8b68e3d93a9739a720fe10e578",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -133,7 +134,7 @@
       "threadId": "01a11bb5-8eb0-7813-bb21-160e97f4652c",
       "role": "source",
       "pair": "1.15.2--1.16.5",
-      "status": "completed",
+      "status": "Active source-only continuation 1.15.2--1.16.5 from 33fb5e3f.",
       "ref": "feat/source-discovery-movement-source-1-15-2-1-16-5@d2511a34e9586231464fee42ab94f566c3f0459f",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -159,7 +160,7 @@
       "role": "elytra_gate_correction",
       "pair": null,
       "ref": "a5d07341d941ce2c0b9df1e392af9a40b1fbb9e9",
-      "status": "active accepted-source slipperiness extension1.16..1.19.4 implementation; independent code review required"
+      "status": "Completed range extension dd725b49 and main merge 5acdad5; independent implementation review pending."
     },
     {
       "threadId": "01a11bbe-910d-7c02-9261-b0d01b6822ed",
@@ -223,7 +224,7 @@
     {
       "threadId": "01a11bcd-f62a-7610-8eff-f9782f3d072d",
       "role": "elytra_independent_review",
-      "status": "completed; WORLD03 8ae77014 ACCEPTc1dee45, mergece6d3cd preserves fence/ejection registrations",
+      "status": "Active independent implementation review of range extension dd725b49 / final 5acdad5.",
       "ref": "fix/elytra-start-full-request; accepted flight-toggle finding"
     },
     {
@@ -369,11 +370,11 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T15:14:37.3832827Z",
+    "observedAt": "2026-10-08T15:16:49.8243210Z",
     "oldCompleted": 43,
     "oldActive": 0,
     "unknownSlotReserved": 0,
-    "conservativeSlots": 15,
+    "conservativeSlots": 20,
     "workersRequested": "gpt-6-luna high",
     "coordinatorObserved": "gpt-6.1-sol medium",
     "mainHead": "d4c4f154a0c2487dd6dd7d20d92eb57b3d8ab1ae",
@@ -415,7 +416,7 @@
     "Continue all source inventories and separate reopened Minecraft Wiki/MCPK claim inventories; no full pair complete yet.",
     "Resume earlier partials as slots free, then commission independent full-pair coverage audits only after evidence complete.",
     "Record unexplained remote-main push tracking update without attributing actor or rewriting remote; campaign no-push instruction remains.",
-    "Maximum15 includingroot/oldsource; coordinatorSolMedium, allworkersLunaHigh; no tests/runtime/Docker/push."
+    "Maximum 20 concurrent roles including coordinator, explicitly requested by user. Coordinator Sol Medium, all workers Luna High; no tests/runtime/Docker/push."
   ],
   "nextAcceptedIntegrationBatch": {
     "finding": "F005 saved FallFlying",
@@ -499,7 +500,7 @@
     "next": "reactivate isolated opsaudit when slot frees; add missing exactrecords and fixmislinks, then prioritize uncoveredacceptedmechanics includingpassengercrouchinput/sleep/sprint resets"
   },
   "slipperinessRangeFollowUp": {
-    "status": "source-only independent ACCEPT65b711d6; minimal implementation extension assigned; code review pending",
+    "status": "Source-only ACCEPT 65b711d6; extension dd725b49 / final 5acdad5 awaits independent implementation review by WORLD03 reviewer.",
     "sourceObservation": "implementationreviewer reports exact ready sources minY-.5000001 through1.19.4, getOnPos(.500001F) by1.20.1",
     "currentPatch": "ad653ac/ad684f4 adds1.15.2 handler only; selected1.16+ defaults native, pre-existinggap remains",
     "next": "collect final review sourcepaths/hashes, obtain immutable independent source-family range snapshot/review before minimal registration extension; keep normaldiscovery owners blind to implementation",
@@ -588,5 +589,12 @@
     "sourceCommit": "4ee5bbce85b193f972766c324c262e375fed9bd6",
     "proofBranch": "fix/passenger-crouch-reconcile-oct8",
     "sourceBlob": "5037e1f8f12ac444c5f565f63111733c65ce5f6e"
+  },
+  "concurrencyAuthorization": {
+    "userRequest": "please up the limit to 20 workers",
+    "limit": 20,
+    "date": "2026-10-08",
+    "includesCoordinator": true,
+    "supersedes": "Earlier 15-role cap in persistent goal objective and checkpoint text."
   }
 }
