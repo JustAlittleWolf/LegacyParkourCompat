@@ -439,13 +439,13 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 ### Slice S3.7: Movement attributes/helpers called by travel and direct player-path modifiers
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: Movement attributes/helpers called by travel and direct player-path modifiers; exact local guards and enclosing call order recorded per bounded behavior
-- A evidence: pending exact A member/body range and SHA-256 from verified source root
-- B evidence: pending exact B member/body range and SHA-256 from verified source root
-- State producers/writers -> consumers/readers: pending exact source writer/consumer closure
-- Parent slices / dependencies / closure evidence: parent/dependency links pending source inventory
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison; no equivalence inferred from prior reports
+- Exact behavior boundary and enclosing guards/order checked (bounded helper-consumer subcase): base water movement multiplier, generic LivingEntity speed field getter, and PlayerEntity's movement-attribute override consumed by ground/water travel.
+- A evidence: `LivingEntity.getBaseMovementSpeedMultiplier()` lines 1384-1386 and `LivingEntity.getSpeed()` lines 1563-1565; `PlayerEntity.getSpeed()` lines 1408-1410; whole-file hashes LivingEntity `bb7dc6c9e423a9568d6433d51bba12e7aee4555fbf3fb3e2b87f618382279f2f` and PlayerEntity `87fe94fa6cbf7aba18b9a5e3401664439eb8eba9958173da8fbcd05cc7ad948b`.
+- B evidence: `LivingEntity.getBaseMovementSpeedMultiplier()` lines 1421-1423 and `LivingEntity.getSpeed()` lines 1601-1603; `PlayerEntity.getSpeed()` lines 1407-1409; whole-file hashes LivingEntity `190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6` and PlayerEntity `e4e0fdbe07a7d0a0ae4a70cbb6739a287c9d045a4a12b409895c220b5d91fe1e`. Source hashes matched their exact manifest entries; all three method bodies compare equal.
+- State producers/writers -> consumers/readers: Players override the generic cached speed field with `getAttribute(MOVEMENT_SPEED).get()`; the base water multiplier is `0.8F`. Movement-speed attribute base/modifier writers remain in S2.1/S1.3/S6.1/S6.2, Depth Strider in S6.3, and equipment modifiers in S6.4. This bounded check closes the direct getters only; those producer inventories remain open.
+- Parent slices / dependencies / closure evidence: S3.2/S3.5 consume these helpers; S2.1/S1.3 own ability and sprint writes; S6.1-S6.4 own attribute/effect/enchantment/equipment sources. `DEP-MODIFIER-DATA` remains open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The player water multiplier and movement-speed getter bodies are unchanged. No consumer-side source delta is established for equal attribute state; retain S3.7 until movement attribute aggregation and its direct player providers are source-closed.
 - Finding IDs or checked absence/replacement path: none assigned
 
 ### Slice S4.1: Player-reachable `Entity.move` call order, bounding-box/position updates and requested/resolved deltas
@@ -744,8 +744,8 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 
 ## Resume checkpoint
 
-- Last completed bounded slices: S1.7, S2.2a, S2.3, S2.3a, S2.4, S2.5, S3.1, S3.2, S3.3, S3.6 and S4.4a; S2.2, S2.6, S3.4 and S3.5 remain in-progress; S1.2a and S1.2b have bounded not-applicable dispositions.
-- Next bounded slice and exact files/members/body ranges to open: continue S2.2 by closing remaining player-reachable state/default and neighbor-provider dependencies around `World.getCollisions(Box)`; the WallBlock connection subcase is dispositioned with no reachable player response for its 0.6-wide active hitbox. Continue S2.6 with remaining local movement-state writer/consumer bodies. For S3.4, trace `getJumpStrength` providers and Jump Boost lifecycle through S6.2, plus collision-triggered rebound sources through S4.4/S5.2. For S3.5, finish climbing block/state providers S5.3/S5.5 and Levitation effect lifecycle S6.2. Then trace S3.7 movement attributes/helpers through S6.1/S6.2.
+- Last completed bounded slices: S1.7, S2.2a, S2.3, S2.3a, S2.4, S2.5, S3.1, S3.2, S3.3, S3.6 and S4.4a; S2.2, S2.6, S3.4, S3.5 and S3.7 remain in-progress; S1.2a and S1.2b have bounded not-applicable dispositions.
+- Next bounded slice and exact files/members/body ranges to open: continue S2.2 by closing remaining player-reachable state/default and neighbor-provider dependencies around `World.getCollisions(Box)`; the WallBlock connection subcase is dispositioned with no reachable player response for its 0.6-wide active hitbox. Continue S2.6 with remaining local movement-state writer/consumer bodies. For S3.4, trace `getJumpStrength` providers and Jump Boost lifecycle through S6.2, plus collision-triggered rebound sources through S4.4/S5.2. For S3.5, finish climbing block/state providers S5.3/S5.5 and Levitation effect lifecycle S6.2. For S3.7, close attribute aggregation and direct sources through S6.1-S6.4.
 - Outstanding dependencies and owners: listed above; discovery author owns source inventory; artifact provenance is independently verified; blind finding reviewer and full-pair reviewer assignment pending coordinator.
 - Current assumptions requiring verification: all prior findings and no-difference claims remain unaccepted; every cited body still requires direct review despite ready tree hashes.
 
@@ -864,7 +864,7 @@ Append-only source-review history. An accepted finding snapshot would release on
 
 ## Source audit closure
 
-- Coverage counts by status: 24 pending; 2 in-progress; 15 compared-no-difference; 3 not-applicable; 2 findings; 0 blocked (47 slices total).
+- Coverage counts by status: 22 pending; 5 in-progress; 15 compared-no-difference; 3 not-applicable; 2 findings; 0 blocked (47 slices total).
 - Required inventory status/evidence: INV-EXCLUSIONS complete; all other inventories pending with mapped slice IDs.
 - Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS, DEP-RELATIVE-MOVE
 - Unresolved gaps: stages beyond bounded keyboard input and completed UI/tutor dispositions; S2.2 shape providers, glide movement, exact state producers/consumers, registries/resources, external writers and historical candidates remain open.
