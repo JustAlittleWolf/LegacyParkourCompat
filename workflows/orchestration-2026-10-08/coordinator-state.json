@@ -173,7 +173,7 @@
       "role": "blind_source_review",
       "pair": null,
       "ref": "aa66894 and105ec98",
-      "status": "completed; blindreviewa02e52d rejectsF07 and ACCEPTsF005"
+      "status": "active blind review of six immutable1.20.4--1.20.6 findings plus1.21.4--1.21.5 F14; no full-pair coverage claim"
     },
     {
       "threadId": "01a11bc1-f2a2-7342-82ea-4072acd7ff4b",
@@ -335,8 +335,8 @@
       "threadId": "01a11bf3-b68d-72a3-9fde-198291e05948",
       "role": "source",
       "pair": "1.21.4--1.21.5",
-      "status": "active",
-      "ref": "1f4f0d0e753d8b6999a37e4e81f8fc2b32fbaf18",
+      "status": "completed partial sourcecheckpoint ebd2e6ea513d3b41a12307cfb2980b5206c5d211",
+      "ref": "ebd2e6ea513d3b41a12307cfb2980b5206c5d211",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
     },
@@ -369,14 +369,14 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:54:54.1756551Z",
+    "observedAt": "2026-10-08T14:57:43.1541338Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
     "conservativeSlots": 15,
     "workersRequested": "gpt-6-luna high",
     "coordinatorObserved": "gpt-6.1-sol medium",
-    "mainHead": "0bfb72a0bc08726f2ee3a984203c08b5d90cf34e",
+    "mainHead": "c9a9b973",
     "mainUntracked": "generated worktrees preserved; local exclude applied by integration owner",
     "TICK01": "independently accepted, built with all Test tasks disabled, integrated; main net source auditfa340fe confirms five acceptedbatches",
     "passengerYaw": "integrated; test-disabled build success; no runtime",
@@ -460,7 +460,7 @@
       "review": "c1dee45d82c041fa83e42e35a0af8aefee35557f",
       "reviewBranch": "fix/review-world-03-correction-2026-10-08",
       "mergeResolution": "ce6d3cd6b9f5d5a413201cfb564e134995d03c97 preserves fence/ejection registrations",
-      "status": "ACCEPT; exclusiveowner assigned serialWORLD03 then swimmingentry"
+      "status": "integration owner reports accepted build and mainc9a9b973; independent artifact audit pending"
     }
   ],
   "bigDripleafDisposition": {
@@ -512,5 +512,17 @@
       "reasoningEffort": "high",
       "task": "/root/source_2612_262"
     }
-  ]
+  ],
+  "sourceCheckpointCorrection": {
+    "pair": "1.21.11--26.1.2",
+    "savedRef": "8925319ec400364f53fd07f2a156a6da1268f6cb",
+    "correction": "S7.1-S7.5 are pending; actual partial proofs are S2.6/S4.2/S4.3 plusD3/D4 closure. Fresh worker verified ready markers and Player/Entity file hashes; source queue wording stale."
+  },
+  "slipperinessImplementationReview": {
+    "verdict": "ACCEPT bounded1.15.2",
+    "status": "exact object-store/fullref requested; integration waits current WORLD03/swimming-entry batches",
+    "reviewShort": "e1866cc",
+    "edgeBackoff": "no-code existing implementation ACCEPT same review",
+    "range": "separate focused snapshot in progress; independent source review still required"
+  }
 }
