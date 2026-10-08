@@ -11,7 +11,39 @@
 
 ## Paired evidence
 
-For each side: manifest artifact reference; relative source path; fully qualified class; member signature/descriptor; original line range; source hash. Include only the short exact expression/guard necessary to show the difference, retaining casts and literal suffixes. For resources include jar entry, key/value and hash. For absence cite the inspected caller, registration, inheritance or replacement path rather than a failed string search.
+Repeat for A and B, copying the matching `Evidence artifact <ID>` record or linking to it unambiguously. Leave unavailable values `pending` while the report is active; never silently substitute a revised artifact for its original record.
+
+### A artifact identity
+
+- Evidence artifact record ID:
+- Publication status: original-verified | revised-derived | pending
+- Revision ID (revised evidence only):
+- Immutable evidence path:
+- Evidence artifact SHA-256:
+- Evidence manifest path / SHA-256:
+- Original artifact-manifest path / SHA-256:
+- Original derived-artifact availability and SHA-256 or expected hash:
+- Source/raw-input hash relation and verification reference:
+- Revised-to-original derived-artifact equivalence and evidence reference:
+- Provenance limitations:
+- Relative source path; fully qualified class; member signature/descriptor; original line range; source hash:
+
+### B artifact identity
+
+- Evidence artifact record ID:
+- Publication status: original-verified | revised-derived | pending
+- Revision ID (revised evidence only):
+- Immutable evidence path:
+- Evidence artifact SHA-256:
+- Evidence manifest path / SHA-256:
+- Original artifact-manifest path / SHA-256:
+- Original derived-artifact availability and SHA-256 or expected hash:
+- Source/raw-input hash relation and verification reference:
+- Revised-to-original derived-artifact equivalence and evidence reference:
+- Provenance limitations:
+- Relative source path; fully qualified class; member signature/descriptor; original line range; source hash:
+
+For resources include jar entry, key/value and hash. Include only the short exact expression/guard necessary to show the difference, retaining casts and literal suffixes. For absence cite the inspected caller, registration, inheritance or replacement path rather than a failed string search.
 
 ## Source-level difference
 
