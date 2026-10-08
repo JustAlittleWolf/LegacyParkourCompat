@@ -341,6 +341,14 @@ Append an event for each source-confirmed finding snapshot and each later invali
 - Blind review: reviewer pending coordinator assignment. Verify paired hurt gates, shared knockback writer, Player inheritance, client velocity consumer and tag-data limitation; implementation remains pending review.
 - Pair status: active, not complete. No prior snapshot is superseded.
 
+### Snapshot event F-1.20.2-KNOCKBACK-SOURCE-TAG-GATE-2026-10-08-REV2
+
+- Finding ID: F-1.20.2-KNOCKBACK-SOURCE-TAG-GATE; status submitted for independent blind source review.
+- Immutable snapshot: commit `3c20c5603258e0343460079cfb9051d6c742fde8`; file `workflows/source-campaign-2026-10-07/1.20.1--1.20.2/findings/F-1.20.2-KNOCKBACK-SOURCE-TAG-GATE.md`; SHA-256 `e074ae3828a8b85157291ff24ed8f77844cfdb008888c22d2a818dbfa52f7b91`.
+- Revision: adds exact client-jar `IS_EXPLOSION` and `NO_KNOCKBACK` resource evidence and narrows the fireworks observation to a candidate under packaged client defaults. It explicitly retains authoritative server/datapack tag membership as unresolved and makes no named server event claim.
+- Supersedes snapshot event `F-1.20.2-KNOCKBACK-SOURCE-TAG-GATE-2026-10-08` at commit `432cac33bf5700d1832c00e9562096d29afeb8fc`, whose finding hash was `483930e5673efa241f5026bc5580b2b4d29d7ab0aea616bcb2c25a0c9e0811ea`; that event remains as historical record.
+- Review status: pending. No independent reviewer was contacted; no implementation or wiki material was opened.
+
 ## Implementation reconciliation
 
 Complete only after blind-discovery freeze. Do not open implementation or prior catalogs before then.
