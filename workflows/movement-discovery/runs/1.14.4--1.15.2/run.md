@@ -138,6 +138,16 @@ The attached firework path is a player-only external velocity producer. Both `Fi
 
 Disposition: no player movement delta is established for the fall-flying firework attachment path. This does not close all external writers: packet corrections, knockback sources, portal dismount and other player-only velocity/position callbacks remain separately covered or open in the stage 7 queue.
 
+#### Stage 7 server movement acceptance and correction
+
+The paired `ServerGamePacketListenerImpl.handleMovePlayer` paths retain the same packet-coordinate defaults, packet-rate and moved-too-quickly checks, player collision checks, movement call, attempted-position reconciliation, corrective teleport decision, floating predicate, chunk update, and last-good-position writes. The `n` residual test remains `n > -0.5 || n < 0.5` in both versions; its `||` operation is preserved. B adds `fallDistance = 0.0F` for a positive requested vertical delta before the jump-from-ground check; this changes fall state, not a position or velocity write in this handler, and is outside the movement-response slice. `ServerGamePacketListenerImpl.teleport` also sends the same absolute/relative player coordinate construction and calls the same `absMoveTo` in both versions; B uses position getters for the relative offsets.
+
+| Source | A SHA-256 | B SHA-256 | Compared slice and result |
+|---|---|---|---|
+| `net/minecraft/server/network/ServerGamePacketListenerImpl.java` | `912F528C03DA34FA703646B6383C2B49AC3493EFD7BA78CB8FF27AA7F693B67D` | `3D46E455509891A3E0EF50472610D565255F5991987E971BA00AF2140D25982C` | `handleMovePlayer` pairs ordinary player movement acceptance and server correction; no position/velocity delta is established. `teleport` retains the same packet/position route. |
+
+Disposition: no changed ordinary inbound player movement or server correction behavior was established in these methods. Fall-distance lifecycle, vehicle packet handling, other server-authoritative writers, and client handling of their corrections remain in the external-input inventory.
+
 #### Stage 7 player teleport-item correspondence
 
 The non-mounted Ender Pearl impact path and Chorus Fruit candidate search were paired through their player-position calls. The item launch speeds, target sampling formulas, 16 Chorus Fruit attempts, downward support search, collision/liquid checks, and fall-distance reset are unchanged; B uses position getters where A reads the same entity fields. Chorus Fruit's passenger dismount check is also present in both. Ender Pearl consumes the stack before spawning in A and after spawn in B, but both `use` methods create the projectile with `shootFromRotation(..., 1.5F, 1.0F)`.
