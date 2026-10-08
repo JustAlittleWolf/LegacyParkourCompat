@@ -368,27 +368,14 @@ The entries below are provisional behavior buckets from the required navigation 
 ### Slice S4-move-core: entity move dispatch, axis ordering, position and velocity updates
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
-- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
-- State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
-
-### Slice S4-collision-query: collision candidate acquisition, shape context/query timing, pose/box dependence
-
-- Inventory ID(s): INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: pending pair source and method correspondence; split provisional buckets into bounded member-level slices.
-- A evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
-- B evidence: pair root and source manifest verified; exact owner/member/descriptor, body line range and SHA-256 still required.
-- State producers/writers -> consumers/readers: pending source call graph and field writer/consumer inventory.
-- Parent slices / dependencies / closure evidence: `D-METHOD-BODY-REVIEW` plus dependencies discovered from both exact source trees; unresolved.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending; no behavioral conclusion can be drawn before source and dependency review.
-- Finding IDs or checked absence/replacement path: no slice-level source disposition confirmed; first-pass comparison is underway.
-
+- Exact behavior boundary and enclosing guards/order checked: `Entity.move(MoverType,Vec3)V` full body, A lines 670-766 and B lines 685-781. It covers the `noPhysics` and piston branches, stuck multiplier, edge hook then collision query, position/movement-history update, collision and on-ground flags, fall/velocity updates, landing callback, movement emission and block speed scaling.
+- A evidence: `build/movement-campaign-2026-10-07/ready/1.21.10/mojmap/net/minecraft/world/entity/Entity.java`, `Entity.move(MoverType,Vec3)V` lines 670-766, SHA-256 `8361dbb86fe6c975d21f69d008377b6f191669be751150c842517e9d0346fa18`.
+- B evidence: `build/movement-campaign-2026-10-07/ready/1.21.11/mojmap/net/minecraft/world/entity/Entity.java`, `Entity.move(MoverType,Vec3)V` lines 685-781, SHA-256 `32314478c6036fa9f3f3cc409c61c622eeffc5a282d60e1011a1a33cc29cf18a3`.
+- State producers/writers -> consumers/readers: requested `MoverType`/`Vec3`, `noPhysics`, position, stuck-speed multiplier, `fallDistance`, collision flags, ground state, delta movement, level collision results, support block, removal state, simulation authority and passenger state feed the method. It writes position and movement history, collision/ground flags, delta movement and fall state, and invokes landing/block/sound callbacks before applying the block speed factor.
+- Parent slices / dependencies / closure evidence: `S1-sneak-use` closes the edge-backoff hook body; `S4-collision-query`, `S4-step`, `S4-edge-support`, `S4-velocity-collision`, `S4-callbacks`, `S5-slow-surface` and `S5-landing-bounce` own the direct helpers and providers. `D-S3-CLIMBABLE-PUSHABILITY` remains open under the broader S4 collision path; it is not resolved by this method-body comparison.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the complete A/B `Entity.move` method bodies contain no source-text difference and preserve the same operation and callback order. For Player instances, this closes only the shared orchestration method; collision-query, step selection, support, velocity/collision consequences and callbacks remain independently open. A newly traced `onClimbable()` -> `LivingEntity.isPushable()` -> `Entity.pushEntities()` path may gate direct Player push response and still requires source-level scope and writer tracing.
+- Finding IDs or checked absence/replacement path: no difference identified in this method body. `F-S3-GLIDE-THROUGH-CLIMBABLE` is a separate fall-flying travel finding; its inherited pushability consumer is not resolved here.
 ### Slice S4-step: step-up eligibility, candidate paths, height comparisons and tie-breaking
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
@@ -681,7 +668,11 @@ The entries below are provisional behavior buckets from the required navigation 
 
 ## Dependency queue and blockers
 
-- Open dependencies: `D-METHOD-BODY-REVIEW` and all method/resource dependencies discovered during the seven-stage walk.
+- Open dependencies:
+  - `D-METHOD-BODY-REVIEW`: continue the method-bounded source walk and producer/consumer closure across all inventories.
+  - `D-S3-CLIMBABLE-PUSHABILITY` (parent `S3-climb`, `S4-move-core`): A/B `LivingEntity.isPushable()Z` lines 3077-79 / 3203-05 call `onClimbable()` and Player inherits the method; A/B `Entity.pushEntities()` callsites lines 1737-44 / 1755-62 gate both direct `push(...)` writes on `isPushable()`. Trace the method caller/tick path, Player-side velocity write and exact preconditions, then classify the direct Player movement response under the stated non-player movement exclusion. Owner: discovery worker.
+  - `D-S3-CLIMBABLE-LAST-POS`: `onClimbable()` also writes `lastClimbablePos`; the only accessor reference found is `world/damagesource/FallLocation.java` (A line 37, B line 36). This is damage classification, excluded from the campaign; no movement consequence is claimed from this state write. Owner: discovery worker; disposition: excluded.
+  - `D-S3-CLIMBABLE-START`: A/B `LocalPlayer.aiStep()` callsites lines 774 / 815 test `!onClimbable()` before `tryToStartFallFlying()`. The paired Player methods lines 1376-83 / 1441-48 return false while already fall-flying, so this sibling caller does not start flight or send the start packet under the finding's state; the climbable-position write is covered above. Disposition: no additional in-scope motion delta found for this caller.
 
 ## Finding index
 
@@ -689,8 +680,8 @@ Three source-confirmed findings are recorded in `findings/F-S1-FLIGHT-VEHICLE-GA
 
 ## Resume checkpoint
 
-- Last completed slice: twelve bounded slices are compared-no-difference (input sampling, sprint transitions, knockback vector math, Player knockback sync scheduling, food/passenger sprint eligibility, Player travel dispatch, water travel, lava travel, fall-flying travel, jump impulse, air/ground travel, and sneak/item-use input scaling with edge retreat); three source-confirmed findings remain in source review, and `F-S3-GLIDE-THROUGH-CLIMBABLE` now has immutable snapshot commit `1bc51109c02daf84c84c622ebf0bdd88f25f6729` with reviewer decision pending. The other two findings have not been snapshotted; all other source coverage remains open.
-- Next bounded slice and exact files/members/body ranges to open: `S4-move-core`, A `Entity.move(MoverType,Vec3)V` lines 670-766 and B lines 685-781; then split its collision, step, support, velocity and callback dependencies into method-bounded slices.
+- Last completed slice: twelve bounded slices are compared-no-difference (input sampling, sprint transitions, knockback vector math, Player knockback sync scheduling, food/passenger sprint eligibility, Player travel dispatch, water travel, lava travel, fall-flying travel, jump impulse, air/ground travel, and sneak/item-use input scaling with edge retreat). The complete `Entity.move(MoverType,Vec3)V` bodies match, but `S4-move-core` remains in-progress while its caller/state dependencies and `D-S3-CLIMBABLE-PUSHABILITY` are resolved. Three source-confirmed findings remain in source review; `F-S3-GLIDE-THROUGH-CLIMBABLE` has immutable snapshot commit `1bc51109c02daf84c84c622ebf0bdd88f25f6729` with reviewer decision pending.
+- Next bounded slice and exact files/members/body ranges to open: close `D-S3-CLIMBABLE-PUSHABILITY` by tracing A/B `LivingEntity.isPushable()Z` lines 3077-79 / 3203-05 and `Entity.pushEntities()` callers around lines 1737-44 / 1755-62, including direct Player velocity writes; then begin `S4-collision-query` with `Entity.collide(Vec3)V` A lines 1025-1054 and B lines 1044-1073.
 - Outstanding dependencies and owners: `D-METHOD-BODY-REVIEW` (discovery worker); newly discovered producer/consumer, shape, registration and data dependencies will be added with exact owners/actions.
 - Current assumptions requiring verification: all listed ready/source/artifact hashes were verified. Remaining assumptions: exact member correspondence, operation/callback order, every reachable player state writer and producer/consumer dependency, relevant jar resource entries, and source-level movement semantics.
 
@@ -718,7 +709,7 @@ Three source-confirmed findings are recorded in `findings/F-S1-FLIGHT-VEHICLE-GA
 
 ## Source audit closure
 
-- Coverage counts by status: 34 pending; 0 in-progress; 12 compared-no-difference; 3 findings; 2 not-applicable; 0 blocked. Pair provenance is verified; all three finding slices have source evidence and remain subject to independent finding review; other slices remain open.
+- Coverage counts by status: 34 pending; 1 in-progress; 12 compared-no-difference; 3 findings; 2 not-applicable; 0 blocked. Pair provenance is verified; all three finding slices have source evidence and remain subject to independent finding review; other slices remain open.
 - Required inventory status and evidence: all seven inventories pending method-bounded traversal, producer/consumer linkage and full closure. Source roots and artifact hashes are verified above.
 - Open dependencies: `D-METHOD-BODY-REVIEW` and all method/resource dependencies discovered during the seven-stage walk.
 - Unresolved gaps and limits: pair provenance is verified; three bounded movement/tick-gate deltas are source-confirmed, while the remaining movement behavior is not yet covered. At this handoff, open source slices and unassigned independent review require partial status.
