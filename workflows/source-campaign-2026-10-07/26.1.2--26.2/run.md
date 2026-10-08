@@ -81,7 +81,7 @@ Each inventory maps to bounded slices below; all are pending. Add all newly disc
 
 ## Coverage ledger
 
-These are now 61 bounded work units, not an exhaustive inventory: 35 pending, 11 in-progress, 11 compared-no-difference, 2 findings, and 2 not-applicable. Pair comparison has started now that A is ready. B-only anchors are navigation evidence; do not infer equivalence or absence. Expand the ledger during the pair-specific inventory.
+These are now 61 bounded work units, not an exhaustive inventory: 35 pending, 9 in-progress, 13 compared-no-difference, 2 findings, and 2 not-applicable. Pair comparison has started now that A is ready. B-only anchors are navigation evidence; do not infer equivalence or absence. Expand the ledger during the pair-specific inventory.
 
 ### Slice S-IN-01: Keyboard input sampling and movement-vector construction
 
@@ -138,9 +138,9 @@ These are now 61 bounded work units, not an exhaustive inventory: 35 pending, 11
 - A evidence: `ready/26.1.2/unobfuscated/net/minecraft/client/player/LocalPlayer.java::aiStep(),isSprintingPossible(boolean),canStartSprinting(),vehicleCanSprint(Entity), lines 802-818,1135-1152`, SHA-256 `433fd995ad317af0f6ef0e50c1e8e3483cb8f00e0e327d4edf27a4dd99666ebe`; `Player.hasEnoughFoodToDoExhaustiveManoeuvres(),isMobilityRestricted(), lines 1571-1573,1943-1945`, SHA-256 `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d`; `LivingEntity.setSprinting(boolean), lines 2280-2287`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/client/player/LocalPlayer.java::aiStep(),isSprintingPossible(boolean),canStartSprinting(),vehicleCanSprint(Entity), lines 802-818,1135-1152`, SHA-256 `8d089aa09217e3607b38590f7c1623385562800943ac6dfd3d17804e041da6d6`; `Player.hasEnoughFoodToDoExhaustiveManoeuvres(),isMobilityRestricted(), lines 1592-1594,1964-1966`, SHA-256 `8decc71b9c780664578ddb14591db2a2f207c72c05b676edded6f8e964576531`; `LivingEntity.setSprinting(boolean), lines 2317-2324`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
 - State producers/writers -> consumers/readers: input/shift/backward/item-use/fall-flight/crouch/crawl, sprint timer, food/mayfly, mobility-effect, shallow-water and passenger-vehicle state -> sprint flag and trigger timer -> movement-speed modifier and travel. Read vanilla food/effect state as inputs; do not emulate their producers.
-- Parent slices / dependencies / closure evidence: S-LOCAL-SNAPSHOT,S-LOCAL-INPUT-MODIFIERS,S-MOD-01; A/B caller, predicates and sprint setter match, while item-use component data, movement-speed modifier registration and complete modifier inventory remain open.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): the paired branch order, timer updates, predicate expressions, and sprint-flag/speed-modifier write path match. The item-use component and movement-modifier inventories remain open, so the full input-to-travel chain is not yet terminal.
+- Parent slices / dependencies / closure evidence: S-LOCAL-SNAPSHOT,S-LOCAL-INPUT-MODIFIERS,S-MOD-01; the paired caller/predicates, item-use component values, and `LivingEntity.setSprinting` path are compared. Its sprint modifier is the same `0.3F` `ADD_MULTIPLIED_TOTAL` modifier on `MOVEMENT_SPEED` in both endpoints; excluded food producers are read only as state predicates.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for equal input flags, item `UseEffects`, ability/food/mobility state, fluid/vehicle state and current attributes, the branch order, trigger timer operations, predicate expressions and sprint flag writes match. The speed modifier writer removes the same ID and conditionally adds the same transient `0.3F` total multiplier. Other movement modifiers and their producers remain covered by open `S-MOD-01`; they do not change this bounded sprint transition under equivalent inputs.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-SPRINT-STOP: Run/swim sprint stopping predicates
@@ -151,8 +151,8 @@ These are now 61 bounded work units, not an exhaustive inventory: 35 pending, 11
 - B evidence: `ready/26.2/unobfuscated/net/minecraft/client/player/LocalPlayer.java::aiStep(),shouldStopRunSprinting(),shouldStopSwimSprinting(), lines 820-828,921-929`, SHA-256 `8d089aa09217e3607b38590f7c1623385562800943ac6dfd3d17804e041da6d6`; `Entity.isInShallowWater(), lines 1617-1619`, SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`.
 - State producers/writers -> consumers/readers: water/forward/ground/shift/collision flags and sprint ability -> sprint flag -> travel. Inputs are read as vanilla state; collision and fluid state producers remain tracked by their movement inventories.
 - Parent slices / dependencies / closure evidence: S-SPRINT-START,S-LOCAL-SNAPSHOT,S-MOVE-FLAGS,S-TRAVEL-WATER; paired stop predicates match, with state-writer and fluid/collision inventories still open at pair level.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): A/B direct stop conditions and order match. The surrounding call inputs still require closure in the collision, fluid and modifier inventories.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): under equivalent sprint flag, water/forward input, ground/shift state, ability/item/food state and collision flags, the call order and direct run/swim stop conditions match. The predicates consume those values but do not produce them; their broader collision/fluid producers remain independently open.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-FLIGHT-TOGGLE: Creative/spectator flight toggle and launch jump
@@ -824,7 +824,7 @@ Two source-confirmed candidates are recorded: `F-26.2-SLIME-LANDING-RESTITUTION`
 
 ## Resume checkpoint
 
-- Last dispositioned slices: S-IN-01,S-IN-BASE,S-LOCAL-SNAPSHOT,S-SQUARE-MOVE,S-TICK-ENTRY,S-EXT-ENTITY-MOTION-PACKET,S-EXT-PLAYER-CORRECTIONS,S-PLAYER-IMPULSE-RESPONSE,S-SINK-INPUT,S-FLIGHT-VERTICAL-INPUT,S-MOVE-BLOCK-SPEED; `S-RIDEABLE-JUMP` and `S-CLIENT-AVATAR-STATE` are not applicable; `S-MOVE-RESTITUTE-SLIME` and `S-MOVE-RESTITUTE-BED` each have one source-confirmed finding. `S-LOCAL-UNSTUCK`, sprint start/stop, flight toggle/fall-flying request, input modifiers, Player aiStep pre/post, `S-EXT-01`, `S-EXT-PISTON-MOVEMENT`, and generic `S-MOVE-RESTITUTE` remain in progress. The active ledger has 61 units: 35 pending, 11 in-progress, 11 compared-no-difference, 2 findings, 2 not-applicable.
+- Last dispositioned slices: S-IN-01,S-IN-BASE,S-LOCAL-SNAPSHOT,S-SPRINT-START,S-SPRINT-STOP,S-SQUARE-MOVE,S-TICK-ENTRY,S-EXT-ENTITY-MOTION-PACKET,S-EXT-PLAYER-CORRECTIONS,S-PLAYER-IMPULSE-RESPONSE,S-SINK-INPUT,S-FLIGHT-VERTICAL-INPUT,S-MOVE-BLOCK-SPEED; `S-RIDEABLE-JUMP` and `S-CLIENT-AVATAR-STATE` are not applicable; `S-MOVE-RESTITUTE-SLIME` and `S-MOVE-RESTITUTE-BED` each have one source-confirmed finding. `S-LOCAL-UNSTUCK`, flight toggle/fall-flying request, input modifiers, Player aiStep pre/post, `S-EXT-01`, `S-EXT-PISTON-MOVEMENT`, and generic `S-MOVE-RESTITUTE` remain in progress. The active ledger has 61 units: 35 pending, 9 in-progress, 13 compared-no-difference, 2 findings, 2 not-applicable.
 - Next bounded slice and exact files/members/body ranges to open: finish the LocalPlayer pre-travel dependencies, beginning with `S-LOCAL-UNSTUCK`'s suffocation query/block-property inventory and then close the sprint, flight, fall-flying and input modifier predicates; continue with `LocalPlayer.aiStep()` and player-specific `LivingEntity.aiStep()/travel()` in each endpoint. Rehash newly cited source files before disposition.
 - Outstanding dependencies and owners: D-B-PROVENANCE (shared source owner), D-DEPENDENCIES (worker inventory).
 - Current assumptions requiring verification: no movement-relevant resource/data is omitted. No release introduction point can be inferred from these two endpoints alone.
@@ -848,7 +848,7 @@ Two source-confirmed candidates are recorded: `F-26.2-SLIME-LANDING-RESTITUTION`
 
 ## Source audit closure
 
-- Coverage counts by status: 35 pending; 11 in-progress; 11 compared-no-difference; 2 findings; 2 not-applicable; 0 blocked. This remains a working inventory; expand it as source/provider reachability is enumerated.
+- Coverage counts by status: 35 pending; 9 in-progress; 13 compared-no-difference; 2 findings; 2 not-applicable; 0 blocked. This remains a working inventory; expand it as source/provider reachability is enumerated.
 - Required inventory status and evidence: `INV-TICK` pending, with `S-IN-01`, `S-IN-BASE`, `S-LOCAL-SNAPSHOT`, `S-SQUARE-MOVE`, `S-TICK-ENTRY`, `S-SINK-INPUT`, and `S-PLAYER-IMPULSE-RESPONSE` compared; `S-RIDEABLE-JUMP` and `S-CLIENT-AVATAR-STATE` routed to `INV-EXCLUSIONS`; `S-LOCAL-UNSTUCK`, sprint start/stop, flight toggle/fall-flying request, `S-LOCAL-INPUT-MODIFIERS`, `S-PLAYER-AISTEP-PRE`, `S-PLAYER-AISTEP-POST`, and `S-FLIGHT-VERTICAL-INPUT` remain in-progress; other slices await source/provider closure.
 - Open dependencies: D-B-PROVENANCE (missing owner name/full stdout only), D-DEPENDENCIES. D-A-READY is resolved for exact `26.1.2/unobfuscated`.
 - Unresolved gaps and limits: current dispositions cover keyboard sampling/vector construction, neutral client-input fallback, the selected pre-travel input snapshot range and square-movement math; paired tick topology and direct flight/knockback velocity formulas have bounded source comparisons but retain open dependencies. Input modifier producers and conditions, player-facing external impulse/correction routes, the full call-path/provider inventory, findings, source freeze, independent audit and downstream reconciliation remain open.
