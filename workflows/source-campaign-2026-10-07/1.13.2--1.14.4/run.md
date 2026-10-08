@@ -58,7 +58,7 @@ Cited Java files and whole-file SHA-256:
 
 ## Correspondence and call order
 
-Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (no-arg to boolean args), `LivingEntity.jump`, `LivingEntity.moveRelative` (three floats to Vec3d), `Entity.updateVelocity` (float components to vector helper), `Entity.move` (three doubles to vector), and `PlayerEntity.updatePlayerPose`. Full local tick, superclass, pre-travel, all dispatch branches and post-travel call chain are not closed. S001-S021 contain bounded paired evidence; no stage label alone is treated as coverage.
+Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (no-arg to boolean args), `LivingEntity.jump`, `LivingEntity.moveRelative` (three floats to Vec3d), `Entity.updateVelocity` (float components to vector helper), `Entity.move` (three doubles to vector), and `PlayerEntity.updatePlayerPose`. Full local tick, superclass, pre-travel, all dispatch branches and post-travel call chain are not closed. S001-S022 contain bounded paired evidence; no stage label alone is treated as coverage.
 
 ## Required source inventories
 
@@ -67,7 +67,7 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - `INV-COLLISION` status=pending; slice_ids=S002,S006,S009,S019,S020,S021; evidence=pose fit, escape probes, entity move, paired collision enumerators, and shared static collision providers; remaining provider and neighbor-state enumeration open.
 - `INV-WORLD-MOVEMENT` status=pending; slice_ids=S005,S007; evidence=slipperiness/climbing consumers; providers and resources open.
 - `INV-MODIFIERS` status=pending; slice_ids=S003,S005; Jump Boost/Slow Falling consumers observed; producer/application chains open.
-- `INV-EXTERNAL` status=pending; slice_ids=S006,S009,S010,S012,S016,S017,S018,S019; direct player velocity/impulse/knockback remains in scope, including reachable push response; S018 compares the client player-correction velocity reset and S019 inventories entity obstacles in the player auto-jump scan, while other correction paths, knockback sources, piston, mount and launch-item consumers remain open; exclude non-player/vehicle physics and combat cause/damage resolution.
+- `INV-EXTERNAL` status=pending; slice_ids=S006,S009,S010,S012,S016,S017,S018,S019,S022; direct player velocity/impulse/knockback remains in scope, including reachable push response; S018 compares the client player-correction velocity reset and S019 inventories entity obstacles in the player auto-jump scan, while other correction paths, knockback sources, piston, mount and launch-item consumers remain open; exclude non-player/vehicle physics and combat cause/damage resolution.
 - `INV-EXCLUSIONS` status=pending; evidence=scope exclusions declared; direct-read inventory open. Exclude health/food state production and attack/damage resolution; direct player velocity/impulse/knockback response remains in scope even if combat can trigger it; exclude non-player and vehicle physics. Food/blindness may remain movement-predicate inputs without emulating their producers.
 
 ## Coverage ledger
@@ -316,10 +316,21 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - Status: compared-no-difference
 - Disposition and rationale (including concrete reachability/preconditions): the four paired providers use the same collision geometry: cactus inset from the unit block with a 15/16 height, fence gate oriented bars extending to height 24/16 when closed and empty when open, snow layers indexed by the same 2/16 increments, and soul sand at 14/16 height. Their direct shape selectors and constants match. The comparison does not cover other methods in these source files.
 - Finding IDs or checked absence/replacement path: none within this bounded static-provider slice; no modern-only provider was treated as a difference.
+### Slice S022: moving-piston source shape selection
+
+- Inventory ID(s): INV-COLLISION, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: `MovingBlockEntity.getStateForShape` collision-shape selection for piston-driven entity movement; compare the new B source-state guard and the piston construction paths that set `source`.
+- A evidence: `MovingBlockEntity.java`::constructor and `getStateForShape`, lines 42-48, 91-98, SHA-256 `6684ccc05adf8b29cac55f9796133405c6d4f6853051e651895303b657cd1c46`; `PistonBaseBlock.java`, source creation at lines 194, 313, 326, SHA-256 `1722edaf96c15af587b4e169b62c5af1d352800e82a2070e1f4af86bdde4cb31`.
+- B evidence: `MovingBlockEntity.java`::constructor and `getStateForShape`, lines 44-50, 93-100, SHA-256 `e03c4123c06309c04dbc039c6f276f1bf988018a4f13cc329bd6d07acc6bc54a`; `PistonBaseBlock.java`, source creation at lines 195, 310, 323, SHA-256 `37409c9f2390642103155dcec3e922e0d387e9d0bbca069fb334277d5d84a058`.
+- State producers/writers -> consumers/readers: piston action creates moving block entity with moved state, extending and source flags -> `getStateForShape` -> piston collision box used by `moveEntities` -> entity displacement/velocity response.
+- Parent slices / dependencies / closure evidence: S020 block query and S021 static providers; D-COLLISION-SHAPES and D-EXTERNAL remain open for other block providers and external player-motion writers.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): B adds `movedState.getBlock() instanceof PistonBaseBlock` to A's `!isExtending() && isSource()` test. Both PistonBaseBlock creation sites set source=true for a non-extending moved piston-base state during retraction, source=false for ordinary moved blocks, and source=true with a piston-head state for extension (where `!isExtending()` is false). The constructor stores those inputs unchanged. Thus the added guard is redundant on the paired normal construction paths, and `getStateForShape` returns the same collision state for those reachable cases. Loaded-state corruption or nonstandard external construction is not treated as a normal player movement path.
+- Finding IDs or checked absence/replacement path: none on the inspected PistonBaseBlock construction paths.
 ## Dependency queue and blockers
 
 - D-TICK-CLOSURE: full local tick/pre-travel/travel branches/post-travel; S019 adds the post-move auto-jump callback; surrounding call-order closure remains open.
-- D-COLLISION-SHAPES: world queries, shape providers, registrations, neighbor-state inputs; S019 records the auto-jump entity query, S020 compares block enumerators, and S021 checks four static providers; full provider and neighbor-state enumeration remains open.
+- D-COLLISION-SHAPES: world queries, shape providers, registrations, neighbor-state inputs; S019 records the auto-jump entity query, S020 compares block enumerators, S021 checks four static providers, and S022 compares the normal piston source guard; full provider and neighbor-state enumeration remains open.
 - D-MOVEMENT-DATA: effects/attributes/enchantments/equipment/block property producer chains; source worker to trace.
 - D-EXTERNAL: direct player velocity/impulse/knockback writers plus correction/push/piston/mount/launch-item consumers; S018 closes only the bounded client player-correction velocity reset; S019 records entity-obstacle input to local auto-jump; other corrections/callers remain open; exclude combat causation and non-player/vehicle physics; source worker to enumerate.
 - D-INDEPENDENT-AUDIT: reviewer unassigned; coordinator to assign.
@@ -348,8 +359,8 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 
 ## Resume checkpoint
 
-- Last completed slice: S021, shared static collision-shape providers; S001-S020 remain as previously recorded evidence and dispositions.
-- Next bounded slice and exact files/members/body ranges to open: compare pane/wall and moving-block shapes, cached/default shape paths, and neighbor-state producers for blocks present in A (S022), then resume remaining LocalClientPlayerEntity pre-travel/tick branches.
+- Last completed slice: S022, moving-piston source shape selection; S001-S021 remain as previously recorded evidence and dispositions.
+- Next bounded slice and exact files/members/body ranges to open: compare pane/wall shapes, cached/default shape paths, and neighbor-state producers for blocks present in A (S023), then resume remaining LocalClientPlayerEntity pre-travel/tick branches.
 - Outstanding dependencies and owners: D-TICK-CLOSURE/D-COLLISION-SHAPES/D-MOVEMENT-DATA/D-EXTERNAL source worker; D-INDEPENDENT-AUDIT coordinator.
 - Current assumptions requiring verification: full reachability and provider closure; original A derived-artifact equivalence remains unproven.
 
@@ -395,8 +406,8 @@ Pair remains partial. This event does not close unrelated inventories, freeze th
 
 ## Source audit closure
 
-- Coverage counts by status: findings=15 slices (18 deltas); compared-no-difference=6; pending inventory closure=7; in-progress=0; not-applicable=0; blocked=0.
-- Required inventory status and evidence: all seven inventories pending; paired evidence in S001-S021.
+- Coverage counts by status: findings=15 slices (18 deltas); compared-no-difference=7; pending inventory closure=7; in-progress=0; not-applicable=0; blocked=0.
+- Required inventory status and evidence: all seven inventories pending; paired evidence in S001-S022.
 - Accepted finding snapshots: none; F002 snapshot event F002-2026-10-07-01 is submitted and awaits exact-snapshot blind confirmation.
 - Open dependencies: D-TICK-CLOSURE,D-COLLISION-SHAPES,D-MOVEMENT-DATA,D-EXTERNAL,D-INDEPENDENT-AUDIT.
 - Unresolved gaps and limits: full tick, shapes/resources, modifier chains, external writers beyond S016, and independent audit. First changed release unknown within (1.13.2,1.14.4].
