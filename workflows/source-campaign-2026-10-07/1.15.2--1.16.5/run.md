@@ -134,14 +134,14 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 
 ### Slice S4-MOVE: player displacement and collision-result state
 - Inventory ID(s): INV-TICK, INV-STATE, INV-COLLISION, INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: complete Entity.move(MoverType,Vec3) resolver, collision-result flags, delta-velocity clipping, fall callback, grounded step callback, inside-block callback and post-move block-speed/fire handling.
+- Exact behavior boundary and enclosing guards/order checked: complete Entity.move(MoverType,Vec3) displacement and collision-result sequence, delta-velocity clipping, callback call order and post-move block-speed/fire handling; callback provider behavior is inventoried separately.
 - A evidence: `../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/entity/Entity.java`, lines 450-589; SHA-256 `191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e`.
 - B evidence: `../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/entity/Entity.java`, lines 485-616; SHA-256 `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666`.
 - State producers/writers -> consumers/readers: requested movement and collision-resolved vector -> x/y/z movement, horizontalCollision, verticalCollision and onGround, fall/step/contact callbacks, clipped delta movement and block-speed factor; downstream tick readers remain linked in travel/state rows.
-- Parent slices / dependencies / closure evidence: S3-WATER,S3-LAVA,S3-GROUND-AIR,F-S3-SOUL-SPEED,S4-QUERY,S4-STEP,S5-SHAPES,S5-CONTACT. A/B requested-versus-resolved movement and collision/onGround calculation align; resolver helpers and contact/shape producers still need paired closure.
-- Status: in-progress
+- Parent slices / dependencies / closure evidence: S3-WATER,S3-LAVA,S3-GROUND-AIR,F-S3-SOUL-SPEED,S4-QUERY,S4-STEP,S5-SHAPES,S5-CONTACT. Entity.move, Entity.collide and its three collision-resolution helpers were compared; provider/callback inventories remain separate.
+- Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): the player collision-result and velocity-clipping sequence matches. The removed A Entity.collision field has only a FireworkRocketEntity reader, outside player scope. B's CLIMBABLE tag predicate is in movement-noise/statistics accounting; the changed lava/fire-state code is outside direct movement, and lava contact/travel is tracked separately. The shared virtual getBlockSpeedFactor call reaches the already-recorded B-only Soul Speed override.
-- Finding IDs or checked absence/replacement path: no additional in-scope delta established in this method; F-S3-SOUL-SPEED covers the block-speed override. S4-QUERY and block callback/shape closure remain open.
+- Finding IDs or checked absence/replacement path: F-S3-SOUL-SPEED covers the virtual block-speed factor route; F-S4-WORLD-BORDER-QUERY covers the separate CollisionGetter path used by pose-clearance queries. Removed collision field has no player reader.
 
 ### Slice S4-QUERY: player block and entity collision query stream
 - Inventory ID(s): INV-COLLISION, INV-STATE
@@ -151,8 +151,19 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - State producers/writers -> consumers/readers: player source entity and current AABB plus requested vector -> expanded query box, collision shapes and world-border shape -> resolved movement vector and subsequent horizontal/vertical/on-ground flags.
 - Parent slices / dependencies / closure evidence: S2-POSE,S4-MOVE,S4-STEP,S5-SHAPES. Entity collider overrides and filters were traced for Player movement; provider/registration and complete border-extent reachability remain broader inventory work.
 - Status: findings
-- Disposition and rationale (including concrete reachability/preconditions): B's CollisionSpliterator preserves the examined cursor bounds, collision context, large-shape and moving-piston filters, and block-shape intersection. For a Player source, the changed entity-collider API maps the examined live Boat/Shulker boxes and filters to the same candidates. B adds an interior world-border fast path that can skip A's deflate/inflate boundary-shape test; the exact bounded condition is F-S4-WORLD-BORDER-QUERY.
+- Disposition and rationale (including concrete reachability/preconditions): B's CollisionSpliterator preserves the examined cursor bounds, collision context, large-shape and moving-piston filters, and block-shape intersection. For a Player source, the changed entity-collider API maps the examined live Boat/Shulker boxes and filters to the same candidates. The changed world-border guard is directly reachable from Player.canEnterPose -> Level.noCollision -> CollisionGetter.getBlockCollisions. Entity.collide separately pre-seeds the border shape through an unchanged path; no direct Entity.move trajectory difference is inferred from this guard. The exact bounded query difference is F-S4-WORLD-BORDER-QUERY.
 - Finding IDs or checked absence/replacement path: F-S4-WORLD-BORDER-QUERY.
+
+### Slice S4-STEP: step-up candidate selection
+- Inventory ID(s): INV-COLLISION, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: Entity.collide step-up branch, candidate vector construction, candidate-box shifts, horizontal-distance comparisons and downward correction.
+- A evidence: `../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/entity/Entity.java`, lines 651-681; SHA-256 `191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e`.
+- B evidence: `../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/entity/Entity.java`, lines 679-709; SHA-256 `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666`.
+- State producers/writers -> consumers/readers: maxUpStep, onGround, downward requested/resolved y and horizontal collision flags -> three step candidates, horizontal-distance comparisons and final downward correction.
+- Parent slices / dependencies / closure evidence: S4-MOVE,S4-QUERY,S5-SHAPES; exact candidate arithmetic and helper calls compared. Shape-stream provider coverage remains in INV-COLLISION.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): both versions require maxUpStep > 0, onGround or downward y clipping, and horizontal clipping; they construct the same candidates in the same order and keep the candidate with greatest horizontal distance squared, then apply the same downward resolution. The underlying collision query stream is documented separately in S4-QUERY.
+- Finding IDs or checked absence/replacement path: none in step-candidate construction and selection; F-S4-WORLD-BORDER-QUERY remains linked to the shared query dependency.
 
 ### Slice S1-SPRINT-RESET: held-shift cancellation of pending sprint trigger
 - Inventory ID(s): INV-TICK, INV-STATE
@@ -298,12 +309,12 @@ The historical pair report is not imported as source confirmation.
 
 ## Resume checkpoint
 
-- Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-LOCAL-TICK,S1-LOCAL-AISTEP,S1-ELYTRA,S1-ESCAPE,S2-POSE,S3-WATER,S3-FALL-FLYING,S3-GROUND-AIR,S4-QUERY; finding slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S2-POSE-EPSILON,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S3-SOUL-SPEED,F-S4-WORLD-BORDER-QUERY,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT.
-- Active slices: S4-MOVE; remaining required stage 2-7 slices remain open.
+- Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-LOCAL-TICK,S1-LOCAL-AISTEP,S1-ELYTRA,S1-ESCAPE,S2-POSE,S3-WATER,S3-FALL-FLYING,S3-GROUND-AIR,S4-MOVE,S4-QUERY,S4-STEP; finding slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S2-POSE-EPSILON,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S3-SOUL-SPEED,F-S4-WORLD-BORDER-QUERY,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT.
+- Active slices: none; remaining required stage 2-7 slices remain open.
 - Next: add bounded slices for remaining state, collision, world, modifier and external-input inventories.
 - Outstanding dependencies: remaining required stage 2-7 inventory slices, independent reviewer assignment.
 - Resume branch: feat/source-discovery-movement-source-1-15-2-1-16-5; resume from the clean tip recorded by git log -1. Local main and origin/main both point to the pair base 002137b227676caea77f6832b9f4c8d0b6200bff; no later default-branch commits were present for merge at this checkpoint.
-- First next work: close the S4-STEP and remaining shape/border extent dependencies for the player resolver, then continue remaining state, world, modifier and external-input slices. Keep the eleven unreviewed snapshots submitted; F-S1-OPEN-SHULKER-ESCAPE remains accepted for finding-only eligibility.
+- First next work: begin the S5 shape-provider and block-registration inventory, including the remaining border extent dependency; continue the remaining state, world, modifier and external-input slices. Keep the eleven unreviewed snapshots submitted; F-S1-OPEN-SHULKER-ESCAPE remains accepted for finding-only eligibility.
 - Read-only resume commands from the repository root:
   - `git status --short; git log -1 --oneline`
   - `$A='D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.15.2\mojmap'; $B='D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.16.5\mojmap'`
@@ -539,7 +550,7 @@ Each finding is committed as an immutable source snapshot. F-S1-OPEN-SHULKER-ESC
 
 ## Source audit closure
 
-- Coverage counts by status: pending 0; in-progress 1; compared-no-difference 6; findings 12; remaining required stage slices not yet entered and open.
+- Coverage counts by status: pending 0; in-progress 0; compared-no-difference 7; findings 13; remaining required stage slices not yet entered and open.
 - Required inventory status and evidence: all seven pending.
 - Open dependencies: remaining required stage 2-7 inventory slices, and independent source reviewer assignment.
 - Unresolved gaps and limits: exhaustive source comparison is incomplete.
