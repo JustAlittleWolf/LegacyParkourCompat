@@ -4,7 +4,7 @@
 
 **Implemented the missing exact 1.15.2 sampling path.** The existing `V1_14` change covers the 1.14.4 sample. The 26.2 native path uses a later `getOnPos(0.500001F)` support lookup with cached supporting-block handling, so it is not an exact replacement for the accepted 1.15.2 `minY - 0.5000001` calculation. A new versioned change now restores that exact B endpoint calculation for historical profiles.
 
-Implementation commit: recorded in this task branch after the code change. Independent implementation review is still required; this handoff asks the reviewer to verify the exact double literal, the selected profile behavior, and the shared friction call site. No runtime parity is claimed.
+Implementation commit: `ad653ac` (`feat: restore 1.15.2 friction sample position`). Independent implementation review is still required; this handoff asks the reviewer to verify the exact double literal, the selected profile behavior, and the shared friction call site. No runtime parity is claimed.
 
 ## Accepted source identity
 
@@ -28,5 +28,5 @@ Implementation commit: recorded in this task branch after the code change. Indep
 
 - The bounded snapshot examples are a bottom slab (new sample still selects the block below), a bed, and Soul Sand (new sample selects the block's own cell). These establish sampled-cell outcomes, not full movement trajectories or complete 1.14-to-1.15 pair coverage.
 - The MCPK direct-page fetch returned HTTP 403; live wording/revision was not verified. The compared endpoint sources are Mojmap; equivalence to Feather-derived JARs is not established. Preserve the open Feather provenance limitation.
-- Independent implementation review is required. In particular, review the literal `0.5000001` type/order, current mixin target/guard, and resolver fallback described above. No subagents or other chats were used.
+- Independent implementation review is pending. In particular, review the literal `0.5000001` type/order, current mixin target/guard, and resolver fallback described above. No subagents or other chats were used, per task instruction.
 - No tests, build, runtime, or Docker work was performed.
