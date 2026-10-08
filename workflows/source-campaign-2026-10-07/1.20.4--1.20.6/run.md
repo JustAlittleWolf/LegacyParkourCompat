@@ -728,8 +728,8 @@ Each bounded behavior remains open until both exact source sides, the relevant m
 
 ## Resume checkpoint
 
-- Last completed slice: exact source provenance/hash validation; seven bounded behaviors are compared-no-difference, including local input-to-relative-motion conversion. MC1204-1206-05 and MC1204-1206-02 snapshots are submitted for independent review; both implementation handoffs are blocked on exact release boundaries. Sprint and jump gates have partial paired evidence and remain in-progress.
-- Task branch / checkpoint: `feat/source-discovery-movement-source-1-20-4-1-20-6`, current committed tip `b168d90`; default-branch merge check remains for handoff.
+- Last completed slice: exact source provenance/hash validation; seven bounded behaviors are compared-no-difference, including local input-to-relative-motion conversion. Snapshots MC1204-1206-01/02/03/05/06 are submitted for independent review; implementation handoffs are blocked on exact release boundaries. Sprint and jump gates have partial paired evidence and remain in-progress.
+- Task branch / checkpoint: `feat/source-discovery-movement-source-1-20-4-1-20-6`, current committed tip `d6479a0`; default-branch merge check remains for handoff.
 - Next bounded slice and exact files/members/body ranges to open: continue remaining LocalPlayer jump consumers and flight input/speed gates, then inspect pose/dimension transitions and player collision queries; preserve S1 and S3 findings as dependencies only where exact source links close.
 
 Resume with these read-only source navigation commands from the repository root (use outputs only as navigation, then record exact method ranges/hashes in the ledger):
@@ -745,6 +745,18 @@ rg -n -C 8 'public void aiStep|jumpTriggerTime|isAlwaysFlying|isSprinting|input\
 
 ## Finding snapshots (not pair freeze)
 
+- `MC1204-1206-01` submitted for independent blind source review: finding file `findings/MC1204-1206-01.md`, SHA-256 `eb15d0f72764cf783cb0ac260d28f8a31827f3bb407015dd66f1601ca3ad0fda`; immutable snapshot commit `1985fa829eb597acbc23685935c5f6929c078f78`. A/B artifact manifest hashes: `ee3efc771d264c0bc49d5472abb9763a646f8d221841d0a61201ecd991cb3948` / `e5882622bcf22b3e3c2c96c73843a1308e11e3096f4feefd945ea5808933ce31`; source manifest hashes: `fd3c8668483e5ff208c847474f6cbd3952a909c4aa602ed98b24e3d11a9602a1` / `56aae10684471d7abb1c366bd5dd431ab976112a87e6cc5c687a68f1eff06311`.
+  - Review status: submitted; independent reviewer not yet assigned, decision pending. No acceptance is claimed.
+  - Finding dependency status: jump-input, flight-toggle, Player override and LivingEntity jump call chain are paired; downstream conditional jump power and attribute inputs are separately recorded in MC1204-1206-02/03.
+  - Implementation handoff: blocked. Exact first changed release remains unknown within (1.20.4, 1.20.6].
+- `MC1204-1206-03` submitted for independent blind source review: finding file `findings/MC1204-1206-03.md`, SHA-256 `ad2013db24d087f36d443c1b83ad1c571846274d95790f5ad5fbba3891dc6e1d`; immutable snapshot commit `467e5a80114239be1135b9ebc4bd2ee1d2b8bdc2`. A/B artifact manifest hashes: `ee3efc771d264c0bc49d5472abb9763a646f8d221841d0a61201ecd991cb3948` / `e5882622bcf22b3e3c2c96c73843a1308e11e3096f4feefd945ea5808933ce31`; source manifest hashes: `fd3c8668483e5ff208c847474f6cbd3952a909c4aa602ed98b24e3d11a9602a1` / `56aae10684471d7abb1c366bd5dd431ab976112a87e6cc5c687a68f1eff06311`.
+  - Review status: submitted; independent reviewer not yet assigned, decision pending. No acceptance is claimed.
+  - Finding dependency status: player attribute builder, client attribute update receiver and jump-power consumer are paired; producer of a non-default value remains external, as stated in the finding.
+  - Implementation handoff: blocked. Exact first changed release remains unknown within (1.20.4, 1.20.6].
+- `MC1204-1206-06` submitted for independent blind source review: finding file `findings/MC1204-1206-06.md`, SHA-256 `2d6264950d59ddddaceca004e4c82dd53ab7773f6e894cf97d4f5add254ac6a0`; immutable snapshot commit `d6479a08528c346d9462c952cf8c13da8aaf4915`. A/B artifact manifest hashes: `ee3efc771d264c0bc49d5472abb9763a646f8d221841d0a61201ecd991cb3948` / `e5882622bcf22b3e3c2c96c73843a1308e11e3096f4feefd945ea5808933ce31`; source manifest hashes: `fd3c8668483e5ff208c847474f6cbd3952a909c4aa602ed98b24e3d11a9602a1` / `56aae10684471d7abb1c366bd5dd431ab976112a87e6cc5c687a68f1eff06311`.
+  - Review status: submitted; independent reviewer not yet assigned, decision pending. No acceptance is claimed.
+  - Finding dependency status: syncable scale value, player dimension consumer and refreshDimensions path are paired; upstream producer and pre-refresh same-tick effects are outside this finding.
+  - Implementation handoff: blocked. Exact first changed release remains unknown within (1.20.4, 1.20.6].
 - `MC1204-1206-02` submitted for independent blind source review: finding file `findings/MC1204-1206-02.md`, SHA-256 `9e073eb434e750f6babac4cd6881b2cf38b1e4aad37523db0f62657b82071315`; immutable snapshot commit `b168d90c05e813d6dff2ccd97090dc1602d9d418`. Exact A/B artifact manifest hashes are `ee3efc771d264c0bc49d5472abb9763a646f8d221841d0a61201ecd991cb3948` / `e5882622bcf22b3e3c2c96c73843a1308e11e3096f4feefd945ea5808933ce31`; source manifest hashes are `fd3c8668483e5ff208c847474f6cbd3952a909c4aa602ed98b24e3d11a9602a1` / `56aae10684471d7abb1c366bd5dd431ab976112a87e6cc5c687a68f1eff06311`.
   - Review status: submitted; independent reviewer not yet assigned, decision pending. No acceptance is claimed.
   - Finding dependency status: ordinary ground/fluid caller, Player override and movement write are paired; the conditional is stated in terms of calculated jump power. MC1204-1206-03 separately records the B jump-strength attribute input.
