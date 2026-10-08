@@ -43,7 +43,7 @@ The source owner published both exact pairs. The `ready` markers, source manifes
 
 ## Required source inventories
 
-- `INV-TICK` status=pending; slice_ids=S1.1–S1.8,S3.1–S3.9; evidence=initial local tick/input call graph in Correspondence and call order; travel and post-travel closures remain open
+- `INV-TICK` status=pending; slice_ids=S1.1–S1.8,S3.1–S3.9; evidence=initial tick/input call graph plus `LOCAL-KEYBOARD-INPUT-SAMPLING`, `ENTITY-RELATIVE-INPUT-ROTATION`, and F004; travel, sprint/jump/riding and post-travel closures remain open
 - `INV-STATE` status=pending; slice_ids=S2.1–S2.8,S4.1,S4.5; evidence=initial local-player state-writer index; pose, dimensions, flags and external writers remain open
 - `INV-COLLISION` status=pending; slice_ids=S4.2–S4.6,S5.1–S5.2; evidence=F001 farmland collision dispatch and S5.2 rail outline/collision check below; broader shape registry and callback closure remains open
 - `INV-WORLD-MOVEMENT` status=pending; slice_ids=S5.3–S5.6; evidence=initial block property search; complete registries, fluids, neighbors, tags and resource defaults remain open
@@ -58,7 +58,7 @@ All seven required navigation stages are open. The following is a **pre-source c
 ### S1 — local input and tick ordering
 
 - S1.1 input sampling and key/controller state: findings for the character-code keybinding reacquisition path (F004); B's additive Input.getMovement() read is separately covered by F003.
-- S1.2 input axes, yaw-to-motion conversion and normalization: pending.
+- S1.2 input axes, yaw-to-motion conversion and normalization: compared-no-difference in `ENTITY-RELATIVE-INPUT-ROTATION`; caller scales and travel branches remain open under S3.
 - S1.3 local tick, superclass tick and travel call order / previous-current flag capture: pending.
 - S1.4 sprint start/stop gates, timers and state writers: pending.
 - S1.5 jump input, jump timers/cooldowns and jump state writers: pending.
@@ -176,6 +176,17 @@ Per bounded slice, record one of `pending`, `in-progress`, `compared-no-differen
 - Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): F004 identifies a reachable difference when a user-bound character-code movement key remains physically held across chat closure and its release is not handled before the next input sample. A catches the LWJGL bounds exception, preserving the pressed state; B sets the binding false. Default movement keys below 256 are unaffected.
 - Finding IDs or checked absence/replacement path: F004; B's keyCode < 256 guard replaces A's caught out-of-range poll.
+### Slice ENTITY-RELATIVE-INPUT-ROTATION: normalize and rotate movement axes into horizontal velocity
+
+- Inventory ID(s): `INV-TICK`
+- Exact behavior boundary and enclosing guards/order checked: `Entity.updateVelocity(float sideways,float forwards,float scale)` from horizontal-axis inputs through normalization and yaw-based velocity additions. Scale selection and `LivingEntity.moveRelative` fluid, climbing, gliding, and ground/air branches are outside this slice.
+- A evidence: `net/minecraft/entity/Entity.java::Entity#updateVelocity(float,float,float)` lines 947-963, method-body SHA-256 `36357c34525b74aa100738f8e843cf6e51f82646c271a4546b4f40612e150b23`, full-file SHA-256 `bcd7fa2206bf8d7271102f6da7fe2771f96dbe22ec79dab9f2101a3e29c17ef0`. `MathHelper.sin(float)` and `cos(float)` lines 15-20; full-file SHA-256 `43b2a4e3931733dbc3538024b7182b024d874a5f22a269a6199c6b4ca8c59151`. Input-axis consumer is `LivingEntity.mobTick` line 1711.
+- B evidence: `net/minecraft/entity/Entity.java::Entity#updateVelocity(float,float,float)` lines 960-976, method-body SHA-256 `36357c34525b74aa100738f8e843cf6e51f82646c271a4546b4f40612e150b23`, full-file SHA-256 `05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77`. `MathHelper.sin(float)` and `cos(float)` lines 15-20; full-file SHA-256 `43b2a4e3931733dbc3538024b7182b024d874a5f22a269a6199c6b4ca8c59151`. Input-axis consumer is `LivingEntity.mobTick` line 1747.
+- State producers/writers -> consumers/readers: camera `KeyboardInput.tick()` produces sideways/forward axes; local-player `serverTickAi()` copies them into living movement fields (F004); `LivingEntity.mobTick` scales them by `0.98F` and dispatches `moveRelative`; that method calls inherited `Entity.updateVelocity` to normalize and rotate axes into X/Z velocity. Whole-tree signature search found no override of this method on either side.
+- Parent slices / dependencies / closure evidence: S1.1 input sampling; `LivingEntity.moveRelative` branch/scale selection is separately tracked under S3.1-S3.6. The complete method bodies are recorded under F002 and share the NoGravity delta already assigned there; this slice closes only the shared input-normalization/yaw transform and sine/cosine helper.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): both method bodies are text-identical: form `sideways * sideways + forwards * forwards`; skip when below `1.0E-4F`; square-root and clamp norm to at least `1.0F`; compute `scale / norm`; scale both axes; compute yaw radians with the same float cast/order; use the identical sine/cosine table helper; add `sideways*cos - forwards*sin` to X and `forwards*cos + sideways*sin` to Z. The helper class is identical and no player-side override exists. No transform difference is established; caller-selected scales remain in the open travel slices.
+- Finding IDs or checked absence/replacement path: no additional finding; checked unique base implementation in `Entity`, with no A/B override signature in either source tree.
 ### Slice LOCAL-AUTO-JUMP-INPUT: obstacle-triggered local-player jump input
 
 - Inventory ID(s): `INV-TICK`, `INV-INPUT`, `INV-JUMP`, `INV-STATE`
@@ -332,7 +343,7 @@ F001 - [farmland player collision height](findings/F001-farmland-collision-heigh
 ## Source audit closure
 
 - Coverage counts: 3 compared-no-difference; 4 source-confirmed findings submitted for review (0 accepted); 1 not-applicable; 0 blocked; 50 initial planned behavior slices pending.
-- Pending bounded-slice count: 50 initial planned behavior slices remain; revise upward whenever source navigation exposes additional distinct methods, writers, consumers or dependencies.
+- Pending bounded-slice count: 49 initial planned behavior slices remain; revise upward whenever source navigation exposes additional distinct methods, writers, consumers or dependencies.
 - Unresolved gaps: inventories and the full-pair audit remain open; movement decompiler diagnostics (D1), resource closure (D2), and transitive state-writer/caller closure (D3) remain open. The source-provenance record and revised-artifact integrity checks are complete, with original derived-jar equivalence unproven.
 - Evidence/hash/correspondence audit: partial; F001–F004 source and revised immutable-artifact evidence and rail hashes are recorded. Independent operations verification passed; independent finding review remains pending.
 - Runtime validation: not performed (separate workflow).
