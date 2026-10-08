@@ -29,8 +29,9 @@ import java.lang.annotation.*;
  * independently under its own mechanic key. {@link VersionedMechanic#variant()}
  * still applies to every hook on that class.
  *
- * <p>The implementing class must not reference mixins. Register it from a
- * {@link MovementChangeProvider} or {@link MovementChangeRegistry#register(Object)}.
+ * <p>The implementing class must not reference mixins. Register it explicitly
+ * in {@link me.wolfii.legacyparkourcompat.change.MovementChangeCatalog} under
+ * each mechanic interface it implements.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

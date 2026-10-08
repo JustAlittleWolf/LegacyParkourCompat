@@ -2,10 +2,8 @@ package me.wolfii.legacyparkourcompat;
 
 import me.wolfii.legacyparkourcompat.api.MovementController;
 import me.wolfii.legacyparkourcompat.impl.MovementControllerImpl;
-import me.wolfii.legacyparkourcompat.mechanic.MovementChangeProvider;
 import me.wolfii.legacyparkourcompat.network.ParkourNetworking;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,10 +14,6 @@ public class LegacyParkourCompat implements ModInitializer {
     @Override
     public void onInitialize() {
         MovementControllerImpl controller = MovementControllerImpl.get();
-        var providers = FabricLoader.getInstance()
-            .getEntrypoints("legacyparkourcompat:movement-change", MovementChangeProvider.class);
-        LOGGER.debug("Registering {} movement-change provider(s)", providers.size());
-        providers.forEach(provider -> provider.register(controller.registry()));
         controller.initialize();
         ParkourNetworking.register();
         LOGGER.info(
