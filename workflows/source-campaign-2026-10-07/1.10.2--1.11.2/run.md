@@ -26,6 +26,7 @@ Revised derived-artifact snapshots (revision `feather-r1-2026-10-07`): A `build/
 Cited source hash inventory (SHA-256; relative roots are the source roots in the table):
 
 - `net/minecraft/block/LiquidBlock.java`: A `b988d19e379d01d291cb014cb05e1579311c589654ce9ff4faa7f43bbba0533e`; B `c91618c8445dd488dd61f4a01aed0799dae2faaf3585bc6f2d5164891e988244`.
+- `net/minecraft/block/LiquidSourceBlock.java`: A `896a64f1a1170047cad30c1f65fe06e6a3a223f07f42b875c153748d1df3e3b3`; B `0c82f8ec6d69b0181f8f81138e75326d0ea1fcc7ade9ea6ad12f2e3850245b13`.
 - `net/minecraft/block/FlowingLiquidBlock.java`: A `eac6b26e87f4b759bfea9adb1d1d7edcc4ad2b7c6a88677feab9fc83a7b50d79`; B `6be4da4408c29a730fb33227514d8ad93f20b0adc87eda66796d069e3ae93be2`.
 - `net/minecraft/world/dimension/Dimension.java`: A `7e913986a3c688552faadfa948347e08afe94ee781e9e6fba34740bf98ddd159`; B `98cddc12659b87d8dd3bdecd5d4a6f0c66747a3b9dbbad6126fad7d6a0f2e6fd`.
 - `net/minecraft/world/dimension/TheEndDimension.java`: A `02574ce90d251175d9339c0f9f3d2dd54335c898af78c3c8f86a930985658761`; B `f7709ceba704ef01c4094a407fc05576c945824eff6f509abb79f17ba4cfc783`.
@@ -355,6 +356,18 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): the direct query/current formulas match, but the cadence predicate changes lava from 10 ticks in A's End to 30 ticks in B's End. `FlowingLiquidBlock.tick` uses that cadence when rescheduling fluid-state updates; a different flowing-lava footprint can change the player's `isInLava()` predicate, which routes the paired living tick through the lava jump response and changes the fluid branch of travel. This is a movement-relevant dependency when flowing lava reaches the player's box in an End map. No exact footprint, trajectory, or runtime result is claimed. The direct current-impulse path is water-only and is not used as evidence for F-09.
 - Finding IDs or checked absence/replacement path: F-09. No water tick-rate change, no Nether tick-rate change, and no difference in the bounded current accumulation methods.
+
+### Slice S5-fluid-collision-and-update-callbacks: empty collision shape and neighbor dispatch
+
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: registered water/lava block collision provider and the `LiquidBlock`/`LiquidSourceBlock.neighborChanged` callback bodies for fluid spread/collision conversion.
+- A evidence: `LiquidBlock.java::getCollisionShape`, line 40, and `neighborChanged`, lines 275-277, SHA-256 `b988d19e379d01d291cb014cb05e1579311c589654ce9ff4faa7f43bbba0533e`; `LiquidSourceBlock.java::neighborChanged`, lines 20-24, SHA-256 `896a64f1a1170047cad30c1f65fe06e6a3a223f07f42b875c153748d1df3e3b3`.
+- B evidence: `LiquidBlock.java::getCollisionShape`, line 41, and `neighborChanged`, lines 275-277, SHA-256 `c91618c8445dd488dd61f4a01aed0799dae2faaf3585bc6f2d5164891e988244`; `LiquidSourceBlock.java::neighborChanged`, lines 20-24, SHA-256 `0c82f8ec6d69b0181f8f81138e75326d0ea1fcc7ade9ea6ad12f2e3850245b13`.
+- State producers/writers -> consumers/readers: registered liquid block state -> collision provider or neighbor callback -> ordinary player block-collision list / water-lava conversion and flowing-state scheduling.
+- Parent slices / dependencies / closure evidence: S4-world-query and S5-fluid-world-flow-current. A and B both return `EMPTY_BLOCK_SHAPE` from the liquid collision provider. The callback bodies match after whitespace normalization; B adds the neighbor position argument to the method signature. B's changed `World.updateNeighbors(..., false)` in `FlowingLiquidBlock.tick` is separately limited to observer notification, and observer blocks are B-only for this A-era scope. `getDropItem` changes from null to `Items.AIR` in B and is outside movement behavior.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): existing water/lava states contribute no block collision in either version, and their paired spread/conversion callback bodies perform the same movement-relevant state updates for the same inputs. Signature and drop-return changes do not establish a player movement delta in these bounded paths.
+- Finding IDs or checked absence/replacement path: no finding for these provider/callback bodies; End lava cadence is F-09 and the new liquid height helpers are S5-fluid-surface-height-helper-usage.
 
 ### Slice S5-fluid-surface-height-helper-usage: shared liquid surface helpers
 
