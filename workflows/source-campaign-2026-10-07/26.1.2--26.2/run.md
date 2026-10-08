@@ -28,6 +28,7 @@
 - Additional A source hashes cited by the post-move block-speed slice: `net/minecraft/world/level/block/Block.java` `1693cfb7b84190a2fe664470a56d59e78ed5bd7d722a2bd16888b036d4d8e977`; `net/minecraft/world/level/block/state/BlockBehaviour.java` `9db85de84e502903e6fe497f043b58620b92089236ffb213f0b93db979428d13`.
 - Additional A source hash cited by the pre-input velocity dead-zone slices: `net/minecraft/world/phys/Vec3.java` `57b08ae818868a4fffdc9b5dadba2b127138c8945c2194f6f4b01e6150cd3bcb`.
 - Additional A source hashes cited by local input modifier inventory: `net/minecraft/world/item/component/UseEffects.java` `18525e459d066a046a20dce6176b3a9764de09f0d91e79c61c2203709744c8dd`; `net/minecraft/core/component/DataComponents.java` `64c8592c21c83c35dee0d4cc780b273d18ff30c4fea92c0868f296a164b2a11e`; `net/minecraft/world/item/Item.java` `a92a71ef9acd0a98e26914b61382e87f1ba098f779587d452f7373dfa8690ba4`; `net/minecraft/world/item/enchantment/Enchantments.java` `87c4d7799516cf33a0399398f4e7b503dc8ef1ebb8588fa2d5decfc33fa12157`.
+- Additional A source hash cited by post-animation consumer check: `net/minecraft/client/renderer/entity/LivingEntityRenderer.java` `b4469477f2c93dd63948b43b5848e383737ba17b878aa7ba042f28b80f0b8d5f`.
 
 ### B — 26.2
 
@@ -47,6 +48,7 @@
 - Additional B source hashes cited by the post-move block-speed slice: `net/minecraft/world/level/block/Block.java` `cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab`; `net/minecraft/world/level/block/state/BlockBehaviour.java` `9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e`.
 - Additional B source hash cited by the pre-input velocity dead-zone slices: `net/minecraft/world/phys/Vec3.java` `026c8461113b32116f0183ec42fa1cb4c7414cec38b685484d2309f9a0cb9a33`.
 - Additional B source hashes cited by local input modifier inventory: `net/minecraft/world/item/component/UseEffects.java` `18525e459d066a046a20dce6176b3a9764de09f0d91e79c61c2203709744c8dd`; `net/minecraft/core/component/DataComponents.java` `717ec4347940ff05f93116c74ecaac3adbafd3df0f732860464ad259d6b8b0b2`; `net/minecraft/world/item/Item.java` `215fb193bc9fc45702f55a19572ced3f03cc567a851c19050619255b2e59d01d`; `net/minecraft/world/item/enchantment/Enchantments.java` `9af5f89778ad9bd8667953049045027d8426fc692121a6842fe59178b6767ba0`.
+- Additional B source hash cited by post-animation consumer check: `net/minecraft/client/renderer/entity/LivingEntityRenderer.java` `d7fa752eae2ff9580b93274b802ad85387f050c5bfb005c7aab55e6d593565c8`.
 - Original client-jar resource inspected at `data/minecraft/tags/block/suppresses_bounce.json`: only `minecraft:honey_block` is listed; entry SHA-256 `a477a87ac4bcb97971cb0b445f4cc9b6b8e02cd31ba3d01bc842b17a6a8477a8`.
 - Additional A/B source hash cited by jump-gate and liquid-state inventory: `net/minecraft/world/entity/EntityFluidInteraction.java` SHA-256 `5264ff4f1fddebc3fa9d63ad2edbe2eaf617392ff946a867a6817a78b478ee62` on both endpoints; its matching tracker reset/height producer is cited in S-JUMP-GATE and S-JUMP-LIQUID.
 
@@ -327,13 +329,13 @@ These are now 61 bounded work units, not an exhaustive inventory: 35 pending, 9 
 ### Slice S-TRAVEL-PREP: Bounding-box snapshot and movement input construction
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: B captures `beforeTravelBox`, constructs `Vec3` from xxa/yya/zza, and does so immediately before travel gating; lines 3131-3132.
-- A evidence: pending exact fields, call order and method correspondence.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3131-3132`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: `applyInput` xxa/yya/zza and current AABB -> travel vector and pre-movement AABB used by later tick logic.
-- Parent slices / dependencies / closure evidence: S-LOCAL-INPUT-MODIFIERS,S-POSE-UPDATE; A input fields/call order pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B method body read; pair comparison pending.
+- Exact behavior boundary and enclosing guards/order checked: after the fall-flying update and before slow-fall reset/travel dispatch, capture `beforeTravelBox = getBoundingBox()` and construct `new Vec3(xxa,yya,zza)`; A lines 3060-3068; B lines 3127-3135. Both reads follow jump handling and precede travel branch selection.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3060-3068`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(), lines 3127-3135`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
+- State producers/writers -> consumers/readers: current pose/dimensions/bounding-box writers feed `beforeTravelBox`; `applyInput()` writes `xxa/yya/zza`, which then become `travel(input)` input. `S-POSE-UPDATE`, `S-DIMENSIONS`, `S-LOCAL-SNAPSHOT` and `S-LOCAL-INPUT-MODIFIERS` inventory those producers. Both versions use identical constructor argument order and snapshot timing.
+- Parent slices / dependencies / closure evidence: S-LOCAL-INPUT-MODIFIERS,S-POSE-UPDATE,S-DIMENSIONS,S-LOCAL-SNAPSHOT,S-LIVING-GLIDE-UPDATE; caller gates and downstream travel remain distinct slices.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for equivalent input fields and player box state, both endpoints snapshot the same box and construct the same three-component travel vector after jump handling and before travel dispatch. No arithmetic/casts occur in this slice.
 - Finding IDs or checked absence/replacement path: none yet.
 
 ### Slice S-FALL-DISTANCE-RESET: Slow-falling/levitation fall-distance reset before travel
@@ -375,13 +377,13 @@ These are now 61 bounded work units, not an exhaustive inventory: 35 pending, 9 
 ### Slice S-POST-ANIMATION: Client animation update after travel
 
 - Inventory ID(s): INV-TICK, INV-EXCLUSIONS
-- Exact behavior boundary and enclosing guards/order checked: B client-only branch calls `calculateEntityAnimation(omnidirectionalAirMover())` after block effects; lines 3147-3149. Check its state writes/readers to establish whether any feed movement or can be explicitly not-applicable.
-- A evidence: pending exact call/method and consumer audit.
-- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(),calculateEntityAnimation(boolean), lines 3147-3149,2662-2675`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
-- State producers/writers -> consumers/readers: post-travel position delta -> animation state; inspect whether any movement predicate reads those animation fields before assigning a scope disposition.
-- Parent slices / dependencies / closure evidence: S-TRAVEL-GATE,S-STATE inventory; all readers and A method pending.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): B branch read; not assumed irrelevant without consumer evidence.
+- Exact behavior boundary and enclosing guards/order checked: after block effects, client-side `aiStep()` calls `calculateEntityAnimation(this instanceof FlyingAnimal)` in A at lines 3080-3082 and `calculateEntityAnimation(this.omnidirectionalAirMover())` in B at lines 3147-3149. Both calculate movement distance and write/stop `walkAnimation` at A lines 2609-2621 and B lines 2662-2674.
+- A evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(),calculateEntityAnimation(boolean), lines 3080-3082,2609-2621`, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`; `LocalPlayer.java` has no `walkAnimation` read (hash in direct-source manifest).
+- B evidence: `ready/26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java::aiStep(),calculateEntityAnimation(boolean), lines 3147-3149,2662-2674`, SHA-256 `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`; `LocalPlayer.java` has no `walkAnimation` read (hash in direct-source manifest).
+- State producers/writers -> consumers/readers: post-travel position delta writes animation-only `walkAnimation`; paired `LivingEntityRenderer` consumers copy its position/speed at A lines 262-263 and B 255-256. Targeted searches found no LocalPlayer or Player movement/collision reader of `walkAnimation`; other world-entity animation consumers are outside player scope.
+- Parent slices / dependencies / closure evidence: S-TRAVEL-GATE,S-STATE inventory; the state is read into renderer state only for this player path. B changes the boolean argument from `instanceof FlyingAnimal` to `omnidirectionalAirMover()`, which can change animation calculation selection, but does not feed player position, velocity, dimensions, collision or a movement predicate.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): the changed output is animation state consumed by rendering; no player movement/collision consumer exists. Therefore this paired difference is outside the campaign's movement scope.
 - Finding IDs or checked absence/replacement path: none yet.
 ### Slice S-TRAVEL-DISPATCH: Fluid, fall-flying or air travel branch selection
 
