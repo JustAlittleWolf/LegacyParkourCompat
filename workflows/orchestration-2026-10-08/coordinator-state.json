@@ -13,7 +13,7 @@
     "runtimeLaunches": false,
     "allGradleTestTasksDisabledForBuild": true,
     "integrationBuildOwnerThreadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
-    "primaryMainLastVerified": "95107011b19de53b8d4540a77cfe3d34a7771b68",
+    "primaryMainLastVerified": "d8f3956602da94bf0cf67753cc0a9f4665397729",
     "maximumConcurrentRolesIncludingCoordinator": 20
   },
   "reservedOldSlots": [
@@ -36,15 +36,15 @@
   "freshChats": [
     {
       "threadId": "01a11bb1-adb2-7212-9a90-26537278d788",
-      "role": "implementation_static_review",
-      "status": "completed scope revision2 ACCEPT baeb1852; idle",
+      "role": "sneak_edge_backoff_investigation",
+      "status": "Optional safe accessor/invoker or helper simplification investigation; minimal cleanup only with firm proof, otherwise proof-only; avoid registry/provider and SuffocationProbe files; ready 19:15, handoff 19:25 Europe/Vienna.",
       "scope": "four pending code patches",
       "resultCommit": "bdb6443; notes d3190b4"
     },
     {
       "threadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
-      "role": "integration_build_owner",
-      "status": "Active exclusive serial water code integration/build with all Test disabled; separate MC01 no-code docs integration afterward.",
+      "role": "source_preparation_and_integration_owner",
+      "status": "Completed and hash-verified 1.11 Feather, 1.11.1 Feather, and 1.16 Mojmap preparation; idle pending independently reviewed architecture integration.",
       "ref": "feat/movement-campaign-integration-2026-10-08@958b0916f08cba25e3be86d67d48a9d1e8651d1f",
       "resultCommit": "ea812dc9171fdf41e02b3a2292db7d40b105c9c4"
     },
@@ -134,7 +134,7 @@
       "threadId": "01a11bb5-8eb0-7813-bb21-160e97f4652c",
       "role": "source",
       "pair": "1.15.2--1.16.5",
-      "status": "active full remaining source inventory continuation from 7cb6757d",
+      "status": "Terminal at f5636dd2; all seven inventory items remain open; pair remains PARTIAL; role released.",
       "ref": "feat/source-discovery-movement-source-1-15-2-1-16-5@d2511a34e9586231464fee42ab94f566c3f0459f",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -143,24 +143,24 @@
       "threadId": "01a11bb8-92db-7630-ad50-8a02225dc3d4",
       "role": "source",
       "pair": "1.16.5--1.17.1",
-      "ref": "01b6522",
-      "status": "completed; source partial at2efc80f3103b656480eb08b036cf2ea3bfb03fcb",
+      "ref": "feat/source-discovery-movement-source-1-16-5-1-17-1-audit-oct8@aca4dfb24d5f1e9ec00b375eaf9b8f8b1c57c8b9",
+      "status": "Terminal at main-merged checkpoint aca4dfb24d5f1e9ec00b375eaf9b8f8b1c57c8b9; source pair status remains PARTIAL; role reused by BED no-code proof review.",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
     },
     {
       "threadId": "01a11bbc-a6b5-71e0-a621-4188022be823",
-      "role": "posefit_correction",
+      "role": "bed_restitution_implementation",
       "pair": null,
       "ref": "e6b61bd7f1334b7e4fa49a9bd0a5929e833338a8",
-      "status": "active BED restitution minimal implementation/coverage reconciliation after source ACCEPT daab0b80"
+      "status": "Active BED implementation after source ACCEPT daab0b80; continue with registration overlap explicitly coordinated; ready 19:15 Europe/Vienna."
     },
     {
       "threadId": "01a11bbc-b876-7182-9025-3b589c5cd50c",
-      "role": "elytra_gate_correction",
+      "role": "movement_architecture",
       "pair": null,
       "ref": "a5d07341d941ce2c0b9df1e392af9a40b1fbb9e9",
-      "status": "Watercodec33269b0/tip48050492 handedoff, reviewactive; owner nowactive branch-specific sprint-start correction."
+      "status": "Active: split SprintInputStartBehavior into three mechanics/interfaces and replace per-version MovementChanges providers plus Fabric movement-change entrypoint with one static central catalog; ready 19:15, handoff 19:25 Europe/Vienna."
     },
     {
       "threadId": "01a11bbe-910d-7c02-9261-b0d01b6822ed",
@@ -235,9 +235,10 @@
     },
     {
       "threadId": "01a11bcf-351e-7b32-9a56-9a6800c65644",
-      "role": "world03_implementation",
-      "status": "Completed slime no-code proof4bb2bd611711a184f474017d90ce8e5ac857026d; independent review active; unrelated Polar preserved.",
-      "ref": "accepted aa66894; reviewa2e510bd"
+      "role": "suffocation_probe_implementation",
+      "status": "SuffocationProbe implementation frozen at 42885fae; proof dba9a4b2; author idle/reserved for requested corrections. Independent full static review active on reviewer prefix 01a11bc2-2e8a.",
+      "ref": "accepted aa66894; reviewa2e510bd",
+      "pair": null
     },
     {
       "threadId": "01a11bd0-d66c-71c3-b7b7-3b3f11e2773d",
@@ -416,13 +417,10 @@
     "mainStatus": "code already integrated; source binding/provenance being independently reconciled"
   },
   "nextCoordinatorActions": [
-    "Collect water test-disabled build/main/artifact/log handoff and independently verify.",
-    "Collect exact1.20.5 boundary memo binding, dispatch blind source review before MC02 code.",
-    "Collect pane-epsilon request-changes report and assign bounded correction.",
-    "Collect slime no-code and revised sleep independent decisions.",
-    "Collect bed/F14/MCPK replacement source bindings and re-review.",
-    "Audit potential full1.17.1--1.18.2 freeze only after all seven inventories actually closed.",
-    "Maintaincap20includingroot; source scopes/exclusions and original mapped-JAR caveats retained; no tests/runtime/push."
+    "Collect the assigned architecture author checkpoints by 19:15 and handoffs by 19:25 Europe/Vienna.",
+    "Stop new source discovery at 19:25; obtain clean active-owner checkpoints by 19:40 without releasing the 1.8 or 1.16 roles prematurely.",
+    "Run the two reserved independent architecture preflights only after the authors freeze their outputs; preserve the 20-role cap including root and nested reviewers.",
+    "Resume tomorrow from this immutable checkpoint; completion before the 20:00 deadline is not required."
   ],
   "nextAcceptedIntegrationBatch": {
     "ownerThreadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
@@ -1003,9 +1001,9 @@
     "status": "Historical queue entry; already integrated on main 0bfb72a."
   },
   "latestReconciliation": {
-    "mainCommit": "95107011b19de53b8d4540a77cfe3d34a7771b68",
+    "mainCommit": "d8f3956602da94bf0cf67753cc0a9f4665397729",
     "backlogBranch": "feat/accepted-finding-backlog-2026-10-08",
-    "backlogCommit": "fcc875ecf28b11ae381d7fd6ecc5a9bab540c4bc",
+    "backlogCommit": "e4b9cadc71a55bff548e956257785b4ca1221995",
     "integrationRecords": {
       "sleep": "a5c191df557cd152d578150c689227897ac33256; accepted source chain independently verified at 33baf5c6; implementation corrected, independently accepted, integrated and built with all Test tasks disabled; runtime unverified",
       "slime": "a5c191df557cd152d578150c689227897ac33256; bounded no-code disposition integrated; runtime unverified",
@@ -1028,10 +1026,23 @@
       }
     },
     "mc1204To1206": {
-      "boundaryMemo": "source boundary independently ACCEPTED for bounded claims",
-      "scopeProof": "Revision 2 at 2d88ee12481b66b739d613f746bc421cc32e0db5 independently ACCEPTED at baeb1852; accepted proof/review queued with MC02 serial integration. Prior REQUEST CHANGES preserved.",
-      "mc02Code": "implementation review ACCEPTED; integration/build remain queued behind exact source preparation",
-      "laneSeparation": "scope proof and code review are distinct; do not infer full-pair completion or runtime"
+      "boundaryMemo": "e277edd19eb8f8ce63681ab7985a5d92df8a259f; bounded source review ACCEPT 1e5de3b32966e8766cdcf9f7ad56a9278fb79bb0",
+      "scopeProofR2": "2d88ee12481b66b739d613f746bc421cc32e0db5; independent review ACCEPT baeb1852407372d4ef2f2498595ce87c730a9c98",
+      "code": "4aa5be97b5495b59736381c9e05e4ca9f6e32a1b",
+      "proof": "8c5686cd61421ff50880bbad728204122570c00b",
+      "independentImplementationReview": "8c9e3d5c90279575ee079f07d7a1ee360adf3c58 ACCEPT",
+      "integrationMerge": "db634eb8d702594c8ff6571957554b3a56420dd8",
+      "mainIntegrationRecord": "d8f3956602da94bf0cf67753cc0a9f4665397729: workflows/fix-implementation/runs/1.20.4-sprint-jump-precision-integration-2026-10-08.md",
+      "buildCommand": "gradlew.bat build --no-daemon -x test --init-script D:\\Javastuff\\LegacyParkourCompat\\.task-worktrees\\source-prep-exact-111-1111-116-2026-10-08\\build\\no-tests.init.gradle --console=plain",
+      "initScriptSha256": "8362f85b86dd2acb7ae537f16d4679afab51379d6dd7652f4978ccf363bbf93d",
+      "buildLog": "build/movement-campaign-2026-10-07/integration-artifacts/mc1204-1206-mc02-sprint-precision-2026-10-08/build.full.log",
+      "buildLogSha256": "8e70371b06d409a594398ca75217d7dc77dc8394bff2d2d92a5456ec81589539",
+      "buildResult": "BUILD SUCCESSFUL in 24s; 18 actionable tasks (8 executed, 10 up-to-date); log contains no Test-task execution. Init script disables every Gradle Test task type and command supplied -x test.",
+      "resultJar": "build/movement-campaign-2026-10-07/integration-artifacts/mc1204-1206-mc02-sprint-precision-2026-10-08/result/LegacyParkourCompat+26.2-1.0.0.jar; 278823 bytes; SHA-256 0e256017f7112850ef4f217244d99f80438996c21ad68d465e166f907bfd02ec",
+      "preservedPriorJar": "build/movement-campaign-2026-10-07/integration-artifacts/mc1204-1206-mc02-sprint-precision-2026-10-08/prior/LegacyParkourCompat+26.2-1.0.0.jar; 245795 bytes; SHA-256 732bb1ee056335178f8bf4e58e809d4552fc0b17a14092ccb3bab8c40ca42112",
+      "preservedPriorSourcesJar": "build/movement-campaign-2026-10-07/integration-artifacts/mc1204-1206-mc02-sprint-precision-2026-10-08/prior/LegacyParkourCompat+26.2-1.0.0-sources.jar; 152268 bytes; SHA-256 81a18a0c80ee35e7ebfb21e8808e25889632a92776164bc6ceaab3ed52dbb5b2",
+      "ancestry": "Code, implementation proof, accepted code review, and integration merge are all ancestors of d8f39566; checked with git merge-base --is-ancestor.",
+      "scope": "0.2F sprint precision only. Low-power cutoff and modern-only attributes remain excluded. Source pair PARTIAL; runtime unverified."
     },
     "sourceCoverage1171To1182": {
       "decision": "full-pair source coverage ACCEPT after immutable count erratum e0e36eff36a92be82327bf2a8140f18141d7cc21",
@@ -1053,7 +1064,7 @@
       "wikiOwner": "01a11bb3-d102-7723-b35b-cae34a76f976 active on bounded attribution correction and full remaining catalog",
       "mcpkOwner": "01a11bb3-e236-7343-86a7-4c51ecc20b98 active on full remaining independent MCPK audit from r5; no partial-batch stop"
     },
-    "piston": "source finding accepted; scope proof review remains active; first exact cutover unknown, 1.15.1 unassigned; no production code/decompilation",
+    "piston": "Independent source/player-query scope ACCEPT; exact 1.16 cutover confirmed. Scope worker terminal 4b04193a4bd45a3ca8541590448476cc5af226f0. 1.15.1 remains unverified and older resolver gating is required. No implementation; role reused for optional SneakEdgeBackoff investigation.",
     "sourcePreparation": "Exact 1.11/1.11.1 Feather and 1.16 Mojmap source preparation published on local main 95107011b19de53b8d4540a77cfe3d34a7771b68. Root independently rehashed ready markers and source/artifact manifests against preparation records; all nine digests matched. Source preparation only; no behavior acceptance. Exclusive owner continues queued MC02 build/integration.",
     "roleCap": "20 concurrent roles including coordinator; latest owner reports preserve cap; no additional nested dispatch authorized or recorded",
     "testsBuildRuntime": "no tests/build/runtime were run by this documentation checkpoint; prior integration build evidence is recorded above only",
@@ -1086,6 +1097,126 @@
         "mojmap.sources.sha256": "e3c23e94ac985c25dec0c768aed17b443ba4823662cf1e152235c99756ae5d4a",
         "artifacts.sha256": "b482d7aa44422dfafebad3a0b2a886d47d1f01135f99055aea5973faa110e8b2"
       }
+    },
+    "F_WATER_SPRINT": {
+      "reviewCommit": "92bf9c5b944f46849b72042b02480125e6d37435",
+      "reviewPath": "workflows/source-campaign-2026-10-07/independent-review-water-sprint-provenance-2026-10-08.md",
+      "decision": "ACCEPT, bounded source claim on integrated and revised snapshots separately; no acceptance rebinding.",
+      "integratedSnapshot": {
+        "commit": "3a60fe735560e478bf0aa0d05f5e306c74800f6a",
+        "path": "workflows/source-campaign-2026-10-07/1.12.2--1.13.2/findings/F-WATER-SPRINT.md",
+        "blob": "ec3f21a967cb1b71e775295de3e5d1be060cd95f",
+        "sha256": "8698af8d4474a11725abdcfb1aabcea8a84e6fb44c31a8254bf6a40810b5f114"
+      },
+      "revisedSnapshot": {
+        "commit": "2dae7b235bde47c7837fd4092ec67ccb014352f2",
+        "path": "workflows/source-campaign-2026-10-07/1.12.2--1.13.2/findings/F-WATER-SPRINT.md",
+        "blob": "2595ba0c83a20f5543235759e789121bb1b0aa68",
+        "sha256": "ebc678ad4522a14a10549bc38a1f7958dcedcabd6de290a262c81d6c726d46f1"
+      },
+      "boundedConclusion": "Local-player double-tap and held-key sprint eligibility differ for the reviewed endpoint sources; B surface-water cancellation applies only on the non-swimming branch. Swimming continuation remains separate.",
+      "limits": "First cutover, full-pair inventory, and Feather-derived artifact equivalence remain open; no runtime claim.",
+      "reviewGitBlob": "257bdd8df55eaaae3315ccd819846bd76299cd68",
+      "reviewSha256": "edd011c3c98547fe5082a44a530a707eda310295a02a44a1cc2559043e51aed7",
+      "reviewBranch": "fix/review-water-sprint-provenance-2026-10-08"
+    },
+    "suffocationProbe": {
+      "branch": "fix/suffocation-probe-independent-implementations",
+      "authorThread": "01a11bcf-351e-7b32-9a56-9a6800c65644",
+      "authorStatus": "Frozen implementation refs; author idle/reserved for correction if review finds issues.",
+      "codeCommit": "42885fae364acfb20e8e03f84d0a3eeb756b2e7c",
+      "proofCommit": "dba9a4b2458d91561adbd8ba5e24ff050b65ca8f",
+      "branchTip": "dba9a4b2458d91561adbd8ba5e24ff050b65ca8f",
+      "mainBase": "d8f3956602da94bf0cf67753cc0a9f4665397729",
+      "reviewerPrefix": "01a11bc2-2e8a",
+      "reviewStatus": "active full static review of frozen refs; no acceptance yet",
+      "scope": "Independent V1_15_2 SuffocationProbe; no extension of V1_16. Also review v1_8 EndPortalFramePlayerEjection cross-version inheritance cleanup only via a neutral helper if technical reuse is proven; preserve exact behavior and do not edit registry.",
+      "runtime": "not run"
     }
-  }
+  },
+  "deadlineCheckpoint": {
+    "date": "2026-10-08",
+    "timezone": "Europe/Vienna",
+    "humanDeadline": "20:00; completion is not required; resume tomorrow from this checkpoint",
+    "workerReadyBy": "19:15",
+    "architectureHandoffBy": "19:25",
+    "stopNewDiscoveryBy": "19:25",
+    "cleanCheckpointBy": "19:40",
+    "maxConcurrentIncludingCoordinator": 20,
+    "newWorkersOrChats": "none",
+    "architectureAssignments": [
+      {
+        "thread": "01a11bbc-b876-7182-9025-3b589c5cd50c",
+        "task": "Split SprintInputStartBehavior into three mechanics/interfaces; replace per-version MovementChanges providers and Fabric movement-change entrypoint with one static central catalog."
+      },
+      {
+        "thread": "01a11bcf-351e-7b32-9a56-9a6800c65644",
+        "task": "Implement independent V1_15_2 SuffocationProbe classes without extending V1_16; also clean up v1_8 EndPortalFramePlayerEjection cross-version inheritance only through a neutral helper where technical reuse is proven, preserving exact behavior; no registry edits.",
+        "status": "frozen code/proof; author idle/reserved for correction; independent full static review active",
+        "codeCommit": "42885fae364acfb20e8e03f84d0a3eeb756b2e7c",
+        "proofCommit": "dba9a4b2458d91561adbd8ba5e24ff050b65ca8f",
+        "reviewerPrefix": "01a11bc2-2e8a"
+      },
+      {
+        "thread": "01a11bbc-a6b5-71e0-a621-4188022be823",
+        "task": "Continue BED implementation with registration overlap explicitly coordinated."
+      },
+      {
+        "thread": "01a11bb1-adb2-7212-9a90-26537278d788",
+        "task": "Reserved/active optional SneakEdgeBackoff accessor/invoker or helper investigation; minimal cleanup only with firm proof, otherwise proof-only; avoid registry/provider and SuffocationProbe files."
+      }
+    ],
+    "sourceOwnerStopBoundary": {
+      "1.14.4--1.15.2": "terminal at 11e4c0b7310eacff07520caf26ebc833ee479e99",
+      "1.15.2--1.16.5": "owner terminal at f5636dd2; all seven inventories remain open; pair remains PARTIAL",
+      "1.8.9--1.9.4": "owner still closing current slice; slot not released",
+      "1.16.5--1.17.1": "owner terminal at main-merged checkpoint aca4dfb24d5f1e9ec00b375eaf9b8f8b1c57c8b9; pair discovery remains PARTIAL",
+      "remainingActiveOwners": "12 active owners, including 1.21.11--26.1.2 and 26.1.2--26.2, asked to stop new work by 19:25 and checkpoint cleanly by 19:40",
+      "status": "Preserve exact pair partial/open states; do not infer completion."
+    },
+    "pistonScope": "Terminal at 4b04193a4bd45a3ca8541590448476cc5af226f0; source/player query scope ACCEPT and exact 1.16 cutover confirmed; 1.15.1 unverified, older resolver gating required; no implementation. Role reused for optional SneakEdgeBackoff investigation.",
+    "sourcePreparationOwner": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1; 1.11 Feather, 1.11.1 Feather, and 1.16 Mojmap published and hash-verified; 9 marker/manifests verified; 34 ready profiles; idle pending independently reviewed architecture integration.",
+    "F_WATER_SPRINT": {
+      "reviewCommit": "92bf9c5b944f46849b72042b02480125e6d37435",
+      "reviewBlob": "257bdd8df55eaaae3315ccd819846bd76299cd68",
+      "reviewSha256": "edd011c3c98547fe5082a44a530a707eda310295a02a44a1cc2559043e51aed7",
+      "decision": "bounded source ACCEPT for each immutable snapshot separately; no rebind; surface-water cancellation only on non-swimming branch; swimming continuation separate; pair/first cutover/Feather equivalence remain open"
+    },
+    "checkpointWork": "This checkpoint rehashed retained MC02 build log, result JAR, preserved prior JARs, and init script. No build, tests, runtime, or push was run.",
+    "architectureReviewers": [
+      {
+        "reviewer": "root/review_architecture_catalog_sprint",
+        "model": "Luna High",
+        "status": "reserved preflight after frozen author output",
+        "scope": "provider count and central catalog coverage"
+      },
+      {
+        "reviewerPrefix": "01a11bc2-2e8a",
+        "model": "Luna High",
+        "status": "active full static review of frozen SuffocationProbe refs",
+        "scope": "SuffocationProbe plus v1_8 neutral-helper behavior"
+      },
+      {
+        "reviewerPrefix": "01a11bd7",
+        "status": "active",
+        "scope": "BED no-code proof review after author terminal d506bfca"
+      }
+    ],
+    "bedProof": "Author terminal at d506bfca; no-code proof is bounded to existing V26_1 bed handler/native 26.2; independent review active with reviewer prefix 01a11bd7.",
+    "waterSprint": "Bounded source ACCEPT now closes the candidate acceptance gap for the two identified immutable snapshots only; no broader parity or pair closure.",
+    "collaborationSlots": "Current coordination reports 19 active/reserved roles and one free global role; collaboration surface is full at root plus two source owners and one fresh reviewer. Do not fill the free global role or spawn workers/chats.",
+    "currentTimeObservation": "2026-10-08 17:01:38 UTC / 19:01:38 Europe/Vienna, checked with the clock tool; human deadline remains 20:00.",
+    "backlogCommit": "e4b9cadc71a55bff548e956257785b4ca1221995",
+    "catalogIncident": "Wrong-workdir deletion by catalog author was restored. Primary main was independently verified clean at d8f39566; do not mutate primary until architecture review and coordinated merge.",
+    "sourceOwnerRoleSwap": "1.16.5–1.17.1 source owner terminal at aca4dfb; role replaced by BED no-code proof reviewer. 1.15.2–1.16.5 owner terminal at f5636dd2 with all seven inventories open. 1.8.9–1.9.4 owner still closing.",
+    "primaryMainStatus": "Independently checked clean at d8f3956602da94bf0cf67753cc0a9f4665397729. Do not mutate primary until architecture changes have frozen and passed review."
+  },
+  "latestIndependentReviews": [
+    {
+      "threadPrefix": "01a11bc2-2e8a",
+      "role": "suffocation_probe_independent_review",
+      "model": "Luna High",
+      "status": "Active full static review of frozen author refs 42885fae/dba9a4b2; correction only after findings, no acceptance yet."
+    }
+  ]
 }
