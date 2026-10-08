@@ -123,7 +123,7 @@ abstract class LocalPlayerMixin {
             .orElse(vanilla);
     }
 
-    @Inject(method = "aiStep", at = @At("TAIL"))
+    @Inject(method = "aiStep", at = @At("HEAD"))
     private void legacyparkourcompat$tickSprintDuration(CallbackInfo ci) {
         LocalPlayer player = (LocalPlayer) (Object) this;
         MovementRuntime.find(SprintTickBehavior.class, player)
