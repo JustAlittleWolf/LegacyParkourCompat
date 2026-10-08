@@ -426,7 +426,7 @@ Artifact paths below are relative to repository root; generated artifacts remain
 
 ## Finding snapshots (not pair freeze)
 
-- F-002 is being prepared as an independently reviewable immutable finding snapshot; source guard, call path and collision-query dependencies were reverified against D-SOURCES. Exact snapshot commit and finding SHA-256 will be recorded immediately after the snapshot commit. Review status: pending independent blind reviewer; no acceptance or implementation handoff yet.
+- F-002 immutable source snapshot: commit `1d5f18176eccc5103c08bd1807b2f2c32f2b3376`; `findings/F-002.md` SHA-256 `4A4A23D071397F4CD3A1C82EF4E4FF59885DF9B63C79B425C927C310BD1DBBB9`. Cited source identity is A `1.18.2` Mojmap: source manifest SHA-256 `aea0cb9c6fc8f7a46f0eb82b0388ad58a4659f513be6c0a2be06c0df0c1eb07a`, artifact manifest SHA-256 `a1507e4875faee892aca4c59686bbd68933db21a2274559e81eea8a32b021036`; B `1.19.2` Mojmap: source manifest SHA-256 `95bc354ac219b9fe1ca8bf45053edad0119a75323d576902d59616a11647aac2`, artifact manifest SHA-256 `d0197d78578241b8cdde1123a3dee64aa279341681a7edde9f867689f9bb3490`. The cited Player, Entity, LocalPlayer and CollisionGetter source files were re-read/rehashed against those published manifests for this snapshot. Snapshot status: pending independent blind reviewer routing/acceptance; implementation handoff is not released.
 - No other immutable finding snapshot has been submitted or accepted. An accepted finding snapshot does not freeze the full pair.
 
 ## Implementation reconciliation
