@@ -145,12 +145,12 @@ A/B roles: LocalPlayer#aiStep client tick; KeyboardInput#tick input; LivingEntit
 ### Slice T-MODIFIERS: attributes/effects/equipment
 - Inventory ID(s): INV-MODIFIERS
 - Exact behavior boundary and enclosing guards/order checked: defaults and modifier application/removal.
-- A evidence: Attributes.java SHA-256 839e9274a4ae91dc81802914b6f4f5f354d54ffa9005aa630da83f070b17efaa; KNOCKBACK_RESISTANCE default 0.0 and MOVEMENT_SPEED global default 0.7F. Player#createAttributes lines 200-206 explicitly sets movement speed to 0.1F.
-- B evidence: Attributes.java SHA-256 c41860b83315d5265632e9a90978e38794d83d1a0cd996dbb9c7fd8e56560df5; KNOCKBACK_RESISTANCE default 0.0, MOVEMENT_SPEED global default 0.7, and Player#createAttributes lines 202-208 explicitly sets movement speed to 0.1F.
+- A evidence: Attributes.java SHA-256 839e9274a4ae91dc81802914b6f4f5f354d54ffa9005aa630da83f070b17efaa; KNOCKBACK_RESISTANCE default 0.0 and MOVEMENT_SPEED global default 0.7F. Player#createAttributes lines 200-206 explicitly sets movement speed to 0.1F. MobEffects.java SHA-256 64b3b592a48eac1016c3a307b85c3e201689662dea68c80b6d642cffa35fd289; speed +0.2F, slowness -0.15F, jump_boost ID 8, levitation ID 25, slow_falling ID 28 and dolphins_grace ID 30 spot-checked. LivingEntity#getJumpBoostPower lines 1971-1972 is also recorded.
+- B evidence: Attributes.java SHA-256 c41860b83315d5265632e9a90978e38794d83d1a0cd996dbb9c7fd8e56560df5; KNOCKBACK_RESISTANCE default 0.0, MOVEMENT_SPEED global default 0.7, and Player#createAttributes lines 202-208 explicitly sets movement speed to 0.1F. MobEffects.java SHA-256 92bdab264537c8acf1af38a25bbbceef557a4cd24e248446c6463fa9812a524e; the sampled speed, slowness, jump_boost, levitation, slow_falling and dolphins_grace entries match A. LivingEntity#getJumpBoostPower lines 1977-1978 retains the same formula.
 - State producers/writers -> consumers/readers: modifiers -> speed/jump/fluid/Elytra.
 - Parent slices / dependencies / closure evidence: D-ATTRIBUTE-REGISTRY is resolved for player movement speed and knockback-resistance registration/defaults; the global 0.7F-to-0.7 movement default does not reach Player because Player#createAttributes sets 0.1F on both. D-EFFECT-DATA and D-ENCHANTMENT-DATA remain open for modifier sources.
 - Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): F-002 and Jump Boost consumer are partial.
+- Disposition and rationale (including concrete reachability/preconditions): the sampled built-in movement effect entries and Jump Boost consumer match; potion/effect application resources and enchantment/equipment modifier sources remain open.
 - Finding IDs or checked absence/replacement path: F-002.
 
 ### Slice T-PLAYER-CORRECTION: inbound position correction
