@@ -728,7 +728,7 @@ Each bounded behavior remains open until both exact source sides, the relevant m
 ## Resume checkpoint
 
 - Last completed checkpoint: paired S2 pose/dimensions and initial Entity eye-height defaults, closed the direct sprint-consumer gate row, and compared flight-ability defaults, packet receiver mapping and Player flying-speed formula. No default eye-height delta was found; wider state, collision and flight-consumer inventories remain open. Six finding snapshots await independent blind review.
-- Task branch / checkpoint: `feat/source-discovery-1-20-4-1-20-6-resume-2026-10-08`, based on saved ref `477b6af`; report-only evidence updates are in progress. Default-branch merge check remains for handoff.
+- Task branch / checkpoint: `feat/source-discovery-1-20-4-1-20-6-resume-2026-10-08`, based on saved ref `477b6af`; source-only report updates are in progress. The current `main` tip was merged; no later main commit changed this exact pair's run or findings.
 - Default-branch reconciliation: merging `main` at `6d89340` brought in `44958e8`, whose pair-report import reset checked rows to pending and removed the six submitted-snapshot records. The merge resolution retains this task branch's later source evidence and six immutable snapshot identities/hashes, all still pending independent review; it does not claim reviewer acceptance or pair completion. Other repository guidance and default-branch files were merged from `main`.
 - Next bounded comparison: continue S2 player movement-state writers and consumers beyond constructor defaults, linking velocity, ground/collision/fluid flags and timers to their reachable tick readers. Continue only from the published 1.20.4 and 1.20.6 Mojmap trees and record each method range/hash before disposition.
 
