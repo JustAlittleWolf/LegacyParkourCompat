@@ -20,28 +20,32 @@
       "threadId": "01a116c5-ef2e-7990-97d5-835aee2a0ce8",
       "role": "source",
       "pair": "1.17.1--1.18.2",
-      "status": "active after stop requests; do not duplicate pair writes"
+      "status": "active after stop requests; do not duplicate pair writes",
+      "slotReserved": true
     },
     {
       "title": "Implement rising crouch edge restraint",
-      "threadId": null,
+      "threadId": "01a11b4a-7214-7b32-bc5c-2561635549af",
       "role": "implementation",
       "pair": "1.18.2--1.19.2",
-      "status": "creation outcome unresolved; reserve slot, do not duplicate"
+      "status": "interrupted/no items; independently confirmed notLoaded; slot released",
+      "slotReserved": false
     }
   ],
   "freshChats": [
     {
       "threadId": "01a11bb1-adb2-7212-9a90-26537278d788",
       "role": "implementation_static_review",
-      "status": "active; review identity and yaw movement-consumer audit",
-      "scope": "four pending code patches"
+      "status": "completed",
+      "scope": "four pending code patches",
+      "resultCommit": "bdb6443; notes d3190b4"
     },
     {
       "threadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
       "role": "integration_build_owner",
-      "status": "active",
-      "ref": "feat/movement-campaign-integration-2026-10-08@958b0916f08cba25e3be86d67d48a9d1e8651d1f"
+      "status": "completed",
+      "ref": "feat/movement-campaign-integration-2026-10-08@958b0916f08cba25e3be86d67d48a9d1e8651d1f",
+      "resultCommit": "ea812dc9171fdf41e02b3a2292db7d40b105c9c4"
     },
     {
       "threadId": "01a11bb1-d0cb-75f1-846c-6886638ad64b",
@@ -55,49 +59,63 @@
       "role": "source",
       "pair": "1.8.9--1.9.4",
       "status": "completed",
-      "ref": "feat/source-discovery-movement-source-1-8-9-1-9-4@0481dfe227ccc14b935352c306afbd04035cc635"
+      "ref": "feat/source-discovery-movement-source-1-8-9-1-9-4@0481dfe227ccc14b935352c306afbd04035cc635",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
     },
     {
       "threadId": "01a11bb3-6dd8-7710-8f54-0b2d444da4b6",
       "role": "source",
       "pair": "1.9.4--1.10.2",
       "status": "active",
-      "ref": "feat/source-discovery-movement-source-1-9-4-1-10-2@96e35bb8cb7c906e2978dea93898bd34c3e504d3"
+      "ref": "feat/source-discovery-movement-source-1-9-4-1-10-2@96e35bb8cb7c906e2978dea93898bd34c3e504d3",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
     },
     {
       "threadId": "01a11bb3-7ca7-7510-8ec7-03f97db0cc9b",
       "role": "source",
       "pair": "1.10.2--1.11.2",
       "status": "active",
-      "ref": "feat/source-discovery-movement-source-1-10-2-1-11-2@4c87723 (full ref to verify)"
+      "ref": "feat/source-discovery-movement-source-1-10-2-1-11-2@4c87723 (full ref to verify)",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
     },
     {
       "threadId": "01a11bb3-9057-7283-b264-f6ff0befbb34",
       "role": "source",
       "pair": "1.11.2--1.12.2",
       "status": "completed",
-      "ref": "feat/source-discovery-movement-source-1-11-2-1-12-2@d624c8e35b67056fb66ef5fd2422b9cffd693d56"
+      "ref": "feat/source-discovery-movement-source-1-11-2-1-12-2@d624c8e35b67056fb66ef5fd2422b9cffd693d56",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
     },
     {
       "threadId": "01a11bb3-9efb-7962-b77b-722fbec5de31",
       "role": "source",
       "pair": "1.12.2--1.13.2",
       "status": "active",
-      "ref": "feat/source-discovery-movement-source-1-12-2-1-13-2@f744f3e5ca418ba8797341eca50ab1677933d1d7"
+      "ref": "feat/source-discovery-movement-source-1-12-2-1-13-2@f744f3e5ca418ba8797341eca50ab1677933d1d7",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
     },
     {
       "threadId": "01a11bb3-aee2-7a81-b21f-e3b3b002ab9a",
       "role": "source",
       "pair": "1.13.2--1.14.4",
-      "status": "active",
-      "ref": "feat/source-movement-1-13-2-1-14-4-resume5@f3f93635916e61622baad51449b2069446cb0d7d"
+      "status": "completed",
+      "ref": "feat/source-movement-1-13-2-1-14-4-resume5@f3f93635916e61622baad51449b2069446cb0d7d",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
     },
     {
       "threadId": "01a11bb3-bfe4-75a3-97b4-888907814e44",
       "role": "source",
       "pair": "1.14.4--1.15.2",
       "status": "completed",
-      "ref": "feat/source-discovery-movement-source-1-14-4-1-15-2@105ec98f7b092a8b68e3d93a9739a720fe10e578"
+      "ref": "feat/source-discovery-movement-source-1-14-4-1-15-2@105ec98f7b092a8b68e3d93a9739a720fe10e578",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
     },
     {
       "threadId": "01a11bb3-d102-7723-b35b-cae34a76f976",
@@ -115,15 +133,19 @@
       "threadId": "01a11bb5-8eb0-7813-bb21-160e97f4652c",
       "role": "source",
       "pair": "1.15.2--1.16.5",
-      "status": "active",
-      "ref": "feat/source-discovery-movement-source-1-15-2-1-16-5@d2511a34e9586231464fee42ab94f566c3f0459f"
+      "status": "completed",
+      "ref": "feat/source-discovery-movement-source-1-15-2-1-16-5@d2511a34e9586231464fee42ab94f566c3f0459f",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
     },
     {
       "threadId": "01a11bb8-92db-7630-ad50-8a02225dc3d4",
       "role": "source",
       "pair": "1.16.5--1.17.1",
       "ref": "01b6522",
-      "status": "active"
+      "status": "active",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
     },
     {
       "threadId": "01a11bbc-a6b5-71e0-a621-4188022be823",
@@ -152,21 +174,57 @@
       "pair": null,
       "ref": "aa66894 and105ec98",
       "status": "active"
+    },
+    {
+      "threadId": "01a11bc1-f2a2-7342-82ea-4072acd7ff4b",
+      "role": "passenger_yaw_correction",
+      "ref": "8722bc476159b79f7e249f48b0e1076f209ced12",
+      "status": "active"
+    },
+    {
+      "threadId": "01a11bc2-03b2-7443-bc8f-698902c67f29",
+      "role": "wiki_minecraft_review",
+      "ref": "005e647; b20730f",
+      "status": "active"
+    },
+    {
+      "threadId": "01a11bc2-1af1-7263-a36e-fb0ea5e4c509",
+      "role": "wiki_mcpk_review",
+      "ref": "8c83d93; f4d5dcf;3de1093;bb05061",
+      "status": "active"
+    },
+    {
+      "threadId": "01a11bc2-2e8a-78e2-a4ec-cee2b9b52ee6",
+      "role": "rising_crouch_implementation",
+      "ref": "accepted source1d5f181;review0648b843",
+      "status": "active"
+    },
+    {
+      "threadId": "01a11bc4-153a-78d1-8b2a-74e92c3b249d",
+      "role": "source",
+      "ref": "feat/source-discovery-movement-source-1-18-2-1-19-2@ad8b20f",
+      "status": "active",
+      "pair": "1.18.2--1.19.2",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T13:41:59.452Z",
+    "observedAt": "2026-10-08T13:48:14.356Z",
     "oldCompleted": 42,
     "oldActive": 1,
-    "unknownSlotReserved": 1,
+    "unknownSlotReserved": 0,
     "conservativeSlots": 15,
     "workersRequested": "gpt-6-luna high",
     "coordinatorObserved": "gpt-6.1-sol medium",
-    "mainHead": "002137b227676caea77f6832b9f4c8d0b6200bff",
-    "mainUntracked": ".task-worktrees/; preserve/exclude",
-    "TICK01": "accepted; build/integration pending",
-    "passengerYaw": "request changes; nested riders and field movement scope audit",
+    "mainHead": "ea812dc9171fdf41e02b3a2292db7d40b105c9c4",
+    "mainUntracked": "generated worktrees preserved; local exclude applied by integration owner",
+    "TICK01": "independently accepted, built with all Test tasks disabled, merged into main; ops verification pending",
+    "passengerYaw": "correction active; accepted scope current yRot only; successful direct remount",
     "poseFit": "request changes; float dimension gate",
-    "elytraStart": "request changes; caller eligibility"
+    "elytraStart": "request changes; caller eligibility",
+    "oldCoordinator": "idle/completed verified",
+    "reviewReport": "bdb6443;notes d3190b4",
+    "jarReportedSha256": "1C3198B1E05AC5FD4CE4D84683060576CA34ED636CA81E88728FF9F6A07BCBD1"
   }
 }
