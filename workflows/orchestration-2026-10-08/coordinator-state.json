@@ -120,13 +120,13 @@
     {
       "threadId": "01a11bb3-d102-7723-b35b-cae34a76f976",
       "role": "wiki_minecraft",
-      "status": "completed; superseding fence103786e re-review pending",
+      "status": "active independent Minecraft Wiki remaining claim inventory, sealed from MCPK/source reports/implementation",
       "ref": "feat/minecraft-wiki-audit@2d20e330083ca7bb738e750ae329bbf67d618ac2"
     },
     {
       "threadId": "01a11bb3-e236-7343-86a7-4c51ecc20b98",
       "role": "wiki_mcpk",
-      "status": "completed; r3edge+register corrections through7dffdda43c77330e8eedff1d09344648c4805ef2",
+      "status": "active independent MCPK remaining claim inventory, sealed from Minecraft Wiki/source reports/implementation",
       "ref": "feat/mcpk-wiki-audit@ae651e6"
     },
     {
@@ -166,7 +166,7 @@
       "role": "ops_audit",
       "pair": null,
       "ref": null,
-      "status": "active focused backlog correction and artifact audit"
+      "status": "completed focused backlog correction105dd2d adopted03bc863;29acceptedrecords and ranked implementationqueue"
     },
     {
       "threadId": "01a11bbe-a775-7180-a017-d2386dcd9fb3",
@@ -179,7 +179,7 @@
       "threadId": "01a11bc1-f2a2-7342-82ea-4072acd7ff4b",
       "role": "passenger_yaw_correction",
       "ref": "8722bc476159b79f7e249f48b0e1076f209ced12",
-      "status": "completed; F005 server implementationb215d723c22cf2c73601b7807056ba0d23fdbf23 tip7d80e2e awaiting independentreview",
+      "status": "active accepted passenger-crouch-input implementation reconciliation source4ee5bbce/review626fd4ff",
       "resultCommit": "5c2cc08;main merge32c8b0a"
     },
     {
@@ -290,7 +290,7 @@
       "threadId": "01a11be6-a5a7-7660-b42d-02033cc331ae",
       "role": "source",
       "pair": "1.20.2--1.20.4",
-      "status": "active",
+      "status": "completed sourcepartialcbcd477;12pending33inprogress; did not merge main, handoff requirement remains",
       "ref": "847f34d18d59d55777633cd8a9fb93091234d645",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -308,7 +308,7 @@
       "threadId": "01a11bec-527c-78b2-9e32-ba4eaab9af1f",
       "role": "source",
       "pair": "1.20.6--1.21.1",
-      "status": "active",
+      "status": "completed sourcepartial9b58e85 after8bedd37; stepup query/modifier closures open",
       "ref": "f8593bc61e95ff738998cb4c4614b918ded95f66",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -369,7 +369,7 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T15:04:57.9922722Z",
+    "observedAt": "2026-10-08T15:08:10.3810587Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
@@ -408,12 +408,14 @@
     "mainStatus": "code already integrated; source binding/provenance being independently reconciled"
   },
   "nextCoordinatorActions": [
-    "Collect WORLD03 and swimming-entry serialized integrations and independently audit resulting main/build evidence.",
-    "Collect exact e1866cc slipperiness ACCEPT object-store handoff before assigning next integration; do not interrupt current batches.",
-    "Collect focused range source snapshot then commission independent source review before any extension.",
-    "Collect corrected accepted backlog and assign uncovered accepted minimal mechanics independently.",
-    "All 26 source intervals have fresh continuation owners or saved partial checkpoints; complete remaining inventories and independent full-pair audits.",
-    "Keep maximum 15 concurrent roles including root and old active source owner; coordinator Sol Medium, all workers Luna High; no tests/runtime/Docker/push."
+    "Collect bounded sampler integration/build with retained standalone log and exact artifact path; independently audit.",
+    "Collect independent slipperiness range source review before minimal registration extension.",
+    "Collect passenger crouch input reconciliation then obtain independent implementation review.",
+    "Collect blind seven-finding source review1.20.4--1.20.6 plus1.21.4--1.21.5F14.",
+    "Continue all source inventories and separate reopened Minecraft Wiki/MCPK claim inventories; no full pair complete yet.",
+    "Resume earlier partials as slots free, then commission independent full-pair coverage audits only after evidence complete.",
+    "Record unexplained remote-main push tracking update without attributing actor or rewriting remote; campaign no-push instruction remains.",
+    "Maximum15 includingroot/oldsource; coordinatorSolMedium, allworkersLunaHigh; no tests/runtime/Docker/push."
   ],
   "nextAcceptedIntegrationBatch": {
     "finding": "F005 saved FallFlying",
@@ -471,7 +473,7 @@
     "runtime": "unverified"
   },
   "acceptedBacklogAuditFollowUp": {
-    "status": "active isolated ops worker correcting records",
+    "status": "focused correction105dd2d adopted03bc863; remaining accepted implementation reconciliations ranked; fullcampaign coverage not claimed",
     "missing": [
       "TICK01 acceptedsource1dbafbb/review304b6a58",
       "WORLD03 aa66894/reviewa2e510bd",
