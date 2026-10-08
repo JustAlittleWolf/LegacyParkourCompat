@@ -203,7 +203,7 @@
       "threadId": "01a11bc2-2e8a-78e2-a4ec-cee2b9b52ee6",
       "role": "rising_crouch_implementation",
       "ref": "accepted source1d5f181;review0648b843",
-      "status": "active; MCPK BigDripleaf and swimming implementation reconciliation"
+      "status": "completed; swimming entry5c419e8d950cf8e62174a4562cc352a1d952747f tip7376c93a5dbdc3313482cd9f04c5742650756b54 pendingreview; BigDripleaf nativeproofd3733a4"
     },
     {
       "threadId": "01a11bc4-153a-78d1-8b2a-74e92c3b249d",
@@ -241,7 +241,7 @@
     {
       "threadId": "01a11bd0-d66c-71c3-b7b7-3b3f11e2773d",
       "role": "swimming_pitch_independent_review",
-      "status": "completed; fence code51ecf89 ACCEPT8838f92 onfix/review-fence-end-portal-frame-1-9",
+      "status": "active; swimmingentry5c419e8 andBigDripleaf no-code proof independentreview; fenceACCEPT8838f92",
       "ref": "fix/swimming-pitch-control-1-13@f24fdcd"
     },
     {
@@ -306,7 +306,7 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:28:41.4729739Z",
+    "observedAt": "2026-10-08T14:29:44.5258938Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
