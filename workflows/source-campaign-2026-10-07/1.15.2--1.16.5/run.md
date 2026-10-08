@@ -287,6 +287,17 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - Disposition and rationale (including concrete reachability/preconditions): both methods use the same TYPE switch: DOUBLE returns Shapes.block(), TOP returns TOP_AABB, and the remaining value returns BOTTOM_AABB. This establishes only shape selection once TYPE is supplied; its writers, state resources and other shape consumers remain outside this row.
 - Finding IDs or checked absence/replacement path: none within the bounded getShape method.
 
+### Slice S5-LADDER-SHAPE: ladder facing-to-shape selection
+- Inventory ID(s): INV-COLLISION, INV-STATE
+- Exact behavior boundary and enclosing guards checked: LadderBlock.getShape selection by FACING; attachment and survival writers are excluded from this method-only slice.
+- A evidence: `../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/level/block/LadderBlock.java`, lines 34-46, SHA-256 `36014d99536a74a5761cd11cfa3c1ab6ac6aa6947609808852679dddb5625108`.
+- B evidence: `../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/level/block/LadderBlock.java`, lines 35-47, SHA-256 `d7f65336fe5cd9432d5e10b85115e3bccbf1cf545bbccd29f31624b5848530c3`.
+- State producers/writers -> consumers/readers: FACING -> corresponding 3-unit-deep full-height wall plane -> collision query and movement resolution.
+- Parent slices / dependencies / closure evidence: S4-QUERY,S5-SHAPES; the paired methods use the same four directional shape constants and identical switch choices.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): with FACING supplied, both methods select identical NORTH/SOUTH/WEST/EAST collision planes. This is bounded to shape selection; the attachment predicate differs and remains open under the block state/neighbor inventory.
+- Finding IDs or checked absence/replacement path: none within the bounded getShape method.
+
 ### Slice S5-SCAFFOLDING-COLLISION: collision shape selection
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: ScaffoldingBlock.getCollisionShape state/context decision only; DISTANCE/BOTTOM writer and block/tag registration not included.
@@ -324,7 +335,7 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 
 - S1-ESCAPE-QUERY: pair A blocked/freeAt/isSuffocating with B noBlockCollision/getBlockCollisions and relevant shapes; establish same-state reachability. Owner: discovery author.
 - S4-MOVE/S4-QUERY: close the callback/provider edges and re-evaluate the B border guard after the newer main snapshot removed the prior standalone border finding. Owner: discovery author.
-- S5-SHAPES: compare common-block provider methods, B support-shape overrides, shape caches, neighboring-state writers, block/tag registrations and relevant resources. S5-SCAFFOLDING-COLLISION and S5-SLAB-SHAPE close bounded provider methods; S5-WALL is active with full geometry/state comparison open, including A's inherited CrossCollisionBlock shape/index helpers. Owner: discovery author.
+- S5-SHAPES: compare common-block provider methods, B support-shape overrides, shape caches, neighboring-state writers, block/tag registrations and relevant resources. S5-SCAFFOLDING-COLLISION, S5-SLAB-SHAPE and S5-LADDER-SHAPE close bounded provider methods; S5-WALL is active with full geometry/state comparison open, including A's inherited CrossCollisionBlock shape/index helpers. Ladder attachment and neighbor writers remain open. Owner: discovery author.
 - Remaining stage 2-7 slices: add bounded rows for state/pose/dimensions, movement attributes/effects/enchantments/equipment/resources, block/fluid registrations/callbacks, and client external inputs. Owner: discovery author.
 - Independent source reviewer: assign someone who did not author discovery; finding-snapshot decisions and eventual full-pair audit remain pending. Owner: coordinator.
 
@@ -345,7 +356,7 @@ The historical pair report is not imported as source confirmation.
 - Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-ELYTRA,S1-ESCAPE,S3-WATER,S3-FALL-FLYING,S4-STEP,S5-SCAFFOLDING-COLLISION; finding slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT.
 - Active slices: S1-LOCAL-TICK,S1-LOCAL-AISTEP,S3-GROUND-AIR,S4-MOVE,S4-QUERY,S5-SHAPES,S5-WALL; all required producer/consumer inventories remain partial.
 - Next: compare high-reachability common-block shapes and their neighbor/state/registration routes; then continue pose/dimensions, modifiers/resources, fluid/callback and external-input inventories.
-- Outstanding dependencies: S1 escape-query shape providers; S4 callback/entity-collider and border-guard disposition; S5 common-block providers, support shapes, registrations and neighboring state writers; remaining stage 2-7 slices; independent reviewer assignment.
+- Outstanding dependencies: S1 escape-query shape providers; S4 callback/entity-collider and border-guard disposition; S5 common-block providers, support shapes, registrations and neighboring state writers (including ladder attachment predicate); remaining stage 2-7 slices; independent reviewer assignment.
 - Resume branch: feat/source-discovery-1-15-2-1-16-5-resume. Main commit d4c4f154a0c2487dd6dd7d20d92eb57b3d8ab1ae has been merged; the merge checkpoint and current tip are recorded by git log -1.
 - First next work: inventory exact common-block shape providers and compare the fence/wall, slab/stair, ladder/vine, moving-piston and scaffolding state/neighbor routes. Continue S1 tick/call-order and S3 helper/resource closure, then fill remaining stage 2-7 rows. Keep pair PARTIAL and findings limited to independently supported source claims.
 - Read-only resume commands from the repository root:
