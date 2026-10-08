@@ -5,14 +5,15 @@
   "review": "Independent reviewer approved the seven absent bounded review files; water-current F-1 is already byte-identical in main.",
   "counts": {
     "uniqueHeads": 44,
-    "historyOnlyMergeHeads": 38,
-    "noBranchOnlyDocsCleanupCandidates": 6,
+    "historyOnlyMergeHeads": 44,
+    "staleCodeHistoryOnlyHeads": 6,
     "newlyAddedReviewFiles": 7
   },
   "immutableConstraints": [
     "No source/build/runtime code or shared guidance changes.",
     "All discovery/source/wiki pair states remain partial or open; accepted verdicts are bounded to their cited finding/snapshot.",
-    "Do not modify immutable finding bytes."
+    "Do not modify immutable finding bytes.",
+    "The six stale code branches are present only as ancestry through ours-strategy merges; their source/build/code trees are not imported."
   ],
   "refs": [
     {
@@ -84,9 +85,9 @@
       "branch": "feat/emulation-eligibility-scope",
       "oid": "611cd30eaf2a7136a0b8dae7d67d40e93778021a",
       "tree": "e370ccb72d9859aa9d02b6fc43726c0f760648e0",
-      "disposition": "NO_BRANCH_ONLY_DOCUMENT_CONTENT",
-      "mergeMode": "NO_MERGE_CLEANUP_CANDIDATE",
-      "reason": "Exact branch-only tracked docs were already integrated; no unique branch-only content remains.",
+      "disposition": "PRESERVE_STALE_CODE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Tip carries stale historical source/build/code tree deltas that are superseded or rejected by the separate code audit. Preserve ancestry only; do not import these tree changes into current production.",
       "additiveFiles": []
     },
     {
@@ -219,9 +220,9 @@
       "branch": "feat/movement-workflow-retrospective",
       "oid": "9c03e36af9b7b51126b1ed7abe555a26c8767196",
       "tree": "9cb08c392197b375fed1a5df2abb3fbf85f427d3",
-      "disposition": "NO_BRANCH_ONLY_DOCUMENT_CONTENT",
-      "mergeMode": "NO_MERGE_CLEANUP_CANDIDATE",
-      "reason": "Exact branch-only tracked docs were already integrated; no unique branch-only content remains.",
+      "disposition": "PRESERVE_STALE_CODE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Tip carries stale historical source/build/code tree deltas that are superseded or rejected by the separate code audit. Preserve ancestry only; do not import these tree changes into current production.",
       "additiveFiles": []
     },
     {
@@ -237,9 +238,9 @@
       "branch": "feat/prepare-movement-sources",
       "oid": "1573556424b77ecbcb3eb3591db5b6073ee084be",
       "tree": "e83df0ec34ee830ba82f8c9ecbc5f6fc7932db53",
-      "disposition": "NO_BRANCH_ONLY_DOCUMENT_CONTENT",
-      "mergeMode": "NO_MERGE_CLEANUP_CANDIDATE",
-      "reason": "Exact branch-only tracked docs were already integrated; no unique branch-only content remains.",
+      "disposition": "PRESERVE_STALE_CODE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Tip carries stale historical source/build/code tree deltas that are superseded or rejected by the separate code audit. Preserve ancestry only; do not import these tree changes into current production.",
       "additiveFiles": []
     },
     {
@@ -392,9 +393,9 @@
       "branch": "fix/review-shallow-water-current-cutoff-1-21-11-2026-10-08",
       "oid": "e023dd454513b625a0a1d9c9cad3958545803cba",
       "tree": "2aa43045cc09d594bf7e936ede6c5f4e859d7f4d",
-      "disposition": "NO_BRANCH_ONLY_DOCUMENT_CONTENT",
-      "mergeMode": "NO_MERGE_CLEANUP_CANDIDATE",
-      "reason": "Its current review report is already represented by accepted current review records; no unique branch-only content remains.",
+      "disposition": "PRESERVE_STALE_CODE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Tip carries stale historical source/build/code tree deltas that are superseded or rejected by the separate code audit. Preserve ancestry only; do not import these tree changes into current production.",
       "additiveFiles": []
     },
     {
@@ -410,22 +411,22 @@
       "branch": "fix/review-swim-entry-and-mc1204-jump-2026-10-08",
       "oid": "9cf9c7232c8280376034ed5d4a0ba7f84f0cf483",
       "tree": "21dda6c532aecf535c884911f2f4a25f5b074a3c",
-      "disposition": "NO_BRANCH_ONLY_DOCUMENT_CONTENT",
-      "mergeMode": "NO_MERGE_CLEANUP_CANDIDATE",
-      "reason": "Its current review report is already represented by accepted current review records; no unique branch-only content remains.",
+      "disposition": "PRESERVE_STALE_CODE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Tip carries stale historical source/build/code tree deltas that are superseded or rejected by the separate code audit. Preserve ancestry only; do not import these tree changes into current production.",
       "additiveFiles": []
     },
     {
       "branch": "fix/slime-landing-restitution-26-2",
       "oid": "4bb2bd611711a184f474017d90ce8e5ac857026d",
       "tree": "b9c7160f70e6f788e4f0b17cc706e04802babf91",
-      "disposition": "NO_BRANCH_ONLY_DOCUMENT_CONTENT",
-      "mergeMode": "NO_MERGE_CLEANUP_CANDIDATE",
-      "reason": "Its current report is already represented by an accepted current review; no unique branch-only content remains.",
+      "disposition": "PRESERVE_STALE_CODE_BRANCH_HISTORY_ONLY",
+      "mergeMode": "MERGE_OURS_PRESERVE_CURRENT_MAIN_TREE",
+      "reason": "Tip carries stale historical source/build/code tree deltas that are superseded or rejected by the separate code audit. Preserve ancestry only; do not import these tree changes into current production.",
       "additiveFiles": []
     }
   ],
   "archiveBranch": "fix/docs-history-preservation",
-  "historyMergeHead": "950407c8e0152d5379711d974f520e164e4bb6ac",
-  "historyMergeCommitsReachable": 38
+  "historyMergeHead": "0d30df961b2b2791be99055deed96958cd2313d9",
+  "historyMergeCommitsReachable": 44
 }
