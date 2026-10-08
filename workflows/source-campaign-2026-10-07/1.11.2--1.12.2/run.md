@@ -631,13 +631,13 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 ### Slice S6.4: Equipment slots, item-use movement effects, relevant defaults and applicability predicates
 
 - Inventory ID(s): INV-MODIFIERS, INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: Equipment slots, item-use movement effects, relevant defaults and applicability predicates; exact local guards and enclosing call order recorded per bounded behavior
-- A evidence: pending exact A member/body range and SHA-256 from verified source root
-- B evidence: pending exact B member/body range and SHA-256 from verified source root
-- State producers/writers -> consumers/readers: pending exact source writer/consumer closure
-- Parent slices / dependencies / closure evidence: parent/dependency links pending source inventory
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison; no equivalence inferred from prior reports
+- Exact behavior boundary and enclosing guards/order checked: player equipment slot reads/writes; stack-provided attribute modifier decode and slot predicates; reversible equipment-modifier removal during living-entity NBT serialization; active-item use slowdown and Elytra activation routed to S2.4/S2.3a; default item movement-attribute registrations.
+- A evidence: Player equipment getters/setters lines 1678/1689 and whole-file `PlayerEntity` SHA-256 `87fe94fa6cbf7aba18b9a5e3401664439eb8eba9958173da8fbcd05cc7ad948b`; `ItemStack.getAttributeModifiers()` / `addAttributeModifier()` lines 711/734 and whole-file hash `dc929fcc42e94dacb1f2d2a32572c00612c4f9b39d4cb551634fd3dd290467d8`; `LivingEntity.tick()` equipment-change block beginning at line 1597; `writeCustomNbt()` modifier-serialization block lines 435–471 and whole-file `LivingEntity` hash `bb7dc6c9e423a9568d6433d51bba12e7aee4555fbf3fb3e2b87f618382279f2f`.
+- B evidence: matching `PlayerEntity` equipment getter/setter bodies at lines 1642/1653 and whole-file SHA-256 `e4e0fdbe07a7d0a0ae4a70cbb6739a287c9d045a4a12b409895c220b5d91fe1e`; matching `ItemStack` attribute-modifier methods at lines 720/743 and whole-file hash `61964c5fd859eb16cdaa548575a1f348ce73748f45d8671afc8dd317ba5eac26`; corresponding `LivingEntity.tick()` equipment-change block begins at line 1635; `writeCustomNbt()` modifier-serialization block lines 438–474 and whole-file hash `190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6`.
+- State producers/writers -> consumers/readers: player `getEquipment/setEquipment` map main hand to selected inventory, off hand to offhand slot 0, armor to `armor[slot.id]`, and other slots to `ItemStack.EMPTY`; method bodies match. `ItemStack.getAttributeModifiers(slot)` reads valid NBT attribute modifiers whose optional `Slot` matches and whose UUID is nonzero, otherwise delegates to the item's default modifiers; body matches. The bounded `LivingEntity.tick()` server-side change loop is identical: it compares equipment snapshots, sends an equipment packet, removes old slot modifiers, adds new slot modifiers and updates the snapshot. NBT serialization removes each occupied slot's modifiers, writes the underlying attributes, then restores them in the same order in both versions. No vanilla item source under `net/minecraft/item` refers to `MOVEMENT_SPEED` / `generic.movementSpeed`; stack NBT can still carry such a modifier. Active-item-use slowdown is already compared in S2.4; Elytra conditions and activation are S2.3a.
+- Parent slices / dependencies / closure evidence: S2.4 closes active-use slowdown; S2.3a closes Elytra item applicability; S6.1 closes attribute aggregation. Stack NBT, synced equipment/attribute producers and player slot update provenance remain S6.5/S7.3. The exact dynamic modifier interpretation is equal, but its data-producer inventory is not closed here.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): paired player slot access, item attribute modifier filtering, NBT serialize/restore ordering and the separately checked use/Elytra consumers show no direct movement difference. Keep S6.4 open until S6.5/S7.3 close item NBT and synchronized attribute/equipment producers.
 - Finding IDs or checked absence/replacement path: none assigned
 
 ### Slice S6.5: Tag/data/resource dependencies and synchronized/server-supplied movement values with provenance
@@ -864,7 +864,7 @@ Append-only source-review history. An accepted finding snapshot would release on
 
 ## Source audit closure
 
-- Coverage counts by status: 19 pending; 5 in-progress; 18 compared-no-difference; 3 not-applicable; 2 findings; 0 blocked (47 slices total).
+- Coverage counts by status: 18 pending; 6 in-progress; 18 compared-no-difference; 3 not-applicable; 2 findings; 0 blocked (47 slices total).
 - Required inventory status/evidence: INV-EXCLUSIONS complete; all other inventories pending with mapped slice IDs.
 - Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS
 - Unresolved gaps: stages beyond bounded keyboard input and completed UI/tutor dispositions; S2.2 shape providers, glide movement, exact state producers/consumers, registries/resources, external writers and historical candidates remain open.
