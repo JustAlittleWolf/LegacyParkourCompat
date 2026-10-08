@@ -12,7 +12,7 @@
 ## Paired evidence
 
 - A: `ready/1.21.4/mojmap.sources.sha256`; `net/minecraft/world/entity/LivingEntity.java`; `LivingEntity#aiStep()` lines 2708-2724 independently zeroes `x` and `z` when `Math.abs(component) < 0.003`; the same `0.003` cutoff applies to `y` (SHA-256 `e62ce650af0a5ac97e4d0a2ba7cad4ba68a8d098525609f8b5b6976a8ab0ae30`).
-- B: `ready/1.21.5/mojmap.sources.sha256`; `LivingEntity.java`; `LivingEntity#aiStep()` lines 2686-2709 uses a special `EntityType.PLAYER` branch: if `horizontalDistanceSqr() < 9.0E-6`, both `x` and `z` are zeroed; non-player entities retain the old per-component comparisons. The `y` cutoff remains `Math.abs(y) < 0.003` (SHA-256 `a8aed863d4fdc515c751dd2878a8bbc13179228cb8dbb50edf1d19cd5404271`).
+- B: `ready/1.21.5/mojmap.sources.sha256`; `LivingEntity.java`; `LivingEntity#aiStep()` lines 2686-2709 uses a special `EntityType.PLAYER` branch: if `horizontalDistanceSqr() < 9.0E-6`, both `x` and `z` are zeroed; non-player entities retain the old per-component comparisons. The `y` cutoff remains `Math.abs(y) < 0.003` (SHA-256 `a8aed863d4fdc515c751dd2878a8bb9c13179228cb8dbb50edf1d19cd5404271`).
 
 ## Source-level difference
 
