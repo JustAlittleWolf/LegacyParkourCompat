@@ -29,3 +29,10 @@ Independent exact-patch review is recorded at review commit `fddb263`.
 - TICK-01-only batch: `BUILD SUCCESSFUL` with `gradlew.bat build -x test --init-script build/no-tests.init.gradle`; every Gradle `Test` task type was disabled and no tests ran.
 - Packaged JAR SHA-256: `1C3198B1E05AC5FD4CE4D84683060576CA34ED636CA81E88728FF9F6A07BCBD1`.
 - Runtime parity remains unverified. Passenger yaw, pose fit, and Elytra remain held for correction and renewed review.
+## Passenger yaw integration update — 2026-10-08
+
+- Independent review 7c40951938a925fbb6fae541a95b462006113c09 ACCEPTED corrected code tip 32c8b0a7e089e32d2b755a513241ac0e58d1d562; correction 5c2cc08f6b8eaccb02f89a80de4823a33ac37503 tracks a successful direct player remount to the captured boat.
+- Integrated net diff against main base ea812dc9171fdf41e02b3a2292db7d40b105c9c4: 7 files, 193 insertions. TICK-01 remains integrated.
+- Build succeeded with every Gradle Test task type disabled and -x test; 18 tasks, 5 executed and 13 up-to-date. No tests or runtime checks ran.
+- JAR SHA-256: 0EFADAB8C4FC87ABE8137C3E1F3E6A57CBAC15BB470E1048B739422839A7CB93.
+- Pose fit and Elytra remain held for correction and renewed review.
