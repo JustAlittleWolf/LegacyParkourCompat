@@ -1,0 +1,145 @@
+# Collision provider method index
+
+Exact source-only inventory of methods returning `VoxelShape` under `net/minecraft/world/level/block/` for the verified 1.14.4 and 1.15.2 Mojmap source manifests. The source roots and manifest identities are recorded in `run.md`. Ranges include each complete method body. File hashes are SHA-256. Method bodies were compared after whitespace-only normalization; that comparison preserves operators, casts, literals, calls and statement order.
+
+- Paired methods: 131
+- B-only methods: 1
+- A-only methods: 0
+
+| Method | A source range | A file SHA-256 | B source range | B file SHA-256 | Body comparison |
+|---|---|---|---|---|---|
+| `AirBlock.java|getShape` | 21-23 | `540ef8703f27102b70ccef49e299c8165ed22b9d9c0bbb9a01018bfce714b4be` | 21-23 | `540ef8703f27102b70ccef49e299c8165ed22b9d9c0bbb9a01018bfce714b4be` | same |
+| `AnvilBlock.java|getShape` | 62-65 | `86c6150c75649f59ad15adc98677417d0f9bff369329cf9ab7b72c8fd49d5ff1` | 71-74 | `99d1ad6d46a4a89689d30640dfe18af7a443a1bc042c344621c33bdb37e805e8` | same |
+| `AttachedStemBlock.java|getShape` | 42-44 | `67c8c4d2e5383a722b903a04ef9618310655485dfefc66e3cc6ef35d2c373aef` | 42-44 | `67c8c4d2e5383a722b903a04ef9618310655485dfefc66e3cc6ef35d2c373aef` | same |
+| `BambooBlock.java|getCollisionShape` | 69-72 | `b09ee556ffbe5e5db461366bbd1f3c31a95bbce8a2346d586792d4d30ea263ba` | 69-72 | `c6df0adcf3d1203d66eb196404ca3cb006e7c5aa6e1cb9d7d3471bb7903b5b6b` | same |
+| `BambooBlock.java|getShape` | 57-61 | `b09ee556ffbe5e5db461366bbd1f3c31a95bbce8a2346d586792d4d30ea263ba` | 57-61 | `c6df0adcf3d1203d66eb196404ca3cb006e7c5aa6e1cb9d7d3471bb7903b5b6b` | same |
+| `BambooSaplingBlock.java|getShape` | 35-38 | `9f240681383c077a788f61902e4d5331dc529b0b826cd93765f5a8e43c6dbf64` | 35-38 | `1d0ef53abaded25d068ba25435652ded4e06cffc0552338b23092b350e880c1a` | same |
+| `BannerBlock.java|getShape` | 37-39 | `11d4c4e9eb4bbad894595df8c320943a88e514980a02ac6aa938a15eb5d8d8f5` | 37-39 | `11d4c4e9eb4bbad894595df8c320943a88e514980a02ac6aa938a15eb5d8d8f5` | same |
+| `BaseCoralFanBlock.java|getShape` | 17-19 | `e81d57cbe656a2061ceeabcab8436764836ab5058e3a1f6e2ba0939641562ee2` | 17-19 | `e81d57cbe656a2061ceeabcab8436764836ab5058e3a1f6e2ba0939641562ee2` | same |
+| `BaseCoralPlantBlock.java|getShape` | 17-19 | `c90741e4e810d7c2d522ce30c74ca287715ebd720fba3a3494b74073d1381cf2` | 17-19 | `c90741e4e810d7c2d522ce30c74ca287715ebd720fba3a3494b74073d1381cf2` | same |
+| `BaseCoralPlantTypeBlock.java|getShape` | 58-60 | `52b673818709ac92fee84a27691c9973e3f38acb18413dd3431c1f46b3b9bf0e` | 57-59 | `2facb394d03c2d0821ddf8d52590f76a6278f265ea96e92c8bd707dd9a81d9d9` | same |
+| `BaseCoralWallFanBlock.java|getShape` | 41-43 | `0b779434f5a897cad3c91db5aec71279f7a73eb578e178deb5152dc0641e61d1` | 41-43 | `0b779434f5a897cad3c91db5aec71279f7a73eb578e178deb5152dc0641e61d1` | same |
+| `BasePressurePlateBlock.java|getShape` | 27-29 | `035f1a399bf01ece99cb53d53e974b285248a5738d3e48f0c2be5938a9364d2d` | 28-30 | `f28d67924d3679fe0d44d6e926bc247098f74c90b8bf60c9f2555e0dd400719c` | same |
+| `BaseRailBlock.java|getShape` | 39-42 | `4ff41180ee49595a4790ab9c38524a21c5817760491ec0d7487c9fb639f02ae2` | 40-43 | `0b83f6cdfb6356bb9b0520f9a58cc6c6b88315d41e550d55701ff76a55a7dd58` | same |
+| `BedBlock.java|getShape` | 192-205 | `01415d1783f2346375a282f84e203625f00fcdb377e5875a9f22c7dbd8a10c17` | 213-225 | `e2496c30e0ff922f5bb492f951e2389c1e1fbbbdcd7aed2d4d308574fa7a4b0f` | different; see S-COLLISION-PROVIDERS in run.md |
+| `BeetrootBlock.java|getShape` | 62-64 | `35ee2fa8a7fbeedf5acb9b81cd2371cf922d66fa7dd740ca1f9a6927aa3b7e52` | 63-65 | `a12a63de874151858f642a1efa3fb8858d3711b5ddad5290787d0102f8b975b2` | same |
+| `BellBlock.java|getCollisionShape` | 130-132 | `c03eb9f192409d00c961d268e279095edb27c5b032bbbd37229c6701f11ba82a` | 157-159 | `e16da46fc837b526c41571ed1221cb612bf83522899baa6dcf8693a41ce81a24` | same |
+| `BellBlock.java|getShape` | 135-137 | `c03eb9f192409d00c961d268e279095edb27c5b032bbbd37229c6701f11ba82a` | 162-164 | `e16da46fc837b526c41571ed1221cb612bf83522899baa6dcf8693a41ce81a24` | same |
+| `BellBlock.java|getVoxelShape` | 110-126 | `c03eb9f192409d00c961d268e279095edb27c5b032bbbd37229c6701f11ba82a` | 137-153 | `e16da46fc837b526c41571ed1221cb612bf83522899baa6dcf8693a41ce81a24` | same |
+| `Block.java|box` | 150-152 | `276022cfc5bc00437fe65a23bbcdc9c078026e68d88930eb3244581f6dbfcf5f` | 157-159 | `a5819a4c676d2b7e08cce7f80ae80a13726dd17b15e0b29efdce7e37efa2bf0d` | same |
+| `Block.java|getCollisionShape` | 375-377 | `276022cfc5bc00437fe65a23bbcdc9c078026e68d88930eb3244581f6dbfcf5f` | 391-393 | `a5819a4c676d2b7e08cce7f80ae80a13726dd17b15e0b29efdce7e37efa2bf0d` | same |
+| `Block.java|getInteractionShape` | 385-387 | `276022cfc5bc00437fe65a23bbcdc9c078026e68d88930eb3244581f6dbfcf5f` | 401-403 | `a5819a4c676d2b7e08cce7f80ae80a13726dd17b15e0b29efdce7e37efa2bf0d` | same |
+| `Block.java|getOcclusionShape` | 380-382 | `276022cfc5bc00437fe65a23bbcdc9c078026e68d88930eb3244581f6dbfcf5f` | 396-398 | `a5819a4c676d2b7e08cce7f80ae80a13726dd17b15e0b29efdce7e37efa2bf0d` | same |
+| `Block.java|getShape` | 370-372 | `276022cfc5bc00437fe65a23bbcdc9c078026e68d88930eb3244581f6dbfcf5f` | 386-388 | `a5819a4c676d2b7e08cce7f80ae80a13726dd17b15e0b29efdce7e37efa2bf0d` | same |
+| `BrewingStandBlock.java|getShape` | 50-52 | `e221ecde6eccca2fe30956d168fa8246366d54913d4afdd7ba350cdbd0e37002` | 50-52 | `8b6abfa49dc662ed5c59d7b87b327af7ed47e9c58d89665638bedfc1ae9502bd` | same |
+| `BubbleColumnBlock.java|getShape` | 174-176 | `2cab08014222e6e3173986078b3fcb64348384b978c868e583cd2caa30c93be2` | 173-175 | `0f4b28ef76195b31cec9e45e3e3dd94fca26d1e851ce3c0a72748ea607a05879` | same |
+| `ButtonBlock.java|getShape` | 59-89 | `ad206cf81d3b5cec79b2677ea7f59ce012d9099bc2befc4c46cca26810731d31` | 61-91 | `d369c5e2556f8f02496f75337fee25a30e213ef322577196e18dbc0bebefc79d` | same |
+| `CactusBlock.java|getCollisionShape` | 62-64 | `e5e3f0e2a0d3cd05112b6e47a201d9f7b963f7675d2cf2891391a49d70b8b4e5` | 62-64 | `d3734ca45940417c6f3fb83039cd0686320b3dad3862f9d8bc868dc4d4b08428` | same |
+| `CactusBlock.java|getShape` | 67-69 | `e5e3f0e2a0d3cd05112b6e47a201d9f7b963f7675d2cf2891391a49d70b8b4e5` | 67-69 | `d3734ca45940417c6f3fb83039cd0686320b3dad3862f9d8bc868dc4d4b08428` | same |
+| `CakeBlock.java|getShape` | 40-42 | `a0d4b52cff2de8d99687f0c19f3aea1fc164426ea52cc7b36808a27226714859` | 41-43 | `feb56b2de5f075ea835378552b20dec8544f790f0a0dbcc24c07cab04f3356a6` | same |
+| `CampfireBlock.java|getShape` | 140-142 | `a96e0b286ba5ae7aad7745c6b9103df8772c4c590aad93720141800149f267d1` | 148-150 | `3e7fa1a940b744ad347de8b3de7c9d24a9d9348cfa821297df753af83dfe449f` | same |
+| `CarrotBlock.java|getShape` | 33-35 | `f02d178250081d68adfe331c31d45be43a9c655614a5d44d6a00519ff6b5b287` | 33-35 | `f02d178250081d68adfe331c31d45be43a9c655614a5d44d6a00519ff6b5b287` | same |
+| `CauldronBlock.java|getInteractionShape` | 59-61 | `a559ac51ef2e325ddcd6f0c8d9f6792b628b35d790ffee06af302eba55eb266c` | 55-57 | `f51ec0f9d9f456ad6da91d028e5b1a75f3cbbf4afe437d5f44893f7f30f58a9b` | same |
+| `CauldronBlock.java|getShape` | 49-51 | `a559ac51ef2e325ddcd6f0c8d9f6792b628b35d790ffee06af302eba55eb266c` | 50-52 | `f51ec0f9d9f456ad6da91d028e5b1a75f3cbbf4afe437d5f44893f7f30f58a9b` | same |
+| `ChestBlock.java|getShape` | 134-150 | `9fecca71408d4d6cca2a712bb4bfdb8b298b301e64fc8c00811228bcce66e783` | 153-169 | `a658484304d5c94265cac4b71cb035f999aa1f8c4b1ced5dec5912ef99339ef8` | same |
+| `CocoaBlock.java|getShape` | 58-71 | `2d2b0907117541cd7c421cecd9f276327ddeee4ce927ed3d02a1bdf4d4821c9a` | 58-71 | `91a47bede061dbd5af9e111531fa0570f98bfe6e5f2a8010155395c1dbf026ad` | same |
+| `ComposterBlock.java|getCollisionShape` | 178-180 | `c0531e955dd6d8ca166f19553e1b77db84a84d9ab443eb654f794e550fd42fb0` | 180-182 | `a52c4867b8aeb55b11157c25217503faa62dfcfaf39ac768d2a1825e8bcfe407` | same |
+| `ComposterBlock.java|getInteractionShape` | 173-175 | `c0531e955dd6d8ca166f19553e1b77db84a84d9ab443eb654f794e550fd42fb0` | 175-177 | `a52c4867b8aeb55b11157c25217503faa62dfcfaf39ac768d2a1825e8bcfe407` | same |
+| `ComposterBlock.java|getShape` | 168-170 | `c0531e955dd6d8ca166f19553e1b77db84a84d9ab443eb654f794e550fd42fb0` | 170-172 | `a52c4867b8aeb55b11157c25217503faa62dfcfaf39ac768d2a1825e8bcfe407` | same |
+| `ConduitBlock.java|getShape` | 68-70 | `1bd6d53a081ce8257d1527d7043ef104dc6bc903ab21612f86569147b0653ed5` | 67-69 | `195c8b924b8ba5bf8ba84e5f89b8cbe99b3aa2d206473f79d4775845671f9b2f` | same |
+| `CoralPlantBlock.java|getShape` | 52-54 | `3a8cfd73d4485df3abda83717a343bc88862696a56ee4ec93ca0a94f9026fce9` | 53-55 | `0d5fc7de92553c791b130a98f5bc66af283aec9763055d16184986d88c725e87` | same |
+| `CropBlock.java|getShape` | 41-43 | `1fd56ba66515acd270ab45c27873a3c5f8d2d3a467c152fd0961a7a2c5c5d2be` | 42-44 | `0779c2efd609b23ef002604e150a60b1fee94b7c0765579b8466f8edcc3aee88` | same |
+| `CrossCollisionBlock.java|getCollisionShape` | 90-92 | `5088eb166ca1ca36eb496ab120338d713c30bec84ff5815ec266a52ea1444ecd` | 90-92 | `5088eb166ca1ca36eb496ab120338d713c30bec84ff5815ec266a52ea1444ecd` | same |
+| `CrossCollisionBlock.java|getShape` | 85-87 | `5088eb166ca1ca36eb496ab120338d713c30bec84ff5815ec266a52ea1444ecd` | 85-87 | `5088eb166ca1ca36eb496ab120338d713c30bec84ff5815ec266a52ea1444ecd` | same |
+| `DaylightDetectorBlock.java|getShape` | 33-35 | `4ce819118382e1ecfffe14ac5992e8bf572e2c45308a4a0fc87b19c3354f86ae` | 34-36 | `e0a035f8698313991101d9ea9358e6d40b2c539d59ccd8269e6c3f57614dd3db` | same |
+| `DeadBushBlock.java|getShape` | 17-19 | `82cc40592f0ea41b5109ce77cf013421e12d3ad48932e8a9f7ba92b8c21df55b` | 17-19 | `82cc40592f0ea41b5109ce77cf013421e12d3ad48932e8a9f7ba92b8c21df55b` | same |
+| `DiodeBlock.java|getShape` | 30-32 | `c9e5b1f79eaad3cd9573c0703da12dc2b6ba39497a579320c46b170deddd97fe` | 30-32 | `2c7a60f79b5a312819ea1ddd758f708c0b7c8e83cc17cc358483a0699b267096` | same |
+| `DoorBlock.java|getShape` | 59-74 | `1280cbdebbfec5e14f4efa5b812616dab66293ccc1e4d7404c8866851ae25409` | 59-74 | `cce2e855a0876155913a3cbc564441b3c90b56d476cb190774db0f86a8f0b241` | same |
+| `DragonEggBlock.java|getShape` | 25-27 | `a01f4822fd9a7b9445d7176202965925e9bfac71f1fdddfa42da478b9b30f95b` | 26-28 | `3b5ccf8a9e1bc1c27eed668921b96cc384a22775f62cf8e2797d2919278be397` | same |
+| `EnchantmentTableBlock.java|getShape` | 40-42 | `7ffd4a7f7d407106928cdbdf8b5514b7816e752cad066969ee93ce24fe2faa4a` | 41-43 | `acf8c80b0d6582d4b1ca1f6117c6b9ab04c694f10e16ebc38f1b570f40e14f2a` | same |
+| `EnderChestBlock.java|getShape` | 44-46 | `f51e72772120d247e05ce1d0427b38b98e7106e6bac9784f2751135289e555d4` | 52-54 | `ee57431df23deb915fd7ee7e7e1cf6014b6052da32ebbc6568757cd8f5a0cd8a` | same |
+| `EndPortalBlock.java|getShape` | 32-34 | `19974b2815801dbc0f6b798e08c84941a4422e31f3e7cb222d216b33c75f0906` | 33-35 | `c9619437298527761298e670cf60db0ed58adcaee142edc95e0cf1b9713259d1` | same |
+| `EndPortalFrameBlock.java|getShape` | 42-44 | `539096a104898517f5758405893e83dd8cb1b29d56d3cb0c109adcb25375584a` | 42-44 | `539096a104898517f5758405893e83dd8cb1b29d56d3cb0c109adcb25375584a` | same |
+| `EndRodBlock.java|getShape` | 38-48 | `88e244622814ea64ddf2c942a9fd8623f3e37cbb619ff6321deb6a6808577952` | 37-47 | `2c76223d4f6b69330a3dc61dfe9920df0e9c58e682ea74a2f7a1510b84826417` | same |
+| `FarmBlock.java|getShape` | 63-65 | `65e41b801ccf4dc554d40fbb0bfad31453359c933e7b50e145528db5b7313dd4` | 65-67 | `d9f532f72de65400534d4418a5fab6017b8ecbc9b0045b587671b781442d0541` | same |
+| `FenceBlock.java|getOcclusionShape` | 36-38 | `d45b20c3b1280285b823a5a8bdab8cfb526fd5cda41c33d83fee75dbb17f6f3e` | 37-39 | `81eda679e834659db079607b64a14d79284221b852f75aad43655ae7e0b96ab5` | same |
+| `FenceGateBlock.java|getCollisionShape` | 65-71 | `51c17e70f96d37767d9cd077301d7f08b75d5cb3600754b1745e10b78b5c68e5` | 66-72 | `a141dc6aaff85797fbec5552bd2b8499b418f05da00207b2c68e9be1bccdfd29` | same |
+| `FenceGateBlock.java|getOcclusionShape` | 74-80 | `51c17e70f96d37767d9cd077301d7f08b75d5cb3600754b1745e10b78b5c68e5` | 75-81 | `a141dc6aaff85797fbec5552bd2b8499b418f05da00207b2c68e9be1bccdfd29` | same |
+| `FenceGateBlock.java|getShape` | 43-49 | `51c17e70f96d37767d9cd077301d7f08b75d5cb3600754b1745e10b78b5c68e5` | 44-50 | `a141dc6aaff85797fbec5552bd2b8499b418f05da00207b2c68e9be1bccdfd29` | same |
+| `FireBlock.java|getShape` | 62-64 | `2406b142a5a20f52dee9c7ae5e262a6bae5dde4c45a06b6cabced0c23f8820dc` | 62-64 | `b59a06e017b9aab24a9a6f95b6151f4ce749553ebc2732e44a72b39aab1b439e` | same |
+| `FlowerBlock.java|getShape` | 27-30 | `c9ddc0a2eeaddb5f02801961a0405990b183c33e63377ab5289cb9e07486204d` | 27-30 | `c9ddc0a2eeaddb5f02801961a0405990b183c33e63377ab5289cb9e07486204d` | same |
+| `FlowerPotBlock.java|getShape` | 34-36 | `1e2d946cbeb54251c2f341054acf374806c035299a4d49d2e005cfdbde8f4079` | 34-36 | `63a65e3dd9d3e3ea69eb28bdcab33df8d7ba2d8b74d901fb4a8c940e658c6937` | same |
+| `GrassPathBlock.java|getShape` | 58-60 | `49c9f90166146e9eca9e06d63f5f9d89610562a9648cbd4a034fe40407de057a` | 58-60 | `4e2477699c7d1d404515774146069fbd3c6d79e2c499c400ce03c4abce58918f` | same |
+| `GrindstoneBlock.java|getCollisionShape` | 134-136 | `bbb8934e7f0fe6d87dd867bb2ad49c00cf071665e64e48b5c55f94adcf41e7da` | 136-138 | `a1c070ab45b0d58ebcfd0821939701c6de41fd8295ec23e96916de50add43197` | same |
+| `GrindstoneBlock.java|getShape` | 139-141 | `bbb8934e7f0fe6d87dd867bb2ad49c00cf071665e64e48b5c55f94adcf41e7da` | 141-143 | `a1c070ab45b0d58ebcfd0821939701c6de41fd8295ec23e96916de50add43197` | same |
+| `GrindstoneBlock.java|getVoxelShape` | 100-130 | `bbb8934e7f0fe6d87dd867bb2ad49c00cf071665e64e48b5c55f94adcf41e7da` | 102-132 | `a1c070ab45b0d58ebcfd0821939701c6de41fd8295ec23e96916de50add43197` | same |
+| `HopperBlock.java|getInteractionShape` | 74-89 | `3f164408afb3cd439fa816fe1c62e1a055eda2298ff56d2b42318c3d7713f49d` | 74-89 | `14e8fca6939e0c1c9a6dd023b72e235f46e4be10cc3e6007a5628d45606dd6bc` | same |
+| `HopperBlock.java|getShape` | 56-71 | `3f164408afb3cd439fa816fe1c62e1a055eda2298ff56d2b42318c3d7713f49d` | 56-71 | `14e8fca6939e0c1c9a6dd023b72e235f46e4be10cc3e6007a5628d45606dd6bc` | same |
+| `KelpBlock.java|getShape` | 34-36 | `79f8acc8f888a73d124b2ed973baface762d33e1d1fbcdcdce5fdf0d188c0a21` | 33-35 | `c1e598e6d75b3db186a2218217ef5e11b75d126a91c9c7878b3e96f8dee4938d` | same |
+| `LadderBlock.java|getShape` | 35-47 | `87ebe478539bd358e48cac9255486958535c3c4d1bd005adbb6ae19ab23001fc` | 34-46 | `36014d99536a74a5761cd11cfa3c1ab6ac6aa6947609808852679dddb5625108` | same |
+| `Lantern.java|getShape` | 47-49 | `976600db11b52ac283f12ece6052592ce5eb81e2b56ec53d24dd1e49f7b000f4` | 46-48 | `43c1f3f6a674a7d5ae2a256f3aad8929eb61fa59dbebd2f4c4ed803de788c7b5` | same |
+| `LecternBlock.java|getCollisionShape` | 91-93 | `862597a3731dde6de60d1ca0eebd1784b6853582f78bc7bc3501f29443f80237` | 94-96 | `740afa10689d0ac1b7c88cb14bfc854c2a35c9128cc3f1a62f7e3e55f1aeb908` | same |
+| `LecternBlock.java|getOcclusionShape` | 76-78 | `862597a3731dde6de60d1ca0eebd1784b6853582f78bc7bc3501f29443f80237` | 79-81 | `740afa10689d0ac1b7c88cb14bfc854c2a35c9128cc3f1a62f7e3e55f1aeb908` | same |
+| `LecternBlock.java|getShape` | 96-109 | `862597a3731dde6de60d1ca0eebd1784b6853582f78bc7bc3501f29443f80237` | 99-112 | `740afa10689d0ac1b7c88cb14bfc854c2a35c9128cc3f1a62f7e3e55f1aeb908` | same |
+| `LeverBlock.java|getShape` | 40-72 | `584641607c0bfa0164ddee7510f960b4996ffddd047677db8ea34e100efd7785` | 41-73 | `0a549d68c4efbd107f3fb8bee3c5b1daa98f4023ec6fe61bbf8205457833adea` | same |
+| `LiquidBlock.java|getShape` | 86-88 | `23412eb14108456da401a810e9acc18c8374c38a026075e7ee64c6d8fb25f34b` | 87-89 | `cc7638d876a7e70cd111891cdb7be424741a4a5bdd4851f3623881c30734c24e` | same |
+| `MushroomBlock.java|getShape` | 25-27 | `ee67d4496c7ef76ffea685cf8f848f40f21108ee8d83e1de0a6d9bd508d2537d` | 27-29 | `05e4e63e716e0728bf166593a914e90d3e587bca07875989ab5ceb4ef36a12b3` | same |
+| `NetherPortalBlock.java|getShape` | 40-48 | `1256ce10afd7a6d355451773b8832c42464fbe4e3a7a4fdfab1b5eedf4b7208d` | 40-48 | `8018c0843456801369fa1465b4490d379b62593b504c92d256e2071adb44399e` | same |
+| `NetherWartBlock.java|getShape` | 31-33 | `f7505abc12a80fe245dff0e2f89c5bcb9e3b3ea5ff88a7a62721a91309001057` | 31-33 | `b3b776ace90ef8568a1627bf6ecb298478fb3b8cf8141b18663b6ccb4ae85e18` | same |
+| `PipeBlock.java|getShape` | 81-83 | `de5461787c8da2a3f4816cacf8adaff81460b9e0306d5e834efc6387ed7fb2a4` | 81-83 | `de5461787c8da2a3f4816cacf8adaff81460b9e0306d5e834efc6387ed7fb2a4` | same |
+| `piston/MovingPistonBlock.java|getCollisionShape` | 107-110 | `2adbbce0d023a61d2a966a6b4e0d448533e33af468c0035179973d43e6eab247` | 105-108 | `7b767f2f15974a36734037b7342c00f609b13d85505ff818cde18620d733a79e` | same |
+| `piston/MovingPistonBlock.java|getShape` | 102-104 | `2adbbce0d023a61d2a966a6b4e0d448533e33af468c0035179973d43e6eab247` | 100-102 | `7b767f2f15974a36734037b7342c00f609b13d85505ff818cde18620d733a79e` | same |
+| `piston/PistonBaseBlock.java|getShape` | 56-76 | `d822fd7bc9ca9427bdee02ad7c00d2c66b55303fde90d2d6abd3dfdee5778e3e` | 57-77 | `2d703019c317acde7207ecf7b89fdca169d0e4cc53f1606cd9be504cd25f1fa6` | same |
+| `piston/PistonHeadBlock.java|getArmShape` | 81-98 | `3db4ed7ed90f66b2534c4c19de8adb62416c9092091ae83a5d39bbdd5fe5165f` | 81-98 | `3db4ed7ed90f66b2534c4c19de8adb62416c9092091ae83a5d39bbdd5fe5165f` | same |
+| `piston/PistonHeadBlock.java|getBaseShape` | 53-69 | `3db4ed7ed90f66b2534c4c19de8adb62416c9092091ae83a5d39bbdd5fe5165f` | 53-69 | `3db4ed7ed90f66b2534c4c19de8adb62416c9092091ae83a5d39bbdd5fe5165f` | same |
+| `piston/PistonHeadBlock.java|getShape` | 78-80 | `3db4ed7ed90f66b2534c4c19de8adb62416c9092091ae83a5d39bbdd5fe5165f` | 78-80 | `3db4ed7ed90f66b2534c4c19de8adb62416c9092091ae83a5d39bbdd5fe5165f` | same |
+| `piston/PistonMovingBlockEntity.java|getCollisionShape` | 333-361 | `05c9880861b5a620614fd916dbfe6a02730eb1f0f4244e7e41a908846e4fd5e5` | 332-360 | `43ef9a249446cac093eb1f7555bd55c4db5416474fa1668772f0f1257672e57a` | same |
+| `PotatoBlock.java|getShape` | 33-35 | `798cb93948a56f49589b906cb219532fb26ff4346b19a50cccb94546f3faac1e` | 33-35 | `798cb93948a56f49589b906cb219532fb26ff4346b19a50cccb94546f3faac1e` | same |
+| `RedstoneWallTorchBlock.java|getShape` | 35-37 | `d78697d46d3ec710c323633afdd6ce77adf09726540bc642821f82c16a58d6cb` | 35-37 | `d78697d46d3ec710c323633afdd6ce77adf09726540bc642821f82c16a58d6cb` | same |
+| `RedStoneWireBlock.java|getShape` | 77-79 | `c3e65e9e162013805a059f84e01e86d06577dc1abaf770c8b5be0a6ac2143cba` | 76-78 | `46bcaa616b3758192a01e820e0c39da424c8a2b97100240dacb78633c098fdd0` | same |
+| `SaplingBlock.java|getShape` | 28-30 | `12e3f253932a79a37c3a45399b2d66766e35547d707cd1347cfbd2f677729efe` | 28-30 | `e0a1f1f457b4448c21f00b0db9f90037e2c8ae10c3d84fb56a148fbf9e70a7a5` | same |
+| `ScaffoldingBlock.java|getCollisionShape` | 123-131 | `c9304ea86adc2707fb419f8440ddae23633d8f2c106e78eda68acad954fb8daa` | 118-126 | `9a9e7a7e26e2b001a285e3944178b94b1ff149b5000d3a0a5b9b719392662d84` | different; see S-COLLISION-PROVIDERS in run.md |
+| `ScaffoldingBlock.java|getInteractionShape` | 53-55 | `c9304ea86adc2707fb419f8440ddae23633d8f2c106e78eda68acad954fb8daa` | 53-55 | `9a9e7a7e26e2b001a285e3944178b94b1ff149b5000d3a0a5b9b719392662d84` | same |
+| `ScaffoldingBlock.java|getShape` | 44-50 | `c9304ea86adc2707fb419f8440ddae23633d8f2c106e78eda68acad954fb8daa` | 44-50 | `9a9e7a7e26e2b001a285e3944178b94b1ff149b5000d3a0a5b9b719392662d84` | same |
+| `Seagrass.java|getShape` | 28-30 | `c665584ebbef4c7c56395de750230087fe2baac47bf9daf69fc2f01b5aa19db0` | 29-31 | `a5d92f61f617741239b86d67cf07e21e2aa2b48da2372fc8d6fb68b004319d27` | same |
+| `SeaPickleBlock.java|getShape` | 93-105 | `ac13925ba148937d51043b6fa7f3a7c348b5fe9f88cf99161be13d3bda6d0169` | 94-106 | `e5195ef303b0379ac54cff7129ead73425c9315bc72cd962ff7d4d4fffcc588c` | same |
+| `ShulkerBoxBlock.java|getShape` | 225-228 | `c2b18eb725747fa5fad8be0b7f75753f4e4adce2b19cdc87a8aea48c4fba1297` | 223-226 | `de5e19cffb75499b509bc361fcfb3dbe0b0fa7ab490ac42adedf89466721b02d` | same |
+| `SignBlock.java|getShape` | 43-45 | `34cf71d4d528a27a056a48767a9a8ee2f0722936ea579751157744fe6d701376` | 47-49 | `9c136bda271a03e897a6d2c43a3679261de8239e216f0415fdb8b62e2cf1e760` | same |
+| `SkullBlock.java|getOcclusionShape` | 30-32 | `f3103c7473fe88ad59d3805f775b2629c4d2a3f92974ff155f8b93c13a1d0b68` | 30-32 | `f3103c7473fe88ad59d3805f775b2629c4d2a3f92974ff155f8b93c13a1d0b68` | same |
+| `SkullBlock.java|getShape` | 25-27 | `f3103c7473fe88ad59d3805f775b2629c4d2a3f92974ff155f8b93c13a1d0b68` | 25-27 | `f3103c7473fe88ad59d3805f775b2629c4d2a3f92974ff155f8b93c13a1d0b68` | same |
+| `SlabBlock.java|getShape` | 47-57 | `5a57ae37e77fc93074100d7e3eff1c5e23b43d8a23e0289b68ad8c9914df0d86` | 47-57 | `5a57ae37e77fc93074100d7e3eff1c5e23b43d8a23e0289b68ad8c9914df0d86` | same |
+| `SnowLayerBlock.java|getCollisionShape` | 61-63 | `dbe1d2884c7d577af49aa214ebd0caf6b7b6d71a3128fd746d9ee796df2da48f` | 61-63 | `89a20299049e7b33f92bc5a6d18f3c0c5d429a7891d85179315b68845a1ff486` | same |
+| `SnowLayerBlock.java|getShape` | 56-58 | `dbe1d2884c7d577af49aa214ebd0caf6b7b6d71a3128fd746d9ee796df2da48f` | 56-58 | `89a20299049e7b33f92bc5a6d18f3c0c5d429a7891d85179315b68845a1ff486` | same |
+| `SoulsandBlock.java|getCollisionShape` | 23-25 | `3f2ce73aae23fb7e13cf001123343c6c750f00684b5331a5597ae33b011ef4e4` | 23-25 | `355f0cc25e78dce76cbc9c89d8bd8ff1956d4b53780cba8e3fb5c23f485802cf` | same |
+| `StairBlock.java|getShape` | 105-107 | `b302c4e8e6abe8541051f09f4b502ce51927b5ad614fd214da6d30338331dac7` | 106-108 | `b273bfe6a1cd6a3fbb9e04a1ce13c28d697aa96105a6ffa1a7c511d264499788` | same |
+| `StairBlock.java|makeStairShape` | 61-82 | `b302c4e8e6abe8541051f09f4b502ce51927b5ad614fd214da6d30338331dac7` | 62-83 | `b273bfe6a1cd6a3fbb9e04a1ce13c28d697aa96105a6ffa1a7c511d264499788` | same |
+| `state/BlockState.java|getCollisionShape` | 193-195 | `2bcc0167cb566df8745abbe967f0a8750038ad5a9b7843f5fb25bab714d73188` | 191-193 | `77320fd1e50e58d7a3ed593ccbcf21853c97d125fccebde2e0e305dc47524f21` | same |
+| `state/BlockState.java|getCollisionShape` | 197-199 | `2bcc0167cb566df8745abbe967f0a8750038ad5a9b7843f5fb25bab714d73188` | 195-197 | `77320fd1e50e58d7a3ed593ccbcf21853c97d125fccebde2e0e305dc47524f21` | same |
+| `state/BlockState.java|getFaceOcclusionShape` | 87-91 | `2bcc0167cb566df8745abbe967f0a8750038ad5a9b7843f5fb25bab714d73188` | 89-93 | `77320fd1e50e58d7a3ed593ccbcf21853c97d125fccebde2e0e305dc47524f21` | same |
+| `state/BlockState.java|getInteractionShape` | 205-207 | `2bcc0167cb566df8745abbe967f0a8750038ad5a9b7843f5fb25bab714d73188` | 203-205 | `77320fd1e50e58d7a3ed593ccbcf21853c97d125fccebde2e0e305dc47524f21` | same |
+| `state/BlockState.java|getOcclusionShape` | 201-203 | `2bcc0167cb566df8745abbe967f0a8750038ad5a9b7843f5fb25bab714d73188` | 199-201 | `77320fd1e50e58d7a3ed593ccbcf21853c97d125fccebde2e0e305dc47524f21` | same |
+| `state/BlockState.java|getShape` | 185-187 | `2bcc0167cb566df8745abbe967f0a8750038ad5a9b7843f5fb25bab714d73188` | 183-185 | `77320fd1e50e58d7a3ed593ccbcf21853c97d125fccebde2e0e305dc47524f21` | same |
+| `state/BlockState.java|getShape` | 189-191 | `2bcc0167cb566df8745abbe967f0a8750038ad5a9b7843f5fb25bab714d73188` | 187-189 | `77320fd1e50e58d7a3ed593ccbcf21853c97d125fccebde2e0e305dc47524f21` | same |
+| `StemBlock.java|getShape` | 41-43 | `1fa2ac5d9445ba971d74bc6ce81b854d41a1cca24665e35e057e506e20f99eca` | 42-44 | `3970671b3e542bd1865d0cbb7f206e0d767f9665fde27447cf8d36e5bf45dd9b` | same |
+| `StonecutterBlock.java|getShape` | 57-59 | `e7c49a38f68bc881a2dca9a373498ae9158802ffc4eb20a9485b38e0678a15f4` | 63-65 | `af7885ec7ec85f72da17e90409e4c5fc6b2d0febc81161d5263205b5e88ec5bd` | same |
+| `StructureVoidBlock.java|getShape` | 23-25 | `4c0729194be0bd798ed5364104b69ead55d763243cf23d85d3c5a0f8e317fea2` | 23-25 | `4c0729194be0bd798ed5364104b69ead55d763243cf23d85d3c5a0f8e317fea2` | same |
+| `SugarCaneBlock.java|getShape` | 30-32 | `1bcde95ab5198261aa27c6774ac48f3cff5e232f4084bb1d30107d5cc5cc10f2` | 29-31 | `5be465d825cd02383f7e52de1f620d6f7b2a533a78ef398ba1aa310009956edd` | same |
+| `SweetBerryBushBlock.java|getShape` | 42-48 | `5f3c822e369109fc22c61767091f5e5cf7d6d1f152662788e83f3612261cc0ca` | 44-50 | `4fbae9a3a8a5a920a3f7b2798c6b241089bdf9df5f78ce42d37a10c44fae0f4d` | same |
+| `TallGrassBlock.java|getShape` | 19-21 | `bd8b660150cc848091dc35f5b71b152cc815f2d5c56c83735d05b5cabc69f095` | 20-22 | `45fc56b6f9cbaad5938fe003825bac0495598cc92488f4f84449307a5914dba1` | same |
+| `TallSeagrass.java|getShape` | 30-32 | `8e5d2537a6797879e2ee780f7aebbd749ece4aea31104b1a788473d9409e106f` | 30-32 | `8e5d2537a6797879e2ee780f7aebbd749ece4aea31104b1a788473d9409e106f` | same |
+| `TorchBlock.java|getShape` | 24-26 | `e51668a339afa9063e3c842e1b800405cc39625a3755fada8b4603ad86f5a0ba` | 23-25 | `2ed20a440fbee1ee73667bb81f7252f810ee661298b888fe49226598a6a60791` | same |
+| `TrapDoorBlock.java|getShape` | 54-70 | `286139ae1df614393a6debd68e9deba535cb67cb87659ce35a121f0b2883eb3f` | 54-70 | `0de8aeb2981cefcbf8fb296e08401668e5fcaf3e003419bf1d45d56a06d81b86` | same |
+| `TripWireBlock.java|getShape` | 54-56 | `63f20d8e8f08c524e25c1707bb30adaa6b7248bdd1f80ed59d4cf5c19d73b8b5` | 54-56 | `77a20d5c934e7bce72818f9686c1e01163058eb972918cac8b45d8ccb0c227f2` | same |
+| `TripWireHookBlock.java|getShape` | 41-53 | `8a55f9360ca0c6206c77db6a559962575316c62bbc1bfd747bd298dcc8fe373a` | 41-53 | `d95a45e559d8b13574bf43ea718488a250cddbbf96bfdba6c433e12c88ad39b3` | same |
+| `TurtleEggBlock.java|getShape` | 143-145 | `b0d3ff793d390b079adae61d96d19106e08b3890524307ec74e8ebfbc0f702d6` | 137-139 | `585eebe093f8ad8570aae019b22da6b88f63903e1de86f45055d06e240082737` | same |
+| `VineBlock.java|getShape` | 47-70 | `cb7c0d0b19955ad1716fab8269024f43fe2cf578f628e2883a7de524267ad6aa` | 46-69 | `3cf8e12e44c88728cd86c3191055df05b81562d71bcf5d977a935fada43f8a5d` | same |
+| `WallBannerBlock.java|getShape` | 59-61 | `0b297ce5cd49d35f31195eb5a5e9357ce91ecafd3c3b4824d0e350ccda54b31b` | 59-61 | `0b297ce5cd49d35f31195eb5a5e9357ce91ecafd3c3b4824d0e350ccda54b31b` | same |
+| `WallBlock.java|getCollisionShape` | 49-53 | `4ad01bfd8d84b77abe161289294667e9f482cf9477cd81f725162aa9dc891850` | 49-53 | `4ad01bfd8d84b77abe161289294667e9f482cf9477cd81f725162aa9dc891850` | same |
+| `WallBlock.java|getShape` | 42-46 | `4ad01bfd8d84b77abe161289294667e9f482cf9477cd81f725162aa9dc891850` | 42-46 | `4ad01bfd8d84b77abe161289294667e9f482cf9477cd81f725162aa9dc891850` | same |
+| `WallSignBlock.java|getShape` | 47-49 | `a657b752ee0eec068fe3e6ff03ca5e5b26e441ac659ef69abe635997a32473af` | 48-50 | `abb3888fb3c61428f6f2b2c8919bd3a3199e820f51b20e988d2d304fc0015100` | same |
+| `WallSkullBlock.java|getShape` | 42-44 | `61362162b85c7af76e67cb2e1c58e48fbd7699e5950a39be61aaf328a5ab2db0` | 42-44 | `61362162b85c7af76e67cb2e1c58e48fbd7699e5950a39be61aaf328a5ab2db0` | same |
+| `WallTorchBlock.java|getShape` | 48-50 | `2bbe7d3b8c9cbc4e59184e877a485ab3f1f2b1a88234775aabf23e68140c04d0` | 48-50 | `2bbe7d3b8c9cbc4e59184e877a485ab3f1f2b1a88234775aabf23e68140c04d0` | same |
+| `WallTorchBlock.java|getShape` | 51-53 | `2bbe7d3b8c9cbc4e59184e877a485ab3f1f2b1a88234775aabf23e68140c04d0` | 51-53 | `2bbe7d3b8c9cbc4e59184e877a485ab3f1f2b1a88234775aabf23e68140c04d0` | same |
+| `WaterlilyBlock.java|getShape` | 31-33 | `280c49943c7ff41e953d119221378bc238391d29b83c81d792ab8ec290a3bf87` | 32-34 | `75a60add4a98f1071c011b5e35a6ddbbf57409c3653b574dfb56d98ac81ffc6a` | same |
+| `WoolCarpetBlock.java|getShape` | 27-29 | `595f8d5aec4dd486f1fb2446f25057fc048338c264378c2c0005d2d58713d9ab` | 27-29 | `595f8d5aec4dd486f1fb2446f25057fc048338c264378c2c0005d2d58713d9ab` | same |
+| `HoneyBlock.java|getCollisionShape` | absent | n/a | 33-35 | `40760aeb3c084f1143e87e1e057f18165492eb01b8fce0815dfdd0882cdc8a03` | B-only modern-only block; see S-HONEY-BLOCK and F-HONEY-FACTORS |
