@@ -393,7 +393,7 @@ Movement enchantment/equipment source chain (D-ENCHANTMENT-DATA resolved): `Ench
 - [F-006 boat passenger-list refresh yaw behavior](findings/F-006-boat-passenger-yaw-refresh.md) — source-confirmed player yaw write change under repeated passenger update.
 - [F-007 client movement packet displacement threshold](findings/F-007-position-packet-threshold.md) — source-confirmed bounded packet condition and clear-path server position update; other correction paths are bounded in the terminal packet reconciliation rows.
 - [F-008 edge gate admits world border as support](findings/F-008-border-edge-gate.md) — source-confirmed noCollision/pre-solver edge-vector delta; final movement resolution is separately captured by F-009.
-- [F-009 final solver conditionally admits world border](findings/F-009-border-solver.md) — source-confirmed one-axis final-solver border admission delta.
+- [F-009 final solver conditionally admits world border](findings/F-009-border-overlap-axis-collision.md) — source-confirmed one-axis final-solver border admission delta.
 - [F-010 border rejection for dismount candidates](findings/F-010-border-dismount-candidates.md) — source-confirmed player wake/dismount candidate-position gate delta.
 - [F-011 chorus-fruit random teleport border gate](findings/F-011-chorus-fruit-border-teleport.md) — source-confirmed player candidate acceptance delta through `LivingEntity#randomTeleport`.
 - [F-012 sprint airborne input coefficient](findings/F-012-sprint-air-control-float.md) — source-confirmed one-ULP coefficient and player input consumer delta.
