@@ -84,3 +84,13 @@ This update supersedes the earlier REQUEST CHANGES disposition for the first pas
 - Test-disabled build succeeded with `gradlew.bat build -x test --init-script build/no-tests.init.gradle`; every Gradle `Test` task type was disabled. 18 actionable tasks: 5 executed, 13 up-to-date; no tests ran.
 - JAR `build/libs/LegacyParkourCompat+26.2-1.0.0.jar`, SHA-256 `0B5A12CDFA61C2C55C08FE3EB499AE6F8F0E4699347FC52AFF4132FDC096C3BC`.
 - Runtime persistence/synchronization was not validated. WORLD03, swimming-entry, and slipperiness remain pending review.
+
+## WORLD03 corrected End Portal Frame ejection — 2026-10-08
+
+- Accepted source snapshot `aa66894e64733ee729bf7176e08232d73b3bc03f`, file `workflows/source-campaign-2026-10-07/1.8.9--1.9.4/findings/WORLD-03-end-portal-frame-player-ejection.md`, SHA-256 `f45dfb003c1dfcc64df5c5d7710fd22a4e6c311b1b8b50a3d77ed1537689479d`; blind source review `a2e510bdc7b284b4b4d0e7b323f6eea079abee80`.
+- Corrective code commit `8ae770141c4e9ca1b3f5fa3a1459d94132195306`; corrected feature tip `ff24abc4f199f6460f79dafd2c83a9a19d0f6121`. Independent review tip `c1dee45d82c041fa83e42e35a0af8aefee35557f`, ACCEPT; report SHA-256 `0967e46c6f6badbb6349c4fcaf0a81ce6062e964cea0bc3b8ed9c111d3569ec2`. Its `ce6d3cd6b9f5d5a413201cfb564e134995d03c97` merge incorporates the fence provider and both V1_8 registrations.
+- Integrated review tip `c1dee45d82c041fa83e42e35a0af8aefee35557f` against current local main `0bfb72a0bc08726f2ee3a984203c08b5d90cf34e`. Integration merge `b8332d734a3d2b64030f9ed5658c8dc990348f46`. The only conflict was the V1_9 provider insertion: resolution keeps both `FallFlyingSavedState` (F-005) and `PushAwayVelocity`. V1_8 keeps both `EndPortalFramePlayerEjection` and all fence registrations. Pose, swimming-pitch, and other accepted hooks remain in place.
+- The accepted correction limits the frame suffocation exception to the historical sampled cell and the cell above, and restores the float `0.1F` push-away response for the reviewed historical profiles. The integrated source delta against current main is six code paths; the focused corrective commit reviewed five code files (82 insertions, 4 deletions). Static review did not establish runtime or Mixin application behavior.
+- Test-disabled build: `gradlew.bat build -x test --init-script build/no-tests.init.gradle`; `BUILD SUCCESSFUL`, 18 actionable tasks executed. The init script disabled every Gradle `Test` task type; `-x test` also excluded the root test task. No tests ran.
+- JAR `build/libs/LegacyParkourCompat+26.2-1.0.0.jar`, SHA-256 `E42DB354624E47055220349F196A86EDE8480037DA264242F68203B9B332BF41`.
+- Runtime movement and Mixin application were not validated. Swimming-entry remains the next authorized batch; slipperiness remains pending.
