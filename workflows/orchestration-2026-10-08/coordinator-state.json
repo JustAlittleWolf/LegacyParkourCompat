@@ -13,7 +13,7 @@
     "runtimeLaunches": false,
     "allGradleTestTasksDisabledForBuild": true,
     "integrationBuildOwnerThreadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
-    "primaryMainLastVerified": "7e7b7bb7068ec7b68f3a8f09cbb42bc498a04bf4",
+    "primaryMainLastVerified": "3a60fe735560e478bf0aa0d05f5e306c74800f6a",
     "maximumConcurrentRolesIncludingCoordinator": 20
   },
   "reservedOldSlots": [
@@ -1001,5 +1001,45 @@
     "review": "dd69581",
     "reviewBranch": "fix/review-fall-flying-state-1-9-2026-10-08",
     "status": "Historical queue entry; already integrated on main 0bfb72a."
+  },
+  "latestReconciliation": {
+    "mainCommit": "3a60fe735560e478bf0aa0d05f5e306c74800f6a",
+    "backlogBranch": "feat/accepted-finding-backlog-2026-10-08",
+    "backlogCommit": "fcc875ecf28b11ae381d7fd6ecc5a9bab540c4bc",
+    "integrationRecords": {
+      "sleep": "a5c191df557cd152d578150c689227897ac33256; accepted source chain independently verified at 33baf5c6; implementation corrected, independently accepted, integrated and built with all Test tasks disabled; runtime unverified",
+      "slime": "a5c191df557cd152d578150c689227897ac33256; bounded no-code disposition integrated; runtime unverified",
+      "sprintStartWaterInput": "3a60fe735560e478bf0aa0d05f5e306c74800f6a; corrected code ACCEPT and integrated/build recorded, all Test tasks disabled; F-WATER-SPRINT vanilla source snapshot remains candidate with no exact independent acceptance chain found"
+    },
+    "mc1204To1206": {
+      "boundaryMemo": "source boundary independently ACCEPTED for bounded claims",
+      "scopeProof": "r1 received REQUEST CHANGES for stale boundary wording despite per-claim ACCEPT; author published r2 at 2d88ee12481b66b739d613f746bc421cc32e0db5 (SHA-256 da6236f402ebbdd6dac5cfdc84c7d54384439050c15950639f4c33d342c2412c); fresh independent review 01a11bb1-adb2-7212-9a90-26537278d788 active",
+      "mc02Code": "implementation review ACCEPTED; integration/build remain queued behind exact source preparation",
+      "laneSeparation": "scope proof and code review are distinct; do not infer full-pair completion or runtime"
+    },
+    "sourceCoverage1171To1182": {
+      "decision": "full-pair source coverage ACCEPT after immutable count erratum e0e36eff36a92be82327bf2a8140f18141d7cc21",
+      "coverage": "28 slices: 13 compared-no-difference, 15 findings, 0 pending; seven inventories complete; no unresolved dependency",
+      "pairLedger": "remains PARTIAL until owner records accepted freeze",
+      "findingSnapshots": "F-001 through F-014 remain individually unaccepted; separate blind reviews active on 01a11bcd-f62a-7610-8eff-f9782f3d072d",
+      "continuationOwner": "01a11bb8-92db-7630-ad50-8a02225dc3d4 active on 1.16.5–1.17.1 full remaining inventory"
+    },
+    "pane": {
+      "r2Snapshot": "ba083b420233bab6c0e3ac5ed2f9f7a55110908f; SHA-256 3a4e6547364c60418f50b121a91485f454a3af1026d1a3df2fcb396000ac4a51",
+      "decision": "second REQUEST CHANGES: BArrayVoxelShape fallback 7/16,9/16 subdivision outside findBits-supported subdivision",
+      "owner": "01a11bb3-9efb-7962-b77b-722fbec5de31 active correcting and continuing full inventory",
+      "nestedReview": "root/pane_r2_blind_review, Luna High, completed REQUEST CHANGES per coordinator update; released; collaboration roster tool currently exposes only root, so nested live roster independently unverifiable",
+      "next": "no further nested reviewer spawn"
+    },
+    "wikiAndMcpk": {
+      "mcpkR5": "bounded ACCEPT at 7bca10fe8bc1995459e3ad9fc3913cebbee24fd2; wiki lane remains PARTIAL",
+      "newWikiLaneReview": "mixed bounded ACCEPT for fixed-mask, pane-ice, pose-fallback, flight-branch, and narrow jump-apex claims; REQUEST CHANGES on direct-jumping Wiki attribution because revision/history is only a lead",
+      "wikiOwner": "01a11bb3-d102-7723-b35b-cae34a76f976 active on bounded attribution correction and full remaining catalog",
+      "mcpkOwner": "01a11bb3-e236-7343-86a7-4c51ecc20b98 active on full remaining independent MCPK audit from r5; no partial-batch stop"
+    },
+    "piston": "source finding accepted; scope proof review remains active; first exact cutover unknown, 1.15.1 unassigned; no production code/decompilation",
+    "sourcePreparation": "exclusive owner 01a11bb1-c29c-7f93-a858-c0d55f71ddc1 is hash-validating exact 1.11 sources before 1.11.1/1.16 preparation; no full handoff yet",
+    "roleCap": "20 concurrent roles including coordinator; latest owner reports preserve cap; no additional nested dispatch authorized or recorded",
+    "testsBuildRuntime": "no tests/build/runtime were run by this documentation checkpoint; prior integration build evidence is recorded above only"
   }
 }
