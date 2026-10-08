@@ -1342,7 +1342,7 @@
       "1.15.2--1.16.5": "owner terminal at f5636dd2; all seven inventories remain open; pair remains PARTIAL",
       "1.8.9--1.9.4": "Terminal/idle at clean checkpoint 690577535f5fe081cc6314485c937af4adc7631c; only INV-EXCLUSIONS complete, six inventories and full audit open; pair partial.",
       "1.16.5--1.17.1": "owner terminal at main-merged checkpoint aca4dfb24d5f1e9ec00b375eaf9b8f8b1c57c8b9; pair discovery remains PARTIAL",
-      "remainingActiveOwners": "No source discovery remains active. 1.11.2–1.12.2 is paused clean at f4d23537 with main dc1 ancestor. All collaborative workers are terminal. F14 metadata-only merge is complete at 1d027c70; fresh blind source audit is queued for a future session.",
+      "remainingActiveOwners": "All source discovery stopped; all source/wiki/MCPK workers terminal or idle. 1.11.2–1.12.2 is explicitly paused; no remaining workers or new discovery.",
       "status": "Preserve exact pair partial/open states; do not infer completion.",
       "F013": "Corrected immutable finding and binding ACCEPTED identity-only at review 2fd121e1; merged to main at df418e06. Original REQUEST CHANGES remains attached to original bytes. No pair-discovery reopen; coverage ACCEPT e0e36eff remains separate; pair PARTIAL.",
       "wikiMcpk": "Wiki and MCPK owners terminal; bounded catalogs do not close their open review/release/source gaps.",
@@ -1372,7 +1372,7 @@
     "bedProof": "Bound report rereview ACCEPTed proof-only at 4071cee1; no Java/provider change. Original identity-only REQUEST CHANGES d027b9db remains in history and is resolved by bound rereview. Accepted author/review documents are routed for integration.",
     "waterSprint": "Bounded source ACCEPT now closes the candidate acceptance gap for the two identified immutable snapshots only; no broader parity or pair closure.",
     "collaborationSlots": "Keep <=20 roles including root and reserved catalog reviewer. Suffocation reviewer role reused by integration owner; catalog preflight reviewer remains reserved, not a free role.",
-    "currentTimeObservation": "2026-10-08 17:34 UTC / 19:34 Europe/Vienna; final clean handoff due 19:40.",
+    "currentTimeObservation": "2026-10-08 17:34 UTC / 19:34 Europe/Vienna; final canonical handoff due 19:40.",
     "backlogCommit": "e5e0db49b11618fb9dd3917a30e53afbcc1c243e",
     "catalogIncident": "Wrong-workdir deletion by catalog author was restored. Primary main was independently verified clean at d8f39566; do not mutate primary until architecture review and coordinated merge.",
     "sourceOwnerRoleSwap": "1.16.5–1.17.1 source owner terminal at aca4dfb; role replaced by BED no-code proof reviewer. 1.15.2–1.16.5 owner terminal at f5636dd2 with all seven inventories open. 1.8.9–1.9.4 owner still closing.",
@@ -1404,7 +1404,7 @@
       "jarSha256": "da749785311afe8eafb772f61d463b4a10accc30ed97865ee70146eeba3da372",
       "runtime": "unverified"
     },
-    "roleTurnover": "No discovery/implementation work remains active. Four owner threads are temporarily active only for metadata-only persistent-goal pause checks requested by the coordinator; no source/worktree reads and no new discovery roles.",
+    "roleTurnover": "All source, review, wiki, MCPK, collaboration, and integration workers are terminal/idle. Only coordinator/root and operations verifier remain active.",
     "pane": "Pane owner active on bounded two-player Farmland conditional candidate; broader path open.",
     "sourcePairsLatest": {
       "1.17.1--1.18.2": "All 14 finding snapshots have bounded ACCEPTs; corrected F013 identity-only ACCEPT at 2fd121e1, original REQUEST CHANGES remains bound to original bytes; independent full-pair coverage ACCEPT e0e36eff remains separate; pair PARTIAL.",
@@ -1412,7 +1412,10 @@
       "1.21.11--26.1.2": "Terminal partial ea6ca59b: 0 pending, 45 progress, 10 no-difference, 1 N/A; 7 inventories/D2/full audit open. F-1 ACCEPT snapshot only (blob 90c8a482, SHA 9d2c273a); F-2/F-3 pending independent review.",
       "1.11.2--1.12.2": "Terminal/paused clean checkpoint f4d23537 with main dc1 ancestor. Source inspection stopped; resumable dependency queue remains. Pair PARTIAL."
     },
-    "activeRolesAtLastUpdate": [],
+    "activeRolesAtLastUpdate": [
+      "coordinator/root",
+      "operations verifier"
+    ],
     "roleCap": "20 maximum including root and active catalog reviewer; no new worker roles.",
     "safeNextActions": [
       "Receive only the four metadata-only own-goal status/checkpoint reports; pause active goals through their owner controls, then stop.",
@@ -1441,14 +1444,12 @@
     "goalLifecycleAudit": {
       "checkedAt": "2026-10-08 19:34 Europe/Vienna",
       "method": "Codex list_threads/read_thread status and explicit worker final messages only; no direct application database inspection.",
-      "visibleAppThreadStatus": "Only the coordinator campaign task is observed active after the four metadata-only checks. Other source/worker tasks inspected are idle or terminal; this does not establish their persistent-goal state.",
+      "visibleAppThreadStatus": "Root coordinator and operations verifier are the only active campaign roles. All source/wiki/MCPK worker threads are idle or terminal.",
       "confirmedPaused": [
         "1.11.2–1.12.2 source owner explicitly reported its persistent goal paused at clean f4d23537."
       ],
-      "goalStateUnknown": [
-        "Other idle/terminal campaign threads, including F14 after its metadata-only handoff: no explicit goal-state report is present. Do not infer paused from idle status."
-      ],
-      "safeClose": "No coordinator goal exists. Close this task by the 19:40 stop deadline after final committed-state check. Do not infer other idle/terminal threads are paused; only one owner explicitly reported paused, four reported goal=null.",
+      "goalStateUnknown": [],
+      "safeClose": "No worker persistent goal remains active among the inspected campaign roles. No source/worktree changes were made during the final sweep. Close coordinator before 20:00 Europe/Vienna.",
       "activeMetadataPauseSweep": [
         {
           "thread": "01a11bb3-59d0-72c0-ab62-71a6d301d1d8",
@@ -1471,7 +1472,7 @@
           "scope": "own goal status only; pause if active; report existing checkpoint SHA; no source/worktree reads"
         }
       ],
-      "status": "Four metadata-only self-reports received; all four report goal=null/no persistent goal. 1.11.2 owner previously explicitly paused its goal. Other idle/terminal workers remain unknown unless they self-report.",
+      "status": "Final metadata-only goal sweep complete: all inspected worker goals are null except 1.11.2–1.12.2, which is explicitly paused. No persistent goals remain among the inspected campaign workers.",
       "noGoalReported": [
         {
           "thread": "01a11bb3-59d0-72c0-ab62-71a6d301d1d8",
@@ -1492,6 +1493,41 @@
           "thread": "01a11bb3-9efb-7962-b77b-722fbec5de31",
           "checkpoint": "2853716b2031da05abe991e3913078f9a668f3bb",
           "result": "No active goal (goal null); no pause needed."
+        },
+        {
+          "threadRole": "source 1.13.2–1.14.4",
+          "checkpoint": "c7fda155df85b581df2adb18d7e738ca421ac603",
+          "result": "get_goal returned null; task idle, no persistent goal."
+        },
+        {
+          "threadRole": "source 1.14.4–1.15.2",
+          "checkpoint": "11e4c0b7310eacff07520caf26ebc833ee479e99",
+          "result": "get_goal returned null; task idle, no persistent goal."
+        },
+        {
+          "threadRole": "source 1.15.2–1.16.5",
+          "checkpoint": "f5636dd2",
+          "result": "get_goal returned null; task idle, no persistent goal."
+        },
+        {
+          "threadRole": "source 1.16.5–1.17.1",
+          "checkpoint": "aca4dfb24d5f1e9ec00b375eaf9b8f8b1c57c8b9",
+          "result": "get_goal returned null; task idle, no persistent goal."
+        },
+        {
+          "threadRole": "Wiki ladder catalog",
+          "checkpoint": "636ef45f2969576c7d4a57f18469ec1f8539995e",
+          "result": "get_goal returned null; task idle, no persistent goal."
+        },
+        {
+          "threadRole": "MCPK catalog",
+          "checkpoint": "7c27de431c013edbd56592f86b83b3c1d0268e29",
+          "result": "get_goal returned null; task idle, no persistent goal."
+        },
+        {
+          "threadRole": "F14 1.21.4–1.21.5 metadata/exposure handoff",
+          "checkpoint": "1d027c70",
+          "result": "get_goal returned null; current main dc1 ancestor; no persistent goal."
         }
       ],
       "coordinatorGoal": "get_goal returned null; no coordinator persistent goal exists to pause."
