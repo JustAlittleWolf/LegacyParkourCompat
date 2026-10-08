@@ -174,37 +174,37 @@ Each entry is a bounded behavior boundary. Refine broad plans into exact member 
 ### Slice S2.1: Player pose selection and pose transition timing
 
 - Inventory ID(s): INV-STATE, INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Player pose selection and pose transition timing. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: `Player.tick()` to `updatePlayerPose()`, including the always-fit-SWIMMING gate, desired pose priority, spectator/passenger exception, fit probes and CROUCHING fallback before SWIMMING fallback.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/player/Player.java` :: `tick()` line 290, `updatePlayerPose()` lines 352-366, `getDesiredPose()` lines 368-380; SHA-256 `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/player/Player.java` :: `tick()` line 283, `updatePlayerPose()` lines 342-356, `getDesiredPose()` lines 358-370; SHA-256 `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d`.
+- State producers/writers -> consumers/readers: sleep, swimming, fall-flying, auto-spin attack, shift and flying ability select the desired pose; spectator/passenger/fit state controls fallback. The method writes `DATA_POSE` only after the current pose can fit within SWIMMING dimensions; the transition causes dimension/eye-height consumers elsewhere in Entity/LivingEntity.
+- Parent slices / dependencies / closure evidence: Player.tick caller order matches; S2.2 owns dimensions, eye-height, resize and collision-probe closure. Swimming/fall-flying/auto-spin state producers and collision-shape providers remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Paired code has the same initial SWIMMING fit gate, desired-pose priority (sleep, swim, fall-flying, spin, then shift unless flying), spectator/passenger bypass, desired-pose test, CROUCHING fallback, final SWIMMING fallback and `setPose` order. Only names/formatting differ. Exact collision and pose-state producer/consumer closure is incomplete, so no terminal disposition is claimed.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S2.2: Pose dimensions, eye height, resize collision queries
 
 - Inventory ID(s): INV-STATE, INV-COLLISION
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Pose dimensions, eye height, resize collision queries. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: Player pose-fit AABB (`getDimensions(pose).makeBoundingBox(position).deflate(1.0E-7)`), `Entity.setPose/getPose`, `refreshDimensions()` dimension/eye-height writes and player exclusion from server-side post-size-change relocation.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/player/Player.java` :: `canPlayerFitWithinBlocksAndEntitiesWhen()` lines 382-384; SHA-256 `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`. `Entity.setPose/getPose()` lines 413-421 and `refreshDimensions()` lines 3226-3243; SHA-256 `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3`. `LivingEntity.getDimensions(Pose)` lines 3561-3572; SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/player/Player.java` :: `canPlayerFitWithinBlocksAndEntitiesWhen()` lines 372-374; SHA-256 `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d`. `Entity.setPose/getPose()` lines 432-440 and `refreshDimensions()` lines 3320-3337; SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`. `LivingEntity.getDimensions(Pose)` lines 3672-3683; SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
+- State producers/writers -> consumers/readers: pose is stored in synced entity data; `refreshDimensions()` reads current pose/dimensions, writes dimensions and eye height from pose dimensions, then reapplies position. The fit helper uses a deflated pose-specific AABB. Entity size-change relocation is guarded against Player on both sides; remaining pose-data callback/refresh call paths and collision provider behavior are not yet closed.
+- Parent slices / dependencies / closure evidence: S2.1 owns pose selection and caller order; S2.6/S4/S5 own collision query implementation and shape providers. Entity and LivingEntity dimension producers, pose registrations/default player pose dimensions and every refresh caller still need exhaustive comparison.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Paired pose-fit and refresh bodies preserve the `1.0E-7` deflation, dimensions/eye-height assignment, position reapplication, size limits, first-tick/no-physics guards, player exclusion and free-position relocation arithmetic. `setPose()` writes the same pose data accessor in both. The complete pose-dimension table, data callback/reachability graph and collision-provider dependencies remain open; this is bounded evidence only.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S2.3: Swim/crawl state and movement-mode selection
 
 - Inventory ID(s): INV-STATE, INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Swim/crawl state and movement-mode selection. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: Player `updateSwimming()` flight override and Entity `updateSwimming()` sprint/submersion/passenger predicates; tick ordering around water/eye-state update and swim-state write.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/player/Player.java` :: `updateSwimming()` lines 1391-1397; SHA-256 `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`. `Entity.updateSwimming()` lines 1491-1498 and tick call/order lines 501-507; SHA-256 `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/player/Player.java` :: `updateSwimming()` lines 1412-1418; SHA-256 `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d`. `Entity.updateSwimming()` lines 1548-1555 and tick call/order lines 522-528; SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`.
+- State producers/writers -> consumers/readers: Player forces swimming false while flying, otherwise delegates; shared Entity sets swimming from sprint, water/underwater, passenger and current block fluid state. Both Player overrides match. The preceding tick producer changed from `updateInWaterStateAndDoFluidPushing()` plus `updateFluidOnEyes()` to `wasEyeInWater` capture plus `updateFluidInteraction()`; that changed fluid producer/consumer path is open under S4.6 and may affect the predicates consumed here.
+- Parent slices / dependencies / closure evidence: Player tick/pose order S1.2/S2.1 and fluid producer S4.6 are dependencies. Fluid-state and collision providers remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The Player flying override and shared sprint/swim predicates match, including the non-swimming transition requiring underwater, not a passenger, and WATER at block position. Entity tick ordering changes around the producer: A updates fluid state then eye state before swimming; B records prior eye-in-water, updates the new interaction tracker, then swimming. No final equivalence claim until S4.6 resolves the producer path.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S2.4: Ability defaults, stored air speed and player movement state
@@ -474,13 +474,13 @@ Each entry is a bounded behavior boundary. Refine broad plans into exact member 
 ### Slice S4.6: Fluid state, contact, height and push/vector calculations
 
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Fluid state, contact, height and push/vector calculations. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: Entity tick's fluid-state/eye update order; A `updateInWaterStateAndDoFluidPushing()`, `updateInWaterStateAndDoWaterCurrentPushing()` and `updateFluidHeightAndDoFluidPushing()`; B `updateFluidInteraction()`, `EntityFluidInteraction.update()`, per-tag trackers, and `applyCurrentTo()`; Player `isPushedByFluid()` applicability.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/Entity.java` :: tick call order lines 501-507, `updateInWaterStateAndDoFluidPushing()`/water helper lines 1501-1520, `updateFluidHeightAndDoFluidPushing()` lines 3509-3572; SHA-256 `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3`. `Player.isPushedByFluid()` lines 1679-1681; SHA-256 `8e97167350a91741d0aa10d3b0d92a33150ed6dccdc94cd5b37d9c7ca22bcc81`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java` :: tick call order lines 522-528, `updateFluidInteraction()` lines 1558-1583, `getFluidInteractionBox()` lines 4015-4025; SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`. `EntityFluidInteraction.update()`/loaded-chunk scan lines 30-101 and tracker `applyCurrentTo()` lines 171-193; SHA-256 `5264ff4f1fddebc3fa9d63ad2edbe2eaf617392ff946a867a6817a78b478ee62`. `Player.isPushedByFluid()` lines 1673-1675; SHA-256 `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d`.
+- State producers/writers -> consumers/readers: both player predicates allow current pushes exactly when `!abilities.flying`. A scans the deflated entity box, calculates max fluid height and average flow, skips current normalization for Player, enforces its minimum horizontal impulse, adds velocity and writes per-tag fluid height. B creates WATER/LAVA trackers, scans a fluid-interaction box after a loaded-section check, records height/eye state and accumulated flow; the player tracker averages by `currentCount`, scales and applies the same stated minimum-impulse boundary, then calls `addDeltaMovement`. B's box may be modified by a vehicle hook, requiring caller/applicability closure for a mounted player.
+- Parent slices / dependencies / closure evidence: This is the changed producer consumed by S2.3 and S3.6-S3.7. `FAST_LAVA` scale and WATER/LAVA tag values are referenced in both reports; exact loaded-chunk boundaries, fluid-state/tag matching, dimensions/eye state, vehicle box hook callers and all consumer order still need closure. Non-player subclasses/physics are outside scope.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The source architecture changed from direct nested state traversal and push to a tracker with a new box/loading/provider path. Both Player `isPushedByFluid()` bodies match, so player conditions permit these routines when not flying. Source evidence is not yet sufficient to conclude whether equivalent player fluid arrangements produce identical heights, eye flags or velocity; keep candidate behavior open and compare the helper/data dependencies before disposition.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S4.7: Pose/dimension-dependent collision query repetition
@@ -751,7 +751,7 @@ No findings yet. S1.1-S1.3 have paired no-difference dispositions. The pair rema
 ## Resume checkpoint
 
 - Last completed slices: S1.1-S1.3, S1.2.1-S1.2.2, S3.1.1, S3.3.1 and S3.6.1 (compared-no-difference); S5.9 (not-applicable to Player).
-- Next bounded slices: close `S1.4` dependencies (S2.5 item-use, S2.7 input consumer, swimming and vehicle predicates), then continue S1.5-S1.6 external ability/vehicle producers; finish `S3.4` attribute/effect application and block-state source closure; continue `S3.5` movement-state providers; resolve `S3.6`-`S3.8` fluid/gliding dependencies; close `S3.9` speed/attribute sources and `S3.2`-`S3.3` ground/air branches; continue `S2.6` support-shape providers and `S4.1`-`S4.7` collision results. Reconcile all movement-referenced resources/tags under D2 before dispositioning dependent slices. Earlier resume wording implied verified S7 work, but review of the saved report found no S7 evidence: S7.1-S7.5 remain pending.
+- Next bounded slices: close `S1.4` dependencies (S2.5 item-use, S2.7 input consumer, swimming and vehicle predicates), then continue S1.5-S1.6 external ability/vehicle producers; finish `S2.1-S2.2` pose writer/refresh callbacks and dimensions, then continue `S2.3-S2.6` state/support providers; trace S4.6's replacement fluid tracker through box, loaded-chunk, tag and push dependencies before reconciling S2.3/S3.6-S3.7; finish `S3.4` attribute/effect application and block-state source closure; continue `S3.5` movement-state providers; resolve `S3.8` gliding dependencies; close `S3.9` speed/attribute sources and `S3.2`-`S3.3` ground/air branches; continue `S4.1`-`S4.5` and S4.7 collision results. Reconcile all movement-referenced resources/tags under D2 before dispositioning dependent slices. Earlier resume wording implied verified S7 work, but review of the saved report found no S7 evidence: S7.1-S7.5 remain pending.
 - Outstanding dependencies and owners: D2, source worker.
 - Current assumptions requiring verification: decompiled movement member bodies are semantically intact; B LocalPlayer diagnostics omit anchors, so manual body review is cited; resource-backed data closure remains open.
 - Resumable state: branch `feat/source-discovery-movement-source-1-21-11-26-1-2`; this report is the pair ledger. Exact A/B source roots and artifact manifests are recorded above. The report checker accepts the current active, non-complete state; no source finding snapshot exists. Preserve the source-only blind phase and do not inspect implementation/wiki material until the campaign explicitly transitions.
@@ -779,7 +779,7 @@ No source-confirmed findings have been submitted. Pair run remains active; no sn
 
 ## Source audit closure
 
-- Coverage counts by status: 34 pending; 13 in-progress; 8 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices).
+- Coverage counts by status: 30 pending; 17 in-progress; 8 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices).
 - Required inventory status and evidence: all 7 pending; exact source inputs are verified, but full movement/provider/resource inventories remain incomplete.
 - Open dependencies: D2
 - Unresolved gaps and limits: inherited tick/travel/collision body comparisons, movement state producers/consumers, shape providers/registrations, and data/resource dependency closure.
