@@ -36,14 +36,14 @@
     {
       "threadId": "01a11bb1-adb2-7212-9a90-26537278d788",
       "role": "implementation_static_review",
-      "status": "completed; poseea62550 ACCEPT88792a06e72fb88f8841d8e413cdb6da026248b3",
+      "status": "active; slipperinessad684f4 implementation andedge no-code proof review",
       "scope": "four pending code patches",
       "resultCommit": "bdb6443; notes d3190b4"
     },
     {
       "threadId": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
       "role": "integration_build_owner",
-      "status": "active; fence integratedb099aa02d82e57c1672f68375edcbcacdf8e3973; nextacceptedposeea62550 buildintegration",
+      "status": "active; pose commits located in separate localclone movement-posefit; localfetch thenpose/F005 serialbuildintegration",
       "ref": "feat/movement-campaign-integration-2026-10-08@958b0916f08cba25e3be86d67d48a9d1e8651d1f",
       "resultCommit": "ea812dc9171fdf41e02b3a2292db7d40b105c9c4"
     },
@@ -159,7 +159,7 @@
       "role": "elytra_gate_correction",
       "pair": null,
       "ref": "a5d07341d941ce2c0b9df1e392af9a40b1fbb9e9",
-      "status": "active; accepted MCPK edgebackoff/slipperiness implementation reconciliation"
+      "status": "completed; slipperinessnew minY-.5000001 code tipad684f4 pendingreview; edgebackoff alreadycovered proof"
     },
     {
       "threadId": "01a11bbe-910d-7c02-9261-b0d01b6822ed",
@@ -209,7 +209,7 @@
       "threadId": "01a11bc4-153a-78d1-8b2a-74e92c3b249d",
       "role": "source",
       "ref": "feat/source-discovery-movement-source-1-18-2-1-19-2@ad8b20f",
-      "status": "active",
+      "status": "completed; sourcepartialee009fe with remaininginventory/dependencyclosures",
       "pair": "1.18.2--1.19.2",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -330,10 +330,19 @@
       "ref": "0f60e99ba7aca36b9d4b2aaedd21a5fb5003a0fe",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
+    },
+    {
+      "threadId": "01a11bf3-b68d-72a3-9fde-198291e05948",
+      "role": "source",
+      "pair": "1.21.4--1.21.5",
+      "status": "active",
+      "ref": "1f4f0d0e753d8b6999a37e4e81f8fc2b32fbaf18",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:36:28.8441005Z",
+    "observedAt": "2026-10-08T14:39:36.7226443Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
@@ -388,5 +397,14 @@
     "review": "dd69581",
     "reviewBranch": "fix/review-fall-flying-state-1-9-2026-10-08",
     "status": "ACCEPT; dispatch after current pose integration finishes; profile must precede playerdata load"
+  },
+  "poseLocalObjectSource": {
+    "clone": "D:/Javastuff/LegacyParkourCompat/build/codex-worktrees/movement-posefit",
+    "codeRef": "fix/movement-pose-fit-float-state-2026-10-08",
+    "code": "ea62550bbecc8233917fb293dbe3ee627529f621",
+    "reviewRef": "fix/review-pose-fit-correction-r2-2026-10-08",
+    "review": "88792a06e72fb88f8841d8e413cdb6da026248b3",
+    "verification": "both cat-file types commit; exactheads independentlyread",
+    "action": "integration owner fetch localclone into freshrefs, never stale pose ref"
   }
 }
