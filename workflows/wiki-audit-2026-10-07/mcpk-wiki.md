@@ -1,6 +1,6 @@
 # MCPK wiki audit — 2026-10-07
 
-Current resumable status and next steps: [mcpk-checkpoint.md](mcpk-checkpoint.md). This audit remains partial. The Feather revision-specific snapshot still awaits reviewer acceptance. Clean independent review accepted the Big Dripleaf and swimming snapshots; the edge-backoff r2 has been corrected in r3 and awaits follow-up review, and the slipperiness blob identity has been corrected. Exact snapshot identities and dispositions are in [the clean re-review candidate register](mcpk-clean-rereview-candidates-2026-10-08.md).
+Current resumable status and next steps: [mcpk-checkpoint.md](mcpk-checkpoint.md). This audit remains partial. The Feather revision-specific snapshot still awaits reviewer acceptance. Clean independent review accepted Big Dripleaf, swimming, edge-backoff r3, and the corrected slipperiness identity. Exact snapshot identities and dispositions are in [the clean re-review candidate register](mcpk-clean-rereview-candidates-2026-10-08.md). Fresh browser retrieval and endpoint source checks are in [the independent follow-up](mcpk-independent-followup-2026-10-08.md).
 
 Scope: MCPK parkour wiki only, matched against supplied exact-release source snapshots where available. No Minecraft Wiki pages or other audit-track findings were consulted. No implementation files were changed; no tests, builds, servers, or Docker actions were run.
 
@@ -20,6 +20,8 @@ Scope: MCPK parkour wiki only, matched against supplied exact-release source sna
 | [Anvil/Chest Manipulation](https://www.mcpk.wiki/wiki/Anvil/Chest_Manipulation) | Shared shape manipulation and later correction. | 2022-09-04 09:12 |
 
 The Version Differences page stops at 1.18 and has TODOs in all 1.18 categories. It does not support coverage claims for 1.19+ or 26.x releases.
+
+The research fetcher continues to return 403 or inaccessible for direct/canonical/raw/API requests. A normal in-app browser read on 2026-10-08 captured exact page revisions for Version Differences, Slipperiness, Water and Lava, Ladders and Vines, Stepping, and Collisions; see the independent follow-up for permanent revision IDs and limitations.
 
 ## Source findings and integrity status
 
@@ -50,4 +52,4 @@ Detailed method bodies, operation order, endpoint hashes, and remaining open cla
 - 1.17 powder-snow frozen-speed/client-server tick timing; fall-damage details are outside movement scope.
 - 1.18 has only TODOs; the inspected wiki page has no later sections.
 
-The original r2 snapshots remain immutable; edge-backoff r3 supersedes its r2 summary only. The clean review accepted Big Dripleaf and swimming. The slipperiness register now has the verified blob ID, with post-fix confirmation pending. The direct MCPK fetch remains HTTP 403, so preserved catalog wording is not fresh page verification. Broader coverage remains partial.
+The original r2 snapshots remain immutable; edge-backoff r3 supersedes its r2 summary only. Clean review accepted Big Dripleaf, swimming, edge-backoff r3, and the corrected slipperiness identity. Normal-browser MCPK reads are fresh page evidence despite research-fetcher 403 failures. Broader coverage remains partial; no claim is made about 1.19+ or 26.x.
