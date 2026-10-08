@@ -229,7 +229,7 @@
     {
       "threadId": "01a11bce-05d9-7c80-9a1e-0f65525c141b",
       "role": "rising_crouch_independent_review",
-      "status": "active; F005 initialprofile/loadpath review; version switching explicitlyexcluded",
+      "status": "completed; F005b215d723 ACCEPTdd69581, configuredprofilebeforeload; later switchingexcluded; integrationpending",
       "ref": "14a6e23432ab6a885b5c5ce265cf2404283756f6"
     },
     {
@@ -324,7 +324,7 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:34:29.2553492Z",
+    "observedAt": "2026-10-08T14:35:26.0316658Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
@@ -373,5 +373,13 @@
     "Continue all26 exact source pairs from durablequeue; all remainpartial. Current laterpair1.20.6--1.21.1 active; next1.21.1--1.21.3 when slot frees. Earlier partialpairs still needcontinuationwaves and independentcoverageaudits.",
     "F07 stairpremise invalid andwithdrawn224d601; preserve immutableaudittrail. New farmland/directplayerposition findingF08 pendingreview.",
     "No tests/runtime/Docker/push; everybuild disablesALLGradleTesttasks; maximum15 includingroot andold1.17source. WorkersLunaHigh/coordinatorSolMedium."
-  ]
+  ],
+  "nextAcceptedIntegrationBatch": {
+    "finding": "F005 saved FallFlying",
+    "code": "b215d723c22cf2c73601b7807056ba0d23fdbf23",
+    "codeBranch": "feat/fall-flying-state-1-10-2-2026-10-08",
+    "review": "dd69581",
+    "reviewBranch": "fix/review-fall-flying-state-1-9-2026-10-08",
+    "status": "ACCEPT; dispatch after current pose integration finishes; profile must precede playerdata load"
+  }
 }
