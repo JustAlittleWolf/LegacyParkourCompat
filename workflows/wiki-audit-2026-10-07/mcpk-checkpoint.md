@@ -39,5 +39,5 @@
 - Branch: `fix/mcpk-clean-rereview-dispositions`
 - The clean-review disposition updates were committed at `10d4937470804e6ffd75b35930a9c3d62044b9be` (edge-backoff r3) and `59b6d55a88d724a91026553fff52e4027831d2f1` (registry/catalog/checkpoint updates).
 - Merged default branch tip `1ea23480755a2574abd5b5855827ded5d5f50702` in merge commit `7b221a6909c23d4e6423cd41023e5bca122607de`.
-- The merge conflicted in the MCPK catalog/checkpoint because `main` removed the r2 candidates and restored the older unresolved wording. Resolution retained the explicitly requested corrected candidates and partial-review status; unrelated main changes were merged unchanged.
+- Compared with `main`, its MCPK lane removed the r2 candidates and restored older unresolved wording. The merge completed without Git file conflicts; this branch retained the explicitly requested corrected candidates and partial-review status, while unrelated main changes merged unchanged.
 - No full pair or wiki-lane acceptance is claimed.
