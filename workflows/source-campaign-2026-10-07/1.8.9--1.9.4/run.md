@@ -63,8 +63,8 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 
 - `INV-TICK` status=pending; slice_ids=TICK-01 through TICK-07; evidence=full local tick graph and player path inventory in progress
 - `INV-STATE` status=pending; slice_ids=STATE-01 through STATE-03; evidence=all player state writers/readers still being inventoried
-- `INV-COLLISION` status=pending; slice_ids=COLL-01, COLL-01-NOCLIP, COLL-01-SNEAK-EDGE, COLL-01-AXES, COLL-01-STEP, COLL-01-FLAGS, COLL-01-VEHICLE, COLL-02, WORLD-SLAB-SHAPES, WORLD-SNOW-SHAPE; block callbacks, post-collision support logic and most shape providers remain open; bounded slabs and snow layers compared
-- `INV-WORLD-MOVEMENT` status=pending; slice_ids=WORLD-01, WORLD-02, WORLD-03, COLL-02, WORLD-SLAB-SHAPES, WORLD-SNOW-SHAPE; other world states, neighboring blocks, fluids, and non-boat vehicle passenger paths remain open; paired slab and snow-layer shape dispositions recorded
+- `INV-COLLISION` status=pending; slice_ids=COLL-01, COLL-01-NOCLIP, COLL-01-SNEAK-EDGE, COLL-01-AXES, COLL-01-STEP, COLL-01-FLAGS, COLL-01-VEHICLE, COLL-02, WORLD-SLAB-SHAPES, WORLD-SNOW-SHAPE, WORLD-TRAPDOOR-SHAPES, WORLD-LADDER-SHAPES; block callbacks, post-collision support logic and most shape providers remain open; bounded slab, snow-layer, trapdoor and ladder shapes compared
+- `INV-WORLD-MOVEMENT` status=pending; slice_ids=WORLD-01, WORLD-02, WORLD-03, COLL-02, WORLD-SLAB-SHAPES, WORLD-SNOW-SHAPE, WORLD-TRAPDOOR-SHAPES, WORLD-LADDER-SHAPES; other world states, neighboring blocks, fluids, and non-boat vehicle passenger paths remain open; bounded shape dispositions recorded
 - `INV-MODIFIERS` status=pending; slice_ids=MOD-01, MOD-02; evidence=equipment/effect/attribute producers and consumers in progress; modern-only Elytra/Levitation are scoped out
 - `INV-EXTERNAL` status=pending; slice_ids=TICK-03 through TICK-07, WORLD-02, EXT-01, EXT-02; evidence=external velocity/position/vehicle writers in progress
 - `INV-EXCLUSIONS` status=complete; slice_ids=scope boundary; evidence=health/food production and attack/damage resolution plus non-player/vehicle physics excluded; direct player velocity/impulse/knockback response remains in movement scope
@@ -387,6 +387,32 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Status: compared-no-difference
 - Disposition and rationale (including concrete reachability/preconditions): for each stable shared snow-layer state with layer count 1 through 8, the collision top is `(layers - 1) * 0.125F` in both sources and the X/Z extent is the full block. A constructs world-space Y directly; B translates a local state shape with the same double block coordinate addition. The B local shape table uses `layers * 0.125` as its visual/default shape, but `getCollisionShape` explicitly uses `layers - 1`, matching A's collision formula, including the zero-height layer-1 box.
 - Finding IDs or checked absence/replacement path: none.
+
+### Slice WORLD-TRAPDOOR-SHAPES: trapdoor collision geometry
+
+- Inventory ID(s): `INV-COLLISION`, `INV-WORLD-MOVEMENT`.
+- Exact behavior boundary and enclosing guards/order checked: shared wood/iron trapdoor shape for all `OPEN`, `HALF`, and horizontal `FACING` combinations; A collision query calls `updateShape(world,pos)` and generic `Block.getCollisionShape`, B gets a state-local shape and generic state-aware collision dispatch translates it.
+- A evidence: `TrapdoorBlock.java` lines 23-25, 57-104 sets full-footprint bottom/top plates for closed states and facing-specific `0.1875F` edge plates for open states, with `OPEN` taking precedence over `HALF`; SHA-256 `e00c4fdfa234ac5cf265816fbbe088709668cd5a44eb537a1f391ce2f5f795ba`.
+- B evidence: `TrapdoorBlock.java` lines 24-32 and 43-66 returns the same six local boxes: bottom `[0,0.1875]`, top `[0.8125,1]`, north/south/east/west strips using the same `0.1875`/`0.8125` coordinates; SHA-256 `bbfbeac22de7e72b55736a35c29c10f372df1d846dd01cd16d7ee2a0913b2339`.
+- Registration and geometry dispatch: both registries contain `trapdoor` and `iron_trapdoor` (A `Blocks.java` lines 114/185 and 322/393; B lines 118/189 and 349/420). Registry source hashes are A/B values cited in WORLD-SLAB-SHAPES. A generic block-world translation is `Block#getCollisionShape(World,BlockPos,BlockState)` at lines 346-350, hash `ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528`; B uses `Block.addCollisions` and state dispatch at lines 337-354, `Block.java` hash `e62ece80c6a7e7121346f65f8fdfd9b148c29441a27de9f568bba9afe1d84fe6`; `StateDefinition#getCollisionShape` hash is recorded above.
+- State producers/writers -> consumers/readers: registered trapdoor state -> conditional local collision bounds -> world-space block box -> collision intersection/list -> player movement clipping; `WORLD-01` separately inventories the open-trapdoor climbing predicate.
+- Parent slices / dependencies / closure evidence: all paired shape state branches, shape extents and both registrations checked. This does not close trapdoor neighbor updates, placement/opening state lifecycle, or the ladder provider/climb consumer.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for the same stable registered trapdoor state, both sources select the same collision bounds, including the case where open facing replaces the closed top/bottom plate. The A shape setter's values are float literals stored in double bounds; B's constants are exact doubles for the same binary fractions. Translation and intersection remain the paired generic block path.
+- Finding IDs or checked absence/replacement path: none; climb-gate comparison remains WORLD-01.
+
+### Slice WORLD-LADDER-SHAPES: ladder collision geometry
+
+- Inventory ID(s): `INV-COLLISION`, `INV-WORLD-MOVEMENT`.
+- Exact behavior boundary and enclosing guards/order checked: shared `ladder` registration and collision box for each horizontal `FACING`; A's collision method refreshes shared block bounds from the world state, while B returns a local state shape.
+- A evidence: `LadderBlock.java` lines 21, 26-28, 38-56 sets a `0.125F` edge strip for each horizontal direction and translates through inherited `Block.getCollisionShape`; SHA-256 `c13b123f8fd7427d7f646da3b789eb97d4e54aa2fe2860f66cf4fd1302865106`.
+- B evidence: `LadderBlock.java` lines 20-40 returns the equivalent directional constants: north z `[0.8125,1]`, south z `[0,0.1875]`, west x `[0.8125,1]`, east x `[0,0.1875]`; SHA-256 `f411d494a4f8c87b2b23d182527713d3b0c2fad4da329b82b84ea301a9d65fcb`.
+- Registration and geometry dispatch: both `Blocks` registries contain `ladder`; the A/B registry hashes are cited in WORLD-SLAB-SHAPES. A uses the generic world-space collision box from `Block.getCollisionShape`; B uses state-based `Block.addCollisions`/`BlockState.getCollisionShape` as recorded in WORLD-TRAPDOOR-SHAPES.
+- State producers/writers -> consumers/readers: ladder `FACING` -> axis/side-specific box -> collision intersection and movement clip; ladder climb predicate is separately covered by WORLD-01.
+- Parent slices / dependencies / closure evidence: all four horizontal facing branches and collision dispatch checked. Placement/neighbor support state and ladder movement/climbing consumers remain separate.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for each stable registered horizontal ladder state, A and B produce the same single 1/8-block-thick wall strip in the same direction and translate it with the same world block coordinates. The move to state-local constant shapes changes storage/dispatch but not the collision bounds.
+- Finding IDs or checked absence/replacement path: none; climbing behavior remains WORLD-01.
 
 ### Slice SCOPE-01: excluded hunger/regeneration producers
 
