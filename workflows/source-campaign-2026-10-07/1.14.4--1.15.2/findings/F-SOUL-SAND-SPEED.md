@@ -7,6 +7,7 @@
 - Confidence: source-confirmed
 - Applicability: historical player behavior
 - First changed release: within (1.14.4, 1.15.2]
+- Boundary resolution: the endpoint difference is confirmed; the earliest changed release inside the interval has not been established, and no intermediate-release source check is claimed.
 - Runtime validation: not performed
 
 ## Paired evidence
