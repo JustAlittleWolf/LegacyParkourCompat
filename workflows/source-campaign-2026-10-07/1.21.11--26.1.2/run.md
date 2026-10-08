@@ -705,13 +705,13 @@ Each entry is a bounded behavior boundary. Refine broad plans into exact member 
 ### Slice S7.3: Piston displacement, launch items and external movement impulses
 
 - Inventory ID(s): INV-EXTERNAL, INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Piston displacement, launch items and external movement impulses. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: Paired `PistonMovingBlockEntity.moveCollidedEntities()` A 113-183 / B 120-190, `moveEntityByPiston()` A 185-192 / B 192-199 and `moveStuckEntities()`/sticky support predicates A 194-216 / B 201-223. The collision-area query uses the moving block collision shape and piston movement area; ignores PushReaction.IGNORE; for slime blocks writes the piston-axis unit velocity only to non-ServerPlayer entities (preserving the other components), then performs geometric overlap and moves the entity by `min(max penetration, progress delta)+0.01`. Piston displacement sets the per-thread NOCLIP direction, calls `Entity.move(MoverType.PISTON, direction*delta)`, applies block effects along the traversed position, removes that movement recording and clears NOCLIP. Horizontal honey pistons also carry grounded NORMAL-reaction entities supported by or within the moved-block X/Z footprint. Paired WindCharge `explode()` A 56-73 / B 61-78 delegates to level explosion at the hit position with radius `1.2F`, no fire, TRIGGER interaction, gust particles, empty block particles and the same sound.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/level/block/piston/PistonMovingBlockEntity.java` SHA-256 `c5dc0cb682442ced62a73bfe27bcbcb77a069d8e3057a80b7c62ae1f6867c845`; `ready/1.21.11/mojmap/net/minecraft/world/entity/projectile/hurtingprojectile/windcharge/WindCharge.java` SHA-256 `386fc6087ce5c4fd95f89616c10e88df8a68c39d76251afc4d031437454c6fc2`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/level/block/piston/PistonMovingBlockEntity.java` SHA-256 `67bceb946c172c5c022663fda32d123a6bbb85ca4171705ca9dc2c54105ab6e6`; `ready/26.1.2/unobfuscated/net/minecraft/world/entity/projectile/hurtingprojectile/windcharge/WindCharge.java` SHA-256 `2af7a863b7562d45a8edabccb01e03acaa626635a9a9a1f447c41c83259be8a0`.
+- State producers/writers -> consumers/readers: Piston block-entity tick/progress and moved-state collision shape produce displacement; Player receives geometric `MoverType.PISTON` position writes, while the slime-axis delta write explicitly excludes ServerPlayer in both versions. Sticky movement reads block state, support/ground state and entity footprint. WindCharge impact routes to explosion (S7.2) and can produce direct Player motion there; projectile flight/collision, item creation, explosion-to-player velocity and data/resource defaults remain open. Non-player piston movement and projectile physics are not emulated.
+- Parent slices / dependencies / closure evidence: S4.1/S4.2/S4.6 and S5.1/S5.3/S5.6 own movement collision/query and moving-block shapes; D2 owns block/item/tag/resource inputs; S7.1/S7.2 own resulting Player synchronization and explosion knockback; S7.5 owns exhaustive external writer routing. Full player applicability and producer/call/resource closure remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The paired piston axis-velocity guards and arithmetic, entity displacement call order, sticky support conditions, and WindCharge explosion parameters match in the inspected source. Player displacement still depends on collision shapes/progress and the exact server player route; wind-charge explosion-to-Player velocity has not been traced here. The external-input inventory remains incomplete.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S7.4: Mount/dismount transitions and riding movement gates
@@ -782,7 +782,7 @@ F-1 candidate snapshot submitted for blind review; acceptance is pending and doe
 
 ## Source audit closure
 
-- Coverage counts by status: 3 pending; 42 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
+- Coverage counts by status: 2 pending; 43 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
 - Required inventory status and evidence: all 7 pending; exact source inputs are verified, but full movement/provider/resource inventories remain incomplete.
 - Open dependencies: D2
 - Unresolved gaps and limits: inherited tick/travel/collision body comparisons, movement state producers/consumers, shape providers/registrations, and data/resource dependency closure.
