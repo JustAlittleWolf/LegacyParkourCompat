@@ -1,6 +1,6 @@
 # Discovery: 1.10.2 to 1.11.2
 
-- Status: partial
+- Status: active
 - Scope: source-only comparison of reachable client-player movement for exact A=1.10.2 and B=1.11.2. Endpoint differences do not establish a first changed release.
 - Repository revision and start date: base `002137b227676caea77f6832b9f4c8d0b6200bff`; campaign date 2026-10-07; report branch `feat/source-discovery-movement-source-1-10-2-1-11-2`.
 - Evidence integrity status: worker reverified both immutable Feather r1 derived-artifact snapshots, both source manifests and every listed Java source file, both original artifact manifests and all raw inputs, readiness markers, diagnostics, and the shared verification-log hash. The original mapped jars are unavailable; revised snapshot hashes differ, so artifact identity and metadata-only change are unproven. Independent ops verification passed for the six-bundle revision set. Findings remain provisional pending their own blind source review; the pair remains unfrozen.
@@ -124,13 +124,13 @@ Other correspondence requiring further walk: remote/client corrections and packe
 ### Slice S4-piston-cap: external piston displacement
 
 - Inventory ID(s): INV-EXTERNAL, INV-COLLISION, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: B `Entity.move` piston-specific per-world-time axis accumulation and cutoff before ordinary collision resolution; piston caller's entity displacement. A `Entity.move` has no mover type or cap; A moving block caller directly passes displacement.
+- Exact behavior boundary and enclosing guards/order checked: B `Entity.move` applies its PISTON-specific per-world-time requested-axis accumulation and cutoff before ordinary collision resolution when `noClip` is false; paired moving-block callers and tick order are compared. A `Entity.move` has no mover type or piston accumulator; A moving block caller directly passes displacement.
 - A evidence: `Entity.java::move(double,double,double)`, lines 446-514, SHA-256 `05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77`; `MovingBlockEntity.java::moveEntities`, lines 91-159, SHA-256 `720e1305c494a3a316b21beef823158c435826f50383778a5bd00ad0e4ff6ac1`.
 - B evidence: `Entity.java::move(MoverType,double,double,double)`, lines 459-500, SHA-256 `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440`; `MovingBlockEntity.java::moveEntities(float)`, lines 116-160 and 210-242, SHA-256 `a55ee14227fe6ac0932283cba0414e946ba8e2637f543b3a3fe13d4e45b7b16e`.
-- State producers/writers -> consumers/readers: moving piston progress -> MoverType.PISTON displacement -> per-entity per-axis accumulated movement keyed by world time -> box/collision/position/flags. B clamps cumulative same-axis movement to +/-0.51, returns for incremental movement <=1.0E-5F.
+- State producers/writers -> consumers/readers: moving piston progress -> MoverType.PISTON requested displacement -> per-entity per-axis accumulation keyed by world time -> capped request -> ordinary collision resolution -> box/position/flags. For non-noClip entities, B clamps the cumulative request to +/-0.51 and returns before collision resolution when the forwarded request is <=1.0E-5F.
 - Parent slices / dependencies / closure evidence: S4-sneak-probe; paired piston movement calls and progress are traced in S4-piston-collision-geometry/F-05. General collision-provider/data coverage remains open under D-COLLISION/D-BLOCK-DATA.
 - Status: findings
-- Disposition and rationale (including concrete reachability/preconditions): confirmed B-only cap on a reachable piston displacement path. Repeated same-axis piston movement during one world time is capped; exact player consequence depends on piston geometry/progress and other callers. No runtime claim.
+- Disposition and rationale (including concrete reachability/preconditions): B adds a source-confirmed cap on accumulated requested movement for a non-noClip local player included in a moving piston entity query and receiving same-axis requests during one world time. Collision may further reduce the forwarded request; this is not a realized-position cap. No runtime claim.
 - Finding IDs or checked absence/replacement path: F-02.
 
 ### Slice S4-piston-edge-bypass: mover-type guard on sneak restraint
@@ -309,18 +309,23 @@ Other correspondence requiring further walk: remote/client corrections and packe
 ## Finding index
 
 - [F-01](findings/F-01-sneak-edge-probe-depth.md): grounded sneaking player edge restraint probes a different vertical depth; source-confirmed, consequence conditional on shapes/support.
-- [F-02](findings/F-02-piston-movement-cap.md): B applies per-world-time axis movement cap to piston displacement; source-confirmed, no runtime validation.
+- [F-02](findings/F-02-piston-movement-cap.md): B applies a per-world-time per-axis cap to piston-requested movement before collision resolution for the bounded non-noClip local-player path; source-confirmed, no runtime validation.
 - [F-03](findings/F-03-piston-sneak-edge-bypass.md): piston-driven movement bypasses sneak edge restraint in B; source-confirmed, consequence conditional on geometry.
 - [F-04](findings/F-04-climbing-player-push-eligibility.md): climbing players are excluded from B's push recipient filter; source-confirmed, scoped to the traced local-player path.
 - [F-05](findings/F-05-retracting-piston-collision-shapes.md): B builds retracting moving-piston collisions from a stationary base plus a translating piston head/arm, including a shortened arm; A translates the moved piston-base shape.
 - Discarded candidate: `LocalClientPlayerEntity.getRotationVector(float)` is added in B and reads yaw instead of inherited LivingEntity headYaw; at confirmed locally controlled travel, `PlayerEntity.serverTickAi` sets headYaw=yaw before travel. This bounds that travel use only; other callers remain open and this candidate is not globally discarded.
 - The empty chest-slot null-to-empty change is closed for the local Elytra start/continue gates in S2-elytra-empty-slot; other item-use and equipment paths remain open.
 
+## Early finding snapshot handoffs
+
+- F-02 immutable source snapshot: `findings/F-02-piston-movement-cap.md`, SHA-256 `a8acac9889d38713e6e116daa2734eb214fdacac87525c10f157ce9c813f904f`, committed at `5adb40184db92d89bd2ab9ed9e3c6f9ea4774f83`. It cites exact A/B source and Feather r1 artifact identities and preserves the unavailable-original-JAR equivalence caveat. Bounded player path: `LocalClientPlayerEntity -> ClientPlayerEntity -> PlayerEntity -> LivingEntity -> Entity.move`; non-noClip local player selected by the moving-piston movement-area query, inheriting `PistonMoveBehavior.NORMAL`, and receiving same-axis PISTON requests in one `World.getTime()`. B caps requested input before collision resolution. Release boundary remains unknown within `(1.10.2,1.11.2]`.
+- Independent blind source review: pending assignment/acceptance. This is a source-finding snapshot only; it is not pair freeze or implementation approval. The source worker has not opened implementation or wiki material.
+
 ## Resume checkpoint
 
-- Last completed slice: exact source readiness and revision verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order; partial S4-world-query; bounded S2-sleep-size-cycle/S2-resize; S1-autojump; S5-wall-collision-shapes; S2-eye-height; S4-piston-collision-geometry/F-05. This is a resumable partial checkpoint, not a pair freeze.
+- Last completed slice: exact source readiness and revision verification; S1-input; bounded S3-jump; F-01/F-02; S4-callbacks; S4-box-axis-resolution; S7-pushability/F-04; bounded S2-elytra-empty-slot; partial S1-local-order; partial S4-world-query; bounded S2-sleep-size-cycle/S2-resize; S1-autojump; S5-wall-collision-shapes; S2-eye-height; S4-piston-collision-geometry/F-05. F-02 snapshot is committed; this is an active partial run, not a pair freeze.
 - Next bounded slice: continue `D-COLLISION` by pairing `World#getCollisions` A lines 903-964 and B lines 960-1010 plus `getBlockCollisions`, then inventory and compare every reachable `addCollisions` override and its collision boxes. Source roots are `build/movement-campaign-2026-10-07/ready/1.10.2/ornithe-feather/` and `.../ready/1.11.2/ornithe-feather/`; provider inventory leads are in S4-world-query. Continue with D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS and D-EXTERNAL. Do not open implementation or wiki lanes before the pair's blind freeze.
-- Resume commands from the repository root: `git status --short --branch`; `git rev-parse HEAD`; `python workflows/movement-discovery/check_completion.py workflows/source-campaign-2026-10-07/1.10.2--1.11.2`. Then open the paired `World.java` roots above and continue the provider inventory.
+- Managed worktree: `C:\Users\Wolfi\.codex\worktrees\movement-source-1-10-2-1-11-2-7769\LegacyParkourCompat`; branch `feat/source-discovery-movement-source-1-10-2-1-11-2`. Resume commands from this worktree: `git status --short --branch`; `git rev-parse HEAD`; `python workflows/movement-discovery/check_completion.py workflows/source-campaign-2026-10-07/1.10.2--1.11.2`. Then open the paired `World.java` roots above and continue the provider inventory.
 - Outstanding dependencies and owners: D-SOURCE-DIAGNOSTICS, D-COLLISION, D-TRAVEL, D-BLOCK-DATA, D-MODIFIERS and D-EXTERNAL remain with the source worker; coordinator must assign the independent source reviewer (D-REVIEWER). Shared source owner remains a read-only publisher.
 - Current assumptions requiring verification: line ranges cited above remain stable under the source hashes; original mapped-artifact identity with the revised snapshots remains unproven; complete method correspondence, branch coverage, data resources and external-player call paths remain open. No implementation reconciliation, wiki audit or runtime validation has started.
 
