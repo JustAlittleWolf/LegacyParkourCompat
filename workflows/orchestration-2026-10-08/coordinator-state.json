@@ -1331,22 +1331,28 @@
     "bedProof": "Bound report rereview ACCEPTed proof-only at 4071cee1; no Java/provider change. Original identity-only REQUEST CHANGES d027b9db remains in history and is resolved by bound rereview. Accepted author/review documents are routed for integration.",
     "waterSprint": "Bounded source ACCEPT now closes the candidate acceptance gap for the two identified immutable snapshots only; no broader parity or pair closure.",
     "collaborationSlots": "Keep <=20 roles including root and reserved catalog reviewer. Suffocation reviewer role reused by integration owner; catalog preflight reviewer remains reserved, not a free role.",
-    "currentTimeObservation": "2026-10-08 17:22 UTC / 19:22 Europe/Vienna; clean checkpoint due 19:40.",
-    "backlogCommit": "56456e8ef26dc4d5aada6d9c0932bdcbd8785d8f",
+    "currentTimeObservation": "2026-10-08 17:23 UTC / 19:23 Europe/Vienna; clean checkpoint due 19:40.",
+    "backlogCommit": "bcb832ea8b08c249a59420468a32a911f4f9f5d3",
     "catalogIncident": "Wrong-workdir deletion by catalog author was restored. Primary main was independently verified clean at d8f39566; do not mutate primary until architecture review and coordinated merge.",
     "sourceOwnerRoleSwap": "1.16.5–1.17.1 source owner terminal at aca4dfb; role replaced by BED no-code proof reviewer. 1.15.2–1.16.5 owner terminal at f5636dd2 with all seven inventories open. 1.8.9–1.9.4 owner still closing.",
     "primaryMainStatus": "Independently checked clean at d8f3956602da94bf0cf67753cc0a9f4665397729. Do not mutate primary until architecture changes have frozen and passed review.",
     "catalogAuthor": "Terminal/idle at corrected commit dbc088f70a1bbec73f7b6ff53a7820d3e19be09c; clean branch includes main d8; test-source/API/docs correction; no tests/build. Author role released.",
     "integrationQueue": {
       "owner": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
-      "status": "Single authorized batch build failed at compileJava: MovementChangeCatalog instantiates package-private v26_1.BlockLanding. Integration owner stopped without code edits or rerun; isolated branch ae112de6 is otherwise clean. Main remains untouched at d8f39566.",
-      "batchBuildGate": "Failed once at compileJava. Do not rerun until a narrow visibility-fix candidate receives independent review and explicit coordinator authorization.",
+      "status": "Initial batch build failed and is recorded at integration branch commit 9d9aa7df. Integration branch is clean at that commit and remains separate from main. A two-modifier visibility candidate is separately committed at 1310bfbb and is pending independent review.",
+      "batchBuildGate": "Failed build log retained and verified. No retry or merge until candidate fix receives independent ACCEPT and explicit coordinator authorization.",
       "bedNoCode": "Bound proof-only ACCEPT; docs integrated on isolated branch; no code change and no extra build requirement.",
       "primaryMain": "d8f3956602da94bf0cf67753cc0a9f4665397729 remains verified clean; no integration merge after failed build.",
       "acceptedCode": "SuffocationProbe, SneakEdgeBackoff, and corrected central catalog are independently accepted and merged to isolated integration branch; batch integration is blocked by package-private BlockLanding visibility compile error.",
       "acceptedDocs": "BED proof-only report/review and water-sprint provenance ACCEPT docs integrated on isolated branch.",
       "buildGate": "Failed at compileJava; no artifacts accepted. Isolate and independently review a narrow BlockLanding visibility fix before any authorized retry. Keep primary main at d8.",
-      "failureDisposition": "The first and only authorized batch build failed at compileJava due to package-private v26_1.BlockLanding referenced by MovementChangeCatalog. Original failure log is retained; integration owner made no code edits and did not rerun. A minimal visibility-fix candidate is being prepared for fresh independent review. No artifacts are accepted and main remains unchanged."
+      "failureDisposition": "Build failed at compileJava because both v26_1.BlockLanding and its constructor are package-private. Candidate changes only those two modifiers; it is outside integration/main, unreviewed, and no build/test was run after the edit.",
+      "candidateBranch": "fix/architecture-blocklanding-visibility-candidate-2026-10-08",
+      "candidateCommit": "1310bfbb",
+      "candidateReport": "workflows/fix-implementation/candidates/2026-10-08-v26-1-blocklanding-catalog-visibility.md",
+      "integrationBranchHead": "9d9aa7dfb637420008485e473361c900481bedae",
+      "failedBuildRecord": "workflows/fix-implementation/runs/architecture-integration-build-2026-10-08.md",
+      "failedBuildLogSha256": "36d1fb4d9fdf1312a4c8d90b47e7a4e1d858fdbc6e3e0a5785b7de2051171218"
     },
     "roleTurnover": "Catalog author/reviewer roles terminal after corrected snapshot ACCEPT; F013 bounded identity-correction author active now. Integration owner active; no additional workers/chats.",
     "pane": "Pane owner active on bounded two-player Farmland conditional candidate; broader path open.",
@@ -1366,10 +1372,10 @@
     ],
     "roleCap": "20 maximum including root and active catalog reviewer; no new worker roles.",
     "safeNextActions": [
-      "Do not rerun the failed architecture build. Isolate a narrow candidate for the package-private v26_1.BlockLanding compile error and obtain independent review plus coordinator authorization before one retry.",
-      "Keep primary main clean at d8f3956602da94bf0cf67753cc0a9f4665397729 until a reviewed build succeeds and the integration record is complete.",
-      "Complete F013 identity-only rereview on the corrected finding/binding pair by 19:25; preserve pair PARTIAL and accepted coverage audit as separate.",
-      "Preserve all remaining source-pair partial states and terminal owner checkpoints; no new discovery dispatch or worker roles."
+      "Obtain independent review for candidate 1310bfbb; do not merge or retry build until reviewer ACCEPT and explicit coordinator authorization.",
+      "Keep primary main clean at d8f3956602da94bf0cf67753cc0a9f4665397729; failed batch has no accepted artifacts.",
+      "Finish F013 identity-only rereview from the corrected finding/binding; preserve pair PARTIAL and accepted full-pair coverage audit separately.",
+      "Preserve all other source-pair partial states and terminal owner checkpoints; no new discovery dispatch or worker roles."
     ],
     "sourcePair2626Latest": {
       "branch": "feat/source-26-1-2-26-2-resume-oct8",
