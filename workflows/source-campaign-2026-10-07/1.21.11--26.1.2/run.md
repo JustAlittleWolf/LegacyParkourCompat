@@ -717,13 +717,13 @@ Each entry is a bounded behavior boundary. Refine broad plans into exact member 
 ### Slice S7.4: Mount/dismount transitions and riding movement gates
 
 - Inventory ID(s): INV-EXTERNAL, INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Mount/dismount transitions and riding movement gates. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: Paired `Entity.rideTick()` zeros passenger delta movement, runs the passenger tick, then asks its current vehicle to position it if still a passenger (A 2254-2260 / B 2314-2320). Vehicle `positionRider()` requires the entity still be a passenger, then computes vehicle riding position and passenger attachment offset and writes passenger position via the selected move function (A 2262-2292 / B 2322-2352). `startRiding()` has matching cycle/can-accept/serialization gates, force-or-canRide/canAddPassenger gate, prior dismount, standing-pose reset, vehicle/passenger linkage and optional event order (A 2302-2339 / B 2362-2400). `stopRiding()` clears vehicle, removes the passenger, then emits dismount event under the same removal-reason gate; passenger list ordering and 60 tick boarding cooldown match (A 2352-2399 / B 2412-2458). `LivingEntity.travelRidden()` also matches: compute vehicle-selected ridden input, call `tickRidden`, then if movement simulation is allowed set ridden speed and dispatch travel; otherwise zero delta (A 2498-2507 / B 2587-2596). Water-triggered dismount and post-travel Player passenger check remain paired in LivingEntity (A 437-438 / 2971-2975; B 433-434 / 3070-3074).
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/Entity.java` SHA-256 `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3`; `ready/1.21.11/mojmap/net/minecraft/world/entity/LivingEntity.java` SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java` SHA-256 `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`; `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java` SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
+- State producers/writers -> consumers/readers: Vehicle/passenger graph and passenger ordering select which Player controls travel, whether local position corrections are accepted, and who receives rider-position writes. Passenger position uses vehicle attachment/state and passenger bounding/dimensions; entering mount resets pose to standing and dismount assigns boarding cooldown. Vehicle-specific riding position, input, travel and physics are outside the player-only scope; player position as a passenger is still a direct writer whose generic consumer chain is compared here. Exact vehicle registrations/attachment resources, vehicle-specific overrides and all mount callers remain open.
+- Parent slices / dependencies / closure evidence: S2.1/S2.2 own Player pose/dimensions; S3.1.1/S3.10 own ridden travel selection; S7.1 owns passenger-correction skip; S7.5 owns final player-writer closure; D2 owns attachment/dimension resources. Those dependencies prevent terminal disposition.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): The paired generic ride/position/travel gates and write order match in the checked bodies. This does not establish the behavior of vehicle-specific passenger placement/input or prove all callers/resources, which are needed to close every Player passenger state path.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S7.5: Closure sweep: all reachable player movement writers, changed dependencies and cross-mechanic interactions
@@ -782,7 +782,7 @@ F-1 candidate snapshot submitted for blind review; acceptance is pending and doe
 
 ## Source audit closure
 
-- Coverage counts by status: 2 pending; 43 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
+- Coverage counts by status: 1 pending; 44 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
 - Required inventory status and evidence: all 7 pending; exact source inputs are verified, but full movement/provider/resource inventories remain incomplete.
 - Open dependencies: D2
 - Unresolved gaps and limits: inherited tick/travel/collision body comparisons, movement state producers/consumers, shape providers/registrations, and data/resource dependency closure.
