@@ -166,7 +166,7 @@
       "role": "ops_audit",
       "pair": null,
       "ref": null,
-      "status": "active"
+      "status": "completed; audit4e6517f adopted; primary checkout switching violation reported"
     },
     {
       "threadId": "01a11bbe-a775-7180-a017-d2386dcd9fb3",
@@ -203,7 +203,7 @@
       "threadId": "01a11bc2-2e8a-78e2-a4ec-cee2b9b52ee6",
       "role": "rising_crouch_implementation",
       "ref": "accepted source1d5f181;review0648b843",
-      "status": "clarification requested; code14a6e23432ab6a885b5c5ce265cf2404283756f6 awaiting independent review"
+      "status": "completed; internal review subagent finished; dedicated fresh review pending"
     },
     {
       "threadId": "01a11bc4-153a-78d1-8b2a-74e92c3b249d",
@@ -217,7 +217,7 @@
     {
       "threadId": "01a11bc7-1a05-7291-a58f-613b83331a78",
       "role": "swimming_pitch_reconciliation",
-      "status": "active; narrow V1_13 swimming lookY float-math correction",
+      "status": "completed; codef24fdcd independent review pending",
       "ref": "source b20730f; wiki-aware review22849555"
     },
     {
@@ -231,10 +231,31 @@
       "role": "rising_crouch_independent_review",
       "status": "active",
       "ref": "14a6e23432ab6a885b5c5ce265cf2404283756f6"
+    },
+    {
+      "threadId": "01a11bcf-351e-7b32-9a56-9a6800c65644",
+      "role": "world03_implementation",
+      "status": "active",
+      "ref": "accepted aa66894; reviewa2e510bd"
+    },
+    {
+      "threadId": "01a11bd0-d66c-71c3-b7b7-3b3f11e2773d",
+      "role": "swimming_pitch_independent_review",
+      "status": "active",
+      "ref": "fix/swimming-pitch-control-1-13@f24fdcd"
+    },
+    {
+      "threadId": "01a11bd2-044b-7153-8959-4e05be07e6ab",
+      "role": "source",
+      "pair": "1.19.2--1.19.3",
+      "status": "active",
+      "ref": "5eae28a0d18041bdebca7427e45a379912ab88af",
+      "discoveryStatus": "partial",
+      "runtimeValidation": "not performed"
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T13:58:18.5670494Z",
+    "observedAt": "2026-10-08T14:02:31.0672384Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
@@ -251,6 +272,6 @@
     "reviewReport": "bdb6443;notes d3190b4",
     "jarReportedSha256": "1C3198B1E05AC5FD4CE4D84683060576CA34ED636CA81E88728FF9F6A07BCBD1",
     "jarAudit": "ops independently verified logged18-task build/test-disable script and artifactSHA",
-    "sourceQueue": "ops finalizing all26 pair work queue"
+    "sourceQueue": "adopted audit4e6517f; all26partial; corrected stale references below"
   }
 }
