@@ -313,12 +313,12 @@ Both provenance records point to the same exact batch and successful full Gradle
 
 - Inventory ID(s): `INV-COLLISION`, `INV-WORLD-MOVEMENT`
 - Exact behavior boundary and enclosing guards/order checked: declaration-set and method-body census for `getShape(BlockState, BlockGetter, BlockPos, CollisionContext)` providers reachable through the default collision path from S2-09. This is a preliminary source census; concrete registration/property and neighboring-block dependency closure is not attempted here.
-- A/B evidence so far: exact source-root scans find 126 files and 128 declarations in each version, with identical class paths and per-file declaration counts. Text-extracted bodies match at all matching providers except `ShulkerBoxBlock#getShape()`, whose bounded AABB rewrite is already compared in S2-07. The immutable source manifests for the roots are recorded above; per-provider line/hash indexing has not yet been added to this row.
+- A/B evidence so far: exact source-root scans find 126 files and 128 declarations in each version, with identical class paths and per-file declaration counts. Text-extracted bodies match at all matching providers except `ShulkerBoxBlock#getShape()`, whose bounded AABB rewrite is already compared in S2-07. The manifest-verified per-provider line/hash index is [getshape-provider-index.md](getshape-provider-index.md), SHA-256 `cd76ea757eb603b08deebe665fe15bd8e63e62eb018e1c04f398a3d1dc317a2f`.
 - State producers/writers -> consumers/readers: block registration and `BlockState` choose the concrete `getShape()` override; `BlockBehaviour#getCollisionShape()` and `BlockStateBase#getCollisionShape()` dispatch to it for states using the default collision implementation (S2-09). Provider-specific state, neighbor, collision-context and block-entity inputs remain unclosed.
-- Parent slices / dependencies / closure evidence: `S2-07`, `S2-09`, `S2-10`; the method census shows no additional source-body delta beyond S2-07, but this row remains open until its source index is recorded and registrations/properties plus state/neighbor producers are compared.
+- Parent slices / dependencies / closure evidence: `S2-07`, `S2-09`, `S2-10`; the method census and its source index show no additional source-body delta beyond S2-07, but this row remains open until registrations/properties plus state/neighbor producers are compared.
 - Status: in-progress
 - Current disposition: no additional `getShape()` body difference identified in the census; no absence or replacement conclusion is made for unindexed provider inputs.
-- Next evidence needed: exact A/B source ranges and hashes for this provider set; compare registration-to-class paths and collision-relevant properties; route every state-dependent, neighboring-block and block-entity provider to its producer.
+- Next evidence needed: compare registration-to-class paths and collision-relevant properties; route every state-dependent, neighboring-block and block-entity provider to its producer; enumerate collision-relevant providers implemented under other method signatures.
 
 ### Slice S3-01: LivingEntity pre-travel velocity cutoff and input dispatch order
 
@@ -449,14 +449,20 @@ Both provenance records point to the same exact batch and successful full Gradle
 - [F-S3-01: 1.21.4 leaves client-controlled player fall distance uncleared after movement](findings/F-S3-01-client-controlled-fall-distance-state.md) — source-confirmed; movement-state effect only, with damage resolution excluded.
 - [F-S3-02: 1.21.4 changes movement-through-block shape traversal](findings/F-S3-02-movement-block-shape-sweep.md) — source-confirmed; callback candidate-selection difference for the bounded swept geometry.
 - [F-S2-01: 1.21.4 centers the scaled Shulker peek-push query](findings/F-S2-01-shulker-scaled-peek-push.md) — source-confirmed for non-default synchronized SCALE while peek increases; the local player can enter the changed candidate region.
-- Finding snapshot log: none accepted; the pair is not frozen and no finding has been independently snapshot-reviewed.
+- Finding snapshot log: none accepted. The prior branch recorded an F-S1-02 snapshot submission; the `main` run report at merge recorded none. Current submission state is unresolved. The newer active F-S1-02 document is not covered by the prior snapshot; see merge reconciliation below.
 
 ## Finding snapshots (not pair freeze)
 
-- Snapshot submitted: none.
+- Snapshot submitted: prior F-S1-02 snapshot `SNAP-F-S1-02-098afc2` for the exact file hash recorded in its event below. The active F-S1-02 document has a different hash and has not been submitted.
 - Snapshot accepted: none.
 - Independent finding reviewer: pending coordinator assignment; reviewer must not be an author of the finding.
 - Pair status: active and unfrozen. A finding-level snapshot does not freeze the pair; pair freeze requires every slice terminal, dependencies closed and the full independent source audit complete.
+
+### Finding-document merge reconciliation
+
+- At merge, `main` (`de8eaa594677588f4a70e260561cfd2e872f69d3`) carried a newer F-S1-02 source document. It is now the active file at SHA-256 `2113d54c3ab3fd9cd591117f85aa3e165c1c507fe32354aadab4158b9f304bce`; its source difference, reachability and predicate evidence are retained, with the same-tick sprint-start caveat preserved from the earlier document.
+- The prior branch's submitted snapshot remains bound to immutable commit `098afc2049c76c3697ae6f5b785beda4d80e8be1` and its old file hash `e753ccb47be9a69ff8977741d7863d637c182648a7574f3a87280d5cf1991fa1`. That snapshot does not bind to the newer active file.
+- The prior branch report recorded the snapshot as submitted, while `main`'s pair report recorded `Snapshot submitted: none`. The immutable old snapshot and both source document blobs remain available in Git history; current external submission status and review disposition are unresolved. F-S2-01 is also active but has no snapshot.
 
 ### Snapshot event SNAP-F-S1-02-098afc2
 
@@ -492,10 +498,10 @@ Both provenance records point to the same exact batch and successful full Gradle
 ## Resume checkpoint
 
 - Last recorded slices: S1-01..S1-05, S2-01..S2-10 and S3-01..S3-09 are terminal; S2-11 is in progress; the seven inventories remain pending and additional slices are not yet enumerated. S2-06 was committed as `dd8db5afc72f6d3781844de717470adf2f722181` (`docs: compare player pose dimensions`); S2-07/S2-08 close only their stated Shulker shape preconditions, S2-09 closes only the shared block collision-shape dispatch/cache gate, and S2-10 closes only explicit collision override bodies.
-- Next bounded comparisons: finish S2-11 with its indexed `getShape()` provider set and registration/state/neighbor producers; (S2-12) close `DEP-SHULKER-SCALE` by tracing non-default scale/position sources and exact A/B AABB operations, or state any source-backed scope boundary. Continue the state/velocity/external-input, modifier/resource, world/fluid and per-tick call-graph inventories, keeping each method range and dependency explicit.
+- Next bounded comparisons: finish S2-11 by comparing the indexed `getShape()` provider registrations, state/property/neighbor producers, and other collision-relevant method signatures; (S2-12) trace remaining Shulker entity-box arithmetic for non-default scale and position cases under `DEP-SHULKER-SCALE`. Continue the state/velocity/external-input, modifier/resource, world/fluid and per-tick call-graph inventories, keeping each method range and dependency explicit.
 - Outstanding dependencies and owners: `DEP-TRAVEL`, `DEP-COLLISION`, `DEP-WORLD-DATA`, `DEP-MODIFIERS`, `DEP-EXTERNAL`, `DEP-SHULKER-SCALE`, `DEP-BLOCK-SHAPE-PROVIDERS`; current source worker owns source analysis, with a separate reviewer required before pair freeze.
 - Current assumptions requiring verification: full player-state writer/consumer closure; all other state-dependent collision shapes, entity collision boxes, registries/tags/resources, external movement inputs and explicit scope exclusions. The remaining shape work must enumerate providers and their state/neighbor dependencies, not infer coverage from the shulker-box path.
-- Resume metadata: branch `feat/source-discovery-movement-source-1-21-3-1-21-4-resume-2026-10-08`; source checkout `C:\Users\Wolfi\.codex\worktrees\source-1213-1214-resume\LegacyParkourCompat`; checkpoint before this metadata commit `9fe54d9409e371afe487ec923120e295028ab84b`. Finding snapshot `SNAP-F-S1-02-098afc2` remains submitted for independent review, immutable at `098afc2049c76c3697ae6f5b785beda4d80e8be1`, finding SHA-256 `e753ccb47be9a69ff8977741d7863d637c182648a7574f3a87280d5cf1991fa1`; F-S2-01 is source-confirmed but has no finding snapshot. No snapshot is accepted and the pair is not frozen.
+- Resume metadata: branch and checkout remain `feat/source-discovery-movement-source-1-21-3-1-21-4-resume-2026-10-08` at `C:\Users\Wolfi\.codex\worktrees\source-1213-1214-resume\LegacyParkourCompat`; update the checkpoint hash in the final metadata commit. The prior F-S1-02 snapshot hash/commit and unresolved submission status are recorded above. Active F-S1-02 SHA-256 is `2113d54c3ab3fd9cd591117f85aa3e165c1c507fe32354aadab4158b9f304bce`; F-S2-01 has no snapshot. No snapshot is accepted and the pair is not frozen.
 
 ## Implementation reconciliation
 
