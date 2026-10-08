@@ -165,6 +165,28 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - Disposition and rationale (including concrete reachability/preconditions): both versions require maxUpStep > 0, onGround or downward y clipping, and horizontal clipping; they construct the same candidates in the same order and keep the candidate with greatest horizontal distance squared, then apply the same downward resolution. The underlying collision query stream is documented separately in S4-QUERY.
 - Finding IDs or checked absence/replacement path: none in step-candidate construction and selection; F-S4-WORLD-BORDER-QUERY remains linked to the shared query dependency.
 
+### Slice S5-SHAPES: block collision-shape dispatch route (provider inventory open)
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: the bounded dispatch path from A/B CollisionGetter.getBlockCollisions -> BlockState.getCollisionShape(..., CollisionContext) -> block getCollisionShape -> BlockState.getShape -> block getShape. A's support/sturdiness path derives from collision shapes; B introduces a separate getBlockSupportShape dispatch and three provider overrides. Neighbor-driven state updates, provider-specific shape bodies, and registry/resource reachability are not closed by this row.
+- A evidence: `../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/level/CollisionGetter.java`, getBlockCollisions lines 66-109, SHA-256 `63daec0623c816d53f5dbdde407a27222fa21e62680c1096b63cf9082b1c25fd`; `net/minecraft/world/level/block/state/BlockState.java`, getShape/getCollisionShape lines 184-199 and isFaceSturdy lines 207-210, SHA-256 `77320fd1e50e58d7a3ed593ccbcf21853c97d125fcebd2e0e305dc47524f21`; `net/minecraft/world/level/block/Block.java`, getShape/getCollisionShape lines 386-393, SHA-256 `a5819a4c676d2b7e08cce7f80ae80a13726dd17b15e0b29efdce7e37efa2bf0d`.
+- B evidence: `../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/level/CollisionGetter.java`, getBlockCollisions/getCollisions lines 57-70, SHA-256 `b507d6be11e5985a62cfeb249a99dcb5f8edaf346f12cb2487797d9e01763eac`; `net/minecraft/world/level/block/state/BlockBehaviour.java`, BlockStateBase shape forwarding lines 516-533 and block getShape/getCollisionShape/getBlockSupportShape lines 227-282, SHA-256 `c62e2f07094e5a7bcad00cbae7d24497bf636cc740232a1472f4128a472def8b`.
+- State producers/writers -> consumers/readers: neighboring block states and block-specific state properties -> collision-context-sensitive shape provider -> collision stream and movement resolution; entity, position, AABB and queried block states -> CollisionContext/query bounds. B support-shape consumers include floor-height and support predicates; A/B support classifications and producer/provider dependencies remain open.
+- Parent slices / dependencies / closure evidence: S1-ESCAPE,S2-EDGE,S2-POSE,S4-MOVE,S4-QUERY,S4-STEP,S5-REGISTRY,S5-CONTACT. The default dispatch and forwarding bodies are source-compared. A and B each have 17 Java files in the block package tree with at least one declared `getCollisionShape` method; B adds a LiquidBlock declaration, A's SoulsandBlock becomes SoulSandBlock, and the shared base/state dispatch moves from Block/BlockState into BlockBehaviour/BlockStateBase. B additionally declares getBlockSupportShape in LeavesBlock, SnowLayerBlock, SoulSandBlock and its BlockBehaviour base; A has no named getBlockSupportShape route, so its corresponding support call paths must be traced separately. Direct shape declarations were enumerated but provider bodies, concrete common-block state/tag registrations, neighboring-state producers, and shape-cache effects remain unreviewed.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the core default route preserves `hasCollision ? state.getShape(...) : Shapes.empty()` and explicit CollisionContext forwarding at the compared dispatch boundary. B's separate support-shape route is a distinct open comparison. This is not evidence that all common block shapes are equal or that the provider inventory is complete. Modern-only B blocks remain excluded from historical A-version claims; common-block providers and their registration/state reachability still require bounded rows.
+- Finding IDs or checked absence/replacement path: none from this dispatch-only comparison. Existing F-S2-POSE-EPSILON and F-S4-WORLD-BORDER-QUERY depend on this provider route; no trajectory extension is claimed.
+
+### Slice S5-SCAFFOLDING-COLLISION: collision shape selection
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: ScaffoldingBlock.getCollisionShape state/context decision only; producer route for DISTANCE/BOTTOM and block/tag registry reachability not included.
+- A evidence: `../../../build/movement-campaign-2026-10-07/ready/1.15.2/mojmap/net/minecraft/world/level/block/ScaffoldingBlock.java`, lines 118-126, SHA-256 `9a9e7a7e26e2b001a285e3944178b94b1ff149b500d3a0a5b9b719392662d84`.
+- B evidence: `../../../build/movement-campaign-2026-10-07/ready/1.16.5/mojmap/net/minecraft/world/level/block/ScaffoldingBlock.java`, lines 119-127, SHA-256 `3910d1c554a6937d61fbbf3027fc60dda429e5ae46311f965b65e218bf1d069c`.
+- State producers/writers -> consumers/readers: DISTANCE, BOTTOM and CollisionContext.isAbove/isDescending -> STABLE_SHAPE, UNSTABLE_SHAPE_BOTTOM or empty collision shape. State writer and neighbor route remain open under S5-SHAPES.
+- Parent slices / dependencies / closure evidence: S5-SHAPES; exact paired method bodies compared. Scaffolding collision context is the player-context call already present in S4-QUERY.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the complete method body matches: above-block and non-descending contexts use STABLE_SHAPE; otherwise nonzero distance plus BOTTOM and the lower-context test select UNSTABLE_SHAPE_BOTTOM; all other cases return empty. No state-writer, registration, or trajectory claim follows from this method-only comparison.
+- Finding IDs or checked absence/replacement path: none within this bounded method.
+
 ### Slice S1-SPRINT-RESET: held-shift cancellation of pending sprint trigger
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: LocalPlayer.aiStep prior input capture, input tick, sprint trigger writers and double-tap consumer.
@@ -204,9 +226,9 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 - A evidence: Player#maybeBackOffFromEdge lines 1002-1049; SHA-256 1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793.
 - B evidence: Player#maybeBackOffFromEdge lines 1010-1060 and isAboveGround lines 1062-1065; SHA-256 d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960.
 - State producers/writers -> consumers/readers: flying/onGround/fallDistance/maxUpStep/support query -> reduced x/z movement -> Entity.move.
-- Parent slices / dependencies / closure evidence: Player.isStayingOnGroundSurface; Entity.move caller; Level.noCollision/support query.
+- Parent slices / dependencies / closure evidence: Player.isStayingOnGroundSurface; Entity.move A call at Entity.java:469 and B call at Entity.java:504 (the virtual call precedes collision resolution); exact B probe checked in Player.java:1062-1065. B returns true when onGround, or when fallDistance < maxUpStep and the shifted player box at y + fallDistance - maxUpStep is not collision-free. Its outer guard additionally requires not flying, SELF/PLAYER movement and shift held. No profile implementation or runtime applicability is claimed. Collision-query provider details remain linked to S4-QUERY/S5-SHAPES.
 - Status: findings
-- Disposition and rationale (including concrete reachability/preconditions): B replaces onGround with isAboveGround() plus a not-flying guard; the common x/z reduction loops remain the same.
+- Disposition and rationale (including concrete reachability/preconditions): B replaces onGround with the source-confirmed isAboveGround() probe plus a not-flying guard; the common x/z reduction loops remain the same. Exact 1.16.5 branch applicability is bounded to this predicate and caller: SELF/PLAYER mover, shift held, not flying, and either onGround or the stated near-ground collision probe. The first changed release in the interval remains unknown; this does not establish coverage for any mod profile or runtime.
 - Finding IDs or checked absence/replacement path: F-S2-EDGE
 
 ### Slice S3-WATER: water travel branch and falling adjustment
@@ -288,7 +310,7 @@ Shared roots are read-only under ../../../build/movement-campaign-2026-10-07. Bo
 
 ## Dependency queue and blockers
 
-- Remaining stage 2-7 slices: create bounded source rows for state/pose/dimensions, collision/shape providers/registrations, modifiers/equipment/effects, world/fluid registrations and client external inputs. Owner: discovery author.
+- Remaining stage 2-7 slices: S5-SHAPES has an in-progress dispatch route and S5-SCAFFOLDING-COLLISION closes only one provider method. Compare the remaining common-block providers and neighbor/state/registration dependencies. Continue bounded state, registry, modifier/equipment/effect, fluid, callback and external-input inventories. Owner: discovery author.
 - Independent source reviewer: F-S1-OPEN-SHULKER-ESCAPE has finding-level acceptance; assign a separate reviewer for all remaining snapshots and the eventual full-pair audit. Owner: coordinator.
 
 ## Finding index
@@ -309,12 +331,12 @@ The historical pair report is not imported as source confirmation.
 
 ## Resume checkpoint
 
-- Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-LOCAL-TICK,S1-LOCAL-AISTEP,S1-ELYTRA,S1-ESCAPE,S2-POSE,S3-WATER,S3-FALL-FLYING,S3-GROUND-AIR,S4-MOVE,S4-QUERY,S4-STEP; finding slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S2-POSE-EPSILON,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S3-SOUL-SPEED,F-S4-WORLD-BORDER-QUERY,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT.
-- Active slices: none; remaining required stage 2-7 slices remain open.
-- Next: add bounded slices for remaining state, collision, world, modifier and external-input inventories.
-- Outstanding dependencies: remaining required stage 2-7 inventory slices, independent reviewer assignment.
-- Resume branch: feat/source-discovery-movement-source-1-15-2-1-16-5; resume from the clean tip recorded by git log -1. Local main and origin/main both point to the pair base 002137b227676caea77f6832b9f4c8d0b6200bff; no later default-branch commits were present for merge at this checkpoint.
-- First next work: begin the S5 shape-provider and block-registration inventory, including the remaining border extent dependency; continue the remaining state, world, modifier and external-input slices. Keep the eleven unreviewed snapshots submitted; F-S1-OPEN-SHULKER-ESCAPE remains accepted for finding-only eligibility.
+- Last completed slices: S1-INPUT-VECTOR,S1-KEYBOARD,S1-LOCAL-TICK,S1-LOCAL-AISTEP,S1-ELYTRA,S1-ESCAPE,S2-POSE,S3-WATER,S3-FALL-FLYING,S3-GROUND-AIR,S4-MOVE,S4-QUERY,S4-STEP,S5-SCAFFOLDING-COLLISION; finding slices F-S1-SPRINT-RESET,F-S1-WATER-DESCENT,F-S1-OPEN-SHULKER-ESCAPE,F-S2-EDGE,F-S2-POSE-EPSILON,F-S3-SHALLOW-LAVA-TRAVEL,F-S3-FLUID-JUMP-GATE,F-S3-SHALLOW-LAVA-JUMP,F-S3-SOUL-SPEED,F-S4-WORLD-BORDER-QUERY,F-S5-WATER-CURRENT,F-S5-LAVA-CURRENT.
+- Active slices: S5-SHAPES dispatch route; provider bodies and registrations remain open.
+- Next: compare bounded common-block collision-shape providers and their state/neighbor dependencies, then continue the remaining registry, modifier, fluid and external-input inventories.
+- Outstanding dependencies: S5 remaining common-block provider inventory; separate support-shape path; S5 block/tag registrations and neighbor-driven state routes; remaining required stage 2-7 slices; independent reviewer assignment.
+- Resume branch: feat/source-discovery-1-15-2-1-16-5-resume, based on recorded pair tip d2511a34e9586231464fee42ab94f566c3f0459f. The original registered checkout was not accessible to this sandbox; its commits were preserved by starting this isolated task branch from that exact tip. The inherited uncommitted `parkourgym-server/worlds/physics_test.polar` remains untouched.
+- First next work: compare high-reachability common-block shape providers (including fences/walls, slabs/stairs, ladders/vines, scaffolding and moving pistons), their neighboring-state readers, and exact block/tag registrations; keep all claims endpoint-bounded. Keep the eleven snapshots submitted; F-S1-OPEN-SHULKER-ESCAPE remains accepted for finding-only eligibility.
 - Read-only resume commands from the repository root:
   - `git status --short; git log -1 --oneline`
   - `$A='D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.15.2\mojmap'; $B='D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\ready\1.16.5\mojmap'`
@@ -550,11 +572,11 @@ Each finding is committed as an immutable source snapshot. F-S1-OPEN-SHULKER-ESC
 
 ## Source audit closure
 
-- Coverage counts by status: pending 0; in-progress 0; compared-no-difference 7; findings 13; remaining required stage slices not yet entered and open.
+- Coverage counts by status: pending 0; in-progress 1; compared-no-difference 8; findings 13; remaining required stage slices not yet entered and open.
 - Required inventory status and evidence: all seven pending.
-- Open dependencies: remaining required stage 2-7 inventory slices, and independent source reviewer assignment.
+- Open dependencies: S5 provider/registration/neighbor inventory and B support-shape path; remaining required stage 2-7 inventory slices; independent source reviewer assignment.
 - Unresolved gaps and limits: exhaustive source comparison is incomplete.
-- Evidence/hash/correspondence audit: Ready/source/artifact manifest hashes and cited core source hashes verified; exact Mojmap provenance sidecars verified, mappingArtifacts=null, success logs are summary-only; full method/resource index remains pending.
+- Evidence/hash/correspondence audit: Ready/source/artifact manifest hashes and newly cited A Block/BlockState, B BlockBehaviour/CollisionGetter, and paired ScaffoldingBlock hashes verified against exact published sources; exact Mojmap provenance sidecars verified, mappingArtifacts=null, success logs are summary-only; full provider method/resource index remains pending.
 - Blind freeze: pending
 - Implementation reconciliation: pending
 - Independent audit: pending
