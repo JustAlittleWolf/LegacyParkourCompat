@@ -415,13 +415,13 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 ### Slice S3.5: Climbing, levitation, slow-falling and other movement-effect consumers
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: Climbing, levitation, slow-falling and other movement-effect consumers; exact local guards and enclosing call order recorded per bounded behavior
-- A evidence: pending exact A member/body range and SHA-256 from verified source root
-- B evidence: pending exact B member/body range and SHA-256 from verified source root
-- State producers/writers -> consumers/readers: pending exact source writer/consumer closure
-- Parent slices / dependencies / closure evidence: parent/dependency links pending source inventory
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): pending source comparison; no equivalence inferred from prior reports
+- Exact behavior boundary and enclosing guards/order checked (bounded movement-consumer subcase): shared travel `isClimbing` predicate and its grounded/air movement clamps; player sneaking suppression of downward climb motion; Levitation branch in ordinary travel after movement and before gravity/drag. Effect lifecycle/application and climbing-block providers remain outside this bounded consumer check.
+- A evidence: `LivingEntity.isClimbing()` lines 978-990; `hasStatusEffect(StatusEffect)` 611-613; `getEffectInstance(StatusEffect)` 616-618; `LivingEntity.moveRelative(float,float)` lines 1388-1561, including Levitation read/velocity formula lines 1482-1485 and climbing clamps lines 1458-1474; whole-file SHA-256 `bb7dc6c9e423a9568d6433d51bba12e7aee4555fbf3fb3e2b87f618382279f2f`.
+- B evidence: `LivingEntity.isClimbing()` lines 1006-1018; `hasStatusEffect(StatusEffect)` 618-620; `getEffectInstance(StatusEffect)` 623-625; `LivingEntity.moveRelative(float,float,float)` lines 1425-1599, including Levitation read/velocity formula lines 1519-1522 and climbing clamps lines 1498-1511; whole-file SHA-256 `190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6`. Both source hashes matched their exact manifest entries; the three small predicate/accessor method bodies match exactly.
+- State producers/writers -> consumers/readers: `isClimbing` asks the same block-state path in both versions; ladder/vine and other climbable block/state providers remain S5.3/S5.5. When climbing, both versions clamp X/Z to `[-0.15,0.15]`, reset fall distance, cap downward Y at `-0.15`, and suppress negative Y for a sneaking player. Levitation presence/amplifier reads and its `0.05` approach-toward-target formula are unchanged; effect application, duration and removal remain S6.2. No Slow Falling consumer exists in these paired `LivingEntity` travel bodies; do not import post-1.12 behavior.
+- Parent slices / dependencies / closure evidence: S3.2 closes the only changed relative-input arithmetic; S5.3/S5.5 own climbing-provider resources and S6.2 owns movement-effect registration/application/removal. `DEP-MODIFIER-DATA` remains open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): For equal climbing block state, sneaking, velocity and Levitation effect data, the player-facing consumers, predicates and branch order are body-identical. No consumer delta is established. Keep S3.5 open until the paired effect and climb-provider inventories are closed.
 - Finding IDs or checked absence/replacement path: none assigned
 
 ### Slice S3.6: Fall-flying math, vectors, trigonometry, branch thresholds and state updates
@@ -744,8 +744,8 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 
 ## Resume checkpoint
 
-- Last completed bounded slices: S1.7, S2.2a, S2.3, S2.3a, S2.4, S2.5, S3.1, S3.2, S3.3 and S4.4a; S2.2, S2.6 and S3.4 remain in-progress; S1.2a and S1.2b have bounded not-applicable dispositions.
-- Next bounded slice and exact files/members/body ranges to open: continue S2.2 by closing remaining player-reachable state/default and neighbor-provider dependencies around `World.getCollisions(Box)`; the WallBlock connection subcase is dispositioned with no reachable player response for its 0.6-wide active hitbox. Continue S2.6 with remaining local movement-state writer/consumer bodies. For S3.4, trace `getJumpStrength` providers and Jump Boost producer/consumer paths through S6.2, plus collision-triggered rebound sources through S4.5. Then continue S3.5-S3.7 for medium, effect and glide branches.
+- Last completed bounded slices: S1.7, S2.2a, S2.3, S2.3a, S2.4, S2.5, S3.1, S3.2, S3.3 and S4.4a; S2.2, S2.6, S3.4 and S3.5 remain in-progress; S1.2a and S1.2b have bounded not-applicable dispositions.
+- Next bounded slice and exact files/members/body ranges to open: continue S2.2 by closing remaining player-reachable state/default and neighbor-provider dependencies around `World.getCollisions(Box)`; the WallBlock connection subcase is dispositioned with no reachable player response for its 0.6-wide active hitbox. Continue S2.6 with remaining local movement-state writer/consumer bodies. For S3.4, trace `getJumpStrength` providers and Jump Boost lifecycle through S6.2, plus collision-triggered rebound sources through S4.4/S5.2. For S3.5, finish climbing block/state providers S5.3/S5.5 and Levitation effect lifecycle S6.2, then continue S3.6-S3.7.
 - Outstanding dependencies and owners: listed above; discovery author owns source inventory; artifact provenance is independently verified; blind finding reviewer and full-pair reviewer assignment pending coordinator.
 - Current assumptions requiring verification: all prior findings and no-difference claims remain unaccepted; every cited body still requires direct review despite ready tree hashes.
 
@@ -864,7 +864,7 @@ Append-only source-review history. An accepted finding snapshot would release on
 
 ## Source audit closure
 
-- Coverage counts by status: 26 pending; 2 in-progress; 14 compared-no-difference; 3 not-applicable; 2 findings; 0 blocked (47 slices total).
+- Coverage counts by status: 25 pending; 3 in-progress; 14 compared-no-difference; 3 not-applicable; 2 findings; 0 blocked (47 slices total).
 - Required inventory status/evidence: INV-EXCLUSIONS complete; all other inventories pending with mapped slice IDs.
 - Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS, DEP-RELATIVE-MOVE
 - Unresolved gaps: stages beyond bounded keyboard input and completed UI/tutor dispositions; S2.2 shape providers, glide movement, exact state producers/consumers, registries/resources, external writers and historical candidates remain open.
