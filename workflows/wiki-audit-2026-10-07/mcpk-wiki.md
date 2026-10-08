@@ -38,6 +38,7 @@ Detailed method bodies, operation order, endpoint hashes, and remaining open cla
 - **1.16.1→1.16.2 sneak step-down:** source replaces the `onGround` gate with a sneaking and above-ground predicate; the 0.05 movement backoff remains.
 - **1.17.1:** swimming entry requires water at the player's block position. Powder snow collision depends on fall distance and boots; source also confirms the 0.9/1.5/0.9 movement multiplier and boot climbing.
 - **1.17 Big Dripleaf:** player contact enters UNSTABLE immediately, with no collision-height change; source schedules the first lower shape after 10 ticks and an empty leaf collision shape after a second 10 ticks. The MCPK page's stated 20-tick delay before the first reduction conflicts with this endpoint source; see [the bounded snapshot](mcpk-1.17-big-dripleaf-snapshot.md).
+- **1.16.5→1.17.1 swimming entry:** adds a water-tag check at the player’s block position only on entry; the existing-swimming continuation branch is unchanged. See [the bounded snapshot](mcpk-1.17-swimming-snapshot.md).
 
 ## Still unresolved
 
