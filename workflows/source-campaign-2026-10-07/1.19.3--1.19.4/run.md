@@ -32,13 +32,13 @@ Shared artifact root, relative to the repository: `build/movement-campaign-2026-
 
 ## Required source inventories
 
-- `INV-TICK` input sampling, complete player tick order and travel branches: status=pending; slice_ids=I-TICK-INPUT-SAMPLE, I-TICK-EDGE-NUDGE, I-TICK-UNSTUCK-POSITION, I-TICK-LOCAL-TRAVEL-GATE, I-TICK-SPRINT-ELIGIBILITY, I-TICK-TRAVEL-FLUIDS, I-TICK-TRAVEL-FALL-FLYING, I-TICK-FLIGHT-SPEED, I-TICK-SWIM-HEAD-PROBE, I-TICK-AIR-SPEED, I-TICK-AUTO-JUMP, I-TICK-MOUNT-START, I-TICK-PORTAL-PROGRESS, I-TICK-REMAINDER; evidence=paired exact member slices below; full tick and branch inventory remains open.
-- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=I-TICK-AIR-SPEED, I-TICK-SPRINT-ELIGIBILITY, I-STATE-REMAINDER; evidence=air-speed writer/reader chain is traced; full state inventory remains open.
+- `INV-TICK` input sampling, complete player tick order and travel branches: status=pending; slice_ids=I-TICK-INPUT-SAMPLE, I-TICK-EDGE-NUDGE, I-TICK-UNSTUCK-POSITION, I-TICK-LOCAL-TRAVEL-GATE, I-TICK-SPRINT-ELIGIBILITY, I-TICK-TRAVEL-FLUIDS, I-TICK-TRAVEL-FALL-FLYING, I-TICK-FLIGHT-SPEED, I-TICK-SWIM-HEAD-PROBE, I-TICK-AIR-SPEED, I-TICK-PLAYER-AISTEP-REMAINDER, I-TICK-LIVING-AISTEP-DISPATCH, I-TICK-LIVING-AISTEP-DAMAGE, I-TICK-AUTO-JUMP, I-TICK-MOUNT-START, I-TICK-PORTAL-PROGRESS, I-TICK-REMAINDER; evidence=paired exact member slices below; full tick and branch inventory remains open.
+- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=I-TICK-AIR-SPEED, I-TICK-SPRINT-ELIGIBILITY, I-TICK-PLAYER-AISTEP-REMAINDER, I-STATE-REMAINDER; evidence=air-speed writer/reader chain is traced; full state inventory remains open.
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=I-TICK-AUTO-JUMP, I-TICK-EDGE-NUDGE, I-COLLISION-ENTITY-MOVE, I-COLLISION-QUERY-ASSEMBLY, I-COLLISION-REMAINDER; evidence=auto-jump probe math is traced to collision query; providers and registrations remain open.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, registrations and resource inventory: status=pending; slice=I-WORLD; no terminal inventory evidence yet.
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and applications/removals/conditions: status=pending; slice=I-MODIFIER; no terminal inventory evidence yet.
 - `INV-EXTERNAL` player-only external inputs and client consumers: status=pending; slice=I-EXTERNAL; no terminal inventory evidence yet.
-- `INV-EXCLUSIONS` direct movement reads versus excluded health/food/damage producers and non-player movement: status=pending; slice_ids=I-EXCLUSIONS; evidence=campaign scope is recorded, but direct-read audit remains open.
+- `INV-EXCLUSIONS` direct movement reads versus excluded health/food/damage producers and non-player movement: status=pending; slice_ids=I-EXCLUSIONS, I-TICK-LIVING-AISTEP-DAMAGE; evidence=campaign scope is recorded, but direct-read audit remains open.
 
 ## Coverage ledger
 
@@ -192,6 +192,42 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 - Status: compared-no-difference
 - Disposition and rationale (including concrete reachability/preconditions): the only Player body change is replacing three direct reads of `maxUpStep` with `maxUpStep()`; B getter returns that field unchanged. Loop order, 0.05 increments, comparisons and vector write remain the same.
 - Finding IDs or checked absence/replacement path: checked absence of a difference in the step-height/backoff value path; collision-query providers remain open.
+### Slice I-TICK-PLAYER-AISTEP-REMAINDER: jump-trigger timer and post-super player updates
+
+- Inventory ID(s): INV-TICK, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: Player#aiStep jumpTriggerTime decrement and post-super setSpeed/ground bob/entity-touch/shoulder updates; paired LocalPlayer double-tap writer/reader remains linked.
+- A evidence: `ready/1.19.3/mojmap/net/minecraft/world/entity/player/Player.java#aiStep()V`, lines 497–499 and 519–558, SHA-256 `02e64e197aec3f4f2a8abc9c5ce4545121ac5bcbbc71592ce478601a0db17203`; `LocalPlayer#aiStep()V` jump-trigger writes lines 740–746, SHA-256 `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`.
+- B evidence: `ready/1.19.4/mojmap/net/minecraft/world/entity/player/Player.java#aiStep()V`, lines 500–502 and 517–555, SHA-256 `5e4436afccb361156f8184e7a5cfd91d5b12dcfe8f5937b4ac23dd3edda737a2`; `LocalPlayer#aiStep()V` paired jump-trigger writes lines 721–727, SHA-256 `8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58`.
+- State producers/writers -> consumers/readers: LocalPlayer double-tap jump timer writes -> Player#aiStep decrement -> next LocalPlayer double-tap gate; post-super `setSpeed` reads movement-speed attribute and remaining statements retain their order. A's `flyingSpeed` reset/increment is covered by F-01.
+- Parent slices / dependencies / closure evidence: exact paired Player method diff contains no other behavioral change after removing A's F-01 flyingSpeed write; local timer references were searched in both LocalPlayer/Player source pairs.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the jump timer decrement, post-super speed assignment and remaining player updates match in operation and guards. Health/food regeneration code earlier in the method is outside this behavior slice and remains excluded.
+- Finding IDs or checked absence/replacement path: checked absence of another difference in the bounded Player#aiStep remainder; F-01 remains the sole movement-relevant delta found in this method comparison.
+
+### Slice I-TICK-LIVING-AISTEP-DISPATCH: controlling-passenger travel dispatch
+
+- Inventory ID(s): INV-TICK, INV-EXCLUSIONS
+- Exact behavior boundary and enclosing guards/order checked: LivingEntity#aiStep travel call selection after input friction and fall-flying update.
+- A evidence: `ready/1.19.3/mojmap/net/minecraft/world/entity/LivingEntity.java#aiStep()V`, lines 2594–2599, SHA-256 `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db`; A always calls `travel(new Vec3(xxa, yya, zza))`.
+- B evidence: `ready/1.19.4/mojmap/net/minecraft/world/entity/LivingEntity.java#aiStep()V`, lines 2545–2551, SHA-256 `c8d91af61f87aaa1666de79696d7cd9d4a8212d05f873bdaf28d7bb2926bf165`; when `getControllingPassenger()!=null && isAlive()` it calls `travelRidden`, otherwise `travel` with the same input vector.
+- State producers/writers -> consumers/readers: controlling-passenger and alive state -> travel dispatcher; ordinary local Player with no controlling passenger still takes `travel`, while the new passenger-controlled path is vehicle physics.
+- Parent slices / dependencies / closure evidence: ordinary local-player travel guard is separately bounded in I-TICK-LOCAL-TRAVEL-GATE; B-only route is explicitly excluded vehicle movement.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): no travel dispatch difference for the ordinary local player without a controlling passenger. If a passenger controls a Player-as-vehicle, B takes a vehicle-physics route, which the campaign excludes; no behavior for that route is asserted here.
+- Finding IDs or checked absence/replacement path: scoped ordinary-player path is unchanged; B-only controlling-passenger vehicle route is an explicit exclusion.
+
+### Slice I-TICK-LIVING-AISTEP-DAMAGE: freeze and drowning damage updates
+
+- Inventory ID(s): INV-TICK, INV-EXCLUSIONS
+- Exact behavior boundary and enclosing guards/order checked: LivingEntity#aiStep powder-snow freezing damage amount/tag check and drowning damage-source call.
+- A evidence: `ready/1.19.3/mojmap/net/minecraft/world/entity/LivingEntity.java#aiStep()V`, lines 2602–2629, SHA-256 `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db`; freeze damage amount depends on `FREEZE_HURTS_EXTRA_TYPES`, with drowning call using `DamageSource.DROWN`.
+- B evidence: `ready/1.19.4/mojmap/net/minecraft/world/entity/LivingEntity.java#aiStep()V`, lines 2567–2580, SHA-256 `c8d91af61f87aaa1666de79696d7cd9d4a8212d05f873bdaf28d7bb2926bf165`; freezing call uses fixed 1.0F and a registry-backed damage source; drowning call uses a registry-backed source.
+- State producers/writers -> consumers/readers: environment/effect state -> health damage calls; no direct player velocity, impulse, position or collision-state write is made at these changed callsites.
+- Parent slices / dependencies / closure evidence: direct damage calls are identified in the complete LivingEntity#aiStep diff; health/damage production and resolution are explicitly excluded by campaign scope.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): source confirms freeze damage formula/source and drowning-source changes, but these are excluded damage/health behavior and do not themselves write movement state. No movement finding is raised from these calls.
+- Finding IDs or checked absence/replacement path: explicit out-of-scope disposition; no direct player-motion response is present in the changed callsites.
+
 ### Slice I-TICK-REMAINDER: remaining local tick, input, jump, flight and post-travel paths
 
 - Inventory ID(s): INV-TICK
@@ -347,7 +383,7 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 - Version boundary: source-confirmed A/B difference, first changed release unknown within (1.19.3, 1.19.4]. Reviewer: independent source reviewer `01a116ce-c937-7613-a49b-716e99582357`. Status: submitted for blind source review; acceptance pending. The snapshot does not close any other pair coverage or freeze the pair.
 ## Resume checkpoint
 
-- Last completed slices: I-TICK-SPRINT-ELIGIBILITY, the normal shift-dismount route within I-TICK-MOUNT-START, I-TICK-TRAVEL-FLUIDS and I-TICK-TRAVEL-FALL-FLYING; findings F-01 through F-04 have immutable snapshots or drafts; report remains active and partial.
+- Last completed slices: I-TICK-PLAYER-AISTEP-REMAINDER, I-TICK-LIVING-AISTEP-DISPATCH, I-TICK-LIVING-AISTEP-DAMAGE, the normal shift-dismount route within I-TICK-MOUNT-START, I-TICK-TRAVEL-FLUIDS and I-TICK-TRAVEL-FALL-FLYING; findings F-01 through F-04 have immutable snapshots or drafts; report remains active and partial.
 - Next bounded slice: continue D-1 by inventorying remaining server/world dismount triggers and checking the scheduling boundary between client packet application and the next local tick, without asserting runtime arrival timing. Then continue `I-TICK-REMAINDER` from `KeyboardInput#tick`, `LocalPlayer#aiStep`, `Player#aiStep` and remaining `LivingEntity#travel` branches.
 - Outstanding dependencies and owners: D-1 through D-3, source worker.
 - Current assumptions requiring verification: complete behavior correspondence for all reachable travel branches; dismount packet routes; collision-provider/dependency inventory; block/fluid registrations and resources; modifiers/equipment; external player-facing inputs; direct excluded-state reads; remaining direct player knockback/impulse consumer and resistance-modifier inventory.
@@ -371,7 +407,7 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 
 ## Source audit closure
 
-- Coverage counts by status: findings 4; in-progress 0; pending 7; compared-no-difference 12; not-applicable 1; blocked 0. Explicit pending count: 7. This is a partial checkpoint; full source-only coverage, freeze and independent audit are not claimed.
+- Coverage counts by status: findings 4; in-progress 0; pending 7; compared-no-difference 13; not-applicable 3; blocked 0. Explicit pending count: 7. This is a partial checkpoint; full source-only coverage, freeze and independent audit are not claimed.
 - Required inventory status and evidence: all seven required inventories remain pending overall; named sprint-air-speed, sprint-eligibility, auto-jump arithmetic and mounted sprint carry-over slices are closed as findings, while the full INV-TICK, INV-STATE and INV-COLLISION inventories and all remaining inventories remain open.
 - Open dependencies: D-1, D-2, D-3.
 - Unresolved gaps and limits: full tick and state inventory; additional dismount packet/timing routes; collision providers; block/fluid and data registrations; modifiers/equipment; external inputs; exclusions direct-read audit; independent reviewer.
