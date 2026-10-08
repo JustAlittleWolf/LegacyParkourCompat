@@ -18,9 +18,14 @@
   ],
   "client": [
     "AbstractBoatMixin",
+    "ClientPacketListenerMixin",
     "LocalPlayerMixin",
     "LocalPlayerSprintMixin",
     "client.LocalPlayerAccessor"
+  ],
+  "server": [
+    "ServerLivingEntityMixin",
+    "ServerPlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
