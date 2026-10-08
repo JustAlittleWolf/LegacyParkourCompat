@@ -5,6 +5,7 @@
 **Reviewed implementation commit:** `d892a7ad527fa5a52f57fdb4ef48c178f8a21f41` (`fix: emulate 1.11.2 sleep safety transition`)
 **Worker branch final tip:** `4197c0cc411fe7f83a2a1c6f4392752ee3edc4fa`
 **Review base / merge base:** `270e8c85d656a0d2fae0770799e207ed1557d9ba` (`integration/main`)
+**Latest main merged before handoff:** `a5612be5107c9e4e3d604e43e7a481c5d868c56c`
 **Review branch:** `fix/review-sleep-safety-transition-r3-2026-10-08`
 
 ## Scope and source identity
@@ -46,7 +47,7 @@ Reproduction: a living, awake creative player meets the natural-dimension, time,
 
 The server mixin is loaded by the existing server mixin list. Its lazy `BooleanSupplier` preserves the vanilla predicate call order for the cases that reach it: `SleepSafetyTransition` returns `true` for a zombified piglin under its exact-version gate and otherwise calls the original predicate. `MovementRuntime.find` keeps `CURRENT`, disabled, and non-player contexts on the vanilla path. The hook runs only during the target player's server bed-admission method; it does not emulate anger production, mob AI, combat, health, or non-player movement. The existing pose/dimension behavior acts on player sleep state later, and the saved fall-flying hook is in a separate save-data method; neither overlaps this admission injection. Passenger handling remains in vanilla after the admission query.
 
-The main commit `270e8c85d656a0d2fae0770799e207ed1557d9ba` was already the review branch base. Its changes are limited to slipperiness integration evidence and documentation, with no semantic overlap in the sleep, pose, or saved-state paths. The review branch therefore already contains the latest available `integration/main` and requires no additional merge commit.
+The review branch started from `270e8c85d656a0d2fae0770799e207ed1557d9ba`. Before handoff, I merged the current main commit `a5612be5107c9e4e3d604e43e7a481c5d868c56c`. The commits between those points add ten documentation and evidence files for the passenger-crouch reconciliation; they do not change sleep admission, pose, or saved-state code. The merge was clean and did not alter the reviewed sleep implementation.
 
 No tests, build/Gradle, runtime, game/client/server, TAS, Gym, Docker, or push operation was run. Runtime parity remains unvalidated; the source pair remains active/partial, and its original derived mapped JARs remain unavailable.
 
