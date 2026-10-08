@@ -1,6 +1,6 @@
 # MCPK wiki audit — 2026-10-07
 
-Current resumable status and next steps: [mcpk-checkpoint.md](mcpk-checkpoint.md). This audit remains partial. The Feather revision-specific snapshot still awaits reviewer acceptance, and four bounded findings now have superseding r2 candidates awaiting a clean independent review; none is formally accepted. Exact immutable identities are in [the clean re-review candidate register](mcpk-clean-rereview-candidates-2026-10-08.md).
+Current resumable status and next steps: [mcpk-checkpoint.md](mcpk-checkpoint.md). This audit remains partial. The Feather revision-specific snapshot still awaits reviewer acceptance. Clean independent review accepted the Big Dripleaf and swimming snapshots; the edge-backoff r2 has been corrected in r3 and awaits follow-up review, and the slipperiness blob identity has been corrected. Exact snapshot identities and dispositions are in [the clean re-review candidate register](mcpk-clean-rereview-candidates-2026-10-08.md).
 
 Scope: MCPK parkour wiki only, matched against supplied exact-release source snapshots where available. No Minecraft Wiki pages or other audit-track findings were consulted. No implementation files were changed; no tests, builds, servers, or Docker actions were run.
 
@@ -34,11 +34,11 @@ Detailed method bodies, operation order, endpoint hashes, and remaining open cla
 - **1.13 Blue Ice:** slipperiness is `0.989F`.
 - **1.13.2→1.14.4 collision order:** requested X/Z displacement magnitudes select the first horizontal axis; equality takes X first. The Version Differences table matches source. The MCPK Collisions page states the opposite inequality and is wrong on that condition.
 - **1.14:** player crouch dimensions are 0.6×1.5 at the endpoint. Jump input adds to the climb-assist predicate, verifying jump-to-climb behavior at the endpoint. Exact crouch boundary and additional reachability claims remain open.
-- **1.14.4→1.15.2 slipperiness sampling:** source changes from `minY - 1.0` to `minY - 0.5000001`. Bed, bottom half-slab, and Soul Sand examples are resolved at the endpoints; a top slab samples inside itself. See [the r2 bounded example snapshot](mcpk-1.15-slipperiness-examples-snapshot-r2.md).
-- **1.16.1→1.16.2 sneak step-down:** source replaces the `onGround` gate with a sneaking and above-ground predicate; the 0.05 movement backoff remains. See [the r2 bounded snapshot](mcpk-1.16.2-step-down-snapshot-r2.md).
+- **1.14.4→1.15.2 slipperiness sampling:** source changes from `minY - 1.0` to `minY - 0.5000001`. Bed, bottom half-slab, and Soul Sand examples are resolved at the endpoints; a top slab samples inside itself. See [the r2 bounded example snapshot](mcpk-1.15-slipperiness-examples-snapshot-r2.md); its source content is accurate, and its Git blob identity is corrected in the re-review register.
+- **1.16.1→1.16.2 sneak step-down:** source replaces the `onGround` gate with a sneaking and above-ground predicate; the 0.05 movement backoff remains. See [the r3 corrected snapshot](mcpk-1.16.2-step-down-snapshot-r3.md).
 - **1.17.1:** swimming entry requires water at the player's block position. Powder snow collision depends on fall distance and boots; source also confirms the 0.9/1.5/0.9 movement multiplier and boot climbing.
-- **1.17 Big Dripleaf:** player contact enters UNSTABLE immediately, with no collision-height change; source schedules the first lower shape after 10 ticks and an empty leaf collision shape after a second 10 ticks. The MCPK page's stated 20-tick delay before the first reduction conflicts with this endpoint source; see [the r2 bounded snapshot](mcpk-1.17-big-dripleaf-snapshot-r2.md).
-- **1.16.5→1.17.1 swimming entry:** adds a water-tag check at the player’s block position only on entry; the existing-swimming continuation branch is unchanged. See [the r2 bounded snapshot](mcpk-1.17-swimming-snapshot-r2.md).
+- **1.17 Big Dripleaf:** player contact enters UNSTABLE immediately, with no collision-height change; source schedules the first lower shape after 10 ticks and an empty leaf collision shape after a second 10 ticks. The MCPK page's stated 20-tick delay before the first reduction conflicts with this endpoint source; see [the r2 bounded snapshot](mcpk-1.17-big-dripleaf-snapshot-r2.md); clean review accepted this finding.
+- **1.16.5→1.17.1 swimming entry:** adds a water-tag check at the player’s block position only on entry; the existing-swimming continuation branch is unchanged. See [the r2 bounded snapshot](mcpk-1.17-swimming-snapshot-r2.md); clean review accepted this finding.
 
 ## Still unresolved
 
@@ -50,4 +50,4 @@ Detailed method bodies, operation order, endpoint hashes, and remaining open cla
 - 1.17 powder-snow frozen-speed/client-server tick timing; fall-damage details are outside movement scope.
 - 1.18 has only TODOs; the inspected wiki page has no later sections.
 
-The four original bounded snapshots remain immutable but are superseded by r2 candidates for clean review. The r2 candidates preserve the direct-fetch HTTP 403 provenance limit; they do not represent fresh MCPK page verification. These and the other listed items remain coverage gaps pending review, not negative findings. Ready source endpoints do not automatically settle claims whose methods were not inspected.
+The original r2 snapshots remain immutable; edge-backoff r3 supersedes its r2 summary only. The clean review accepted Big Dripleaf and swimming. The slipperiness register now has the verified blob ID, with post-fix confirmation pending. The direct MCPK fetch remains HTTP 403, so preserved catalog wording is not fresh page verification. Broader coverage remains partial.
