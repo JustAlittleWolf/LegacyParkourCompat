@@ -134,12 +134,12 @@ A/B roles: LocalPlayer#aiStep client tick; KeyboardInput#tick input; LivingEntit
 ### Slice T-WORLD-PROPERTIES: block/fluid registrations
 - Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: movement factors and historical shape/contact providers.
-- A evidence: Blocks seed entries inspected; complete list pending.
-- B evidence: paired seed entries inspected; complete list pending.
+- A evidence: BlockBehaviour property defaults friction 0.6F, speedFactor 1.0F and jumpFactor 1.0F at lines 828-830, SHA-256 920896e6bc9d7f8794aba3c5f325d9dffd9c2c9422a0be2e5dd0b7474e980515; Block#getFriction/#getSpeedFactor/#getJumpFactor lines 413-425, SHA-256 01fa40798c7a4af538c29601a6ad52c82f3c6364f74d00e955a0a41a0a0d88b4; Blocks.java registrations SHA-256 87d72a113a3f8937a6a585ef917a4fd29cc5b335c00a858f6800e38f3c1bf7a8.
+- B evidence: BlockBehaviour property defaults friction 0.6F, speedFactor 1.0F and jumpFactor 1.0F at lines 830-832, SHA-256 3d82b89f13ed3108e09b64226d98fd673e5fedd9a933afe888ae580db486dd89; Block#getFriction/#getSpeedFactor/#getJumpFactor lines 401-413, SHA-256 57c42ee375691755ef5d47fad3f226f34a2043558704ec332c1a7e092fdabba6; Blocks.java registrations SHA-256 cc6b87d2c5897e71e5244b889444ac040e3fa0a139e392523e87fec99805a0f2.
 - State producers/writers -> consumers/readers: block/fluid -> shape/factor/callback -> movement.
 - Parent slices / dependencies / closure evidence: D-SHAPE-REGISTRY,D-BLOCK-CALLBACKS,D-MOVEMENT-TAGS open.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): selected ice/soul sand/honey/slime properties align; exhaustive inventory open.
+- Disposition and rationale (including concrete reachability/preconditions): every source occurrence of BlockBehaviour.Properties friction/speedFactor/jumpFactor declarations was compared; the default values and all registered overrides (ice friction 0.98F, slime 0.8F, blue ice 0.989F, and the speed/jump factors) match. Fluid tags/properties, shape providers and contact callbacks remain open.
 - Finding IDs or checked absence/replacement path: none.
 
 ### Slice T-MODIFIERS: attributes/effects/equipment
