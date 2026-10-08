@@ -96,8 +96,8 @@ The following are pending scope atoms for source-led member indexing. Each must 
 - State producers/writers -> consumers/readers: sprint/jump input and timer writers -> gates, velocity writers and travel consumers; exact members pending.
 - Parent slices / dependencies / closure evidence: S1.1, S1.2; movement predicates may read vanilla food/hunger state, whose producer systems remain excluded (S8.1).
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): A rejects sprint start/continuation in water when not underwater; B's `isSprintingPossible(flying)` bypasses that shallow-water restriction when `abilities.flying` is true. In the shared water-travel path, sprinting selects `0.9F` drag instead of the configured water slowdown, so this predicate difference reaches player motion; the option difference changes second-tap eligibility timing when configured away from 7. The default remains 7. Food is only read by the direct gate; food producer systems remain excluded. All jump/pre-travel impulse writers and the rest of the tick branches still need tracing before disposition.
-- Finding IDs or checked absence/replacement path: none; no candidate disposition yet.
+- Disposition and rationale (including concrete reachability/preconditions): F03 records the source-confirmed configurable double-tap timer; default remains 7. The separate shallow-water/flying sprint gate remains a candidate: A rejects sprint when in water but not underwater, while B's `isSprintingPossible(flying)` permits the shallow-water predicate when `abilities.flying` is true. Sprinting selects the `0.9F` water drag branch. Food is only read by the direct gate; food producer systems remain excluded. Other jump/pre-travel impulse writers and tick branches remain open.
+- Finding IDs or checked absence/replacement path: F03 submitted as an immutable source-confirmed snapshot; shallow-water/flying delta pending terminal evidence and independent review.
 
 ### Slice S1.4: Auto-jump, flight toggles, unstuck and riding gates
 
@@ -335,7 +335,7 @@ The following are pending scope atoms for source-led member indexing. Each must 
 
 ## Finding index
 
-F01 and F02 are source-confirmed immutable snapshots submitted for independent review; no finding has yet been independently accepted. Remaining source-only candidates (unconfirmed): (1) B's sprint double-tap window is configurable, defaulting to A's fixed 7 ticks; (2) B's sprint predicate bypasses shallow-water restriction while flying, affecting start/continuation in that precondition. Exact callsites and downstream water drag are noted in S1.3; remaining input-to-travel reachability and independent review remain open. Pair discovery remains active.
+F01, F02 and F03 are source-confirmed immutable snapshots submitted for independent review; no finding has yet been independently accepted. Remaining source-only candidate (unconfirmed): B's sprint predicate bypasses shallow-water restriction while flying, affecting sprint eligibility in that precondition. Exact callsites and downstream water drag are noted in S1.3; remaining input-to-travel reachability and independent review remain open. Pair discovery remains active.
 
 ## Finding snapshots (not pair freeze)
 
@@ -343,6 +343,7 @@ Submitted snapshots (not pair freeze):
 
 - F01 at `findings/F01-duplicate-movement-key-input.md`; finding SHA-256 `AF5FDD8F1576EEC5B8B6F54622D8F55AC7F661AB3ABF85E3FFC4AA50167B14BD`; finding-only commit `104349e28134e004b0039bf0296a5e3c047b7a17`; submitted 2026-10-08 11:48:57 CEST.
 - F02 at `findings/F02-toggle-use-extends-player-use-slowdown.md`; finding SHA-256 `FAE80150DA2E2A466FC61B438332E01E595E35461B02307C4650114A8638F1EA`; finding-only commit `3ddf2f5adb27ae17c95c8010593da35b718bca16`; submitted 2026-10-08 11:59:05 CEST.
+- F03 at `findings/F03-configurable-sprint-double-tap-window.md`; finding SHA-256 `A68ABF55A35FAB28573070329038486AE24913D7F0E2A0BB921ACF279AC53B8E`; finding-only commit `f6f7f00022a9b8fe9d516147e2b0ebaaf941ece2`; submitted 2026-10-08 13:25:13 CEST.
 
 Both use the verified source identity: A source manifest `8ffb76cea647a2ba4fe58e000678f751bea2c40ea6358bae492e962ed1d9d008`, B source manifest `4be26049350c1b314a0b198022cb1e7ab1e745e104047de7a5c7d099a9d7b7e1`, shared artifact manifest `c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c` (all per the artifact manifest above). Independent review requested; both statuses are submitted, not accepted. Pair-wide discovery remains active.
 
