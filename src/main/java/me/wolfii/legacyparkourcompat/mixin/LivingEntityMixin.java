@@ -25,6 +25,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.PortalDismountBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PowderSnowClimbBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SlowFallingFallDistanceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintJumpImpulseBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.VelocityZeroThresholdBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.WaterGravityBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.WaterJumpBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.WaterSprintSlowdownBehavior;
@@ -45,6 +46,7 @@ import net.minecraft.world.phys.Vec3;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
@@ -57,6 +59,34 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 abstract class LivingEntityMixin {
+    @Unique
+    private int legacyparkourcompat$movementEpoch;
+
+    @Unique
+    private boolean legacyparkourcompat$movementEpochInitialized;
+
+    @Inject(method = "tick()V", at = @At("HEAD"))
+    private void legacyparkourcompat$refreshDimensionsOnProfileChange(CallbackInfo ci) {
+        LivingEntity entity = (LivingEntity)(Object)this;
+        if (!(entity instanceof Player player)) {
+            return;
+        }
+
+        // Profile epochs cover global selection, per-player overrides, and registry changes.
+        int epoch = MovementRuntime.epoch();
+        if (this.legacyparkourcompat$movementEpochInitialized && this.legacyparkourcompat$movementEpoch == epoch) {
+            return;
+        }
+        this.legacyparkourcompat$movementEpoch = epoch;
+        this.legacyparkourcompat$movementEpochInitialized = true;
+
+        EntityDimensions resolved = player.getDimensions(player.getPose());
+        if (player.getBbWidth() != resolved.width()
+            || player.getBbHeight() != resolved.height()
+            || player.getEyeHeight() != resolved.eyeHeight()) {
+            player.refreshDimensions();
+        }
+    }
 
     @WrapOperation(
         method = "aiStep",
@@ -312,6 +342,52 @@ abstract class LivingEntityMixin {
         return MovementRuntime.find(JumpVerticalVelocityBehavior.class, entity)
             .map(behavior -> behavior.jumpVerticalVelocity(entity, power, currentVelocity, vanilla))
             .orElse(vanilla);
+    }
+
+    @ModifyArg(
+        method = "aiStep()V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/LivingEntity;setDeltaMovement(DDD)V",
+            ordinal = 0
+        ),
+        index = 0
+    )
+    private double legacyparkourcompat$velocityZeroThresholdX(double component) {
+        return this.legacyparkourcompat$filterVelocityComponent(component);
+    }
+
+    @ModifyArg(
+        method = "aiStep()V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/LivingEntity;setDeltaMovement(DDD)V",
+            ordinal = 0
+        ),
+        index = 1
+    )
+    private double legacyparkourcompat$velocityZeroThresholdY(double component) {
+        return this.legacyparkourcompat$filterVelocityComponent(component);
+    }
+
+    @ModifyArg(
+        method = "aiStep()V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/LivingEntity;setDeltaMovement(DDD)V",
+            ordinal = 0
+        ),
+        index = 2
+    )
+    private double legacyparkourcompat$velocityZeroThresholdZ(double component) {
+        return this.legacyparkourcompat$filterVelocityComponent(component);
+    }
+
+    private double legacyparkourcompat$filterVelocityComponent(double component) {
+        LivingEntity entity = (LivingEntity)(Object)this;
+        return MovementRuntime.find(VelocityZeroThresholdBehavior.class, entity)
+            .map(behavior -> behavior.filterComponent(entity, component))
+            .orElse(component);
     }
 
     @Redirect(
