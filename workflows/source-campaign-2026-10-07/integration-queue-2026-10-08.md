@@ -29,3 +29,25 @@ Independent exact-patch review is recorded at review commit `fddb263`.
 - TICK-01-only batch: `BUILD SUCCESSFUL` with `gradlew.bat build -x test --init-script build/no-tests.init.gradle`; every Gradle `Test` task type was disabled and no tests ran.
 - Packaged JAR SHA-256: `1C3198B1E05AC5FD4CE4D84683060576CA34ED636CA81E88728FF9F6A07BCBD1`.
 - Runtime parity remains unverified. Passenger yaw, pose fit, and Elytra remain held for correction and renewed review.
+## Passenger yaw integration update — 2026-10-08
+
+- Independent review 7c40951938a925fbb6fae541a95b462006113c09 ACCEPTED corrected code tip 32c8b0a7e089e32d2b755a513241ac0e58d1d562; correction 5c2cc08f6b8eaccb02f89a80de4823a33ac37503 tracks a successful direct player remount to the captured boat.
+- Integrated net diff against main base ea812dc9171fdf41e02b3a2292db7d40b105c9c4: 7 files, 193 insertions. TICK-01 remains integrated.
+- Build succeeded with every Gradle Test task type disabled and -x test; 18 tasks, 5 executed and 13 up-to-date. No tests or runtime checks ran.
+- JAR SHA-256: 0EFADAB8C4FC87ABE8137C3E1F3E6A57CBAC15BB470E1048B739422839A7CB93.
+- Pose fit and Elytra remain held for correction and renewed review.
+## Ascending sneak edge integration — 2026-10-08
+
+- F-002 accepted source snapshot `1d5f18176eccc5103c08bd1807b2f2c32f2b3376`; finding SHA-256 `4a4a23d071397f4cd3a1c82ef4e4ff59885df9b63c79b425c927c310bd1dbbb9`; blind acceptance `0648b843fecf2358165a7c387cf348b02c66396b`.
+- Exact code `14a6e23432ab6a885b5c5ce265cf2404283756f6`; independent exact-code review `c24391cc31a774da64b5d3e6d319a56a4a01e9a3` ACCEPTED. Integrated and built; see `integration-review-2026-10-08.md` for build and JAR evidence.
+- Runtime validation not performed. The corrected Elytra start patch is accepted and queued as the next serial integration batch; this build contains only the ascending edge patch. Pose resize, swimming pitch, and WORLD03 remain pending.
+## Full Elytra start integration — 2026-10-08
+
+- Code commit `361c15c687a16bbbaaef2525d27a4d2277b33c3a`, reviewed code tip `bb8484823980d8f44c33c712b964275917cc93bb`; independent review tip `b8dfbc3e4d092141861759cab36272ea223a4d17` ACCEPTED.
+- Integrated and built against local main `b0e7300a46aeb3fe4087bfafbcf1bcc49c76542a`; see `integration-review-2026-10-08.md` for identities, source-digest discrepancy, and JAR hash.
+- Swimming pitch is the next accepted serial batch. Pose resize and WORLD03 remain pending; no runtime validation was performed.
+## Swimming pitch integration — 2026-10-08
+
+- Code `f24fdcd2dc82906f4e111cf804de6bdb199f7f54`; independent review tip `90eaed02a299761f925f54d43a36759f26cdb650` ACCEPTED. Source snapshot and report hashes are recorded in `integration-review-2026-10-08.md`.
+- Integrated after the Elytra batch and built with all Gradle `Test` tasks disabled; JAR SHA-256 `C717F4F74B51D5F41A7D6B1A1034683377C6744478B41AC863E30DF9602ADA08`.
+- Pose resize and WORLD03 remain pending. No runtime validation was performed.
