@@ -1,7 +1,6 @@
 package me.wolfii.legacyparkourcompat.api;
 
 import me.wolfii.legacyparkourcompat.impl.MovementControllerImpl;
-import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import org.jspecify.annotations.Nullable;
@@ -77,8 +76,6 @@ public interface MovementController {
     ActiveMovementProfile profile();
 
     ActiveMovementProfile profileFor(@Nullable Entity entity);
-
-    MovementChangeRegistry registry();
 
     /**
      * Incremented whenever the selected version or registered changes change, so
