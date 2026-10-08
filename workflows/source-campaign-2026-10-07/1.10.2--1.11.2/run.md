@@ -30,6 +30,8 @@ Cited source hash inventory (SHA-256; relative roots are the source roots in the
 - `net/minecraft/world/dimension/Dimension.java`: A `7e913986a3c688552faadfa948347e08afe94ee781e9e6fba34740bf98ddd159`; B `98cddc12659b87d8dd3bdecd5d4a6f0c66747a3b9dbbad6126fad7d6a0f2e6fd`.
 - `net/minecraft/world/dimension/TheEndDimension.java`: A `02574ce90d251175d9339c0f9f3d2dd54335c898af78c3c8f86a930985658761`; B `f7709ceba704ef01c4094a407fc05576c945824eff6f509abb79f17ba4cfc783`.
 - `net/minecraft/world/dimension/NetherDimension.java`: A `a1b7be595078ba8778b1e74ea821d45ce3c20c1528e055e7ac5a9f2ad984b0bf`; B `a683db8c37fb836d11d358d8418f211cdf03f15e23cc2ae3863cfedbd4aa47f1`.
+- `net/minecraft/entity/vehicle/BoatEntity.java`: A `ae6adcc082c911a36b44624c8b5fa6a3bff33090f7a0a88e79d719dafa617e48`; B `0156b9cf2d028f53f2bc4c2ab6610d602e656e6f1dd33525b316b86588057f4d`.
+- `net/minecraft/entity/FishingBobberEntity.java`: A `3b85e4c903f1918b5474e2e044a3732648a4c52814b587d5d47e52de3803af49`; B `990961da3a48882fc4800c91f69ae8d1b6a31e99174c24ec543ac9cc41662a7a`.
 - `net/minecraft/entity/Entity.java`: A `05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77`; B `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440`.
 - `net/minecraft/entity/living/LivingEntity.java`: A `d40dd476b6b68c6ce45b4202823475deb546ecda2284da330ff6724b33815e82`; B `bb7dc6c9e423a9568d6433d51bba12e7aee4555fbf3fb3e2b87f618382279f2f`.
 - `net/minecraft/entity/living/player/PlayerEntity.java`: A `a055b84b98d98e828e177cad9bba47a1334ee9bf3ecd4331792979106235a302`; B `87fe94fa6cbf7aba18b9a5e3401664439eb8eba9958173da8fbcd05cc7ad948b`.
@@ -353,6 +355,18 @@ Other correspondence requiring further walk: remote/client corrections and packe
 - Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): the direct query/current formulas match, but the cadence predicate changes lava from 10 ticks in A's End to 30 ticks in B's End. `FlowingLiquidBlock.tick` uses that cadence when rescheduling fluid-state updates; a different flowing-lava footprint can change the player's `isInLava()` predicate, which routes the paired living tick through the lava jump response and changes the fluid branch of travel. This is a movement-relevant dependency when flowing lava reaches the player's box in an End map. No exact footprint, trajectory, or runtime result is claimed. The direct current-impulse path is water-only and is not used as evidence for F-09.
 - Finding IDs or checked absence/replacement path: F-09. No water tick-rate change, no Nether tick-rate change, and no difference in the bounded current accumulation methods.
+
+### Slice S5-fluid-surface-height-helper-usage: shared liquid surface helpers
+
+- Inventory ID(s): INV-WORLD-MOVEMENT, INV-STATE, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: B-only `LiquidBlock.getHeight/getHeightY` helper definitions and their direct consumers, plus the existing player `Entity.isSubmergedIn` predicate.
+- A evidence: `BoatEntity.java::getWaterLevel/getWaterHeight`, lines 473-480, SHA-256 `ae6adcc082c911a36b44624c8b5fa6a3bff33090f7a0a88e79d719dafa617e48`; `Entity.java::isSubmergedIn`, lines 938-954, SHA-256 `05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77`; `LiquidBlock.java::getHeightLoss`, line 49 onward, SHA-256 `b988d19e379d01d291cb014cb05e1579311c589654ce9ff4faa7f43bbba0533e`.
+- B evidence: `LiquidBlock.java::getHeight/getHeightY`, lines 359-363, SHA-256 `c91618c8445dd488dd61f4a01aed0799dae2faaf3585bc6f2d5164891e988244`; direct callers `BoatEntity.java` lines 344, 425 and 458, SHA-256 `0156b9cf2d028f53f2bc4c2ab6610d602e656e6f1dd33525b316b86588057f4d`; `FishingBobberEntity.java` line 143, SHA-256 `990961da3a48882fc4800c91f69ae8d1b6a31e99174c24ec543ac9cc41662a7a`; client `WaterRenderer.java` line 47. `Entity.java::isSubmergedIn`, lines 1006-1022, SHA-256 `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440`.
+- State producers/writers -> consumers/readers: liquid level and above-water block -> surface height; B callers are boat buoyancy/contact, fishing-bobber movement, and water rendering. Player submersion continues to use the paired `getHeightLoss` calculation directly.
+- Parent slices / dependencies / closure evidence: S3-fluid-jump-impulses and S5-fluid-world-flow-current. B's `getHeight` arithmetic is the same water-surface formula as A's `BoatEntity.getWaterLevel`; `getHeightY` is the same `posY + getWaterLevel` expression as A's `getWaterHeight`. Paired `Entity.isSubmergedIn` method bodies match after whitespace normalization and do not call the new methods. Boat, bobber, and rendering behavior is outside direct player movement mechanics; the broader mount/passenger inventory remains open under S7-mounts.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): the new helper extraction has no direct player movement consumer. Its listed call sites affect vehicle/bobber physics or rendering, while the player movement submersion predicate retains its previous formula. This disposition is only for the helper abstraction and does not close boat-passenger movement or other fluid mechanics.
+- Finding IDs or checked absence/replacement path: none; player predicate and helper formula are equivalent in the inspected paths. Vehicle/mount dependencies remain open.
 
 ### Slice S5-newer-block-registration-applicability: observer and shulker boxes
 
