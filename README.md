@@ -4,6 +4,8 @@ Legacy Parkour Compat is a Fabric client and server mod for playing parkour maps
 
 This is one-way compatibility for old maps on newer clients. It does not rewrite block states, invent historical behavior for blocks added later, or change non-player entities.
 
+The mod emulates player movement only. Health, healing, food, and combat rules remain vanilla; movement mechanics may read vanilla player state as an input.
+
 ## Getting started
 
 Use a JDK supported by the current Minecraft target and the Gradle wrapper. Run commands from the repository root. On Windows, use `gradlew.bat` (or `.\gradlew.bat` in PowerShell).
@@ -34,7 +36,7 @@ Each mechanic hook represents one technical operation, such as a boat accelerati
 
 Changes live in the package matching their `emulates` annotation, for example `change.v1_8.BoatRiderInput`, with no version suffix in the class name. Each version package has a `MovementChanges` provider listed in `fabric.mod.json`. A change can implement several narrow interfaces and register once; all of its hooks then share the same object, including any state, and resolve independently. Keep unrelated deltas in separate classes. Remove unused hooks and methods instead of keeping placeholders for operations that have no mixin dispatch.
 
-The fresh major-version campaign integrates fifteen source-based handoffs on the clean baseline, with shared movement mixins and independently selected historical deltas. Historical profiles remain partial: compilation does not prove runtime movement parity, and minor-version discovery and pending coverage slices remain open. See [the final integration record](workflows/fix-implementation/final-integration.md) for retained findings, exclusions and validation limits. Previous implementation coverage claims remain invalidated.
+The source campaign tracks discovery coverage, implementation disposition, and runtime validation separately. Existing Java mechanics and prior reports remain in place while new source-only reports are audited; a worker handoff, catalog entry, or successful build is not proof of complete movement coverage. See the [movement research workflows](workflows/README.md) and [2026 source campaign roster](workflows/source-campaign-2026-10-07/README.md) for the current completion and handoff contract. Compilation does not establish runtime movement parity.
 
 The primary reference for exact operation order and floating-point behavior is decompiled source from the target Minecraft release. See [buildSrc](buildSrc/README.md) for the decompilation task and output layout. The [MCPK version differences](https://www.mcpk.wiki/wiki/Version_Differences) and [Minecraft Java Edition history](https://minecraft.wiki/w/Java_Edition_version_history) are secondary references.
 
