@@ -10,11 +10,11 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.phys.Vec3;
 
 @MovementChange(emulates = ParkourVersion.V26_1)
-final class BlockLanding implements BlockLandingBehavior {
+public final class BlockLanding implements BlockLandingBehavior {
     private final String blockId;
     private final boolean slime;
 
-    BlockLanding(String blockId, boolean slime) {
+    public BlockLanding(String blockId, boolean slime) {
         this.blockId = blockId;
         this.slime = slime;
     }
