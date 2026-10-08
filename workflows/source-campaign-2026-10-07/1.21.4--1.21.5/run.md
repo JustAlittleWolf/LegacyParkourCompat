@@ -155,15 +155,15 @@ These are initial bounded navigation units. Exact sources are published; slice-b
 
 ### Slice S1-RIDING: Player riding gates, jump charge and mount transition
 
-- Inventory ID(s): slice mapping not yet inventoried
-- Exact behavior boundary and enclosing guards/order checked: not yet inspected
-- A evidence: not yet inspected in exact 1.21.4 source
-- B evidence: not yet inspected in exact 1.21.5 source
-- State producers/writers -> consumers/readers: not yet inspected
-- Parent slices / dependencies / closure evidence: pending
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): exact sources are published; this slice has not been inspected, so no behavior conclusion is recorded
-- Finding IDs or checked absence/replacement path: pending
+- Inventory ID(s): INV-TICK, INV-STATE, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: local-player `jumpableVehicle()` requires a controlled vehicle implementing `PlayerRideableJumping` and `canJump`; `aiStep` requires zero jump cooldown, tracks hold/release charge and sends the player-jump callback/packet. `rideTick` forwards input to an `AbstractBoat` and is bounded at the excluded vehicle-control boundary.
+- A evidence: `ready/1.21.4/mojmap.sources.sha256`; `LocalPlayer.java` lines 366-371, 532-537, 781-806, 877-884.
+- B evidence: `ready/1.21.5/mojmap.sources.sha256`; `LocalPlayer.java` lines 362-367, 523-528, 802-827, 901-908.
+- State producers/writers -> consumers/readers: local jump edge and cooldown -> `jumpRidingTicks`/`jumpRidingScale` -> `PlayerRideableJumping.onPlayerJump` and the clientbound action packet. The boat input forwarder affects vehicle-side control only, which is outside the player movement inventory.
+- Parent slices / dependencies / closure evidence: S1-INPUT-SAMPLE; S1-JUMP-GATE; S1-LOCAL-TICK; S7-MOUNTS; S7-DEPENDENCIES. Paired player charge/gate/packet bodies match; mount/dismount state writers and external vehicle boundary remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): no delta was found in the cited LocalPlayer jump-charge/controlled-vehicle dispatch paths. The subsequent `onPlayerJump` implementation is vehicle physics and excluded; player mount/dismount lifecycle and external state writers are still open.
+- Finding IDs or checked absence/replacement path: checked absence of a delta in the cited LocalPlayer charge/gate/packet bodies; mount lifecycle remains open.
 
 ### Slice S2-POSE: Pose selection transitions and movement predicates
 
@@ -626,7 +626,7 @@ Source-confirmed findings: [F-01 movement callback path](findings/F-01-movement-
 
 ## Resume checkpoint
 
-- Last completed slice: S3-JUMP-MATH (compared-no-difference); exact-source comparisons have identified F-01 through F-13. S1-SPRINT-GATE/TIMER/JUMP-GATE/SPRINT-JUMP/AUTOJUMP/FLIGHT, S3-WATER/LAVA and S7-PUSH/CORRECTIONS remain in-progress because dependency/caller closure is open. F-09 has a candidate snapshot pending independent review; no snapshot has been accepted and no pair freeze has been accepted.
+- Last completed slice: S3-JUMP-MATH (compared-no-difference); exact-source comparisons have identified F-01 through F-13. S1-SPRINT-GATE/TIMER/JUMP-GATE/SPRINT-JUMP/AUTOJUMP/FLIGHT/RIDING, S3-WATER/LAVA and S7-PUSH/CORRECTIONS remain in-progress because dependency/caller closure is open. F-09 has a candidate snapshot pending independent review; no snapshot has been accepted and no pair freeze has been accepted.
 - Next: close input sampling/scale dependencies and the remaining local pre-travel state writers; continue ordered travel, collision, modifier and external-player inventories.
 - Outstanding dependencies and owners: D1 call-graph and producer/consumer inventory (discovery); D2 resource/tag/default inspection (discovery); D3 collision/block/fluid callback and shape inventory (discovery); D4 attributes/effects/enchantments/equipment (discovery); D5 client correction/mount/push external paths (discovery).
 - Assumptions requiring verification: complete input consumers, player-only reachability through all travel branches, shape and resource dependencies, and direct movement state writers.
@@ -651,8 +651,8 @@ Source-confirmed findings: [F-01 movement callback path](findings/F-01-movement-
 
 ## Source audit closure
 
-- Coverage counts: 3 compared-no-difference; 0 terminal finding slices; 0 not-applicable; 0 blocked; 18 pending; 25 in-progress. Thirteen source-confirmed findings have been recorded; slices remain open until their full inventories and dependencies close.
-- Required inventories: all remain open; bounded source work is underway across tick order, sprint/jump/flight gates and timers, auto-jump, input math, travel formulas, collision callbacks, block/fluid contact and partial external correction/push paths. Inventory-level closure is not claimed.
+- Coverage counts: 3 compared-no-difference; 0 terminal finding slices; 0 not-applicable; 0 blocked; 17 pending; 26 in-progress. Thirteen source-confirmed findings have been recorded; slices remain open until their full inventories and dependencies close.
+- Required inventories: all remain open; bounded source work is underway across tick order, sprint/jump/flight gates and timers, riding input state, auto-jump, input math, travel formulas, collision callbacks, block/fluid contact and partial external correction/push paths. Inventory-level closure is not claimed.
 - Open dependencies: D1-D5; D0 resolved.
 - Gaps: full movement call graph, branch dependencies, state writers/consumers, collision/shape provider inventory, registry/tag/resource data, modifiers/equipment and external player movement inputs.
 - Evidence/hash/correspondence audit: exact source/artifact readiness verified; finding hashes and all bounded slice evidence still require final audit at source freeze.
