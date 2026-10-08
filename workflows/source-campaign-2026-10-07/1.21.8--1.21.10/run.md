@@ -1,9 +1,9 @@
 # Discovery: 1.21.8 to 1.21.10
 
-- Run status: active
+- Run status: partial
 - Scope: direct client-player movement and direct player-facing velocity/impulse/knockback response; older A = `1.21.8`; newer B = `1.21.10`.
 - Repository revision and start date: base `002137b227676caea77f6832b9f4c8d0b6200bff` (`main`), 2026-10-07.
-- Work branch: `feat/source-discovery-movement-source-1-21-8-1-21-10`.
+- Work branch: continuation branch `feat/source-discovery-movement-1-21-8-1-21-10-resume-2026-10-08` from saved ref `71bfe059d83766f4e60d83ad5642f48c8ffaa559`; original report branch `feat/source-discovery-movement-source-1-21-8-1-21-10`.
 - Selected naming namespace: `mojmap` on both sides; exact releases and same-family alignment verified against both readiness records.
 - Source preparation owner / command / log / readiness marker: exclusive shared source owner; this worker ran no decompiler. Exact command, success log, markers and hashes are recorded below.
 - Toolchain/decompiler/remapper versions and options: recorded below from both provenance records; common run used 4G decompiler heap.
@@ -20,6 +20,44 @@ Full manifest verification completed before comparison: all 6,105 A source files
 - B / 1.21.10: source root `ready/1.21.10/mojmap`; client jar SHA-256 `e65ca028bc58da12bf8413066c90ecd4d48c94fb351d9bbd22ecdff5c87f9482`; Mojang client mappings SHA-256 `2a6f53f4c1fd048e8fa956e3a3fbbb0afc02d5bbc23e52a16b328aed61b9bf39`; remapped `client-mojmap.jar` SHA-256 `0885181c5e4c2f21dd2f95591dd095fa0176807edbe239ef77218e861f0751da`; `version.json` SHA-256 `15faa7deb7cd39479db123ad4664e2fb83e05d4729b7e4a8ff813107376e349a`, metadata ID `1.21.10`; source manifest SHA-256 `4be26049350c1b314a0b198022cb1e7ab1e745e104047de7a5c7d099a9d7b7e1` (6,386 files); shared artifact manifest SHA-256 `c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c` (257 entries); movement diagnostics SHA-256 `5642b893edbb01bc1dd57386e013c61572c20f75fd25542877bace1f1f457eb0`.
 - Mapping alignment: both use explicit Mojmap; each version’s own published `client_mappings.txt` was used, never a cross-version mapping. Tool versions from provenance: Gradle 9.7.1, Java 25.0.3+9-LTS, Vineflower 1.12.0, TinyRemapper 0.14.1, Mapping-IO 0.9.1, ASM 9.10.1 and Gson 2.14.0.
 - Both movement diagnostics confirm exact-ID success and list these source bodies for focused review: `Entity.move`, `Entity.moveRelative`, `LivingEntity.jumpFromGround`, `LivingEntity.travel`, `LivingEntity.aiStep`, `Player.aiStep`, `Player.travel`, `LocalPlayer.aiStep`, and `LocalPlayer.move`. This nine-body diagnostic list is a useful seed, not an exhaustive coverage proof. Resource entry names/hashes and other cited source hashes are added with their bounded slices.
+
+## Artifact evidence identities
+
+These records identify the original shared-ready source publications used in the existing findings and current slices. The source trees are not committed into Git; each source file is identified by the corresponding source manifest and cited member hash. The mapped jars and source files used in this continuation were rechecked against the artifact/source manifests. No derived artifact was regenerated or revised.
+
+### Evidence artifact SRC-A
+
+- Release / side / evidence role: `1.21.8` / A / original Mojmap decompiled source tree and its mapped client jar.
+- Publication status: original-verified
+- Revision ID: none
+- Immutable evidence path: none; shared ready root `ready/1.21.8/mojmap` is identified by the source manifest below.
+- Evidence artifact SHA-256: not applicable to the source directory as a whole; per-file SHA-256 identities are listed in its manifest.
+- Evidence manifest path: `ready/1.21.8/mojmap.sources.sha256`
+- Evidence manifest SHA-256: `8ffb76cea647a2ba4fe58e000678f751bea2c40ea6358bae492e962ed1d9d008`
+- Original artifact-manifest path: `ready/1.21.8/artifacts.sha256`
+- Original artifact-manifest SHA-256: `c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c`
+- Original derived-artifact availability: verified
+- Original derived-artifact SHA-256 or expected hash: `staging/mojmap-1.21.8-to-1.21.11-9a8c76419cd14660b88f9fc90225e127/cache/1.21.8/client-mojmap.jar` SHA-256 `f6f0339631f43b38ce5fe7511603cde17aa4c804ad627d933835f228003adb85`; verified at resume.
+- Source/raw-input hash relation: verified; ready marker, source manifest, exact client/mapping hashes, and current cited file hashes match the artifact record.
+- Revised-to-original derived-artifact equivalence: not applicable; no revised artifact exists.
+- Provenance limitations: this is the shared original-ready publication, not an immutable Git snapshot; any snapshot must cite its exact source manifest and member hashes.
+
+### Evidence artifact SRC-B
+
+- Release / side / evidence role: `1.21.10` / B / original Mojmap decompiled source tree and its mapped client jar.
+- Publication status: original-verified
+- Revision ID: none
+- Immutable evidence path: none; shared ready root `ready/1.21.10/mojmap` is identified by the source manifest below.
+- Evidence artifact SHA-256: not applicable to the source directory as a whole; per-file SHA-256 identities are listed in its manifest.
+- Evidence manifest path: `ready/1.21.10/mojmap.sources.sha256`
+- Evidence manifest SHA-256: `4be26049350c1b314a0b198022cb1e7ab1e745e104047de7a5c7d099a9d7b7e1`
+- Original artifact-manifest path: `ready/1.21.10/artifacts.sha256`
+- Original artifact-manifest SHA-256: `c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c`
+- Original derived-artifact availability: verified
+- Original derived-artifact SHA-256 or expected hash: `staging/mojmap-1.21.8-to-1.21.11-9a8c76419cd14660b88f9fc90225e127/cache/1.21.10/client-mojmap.jar` SHA-256 `0885181c5e4c2f21dd2f95591dd095fa0176807edbe239ef77218e861f0751da`; verified at resume.
+- Source/raw-input hash relation: verified; ready marker, source manifest, exact client/mapping hashes, and current cited file hashes match the artifact record.
+- Revised-to-original derived-artifact equivalence: not applicable; no revised artifact exists.
+- Provenance limitations: this is the shared original-ready publication, not an immutable Git snapshot; any snapshot must cite its exact source manifest and member hashes.
 
 ## Blind-discovery freeze
 
@@ -140,6 +178,8 @@ The following are pending scope atoms for source-led member indexing. Each must 
 
 - Inventory ID(s): INV-STATE, INV-COLLISION
 - Exact behavior boundary and enclosing guards/order checked: `Player.tick` pose update -> `Player.updatePlayerPose` -> `Entity.setPose`/`DATA_POSE` refresh -> `Entity.refreshDimensions`; compare the `Level.isClientSide` provider and the guarded position-fudge branch only.
+- A member anchors: `ready/1.21.8/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#tick()` 197–201; `net/minecraft/client/player/AbstractClientPlayer.java::AbstractClientPlayer#tick()` 50–55; `net/minecraft/world/entity/player/Player.java::Player#tick()` 281–358 and `#updatePlayerPose()` 459–487; `net/minecraft/world/entity/Entity.java::Entity#setPose(Pose)` 405–407, `#onSyncedDataUpdated(EntityDataAccessor)` 3112–3115 and `#refreshDimensions()` 3126–3142; `net/minecraft/network/syncher/SynchedEntityData.java::SynchedEntityData#set(EntityDataAccessor,T,boolean)` 56–68; `net/minecraft/world/level/Level.java::Level#isClientSide()` 155–157.
+- B member anchors: `ready/1.21.10/mojmap/net/minecraft/client/player/LocalPlayer.java::LocalPlayer#tick()` 195–199; `net/minecraft/client/player/AbstractClientPlayer.java::AbstractClientPlayer#tick()` 54–57; `net/minecraft/world/entity/player/Player.java::Player#tick()` 240–294 and `#updatePlayerPose()` 352–380; `net/minecraft/world/entity/Entity.java::Entity#setPose(Pose)` 412–414, `#onSyncedDataUpdated(EntityDataAccessor)` 3193–3196 and `#refreshDimensions()` 3207–3223; `net/minecraft/network/syncher/SynchedEntityData.java::SynchedEntityData#set(EntityDataAccessor,T,boolean)` 56–68; `net/minecraft/world/level/Level.java::Level#isClientSide()` 145–147.
 - State producers/writers -> consumers/readers: local player pose calculation -> `DATA_POSE`/dimension refresh -> `dimensions`, `eyeHeight`, and re-applied position. The later server-only size-growth adjustment is guarded by the same world-side value provider but also `!(this instanceof Player)` in both versions.
 - Parent slices / dependencies / closure evidence: S1.1 and S2.1; paired `Player.tick`, `Player.updatePlayerPose`, `Entity.setPose`, `Entity.onSyncedDataUpdated`, `Entity.refreshDimensions`, and `Level.isClientSide` spans/hash identities above.
 - A evidence: `LocalPlayer` extends `AbstractClientPlayer` (LocalPlayer.java line 97); its tick lines 197–201 calls `super.tick()` after the client-load guard. `AbstractClientPlayer.tick` lines 50–55 updates render-facing previous-distance/velocity values and then calls `super.tick()`; `AbstractClientPlayer.java` SHA-256 `B10C8A80DE875262FFC8C95614F8E6EEFF187DED7C042261FFDE993230479D2E` and its class declaration at line 17 extends `Player`. The chain reaches `Player.tick` and `updatePlayerPose` at line 354. `LocalPlayer.java` SHA-256 `53F2A71A886B9C71853AFE36F2DF857F80A9BF1CD6EC4CA8604CCD7E238D89EE`; `Player.tick`/`updatePlayerPose` body are lines 281–358/459–487 in `Player.java` SHA-256 `8DC5514FE44311F39268692F5188840B9F65CB71143228FA8B84242585EA7987`. `Entity.setPose` lines 405–407 stores `DATA_POSE`; `SynchedEntityData.set` lines 56–68 invokes `entity.onSyncedDataUpdated` after changing the value; `SynchedEntityData.java` SHA-256 `755998494338969B6D47B91C463057D9A009D6804E8D06B0AB30719634CC9234`. `Entity.onSyncedDataUpdated` lines 3112–3115 routes pose updates to `refreshDimensions`; `refreshDimensions` lines 3126–3142 reads `this.level.isClientSide` at line 3134 and gates `fudgePositionAfterSizeChange` behind `!(this instanceof Player)` at line 3139; `Entity.java` SHA-256 `C403E6176D27B5BFD6AAA0DEA3735FFA4FCF80DBAE58766661DD84453B7E9704`. `Level.isClientSide()` lines 155–157 returns `this.isClientSide`; `Level.java` SHA-256 `47E9510CC54F8463FAA0C63F389E9222CECF75372FC4CA059724D350BDB6BE19`.
@@ -156,6 +196,8 @@ The following are pending scope atoms for source-led member indexing. Each must 
 
 - Inventory ID(s): INV-STATE, INV-COLLISION, INV-WORLD-MOVEMENT
 - Exact behavior boundary and enclosing guards/order checked: player pose-to-dimensions/eye-height tables, default pose lookup, dimension scaling call, collision-fit query, and eye-height fluid sampling during `Entity.baseTick`.
+- A member anchors: `ready/1.21.8/mojmap/net/minecraft/world/entity/player/Player.java` static `POSES`/`STANDING_DIMENSIONS` initializer 146–162, `Player#getDefaultDimensions(Pose)` 1942–1944 and `Player#canPlayerFitWithinBlocksAndEntitiesWhen(Pose)` 489–491; `net/minecraft/world/entity/LivingEntity.java::LivingEntity#getDimensions(Pose)` 3399–3405; `net/minecraft/world/entity/Entity.java::Entity#baseTick()` relevant call order 472–494, `#updateFluidOnEyes()` 1446–1458, `#getEyeY()` 3591–3593 and `#getEyePosition()` 1764–1772.
+- B member anchors: `ready/1.21.10/mojmap/net/minecraft/world/entity/player/Player.java` class declaration/`Avatar` inheritance at 121; `net/minecraft/world/entity/Avatar.java` static `POSES`/`STANDING_DIMENSIONS` initializer 20–36 and `Avatar#getDefaultDimensions(Pose)` 64–67; `net/minecraft/world/entity/player/Player.java::Player#canPlayerFitWithinBlocksAndEntitiesWhen(Pose)` 382–384; `net/minecraft/world/entity/LivingEntity.java::LivingEntity#getDimensions(Pose)` 3429–3435; `net/minecraft/world/entity/Entity.java::Entity#baseTick()` relevant call order 479–502, `#updateFluidOnEyes()` 1506–1518, `#getEyeY()` 3663–3665 and `#getEyePosition()` 1824–1832.
 - A evidence: `Player.STANDING_DIMENSIONS`/`POSES` lines 146–162 and `getDefaultDimensions(Pose)` lines 1942–1944 in `Player.java` SHA-256 `8DC5514FE44311F39268692F5188840B9F65CB71143228FA8B84242585EA7987`; `LivingEntity.getDimensions(Pose)` lines 3399–3405 in `LivingEntity.java` SHA-256 `609F0197A0B4551AB42279E452C11CDD256135B1D467C2A95950B0E9FD7DDEF8`; `Player.canPlayerFitWithinBlocksAndEntitiesWhen` lines 489–491 in `Player.java` uses the pose dimensions and `deflate(1.0E-7)`. `Entity.baseTick` lines 472–494 calls `updateFluidOnEyes` before `updateSwimming`; that method lines 1446–1458 samples at `getEyeY` and adds fluid tags when surface height exceeds it. `Entity.getEyeY` lines 3591–3593 and `getEyePosition` lines 1764–1772 read the stored eye height; `Entity.java` SHA-256 `C403E6176D27B5BFD6AAA0DEA3735FFA4FCF80DBAE58766661DD84453B7E9704`.
 - B evidence: B `Player` extends `Avatar` at `Player.java` line 121, SHA-256 `AF857617B66A5776E63830771360B96F75E21D47D20DB08F164A2DBEEE801D82`; the same `STANDING_DIMENSIONS`/`POSES` entries and `getDefaultDimensions(Pose)` now reside in `Avatar.java` lines 20–36 and 64–67, SHA-256 `6CFD006480FA708EC420A3D20A6207A49C515A6CFCE2FE2FBF19B4B1EC633F17`. Every pose size, eye-height literal, attachment and map fallback expression matches A. `LivingEntity.getDimensions(Pose)` lines 3429–3435 in `LivingEntity.java` SHA-256 `B8B49D60769203F7BD5AFE4A1BFFCDCDBEC30BE28960324CDC43A2DF85A6EB66` retains the same sleeping special case and `getScale()` application; `Player.canPlayerFitWithinBlocksAndEntitiesWhen` lines 382–384 retains the same bounding-box construction and deflation. `Entity.baseTick` lines 479–502 calls `updateFluidOnEyes` before `updateSwimming`; the method lines 1506–1518, `getEyeY` lines 3663–3665 and `getEyePosition` lines 1824–1832 have the same expressions as A; `Entity.java` SHA-256 `8361DBB86FE6C975D21F69D008377B6F191669BE751150C842517E9D0346FA18`.
 - State producers/writers -> consumers/readers: `Player.updatePlayerPose`/`DATA_POSE` -> `refreshDimensions` -> selected `EntityDimensions.eyeHeight` -> `getEyeY` -> base-tick fluid tag/eye-in-water state and pose-fit collision query. `getScale()` remains a separate upstream producer dependency, tracked in S6.1 and not closed by this slice.
@@ -168,6 +210,8 @@ The following are pending scope atoms for source-led member indexing. Each must 
 
 - Inventory ID(s): INV-STATE, INV-COLLISION, INV-MODIFIERS, INV-EXTERNAL
 - Exact behavior boundary and enclosing guards/order checked: player attribute construction -> `Attributes.SCALE` default/range/syncability -> `LivingEntity.getScale` -> `getDimensions(Pose)`/`EntityDimensions.scale` -> `refreshDimensions` on attribute update; server-supplied attribute updates remain cross-referenced to S7.1.
+- A member anchors: `ready/1.21.8/mojmap/net/minecraft/world/entity/player/Player.java::Player#createAttributes()` 252–260; `net/minecraft/world/entity/LivingEntity.java::LivingEntity#createLivingAttributes()` 317–333, `#getAgeScale()` 527–529, `#getScale()` 531–538, `#getDimensions(Pose)` 3399–3405 and `#onAttributeUpdated(Holder)` 1102–1115; `net/minecraft/world/entity/ai/attributes/Attributes.java::Attributes#SCALE` 75–77; `net/minecraft/world/entity/EntityDimensions.java::EntityDimensions#scale(float)` 25–33.
+- B member anchors: `ready/1.21.10/mojmap/net/minecraft/world/entity/player/Player.java::Player#createAttributes()` 213–221; `net/minecraft/world/entity/LivingEntity.java::LivingEntity#createLivingAttributes()` 324–340, `#getAgeScale()` 534–536, `#getScale()` 538–545, `#getDimensions(Pose)` 3429–3435 and `#onAttributeUpdated(Holder)` 1109–1122; `net/minecraft/world/entity/ai/attributes/Attributes.java::Attributes#SCALE` 75–77; `net/minecraft/world/entity/EntityDimensions.java::EntityDimensions#scale(float)` 25–33.
 - A evidence: `Player.createAttributes` lines 252–260 delegates to `LivingEntity.createLivingAttributes`; the latter lines 317–333 includes `Attributes.SCALE`. `LivingEntity.getScale` lines 531–538 reads the attribute map, defaults to `1.0F` if absent, casts the value to `float`, then calls `sanitizeScale`; `getAgeScale` lines 527–529 and `getDimensions(Pose)` lines 3399–3405 show the exact scale/age path. `onAttributeUpdated` lines 1102–1115 calls `refreshDimensions` for `Attributes.SCALE`. `LivingEntity.java` SHA-256 `609F0197A0B4551AB42279E452C11CDD256135B1D467C2A95950B0E9FD7DDEF8`; `Player.java` SHA-256 `8DC5514FE44311F39268692F5188840B9F65CB71143228FA8B84242585EA7987`. `Attributes.SCALE` lines 75–77 has base `1.0`, bounds `0.0625`–`16.0`, and is syncable; `Attributes.java` SHA-256 `B941C0556D9ED3C3CE1FFD4C993C9902287A690230E1510696FF13F9EFDF2020`. `EntityDimensions.scale` lines 25–33 preserves the float multiplication order for width, height, eye height and attachments; SHA-256 `9FB9575EC615D4AEFE6316C443E87A902F44E955393778A4B93623E8B680ADC4`.
 - B evidence: `Player.createAttributes` lines 213–221 likewise delegates to `LivingEntity.createLivingAttributes`; the latter lines 324–340 includes `Attributes.SCALE`. `LivingEntity.getScale` lines 538–545 has the same map/null/default/cast/sanitize sequence; `getAgeScale` lines 534–536 and `getDimensions(Pose)` lines 3429–3435 preserve the same path. `onAttributeUpdated` lines 1109–1122 still calls `refreshDimensions` for `Attributes.SCALE`. `LivingEntity.java` SHA-256 `B8B49D60769203F7BD5AFE4A1BFFCDCDBEC30BE28960324CDC43A2DF85A6EB66`; `Player.java` SHA-256 `AF857617B66A5776E63830771360B96F75E21D47D20DB08F164A2DBEEE801D82`. The `Attributes.SCALE` definition is byte-identical to A (lines 75–77 and hash above). `EntityDimensions.scale` is byte-identical to A (lines 25–33 and hash above).
 - State producers/writers -> consumers/readers: player base attribute builder -> local/default or synchronized `SCALE` attribute value -> `getScale` float -> pose dimension scaling -> dimensions/eye-height refresh -> pose-fit collision and eye-fluid queries. `Player.getDefaultDimensions`/the inherited `Avatar.getDefaultDimensions` bypasses `LivingEntity.getDefaultDimensions` and its age-scale call for player pose dimensions; scale still applies outside the sleeping-pose special case.
@@ -376,18 +420,7 @@ The following are pending scope atoms for source-led member indexing. Each must 
 
 ## Finding index
 
-F01–F04 are source-confirmed immutable snapshots submitted for independent review; no finding has yet been independently accepted. The current candidate queue is empty, but the broader source inventory remains incomplete and discovery stays active; absence from this queue is not equivalence.
-
-## Finding snapshots (not pair freeze)
-
-Submitted snapshots (not pair freeze):
-
-- F01 at `findings/F01-duplicate-movement-key-input.md`; finding SHA-256 `AF5FDD8F1576EEC5B8B6F54622D8F55AC7F661AB3ABF85E3FFC4AA50167B14BD`; finding-only commit `104349e28134e004b0039bf0296a5e3c047b7a17`; submitted 2026-10-08 11:48:57 CEST.
-- F02 at `findings/F02-toggle-use-extends-player-use-slowdown.md`; finding SHA-256 `FAE80150DA2E2A466FC61B438332E01E595E35461B02307C4650114A8638F1EA`; finding-only commit `3ddf2f5adb27ae17c95c8010593da35b718bca16`; submitted 2026-10-08 11:59:05 CEST.
-- F03 at `findings/F03-configurable-sprint-double-tap-window.md`; finding SHA-256 `A68ABF55A35FAB28573070329038486AE24913D7F0E2A0BB921ACF279AC53B8E`; finding-only commit `f6f7f00022a9b8fe9d516147e2b0ebaaf941ece2`; submitted 2026-10-08 13:25:13 CEST.
-- F04 at `findings/F04-flying-sprint-in-shallow-water.md`; finding SHA-256 `31685CB4F33FECB32CF85DCFE27DC40C7DEB45AF5BF6D7AAB3EEE17A5AB20ED7`; finding-only commit `308df9f1b3567e1387d70b49afb23b75e99bcbe3`; submitted 2026-10-08 13:27:12 CEST.
-
-Both use the verified source identity: A source manifest `8ffb76cea647a2ba4fe58e000678f751bea2c40ea6358bae492e962ed1d9d008`, B source manifest `4be26049350c1b314a0b198022cb1e7ab1e745e104047de7a5c7d099a9d7b7e1`, shared artifact manifest `c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c` (all per the artifact manifest above). Independent review requested; both statuses are submitted, not accepted. Pair-wide discovery remains active.
+F01–F04 are source-confirmed immutable snapshots submitted for independent review; no finding has yet been independently accepted. The current candidate queue is empty, but the broader source inventory remains incomplete and this run is partial; absence from this queue is not equivalence.
 
 ## Resume checkpoint
 
@@ -403,7 +436,21 @@ Both use the verified source identity: A source manifest `8ffb76cea647a2ba4fe58e
 - Additional completed slices: S2.1a closes the `Level.isClientSide` field-to-accessor path through `LocalPlayer.tick` -> `AbstractClientPlayer.tick` -> `Player.tick`/pose update -> `SynchedEntityData.set` -> `Entity.onSyncedDataUpdated` -> `Entity.refreshDimensions` -> `Level.isClientSide()`. The call returns the same backing field on both sides, and the size-growth position-fudge callee remains excluded for `Player` in both versions. S2.1b closes the matching player pose-dimension table, inherited B `Avatar.getDefaultDimensions`, collision-fit query, and eye-height fluid sample through `Entity.baseTick`; the listed values, operations and call order match. S2.1c compares the scale attribute registration/default, player attribute-builder route, scale consumer, dimension math and refresh callback; it remains in-progress pending the exact syncable-attribute client ingress and producer/consumer closure. These slices leave broader S2.1 and the S4.1/S5.3/S6.1 inventories open.
 - Next bounded slice: close the exact client inbound attribute path that supplies syncable `Attributes.SCALE`: compare `ClientPacketListener`'s attribute-update handler and `AttributeMap.assignValues`/`AttributeInstance` update callback in both sources, then route any differences to S6.1/S7.1. Continue S2.1 with remaining eye-height readers and collision consumers; scale's local consumer and `EntityDimensions.scale` math match but S2.1c remains in-progress pending that external-input closure.
 - Remaining gaps: D2 / discovery worker / all other tick, collision, resource/data, modifier, external impulse and exclusion slices; D3 / coordinator / independent blind source review of F01–F04 and eventual full-pair audit. S1.1–S1.4, S2.1, S2.1c, S7.1 and the remaining inventory rows are not closed.
-- Remaining gaps: D2 / discovery worker / all other tick, collision, resource/data, modifier, external impulse and exclusion slices; D3 / coordinator / independent blind source review of F01–F04 and eventual full-pair audit. S1.1–S1.4, S2.1, S7.1 and the remaining inventory rows are not closed.
+
+- Continuation checkpoint: 2026-10-08 17:01 CEST on `feat/source-discovery-movement-1-21-8-1-21-10-resume-2026-10-08`. Integrated `main` at `8e76298f42eb67d9f745f413846c5e8b37866487`; pair report retained from this source-only branch. The work remains partial and the pair is not frozen. No changes were made to finding snapshots, and no independent review decision was received.
+- Resume verification: exact endpoint readiness markers, source-manifest and shared artifact-manifest hashes, and source hashes cited by S2.1/S2.1a/S2.1b/S2.1c were rechecked; all match the values above. No regeneration or whole-tree rehash was run. Conflicts were resolved in workflow documentation only; integrated implementation source was not inspected.
+- Next bounded slice: compare exact client inbound attribute synchronization for `Attributes.SCALE` through `ClientPacketListener` and `AttributeMap.assignValues`/`AttributeInstance` callbacks in both versions, then route relevant edges to S6.1/S7.1. Continue remaining S2.1 eye-height readers and collision consumers. D2 still owns the unclosed tick, state, collision, resource/data, modifier, external-input and exclusion inventories; D3 still requires independent blind review. No tests, builds, game clients, servers, TAS runs or Docker were run.
+
+## Finding snapshots (not pair freeze)
+
+Submitted snapshots (not pair freeze):
+
+- F01 at `findings/F01-duplicate-movement-key-input.md`; finding SHA-256 `AF5FDD8F1576EEC5B8B6F54622D8F55AC7F661AB3ABF85E3FFC4AA50167B14BD`; finding-only commit `104349e28134e004b0039bf0296a5e3c047b7a17`; submitted 2026-10-08 11:48:57 CEST; evidence artifact IDs `SRC-A`, `SRC-B`.
+- F02 at `findings/F02-toggle-use-extends-player-use-slowdown.md`; finding SHA-256 `FAE80150DA2E2A466FC61B438332E01E595E35461B02307C4650114A8638F1EA`; finding-only commit `3ddf2f5adb27ae17c95c8010593da35b718bca16`; submitted 2026-10-08 11:59:05 CEST; evidence artifact IDs `SRC-A`, `SRC-B`.
+- F03 at `findings/F03-configurable-sprint-double-tap-window.md`; finding SHA-256 `A68ABF55A35FAB28573070329038486AE24913D7F0E2A0BB921ACF279AC53B8E`; finding-only commit `f6f7f00022a9b8fe9d516147e2b0ebaaf941ece2`; submitted 2026-10-08 13:25:13 CEST; evidence artifact IDs `SRC-A`, `SRC-B`.
+- F04 at `findings/F04-flying-sprint-in-shallow-water.md`; finding SHA-256 `31685CB4F33FECB32CF85DCFE27DC40C7DEB45AF5BF6D7AAB3EEE17A5AB20ED7`; finding-only commit `308df9f1b3567e1387d70b49afb23b75e99bcbe3`; submitted 2026-10-08 13:27:12 CEST; evidence artifact IDs `SRC-A`, `SRC-B`.
+
+Both use verified source identities SRC-A/SRC-B above. The source-proven behavior boundaries and finding-specific evidence remain in their immutable finding files; this continuation did not change those files. Independent review remains pending; none of the snapshots is accepted, and no implementation result is recorded here. Pair-wide discovery remains partial.
 
 ## Implementation reconciliation
 
@@ -431,7 +478,7 @@ Independent reviewer not yet assigned; no source audit performed.
 - Coverage counts by status: pending 15; in-progress 7; compared-no-difference 4; finding snapshots 4 (submitted, none independently accepted); not-applicable 0; blocked 0. Planned broad atoms still need splitting into member-bounded slices; no pair-terminal disposition is claimed.
 - Required inventory status and evidence: INV-TICK pending (partial sources indexed); INV-STATE pending (partial sources indexed); INV-COLLISION pending; INV-WORLD-MOVEMENT pending; INV-MODIFIERS pending; INV-EXTERNAL pending (partial packet consumers indexed); INV-EXCLUSIONS pending. No source inventories complete.
 - Open dependencies: D2, D3
-- Unresolved gaps and limits: source pair and manifests are verified, but broad client movement/input, state, collision/shape, resource/data, modifier, external impulse, and exclusion slices remain open. Member-level correspondence is partial; the four older finding snapshots remain unaccepted. S2.1a/S2.1b are narrow terminal slices only. This active report claims no pair completion.
+- Unresolved gaps and limits: source pair and manifests are verified, but broad client movement/input, state, collision/shape, resource/data, modifier, external impulse, and exclusion slices remain open. Member-level correspondence is partial; the four older finding snapshots remain unaccepted. S2.1a/S2.1b are narrow terminal slices and S2.1c remains in-progress. This partial report claims no pair completion.
 - Evidence/hash/correspondence audit: hashes and selected source bodies are recorded above; remaining cited-member, resource/data, and call-graph evidence still must be added. No claims of equivalence.
 - Blind freeze: pending
 - Implementation reconciliation: pending
