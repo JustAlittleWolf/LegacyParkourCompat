@@ -297,17 +297,17 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
 
-### Slice B4 - contact slowdown (webs, honey, powder snow) and historical applicability: `pending`.
+### Slice B4 - contact slowdown (webs, honey, powder snow) and historical applicability: `compared-no-difference`.
 
-- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: contact slowdown (webs, honey, powder snow) and historical applicability: `pending`.; exact paired method ranges await readiness.
-- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
-- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
-- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
-- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: registered Cobweb/WebBlock, Honey Block, Powder Snow and Sweet Berry Bush `entityInside` contact behavior; their `makeStuckInBlock` multiplier inputs; and `Entity#makeStuckInBlock`/movement consumption. The callback dispatch and box iteration are paired under L4.
+- A evidence: `ready/1.20.6/mojmap/net/minecraft/world/level/block/Blocks.java` registrations for Cobweb, Sweet Berry Bush, Honey Block and Powder Snow at lines 766, 6183, 6594, 6920, SHA-256 `684579bbcbe48b1f0984090a4ca044c0b2cee6d08c2dc1e449e2259389c5b129`; `HoneyBlock#entityInside`, `isSlidingDown` and `doSlideMovement` lines 62-105, SHA-256 `fd9c67c31c34833bf442e81ec0b1647e9f9e9042f01b9cd63127d2f832d5d8ff`; `PowderSnowBlock#entityInside` lines 64-80, SHA-256 `7a6d6ad2e6d6d719344de4bb4f4e4973387aa88e61757988afea25b46c176ad3`; `WebBlock#entityInside` lines 26-33, SHA-256 `ece9f8840481748d2d1542990b442cc9a97d670255d693b85f528fa618f48414`; `SweetBerryBushBlock#entityInside` lines 80-91, SHA-256 `615b36436b64e20f6f33235aa2e24aa84a3d0e9b54ff27aa7d97821d8ffb6d3c`; `Entity#makeStuckInBlock` lines 2361-2364 and `Entity#move` stuck-speed multiplier consumption lines 610-613, SHA-256 `71cd6b9f6c002684154dce11d3745e8714d82f13c8e1b3aa56743930131c18f3`.
+- B evidence: `ready/1.21.1/mojmap/net/minecraft/world/level/block/Blocks.java` registrations at lines 765, 6181, 6592, 6906, SHA-256 `538ac50c164484ca4c2367a2a6c07cf2faedcac0c4d5117d8817d36c2d1bde6d`; the corresponding `HoneyBlock`, `PowderSnowBlock`, `WebBlock` and `SweetBerryBushBlock` source files have the same respective A/B SHA-256 values listed above and the same cited method bodies; `Entity#makeStuckInBlock` lines 2427-2430 and `Entity#move` stuck-speed multiplier consumption lines 611-614, SHA-256 `b81905c7879e2cc5c5063a41d865c4164ad919f156306705be791d1017b99850`.
+- State producers/writers -> consumers/readers: contact block callback -> `Entity#makeStuckInBlock` stores a per-tick `Vec3` multiplier and resets fall distance -> `Entity#move` applies that multiplier to requested movement when its squared length exceeds `1.0E-7`, then clears it. Honey's falling slide clamps Y velocity and resets fall distance; Powder Snow, Cobweb and Sweet Berry Bush provide the same movement vectors on both sides. Their contact methods and all listed block registrations are paired; code and source hashes match for each cited block class.
+- Parent slices / dependencies / closure evidence: L4 paired generic inside-block dispatcher and callback order; L2 paired movement multiplier consumer. The WebBlock `WEAVING` predicate reads an effect state; A's `MobEffects.WEAVING` registration requires `FeatureFlags.UPDATE_1_21` while A's `FeatureFlags.DEFAULT_FLAGS` is only `VANILLA_SET`; B registers the effect without that feature requirement. This marks the weaving-enabled slowdown as modern-only for the vanilla 1.20.6 profile. Producer mechanics remain in E1/E4 and are not inferred here.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for the shared vanilla block/effect-state preconditions, the player-reachable contact slowdown and honey slide bodies, movement multipliers, and registrations are unchanged. B's availability of the Weaving-conditioned web multiplier under default 1.21.1 features is a modern-only effect state relative to A's default feature set; preserve it as an explicit out-of-scope disposition rather than inventing 1.20.6-era behavior. Sweet Berry Bush damage is excluded; its identical movement slowdown remains in scope.
+- Finding IDs or checked absence/replacement path: no in-scope B4 finding. Paired contact methods and checked registrations establish unchanged historical block movement; the 1.21.1 default availability of the modern Weaving effect is excluded by the A feature-gate/default-feature source path.
 
 ### Slice B5 - climbables (ladders, vines and related blocks), callbacks and support: `pending`.
 
@@ -321,17 +321,17 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 - Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
 - Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
 
-### Slice B6 - water
+### Slice B6 - water and lava current producers: `compared-no-difference`.
 
-- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT
-- Exact behavior boundary and enclosing guards/order checked: water; exact paired method ranges await readiness.
-- A evidence: source root ready/1.20.6/mojmap is ready and its source manifest hash is verified; exact member/body ranges and content hashes await paired slice inspection.
-- B evidence: ready/1.21.1/mojmap verified; cited source member range/hash is to be recorded during this bounded comparison.
-- State producers/writers -> consumers/readers: pair-specific call graph and producer/consumer closure pending.
-- Parent slices / dependencies / closure evidence: D0/D1 source readiness and alignment closed; add pair-specific dependency IDs during source traversal.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): source comparison has not begun; no equivalence or difference is inferred.
-- Finding IDs or checked absence/replacement path: none recorded; absence is not evidence of equivalence.
+- Inventory ID(s): INV-COLLISION, INV-WORLD-MOVEMENT, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: `Entity#updateInWaterStateAndDoFluidPushing`, `updateInWaterStateAndDoWaterCurrentPushing`, `updateFluidHeightAndDoFluidPushing`, water/lava flow vectors through `FluidState#getFlow` and `FlowingFluid#getFlow`, plus `BubbleColumnBlock#entityInside` and `Entity#onAboveBubbleCol`/`onInsideBubbleColumn` velocity writes. Fluid-contact query and collision geometry consumers remain separately tracked under C4/C5/B8.
+- A evidence: `ready/1.20.6/mojmap/net/minecraft/world/entity/Entity.java`, fluid-state dispatch lines 1203-1220, bubble velocity writers lines 2291-2314, `isPushedByFluid()` line 2614, and fluid-push accumulator lines 3052-3117, SHA-256 `71cd6b9f6c002684154dce11d3745e8714d82f13c8e1b3aa56743930131c18f3`; `LivingEntity#isAffectedByFluids()` lines 587-589, SHA-256 `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`; `FlowingFluid#getFlow()` lines 54-96, SHA-256 `0f44b1af25533dd8a1fbfec13b279739341db0c563568337a2825d3e46a1a5bb`; `FluidState` lines 49-54 and 91-93, SHA-256 `b52e2b1e889a510b5d80c5eef09cd4f5b63448f15dbb131f02030497340e7c1c`; `BubbleColumnBlock#entityInside` lines 49-79, SHA-256 `39c4da51460f4c2c06927f15de65a9ee2ae2f8bee0a2c9289cea375ad5d53a7c`.
+- B evidence: `ready/1.21.1/mojmap/net/minecraft/world/entity/Entity.java`, corresponding fluid-state dispatch lines 1242-1259, bubble velocity writers lines 2357-2380, `isPushedByFluid()` line 2652, and fluid-push accumulator lines 3091-3156, SHA-256 `b81905c7879e2cc5c5063a41d865c4164ad919f156306705be791d1017b99850`; `LivingEntity#isAffectedByFluids()` lines 535-537, SHA-256 `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8`; `FlowingFluid`, `FluidState` and `BubbleColumnBlock` source hashes match A exactly; `Fluids.java` is byte-identical at SHA-256 `913cb5d937af92a7f90f7dc233a3d02c05f75e70a2a740300b2f26eedcbed931`; `FluidTags` water/lava entries lines 8-9 retain the same IDs. `Blocks#BUBBLE_COLUMN` registration at lines 5948-5956 uses the same no-collision bubble block properties; Blocks file SHA-256 `538ac50c164484ca4c2367a2a6c07cf2faedcac0c4d5117d8817d36c2d1bde6d`.
+- State producers/writers -> consumers/readers: per-tick entity update clears/rebuilds fluid heights and reads water/lava flow through the same bounding-box scan, fluid height, averaging, player-specific non-normalization, small-current floor and delta-movement addition. Bubble column states dispatch the same up/down velocity clamps both inside the column and above it. A's accumulator scales by `$$1 * 1.0`; B scales by `$$1`. The reachable callers pass the same finite lava factor (`0.007` or `0.0023333333333333335`) and water factor (`0.014`), and the extra multiplication by exactly `1.0` does not change these finite movement values. Water/lava fluid registry definitions, flow equations, tags and bubble-column callback bodies are otherwise identical.
+- Parent slices / dependencies / closure evidence: I2 per-tick call order; L1/L2 travel and friction consumers; C4/C5 still cover box/fluid contact query enumeration and callback order; B8 covers shapes. `Fluids`, `FlowingFluid`, `FluidState`, and `BubbleColumnBlock` hashes were matched to both ready source manifests.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for the local player, same water/lava fluid heights and neighboring flow states yield the same accumulated movement, including the non-normalized player current path and bubble-column vertical impulses. The sole source-expression simplification is multiplication by `1.0` on the fluid-push strength; its call inputs are the finite constants above, so no changed movement value is established. This closure does not assert completeness of the separate collision-query or shape inventories.
+- Finding IDs or checked absence/replacement path: no in-scope B6 finding; paired fluid-flow, fluid-push, bubble-column and player velocity-writer paths show no movement difference.
 
 ### Slice B7 - moving pistons and player displacement: `pending`.
 
@@ -480,8 +480,8 @@ Create bounded pair-specific slices for every discovered method/behavior and dep
 
 ## Resume checkpoint
 
-- Last completed slices: I1-I4 input/tick/yaw/sprint compared; L3 jump path and L6 player movement attributes compared; L5 water-travel arithmetic finding recorded; X1 tracked velocity packet and tracker-baseline reachability compared-no-difference for the locally controlled player. L4 has a bounded callback delta with closure pending. L2 has a committed source-confirmed first-entry Soul Speed snapshot awaiting independent review; P1/P2/P4, L2 and L4 remain in progress pending dependencies.
-- Next bounded slice and exact files/members/body ranges to open: continue L2/L4 through external movement-state closure: X2 player knockback producer/math is still separate and uninspected; then inspect remaining B4/B6/B8 block-specific `entityInside` movement effects and their player-reachable query callers. Entity movement thresholds and the generic inside-block dispatcher are now paired. L6 player movement attributes are complete.
+- Last completed slices: I1-I4 input/tick/yaw/sprint compared; L3 jump path and L6 player movement attributes compared; L5 water-travel arithmetic finding recorded; X1 tracked velocity packet and tracker-baseline reachability compared-no-difference for the locally controlled player; B4 contact slowdowns compared with the modern-only Weaving state explicitly excluded; B6 fluid currents and bubble-column velocity producers compared-no-difference. L4 has callback closure pending through B8. L2 has a committed source-confirmed first-entry Soul Speed snapshot awaiting independent review; P1/P2/P4, L2 and L4 remain in progress pending dependencies.
+- Next bounded slice and exact files/members/body ranges to open: continue L2/L4 through external movement-state closure: X2 player knockback producer/math is still separate and uninspected; then inspect B8 collision-shape providers and their player-reachable query callers. Entity movement thresholds, the generic inside-block dispatcher, B4 contact slowdowns and B6 fluid movement producers are now paired. L6 player movement attributes are complete.
 - Outstanding dependencies and owners: D0/D1 readiness closed; D2 remains open for movement source dependencies and is owned by this discovery worker until handoff.
 - Current assumptions requiring verification: only cited source bodies are hash-checked so far; all remaining method correspondence, dependencies, callbacks, registrations and state writer/consumer closure are incomplete.
 
@@ -508,10 +508,10 @@ Reviewer must differ from discovery authors and must independently re-walk full 
 
 ## Source audit closure
 
-- Coverage counts by status: 1 findings; 9 compared-no-difference; 0 not-applicable; 0 blocked; 20 pending; 5 in-progress (35 planned slices; one source-confirmed finding spans L2 and L4, with broader closure still in progress).
+- Coverage counts by status: 1 findings; 11 compared-no-difference; 0 not-applicable; 0 blocked; 18 pending; 5 in-progress (35 planned slices; one source-confirmed finding spans L2 and L4, with broader closure still in progress).
 - Required inventory status and evidence: all seven required inventories remain pending; L5 and L2 have bounded source-confirmed findings (L2 snapshot review pending), while complete inventories are not closed.
 - Open dependencies: D2 only; D0/D1 readiness and namespace alignment are closed.
-- Unresolved gaps and limits: 20 slices remain pending and 5 remain in progress, including full modifier coverage, collision/shape providers, blocks/fluids, X2 player knockback and other external-input slices, exclusions and independent audit. The two bounded findings and X1 closure do not close those inventories.
+- Unresolved gaps and limits: 18 slices remain pending and 5 remain in progress, including full modifier coverage, collision/shape providers, blocks, X2 player knockback and other external-input slices, exclusions and independent audit. The two bounded findings and X1/B4/B6 closures do not close those inventories.
 - Evidence/hash/correspondence audit: exact source hashes and paired ranges are recorded for L2-L6 bounded rows and findings; the overall evidence audit is incomplete.
 - Blind freeze: pending until pair coverage is complete.
 - Implementation reconciliation: pending and outside this assignment before explicit post-freeze authorization.
