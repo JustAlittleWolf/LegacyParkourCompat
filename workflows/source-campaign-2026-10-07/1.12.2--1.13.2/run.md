@@ -178,6 +178,17 @@ Provisional source candidates being traced after revised snapshot verification: 
 - Original revised-derived Feather JAR caveat remains: source/raw input matches were verified, while identity to the unavailable original mapped JAR remains unproven.
 - Replaces/supersedes r2 only as the current finding snapshot. The r2 rejection and all prior history remain preserved. Pair remains PARTIAL; no implementation handoff or runtime validation.
 
+### Snapshot event F-PANE-OFFSET-EPSILON-2026-10-08-r4
+
+- Snapshot status: immutable float-corrected source-derived replacement; independent blind review pending.
+- Snapshot commit: `ba083b420233bab6c0e3ac5ed2f9f7a55110908f`.
+- Finding file path: `workflows/source-campaign-2026-10-07/1.12.2--1.13.2/findings/F-PANE-OFFSET-EPSILON-r2.md`.
+- Git blob: `d8900b7b9e5e40a2cc15a93b11fedc90eca1577e`.
+- Raw SHA-256 of Git blob bytes: `3a4e6547364c60418f50b121a91485f454a3af1026d1a3df2fcb396000ac4a51`.
+- Correction: both endpoint `Entity.setPosition` methods compute `float f = width / 2.0F` and `float g = height` before constructing the double box. With default dimensions this yields float-derived half-width `0.30000001192092896` and height `1.7999999523162842`. The exact resulting bounds are X `[-0.16251001192092895, 0.43749001192092896]`, Y `[64.2, 65.99999995231629]`, Z `[-0.16249996192092894, 0.43750006192092894]`; dependent A clip is `0.00000998807907104382`, pane Z overlap is `0.00000006192092893986256`, swept maxX is `0.44061501192092895`, and B upper inset is `0.43749996192092894`. The qualitative pane delta remains unchanged.
+- Replaces/supersedes r3 as the current pane snapshot only; r3, its REQUEST CHANGES report, and all earlier snapshots remain immutable. Original unavailable mapped-JAR equivalence caveat remains. Pair remains PARTIAL; no implementation handoff or runtime validation.
+- Independent reviewer: fresh blind review assigned after freezing this blob; decision pending.
+
 ## Implementation reconciliation
 
 Complete only after blind-discovery freeze; not started and no mod implementation was inspected.
