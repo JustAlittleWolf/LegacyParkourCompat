@@ -169,17 +169,17 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 
 <!-- Add one bounded slice per behavior/dependency. Pending and in-progress slices forbid completion. -->
 
-### Slice TICK-05: active-item use tick before local movement input
+### Slice TICK-05: active-item use state before local movement input
 
 - Inventory ID(s): `INV-TICK`, `INV-STATE`, `INV-EXTERNAL`.
-- Exact behavior boundary and enclosing guards/order checked: `LivingEntity.tick()V` -> active-item-use update -> local input sample/use attenuation -> superclass movement.
-- A evidence: `LivingEntity.tick()V` lines 1259-1296; `LocalClientPlayerEntity.mobTick()V` lines 535-544; exact hashes pending.
-- B evidence: `LivingEntity.tick()V` lines 1489-1551 calls `tickUsingItem()` before equipment update and `mobTick()`; local consumer lines 645-660; exact hashes pending.
-- State producers/writers -> consumers/readers: active stack/duration and use predicate -> input scaling and item-use transition -> local travel input.
-- Parent slices / dependencies / closure evidence: active-item writers, cancel/finish consumers, and player-reachable superclass dispatch on both sides.
-- Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): B inserts an item-use tick before movement input sampling; player-motion consequence and all writers remain open.
-- Finding IDs or checked absence/replacement path: pending.
+- Exact behavior boundary and enclosing guards/order checked: player tick -> active-item-use update -> polymorphic local `mobTick()` -> input sample/use attenuation -> travel input.
+- A evidence: `PlayerEntity.tick()V` lines 183-202 decrements the selected-stack use timer or clears on stack mismatch before `super.tick()` at 228; `LivingEntity.tick()V` lines 1259-1296 dispatches to `mobTick()` at 1296; `LocalClientPlayerEntity.mobTick()V` lines 535-544 applies the use guard after `input.tick()`. `PlayerEntity.java` SHA-256 `e66cb294fc93118148a444bbafdf4dd57cbf66a23d69b1e8892cefccc690ab88`; `LivingEntity.java` SHA-256 `082831c6578e3a70fa6cea5b90bc3eeefc26678259b66334470de22b90b5b0e4e`; local player SHA-256 `1762b116e6b06d682b7daa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053`.
+- B evidence: `PlayerEntity.tick()V` lines 170-200 delegates to `LivingEntity.tick()V`; lines 1489-1551 call `tickUsingItem()` at 1491 before `mobTick()` at 1551; `LocalClientPlayerEntity.mobTick()V` lines 645-654 applies the use guard after `input.tick()`. `LivingEntity.java` SHA-256 `bbb7703f18fd5da05c4e4a43a77ea644b388e63c01d34166d308ea52054be4e5`; local player SHA-256 `8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d`; player SHA-256 `d658a0d95452d12bb7e347bfd802240eeecaf7f938e10dcd43e2640434387f85`.
+- State producers/writers -> consumers/readers: A `setItemInUse` initializes stack/timer (PlayerEntity lines 1487-1493); `stopUsingItem`/`clearItemInUse` and selected-stack mismatch clear it (162-176, 189-200). B `setActiveHand` initializes stack/duration and synced hand flags (LivingEntity lines 1924-1937); local `usingItem`/active-hand overrides and synced-flag handling are in LocalClientPlayerEntity lines 452-489; `tickUsingItem` clears on hand-stack mismatch (1907-1921), and stop/clear reset state (2026-2041). A local consumer uses `hasItemInUse()`; B uses `isUsingItem()`; both scale sideways and forward inputs by `0.2F`, clear double-tap sprint time, and gate sprint initiation while use is active (A lines 540-544, 551-571; B lines 650-654, 662-682).
+- Parent slices / dependencies / closure evidence: compared player-reachable superclass dispatch, client use-state writers and sync, tick decrement, stack-mismatch clearing, stop/clear, and the local movement consumers in both source trees.
+- Finding IDs or checked absence/replacement path: bounded comparison disposition `compared-no-difference`; both active-use predicates reach the same local input transform before player travel. A updates its timer before `super.tick()`; B updates it inside `LivingEntity.tick()` after `Entity.tick()`. Each update precedes the local `mobTick()` consumer. The client-side zero-duration guard does not finish/clear use on either side; server completion is outside this local-input slice. No movement delta found for this consumer path; broader tick, consumable-effect, and item producer inventories remain open.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for locally controlled player movement while actively using a corresponding main-hand item and not riding, both versions apply the same `0.2F` input scaling after input sampling and prevent sprint initiation; no changed movement consequence was found in this bounded path. B also supports an active off-hand, a newer capability with no A counterpart, outside this equivalent main-hand comparison.
 
 ### Slice TICK-06: local pre-travel player block push-away
 
@@ -239,7 +239,7 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 - Parent slices / dependencies / closure evidence: scoped against excluded fall-damage simulation and modern-only fall flight.
 - Status: not-applicable
 - Disposition and rationale (including concrete reachability/preconditions): the changed values feed excluded damage state or a modern-only flight mode; neither is a historical player-movement mechanic for A-era maps.
-- Finding IDs or checked absence/replacement path: `scope-notes/STATE-02-creative-flight-reset.md` records the evidence and scope reason; no implementation finding.
+- Finding IDs or checked absence/replacement path: no implementation finding. B additionally resets fall distance (fall-damage state) and clears flag 7 (B-only fall-flight state) after living movement; both consequences are outside this campaign movement scope. Evidence: paired `PlayerEntity#moveRelative(FF)V` bodies, A lines 1279-1294 and B lines 1371-1390; source hashes are in their evidence rows above.
 
 ### Slice MOD-01: Levitation movement branch
 
@@ -418,8 +418,8 @@ Initial path: `LocalClientPlayerEntity.tick()V` -> `PlayerEntity.tick()V` -> `Li
 
 ## Resume checkpoint
 
-- Last completed slice: exact bounded STATE-01 cutoff snapshot independently accepted; corrected COLL-02 movement path committed as a fresh candidate; STATE-03 collision-fit guard and PaneBlock dependency frozen in an exact candidate. Revised snapshots passed independent ops verification; original mapped-JAR identity remains unproven.
-- Next bounded slice and exact files/members/body ranges: obtain fresh blind decisions for `SNAP-COLL-02-PANE-02` and `SNAP-STATE-03-01`; continue TICK-05 item-use ordering, TICK-06/TICK-07 player velocity writers, EXT-01 corrections, MOD-02 modifiers, COLL-01/COLL-02 provider inventory, and WORLD slices.
+- Last completed slice: TICK-05 active-item countdown/state and local input consumer compared on both sides with no movement delta; exact bounded STATE-01 cutoff snapshot independently accepted; corrected COLL-02 movement path committed as a fresh candidate; STATE-03 collision-fit guard and PaneBlock dependency frozen in an exact candidate. Revised snapshots passed independent ops verification; original mapped-JAR identity remains unproven.
+- Next bounded slice and exact files/members/body ranges: obtain fresh blind decisions for `SNAP-COLL-02-PANE-02` and `SNAP-STATE-03-01`; continue TICK-06/TICK-07 player velocity writers, EXT-01 corrections, MOD-02 modifiers, COLL-01/COLL-02 provider inventory, and WORLD slices.
 - Outstanding dependencies and owners: `DEP-AUDITOR` coordinator for full-pair review; fresh reviewer decisions for the two exact candidates above; remaining coverage slices.
 - Assumptions requiring verification: no first-version claim inside the interval; complete resource/provider inventory remains open.
 
