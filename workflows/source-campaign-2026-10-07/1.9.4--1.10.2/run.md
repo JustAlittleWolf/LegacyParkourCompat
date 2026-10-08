@@ -1,6 +1,6 @@
 # Source-only movement discovery: 1.9.4 to 1.10.2
 
-- Status: active
+- Status: partial
 - Scope: direct client-player movement; older A = 1.9.4; newer B = 1.10.2
 - Track: source-only discovery; no wiki/MCPK, release-note mechanics, or mod implementation consulted
 - Repository base: `main` at `002137b227676caea77f6832b9f4c8d0b6200bff`; task branch `feat/source-discovery-movement-source-1-9-4-1-10-2`
@@ -1091,7 +1091,7 @@ F001 - [farmland player collision height](findings/F001-farmland-collision-heigh
 
 ## Resume checkpoint
 
-- Checkpoint date/time: 2026-10-08 17:05 UTC
+- Checkpoint date/time: 2026-10-08 17:06 UTC
 - Worktree: `D:\Javastuff\LegacyParkourCompat\.task-worktrees\movement-source-1-9-4-1-10-2-resume3`; branch: `feat/source-discovery-movement-source-1-9-4-1-10-2-resume3`; newest source evidence checkpoint `4851a949da418d6c18e13e15bd57eddff9537991`, based on checkpoint `96e35bb8cb7c906e2978dea93898bd34c3e504d3`.
 - Default-branch base: current local `main` at `d8f3956602da94bf0cf67753cc0a9f4665397729` is merged into this branch. The merge exposed older duplicate additions for this pair report and F001; these were resolved by retaining the expanded report and independently reviewed finding, while adopting main's current shared movement-discovery workflow/checker and scope guidance. Reviewed the changed campaign/workflow docs; the source-only task made no runtime implementation edits and did not inspect the merged implementation. Pair remains incomplete; no implementation handoff is claimed.
 - Last commits: `4851a949` closed piston event/state ordering; `f1ae2496` server piston event ordering; `20d9c2f7` client block-state packet ingress; `85bbedaa` portal player transfer; `7c2cb8b5` player position/velocity corrections; `c686ce32` Magma callback exclusion; `152f12bb` piston event replay; `f13dee9c` piston client event replay; `dc6b5972` piston shape/player displacement; `f9123cbe` provider census; `4f6f10f3` rider input paths; `a6fe3e94` skull shapes; `3f9fa94c` enchanting table; `36950dcf` dragon egg; `ba300c0e` daylight detector; `b6cbd0d4` anvil; earlier checkpoints: bed/ladder/carpet collision shapes; `8ef6c5e2` door/trapdoor collision shapes; `58048dc3` slab/stair collision shapes; `7b7240e2` ice-family friction properties; `f16c0db2` post-move callback dispatch; `59fe35bb` entity position and shape writers; `abcf740c` world border and chunk collision gates; `8845723` entity collision candidates and shape providers; `d3bcf55` block candidates; `b6f9781` liquid and post-move travel drag; `4f6c8df` fence/wall shapes; `2d0708f` snow-layer collision; `f89ed4a` entity collision/callback; F005 persisted fall-flying finding `4bded1c`. Portal, client block-state ingress, and server/client piston event-state ordering are compared-no-difference; two piston movement slices remain open. Earlier source slices and immutable finding snapshots remain in commit history.
