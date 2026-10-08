@@ -1342,7 +1342,7 @@
       "1.15.2--1.16.5": "owner terminal at f5636dd2; all seven inventories remain open; pair remains PARTIAL",
       "1.8.9--1.9.4": "Terminal/idle at clean checkpoint 690577535f5fe081cc6314485c937af4adc7631c; only INV-EXCLUSIONS complete, six inventories and full audit open; pair partial.",
       "1.16.5--1.17.1": "owner terminal at main-merged checkpoint aca4dfb24d5f1e9ec00b375eaf9b8f8b1c57c8b9; pair discovery remains PARTIAL",
-      "remainingActiveOwners": "The 19:25 stop-new-discovery cutoff has passed. Only the 1.11.2–1.12.2 source owner and 1.21.4–1.21.5 handoff housekeeping remain; work is limited to checkpoint/metadata and no new discovery.",
+      "remainingActiveOwners": "19:25 discovery stop is in effect. 1.11.2–1.12.2 owner is closing an existing source-only checkpoint. All collaborative workers have stopped. No new discovery tonight.",
       "status": "Preserve exact pair partial/open states; do not infer completion.",
       "F013": "Corrected immutable finding and binding ACCEPTED identity-only at review 2fd121e1; merged to main at df418e06. Original REQUEST CHANGES remains attached to original bytes. No pair-discovery reopen; coverage ACCEPT e0e36eff remains separate; pair PARTIAL.",
       "wikiMcpk": "Wiki and MCPK owners terminal; bounded catalogs do not close their open review/release/source gaps.",
@@ -1350,7 +1350,7 @@
       "1.10.2--1.11.2": "terminal/idle at 5a4034c; 8 findings, 44 no-difference, 6 progress, 5 N/A, 1 pending; pair partial",
       "1.13.2--1.14.4": "terminal/idle at fda384a2 + c7fda155 main merge; 69 slices; F023 candidate pending, seven inventories/audit open",
       "1.12.2--1.13.2": "Pane owner terminal/idle at clean checkpoint 2853716b2031da05abe991e3913078f9a668f3bb with main d8 via 1ac8050754be3fcef159739376bba13ca19feda3; 38 no-difference, 5 findings, 17 open slices. Farmland two-player player-step +0.051 vs +0.05 candidate pending independent review; pair partial.",
-      "1.21.4--1.21.5": "Terminal/idle partial at clean handoff commit 8fc02900 on branch feat/source-discovery-movement-source-1-21-4-1-21-5-resume. Its merge parent is d8f39566; main subsequently advanced to dc1b65b2 and this branch has not yet incorporated that later main commit. Pair findings/inventories remain separately open.",
+      "1.21.4--1.21.5": "Terminal/idle at clean checkpoint 8fc02900, merged only through main d8f39566. Source owner disclosed implementation-diff exposure during that merge: LocalPlayerMixin, PlayerMixin, LivingEntityMixin, SneakEdgeBackoff, ShallowWaterCurrentCutoff. Preserve earlier bounded snapshot review as immutable evidence, but do not call the lane fully blind. Queue fresh independent source-only discovery/coverage audit and blind review before full-pair freeze. Pair remains PARTIAL.",
       "1.11.2--1.12.2": "Still active source-only continuation after 19:25 cutoff; close/checkpoint existing work only, no new discovery. Most recent update added attribute-registry census and player KNOCKBACK_RESISTANCE route to already paired S7.1; final checkpoint pending.",
       "1.21.11--26.1.2": "Collaborative owner terminal/idle clean at ea6ca59bd217e9ad36ede00122a6952be914839b, merged current main dc1b65b29e3c2561175bd54276ae83e37cd1c045. Pair partial: 45 progress, 10 no-difference, 1 N/A, 7 inventories open, D2 open, full audit pending. F-1 ACCEPT snapshot only; F-2/F-3 pending review."
     },
@@ -1373,7 +1373,7 @@
     "waterSprint": "Bounded source ACCEPT now closes the candidate acceptance gap for the two identified immutable snapshots only; no broader parity or pair closure.",
     "collaborationSlots": "Keep <=20 roles including root and reserved catalog reviewer. Suffocation reviewer role reused by integration owner; catalog preflight reviewer remains reserved, not a free role.",
     "currentTimeObservation": "2026-10-08 17:30 UTC / 19:30 Europe/Vienna; final clean handoff due 19:40.",
-    "backlogCommit": "8fcfbc1f02b2f140fe84ca0417e9206e46e88d67",
+    "backlogCommit": "129055c8f757450889b00d9f5ee531c61e8c9292",
     "catalogIncident": "Wrong-workdir deletion by catalog author was restored. Primary main was independently verified clean at d8f39566; do not mutate primary until architecture review and coordinated merge.",
     "sourceOwnerRoleSwap": "1.16.5–1.17.1 source owner terminal at aca4dfb; role replaced by BED no-code proof reviewer. 1.15.2–1.16.5 owner terminal at f5636dd2 with all seven inventories open. 1.8.9–1.9.4 owner still closing.",
     "primaryMainStatus": "Verified clean at dc1b65b29e3c2561175bd54276ae83e37cd1c045 after successful reviewed integration/build; 57 commits ahead of origin/main; no push.",
@@ -1404,27 +1404,26 @@
       "jarSha256": "da749785311afe8eafb772f61d463b4a10accc30ed97865ee70146eeba3da372",
       "runtime": "unverified"
     },
-    "roleTurnover": "Collaborative 1.21.11–26.1.2 owner terminal at main-merged clean checkpoint ea6ca59b; role released. F013 reviewer, architecture reviewer, and completed source roles remain released.",
+    "roleTurnover": "All collaborative workers terminal; 1.21.4–1.21.5 source owner terminal with provenance exposure disclosed. No review/discovery worker remains active for that lane; fresh source-only restart is queued for a later session.",
     "pane": "Pane owner active on bounded two-player Farmland conditional candidate; broader path open.",
     "sourcePairsLatest": {
       "1.17.1--1.18.2": "All 14 finding snapshots have bounded ACCEPTs; corrected F013 identity-only ACCEPT at 2fd121e1, original REQUEST CHANGES remains bound to original bytes; independent full-pair coverage ACCEPT e0e36eff remains separate; pair PARTIAL.",
-      "1.21.4--1.21.5": "Terminal partial checkpoint at 8fc02900; F-09/F-18 hashes preserved; main parent d8, later dc1 not merged; independent reviews and other inventories remain open.",
+      "1.21.4--1.21.5": "Terminal partial at 8fc02900, main parent d8. Provenance disclosure at 19:30: owner read LocalPlayerMixin, PlayerMixin, LivingEntityMixin, SneakEdgeBackoff, ShallowWaterCurrentCutoff implementation diffs during merge. Prior bounded snapshot review remains distinct; full-pair blind review/coverage must be fresh; no freeze.",
       "1.21.11--26.1.2": "Terminal partial ea6ca59b: 0 pending, 45 progress, 10 no-difference, 1 N/A; 7 inventories/D2/full audit open. F-1 ACCEPT snapshot only (blob 90c8a482, SHA 9d2c273a); F-2/F-3 pending independent review."
     },
     "activeRolesAtLastUpdate": [
       "coordinator/root",
       "exclusive integration owner 01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
       "source owner 1.11.2–1.12.2 01a11bb3-9057-7283-b264-f6ff0befbb34",
-      "source F14 owner 1.21.4–1.21.5 01a11bf3-b68d-72a3-9fde-198291e05948",
       "other active source/review roles from current saved roster; terminal roles removed above",
       "Independent reviewer for BlockLanding visibility candidate (reactivated; target 19:27, latest 19:30; scope includes static catalog class/constructor access sweep)"
     ],
     "roleCap": "20 maximum including root and active catalog reviewer; no new worker roles.",
     "safeNextActions": [
-      "Collect the 1.11.2–1.12.2 final clean partial checkpoint by 19:40 without extending discovery scope.",
-      "Record the 1.21.4–1.21.5 terminal branch at 8fc02900 with its d8 parent; current-main catch-up to dc1b65b2 remains explicit housekeeping.",
-      "Keep main clean at dc1b65b29e3c2561175bd54276ae83e37cd1c045; no push or runtime validation.",
-      "Resume remaining pair inventories, F-2/F-3 reviews, and independent coverage audits from durable reports; do not infer completion."
+      "Accept only a clean source-only checkpoint from the 1.11.2–1.12.2 owner by the 19:40 handoff cutoff; do not allow new discovery after the 19:25 stop.",
+      "For 1.21.4–1.21.5, preserve the disclosed implementation-diff exposure and prior bounded snapshot review; schedule a fresh source-only discovery/coverage and blind review before pair freeze.",
+      "Keep local main clean at dc1b65b29e3c2561175bd54276ae83e37cd1c045; no push or runtime validation.",
+      "Resume all open inventories and independent audits from their durable pair reports; no pair is complete based on this checkpoint."
     ],
     "sourcePair2626Latest": {
       "branch": "feat/source-26-1-2-26-2-resume-oct8",
@@ -1469,5 +1468,21 @@
       "status": "terminal ACCEPT on corrected commit dbc088f70a1bbec73f7b6ff53a7820d3e19be09c; report ff38dfbd2ab857d89ad1abe9d4a4b39b225c1d7d; static only"
     }
   ],
-  "sourcePreparationAndIntegrationOwnerStatus": "Exclusive integration owner completed accepted code/docs integration; authorized repair build succeeded with all Test tasks disabled and -x test; local main clean at dc1b65b2; no runtime or push."
+  "sourcePreparationAndIntegrationOwnerStatus": "Exclusive integration owner completed accepted code/docs integration; authorized repair build succeeded with all Test tasks disabled and -x test; local main clean at dc1b65b2; no runtime or push.",
+  "sourceReviewProvenance1214to1215": {
+    "disclosureTime": "2026-10-08 19:30 Europe/Vienna",
+    "sourceOwnerThread": "01a11bf3-b68d-72a3-9fde-198291e05948",
+    "terminalBranch": "feat/source-discovery-movement-source-1-21-4-1-21-5-resume",
+    "terminalCommit": "8fc02900",
+    "mainAtMerge": "d8f3956602da94bf0cf67753cc0a9f4665397729",
+    "readImplementationDiffs": [
+      "LocalPlayerMixin",
+      "PlayerMixin",
+      "LivingEntityMixin",
+      "SneakEdgeBackoff",
+      "ShallowWaterCurrentCutoff"
+    ],
+    "priorBoundedSnapshotReview": "Preserve as immutable prior evidence, do not erase or upgrade to fully blind/full-pair acceptance.",
+    "pairStatus": "PARTIAL; fresh source-only discovery/coverage plus blind review required before full-pair freeze."
+  }
 }
