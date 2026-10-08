@@ -1309,7 +1309,7 @@
     "sourceOwnerStopBoundary": {
       "1.14.4--1.15.2": "terminal at 11e4c0b7310eacff07520caf26ebc833ee479e99",
       "1.15.2--1.16.5": "owner terminal at f5636dd2; all seven inventories remain open; pair remains PARTIAL",
-      "1.8.9--1.9.4": "owner still closing current slice; slot not released",
+      "1.8.9--1.9.4": "Terminal/idle at clean checkpoint 690577535f5fe081cc6314485c937af4adc7631c; only INV-EXCLUSIONS complete, six inventories and full audit open; pair partial.",
       "1.16.5--1.17.1": "owner terminal at main-merged checkpoint aca4dfb24d5f1e9ec00b375eaf9b8f8b1c57c8b9; pair discovery remains PARTIAL",
       "remainingActiveOwners": "12 active owners, including 1.21.11--26.1.2 and 26.1.2--26.2, asked to stop new work by 19:25 and checkpoint cleanly by 19:40",
       "status": "Preserve exact pair partial/open states; do not infer completion.",
@@ -1317,7 +1317,8 @@
       "wikiMcpk": "Wiki and MCPK owners terminal; bounded catalogs do not close their open review/release/source gaps.",
       "1.9.4--1.10.2": "terminal/idle at 8d4deeed; 69 no-difference, 5 findings awaiting review, 3 N/A, 12 pending, 2 piston progress; pair partial",
       "1.10.2--1.11.2": "terminal/idle at 5a4034c; 8 findings, 44 no-difference, 6 progress, 5 N/A, 1 pending; pair partial",
-      "1.13.2--1.14.4": "terminal/idle at fda384a2 + c7fda155 main merge; 69 slices; F023 candidate pending, seven inventories/audit open"
+      "1.13.2--1.14.4": "terminal/idle at fda384a2 + c7fda155 main merge; 69 slices; F023 candidate pending, seven inventories/audit open",
+      "1.12.2--1.13.2": "Pane owner terminal/idle at clean checkpoint 2853716b2031da05abe991e3913078f9a668f3bb with main d8 via 1ac8050754be3fcef159739376bba13ca19feda3; 38 no-difference, 5 findings, 17 open slices. Farmland two-player player-step +0.051 vs +0.05 candidate pending independent review; pair partial."
     },
     "pistonScope": "Terminal at 4b04193a4bd45a3ca8541590448476cc5af226f0; source/player query scope ACCEPT and exact 1.16 cutover confirmed; 1.15.1 unverified, older resolver gating required; no implementation. Role reused for optional SneakEdgeBackoff investigation.",
     "sourcePreparationOwner": "01a11bb1-c29c-7f93-a858-c0d55f71ddc1; 1.11 Feather, 1.11.1 Feather, and 1.16 Mojmap published and hash-verified; 9 marker/manifests verified; 34 ready profiles; idle pending independently reviewed architecture integration.",
@@ -1337,8 +1338,8 @@
     "bedProof": "Bound report rereview ACCEPTed proof-only at 4071cee1; no Java/provider change. Original identity-only REQUEST CHANGES d027b9db remains in history and is resolved by bound rereview. Accepted author/review documents are routed for integration.",
     "waterSprint": "Bounded source ACCEPT now closes the candidate acceptance gap for the two identified immutable snapshots only; no broader parity or pair closure.",
     "collaborationSlots": "Keep <=20 roles including root and reserved catalog reviewer. Suffocation reviewer role reused by integration owner; catalog preflight reviewer remains reserved, not a free role.",
-    "currentTimeObservation": "2026-10-08 17:23 UTC / 19:23 Europe/Vienna; clean checkpoint due 19:40.",
-    "backlogCommit": "e3ba0a2ff6054be0a627dd7ae6abac0492334641",
+    "currentTimeObservation": "2026-10-08 17:24 UTC / 19:24 Europe/Vienna; source stop cutoff 19:25 and clean checkpoint due 19:40.",
+    "backlogCommit": "ceceb04b69f6548f663fd77e3b5b77e8c8732bb3",
     "catalogIncident": "Wrong-workdir deletion by catalog author was restored. Primary main was independently verified clean at d8f39566; do not mutate primary until architecture review and coordinated merge.",
     "sourceOwnerRoleSwap": "1.16.5–1.17.1 source owner terminal at aca4dfb; role replaced by BED no-code proof reviewer. 1.15.2–1.16.5 owner terminal at f5636dd2 with all seven inventories open. 1.8.9–1.9.4 owner still closing.",
     "primaryMainStatus": "Independently checked clean at d8f3956602da94bf0cf67753cc0a9f4665397729. Do not mutate primary until architecture changes have frozen and passed review.",
@@ -1361,17 +1362,15 @@
       "failedBuildLogSha256": "36d1fb4d9fdf1312a4c8d90b47e7a4e1d858fdbc6e3e0a5785b7de2051171218",
       "candidateReviewStatus": "Fresh independent review active on commit 1310bfbb, target 19:27 (latest 19:30), including a static sweep of referenced catalog class/constructor access. No merge or build retry until ACCEPT and explicit coordinator gate."
     },
-    "roleTurnover": "F013 author and identity-only reviewer are terminal. Corrected F013 snapshot received identity-only ACCEPT. Integration owner active on failure record; separate candidate review active; no discovery roles added.",
+    "roleTurnover": "F013 author/reviewer and 1.8.9–1.9.4 and pane source-owner roles are terminal/released. All 14 reviewed 1.17.1–1.18.2 finding snapshots have bounded ACCEPTs; its pair remains PARTIAL.",
     "pane": "Pane owner active on bounded two-player Farmland conditional candidate; broader path open.",
     "sourcePairsLatest": {
-      "1.17.1--1.18.2": "F001-F012,F014 bounded ACCEPT; corrected F013 identity snapshot ACCEPTED by 2fd121e1; original REQUEST CHANGES preserved for original bytes; independent full-pair coverage ACCEPT e0e36eff remains distinct; pair PARTIAL."
+      "1.17.1--1.18.2": "All 14 finding snapshots have bounded ACCEPTs; corrected F013 identity-only ACCEPT at 2fd121e1, original REQUEST CHANGES remains bound to original bytes; independent full-pair coverage ACCEPT e0e36eff remains separate; pair PARTIAL."
     },
     "activeRolesAtLastUpdate": [
       "coordinator/root",
       "exclusive integration owner 01a11bb1-c29c-7f93-a858-c0d55f71ddc1",
-      "source owner 1.8.9–1.9.4 01a11bb3-59d0-72c0-ab62-71a6d301d1d8",
       "source owner 1.11.2–1.12.2 01a11bb3-9057-7283-b264-f6ff0befbb34",
-      "pane owner 1.12.2–1.13.2 01a11bb3-9efb-7962-b77b-722fbec5de31",
       "source F14 owner 1.21.4–1.21.5 01a11bf3-b68d-72a3-9fde-198291e05948",
       "two collaboration source roles",
       "other active source/review roles from current saved roster; terminal roles removed above",
@@ -1381,8 +1380,8 @@
     "safeNextActions": [
       "Obtain independent review for candidate 1310bfbb; do not merge or retry build until reviewer ACCEPT and explicit coordinator authorization.",
       "Keep primary main clean at d8f3956602da94bf0cf67753cc0a9f4665397729; failed batch has no accepted artifacts.",
-      "Finish F013 identity-only rereview from the corrected finding/binding; preserve pair PARTIAL and accepted full-pair coverage audit separately.",
-      "Preserve all other source-pair partial states and terminal owner checkpoints; no new discovery dispatch or worker roles."
+      "Stop new discovery by 19:25 and record active source-owner checkpoints by 19:40; do not infer pair completion from terminal owners or accepted findings.",
+      "Preserve all remaining source-pair partial states; no new discovery dispatch or worker roles."
     ],
     "sourcePair2626Latest": {
       "branch": "feat/source-26-1-2-26-2-resume-oct8",
@@ -1392,6 +1391,15 @@
       "reportBlob": "46743d1e9e18aa5ad96b3f3746f8fface5f425f6",
       "reportSha256": "93e56ec29903dbf0b4b7de606eed823d4067c6694e499d8e391bcd45e60221a3",
       "status": "terminal clean partial checkpoint; 73 units: 42 progress, 25 no-difference, 2 findings, 4 N/A, 0 blocked; seven inventories and D-B-PROVENANCE/D-DEPENDENCIES remain open."
+    },
+    "sourcePair189194Latest": {
+      "commit": "690577535f5fe081cc6314485c937af4adc7631c",
+      "status": "terminal/idle, clean with main ancestor; only INV-EXCLUSIONS complete; six required inventories and full independent audit pending/unassigned; pair partial"
+    },
+    "panePairLatest": {
+      "commit": "2853716b2031da05abe991e3913078f9a668f3bb",
+      "mainMerge": "1ac8050754be3fcef159739376bba13ca19feda3",
+      "status": "terminal/idle clean; 38 no-difference, 5 findings, 17 open slices; Farmland player-step +0.051 vs +0.05 candidate pending independent review; pair partial"
     }
   },
   "latestIndependentReviews": [
