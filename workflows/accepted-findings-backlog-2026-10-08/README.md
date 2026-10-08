@@ -1,16 +1,16 @@
 # Accepted movement finding backlog
 
-Implementation-side ledger for bounded findings accepted from immutable source or Wiki snapshots. Finding acceptance does not complete a pair and does not imply implementation, code review, integration, build, or runtime validation. Pair state belongs to the source-campaign ledger.
+Implementation-side ledger for bounded findings accepted from immutable vanilla-source or Wiki snapshots. Finding acceptance does not complete a pair and does not imply implementation, code review, integration, build, or runtime validation. Pair state belongs to the source-campaign ledger.
 
 - `accepted-findings.jsonl`: accepted immutable snapshots and implementation status.
 - `integrated-code-batches.jsonl`: exact code, review, integration, and artifact bindings, distinct from source-finding acceptance.
-- `pending-and-rejected.jsonl`: rejected or superseded items, unresolved identities, and active reviews.
+- `pending-and-rejected.jsonl`: rejected/superseded items, unresolved identities, active reviews, source checkpoints, and provenance caveats.
 - `passenger-crouch-source-provenance-erratum-2026-10-08.md`: corrects the accepted source digest and marks the shortened copy non-binding.
 
-This task branch includes current main `3a60fe735560e478bf0aa0d05f5e306c74800f6a`. Sleep and sprint implementations are integrated and have recorded builds with Gradle Test tasks disabled; slime landing restitution is an accepted no-code reconciliation. Runtime remains unverified. The vanilla `F-WATER-SPRINT` snapshot remains a candidate: its exact independent source-acceptance chain is unverified, separate from the accepted Wiki snapshot and code review.
+This branch includes local `main` `dc1b65b29e3c2561175bd54276ae83e37cd1c045`. The architecture batch is integrated on main after independent review and a successful repair build: 18 actionable tasks, every Gradle Test task disabled and `-x test` supplied. The first compile failure, accepted two-modifier repair, repair log, packaged/source JAR hashes, and prior artifacts are all preserved in the integration record. Runtime remains unverified; no push was made.
 
-The 1.20.4–1.20.6 source boundary is independently accepted for bounded claims. Its scope proof received REQUEST CHANGES for stale boundary wording despite per-claim ACCEPT decisions; the author published corrected r2, now under a fresh independent review. MC02 code review is independently ACCEPTED, with integration/build queued after source preparation. The 1.17.1–1.18.2 full-pair coverage audit is ACCEPTED after an immutable count erratum, but the pair ledger remains PARTIAL until the owner records the freeze; all 14 finding snapshots remain individually unaccepted.
+All 14 1.17.1–1.18.2 finding snapshots now have bounded ACCEPTs, including the corrected F-013 identity-only snapshot. The original REQUEST CHANGES remains bound to the original immutable bytes. The separately accepted full-pair coverage audit does not complete the pair; pair state remains PARTIAL.
 
-Pane r2 received a second REQUEST CHANGES because a fallback shape uses a 7/16 and 9/16 subdivision outside the supported `findBits` subdivision; the owner is correcting it and continuing the full inventory. A new ordinary-fall bed witness is under blind review. MCPK r5 received bounded ACCEPT; the Wiki lane remains partial, with attribution correction and full-catalog continuation active. Piston source evidence is accepted, while a proof-only scope review remains active; first exact cutover and 1.15.1 coverage are open.
+The 1.21.4–1.21.5 owner disclosed implementation-diff exposure during a prior merge. That evidence remains recorded; a fresh source-only discovery/coverage pass and blind review are required before full-pair freeze. The 1.21.11–26.1.2 pair is partial with F-1 snapshot-only ACCEPT, F-2/F-3 pending, and seven inventories open. Other terminal source checkpoints, Wiki/MCPK gaps, and resumable queues are recorded in `pending-and-rejected.jsonl` and the coordinator resume note.
 
-All 26 source pairs remain partial. This ledger update is documentation only; no tests, builds, clients, TAS, servers, Docker, or push were performed by this task.
+All 26 source intervals remain partial/open. Tests, game/runtime validation, Docker, and pushes were not performed for this checkpoint.
