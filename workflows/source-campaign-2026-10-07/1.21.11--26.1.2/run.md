@@ -258,13 +258,13 @@ Each entry is a bounded behavior boundary. Refine broad plans into exact member 
 ### Slice S3.1: Travel dispatch and ground acceleration
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: Not yet compared as a complete slice. Planned boundary: Travel dispatch and ground acceleration. Exact paired sources are ready; member ranges, guards/order and producer/consumer closure remain open.
-- A evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; A source/artifact readiness provenance is recorded in the Artifact Manifest.
-- B evidence: exact member/body ranges and cited source file SHA-256 pending this slice audit; B source/artifact readiness provenance is recorded in the Artifact Manifest.
-- State producers/writers -> consumers/readers: source writer/consumer inventory remains open.
-- Parent slices / dependencies / closure evidence: source dependencies not yet audited; expand through paired call graph and resource inventory.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): Not compared; no equivalence or difference conclusion. Paired member ranges and producer/consumer closure are not yet complete.
+- Exact behavior boundary and enclosing guards/order checked: Paired `LivingEntity.travelInAir(Vec3)` bodies, A lines 2343-2366 / B lines 2430-2453. Each reads the movement-affecting block below the entity; uses block friction only while grounded and `1.0F` otherwise; computes `friction = blockFriction * 0.91F`; calls `handleRelativeFrictionAndCalculateMovement(input, blockFriction)`; then applies Levitation Y interpolation, effective gravity under the same client/chunk gate, or the same unloaded-client fallback (`-0.1` above minY, else zero). `shouldDiscardFriction()` chooses direct `(x,y,z)` write; otherwise X/Z are multiplied by friction and Y by `FlyingAnimal ? friction : 0.98F`.
+- A evidence: `ready/1.21.11/mojmap/net/minecraft/world/entity/LivingEntity.java` :: `travelInAir()`, lines 2343-2366, SHA-256 `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`.
+- B evidence: `ready/26.1.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java` :: `travelInAir()`, lines 2430-2453, SHA-256 `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`.
+- State producers/writers -> consumers/readers: `onGround` selects block friction; below-block lookup and block friction feed the helper and post-travel drag; Levitation/effective-gravity/chunk state feed vertical update; discard-friction and `FlyingAnimal` predicates select final operation. The helper body and block property providers are S3.2/S5 dependencies; attributes/effect and exact world inputs remain D2/S6 dependencies.
+- Parent slices / dependencies / closure evidence: `S3.1.1` closes travel branch dispatch; S3.2 owns friction helper, speed-factor and post-travel drag; S3.9 owns relative movement/vector math; S4.4-S4.6/S5.1-S5.8 own below-block lookup, collision/ground result and block properties/resources; S6 owns effect/attribute inputs. These closures remain open.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): Both paired air-travel bodies preserve branch order, arithmetic grouping, casts, strictness, fallback constants, and final velocity-write order. No direct formula delta was observed in this bounded method. Because the friction helper, state producers and block/resource inputs remain open, the slice is not terminal.
 - Finding IDs or checked absence/replacement path: none; no absence claim made.
 
 ### Slice S3.1.1: Living travel branch dispatch
@@ -782,7 +782,7 @@ F-1 candidate snapshot submitted for blind review; acceptance is pending and doe
 
 ## Source audit closure
 
-- Coverage counts by status: 8 pending; 37 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
+- Coverage counts by status: 7 pending; 38 in-progress; 10 compared-no-difference; 0 findings; 1 not-applicable; 0 blocked (56 slices). F-1 is an evidence-complete candidate within the still-open broader S4.6 slice; it does not change that slice's in-progress status or the pair coverage count.
 - Required inventory status and evidence: all 7 pending; exact source inputs are verified, but full movement/provider/resource inventories remain incomplete.
 - Open dependencies: D2
 - Unresolved gaps and limits: inherited tick/travel/collision body comparisons, movement state producers/consumers, shape providers/registrations, and data/resource dependency closure.
