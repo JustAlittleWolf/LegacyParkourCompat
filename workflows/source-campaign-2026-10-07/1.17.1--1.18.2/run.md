@@ -71,7 +71,7 @@ A/B roles: LocalPlayer#aiStep client tick; KeyboardInput#tick input; LivingEntit
 - A evidence: build/movement-campaign-2026-10-07/ready/1.17.1/mojmap/net/minecraft/world/entity/LivingEntity.java::LivingEntity#travel, lines 2074-2090, SHA-256 33fd081aadb2b6fdc9ebf487db6da5b38c54f4b8676572790ee2203690d15e6f.
 - B evidence: build/movement-campaign-2026-10-07/ready/1.18.2/mojmap/net/minecraft/world/entity/LivingEntity.java::LivingEntity#travel, lines 2080-2099, SHA-256 db4168d531caf18f22e3fefd073365e776da4075ce01452bb9f7671d9b458782.
 - State producers/writers -> consumers/readers: pitch/look/velocity -> coefficient -> velocity.
-- Parent slices / dependencies / closure evidence: D-ELYTRA-ENTRY open.
+- Parent slices / dependencies / closure evidence: D-ELYTRA-ENTRY resolved by paired LocalPlayer jump trigger, Player#tryToStartFallFlying guards, ElytraItem durability eligibility, and the server START_FALL_FLYING request guard; modifier data remains under D-EFFECT-DATA/D-ATTRIBUTE-REGISTRY/D-ENCHANTMENT-DATA.
 - Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): A float Mth.cos/cast; B double Math.cos retained in same equations.
 - Finding IDs or checked absence/replacement path: F-002.
@@ -202,7 +202,7 @@ A/B roles: LocalPlayer#aiStep client tick; KeyboardInput#tick input; LivingEntit
 - Finding IDs or checked absence/replacement path: F-007.
 ## Dependency queue and blockers
 
-Resolved: D-ENTITY-COLLISIONS (paired LocalPlayer entity query and EntityGetter/Entity.canCollideWith); D-SHAPES-COLLIDE-OVERLOAD (paired sequential stream/iterable loop and matching VoxelShape collision kernel; source candidate ordering remains separate); D-INPUT-ASSIGNMENTS (on-foot local input path; passenger packet is excluded); D-RESET-CLIP-FILTER (B ClipContext block/fluid predicates, resetFallDistance assignment, tag and water resource entries). Open: D-SHAPE-PROVIDERS,D-BORDER-MOVE-PATH,D-ELYTRA-ENTRY,D-EFFECT-DATA,D-ATTRIBUTE-REGISTRY,D-ENCHANTMENT-DATA,D-SHAPE-REGISTRY,D-BLOCK-CALLBACKS,D-MOVEMENT-TAGS,D-EXTERNAL-VELOCITY,D-MOUNT-INPUT,D-PACKET-RECONCILIATION. Each can affect movement; pair discovery owns retrieval. No external blocker.
+Resolved: D-ENTITY-COLLISIONS (paired LocalPlayer entity query and EntityGetter/Entity.canCollideWith); D-SHAPES-COLLIDE-OVERLOAD (paired sequential stream/iterable loop and matching VoxelShape collision kernel; source candidate ordering remains separate); D-INPUT-ASSIGNMENTS (on-foot local input path; passenger packet is excluded); D-RESET-CLIP-FILTER (B ClipContext block/fluid predicates, resetFallDistance assignment, tag and water resource entries); D-ELYTRA-ENTRY (paired local/server activation and Elytra durability guard). Open: D-SHAPE-PROVIDERS,D-BORDER-MOVE-PATH,D-EFFECT-DATA,D-ATTRIBUTE-REGISTRY,D-ENCHANTMENT-DATA,D-SHAPE-REGISTRY,D-BLOCK-CALLBACKS,D-MOVEMENT-TAGS,D-EXTERNAL-VELOCITY,D-MOUNT-INPUT,D-PACKET-RECONCILIATION. Each can affect movement; pair discovery owns retrieval. No external blocker.
 
 Block-provider shape sweep (spot-check only; D-SHAPE-PROVIDERS remains open): the `getShape`/`getCollisionShape`/`collisionShape` search returned the same 122 block source paths on A and B. A normalized `Block.box` signature comparison found only two unmatched extents in `HangingRootsBlock` (A 4,9,4 to 12,16,12; B 2,10,2 to 14,16,14) and one B-only `PointedDripstoneBlock` clearance box. Hanging Roots is registered with `.noCollission()` on both sides (Blocks A line 3707, B line 3690), so its changed outline contributes no player collision shape; class hashes A a08abfc7f67899379625571b29d80bfcb197a07975ab11d74cd8d30afa305f0f / B 78862aaed131c6917740d55045e78cee8876cfaffadcb749aa8064b0c48f1c9a. The B-only `REQUIRED_SPACE_TO_DRIP_THROUGH_NON_SOLID_BLOCK` at PointedDripstoneBlock line 75 is consumed by `canDripThrough` line 586 for a drip-through clearance predicate, not movement collision (A/B class hashes a1eaadf6b494b378f4e075dcdfcad398b3ac5be86d9541ee919963e786702db3 / 16c2b2ba3441b8db2cc22126cc05a2468cb089ce2eaa397203230e89878cb39e). Non-box shape composition, collision-context behavior, and remaining providers are still unreviewed.
 D-BORDER-MOVE-PATH trace: A Entity#collide lines 750-758 conditionally includes the world-border VoxelShape based on intersection with the deflated source AABB, then supplies it beside expanded-box entity shapes to the solver; B Entity#collideBoundingBox lines 803-816 adds the border only when WorldBorder#isInsideCloseToBorder passes for the movement-expanded AABB, then adds block shapes. B's guard uses distance-to-border and an expanded-size margin at WorldBorder lines 76-79 (class SHA-256 A b848dd0dc6043d6c9012726844bea53cf4558c0135a08fa3be55960b0e557df9 / B ade6bcb18ae0b7a2c6e9978295288bfac6fbb759a0f8a2dfb9d3983788d332fb). The collection guard differs; this source pass has not proven a reachable movement outcome or closed border geometry/query bounds, so the dependency remains open.
@@ -221,12 +221,12 @@ D-BORDER-MOVE-PATH trace: A Entity#collide lines 750-758 conditionally includes 
 
 - Last completed: T-INPUT,T-SPRINT,T-ELYTRA,T-AUTOJUMP-ORDER,T-AUTOJUMP-BORDER,T-FALL-RESET.
 - Next: resolve D-SHAPE-PROVIDERS and D-BORDER-MOVE-PATH to close T-EDGE-GATE/T-ENTITY-COLLISION; compare actual block collision providers; continue the remaining slices; continue T-WORLD-PROPERTIES and T-MODIFIERS through block/resource registrations, callbacks, tags, attributes, effects and equipment; expand INV-EXTERNAL beyond the four bounded slices.
-- Outstanding: D-SHAPE-PROVIDERS,D-BORDER-MOVE-PATH,D-ELYTRA-ENTRY,D-EFFECT-DATA,D-ATTRIBUTE-REGISTRY,D-ENCHANTMENT-DATA,D-SHAPE-REGISTRY,D-BLOCK-CALLBACKS,D-MOVEMENT-TAGS,D-EXTERNAL-VELOCITY,D-MOUNT-INPUT,D-PACKET-RECONCILIATION.
+- Outstanding: D-SHAPE-PROVIDERS,D-BORDER-MOVE-PATH,D-EFFECT-DATA,D-ATTRIBUTE-REGISTRY,D-ENCHANTMENT-DATA,D-SHAPE-REGISTRY,D-BLOCK-CALLBACKS,D-MOVEMENT-TAGS,D-EXTERNAL-VELOCITY,D-MOUNT-INPUT,D-PACKET-RECONCILIATION.
 - Resume validation command from repository root: python workflows/movement-discovery/check_completion.py workflows/source-campaign-2026-10-07/1.17.1--1.18.2/. This is a schema/status check only.
 
 ## Finding snapshots (not pair freeze)
 
-The pair remains partial. Accepted snapshot count is zero; F-001, F-006 and F-007 are immutable candidates submitted for blind source review. Snapshot acceptance releases only that finding for a separate implementation task and does not close other slices or freeze the pair.
+The pair remains partial. Accepted snapshot count is zero; F-001, F-002, F-006 and F-007 are immutable candidates submitted for blind source review. Snapshot acceptance releases only that finding for a separate implementation task and does not close other slices or freeze the pair.
 
 - Snapshot ID: F001-1.17.1-1.18.2-d02139e
 - Finding: findings/F-001-minor-horizontal-collision-sprint.md
@@ -258,6 +258,16 @@ The pair remains partial. Accepted snapshot count is zero; F-001, F-006 and F-00
 - Finding dependencies: server receiver and clear-path position acceptance checked; broad correction/reconciliation remains open.
 - Reviewer: 01a116ce-c937-7613-a49b-716e99582357; decision pending.
 - Pair state at handoff: partial; immutable snapshot commit ac5cdaa; pair complete: no; implementation status: not started; runtime validation: not performed.
+- Snapshot ID: F002-1.17.1-1.18.2-dca39e2
+- Finding: findings/F-002-elytra-cosine-precision.md
+- Immutable snapshot commit: dca39e24891a9addd847f4010b57e47689210d55
+- Finding file SHA-256: bb72676167340fa5e001062b3f9cb69ce36d0160b37fe834212693a4feb0b546
+- Source/artifact identity: A Mojmap 1.17.1 source manifest 93270d229acfb751bf56daf1e7be26ce3dcff26b29e94aa157de621405a3463b, artifact manifest e52c5dbae7d9663190ccc55a4f9b44a8e0615fb1fbbd8280811df43f70ec8aaa, mapped jar 2a2be036174902e447865498741b8c59fa2e090d352d786a8507dccb7c23008c; B Mojmap 1.18.2 source manifest aea0cb9c6fc8f7a46f0eb82b0388ad58a4659f513be6c0a2be06c0df0c1eb07a, artifact manifest a1507e4875faee892aca4c59686bbd68933db21a2274559e81eea8a32b021036, mapped jar 60a2017dd217b23df8a5ddbebac96fccb58ff747e961974696e0018f6ef12dba.
+- Bounded player path: jump input with a valid chest-slot Elytra while airborne, not water/flying/passenger/on a climbable and without Levitation; local and server guards activate the same LivingEntity#travel fall-flying branch.
+- Version boundary: exact 1.17.1 vs 1.18.2; first changed release within the interval unknown.
+- Finding dependencies: entry path, state guard, durability eligibility, and server request guard checked; velocity consequence is inferred and not simulated.
+- Reviewer: 01a116ce-c937-7613-a49b-716e99582357; decision pending.
+- Pair state at handoff: partial; immutable snapshot commit dca39e2; pair complete: no; implementation status: not started; runtime validation: not performed.
 - Snapshot ID: F006-1.17.1-1.18.2-064fc24
 - Finding: findings/F-006-boat-passenger-yaw-refresh.md
 - Immutable snapshot commit: 064fc24e5e3d8b4dab4f12c2000dcb13d37514ca
