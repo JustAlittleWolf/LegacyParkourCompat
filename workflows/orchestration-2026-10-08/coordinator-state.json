@@ -36,7 +36,7 @@
     {
       "threadId": "01a11bb1-adb2-7212-9a90-26537278d788",
       "role": "implementation_static_review",
-      "status": "active; slipperinessad684f4 implementation andedge no-code proof review",
+      "status": "active exact object-store handoff and separate slipperiness range source snapshot; bounded implementation ACCEPT e1866cc",
       "scope": "four pending code patches",
       "resultCommit": "bdb6443; notes d3190b4"
     },
@@ -166,7 +166,7 @@
       "role": "ops_audit",
       "pair": null,
       "ref": null,
-      "status": "completed; backlog506ffc47e9210097bcb7dd142538e5b16c8d4b62 adopted; coordinator found missingacceptedrecords and STATE03 mislink, followupauditpending"
+      "status": "active focused backlog correction and artifact audit"
     },
     {
       "threadId": "01a11bbe-a775-7180-a017-d2386dcd9fb3",
@@ -248,7 +248,7 @@
       "threadId": "01a11bd2-044b-7153-8959-4e05be07e6ab",
       "role": "source",
       "pair": "1.19.2--1.19.3",
-      "status": "active",
+      "status": "completed source checkpoint; pair remains partial",
       "ref": "5eae28a0d18041bdebca7427e45a379912ab88af",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -299,7 +299,7 @@
       "threadId": "01a11be8-f958-7630-8261-391bbac955a0",
       "role": "source",
       "pair": "1.20.4--1.20.6",
-      "status": "active",
+      "status": "completed source checkpoint; pair remains partial",
       "ref": "477b6afcb4d890bae82437ff98795592695b9e43",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -317,7 +317,7 @@
       "threadId": "01a11bef-63b2-7051-a26b-ecb85fefec53",
       "role": "source",
       "pair": "1.21.1--1.21.3",
-      "status": "active",
+      "status": "completed source checkpoint; pair remains partial",
       "ref": "9efca3a29af87debd09cf76d92affbf475e98e16",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
@@ -369,7 +369,7 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:49:15.0888915Z",
+    "observedAt": "2026-10-08T14:54:54.1756551Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
@@ -408,14 +408,12 @@
     "mainStatus": "code already integrated; source binding/provenance being independently reconciled"
   },
   "nextCoordinatorActions": [
-    "Collect current accepted pose integration result then dispatch ACCEPT F005 b215d723/reviewdd69581 via exclusiveintegrationowner.",
-    "Collect WORLD03 correction8ae77014 focused independent re-review before integration.",
-    "Collect swimmingentry5c419e8 andBigDripleaf nativeproof review.",
-    "Collect MCPK edge/slipperiness already-covered proof and ops full accepted-finding implementationbacklog.",
-    "Continue all26 exactsourcepairs; current source21.3--21.4 active, next21.4--21.5 when slot frees; earlierpartialpairs still need continuation and independentcoverageaudit.",
-    "F005 server activation proven forconfiguredprofilebeforeload; per-player override mustprecedeload. Later live switching explicitlyexcluded, not a requiredfeature.",
-    "Fence integratedmainb099aa0 with all-Test-disabled build; exactnewJARhash recorded inintegrationnotes, awaiting nextops artifactaudit.",
-    "Keep15 maximumincludingroot/old1.17source; allworkersLunaHigh, rootSolMedium; no tests/runtime/Docker/push."
+    "Collect WORLD03 and swimming-entry serialized integrations and independently audit resulting main/build evidence.",
+    "Collect exact e1866cc slipperiness ACCEPT object-store handoff before assigning next integration; do not interrupt current batches.",
+    "Collect focused range source snapshot then commission independent source review before any extension.",
+    "Collect corrected accepted backlog and assign uncovered accepted minimal mechanics independently.",
+    "All 26 source intervals have fresh continuation owners or saved partial checkpoints; complete remaining inventories and independent full-pair audits.",
+    "Keep maximum 15 concurrent roles including root and old active source owner; coordinator Sol Medium, all workers Luna High; no tests/runtime/Docker/push."
   ],
   "nextAcceptedIntegrationBatch": {
     "finding": "F005 saved FallFlying",
@@ -473,7 +471,7 @@
     "runtime": "unverified"
   },
   "acceptedBacklogAuditFollowUp": {
-    "status": "pending free slot; do not treat backlog as complete",
+    "status": "active isolated ops worker correcting records",
     "missing": [
       "TICK01 acceptedsource1dbafbb/review304b6a58",
       "WORLD03 aa66894/reviewa2e510bd",
@@ -491,10 +489,28 @@
     "next": "reactivate isolated opsaudit when slot frees; add missing exactrecords and fixmislinks, then prioritize uncoveredacceptedmechanics includingpassengercrouchinput/sleep/sprint resets"
   },
   "slipperinessRangeFollowUp": {
-    "status": "known wider legacy-range coverage needs separate evidence-backed follow-up; do not claim covered",
+    "status": "active focused reconciliation worker preparing immutable source-family snapshot; independent blind review pending",
     "sourceObservation": "implementationreviewer reports exact ready sources minY-.5000001 through1.19.4, getOnPos(.500001F) by1.20.1",
     "currentPatch": "ad653ac/ad684f4 adds1.15.2 handler only; selected1.16+ defaults native, pre-existinggap remains",
     "next": "collect final review sourcepaths/hashes, obtain immutable independent source-family range snapshot/review before minimal registration extension; keep normaldiscovery owners blind to implementation",
     "claimLimit": "bounded1.15.2 ACCEPT would not prove all laterprofiles correct"
-  }
+  },
+  "collaborationWorkers": [
+    {
+      "status": "active",
+      "savedRef": "8925319ec400364f53fd07f2a156a6da1268f6cb",
+      "pair": "1.21.11--26.1.2",
+      "model": "gpt-6-luna",
+      "reasoningEffort": "high",
+      "task": "/root/source_12111_2612"
+    },
+    {
+      "status": "active",
+      "savedRef": "b43d35babb5bec9467691ae5043fcf24b6efacde",
+      "pair": "26.1.2--26.2",
+      "model": "gpt-6-luna",
+      "reasoningEffort": "high",
+      "task": "/root/source_2612_262"
+    }
+  ]
 }
