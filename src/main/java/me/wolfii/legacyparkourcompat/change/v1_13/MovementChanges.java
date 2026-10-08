@@ -9,5 +9,6 @@ public final class MovementChanges implements MovementChangeProvider {
         registry.register(new SwimmingPitch());
         registry.register(new SneakingDimensions());
         registry.register(new SneakInputSlowdown());
+        registry.register(new SprintInputStart());
     }
 }

@@ -17,6 +17,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowWaterSprintBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakInputSlowdownBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintCollisionBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintFallFlyingGateBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.SprintInputStartBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintStartBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintTickBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintTriggerBehavior;
@@ -162,9 +163,46 @@ abstract class LocalPlayerMixin {
     )
     private boolean legacyparkourcompat$allowWaterSprintStart(boolean vanilla) {
         Player player = (Player)(Object)this;
-        return MovementRuntime.find(WaterSprintGateBehavior.class, player)
+        boolean allowed = MovementRuntime.find(WaterSprintGateBehavior.class, player)
             .map(behavior -> behavior.allowShallowWaterSprint(player, vanilla))
             .orElse(vanilla);
+        return MovementRuntime.find(SprintInputStartBehavior.class, player)
+            .map(behavior -> behavior.allowShallowWaterStart(player, allowed))
+            .orElse(allowed);
+    }
+
+    @WrapOperation(
+        method = "aiStep",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/player/LocalPlayer;setSprinting(Z)V",
+            ordinal = 0
+        )
+    )
+    private void legacyparkourcompat$doubleTapSprintStart(LocalPlayer player, boolean sprinting, Operation<Void> vanilla) {
+        boolean allowed = MovementRuntime.find(SprintInputStartBehavior.class, player)
+            .map(behavior -> behavior.allowDoubleTapStart(player, sprinting))
+            .orElse(sprinting);
+        if (allowed) {
+            vanilla.call(player, sprinting);
+        }
+    }
+
+    @WrapOperation(
+        method = "aiStep",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/player/LocalPlayer;setSprinting(Z)V",
+            ordinal = 1
+        )
+    )
+    private void legacyparkourcompat$sprintKeyStart(LocalPlayer player, boolean sprinting, Operation<Void> vanilla) {
+        boolean allowed = MovementRuntime.find(SprintInputStartBehavior.class, player)
+            .map(behavior -> behavior.allowSprintKeyStart(player, sprinting))
+            .orElse(sprinting);
+        if (allowed) {
+            vanilla.call(player, sprinting);
+        }
     }
 
     @ModifyArg(
