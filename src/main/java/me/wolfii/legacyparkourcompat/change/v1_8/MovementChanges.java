@@ -9,6 +9,7 @@ public final class MovementChanges implements MovementChangeProvider {
         registry.register(new BoatRiderInput());
         registry.register(new CreativeFlightFallDistance());
         registry.register(new CreativeFlightSneakInput());
+        registry.register(new EndPortalFramePlayerEjection());
         for (String blockId : FencePortalFrameConnection.BLOCK_IDS) {
             registry.register(new FencePortalFrameConnection(blockId));
         }
