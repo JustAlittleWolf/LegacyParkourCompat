@@ -179,7 +179,7 @@
       "threadId": "01a11bc1-f2a2-7342-82ea-4072acd7ff4b",
       "role": "passenger_yaw_correction",
       "ref": "8722bc476159b79f7e249f48b0e1076f209ced12",
-      "status": "active; accepted F005 savedFallFlying implementation/capability assessment; passenger correction completed",
+      "status": "completed; F005 server implementationb215d723c22cf2c73601b7807056ba0d23fdbf23 tip7d80e2e awaiting independentreview",
       "resultCommit": "5c2cc08;main merge32c8b0a"
     },
     {
@@ -229,7 +229,7 @@
     {
       "threadId": "01a11bce-05d9-7c80-9a1e-0f65525c141b",
       "role": "rising_crouch_independent_review",
-      "status": "completed; rising code14a6e23 ACCEPTc24391c",
+      "status": "active; F005 savedFallFlying code review including profile availability atload",
       "ref": "14a6e23432ab6a885b5c5ce265cf2404283756f6"
     },
     {
@@ -306,7 +306,7 @@
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T14:27:22.8649436Z",
+    "observedAt": "2026-10-08T14:28:15.8189772Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
