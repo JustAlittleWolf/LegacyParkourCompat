@@ -36,7 +36,7 @@
     {
       "threadId": "01a11bb1-adb2-7212-9a90-26537278d788",
       "role": "implementation_static_review",
-      "status": "completed",
+      "status": "active; passenger corrected-code re-review",
       "scope": "four pending code patches",
       "resultCommit": "bdb6443; notes d3190b4"
     },
@@ -179,13 +179,19 @@
       "threadId": "01a11bc1-f2a2-7342-82ea-4072acd7ff4b",
       "role": "passenger_yaw_correction",
       "ref": "8722bc476159b79f7e249f48b0e1076f209ced12",
-      "status": "active"
+      "status": "completed; re-review pending",
+      "resultCommit": "5c2cc08;main merge32c8b0a"
     },
     {
       "threadId": "01a11bc2-03b2-7443-bc8f-698902c67f29",
       "role": "wiki_minecraft_review",
       "ref": "005e647; b20730f",
-      "status": "active"
+      "status": "completed",
+      "resultCommit": "22849555;main merge c80b31f",
+      "decisions": {
+        "swimmingPitch": "ACCEPT b20730f SHA dd0abd5a90ac1813197e4c09ab97ed0e0027c48e237a148bbf95bde2f64e6a89",
+        "fenceFrame": "REQUEST CHANGES; wrong1.9.4source-manifest hash; new immutable snapshot needed"
+      }
     },
     {
       "threadId": "01a11bc2-1af1-7263-a36e-fb0ea5e4c509",
@@ -207,10 +213,16 @@
       "pair": "1.18.2--1.19.2",
       "discoveryStatus": "partial",
       "runtimeValidation": "not performed"
+    },
+    {
+      "threadId": "01a11bc7-1a05-7291-a58f-613b83331a78",
+      "role": "swimming_pitch_reconciliation",
+      "status": "active",
+      "ref": "source b20730f; wiki-aware review22849555"
     }
   ],
   "lastAudit": {
-    "observedAt": "2026-10-08T13:48:14.356Z",
+    "observedAt": "2026-10-08T13:52:52.405Z",
     "oldCompleted": 42,
     "oldActive": 1,
     "unknownSlotReserved": 0,
@@ -225,6 +237,8 @@
     "elytraStart": "request changes; caller eligibility",
     "oldCoordinator": "idle/completed verified",
     "reviewReport": "bdb6443;notes d3190b4",
-    "jarReportedSha256": "1C3198B1E05AC5FD4CE4D84683060576CA34ED636CA81E88728FF9F6A07BCBD1"
+    "jarReportedSha256": "1C3198B1E05AC5FD4CE4D84683060576CA34ED636CA81E88728FF9F6A07BCBD1",
+    "jarAudit": "ops independently verified logged18-task build/test-disable script and artifactSHA",
+    "sourceQueue": "ops preparing all26 pair resumable work queue"
   }
 }
