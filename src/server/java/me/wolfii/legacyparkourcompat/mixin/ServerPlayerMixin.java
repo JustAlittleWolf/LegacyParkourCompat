@@ -1,8 +1,10 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.FallFlyingSavedStateBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerRestSafetyBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerRestSafetyQueryBehavior;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.storage.ValueInput;
@@ -16,6 +18,17 @@ import java.util.function.Predicate;
 
 @Mixin(ServerPlayer.class)
 abstract class ServerPlayerMixin {
+    @ModifyExpressionValue(
+        method = "startSleepInBed(Lnet/minecraft/core/BlockPos;)Lcom/mojang/datafixers/util/Either;",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;isCreative()Z")
+    )
+    private boolean legacyparkourcompat$restSafetyCreativeGate(boolean vanilla) {
+        ServerPlayer player = (ServerPlayer) (Object) this;
+        return MovementRuntime.find(PlayerRestSafetyQueryBehavior.class, player)
+            .map(behavior -> behavior.skipSafetyQuery(vanilla))
+            .orElse(vanilla);
+    }
+
     @ModifyArg(
         method = "startSleepInBed(Lnet/minecraft/core/BlockPos;)Lcom/mojang/datafixers/util/Either;",
         at = @At(
@@ -31,7 +44,6 @@ abstract class ServerPlayerMixin {
         return monster -> MovementRuntime.find(PlayerRestSafetyBehavior.class, player)
             .map(behavior -> behavior.preventsRest(
                 monster,
-                MovementRuntime.profile(player).target(),
                 () -> vanillaPredicate.test(monster)
             ))
             .orElseGet(() -> vanillaPredicate.test(monster));

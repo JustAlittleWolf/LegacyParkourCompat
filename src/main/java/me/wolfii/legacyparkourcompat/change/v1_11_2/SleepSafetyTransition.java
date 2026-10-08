@@ -11,8 +11,8 @@ import java.util.function.BooleanSupplier;
 @MovementChange(emulates = ParkourVersion.V1_11_2)
 public final class SleepSafetyTransition implements PlayerRestSafetyBehavior {
     @Override
-    public boolean preventsRest(Monster monster, ParkourVersion selected, BooleanSupplier vanilla) {
-        if (selected == ParkourVersion.V1_11_2 && monster instanceof ZombifiedPiglin) {
+    public boolean preventsRest(Monster monster, BooleanSupplier vanilla) {
+        if (monster instanceof ZombifiedPiglin) {
             return true;
         }
         return vanilla.getAsBoolean();
