@@ -11,7 +11,30 @@
 
 ## Artifact manifest
 
-Repeat for A and B: exact release; source root; client jar hash; CLI mode; mapping coordinate/build/path/hash; bridge mapping path/hash if any; mapped jar hash; cited source relative paths/hashes; cited resource jar entry names/hashes; required external data and provenance. For a published unobfuscated release, mark mapping and mapped-jar fields not applicable and record that the original client jar was decompiled. Use SHA-256 and record publisher hashes separately.
+Repeat for A and B: exact release; source root; client jar hash; CLI mode; mapping coordinate/build/path/hash; bridge mapping path/hash if any; mapped jar hash; cited source relative paths/hashes; cited resource jar entry names/hashes; required external data and provenance. For a published unobfuscated release, mark mapping and mapped-jar fields not applicable and record that the original client jar was decompiled. Use SHA-256 and record publisher hashes separately. Distinguish original verified artifacts from revised derived snapshots; never overwrite the original record with a revised artifact identity.
+
+## Artifact evidence identities
+
+Add a record for each evidence artifact/revision cited by findings or snapshots. Values may honestly remain `pending` in an active report. A revised record must identify both the immutable revised snapshot and its original lineage, including unavailable original artifacts and equivalence limits.
+
+### Evidence artifact <ID>
+
+- Release / side / evidence role:
+- Publication status: original-verified | revised-derived | pending
+- Revision ID: none | <revision-id> | pending
+- Immutable evidence path:
+- Evidence artifact SHA-256:
+- Evidence manifest path:
+- Evidence manifest SHA-256:
+- Original artifact-manifest path:
+- Original artifact-manifest SHA-256:
+- Original derived-artifact availability: verified | unavailable | not-applicable | pending
+- Original derived-artifact SHA-256 or expected hash:
+- Source/raw-input hash relation: verified | unverified | not-applicable | pending; verification reference:
+- Revised-to-original derived-artifact equivalence: verified | unverified | not-applicable | pending; evidence reference:
+- Provenance limitations:
+
+<!-- Repeat per artifact ID. These declarations identify evidence; they do not verify hashes by themselves. -->
 
 ## Blind-discovery freeze
 
@@ -35,8 +58,8 @@ Each inventory is a top-level map to bounded coverage-slice IDs, not a single br
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending | complete; slice_ids=<...>; evidence=<...>
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, subclasses, registries, data/tags and resource-backed defaults: status=pending | complete; slice_ids=<...>; evidence=<...>
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and their applications/removals/conditions: status=pending | complete; slice_ids=<...>; evidence=<...>
-- `INV-EXTERNAL` player-only externally supplied movement inputs and client consumers, such as corrections, pushes, pistons and mounts: status=pending | complete; slice_ids=<...>; evidence=<...>
-- `INV-EXCLUSIONS` explicit scope audit for health, regeneration, hunger, food, saturation, exhaustion, damage/combat simulations and non-player movement: status=pending | complete; evidence=<...>; explain any direct vanilla-state reads that remain in movement predicates.
+- `INV-EXTERNAL` player-only external movement inputs and direct player velocity/impulse/knockback application, plus in-scope player-facing transitions; exclude non-player and vehicle physics: status=pending | complete; slice_ids=<...>; evidence=<...>
+- `INV-EXCLUSIONS` explicit scope audit for health/food state production, attack/damage resolution, non-player movement and vehicle physics. Direct player-motion response remains in scope even when combat can trigger it: status=pending | complete; evidence=<...>; explain direct vanilla-state reads without emulating their producers.
 
 ## Coverage ledger
 
@@ -85,8 +108,21 @@ Append an event for each source-confirmed finding snapshot and each later invali
 - Immutable snapshot commit:
 - Finding file path and SHA-256:
 - Exact A/B artifact-manifest identities/hashes:
+- Evidence artifact record IDs:
+- Publication status: original-verified | revised-derived | pending
+- Revision ID(s):
+- Immutable evidence path(s):
+- Evidence artifact SHA-256(s):
+- Evidence manifest path(s):
+- Evidence manifest SHA-256(s):
+- Original artifact-manifest path(s):
+- Original artifact-manifest SHA-256(s):
+- Original derived-artifact availability/hash:
+- Source/raw-input hash relation:
+- Revised-to-original equivalence:
+- Provenance limitations:
 - Cited source/resource hashes:
-- Verified implementation boundary/evidence, or unresolved boundary reason:
+- Source-proven historical behavior boundary/evidence (phase, producers/consumers, applicability), or unresolved source question:
 - Finding-specific closed dependency IDs/evidence:
 - Independent blind source reviewer and decision date:
 - Review basis / requested source-only revisions:

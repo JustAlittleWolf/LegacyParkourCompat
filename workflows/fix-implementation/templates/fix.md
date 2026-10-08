@@ -3,6 +3,15 @@
 - Discovery finding and manifest links:
 - Incremental snapshot ID (if pair not frozen):
 - Immutable source snapshot commit and finding-file SHA-256:
+- Evidence artifact record IDs and publication status (original-verified | revised-derived | pending):
+- Revision ID(s), when revised:
+- Immutable evidence path(s) and artifact SHA-256(s):
+- Evidence-manifest path(s) and SHA-256(s):
+- Original artifact-manifest path(s) and SHA-256(s):
+- Original derived-artifact availability/hash:
+- Source/raw-input hash relation and verification reference:
+- Revised-to-original derived-artifact equivalence and evidence reference:
+- Provenance limitations (including unavailable originals):
 - Exact A/B artifact-manifest and cited source/resource hashes:
 - Blind source reviewer acceptance and date:
 - Pair discovery status/commit at handoff (`active` or `partial`; pair complete = no):
