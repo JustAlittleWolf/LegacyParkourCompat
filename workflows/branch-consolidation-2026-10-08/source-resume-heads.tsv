@@ -1,0 +1,26 @@
+1.8.9--1.9.4	feat/source-discovery-movement-source-1-8-9-1-9-4-solid-resume	690577535f5fe081cc6314485c937af4adc7631c	partial
+1.9.4--1.10.2	feat/source-discovery-movement-source-1-9-4-1-10-2-resume3	8d4deeedacd03de0c84e175128726b5f6ab63ef3	partial
+1.10.2--1.11.2	feat/source-discovery-movement-source-1-10-2-1-11-2	645656e32b402e041abde917fca0ce228c5414fc	partial
+1.11.2--1.12.2	feat/source-discovery-movement-source-1-11-2-1-12-2	f4d235379ea451da227a34e710bb66609fe37235	partial
+1.12.2--1.13.2	feat/source-discovery-movement-source-1-12-2-1-13-2	2853716b2031da05abe991e3913078f9a668f3bb	partial
+1.13.2--1.14.4	feat/source-movement-1-13-2-1-14-4-resume6	c7fda155df85b581df2adb18d7e738ca421ac603	partial
+1.14.4--1.15.2	feat/source-discovery-movement-source-1-14-4-1-15-2	11e4c0b7310eacff07520caf26ebc833ee479e99	partial
+1.15.2--1.16.5	feat/source-discovery-1-15-2-1-16-5-resume	f5636dd2fb01860da7ae6440c0d315aa2a117d07	partial
+1.16.5--1.17.1	feat/source-discovery-movement-source-1-16-5-1-17-1-audit-oct8	aca4dfb24d5f1e9ec00b375eaf9b8f8b1c57c8b9	partial
+1.17.1--1.18.2	feat/source-1-17-1-18-2-fresh-oct8	df418e06b957399aa4c31eaf69d38422146ac296	pair ledger partial; source coverage and 14 findings independently ACCEPT-reviewed; implementation/runtime open
+1.18.2--1.19.2	feat/source-discovery-movement-source-1-18-2-1-19-2	ee009fe6d26bd11179c135287794e78cda2a1d1a	partial
+1.19.2--1.19.3	feat/source-discovery-movement-1-19-2-1-19-3-resume	0b2c91f8ad29a8f765564650f6ce872b05fcb689	partial
+1.19.3--1.19.4	feat/source-discovery-1-19-3-1-19-4-resume-2026-10-08	65053957149e0e657a7cc0401ccaef5ab1570cc4	partial
+1.19.4--1.20.1	feat/source-discovery-1-19-4-1-20-1-continuation	eb6e73602c4cbf5a72dafcbbe56b9c3b0ff10ba0	partial
+1.20.1--1.20.2	feat/source-discovery-1-20-1-1-20-2-resume-2026-10-08	7a9fb8ab571a31ee46b444c3ed0f774bad513e01	partial
+1.20.2--1.20.4	feat/source-discovery-1-20-2-1-20-4-resume-2026-10-08	cbcd477f1e1e32aa0a58ea132cb66709b06638cf	partial
+1.20.4--1.20.6	feat/source-discovery-1-20-4-1-20-6-resume-2026-10-08	f14b8d63b79dd9fa787070776e2a8ab660a59502	partial
+1.20.6--1.21.1	feat/source-discovery-1-20-6-1-21-1-resume-2026-10-08	9b58e85bdf70c52717632ff796bfb939392d81fa	partial
+1.21.1--1.21.3	feat/source-discovery-1-21-1-1-21-3-resume-2026-10-08	864d42197b90585ee5d7eac385ac26b51eb0dbe0	partial
+1.21.3--1.21.4	feat/source-discovery-movement-source-1-21-3-1-21-4-resume-2026-10-08	5a52807348c03d1a3546c60f49194d0e714980d5	partial
+1.21.4--1.21.5	feat/source-discovery-movement-source-1-21-4-1-21-5-resume	1d027c706dd22fd6df2fe14deaf3a02695d6094e	partial; provenance exposure disclosed; fresh source-only coverage required
+1.21.5--1.21.8	feat/source-discovery-movement-source-1-21-5-1-21-8-resume-2026-10-08	ec84e77c333b75768d5ce44ce2979ba7f1c9ffd6	partial
+1.21.8--1.21.10	feat/source-discovery-movement-1-21-8-1-21-10-resume-2026-10-08	2642f9401ab55ccb2c7372e535122b00d5a76b7e	partial
+1.21.10--1.21.11	feat/source-discovery-1-21-10-1-21-11-resume-2026-10-08	bacbfd252724c5f989e9527ae7700e486d6a7187	partial
+1.21.11--26.1.2	feat/source-1-21-11-26-1-2-resume-oct8	ea6ca59bd217e9ad36ede00122a6952be914839b	partial
+26.1.2--26.2	feat/source-26-1-2-26-2-resume-oct8	7455dc2dc987023433678961b2e9c30e51f0284d	partial
