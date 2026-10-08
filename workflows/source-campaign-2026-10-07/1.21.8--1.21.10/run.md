@@ -70,8 +70,8 @@ The following are pending scope atoms for source-led member indexing. Each must 
 - State producers/writers -> consumers/readers: input/key/options producers -> movement input fields -> pre-travel/travel consumers; exact members pending.
 - Parent slices / dependencies / closure evidence: S1.1; source readiness D1.
 - Status: in-progress
-- Disposition and rationale (including concrete reachability/preconditions): A maps one physical key to one movement mapping (`Map<Key,KeyMapping>`); B maps it to and fans events out to every mapping (`Map<Key,List<KeyMapping>>`). Both `KeyBindsScreen` implementations permit assigning an occupied key; movement mappings are individually persisted; the local player's `KeyboardInput` reads `keyUp`/`keyDown` and computes zero when those booleans match. Concrete example: assign the same key to forward and backward, start with both released, then press it. In B both mappings become down and the forward-minus-backward impulse is zero; in A only the single map winner is set, so the impulse is nonzero in one direction. The identity of A's winning mapping depends on `ALL` iteration order and is not asserted. A second candidate is B's new optional toggle-use mode: when enabled, the mouse-use mapping stays down after release, `Minecraft.handleKeybinds` therefore continues item use, and the same player's `LocalPlayer.modifyInput` applies its 0.2 use-item multiplier. Default false matches A's held mapping. Finish the input-to-travel reachability and bounded evidence before terminal disposition.
-- Finding IDs or checked absence/replacement path: none; no candidate disposition yet.
+- Disposition and rationale (including concrete reachability/preconditions): F01 records the source-confirmed duplicate forward/back mapping delta and input-to-travel path. The first changed release and A winning mapping remain unknown. B's optional toggle-use mode remains a separate unconfirmed candidate (default false, matching A's held-mapping behavior); finish its input-to-travel proof and other S1.2 coverage before terminal disposition.
+- Finding IDs or checked absence/replacement path: F01 submitted as an immutable source-confirmed snapshot; independent review pending.
 
 ### Slice S1.6: Local movement-input slowdown and diagonal normalization
 
@@ -333,11 +333,11 @@ The following are pending scope atoms for source-led member indexing. Each must 
 
 ## Finding index
 
-No findings have been confirmed or independently accepted. Source-only candidate queue (all unconfirmed; no implementation access): (1) B's duplicate-key fan-out can change simultaneous player movement inputs when a physical key is assigned to multiple movement mappings; (2) B adds optional toggle-use mode, which can prolong held item-use state and movement slowdown (default off, matching A); (3) B's sprint double-tap window is configurable, defaulting to A's fixed 7 ticks; (4) B's sprint predicate bypasses shallow-water restriction while flying, affecting start/continuation in that precondition. Exact callsites and downstream water drag are noted in S1.3; final movement input reachability and independent review remain outstanding. Zero confirmed is not equivalence.
+F01 is a source-confirmed immutable snapshot submitted for independent review; no finding has yet been independently accepted. Remaining source-only candidates (unconfirmed): (1) B adds optional toggle-use mode, which can prolong held item-use state and movement slowdown (default off, matching A); (2) B's sprint double-tap window is configurable, defaulting to A's fixed 7 ticks; (3) B's sprint predicate bypasses shallow-water restriction while flying, affecting start/continuation in that precondition. Exact callsites and downstream water drag are noted in S1.3; remaining input-to-travel reachability and independent review remain open. Pair discovery remains active.
 
 ## Finding snapshots (not pair freeze)
 
-No finding snapshots have been submitted or accepted. Pair-wide discovery remains active. Any later accepted immutable finding snapshot will be recorded here without implying pair completion.
+Submitted snapshot: F01 at `findings/F01-duplicate-movement-key-input.md`; finding SHA-256 `AF5FDD8F1576EEC5B8B6F54622D8F55AC7F661AB3ABF85E3FFC4AA50167B14BD`; finding-only commit `104349e28134e004b0039bf0296a5e3c047b7a17`; submitted 2026-10-08 11:48:57 CEST. Source identity: A source manifest `8ffb76cea647a2ba4fe58e000678f751bea2c40ea6358bae492e962ed1d9d008`, B source manifest `4be26049350c1b314a0b198022cb1e7ab1e745e104047de7a5c7d099a9d7b7e1`, shared artifact manifest `c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c` (all per the artifact manifest above). Independent review requested; status submitted, not accepted. Pair-wide discovery remains active.
 
 ## Resume checkpoint
 
