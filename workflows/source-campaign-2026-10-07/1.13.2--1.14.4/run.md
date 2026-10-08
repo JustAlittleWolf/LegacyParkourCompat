@@ -58,13 +58,13 @@ Cited Java files and whole-file SHA-256:
 
 ## Correspondence and call order
 
-Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (no-arg to boolean args), `LivingEntity.jump`, `LivingEntity.moveRelative` (three floats to Vec3d), `Entity.updateVelocity` (float components to vector helper), `Entity.move` (three doubles to vector), and `PlayerEntity.updatePlayerPose`. Full local tick, superclass, pre-travel, all dispatch branches and post-travel call chain are not closed. S001-S023 contain bounded paired evidence; no stage label alone is treated as coverage.
+Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (no-arg to boolean args), `LivingEntity.jump`, `LivingEntity.moveRelative` (three floats to Vec3d), `Entity.updateVelocity` (float components to vector helper), `Entity.move` (three doubles to vector), and `PlayerEntity.updatePlayerPose`. Full local tick, superclass, pre-travel, all dispatch branches and post-travel call chain are not closed. S001-S024 contain bounded paired evidence; no stage label alone is treated as coverage.
 
 ## Required source inventories
 
 - `INV-TICK` status=pending; slice_ids=S001,S003,S004,S005,S007,S008,S009,S010,S019; evidence=paired client input/local player/living bodies below; complete tick call graph open.
 - `INV-STATE` status=pending; slice_ids=S001,S002,S003,S006,S008,S009,S010,S018; evidence=paired input, pose, jump, movement and client correction velocity bodies below.
-- `INV-COLLISION` status=pending; slice_ids=S002,S006,S009,S019,S020,S021,S023; evidence=pose fit, escape probes, entity move, paired collision enumerators, and shared static collision providers; remaining provider and neighbor-state enumeration open.
+- `INV-COLLISION` status=pending; slice_ids=S002,S006,S009,S019,S020,S021,S023,S024; evidence=pose fit, escape probes, entity move, paired collision enumerators, and shared static collision providers; remaining provider and neighbor-state enumeration open.
 - `INV-WORLD-MOVEMENT` status=pending; slice_ids=S005,S007; evidence=slipperiness/climbing consumers; providers and resources open.
 - `INV-MODIFIERS` status=pending; slice_ids=S003,S005; Jump Boost/Slow Falling consumers observed; producer/application chains open.
 - `INV-EXTERNAL` status=pending; slice_ids=S006,S009,S010,S012,S016,S017,S018,S019,S022; direct player velocity/impulse/knockback remains in scope, including reachable push response; S018 compares the client player-correction velocity reset and S019 inventories entity obstacles in the player auto-jump scan, while other correction paths, knockback sources, piston, mount and launch-item consumers remain open; exclude non-player/vehicle physics and combat cause/damage resolution.
@@ -338,10 +338,21 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 - Status: findings
 - Disposition and rationale (including concrete reachability/preconditions): F019. A accepts `MIDDLE_POLE_THICK`, `MIDDLE_POLE` for a fence gate, or a non-exempt `SOLID` face. B accepts a non-exempt full collision face, a block tagged as a wall, or a direction-compatible fence gate. For vanilla TNT and frosted ice, A rejects the connection via `isExceptionForConnection` while B sees a full collision face and does not exclude either block; placement/update therefore changes the direction flag and collision-shape selection. Player displacement/clipping remains unmeasured; other providers remain open.
 - Finding IDs or checked absence/replacement path: F019; source-confirmed flag/shape selection difference for TNT and frosted-ice adjacency; modern-only block types excluded.
+### Slice S024: special wall-neighbor shape categories
+
+- Inventory ID(s): INV-COLLISION
+- Exact behavior boundary and enclosing guards/order checked: the A wall predicate's `MIDDLE_POLE_THICK` and fence-gate `MIDDLE_POLE` cases, paired with B wall-tag and direction-compatible gate cases.
+- A evidence: `WallBlock.java` lines 51-55, 127-129, SHA-256 `aeb67adf292a3b750e72a7d2fdc13f7b42f8633c6183964d00dfe8d6960e07bf`; `FenceGateBlock.java` lines 159-165, SHA-256 `e251cbd1b5e06c42e856a1d537e4ba043f6760b8f54ea1388039428aa7c05164`.
+- B evidence: `WallBlock.java` lines 48-52, SHA-256 `033da2cef0973f5d380a81b53ee76e23324fffece72edc74e12fcee0d8764be7`; `FenceGateBlock.java` lines 154-156, SHA-256 `c6c869ac12993e09f4684798e843778b2b63b7d9766f9cac0894dae0f312a151`; `BlockTagsProvider.java` lines 270-281, SHA-256 `0bd051d11a0c85ecc61cd2202a6ed33923db97238da0b065a647b932132d1bfa`.
+- State producers/writers -> consumers/readers: neighboring wall or gate block/facing -> wall connection predicate -> directional state flag -> collision-shape selector.
+- Parent slices / dependencies / closure evidence: S023 wall predicate; D-COLLISION-SHAPES remains open for solid-face providers, exception/cache interactions, and other A-era shapes.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for the A-era wall blocks `COBBLESTONE_WALL` and `MOSSY_COBBLESTONE_WALL`, A reports `MIDDLE_POLE_THICK` and B's `WALLS` tag lists both. For fence gates, A's `MIDDLE_POLE` branch checks that the facing axis equals `face.clockwiseY().getAxis()`; B's `m_26120570` checks the same axes against `direction.clockwiseY().getAxis()`. These special wall/gate inputs therefore have equivalent connection results in the inspected normal states. The review does not close the separate SOLID-face predicate.
+- Finding IDs or checked absence/replacement path: none within this bounded wall/gate mapping slice; F019's TNT/frosted-ice exception difference remains.
 ## Dependency queue and blockers
 
 - D-TICK-CLOSURE: full local tick/pre-travel/travel branches/post-travel; S019 adds the post-move auto-jump callback; surrounding call-order closure remains open.
-- D-COLLISION-SHAPES: world queries, shape providers, registrations, neighbor-state inputs; S019 records the auto-jump entity query, S020 compares block enumerators, S021 checks four static providers, and S022 compares the normal piston source guard; F019 confirms a wall shape-input difference beside TNT/frosted ice; remaining provider and neighbor-state enumeration remains open.
+- D-COLLISION-SHAPES: world queries, shape providers, registrations, neighbor-state inputs; S019 records the auto-jump entity query, S020 compares block enumerators, S021 checks four static providers, S022 compares the normal piston source guard, S023 confirms the TNT/frosted-ice wall flag difference, and S024 checks existing wall/gate category mapping; remaining provider and neighbor-state enumeration remains open.
 - D-MOVEMENT-DATA: effects/attributes/enchantments/equipment/block property producer chains; source worker to trace.
 - D-EXTERNAL: direct player velocity/impulse/knockback writers plus correction/push/piston/mount/launch-item consumers; S018 closes only the bounded client player-correction velocity reset; S019 records entity-obstacle input to local auto-jump; other corrections/callers remain open; exclude combat causation and non-player/vehicle physics; source worker to enumerate.
 - D-INDEPENDENT-AUDIT: reviewer unassigned; coordinator to assign.
@@ -371,8 +382,8 @@ Resolved pairs include `LocalClientPlayerEntity.mobTick`, `KeyboardInput.tick` (
 
 ## Resume checkpoint
 
-- Last completed slice: S023, wall neighbor connection predicate; S001-S022 remain as previously recorded evidence and dispositions.
-- Next bounded slice and exact files/members/body ranges to open: enumerate A-era FaceShape providers and compare B face-solid/cache/tag results for wall connections (S024), then continue pane and inherited collision-shape paths and remaining LocalClientPlayerEntity pre-travel/tick branches.
+- Last completed slice: S024, special wall-neighbor shape categories; S001-S023 remain as previously recorded evidence and dispositions.
+- Next bounded slice and exact files/members/body ranges to open: enumerate A-era `SOLID` face providers and compare B full-collision-face/cache/exception results for wall connections (S025), then continue pane and inherited collision-shape paths and remaining LocalClientPlayerEntity pre-travel/tick branches.
 - Outstanding dependencies and owners: D-TICK-CLOSURE/D-COLLISION-SHAPES/D-MOVEMENT-DATA/D-EXTERNAL source worker; D-INDEPENDENT-AUDIT coordinator.
 - Current assumptions requiring verification: full reachability and provider closure; original A derived-artifact equivalence remains unproven.
 
@@ -418,8 +429,8 @@ Pair remains partial. This event does not close unrelated inventories, freeze th
 
 ## Source audit closure
 
-- Coverage counts by status: findings=16 slices (19 deltas); compared-no-difference=7; pending inventory closure=7; in-progress=0; not-applicable=0; blocked=0.
-- Required inventory status and evidence: all seven inventories pending; paired evidence in S001-S023.
+- Coverage counts by status: findings=16 slices (19 deltas); compared-no-difference=8; pending inventory closure=7; in-progress=0; not-applicable=0; blocked=0.
+- Required inventory status and evidence: all seven inventories pending; paired evidence in S001-S024.
 - Accepted finding snapshots: none; F002 snapshot event F002-2026-10-07-01 is submitted and awaits exact-snapshot blind confirmation.
 - Open dependencies: D-TICK-CLOSURE,D-COLLISION-SHAPES,D-MOVEMENT-DATA,D-EXTERNAL,D-INDEPENDENT-AUDIT.
 - Unresolved gaps and limits: full tick, shapes/resources, modifier chains, external writers beyond S016, and independent audit. First changed release unknown within (1.13.2,1.14.4].
