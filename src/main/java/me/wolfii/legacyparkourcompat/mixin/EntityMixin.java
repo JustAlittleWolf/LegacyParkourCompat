@@ -13,6 +13,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.GravityBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.InsideBlockContactBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PistonMovementBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeMoverBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.SwimmingUpdateBehavior;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
@@ -34,6 +35,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 abstract class EntityMixin {
+
+    @Inject(method = "updateSwimming()V", at = @At("HEAD"), cancellable = true)
+    private void legacyparkourcompat$historicalSwimmingUpdate(CallbackInfo callback) {
+        Entity entity = (Entity) (Object) this;
+        if (entity instanceof Player player) {
+            MovementRuntime.find(SwimmingUpdateBehavior.class, player).ifPresent(behavior -> {
+                player.setSwimming(behavior.isSwimmingAfterUpdate(player, MovementRuntime.profile(player).target()));
+                callback.cancel();
+            });
+        }
+    }
 
     @Redirect(
         method = "move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V",
