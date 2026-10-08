@@ -67,9 +67,9 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 ## Required source inventories
 
 - `INV-TICK` input, player tick/call graph, pre-travel, travel branches and post-travel: status=pending; slice_ids=S1.1,S1.2,S1.3,S1.4,S1.5,S1.6,S1.7,S3.1,S3.2,S3.3,S3.4,S3.5,S3.6; evidence=pair manifests verified; bounded source slices remain open
-- `INV-STATE` movement state writers/readers: status=pending; slice_ids=S1.2,S1.3,S1.4,S1.5,S1.6,S2.1,S2.2,S2.2a,S2.3,S2.3a,S2.4,S2.5,S2.6,S3.3,S3.4,S3.5,S3.6,S3.7,S4.3,S4.4,S7.1,S7.2,S7.3,S7.4; evidence=pair manifests verified; full producer/consumer inventory open
-- `INV-COLLISION` player collision/query, shapes, callbacks, registrations and neighbor dependencies: status=pending; slice_ids=S1.4,S2.2,S2.3,S4.1,S4.2,S4.3,S4.4,S4.5,S4.6,S5.1,S5.2,S5.3,S5.4,S5.5; evidence=pair manifests verified; full shape/provider inventory open
-- `INV-WORLD-MOVEMENT` block/fluid properties, subclasses, registries, data/tags and defaults: status=pending; slice_ids=S3.1,S3.5,S4.4,S4.6,S5.1,S5.2,S5.3,S5.4,S5.5,S6.3,S6.5,S6.6; evidence=pair manifests verified; resource inventory open
+- `INV-STATE` movement state writers/readers: status=pending; slice_ids=S1.2,S1.3,S1.4,S1.5,S1.6,S2.1,S2.2,S2.2a,S2.3,S2.3a,S2.4,S2.5,S2.6,S3.3,S3.4,S3.5,S3.6,S3.7,S4.3,S4.4,S4.4a,S7.1,S7.2,S7.3,S7.4; evidence=pair manifests verified; full producer/consumer inventory open
+- `INV-COLLISION` player collision/query, shapes, callbacks, registrations and neighbor dependencies: status=pending; slice_ids=S1.4,S2.2,S2.3,S4.1,S4.2,S4.3,S4.4,S4.4a,S4.5,S4.6,S5.1,S5.2,S5.3,S5.4,S5.5; evidence=pair manifests verified; full shape/provider inventory open
+- `INV-WORLD-MOVEMENT` block/fluid properties, subclasses, registries, data/tags and defaults: status=pending; slice_ids=S3.1,S3.5,S4.4,S4.4a,S4.6,S5.1,S5.2,S5.3,S5.4,S5.5,S6.3,S6.5,S6.6; evidence=pair manifests verified; resource inventory open
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and applications/removals/conditions: status=pending; slice_ids=S1.3,S1.4,S1.5,S2.1,S2.3a,S2.4,S2.5,S3.2,S3.4,S3.5,S3.7,S6.1,S6.2,S6.3,S6.4,S6.5,S6.6; evidence=pair manifests verified; modifier/data closure open
 - `INV-EXTERNAL` player-only external inputs and client consumers: status=pending; slice_ids=S1.6,S1.7,S2.2a,S2.3a,S7.1,S7.2,S7.3,S7.4; evidence=pair manifests verified; external-writer inventory open
 - `INV-EXCLUSIONS` health, regeneration, hunger, food, saturation, exhaustion, damage/combat and non-player movement: status=complete; evidence=movement predicates read food level only at LocalClientPlayerEntity.mobTick A lines 696-704 / B 718-726 (source hashes under S1.2); excluded health/food simulation appears in PlayerEntity.mobTick A lines 422-430 / B 418-426 (source hashes under S1.2); direct reads remain vanilla state, producers are excluded
@@ -491,6 +491,18 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 - Disposition and rationale (including concrete reachability/preconditions): pending source comparison; no equivalence inferred from prior reports
 - Finding IDs or checked absence/replacement path: none assigned
 
+### Slice S4.4a: Farmland conversion relocation in the landed-player callback
+
+- Inventory ID(s): INV-COLLISION, INV-STATE, INV-WORLD-MOVEMENT
+- Exact behavior boundary and enclosing guards/order checked: server-side player landing on farmland with positive fall distance and entity volume above 0.512; `Entity.move` reaches `checkFallDamage`, which invokes `FarmlandBlock.onFallenOn` and `setDirt`
+- A evidence: `1.11.2/ornithe-feather/net/minecraft/block/FarmlandBlock.java`, `onFallenOn` lines 59-69 and `setDirt` lines 71-79, SHA-256 `09e260528fd78b4bbdbc302726c7ae937fbc49f17b674c4a7ad802e0f7b6f5e8`; player route and position writer `Entity.java` SHA-256 `ce8104a17ce783df639cf9726e7b1cd0936563ea7ba308603335bbe05d49440`; entity query `World.java` SHA-256 `27cfaa5ff45c2d88c492fc5dae3ea4a2bb4536fd64bff8498a9a7d0cb82efb58`; inherited full dirt shape `Block.java` SHA-256 `ab873436b24487ab0ee8055bf7a478349c7f7978398aea8e387796a6c820996a`
+- B evidence: `1.12.2/ornithe-feather/net/minecraft/block/FarmlandBlock.java`, `onFallenOn` lines 60-70 and `setDirt` lines 72-80, SHA-256 `d84c75dae139181b5d58cfa34f3cb77c5b2d4bda63d6ad9c3b52a47350bd0b98`; teleport/set-position route `Entity.java` SHA-256 `80f091bf32166c88cf8b8bd31caf72d84fa16224410733c7d2a0f00563f294a0`; entity query and tick route `World.java` SHA-256 `e9fa9b8d6d31ad57a5b876f5f63a5e3c554a23437decf1845a493daf48233594`; inherited full dirt shape `Block.java` SHA-256 `e4a90eca411e7b0e14f5018f7385ec29891f6cdf1a1e917fa648b5712f9b33a1`
+- State producers/writers -> consumers/readers: A relocates query results through `Entity.setPosition`; B computes the target from the entity AABB and calls `Entity.teleport`, which resets position history, sets position/angles and calls `World.tickEntity(entity,false)`.
+- Parent slices / dependencies / closure evidence: bounded sub-slice of S4.4/S5.2; full collision-shape, callback and world/block inventories remain open.
+- Status: findings
+- Disposition and rationale (including concrete reachability/preconditions): changed player behavior in the landed-player callback. For standing player dimensions 0.6x0.6x1.8 and fall distance greater than 1.5, the server/random/volume guards pass; A places the player at block top y+1.0 while B adds the farmland-shape offset plus 0.001 and places the player at y+1.001, invoking B's teleport position-history and world-tick path. Scope is limited to this landed-player callback; other `setDirt` callers were not compared.
+- Finding IDs or checked absence/replacement path: `F-FARMLAND-PLAYER-RELOCATION`; source finding snapshot is submitted for independent blind review.
+
 ### Slice S4.5: Shape/AABB calculations and context-sensitive query timing on the player path
 
 - Inventory ID(s): INV-COLLISION, INV-STATE
@@ -723,9 +735,11 @@ Initial correspondence: A/B `LocalClientPlayerEntity -> ClientPlayerEntity -> Pl
 
 `F-SLEEP-SAFETY-TRANSITION`: source-differential finding with artifact revision freshly verified by the discovery author and independent ops; fresh blind finding review is pending. It records the observed server-side bed safety predicate change and resulting sleep dimensions/position/velocity writes when the only nearby monster is a non-angry zombie pigman; see S2.2a and revision `feather-r1-2026-10-07`. Do not freeze or accept it until the reviewer accepts the exact replacement snapshot. Prior pair claims remain navigation candidates only under `DEP-OLD-CANDIDATES`. Source-only declaration: no implementation, wiki or wiki-audit evidence opened.
 
+`F-FARMLAND-PLAYER-RELOCATION`: source-differential finding for the guarded server landed-player callback when farmland converts to dirt. A relocates query results with `setPosition` to y+1.0; B uses the top farmland shape offset plus 0.001 with `teleport`, reaching additional position-history and world-tick handling. Exact 1.11.2/1.12.2 Feather evidence artifact IDs, revision hashes and source hashes are recorded in the finding. Independent blind review pending. Scope is only this callback path; all other inventories and pair closure remain open.
+
 ## Resume checkpoint
 
-- Last completed slice: S2.2a, S2.3 and S2.3a; S1.7 and S2.2 remain in-progress; S1.2a and S1.2b have bounded not-applicable dispositions.
+- Last completed bounded slices: S2.2a, S2.3, S2.3a and S4.4a; S1.7 and S2.2 remain in-progress; S1.2a and S1.2b have bounded not-applicable dispositions.
 - Next bounded slice and exact files/members/body ranges to open: close S2.2's `World.getCollisions(Box)` shape/provider dependency and finish its player state-writer scan; then continue S1.7 packet-to-entity dispatch and remaining local movement-state writers. Keep `LivingEntity.travel` glide movement under S3.6 and `PlayerEntity.moveRelative` under S3.2/`DEP-RELATIVE-MOVE`.
 - Outstanding dependencies and owners: listed above; discovery author owns source inventory; artifact provenance is independently verified; blind finding reviewer and full-pair reviewer assignment pending coordinator.
 - Current assumptions requiring verification: all prior findings and no-difference claims remain unaccepted; every cited body still requires direct review despite ready tree hashes.
@@ -808,6 +822,24 @@ Append-only source-review history. An accepted finding snapshot would release on
 
 <!-- Append subsequent events; preserve prior records and commits. -->
 
+### Snapshot event F-FARMLAND-PLAYER-RELOCATION-r1
+
+- Finding ID(s): F-FARMLAND-PLAYER-RELOCATION
+- Source finding author(s): Codex source worker
+- Status: submitted
+- Immutable snapshot commit: `6b0a9c7bbbe7822b558d95ed6435db2516f50eba`
+- Finding file path and SHA-256: `workflows/source-campaign-2026-10-07/1.11.2--1.12.2/findings/F-FARMLAND-PLAYER-RELOCATION.md`; `6221cafeb9c42d30e839176322f0f20870a28d21a6b34edb341cf67368e23e84`
+- Exact A/B evidence artifact records and revised artifact hashes: `EA-FEATHER-R1-1.11.2`, `EA-FEATHER-R1-1.12.2`; A JAR `ba1872d5fd341770a45aeeb8d372776a1b89f0b88a11a72f15aa0fe879b6a29f`, revision.json `49fca091d3ef83551745119f740d7a66a2773e81262db137bfc747369e8f61ac`; B JAR `fcc17537a14a423e2086f600047725ec1fcfd4c7fcf5c0d1a5bda491966c1b87`, revision.json `2be8645d57ca5c00411b037e7617f9860ac700f7fa8ef50d28220c2e1b0c60dc`. Original source/artifact manifest hashes and equivalence limitations are preserved in the finding.
+- Cited source/resource hashes: exact `FarmlandBlock`, `Entity`, `World` and `Block` A/B hashes are in the finding and bounded slice S4.4a.
+- Verified implementation boundary/evidence, or unresolved boundary reason: source confirms the landed-player server callback path and the different position writers; B additionally resets position history and calls `World.tickEntity(entity,false)`. Other `setDirt` callers and full parent inventories remain outside this snapshot.
+- Finding-specific closed dependency IDs/evidence: `INV-COLLISION`, `INV-STATE`, and `INV-WORLD-MOVEMENT` evidence for this bounded path only; broad inventory closure remains pending.
+- Independent blind source reviewer and decision date: reviewer assignment and review pending.
+- Review basis / requested source-only revisions: independently re-walk exact A/B source bodies, guards, `Entity.teleport` side effects and cited artifact identity before accepting or requesting a correction.
+- Pair run status and commit at handoff: active at `6b0a9c7bbbe7822b558d95ed6435db2516f50eba`.
+- Pair complete: no
+- Implementation handoff: awaiting independent blind acceptance of this exact snapshot.
+- Replaces/supersedes snapshot ID and reason, if applicable: none; first snapshot for this finding.
+
 ## Implementation reconciliation
 
 - Reconciliation status: pending (source-only worker; explicit parent role change required)
@@ -827,7 +859,7 @@ Append-only source-review history. An accepted finding snapshot would release on
 
 ## Source audit closure
 
-- Coverage counts by status: 32 pending; 2 in-progress; 8 compared-no-difference; 3 not-applicable; 1 findings; 0 blocked (46 slices total).
+- Coverage counts by status: 32 pending; 2 in-progress; 8 compared-no-difference; 3 not-applicable; 2 findings; 0 blocked (47 slices total).
 - Required inventory status/evidence: INV-EXCLUSIONS complete; all other inventories pending with mapped slice IDs.
 - Open dependencies: DEP-TICK-CALLGRAPH, DEP-COLLISION-SHAPES, DEP-MODIFIER-DATA, DEP-EXTERNAL-WRITERS, DEP-OLD-CANDIDATES, DEP-DIAGNOSTICS, DEP-RELATIVE-MOVE
 - Unresolved gaps: stages beyond bounded keyboard input and completed UI/tutor dispositions; S2.2 shape providers, glide movement, exact state producers/consumers, registries/resources, external writers and historical candidates remain open.
