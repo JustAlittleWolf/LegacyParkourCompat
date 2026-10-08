@@ -165,17 +165,17 @@ A/B roles: LocalPlayer#aiStep client tick; KeyboardInput#tick input; LivingEntit
 - Disposition and rationale (including concrete reachability/preconditions): paired movement application and response packet values match; A's trailing startup-screen state is outside the movement boundary.
 - Finding IDs or checked absence/replacement path: no movement difference in this bounded receiver path.
 
-### Slice T-PLAYER-IMPULSE: inbound entity motion and explosion knockback
+### Slice T-PLAYER-IMPULSE: direct and inbound player impulses
 
 - Inventory ID(s): INV-EXTERNAL, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: clientbound entity motion and explosion knockback writes to client entities/player.
-- A evidence: ClientPacketListener#handleSetEntityMotion, lines 445-454, and #handleExplosion, lines 973-993; ClientPacketListener SHA-256 a59ba067bb0b9cdf026159a87534fd456ed766ec287cfd23e24356f84f078a5a; Entity#lerpMotion lines 1890-1892, Entity SHA-256 ab28e1fba924771ec048140dfd293ee5a46a7dfe81f71a1a0b1aecc1927232de.
-- B evidence: ClientPacketListener#handleSetEntityMotion, lines 441-447, and #handleExplosion, lines 972-977; SHA-256 e718016022c2ae86a2c354af2d34fe4de7d6e36dc8792d2e2c1f08abb6b77b7b; Entity#lerpMotion lines 1885-1887, Entity SHA-256 2228fdaca5793171cbd94038306d571a6ada78ca96f5734efb4cada5b744c10a.
-- State producers/writers -> consumers/readers: server-supplied velocity/knockback -> lerpMotion or player delta movement -> next local movement tick.
-- Parent slices / dependencies / closure evidence: external packet is an input; Entity#lerpMotion delegates to same setDeltaMovement operation on both sides.
-- Status: compared-no-difference
-- Disposition and rationale (including concrete reachability/preconditions): when the motion packet targets the local player, both versions use the same velocity setter; both explosion handlers add the packet knockback vector to the player's current delta movement. Damage and explosion simulation remain excluded.
-- Finding IDs or checked absence/replacement path: no movement difference in these bounded client writers.
+- Exact behavior boundary and enclosing guards/order checked: clientbound entity motion and explosion knockback writes, plus the direct LivingEntity#knockback velocity writer used for player knockback; attack/damage resolution excluded.
+- A evidence: ClientPacketListener#handleSetEntityMotion, lines 445-454, and #handleExplosion, lines 973-993; ClientPacketListener SHA-256 a59ba067bb0b9cdf026159a87534fd456ed766ec287cfd23e24356f84f078a5a; Entity#lerpMotion lines 1890-1892, Entity SHA-256 ab28e1fba924771ec048140dfd293ee5a46a7dfe81f71a1a0b1aecc1927232de; LivingEntity#knockback lines 1383-1390, SHA-256 33fd081aadb2b6fdc9ebf487db6da5b38c54f4b8676572790ee2203690d15e6f.
+- B evidence: ClientPacketListener#handleSetEntityMotion, lines 441-447, and #handleExplosion, lines 972-977; ClientPacketListener SHA-256 e718016022c2ae86a2c354af2d34fe4de7d6e36dc8792d2e2c1f08abb6b77b7b; Entity#lerpMotion lines 1885-1887, Entity SHA-256 2228fdaca5793171cbd94038306d571a6ada78ca96f5734efb4cada5b744c10a; LivingEntity#knockback lines 1385-1392, SHA-256 db4168d531caf18f22e3fefd073365e776da4075ce01452bb9f7671d9b458782.
+- State producers/writers -> consumers/readers: server-supplied velocity/knockback -> lerpMotion or player delta movement; direct LivingEntity#knockback -> halved/offset player velocity -> next movement tick.
+- Parent slices / dependencies / closure evidence: D-EXTERNAL-VELOCITY and D-ATTRIBUTE-REGISTRY remain open for other writers and knockback resistance inputs; paired packet writers and direct knockback formula are checked, while attack/damage resolution is excluded.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): when the motion packet targets the local player, both versions use the same velocity setter; both explosion handlers add the packet knockback vector to the player's current delta movement. The direct server knockback method applies the same resistance-scaled horizontal vector, halves existing X/Z, and conditionally sets vertical velocity on ground in both versions. Attribute source values and remaining direct velocity writers are open; damage and explosion simulation remain excluded.
+- Finding IDs or checked absence/replacement path: no difference in these bounded writers.
 
 ### Slice T-BOAT-PASSENGER: player yaw on passenger-list updates
 
@@ -296,7 +296,7 @@ The pair remains partial. Accepted snapshot count is zero; F-001, F-002, F-006 a
 
 ## Source audit closure
 
-- Coverage counts: pending=2; in-progress=3; compared-no-difference=3; findings=7; not-applicable=0; blocked=0.
+- Coverage counts: pending=2; in-progress=4; compared-no-difference=2; findings=7; not-applicable=0; blocked=0.
 - Required inventories: all seven pending.
 - Open dependencies: above.
 - Unresolved gaps: partial; resources, shape providers, external inputs and full call graph open.
