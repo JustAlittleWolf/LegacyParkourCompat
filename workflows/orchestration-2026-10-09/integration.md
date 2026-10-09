@@ -124,3 +124,11 @@ At that time, the preparation, sprint-collision and Elytra slots were releasable
 - The original audit event is commit `7872eb6457f051df3575f10299ed1aaf1c13eddb`, report blob `d3623ec27f9ca1b7ed2c6f6f12ac259bdfa8b8d7`, raw SHA-256 `3ffe60b2e62af2ddd060a2081c6104dac80908c5b6859c9285afd11bc16993d3`, verdict **REQUEST CHANGES**. The corrected erratum is commit `e0e36eff36a92be82327bf2a8140f18141d7cc21`, report blob `87fc1e9344c26ef60bec02075a4f05b16956ac92`, raw SHA-256 `08099783947b13ff03516b70b0f9ccf51455ebf5a0fee2e7d790385cd66011fc`, verdict **ACCEPT — full-pair source coverage freeze**. The erratum supersedes the historical verdict while preserving the original event and bytes.
 - Updated `run.md` now names both audit events distinctly and binds the accepted erratum to frozen run blob `53bef7aae76bef026d5f5d19bc111635ddc6265d`, raw SHA-256 `70610a914b440ab651163f1ccd708000f4261da24727f7a4614eca473095b3f5`. Its resulting blob is `1b9f86a10df83ec9092aa325950080b83cec4265`, raw SHA-256 `cb58a705c103f493b5267c4f17943c2ad58ea2adf37a383f88428994f8068e8c`.
 - This corrects audit-binding metadata only. No source evidence or finding bytes changed; source discovery remains complete, implementation reconciliation pending, and runtime validation not performed.
+
+## F-002 final no-code reconciliation — 2026-10-09
+
+- Pre-integration branch base: `cb11257e593987c68be98a7dbda8bbea7d5e77fd`.
+- Integrated exact final reconciliation from author commit `0edd1a92db59ff2ae326c15562c1a423be74e527` and bounded technical review `480baa90ab2364c49106d228ef54f122f5e3aede`.
+- Reconciliation identity: `workflows/fix-implementation/reconciliations/F002-elytra-cosine-2026-10-09.md`, blob `af0903b06c1dfa7d53479621068c5d6560d2d3e8`, raw SHA-256 `65f4a1d7441784db7b0e87430f37dc102f06d752b89b2857e33b389a98fff751`. Review: `workflows/implementation-reviews/2026-10-09-F002-final-no-code-review.md`, blob `4acc102e1d3174851bd1e5681c38d8aeb896e067`, raw SHA-256 `34d583e5340c0dcf7ecb55fe8b2e85b1a3c0e900b2089263daa798a265e9d9f6`.
+- ACCEPT is limited to the reviewed 1.17.1/1.18/1.18.1/1.18.2 float/double implementation boundary. It does not establish unreviewed-release fidelity or runtime parity; no code change was identified.
+- No build, tests, client/TAS/server launch, or runtime validation was performed.
