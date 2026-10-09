@@ -17,4 +17,6 @@ Main ancestry was checked immediately before deleting merged refs. For imported 
 
 The initial broad attached-worktree action was rejected by automatic approval review because it could disrupt active or paused assignments. Subsequent operations were narrowed to completed or obsolete workers and approved after additional status, content and process checks.
 
-To recover a deleted branch, use its recorded full commit ID to recreate the ref. Reattaching a preserved checkout requires checking its current root, HEAD and dirty state first. Finished workers are terminal; resuming unfinished assignments still uses their preserved branch contracts.
+All 52 retired tips are now protected under refs/archive/branch-retirement-2026-10-09/<original-branch-name>. retired-history-archive.json records each exact mapping. These refs preserve commit ancestry against garbage collection while keeping the local branch list clear; they do not represent active tasks.
+
+To recover a deleted branch, use its archival ref or recorded full commit ID to recreate the branch. Reattaching a preserved checkout requires checking its current root, HEAD and dirty state first. Finished workers are terminal; resuming unfinished assignments still uses their preserved branch contracts.

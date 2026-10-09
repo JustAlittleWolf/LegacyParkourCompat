@@ -17,6 +17,12 @@
 
 Retire redundant local refs after completion and integration. Verify ancestry in main or exact preservation of every changed blob, record the full branch tip, and check worker completion and worktree state. Preserve active and unfinished assignment refs. For completed attached worktrees, preserve the identical detached commit and all files before deleting the ref; directory removal and remote-ref cleanup are separate operations.
 
+Protect retired immutable commit histories under non-branch archival refs and record their exact mappings. File copies and a recorded SHA alone do not guarantee that the original commit ancestry remains reachable after garbage collection.
+
+## Completed branch retirement
+
+Retire redundant local refs after completion and integration. Verify ancestry in main or exact preservation of every changed blob, record the full branch tip, and check worker completion and worktree state. Preserve active and unfinished assignment refs. For completed attached worktrees, preserve the identical detached commit and all files before deleting the ref; directory removal and remote-ref cleanup are separate operations.
+
 ## Superseded policy
 
 - The earlier 15-active-worker hard cap is superseded by the occupancy target above.
