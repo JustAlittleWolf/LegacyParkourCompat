@@ -1033,6 +1033,19 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 - Next named source slice: `D20 / S1-OPTIONS-REMAINING-FIXERS-C`, compare the final `OptionsMenuBlurrinessFix#makeRule()` pair and verify its A/B DataFixers registration. Then reconcile all ten registered Options fixer rules against the key-value type question and either close the bounded D15 load condition or record the exact remaining open route.
 - Checkpoint limits: source report only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
 
+## Fresh source-only checkpoint — D20 final registered Options fixer
+
+- Base: remaining-options checkpoint `cbaf4277`. One complete paired method was compared: `OptionsMenuBlurrinessFix#makeRule()`, A lines 14-22 vs B lines 14-23. Its `DataFixers` registration and the exact A/B source-manifest hashes were verified.
+
+### D20 — S1-OPTIONS-REMAINING-FIXERS-C (bounded field rule closed)
+
+- `OptionsMenuBlurrinessFix` is registered at A `DataFixers.java:1345` and B `1404`. Its rule updates only `menuBackgroundBlurriness`: A converts the field through `convertToIntRange` and creates an integer tag; B converts through the same helper and creates a string containing that integer. It does not write or iterate `key_*` values and preserves the rest of the Options remainder.
+- Exact source hashes: `DataFixers.java` A `deac5d8f1f86434c0bd529c0c0acdfd79905304fb34c54a20080d4bd58a5ec99`, B `e59d948ab69954302cdc8c108de60fc5ba5f9537e5c14244fcff09b08fadeac8`; `OptionsMenuBlurrinessFix.java` A `4cd9f8593cdcae6290c23f5d5120108712573bc43c50e711508242397c0885f9`, B `2946883bafc7843a0dc8cfb13b947ef50b8720acde56fe9363c40628172d6072`.
+- Disposition: no key-field or movement-binding effect was found in this final registered Options rule. D20 is closed only for this method. The typed-load review still needs to account for the Programmer Art list helper and confirm the complete registration inventory before closing D15.
+- Current dependency state: D7 accepted for its bounded route; D9 remains separately open for immutable F-09 adjudication. D10-D20 contain only their stated bounded evidence. D15's key-load boundary and the overall D8 option/keymap producer inventory remain open; D1-D6 remain open; pair status is partial.
+- Next named source slice: `D21 / S1-OPTIONS-DATAFIX-STRING-PRESERVATION`, inspect `OptionsProgrammerArtFix#fixList` and the exact option loader string conversion used for data-fix-produced primitive tags. Then reconcile the full registered `References.OPTIONS` fixer list against `key_*` writes; close D15 only if every route preserves or produces string key values and the `MAP` rebuild remains reachable.
+- Checkpoint limits: source report only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
+
 
 
 
