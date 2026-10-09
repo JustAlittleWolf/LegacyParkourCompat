@@ -1298,3 +1298,14 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 - Disposition: closes only paired player pose-dimension defaults and the eye-fluid cache/sample order. Pose source writers, dimensions-scale producers, fluid-state/surface producers and broad S2/S3 inventories remain open. D1-D6 and pair status remain partial; F-14 remains the only finding for pose-priority delta.
 - Next: continue player-reachable movement state producers and fluid predicates; retain the one-base-tick eye-cache timing as a matched invariant and keep all remaining source coverage explicit.
 - Checkpoint limits: exact published 1.21.4/1.21.5 Mojmap roots and source report only; no implementation/wiki/mixed coordinator evidence, build, test, game/runtime, push, or main merge.
+
+## Fresh source-only checkpoint — D39 scale attribute dimension refresh
+
+### D39 — S2-DIMENSIONS / S2-EYE-HEIGHT player scale-attribute update (candidate F-21)
+
+- Both releases register `Attributes.SCALE` on `LivingEntity`; `Player#createAttributes()` extends `createLivingAttributes()`. The attribute is syncable and `LivingEntity#getScale()` reads its current value. Paired vanilla `AttributeCommand` can set the entity attribute's base value; the player `aiStep()` processes dirty attribute notifications through `refreshDirtyAttributes()` -> `onAttributeUpdated()`.
+- The callback differs: 1.21.4 handles max-health and max-absorption changes only; 1.21.5 also calls `refreshDimensions()` for `Attributes.SCALE`. That shared writer stores current-pose dimensions/eye height and updates the bounding box (D36). Under an after-construction player scale change with pose fixed and no intervening refresh, B updates cached dimensions/eye height on the callback while A leaves their previous values until another refresh. This affects movement-relevant bounds and eye-fluid predicates; no trajectory is claimed.
+- F-21 source-confirmed candidate: `findings/F-21-scale-attribute-dimension-refresh.md`. Finding-specific source path, callers, downstream writer, artifact identities and source hashes are documented there. Independent blind source review is pending; implementation handoff is blocked until snapshot acceptance. Runtime validation was not performed.
+- Disposition: candidate delta found in `LivingEntity#onAttributeUpdated` scale handling. This closes only the attribute-update-to-dimension-refresh path for the stated condition; other scale writers, pose interactions and broad S2/S3 coverage remain open. D1-D6 and pair status remain partial.
+- Next: commit and independently review the immutable F-21 snapshot; after review, continue the open player movement dependency inventory without treating this candidate or D38 as pair coverage.
+- Checkpoint limits: exact published 1.21.4/1.21.5 Mojmap roots and source report only; no implementation/wiki/mixed coordinator evidence, build, test, game/runtime, push, or main merge.
