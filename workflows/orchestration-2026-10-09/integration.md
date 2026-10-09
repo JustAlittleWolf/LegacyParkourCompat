@@ -5,7 +5,7 @@
 - Integration target before merge: `main` at `e890a9f59883ed167a1958c0d06a665b88cc3018`.
 - Reviewed documentation branch: `fix/orchestrator-workflow` at `a6e4d9b344494fcea85532191c29170d3375e2c8`.
 - Merge base: `e890a9f59883ed167a1958c0d06a665b88cc3018`.
-- Integration branch: `fix/campaign-integration-2026-10-09`, currently at the reviewed branch tip pending this record and the final merge to `main`.
+- Integration branch: `fix/campaign-integration-2026-10-09`, with checkpoint commit `d772ba61` on top of the reviewed branch tip. The final integration is a fast-forward of `main` to this checkpoint.
 
 ## Integrated paths
 
@@ -34,4 +34,4 @@ The reviewed branch changes only documentation and campaign records:
 
 ## Handoff
 
-The documentation branch is integrated on the task branch. Next, commit this checkpoint and merge the task branch into `main`. After that, await an accepted implementation batch before taking on any production-code integration or build work.
+The documentation branch and this checkpoint are committed on the task branch. Fast-forward `main` to the task branch, then await an accepted implementation batch before taking on any production-code integration or build work.
