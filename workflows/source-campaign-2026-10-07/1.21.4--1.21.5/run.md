@@ -960,6 +960,31 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 - Next named source slice: `D17 / S1-OPTIONS-DATAFIX-KEY-VALUE-CLOSURE`. Trace the exact `DataFixTypes.OPTIONS` registration and only the option-data transformations reachable from `Options#dataFix`, checking whether any exact paired rule can change `key_*` string tags to another type before the B strict `StringTag` accessor. If no such path exists in the exact published sources, record that evidence and close only the typed-load condition; otherwise leave it open with the exact reachable rule.
 - Checkpoint limits: source report only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
 
+## Fresh source-only checkpoint — D17 key-specific option data fixes
+
+- Base: controls-screen save checkpoint `63720323`. Three complete paired `makeRule()` methods were compared: `OptionsKeyLwjgl3Fix` A/B lines 137-173, `OptionsKeyTranslationFix` A/B lines 18-39, and `OptionsRenameFieldFix` A lines 22-31/B lines 21-27. Combined method-body spans total 69 lines on A and 66 on B. The corresponding `DataFixers` registration callsites were checked in the exact published A/B sources and source manifests.
+
+### D17 — S1-OPTIONS-KEY-VALUE-TRANSFORMS (bounded key-fix routes closed)
+
+- Registered key routes: A `DataFixers.java:444,446,890` registers `OptionsKeyLwjgl3Fix`, `OptionsKeyTranslationFix`, and the field rename `key_key.swapHands` → `key_key.swapOffhand`; B registers the same three operations at `480,482,949`. Registration order is the same within these key-related routes. These are direct callsite observations, not a complete audit of every Options data-fix rule.
+- `OptionsKeyLwjgl3Fix#makeRule()` traverses Options remainder entries whose key name starts `key_`. It parses each value as an integer and converts negative mouse codes or mapped keyboard codes into `createString(...)` values. Non-`key_` entries preserve their original dynamic value. The complete method body is byte-identical across A/B.
+- `OptionsKeyTranslationFix#makeRule()` traverses the same `key_` entries. It preserves values already named `key.mouse...` or `scancode...`; otherwise it creates a `key.keyboard...` string. Non-`key_` entries preserve their original dynamic value. This complete method is byte-identical across A/B.
+- `OptionsRenameFieldFix#makeRule()` renames only the registered `key_key.swapHands` field to `key_key.swapOffhand` while preserving the existing Dynamic value. A uses `get(...).result().map(set(...).remove(...))` with the original tag as fallback; B uses `renameField`. This implementation differs textually, but both operations move the value without changing its type.
+- Typed-load consequence: when either key conversion rule is active on a valid `key_*` value, its converted value is a string. A non-string value in a `key_*` entry would fail in these conversion paths (integer parse or key-name substring) before `Options#load()` reaches its differing StringTag adapter; the load-level catch then skips later map reconstruction on both sides. If these conversion rules do not run, the file line parser recorded in D15 has produced string tags. The field rename preserves type. This bounds the type concern for these three rules only; other registered Options rules remain to be checked before closing D15.
+- Exact source hashes:
+
+| Paired source file | A SHA-256 | B SHA-256 |
+|---|---|---|
+| `net/minecraft/util/datafix/DataFixers.java` | `deac5d8f1f86434c0bd529c0c0acdfd79905304fb34c54a20080d4bd58a5ec99` | `e59d948ab69954302cdc8c108de60fc5ba5f9537e5c14244fcff09b08fadeac8` |
+| `net/minecraft/util/datafix/fixes/OptionsKeyLwjgl3Fix.java` | `f9bf1bea97d6d4b894a52cdad8c6d59043407e0e381d40f397cd1e0e065e9efd` | `f9bf1bea97d6d4b894a52cdad8c6d59043407e0e381d40f397cd1e0e065e9efd` |
+| `net/minecraft/util/datafix/fixes/OptionsKeyTranslationFix.java` | `9e142b9a230dccb1d61e99c1cd64cf09c0a9046c90854a9a398eeb33a05dedda` | `9e142b9a230dccb1d61e99c1cd64cf09c0a9046c90854a9a398eeb33a05dedda` |
+| `net/minecraft/util/datafix/fixes/OptionsRenameFieldFix.java` | `4aae7d6270147b4af64b140320141566dfaf3bad5ef52fca3b740d4f0a8577b4` | `be6bf0bded8b05c067e6450789f073c8f219ccd08fd9f3550d6106d77c615a97` |
+
+- Disposition: no key-specific data-fix delta was found in these bounded rule bodies. D17 is closed only for the registered key conversion and field rename methods listed above. Do not close D15 yet: the remaining exact `References.OPTIONS` fixer rules need a bounded inventory to establish that no other rule changes the type of `key_*` entries.
+- Current dependency state: D7 accepted for its bounded route by review `d7b932a2f57285a52fbf3c96a89d4b7173fe22ea`; D9 stays separately open for immutable F-09 adjudication. D10-D17 have only their stated bounded source records. D15's typed-load condition and D8 overall producer closure remain open; D1-D6 remain open and pair status is partial.
+- Next named source slice: `D18 / S1-OPTIONS-REMAINING-FIXERS-A`, capped at three complete paired `makeRule()` bodies from the remaining registered Options fixers. Begin with `OptionsForceVBOFix`, `OptionsLowerCaseLanguageFix`, and `OptionsAddTextBackgroundFix`; verify their exact DataFixers registrations, key/value mutation boundaries, source hashes, and whether they preserve unrecognized `key_*` remainder entries.
+- Checkpoint limits: source report only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
+
 
 
 
