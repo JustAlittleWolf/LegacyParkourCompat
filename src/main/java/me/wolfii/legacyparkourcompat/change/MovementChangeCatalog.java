@@ -56,6 +56,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.PortalDismountBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PowderSnowClimbBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PushAwayVelocityBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.RideableJumpBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowLavaCurrentCutoffBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowWaterCurrentCutoffBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowWaterSprintBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowWaterSprintStartBehavior;
@@ -257,6 +258,9 @@ public final class MovementChangeCatalog {
         registry.register(ElytraLiftForceBehavior.class, ParkourVersion.V1_18, new me.wolfii.legacyparkourcompat.change.v1_18.ElytraLiftForce());
         registry.register(PositionPacketThresholdBehavior.class, ParkourVersion.V1_18, new me.wolfii.legacyparkourcompat.change.v1_18.PositionPacketThreshold());
         registry.register(PlayerFallDistanceResetBehavior.class, ParkourVersion.V1_18, new me.wolfii.legacyparkourcompat.change.v1_18.FallDistanceReset());
+        var movementChangeAirSpeedV1_18 = new me.wolfii.legacyparkourcompat.change.v1_18.DoubleSprintAirSpeed();
+        registry.register(AirSpeedBehavior.class, ParkourVersion.V1_18, movementChangeAirSpeedV1_18);
+        registry.register(AirSpeedUpdateBehavior.class, ParkourVersion.V1_18, movementChangeAirSpeedV1_18);
     }
 
     private static void registerV1_18_2(MovementChangeRegistry registry) {
@@ -324,6 +328,7 @@ public final class MovementChangeCatalog {
 
     private static void registerV1_21_11(MovementChangeRegistry registry) {
         registry.register(ShallowWaterCurrentCutoffBehavior.class, ParkourVersion.V1_21_11, new me.wolfii.legacyparkourcompat.change.v1_21_11.ShallowWaterCurrentCutoff());
+        registry.register(ShallowLavaCurrentCutoffBehavior.class, ParkourVersion.V1_21_11, new me.wolfii.legacyparkourcompat.change.v1_21_11.ShallowLavaCurrentCutoff());
     }
 
     private static void registerV26_1(MovementChangeRegistry registry) {
