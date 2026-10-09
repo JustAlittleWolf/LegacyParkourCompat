@@ -839,6 +839,29 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 - Reviewer next action: D7 correction and D9 F-09 claim remain independently routed as separate review questions; this D10 producer comparison has no finding and does not alter either review record. The next source slice is `D11 / S1-SCREEN-TRANSITION-KEY-RELEASE`, capped at those three paired methods and their already-recorded direct mapping consumer.
 - Checkpoint limits: source report only; no implementation/wiki/mixed coordinator evidence, main merge, build, test, runtime, push, or delegation was used.
 
+## Independent review event and fresh D11 screen-release checkpoint
+
+- D7 review event: independent review commit `d7b932a2f57285a52fbf3c96a89d4b7173fe22ea`, report `workflows/source-boundary-reviews/2026-10-09-fresh-d7-correction-1214-1215-review.md`, accepts the corrected bounded source record introduced by `930e4ed490ef41a98b0527183e9b3b4ad9e0d339`. Preserve earlier request-changes event `759a5c441cf7b052a88d020f6f26f8f30832e581` as review history and the earlier `b8c502b89d08df1436b16e5d98e156440a7bad40` bounded acceptance unchanged. D7 is now accepted only for the controlled-camera input → axes → direct relative-movement path; the pair remains partial. D9/F-09 was not included in this review and remains separately pending independent adjudication.
+- D11 base: mouse/focus checkpoint `15648970`; exact 1.21.4/1.21.5 Mojmap publications already identified. `Minecraft.java` and `KeyMapping.java` hashes below were checked against live bytes and their exact source-manifest entries.
+
+### D11 — S1-SCREEN-TRANSITION-KEY-RELEASE (bounded route closed)
+
+- Complete paired methods compared: A `Minecraft#setScreen(Screen)` lines 1030-1072 vs B lines 1052-1093; A/B `KeyMapping#releaseAll()` lines 63-67; A/B `KeyMapping#release()` lines 116-119. Total inspected method-body span is 52 lines on each side.
+- Transition gates and ordering: `setScreen` first removes the previous screen or clears last input type, then applies its disconnection/death/null-screen handling before assigning the resulting screen. When the resulting screen is non-null, it calls `MouseHandler.releaseMouse()` and then `KeyMapping.releaseAll()` before screen initialization. When it is null, it resumes sound and calls `MouseHandler.grabMouse()`. This order is paired. A additionally calls `BufferUploader.reset()` between screen addition and the non-null/null branch; that rendering operation has no key-state effect in this bounded path.
+- Mapping release writer: `releaseAll()` iterates every registered `KeyMapping` in `ALL`, and each `release()` first clears `clickCount`, then dynamically calls `setDown(false)`. Ordinary mappings therefore clear held-down state. For toggle-enabled `ToggleKeyMapping`s, the already-compared `setDown(false)` path does not toggle or clear the stored state; a toggled sneak/sprint value can remain set across this screen-opening release. When the toggle supplier is false, the same dynamic writer delegates false to the base mapping. The `Options.toggleCrouch`/`toggleSprint` settings and `KeyboardInput#tick()` predicates are documented in D8; the subsequent consumer is the same player `Input` sample.
+- Reachable state chain: screen transition to a non-null screen → `releaseMouse()` → `releaseAll()` over all registered mappings → `release()` click-count reset and dynamic down-state update → ordinary key predicates clear or toggle-mode predicates persist → later `KeyboardInput#tick()` reads the movement mappings. Returning to no screen uses `grabMouse()`; its bounded mouse/focus route is documented in D10. No A/B state-release or caller-order delta was found in the compared methods.
+- Exact source hashes:
+
+| Paired source file | A SHA-256 | B SHA-256 |
+|---|---|---|
+| `net/minecraft/client/Minecraft.java` | `f4c9ba42f66a267ff01ff23f2bc9a8472d6f168effb1fc84314a613f730f94b1` | `95e4b37501d302cc1053951cbf6fdebe60d7ac4fdcbf6205cb51192d760e0e3e` |
+| `net/minecraft/client/KeyMapping.java` | `d5475012d2849e7547e23d1584d5b099661a2cb1e60daebe6ec19cb28b779111` | `d5475012d2849e7547e23d1584d5b099661a2cb1e60daebe6ec19cb28b779111` |
+
+- Disposition: D11 is closed only for the paired screen-transition release route and its direct down-state effect. This does not trace all screen-transition callers, other toggle reset writers, or key rebinding/persistence. The broader D8 key-producer family therefore remains in progress; the bounded keyboard, mouse/focus, and screen-release subroutes are recorded separately above.
+- Remaining open dependencies: D12 key mapping state reconstruction and persistence (`resetMapping`, `setKey`, constructor registration, `ALL`/`MAP`, `Options.keyMappings` save/load and binding capture); D9 separate independent F-09 review; D1-D6 broader player movement inputs and consumers. D7 is accepted for its bounded route by review `d7b932a2f57285a52fbf3c96a89d4b7173fe22ea`; D10 and D11 are closed only for their exact bounded subroutes. Pair status remains partial.
+- Reviewer next action: preserve D7's accepted scope and keep D9 separately routed. No further review is requested for D11's no-delta source comparison; D12 remains the next source-only producer slice.
+- Checkpoint limits: source report only; no implementation/wiki/mixed coordinator evidence, decompilation, build, test, runtime, push, or delegation was used.
+
 
 
 
