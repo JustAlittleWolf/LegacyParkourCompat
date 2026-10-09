@@ -7,7 +7,7 @@
 - Source preparation owner / command / log / readiness marker: shared source owner; Gradle decompileMinecraft, explicit mojmap; build/movement-campaign-2026-10-07/mojmap.success.log; ready/{1.17.1,1.18.2}/mojmap.ready.json.
 - Toolchain/decompiler/remapper versions and options: Gradle 9.7.1, Java 25.0.3+9, Vineflower 1.12.0, ASM 9.10.1, mapping-io 0.9.1, Gson 2.14.0, TinyRemapper 0.14.1; 4G heap.
 - Discovery author(s): Codex source-only pair worker.
-- Independent reviewer (must differ from discovery authors): pending.
+- Independent reviewer (must differ from discovery authors): independent source-only full-pair review, accepted at audit commit `e0e36eff36a92be82327bf2a8140f18141d7cc21`; see bound audit report in the reconciliation below.
 
 ## Artifact manifest
 
@@ -23,9 +23,9 @@ SHA-256; paths relative to repository. Each 41-entry artifact manifest and sourc
 ## Blind-discovery freeze
 
 - This status is the full-pair freeze; finding snapshots are tracked separately.
-- Status: pending
-- Freeze commit/checkpoint and timestamp: none; terminal coverage, closed dependencies and independent full-pair audit remain outstanding.
-- Evidence inventory and finding IDs included at freeze: none; F-001 through F-005 are in the partial discovery catalog.
+- Status: complete
+- Freeze commit/checkpoint and timestamp: accepted 2026-10-08; independent audit commit `e0e36eff36a92be82327bf2a8140f18141d7cc21` accepts frozen `run.md` Git blob `53bef7aae76bef026d5f5d19bc111635ddc6265d` (raw SHA-256 `70610a914b440ab651163f1ccd708000f4261da24727f7a4614eca473095b3f5`).
+- Evidence inventory and finding IDs included at freeze: all seven required inventories; 28 terminal slices (13 compared-no-difference, 15 findings); F-001 through F-014.
 - Old mod implementation and isolated wiki-audit outputs opened: no; prior report used for navigation only.
 - Source/mapping hashes: pair markers, manifests and hashes above.
 ## Correspondence and call order
@@ -409,7 +409,7 @@ Movement enchantment/equipment source chain (D-ENCHANTMENT-DATA resolved): `Ench
 - Resume validation command from repository root: python workflows/movement-discovery/check_completion.py workflows/source-campaign-2026-10-07/1.17.1--1.18.2/. This is a schema/status check only.
 ## Finding snapshots (not pair freeze)
 
-The pair remains partial. Accepted snapshot count is zero; F-001, F-002, F-006, F-007, F-008, F-009, F-010, F-011, F-012, F-013 and F-014 are immutable candidates submitted for blind source review. Snapshot acceptance releases only that finding for a separate implementation task and does not close other slices or freeze the pair.
+Historical pre-review checkpoint: the pair was partial and the then-current accepted snapshot count was zero. The later independent review outcomes are recorded in the post-review reconciliation below; this historical entry is retained.
 
 - Snapshot ID: F001-1.17.1-1.18.2-d02139e
 - Finding: findings/F-001-minor-horizontal-collision-sprint.md
@@ -466,16 +466,16 @@ The pair remains partial. Accepted snapshot count is zero; F-001, F-002, F-006, 
 
 - Reconciliation status: pending
 - Repository revision inspected: none; old/current implementation not opened.
-- Finding dispositions: deferred until after blind freeze review.
+- Finding dispositions: source review accepted 14 immutable finding snapshots; implementation disposition remains open pending the separate implementation reconciliation.
 - Existing implementation without finding: not inspected.
 - Gaps routed: D-*.
 
 ## Independent source audit
 
-- Reviewer: pending; must differ from author.
-- Status: pending
-- Inventories/call graph re-walked: none.
-- Missed-slice routes: pending; misses routed: pending; evidence/date: pending.
+- Reviewer: independent full-pair source reviewer; review evidence is bound by audit commit `e0e36eff36a92be82327bf2a8140f18141d7cc21`.
+- Status: accepted; full-pair source coverage freeze.
+- Inventories/call graph re-walked: all seven required inventories and complete reachable player movement call graph, per the bound audit report.
+- Missed-slice routes: none found; see corrected audit verdict at commit `e0e36eff36a92be82327bf2a8140f18141d7cc21`, 2026-10-08.
 
 
 ## Author-side inventory audit (2026-10-08)
@@ -492,7 +492,7 @@ The source author re-walked every declared required inventory against the paired
 | INV-EXTERNAL | complete | 8 | Player corrections and movement packets; direct velocity/impulse/knockback source callers; mount inputs/passenger synchronization and player rider-position providers; teleport and dimension-fed travel response. |
 | INV-EXCLUSIONS | complete | 3 boundary rows | Top-level scope plus direct-response boundary: health/food production and attack/damage eligibility excluded; target-only/non-player/vehicle motion excluded; equal-input direct Player response retained. |
 
-Coverage total: 28 declared coverage rows/slices (13 compared-no-difference, 15 findings); zero pending, in-progress, not-applicable or blocked slices. The full source dependencies are terminal, including D-PACKET-RECONCILIATION and D-EXTERNAL-VELOCITY. This is the author-side completeness claim only. The report remains `partial` until a different source-only reviewer re-walks the complete inventory and tick graph, records misses or `none found`, and accepts the freeze. Historical checkpoint paragraphs earlier in this file describe the state at their own timestamps and are superseded by this closure section and the terminal row statuses.
+Coverage total: 28 declared coverage rows/slices (13 compared-no-difference, 15 findings); zero pending, in-progress, not-applicable or blocked slices. The full source dependencies are terminal, including D-PACKET-RECONCILIATION and D-EXTERNAL-VELOCITY. The independent full-pair audit acceptance is recorded below. Historical checkpoint paragraphs earlier in this file describe the state at their own timestamps and are superseded by the accepted freeze metadata and terminal row statuses.
 
 ### Tick/order and packet closeout evidence
 
@@ -503,12 +503,12 @@ Packet closeout: paired `ServerboundMovePlayerPacket` coordinates/flags/codec an
 
 - Coverage counts: 28 declared coverage rows; pending=0; in-progress=0; compared-no-difference=13; findings=15; not-applicable=0; blocked=0.
 - Required inventories: all seven declared inventories are complete: INV-TICK, INV-STATE, INV-COLLISION, INV-WORLD-MOVEMENT, INV-MODIFIERS, INV-EXTERNAL, INV-EXCLUSIONS.
-- Open dependencies: none in author-owned source rows; independent full-pair inventory/call-graph audit is required before freeze.
-- Unresolved gaps: independent source audit and freeze decision; author-side coverage is terminal and all seven inventories have source evidence.
+- Open dependencies: none in source coverage; the independent full-pair inventory/call-graph audit accepted the freeze (see post-review reconciliation).
+- Unresolved gaps: none for source coverage; implementation reconciliation and runtime validation remain open.
 - Evidence/hash audit: exact markers/manifests and cited class/resource hashes recorded; schema validation is not proof.
-- Accepted finding snapshots: none.
-- Full-pair blind freeze: pending; implementation reconciliation: pending; independent audit: pending.
-- Source discovery: partial.
+- Accepted finding snapshots: 14 unique finding claims accepted in the bound snapshot review; corrected F-013 supersedes the prior rejected binding for current acceptance purposes, while both immutable snapshot events remain preserved.
+- Full-pair blind freeze: accepted; implementation reconciliation: pending; independent audit: accepted.
+- Source discovery: complete for the bounded exact pair and inventories recorded here.
 - Runtime validation: not performed; no tests or gameplay run.
 
 Fluid registry/state construction addendum: `Fluids.java` registers the same five entries in order (`EMPTY`, flowing water, water source, flowing lava, lava source); its only body-level difference is local-variable naming in the registry state loop. `FlowingFluid` defines the same `FALLING` and `LEVEL_FLOWING` properties, and WaterFluid/LavaFluid each add `LEVEL` to the inherited state definition for both flowing/source states; paired legacy block conversion and source/amount methods were included in the normalized fluid comparison above. `EmptyFluid` returns zero height/amount and an empty shape on both sides. `Blocks.java` links WATER and LAVA to the same source fluid and retains `.noCollission()` plus the same material/strength/tick/light/drop properties; the lava light lambda parameter is renamed only. Fluids.java hashes A/B: 7ee6840d600b06d6c803c8c741e39efdf5add797879f656a9c3abd9348fc7c64 / 4888bd1fa4cf05bf79721ecd4d37f1c23837efd0a7b9289bfe880cdee8a9a411. This closes the fluid-registration/state-construction slice; INV-WORLD-MOVEMENT and T-WORLD-PROPERTIES closure is recorded below.
@@ -547,5 +547,16 @@ Immutable candidate bindings at checkpoint 84c4b691d52a178930869684ccffe6e80007f
 Immutable F-013 candidate binding at checkpoint `cf7a878e5ea86e86f7ed9920d43caa7d665b62e8`: `findings/F-013-llama-passenger-rider-height.md`, Git blob `7f021ef954c2e90314bea14e0e9ed06bbc7c2ef1`, raw-file SHA-256 `fc39381d46aa3257077dd20fd8ce7f8242b201b6b7c74ca9fc7fd2b1dceb511d`. It uses the same exact A/B source and artifact manifests and mapped-jar hashes listed above. Direct paired source hashes: Llama.java A/B `0b41ea3feac6b413976171f45fca83fad0eb9e24f06de5f3fce40d20bfb04d72` / `48adc67e9e4746ae08ef77e813792c192a7a69ce76e499e87b4501bd658309de`; AbstractChestedHorse.java `8ef7b1f59605daad9d17c401fe9992a46151bc6ae3bd17e5225d004edca359e1` / `2ab94ae9c55dc5413d5a13f6cd2dcc432f97544fa6d9db6d07c793ce572ebbc9`; Entity.java `ab28e1fba924771ec048140dfd293ee5a46a7dfe81f71a1a0b1aecc1927232de` / `2228fdaca5793171cbd94038306d571a6ada78ca96f5734efb4cada5b744c10a`. Reachability is tamed adult Llama interaction -> server `doPlayerRide` -> Player.startRiding -> Entity rideTick -> Llama#positionRider; the exact coefficient operation and direct Y consumer are in F-013. Reviewer acceptance remains pending.
 
 Immutable F-014 candidate binding at checkpoint `879ac0330e483e029e170d7e28430fae57131efa`: `findings/F-014-overworld-min-y-unloaded-chunk-fall.md`, Git blob `ca968ab66df2cb44ea8c0918a3b4ff870740fc93`, raw-file SHA-256 `65161ef4a77c6c369af2a74e8a1cc4673cf2f724c8b94fa826548c04a05ae25a`. Exact source/artifact identity is the A/B manifests and mapped-jar hashes listed in the manifest. Paired source hashes: DimensionType A/B `2dc118f16b671d3b1b9736c10e960e199790f7930cfa18983f379beb8d00f27b` / `0c1d2268dde59ef4cf7378fe3ba083dac669a6705f399a23c8138988c29c7681`; LevelReader `4d041cdbc702d532c5b9da800c34bd1c23f8d3b554ecbdd89decbb765a6b451a` / `1a812cc6a9c7fae74ae233fdc19bd9653abbfc768a00d79621885e5fca56f25d`; LivingEntity hashes are listed in T-PLAYER-UNLOADED-CHUNK. Player reachability and exact -64 < Y <= 0 / missing-XZ-chunk preconditions are recorded in F-014. Reviewer acceptance pending.
+Immutable F-014 candidate binding at checkpoint `879ac0330e483e029e170d7e28430fae57131efa`: `findings/F-014-overworld-min-y-unloaded-chunk-fall.md`, Git blob `ca968ab66df2cb44ea8c0918a3b4ff870740fc93`, raw-file SHA-256 `65161ef4a77c6c369af2a74e8a1cc4673cf2f724c8b94fa826548c04a05ae25a`. Exact source/artifact identity is the A/B manifests and mapped-jar hashes listed in the manifest. Paired source hashes: DimensionType A/B `2dc118f16b671d3b1b9736c10e960e199790f7930cfa18983f379beb8d00f27b` / `0c1d2268dde59ef4cf7378fe3ba083dac669a6705f399a23c8138988c29c7681`; LevelReader `4d041cdbc702d532c5b9da800c34bd1c23f8d3b554ecbdd89decbb765a6b451a` / `1a812cc6a9c7fae74ae233fdc19bd9653abbfc768a00d79621885e5fca56f25d`; LivingEntity hashes are listed in T-PLAYER-UNLOADED-CHUNK. Player reachability and exact -64 < Y <= 0 / missing-XZ-chunk preconditions are recorded in F-014. The bound review accepts this source finding with the environment conditions stated in the post-review reconciliation.
 
-Paired class source hashes A/B: `TridentItem.java` 3e2a139e7b3b28744eacd8d1afa605c59d69698cdba08939fb9abc8075128a11 / 5752b4f11d824a6af747fcc5e2e394daa0f6c87f088af406ed8630a110903964; `FishingHook.java` b691e98905f6cf2569e1e03c415131eb4db504c6e4b83d42563a672a91fe6648 / 9082af65b286f3996e684e6bcadfe5016e8d2b1b0325ff9144baaeb8c0ef0d06; `AbstractArrow.java` 898502cde65e5d5ca9700aceabfcb9456323c1ffb76d8311fad117fc3eefc74f / b86fd1c05066a1a89d697e940b5c40f7b923293a3cd56f9448c3d5deaeb9be0b; `FireworkRocketEntity.java` 76b6596b47f9a42b6968578f1a2336f901267606678717b088aa8e259ba1cd68 / bbece25fbba0db7536138627c88aed68ba2c62371943b5e685610a926a1dc3cf; `Explosion.java` e1c3a75f109acb07172bf38f1952df071e6b872f6c620abff1e9c40a4a4dc9d8 / ecf8a941eb37c5b6c6d92ee91e547754d526c3aaa9da97fed4daef999fd5b82d; `IronGolem.java` 33e9f9571d9537875a9a7984da90b931b7f8201fbec4175a5f064766489fd699 / 48770956f0c034dacb6f9a4f2e1e7d4804cc583cab091ae4f1206c29fcc0d881; `EnderDragon.java` 70c3b8c1ffdc959c768fc3ddc5b372be24ba2e2f7b7dcdef7076ed6a66027c37 / 2f0a5141e8a174f2d44d7c91e65121d9bbefefc8221060f895d0b3f7d4b1db57; `Ravager.java` 7b81ddaaab6ffc768850ef067b82dcdbd963796ef6f982962a9b46eb4fca904f / 935cc73b3ec83a94ba398656a1d22d946a34aaa999e0446738aefdcec724112c; `RamTarget.java` 6eb4e381e65e2600675a81d10a730cfd55e1253bbc7878eb6006ed0d160ce43f / e9c87f0d583d5946c37985be4268635214f8ff9cc1d12c14471d79bbe7be02e6; `HoglinBase.java` 97f0677a53513d38bcac634ecf8653994e766b65eb799201dac8c5ee7db1251b / 7b421f8fab6dfcf18ed31f7c35f8ba1f9f198c916a4f5b5b4225fe3008689209; `TeleportCommand.java` 3589ba69cd03c5f464c8ceaac0895e521bbce06c0f3e308ec202688601b9ea0e / 03da86ea65ab405cc318aa9b2fcc94ff65bd7dde24a15f7d6e32fba168a40fcd; `BedBlock.java` 385bfc7f5c916fa897f34e5f2bb0311c4fc872733436a1a1fa2c8edf44c234a3 / d7ee6f4243947ff95ecf2f25db0a04b1906509e7b18f1a1dea50b76131527e3d; `SlimeBlock.java` 4410396e11dbef4843f874f9cc7563801259791c4e4b34a3a0bfeda4ea7c482b / 4e552c1d1aa49b115f1549a8f19415b0c9f81c0524c0bf4afed37277d75f6388; `HoneyBlock.java` 4c37ffe99266de07ccd628739d458bd049d5430309b33b97c3737a63442ee41f / 5ffc5f58a81f82823305c7ed02f9a465c7b3bfd2c1799da566e1485d0cd99ad5; `PistonMovingBlockEntity.java` hashes are recorded in the dynamic piston provider check above.
+
+## Post-review ledger reconciliation (2026-10-09)
+
+This section reconciles the mutable ledger with the independent source reviews. The acceptance is bounded to exact 1.17.1 (A) and 1.18.2 (B), the Mojmap artifacts and source hashes in the manifest, and the 28 declared slices. It does not claim broader release-line parity.
+
+- Full-pair source freeze: accepted by the corrected erratum in audit commit `e0e36eff36a92be82327bf2a8140f18141d7cc21`, file `workflows/source-campaign-2026-10-07/1.17.1--1.18.2/FULL-PAIR-AUDIT-2026-10-08.md`; accepted frozen run binding: Git blob `53bef7aae76bef026d5f5d19bc111635ddc6265d`, raw SHA-256 `70610a914b440ab651163f1ccd708000f4261da24727f7a4614eca473095b3f5`. The audit's original request-changes verdict is preserved as historical review history; its erratum explains the parser mistake and supersedes that verdict. The corrected coverage count is 28 slices: 13 compared-no-difference, 15 findings, zero pending/in-progress/not-applicable/blocked. All seven inventories are complete, dependencies are closed, and the audit routed no missed source slice.
+- Finding snapshot review: commit `2fd121e116d7185165c76aea1c3708273afc7ea1`, file `workflows/source-boundary-reviews/2026-10-08-mc1171-1182-snapshot-review.md`, Git blob `871ad5bccde2194ccc733ed8fef92472a1c96c2a`. It accepts the 14 current immutable findings within their explicitly bounded claims: F-001–F-012, corrected F-013, and F-014. This is finding-level source acceptance, separate from the full-pair audit and from implementation/runtime status.
+- F-013 history: the original candidate remains immutable at checkpoint `cf7a878e5ea86e86f7ed9920d43caa7d665b62e8`, Git blob `7f021ef954c2e90314bea14e0e9ed06bbc7c2ef1`, raw SHA-256 `fc39381d46aa3257077dd20fd8ce7f8242b201b6b7c74ca9fc7fd2b1dceb511d`; its original review event was `REQUEST CHANGES` for two incorrect `AbstractChestedHorse.java` source hashes. The corrected immutable snapshot is commit `d7b09d64445c8d4700e1ad76b4d7b95cd0a33ca6`, path `findings/F-013-llama-passenger-rider-height-source-hash-correction-2026-10-08.md`, Git blob `3d2e66195b4d2620cba264a77b598bfbbaea833b`, raw SHA-256 `1fbd87afa13a28150fef0cb6acfaa1d06751883b00b319e7d56e7bebc9263bbc`. Review commit `2fd121e116d7185165c76aea1c3708273afc7ea1` accepts this identity-only correction; the original rejected event and finding bytes are retained unchanged.
+- F-014 remains conditional: default Overworld, client ordinary travel, missing X/Z chunk, no Levitation, and `-64 < Y <= 0`; equal server-synchronized minY removes the reported difference. This does not establish eligibility for historical map emulation.
+- Implementation reconciliation: pending; implementation was not inspected. Runtime validation: not performed. No tests, build, decompilation, client, TAS, Gym, server, or Docker were run for this reconciliation.
+- Integration: this report-only branch is based on `df418e06b957399aa4c31eaf69d38422146ac296`; the integration owner handles the main-branch merge and semantic review.
