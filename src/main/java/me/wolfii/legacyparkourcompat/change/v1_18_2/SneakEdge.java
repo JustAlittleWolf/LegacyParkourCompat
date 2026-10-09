@@ -4,9 +4,11 @@ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.change.common.SneakEdgeBackoff;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeCollisionQueryBehavior;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.Nullable;
 
 @MovementChange(emulates = ParkourVersion.V1_18_2)
 public final class SneakEdge implements SneakEdgeBehavior {
@@ -16,7 +18,8 @@ public final class SneakEdge implements SneakEdgeBehavior {
         Vec3 delta,
         MoverType moverType,
         boolean stayingOnGroundSurface,
-        float probeDistance
+        float probeDistance,
+        @Nullable SneakEdgeCollisionQueryBehavior collisionQuery
     ) {
         if (player.getAbilities().flying
             || (moverType != MoverType.SELF && moverType != MoverType.PLAYER)
@@ -25,7 +28,7 @@ public final class SneakEdge implements SneakEdgeBehavior {
             return delta;
         }
 
-        return SneakEdgeBackoff.apply(player, delta, probeDistance);
+        return SneakEdgeBackoff.apply(player, delta, probeDistance, collisionQuery);
     }
 
     private static boolean isAboveGround(Player player, float probeDistance) {
