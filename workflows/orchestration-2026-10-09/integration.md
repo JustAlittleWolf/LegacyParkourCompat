@@ -184,3 +184,9 @@ At that time, the preparation, sprint-collision and Elytra slots were releasable
 - Memo `workflows/source-boundary-reviews/F005-boundary-evidence-r2-2026-10-09.md`: blob `012209d04cc41482729b0bf4f66cd9c23686bf8e`, raw SHA-256 `6411e8b8f4f27cbfc28de95bb41c9236cdb2c08d05e28480c5906d6078ed8129`. R1 review blob `65bc5ff0c0a7c222267f882f5ffc62036360f54b`, raw SHA-256 `a73dd9aaeb03a02faceb67474ca2d31be0dda2083cd14274bfed7b40b07048a0`; r2 review blob `d2fd6bb126012d7ae16c297e9dbb5c1fa23126ae`, raw SHA-256 `67ce567f9edc39bef7a9fef511b464ee0bf76abc7fe2a2dbb5ea1d525269e313`.
 - R1 witness-dependency REQUEST CHANGES remains preserved as history; r2 ACCEPT closes that source witness gap only. The separately accepted 1.18.2 first-changed-release boundary remains accepted. This is not a trajectory/runtime result or an implementation recommendation. F-005 implementation reconciliation/code remains queued for its separate technical review and serial build.
 - No build, tests, or runtime validation was performed.
+
+## Exact source-preparation records: 1.13–1.13.1 — 2026-10-09
+
+- Imported only the two exact preparation paths from the report-only tree at `75767b06d1b728e672db2fd1872165153ce768a0` (author preparation commit `c98e0a21175f4af49eb4a38f3ff563abef64b3e5`).
+- `preparations/1.13-mojmap-2026-10-09.md`: blob `b56500a45f69b42fcf9bc0cbc56f65c117ecdbe3`, raw SHA-256 `77c19f02802841056ebea4ea0cc6fa7215c9e07166c9e591095c75d9b1898ef9`; `preparations/1.13.1-mojmap-2026-10-09.md`: blob `6f9d4452c2fb897ecbaa18753392984f56dbd9c3`, raw SHA-256 `81af978490edaca30aedf4e801404f0facfc75863275c8b0733198241a72ce21`.
+- These are artifact-readiness records only; they add no movement interpretation or runtime claim.
