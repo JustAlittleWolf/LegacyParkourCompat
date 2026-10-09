@@ -10,7 +10,6 @@ public final class WaterDepthJumpGate {
 
     public static boolean shouldJump(Player player, double retainedDepth, boolean jumpInput) {
         return jumpInput
-            && !player.onGround()
             && retainedDepth > 0.4
             && !player.isInWater()
             && !player.isInLava()
