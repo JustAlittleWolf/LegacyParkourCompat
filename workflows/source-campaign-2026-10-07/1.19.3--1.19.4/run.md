@@ -32,13 +32,13 @@ Shared artifact root, relative to the repository: `build/movement-campaign-2026-
 
 ## Required source inventories
 
-- `INV-TICK` input sampling, complete player tick order and travel branches: status=pending; slice_ids=I-TICK-INPUT-SAMPLE, I-TICK-EDGE-NUDGE, I-TICK-UNSTUCK-POSITION, I-TICK-LOCAL-TRAVEL-GATE, I-TICK-SPRINT-ELIGIBILITY, I-TICK-TRAVEL-FLUIDS, I-TICK-TRAVEL-FALL-FLYING, I-TICK-FLIGHT-SPEED, I-TICK-SWIM-HEAD-PROBE, I-TICK-AIR-SPEED, I-TICK-PLAYER-AISTEP-REMAINDER, I-TICK-LIVING-AISTEP-DISPATCH, I-TICK-LIVING-AISTEP-DAMAGE, I-TICK-AUTO-JUMP, I-TICK-MOUNT-START, I-TICK-PORTAL-PROGRESS, I-TICK-REMAINDER; evidence=paired exact member slices below; full tick and branch inventory remains open.
-- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=I-TICK-AIR-SPEED, I-TICK-SPRINT-ELIGIBILITY, I-TICK-PLAYER-AISTEP-REMAINDER, I-TICK-UNDERWATER-DISMOUNT, I-STATE-REMAINDER, I-EXTERNAL-DISMOUNT-ROUTES; evidence=air-speed writer/reader chain is traced; full state inventory remains open.
+- `INV-TICK` input sampling, complete player tick order and travel branches: status=pending; slice_ids=I-TICK-INPUT-SAMPLE, I-TICK-INPUT-LOCAL-TRANSFER, I-TICK-EDGE-NUDGE, I-TICK-UNSTUCK-POSITION, I-TICK-LOCAL-TRAVEL-GATE, I-TICK-SPRINT-ELIGIBILITY, I-TICK-TRAVEL-FLUIDS, I-TICK-TRAVEL-FALL-FLYING, I-TICK-FLIGHT-SPEED, I-TICK-SWIM-HEAD-PROBE, I-TICK-AIR-SPEED, I-TICK-PLAYER-AISTEP-REMAINDER, I-TICK-LIVING-AISTEP-DISPATCH, I-TICK-LIVING-AISTEP-DAMAGE, I-TICK-AUTO-JUMP, I-TICK-MOUNT-START, I-TICK-PORTAL-PROGRESS, I-TICK-LOCAL-PACKET-HANDOFF, I-TICK-LOCAL-WATER-DESCENT, I-TICK-LOCAL-JUMP-START, I-TICK-LOCAL-FLIGHT-INPUT, I-TICK-LOCAL-RIDDEN-JUMP-INPUT, I-TICK-LOCAL-FLIGHT-CLEANUP; evidence=paired exact member slices below; full tick and branch inventory remains open.
+- `INV-STATE` movement state writers/readers including pose, dimensions, eye height, position, velocity, collision/ground/fluid flags, timers and direct predicates: status=pending; slice_ids=I-TICK-AIR-SPEED, I-TICK-SPRINT-ELIGIBILITY, I-TICK-INPUT-LOCAL-TRANSFER, I-TICK-LOCAL-WATER-DESCENT, I-TICK-LOCAL-FLIGHT-INPUT, I-TICK-LOCAL-FLIGHT-CLEANUP, I-TICK-PLAYER-AISTEP-REMAINDER, I-TICK-UNDERWATER-DISMOUNT, I-STATE-REMAINDER, I-EXTERNAL-DISMOUNT-ROUTES; evidence=air-speed writer/reader chain is traced; full state inventory remains open.
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=I-TICK-AUTO-JUMP, I-TICK-EDGE-NUDGE, I-COLLISION-ENTITY-MOVE, I-COLLISION-QUERY-ASSEMBLY, I-COLLISION-REMAINDER; evidence=auto-jump probe math is traced to collision query; providers and registrations remain open.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, registrations and resource inventory: status=pending; slice_ids=I-WORLD, I-WORLD-BLOCK-MOVEMENT-FACTORS; the underwater-dismount tag and resource-layer behavior are documented in I-TICK-UNDERWATER-DISMOUNT; broader resource and registry inventory remains open.
-- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and applications/removals/conditions: status=pending; slice=I-MODIFIER; no terminal inventory evidence yet.
-- `INV-EXTERNAL` player-only external inputs and client consumers: status=pending; slice=I-EXTERNAL; no terminal inventory evidence yet.
-- `INV-EXCLUSIONS` direct movement reads versus excluded health/food/damage producers and non-player movement: status=pending; slice_ids=I-EXCLUSIONS, I-TICK-LIVING-AISTEP-DAMAGE; evidence=campaign scope is recorded, but direct-read audit remains open.
+- `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and applications/removals/conditions: status=pending; slice_ids=I-MODIFIER, I-TICK-LOCAL-JUMP-START; no terminal inventory evidence yet.
+- `INV-EXTERNAL` player-only external inputs and client consumers: status=pending; slice_ids=I-EXTERNAL, I-TICK-LOCAL-PACKET-HANDOFF; no terminal inventory evidence yet.
+- `INV-EXCLUSIONS` direct movement reads versus excluded health/food/damage producers and non-player movement: status=pending; slice_ids=I-EXCLUSIONS, I-TICK-LIVING-AISTEP-DAMAGE, I-TICK-LOCAL-RIDDEN-JUMP-INPUT, I-TICK-LOCAL-WATER-VISION; evidence=campaign scope is recorded, but direct-read audit remains open.
 
 ## Coverage ledger
 
@@ -87,10 +87,22 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 - A evidence: `ready/1.19.3/mojmap/net/minecraft/client/player/KeyboardInput.java#tick(boolean,float)V`, lines 21–33, SHA-256 `a8064906872955a3520398ab5b2a326552d424f41887d1294aa6a038e2623ff0`.
 - B evidence: `ready/1.19.4/mojmap/net/minecraft/client/player/KeyboardInput.java#tick(boolean,float)V`, lines 21–33, SHA-256 `a8064906872955a3520398ab5b2a326552d424f41887d1294aa6a038e2623ff0`; entire paired source file hash is identical.
 - State producers/writers -> consumers/readers: key bindings and caller-supplied scaling flag/value -> Input movement impulses, jumping and shift state -> LocalPlayer tick predicates/travel input.
-- Parent slices / dependencies / closure evidence: bounded to the input sampling method; caller-provided scale semantics and the later tick consumers remain in I-TICK-REMAINDER.
+- Parent slices / dependencies / closure evidence: bounded input producer is compared in I-TICK-INPUT-LOCAL-TRANSFER; keyboard option provenance is an external input, and the sneak-speed bonus producer remains open in I-MODIFIER.
 - Status: compared-no-difference
-- Disposition and rationale (including concrete reachability/preconditions): exact source file hashes match and the bounded method is byte-for-byte identical; this does not close caller-side key option configuration or full tick order.
+- Disposition and rationale (including concrete reachability/preconditions): exact source file hashes match and the bounded method is byte-for-byte identical; its LocalPlayer caller is now traced in I-TICK-INPUT-LOCAL-TRANSFER. External key-option values, the sneaking-speed bonus producer and full tick order remain separate.
 - Finding IDs or checked absence/replacement path: checked absence of a difference in the paired method body; caller-side behavior remains open.
+
+### Slice I-TICK-INPUT-LOCAL-TRANSFER: local input sampling through travel vector handoff
+
+- Inventory ID(s): INV-TICK, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer#aiStep()` input preparation around `Input#tick`, item-use impulse scaling and auto-jump input write; the later `LocalPlayer#serverAiStep()` camera guard and `LivingEntity#aiStep()` immobile/effective-AI gate through the `xxa`/`zza` friction scale and travel dispatch.
+- A evidence: `ready/1.19.3/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 659–680, and `#serverAiStep()V`, lines 616–628, SHA-256 `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`; `ready/1.19.3/mojmap/net/minecraft/world/entity/LivingEntity.java#aiStep()V`, lines 2555–2563 and 2593–2600, SHA-256 `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db`.
+- B evidence: `ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 651–672, and `#serverAiStep()V`, lines 609–621, SHA-256 `8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58`; `ready/1.19.4/mojmap/net/minecraft/world/entity/LivingEntity.java#aiStep()V`, lines 2501–2509 and 2539–2553, SHA-256 `c8d91af61f87aaa1666de79696d7cd9d4a8212d05f873bdaf28d7bb2926bf165`.
+- State producers/writers -> consumers/readers: `KeyboardInput#tick(boolean,float)V` key states -> local input impulses/jump/shift; LocalPlayer's slow-movement scale and non-passenger item-use scale -> input values; auto-jump timer -> jumping; on the effective-AI client path `LocalPlayer#serverAiStep()` copies left/forward impulses and jumping into `xxa`/`zza`/`jumping` only when the player controls the camera; `LivingEntity#aiStep()` clears movement input when immobile, otherwise runs `serverAiStep`, then scales `xxa`/`zza` by `0.98F` and passes the vector to travel.
+- Parent slices / dependencies / closure evidence: `I-TICK-INPUT-SAMPLE` has byte-identical `KeyboardInput.java` on both sides; `I-TICK-LIVING-AISTEP-DISPATCH` records the B-only `travelRidden` branch and its vehicle-physics exclusion; `I-TICK-LOCAL-TRAVEL-GATE` records ordinary LocalPlayer reachability. `Player#serverAiStep()` remains an open dependency because the LocalPlayer override calls it before copying camera input.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the inspected caller and consumer ranges preserve the same input order and movement-field copies for an effective-AI local player controlling the camera. The super-call's player-side state writes still need comparison before closing this edge. The sneak-speed bonus producer remains a separate open modifier dependency.
+- Finding IDs or checked absence/replacement path: no new candidate in these bounded ranges; the previously indexed sprint eligibility and travel-speed findings remain separately scoped.
 ### Slice I-TICK-PORTAL-PROGRESS: confusion-gated local portal overlay
 
 - Inventory ID(s): INV-TICK, INV-EXCLUSIONS
@@ -131,7 +143,7 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 - A evidence: `ready/1.19.3/mojmap/net/minecraft/world/entity/player/Player.java#travel(Vec3)V`, lines 1453–1460, SHA-256 `02e64e197aec3f4f2a8abc9c5ce4545121ac5bcbbc71592ce478601a0db17203`; query cell uses `new BlockPos(getX(), getY() + 1.0 - 0.1, getZ())`.
 - B evidence: `ready/1.19.4/mojmap/net/minecraft/world/entity/player/Player.java#travel(Vec3)V`, lines 1445–1452, SHA-256 `5e4436afccb361156f8184e7a5cfd91d5b12dcfe8f5937b4ac23dd3edda737a2`; query cell uses `BlockPos.containing` with the same coordinate expressions.
 - State producers/writers -> consumers/readers: swimming/passenger/look/jump state -> integer block-cell probe -> fluid-state empty predicate -> vertical velocity adjustment using current look Y and delta Y.
-- Parent slices / dependencies / closure evidence: A double constructor delegates to `Vec3i(double,...)`, which calls `Mth.floor` on all coordinates; B `BlockPos.containing(double,...)` calls the same floor function. Full fluid providers and swimming travel remain I-WORLD and I-TICK-REMAINDER.
+- Parent slices / dependencies / closure evidence: A double constructor delegates to `Vec3i(double,...)`, which calls `Mth.floor` on all coordinates; B `BlockPos.containing(double,...)` calls the same floor function. Full fluid providers and swimming travel remain I-WORLD and I-TICK-TRAVEL-FLUIDS.
 - Status: compared-no-difference
 - Disposition and rationale (including concrete reachability/preconditions): both paths quantize the same three coordinate expressions with the same floor function; the surrounding branch guards, constants and velocity operation are unchanged.
 - Finding IDs or checked absence/replacement path: checked absence of difference in the above-player fluid probe and vertical adjustment; fluid provider inventory remains open.
@@ -228,17 +240,77 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 - Disposition and rationale (including concrete reachability/preconditions): source confirms freeze damage formula/source and drowning-source changes, but these are excluded damage/health behavior and do not themselves write movement state. No movement finding is raised from these calls.
 - Finding IDs or checked absence/replacement path: explicit out-of-scope disposition; no direct player-motion response is present in the changed callsites.
 
-### Slice I-TICK-REMAINDER: remaining local tick, input, jump, flight and post-travel paths
+### Slice I-TICK-LOCAL-PACKET-HANDOFF: local tick movement and passenger-control packets
+
+- Inventory ID(s): INV-TICK, INV-EXTERNAL
+- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer#tick()V` after `super.tick()`, separating passenger rotation/input and locally controlled root-vehicle packets from the non-passenger position-sync path.
+- A evidence: `ready/1.19.3/mojmap/net/minecraft/client/player/LocalPlayer.java#tick()V`, lines 188–201, SHA-256 `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`.
+- B evidence: `ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java#tick()V`, lines 187–200, SHA-256 `8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58`.
+- State producers/writers -> consumers/readers: after superclass movement tick, passenger `xxa`/`zza`, jump and shift state feed `ServerboundPlayerInputPacket`; a locally controlled root vehicle receives a movement packet and sprint-state sync; a non-passenger sends player position/rotation/ground state.
+- Parent slices / dependencies / closure evidence: input state producers are traced through I-TICK-INPUT-SAMPLE and I-TICK-INPUT-LOCAL-TRANSFER; vehicle motion after the passenger packet is excluded vehicle physics, and packet-arrival ordering remains an external runtime boundary already noted under D-1.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): the paired packet branch order and values are identical for passenger and non-passenger local-player ticks. The packet is a state handoff; this row makes no claim about server processing or packet arrival relative to another tick.
+- Finding IDs or checked absence/replacement path: checked absence of a difference in the bounded local tick packet handoff.
+
+### Slice I-TICK-LOCAL-WATER-DESCENT: shift-driven local descent while swimming
+
+- Inventory ID(s): INV-TICK, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer#aiStep()V` water/shift/affected-by-fluids guard and its `goDownInWater()` state/velocity consumer.
+- A evidence: `ready/1.19.3/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 758–762; paired `goDownInWater()` body not yet compared; file SHA-256 `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`.
+- B evidence: `ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 739–743; paired `goDownInWater()` body not yet compared; file SHA-256 `8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58`.
+- State producers/writers -> consumers/readers: sampled shift state and water/affected-by-fluids predicates -> `goDownInWater()` movement response; fluid state and the helper's velocity writes remain to be closed.
+- Parent slices / dependencies / closure evidence: I-TICK-INPUT-LOCAL-TRANSFER; helper pair `LocalPlayer#goDownInWater()V` is the next exact dependency.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): reachable when the local player is in water, shift is held and fluids affect the player; helper comparison is outstanding.
+- Finding IDs or checked absence/replacement path: pending helper comparison.
+
+### Slice I-TICK-LOCAL-JUMP-START: jump-key flight and glide start transitions
+
+- Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
+- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer#aiStep()V` mayfly double-tap/toggle branch and the guarded Elytra start request; exact paired ranges are A lines 731–756 and B lines 712–737.
+- A evidence: `ready/1.19.3/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 731–756, SHA-256 `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`.
+- B evidence: `ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 712–737, SHA-256 `8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58`.
+- State producers/writers -> consumers/readers: previous/current jump input and jump timer -> ability flight flag or fall-flying request; chest-slot Elytra/equipment eligibility and `tryToStartFallFlying()` are dependencies.
+- Parent slices / dependencies / closure evidence: `I-TICK-INPUT-LOCAL-TRANSFER` closes the jump input producer edge; `I-TICK-TRAVEL-FALL-FLYING` covers the downstream gliding consumer. Elytra/equipment and the `tryToStartFallFlying()` dependency remain open.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): source ranges identified but not compared as a bounded slice; the ability/equipment gates must remain in the closure.
+- Finding IDs or checked absence/replacement path: pending comparison.
+
+### Slice I-TICK-LOCAL-FLIGHT-INPUT: vertical input acceleration during abilities flight
+
+- Inventory ID(s): INV-TICK, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer#aiStep()V` local-camera vertical shift/jump accumulation into delta movement; exact paired ranges are A lines 771–784 and B lines 752–765.
+- A evidence: `ready/1.19.3/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 771–784, SHA-256 `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`.
+- B evidence: `ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 752–765, SHA-256 `8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58`.
+- State producers/writers -> consumers/readers: flying ability and controlled-camera predicate plus shift/jump input -> signed integer vertical scale -> direct `setDeltaMovement` write using ability flying speed.
+- Parent slices / dependencies / closure evidence: input producer is I-TICK-INPUT-LOCAL-TRANSFER; ability flying-speed resolution is I-TICK-FLIGHT-SPEED. Same-call effect and operation order remain to be compared in this slice.
+- Status: pending
+- Disposition and rationale (including concrete reachability/preconditions): reachable for a flying LocalPlayer that is the controlled camera and has nonzero vertical input; comparison remains open.
+- Finding IDs or checked absence/replacement path: pending comparison.
+
+### Slice I-TICK-LOCAL-RIDDEN-JUMP-INPUT: charged jump request to a rideable vehicle
 
 - Inventory ID(s): INV-TICK
-- Exact behavior boundary and enclosing guards/order checked: full input sampling; sprint and jump timers; sprint stop branches; flight toggle; pose and item-use gates; all travel dispatch branches; remaining post-travel updates.
-- A evidence: paired LocalPlayer, KeyboardInput, Player and LivingEntity roots found; not all reachable methods and callers compared.
-- B evidence: corresponding roots found; not all reachable methods and callers compared.
-- State producers/writers -> consumers/readers: input, jump/sprint flags and timers -> travel/control predicates; full edge inventory open.
-- Parent slices / dependencies / closure evidence: includes I-TICK-AIR-SPEED and I-TICK-AUTO-JUMP; new dependencies remain to be enumerated.
+- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer#aiStep()V` rideable jump cooldown, jump-edge, charge progression and vehicle callback; A lines 786–813, B lines 767–794.
+- A evidence: `ready/1.19.3/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 786–813, SHA-256 `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`.
+- B evidence: `ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 767–794, SHA-256 `8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58`.
+- State producers/writers -> consumers/readers: jump press/release and charge ticks -> `PlayerRideableJumping#onPlayerJump` and riding-jump packet; resulting vehicle movement is excluded.
+- Parent slices / dependencies / closure evidence: excluded at the direct vehicle-physics boundary; player self-movement consumers are covered by other slices.
+- Status: not-applicable
+- Disposition and rationale (including concrete reachability/preconditions): this branch sends a charged jump to the ridden vehicle and does not write player position or velocity; campaign scope excludes vehicle physics.
+- Finding IDs or checked absence/replacement path: explicit vehicle-physics exclusion.
+
+### Slice I-TICK-LOCAL-FLIGHT-CLEANUP: disable transient flight after ground contact
+
+- Inventory ID(s): INV-TICK, INV-STATE
+- Exact behavior boundary and enclosing guards/order checked: LocalPlayer post-super `aiStep()` ground contact and non-always-flying ability reset; A lines 814–819, B lines 795–800.
+- A evidence: `ready/1.19.3/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 814–819, SHA-256 `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`.
+- B evidence: `ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 795–800, SHA-256 `8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58`.
+- State producers/writers -> consumers/readers: `LivingEntity#aiStep()` travel/collision updates on-ground state -> post-super LocalPlayer clears abilities flying unless the game mode is always flying.
+- Parent slices / dependencies / closure evidence: current on-ground value comes from the ordinary travel/collision path; the paired source ranges remain to be compared.
 - Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): unfinished required coverage.
-- Finding IDs or checked absence/replacement path: F-01 and F-02 cover only their named behaviors.
+- Disposition and rationale (including concrete reachability/preconditions): reachable after superclass movement when the player is grounded and always-flying mode is false; comparison remains open.
+- Finding IDs or checked absence/replacement path: pending comparison.
 
 ### Slice I-STATE-REMAINDER: pose, dimensions and remaining movement state
 
@@ -293,7 +365,7 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 - A evidence: exact client jar and source artifacts are hash-verified; member and resource inventory not yet performed.
 - B evidence: exact client jar and source artifacts are hash-verified; member and resource inventory not yet performed.
 - State producers/writers -> consumers/readers: registrations/properties/tags/neighbors -> player travel and collision/fluid consumers; pending enumeration.
-- Parent slices / dependencies / closure evidence: I-COLLISION-REMAINDER and I-TICK-REMAINDER.
+- Parent slices / dependencies / closure evidence: I-COLLISION-REMAINDER, I-TICK-EDGE-NUDGE and I-TICK-UNSTUCK-POSITION.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): unfinished required coverage; no modern-only applicability claims made.
 - Finding IDs or checked absence/replacement path: none.
@@ -305,7 +377,7 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 - A evidence: source roots and jars available; producer-to-consumer and resource chains not yet compared.
 - B evidence: source roots and jars available; producer-to-consumer and resource chains not yet compared.
 - State producers/writers -> consumers/readers: server/default values, effects/items/enchantments -> player movement predicates and arithmetic consumers; pending.
-- Parent slices / dependencies / closure evidence: I-TICK-REMAINDER and I-WORLD.
+- Parent slices / dependencies / closure evidence: I-TICK-LOCAL-JUMP-START, I-TICK-LOCAL-FLIGHT-INPUT and I-WORLD.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): unfinished required coverage. Food/health producer systems remain excluded even where their values gate movement.
 - Finding IDs or checked absence/replacement path: none.
@@ -351,7 +423,7 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 - A evidence: scope fixed by campaign; sprint's direct food-state consumer is visible in LocalPlayer source, but all direct reads have not been enumerated.
 - B evidence: scope fixed by campaign; sprint's direct food-state consumer is visible in LocalPlayer source, but all direct reads have not been enumerated.
 - State producers/writers -> consumers/readers: document only direct vanilla-state movement predicates, not excluded producer behavior; full inventory pending.
-- Parent slices / dependencies / closure evidence: I-TICK-REMAINDER and I-MODIFIER.
+- Parent slices / dependencies / closure evidence: I-TICK-SPRINT-ELIGIBILITY, I-TICK-INPUT-LOCAL-TRANSFER and I-MODIFIER.
 - Status: pending
 - Disposition and rationale (including concrete reachability/preconditions): unfinished scope audit; no excluded producer system is a movement finding candidate.
 - Finding IDs or checked absence/replacement path: none.
@@ -399,7 +471,8 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 
 - D-1: resolved as a source dependency. Voluntary, invalid/removed-vehicle, underwater, and player teleport/dimension dismount routes reach the recorded player state writers; F-03/F-05 capture the source-confirmed deltas. Packet arrival relative to the next client tick is an external scheduling input and remains outside source-only timing claims.
 - D-2: resolved for F-02 by I-COLLISION-AUTOJUMP-PROVIDERS. The exact query, entity-shape provider, block iterator and paired block collision-shape override inventory match; whole movement collision coverage remains open in I-COLLISION-REMAINDER.
-- D-3: open. Continue I-TICK-REMAINDER, I-STATE-REMAINDER, I-COLLISION-REMAINDER, I-WORLD, I-MODIFIER, I-EXTERNAL and I-EXCLUSIONS; each is still pending outside the bounded closures recorded above. Owner: source worker.
+- D-3: open. Continue the exact remaining input/tick slices listed under INV-TICK, then I-STATE-REMAINDER, I-COLLISION-REMAINDER, I-WORLD, I-MODIFIER, I-EXTERNAL and I-EXCLUSIONS; each remains open outside its bounded closures. Owner: source worker.
+- D-4: open dependency of I-TICK-INPUT-LOCAL-TRANSFER. Compare paired `Player#serverAiStep()V` before claiming closure of LocalPlayer's input-to-travel producer edge; its body can write or alter movement fields copied by LocalPlayer. Owner: source worker.
 - No external source blocker. The work is incomplete because required source inventories remain open.
 
 ## Finding index
@@ -409,6 +482,7 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 - F-03: mounted sprint state can carry into player movement after dismount under the stated conditions.
 - F-04: A can initiate sprint while fall-flying under the stated key-sprint predicates; B adds a fall-flying rejection guard.
 - F-05: for an already passenger player on an untagged LivingEntity such as Cow, the underwater server dismount gate changes from A's negated subclass predicate to B's positive entity-type tag predicate; B's built-in tag omits Cow. Effective server tag layers are an input.
+- Discarded candidate: A increments and resets `LocalPlayer.sprintTime`, while B has no field; a full search of both exact source trees found only A's declaration and two writes and no reader, so no player-movement consumer is evidenced.
 
 ## Finding snapshot log
 
@@ -424,9 +498,9 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 - Version boundary: source-confirmed A/B difference, first changed release unknown within (1.19.3, 1.19.4]. Reviewer: independent source reviewer `01a116ce-c937-7613-a49b-716e99582357`. Status: submitted for blind source review; acceptance pending. The snapshot does not close any other pair coverage or freeze the pair.
 ## Resume checkpoint
 
-- Last completed slices: prior closed slices through I-TICK-TRAVEL-FALL-FLYING; added I-COLLISION-AUTOJUMP-PROVIDERS, the bounded dismount route inventory and F-05. Findings F-01 through F-05 remain source-only records; F-03 through F-05 snapshots await independent blind review.
-- Next bounded slice: continue D-3 with `I-TICK-REMAINDER` from `KeyboardInput#tick`, remaining `LocalPlayer#aiStep` branches and `LivingEntity#travel`; then close pose/dimension, remaining collision callbacks/support, block/fluid registrations/resources, modifier data chains, external player inputs and direct excluded-state reads.
-- Outstanding dependencies and owners: D-3, source worker; D-1 and D-2 closed as recorded.
+- Last completed slices: prior closed slices through I-TICK-TRAVEL-FALL-FLYING; added I-COLLISION-AUTOJUMP-PROVIDERS, the bounded dismount route inventory, F-05 and I-TICK-LOCAL-PACKET-HANDOFF. Findings F-01 through F-05 remain source-only records; F-03 through F-05 snapshots await independent blind review. I-TICK-INPUT-LOCAL-TRANSFER is in progress pending D-4.
+- Next bounded slice: compare paired `Player#serverAiStep()V` to resolve D-4; then close the input-transfer slice or retain any newly found state edge. Continue with local water descent, jump-start, flight-input, ridden-jump and post-super flight-cleanup slices listed under INV-TICK, followed by the non-tick D-3 dependencies.
+- Outstanding dependencies and owners: D-3 and D-4, source worker; D-1 and D-2 closed as recorded.
 - Current assumptions requiring verification: complete behavior correspondence for all reachable travel branches; packet arrival relative to local tick (runtime-only boundary); remaining collision callbacks/support/registrations; block/fluid registrations and resources; modifiers/equipment; external player-facing inputs; direct excluded-state reads; remaining direct player knockback/impulse consumer and resistance-modifier inventory.
 
 ## Implementation reconciliation
@@ -448,7 +522,7 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 
 ## Source audit closure
 
-- Coverage counts by status: findings 6; in-progress 0; pending 7; compared-no-difference 14; not-applicable 3; blocked 0. Explicit pending count: 7. This is a partial checkpoint; full source-only coverage, freeze and independent audit are not claimed.
+- Coverage counts by status: findings 6; in-progress 1; pending 10; compared-no-difference 15; not-applicable 4; blocked 0. Explicit pending count: 10. This is a partial checkpoint; full source-only coverage, freeze and independent audit are not claimed.
 - Required inventory status and evidence: all seven required inventories remain pending overall; named sprint-air-speed, sprint-eligibility, auto-jump arithmetic and mounted sprint carry-over slices are closed as findings, while the full INV-TICK, INV-STATE and INV-COLLISION inventories and all remaining inventories remain open.
 - Open dependency: D-3. D-1 and the F-02-specific part of D-2 are bounded source closures; their broader inventories remain represented by pending slices.
 - Unresolved gaps and limits: full tick and state inventory; source-only packet-arrival timing relative to local tick; full movement collision callbacks/support/registrations; block/fluid data; modifiers/equipment; external inputs; exclusions direct-read audit; independent reviewer.
