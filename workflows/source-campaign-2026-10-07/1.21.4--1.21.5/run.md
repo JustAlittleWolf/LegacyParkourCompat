@@ -876,6 +876,27 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 - Next named producer slice: `D13 / S1-OPTIONS-PERSISTENCE-AND-BINDING-CAPTURE`, capped at three complete paired methods: compare `Options` key-mapping load/save iteration and `KeyBindsScreen` key capture/reset caller behavior, then record direct `MAP` rebuild callers. Relevant published A/B entry points located for the next slice include `Options.java:1205-1209` and `1348`/`1349` for key load/rebuild, `Options#load()` at `1226`, `Options#save()` at A `1373`/B `1374`, and `KeyBindsScreen`/`KeyBindsList` `setKey` and `resetMapping` callsites. Resolve exact complete method ranges and source hashes before selecting the capped method pairs.
 - Checkpoint limits: source report only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
 
+## Fresh source-only checkpoint — D13 key binding persistence writer
+
+- Base: key registry checkpoint `18fac955`. Three complete paired methods were compared: `Options#processOptions(FieldAccess)`, `Options#save()`, and `KeyMapping#saveString()`. Their complete body spans total 168 lines on A and 170 on B. `Options.java` and `KeyMapping.java` were live-hash checked against both exact source manifests.
+
+### D13 — S1-OPTIONS-KEY-SAVE (bounded save route closed)
+
+- Serialized binding source: A `Options#processOptions(FieldAccess)` lines 1140-1224 vs B lines 1139-1224 iterates the same `this.keyMappings` array. For every mapping it obtains `saveString()` (A/B `KeyMapping.java:170-172`), uses key `key_` plus `KeyMapping#getName()`, and passes the current serialized key name to `FieldAccess.process`. If an adapter returns a different value, the shared method changes the mapping key with `setKey(InputConstants.getKey(value))`; the load adapter that supplies such a value and subsequent registry rebuild are outside this save-only slice.
+- File writer: A `Options#save()` lines 1373-1452 vs B lines 1374-1454 opens the options file, writes the version header, then calls `processOptions` with a `FieldAccess` whose String overload writes the key/value and returns that same value. Thus the save call serializes the current key names and does not change `KeyMapping.key` through the helper's difference branch. Both methods close the writer, log expected save errors, and broadcast options afterward. A uses `getPreferredFullscreenVideoMode()` to write the resolution; B uses `getFullscreenVideoModeString()`. This paired difference is in fullscreen preference serialization and does not alter key mapping state.
+- Producer/consumer path: the same `Options.keyMappings` entries used by D8's `KeyboardInput#tick()` key-state reads are enumerated by `processOptions`, encoded with `KeyMapping#saveString()`, and written as `key_<mapping name>` settings. This records persistence of the current keyboard or mouse key identity, but loading those values, rebuilding `MAP`, controls-screen capture/reset, and any down-state transition during rebind remain open.
+- Disposition: no A/B delta was found in the bounded key-binding save path. Close D13 only for serialization of the current mappings through `Options#processOptions`/`save`; do not close D12's wider persistence/load lifecycle or D8's complete option/key producer inventory.
+- Exact source hashes:
+
+| Paired source file | A SHA-256 | B SHA-256 |
+|---|---|---|
+| `net/minecraft/client/Options.java` | `82c40cc5e82d2b43c49cea687d89d257e42285eb022760eb24991e93f75fb714` | `1db5025484669bd13727cfbc8bdfeef2663a35c962de63be258664db98d71522` |
+| `net/minecraft/client/KeyMapping.java` | `d5475012d2849e7547e23d1584d5b099661a2cb1e60daebe6ec19cb28b779111` | `d5475012d2849e7547e23d1584d5b099661a2cb1e60daebe6ec19cb28b779111` |
+
+- Current dependency status: D7 is accepted only for its bounded controlled-camera path under independent review `d7b932a2f57285a52fbf3c96a89d4b7173fe22ea`; D9 remains separately pending F-09 adjudication with the original snapshot unchanged. D10-D13 have bounded records only; the overall D8/options/keymap producer inventory remains open. D1-D6 remain open and pair status is partial.
+- Next named source slice: `D14 / S1-OPTIONS-KEY-LOAD-AND-REBIND`, capped at three complete paired methods. Resolve exact full ranges for `Options#load()` (starts A/B line 1226; key loop at 1205-1211 belongs to the preceding shared `processOptions` adapter) and the controls-screen capture/reset callers in `KeyBindsScreen`/`KeyBindsList`; connect `setKey` changes through `resetMapping()` to the `KeyMapping#set` writer and `KeyboardInput#tick()` consumer. Source callsites currently identified include A/B `KeyBindsScreen.java:40-41,60,73,75,92`, `KeyBindsList.java:33,55,141,181`, and `Options.java:1348/1349` for `resetMapping()`.
+- Checkpoint limits: source report only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
+
 
 
 
