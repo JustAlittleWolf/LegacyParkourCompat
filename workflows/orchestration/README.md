@@ -79,6 +79,8 @@ An uncertain launch/send result must be recovered by checking its operation/thre
 
 Keep one authoritative live queue, owned by the coordinator or one designated operations worker. Do not maintain several independently rewritten roster/backlog/status copies; keep immutable history and checkpoints only. A compact task entry needs role, ID, phase/state, exact inputs, branch/worktree/HEAD, dirty files and staging state, owned process state, dependency IDs, last delivered cursor and next exact action. Store large evidence in the role's report, not in the queue.
 
+Keep local branch refs only for the default branch and unfinished assignments with an explicit owner, next action and dispatch order. Audit the complete ref inventory after a cleanup batch; spot checks do not establish closure. Archive completed or superseded histories before retiring their refs, preserving all attached worktree files. A report-only main import need not preserve the original commit ancestry, so verify archival reachability separately. Record unique historical reports awaiting integration without retaining a completed worker branch solely as their storage. Recheck current HEAD and dirty state immediately before each retirement; never retire an actively owned unfinished assignment. When the cleanup coordinator finishes, publish its records to main and retire its own completed metadata branch too.
+
 ### Compact handoff
 
 ```text
