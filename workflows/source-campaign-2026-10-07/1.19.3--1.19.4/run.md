@@ -256,13 +256,13 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: `LocalPlayer#aiStep()V` water/shift/affected-by-fluids guard and its `goDownInWater()` state/velocity consumer.
-- A evidence: `ready/1.19.3/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 758–762; paired `goDownInWater()` body not yet compared; file SHA-256 `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`.
-- B evidence: `ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 739–743; paired `goDownInWater()` body not yet compared; file SHA-256 `8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58`.
-- State producers/writers -> consumers/readers: sampled shift state and water/affected-by-fluids predicates -> `goDownInWater()` movement response; fluid state and the helper's velocity writes remain to be closed.
-- Parent slices / dependencies / closure evidence: I-TICK-INPUT-LOCAL-TRANSFER; helper pair `LocalPlayer#goDownInWater()V` is the next exact dependency.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): reachable when the local player is in water, shift is held and fluids affect the player; helper comparison is outstanding.
-- Finding IDs or checked absence/replacement path: pending helper comparison.
+- A evidence: `ready/1.19.3/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 758–760, SHA-256 `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`; inherited `ready/1.19.3/mojmap/net/minecraft/world/entity/player/Player.java#isAffectedByFluids()Z`, lines 1045–1047, SHA-256 `02e64e197aec3f4f2a8abc9c5ce4545121ac5bcbbc71592ce478601a0db17203`; inherited `ready/1.19.3/mojmap/net/minecraft/world/entity/LivingEntity.java#goDownInWater()V`, lines 2036–2038, SHA-256 `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db`.
+- B evidence: `ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 739–741, SHA-256 `8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58`; inherited `ready/1.19.4/mojmap/net/minecraft/world/entity/player/Player.java#isAffectedByFluids()Z`, lines 1036–1038, SHA-256 `5e4436afccb361156f8184e7a5cfd91d5b12dcfe8f5937b4ac23dd3edda737a2`; inherited `ready/1.19.4/mojmap/net/minecraft/world/entity/LivingEntity.java#goDownInWater()V`, lines 1967–1969, SHA-256 `c8d91af61f87aaa1666de79696d7cd9d4a8212d05f873bdaf28d7bb2926bf165`.
+- State producers/writers -> consumers/readers: sampled shift state and water predicate -> Player override `isAffectedByFluids() == !abilities.flying` -> inherited `goDownInWater()` adds `(0.0, -0.04F, 0.0)` to current velocity.
+- Parent slices / dependencies / closure evidence: I-TICK-INPUT-LOCAL-TRANSFER closes the shift-input producer; paired Player override and inherited helper bodies are identical. The environment's water-state producer remains in I-WORLD.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for the same local water state and abilities, both versions require water, shift and non-flying ability state, then apply the same ordered `-0.04F` vertical velocity addition. The water-state provider inventory remains open separately.
+- Finding IDs or checked absence/replacement path: checked absence of a difference in the LocalPlayer descent guard, Player fluid-affect predicate and inherited velocity helper.
 
 ### Slice I-TICK-LOCAL-JUMP-START: jump-key flight and glide start transitions
 
@@ -498,8 +498,8 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 - Version boundary: source-confirmed A/B difference, first changed release unknown within (1.19.3, 1.19.4]. Reviewer: independent source reviewer `01a116ce-c937-7613-a49b-716e99582357`. Status: submitted for blind source review; acceptance pending. The snapshot does not close any other pair coverage or freeze the pair.
 ## Resume checkpoint
 
-- Last completed slices: prior closed slices through I-TICK-TRAVEL-FALL-FLYING; added I-COLLISION-AUTOJUMP-PROVIDERS, the bounded dismount route inventory, F-05, I-TICK-LOCAL-PACKET-HANDOFF and I-TICK-INPUT-LOCAL-TRANSFER. Findings F-01 through F-05 remain source-only records; F-03 through F-05 snapshots await independent blind review.
-- Next bounded slice: compare `LocalPlayer#goDownInWater()` and its exact movement-state consumers for I-TICK-LOCAL-WATER-DESCENT; then continue I-TICK-LOCAL-JUMP-START, I-TICK-LOCAL-FLIGHT-INPUT and I-TICK-LOCAL-FLIGHT-CLEANUP, followed by the non-tick D-3 dependencies.
+- Last completed slices: prior closed slices through I-TICK-TRAVEL-FALL-FLYING; added I-COLLISION-AUTOJUMP-PROVIDERS, the bounded dismount route inventory, F-05, I-TICK-LOCAL-PACKET-HANDOFF, I-TICK-INPUT-LOCAL-TRANSFER and I-TICK-LOCAL-WATER-DESCENT. Findings F-01 through F-05 remain source-only records; F-03 through F-05 snapshots await independent blind review.
+- Next bounded slice: compare the mayfly/Elytra jump-key transitions for I-TICK-LOCAL-JUMP-START, then resolve I-TICK-LOCAL-FLIGHT-INPUT and I-TICK-LOCAL-FLIGHT-CLEANUP with their exact consumers, followed by the non-tick D-3 dependencies.
 - Outstanding dependencies and owners: D-3, source worker; D-1 and D-2 closed as recorded.
 - Current assumptions requiring verification: complete behavior correspondence for all reachable travel branches; packet arrival relative to local tick (runtime-only boundary); remaining collision callbacks/support/registrations; block/fluid registrations and resources; modifiers/equipment; external player-facing inputs; direct excluded-state reads; remaining direct player knockback/impulse consumer and resistance-modifier inventory.
 
@@ -522,7 +522,7 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 
 ## Source audit closure
 
-- Coverage counts by status: findings 6; in-progress 0; pending 10; compared-no-difference 16; not-applicable 4; blocked 0. Explicit pending count: 10. This is a partial checkpoint; full source-only coverage, freeze and independent audit are not claimed.
+- Coverage counts by status: findings 6; in-progress 0; pending 9; compared-no-difference 17; not-applicable 4; blocked 0. Explicit pending count: 9. This is a partial checkpoint; full source-only coverage, freeze and independent audit are not claimed.
 - Required inventory status and evidence: all seven required inventories remain pending overall; named sprint-air-speed, sprint-eligibility, auto-jump arithmetic and mounted sprint carry-over slices are closed as findings, while the full INV-TICK, INV-STATE and INV-COLLISION inventories and all remaining inventories remain open.
 - Open dependency: D-3. D-1 and the F-02-specific part of D-2 are bounded source closures; their broader inventories remain represented by pending slices.
 - Unresolved gaps and limits: full tick and state inventory; source-only packet-arrival timing relative to local tick; full movement collision callbacks/support/registrations; block/fluid data; modifiers/equipment; external inputs; exclusions direct-read audit; independent reviewer.
