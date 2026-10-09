@@ -14,10 +14,10 @@
     {
       "role": "integration",
       "threadId": "01a12181-2e5d-7382-ac1b-be37a602911e",
-      "cursor": "be58f31f-b93f-402c-af92-fa81d6978164:49",
+      "cursor": "be58f31f-b93f-402c-af92-fa81d6978164:52",
       "state": "active",
       "next": "Resume exclusive serial integration. First resolve exact full hashes and integrate accepted docs-only batches already queued, plus F002 final proof 0edd1a92 with technical ACCEPT 480baa90ab2364c49106d228ef54f122f5e3aede; F3-r2 snapshot b2b493a2521b036bca2fa590feeda3194c49bd4c and binding bd244527013e8eb7a5ae912c4fe6ce42aba5dbcc with independent ACCEPT a76e2841; MCPK conditional mechanism immutable 681d1d54 with bounded review 2e47dad5. Preserve rejection events and partial pair statuses; inspect actual review scope before integration. Integrate exact preparation records 69de5a7c and cbb98738 if pending. Do not integrate F001 final or Wiki provider evidence until current independent reviews. Maintain integration.md and report exact clean main. Source-safe report merges stay your responsibility.",
-      "latest": "The audit binding needed correction, so I updated only audit metadata in run.md and integration.md. Local main is now cb11257e593987c68be98a7dbda8bbea7d5e77fd, and the working tree is clean. Both files now distinguish: 7872eb6457f051df3575f10299ed1aaf1c13eddb: historical REQUEST CHANGES, report blob d3623ec2…, SHA-256 3ffe60b2…. e0e36eff36a92be82327bf2a8140f18141d7cc21: corrected erratum ACCEPT, report blob 87fc1e93…, SHA-256 08099783…; it accepts frozen run blob 53bef7aa…. The updated run.md is blob 1b9f86a10df83ec9092aa325950080b83cec4265, SHA-256 cb58a705c103f493b5267c4f17943c2ad58ea2adf37a383f88428994f8068e8c. The original rejection and accepted erratum remain separately bound; no source evidence or finding bytes changed."
+      "latest": "I’m adding the newly accepted MCPK 1.14/1.15.2 conditional boundary as another report-only batch. The F005 and F-3 code candidates remain queued behind their independent technical review; I’ll keep both out of this docs-only integration."
     },
     {
       "role": "preparation",
@@ -27,8 +27,8 @@
       "threadId": "01a12183-c4f8-70e1-8d32-eafe7a37868d",
       "next": "As exclusive shared preparation owner, prepare exact 1.13 and 1.13.1 source profiles for the accepted conditional stale-water-depth mechanism introduction boundary between existing 1.12.2 and 1.13.2. Read existing marker/version taxonomy and choose supported consistent mappings, never substitute patch. Verify/publish ready markers last, manifests and artifact identities. No interpretation, no other versions. All Gradle Test tasks disabled by init script plus -x test. Publish preparation records only, merge main before handoff.",
       "publication": "62346b3c8cf6eb8f2315b994aeaadf88f980842e",
-      "cursor": "9f26e700-f0d9-4520-8ded-12a61f47636f:14",
-      "latest": "Both exact Mojmap profiles are ready, and the existing 1.15.2 publication remains intact. 1.15 preparation record — marker SHA-256 c6b66b63bafaf2096ad7606111f1d0fae1f2178d624d6a8c9ded5ad3ac1aaa31 1.15.1 preparation record — marker SHA-256 afbb16c3cb832ffee8e4763bf9933d9635ecd811c9fbd7166554b78e59788504 Each profile has 3,329 source files and 37 artifacts, with source and artifact manifests verified. The exact Mojmap decompile succeeded with all Gradle Test tasks disabled and -x test. The records include input and provenance hashes and document the remapper warnings. The notes are committed as 71296cd4 on fix/source-prep-1-15-2026-10-09; the branch includes main at merge commit cbb98738 and has a clean working tree. The incoming coordinator queue still lists exact 1.14 as the next preparation; I left it unchanged under this assignment’s prep-only scope."
+      "cursor": "9f26e700-f0d9-4520-8ded-12a61f47636f:19",
+      "latest": "The first four profiles passed full source and artifact hash checks, including the exact mapping files. I’m finishing the same checks for 1.20.2, then I’ll publish the readiness record with the verified identities."
     },
     {
       "role": "source-boundary",
@@ -36,9 +36,9 @@
       "state": "active",
       "worktree": "C:/Users/Wolfi/.codex/worktrees/2442/LegacyParkourCompat",
       "threadId": "01a12184-5ece-7f23-be02-9f6407b89de4",
-      "cursor": "7e752099-aedd-40c3-9375-760c55ad3e8b:11",
+      "cursor": "7e752099-aedd-40c3-9375-760c55ad3e8b:16",
       "head": "64d8bc740de0860a43ecc691db0efbdcaef7c19b",
-      "next": "Fresh blind source review of F005 revised immutable memo at 96b6f725 (resolve full SHA), final report-only branch merge 84bdc9a5. Read only source-boundary-reviews/F005-boundary-evidence-r2-2026-10-09.md (discover exact name if necessary), prior original memo and your REQUEST CHANGES 6702eda57a1f378576fca06778e11648cc0e5c8c; do not read reconciliation/mod. Reproduce firework/Elytra-produced vector/gates, clip, final bounding box clearing all cobweb callback cells, subsequent fall-distance writers and later player movement predicate. Existing 1.18.2 boundary already accepted, no redo. Separate r2 verdict bound to exact blobs/hashes."
+      "next": "Refill blind source-review slot: independent F012 boundary memo immutable1c4317af04f70a596642369a402ce38ccb5492da. Read ONLY source-boundary-reviews/F012* source-only memo (discover exact filename), exact1.17.1/1.18/1.18.1/1.18.2sources/manifests and original acceptedF012 snapshot e531/review2fd. DO NOT read implementation reconciliation/mod. Verify olddoubleliteralcoefficient vsnewfloatcompoundaddition, exactmath/gates/delayedtickconsumerdependencies. Separate boundaryreview report exacthashes, bounded releases, no runtime/sourcefidelityforothereras. No mainmerge;integrationownerreportonlyhandoff. Commit verdict."
     },
     {
       "role": "implementation",
@@ -47,10 +47,10 @@
       "worktree": "C:/Users/Wolfi/.codex/worktrees/dcfd/LegacyParkourCompat",
       "threadId": "01a12184-70c0-7fb3-a3a0-f6032ef005f1",
       "head": "bba3c42691c2bb1527ce98dc5ff942e35bb31690",
-      "cursor": "5d5ea59a-0f22-473f-9477-6800c856e13f:3",
-      "next": "Your F001 final proof now awaits separate review. Start independently accepted F3-r2 implementation reconciliation in separate worktree/branch. Snapshot b2b493a2521b036bca2fa590feeda3194c49bd4c, path source-campaign-2026-10-07/1.21.11--26.1.2/findings/F-3-nether-lava-shallow-overlap-r2-2026-10-09.md, blob73a244f66a6501b1d48f11fc4bcbde95d25c8518 sha69146a6130e72d7fffdf4bfa71954c41c62dc57aebfa0246f040e079c5f28907; independent ACCEPT a76e2841 resolve full. Compare exact lava operation/gates with existing hook (water coverage may differ). Implement only missing eligible minimal independent operation, correct closest-version direction at exact adjacent boundary1.21.11→26.1.2, era applicability, native/toggle fallback. No resolver refactor or duplicated whole loop. If existing coverage correct produce bounded no-code proof. Separate technical review and serial owner build required; no build yourself.",
+      "cursor": "5d5ea59a-0f22-473f-9477-6800c856e13f:9",
+      "next": "Refill author slot with separate F007 positionpacketthreshold acceptedfinding e531086eecc778432b40b2b9ef39499b8a7f0dba pathsource-campaign-2026-10-07/1.17.1--1.18.2/findings/F-007-position-packet-threshold.md sourceaccept2fd121e116d7185165c76aea1c3708273afc7ea1. Checkexistingbacklog/prooftoavoidredo,bindblob/rawSHA. Reconcileeligibleplayerpositionpacketproducer/servermovementconsumerwithnativecurrentcode; exactmathcasts/gates/resolverprofile/nativefallback. Close precise boundary usingpublished1.18/1.18.1ifrequired in separate source-onlymemo, keepnewcodegatedonindependentboundaryacceptance. Dedicatedbranch/worktree, no corepipeline refactor/delegation/test/build/runtime. Ifexistingcoveragecorrectboundedno-codeproof. ExactSHAhandoff forserialmainintegration.",
       "activeTimeMs": 161286,
-      "latest": "Completed both requested work items: MCPK Y=256 source review: committed the conditional acceptance report at 2e47dad5 in mcpk-y256-producer-review-2026-10-09.md. F-001 applicability reconciliation: recorded the accepted 1.18 boundary and confirmed the existing resolver mapping needs no Java change. Commit 936bc721 on fix/reconcile-sprint-collision-2026-10-09; see the reconciliation note. The F-001 branch is clean and includes current main. Static checks passed; no build, tests, or runtime checks were run."
+      "latest": "Independent review ACCEPTED code commit a5e43adb6251a867f4ac2b9f05ecdf73ca65564f, bounded to the accepted A/B witness, with no code changes requested. Reviewer status: completed (/root/f3_r2_technical_review). The reviewer cross-checked the 26.2 call order against the accepted evidence and reconciliation note; their checkout lacked the external 26.2 source tree for an independent rehash. The updated reconciliation is committed as 93b4839c4a9d0234a436c1f2072de6052ae5e4a9 at F3-nether-lava-shallow-overlap-r2-2026-10-09.md. The branch is clean and includes current main. The first changed release within the interval and runtime parity remain unproven; the pair remains partial. Next dependency: serial integration and the build owner’s build. No build, tests, or runtime checks were run here."
     },
     {
       "role": "implementation",
@@ -59,9 +59,10 @@
       "worktree": "C:/Users/Wolfi/.codex/worktrees/f6a5/LegacyParkourCompat",
       "threadId": "01a12184-84a1-7f31-bbeb-f9a0a6c1cc0b",
       "head": "959751e85c053f1f1d84dd7b6ed741f92d36620f",
-      "cursor": "04a495d3-f864-4eae-a17a-c3843b72a96b:6",
-      "next": "Independent MCPK-aware source boundary review of author a3a3dda4/final85c1236c (resolve full) for exact1.14 and1.15.2 Y256 conditional mechanism memos, original mechanism681d1d54 and bounded review2e47dad5 navigation only. Do not read implementation or normal source lanes. Independently verify cited producer/consumer gates and bytecode checks, no higher trajectory/first affected/fixed claims. Report bounded ACCEPT/REQUEST CHANGES, exact source/artifact/memo identities in separate wiki-audit-2026-10-07/mcpk-y256-boundaries-review-2026-10-09.md. Main merge allowed since this is isolated MCPK-aware lane.",
-      "activeTimeMs": 225120
+      "cursor": "04a495d3-f864-4eae-a17a-c3843b72a96b:18",
+      "next": "F005 technical review exact f73d",
+      "activeTimeMs": 225120,
+      "latest": "I’m applying the repository’s review workflow and the tz-basis:code-review-durchfuehren skill: I’ll verify each finding against the immutable diff and cite concrete code paths before accepting or requesting changes."
     },
     {
       "role": "source-review",
@@ -70,8 +71,8 @@
       "state": "active",
       "next": "Fresh blind source-only D9 adjudication for immutable original F-09 in pair1.21.4--1.21.5. Owner source checkpoints b8c502b89d08df1436b16e5d98e156440a7bad40, ce2cb45d14311769c4cde28013c7fe9fd87dce8b, correction930e4ed490ef41a98b0527183e9b3b4ad9e0d339. Read only pair run/input evidence and immutable original F09; locate original exact author/blob/hash, preserve it. Compare full ordered controlled-camera input producer/scaling/consumer path exact A/B: B still0.98F before item/sneak scaling and square correction. Determine whether original finding claim is supported, revised narrower delta, or withdrawn; independent report only, no owner run edits. No whole pair freeze. Source-safe guides from c96b; no main merge/read implementation/wiki.",
       "head": "a5fd2b761e08ed63798af40def8ece1509c2e536",
-      "cursor": "ef27ebe3-74cc-48a2-b160-66aca34a5a27:17",
-      "latest": "Accepted the corrected F-3 snapshot. The same playerY produces A’s overlap of 0.002003390014166939 and B’s squared current of 9.000000000000683E-6, below B’s strict cutoff. I also verified the loaded, tag, Nether, Player, box, and reachable fluid-state gates from the exact sources and artifacts. Committed only the review report as a76e2841 on fix/review-lava-shallow-overlap-r2-2026-10-09. The prior REQUEST CHANGES event remains preserved, and the broader pair remains partial. No build, tests, or runtime validation were performed. Review report"
+      "cursor": "ef27ebe3-74cc-48a2-b160-66aca34a5a27:26",
+      "latest": "The independent report is written. I’m checking that the branch contains only that report, then I’ll commit it and verify the final commit and clean status."
     },
     {
       "role": "source",
@@ -80,28 +81,28 @@
       "state": "active",
       "next": "Your D7 correction930e4ed now assigned independent review; do not alter it. Continue bounded D8 input producers/options/keymapping/focus/screen transitions, max3 paired behaviors/~300source lines per checkpoint. Account for reachable local-player input state writers and consumers with exact ranges/manifests/hashes. Close only evidence-backed dependencies; keep D7 pending review,D9 independently adjudicated,F09original immutable. Continue existing source-only branch, no main merge or mod/wiki reads.",
       "head": "b8c502b89d08df1436b16e5d98e156440a7bad40",
-      "cursor": "8666b789-f413-4fda-9714-2fecdf808ba6:6",
-      "latest": "Added and committed the D7 evidence correction as 930e4ed490ef41a98b0527183e9b3b4ad9e0d339. It records A’s isEffectiveAi() caller edge, B’s earlier applyInput() phase, paired Vec2.scale and Vec3 helper evidence, and the corrected D7 closure candidate. D7 is pending fresh independent acceptance. The earlier b8c502b8 acceptance and the immutable F-09 snapshot remain unchanged; D9 stays separately open. The report passes git diff --check, and the worktree is clean. No implementation, merge, build, tests, runtime, or push was performed."
+      "cursor": "8666b789-f413-4fda-9714-2fecdf808ba6:9",
+      "latest": "D16 is committed as 63720323; the controls screen now has a source-backed path from Done through removal to Options.save(). I’m checking the exact published data-fixer registrations and option rules to see whether they can produce the non-string key_* case left open in D15."
     },
     {
       "role": "implementation-review",
       "id": "F001,F002",
       "threadId": "01a1218a-82b4-7ac0-94ea-9f3913876f37",
       "state": "active",
-      "next": "Independent technical review of final F001 no-code proof936bc721 (resolve full SHA), reconciliation F001-sprint-collision-2026-10-09.md. Accepted exact source boundary14443f43fbcc30152916ac75796846d796cf0268 and163ea4881b327a9316a266601705463784566e2c; initial endpointproofbba3/reviewd898. Verify actual hook math/gates/catalog/resolver/era-disabled/native fallback, old1.17.1 routing versus new1.18+; resolver routing alone is not historical source proof for other releases. Produce separate implementation-reviews/2026-10-09-F001-final-no-code-review.md, exact bound commit/file identities, bounded verdict. No author/mod changes.",
+      "next": "F012 code gatedpendingblindreview, refill with INDEPENDENT technical review of F3codecandidatea5e43adb6251a867f4ac2b9f05ecdf73ca65564f plusfinalreconciliation93b4839c4a9d0234a436c1f2072de6052ae5e4a9. Existing authorinternalreview didnotrehashnative26.2sourcebecauseitscheckout lackedexternalpath; close thatdirectsourceverificationusingcanonicalD:/Javastuff/LegacyParkourCompat/build/movement-campaign-2026-10-07/ready/<nativeprofile>/sources andmanifestexactmarker (locate26.2unobfuscated). Sourcefindingb2b493a2521b036bca2fa590feeda3194c49bd4c ACCEPTa76e28419f6b9767eab2e78147883c5459ed60c4. Check lava/current/squaredcutoff floatoperation/callordering/nativegates,hook/catalogoldversion directionera/togglefallback; no unsupported sourceearliestcutoverclaim. Reviewexact codeonlyonown branch reportimplementation-reviews/2026-10-09-F3-r2-technical-review.md. No delegatedreview/newagents/tests/build/runtime. SerialownerwillbuildafterACCEPT.",
       "head": "d898d4c0ef42f0cdb065aacc36eb30d28dcc06a4",
-      "cursor": "3ca6531c-967a-4dd3-bf99-6dc941bbb60c:8",
-      "latest": "ACCEPT for the bounded F-002 no-code disposition. The existing code matches the accepted boundary: float coefficient for 1.17.1, 1.18, and 1.18.1; double coefficient for 1.18.2. The 1.8 guard preserves vanilla behavior for a feature absent in that era. The review explicitly does not treat resolver routing as source proof for 1.9–1.17.1 or later releases, and makes no runtime-parity claim. Committed as 480baa90ab2364c49106d228ef54f122f5e3aede on the reviewer branch. See 2026-10-09-F002-final-no-code-review.md. Current main was merged; the branch is clean. No builds, tests, or runtime checks were run."
+      "cursor": "3ca6531c-967a-4dd3-bf99-6dc941bbb60c:20",
+      "latest": "Created and committed the F-012 checkpoint on fix/reconcile-sprint-air-control-2026-10-09 at 1c4317af04f70a596642369a402ce38ccb5492da. The source-only memo compares the published 1.17.1, 1.18, 1.18.1, and 1.18.2 sources. It finds the coefficient changes at 1.18.2, pending independent source review: boundary evidence memo. The implementation reconciliation records that the existing delayed-air-speed bridge is present, but its single 1.18.2 registration routes the float coefficient to earlier profiles too. Any code correction remains gated on independent acceptance: implementation reconciliation. The worktree is clean, and main is an ancestor of the branch. No code, build, tests, or runtime checks were performed. The next dependency is independent source-only review of the boundary memo."
     },
     {
       "role": "wiki",
       "id": "jump-attribution",
       "threadId": "01a1218b-99e7-7712-b241-b9a97a6eaf76",
       "state": "active",
-      "next": "Provider checkpointaa9e10f7/final9e1841d0 now assigned independent Wiki-aware review. Continue next three named era-existing providers Cactus81,Barrier166,IronTrapdoor167 in separate additive bounded memo/checkpoint; oldisOpaque/defaultisCube registrations/state predicates and reachable neighbor masks. No repeating reviewed Leaves/Leaves2/Slime, fixedmask or jump recurrence; preserve derived original equivalence caveat and excluded lifecycle/modern-only distinctions. No MCPK/mod/normal source lanes.",
+      "next": "Refill next source/Wiki provider slice Prismarine168,SeaLantern169,Carpet171. Existing checkpoints immutable and pending review; max3 providers per additive memo. Keep producing independent bounded commits while meaningful provider dependencies remain, publishing exact refs at each checkpoint rather than waiting for more coordinator prompts; no overlappingreviewed rows, no fullcensusclaim before independentaudit. Sourcepredicate/registration/reachablemask and excluded lifecycle distinctions,caveatpreserved. No other lanes/mod/runtime/tests/build. Currentsecondf6be0910reviewpending, nextwillbereviewedseparately.",
       "head": "97a8f2b374ea33980b2da5f4f4cdc0ebae5eea74",
-      "cursor": "cda7bf4d-4830-4f58-9e31-cd0e65df357e:5",
-      "latest": "Recorded the bounded provider inventory in pane-neighbor-providers-2026-10-09.md and updated the Wiki checkpoint and catalog. Leaves (ID 18) and Leaves2 (161) have matching predicate results in both versions. Slime (165) changes from false to true and can produce an east-only pane connection. The next slice is Cactus (81), Barrier (166), and Iron Trapdoor (167). The broader provider census and reachable-mask closure remain open; original derived-JAR equivalence is unproven. The docs passed git diff --check. Committed as aa9e10f7 and merged current main into the branch as 9e1841d0. Independent review is pending. No build or tests were run."
+      "cursor": "cda7bf4d-4830-4f58-9e31-cd0e65df357e:8",
+      "latest": "The fourth memo is committed as 41ac08eb20fb9ff64280a613a92a214bbcbc779c. Its three providers are all no-delta cases; I’m moving on to the queued inverted daylight detector, red sandstone, and red sandstone stairs."
     },
     {
       "role": "mcpk",
@@ -110,44 +111,44 @@
       "state": "active",
       "next": "Conditional mechanism681d1d54 reviewed bounded ACCEPT2e47dad5;1.14/1.15.2 boundary memos separately being reviewed. Continue exact1.15 and1.15.1 comparisons now published at ready/<version>/mojmap; prep recordscbb98738. Close earliest protection boundary between1.15.2 and1.16 if exact evidence supports, with producer-clear ordering and player depth/inWater jump consumer gates. Preserve immutable original mechanism, no claimed trajectory/runtime. Then inventory specific1.12.2 versus1.13.2 introduction gaps; exact1.13/1.13.1 preparation assigned sole prep owner, consume only ready publication, no competing decompile. Bounded additive source memos and catalog metadata.",
       "head": "85c00cd20c965c83cbe688464324a6579d612f01",
-      "cursor": "ae98769a-5d03-45a8-b4b9-c488e77c20ff:6",
-      "latest": "Exact 1.14.0 Feather source confirms the Y=256 stale-depth path: the height gate returns before refreshing the saved water depth, and the player jump consumer can still use that stale value while airborne. The same path is source-supported at 1.13.2 and 1.15.2; protections are present by 1.16.0. The first affected or fixed release and MCPK’s reported higher-jump trajectory remain unresolved. The separate 1.14.0 boundary memo records source identities and targeted bytecode checks for the cited methods. The catalog and checkpoint are updated. Exact 1.15.0 and 1.15.1 comparisons remain queued. The earlier mechanism candidate is unchanged, still pending independent review, and its SHA-256 matches the recorded value. Changes are committed as a3a3dda4; default branch main is merged at 85c1236c. The worktree is clean. git diff --check passed; no builds, tests, or runtime checks were run."
+      "cursor": "ae98769a-5d03-45a8-b4b9-c488e77c20ff:9",
+      "latest": "The 1.12.2–1.13.2 source comparison now shows the route first present in the exact 1.13.0 publication, then unchanged through 1.13.2. I also found the current 1.13.2 mapped JAR bytes do not match that publication’s artifact-manifest entry, so I’m relying on the individually hash-verified source files and excluding bytecode claims from that JAR."
     },
     {
       "role": "source",
       "id": "1.21.11--26.1.2/D2,F3,F2",
       "threadId": "01a1218e-399b-7400-b1a3-5b49d804ee71",
       "state": "active",
-      "next": "Continue bounded S4.6 from b85cb22a: eye-state path into updateSwimming, eye-height/water tag threshold inputs, max3 paired behaviors/~300lines. Existing mounted-fluid checkpoint not accepted full closure; retain concrete boat-box/fluid-cell witness gap. Inventory player-only consumers and excluded vehicle physics explicitly. F3r2 now independently accepteda76e2841; only record source-status acceptance binding if exact report visible, original F3/F2rejection and F2withdrawal immutable. No implementation/wiki/mod/main merge.",
-      "cursor": "ebfbb044-da60-407d-81fd-87f709c347d9:5",
-      "latest": "Committed the source-only S4.6 checkpoint as b85cb22a on feat/source-12111-2612-d2-2026-10-09. The report traces the mounted Player route, the A/B fluid-box behavior, and the matching lava-height travel consumer in run.md. No new difference finding was claimed. A concrete boat-box/fluid-cell witness and the eye-state and height-threshold inputs remain open; the next slice is the eye-state path into updateSwimming(). git diff --check passed and the worktree is clean. No build or runtime checks were run."
+      "next": "Refill next bounded S4.6 closure: concrete mounted Player fluid-box/fluid-cell/load witness from exact source-produced pose/dimensions/positions (do notsimulate vehicle physics), and Player aiStep directfluidjumpcallergates if fits3pairs/~300lines. Then cachedeyeheightwritersS4.7 in subsequent separatecommit. Existingb85checkpointunderindependentreview, a071immutable; preserve gaps unlessexactreachablewitnessclosed. Continue useful bounded checkpoints without awaitingnextprompt, no fullpairclosureorimplementation/wiki/main merge/tests/runtime. Publish exactcommit+dependencies eachcheckpoint.",
+      "cursor": "ebfbb044-da60-407d-81fd-87f709c347d9:8",
+      "latest": "I’ll make the mounted-fluid witness source-derived from fixed boat and Player geometry, without modeling boat motion, then trace the Player jump gates if the source slice stays within scope. I’ll commit that S4.6 checkpoint first; then I’ll take the cached eye-height writers as a separate S4.7 report commit."
     },
     {
       "role": "source-boundary",
       "id": "1.17.1--1.18.2/F005",
       "threadId": "01a1218e-4b87-7351-b6b9-5f7aff6f5c5e",
-      "state": "idle-review-gated",
-      "next": "exact reset cutover and collision-provider witness; no code",
-      "cursor": "1d11d50d-bad3-4458-b2fa-2cb6d2d4c4d8:8",
-      "latest": "Completed the r2 witness correction in the new evidence memo and bound it in the reconciliation note. The original r1 memo remains unchanged. The memo traces a firework/Elytra-generated movement through the cobweb clip, shows the final Player box clears the cobweb callback cell, then follows fall-distance writers to a later edge predicate. The added source hashes match the 1.18.2 manifest. Committed as 96b6f725; merged current main in 84bdc9a5. The worktree is clean, and git diff --check passed. No build, tests, or runtime validation were performed. Next action: an independent reviewer should reproduce the source-derived movement bounds and box checks, verify the writer gates through the later predicate, and record r2 acceptance. Production changes remain gated on that review."
+      "state": "active",
+      "next": "F005codecurrentlyindependentlyreviewed, refill with distinct F008 borderedgegate acceptedfinding e531086eecc778432b40b2b9ef39499b8a7f0dba pathsource-campaign-2026-10-07/1.17.1--1.18.2/findings/F-008-border-edge-gate.md review2fd121e116d7185165c76aea1c3708273afc7ea1. Checkbacklog/currentproofavoidredo,bindrawSHA/blob; exactborderstateproducerandPlayercollisionconsumer, featureera/disabled/nativeclosestresolution, no vanilla blockstate/nonplayerchange. Dedicatedbranch/worktree. Boundaryifunknownexact1.18/1.18.1available; source-onlymemo andindependentreviewgatebeforeJava. Existingcorrectimplementationboundedno-codeproof otherwiseacceptedminimaldeltaonly. No newreviewer/delegation/tests/runtime/build. Commithandoff/mainmergebeforehandoff; serialmainownerintegrates.",
+      "cursor": "1d11d50d-bad3-4458-b2fa-2cb6d2d4c4d8:11",
+      "latest": "Implemented the F-005 delta and recorded its source boundary in the reconciliation. The Entity.move redirect preserves the native clip and gates, suppressing only the reset for verified 1.17.1–1.18.1 profiles. It registers the old behavior at V1_18; 1.18.2 and later retain native behavior. Earlier profiles remain native pending source evidence. The change is in EntityMixin.java, PlayerFallDistanceResetBehavior.java, FallDistanceReset.java, and the F-005 reconciliation. Code commit: b4f2cc3742cd0b93fcf9301154b5bba85351bb86. Reconciliation commit and current HEAD: f73d176e98fdf1f56c5207046266a168c1834d73. The worktree is clean, git diff --check passed, and current main is an ancestor. No build, tests, or runtime checks were run. Per the routing update, independent code review is left to the coordinator. The designated owner should run the all-Test-tasks-disabled Gradle build with -x test after review."
     },
     {
       "role": "wiki-review",
       "id": "jump-attribution",
       "threadId": "01a12190-76ca-7ad3-9aea-43d34e206519",
       "state": "active",
-      "next": "Independent Wiki-aware review of bounded pane neighbor providers author aa9e10f7/final9e1841d0 (resolve full), wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09.md. Verify exact Leaves18,Leaves2161,Slime165 registration/predicate source paths and east-only pane witness, exact manifests/hashes. Preserve Feather derived/original equivalence caveat, avoid overstating all providers/masks or treating lifecycle behavior as collision geometry. Separate review report, bounded verdict; no normal source lanes/MCPK/mod.",
-      "cursor": "55a55c12-8df6-4064-8e4e-c0a5a10684ec:7",
-      "latest": "Verdict: ACCEPT, bounded to the summary reconciliation. The two checkpoint passages and the minecraft-wiki.md row now confirm attribution to rendered revision 3825931 while preserving the raw-wikitext limitation, unknown source cutover, and bounded scope of the previously accepted recurrence. The fetch log’s failed raw-route evidence remains intact. The r2 report binds the final author tip and exact file hashes: independent-review-jump-attribution-2026-10-09-r2.md. Committed as 6a3339e2. main is merged into the clean reviewer branch. The original REQUEST CHANGES report remains byte-for-byte unchanged."
+      "next": "Refill Wiki-awarereview slot for SECOND pane providercheckpointf6be0910fd0e4f7ed16fe2a146545f87fe1d2f68, memo pane-neighbor-providers-2026-10-09-next.md, Cactus81 Barrier166 IronTrapdoor167. Independentlysource/hash/predicate/registrations/reachableeastmaskgates, lifecycle/scope/derivedoriginalequivalencecaveat. Separateexactboundreport. Then review immutable THIRD41ac08eb20fb9ff64280a613a92a214bbcbc779c (resolve actual3providerfilenamesfromcandidatewithoutreadingotherlanes); eachcheckpointseparateverdictandsourceidentities. No mod/MCPK/normal sourceworkers/delegation/tests/build/runtime.",
+      "cursor": "55a55c12-8df6-4064-8e4e-c0a5a10684ec:18",
+      "latest": "This review assignment is complete at 6d80618cfac6351d09d18aab09c00fe85f2a155c. The pane-provider record names cactus (81), barrier (166), and iron trapdoor (167) as the next source slice, but my assignment authorizes review of the existing record; that follow-on needs coordinator reassignment. No chats or subagents were created."
     },
     {
       "role": "source-review",
       "id": "1.21.4--1.21.5/fresh-input",
       "threadId": "01a12195-a8a4-70e2-a0c1-270e692bee45",
-      "state": "active",
-      "next": "Fresh blind independent re-review D7 corrected source-only record commit930e4ed490ef41a98b0527183e9b3b4ad9e0d339 in pair1.21.4--1.21.5/run.md. Original REQUESTCHANGES759a5c441cf7b052a88d020f6f26f8f30832e581 preserved, earlierb8inputACCEPT unchanged. Verify AisEffectiveAi override and reachability, B earlierapplyInput ordering, pairedVec2.scale/Vec3 helper evidence exact ranges/hashes plus all D7 producer-consumer links. Separate r2 review report, no run edits, no implementation/wiki/main merge. D9 F09 adjudication assigned other blind reviewer, do not duplicate.",
-      "cursor": "100785d2-f019-4667-b8c7-cd2e99c486e6:4",
-      "latest": "D7: REQUEST CHANGES before bounded closure. The input math, 0.98F operation order, camera gates, and direct vector consumer match the source. The D7 record omits A’s LocalPlayer#isEffectiveAi() override (LocalPlayer.java:483–485), which resolves the caller’s effective-AI gate and establishes that A’s input transfer is reachable. I also asked the record to include the paired Vec2#scale() and Vec3 helper evidence. The F-09 discrepancy is real: B’s controlled-camera path includes 0.98F, before item/sneak scaling and square correction. D9 correctly routes the immutable finding for separate source-only review; I did not alter or adjudicate it. The pair remains partial, and the earlier b8c502b8 acceptance is unchanged. Committed the report as 759a5c44 in the clean reviewer worktree: D7 review report."
+      "state": "idle",
+      "next": "D7 ACCEPT received. Refill slot with independent blind source coverage review of pair1.21.11--26.1.2 checkpoint b85cb22a and earlier2f13f54b (resolve full exact SHAs), only immutable pair run.md/source evidence. Bound review to three resource/Player bubble dependencies D2-FLUID-BUBBLE-OCCUPANCY,D2-BLOCK-BUBBLE-UP,D2-BLOCK-BUBBLE-DOWN and mounted Player fluid-box plus lava-height consumer checkpoint. Verify declared closed edges/ranges/manifests and excluded vehicle physics, preserve documented boat-box witness/eye-state threshold gaps. Do not claim full pair closure; separate source-boundary-reviews/2026-10-09-12111-2612-fluid-checkpoints-review.md. Dedicated clean source worktree from frozen source ref ea6ca59bd217e9ad36ede00122a6952be914839b, source-safe c96b guides, no main merge/mod/wiki, no tests/runtime/build. Commit exact verdict with next missing routes.",
+      "cursor": "100785d2-f019-4667-b8c7-cd2e99c486e6:8",
+      "latest": "Accepted bounded evidence for the three bubble-column resource edges, limited to the exact client defaults and A-side hard-coded behavior. The mounted-player fluid-box and lava-height path is traced, but remains open pending a concrete boat-box/fluid/load witness and the eye-height threshold inputs. The pair remains partial. Committed the separate review report as e2bfaf654561524682cbb4f4906f127f43da2374 in the clean worktree: fluid checkpoint review. No new immutable checkpoint for the next dependency was included, so further review awaits that source evidence."
     }
   ],
   "queue": [],
@@ -157,13 +158,15 @@
     "routingIncidents": 1,
     "preparationLauncherRetries": 1,
     "newEndpointProofsAccepted": 2,
-    "newCompleteImplementationDispositions": 1,
+    "newCompleteImplementationDispositions": 2,
     "sourceCandidateRequestsForChanges": 4,
     "wikiMetadataRevisionRequests": 1,
     "newRuntimeValidations": 0,
     "cost": "unavailable; no savings inference",
     "newSourceFindingsAccepted": 1,
-    "verifiedActiveWorkers": 13
+    "verifiedActiveWorkers": 13,
+    "newSourceBoundaryReviewsAccepted": 3,
+    "newBoundedInputClosureAccepted": 1
   },
   "workflowIntegrated": true,
   "resume": "workflows/orchestration-2026-10-08/RESUME-2026-10-08.md",
@@ -183,5 +186,12 @@
     "unrelated": 1,
     "latestUser": "Fill all available slots"
   },
-  "updatedAt": "2026-10-09T17:29:11.813Z"
+  "updatedAt": "2026-10-09T17:39:40.625Z",
+  "additionalReviewer": {
+    "owner": "01a12184-70c0-7fb3-a3a0-f6032ef005f1",
+    "id": "/root/f3_r2_technical_review",
+    "status": "completed",
+    "countsCapacity": true
+  },
+  "userMainPreference": "Prioritize coherent serial accepted checkpoints on local main; workers isolated for concurrent index/write safety"
 }
