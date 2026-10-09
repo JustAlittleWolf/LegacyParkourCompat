@@ -37,7 +37,7 @@ Shared artifact root, relative to the repository: `build/movement-campaign-2026-
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=I-TICK-AUTO-JUMP, I-TICK-EDGE-NUDGE, I-COLLISION-ENTITY-MOVE, I-COLLISION-QUERY-ASSEMBLY, I-COLLISION-REMAINDER; evidence=auto-jump probe math is traced to collision query; providers and registrations remain open.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, registrations and resource inventory: status=pending; slice_ids=I-WORLD, I-WORLD-BLOCK-MOVEMENT-FACTORS; the underwater-dismount tag and resource-layer behavior are documented in I-TICK-UNDERWATER-DISMOUNT; broader resource and registry inventory remains open.
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and applications/removals/conditions: status=pending; slice_ids=I-MODIFIER, I-TICK-LOCAL-JUMP-START; no terminal inventory evidence yet.
-- `INV-EXTERNAL` player-only external inputs and client consumers: status=pending; slice_ids=I-EXTERNAL, I-TICK-LOCAL-PACKET-HANDOFF, I-TICK-LOCAL-FLIGHT-INPUT; no terminal inventory evidence yet.
+- `INV-EXTERNAL` player-only external inputs and client consumers: status=pending; slice_ids=I-EXTERNAL, I-TICK-LOCAL-PACKET-HANDOFF, I-TICK-LOCAL-FLIGHT-INPUT, I-TICK-LOCAL-FLIGHT-CLEANUP; no terminal inventory evidence yet.
 - `INV-EXCLUSIONS` direct movement reads versus excluded health/food/damage producers and non-player movement: status=pending; slice_ids=I-EXCLUSIONS, I-TICK-LIVING-AISTEP-DAMAGE, I-TICK-LOCAL-RIDDEN-JUMP-INPUT, I-TICK-LOCAL-WATER-VISION; evidence=campaign scope is recorded, but direct-read audit remains open.
 
 ## Coverage ledger
@@ -303,14 +303,14 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 ### Slice I-TICK-LOCAL-FLIGHT-CLEANUP: disable transient flight after ground contact
 
 - Inventory ID(s): INV-TICK, INV-STATE
-- Exact behavior boundary and enclosing guards/order checked: LocalPlayer post-super `aiStep()` ground contact and non-always-flying ability reset; A lines 814–819, B lines 795–800.
-- A evidence: `ready/1.19.3/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 814–819, SHA-256 `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`.
-- B evidence: `ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 795–800, SHA-256 `8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58`.
-- State producers/writers -> consumers/readers: `LivingEntity#aiStep()` travel/collision updates on-ground state -> post-super LocalPlayer clears abilities flying unless the game mode is always flying.
-- Parent slices / dependencies / closure evidence: current on-ground value comes from the ordinary travel/collision path; the paired source ranges remain to be compared.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): reachable after superclass movement when the player is grounded and always-flying mode is false; comparison remains open.
-- Finding IDs or checked absence/replacement path: pending comparison.
+- Exact behavior boundary and enclosing guards/order checked: LocalPlayer post-super `aiStep()` ground contact and non-always-flying ability reset, including the game-mode predicate and ability packet output.
+- A evidence: `ready/1.19.3/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 814–819, and `#onUpdateAbilities()V`, lines 340–342, SHA-256 `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`; `ready/1.19.3/mojmap/net/minecraft/client/multiplayer/MultiPlayerGameMode.java#isAlwaysFlying()Z`, lines 481–482, SHA-256 `a2d6b02ef8849cc036bbc54e81327c2ab20603ae9d350c37b65b1de8a8342c98`.
+- B evidence: `ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 795–800, and `#onUpdateAbilities()V`, lines 339–341, SHA-256 `8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58`; `ready/1.19.4/mojmap/net/minecraft/client/multiplayer/MultiPlayerGameMode.java#isAlwaysFlying()Z`, lines 481–482, SHA-256 `a2d6b02ef8849cc036bbc54e81327c2ab20603ae9d350c37b65b1de8a8342c98`.
+- State producers/writers -> consumers/readers: superclass travel/collision updates on-ground state -> same guarded `abilities.flying=false` write -> `ServerboundPlayerAbilitiesPacket` output; `isAlwaysFlying()` is true exactly for local spectator mode in both versions.
+- Parent slices / dependencies / closure evidence: movement/collision producers for on-ground state remain in INV-COLLISION; the paired LocalPlayer and game-mode statements and packet sender preserve operation and output order.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): after superclass movement, a grounded local player in non-spectator mode clears flying and sends the same abilities packet in both versions. Packet arrival/processing remains an external timing boundary; no server response timing is inferred.
+- Finding IDs or checked absence/replacement path: checked absence of a difference in the bounded post-super flight cleanup and packet sender.
 
 ### Slice I-STATE-REMAINDER: pose, dimensions and remaining movement state
 
@@ -499,8 +499,8 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 - Version boundary: source-confirmed A/B difference, first changed release unknown within (1.19.3, 1.19.4]. Reviewer: independent source reviewer `01a116ce-c937-7613-a49b-716e99582357`. Status: submitted for blind source review; acceptance pending. The snapshot does not close any other pair coverage or freeze the pair.
 ## Resume checkpoint
 
-- Last completed slices: prior closed slices through I-TICK-TRAVEL-FALL-FLYING; added I-COLLISION-AUTOJUMP-PROVIDERS, the bounded dismount route inventory, F-05, I-TICK-LOCAL-PACKET-HANDOFF, I-TICK-INPUT-LOCAL-TRANSFER, I-TICK-LOCAL-WATER-DESCENT, I-TICK-LOCAL-JUMP-START and I-TICK-LOCAL-FLIGHT-INPUT. Findings F-01 through F-05 remain source-only records; F-03 through F-05 snapshots await independent blind review.
-- Next bounded slice: close I-TICK-LOCAL-FLIGHT-CLEANUP by comparing the post-super on-ground flight flag reset and its game-mode predicate; then continue the non-tick D-3 dependencies.
+- Last completed slices: prior closed slices through I-TICK-TRAVEL-FALL-FLYING; added I-COLLISION-AUTOJUMP-PROVIDERS, the bounded dismount route inventory, F-05, I-TICK-LOCAL-PACKET-HANDOFF, I-TICK-INPUT-LOCAL-TRANSFER, I-TICK-LOCAL-WATER-DESCENT, I-TICK-LOCAL-JUMP-START, I-TICK-LOCAL-FLIGHT-INPUT and I-TICK-LOCAL-FLIGHT-CLEANUP. Findings F-01 through F-05 remain source-only records; F-03 through F-05 snapshots await independent blind review.
+- Next bounded slice: continue D-3 with `I-STATE-REMAINDER`, starting at LocalPlayer/Player pose, dimensions and eye-height movement state writers/consumers, then exact remaining collision callbacks and world registrations.
 - Outstanding dependencies and owners: D-3, source worker; D-1, D-2, D-4 and D-5 closed as recorded.
 - Current assumptions requiring verification: complete behavior correspondence for all reachable travel branches; packet arrival relative to local tick (runtime-only boundary); remaining collision callbacks/support/registrations; block/fluid registrations and resources; modifiers/equipment; external player-facing inputs; direct excluded-state reads; remaining direct player knockback/impulse consumer and resistance-modifier inventory.
 
@@ -523,7 +523,7 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 
 ## Source audit closure
 
-- Coverage counts by status: findings 6; in-progress 0; pending 7; compared-no-difference 19; not-applicable 4; blocked 0. Explicit pending count: 7. This is a partial checkpoint; full source-only coverage, freeze and independent audit are not claimed.
+- Coverage counts by status: findings 6; in-progress 0; pending 6; compared-no-difference 20; not-applicable 4; blocked 0. Explicit pending count: 6. This is a partial checkpoint; full source-only coverage, freeze and independent audit are not claimed.
 - Required inventory status and evidence: all seven required inventories remain pending overall; named sprint-air-speed, sprint-eligibility, auto-jump arithmetic and mounted sprint carry-over slices are closed as findings, while the full INV-TICK, INV-STATE and INV-COLLISION inventories and all remaining inventories remain open.
 - Open dependency: D-3. D-1 and the F-02-specific part of D-2 are bounded source closures; their broader inventories remain represented by pending slices. D-4 and D-5 are resolved as recorded above.
 - Unresolved gaps and limits: full tick and state inventory; source-only packet-arrival timing relative to local tick; full movement collision callbacks/support/registrations; block/fluid data; modifiers/equipment; external inputs; exclusions direct-read audit; independent reviewer.
