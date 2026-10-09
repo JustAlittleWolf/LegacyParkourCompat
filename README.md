@@ -6,6 +6,8 @@ This is one-way compatibility for old maps on newer clients. It does not rewrite
 
 The mod emulates player movement only. Health, healing, food, and combat rules remain vanilla; movement mechanics may read vanilla player state as an input.
 
+Parity means deterministic tick-level agreement for a **fixed historical profile**, including historical movement bugs and exact floating-point behavior. Switching parkour profiles is undefined behavior and is outside correctness guarantees. Rendering and vehicle physics are excluded; a direct player velocity/impulse response can be in scope even when a vanilla combat event triggers it.
+
 ## Getting started
 
 Use a JDK supported by the current Minecraft target and the Gradle wrapper. Run commands from the repository root. On Windows, use `gradlew.bat` (or `.\gradlew.bat` in PowerShell).
@@ -30,9 +32,13 @@ The client can choose a historical version in the mod UI. When connected to a se
 
 ## Historical movement implementation model
 
+The original method remains: compare adjacent exact releases, discover each independent behavioral difference from vanilla source, and implement only the smallest historical delta. For example, if operation A has changes emulating 1.8 and 1.10, selecting 1.8 resolves the 1.8 change while selecting 1.9 resolves the 1.10 change. An unrelated operation B resolves independently. Preserve the historical expressions rather than simplifying mathematically equivalent arithmetic.
+
+Campaign coordination follows the [orchestrator workflow](workflows/orchestration/README.md). It keeps the coordinator's context small, shares verified sources, and moves bounded findings through independent review and serial integration. Existing implementations stay in place during blind discovery; after source freeze, reconcile them against the findings as covered, replaced, intentionally excluded or open.
+
 The retained framework supports `@MovementChange(emulates = ...)` classes statically linked by `MovementChangeCatalog`. Selecting version *V* applies changes that emulate *V* or a later version; where a mechanic changed several times, the closest applicable delta wins. General mixins can dispatch those changes while preserving the vanilla path when emulation is inactive.
 
-Each mechanic hook represents one technical operation, such as a boat acceleration coefficient, a jump gate, or a fall-distance reset at a particular point in the tick. Singleton hooks are functional interfaces; block hooks additionally expose their block identifier as registration metadata. Mixins supply context and dispatch the operation, while historical applicability and arithmetic belong to the change implementation. Do not use the presence of one hook to control a different operation.
+Each mechanic hook represents one technical operation, such as a player-input gate, a jump gate, or a fall-distance reset at a particular point in the tick. Singleton hooks are functional interfaces; block hooks additionally expose their block identifier as registration metadata. Mixins supply context and dispatch the operation, while historical applicability and arithmetic belong to the change implementation. Do not use the presence of one hook to control a different operation.
 
 Changes live in the package matching their `emulates` annotation, for example `change.v1_8.BoatRiderInput`, with no version suffix in the class name. The central `MovementChangeCatalog` contains explicit per-version registration methods and lists every mechanic interface a change implements. Changes can implement several narrow interfaces and register the same object under each interface; those hooks resolve independently. Keep unrelated deltas in separate classes. Remove unused hooks and methods instead of keeping placeholders for operations that have no mixin dispatch.
 

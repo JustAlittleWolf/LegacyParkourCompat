@@ -1,55 +1,21 @@
 # Agent guidance
 
-Read [README.md](README.md) for project behavior and commands. The module guides are in [buildSrc](buildSrc/README.md), [parkourgym-server](parkourgym-server/README.md), [tas-client](tas-client/README.md), and [testing](testing/README.md).
+Read [README.md](README.md) for project scope, architecture and commands. Read the relevant module guide before work in [buildSrc](buildSrc/README.md), [parkourgym-server](parkourgym-server/README.md), [tas-client](tas-client/README.md) or [testing](testing/README.md).
 
-## Project guidelines
+## Invariants
 
-- This is a one-way compatibility layer: newer clients emulate old player movement to play maps from that era. Do not invent historical behavior for features those maps could not contain.
-- Block states stay vanilla. Historical collision *shapes* of blocks that existed in the emulated version are movement mechanics and are in scope. Movement of non-player entities is out of scope.
-- Implement each historical mechanic change as an independent, minimal delta. For a selected version, `ChangeResolver` applies changes from that version or later and chooses the closest change for each mechanic. Do not duplicate whole movement loops or physics classes between versions.
-- Keep each mechanic hook tied to one independently resolved technical operation. A change may implement several narrow hook interfaces when one historical behavior affects those operations, but each interface remains separately registered and resolved. Implement version changes independently; do not inherit one release's behavior from another release's change class. Share only neutral helpers for operations that are truly identical, and prefer vanilla accessors/invokers when they preserve the historical operation's exact math and gates. Never call modern behavior that differs from the historical source.
-- Match historical math tick for tick. Preserve floating-point operation order, casts, and quirks even when a simpler expression looks equivalent. Decompiled source from the exact Minecraft version is the primary reference; the MCPK and Minecraft wikis are secondary references.
-- Keep mixins thin and general: inject at a shared Minecraft hook where practical, then let `MovementRuntime` and the mechanic hook decide the block or situation. Put historical changes in `change/`, not in dedicated block mixins.
-- Never swallow errors. Crash on broken invariants or unexpected nulls on movement paths. Log expected failures such as unreadable config, unknown version IDs, and rejected joins with `LegacyParkourCompat.LOGGER` and handle them.
+- Emulate historical **player movement** on modern clients for old parkour maps, with deterministic tick-level parity, including historical bugs. Keep vanilla block states; historical collision shapes of era-existing blocks are in scope. Rendering, non-player/vehicle physics, modern-only features, health/food production and attack/damage resolution are excluded. Direct player movement responses and predicates reading vanilla state remain eligible. Profile switching is undefined behavior; correctness targets fixed profiles.
+- Implement independent minimal deltas in `change/`. `ChangeResolver` selects the closest applicable change from the selected version or later. One hook represents one independently resolved technical operation. Register every implemented interface in the single static `MovementChangeCatalog`; no per-version providers, duplicated movement loops or cross-release change inheritance.
+- Keep mixins thin and general; dispatch through `MovementRuntime`. Share only neutral helpers with identical historical behavior; use vanilla accessors/invokers only when their math and gates match exactly. Preserve native behavior when emulation is inactive.
+- Exact-version decompiled source is primary evidence. Preserve operation order, casts, rounding, gates and quirks. Use `decompileMinecraft` for mappings, never online mapping lookups. Never swallow errors: crash on broken movement invariants; log expected failures with `LegacyParkourCompat.LOGGER` and handle them.
+- Do not preserve compatibility with older releases of this mod. Ask before heavy Java libraries/physics engines or core version-resolution refactors.
 
-## Movement discovery and implementation campaigns
+## Research and orchestration
 
-- For the 1.8.9 through native 26.2 discovery campaign, follow `workflows/movement-discovery/README.md`. Discover from exact-version vanilla sources without consulting old mod implementation until full-pair source freeze. Prior source-discovery reports may be used as navigation, not evidence of current coverage. Normal source workers must not browse the wikis or read isolated wiki-audit findings before full-pair freeze; the release-taxonomy owner uses wiki material only to choose boundaries.
-- Discovery is complete only when every exact source slice in the per-tick call graph and required producer/consumer inventories has evidence-backed disposition, all dependencies are closed, and an independent reviewer blind to implementation/wiki information has audited the inventory and routed any missed slices. A completed worker branch, populated catalog, accepted finding snapshot, successful build, or narrow unchanged travel comparison is not proof of pair discovery coverage.
-- Track checked method/body ranges and producer-to-consumer dependencies. Split large methods into bounded named behaviors. Explicitly inventory input/tick ordering; pre-travel and post-travel; pose, dimensions and eye-height state writers; collision shapes including registrations and neighboring-block providers; movement attributes, effects, enchantments and equipment; and external movement influences. Pending, in-progress, or blocked slices prevent discovery `complete`.
-- Keep discovery coverage, implementation coverage, and runtime validation as separate statuses. An independently accepted, immutable finding snapshot may be handed to a separate implementation chat while its pair remains active/partial; this does not freeze or complete the pair. Keep implementation and wiki-derived information away from the source-only owner until full-pair source freeze. After full-pair freeze, reconcile every finding as implemented, intentionally excluded, or still open. Do not modify mechanics from a discovery-only assignment.
-- The campaign excludes health, regeneration, hunger, food, saturation, exhaustion and the damage/combat simulations that produce their state or decide attacks/damage. Preserve those vanilla systems. Direct player-only movement response remains in scope even when a combat event triggers it: compare the player's velocity/impulse/knockback application path when relevant. Do not emulate damage/attack resolution or non-player/vehicle physics. A movement predicate may read vanilla state without emulating its producer.
-- Do not run tests, game clients, TAS runs, servers, or Docker for campaign documentation/source discovery or implementation unless the campaign coordinator explicitly authorizes it. Static checks and builds that explicitly exclude tests remain allowed.
-- Keep worker assignments and shared decompilation/build preparation disjoint. The source owner controls shared artifact preparation and publishes exact version/mapping paths plus readiness; version workers consume those artifacts read-only. Do not run a competing decompile/build in a worker checkout or overlap source-tree writers.
+For campaign coordination, read [the orchestrator workflow](workflows/orchestration/README.md). Source workers and blind reviewers must read [discovery](workflows/movement-discovery/README.md) and [the campaign protocol](workflows/source-campaign-2026-10-07/README.md); implementers must read [implementation](workflows/fix-implementation/README.md).
 
-## Do
+Keep source discovery blind to implementation and both wiki lanes until full-pair freeze. Only independently accepted immutable findings may enter implementation early. Full tick/inventory coverage, dependency closure and independent coverage audit are required for discovery completion. Finding acceptance, implementation, build success and runtime parity are separate statuses. Shared sources have one writer and read-only consumers. Never erase existing implementations to obtain blind discovery; reconcile them separately after freeze.
 
-- Verify a new mechanic applies only when its historical version or toggle is active; default modern behavior must remain intact when disabled.
-- Run `gradlew build` after code changes. Unit tests are appropriate for version resolution, parsing, and config handling.
-- Use `gradlew decompileMinecraft` for historical source and mappings. See [buildSrc/README.md](buildSrc/README.md) for options.
+## Verification
 
-## Ask first
-
-- Before adding heavy third-party Java libraries or external physics engines.
-- Before refactoring the core version-resolution pipeline.
-
-## Don't
-
-- Write unit or mock tests for Minecraft movement and physics loops; those belong in the headless input-simulation framework.
-- Create duplicate version files containing redundant vanilla code.
-- Fix or smooth out historical movement bugs; they are intentional parkour behavior for the emulated version.
-- Add historical behavior for modern-only features, such as blocks that did not exist in the target era.
-- Preserve compatibility with older releases of this mod, including handshake IDs, config keys, packet formats, or aliases.
-- Look up Minecraft mappings online; use the decompilation task.
-
-## Code structure
-
-Fabric Loom separates `src/main/` (shared), `src/client/` (client only), and `src/server/` (dedicated server). Runtime packages are under `me.wolfii.legacyparkourcompat`.
-
-- `src/main/api/`: public version and movement controller API.
-- `src/main/mechanic/` and `mechanic/hook/`: hook interfaces and runtime lookup.
-- `src/main/change/`: granular historical deltas, independently implementing their mechanic hooks and statically registered by explicit per-version methods in the single `MovementChangeCatalog`. Register a multi-hook change under each interface it implements; do not add per-version providers or movement entrypoints.
-- `src/main/impl/`: registry and version resolution; for each mechanic, the closest applicable historical change wins.
-- `src/main/mixin/`: injections that dispatch to hooks. `src/main/network/`: join handshake and optional ViaVersion lookup.
-- `src/client/`: version UI and client handshake. `src/server/`: dedicated server config.
-- `buildSrc/`: historical source decompilation task. `parkourgym-server/`: Paper test server. `tas-client/`: historical recording and playback clients. `testing/`: persistent lab and run coordinator.
+After code changes, build with every Gradle `Test` task disabled (including subprojects) and `-x test`, through the campaign build owner when applicable. Tests, game/TAS/Gym/server launches and Docker restarts require explicit user authorization. No movement-loop unit/mock tests; use the separately authorized input-simulation lab. Documentation-only work needs static checks, not a build. Compilation does not prove movement parity.
