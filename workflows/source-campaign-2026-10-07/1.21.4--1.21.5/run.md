@@ -1121,6 +1121,18 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 - Next slice: continue S1-LOCAL-TICK input-to-travel call order and direct movement consumers after the input snapshot, including inherited `LivingEntity.aiStep()` dispatch. Do not use this bounded result to close any full inventory.
 - Checkpoint limits: exact published 1.21.4/1.21.5 Mojmap roots and source report only; no implementation/wiki/mixed coordinator evidence, build, test, game/runtime, push, or main merge.
 
+## Fresh source-only checkpoint — D27 water and lava travel arithmetic
+
+### D27 — S3-WATER / S3-LAVA `travelInFluid` method body (bounded formula pair closed)
+
+- Reachability: both `LivingEntity#travel(Vec3)` methods select fluid travel before fall-flight and air travel when the entity is in water or lava, affected by fluids, and cannot stand on the current fluid. The complete paired `travelInFluid(Vec3)` bodies were compared (A lines 2227-2277; B 2249-2299).
+- Water path matches in operation order: choose `0.9F` sprint drag or `getWaterSlowDown()`, start acceleration at `0.02F`, read water-movement-efficiency and halve it off-ground, blend drag and acceleration when efficiency is positive, then override drag to `0.96F` for Dolphin's Grace. Apply relative input, move with current velocity, conditionally lift Y to `0.2` on horizontal collision while climbable, apply `(drag, 0.8F, drag)`, then call `getFluidFallingAdjustedMovement` with effective gravity and the pre-move falling predicate.
+- Lava path also matches: apply relative input at `0.02F`, move, compare lava height with fluid-jump threshold, and either apply `(0.5, 0.8F, 0.5)` then fluid-fall adjustment or scale velocity by `0.5`; if effective gravity is nonzero, subtract one quarter of it from Y. Both paths then share the horizontal-collision/free-space check that sets Y to `0.3F`.
+- Exact `LivingEntity.java` SHA-256, verified against the ready manifests: A `e62ce650af0a5ac97e4d0a2ba7cad4ba68a8d098525609f8b5b6976a8ab0ae30`; B `a8aed863d4fdc515c751dd2878a8bbc13179228cb8dbb50edf1d19cd5404271`. No formula delta found in this method. Fluid-state production, fluid height/flow helpers, attributes/effects, block contact and surrounding travel/collision dependencies remain open; this does not close S3-WATER or S3-LAVA.
+- Disposition: D27 closes only the paired water/lava travel arithmetic body for equal inputs and state. D1-D6, the broader input/travel/collision inventories and pair status remain partial. F-19 remains accepted for its bounded sequence; F-09 and F-09-r2 remain immutable REQUEST CHANGES candidates.
+- Next slice: trace `getFluidFallingAdjustedMovement`, fluid-height/affected-by-fluid predicates and their player-reachable state producers; keep registries/resources and block/fluid source dependencies explicit.
+- Checkpoint limits: exact published 1.21.4/1.21.5 Mojmap roots and source report only; no implementation/wiki/mixed coordinator evidence, build, test, game/runtime, push, or main merge.
+
 ## Fresh source-only checkpoint — D26 player movement-simulation gate
 
 ### D26 — S1-LOCAL-TICK-CAN-SIMULATE-PLAYER-GATE (bounded player authority path closed)
