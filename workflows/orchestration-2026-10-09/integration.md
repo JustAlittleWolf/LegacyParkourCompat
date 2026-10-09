@@ -216,3 +216,17 @@ At that time, the preparation, sprint-collision and Elytra slots were releasable
 - Integrated the exact independent review from `dc2b29c81c1fd57941d8ed4a27d1583b1b039b4e`: `workflows/source-boundary-reviews/2026-10-09-f09-controlled-camera-input-damping-review.md`, blob `876aec376848f6b1502ae68e664822db7ebd6500`, raw SHA-256 `087b3582684c7b80892eac6ea6e9a5c4a17e9309da3683d32171326e3322f6f4`.
 - Verdict: REQUEST CHANGES for the immutable original F-09 claim that B omits `0.98F`. The review supports only a narrower one-ULP float-order difference under its specific controlled-camera/item-use/sneaking-speed conditions. The pair ledger records that distinction and preserves the open status.
 - The original finding remains byte-identical (blob `8a9c64a35705195d39d300f7fa0ea4f25cf049aa`, raw SHA-256 `3a1680c5e724a935cbc576705088f03e3a9d4c6a8e29e5375d4ddb8e93b1e328`). No corrected finding was created or accepted. D9 remains open for a source-owner revision and separate review; the pair remains partial.
+
+## F-012 exact release-boundary source review — 2026-10-09
+
+- Integrated only the source-boundary memo from author commit `1c4317af04f70a596642369a402ce38ccb5492da` and independent ACCEPT from `ee586d98cbd02df932f6f076daa56a9d2176557b`.
+- Memo `workflows/source-boundary-reviews/F012-sprint-air-control-boundary-evidence-2026-10-09.md`: blob `ebd4cb218453a9b2ce7afbe15932d2668dc6b742`, raw SHA-256 `477812d4bd08dcb3841b902b311899ee51c2f72d9ad76e323cb4a206dee01a06`. Review `workflows/source-boundary-reviews/2026-10-09-F012-independent-boundary-review.md`: blob `7a8315f0e5f253ef8c02a7e373524b3f8859080b`, raw SHA-256 `7493c46aaf5e55125ff94c94b6ca6322bd150e41526a81ff78e3ef7187b37e9e`.
+- ACCEPT is limited to the coefficient and next eligible ordinary-airborne consumer across the four sampled releases; the expression changes from double-literal addition to float compound addition at 1.18.2. It does not establish unsampled cutovers, full parity, or runtime behavior. The pair run/freeze is unchanged.
+- The F-012 implementation reconciliation was not imported: its technical review/code gate remains pending.
+
+## F3 R2 implementation technical review — REQUEST CHANGES — 2026-10-09
+
+- Integrated independent technical review from review commit `b1da5dfb90bf39ccd26a76dd35b94cefab392ae6`, final report-only merge `8713e3447ba3d412f3ed56c551eb1129c8271bc7`.
+- Report `workflows/implementation-reviews/2026-10-09-F3-r2-technical-review.md`: blob `3672e070dd382bd1ab0d1ac1ab37c874d6d283b1`, raw SHA-256 `e0872eeab806b9ef1db20813b274c32a0c9e6778e62a8d99f94b647cdfd030da`.
+- REQUEST CHANGES: the reviewed implementation activates the LAVA cutoff bypass for mounted Players, while the accepted source witness covers only a standing, unmounted Player and leaves mounted fluid boxes unresolved. The review otherwise verifies the 26.2 source identities, target call order, cutoff math, registration and native fallback. It proposes retaining the native cutoff for mounted Players unless that applicability is separately accepted.
+- The immutable source finding is unchanged. No F3 production code or final implementation reconciliation was integrated, and no build or tests were run. The pair remains partial; code stays gated on correction and independent ACCEPT, then the disabled-test build.
