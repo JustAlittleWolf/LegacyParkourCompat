@@ -1,0 +1,42 @@
+# F-4 mounted-player lava-box implementation disposition
+
+- Discovery finding and manifest links: immutable snapshot `019d5fcef181f6dde2a9630e0b882acfa99d6de9:workflows/source-campaign-2026-10-07/1.21.11--26.1.2/findings/F-4-mounted-player-lava-box.md` (blob `bcd14cf6c38270229b035a85f929291254c3664b`; source snapshot retained by identity, not copied into this implementation branch); [pair run](../../source-campaign-2026-10-07/1.21.11--26.1.2/run.md).
+- Incremental snapshot ID: `finding019d5fcef181f6dde2a9630e0b882acfa99d6de9`.
+- Immutable source snapshot commit and finding-file SHA-256: commit `019d5fcef181f6dde2a9630e0b882acfa99d6de9`; blob `bcd14cf6c38270229b035a85f929291254c3664b`; raw SHA-256 `a49bfdd5e363f9faae5b99fe29cfefe393a958019460063fbb175ef2b053e034`.
+- Evidence artifact record IDs and publication status: exact endpoint readiness markers in the shared read-only campaign cache; original-verified.
+- Revision ID(s), when revised: none.
+- Immutable evidence path(s) and artifact SHA-256(s): endpoint finding cites 1.21.11 and 26.1.2 source trees; pair source-manifest hashes are recorded below.
+- Evidence-manifest path(s) and SHA-256(s): `build/movement-campaign-2026-10-07/ready/1.21.11/mojmap.sources.sha256` `0c4d83fef84c101d9db88f331acec7960f3c8346228c28995e6cf57bbfcae555`; `build/movement-campaign-2026-10-07/ready/26.1.2/unobfuscated.sources.sha256` `54ae320660ca911a6d20514e965c33eb414fbedd1ad6727bbaa95fe906aa23c0`.
+- Original artifact-manifest path(s) and SHA-256(s): 1.21.11 A `c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c`; 26.1.2 B `89f648229de83b0109460695c9f1f3bed7ef36efb84ede9224e80cce87118f92`.
+- Original derived-artifact availability/hash: 1.21.11 Mojmap and 26.1.2 published-unobfuscated; no derived equivalence claim.
+- Source/raw-input hash relation and verification reference: the independent review at `964ae707a85126a692de3bf9d41a6db5574867d5` independently recalculated the cited source hashes and accepted the exact bounded witness.
+- Revised-to-original derived-artifact equivalence and evidence reference: not applicable.
+- Provenance limitations (including unavailable originals): exact source trees for stable releases 26.1 and 26.1.1 are absent from the local ready cache; see [separate boundary memo](../boundaries/F-4-mounted-player-lava-box-2026-10-09.md). No source fallback or decompilation was performed.
+- Exact A/B artifact-manifest and cited source/resource hashes: A source `0c4d83fef84c101d9db88f331acec7960f3c8346228c28995e6cf57bbfcae555`; B source `54ae320660ca911a6d20514c965c33eb414fbedd1ad6727bbaa95fe906aa23c`; A artifact `c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c`; B artifact `89f648229de83b0109460695c9f1f3bed7ef36efb84ede9224e80cce87118f92`.
+- Blind source reviewer acceptance and date: bounded `ACCEPT`, independent reviewer, 2026-10-09; review commit `964ae707a85126a692de3bf9d41a6db5574867d5`.
+- Pair discovery status/commit at handoff (`active` or `partial`; pair complete = no): partial/active; pair complete = no.
+- Implementation base code SHA: `a2af029ee9d051f5b44ceaf3bf1d6087690935d2`; current `main` was an ancestor when the task branch was isolated.
+- Implementation status: source boundary accepted; bounded implementation candidate pending independent code review.
+- Implementation commit/evidence (tracked separately from source coverage): candidate checkpoint is recorded in the task journal below; no build, test, runtime, or parity claim is made.
+- Source-confirmed behavior and exact evidence hashes: for the accepted fixed non-flying Player/normal boat/Nether witness, 1.21.11 scans LAVA with the deflated Player box and includes target cell Y=65; 26.1.2 clips the passenger interaction box and scans Y=66 only. See the immutable finding and bounded acceptance above.
+- Verified release boundary and `ParkourVersion` group: 26.1 is the first changed release. `ParkourVersion.V26_1` groups 26.1, 26.1.1 and 26.1.2. The old-side behavior is registered at `V1_21_11`, as corrected in the immutable boundary memo r2.
+- Current build target, decompilation mode, resolved source path, method descriptor: build target Minecraft 26.2; accepted source endpoints are 1.21.11 Mojmap and 26.1.2 unobfuscated. No new target hook or descriptor is selected while boundary review is blocked.
+- Hook location and reason for its timing: `EntityFluidInteractionMixin` redirects the shared `Entity.getFluidInteractionBox()` call at `EntityFluidInteraction.update`, before scan bounds are enumerated. The existing `applyCurrentTo` hook runs after scanning and cannot restore an omitted cell.
+- Mixin bridge, mechanic interface, and Java change: candidate adds `FluidInteractionBoxBehavior` and `MountedFluidInteractionBox` for the bounded normal-boat passenger case; exact candidate identity and review are recorded below.
+- Registration and interaction with existing changes: candidate registers the old-side behavior at `V1_21_11`. Existing `ShallowLavaCurrentCutoffBehavior` and `LavaCurrentBehavior` remain downstream current-application controls and do not implement this mounted scan-box delta.
+- Active, disabled/current, non-player, and adjacent-version behavior checked: resolver implementation confirms `CURRENT` resolves no historical changes and chooses the closest applicable `emulates` key. Candidate dispatch is player/vehicle gated; non-player and underwater-boat paths return the vanilla box. 26.1+ does not resolve the old-side registration and retains native clipped-box behavior. A water-query side effect remains under technical review because this API supplies one box to the shared all-fluid scan.
+- Build command and result: not run; documentation-only checkpoint. No tests, clients, TAS, Gym/server or Docker were run.
+- Runtime validation questions for the TAS lab: not reached; after boundary review and implementation, verify only the accepted fixed mounted Nether witness and keep boat physics outside scope.
+- Integration overlaps or semantic conflicts: merged current `main` by fast-forward from base `a2af029ee9d051f5b44ceaf3bf1d6087690935d2` through `9481608463947248ba5004b1dabf999c5e3e59d6` to `ee7ce616ae00aea11b335c80ece87f847d3cb3b5`. Incoming code adds F-012 `DoubleSprintAirSpeed` and its `V1_18` catalog registrations; follow-up commits record its technical review/build. These are separate from F-4's mounted LAVA interaction-box scan boundary, with no textual or semantic overlap. Existing F-3 shallow-lava current hook is a distinct downstream operation; no F-4 Java changes were made.
+- Feedback isolation: no implementation-derived result was sent to source-only owners; pair remains unfrozen.
+
+## Boundary review and task journal
+
+- Immutable corrected boundary memo: commit `2d2e099eb9b8a652f30fc392bc02124a0f246e53`, blob `a87717a2433f58be8efa60c72267e6e60cac5545`; it supersedes the resolver-key statement in r1 only.
+- Latest readiness publication: commit `13dcacb388906800c1e3448633381de69ef51846`. Cited A/B source-file hashes and entries in their source manifests were rechecked against the published 1.21.11, 26.1, 26.1.1 and 26.1.2 artifacts; no unrelated source-tree files were inspected.
+- Independent source-only review: bounded `ACCEPT` for the 26.1 first-stable-cutover conclusion; reviewer `/root/f4_boundary_review`, received 2026-10-09. The reviewer confirmed cited hashes match the source manifests and the 26.1, 26.1.1 and 26.1.2 relevant files are byte-identical. Review record is in `workflows/fix-implementation/boundaries/F-4-mounted-player-lava-box-source-review-2026-10-09.md`.
+- **Journal checkpoint (2026-10-09):** phase = bounded implementation candidate; inputs = accepted F-4 finding, r2 boundary memo, latest readiness publication, and candidate sources listed below; HEAD before candidate = `2d2e099eb9b8a652f30fc392bc02124a0f246e53`; dirty files = `MovementChangeCatalog.java`, `EntityFluidInteractionMixin.java`, new `MountedFluidInteractionBox.java`, new `FluidInteractionBoxBehavior.java`; processes = none started; next action = commit candidate and request independent code-only review. No build/test/runtime/decompile/shared write/push performed.
+
+## Requested source-preparation dependency
+
+Publish exact `26.1` and `26.1.1` unobfuscated source readiness artifacts and manifests in the shared campaign cache, then review the relevant `Entity`/fluid-scan/boat methods chronologically to determine the first changed release. Do not add the `ParkourVersion` boundary or catalog registration before that independent boundary review.
