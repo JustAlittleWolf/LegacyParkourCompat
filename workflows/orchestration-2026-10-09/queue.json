@@ -1,7 +1,7 @@
 {
   "scope": "26 adjacent exact intervals 1.8.9 to 26.2; fixed-profile player movement and era-existing collision shapes",
   "root": "01a12180-70f4-7300-90c4-a97f4baddf0d",
-  "mainVerified": "cbeeeacbf1303a559d1483969b2b821e1bbe0ab6",
+  "mainVerified": "cdfeb1a0",
   "workflow": "a6e4d9b344494fcea85532191c29170d3375e2c8",
   "cap": null,
   "campaignCap": null,
@@ -15,42 +15,40 @@
       "role": "integration",
       "id": "integration",
       "threadId": "01a12181-2e5d-7382-ac1b-be37a602911e",
-      "state": "active",
-      "cursor": "ef610f20-f479-42f7-b847-342aa7015b40:1",
-      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff",
-      "latest": "The F008 ACCEPT binds candidate 2aede838 to reviewed merge tree a198e74, whose second parent is the then-current main at ee7ce616. Current main adds only documentation after that code baseline. The reviewed code tree differs from current production code only by the F008 implementation files; I’m verifying each named blob and recording the pre-merge checkpoint now."
+      "state": "idle",
+      "cursor": "ef610f20-f479-42f7-b847-342aa7015b40:18",
+      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff"
     },
     {
       "role": "preparation",
       "id": "ready-publications",
       "threadId": "01a12183-c4f8-70e1-8d32-eafe7a37868d",
       "state": "active",
-      "cursor": "e795b830-c4d8-4544-aa7a-5cc1fbef8969:1",
+      "cursor": "e795b830-c4d8-4544-aa7a-5cc1fbef8969:9",
       "worktree": "C:/Users/Wolfi/.codex/worktrees/bfa3/LegacyParkourCompat",
       "next": "Investigate exact 1.13.2 mapped-JAR hash discrepancy, preserve source bytes",
-      "latest": "Resuming from the saved checkpoint. I’ll first verify the branch, the interrupted download, and the exact 26.1/26.1.1 cache state; then I’ll continue the no-tests decompile run and publish readiness only after full hash verification."
+      "latest": "The successful run produced exact source roots for both versions, and the task’s built-in required-class checks passed. I’ve prepared a publisher that verifies every staged source and cached artifact, keeps the mapping mode explicitly unobfuscated, and renames each ready marker into place only after"
     },
     {
       "role": "source-review",
       "id": "1.21.11--26.1.2 eye state",
       "threadId": "01a12184-5ece-7f23-be02-9f6407b89de4",
-      "state": "idle",
-      "cursor": "7e752099-aedd-40c3-9375-760c55ad3e8b:29",
+      "state": "active",
+      "cursor": "c131b0aa-9965-4f17-8314-3380046ae8a0:11",
       "worktree": "C:/Users/Wolfi/.codex/worktrees/2442/LegacyParkourCompat",
       "head": "64d8bc740de0860a43ecc691db0efbdcaef7c19b",
       "next": "Completed bounded review; 0.4 witness revision required",
-      "latest": "PAUSED for the device restart. No subagents or long-running processes are active. The worktree is clean on fix/review-eyeheight-correction-hold-2026-10-09 at 95246d701323a561a62c8ef67dfe6327fd05ce1d. Resume by obtaining the missing immutable eye-height correction memo/finding, then review it against the prior request changes."
+      "latest": "The canonical sources confirm the value, with one important trace refinement: Player inherits LivingEntity.getDimensions(Pose), which scales the registered type dimensions. For the default standing Player, the inherited age and scale factors are both 1.0F, so the registered 1.62F eye height is prese"
     },
     {
       "role": "implementation",
       "id": "F007/F3",
       "threadId": "01a12184-70c0-7fb3-a3a0-f6032ef005f1",
-      "state": "active",
-      "cursor": "8a3eea70-1fab-4230-9869-259a8dcc4431:1",
+      "state": "idle",
+      "cursor": "8a3eea70-1fab-4230-9869-259a8dcc4431:7",
       "worktree": "C:/Users/Wolfi/.codex/worktrees/dcfd/LegacyParkourCompat",
       "head": "bba3c42691c2bb1527ce98dc5ff942e35bb31690",
-      "next": "F3 mounted-scope correction; F007 boundary accepted",
-      "latest": "The saved task branch is clean at 5d3d3ca, while local main has advanced to 309b330; I’ll leave that newer main out until the candidate review is complete, as requested. I’m recording this exact pre-review checkpoint now, then I’ll send the reviewer the frozen F-007 code/proof state."
+      "next": "F3 mounted-scope correction; F007 boundary accepted"
     },
     {
       "role": "implementation-review",
@@ -60,8 +58,7 @@
       "cursor": "04a495d3-f864-4eae-a17a-c3843b72a96b:25",
       "worktree": "C:/Users/Wolfi/.codex/worktrees/f6a5/LegacyParkourCompat",
       "head": "959751e85c053f1f1d84dd7b6ed741f92d36620f",
-      "next": "Completed technical ACCEPT; build integrated",
-      "latest": "ACCEPT — no functional findings in the F005 fall-reset implementation at reviewed tip f73d176e98fdf1f56c5207046266a168c1834d73. The report is 2026-10-09-F005-technical-review.md. It is committed on fix/review-f005-fall-reset-2026-10-09; report blob 873037c5cc247f7a9aae9722ca48aab802601b90. Merged main into the review branch with no conflicts. The branch is clean, and the incoming changes contained"
+      "next": "Completed technical ACCEPT; build integrated"
     },
     {
       "role": "source-review",
@@ -70,8 +67,7 @@
       "state": "notLoaded",
       "cursor": "ef27ebe3-74cc-48a2-b160-66aca34a5a27:32",
       "head": "a5fd2b761e08ed63798af40def8ece1509c2e536",
-      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff",
-      "latest": "Completed the independent source review in a clean worktree. The report has two bounded checkpoints on fix/review-input-producers-d11-d13-2026-10-09: D11–D13: ACCEPT for the bounded screen-release, key-map helper, and save-serialization routes — commit 5e4c9acaeca8f438b5c385e60993d948035cbc3b. D14: ACCEPT for selected key capture and map refresh. D15: OPEN. A and B have different post-data-fix han"
+      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff"
     },
     {
       "role": "source",
@@ -80,8 +76,7 @@
       "state": "idle",
       "cursor": "8666b789-f413-4fda-9714-2fecdf808ba6:28",
       "head": "b8c502b89d08df1436b16e5d98e156440a7bad40",
-      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff",
-      "latest": "PAUSED. No builds, tests, reviews, or integrations are running. The reviewer was stopped; I started no subagents. Branch: feat/source-1214-1215-clean-2026-10-09 HEAD: c80f0292 (docs: invalidate incomplete scale finding) Worktree: clean Checkpoint: run.md Resume after reboot by continuing the source-only discovery. F-21 is preserved as invalidated; the pair remains partial. No active goal needed pa"
+      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff"
     },
     {
       "role": "implementation",
@@ -90,18 +85,16 @@
       "state": "notLoaded",
       "cursor": "3ca6531c-967a-4dd3-bf99-6dc941bbb60c:32",
       "head": "d898d4c0ef42f0cdb065aacc36eb30d28dcc06a4",
-      "next": "Code independently reviewed; build/integration queued",
-      "latest": "Implemented and independently reviewed F-012. The new V1_18 behavior preserves the accepted double-literal operation; V1_18_2 retains its existing float behavior. The reconciliation records resolver routing and the limit of the four-release evidence. Code: DoubleSprintAirSpeed.java and MovementChangeCatalog.java Proof: F012 reconciliation Commits: e386e31f (code), cc3ee3c8 (proof), de6084c5 (revie"
+      "next": "Code independently reviewed; build/integration queued"
     },
     {
       "role": "wiki",
       "id": "jump-attribution",
       "threadId": "01a1218b-99e7-7712-b241-b9a97a6eaf76",
-      "state": "active",
-      "cursor": "06f01dea-dc2d-4178-820b-92e1f7c23970:1",
+      "state": "idle",
+      "cursor": "06f01dea-dc2d-4178-820b-92e1f7c23970:8",
       "head": "97a8f2b374ea33980b2da5f4f4cdc0ebae5eea74",
-      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff",
-      "latest": "I’ll resume at the specified commit and limit this turn to reconciling the checkpoint and review/index pointers. I’ll first verify the worktree and read its current Wiki-lane guidance; I won’t start the next provider slice."
+      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff"
     },
     {
       "role": "mcpk",
@@ -110,17 +103,15 @@
       "state": "idle",
       "cursor": "55ce2283-98be-4001-87cc-468fe0b343f7:1",
       "head": "85c00cd20c965c83cbe688464324a6579d612f01",
-      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff",
-      "latest": "I stopped before editing or committing. The rg search crossed into the excluded workflows/wiki-audit-2026-10-07/minecraft-wiki.md and returned matching lines, so this context can’t author a clean isolated snapshot. I did not use those results. The r1/r2 memos, reviews, and bindings remain unchanged. This correction needs to be resumed from a clean source context; no memo revision or new review bin"
+      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff"
     },
     {
       "role": "source",
       "id": "1.21.11--26.1.2",
       "threadId": "01a1218e-399b-7400-b1a3-5b49d804ee71",
-      "state": "active",
-      "cursor": "dc916b8a-b6db-4cde-ad7f-e2836eae0fd2:1",
-      "next": "Correct eye-height witness; continue S4.7; F4 review pending",
-      "latest": "I’ll handle only the corrected eye-height memo and its immutable binding. I’ll inspect the cited review rejection and current protocol, preserve the original record, then commit the separate memo and provide its exact identity for re-review."
+      "state": "idle",
+      "cursor": "dc916b8a-b6db-4cde-ad7f-e2836eae0fd2:3",
+      "next": "Correct eye-height witness; continue S4.7; F4 review pending"
     },
     {
       "role": "implementation",
@@ -128,35 +119,33 @@
       "threadId": "01a1218e-4b87-7351-b6b9-5f7aff6f5c5e",
       "state": "notLoaded",
       "cursor": "1d11d50d-bad3-4458-b2fa-2cb6d2d4c4d8:20",
-      "next": "Boundary internally ACCEPTed; code technical review underway",
-      "latest": "Implemented and committed F-008 on fix/f008-border-edge-gate-2026-10-09 (2aede838), with the handoff record in 2026-10-09-F008-border-edge-gate.md. The query providers preserve the observed border behavior at V1_15_2, V1_16, and V1_17_1 under closest-later resolution. Independent review accepted the implementation and its post-merge interaction check. The merge from origin/main is recorded at 842e"
+      "next": "Boundary internally ACCEPTed; code technical review underway"
     },
     {
       "role": "wiki-review",
       "id": "jump-attribution",
       "threadId": "01a12190-76ca-7ad3-9aea-43d34e206519",
-      "state": "notLoaded",
-      "cursor": "55a55c12-8df6-4064-8e4e-c0a5a10684ec:23",
-      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff",
-      "latest": "Two pane-provider reviews are committed separately: Slice 2 — source ACCEPT, bounded; checkpoint integration REQUEST CHANGES. The three classifications and barrier’s east-only witness are supported. CHECKPOINT.md still calls this completed slice the “Next bounded slice.” Report: independent-review-pane-neighbor-providers-2026-10-09-next.md, commit 54cba622. Slice 4 — source ACCEPT, bounded; prior "
+      "state": "idle",
+      "cursor": "84aa0faf-3d83-4c37-aeac-622f126bd8cf:8",
+      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff"
     },
     {
       "role": "source",
       "id": "1.19.2--1.19.3",
       "threadId": "01a12195-a8a4-70e2-a0c1-270e692bee45",
       "state": "idle",
-      "cursor": "100785d2-f019-4667-b8c7-cd2e99c486e6:27",
-      "next": "Continue rider input/on-foot state dependency",
-      "latest": "Paused at your request. No builds, tests, reviews, integrations, or background processes were started. The worktree is preserved and clean. Branch: feat/source-1192-1193-resume-2026-10-09 HEAD: 0f17dc31e6619d38752c862b9ec3a30c13b79f48 F009’s rejected snapshot remains preserved; its narrowed revision and supersession record are committed. A new potential difference was found but not yet assessed: t"
+      "cursor": "c9fb0adc-4770-460c-989b-d92109e57453:3",
+      "next": "Continue rider input/on-foot state dependency"
     },
     {
       "role": "workflow-policy",
       "id": "workflow-policy",
       "threadId": "01a121c5-0d34-76b3-a5ef-6e7c732c888e",
       "state": "active",
-      "cursor": "1951c728-f4f6-4091-b67a-bfa19b61eb97:1",
+      "cursor": "1951c728-f4f6-4091-b67a-bfa19b61eb97:5",
       "next": "New dedicated assignment",
-      "latest": "I’ll add the closure-first resume order and a pause/resume journal protocol to the workflow docs, preserving the existing roster-wide event loop and occupancy rules. I’ll first check current repo guidance and branch state, then make only workflow-document changes."
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/orchestration-policy-2026-10-09",
+      "latest": "The workflow now specifies absolute worktree ownership, Git root/branch checks before staging or other listed mutations, and a separate integration-owner path for lane-restricted reports after verdict. I’ve tied those checks to the pause/resume journal; I’m checking the exact diff and any current-ma"
     },
     {
       "role": "mcpk-cutover-review",
@@ -164,17 +153,16 @@
       "threadId": "01a121c5-1fbd-7410-a78c-303eeabf72ed",
       "state": "notLoaded",
       "cursor": "bc64db6e-18f2-4b46-be8e-077caac11492:5",
-      "next": "New dedicated assignment",
-      "latest": "Both immutable memos are accepted as bounded source findings. The reports bind each memo’s commit, Git blob, raw SHA-256, and the final report-branch merge. The 1.13.2 Feather source files match their manifests, but its mapped JAR does not: actual SHA-256 b28c33e0… versus manifest d118ff5b…. The review therefore makes no bytecode claim for 1.13.2. The 1.15.2 to 1.16.0 protection bracket is support"
+      "next": "New dedicated assignment"
     },
     {
       "role": "stage-status-audit",
       "id": "stage-status-audit",
       "threadId": "01a121c5-4611-7fa1-8a4a-614140a78910",
-      "state": "notLoaded",
-      "cursor": "74e7a39b-ce1c-48dd-b07d-5b9fe5f6c0f2:13",
+      "state": "idle",
+      "cursor": "0e6ee0fa-f3f5-4cfa-bd7d-5c7bd66c688e:9",
       "next": "New dedicated assignment",
-      "latest": "Created the status snapshot with all 26 intervals: 1/26 has an accepted full-pair source freeze and independent coverage audit; the other 25 remain partial. It records F005’s successful integration build, F3’s REQUEST CHANGES, the partial source checkpoints, and the soft 15-worker target with live roster count unknown. Markdown snapshot JSON snapshot Committed on fix/campaign-status-2026-10-09 at "
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/campaign-closure-audit-isolated-2026-10-09"
     },
     {
       "role": "source",
@@ -182,8 +170,7 @@
       "threadId": "01a121c9-8af9-7bf0-860e-efc05c182b84",
       "state": "idle",
       "cursor": "4e99b096-d90a-4ae0-8ef4-a30dd2b40721:13",
-      "next": "Continue frozen source inventory",
-      "latest": "Paused at the user’s request. The workspace is preserved on branch feat/source-1193-1194-2026-10-09, at 7df9c281bdf6706a52a0508d309a26eb5094c3c2; it was clean after the commit. The resumable report is run.md. Resume with the remaining player-reachable collision queries, support paths, and callbacks, then continue to world registrations and resources. The pair remains active and incomplete. No buil"
+      "next": "Continue frozen source inventory"
     },
     {
       "role": "source",
@@ -191,8 +178,7 @@
       "threadId": "01a121c9-9ef5-78d0-946f-9284ce3512a0",
       "state": "idle",
       "cursor": "279e070a-6c2f-4e8a-a56a-5f1e0e048e22:12",
-      "next": "Continue frozen source inventory",
-      "latest": "Paused for the device restart. The worktree is clean on feat/source-1201-1202-2026-10-09 at ad3a201e1413d4378250e7f5426a633df837f0bf. No commands or task processes are active. The resumable checkpoint is in run.md. Resume with the listed next source work; S10 and S27 remain in progress, inventories remain open, and no independent full-pair audit has been completed."
+      "next": "Continue frozen source inventory"
     },
     {
       "role": "source-binding-review",
@@ -208,8 +194,7 @@
       "threadId": "01a121d1-f3b5-7fe2-9ed8-a53b92cda068",
       "state": "notLoaded",
       "cursor": "854ca3b1-fa32-4bdd-8ae9-8fbf80c0e7ab:2",
-      "next": "Verify existing independent ACCEPT metadata only",
-      "latest": "Committed the provenance check on newfix/review-f008-source-boundary-2026-10-09 at 6fd3bcce82235228dd892f28a4c07bfad3b0c08b, based on frozen commit df418e06b957399aa4c31eaf69d38422146ac296. The report verifies the memo, existing ACCEPT record, finding, prior review, and four source-publication identities. It found no binding mismatch and preserves the existing ACCEPT: F-008 boundary provenance rev"
+      "next": "Verify existing independent ACCEPT metadata only"
     },
     {
       "role": "source-finding-F4-review",
@@ -217,8 +202,7 @@
       "threadId": "01a121d2-0b52-7080-86f8-f538a2603f80",
       "state": "notLoaded",
       "cursor": "eab87e06-5e63-403d-a201-a99c060168a6:2",
-      "next": "Fresh evidence-ready independent review",
-      "latest": "ACCEPT for the bounded F-4 snapshot: commit 019d5fcef181f6dde2a9630e0b882acfa99d6de9, blob bcd14cf6c38270229b035a85f929291254c3664b. B’s clipped box starts its scan at Y=66, so it never enumerates the Y=65 lava cell; the later per-cell top check is not the cause. A scans Y=65, finds positive overlap, and reaches a delta-movement write on the non-flying Player. The fixed boat geometry establishes t"
+      "next": "Fresh evidence-ready independent review"
     },
     {
       "role": "mcpk-current-review",
@@ -226,25 +210,23 @@
       "threadId": "01a121d2-1d06-7d50-b326-8b02071da0d2",
       "state": "notLoaded",
       "cursor": "f6f335f6-8bb8-4647-b1f6-4f6386860b4b:2",
-      "next": "Fresh evidence-ready independent review",
-      "latest": "Completed and committed the report on fix/mcpk-current-flow-review-2026-10-09 (9bc84d4e). The exact input memo blobs remain unchanged at the reviewed commit. The source interpretation and artifact hash mismatch were verified. The report requests a correction to the flying-player wording and adds the missing normalization hash and same-tick movement consumer trace. It makes no bytecode, release-cut"
+      "next": "Fresh evidence-ready independent review"
     },
     {
       "role": "wiki-provider-review",
       "id": "wiki-provider-review",
       "threadId": "01a121d2-306e-73b0-96e8-ecd298855c95",
-      "state": "notLoaded",
-      "cursor": "e357c188-cff8-4087-98c0-d1e564770eab:2",
+      "state": "active",
+      "cursor": "dd698475-fb2d-429f-a50f-0478bd2baea9:9",
       "next": "Fresh evidence-ready independent review",
-      "latest": "Completed four separate bounded source reviews for provider IDs 178–189. All four verdicts are accepted for the stated predicates and east-only pane masks; each report preserves the original derived-JAR equivalence caveat and limits its claims to the reviewed registrations. Slice 5, IDs 178–180 Slice 6, IDs 181–183 Slice 7, IDs 184–186 Slice 8, IDs 187–189 Committed as 44b2cb29 on fix/review-pane-"
+      "latest": "The third memo is present unchanged in the frozen candidate tree. Its three cited provider source files match the recorded hashes; I’m checking the registration/default-state details and the specific checkpoint ledger bindings now. The memo’s original derived-JAR equivalence caveat remains in scope."
     },
     {
       "role": "F012-review-binding",
       "threadId": "01a121db-b849-7fc1-9a9f-d52481aeb6b4",
       "state": "notLoaded",
       "next": "Portable independent technical review",
-      "cursor": "c2d319e6-539a-4cb4-8b06-af573929c88b:3",
-      "latest": "F-012 technical binding: ACCEPT, limited to the source-supported 1.17.1, 1.18, 1.18.1, and 1.18.2 profiles. The review verified the double-versus-float arithmetic, hook timing, registration, resolver behavior, and native fallback. Earlier-profile fidelity remains unproven; this does not establish runtime parity. The portable report is committed on fix/review-f012-technical-binding-2026-10-09 at 78"
+      "cursor": "c2d319e6-539a-4cb4-8b06-af573929c88b:3"
     },
     {
       "role": "source",
@@ -252,17 +234,15 @@
       "threadId": "01a121e2-3cab-77a2-b74b-af2a63e576dd",
       "state": "idle",
       "next": "Source continuation 1.19.4–1.20.1",
-      "cursor": "14c1dcf3-5f8d-4f43-8aa7-52cb5c3e181c:9",
-      "latest": "PAUSED at the user’s request. I did not start a build, decompilation, review, or integration. Checkpoint saved in run.md. Branch: feat/source-discovery-1-19-4-1-20-1-resume-2026-10-09 HEAD: 39b5b2ccc1332322e2dde707f9465b75c635cc1b (based on frozen commit eb6e73602c4cbf5a72dafcbbe56b9c3b0ff10ba0) Working tree: clean. No long-running processes remain. Pair status: partial. The source and artifact ma"
+      "cursor": "14c1dcf3-5f8d-4f43-8aa7-52cb5c3e181c:9"
     },
     {
       "role": "source-review",
       "id": "1.19.2--1.19.3 F009",
       "threadId": "01a121e2-4ef5-7512-aa15-f0e863e74d09",
-      "state": "active",
+      "state": "idle",
       "next": "Blind review correction coordinate clamp",
-      "cursor": "96beba20-b44e-4acd-bf6a-f8ac925647ad:1",
-      "latest": "I’ll inspect the source owner’s commit only to locate the revised F-009 bytes, then bind the new review to that exact revision and recheck the narrowed custom-server scope against the paired sources. I’ll preserve the prior verdict and report this as a separate supersession review on an isolated branch."
+      "cursor": "96beba20-b44e-4acd-bf6a-f8ac925647ad:2"
     },
     {
       "role": "implementation",
@@ -270,8 +250,7 @@
       "threadId": "01a121e2-647a-7793-b98b-9c6b977350b8",
       "state": "idle",
       "next": "Implement accepted mounted lava box finding",
-      "cursor": "d11f4600-5e4d-4a1a-ad23-86caffa02a63:5",
-      "latest": "The accepted F-4 witness is documented, but implementation remains open: the read-only cache has no exact source trees for 26.1 or 26.1.1. Without them, the first changed release—and therefore the correct resolver key—cannot be established. I left the movement code unchanged and recorded the exact source-preparation request in the boundary memo and implementation record. The documentation checkpoi"
+      "cursor": "d11f4600-5e4d-4a1a-ad23-86caffa02a63:5"
     },
     {
       "role": "implementation-review",
@@ -279,8 +258,7 @@
       "threadId": "01a121e4-0974-7182-82ff-c5c0c2ca69cb",
       "state": "idle",
       "next": "F008 portable independent technical review",
-      "cursor": "1963820e-5ad2-4afd-875a-15e4abcb36a0:6",
-      "latest": "PAUSED at the user’s request. No active processes or subagents remain. Checkpoint: branch fix/review-f008-technical-binding-2026-10-09, HEAD 40c12762ab3c9893d863b6abd65681db8cdce48a. The ACCEPT report is committed at 176fee1c with line-ending cleanup at HEAD. The reviewed candidate and merged-tree identities are recorded in the report. Next action on resume: continue from this branch and report. N"
+      "cursor": "1963820e-5ad2-4afd-875a-15e4abcb36a0:6"
     },
     {
       "role": "implementation",
@@ -288,8 +266,8 @@
       "threadId": "01a121e4-1927-7621-8cd2-3063988260c6",
       "state": "active",
       "next": "Reconcile accepted Y256 water jump mechanism",
-      "cursor": "171cb0e1-db15-4827-8004-d49157dac5d0:1",
-      "latest": "I’m resuming from the saved branch and checkpoint. I’ll first isolate the Git LFS failure from repository code, re-read the current implementation instructions, and inspect the partial diff before continuing the player-only producer/consumer wiring."
+      "cursor": "171cb0e1-db15-4827-8004-d49157dac5d0:12",
+      "latest": "The independent review found one actionable issue: my hook was consuming retained depth without requiring jump input or airborne state. The historical branch has both gates, so I’ll add them before dispatch, then request a focused re-review of that correction."
     },
     {
       "role": "source-boundary",
@@ -297,8 +275,7 @@
       "threadId": "01a121e4-28ee-7070-ace9-13273a268b86",
       "state": "idle",
       "next": "Exact early sprint air speed boundary",
-      "cursor": "69086919-75a3-45f9-9836-6f45531c058c:5",
-      "latest": "PAUSED. No processes or subagents are running. Checkpoint: branch fix/sprint-air-speed-early-boundary-2026-10-09, HEAD 847e7d101780d7fb39aae523b932c08f6fb6eb19, clean worktree. The source memo is committed; its file SHA-256 is 42f3584c4372afe80269c4f47ada16ff7c570fcbbff7a2664c0a422389f6427c. Resume only after the user does so."
+      "cursor": "69086919-75a3-45f9-9836-6f45531c058c:5"
     },
     {
       "role": "mcpk-current-review",
@@ -306,24 +283,30 @@
       "threadId": "01a121e5-1972-7eb1-ad67-64fbb2bdc743",
       "state": "idle",
       "next": "Clean bounded independent review",
-      "cursor": "ac4e112f-f62e-4576-a16d-24a129bc36ea:4",
-      "latest": "Verdict: REQUEST CHANGES. The flow math, flying-player gate, source hashes, and same-tick call order are supported. The memo should qualify that a LivingEntity.mobTick() cutoff can zero velocity components below 0.003 before travel. The independent report is committed on fix/review-mcpk-current-flow-r2-2026-10-09 at cc8d9585737e4a4d0e5f1af3a1837c0b24bd8544. The worktree is clean; the report passes"
+      "cursor": "df6991a2-3070-4f3e-aa31-f7d8d6671b74:2"
     },
     {
       "role": "source-review",
       "id": "scale-F21",
       "threadId": "01a121e9-b8c9-79e1-be4a-2e42397aae49",
-      "state": "active",
+      "state": "idle",
       "next": "Independent source F21 review",
-      "cursor": "56bf219e-aeec-459f-a753-3f92f6e5ec65:1",
-      "latest": "I’m resuming the isolated F-21 source review. The key question is whether the 1.21.4 tick-tail scale check closes the alleged movement gap after dirty attributes are processed; I’ll bind the disposition to the immutable candidate and the source owner’s invalidation record."
+      "cursor": "56bf219e-aeec-459f-a753-3f92f6e5ec65:2"
+    },
+    {
+      "role": "source-boundary-review",
+      "id": "sprint-air-early-review",
+      "threadId": "01a121fd-2e29-71b2-9f2b-fee58f2e1075",
+      "state": "idle",
+      "next": "Review completed early boundary memo847e7d1",
+      "cursor": "fb15a2a2-f8d0-4b23-a4f6-f98db3d7de01:5"
     }
   ],
   "queue": [],
   "metrics": {
     "launches": 24,
     "launchRetries": 0,
-    "routingIncidents": 1,
+    "routingIncidents": 2,
     "preparationLauncherRetries": 1,
     "newEndpointProofsAccepted": 2,
     "newCompleteImplementationDispositions": 2,
@@ -356,7 +339,7 @@
     "workerDelegation": "discretionary; no prompting to spawn",
     "freshWorkerForUnrelatedTasks": true
   },
-  "updatedAt": "2026-10-09T18:46:07.666Z",
+  "updatedAt": "2026-10-09T19:03:50.915Z",
   "additionalReviewer": {
     "owner": "01a12184-70c0-7fb3-a3a0-f6032ef005f1",
     "id": "/root/f3_r2_technical_review",
@@ -386,9 +369,10 @@
     "activeTarget": 15
   },
   "activitySample": {
-    "capturedAt": "2026-10-09T18:23:12.826Z",
-    "active": 15,
-    "knownWorkers": 32
+    "capturedAt": "2026-10-09T18:50:26.082Z",
+    "active": 8,
+    "internalActive": 1,
+    "knownWorkers": 34
   },
   "pause": {
     "requestedAt": "2026-10-09T18:26:24.574Z",
@@ -399,5 +383,115 @@
     "status": "resuming closure-first",
     "resumedAt": "2026-10-09T18:44:40.144Z"
   },
-  "schedulingPhase": "close existing near-complete branches before normal discovery"
+  "schedulingPhase": "close existing near-complete branches before normal discovery",
+  "dispatchJournal": [
+    {
+      "task": "current-flow-r3",
+      "phase": "delegated",
+      "at": "2026-10-09T18:46:36.541Z",
+      "inputs": [
+        "5ede13dafa339e9c6c482c63ff711b19ac6e74e9",
+        "cc8d9585737e4a4d0e5f1af3a1837c0b24bd8544"
+      ],
+      "agentName": "/root/current_flow_r3",
+      "note": "New chat not created; clean replacement uses internal worker."
+    },
+    {
+      "task": "sprint-air-early-review",
+      "phase": "dispatched",
+      "at": "2026-10-09T18:46:36.542Z",
+      "inputs": [
+        "e847e7d101780d7fb39aae523b932c08f6fb6eb1",
+        "42f3584c4372afe80269c4f47ada16ff7c570fcb"
+      ],
+      "threadId": "01a121fd-2e29-71b2-9f2b-fee58f2e1075"
+    }
+  ],
+  "internalWorkers": [
+    {
+      "agentName": "/root/current_flow_r3",
+      "role": "mcpk-correction",
+      "state": "ready-for-review",
+      "inputs": "5ede13dafa339e9c6c482c63ff711b19ac6e74e9 / cc8d9585737e4a4d0e5f1af3a1837c0b24bd8544",
+      "next": "Separate r3 memo/binding then independent review",
+      "head": "d279b9576bf12dd58b132ca2a5a09add40bd4abb"
+    },
+    {
+      "agentName": "/root/pane_reviews_17_24",
+      "role": "wiki-provider-review",
+      "state": "running",
+      "inputs": "8f97dda72e0775c1e39990b087433b2e552d5564",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/pane-reviews-17-24-2026-10-09",
+      "branch": "fix/pane-reviews-17-24-2026-10-09",
+      "phase": "isolated setup / bounded review",
+      "next": "Separate report per immutable memo; no main merge"
+    },
+    {
+      "agentName": "/root/pane_reviews_25_32",
+      "role": "wiki-provider-review",
+      "state": "running",
+      "inputs": "8f97dda72e0775c1e39990b087433b2e552d5564",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/pane-reviews-25-32-2026-10-09",
+      "branch": "fix/pane-reviews-25-32-2026-10-09",
+      "phase": "isolated setup / bounded review",
+      "next": "Separate report per immutable memo; no main merge"
+    }
+  ],
+  "infrastructureIncident": {
+    "type": "shared-primary branch/index overlap",
+    "state": "recovered:main clean,code tree matches F007 build input be976983",
+    "auditCommit": "02a0d9b3",
+    "isolatedAuditPath": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/campaign-closure-audit-isolated-2026-10-09",
+    "preserveRefs": true
+  },
+  "closureEvents": [
+    {
+      "task": "F009-r2",
+      "phase": "source-accepted",
+      "review": "9ed69387b21f384ab800fec335e6a59b422ee027",
+      "ledger": "03de5e41",
+      "next": "Exact report-only main integration; pair remains partial"
+    },
+    {
+      "task": "F21",
+      "phase": "invalidated-independent-disposition",
+      "review": "c58c4070",
+      "next": "Preserve candidate/invalidation/rejection on main; no implementation"
+    },
+    {
+      "task": "F007",
+      "phase": "build-record-recovery",
+      "candidate": "60010459540809c16f0ec67a849ef57b159943d0",
+      "reviewedHead": "a08edf253736867411cc60cc13dfa34f208fa4b1",
+      "record": "b9d225b96fdc17557f732fdaa2e742e3e0bbcc0c",
+      "next": "Exclusive owner recovers record/main and verifies exact code tree"
+    },
+    {
+      "task": "current-flow-r3",
+      "phase": "source-accepted",
+      "memo": "77417f7abf8deb92c4eb81309a3bd7db8284c58e",
+      "review": "6e2c102c49119f758b951dd1f9686b8fcb7bf72d",
+      "next": "Exact docs integration and bounded acceptance event"
+    },
+    {
+      "task": "early-sprint-boundary",
+      "phase": "source-accepted",
+      "memo": "847e7d101780d7fb39aae523b932c08f6fb6eb19",
+      "review": "224ef372",
+      "next": "Report-only integration;23sampled/14unsampled"
+    },
+    {
+      "task": "eye-height-correction",
+      "phase": "supplemental-provider-review",
+      "memo": "ff956771f753f8d2a92c2fb3e51caebbfaa7f4a2",
+      "review": "143613bf98c7d4dc245bc58fb1ad9cc4cdb90ebf",
+      "next": "Verify cited standingprovider in canonical cached Player sources"
+    },
+    {
+      "task": "pane-checkpoint",
+      "phase": "clean-metadata-review",
+      "candidate": "57eb11151f08bde4adaab46d16b4d8e5c11b058c",
+      "next": "Clean reviewer completes3/9–16and pointerbinding; preserve contaminatedreports"
+    }
+  ]
 }

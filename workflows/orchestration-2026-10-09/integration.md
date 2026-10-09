@@ -349,7 +349,8 @@ At that time, the preparation, sprint-collision and Elytra slots were releasable
 ## Eye-height cached-float correction — narrow ACCEPT — 2026-10-09
 
 - Imported correction memo commit `ff956771f753f8d2a92c2fb3e51caebbfaa7f4a2`, blob `2f890681c6bc6026034710417a3c0265ca8087e3`, raw SHA-256 `6ecb26f940fada9074238ac485178eabf6ce43b1b270fee4adf55a6f38387ef6`; and independent review commit `143613bf98c7d4dc245bc58fb1ad9cc4cdb90ebf`, report blob `93b0e76b26fee2002b0a1c49abccfa2ebcde9c92`, raw SHA-256 `A67C2ECE4A7454D479FB34614820AC44E0EBC1E8A34E0077D1CAFE57DF643E39`.
-- ACCEPT is only for removing the impossible exact-0.4 cached-float case. The reviewer could not independently verify the supplemental vanilla Player provider witness because its frozen source files were unavailable. Keep that provider claim unverified and retain all broader provider, pair, and runtime work as open.
+- Review `143613bf98c7d4dc245bc58fb1ad9cc4cdb90ebf` accepted only removal of the impossible exact-0.4 cached-float case; its supplemental Player provider witness was then unverified. A separate follow-up review below has since closed that one standing-default route.
+- The arithmetic correction acceptance remains unchanged. Keep non-default scale, sleeping pose, other providers/writers, mounted/fluid routes, pair audit/freeze, first changed release, and runtime open.
 
 ## Branch-routing incident and checkpoint preservation — 2026-10-09
 
@@ -359,3 +360,24 @@ At that time, the preparation, sprint-collision and Elytra slots were releasable
 ## Pane checkpoint 57eb111 disposition — 2026-10-09
 
 - Await a clean metadata review before changing the checkpoint's disposition. Preserve the historical contaminated third/pointer reports as history only; they do not provide clean acceptance evidence.
+
+## Standing vanilla Player eye-height provider — bounded supplemental ACCEPT — 2026-10-09
+
+- Imported exact supplemental report commit `bd546e7cc522c5a3ea26c03918069c800a35c049`, path `workflows/source-boundary-reviews/2026-10-09-standing-player-eyeheight-provider-verification.md`, blob `c9a693063d47092f5ceaabeac5a9958693d63d0d`, raw SHA-256 `9CF1A12DF3059DC3CBBC6C9F67FCBDE639774EB5E9D22FC4D28916C60833F46A`.
+- ACCEPT is limited to the vanilla default standing-Player provider in 1.21.11 and 26.1.2: registration supplies `1.62F`; default effective `LivingEntity.getDimensions(Pose)` retains it at age/scale `1.0F`; construction and standing-pose refresh write it to cached eye height. The report corrects the earlier memo's abbreviated provider path with the effective LivingEntity override.
+- Non-default scale, sleeping pose, other entities/providers/writers, mounted and fluid inputs, eye-top movement consequence, remaining inventories, pair audit/freeze, first changed release, and runtime remain open. The prior exact-float correction acceptance is unchanged.
+
+## Historical closure-audit report and coordinator queue snapshot — 2026-10-09
+
+- Imported the audit report only as dated historical triage from commit `02a0d9b38d5340899f024c6aa1b7bdc679f1d0d5`: `workflows/orchestration-2026-10-09/closure-audit-2026-10-09.md`, blob `a8f63183cded11d68cf49dddd44a03c623ef3026`, raw SHA-256 `5EBD4B51105885A04C2CB6EA8EBE8DA4962B641979377DFEA556380E64AB4318`. Its historical recommendations are superseded where this ledger records later integration/build evidence; it is not live campaign status.
+- Imported only `workflows/orchestration-2026-10-09/queue.json` from coordinator commit `830471fc783365716103b7b04a0142bf8b81fab0`, blob `570a3c8f593c644800c89df6fd52e370654539cb`, raw SHA-256 `B5CAB0C66C0E2D8A1A003B2317F316C7CB3219C73B6626A3DB86F2A168076C81`. The snapshot records `mainVerified=cdfeb1a0`, `all26RefsMatch=true`, runtime `unverified`, and the primary checkout recovery. It is a dated snapshot; its worker states and next-action text are not a current live-worker count.
+
+## Terminal implementation/build dispositions — 2026-10-09
+
+The following accepted implementation items are integrated and their authorized test-disabled builds passed. Do not restart their code/build work from stale queue text; runtime remains unverified for each.
+
+- **F-005:** integration/build input `7cb12f7ec44cd39a7d4fea6056f03f1180775853`, tree `cf26f76ac3212d7fbae5334701bde3da68110971`; JAR SHA-256 `837621839AA3F567F6A08C8E6252C08A95BC18FA568F272C318AF67FC8E16C01`.
+- **F-3:** integrated at `242d67da6c9dbc3b6fa352a458839a987b70f4cc`, code tree `0bf2f846bae37d4811fa8205ab9c4bab870a277a`; JAR SHA-256 `5D66B610513BE5FB92F47C9C2410631413392692D61EB8102067C5CF88A2A98C`.
+- **F-012:** integrated at `9481608463947248ba5004b1dabf999c5e3e59d6`, tree `ec8e0ec0296fc186c9d15c064d4e0f9aba76ef95`; JAR SHA-256 `86608F4BF26A86767BF972307D52E3FA68050CA2F71D5FC7898F07B43B59DE45`.
+- **F-008:** test-disabled build input `0d65efb7b6c071fb0a01c86f7b5670ea65057d25`, tree `8189427cb909dfd74835f5eb678c5fad35a04585`; JAR SHA-256 `B57254F81E71E23F07633B97A78E9BA9C98A463EDA664025F5FF1081F008CFA7`.
+- **F-007:** test-disabled build input `be97698305315c5ac7c7a3c2dbdab2bf436a9881`, tree `0f0fa1542a27b4b73ae52fec02f92de29233adb7`; JAR SHA-256 `ACA0723D4EBC11BC5E5B68EF1F9A26F97519E2D3A2BB92838B06A59361913730`. Current `main` is `cdfeb1a0d9dfe087694036f3b03a47c2a0dc2405`; `git diff be976983..HEAD -- src` is empty, so the current production code still matches the successful build input.
