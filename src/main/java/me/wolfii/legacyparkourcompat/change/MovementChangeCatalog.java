@@ -260,6 +260,9 @@ public final class MovementChangeCatalog {
     private static void registerV1_18(MovementChangeRegistry registry) {
         registry.register(ElytraLiftForceBehavior.class, ParkourVersion.V1_18, new me.wolfii.legacyparkourcompat.change.v1_18.ElytraLiftForce());
         registry.register(PlayerFallDistanceResetBehavior.class, ParkourVersion.V1_18, new me.wolfii.legacyparkourcompat.change.v1_18.FallDistanceReset());
+        var movementChangeAirSpeedV1_18 = new me.wolfii.legacyparkourcompat.change.v1_18.DoubleSprintAirSpeed();
+        registry.register(AirSpeedBehavior.class, ParkourVersion.V1_18, movementChangeAirSpeedV1_18);
+        registry.register(AirSpeedUpdateBehavior.class, ParkourVersion.V1_18, movementChangeAirSpeedV1_18);
     }
 
     private static void registerV1_18_2(MovementChangeRegistry registry) {
