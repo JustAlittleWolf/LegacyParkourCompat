@@ -1,0 +1,417 @@
+{
+  "snapshotDate": "2026-10-09",
+  "scope": "26 exact adjacent-source intervals from 1.8.9 through 26.2; status/provenance audit only",
+  "auditedMain": "3467cc398a89bb86bfafa6eedb315e0a29e040de",
+  "citedMain": "285244f893d381604ce7bc7cb6f96874ad95f05a",
+  "citedMainDisposition": "exists but is older than audited local main",
+  "totals": {
+    "intervals": 26,
+    "fullPairSourceFreezeAccepted": 1,
+    "independentCoverageAuditAccepted": 1,
+    "otherIntervalsPartial": 25
+  },
+  "stages": [
+    {
+      "stage": "full-pair source freeze",
+      "status": "1/26 accepted",
+      "detail": "Only 1.17.1--1.18.2 has an accepted full-pair source freeze."
+    },
+    {
+      "stage": "independent full-pair coverage audit",
+      "status": "1/26 accepted",
+      "detail": "Same single interval; distinct gate from finding acceptance and implementation."
+    },
+    {
+      "stage": "accepted finding backlog",
+      "status": "47 cumulative ledger records",
+      "detail": "Baseline/current ledger count; no defensible new-resume increment or deduplicated whole-campaign unique-finding count."
+    },
+    {
+      "stage": "new resume implementation dispositions",
+      "status": "2 final no-code technical ACCEPTs",
+      "detail": "F001 sprint collision and F002 Elytra cosine; bounded to reviewed evidence, no Java change required."
+    },
+    {
+      "stage": "new resume code candidates",
+      "status": "1/2 integrated with successful build; F3 REQUEST CHANGES pending",
+      "detail": "F005 implementation technical ACCEPT, integration recorded, and disabled-test build successful (18 actionable tasks). F3 R2 review REQUEST CHANGES; correction, new review and build pending."
+    },
+    {
+      "stage": "integrated code batch ledger",
+      "status": "23 cumulative records",
+      "detail": "Heterogeneous ledger rows, not a count of implemented mechanics; no campaign-wide implementation numerator claimed."
+    },
+    {
+      "stage": "new resume source checkpoints",
+      "status": "2 noted; both partial",
+      "detail": "1.21.4--1.21.5 fresh input/tick checkpoint; 1.21.11--26.1.2 S4.6 mounted-fluid witness."
+    },
+    {
+      "stage": "runtime parity",
+      "status": "0/26 documented complete; overall unverified",
+      "detail": "No runtime result is inferred from accepted evidence, code review, integration or builds."
+    },
+    {
+      "stage": "active worker roster",
+      "status": "unknown; soft target 15",
+      "detail": "Current policy uses a soft target of 15 workers; no current live roster evidence was available."
+    }
+  ],
+  "resumeProgress": {
+    "finalNoCodeTechnicalAccepts": [
+      "F001",
+      "F002"
+    ],
+    "implementationCandidates": [
+      {
+        "id": "F005",
+        "status": "Independent implementation technical ACCEPT; integrated on main at 7cb12f7ec44cd39a7d4fea6056f03f1180775853; build SUCCESSFUL with all Test tasks disabled, 18 actionable tasks; runtime unverified"
+      },
+      {
+        "id": "F3",
+        "status": "R2 implementation review REQUEST CHANGES (review merge 8713e3447ba3d412f3ed56c551eb1129c8271bc7) for mounted-player applicability; correction author queued, then new review and build"
+      }
+    ],
+    "partialSourceCheckpoints": [
+      "1.21.4--1.21.5 fresh input/tick",
+      "1.21.11--26.1.2 S4.6 mounted-fluid witness"
+    ],
+    "acceptedF012Boundary": "bounded source acceptance only; did not alter pair freeze"
+  },
+  "intervals": [
+    {
+      "interval": "1.8.9--1.9.4",
+      "resumeBranch": "feat/source-discovery-movement-source-1-8-9-1-9-4-solid-resume",
+      "resumeHead": "690577535f5fe081cc6314485c937af4adc7631c",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.9.4--1.10.2",
+      "resumeBranch": "feat/source-discovery-movement-source-1-9-4-1-10-2-resume3",
+      "resumeHead": "8d4deeedacd03de0c84e175128726b5f6ab63ef3",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.10.2--1.11.2",
+      "resumeBranch": "feat/source-discovery-movement-source-1-10-2-1-11-2",
+      "resumeHead": "645656e32b402e041abde917fca0ce228c5414fc",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.11.2--1.12.2",
+      "resumeBranch": "feat/source-discovery-movement-source-1-11-2-1-12-2",
+      "resumeHead": "f4d235379ea451da227a34e710bb66609fe37235",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.12.2--1.13.2",
+      "resumeBranch": "feat/source-discovery-movement-source-1-12-2-1-13-2",
+      "resumeHead": "2853716b2031da05abe991e3913078f9a668f3bb",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.13.2--1.14.4",
+      "resumeBranch": "feat/source-movement-1-13-2-1-14-4-resume6",
+      "resumeHead": "c7fda155df85b581df2adb18d7e738ca421ac603",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.14.4--1.15.2",
+      "resumeBranch": "feat/source-discovery-movement-source-1-14-4-1-15-2",
+      "resumeHead": "11e4c0b7310eacff07520caf26ebc833ee479e99",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.15.2--1.16.5",
+      "resumeBranch": "feat/source-discovery-1-15-2-1-16-5-resume",
+      "resumeHead": "f5636dd2fb01860da7ae6440c0d315aa2a117d07",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.16.5--1.17.1",
+      "resumeBranch": "feat/source-discovery-movement-source-1-16-5-1-17-1-audit-oct8",
+      "resumeHead": "aca4dfb24d5f1e9ec00b375eaf9b8f8b1c57c8b9",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.17.1--1.18.2",
+      "resumeBranch": "feat/source-1-17-1-18-2-fresh-oct8",
+      "resumeHead": "df418e06b957399aa4c31eaf69d38422146ac296",
+      "resumeIndexStatus": "pair ledger partial; source coverage and 14 findings independently ACCEPT-reviewed; implementation/runtime open",
+      "currentPairStatus": "full-pair source freeze accepted; independent coverage audit accepted",
+      "note": "Pair source run and independent full-pair audit accept the bound frozen run blob; implementation reconciliation and runtime remain separate."
+    },
+    {
+      "interval": "1.18.2--1.19.2",
+      "resumeBranch": "feat/source-discovery-movement-source-1-18-2-1-19-2",
+      "resumeHead": "ee009fe6d26bd11179c135287794e78cda2a1d1a",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.19.2--1.19.3",
+      "resumeBranch": "feat/source-discovery-movement-1-19-2-1-19-3-resume",
+      "resumeHead": "0b2c91f8ad29a8f765564650f6ce872b05fcb689",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.19.3--1.19.4",
+      "resumeBranch": "feat/source-discovery-1-19-3-1-19-4-resume-2026-10-08",
+      "resumeHead": "65053957149e0e657a7cc0401ccaef5ab1570cc4",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.19.4--1.20.1",
+      "resumeBranch": "feat/source-discovery-1-19-4-1-20-1-continuation",
+      "resumeHead": "eb6e73602c4cbf5a72dafcbbe56b9c3b0ff10ba0",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.20.1--1.20.2",
+      "resumeBranch": "feat/source-discovery-1-20-1-1-20-2-resume-2026-10-08",
+      "resumeHead": "7a9fb8ab571a31ee46b444c3ed0f774bad513e01",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.20.2--1.20.4",
+      "resumeBranch": "feat/source-discovery-1-20-2-1-20-4-resume-2026-10-08",
+      "resumeHead": "cbcd477f1e1e32aa0a58ea132cb66709b06638cf",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.20.4--1.20.6",
+      "resumeBranch": "feat/source-discovery-1-20-4-1-20-6-resume-2026-10-08",
+      "resumeHead": "f14b8d63b79dd9fa787070776e2a8ab660a59502",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.20.6--1.21.1",
+      "resumeBranch": "feat/source-discovery-1-20-6-1-21-1-resume-2026-10-08",
+      "resumeHead": "9b58e85bdf70c52717632ff796bfb939392d81fa",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.21.1--1.21.3",
+      "resumeBranch": "feat/source-discovery-1-21-1-1-21-3-resume-2026-10-08",
+      "resumeHead": "864d42197b90585ee5d7eac385ac26b51eb0dbe0",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.21.3--1.21.4",
+      "resumeBranch": "feat/source-discovery-movement-source-1-21-3-1-21-4-resume-2026-10-08",
+      "resumeHead": "5a52807348c03d1a3546c60f49194d0e714980d5",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.21.4--1.21.5",
+      "resumeBranch": "feat/source-discovery-movement-source-1-21-4-1-21-5-resume",
+      "resumeHead": "1d027c706dd22fd6df2fe14deaf3a02695d6094e",
+      "resumeIndexStatus": "partial; provenance exposure disclosed; fresh source-only coverage required",
+      "currentPairStatus": "partial/open",
+      "note": "Fresh input/tick checkpoint and bounded review are accepted; D7/D8/D9 and inherited coverage remain open, pair partial."
+    },
+    {
+      "interval": "1.21.5--1.21.8",
+      "resumeBranch": "feat/source-discovery-movement-source-1-21-5-1-21-8-resume-2026-10-08",
+      "resumeHead": "ec84e77c333b75768d5ce44ce2979ba7f1c9ffd6",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.21.8--1.21.10",
+      "resumeBranch": "feat/source-discovery-movement-1-21-8-1-21-10-resume-2026-10-08",
+      "resumeHead": "2642f9401ab55ccb2c7372e535122b00d5a76b7e",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.21.10--1.21.11",
+      "resumeBranch": "feat/source-discovery-1-21-10-1-21-11-resume-2026-10-08",
+      "resumeHead": "bacbfd252724c5f989e9527ae7700e486d6a7187",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    },
+    {
+      "interval": "1.21.11--26.1.2",
+      "resumeBranch": "feat/source-1-21-11-26-1-2-resume-oct8",
+      "resumeHead": "ea6ca59bd217e9ad36ede00122a6952be914839b",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "F-3 R2 source finding accepted, but source pair remains partial; S4.6 mounted-fluid witness and S4.7 eye-height work remain open."
+    },
+    {
+      "interval": "26.1.2--26.2",
+      "resumeBranch": "feat/source-26-1-2-26-2-resume-oct8",
+      "resumeHead": "7455dc2dc987023433678961b2e9c30e51f0284d",
+      "resumeIndexStatus": "partial",
+      "currentPairStatus": "partial/open",
+      "note": "No pair-wide freeze or independent full-pair audit acceptance found in the current campaign record."
+    }
+  ],
+  "evidence": [
+    {
+      "record": "source-resume-heads.tsv",
+      "path": "workflows/branch-consolidation-2026-10-08/source-resume-heads.tsv",
+      "role": "26 exact intervals and recorded branch/head resume points; 1.17 row predates corrected freeze acceptance"
+    },
+    {
+      "record": "corrected full-pair audit",
+      "path": "workflows/source-campaign-2026-10-07/1.17.1--1.18.2/FULL-PAIR-AUDIT-2026-10-08.md",
+      "commit": "e0e36eff36a92be82327bf2a8140f18141d7cc21",
+      "blob": "87fc1e9344c26ef60bec02075a4f05b16956ac92",
+      "runBlob": "53bef7aae76bef026d5f5d19bc111635ddc6265d",
+      "rawSha256": "08099783947b13ff03516b70b0f9ccf51455ebf5a0fee2e7d790385cd66011fc",
+      "decision": "ACCEPT full-pair source coverage freeze"
+    },
+    {
+      "record": "current pair run status",
+      "path": "workflows/source-campaign-2026-10-07/1.17.1--1.18.2/run.md",
+      "claim": "Run status complete; full-pair blind freeze accepted; independent audit accepted; implementation and runtime open"
+    },
+    {
+      "record": "authoritative orchestration snapshot",
+      "path": "workflows/orchestration-2026-10-09/queue.json",
+      "queueMainVerified": "cb11257e593987c68be98a7dbda8bbea7d5e77fd",
+      "queueOtherActive": null,
+      "note": "Dated/stale task state; not used as a live worker roster"
+    },
+    {
+      "record": "integration history",
+      "path": "workflows/orchestration-2026-10-09/integration.md",
+      "mainAtAudit": "3467cc398a89bb86bfafa6eedb315e0a29e040de",
+      "covers": [
+        "F001/F002 final bounded no-code technical ACCEPTs",
+        "fresh 1.21.4-1.21.5 input checkpoint remains partial",
+        "F012 boundary memo ACCEPT only",
+        "F005 R2 source witness ACCEPT; code/build queued",
+        "F3 R2 implementation technical review REQUEST CHANGES"
+      ],
+      "integrationLimit": "F005 is now accepted, integrated and build-verified on main; runtime remains unverified"
+    },
+    {
+      "record": "accepted findings ledger",
+      "path": "workflows/accepted-findings-backlog-2026-10-08/accepted-findings.jsonl",
+      "records": 47,
+      "classification": "cumulative ledger rows; not a new-resume delta or campaign implementation total"
+    },
+    {
+      "record": "integrated code batch ledger",
+      "path": "workflows/accepted-findings-backlog-2026-10-08/integrated-code-batches.jsonl",
+      "records": 23,
+      "classification": "cumulative heterogeneous batch records; not a mechanic/finding implementation count"
+    },
+    {
+      "record": "F3 R2 implementation review",
+      "path": "workflows/implementation-reviews/2026-10-09-F3-r2-technical-review.md",
+      "reviewCommit": "b1da5dfb90bf39ccd26a76dd35b94cefab392ae6",
+      "candidate": "a5e43adb6251a867f4ac2b9f05ecdf73ca65564f",
+      "decision": "REQUEST CHANGES"
+    },
+    {
+      "record": "F005 R2 source witness",
+      "path": "workflows/orchestration-2026-10-09/integration.md",
+      "author": "F005 boundary memo blob 012209d04cc41482729b0bf4f66cd9c23686bf8e",
+      "review": "R2 ACCEPT; implementation review and serial build queued"
+    },
+    {
+      "record": "F005 independent implementation technical review",
+      "path": "workflows/implementation-reviews/2026-10-09-F005-technical-review.md",
+      "reviewCommit": "7cb12f7ec44cd39a7d4fea6056f03f1180775853",
+      "reportBlob": "873037c5cc247f7a9aae9722ca48aab802601b90",
+      "codeCommit": "b4f2cc3742cd0b93fcf9301154b5bba85351bb86",
+      "codeTip": "f73d176e98fdf1f56c5207046266a168c1834d73",
+      "decision": "ACCEPT; build queued, not passed or integrated"
+    },
+    {
+      "record": "F3 R2 implementation technical review",
+      "path": "workflows/implementation-reviews/2026-10-09-F3-r2-technical-review.md",
+      "reviewMerge": "8713e3447ba3d412f3ed56c551eb1129c8271bc7",
+      "decision": "REQUEST CHANGES; mounted-player applicability"
+    },
+    {
+      "record": "F005 independent implementation technical review",
+      "path": "workflows/implementation-reviews/2026-10-09-F005-technical-review.md",
+      "reviewCommit": "7cb12f7ec44cd39a7d4fea6056f03f1180775853",
+      "reportBlob": "873037c5cc247f7a9aae9722ca48aab802601b90",
+      "codeCommit": "b4f2cc3742cd0b93fcf9301154b5bba85351bb86",
+      "codeTip": "f73d176e98fdf1f56c5207046266a168c1834d73",
+      "decision": "ACCEPT; build queued, not passed or integrated"
+    },
+    {
+      "record": "F3 R2 implementation technical review",
+      "path": "workflows/implementation-reviews/2026-10-09-F3-r2-technical-review.md",
+      "reviewMerge": "8713e3447ba3d412f3ed56c551eb1129c8271bc7",
+      "decision": "REQUEST CHANGES; mounted-player applicability"
+    }
+  ],
+  "constraints": [
+    "No source/physics comparison or research was performed.",
+    "No test, build or runtime command was run.",
+    "Accepted finding counts, pair freeze, implementation review/integration, build and runtime are separate states.",
+    "No campaign-wide implementation total is asserted.",
+    "F005 candidate files are present on updated main after the review-branch merge; no successful serial build or accepted integration record is asserted.",
+    "F005 is integrated and build-verified on main; runtime parity remains unverified."
+  ],
+  "coordinationPolicy": {
+    "activeWorkerTarget": 15,
+    "targetIs": "soft occupancy target; excludes coordinator and unrelated chats",
+    "liveRosterCount": "unknown"
+  },
+  "f012Implementation": "in progress; bounded source-boundary ACCEPT is separate from implementation review and pair coverage",
+  "statusBranchMainMerge": "dcabe4aaf5e006d23116abf3f65bde9bb28396cb",
+  "F005Integration": {
+    "record": "workflows/fix-implementation/runs/F005-fall-reset-integration-2026-10-09.md",
+    "recordCommit": "c8200d3db83e3bf38e5bc99292d4f6fd0db5adbc",
+    "recordBlob": "3e4372040b93051eefe8ca90a86d6e4b0035f36e",
+    "codeTree": "7cb12f7ec44cd39a7d4fea6056f03f1180775853",
+    "result": "BUILD SUCCESSFUL; 18 actionable tasks; all Gradle Test tasks disabled; no tests",
+    "artifactSha256": "837621839AA3F567F6A08C8E6252C08A95BC18FA568F272C318AF67FC8E16C01",
+    "runtime": "not performed"
+  },
+  "orchestrationPolicyEvidence": {
+    "path": "workflows/orchestration/session-policy-2026-10-09.md",
+    "blob": "5249e7e56f8bc440e63c88edd5595141c2506293",
+    "policy": "about 15 active campaign workers, excluding coordinator/unrelated chats; soft occupancy target"
+  },
+  "incomingIndexCommit": "3467cc398a89bb86bfafa6eedb315e0a29e040de"
+}
