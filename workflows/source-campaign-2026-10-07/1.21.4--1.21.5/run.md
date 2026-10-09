@@ -1009,6 +1009,30 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 - Next named source slice: `D19 / S1-OPTIONS-REMAINING-FIXERS-B`, capped at three complete paired `makeRule()` bodies: `OptionsProgrammerArtFix`, `OptionsAmbientOcclusionFix`, and `OptionsAccessibilityOnboardFix`. Verify their registered fields and whether each leaves key-prefixed remainder entries untouched. `OptionsMenuBlurrinessFix` remains for the following bounded slice.
 - Checkpoint limits: source report only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
 
+## Fresh source-only checkpoint — D19 remaining option fixers B
+
+- Base: remaining-options checkpoint `40024873`. Three complete paired `makeRule()` methods were compared: `OptionsProgrammerArtFix` A/B lines 15-21, `OptionsAmbientOcclusionFix` A/B lines 15-24, and `OptionsAccessibilityOnboardFix` A/B lines 14-20. Combined method-body spans total 24 lines per side. Each cited file hash matches its exact source-manifest entry.
+
+### D19 — S1-OPTIONS-REMAINING-FIXERS-B (bounded field rules closed)
+
+- Registration evidence: `DataFixers` registers these rules in both exact sources (A lines 1152, 1162, 1164; B 1211, 1221, 1223). The registration names match the inspected fixer classes.
+- `OptionsProgrammerArtFix#makeRule()` updates only `resourcePacks` and `incompatibleResourcePacks` by calling `fixList`; the remainder map, including `key_*` fields, is preserved.
+- `OptionsAmbientOcclusionFix#makeRule()` reads and possibly rewrites only the `ao` string field. It preserves the rest of the Options remainder, including `key_*` values.
+- `OptionsAccessibilityOnboardFix#makeRule()` writes only `onboardAccessibility`. A writes a Boolean false tag; B writes the string `"false"`. This is not a movement binding or input state; neither rule writes a `key_*` field or changes the key-map registry.
+- Disposition: no movement-key data-fix delta was found in these three registered field rules. The onboarding type difference is isolated to its named nonmovement field. D19 is closed only for these methods; keep D15 open until the final registered Options fixer is checked.
+- Exact source hashes:
+
+| Paired source file | A SHA-256 | B SHA-256 |
+|---|---|---|
+| `net/minecraft/util/datafix/DataFixers.java` | `deac5d8f1f86434c0bd529c0c0acdfd79905304fb34c54a20080d4bd58a5ec99` | `e59d948ab69954302cdc8c108de60fc5ba5f9537e5c14244fcff09b08fadeac8` |
+| `net/minecraft/util/datafix/fixes/OptionsProgrammerArtFix.java` | `eb063777275c3cd4264b6cc1c0c0eeb2fa7d4463372817d5d2e228d20e96e6d3` | `eb063777275c3cd4264b6cc1c0c0eeb2fa7d4463372817d5d2e228d20e96e6d3` |
+| `net/minecraft/util/datafix/fixes/OptionsAmbientOcclusionFix.java` | `55e43367d61bf3a14bf43100da290c9455395472925c011b987fb7c973eaddc2` | `55e43367d61bf3a14bf43100da290c9455395472925c011b987fb7c973eaddc2` |
+| `net/minecraft/util/datafix/fixes/OptionsAccessibilityOnboardFix.java` | `a61b05c166579ea62eda97d585cc9ef5aa1a965bb18af140191a8c27f3feb6f1` | `cc3f6c57993cb35b5108143ad7d3036fc807c5f5a44a5879969e2f0a460250ee` |
+
+- Current dependency state: D7 is accepted only for its bounded route; D9 remains separately open for immutable F-09 adjudication. D10-D19 contain only their stated bounded records. D15's typed-load boundary and overall D8 option/keymap inventory remain open pending the final registered Options rule; D1-D6 remain open and pair status is partial.
+- Next named source slice: `D20 / S1-OPTIONS-REMAINING-FIXERS-C`, compare the final `OptionsMenuBlurrinessFix#makeRule()` pair and verify its A/B DataFixers registration. Then reconcile all ten registered Options fixer rules against the key-value type question and either close the bounded D15 load condition or record the exact remaining open route.
+- Checkpoint limits: source report only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
+
 
 
 
