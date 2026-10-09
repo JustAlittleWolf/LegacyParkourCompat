@@ -862,6 +862,20 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 - Reviewer next action: preserve D7's accepted scope and keep D9 separately routed. No further review is requested for D11's no-delta source comparison; D12 remains the next source-only producer slice.
 - Checkpoint limits: source report only; no implementation/wiki/mixed coordinator evidence, decompilation, build, test, runtime, push, or delegation was used.
 
+## Fresh source-only checkpoint — D12 key mapping registry writes
+
+- Base: D11 screen-release checkpoint and D7 review binding in `7839ca89`. Three paired key-mapping behaviors were compared: constructor registration (the integer-key overload delegates to the typed constructor), `setKey`, and `resetMapping`; their complete method bodies span 22 lines per side, plus three registry declaration lines. Exact source identity is the previously recorded byte-identical `KeyMapping.java`, SHA-256 `d5475012d2849e7547e23d1584d5b099661a2cb1e60daebe6ec19cb28b779111` on both sides, matching both published source manifests.
+
+### D12 — S1-KEY-MAP-RECONSTRUCTION (bounded registry helpers closed)
+
+- Registry fields: A/B `KeyMapping.java:15-17` declare `ALL` as a name-to-mapping map, `MAP` as an input-key-to-mapping map, and `CATEGORIES`. The main typed constructor (A/B lines 89-97) sets name/current key/default key/category, inserts the mapping into `ALL`, inserts its current key into `MAP`, and registers its category. The integer-key overload (A/B lines 85-87) delegates with `InputConstants.Type.KEYSYM`.
+- Key write and map rebuild: `setKey()` (A/B lines 129-131) changes only the mapping's current key field; it does not directly change `MAP` or held `isDown`. `resetMapping()` (A/B lines 77-83) clears `MAP` and repopulates it from each `ALL` mapping's current key. The paired order and writes are identical. As a result, key reassignment reaches mouse/keyboard event writers only after a caller rebuilds the input-key map; callers and timing are not closed in this slice.
+- Movement binding reachability: `Options.keyMappings` contains the movement key objects documented in D8, and `KeyboardInput#tick()` reads those objects' down-state predicates. The key event writer (`KeyMapping#set`) resolves through `MAP`; constructor registration and map rebuild therefore define which Options mapping can receive a keyboard or mouse event. The registry helpers show no A/B delta, but this does not yet prove the complete load/save or controls-screen rebind route.
+- Disposition: close D12 only for the identical constructor registration, `setKey` field writer, and `resetMapping` helper bodies. Leave mapping lifecycle in progress until both persisted-option load/save and controls-screen capture/reset callers establish when `MAP` is rebuilt and whether input state is cleared during rebinding.
+- Current dependency state: D7 is accepted for the bounded controlled-camera path by independent review `d7b932a2f57285a52fbf3c96a89d4b7173fe22ea`; D9 remains separately open for immutable F-09 adjudication. D8's keyboard and mouse/focus/screen state-write subroutes are recorded above, while overall option/keymap producer closure remains open. D10-D12 close only their bounded source members. D1-D6 remain open; pair status remains partial.
+- Next named producer slice: `D13 / S1-OPTIONS-PERSISTENCE-AND-BINDING-CAPTURE`, capped at three complete paired methods: compare `Options` key-mapping load/save iteration and `KeyBindsScreen` key capture/reset caller behavior, then record direct `MAP` rebuild callers. Relevant published A/B entry points located for the next slice include `Options.java:1205-1209` and `1348`/`1349` for key load/rebuild, `Options#load()` at `1226`, `Options#save()` at A `1373`/B `1374`, and `KeyBindsScreen`/`KeyBindsList` `setKey` and `resetMapping` callsites. Resolve exact complete method ranges and source hashes before selecting the capped method pairs.
+- Checkpoint limits: source report only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
+
 
 
 
