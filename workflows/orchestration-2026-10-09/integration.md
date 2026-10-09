@@ -197,3 +197,10 @@ At that time, the preparation, sprint-collision and Elytra slots were releasable
 - Review report: `workflows/source-boundary-reviews/2026-10-09-12111-2612-fluid-checkpoints-review.md`, blob `569a7c183c36d46c47b2ecc1851eaf1a3871715d`, raw SHA-256 `f9462839ef360baaac64f024eb57d56d567f39e5c0b703dca302e143a796f6fe`. Current pair-ledger blob `992ab5ea09f2387334b579c4e2a842757df65f45`, raw SHA-256 `dc97aa9af372be515443f685c619343152f62ee1ce9ab91ecf75c6c44753bf9d`.
 - D2 accepts only the exact vanilla-default bubble resources and their bounded Player response edges. The mounted Player route is source-reachable but has no exact fluid-cell/load witness showing a response difference. Mounted applicability, eye-state writer/order, and `getFluidJumpThreshold()`/eye inputs remain open. Pair remains active/partial; no pair freeze or runtime result is inferred.
 - No build, tests, or runtime validation was performed.
+
+## Pane neighbor providers — bounded independent acceptance — 2026-10-09
+
+- Integrated exact provider report from author commit `aa9e10f7792aef6215bab1f97ccdca61b64bbd86`, unchanged at final author tip `9e1841d0874217366149afa80dd8b25cbe2f4313`, and independent bounded ACCEPT from `6d80618cfac6351d09d18aab09c00fe85f2a155c`.
+- Candidate `pane-neighbor-providers-2026-10-09.md`: blob `4af937333cfe189c1205c2bf4871874325e74a9a`, raw SHA-256 `da9196859a9456fa036ec9d446eaf4ff56314c03816da3c23cf6bc8de8ef361a`. Review `reviews/independent-review-pane-neighbor-providers-2026-10-09.md`: blob `6976b4c9658a94ef9904a595e28dd205a18034f1`, raw SHA-256 `3cb7de364a95e09c884b05d554a32b534145255a100c8f6b61be87eaf27b1972`.
+- The checkpoint and Wiki row now bind the accepted three-class slice: leaves/leaves2 remain unchanged; slime changes the predicate and yields one reachable east-only pane mask. The result does not close the provider census or all reachable masks. Feather-derived source/JAR equivalence remains open.
+- No source-lane or runtime claim was added; no build, tests, or runtime validation was performed.
