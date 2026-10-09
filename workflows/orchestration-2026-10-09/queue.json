@@ -14,78 +14,101 @@
     {
       "role": "integration",
       "threadId": "01a12181-2e5d-7382-ac1b-be37a602911e",
-      "cursor": "be58f31f-b93f-402c-af92-fa81d6978164:12",
-      "state": "launch-incident-investigation",
-      "next": "adopt documentation branch on main"
+      "cursor": "be58f31f-b93f-402c-af92-fa81d6978164:30",
+      "state": "active",
+      "next": "docs-only batch integration"
     },
     {
       "role": "preparation",
       "id": "ready-publications",
-      "clientThreadId": "client-new-thread:aa9a34f4-1247-4f43-a2e3-e6376be60cb4",
-      "state": "launch-awaiting-thread-id",
-      "worktree": "C:/Users/Wolfi/.codex/worktrees/bfa3/LegacyParkourCompat"
+      "state": "active",
+      "worktree": "C:/Users/Wolfi/.codex/worktrees/bfa3/LegacyParkourCompat",
+      "threadId": "01a12183-c4f8-70e1-8d32-eafe7a37868d",
+      "next": "prepare exact 1.18/1.18.1",
+      "publication": "b809e54f3096bd178f7248fafb0486465ae6f21f",
+      "cursor": "9f26e700-f0d9-4520-8ded-12a61f47636f:1"
     },
     {
       "role": "source-ledger",
       "id": "1.17.1--1.18.2",
-      "clientThreadId": "client-new-thread:955cc4de-b13d-4903-94c7-bb9c0e99fcac",
-      "state": "launch-awaiting-thread-id",
-      "worktree": "C:/Users/Wolfi/.codex/worktrees/2442/LegacyParkourCompat"
+      "state": "active",
+      "worktree": "C:/Users/Wolfi/.codex/worktrees/2442/LegacyParkourCompat",
+      "threadId": "01a12184-5ece-7f23-be02-9f6407b89de4",
+      "cursor": "7e752099-aedd-40c3-9375-760c55ad3e8b:1"
     },
     {
       "role": "implementation",
       "id": "1.17.1--1.18.2/F-001",
-      "clientThreadId": "client-new-thread:3134b2a6-87f2-4432-97e0-5c3a2b01849b",
-      "state": "launch-awaiting-thread-id",
-      "worktree": "C:/Users/Wolfi/.codex/worktrees/dcfd/LegacyParkourCompat"
+      "state": "ready-for-review",
+      "worktree": "C:/Users/Wolfi/.codex/worktrees/dcfd/LegacyParkourCompat",
+      "threadId": "01a12184-70c0-7fb3-a3a0-f6032ef005f1",
+      "head": "bba3c42691c2bb1527ce98dc5ff942e35bb31690",
+      "cursor": "5d5ea59a-0f22-473f-9477-6800c856e13f:1",
+      "next": "independent endpoint correspondence review; 1.18/1.18.1 boundary open",
+      "activeTimeMs": 161286
     },
     {
       "role": "implementation",
       "id": "1.17.1--1.18.2/F-002",
-      "clientThreadId": "client-new-thread:889c32ad-6dbe-4984-a857-ae2b38917f11",
-      "state": "launch-awaiting-thread-id",
-      "worktree": "C:/Users/Wolfi/.codex/worktrees/f6a5/LegacyParkourCompat"
-    }
-  ],
-  "queue": [
-    {
-      "role": "preparation",
-      "next": "verify/publish existing 34 profiles, prioritize 1.17.1/1.18.2 and 1.21.4/1.21.5"
-    },
-    {
-      "role": "source-ledger",
-      "id": "1.17.1--1.18.2",
-      "next": "reconcile accepted coverage freeze and exact reviews metadata, no re-research"
-    },
-    {
-      "role": "implementation",
-      "id": "1.17.1--1.18.2/F-001,F-002",
-      "next": "bounded current-code reconciliation with boundary gates"
+      "state": "ready-for-review",
+      "worktree": "C:/Users/Wolfi/.codex/worktrees/f6a5/LegacyParkourCompat",
+      "threadId": "01a12184-84a1-7f31-bbeb-f9a0a6c1cc0b",
+      "head": "9be6ac928841ec9d9552ae4e533561623b49866b",
+      "cursor": "04a495d3-f864-4eae-a17a-c3843b72a96b:1",
+      "next": "independent endpoint correspondence review; boundary and artifact identity open",
+      "activeTimeMs": 225120
     },
     {
       "role": "source-review",
-      "id": "1.21.11--26.1.2/F-2,F-3",
-      "next": "independent immutable snapshot review"
+      "id": "1.21.11--26.1.2/F-3",
+      "threadId": "01a12189-d410-72b3-a76c-ae7098f8b593",
+      "state": "active",
+      "next": "review snapshot 023642f6078bc703000e5bfd7d45791b1c3aee57"
     },
     {
       "role": "source",
       "id": "1.21.4--1.21.5",
-      "next": "fresh isolated coverage inventory"
+      "threadId": "01a1218a-7321-7803-b9fb-ecedb7294420",
+      "state": "active",
+      "next": "fresh tick/input coverage bounded slice"
+    },
+    {
+      "role": "implementation-review",
+      "id": "F001,F002",
+      "threadId": "01a1218a-82b4-7ac0-94ea-9f3913876f37",
+      "state": "active",
+      "next": "review endpoint correspondence/open gates"
     },
     {
       "role": "wiki",
-      "next": "separate exact remaining attribution/review gaps"
+      "id": "jump-attribution",
+      "threadId": "01a1218b-99e7-7712-b241-b9a97a6eaf76",
+      "state": "active",
+      "next": "exact Jumping revision attribution"
     },
     {
       "role": "mcpk",
-      "next": "separate remaining r5 dependency queue"
+      "id": "Y256-initiation",
+      "threadId": "01a1218b-aba4-7523-b874-24c0a56c9456",
+      "state": "active",
+      "next": "upstream producer causal trace"
+    }
+  ],
+  "queue": [
+    {
+      "role": "source-review",
+      "id": "1.21.11--26.1.2/F-2",
+      "next": "independent snapshot review after F-3; no pair freeze"
     }
   ],
   "metrics": {
     "acceptedUnits": 0,
     "revisions": 0,
     "retries": 2,
-    "launches": 5
+    "launches": 10,
+    "routingIncidents": 1,
+    "launchRetries": 0,
+    "pendingNoCodeDispositions": 2
   },
   "workflowIntegrated": true,
   "resume": "workflows/orchestration-2026-10-08/RESUME-2026-10-08.md",
