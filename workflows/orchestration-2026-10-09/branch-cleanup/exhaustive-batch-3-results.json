@@ -1,0 +1,32 @@
+[
+  {
+    "branch": "fix/pane-neighbor-providers-next-2026-10-09",
+    "head": "f6be0910fd0e4f7ed16fe2a146545f87fe1d2f68",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/pane-neighbor-providers-next-2026-10-09",
+    "worktrees": [
+      "C:/Users/Wolfi/.codex/worktrees/pane-providers-next-2026-10-09/LegacyParkourCompat"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/review-pane-neighbor-providers-2026-10-09",
+    "head": "a3d8ff0d3825df3d366c2cd1b0cc37e3ecb94429",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/review-pane-neighbor-providers-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-pane-neighbor-providers-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/review-pane-provider-continuation-2026-10-09",
+    "head": "881ae841a2c94d3df5d14840f69205afbb267993",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/review-pane-provider-continuation-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-pane-provider-continuation-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  }
+]

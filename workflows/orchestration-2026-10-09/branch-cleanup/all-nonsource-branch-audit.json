@@ -1,0 +1,3258 @@
+{
+  "schemaVersion": "1.0",
+  "auditDate": "2026-10-09",
+  "auditMainFullHead": "1c47245c0b7bd3ba20ef2d9464855519f4b56419",
+  "snapshotSource": "audit-raw.json captured before coordinator archival; branch HEADs, merge-base counts, changed paths, path blob identity and attachment status are snapshot facts, not refreshed refs.",
+  "scope": "All captured non-source branch refs; source discovery/source-#### branches excluded except separately reconciled movement-discovery-1-11 exception.",
+  "exclusions": [
+    "main",
+    "fix/campaign-coordinator-2026-10-09",
+    "fix/branch-retirement-audit-2026-10-09",
+    "feat/source* and feat/movement-discovery* source-discovery/source-#### refs except explicit movement-discovery-1-11 reconciliation"
+  ],
+  "counts": {
+    "capturedNonSourceRefs": 46,
+    "completedOrSupersededRetired": [
+      43
+    ],
+    "retainedActiveOrAudit": [
+      3
+    ],
+    "separatelyIncludedSourceException": 1
+  },
+  "branchManifest": [
+    {
+      "branch": "feat/review-f009-coordinate-scope-r2-2026-10-09",
+      "fullHead": "9ed69387b21f384ab800fec335e6a59b422ee027",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/feat/review-f009-coordinate-scope-r2-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "0b2c91f8ad29a8f765564650f6ce872b05fcb689",
+      "aheadOfMergeBase": 18,
+      "auditMainAheadOfMergeBase": 2126,
+      "attachedWorktrees": [
+        {
+          "head": "9ed69387b21f384ab800fec335e6a59b422ee027",
+          "statusExit": 0,
+          "path": "C:/Users/Wolfi/.codex/worktrees/review-f009-coordinate-scope-r2/LegacyParkourCompat",
+          "branch": "feat/review-f009-coordinate-scope-r2-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "C:/Users/Wolfi/.codex/worktrees/review-f009-coordinate-scope-r2/LegacyParkourCompat",
+          "branch": "feat/review-f009-coordinate-scope-r2-2026-10-09",
+          "head": "9ed69387b21f384ab800fec335e6a59b422ee027",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 4,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.19.2--1.19.3/findings/F-008-rejected-move-fall-state-refresh.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.19.2--1.19.3/findings/F-009-player-correction-coordinate-clamp.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.19.2--1.19.3/run.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/reviews/F-009-player-correction-coordinate-clamp-revision-review-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/source-campaign-2026-10-07/1.19.2--1.19.3/findings/F-008-rejected-move-fall-state-refresh.md",
+        "workflows/source-campaign-2026-10-07/1.19.2--1.19.3/run.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "feat/review-f009-player-coordinate-clamp-2026-10-09",
+      "fullHead": "f539b65862249af400c4ff15553323f864ddd3cf",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/feat/review-f009-player-coordinate-clamp-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "0b2c91f8ad29a8f765564650f6ce872b05fcb689",
+      "aheadOfMergeBase": 12,
+      "auditMainAheadOfMergeBase": 2126,
+      "attachedWorktrees": [
+        {
+          "head": "f539b65862249af400c4ff15553323f864ddd3cf",
+          "statusExit": 0,
+          "path": "C:/Users/Wolfi/.codex/worktrees/review-f009-player-coordinate-clamp/LegacyParkourCompat",
+          "branch": "feat/review-f009-player-coordinate-clamp-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "C:/Users/Wolfi/.codex/worktrees/review-f009-player-coordinate-clamp/LegacyParkourCompat",
+          "branch": "feat/review-f009-player-coordinate-clamp-2026-10-09",
+          "head": "f539b65862249af400c4ff15553323f864ddd3cf",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 4,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.19.2--1.19.3/findings/F-008-rejected-move-fall-state-refresh.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.19.2--1.19.3/findings/F-009-player-correction-coordinate-clamp.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.19.2--1.19.3/run.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/reviews/F-009-player-correction-coordinate-clamp-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/source-campaign-2026-10-07/1.19.2--1.19.3/findings/F-008-rejected-move-fall-state-refresh.md",
+        "workflows/source-campaign-2026-10-07/1.19.2--1.19.3/findings/F-009-player-correction-coordinate-clamp.md",
+        "workflows/source-campaign-2026-10-07/1.19.2--1.19.3/run.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/campaign-closure-audit-2026-10-09",
+      "fullHead": "b9d225b96fdc17557f732fdaa2e742e3e0bbcc0c",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/campaign-closure-audit-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "be97698305315c5ac7c7a3c2dbdab2bf436a9881",
+      "aheadOfMergeBase": 1,
+      "auditMainAheadOfMergeBase": 28,
+      "attachedWorktrees": [],
+      "initialStatusEvidence": [],
+      "changedPathCount": 2,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/fix-implementation/runs/F007-position-packet-integration-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/integration.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/orchestration-2026-10-09/integration.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/campaign-closure-audit-isolated-2026-10-09",
+      "fullHead": "02a0d9b38d5340899f024c6aa1b7bdc679f1d0d5",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/campaign-closure-audit-isolated-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "be97698305315c5ac7c7a3c2dbdab2bf436a9881",
+      "aheadOfMergeBase": 1,
+      "auditMainAheadOfMergeBase": 28,
+      "attachedWorktrees": [
+        {
+          "head": "02a0d9b38d5340899f024c6aa1b7bdc679f1d0d5",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/campaign-closure-audit-isolated-2026-10-09",
+          "branch": "fix/campaign-closure-audit-isolated-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/campaign-closure-audit-isolated-2026-10-09",
+          "branch": "fix/campaign-closure-audit-isolated-2026-10-09",
+          "head": "02a0d9b38d5340899f024c6aa1b7bdc679f1d0d5",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 1,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/orchestration-2026-10-09/closure-audit-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/campaign-closure-audit-report-2026-10-09",
+      "fullHead": "9caadb868f95e8e76569ac309151c9c89ff98630",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/campaign-closure-audit-report-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "be97698305315c5ac7c7a3c2dbdab2bf436a9881",
+      "aheadOfMergeBase": 2,
+      "auditMainAheadOfMergeBase": 28,
+      "attachedWorktrees": [],
+      "initialStatusEvidence": [],
+      "changedPathCount": 13,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/fix-implementation/runs/F007-position-packet-integration-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/fix-implementation/runs/F012-sprint-air-control-integration-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/closure-audit-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/integration.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-boundary-reviews/2026-10-09-eye-height-threshold-correction-review.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-boundary-reviews/2026-10-09-eye-height-threshold-correction.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.12.2--1.13.2/run.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.21.11--26.1.2/run.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/boundary-memos/sprint-air-speed-early-release-boundary-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/reviews/independent-review-sprint-air-speed-early-release-boundary-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/fluid-current-player-impulse-1.13.2-r3-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/fluid-current-player-impulse-1.13.2-r3-binding-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/independent-review-fluid-current-player-impulse-1.13.2-r3-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/orchestration-2026-10-09/integration.md",
+        "workflows/source-campaign-2026-10-07/1.21.11--26.1.2/run.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/campaign-docs-integration-2026-10-09",
+      "fullHead": "0105d624e0131eff5f316a5f696880cebdf34b6e",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/campaign-docs-integration-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "fc6424e92ea5999b76b62e517b97c7dfc752a3c9",
+      "aheadOfMergeBase": 4,
+      "auditMainAheadOfMergeBase": 153,
+      "attachedWorktrees": [],
+      "initialStatusEvidence": [],
+      "changedPathCount": 2,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/orchestration-2026-10-09/integration.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/preparations/readiness-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/orchestration-2026-10-09/integration.md",
+        "workflows/source-campaign-2026-10-07/preparations/readiness-2026-10-09.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/campaign-status-2026-10-09",
+      "fullHead": "23c098bfa4e025fd7c1b80e9e4efe7c1b463b47b",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/campaign-status-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "3467cc398a89bb86bfafa6eedb315e0a29e040de",
+      "aheadOfMergeBase": 7,
+      "auditMainAheadOfMergeBase": 93,
+      "attachedWorktrees": [
+        {
+          "head": "23c098bfa4e025fd7c1b80e9e4efe7c1b463b47b",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/campaign-status-2026-10-09",
+          "branch": "fix/campaign-status-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/campaign-status-2026-10-09",
+          "branch": "fix/campaign-status-2026-10-09",
+          "head": "23c098bfa4e025fd7c1b80e9e4efe7c1b463b47b",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 2,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/orchestration-2026-10-09/status-snapshot-2026-10-09.json",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/status-snapshot-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/fluid-current-player-impulse-r3-2026-10-09",
+      "fullHead": "5dd9db435a2c79cad6be75dd37c8e92ac572ea98",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/fluid-current-player-impulse-r3-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "242d67da6c9dbc3b6fa352a458839a987b70f4cc",
+      "aheadOfMergeBase": 21,
+      "auditMainAheadOfMergeBase": 81,
+      "attachedWorktrees": [
+        {
+          "head": "5dd9db435a2c79cad6be75dd37c8e92ac572ea98",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/fluid-current-player-impulse-r3-2026-10-09",
+          "branch": "fix/fluid-current-player-impulse-r3-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/fluid-current-player-impulse-r3-2026-10-09",
+          "branch": "fix/fluid-current-player-impulse-r3-2026-10-09",
+          "head": "5dd9db435a2c79cad6be75dd37c8e92ac572ea98",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 11,
+      "changedPathEvidence": [
+        {
+          "path": "RESUME-current-flow-r3.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/fluid-current-player-impulse-1.13.2-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/fluid-current-player-impulse-1.13.2-r2-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/fluid-current-player-impulse-1.13.2-r2-binding-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/fluid-current-player-impulse-1.13.2-r3-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/fluid-current-player-impulse-1.13.2-r3-binding-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/incident-1.13.2-mapped-jar-manifest-mismatch-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.12.2-1.13.2-introduction-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.15-1.16-cutover-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/mcpk-checkpoint.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "superseded-wiki-metadata-difference-preserved-in-archive"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/mcpk-full-catalog-2026-10-08.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "superseded-wiki-metadata-difference-preserved-in-archive"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "RESUME-current-flow-r3.md",
+        "workflows/source-campaign-2026-10-07/source-memos/incident-1.13.2-mapped-jar-manifest-mismatch-2026-10-09.md",
+        "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.12.2-1.13.2-introduction-2026-10-09.md",
+        "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.15-1.16-cutover-2026-10-09.md",
+        "workflows/wiki-audit-2026-10-07/mcpk-checkpoint.md",
+        "workflows/wiki-audit-2026-10-07/mcpk-full-catalog-2026-10-08.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/mcpk-current-flow-review-2026-10-09",
+      "fullHead": "9bc84d4ea8f33e7490ee09ba5e6d3d5d368481de",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/mcpk-current-flow-review-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "fcd113c3fafcfde91d5cb5c8308b77292c601f9d",
+      "aheadOfMergeBase": 17,
+      "auditMainAheadOfMergeBase": 92,
+      "attachedWorktrees": [],
+      "initialStatusEvidence": [],
+      "changedPathCount": 7,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/fluid-current-player-impulse-1.13.2-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/incident-1.13.2-mapped-jar-manifest-mismatch-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.12.2-1.13.2-introduction-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.15-1.16-cutover-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/mcpk-checkpoint.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "superseded-wiki-metadata-difference-preserved-in-archive"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/mcpk-full-catalog-2026-10-08.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "superseded-wiki-metadata-difference-preserved-in-archive"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/mcpk-current-flow-review-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/source-campaign-2026-10-07/source-memos/incident-1.13.2-mapped-jar-manifest-mismatch-2026-10-09.md",
+        "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.12.2-1.13.2-introduction-2026-10-09.md",
+        "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.15-1.16-cutover-2026-10-09.md",
+        "workflows/wiki-audit-2026-10-07/mcpk-checkpoint.md",
+        "workflows/wiki-audit-2026-10-07/mcpk-full-catalog-2026-10-08.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/mcpk-water-exit-2026-10-09",
+      "fullHead": "5ede13dafa339e9c6c482c63ff711b19ac6e74e9",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/mcpk-water-exit-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "242d67da6c9dbc3b6fa352a458839a987b70f4cc",
+      "aheadOfMergeBase": 18,
+      "auditMainAheadOfMergeBase": 81,
+      "attachedWorktrees": [
+        {
+          "head": "5ede13dafa339e9c6c482c63ff711b19ac6e74e9",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/mcpk-water-exit-2026-10-09",
+          "branch": "fix/mcpk-water-exit-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/mcpk-water-exit-2026-10-09",
+          "branch": "fix/mcpk-water-exit-2026-10-09",
+          "head": "5ede13dafa339e9c6c482c63ff711b19ac6e74e9",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 8,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/fluid-current-player-impulse-1.13.2-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/fluid-current-player-impulse-1.13.2-r2-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/fluid-current-player-impulse-1.13.2-r2-binding-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/incident-1.13.2-mapped-jar-manifest-mismatch-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.12.2-1.13.2-introduction-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.15-1.16-cutover-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/mcpk-checkpoint.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "superseded-wiki-metadata-difference-preserved-in-archive"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/mcpk-full-catalog-2026-10-08.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "superseded-wiki-metadata-difference-preserved-in-archive"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/source-campaign-2026-10-07/source-memos/incident-1.13.2-mapped-jar-manifest-mismatch-2026-10-09.md",
+        "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.12.2-1.13.2-introduction-2026-10-09.md",
+        "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.15-1.16-cutover-2026-10-09.md",
+        "workflows/wiki-audit-2026-10-07/mcpk-checkpoint.md",
+        "workflows/wiki-audit-2026-10-07/mcpk-full-catalog-2026-10-08.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/mounted-player-lava-box",
+      "fullHead": "5dd87bfd953a719af27005ba775b836b5655e1e7",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/mounted-player-lava-box",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "a7be5f77e7ae47a4d5cd74a24bf4019b56895308",
+      "aheadOfMergeBase": 8,
+      "auditMainAheadOfMergeBase": 20,
+      "attachedWorktrees": [
+        {
+          "head": "5dd87bfd953a719af27005ba775b836b5655e1e7",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/mounted-player-lava-box",
+          "branch": "fix/mounted-player-lava-box",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/mounted-player-lava-box",
+          "branch": "fix/mounted-player-lava-box",
+          "head": "5dd87bfd953a719af27005ba775b836b5655e1e7",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 12,
+      "changedPathEvidence": [
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/change/MovementChangeCatalog.java",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "code-difference-preserved-in-archived-history"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_11/MountedBoatWaterInteraction.java",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "code-blob-identical-on-main"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_11/MountedFluidInteractionBox.java",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "code-blob-identical-on-main"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/mechanic/hook/FluidInteractionBoxBehavior.java",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "code-blob-identical-on-main"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/mechanic/hook/FluidInteractionFluidBehavior.java",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "code-blob-identical-on-main"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/mixin/EntityFluidInteractionMixin.java",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "code-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/fix-implementation/boundaries/F-4-mounted-player-lava-box-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/fix-implementation/boundaries/F-4-mounted-player-lava-box-boundary-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/fix-implementation/boundaries/F-4-mounted-player-lava-box-boundary-r2-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/fix-implementation/boundaries/F-4-mounted-player-lava-box-source-review-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/fix-implementation/runs/F4-mounted-player-lava-box-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/fix-implementation/runs/F4-mounted-player-lava-box-code-review-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/pane-neighbor-providers-next-2026-10-09",
+      "fullHead": "f6be0910fd0e4f7ed16fe2a146545f87fe1d2f68",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/pane-neighbor-providers-next-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "cb11257e593987c68be98a7dbda8bbea7d5e77fd",
+      "aheadOfMergeBase": 6,
+      "auditMainAheadOfMergeBase": 126,
+      "attachedWorktrees": [
+        {
+          "head": "f6be0910fd0e4f7ed16fe2a146545f87fe1d2f68",
+          "statusExit": 0,
+          "path": "C:/Users/Wolfi/.codex/worktrees/pane-providers-next-2026-10-09/LegacyParkourCompat",
+          "branch": "fix/pane-neighbor-providers-next-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "C:/Users/Wolfi/.codex/worktrees/pane-providers-next-2026-10-09/LegacyParkourCompat",
+          "branch": "fix/pane-neighbor-providers-next-2026-10-09",
+          "head": "f6be0910fd0e4f7ed16fe2a146545f87fe1d2f68",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 4,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/wiki-audit-2026-10-07/CHECKPOINT.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "superseded-wiki-metadata-difference-preserved-in-archive"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/minecraft-wiki.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "superseded-wiki-metadata-difference-preserved-in-archive"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-next.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/wiki-audit-2026-10-07/CHECKPOINT.md",
+        "workflows/wiki-audit-2026-10-07/minecraft-wiki.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/pane-neighbor-providers-third-2026-10-09",
+      "fullHead": "34d10c966998db9adfbb3b3745f15eebac96daa5",
+      "disposition": "active-unfinished",
+      "archiveRef": null,
+      "reconciliationState": "retained-at-audit-snapshot",
+      "snapshotMergeBase": "cb11257e593987c68be98a7dbda8bbea7d5e77fd",
+      "aheadOfMergeBase": 55,
+      "auditMainAheadOfMergeBase": 126,
+      "attachedWorktrees": [
+        {
+          "head": "34d10c966998db9adfbb3b3745f15eebac96daa5",
+          "statusExit": 0,
+          "path": "C:/Users/Wolfi/.codex/worktrees/pane-providers-third-2026-10-09/LegacyParkourCompat",
+          "branch": "fix/pane-neighbor-providers-third-2026-10-09",
+          "status": " M workflows/wiki-audit-2026-10-07/CHECKPOINT.md ?? workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-fortieth.md"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "C:/Users/Wolfi/.codex/worktrees/pane-providers-third-2026-10-09/LegacyParkourCompat",
+          "branch": "fix/pane-neighbor-providers-third-2026-10-09",
+          "head": "34d10c966998db9adfbb3b3745f15eebac96daa5",
+          "status": " M workflows/wiki-audit-2026-10-07/CHECKPOINT.md ?? workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-fortieth.md",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 44,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/wiki-audit-2026-10-07/CHECKPOINT.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "novel-pending-edit-or-active-worktree-content"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/minecraft-wiki.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "novel-pending-edit-or-active-worktree-content"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-eighteenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-eighth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-eleventh.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-fifteenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-fifth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-fourteenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-fourth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-next.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-nineteenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-ninth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-seventeenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-seventh.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-sixteenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-sixth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-tenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-third.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirteenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirtieth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirty-eighth.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "novel-pending-edit-or-active-worktree-content"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirty-fifth-base-identity-erratum.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirty-fifth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirty-first.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirty-fourth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirty-ninth.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "novel-pending-edit-or-active-worktree-content"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirty-second.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirty-seventh.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "novel-pending-edit-or-active-worktree-content"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirty-sixth.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "novel-pending-edit-or-active-worktree-content"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirty-third.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twelfth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twentieth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-eighth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-fifth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-first.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-fourth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-ninth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-second.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-seventh.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-sixth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-third.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-provider-checkpoint-index-recovery-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "novel-pending-edit-or-active-worktree-content"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-thirty-fifth-base-identity-erratum-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/wiki-audit-2026-10-07/CHECKPOINT.md",
+        "workflows/wiki-audit-2026-10-07/minecraft-wiki.md",
+        "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirty-eighth.md",
+        "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirty-ninth.md",
+        "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirty-seventh.md",
+        "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirty-sixth.md",
+        "workflows/wiki-audit-2026-10-07/pane-provider-checkpoint-index-recovery-2026-10-09.md"
+      ],
+      "dispositionEvidence": "Attached author worktree had modified CHECKPOINT.md and untracked pane-neighbor-providers-2026-10-09-fortieth.md at snapshot.",
+      "nextAction": "Preserve the modified checkpoint and untracked fortieth report; pane author continues the assigned pane-provider work."
+    },
+    {
+      "branch": "fix/pane-reviews-17-24-2026-10-09",
+      "fullHead": "87b87e13dd920161f6a1a1353d8aee5ead6bb26e",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/pane-reviews-17-24-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "cb11257e593987c68be98a7dbda8bbea7d5e77fd",
+      "aheadOfMergeBase": 48,
+      "auditMainAheadOfMergeBase": 126,
+      "attachedWorktrees": [
+        {
+          "head": "87b87e13dd920161f6a1a1353d8aee5ead6bb26e",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/pane-reviews-17-24-2026-10-09",
+          "branch": "fix/pane-reviews-17-24-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/pane-reviews-17-24-2026-10-09",
+          "branch": "fix/pane-reviews-17-24-2026-10-09",
+          "head": "87b87e13dd920161f6a1a1353d8aee5ead6bb26e",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 45,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/wiki-audit-2026-10-07/CHECKPOINT.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "superseded-wiki-metadata-difference-preserved-in-archive"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/minecraft-wiki.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "superseded-wiki-metadata-difference-preserved-in-archive"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-eighteenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-eighth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-eleventh.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-fifteenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-fifth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-fourteenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-fourth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-next.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-nineteenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-ninth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-seventeenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-seventh.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-sixteenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-sixth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-tenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-third.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirteenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirtieth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirty-first.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirty-second.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twelfth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twentieth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-eighth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-fifth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-first.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-fourth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-ninth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-second.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-seventh.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-sixth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-third-r2-citation-erratum.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-third.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-review-2026-10-09-checkpoints.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-review-2026-10-09-eighteenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-review-2026-10-09-nineteenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-review-2026-10-09-seventeenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-review-2026-10-09-twentieth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-review-2026-10-09-twenty-first.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-review-2026-10-09-twenty-fourth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-review-2026-10-09-twenty-second.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-review-2026-10-09-twenty-third-erratum.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-review-2026-10-09-twenty-third.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/wiki-audit-2026-10-07/CHECKPOINT.md",
+        "workflows/wiki-audit-2026-10-07/minecraft-wiki.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/passenger-recovery-retirement-2026-10-09",
+      "fullHead": "e3b192ff8f1c21c58383ca5ada5f3944f3f0899a",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/passenger-recovery-retirement-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "484e518b0e2f30b96f71a69b1dd6a410179ee0ff",
+      "aheadOfMergeBase": 8,
+      "auditMainAheadOfMergeBase": 4,
+      "attachedWorktrees": [
+        {
+          "head": "e3b192ff8f1c21c58383ca5ada5f3944f3f0899a",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/passenger-recovery-retirement-2026-10-09",
+          "branch": "fix/passenger-recovery-retirement-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/passenger-recovery-retirement-2026-10-09",
+          "branch": "fix/passenger-recovery-retirement-2026-10-09",
+          "head": "e3b192ff8f1c21c58383ca5ada5f3944f3f0899a",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 19,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/.gitattributes",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/c6-changed-paths-vs-current-main.tsv",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/c6-path-blob-bindings-main-484e.tsv",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/c6-path-blob-bindings.tsv",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-files-after.sha256.tsv",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-files-before.info.txt",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-files-before.sha256.tsv",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-index-vs-head.name-status.txt",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-index-vs-main.name-status.txt",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-index.bin",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-lfs-status.txt",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-path-dispositions-vs-head-and-main.tsv",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-staged-paths.name-status.txt",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-staged.patch",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-status.porcelain-v2.txt",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-unstaged-paths.name-status.txt",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-unstaged.patch",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/orchestration-2026-10-09/branch-cleanup/passenger-yaw-closure.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/.gitattributes",
+        "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/c6-changed-paths-vs-current-main.tsv",
+        "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/c6-path-blob-bindings-main-484e.tsv",
+        "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/c6-path-blob-bindings.tsv",
+        "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-files-after.sha256.tsv",
+        "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-files-before.info.txt",
+        "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-files-before.sha256.tsv",
+        "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-index-vs-head.name-status.txt",
+        "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-index-vs-main.name-status.txt",
+        "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-index.bin",
+        "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-lfs-status.txt",
+        "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-path-dispositions-vs-head-and-main.tsv",
+        "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-staged-paths.name-status.txt",
+        "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-staged.patch",
+        "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-status.porcelain-v2.txt",
+        "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-unstaged-paths.name-status.txt",
+        "workflows/orchestration-2026-10-09/branch-cleanup/passenger-recovery-retirement-evidence/duplicate-unstaged.patch",
+        "workflows/orchestration-2026-10-09/branch-cleanup/passenger-yaw-closure.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/reconcile-sprint-collision-2026-10-09",
+      "fullHead": "936bc7213916335962f638d53263280fbf061e29",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/reconcile-sprint-collision-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "cb11257e593987c68be98a7dbda8bbea7d5e77fd",
+      "aheadOfMergeBase": 1,
+      "auditMainAheadOfMergeBase": 126,
+      "attachedWorktrees": [
+        {
+          "head": "936bc7213916335962f638d53263280fbf061e29",
+          "statusExit": 0,
+          "path": "C:/Users/Wolfi/.codex/worktrees/dcfd/LegacyParkourCompat",
+          "branch": "fix/reconcile-sprint-collision-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "C:/Users/Wolfi/.codex/worktrees/dcfd/LegacyParkourCompat",
+          "branch": "fix/reconcile-sprint-collision-2026-10-09",
+          "head": "936bc7213916335962f638d53263280fbf061e29",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 1,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/fix-implementation/reconciliations/F001-sprint-collision-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/retire-completed-recovery-audits-2026-10-09",
+      "fullHead": "8dfbbc4bc98ddee33fa11a7cdc34b47d5fa4f2a6",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/retire-completed-recovery-audits-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "d8cf22dc5a47951ddbfd1358adf742b1a059a3e5",
+      "aheadOfMergeBase": 1,
+      "auditMainAheadOfMergeBase": 11,
+      "attachedWorktrees": [
+        {
+          "head": "8dfbbc4bc98ddee33fa11a7cdc34b47d5fa4f2a6",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/retired-recovery-audits-2026-10-09",
+          "branch": "fix/retire-completed-recovery-audits-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/retired-recovery-audits-2026-10-09",
+          "branch": "fix/retire-completed-recovery-audits-2026-10-09",
+          "head": "8dfbbc4bc98ddee33fa11a7cdc34b47d5fa4f2a6",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 1,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/orchestration-2026-10-09/branch-cleanup/completed-recovery-audits.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/review-1171-1182-boundaries-2026-10-09",
+      "fullHead": "163ea4881b327a9316a266601705463784566e2c",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/review-1171-1182-boundaries-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "64d8bc740de0860a43ecc691db0efbdcaef7c19b",
+      "aheadOfMergeBase": 1,
+      "auditMainAheadOfMergeBase": 1970,
+      "attachedWorktrees": [
+        {
+          "head": "163ea4881b327a9316a266601705463784566e2c",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-1171-1182-boundaries-2026-10-09",
+          "branch": "fix/review-1171-1182-boundaries-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-1171-1182-boundaries-2026-10-09",
+          "branch": "fix/review-1171-1182-boundaries-2026-10-09",
+          "head": "163ea4881b327a9316a266601705463784566e2c",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 1,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/source-boundary-reviews/2026-10-09-1171-1182-boundaries-independent-review.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/review-F3-r2-technical-2026-10-09",
+      "fullHead": "8713e3447ba3d412f3ed56c551eb1129c8271bc7",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/review-F3-r2-technical-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "6e18e3009f016ff64ac025b5f51b53379150de2c",
+      "aheadOfMergeBase": 3,
+      "auditMainAheadOfMergeBase": 106,
+      "attachedWorktrees": [
+        {
+          "head": "8713e3447ba3d412f3ed56c551eb1129c8271bc7",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-F3-r2-technical-2026-10-09",
+          "branch": "fix/review-F3-r2-technical-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-F3-r2-technical-2026-10-09",
+          "branch": "fix/review-F3-r2-technical-2026-10-09",
+          "head": "8713e3447ba3d412f3ed56c551eb1129c8271bc7",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 9,
+      "changedPathEvidence": [
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/change/MovementChangeCatalog.java",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "code-difference-preserved-in-archived-history"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_11/ShallowLavaCurrentCutoff.java",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "code-blob-identical-on-main"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/mechanic/hook/ShallowLavaCurrentCutoffBehavior.java",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "code-blob-identical-on-main"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/mixin/EntityFluidCurrentMixin.java",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "code-blob-identical-on-main"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/mixin/EntityMixin.java",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "code-difference-preserved-in-archived-history"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/mixin/FluidCurrentCutoffContext.java",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "code-blob-identical-on-main"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/mixin/ShallowWaterCurrentContext.java",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "code-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/fix-implementation/reconciliations/F3-nether-lava-shallow-overlap-r2-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/implementation-reviews/2026-10-09-F3-r2-technical-review.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/review-clean-input-2026-10-09",
+      "fullHead": "d7b932a2f57285a52fbf3c96a89d4b7173fe22ea",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/review-clean-input-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "1d027c706dd22fd6df2fe14deaf3a02695d6094e",
+      "aheadOfMergeBase": 3,
+      "auditMainAheadOfMergeBase": 1954,
+      "attachedWorktrees": [
+        {
+          "head": "d7b932a2f57285a52fbf3c96a89d4b7173fe22ea",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-clean-input-2026-10-09",
+          "branch": "fix/review-clean-input-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-clean-input-2026-10-09",
+          "branch": "fix/review-clean-input-2026-10-09",
+          "head": "d7b932a2f57285a52fbf3c96a89d4b7173fe22ea",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 3,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/source-boundary-reviews/2026-10-09-fresh-d7-correction-1214-1215-review.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-boundary-reviews/2026-10-09-fresh-input-1214-1215-review.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-boundary-reviews/2026-10-09-fresh-input-application-1214-1215-review.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/review-endpoint-reconciliation-2026-10-09",
+      "fullHead": "0f30150627fe97d3d9a6ba60f9040574e05d6c85",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/review-endpoint-reconciliation-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "cb11257e593987c68be98a7dbda8bbea7d5e77fd",
+      "aheadOfMergeBase": 4,
+      "auditMainAheadOfMergeBase": 126,
+      "attachedWorktrees": [
+        {
+          "head": "0f30150627fe97d3d9a6ba60f9040574e05d6c85",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-endpoint-reconciliation-2026-10-09",
+          "branch": "fix/review-endpoint-reconciliation-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-endpoint-reconciliation-2026-10-09",
+          "branch": "fix/review-endpoint-reconciliation-2026-10-09",
+          "head": "0f30150627fe97d3d9a6ba60f9040574e05d6c85",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 2,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/implementation-reviews/2026-10-09-F001-final-no-code-review.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/implementation-reviews/2026-10-09-F002-final-no-code-review.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/review-eye-state-fluid-2026-10-09",
+      "fullHead": "86a47f1784d57c6374a8ca28c401e29a4b9a4bec",
+      "disposition": "completed-bounded-review",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/review-eye-state-fluid-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "ea6ca59bd217e9ad36ede00122a6952be914839b",
+      "aheadOfMergeBase": 7,
+      "auditMainAheadOfMergeBase": 1931,
+      "attachedWorktrees": [],
+      "initialStatusEvidence": [],
+      "changedPathCount": 3,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/source-boundary-reviews/2026-10-09-eye-fluid-checkpoint-review.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.21.11--26.1.2/findings/F-3-nether-lava-shallow-overlap-r2-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.21.11--26.1.2/run.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/source-boundary-reviews/2026-10-09-eye-fluid-checkpoint-review.md",
+        "workflows/source-campaign-2026-10-07/1.21.11--26.1.2/run.md"
+      ],
+      "dispositionEvidence": "Coordinator reports original reviewer confirmed bounded assignment complete; old broad continuation was superseded by canonical owner.",
+      "nextAction": "No continuation on this ref. Corrected float memo/provider follow-ups were accepted; broader inventory belongs to the canonical source owner."
+    },
+    {
+      "branch": "fix/review-eyeheight-correction-hold-2026-10-09",
+      "fullHead": "bd546e7cc522c5a3ea26c03918069c800a35c049",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/review-eyeheight-correction-hold-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "ea6ca59bd217e9ad36ede00122a6952be914839b",
+      "aheadOfMergeBase": 21,
+      "auditMainAheadOfMergeBase": 1931,
+      "attachedWorktrees": [
+        {
+          "head": "bd546e7cc522c5a3ea26c03918069c800a35c049",
+          "statusExit": 0,
+          "path": "C:/Users/Wolfi/.codex/worktrees/2442/LegacyParkourCompat",
+          "branch": "fix/review-eyeheight-correction-hold-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "C:/Users/Wolfi/.codex/worktrees/2442/LegacyParkourCompat",
+          "branch": "fix/review-eyeheight-correction-hold-2026-10-09",
+          "head": "bd546e7cc522c5a3ea26c03918069c800a35c049",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 6,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/source-boundary-reviews/2026-10-09-eye-height-threshold-correction-review.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-boundary-reviews/2026-10-09-eyeheight-correction-hold.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-boundary-reviews/2026-10-09-standing-player-eyeheight-provider-verification.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.21.11--26.1.2/findings/F-3-nether-lava-shallow-overlap-r2-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.21.11--26.1.2/findings/F-4-mounted-player-lava-box.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.21.11--26.1.2/run.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/source-boundary-reviews/2026-10-09-eyeheight-correction-hold.md",
+        "workflows/source-campaign-2026-10-07/1.21.11--26.1.2/run.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/review-f007-source-boundary-2026-10-09",
+      "fullHead": "1e5add13b0aff167f85ccaf340f463a61d15029f",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/review-f007-source-boundary-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "df418e06b957399aa4c31eaf69d38422146ac296",
+      "aheadOfMergeBase": 1,
+      "auditMainAheadOfMergeBase": 1971,
+      "attachedWorktrees": [
+        {
+          "head": "1e5add13b0aff167f85ccaf340f463a61d15029f",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-f007-source-boundary-2026-10-09",
+          "branch": "fix/review-f007-source-boundary-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-f007-source-boundary-2026-10-09",
+          "branch": "fix/review-f007-source-boundary-2026-10-09",
+          "head": "1e5add13b0aff167f85ccaf340f463a61d15029f",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 1,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/source-boundary-reviews/F007-position-packet-threshold-review-binding-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/review-f09-input-scaling-2026-10-09",
+      "fullHead": "dc2b29c81c1fd57941d8ed4a27d1583b1b039b4e",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/review-f09-input-scaling-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "1d027c706dd22fd6df2fe14deaf3a02695d6094e",
+      "aheadOfMergeBase": 5,
+      "auditMainAheadOfMergeBase": 1954,
+      "attachedWorktrees": [],
+      "initialStatusEvidence": [],
+      "changedPathCount": 2,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/source-boundary-reviews/2026-10-09-f09-controlled-camera-input-damping-review.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/run.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/run.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/review-f21-scale-attribute-2026-10-09",
+      "fullHead": "c58c407041ad2e03235391a2b4cb7b56f040a543",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/review-f21-scale-attribute-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "1d027c706dd22fd6df2fe14deaf3a02695d6094e",
+      "aheadOfMergeBase": 52,
+      "auditMainAheadOfMergeBase": 1954,
+      "attachedWorktrees": [
+        {
+          "head": "c58c407041ad2e03235391a2b4cb7b56f040a543",
+          "statusExit": 0,
+          "path": "C:/Users/Wolfi/.codex/worktrees/review-f21-scale-2026-10-09/LegacyParkourCompat",
+          "branch": "fix/review-f21-scale-attribute-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "C:/Users/Wolfi/.codex/worktrees/review-f21-scale-2026-10-09/LegacyParkourCompat",
+          "branch": "fix/review-f21-scale-attribute-2026-10-09",
+          "head": "c58c407041ad2e03235391a2b4cb7b56f040a543",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 9,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/findings/F-04-sprint-stop-gates.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/findings/F-06-fall-flying-climbable-exit.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/findings/F-09-r2-local-player-input-order.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/findings/F-11-powder-snow-wall-jump-state.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/findings/F-19-item-slowdown-sprint-timer-input.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/findings/F-20-underwater-fall-flying-sprint.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/findings/F-21-scale-attribute-dimension-refresh.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/run.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/reviews/independent-review-F-21-scale-attribute-dimension-refresh-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/findings/F-04-sprint-stop-gates.md",
+        "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/findings/F-06-fall-flying-climbable-exit.md",
+        "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/findings/F-09-r2-local-player-input-order.md",
+        "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/findings/F-11-powder-snow-wall-jump-state.md",
+        "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/findings/F-19-item-slowdown-sprint-timer-input.md",
+        "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/findings/F-20-underwater-fall-flying-sprint.md",
+        "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/run.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/review-fluid-checkpoints-2026-10-09",
+      "fullHead": "e2bfaf654561524682cbb4f4906f127f43da2374",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/review-fluid-checkpoints-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "ea6ca59bd217e9ad36ede00122a6952be914839b",
+      "aheadOfMergeBase": 1,
+      "auditMainAheadOfMergeBase": 1931,
+      "attachedWorktrees": [
+        {
+          "head": "e2bfaf654561524682cbb4f4906f127f43da2374",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-fluid-checkpoints-2026-10-09",
+          "branch": "fix/review-fluid-checkpoints-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-fluid-checkpoints-2026-10-09",
+          "branch": "fix/review-fluid-checkpoints-2026-10-09",
+          "head": "e2bfaf654561524682cbb4f4906f127f43da2374",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 1,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/source-boundary-reviews/2026-10-09-12111-2612-fluid-checkpoints-review.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/review-fluid-current-flow-r3-2026-10-09",
+      "fullHead": "6e2c102c49119f758b951dd1f9686b8fcb7bf72d",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/review-fluid-current-flow-r3-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "242d67da6c9dbc3b6fa352a458839a987b70f4cc",
+      "aheadOfMergeBase": 22,
+      "auditMainAheadOfMergeBase": 81,
+      "attachedWorktrees": [
+        {
+          "head": "6e2c102c49119f758b951dd1f9686b8fcb7bf72d",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-fluid-current-flow-r3-2026-10-09",
+          "branch": "fix/review-fluid-current-flow-r3-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-fluid-current-flow-r3-2026-10-09",
+          "branch": "fix/review-fluid-current-flow-r3-2026-10-09",
+          "head": "6e2c102c49119f758b951dd1f9686b8fcb7bf72d",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 12,
+      "changedPathEvidence": [
+        {
+          "path": "RESUME-current-flow-r3.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/fluid-current-player-impulse-1.13.2-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/fluid-current-player-impulse-1.13.2-r2-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/fluid-current-player-impulse-1.13.2-r2-binding-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/fluid-current-player-impulse-1.13.2-r3-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/fluid-current-player-impulse-1.13.2-r3-binding-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/incident-1.13.2-mapped-jar-manifest-mismatch-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/independent-review-fluid-current-player-impulse-1.13.2-r3-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.12.2-1.13.2-introduction-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.15-1.16-cutover-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/mcpk-checkpoint.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "superseded-wiki-metadata-difference-preserved-in-archive"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/mcpk-full-catalog-2026-10-08.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "superseded-wiki-metadata-difference-preserved-in-archive"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "RESUME-current-flow-r3.md",
+        "workflows/source-campaign-2026-10-07/source-memos/incident-1.13.2-mapped-jar-manifest-mismatch-2026-10-09.md",
+        "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.12.2-1.13.2-introduction-2026-10-09.md",
+        "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.15-1.16-cutover-2026-10-09.md",
+        "workflows/wiki-audit-2026-10-07/mcpk-checkpoint.md",
+        "workflows/wiki-audit-2026-10-07/mcpk-full-catalog-2026-10-08.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/review-input-producers-d11-d13-2026-10-09",
+      "fullHead": "9cd04bc12214cbe2f3af0af15da7266ddf0c0a77",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/review-input-producers-d11-d13-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "1d027c706dd22fd6df2fe14deaf3a02695d6094e",
+      "aheadOfMergeBase": 13,
+      "auditMainAheadOfMergeBase": 1954,
+      "attachedWorktrees": [],
+      "initialStatusEvidence": [],
+      "changedPathCount": 2,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/source-boundary-reviews/2026-10-09-d11-d13-keybinding-producer-review.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/run.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/run.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/review-lava-shallow-overlap-r2-2026-10-09",
+      "fullHead": "a76e28419f6b9767eab2e78147883c5459ed60c4",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/review-lava-shallow-overlap-r2-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "ea6ca59bd217e9ad36ede00122a6952be914839b",
+      "aheadOfMergeBase": 4,
+      "auditMainAheadOfMergeBase": 1931,
+      "attachedWorktrees": [],
+      "initialStatusEvidence": [],
+      "changedPathCount": 3,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/source-boundary-reviews/2026-10-09-lava-shallow-overlap-r2-review.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.21.11--26.1.2/findings/F-3-nether-lava-shallow-overlap-r2-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.21.11--26.1.2/run.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/source-campaign-2026-10-07/1.21.11--26.1.2/run.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/review-mcpk-current-flow-r2-2026-10-09",
+      "fullHead": "cc8d9585737e4a4d0e5f1af3a1837c0b24bd8544",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/review-mcpk-current-flow-r2-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "242d67da6c9dbc3b6fa352a458839a987b70f4cc",
+      "aheadOfMergeBase": 19,
+      "auditMainAheadOfMergeBase": 81,
+      "attachedWorktrees": [
+        {
+          "head": "cc8d9585737e4a4d0e5f1af3a1837c0b24bd8544",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mcpk-current-flow-r2-2026-10-09",
+          "branch": "fix/review-mcpk-current-flow-r2-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mcpk-current-flow-r2-2026-10-09",
+          "branch": "fix/review-mcpk-current-flow-r2-2026-10-09",
+          "head": "cc8d9585737e4a4d0e5f1af3a1837c0b24bd8544",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 9,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/fluid-current-player-impulse-1.13.2-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/fluid-current-player-impulse-1.13.2-r2-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/fluid-current-player-impulse-1.13.2-r2-binding-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/incident-1.13.2-mapped-jar-manifest-mismatch-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/independent-review-fluid-current-player-impulse-1.13.2-r2-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.12.2-1.13.2-introduction-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.15-1.16-cutover-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/mcpk-checkpoint.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "superseded-wiki-metadata-difference-preserved-in-archive"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/mcpk-full-catalog-2026-10-08.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "superseded-wiki-metadata-difference-preserved-in-archive"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/source-campaign-2026-10-07/source-memos/incident-1.13.2-mapped-jar-manifest-mismatch-2026-10-09.md",
+        "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.12.2-1.13.2-introduction-2026-10-09.md",
+        "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.15-1.16-cutover-2026-10-09.md",
+        "workflows/wiki-audit-2026-10-07/mcpk-checkpoint.md",
+        "workflows/wiki-audit-2026-10-07/mcpk-full-catalog-2026-10-08.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/review-mcpk-y256-2026-10-09",
+      "fullHead": "2e47dad5165119de97b940e17eebf0bcad21b3c4",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/review-mcpk-y256-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "ee38e8b1ed658e4b7ea2d128547c7571e3a5f7a2",
+      "aheadOfMergeBase": 1,
+      "auditMainAheadOfMergeBase": 127,
+      "attachedWorktrees": [
+        {
+          "head": "2e47dad5165119de97b940e17eebf0bcad21b3c4",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mcpk-y256-2026-10-09",
+          "branch": "fix/review-mcpk-y256-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mcpk-y256-2026-10-09",
+          "branch": "fix/review-mcpk-y256-2026-10-09",
+          "head": "2e47dad5165119de97b940e17eebf0bcad21b3c4",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 1,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/wiki-audit-2026-10-07/mcpk-y256-producer-review-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/review-pane-neighbor-providers-2026-10-09",
+      "fullHead": "a3d8ff0d3825df3d366c2cd1b0cc37e3ecb94429",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/review-pane-neighbor-providers-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "be97698305315c5ac7c7a3c2dbdab2bf436a9881",
+      "aheadOfMergeBase": 7,
+      "auditMainAheadOfMergeBase": 28,
+      "attachedWorktrees": [
+        {
+          "head": "a3d8ff0d3825df3d366c2cd1b0cc37e3ecb94429",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-pane-neighbor-providers-2026-10-09",
+          "branch": "fix/review-pane-neighbor-providers-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-pane-neighbor-providers-2026-10-09",
+          "branch": "fix/review-pane-neighbor-providers-2026-10-09",
+          "head": "a3d8ff0d3825df3d366c2cd1b0cc37e3ecb94429",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 4,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-2026-10-09-fourth.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "superseded-wiki-metadata-difference-preserved-in-archive"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-2026-10-09-next.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "superseded-wiki-metadata-difference-preserved-in-archive"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-2026-10-09-third.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "superseded-wiki-metadata-difference-preserved-in-archive"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-provider-checkpoint-pointers-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "superseded-wiki-metadata-difference-preserved-in-archive"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-2026-10-09-fourth.md",
+        "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-2026-10-09-next.md",
+        "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-2026-10-09-third.md",
+        "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-provider-checkpoint-pointers-2026-10-09.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/review-pane-neighbor-providers-9-16-2026-10-09",
+      "fullHead": "785823dc0ea08dfe16c17aa15f901813e7cc1a39",
+      "disposition": "active-unfinished",
+      "archiveRef": null,
+      "reconciliationState": "retained-at-audit-snapshot",
+      "snapshotMergeBase": "be97698305315c5ac7c7a3c2dbdab2bf436a9881",
+      "aheadOfMergeBase": 55,
+      "auditMainAheadOfMergeBase": 28,
+      "attachedWorktrees": [
+        {
+          "head": "785823dc0ea08dfe16c17aa15f901813e7cc1a39",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-pane-providers-9-16-2026-10-09",
+          "branch": "fix/review-pane-neighbor-providers-9-16-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-pane-providers-9-16-2026-10-09",
+          "branch": "fix/review-pane-neighbor-providers-9-16-2026-10-09",
+          "head": "785823dc0ea08dfe16c17aa15f901813e7cc1a39",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 50,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/wiki-audit-2026-10-07/CHECKPOINT.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "novel-pending-edit-or-active-worktree-content"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/minecraft-wiki.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "novel-pending-edit-or-active-worktree-content"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-eighteenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-eighth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-eleventh.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-fifteenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-fifth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-fourteenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-fourth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-next.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-nineteenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-ninth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-seventeenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-seventh.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-sixteenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-sixth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-tenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-third.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirteenth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirtieth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirty-first.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-thirty-second.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twelfth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twentieth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-eighth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-fifth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-first.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-fourth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-ninth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-second.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-seventh.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-sixth.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09-twenty-third.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-eleventh-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-fifteenth-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-fourteenth-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-ninth-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-sixteenth-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-tenth-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-third-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-thirteenth-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-thirty-eighth-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "novel-pending-edit-or-active-worktree-content"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-thirty-fifth-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-thirty-fourth-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-thirty-ninth-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "novel-pending-edit-or-active-worktree-content"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-thirty-seventh-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "novel-pending-edit-or-active-worktree-content"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-thirty-sixth-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "novel-pending-edit-or-active-worktree-content"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-thirty-third-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-twelfth-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-provider-checkpoint-metadata-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/wiki-audit-2026-10-07/CHECKPOINT.md",
+        "workflows/wiki-audit-2026-10-07/minecraft-wiki.md",
+        "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-thirty-eighth-2026-10-09.md",
+        "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-thirty-ninth-2026-10-09.md",
+        "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-thirty-seventh-2026-10-09.md",
+        "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-thirty-sixth-2026-10-09.md"
+      ],
+      "dispositionEvidence": "Current bounded review lane, clean attached worktree; latest audited tip includes slice 39.",
+      "nextAction": "Reviewer continues the current 9–16 pane-provider review assignment."
+    },
+    {
+      "branch": "fix/review-pane-provider-continuation-2026-10-09",
+      "fullHead": "881ae841a2c94d3df5d14840f69205afbb267993",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/review-pane-provider-continuation-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "fcd113c3fafcfde91d5cb5c8308b77292c601f9d",
+      "aheadOfMergeBase": 2,
+      "auditMainAheadOfMergeBase": 92,
+      "attachedWorktrees": [
+        {
+          "head": "881ae841a2c94d3df5d14840f69205afbb267993",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-pane-provider-continuation-2026-10-09",
+          "branch": "fix/review-pane-provider-continuation-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-pane-provider-continuation-2026-10-09",
+          "branch": "fix/review-pane-provider-continuation-2026-10-09",
+          "head": "881ae841a2c94d3df5d14840f69205afbb267993",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 4,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-eighth-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-fifth-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-seventh-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-pane-neighbor-providers-sixth-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/review-wiki-attribution-2026-10-09",
+      "fullHead": "6a3339e222765cc61f98efc62234dba138c8483e",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/review-wiki-attribution-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "a2be7717c34b3c41a131b23629504f358d8b1fce",
+      "aheadOfMergeBase": 3,
+      "auditMainAheadOfMergeBase": 131,
+      "attachedWorktrees": [
+        {
+          "head": "6a3339e222765cc61f98efc62234dba138c8483e",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-wiki-attribution-2026-10-09",
+          "branch": "fix/review-wiki-attribution-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-wiki-attribution-2026-10-09",
+          "branch": "fix/review-wiki-attribution-2026-10-09",
+          "head": "6a3339e222765cc61f98efc62234dba138c8483e",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 2,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-jump-attribution-2026-10-09-r2.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/reviews/independent-review-jump-attribution-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/review-world25-chest-clip-2026-10-09",
+      "fullHead": "f4679c8aa68cb5ed1a881cb3a8a96d71db6fc505",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/review-world25-chest-clip-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "690577535f5fe081cc6314485c937af4adc7631c",
+      "aheadOfMergeBase": 2,
+      "auditMainAheadOfMergeBase": 1966,
+      "attachedWorktrees": [
+        {
+          "head": "f4679c8aa68cb5ed1a881cb3a8a96d71db6fc505",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-world25-chest-clip-2026-10-09",
+          "branch": "fix/review-world25-chest-clip-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-world25-chest-clip-2026-10-09",
+          "branch": "fix/review-world25-chest-clip-2026-10-09",
+          "head": "f4679c8aa68cb5ed1a881cb3a8a96d71db6fc505",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 3,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.8.9--1.9.4/findings/WORLD-25-mutable-bound-writers-anvil-chest.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.8.9--1.9.4/reviews/WORLD-25-chest-clip-independent-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/1.8.9--1.9.4/run.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/source-campaign-2026-10-07/1.8.9--1.9.4/run.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/source-boundary-1171-1182-2026-10-09",
+      "fullHead": "14443f43fbcc30152916ac75796846d796cf0268",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/source-boundary-1171-1182-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "64d8bc740de0860a43ecc691db0efbdcaef7c19b",
+      "aheadOfMergeBase": 1,
+      "auditMainAheadOfMergeBase": 1970,
+      "attachedWorktrees": [],
+      "initialStatusEvidence": [],
+      "changedPathCount": 1,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/source-boundary-reviews/1171-1182-F001-F002-boundary-evidence-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/source-boundary-reviews/1171-1182-F001-F002-boundary-evidence-2026-10-09.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/source-ownership-final-audit-2026-10-09",
+      "fullHead": "1c47245c0b7bd3ba20ef2d9464855519f4b56419",
+      "disposition": "active-audit-in-progress",
+      "archiveRef": null,
+      "reconciliationState": "retained-at-audit-snapshot",
+      "snapshotMergeBase": "1c47245c0b7bd3ba20ef2d9464855519f4b56419",
+      "aheadOfMergeBase": 0,
+      "auditMainAheadOfMergeBase": 2,
+      "attachedWorktrees": [
+        {
+          "head": "1c47245c0b7bd3ba20ef2d9464855519f4b56419",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-ownership-final-audit-2026-10-09",
+          "branch": "fix/source-ownership-final-audit-2026-10-09",
+          "status": "?? workflows/orchestration-2026-10-09/branch-cleanup/source-branch-ownership-audit.md"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-ownership-final-audit-2026-10-09",
+          "branch": "fix/source-ownership-final-audit-2026-10-09",
+          "head": "1c47245c0b7bd3ba20ef2d9464855519f4b56419",
+          "status": "?? workflows/orchestration-2026-10-09/branch-cleanup/source-branch-ownership-audit.md",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 0,
+      "changedPathEvidence": [],
+      "missingOrDifferentNonCodePaths": [],
+      "dispositionEvidence": "Live audit worker had pending untracked report; branch tip initially equaled audit main snapshot.",
+      "nextAction": "Finish and publish the source-branch ownership audit report before retiring this temporary metadata ref."
+    },
+    {
+      "branch": "fix/source-prep-261-2611-2026-10-09",
+      "fullHead": "aeaa3b605ef509f4e43563170182eb0534106578",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/source-prep-261-2611-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "5289e70dcd58da6a9ffc9181b1a48d817de41546",
+      "aheadOfMergeBase": 3,
+      "auditMainAheadOfMergeBase": 15,
+      "attachedWorktrees": [
+        {
+          "head": "aeaa3b605ef509f4e43563170182eb0534106578",
+          "statusExit": 0,
+          "path": "C:/Users/Wolfi/.codex/worktrees/bfa3/LegacyParkourCompat",
+          "branch": "fix/source-prep-261-2611-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "C:/Users/Wolfi/.codex/worktrees/bfa3/LegacyParkourCompat",
+          "branch": "fix/source-prep-261-2611-2026-10-09",
+          "head": "aeaa3b605ef509f4e43563170182eb0534106578",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 1,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/source-campaign-2026-10-07/preparations/1.13.2-artifact-provenance-follow-up-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/source-readiness-1192-1202-2026-10-09",
+      "fullHead": "2184473bb524d324d933b87207c6f6f051225023",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/source-readiness-1192-1202-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "cb11257e593987c68be98a7dbda8bbea7d5e77fd",
+      "aheadOfMergeBase": 7,
+      "auditMainAheadOfMergeBase": 126,
+      "attachedWorktrees": [],
+      "initialStatusEvidence": [],
+      "changedPathCount": 7,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/source-campaign-2026-10-07/preparations/1.13-mojmap-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/preparations/1.13.1-mojmap-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/preparations/1.14-exact-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/preparations/1.15-mojmap-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/preparations/1.15.1-mojmap-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/preparations/1.19.2-to-1.20.2-readiness-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/source-campaign-2026-10-07/preparations/readiness-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/source-campaign-2026-10-07/preparations/readiness-2026-10-09.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/water-depth-jump-initiation-2026-10-09",
+      "fullHead": "8f8e381b67ce435c82b805dc6318d4c13e552bdc",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/water-depth-jump-initiation-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "be97698305315c5ac7c7a3c2dbdab2bf436a9881",
+      "aheadOfMergeBase": 6,
+      "auditMainAheadOfMergeBase": 28,
+      "attachedWorktrees": [
+        {
+          "head": "8f8e381b67ce435c82b805dc6318d4c13e552bdc",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/water-depth-jump-initiation-2026-10-09",
+          "branch": "fix/water-depth-jump-initiation-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/water-depth-jump-initiation-2026-10-09",
+          "branch": "fix/water-depth-jump-initiation-2026-10-09",
+          "head": "8f8e381b67ce435c82b805dc6318d4c13e552bdc",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 16,
+      "changedPathEvidence": [
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/change/MovementChangeCatalog.java",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "code-difference-preserved-in-archived-history"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/change/common/WaterDepthJumpGate.java",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "code-blob-identical-on-main"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/WaterJump.java",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "code-blob-identical-on-main"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_13/StaleWaterDepthJump.java",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "code-blob-identical-on-main"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_14/StaleWaterDepthJump.java",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "code-blob-identical-on-main"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15/StaleWaterDepthJump.java",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "code-blob-identical-on-main"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15_2/StaleWaterDepthJump.java",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "code-blob-identical-on-main"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_16/StaleWaterDepthJumpProtection.java",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "code-blob-identical-on-main"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/mechanic/hook/StaleWaterDepthJumpBehavior.java",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "code-blob-identical-on-main"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/mixin/EntityMixin.java",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "code-blob-identical-on-main"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/mixin/LivingEntityMixin.java",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "code-blob-identical-on-main"
+        },
+        {
+          "path": "src/main/java/me/wolfii/legacyparkourcompat/mixin/accessor/WaterJumpDepthAccess.java",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "code-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/fix-implementation/handoffs/mcpk-y256-water-depth-jump-checkpoint-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/fix-implementation/handoffs/y256-water-depth-jump-initiation-2026-10-09.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/implementation-reviews/2026-10-09-y256-water-depth-grounded-correction-followup.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        },
+        {
+          "path": "workflows/implementation-reviews/2026-10-09-y256-water-depth-jump-technical-review.md",
+          "blobIdenticalOnAuditMain": false,
+          "classification": "immutable-report-or-metadata-absent-or-different-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [
+        "workflows/fix-implementation/handoffs/mcpk-y256-water-depth-jump-checkpoint-2026-10-09.md",
+        "workflows/fix-implementation/handoffs/y256-water-depth-jump-initiation-2026-10-09.md",
+        "workflows/implementation-reviews/2026-10-09-y256-water-depth-grounded-correction-followup.md",
+        "workflows/implementation-reviews/2026-10-09-y256-water-depth-jump-technical-review.md"
+      ],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/wiki-attribution-2026-10-09",
+      "fullHead": "9e1841d0874217366149afa80dd8b25cbe2f4313",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/wiki-attribution-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "cb11257e593987c68be98a7dbda8bbea7d5e77fd",
+      "aheadOfMergeBase": 5,
+      "auditMainAheadOfMergeBase": 126,
+      "attachedWorktrees": [
+        {
+          "head": "9e1841d0874217366149afa80dd8b25cbe2f4313",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/wiki-attribution-2026-10-09",
+          "branch": "fix/wiki-attribution-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/wiki-attribution-2026-10-09",
+          "branch": "fix/wiki-attribution-2026-10-09",
+          "head": "9e1841d0874217366149afa80dd8b25cbe2f4313",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 3,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/wiki-audit-2026-10-07/CHECKPOINT.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/minecraft-wiki.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "fix/y256-technical-binding-2026-10-09",
+      "fullHead": "c76c205702d92dc03267787e71644d10eb752aff",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/fix/y256-technical-binding-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "e9cbd9d1d8a82c8aa46f26ab3481c3fd6d0f9df3",
+      "aheadOfMergeBase": 3,
+      "auditMainAheadOfMergeBase": 23,
+      "attachedWorktrees": [
+        {
+          "head": "c76c205702d92dc03267787e71644d10eb752aff",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/y256-technical-binding-2026-10-09",
+          "branch": "fix/y256-technical-binding-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/y256-technical-binding-2026-10-09",
+          "branch": "fix/y256-technical-binding-2026-10-09",
+          "head": "c76c205702d92dc03267787e71644d10eb752aff",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 2,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/implementation-reviews/2026-10-09-y256-water-depth-jump-correction-independent-rereview.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        },
+        {
+          "path": "workflows/implementation-reviews/2026-10-09-y256-water-depth-jump-independent-binding.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "newfix/review-f008-source-boundary-2026-10-09",
+      "fullHead": "6fd3bcce82235228dd892f28a4c07bfad3b0c08b",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/newfix/review-f008-source-boundary-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "df418e06b957399aa4c31eaf69d38422146ac296",
+      "aheadOfMergeBase": 1,
+      "auditMainAheadOfMergeBase": 1971,
+      "attachedWorktrees": [
+        {
+          "head": "6fd3bcce82235228dd892f28a4c07bfad3b0c08b",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-f008-source-boundary-2026-10-09",
+          "branch": "newfix/review-f008-source-boundary-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-f008-source-boundary-2026-10-09",
+          "branch": "newfix/review-f008-source-boundary-2026-10-09",
+          "head": "6fd3bcce82235228dd892f28a4c07bfad3b0c08b",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 1,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/source-boundary-reviews/2026-10-09-F008-boundary-provenance-review.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    },
+    {
+      "branch": "newfix/review-mounted-lava-f4-2026-10-09",
+      "fullHead": "964ae707a85126a692de3bf9d41a6db5574867d5",
+      "disposition": "completed-or-superseded",
+      "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/newfix/review-mounted-lava-f4-2026-10-09",
+      "reconciliationState": "retired-files-preserved",
+      "snapshotMergeBase": "ea6ca59bd217e9ad36ede00122a6952be914839b",
+      "aheadOfMergeBase": 1,
+      "auditMainAheadOfMergeBase": 1931,
+      "attachedWorktrees": [
+        {
+          "head": "964ae707a85126a692de3bf9d41a6db5574867d5",
+          "statusExit": 0,
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mounted-lava-f4-2026-10-09",
+          "branch": "newfix/review-mounted-lava-f4-2026-10-09",
+          "status": "clean"
+        }
+      ],
+      "initialStatusEvidence": [
+        {
+          "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mounted-lava-f4-2026-10-09",
+          "branch": "newfix/review-mounted-lava-f4-2026-10-09",
+          "head": "964ae707a85126a692de3bf9d41a6db5574867d5",
+          "status": "clean",
+          "statusExit": 0
+        }
+      ],
+      "changedPathCount": 1,
+      "changedPathEvidence": [
+        {
+          "path": "workflows/source-campaign-2026-10-07/reviews/independent-review-F-4-mounted-player-lava-box-2026-10-09.md",
+          "blobIdenticalOnAuditMain": true,
+          "classification": "report-or-metadata-blob-identical-on-main"
+        }
+      ],
+      "missingOrDifferentNonCodePaths": [],
+      "dispositionEvidence": "Coordinator retirement record confirms full history archived and checkout files preserved.",
+      "nextAction": "No active assignment. Keep archived history and retained checkout; import only specifically needed missing immutable reports after review."
+    }
+  ],
+  "sourceScopeException": {
+    "branch": "feat/movement-discovery-1-11",
+    "fullHead": "766ec5006a227d95983bfa91a9513a3ed2681baf",
+    "scopeException": "Source-discovery scope exclusion; included because coordinator separately reconciled and retired it.",
+    "disposition": "completed-source-assignment-retired",
+    "archiveRef": "refs/archive/exhaustive-closure-2026-10-09/feat/movement-discovery-1-11",
+    "reconciliationState": "retired-files-preserved",
+    "evidence": "Coordinator record: ancestor of main; tracked files clean; detached checkout retained at identical tip; sole untracked .gradle-home-movement-discovery cache preserved unchanged.",
+    "nextAction": "No active assignment. Retain the detached checkout and cache; no cache deletion."
+  },
+  "reconciliationSource": "Coordinator-owned exhaustive-batch-1-results.json (39), exhaustive-batch-3-results.json (3), and direct coordinator status for eye review and movement discovery; no post-retirement ref queries.",
+  "policy": "Retirement preserves full commit history under archive refs and retains checkout content. Missing immutable reports are follow-up import candidates, not reasons to retain completed branch refs. Never merge whole candidate branches solely to retain history; code differences are historical or superseded unless independently accepted."
+}

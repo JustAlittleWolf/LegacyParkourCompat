@@ -1,0 +1,374 @@
+[
+  {
+    "branch": "feat/review-f009-coordinate-scope-r2-2026-10-09",
+    "head": "9ed69387b21f384ab800fec335e6a59b422ee027",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/feat/review-f009-coordinate-scope-r2-2026-10-09",
+    "worktrees": [
+      "C:/Users/Wolfi/.codex/worktrees/review-f009-coordinate-scope-r2/LegacyParkourCompat"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "feat/review-f009-player-coordinate-clamp-2026-10-09",
+    "head": "f539b65862249af400c4ff15553323f864ddd3cf",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/feat/review-f009-player-coordinate-clamp-2026-10-09",
+    "worktrees": [
+      "C:/Users/Wolfi/.codex/worktrees/review-f009-player-coordinate-clamp/LegacyParkourCompat"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/campaign-closure-audit-2026-10-09",
+    "head": "b9d225b96fdc17557f732fdaa2e742e3e0bbcc0c",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/campaign-closure-audit-2026-10-09",
+    "worktrees": [],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/campaign-closure-audit-isolated-2026-10-09",
+    "head": "02a0d9b38d5340899f024c6aa1b7bdc679f1d0d5",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/campaign-closure-audit-isolated-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/campaign-closure-audit-isolated-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/campaign-closure-audit-report-2026-10-09",
+    "head": "9caadb868f95e8e76569ac309151c9c89ff98630",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/campaign-closure-audit-report-2026-10-09",
+    "worktrees": [],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/campaign-docs-integration-2026-10-09",
+    "head": "0105d624e0131eff5f316a5f696880cebdf34b6e",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/campaign-docs-integration-2026-10-09",
+    "worktrees": [],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/campaign-status-2026-10-09",
+    "head": "23c098bfa4e025fd7c1b80e9e4efe7c1b463b47b",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/campaign-status-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/campaign-status-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/fluid-current-player-impulse-r3-2026-10-09",
+    "head": "5dd9db435a2c79cad6be75dd37c8e92ac572ea98",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/fluid-current-player-impulse-r3-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/fluid-current-player-impulse-r3-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/mcpk-current-flow-review-2026-10-09",
+    "head": "9bc84d4ea8f33e7490ee09ba5e6d3d5d368481de",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/mcpk-current-flow-review-2026-10-09",
+    "worktrees": [],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/mcpk-water-exit-2026-10-09",
+    "head": "5ede13dafa339e9c6c482c63ff711b19ac6e74e9",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/mcpk-water-exit-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/mcpk-water-exit-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/mounted-player-lava-box",
+    "head": "5dd87bfd953a719af27005ba775b836b5655e1e7",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/mounted-player-lava-box",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/mounted-player-lava-box"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/pane-reviews-17-24-2026-10-09",
+    "head": "87b87e13dd920161f6a1a1353d8aee5ead6bb26e",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/pane-reviews-17-24-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/pane-reviews-17-24-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/passenger-recovery-retirement-2026-10-09",
+    "head": "e3b192ff8f1c21c58383ca5ada5f3944f3f0899a",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/passenger-recovery-retirement-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/passenger-recovery-retirement-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/reconcile-sprint-collision-2026-10-09",
+    "head": "936bc7213916335962f638d53263280fbf061e29",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/reconcile-sprint-collision-2026-10-09",
+    "worktrees": [
+      "C:/Users/Wolfi/.codex/worktrees/dcfd/LegacyParkourCompat"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/retire-completed-recovery-audits-2026-10-09",
+    "head": "8dfbbc4bc98ddee33fa11a7cdc34b47d5fa4f2a6",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/retire-completed-recovery-audits-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/retired-recovery-audits-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/review-1171-1182-boundaries-2026-10-09",
+    "head": "163ea4881b327a9316a266601705463784566e2c",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/review-1171-1182-boundaries-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-1171-1182-boundaries-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/review-F3-r2-technical-2026-10-09",
+    "head": "8713e3447ba3d412f3ed56c551eb1129c8271bc7",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/review-F3-r2-technical-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-F3-r2-technical-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/review-clean-input-2026-10-09",
+    "head": "d7b932a2f57285a52fbf3c96a89d4b7173fe22ea",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/review-clean-input-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-clean-input-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/review-endpoint-reconciliation-2026-10-09",
+    "head": "0f30150627fe97d3d9a6ba60f9040574e05d6c85",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/review-endpoint-reconciliation-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-endpoint-reconciliation-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/review-f007-source-boundary-2026-10-09",
+    "head": "1e5add13b0aff167f85ccaf340f463a61d15029f",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/review-f007-source-boundary-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-f007-source-boundary-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/review-f09-input-scaling-2026-10-09",
+    "head": "dc2b29c81c1fd57941d8ed4a27d1583b1b039b4e",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/review-f09-input-scaling-2026-10-09",
+    "worktrees": [],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/review-f21-scale-attribute-2026-10-09",
+    "head": "c58c407041ad2e03235391a2b4cb7b56f040a543",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/review-f21-scale-attribute-2026-10-09",
+    "worktrees": [
+      "C:/Users/Wolfi/.codex/worktrees/review-f21-scale-2026-10-09/LegacyParkourCompat"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/review-fluid-checkpoints-2026-10-09",
+    "head": "e2bfaf654561524682cbb4f4906f127f43da2374",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/review-fluid-checkpoints-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-fluid-checkpoints-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/review-fluid-current-flow-r3-2026-10-09",
+    "head": "6e2c102c49119f758b951dd1f9686b8fcb7bf72d",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/review-fluid-current-flow-r3-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-fluid-current-flow-r3-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/review-input-producers-d11-d13-2026-10-09",
+    "head": "9cd04bc12214cbe2f3af0af15da7266ddf0c0a77",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/review-input-producers-d11-d13-2026-10-09",
+    "worktrees": [],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/review-lava-shallow-overlap-r2-2026-10-09",
+    "head": "a76e28419f6b9767eab2e78147883c5459ed60c4",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/review-lava-shallow-overlap-r2-2026-10-09",
+    "worktrees": [],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/review-mcpk-current-flow-r2-2026-10-09",
+    "head": "cc8d9585737e4a4d0e5f1af3a1837c0b24bd8544",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/review-mcpk-current-flow-r2-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mcpk-current-flow-r2-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/review-mcpk-y256-2026-10-09",
+    "head": "2e47dad5165119de97b940e17eebf0bcad21b3c4",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/review-mcpk-y256-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mcpk-y256-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/review-wiki-attribution-2026-10-09",
+    "head": "6a3339e222765cc61f98efc62234dba138c8483e",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/review-wiki-attribution-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-wiki-attribution-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/review-world25-chest-clip-2026-10-09",
+    "head": "f4679c8aa68cb5ed1a881cb3a8a96d71db6fc505",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/review-world25-chest-clip-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-world25-chest-clip-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/review-eyeheight-correction-hold-2026-10-09",
+    "head": "bd546e7cc522c5a3ea26c03918069c800a35c049",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/review-eyeheight-correction-hold-2026-10-09",
+    "worktrees": [
+      "C:/Users/Wolfi/.codex/worktrees/2442/LegacyParkourCompat"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/source-boundary-1171-1182-2026-10-09",
+    "head": "14443f43fbcc30152916ac75796846d796cf0268",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/source-boundary-1171-1182-2026-10-09",
+    "worktrees": [],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/source-prep-261-2611-2026-10-09",
+    "head": "aeaa3b605ef509f4e43563170182eb0534106578",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/source-prep-261-2611-2026-10-09",
+    "worktrees": [
+      "C:/Users/Wolfi/.codex/worktrees/bfa3/LegacyParkourCompat"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/source-readiness-1192-1202-2026-10-09",
+    "head": "2184473bb524d324d933b87207c6f6f051225023",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/source-readiness-1192-1202-2026-10-09",
+    "worktrees": [],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/water-depth-jump-initiation-2026-10-09",
+    "head": "8f8e381b67ce435c82b805dc6318d4c13e552bdc",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/water-depth-jump-initiation-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/water-depth-jump-initiation-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/wiki-attribution-2026-10-09",
+    "head": "9e1841d0874217366149afa80dd8b25cbe2f4313",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/wiki-attribution-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/wiki-attribution-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/y256-technical-binding-2026-10-09",
+    "head": "c76c205702d92dc03267787e71644d10eb752aff",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/y256-technical-binding-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/y256-technical-binding-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "newfix/review-f008-source-boundary-2026-10-09",
+    "head": "6fd3bcce82235228dd892f28a4c07bfad3b0c08b",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/newfix/review-f008-source-boundary-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-f008-source-boundary-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "newfix/review-mounted-lava-f4-2026-10-09",
+    "head": "964ae707a85126a692de3bf9d41a6db5574867d5",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/newfix/review-mounted-lava-f4-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mounted-lava-f4-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  }
+]

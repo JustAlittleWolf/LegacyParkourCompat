@@ -1,0 +1,236 @@
+{
+  "capturedAt": "2026-10-09T20:53:23.4730684Z",
+  "defaultBranch": "main",
+  "expectedFinalBranchCount": 22,
+  "keepers": [
+    {
+      "pair": "1.19.2--1.19.3",
+      "branch": "feat/source-1192-1193-resume-2026-10-09",
+      "head": "6326664aab47fdbe63105a03d2277124cc6aa76b",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1192-1193-resume-2026-10-09",
+      "gate": "partial-unfinished",
+      "owner": "01a12195-a8a4-70e2-a0c1-270e692bee45",
+      "phase": "assigned-existing-source-chat",
+      "dispatchOrder": 0,
+      "next": "Compare isSteppingCarefully supportqueries then firstplayerreachable landing/collision callback in runqueue."
+    },
+    {
+      "pair": "1.19.3--1.19.4",
+      "branch": "feat/source-1193-1194-2026-10-09",
+      "head": "ec47cd32a8045416295f1806f04e30f528a8185e",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1193-1194-2026-10-09",
+      "gate": "partial-unfinished",
+      "owner": "01a121c9-8af9-7bf0-860e-efc05c182b84",
+      "phase": "assigned-existing-source-chat",
+      "dispatchOrder": 0,
+      "next": "Trace next remaining reachable collisioncallback/supportprovider recordedinrun, bound fullinputs/guards."
+    },
+    {
+      "pair": "1.20.1--1.20.2",
+      "branch": "feat/source-1201-1202-2026-10-09",
+      "head": "ebb82812ffcfbabe7785769efdfbf48e7d5ae3ae",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1201-1202-restored-2026-10-09",
+      "gate": "partial-unfinished",
+      "owner": "01a121c9-9ef5-78d0-946f-9284ce3512a0",
+      "phase": "assigned-existing-source-chat",
+      "dispatchOrder": 0,
+      "next": "Compare HopperBlock.updateShape/getShape with exactregistration and localplayercollisionconsumer."
+    },
+    {
+      "pair": "1.21.11--26.1.2",
+      "branch": "feat/source-12111-2612-d2-2026-10-09",
+      "head": "5fdb5e467b0e7dc5c74841b9e607625201daefb4",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-12111-2612-d2-2026-10-09",
+      "gate": "partial-unfinished",
+      "owner": "01a1218e-399b-7400-b1a3-5b49d804ee71",
+      "phase": "assigned-existing-source-chat",
+      "dispatchOrder": 0,
+      "next": "Continue nextrecorded non-command SCALE writer and synchronization/dirtyrefresh ordering dependency; packet-arrival timing staysopen."
+    },
+    {
+      "pair": "1.21.4--1.21.5",
+      "branch": "feat/source-1214-1215-clean-2026-10-09",
+      "head": "27dcd386e3f37390a8b5aa9d18e3eca4fd573857",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1214-1215-clean-2026-10-09",
+      "gate": "partial-unfinished",
+      "owner": "01a1218a-7321-7803-b9fb-ecedb7294420",
+      "phase": "assigned-existing-source-chat",
+      "dispatchOrder": 0,
+      "next": "Compare Block.box/column constructors and LiquidBlock.getCollisionShape, keeping exact geometric/player consequence until proved."
+    },
+    {
+      "pair": "1.15.2--1.16.5",
+      "branch": "feat/source-discovery-1-15-2-1-16-5-resume",
+      "head": "d0f0a863dffbd954851624da491ccad43d832a7d",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-discovery-1-15-2-1-16-5-resume",
+      "gate": "partial-unfinished",
+      "owner": "/root/resume_source_1152_1165",
+      "phase": "checkpoint-complete-resume-same-worker",
+      "dispatchOrder": 1,
+      "next": "Trace startFallFlying flag writes and synchronization, then Riptide swept entity query and direct player-motion callbacks; retain partial status."
+    },
+    {
+      "pair": "1.19.4--1.20.1",
+      "branch": "feat/source-discovery-1-19-4-1-20-1-resume-2026-10-09",
+      "head": "c737e7637ac201eaf8c8a154d1b15b7f1d64b237",
+      "worktree": "C:/Users/Wolfi/.codex/worktrees/source-1194-1201-resume-2026-10-09/LegacyParkourCompat",
+      "gate": "partial-unfinished",
+      "owner": "01a121e2-3cab-77a2-b74b-af2a63e576dd",
+      "phase": "assigned-existing-source-chat",
+      "dispatchOrder": 0,
+      "next": "Continue next3D3registrations/farmlandstatewriterdependencies afterrow45, checking reachability and Ysizegate beforeclassifying."
+    },
+    {
+      "pair": "1.20.2--1.20.4",
+      "branch": "feat/source-discovery-1-20-2-1-20-4-resume-2026-10-08",
+      "head": "cbcd477f1e1e32aa0a58ea132cb66709b06638cf",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1202-1204-resume-2026-10-08",
+      "gate": "partial-unfinished",
+      "owner": "/root: create fresh source worker at dispatch",
+      "phase": "queued-fresh-source-worker",
+      "dispatchOrder": 7,
+      "next": "Continue S2 state/dimension writers, S5.5 neighbor ordering/tags, S7 external motion and impulse paths, then S7.5 cross-stage dependencies. Independent review for the recorded candidate remains unassigned."
+    },
+    {
+      "pair": "1.20.6--1.21.1",
+      "branch": "feat/source-discovery-1-20-6-1-21-1-resume-2026-10-08",
+      "head": "9b58e85bdf70c52717632ff796bfb939392d81fa",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1206-12101-resume-2026-10-08",
+      "gate": "partial-unfinished",
+      "owner": "/root: create fresh source worker at dispatch",
+      "phase": "queued-fresh-source-worker",
+      "dispatchOrder": 8,
+      "next": "Continue C2 step-height candidates and producer dependencies, then B8 provider/registration, C3–C4 and B1–B7 routes. Keep X2 knockback separate."
+    },
+    {
+      "pair": "1.21.1--1.21.3",
+      "branch": "feat/source-discovery-1-21-1-1-21-3-resume-2026-10-08",
+      "head": "864d42197b90585ee5d7eac385ac26b51eb0dbe0",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1211-1213-resume-2026-10-08",
+      "gate": "partial-unfinished",
+      "owner": "/root: create fresh source worker at dispatch",
+      "phase": "queued-fresh-source-worker",
+      "dispatchOrder": 9,
+      "next": "Resume the next open source slice in `run.md`; no queue owner or pair-wide audit is recorded."
+    },
+    {
+      "pair": "1.21.10--1.21.11",
+      "branch": "feat/source-discovery-1-21-10-1-21-11-resume-2026-10-08",
+      "head": "bacbfd252724c5f989e9527ae7700e486d6a7187",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-12110-12111-resume-2026-10-08",
+      "gate": "partial-unfinished",
+      "owner": "/root: create fresh source worker at dispatch",
+      "phase": "queued-fresh-source-worker",
+      "dispatchOrder": 12,
+      "next": "Continue collision-enabled registered-family filtering and registration/property/default/neighbor/resource closure in `D-S4-SHAPE-PROVIDER-INVENTORY`."
+    },
+    {
+      "pair": "1.21.8--1.21.10",
+      "branch": "feat/source-discovery-movement-1-21-8-1-21-10-resume-2026-10-08",
+      "head": "2642f9401ab55ccb2c7372e535122b00d5a76b7e",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1218-12110-resume",
+      "gate": "partial-unfinished",
+      "owner": "/root: create fresh source worker at dispatch",
+      "phase": "queued-fresh-source-worker",
+      "dispatchOrder": 11,
+      "next": "Continue exact inbound SCALE attribute synchronization and remaining eye-height readers/collision consumers; then D2 and D3 remain required. Preserve submitted finding snapshots and unaccepted review status."
+    },
+    {
+      "pair": "1.11.2--1.12.2",
+      "branch": "feat/source-discovery-movement-source-1-11-2-1-12-2",
+      "head": "44170d2eb16c1653a0b7bde60f49cfe2f603783e",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-discovery-1-11-2-1-12-2",
+      "gate": "partial-unfinished",
+      "owner": "/root/resume_source_1112_1122",
+      "phase": "assigned-existing-source-worker",
+      "dispatchOrder": 3,
+      "next": "Old missing-field repairs all complete/checker valid; remaining S7.4/S2.2/S2.6 source inventory remains open"
+    },
+    {
+      "pair": "1.12.2--1.13.2",
+      "branch": "feat/source-discovery-movement-source-1-12-2-1-13-2",
+      "head": "b407a2d95884f751117857234d1b7f6edb24c0cf",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-discovery-1-12-2-1-13-2-resume",
+      "gate": "partial-unfinished",
+      "owner": "/root/resume_source_1122_1132",
+      "phase": "checkpoint-complete-resume-same-worker",
+      "dispatchOrder": 0,
+      "next": "Trace Entity.move expanded-Box input versus Box-plus-displacement overload and reachable bounds into ENTITY-AXIS-OFFSET-HELPERS; retain partial status."
+    },
+    {
+      "pair": "1.14.4--1.15.2",
+      "branch": "feat/source-discovery-movement-source-1-14-4-1-15-2",
+      "head": "11e4c0b7310eacff07520caf26ebc833ee479e99",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-discovery-1144-1152",
+      "gate": "partial-unfinished",
+      "owner": "/root: create fresh source worker at dispatch",
+      "phase": "queued-fresh-source-worker",
+      "dispatchOrder": 6,
+      "next": "Close `S-INPUT-KEYS` caller slow-movement value and spectator/crouch/crawl path; then continue local pre-travel and edge-backoff gates."
+    },
+    {
+      "pair": "1.21.5--1.21.8",
+      "branch": "feat/source-discovery-movement-source-1-21-5-1-21-8-resume-2026-10-08",
+      "head": "ec84e77c333b75768d5ce44ce2979ba7f1c9ffd6",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1215-1218-resume-2026-10-08",
+      "gate": "partial-unfinished",
+      "owner": "/root: create fresh source worker at dispatch",
+      "phase": "queued-fresh-source-worker",
+      "dispatchOrder": 10,
+      "next": "Continue state-writer closure, callbacks, block/fluid registrations and properties, modifiers, external movement writers, then independent review."
+    },
+    {
+      "pair": "1.8.9--1.9.4",
+      "branch": "feat/source-discovery-movement-source-1-8-9-1-9-4-solid-resume",
+      "head": "aeb260ff0b3bfa7d9c4c8a906648ca3dcf91e483",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-pair-189194-solid-resume",
+      "gate": "partial-unfinished",
+      "owner": "/root/resume_189194_world27",
+      "phase": "assigned-existing-source-worker",
+      "dispatchOrder": 2,
+      "next": "Independent blind review of WORLD27 at aeb260ff; then next run inventory; no pair freeze"
+    },
+    {
+      "pair": "1.9.4--1.10.2",
+      "branch": "feat/source-discovery-movement-source-1-9-4-1-10-2-resume3",
+      "head": "708eb3d210660074c3c7225125eb5e054199ff21",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/movement-source-1-9-4-1-10-2-resume3",
+      "gate": "partial-unfinished",
+      "owner": "/root/resume_source_194_1102",
+      "phase": "assigned-existing-source-worker",
+      "dispatchOrder": 4,
+      "next": "Report-only main import; then DeadBush/NetherWart/Sapling provider slice"
+    },
+    {
+      "pair": "1.13.2--1.14.4",
+      "branch": "feat/source-movement-1-13-2-1-14-4-resume6",
+      "head": "c7fda155df85b581df2adb18d7e738ca421ac603",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-movement-1-13-2-1-14-4-resume6",
+      "gate": "partial-unfinished",
+      "owner": "/root: create fresh source worker at dispatch",
+      "phase": "queued-fresh-source-worker",
+      "dispatchOrder": 5,
+      "next": "Continue the exact open slice in this interval’s `run.md`; the current worktree is the saved source checkpoint."
+    },
+    {
+      "branch": "fix/pane-neighbor-providers-third-2026-10-09",
+      "owner": "01a1218b-99e7-7712-b241-b9a97a6eaf76",
+      "phase": "assigned-unfinished-author",
+      "next": "Continue registered-provider census; publish bounded memo/checkpoint after each batch",
+      "head": "de02d10d08218254898951f0cb1981835abb45ff"
+    },
+    {
+      "branch": "fix/review-pane-neighbor-providers-9-16-2026-10-09",
+      "owner": "01a121d2-306e-73b0-96e8-ecd298855c95",
+      "phase": "assigned-unfinished-reviewer",
+      "next": "Review successive immutable pane memos; keep full provider/mask closure separate",
+      "head": "785823dc0ea08dfe16c17aa15f901813e7cc1a39"
+    }
+  ],
+  "temporaryMetadataToRetire": [
+    "fix/branch-retirement-audit-2026-10-09",
+    "fix/source-ownership-final-audit-2026-10-09",
+    "fix/campaign-coordinator-2026-10-09"
+  ],
+  "dispatchRule": "Finish active bounded assignments; dispatch priority1 next; continue existing assignments with their workers, create fresh workers for new intervals; every retained unfinished interval has exact checkpoint and next action. Never claim queued tasks active."
+}
