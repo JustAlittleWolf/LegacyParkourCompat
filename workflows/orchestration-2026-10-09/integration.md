@@ -132,3 +132,10 @@ At that time, the preparation, sprint-collision and Elytra slots were releasable
 - Reconciliation identity: `workflows/fix-implementation/reconciliations/F002-elytra-cosine-2026-10-09.md`, blob `af0903b06c1dfa7d53479621068c5d6560d2d3e8`, raw SHA-256 `65f4a1d7441784db7b0e87430f37dc102f06d752b89b2857e33b389a98fff751`. Review: `workflows/implementation-reviews/2026-10-09-F002-final-no-code-review.md`, blob `4acc102e1d3174851bd1e5681c38d8aeb896e067`, raw SHA-256 `34d583e5340c0dcf7ecb55fe8b2e85b1a3c0e900b2089263daa798a265e9d9f6`.
 - ACCEPT is limited to the reviewed 1.17.1/1.18/1.18.1/1.18.2 float/double implementation boundary. It does not establish unreviewed-release fidelity or runtime parity; no code change was identified.
 - No build, tests, client/TAS/server launch, or runtime validation was performed.
+
+## F-3 arithmetic correction R2 — 2026-10-09
+
+- Integrated exact corrected candidate from `b2b493a2521b036bca2fa590feeda3194c49bd4c`, its source-ledger binding from `bd244527013e8eb7a5ae912c4fe6ce42aba5dbcc`, and independent ACCEPT from `a76e28419f6b9767eab2e78147883c5459ed60c4`.
+- Candidate: `workflows/source-campaign-2026-10-07/1.21.11--26.1.2/findings/F-3-nether-lava-shallow-overlap-r2-2026-10-09.md`, blob `73a244f66a6501b1d48f11fc4bcbde95d25c8518`, raw SHA-256 `69146a6130e72d7fffdf4bfa71954c41c62dc57aebfa0246f040e079c5f28907`. Review: `workflows/source-boundary-reviews/2026-10-09-lava-shallow-overlap-r2-review.md`, blob `10d56f3e76eca339a95f6ea3f47ec099decb3467`, raw SHA-256 `c589664e82974cc07b7010a9c4be9c42ef4e334221d1d73b11fe1e4261f7352e`.
+- The current pair ledger binds the R2 correction to the bounded arithmetic acceptance. The original F-3 R1 REQUEST CHANGES event and candidate remain unchanged; the 1.21.11–26.1.2 pair remains partial, with no freeze or runtime claim.
+- No build, tests, or runtime validation was performed.
