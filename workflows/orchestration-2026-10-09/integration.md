@@ -190,3 +190,10 @@ At that time, the preparation, sprint-collision and Elytra slots were releasable
 - Imported only the two exact preparation paths from the report-only tree at `75767b06d1b728e672db2fd1872165153ce768a0` (author preparation commit `c98e0a21175f4af49eb4a38f3ff563abef64b3e5`).
 - `preparations/1.13-mojmap-2026-10-09.md`: blob `b56500a45f69b42fcf9bc0cbc56f65c117ecdbe3`, raw SHA-256 `77c19f02802841056ebea4ea0cc6fa7215c9e07166c9e591095c75d9b1898ef9`; `preparations/1.13.1-mojmap-2026-10-09.md`: blob `6f9d4452c2fb897ecbaa18753392984f56dbd9c3`, raw SHA-256 `81af978490edaca30aedf4e801404f0facfc75863275c8b0733198241a72ce21`.
 - These are artifact-readiness records only; they add no movement interpretation or runtime claim.
+
+## Accepted 1.21.11–26.1.2 fluid checkpoints — 2026-10-09
+
+- Integrated the exact bounded source checkpoints `2f13f54bd011a67e10314fc674cb270f68612f1f` (three bubble-column resource edges) and `b85cb22afbdc1ffdc7406cec74c1c46ebfdd5a0b` (mounted-player route and fluid-height consumer trace), with independent review `e2bfaf654561524682cbb4f4906f127f43da2374`.
+- Review report: `workflows/source-boundary-reviews/2026-10-09-12111-2612-fluid-checkpoints-review.md`, blob `569a7c183c36d46c47b2ecc1851eaf1a3871715d`, raw SHA-256 `f9462839ef360baaac64f024eb57d56d567f39e5c0b703dca302e143a796f6fe`. Current pair-ledger blob `992ab5ea09f2387334b579c4e2a842757df65f45`, raw SHA-256 `dc97aa9af372be515443f685c619343152f62ee1ce9ab91ecf75c6c44753bf9d`.
+- D2 accepts only the exact vanilla-default bubble resources and their bounded Player response edges. The mounted Player route is source-reachable but has no exact fluid-cell/load witness showing a response difference. Mounted applicability, eye-state writer/order, and `getFluidJumpThreshold()`/eye inputs remain open. Pair remains active/partial; no pair freeze or runtime result is inferred.
+- No build, tests, or runtime validation was performed.
