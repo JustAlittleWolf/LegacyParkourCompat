@@ -11,6 +11,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.FlightActivationJumpBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.FlightSneakInputBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.KeyboardDiagonalInputBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PassengerCrouchBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.PositionPacketThresholdBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PushAwayVelocityBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.RideableJumpBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowWaterSprintBehavior;
@@ -53,6 +54,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LocalPlayer.class)
 abstract class LocalPlayerMixin {
+
+    @ModifyExpressionValue(
+        method = "sendPosition()V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;square(D)D"),
+        require = 1
+    )
+    private double legacyparkourcompat$positionPacketThreshold(double vanillaThreshold) {
+        LocalPlayer player = (LocalPlayer)(Object)this;
+        return MovementRuntime.find(PositionPacketThresholdBehavior.class, player)
+            .map(behavior -> behavior.squaredDisplacementThreshold(vanillaThreshold))
+            .orElse(vanillaThreshold);
+    }
 
     @WrapOperation(
         method = "aiStep",

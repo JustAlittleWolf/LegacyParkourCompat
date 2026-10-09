@@ -51,6 +51,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerFallDistanceResetBehavi
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerPoseBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerRestSafetyBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerRestSafetyQueryBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.PositionPacketThresholdBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PortalDismountBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PowderSnowClimbBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PushAwayVelocityBehavior;
@@ -259,6 +260,7 @@ public final class MovementChangeCatalog {
 
     private static void registerV1_18(MovementChangeRegistry registry) {
         registry.register(ElytraLiftForceBehavior.class, ParkourVersion.V1_18, new me.wolfii.legacyparkourcompat.change.v1_18.ElytraLiftForce());
+        registry.register(PositionPacketThresholdBehavior.class, ParkourVersion.V1_18, new me.wolfii.legacyparkourcompat.change.v1_18.PositionPacketThreshold());
         registry.register(PlayerFallDistanceResetBehavior.class, ParkourVersion.V1_18, new me.wolfii.legacyparkourcompat.change.v1_18.FallDistanceReset());
         var movementChangeAirSpeedV1_18 = new me.wolfii.legacyparkourcompat.change.v1_18.DoubleSprintAirSpeed();
         registry.register(AirSpeedBehavior.class, ParkourVersion.V1_18, movementChangeAirSpeedV1_18);
