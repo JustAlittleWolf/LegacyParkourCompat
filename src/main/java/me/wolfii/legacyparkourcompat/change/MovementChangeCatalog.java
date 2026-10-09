@@ -29,6 +29,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.FlightFallDistanceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.FlightSneakInputBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.FluidCurrentMinimumBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.FluidInteractionBoxBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.FluidInteractionFluidBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.FluidJumpBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.GlideFallDistanceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.GravityBehavior;
@@ -346,6 +347,7 @@ public final class MovementChangeCatalog {
         registry.register(ShallowWaterCurrentCutoffBehavior.class, ParkourVersion.V1_21_11, new me.wolfii.legacyparkourcompat.change.v1_21_11.ShallowWaterCurrentCutoff());
         registry.register(ShallowLavaCurrentCutoffBehavior.class, ParkourVersion.V1_21_11, new me.wolfii.legacyparkourcompat.change.v1_21_11.ShallowLavaCurrentCutoff());
         registry.register(FluidInteractionBoxBehavior.class, ParkourVersion.V1_21_11, new me.wolfii.legacyparkourcompat.change.v1_21_11.MountedFluidInteractionBox());
+        registry.register(FluidInteractionFluidBehavior.class, ParkourVersion.V1_21_11, new me.wolfii.legacyparkourcompat.change.v1_21_11.MountedBoatWaterInteraction());
     }
 
     private static void registerV26_1(MovementChangeRegistry registry) {
