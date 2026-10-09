@@ -177,3 +177,10 @@ At that time, the preparation, sprint-collision and Elytra slots were releasable
 - Reconciliation `workflows/fix-implementation/reconciliations/F001-sprint-collision-2026-10-09.md`: blob `ad8f0c6c10555fd0c6db5b5e0320d2dbc7553318`, raw SHA-256 `0f54257decdafdf70b7cc0b73f0068ac271964bf53bc43aa7c3397a70b77cb4e`. Review `workflows/implementation-reviews/2026-10-09-F001-final-no-code-review.md`: blob `48e2b2ba360ce039cca71aa35e3b85e2bb2e40b6`, raw SHA-256 `c2aef7a7d3fc753250a727c2469e30147811bebb862929f607979ccb7268b2e5`.
 - ACCEPT is limited to the independently source-reviewed 1.17.1/1.18 sampled boundary and matching current routing. Routing through V1_8 is not proof of earlier-release source behavior. No runtime parity was established; no code change was indicated for the reviewed boundary.
 - No build, tests, or runtime validation was performed.
+
+## F-005 r2 source witness — 2026-10-09
+
+- Integrated exact r2 source memo from `96b6f7253491903c0da443d74102dcc451be1245`, original r1 independent REQUEST CHANGES from `6702eda57a1f378576fca06778e11648cc0e5c8c`, and r2 independent ACCEPT from `7dfe93834ec72bf224c5ffe4e25dc102126dee5f`.
+- Memo `workflows/source-boundary-reviews/F005-boundary-evidence-r2-2026-10-09.md`: blob `012209d04cc41482729b0bf4f66cd9c23686bf8e`, raw SHA-256 `6411e8b8f4f27cbfc28de95bb41c9236cdb2c08d05e28480c5906d6078ed8129`. R1 review blob `65bc5ff0c0a7c222267f882f5ffc62036360f54b`, raw SHA-256 `a73dd9aaeb03a02faceb67474ca2d31be0dda2083cd14274bfed7b40b07048a0`; r2 review blob `d2fd6bb126012d7ae16c297e9dbb5c1fa23126ae`, raw SHA-256 `67ce567f9edc39bef7a9fef511b464ee0bf76abc7fe2a2dbb5ea1d525269e313`.
+- R1 witness-dependency REQUEST CHANGES remains preserved as history; r2 ACCEPT closes that source witness gap only. The separately accepted 1.18.2 first-changed-release boundary remains accepted. This is not a trajectory/runtime result or an implementation recommendation. F-005 implementation reconciliation/code remains queued for its separate technical review and serial build.
+- No build, tests, or runtime validation was performed.
