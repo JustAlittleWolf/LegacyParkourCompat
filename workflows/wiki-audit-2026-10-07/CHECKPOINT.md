@@ -30,7 +30,7 @@
 
 ## Resume progress (2026-10-08)
 
-- Jump apex review disposition reconciled: the independent review accepted only the source-ordered recurrence for a normal, unassisted, locally controlled ground jump in empty air and requested changes to direct Wiki attribution. The Jumping article fetch was blocked and no oldid/page text was captured; the official `Template:Sandbox/HistoryLine` search result is retained as an unverified lead. The immutable r2 snapshot separates those statuses; the exploratory predecessor and review report remain preserved. This does not establish a universal jump height or exact snapshot boundary.
+- Jump apex review disposition reconciled: the independent review accepted only the source-ordered recurrence for a normal, unassisted, locally controlled ground jump in empty air. On 2026-10-09, the browser retrieved rendered Jumping revision `oldid=3825931`; its Java Edition history table directly records the 1.9 / 15w45a row from `1.24919` to `1.2522` blocks. The immutable r2 snapshot, exploratory predecessor, and review report remain preserved. The article attribution is now evidenced by the exact revision, but this does not independently verify the recurrence, establish a universal jump height, or identify exact source cutover. Raw wikitext retrieval remains blocked; see [jump-attribution-2026-10-09.md](jump-attribution-2026-10-09.md).
 
 ### Partial inventory counts (bounded, not coverage-complete)
 
