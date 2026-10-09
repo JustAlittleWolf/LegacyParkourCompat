@@ -14,8 +14,8 @@ abstract class EntityFluidCurrentMixin {
         method = "applyCurrentTo",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/Vec3;lengthSqr()D")
     )
-    private double legacyparkourcompat$shallowWaterCurrentCutoff(Vec3 current, Entity entity, double scale) {
-        return ShallowWaterCurrentContext.isActiveFor(entity)
+    private double legacyparkourcompat$shallowFluidCurrentCutoff(Vec3 current, Entity entity, double scale) {
+        return FluidCurrentCutoffContext.isActiveFor(entity)
             ? Double.POSITIVE_INFINITY
             : current.lengthSqr();
     }

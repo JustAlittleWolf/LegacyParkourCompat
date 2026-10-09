@@ -12,7 +12,9 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.CollisionRestitutionBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.GravityBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.InsideBlockContactBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PistonMovementBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerFallDistanceResetBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeMoverBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowLavaCurrentCutoffBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowWaterCurrentCutoffBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SwimmingUpdateBehavior;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
@@ -138,7 +140,34 @@ abstract class EntityMixin {
             && MovementRuntime.find(ShallowWaterCurrentCutoffBehavior.class, player)
                 .map(behavior -> behavior.bypassWeakCurrentCutoff(interaction.getFluidHeight(fluid)))
                 .orElse(false)) {
-            ShallowWaterCurrentContext.run(entity, () -> interaction.applyCurrentTo(fluid, entity, scale));
+            FluidCurrentCutoffContext.run(entity, () -> interaction.applyCurrentTo(fluid, entity, scale));
+            return;
+        }
+        interaction.applyCurrentTo(fluid, entity, scale);
+    }
+
+    @Redirect(
+        method = "updateFluidInteraction()Z",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/EntityFluidInteraction;applyCurrentTo(Lnet/minecraft/tags/TagKey;Lnet/minecraft/world/entity/Entity;D)V",
+            ordinal = 1
+        ),
+        require = 1
+    )
+    private void legacyparkourcompat$shallowLavaCurrentCutoff(
+        EntityFluidInteraction interaction,
+        TagKey<Fluid> fluid,
+        Entity entity,
+        double scale
+    ) {
+        if (fluid.equals(FluidTags.LAVA)
+            && entity instanceof Player player
+            && !player.isPassenger()
+            && MovementRuntime.find(ShallowLavaCurrentCutoffBehavior.class, player)
+                .map(behavior -> behavior.bypassWeakCurrentCutoff(interaction.getFluidHeight(fluid)))
+                .orElse(false)) {
+            FluidCurrentCutoffContext.run(entity, () -> interaction.applyCurrentTo(fluid, entity, scale));
             return;
         }
         interaction.applyCurrentTo(fluid, entity, scale);
@@ -202,5 +231,23 @@ abstract class EntityMixin {
         return MovementRuntime.find(BlockSpeedFactorBehavior.class, entity)
             .map(behavior -> behavior.movementSpeedFactor(entity, vanilla))
             .orElse(vanilla);
+    }
+
+    @Redirect(
+        method = "move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/Entity;resetFallDistance()V"
+        ),
+        require = 1
+    )
+    private void legacyparkourcompat$movementFallDistanceReset(Entity entity) {
+        if (entity instanceof Player player
+            && MovementRuntime.find(PlayerFallDistanceResetBehavior.class, player)
+                .map(behavior -> behavior.suppressMovementFallDistanceReset(MovementRuntime.profile(player).target()))
+                .orElse(false)) {
+            return;
+        }
+        entity.resetFallDistance();
     }
 }

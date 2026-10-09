@@ -47,18 +47,22 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.MovementChunkLookupBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PassengerCrouchBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PistonMovementBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerDimensionsBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerFallDistanceResetBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerPoseBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerRestSafetyBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerRestSafetyQueryBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.PositionPacketThresholdBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PortalDismountBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PowderSnowClimbBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PushAwayVelocityBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.RideableJumpBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowLavaCurrentCutoffBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowWaterCurrentCutoffBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowWaterSprintBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowWaterSprintStartBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SlowFallingFallDistanceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeCollisionQueryBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeDistanceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeMoverBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeProbeBehavior;
@@ -221,6 +225,7 @@ public final class MovementChangeCatalog {
     }
 
     private static void registerV1_15_2(MovementChangeRegistry registry) {
+        registry.register(SneakEdgeCollisionQueryBehavior.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.SneakEdgeCollisionQuery());
         registry.register(GroundFrictionBlockBehavior.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.GroundFrictionSamplePoint());
         registry.register(SuffocationProbeBehavior.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.SuffocationProbe());
         registry.register(FluidCurrentMinimumBehavior.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.FluidCurrentMinimum());
@@ -235,6 +240,7 @@ public final class MovementChangeCatalog {
 
     private static void registerV1_16(MovementChangeRegistry registry) {
         registry.register(SneakEdgeBehavior.class, ParkourVersion.V1_16, new me.wolfii.legacyparkourcompat.change.v1_16.SneakEdge());
+        registry.register(SneakEdgeCollisionQueryBehavior.class, ParkourVersion.V1_16, new me.wolfii.legacyparkourcompat.change.v1_16.SneakEdgeCollisionQuery());
         registry.register(SuffocationProbeBehavior.class, ParkourVersion.V1_16, new me.wolfii.legacyparkourcompat.change.v1_16.SuffocationProbe());
     }
 
@@ -249,10 +255,16 @@ public final class MovementChangeCatalog {
     private static void registerV1_17_1(MovementChangeRegistry registry) {
         registry.register(SprintCollisionBehavior.class, ParkourVersion.V1_17_1, new me.wolfii.legacyparkourcompat.change.v1_17_1.SprintCollision());
         registry.register(BoatPassengerYawRefreshBehavior.class, ParkourVersion.V1_17_1, new me.wolfii.legacyparkourcompat.change.v1_17_1.BoatPassengerYawRefresh());
+        registry.register(SneakEdgeCollisionQueryBehavior.class, ParkourVersion.V1_17_1, new me.wolfii.legacyparkourcompat.change.v1_17_1.SneakEdgeCollisionQuery());
     }
 
     private static void registerV1_18(MovementChangeRegistry registry) {
         registry.register(ElytraLiftForceBehavior.class, ParkourVersion.V1_18, new me.wolfii.legacyparkourcompat.change.v1_18.ElytraLiftForce());
+        registry.register(PositionPacketThresholdBehavior.class, ParkourVersion.V1_18, new me.wolfii.legacyparkourcompat.change.v1_18.PositionPacketThreshold());
+        registry.register(PlayerFallDistanceResetBehavior.class, ParkourVersion.V1_18, new me.wolfii.legacyparkourcompat.change.v1_18.FallDistanceReset());
+        var movementChangeAirSpeedV1_18 = new me.wolfii.legacyparkourcompat.change.v1_18.DoubleSprintAirSpeed();
+        registry.register(AirSpeedBehavior.class, ParkourVersion.V1_18, movementChangeAirSpeedV1_18);
+        registry.register(AirSpeedUpdateBehavior.class, ParkourVersion.V1_18, movementChangeAirSpeedV1_18);
     }
 
     private static void registerV1_18_2(MovementChangeRegistry registry) {
@@ -320,6 +332,7 @@ public final class MovementChangeCatalog {
 
     private static void registerV1_21_11(MovementChangeRegistry registry) {
         registry.register(ShallowWaterCurrentCutoffBehavior.class, ParkourVersion.V1_21_11, new me.wolfii.legacyparkourcompat.change.v1_21_11.ShallowWaterCurrentCutoff());
+        registry.register(ShallowLavaCurrentCutoffBehavior.class, ParkourVersion.V1_21_11, new me.wolfii.legacyparkourcompat.change.v1_21_11.ShallowLavaCurrentCutoff());
     }
 
     private static void registerV26_1(MovementChangeRegistry registry) {

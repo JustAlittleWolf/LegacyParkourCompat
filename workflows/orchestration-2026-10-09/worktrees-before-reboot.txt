@@ -1,0 +1,568 @@
+worktree D:/Javastuff/LegacyParkourCompat
+HEAD 309b330d546da8e0e25fa86158e993454e58f53f
+branch refs/heads/main
+
+worktree C:/Users/Wolfi/.codex/visualizations/2026/10/07/01a116cd-4e53-7832-8dbd-7854d8fc7bc2/source-campaign-worktree
+HEAD 847f34d18d59d55777633cd8a9fb93091234d645
+detached
+
+worktree C:/Users/Wolfi/.codex/worktrees/00fc/LegacyParkourCompat
+HEAD 0d69d2d11f436b3c66060015a2cc0572dc9ab2e0
+branch refs/heads/fix/decompile-1-14-4
+
+worktree C:/Users/Wolfi/.codex/worktrees/1ea1/LegacyParkourCompat
+HEAD 0d69d2d11f436b3c66060015a2cc0572dc9ab2e0
+branch refs/heads/fix/decompile-1-9-4
+
+worktree C:/Users/Wolfi/.codex/worktrees/2442/LegacyParkourCompat
+HEAD 95246d701323a561a62c8ef67dfe6327fd05ce1d
+branch refs/heads/fix/review-eyeheight-correction-hold-2026-10-09
+
+worktree C:/Users/Wolfi/.codex/worktrees/bfa3/LegacyParkourCompat
+HEAD fcd113c3fafcfde91d5cb5c8308b77292c601f9d
+branch refs/heads/fix/source-prep-261-2611-2026-10-09
+
+worktree C:/Users/Wolfi/.codex/worktrees/campaign-status-2026-10-09/LegacyParkourCompat
+HEAD d2545c010e9cec260f7751a3c6a681decbc68362
+detached
+
+worktree C:/Users/Wolfi/.codex/worktrees/dcfd/LegacyParkourCompat
+HEAD 936bc7213916335962f638d53263280fbf061e29
+branch refs/heads/fix/reconcile-sprint-collision-2026-10-09
+
+worktree C:/Users/Wolfi/.codex/worktrees/f007-position-packet-reconcile/LegacyParkourCompat
+HEAD 5d3d3ca0a423178010e4b67b67a4988c6c4c84b2
+branch refs/heads/fix/reconcile-f007-position-packet-2026-10-09
+
+worktree C:/Users/Wolfi/.codex/worktrees/f008-border-edge-gate-2026-10-09/LegacyParkourCompat
+HEAD 1249e133da5a90cd02ff08f1ffdf90292eaa1f4b
+branch refs/heads/fix/f008-border-edge-gate-2026-10-09
+
+worktree C:/Users/Wolfi/.codex/worktrees/f3-lava-mounted-scope-correction/LegacyParkourCompat
+HEAD 870398a44845f384a5255bac9b6c932cb4ee1e85
+branch refs/heads/fix/f3-nether-lava-shallow-overlap-r2-mounted-scope-2026-10-09
+
+worktree C:/Users/Wolfi/.codex/worktrees/f3-r2-lava-reconcile/LegacyParkourCompat
+HEAD 93b4839c4a9d0234a436c1f2072de6052ae5e4a9
+branch refs/heads/fix/f3-nether-lava-shallow-overlap-r2-2026-10-09
+
+worktree C:/Users/Wolfi/.codex/worktrees/mcpk-wiki-audit-recovered/LegacyParkourCompat
+HEAD 93a01b8509b907e49f1ba990e5fabaf5d9b21f33
+detached
+
+worktree C:/Users/Wolfi/.codex/worktrees/mcpk-y256-boundary-review-2026-10-09/LegacyParkourCompat
+HEAD 9da67abd41f2f1f53c886e5c3519ed44f3e2e2f7
+branch refs/heads/fix/mcpk-y256-boundaries-2026-10-09
+
+worktree C:/Users/Wolfi/.codex/worktrees/movement-discovery-1-11/LegacyParkourCompat
+HEAD 766ec5006a227d95983bfa91a9513a3ed2681baf
+branch refs/heads/feat/movement-discovery-1-11
+
+worktree C:/Users/Wolfi/.codex/worktrees/movement-passenger-yaw-2026-10-08
+HEAD 32c8b0a7e089e32d2b755a513241ac0e58d1d562
+branch refs/heads/feat/movement-passenger-yaw-2026-10-08
+
+worktree C:/Users/Wolfi/.codex/worktrees/pane-providers-next-2026-10-09/LegacyParkourCompat
+HEAD f6be0910fd0e4f7ed16fe2a146545f87fe1d2f68
+branch refs/heads/fix/pane-neighbor-providers-next-2026-10-09
+
+worktree C:/Users/Wolfi/.codex/worktrees/pane-providers-third-2026-10-09/LegacyParkourCompat
+HEAD 8f97dda72e0775c1e39990b087433b2e552d5564
+branch refs/heads/fix/pane-neighbor-providers-third-2026-10-09
+
+worktree C:/Users/Wolfi/.codex/worktrees/review-d9-camera-input-2026-10-09/LegacyParkourCompat
+HEAD dc2b29c81c1fd57941d8ed4a27d1583b1b039b4e
+branch refs/heads/fix/review-f09-input-scaling-2026-10-09
+
+worktree C:/Users/Wolfi/.codex/worktrees/review-f005-fall-reset-2026-10-09/LegacyParkourCompat
+HEAD 7cb12f7ec44cd39a7d4fea6056f03f1180775853
+branch refs/heads/fix/review-f005-fall-reset-2026-10-09
+
+worktree C:/Users/Wolfi/.codex/worktrees/review-f008-technical/LegacyParkourCompat
+HEAD 40c12762ab3c9893d863b6abd65681db8cdce48a
+branch refs/heads/fix/review-f008-technical-binding-2026-10-09
+
+worktree C:/Users/Wolfi/.codex/worktrees/review-f009-player-coordinate-clamp/LegacyParkourCompat
+HEAD f539b65862249af400c4ff15553323f864ddd3cf
+branch refs/heads/feat/review-f009-player-coordinate-clamp-2026-10-09
+
+worktree C:/Users/Wolfi/.codex/worktrees/review-f012-technical-binding/LegacyParkourCompat
+HEAD 7888435906df30af3dd9d050d91f5add60b6b45e
+branch refs/heads/fix/review-f012-technical-binding-2026-10-09
+
+worktree C:/Users/Wolfi/.codex/worktrees/review-f21-scale-2026-10-09/LegacyParkourCompat
+HEAD c80f0292773bedf3b3c687bf24edcc6cac5f3c84
+detached
+
+worktree C:/Users/Wolfi/.codex/worktrees/review-input-producers-d11-d16/LegacyParkourCompat
+HEAD 9cd04bc12214cbe2f3af0af15da7266ddf0c0a77
+branch refs/heads/fix/review-input-producers-d11-d13-2026-10-09
+
+worktree C:/Users/Wolfi/.codex/worktrees/review-lava-f3-r2/LegacyParkourCompat
+HEAD a76e28419f6b9767eab2e78147883c5459ed60c4
+branch refs/heads/fix/review-lava-shallow-overlap-r2-2026-10-09
+
+worktree C:/Users/Wolfi/.codex/worktrees/review-mcpk-current-flow/LegacyParkourCompat
+HEAD 9bc84d4ea8f33e7490ee09ba5e6d3d5d368481de
+branch refs/heads/fix/mcpk-current-flow-review-2026-10-09
+
+worktree C:/Users/Wolfi/.codex/worktrees/source-1193-1194-2026-10-09/LegacyParkourCompat
+HEAD 65053957149e0e657a7cc0401ccaef5ab1570cc4
+detached
+
+worktree C:/Users/Wolfi/.codex/worktrees/source-1194-1201-resume-2026-10-09/LegacyParkourCompat
+HEAD 39b5b2ccc1332322e2dde707f9465b75c635cc1b
+branch refs/heads/feat/source-discovery-1-19-4-1-20-1-resume-2026-10-09
+
+worktree C:/Users/Wolfi/.codex/worktrees/source-1201-1202-2026-10-09/LegacyParkourCompat
+HEAD ad3a201e1413d4378250e7f5426a633df837f0bf
+branch refs/heads/feat/source-1201-1202-2026-10-09
+
+worktree C:/Users/Wolfi/.codex/worktrees/water-depth-jump/LegacyParkourCompat
+HEAD fcd113c3fafcfde91d5cb5c8308b77292c601f9d
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/architecture-blocklanding-visibility-candidate-2026-10-08
+HEAD 1310bfbb494e7a5c9ac0c70cb8560fb2aaf5de0e
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/architecture-integration-2026-10-08
+HEAD dc1b65b29e3c2561175bd54276ae83e37cd1c045
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/branch-consolidation-2026-10-08
+HEAD dbb8513c1633025c0908daa2b36e4bbb9a341bcc
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/campaign-coordinator-2026-10-09
+HEAD 4cad7bfbb5da8ec69d073141faf8109f494f079c
+branch refs/heads/fix/campaign-coordinator-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/campaign-status-2026-10-09
+HEAD 23c098bfa4e025fd7c1b80e9e4efe7c1b463b47b
+branch refs/heads/fix/campaign-status-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/elytra-start-full-request
+HEAD bb8484823980d8f44c33c712b964275917cc93bb
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/elytra-start-nan-gate
+HEAD a5d07341d941ce2c0b9df1e392af9a40b1fbb9e9
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/fall-flying-state-1-10-2-2026-10-08
+HEAD 7d80e2eacea2ff6d088a522d8f0c1abb5768fdf3
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/fence-end-portal-frame-1-9
+HEAD 44882452607d58457d44e1aa4940f15dca9e72c8
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/fix-1182-ascending-sneak-edge
+HEAD 14a6e23432ab6a885b5c5ce265cf2404283756f6
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/full-pair-audit-1171-1182-2026-10-08
+HEAD b23789a924a67a9f24f6f85cd561067d38e0cb2c
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/independent-review-sneak-edge-backoff-2026-10-08
+HEAD b3f4fc4e6bf4a98d29753e8c7b9750eac9b26313
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/integrate-sleep-safety-slime-no-code-2026-10-08
+HEAD a5c191df557cd152d578150c689227897ac33256
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/integrate-sprint-start-water-input-2026-10-08
+HEAD 3a60fe735560e478bf0aa0d05f5e306c74800f6a
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/integrate-world03-swimming-entry-2026-10-08
+HEAD 61f278e268c3ed2bcc4d95e8f7bb6e9c543cfa82
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/mc1204-1206-boundary-source-review
+HEAD 1e5de3b32966e8766cdcf9f7ad56a9278fb79bb0
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/mc1204-1206-feature-scope-reconciliation
+HEAD 2d88ee12481b66b739d613f746bc421cc32e0db5
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/mc1204-jump-toggles
+HEAD a3ecb4667b30d86cdf46c7178cfb03d9bf4d3441
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/mcpk-1-17-movement-reconcile
+HEAD 7376c93a5dbdc3313482cd9f04c5742650756b54
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/mcpk-accepted-candidate-reconciliation
+HEAD ad684f454d969117ae786f4c038ae573c3170a99
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/mcpk-clean-rereview-continuation
+HEAD 7c27de431c013edbd56592f86b83b3c1d0268e29
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/mcpk-r4-independent-review
+HEAD d514d2444f44709e8f6e4007b92f9a3bb4e6ebfe
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/mcpk-r5-independent-review
+HEAD 7bca10fe8bc1995459e3ad9fc3913cebbee24fd2
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/mcpk-water-exit-2026-10-09
+HEAD 5ede13dafa339e9c6c482c63ff711b19ac6e74e9
+branch refs/heads/fix/mcpk-water-exit-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/mcpk-wiki-independent-review
+HEAD fcfd4480bfa2af6fa4a94a4c5ace863406709321
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/mechanic-change-architecture-guidance
+HEAD a3ec0c9c189ae7bfda4847100708069f43a993aa
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/mechanic-hook-resolution-central-catalog-2026-10-08
+HEAD dbc088f70a1bbec73f7b6ff53a7820d3e19be09c
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/minecraft-wiki-audit-resume
+HEAD 636ef45f2969576c7d4a57f18469ec1f8539995e
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/minecraft-wiki-audit-review-2026-10-08
+HEAD b48a12bd3ef62cce13784fffc8b413cd29639ebc
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/minecraft-wiki-review-2026-10-08
+HEAD 4e77925a59e3a8af38ea9f276f04903cb07ee927
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/mounted-player-lava-box
+HEAD b4576b9a888648b070acb0cab83912b3465b7d52
+branch refs/heads/fix/mounted-player-lava-box
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/movement-source-1-9-4-1-10-2-resume3
+HEAD 8d4deeedacd03de0c84e175128726b5f6ab63ef3
+branch refs/heads/feat/source-discovery-movement-source-1-9-4-1-10-2-resume3
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/orchestration-policy-2026-10-09
+HEAD 81d5784802a0bbea087d255b8cd65deccbf384ac
+branch refs/heads/fix/orchestration-policy-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/passenger-crouch-reconcile-oct8
+HEAD dee9c6fa1f4aee135c4a38d6cbd3ba314cbcf392
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/passenger-yaw-task
+HEAD 32c8b0a7e089e32d2b755a513241ac0e58d1d562
+branch refs/heads/feat/movement-passenger-yaw-2026-10-08
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/piston-head-scope-review-2026-10-08
+HEAD 4b04193a4bd45a3ca8541590448476cc5af226f0
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/piston-head-threshold-scope-proof-2026-10-08
+HEAD 8d300b4f5902cb4741193a09d4a95b5bdbb7087a
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/reconcile-fall-reset-2026-10-09
+HEAD f73d176e98fdf1f56c5207046266a168c1834d73
+branch refs/heads/fix/reconcile-fall-reset-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/reconcile-sprint-air-control-2026-10-09
+HEAD de6084c5b1b9b57a836ba862e113103e19767845
+branch refs/heads/fix/reconcile-sprint-air-control-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-1171-1182-boundaries-2026-10-09
+HEAD 163ea4881b327a9316a266601705463784566e2c
+branch refs/heads/fix/review-1171-1182-boundaries-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-1171-1182-source-2026-10-08
+HEAD 2fd121e116d7185165c76aea1c3708273afc7ea1
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-1182-ascending-sneak-edge
+HEAD c24391cc31a774da64b5d3e6d319a56a4a01e9a3
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-bed-landing-restitution-2026-10-08
+HEAD 4071cee11fcfc7b81645decddd43a64417db8308
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-bed-ordinaryfall-witness-2026-10-08
+HEAD daab0b806cf4fb33185ac294bea18d4f4a108e7f
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-bed-piston-snapshots-2026-10-08
+HEAD c2a57d1415919265ba93209109f5c679932b8304
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-clean-input-2026-10-09
+HEAD d7b932a2f57285a52fbf3c96a89d4b7173fe22ea
+branch refs/heads/fix/review-clean-input-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-elytra-start-2026-10-08
+HEAD 937a50203344bfc48c4c21b5551c3732a5503bdb
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-endpoint-reconciliation-2026-10-09
+HEAD 0f30150627fe97d3d9a6ba60f9040574e05d6c85
+branch refs/heads/fix/review-endpoint-reconciliation-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-f007-source-boundary-2026-10-09
+HEAD 1e5add13b0aff167f85ccaf340f463a61d15029f
+branch refs/heads/fix/review-f007-source-boundary-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-f008-source-boundary-2026-10-09
+HEAD 6fd3bcce82235228dd892f28a4c07bfad3b0c08b
+branch refs/heads/newfix/review-f008-source-boundary-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-F3-r2-technical-2026-10-09
+HEAD 8713e3447ba3d412f3ed56c551eb1129c8271bc7
+branch refs/heads/fix/review-F3-r2-technical-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-fall-flying-state-1-9-2026-10-08
+HEAD dd6958193b9f188341fb47f96e4cca56dd5a9a89
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-fence-end-portal-frame-1-9
+HEAD 8838f92d46d064a7da314f4d0ca02be9ec3148bc
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-fluid-checkpoints-2026-10-09
+HEAD e2bfaf654561524682cbb4f4906f127f43da2374
+branch refs/heads/fix/review-fluid-checkpoints-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-lava-2026-10-09
+HEAD a5fd2b761e08ed63798af40def8ece1509c2e536
+branch refs/heads/fix/review-lava-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mc1204-1206-scope-rev2-2026-10-08
+HEAD baeb1852407372d4ef2f2498595ce87c730a9c98
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mc1204-feature-scope-2026-10-08
+HEAD 35cbd3a9c49bb163bb718deb307b60307f78efdf
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mc1204-sprint-jump-precision-2026-10-08
+HEAD 8c9e3d5c90279575ee079f07d7a1ee360adf3c58
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mcpk-current-flow-r2-2026-10-09
+HEAD cc8d9585737e4a4d0e5f1af3a1837c0b24bd8544
+branch refs/heads/fix/review-mcpk-current-flow-r2-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mcpk-cutovers-2026-10-09
+HEAD 30e3caac80bb776403f034ee8884666865c696d2
+branch refs/heads/fix/review-mcpk-cutovers-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mcpk-y256-2026-10-09
+HEAD 2e47dad5165119de97b940e17eebf0bcad21b3c4
+branch refs/heads/fix/review-mcpk-y256-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mounted-lava-f4-2026-10-09
+HEAD 964ae707a85126a692de3bf9d41a6db5574867d5
+branch refs/heads/newfix/review-mounted-lava-f4-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-pane-neighbor-providers-2026-10-09
+HEAD bf5bb218cdd8e922d7d30999cebfb04f185d6e08
+branch refs/heads/fix/review-pane-neighbor-providers-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-pane-offset-epsilon-2026-10-08
+HEAD 91193a2c01f4ca8f0ae6efb48ba1ea41b8888eda
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-pane-offset-epsilon-corrected-2026-10-08
+HEAD 034695c8d6a4d6c2cf943c9eb880588648cfbc62
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-pane-provider-continuation-2026-10-09
+HEAD 881ae841a2c94d3df5d14840f69205afbb267993
+branch refs/heads/fix/review-pane-provider-continuation-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-shallow-water-current-cutoff-1-21-11-2026-10-08
+HEAD e023dd454513b625a0a1d9c9cad3958545803cba
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-slime-landing-restitution-2026-10-08
+HEAD b36612a06b5f2247320681a90743457f7cfa0948
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-slipperiness-range-1-19-4-2026-10-08
+HEAD df697d4c0ad1f884551313d6f6e8c58ba40d2087
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-sprint-start-water-input-1-12-1-13-2026-10-08
+HEAD 4a01f7e2f589231ee9abe8787e6327f3f04eea1c
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-swim-entry-and-mc1204-jump-2026-10-08
+HEAD 9cf9c7232c8280376034ed5d4a0ba7f84f0cf483
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-swimming-entry-gate-1-17
+HEAD 6ce9b54d1b9eb3bd623e1ab172d1654da3d7af47
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-swimming-pitch-control-1-13
+HEAD 90eaed02a299761f925f54d43a36759f26cdb650
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-water-current-12111-2612-2026-10-08
+HEAD d6664c08d015b6d301b5498302d9f64f32ebec92
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-water-sprint-provenance-2026-10-08
+HEAD 92bf9c5b944f46849b72042b02480125e6d37435
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-wiki-attribution-2026-10-09
+HEAD 6a3339e222765cc61f98efc62234dba138c8483e
+branch refs/heads/fix/review-wiki-attribution-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-world-03-correction-2026-10-08
+HEAD c1dee45d82c041fa83e42e35a0af8aefee35557f
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-world-03-end-portal-2026-10-08
+HEAD 1900fa485525dd7ad61323db6a2ce0b7d29ac36b
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/shallow-water-current-cutoff-1-21-11-2026-10-08
+HEAD 7e7b7bb7068ec7b68f3a8f09cbb42bc498a04bf4
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/slime-landing-restitution-26-2
+HEAD 4bb2bd611711a184f474017d90ce8e5ac857026d
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/slipperiness-sampling-through-1-19-4-oct8
+HEAD 5acdad5baa7261251cb442b00c6890e65f583b29
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/sneak-edge-backoff-review-2026-10-08
+HEAD 0c1a2d27f1091e87b46302909652a275fc80f037
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1192-1193-resume-2026-10-09
+HEAD 0f17dc31e6619d38752c862b9ec3a30c13b79f48
+branch refs/heads/feat/source-1192-1193-resume-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1193-1194-2026-10-09
+HEAD 7df9c281bdf6706a52a0508d309a26eb5094c3c2
+branch refs/heads/feat/source-1193-1194-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1202-1204-resume-2026-10-08
+HEAD cbcd477f1e1e32aa0a58ea132cb66709b06638cf
+branch refs/heads/feat/source-discovery-1-20-2-1-20-4-resume-2026-10-08
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1206-12101-resume-2026-10-08
+HEAD 9b58e85bdf70c52717632ff796bfb939392d81fa
+branch refs/heads/feat/source-discovery-1-20-6-1-21-1-resume-2026-10-08
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1211-1213-resume-2026-10-08
+HEAD 864d42197b90585ee5d7eac385ac26b51eb0dbe0
+branch refs/heads/feat/source-discovery-1-21-1-1-21-3-resume-2026-10-08
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-12110-12111-resume-2026-10-08
+HEAD bacbfd252724c5f989e9527ae7700e486d6a7187
+branch refs/heads/feat/source-discovery-1-21-10-1-21-11-resume-2026-10-08
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-12111-2612-d2-2026-10-09
+HEAD e3a2a405c79abc60beca53f5b5cd1beb3a0688da
+branch refs/heads/feat/source-12111-2612-d2-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1214-1215-clean-2026-10-09
+HEAD c80f0292773bedf3b3c687bf24edcc6cac5f3c84
+branch refs/heads/feat/source-1214-1215-clean-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1214-1215-resume-2026-10-08
+HEAD 1d027c706dd22fd6df2fe14deaf3a02695d6094e
+branch refs/heads/feat/source-discovery-movement-source-1-21-4-1-21-5-resume
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1215-1218-resume-2026-10-08
+HEAD ec84e77c333b75768d5ce44ce2979ba7f1c9ffd6
+branch refs/heads/feat/source-discovery-movement-source-1-21-5-1-21-8-resume-2026-10-08
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1218-12110-resume
+HEAD 2642f9401ab55ccb2c7372e535122b00d5a76b7e
+branch refs/heads/feat/source-discovery-movement-1-21-8-1-21-10-resume-2026-10-08
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-discovery-1-11-2-1-12-2
+HEAD f4d235379ea451da227a34e710bb66609fe37235
+branch refs/heads/feat/source-discovery-movement-source-1-11-2-1-12-2
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-discovery-1-12-2-1-13-2-resume
+HEAD 2853716b2031da05abe991e3913078f9a668f3bb
+branch refs/heads/feat/source-discovery-movement-source-1-12-2-1-13-2
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-discovery-1-15-2-1-16-5-resume
+HEAD f5636dd2fb01860da7ae6440c0d315aa2a117d07
+branch refs/heads/feat/source-discovery-1-15-2-1-16-5-resume
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-discovery-1144-1152
+HEAD 11e4c0b7310eacff07520caf26ebc833ee479e99
+branch refs/heads/feat/source-discovery-movement-source-1-14-4-1-15-2
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-movement-1-13-2-1-14-4-resume6
+HEAD c7fda155df85b581df2adb18d7e738ca421ac603
+branch refs/heads/feat/source-movement-1-13-2-1-14-4-resume6
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-pair-189194-solid-resume
+HEAD 690577535f5fe081cc6314485c937af4adc7631c
+branch refs/heads/feat/source-discovery-movement-source-1-8-9-1-9-4-solid-resume
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-prep-exact-111-1111-116-2026-10-08
+HEAD d8f3956602da94bf0cf67753cc0a9f4665397729
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/sprint-air-speed-early-boundary-2026-10-09
+HEAD 847e7d101780d7fb39aae523b932c08f6fb6eb19
+branch refs/heads/fix/sprint-air-speed-early-boundary-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/sprint-start-water-input-1-12-1-13-2026-10-08
+HEAD bd396a4f122f0253c806515b3991df81df6ea8e3
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/suffocation-probe-independent-implementations
+HEAD dba9a4b2458d91561adbd8ba5e24ff050b65ca8f
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/suffocation-probe-review-2026-10-08
+HEAD 6b65fc3db1cac56d6fdbe9a89799b41b862895e0
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/swimming-pitch-control-1-13
+HEAD f24fdcd2dc82906f4e111cf804de6bdb199f7f54
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/water-depth-jump-initiation-2026-10-09
+HEAD a2af029ee9d051f5b44ceaf3bf1d6087690935d2
+branch refs/heads/fix/water-depth-jump-initiation-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/wiki-attribution-2026-10-09
+HEAD 9e1841d0874217366149afa80dd8b25cbe2f4313
+branch refs/heads/fix/wiki-attribution-2026-10-09
+
+worktree D:/Javastuff/LegacyParkourCompat/.task-worktrees/world-03-end-portal-frame-push
+HEAD ff24abc4f199f6460f79dafd2c83a9a19d0f6121
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/build/codex-worktrees/movement-implementation-review
+HEAD d3190b4a21f509b136feb7a5d43402566177a1cf
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/build/codex-worktrees/review-passenger-yaw-remount-2026-10-08
+HEAD 7c40951938a925fbb6fae541a95b462006113c09
+detached
+
+worktree D:/Javastuff/LegacyParkourCompat/build/coverage-review-early-resume
+HEAD cf1b65bf1bc69a04505863f0f3f01a63bc9cf923
+detached
+

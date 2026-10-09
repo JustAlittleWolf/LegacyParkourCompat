@@ -7,6 +7,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.AirSpeedUpdateBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.FlightFallDistanceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerPoseBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeCollisionQueryBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeDistanceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeProbeBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SwimmingBehavior;
@@ -127,7 +128,8 @@ abstract class PlayerMixin implements AirSpeedState {
                 stayingOnGroundSurface,
                 MovementRuntime.find(SneakEdgeDistanceBehavior.class, player)
                     .map(distance -> distance.edgeFallDistance(player, player.maxUpStep()))
-                    .orElse(player.maxUpStep())
+                    .orElse(player.maxUpStep()),
+                MovementRuntime.find(SneakEdgeCollisionQueryBehavior.class, player).orElse(null)
             ));
         });
     }

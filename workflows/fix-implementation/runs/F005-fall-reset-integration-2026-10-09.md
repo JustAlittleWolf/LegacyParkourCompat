@@ -1,0 +1,11 @@
+# F-005 fall-distance reset integration and build — 2026-10-09
+
+- Source finding: F-005, immutable finding snapshot `e531086eecc778432b40b2b9ef39499b8a7f0dba`; independent source witness correction ACCEPT `7dfe93834ec72bf224c5ffe4e25dc102126dee5f` (`workflows/source-boundary-reviews/2026-10-09-F005-r2-independent-review.md`, blob `d2fd6bb126012d7ae16c297e9dbb5c1fa23126ae`). The exact 1.18.2 boundary and r2 witness remain bounded as recorded in the source memo.
+- Code: `b4f2cc3742cd0b93fcf9301154b5bba85351bb86`, bound by reconciliation `f73d176e98fdf1f56c5207046266a168c1834d73`.
+- Independent technical review: ACCEPT, commit `3e0992e6d764360c77dccb20e38c4ff8ade9fa1b`; report `workflows/implementation-reviews/2026-10-09-F005-technical-review.md`, blob `873037c5cc247f7a9aae9722ca48aab802601b90`, raw SHA-256 `6601EC4F6E98C5DACCDDBC9160130B8B36F13A05553393BFFDD584D99127A84B`. The review found no functional issue and claims no runtime parity.
+- Integration: fast-forwarded local `main` from `dafa594318874592f821da95393e0860a6ee4e0c` to accepted candidate `7cb12f7ec44cd39a7d4fea6056f03f1180775853`. The incoming code was limited to the `Entity.move` reset redirect, its narrow hook/change, and one catalog registration. The candidate already contained current `main`; no merge conflict or semantic correction was needed.
+- Build tree: commit `7cb12f7ec44cd39a7d4fea6056f03f1180775853`, tree `cf26f76ac3212d7fbae5334701bde3da68110971`.
+- Command: `.\gradlew.bat build -x test --init-script .task-no-tests-f005.init.gradle --no-daemon --console=plain`. The init script is preserved alongside this record under a stable filename; SHA-256 `C2C10707E1A30E0D873442B94DA87EEE147E9DFA00FC89BCE880CBADB8A46941`.
+- Result: `BUILD SUCCESSFUL` in 21 seconds; 18 actionable tasks (4 executed, 14 up-to-date). The init script disabled and logged every Gradle `Test` task: `:core:test`, `:test`, `:parkourgym-server:test`, `:testing:test`; `-x test` also excluded the root test task. No tests ran.
+- Packaged artifact: `build/libs/LegacyParkourCompat+26.2-1.0.0.jar`, 269447 bytes; SHA-256 `837621839AA3F567F6A08C8E6252C08A95BC18FA568F272C318AF67FC8E16C01`.
+- Runtime validation: not performed; movement parity remains unverified.

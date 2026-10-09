@@ -2,11 +2,11 @@ package me.wolfii.legacyparkourcompat.mixin;
 
 import net.minecraft.world.entity.Entity;
 
-/** Carries an already-resolved shallow WATER call into its nested tracker invocation. */
-final class ShallowWaterCurrentContext {
+/** Carries a scoped historical current-cutoff bypass into the nested tracker call. */
+final class FluidCurrentCutoffContext {
     private static final ThreadLocal<Entity> ACTIVE_ENTITY = new ThreadLocal<>();
 
-    private ShallowWaterCurrentContext() {
+    private FluidCurrentCutoffContext() {
     }
 
     static void run(Entity entity, Runnable action) {
