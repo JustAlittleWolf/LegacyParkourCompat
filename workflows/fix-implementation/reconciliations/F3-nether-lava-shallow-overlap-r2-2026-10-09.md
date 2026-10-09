@@ -1,6 +1,6 @@
 # F-3 R2 shallow Nether lava current reconciliation
 
-**Status:** Implemented for the accepted bounded F-3 R2 witness; candidate awaits independent technical review and serial integration/build.
+**Status:** Implemented for the accepted bounded F-3 R2 witness; independent technical review accepted; awaiting serial integration/build.
 
 ## Accepted source evidence
 
@@ -41,9 +41,10 @@ Native and toggle fallback is preserved: `MovementRuntime.find` returns no behav
 ## Implementation and handoff
 
 - Code candidate commit: `a5e43adb6251a867f4ac2b9f05ecdf73ca65564f` on `fix/f3-nether-lava-shallow-overlap-r2-2026-10-09`, based on main `cb11257e593987c68be98a7dbda8bbea7d5e77fd`.
+- Independent technical review: **ACCEPT**, no code changes requested, bounded to the accepted A/B witness. Reviewer `/root/f3_r2_technical_review` completed the review of code commit `a5e43adb6251a867f4ac2b9f05ecdf73ca65564f` and its evidence. The reviewer verified the operation, resolver direction, catalog registration, overlap and fallback. The reviewer cross-checked the 26.2 target call order against the accepted source-boundary evidence and this note; the review checkout did not contain the external 26.2 ready source tree for an independent rehash. This is an agent review result, not a separate tracked review artifact.
 - Files: `src/main/java/me/wolfii/legacyparkourcompat/mechanic/hook/ShallowLavaCurrentCutoffBehavior.java`; `src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_11/ShallowLavaCurrentCutoff.java`; `src/main/java/me/wolfii/legacyparkourcompat/change/MovementChangeCatalog.java`; `src/main/java/me/wolfii/legacyparkourcompat/mixin/EntityMixin.java`; `src/main/java/me/wolfii/legacyparkourcompat/mixin/EntityFluidCurrentMixin.java`; and the shared neutral context rename to `FluidCurrentCutoffContext.java`.
 - Integration conflicts: none observed against main at branch creation; this candidate uses the existing fluid tracker redirect and adds one target-call redirect for LAVA.
 - Static checks: `git diff --check` passed; the hook key is unique; the static catalog registration and version direction were inspected against `ChangeResolver`, `ParkourVersion`, and the exact 26.2 call order.
 - Build/tests/runtime: not run. No tests, clients, TAS, Gym, server, or Docker were launched.
-- Remaining: independent technical review of the exact code candidate, then serial integration and the campaign build owner’s required build with all Gradle Test tasks disabled plus `-x test`. Runtime validation remains separate and unauthorized here.
+- Remaining: serial integration and the campaign build owner’s required build with all Gradle Test tasks disabled plus `-x test`. Runtime validation remains separate and unauthorized here.
 - Feedback isolation: no implementation findings were sent to source-only owners; the pair remains partial.
