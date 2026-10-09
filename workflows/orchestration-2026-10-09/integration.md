@@ -153,3 +153,8 @@ At that time, the preparation, sprint-collision and Elytra slots were releasable
 - `preparations/1.14-exact-2026-10-09.md`: blob `77b0005c9bfb0580d517bf5bbc8de0830715e973`, raw SHA-256 `f8923e3573d6df066aa8c0872f925bd845591fc68a970abdd73e8feb873ca657`.
 - `preparations/1.15-mojmap-2026-10-09.md`: blob `d014d328bfb8c8b9bca9ceb944cfac537e863575`, raw SHA-256 `9251bc1d826b5bba5416e50261bdda4ff3cff85b2d3424b1540d1dd5880cd8ea`; `preparations/1.15.1-mojmap-2026-10-09.md`: blob `af25baef749ac3ba02d74a8564c31855b6ba55aa`, raw SHA-256 `88d3a697e3920dfd2f42c6a9c5978258dcb857d8533640b49c5f115c13932ac7`.
 - These records establish artifact readiness only; they add no movement interpretation or runtime result.
+
+## Coordinator queue checkpoint — exact snapshot — 2026-10-09
+
+- Imported only `workflows/orchestration-2026-10-09/queue.json` from exact commit `7f6ad5859649e7cb56e7e328a4620743acc8d424`, parent `12196ffe99bb9fe7d69a559f42eff7cd52c0d87a`. Blob `dbbe933c5ba1eba28482739e2350cb72d3234b81`, raw SHA-256 `e59f5caab487cb620bb6361718ccf5c73de76a99eeb95c55fdeebe2361d7ceaf`; byte-identical to the requested snapshot.
+- Snapshot records 15 occupied slots (13 campaign workers, coordinator, unrelated worker), 13 verified active workers, and `newRuntimeValidations: 0`. Queue metrics are coordination metadata only, not runtime results. `integration.md` is preserved and appended; the queue JSON itself was not edited.
