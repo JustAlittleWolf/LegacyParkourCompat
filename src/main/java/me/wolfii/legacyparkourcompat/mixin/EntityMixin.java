@@ -162,6 +162,7 @@ abstract class EntityMixin {
     ) {
         if (fluid.equals(FluidTags.LAVA)
             && entity instanceof Player player
+            && !player.isPassenger()
             && MovementRuntime.find(ShallowLavaCurrentCutoffBehavior.class, player)
                 .map(behavior -> behavior.bypassWeakCurrentCutoff(interaction.getFluidHeight(fluid)))
                 .orElse(false)) {
