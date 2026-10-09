@@ -919,6 +919,28 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 - Next named producer slice: `D15 / S1-OPTIONS-KEY-LOAD-AND-RESET-ALL`, capped at three complete paired methods. Compare `Options#load()` and its `KeyMapping.resetMapping()` call (A line 1348/B 1349) with the reset-all `KeyBindsScreen#addFooter()` path that assigns each mapping's default key and calls the list refresh/rebuild. Include the load `FieldAccess` and current-key-change gates, then reconnect the resulting `MAP` to keyboard/mouse writers and `KeyboardInput#tick()`.
 - Checkpoint limits: source report only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
 
+## Fresh source-only checkpoint — D15 persisted key load and reset-all
+
+- Base: controls capture checkpoint `03586d32`. Three complete paired methods were compared: `Options#load()`, `KeyBindsScreen#addFooter()`, and `Options#dataFix(CompoundTag)`. Their complete body spans total 149 lines per side. `Options.java` and `KeyBindsScreen.java` source hashes match their exact A/B source-manifest entries.
+
+### D15 — S1-OPTIONS-KEY-LOAD-RESET (bounded routes traced; one input remains open)
+
+- Persisted load path: A/B `Options#load()` lines 1226-1352/1353 returns immediately if the options file is absent; otherwise it reads each `key:value` line into a `CompoundTag` using `putString`, applies `dataFix`, then calls the shared `processOptions` adapter. That helper (recorded under D13) visits `key_<mapping name>` after the toggle options and changes the mapping's current key only if the loaded key name differs from `saveString()`. On successful return from `processOptions`, `load()` calls `KeyMapping.resetMapping()` (A line 1348/B 1349), rebuilding `MAP` from all current mapping keys. An exception before that call is caught and logged by `load()`, so the rebuild is skipped on that failure route.
+- Reset-all route: A/B `KeyBindsScreen#addFooter()` lines 38-49 installs a reset button whose action assigns each `Options.keyMappings` entry its `defaultKey`, then calls `KeyBindsList.resetMappingAndUpdateButtons()` (D14) to rebuild `MAP` and refresh the list. The paired action does not directly clear mapping `isDown`; ordinary state release on opening the controls screen is separately covered under D11, while toggle-mode state can persist according to that same `release()`/`ToggleKeyMapping#setDown(false)` path.
+- Bounded data-fix wrapper: A `Options#dataFix(CompoundTag)` lines 1362-1371 parses `CompoundTag.getString("version")` as an integer with a zero initializer/catch fallback and passes the tag to `DataFixTypes.OPTIONS.updateToCurrentVersion`; B lines 1363-1371 parses `getString("version").map(Integer::parseInt).orElse(0)` with a runtime-exception fallback and calls the same updater. Valid string versions and missing/invalid string versions reach the same defaulted update call; the downstream versioned transformations and any changed non-string version-tag semantics remain outside this three-method cap.
+- Unresolved source difference: A's load `FieldAccess` string getter uses `getValueOrNull`, which returns `CompoundTag.get(...).getAsString()` for any present tag; B's `getValue` returns a value only for `StringTag` and throws `IllegalStateException` for a present non-string tag. The initial line parser creates string tags, but `dataFix` runs between parsing and this adapter. The downstream transformation domain is not closed here, so this evidence does not establish whether a reachable post-fix non-string movement setting can occur. If it does, B can abort `processOptions` before the later key-map rebuild, while A may continue. Keep D15 open for this typed-load boundary; no movement finding or equivalence claim is made for that conditional route.
+- Producer/consumer chain: loaded or reset-to-default key field → successful `KeyMapping.resetMapping()` → `MAP` key lookup used by keyboard/mouse writers → current ordinary/toggle down-state writer → `KeyboardInput#tick()` movement predicate read → LocalPlayer input path. The callsite and consumer helpers are already recorded in D8, D10-D14.
+- Exact source hashes:
+
+| Paired source file | A SHA-256 | B SHA-256 |
+|---|---|---|
+| `net/minecraft/client/Options.java` | `82c40cc5e82d2b43c49cea687d89d257e42285eb022760eb24991e93f75fb714` | `1db5025484669bd13727cfbc8bdfeef2663a35c962de63be258664db98d71522` |
+| `net/minecraft/client/gui/screens/options/controls/KeyBindsScreen.java` | `37fb7af767757bc73759bdac2cd0e7577bed98d18d2566e172d16c381b5cf909` | `37fb7af767757bc73759bdac2cd0e7577bed98d18d2566e172d16c381b5cf909` |
+
+- Dependency state: D7 is independently accepted only for the bounded controlled-camera path; D9 remains separately open for F-09 adjudication. D10-D14 have bounded source evidence as stated above. D15 remains open for the post-data-fix string-type condition and screen-exit persistence caller. The broader D8 input producer inventory and D1-D6 remain open; pair status is partial.
+- Next named source slice: `D16 / S1-OPTIONS-SAVE-TRIGGER-AND-DATAFIX-BOUNDARY`, bounded to (1) complete screen close/save caller behavior from the controls screen into `Options.save()`, and (2) only if an exact source-side versioned transformation can be identified, the minimal data-fix route that may change a `key_*` tag's type. Resolve exact source file identities/hashes before comparison; do not infer a concrete datafix output from the wrapper alone.
+- Checkpoint limits: source report only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
+
 
 
 
