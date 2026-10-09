@@ -1046,6 +1046,15 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 - Next named source slice: `D21 / S1-OPTIONS-DATAFIX-STRING-PRESERVATION`, inspect `OptionsProgrammerArtFix#fixList` and the exact option loader string conversion used for data-fix-produced primitive tags. Then reconcile the full registered `References.OPTIONS` fixer list against `key_*` writes; close D15 only if every route preserves or produces string key values and the `MAP` rebuild remains reachable.
 - Checkpoint limits: source report only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
 
+## Fresh source-only re-revision — D9 / F-09-r2
+
+- Superseding dependency priority: the F-09 correction is recorded as a separate candidate before resuming D21. Preserve the original F-09 file and its SHA unchanged.
+- Original F-09 candidate `95061345541a2b5a8c56e57a7fe71a6007e9d684` received REQUEST CHANGES in independent review `dc2b29c81c1fd57941d8ed4a27d1583b1b039b4e`; that verdict remains bound to the original bytes and claim.
+- New candidate: `findings/F-09-r2-local-player-input-order.md`, SHA-256 `4821229e0e6eb639fb3f22edcad0cffee5d5ef9ed461659d05f5af3f623a18ba`. It retracts the missing-`0.98F` claim and records the narrower, reachable one-ULP binary32 factor-order witness for controlled-camera forward input with item slowdown and Swift Sneak I while crouching. Exact source members, helper order, attribute/equipment state and bit encodings are in the candidate.
+- Review status: F-09-r2 is pending independent source-only review; no acceptance is inferred. The original review and F-09 snapshot remain immutable. D7 remains accepted only for its bounded path. D10-D20 remain bounded records only; D15 and the overall D8 producer inventory remain open; D1-D6 remain open; pair status remains partial.
+- Next source slice after independent routing of F-09-r2: `D21 / S1-OPTIONS-DATAFIX-STRING-PRESERVATION` as recorded above.
+- Checkpoint limits: exact published source roots and the paired report/candidate only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
+
 
 
 
