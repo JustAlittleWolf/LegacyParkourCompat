@@ -85,6 +85,12 @@ The bounded current-flow r3 report and F-4 finding are accepted, but they do not
 - The final plan's 1.13.2–1.14.4 keeper at `c7fda155df85b581df2adb18d7e738ca421ac603` now has same-base worker `/root/resume_source_1132_1144` assigned to the first unresolved `run.md` dependency, capped at three method pairs. Its ref and worktree HEAD match and the worktree is clean. This live dispatch is separate from the immutable plan snapshot.
 - The earlier pre-retirement/pending statements in this inventory are historical snapshots and are superseded by this completed proof. The 19 canonical partial source refs and two active pane refs remain retained; no dormant source ref was retired.
 
+## Local history pointer cleanup — bundle-backed — 2026-10-09
+
+- `branch-cleanup/local-history-ref-cleanup.json` is the exact manifest for the subsequent atomic removal of 138 local pointers: 100 completed archive pointers and 38 `origin/cursor/*` remote-tracking caches. The 22 live local heads and six unfinished canonical checkpoint archive refs were retained. The earlier 105-ref count is a historical pre-cleanup snapshot; 100 completed archive pointers are now backed by the verified external bundle.
+- Bundle path and SHA-256 are bound in `integration.md`. `git bundle verify` succeeded and all 138 bundle heads match the manifest exactly. The two unmerged cached remote tips remain pending historical reconciliation, are not presented as merged, and remain on the original remote. No remote repository, worktree, file/cache, or garbage-collection changes were made.
+- Restoration steps are documented in `workflows/orchestration/README.md`. They restore a selected historical tip through a temporary ref after bundle verification and exact-head confirmation.
+
 ## Static verification
 
 The source import files were checked by Git blob ID and raw SHA-256; cleanup records and queue match their exact coordinator blobs. `git diff --cached --check` reports trailing spaces in some imported source-owner `run.md` checkpoints, pane memos and the slice-35 identity erratum, the passenger-yaw recovery archive (`recovery-report.md`, `staged.patch`, and `status-before-recovery.txt`), and the immutable slice-28 digest-correction report. These records were preserved byte-for-byte; the whitespace was not normalized. The staged diff contains no `src/` paths, and the source tree remains identical to the F-4 build input. No build, tests, runtime, branch ref updates, or worktree cleanup occurred in this inventory pass.
