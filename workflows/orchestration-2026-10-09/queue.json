@@ -1,7 +1,7 @@
 {
   "scope": "26 adjacent exact intervals 1.8.9 to 26.2; fixed-profile player movement and era-existing collision shapes",
   "root": "01a12180-70f4-7300-90c4-a97f4baddf0d",
-  "mainVerified": "e7f89348a619cc9feb2d47aab7a87fbefbe7649d",
+  "mainVerified": "e1dd0a65474a56e24ceea36ba300ea54c135d6a2",
   "workflow": "a6e4d9b344494fcea85532191c29170d3375e2c8",
   "cap": 15,
   "campaignCap": 14,
@@ -14,9 +14,9 @@
     {
       "role": "integration",
       "threadId": "01a12181-2e5d-7382-ac1b-be37a602911e",
-      "cursor": "be58f31f-b93f-402c-af92-fa81d6978164:30",
+      "cursor": "be58f31f-b93f-402c-af92-fa81d6978164:41",
       "state": "active",
-      "next": "docs-only batch integration"
+      "next": "integrate exact 1.18/1.18.1 preparation plus rejected F2/F3 review records"
     },
     {
       "role": "preparation",
@@ -24,96 +24,142 @@
       "state": "active",
       "worktree": "C:/Users/Wolfi/.codex/worktrees/bfa3/LegacyParkourCompat",
       "threadId": "01a12183-c4f8-70e1-8d32-eafe7a37868d",
-      "next": "prepare exact 1.18/1.18.1",
-      "publication": "b809e54f3096bd178f7248fafb0486465ae6f21f",
-      "cursor": "9f26e700-f0d9-4520-8ded-12a61f47636f:1"
+      "next": "prepare exact 1.14; no patch substitution",
+      "publication": "62346b3c8cf6eb8f2315b994aeaadf88f980842e",
+      "cursor": "9f26e700-f0d9-4520-8ded-12a61f47636f:10"
     },
     {
-      "role": "source-ledger",
+      "role": "source-boundary",
       "id": "1.17.1--1.18.2",
       "state": "active",
       "worktree": "C:/Users/Wolfi/.codex/worktrees/2442/LegacyParkourCompat",
       "threadId": "01a12184-5ece-7f23-be02-9f6407b89de4",
-      "cursor": "7e752099-aedd-40c3-9375-760c55ad3e8b:1"
+      "cursor": "7e752099-aedd-40c3-9375-760c55ad3e8b:5",
+      "head": "64d8bc740de0860a43ecc691db0efbdcaef7c19b",
+      "next": "exact F001/F002 cutovers across 1.17.1/1.18/1.18.1/1.18.2"
     },
     {
       "role": "implementation",
       "id": "1.17.1--1.18.2/F-001",
-      "state": "ready-for-review",
+      "state": "accepted-endpoint-only",
       "worktree": "C:/Users/Wolfi/.codex/worktrees/dcfd/LegacyParkourCompat",
       "threadId": "01a12184-70c0-7fb3-a3a0-f6032ef005f1",
       "head": "bba3c42691c2bb1527ce98dc5ff942e35bb31690",
       "cursor": "5d5ea59a-0f22-473f-9477-6800c856e13f:1",
-      "next": "independent endpoint correspondence review; 1.18/1.18.1 boundary open",
+      "next": "await exact boundary acceptance; no code needed at endpoints",
       "activeTimeMs": 161286
     },
     {
       "role": "implementation",
       "id": "1.17.1--1.18.2/F-002",
-      "state": "ready-for-review",
+      "state": "ready-for-identity-review",
       "worktree": "C:/Users/Wolfi/.codex/worktrees/f6a5/LegacyParkourCompat",
       "threadId": "01a12184-84a1-7f31-bbeb-f9a0a6c1cc0b",
-      "head": "9be6ac928841ec9d9552ae4e533561623b49866b",
-      "cursor": "04a495d3-f864-4eae-a17a-c3843b72a96b:1",
-      "next": "independent endpoint correspondence review; boundary and artifact identity open",
+      "head": "959751e85c053f1f1d84dd7b6ed741f92d36620f",
+      "cursor": "04a495d3-f864-4eae-a17a-c3843b72a96b:4",
+      "next": "corrected F002 snapshot 2f3425601753d8b153e795a973a147e6ce0cb0b5 pending metadata review",
       "activeTimeMs": 225120
     },
     {
       "role": "source-review",
       "id": "1.21.11--26.1.2/F-3",
       "threadId": "01a12189-d410-72b3-a76c-ae7098f8b593",
-      "state": "active",
-      "next": "review snapshot 023642f6078bc703000e5bfd7d45791b1c3aee57"
+      "state": "idle",
+      "next": "F3 revision review after corrected immutable snapshot; original F2/F3 rejected",
+      "head": "a5fd2b761e08ed63798af40def8ece1509c2e536",
+      "cursor": "ef27ebe3-74cc-48a2-b160-66aca34a5a27:14"
     },
     {
       "role": "source",
       "id": "1.21.4--1.21.5",
       "threadId": "01a1218a-7321-7803-b9fb-ecedb7294420",
       "state": "active",
-      "next": "fresh tick/input coverage bounded slice"
+      "next": "S1-INPUT-APPLICATION; D7 vector consumer and D8 input producers",
+      "head": "b8c502b89d08df1436b16e5d98e156440a7bad40",
+      "cursor": "8666b789-f413-4fda-9714-2fecdf808ba6:3"
     },
     {
       "role": "implementation-review",
       "id": "F001,F002",
       "threadId": "01a1218a-82b4-7ac0-94ea-9f3913876f37",
       "state": "active",
-      "next": "review endpoint correspondence/open gates"
+      "next": "F002 identity correction review",
+      "head": "d898d4c0ef42f0cdb065aacc36eb30d28dcc06a4",
+      "cursor": "3ca6531c-967a-4dd3-bf99-6dc941bbb60c:5"
     },
     {
       "role": "wiki",
       "id": "jump-attribution",
       "threadId": "01a1218b-99e7-7712-b241-b9a97a6eaf76",
       "state": "active",
-      "next": "exact Jumping revision attribution"
+      "next": "reconcile three attribution summaries from REQUEST CHANGES",
+      "head": "97a8f2b374ea33980b2da5f4f4cdc0ebae5eea74",
+      "cursor": "cda7bf4d-4830-4f58-9e31-cd0e65df357e:2"
     },
     {
       "role": "mcpk",
       "id": "Y256-initiation",
       "threadId": "01a1218b-aba4-7523-b874-24c0a56c9456",
       "state": "active",
-      "next": "upstream producer causal trace"
-    }
-  ],
-  "queue": [
+      "next": "World/Level/chunk getFluidState and Y256 height range producers",
+      "head": "85c00cd20c965c83cbe688464324a6579d612f01",
+      "cursor": "ae98769a-5d03-45a8-b4b9-c488e77c20ff:2"
+    },
+    {
+      "role": "source",
+      "id": "1.21.11--26.1.2/D2,F3,F2",
+      "threadId": "01a1218e-399b-7400-b1a3-5b49d804ee71",
+      "state": "active",
+      "next": "bounded D2 then F3 arithmetic revision, F2 rejection metadata",
+      "cursor": "ebfbb044-da60-407d-81fd-87f709c347d9:2"
+    },
+    {
+      "role": "source-boundary",
+      "id": "1.17.1--1.18.2/F005",
+      "threadId": "01a1218e-4b87-7351-b6b9-5f7aff6f5c5e",
+      "state": "active",
+      "next": "exact reset cutover and collision-provider witness; no code",
+      "cursor": "1d11d50d-bad3-4458-b2fa-2cb6d2d4c4d8:2"
+    },
+    {
+      "role": "wiki-review",
+      "id": "jump-attribution",
+      "threadId": "01a12190-76ca-7ad3-9aea-43d34e206519",
+      "state": "idle",
+      "next": "await three summary corrections; rendered revision proven",
+      "cursor": "55a55c12-8df6-4064-8e4e-c0a5a10684ec:4"
+    },
     {
       "role": "source-review",
-      "id": "1.21.11--26.1.2/F-2",
-      "next": "independent snapshot review after F-3; no pair freeze"
+      "id": "1.21.4--1.21.5/fresh-input",
+      "threadId": "01a12195-a8a4-70e2-a0c1-270e692bee45",
+      "state": "active",
+      "next": "review immutable b8c502b89d08df1436b16e5d98e156440a7bad40",
+      "cursor": null
     }
   ],
+  "queue": [],
   "metrics": {
-    "acceptedUnits": 0,
-    "revisions": 0,
-    "retries": 2,
-    "launches": 10,
-    "routingIncidents": 1,
+    "launches": 14,
     "launchRetries": 0,
-    "pendingNoCodeDispositions": 2
+    "routingIncidents": 1,
+    "preparationLauncherRetries": 1,
+    "newEndpointProofsAccepted": 2,
+    "newCompleteImplementationDispositions": 0,
+    "sourceCandidateRequestsForChanges": 2,
+    "wikiMetadataRevisionRequests": 1,
+    "newRuntimeValidations": 0,
+    "cost": "unavailable; no savings inference"
   },
   "workflowIntegrated": true,
   "resume": "workflows/orchestration-2026-10-08/RESUME-2026-10-08.md",
   "frozenHeads": "workflows/branch-consolidation-2026-10-08/source-resume-heads.tsv",
   "authority": "Resume until gates complete, explicit stop, or precise external blocker. Local main integration authorized; no push or unrelated cleanup/shutdown.",
   "isolation": "Source/report workers read exact sources and source-safe guides only; no main merge before full freeze. Integration owner performs report-only main merge.",
-  "provenance1214": "Previous implementation exposure preserved. Fresh blind inventory required."
+  "provenance1214": "Previous implementation exposure preserved. Fresh blind inventory required.",
+  "source1171": {
+    "coverage": "accepted exact 28-slice inventory recorded in ledger64d8bc7; immutable review preserved",
+    "implementation": "open, including first boundaries/F005 missing operation",
+    "runtime": "unverified"
+  }
 }
