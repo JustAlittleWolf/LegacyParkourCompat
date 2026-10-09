@@ -1,0 +1,204 @@
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/mixin/ClientPacketListenerMixin.java b/src/client/java/me/wolfii/legacyparkourcompat/mixin/ClientPacketListenerMixin.java
+index a1780247..073ab36d 100644
+--- a/src/client/java/me/wolfii/legacyparkourcompat/mixin/ClientPacketListenerMixin.java
++++ b/src/client/java/me/wolfii/legacyparkourcompat/mixin/ClientPacketListenerMixin.java
+@@ -24,17 +24,6 @@ abstract class ClientPacketListenerMixin {
+ 
+     @Unique private Boat legacyparkourcompat$refreshVehicle;
+     @Unique private boolean legacyparkourcompat$hadLocalPlayerPassenger;
+-    @Unique private boolean legacyparkourcompat$successfullyRemountedLocalPlayer;
+-
+-    @Inject(method = "handleSetEntityPassengersPacket", at = @At("HEAD"))
+-    private void legacyparkourcompat$clearPassengerRefresh(
+-        ClientboundSetPassengersPacket packet,
+-        CallbackInfo ci
+-    ) {
+-        this.legacyparkourcompat$refreshVehicle = null;
+-        this.legacyparkourcompat$hadLocalPlayerPassenger = false;
+-        this.legacyparkourcompat$successfullyRemountedLocalPlayer = false;
+-    }
+ 
+     @WrapOperation(
+         method = "handleSetEntityPassengersPacket",
+@@ -50,7 +39,6 @@ abstract class ClientPacketListenerMixin {
+         LocalPlayer player = this.minecraft.player;
+         this.legacyparkourcompat$refreshVehicle = null;
+         this.legacyparkourcompat$hadLocalPlayerPassenger = false;
+-        this.legacyparkourcompat$successfullyRemountedLocalPlayer = false;
+         if (vehicle instanceof Boat boat && player != null && vehicle.hasIndirectPassenger(player)) {
+             this.legacyparkourcompat$refreshVehicle = boat;
+             this.legacyparkourcompat$hadLocalPlayerPassenger = true;
+@@ -58,30 +46,6 @@ abstract class ClientPacketListenerMixin {
+         original.call(vehicle);
+     }
+ 
+-    @WrapOperation(
+-        method = "handleSetEntityPassengersPacket",
+-        at = @At(
+-            value = "INVOKE",
+-            target = "Lnet/minecraft/world/entity/Entity;startRiding(Lnet/minecraft/world/entity/Entity;ZZ)Z"
+-        )
+-    )
+-    private boolean legacyparkourcompat$captureSuccessfulDirectRemount(
+-        Entity passenger,
+-        Entity vehicle,
+-        boolean force,
+-        boolean sendEventAndTriggers,
+-        Operation<Boolean> original
+-    ) {
+-        boolean startedRiding = original.call(passenger, vehicle, force, sendEventAndTriggers);
+-        if (startedRiding
+-            && this.legacyparkourcompat$hadLocalPlayerPassenger
+-            && passenger == this.minecraft.player
+-            && vehicle == this.legacyparkourcompat$refreshVehicle) {
+-            this.legacyparkourcompat$successfullyRemountedLocalPlayer = true;
+-        }
+-        return startedRiding;
+-    }
+-
+     @Inject(method = "handleSetEntityPassengersPacket", at = @At("TAIL"))
+     private void legacyparkourcompat$restorePassengerYaw(
+         ClientboundSetPassengersPacket packet,
+@@ -89,13 +53,11 @@ abstract class ClientPacketListenerMixin {
+     ) {
+         Boat vehicle = this.legacyparkourcompat$refreshVehicle;
+         boolean hadLocalPlayerPassenger = this.legacyparkourcompat$hadLocalPlayerPassenger;
+-        boolean successfullyRemountedLocalPlayer = this.legacyparkourcompat$successfullyRemountedLocalPlayer;
+         this.legacyparkourcompat$refreshVehicle = null;
+         this.legacyparkourcompat$hadLocalPlayerPassenger = false;
+-        this.legacyparkourcompat$successfullyRemountedLocalPlayer = false;
+ 
+         LocalPlayer player = this.minecraft.player;
+-        if (hadLocalPlayerPassenger && successfullyRemountedLocalPlayer && vehicle != null && player != null) {
++        if (hadLocalPlayerPassenger && vehicle != null && player != null && vehicle.hasIndirectPassenger(player)) {
+             MovementRuntime.find(BoatPassengerYawRefreshBehavior.class, player)
+                 .ifPresent(behavior -> behavior.onPassengerRefresh(
+                     player,
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/mixin/LocalPlayerMixin.java b/src/client/java/me/wolfii/legacyparkourcompat/mixin/LocalPlayerMixin.java
+index 7243d407..839e19bb 100644
+--- a/src/client/java/me/wolfii/legacyparkourcompat/mixin/LocalPlayerMixin.java
++++ b/src/client/java/me/wolfii/legacyparkourcompat/mixin/LocalPlayerMixin.java
+@@ -90,7 +90,7 @@ abstract class LocalPlayerMixin {
+             .orElse(vanilla);
+     }
+ 
+-    @Inject(method = "aiStep", at = @At("HEAD"))
++    @Inject(method = "aiStep", at = @At("TAIL"))
+     private void legacyparkourcompat$tickSprintDuration(CallbackInfo ci) {
+         LocalPlayer player = (LocalPlayer) (Object) this;
+         MovementRuntime.find(SprintTickBehavior.class, player)
+diff --git a/src/main/java/me/wolfii/legacyparkourcompat/mechanic/hook/SprintTickBehavior.java b/src/main/java/me/wolfii/legacyparkourcompat/mechanic/hook/SprintTickBehavior.java
+index a0844d36..1a99de7d 100644
+--- a/src/main/java/me/wolfii/legacyparkourcompat/mechanic/hook/SprintTickBehavior.java
++++ b/src/main/java/me/wolfii/legacyparkourcompat/mechanic/hook/SprintTickBehavior.java
+@@ -4,7 +4,7 @@ import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
+ import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
+ import net.minecraft.world.entity.player.Player;
+ 
+-/** Callback at the start of the local player AI tick. */
++/** Callback at the end of the local player movement tick. */
+ @FunctionalInterface
+ @MechanicType("player.sprint.tick")
+ public interface SprintTickBehavior extends VersionedMechanic {
+diff --git a/workflows/fix-implementation/runs/1.17.1-boat-passenger-yaw-refresh.md b/workflows/fix-implementation/runs/1.17.1-boat-passenger-yaw-refresh.md
+deleted file mode 100644
+index 9962f5d6..00000000
+--- a/workflows/fix-implementation/runs/1.17.1-boat-passenger-yaw-refresh.md
++++ /dev/null
+@@ -1,26 +0,0 @@
+-# Implementation: F-006 boat passenger yaw refresh
+-
+-Status: implemented; independent re-review pending.
+-
+-## Finding and source evidence
+-
+-- Accepted finding snapshot: commit `064fc24e5e3d8b4dab4f12c2000dcb13d37514ca`, `workflows/source-campaign-2026-10-07/1.17.1--1.18.2/findings/F-006-boat-passenger-yaw-refresh.md`, SHA-256 `3994115e3789a8280aa61228b2b092a007e57985cde72492f19731a8f150db95`.
+-- Blind source review: commit `4ff925e4e4186adb704d57d9b3471c559945436c`.
+-- Pair discovery remains partial; acceptance releases this finding only.
+-- 1.17.1 Mojmap source: `LocalPlayer#startRiding` SHA-256 `c9a91cb6cb57806bc8d22e5bfe2d97daaf21d5d2a48f34a6e2c53164c61c5812`; `ClientPacketListener#handleSetEntityPassengersPacket` SHA-256 `a59ba067bb0b9cdf026159a87534fd456ed766ec287cfd23e24356f84f078a5a`.
+-- 1.18.2 Mojmap source: `LocalPlayer#startRiding` SHA-256 `99c2d18bcd23243afb8f95c5bafb21fb0be7ea04aacbb14fcf7be7ced2c9c095`; `ClientPacketListener#handleSetEntityPassengersPacket` SHA-256 `e718016022c2ae86a2c354af2d34fe4de7d6e36dc8792d2e2c1f08abb6b77b7b`.
+-- Current 26.2 unobfuscated source: `ClientPacketListener.java` SHA-256 `9cb0cc8afebae9f4e42f428a52719c645817d03893dc371e6711c7bd16eac1b6`; `LocalPlayer.java` SHA-256 `8d089aa09217e3607b38590f7c1623385562800943ac6dfd3d17804e041da6d6`.
+-
+-## Implementation
+-
+-- The reusable client bridge is `ClientPacketListenerMixin`; its existing pre-rebuild check stays `vehicle.hasIndirectPassenger(player)`, matching the modern packet handler and retaining nested-to-direct transitions.
+-- During `handleSetEntityPassengersPacket`, a wrapper records only a successful `Entity#startRiding(Entity, boolean, boolean)` call where the passenger is the local player and the vehicle is the captured boat. The TAIL dispatch now requires both that event and the pre-packet indirect-membership guard. Nested riders that remain nested do not trigger the old yaw reset.
+-- The TAIL hook remains after the packet's passenger-list rebuild. The handler's main-thread check runs before passenger lookup/ejection; unknown-vehicle handling reaches TAIL without a captured refresh. Initial direct mounts have no pre-packet membership and continue through vanilla's native mount yaw write. The correction writes only current movement-facing `yRot`; interpolation and head-yaw fields remain excluded.
+-- The `V1_17_1` change stays exact-profile guarded. `ChangeResolver` selects the closest registered change whose `emulates` ordinal is at least the selected profile, and returns no changes for `CURRENT`; therefore the correction is limited to the 1.17.1 profile and native movement is unchanged.
+-
+-## Verification and handoff
+-
+-- Static review: exact 26.2 packet-handler descriptor and operation order checked against the shared unobfuscated source; `git diff --check` passed.
+-- Build, tests, clients, TAS, servers, and Docker were not run, per assignment.
+-- Runtime parity remains unvalidated. Independent re-review is pending.
+-- Task branch: `feat/movement-passenger-yaw-2026-10-08`, based on handoff commit `48003fe0cf923529cf65358dd96126a918e436eb`.
+diff --git a/workflows/source-campaign-2026-10-07/integration-queue-2026-10-08.md b/workflows/source-campaign-2026-10-07/integration-queue-2026-10-08.md
+deleted file mode 100644
+index 651ebe42..00000000
+--- a/workflows/source-campaign-2026-10-07/integration-queue-2026-10-08.md
++++ /dev/null
+@@ -1,31 +0,0 @@
+-# Movement campaign integration queue — 2026-10-08
+-
+-Integration branch: `feat/movement-campaign-integration-2026-10-08`.
+-Baseline: `457b350fa5490b90b08de4f97033718c77efec1d` (`feat/movement-completeness-final`; final 2026-10-07 checkpoint). This queue records incremental handoffs from that baseline. Existing code coverage, new implementation, static review, integration/build, and runtime validation are separate statuses.
+-
+-| Finding/work item | Source evidence / disposition | Baseline or incoming code | Static review | Integration / build | Runtime |
+-|---|---|---|---|---|---|
+-| 1.15 sprint reset + water descent | Owner verified both are already present in baseline; bytecode ordinal and `isAffectedByFluids` call/profile fallback traced. No new commit needed. | Existing coverage at baseline; no duplicate patch. | Static binding verified by owner; not runtime proof. | No integration needed; new campaign build pending. | Not performed. |
+-| F041, 1.19 fall-flying sprint gate | Owner verified existing baseline coverage in `v1_19SprintFallFlyingGate` / `SprintStart`, `v1_19_4SprintStart`, and `LocalPlayerMixin.canStartSprinting`. | Existing coverage at baseline; not a new fix. | Static binding verified by owner. | No integration needed; new campaign build pending. | Not performed. |
+-| TICK01 sprint duration | Owner is tracing the existing `SprintDuration` path. | Existing baseline code under review; no new patch reported. | Pending owner trace. | Pending disposition. | Not performed. |
+-| F002 fixed-profile pose selection / collision-fit | Accepted source snapshot `448934e826fb41266dc79a313ef1187899d76382`; blind acceptance `10aa24e1114200397ed2d042a33f269113faf179`. | Implementation underway. | Pending exact-code review. | Pending. | Not performed. |
+-| Sprint timeout ordering | Incoming code commit `3c531180287b3cecff49e557083db73352b258f7` moves existing sprint-duration timer dispatch from `aiStep` tail to head and updates hook documentation. | Patch received; not merged. | Assigned, decision pending. | Hold merge/build for review. | Not performed. |
+-| 1.14 Soul Sand / friction sample / Elytra start | Accepted source snapshot `4a0c35f`; blind review `960ce564`. | Implementation underway in separate owner task. | Source snapshot accepted; exact-code review pending. | Pending. | Not performed. |
+-| Passenger yaw | Implementation underway in separate owner task. | Code pending. | Pending. | Pending. | Not performed. |
+-
+-The baseline contains yesterday's integrated fixes and its successful test-disabled build. Build status for any new integrated code remains pending. When a patch is accepted, record its exact code and review commits, integrate it, then use the exclusive compile slot with every Gradle Test task explicitly disabled and `-x test`. No tests, client/TAS, Gym/server, Docker, or runtime simulations are authorized. This queue does not close any source pair or claim runtime parity. Cross-version switching remains outside the correctness guarantee.
+-
+-## Integration review update — 2026-10-08
+-
+-Independent exact-patch review is recorded at review commit `fddb263`.
+-
+-- TICK-01 is accepted and integrated as `3699009`; test-disabled compile/build remains pending.
+-- Passenger yaw and 1.13 pose fit are held for the requested corrections in `integration-review-2026-10-08.md`.
+-- Elytra comparator commit `a5d07341d941ce2c0b9df1e392af9a40b1fbb9e9` was verified, but the full patch is held because the newer callsite/helper gates remain. The correction and original code are preserved in branch history and reverted from the active diff.
+-- No build runs until accepted review scope is recorded. Runtime validation remains unperformed.
+-
+-## Build result — 2026-10-08
+-
+-- TICK-01-only batch: `BUILD SUCCESSFUL` with `gradlew.bat build -x test --init-script build/no-tests.init.gradle`; every Gradle `Test` task type was disabled and no tests ran.
+-- Packaged JAR SHA-256: `1C3198B1E05AC5FD4CE4D84683060576CA34ED636CA81E88728FF9F6A07BCBD1`.
+-- Runtime parity remains unverified. Passenger yaw, pose fit, and Elytra remain held for correction and renewed review.
+\ No newline at end of file
+diff --git a/workflows/source-campaign-2026-10-07/integration-review-2026-10-08.md b/workflows/source-campaign-2026-10-07/integration-review-2026-10-08.md
+deleted file mode 100644
+index 6a657aaa..00000000
+--- a/workflows/source-campaign-2026-10-07/integration-review-2026-10-08.md
++++ /dev/null
+@@ -1,25 +0,0 @@
+-# Integration review — 2026-10-08
+-
+-Integration branch: `feat/movement-campaign-integration-2026-10-08`, based at `958b0916f08cba25e3be86d67d48a9d1e8651d1f`.
+-
+-## Accepted and integrated
+-
+-- **TICK-01 sprint timeout** — ACCEPT. Source review: `fddb263`, section “TICK-01 sprint timeout — ACCEPT”. Code commit: `3c531180287b3cecff49e557083db73352b258f7`, integrated as `3699009`. Moving the callback to `LocalPlayer.aiStep` HEAD places the 600-tick stop before local sprint eligibility and travel, matching the 1.8.9 timeout phase. First changed release remains unknown within `(1.8.9, 1.9.4]`. Runtime parity is unverified.
+-
+-## Held for correction and renewed review
+-
+-- **Boat passenger yaw refresh** — REQUEST CHANGES in `fddb263`. The implementation must restore all historical yaw writes and restrict the path to direct player mount transitions; indirect/nested passengers do not run the old local-player mount callback. The current code and its direct-passenger interim edit were reverted from the active diff.
+-- **1.13 pose resize fit** — REQUEST CHANGES in `fddb263`. Compare requested float dimensions to the entity's float width/height using historical comparison semantics, not double AABB extents. The implementation was reverted from the active diff.
+-- **Elytra jump start** — REQUEST CHANGES in `fddb263`. The exact comparator correction `a5d07341d941ce2c0b9df1e392af9a40b1fbb9e9` correctly preserves strict `y < 0.0` including NaN, but the implementation still delegates to the newer helper and sits under newer caller gates. It needs a hook that can reproduce the accepted 1.14.4 eligibility/request behavior. The implementation and comparator fix were reverted from the active diff.
+-
+-## Verification
+-
+-No tests, game clients, TAS, Gym/server, Docker, or runtime simulations were run.
+-
+-## Build checkpoint
+-
+-- Accepted batch: TICK-01 only.
+-- Command: `gradlew.bat build -x test --init-script build/no-tests.init.gradle`.
+-- Result: `BUILD SUCCESSFUL`; 18 actionable tasks executed. The init script disabled every Gradle `Test` task type across all projects; `-x test` also excluded the root test task. No test task executed.
+-- JAR: `build/libs/LegacyParkourCompat+26.2-1.0.0.jar`, SHA-256 `1C3198B1E05AC5FD4CE4D84683060576CA34ED636CA81E88728FF9F6A07BCBD1`.
+-- Build verifies compilation/packaging only; runtime movement and Mixin application remain unverified.
+\ No newline at end of file

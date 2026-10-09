@@ -1,0 +1,8 @@
+# branch.oid 32c8b0a7e089e32d2b755a513241ac0e58d1d562
+# branch.head feat/movement-passenger-yaw-2026-10-08
+1 M. N... 100644 100644 100644 a17802470b8b5e1c0ef02dd1a9619992208e8bed 073ab36dfa4b6e0893d0f6d631f10869cb15a977 src/client/java/me/wolfii/legacyparkourcompat/mixin/ClientPacketListenerMixin.java
+1 M. N... 100644 100644 100644 7243d407cb4f8860ee11e365a08b0d38279b7bb9 839e19bb12be5e0aac32a54e7afa3cdb179a49f2 src/client/java/me/wolfii/legacyparkourcompat/mixin/LocalPlayerMixin.java
+1 M. N... 100644 100644 100644 a0844d360c70cf79512ddeb77849ee975ee43095 1a99de7d4d4decc8b205a4b5cc52b56900f7f428 src/main/java/me/wolfii/legacyparkourcompat/mechanic/hook/SprintTickBehavior.java
+1 D. N... 100644 000000 000000 9962f5d6a4b5cbdf274b48cbf1da773dadd86d8d 0000000000000000000000000000000000000000 workflows/fix-implementation/runs/1.17.1-boat-passenger-yaw-refresh.md
+1 D. N... 100644 000000 000000 651ebe428748e5cab999929ffe134efe9336358c 0000000000000000000000000000000000000000 workflows/source-campaign-2026-10-07/integration-queue-2026-10-08.md
+1 D. N... 100644 000000 000000 6a657aaa379cc4d21b05a1a6b8328315ae4f2285 0000000000000000000000000000000000000000 workflows/source-campaign-2026-10-07/integration-review-2026-10-08.md

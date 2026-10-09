@@ -1,7 +1,7 @@
 {
   "scope": "26 adjacent exact intervals 1.8.9 to 26.2; fixed-profile player movement and era-existing collision shapes",
   "root": "01a12180-70f4-7300-90c4-a97f4baddf0d",
-  "mainVerified": "5289e70dcd58da6a9ffc9181b1a48d817de41546",
+  "mainVerified": "52cbecd94c5046a05c16c7fc4d4f649ad464868c",
   "workflow": "a6e4d9b344494fcea85532191c29170d3375e2c8",
   "cap": null,
   "campaignCap": null,
@@ -15,19 +15,19 @@
       "role": "integration",
       "id": "integration",
       "threadId": "01a12181-2e5d-7382-ac1b-be37a602911e",
-      "state": "active",
+      "state": "idle",
       "cursor": "ef610f20-f479-42f7-b847-342aa7015b40:29",
-      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff",
-      "latest": "Integrated the pane review reports and 26.1/26.1.1 preparation report in commit e9cbd9d1 on main. The integration ledger records the bounded verdicts, outstanding corrections for slices 23 and 29, and the slice 28 memo digest typo. The 26.1/26.1.1 preparation dependency is closed for F4 source-bound"
+      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff"
     },
     {
       "role": "preparation",
       "id": "ready-publications",
       "threadId": "01a12183-c4f8-70e1-8d32-eafe7a37868d",
-      "state": "idle",
+      "state": "active",
       "cursor": "e795b830-c4d8-4544-aa7a-5cc1fbef8969:14",
       "worktree": "C:/Users/Wolfi/.codex/worktrees/bfa3/LegacyParkourCompat",
-      "next": "Investigate exact 1.13.2 mapped-JAR hash discrepancy, preserve source bytes"
+      "next": "Diagnose1.13.2 artifact provenance using retained bytes, no regeneration",
+      "latest": "Prepared and independently verified exact 26.1 and 26.1.1 sources in unobfuscated mode. Both markers declare exact matching release IDs; all source and artifact manifest entries passed rehashing. Version Ready source root Source files / bytes Marker "
     },
     {
       "role": "source-review",
@@ -73,10 +73,15 @@
       "role": "source",
       "id": "1.21.4--1.21.5",
       "threadId": "01a1218a-7321-7803-b9fb-ecedb7294420",
-      "state": "idle",
-      "cursor": "8666b789-f413-4fda-9714-2fecdf808ba6:28",
-      "head": "b8c502b89d08df1436b16e5d98e156440a7bad40",
-      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff"
+      "state": "active",
+      "cursor": "efa10008-35c1-43d2-bc1a-f2907a795743:1",
+      "head": "c80f0292773bedf3b3c687bf24edcc6cac5f3c84",
+      "next": "the saved inventory/dependency queue after terminal F21 invalidation; preserve invalidated finding and its review, do not reopen it without new source evidence",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1214-1215-clean-2026-10-09",
+      "branch": "feat/source-1214-1215-clean-2026-10-09",
+      "phase": "bounded-old-source-continuation",
+      "report": "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/run.md",
+      "latest": "The assigned branch and checkpoint match exactly, the worktree is clean, and both readiness manifests match the recorded source/artifact identities. The saved queue’s immediate follow-up is the scale-attribute refresh path invalidated in F-21. I’ll c"
     },
     {
       "role": "implementation",
@@ -92,10 +97,11 @@
       "role": "wiki",
       "id": "jump-attribution",
       "threadId": "01a1218b-99e7-7712-b241-b9a97a6eaf76",
-      "state": "idle",
+      "state": "active",
       "cursor": "06f01dea-dc2d-4178-820b-92e1f7c23970:15",
       "head": "97a8f2b374ea33980b2da5f4f4cdc0ebae5eea74",
-      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff"
+      "next": "Freeze next provider census set65–67 for independent review",
+      "latest": "The citation corrections are in separate errata; the original slice 23 and 29 memos and their REQUEST CHANGES reports remain unchanged. Slice 23: Verified the 1.9.4 FlowerBlock.java bytes against the source manifest; the correct digest is c99f86acd56"
     },
     {
       "role": "mcpk",
@@ -110,9 +116,10 @@
       "role": "source",
       "id": "1.21.11--26.1.2",
       "threadId": "01a1218e-399b-7400-b1a3-5b49d804ee71",
-      "state": "idle",
+      "state": "active",
       "cursor": "dc916b8a-b6db-4cde-ad7f-e2836eae0fd2:3",
-      "next": "Correct eye-height witness; continue S4.7; F4 review pending"
+      "next": "Close next three saved S4.7 dependencies, source-only",
+      "latest": "The corrected memo is committed at ff956771f753f8d2a92c2fb3e51caebbfaa7f4a2: Correction memo Git blob: 2f890681c6bc6026034710417a3c0265ca8087e3 Raw SHA-256: 6ecb26f940fada9074238ac485178eabf6ce43b1b270fee4adf55a6f38387ef6 The ledger binds that identi"
     },
     {
       "role": "implementation",
@@ -134,9 +141,15 @@
       "role": "source",
       "id": "1.19.2--1.19.3",
       "threadId": "01a12195-a8a4-70e2-a0c1-270e692bee45",
-      "state": "idle",
-      "cursor": "c9fb0adc-4770-460c-989b-d92109e57453:3",
-      "next": "Continue rider input/on-foot state dependency"
+      "state": "active",
+      "cursor": "c9fb0adc-4770-460c-989b-d92109e57453:4",
+      "next": "the saved long-duration effect synchronization path; F009 r2 acceptance is closed and must remain preserved",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1192-1193-resume-2026-10-09",
+      "branch": "feat/source-1192-1193-resume-2026-10-09",
+      "head": "03de5e41f82b9d9c7705e8ee19267fd27b59ba6b",
+      "phase": "bounded-old-source-continuation",
+      "report": "workflows/source-campaign-2026-10-07/1.19.2--1.19.3/run.md",
+      "latest": "The cited source files and publication manifests match the run’s recorded hashes. I’ve confirmed the client handler diverges: 1.19.2 restores a super-long-duration flag, while 1.19.3 omits it. I’m now tracing whether that flag affects actual effect l"
     },
     {
       "role": "workflow-policy",
@@ -170,17 +183,30 @@
       "role": "source",
       "id": "1.19.3--1.19.4",
       "threadId": "01a121c9-8af9-7bf0-860e-efc05c182b84",
-      "state": "idle",
-      "cursor": "4e99b096-d90a-4ae0-8ef4-a30dd2b40721:13",
-      "next": "Continue frozen source inventory"
+      "state": "active",
+      "cursor": "66c19327-2808-41db-bbca-8684b580e3b7:1",
+      "next": "remaining player-reachable collision queries, support paths and callbacks; follow the saved dependency queue",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1193-1194-2026-10-09",
+      "branch": "feat/source-1193-1194-2026-10-09",
+      "head": "7df9c281bdf6706a52a0508d309a26eb5094c3c2",
+      "phase": "bounded-old-source-continuation",
+      "report": "workflows/source-campaign-2026-10-07/1.19.3--1.19.4/run.md",
+      "latest": "The clearance predicate checkpoint is recorded: the moved-box, block/entity/world-border, and liquid gates match in method-level hashes. The remaining dependency is the actual shape/context/result production, so I’m keeping I-COLLISION-REMAINDER open"
     },
     {
       "role": "source",
       "id": "1.20.1--1.20.2",
       "threadId": "01a121c9-9ef5-78d0-946f-9284ce3512a0",
-      "state": "idle",
-      "cursor": "279e070a-6c2f-4e8a-a56a-5f1e0e048e22:12",
-      "next": "Continue frozen source inventory"
+      "state": "active",
+      "cursor": "5a8eab2c-6d27-4a2f-9edd-93b07cdcc929:1",
+      "next": "the saved S10 and S27 open dependency queues",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1201-1202-restored-2026-10-09",
+      "branch": "feat/source-1201-1202-2026-10-09",
+      "head": "ad3a201e1413d4378250e7f5426a633df837f0bf",
+      "phase": "bounded-old-source-continuation",
+      "report": "workflows/source-campaign-2026-10-07/1.20.1--1.20.2/run.md",
+      "infrastructureRecovery": "Missing prior checkout restored from unchanged ad3a201e branch.",
+      "latest": "The coordinator restored the checkpoint at a new path. I’ll verify that checkout’s Git root, branch, HEAD and cleanliness before resuming the bounded S10/S27 work."
     },
     {
       "role": "source-binding-review",
@@ -233,9 +259,15 @@
       "role": "source",
       "id": "1.19.4--1.20.1",
       "threadId": "01a121e2-3cab-77a2-b74b-af2a63e576dd",
-      "state": "idle",
-      "next": "Source continuation 1.19.4–1.20.1",
-      "cursor": "14c1dcf3-5f8d-4f43-8aa7-52cb5c3e181c:9"
+      "state": "active",
+      "next": "S5-02 FarmBlock MAINTAINS_FARMLAND registrations/defaults/neighbor inputs, preserving frozen checkpoint eb6e73602c4cbf5a72dafcbbe56b9c3b0ff10ba0",
+      "cursor": "33ee49d6-a0a7-4a74-b4aa-97c0dec253b2:1",
+      "worktree": "C:/Users/Wolfi/.codex/worktrees/source-1194-1201-resume-2026-10-09/LegacyParkourCompat",
+      "branch": "feat/source-discovery-1-19-4-1-20-1-resume-2026-10-09",
+      "head": "39b5b2ccc1332322e2dde707f9465b75c635cc1b",
+      "phase": "bounded-old-source-continuation",
+      "report": "workflows/source-campaign-2026-10-07/1.19.4--1.20.1/run.md",
+      "latest": "I’m resuming from the committed checkpoint. I’ll first verify the assigned worktree’s Git root, branch, HEAD, and cleanliness; then I’ll continue only the bounded FarmBlock/tag source path and keep the report partial until its dependencies and indepe"
     },
     {
       "role": "source-review",
@@ -249,10 +281,9 @@
       "role": "implementation",
       "id": "mounted-lava F4",
       "threadId": "01a121e2-647a-7793-b98b-9c6b977350b8",
-      "state": "active",
+      "state": "closed",
       "next": "Implement accepted mounted lava box finding",
-      "cursor": "dbaf81aa-3376-47af-b431-335880374f7b:5",
-      "latest": "The candidate is committed as 8de4544e. The worktree is clean, and the independent code review is underway. main has advanced since the earlier merge; I’ll inspect and merge its current tip only after the candidate review resolves the shared-box question."
+      "cursor": "dbaf81aa-3376-47af-b431-335880374f7b:5"
     },
     {
       "role": "implementation-review",
@@ -266,7 +297,7 @@
       "role": "implementation",
       "id": "MCPK-Y256",
       "threadId": "01a121e4-1927-7621-8cd2-3063988260c6",
-      "state": "idle",
+      "state": "closed",
       "next": "Reconcile accepted Y256 water jump mechanism",
       "cursor": "171cb0e1-db15-4827-8004-d49157dac5d0:17"
     },
@@ -410,44 +441,19 @@
   ],
   "internalWorkers": [
     {
-      "agentName": "/root/current_flow_r3",
-      "role": "mcpk-correction",
-      "state": "ready-for-review",
-      "inputs": "5ede13dafa339e9c6c482c63ff711b19ac6e74e9 / cc8d9585737e4a4d0e5f1af3a1837c0b24bd8544",
-      "next": "Separate r3 memo/binding then independent review",
-      "head": "d279b9576bf12dd58b132ca2a5a09add40bd4abb"
+      "agent": "/root/remaining_branch_closure",
+      "state": "active",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/remaining-branch-audit-2026-10-09"
     },
     {
-      "agentName": "/root/pane_reviews_17_24",
-      "role": "wiki-provider-review",
-      "state": "completed",
-      "inputs": "8f97dda72e0775c1e39990b087433b2e552d5564",
-      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/pane-reviews-17-24-2026-10-09",
-      "branch": "fix/pane-reviews-17-24-2026-10-09",
-      "phase": "isolated setup / bounded review",
-      "next": "Separate report per immutable memo; no main merge",
-      "head": "eddb4f0ca9858518075c5aa8dc886ff1808d6b8b"
+      "agent": "/root/uncommitted_work_recovery",
+      "state": "active",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/uncommitted-work-audit-2026-10-09"
     },
     {
-      "agentName": "/root/pane_reviews_25_32",
-      "role": "wiki-provider-review",
-      "state": "completed",
-      "inputs": "8f97dda72e0775c1e39990b087433b2e552d5564",
-      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/pane-reviews-25-32-2026-10-09",
-      "branch": "fix/pane-reviews-25-32-2026-10-09",
-      "phase": "isolated setup / bounded review",
-      "next": "Separate report per immutable memo; no main merge",
-      "head": "f5eca7c721cbfa5cd8ea5977ddfcc2fbb2f427dc"
-    },
-    {
-      "agentName": "/root/y256_technical_binding",
-      "role": "implementation-review",
-      "state": "running",
-      "inputs": "3f361357423ca2d7f4abb9a8833957000bf938e5",
-      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/y256-technical-binding-2026-10-09",
-      "branch": "fix/y256-technical-binding-2026-10-09",
-      "phase": "independent technical binding",
-      "next": "Exact reviewed-tree verdict before integration/build"
+      "agent": "/root/resume_ownership_reconciliation",
+      "state": "active",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/resume-coverage-audit-2026-10-09"
     }
   ],
   "infrastructureIncident": {
@@ -532,5 +538,7 @@
     "remainingLocal": 67,
     "records": "workflows/orchestration-2026-10-09/branch-cleanup",
     "policy": "completed-or-obsolete-only; preserve unfinished refs and all worktree files"
-  }
+  },
+  "questionRouting": "No routine worker questions to user; resolve from evidence, report exact blockers to coordinator; retain required approval gates.",
+  "phase": "recover-old-work; close-and-commit; bounded-source-continuations"
 }
