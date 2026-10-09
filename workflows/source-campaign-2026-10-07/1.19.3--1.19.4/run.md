@@ -37,7 +37,7 @@ Shared artifact root, relative to the repository: `build/movement-campaign-2026-
 - `INV-COLLISION` player collision/query path, shape providers, registrations, callbacks and neighboring-block dependencies: status=pending; slice_ids=I-TICK-AUTO-JUMP, I-TICK-EDGE-NUDGE, I-COLLISION-ENTITY-MOVE, I-COLLISION-QUERY-ASSEMBLY, I-COLLISION-REMAINDER; evidence=auto-jump probe math is traced to collision query; providers and registrations remain open.
 - `INV-WORLD-MOVEMENT` block/fluid movement properties, registrations and resource inventory: status=pending; slice_ids=I-WORLD, I-WORLD-BLOCK-MOVEMENT-FACTORS; the underwater-dismount tag and resource-layer behavior are documented in I-TICK-UNDERWATER-DISMOUNT; broader resource and registry inventory remains open.
 - `INV-MODIFIERS` movement attributes, effects, enchantments, equipment and applications/removals/conditions: status=pending; slice_ids=I-MODIFIER, I-TICK-LOCAL-JUMP-START; no terminal inventory evidence yet.
-- `INV-EXTERNAL` player-only external inputs and client consumers: status=pending; slice_ids=I-EXTERNAL, I-TICK-LOCAL-PACKET-HANDOFF; no terminal inventory evidence yet.
+- `INV-EXTERNAL` player-only external inputs and client consumers: status=pending; slice_ids=I-EXTERNAL, I-TICK-LOCAL-PACKET-HANDOFF, I-TICK-LOCAL-FLIGHT-INPUT; no terminal inventory evidence yet.
 - `INV-EXCLUSIONS` direct movement reads versus excluded health/food/damage producers and non-player movement: status=pending; slice_ids=I-EXCLUSIONS, I-TICK-LIVING-AISTEP-DAMAGE, I-TICK-LOCAL-RIDDEN-JUMP-INPUT, I-TICK-LOCAL-WATER-VISION; evidence=campaign scope is recorded, but direct-read audit remains open.
 
 ## Coverage ledger
@@ -280,13 +280,13 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 
 - Inventory ID(s): INV-TICK, INV-STATE
 - Exact behavior boundary and enclosing guards/order checked: `LocalPlayer#aiStep()V` local-camera vertical shift/jump accumulation into delta movement; exact paired ranges are A lines 771–784 and B lines 752–765.
-- A evidence: `ready/1.19.3/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 771–784, SHA-256 `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`.
-- B evidence: `ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 752–765, SHA-256 `8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58`.
-- State producers/writers -> consumers/readers: flying ability and controlled-camera predicate plus shift/jump input -> signed integer vertical scale -> direct `setDeltaMovement` write using ability flying speed.
-- Parent slices / dependencies / closure evidence: input producer is I-TICK-INPUT-LOCAL-TRANSFER; ability flying-speed resolution is I-TICK-FLIGHT-SPEED. Same-call effect and operation order remain to be compared in this slice.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): reachable for a flying LocalPlayer that is the controlled camera and has nonzero vertical input; comparison remains open.
-- Finding IDs or checked absence/replacement path: pending comparison.
+- A evidence: `ready/1.19.3/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 771–784, SHA-256 `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`; `ready/1.19.3/mojmap/net/minecraft/world/entity/player/Abilities.java#getFlyingSpeed()F` / `#setFlyingSpeed(F)V`, lines 44–50, SHA-256 `a4f952ada7bc3b21406feaf13c171bfa22d36b01e265e3b987612f28b5609edc`; `ready/1.19.3/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java#handlePlayerAbilities(ClientboundPlayerAbilitiesPacket)V`, lines 1731–1740, SHA-256 `c01c3c362e5eb7de780f4ca0f1b8964a49e40cfc166ae63cbe392cd71b6b1b9e`.
+- B evidence: `ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 752–765, SHA-256 `8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58`; `ready/1.19.4/mojmap/net/minecraft/world/entity/player/Abilities.java#getFlyingSpeed()F` / `#setFlyingSpeed(F)V`, lines 44–50, SHA-256 `a4f952ada7bc3b21406feaf13c171bfa22d36b01e265e3b987612f28b5609edc`; `ready/1.19.4/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java#handlePlayerAbilities(ClientboundPlayerAbilitiesPacket)V`, lines 1797–1806, SHA-256 `bcc74e52a32d20a3e993ebe4e08fffe8caca7481fad8f326dacdc93796b2b715`.
+- State producers/writers -> consumers/readers: server ability packet -> client `Abilities.flying`/`flyingSpeed` fields via `setFlyingSpeed`; local shift/jump input -> signed integer vertical scale -> direct `setDeltaMovement` addition using `Abilities#getFlyingSpeed()`.
+- Parent slices / dependencies / closure evidence: input producer is I-TICK-INPUT-LOCAL-TRANSFER. The paired ability getter/setter and client packet handler preserve the same float field and assignments. Server-provided ability values and packet arrival relative to local tick are external inputs, retained under I-EXTERNAL and the D-1 timing boundary.
+- Status: compared-no-difference
+- Disposition and rationale (including concrete reachability/preconditions): for a flying LocalPlayer controlling the camera with the same nonzero vertical input and synchronized flying-speed value, both versions apply the same signed, ordered `flyingSpeed * 3.0F` addition. No difference in the supplied server value or packet timing is inferred.
+- Finding IDs or checked absence/replacement path: checked absence of a difference in local vertical-flight input, ability-speed storage and the paired client ability-packet consumer.
 
 ### Slice I-TICK-LOCAL-RIDDEN-JUMP-INPUT: charged jump request to a rideable vehicle
 
@@ -499,8 +499,8 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 - Version boundary: source-confirmed A/B difference, first changed release unknown within (1.19.3, 1.19.4]. Reviewer: independent source reviewer `01a116ce-c937-7613-a49b-716e99582357`. Status: submitted for blind source review; acceptance pending. The snapshot does not close any other pair coverage or freeze the pair.
 ## Resume checkpoint
 
-- Last completed slices: prior closed slices through I-TICK-TRAVEL-FALL-FLYING; added I-COLLISION-AUTOJUMP-PROVIDERS, the bounded dismount route inventory, F-05, I-TICK-LOCAL-PACKET-HANDOFF, I-TICK-INPUT-LOCAL-TRANSFER, I-TICK-LOCAL-WATER-DESCENT and I-TICK-LOCAL-JUMP-START. Findings F-01 through F-05 remain source-only records; F-03 through F-05 snapshots await independent blind review.
-- Next bounded slice: resolve I-TICK-LOCAL-FLIGHT-INPUT by comparing its ability-speed accessor and direct vertical-velocity response; then close I-TICK-LOCAL-FLIGHT-CLEANUP, followed by the non-tick D-3 dependencies.
+- Last completed slices: prior closed slices through I-TICK-TRAVEL-FALL-FLYING; added I-COLLISION-AUTOJUMP-PROVIDERS, the bounded dismount route inventory, F-05, I-TICK-LOCAL-PACKET-HANDOFF, I-TICK-INPUT-LOCAL-TRANSFER, I-TICK-LOCAL-WATER-DESCENT, I-TICK-LOCAL-JUMP-START and I-TICK-LOCAL-FLIGHT-INPUT. Findings F-01 through F-05 remain source-only records; F-03 through F-05 snapshots await independent blind review.
+- Next bounded slice: close I-TICK-LOCAL-FLIGHT-CLEANUP by comparing the post-super on-ground flight flag reset and its game-mode predicate; then continue the non-tick D-3 dependencies.
 - Outstanding dependencies and owners: D-3, source worker; D-1, D-2, D-4 and D-5 closed as recorded.
 - Current assumptions requiring verification: complete behavior correspondence for all reachable travel branches; packet arrival relative to local tick (runtime-only boundary); remaining collision callbacks/support/registrations; block/fluid registrations and resources; modifiers/equipment; external player-facing inputs; direct excluded-state reads; remaining direct player knockback/impulse consumer and resistance-modifier inventory.
 
@@ -523,7 +523,7 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 
 ## Source audit closure
 
-- Coverage counts by status: findings 6; in-progress 0; pending 8; compared-no-difference 18; not-applicable 4; blocked 0. Explicit pending count: 8. This is a partial checkpoint; full source-only coverage, freeze and independent audit are not claimed.
+- Coverage counts by status: findings 6; in-progress 0; pending 7; compared-no-difference 19; not-applicable 4; blocked 0. Explicit pending count: 7. This is a partial checkpoint; full source-only coverage, freeze and independent audit are not claimed.
 - Required inventory status and evidence: all seven required inventories remain pending overall; named sprint-air-speed, sprint-eligibility, auto-jump arithmetic and mounted sprint carry-over slices are closed as findings, while the full INV-TICK, INV-STATE and INV-COLLISION inventories and all remaining inventories remain open.
 - Open dependency: D-3. D-1 and the F-02-specific part of D-2 are bounded source closures; their broader inventories remain represented by pending slices. D-4 and D-5 are resolved as recorded above.
 - Unresolved gaps and limits: full tick and state inventory; source-only packet-arrival timing relative to local tick; full movement collision callbacks/support/registrations; block/fluid data; modifiers/equipment; external inputs; exclusions direct-read audit; independent reviewer.
