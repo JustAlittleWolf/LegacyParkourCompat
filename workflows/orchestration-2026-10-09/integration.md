@@ -353,5 +353,9 @@ At that time, the preparation, sprint-collision and Elytra slots were releasable
 
 ## Branch-routing incident and checkpoint preservation — 2026-10-09
 
-- During closure documentation, the shared checkout was switched from `main` at F007 build input `be97698305315c5ac7c7a3c2dbdab2bf436a9881` to `fix/campaign-closure-audit-report-2026-10-09`. An audit-note commit was created on that isolated branch. No production files changed there; the audit commit remains preserved on its branch and is excluded from the main integration.
-- The F007 completion-record documentation commit `b9d225b9` was also made on its sibling `fix/campaign-closure-audit-2026-10-09` branch. The reviewed F007 implementation and successful test-disabled build remain bound to `be976983`, tree `0f0fa1542a27b4b73ae52fec02f92de29233adb7`; the record-routing correction will be carried to `main` without changing that code tree or JAR.
+- During closure documentation, the shared checkout was switched from `main` at F007 build input `be97698305315c5ac7c7a3c2dbdab2bf436a9881` to `fix/campaign-closure-audit-report-2026-10-09`. Audit-note commit `02a0d9b38d5340899f024c6aa1b7bdc679f1d0d5` is preserved on `fix/campaign-closure-audit-isolated-2026-10-09` at `D:\Javastuff\LegacyParkourCompat\.task-worktrees\campaign-closure-audit-isolated-2026-10-09` and remains excluded from main; it changed no production files. The audit worker is terminal.
+- The F007 completion-record documentation commit `b9d225b9` remains preserved on `fix/campaign-closure-audit-2026-10-09`. The same record and accepted handoff documentation were carried onto `main` in commit `91ff3003`; the reviewed F007 implementation and successful test-disabled build remain bound to `be976983`, tree `0f0fa1542a27b4b73ae52fec02f92de29233adb7`. `git diff be976983..91ff3003 -- src` is empty, and the JAR hash is unchanged.
+
+## Pane checkpoint 57eb111 disposition — 2026-10-09
+
+- Await a clean metadata review before changing the checkpoint's disposition. Preserve the historical contaminated third/pointer reports as history only; they do not provide clean acceptance evidence.
