@@ -1121,6 +1121,17 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 - Next slice: continue S1-LOCAL-TICK input-to-travel call order and direct movement consumers after the input snapshot, including inherited `LivingEntity.aiStep()` dispatch. Do not use this bounded result to close any full inventory.
 - Checkpoint limits: exact published 1.21.4/1.21.5 Mojmap roots and source report only; no implementation/wiki/mixed coordinator evidence, build, test, game/runtime, push, or main merge.
 
+## Fresh source-only checkpoint — D26 player movement-simulation gate
+
+### D26 — S1-LOCAL-TICK-CAN-SIMULATE-PLAYER-GATE (bounded player authority path closed)
+
+- B `LivingEntity.aiStep()` gates ordinary travel with `canSimulateMovement()` (line 2765). `Player` overrides that predicate to `!level().isClientSide || isLocalPlayer()` and defines `isEffectiveAi()` with the same predicate (Player.java:1321-1327). Thus an ordinary server-side `Player` and the local client player pass both predicates. In A, `Entity.isEffectiveAi()` returns `!level().isClientSide`; `LocalPlayer` overrides it to true. The A travel branch is unconditional for a non-ridden living entity. For the in-scope local-player path, B's added ordinary-travel gate passes and introduces no eligibility delta.
+- Remote client avatars do not create a missed inherited-travel case: `RemotePlayer` overrides `aiStep()` in both releases and does not call `super.aiStep()`. Its client interpolation and movement-vector smoothing therefore bypass the `LivingEntity.aiStep()` gate in both versions. No claim is made here about remote-avatar interpolation parity.
+- Exact hashes verified against the paired source manifests: A `Entity.java` `05f18ef2ec0413fc010230407c812a11553eb5123b68d21b5d7b2c0c175698ad`, `Player.java` `c45f41b9784ce50a88a498e84a13edcef0a23e175233d726ed7f90940f19ebc1`, `LocalPlayer.java` `145686ebdc7f0d12a64070309073665eb8695b7e09911a723e86113a77d04611`, `RemotePlayer.java` `2bac53020610475374bfbcee937be72baba11fceeb1c64f88a09989f21fce0fe`; B `Entity.java` `fc177733e9cc4b2d5cf2562e5529d0f4e0b9c3690f081fbd58aa9119eb173dc4`, `Player.java` `8fc187f33999db9dfc49251e95e92a17645a50adab16ca0f93f4948209f62036`, `LocalPlayer.java` `f1fcfed4a938732361e7ad951f93e9b73b02320ee56f0b219e2b3c7acdbfa2ef`, `RemotePlayer.java` `db4508961b75904ebcefc64baae2a3f613be4c4136333152972d320e7b533e08`.
+- Disposition: no independent player-authority travel-gate finding. This closes only the ordinary-travel eligibility question for LocalPlayer/server Player and the RemotePlayer override route. D1-D6 and the full S1/S3 inventories remain open; F-19 remains accepted for its bounded sequence; F-09 and F-09-r2 remain immutable REQUEST CHANGES candidates; pair status remains partial.
+- Next slice: continue direct player travel-branch dispatch and its state dependencies; keep passenger/vehicle physics out of scope while recording player-owned movement branches.
+- Checkpoint limits: exact published 1.21.4/1.21.5 Mojmap roots and source report only; no implementation/wiki/mixed coordinator evidence, build, test, game/runtime, push, or main merge.
+
 ## Fresh source-only checkpoint — D25 local input through inherited movement dispatch
 
 ### D25 — S1-LOCAL-TICK-INPUT-TO-TRAVEL (bounded call-order path traced)
