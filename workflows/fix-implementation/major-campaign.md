@@ -1,5 +1,7 @@
 # Major-version delta implementation campaign
 
+> Historical campaign record. For new assignments, use the current source readiness manifests and [implementation workflow](README.md). The source paths, model settings, reset baseline and all-workers-finished integration gate below describe this completed campaign.
+
 Status: all fifteen fresh GPT-6 Luna High workers completed and their frozen tips are merged into `feat/major-movement-final-integration` by the final GPT-6.1 Sol Low integration owner. The clean removal `ebe56a21d17d120f11f8ede5b6a3d49bea7c7e41` remains authoritative. Superseded implementations and coverage claims were not used.
 
 [major-campaign.json](major-campaign.json) records all fifteen branch tips and full commits, the integration implementation checkpoint and final branch ref. [final-integration.md](final-integration.md) records hook reconciliation, source evidence, exclusions, build and validation limits. Minor discovery and runtime movement validation remain deferred. The zero-confirmed 1.21.11 to 26.1.2 disposition is not an equivalence claim.
