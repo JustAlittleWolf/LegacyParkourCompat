@@ -12,6 +12,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.CollisionRestitutionBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.GravityBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.InsideBlockContactBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PistonMovementBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerFallDistanceResetBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeMoverBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowWaterCurrentCutoffBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SwimmingUpdateBehavior;
@@ -202,5 +203,23 @@ abstract class EntityMixin {
         return MovementRuntime.find(BlockSpeedFactorBehavior.class, entity)
             .map(behavior -> behavior.movementSpeedFactor(entity, vanilla))
             .orElse(vanilla);
+    }
+
+    @Redirect(
+        method = "move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/Entity;resetFallDistance()V"
+        ),
+        require = 1
+    )
+    private void legacyparkourcompat$movementFallDistanceReset(Entity entity) {
+        if (entity instanceof Player player
+            && MovementRuntime.find(PlayerFallDistanceResetBehavior.class, player)
+                .map(behavior -> behavior.suppressMovementFallDistanceReset(MovementRuntime.profile(player).target()))
+                .orElse(false)) {
+            return;
+        }
+        entity.resetFallDistance();
     }
 }

@@ -50,7 +50,7 @@ Finally enumerate unresolved movement-state writers, callback implementations, c
 
 ## Locally verified starting paths
 
-These paths were inspected in existing local outputs while creating this workflow. They are navigation evidence, not a certified comparison or a guarantee that these mapping families exist for arbitrary versions. Paths are relative to `decompiled_minecraft/<version>/<family>/`.
+Use these version-specific paths as navigation seeds, not comparison evidence or proof of mapping availability. Verify them against the assigned artifact manifests. Paths are relative to `decompiled_minecraft/<version>/<family>/`.
 
 Feather (`ornithe-feather`), verified in 1.8.9, 1.12.2 and 1.13.2:
 
@@ -81,25 +81,8 @@ For the exact 1.13.2 to 1.14.4 comparison, explicit Ornithe Feather `feather-gen
 
 In the inspected 26.2 unobfuscated output, `Enchantments.java` registers Depth Strider with `WATER_MOVEMENT_EFFICIENCY`, Soul Speed with `MOVEMENT_EFFICIENCY` and `SOUL_SPEED_BLOCKS` conditions, and Swift Sneak with `SNEAKING_SPEED`. `LivingEntity.java` consumes the first two attributes; `LocalPlayer.java` consumes sneaking speed. The useful discovery unit therefore spans registration, attribute application, conditions/tags and the movement consumer. Searching only for a dedicated `SwiftSneakEnchantment` class would miss this path. Re-resolve and cite exact members/lines/hashes in any actual comparison run.
 
-## Repository search hints
+## Inventory closure
 
-- `src/client/java/me/wolfii/legacyparkourcompat/mixin/client/LocalPlayerMixin.java`
-- `src/main/java/me/wolfii/legacyparkourcompat/mixin/`: player, living entity, entity and block-state injections.
-- `src/main/java/me/wolfii/legacyparkourcompat/mechanic/hook/`: existing mechanic vocabulary.
-- `src/main/java/me/wolfii/legacyparkourcompat/change/`: existing historical deltas.
+Map every reachable behavior from stages 1–7 to the [run template's required inventories](templates/run.md#required-source-inventories): `INV-TICK`, `INV-STATE`, `INV-COLLISION`, `INV-WORLD-MOVEMENT`, `INV-MODIFIERS`, `INV-EXTERNAL` and `INV-EXCLUSIONS`. Each row needs exact paired body ranges, producers/consumers, guards/order, dependencies and a disposition.
 
-These identify useful entry points. Return to vanilla source to establish every finding, and keep the coverage inventory broader than the mod's current hook set.
-
-## Mandatory closure inventories and campaign exclusions
-
-For each exact pair, the run ledger must split the following into method/body-range slices and link producer-to-consumer dependencies. A stage heading or a narrow travel-method comparison cannot substitute for these inventories:
-
-- **Full player tick:** input sampling and local player tick order; each pre-travel predicate and state write; travel dispatch and every reachable branch; post-travel work, callbacks and state writes. Record callers, enclosing guards, source ranges and important operation order on both sides.
-- **Player dimensions and state:** every movement-relevant writer/reader for pose, dimensions, eye height, position, velocity, bounding box, on-ground/collision/fluid flags, support position, sprint/jump timers, and direct movement predicates. Include constructors, defaults, reset/transition paths and repeated updates.
-- **Collision and shapes:** the player collision/query path; every reachable shape provider and override; block/entity registrations and state/property/context inputs; support and neighboring-block dependencies; callback order and shape construction. A vanilla block-state registration inventory is needed to prove absence or modern-only status.
-- **Movement producers/data:** block and fluid properties/callbacks, resource and registry values, attributes, effect/enchantment formulas and conditions, equipment/item applicability, and external/synchronized values. Trace consumers back to producers and then verify the forward chain. Mark server/datapack inputs explicitly.
-- **External player influences:** player-facing consumers of corrections and direct velocity/impulse application, plus in-scope player-facing piston and mount/dismount transitions. Include direct player knockback response math/state writes when reachable, even if a combat event triggers them. Do not simulate attack/damage resolution, other entities' knockback, or vehicle physics.
-
-Out-of-scope inventory: health, regeneration, hunger, food, saturation, exhaustion, attack/damage simulation and resolution, non-player movement, and vehicle physics. Preserve vanilla production of those states. Record direct reads of vanilla values only as movement inputs; do not emulate the excluded producer system or turn health/food-state differences into movement findings merely because a sprint predicate reads them. Direct player velocity/impulse/knockback response remains in scope as player movement; do not trace or implement the combat cause or damage calculation.
-
-For the 2026 source campaign, previous discovery reports may be consulted as navigation aids. Old mod implementation and isolated wiki-audit findings must remain unseen until the source-only report is frozen. Normal source workers do not browse the MCPK or Minecraft wikis. Freeze a report under `workflows/source-campaign-2026-10-07/<A>--<B>/` before implementation reconciliation. Keep `discovery`, `implementation`, and `runtime validation` statuses independent.
+Follow the [discovery completion gate](README.md#5-close-the-source-research). Source-only workers must not inspect mod code or wiki information before full-pair freeze. After freeze, use the implementation workflow to locate mod hooks and reconcile findings.

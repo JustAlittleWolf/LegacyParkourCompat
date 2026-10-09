@@ -1,0 +1,110 @@
+{
+  "reviewedOn": "2026-10-09",
+  "method": "Counts of returned coordinator item metadata from complete available paginated histories; repeated calls, interrupted turns and administrative work included. No child-worker census, token/billing totals or mutually exclusive timing data.",
+  "runs": [
+    {
+      "label": "September 26 discovery",
+      "threadId": "01a0ddbd-ee97-7470-8d29-4bac4c63666a",
+      "title": "Launch movement discovery runs",
+      "pages": 2,
+      "turns": 11,
+      "missingDurationTurns": 0,
+      "counts": {
+        "userMessage": 10,
+        "reasoning": 335,
+        "agentMessage": 78,
+        "commandExecution": 277,
+        "list_threads": 17,
+        "list_archived_threads": 1,
+        "fileChange": 13,
+        "wait_threads": 68,
+        "contextCompaction": 1,
+        "functionCallOutput": 10,
+        "send_message_to_thread": 41,
+        "list_projects": 3,
+        "create_thread": 16,
+        "read_thread": 3,
+        "list_artifacts": 1,
+        "sleep": 11
+      }
+    },
+    {
+      "label": "October 1 rebuild",
+      "threadId": "01a0f62f-6519-74a0-b5f8-9a7d247eb6fd",
+      "title": "Orchestrate major version discovery",
+      "pages": 1,
+      "turns": 3,
+      "missingDurationTurns": 0,
+      "counts": {
+        "userMessage": 11,
+        "agentMessage": 172,
+        "send_message_to_thread": 262,
+        "wait_threads": 342,
+        "reasoning": 472,
+        "commandExecution": 92,
+        "create_thread": 35,
+        "read_thread": 7,
+        "contextCompaction": 2,
+        "functionCallOutput": 2,
+        "list_projects": 2,
+        "list_threads": 5,
+        "webSearch": 2,
+        "fileChange": 3,
+        "sleep": 2
+      }
+    },
+    {
+      "label": "October 7–8 original coordinator",
+      "threadId": "01a116a7-73f3-7562-8aba-0de2936e4c19",
+      "title": "Find why movement patches are unap​​",
+      "pages": 2,
+      "turns": 12,
+      "missingDurationTurns": 3,
+      "counts": {
+        "userMessage": 29,
+        "reasoning": 613,
+        "agentMessage": 135,
+        "read_thread": 216,
+        "fileChange": 9,
+        "send_message_to_thread": 688,
+        "commandExecution": 56,
+        "list_projects": 4,
+        "create_thread": 50,
+        "wait_threads": 308,
+        "list_threads": 9,
+        "contextCompaction": 4,
+        "webSearch": 2,
+        "open_in_codex": 1,
+        "list_archived_threads": 1
+      }
+    },
+    {
+      "label": "October 8 continuation and cleanup",
+      "threadId": "01a11bae-d354-7931-8746-2ef6befcce75",
+      "title": null,
+      "pages": 4,
+      "turns": 29,
+      "missingDurationTurns": 1,
+      "counts": {
+        "userMessage": 11,
+        "agentMessage": 233,
+        "commandExecution": 310,
+        "reasoning": 797,
+        "subAgentActivity": 141,
+        "wait": 75,
+        "fileChange": 1,
+        "contextCompaction": 6,
+        "wait_threads": 702,
+        "send_message_to_thread": 300,
+        "read_thread": 84,
+        "create_thread": 48,
+        "list_threads": 4,
+        "list_projects": 4,
+        "functionCallOutput": 3,
+        "list_artifacts": 2,
+        "create_worktree": 2,
+        "get_worktree_creation_status": 2
+      }
+    }
+  ]
+}
