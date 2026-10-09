@@ -1245,7 +1245,7 @@ F001 - [farmland player collision height](findings/F001-farmland-collision-heigh
 
 ## Source audit closure
 
-- Coverage counts: 75 compared-no-difference; 5 source-confirmed findings submitted for review (0 accepted); 3 not-applicable; 0 blocked; 12 initial planned behavior slices pending. Three piston coverage slices are in-progress.
+- Coverage counts: 76 compared-no-difference; 5 source-confirmed findings submitted for review (0 accepted); 3 not-applicable; 0 blocked; 12 initial planned behavior slices pending. Three piston coverage slices are in-progress.
 - Pending bounded-slice count: 12 initial planned behavior slices remain; revise upward whenever source navigation exposes additional distinct methods, writers, consumers or dependencies.
 - Unresolved gaps: inventories and the full-pair audit remain open; movement decompiler diagnostics (D1), resource closure (D2), and transitive state-writer/caller closure (D3) remain open. The source-provenance record and revised-artifact integrity checks are complete, with original derived-jar equivalence unproven.
 - Evidence/hash/correspondence audit: partial; F001–F005 source and revised immutable-artifact evidence and rail hashes are recorded. Independent operations verification passed; independent finding review remains pending.
