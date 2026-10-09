@@ -1,7 +1,7 @@
 {
   "scope": "26 adjacent exact intervals 1.8.9 to 26.2; fixed-profile player movement and era-existing collision shapes",
   "root": "01a12180-70f4-7300-90c4-a97f4baddf0d",
-  "mainVerified": "cdfeb1a0",
+  "mainVerified": "5289e70dcd58da6a9ffc9181b1a48d817de41546",
   "workflow": "a6e4d9b344494fcea85532191c29170d3375e2c8",
   "cap": null,
   "campaignCap": null,
@@ -15,40 +15,40 @@
       "role": "integration",
       "id": "integration",
       "threadId": "01a12181-2e5d-7382-ac1b-be37a602911e",
-      "state": "idle",
-      "cursor": "ef610f20-f479-42f7-b847-342aa7015b40:18",
-      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff"
+      "state": "active",
+      "cursor": "ef610f20-f479-42f7-b847-342aa7015b40:29",
+      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff",
+      "latest": "Integrated the pane review reports and 26.1/26.1.1 preparation report in commit e9cbd9d1 on main. The integration ledger records the bounded verdicts, outstanding corrections for slices 23 and 29, and the slice 28 memo digest typo. The 26.1/26.1.1 preparation dependency is closed for F4 source-bound"
     },
     {
       "role": "preparation",
       "id": "ready-publications",
       "threadId": "01a12183-c4f8-70e1-8d32-eafe7a37868d",
-      "state": "active",
-      "cursor": "e795b830-c4d8-4544-aa7a-5cc1fbef8969:9",
+      "state": "idle",
+      "cursor": "e795b830-c4d8-4544-aa7a-5cc1fbef8969:14",
       "worktree": "C:/Users/Wolfi/.codex/worktrees/bfa3/LegacyParkourCompat",
-      "next": "Investigate exact 1.13.2 mapped-JAR hash discrepancy, preserve source bytes",
-      "latest": "The successful run produced exact source roots for both versions, and the task’s built-in required-class checks passed. I’ve prepared a publisher that verifies every staged source and cached artifact, keeps the mapping mode explicitly unobfuscated, and renames each ready marker into place only after"
+      "next": "Investigate exact 1.13.2 mapped-JAR hash discrepancy, preserve source bytes"
     },
     {
       "role": "source-review",
       "id": "1.21.11--26.1.2 eye state",
       "threadId": "01a12184-5ece-7f23-be02-9f6407b89de4",
-      "state": "active",
-      "cursor": "c131b0aa-9965-4f17-8314-3380046ae8a0:11",
+      "state": "idle",
+      "cursor": "c131b0aa-9965-4f17-8314-3380046ae8a0:12",
       "worktree": "C:/Users/Wolfi/.codex/worktrees/2442/LegacyParkourCompat",
       "head": "64d8bc740de0860a43ecc691db0efbdcaef7c19b",
-      "next": "Completed bounded review; 0.4 witness revision required",
-      "latest": "The canonical sources confirm the value, with one important trace refinement: Player inherits LivingEntity.getDimensions(Pose), which scales the registered type dimensions. For the default standing Player, the inherited age and scale factors are both 1.0F, so the registered 1.62F eye height is prese"
+      "next": "Completed bounded review; 0.4 witness revision required"
     },
     {
       "role": "implementation",
       "id": "F007/F3",
       "threadId": "01a12184-70c0-7fb3-a3a0-f6032ef005f1",
-      "state": "idle",
+      "state": "closed",
       "cursor": "8a3eea70-1fab-4230-9869-259a8dcc4431:7",
       "worktree": "C:/Users/Wolfi/.codex/worktrees/dcfd/LegacyParkourCompat",
       "head": "bba3c42691c2bb1527ce98dc5ff942e35bb31690",
-      "next": "F3 mounted-scope correction; F007 boundary accepted"
+      "next": "Completed; no branch-dependent continuation.",
+      "branchRetired": true
     },
     {
       "role": "implementation-review",
@@ -82,17 +82,18 @@
       "role": "implementation",
       "id": "F012",
       "threadId": "01a1218a-82b4-7ac0-94ea-9f3913876f37",
-      "state": "notLoaded",
+      "state": "closed",
       "cursor": "3ca6531c-967a-4dd3-bf99-6dc941bbb60c:32",
       "head": "d898d4c0ef42f0cdb065aacc36eb30d28dcc06a4",
-      "next": "Code independently reviewed; build/integration queued"
+      "next": "Completed; no branch-dependent continuation.",
+      "branchRetired": true
     },
     {
       "role": "wiki",
       "id": "jump-attribution",
       "threadId": "01a1218b-99e7-7712-b241-b9a97a6eaf76",
       "state": "idle",
-      "cursor": "06f01dea-dc2d-4178-820b-92e1f7c23970:8",
+      "cursor": "06f01dea-dc2d-4178-820b-92e1f7c23970:15",
       "head": "97a8f2b374ea33980b2da5f4f4cdc0ebae5eea74",
       "next": "Continue assigned bounded task; exact immutable inputs in worker handoff"
     },
@@ -141,19 +142,20 @@
       "role": "workflow-policy",
       "id": "workflow-policy",
       "threadId": "01a121c5-0d34-76b3-a5ef-6e7c732c888e",
-      "state": "active",
-      "cursor": "1951c728-f4f6-4091-b67a-bfa19b61eb97:5",
-      "next": "New dedicated assignment",
+      "state": "closed",
+      "cursor": "1951c728-f4f6-4091-b67a-bfa19b61eb97:6",
+      "next": "Completed; no branch-dependent continuation.",
       "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/orchestration-policy-2026-10-09",
-      "latest": "The workflow now specifies absolute worktree ownership, Git root/branch checks before staging or other listed mutations, and a separate integration-owner path for lane-restricted reports after verdict. I’ve tied those checks to the pause/resume journal; I’m checking the exact diff and any current-ma"
+      "branchRetired": true
     },
     {
       "role": "mcpk-cutover-review",
       "id": "mcpk-cutover-review",
       "threadId": "01a121c5-1fbd-7410-a78c-303eeabf72ed",
-      "state": "notLoaded",
+      "state": "closed",
       "cursor": "bc64db6e-18f2-4b46-be8e-077caac11492:5",
-      "next": "New dedicated assignment"
+      "next": "Completed; no branch-dependent continuation.",
+      "branchRetired": true
     },
     {
       "role": "stage-status-audit",
@@ -216,10 +218,9 @@
       "role": "wiki-provider-review",
       "id": "wiki-provider-review",
       "threadId": "01a121d2-306e-73b0-96e8-ecd298855c95",
-      "state": "active",
-      "cursor": "dd698475-fb2d-429f-a50f-0478bd2baea9:9",
-      "next": "Fresh evidence-ready independent review",
-      "latest": "The third memo is present unchanged in the frozen candidate tree. Its three cited provider source files match the recorded hashes; I’m checking the registration/default-state details and the specific checkpoint ledger bindings now. The memo’s original derived-JAR equivalence caveat remains in scope."
+      "state": "idle",
+      "cursor": "dd698475-fb2d-429f-a50f-0478bd2baea9:11",
+      "next": "Fresh evidence-ready independent review"
     },
     {
       "role": "F012-review-binding",
@@ -248,9 +249,10 @@
       "role": "implementation",
       "id": "mounted-lava F4",
       "threadId": "01a121e2-647a-7793-b98b-9c6b977350b8",
-      "state": "idle",
+      "state": "active",
       "next": "Implement accepted mounted lava box finding",
-      "cursor": "d11f4600-5e4d-4a1a-ad23-86caffa02a63:5"
+      "cursor": "dbaf81aa-3376-47af-b431-335880374f7b:5",
+      "latest": "The candidate is committed as 8de4544e. The worktree is clean, and the independent code review is underway. main has advanced since the earlier merge; I’ll inspect and merge its current tip only after the candidate review resolves the shared-box question."
     },
     {
       "role": "implementation-review",
@@ -264,10 +266,9 @@
       "role": "implementation",
       "id": "MCPK-Y256",
       "threadId": "01a121e4-1927-7621-8cd2-3063988260c6",
-      "state": "active",
+      "state": "idle",
       "next": "Reconcile accepted Y256 water jump mechanism",
-      "cursor": "171cb0e1-db15-4827-8004-d49157dac5d0:12",
-      "latest": "The independent review found one actionable issue: my hook was consuming retained depth without requiring jump input or airborne state. The historical branch has both gates, so I’ll add them before dispatch, then request a focused re-review of that correction."
+      "cursor": "171cb0e1-db15-4827-8004-d49157dac5d0:17"
     },
     {
       "role": "source-boundary",
@@ -419,22 +420,34 @@
     {
       "agentName": "/root/pane_reviews_17_24",
       "role": "wiki-provider-review",
-      "state": "running",
+      "state": "completed",
       "inputs": "8f97dda72e0775c1e39990b087433b2e552d5564",
       "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/pane-reviews-17-24-2026-10-09",
       "branch": "fix/pane-reviews-17-24-2026-10-09",
       "phase": "isolated setup / bounded review",
-      "next": "Separate report per immutable memo; no main merge"
+      "next": "Separate report per immutable memo; no main merge",
+      "head": "eddb4f0ca9858518075c5aa8dc886ff1808d6b8b"
     },
     {
       "agentName": "/root/pane_reviews_25_32",
       "role": "wiki-provider-review",
-      "state": "running",
+      "state": "completed",
       "inputs": "8f97dda72e0775c1e39990b087433b2e552d5564",
       "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/pane-reviews-25-32-2026-10-09",
       "branch": "fix/pane-reviews-25-32-2026-10-09",
       "phase": "isolated setup / bounded review",
-      "next": "Separate report per immutable memo; no main merge"
+      "next": "Separate report per immutable memo; no main merge",
+      "head": "f5eca7c721cbfa5cd8ea5977ddfcc2fbb2f427dc"
+    },
+    {
+      "agentName": "/root/y256_technical_binding",
+      "role": "implementation-review",
+      "state": "running",
+      "inputs": "3f361357423ca2d7f4abb9a8833957000bf938e5",
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/y256-technical-binding-2026-10-09",
+      "branch": "fix/y256-technical-binding-2026-10-09",
+      "phase": "independent technical binding",
+      "next": "Exact reviewed-tree verdict before integration/build"
     }
   ],
   "infrastructureIncident": {
@@ -492,6 +505,32 @@
       "phase": "clean-metadata-review",
       "candidate": "57eb11151f08bde4adaab46d16b4d8e5c11b058c",
       "next": "Clean reviewer completes3/9–16and pointerbinding; preserve contaminatedreports"
+    },
+    {
+      "task": "source-prep26.1/26.1.1",
+      "phase": "ready",
+      "publication": "13dcacb3",
+      "next": "F4 exact boundary closure; read-only canonicalunobfuscatedsources"
+    },
+    {
+      "task": "Y256",
+      "phase": "technical-revision-required",
+      "candidate": "3f361357423ca2d7f4abb9a8833957000bf938e5",
+      "dependency": "Portable review source-bound report / airborne gate correction",
+      "next": "Author reconcile groundeddeepwater branch, independent post-correctionreview, thenbuild"
     }
-  ]
+  ],
+  "branchInventory": {
+    "local": 119,
+    "mergedOther": 54,
+    "unmerged": 64,
+    "worktrees": 142
+  },
+  "branchCleanup": {
+    "removed": 52,
+    "initialLocal": 119,
+    "remainingLocal": 67,
+    "records": "workflows/orchestration-2026-10-09/branch-cleanup",
+    "policy": "completed-or-obsolete-only; preserve unfinished refs and all worktree files"
+  }
 }

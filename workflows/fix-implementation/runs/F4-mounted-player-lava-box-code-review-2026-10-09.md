@@ -8,3 +8,10 @@
 - Other reviewed points accepted: nullable box signature, player/boat/underwater gates, `V1_21_11` emulation key, single catalog registration, and fit with existing dispatch structure.
 - Runtime/build checks: none, as instructed.
 - Follow-up status: the candidate now adds a targeted fluid-state behavior to suppress WATER states for the same historical boat case while retaining the shared loop. Independent re-review is pending; this record does not accept that follow-up.
+
+## Follow-up review
+
+- Candidate: `c31c2caca4448f0dd143362a01a8217f13bcf2a1`.
+- Result: bounded **ACCEPT**, independent focused re-review by `/root/f4_code_review`, 2026-10-09.
+- The reviewer verified that the redirect matches `BlockGetter.getFluidState(BlockPos): FluidState` and captures the enclosing `Entity` argument; `Fluids.EMPTY.defaultFluidState()` is empty and therefore skips height, eye, tracker, and current processing for guarded WATER cells. The common traversal remains shared and still processes LAVA. Per-cell dispatch adds work but did not present a material correctness issue within the reviewed bounds.
+- No build, test, or runtime checks were run.

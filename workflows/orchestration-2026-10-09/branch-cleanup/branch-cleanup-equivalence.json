@@ -1,0 +1,157 @@
+[
+  {
+    "Branch": "feat/source-1201-1202-2026-10-09",
+    "Head": "ad3a201e1413d4378250e7f5426a633df837f0bf",
+    "Paths": 1,
+    "Missing": [
+      "workflows/source-campaign-2026-10-07/1.20.1--1.20.2/run.md"
+    ]
+  },
+  {
+    "Branch": "fix/campaign-closure-audit-2026-10-09",
+    "Head": "b9d225b96fdc17557f732fdaa2e742e3e0bbcc0c",
+    "Paths": 2,
+    "Missing": [
+      "workflows/orchestration-2026-10-09/integration.md"
+    ]
+  },
+  {
+    "Branch": "fix/campaign-closure-audit-report-2026-10-09",
+    "Head": "9caadb868f95e8e76569ac309151c9c89ff98630",
+    "Paths": 13,
+    "Missing": [
+      "workflows/orchestration-2026-10-09/integration.md",
+      "workflows/source-campaign-2026-10-07/1.21.11--26.1.2/run.md"
+    ]
+  },
+  {
+    "Branch": "fix/campaign-docs-integration-2026-10-09",
+    "Head": "0105d624e0131eff5f316a5f696880cebdf34b6e",
+    "Paths": 2,
+    "Missing": [
+      "workflows/orchestration-2026-10-09/integration.md",
+      "workflows/source-campaign-2026-10-07/preparations/readiness-2026-10-09.md"
+    ]
+  },
+  {
+    "Branch": "fix/mcpk-current-flow-review-2026-10-09",
+    "Head": "9bc84d4ea8f33e7490ee09ba5e6d3d5d368481de",
+    "Paths": 7,
+    "Missing": [
+      "workflows/source-campaign-2026-10-07/source-memos/incident-1.13.2-mapped-jar-manifest-mismatch-2026-10-09.md",
+      "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.12.2-1.13.2-introduction-2026-10-09.md",
+      "workflows/source-campaign-2026-10-07/source-memos/y256-fluid-depth-1.15-1.16-cutover-2026-10-09.md",
+      "workflows/wiki-audit-2026-10-07/mcpk-checkpoint.md",
+      "workflows/wiki-audit-2026-10-07/mcpk-full-catalog-2026-10-08.md"
+    ]
+  },
+  {
+    "Branch": "fix/mcpk-y256-boundaries-2026-10-09",
+    "Head": "9da67abd41f2f1f53c886e5c3519ed44f3e2e2f7",
+    "Paths": 1,
+    "Missing": []
+  },
+  {
+    "Branch": "fix/reconcile-elytra-cosine-2026-10-09",
+    "Head": "0edd1a92db59ff2ae326c15562c1a423be74e527",
+    "Paths": 1,
+    "Missing": []
+  },
+  {
+    "Branch": "fix/review-F005-r2-source-2026-10-09",
+    "Head": "7dfe93834ec72bf224c5ffe4e25dc102126dee5f",
+    "Paths": 1,
+    "Missing": []
+  },
+  {
+    "Branch": "fix/review-F005-source-boundary-2026-10-09",
+    "Head": "6702eda57a1f378576fca06778e11648cc0e5c8c",
+    "Paths": 1,
+    "Missing": []
+  },
+  {
+    "Branch": "fix/review-F012-boundary-source-2026-10-09",
+    "Head": "ee586d98cbd02df932f6f076daa56a9d2176557b",
+    "Paths": 1,
+    "Missing": []
+  },
+  {
+    "Branch": "fix/review-eye-state-fluid-2026-10-09",
+    "Head": "86a47f1784d57c6374a8ca28c401e29a4b9a4bec",
+    "Paths": 3,
+    "Missing": [
+      "workflows/source-boundary-reviews/2026-10-09-eye-fluid-checkpoint-review.md",
+      "workflows/source-campaign-2026-10-07/1.21.11--26.1.2/run.md"
+    ]
+  },
+  {
+    "Branch": "fix/review-f012-technical-binding-2026-10-09",
+    "Head": "7888435906df30af3dd9d050d91f5add60b6b45e",
+    "Paths": 1,
+    "Missing": []
+  },
+  {
+    "Branch": "fix/review-f09-input-scaling-2026-10-09",
+    "Head": "dc2b29c81c1fd57941d8ed4a27d1583b1b039b4e",
+    "Paths": 2,
+    "Missing": [
+      "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/run.md"
+    ]
+  },
+  {
+    "Branch": "fix/review-input-producers-d11-d13-2026-10-09",
+    "Head": "9cd04bc12214cbe2f3af0af15da7266ddf0c0a77",
+    "Paths": 2,
+    "Missing": [
+      "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/run.md"
+    ]
+  },
+  {
+    "Branch": "fix/review-lava-shallow-overlap-r2-2026-10-09",
+    "Head": "a76e28419f6b9767eab2e78147883c5459ed60c4",
+    "Paths": 3,
+    "Missing": [
+      "workflows/source-campaign-2026-10-07/1.21.11--26.1.2/run.md"
+    ]
+  },
+  {
+    "Branch": "fix/source-boundary-1171-1182-2026-10-09",
+    "Head": "14443f43fbcc30152916ac75796846d796cf0268",
+    "Paths": 1,
+    "Missing": [
+      "workflows/source-boundary-reviews/1171-1182-F001-F002-boundary-evidence-2026-10-09.md"
+    ]
+  },
+  {
+    "Branch": "fix/source-prep-1-13-2026-10-09",
+    "Head": "75767b06d1b728e672db2fd1872165153ce768a0",
+    "Paths": 5,
+    "Missing": []
+  },
+  {
+    "Branch": "fix/source-prep-1-14-exact-2026-10-09",
+    "Head": "69de5a7cfddde6fdb08b2fdde1d5faf7b4eb2e18",
+    "Paths": 1,
+    "Missing": []
+  },
+  {
+    "Branch": "fix/source-prep-1-15-2026-10-09",
+    "Head": "cbb98738c2d9b03d451d61eb3cec8ea37d2e91d9",
+    "Paths": 3,
+    "Missing": []
+  },
+  {
+    "Branch": "fix/source-prep-1132-provenance-recovery-2026-10-09",
+    "Head": "9484e88f9f2cbbc83456d91911e4610f6cc697e2",
+    "Paths": 1,
+    "Missing": []
+  },
+  {
+    "Branch": "fix/source-readiness-1192-1202-2026-10-09",
+    "Head": "2184473bb524d324d933b87207c6f6f051225023",
+    "Paths": 7,
+    "Missing": [
+      "workflows/source-campaign-2026-10-07/preparations/readiness-2026-10-09.md"
+    ]
+  }
+]

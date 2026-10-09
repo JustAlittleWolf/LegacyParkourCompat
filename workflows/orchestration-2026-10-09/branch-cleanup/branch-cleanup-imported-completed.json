@@ -1,0 +1,30 @@
+[
+  {
+    "Branch": "fix/air-speed-early-release-review-2026-10-09",
+    "Head": "224ef3729526fe403b2a38e160bcd7cf994c5e68",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/air-speed-early-release-review-2026-10-09",
+    "Paths": 2,
+    "Missing": []
+  },
+  {
+    "Branch": "fix/orchestration-policy-2026-10-09",
+    "Head": "ff33849eca90a114bd3240a5f0db1399b317177a",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/orchestration-policy-2026-10-09",
+    "Paths": 2,
+    "Missing": []
+  },
+  {
+    "Branch": "fix/review-mcpk-cutovers-2026-10-09",
+    "Head": "30e3caac80bb776403f034ee8884666865c696d2",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-mcpk-cutovers-2026-10-09",
+    "Paths": 2,
+    "Missing": []
+  },
+  {
+    "Branch": "fix/sprint-air-speed-early-boundary-2026-10-09",
+    "Head": "847e7d101780d7fb39aae523b932c08f6fb6eb19",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/sprint-air-speed-early-boundary-2026-10-09",
+    "Paths": 1,
+    "Missing": []
+  }
+]

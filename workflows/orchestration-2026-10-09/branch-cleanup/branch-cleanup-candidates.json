@@ -1,0 +1,122 @@
+[
+  {
+    "Branch": "feat/source-1-17-1-18-2-fresh-oct8",
+    "Head": "df418e06b957399aa4c31eaf69d38422146ac296"
+  },
+  {
+    "Branch": "feat/source-1-21-11-26-1-2-resume-oct8",
+    "Head": "ea6ca59bd217e9ad36ede00122a6952be914839b"
+  },
+  {
+    "Branch": "feat/source-26-1-2-26-2-resume-oct8",
+    "Head": "7455dc2dc987023433678961b2e9c30e51f0284d"
+  },
+  {
+    "Branch": "feat/source-discovery-1-19-3-1-19-4-resume-2026-10-08",
+    "Head": "65053957149e0e657a7cc0401ccaef5ab1570cc4"
+  },
+  {
+    "Branch": "feat/source-discovery-1-19-4-1-20-1-continuation",
+    "Head": "eb6e73602c4cbf5a72dafcbbe56b9c3b0ff10ba0"
+  },
+  {
+    "Branch": "feat/source-discovery-1-20-1-1-20-2-resume-2026-10-08",
+    "Head": "7a9fb8ab571a31ee46b444c3ed0f774bad513e01"
+  },
+  {
+    "Branch": "feat/source-discovery-1-20-4-1-20-6-resume-2026-10-08",
+    "Head": "f14b8d63b79dd9fa787070776e2a8ab660a59502"
+  },
+  {
+    "Branch": "feat/source-discovery-movement-1-19-2-1-19-3-resume",
+    "Head": "0b2c91f8ad29a8f765564650f6ce872b05fcb689"
+  },
+  {
+    "Branch": "feat/source-discovery-movement-source-1-10-2-1-11-2",
+    "Head": "645656e32b402e041abde917fca0ce228c5414fc"
+  },
+  {
+    "Branch": "feat/source-discovery-movement-source-1-16-5-1-17-1-audit-oct8",
+    "Head": "aca4dfb24d5f1e9ec00b375eaf9b8f8b1c57c8b9"
+  },
+  {
+    "Branch": "feat/source-discovery-movement-source-1-18-2-1-19-2",
+    "Head": "ee009fe6d26bd11179c135287794e78cda2a1d1a"
+  },
+  {
+    "Branch": "feat/source-discovery-movement-source-1-21-3-1-21-4-resume-2026-10-08",
+    "Head": "5a52807348c03d1a3546c60f49194d0e714980d5"
+  },
+  {
+    "Branch": "fix/campaign-docs-integration-exact-2026-10-09",
+    "Head": "8ad316aa84a8704f99d042c2a649bfa23aa4365e"
+  },
+  {
+    "Branch": "fix/campaign-integration-2026-10-09",
+    "Head": "e7f89348a619cc9feb2d47aab7a87fbefbe7649d"
+  },
+  {
+    "Branch": "fix/campaign-launch-incident-2026-10-09",
+    "Head": "79cd6945df2e4a2fb00d8594a997c955066adf0d"
+  },
+  {
+    "Branch": "fix/campaign-rejection-record-integration-2026-10-09",
+    "Head": "a2be7717c34b3c41a131b23629504f358d8b1fce"
+  },
+  {
+    "Branch": "fix/campaign-report-integration-2026-10-09",
+    "Head": "e1dd0a65474a56e24ceea36ba300ea54c135d6a2"
+  },
+  {
+    "Branch": "fix/f002-identity-review-queue-integration-2026-10-09",
+    "Head": "45179643d0f1a40edf37107e624dbd5f2cc97870"
+  },
+  {
+    "Branch": "fix/f008-border-edge-gate-2026-10-09",
+    "Head": "1249e133da5a90cd02ff08f1ffdf90292eaa1f4b"
+  },
+  {
+    "Branch": "fix/fresh-input-1214-1215-review-integration-2026-10-09",
+    "Head": "f1f3945eeb4025197c699c75cd4cda821c9135cd"
+  },
+  {
+    "Branch": "fix/full-pair-audit-binding-correction-2026-10-09",
+    "Head": "cb11257e593987c68be98a7dbda8bbea7d5e77fd"
+  },
+  {
+    "Branch": "fix/orchestrator-workflow",
+    "Head": "a6e4d9b344494fcea85532191c29170d3375e2c8"
+  },
+  {
+    "Branch": "fix/review-f005-fall-reset-2026-10-09",
+    "Head": "7cb12f7ec44cd39a7d4fea6056f03f1180775853"
+  },
+  {
+    "Branch": "fix/review-f008-technical-binding-2026-10-09",
+    "Head": "40c12762ab3c9893d863b6abd65681db8cdce48a"
+  },
+  {
+    "Branch": "fix/serial-docs-integration-2026-10-09",
+    "Head": "1b516ee23604b6c08a69794f4a622880e7cbd394"
+  },
+  {
+    "Branch": "fix/source-ledger-1171-1182-2026-10-09",
+    "Head": "64d8bc740de0860a43ecc691db0efbdcaef7c19b"
+  },
+  {
+    "Branch": "fix/source-prep-1-18-2026-10-09",
+    "Head": "62346b3c8cf6eb8f2315b994aeaadf88f980842e"
+  },
+  {
+    "Branch": "fix/source-readiness-2026-10-09",
+    "Head": "b809e54f3096bd178f7248fafb0486465ae6f21f"
+  },
+  {
+    "Branch": "fix/source-run-status-reconcile-1171-1182-2026-10-09",
+    "Head": "ee38e8b1ed658e4b7ea2d128547c7571e3a5f7a2"
+  },
+  {
+    "Branch": "fix/wiki-attribution-history-integration-2026-10-09",
+    "Head": "f79074af4baad1ba737680712e12fd20bb65a89a"
+  }
+]

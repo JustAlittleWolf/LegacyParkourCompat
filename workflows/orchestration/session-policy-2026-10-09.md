@@ -11,6 +11,11 @@
 - Maintain one authoritative live queue. Before and after dispatch, merge, build or publication, record phase, exact inputs, branch/worktree/HEAD, dirty files, process/staging state, cursor and next action. Publish readiness atomically. On pause, stop dispatch, halt owned processes and delegates, save checkpoints and verify all workers stopped. On resume, reconcile journals and outcomes before retrying to prevent duplicate work or mutation; retain immutable history/checkpoints without maintaining duplicate live state.
 - Give every mutating worker a concrete absolute owned worktree and branch. Verify Git top-level and expected branch before staging, checkout, merge or build; stop on mismatch. The primary checkout/index belongs exclusively to the integration owner; documentation and status workers also use isolated worktrees. Lane-restricted source/wiki workers avoid whole-main diffs/merges that expose excluded lanes; after verdict, the integration owner handles report-only default-branch merge and semantic inspection while preserving the blind author checkpoint. Record worktree, branch, lane boundary and checkpoint verification in pause/resume journals.
 - Preserve existing source blindness, exact immutable finding bindings, independent review, and the test, game, TAS, Gym, server and Docker launch authorization rules.
+- Resolve routine technical or evidence questions from exact sources, repository rules and existing authorization; do not ask the user to decide them. For a genuine evidence or permission blocker, report the specific unresolved point, exact paths and a proposed safe action to the coordinator, then continue independent authorized work.
+
+## Completed branch retirement
+
+Retire redundant local refs after completion and integration. Verify ancestry in main or exact preservation of every changed blob, record the full branch tip, and check worker completion and worktree state. Preserve active and unfinished assignment refs. For completed attached worktrees, preserve the identical detached commit and all files before deleting the ref; directory removal and remote-ref cleanup are separate operations.
 
 ## Superseded policy
 

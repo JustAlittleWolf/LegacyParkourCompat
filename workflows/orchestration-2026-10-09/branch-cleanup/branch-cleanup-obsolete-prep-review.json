@@ -1,0 +1,23 @@
+[
+  {
+    "Branch": "fix/decompile-1-14-4",
+    "Head": "0d69d2d11f436b3c66060015a2cc0572dc9ab2e0",
+    "Path": "C:/Users/Wolfi/.codex/worktrees/00fc/LegacyParkourCompat",
+    "Status": "fatal: cannot change to 'C:/Users/Wolfi/.codex/worktrees/00fc/LegacyParkourCompat': Permission denied",
+    "Ok": false
+  },
+  {
+    "Branch": "fix/decompile-1-9-4",
+    "Head": "0d69d2d11f436b3c66060015a2cc0572dc9ab2e0",
+    "Path": "C:/Users/Wolfi/.codex/worktrees/1ea1/LegacyParkourCompat",
+    "Status": "fatal: cannot change to 'C:/Users/Wolfi/.codex/worktrees/1ea1/LegacyParkourCompat': Permission denied",
+    "Ok": false
+  },
+  {
+    "Branch": "fix/review-lava-2026-10-09",
+    "Head": "a5fd2b761e08ed63798af40def8ece1509c2e536",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-lava-2026-10-09",
+    "Status": "",
+    "Ok": true
+  }
+]

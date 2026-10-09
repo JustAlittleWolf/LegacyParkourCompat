@@ -1,0 +1,16 @@
+[
+  {
+    "Branch": "fix/f3-nether-lava-shallow-overlap-r2-2026-10-09",
+    "Head": "93b4839c4a9d0234a436c1f2072de6052ae5e4a9",
+    "Path": "C:/Users/Wolfi/.codex/worktrees/f3-r2-lava-reconcile/LegacyParkourCompat",
+    "Status": "fatal: cannot change to 'C:/Users/Wolfi/.codex/worktrees/f3-r2-lava-reconcile/LegacyParkourCompat': Permission denied",
+    "Ok": false
+  },
+  {
+    "Branch": "fix/f3-nether-lava-shallow-overlap-r2-mounted-scope-2026-10-09",
+    "Head": "870398a44845f384a5255bac9b6c932cb4ee1e85",
+    "Path": "C:/Users/Wolfi/.codex/worktrees/f3-lava-mounted-scope-correction/LegacyParkourCompat",
+    "Status": "fatal: cannot change to 'C:/Users/Wolfi/.codex/worktrees/f3-lava-mounted-scope-correction/LegacyParkourCompat': Permission denied",
+    "Ok": false
+  }
+]

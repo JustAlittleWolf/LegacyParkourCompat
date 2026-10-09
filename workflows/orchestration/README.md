@@ -34,6 +34,8 @@ Keep the date-specific policy record in the [session policy log](session-policy-
 
 Include a detail only if it changes this worker's action, evidence, constraints or output. State the instruction directly; omit user-message attribution, conversational history, coordinator reasoning, other workers' status and model identity. Preserve exact inputs, dependencies and required gates.
 
+Resolve routine technical and evidence questions from the exact sources, repository rules and existing authorization; do not route them to the user as clarification questions. If evidence or permissions leave a genuine blocker, report the specific unresolved point, exact affected paths and a proposed safe action to the coordinator, then continue independent work. Do not let one blocked item stop unrelated authorized work.
+
 Apply the same rule to workflow documentation: describe what to do and when, without explaining which chat or correction introduced it. Keep historical analysis in retrospective records.
 
 For a stop instruction, send:

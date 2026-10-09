@@ -1,0 +1,170 @@
+[
+  {
+    "Branch": "feat/movement-discovery-1-11",
+    "Head": "766ec5006a227d95983bfa91a9513a3ed2681baf",
+    "Path": "C:/Users/Wolfi/.codex/worktrees/movement-discovery-1-11/LegacyParkourCompat",
+    "Status": "fatal: cannot change to 'C:/Users/Wolfi/.codex/worktrees/movement-discovery-1-11/LegacyParkourCompat': Permission denied",
+    "Ok": false
+  },
+  {
+    "Branch": "feat/movement-passenger-yaw-2026-10-08",
+    "Head": "32c8b0a7e089e32d2b755a513241ac0e58d1d562",
+    "Path": "C:/Users/Wolfi/.codex/worktrees/movement-passenger-yaw-2026-10-08",
+    "Status": "fatal: cannot change to 'C:/Users/Wolfi/.codex/worktrees/movement-passenger-yaw-2026-10-08': Permission denied",
+    "Ok": false
+  },
+  {
+    "Branch": "feat/source-discovery-1-15-2-1-16-5-resume",
+    "Head": "f5636dd2fb01860da7ae6440c0d315aa2a117d07",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-discovery-1-15-2-1-16-5-resume",
+    "Status": "",
+    "Ok": true
+  },
+  {
+    "Branch": "feat/source-discovery-1-20-2-1-20-4-resume-2026-10-08",
+    "Head": "cbcd477f1e1e32aa0a58ea132cb66709b06638cf",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1202-1204-resume-2026-10-08",
+    "Status": "",
+    "Ok": true
+  },
+  {
+    "Branch": "feat/source-discovery-1-20-6-1-21-1-resume-2026-10-08",
+    "Head": "9b58e85bdf70c52717632ff796bfb939392d81fa",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1206-12101-resume-2026-10-08",
+    "Status": "",
+    "Ok": true
+  },
+  {
+    "Branch": "feat/source-discovery-1-21-1-1-21-3-resume-2026-10-08",
+    "Head": "864d42197b90585ee5d7eac385ac26b51eb0dbe0",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1211-1213-resume-2026-10-08",
+    "Status": "",
+    "Ok": true
+  },
+  {
+    "Branch": "feat/source-discovery-1-21-10-1-21-11-resume-2026-10-08",
+    "Head": "bacbfd252724c5f989e9527ae7700e486d6a7187",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-12110-12111-resume-2026-10-08",
+    "Status": "",
+    "Ok": true
+  },
+  {
+    "Branch": "feat/source-discovery-movement-1-21-8-1-21-10-resume-2026-10-08",
+    "Head": "2642f9401ab55ccb2c7372e535122b00d5a76b7e",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1218-12110-resume",
+    "Status": "",
+    "Ok": true
+  },
+  {
+    "Branch": "feat/source-discovery-movement-source-1-11-2-1-12-2",
+    "Head": "f4d235379ea451da227a34e710bb66609fe37235",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-discovery-1-11-2-1-12-2",
+    "Status": "",
+    "Ok": true
+  },
+  {
+    "Branch": "feat/source-discovery-movement-source-1-12-2-1-13-2",
+    "Head": "2853716b2031da05abe991e3913078f9a668f3bb",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-discovery-1-12-2-1-13-2-resume",
+    "Status": "",
+    "Ok": true
+  },
+  {
+    "Branch": "feat/source-discovery-movement-source-1-14-4-1-15-2",
+    "Head": "11e4c0b7310eacff07520caf26ebc833ee479e99",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-discovery-1144-1152",
+    "Status": "",
+    "Ok": true
+  },
+  {
+    "Branch": "feat/source-discovery-movement-source-1-21-4-1-21-5-resume",
+    "Head": "1d027c706dd22fd6df2fe14deaf3a02695d6094e",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1214-1215-resume-2026-10-08",
+    "Status": "",
+    "Ok": true
+  },
+  {
+    "Branch": "feat/source-discovery-movement-source-1-21-5-1-21-8-resume-2026-10-08",
+    "Head": "ec84e77c333b75768d5ce44ce2979ba7f1c9ffd6",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1215-1218-resume-2026-10-08",
+    "Status": "",
+    "Ok": true
+  },
+  {
+    "Branch": "feat/source-discovery-movement-source-1-8-9-1-9-4-solid-resume",
+    "Head": "690577535f5fe081cc6314485c937af4adc7631c",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-pair-189194-solid-resume",
+    "Status": "",
+    "Ok": true
+  },
+  {
+    "Branch": "feat/source-discovery-movement-source-1-9-4-1-10-2-resume3",
+    "Head": "8d4deeedacd03de0c84e175128726b5f6ab63ef3",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/movement-source-1-9-4-1-10-2-resume3",
+    "Status": "",
+    "Ok": true
+  },
+  {
+    "Branch": "feat/source-movement-1-13-2-1-14-4-resume6",
+    "Head": "c7fda155df85b581df2adb18d7e738ca421ac603",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-movement-1-13-2-1-14-4-resume6",
+    "Status": "",
+    "Ok": true
+  },
+  {
+    "Branch": "fix/decompile-1-14-4",
+    "Head": "0d69d2d11f436b3c66060015a2cc0572dc9ab2e0",
+    "Path": "C:/Users/Wolfi/.codex/worktrees/00fc/LegacyParkourCompat",
+    "Status": "fatal: cannot change to 'C:/Users/Wolfi/.codex/worktrees/00fc/LegacyParkourCompat': Permission denied",
+    "Ok": false
+  },
+  {
+    "Branch": "fix/decompile-1-9-4",
+    "Head": "0d69d2d11f436b3c66060015a2cc0572dc9ab2e0",
+    "Path": "C:/Users/Wolfi/.codex/worktrees/1ea1/LegacyParkourCompat",
+    "Status": "fatal: cannot change to 'C:/Users/Wolfi/.codex/worktrees/1ea1/LegacyParkourCompat': Permission denied",
+    "Ok": false
+  },
+  {
+    "Branch": "fix/f3-nether-lava-shallow-overlap-r2-2026-10-09",
+    "Head": "93b4839c4a9d0234a436c1f2072de6052ae5e4a9",
+    "Path": "C:/Users/Wolfi/.codex/worktrees/f3-r2-lava-reconcile/LegacyParkourCompat",
+    "Status": "fatal: cannot change to 'C:/Users/Wolfi/.codex/worktrees/f3-r2-lava-reconcile/LegacyParkourCompat': Permission denied",
+    "Ok": false
+  },
+  {
+    "Branch": "fix/f3-nether-lava-shallow-overlap-r2-mounted-scope-2026-10-09",
+    "Head": "870398a44845f384a5255bac9b6c932cb4ee1e85",
+    "Path": "C:/Users/Wolfi/.codex/worktrees/f3-lava-mounted-scope-correction/LegacyParkourCompat",
+    "Status": "fatal: cannot change to 'C:/Users/Wolfi/.codex/worktrees/f3-lava-mounted-scope-correction/LegacyParkourCompat': Permission denied",
+    "Ok": false
+  },
+  {
+    "Branch": "fix/reconcile-f007-position-packet-2026-10-09",
+    "Head": "a08edf253736867411cc60cc13dfa34f208fa4b1",
+    "Path": "C:/Users/Wolfi/.codex/worktrees/f007-position-packet-reconcile/LegacyParkourCompat",
+    "Status": "fatal: cannot change to 'C:/Users/Wolfi/.codex/worktrees/f007-position-packet-reconcile/LegacyParkourCompat': Permission denied",
+    "Ok": false
+  },
+  {
+    "Branch": "fix/reconcile-fall-reset-2026-10-09",
+    "Head": "f73d176e98fdf1f56c5207046266a168c1834d73",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/reconcile-fall-reset-2026-10-09",
+    "Status": "",
+    "Ok": true
+  },
+  {
+    "Branch": "fix/reconcile-sprint-air-control-2026-10-09",
+    "Head": "de6084c5b1b9b57a836ba862e113103e19767845",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/reconcile-sprint-air-control-2026-10-09",
+    "Status": "",
+    "Ok": true
+  },
+  {
+    "Branch": "fix/review-lava-2026-10-09",
+    "Head": "a5fd2b761e08ed63798af40def8ece1509c2e536",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-lava-2026-10-09",
+    "Status": "",
+    "Ok": true
+  }
+]

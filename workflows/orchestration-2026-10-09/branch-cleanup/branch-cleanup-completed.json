@@ -1,0 +1,23 @@
+[
+  {
+    "Branch": "fix/reconcile-f007-position-packet-2026-10-09",
+    "Head": "a08edf253736867411cc60cc13dfa34f208fa4b1",
+    "Path": "C:/Users/Wolfi/.codex/worktrees/f007-position-packet-reconcile/LegacyParkourCompat",
+    "Status": "fatal: cannot change to 'C:/Users/Wolfi/.codex/worktrees/f007-position-packet-reconcile/LegacyParkourCompat': Permission denied",
+    "Ok": false
+  },
+  {
+    "Branch": "fix/reconcile-fall-reset-2026-10-09",
+    "Head": "f73d176e98fdf1f56c5207046266a168c1834d73",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/reconcile-fall-reset-2026-10-09",
+    "Status": "",
+    "Ok": true
+  },
+  {
+    "Branch": "fix/reconcile-sprint-air-control-2026-10-09",
+    "Head": "de6084c5b1b9b57a836ba862e113103e19767845",
+    "Path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/reconcile-sprint-air-control-2026-10-09",
+    "Status": "",
+    "Ok": true
+  }
+]
