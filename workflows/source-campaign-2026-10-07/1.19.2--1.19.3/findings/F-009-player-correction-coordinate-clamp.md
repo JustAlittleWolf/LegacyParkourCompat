@@ -4,8 +4,8 @@
 - Newer version B: 1.19.3
 - Mechanic / coverage slice IDs: absolute server player-position correction; S7-player-position-correction-range, S7-player-rotation-correction
 - Classification: changed behavior
-- Confidence: source-confirmed conditional player-position difference
-- Applicability: historical player behavior, when the server sends a finite absolute X or Z correction coordinate strictly outside `[-3.0E7, 3.0E7]`
+- Confidence: source-confirmed conditional client response to an external/custom-server correction packet
+- Applicability: historical player behavior, when the client receives a finite absolute X or Z correction coordinate strictly outside `[-3.0E7, 3.0E7]` from an external/custom server
 - First changed release: unknown within (1.19.2, 1.19.3]
 - Runtime validation: not performed
 - Manifest artifact reference: `../run.md` Artifact manifest A/B sections; aligned original Mojmap source publications
@@ -46,18 +46,20 @@
 
 For an absolute correction, A's `ClientPacketListener.handleMovePlayer` resolves the coordinates, writes the player position and velocity, then calls `Entity.absMoveTo`. That helper clamps X and Z to `[-3.0E7, 3.0E7]` before setting position; Y is not clamped. B writes position through `Entity.setPos` and does not call `absMoveTo` from this handler, so finite packet X/Z values outside that interval remain outside the clamp. `Entity.setPos` updates the position and bounding box but applies no coordinate clamp.
 
-The paired server `ServerGamePacketListenerImpl.teleport` applies `absMoveTo` to its own player, then constructs `ClientboundPlayerPositionPacket` from the original coordinate arguments. The paired packet codec stores and writes X/Y/Z as doubles without clamping them. Thus the source path can send an out-of-range finite absolute X or Z even though the server-side player's own setter clamps it. This is separate from F-005's angle normalization and the interpolation-history disposition.
+The paired packet codec stores and writes X/Y/Z as doubles without clamping them. The client handler therefore applies the coordinate behavior described above to the packet values it receives. The server-side `ServerGamePacketListenerImpl.teleport` helper constructs a correction packet from its coordinate arguments, but that helper alone does not establish that a vanilla producer can supply an out-of-range value. This is separate from F-005's angle normalization and the interpolation-history disposition.
 
 ## Reachability and dependencies
 
-`ServerGamePacketListenerImpl.teleport(...)` creates the correction packet from its requested coordinates. The client receives it in `ClientPacketListener.handleMovePlayer`, which updates the local player's position, velocity and bounding box, acknowledges the teleport, and sends a movement packet using the resulting player position. The changed coordinate is therefore direct player movement state. Later movement and collision queries read that current position and bounding box. The exact correction producer and coordinate are external inputs; this finding does not claim how often a server supplies such a value.
+An external/custom server can send a correction packet with the stated coordinate; the packet codec preserves its double value, and the client receives it in `ClientPacketListener.handleMovePlayer`, which updates the local player's position, velocity and bounding box, acknowledges the teleport, and sends a movement packet using the resulting player position. The changed coordinate is therefore direct player movement state. Later movement and collision queries read that current position and bounding box. This finding does not claim that vanilla gameplay produces such a packet or how often an external/custom server supplies one.
+
+The paired vanilla `/teleport` command path is checked negative evidence for reachability: `TeleportCommand.performTeleport` constructs a `BlockPos` and rejects it with `INVALID_POSITION` when `Level.isInSpawnableBounds` is false, before the player connection teleport call. `Level.isInWorldBoundsHorizontal` requires both X and Z block coordinates to be at least `-30000000` and strictly less than `30000000`. Thus ordinary vanilla `/teleport` does not establish a producer for finite X/Z coordinates beyond the client clamp. A/B `TeleportCommand.java` are byte-identical, SHA-256 `3abf6877a502398a71ce00be3f4f0149e0c9d5c07095b89336580bd6995e6c6a`; A `Level.java` SHA-256 `2ff6b7ab66c73f0fa41136ab83fb8076742c6bde7c3af10dd6f3170d6d536539`; B `Level.java` SHA-256 `df465bcb6eb6ceaeb423485070e00737102abb3da064e44c440f69f3aede61c1`.
 
 ## Consequence and uncertainty
 
-Source-proven: under the stated coordinate condition, A clamps the corrected client X/Z position while B retains the packet value. The position and bounding box consumed by subsequent movement differ at the correction boundary. No realized trajectory, persistent client/server divergence, or runtime reproduction is claimed; later server handling may issue another correction.
+Source-proven: when the client receives the stated external/custom-server correction, A clamps the corrected client X/Z position while B retains the packet value. The position and bounding box consumed by subsequent movement differ at the correction boundary. No vanilla producer, realized trajectory, persistent client/server divergence, or runtime reproduction is claimed; later server handling may issue another correction.
 
 ## Handoff
 
-Independent delta: B's client player correction path bypasses the existing entity X/Z coordinate clamp. Related finding: F-005 covers the separate correction-angle path. Applicability requires an absolute finite X or Z coordinate outside the clamp range. The release boundary is unresolved within 1.19.2–1.19.3. Independent blind source review is pending; this report is not an accepted immutable implementation snapshot. Implementation and testing decisions are deferred.
+Independent delta: B's client player correction path bypasses the existing entity X/Z coordinate clamp for a received external/custom-server correction. Related finding: F-005 covers the separate correction-angle path. Applicability requires an absolute finite X or Z coordinate outside the clamp range. Vanilla `/teleport` is guarded against positions outside the spawnable bounds, so this finding does not claim vanilla producer reachability. The release boundary is unresolved within 1.19.2–1.19.3. The original snapshot was rejected for its unsupported vanilla-reachability claim; this revised report requires a fresh independent blind review. Implementation and testing decisions are deferred.
 
 **Inventories/slices:** INV-TICK, INV-STATE, INV-EXTERNAL; S7-player-position-correction-range, S7-player-rotation-correction. **Implementation disposition:** deferred until blind review and freeze.
