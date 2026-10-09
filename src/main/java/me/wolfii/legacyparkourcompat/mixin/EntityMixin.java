@@ -14,6 +14,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.InsideBlockContactBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PistonMovementBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerFallDistanceResetBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeMoverBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowLavaCurrentCutoffBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowWaterCurrentCutoffBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SwimmingUpdateBehavior;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
@@ -139,7 +140,34 @@ abstract class EntityMixin {
             && MovementRuntime.find(ShallowWaterCurrentCutoffBehavior.class, player)
                 .map(behavior -> behavior.bypassWeakCurrentCutoff(interaction.getFluidHeight(fluid)))
                 .orElse(false)) {
-            ShallowWaterCurrentContext.run(entity, () -> interaction.applyCurrentTo(fluid, entity, scale));
+            FluidCurrentCutoffContext.run(entity, () -> interaction.applyCurrentTo(fluid, entity, scale));
+            return;
+        }
+        interaction.applyCurrentTo(fluid, entity, scale);
+    }
+
+    @Redirect(
+        method = "updateFluidInteraction()Z",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/EntityFluidInteraction;applyCurrentTo(Lnet/minecraft/tags/TagKey;Lnet/minecraft/world/entity/Entity;D)V",
+            ordinal = 1
+        ),
+        require = 1
+    )
+    private void legacyparkourcompat$shallowLavaCurrentCutoff(
+        EntityFluidInteraction interaction,
+        TagKey<Fluid> fluid,
+        Entity entity,
+        double scale
+    ) {
+        if (fluid.equals(FluidTags.LAVA)
+            && entity instanceof Player player
+            && !player.isPassenger()
+            && MovementRuntime.find(ShallowLavaCurrentCutoffBehavior.class, player)
+                .map(behavior -> behavior.bypassWeakCurrentCutoff(interaction.getFluidHeight(fluid)))
+                .orElse(false)) {
+            FluidCurrentCutoffContext.run(entity, () -> interaction.applyCurrentTo(fluid, entity, scale));
             return;
         }
         interaction.applyCurrentTo(fluid, entity, scale);
