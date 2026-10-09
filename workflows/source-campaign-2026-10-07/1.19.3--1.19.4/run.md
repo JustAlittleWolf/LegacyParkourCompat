@@ -267,14 +267,14 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 ### Slice I-TICK-LOCAL-JUMP-START: jump-key flight and glide start transitions
 
 - Inventory ID(s): INV-TICK, INV-STATE, INV-MODIFIERS
-- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer#aiStep()V` mayfly double-tap/toggle branch and the guarded Elytra start request; exact paired ranges are A lines 731–756 and B lines 712–737.
-- A evidence: `ready/1.19.3/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 731–756, SHA-256 `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`.
-- B evidence: `ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 712–737, SHA-256 `8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58`.
-- State producers/writers -> consumers/readers: previous/current jump input and jump timer -> ability flight flag or fall-flying request; chest-slot Elytra/equipment eligibility and `tryToStartFallFlying()` are dependencies.
-- Parent slices / dependencies / closure evidence: `I-TICK-INPUT-LOCAL-TRANSFER` closes the jump input producer edge; `I-TICK-TRAVEL-FALL-FLYING` covers the downstream gliding consumer. Elytra/equipment and the `tryToStartFallFlying()` dependency remain open.
-- Status: pending
-- Disposition and rationale (including concrete reachability/preconditions): source ranges identified but not compared as a bounded slice; the ability/equipment gates must remain in the closure.
-- Finding IDs or checked absence/replacement path: pending comparison.
+- Exact behavior boundary and enclosing guards/order checked: `LocalPlayer#aiStep()V` mayfly double-tap/toggle branch and guarded Elytra start; `Player#tryToStartFallFlying()` with its `startFallFlying()` shared-flag write; `ElytraItem#isFlyEnabled(ItemStack)` durability gate.
+- A evidence: `ready/1.19.3/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 731–756, SHA-256 `64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479`; `ready/1.19.3/mojmap/net/minecraft/world/entity/player/Player.java#tryToStartFallFlying()Z` / `#startFallFlying()V`, lines 1581–1595, SHA-256 `02e64e197aec3f4f2a8abc9c5ce4545121ac5bcbbc71592ce478601a0db17203`; `ready/1.19.3/mojmap/net/minecraft/world/item/ElytraItem.java#isFlyEnabled(ItemStack)Z`, lines 21–23, SHA-256 `f6859e9d245a2b34c4e2c24af5bf6a2bb956f05ba8eaf3dbef74ba543ea0993c`.
+- B evidence: `ready/1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep()V`, lines 712–737, SHA-256 `8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58`; `ready/1.19.4/mojmap/net/minecraft/world/entity/player/Player.java#tryToStartFallFlying()Z` / `#startFallFlying()V`, lines 1570–1584, SHA-256 `5e4436afccb361156f8184e7a5cfd91d5b12dcfe8f5937b4ac23dd3edda737a2`; `ready/1.19.4/mojmap/net/minecraft/world/item/ElytraItem.java#isFlyEnabled(ItemStack)Z`, lines 18–20, SHA-256 `fa4d677a5b109ebf323458f88f05eacb9ffdeca66d952c1a5eb8a7114a911889`.
+- State producers/writers -> consumers/readers: previous/current jump and auto-jump inputs plus mayfly/always-flying state -> jump timer or abilities-flying write; grounded, fall-flying, water, levitation, passenger, climbable, chest-slot item and Elytra durability gates -> shared fall-flying flag write and start request packet -> `LivingEntity#updateFallFlying()` and the glide travel branch.
+- Parent slices / dependencies / closure evidence: `I-TICK-INPUT-LOCAL-TRANSFER` closes the jump input producer; `I-TICK-TRAVEL-FALL-FLYING` covers the glide equations. The exact shared-flag consumer `LivingEntity#updateFallFlying()` remains open as D-5; Elytra/effect value provenance remains in I-MODIFIER.
+- Status: in-progress
+- Disposition and rationale (including concrete reachability/preconditions): the paired trigger, durability helper, eligibility helper and shared-flag write preserve their guards, expressions and order for the same input/state values. Close only after D-5 verifies the tick consumer; no gliding trajectory is inferred here.
+- Finding IDs or checked absence/replacement path: no new source delta in the compared trigger/helper paths; D-5 remains open.
 
 ### Slice I-TICK-LOCAL-FLIGHT-INPUT: vertical input acceleration during abilities flight
 
@@ -473,6 +473,7 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 - D-2: resolved for F-02 by I-COLLISION-AUTOJUMP-PROVIDERS. The exact query, entity-shape provider, block iterator and paired block collision-shape override inventory match; whole movement collision coverage remains open in I-COLLISION-REMAINDER.
 - D-3: open. Continue the exact remaining input/tick slices listed under INV-TICK, then I-STATE-REMAINDER, I-COLLISION-REMAINDER, I-WORLD, I-MODIFIER, I-EXTERNAL and I-EXCLUSIONS; each remains open outside its bounded closures. Owner: source worker.
 - D-4: resolved for I-TICK-INPUT-LOCAL-TRANSFER. Paired `Player#serverAiStep()V` updates swing timing and head rotation only; paired `LivingEntity#serverAiStep()V` is empty. Their bodies do not write `xxa`, `zza` or `jumping` before LocalPlayer's guarded copies.
+- D-5: open dependency of I-TICK-LOCAL-JUMP-START. Compare paired `LivingEntity#updateFallFlying()V`, which consumes the shared flag written by `Player#startFallFlying()` before travel; retain any equipment/effect state dependencies for I-MODIFIER. Owner: source worker.
 - No external source blocker. The work is incomplete because required source inventories remain open.
 
 ## Finding index
@@ -498,9 +499,9 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 - Version boundary: source-confirmed A/B difference, first changed release unknown within (1.19.3, 1.19.4]. Reviewer: independent source reviewer `01a116ce-c937-7613-a49b-716e99582357`. Status: submitted for blind source review; acceptance pending. The snapshot does not close any other pair coverage or freeze the pair.
 ## Resume checkpoint
 
-- Last completed slices: prior closed slices through I-TICK-TRAVEL-FALL-FLYING; added I-COLLISION-AUTOJUMP-PROVIDERS, the bounded dismount route inventory, F-05, I-TICK-LOCAL-PACKET-HANDOFF, I-TICK-INPUT-LOCAL-TRANSFER and I-TICK-LOCAL-WATER-DESCENT. Findings F-01 through F-05 remain source-only records; F-03 through F-05 snapshots await independent blind review.
-- Next bounded slice: compare the mayfly/Elytra jump-key transitions for I-TICK-LOCAL-JUMP-START, then resolve I-TICK-LOCAL-FLIGHT-INPUT and I-TICK-LOCAL-FLIGHT-CLEANUP with their exact consumers, followed by the non-tick D-3 dependencies.
-- Outstanding dependencies and owners: D-3, source worker; D-1 and D-2 closed as recorded.
+- Last completed slices: prior closed slices through I-TICK-TRAVEL-FALL-FLYING; added I-COLLISION-AUTOJUMP-PROVIDERS, the bounded dismount route inventory, F-05, I-TICK-LOCAL-PACKET-HANDOFF, I-TICK-INPUT-LOCAL-TRANSFER and I-TICK-LOCAL-WATER-DESCENT. The mayfly/Elytra trigger helpers are compared, but I-TICK-LOCAL-JUMP-START remains in progress pending D-5. Findings F-01 through F-05 remain source-only records; F-03 through F-05 snapshots await independent blind review.
+- Next bounded slice: compare paired `LivingEntity#updateFallFlying()V` to resolve D-5; then close I-TICK-LOCAL-JUMP-START or retain any newly found state edge. Continue I-TICK-LOCAL-FLIGHT-INPUT and I-TICK-LOCAL-FLIGHT-CLEANUP with their exact consumers, followed by the non-tick D-3 dependencies.
+- Outstanding dependencies and owners: D-3 and D-5, source worker; D-1, D-2 and D-4 closed as recorded.
 - Current assumptions requiring verification: complete behavior correspondence for all reachable travel branches; packet arrival relative to local tick (runtime-only boundary); remaining collision callbacks/support/registrations; block/fluid registrations and resources; modifiers/equipment; external player-facing inputs; direct excluded-state reads; remaining direct player knockback/impulse consumer and resistance-modifier inventory.
 
 ## Implementation reconciliation
@@ -522,9 +523,9 @@ Every row below is a bounded source unit, not a stage-level completion claim. Th
 
 ## Source audit closure
 
-- Coverage counts by status: findings 6; in-progress 0; pending 9; compared-no-difference 17; not-applicable 4; blocked 0. Explicit pending count: 9. This is a partial checkpoint; full source-only coverage, freeze and independent audit are not claimed.
+- Coverage counts by status: findings 6; in-progress 1; pending 8; compared-no-difference 17; not-applicable 4; blocked 0. Explicit pending count: 8. This is a partial checkpoint; full source-only coverage, freeze and independent audit are not claimed.
 - Required inventory status and evidence: all seven required inventories remain pending overall; named sprint-air-speed, sprint-eligibility, auto-jump arithmetic and mounted sprint carry-over slices are closed as findings, while the full INV-TICK, INV-STATE and INV-COLLISION inventories and all remaining inventories remain open.
-- Open dependency: D-3. D-1 and the F-02-specific part of D-2 are bounded source closures; their broader inventories remain represented by pending slices.
+- Open dependencies: D-3 and D-5. D-1 and the F-02-specific part of D-2 are bounded source closures; their broader inventories remain represented by pending slices. D-4 is resolved as recorded above.
 - Unresolved gaps and limits: full tick and state inventory; source-only packet-arrival timing relative to local tick; full movement collision callbacks/support/registrations; block/fluid data; modifiers/equipment; external inputs; exclusions direct-read audit; independent reviewer.
 - Evidence/hash/correspondence audit: readiness JSONs, source manifests, every listed source hash, required artifacts and diagnostics verified for both exact sources. Member-level hashes and ranges recorded for F-01 through F-05; F-03 and F-04 snapshots are awaiting independent acceptance, and F-05 review is pending. Canonical completion checker recognizes active reports; its result is a structure/status check, not source evidence.
 - Blind freeze: pending.
