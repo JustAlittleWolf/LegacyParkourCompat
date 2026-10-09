@@ -124,3 +124,109 @@ At that time, the preparation, sprint-collision and Elytra slots were releasable
 - The original audit event is commit `7872eb6457f051df3575f10299ed1aaf1c13eddb`, report blob `d3623ec27f9ca1b7ed2c6f6f12ac259bdfa8b8d7`, raw SHA-256 `3ffe60b2e62af2ddd060a2081c6104dac80908c5b6859c9285afd11bc16993d3`, verdict **REQUEST CHANGES**. The corrected erratum is commit `e0e36eff36a92be82327bf2a8140f18141d7cc21`, report blob `87fc1e9344c26ef60bec02075a4f05b16956ac92`, raw SHA-256 `08099783947b13ff03516b70b0f9ccf51455ebf5a0fee2e7d790385cd66011fc`, verdict **ACCEPT — full-pair source coverage freeze**. The erratum supersedes the historical verdict while preserving the original event and bytes.
 - Updated `run.md` now names both audit events distinctly and binds the accepted erratum to frozen run blob `53bef7aae76bef026d5f5d19bc111635ddc6265d`, raw SHA-256 `70610a914b440ab651163f1ccd708000f4261da24727f7a4614eca473095b3f5`. Its resulting blob is `1b9f86a10df83ec9092aa325950080b83cec4265`, raw SHA-256 `cb58a705c103f493b5267c4f17943c2ad58ea2adf37a383f88428994f8068e8c`.
 - This corrects audit-binding metadata only. No source evidence or finding bytes changed; source discovery remains complete, implementation reconciliation pending, and runtime validation not performed.
+
+## F-002 final no-code reconciliation — 2026-10-09
+
+- Pre-integration branch base: `cb11257e593987c68be98a7dbda8bbea7d5e77fd`.
+- Integrated exact final reconciliation from author commit `0edd1a92db59ff2ae326c15562c1a423be74e527` and bounded technical review `480baa90ab2364c49106d228ef54f122f5e3aede`.
+- Reconciliation identity: `workflows/fix-implementation/reconciliations/F002-elytra-cosine-2026-10-09.md`, blob `af0903b06c1dfa7d53479621068c5d6560d2d3e8`, raw SHA-256 `65f4a1d7441784db7b0e87430f37dc102f06d752b89b2857e33b389a98fff751`. Review: `workflows/implementation-reviews/2026-10-09-F002-final-no-code-review.md`, blob `4acc102e1d3174851bd1e5681c38d8aeb896e067`, raw SHA-256 `34d583e5340c0dcf7ecb55fe8b2e85b1a3c0e900b2089263daa798a265e9d9f6`.
+- ACCEPT is limited to the reviewed 1.17.1/1.18/1.18.1/1.18.2 float/double implementation boundary. It does not establish unreviewed-release fidelity or runtime parity; no code change was identified.
+- No build, tests, client/TAS/server launch, or runtime validation was performed.
+
+## F-3 arithmetic correction R2 — 2026-10-09
+
+- Integrated exact corrected candidate from `b2b493a2521b036bca2fa590feeda3194c49bd4c`, its source-ledger binding from `bd244527013e8eb7a5ae912c4fe6ce42aba5dbcc`, and independent ACCEPT from `a76e28419f6b9767eab2e78147883c5459ed60c4`.
+- Candidate: `workflows/source-campaign-2026-10-07/1.21.11--26.1.2/findings/F-3-nether-lava-shallow-overlap-r2-2026-10-09.md`, blob `73a244f66a6501b1d48f11fc4bcbde95d25c8518`, raw SHA-256 `69146a6130e72d7fffdf4bfa71954c41c62dc57aebfa0246f040e079c5f28907`. Review: `workflows/source-boundary-reviews/2026-10-09-lava-shallow-overlap-r2-review.md`, blob `10d56f3e76eca339a95f6ea3f47ec099decb3467`, raw SHA-256 `c589664e82974cc07b7010a9c4be9c42ef4e334221d1d73b11fe1e4261f7352e`.
+- The current pair ledger binds the R2 correction to the bounded arithmetic acceptance. The original F-3 R1 REQUEST CHANGES event and candidate remain unchanged; the 1.21.11–26.1.2 pair remains partial, with no freeze or runtime claim.
+- No build, tests, or runtime validation was performed.
+
+## MCPK Y=256 conditional source mechanism — 2026-10-09
+
+- Integrated exact bounded producer report from `681d1d54d69ec693f02e07e5a6b1841c401c4bb6` and independent review `2e47dad5165119de97b940e17eebf0bcad21b3c4`.
+- Producer report: `workflows/wiki-audit-2026-10-07/mcpk-y256-producer-2026-10-09.md`, blob `fddcf603a83611d9d10a0f5f684e270433fcfd30`, raw SHA-256 `873d3934c9d902f2521913f358b4ca56b9f8d4d9b9acee9ad0a95354125b9a65`. Review: `workflows/wiki-audit-2026-10-07/mcpk-y256-producer-review-2026-10-09.md`, blob `835b09a7db975c4a4026ebadc1fdb15c2be651b4`, raw SHA-256 `b0221a0396b24bd4e43824d7ec494709b9e16195403d4f2f7bdb4616227838a4`.
+- The exact reviewed conditional mechanism is also reconciled into `mcpk-checkpoint.md` and `mcpk-full-catalog-2026-10-08.md`. ACCEPT covers source-level stale positive water depth at the 1.13.2 Y=256 preflight and the bounded 1.16 reset/consumer contrast. It establishes no reported trajectory, universal jump result, MC-135831 cause, or first fixed release.
+- No raw Wiki source, implementation, or runtime claim was introduced. No build, tests, or runtime validation was performed.
+
+## Exact source-preparation records: 1.14–1.15.1 — 2026-10-09
+
+- Imported only the pending preparation paths from exact records `69de5a7cfddde6fdb08b2fdde1d5faf7b4eb2e18` (1.14) and `cbb98738c2d9b03d451d61eb3cec8ea37d2e91d9` (1.15/1.15.1); no stale branch tree or unrelated file was merged.
+- `preparations/1.14-exact-2026-10-09.md`: blob `77b0005c9bfb0580d517bf5bbc8de0830715e973`, raw SHA-256 `f8923e3573d6df066aa8c0872f925bd845591fc68a970abdd73e8feb873ca657`.
+- `preparations/1.15-mojmap-2026-10-09.md`: blob `d014d328bfb8c8b9bca9ceb944cfac537e863575`, raw SHA-256 `9251bc1d826b5bba5416e50261bdda4ff3cff85b2d3424b1540d1dd5880cd8ea`; `preparations/1.15.1-mojmap-2026-10-09.md`: blob `af25baef749ac3ba02d74a8564c31855b6ba55aa`, raw SHA-256 `88d3a697e3920dfd2f42c6a9c5978258dcb857d8533640b49c5f115c13932ac7`.
+- These records establish artifact readiness only; they add no movement interpretation or runtime result.
+
+## Coordinator queue checkpoint — exact snapshot — 2026-10-09
+
+- Imported only `workflows/orchestration-2026-10-09/queue.json` from exact commit `7f6ad5859649e7cb56e7e328a4620743acc8d424`, parent `12196ffe99bb9fe7d69a559f42eff7cd52c0d87a`. Blob `dbbe933c5ba1eba28482739e2350cb72d3234b81`, raw SHA-256 `e59f5caab487cb620bb6361718ccf5c73de76a99eeb95c55fdeebe2361d7ceaf`; byte-identical to the requested snapshot.
+- Snapshot records 15 occupied slots (13 campaign workers, coordinator, unrelated worker), 13 verified active workers, and `newRuntimeValidations: 0`. Queue metrics are coordination metadata only, not runtime results. `integration.md` is preserved and appended; the queue JSON itself was not edited.
+
+## MCPK Y=256 endpoint boundary follow-up — 2026-10-09
+
+- Integrated the exact 1.14 memo from author commit `a3a3dda4cdbc0e2df361542d86c2a6f885eb4ecc` / final report merge `85c1236c8539f9e07b56e4716951ec5a4ffd3cfc`, the exact 1.15.2 memo from `de623cb55be97374f1d13f621e0b9a47005ec092`, and bounded independent ACCEPT report from `9da67abd41f2f1f53c886e5c3519ed44f3e2e2f7` (review content commit `cb307b752a767290b91915f42b570f52ba35a4f2`).
+- 1.14 memo `mcpk-y256-1.14-boundary-2026-10-09.md`: blob `3675c55628e64c857ae20969b454aabea5c8ee98`, raw SHA-256 `d3c0071e9f65393cb4600279de510704a8763331cc8755b7c53ea7a7d9dd210f`. 1.15.2 memo `mcpk-y256-1.15.2-boundary-2026-10-09.md`: blob `3620dfdca035c9fb7024d3b7bdc79a06b9292913`, raw SHA-256 `706fd96e5d64e6c2ed7f670905681181dd3140ef35390fb757a264b20e5a79fb`. Review `mcpk-y256-boundaries-review-2026-10-09.md`: blob `7d6088496e9efbddc0b2cea77e951859463cab44`, raw SHA-256 `43683c0b80c2dffcfd3214aa89a4f1a60315a53317f5eb5caa0b96ba98844d19`.
+- The checkpoint and catalog now bind these additional accepted endpoints. Review accepts conditional source mechanisms at the exact endpoints only; first affected/fixed release, universal behavior, and the MCPK-reported trajectory remain unestablished. No raw Wiki or runtime claim was added.
+
+## 1.21.4–1.21.5 corrected D7 acceptance — 2026-10-09
+
+- Integrated source correction from `930e4ed490ef41a98b0527183e9b3b4ad9e0d339`, original R1 REQUEST CHANGES review `759a5c441cf7b052a88d020f6f26f8f30832e581`, and independent corrected D7 ACCEPT `d7b932a2f57285a52fbf3c96a89d4b7173fe22ea`.
+- Added only the corrected D7 evidence section and exact reviewer binding to `1.21.4--1.21.5/run.md`. Original `b8` bounded acceptance and R1 rejection remain historical; D9/F-09 bytes are unchanged and separately assigned. D8 stays closed only for its bounded producer path; D10 and D1–D6 remain open. Pair status remains partial.
+- The acceptance is limited to D7's controlled-camera input transfer, caller/phase gates, vector helpers, and direct relative-movement consumer. It is not a pair audit or freeze. No implementation/wiki material, build, tests, or runtime were used.
+
+## F-001 final no-code reconciliation — 2026-10-09
+
+- Integrated final author reconciliation from `936bc7213916335962f638d53263280fbf061e29` and independent technical ACCEPT from `0f30150627fe97d3d9a6ba60f9040574e05d6c85`.
+- Reconciliation `workflows/fix-implementation/reconciliations/F001-sprint-collision-2026-10-09.md`: blob `ad8f0c6c10555fd0c6db5b5e0320d2dbc7553318`, raw SHA-256 `0f54257decdafdf70b7cc0b73f0068ac271964bf53bc43aa7c3397a70b77cb4e`. Review `workflows/implementation-reviews/2026-10-09-F001-final-no-code-review.md`: blob `48e2b2ba360ce039cca71aa35e3b85e2bb2e40b6`, raw SHA-256 `c2aef7a7d3fc753250a727c2469e30147811bebb862929f607979ccb7268b2e5`.
+- ACCEPT is limited to the independently source-reviewed 1.17.1/1.18 sampled boundary and matching current routing. Routing through V1_8 is not proof of earlier-release source behavior. No runtime parity was established; no code change was indicated for the reviewed boundary.
+- No build, tests, or runtime validation was performed.
+
+## F-005 r2 source witness — 2026-10-09
+
+- Integrated exact r2 source memo from `96b6f7253491903c0da443d74102dcc451be1245`, original r1 independent REQUEST CHANGES from `6702eda57a1f378576fca06778e11648cc0e5c8c`, and r2 independent ACCEPT from `7dfe93834ec72bf224c5ffe4e25dc102126dee5f`.
+- Memo `workflows/source-boundary-reviews/F005-boundary-evidence-r2-2026-10-09.md`: blob `012209d04cc41482729b0bf4f66cd9c23686bf8e`, raw SHA-256 `6411e8b8f4f27cbfc28de95bb41c9236cdb2c08d05e28480c5906d6078ed8129`. R1 review blob `65bc5ff0c0a7c222267f882f5ffc62036360f54b`, raw SHA-256 `a73dd9aaeb03a02faceb67474ca2d31be0dda2083cd14274bfed7b40b07048a0`; r2 review blob `d2fd6bb126012d7ae16c297e9dbb5c1fa23126ae`, raw SHA-256 `67ce567f9edc39bef7a9fef511b464ee0bf76abc7fe2a2dbb5ea1d525269e313`.
+- R1 witness-dependency REQUEST CHANGES remains preserved as history; r2 ACCEPT closes that source witness gap only. The separately accepted 1.18.2 first-changed-release boundary remains accepted. This is not a trajectory/runtime result or an implementation recommendation. F-005 implementation reconciliation/code remains queued for its separate technical review and serial build.
+- No build, tests, or runtime validation was performed.
+
+## Exact source-preparation records: 1.13–1.13.1 — 2026-10-09
+
+- Imported only the two exact preparation paths from the report-only tree at `75767b06d1b728e672db2fd1872165153ce768a0` (author preparation commit `c98e0a21175f4af49eb4a38f3ff563abef64b3e5`).
+- `preparations/1.13-mojmap-2026-10-09.md`: blob `b56500a45f69b42fcf9bc0cbc56f65c117ecdbe3`, raw SHA-256 `77c19f02802841056ebea4ea0cc6fa7215c9e07166c9e591095c75d9b1898ef9`; `preparations/1.13.1-mojmap-2026-10-09.md`: blob `6f9d4452c2fb897ecbaa18753392984f56dbd9c3`, raw SHA-256 `81af978490edaca30aedf4e801404f0facfc75863275c8b0733198241a72ce21`.
+- These are artifact-readiness records only; they add no movement interpretation or runtime claim.
+
+## Accepted 1.21.11–26.1.2 fluid checkpoints — 2026-10-09
+
+- Integrated the exact bounded source checkpoints `2f13f54bd011a67e10314fc674cb270f68612f1f` (three bubble-column resource edges) and `b85cb22afbdc1ffdc7406cec74c1c46ebfdd5a0b` (mounted-player route and fluid-height consumer trace), with independent review `e2bfaf654561524682cbb4f4906f127f43da2374`.
+- Review report: `workflows/source-boundary-reviews/2026-10-09-12111-2612-fluid-checkpoints-review.md`, blob `569a7c183c36d46c47b2ecc1851eaf1a3871715d`, raw SHA-256 `f9462839ef360baaac64f024eb57d56d567f39e5c0b703dca302e143a796f6fe`. Current pair-ledger blob `992ab5ea09f2387334b579c4e2a842757df65f45`, raw SHA-256 `dc97aa9af372be515443f685c619343152f62ee1ce9ab91ecf75c6c44753bf9d`.
+- D2 accepts only the exact vanilla-default bubble resources and their bounded Player response edges. The mounted Player route is source-reachable but has no exact fluid-cell/load witness showing a response difference. Mounted applicability, eye-state writer/order, and `getFluidJumpThreshold()`/eye inputs remain open. Pair remains active/partial; no pair freeze or runtime result is inferred.
+- No build, tests, or runtime validation was performed.
+
+## Pane neighbor providers — bounded independent acceptance — 2026-10-09
+
+- Integrated exact provider report from author commit `aa9e10f7792aef6215bab1f97ccdca61b64bbd86`, unchanged at final author tip `9e1841d0874217366149afa80dd8b25cbe2f4313`, and independent bounded ACCEPT from `6d80618cfac6351d09d18aab09c00fe85f2a155c`.
+- Candidate `pane-neighbor-providers-2026-10-09.md`: blob `4af937333cfe189c1205c2bf4871874325e74a9a`, raw SHA-256 `da9196859a9456fa036ec9d446eaf4ff56314c03816da3c23cf6bc8de8ef361a`. Review `reviews/independent-review-pane-neighbor-providers-2026-10-09.md`: blob `6976b4c9658a94ef9904a595e28dd205a18034f1`, raw SHA-256 `3cb7de364a95e09c884b05d554a32b534145255a100c8f6b61be87eaf27b1972`.
+- The checkpoint and Wiki row now bind the accepted three-class slice: leaves/leaves2 remain unchanged; slime changes the predicate and yields one reachable east-only pane mask. The result does not close the provider census or all reachable masks. Feather-derived source/JAR equivalence remains open.
+- No source-lane or runtime claim was added; no build, tests, or runtime validation was performed.
+
+## Coordinator scheduling and readiness snapshots — 2026-10-09
+
+- Imported the exact scheduling/slot checkpoint from `663dce3c52d703ffb038ea4badabe27717ff4d21`, path `workflows/orchestration-2026-10-09/queue.json`, blob `978de7dc3b817d88b4d7bd53a380ef930b3e2475`, raw SHA-256 `643b928da1b638d82de9e0c674defffb2d82c065a199cff89b76349162d32df3`. The JSON remains byte-exact. It is a dated coordination snapshot; its `mainVerified` value records its capture baseline, while the current local main head is reported separately. Queue metrics are not runtime outcomes.
+- Imported the exact five-profile readiness report from `2184473bb524d324d933b87207c6f6f051225023`: `preparations/1.19.2-to-1.20.2-readiness-2026-10-09.md`, blob `25b09d7170878fa404eec64c163b3b53fcc1ed19`, raw SHA-256 `0a62d0d5e4e47db0c192468c52085db3506fe695daf7f4c8b9a407c45b1153fd`; and updated summary `preparations/readiness-2026-10-09.md`, blob `1a410838d8aae96c7d71492b645a6e470291710a`, raw SHA-256 `b5961f72f534d0efaffee4731ab3c835ee46a5364fe191d845b10e087b1695a0`.
+- All five listed existing profiles have exact marker, manifest, source-file, artifact, and readability checks recorded. No rebuild or movement interpretation was performed.
+
+## D9 / F-09 original-claim review event — 2026-10-09
+
+- Integrated the exact independent review from `dc2b29c81c1fd57941d8ed4a27d1583b1b039b4e`: `workflows/source-boundary-reviews/2026-10-09-f09-controlled-camera-input-damping-review.md`, blob `876aec376848f6b1502ae68e664822db7ebd6500`, raw SHA-256 `087b3582684c7b80892eac6ea6e9a5c4a17e9309da3683d32171326e3322f6f4`.
+- Verdict: REQUEST CHANGES for the immutable original F-09 claim that B omits `0.98F`. The review supports only a narrower one-ULP float-order difference under its specific controlled-camera/item-use/sneaking-speed conditions. The pair ledger records that distinction and preserves the open status.
+- The original finding remains byte-identical (blob `8a9c64a35705195d39d300f7fa0ea4f25cf049aa`, raw SHA-256 `3a1680c5e724a935cbc576705088f03e3a9d4c6a8e29e5375d4ddb8e93b1e328`). No corrected finding was created or accepted. D9 remains open for a source-owner revision and separate review; the pair remains partial.
+
+## F-012 exact release-boundary source review — 2026-10-09
+
+- Integrated only the source-boundary memo from author commit `1c4317af04f70a596642369a402ce38ccb5492da` and independent ACCEPT from `ee586d98cbd02df932f6f076daa56a9d2176557b`.
+- Memo `workflows/source-boundary-reviews/F012-sprint-air-control-boundary-evidence-2026-10-09.md`: blob `ebd4cb218453a9b2ce7afbe15932d2668dc6b742`, raw SHA-256 `477812d4bd08dcb3841b902b311899ee51c2f72d9ad76e323cb4a206dee01a06`. Review `workflows/source-boundary-reviews/2026-10-09-F012-independent-boundary-review.md`: blob `7a8315f0e5f253ef8c02a7e373524b3f8859080b`, raw SHA-256 `7493c46aaf5e55125ff94c94b6ca6322bd150e41526a81ff78e3ef7187b37e9e`.
+- ACCEPT is limited to the coefficient and next eligible ordinary-airborne consumer across the four sampled releases; the expression changes from double-literal addition to float compound addition at 1.18.2. It does not establish unsampled cutovers, full parity, or runtime behavior. The pair run/freeze is unchanged.
+- The F-012 implementation reconciliation was not imported: its technical review/code gate remains pending.
+
+## F3 R2 implementation technical review — REQUEST CHANGES — 2026-10-09
+
+- Integrated independent technical review from review commit `b1da5dfb90bf39ccd26a76dd35b94cefab392ae6`, final report-only merge `8713e3447ba3d412f3ed56c551eb1129c8271bc7`.
+- Report `workflows/implementation-reviews/2026-10-09-F3-r2-technical-review.md`: blob `3672e070dd382bd1ab0d1ac1ab37c874d6d283b1`, raw SHA-256 `e0872eeab806b9ef1db20813b274c32a0c9e6778e62a8d99f94b647cdfd030da`.
+- REQUEST CHANGES: the reviewed implementation activates the LAVA cutoff bypass for mounted Players, while the accepted source witness covers only a standing, unmounted Player and leaves mounted fluid boxes unresolved. The review otherwise verifies the 26.2 source identities, target call order, cutoff math, registration and native fallback. It proposes retaining the native cutoff for mounted Players unless that applicability is separately accepted.
+- The immutable source finding is unchanged. No F3 production code or final implementation reconciliation was integrated, and no build or tests were run. The pair remains partial; code stays gated on correction and independent ACCEPT, then the disabled-test build.
