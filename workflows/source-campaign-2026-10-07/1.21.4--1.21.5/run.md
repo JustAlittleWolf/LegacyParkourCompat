@@ -1099,6 +1099,28 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 - Review event R-F19: the independent reviewer verified the immutable candidate SHA and all eight cited source-file hashes against the exact published Mojmap roots. The prior-input sampling order, item-use slowdown persistence difference, subsequent timer transitions, grounded sprint eligibility gates and `setSprinting(true)` modifier timing were confirmed. The reviewer found no source-evidence gap and returned ACCEPT. This closes review of this candidate only; the broader S1 input/sprint inventories remain open.
 - Checkpoint limits: exact published source roots and source report/candidate only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
 
+## Fresh source-only checkpoint — D24 synthetic jump input propagation
+
+### D24 — S1-INPUT-SAMPLE-AUTOJUMP-WRITE-AND-PROPAGATION (bounded path closed)
+
+- Exact paired `LocalPlayer.aiStep()` order: both releases snapshot the prior jump key, call `input.tick()`, decrement positive `autoJumpTime`, and call `input.makeJump()` while the timer remains positive. In the same tick, current `keyPresses.jump()` feeds the flight toggle/fall-flying/water/flying/riding branches; the saved prior jump boolean is used for edge detection. The `ClientInput.makeJump()` body copies all six other flags and sets only jump=true in both releases. `Input` is byte-identical.
+- `LocalPlayer.tick()` calls `super.tick()` before comparing and sending `input.keyPresses` in `ServerboundPlayerInputPacket`; thus any synthetic jump flag still present after the tick is eligible for that tick's input packet. The paired packet codec and `ServerGamePacketListenerImpl#handlePlayerInput()` route store the decoded `Input` as `ServerPlayer.lastClientInput` without a release-specific transformation. On the server, exact getter-use search finds `getLastClientInput()` in `PlayerPredicate`; the movement-intent getter feeds old/new minecart behavior (vehicle physics excluded). The two releases have the same local movement and packet semantics on this bounded route.
+- No separate input producer was found by exact-root search: `KeyboardInput.tick()` samples Options keys; `LocalPlayer.aiStep()` applies movement slowdown to A's axis fields; `ClientInput.makeJump()` writes the synthetic jump bit; `ClientPacketListener` installs `KeyboardInput` at the initial-player and respawn attachment sites. Other matches were unrelated members named `input`. D24 closes only synthetic jump write/propagation and the direct local producer list; full S1 input/consumer and tick-call-graph coverage remains open.
+- Exact source hashes (all verified against the paired source manifests):
+
+| Source | A 1.21.4 SHA-256 | B 1.21.5 SHA-256 |
+|---|---|---|
+| `LocalPlayer.java` | `145686ebdc7f0d12a64070309073665eb8695b7e09911a723e86113a77d04611` | `f1fcfed4a938732361e7ad951f93e9b73b02320ee56f0b219e2b3c7acdbfa2ef` |
+| `ClientInput.java` | `0f2e4d03749ab7495e386af05aa77a0414b5d1c3ef76256db2b514f42cc6e3c4` | `597a44339a99f1bce1b081614c7c2984ca03e255b40e9d247675a31b6f810d78` |
+| `Input.java` | `1c0c12af07da1f90651c3a7c4eb19bab6486b6391dcbfdd2926f06e3f36c2f06` | same as A |
+| `ServerboundPlayerInputPacket.java` | `a6c9f4d9edfd21e1c092146f5a2a31b30e8e295b2035bafa53f2036b17b65166` | same as A |
+| `ServerGamePacketListenerImpl.java` | `c5467cc282f361b5ab5540066385240f847d101c68afdef8655908f3fb3b2c8b` | `fdb8726f77618ebcfd4fe3973e1740d999c2fd3d220ca4a3ddba837f160e6d69` |
+| `ServerPlayer.java` | `d4fd29d9bed9698797e14cf9883e53f04ff4735afb2fee2972085cd82bf0d8f2` | `81ec90de6bf1521f45f1552c60af1ebb1a83fbcfa2eefb41b99e25b99d2f0d1b` |
+
+- Disposition: no movement delta found in this synthetic-jump input path. This is a bounded source result, not a full-pair input or tick audit. D1-D6 and overall D8 remain open; D9 remains open after both immutable F-09 snapshots received REQUEST CHANGES; D15's registered-fixer string condition and D22's toggle reset route remain closed; F-19 is independently accepted for its bounded sequence; pair status remains partial.
+- Next slice: continue S1-LOCAL-TICK input-to-travel call order and direct movement consumers after the input snapshot, including inherited `LivingEntity.aiStep()` dispatch. Do not use this bounded result to close any full inventory.
+- Checkpoint limits: exact published 1.21.4/1.21.5 Mojmap roots and source report only; no implementation/wiki/mixed coordinator evidence, build, test, game/runtime, push, or main merge.
+
 
 
 
