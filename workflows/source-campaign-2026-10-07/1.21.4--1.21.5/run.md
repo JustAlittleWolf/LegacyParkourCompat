@@ -897,6 +897,28 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 - Next named source slice: `D14 / S1-OPTIONS-KEY-LOAD-AND-REBIND`, capped at three complete paired methods. Resolve exact full ranges for `Options#load()` (starts A/B line 1226; key loop at 1205-1211 belongs to the preceding shared `processOptions` adapter) and the controls-screen capture/reset callers in `KeyBindsScreen`/`KeyBindsList`; connect `setKey` changes through `resetMapping()` to the `KeyMapping#set` writer and `KeyboardInput#tick()` consumer. Source callsites currently identified include A/B `KeyBindsScreen.java:40-41,60,73,75,92`, `KeyBindsList.java:33,55,141,181`, and `Options.java:1348/1349` for `resetMapping()`.
 - Checkpoint limits: source report only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
 
+## Fresh source-only checkpoint — D14 controls-screen key capture
+
+- Base: key-save checkpoint `abc448b3`. Three complete paired methods were compared: `KeyBindsScreen#mouseClicked`, `KeyBindsScreen#keyPressed`, and `KeyBindsList#resetMappingAndUpdateButtons`; their method-body spans total 30 lines per side. Both cited controls files are byte-identical across releases and their live SHA-256 values match both exact source manifests.
+
+### D14 — S1-CONTROLS-KEY-CAPTURE (bounded capture route closed)
+
+- Mouse binding capture: A/B `KeyBindsScreen#mouseClicked(double,double,int)` lines 58-67 writes `InputConstants.Type.MOUSE.getOrCreate(button)` only when `selectedKey` is non-null, clears the selection, calls `resetMappingAndUpdateButtons()`, and consumes the event. With no selected mapping, it delegates to the superclass.
+- Keyboard binding capture: A/B `KeyBindsScreen#keyPressed(int,int,int)` lines 70-85 writes `InputConstants.UNKNOWN` for key code 256 (unbind) or the event key from `InputConstants.getKey(keyCode, scanCode)`, then clears the selection, timestamps the selection, rebuilds the mapping, and consumes the event. Without an active selection, it delegates to the superclass. The keyboard handler's screen-first dispatch and early consume gate are already recorded in D8, so the captured key is a binding assignment rather than a held-down event write.
+- Registry consumer: A/B `KeyBindsList#resetMappingAndUpdateButtons()` lines 54-57 calls `KeyMapping.resetMapping()` then refreshes the visible entries. This connects each completed keyboard/mouse rebind to the identical `ALL`/`MAP` reconstruction helper recorded in D12. The resulting key-to-mapping entry is the one read by `KeyMapping#set`; `KeyboardInput#tick()` later reads the movement mapping's down state as recorded in D8.
+- Disposition: no A/B delta was found in mouse or keyboard capture and immediate map reconstruction. This closes D14 only for a selected control's mouse/key/unknown assignment and registry refresh. The reset-all button's loop (identified at A/B `KeyBindsScreen.java:38-43`) and the persisted options load/rebuild route remain outside this slice; the save writer is closed separately under D13.
+- Queue update: this D14 checkpoint narrows the earlier D13 next-slice proposal to the complete keyboard/mouse capture methods. Persisted-option load and reset-all now remain together in the next named D15 slice below.
+- Exact source hashes:
+
+| Paired source file | A SHA-256 | B SHA-256 |
+|---|---|---|
+| `net/minecraft/client/gui/screens/options/controls/KeyBindsScreen.java` | `37fb7af767757bc73759bdac2cd0e7577bed98d18d2566e172d16c381b5cf909` | `37fb7af767757bc73759bdac2cd0e7577bed98d18d2566e172d16c381b5cf909` |
+| `net/minecraft/client/gui/screens/options/controls/KeyBindsList.java` | `4b47787e3dda65051e3c4086f70cf7c9092db6e8c83b49b527ff9e03955dabc8` | `4b47787e3dda65051e3c4086f70cf7c9092db6e8c83b49b527ff9e03955dabc8` |
+
+- Current dependency status: D7 remains accepted only for its bounded path by independent review `d7b932a2f57285a52fbf3c96a89d4b7173fe22ea`; D9 stays separately open for immutable F-09 adjudication. D10-D14 have bounded source records only; D15 remains open for persisted-option load, reset-all behavior, and state timing after remap. D1-D6 remain open and the pair remains partial.
+- Next named producer slice: `D15 / S1-OPTIONS-KEY-LOAD-AND-RESET-ALL`, capped at three complete paired methods. Compare `Options#load()` and its `KeyMapping.resetMapping()` call (A line 1348/B 1349) with the reset-all `KeyBindsScreen#addFooter()` path that assigns each mapping's default key and calls the list refresh/rebuild. Include the load `FieldAccess` and current-key-change gates, then reconnect the resulting `MAP` to keyboard/mouse writers and `KeyboardInput#tick()`.
+- Checkpoint limits: source report only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
+
 
 
 
