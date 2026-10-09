@@ -289,3 +289,8 @@ At that time, the preparation, sprint-collision and Elytra slots were releasable
 
 - Merged portable ACCEPT branch tip `40c12762ab3c9893d863b6abd65681db8cdce48a` on local `main` at `e56156e6a97736090379e5cf87d2c560b29ae848`, tree `2077fc2c1ff9528ea8a21fc6891438366c719e4d`. Its reviewed code tree `a198e74cb0cfe6027d24ab7294bff11c1fe87d0c` is the exact source tree at this merge; no source-file differences or semantic corrections were needed.
 - All F005/F012/F3 catalog entries remain present alongside F008's V1_15_2, V1_16 and V1_17_1 query providers. The static review's unverified pre-1.15 and 1.17.0 profile limits remain explicit; the source boundary is still bounded and runtime parity remains unverified. Build was pending at this checkpoint; see `workflows/fix-implementation/runs/F008-border-edge-integration-2026-10-09.md`.
+
+## F-008 test-disabled build — 2026-10-09
+
+- Build passed on input commit `0d65efb7b6c071fb0a01c86f7b5670ea65057d25`, tree `8189427cb909dfd74835f5eb678c5fad35a04585`, which contains no production-code change after the reviewed integration tree. All Gradle `Test` tasks were disabled and `-x test` was supplied: 18 actionable tasks (3 executed, 15 up-to-date).
+- JAR `build/libs/LegacyParkourCompat+26.2-1.0.0.jar`: 277869 bytes, SHA-256 `B57254F81E71E23F07633B97A78E9BA9C98A463EDA664025F5FF1081F008CFA7`. Runtime remains unverified. Full candidate/review/integration/build bindings are in `workflows/fix-implementation/runs/F008-border-edge-integration-2026-10-09.md`.
