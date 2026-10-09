@@ -139,3 +139,10 @@ At that time, the preparation, sprint-collision and Elytra slots were releasable
 - Candidate: `workflows/source-campaign-2026-10-07/1.21.11--26.1.2/findings/F-3-nether-lava-shallow-overlap-r2-2026-10-09.md`, blob `73a244f66a6501b1d48f11fc4bcbde95d25c8518`, raw SHA-256 `69146a6130e72d7fffdf4bfa71954c41c62dc57aebfa0246f040e079c5f28907`. Review: `workflows/source-boundary-reviews/2026-10-09-lava-shallow-overlap-r2-review.md`, blob `10d56f3e76eca339a95f6ea3f47ec099decb3467`, raw SHA-256 `c589664e82974cc07b7010a9c4be9c42ef4e334221d1d73b11fe1e4261f7352e`.
 - The current pair ledger binds the R2 correction to the bounded arithmetic acceptance. The original F-3 R1 REQUEST CHANGES event and candidate remain unchanged; the 1.21.11–26.1.2 pair remains partial, with no freeze or runtime claim.
 - No build, tests, or runtime validation was performed.
+
+## MCPK Y=256 conditional source mechanism — 2026-10-09
+
+- Integrated exact bounded producer report from `681d1d54d69ec693f02e07e5a6b1841c401c4bb6` and independent review `2e47dad5165119de97b940e17eebf0bcad21b3c4`.
+- Producer report: `workflows/wiki-audit-2026-10-07/mcpk-y256-producer-2026-10-09.md`, blob `fddcf603a83611d9d10a0f5f684e270433fcfd30`, raw SHA-256 `873d3934c9d902f2521913f358b4ca56b9f8d4d9b9acee9ad0a95354125b9a65`. Review: `workflows/wiki-audit-2026-10-07/mcpk-y256-producer-review-2026-10-09.md`, blob `835b09a7db975c4a4026ebadc1fdb15c2be651b4`, raw SHA-256 `b0221a0396b24bd4e43824d7ec494709b9e16195403d4f2f7bdb4616227838a4`.
+- The exact reviewed conditional mechanism is also reconciled into `mcpk-checkpoint.md` and `mcpk-full-catalog-2026-10-08.md`. ACCEPT covers source-level stale positive water depth at the 1.13.2 Y=256 preflight and the bounded 1.16 reset/consumer contrast. It establishes no reported trajectory, universal jump result, MC-135831 cause, or first fixed release.
+- No raw Wiki source, implementation, or runtime claim was introduced. No build, tests, or runtime validation was performed.
