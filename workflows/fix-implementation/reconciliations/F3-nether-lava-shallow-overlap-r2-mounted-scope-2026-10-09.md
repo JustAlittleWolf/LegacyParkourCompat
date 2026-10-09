@@ -1,6 +1,6 @@
 # F-3 R2 mounted-player applicability correction
 
-**Status:** Corrected code candidate committed; independent technical re-review pending. The code remains out of serial integration until that review accepts the exact corrected commit.
+**Status:** Corrected code candidate and post-merge integration independently accepted; ready for serial integration/build ownership. Runtime parity remains unverified.
 
 ## Immutable source and code inputs
 
@@ -22,6 +22,10 @@ No profile check was added. `MovementRuntime.find` still uses the ordinary resol
 ## Verification and remaining status
 
 - `git diff --check` passed for the one-line correction.
+- The corrected candidate was independently accepted at commit `f89440c372c9f795e75d7c6e0e1bfef9253001a3`, file `workflows/implementation-reviews/2026-10-09-F3-r2-mounted-scope-correction-review.md`, blob `520357aef12404e06a4f0704139e09678778c2ed`, raw SHA-256 `74BF4EC60210E6E3CAC5C8081943C0FA8B5C23A0DFE809455E8322C436FC3FF4`.
+- Default branch `main` at `3467cc398a89bb86bfafa6eedb315e0a29e040de` was merged at `5c27fe49d651898f108b34de223c132ae1dd3fb2`. The merge retained the F-3 hook and passenger guard alongside F-005's distinct `Entity.move` reset hook; no F3/F005 semantic conflict was found.
+- The merged tree was independently accepted at commit `f467c6df7101f26b542d941bd2fc05536520fc69`, file `workflows/implementation-reviews/2026-10-09-F3-r2-mounted-scope-integration-review.md`, blob `fda61ce1f6a36d24c1ecbce8489e46ff0e93f102`, raw SHA-256 `06765E7BD3EE0C5B904EEC45E3742E2663EA3EEC9BCDD2F824410E17EF901949`. It reviewed merged HEAD `5c27fe49d651898f108b34de223c132ae1dd3fb2` and the listed code blobs/raw hashes.
+- `git diff --check` passed after the main merge. The final integration review confirms the water and lava paths share the scoped context, F005's redirect targets a separate method, and resolver/native fallbacks are unchanged.
 - No tests, build, runtime, client, TAS, Gym, server, or Docker activity was performed.
-- Independent technical re-review of corrected code is pending. No implementation result was sent to source-only owners. The 1.21.11–26.1.2 source pair remains partial.
+- No implementation result was sent to source-only owners. The 1.21.11–26.1.2 source pair remains partial.
 - Runtime validation of the accepted unmounted witness and broader mounted-fluid-box behavior remain open for separately authorized work.
