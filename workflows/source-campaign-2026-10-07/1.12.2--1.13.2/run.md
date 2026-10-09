@@ -977,3 +977,10 @@ The provisional hold is cleared: this worker verified both immutable revision sn
 - Verified B/A method descriptors against the revised snapshots using `javap -p -s`: `LivingEntity.jump()V`, A `jumpInWater()V`/`jumpInLava()V`, B `m_74407200(Tag)V`, and `moveRelative(FFF)V`; B Entity sampler `m_69693160(Tag)Z` and getter `m_02485546()D`. Any finding relying on these bytecode checks must cite revision ID `feather-r1-2026-10-07` and its exact snapshot hash.
 - Material limitation: original mapped jars (A `65a08f...`, B `d118dc...`) are unavailable; revised snapshots differ and are not proven identical or metadata-only. This does not invalidate unchanged source-file hashes but prevents claims of original mapped-bytecode identity. Independent ops audit passed on 2026-10-07. Original derived artifact equivalence remains unproven.
 - Do not rewrite ready markers, artifact manifests or source trees. No decompilation or cache mutation was performed by this discovery worker.
+
+### 1.13.2 water-current memo r3 acceptance event — 2026-10-09
+
+- Corrected source memo: `workflows/source-campaign-2026-10-07/source-memos/fluid-current-player-impulse-1.13.2-r3-2026-10-09.md`, commit `77417f7abf8deb92c4eb81309a3bd7db8284c58e`, blob `a1a658915279baa655e94a571f2549ffe7533502`, raw SHA-256 `bedcac589fb134ccb57547e3f07c8c36fdc76592ee2a17aacc8a4b12ee0e9bac`.
+- Source binding: commit `d279b9576bf12dd58b132ca2a5a09add40bd4abb`, blob `add0416f975496e376a98bb885faf7e3fa561cbf`, raw SHA-256 `1e5ef1b1fc7cdfe096a00262bc826e91a815db5abc75ca808abee9b5403c58c3`.
+- Independent review: commit `6e2c102c49119f758b951dd1f9686b8fcb7bf72`, report blob `0cd02005ab805ec0338f6711b37810912d2abf6b`, raw SHA-256 `77410602ce266aa0e2ce6fc9f63d536c0ce987b3d6e3a1223353f558be35a399`; verdict ACCEPT is limited to the cutoff-qualified 1.13.2 source finding.
+- Preserve the R1/R2 REQUEST CHANGES history. R3 acknowledges the intervening component-wise `< 0.003` velocity cutoff and claims source order only; it makes no trajectory claim. The mapped-JAR identity discrepancy, other fluid boundaries, pair completion, and runtime remain open.

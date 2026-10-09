@@ -324,9 +324,34 @@ At that time, the preparation, sprint-collision and Elytra slots were releasable
 ## F-007 pre-merge checkpoint — 2026-10-09
 
 - Current local `main` starts this batch at `5de793de79622a48b2a28d835ae0bcc0cddd5551`. Candidate `60010459540809c16f0ec67a849ef57b159943d0` has independent implementation ACCEPT on tree `32a4c3d484ba05a76b85f648d48678cf075db7f4` and an independently accepted source boundary. The final task branch `a08edf253736867411cc60cc13dfa34f208fa4b1` contains main through `b742f9cb` and its F007 implementation files match the review bindings.
-- The branch's current-main merge was inspected: F007 adds one client mixin adjustment, one V1_18 threshold behavior/hook, and its catalog registration. F008 uses the separate Player mixin/query hook and earlier-version catalog entries; F005/F012 use separate V1_18 behavior keys. No F007 correction is indicated. Build is pending; exact bindings are in `workflows/fix-implementation/runs/F007-position-packet-integration-2026-10-09.md`.
+- The branch's current-main merge was inspected: F007 adds one client mixin adjustment, one V1_18 threshold behavior/hook, and its catalog registration. F008 uses the separate Player mixin/query hook and earlier-version catalog entries; F005/F012 use separate V1_18 behavior keys. No F007 correction is indicated. Build was pending at this pre-merge checkpoint; exact bindings are in `workflows/fix-implementation/runs/F007-position-packet-integration-2026-10-09.md`.
 
-## F-007 merged pending build — 2026-10-09
+## F-007 post-merge/pre-build checkpoint — 2026-10-09
 
 - Merged task branch `a08edf253736867411cc60cc13dfa34f208fa4b1` into local `main` at `2dc317a6c5b657c7f21fc6a2cc2c131df4aa2f0e`, tree `015c9574b2469981a958b5e44e5543033cd8d3c9`. The production diff from the task branch is empty; reviewed F-007 blobs remain exact. The V1_18 catalog retains distinct F007, F005 and F012 behavior registrations, with F008/F3 registrations intact.
-- Test-disabled build is pending; the exact command and next action are recorded in `workflows/fix-implementation/runs/F007-position-packet-integration-2026-10-09.md`.
+- Build was pending at this checkpoint and was completed in the following entry. The exact command and result are recorded in `workflows/fix-implementation/runs/F007-position-packet-integration-2026-10-09.md`.
+
+## F-007 test-disabled build — 2026-10-09
+
+- Build passed on input commit `be97698305315c5ac7c7a3c2dbdab2bf436a9881`, tree `0f0fa1542a27b4b73ae52fec02f92de29233adb7`; production code is unchanged from merge commit `2dc317a6c5b657c7f21fc6a2cc2c131df4aa2f0e`. All Gradle `Test` tasks were disabled and `-x test` was supplied: 18 actionable tasks (4 executed, 14 up-to-date).
+- JAR `build/libs/LegacyParkourCompat+26.2-1.0.0.jar`: 279369 bytes, SHA-256 `ACA0723D4EBC11BC5E5B68EF1F9A26F97519E2D3A2BB92838B06A59361913730`. Runtime remains unverified. Full finding/boundary/candidate/review/integration/build bindings are in `workflows/fix-implementation/runs/F007-position-packet-integration-2026-10-09.md`.
+
+## MCPK 1.13.2 water-current memo R3 — bounded ACCEPT — 2026-10-09
+
+- Imported corrected memo commit `77417f7abf8deb92c4eb81309a3bd7db8284c58e`, blob `a1a658915279baa655e94a571f2549ffe7533502`, raw SHA-256 `bedcac589fb134ccb57547e3f07c8c36fdc76592ee2a17aacc8a4b12ee0e9bac`; binding commit `d279b9576bf12dd58b132ca2a5a09add40bd4abb`, blob `add0416f975496e376a98bb885faf7e3fa561cbf`, raw SHA-256 `1e5ef1b1fc7cdfe096a00262bc826e91a815db5abc75ca808abee9b5403c58c3`; and independent ACCEPT commit `6e2c102c49119f758b951dd1f9686b8fcb7bf72`, report blob `0cd02005ab805ec0338f6711b37810912d2abf6b`, raw SHA-256 `77410602ce266aa0e2ce6fc9f63d536c0ce987b3d6e3a1223353f558be35a399`.
+- Acceptance is limited to the cutoff-qualified 1.13.2 source finding. R1/R2 REQUEST CHANGES remain preserved. The `< 0.003` component cutoff is recorded before travel; no trajectory is claimed. Mapped-JAR identity, other fluid boundaries, full pair, and runtime remain open.
+
+## F-012 early air-speed boundary memo — bounded ACCEPT — 2026-10-09
+
+- Imported memo commit `847e7d101780d7fb39aae523b932c08f6fb6eb19`, blob `dffb4a337eb934dba38190aad6bacaebe6ccd4c5`, raw SHA-256 `42f3584c4372afe80269c4f47ada16ff7c570fcbbff7a2664c0a422389f6427c`; and independent review commit `224ef3729526fe403b2a38e160bcd7cf994c5e68`, report blob `e86169bb410fe6149e9ef2e66a589467fe1108bd`, raw SHA-256 `B39B27EB85B77969673EBD6FC96B527ED95463D48B9AA52B8EC794C8A050D7C3`.
+- Review accepts the sampled 23 releases from 1.8.9 through 1.18.2 and confirms 14 named releases are unsampled. This supports bounded sampled source evidence only; it does not establish behavior across gaps, a first changed release across the full interval, earlier-profile implementation fidelity, pair completion, or runtime parity.
+
+## Eye-height cached-float correction — narrow ACCEPT — 2026-10-09
+
+- Imported correction memo commit `ff956771f753f8d2a92c2fb3e51caebbfaa7f4a2`, blob `2f890681c6bc6026034710417a3c0265ca8087e3`, raw SHA-256 `6ecb26f940fada9074238ac485178eabf6ce43b1b270fee4adf55a6f38387ef6`; and independent review commit `143613bf98c7d4dc245bc58fb1ad9cc4cdb90ebf`, report blob `93b0e76b26fee2002b0a1c49abccfa2ebcde9c92`, raw SHA-256 `A67C2ECE4A7454D479FB34614820AC44E0EBC1E8A34E0077D1CAFE57DF643E39`.
+- ACCEPT is only for removing the impossible exact-0.4 cached-float case. The reviewer could not independently verify the supplemental vanilla Player provider witness because its frozen source files were unavailable. Keep that provider claim unverified and retain all broader provider, pair, and runtime work as open.
+
+## Branch-routing incident and checkpoint preservation — 2026-10-09
+
+- During closure documentation, the shared checkout was switched from `main` at F007 build input `be97698305315c5ac7c7a3c2dbdab2bf436a9881` to `fix/campaign-closure-audit-report-2026-10-09`. An audit-note commit was created on that isolated branch. No production files changed there; the audit commit remains preserved on its branch and is excluded from the main integration.
+- The F007 completion-record documentation commit `b9d225b9` was also made on its sibling `fix/campaign-closure-audit-2026-10-09` branch. The reviewed F007 implementation and successful test-disabled build remain bound to `be976983`, tree `0f0fa1542a27b4b73ae52fec02f92de29233adb7`; the record-routing correction will be carried to `main` without changing that code tree or JAR.
