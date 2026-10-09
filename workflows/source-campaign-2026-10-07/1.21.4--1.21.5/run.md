@@ -985,6 +985,30 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 - Next named source slice: `D18 / S1-OPTIONS-REMAINING-FIXERS-A`, capped at three complete paired `makeRule()` bodies from the remaining registered Options fixers. Begin with `OptionsForceVBOFix`, `OptionsLowerCaseLanguageFix`, and `OptionsAddTextBackgroundFix`; verify their exact DataFixers registrations, key/value mutation boundaries, source hashes, and whether they preserve unrecognized `key_*` remainder entries.
 - Checkpoint limits: source report only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
 
+## Fresh source-only checkpoint — D18 remaining option fixers A
+
+- Base: key-specific option data-fix checkpoint `3928db62`. Three complete paired `makeRule()` methods were compared: `OptionsForceVBOFix` A/B lines 14-20, `OptionsLowerCaseLanguageFix` A/B lines 16-23, and `OptionsAddTextBackgroundFix` A lines 15-27/B lines 15-24. Combined method-body spans total 28 lines on A and 25 on B. Their `DataFixers` registration sites and source-manifest hashes were verified.
+
+### D18 — S1-OPTIONS-REMAINING-FIXERS-A (bounded field rules closed)
+
+- Registration evidence: `DataFixers` registers these rules in both releases (A lines 410, 435, 728; B 446, 471, 785). Their registrations do not include movement key fields.
+- `OptionsForceVBOFix#makeRule()` writes only `useVbo` to the string `"true"` and leaves other Options remainder fields intact.
+- `OptionsLowerCaseLanguageFix#makeRule()` reads only the `lang` string; if present, it lowercases that value and writes only `lang`, otherwise it preserves the remainder. Neither rule changes `key_*` fields.
+- `OptionsAddTextBackgroundFix#makeRule()` reads `chatOpacity` and writes only `textBackgroundOpacity`. A wraps the helper result as a Dynamic double; B computes a double and stringifies it. This is a nonmovement option. The fix does not write `key_*` fields or mapping objects; no key-state effect is established here. This is the concrete A/B data-fix type difference found in this bounded slice, while broader option-load equivalence remains outside scope.
+- Disposition: these three complete rules do not transform movement key fields. Their unrelated field-specific writes preserve the other option-map entries. D18 is closed only for these registered field rules; D15 stays open until the remaining exact Options fixers are checked.
+- Exact source hashes:
+
+| Paired source file | A SHA-256 | B SHA-256 |
+|---|---|---|
+| `net/minecraft/util/datafix/DataFixers.java` | `deac5d8f1f86434c0bd529c0c0acdfd79905304fb34c54a20080d4bd58a5ec99` | `e59d948ab69954302cdc8c108de60fc5ba5f9537e5c14244fcff09b08fadeac8` |
+| `net/minecraft/util/datafix/fixes/OptionsForceVBOFix.java` | `63fea550386462a90750c76df8626713e91c7ec3f7090f8e1442f09dd0c98a66` | `63fea550386462a90750c76df8626713e91c7ec3f7090f8e1442f09dd0c98a66` |
+| `net/minecraft/util/datafix/fixes/OptionsLowerCaseLanguageFix.java` | `c47ee205fb60dc35654fae6391b6dcf7b382f03d15b7794f3d4034feb6805d8e` | `c47ee205fb60dc35654fae6391b6dcf7b382f03d15b7794f3d4034feb6805d8e` |
+| `net/minecraft/util/datafix/fixes/OptionsAddTextBackgroundFix.java` | `28d2075127bcbfb50e63f8384b1ada9aa9d86c32c0175e724968d93a934d62b9` | `46e5636314b32ba2cebc263b2d30d58a47164fa23392ee210498163753877294` |
+
+- Current dependency state: D7 remains accepted for its bounded path; D9 remains separately open for F-09 adjudication. D10-D18 contain only their stated bounded source records. D15's strict-load condition and overall D8 option/keymap producer closure remain open while the remaining registered option fixers are pending; D1-D6 remain open and pair status is partial.
+- Next named source slice: `D19 / S1-OPTIONS-REMAINING-FIXERS-B`, capped at three complete paired `makeRule()` bodies: `OptionsProgrammerArtFix`, `OptionsAmbientOcclusionFix`, and `OptionsAccessibilityOnboardFix`. Verify their registered fields and whether each leaves key-prefixed remainder entries untouched. `OptionsMenuBlurrinessFix` remains for the following bounded slice.
+- Checkpoint limits: source report only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
+
 
 
 
