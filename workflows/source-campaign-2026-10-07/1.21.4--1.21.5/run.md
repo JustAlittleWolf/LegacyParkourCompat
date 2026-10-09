@@ -1121,6 +1121,17 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 - Next slice: continue S1-LOCAL-TICK input-to-travel call order and direct movement consumers after the input snapshot, including inherited `LivingEntity.aiStep()` dispatch. Do not use this bounded result to close any full inventory.
 - Checkpoint limits: exact published 1.21.4/1.21.5 Mojmap roots and source report only; no implementation/wiki/mixed coordinator evidence, build, test, game/runtime, push, or main merge.
 
+## Fresh source-only checkpoint — D31 player water-state sample timing
+
+### D31 — S1-SWIM / S1-SPRINT-GATE fluid predicate timing (bounded writer order closed)
+
+- `Player#tick()` calls `updateIsUnderwater()` before `super.tick()` in both releases. The base entity tick later refreshes fluid height/water contact, then `updateFluidOnEyes()` clears and repopulates the eye-fluid tag set from the current eye position. The next Player tick copies that prior eye-fluid result into `wasUnderwater`; the LocalPlayer override of `isUnderWater()` reads `wasUnderwater`. `isInWater()` reads the `wasTouchingWater` field written earlier in the same base tick, and `isInLava()` reads the just-refreshed lava fluid height (with the same `!firstTick` gate). This is the paired previous-eye-sample/current-contact timing used by LocalPlayer's sprint/swim gates.
+- The writer, cache and reader bodies and their call order match between the pair. B's LocalPlayer `isUnderWater()` still returns `wasUnderwater` (it does not use the Entity method's `wasEyeInWater && isInWater()` expression); A has the same LocalPlayer override. Thus D31 corrects the inventory to follow the actual LocalPlayer dispatch and finds no fluid-predicate timing delta.
+- Exact source hashes already verified against the paired manifests: A `Entity.java` `05f18ef2ec0413fc010230407c812a11553eb5123b68d21b5d7b2c0c175698ad`, `Player.java` `c45f41b9784ce50a88a498e84a13edcef0a23e175233d726ed7f90940f19ebc1`, `LocalPlayer.java` `145686ebdc7f0d12a64070309073665eb8695b7e09911a723e86113a77d04611`; B `Entity.java` `fc177733e9cc4b2d5cf2562e5529d0f4e0b9c3690f081fbd58aa9119eb173dc4`, `Player.java` `8fc187f33999db9dfc49251e95e92a17645a50adab16ca0f93f4948209f62036`, `LocalPlayer.java` `f1fcfed4a938732361e7ad951f93e9b73b02320ee56f0b219e2b3c7acdbfa2ef`.
+- Disposition: closes only the bounded eye-water/contact cache writer sequence. Sprint/swimming consumers and their other state dependencies remain open; S1-SWIM, S1-SPRINT-GATE, S3-WATER and S5-FLUIDS remain in progress. D1-D6 and pair status remain partial; F-19 accepted; both F-09 snapshots remain REQUEST CHANGES.
+- Next slice: reconcile the fluid contact cache with the direct player swim and sprint state transitions, keeping current tick flags, previous eye state, player swimming state and movement travel branch as separate producers/consumers.
+- Checkpoint limits: exact published 1.21.4/1.21.5 Mojmap roots and source report only; no implementation/wiki/mixed coordinator evidence, build, test, game/runtime, push, or main merge.
+
 ## Fresh source-only checkpoint — D30 water/lava fluid identity registration
 
 ### D30 — S5-FLUIDS built-in identity and tag-key wiring (bounded registrations closed)
