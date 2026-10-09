@@ -1,6 +1,6 @@
-# Remaining-ref proof — pre-publication census — 2026-10-09
+# Remaining-ref proof — 2026-10-09
 
-This is a read-only local-head census after the coordinator's three-entry pane retirement batch and the separate completed eye-state review retirement. It is not the post-retirement proof: the three temporary metadata refs remain present pending this report publication.
+The pre-publication census below is retained as historical context. The post-retirement verification at the end supersedes its pending status.
 
 ## Keeper set
 
@@ -27,8 +27,17 @@ Expected archive object IDs after the coordinator's later metadata retirement ar
 - The eye-state review ref is absent from local heads and archived at `fix/review-eye-state-fluid-2026-10-09` -> `86a47f1784d57c6374a8ca28c401e29a4b9a4bec`. Its bounded review is complete; the canonical 1.21.11–26.1.2 source assignment remains partial and retained.
 - Together with the 57 earlier recorded retirements, these records reconcile to 102 completed retired refs. The rejected dormant-source proposal was not executed.
 
-## Limits and next state
+## Limits recorded at pre-publication
 
 The coordinator's older `queue.json` blob `9835dcb56e2534e3eaf1d3cf17693307f918d3d1` is historical and contains stale branch pointers. Use the final captured resume plan for this keeper snapshot; do not interpret queued work as active unless its owner state says so. The source ownership and non-source audit reports are metadata snapshots, not source acceptance or movement evidence.
 
-`git worktree list --porcelain` reported 150 registered worktrees at capture. This report does not retire the three temporary metadata refs or claim the post-retirement count. After their authorized retirement, rerun the same read-only head/archive checks and record 22 local heads: `main` plus the 21 keepers. Preserve all source/pane refs, worktrees, files and caches.
+`git worktree list --porcelain` reported 150 registered worktrees at capture. At that point, the three metadata refs remained pending.
+
+## Post-retirement verification — complete
+
+- Imported the exact coordinator result file `metadata-retirement-final-results.json`, blob `34592f2c295b0a9badfe60be0ac9e848f79c58d7`, raw SHA-256 `CDDDCC71F5EAB82358BB16A2ED5983728509331B8994155ECFBA563DE2B58FB9`. Its three entries bind `fix/branch-retirement-audit-2026-10-09` -> `e33afd65bb1db9b5002c1b8de23b5feed3dc3033`, `fix/source-ownership-final-audit-2026-10-09` -> `0356e9085f1492797368b7f8ca1eaabc5321f89c`, and `fix/campaign-coordinator-2026-10-09` -> `9e47e6589403b8f40fa25c6aa47a5bf5617ecbcc` to their exact `refs/archive/exhaustive-closure-2026-10-09/<branch>` destinations. Each result records `retired-files-preserved`.
+- Verified each archived ref resolves to the reported head. Each associated worktree is detached, clean, and at the same original head; the worktree paths remain present. No remote refs changed.
+- The current local branch set is exactly 22 heads: `main` plus the 21 keeper branches (19 unfinished canonical source refs and two active pane refs). All 21 keeper heads match the final coordinator plan and worktree HEADs, with zero unexpected heads and no temporary metadata refs remaining.
+- The archive count is 52 earlier cleanup refs + five task-closure refs + 48 exhaustive-closure refs = 105 retired refs. The pane-review checkpoint `3d14abed0aba18c06eaa39209069948877fd925b` is contained by `refs/archive/task-closure-2026-10-09/fix/pane-reviews-25-32-2026-10-09`. The 150 registered worktrees remain present.
+- After the resume plan was published, the 1.13.2–1.14.4 keeper was assigned to same-base worker `/root/resume_source_1132_1144` at `c7fda155df85b581df2adb18d7e738ca421ac603`, with a first unresolved dependency capped at three method pairs. The ref and worktree HEAD match and the worktree is clean. This live owner update supplements the immutable captured plan; its queued phase was not edited in that snapshot.
+- The main publication at `aee27d3f` was clean before this documentation update. This update changes documentation only; the resulting main worktree is verified clean after commit.

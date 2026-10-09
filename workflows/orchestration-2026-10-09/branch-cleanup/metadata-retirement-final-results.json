@@ -1,0 +1,32 @@
+[
+  {
+    "branch": "fix/branch-retirement-audit-2026-10-09",
+    "head": "e33afd65bb1db9b5002c1b8de23b5feed3dc3033",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/branch-retirement-audit-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/branch-retirement-audit-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/source-ownership-final-audit-2026-10-09",
+    "head": "0356e9085f1492797368b7f8ca1eaabc5321f89c",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/source-ownership-final-audit-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-ownership-final-audit-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  },
+  {
+    "branch": "fix/campaign-coordinator-2026-10-09",
+    "head": "9e47e6589403b8f40fa25c6aa47a5bf5617ecbcc",
+    "archive": "refs/archive/exhaustive-closure-2026-10-09/fix/campaign-coordinator-2026-10-09",
+    "worktrees": [
+      "D:/Javastuff/LegacyParkourCompat/.task-worktrees/campaign-coordinator-2026-10-09"
+    ],
+    "disposition": "completed-or-superseded",
+    "state": "retired-files-preserved"
+  }
+]
