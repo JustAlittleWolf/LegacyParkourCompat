@@ -7,7 +7,7 @@
 - Pair discovery status: partial; runtime validation not performed.
 - Code base: `cb11257e593987c68be98a7dbda8bbea7d5e77fd`; current target `minecraft_version=26.2`, ready unobfuscated sources under `build/movement-campaign-2026-10-07/ready/26.2/unobfuscated/`.
 - Implementation commit: `e386e31f7b55d584461469f20752eefd5bfde955`; new class blob `a42b6a0b71ea176c8fb8f93def5b2dd1d1de44d9`; catalog blob `b26ec31d09a40c9f970659676904b6b198f02a6a`.
-- Implementation status: **implemented for the independently accepted four-release evidence boundary; awaiting independent technical review and campaign-owner build.** No tests, build, game, TAS, Gym, server, Docker, or runtime validation were performed.
+- Implementation status: **implemented for the independently accepted four-release evidence boundary; implementation review ACCEPT; campaign-owner build pending.** No tests, build, game, TAS, Gym, server, Docker, or runtime validation were performed.
 
 ## Existing mechanism and static trace
 
@@ -45,8 +45,8 @@ This registration also mechanically supplies the V1_18 behavior to any older sel
 
 ## Next action and checks
 
-1. Independent technical review of the new V1_18 class, catalog registrations, routing, and proof record is pending.
-2. After that review, the campaign build owner may compile with every Gradle Test task disabled and `-x test`, per the repository verification protocol. No test, runtime, client, server, TAS, Gym, or Docker run belongs to this checkpoint.
+1. Independent read-only implementation review by a separate worker ACCEPTED commits `e386e31f7b55d584461469f20752eefd5bfde955` and `cc3ee3c8f3239e894923a1f23810c3a9d3130d31`, with no implementation or proof defects. The reviewer confirmed the expression/cast order, both catalog hooks, closest resolver selection, unchanged V1_18_2 implementation, flight/passenger gate, CURRENT fallback, and the explicit limit on unexamined older profiles.
+2. The campaign build owner may now compile with every Gradle Test task disabled and `-x test`, per the repository verification protocol. No test, runtime, client, server, TAS, Gym, or Docker run belongs to this checkpoint.
 
 Static verification performed: inspected the exact registration and resolver code paths; confirmed the incoming `main` commits changed no `src` paths before merging `main` into the task branch; `git diff --check` passed after the implementation edits. No build or tests were run.
 
