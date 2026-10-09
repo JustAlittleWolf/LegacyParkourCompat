@@ -1121,6 +1121,17 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 - Next slice: continue S1-LOCAL-TICK input-to-travel call order and direct movement consumers after the input snapshot, including inherited `LivingEntity.aiStep()` dispatch. Do not use this bounded result to close any full inventory.
 - Checkpoint limits: exact published 1.21.4/1.21.5 Mojmap roots and source report only; no implementation/wiki/mixed coordinator evidence, build, test, game/runtime, push, or main merge.
 
+## Fresh source-only checkpoint — D32 swimming flag update
+
+### D32 — S1-SWIM `updateSwimming` writer and LocalPlayer reads (bounded state transition closed)
+
+- `Entity#baseTick()` calls `updateSwimming()` after fluid-height/contact and eye-fluid updates in both releases. The shared body preserves the branch on the current swimming flag: while swimming, keep it only if sprinting, in water, and not a passenger; otherwise enter swimming only if sprinting, underwater, not a passenger, and the current block fluid state is WATER. `setSwimming()` writes the same shared entity flag. Both method bodies and their order match.
+- `LocalPlayer.aiStep()` reads swimming state before input sampling for crouch eligibility, then later for sprint-stop and flight-toggle decisions; `LivingEntity.travel` still selects its fluid branch from fluid contact/affectability/standability rather than the swimming bit. The shared flag and its direct local-player gates have no additional source delta in this bounded path.
+- Exact hashes, already verified against the ready manifests: A `Entity.java` `05f18ef2ec0413fc010230407c812a11553eb5123b68d21b5d7b2c0c175698ad`, `LocalPlayer.java` `145686ebdc7f0d12a64070309073665eb8695b7e09911a723e86113a77d04611`; B `Entity.java` `fc177733e9cc4b2d5cf2562e5529d0f4e0b9c3690f081fbd58aa9119eb173dc4`, `LocalPlayer.java` `f1fcfed4a938732361e7ad951f93e9b73b02320ee56f0b219e2b3c7acdbfa2ef`.
+- Disposition: closes only the paired swimming-flag writer and listed direct LocalPlayer reads. Sprint/jump gates, water travel, pose and fluid/resource producers remain separate open dependencies; S1-SWIM, S1-SPRINT-GATE, S3-WATER and S5-FLUIDS remain in progress. D1-D6 and pair status remain partial; F-19 accepted; both F-09 snapshots remain REQUEST CHANGES.
+- Next slice: continue exact player sprint/swim transition consumers across input sampling and travel, keeping F-04/F-13/F-19 dependencies distinct and not broadening this matched flag result.
+- Checkpoint limits: exact published 1.21.4/1.21.5 Mojmap roots and source report only; no implementation/wiki/mixed coordinator evidence, build, test, game/runtime, push, or main merge.
+
 ## Fresh source-only checkpoint — D31 player water-state sample timing
 
 ### D31 — S1-SWIM / S1-SPRINT-GATE fluid predicate timing (bounded writer order closed)
