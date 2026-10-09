@@ -35,3 +35,35 @@ The reviewed branch changes only documentation and campaign records:
 ## Handoff
 
 The documentation branch and this checkpoint are committed on the task branch. Fast-forward `main` to the task branch, then await an accepted implementation batch before taking on any production-code integration or build work.
+
+## Shared launch incident — 2026-10-09
+
+`create_thread` returned a client ID without an error for each launch. The local app-server log contains a matching `thread/start` event for each, and `read_thread` resolves the resulting exact IDs even though `list_threads(limit: 50)` omits all four. Do not recreate these launches. Use `read_thread` with the recovered thread ID and `hostId: local` for follow-up.
+
+The following statuses were observed at **2026-10-09 18:38 Europe/Vienna**. They are an incident snapshot, not current campaign slot dispositions.
+
+- **Preparation:** client ID `aa9a34f4-1247-4f43-a2e3-e6376be60cb4`; thread `01a12183-c4f8-70e1-8d32-eafe7a37868d`; idle with turn completed. Worktree `C:/Users/Wolfi/.codex/worktrees/bfa3/LegacyParkourCompat`; `fix/source-readiness-2026-10-09` at `b809e54f`, clean.
+- **Source ledger:** client ID `955cc4de-b13d-4903-94c7-bb9c0e99fcac`; thread `01a12184-5ece-7f23-be02-9f6407b89de4`; active with turn in progress. Worktree `C:/Users/Wolfi/.codex/worktrees/2442/LegacyParkourCompat`.
+- **Sprint collision:** client ID `3134b2a6-87f2-4432-97e0-5c3a2b01849b`; thread `01a12184-70c0-7fb3-a3a0-f6032ef005f1`; idle with turn completed. Worktree `C:/Users/Wolfi/.codex/worktrees/dcfd/LegacyParkourCompat`; `fix/reconcile-sprint-collision-2026-10-09` at `bba3c42691c2bb1527ce98dc5ff942e35bb31690`, clean.
+- **Elytra cosine:** clientThreadId `client-new-thread:889c32ad-6dbe-4984-a857-ae2e38917f11`; thread `01a12184-84a1-7f31-bbeb-f9a0a6c1cc0b`; idle with turn completed. Worktree `C:/Users/Wolfi/.codex/worktrees/f6a5/LegacyParkourCompat`; `fix/reconcile-elytra-cosine-2026-10-09` at `9be6ac9`, clean. Its record leaves the release boundary open and notes a mapped-jar hash mismatch requiring evidence correction.
+
+At that time, the preparation, sprint-collision and Elytra slots were releasable and the source-ledger slot remained active. Preparation has since resumed for exact `1.18` and `1.18.1`; treat this slot disposition as historical and consult the coordinator's current queue. No launch retry, app-state mutation, test or runtime action was performed.
+
+## Bounded documentation batch integration — 2026-10-09
+
+- Pre-integration local `main`: `e7f89348a619cc9feb2d47aab7a87fbefbe7649d`.
+- Integrated report commits: readiness `b809e54f3096bd178f7248fafb0486465ae6f21f`; this incident record `79cd6945df2e4a2fb00d8594a997c955066adf0d`; coordinator queue snapshot `fce05dfcc142aa53c12665acbe058b6357421149`.
+- Input file identities: readiness blob `8e32e4d70ea59433c9ba8407d82758617eba71b4`, SHA-256 `0a169a1dbbe4bfd4cce36164a5716bda407160abd432ce35622396443b7b3be4`; incident blob `254dee821048da510e5e1c82683decf4c897df34`, SHA-256 `750dd00dcc9281f112931da69f6327abcefeb803d009230fcd60eb6e417c1c32`; queue blob `fc423baf61a88e367d87939edcc1e355e5bd4420`, SHA-256 `b2092a3ca086402fee5a7b6300d577a0a285c2e43df984909c31e40c46a0ea91`.
+- The Elytra clientThreadId above matches the original `create_thread` result exactly; no UUID correction was needed. The incident slot statuses are explicitly timestamped history because preparation has resumed.
+- The queue snapshot remains byte-for-byte as committed by its coordinator owner. Its launch states are historical and require the coordinator's planned refresh; this integration did not edit the queue.
+- Readiness remains a publication check only. It does not close discovery slices or verify movement behavior. No F-001 or F-002 proof was integrated; their separate review verdicts remain a gate.
+
+## Accepted source-ledger and endpoint batch integration — 2026-10-09
+
+- Pre-integration local `main`: `8ad316aa84a8704f99d042c2a649bfa23aa4365e`.
+- Source commits: run ledger `64d8bc740de0860a43ecc691db0efbdcaef7c19b`; F-001 reconciliation `bba3c42691c2bb1527ce98dc5ff942e35bb31690`; F-002 reconciliation `9be6ac928841ec9d9552ae4e533561623b49866b`; independent endpoint review `d898d4c0ef42f0cdb065aacc36eb30d28dcc06a4`; coordinator queue update `fc6424e92ea5999b76b62e517b97c7dfc752a3c9`.
+- Input file hashes (Git blob / raw SHA-256): `1.17.1--1.18.2/run.md` `d69cac145095a77c237ad6e40e85d06df4b1a293` / `c9766e0fc15800d1322225e5cc40c71e991355412118626463859b603ce2ab16`; F-001 reconciliation `e1ed834519d5a50841fc1af361957da998716243` / `c0a6dff4225befb68c0f394aed9198e01c7fde50db00b6b8baa75d027f3ea367`; F-002 reconciliation `dd183718a572208293e1b9da8bc8218c086b66ea` / `efdc4ee931184b09c2382b74939080836cd6fb1e9259671c02f70e3c0ce659d1`; endpoint review `95ea1be9272116a88af552fcaf64ff0570470b52` / `0b257ce7e7dd20d2a96a48a735a1584d7ed340033cae9ec6a496d269e1970dcf`; queue `c5a6fccf99e3a230f506264ba492658f8c9ee536` / `88b2cb83d0865c6528b1254f314760f798d6891fd4591c1a95559006416caeca`.
+- The run remains `partial`; its bounded source discovery inventory and full-pair audit are accepted (28 terminal slices across seven inventories), while implementation reconciliation remains open and runtime validation is unperformed. The 14 accepted finding snapshots remain bound to the source review. F-013's original `REQUEST CHANGES` event and bytes remain recorded alongside the accepted identity-only correction; F-014 retains its conditional environment limits.
+- The independent endpoint review accepts only the 1.17.1 and 1.18.2 endpoint correspondences. It does not establish the 1.18/1.18.1 cutover or runtime parity. The source ledger now records the accepted full-pair freeze for this exact interval; the review's earlier instruction to keep the pair partial is historical to its `e7f89348` baseline. F-001 still needs the 1.18/1.18.1 boundary check. F-002's mapped-jar identity correction remains open.
+- The F-002 correction-binding file `workflows/source-boundary-reviews/F002-artifact-correction-binding-2026-10-09.md` is absent from `main` and this integration tree. It was introduced by `7a0811f1ee9fe49ba6f8b0411e08fce21d915cd7` on the Elytra author branch `fix/reconcile-elytra-cosine-2026-10-09` (tip observed at `741cab9a72aa7fe1e1e5164001b6895307d2e3ed`). The memo explicitly says the corrected snapshot is pending independent review; it is excluded from this batch, leaving the F-002 identity correction open. The author branch and its work were left untouched.
+- The coordinator-owned queue is integrated at the exact `fc6424e9` commit and was not edited. Its blob is byte-identical to that source commit. The queue has mixed LF line endings and a final CRLF: plain `git diff --check` flags that final carriage return, while `git -c core.whitespace=cr-at-eol diff --check` passes. No Java changes, F-001/F-002 boundary claims, builds, tests, runtime checks, or pushes were made.
