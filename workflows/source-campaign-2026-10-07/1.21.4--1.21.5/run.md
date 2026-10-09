@@ -1217,3 +1217,15 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 
 
 
+
+## Fresh source-only checkpoint — D33 / F-20 underwater fall-flying sprint gate
+
+### D33 — S1-SPRINT-GATE / S3-WATER underwater fall-flying interaction
+
+- A `LocalPlayer#aiStep()` clears sprint through `shouldStopSprinting()` whenever fall-flying, then `canStartSprinting()` bars fall-flying without exception. B's swim/run stop helpers omit fall-flying; its `canStartSprinting()` allows fall-flying when underwater. With forward input, enough food, and the other sprint gates satisfied, the B branch starts and retains sprint while A clears and cannot restart it.
+- Reachability: both `Player#tryToStartFallFlying()` methods require the player not be in water at glide start. Start fall-flying while airborne in air with valid glide equipment, then enter water. Both `canGlide()` bodies permit an airborne non-passenger with valid equipment and no Levitation, without a water check; server `updateFallFlying()` clears the flag only when `canGlide()` is false. The paired `Entity#baseTick()` fluid-contact ordering already traced in D28/D31/D32 refreshes water state for the next local-player tick.
+- Movement consumer: both `LivingEntity#travel(Vec3)` methods choose fluid travel before fall-flight travel. The matched `travelInFluid()` water path selects `0.9F` drag for sprint and `getWaterSlowDown()` for non-sprint (D27), so the changed sprint state reaches an in-scope player movement formula. F-20 records source-predicted consequence only; runtime validation was not performed.
+- F-20 immutable candidate snapshot: commit `d74c2b08cc7afe0d48f9d48fa2827f03c8a679dc`; path `findings/F-20-underwater-fall-flying-sprint.md`; Git blob `c05e7879f0f0e439eb50d11db138c15e42e569eb`; raw SHA-256 `5dfc7eac54a7dc5365a781afa0d6e88ef7d091c23cf4dd9dd9fa12d81db2113c`. Review status: pending independent source-only review. This does not close S1 sprint inventories, S3-WATER, D1-D6 or the full pair.
+- F-20 corrected immutable revision: commit `737e1e31331f0b807c4d3def46650d5f4ad4acc3`; same path; Git blob `877a56f51088125fefe3147f4d837175b26acaf9`; raw SHA-256 `2c22a59bbf389476c769fbf2d5d6bf27c88c092e2e834ee1a253bb40ec54d078`. It makes the held sprint key explicit for the underwater start witness. The original F-20 snapshot remains preserved; independent review was redirected to this corrected revision and remains pending.
+- Exact candidate dependencies remain bounded: sprint state production/gates (paired `LocalPlayer.java`), glide entry/validity (paired `Player.java` and `LivingEntity.java`), fluid contact timing (`Entity.java`, D28/D31/D32), and the downstream water formula/travel precedence (`LivingEntity.java`, D27). No build, test, gameplay, implementation, wiki, or runtime activity was performed.
+- Next: independent reviewer verifies the candidate and snapshot hashes, records accept/request-changes without editing the candidate, then continue the partial source-only inventory. Pair has not frozen and no full-pair independent coverage audit has passed.
