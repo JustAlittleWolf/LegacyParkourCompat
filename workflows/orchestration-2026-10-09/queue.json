@@ -15,9 +15,10 @@
       "role": "integration",
       "id": "integration",
       "threadId": "01a12181-2e5d-7382-ac1b-be37a602911e",
-      "state": "idle",
-      "cursor": "ef610f20-f479-42f7-b847-342aa7015b40:29",
-      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff"
+      "state": "active",
+      "cursor": "ef610f20-f479-42f7-b847-342aa7015b40:37",
+      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff",
+      "latest": "The 1.9.4–1.10.2 recovery is now closed at a newer checkpoint, and three more source reports are ready. I’ll import their exact run.md snapshots as partial progress. I’ll leave the Stone Stairs erratum pending until its exact reviewer binding arrives."
     },
     {
       "role": "preparation",
@@ -26,7 +27,8 @@
       "state": "idle",
       "cursor": "e795b830-c4d8-4544-aa7a-5cc1fbef8969:17",
       "worktree": "C:/Users/Wolfi/.codex/worktrees/bfa3/LegacyParkourCompat",
-      "next": "Investigate exact 1.13.2 mapped-JAR hash discrepancy, preserve source bytes"
+      "next": "Investigate exact 1.13.2 mapped-JAR hash discrepancy, preserve source bytes",
+      "latest": "Completed the provenance follow-up in the report. The expected 1.13.2 JAR (d118…cf7864e5) wasn’t found in the retained project, worktree, or Gradle-cache copies checked. The available candidate (b28…19b2) remains unverified as equivalent. Recover a backup matching the expected hash, or run a separately logged reconstruction with the exact inputs and tool versions; keep any different output separate. The 26.1 and 26.1.1 ready markers and their artifact/source manifest hashes still match their recorded identities. The report is committed as 6c066fd9; origin/main is merged, the worktree is clean, and no push, build, test, or runtime was performed."
     },
     {
       "role": "source-review",
@@ -36,7 +38,8 @@
       "cursor": "c131b0aa-9965-4f17-8314-3380046ae8a0:12",
       "worktree": "C:/Users/Wolfi/.codex/worktrees/2442/LegacyParkourCompat",
       "head": "64d8bc740de0860a43ecc691db0efbdcaef7c19b",
-      "next": "Completed bounded review; 0.4 witness revision required"
+      "next": "Completed bounded review; 0.4 witness revision required",
+      "latest": "The standing vanilla Player 1.62F provider path is verified in both canonical ready sources, and the source-file hashes match their manifests. The trace goes through LivingEntity.getDimensions(Pose)—the effective override the memo’s summary omitted. With default Player attributes, both age and scale factors are 1.0F, preserving the registered eye height through pose refresh. The supplemental verdict is committed at bd546e7cc522c5a3ea26c03918069c800a35c049 on the existing review branch; the worktree is clean. Read the verification. This closes only that bounded provider route. Non-default scale, other eye-height writers, mounted/fluid dependencies, and pair-wide audit remain open; the prior float-correction acceptance is unchanged."
     },
     {
       "role": "implementation",
@@ -47,6 +50,7 @@
       "worktree": "C:/Users/Wolfi/.codex/worktrees/dcfd/LegacyParkourCompat",
       "head": "bba3c42691c2bb1527ce98dc5ff942e35bb31690",
       "next": "Completed; no branch-dependent continuation.",
+      "latest": "F-007 is accepted and ready for serial integration. The candidate restores the strict 9.0E-4 threshold for the inspected legacy profiles; 1.18.2 and later retain native behavior. Branch: fix/reconcile-f007-position-packet-2026-10-09, clean at a08edf253736867411cc60cc13dfa34f208fa4b1. Code candidate: 60010459540809c16f0ec67a849ef57b159943d0. Independent review: ACCEPT, no functional findings. Review report — blob 9c9bc0d7, SHA-256 07E36845…A6F692A. Proof and integration record: F-007 record. Current main was merged through b742f9cb; the F-007 hook remains alongside the F008 and F012 registrations. Handoff: I sent the exact branch and review identities to the serial integration owner. No push was made. The source pair remains partial; releases before 1.17.1 are unsampled, and runtime parity is unverified. No build, tests, runtime, or decompilation were performed.",
       "branchRetired": true
     },
     {
@@ -57,7 +61,8 @@
       "cursor": "04a495d3-f864-4eae-a17a-c3843b72a96b:25",
       "worktree": "C:/Users/Wolfi/.codex/worktrees/f6a5/LegacyParkourCompat",
       "head": "959751e85c053f1f1d84dd7b6ed741f92d36620f",
-      "next": "Completed technical ACCEPT; build integrated"
+      "next": "Completed technical ACCEPT; build integrated",
+      "latest": "ACCEPT — no functional findings in the F005 fall-reset implementation at reviewed tip f73d176e98fdf1f56c5207046266a168c1834d73. The report is 2026-10-09-F005-technical-review.md. It is committed on fix/review-f005-fall-reset-2026-10-09; report blob 873037c5cc247f7a9aae9722ca48aab802601b90. Merged main into the review branch with no conflicts. The branch is clean, and the incoming changes contained"
     },
     {
       "role": "source-review",
@@ -66,16 +71,18 @@
       "state": "notLoaded",
       "cursor": "ef27ebe3-74cc-48a2-b160-66aca34a5a27:32",
       "head": "a5fd2b761e08ed63798af40def8ece1509c2e536",
-      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff"
+      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff",
+      "latest": "Completed the independent source review in a clean worktree. The report has two bounded checkpoints on fix/review-input-producers-d11-d13-2026-10-09: D11–D13: ACCEPT for the bounded screen-release, key-map helper, and save-serialization routes — commit 5e4c9acaeca8f438b5c385e60993d948035cbc3b. D14: ACCEPT for selected key capture and map refresh. D15: OPEN. A and B have different post-data-fix han"
     },
     {
       "role": "source",
       "id": "1.21.4--1.21.5",
       "threadId": "01a1218a-7321-7803-b9fb-ecedb7294420",
-      "state": "idle",
-      "cursor": "efa10008-35c1-43d2-bc1a-f2907a795743:4",
-      "head": "7262d8fd",
-      "next": "Compare three paired fluid-surface/flow-vector producer dependencies",
+      "state": "active",
+      "cursor": "efa10008-35c1-43d2-bc1a-f2907a795743:8",
+      "head": "0b6a3e4b7ed14cfca894a8348c292a805f1fa88e",
+      "next": "Compare up to three paired fluid-state lookup, equality and canonicalization dependencies for the recorded FlowingFluid.tick equals()/reference-inequality difference, then trace any remaining distinction into player fluid queries. Preserve D43 unresolved status until proved and F21 invalidation.",
+      "latest": "The base spread delay and water/lava tick-delay values match across the pair. Water’s delay is five ticks; lava’s is ten ticks in ultra-warm dimensions and thirty otherwise. Lava also overrides getSpreadDelay with a state-dependent rule, which remains open, so I’m recording only the bounded delay results.",
       "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1214-1215-clean-2026-10-09",
       "branch": "feat/source-1214-1215-clean-2026-10-09",
       "phase": "bounded-old-source-continuation",
@@ -89,6 +96,7 @@
       "cursor": "3ca6531c-967a-4dd3-bf99-6dc941bbb60c:32",
       "head": "d898d4c0ef42f0cdb065aacc36eb30d28dcc06a4",
       "next": "Completed; no branch-dependent continuation.",
+      "latest": "Implemented and independently reviewed F-012. The new V1_18 behavior preserves the accepted double-literal operation; V1_18_2 retains its existing float behavior. The reconciliation records resolver routing and the limit of the four-release evidence. Code: DoubleSprintAirSpeed.java and MovementChangeCatalog.java Proof: F012 reconciliation Commits: e386e31f (code), cc3ee3c8 (proof), de6084c5 (revie",
       "branchRetired": true
     },
     {
@@ -98,7 +106,8 @@
       "state": "idle",
       "cursor": "06f01dea-dc2d-4178-820b-92e1f7c23970:18",
       "head": "97a8f2b374ea33980b2da5f4f4cdc0ebae5eea74",
-      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff"
+      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff",
+      "latest": "Completed and committed the pane-provider continuation on fix/pane-neighbor-providers-third-2026-10-09. The three separate memos classify Ladder (65), Rail (66), and Stone Stairs (67). Each provider predicate is false in both versions, so an east-only neighbor produces no pane arm. Independent review is pending. Memo Commit Raw SHA-256 Slice 33: Ladder 9a9c3e69 acc8c089…9823a3ba Slice 34: Rail 60f70ded 5242bcc6…a8ad2dc1 Slice 35: Stone Stairs 58fc0b6c f663cf9e…b1763531 The checkpoint records 35 memos and 98 classified registrations. The next verified IDs are Wall Sign (68), Lever (69), and Stone Pressure Plate (70). Original rejections remain intact; the slice 23 and 29 accepts apply only to their errata, and slice 28’s correction confirms its digest binding. The index recovery note records the staged deletion, its reversal, and reconciliation to the committed checkpoint bytes. The worktree is clean. No build, tests, or runtime validation were performed; derived-JAR equivalence and full provider/mask closure remain unresolved."
     },
     {
       "role": "mcpk",
@@ -107,15 +116,18 @@
       "state": "idle",
       "cursor": "55ce2283-98be-4001-87cc-468fe0b343f7:1",
       "head": "85c00cd20c965c83cbe688464324a6579d612f01",
-      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff"
+      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff",
+      "latest": "I stopped before editing or committing. The rg search crossed into the excluded workflows/wiki-audit-2026-10-07/minecraft-wiki.md and returned matching lines, so this context can’t author a clean isolated snapshot. I did not use those results. The r1/r2 memos, reviews, and bindings remain unchanged. This correction needs to be resumed from a clean source context; no memo revision or new review bin"
     },
     {
       "role": "source",
       "id": "1.21.11--26.1.2",
       "threadId": "01a1218e-399b-7400-b1a3-5b49d804ee71",
       "state": "active",
-      "cursor": "dc916b8a-b6db-4cde-ad7f-e2836eae0fd2:5",
-      "next": "Correct eye-height witness; continue S4.7; F4 review pending"
+      "cursor": "dc916b8a-b6db-4cde-ad7f-e2836eae0fd2:9",
+      "next": "Trace up to three remaining BedRule/collision admission inputs, other wake callers or persisted/synchronized SCALE sources according to S4.7 queue. Preserve command timing and full writer inventory gaps.",
+      "latest": "Committed the bounded checkpoint as 040e5ae013e3f092ce1365f975593f23aa7d31ec on feat/source-12111-2612-d2-2026-10-09. The updated pair ledger has blob f7623e45834a06e087a90d091e8003b661aa132e. Recorded as paired, bounded S4.7 paths: S4.7-SLEEP-BED-ADMISSION: BedBlock routing and ServerPlayer admission gates. S4.7-SLEEP-TICK-WAKE: the server-side BedRule wake check and ServerPlayer stop-sleep wrapper. S4.7-SCALE-ATTRIBUTE-COMMAND: the permission-gated /attribute base-set and modifier-add writers. S4.7 remains in progress. BedRule and collision inputs, other wake paths, command timing relative to tick refresh, persisted/synchronized and other non-command SCALE sources, and the wider pose-fit/provider audit remain open. Next, trace those remaining inputs and callers. The eye-height correction memo remains unchanged at blob 2f890681c6bc6026034710417a3c0265ca8087e3. The worktree is clean and git show --check passed. No build, tests, or runtime processes were started.",
+      "head": "040e5ae013e3f092ce1365f975593f23aa7d31ec"
     },
     {
       "role": "implementation",
@@ -123,7 +135,8 @@
       "threadId": "01a1218e-4b87-7351-b6b9-5f7aff6f5c5e",
       "state": "notLoaded",
       "cursor": "1d11d50d-bad3-4458-b2fa-2cb6d2d4c4d8:20",
-      "next": "Boundary internally ACCEPTed; code technical review underway"
+      "next": "Boundary internally ACCEPTed; code technical review underway",
+      "latest": "Implemented and committed F-008 on fix/f008-border-edge-gate-2026-10-09 (2aede838), with the handoff record in 2026-10-09-F008-border-edge-gate.md. The query providers preserve the observed border behavior at V1_15_2, V1_16, and V1_17_1 under closest-later resolution. Independent review accepted the implementation and its post-merge interaction check. The merge from origin/main is recorded at 842e"
     },
     {
       "role": "wiki-review",
@@ -131,18 +144,20 @@
       "threadId": "01a12190-76ca-7ad3-9aea-43d34e206519",
       "state": "idle",
       "cursor": "84aa0faf-3d83-4c37-aeac-622f126bd8cf:8",
-      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff"
+      "next": "Continue assigned bounded task; exact immutable inputs in worker handoff",
+      "latest": "Third-slice report — commit 3b818edb9f44db351f2355e50ce707404fe18bd3; path; blob 02ea138f3f091376e2bbaa5d8338566b239831d3. Checkpoint-pointer report — commit 1458caf022d725881e7d2786b33a92f6be734aeb; path; blob 05ec353f0cc7e0acb70e1dc71bf5556ad197f3c4. Contamination limitation: a broad diff output included MCPK review text. I did not use it in either report and excluded that lane from subsequent inspection."
     },
     {
       "role": "source",
       "id": "1.19.2--1.19.3",
       "threadId": "01a12195-a8a4-70e2-a0c1-270e692bee45",
       "state": "active",
-      "cursor": "c9fb0adc-4770-460c-989b-d92109e57453:6",
-      "next": "the saved long-duration effect synchronization path; F009 r2 acceptance is closed and must remain preserved",
+      "cursor": "c9fb0adc-4770-460c-989b-d92109e57453:10",
+      "next": "Continue up to three saved collision-query/shape/callback dependencies from run.md, selecting the first unresolved player-reachable route. Preserve effect bridge closure and F009 r2.",
+      "latest": "Committed the report-only checkpoint: 8273a7006ab7bc7b69d9f76b1ae296bcae56cf82 (docs: compare attribute modifier map paths). Added the AttributeMap/AttributeInstance modifier bridge slice, recorded the matching source-manifest hashes, and updated coverage to 35 bounded no-difference slices. The report remains partial; broader effect producers and synchronized values remain open. git diff --check passed, and the completion checker confirmed the report is structurally valid. No build or tests were run. F009 r2 and the display-only timer disposition are unchanged. Worktree: D:\\Javastuff\\LegacyParkourCompat\\.task-worktrees\\source-1192-1193-resume-2026-10-09, branch feat/source-1192-1193-resume-2026-10-09; clean after commit. Next: resume collision-query, shape and callback dependencies in this pair’s run.md.",
       "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1192-1193-resume-2026-10-09",
       "branch": "feat/source-1192-1193-resume-2026-10-09",
-      "head": "03de5e41f82b9d9c7705e8ee19267fd27b59ba6b",
+      "head": "8273a7006ab7bc7b69d9f76b1ae296bcae56cf82",
       "phase": "bounded-old-source-continuation",
       "report": "workflows/source-campaign-2026-10-07/1.19.2--1.19.3/run.md"
     },
@@ -153,6 +168,7 @@
       "state": "closed",
       "cursor": "1951c728-f4f6-4091-b67a-bfa19b61eb97:6",
       "next": "Completed; no branch-dependent continuation.",
+      "latest": "Added the worktree ownership and lane-isolation rules to the workflow and session log. Mutating worker contracts now require an absolute worktree path and Git root/branch verification; lane-restricted reviewers avoid whole-main diffs, with report-only integration handled after verdict. Pause/resume journals now verify those boundaries. Documentation commit: 3086989be6ec8101d961e8ed161b63a58c07a3e9 Merge commit: ff33849eca90a114bd3240a5f0db1399b317177a Updated orchestration README and session policy log. The merge resolved conflicts by retaining the requested workflow policy. The worktree is clean; git show --check passed. No build, tests, runtime checks, or push were performed.",
       "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/orchestration-policy-2026-10-09",
       "branchRetired": true
     },
@@ -163,6 +179,7 @@
       "state": "closed",
       "cursor": "bc64db6e-18f2-4b46-be8e-077caac11492:5",
       "next": "Completed; no branch-dependent continuation.",
+      "latest": "Both immutable memos are accepted as bounded source findings. The reports bind each memo’s commit, Git blob, raw SHA-256, and the final report-branch merge. The 1.13.2 Feather source files match their manifests, but its mapped JAR does not: actual SHA-256 b28c33e0… versus manifest d118ff5b…. The review therefore makes no bytecode claim for 1.13.2. The 1.15.2 to 1.16.0 protection bracket is support",
       "branchRetired": true
     },
     {
@@ -172,18 +189,20 @@
       "state": "idle",
       "cursor": "0e6ee0fa-f3f5-4cfa-bd7d-5c7bd66c688e:9",
       "next": "New dedicated assignment",
+      "latest": "The read-only audit binding check is complete in the isolated worktree. All cited commits resolve, referenced evidence files exist, the report passes git diff --check, and the worktree is clean. Report: closure-audit-2026-10-09.md Commit: 02a0d9b38d5340899f024c6aa1b7bdc679f1d0d5 Branch: fix/campaign-closure-audit-isolated-2026-10-09 Base: be97698305315c5ac7c7a3c2dbdab2bf436a9881; the branch is one report commit ahead. I did not merge main, pending the integration owner’s recovery confirmation. The F007 record/build update remains on fix/campaign-closure-audit-2026-10-09 at b9d225b96fdc17557f732fdaa2e742e3e0bbcc0c; it is not in main. I made no further changes in the primary checkout.",
       "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/campaign-closure-audit-isolated-2026-10-09"
     },
     {
       "role": "source",
       "id": "1.19.3--1.19.4",
       "threadId": "01a121c9-8af9-7bf0-860e-efc05c182b84",
-      "state": "idle",
-      "cursor": "66c19327-2808-41db-bbca-8684b580e3b7:3",
-      "next": "remaining player-reachable collision queries, support paths and callbacks; follow the saved dependency queue",
+      "state": "active",
+      "cursor": "66c19327-2808-41db-bbca-8684b580e3b7:7",
+      "next": "Compare PowderSnowBlock contextual collision shape/walkability then scaffolding placement/scheduled writers, at most three method groups.",
+      "latest": "I’ll complete the two bounded source rows in the assigned worktree, refresh the report’s coverage counts, then commit and verify that worktree’s status.",
       "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1193-1194-2026-10-09",
       "branch": "feat/source-1193-1194-2026-10-09",
-      "head": "7df9c281bdf6706a52a0508d309a26eb5094c3c2",
+      "head": "867d523de9ca5eb1dee2d4e345e9a8ff493def87",
       "phase": "bounded-old-source-continuation",
       "report": "workflows/source-campaign-2026-10-07/1.19.3--1.19.4/run.md"
     },
@@ -191,12 +210,13 @@
       "role": "source",
       "id": "1.20.1--1.20.2",
       "threadId": "01a121c9-9ef5-78d0-946f-9284ce3512a0",
-      "state": "idle",
-      "cursor": "5a8eab2c-6d27-4a2f-9edd-93b07cdcc929:3",
-      "next": "the saved S10 and S27 open dependency queues",
+      "state": "active",
+      "cursor": "5a8eab2c-6d27-4a2f-9edd-93b07cdcc929:7",
+      "next": "Trace BaseRailBlock.isRail through rail state/support/shape behavior to determine non-empty local-player collision reachability, up to three methods. Preserve first-tick arrival/custom-tag open dependencies.",
+      "latest": "Verified the assigned worktree at D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1201-1202-restored-2026-10-09, branch feat/source-1201-1202-2026-10-09. Committed as cc4741cf91892aea2bdf3f8893a83f59c3261d5e; the worktree is clean. SnowLayerBlock is byte-identical across the pair. Its tags affect survival and neighbor-driven state removal; collision and support shapes use the stored layer count. S10 and S27 remain open, including custom synchronized tag effects and 1.20.1’s first-tick packet-arrival timing. Next: trace BaseRailBlock#isRail() through rail state/support/shape behavior to see whether it reaches a non-empty player collision shape. No build or runtime checks were run. run.md",
       "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1201-1202-restored-2026-10-09",
       "branch": "feat/source-1201-1202-2026-10-09",
-      "head": "ad3a201e1413d4378250e7f5426a633df837f0bf",
+      "head": "cc4741cf91892aea2bdf3f8893a83f59c3261d5e",
       "phase": "bounded-old-source-continuation",
       "report": "workflows/source-campaign-2026-10-07/1.20.1--1.20.2/run.md",
       "infrastructureRecovery": "Missing prior checkout restored from unchanged ad3a201e branch."
@@ -215,7 +235,8 @@
       "threadId": "01a121d1-f3b5-7fe2-9ed8-a53b92cda068",
       "state": "notLoaded",
       "cursor": "854ca3b1-fa32-4bdd-8ae9-8fbf80c0e7ab:2",
-      "next": "Verify existing independent ACCEPT metadata only"
+      "next": "Verify existing independent ACCEPT metadata only",
+      "latest": "Committed the provenance check on newfix/review-f008-source-boundary-2026-10-09 at 6fd3bcce82235228dd892f28a4c07bfad3b0c08b, based on frozen commit df418e06b957399aa4c31eaf69d38422146ac296. The report verifies the memo, existing ACCEPT record, finding, prior review, and four source-publication identities. It found no binding mismatch and preserves the existing ACCEPT: F-008 boundary provenance rev"
     },
     {
       "role": "source-finding-F4-review",
@@ -223,7 +244,8 @@
       "threadId": "01a121d2-0b52-7080-86f8-f538a2603f80",
       "state": "notLoaded",
       "cursor": "eab87e06-5e63-403d-a201-a99c060168a6:2",
-      "next": "Fresh evidence-ready independent review"
+      "next": "Fresh evidence-ready independent review",
+      "latest": "ACCEPT for the bounded F-4 snapshot: commit 019d5fcef181f6dde2a9630e0b882acfa99d6de9, blob bcd14cf6c38270229b035a85f929291254c3664b. B’s clipped box starts its scan at Y=66, so it never enumerates the Y=65 lava cell; the later per-cell top check is not the cause. A scans Y=65, finds positive overlap, and reaches a delta-movement write on the non-flying Player. The fixed boat geometry establishes t"
     },
     {
       "role": "mcpk-current-review",
@@ -231,30 +253,34 @@
       "threadId": "01a121d2-1d06-7d50-b326-8b02071da0d2",
       "state": "notLoaded",
       "cursor": "f6f335f6-8bb8-4647-b1f6-4f6386860b4b:2",
-      "next": "Fresh evidence-ready independent review"
+      "next": "Fresh evidence-ready independent review",
+      "latest": "Completed and committed the report on fix/mcpk-current-flow-review-2026-10-09 (9bc84d4e). The exact input memo blobs remain unchanged at the reviewed commit. The source interpretation and artifact hash mismatch were verified. The report requests a correction to the flying-player wording and adds the missing normalization hash and same-tick movement consumer trace. It makes no bytecode, release-cut"
     },
     {
       "role": "wiki-provider-review",
       "id": "wiki-provider-review",
       "threadId": "01a121d2-306e-73b0-96e8-ecd298855c95",
-      "state": "active",
-      "cursor": "dd698475-fb2d-429f-a50f-0478bd2baea9:11",
-      "next": "Fresh evidence-ready independent review"
+      "state": "idle",
+      "cursor": "dd698475-fb2d-429f-a50f-0478bd2baea9:12",
+      "next": "Fresh evidence-ready independent review",
+      "latest": "Verified the requested worktree at the specified checkpoint; it is clean at c4da8afbc5276f1f86e15033d2f2cb82badb6809. Slice 33, Ladder — ACCEPT, bounded: review, commit 58dd7edf. Slice 34, Rail — ACCEPT, bounded: review, commit c07775be. Slice 35, Stone Stairs — REQUEST CORRECTION to the base-block identity wording. The false/false predicates and no-east-arm result are supported. ID 4 is registered as cobblestone; the block object has key stonebrick. Review, commit c4da8afb. All cited source-file hashes match the canonical manifests. Original derived-JAR equivalence remains unproven, and the full provider census and reachable-mask inventory remain open. No source files, builds, tests, runtime, or decompilation were changed or run; no main merge or push was made. Restart point: reconcile the slice 35 wording, then continue with Wall Sign (68), Lever (69), and Stone Pressure Plate (70)."
     },
     {
       "role": "F012-review-binding",
       "threadId": "01a121db-b849-7fc1-9a9f-d52481aeb6b4",
       "state": "notLoaded",
       "next": "Portable independent technical review",
-      "cursor": "c2d319e6-539a-4cb4-8b06-af573929c88b:3"
+      "cursor": "c2d319e6-539a-4cb4-8b06-af573929c88b:3",
+      "latest": "F-012 technical binding: ACCEPT, limited to the source-supported 1.17.1, 1.18, 1.18.1, and 1.18.2 profiles. The review verified the double-versus-float arithmetic, hook timing, registration, resolver behavior, and native fallback. Earlier-profile fidelity remains unproven; this does not establish runtime parity. The portable report is committed on fix/review-f012-technical-binding-2026-10-09 at 78"
     },
     {
       "role": "source",
       "id": "1.19.4--1.20.1",
       "threadId": "01a121e2-3cab-77a2-b74b-af2a63e576dd",
-      "state": "idle",
+      "state": "active",
       "next": "S5-02 FarmBlock MAINTAINS_FARMLAND registrations/defaults/neighbor inputs, preserving frozen checkpoint eb6e73602c4cbf5a72dafcbbe56b9c3b0ff10ba0",
-      "cursor": "33ee49d6-a0a7-4a74-b4aa-97c0dec253b2:3",
+      "cursor": "33ee49d6-a0a7-4a74-b4aa-97c0dec253b2:7",
+      "latest": "That checkpoint is committed. I’m checking the next proposed classes now, including whether each state can actually remain above farmland; unreachable states won’t count as a D3 input.",
       "worktree": "C:/Users/Wolfi/.codex/worktrees/source-1194-1201-resume-2026-10-09/LegacyParkourCompat",
       "branch": "feat/source-discovery-1-19-4-1-20-1-resume-2026-10-09",
       "head": "39b5b2ccc1332322e2dde707f9465b75c635cc1b",
@@ -267,7 +293,8 @@
       "threadId": "01a121e2-4ef5-7512-aa15-f0e863e74d09",
       "state": "idle",
       "next": "Blind review correction coordinate clamp",
-      "cursor": "96beba20-b44e-4acd-bf6a-f8ac925647ad:2"
+      "cursor": "96beba20-b44e-4acd-bf6a-f8ac925647ad:2",
+      "latest": "ACCEPT for the revised, conditional claim: when the client receives a finite, out-of-range absolute X/Z correction from an external/custom server, 1.19.2 clamps the player position and 1.19.3 retains the packet coordinate. The revised report also preserves the vanilla /teleport rejection limit. The earlier rejection remains valid for the original snapshot; this acceptance applies only to the revised bytes. The review is committed on feat/review-f009-coordinate-scope-r2-2026-10-09 at 9ed69387b21f384ab800fec335e6a59b422ee027: Revised F-009 review It is bound to source-owner commit 0f17dc31e6619d38752c862b9ec3a30c13b79f48, finding blob fd6662d4d3eebe9671e9440cf67c27eb94d6bece, raw SHA-256 26fca3cbdc84084458484c7cc305f684dc94cc43ccc4d77b0609a7fc296926e3. The pair remains open; the next step is to record this finding-specific acceptance while preserving the earlier rejection. No implementation, build, test, or runtime work was done."
     },
     {
       "role": "implementation",
@@ -275,7 +302,8 @@
       "threadId": "01a121e2-647a-7793-b98b-9c6b977350b8",
       "state": "closed",
       "next": "Implement accepted mounted lava box finding",
-      "cursor": "dbaf81aa-3376-47af-b431-335880374f7b:5"
+      "cursor": "dbaf81aa-3376-47af-b431-335880374f7b:5",
+      "latest": "The candidate is committed as 8de4544e. The worktree is clean, and the independent code review is underway. main has advanced since the earlier merge; I’ll inspect and merge its current tip only after the candidate review resolves the shared-box question."
     },
     {
       "role": "implementation-review",
@@ -283,7 +311,8 @@
       "threadId": "01a121e4-0974-7182-82ff-c5c0c2ca69cb",
       "state": "idle",
       "next": "F008 portable independent technical review",
-      "cursor": "1963820e-5ad2-4afd-875a-15e4abcb36a0:6"
+      "cursor": "1963820e-5ad2-4afd-875a-15e4abcb36a0:6",
+      "latest": "PAUSED at the user’s request. No active processes or subagents remain. Checkpoint: branch fix/review-f008-technical-binding-2026-10-09, HEAD 40c12762ab3c9893d863b6abd65681db8cdce48a. The ACCEPT report is committed at 176fee1c with line-ending cleanup at HEAD. The reviewed candidate and merged-tree identities are recorded in the report. Next action on resume: continue from this branch and report. N"
     },
     {
       "role": "implementation",
@@ -291,7 +320,8 @@
       "threadId": "01a121e4-1927-7621-8cd2-3063988260c6",
       "state": "closed",
       "next": "Reconcile accepted Y256 water jump mechanism",
-      "cursor": "171cb0e1-db15-4827-8004-d49157dac5d0:17"
+      "cursor": "171cb0e1-db15-4827-8004-d49157dac5d0:17",
+      "latest": "The grounded stale-depth correction is committed separately, preserving the earlier candidate and review history. Correction: f8d757828064c9186e7c1e353177c168cf5f9a67. It removes only the !player.onGround() gate; jump input and all other gates remain. Current HEAD: 8f8e381b67ce435c82b805dc6318d4c13e552bdc; working tree is clean. The follow-up review journal records the correction and existing accepted source identities. The portable reviewer’s exact request-changes report and source-file bindings are still pending, so current HEAD is not marked re-reviewed. No build, test, integration, or push was performed."
     },
     {
       "role": "source-boundary",
@@ -299,7 +329,8 @@
       "threadId": "01a121e4-28ee-7070-ace9-13273a268b86",
       "state": "idle",
       "next": "Exact early sprint air speed boundary",
-      "cursor": "69086919-75a3-45f9-9836-6f45531c058c:5"
+      "cursor": "69086919-75a3-45f9-9836-6f45531c058c:5",
+      "latest": "PAUSED. No processes or subagents are running. Checkpoint: branch fix/sprint-air-speed-early-boundary-2026-10-09, HEAD 847e7d101780d7fb39aae523b932c08f6fb6eb19, clean worktree. The source memo is committed; its file SHA-256 is 42f3584c4372afe80269c4f47ada16ff7c570fcbbff7a2664c0a422389f6427c. Resume only after the user does so."
     },
     {
       "role": "mcpk-current-review",
@@ -307,7 +338,8 @@
       "threadId": "01a121e5-1972-7eb1-ad67-64fbb2bdc743",
       "state": "idle",
       "next": "Clean bounded independent review",
-      "cursor": "df6991a2-3070-4f3e-aa31-f7d8d6671b74:2"
+      "cursor": "df6991a2-3070-4f3e-aa31-f7d8d6671b74:2",
+      "latest": "Verdict: ACCEPT, bounded to the r3 source memo and its cited 1.13.2 evidence. It correctly states that each component is cleared only when abs(component) < 0.003, before the travel section, and makes no claim that every impulse component reaches movement. The review is committed on fix/review-fluid-current-flow-r3-2026-10-09 at 6e2c102c49119f758b951dd1f9686b8fcb7bf72d. The worktree is clean, and git diff --check passes. Independent review reportReport blob: 0cd02005ab805ec0338f6711b37810912d2abf6b · SHA-256: 77410602ce266aa0e2ce6fc9f63d536c0ce987b3d6e3a1223353f558be35a399 Next action: record an immutable acceptance event bound to the memo and review identities. Keep pair discovery open and runtime status unvalidated. No build, tests, runtime, decompilation, or push was performed."
     },
     {
       "role": "source-review",
@@ -315,7 +347,8 @@
       "threadId": "01a121e9-b8c9-79e1-be4a-2e42397aae49",
       "state": "idle",
       "next": "Independent source F21 review",
-      "cursor": "56bf219e-aeec-459f-a753-3f92f6e5ec65:2"
+      "cursor": "56bf219e-aeec-459f-a753-3f92f6e5ec65:2",
+      "latest": "REQUEST CHANGES: I upheld the source owner’s invalidation. The 1.21.5 callback difference is real, but for the submitted attribute-command path, 1.21.4 refreshes dimensions at the tick tail after dirty-attribute processing and before the next movement tick. The claimed movement consequence is unsupported; earlier dirty-attribute flush paths remain open for a narrower revision. The independent disposition is committed on fix/review-f21-scale-attribute-2026-10-09 at c58c4070. The worktree is clean, and the whitespace check passes. No tests, builds, or runtime validation were run. Review report"
     },
     {
       "role": "source-boundary-review",
@@ -323,7 +356,20 @@
       "threadId": "01a121fd-2e29-71b2-9f2b-fee58f2e1075",
       "state": "idle",
       "next": "Review completed early boundary memo847e7d1",
-      "cursor": "fb15a2a2-f8d0-4b23-a4f6-f98db3d7de01:5"
+      "cursor": "fb15a2a2-f8d0-4b23-a4f6-f98db3d7de01:5",
+      "latest": "ACCEPT. The review confirms the memo’s bounded air-speed conclusion across all 23 sampled releases. Source hashes, ready markers, source manifests, artifact manifests, mappings, and cited operation lines matched. The tick-order check confirms the superclass movement reads the existing speed before the Player override writes the value for the next eligible ordinary-air call. The 14 unsampled releases remain explicit gaps; no behavior is inferred for them. The prior memo and acceptance identities are preserved. This does not freeze any release pair or establish runtime parity. The report is committed as 224ef372 on fix/air-speed-early-release-review-2026-10-09: independent review report. The worktree is clean; no build, tests, or runtime checks were run."
+    },
+    {
+      "id": "pane-provider-author",
+      "role": "wiki",
+      "threadId": "01a1218b-99e7-7712-b241-b9a97a6eaf76",
+      "state": "active",
+      "worktree": "C:/Users/Wolfi/.codex/worktrees/pane-providers-third-2026-10-09/LegacyParkourCompat",
+      "branch": "fix/pane-neighbor-providers-third-2026-10-09",
+      "head": "58fc0b6c8a94045d3bf9bd708908573da6fd5acf",
+      "next": "Separate memo35 identity erratum then memo36-38 bounded providers",
+      "cursor": "06f01dea-dc2d-4178-820b-92e1f7c23970:20",
+      "latest": "The corrected ID 4 binding is now captured in a separate erratum and checkpoint, with the original slice 35 bytes preserved. For IDs 68–70, both versions register the same three classes and defaults; only Redstone Ore in the following window (ID 73) has a true provider predicate, so I’m checking that inherited base behavior explicitly in the next memo."
     }
   ],
   "queue": [],
@@ -363,7 +409,7 @@
     "workerDelegation": "discretionary; no prompting to spawn",
     "freshWorkerForUnrelatedTasks": true
   },
-  "updatedAt": "2026-10-09T19:03:50.915Z",
+  "updatedAt": "2026-10-09T20:13:04.014Z",
   "additionalReviewer": {
     "owner": "01a12184-70c0-7fb3-a3a0-f6032ef005f1",
     "id": "/root/f3_r2_technical_review",
@@ -463,9 +509,10 @@
     },
     {
       "agent": "/root/resume_source_194_1102",
-      "state": "active",
+      "state": "completed",
       "pair": "1.9.4--1.10.2",
-      "head": "406a437599f1d7abdb303e655c0c963cf57d954f"
+      "head": "8f1bc197f8195cd39723f10b8ac23fa441cdfef7",
+      "next": "DeadBush/NetherWart/Sapling providers and piston defaults"
     },
     {
       "agent": "/root/resume_source_1112_1122",
@@ -473,14 +520,36 @@
       "pair": "1.11.2--1.12.2",
       "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-discovery-1-11-2-1-12-2",
       "branch": "feat/source-discovery-movement-source-1-11-2-1-12-2",
-      "head": "f4d235379ea451da227a34e710bb66609fe37235"
+      "head": "23676d086d79fe7de46a787f1216efa75b78093f",
+      "next": "Repair bounded existing schema/details from exact source, then S7.4 writers"
     },
     {
       "agent": "/root/world25_chest_clip_review",
-      "state": "active",
+      "state": "accepted",
       "pair": "1.8.9--1.9.4",
       "candidate": "1faac86dc6a2bd8f739a73d4bd877bcf8b4b7a9c",
-      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-world25-chest-clip-2026-10-09"
+      "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-world25-chest-clip-2026-10-09",
+      "head": "f4679c8aa68cb5ed1a881cb3a8a96d71db6fc505",
+      "next": "Report-only main integration; Chest only"
+    },
+    {
+      "agent": "/root/retire_completed_recovery_refs",
+      "state": "completed",
+      "next": "Verify main coverage, protect ancestry, retire three completed audit refs",
+      "head": "8dfbbc4bc98ddee33fa11a7cdc34b47d5fa4f2a6"
+    },
+    {
+      "agent": "/root/retire_completed_passenger_recovery",
+      "state": "active-duplicate-recovery",
+      "head": "c6ac4ed05c879b1a342422e329935471476a8e99",
+      "next": "Preserve and audit duplicate D:/.../.task-worktrees/passenger-yaw-task staged index; C attachment clean, retirement held"
+    },
+    {
+      "agent": "/root/resume_189194_world27",
+      "state": "active",
+      "pair": "1.8.9--1.9.4",
+      "head": "1faac86dc6a2bd8f739a73d4bd877bcf8b4b7a9c",
+      "next": "WORLD27 chunk-loaded collision gates"
     }
   ],
   "infrastructureIncident": {
@@ -560,11 +629,12 @@
     "worktrees": 142
   },
   "branchCleanup": {
-    "removed": 52,
+    "removed": 55,
     "initialLocal": 119,
     "remainingLocal": 67,
     "records": "workflows/orchestration-2026-10-09/branch-cleanup",
-    "policy": "completed-or-obsolete-only; preserve unfinished refs and all worktree files"
+    "policy": "completed-or-obsolete-only; preserve unfinished refs and all worktree files",
+    "completedRecoveryAudits": "8dfbbc4bc98ddee33fa11a7cdc34b47d5fa4f2a6"
   },
   "questionRouting": "No routine worker questions to user; resolve from evidence, report exact blockers to coordinator; retain required approval gates.",
   "phase": "recover-old-work; close-and-commit; bounded-source-continuations",
@@ -577,7 +647,8 @@
   "archiveRefs": {
     "namespace": "refs/archive/branch-retirement-2026-10-09",
     "count": 52,
-    "manifest": "workflows/orchestration-2026-10-09/branch-cleanup/retired-history-archive.json"
+    "manifest": "workflows/orchestration-2026-10-09/branch-cleanup/retired-history-archive.json",
+    "taskClosureCount": 3
   },
   "sourceCoverageQueue": [
     {
@@ -588,9 +659,9 @@
       "head": "1faac86dc6a2bd8f739a73d4bd877bcf8b4b7a9c",
       "branch": "feat/source-discovery-movement-source-1-8-9-1-9-4-solid-resume",
       "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-pair-189194-solid-resume",
-      "next": "Resume the `run.md` next-source checkpoint from this clean source branch; keep prior bounded reports and their verdicts.",
-      "state": "waiting-independent-review",
-      "owner": "/root/resume_source_189_194",
+      "next": "WORLD27 chunk-loaded collision gates; Chest ACCEPT awaiting main import",
+      "state": "active",
+      "owner": "/root/resume_189194_world27",
       "report": "workflows/source-campaign-2026-10-07/1.8.9--1.9.4/run.md"
     },
     {
@@ -598,11 +669,11 @@
       "gate": "Partial",
       "recordedHead": "8d4deeedacd03de0c84e175128726b5f6ab63ef3",
       "recordedHeadVerified": true,
-      "head": "8133dfab210b9fcc706a434e42b228dd7b4f8f2e",
+      "head": "8f1bc197f8195cd39723f10b8ac23fa441cdfef7",
       "branch": "feat/source-discovery-movement-source-1-9-4-1-10-2-resume3",
       "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/movement-source-1-9-4-1-10-2-resume3",
-      "next": "Continue the exact next open inventory slice in `run.md`; current ref and worktree match the saved checkpoint.",
-      "state": "active",
+      "next": "Report-only main import; then DeadBush/NetherWart/Sapling provider slice",
+      "state": "ready-report-integration",
       "owner": "/root/resume_source_194_1102",
       "report": "workflows/source-campaign-2026-10-07/1.9.4--1.10.2/run.md"
     },
@@ -624,10 +695,10 @@
       "gate": "Partial",
       "recordedHead": "f4d235379ea451da227a34e710bb66609fe37235",
       "recordedHeadVerified": true,
-      "head": "f4d235379ea451da227a34e710bb66609fe37235",
+      "head": "23676d086d79fe7de46a787f1216efa75b78093f",
       "branch": "feat/source-discovery-movement-source-1-11-2-1-12-2",
       "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-discovery-1-11-2-1-12-2",
-      "next": "Continue the run’s S6.6 provider/consumer registry scan, then S7.4 inherited writers and S2.2/S2.6 collision/state dependencies.",
+      "next": "Repair bounded checker schema/details from existing exact-source evidence, then S7.4 inherited writers",
       "state": "active",
       "owner": "/root/resume_source_1112_1122",
       "report": "workflows/source-campaign-2026-10-07/1.11.2--1.12.2/run.md"
@@ -728,10 +799,10 @@
       "gate": "Partial",
       "recordedHead": "03de5e41f82b9d9c7705e8ee19267fd27b59ba6b",
       "recordedHeadVerified": true,
-      "head": "5228f4f1ecb628e7afb6fbd01432bfeae8e69ebc",
+      "head": "8273a7006ab7bc7b69d9f76b1ae296bcae56cf82",
       "branch": "feat/source-1192-1193-resume-2026-10-09",
       "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1192-1193-resume-2026-10-09",
-      "next": "Continue the rider-input/on-foot state dependency. The run checkpoint also asks to trace the long-duration effect synchronization route through its movement consumers before classifying it. Preserve rejected F-009 and its narrowed supersession record.",
+      "next": "Continue up to three saved collision-query/shape/callback dependencies from run.md, selecting the first unresolved player-reachable route. Preserve effect bridge closure and F009 r2.",
       "state": "active",
       "owner": "01a12195-a8a4-70e2-a0c1-270e692bee45",
       "report": "workflows/source-campaign-2026-10-07/1.19.2--1.19.3/run.md"
@@ -741,11 +812,11 @@
       "gate": "Partial",
       "recordedHead": "7df9c281bdf6706a52a0508d309a26eb5094c3c2",
       "recordedHeadVerified": true,
-      "head": "39264d259c55c954138fc4fe5c971e604f30ffc7",
+      "head": "867d523de9ca5eb1dee2d4e345e9a8ff493def87",
       "branch": "feat/source-1193-1194-2026-10-09",
       "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1193-1194-2026-10-09",
-      "next": "Continue `D-3` through remaining keyboard/local-player/travel branches; then close pose, collision, world data, modifiers, external inputs and exclusions.",
-      "state": "idle",
+      "next": "Compare PowderSnowBlock contextual collision shape/walkability then scaffolding placement/scheduled writers, at most three method groups.",
+      "state": "active",
       "owner": "01a121c9-8af9-7bf0-860e-efc05c182b84",
       "report": "workflows/source-campaign-2026-10-07/1.19.3--1.19.4/run.md"
     },
@@ -754,11 +825,11 @@
       "gate": "Partial",
       "recordedHead": "39b5b2ccc1332322e2dde707f9465b75c635cc1b",
       "recordedHeadVerified": true,
-      "head": "229fe70c7b4ae51ab91ef327277fde94667e0ca9",
+      "head": "39b5b2ccc1332322e2dde707f9465b75c635cc1b",
       "branch": "feat/source-discovery-1-19-4-1-20-1-resume-2026-10-09",
       "worktree": "C:/Users/Wolfi/.codex/worktrees/source-1194-1201-resume-2026-10-09/LegacyParkourCompat",
-      "next": "Continue S5-02 block registration/defaults and neighbor-state writers, starting with FarmBlock and its tag input; then finish remaining open S7 and D2 dependencies.",
-      "state": "idle",
+      "next": "S5-02 FarmBlock MAINTAINS_FARMLAND registrations/defaults/neighbor inputs, preserving frozen checkpoint eb6e73602c4cbf5a72dafcbbe56b9c3b0ff10ba0",
+      "state": "active",
       "owner": "01a121e2-3cab-77a2-b74b-af2a63e576dd",
       "report": "workflows/source-campaign-2026-10-07/1.19.4--1.20.1/run.md"
     },
@@ -767,11 +838,11 @@
       "gate": "Partial",
       "recordedHead": "ad3a201e1413d4378250e7f5426a633df837f0bf",
       "recordedHeadVerified": true,
-      "head": "4ce3286bab95c15ea41ef1fd28bee9f98a1b1813",
+      "head": "cc4741cf91892aea2bdf3f8893a83f59c3261d5e",
       "branch": "feat/source-1201-1202-2026-10-09",
       "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1201-1202-restored-2026-10-09",
-      "next": "Continue S10 and S27, then remaining local-player velocity/correction consumers, transition writers, shape providers, fluids and resource defaults.",
-      "state": "idle",
+      "next": "Trace BaseRailBlock.isRail through rail state/support/shape behavior to determine non-empty local-player collision reachability, up to three methods. Preserve first-tick arrival/custom-tag open dependencies.",
+      "state": "active",
       "owner": "01a121c9-9ef5-78d0-946f-9284ce3512a0",
       "report": "workflows/source-campaign-2026-10-07/1.20.1--1.20.2/run.md"
     },
@@ -845,11 +916,11 @@
       "gate": "Partial; prior provenance exposure disclosed",
       "recordedHead": "c80f0292773bedf3b3c687bf24edcc6cac5f3c84",
       "recordedHeadVerified": true,
-      "head": "23aa33707decc505b5e13e454452285b050dd9cd",
+      "head": "0b6a3e4b7ed14cfca894a8348c292a805f1fa88e",
       "branch": "feat/source-1214-1215-clean-2026-10-09",
       "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1214-1215-clean-2026-10-09",
-      "next": "Continue fresh source-only coverage from the clean branch; F-21 stays invalidated. Do not resume on the older worktree or treat bounded accepted checkpoints as pair coverage.",
-      "state": "idle",
+      "next": "Compare up to three paired fluid-state lookup, equality and canonicalization dependencies for the recorded FlowingFluid.tick equals()/reference-inequality difference, then trace any remaining distinction into player fluid queries. Preserve D43 unresolved status until proved and F21 invalidation.",
+      "state": "active",
       "owner": "01a1218a-7321-7803-b9fb-ecedb7294420",
       "report": "workflows/source-campaign-2026-10-07/1.21.4--1.21.5/run.md"
     },
@@ -897,10 +968,10 @@
       "gate": "Partial; accepted findings remain bounded",
       "recordedHead": "51f414abd08ec1dc247c7a4af9e1a52507094b89",
       "recordedHeadVerified": true,
-      "head": "072f6e698394649ca8ca6faeafa57ab95a3123e0",
+      "head": "040e5ae013e3f092ce1365f975593f23aa7d31ec",
       "branch": "feat/source-12111-2612-d2-2026-10-09",
       "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-12111-2612-d2-2026-10-09",
-      "next": "Prepare the separate corrected eye-height memo and bind it to the prior review request; then continue the recorded S4.7 and remaining inventory. Keep the accepted F-3 finding separate from pair freeze.",
+      "next": "Trace up to three remaining BedRule/collision admission inputs, other wake callers or persisted/synchronized SCALE sources according to S4.7 queue. Preserve command timing and full writer inventory gaps.",
       "state": "active",
       "owner": "01a1218e-399b-7400-b1a3-5b49d804ee71",
       "report": "workflows/source-campaign-2026-10-07/1.21.11--26.1.2/run.md"
@@ -918,5 +989,19 @@
       "owner": null,
       "report": "workflows/source-campaign-2026-10-07/26.1.2--26.2/run.md"
     }
-  ]
+  ],
+  "duplicatePassengerAttachment": {
+    "clean": {
+      "path": "C:/Users/Wolfi/.codex/worktrees/movement-passenger-yaw-2026-10-08",
+      "head": "c6ac4ed05c879b1a342422e329935471476a8e99",
+      "verifiedByCoordinator": true
+    },
+    "pending": {
+      "path": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/passenger-yaw-task",
+      "stagedPaths": 674,
+      "state": "preservation-and-audit",
+      "owner": "/root/retire_completed_passenger_recovery"
+    },
+    "retirement": "held"
+  }
 }
