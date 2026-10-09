@@ -790,6 +790,30 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 
 - Next named producer slice: `D10 / S1-MOUSE-FOCUS-KEYMAP-LIFECYCLE`, starting at the exact members listed above. Keep D9 routed to an independent source-only reviewer and preserve its immutable candidate unchanged.
 
+## Fresh source-only correction — D7 caller and vector helper evidence
+
+- Review trigger: independent bounded review `759a5c441cf7b052a88d020f6f26f8f30832e581`, `workflows/source-boundary-reviews/2026-10-09-fresh-input-application-1214-1215-review.md`, requested changes against D7 checkpoint `ce2cb45d14311769c4cde28013c7fe9fd87dce8b`. This correction is limited to the reviewer-named LocalPlayer predicate edge, `Vec2.scale`, and `Vec3` helpers. It does not alter the earlier bounded acceptance at `b8c502b89d08df1436b16e5d98e156440a7bad40`, and does not freeze the pair.
+- Publication identity: exact 1.21.4 and 1.21.5 Mojmap source roots already recorded above. Supplemental `LocalPlayer.java`, `Vec2.java`, and `Vec3.java` hashes below were checked against their exact `mojmap.sources.sha256` entries and live source bytes.
+
+### Corrected D7 evidence and dependency closure candidate
+
+- Missing A caller edge: A `LivingEntity#aiStep()` checks `isImmobile()` first, then calls virtual `isEffectiveAi()` in its `else if` gate before `serverAiStep()` (A `LivingEntity.java:2727-2735`). The A `LocalPlayer#isEffectiveAi()` override returns `true` (A `LocalPlayer.java:482-485`), so for a non-immobile local player the effective-AI branch reaches dynamically dispatched `LocalPlayer#serverAiStep()`. That method calls `super.serverAiStep()` and then, only under `isControlledCamera()` (`minecraft.getCameraEntity() == this`), copies the sampled left/forward axes and jump predicate (A `LocalPlayer.java:607-622`). The remaining reachability condition is the already-recorded non-immobile gate.
+- B phase correspondence: B `LivingEntity#aiStep()` calls `applyInput()` before checking immobility or its later effective-AI/server-AI branch (B `LivingEntity.java:2712-2721`). Thus B `LocalPlayer#applyInput()` can write the input axes under its controlled-camera gate before immobility zeroing; the previously recorded B override and `modifyInput()` chain remain at B `LocalPlayer.java:608-658` with the camera predicate at `660-662`. This supplies the caller/phase connection requested by the reviewer; it does not imply that B uses A's later `serverAiStep()` transfer.
+- Input helper operation: `Vec2#scale(float)` returns a new vector with each float component multiplied by the supplied float (A `Vec2.java:22-24`; B `Vec2.java:28-30`). B `LocalPlayer#modifyInput()` applies factors in its recorded order—`0.98F`, item-use `0.2F` when eligible, sneaking-speed factor when eligible, then square-movement correction. The helper body itself is identical; this evidence preserves the operation called within that chain and does not establish that moving the damping operation across other factors is behaviorally interchangeable. Keep the F-09 claim under D9 review.
+- Direct movement consumer helpers: the paired `Entity#getInputVector()` bodies remain A `Entity.java:1429-1439` and B `Entity.java:1458-1468`; `Entity#moveRelative()` consumes the resulting vector at A `1424-1427` and B `1453-1456`. The directly traversed `Vec3#normalize()` is A/B `Vec3.java:83-86`; `Vec3#scale(double)` is A/B `152-154`, which delegates to `multiply(double,double,double)` at A/B `164-166`. These operations and their order are identical across the pair; the complete `Vec3.java` SHA-256 is `62581d3005cc32401545f9229a9c293dfd61c52e7d30f88456c49d2c2867e68d` on both sides. This completes the helper evidence for the already bounded direct consumer; it adds no new consumer delta.
+- Supplemental source hashes:
+
+| Paired source file | A SHA-256 | B SHA-256 |
+|---|---|---|
+| `net/minecraft/client/player/LocalPlayer.java` | `145686ebdc7f0d12a64070309073665eb8695b7e09911a723e86113a77d04611` | `f1fcfed4a938732361e7ad951f93e9b73b02320ee56f0b219e2b3c7acdbfa2ef` |
+| `net/minecraft/world/phys/Vec2.java` | `06ddeeb256f748d326f79fa941c852db14a65abdc1036f31550f0d95eb0e05c56` | `b637ef6899de5d8892e19273b114ffaf0397761e509170a56d52dd068f54bffe` |
+| `net/minecraft/world/phys/Vec3.java` | `62581d3005cc32401545f9229a9c293dfd61c52e7d30f88456c49d2c2867e68d` | `62581d3005cc32401545f9229a9c293dfd61c52e7d30f88456c49d2c2867e68d` |
+
+- D7 closure candidate now contains: (1) A's local-player `isEffectiveAi() == true` override connected through the non-immobile effective-AI gate to the controlled-camera `serverAiStep()` transfer; (2) B's earlier `applyInput()` phase and controlled-camera `modifyInput()` route; (3) the paired `Vec2.scale` operation used by B's factor chain; and (4) the paired `Vec3` normalization/scaling helpers used by the existing direct movement consumer. These bounded source edges and helper bodies are now recorded, but D7 is `pending independent acceptance` until a fresh source-only reviewer accepts this corrected record. The prior `b8c502b8` bounded acceptance is preserved and unchanged; this status applies to the later D7 correction only.
+- D9 remains separately open for independent review of the immutable F-09 discrepancy. Preserve commit `95061345541a2b5a8c56e57a7fe71a6007e9d684`, path `findings/F-09-local-player-input-damping.md`, and SHA-256 `3a1680c5e724a935cbc576705088f03e3a9d4c6a8e29e5375d4ddb8e93b1e328` unchanged. D8 stays closed only for the bounded keyboard key-state producer path; D10 remains open for mouse/focus/screen/keymap lifecycle; D1-D6 remain open as recorded. Pair status remains `partial`.
+- Reviewer next action: assign a fresh independent source-only reviewer to assess this corrected D7 evidence against its exact source boundaries and report acceptance or remaining gaps. Keep D9's F-09 review separately routed; no source owner self-acceptance is recorded.
+- Checkpoint limits: source report only; no implementation or wiki material, main merge, decompilation, build, test, runtime, or push was performed.
+
 
 
 
