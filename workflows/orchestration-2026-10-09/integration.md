@@ -5,7 +5,7 @@
 - Integration target before merge: `main` at `e890a9f59883ed167a1958c0d06a665b88cc3018`.
 - Reviewed documentation branch: `fix/orchestrator-workflow` at `a6e4d9b344494fcea85532191c29170d3375e2c8`.
 - Merge base: `e890a9f59883ed167a1958c0d06a665b88cc3018`.
-- Integration branch: `fix/campaign-integration-2026-10-09`, with checkpoint commit `d772ba61` on top of the reviewed branch tip. The final integration is a fast-forward of `main` to this checkpoint.
+- Integration branch: `fix/campaign-integration-2026-10-09`, with the integration record committed on top of the reviewed branch tip. The final integration is a fast-forward of `main` to this branch tip.
 
 ## Integrated paths
 
