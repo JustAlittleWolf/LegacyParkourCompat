@@ -25,11 +25,13 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.PortalDismountBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PowderSnowClimbBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SlowFallingFallDistanceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SprintJumpImpulseBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.StaleWaterDepthJumpBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.VelocityZeroThresholdBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.WaterGravityBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.WaterJumpBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.WaterSprintSlowdownBehavior;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
+import me.wolfii.legacyparkourcompat.mixin.accessor.WaterJumpDepthAccess;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
@@ -64,6 +66,12 @@ abstract class LivingEntityMixin {
 
     @Unique
     private boolean legacyparkourcompat$movementEpochInitialized;
+
+    @Unique
+    private boolean legacyparkourcompat$staleWaterJumpInitiated;
+
+    @Unique
+    private int legacyparkourcompat$noJumpDelayBeforeStaleWaterJump;
 
     @Inject(method = "tick()V", at = @At("HEAD"))
     private void legacyparkourcompat$refreshDimensionsOnProfileChange(CallbackInfo ci) {
@@ -212,6 +220,9 @@ abstract class LivingEntityMixin {
     protected boolean jumping;
 
     @Shadow
+    private int noJumpDelay;
+
+    @Shadow
     protected abstract boolean isImmobile();
 
     @Invoker("jumpFromGround")
@@ -253,6 +264,53 @@ abstract class LivingEntityMixin {
 
     @Inject(
         method = "aiStep",
+        at = @At("HEAD")
+    )
+    private void legacyparkourcompat$beginStaleWaterJumpTick(CallbackInfo ci) {
+        this.legacyparkourcompat$staleWaterJumpInitiated = false;
+    }
+
+    @Inject(
+        method = "aiStep",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/LivingEntity;isAffectedByFluids()Z",
+            shift = At.Shift.BEFORE
+        )
+    )
+    private void legacyparkourcompat$initiateStaleWaterJump(CallbackInfo ci) {
+        LivingEntity entity = (LivingEntity)(Object)this;
+        if (!(entity instanceof Player player) || this.isImmobile()) {
+            return;
+        }
+
+        boolean vanillaAffectedByFluids = player.isAffectedByFluids();
+        boolean mayJumpInFluid = MovementRuntime.find(FluidJumpBehavior.class, player)
+            .map(behavior -> behavior.mayJumpInFluid(player, vanillaAffectedByFluids))
+            .orElse(vanillaAffectedByFluids);
+        if (!mayJumpInFluid) {
+            return;
+        }
+
+        double retainedDepth = ((WaterJumpDepthAccess)(Object)player).legacyparkourcompat$getRetainedWaterDepth();
+        MovementRuntime.find(StaleWaterDepthJumpBehavior.class, player)
+            .filter(behavior -> behavior.shouldJumpFromRetainedWaterDepth(player, retainedDepth))
+            .ifPresent(behavior -> {
+                this.legacyparkourcompat$noJumpDelayBeforeStaleWaterJump = this.noJumpDelay;
+                this.legacyparkourcompat$invokeJumpInLiquid(FluidTags.WATER);
+                this.legacyparkourcompat$staleWaterJumpInitiated = true;
+            });
+    }
+
+    @Inject(method = "aiStep", at = @At("RETURN"))
+    private void legacyparkourcompat$restoreStaleWaterJumpDelay(CallbackInfo ci) {
+        if (this.legacyparkourcompat$staleWaterJumpInitiated) {
+            this.noJumpDelay = this.legacyparkourcompat$noJumpDelayBeforeStaleWaterJump;
+        }
+    }
+
+    @Inject(
+        method = "aiStep",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;applyInput()V", shift = org.spongepowered.asm.mixin.injection.At.Shift.AFTER)
     )
     private void legacyparkourcompat$waterJumpInput(CallbackInfo ci) {
@@ -268,6 +326,9 @@ abstract class LivingEntityMixin {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;jumpFromGround()V")
     )
     private void legacyparkourcompat$replaceShallowWaterJump(LivingEntity entity) {
+        if (this.legacyparkourcompat$staleWaterJumpInitiated) {
+            return;
+        }
         if (entity instanceof Player player
             && !MovementRuntime.find(GroundJumpGateBehavior.class, player)
                 .map(behavior -> behavior.shouldJumpFromGround(player, true)).orElse(true)) {

@@ -18,8 +18,10 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowLavaCurrentCutoffBehav
 import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowWaterCurrentCutoffBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.SwimmingUpdateBehavior;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
+import me.wolfii.legacyparkourcompat.mixin.accessor.WaterJumpDepthAccess;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityFluidInteraction;
 import net.minecraft.world.entity.MoverType;
@@ -30,6 +32,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -38,7 +41,33 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
-abstract class EntityMixin {
+abstract class EntityMixin implements WaterJumpDepthAccess {
+    @Unique
+    private double legacyparkourcompat$retainedWaterDepth;
+
+    @Override
+    @Unique
+    public double legacyparkourcompat$getRetainedWaterDepth() {
+        return this.legacyparkourcompat$retainedWaterDepth;
+    }
+
+    @Override
+    @Unique
+    public void legacyparkourcompat$setRetainedWaterDepth(double depth) {
+        this.legacyparkourcompat$retainedWaterDepth = depth;
+    }
+
+    @Inject(method = "updateInWaterStateAndDoFluidPushing()Z", at = @At("RETURN"))
+    private void legacyparkourcompat$retainWaterDepthAfterRefresh(CallbackInfoReturnable<Boolean> cir) {
+        Entity entity = (Entity)(Object)this;
+        if (!(entity instanceof Player player)) {
+            return;
+        }
+
+        if (Mth.floor(player.getBoundingBox().deflate(0.001).minY) < 256) {
+            this.legacyparkourcompat$setRetainedWaterDepth(player.getFluidHeight(FluidTags.WATER));
+        }
+    }
 
     @Inject(method = "updateSwimming()V", at = @At("HEAD"), cancellable = true)
     private void legacyparkourcompat$historicalSwimmingUpdate(CallbackInfo callback) {
