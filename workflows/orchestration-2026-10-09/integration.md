@@ -223,3 +223,10 @@ At that time, the preparation, sprint-collision and Elytra slots were releasable
 - Memo `workflows/source-boundary-reviews/F012-sprint-air-control-boundary-evidence-2026-10-09.md`: blob `ebd4cb218453a9b2ce7afbe15932d2668dc6b742`, raw SHA-256 `477812d4bd08dcb3841b902b311899ee51c2f72d9ad76e323cb4a206dee01a06`. Review `workflows/source-boundary-reviews/2026-10-09-F012-independent-boundary-review.md`: blob `7a8315f0e5f253ef8c02a7e373524b3f8859080b`, raw SHA-256 `7493c46aaf5e55125ff94c94b6ca6322bd150e41526a81ff78e3ef7187b37e9e`.
 - ACCEPT is limited to the coefficient and next eligible ordinary-airborne consumer across the four sampled releases; the expression changes from double-literal addition to float compound addition at 1.18.2. It does not establish unsampled cutovers, full parity, or runtime behavior. The pair run/freeze is unchanged.
 - The F-012 implementation reconciliation was not imported: its technical review/code gate remains pending.
+
+## F3 R2 implementation technical review — REQUEST CHANGES — 2026-10-09
+
+- Integrated independent technical review from review commit `b1da5dfb90bf39ccd26a76dd35b94cefab392ae6`, final report-only merge `8713e3447ba3d412f3ed56c551eb1129c8271bc7`.
+- Report `workflows/implementation-reviews/2026-10-09-F3-r2-technical-review.md`: blob `3672e070dd382bd1ab0d1ac1ab37c874d6d283b1`, raw SHA-256 `e0872eeab806b9ef1db20813b274c32a0c9e6778e62a8d99f94b647cdfd030da`.
+- REQUEST CHANGES: the reviewed implementation activates the LAVA cutoff bypass for mounted Players, while the accepted source witness covers only a standing, unmounted Player and leaves mounted fluid boxes unresolved. The review otherwise verifies the 26.2 source identities, target call order, cutoff math, registration and native fallback. It proposes retaining the native cutoff for mounted Players unless that applicability is separately accepted.
+- The immutable source finding is unchanged. No F3 production code or final implementation reconciliation was integrated, and no build or tests were run. The pair remains partial; code stays gated on correction and independent ACCEPT, then the disabled-test build.
