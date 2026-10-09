@@ -14,6 +14,8 @@ Read [README.md](README.md) for project scope, architecture and commands. Read t
 
 For campaign coordination, read [the orchestrator workflow](workflows/orchestration/README.md). Source workers and blind reviewers must read [discovery](workflows/movement-discovery/README.md) and [the campaign protocol](workflows/source-campaign-2026-10-07/README.md); implementers must read [implementation](workflows/fix-implementation/README.md).
 
+Keep worker messages specific to their assignment: action, inputs, constraints and output. Write instructions and documentation without chat history, user-message attribution or unrelated campaign details.
+
 Keep source discovery blind to implementation and both wiki lanes until full-pair freeze. Only independently accepted immutable findings may enter implementation early. Full tick/inventory coverage, dependency closure and independent coverage audit are required for discovery completion. Finding acceptance, implementation, build success and runtime parity are separate statuses. Shared sources have one writer and read-only consumers. Never erase existing implementations to obtain blind discovery; reconcile them separately after freeze.
 
 ## Verification
