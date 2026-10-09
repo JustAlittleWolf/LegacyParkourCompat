@@ -3,10 +3,11 @@
 - Discovery finding: `workflows/source-campaign-2026-10-07/1.17.1--1.18.2/findings/F-012-sprint-air-control-float.md`.
 - Immutable accepted author snapshot: commit `e531086eecc778432b40b2b9ef39499b8a7f0dba`, finding blob `947ca63e44ec3f8ecaa710f4168c95bf66e5402a`, raw SHA-256 `b089246435bb50d410fe8dbe5502fbcd2245a4aa72f6e896c1040eecb47c6bff`.
 - Independent blind source acceptance: commit `2fd121e116d7185165c76aea1c3708273afc7ea1`, `workflows/source-boundary-reviews/2026-10-08-mc1171-1182-snapshot-review.md`, blob `871ad5bccde2194ccc733ed8fef92472a1c96c2a`; F-012 is bounded ACCEPT for the 1.17.1 to 1.18.2 coefficient difference and consumer, without a first-release boundary.
-- New source-boundary evidence memo: `workflows/source-boundary-reviews/F012-sprint-air-control-boundary-evidence-2026-10-09.md`, blob `ebd4cb218453a9b2ce7afbe15932d2668dc6b742`, raw SHA-256 `477812d4bd08dcb3841b902b311899ee51c2f72d9ad76e323cb4a206dee01a06`. It compares exact 1.17.1, 1.18, 1.18.1 and 1.18.2 ready Mojmap sources and is pending independent source-only acceptance. This implementation reconciliation does not self-accept that boundary.
+- Independent bounded source-boundary acceptance: commit `ee586d98cbd02df932f6f076daa56a9d2176557b`, `workflows/source-boundary-reviews/2026-10-09-F012-independent-boundary-review.md`, blob `7a8315f0e5f253ef8c02a7e373524b3f8859080b`. It accepts the coefficient and consumer claim for the four sampled releases only; it expressly makes no claim about unexamined releases.
 - Pair discovery status: partial; runtime validation not performed.
 - Code base: `cb11257e593987c68be98a7dbda8bbea7d5e77fd`; current target `minecraft_version=26.2`, ready unobfuscated sources under `build/movement-campaign-2026-10-07/ready/26.2/unobfuscated/`.
-- Implementation status: **open / incomplete for the accepted release range; correction gated on independent acceptance of the exact boundary memo.** No Java changes are made in this checkpoint.
+- Implementation commit: `e386e31f7b55d584461469f20752eefd5bfde955`; new class blob `a42b6a0b71ea176c8fb8f93def5b2dd1d1de44d9`; catalog blob `b26ec31d09a40c9f970659676904b6b198f02a6a`.
+- Implementation status: **implemented for the independently accepted four-release evidence boundary; awaiting independent technical review and campaign-owner build.** No tests, build, game, TAS, Gym, server, Docker, or runtime validation were performed.
 
 ## Existing mechanism and static trace
 
@@ -25,14 +26,28 @@ Relevant current code blobs at the base commit:
 
 `PlayerMixin` stores an `AirSpeedUpdateBehavior` result at the return from `Avatar.aiStep()` inside `Player.aiStep()V`, and injects at RETURN of `Player.getFlyingSpeed()F`. It changes the target result only when `MovementRuntime.find(AirSpeedBehavior.class, player)` resolves. `AirSpeed.speed` preserves vanilla for ability flight while not a passenger, otherwise returns the stored historical value. `AirSpeed.afterAiStep` resets to `0.02F` and, when sprinting, adds float literal `0.006F`.
 
-The single catalog registration for both `AirSpeedBehavior` and `AirSpeedUpdateBehavior` is at `V1_18_2`. There is no V1_18 registration for either interface. `ChangeResolver` yields no changes for CURRENT; otherwise it filters to registrations whose emulated version is at least the selected profile and chooses the closest qualifying registration. Consequently, the current V1_18_2 implementation is selected for V1_17_1, V1_18 (1.18/1.18.1) and V1_18_2 profiles. It uses the 1.18.2 float expression for all of them. The pending four-source comparison finds that V1_17_1, 1.18 and 1.18.1 use the older double-literal expression, while 1.18.2 uses the float expression; this boundary is not accepted yet. If independently accepted, the current class matches the coefficient for 1.18.2 but not the accepted earlier source behavior for V1_17_1 or V1_18 profiles. This is a bounded implementation gap, not a reason to replace the shared delayed-air-speed bridge.
+The original catalog registered both `AirSpeedBehavior` and `AirSpeedUpdateBehavior` only at `V1_18_2`, causing its float expression to resolve for the sampled older profiles too. Following independent acceptance of the four-release source boundary, `change/v1_18/DoubleSprintAirSpeed.java` now supplies the older operation and `MovementChangeCatalog.registerV1_18` registers that one instance for both interfaces. The 1.18.2 class and registrations remain unchanged.
+
+The old sampled operation is preserved explicitly: start with `0.02F`, and only when sprinting assign `(float) (speed + 0.005999999865889549)`. The unsuffixed decimal is a double, so the float value is promoted for double addition, then cast back to float. No compound float addition or algebraic rewrite is used. Both implementations retain the existing `speed` gate: return vanilla speed for ability flight when not a passenger; otherwise return the delayed stored coefficient. The `afterAiStep` hooks reset the coefficient to `0.02F` and only add the sprint increment when `player.isSprinting()`.
+
+`ChangeResolver` in `impl/ChangeResolver.java` returns no changes for CURRENT. For historical selections it considers registrations whose emulated version is at least the selection, then chooses the closest qualifying version. The resulting AirSpeed routes are:
+
+| Selected profile | Resolved registration | Source evidence status |
+|---|---|---|
+| 1.17.1 (`V1_17_1`) | V1_18 double-literal behavior | Exact source accepted |
+| 1.18 / 1.18.1 (`V1_18`) | V1_18 double-literal behavior | Exact sources accepted |
+| 1.18.2 (`V1_18_2`) | V1_18_2 float behavior | Exact source accepted |
+| CURRENT / native | no historical behavior | Native mixin fallback |
+
+This registration also mechanically supplies the V1_18 behavior to any older selectable profile that lacks a closer AirSpeed registration. The source review explicitly did not establish coefficient fidelity outside the four sampled releases; no claim is made here that the AirSpeed operation is historically faithful for profiles earlier than 1.17.1. Adding a special profile gate or changing version resolution to infer otherwise would exceed the evidence and requested minimal delta. The bounded evidence and the resolver's wider mechanically affected range remain distinct facts; broader source coverage is still unresolved.
 
 `MovementRuntime.find` returns empty unless the entity is a player and its selected profile is enabled. Selecting CURRENT or the running version disables historical changes; with no resolved behavior, the injected methods leave vanilla values unchanged. The target 26.2 ready source confirms `LivingEntity#getFrictionInfluencedSpeed` delegates airborne speed to `getFlyingSpeed()` and `Player#getFlyingSpeed` supplies the native sprint/flight alternatives. Static target Player.java SHA-256 is `8decc71b9c780664578ddb14591db2a2f207c72c05b676edded6f8e964576531`; target LivingEntity.java SHA-256 is `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`. The exact 26.2 ready-marker, source-manifest and artifact-manifest hashes are `f9406adb6bf7cb4c1ab0792a798ab2cb90e082ad4c2eee032c9f674d0ea8070f`, `a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894` and `ba9dc53a41bca9744ec1c8ab2ce9363764a22333c39ef64d5105f4e3bf5c98ba`.
 
 ## Next action and checks
 
-1. Obtain independent source-only acceptance of the boundary evidence memo, or preserve the reviewer’s requested corrections without changing the accepted F-012 snapshot.
-2. After acceptance, add the minimal earlier double-literal resolver change for the confirmed V1_17_1/V1_18 applicability while retaining the existing V1_18_2 float implementation and shared hook/state bridge. Then record exact registration, resolver and fallback behavior for independent technical review.
-3. Build only after code changes, with all Gradle Test tasks disabled and `-x test`, through the campaign build owner. No test, runtime, client, server, TAS, Gym, Docker, push, or build is authorized/performed in this checkpoint.
+1. Independent technical review of the new V1_18 class, catalog registrations, routing, and proof record is pending.
+2. After that review, the campaign build owner may compile with every Gradle Test task disabled and `-x test`, per the repository verification protocol. No test, runtime, client, server, TAS, Gym, or Docker run belongs to this checkpoint.
+
+Static verification performed: inspected the exact registration and resolver code paths; confirmed the incoming `main` commits changed no `src` paths before merging `main` into the task branch; `git diff --check` passed after the implementation edits. No build or tests were run.
 
 Static checks only: immutable input identity, ready source identities, four-release source comparison, current hook/catalog/resolver/toggle and target fallback. No implementation-derived result was sent to source-only owners.
