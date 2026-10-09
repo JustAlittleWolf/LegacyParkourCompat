@@ -146,3 +146,10 @@ At that time, the preparation, sprint-collision and Elytra slots were releasable
 - Producer report: `workflows/wiki-audit-2026-10-07/mcpk-y256-producer-2026-10-09.md`, blob `fddcf603a83611d9d10a0f5f684e270433fcfd30`, raw SHA-256 `873d3934c9d902f2521913f358b4ca56b9f8d4d9b9acee9ad0a95354125b9a65`. Review: `workflows/wiki-audit-2026-10-07/mcpk-y256-producer-review-2026-10-09.md`, blob `835b09a7db975c4a4026ebadc1fdb15c2be651b4`, raw SHA-256 `b0221a0396b24bd4e43824d7ec494709b9e16195403d4f2f7bdb4616227838a4`.
 - The exact reviewed conditional mechanism is also reconciled into `mcpk-checkpoint.md` and `mcpk-full-catalog-2026-10-08.md`. ACCEPT covers source-level stale positive water depth at the 1.13.2 Y=256 preflight and the bounded 1.16 reset/consumer contrast. It establishes no reported trajectory, universal jump result, MC-135831 cause, or first fixed release.
 - No raw Wiki source, implementation, or runtime claim was introduced. No build, tests, or runtime validation was performed.
+
+## Exact source-preparation records: 1.14–1.15.1 — 2026-10-09
+
+- Imported only the pending preparation paths from exact records `69de5a7cfddde6fdb08b2fdde1d5faf7b4eb2e18` (1.14) and `cbb98738c2d9b03d451d61eb3cec8ea37d2e91d9` (1.15/1.15.1); no stale branch tree or unrelated file was merged.
+- `preparations/1.14-exact-2026-10-09.md`: blob `77b0005c9bfb0580d517bf5bbc8de0830715e973`, raw SHA-256 `f8923e3573d6df066aa8c0872f925bd845591fc68a970abdd73e8feb873ca657`.
+- `preparations/1.15-mojmap-2026-10-09.md`: blob `d014d328bfb8c8b9bca9ceb944cfac537e863575`, raw SHA-256 `9251bc1d826b5bba5416e50261bdda4ff3cff85b2d3424b1540d1dd5880cd8ea`; `preparations/1.15.1-mojmap-2026-10-09.md`: blob `af25baef749ac3ba02d74a8564c31855b6ba55aa`, raw SHA-256 `88d3a697e3920dfd2f42c6a9c5978258dcb857d8533640b49c5f115c13932ac7`.
+- These records establish artifact readiness only; they add no movement interpretation or runtime result.
