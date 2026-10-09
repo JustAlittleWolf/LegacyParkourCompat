@@ -6,6 +6,7 @@
 - Use a fresh worker for an unrelated assignment. Continue the same assignment with its existing worker. Preserve ongoing work when policy changes; do not restart it.
 - Use isolated worktrees for concurrent workers. One designated owner exclusively handles integration, the Git index and builds. Promptly integrate coherent accepted batches into local `main`. Do not push.
 - Worker assignments omit worker-count and subagent instructions. Workers decide whether to use subagents; coordinators do not proactively ask them to spawn.
+- Wait concurrently across the full active roster using `wait_threads` batches of at most eight targets, each with cursors. The first completion or needs-attention event ends the blocking wait; immediately sweep the roster with nonblocking snapshots to catch other completions, consume results, route ready reviews/integration and refill eligible assignments before blocking again. Do not wait on one selected chat while other ready work is idle, and keep status rendering outside this scheduling cycle.
 - Preserve existing source blindness, exact immutable finding bindings, independent review, and the test, game, TAS, Gym, server and Docker launch authorization rules.
 
 ## Superseded policy
