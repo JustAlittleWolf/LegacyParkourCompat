@@ -325,3 +325,8 @@ At that time, the preparation, sprint-collision and Elytra slots were releasable
 
 - Current local `main` starts this batch at `5de793de79622a48b2a28d835ae0bcc0cddd5551`. Candidate `60010459540809c16f0ec67a849ef57b159943d0` has independent implementation ACCEPT on tree `32a4c3d484ba05a76b85f648d48678cf075db7f4` and an independently accepted source boundary. The final task branch `a08edf253736867411cc60cc13dfa34f208fa4b1` contains main through `b742f9cb` and its F007 implementation files match the review bindings.
 - The branch's current-main merge was inspected: F007 adds one client mixin adjustment, one V1_18 threshold behavior/hook, and its catalog registration. F008 uses the separate Player mixin/query hook and earlier-version catalog entries; F005/F012 use separate V1_18 behavior keys. No F007 correction is indicated. Build is pending; exact bindings are in `workflows/fix-implementation/runs/F007-position-packet-integration-2026-10-09.md`.
+
+## F-007 merged pending build — 2026-10-09
+
+- Merged task branch `a08edf253736867411cc60cc13dfa34f208fa4b1` into local `main` at `2dc317a6c5b657c7f21fc6a2cc2c131df4aa2f0e`, tree `015c9574b2469981a958b5e44e5543033cd8d3c9`. The production diff from the task branch is empty; reviewed F-007 blobs remain exact. The V1_18 catalog retains distinct F007, F005 and F012 behavior registrations, with F008/F3 registrations intact.
+- Test-disabled build is pending; the exact command and next action are recorded in `workflows/fix-implementation/runs/F007-position-packet-integration-2026-10-09.md`.
