@@ -1069,6 +1069,17 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 - Next disjoint source slice: `D22 / S1-KEY-RELEASE-CALLERS`, search the exact pair for direct `KeyMapping.resetToggleKeys()`, `releaseAll()`, and `setAll()` callers to finish this lifecycle subroute. Keep independent F-09-r2 adjudication separate and pending.
 - Checkpoint limits: exact published source roots and source report only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
 
+## Fresh source-only checkpoint — D22 key release and toggle-reset callers
+
+### D22 — S1-KEY-RELEASE-CALLERS (bounded lifecycle subroute closed)
+
+- Exact-root callsite search found one direct `KeyMapping.resetToggleKeys()` caller in each version: `LocalPlayer#respawn()`. It sends the respawn client command, then resets the local toggle mappings. Exact `LocalPlayer.java` hashes are A `145686ebdc7f0d12a64070309073665eb8695b7e09911a723e86113a77d04611` and B `f1fcfed4a938732361e7ad951f93e9b73b02320ee56f0b219e2b3c7acdbfa2ef`.
+- `KeyMapping#resetToggleKeys()` iterates `ALL` and calls `reset()` only for `ToggleKeyMapping` entries. `ToggleKeyMapping#reset()` calls `super.setDown(false)`, explicitly clearing toggled state. Both method bodies are byte-identical across the pair; hashes are `KeyMapping.java` `d5475012d2849e7547e23d1584d5b099661a2cb1e60daebe6ec19cb28b779111` and `ToggleKeyMapping.java` `7830be5bce2146e9f8d69e79ca6f0f94617711b2f0f142ca826dd22ae23b4100`.
+- The movement bindings affected are `Options.keyShift` and `keySprint`, both `ToggleKeyMapping` instances using the `toggleCrouch` and `toggleSprint` option suppliers (A `Options.java:464-486`; B `462-484`). Direct `LocalPlayer#respawn()` callsites include `Minecraft` and `ClientPacketListener`; the exact search also finds the user-driven `DeathScreen` caller. The reset operation is the same in both releases.
+- The only direct `KeyMapping.setAll()` caller in each exact source is the `MouseHandler` route already bounded in D10. The only direct `KeyMapping.releaseAll()` caller is `Minecraft` screen transition already bounded in D11. D22 found no additional callers or behavioral delta. It closes only this respawn reset subroute; overall D8 input/key producer closure remains open, D1-D6 remain open, D15's registered-fixer string condition is closed, and D9/F-09-r2 remains pending independent review.
+- Next source slice: resume the remaining source-only coverage inventory after D22; pair remains partial. Keep F-09-r2 review separate from source-owner evidence.
+- Checkpoint limits: exact published source roots and source report only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
+
 
 
 
