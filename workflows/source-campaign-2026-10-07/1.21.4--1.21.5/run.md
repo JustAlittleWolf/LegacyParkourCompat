@@ -1121,6 +1121,17 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 - Next slice: continue S1-LOCAL-TICK input-to-travel call order and direct movement consumers after the input snapshot, including inherited `LivingEntity.aiStep()` dispatch. Do not use this bounded result to close any full inventory.
 - Checkpoint limits: exact published 1.21.4/1.21.5 Mojmap roots and source report only; no implementation/wiki/mixed coordinator evidence, build, test, game/runtime, push, or main merge.
 
+## Fresh source-only checkpoint — D29 flowing-fluid height and current generation
+
+### D29 — S5-FLUIDS / S3-WATER current source algorithm (bounded flow-generation path closed)
+
+- `FluidState#getFlow()` and `getHeight()` delegate to the same fluid-type methods in both releases. `FlowingFluid#getFlow()` is identical in operation order: iterate horizontal directions; accept empty or same-type neighbors; derive height differences from neighbor own-height or an unblocked lower neighbor; accumulate direction-weighted horizontal terms; when the current state is falling, test neighboring and upper faces and add the downward `-6.0` term after normalization; normalize the final vector. `isSolidFace()` likewise matches: same-type fluid is open, UP is solid, otherwise IceBlock is open and other faces use `BlockState#isFaceSturdy`. `getHeight()` returns `1.0F` when the same fluid exists above, else `getOwnHeight()`; `getOwnHeight()` is amount divided by `9.0F`.
+- Water and lava source/flowing subclasses return their stored `LEVEL` amount or source amount `8` in both pairs. The player current writer in D28 consumes this flow vector and preserves the player-specific non-normalized accumulation in both releases. These methods therefore produce the same vector for equal fluid states and neighboring block/fluid state.
+- Exact hashes verified against ready manifests: A `FlowingFluid.java` `9090b092915b1688db3734f8ee21374ea231be4a4689a722fcfa460baab1f7fe`, `FluidState.java` `ef853b2a33487276064640e3728d9db82563574dc8429013f495017b170b7408`, `WaterFluid.java` `96acd37fbabb3a438fd022a4e7d16cb70f6e91f9068bf73a41a4d2e4f2618fbc`, `LavaFluid.java` `34bef6c8b50cbd7a7f6717d7162243b4cd9dccab36c171accba67b8cce9f03cc`; B `FlowingFluid.java` `fd3f64f3739a9aded48358bd76362abf6a1248b42a636035cc5ca988b3f8238d`, `FluidState.java` `1bfc76676cc7cf136220c05f3506ae4d931cfa33ce0833d307b28048a5d28c61`, `WaterFluid.java` `9a829ec0d8083d6a3e73a98d40d6c674fd3431aafdb7d05a78cca1daff6e1674`, `LavaFluid.java` `04134f233b68e7a8856fbf410414eca8ee75f6acb565276d4c4859dc28a6308c`.
+- Disposition: no fluid-flow formula delta found for equal fluid/block states. Exact block-face sturdiness, fluid tags/registrations, level/neighbor state producers and resource-backed defaults remain dependencies; D29 does not close S5-FLUIDS or S5-NEIGHBORS. D1-D6 and pair status remain partial; F-19 remains accepted; both F-09 snapshots remain REQUEST CHANGES.
+- Next slice: inspect paired fluid registrations/tags and exact water/lava state producers reachable by player fluid-height and contact queries; keep block-face/neighbor dependencies routed to their collision and block-property slices.
+- Checkpoint limits: exact published 1.21.4/1.21.5 Mojmap roots and source report only; no implementation/wiki/mixed coordinator evidence, build, test, game/runtime, push, or main merge.
+
 ## Fresh source-only checkpoint — D28 fluid contact and current impulse
 
 ### D28 — S3-WATER / S3-LAVA fluid-height writers and player current response (bounded state path closed)
