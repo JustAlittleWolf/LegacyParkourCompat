@@ -1,0 +1,41 @@
+# F-007 position-packet threshold implementation reconciliation
+
+**Status:** Minimal code candidate committed; independent technical review pending. Source pair remains partial; runtime parity is unverified.
+
+## Accepted source inputs
+
+- Finding snapshot: commit `ac5cdaa7e2a77294a945e6d661a97fdb71b77242`, path `workflows/source-campaign-2026-10-07/1.17.1--1.18.2/findings/F-007-position-packet-threshold.md`, blob `2d3b24b4b99c828dfbe8b287e1fc67a863f6e1d0`, raw SHA-256 `e311648628d45ab6680d0715ae85817399933157d243bfc6ed37b30b1f5aba09`.
+- Finding acceptance: commit `2fd121e116d7185165c76aea1c3708273afc7ea1`, path `workflows/source-boundary-reviews/2026-10-08-mc1171-1182-snapshot-review.md`, blob `871ad5bccde2194ccc733ed8fef92472a1c96c2a`, raw SHA-256 `ee96f6564b366b9622bfed23bb31331018613d64589ee1215d842a2165307d3e`. Scope is the client position-packet threshold and bounded clear-path server consumer only.
+- Boundary memo: commit `918217999a8fc6922ffc5a7b1e82ea6291d7f542`, path `workflows/source-boundary-reviews/F007-position-packet-threshold-boundary-2026-10-09.md`, blob `20b94e42eec772864d88b29236c94ae2ee624000`, raw SHA-256 `2c998711e3ad1525100f5271ef03baa08181646acd1f6597086c971648ca486d`.
+- Independent boundary acceptance: commit `9e14f0369886563f2ec611ed15d4f87969f2d215`, path `workflows/source-boundary-reviews/2026-10-09-F007-position-packet-threshold-boundary-review.md`, blob `94b1c616498d3c2e9f05b74a0cc3a5bbbd894a1b`, raw SHA-256 `4d2eddf2002ac01b968b49c2587f56c883bdaad2ca3c27609bb0faac4885a0f9`. It accepts 1.18.2 as the first changed release among the inspected sources; it does not complete the pair or re-review the separate server trace.
+- Portable identity binding: original commit `1e5add13b0aff167f85ccaf340f463a61d15029f`; file `workflows/source-boundary-reviews/F007-position-packet-threshold-review-binding-2026-10-09.md`; blob `1c67b53000576b8ae258c43447bcea0a78b0f04f`; raw SHA-256 `388cc689c53537c3cad6757d2887b90b1f2cc489318f469d01585f1652e33986`. The same file is included in this branch at cherry-pick `87d772e55f0f4bd6242fe6a5facb0315c0d31bf6`.
+
+The accepted old predicate in 1.17.1, 1.18, and 1.18.1 is the strict double comparison `dx * dx + dy * dy + dz * dz > 9.0E-4`. In 1.18.2 the predicate is `Mth.lengthSquared(dx, dy, dz) > Mth.square(2.0E-4)`, a strict comparison against `4.0E-8`. The paired `Mth` helpers retain the same left-to-right double sum-of-squares operation. The controlled-camera and passenger/rotation handling and `positionReminder >= 20` fallback remain around the predicate. The source report's bounded clear-path server update remains native; no server hook is added.
+
+## Current target and exact source identity
+
+The build target is Minecraft 26.2 (`gradle.properties`), with the canonical read-only source root `D:/Javastuff/LegacyParkourCompat/build/movement-campaign-2026-10-07/ready/26.2/unobfuscated`. Ready marker raw SHA-256 is `f9406adb6bf7cb4c1ab0792a798ab2cb90e082ad4c2eee032c9f674d0ea8070f`, source-manifest SHA-256 is `a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894`, and artifact-manifest SHA-256 is `ba9dc53a41bca9744ec1c8ab2ce9363764a22333c39ef64d5105f4e3bf5c98ba`.
+
+The target source-manifest entries and direct bytes were checked: `LocalPlayer.java` SHA-256 `8d089aa09217e3607b38590f7c1623385562800943ac6dfd3d17804e041da6d6`; `Mth.java` SHA-256 `30455c684f2401c79290847822bca82e77162c4a2bcf8618e85cac9898a2dc17`. The target operation is `LocalPlayer.sendPosition()V`, with the current threshold call `Mth.square(double)` at source line 272. `Mth.square(double)` returns `x * x`; `Mth.lengthSquared(double,double,double)` returns `x * x + y * y + z * z`. No decompilation or alternate source path was used.
+
+## Existing coverage and implementation
+
+The branch had no position-packet threshold hook, catalog entry, or corresponding change class. The current native operation is in the already client-only `LocalPlayerMixin`; its `sendPosition()` path executes under `isControlledCamera()`, increments the reminder, computes the strict movement condition, then selects Pos/PosRot/Rot/StatusOnly packets and resets position baselines only when the movement condition is true.
+
+Code base before implementation: `b5e8e3aa6bf41d133f6b7bac35502685ad0799b5`, after merging `main` at `fcd113c3fafcfde91d5cb5c8308b77292c601f9d`. Code candidate: commit `60010459540809c16f0ec67a849ef57b159943d0`. The implementation adds one `PositionPacketThresholdBehavior` hook, one `change.v1_18.PositionPacketThreshold`, one `V1_18` catalog registration, and a `@ModifyExpressionValue` on the return value of `Mth.square(double)` inside `sendPosition()V`.
+
+For a resolved old profile, the behavior substitutes exactly `9.0E-4` for the current squared threshold. It leaves `Mth.lengthSquared` and the later strict `>` comparison intact. It does not change the reminder, camera, passenger, rotation, packet selection, or baseline-reset gates. The operation is registered at `ParkourVersion.V1_18`, the last old-behavior group verified by the accepted boundary. `ChangeResolver` chooses the closest later registration; selected profiles through `V1_18` resolve this hook, while `V1_18_2` and later do not. `CURRENT` resolves no historical changes, so modern behavior falls through to the native threshold. No exact-profile check or resolver change was added.
+
+### Candidate code identities
+
+- `src/client/java/me/wolfii/legacyparkourcompat/mixin/LocalPlayerMixin.java`: blob `8ebadff02699f0778d42a945f7237cc752f58223`, raw SHA-256 `3a84dd051effe3d5868bc0d1682f6cb6c39e1dd935eeb7e5e908bb09cf0dbe9b`.
+- `src/main/java/me/wolfii/legacyparkourcompat/change/MovementChangeCatalog.java`: blob `569075bac28ef0ea88733258f696e635c7788fc8`, raw SHA-256 `8b5caf8bc671fbc6f2db86a462f812da4e074b59eaabfc887099ad7b43494985`.
+- `src/main/java/me/wolfii/legacyparkourcompat/change/v1_18/PositionPacketThreshold.java`: blob `c9dfff72dbb642180406765f25f67db4fe690a08`, raw SHA-256 `29fb5a08bf9e612e27e5b98801c9b185815b1a78244485cc8b600a3fda9cb4a0`.
+- `src/main/java/me/wolfii/legacyparkourcompat/mechanic/hook/PositionPacketThresholdBehavior.java`: blob `1b93af4e95181799aa4df1f05e6d4fcf78f1c792`, raw SHA-256 `e5ff3348d0b15f3b82d687fbe4bdd73d21ddc3930b1fa7f3b0936083c9193aed`.
+
+## Limits and checks
+
+- The inspected source set verifies the old value through 1.18.1 and the new value at 1.18.2. It does not sample the threshold at releases earlier than 1.17.1 or establish client trajectory/runtime parity. The ordinary closest-later resolver makes this `V1_18` delta applicable to older selected profiles until a nearer registration exists; earlier release-specific behavior remains an unsampled boundary.
+- Source discovery pair status remains partial. Implementation status is candidate committed; independent technical code review is pending.
+- `git diff --cached --check` passed for the code checkpoint. No tests, Gradle build, runtime, client, TAS, Gym, server, Docker, or decompile operation was performed.
+- No implementation-derived result was sent to source-only owners. Runtime validation of actual packet timing and the accepted clear-path server response remains separately unperformed.
