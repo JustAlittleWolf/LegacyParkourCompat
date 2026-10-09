@@ -941,6 +941,25 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 - Next named source slice: `D16 / S1-OPTIONS-SAVE-TRIGGER-AND-DATAFIX-BOUNDARY`, bounded to (1) complete screen close/save caller behavior from the controls screen into `Options.save()`, and (2) only if an exact source-side versioned transformation can be identified, the minimal data-fix route that may change a `key_*` tag's type. Resolve exact source file identities/hashes before comparison; do not infer a concrete datafix output from the wrapper alone.
 - Checkpoint limits: source report only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
 
+## Fresh source-only checkpoint — D16 controls screen save trigger
+
+- Base: D15 persisted-load checkpoint `56a438ee`. Two complete paired methods were compared: `OptionsSubScreen#onClose()` and `OptionsSubScreen#removed()`, totaling 10 method lines per side. `OptionsSubScreen.java` is byte-identical across A/B and its live SHA-256 matches both exact source manifests.
+
+### D16 — S1-CONTROLS-SCREEN-OPTIONS-SAVE (bounded save trigger closed)
+
+- Screen close edge: A/B `KeyBindsScreen` extends `OptionsSubScreen` (A/B `KeyBindsScreen.java:16`); its Done button in the already-compared `addFooter()` calls `this.onClose()` (A/B lines 46-49). The inherited `OptionsSubScreen#onClose()` (A/B lines 71-77) applies list unsaved changes when a list exists, then calls `minecraft.setScreen(lastScreen)`.
+- Save edge: when `Minecraft#setScreen` changes away from the current non-null screen, it first calls the current screen's `removed()` (A `Minecraft.java:1035-1039`; B `1057-1061`). `KeyBindsScreen` has no `removed()` override in its exact class; inherited `OptionsSubScreen#removed()` (A/B `OptionsSubScreen.java:65-68`) calls `minecraft.options.save()`. That is the paired link from controls-screen mouse/key/reset changes to the D13 key-binding serialization writer. The D11 screen-transition release order also runs as part of the same `setScreen` transition.
+- Disposition: the controls screen's Done route persists its current mapping fields through `Options.save()` on removal; the route and call order are identical. This closes D16 only for the controls-screen close → removal → options-save path. It does not close data-fix transformations during later load or other callers that may save options.
+- Exact source hashes:
+
+| Paired source file | A SHA-256 | B SHA-256 |
+|---|---|---|
+| `net/minecraft/client/gui/screens/options/OptionsSubScreen.java` | `af30ec4e20ebd4d09e4f7b68f8c95366e718f1fb76040c3f2680df7479ca805f` | `af30ec4e20ebd4d09e4f7b68f8c95366e718f1fb76040c3f2680df7479ca805f` |
+
+- Dependency state: D7 is accepted only for its bounded controlled-camera path; D9 remains separately open for immutable F-09 adjudication. D10-D14 record bounded producers; D15 records load/reset with the post-data-fix value-type condition open; D16 closes the controls-screen save trigger only. Overall D8 option/keymap producer closure, D1-D6 coverage, and pair freeze remain open.
+- Next named source slice: `D17 / S1-OPTIONS-DATAFIX-KEY-VALUE-CLOSURE`. Trace the exact `DataFixTypes.OPTIONS` registration and only the option-data transformations reachable from `Options#dataFix`, checking whether any exact paired rule can change `key_*` string tags to another type before the B strict `StringTag` accessor. If no such path exists in the exact published sources, record that evidence and close only the typed-load condition; otherwise leave it open with the exact reachable rule.
+- Checkpoint limits: source report only; no implementation/wiki/mixed coordinator evidence, main merge, decompilation, build, test, runtime, push, or delegation was used.
+
 
 
 
