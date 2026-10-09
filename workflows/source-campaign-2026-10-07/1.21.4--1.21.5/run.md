@@ -1275,3 +1275,14 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 - Disposition: no delta found in the paired pose notification, dimensions refresh writer, or player fudge-position exclusion. S2 pose/dimension value sources and complete eye-height consumer inventory remain in progress; D1-D6 and pair remain partial.
 - Next: trace exact LocalPlayer pose selection and dimensions/eye-height defaults relevant to fluid predicates, while keeping external/player synchronization and all pose writers in the dependency queue.
 - Checkpoint limits: exact published 1.21.4/1.21.5 Mojmap roots and source report only; no implementation/wiki/mixed coordinator evidence, build, test, game/runtime, push, or main merge.
+
+## Fresh source-only checkpoint — D37 player pose selection and eye-height dependency
+
+### D37 — S2-POSE / S2-EYE-HEIGHT `Player#updatePlayerPose` selection (bounded caller dependency traced)
+
+- Both releases run `updatePlayerPose()` behind the same `canPlayerFitWithinBlocksAndEntitiesWhen(Pose.SWIMMING)` gate, then choose the desired pose, fall back to CROUCHING when that pose does not fit, otherwise fall back to SWIMMING, and call `setPose`. The direct selected-order delta is the existing F-14 finding: A tests `isFallFlying()` before `isSleeping()`; B's `getDesiredPose()` gives SLEEPING and SWIMMING priority before FALL_FLYING. This is not opened as another finding.
+- The resulting pose flows through the shared `DATA_POSE` notification to D36's `refreshDimensions()` writer, which writes stored eye height. That eye height feeds D35's fluid-jump threshold and eye-fluid position. F-14 already records the concrete pose-state precondition and resulting dimension consequence; full dimension defaults, local/server pose update timing and fluid-contact consumers remain separate dependencies.
+- Exact `Player.java` SHA-256 verified against published manifests: A `c45f41b9784ce50a88a498e84a13edcef0a23e175233d726ed7f90940f19ebc1`; B `8fc187f33999db9dfc49251e95e92a17645a50adab16ca0f93f4948209f62036`.
+- Disposition: route and eye-height dependency traced; the only order delta is assigned to F-14. This does not close S2-POSE/S2-EYE-HEIGHT or establish pair-wide pose parity. D1-D6 and pair remain partial.
+- Next: inspect player dimensions defaults and exact eye-fluid sampling consumers/call order; keep F-14 as the sole finding for the shared priority delta.
+- Checkpoint limits: exact published 1.21.4/1.21.5 Mojmap roots and source report only; no implementation/wiki/mixed coordinator evidence, build, test, game/runtime, push, or main merge.
