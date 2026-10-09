@@ -30,6 +30,8 @@ The marker-only inventory contains **34 readiness markers across 33 exact releas
 
 The five profiles 1.19.2, 1.19.3, 1.19.4, 1.20.1, and 1.20.2 have since passed full marker, manifest, source-file, artifact, and readability verification. See [the detailed readiness record](1.19.2-to-1.20.2-readiness-2026-10-09.md).
 
+Exact unobfuscated profiles 26.1 and 26.1.1 have since been prepared and fully rehashed. See [the exact 26.1 and 26.1.1 preparation record](26.1-to-26.1.1-unobfuscated-2026-10-09.md).
+
 ## Handoff
 
 - Shared source owner: read-only publication check complete; no repair or regeneration required.
