@@ -47,6 +47,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.MovementChunkLookupBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PassengerCrouchBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PistonMovementBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerDimensionsBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerFallDistanceResetBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerPoseBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerRestSafetyBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerRestSafetyQueryBehavior;
@@ -253,6 +254,7 @@ public final class MovementChangeCatalog {
 
     private static void registerV1_18(MovementChangeRegistry registry) {
         registry.register(ElytraLiftForceBehavior.class, ParkourVersion.V1_18, new me.wolfii.legacyparkourcompat.change.v1_18.ElytraLiftForce());
+        registry.register(PlayerFallDistanceResetBehavior.class, ParkourVersion.V1_18, new me.wolfii.legacyparkourcompat.change.v1_18.FallDistanceReset());
     }
 
     private static void registerV1_18_2(MovementChangeRegistry registry) {
