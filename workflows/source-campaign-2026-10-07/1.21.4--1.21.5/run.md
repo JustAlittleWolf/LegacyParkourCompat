@@ -1121,6 +1121,16 @@ The tick chain resolves in the same order on both sides: `LocalPlayer.tick()` ca
 - Next slice: continue S1-LOCAL-TICK input-to-travel call order and direct movement consumers after the input snapshot, including inherited `LivingEntity.aiStep()` dispatch. Do not use this bounded result to close any full inventory.
 - Checkpoint limits: exact published 1.21.4/1.21.5 Mojmap roots and source report only; no implementation/wiki/mixed coordinator evidence, build, test, game/runtime, push, or main merge.
 
+## Fresh source-only checkpoint — D30 water/lava fluid identity registration
+
+### D30 — S5-FLUIDS built-in identity and tag-key wiring (bounded registrations closed)
+
+- Both `Fluids` sources register `empty`, `flowing_water`, `water`, `flowing_lava`, `lava` in the same order and bind the same `WaterFluid.Flowing`/`WaterFluid.Source` and `LavaFluid.Flowing`/`LavaFluid.Source` classes. Both `FluidTags` sources define `WATER` and `LAVA` using the same tag names. Paired `WaterFluid` and `LavaFluid` source/flowing accessors, `isSame` identity tests, movement-relevant `getAmount` bodies and inherited FlowingFluid flow dispatch are unchanged.
+- Exact hashes verified against ready source manifests: `Fluids.java` A/B `913cb5d937af92a7f90f7dc233a3d02c05f75e70a2a740300b2f26eedcbed931`; `FluidTags.java` A/B `1960057695560fbedaba1c722fdb6ddc0c97a8f233726a15de0191fde242d08f`; `WaterFluid.java` A `96acd37fbabb3a438fd022a4e7d16cb70f6e91f9068bf73a41a4d2e4f2618fbc`, B `9a829ec0d8083d6a3e73a98d40d6c674fd3431aafdb7d05a78cca1daff6e1674`; `LavaFluid.java` A `34bef6c8b50cbd7a7f6717d7162243b4cd9dccab36c171accba67b8cce9f03cc`, B `04134f233b68e7a8856fbf410414eca8ee75f6acb565276d4c4859dc28a6308c`.
+- Disposition: no source-level identity/registration delta for water/lava. This verifies tag-key declarations and built-in Fluid registrations only; actual data tag membership, block/fluid neighbor states, fluid update/spread producers and resource-backed defaults remain open. S5-FLUIDS and S5-NEIGHBORS remain in progress; D1-D6 and pair status remain partial.
+- Next slice: continue source-only fluid-state writer and player contact timing coverage; avoid treating matching registry identities as evidence that all reachable fluid/block data is matched.
+- Checkpoint limits: exact published 1.21.4/1.21.5 Mojmap roots and source report only; no implementation/wiki/mixed coordinator evidence, build, test, game/runtime, push, or main merge.
+
 ## Fresh source-only checkpoint — D29 flowing-fluid height and current generation
 
 ### D29 — S5-FLUIDS / S3-WATER current source algorithm (bounded flow-generation path closed)
