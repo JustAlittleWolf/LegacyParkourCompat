@@ -12,7 +12,7 @@
 ## Paired evidence
 
 - A: `ready/1.21.4/mojmap.sources.sha256`; `net/minecraft/world/entity/LivingEntity.java`; `LivingEntity#travel(Vec3)` lines 2189-2199 dispatches to `travelFallFlying()` whenever fall flying is active after the fluid branch. `travelFallFlying()` lines 2279-2288 always applies `updateFallFlyingMovement`, then moves. Source SHA-256: `e62ce650af0a5ac97e4d0a2ba7cad4ba68a8d098525609f8b5b6976a8ab0ae30`.
-- B: `ready/1.21.5/mojmap.sources.sha256`; same class; `LivingEntity#travel(Vec3)` lines 2213-2222 preserves the fluid-first then fall-flight dispatch. `travelFallFlying(Vec3)` lines 2301-2315 checks `onClimbable()`, and on true calls `travelInAir(input)` followed by `stopFallFlying()`; otherwise it runs the glide update and move. `stopFallFlying()` lines 2317-2320 toggles shared flag 7 on then off. Source SHA-256: `a8aed863d4fdc515c751dd2878a8bbc13179228cb8dbb50edf1d19cd5404271`.
+- B: `ready/1.21.5/mojmap.sources.sha256`; same class; `LivingEntity#travel(Vec3)` lines 2213-2222 preserves the fluid-first then fall-flight dispatch. `travelFallFlying(Vec3)` lines 2301-2315 checks `onClimbable()`, and on true calls `travelInAir(input)` followed by `stopFallFlying()`; otherwise it runs the glide update and move. `stopFallFlying()` lines 2317-2320 toggles shared flag 7 on then off. Source SHA-256: `a8aed863d4fdc515c751dd2878a8bb9c13179228cb8dbb50edf1d19cd5404271`.
 - A and B `LivingEntity#onClimbable()` have the same predicate: non-spectator and the in-block state is in `BlockTags.CLIMBABLE`, or is a usable trapdoor ladder (A lines 1575-1589; B lines 1600-1615). The method and travel source are in the cited LivingEntity.java hashes.
 
 ## Source-level difference
