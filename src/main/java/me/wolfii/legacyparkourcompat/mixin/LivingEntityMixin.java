@@ -294,7 +294,7 @@ abstract class LivingEntityMixin {
 
         double retainedDepth = ((WaterJumpDepthAccess)(Object)player).legacyparkourcompat$getRetainedWaterDepth();
         MovementRuntime.find(StaleWaterDepthJumpBehavior.class, player)
-            .filter(behavior -> behavior.shouldJumpFromRetainedWaterDepth(player, retainedDepth))
+            .filter(behavior -> behavior.shouldJumpFromRetainedWaterDepth(player, retainedDepth, this.jumping))
             .ifPresent(behavior -> {
                 this.legacyparkourcompat$noJumpDelayBeforeStaleWaterJump = this.noJumpDelay;
                 this.legacyparkourcompat$invokeJumpInLiquid(FluidTags.WATER);

@@ -8,5 +8,5 @@ import net.minecraft.world.entity.player.Player;
 @FunctionalInterface
 @MechanicType("player.jump.water.stale-depth")
 public interface StaleWaterDepthJumpBehavior extends VersionedMechanic {
-    boolean shouldJumpFromRetainedWaterDepth(Player player, double retainedDepth);
+    boolean shouldJumpFromRetainedWaterDepth(Player player, double retainedDepth, boolean jumpInput);
 }

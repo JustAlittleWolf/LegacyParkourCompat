@@ -9,7 +9,7 @@ import net.minecraft.world.entity.player.Player;
 @MovementChange(emulates = ParkourVersion.V1_13)
 public final class StaleWaterDepthJump implements StaleWaterDepthJumpBehavior {
     @Override
-    public boolean shouldJumpFromRetainedWaterDepth(Player player, double retainedDepth) {
-        return WaterDepthJumpGate.shouldJump(player, retainedDepth);
+    public boolean shouldJumpFromRetainedWaterDepth(Player player, double retainedDepth, boolean jumpInput) {
+        return WaterDepthJumpGate.shouldJump(player, retainedDepth, jumpInput);
     }
 }

@@ -31,7 +31,7 @@ public final class WaterJump implements WaterJumpBehavior, GroundJumpGateBehavio
     }
 
     @Override
-    public boolean shouldJumpFromRetainedWaterDepth(Player player, double retainedDepth) {
+    public boolean shouldJumpFromRetainedWaterDepth(Player player, double retainedDepth, boolean jumpInput) {
         return false;
     }
 }
