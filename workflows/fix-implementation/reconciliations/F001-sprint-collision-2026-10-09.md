@@ -1,41 +1,40 @@
-# F-001 sprint collision reconciliation (2026-10-09)
+# F-001 sprint collision applicability reconciliation
 
-## Inputs and acceptance
+**Status:** Implemented for bounded F-001; exact first-release boundary accepted; no Java change required.
 
-- Finding: `workflows/source-campaign-2026-10-07/1.17.1--1.18.2/findings/F-001-minor-horizontal-collision-sprint.md`.
-- Immutable author snapshot: commit `e531086eecc778432b40b2b9ef39499b8a7f0dba`, path above, Git blob `9bc53d27195a6f89ddb19711ef40558d3c7bdcc8`, raw SHA-256 `77957564feaa103b7817055c71c0a9d9e31d7af4bacae5432b4b18d82c99e2fd`.
-- Independent blind acceptance: commit `2fd121e116d7185165c76aea1c3708273afc7ea1`, `workflows/source-boundary-reviews/2026-10-08-mc1171-1182-snapshot-review.md`, Git blob `871ad5bccde2194ccc733ed8fef92472a1c96c2a`; accepts the horizontal collision sprint gate only.
-- Finding-specific dependencies: accepted for the reachable stone-wall case. The input-to-sprint gate, B collision classifier/state writer, relevant solver path and common full-cube stone path are bounded by the finding. This does not close the pair's remaining discovery work.
-- Pair status at handoff: partial; pair freeze and runtime parity are not claimed.
-- Base code SHA: `e7f89348a619cc9feb2d47aab7a87fbefbe7649d`; build target Minecraft 26.2 (`gradle.properties`).
+## Accepted evidence
 
-## Canonical source publication checks
+The immutable endpoint reconciliation is commit `bba3c42691c2bb1527ce98dc5ff942e35bb31690`. Its note is `workflows/fix-implementation/reconciliations/F001-sprint-collision-2026-10-09.md` at that commit, blob `e1ed834519d5a50841fc1af361957da998716243`, raw SHA-256 `c0a6dff4225befb68c0f394aed9198e01c7fde50db00b6b8baa75d027f3ea367`. The independent endpoint technical review is immutable commit `d898d4c0ef42f0cdb065aacc36eb30d28dcc06a4`, file `workflows/implementation-reviews/2026-10-09-endpoint-reconciliation-review.md`, blob `95ea1be9272116a88af552fcaf64ff0570470b52`. It accepted the endpoint correspondence and left the first-release boundary open.
 
-Consumed the existing ready roots read-only under `D:/Javastuff/LegacyParkourCompat/build/movement-campaign-2026-10-07/ready/`.
+The boundary candidate is immutable author commit `14443f43fbcc30152916ac75796846d796cf0268`, file `workflows/source-boundary-reviews/1171-1182-F001-F002-boundary-evidence-2026-10-09.md`, blob `8892a7533358c6e7053527c24dacd0a2acce5ae9`, raw SHA-256 `66f5659dd17ff8441d10a02d95920ecd5d4e190c53c2c0893eac79efec36c6cb`. Independent review is immutable commit `163ea4881b327a9316a266601705463784566e2c`, file `workflows/source-boundary-reviews/2026-10-09-1171-1182-boundaries-independent-review.md`, blob `b505e009ad5726b7d7fd18c7bf35a38495003e28`. The review accepts 1.18 as the exact first changed release from the examined versions 1.17.1, 1.18, 1.18.1, and 1.18.2.
 
-| Side | Ready marker | Source manifest SHA-256 | Artifact manifest SHA-256 | Verified cited files |
+The candidate's 1.18 ready-marker SHA omitted a trailing `f`. The independent reviewer rehashed the live marker; its correct SHA-256 is `4537edf0e88c88631215beb1c14f1d67f5a5d6d021c982c0af549b7b27856e5f`. This metadata correction does not alter the source evidence or decision. Relevant source-ready identities and hashes are:
+
+| Release | Source manifest SHA-256 | Artifact manifest SHA-256 | `LocalPlayer` source SHA-256 | `Entity` source SHA-256 |
 |---|---|---|---|---|
-| A: 1.17.1 Mojmap | `ready`, version ID 1.17.1 | `93270d229acfb751bf56daf1e7be26ce3dcff26b29e94aa157de621405a3463b` | `e52c5dbae7d9663190ccc55a4f9b44a8e0615fb1fbbd8280811df43f70ec8aaa` | `LocalPlayer.java` `c9a91cb6cb57806bc8d22e5bfe2d97daaf21d5d2a48f34a6e2c53164c61c5812`; `Entity.java` `ab28e1fba924771ec048140dfd293ee5a46a7dfe81f71a1a0b1aecc1927232de` |
-| B: 1.18.2 Mojmap | `ready`, version ID 1.18.2 | `aea0cb9c6fc8f7a46f0eb82b0388ad58a4659f513be6c0a2be06c0df0c1eb07a` | `a1507e4875faee892aca4c59686bbd68933db21a2274559e81eea8a32b021036` | `LocalPlayer.java` `99c2d18bcd23243afb8f95c5bafb21fb0be7ea04aacbb14fcf7be7ced2c9c095`; `Entity.java` `2228fdaca5793171cbd94038306d571a6ada78ca96f5734efb4cada5b744c10a` |
+| 1.17.1 | `93270d229acfb751bf56daf1e7be26ce3dcff26b29e94aa157de621405a3463b` | `e52c5dbae7d9663190ccc55a4f9b44a8e0615fb1fbbd8280811df43f70ec8aaa` | `c9a91cb6cb57806bc8d22e5bfe2d97daaf21d5d2a48f34a6e2c53164c61c5812` | `ab28e1fba924771ec048140dfd293ee5a46a7dfe81f71a1a0b1aecc1927232de` |
+| 1.18 | `a43c61223ddedbdd8ede4d2daf6a750a58cbba324b30c025429ee1030cfc0d78` | `7ca2b4da88c215e52924d277b257c4631f9664f5def2fb2b7ef25479ec330234` | `e38d0bbb6e5b9de2a698609b8491d0007406b3becd42ba9b95289f533788c996` | `69417675ae8e0a5bd88b7372baea1e73b1f5217154f39446c8ad5c92731437f1` |
+| 1.18.1 | `52aa98450b5cfa55ac2bd2054f108e16df7fa939a3f061991b6a9adb434d8d2d` | `b8237a01cdebe7d784caae113886f42565677ce6897ea960a49223cfec4c00ec` | `e38d0bbb6e5b9de2a698609b8491d0007406b3becd42ba9b95289f533788c996` | `69417675ae8e0a5bd88b7372baea1e73b1f5217154f39446c8ad5c92731437f1` |
+| 1.18.2 | `aea0cb9c6fc8f7a46f0eb82b0388ad58a4659f513be6c0a2be06c0df0c1eb07a` | `a1507e4875faee892aca4c59686bbd68933db21a2274559e81eea8a32b021036` | `99c2d18bcd23243afb8f95c5bafb21fb0be7ea04aacbb14fcf7be7ced2c9c095` | `2228fdaca5793171cbd94038306d571a6ada78ca96f5734efb4cada5b744c10a` |
 
-For each side, the marker's manifest hashes matched the raw manifest files, and the targeted source hashes matched both direct file hashing and their manifest entries. The accepted endpoint evidence is reproduced: A's non-swimming sprint-stop expression stops on any `horizontalCollision`; B gates that term with `!minorHorizontalCollision`, and B's `Entity.move` sets the minor flag from its classifier after movement resolution.
+The 1.18 and 1.18.1 `LocalPlayer` and `Entity` source hashes match. The reviewed 1.18.2 sources retain the changed gate. These findings support the bounded first-release decision for F-001.
 
-The current published campaign roots contain 1.17.1 and 1.18.2, but no ready roots for 1.18 or 1.18.1. The immutable finding explicitly says the first changed release is unknown within `(1.17.1, 1.18.2]`. The endpoint pair therefore does not establish that `V1_18` is the first changed profile.
+## Implementation applicability
 
-## Existing implementation reconciliation
+The current implementation was inspected without modification:
 
-- Current hook: `SprintCollisionBehavior` (`player.sprint.collision`) at `src/main/java/me/wolfii/legacyparkourcompat/mechanic/hook/SprintCollisionBehavior.java`.
-- Current bridge: `src/client/java/me/wolfii/legacyparkourcompat/mixin/LocalPlayerMixin.java`, injection at return from `shouldStopRunSprinting()Z`. It supplies the player and vanilla result to `MovementRuntime`; an absent hook leaves the vanilla result unchanged.
-- Current change and registration: `src/main/java/me/wolfii/legacyparkourcompat/change/v1_17_1/SprintCollision.java`, registered under `SprintCollisionBehavior` at `ParkourVersion.V1_17_1` in `MovementChangeCatalog.registerV1_17_1`. The change returns `vanilla || player.horizontalCollision`, restoring the older stop condition while retaining other vanilla stop gates.
-- Resolution: `ChangeResolver` selects the closest registration at or after the selected profile; thus the V1_17_1 change is used for V1_17_1 and older profiles, while V1_18 and later have no sprint-collision override and retain the target's vanilla gate.
-- Disposition: **partially covered; boundary verification open**. The accepted operation already has an independent hook, bridge, historical behavior and catalog registration. No production change is needed for the bounded endpoint claim. However, this reconciliation cannot independently certify the current `V1_17_1`/`V1_18` split without canonical 1.18 and 1.18.1 source identities and bodies. Do not move or duplicate the registration based only on the two endpoints.
-- Next action: the source-preparation owner must publish/verify exact Mojmap ready artifacts for 1.18 and 1.18.1 (or a source-bound proof that the operation bodies are identical for those releases); then a separate implementation reviewer can confirm the existing boundary. No source-only owner was contacted and no shared source was changed.
+- `ParkourVersion` declares `V1_17_1("1.17.1")`, `V1_18("1.18", "1.18.1")`, and `V1_18_2("1.18.2")`.
+- `MovementChangeCatalog` has one `SprintCollisionBehavior` registration, in `registerV1_17_1`, backed by `change.v1_17_1.SprintCollision`.
+- `SprintCollision` returns `vanilla || player.horizontalCollision`, restoring the historical any-horizontal-collision condition while retaining the other native stop-sprinting predicates.
+- `LocalPlayerMixin` injects at the return of `shouldStopRunSprinting()Z`; it changes the return only when `MovementRuntime` finds an applicable behavior.
+- `ChangeResolver` excludes a change when its `emulates()` version is older than the selected historical profile, and resolves the closest remaining applicable change. `CURRENT` resolves no historical changes.
 
-## Checks and integration
+Therefore the sole V1_17_1 registration resolves for every declared historical profile from V1_8 through V1_17_1. For selected V1_18 profiles (1.18 and 1.18.1) and later profiles, that registration is older than the selected profile, and there is no later sprint-collision registration. The mixin leaves the target's native return unchanged when no behavior resolves. This is the intended boundary behavior: historical behavior through 1.17.1 and the target's native gate beginning with 1.18.
 
-- Static identity checks: accepted finding Git blob and raw SHA-256 matched; both endpoint ready markers, manifests and cited source-file hashes matched.
-- Code check: the existing interface, client dispatch, V1_17_1 implementation, static registration and resolver direction were inspected. No implementation files were edited.
-- Build/tests/runtime: not run. This is a documentation-only reconciliation; no build, tests, client, TAS, Gym, server or Docker action was authorized or needed.
-- Main integration: task branch `fix/reconcile-sprint-collision-2026-10-09` starts at `e7f89348a619cc9feb2d47aab7a87fbefbe7649d`, equal to the requested main target. `main` is already an ancestor; there are no incoming commits to reconcile.
-- Runtime validation questions: verify sprint state after the accepted minor-collision case once the separately authorized input-simulation lab is available; source review alone establishes no runtime parity.
-- Feedback isolation: no implementation-derived result was sent to source-only owners before full-pair freeze.
+The evidence establishes the exact first changed release among the reviewed versions and confirms that the existing registration boundary matches it. It does not claim an exhaustive source audit of every earlier release, full later-release historical parity, or runtime parity. The paired source campaign remains partial.
+
+## Scope and verification
+
+This is a no-code applicability reconciliation. The evidence was prepared against base code commit `e7` and target 26.2. The task branch was fast-forwarded to main at `cb11257e593987c68be98a7dbda8bbea7d5e77fd`; incoming changes outside this note were documentation-only, and the source tree had no diff. This final note records the accepted boundary and statically verified resolver mapping.
+
+Static checks only: source identities, reviewed findings, implementation registration and resolution rules. No build, tests, game/TAS/Gym/server launch, or runtime parity check was performed.

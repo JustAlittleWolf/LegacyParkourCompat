@@ -170,3 +170,10 @@ At that time, the preparation, sprint-collision and Elytra slots were releasable
 - Integrated source correction from `930e4ed490ef41a98b0527183e9b3b4ad9e0d339`, original R1 REQUEST CHANGES review `759a5c441cf7b052a88d020f6f26f8f30832e581`, and independent corrected D7 ACCEPT `d7b932a2f57285a52fbf3c96a89d4b7173fe22ea`.
 - Added only the corrected D7 evidence section and exact reviewer binding to `1.21.4--1.21.5/run.md`. Original `b8` bounded acceptance and R1 rejection remain historical; D9/F-09 bytes are unchanged and separately assigned. D8 stays closed only for its bounded producer path; D10 and D1–D6 remain open. Pair status remains partial.
 - The acceptance is limited to D7's controlled-camera input transfer, caller/phase gates, vector helpers, and direct relative-movement consumer. It is not a pair audit or freeze. No implementation/wiki material, build, tests, or runtime were used.
+
+## F-001 final no-code reconciliation — 2026-10-09
+
+- Integrated final author reconciliation from `936bc7213916335962f638d53263280fbf061e29` and independent technical ACCEPT from `0f30150627fe97d3d9a6ba60f9040574e05d6c85`.
+- Reconciliation `workflows/fix-implementation/reconciliations/F001-sprint-collision-2026-10-09.md`: blob `ad8f0c6c10555fd0c6db5b5e0320d2dbc7553318`, raw SHA-256 `0f54257decdafdf70b7cc0b73f0068ac271964bf53bc43aa7c3397a70b77cb4e`. Review `workflows/implementation-reviews/2026-10-09-F001-final-no-code-review.md`: blob `48e2b2ba360ce039cca71aa35e3b85e2bb2e40b6`, raw SHA-256 `c2aef7a7d3fc753250a727c2469e30147811bebb862929f607979ccb7268b2e5`.
+- ACCEPT is limited to the independently source-reviewed 1.17.1/1.18 sampled boundary and matching current routing. Routing through V1_8 is not proof of earlier-release source behavior. No runtime parity was established; no code change was indicated for the reviewed boundary.
+- No build, tests, or runtime validation was performed.
