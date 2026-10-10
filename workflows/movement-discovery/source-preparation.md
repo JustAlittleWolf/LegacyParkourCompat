@@ -1,6 +1,6 @@
 # Source preparation and artifact revisions
 
-Read this guide when preparing shared sources, resolving mapping alignment or verifying a revised artifact publication. Source comparison workers consume published artifacts read-only; they do not run preparation commands.
+Read this guide when preparing shared sources, resolving mapping alignment or verifying a revised artifact publication. Source comparison workers consume published artifacts read-only; they do not run preparation commands. Assignments name the exact readiness records and use the stable absolute browsing root `D:\Javastuff\LegacyParkourCompat\decompiled_minecraft`, which aliases the existing `build/movement-campaign-2026-10-07/ready/` publication. A missing worktree-local `decompiled_minecraft/` is not evidence that sources are missing. Consumers must not invoke `decompileMinecraft`, run cleanup against the shared tree, or create local fallbacks. If an assigned marker or source is unavailable or fails verification, stop the dependent slice and report its exact path/identity to the single preparation owner.
 
 ## Publish a comparable source pair
 
@@ -17,11 +17,13 @@ Before first accepting a revised artifact publication, independently hash the by
 Choose **one aligned naming namespace for both exact versions**. The CLI family identifiers are `mojmap`, `feather`, `legacy-yarn`, `yarn`, `unobfuscated`. `feather` writes the directory `ornithe-feather`; the others use their identifier. Mojmap remaps an obfuscated release to Mojang's official names. A release published unobfuscated already uses those official names, so `mojmap` on the older side and `unobfuscated` on the newer side form a valid official-name pair. Run the task separately with the explicit mode appropriate to each release; `unobfuscated` still rejects an obfuscated jar. Example candidate commands, conditional on availability:
 
 ```powershell
-.\gradlew.bat decompileMinecraft --versions=1.12.2,1.13.2 --mappings=feather
-.\gradlew.bat decompileMinecraft --versions=1.13.2,1.14.4 --mappings=feather
-.\gradlew.bat decompileMinecraft --versions=1.14.4,1.16.5 --mappings=mojmap
-.\gradlew.bat decompileMinecraft --versions=1.21.11 --mappings=mojmap
-.\gradlew.bat decompileMinecraft --versions=26.1.2 --mappings=unobfuscated
+$stagingRoot = 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\staging\<run-id>'
+$cacheRoot = 'D:\Javastuff\LegacyParkourCompat\build\movement-campaign-2026-10-07\staging\<run-id>-cache'
+.\gradlew.bat decompileMinecraft --versions=1.12.2,1.13.2 --mappings=feather --output-root=$stagingRoot --cache-directory=$cacheRoot
+.\gradlew.bat decompileMinecraft --versions=1.13.2,1.14.4 --mappings=feather --output-root=$stagingRoot --cache-directory=$cacheRoot
+.\gradlew.bat decompileMinecraft --versions=1.14.4,1.16.5 --mappings=mojmap --output-root=$stagingRoot --cache-directory=$cacheRoot
+.\gradlew.bat decompileMinecraft --versions=1.21.11 --mappings=mojmap --output-root=$stagingRoot --cache-directory=$cacheRoot
+.\gradlew.bat decompileMinecraft --versions=26.1.2 --mappings=unobfuscated --output-root=$stagingRoot --cache-directory=$cacheRoot
 ```
 
 Do not use `auto` or a comma-separated family list for the comparison. Auto chooses families per release and has dual-output special cases. Explicit unavailable families fail; do not interpret partial output from a failed command as a valid pair. Check both successful completion messages and both output directories. Verify requested and resolved release IDs match exactly: the current resolver can treat an unknown ID as a prefix and choose a matching release. Reject that substitution. `unobfuscated` is not a way to bypass mappings on obfuscated releases. For an official-name pair, verify the newer jar is actually unobfuscated and record that it has no mapping file or remapped jar; its original client jar is the decompiler input.
@@ -39,7 +41,7 @@ Record in the run manifest:
 - JDK, Vineflower, remapper and mapping-io versions/options from this repository; record relevant dependency versions rather than assuming they remain fixed.
 - Hashes of every source/resource cited in the completed run. A short local log/hash inventory may remain ignored, but the manifest must retain the actual identities/hashes needed to check evidence.
 
-Decompiler constraints: caches live under `build/minecraft-decompile-cache/`; official mappings use `client_mappings.txt`; community mappings resolve a build from catalog metadata. The CLI has no mapping-build pin option. Preserve the resolved artifacts and record their coordinates/hashes; a fresh resolution is not guaranteed to reproduce that build. Reruns replace the selected version/family output directory. Do not regenerate evidence midway without invalidating affected findings. The task's required-class checks do not establish that every method decompiled correctly. Inspect decompiler errors and missing-library warnings; missing or damaged relevant method bodies block their slices even if the Gradle task succeeded.
+Decompiler constraints: use the exact `--cache-directory` path recorded for the preparation run; do not assume a worktree-local default. Official mappings use `client_mappings.txt`; community mappings resolve a build from catalog metadata. The CLI has no mapping-build pin option. Preserve the resolved artifacts and record their coordinates/hashes; a fresh resolution is not guaranteed to reproduce that build. Reruns replace the selected version/family output directory. Do not regenerate evidence midway without invalidating affected findings. The task rejects output or cache roots that resolve to or overlap the published read-only source tree, including its junction aliases. The task's required-class checks do not establish that every method decompiled correctly. Inspect decompiler errors and missing-library warnings; missing or damaged relevant method bodies block their slices even if the Gradle task succeeded.
 
 ## Shared publication ownership
 

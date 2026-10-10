@@ -54,7 +54,7 @@ Check exact requested/resolved A and B, aligned naming namespace, source roots, 
 
 Use the correct release-specific mappings for each side. Mojmap and a published unobfuscated release share Mojang's official-name namespace; different output-directory names do not prevent alignment. Verify class/member correspondence even in aligned namespaces. Names alone do not establish behavior or absence.
 
-**Preparation owners:** read [source preparation](source-preparation.md) before decompilation or mapping probes. Only that owner may repair or regenerate shared sources/cache. **Consumers of revised evidence:** read its [artifact revision rules](source-preparation.md#revised-derived-artifacts-and-handoff-identity), verify the immutable bytes and lineage, and preserve original manifest records. Unavailable originals leave equivalence unverified.
+**Preparation owners:** read [source preparation](source-preparation.md) before decompilation or mapping probes. Only that owner may repair or regenerate shared sources/cache. All consumers use the stable absolute source root `D:\Javastuff\LegacyParkourCompat\decompiled_minecraft` and assigned readiness records read-only; they do not invoke `decompileMinecraft`, clean the publication, or fall back to worktree-local outputs. A missing source or failed marker check goes to the preparation owner with the exact path and identity. **Consumers of revised evidence:** read its [artifact revision rules](source-preparation.md#revised-derived-artifacts-and-handoff-identity), verify the immutable bytes and lineage, and preserve original manifest records. Unavailable originals leave equivalence unverified.
 
 ## 2. Build a small navigation index once
 

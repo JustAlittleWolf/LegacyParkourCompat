@@ -59,17 +59,20 @@ final class MinecraftDecompileEngine {
     private final Path cacheDir;
     private final Path outputRoot;
     private final List<String> mappingSpecs;
+    private final List<Path> protectedRoots;
     private final Gson gson = new GsonBuilder().create();
     private final HttpClient http = HttpClient.newBuilder()
             .followRedirects(HttpClient.Redirect.NORMAL)
             .connectTimeout(Duration.ofSeconds(30))
             .build();
 
-    MinecraftDecompileEngine(DecompileLogger logger, Path cacheDir, Path outputRoot, List<String> mappingSpecs) {
+    MinecraftDecompileEngine(DecompileLogger logger, Path cacheDir, Path outputRoot, List<String> mappingSpecs,
+                             List<Path> protectedRoots) {
         this.logger = logger;
         this.cacheDir = cacheDir;
         this.outputRoot = outputRoot;
         this.mappingSpecs = List.copyOf(mappingSpecs);
+        this.protectedRoots = List.copyOf(protectedRoots);
     }
 
     void decompile(List<String> versionSpecs) {
@@ -224,6 +227,7 @@ final class MinecraftDecompileEngine {
         }
 
         Path outputDir = outputRoot.resolve(versionRef.id).resolve(mappingSource);
+        assertOutputOutsidePublishedSources(outputDir);
         if (Files.exists(outputDir)) {
             deleteRecursively(outputDir);
         }
@@ -235,13 +239,49 @@ final class MinecraftDecompileEngine {
             ensureMovementSources(outputDir);
         } catch (RuntimeException error) {
             try {
+                assertOutputOutsidePublishedSources(outputDir);
                 deleteRecursively(outputDir);
-            } catch (IOException cleanupError) {
+            } catch (Exception cleanupError) {
                 error.addSuppressed(cleanupError);
             }
             throw error;
         }
         logger.lifecycle("  Finished {} using {}", versionRef.id, mappingSource);
+    }
+
+    private void assertOutputOutsidePublishedSources(Path outputDir) throws IOException {
+        Path canonicalOutput = resolveExistingPrefix(outputDir);
+        for (Path protectedRoot : protectedRoots) {
+            Path canonicalProtectedRoot = resolveExistingPrefix(protectedRoot);
+            if (canonicalOutput.startsWith(canonicalProtectedRoot)
+                    || canonicalProtectedRoot.startsWith(canonicalOutput)) {
+                throw new IllegalStateException("Refusing to delete or write decompiler output " + outputDir
+                        + " because it resolves to or overlaps published read-only source tree "
+                        + canonicalProtectedRoot);
+            }
+        }
+    }
+
+    private static Path resolveExistingPrefix(Path path) throws IOException {
+        Path absolute = path.toAbsolutePath().normalize();
+        Path existing = absolute;
+        List<Path> missingParts = new ArrayList<>();
+        while (existing != null && !Files.exists(existing)) {
+            Path name = existing.getFileName();
+            if (name == null) {
+                break;
+            }
+            missingParts.add(name);
+            existing = existing.getParent();
+        }
+        if (existing == null) {
+            throw new IOException("Cannot resolve output path " + absolute);
+        }
+        Path resolved = existing.toRealPath();
+        for (int index = missingParts.size() - 1; index >= 0; index--) {
+            resolved = resolved.resolve(missingParts.get(index));
+        }
+        return resolved.normalize();
     }
 
     private void remap(Path input, Path output, net.fabricmc.tinyremapper.IMappingProvider mappings, List<Path> classpath)
