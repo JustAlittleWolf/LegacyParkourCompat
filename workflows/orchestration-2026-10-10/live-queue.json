@@ -10,9 +10,9 @@
     "defaultBranchMergedThrough": "43af0321dab1defbae0c505d98a296a39e2b95b8",
     "mergeCorrection": "Publication add/add queue conflict resolved by retaining newer coordinator checkpoint; incoming farmland report and publication log preserved; no movement code changed.",
     "latestCheckpoint": "800b69f8d9011b82d682c96698b75a2856f36a67",
-    "defaultBranchMergedThroughLatestObserved": "34d078227ba0ea1ba69494e4b67eb3b189b4565b",
-    "latestMergeCommit": "cb8f791529d8b144aa741fd271b314a57d0f9609",
-    "latestMergeBeforeQueueCheckpoint": "cb8f791529d8b144aa741fd271b314a57d0f9609"
+    "defaultBranchMergedThroughLatestObserved": "73a239b2dcbfaa15d3d3efd6b7cedb1dd08e7794",
+    "latestMergeCommit": "c6df87a555aed2f81c90750285f53f761c431ecb",
+    "latestMergeBeforeQueueCheckpoint": "c6df87a555aed2f81c90750285f53f761c431ecb"
   },
   "authority": "Authorized campaign continuation, existing-chat coordination and fresh reviewer dispatch. No tests, game/TAS/Gym/server/Docker launches or pushes.",
   "capacity": {
@@ -32,12 +32,12 @@
     ]
   },
   "main": {
-    "head": "34d078227ba0ea1ba69494e4b67eb3b189b4565b",
+    "head": "73a239b2dcbfaa15d3d3efd6b7cedb1dd08e7794",
     "dirty": [],
     "exclusiveOwner": "01a124ef-0d1f-7fe3-a2fe-05a2968930a7",
     "phase": "fresh-integration-owner-active-report-publication-in-progress",
     "cursor": "b857d278-db2f-425e-af4b-354f50342848:169",
-    "next": "Latest local main is 34d07822; origin/main remains 240eb195. The serial owner has the F004 source revision queued for the current report publication; reconcile primary cleanliness and later integration state before any further work.",
+    "next": "Latest local main is 73a239b2; origin/main remains 240eb195. F004 r2 source revision is integrated, but still awaits exact intermediate sources and fresh blind review; no implementation admission.",
     "completedBatch": {
       "commit": "a3feab0be35a6aa13e1f2dd36d0b3049dd2fc7b8",
       "checks": "report-only paths, diff --check passed, prior source statuses and accepted WORLD25 chest-only review preserved",
@@ -511,10 +511,10 @@
     "policy": "One writer; consumers read-only; no preparation dispatched."
   },
   "reconciliation": {
-    "observedAt": "2026-10-10 08:34 UTC",
+    "observedAt": "2026-10-10 08:35 UTC",
     "priorQueueCapture": "2026-10-10 08:15:23 UTC; original pair snapshots retained as captured evidence",
     "currentMain": {
-      "head": "34d078227ba0ea1ba69494e4b67eb3b189b4565b",
+      "head": "73a239b2dcbfaa15d3d3efd6b7cedb1dd08e7794",
       "clean": null,
       "ownerChat": "01a124ef-0d1f-7fe3-a2fe-05a2968930a7",
       "ownerStatus": "active; primary worktree cleanliness not rechecked during in-progress integration",
@@ -524,7 +524,7 @@
       "root": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/campaign-coordination-2026-10-10",
       "branch": "feat/campaign-coordination-2026-10-10",
       "expectedInitialHead": "4a4c1d39d9c6f620ae296a3b78e5170d76a67d6e",
-      "latestHeadBeforeQueueCommit": "cb8f791529d8b144aa741fd271b314a57d0f9609",
+      "latestHeadBeforeQueueCommit": "c6df87a555aed2f81c90750285f53f761c431ecb",
       "status": "clean after merge; queue and adjacent README are the only assigned edits"
     },
     "policy": {
@@ -591,7 +591,7 @@
       },
       {
         "id": "01a124ea-c04b-7953-bd6b-807a4c69a7e5",
-        "result": "F004 r2 snapshot commit 29323ae1a69f423c22ddb3eaa6649d56fe97af46; supersession commit 8069f7e2dd54f1fbb6d9309eea7a2a7f1b62f8c9; final source checkpoint 89cd3a8e584ac5332f7290c3d57af78534c24242; revised blob d6d0c77413cde8a98bdb5e26ca663905776e7d45; raw SHA-256 35242aa325da2a7180873a4303fd6f2c986366d2b7984b66f4d0a1afe3a82108; producer withdrawn, F004-PRODUCER open, exact boundary unknown within (1.9.4,1.10.2]; source owner idle; report queued for the same publication batch; fresh blind review required after sources are ready."
+        "result": "F004 r2 snapshot commit 29323ae1a69f423c22ddb3eaa6649d56fe97af46, supersession 8069f7e2dd54f1fbb6d9309eea7a2a7f1b62f8c9, source checkpoint 89cd3a8e584ac5332f7290c3d57af78534c24242; blob d6d0c77413cde8a98bdb5e26ca663905776e7d45, raw SHA-256 35242aa325da2a7180873a4303fd6f2c986366d2b7984b66f4d0a1afe3a82108; source revision imported by main 73a239b2; producer and exact intermediate boundary open; source owner idle; fresh blind review required after exact sources."
       },
       {
         "id": "01a124ea-d1d5-7550-8b4d-1a160ba2c36d",
@@ -637,7 +637,7 @@
         "revisedFindingBlob": "d6d0c77413cde8a98bdb5e26ca663905776e7d45",
         "revisedRawSha256": "35242aa325da2a7180873a4303fd6f2c986366d2b7984b66f4d0a1afe3a82108",
         "status": "prior review remains revision-required; revised r2 needs fresh blind review; producer withdrawn; boundary unknown within (1.9.4,1.10.2]",
-        "integrationState": "Source owner idle at 89cd3a8; report queued for same publication batch by fresh serial integrator; revised finding still requires fresh blind review after ready exact sources."
+        "integrationState": "r2 finding/run imported on local main 73a239b2; source author idle; F004-PRODUCER and F004-BOUNDARY open; exact 1.10 and 1.10.1 sources unavailable; fresh blind review required; implementation remains blocked."
       }
     ],
     "sourceCheckpointOutcomes": [
@@ -678,19 +678,21 @@
       }
     ],
     "integrationReview": {
-      "mergedMain": "34d078227ba0ea1ba69494e4b67eb3b189b4565b",
+      "mergedMain": "73a239b2dcbfaa15d3d3efd6b7cedb1dd08e7794",
       "incomingFiles": [
         "workflows/fix-implementation/README.md",
         "workflows/movement-discovery/README.md",
         "workflows/orchestration/README.md",
         "workflows/orchestration/session-policy-2026-10-10.md",
         "workflows/source-campaign-2026-10-07/README.md",
-        "workflows/orchestration-2026-10-10/typical-implementation-admission.md"
+        "workflows/orchestration-2026-10-10/typical-implementation-admission.md",
+        "workflows/source-campaign-2026-10-07/1.9.4--1.10.2/findings/F004-character-key-stale-movement-input.md",
+        "workflows/source-campaign-2026-10-07/1.9.4--1.10.2/run.md"
       ],
-      "semanticInspection": "Preserved F-010 R2 producer verification with boundary revision requirement, preserved F004 revision-required producer failure; no source snapshots/findings/code changed.",
-      "latestMainAfterFirstMerge": "34d078227ba0ea1ba69494e4b67eb3b189b4565b",
+      "semanticInspection": "Policy and typical-admission docs preserved; F004 r2 now imported as a partial source revision: polling difference retained, ChatScreen movement producer withdrawn, producer and exact 1.10/1.10.1 boundary remain open, fresh blind review required after exact sources; no implementation acceptance inferred. F-010 R2 review report preserved and R3 boundary acceptance remains pending separate import.",
+      "latestMainAfterFirstMerge": "73a239b2dcbfaa15d3d3efd6b7cedb1dd08e7794",
       "queueConflictResolution": "The incoming main copy retains an older 08:02 captured queue. Preserve this branch’s 08:15 capture and append the verified 08:33 reconciliation; do not replace it with the stale copy. Preserve incoming review reports and inspect them separately.",
-      "mergeCommit": "cb8f791529d8b144aa741fd271b314a57d0f9609",
+      "mergeCommit": "c6df87a555aed2f81c90750285f53f761c431ecb",
       "additionalQueuedReport": "F004 r2 source revision is queued by the fresh serial integrator for the same report-only publication batch; retain prior R1 review and immutable snapshots.",
       "queueCaptureReconciliation": "The older 08:02 main queue was not used to overwrite the branch 08:15 queue. Pane41 accepted/integrated at b314de19 supersedes the older awaiting-review pointer. No source findings, review reports, or primary checkout files were modified in this coordination worktree."
     },
