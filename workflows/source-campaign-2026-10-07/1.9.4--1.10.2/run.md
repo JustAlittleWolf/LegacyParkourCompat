@@ -1235,6 +1235,7 @@ F001 - [farmland player collision height](findings/F001-farmland-collision-heigh
 - Exact endpoint manifests remain A source `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`, artifact `9527dca544694daa3b4a7741be1a5b4802d8b6665c8a152a408a37a27a1b4d77`; B source `91b0f478acb7b6f13463c35b268a30d2806f583402631a56f54ce2eb70d1ec71`, artifact `6b402f3e6d6cf2f7b3647806364ff44214c47348fefd6949fad03e2011379116`. Revised-artifact bytecode evidence remains limited to the immutable jars; original derived-JAR byte identity remains unproven.
 - Boundary correction: the canonical campaign `version_manifest_v2.json` hash is `845dfb7f8b28ce06bf0752b597ef2d4d65df973e4b59d8d6ff429ad2d3adde04` and lists stable IDs `1.10` and `1.10.1` between the endpoints. No ready source markers for either release were available. `F004-BOUNDARY` remains open; the first changed release is unknown within `(1.9.4, 1.10.2]`.
 - Pair status at this checkpoint: `partial`; pair complete: no. New finding snapshot review: pending fresh independent blind review. Implementation handoff: `blocked`. Runtime validation: not performed.
+- Snapshot event timestamp: 2026-10-10 08:29 UTC.
 
 ## Implementation reconciliation
 
