@@ -24,11 +24,11 @@
       "01a1249f-64a2-74c1-a3ba-03d9b5fe81d8",
       "01a124ed-9043-7460-a03b-4aed2128d6dc",
       "01a124ef-0d1f-7fe3-a2fe-05a2968930a7",
-      "01a124ee-ffae-7850-9812-93d1b62250a8",
+      "01a124f6-8fdf-76f2-bd87-6ab9e533bad5",
       "01a124ed-9f7f-7061-a5d5-fada786d1938",
-      "01a124ea-f8e9-7840-ac3c-3105b4bcb72d",
       "01a124f0-de78-7f30-bc59-40551392cb42",
-      "01a124f1-8160-7c71-9afa-3810137d42eb"
+      "01a124f1-8160-7c71-9afa-3810137d42eb",
+      "01a124f3-a838-7071-a964-9ead368b5ddf"
     ]
   },
   "main": {
@@ -511,7 +511,7 @@
     "policy": "One writer; consumers read-only; no preparation dispatched."
   },
   "reconciliation": {
-    "observedAt": "2026-10-10 08:35 UTC",
+    "observedAt": "2026-10-10 08:37 UTC",
     "priorQueueCapture": "2026-10-10 08:15:23 UTC; original pair snapshots retained as captured evidence",
     "currentMain": {
       "head": "73a239b2dcbfaa15d3d3efd6b7cedb1dd08e7794",
@@ -524,7 +524,7 @@
       "root": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/campaign-coordination-2026-10-10",
       "branch": "feat/campaign-coordination-2026-10-10",
       "expectedInitialHead": "4a4c1d39d9c6f620ae296a3b78e5170d76a67d6e",
-      "latestHeadBeforeQueueCommit": "c6df87a555aed2f81c90750285f53f761c431ecb",
+      "latestHeadBeforeQueueCommit": "58df025fc4f9e8fd51e2b4bf652a33757dffa732",
       "status": "clean after merge; queue and adjacent README are the only assigned edits"
     },
     "policy": {
@@ -552,12 +552,12 @@
       {
         "id": "01a124ef-0d1f-7fe3-a2fe-05a2968930a7",
         "role": "fresh serial integration owner",
-        "status": "active; exclusive primary; policy commit published locally"
+        "status": "active; exclusive primary; policy and report publication"
       },
       {
-        "id": "01a124ee-ffae-7850-9812-93d1b62250a8",
-        "role": "shared decompiled-source persistence investigation",
-        "status": "active; isolated config/buildSrc checkout; no decompile, cache write or build"
+        "id": "01a124f6-8fdf-76f2-bd87-6ab9e533bad5",
+        "role": "independent review of shared source-cache persistence patch",
+        "status": "active; isolated review checkout"
       },
       {
         "id": "01a124ed-9f7f-7061-a5d5-fada786d1938",
@@ -565,19 +565,19 @@
         "status": "active; checkpoint 4ab7cd79b7b3cc20b7a18eb17c525df06476f809"
       },
       {
-        "id": "01a124ea-f8e9-7840-ac3c-3105b4bcb72d",
-        "role": "1.20.1--1.20.2 Redstone Wire source continuation",
-        "status": "active; checkpoint f06f1c6b0239eb03ba20613e51bd8cb817038237"
-      },
-      {
         "id": "01a124f0-de78-7f30-bc59-40551392cb42",
         "role": "wide ordinary-movement implementation admission",
-        "status": "active; accepted findings only; no implementation until report is ready"
+        "status": "active; checking group applicability"
       },
       {
         "id": "01a124f1-8160-7c71-9afa-3810137d42eb",
         "role": "F003 auto-jump ordering source closure",
-        "status": "active; assigned feat/source-autojump-order-closure-2026-10-10 from e531086e; branch ref not yet visible in shared refs"
+        "status": "active; source boundary and dependency closure"
+      },
+      {
+        "id": "01a124f3-a838-7071-a964-9ead368b5ddf",
+        "role": "1.19.3--1.19.4 chunk-dependent collision shapes",
+        "status": "active; corrected to earliest registered candidate AbstractCauldronBlock"
       }
     ],
     "completedOrIdle": [
@@ -604,6 +604,14 @@
       {
         "id": "01a124e9-c7c4-7690-8b17-2f57ac91e524",
         "result": "admission report commit 443fe08cb9df3fba50a25cba829e55b17574f646; F-001/F-005/F-012 already reconciled; F-003 blocked on auto-jump dependency closure and exact release boundary; no implementation chat ready"
+      },
+      {
+        "id": "01a124ee-ffae-7850-9812-93d1b62250a8",
+        "result": "Source-cache persistence author completed clean patch 91b7f0a6cf5f29580772a507797a15244212cfbb on fix/shared-source-persistence-2026-10-10, merged through main 73a239b2. No build, decompile or tests. Primary decompiled_minecraft junction exposes existing 42-version publication and 43 ready markers; source files/manifests were not moved or rewritten. Independent review active."
+      },
+      {
+        "id": "01a124ea-f8e9-7840-ac3c-3105b4bcb72d",
+        "result": "1.20.1--1.20.2 checkpoint 7edb7dc8904e1be23efed9e5be78089eb0f5230e; report blob 5bd698086a2440800717c2b9a090a36b012037c3; raw SHA-256 ca41cc07a9f953d15a951cbeb96a7e8dae35b09e8aacff3507edd28d697bf112. Partial/no finding; next getSignal caller to trapdoor neighbor notification; S27 timing and tag values stay open."
       }
     ],
     "immutableFindings": [
@@ -614,10 +622,11 @@
         "rawSha256": "c37c6544856bd4dde35e36801383fe9249044ad4c02341984a8ae8205e217039",
         "ledgerCheckpoint": "817a505fd2e56404be219877eb807cdf745330c9",
         "r3ReviewCommit": "dded99fb6d78d4d253ab7f367edc029e981b6b91",
-        "r3Verdict": "accepted bounded stable-release claim; canonical manifest puts 1.19.2 directly before 1.19.3; development-build onset and ordinary walking entry unproven",
+        "r3Verdict": "accepted; bounded exact stable boundary 1.19.3 closed for this witness; development-build onset and ordinary walking entry remain unproven",
         "pairStatus": "partial",
         "runtime": "not performed",
-        "integrationState": "R3 report accepted on immutable review branch; pending report-only integration by serial owner"
+        "integrationState": "R3 report accepted on immutable review branch; pending report-only integration by serial owner",
+        "r3ReviewBlob": "deec2af60b2e8c6b6ea2dd67043971c8d3c126b7"
       },
       {
         "id": "F-010 Honey contact scan source witness",
@@ -627,7 +636,7 @@
         "r2ReviewCommit": "ddff933a31ea4a0292d4aef115ef9a8f0055dcc9",
         "r2Verdict": "producer witness verified; exact boundary revision required at review time",
         "preserveBothReviewRecords": true,
-        "followUpState": "R2 source witness verified and R3 independently accepted the bounded exact stable-release boundary; R3 report awaits serial integration; pair remains partial and no implementation/runtime status is inferred."
+        "followUpState": "R2 source witness verified and R3 independently accepted the bounded exact stable-release boundary; R3 report awaits serial integration; wide admission checks group applicability; pair remains partial and no implementation/runtime status is inferred."
       },
       {
         "id": "F004 character-key stale input",
@@ -675,6 +684,22 @@
         "ownerChat": "01a124f1-8160-7c71-9afa-3810137d42eb",
         "phase": "active bounded source-order closure; shared ref not yet visible",
         "next": "F003 filters/geometry/selected candidate to timer/movement and exact intermediate boundary; do not rewrite original freeze"
+      },
+      {
+        "pair": "1.20.1--1.20.2",
+        "ownerChat": "01a124ea-f8e9-7840-ac3c-3105b4bcb72d",
+        "reportCommit": "7edb7dc8904e1be23efed9e5be78089eb0f5230e",
+        "reportBlob": "5bd698086a2440800717c2b9a090a36b012037c3",
+        "rawSha256": "ca41cc07a9f953d15a951cbeb96a7e8dae35b09e8aacff3507edd28d697bf112",
+        "phase": "partial/no finding; unsupported-wire AIR reaches server-side replacement; trapdoor signal update possible but open",
+        "next": "getSignal caller to trapdoor notification, within three method pairs; S27 timing and tag values stay open"
+      },
+      {
+        "pair": "1.19.3--1.19.4",
+        "ownerChat": "01a124f3-a838-7071-a964-9ead368b5ddf",
+        "checkpoint": "919f9cdb8f0bb18a8c4ea27cd6188ac4a7e2c6b1",
+        "phase": "active continuation; pair partial",
+        "next": "Begin with AbstractCauldronBlock, earliest registered shape-provider candidate; supersedes exploratory stair route"
       }
     ],
     "integrationReview": {
@@ -700,7 +725,8 @@
       "pane41": "accepted/integrated at b314de19c49b3f57421e92a5b2a9e71bc26424e7; exact finding blob 0c6453722ebbb7e9c7c6c6829fa593e97e78f8d4",
       "world27": "accurate partial documentation only; not implementation-eligible; retain prior source snapshots",
       "preparation": "01a12183-c4f8-70e1-8d32-eafe7a37868d idle/reserved; canonical cache read-only for consumers",
-      "previousIntegrationOwner": "01a12181-2e5d-7382-ac1b-be37a602911e stopped; no process"
+      "previousIntegrationOwner": "01a12181-2e5d-7382-ac1b-be37a602911e stopped; no process",
+      "sourceCachePersistence": "Author commit 91b7f0a6cf5f29580772a507797a15244212cfbb on fix/shared-source-persistence-2026-10-10; independent review chat 01a124f6-8fdf-76f2-bd87-6ab9e533bad5 active. Primary decompiled_minecraft junction exposes existing 42-version publication/43 ready markers; source files/manifests were not moved or rewritten. No build/decompile/tests; serial build remains pending."
     }
   }
 }
