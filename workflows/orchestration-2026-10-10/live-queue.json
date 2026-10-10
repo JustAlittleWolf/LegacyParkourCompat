@@ -794,5 +794,87 @@
       ],
       "nextAction": "Coordinator reconciles events and ready work before dispatch; this integration observation does not itself dispatch work."
     }
-  }
+  },
+  "pauseCheckpoint": {
+  "status": "paused",
+  "capturedAt": "2026-10-10 09:14:53 UTC",
+  "dispatchEnabled": false,
+  "primaryMain": "08f0d6aecbdd1fce575e76a5fa928bbca4354402",
+  "activeCampaignWorkers": 0,
+  "ownedProcesses": "All assignment owners report stopped; coordinator Get-Process found no java, javaw or gradle process.",
+  "workers": [
+    {
+      "threadId": "01a12507-7374-7663-87cd-6517cd13fd0a",
+      "head": "08f0d6aecbdd1fce575e76a5fa928bbca4354402",
+      "status": "stopped"
+    },
+    {
+      "threadId": "01a1250b-e2b2-70e0-872a-87b5170461d0",
+      "head": "fa580915e060f47faa2c474b9fe440e76cf8a094",
+      "status": "stopped"
+    },
+    {
+      "threadId": "01a1250c-fac2-7f42-8b7d-2ecf5b80219b",
+      "head": "407c90461c19225d868132dd7c19ea1ecbbecbe9",
+      "status": "stopped"
+    },
+    {
+      "threadId": "01a1250d-c9ab-7be2-bd01-88a10f92e800",
+      "head": "9691816a6c05e54449c812b32dc26171571a3078",
+      "status": "stopped"
+    },
+    {
+      "threadId": "01a1250e-7fbb-7dd0-b4e5-8813a37e943a",
+      "head": "ceb39918e9510b03347b8d573a8fc9040e0401f6",
+      "status": "stopped"
+    },
+    {
+      "threadId": "01a1250f-e530-78b2-8df7-286894368332",
+      "head": "5c305faf2bd79e94b51fafba17034b8161940503",
+      "status": "stopped"
+    },
+    {
+      "threadId": "01a12510-7f4a-70a2-acd8-6f355f517a6b",
+      "head": "93f37b837a69a45b2589e1df35ad00776e5b43bb",
+      "status": "stopped"
+    },
+    {
+      "threadId": "01a12512-00a5-7d70-a17a-b3464c1de782",
+      "head": "2880760a8f555f4054e569576dbe9b4a45719a1a",
+      "status": "stopped"
+    },
+    {
+      "threadId": "01a12512-1223-74b2-8a96-6a7ad54afbd9",
+      "head": "7e394bd50ad6c0b9abfb7059eed58cb0f70b5456",
+      "status": "stopped"
+    },
+    {
+      "threadId": "01a12513-43c4-77d2-a027-c232a3bc6ba0",
+      "head": "9e0ef5065f61d022e1565f1a05b7691044acb10d",
+      "status": "stopped"
+    },
+    {
+      "threadId": "01a12513-d29e-7512-a8a9-d2ff9415c8ea",
+      "head": "14023519c6de767a2d4dbf65f4f4dd603f5b25d8",
+      "status": "stopped"
+    }
+  ],
+  "sharedSources": {
+    "visibleRoot": "D:/Javastuff/LegacyParkourCompat/decompiled_minecraft",
+    "publication": "read-only for consumers",
+    "addedVersions": [
+      "1.19",
+      "1.19.1"
+    ],
+    "preparationCheckpoint": "fa580915e060f47faa2c474b9fe440e76cf8a094"
+  },
+  "resumeOrder": [
+    "Reconcile this pause checkpoint against actual worktree refs, dirty/staged files and owner/process states before dispatch.",
+    "Resume reviewed auto-jump/cache batch at 5c305faf2bd79e94b51fafba17034b8161940503; merge latest main, inspect semantics, run disabled-Test build, then integrate reviewed code.",
+    "Use newly published 1.19/1.19.1 exact source to finish Honey applicability supplement; independent acceptance before minimal profile split.",
+    "Finish piston implementation record/static checks, earlier profile applicability evidence and independent technical review; code checkpoint is unreviewed and uncompiled.",
+    "Finish crouch edge-backoff independent source review; preserve F09 withdrawn-witness review limits and Soul Sand bounded no-code disposition.",
+    "Continue partial source inventories from their exact saved HEADs; atypical workflows remain discovery-only."
+  ]
+}
 }

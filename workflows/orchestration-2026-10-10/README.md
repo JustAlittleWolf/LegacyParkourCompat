@@ -2,9 +2,11 @@
 
 Use [live-queue.json](live-queue.json) as the authoritative dispatch and resume record. Verify current refs, owned worktree state, chat events and outcomes before acting; captured values are checkpoints, not a replacement for reconciliation.
 
+The campaign is paused. The queue's `pauseCheckpoint` supersedes earlier active-roster snapshots: all campaign workers and their owned processes are stopped. Resume only on instruction, starting with its saved refs and ordered next actions. The reviewed auto-jump/source-cache batch is committed but uncompiled and unintegrated; the piston patch is an unreviewed checkpoint.
+
 The coordinator owns this directory on `feat/campaign-coordination-2026-10-10`. The serial integration owner exclusively controls the primary checkout, its index, local main integration and builds. Source workers retain their blind author branches. Integration must preserve source-only snapshots and main-only accepted review records.
 
-The active campaign-chat cap is twelve, including the coordinator and coordination/status chats. The four internal collaboration-tool slots are a separate limit and do not reduce the chat cap. Count active campaign chats; queued assignments are not active. Review and revision closure precede new discovery. The source-preparation owner remains reserved; published cache consumers are read-only.
+The active campaign-chat target is twelve, including the coordinator and coordination/status chats. Internal collaboration-tool slots are separate and do not reduce that target. Refill ready assignments promptly after asynchronous completion events; preserve exclusive ownership and evidence gates. Review and revision closure precede new discovery. Shared source publication has one preparation writer; consumers are read-only.
 
 The live queue retains its original capture and appends timestamped reconciliations of refs, chat outcomes, immutable finding identities and observed chat states. Treat every roster as a point-in-time snapshot; reconcile it before dispatch rather than treating captured states as current. The 2026-10-09 queue and branch-resume manifests are historical evidence. Their owner handles, phases, next actions and HEAD values may be stale. Branch cleanup was completed once; no archival, ref deletion, history rewriting or worktree cleanup is part of ongoing coordination.
 
