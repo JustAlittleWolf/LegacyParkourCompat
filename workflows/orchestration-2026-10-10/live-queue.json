@@ -14,8 +14,8 @@
     "active": [
       "coordinator",
       "01a12181-2e5d-7382-ac1b-be37a602911e",
-      "01a121d2-306e-73b0-96e8-ecd298855c95",
-      "/root/review_world27"
+      "/root/review_world27",
+      "/root/review_elytra_levitation"
     ]
   },
   "main": {
@@ -128,9 +128,10 @@
       "ownerState": "fresh-owner-required",
       "owner": null,
       "next": "Independent blind review F-S6-LEVITATION-ELYTRA-GATES at 16d73824; then paired Level.getChunkSource/section snapshot dependency for synchronous Riptide query.",
-      "phase": "queued",
+      "phase": "independent-review-active",
       "dirty": [],
-      "processState": "No coordinator-owned source process launched; OS process census unavailable (CIM access denied)."
+      "processState": "No coordinator-owned source process launched; OS process census unavailable (CIM access denied).",
+      "reviewOwner": "/root/review_elytra_levitation"
     },
     {
       "pair": "1.16.5--1.17.1",
@@ -377,11 +378,14 @@
     "authorWorktree": "C:/Users/Wolfi/.codex/worktrees/pane-providers-third-2026-10-09/LegacyParkourCompat",
     "authorDirty": [],
     "reviewer": "01a121d2-306e-73b0-96e8-ecd298855c95",
-    "reviewHead": "785823dc0ea08dfe16c17aa15f901813e7cc1a39",
-    "reviewPhase": "active",
+    "reviewHead": "7042a4cb3c50b865d86bb95d09c55934b638549f",
+    "reviewPhase": "completed",
     "reviewWorktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-pane-providers-9-16-2026-10-09",
     "reviewDirty": [],
-    "next": "Correct slice38 binding then review immutable slice40 at 13a111d8; preserve bounded slice39 acceptance. Next author Reeds83/Jukebox84, ID85 absence."
+    "next": "Report-only integrate preserved slice38 correction and bounded slice40 acceptance; author next Reeds83/Jukebox84 with ID85 checked absent.",
+    "reviewCursor": "d62f37c9-9376-4ded-9431-e54a0f893508:13",
+    "slice38Correction": "b319cd54",
+    "slice40Acceptance": "7042a4cb3c50b865d86bb95d09c55934b638549f"
   },
   "priorities": [
     "Ready pane38 binding correction/pane40 review and WORLD27 blind review",
