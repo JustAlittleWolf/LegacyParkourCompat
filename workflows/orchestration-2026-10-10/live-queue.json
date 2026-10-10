@@ -14,17 +14,17 @@
     "active": [
       "coordinator",
       "01a12195-a8a4-70e2-a0c1-270e692bee45",
-      "01a1218e-399b-7400-b1a3-5b49d804ee71",
-      "01a121c9-8af9-7bf0-860e-efc05c182b84"
+      "01a121c9-8af9-7bf0-860e-efc05c182b84",
+      "01a12181-2e5d-7382-ac1b-be37a602911e"
     ]
   },
   "main": {
     "head": "14f270de6321d1870336c71866ad0646ec7d8518",
     "dirty": [],
     "exclusiveOwner": "01a12181-2e5d-7382-ac1b-be37a602911e",
-    "phase": "idle",
+    "phase": "third-report-batch-active",
     "cursor": "b857d278-db2f-425e-af4b-354f50342848:82",
-    "next": "Integrate next ready source checkpoints and current coordinator resume record through exclusive owner.",
+    "next": "Full missing modifier-source checkpoint fa889954, preserving current source review events.",
     "completedBatch": {
       "commit": "a3feab0be35a6aa13e1f2dd36d0b3049dd2fc7b8",
       "checks": "report-only paths, diff --check passed, prior source statuses and accepted WORLD25 chest-only review preserved",
@@ -375,14 +375,20 @@
       "pair": "1.21.11--26.1.2",
       "gate": "partial-accepted-findings-bounded",
       "branch": "feat/source-12111-2612-d2-2026-10-09",
-      "head": "5fdb5e467b0e7dc5c74841b9e607625201daefb4",
+      "head": "fa889954e81d2ab156be6bc5ad08e3ae7e33f10e",
       "attachment": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-12111-2612-d2-2026-10-09",
-      "ownerState": "active",
+      "ownerState": "checkpoint-complete",
       "owner": "01a1218e-399b-7400-b1a3-5b49d804ee71",
-      "next": "Item component and enchantment value sources, remaining non-command SCALE writers; packet/tick timing open.",
-      "phase": "source-continuation-active",
+      "next": "Remaining non-command SCALE writers and packet-versus-tick / command-load timing gaps; custom component/datapack inputs open.",
+      "phase": "checkpoint-committed-integration-active",
       "dirty": [],
-      "processState": "No coordinator-owned source process launched; OS process census unavailable (CIM access denied)."
+      "processState": "Owner confirmed no process remains; no runtime/build activity.",
+      "runBlob": "93c043a45c7ff4a95f0e927e4759d07fb3bbf0f2",
+      "gitOwnership": {
+        "gitDir": "D:/Javastuff/LegacyParkourCompat/.git/worktrees/source-12111-2612-resume-oct8",
+        "backlink": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-12111-2612-d2-2026-10-09/.git",
+        "verified": "Index/HEAD/backlink/registry match; metadata basename stale only; no index lock."
+      }
     },
     {
       "pair": "26.1.2--26.2",
