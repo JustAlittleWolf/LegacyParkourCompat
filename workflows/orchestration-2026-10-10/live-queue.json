@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-10-10 08:10:02 UTC",
+  "capturedAt": "2026-10-10 08:15:23 UTC",
   "coordinator": {
     "id": "01a1249f-64a2-74c1-a3ba-03d9b5fe81d8",
     "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/campaign-coordination-2026-10-10",
     "branch": "feat/campaign-coordination-2026-10-10",
     "base": "a9583075bcf95605a86745587b37f8ef9fe4d997",
-    "checkpoint": "e6a8e2252e54c956feeb972feb26901ed652b73d",
-    "defaultBranchMergedThrough": "23829fc5e0937f80f00dd1d24e3f406a397c6d86",
+    "checkpoint": "f16b62f7",
+    "defaultBranchMergedThrough": "43af0321dab1defbae0c505d98a296a39e2b95b8",
     "mergeCorrection": "Publication add/add queue conflict resolved by retaining newer coordinator checkpoint; incoming farmland report and publication log preserved; no movement code changed."
   },
   "authority": "Authorized campaign continuation, existing-chat coordination and fresh reviewer dispatch. No tests, game/TAS/Gym/server/Docker launches or pushes.",
@@ -16,17 +16,16 @@
     "runtimeCap": 4,
     "active": [
       "coordinator",
-      "/root/review_honey_contact",
-      "01a12181-2e5d-7382-ac1b-be37a602911e",
-      "/root/review_character_key_input"
+      "01a12195-a8a4-70e2-a0c1-270e692bee45",
+      "/root/revise_character_key_input"
     ]
   },
   "main": {
-    "head": "23829fc5e0937f80f00dd1d24e3f406a397c6d86",
+    "head": "43af0321dab1defbae0c505d98a296a39e2b95b8",
     "dirty": [],
     "exclusiveOwner": "01a12181-2e5d-7382-ac1b-be37a602911e",
-    "phase": "pane41-and-coordinator-link-integration-active",
-    "cursor": "b857d278-db2f-425e-af4b-354f50342848:136",
+    "phase": "idle-report-batches-integrated",
+    "cursor": "b857d278-db2f-425e-af4b-354f50342848:169",
     "next": "Publish coordinator queue refresh and missing active-workflow link when capacity permits; then integrate immutable pane/source handoffs.",
     "completedBatch": {
       "commit": "a3feab0be35a6aa13e1f2dd36d0b3049dd2fc7b8",
@@ -57,7 +56,7 @@
       "ownerState": "checkpoint-complete",
       "owner": "/root/revise_world27",
       "next": "COLL-01 remaining player block-cell candidates and reachable support/contact providers beyond WORLD27; cap route/boundary remain open.",
-      "phase": "accurate-partial-documentation-integration-queued",
+      "phase": "accurate-partial-documentation-integrated",
       "dirty": [],
       "processState": "No coordinator-owned source process launched; OS process census unavailable (CIM access denied).",
       "reviewOwner": "/root/review_world27",
@@ -73,7 +72,9 @@
       "clientRawSha256": "0d44b1f18487282ae1d8b8b3a95c8d0101dcebf71a702c935154c31ce7165a7b",
       "clientReviewCommit": "65e55d1c42098523fe6070a7de5794674f55d36e",
       "clientVerdict": "accurate-partial-documentation-not-accepted-eligible",
-      "runBlob": "96770252864decc06fffce59f0388d5ed1a744d0"
+      "runBlob": "96770252864decc06fffce59f0388d5ed1a744d0",
+      "integrationCommit": "43af0321dab1defbae0c505d98a296a39e2b95b8",
+      "integrationBlob": "96770252864decc06fffce59f0388d5ed1a744d0"
     },
     {
       "pair": "1.9.4--1.10.2",
@@ -81,17 +82,19 @@
       "branch": "feat/source-discovery-movement-source-1-9-4-1-10-2-resume3",
       "head": "708eb3d210660074c3c7225125eb5e054199ff21",
       "attachment": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/movement-source-1-9-4-1-10-2-resume3",
-      "ownerState": "fresh-owner-required",
-      "owner": null,
-      "next": "Mushroom/Wheat/banners after committed Diode/DoublePlant/GrassPath slice; keep report-only import distinct.",
-      "phase": "F004-independent-review-active",
+      "ownerState": "active",
+      "owner": "/root/revise_character_key_input",
+      "next": "Verify real binding/event producer or withdraw unsupported ChatScreen witness; release boundary also open.",
+      "phase": "F004-source-revision-active",
       "dirty": [],
       "processState": "No coordinator-owned source process launched; OS process census unavailable (CIM access denied).",
       "reviewOwner": "/root/review_character_key_input",
       "reviewWorktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-character-key-input-2026-10-10",
       "reviewBranch": "fix/review-character-key-input-2026-10-10",
       "reviewSnapshot": "0202863998a8c6d9a3ff6555235f2add358eca1d",
-      "reviewFindingBlob": "c98e41d2fd8eda84eff15a06d6fb9cd273c0e34f"
+      "reviewFindingBlob": "c98e41d2fd8eda84eff15a06d6fb9cd273c0e34f",
+      "reviewCommit": "561841609a917f979f2312d23a4faddfb4cd7ba5",
+      "verdict": "revision-required-producer-witness-failed"
     },
     {
       "pair": "1.10.2--1.11.2",
@@ -226,9 +229,9 @@
       "head": "a51009154d1f1789e71d6a982e822fd2ef9c68a4",
       "attachment": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1192-1193-resume-2026-10-09",
       "ownerState": "active",
-      "owner": "/root/review_honey_contact",
+      "owner": "01a12195-a8a4-70e2-a0c1-270e692bee45",
       "next": "Independent R2 review of teleport/gravity entry witness; exact first changed release remains unknown.",
-      "phase": "revised-snapshot-independent-R2-review-active",
+      "phase": "stable-release-boundary-source-closure-active",
       "dirty": [],
       "processState": "Bounded author returned clean checkpoint; no build/tests/runtime launched.",
       "reviewOwner": "/root/review_honey_contact",
@@ -242,7 +245,9 @@
       "cursor": "c2fe30d7-3af8-408b-96ed-3b2b4e066379:80",
       "revisedSnapshot": "33fb4482c3a5a49f28557ff934fc8485a09b5605",
       "revisedFindingBlob": "c38a178cd2c96f4725b2f1b62c0ff64d48a25819",
-      "revisedFindingRawSha256": "fae6af2f355acd6760d39aec5f5215b773eb60abcc1e588d56e2d6832f6870c0"
+      "revisedFindingRawSha256": "fae6af2f355acd6760d39aec5f5215b773eb60abcc1e588d56e2d6832f6870c0",
+      "reviewR2": "ddff933a31ea4a0292d4aef115ef9a8f0055dcc9",
+      "verdictR2": "producer-witness-verified-boundary-revision-required"
     },
     {
       "pair": "1.19.3--1.19.4",
@@ -453,10 +458,10 @@
     "authorDirty": [],
     "reviewer": "01a121d2-306e-73b0-96e8-ecd298855c95",
     "reviewHead": "0c6ae18a32e272e79c53b09aa9b13b7de5e5588b",
-    "reviewPhase": "accepted-integration-active",
+    "reviewPhase": "accepted-bounded-integrated",
     "reviewWorktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-pane-providers-9-16-2026-10-09",
     "reviewDirty": [],
-    "next": "Independent slice41 review and append-only slice39 manifest correction; partial census 41 memos/116 registrations, then Pumpkin86.",
+    "next": "Pumpkin86 and next bounded registered providers; full closure and original derived-JAR equivalence open.",
     "reviewCursor": "d62f37c9-9376-4ded-9431-e54a0f893508:41",
     "slice38Correction": "b319cd54",
     "slice40Acceptance": "7042a4cb3c50b865d86bb95d09c55934b638549f",
@@ -470,7 +475,8 @@
       "reviewCommit": "0c6ae18a32e272e79c53b09aa9b13b7de5e5588b"
     },
     "slice39Correction": "3a70d1291156502a5c0cef4cd332bc3bf1d6aadb",
-    "slice40ContinuationCorrection": "ba9e66b2e1442a278e96d681897bccea33b271d6"
+    "slice40ContinuationCorrection": "ba9e66b2e1442a278e96d681897bccea33b271d6",
+    "integrationCommit": "b314de19c49b3f57421e92a5b2a9e71bc26424e7"
   },
   "priorities": [
     "Ready pane38 binding correction/pane40 review and WORLD27 blind review",
