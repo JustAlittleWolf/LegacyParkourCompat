@@ -52,3 +52,7 @@ This remains a partial inventory. The additive author memos classify source regi
 
 - Independent review `reviews/independent-review-pane-neighbor-providers-forty-first-2026-10-10.md` is **ACCEPT, bounded** to Reeds, Jukebox, and Fence (IDs 83–85), cited source behavior, and east-only pane-mask witnesses. It binds author memo commit `74972fba154142008af172ddabcd7417eac6be96`, blob `0c6453722ebbb7e9c7c6c6829fa593e97e78f8d4`; review commit `0c6ae18a32e272e79c53b09aa9b13b7de5e5588b`, blob `c881b086a5fd4579dc957cc692a9e7fd89cd4f98`.
 - The review confirms Fence is registered at ID 85 in both exact registries; Pumpkin (86) is next. The census remains partial at 41 memos/116 registrations. Full provider closure, all world-reachable pane masks, and original derived-JAR equivalence remain open.
+
+## Slice 39 identity-correction disposition — 2026-10-10
+
+- This appended disposition supersedes the earlier captured statement that no correction event was supplied; that historical text remains preserved. The separate metadata-only correction exists at `reviews/identity-correction-pane-neighbor-providers-thirty-ninth-2026-10-10.md`, commit `3a70d1291156502a5c0cef4cd332bc3bf1d6aadb`, blob `b9bb0e0744926e6e6fb2f285c2a59c0e1b01e136`. It binds the canonical 1.9.4 source manifest SHA-256 `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`. The original bounded ACCEPT remains unchanged; the correction changes manifest identity metadata only.
