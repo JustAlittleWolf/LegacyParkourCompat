@@ -1,5 +1,7 @@
 # Session policy log — 2026-10-09
 
+Historical snapshot; the current policy is [session-policy-2026-10-10.md](session-policy-2026-10-10.md).
+
 ## Current operating policy
 
 - Target about 15 active campaign workers, excluding the coordinator and unrelated chats. This is an occupancy target, not a hard maximum. The coordinator launches or reassigns ready work to approach it without weakening source isolation, ownership, review or other campaign gates.
