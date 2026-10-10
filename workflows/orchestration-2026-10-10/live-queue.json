@@ -1,13 +1,14 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-10-10 07:34:27 UTC",
+  "capturedAt": "2026-10-10 08:02:03 UTC",
   "coordinator": {
     "id": "01a1249f-64a2-74c1-a3ba-03d9b5fe81d8",
     "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/campaign-coordination-2026-10-10",
     "branch": "feat/campaign-coordination-2026-10-10",
     "base": "a9583075bcf95605a86745587b37f8ef9fe4d997",
-    "checkpoint": "39af46f8694f4959859d7e3e2416133014ad4d63",
-    "defaultBranchMergedThrough": "ab2a08723d40f649eb16d8c951fd45300e9c004b"
+    "checkpoint": "44ece2ec4528f4ff3fc029963e5617612c380d2a",
+    "defaultBranchMergedThrough": "23829fc5e0937f80f00dd1d24e3f406a397c6d86",
+    "mergeCorrection": "Publication add/add queue conflict resolved by retaining newer coordinator checkpoint; incoming farmland report and publication log preserved; no movement code changed."
   },
   "authority": "Campaign continuation authorized in source chat 01a12180; existing-chat messaging authorization independently read from human turns. Initial automatic-review rejection resolved by verified authorization on retry.",
   "capacity": {
@@ -16,17 +17,17 @@
     "active": [
       "coordinator",
       "01a12195-a8a4-70e2-a0c1-270e692bee45",
-      "01a1218b-99e7-7712-b241-b9a97a6eaf76",
-      "01a12181-2e5d-7382-ac1b-be37a602911e"
+      "01a121d2-306e-73b0-96e8-ecd298855c95",
+      "/root/revise_world27"
     ]
   },
   "main": {
-    "head": "ab2a08723d40f649eb16d8c951fd45300e9c004b",
+    "head": "23829fc5e0937f80f00dd1d24e3f406a397c6d86",
     "dirty": [],
     "exclusiveOwner": "01a12181-2e5d-7382-ac1b-be37a602911e",
-    "phase": "farmland-source-report-integration-active",
-    "cursor": "b857d278-db2f-425e-af4b-354f50342848:119",
-    "next": "Full missing modifier-source checkpoint fa889954, preserving current source review events.",
+    "phase": "idle-publication-complete",
+    "cursor": "b857d278-db2f-425e-af4b-354f50342848:130",
+    "next": "Publish coordinator queue refresh and missing active-workflow link when capacity permits; then integrate immutable pane/source handoffs.",
     "completedBatch": {
       "commit": "a3feab0be35a6aa13e1f2dd36d0b3049dd2fc7b8",
       "checks": "report-only paths, diff --check passed, prior source statuses and accepted WORLD25 chest-only review preserved",
@@ -39,6 +40,11 @@
       "sourceBlob": "b7afab413ac56283b26468010eb3338ffe218ee4",
       "delta": "46 append-only lines D47-D50; initial no-op comparison incorrect, owner correcting and auditing ref construction",
       "resolution": "Resolved in 14f270de; full D47-D50 source blob b7afab413ac56283b26468010eb3338ffe218ee4 verified on main. First-batch five recorded run blobs independently match."
+    },
+    "queuePublication": {
+      "commit": "23829fc5e0937f80f00dd1d24e3f406a397c6d86",
+      "source": "029a81419f53916f1feddde9ba1dffcbcf906e0a",
+      "capturedBytesPreserved": true
     }
   },
   "sources": [
@@ -48,10 +54,10 @@
       "branch": "feat/source-discovery-movement-source-1-8-9-1-9-4-solid-resume",
       "head": "20b697dee1a71a7d3fd7aa608b2425830c3a1103",
       "attachment": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-pair-189194-solid-resume",
-      "ownerState": "checkpoint-complete",
+      "ownerState": "active",
       "owner": "/root/revise_world27",
       "next": "Append bounded R2 documentation verdict; retain effective cap/reachability dependency and unknown boundary; route shared client WORLD27 premise separately.",
-      "phase": "accurate-reduced-documentation-review-complete",
+      "phase": "R2-ledger-and-shared-client-cap-premise-active",
       "dirty": [],
       "processState": "No coordinator-owned source process launched; OS process census unavailable (CIM access denied).",
       "reviewOwner": "/root/review_world27",
@@ -150,7 +156,7 @@
       "ownerState": "checkpoint-complete",
       "owner": "/root/source_elytra_acceptance",
       "next": "Target-player direct velocity/knockback scope, broader S4 chunk-provider behavior, exact intermediate Elytra boundary evidence.",
-      "phase": "checkpoint-committed-integration-queued",
+      "phase": "checkpoint-integrated-discovery-queued",
       "dirty": [],
       "processState": "No coordinator-owned source process launched; OS process census unavailable (CIM access denied).",
       "reviewOwner": "/root/review_elytra_levitation",
@@ -221,7 +227,8 @@
       "integrationCommit": "93addea07d2e76c2b383235172450a642fd64f83",
       "integrationBlob": "ea27c32442896747b6bff386179081b40f989b13",
       "reviewCommit": "b0bddfc7cf5bb20e2a16b9b79f950fcbce115cd3",
-      "reviewBlob": "c40d62b2c385ccf6bd2bdc2a674902a92415c6df"
+      "reviewBlob": "c40d62b2c385ccf6bd2bdc2a674902a92415c6df",
+      "cursor": "c2fe30d7-3af8-408b-96ed-3b2b4e066379:58"
     },
     {
       "pair": "1.19.3--1.19.4",
@@ -247,10 +254,12 @@
       "ownerState": "checkpoint-complete",
       "owner": "01a121e2-3cab-77a2-b74b-af2a63e576dd",
       "next": "DaylightDetectorBlock, RedstoneLampBlock, RedStoneWireBlock above-farmland classification/reachability.",
-      "phase": "checkpoint-committed-integration-active",
+      "phase": "checkpoint-integrated-discovery-queued",
       "dirty": [],
       "processState": "Owner confirmed no build/decompile/test/game process launched.",
-      "runBlob": "2d5dc07dd1194f8ed9188f483ba0591f1f4fcc21"
+      "runBlob": "2d5dc07dd1194f8ed9188f483ba0591f1f4fcc21",
+      "integrationCommit": "07119ec7ae066c0461807fb5497f4ab1c6e59241",
+      "integrationBlob": "2d5dc07dd1194f8ed9188f483ba0591f1f4fcc21"
     },
     {
       "pair": "1.20.1--1.20.2",
@@ -424,20 +433,27 @@
   ],
   "panes": {
     "author": "01a1218b-99e7-7712-b241-b9a97a6eaf76",
-    "authorHead": "de02d10d08218254898951f0cb1981835abb45ff",
-    "authorPhase": "bounded-census-active",
+    "authorHead": "1d0579a2be0054443f36c415673c464d41ed259d",
+    "authorPhase": "checkpoint-complete",
     "authorWorktree": "C:/Users/Wolfi/.codex/worktrees/pane-providers-third-2026-10-09/LegacyParkourCompat",
     "authorDirty": [],
     "reviewer": "01a121d2-306e-73b0-96e8-ecd298855c95",
     "reviewHead": "25e5e107a05d5605ecd34f409c6fd746a6edc01a",
-    "reviewPhase": "completed-corrected",
+    "reviewPhase": "slice41-and-slice39-metadata-review-active",
     "reviewWorktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-pane-providers-9-16-2026-10-09",
     "reviewDirty": [],
-    "next": "Reconcile corrected slice38/39/40 review bindings; next Reeds83/Jukebox84 plus checked ID85 absence.",
-    "reviewCursor": "d62f37c9-9376-4ded-9431-e54a0f893508:21",
+    "next": "Independent slice41 review and append-only slice39 manifest correction; partial census 41 memos/116 registrations, then Pumpkin86.",
+    "reviewCursor": "d62f37c9-9376-4ded-9431-e54a0f893508:32",
     "slice38Correction": "b319cd54",
     "slice40Acceptance": "7042a4cb3c50b865d86bb95d09c55934b638549f",
-    "slice40Correction": "25e5e107a05d5605ecd34f409c6fd746a6edc01a"
+    "slice40Correction": "25e5e107a05d5605ecd34f409c6fd746a6edc01a",
+    "id85Correction": "Source owner verified Fence registered at85 in both exact registries; authoritative next work includes Fence, not absence.",
+    "slice41": {
+      "commit": "74972fba154142008af172ddabcd7417eac6be96",
+      "blob": "0c6453722ebbb7e9c7c6c6829fa593e97e78f8d4",
+      "path": "workflows/wiki-audit-2026-10-07/pane-neighbor-providers-2026-10-10-forty-first.md",
+      "status": "awaiting-independent-review"
+    }
   },
   "priorities": [
     "Ready pane38 binding correction/pane40 review and WORLD27 blind review",
