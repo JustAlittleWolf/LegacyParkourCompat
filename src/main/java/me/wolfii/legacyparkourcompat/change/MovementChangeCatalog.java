@@ -6,6 +6,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.AfterCollisionBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.AirSpeedBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.AirSpeedUpdateBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.AutoJumpBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.AutoJumpCollisionOrderBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.AutoJumpInverseSqrtBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.BlockBounceBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.BlockCollisionShape;
@@ -266,6 +267,7 @@ public final class MovementChangeCatalog {
     }
 
     private static void registerV1_17_1(MovementChangeRegistry registry) {
+        registry.register(AutoJumpCollisionOrderBehavior.class, ParkourVersion.V1_17_1, new me.wolfii.legacyparkourcompat.change.v1_17_1.AutoJumpCollisionOrder());
         registry.register(SprintCollisionBehavior.class, ParkourVersion.V1_17_1, new me.wolfii.legacyparkourcompat.change.v1_17_1.SprintCollision());
         registry.register(BoatPassengerYawRefreshBehavior.class, ParkourVersion.V1_17_1, new me.wolfii.legacyparkourcompat.change.v1_17_1.BoatPassengerYawRefresh());
         registry.register(SneakEdgeCollisionQueryBehavior.class, ParkourVersion.V1_17_1, new me.wolfii.legacyparkourcompat.change.v1_17_1.SneakEdgeCollisionQuery());

@@ -6,6 +6,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.FallFlyingStartBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.AutoJumpBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.AutoJumpCollisionOrderBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.AutoJumpInverseSqrtBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.FlightActivationJumpBehavior;
 import me.wolfii.legacyparkourcompat.mechanic.hook.FlightSneakInputBehavior;
@@ -39,7 +40,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.PlayerRideableJumping;
 import net.minecraft.world.entity.player.Input;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.CollisionGetter;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -255,6 +259,26 @@ abstract class LocalPlayerMixin {
         return MovementRuntime.find(AutoJumpInverseSqrtBehavior.class, player)
             .map(behavior -> behavior.inverseSqrt(player, value, vanilla))
             .orElse(vanilla);
+    }
+
+    @WrapOperation(
+        method = "updateAutoJump(FF)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/level/CollisionGetter;getCollisions(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;)Ljava/lang/Iterable;"
+        ),
+        require = 1
+    )
+    private Iterable<VoxelShape> legacyparkourcompat$autoJumpCollisionOrder(
+        CollisionGetter level,
+        Entity source,
+        AABB query,
+        Operation<Iterable<VoxelShape>> vanilla
+    ) {
+        Player player = (Player) (Object) this;
+        return MovementRuntime.find(AutoJumpCollisionOrderBehavior.class, player)
+            .map(behavior -> behavior.autoJumpCollisions(player, level, query))
+            .orElseGet(() -> vanilla.call(level, source, query));
     }
 
     @Redirect(
