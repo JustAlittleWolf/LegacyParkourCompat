@@ -1,6 +1,6 @@
 # Discovery: 1.19.3 to 1.19.4
 
-- Status: active
+- Status: partial
 - Scope: client player movement; older A = 1.19.3; newer B = 1.19.4. Health/food state production, attack/damage resolution, non-player movement and vehicle physics are excluded. Direct player-motion response, including velocity/impulse/knockback application and resulting player state writes, remains in scope; direct vanilla-state movement predicates may read excluded-system values.
 - Repository revision and start date: base `002137b227676caea77f6832b9f4c8d0b6200bff`; task branch `feat/source-discovery-movement-source-1-19-3-1-19-4`; started 2026-10-07.
 - Selected naming namespace, CLI mode per side and alignment evidence: Mojmap / Mojmap; both exact readiness records and source/artifact hashes verified. Member correspondence and comparison are pending.
