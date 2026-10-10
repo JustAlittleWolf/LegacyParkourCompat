@@ -5,7 +5,9 @@
     "id": "01a1249f-64a2-74c1-a3ba-03d9b5fe81d8",
     "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/campaign-coordination-2026-10-10",
     "branch": "feat/campaign-coordination-2026-10-10",
-    "base": "a9583075bcf95605a86745587b37f8ef9fe4d997"
+    "base": "a9583075bcf95605a86745587b37f8ef9fe4d997",
+    "checkpoint": "39af46f8694f4959859d7e3e2416133014ad4d63",
+    "defaultBranchMergedThrough": "ab2a08723d40f649eb16d8c951fd45300e9c004b"
   },
   "authority": "Campaign continuation authorized in source chat 01a12180; existing-chat messaging authorization independently read from human turns. Initial automatic-review rejection resolved by verified authorization on retry.",
   "capacity": {
@@ -14,16 +16,16 @@
     "active": [
       "coordinator",
       "01a12195-a8a4-70e2-a0c1-270e692bee45",
-      "01a121e2-3cab-77a2-b74b-af2a63e576dd",
-      "01a1218b-99e7-7712-b241-b9a97a6eaf76"
+      "01a1218b-99e7-7712-b241-b9a97a6eaf76",
+      "01a12181-2e5d-7382-ac1b-be37a602911e"
     ]
   },
   "main": {
     "head": "ab2a08723d40f649eb16d8c951fd45300e9c004b",
     "dirty": [],
     "exclusiveOwner": "01a12181-2e5d-7382-ac1b-be37a602911e",
-    "phase": "idle",
-    "cursor": "b857d278-db2f-425e-af4b-354f50342848:113",
+    "phase": "farmland-source-report-integration-active",
+    "cursor": "b857d278-db2f-425e-af4b-354f50342848:119",
     "next": "Full missing modifier-source checkpoint fa889954, preserving current source review events.",
     "completedBatch": {
       "commit": "a3feab0be35a6aa13e1f2dd36d0b3049dd2fc7b8",
@@ -240,14 +242,15 @@
       "pair": "1.19.4--1.20.1",
       "gate": "partial",
       "branch": "feat/source-discovery-1-19-4-1-20-1-resume-2026-10-09",
-      "head": "c737e7637ac201eaf8c8a154d1b15b7f1d64b237",
+      "head": "4ab7cd79b7b3cc20b7a18eb17c525df06476f809",
       "attachment": "C:/Users/Wolfi/.codex/worktrees/source-1194-1201-resume-2026-10-09/LegacyParkourCompat",
-      "ownerState": "active",
+      "ownerState": "checkpoint-complete",
       "owner": "01a121e2-3cab-77a2-b74b-af2a63e576dd",
-      "next": "DropperBlock, HopperBlock, ComparatorBlock; FARM-04 matched writer pairs committed, remaining registrations/writers open.",
-      "phase": "source-continuation-active",
+      "next": "DaylightDetectorBlock, RedstoneLampBlock, RedStoneWireBlock above-farmland classification/reachability.",
+      "phase": "checkpoint-committed-integration-active",
       "dirty": [],
-      "processState": "No coordinator-owned source process launched; OS process census unavailable (CIM access denied)."
+      "processState": "Owner confirmed no build/decompile/test/game process launched.",
+      "runBlob": "2d5dc07dd1194f8ed9188f483ba0591f1f4fcc21"
     },
     {
       "pair": "1.20.1--1.20.2",
