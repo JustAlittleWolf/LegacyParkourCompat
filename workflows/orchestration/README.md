@@ -2,6 +2,8 @@
 
 Use this workflow to coordinate an authorized movement campaign through [discovery](../movement-discovery/README.md), [campaign handoff](../source-campaign-2026-10-07/README.md) and [implementation](../fix-implementation/README.md).
 
+Resume from the [current coordination record](../orchestration-2026-10-10/README.md) and its [live queue](../orchestration-2026-10-10/live-queue.json). Reconcile captured identities and phases against current refs and worker outcomes before dispatch.
+
 ## Goal and authority
 
 Deliver accepted, minimal historical player-movement deltas toward deterministic parity for fixed profiles. Track discovery, implementation and runtime validation separately. A partial pair can supply an accepted finding; finishing that finding does not complete the pair.

@@ -1,13 +1,14 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-10-10 07:59:17 UTC",
+  "capturedAt": "2026-10-10 08:02:03 UTC",
   "coordinator": {
     "id": "01a1249f-64a2-74c1-a3ba-03d9b5fe81d8",
     "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/campaign-coordination-2026-10-10",
     "branch": "feat/campaign-coordination-2026-10-10",
     "base": "a9583075bcf95605a86745587b37f8ef9fe4d997",
-    "checkpoint": "029a81419f53916f1feddde9ba1dffcbcf906e0a",
-    "defaultBranchMergedThrough": "ab2a08723d40f649eb16d8c951fd45300e9c004b"
+    "checkpoint": "44ece2ec4528f4ff3fc029963e5617612c380d2a",
+    "defaultBranchMergedThrough": "23829fc5e0937f80f00dd1d24e3f406a397c6d86",
+    "mergeCorrection": "Publication add/add queue conflict resolved by retaining newer coordinator checkpoint; incoming farmland report and publication log preserved; no movement code changed."
   },
   "authority": "Campaign continuation authorized in source chat 01a12180; existing-chat messaging authorization independently read from human turns. Initial automatic-review rejection resolved by verified authorization on retry.",
   "capacity": {
@@ -26,7 +27,7 @@
     "exclusiveOwner": "01a12181-2e5d-7382-ac1b-be37a602911e",
     "phase": "idle-publication-complete",
     "cursor": "b857d278-db2f-425e-af4b-354f50342848:130",
-    "next": "Review and integrate new pane41 and source finding revisions when immutable handoffs are ready.",
+    "next": "Publish coordinator queue refresh and missing active-workflow link when capacity permits; then integrate immutable pane/source handoffs.",
     "completedBatch": {
       "commit": "a3feab0be35a6aa13e1f2dd36d0b3049dd2fc7b8",
       "checks": "report-only paths, diff --check passed, prior source statuses and accepted WORLD25 chest-only review preserved",
@@ -226,7 +227,8 @@
       "integrationCommit": "93addea07d2e76c2b383235172450a642fd64f83",
       "integrationBlob": "ea27c32442896747b6bff386179081b40f989b13",
       "reviewCommit": "b0bddfc7cf5bb20e2a16b9b79f950fcbce115cd3",
-      "reviewBlob": "c40d62b2c385ccf6bd2bdc2a674902a92415c6df"
+      "reviewBlob": "c40d62b2c385ccf6bd2bdc2a674902a92415c6df",
+      "cursor": "c2fe30d7-3af8-408b-96ed-3b2b4e066379:58"
     },
     {
       "pair": "1.19.3--1.19.4",
@@ -441,7 +443,7 @@
     "reviewWorktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-pane-providers-9-16-2026-10-09",
     "reviewDirty": [],
     "next": "Independent slice41 review and append-only slice39 manifest correction; partial census 41 memos/116 registrations, then Pumpkin86.",
-    "reviewCursor": "d62f37c9-9376-4ded-9431-e54a0f893508:21",
+    "reviewCursor": "d62f37c9-9376-4ded-9431-e54a0f893508:32",
     "slice38Correction": "b319cd54",
     "slice40Acceptance": "7042a4cb3c50b865d86bb95d09c55934b638549f",
     "slice40Correction": "25e5e107a05d5605ecd34f409c6fd746a6edc01a",
