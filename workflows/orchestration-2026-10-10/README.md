@@ -9,3 +9,7 @@ The active campaign-chat cap is twelve, including the coordinator and coordinati
 The live queue retains its original capture and appends the latest reconciliation of refs, chat outcomes, immutable finding identities and current active roster. The 2026-10-09 queue and branch-resume manifests are historical evidence. Their owner handles, phases, next actions and HEAD values may be stale. Branch cleanup was completed once; no archival, ref deletion, history rewriting or worktree cleanup is part of ongoing coordination.
 
 On pause, stop dispatch and owned work, collect committed checkpoints, verify stopped processes and journal next actions. Do not infer stopped process state from a clean checkout. No tests or game/TAS/Gym/server/Docker launches or pushes are authorized. Source acceptance, implementation, compilation and runtime parity remain separate.
+
+## Integration publication
+
+The policy, typical-admission report, F004 R2 source disposition and captured queue publication are integrated locally through `46b5e4876413ea0d231ed915998567bd980a208c`. The queue preserves its 08:37 UTC observation; reconcile live state before dispatch. Queue JSON, local Markdown links and whitespace checks passed. No build, tests, decompile, runtime launch or push was performed for this documentation batch.
