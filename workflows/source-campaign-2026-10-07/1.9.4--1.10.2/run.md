@@ -1226,6 +1226,17 @@ F001 - [farmland player collision height](findings/F001-farmland-collision-heigh
 - Verified paired boundary: Controls supports character-code movement bindings; event processing writes the binding after screen handling; ChatScreen closes through `openScreen(null)`; active non-Mac focus reacquisition invokes `setAll()` without `releaseAll()`. A catches the out-of-range LWJGL poll and preserves state; B clears codes at least 256. `KeyboardInput.tick()` consumes that state into camera-player movement axes. The release-before-next-sample condition is explicit. No runtime validation or trajectory claim.
 - Independent blind reviewer: pending assignment; decision pending and no acceptance is claimed. Review F004 as this exact immutable snapshot; implementation handoff remains blocked pending review.
 - Timestamp: 2026-10-08 11:26 UTC. Pair status at finding commit: `active`; pair complete: no.
+
+### Snapshot `FS-1.9.4-1.10.2-2026-10-10-character-key-r2` — supersedes r1; fresh blind review required
+
+- Finding: F004; immutable finding snapshot commit `29323ae1a69f423c22ddb3eaa6649d56fe97af46`. Finding Git blob `d6d0c77413cde8a98bdb5e26ca663905776e7d45`; finding raw SHA-256 `35242aa325da2a7180873a4303fd6f2c986366d2b7984b66f4d0a1afe3a82108`.
+- Superseded snapshot: `FS-1.9.4-1.10.2-2026-10-08-character-key-r1`, commit `0202863998a8c6d9a3ff6555235f2add358eca1d`. Preserve its finding bytes and independent review `561841609a917f979f2312d23a4faddfb4cd7ba5` (review file blob `2818b38ad99079f5507e5b10ee586ad2f26eb75a`, raw SHA-256 `197a018a30b6dc6a0e7e0e1296cc82ac8c32def2bfe2306a6cbc60375deadd7b`); that review's verdict was `revision required` and handoff was not accepted.
+- Revision basis: endpoint source review confirms the paired `KeyBinding.setAll()` polling difference, but does not establish a player-state producer. Opening a screen calls `releaseAll()`. While a screen is present, `Screen.handleInputs()` drains keyboard events before the no-screen `Minecraft.handleKeyboardEvents()` route; `Screen.handleKeyboard()` does not call `KeyBinding.set()`. Therefore the cited ChatScreen-return path reaches A's `setAll()` with the movement binding cleared. The revised finding withdraws that unsupported movement applicability and retains `F004-PRODUCER` as an open dependency for any alternate reachable writer/timing witness.
+- Exact endpoint manifests remain A source `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`, artifact `9527dca544694daa3b4a7741be1a5b4802d8b6665c8a152a408a37a27a1b4d77`; B source `91b0f478acb7b6f13463c35b268a30d2806f583402631a56f54ce2eb70d1ec71`, artifact `6b402f3e6d6cf2f7b3647806364ff44214c47348fefd6949fad03e2011379116`. Revised-artifact bytecode evidence remains limited to the immutable jars; original derived-JAR byte identity remains unproven.
+- Boundary correction: the canonical campaign `version_manifest_v2.json` hash is `845dfb7f8b28ce06bf0752b597ef2d4d65df973e4b59d8d6ff429ad2d3adde04` and lists stable IDs `1.10` and `1.10.1` between the endpoints. No ready source markers for either release were available. `F004-BOUNDARY` remains open; the first changed release is unknown within `(1.9.4, 1.10.2]`.
+- Pair status at this checkpoint: `partial`; pair complete: no. New finding snapshot review: pending fresh independent blind review. Implementation handoff: `blocked`. Runtime validation: not performed.
+- Snapshot event timestamp: 2026-10-10 08:29 UTC.
+
 ## Implementation reconciliation
 
 - Reconciliation status: pending

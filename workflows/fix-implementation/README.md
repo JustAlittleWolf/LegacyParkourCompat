@@ -8,6 +8,10 @@ Before editing, read the root [README](../../README.md), [AGENTS.md](../../AGENT
 
 Candidates, unresolved dependencies and uncertain required version boundaries block implementation. Endpoints A and B locate a difference within `(A, B]`; inspect intervening exact sources before registering a specific boundary or applying it to a whole `ParkourVersion` group. An accepted finding does not complete its pair. Do not send implementation-derived feedback to source-only owners before full-pair freeze.
 
+## Early implementation admission
+
+Before full-pair freeze, admit only typical parkour behavior: walking, jumping, collisions, sneaking and ordinary block behavior. Its own independently accepted immutable source snapshot, established required version applicability and closed finding-specific dependencies are sufficient to start implementation while other pair discovery continues; pair freeze is not a prerequisite. World-border behavior, bed enter/exit and analogous nonstandard interactions remain discovery-only and are not eligible for implementation during this campaign. Preserve all existing implementations: this policy does not authorize rollback or removal. The [campaign session policy](../orchestration/session-policy-2026-10-10.md) and [snapshot handoff gate](../source-campaign-2026-10-07/README.md#incremental-finding-to-implementation-handoff) define the dispatch contract.
+
 ## 1. Isolate and reconcile
 
 Use a dedicated branch/worktree and assigned writable paths. No concurrent writers to the same checkout. Inspect the current code and record the finding as implemented, partially implemented, intentionally excluded or open, with exact code/hook/registration evidence. Preserve existing mechanics; add only the missing delta. A correct no-code disposition is a valid result.
