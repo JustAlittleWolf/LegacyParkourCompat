@@ -236,6 +236,7 @@ public final class MovementChangeCatalog {
     }
 
     private static void registerV1_15_2(MovementChangeRegistry registry) {
+        registry.register(BlockCollisionShape.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.RetractingPistonHeadCollisionShape());
         registry.register(StaleWaterDepthJumpBehavior.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.StaleWaterDepthJump());
         registry.register(SneakEdgeCollisionQueryBehavior.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.SneakEdgeCollisionQuery());
         registry.register(GroundFrictionBlockBehavior.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.GroundFrictionSamplePoint());

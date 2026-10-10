@@ -29,4 +29,19 @@ public interface BlockCollisionShape extends VersionedMechanic {
         BlockPos pos,
         CollisionContext context
     );
+
+    /**
+     * Collision shape after the block's native query. Implementations can use
+     * the native result to preserve query-specific guards; by default the
+     * historical change replaces the native result exactly as before.
+     */
+    default Optional<VoxelShape> collisionShape(
+        BlockState state,
+        BlockGetter level,
+        BlockPos pos,
+        CollisionContext context,
+        VoxelShape vanillaShape
+    ) {
+        return this.collisionShape(state, level, pos, context);
+    }
 }
