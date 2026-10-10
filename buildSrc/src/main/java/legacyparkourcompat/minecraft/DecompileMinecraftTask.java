@@ -97,6 +97,12 @@ public abstract class DecompileMinecraftTask extends DefaultTask {
 
     @TaskAction
     public void run() {
+        if (!getOutputRoot().isPresent() || !getCacheDirectory().isPresent()) {
+            throw new GradleException("decompileMinecraft requires explicit --output-root and --cache-directory paths. "
+                    + "Use an isolated staging pair for preparation; source consumers must use the published "
+                    + "readiness records and must not run this task.");
+        }
+
         List<String> specs = getVersions().get().stream()
                 .flatMap(value -> MinecraftDecompileMain.splitVersions(value).stream())
                 .toList();
