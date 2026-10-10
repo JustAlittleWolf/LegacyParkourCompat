@@ -660,7 +660,7 @@ tasks.register('runParkourGymServer') {
 // It is read-only source data, not a disposable Gradle output.
 tasks.named('clean', Delete) {
     setDelete(fileTree(layout.buildDirectory) {
-        exclude('movement-campaign-2026-10-07/ready/**')
+        exclude('movement-campaign-2026-10-07/**')
     })
 }
 

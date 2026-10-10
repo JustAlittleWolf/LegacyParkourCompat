@@ -17,7 +17,11 @@ import org.gradle.jvm.toolchain.JavaLauncher;
 import org.gradle.process.ExecOperations;
 
 import javax.inject.Inject;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
 import java.util.List;
 
 /**
@@ -102,6 +106,7 @@ public abstract class DecompileMinecraftTask extends DefaultTask {
                     + "Use an isolated staging pair for preparation; source consumers must use the published "
                     + "readiness records and must not run this task.");
         }
+        validateWritableRoots();
 
         List<String> specs = getVersions().get().stream()
                 .flatMap(value -> MinecraftDecompileMain.splitVersions(value).stream())
@@ -136,5 +141,104 @@ public abstract class DecompileMinecraftTask extends DefaultTask {
         if (result.getExitValue() != 0) {
             throw new GradleException("Minecraft decompilation failed with exit code " + result.getExitValue());
         }
+    }
+
+    private void validateWritableRoots() {
+        Path projectRoot = getProject().getRootDir().toPath().toAbsolutePath().normalize();
+        Path repositoryRoot = findRepositoryRoot(projectRoot);
+        List<Path> protectedRoots = List.of(
+                projectRoot.resolve("decompiled_minecraft"),
+                projectRoot.resolve("build/movement-campaign-2026-10-07/ready"),
+                repositoryRoot.resolve("decompiled_minecraft"),
+                repositoryRoot.resolve("build/movement-campaign-2026-10-07/ready")
+        );
+        Path outputRoot = canonicalize(getOutputRoot().get().getAsFile().toPath());
+        Path cacheDirectory = canonicalize(getCacheDirectory().get().getAsFile().toPath());
+        for (Path root : protectedRoots) {
+            Path canonicalProtectedRoot = canonicalize(root);
+            if (overlaps(outputRoot, canonicalProtectedRoot)) {
+                throw new GradleException("Refusing to decompile into the published read-only Minecraft source tree: "
+                        + getOutputRoot().get().getAsFile() + " resolves to or overlaps " + canonicalProtectedRoot
+                        + ". Use an isolated staging output root.");
+            }
+            if (overlaps(cacheDirectory, canonicalProtectedRoot)) {
+                throw new GradleException("Refusing to use the published read-only Minecraft source tree as a "
+                        + "decompiler cache: " + getCacheDirectory().get().getAsFile() + " resolves to or overlaps "
+                        + canonicalProtectedRoot + ". Use a separate cache directory.");
+            }
+        }
+    }
+
+    private static Path findRepositoryRoot(Path projectRoot) {
+        Path gitEntry = projectRoot.resolve(".git");
+        if (Files.isDirectory(gitEntry)) {
+            return projectRoot;
+        }
+        if (Files.isRegularFile(gitEntry)) {
+            try {
+                String gitFile = Files.readString(gitEntry).trim();
+                if (!gitFile.startsWith("gitdir:")) {
+                    throw new GradleException("Cannot resolve shared source protection: invalid Git worktree file "
+                            + gitEntry);
+                }
+                Path worktreeGitDirectory = Path.of(gitFile.substring("gitdir:".length()).trim());
+                if (!worktreeGitDirectory.isAbsolute()) {
+                    worktreeGitDirectory = projectRoot.resolve(worktreeGitDirectory);
+                }
+                worktreeGitDirectory = worktreeGitDirectory.toAbsolutePath().normalize();
+                Path commonDirectoryFile = worktreeGitDirectory.resolve("commondir");
+                if (!Files.isRegularFile(commonDirectoryFile)) {
+                    throw new GradleException("Cannot resolve shared source protection: missing Git common-dir file "
+                            + commonDirectoryFile);
+                }
+                Path commonGitDirectory = Path.of(Files.readString(commonDirectoryFile).trim());
+                if (!commonGitDirectory.isAbsolute()) {
+                    commonGitDirectory = worktreeGitDirectory.resolve(commonGitDirectory);
+                }
+                commonGitDirectory = commonGitDirectory.toAbsolutePath().normalize();
+                if (!Files.isDirectory(commonGitDirectory) || commonGitDirectory.getParent() == null) {
+                    throw new GradleException("Cannot resolve shared source protection from Git metadata at "
+                            + commonGitDirectory);
+                }
+                return commonGitDirectory.getParent();
+            } catch (IOException | InvalidPathException error) {
+                throw new GradleException("Cannot resolve shared source protection from Git worktree metadata at "
+                        + gitEntry, error);
+            }
+        }
+        return projectRoot;
+    }
+
+    private static Path canonicalize(Path path) {
+        Path absolute = path.toAbsolutePath().normalize();
+        Path existing = absolute;
+        List<Path> missingParts = new ArrayList<>();
+        while (existing != null && !Files.exists(existing)) {
+            if (Files.isSymbolicLink(existing)) {
+                throw new GradleException("Cannot safely resolve output/cache path through dangling link " + existing);
+            }
+            Path name = existing.getFileName();
+            if (name == null) {
+                break;
+            }
+            missingParts.add(name);
+            existing = existing.getParent();
+        }
+        if (existing == null) {
+            throw new GradleException("Cannot resolve output/cache path " + absolute);
+        }
+        try {
+            Path resolved = existing.toRealPath();
+            for (int index = missingParts.size() - 1; index >= 0; index--) {
+                resolved = resolved.resolve(missingParts.get(index));
+            }
+            return resolved.normalize();
+        } catch (IOException error) {
+            throw new GradleException("Cannot canonicalize output/cache path " + absolute, error);
+        }
+    }
+
+    private static boolean overlaps(Path first, Path second) {
+        return first.startsWith(second) || second.startsWith(first);
     }
 }
