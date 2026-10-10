@@ -1,24 +1,24 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-10-10 08:05:19 UTC",
+  "capturedAt": "2026-10-10 08:10:02 UTC",
   "coordinator": {
     "id": "01a1249f-64a2-74c1-a3ba-03d9b5fe81d8",
     "worktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/campaign-coordination-2026-10-10",
     "branch": "feat/campaign-coordination-2026-10-10",
     "base": "a9583075bcf95605a86745587b37f8ef9fe4d997",
-    "checkpoint": "c2ad2e4540f6d8d0a3eb7e875771fc40550ea3ba",
+    "checkpoint": "e6a8e2252e54c956feeb972feb26901ed652b73d",
     "defaultBranchMergedThrough": "23829fc5e0937f80f00dd1d24e3f406a397c6d86",
     "mergeCorrection": "Publication add/add queue conflict resolved by retaining newer coordinator checkpoint; incoming farmland report and publication log preserved; no movement code changed."
   },
-  "authority": "Campaign continuation authorized in source chat 01a12180; existing-chat messaging authorization independently read from human turns. Initial automatic-review rejection resolved by verified authorization on retry.",
+  "authority": "Authorized campaign continuation, existing-chat coordination and fresh reviewer dispatch. No tests, game/TAS/Gym/server/Docker launches or pushes.",
   "capacity": {
     "hardCap": 12,
     "runtimeCap": 4,
     "active": [
       "coordinator",
-      "01a12195-a8a4-70e2-a0c1-270e692bee45",
+      "/root/review_honey_contact",
       "01a12181-2e5d-7382-ac1b-be37a602911e",
-      "/root/review_world27"
+      "/root/review_character_key_input"
     ]
   },
   "main": {
@@ -52,12 +52,12 @@
       "pair": "1.8.9--1.9.4",
       "gate": "partial",
       "branch": "feat/source-discovery-movement-source-1-8-9-1-9-4-solid-resume",
-      "head": "47d436660f60017d279d4a39b794a5086119fbbe",
+      "head": "f8bef2abea9a2b64c2ff9f8594d16ea0065607d4",
       "attachment": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-pair-189194-solid-resume",
-      "ownerState": "active",
-      "owner": "/root/review_world27",
-      "next": "Review corrected client effective-cap premise; preserve withheld eligible fallback/clipping applicability and unknown boundary.",
-      "phase": "client-revision-independent-review-active",
+      "ownerState": "checkpoint-complete",
+      "owner": "/root/revise_world27",
+      "next": "COLL-01 remaining player block-cell candidates and reachable support/contact providers beyond WORLD27; cap route/boundary remain open.",
+      "phase": "accurate-partial-documentation-integration-queued",
       "dirty": [],
       "processState": "No coordinator-owned source process launched; OS process census unavailable (CIM access denied).",
       "reviewOwner": "/root/review_world27",
@@ -70,7 +70,10 @@
       "reviewR2": "8f1d4086ca4aaa0e4323718342726df7d351fc13",
       "clientSnapshot": "3811faa14e061e56e96b23885421ed3861a1d414",
       "clientBlob": "ea8e768ed9e0035bd6008ec2ae73c3fcecf94fd9",
-      "clientRawSha256": "0d44b1f18487282ae1d8b8b3a95c8d0101dcebf71a702c935154c31ce7165a7b"
+      "clientRawSha256": "0d44b1f18487282ae1d8b8b3a95c8d0101dcebf71a702c935154c31ce7165a7b",
+      "clientReviewCommit": "65e55d1c42098523fe6070a7de5794674f55d36e",
+      "clientVerdict": "accurate-partial-documentation-not-accepted-eligible",
+      "runBlob": "96770252864decc06fffce59f0388d5ed1a744d0"
     },
     {
       "pair": "1.9.4--1.10.2",
@@ -81,9 +84,14 @@
       "ownerState": "fresh-owner-required",
       "owner": null,
       "next": "Mushroom/Wheat/banners after committed Diode/DoublePlant/GrassPath slice; keep report-only import distinct.",
-      "phase": "queued",
+      "phase": "F004-independent-review-active",
       "dirty": [],
-      "processState": "No coordinator-owned source process launched; OS process census unavailable (CIM access denied)."
+      "processState": "No coordinator-owned source process launched; OS process census unavailable (CIM access denied).",
+      "reviewOwner": "/root/review_character_key_input",
+      "reviewWorktree": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/review-character-key-input-2026-10-10",
+      "reviewBranch": "fix/review-character-key-input-2026-10-10",
+      "reviewSnapshot": "0202863998a8c6d9a3ff6555235f2add358eca1d",
+      "reviewFindingBlob": "c98e41d2fd8eda84eff15a06d6fb9cd273c0e34f"
     },
     {
       "pair": "1.10.2--1.11.2",
@@ -215,12 +223,12 @@
       "pair": "1.19.2--1.19.3",
       "gate": "partial",
       "branch": "feat/source-1192-1193-resume-2026-10-09",
-      "head": "74bb73221744d846c27cb03a1261f8f90c4da84d",
+      "head": "a51009154d1f1789e71d6a982e822fd2ef9c68a4",
       "attachment": "D:/Javastuff/LegacyParkourCompat/.task-worktrees/source-1192-1193-resume-2026-10-09",
       "ownerState": "active",
-      "owner": "01a12195-a8a4-70e2-a0c1-270e692bee45",
-      "next": "Close entry-state producer and exact release boundary; preserve snapshot/review via supersession.",
-      "phase": "source-finding-revision-active",
+      "owner": "/root/review_honey_contact",
+      "next": "Independent R2 review of teleport/gravity entry witness; exact first changed release remains unknown.",
+      "phase": "revised-snapshot-independent-R2-review-active",
       "dirty": [],
       "processState": "Bounded author returned clean checkpoint; no build/tests/runtime launched.",
       "reviewOwner": "/root/review_honey_contact",
@@ -231,7 +239,10 @@
       "integrationBlob": "ea27c32442896747b6bff386179081b40f989b13",
       "reviewCommit": "b0bddfc7cf5bb20e2a16b9b79f950fcbce115cd3",
       "reviewBlob": "c40d62b2c385ccf6bd2bdc2a674902a92415c6df",
-      "cursor": "c2fe30d7-3af8-408b-96ed-3b2b4e066379:65"
+      "cursor": "c2fe30d7-3af8-408b-96ed-3b2b4e066379:80",
+      "revisedSnapshot": "33fb4482c3a5a49f28557ff934fc8485a09b5605",
+      "revisedFindingBlob": "c38a178cd2c96f4725b2f1b62c0ff64d48a25819",
+      "revisedFindingRawSha256": "fae6af2f355acd6760d39aec5f5215b773eb60abcc1e588d56e2d6832f6870c0"
     },
     {
       "pair": "1.19.3--1.19.4",
