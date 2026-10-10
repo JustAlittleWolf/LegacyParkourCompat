@@ -106,7 +106,7 @@ public abstract class DecompileMinecraftTask extends DefaultTask {
                     + "Use an isolated staging pair for preparation; source consumers must use the published "
                     + "readiness records and must not run this task.");
         }
-        validateWritableRoots();
+        List<Path> protectedRoots = validateWritableRoots();
 
         List<String> specs = getVersions().get().stream()
                 .flatMap(value -> MinecraftDecompileMain.splitVersions(value).stream())
@@ -128,6 +128,9 @@ public abstract class DecompileMinecraftTask extends DefaultTask {
         List<String> args = new ArrayList<>();
         args.add(getCacheDirectory().get().getAsFile().getAbsolutePath());
         args.add(getOutputRoot().get().getAsFile().getAbsolutePath());
+        for (Path protectedRoot : protectedRoots) {
+            args.add("--protected-root=" + protectedRoot);
+        }
         args.add("--mappings=" + String.join(",", getMappings().get()));
         args.addAll(specs);
 
@@ -143,7 +146,7 @@ public abstract class DecompileMinecraftTask extends DefaultTask {
         }
     }
 
-    private void validateWritableRoots() {
+    private List<Path> validateWritableRoots() {
         Path projectRoot = getProject().getRootDir().toPath().toAbsolutePath().normalize();
         Path repositoryRoot = findRepositoryRoot(projectRoot);
         List<Path> protectedRoots = List.of(
@@ -154,8 +157,12 @@ public abstract class DecompileMinecraftTask extends DefaultTask {
         );
         Path outputRoot = canonicalize(getOutputRoot().get().getAsFile().toPath());
         Path cacheDirectory = canonicalize(getCacheDirectory().get().getAsFile().toPath());
+        List<Path> canonicalProtectedRoots = new ArrayList<>();
         for (Path root : protectedRoots) {
             Path canonicalProtectedRoot = canonicalize(root);
+            if (!canonicalProtectedRoots.contains(canonicalProtectedRoot)) {
+                canonicalProtectedRoots.add(canonicalProtectedRoot);
+            }
             if (overlaps(outputRoot, canonicalProtectedRoot)) {
                 throw new GradleException("Refusing to decompile into the published read-only Minecraft source tree: "
                         + getOutputRoot().get().getAsFile() + " resolves to or overlaps " + canonicalProtectedRoot
@@ -167,6 +174,7 @@ public abstract class DecompileMinecraftTask extends DefaultTask {
                         + canonicalProtectedRoot + ". Use a separate cache directory.");
             }
         }
+        return List.copyOf(canonicalProtectedRoots);
     }
 
     private static Path findRepositoryRoot(Path projectRoot) {

@@ -13,8 +13,9 @@ public final class MinecraftDecompileMain {
     }
 
     public static void main(String[] args) {
-        if (args.length < 4 || !args[2].startsWith("--mappings=")) {
-            System.err.println("Usage: MinecraftDecompileMain <cacheDir> <outputRoot> --mappings=<auto|mojmap|legacy-yarn|yarn|feather|unobfuscated> <version> [<version>...]");
+        if (args.length < 4) {
+            System.err.println("Usage: MinecraftDecompileMain <cacheDir> <outputRoot> --protected-root=<path>... "
+                    + "--mappings=<auto|mojmap|legacy-yarn|yarn|feather|unobfuscated> <version> [<version>...]");
             System.exit(2);
         }
 
@@ -22,12 +23,24 @@ public final class MinecraftDecompileMain {
         Path cacheDir = Path.of(args[0]);
         Path outputRoot = Path.of(args[1]);
         List<String> versions = new ArrayList<>();
-        List<String> mappings = splitVersions(args[2].substring("--mappings=".length()));
-        for (int i = 3; i < args.length; i++) {
-            versions.addAll(splitVersions(args[i]));
+        List<String> mappings = new ArrayList<>();
+        List<Path> protectedRoots = new ArrayList<>();
+        for (int i = 2; i < args.length; i++) {
+            if (args[i].startsWith("--mappings=")) {
+                mappings.addAll(splitVersions(args[i].substring("--mappings=".length())));
+            } else if (args[i].startsWith("--protected-root=")) {
+                protectedRoots.add(Path.of(args[i].substring("--protected-root=".length())));
+            } else {
+                versions.addAll(splitVersions(args[i]));
+            }
+        }
+        if (mappings.isEmpty() || protectedRoots.isEmpty() || versions.isEmpty()) {
+            System.err.println("Minecraft decompilation requires mappings, protected publication roots, and versions.");
+            System.exit(2);
         }
         try {
-            new MinecraftDecompileEngine(new StdDecompileLogger(), cacheDir, outputRoot, mappings).decompile(versions);
+            new MinecraftDecompileEngine(new StdDecompileLogger(), cacheDir, outputRoot, mappings, protectedRoots)
+                    .decompile(versions);
         } catch (RuntimeException e) {
             e.printStackTrace(System.err);
             System.exit(1);
