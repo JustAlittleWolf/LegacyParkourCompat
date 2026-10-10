@@ -19,17 +19,17 @@
     ]
   },
   "main": {
-    "head": "a9583075bcf95605a86745587b37f8ef9fe4d997",
-    "dirty": [
-      "1.11.2--1.12.2/run.md",
-      "1.13.2--1.14.4/run.md",
-      "pane38 correction review",
-      "pane40 review"
-    ],
+    "head": "a3feab0be35a6aa13e1f2dd36d0b3049dd2fc7b8",
+    "dirty": [],
     "exclusiveOwner": "01a12181-2e5d-7382-ac1b-be37a602911e",
-    "phase": "selective-report-integration-active",
-    "cursor": "b857d278-db2f-425e-af4b-354f50342848:47",
-    "next": "Four missing report-only checkpoints; preserve accepted main-only reviews."
+    "phase": "second-report-batch-active",
+    "cursor": "b857d278-db2f-425e-af4b-354f50342848:56",
+    "next": "Four missing report-only checkpoints; preserve accepted main-only reviews.",
+    "completedBatch": {
+      "commit": "a3feab0be35a6aa13e1f2dd36d0b3049dd2fc7b8",
+      "checks": "report-only paths, diff --check passed, prior source statuses and accepted WORLD25 chest-only review preserved",
+      "semanticCorrections": "WORLD27 effective cap and withdrawn fallback witness; Elytra endpoint acceptance with blocked boundary; append-only pane identity corrections"
+    }
   },
   "sources": [
     {
@@ -419,5 +419,11 @@
     "runtime": "not performed",
     "implementation": "separate per finding; no inference from source acceptance"
   },
-  "cleanup": "Completed one-time operation; historical records are evidence only. No further archival/deletion/history rewriting."
+  "cleanup": "Completed one-time operation; historical records are evidence only. No further archival/deletion/history rewriting.",
+  "sourcePreparation": {
+    "owner": "01a12183-c4f8-70e1-8d32-eafe7a37868d",
+    "phase": "idle-reserved",
+    "root": "D:/Javastuff/LegacyParkourCompat/build/movement-campaign-2026-10-07/ready",
+    "policy": "One writer; consumers read-only; no preparation dispatched."
+  }
 }
