@@ -14,8 +14,6 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockLandingHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockSpeedFactorHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.BoatPassengerFluidPushHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.BoatPassengerYawRefreshHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.BoatSideAccelerationHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.BoatSneakAccelerationHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.CollisionRestitutionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.DismountPositionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.DoubleTapSprintStartHook;
@@ -133,9 +131,6 @@ public final class MovementChangeCatalog {
     }
 
     private static void registerV1_8(MovementChangeRegistry registry) {
-        var movementChangeBoatRiderInputV1_8 = new me.wolfii.legacyparkourcompat.change.v1_8.BoatRiderInput();
-        registry.register(BoatSideAccelerationHook.class, ParkourVersion.V1_8, movementChangeBoatRiderInputV1_8);
-        registry.register(BoatSneakAccelerationHook.class, ParkourVersion.V1_8, movementChangeBoatRiderInputV1_8);
         registry.register(FlightFallDistanceHook.class, ParkourVersion.V1_8, new me.wolfii.legacyparkourcompat.change.v1_8.CreativeFlightFallDistance());
         registry.register(FlightSneakInputHook.class, ParkourVersion.V1_8, new me.wolfii.legacyparkourcompat.change.v1_8.CreativeFlightSneakInput());
         registry.register(SuffocationProbeHook.class, ParkourVersion.V1_8, new me.wolfii.legacyparkourcompat.change.v1_8.EndPortalFramePlayerEjection());

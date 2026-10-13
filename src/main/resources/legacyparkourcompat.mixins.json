@@ -19,7 +19,6 @@
     "PlayerMovementAccessor",
     "EntityJumpAccessor",
     "EntityJumpFactorAccess",
-    "AbstractBoatMixin",
     "ClientPacketListenerMixin",
     "LocalPlayerMixin",
     "LocalPlayerSprintMixin",
