@@ -22,6 +22,8 @@ Save one small Markdown per independent difference at `development/research/find
 
 Bind source acceptance to an immutable finding revision, evidence identity and independent reviewer verdict. A changed claim/evidence needs renewed review. Record patch introduction as unknown within the interval between the concrete older and newer versions unless separately inspected exact intermediate releases prove the boundary. Broad endpoint comparisons do not justify exact implementation cutovers.
 
+The path above is the canonical publication path, not a shared concurrent drafting location. Before freeze, give each lane an isolated working directory and fresh context with only its permitted inputs. Keep candidate findings at that same relative path within the lane's own directory; do not expose another lane's drafts or mixed product history through a shared checkout. The master tracks ownership and candidate revision references in the existing coverage record. If lanes independently describe the same operation, retain their immutable drafts until reconciliation, then publish one canonical finding and bind each independent provenance/verdict to the claim it actually reviewed. Do not invent suffixes to publish duplicate findings or silently transfer acceptance to a changed claim. Remove temporary draft directories when their evidence is preserved and reconciliation is closed; no new tracked reports or lane archives are needed.
+
 ### Small finding template
 
 ```markdown

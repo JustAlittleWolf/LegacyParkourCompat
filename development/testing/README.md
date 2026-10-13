@@ -6,6 +6,8 @@ The lab listens on `127.0.0.1:25568` (HTTP). The Gym listens on `127.0.0.1:25565
 
 ## Gradle workflows
 
+These commands describe existing lab capabilities, used only when explicitly authorized. Follow the [verification workflow](../workflows/testing/README.md) for the intended sequence: exact repeated same-version playback first, then historical-reference comparison. The current comparator checks XYZ and tick count; this alone does not establish equality of all movement state. Detailed test integration remains later work after expert manual assessment.
+
 Capture a version-specific reference from one input recording across several native clients:
 
 ```powershell
@@ -17,12 +19,14 @@ Results are written under `tas-results/` as `<recording-name>-<version>-<run-id>
 Compare the current client using a chosen historical movement profile against the matching version-specific reference:
 
 ```powershell
-.\gradlew.bat runTasCompare -PtasExpected=tas-results\jump-1.12.lprc -PtasVersion=1.12 -PtasCompare=true -PtasMaxUlps=10
+.\gradlew.bat runTasCompare -PtasExpected=tas-results\jump-1.12.lprc -PtasVersion=1.12 -PtasCompare=true
 ```
 
 `tasExpected` must be the reference for the selected `tasVersion`, not the cross-version input file. `-PtasOutput=<file.lprc>` optionally chooses the actual output path; it must not exist already. Without it, the task creates a unique file beside the reference. Gradle checks every captured position and the tick count and fails with the first tick, expected and actual XYZ, run ID, and snapshot log path when they differ.
 
 Comparison is exact by default (`Double.compare` on each coordinate, including distinct signed zeros). `-PtasMaxUlps=<integer>` allows a finite per-coordinate ULP distance and reports all three distances at a failing tick plus the maximum observed distance. Adjacent finite negative values and subnormals have distance one; `-0.0` and `+0.0` have ULP distance zero. NaN and infinity fail. `-PtasTolerance=<finite number>` instead allows an absolute per-coordinate difference. The two tolerance options cannot be combined. The final comparison also requires the exact tick count.
+
+Tolerance options are diagnostic aids, not parity acceptance criteria. Omit both for exact comparisons; even `tasMaxUlps=0` accepts opposite signed zeros and is therefore weaker than the default. A profile label such as `1.12` selects emulation; preserve the exact native reference release (for example `1.12.2`) and artifact identity separately.
 
 For direct one-client automation, `runTasClient` accepts `-PtasRecording=<file>`, `-PtasOutput=<file>`, and `-PtasServer=localhost:25565`; it passes them to the client as JVM properties. A normal `runTasClient` launch is for manual use and does not join the lab's worker pool unless `-PtasWorker=true` is supplied.
 
@@ -31,7 +35,7 @@ For direct one-client automation, `runTasClient` accepts `-PtasRecording=<file>`
 Submit a JSON request to `POST http://127.0.0.1:25568/api/runs`:
 
 ```json
-{"clientVersion":"current","recording":"C:\\absolute\\input.lprc","output":"C:\\absolute\\actual.lprc","compare":true,"profile":"1.12","maxUlps":10}
+{"clientVersion":"current","recording":"C:\\absolute\\input.lprc","output":"C:\\absolute\\actual.lprc","compare":true,"profile":"1.12"}
 ```
 
 `clientVersion` is an exact release or `current`. `profile` selects the Legacy Parkour movement version on `current`; omit it for a native historical client. Omit `compare` or set it to `false` to capture a reference. `output` is optional on the coordinator API; it then chooses a unique path under `tas-results/`. `GET /api/runs/<runId>` reports queued, starting, running, first failure, and final status; `GET /api/clients` lists the pool. The Gym also exposes `POST /api/runs`, `GET /api/runs/<runId>`, and `GET /api/clients` on port 25566 for direct control of connected workers.

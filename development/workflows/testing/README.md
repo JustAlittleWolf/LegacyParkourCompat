@@ -11,6 +11,10 @@ This workflow is for later explicitly authorized lab work. Preparation, source a
 
 Bound conclusions to tested versions, scenarios, fields and initial conditions. A passing scenario does not prove all movement paths or all patches in a release line. Keep the historical reference intact when correcting the implementation or capture tool.
 
+The existing lab compares positions and tick counts, and its recorder trims stationary ends. Before using it as evidence for this fuller workflow, establish that capture preserves the required state and relevant ticks; unchanged position alone does not imply unchanged movement state or irrelevant input. Use the exact comparison mode without tolerance options. Extending capture and comparison where necessary belongs to the later authorized test phase, not to a documentation or discovery assignment.
+
+For a user-specified movement and variant scope, choose representative exact versions, block surfaces/edges, effects and equipment, avoiding redundant cases with identical relevant behavior. Reconstruct controlled initial state for each case and retain its reference identity. Later integration should expose these real-client recording/playback comparisons through the product project's test entry points. Determine safe lab concurrency from available resources during that phase; existing client-pool defaults are not a proven capacity guarantee.
+
 ## Later execution and retained data
 
 This remains a framework for later detailed work after expert manual assessment; it does not prescribe or build new test infrastructure. Test execution reports only failures, with the first divergence and the minimum data needed to reproduce it. Do not write routine success, status or completion reports as permanent research files.

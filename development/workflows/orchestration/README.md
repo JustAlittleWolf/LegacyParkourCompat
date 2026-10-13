@@ -2,6 +2,8 @@
 
 Coordinate only the phases and checks authorized for the assignment. Keep current scope and progress in [research](../../research/README.md); this directory holds reusable instructions only.
 
+Before dispatch, reconcile the current request with project scope and existing evidence. Identify missing inputs, conflicting requirements and decisions that would change the work; ask necessary questions together, while continuing independent preparation. Reuse decisions and authorization already supplied. State the allowed phases, intended deliverable, resource limits and any unresolved blockers in the coordinating chat, then coordinate autonomously within that scope. Reviewing or correcting workflows does not itself authorize a new discovery or implementation campaign.
+
 ## Authority, roles and capacity
 
 The master creates a few separate suborchestrator chats for non-overlapping workstreams, rather than substituting subagents within the master's chat. Suborchestrators may use subagents within explicitly granted delegation limits. Workers do not delegate by default. Grant each suborchestrator explicit delegation rights with a maximum number of additional agents and permitted hierarchy levels; its own slot also counts toward capacity. Do not make one chat per tiny slice. State each role's writable paths, allowed inputs, integration and central-record ownership, global resource budget and absolute end time. Child budgets and concurrent work count against the same global limit.
@@ -48,6 +50,8 @@ The master orchestrator is the only backlog writer and uses the [backlog procedu
 `development/research/decisions.md` holds scope exclusions and invalid witnesses still needed to prevent repeated unsupported work; the master maintains it. `development/research/README.md` explains these records and enduring limitations, without copying individual progress entries. Change comments retain implemented behavior and exact source references; implementers own their narrow patches.
 
 Assignments are direct chat messages stating role and delegation limits, bounded action, exact inputs, branch/worktree and owned paths, isolation, shared budget/deadline, authorized checks and expected patch or finding. Implementers return commit references in chat, without implementation, handoff, status or completion report files. No assignment template or additional tracker hierarchy is needed. Keep necessary reference recordings and comparison data in the authorized lab. Test execution reports failures; only a concise final finding/commit/comparison association belongs in the central record.
+
+Isolation includes conversation context. Start blind source workers/reviewers and independent implementers with fresh context containing only their permitted inputs; do not fork a coordinator's mixed-lane history into them. A clean checkout cannot undo information already present in a worker's chat. For discovery output ownership and overlapping lane drafts, follow the [shared discovery rules](../discovery/README.md#permanent-findings).
 
 Research keeps permanent findings and current relevant state. Remove obsolete preparation, migration, handoff and completed remainder reports instead of archiving them. Transfer unique finding evidence and still-open gates into these records first. Git preserves history; implementation alone never justifies deleting a confirmed finding.
 
