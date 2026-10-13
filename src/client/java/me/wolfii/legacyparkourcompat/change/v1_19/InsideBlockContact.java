@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change.v1_18_2;
+package me.wolfii.legacyparkourcompat.change.v1_19;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -6,6 +6,11 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.block.InsideBlockContactHook;
 import net.minecraft.world.entity.player.Player;
 
 /**
+ * The old six-face 0.001 inside-block scan inset continues through 1.19.2.
+ * 1.19.3 changes the inset to 1.0E-7; the exact profile split preserves that boundary.
+ * 1.19/mojmap/net/minecraft/world/entity/Entity.java: checkInsideBlocks.
+ * 1.19.1/mojmap/net/minecraft/world/entity/Entity.java: checkInsideBlocks.
+ *
  * Source evidence (paths are relative to decompiled_minecraft/):
  * 1.18.2/mojmap/net/minecraft/world/entity/Entity.java:
  *   checkInsideBlocks.
@@ -85,11 +90,9 @@ import net.minecraft.world.entity.player.Player;
  *   getEntityInsideCollisionShape.
  * 1.21.3/mojmap/net/minecraft/world/phys/shapes/Shapes.java:
  *   block.
- * Remaining source/applicability gates:
- *   Current V1_19 group cannot distinguish accepted1.19.2/1.19.3 behavior; earlier aliases and effects of new keys on each existing operation require a corrected decision table.
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
-@MovementChange(emulates = ParkourVersion.V1_18_2)
+@MovementChange(emulates = ParkourVersion.V1_19)
 public final class InsideBlockContact implements InsideBlockContactHook {
     @Override
     public double inset(Player player, double vanilla) {

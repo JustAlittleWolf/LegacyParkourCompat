@@ -6,7 +6,11 @@ import net.minecraft.world.entity.Entity;
 public final class HistoricalRideables {
     private HistoricalRideables() {}
     public static boolean contains(Entity vehicle, ParkourVersion selected) {
-        String id = BuiltInRegistries.ENTITY_TYPE.getKey(vehicle.getType()).getPath();
+        var typeId = BuiltInRegistries.ENTITY_TYPE.getKey(vehicle.getType());
+        if (!"minecraft".equals(typeId.getNamespace())) {
+            return false;
+        }
+        String id = typeId.getPath();
         ParkourVersion first = switch (id) {
             case "oak_boat", "boat", "minecart", "chest_minecart", "furnace_minecart", "tnt_minecart",
                 "hopper_minecart", "spawner_minecart", "command_block_minecart", "pig", "horse", "donkey",

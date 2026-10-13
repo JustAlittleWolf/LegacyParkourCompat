@@ -1,13 +1,16 @@
-package me.wolfii.legacyparkourcompat.change.v1_18_2;
+package me.wolfii.legacyparkourcompat.change.v1_19_3;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.BoatPassengerFluidPushHook;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 
 /**
+ * The 1.19.3 update skips water currents only for boats that are not underwater;
+ * earlier boat-current behavior is independently resolved by the 1.19 Change.
+ *
  * Source evidence (paths are relative to decompiled_minecraft/):
  * 1.18.2/mojmap/net/minecraft/world/entity/Entity.java:
  *   baseTick.
@@ -50,15 +53,11 @@ import net.minecraft.world.entity.player.Player;
  *   Archived-to-canonical source identity for these checked secondary citations: 1.18.2/mojmap/net/minecraft/world/entity/vehicle/Boat.java, 1.19.4/mojmap/net/minecraft/world/entity/vehicle/Boat.java. Archived source identity correspondence remains unresolved for them.
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
-@MovementChange(emulates = ParkourVersion.V1_18_2)
+@MovementChange(emulates = ParkourVersion.V1_19_3)
 public final class BoatPassengerFluidPush implements BoatPassengerFluidPushHook {
     @Override
     public boolean skipWaterCurrent(Player player, Entity vehicle, ParkourVersion selected) {
-        if (vehicle == null || player.getAbilities().flying) {
-            return false;
-        }
-        var vehicleId = BuiltInRegistries.ENTITY_TYPE.getKey(vehicle.getType());
-        return vehicle instanceof net.minecraft.world.entity.vehicle.boat.Boat
+        return !player.getAbilities().flying && vehicle instanceof AbstractBoat boat && !boat.isUnderWater()
             && me.wolfii.legacyparkourcompat.change.common.HistoricalRideables.contains(vehicle, selected);
     }
 }

@@ -7,7 +7,6 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingStartHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingClimbableGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingFlightToggleGateHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpCollisionOrderHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpInverseSqrtHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.FlightActivationJumpHook;
@@ -259,7 +258,7 @@ abstract class LocalPlayerMixin {
         float vanilla = org.joml.Math.invsqrt(value);
         Player player = (Player) (Object) this;
         return MovementRuntime.find(AutoJumpInverseSqrtHook.class, player)
-            .map(behavior -> behavior.inverseSqrt(player, value, vanilla))
+            .map(behavior -> behavior.inverseSqrt(player, MovementRuntime.profile(player).target(), value, vanilla))
             .orElse(vanilla);
     }
 
@@ -279,7 +278,8 @@ abstract class LocalPlayerMixin {
     ) {
         Player player = (Player) (Object) this;
         return MovementRuntime.find(AutoJumpCollisionOrderHook.class, player)
-            .map(change -> change.autoJumpCollisions(player, level, query))
+            .map(change -> change.autoJumpCollisions(player, level, query,
+                MovementRuntime.profile(player).target(), () -> vanilla.call(level, source, query)))
             .orElseGet(() -> vanilla.call(level, source, query));
     }
 
@@ -345,14 +345,6 @@ abstract class LocalPlayerMixin {
                 player.isMovingSlowly(),
                 usingItem
             )));
-    }
-
-    @Inject(method = "isAutoJumpEnabled", at = @At("RETURN"), cancellable = true)
-    private void legacyparkourcompat$applyAutoJumpBehavior(CallbackInfoReturnable<Boolean> cir) {
-        LocalPlayer player = (LocalPlayer)(Object)this;
-        MovementRuntime.find(AutoJumpHook.class, player).ifPresent(behavior ->
-            cir.setReturnValue(behavior.isAutoJumpEnabled(player, cir.getReturnValue()))
-        );
     }
 
     @Shadow

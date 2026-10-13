@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change.v1_18_2;
+package me.wolfii.legacyparkourcompat.change.v1_19;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -6,6 +6,11 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.state.GlideFallDistanceHook;
 import net.minecraft.world.entity.player.Player;
 
 /**
+ * Retains the slow-descent reset to 1.0F through 1.19.2; 1.19.3 uses the
+ * replacement checkSlowFallDistance operation instead of this old travel gate.
+ * 1.19/mojmap/net/minecraft/world/entity/LivingEntity.java: travel.
+ * 1.19.1/mojmap/net/minecraft/world/entity/LivingEntity.java: travel.
+ *
  * Source evidence (paths are relative to decompiled_minecraft/):
  * 1.18.2/mojmap/net/minecraft/world/entity/LivingEntity.java:
  *   travel.
@@ -23,10 +28,9 @@ import net.minecraft.world.entity.player.Player;
  *   checkSlowFallDistance.
  * 1.19.4/mojmap/net/minecraft/world/entity/LivingEntity.java:
  *   travel.
- * No exact independently accepted source binding is established for this operation.
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
-@MovementChange(emulates = ParkourVersion.V1_18_2)
+@MovementChange(emulates = ParkourVersion.V1_19)
 public final class GlideFallDistance implements GlideFallDistanceHook {
     @Override
     public void beforeFallFlyingTravel(Player player, ParkourVersion selected) {

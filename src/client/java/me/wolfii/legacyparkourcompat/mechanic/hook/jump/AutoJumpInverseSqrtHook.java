@@ -1,5 +1,6 @@
 package me.wolfii.legacyparkourcompat.mechanic.hook.jump;
 
+import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
 import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
 import net.minecraft.world.entity.player.Player;
@@ -8,5 +9,5 @@ import net.minecraft.world.entity.player.Player;
 @FunctionalInterface
 @MechanicType("player.auto_jump.inverse_sqrt")
 public interface AutoJumpInverseSqrtHook extends VersionedMechanic {
-    float inverseSqrt(Player player, float value, float vanilla);
+    float inverseSqrt(Player player, ParkourVersion selected, float value, float vanilla);
 }

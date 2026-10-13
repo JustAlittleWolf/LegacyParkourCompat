@@ -288,6 +288,9 @@ def relocate(args):
 
 
 def main():
+    # Machine-facing JSON must use the same encoding when piped on Windows.
+    sys.stdout.reconfigure(encoding='utf-8')
+    sys.stderr.reconfigure(encoding='utf-8')
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
     commands.add_parser('validate', help='Validate structure, unique IDs and current file references')

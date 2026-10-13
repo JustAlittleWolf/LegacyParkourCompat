@@ -38,12 +38,12 @@ import java.util.stream.Collectors;
  *   <li>{@link #V1_21_5} – per-axis low-speed momentum cancel (MC-241951) and related travel fixes</li>
  *   <li>{@link #V1_21_11} – elytra through cave vines / later 1.21 movement</li>
  * </ul>
- * The {@link #V1_19} group uses 1.19.3 as its latest-patch representative:
- * glide fall-distance handling, inside-block contact inset and underwater-boat
- * passenger currents have the newer behavior there, while cached air speed,
- * sprint gates, mounted sprint eligibility and auto-jump normalization retain
- * the older behavior. Their first patch release within 1.19.x has not been
- * established; a minor-version pass is deferred.
+ * The {@link #V1_19} group covers 1.19 through 1.19.2; {@link #V1_19_3}
+ * represents the exact 1.19.3 boundary for inside-block contacts, fluid responses
+ * while riding boats and glide fall-distance handling. Cached air speed and float
+ * auto-jump normalization retain their older behavior through 1.19.3. Passenger
+ * sprint eligibility remains separately incomplete; these boundaries do not
+ * establish full movement parity.
  * 26.2 is native {@link #CURRENT} (block bounce/restitution). 26.1.1 and 26.1.2
  * are grouped with {@link #V26_1} (no movement deltas). Pre-1.8 is out of scope.
  */
@@ -66,7 +66,8 @@ public enum ParkourVersion {
     V1_17_1("1.17.1"),
     V1_18("1.18", "1.18.1"),
     V1_18_2("1.18.2"),
-    V1_19("1.19", "1.19.1", "1.19.2", "1.19.3"),
+    V1_19("1.19", "1.19.1", "1.19.2"),
+    V1_19_3("1.19.3"),
     V1_19_4("1.19.4"),
     V1_20("1.20", "1.20.1"),
     V1_20_2("1.20.2", "1.20.3", "1.20.4"),

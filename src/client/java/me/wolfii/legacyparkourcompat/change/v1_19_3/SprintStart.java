@@ -1,9 +1,15 @@
-package me.wolfii.legacyparkourcompat.change.v1_19;
+package me.wolfii.legacyparkourcompat.change.v1_19_3;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintStartHook;
 import net.minecraft.world.entity.player.Player;
 /**
+ * This independently resolved no-op shields profiles through 1.19.3 from the
+ * later unconditional post-query fall-flying veto; removing it changes resolution.
+ * 1.19/mojmap/net/minecraft/client/player/LocalPlayer.java: aiStep.
+ * 1.19.1/mojmap/net/minecraft/client/player/LocalPlayer.java: aiStep.
+ * 1.19.2/mojmap/net/minecraft/client/player/LocalPlayer.java: aiStep.
+ *
  * Before 1.19.4 there is no extra post-query fall-flying veto.
  *
  * Source evidence (paths are relative to decompiled_minecraft/):
@@ -31,7 +37,7 @@ import net.minecraft.world.entity.player.Player;
  *   Archived-to-canonical source identity for these checked secondary citations: 1.19.4/mojmap/net/minecraft/world/entity/player/Player.java. Archived source identity correspondence remains unresolved for them.
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
-@MovementChange(emulates = ParkourVersion.V1_19)
+@MovementChange(emulates = ParkourVersion.V1_19_3)
 public final class SprintStart implements SprintStartHook {
     @Override public boolean canStartSprinting(Player player, boolean vanilla) { return vanilla; }
 }

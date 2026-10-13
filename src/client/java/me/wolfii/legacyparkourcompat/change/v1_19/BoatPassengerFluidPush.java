@@ -4,10 +4,17 @@ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.BoatPassengerFluidPushHook;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
+import net.minecraft.world.entity.player.Player;
 
 /**
+ * Water-current updates are skipped while riding any era-existing boat through
+ * 1.19.2, including chest boats and submerged boats. The modern AbstractBoat
+ * type includes historical Boat subclasses such as ChestBoat.
+ * 1.19/mojmap/net/minecraft/world/entity/Entity.java: updateInWaterStateAndDoWaterCurrentPushing.
+ * 1.19.1/mojmap/net/minecraft/world/entity/Entity.java: updateInWaterStateAndDoWaterCurrentPushing.
+ * 1.19/mojmap/net/minecraft/world/entity/vehicle/ChestBoat.java: class declaration extends Boat.
+ *
  * Source evidence (paths are relative to decompiled_minecraft/):
  * 1.18.2/mojmap/net/minecraft/world/entity/Entity.java:
  *   baseTick.
@@ -54,7 +61,10 @@ import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 public final class BoatPassengerFluidPush implements BoatPassengerFluidPushHook {
     @Override
     public boolean skipWaterCurrent(Player player, Entity vehicle, ParkourVersion selected) {
-        return !player.getAbilities().flying && vehicle instanceof AbstractBoat boat && !boat.isUnderWater()
+        if (vehicle == null || player.getAbilities().flying) {
+            return false;
+        }
+        return vehicle instanceof AbstractBoat
             && me.wolfii.legacyparkourcompat.change.common.HistoricalRideables.contains(vehicle, selected);
     }
 }
