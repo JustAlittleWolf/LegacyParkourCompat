@@ -13,6 +13,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 
 /**
+ * The descending-Y jump request, without a local glide-bit write, climbable gate
+ * or same-tick creative-flight-toggle veto, persists through 1.14.4.
+ * 1.14 ornithe-feather LocalClientPlayerEntity#mobTick and 1.14.1, 1.14.2,
+ * 1.14.3 yarn ClientPlayerEntity#tickMovement retain these three operations.
+ * The 1.14.2 sprint-input boundary does not change their applicability.
+ *
  * Source evidence (paths are relative to decompiled_minecraft/):
  * 1.14.4/mojmap/net/minecraft/client/player/LocalPlayer.java:
  *   aiStep.
@@ -24,7 +30,7 @@ import net.minecraft.world.item.Items;
  *   aiStep.
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
-@MovementChange(emulates = ParkourVersion.V1_14)
+@MovementChange(emulates = ParkourVersion.V1_14_2)
 public final class ElytraJumpStart implements FallFlyingStartHook, FallFlyingClimbableGateHook, FallFlyingFlightToggleGateHook {
     @Override
     public boolean tryToStartFallFlying(LocalPlayer player, ParkourVersion selected, VanillaFn<Boolean> vanilla) {

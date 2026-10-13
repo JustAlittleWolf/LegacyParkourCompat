@@ -67,6 +67,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeDistanceHo
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeMoverHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeProbeHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SneakInputSlowdownHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.InputSlowdownHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SprintCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintFallFlyingGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.SprintJumpImpulseHook;
@@ -153,7 +154,7 @@ public final class MovementChangeCatalog {
 
     private static void registerV1_9(MovementChangeRegistry registry) {
         registry.register(FallFlyingSavedStateHook.class, ParkourVersion.V1_9, new me.wolfii.legacyparkourcompat.change.v1_9.FallFlyingSavedState());
-        registry.register(PushAwayVelocityHook.class, ParkourVersion.V1_9, new me.wolfii.legacyparkourcompat.change.v1_9.PushAwayVelocity());
+        registry.register(PushAwayVelocityHook.class, ParkourVersion.V1_13, new me.wolfii.legacyparkourcompat.change.v1_9.PushAwayVelocity());
     }
 
     private static void registerV1_10(MovementChangeRegistry registry) {
@@ -211,16 +212,17 @@ public final class MovementChangeCatalog {
     }
 
     private static void registerV1_14(MovementChangeRegistry registry) {
-        registry.register(FallFlyingStartHook.class, ParkourVersion.V1_14, new me.wolfii.legacyparkourcompat.change.v1_14.ElytraJumpStart());
-        registry.register(me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingClimbableGateHook.class, ParkourVersion.V1_14, new me.wolfii.legacyparkourcompat.change.v1_14.ElytraJumpStart());
-        registry.register(me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingFlightToggleGateHook.class, ParkourVersion.V1_14, new me.wolfii.legacyparkourcompat.change.v1_14.ElytraJumpStart());
-        registry.register(GroundFrictionBlockHook.class, ParkourVersion.V1_14, new me.wolfii.legacyparkourcompat.change.v1_14.GroundFrictionSupportCellChange());
+        registry.register(FallFlyingStartHook.class, ParkourVersion.V1_14_2, new me.wolfii.legacyparkourcompat.change.v1_14.ElytraJumpStart());
+        registry.register(me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingClimbableGateHook.class, ParkourVersion.V1_14_2, new me.wolfii.legacyparkourcompat.change.v1_14.ElytraJumpStart());
+        registry.register(me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingFlightToggleGateHook.class, ParkourVersion.V1_14_2, new me.wolfii.legacyparkourcompat.change.v1_14.ElytraJumpStart());
+        registry.register(GroundFrictionBlockHook.class, ParkourVersion.V1_14_2, new me.wolfii.legacyparkourcompat.change.v1_14.GroundFrictionSupportCellChange());
         registry.register(PlayerDimensionsHook.class, ParkourVersion.V1_14, new me.wolfii.legacyparkourcompat.change.v1_14.NativePoseDimensions());
         registry.register(PortalDismountHook.class, ParkourVersion.V1_14, new me.wolfii.legacyparkourcompat.change.v1_14.PortalDismountChange());
-        registry.register(SneakInputSlowdownHook.class, ParkourVersion.V1_14, new me.wolfii.legacyparkourcompat.change.v1_14.SneakInputSlowdown());
+        registry.register(InputSlowdownHook.class, ParkourVersion.V1_14, new me.wolfii.legacyparkourcompat.change.v1_14.InputSlowdownChange());
+        registry.register(InputSlowdownHook.class, ParkourVersion.V1_14_2, new me.wolfii.legacyparkourcompat.change.v1_14_2.InputSlowdownChange());
         var movementChangeSoulSandOverlapChangeV1_14 = new me.wolfii.legacyparkourcompat.change.v1_14.SoulSandOverlapChange();
-        registry.register(BlockSpeedFactorHook.class, ParkourVersion.V1_14, movementChangeSoulSandOverlapChangeV1_14);
-        registry.register(AfterCollisionHook.class, ParkourVersion.V1_14, movementChangeSoulSandOverlapChangeV1_14);
+        registry.register(BlockSpeedFactorHook.class, ParkourVersion.V1_14_2, movementChangeSoulSandOverlapChangeV1_14);
+        registry.register(AfterCollisionHook.class, ParkourVersion.V1_14_2, movementChangeSoulSandOverlapChangeV1_14);
     }
 
     private static void registerV1_15(MovementChangeRegistry registry) {
@@ -293,6 +295,7 @@ public final class MovementChangeCatalog {
         var movementChangeAirSpeedV1_19_3 = new me.wolfii.legacyparkourcompat.change.v1_19_3.AirSpeed();
         registry.register(AirSpeedHook.class, ParkourVersion.V1_19_3, movementChangeAirSpeedV1_19_3);
         registry.register(AirSpeedUpdateHook.class, ParkourVersion.V1_19_3, movementChangeAirSpeedV1_19_3);
+        registry.register(AutoJumpInverseSqrtHook.class, ParkourVersion.V1_14_2, new me.wolfii.legacyparkourcompat.change.v1_14_2.DoubleAutoJumpInverseSqrt());
         registry.register(AutoJumpInverseSqrtHook.class, ParkourVersion.V1_19_3, new me.wolfii.legacyparkourcompat.change.v1_19_3.AutoJumpVectorNormalization());
         registry.register(BoatPassengerFluidPushHook.class, ParkourVersion.V1_19_3, new me.wolfii.legacyparkourcompat.change.v1_19_3.BoatPassengerFluidPush());
         registry.register(SprintFallFlyingGateHook.class, ParkourVersion.V1_19_3, new me.wolfii.legacyparkourcompat.change.v1_19_3.SprintFallFlyingGate());
