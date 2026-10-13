@@ -5,13 +5,10 @@ import me.wolfii.legacyparkourcompat.api.ActiveMovementProfile;
 import me.wolfii.legacyparkourcompat.api.MovementController;
 import me.wolfii.legacyparkourcompat.api.MovementVersionListener;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
-import me.wolfii.legacyparkourcompat.change.MovementChangeCatalog;
 import me.wolfii.legacyparkourcompat.mechanic.MechanicKey;
-import net.minecraft.core.registries.BuiltInRegistries;
+import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
@@ -39,13 +36,17 @@ public final class MovementControllerImpl implements MovementController {
     }
 
     public void initialize() {
-        MovementChangeCatalog.register(this.registry);
         this.rebuild();
         LegacyParkourCompat.LOGGER.info(
             "Movement controller ready (native {}, selected {})",
             this.nativeVersion,
             this.globalProfile.describe()
         );
+    }
+
+    /** Client initialization registers the historical catalog through this neutral registry. */
+    public MovementChangeRegistry changeRegistry() {
+        return this.registry;
     }
 
     @Override
@@ -89,7 +90,6 @@ public final class MovementControllerImpl implements MovementController {
         }
         this.selected = canonical;
         this.rebuild();
-        this.invalidateCollisionCache();
         this.epoch.incrementAndGet();
         LegacyParkourCompat.LOGGER.info("Selected movement version {}", this.globalProfile.describe());
         for (MovementVersionListener listener : this.listeners) {
@@ -172,20 +172,4 @@ public final class MovementControllerImpl implements MovementController {
         return new ActiveMovementProfile(version, implementations);
     }
 
-    /**
-     * Rebuilds the empty-context collision cache used by some world queries.
-     * Player movement collision uses {@code CollisionContext} and is looked up
-     * live, so it updates without this. Outline/cosmetic shapes are not hooked.
-     */
-    private void invalidateCollisionCache() {
-        try {
-            for (Block block : BuiltInRegistries.BLOCK) {
-                for (BlockState state : block.getStateDefinition().getPossibleStates()) {
-                    state.initCache();
-                }
-            }
-        } catch (Exception exception) {
-            LegacyParkourCompat.LOGGER.warn("Could not rebuild block collision cache", exception);
-        }
-    }
 }

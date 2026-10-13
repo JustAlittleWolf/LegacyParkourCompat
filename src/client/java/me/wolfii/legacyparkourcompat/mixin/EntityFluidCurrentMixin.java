@@ -15,9 +15,10 @@ abstract class EntityFluidCurrentMixin {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/Vec3;lengthSqr()D")
     )
     private double legacyparkourcompat$shallowFluidCurrentCutoff(Vec3 current, Entity entity, double scale) {
-        return FluidCurrentCutoffContext.isActiveFor(entity)
-            ? Double.POSITIVE_INFINITY
-            : current.lengthSqr();
+        if (FluidCurrentCutoffContext.isActiveFor(entity)) {
+            return current.length() > 0.0 ? Double.POSITIVE_INFINITY : 0.0;
+        }
+        return current.lengthSqr();
     }
 
     @Redirect(

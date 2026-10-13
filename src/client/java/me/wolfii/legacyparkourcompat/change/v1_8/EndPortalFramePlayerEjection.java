@@ -1,0 +1,47 @@
+package me.wolfii.legacyparkourcompat.change.v1_8;
+
+import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+import me.wolfii.legacyparkourcompat.change.common.SuffocationProbeColumn;
+import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SuffocationProbeHook;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
+
+/**
+ * Source evidence (paths are relative to decompiled_minecraft/):
+ * 1.8.9/ornithe-feather/net/minecraft/block/Block.java:
+ *   public boolean isCube().
+ * 1.8.9/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java:
+ *   protected boolean pushAwayFrom(double x, double y, double z).
+ * 1.9.4/ornithe-feather/net/minecraft/block/Block.java:
+ *   public boolean isCube(BlockState state).
+ * 1.9.4/ornithe-feather/net/minecraft/block/EndPortalFrameBlock.java:
+ *   public boolean isCube(BlockState state).
+ * 1.9.4/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java:
+ *   protected boolean pushAwayFrom(double x, double y, double z).
+ * Remaining source/applicability gates:
+ *   Later applicability gate: exact introduction of campaign-WORLD-03-end-portal-frame-player-ejection is unknown within (1.8.9, 1.9.4]
+ * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ */
+@MovementChange(emulates = ParkourVersion.V1_8)
+public final class EndPortalFramePlayerEjection implements SuffocationProbeHook {
+    @Override
+    public boolean suffocatesAt(Player player, ParkourVersion target, BlockPos pos, VanillaFn<Boolean> vanilla) {
+        // The 1.8 probe floors getShape().minY + 0.5 and tests that cell plus the cell above.
+        if (target == ParkourVersion.V1_8) {
+            double sampleY = player.getBoundingBox().minY + 0.5D;
+            BlockPos samplePos = BlockPos.containing(pos.getX(), sampleY, pos.getZ());
+            if (this.isEndPortalFrame(player, samplePos) || this.isEndPortalFrame(player, samplePos.above())) {
+                return true;
+            }
+        }
+        return SuffocationProbeColumn.any(player, pos, cursor ->
+            player.level().getBlockState(cursor).isSuffocating(player.level(), cursor));
+    }
+
+    private boolean isEndPortalFrame(Player player, BlockPos pos) {
+        return player.level().getBlockState(pos).is(Blocks.END_PORTAL_FRAME);
+    }
+}

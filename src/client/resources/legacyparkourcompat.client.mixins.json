@@ -1,0 +1,31 @@
+{
+  "required": true,
+  "package": "me.wolfii.legacyparkourcompat.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "client.LocalPlayerEarlyFallFlyingSprintStopMixin",
+    "border.EntityBorderCollisionMixin",
+    "border.LivingEntityWakeContextMixin",
+    "border.DismountHelperWakeBorderMixin",
+    "LivingEntityMixin",
+    "PlayerMixin",
+    "BlockStateCollisionShapeMixin",
+    "BlockPushEntitiesMixin",
+    "FarmlandBlockMixin",
+    "EntityMixin",
+    "accessor.EntityInvoker",
+    "EntityFluidCurrentMixin",
+    "EntityFluidInteractionMixin",
+    "PlayerMovementAccessor",
+    "EntityJumpAccessor",
+    "EntityJumpFactorAccess",
+    "ClientPacketListenerMixin",
+    "LocalPlayerMixin",
+    "LocalPlayerSprintMixin",
+    "client.LocalPlayerAccessor",
+    "accessor.PistonMovingBlockEntityAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

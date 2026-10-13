@@ -68,7 +68,7 @@ def local_file(value, finding=False):
             fail(f'Invalid finding filename: {parts[4]}')
 
 
-def validate(data):
+def validate(data, check_files=True):
     if not isinstance(data, dict):
         fail('Backlog must be an object')
     for section in KEYS:
@@ -84,14 +84,16 @@ def validate(data):
                 fail(f'Duplicate {section} identity: {key}')
             seen.add(key)
             if section == 'findings':
-                local_file(record['finding'], finding=True)
+                if check_files:
+                    local_file(record['finding'], finding=True)
                 if record.get('implementation') not in ('open', 'partial', 'present'):
                     fail(f'{key}: implementation must be open, partial or present')
                 if not isinstance(record.get('changes'), list):
                     fail(f'{key}: changes must be an array')
-                for path in record['changes']:
-                    local_file(path)
-            if section == 'implementationEvidenceGaps':
+                if check_files:
+                    for path in record['changes']:
+                        local_file(path)
+            if section == 'implementationEvidenceGaps' and check_files:
                 local_file(record['change'])
             if 'openIssues' in record:
                 allowed = (list, str) if section == 'unresolvedClaims' else list
@@ -102,10 +104,10 @@ def validate(data):
             fail(f'Metadata {key} must be a string')
 
 
-def load():
+def load(check_files=True):
     raw = BACKLOG.read_bytes()
     data = decode(raw.decode('utf-8-sig'))
-    validate(data)
+    validate(data, check_files=check_files)
     return raw, data
 
 
@@ -222,6 +224,8 @@ def modify(args):
         elif not isinstance(after, dict) or identity(args.section, after) != args.id:
             fail('Record identity must match the requested ID and cannot be changed')
     if args.section == 'metadata':
+        if args.command == 'add' and args.id in data:
+            fail(f'Metadata already exists: {args.id}')
         data[args.id] = after
     elif args.command == 'add':
         if any(identity(args.section, row) == args.id for row in data[args.section]):
@@ -243,11 +247,55 @@ def modify(args):
           'record': after})
 
 
+def relocate(args):
+    # A source-set migration necessarily makes old file references unavailable.
+    # Only this explicit maintenance operation may read that intermediate state.
+    original, data = load(check_files=False)
+    revision = digest(data)
+    if args.apply and args.expect != revision:
+        fail('Stale store revision; preview relocation again')
+    mapping = input_file(args.file)
+    if not isinstance(mapping, dict) or not mapping:
+        fail('Relocation needs a nonempty object mapping old code paths to new paths')
+    for old, new in mapping.items():
+        if not isinstance(old, str) or not old.startswith('src/') or not old.endswith('.java'):
+            fail('Relocation accepts exact Java source paths only')
+        local_file(new)
+        if not new.startswith('src/') or not new.endswith('.java') or old == new:
+            fail('Relocation destinations must be different Java source paths')
+    affected = []
+    used = set()
+    for section in ('findings', 'implementationEvidenceGaps'):
+        for row in data[section]:
+            old_id = identity(section, row)
+            paths = row['changes'] if section == 'findings' else [row['change']]
+            changed = [mapping.get(path, path) for path in paths]
+            if changed != paths:
+                used.update(path for path in paths if path in mapping)
+                if section == 'findings':
+                    row['changes'] = changed
+                else:
+                    row['change'] = changed[0]
+                affected.append({'section': section, 'id': old_id,
+                                 'revision': digest(row)})
+    if not used:
+        fail('Mapping does not relocate any current code reference')
+    validate(data)
+    if args.apply:
+        save(data, original)
+    show({'applied': args.apply, 'beforeRevision': revision,
+          'relocatedPaths': len(used), 'affectedRecords': len(affected)})
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
     commands.add_parser('validate', help='Validate structure, unique IDs and current file references')
     commands.add_parser('summary', help='Show counts, metadata and implementation totals')
+    relocation = commands.add_parser('relocate-code', help='Atomically relocate exact current Java references after source moves')
+    relocation.add_argument('--file', required=True)
+    relocation.add_argument('--expect', help='Whole-store revision returned by relocation preview; required with --apply')
+    relocation.add_argument('--apply', action='store_true')
     listing = commands.add_parser('list', help='Search a section; bounded summaries only')
     listing.add_argument('section', choices=KEYS)
     listing.add_argument('--search', default='')
@@ -260,7 +308,7 @@ def main():
     reading.add_argument('--field', help='Return only this top-level field of the entry')
     for command in ('update', 'add', 'delete'):
         sub = commands.add_parser(command, help='Preview a change; --apply writes it (master only)')
-        sub.add_argument('section', choices=[*KEYS, 'metadata'] if command == 'update' else KEYS)
+        sub.add_argument('section', choices=[*KEYS, 'metadata'] if command in ('update', 'add') else KEYS)
         sub.add_argument('id')
         if command != 'delete':
             sub.add_argument('--file', required=True, help='JSON merge patch for update, full record for add; - reads stdin')
@@ -268,6 +316,13 @@ def main():
             sub.add_argument('--expect', required=True, help='Revision returned by show/list')
         sub.add_argument('--apply', action='store_true')
     args = parser.parse_args()
+    if args.command == 'relocate-code':
+        if args.apply:
+            with writer_lock():
+                relocate(args)
+        else:
+            relocate(args)
+        return
     if args.command in ('update', 'add', 'delete'):
         if args.apply:
             with writer_lock():
@@ -282,7 +337,8 @@ def main():
         show({'counts': {key: len(data[key]) for key in KEYS},
               'implementation': {state: sum(row['implementation'] == state for row in data['findings'])
                                  for state in ('open', 'partial', 'present')},
-              'metadata': {key: value for key, value in data.items() if key not in KEYS}})
+              'metadata': {key: value if len(value) <= 512 else value[:512] + f'… ({len(value)} characters; use show metadata)'
+                           for key, value in data.items() if key not in KEYS}})
     elif args.command == 'list':
         if args.offset < 0 or not 1 <= args.limit <= 100:
             fail('offset must be nonnegative; limit must be 1 through 100')

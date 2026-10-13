@@ -30,7 +30,7 @@ import java.lang.annotation.*;
  * still applies to every hook on that class.
  *
  * <p>The implementing class must not reference mixins. Register it explicitly
- * in {@link me.wolfii.legacyparkourcompat.change.MovementChangeCatalog} under
+ * in the client {@code MovementChangeCatalog} under
  * each mechanic interface it implements.
  */
 @Documented

@@ -1,6 +1,6 @@
 # Discover exact player movement differences
 
-Compare two explicitly named Java releases from exact decompiled sources. Cover fixed-profile player movement, including historical bugs, operation order, types, casts and rounding. Keep vanilla block states; historical collision shapes of blocks existing in the selected era are eligible. Rendering, non-player/vehicle physics, modern-only features, health/food production and attack/damage resolution are excluded. Direct player movement responses and predicates reading vanilla state remain eligible.
+Compare two explicitly named Java releases from exact decompiled sources. Cover fixed-profile player movement, including historical bugs, operation order, types, casts and rounding. Keep vanilla block states; historical collision shapes of blocks existing in the selected era are eligible. Rendering, non-player/vehicle physics, modern-only features, health/food production, attack/damage resolution and bed-entry eligibility are excluded. Direct player movement responses and predicates reading vanilla state remain eligible.
 
 ## Choose one lane
 

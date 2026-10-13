@@ -17,6 +17,7 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[3]
 JAVA = Path("src/main/java/me/wolfii/legacyparkourcompat")
+CLIENT_JAVA = Path("src/client/java/me/wolfii/legacyparkourcompat")
 NEUTRAL_MECHANICS = (
     "MechanicKey", "MechanicType", "MovementChange", "MovementChangeRegistry",
     "MovementRuntime", "VanillaCall", "VanillaFn", "VersionedMechanic",
@@ -73,6 +74,17 @@ public final class LegacyParkourCompat implements ModInitializer {
 }
 '''
 
+CLIENT_ENTRY = '''package me.wolfii.legacyparkourcompat;
+import me.wolfii.legacyparkourcompat.change.MovementChangeCatalog;
+import me.wolfii.legacyparkourcompat.impl.MovementControllerImpl;
+import net.fabricmc.api.ClientModInitializer;
+public final class LegacyParkourCompatClient implements ClientModInitializer {
+    @Override public void onInitializeClient() {
+        MovementChangeCatalog.register(MovementControllerImpl.get().changeRegistry());
+    }
+}
+'''
+
 GUIDANCE = '''# Independent movement candidate
 
 Implement only the assigned finding using the supplied exact vanilla sources.
@@ -87,7 +99,8 @@ Mixins remain thin and use MovementRuntime; historical injections belong in the
 client list of legacyparkourcompat.mixins.json. Logical server state must remain native.
 Preserve exact casts, gates, ordering and floating-point quirks. Do not implement
 modern-only features historically or replace vanilla block states. Source comments
-must cite both exact versions, mappings and relevant methods/lines.
+must cite both exact versions, mappings, classes and members. Omit hashes and
+provenance boilerplate from Java comments; source line ranges are optional.
 
 No movement-loop unit/mock tests. Builds only with all Gradle Test tasks disabled
 and -x test. Tests or game/server launches require separate explicit authorization.
@@ -125,7 +138,9 @@ def main():
     source_files += sorted((ROOT / "gradle/wrapper").glob("*"))
     for package in ("api", "impl"):
         source_files += sorted((ROOT / JAVA / package).glob("*.java"))
-    source_files += [ROOT / JAVA / "mechanic" / (name + ".java") for name in NEUTRAL_MECHANICS]
+    for name in NEUTRAL_MECHANICS:
+        relative = Path("mechanic") / (name + ".java")
+        source_files.append(ROOT / (CLIENT_JAVA if name in ("MovementRuntime", "VanillaCall", "VanillaFn") else JAVA) / relative)
     for path in source_files:
         if not path.is_file() or path.is_symlink():
             raise ValueError(f"Missing or linked infrastructure file: {path}")
@@ -146,14 +161,16 @@ def main():
     write(destination, "settings.gradle", SETTINGS)
     write(destination, ".gitignore", ".gradle/\nbuild/\nrun/\n")
     write(destination, JAVA / "LegacyParkourCompat.java", ENTRY)
-    write(destination, JAVA / "change/MovementChangeCatalog.java", CATALOG)
+    write(destination, CLIENT_JAVA / "LegacyParkourCompatClient.java", CLIENT_ENTRY)
+    write(destination, CLIENT_JAVA / "change/MovementChangeCatalog.java", CATALOG)
     write(destination, "AGENTS.md", GUIDANCE)
     write(destination, "disable-tests.gradle", (ROOT / "development/disable-tests.gradle").read_text(encoding="utf-8"))
     resources = Path("src/main/resources")
     write(destination, resources / "fabric.mod.json", json.dumps({
         "schemaVersion": 1, "id": "legacyparkourcompat", "version": "${version}",
         "name": "Movement candidate", "environment": "*", "license": "MIT",
-        "entrypoints": {"main": ["me.wolfii.legacyparkourcompat.LegacyParkourCompat"]},
+        "entrypoints": {"main": ["me.wolfii.legacyparkourcompat.LegacyParkourCompat"],
+                        "client": ["me.wolfii.legacyparkourcompat.LegacyParkourCompatClient"]},
         "mixins": ["legacyparkourcompat.mixins.json"],
         "depends": {"fabricloader": ">=0.19.0", "fabric-api": "*", "minecraft": "*"},
     }, indent=2) + "\n")

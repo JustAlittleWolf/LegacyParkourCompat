@@ -5,6 +5,8 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingStartHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingClimbableGateHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingFlightToggleGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpCollisionOrderHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpInverseSqrtHook;
@@ -75,31 +77,31 @@ abstract class LocalPlayerMixin {
         method = "aiStep",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/player/Player;tryToStartFallFlying()Z"
+            target = "Lnet/minecraft/client/player/LocalPlayer;tryToStartFallFlying()Z"
         )
     )
-    private boolean legacyparkourcompat$fallFlyingJumpStart(Player player, Operation<Boolean> vanilla) {
+    private boolean legacyparkourcompat$fallFlyingJumpStart(LocalPlayer player, Operation<Boolean> vanilla) {
         return MovementRuntime.find(FallFlyingStartHook.class, player)
-            .map(behavior -> behavior.shouldStartFallFlying(player))
+            .map(behavior -> behavior.tryToStartFallFlying(player, MovementRuntime.profile(player).target(), () -> vanilla.call(player)))
             .orElseGet(() -> vanilla.call(player));
     }
 
     @ModifyExpressionValue(
         method = "aiStep",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;onClimbable()Z")
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;onClimbable()Z")
     )
     private boolean legacyparkourcompat$fallFlyingClimbableGate(boolean vanilla) {
         Player player = (Player)(Object)this;
-        return MovementRuntime.find(FallFlyingStartHook.class, player)
-            .map(behavior -> behavior.isOnClimbableForFallFlyingStart(player, vanilla))
+        return MovementRuntime.find(FallFlyingClimbableGateHook.class, player)
+            .map(behavior -> behavior.isOnClimbableForFallFlyingStart(player, MovementRuntime.profile(player).target(), vanilla))
             .orElse(vanilla);
     }
 
     @ModifyVariable(method = "aiStep", at = @At("STORE"), name = "justToggledCreativeFlight")
     private boolean legacyparkourcompat$fallFlyingToggleGate(boolean vanilla) {
         Player player = (Player)(Object)this;
-        return MovementRuntime.find(FallFlyingStartHook.class, player)
-            .map(behavior -> behavior.justToggledCreativeFlightForStart(player, vanilla))
+        return MovementRuntime.find(FallFlyingFlightToggleGateHook.class, player)
+            .map(behavior -> behavior.justToggledCreativeFlightForStart(player, MovementRuntime.profile(player).target(), vanilla))
             .orElse(vanilla);
     }
 

@@ -6,7 +6,7 @@ import java.util.Objects;
  * Identity of one independently selectable mechanic.
  *
  * <p>The {@code type} is the mixin-free hook interface (for example
- * {@link me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockCollisionShapeHook}).
+ * {@code BlockCollisionShapeHook}).
  * {@code variant} distinguishes keyed mechanics such as per-block collision
  * ({@code minecraft:ladder} vs {@code minecraft:soul_sand}); it is empty for
  * singleton mechanics such as jump power.
