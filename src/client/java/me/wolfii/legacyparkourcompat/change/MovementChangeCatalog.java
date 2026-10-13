@@ -112,7 +112,6 @@ public final class MovementChangeCatalog {
         registerV1_15(registry);
         registerV1_15_2(registry);
         registerV1_16(registry);
-        registerV1_16_2(registry);
         registerV1_17(registry);
         registerV1_17_1(registry);
         registerV1_18(registry);
@@ -253,11 +252,8 @@ public final class MovementChangeCatalog {
         registry.register(SuffocationProbeHook.class, ParkourVersion.V1_16, new me.wolfii.legacyparkourcompat.change.v1_16.SuffocationProbe());
     }
 
-    private static void registerV1_16_2(MovementChangeRegistry registry) {
-        registry.register(SwimmingUpdateHook.class, ParkourVersion.V1_16_2, new me.wolfii.legacyparkourcompat.change.v1_16_2.SwimmingUpdate());
-    }
-
     private static void registerV1_17(MovementChangeRegistry registry) {
+        registry.register(SwimmingUpdateHook.class, ParkourVersion.V1_17, new me.wolfii.legacyparkourcompat.change.v1_17.SwimmingUpdate());
         registry.register(JumpPowerHook.class, ParkourVersion.V1_17, new me.wolfii.legacyparkourcompat.change.v1_17.FloatJumpBoostAddition());
     }
 
@@ -348,6 +344,11 @@ public final class MovementChangeCatalog {
     }
 
     private static void registerV1_21_11(MovementChangeRegistry registry) {
+        var currentDepth = new me.wolfii.legacyparkourcompat.change.v1_21_11.FluidCurrentDepthChange();
+        registry.register(me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FluidCurrentSurfaceHook.class,
+            ParkourVersion.V1_21_11, currentDepth);
+        registry.register(me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FluidCurrentDepthOriginHook.class,
+            ParkourVersion.V1_21_11, currentDepth);
         registry.register(ShallowWaterCurrentCutoffHook.class, ParkourVersion.V1_21_11, new me.wolfii.legacyparkourcompat.change.v1_21_11.ShallowWaterCurrentCutoff());
         registry.register(ShallowLavaCurrentCutoffHook.class, ParkourVersion.V1_21_11, new me.wolfii.legacyparkourcompat.change.v1_21_11.ShallowLavaCurrentCutoff());
         registry.register(FluidInteractionBoxHook.class, ParkourVersion.V1_21_11, new me.wolfii.legacyparkourcompat.change.v1_21_11.MountedFluidInteractionBox());
