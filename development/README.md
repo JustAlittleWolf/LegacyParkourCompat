@@ -7,7 +7,7 @@ Product code remains under `src/`. This directory contains:
 - [tas-client](tas-client/README.md): exact-version recording and playback.
 - [parkourgym-server](parkourgym-server/README.md): isolated player worlds and movement-friendly test server.
 - [testing](testing/README.md): client/process coordination and recording comparison.
-- [backlog tool](backlog/README.md): bounded progress queries and validated, revision-checked entry updates.
+- [backlog tool](workflows/orchestration/README.md#backlog-commands): bounded progress queries and validated, revision-checked entry updates.
 - `disable-tests.gradle`: disables every Gradle `Test` task when passed as an init script, including included builds.
 - `export_implementation_base.py`: exports neutral infrastructure and explicit findings to a fresh repository for independent implementation.
 

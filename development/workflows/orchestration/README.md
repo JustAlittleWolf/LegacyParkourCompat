@@ -18,16 +18,16 @@ Start with the newest bugfix release in each minor line from 1.8 through 1.20, m
 
 ## Dispatch and handoff
 
-1. Inspect the small progress index, accepted immutable evidence and unresolved queues. Reuse valid work; do not repeat discovery just because a chat is new. Assign exclusive finding/code writers and independent reviewers.
+1. Use the [backlog commands](#backlog-commands) to inspect progress, accepted immutable evidence and unresolved queues. Reuse valid work; do not repeat discovery just because a chat is new. Assign exclusive finding/code writers and independent reviewers.
 2. Dispatch ready bounded work with complete inputs. Discovery assignments name exactly one of the [source](../discovery/source/README.md), [Minecraft Wiki](../discovery/minecraft-wiki/README.md) or [MCPK Wiki](../discovery/mcpk-wiki/README.md) procedures plus the shared discovery rules. When discovery and implementation are jointly authorized, ready accepted implementation takes priority for the next free capacity; do not interrupt running assignments. Close dependencies and reviews before opening more slices. A pending gate or real capacity limit is a recorded blocker, not a reason to duplicate assignments.
 3. Track pair coverage/dependency/audit separately from per-finding source acceptance, product integration and runtime parity. Never equate a worker handoff, source-confirmed declaration, catalog entry or build with complete discovery or runtime validation.
 4. Before source-pair freeze, require full tick/inventory coverage, closed dependencies and independent blind coverage audit. Early implementation can consume only an independently accepted immutable finding with closed dependencies and established applicability; its pair remains open and blind.
 5. Require coherent commits and checkpoints from writing workers. The product integrator merges the default branch before handoff, inspects semantic conflicts, compiles with all Gradle `Test` tasks disabled plus `-x test`, and records corrections. Source-only lanes must not merge product changes that reveal excluded material.
-6. Return completed work, immutable evidence, exact open blockers and next actions within the global budget/end time. Runtime work follows [testing](../testing/README.md) only when explicitly authorized.
+6. Incorporate verified worker results with the backlog procedure below, validate the updated record and inspect its Git diff. Return completed work, immutable evidence, exact open blockers and next actions within the global budget/end time. Runtime work follows [testing](../testing/README.md) only when explicitly authorized.
 
 ## Central records and ownership
 
-The master orchestrator is the only backlog writer and uses the [entry-level backlog tool](../../backlog/README.md). `development/research/backlog.json` is machine-managed storage; do not read or hand-edit the whole file for routine work. This existing file is the single concise global progress list: finding paths, independent acceptance and unresolved evidence/applicability gates, implementation links and integrated commit references, plus pair coverage, open dependencies, audit and next action. Each coverage entry names examined slices (including checked areas without a finding), partial/unexamined areas, exact Git evidence references and the concrete next bounded source action. Historical coverage/audit decisions stay bound to their inputs; generic partial flags must not erase a valid historical audit or imply that unexamined areas were checked. Keep these distinct from runtime parity. Within its coverage entries, record active ownership, allowed phase, global capacity/budget, deadline and closing window only while relevant. Suborchestrators send bounded updates in chat for the master to incorporate; they do not create nested trackers. Use paginated tool queries and single-entry reads, then preview targeted updates against the returned revision before applying them. Keep the wiki hint inventories separate within each coverage entry under `wikiHints.minecraftWiki` and `wikiHints.mcpkWiki`; each inventory retains checked pages, bounded hints, source-verification links, open gaps and reconciliation state. Do not send these fields or implementation fields to blind source workers; prepare only their permitted source coverage and exact inputs.
+The master orchestrator is the only backlog writer and uses the [backlog procedure below](#backlog-commands). `development/research/backlog.json` is machine-managed storage; do not read or hand-edit the whole file for routine work. This existing file is the single concise global progress list: finding paths, independent acceptance and unresolved evidence/applicability gates, implementation links and integrated commit references, plus pair coverage, open dependencies, audit and next action. Each coverage entry names examined slices (including checked areas without a finding), partial/unexamined areas, exact Git evidence references and the concrete next bounded source action. Historical coverage/audit decisions stay bound to their inputs; generic partial flags must not erase a valid historical audit or imply that unexamined areas were checked. Keep these distinct from runtime parity. Within its coverage entries, record active ownership, allowed phase, global capacity/budget, deadline and closing window only while relevant. Suborchestrators send bounded updates in chat for the master to incorporate; they do not create nested trackers. Use paginated tool queries and single-entry reads, then preview targeted updates against the returned revision before applying them. Keep the wiki hint inventories separate within each coverage entry under `wikiHints.minecraftWiki` and `wikiHints.mcpkWiki`; each inventory retains checked pages, bounded hints, source-verification links, open gaps and reconciliation state. Do not send these fields or implementation fields to blind source workers; prepare only their permitted source coverage and exact inputs.
 
 `development/research/findings/<older>--<newer>/<topic>.md` contains permanent source differences in the [discovery format](../discovery/README.md). The assigned discovery writer owns each finding; an independent reviewer supplies its verdict in chat for the central record. Do not duplicate progress or implementation status in findings. Preserve confirmed findings after implementation.
 
@@ -36,3 +36,54 @@ The master orchestrator is the only backlog writer and uses the [entry-level bac
 Assignments are direct chat messages stating role and delegation limits, bounded action, exact inputs, branch/worktree and owned paths, isolation, shared budget/deadline, authorized checks and expected patch or finding. Implementers return commit references in chat, without implementation, handoff, status or completion report files. No assignment template or additional tracker hierarchy is needed. Keep necessary reference recordings and comparison data in the authorized lab. Test execution reports failures; only a concise final finding/commit/comparison association belongs in the central record.
 
 Research keeps permanent findings and current relevant state. Remove obsolete preparation, migration, handoff and completed remainder reports instead of archiving them. Transfer unique finding evidence and still-open gates into these records first. Git preserves history; implementation alone never justifies deleting a confirmed finding.
+
+## Backlog commands
+
+Run from the repository root with Python 3.10 or newer, using only the standard library. On Windows use `py -3`; on Linux/macOS use `python3`.
+
+The master orchestrator is the sole writer. Workers send bounded updates in chat; they do not run write commands or create parallel trackers. Source workers must not query this mixed-lane store: the master supplies only their allowed source inputs and coverage. The tool is a convenience and consistency boundary, not an access-control system.
+
+### Read only what is needed
+
+```powershell
+py -3 development/backlog.py summary
+py -3 development/backlog.py list findings --status open --search jump --limit 10
+py -3 development/backlog.py list coverage --limit 10 --offset 0
+py -3 development/backlog.py show coverage 1.16.5--1.17.1 --field nextAction
+py -3 development/backlog.py validate
+```
+
+`list` returns compact summaries, exact IDs, entry revisions and a `nextOffset` for pagination. Search covers the entry's fields, not just its name. `--status` applies to findings only. `show` returns one complete entry, or one top-level field with `--field`; its revision always identifies the full entry. Validation checks structural consistency, duplicate keys/identities, finding names and current finding/Change paths. Historical evidence paths are Git identities and need not exist in the current checkout. Validation never proves source acceptance or runtime parity.
+
+| Section | Entry ID |
+| --- | --- |
+| `findings` | Full repository-relative finding path |
+| `coverage` | Exact `<older>--<newer>` pair |
+| `unresolvedClaims` | `<pair>::<claim>` |
+| `implementationEvidenceGaps` | Full repository-relative Change path |
+| `excludedOperations` | Operation name |
+| `metadata` | Top-level metadata key, such as `runtime` |
+
+### Preview and apply a targeted update
+
+Read the entry and use the returned revision as `--expect`. Put only the changed fields in a small UTF-8 JSON merge-patch file outside the tracked research tree. For example, a coverage update file might contain:
+
+```json
+{
+  "nextAction": "Inspect the remaining exact-version collision-provider dependency."
+}
+```
+
+```powershell
+py -3 development/backlog.py show coverage 1.16.5--1.17.1
+py -3 development/backlog.py update coverage 1.16.5--1.17.1 --expect <returned-revision> --file C:\temp\coverage-patch.json
+py -3 development/backlog.py update coverage 1.16.5--1.17.1 --expect <returned-revision> --file C:\temp\coverage-patch.json --apply
+```
+
+Without `--apply`, mutation commands validate and preview only. `--file -` reads the patch from standard input. Object fields merge recursively; omitted fields stay unchanged, `null` removes a field, and arrays replace the whole array. Read an array before replacing it so existing evidence is preserved. Metadata updates take a JSON string. Entry identities cannot change in an update. Do not copy the example action into real coverage unless it describes the actual remaining work.
+
+`add <section> <id> --file <record.json>` previews a complete new entry and rejects duplicate IDs. `delete <section> <id> --expect <revision>` previews deletion of a resolved `unresolvedClaims` or `implementationEvidenceGaps` entry. Both need `--apply` to write. Preserve unique evidence before deleting a resolved temporary entry. Permanent findings, coverage and scope dispositions cannot be deleted through this tool.
+
+Writes acquire an exclusive lock, reject stale entry revisions, validate the complete proposed store and atomically replace the storage file. Updates to unrelated entries do not invalidate a previously read entry revision; they are preserved. If a crashed writer leaves `backlog.json.lock`, verify that its recorded process has stopped before removing the lock. Do not bypass an active writer.
+
+`development/research/backlog.json` remains machine-managed, Git-readable storage. Agents do not need to load or hand-edit that large file; ordinary reads and edits use this interface. Existing records and evidence are preserved without a data migration. The serializer keeps one-record diffs for compact sections and readable coverage records. Commit the resulting focused storage diff normally. JSON patches are transient command input, not new reports or trackers.

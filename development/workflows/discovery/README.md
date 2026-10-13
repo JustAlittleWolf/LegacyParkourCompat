@@ -34,6 +34,6 @@ Movement meaning: <reachable player path and concrete consequence>.
 
 ## Progress and authorized checks
 
-Workers send bounded coverage, evidence, unresolved questions and next actions to the master in chat. They do not edit the shared backlog or create parallel status reports. The master uses the [backlog tool](../../backlog/README.md) to keep pair coverage, lane-specific hint inventories, evidence identities, source acceptance, implementation and runtime parity separate. Its storage file is not a worker reading list; source workers receive a source-only projection without wiki or implementation fields.
+Workers send bounded coverage, evidence, unresolved questions and next actions to the master in chat. They do not edit the shared backlog or create parallel status reports. The master uses the [backlog tool](../orchestration/README.md#backlog-commands) to keep pair coverage, lane-specific hint inventories, evidence identities, source acceptance, implementation and runtime parity separate. Its storage file is not a worker reading list; source workers receive a source-only projection without wiki or implementation fields.
 
 Preserve confirmed findings after implementation. Remove resolved temporary work items after retaining unique evidence centrally; do not archive completed development reports. Discovery performs source/static checks only: no implementation, tests, recording, gameplay launches or competing source generation.
