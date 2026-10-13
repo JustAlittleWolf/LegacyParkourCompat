@@ -6,7 +6,6 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.InputSlowdownHook;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.phys.Vec2;
 
 /**
  * Minecraft 1.14.4 and 1.15 (Mojmap), LocalPlayer.aiStep and
@@ -51,13 +50,4 @@ public final class PrePollInputSlowdown implements InputSlowdownHook {
         return (float)(impulse * 0.3);
     }
 
-    /**
-     * Minecraft 1.14.4 (Mojmap), LocalPlayer.aiStep divides input axes by 0.3
-     * for flight sneak; 1.15, 1.15.1 and 1.15.2 (Mojmap), LocalPlayer.aiStep
-     * remove that compensation together with current-input keyboard slowdown.
-     */
-    @Override
-    public Vec2 flightSneakInput(Vec2 input) {
-        return input;
-    }
 }

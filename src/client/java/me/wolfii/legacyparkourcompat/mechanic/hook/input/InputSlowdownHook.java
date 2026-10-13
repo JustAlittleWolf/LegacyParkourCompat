@@ -4,6 +4,7 @@ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
 import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.component.UseEffects;
@@ -21,6 +22,10 @@ public interface InputSlowdownHook extends VersionedMechanic {
     default boolean supports(Player player, ParkourVersion selected) {
         if (!supports(selected) || player.getAttributeValue(Attributes.SCALE) != 1.0
             || player.getAttributeValue(Attributes.SNEAKING_SPEED) != 0.3) {
+            return false;
+        }
+        if (selected.olderThan(ParkourVersion.V1_13) && player.isSwimming()
+            || selected.olderThan(ParkourVersion.V1_14) && player.getPose() == Pose.SWIMMING && !player.isSwimming()) {
             return false;
         }
         if (player.isUsingItem() && !player.isPassenger()) {
@@ -57,11 +62,6 @@ public interface InputSlowdownHook extends VersionedMechanic {
             forward *= 0.2F;
         }
         return new Vec2(left, forward);
-    }
-
-    /** LocalPlayer.aiStep divides the stored axes before the inherited movement step. */
-    default Vec2 flightSneakInput(Vec2 input) {
-        return new Vec2((float)(input.x / 0.3), (float)(input.y / 0.3));
     }
 
     /** LivingEntity.aiStep damps movement copies, leaving the stored input unchanged. */

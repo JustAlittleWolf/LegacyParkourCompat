@@ -17,7 +17,6 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.network.PositionPacketThresho
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.PushAwayVelocityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.RideableJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.ShallowWaterSprintHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.input.SneakInputSlowdownHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.InputSlowdownHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.sprint.ForwardSprintInputHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SprintCollisionHook;
@@ -127,8 +126,9 @@ abstract class LocalPlayerMixin {
     private boolean legacyparkourcompat$flightKeyboardInput(LocalPlayer player, Operation<Boolean> vanilla) {
         boolean controlled = vanilla.call(player);
         if (controlled && player.input.keyPresses.shift() && this.legacyparkourcompat$inputSlowdown != null) {
-            this.legacyparkourcompat$keyboardInput = this.legacyparkourcompat$inputSlowdown
-                .flightSneakInput(this.legacyparkourcompat$keyboardInput);
+            this.legacyparkourcompat$keyboardInput = MovementRuntime.find(FlightSneakInputHook.class, player)
+                .map(change -> change.compensate(player, MovementRuntime.profile(player).target(), this.legacyparkourcompat$keyboardInput))
+                .orElse(this.legacyparkourcompat$keyboardInput);
             ((ClientInputAccessor)player.input).legacyparkourcompat$setMoveVector(this.legacyparkourcompat$keyboardInput);
         }
         return controlled;
@@ -178,17 +178,6 @@ abstract class LocalPlayerMixin {
             .orElse(vanilla);
     }
 
-    @Redirect(
-        method = "modifyInput(Lnet/minecraft/world/phys/Vec2;)Lnet/minecraft/world/phys/Vec2;",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isMovingSlowly()Z")
-    )
-    private boolean legacyparkourcompat$sneakSlowdownGate(LocalPlayer player) {
-        boolean vanilla = player.isMovingSlowly();
-        return MovementRuntime.find(SneakInputSlowdownHook.class, player)
-            .map(behavior -> behavior.shouldSlowDown(player))
-            .orElse(vanilla);
-    }
-
     @WrapOperation(
         method = "aiStep",
         at = @At(
@@ -224,17 +213,6 @@ abstract class LocalPlayerMixin {
         LocalPlayer player = (LocalPlayer) (Object) this;
         MovementRuntime.find(SprintTickHook.class, player)
             .ifPresent(behavior -> behavior.tick(player));
-    }
-
-    @ModifyVariable(method = "modifyInput", at = @At("HEAD"), argsOnly = true)
-    private Vec2 legacyparkourcompat$modifyInput(Vec2 input) {
-        LocalPlayer player = (LocalPlayer) (Object) this;
-        return MovementRuntime.find(FlightSneakInputHook.class, player).map(behavior -> behavior.modify(
-                player,
-                input,
-                MovementRuntime.find(SneakInputSlowdownHook.class, player)
-                    .map(slowdown -> slowdown.shouldSlowDown(player)).orElse(player.isMovingSlowly())
-            )).orElse(input);
     }
 
     @Redirect(

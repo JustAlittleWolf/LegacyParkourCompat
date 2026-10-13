@@ -2,12 +2,13 @@ package me.wolfii.legacyparkourcompat.mechanic.hook.input;
 
 import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
 import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
+import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec2;
 
-/** Input transformation while flying and sneaking. */
+/** Compensation of stored keyboard axes in the local flight/camera/sneak branch. */
 @FunctionalInterface
 @MechanicType("player.input.flight_sneak")
 public interface FlightSneakInputHook extends VersionedMechanic {
-    Vec2 modify(Player player, Vec2 input, boolean slowedBySneaking);
+    Vec2 compensate(Player player, ParkourVersion selected, Vec2 storedInput);
 }
