@@ -15,8 +15,8 @@ The client selects a profile in its UI. A dedicated server can require a profile
 - `src/`: product mod, client UI, neutral version resolution and server handshake/check policy.
 - [development/](development/README.md): TAS recorder, Parkour Gym, test coordinator and authoring utilities.
 - [buildSrc/](buildSrc/README.md): Gradle build logic and the exact-version decompiler. Gradle requires this directory at the root.
-- [workflows/](workflows/README.md): the four current working procedures, without campaign results.
-- [research/](research/README.md): findings, central progress and preserved historical reports.
+- [development/workflows/](development/workflows/README.md): the four current working procedures, without campaign results.
+- [development/research/](development/research/README.md): findings, central progress and preserved historical reports.
 
 Use the Gradle wrapper and Java 25. Build without executing tests:
 
@@ -38,6 +38,6 @@ Exact-version decompiled source is primary evidence. The [decompiler guide](buil
 
 ## Research and verification
 
-Read the [orchestration workflow](workflows/orchestration/README.md) before coordinating work and the relevant discovery, implementation or testing procedure before that phase. Initial research targets the latest bugfix release of each older release line, the relevant 1.21 sub-lines and the latest bugfix of each 26.x line through the current client target. All stable releases remain the long-term goal; endpoint comparisons do not establish every intermediate patch boundary.
+Read the [orchestration workflow](development/workflows/orchestration/README.md) before coordinating work and the relevant discovery, implementation or testing procedure before that phase. Initial research targets the latest bugfix release of each older release line, the relevant 1.21 sub-lines and the latest bugfix of each 26.x line through the current client target. All stable releases remain the long-term goal; endpoint comparisons do not establish every intermediate patch boundary.
 
 Discovery acceptance, integration/build success and runtime parity are separate statuses in the central research index. Historical reports survive in the archive; format conversion alone does not renew their acceptance or prove implementation coverage. Automated recording/playback verification will be elaborated after manual expert assessment: first reproduce recordings exactly in the same native version, then compare native historical references with the modern client profile tick by tick.

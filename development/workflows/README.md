@@ -1,0 +1,10 @@
+# Movement workflows
+
+These are reusable instructions and small templates. Evidence and progress belong in [research](../research/README.md), implementation in the product repository, and recordings in the authorized lab. Historical campaign material is preserved in [development/research/archive](../research/archive/legacy-workflows/README.md).
+
+1. [Discovery](discovery/README.md): establish exact source differences and independently review them.
+2. [Implementation](implementation/README.md): implement accepted deltas independently, then integrate them.
+3. [Testing](testing/README.md): establish recording/playback reliability before comparing historical and emulated movement.
+4. [Orchestration](orchestration/README.md): coordinate bounded work, authority, ownership and budgets.
+
+Creating this structure does not authorize a campaign, tests or runtime launches.

@@ -1,7 +1,8 @@
 """Export neutral movement infrastructure into a fresh, history-free repository.
 
 Run from any directory: py -3 development/export_implementation_base.py
-    --destination <new-directory> --branch fix/<finding> --finding <finding.md>
+    --destination <new-directory> --branch fix/<finding>
+    --finding development/research/findings/<pair>/<finding.md>
 Only the integrator runs this in the product checkout. Workers receive the export.
 """
 
