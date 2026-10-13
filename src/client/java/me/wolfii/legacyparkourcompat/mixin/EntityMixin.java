@@ -1,6 +1,8 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.AfterCollisionHook;
@@ -16,12 +18,12 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerFallDistanceReset
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeMoverHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.ShallowLavaCurrentCutoffHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.ShallowWaterCurrentCutoffHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.RetainedWaterDepthHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.SwimmingUpdateHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
 import me.wolfii.legacyparkourcompat.mixin.accessor.WaterJumpDepthAccess;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityFluidInteraction;
 import net.minecraft.world.entity.MoverType;
@@ -57,16 +59,16 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
         this.legacyparkourcompat$retainedWaterDepth = depth;
     }
 
-    @Inject(method = "updateInWaterStateAndDoFluidPushing()Z", at = @At("RETURN"))
-    private void legacyparkourcompat$retainWaterDepthAfterRefresh(CallbackInfoReturnable<Boolean> cir) {
+    @WrapMethod(method = "updateFluidInteraction()Z")
+    private boolean legacyparkourcompat$retainWaterDepthAfterRefresh(Operation<Boolean> original) {
         Entity entity = (Entity)(Object)this;
-        if (!(entity instanceof Player player) || !MovementRuntime.appliesTo(player)) {
-            return;
-        }
-
-        if (Mth.floor(player.getBoundingBox().deflate(0.001).minY) < 256) {
-            this.legacyparkourcompat$setRetainedWaterDepth(player.getFluidHeight(FluidTags.WATER));
-        }
+        AABB rawBox = entity.getBoundingBox();
+        boolean result = original.call();
+        MovementRuntime.find(RetainedWaterDepthHook.class, entity).ifPresent(behavior ->
+            this.legacyparkourcompat$setRetainedWaterDepth(behavior.afterWaterRefresh(
+                MovementRuntime.profile(entity).target(), entity.isPassenger(), rawBox,
+                this.legacyparkourcompat$getRetainedWaterDepth(), entity.getFluidHeight(FluidTags.WATER))));
+        return result;
     }
 
     @Inject(method = "updateSwimming()V", at = @At("HEAD"), cancellable = true)

@@ -25,7 +25,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.PortalDismountHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.PowderSnowClimbHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.SlowFallingFallDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.SprintJumpImpulseHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.jump.StaleWaterDepthJumpHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.RetainedWaterJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.VelocityZeroThresholdHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.WaterGravityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.WaterJumpHook;
@@ -293,8 +293,10 @@ abstract class LivingEntityMixin {
         }
 
         double retainedDepth = ((WaterJumpDepthAccess)(Object)player).legacyparkourcompat$getRetainedWaterDepth();
-        MovementRuntime.find(StaleWaterDepthJumpHook.class, player)
-            .filter(behavior -> behavior.shouldJumpFromRetainedWaterDepth(player, retainedDepth, this.jumping))
+        MovementRuntime.find(RetainedWaterJumpHook.class, player)
+            .filter(behavior -> behavior.selectsWaterJump(MovementRuntime.profile(player).target(),
+                player.isPassenger(), player.isInWater(), player.isInLava(), this.jumping,
+                player.onGround(), retainedDepth))
             .ifPresent(behavior -> {
                 this.legacyparkourcompat$noJumpDelayBeforeStaleWaterJump = this.noJumpDelay;
                 this.legacyparkourcompat$invokeJumpInLiquid(FluidTags.WATER);
@@ -342,6 +344,9 @@ abstract class LivingEntityMixin {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;jumpInLiquid(Lnet/minecraft/tags/TagKey;)V")
     )
     private void legacyparkourcompat$replaceLiquidJump(LivingEntity entity, TagKey<Fluid> type) {
+        if (this.legacyparkourcompat$staleWaterJumpInitiated) {
+            return;
+        }
         if (entity instanceof Player player
             && !MovementRuntime.find(LiquidJumpGateHook.class, player)
                 .map(behavior -> behavior.shouldJumpInLiquid(player, type, true)).orElse(true)) {

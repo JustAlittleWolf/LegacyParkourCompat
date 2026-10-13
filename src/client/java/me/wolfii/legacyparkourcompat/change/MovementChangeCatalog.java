@@ -75,7 +75,8 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.state.SprintStateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintTickHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintTriggerHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintWindowHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.jump.StaleWaterDepthJumpHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.RetainedWaterDepthHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.RetainedWaterJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SuffocationProbeHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.SwimmingHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.SwimmingPitchHook;
@@ -185,7 +186,6 @@ public final class MovementChangeCatalog {
         registry.register(WaterJumpHook.class, ParkourVersion.V1_12, movementChangeWaterJumpV1_12);
         registry.register(GroundJumpGateHook.class, ParkourVersion.V1_12, movementChangeWaterJumpV1_12);
         registry.register(LiquidJumpGateHook.class, ParkourVersion.V1_12, movementChangeWaterJumpV1_12);
-        registry.register(StaleWaterDepthJumpHook.class, ParkourVersion.V1_12, movementChangeWaterJumpV1_12);
         registry.register(WaterSneakHook.class, ParkourVersion.V1_12, new me.wolfii.legacyparkourcompat.change.v1_12.WaterSneak());
         registry.register(WaterSprintGateHook.class, ParkourVersion.V1_12, new me.wolfii.legacyparkourcompat.change.v1_12.WaterSprintGate());
         me.wolfii.legacyparkourcompat.change.v1_12.SprintInputStart sprintInputStartv1_12 = new me.wolfii.legacyparkourcompat.change.v1_12.SprintInputStart();
@@ -198,7 +198,6 @@ public final class MovementChangeCatalog {
     }
 
     private static void registerV1_13(MovementChangeRegistry registry) {
-        registry.register(StaleWaterDepthJumpHook.class, ParkourVersion.V1_13, new me.wolfii.legacyparkourcompat.change.v1_13.StaleWaterDepthJump());
         registry.register(SwimmingPitchHook.class, ParkourVersion.V1_13, new me.wolfii.legacyparkourcompat.change.v1_13.SwimmingPitch());
         var movementChangeSneakingDimensionsV1_13 = new me.wolfii.legacyparkourcompat.change.v1_13.SneakingDimensions();
         registry.register(PlayerDimensionsHook.class, ParkourVersion.V1_13, movementChangeSneakingDimensionsV1_13);
@@ -211,7 +210,6 @@ public final class MovementChangeCatalog {
     }
 
     private static void registerV1_14(MovementChangeRegistry registry) {
-        registry.register(StaleWaterDepthJumpHook.class, ParkourVersion.V1_14, new me.wolfii.legacyparkourcompat.change.v1_14.StaleWaterDepthJump());
         registry.register(FallFlyingStartHook.class, ParkourVersion.V1_14, new me.wolfii.legacyparkourcompat.change.v1_14.ElytraJumpStart());
         registry.register(me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingClimbableGateHook.class, ParkourVersion.V1_14, new me.wolfii.legacyparkourcompat.change.v1_14.ElytraJumpStart());
         registry.register(me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingFlightToggleGateHook.class, ParkourVersion.V1_14, new me.wolfii.legacyparkourcompat.change.v1_14.ElytraJumpStart());
@@ -225,13 +223,13 @@ public final class MovementChangeCatalog {
     }
 
     private static void registerV1_15(MovementChangeRegistry registry) {
-        registry.register(StaleWaterDepthJumpHook.class, ParkourVersion.V1_15, new me.wolfii.legacyparkourcompat.change.v1_15.StaleWaterDepthJump());
     }
 
     private static void registerV1_15_2(MovementChangeRegistry registry) {
         registry.register(FallFlyingStartHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.LevitationGlideStart());
         registry.register(BlockCollisionShapeHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.RetractingPistonHeadCollisionShape());
-        registry.register(StaleWaterDepthJumpHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.StaleWaterDepthJump());
+        registry.register(RetainedWaterDepthHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.RetainedWaterDepth());
+        registry.register(RetainedWaterJumpHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.RetainedWaterJump());
         registry.register(SneakEdgeCollisionQueryHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.SneakEdgeCollisionQuery());
         registry.register(GroundFrictionBlockHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.GroundFrictionSamplePoint());
         registry.register(SuffocationProbeHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.SuffocationProbe());
@@ -246,7 +244,6 @@ public final class MovementChangeCatalog {
     }
 
     private static void registerV1_16(MovementChangeRegistry registry) {
-        registry.register(StaleWaterDepthJumpHook.class, ParkourVersion.V1_16, new me.wolfii.legacyparkourcompat.change.v1_16.StaleWaterDepthJumpProtection());
         registry.register(SneakEdgeHook.class, ParkourVersion.V1_16, new me.wolfii.legacyparkourcompat.change.v1_16.SneakEdge());
         registry.register(SneakEdgeCollisionQueryHook.class, ParkourVersion.V1_16, new me.wolfii.legacyparkourcompat.change.v1_16.SneakEdgeCollisionQuery());
         registry.register(SuffocationProbeHook.class, ParkourVersion.V1_16, new me.wolfii.legacyparkourcompat.change.v1_16.SuffocationProbe());
