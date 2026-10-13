@@ -1,0 +1,11 @@
+# neighbor-cell collision scan and protruding piston-head arms
+
+1.8.9, ornithe-feather; feather-gen2-1.8.9+build.2-mergedv2.jar, feather-gen2-1.8.9+build.2.tiny: `1.8.9/ornithe-feather/net/minecraft/world/World.java`, `public List<Box> getCollisions(Entity entity, Box shape) {`, lines 891-945.
+1.8.9, ornithe-feather; feather-gen2-1.8.9+build.2-mergedv2.jar, feather-gen2-1.8.9+build.2.tiny: `1.8.9/ornithe-feather/net/minecraft/block/PistonHeadBlock.java`, `public void addCollisions(World world, BlockPos pos, BlockState state, Box shape, List<Box> collisions, Entity entity) {`, lines 87-93.
+1.9.4, ornithe-feather; feather-gen2-1.9.4+build.2-mergedv2.jar, feather-gen2-1.9.4+build.2.tiny: `1.9.4/ornithe-feather/net/minecraft/world/World.java`, `public List<Box> getCollisions(@Nullable Entity entity, Box shape) {`, lines 899-961.
+1.9.4, ornithe-feather; feather-gen2-1.9.4+build.2-mergedv2.jar, feather-gen2-1.9.4+build.2.tiny: `1.9.4/ornithe-feather/net/minecraft/world/World.java`, `public boolean getCollisions(Box shape) {`, lines 1018-1055.
+1.9.4, ornithe-feather; feather-gen2-1.9.4+build.2-mergedv2.jar, feather-gen2-1.9.4+build.2.tiny: `1.9.4/ornithe-feather/net/minecraft/block/PistonHeadBlock.java`, `public void addCollisions(BlockState state, World world, BlockPos pos, Box shape, List<Box> collisions, @Nullable Entity entity) {`, lines 65-68.
+
+Difference: 1.8.9 scans X/Z from floor(min) to exclusive floor(max + 1.0), while 1.9.4 expands each axis from floor(min) - 1 to exclusive ceil(max) + 1 and prunes edge/corner candidates. The 1.9.4 piston-head arm protrudes 0.25 beyond its owning cell. For an airborne local player with initial box X [0.1,0.7], Y [10,11.8], Z [0.2,0.8], requested movement (0.2,0,0), and an EAST head at (1,10,0), 1.8.9 omits cell x=1 while 1.9.4 admits its intersecting arm. Its minimum X 0.75 clips the requested displacement to 0.05. The witness requires a loaded chunk, matching border conditions and no other collision affecting the result; zero requested Y and onGround=false exclude the step-entry path.
+
+Movement meaning: - Disposition: this is a conditional source-level clipped-displacement difference for the specified local move and collision context: 1.8.9 retains `dx=0.2`, 1.9.4 clips to `dx=0.05`.

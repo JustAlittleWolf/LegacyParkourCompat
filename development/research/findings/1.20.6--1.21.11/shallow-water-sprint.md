@@ -1,0 +1,11 @@
+# 1.21.11 rejects sprint initiation in shallow water
+
+1.21.11, mojmap: `1.21.11/mojmap/net/minecraft/world/entity/Entity.java`, isInShallowWater 1473-1474.
+1.20.6, mojmap: `1.20.6/mojmap/net/minecraft/world/entity/LivingEntity.java`, travel 2115-2140.
+1.21.11, mojmap: `1.21.11/mojmap/net/minecraft/world/entity/LivingEntity.java`, travelInWater 2380-2382.
+1.20.6, mojmap: `1.20.6/mojmap/net/minecraft/client/player/LocalPlayer.java`, aiStep 693-703.
+1.21.11, mojmap: `1.21.11/mojmap/net/minecraft/client/player/LocalPlayer.java`, isSprintingPossible 1096-1108.
+
+Difference: Given a grounded player in water whose eyes are not underwater, with sufficient forward input, no shift input, no active sprint, eligible food/mobility state, and a forward tap/release/tap sequence inside the timer window, 1.20.6's grounded double-tap branch can start sprinting: `onGround()` satisfies its location gate, and the 1.20.6 eligibility helper has no shallow-water rejection. 1.21.11's `canStartSprinting()` delegates to `isSprintingPossible(false)` for a walking player; that method rejects `isInShallowWater()`, so 1.21.11 does not start sprint through this route. Directly holding the sprint key is excluded because 1.20.6's separate direct-key branch already rejects water unless underwater.
+
+Movement meaning: `LocalPlayer.aiStep()` sets sprint state before inherited `LivingEntity` travel. Both versions' water travel branches use sprint state to select a different horizontal slowdown factor. The local player is on the normal player -> living travel path. Input thresholds, sprint-window setting, item use, sprint state from prior ticks, and the source of water contact remain inputs; this finding states conditions that satisfy both eligibility paths aside from the shallow-water gate. The source proves that this grounded double-tap route can set sprint in 1.20.6 and is rejected by 1.21.11 while in shallow water. Since sprinting selects `0.9F` for horizontal water slowdown in both versions, the source predicts different horizontal velocity retention after the travel movement when the player has nonzero horizontal velocity. The changed behavior is limited to this initiation path and state; other sprint routes and the complete water travel closure remain under review. No release introduction point inside the endpoint interval is established.

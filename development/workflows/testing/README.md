@@ -11,18 +11,8 @@ This workflow is for later explicitly authorized lab work. Preparation, source a
 
 Bound conclusions to tested versions, scenarios, fields and initial conditions. A passing scenario does not prove all movement paths or all patches in a release line. Keep the historical reference intact when correcting the implementation or capture tool.
 
-## Result template
+## Later execution and retained data
 
-```markdown
-# <Scenario and exact versions>
-Authorization: <scope including permitted launches/checks>.
-Artifacts/state/inputs: <identities and relative recording/result paths>.
-Same-version replay: <exact comparison, repeat count, outcomes>.
-Historical reference: <exact version, repeated replay outcomes>.
-Modern target/profile: <exact version and fixed historical profile>.
-Comparison: <zero ULP + discrete-state result, or first divergence>.
-Finding/implementation: <immutable source finding and product commit>.
-Limits and next action: <unverified conditions or corrective work>.
-```
+This remains a framework for later detailed work after expert manual assessment; it does not prescribe or build new test infrastructure. Test execution reports only failures, with the first divergence and the minimum data needed to reproduce it. Do not write routine success, status or completion reports as permanent research files.
 
-Only mark runtime parity verified after these results exist. Leave unexecuted work pending and link it from the central research progress index.
+Keep native reference recordings, controlled initial-state/input data and comparison data needed to reproduce and assess a result in the authorized lab. The master orchestrator may retain a concise final association of finding, product commit, exact versions/scenario and comparison data in `development/research/backlog.json`. Only that bounded evidence can establish runtime parity; unexecuted work remains unverified. Remove a current gap record when its actual gap is closed, rather than keeping a completed remainder or archive.

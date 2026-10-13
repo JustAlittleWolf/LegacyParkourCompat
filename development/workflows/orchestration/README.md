@@ -4,7 +4,7 @@ Coordinate only the phases and checks authorized for the assignment. Keep curren
 
 ## Authority, roles and capacity
 
-The master creates a few separate suborchestrator chats for non-overlapping workstreams. Workers do not delegate by default. Grant each suborchestrator explicit delegation rights with a maximum number of additional agents and permitted hierarchy levels; its own slot also counts toward capacity. Do not make one chat per tiny slice. State each role's writable paths, allowed inputs, integration/report ownership, global resource budget and absolute end time. Child budgets and concurrent work count against the same global limit.
+The master creates a few separate suborchestrator chats for non-overlapping workstreams. Workers do not delegate by default. Grant each suborchestrator explicit delegation rights with a maximum number of additional agents and permitted hierarchy levels; its own slot also counts toward capacity. Do not make one chat per tiny slice. State each role's writable paths, allowed inputs, integration and central-record ownership, global resource budget and absolute end time. Child budgets and concurrent work count against the same global limit.
 
 Reserve a closing window before the deadline to stop dispatch, finish bounded current steps and collect commits/checkpoints. Forward pause/stop instructions to every active descendant; do not launch replacement work while paused. Verify that active workers have stopped or finished before the closing response, and report exact open work. Do not silently extend the global budget or end time.
 
@@ -18,24 +18,21 @@ Start with the newest bugfix release in each minor line from 1.8 through 1.20, m
 
 ## Dispatch and handoff
 
-1. Inspect the small progress index, accepted immutable evidence and unresolved queues. Reuse valid work; do not repeat discovery just because a chat is new. Assign exclusive report/code writers and independent reviewers.
+1. Inspect the small progress index, accepted immutable evidence and unresolved queues. Reuse valid work; do not repeat discovery just because a chat is new. Assign exclusive finding/code writers and independent reviewers.
 2. Dispatch ready bounded work with complete inputs. When discovery and implementation are jointly authorized, ready accepted implementation takes priority for the next free capacity; do not interrupt running assignments. Close dependencies and reviews before opening more slices. A pending gate or real capacity limit is a recorded blocker, not a reason to duplicate assignments.
 3. Track pair coverage/dependency/audit separately from per-finding source acceptance, product integration and runtime parity. Never equate a worker handoff, source-confirmed declaration, catalog entry or build with complete discovery or runtime validation.
 4. Before source-pair freeze, require full tick/inventory coverage, closed dependencies and independent blind coverage audit. Early implementation can consume only an independently accepted immutable finding with closed dependencies and established applicability; its pair remains open and blind.
 5. Require coherent commits and checkpoints from writing workers. The product integrator merges the default branch before handoff, inspects semantic conflicts, compiles with all Gradle `Test` tasks disabled plus `-x test`, and records corrections. Source-only lanes must not merge product changes that reveal excluded material.
 6. Return completed work, immutable evidence, exact open blockers and next actions within the global budget/end time. Runtime work follows [testing](../testing/README.md) only when explicitly authorized.
 
-## Assignment template
+## Central records and ownership
 
-```text
-Role and delegation rights: <master / suborchestrator / worker / reviewer; max additional agents and permitted levels; own slot counts>.
-Action and exact inputs: <pair/finding/slices; immutable evidence/source identity>.
-Environment and ownership: <OS, exact worktree/branch/base, writable paths>.
-Isolation: <allowed reads and prohibited lanes/history>.
-Budget and deadline: <shared global cap, this allocation, absolute time/timezone, closing window>.
-Authorized checks: <static/compile/runtime permission scope>.
-Output and acceptance: <report/patch/verdict, dependencies, independent gates>.
-Handoff: <commit/path, unresolved work, next exact action>.
-```
+The master orchestrator is the only writer of `development/research/backlog.json`. This existing file is the single concise global progress list: finding paths, independent acceptance and unresolved evidence/applicability gates, implementation links and integrated commit references, plus pair coverage, open dependencies, audit and next action. Keep these distinct from runtime parity. Within its coverage entries, record active ownership, allowed phase, global capacity/budget, deadline and closing window only while relevant. Suborchestrators send bounded updates in chat for the master to incorporate; they do not create nested trackers.
 
-Messages contain the assignment's actions, inputs, constraints and output. Omit chat history, user-message attribution and unrelated campaign details.
+`development/research/findings/<older>--<newer>/<topic>.md` contains permanent source differences in the [discovery format](../discovery/README.md). The assigned discovery writer owns each finding; an independent reviewer supplies its verdict in chat for the central record. Do not duplicate progress or implementation status in findings. Preserve confirmed findings after implementation.
+
+`development/research/decisions.md` holds scope exclusions and invalid witnesses still needed to prevent repeated unsupported work; the master maintains it. `development/research/README.md` explains these records and enduring limitations, without copying individual progress entries. Change comments retain implemented behavior and exact source references; implementers own their narrow patches.
+
+Assignments are direct chat messages stating role and delegation limits, bounded action, exact inputs, branch/worktree and owned paths, isolation, shared budget/deadline, authorized checks and expected patch or finding. Implementers return commit references in chat, without implementation, handoff, status or completion report files. No assignment template or additional tracker hierarchy is needed. Keep necessary reference recordings and comparison data in the authorized lab. Test execution reports failures; only a concise final finding/commit/comparison association belongs in the central record.
+
+Research keeps permanent findings and current relevant state. Remove obsolete preparation, migration, handoff and completed remainder reports instead of archiving them. Transfer unique finding evidence and still-open gates into these records first. Git preserves history; implementation alone never justifies deleting a confirmed finding.

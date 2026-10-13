@@ -1,6 +1,6 @@
 # Implement an independently accepted change
 
-Receive one immutable, independently accepted source finding, exact A/B mappings and locations, dependency closure and proven applicability boundary. An endpoint pair alone cannot establish an intervening patch cutover. Resolve missing boundary evidence before implementing a version range.
+Receive one immutable, independently accepted source finding, the exact older/newer versions, mappings and locations, dependency closure and proven applicability boundary. An endpoint pair alone cannot establish an intervening patch cutover. Resolve missing boundary evidence before implementing a version range.
 
 ## Independent implementation environment
 
@@ -8,7 +8,7 @@ The preparation owner exports a clean infrastructure snapshot into a new reposit
 
 Use `development/export_implementation_base.py --destination <absolute-new-repository> --branch <feat/... or fix/...> --finding <accepted-finding>`. Its base-identity manifest identifies the product revision, export policy and copied infrastructure. Verify the manifest and retained finding's source/mapping identities before independent implementation.
 
-An implementer receives that snapshot plus accepted source evidence, and designs the delta without consulting existing concrete implementations. Add the minimal operation contract and generic integration proposal needed by the finding. Do not transplant a complete movement loop. Submit an independent patch, exact source-fidelity explanation, integration needs and unresolved assumptions. If neutral infrastructure lacks a required capability, report it to the integrator; do not inspect excluded product code to fill the gap.
+An implementer receives that snapshot plus accepted source evidence, and designs the delta without consulting existing concrete implementations. Add the minimal operation contract and generic integration proposal needed by the finding. Do not transplant a complete movement loop. Deliver the narrow patch on your own branch in a coherent commit. Put behavior and both exact source references in Change comments; communicate the commit reference, integration needs and unresolved assumptions in chat. Do not create implementation, handoff, status or completion report files. If neutral infrastructure lacks a required capability, report it to the integrator; do not inspect excluded product code to fill the gap.
 
 ## Product integration
 
@@ -22,15 +22,4 @@ The integrator works in the product repository on its dedicated branch, reconcil
 
 Have an independent technical reviewer verify source fidelity, applicability, hook granularity/order/descriptors, resolver direction, complete catalog registration and native fallback. Compile through the designated build owner with every Gradle `Test` task disabled across all projects and `-x test`; compilation is not runtime parity. Tests and game/TAS/Gym/server launches require explicit authorization. Do not add movement-loop unit/mock tests.
 
-Commit coherent checkpoints. Before product handoff, merge the repository default branch, inspect incoming commits for semantic conflicts and report corrections. Source acceptance, integration completion and runtime parity have independent evidence and statuses in [research](../../research/README.md).
-
-## Assignment template
-
-```text
-Role: independent implementer / product integrator.
-Finding: <immutable path/revision, accepted verdict, exact boundary>.
-Input: <clean export identity or product base>; branch/worktree: <exact>.
-Ownership and reads: <paths, allowed evidence, excluded implementation/history>.
-Output: <minimal patch, source-fidelity notes, integration needs, next action>.
-Checks: <authorized static/compile scope>; no runtime activity without authorization.
-```
+Commit coherent checkpoints. Before product handoff, merge the repository default branch, inspect incoming commits for semantic conflicts and report corrections. The master orchestrator alone updates the central [backlog.json](../../research/backlog.json), associating findings with integrated commits and preserving separate source-acceptance, implementation and runtime evidence. Implementers do not maintain a second progress record.

@@ -13,7 +13,7 @@ Read [README.md](README.md) for project scope, architecture and commands. Before
 
 ## Working procedures
 
-Before coordinating, read [orchestration](development/workflows/orchestration/README.md). Before discovering, implementing or planning verification, read respectively [discovery](development/workflows/discovery/README.md), [implementation](development/workflows/implementation/README.md), or [testing](development/workflows/testing/README.md). Current procedures belong in `development/workflows/`; findings and state belong in `development/research/`. Implemented behavior and exact source references belong in Change source comments; research holds unfinished work.
+Before coordinating, read [orchestration](development/workflows/orchestration/README.md). Before discovering, implementing or planning verification, read respectively [discovery](development/workflows/discovery/README.md), [implementation](development/workflows/implementation/README.md), or [testing](development/workflows/testing/README.md). Current procedures belong in `development/workflows/`; findings and state belong in `development/research/`. Implemented behavior and exact source references belong in Change source comments; research retains permanent findings and current relevant state.
 
 Keep source discovery blind to concrete implementations and wiki lanes until the pair's source coverage is frozen. Independently accepted findings with closed dependencies may enter implementation early. Pair completion additionally requires complete coverage and independent audit. Keep acceptance, implementation and runtime parity separate. Preserve existing implementations; use a sanitized export for independent candidates and reconcile in the product checkout.
 
