@@ -333,6 +333,7 @@ public final class MovementChangeCatalog {
     }
 
     private static void registerV1_21_4(MovementChangeRegistry registry) {
+        registry.register(VelocityZeroThresholdHook.class, ParkourVersion.V1_21_4, new me.wolfii.legacyparkourcompat.change.v1_21_4.PlayerVelocityZeroThreshold());
         registry.register(me.wolfii.legacyparkourcompat.mechanic.hook.sprint.EarlyFallFlyingSprintStopHook.class,
             ParkourVersion.V1_21_2, new me.wolfii.legacyparkourcompat.change.v1_21_2.NoEarlyFallFlyingSprintStop());
         registry.register(me.wolfii.legacyparkourcompat.mechanic.hook.sprint.EarlyFallFlyingSprintStopHook.class,
