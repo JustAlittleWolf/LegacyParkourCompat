@@ -17,7 +17,7 @@ Before coordinating, read [orchestration](development/workflows/orchestration/RE
 
 Keep source discovery blind to concrete implementations and wiki lanes until the pair's source coverage is frozen. Independently accepted findings with closed dependencies may enter implementation early. Pair completion additionally requires complete coverage and independent audit. Keep acceptance, implementation and runtime parity separate. Preserve existing implementations; use a sanitized export for independent candidates and reconcile in the product checkout.
 
-An agent is a worker without delegation rights unless explicitly assigned as an under-orchestrator. Every delegation states scope, inputs, owned paths, output and delegation limits. Under-orchestrators and their workers share the master's global budget; a chat-local technical limit is not a global limit. Use model capabilities/cost appropriate to the task without hardcoding model names into procedures.
+An agent is a worker without delegation rights unless explicitly assigned as an under-orchestrator. Every delegation states scope, inputs, owned paths, output and delegation limits. The master's global concurrency pool counts its direct workers and under-orchestrators, not the under-orchestrators' subworkers. Each under-orchestrator manages a separately assigned worker limit within actual host capacity. Overall time and resource budgets still apply to all descendants. Use model capabilities/cost appropriate to the task without hardcoding model names into procedures.
 
 ## Verification
 
