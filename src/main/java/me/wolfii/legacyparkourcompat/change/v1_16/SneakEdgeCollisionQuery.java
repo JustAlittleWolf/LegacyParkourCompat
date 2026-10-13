@@ -11,6 +11,22 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+/**
+ * Source evidence (paths are relative to decompiled_minecraft/):
+ * 1.15.2/mojmap/net/minecraft/world/level/CollisionGetter.java:
+ *   getBlockCollisions; lines [[78, 90]].
+ *   getBlockCollisions; lines [[79, 90]].
+ *   Source SHA-256: 63daec0623c816d53f5dbdde407a27222fa21e62680c1096b63cf9082b1c25fd.
+ * 1.16.5/mojmap/net/minecraft/world/level/CollisionGetter.java:
+ *   noCollision; lines [[36, 42]].
+ *   getBlockCollisions; lines [[58, 67]].
+ *   Source SHA-256: b507d6be11e5985a62cfeb249a99dcb5f8edaf346f12cb2487797d9e01763eac.
+ * 1.16.5/mojmap/net/minecraft/world/level/CollisionSpliterator.java:
+ *   getChunk; lines [[102, 133]].
+ *   Source SHA-256: 19ab959c469b8edb5c371ff737a59a61b8a80bf397eff1db280064342094d297.
+ * No exact independently accepted source binding is established for this operation.
+ * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ */
 @MovementChange(emulates = ParkourVersion.V1_16)
 public final class SneakEdgeCollisionQuery implements SneakEdgeCollisionQueryHook {
     @Override

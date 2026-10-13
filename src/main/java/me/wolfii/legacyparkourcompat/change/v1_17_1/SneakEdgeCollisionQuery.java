@@ -11,6 +11,20 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+/**
+ * Source evidence (paths are relative to decompiled_minecraft/):
+ * 1.17.1/mojmap/net/minecraft/world/entity/player/Player.java:
+ *   maybeBackOffFromEdge; lines [[1017, 1067]].
+ *   Source SHA-256: 724bb298499dabe489dffd5ce7ec81c9773619a8d2c70044911eae4c9e8ff481.
+ * 1.18.2/mojmap/net/minecraft/world/entity/player/Player.java:
+ *   maybeBackOffFromEdge; lines [[1032, 1080]].
+ *   Source SHA-256: bf639c1962ff90d69e4569b2b18f6fcf57ac46ef80b19686f0fbc1687fca744a.
+ * Bounded source decisions:
+ *   Decision 4a5eae32b5819418dbd59eb4a763ee24ea1f2c52:development/research/archive/legacy-workflows/source-boundary-reviews/2026-10-08-mc1171-1182-snapshot-review.md; ACCEPT, bounded.
+ *   Reviewed snapshot e531086eecc778432b40b2b9ef39499b8a7f0dba:workflows/source-campaign-2026-10-07/1.17.1--1.18.2/findings/F-008-border-edge-gate.md.
+ *   Decision 4a5eae32b5819418dbd59eb4a763ee24ea1f2c52:development/research/archive/legacy-workflows/source-boundary-reviews/2026-10-09-F008-border-edge-gate-review.md; ACCEPT, sampled source boundary.
+ * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ */
 @MovementChange(emulates = ParkourVersion.V1_17_1)
 public final class SneakEdgeCollisionQuery implements SneakEdgeCollisionQueryHook {
     @Override

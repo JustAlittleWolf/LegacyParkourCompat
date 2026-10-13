@@ -16,7 +16,19 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-/** Restores the 1.8 collision arm when an End Portal Frame borders a fence. */
+/**
+ * Restores the 1.8 collision arm when an End Portal Frame borders a fence.
+ *
+ * Source evidence (paths are relative to decompiled_minecraft/):
+ * 1.8.9/ornithe-feather/net/minecraft/block/FenceBlock.java:
+ *   shouldConnectTo; provider witness still required; lines [[128, 136]].
+ *   Source SHA-256: 8d6a803988d77fc51f364520f2e0cd5567b1d5c29a4d28d01cdcf93e6d5890d9.
+ * 1.9.4/ornithe-feather/net/minecraft/block/FenceBlock.java:
+ *   shouldConnectTo; lines [[120, 129]].
+ *   Source SHA-256: d9375bba3b41ae408bdf65d69b25aecad522a6d0b45b38d30f77d12b343a4909.
+ * Candidate locators only: operation fidelity, independent review and profile applicability remain open.
+ * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ */
 @MovementChange(emulates = ParkourVersion.V1_8)
 public final class FencePortalFrameConnection implements BlockCollisionShapeHook {
     public static final List<String> BLOCK_IDS = List.of(

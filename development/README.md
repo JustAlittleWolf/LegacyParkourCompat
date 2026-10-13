@@ -3,7 +3,7 @@
 Product code remains under `src/`. This directory contains:
 
 - [workflows](workflows/README.md): discovery, implementation, testing and orchestration procedures.
-- [research](research/README.md): canonical findings, progress, reconciliation and historical evidence.
+- [research](research/README.md): unfinished findings, current evidence and implementation gaps.
 - [tas-client](tas-client/README.md): exact-version recording and playback.
 - [parkourgym-server](parkourgym-server/README.md): isolated player worlds and movement-friendly test server.
 - [testing](testing/README.md): client/process coordination and recording comparison.

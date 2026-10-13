@@ -17,6 +17,23 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * Source evidence (paths are relative to decompiled_minecraft/):
+ * 1.8.9/ornithe-feather/net/minecraft/block/PaneBlock.java:
+ *   public void addCollisions(World world, BlockPos pos, BlockState state, Box shape, List&lt;Box&gt; collisions, Entity entity) {; lines 62-92.
+ *   Source SHA-256: f099cdc306c365b73632fc703f72b61bc6b304cb5df06c43234965f89e28de61.
+ * 1.9.4/ornithe-feather/net/minecraft/block/PaneBlock.java:
+ *   public void addCollisions(BlockState state, World world, BlockPos pos, Box shape, List&lt;Box&gt; collisions, @Nullable Entity entity) {; lines 53-71.
+ *   Source SHA-256: e6e3dd856efb96146634ab8f56c915afbc6116fd51973c25229ef7aa2ce0e5c8.
+ * Bounded source decisions:
+ *   Review 67030ba73b0428d3c8c71d7a4375d57661efa16e; accepted, bounded.
+ *   Reviewed snapshot cd978384; SHA-256 c24e71656773beb12e5f96f05f8c37fb56b43464b483c4abd347a35a0e368190.
+ *   Review 67030ba73b0428d3c8c71d7a4375d57661efa16e; accepted, bounded.
+ *   Reviewed snapshot cd978384; SHA-256 c24e71656773beb12e5f96f05f8c37fb56b43464b483c4abd347a35a0e368190.
+ * Remaining source/applicability gates:
+ *   Later applicability gate: exact introduction of campaign-COLL-02-pane-collision-shapes is unknown within (1.8.9, 1.9.4]
+ * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ */
 @MovementChange(emulates = ParkourVersion.V1_8)
 public final class PaneCollisionShape implements BlockCollisionShapeHook {
     public static final List<String> BLOCK_IDS = List.of(

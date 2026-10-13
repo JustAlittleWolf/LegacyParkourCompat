@@ -13,6 +13,17 @@ import net.minecraft.world.entity.vehicle.boat.Boat;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
+/**
+ * Source evidence (paths are relative to decompiled_minecraft/):
+ * 1.14.4/mojmap/net/minecraft/world/entity/LivingEntity.java:
+ *   stopRiding; lines [[2325, 2331]].
+ *   Source SHA-256: 428762178a876efd4069086e6b7d51f571ea0401f44e7eff0927b7d26d9ef681.
+ * 1.15.2/mojmap/net/minecraft/world/entity/LivingEntity.java:
+ *   stopRiding; lines [[2389, 2395]].
+ *   Source SHA-256: 46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54.
+ * No exact independently accepted source binding is established for this operation.
+ * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ */
 @MovementChange(emulates = ParkourVersion.V1_14)
 public final class PortalDismountChange implements PortalDismountHook {
     private static final int[][] DISMOUNT_OFFSETS = {

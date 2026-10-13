@@ -1,6 +1,6 @@
 # Movement workflows
 
-These are reusable instructions and small templates. Evidence and progress belong in [research](../research/README.md), implementation in the product repository, and recordings in the authorized lab. Historical campaign material is preserved in [development/research/archive](../research/archive/legacy-workflows/README.md).
+These are reusable instructions and small templates. Evidence and progress belong in [research](../research/README.md), implementation in the product repository, and recordings in the authorized lab. Implemented behavior is documented in Change source comments; research contains unfinished work.
 
 1. [Discovery](discovery/README.md): establish exact source differences and independently review them.
 2. [Implementation](implementation/README.md): implement accepted deltas independently, then integrate them.

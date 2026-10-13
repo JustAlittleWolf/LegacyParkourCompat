@@ -1,3 +1,0 @@
-# Incoming branch evidence
-
-The [manifest](manifest.json) indexes 212 ref/path versions: 134 were already preserved and 54 distinct additional blobs are saved here by SHA-256. Every blob retains its exact Git bytes. Historical paths, counters, verdict statements and procedures are captured evidence; current decisions are in the [integration report](../../reconciliation/branch-integration.md), [middle review](../../reconciliation/branch-doc-review-middle.md) and [late review](../../reconciliation/branch-doc-review-late.md). No historical acceptance or coverage status is inferred from the latest path alone.

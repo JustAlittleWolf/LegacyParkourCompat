@@ -16,6 +16,21 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
+/**
+ * Source evidence (paths are relative to decompiled_minecraft/):
+ * 1.11.2/ornithe-feather/net/minecraft/entity/living/LivingEntity.java:
+ *   public void stopRiding() {; lines 1864-1870.
+ *   Source SHA-256: bb7dc6c9e423a9568d6433d51bba12e7aee4555fbf3fb3e2b87f618382279f2f.
+ * 1.12.2/ornithe-feather/net/minecraft/entity/living/LivingEntity.java:
+ *   public void stopRiding() {; lines 1908-1914.
+ *   Source SHA-256: 190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6.
+ * No exact independently accepted source binding is established for this operation.
+ * Remaining source/applicability gates:
+ *   Later applicability gate: exact introduction of campaign-F-PLAYER-DISMOUNT-CLEARANCE-BOX is unknown within (1.11.2, 1.12.2]
+ *   Exact independent source verdict/snapshot identity for F-PLAYER-DISMOUNT-CLEARANCE-BOX
+ *   Exact independent source verdict/snapshot identity for MOVE-003-server-dismount-position
+ * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ */
 @MovementChange(emulates = ParkourVersion.V1_11_2)
 public final class DismountPosition implements DismountPositionHook {
     private static final int[][] CANDIDATE_OFFSETS = {

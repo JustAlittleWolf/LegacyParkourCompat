@@ -5,6 +5,12 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.GlideFallDistanceHook;
 import net.minecraft.world.entity.player.Player;
 
+/**
+ * Source evidence (paths are relative to decompiled_minecraft/):
+ * Exact source binding is unresolved; do not infer fidelity from registration.
+ * Candidate locators only: operation fidelity, independent review and profile applicability remain open.
+ * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ */
 @MovementChange(emulates = ParkourVersion.V1_21_4)
 public final class GlideFallDistance implements GlideFallDistanceHook {
     @Override

@@ -1,0 +1,2039 @@
+{
+  "note": "Current unfinished findings and validation gates. Implemented behavior is documented in Change source comments. No pair-wide completion or runtime parity established.",
+  "findings": [
+    {
+      "finding": "development/research/findings/1.10.2--1.11.2/F-04-climbing-player-push-eligibility.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.10.2--1.11.2/F-05-retracting-piston-collision-shapes.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.10.2--1.11.2/F-06-lower-row-moving-fence-collision.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.10.2--1.11.2/F-08-farmland-landing-player-position.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_10_1/FarmlandConversion.java"
+      ],
+      "hooks": [
+        "FarmlandEntityPushHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.11.2--1.12.2/F-ENDER-PEARL-OWNER-DIMENSION.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.11.2--1.12.2/F-FARMLAND-PLAYER-RELOCATION.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_10_1/FarmlandConversion.java"
+      ],
+      "hooks": [
+        "FarmlandEntityPushHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.11.2--1.12.2/F-FENCE-CAULDRON-SIDE-COLLISION.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.12.2--1.13.2/F-COLLISION-REPRESENTATION.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.12.2--1.13.2/F-ELYTRA-GLIDE-MATH.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.12.2--1.13.2/F-ELYTRA-LOOK-GUARD.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/VerticalPitchGlideLook.java"
+      ],
+      "hooks": [
+        "FallFlyingLookHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.12.2--1.13.2/F-FARMLAND-PUSH-DISTANCE.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.12.2--1.13.2/F-FENCE-FROSTED-ICE-CONNECTION.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.12.2--1.13.2/F-FLIGHT-TOGGLE.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.12.2--1.13.2/F-FLUID-DRAG.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.12.2--1.13.2/F-PANE-OFFSET-EPSILON-r3.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.12.2--1.13.2/F-SWIM-LOOK.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_13/SwimmingPitch.java"
+      ],
+      "hooks": [
+        "SwimmingPitchHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.12.2--1.13.2/F-VOXEL-OFFSET-EPSILON.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.12.2--1.13.2/F-WALL-SINGLE-ARM-GAPS.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.12.2--1.13.2/F-WALL-THREE-ARM-CORNER-GAPS.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.12.2--1.13.2/F-WATER-STATE.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/SwimmingState.java"
+      ],
+      "hooks": [
+        "SwimmingHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.12.2--1.13.2/swimming-collision-dimensions.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/SwimmingDimensions.java"
+      ],
+      "hooks": [
+        "PlayerDimensionsHook",
+        "PlayerPoseHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.12.2--1.13.2/swimming-eye-height.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/SwimmingDimensions.java"
+      ],
+      "hooks": [
+        "PlayerDimensionsHook",
+        "PlayerPoseHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.12.2--1.13.2/water-sprint-start.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/SprintInputStart.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/WaterSprintGate.java"
+      ],
+      "hooks": [
+        "DoubleTapSprintStartHook",
+        "ShallowWaterSprintStartHook",
+        "SprintKeyStartHook",
+        "WaterSprintGateHook"
+      ],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.12.2--1.13.2/water-sprint-stop.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/SprintInputStart.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/WaterSprintGate.java"
+      ],
+      "hooks": [
+        "DoubleTapSprintStartHook",
+        "ShallowWaterSprintStartHook",
+        "SprintKeyStartHook",
+        "WaterSprintGateHook"
+      ],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F001-input-scaling-and-underwater-sprint-gate.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_13/SneakInputSlowdown.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_14/SneakInputSlowdown.java"
+      ],
+      "hooks": [
+        "SneakInputSlowdownHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F002-pose-selection-and-collision-aware-resize.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_13/SneakingDimensions.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_14/NativePoseDimensions.java"
+      ],
+      "hooks": [
+        "PlayerDimensionsHook",
+        "PlayerPoseHook"
+      ],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F003-jump-boost-precision.md",
+      "implementation": "open",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_17/FloatJumpBoostAddition.java"
+      ],
+      "hooks": [
+        "JumpPowerHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F004-input-acceleration-normalization.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F005-jump-held-climb-impulse.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F006-ground-acceleration-operation-order.md",
+      "implementation": "open",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/GroundAcceleration.java"
+      ],
+      "hooks": [
+        "GroundSpeedHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F007-collision-axis-order.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F008-movement-zero-displacement-cutoff.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F009-approximate-horizontal-collision-flag.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F010-water-travel-climb-impulse.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F011-slow-falling-water-descent-timing.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F012-local-stuck-block-escape-probe.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15_2/SuffocationProbe.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_16/SuffocationProbe.java"
+      ],
+      "hooks": [
+        "SuffocationProbeHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F013-simultaneous-flight-input-arithmetic.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F014-sleeping-pitch-reset-after-travel.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F015-ground-drag-resamples-support.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F016-knockback-normalization-response.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F017-auto-jump-entity-collision-query.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F018-world-block-collision-enumeration.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F020-bed-collision-shape-change.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F021-cauldron-collision-shape-change.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F022-contextual-fluid-height-submersion.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F023-ender-dragon-creative-player-fling.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/F002-swimming-pose-slowdown-gate.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_14/SneakInputSlowdown.java"
+      ],
+      "hooks": [
+        "SneakInputSlowdownHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/sneaking-pose-height.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_13/SneakingDimensions.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_14/NativePoseDimensions.java"
+      ],
+      "hooks": [
+        "PlayerDimensionsHook",
+        "PlayerPoseHook"
+      ],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.13.2--1.14.4/underwater-sprint-forward-threshold.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_13/SneakInputSlowdown.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_14/SneakInputSlowdown.java"
+      ],
+      "hooks": [
+        "SneakInputSlowdownHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.14.4--1.15.2/F-FLYING-CRAWL-SNEAK-RESCALE.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.14.4--1.15.2/F02-soul-sand-overlap-multiplicity.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_14/SoulSandOverlapChange.java"
+      ],
+      "hooks": [
+        "AfterCollisionHook",
+        "BlockSpeedFactorHook"
+      ],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.14.4--1.15.2/F06-portal-dismount-placement.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_14/PortalDismountChange.java"
+      ],
+      "hooks": [
+        "PortalDismountHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.14.4--1.15.2/F08-hidden-movement-effect-fallback.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.14.4--1.15.2/F09-riptide-last-durability-gate.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.14.4--1.15.2/F11-slime-step-callback-gate.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.14.4--1.15.2/F13-mounted-end-gateway-target.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.15.2--1.16.5/F-S1-OPEN-SHULKER-ESCAPE.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15_2/SuffocationProbe.java"
+      ],
+      "hooks": [
+        "SuffocationProbeHook"
+      ],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.15.2--1.16.5/F-S2-POSE-EPSILON.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.15.2--1.16.5/F-S4-BORDER-EPSILON.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15_2/SneakEdgeCollisionQuery.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_16/SneakEdgeCollisionQuery.java"
+      ],
+      "hooks": [
+        "SneakEdgeCollisionQueryHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.15.2--1.16.5/F-S6-LEVITATION-ELYTRA-GATES.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.16.5--1.17.1/CD-S1-04-01.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_17/FloatJumpBoostAddition.java"
+      ],
+      "hooks": [
+        "JumpPowerHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.16.5--1.17.1/CD-S7-02-01.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.16.5--1.17.1/S4-player-position-reconstruction-rounding.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.17.1--1.18.2/F-004-autojump-border-shape.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.17.1--1.18.2/F-005-fall-distance-reset-edge-gate.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_18/FallDistanceReset.java"
+      ],
+      "hooks": [
+        "PlayerFallDistanceResetHook"
+      ],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.17.1--1.18.2/F-006-boat-passenger-yaw-refresh.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_17_1/BoatPassengerYawRefresh.java"
+      ],
+      "hooks": [
+        "BoatPassengerYawRefreshHook"
+      ],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.17.1--1.18.2/F-009-border-overlap-axis-collision.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.17.1--1.18.2/F-010-border-dismount-candidates.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.17.1--1.18.2/F-011-chorus-fruit-border-teleport.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.17.1--1.18.2/F-013-llama-passenger-rider-height-source-hash-correction-2026-10-08.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.17.1--1.18.2/F-014-overworld-min-y-unloaded-chunk-fall.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.18.2--1.19.4/F-002-glide-fall-distance.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_18_2/GlideFallDistance.java"
+      ],
+      "hooks": [
+        "GlideFallDistanceHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.18.2--1.19.4/F-007-auto-jump-probe-normalization.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_18_2/AutoJumpVectorNormalization.java"
+      ],
+      "hooks": [
+        "AutoJumpInverseSqrtHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.18.2--1.19.4/F-009-mounted-sprint-eligibility.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_19/VehicleSprint.java"
+      ],
+      "hooks": [
+        "VehicleSprintHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.19.2--1.19.3/F-004-fall-distance-farmland-shape.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_18_2/GlideFallDistance.java"
+      ],
+      "hooks": [
+        "GlideFallDistanceHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.19.2--1.19.3/F-005-player-correction-angle-normalization.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.19.2--1.19.3/F-006-passenger-sprint-carries-to-player-jump.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_19/VehicleSprint.java"
+      ],
+      "hooks": [
+        "VehicleSprintHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.19.2--1.19.3/F-007-underwater-boat-player-travel.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_18_2/BoatPassengerFluidPush.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_19/BoatPassengerFluidPush.java"
+      ],
+      "hooks": [
+        "BoatPassengerFluidPushHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.19.2--1.19.3/F-009-player-correction-coordinate-clamp.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.19.2--1.19.3/F-010-honey-contact-scan-boundary.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_18_2/InsideBlockContact.java"
+      ],
+      "hooks": [
+        "InsideBlockContactHook"
+      ],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.19.3--1.19.4/F-02-auto-jump-inverse-sqrt.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_18_2/AutoJumpVectorNormalization.java"
+      ],
+      "hooks": [
+        "AutoJumpInverseSqrtHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.19.3--1.19.4/F-03-mounted-sprint-carryover.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_19/VehicleSprint.java"
+      ],
+      "hooks": [
+        "VehicleSprintHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.19.3--1.19.4/F-05-underwater-passenger-dismount.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.19.3--1.19.4/sprint-air-speed-rounding.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_18_2/AirSpeed.java"
+      ],
+      "hooks": [
+        "AirSpeedHook",
+        "AirSpeedUpdateHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.19.3--1.19.4/sprint-air-speed-timing.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_18_2/AirSpeed.java"
+      ],
+      "hooks": [
+        "AirSpeedHook",
+        "AirSpeedUpdateHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.19.4--1.20.1/F-02-supporting-block-factor-position.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15_2/GroundFrictionSamplePoint.java"
+      ],
+      "hooks": [
+        "GroundFrictionBlockHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.19.4--1.20.1/F-03-fall-distance-edge-backoff.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_19_4/EffectFallDistanceReset.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_20/EffectFallDistanceReset.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_20_2/EffectFallDistanceReset.java"
+      ],
+      "hooks": [
+        "EffectFallDistanceResetHook",
+        "LevitationFallDistanceHook",
+        "SlowFallingFallDistanceHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.19.4--1.20.1/F-04-spectator-entry-vertical-velocity-reset.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.19.4--1.20.1/F-05-respawn-movement-command-cache.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.19.4--1.20.6/MC1194-1206-02.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_20_2/AttributeGravity.java"
+      ],
+      "hooks": [
+        "GravityHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.19.4--1.20.6/MC1194-1206-03.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_19_4/EffectFallDistanceReset.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_20/EffectFallDistanceReset.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_20_2/EffectFallDistanceReset.java"
+      ],
+      "hooks": [
+        "EffectFallDistanceResetHook",
+        "LevitationFallDistanceHook",
+        "SlowFallingFallDistanceHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.20.1--1.20.2/F-1.20.2-DIODE-SUPPORT-COLLISION.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.20.1--1.20.2/F-1.20.2-KNOCKBACK-SOURCE-TAG-GATE.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.20.2--1.20.4/F-S7.4-BOAT-RIDER-ROTATION.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.20.4--1.20.6/MC1204-1206-01.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_20_2/FlightActivationJump.java"
+      ],
+      "hooks": [
+        "FlightActivationJumpHook"
+      ],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.20.4--1.20.6/MC1204-1206-04.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_20_2/AttributeGravity.java"
+      ],
+      "hooks": [
+        "GravityHook"
+      ],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.20.4--1.20.6/sprint-jump-impulse-precision.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_20_2/SprintJumpImpulse.java"
+      ],
+      "hooks": [
+        "SprintJumpImpulseHook"
+      ],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.20.6--1.21.1/knockback-degenerate-vector-jitter.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.20.6--1.21.1/soul-speed-client-friction-sync-candidate.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.20.6--1.21.1/soul-speed-first-entry-block-friction.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.20.6--1.21.1/water-depth-strider-rounding.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.1--1.21.3/F-BLOCK-CONTACT-TRAVERSE.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_18_2/InsideBlockContact.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21/InsideBlockContact.java"
+      ],
+      "hooks": [
+        "InsideBlockContactHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.1--1.21.3/F-MOVE-TINY-POSITION-WRITE.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.10--1.21.11/F-S1-CLIENT-LOAD-GATE.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.10--1.21.11/F-S1-FLIGHT-VEHICLE-GATE.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.10--1.21.11/F-S3-GLIDE-THROUGH-CLIMBABLE.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.10--1.21.11/F-S4-PLAYER-ENTITY-PUSH.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.11--26.1.2/F-1-water-current-shallow-overlap.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_11/ShallowWaterCurrentCutoff.java"
+      ],
+      "hooks": [
+        "ShallowWaterCurrentCutoffHook"
+      ],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.11--26.1.2/F-2-spectator-lunge-attack-route.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.11--26.1.2/F-3-nether-lava-shallow-overlap-r2-2026-10-09.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_11/ShallowLavaCurrentCutoff.java"
+      ],
+      "hooks": [
+        "ShallowLavaCurrentCutoffHook"
+      ],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.3--1.21.4/active-sprint-stop-predicates.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.3--1.21.4/F-S1-01-load-state-defers-local-movement-tick.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.3--1.21.4/F-S2-01-shulker-scaled-peek-push.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.3--1.21.4/F-S3-01-client-controlled-fall-distance-state.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.3--1.21.4/movement-block-cell-traversal.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21/InsideBlockContact.java"
+      ],
+      "hooks": [
+        "InsideBlockContactHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.3--1.21.4/movement-partial-shape-sweep.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21/InsideBlockContact.java"
+      ],
+      "hooks": [
+        "InsideBlockContactHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.3--1.21.4/slow-input-sprint-start.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.4--1.21.5/axis-movement-contact-segments.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21/InsideBlockContact.java"
+      ],
+      "hooks": [
+        "InsideBlockContactHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.4--1.21.5/F-02-bubble-column-above-contact.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.4--1.21.5/F-03-keyboard-vector-rounding.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_4/KeyboardDiagonalInput.java"
+      ],
+      "hooks": [
+        "KeyboardDiagonalInputHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.4--1.21.5/F-04-sprint-stop-gates.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.4--1.21.5/F-05-player-horizontal-velocity-cutoff.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.4--1.21.5/F-06-fall-flying-climbable-exit.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.4--1.21.5/F-07-nether-portal-inside-shape.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.4--1.21.5/F-08-powder-snow-inside-shape.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.4--1.21.5/F-10-player-edge-support-query.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_4/EdgeBackoffProbeBounds.java"
+      ],
+      "hooks": [
+        "SneakEdgeProbeHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.4--1.21.5/F-12-player-correction-clamps-pitch.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.4--1.21.5/F-13-airborne-double-tap-sprint.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.4--1.21.5/F-14-sleep-fall-flying-pose-priority.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.4--1.21.5/F-15-water-fall-distance-edge-backoff.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_19_4/EffectFallDistanceReset.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_20/EffectFallDistanceReset.java",
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_20_2/EffectFallDistanceReset.java"
+      ],
+      "hooks": [
+        "EffectFallDistanceResetHook",
+        "LevitationFallDistanceHook",
+        "SlowFallingFallDistanceHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.4--1.21.5/F-16-wind-burst-sweep-hit-gate.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.4--1.21.5/F-17-sweep-knockback-hit-gate.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.4--1.21.5/F-19-item-slowdown-sprint-timer-input.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.4--1.21.5/F-20-underwater-fall-flying-sprint.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.4--1.21.5/inside-effect-commit-order.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21/InsideBlockContact.java"
+      ],
+      "hooks": [
+        "InsideBlockContactHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.5--1.21.8/F-CLIENT-PASSENGER-POSITION-SYNC.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.5--1.21.8/F-NETHER-PORTAL-INSIDE-SHAPE.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.5--1.21.8/F-SPECTATOR-DIMENSION-FOLLOW.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.21.8--1.21.10/F04-flying-sprint-in-shallow-water.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.8.9--1.9.4/anvil-mutable-collision-bounds.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.8.9--1.9.4/COLL-01-vehicle-collision-exclusion.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.8.9--1.9.4/EXT-01-player-authority-packet-differences.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.8.9--1.9.4/EXT-03-player-knockback-application.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.8.9--1.9.4/EXT-04-player-death-velocity.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.8.9--1.9.4/EXT-05-end-portal-transfer-position-sequence.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.8.9--1.9.4/MOD-02-item-attribute-slot-filter.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.8.9--1.9.4/TICK-07-client-player-push.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.8.9--1.9.4/TICK-09-relative-input-angle-conversion.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.8.9--1.9.4/WORLD-01-trapdoor-ladder-climbing.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.8.9--1.9.4/WORLD-02-boat-rider-transform.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.8.9--1.9.4/WORLD-05-water-state-while-riding-boat.md",
+      "implementation": "partial",
+      "changes": [
+        "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_11/MountedBoatWaterInteraction.java"
+      ],
+      "hooks": [
+        "FluidInteractionFluidHook"
+      ],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.8.9--1.9.4/WORLD-06-liquid-scan-upper-bound.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.8.9--1.9.4/WORLD-08-end-portal-overlap-gate.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.8.9--1.9.4/WORLD-10-cocoa-age-2-collision-shape.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.8.9--1.9.4/WORLD-12-moving-piston-collision-shape.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.8.9--1.9.4/WORLD-13-moving-piston-player-response.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.8.9--1.9.4/WORLD-14-extended-piston-base-shape.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.8.9--1.9.4/WORLD-15-piston-head-arm-collision.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.8.9--1.9.4/WORLD-26-neighbor-cell-collision-scan.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "no exact independent source acceptance established",
+      "runtime": "unverified"
+    },
+    {
+      "finding": "development/research/findings/1.8.9--1.9.4/chest-mutable-collision-bounds.md",
+      "implementation": "open",
+      "changes": [],
+      "hooks": [],
+      "sourceReview": "bounded decision retained; inspect exact evidence and limits",
+      "runtime": "unverified"
+    }
+  ],
+  "unresolvedClaims": [
+    "development/research/findings/1.7.10--1.8.9/MD-03-sneak-release-sprint-gate.md",
+    "development/research/findings/1.7.10--1.8.9/MD-06-sprint-flying-horizontal-acceleration.md",
+    "development/research/findings/1.7.10--1.8.9/MD-07-flight-vertical-input-rounding.md",
+    "development/research/findings/1.8.9--1.9.4/WORLD-07-nether-portal-entity-eligibility.md"
+  ],
+  "implementationEvidenceGaps": [
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_13/SprintInputStart.java",
+      "issue": "Exact independently reviewed operation/source binding and profile applicability are not established. Candidate locators do not close review.",
+      "sourceLocators": [
+        {
+          "path": "1.13.2/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+          "member": "sprint start predicates",
+          "lines": [
+            [
+              722,
+              745
+            ]
+          ],
+          "status": "candidate locator; fidelity/applicability not independently bound",
+          "sha256": "2583495f3a02b4791aa036e6a8d354d7596c4984761969a0f29b29d8d9bf42bf"
+        }
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_13/StaleWaterDepthJump.java",
+      "issue": "Exact independently reviewed operation/source binding and profile applicability are not established. Candidate locators do not close review.",
+      "sourceLocators": [
+        {
+          "path": "1.13.2/ornithe-feather/net/minecraft/entity/living/LivingEntity.java",
+          "member": "jump input / retained f_85121000 height",
+          "lines": [
+            [
+              1900,
+              1918
+            ]
+          ],
+          "status": "candidate locator; fidelity/applicability not independently bound",
+          "sha256": "bb691358c9a43c9f46e85575bf4d0a4ad671d0eb912502acc3a6a3f625e42f1c"
+        },
+        {
+          "path": "1.16/mojmap/net/minecraft/world/entity/LivingEntity.java",
+          "member": "aiStep fluid-specific jump guard",
+          "lines": [
+            [
+              2425,
+              2444
+            ]
+          ],
+          "status": "candidate locator; fidelity/applicability not independently bound",
+          "sha256": "b6ea2b9b037b79fc3ea6e1f6bcd2c4c1d89d4a96315968a8f247641f6c335f26"
+        }
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_14/StaleWaterDepthJump.java",
+      "issue": "Exact independently reviewed operation/source binding and profile applicability are not established. Candidate locators do not close review.",
+      "sourceLocators": [
+        {
+          "path": "1.14.4/mojmap/net/minecraft/world/entity/LivingEntity.java",
+          "member": "aiStep waterHeight jump guard",
+          "lines": [
+            [
+              2198,
+              2214
+            ]
+          ],
+          "status": "candidate locator; fidelity/applicability not independently bound",
+          "sha256": "428762178a876efd4069086e6b7d51f571ea0401f44e7eff0927b7d26d9ef681"
+        },
+        {
+          "path": "1.16/mojmap/net/minecraft/world/entity/LivingEntity.java",
+          "member": "aiStep fluid-specific jump guard",
+          "lines": [
+            [
+              2425,
+              2444
+            ]
+          ],
+          "status": "candidate locator; fidelity/applicability not independently bound",
+          "sha256": "b6ea2b9b037b79fc3ea6e1f6bcd2c4c1d89d4a96315968a8f247641f6c335f26"
+        }
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15/StaleWaterDepthJump.java",
+      "issue": "Exact independently reviewed operation/source binding and profile applicability are not established. Candidate locators do not close review.",
+      "sourceLocators": [
+        {
+          "path": "1.15/mojmap/net/minecraft/world/entity/LivingEntity.java",
+          "member": "aiStep waterHeight jump guard",
+          "lines": [
+            [
+              2263,
+              2279
+            ]
+          ],
+          "status": "candidate locator; fidelity/applicability not independently bound",
+          "sha256": "139c3866ad2c6a1ad73496f22ff1a4b5259998442092ffbafb8664428e28bf79"
+        },
+        {
+          "path": "1.16/mojmap/net/minecraft/world/entity/LivingEntity.java",
+          "member": "aiStep fluid-specific jump guard",
+          "lines": [
+            [
+              2425,
+              2444
+            ]
+          ],
+          "status": "candidate locator; fidelity/applicability not independently bound",
+          "sha256": "b6ea2b9b037b79fc3ea6e1f6bcd2c4c1d89d4a96315968a8f247641f6c335f26"
+        }
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15_2/StaleWaterDepthJump.java",
+      "issue": "Exact independently reviewed operation/source binding and profile applicability are not established. Candidate locators do not close review.",
+      "sourceLocators": [
+        {
+          "path": "1.15.2/mojmap/net/minecraft/world/entity/LivingEntity.java",
+          "member": "aiStep waterHeight jump guard",
+          "lines": [
+            [
+              2263,
+              2279
+            ]
+          ],
+          "status": "candidate locator; fidelity/applicability not independently bound",
+          "sha256": "46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54"
+        },
+        {
+          "path": "1.16/mojmap/net/minecraft/world/entity/LivingEntity.java",
+          "member": "aiStep fluid-specific jump guard",
+          "lines": [
+            [
+              2425,
+              2444
+            ]
+          ],
+          "status": "candidate locator; fidelity/applicability not independently bound",
+          "sha256": "b6ea2b9b037b79fc3ea6e1f6bcd2c4c1d89d4a96315968a8f247641f6c335f26"
+        }
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_16/StaleWaterDepthJumpProtection.java",
+      "issue": "Exact independently reviewed operation/source binding and profile applicability are not established. Candidate locators do not close review.",
+      "sourceLocators": [
+        {
+          "path": "1.15.2/mojmap/net/minecraft/world/entity/LivingEntity.java",
+          "member": "aiStep waterHeight jump guard",
+          "lines": [
+            [
+              2263,
+              2279
+            ]
+          ],
+          "status": "candidate locator; fidelity/applicability not independently bound",
+          "sha256": "46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54"
+        },
+        {
+          "path": "1.16/mojmap/net/minecraft/world/entity/LivingEntity.java",
+          "member": "aiStep fluid-specific jump guard",
+          "lines": [
+            [
+              2425,
+              2444
+            ]
+          ],
+          "status": "candidate locator; fidelity/applicability not independently bound",
+          "sha256": "b6ea2b9b037b79fc3ea6e1f6bcd2c4c1d89d4a96315968a8f247641f6c335f26"
+        }
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_16_2/SwimmingUpdate.java",
+      "issue": "Exact independently reviewed operation/source binding and profile applicability are not established. Candidate locators do not close review.",
+      "sourceLocators": [
+        {
+          "path": "1.16.5/mojmap/net/minecraft/world/entity/Entity.java",
+          "member": "updateSwimming",
+          "lines": [
+            [
+              949,
+              955
+            ]
+          ],
+          "status": "candidate locator; fidelity/applicability not independently bound",
+          "sha256": "f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666"
+        }
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_19_4/SprintJumpImpulse.java",
+      "issue": "Exact independently reviewed operation/source binding and profile applicability are not established. Candidate locators do not close review.",
+      "sourceLocators": [
+        {
+          "path": "1.19.4/mojmap/net/minecraft/world/entity/LivingEntity.java",
+          "member": "jumpFromGround",
+          "lines": [
+            [
+              1955,
+              1965
+            ]
+          ],
+          "status": "candidate locator; fidelity/applicability not independently bound",
+          "sha256": "c8d91af61f87aaa1666de79696d7cd9d4a8212d05f873bdaf28d7bb2926bf165"
+        }
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_19_4/SprintStart.java",
+      "issue": "Exact independently reviewed operation/source binding and profile applicability are not established. Candidate locators do not close review.",
+      "sourceLocators": [
+        {
+          "path": "1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java",
+          "member": "canStartSprinting",
+          "lines": [
+            [
+              1022,
+              1030
+            ]
+          ],
+          "status": "candidate locator; fidelity/applicability not independently bound",
+          "sha256": "8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58"
+        }
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_4/GlideFallDistance.java",
+      "issue": "No exact source binding for the retained glide fall-distance rule. The 1.21.4 LivingEntity source does not expose the asserted reset formula; locate its historical consumer/boundary before claiming fidelity.",
+      "sourceLocators": []
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_8/FencePortalFrameConnection.java",
+      "issue": "Exact independently reviewed operation/source binding and profile applicability are not established. Candidate locators do not close review.",
+      "sourceLocators": [
+        {
+          "path": "1.8.9/ornithe-feather/net/minecraft/block/FenceBlock.java",
+          "member": "shouldConnectTo; provider witness still required",
+          "lines": [
+            [
+              128,
+              136
+            ]
+          ],
+          "status": "candidate locator; fidelity/applicability not independently bound",
+          "sha256": "8d6a803988d77fc51f364520f2e0cd5567b1d5c29a4d28d01cdcf93e6d5890d9"
+        },
+        {
+          "path": "1.9.4/ornithe-feather/net/minecraft/block/FenceBlock.java",
+          "member": "shouldConnectTo",
+          "lines": [
+            [
+              120,
+              129
+            ]
+          ],
+          "status": "candidate locator; fidelity/applicability not independently bound",
+          "sha256": "d9375bba3b41ae408bdf65d69b25aecad522a6d0b45b38d30f77d12b343a4909"
+        }
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_9/PushAwayVelocity.java",
+      "issue": "Exact independently reviewed operation/source binding and profile applicability are not established. Candidate locators do not close review.",
+      "sourceLocators": [
+        {
+          "path": "1.8.9/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+          "member": "pushAwayFrom fixed float response",
+          "lines": [
+            [
+              292,
+              338
+            ]
+          ],
+          "status": "candidate locator; fidelity/applicability not independently bound",
+          "sha256": "1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053"
+        },
+        {
+          "path": "1.9.4/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+          "member": "pushAwayFrom fixed float response",
+          "lines": [
+            [
+              349,
+              395
+            ]
+          ],
+          "status": "candidate locator; fidelity/applicability not independently bound",
+          "sha256": "8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d"
+        }
+      ]
+    }
+  ],
+  "coverage": [
+    {
+      "pair": "1.10.2--1.11.2",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.11.2--1.12.2",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.12.2--1.13.2",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.13.2--1.14.4",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.14.4--1.15.2",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.15.2--1.16.5",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.16.5--1.17.1",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.17.1--1.18.2",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.18.2--1.19.2",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.18.2--1.19.4",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.19.2--1.19.3",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.19.3--1.19.4",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.19.4--1.20.1",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.19.4--1.20.6",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.20.1--1.20.2",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.20.2--1.20.4",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.20.4--1.20.6",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.20.6--1.21.1",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.20.6--1.21.11",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.21.1--1.21.3",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.21.10--1.21.11",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.21.11--26.1.2",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.21.3--1.21.4",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.21.4--1.21.5",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.21.5--1.21.8",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.21.8--1.21.10",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.7.10--1.8.9",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.8.9--1.9.4",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "1.9.4--1.10.2",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    },
+    {
+      "pair": "26.1.2--26.2",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtime": "unverified"
+    }
+  ]
+}

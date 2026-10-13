@@ -7,4 +7,83 @@ Difference: 1.13.2 requires movementForward >= 0.8F for sprint-forward eligibili
 
 Movement meaning: A smaller positive submerged forward impulse can pass the newer local sprint predicate; downstream sprint state and trajectory remain conditional on the surrounding gates.
 
-Original evidence: [archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.13.2--1.14.4/findings/F001-input-scaling-and-underwater-sprint-gate.md).
+
+## Current evidence and remaining work
+
+Source decisions, implementation coverage and runtime parity are separate. Source paths are relative to `decompiled_minecraft/`; immutable Git evidence can be read with `git show <revision>:<path>`.
+
+```json
+{
+  "implementation": {
+    "status": "partial",
+    "changes": [
+      "src/main/java/me/wolfii/legacyparkourcompat/change/v1_13/SneakInputSlowdown.java",
+      "src/main/java/me/wolfii/legacyparkourcompat/change/v1_14/SneakInputSlowdown.java"
+    ],
+    "hooks": [
+      "SneakInputSlowdownHook"
+    ],
+    "limits": [
+      "Registered SneakInputSlowdownHook returns held shift for V1_13 and pose-aware non-spectator predicate for V1_14. No corresponding >=0.8F versus >1.0E-5F underwater forward-threshold operation is registered; SprintInputStart controls start eligibility, not this numeric cutoff."
+    ]
+  },
+  "applicability": [
+    "Endpoint interval (1.13.2, 1.14.4]; exact cutover remains the original evidence’s separate applicability gate."
+  ],
+  "sources": [
+    {
+      "version": "1.13.2",
+      "mapping": "ornithe-feather",
+      "path": "1.13.2/ornithe-feather/net/minecraft/client/entity/living/player/KeyboardInput.java",
+      "member": "tick",
+      "lines": [
+        [
+          13,
+          50
+        ]
+      ],
+      "status": "verified-content",
+      "sha256": "7be11425906be051c83e275f359816546e4677b16d212156380e8d2e9258654a",
+      "detail": "Canonical source read. Matches digest in archived original."
+    },
+    {
+      "version": "1.14.4",
+      "mapping": "ornithe-feather",
+      "path": "1.14.4/ornithe-feather/net/minecraft/client/entity/living/player/KeyboardInput.java",
+      "member": "tick",
+      "lines": [
+        [
+          13,
+          26
+        ]
+      ],
+      "status": "verified-content",
+      "sha256": "5932453a9e48e7a798ae1be1cd3a4bf660b6b3be43bb7e5dc22686b3c4a82526",
+      "detail": "Canonical source read. Matches digest in archived original."
+    },
+    {
+      "version": "1.13.2",
+      "mapping": "ornithe-feather",
+      "path": "1.13.2/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+      "member": "mobTick",
+      "lines": [
+        [
+          701,
+          740
+        ]
+      ],
+      "status": "verified-content",
+      "sha256": "2583495f3a02b4791aa036e6a8d354d7596c4984761969a0f29b29d8d9bf42bf",
+      "detail": "Canonical sprint-forward consumers read in original bounded range: >=0.8F; full-file hash matches original A evidence."
+    }
+  ],
+  "sourceReviews": [],
+  "openIssues": [
+    {
+      "missing": "1.13.2 original Feather mapped-client JAR d118ff5b9eb93fed06680466cb26c41a30647cdb2fc8744638cf9b35cf7864e5 remains unavailable; revised source equality does not prove original derived-JAR equivalence.",
+      "next_action": "Retain existing Feather-r1 provenance caveat; original equivalence requires the exact preserved artifact, not regeneration during preparation."
+    }
+  ],
+  "runtime": "unverified"
+}
+```

@@ -1,8 +1,0 @@
-import org.gradle.api.tasks.testing.Test
-
-allprojects {
-    tasks.withType(Test).configureEach {
-        enabled = false
-        println("TEST_TASK_DISABLED: ${path}")
-    }
-}

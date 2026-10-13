@@ -13,6 +13,26 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
+/**
+ * Source evidence (paths are relative to decompiled_minecraft/):
+ * 1.14.4/mojmap/net/minecraft/world/entity/Entity.java:
+ *   move; lines [[533, 550]].
+ *   checkInsideBlocks; lines [[810, 831]].
+ *   Source SHA-256: 31c6be42d165102d3e6dc4295fdfef6e8971fc3aea13f938a5b3a33b91d524a7.
+ * 1.14.4/mojmap/net/minecraft/world/level/block/SoulsandBlock.java:
+ *   entityInside; lines [[28, 30]].
+ *   Source SHA-256: 3f2ce73aae23fb7e13cf001123343c6c750f00684b5331a5597ae33b011ef4e4.
+ * 1.15.2/mojmap/net/minecraft/world/entity/Entity.java:
+ *   move, getBlockSpeedFactor; lines [[533, 544], [590, 598]].
+ *   Source SHA-256: 191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e.
+ * 1.15.2/mojmap/net/minecraft/world/level/block/SoulsandBlock.java:
+ *   class/shape initialization; lines [[16, 34]].
+ *   Source SHA-256: 355f0cc25e78dce76cbc9c89d8bd8ff1956d4b53780cba8e3fb5c23f485802cf.
+ * No exact independently accepted source binding is established for this operation.
+ * Remaining source/applicability gates:
+ *   Original digest binding for 1.14.4/mojmap/net/minecraft/world/entity/Entity.java is absent/different; canonical digest 31c6be42d165102d3e6dc4295fdfef6e8971fc3aea13f938a5b3a33b91d524a7 was inspected.
+ * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ */
 @MovementChange(emulates = ParkourVersion.V1_14)
 public final class SoulSandOverlapChange implements BlockSpeedFactorHook, AfterCollisionHook {
     @Override

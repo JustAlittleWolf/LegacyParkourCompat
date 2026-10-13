@@ -8,6 +8,14 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.input.ShallowWaterSprintStart
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintKeyStartHook;
 import net.minecraft.world.entity.player.Player;
 
+/**
+ * Source evidence (paths are relative to decompiled_minecraft/):
+ * 1.13.2/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java:
+ *   sprint start predicates; lines [[722, 745]].
+ *   Source SHA-256: 2583495f3a02b4791aa036e6a8d354d7596c4984761969a0f29b29d8d9bf42bf.
+ * Candidate locators only: operation fidelity, independent review and profile applicability remain open.
+ * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ */
 @MovementChange(emulates = ParkourVersion.V1_13)
 public final class SprintInputStart implements ShallowWaterSprintStartHook, DoubleTapSprintStartHook, SprintKeyStartHook {
     @Override
