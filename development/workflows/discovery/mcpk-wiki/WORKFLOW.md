@@ -1,10 +1,10 @@
-# Minecraft Wiki discovery
+# MCPK Wiki discovery
 
-Read the [shared discovery rules](../README.md) first. This lane starts from Minecraft Wiki release/version pages, including their bugfix lists. Receive a bounded page/topic and release scope, read-only source identities and owned candidate finding paths. Do not use the source lane's findings, product implementation or the other wiki lane as the discovery checklist.
+Read the [shared discovery rules](../WORKFLOW.md) first. This lane starts from MCPK parkour mechanics pages and individual version-change hints. Receive a bounded page/topic and release scope, read-only source identities and owned candidate finding paths. Do not use the source lane's findings, product implementation or the other wiki lane as the discovery checklist.
 
 ## Collect hints
 
-1. Inventory each assigned exact release page, its change sections and bugfix entries. Follow movement-relevant linked descriptions or issue evidence when accessible. Do not limit collection to headings that explicitly say movement; collision, pose, fluids, equipment and direct player state responses can change movement.
+1. Inventory the assigned parkour mechanics pages and their individual version-change hints, including numeric rules, quirks, collision behavior and documented bugs. Keep separate claims separate even when one page describes several releases or operations. Do not infer a patch boundary from a broad era label.
 2. For each relevant hint, capture its URL, page title and section, page revision/permalink when available (otherwise retrieval date), claimed versions, the specific claim and why it may affect player movement. Preserve uncertainty or contradictory claims explicitly. Report inaccessible pages as open gaps, not completed coverage.
 3. Send the inventory and checked pages/sections, including areas with no relevant hints, to the master in chat. The master keeps this lane's hints separately in the relevant coverage record. Group related hints into bounded verification assignments; there is no required one-agent-per-hint split.
 

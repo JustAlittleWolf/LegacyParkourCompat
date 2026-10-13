@@ -6,7 +6,7 @@ The lab listens on `127.0.0.1:25568` (HTTP). The Gym listens on `127.0.0.1:25565
 
 ## Gradle workflows
 
-These commands describe existing lab capabilities, used only when explicitly authorized. Follow the [verification workflow](../workflows/testing/README.md) for the intended sequence: exact repeated same-version playback first, then historical-reference comparison. The current comparator checks XYZ and tick count; this alone does not establish equality of all movement state. Detailed test integration remains later work after expert manual assessment.
+These commands describe existing lab capabilities, used only when explicitly authorized. Follow the [verification workflow](../workflows/testing/WORKFLOW.md) for the intended sequence: exact repeated same-version playback first, then historical-reference comparison. The current comparator checks XYZ and tick count; this alone does not establish equality of all movement state. Detailed test integration remains later work after expert manual assessment.
 
 Capture a version-specific reference from one input recording across several native clients:
 

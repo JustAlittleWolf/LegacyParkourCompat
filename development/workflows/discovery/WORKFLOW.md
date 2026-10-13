@@ -6,11 +6,15 @@ Compare two explicitly named Java releases from exact decompiled sources. Cover 
 
 Read these shared rules and only the procedure for the assigned lane:
 
-- [Source](source/README.md): systematic blind comparison and independent coverage audit.
-- [Minecraft Wiki](minecraft-wiki/README.md): version-page changes and bugfix lists, followed by exact-source verification.
-- [MCPK Wiki](mcpk-wiki/README.md): parkour mechanics and individual change hints, followed by exact-source verification.
+- [Source](source/WORKFLOW.md): systematic blind comparison and independent coverage audit.
+- [Minecraft Wiki](minecraft-wiki/WORKFLOW.md): version-page changes and bugfix lists, followed by exact-source verification.
+- [MCPK Wiki](mcpk-wiki/WORKFLOW.md): parkour mechanics and individual change hints, followed by exact-source verification.
 
-The master assigns exclusive finding paths and sends each worker only permitted inputs. Source workers and source reviewers must not read either wiki inventory, product implementations, whole-product diffs, implementation indexes or product Git history before full-pair freeze. Wiki workers keep the two hint inventories independent and do not use the source lane's findings or the other wiki lane as their checklist. Reconciliation happens after source freeze; disagreements reopen bounded verification without rewriting the historical frozen inventory. Wiki hints alone never establish source acceptance or complete tick coverage.
+Before work, require a bounded assignment, exclusive finding ownership and fresh context containing only permitted inputs. Use an isolated lane directory; do not inherit mixed coordinator history or expose another lane's drafts through a shared checkout.
+
+- **Source workers/reviewers:** Do not read wiki inventories, product implementations/diffs/indexes or product Git history before full-pair freeze.
+- **Wiki workers:** Keep each wiki inventory independent; do not use source-lane findings, product implementation or the other wiki as a checklist.
+- **Master:** Reconcile lanes after source freeze. Reopen bounded verification for disagreements without rewriting historical frozen verdicts. Wiki hints never establish source acceptance or complete tick coverage.
 
 ## Exact evidence
 
@@ -22,7 +26,7 @@ Save one small Markdown per independent difference at `development/research/find
 
 Bind source acceptance to an immutable finding revision, evidence identity and independent reviewer verdict. A changed claim/evidence needs renewed review. Record patch introduction as unknown within the interval between the concrete older and newer versions unless separately inspected exact intermediate releases prove the boundary. Broad endpoint comparisons do not justify exact implementation cutovers.
 
-The path above is the canonical publication path, not a shared concurrent drafting location. Before freeze, give each lane an isolated working directory and fresh context with only its permitted inputs. Keep candidate findings at that same relative path within the lane's own directory; do not expose another lane's drafts or mixed product history through a shared checkout. The master tracks ownership and candidate revision references in the existing coverage record. If lanes independently describe the same operation, retain their immutable drafts until reconciliation, then publish one canonical finding and bind each independent provenance/verdict to the claim it actually reviewed. Do not invent suffixes to publish duplicate findings or silently transfer acceptance to a changed claim. Remove temporary draft directories when their evidence is preserved and reconciliation is closed; no new tracked reports or lane archives are needed.
+Draft at the canonical relative path inside the assigned lane directory. Send immutable draft revisions to the master for the existing coverage record. At reconciliation, publish one canonical finding per operation, preserving each lane's evidence and binding verdicts to the claims actually reviewed. Do not add suffixes for duplicates or transfer acceptance to a changed claim. Remove temporary drafts only after their evidence is preserved and reconciliation closes.
 
 ### Small finding template
 
@@ -36,6 +40,6 @@ Movement meaning: <reachable player path and concrete consequence>.
 
 ## Progress and authorized checks
 
-Workers send bounded coverage, evidence, unresolved questions and next actions to the master in chat. They do not edit the shared backlog or create parallel status reports. The master uses the [backlog tool](../orchestration/README.md#backlog-commands) to keep pair coverage, lane-specific hint inventories, evidence identities, source acceptance, implementation and runtime parity separate. Its storage file is not a worker reading list; source workers receive a source-only projection without wiki or implementation fields.
+Workers send bounded coverage, evidence, unresolved questions and next actions to the master in chat. They do not edit the shared backlog or create parallel status reports. The master uses the [backlog tool](../orchestration/WORKFLOW.md#backlog-commands) to keep pair coverage, lane-specific hint inventories, evidence identities, source acceptance, implementation and runtime parity separate. Its storage file is not a worker reading list; source workers receive a source-only projection without wiki or implementation fields.
 
-Preserve confirmed findings after implementation. Remove resolved temporary work items after retaining unique evidence centrally; do not archive completed development reports. Discovery performs source/static checks only: no implementation, tests, recording, gameplay launches or competing source generation.
+Remove resolved temporary work items after retaining unique evidence centrally; do not archive completed development reports. Discovery performs source/static checks only: no implementation, tests, recording, gameplay launches or competing source generation.

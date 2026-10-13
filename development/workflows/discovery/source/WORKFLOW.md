@@ -1,6 +1,6 @@
 # Source discovery
 
-Read the [shared discovery rules](../README.md) first. This lane discovers changes from exact decompiled sources without wiki hints or concrete implementations. Receive an exact release pair, source/mapping identities, bounded owned slices and the permitted source-only progress projection.
+Read the [shared discovery rules](../WORKFLOW.md) first. This lane discovers changes from exact decompiled sources without wiki hints or concrete implementations. Receive an exact release pair, source/mapping identities, bounded owned slices and the permitted source-only progress projection.
 
 ## Plan and compare
 
