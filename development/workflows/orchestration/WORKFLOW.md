@@ -13,7 +13,7 @@ Use this procedure when coordinating an authorized discovery, implementation or 
 
 Create a few separate suborchestrator chats for non-overlapping workstreams. Give each explicit delegation rights, a maximum worker count and permitted hierarchy depth. Workers must not delegate. Count direct workers and suborchestrators in the master's global concurrency pool; exclude suborchestrators' subworkers, which use their separately assigned local pools. Apply overall time/resource budgets to all descendants and obey actual host limits.
 
-Use economical reasoning models for bounded work and stronger models for unresolved complexity. Determine supported concurrency with bounded probes; separate-chat capacity and per-chat subagent capacity are distinct. Reserve capacity for independent review and serial integration. Assign one canonical source-preparation writer and one product integration/build owner.
+Use economical reasoning models for bounded work and stronger models for unresolved complexity; in Codex, apply the specific model policy below. Determine supported concurrency with bounded probes; separate-chat capacity and per-chat subagent capacity are distinct. Reserve capacity for independent review and serial integration. Assign one canonical source-preparation writer and one product integration/build owner.
 
 Send assignments directly in chat with role/delegation limits, bounded action, exact inputs, branch or working directory, owned paths, isolation, budget/deadline, authorized checks and expected finding or commit. Do not create assignment templates or per-worker status files.
 
@@ -43,6 +43,16 @@ For product handoff, require the integrator to merge the default branch, inspect
 Use the host's supported conversation, delegation, messaging and completion mechanisms. Report missing separate-chat support before changing the hierarchy.
 
 **Codex desktop:** Use `create_thread` for separate suborchestrator chats, `send_message_to_thread` for assignments/follow-ups, and bounded multi-target `wait_threads` calls with returned cursors for first-completion waits. Explicit user authorization is required for creating or messaging chats; reuse it within scope. `spawn_agent` creates a subagent, not a separate chat. After a wait, inspect the event and dispatch explicitly; waiting does not run the ready queue. Other hosts use equivalent supported mechanisms and their permission rules.
+
+### Codex-only model policy
+
+- For most delegated work, including routine coordination, discovery, implementation and review, explicitly select the latest GPT Luna model available on the execution host with reasoning effort `high`. Resolve the current Luna identifier at dispatch; do not pin an older Luna release or silently inherit the caller's model.
+- Only very complex tasks may use GPT-6.1 Sol (`gpt-6.1-sol`) with reasoning effort `low`. Examples include unresolved interacting version boundaries or difficult cross-component reasoning that cannot reasonably be reduced to bounded Luna assignments. State the concrete complexity reason in the assignment; a task being important or a review is not sufficient.
+- An agent must never launch or switch delegated work to a model more costly than its own current model. Apply this ceiling to direct workers, suborchestrators, subagents, new chats and follow-up model overrides. Check the host's current model cost ranking or authoritative pricing; lower reasoning effort alone does not establish a cheaper model. Do not infer cost from release numbers. If the caller's identity or relative cost is unknown, resolve it before dispatch or report the limitation; do not assume permission.
+- A Luna agent must not launch Sol to handle complexity. Return the bounded escalation and its reason to its existing coordinator through an authorized channel; an eligible coordinator may assign Sol directly within its own cost ceiling. Do not route around the ceiling by having a cheaper agent create or upgrade a more expensive coordinator.
+- Pass the selected model, reasoning effort and cost ceiling with each delegation. Use fresh permitted context when the host requires it for explicit model selection, and always for blind work. If a required model or reasoning level is unavailable, report the limitation and seek a revised assignment instead of silently substituting another model or effort. These model choices do not grant delegation, chat-creation or messaging rights.
+
+This policy is specific to Codex. Other hosts retain the capability/cost-based guidance above.
 
 ## Central records and ownership
 
