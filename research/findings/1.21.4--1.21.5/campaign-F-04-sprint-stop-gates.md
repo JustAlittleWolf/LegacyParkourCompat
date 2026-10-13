@@ -1,0 +1,32 @@
+# F-04: Sprinting can persist through item use or slow movement in 1.21.5
+
+- **1.21.4**, mojmap: `net/minecraft/client/player/LocalPlayer.java`; lines 662-678.
+- **1.21.5**, mojmap: `LocalPlayer.java`; lines 718-744.
+
+## Difference
+
+If a player is already sprinting on land and begins using an item while still moving forward, 1.21.4 calls `setSprinting(false)` in the early `shouldStopSprinting` check. 1.21.5 makes `canStartSprinting` false, but its later stop predicate does not stop an already-sprinting player for item use. 1.21.5 still scales the directional input for item use in `modifyInput`; it leaves the sprint flag and sprint speed modifier active.
+
+The same start-versus-stop asymmetry applies to slow movement (crouching or visually crawling): 1.21.4 stops the sprint state; 1.21.5's start gate prevents a new sprint, while its active-sprint stop predicates omit that condition.
+
+The timer also has a separate predicate change: 1.21.4 clears the double-tap timer on shift and qualifying item use, while 1.21.5 additionally clears it on backward key input.
+
+This is recorded with the same sprint state-machine slice because the timer drives the same sprint transition.
+
+## Movement meaning
+
+`LocalPlayer.aiStep` reads local key/input, item-use, pose/slow movement, water, collision, vehicle and food predicates and writes sprint state through `setSprinting`. `LivingEntity#setSprinting` applies the transient movement-speed modifier consumed by player travel.
+
+Food-level production is excluded; its direct sprint predicate read remains in the gate.
+
+The findings concern the local player path.
+
+For the stated land/item-use precondition, source shows 1.21.4 removes the sprint speed modifier while 1.21.5 leaves it active; 1.21.5's separate item-use directional scale still reduces input.
+
+Slow movement has the same state retention difference.
+
+The exact resulting displacement depends on travel branch, attribute value, collisions and input.
+
+Backward input's added timer reset changes a later double-tap transition when backward input occurs inside the open trigger window; no timing run was performed.
+
+[Archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.21.4--1.21.5/findings/F-04-sprint-stop-gates.md).

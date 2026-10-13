@@ -1,0 +1,35 @@
+# F-05: Respawn movement-command cache can suppress first sneak/sprint update
+
+- **1.19.4**, mojmap: `ClientPacketListener#handleRespawn`; lines 1060-1129.
+- **1.20.1**, mojmap: `ClientPacketListener#handleRespawn`; lines 1065-1143.
+
+## Difference
+
+When `ClientboundRespawnPacket.shouldKeep((byte)2)` is false, 1.19.4's `ClientPacketListener#handleRespawn` still calls the five-argument `createPlayer` with the old local player's `isShiftKeyDown()` and `isSprinting()` values. 1.20.1 instead calls the three-argument `createPlayer`; that overload delegates with `false,false`. `LocalPlayer` stores those arguments in its `wasShiftKeyDown` and `wasSprinting` command caches on both sides. 1.19.4 and 1.20.1 then use the same `sendPosition`/`sendIsSprintingIfNeeded` comparisons to decide whether to emit the respective command.
+
+1.19.4 held sneak key can therefore match 1.19.4's inherited cache and suppress PRESS_SHIFT_KEY, while 1.20.1 starts with a false cache and emits it.
+
+Likewise, if the fresh player becomes sprinting before the first command comparison and the old player was sprinting, 1.19.4 can suppress START_SPRINTING while 1.20.1 emits it.
+
+Both server handlers directly map the commands to `setShiftKeyDown` or `setSprinting`.
+
+This establishes the conditional command and state-writer difference only; it does not establish a trajectory or the outcome for every server respawn state.
+
+- 1.19.4 `ClientPacketListener#handleRespawn`, lines 1060-1129
+- 1.20.1 `ClientPacketListener#handleRespawn`, lines 1065-1143
+- 1.19.4 `LocalPlayer` constructor, lines 134-141, and command emission, lines 218-279
+- 1.20.1 `LocalPlayer` constructor, lines 136-143, and command emission, lines 220-281
+- 1.19.4 `MultiPlayerGameMode#createPlayer` three-argument overload, lines 377-378
+- 1.20.1 `MultiPlayerGameMode#createPlayer` three-argument overload, lines 370-371
+- 1.19.4 `ServerGamePacketListenerImpl#handlePlayerCommand`, lines 1372-1386
+- 1.20.1 `ServerGamePacketListenerImpl#handlePlayerCommand`, lines 1376-1390
+
+## Movement meaning
+
+This path requires a respawn with keep-entity-data false.
+
+The conditional sneak case also requires the sneak input to remain active when the new LocalPlayer samples input.
+
+The conditional sprint case requires sprinting to be true at the first emission check and the old player's sprint state to have seeded 1.19.4's cache true.
+
+[Archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.19.4--1.20.1/findings/F-05-respawn-movement-command-cache.md).

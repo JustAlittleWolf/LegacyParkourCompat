@@ -1,0 +1,30 @@
+# F-15: Water fall-distance accumulation changes sneak edge back-off eligibility
+
+- **1.21.4**, mojmap: `Entity#checkFallDamage`; lines 1237-1252.
+- **1.21.5**, mojmap: `Entity#checkFallDamage`; lines 1274-1292.
+
+## Difference
+
+For a player whose downward movement occurs in water, 1.21.4 increases `fallDistance` and 1.21.5 does not.
+
+On a later non-grounded move, with abilities-based flight off, sneak held, mover type SELF/PLAYER, requested Y nonpositive, and support within the step-height query, choose 1.21.4 state `fallDistance >= maxUpStep` and 1.21.5 state `fallDistance < maxUpStep`. 1.21.4's `isAboveGround` is then false; 1.21.5 evaluates the downward no-collision query and can return true when support lies within the queried depth.
+
+That changes whether 1.21.5 enters the horizontal edge-back-off loops before collision resolution.
+
+The 1.21.5 support query includes the small inset already covered by F-10; the branch difference remains reachable with a support footprint that has margin beyond that inset.
+
+## Movement meaning
+
+`Entity.move` runs the edge-back-off query before applying this move's collision result and before `checkFallDamage` updates the distance for that move.
+
+The changed water accumulation therefore feeds a later movement call.
+
+The player override of `isStayingOnGroundSurface` makes the gate reachable with sneak input.
+
+This finding uses fall distance only as an input to a player movement predicate; it does not cover fall-damage calculation, landing damage, attack criticals, or other combat outcomes.
+
+The source proves a changed player edge-back-off eligibility condition after downward movement in water.
+
+When the eligibility branch enters and a proposed horizontal offset lacks support within the allowed query, 1.21.5 reduces that horizontal movement in 0.05 increments while 1.21.4 can skip those checks.
+
+[Archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.21.4--1.21.5/findings/F-15-water-fall-distance-edge-backoff.md).

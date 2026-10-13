@@ -1,0 +1,29 @@
+# Source record: 1.8.9 → 1.9.4 (legacy-run)
+
+Historical report: [run.md](../../archive/legacy-workflows/movement-discovery/runs/1.8.9--1.9.4/run.md)
+
+The following is copied from the historical report, without checking local artifact availability or renewing acceptance. Paths beginning with `ready/` name the old publication root; they are not automatically aliases for the canonical `decompiled_minecraft/` tree. Verify exact per-version mapping builds/files and cited source bytes before reuse.
+
+- Selected naming namespace, CLI mode per side and alignment evidence: Ornithe Feather for B, explicit `feather`; resolved Feather build `1.9.4+build.2`. A is owned by the 1.8.9 chat; do not treat its existing output as evidence until its provenance is established. If it is Feather, this is the aligned namespace; otherwise stop and resolve a valid alignment before comparing.
+- Source preparation command and log: `.\gradlew.bat --no-daemon decompileMinecraft --versions=1.9.4 --mappings=feather`; successful completion excerpt: [Source preparation record](#source-preparation-record). Console emitted `Decompiling Minecraft 1.9.4 (requested '1.9.4')`, `Applying ornithe feather (1.9.4+build.2)`, `Decompiling with Vineflower into .../1.9.4/ornithe-feather`, and `Finished 1.9.4 using ornithe-feather`. Gradle 9.7.1 wrapper; decompiler JVM 25.0.3+9-LTS; buildSrc declares Vineflower 1.12.0, Tiny Remapper 0.14.1, Mapping IO 0.9.1. Task's default decompiler options are in `buildSrc/src/main/java/legacyparkourcompat/minecraft/MinecraftDecompileEngine.java`. No failed decompiler task or required-class check was reported. Output also contained remapper invalid-access warnings, which it said were fixed for 1 class and 32 members; movement impact remains to be checked if those classes enter a slice.
+
+### A — 1.8.9
+
+- Requested/resolved release: 1.8.9 / 1.8.9, confirmed in the owning chat's successful explicit decompilation log.
+- Source root: `../../../../decompiled_minecraft/1.8.9/ornithe-feather` (resolved directory exists under the shared root); 1,612 Java files. In this task I verified the 1.8.9 Feather source files are present and recorded hashes for every file cited below. The source is owner-produced and was not regenerated here.
+- CLI mode and naming namespace: explicit `feather`; matching Ornithe Feather family on both endpoints. Owner log selects `1.8.9+build.2`.
+- Client jar identity from the owner's verified version metadata: version 1.8.9, 5,256,245 bytes, publisher SHA-1 `e80d9b3bf5085002218d4be59e668bac718abbc6`. Client jar SHA-256, exact metadata file hash, Feather mapping artifact hash/path, remapped jar hash and original log file path are still being recorded by the owner; these fields remain open until received.
+- Successful source preparation: the owner reports command `gradlew.bat decompileMinecraft --rerun-tasks --versions=1.8.9 --mappings=feather`, exact resolver output `Applying ornithe feather (1.8.9+build.2)`, output to the exact source root above, and `Finished 1.8.9 using ornithe-feather`. The parent coordinator verified the successful log. The concise excerpt is in [Source preparation record](#source-preparation-record); the original raw log remains in the owning chat's worktree.
+
+### B — 1.9.4
+
+- Requested/resolved release: 1.9.4 / 1.9.4 (explicit version printed by the successful task).
+- Source root: `../../../../decompiled_minecraft/1.9.4/ornithe-feather` (through the worktree junction to the shared root).
+- Client jar: `../../../../build/minecraft-decompile-cache/1.9.4/client.jar`, 8,736,083 bytes, SHA-256 `23E90103A1CA2AC71100004C6D5846DE09F85695F579843EF8DA41571E60C908`; Mojang object ID/SHA-1 `4a61c873be90bb1196d68dac7b29870408c56969`.
+- CLI mode and naming namespace: explicit `feather`; Ornithe Feather.
+- Mapping coordinate/build: `net.ornithemc:feather-gen2:1.9.4+build.2`; resolved merged-v2 artifact `feather-gen2-1.9.4+build.2-mergedv2.jar`, SHA-256 `49A38D0ADFBDA1749E519C29844116E9F22E895CB505633261B7F587268F4125`; cached at `../../../../build/minecraft-decompile-cache/yarn/feather-gen2-1.9.4+build.2-mergedv2.jar`. Extracted Tiny mapping `feather-gen2-1.9.4+build.2.tiny`, SHA-256 `9E21708D4BC32A43AC404735EA3238465889797110204A0375BCB069A3798027`.
+- Remapped jar: `../../../../build/minecraft-decompile-cache/1.9.4/client-ornithe-feather.jar`, 5,996,888 bytes, SHA-256 `BF1AC5827656840275F45C62D26D7B0671575A8131DD0FD9C0268F733C5B0A96`.
+- Source inventory: output directory exists; 1,819 Java files. Hash each cited file when its paired slice is completed; do not regenerate this output after findings depend on it.
+- Version metadata: `../../../../build/minecraft-decompile-cache/1.9.4/version.json`, SHA-256 `4B21379203F0D87DF8CC2AB4DD3C3689F139772F1CDB37B40688252547E2D5BE`.
+- Relevant initial source hashes: `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java` `8AAF711948B7602C2E6C015A37E36ED06073D39727D999D80480B4910B704F5D`; `net/minecraft/client/entity/living/player/ClientPlayerEntity.java` `68F6E640808D8B31C1A99D1470075606A42290600FD45435AA86C15EB8DB5EF0`; `net/minecraft/client/entity/living/player/KeyboardInput.java` `7BE11425906BE051C83E275F359816546E4677B16D212156380E8D2E9258654A`; `net/minecraft/client/entity/living/player/Input.java` `206DEA2FF5977599596C907C54F36300C4E72D07D6778D82E8850F57BB0FB009`; `net/minecraft/entity/living/player/PlayerEntity.java` `D658A0D95452D12BB7E347BFD802240EEECAF7F938E10DCD43E2640434387F85`; `net/minecraft/entity/living/LivingEntity.java` `BBB7703F18FD5DA05C4E4A43A77EA644B388E63C01D34166D308EA52054BE4E5`; `net/minecraft/entity/Entity.java` `BCD7FA2206BF8D7271102F6DA7FE2771F96DBE22EC79DAB9F2101A3E29C17EF0`; `net/minecraft/block/Block.java` `E62ECE80C6A7E7121346F65F8FDFD9B148C29441A27DE9F568BBA9AFE1D84FE6`.
+- Resources cited: none yet. The Java source saver excludes jar resources; inspect the original client jar when resource-backed movement dependencies are reached.
