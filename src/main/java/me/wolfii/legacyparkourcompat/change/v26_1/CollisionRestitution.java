@@ -4,15 +4,15 @@ import java.util.Optional;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
-import me.wolfii.legacyparkourcompat.mechanic.hook.BlockBounceBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.BlockLandingBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.CollisionRestitutionBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockBounceHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockLandingHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.CollisionRestitutionHook;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 @MovementChange(emulates = ParkourVersion.V26_1)
-public final class CollisionRestitution implements CollisionRestitutionBehavior {
+public final class CollisionRestitution implements CollisionRestitutionHook {
     @Override
     public void restituteAfterCollisions(
         Entity entity,
@@ -21,8 +21,8 @@ public final class CollisionRestitution implements CollisionRestitutionBehavior 
         boolean zCollision,
         boolean yCollision,
         Vec3 movement,
-        Optional<BlockLandingBehavior> blockLanding,
-        Optional<BlockBounceBehavior> bounce,
+        Optional<BlockLandingHook> blockLanding,
+        Optional<BlockBounceHook> bounce,
         VanillaCall vanilla
     ) {
         Vec3 velocity = entity.getDeltaMovement();

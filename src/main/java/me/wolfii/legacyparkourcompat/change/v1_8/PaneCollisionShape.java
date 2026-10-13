@@ -2,7 +2,7 @@ package me.wolfii.legacyparkourcompat.change.v1_8;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.BlockCollisionShape;
+import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockCollisionShapeHook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Blocks;
@@ -18,7 +18,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @MovementChange(emulates = ParkourVersion.V1_8)
-public final class PaneCollisionShape implements BlockCollisionShape {
+public final class PaneCollisionShape implements BlockCollisionShapeHook {
     public static final List<String> BLOCK_IDS = List.of(
         "minecraft:iron_bars",
         "minecraft:glass_pane",

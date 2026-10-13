@@ -2,14 +2,14 @@ package me.wolfii.legacyparkourcompat.change.v1_12;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerDimensionsBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerPoseBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerDimensionsHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerPoseHook;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 
 @MovementChange(emulates = ParkourVersion.V1_12)
-public final class SwimmingDimensions implements PlayerDimensionsBehavior, PlayerPoseBehavior {
+public final class SwimmingDimensions implements PlayerDimensionsHook, PlayerPoseHook {
     @Override
     public boolean updatePose(Player player) {
         return false;

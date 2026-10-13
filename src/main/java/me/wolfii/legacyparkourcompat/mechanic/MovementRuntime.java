@@ -25,10 +25,11 @@ public final class MovementRuntime {
 
     /**
      * {@code false} when movement emulation is disabled (native/latest) or the
-     * entity is not a player. Mixins must call vanilla unchanged in that case.
+     * entity is not a client-side player. This logical-side gate also excludes
+     * the integrated server. Mixins must call vanilla unchanged in that case.
      */
     public static boolean appliesTo(@Nullable Entity entity) {
-        if (entity != null && !isPlayer(entity)) {
+        if (!(entity instanceof Player) || !entity.level().isClientSide()) {
             return false;
         }
         return MovementController.get().isEnabled(entity);

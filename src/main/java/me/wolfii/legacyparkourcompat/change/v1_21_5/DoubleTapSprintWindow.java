@@ -2,11 +2,11 @@ package me.wolfii.legacyparkourcompat.change.v1_21_5;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.SprintWindowBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintWindowHook;
 import net.minecraft.world.entity.player.Player;
 
 @MovementChange(emulates = ParkourVersion.V1_21_5)
-public final class DoubleTapSprintWindow implements SprintWindowBehavior {
+public final class DoubleTapSprintWindow implements SprintWindowHook {
     @Override
     public int doubleTapWindow(Player player, int vanilla) {
         return 7;

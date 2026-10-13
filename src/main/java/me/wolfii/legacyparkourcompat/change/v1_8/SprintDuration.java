@@ -2,15 +2,15 @@ package me.wolfii.legacyparkourcompat.change.v1_8;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.SprintStateBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.SprintTickBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.state.SprintStateHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintTickHook;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.Map;
 import java.util.WeakHashMap;
 
 @MovementChange(emulates = ParkourVersion.V1_8)
-public final class SprintDuration implements SprintStateBehavior, SprintTickBehavior {
+public final class SprintDuration implements SprintStateHook, SprintTickHook {
     private final Map<Player, Integer> sprintTimers = new WeakHashMap<>();
 
     @Override

@@ -23,6 +23,7 @@ final class MojangMeta {
         String type;
         String url;
         String releaseTime;
+        String sha1;
     }
 
     static final class VersionJson {

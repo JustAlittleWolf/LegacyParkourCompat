@@ -1,7 +1,7 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
-import me.wolfii.legacyparkourcompat.mechanic.hook.SprintStateBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.state.SprintStateHook;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,7 +15,7 @@ abstract class LocalPlayerSprintMixin {
     private void legacyparkourcompat$setLocalSprinting(boolean sprinting, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
         if (entity instanceof LocalPlayer player) {
-            MovementRuntime.find(SprintStateBehavior.class, player)
+            MovementRuntime.find(SprintStateHook.class, player)
                 .ifPresent(behavior -> behavior.onSetSprinting(player, sprinting));
         }
     }

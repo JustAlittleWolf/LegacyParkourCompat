@@ -6,5 +6,6 @@
   "legacyparkourcompat.version.status.vanilla": "Current vanilla movement.",
   "legacyparkourcompat.version.status.partial": "This version is only partially implemented. Some movement still uses current vanilla physics.",
   "legacyparkourcompat.message.forced": "Forced parkour version to %s to match the server.",
+  "legacyparkourcompat.disconnect.handshake_mismatch": "Your mod confirmed movement profile %s, but this server requires %s. Reconnect with the required profile.",
   "legacyparkourcompat.disconnect.version_mismatch": "Your Minecraft version (%s) does not match this server's parkour version (%s). Install Legacy Parkour Compat, or connect with a matching client."
 }

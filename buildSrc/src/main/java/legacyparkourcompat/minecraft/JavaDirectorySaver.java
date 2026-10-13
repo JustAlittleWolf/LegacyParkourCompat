@@ -30,7 +30,7 @@ final class JavaDirectorySaver implements IResultSaver {
 
     @Override
     public void saveClassFile(String path, String qualifiedName, String entryName, String content, int[] mapping) {
-        write(resolve(path).resolve(entryName), content);
+        write(resolve(path + "/" + entryName), content);
     }
 
     @Override
@@ -63,7 +63,11 @@ final class JavaDirectorySaver implements IResultSaver {
         if (normalized.isEmpty() || ".".equals(normalized)) {
             return root;
         }
-        return root.resolve(normalized);
+        Path target = root.resolve(normalized).normalize();
+        if (!target.startsWith(root.normalize())) {
+            throw new IllegalArgumentException("Decompiler output escapes source directory: " + relative);
+        }
+        return target;
     }
 
     private static void createDirectories(Path path) {
@@ -83,7 +87,7 @@ final class JavaDirectorySaver implements IResultSaver {
             if (parent != null) {
                 Files.createDirectories(parent);
             }
-            Files.writeString(file, content, StandardCharsets.UTF_8);
+            Files.writeString(file, content.replace("\r\n", "\n").replace('\r', '\n'), StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new RuntimeException("Failed to write " + file, e);
         }

@@ -2,13 +2,13 @@ package me.wolfii.legacyparkourcompat.change.v1_18;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.ElytraLiftForceBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.ElytraLiftForceHook;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
 /** Uses the float lookup cosine and float-rounded coefficient from 1.18. */
 @MovementChange(emulates = ParkourVersion.V1_18)
-public final class ElytraLiftForce implements ElytraLiftForceBehavior {
+public final class ElytraLiftForce implements ElytraLiftForceHook {
     @Override
     public double liftForce(Player player, ParkourVersion selected, Vec3 lookAngle, double vanilla) {
         if (selected.olderThan(ParkourVersion.V1_9)) {

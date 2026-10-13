@@ -2,12 +2,12 @@ package me.wolfii.legacyparkourcompat.change.v1_8;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.FlightSneakInputBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.FlightSneakInputHook;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec2;
 
 @MovementChange(emulates = ParkourVersion.V1_8)
-public final class CreativeFlightSneakInput implements FlightSneakInputBehavior {
+public final class CreativeFlightSneakInput implements FlightSneakInputHook {
     @Override
     public Vec2 modify(Player player, Vec2 input, boolean slowedBySneaking) {
         boolean flyingSneak = player.getAbilities().flying && player.isShiftKeyDown() && !slowedBySneaking;

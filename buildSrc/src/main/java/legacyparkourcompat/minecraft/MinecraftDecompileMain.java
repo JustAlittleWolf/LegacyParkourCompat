@@ -23,11 +23,16 @@ public final class MinecraftDecompileMain {
         Path outputRoot = Path.of(args[1]);
         List<String> versions = new ArrayList<>();
         List<String> mappings = splitVersions(args[2].substring("--mappings=".length()));
+        boolean force = false;
         for (int i = 3; i < args.length; i++) {
+            if ("--force".equals(args[i])) {
+                force = true;
+                continue;
+            }
             versions.addAll(splitVersions(args[i]));
         }
         try {
-            new MinecraftDecompileEngine(new StdDecompileLogger(), cacheDir, outputRoot, mappings).decompile(versions);
+            new MinecraftDecompileEngine(new StdDecompileLogger(), cacheDir, outputRoot, mappings, force).decompile(versions);
         } catch (RuntimeException e) {
             e.printStackTrace(System.err);
             System.exit(1);

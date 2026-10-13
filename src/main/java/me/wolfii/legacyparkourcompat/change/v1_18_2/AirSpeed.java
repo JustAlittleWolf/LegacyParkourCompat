@@ -2,12 +2,12 @@ package me.wolfii.legacyparkourcompat.change.v1_18_2;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.AirSpeedBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.AirSpeedUpdateBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.AirSpeedHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.AirSpeedUpdateHook;
 import net.minecraft.world.entity.player.Player;
 
 @MovementChange(emulates = ParkourVersion.V1_18_2)
-public final class AirSpeed implements AirSpeedBehavior, AirSpeedUpdateBehavior {
+public final class AirSpeed implements AirSpeedHook, AirSpeedUpdateHook {
     @Override
     public float speed(Player player, float stored, float vanilla) {
         return player.getAbilities().flying && !player.isPassenger() ? vanilla : stored;

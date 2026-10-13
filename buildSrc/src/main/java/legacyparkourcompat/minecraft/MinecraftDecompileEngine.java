@@ -27,7 +27,6 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HexFormat;
@@ -59,41 +58,46 @@ final class MinecraftDecompileEngine {
     private final Path cacheDir;
     private final Path outputRoot;
     private final List<String> mappingSpecs;
+    private final boolean force;
+    private final java.util.Map<String, String> inputs = new java.util.TreeMap<>();
+    private java.util.Map<String, String> tools;
+    private java.util.Map<String, String> versionInputs;
     private final Gson gson = new GsonBuilder().create();
     private final HttpClient http = HttpClient.newBuilder()
             .followRedirects(HttpClient.Redirect.NORMAL)
             .connectTimeout(Duration.ofSeconds(30))
             .build();
 
-    MinecraftDecompileEngine(DecompileLogger logger, Path cacheDir, Path outputRoot, List<String> mappingSpecs) {
+    MinecraftDecompileEngine(DecompileLogger logger, Path cacheDir, Path outputRoot, List<String> mappingSpecs, boolean force) {
         this.logger = logger;
         this.cacheDir = cacheDir;
         this.outputRoot = outputRoot;
         this.mappingSpecs = List.copyOf(mappingSpecs);
+        this.force = force;
     }
 
     void decompile(List<String> versionSpecs) {
         try {
             Files.createDirectories(cacheDir);
             Files.createDirectories(outputRoot);
+            try (var sourceWriter = new DecompileStore.Writer(outputRoot);
+                 var cacheWriter = new DecompileStore.Writer(cacheDir)) {
+                tools = DecompileStore.tools();
+                boolean catalogRefreshed = !Files.isRegularFile(cacheDir.resolve("version_manifest_v2.json"))
+                        || versionSpecs.stream().anyMatch(MinecraftDecompileEngine::dynamicVersion);
+                MojangMeta.VersionManifest manifest = releaseCatalog(catalogRefreshed);
 
-            Path manifestPath = download(
-                    VERSION_MANIFEST_URL,
-                    cacheDir.resolve("version_manifest_v2.json"),
-                    null
-            );
-            MojangMeta.VersionManifest manifest = gson.fromJson(
-                    Files.readString(manifestPath),
-                    MojangMeta.VersionManifest.class
-            );
-            if (manifest == null || manifest.versions == null || manifest.latest == null) {
-                throw new IllegalStateException("Could not parse the Minecraft version manifest.");
-            }
-
-            for (String spec : versionSpecs) {
-                MojangMeta.VersionRef resolved = resolveVersion(spec, manifest);
-                logger.lifecycle("Decompiling Minecraft {} (requested '{}')", resolved.id, spec);
-                decompileVersion(resolved);
+                for (String spec : versionSpecs) {
+                    if (!dynamicVersion(spec) && !catalogRefreshed
+                            && manifest.versions.stream().noneMatch(version -> spec.trim().equals(version.id))) {
+                        // A release added after the local catalog was saved must remain discoverable.
+                        manifest = releaseCatalog(true);
+                        catalogRefreshed = true;
+                    }
+                    MojangMeta.VersionRef resolved = resolveVersion(spec, manifest);
+                    logger.lifecycle("Decompiling Minecraft {} (requested '{}')", resolved.id, spec);
+                    decompileVersion(resolved);
+                }
             }
         } catch (IllegalStateException e) {
             throw e;
@@ -102,11 +106,27 @@ final class MinecraftDecompileEngine {
         }
     }
 
+    private static boolean dynamicVersion(String spec) {
+        return "latest".equalsIgnoreCase(spec.trim()) || "latest-snapshot".equalsIgnoreCase(spec.trim());
+    }
+
+    private MojangMeta.VersionManifest releaseCatalog(boolean refresh) throws Exception {
+        // This discovery index is mutable. Exact per-version inputs are pinned separately.
+        Path catalog = download(VERSION_MANIFEST_URL, cacheDir.resolve("version_manifest_v2.json"),
+                null, false, refresh);
+        MojangMeta.VersionManifest manifest = gson.fromJson(Files.readString(catalog), MojangMeta.VersionManifest.class);
+        if (manifest == null || manifest.versions == null || manifest.latest == null) {
+            throw new IllegalStateException("Could not parse the Minecraft release catalog.");
+        }
+        return manifest;
+    }
+
     private void decompileVersion(MojangMeta.VersionRef versionRef) throws Exception {
         Path versionCache = cacheDir.resolve(versionRef.id);
         Files.createDirectories(versionCache);
+        inputs.clear();
 
-        Path versionJsonPath = download(versionRef.url, versionCache.resolve("version.json"), null);
+        Path versionJsonPath = download(versionRef.url, versionCache.resolve("version.json"), versionRef.sha1);
         MojangMeta.VersionJson version = gson.fromJson(
                 Files.readString(versionJsonPath),
                 MojangMeta.VersionJson.class
@@ -132,6 +152,7 @@ final class MinecraftDecompileEngine {
                 version.downloads.client.sha1
         );
         List<Path> libraries = downloadLibraries(version, versionCache.resolve("libraries"));
+        versionInputs = new java.util.TreeMap<>(inputs);
 
         for (String requestedMapping : mappingSpecs) {
             String mapping = requestedMapping.toLowerCase(Locale.ROOT);
@@ -155,7 +176,11 @@ final class MinecraftDecompileEngine {
     private void decompileMappedVersion(MojangMeta.VersionRef versionRef, MojangMeta.VersionJson version,
                                         Path versionCache, Path clientJar, List<Path> libraries, String requestedMapping)
             throws Exception {
+        // Provenance for one mapping must not depend on the order of other requested mappings.
+        inputs.clear();
+        inputs.putAll(versionInputs);
         Path jarToDecompile = clientJar;
+        List<Remapping> remaps = new ArrayList<>();
         String mappingSource;
         boolean hasMojmap = version.downloads.clientMappings != null
                 && version.downloads.clientMappings.url != null;
@@ -167,7 +192,7 @@ final class MinecraftDecompileEngine {
                     versionCache.resolve("client_mappings.txt"), version.downloads.clientMappings.sha1);
             Path mappedJar = versionCache.resolve("client-mojmap.jar");
             logger.lifecycle("  Applying official Mojang mappings");
-            remap(clientJar, mappedJar, mojmapProvider(mappings), libraries);
+            remaps.add(() -> remap(clientJar, mappedJar, mojmapProvider(mappings), libraries));
             jarToDecompile = mappedJar;
             mappingSource = "mojmap";
         } else if ("unobfuscated".equals(requestedMapping)) {
@@ -198,7 +223,8 @@ final class MinecraftDecompileEngine {
                     mappingHeader = reader.readLine();
                 }
                 if (mappingHeader != null && mappingHeader.contains("\tofficial\t")) {
-                    remap(clientJar, mappedJar, TinyUtils.createTinyMappingProvider(yarn.tinyFile, "official", "named"), libraries);
+                    remaps.add(() -> remap(clientJar, mappedJar,
+                            TinyUtils.createTinyMappingProvider(yarn.tinyFile, "official", "named"), libraries));
                 } else if (mappingHeader != null && mappingHeader.endsWith("\tintermediary\tnamed")) {
                     Path intermediaryJar = downloadYarnJar(FABRIC_MAVEN, "net.fabricmc", "intermediary", versionRef.id);
                     if (intermediaryJar == null) {
@@ -208,13 +234,13 @@ final class MinecraftDecompileEngine {
                     extractNamedFile(intermediaryJar, "mappings/mappings.tiny", intermediaryTiny);
                     Path intermediaryClient = versionCache.resolve("client-intermediary.jar");
                     logger.lifecycle("  Bridging official -> intermediary -> named for {}", versionRef.id);
-                    remap(clientJar, intermediaryClient,
-                            TinyUtils.createTinyMappingProvider(intermediaryTiny, "official", "intermediary"), libraries);
+                    remaps.add(() -> remap(clientJar, intermediaryClient,
+                            TinyUtils.createTinyMappingProvider(intermediaryTiny, "official", "intermediary"), libraries));
                     boolean reversedColumns = hasReversedIntermediaryClassColumns(yarn.tinyFile);
-                    remap(intermediaryClient, mappedJar,
+                    remaps.add(() -> remap(intermediaryClient, mappedJar,
                             TinyUtils.createTinyMappingProvider(yarn.tinyFile,
                                     reversedColumns ? "named" : "intermediary",
-                                    reversedColumns ? "intermediary" : "named"), libraries);
+                                    reversedColumns ? "intermediary" : "named"), libraries));
                 } else {
                     throw new IllegalStateException("Unsupported mapping namespaces for Minecraft " + versionRef.id
                             + ": " + mappingHeader);
@@ -224,18 +250,47 @@ final class MinecraftDecompileEngine {
         }
 
         Path outputDir = outputRoot.resolve(versionRef.id).resolve(mappingSource);
-        if (Files.exists(outputDir)) {
-            deleteRecursively(outputDir);
-        }
-        Files.createDirectories(outputDir);
-
-        logger.lifecycle("  Decompiling with Vineflower into {}", outputDir);
-        try {
-            decompileJar(jarToDecompile, libraries, outputDir);
+        if (Files.exists(outputDir) && !force) {
             ensureMovementSources(outputDir);
-        } catch (RuntimeException error) {
+            if (!Files.isRegularFile(outputDir.resolve(DecompileStore.MANIFEST))) {
+                logger.warn("  Reusing legacy sources at {}; provenance and reproducibility are unverified. "
+                        + "Use --force to publish pinned sources while preserving this tree.", outputDir);
+            } else {
+                DecompileStore.Manifest recorded = DecompileStore.read(outputDir);
+                DecompileStore.Manifest current = DecompileStore.provenance(inputs, tools, outputDir);
+                if (!recorded.equals(current)) {
+                    throw new IllegalStateException("Source provenance differs at " + outputDir
+                            + "; inspect the inputs/tools/source hashes and use --force for deliberate regeneration.");
+                }
+                logger.lifecycle("  Reusing verified sources at {}", outputDir);
+            }
+            return;
+        }
+        Files.createDirectories(outputDir.getParent());
+        Path staging = Files.createTempDirectory(outputDir.getParent(), "." + mappingSource + ".staging-");
+
+        logger.lifecycle("  Decompiling with Vineflower into {}", staging);
+        try {
+            for (Remapping remapping : remaps) remapping.run();
+            decompileJar(jarToDecompile, libraries, staging);
+            ensureMovementSources(staging);
+            DecompileStore.Manifest generated = DecompileStore.provenance(inputs, tools, staging);
+            if (Files.isRegularFile(outputDir.resolve(DecompileStore.MANIFEST))) {
+                DecompileStore.Manifest previous = DecompileStore.read(outputDir);
+                if (previous.pipeline().equals(generated.pipeline())
+                        && previous.runtime().equals(generated.runtime())
+                        && previous.tools().equals(generated.tools())
+                        && previous.inputs().equals(generated.inputs())
+                        && !previous.sources().equals(generated.sources())) {
+                    throw new IllegalStateException("Identical pinned inputs produced different source hashes; "
+                            + "preserving previous sources at " + outputDir);
+                }
+            }
+            DecompileStore.write(staging, generated);
+            DecompileStore.publish(staging, outputDir);
+        } catch (Exception error) {
             try {
-                deleteRecursively(outputDir);
+                deleteRecursively(staging);
             } catch (IOException cleanupError) {
                 error.addSuppressed(cleanupError);
             }
@@ -253,6 +308,7 @@ final class MinecraftDecompileEngine {
                 .renameInvalidLocals(true)
                 .rebuildSourceFilenames(true)
                 .fixPackageAccess(true)
+                .threads(1)
                 .build();
         try {
             if (!classpath.isEmpty()) {
@@ -309,7 +365,7 @@ final class MinecraftDecompileEngine {
                 .option(IFernflowerPreferences.ASCII_STRING_CHARACTERS, true)
                 .option(IFernflowerPreferences.REMOVE_SYNTHETIC, true)
                 .option(IFernflowerPreferences.INDENT_STRING, "    ")
-                .option(IFernflowerPreferences.THREADS, Integer.toString(Math.max(1, Runtime.getRuntime().availableProcessors())))
+                .option(IFernflowerPreferences.THREADS, "1")
                 .option(IFernflowerPreferences.WARN_INCONSISTENT_INNER_CLASSES, false)
                 .option(IFernflowerPreferences.INCLUDE_JAVA_RUNTIME, false)
                 .allowedPrefixes("net/minecraft", "com/mojang");
@@ -321,7 +377,8 @@ final class MinecraftDecompileEngine {
 
         builder.build().decompile();
         if (decompilerErrors.get() > 0) {
-            logger.warn("  Vineflower reported {} errors; checking required movement sources", decompilerErrors.get());
+            throw new IllegalStateException("Vineflower reported " + decompilerErrors.get()
+                    + " errors; incomplete source output will not be published.");
         }
     }
 
@@ -346,7 +403,7 @@ final class MinecraftDecompileEngine {
         }
     }
 
-    private List<Path> downloadLibraries(MojangMeta.VersionJson version, Path libraryRoot) {
+    private List<Path> downloadLibraries(MojangMeta.VersionJson version, Path libraryRoot) throws Exception {
         List<Path> result = new ArrayList<>();
         if (version.libraries == null) {
             return result;
@@ -364,11 +421,7 @@ final class MinecraftDecompileEngine {
                     ? artifact.path
                     : library.name.replace(':', '/');
             Path dest = libraryRoot.resolve(relative);
-            try {
-                result.add(download(artifact.url, dest, artifact.sha1));
-            } catch (Exception e) {
-                logger.warn("  Skipping library {}: {}", library.name, e.getMessage());
-            }
+            result.add(download(artifact.url, dest, artifact.sha1));
         }
         return result;
     }
@@ -438,8 +491,11 @@ final class MinecraftDecompileEngine {
     private YarnMapping yarnFromMeta(String metaUrl, String mavenRoot, String label) throws Exception {
         String body;
         try {
-            body = httpGetString(metaUrl);
+            Path metadata = cacheDir.resolve("mapping-metadata")
+                    .resolve(label.replace(' ', '-') + "-" + metaUrl.substring(metaUrl.lastIndexOf('/') + 1) + ".json");
+            body = Files.readString(download(metaUrl, metadata, null));
         } catch (Exception e) {
+            if (e.getMessage() == null || !e.getMessage().startsWith("HTTP 404")) throw e;
             logger.info("  No {} metadata at {}: {}", label, metaUrl, e.getMessage());
             return null;
         }
@@ -471,7 +527,7 @@ final class MinecraftDecompileEngine {
         return new YarnMapping(label, chosen.version, tiny);
     }
 
-    private Path downloadYarnJar(String mavenRoot, String group, String artifact, String version) {
+    private Path downloadYarnJar(String mavenRoot, String group, String artifact, String version) throws Exception {
         String base = mavenRoot + group.replace('.', '/') + '/' + artifact + '/' + version + '/' + artifact + '-' + version;
         List<String> suffixes = List.of("-mergedv2.jar", "-v2.jar", ".jar");
         for (String suffix : suffixes) {
@@ -479,6 +535,7 @@ final class MinecraftDecompileEngine {
             try {
                 return download(base + suffix, dest, null);
             } catch (Exception e) {
+                if (e.getMessage() == null || !e.getMessage().startsWith("HTTP 404")) throw e;
                 logger.info("  Yarn artifact {}{} not found: {}", artifact + '-' + version, suffix, e.getMessage());
             }
         }
@@ -534,20 +591,7 @@ final class MinecraftDecompileEngine {
             }
         }
 
-        List<MojangMeta.VersionRef> matches = manifest.versions.stream()
-                .filter(version -> version.id.startsWith(requested + ".") || version.id.startsWith(requested + "-"))
-                .toList();
-        if (matches.isEmpty()) {
-            throw new IllegalStateException("Unknown Minecraft version '" + requested + "'.");
-        }
-
-        List<MojangMeta.VersionRef> releases = matches.stream()
-                .filter(version -> "release".equals(version.type))
-                .toList();
-        List<MojangMeta.VersionRef> candidates = releases.isEmpty() ? matches : releases;
-        return candidates.stream()
-                .max(Comparator.comparing(version -> parseTime(version.releaseTime)))
-                .orElseThrow(() -> new IllegalStateException("Unknown Minecraft version '" + requested + "'."));
+        throw new IllegalStateException("Unknown exact Minecraft version '" + requested + "'.");
     }
 
     private static MojangMeta.VersionRef requireVersion(MojangMeta.VersionManifest manifest, String id) {
@@ -557,20 +601,17 @@ final class MinecraftDecompileEngine {
                 .orElseThrow(() -> new IllegalStateException("Manifest is missing version '" + id + "'."));
     }
 
-    private static Instant parseTime(String value) {
-        if (value == null || value.isBlank()) {
-            return Instant.EPOCH;
-        }
-        try {
-            return Instant.parse(value);
-        } catch (Exception e) {
-            return Instant.EPOCH;
-        }
+    private Path download(String url, Path dest, String expectedSha1) throws Exception {
+        return download(url, dest, expectedSha1, true, false);
     }
 
-    private Path download(String url, Path dest, String expectedSha1) throws Exception {
-        if (Files.isRegularFile(dest) && (expectedSha1 == null || expectedSha1.equalsIgnoreCase(sha1(dest)))) {
+    private Path download(String url, Path dest, String expectedSha1, boolean pinned, boolean refresh) throws Exception {
+        if (!refresh && Files.isRegularFile(dest) && (expectedSha1 == null || expectedSha1.equalsIgnoreCase(sha1(dest)))) {
+            if (pinned) DecompileStore.pin(dest, url, inputs);
             return dest;
+        }
+        if (pinned && Files.exists(dest.resolveSibling(dest.getFileName() + ".pin.json"))) {
+            throw new IOException("Pinned input missing or corrupt: " + dest + "; restore the pinned artifact.");
         }
         Files.createDirectories(dest.getParent());
         Path temp = dest.resolveSibling(dest.getFileName() + ".part");
@@ -598,6 +639,7 @@ final class MinecraftDecompileEngine {
                     throw new IOException("SHA-1 mismatch for " + dest.getFileName());
                 }
                 Files.move(temp, dest, StandardCopyOption.REPLACE_EXISTING);
+                if (pinned) DecompileStore.pin(dest, url, inputs);
                 return dest;
             } catch (IOException e) {
                 last = e;
@@ -622,19 +664,6 @@ final class MinecraftDecompileEngine {
             }
         }
         throw last;
-    }
-
-    private String httpGetString(String url) throws Exception {
-        HttpRequest request = HttpRequest.newBuilder(URI.create(url))
-                .timeout(Duration.ofSeconds(30))
-                .header("User-Agent", "LegacyParkourCompat-decompileMinecraft")
-                .GET()
-                .build();
-        HttpResponse<String> response = http.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
-        if (response.statusCode() / 100 != 2) {
-            throw new IOException("HTTP " + response.statusCode() + " for " + url);
-        }
-        return response.body();
     }
 
     private static String sha1(Path file) throws IOException {
@@ -675,6 +704,11 @@ final class MinecraftDecompileEngine {
     }
 
     private record MappingCatalog(String label, String metaUrlPrefix, String mavenRoot) {
+    }
+
+    @FunctionalInterface
+    private interface Remapping {
+        void run() throws Exception;
     }
 
     private record YarnMapping(String label, String version, Path tinyFile) {

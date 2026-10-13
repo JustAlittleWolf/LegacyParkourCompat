@@ -3,14 +3,14 @@ package me.wolfii.legacyparkourcompat.change.v26_1;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
-import me.wolfii.legacyparkourcompat.mechanic.hook.BlockLandingBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockLandingHook;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.phys.Vec3;
 
 @MovementChange(emulates = ParkourVersion.V26_1)
-public final class BlockLanding implements BlockLandingBehavior {
+public final class BlockLanding implements BlockLandingHook {
     private final String blockId;
     private final boolean slime;
 
@@ -25,7 +25,7 @@ public final class BlockLanding implements BlockLandingBehavior {
     }
 
     @Override
-    public void updateMovementAfterFallOn(BlockGetter level, Entity entity, java.util.Optional<me.wolfii.legacyparkourcompat.mechanic.hook.BlockBounceBehavior> bounce, VanillaCall vanilla) {
+    public void updateMovementAfterFallOn(BlockGetter level, Entity entity, java.util.Optional<me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockBounceHook> bounce, VanillaCall vanilla) {
         if (entity.isSuppressingBounce()) {
             vanilla.run();
             return;

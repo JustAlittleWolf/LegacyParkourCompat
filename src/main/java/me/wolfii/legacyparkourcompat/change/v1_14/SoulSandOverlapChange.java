@@ -2,8 +2,8 @@ package me.wolfii.legacyparkourcompat.change.v1_14;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.AfterCollisionBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.BlockSpeedFactorBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.AfterCollisionHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockSpeedFactorHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
@@ -14,7 +14,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 @MovementChange(emulates = ParkourVersion.V1_14)
-public final class SoulSandOverlapChange implements BlockSpeedFactorBehavior, AfterCollisionBehavior {
+public final class SoulSandOverlapChange implements BlockSpeedFactorHook, AfterCollisionHook {
     @Override
     public float movementSpeedFactor(Entity entity, float vanilla) {
         BlockState state = entity.level().getBlockState(entity.blockPosition());

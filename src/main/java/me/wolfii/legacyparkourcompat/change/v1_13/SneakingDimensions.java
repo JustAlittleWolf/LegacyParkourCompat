@@ -2,8 +2,8 @@ package me.wolfii.legacyparkourcompat.change.v1_13;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerDimensionsBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.PlayerPoseBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerDimensionsHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerPoseHook;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
@@ -11,7 +11,7 @@ import net.minecraft.world.phys.AABB;
 
 /** The 1.13.2 player height and physical size used when modern pose selection falls back to swimming. */
 @MovementChange(emulates = ParkourVersion.V1_13)
-public final class SneakingDimensions implements PlayerDimensionsBehavior, PlayerPoseBehavior {
+public final class SneakingDimensions implements PlayerDimensionsHook, PlayerPoseHook {
     @Override
     public boolean updatePose(Player player) {
         Pose pose = desiredPose(player);

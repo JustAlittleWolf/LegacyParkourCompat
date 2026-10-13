@@ -19,7 +19,7 @@ import java.lang.annotation.*;
  *
  * <pre>{@code
  * @MovementChange(emulates = ParkourVersion.V1_8)
- * public final class LadderCollision implements BlockCollisionShape {
+ * public final class LadderCollision implements BlockCollisionShapeHook {
  *     public String blockId() { return "minecraft:ladder"; }
  *     public Optional<VoxelShape> collisionShape(...) { return Optional.of(...); }
  * }

@@ -3,7 +3,7 @@
   "id": "legacyparkourcompat",
   "version": "${version}",
   "name": "Legacy Parkour Compat",
-  "description": "Emulate historical Minecraft player movement on modern clients and servers.",
+  "description": "Emulate historical Minecraft player movement on modern clients, with server profile enforcement.",
   "authors": [
     "JustAlittleWolf"
   ],

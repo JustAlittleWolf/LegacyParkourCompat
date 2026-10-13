@@ -1,6 +1,6 @@
 package me.wolfii.legacyparkourcompat.change.common;
 
-import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeCollisionQueryBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeCollisionQueryHook;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -15,7 +15,7 @@ public final class SneakEdgeBackoff {
         Player player,
         Vec3 delta,
         float probeDistance,
-        @Nullable SneakEdgeCollisionQueryBehavior collisionQuery
+        @Nullable SneakEdgeCollisionQueryHook collisionQuery
     ) {
         double x = delta.x;
         double z = delta.z;
@@ -37,7 +37,7 @@ public final class SneakEdgeBackoff {
     private static boolean noCollision(
         Player player,
         AABB candidate,
-        @Nullable SneakEdgeCollisionQueryBehavior collisionQuery
+        @Nullable SneakEdgeCollisionQueryHook collisionQuery
     ) {
         return collisionQuery == null
             ? player.level().noCollision(player, candidate)

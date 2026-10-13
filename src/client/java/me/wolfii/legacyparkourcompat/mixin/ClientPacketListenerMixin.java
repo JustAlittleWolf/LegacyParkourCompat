@@ -3,7 +3,7 @@ package me.wolfii.legacyparkourcompat.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
-import me.wolfii.legacyparkourcompat.mechanic.hook.BoatPassengerYawRefreshBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.BoatPassengerYawRefreshHook;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
@@ -96,7 +96,7 @@ abstract class ClientPacketListenerMixin {
 
         LocalPlayer player = this.minecraft.player;
         if (hadLocalPlayerPassenger && successfullyRemountedLocalPlayer && vehicle != null && player != null) {
-            MovementRuntime.find(BoatPassengerYawRefreshBehavior.class, player)
+            MovementRuntime.find(BoatPassengerYawRefreshHook.class, player)
                 .ifPresent(behavior -> behavior.onPassengerRefresh(
                     player,
                     vehicle,

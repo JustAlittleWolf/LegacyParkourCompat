@@ -2,13 +2,13 @@ package me.wolfii.legacyparkourcompat.change.v1_14;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.FallFlyingStartBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingStartHook;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 
 @MovementChange(emulates = ParkourVersion.V1_14)
-public final class ElytraJumpStart implements FallFlyingStartBehavior {
+public final class ElytraJumpStart implements FallFlyingStartHook {
     @Override
     public boolean shouldStartFallFlying(Player player) {
         if (player.onGround()

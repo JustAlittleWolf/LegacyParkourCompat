@@ -2,17 +2,17 @@ package me.wolfii.legacyparkourcompat.change.v1_12;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.GroundJumpGateBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.LiquidJumpGateBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.StaleWaterDepthJumpBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.WaterJumpBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.jump.GroundJumpGateHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.jump.LiquidJumpGateHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.jump.StaleWaterDepthJumpHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.jump.WaterJumpHook;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.Fluid;
 
 @MovementChange(emulates = ParkourVersion.V1_12)
-public final class WaterJump implements WaterJumpBehavior, GroundJumpGateBehavior, LiquidJumpGateBehavior, StaleWaterDepthJumpBehavior {
+public final class WaterJump implements WaterJumpHook, GroundJumpGateHook, LiquidJumpGateHook, StaleWaterDepthJumpHook {
     @Override
     public void jumpInWater(Player player) {
         if (player.isInWater()) {

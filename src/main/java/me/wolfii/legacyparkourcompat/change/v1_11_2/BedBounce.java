@@ -2,12 +2,12 @@ package me.wolfii.legacyparkourcompat.change.v1_11_2;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.BlockBounceBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockBounceHook;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 
 @MovementChange(emulates = ParkourVersion.V1_11_2)
-public final class BedBounce implements BlockBounceBehavior {
+public final class BedBounce implements BlockBounceHook {
     @Override
     public String blockId() {
         return "minecraft:red_bed";

@@ -2,7 +2,7 @@ package me.wolfii.legacyparkourcompat.change.v1_10;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.BlockCollisionShape;
+import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockCollisionShapeHook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
@@ -14,7 +14,7 @@ import java.util.Optional;
 
 /** Farmland used a full-block collision shape through Minecraft 1.10. */
 @MovementChange(emulates = ParkourVersion.V1_10)
-public final class FarmlandFullCollision implements BlockCollisionShape {
+public final class FarmlandFullCollision implements BlockCollisionShapeHook {
     @Override
     public String blockId() {
         return "minecraft:farmland";

@@ -3,13 +3,13 @@ package me.wolfii.legacyparkourcompat.change.v1_8;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
-import me.wolfii.legacyparkourcompat.mechanic.hook.MovementChunkLookupBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.MovementChunkLookupHook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 
 @MovementChange(emulates = ParkourVersion.V1_8)
-public final class TruncatedMovementChunkLookup implements MovementChunkLookupBehavior {
+public final class TruncatedMovementChunkLookup implements MovementChunkLookupHook {
     @Override
     public boolean hasChunkAt(LivingEntity entity, Level level, BlockPos vanillaPosition, VanillaFn<Boolean> vanilla) {
         if (!level.isClientSide()) {

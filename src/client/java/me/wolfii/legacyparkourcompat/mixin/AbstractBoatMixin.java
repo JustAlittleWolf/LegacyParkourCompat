@@ -1,8 +1,8 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
-import me.wolfii.legacyparkourcompat.mechanic.hook.BoatSideAccelerationBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.BoatSneakAccelerationBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.BoatSideAccelerationHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.BoatSneakAccelerationHook;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
@@ -24,7 +24,7 @@ abstract class AbstractBoatMixin {
         if (rider == null) {
             return vanilla;
         }
-        return MovementRuntime.find(BoatSideAccelerationBehavior.class, rider)
+        return MovementRuntime.find(BoatSideAccelerationHook.class, rider)
             .map(behavior -> behavior.sideOnlyAcceleration(
                 (AbstractBoat)(Object)this, MovementRuntime.profile(rider).target(), vanilla,
                 this.inputLeft, this.inputRight, this.inputUp, this.inputDown
@@ -47,7 +47,7 @@ abstract class AbstractBoatMixin {
         if (rider == null) {
             return vanilla;
         }
-        return MovementRuntime.find(BoatSneakAccelerationBehavior.class, rider)
+        return MovementRuntime.find(BoatSneakAccelerationHook.class, rider)
             .map(behavior -> behavior.sneakingAcceleration((AbstractBoat)(Object)this,
                 MovementRuntime.profile(rider).target(), vanilla, rider.isShiftKeyDown()))
             .orElse(vanilla);

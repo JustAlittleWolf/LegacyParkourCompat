@@ -2,7 +2,7 @@ package me.wolfii.legacyparkourcompat.change.v1_14;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.PortalDismountBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.PortalDismountHook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
 @MovementChange(emulates = ParkourVersion.V1_14)
-public final class PortalDismountChange implements PortalDismountBehavior {
+public final class PortalDismountChange implements PortalDismountHook {
     private static final int[][] DISMOUNT_OFFSETS = {
         {0, 1}, {0, -1}, {-1, 1}, {-1, -1}, {1, 1}, {1, -1}, {-1, 0}, {1, 0}, {0, 1}
     };

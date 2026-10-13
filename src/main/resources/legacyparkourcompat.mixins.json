@@ -3,6 +3,10 @@
   "package": "me.wolfii.legacyparkourcompat.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
+    "accessor.ServerCommonPacketListenerAccessor",
+    "ServerGamePacketListenerMixin"
+  ],
+  "client": [
     "LivingEntityMixin",
     "PlayerMixin",
     "BlockStateCollisionShapeMixin",
@@ -14,18 +18,12 @@
     "EntityFluidInteractionMixin",
     "PlayerMovementAccessor",
     "EntityJumpAccessor",
-    "EntityJumpFactorAccess"
-  ],
-  "client": [
+    "EntityJumpFactorAccess",
     "AbstractBoatMixin",
     "ClientPacketListenerMixin",
     "LocalPlayerMixin",
     "LocalPlayerSprintMixin",
     "client.LocalPlayerAccessor"
-  ],
-  "server": [
-    "ServerLivingEntityMixin",
-    "ServerPlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

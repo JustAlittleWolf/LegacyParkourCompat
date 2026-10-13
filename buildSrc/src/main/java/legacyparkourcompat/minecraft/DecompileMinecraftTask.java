@@ -41,6 +41,20 @@ import java.util.List;
  * class files can be processed.
  */
 public abstract class DecompileMinecraftTask extends DefaultTask {
+    public DecompileMinecraftTask() {
+        getForce().convention(false);
+        // The engine validates shared sources itself, including legacy trees and source hashes.
+        getOutputs().upToDateWhen(task -> false);
+        getOutputs().doNotCacheIf("Shared source publication is managed by the engine", task -> true);
+    }
+
+    @Input
+    public abstract Property<Boolean> getForce();
+
+    @Option(option = "force", description = "Regenerate sources with pinned inputs, preserving the previous published tree.")
+    public void setForceFromCli(boolean value) {
+        getForce().set(value);
+    }
     @Input
     public abstract ListProperty<String> getVersions();
 
@@ -118,6 +132,9 @@ public abstract class DecompileMinecraftTask extends DefaultTask {
         args.add(getCacheDirectory().get().getAsFile().getAbsolutePath());
         args.add(getOutputRoot().get().getAsFile().getAbsolutePath());
         args.add("--mappings=" + String.join(",", getMappings().get()));
+        if (getForce().get()) {
+            args.add("--force");
+        }
         args.addAll(specs);
 
         var result = getExecOperations().javaexec(spec -> {
@@ -125,7 +142,7 @@ public abstract class DecompileMinecraftTask extends DefaultTask {
             spec.setClasspath(getDecompilerClasspath());
             spec.getMainClass().set("legacyparkourcompat.minecraft.MinecraftDecompileMain");
             spec.setArgs(args);
-            spec.jvmArgs("-Xmx" + heap);
+            spec.jvmArgs("-Xmx" + heap, "-Dfile.encoding=UTF-8", "-Duser.language=en", "-Duser.country=US", "-Duser.timezone=UTC");
         });
         if (result.getExitValue() != 0) {
             throw new GradleException("Minecraft decompilation failed with exit code " + result.getExitValue());

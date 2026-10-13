@@ -2,12 +2,12 @@ package me.wolfii.legacyparkourcompat.change.v1_21_4;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeProbeBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeProbeHook;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 
 @MovementChange(emulates = ParkourVersion.V1_21_4)
-public final class EdgeBackoffProbeBounds implements SneakEdgeProbeBehavior {
+public final class EdgeBackoffProbeBounds implements SneakEdgeProbeHook {
     @Override
     public boolean canFallAtLeast(Player player, double deltaX, double deltaZ, double minHeight) {
         AABB boundingBox = player.getBoundingBox();

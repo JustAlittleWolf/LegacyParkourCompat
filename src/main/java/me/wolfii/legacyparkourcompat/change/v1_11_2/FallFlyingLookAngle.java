@@ -2,12 +2,12 @@ package me.wolfii.legacyparkourcompat.change.v1_11_2;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.FallFlyingLookBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingLookHook;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
 @MovementChange(emulates = ParkourVersion.V1_11_2)
-public final class FallFlyingLookAngle implements FallFlyingLookBehavior {
+public final class FallFlyingLookAngle implements FallFlyingLookHook {
     // Preserve the 1.11.2 MathHelper lookup-table indexing; current Mth trig uses different double math.
     private static final float[] SINE_TABLE = createSineTable();
 

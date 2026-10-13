@@ -66,7 +66,7 @@ public class LegacyParkourCompatClient implements ClientModInitializer {
     public void onInitializeClient() {
         ClientConfigurationNetworking.registerGlobalReceiver(ForceParkourVersionPayload.TYPE, (payload, context) -> {
             applyForcedServerVersion(payload.versionId());
-            ClientConfigurationNetworking.send(new ParkourHandshakeAckPayload(payload.versionId()));
+            ClientConfigurationNetworking.send(new ParkourHandshakeAckPayload(MovementController.get().selectedVersion().id()));
         });
 
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {

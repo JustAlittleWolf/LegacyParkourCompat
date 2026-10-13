@@ -2,7 +2,7 @@ package me.wolfii.legacyparkourcompat.change.v1_11_2;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.DismountPositionBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.DismountPositionHook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
 @MovementChange(emulates = ParkourVersion.V1_11_2)
-public final class DismountPosition implements DismountPositionBehavior {
+public final class DismountPosition implements DismountPositionHook {
     private static final int[][] CANDIDATE_OFFSETS = {
         {0, 1}, {0, -1}, {-1, 1}, {-1, -1}, {1, 1}, {1, -1}, {-1, 0}, {1, 0}, {0, 1}
     };

@@ -2,11 +2,11 @@ package me.wolfii.legacyparkourcompat.change.v1_15_2;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.WaterDescentBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.WaterDescentHook;
 import net.minecraft.world.entity.player.Player;
 
 @MovementChange(emulates = ParkourVersion.V1_15_2)
-public final class WaterDescent implements WaterDescentBehavior {
+public final class WaterDescent implements WaterDescentHook {
     @Override
     public boolean mayDescend(Player player, boolean vanillaAffectedByFluids) {
         return true;

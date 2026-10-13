@@ -1,0 +1,6 @@
+// Apply to every project, including included builds, through --init-script.
+gradle.beforeProject { project ->
+    project.tasks.withType(org.gradle.api.tasks.testing.Test).configureEach {
+        enabled = false
+    }
+}

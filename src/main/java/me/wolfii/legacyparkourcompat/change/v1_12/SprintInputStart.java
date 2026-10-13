@@ -2,13 +2,13 @@ package me.wolfii.legacyparkourcompat.change.v1_12;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.DoubleTapSprintStartBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.ShallowWaterSprintStartBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.SprintKeyStartBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.DoubleTapSprintStartHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.ShallowWaterSprintStartHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintKeyStartHook;
 import net.minecraft.world.entity.player.Player;
 
 @MovementChange(emulates = ParkourVersion.V1_12)
-public final class SprintInputStart implements ShallowWaterSprintStartBehavior, DoubleTapSprintStartBehavior, SprintKeyStartBehavior {
+public final class SprintInputStart implements ShallowWaterSprintStartHook, DoubleTapSprintStartHook, SprintKeyStartHook {
     @Override
     public boolean allowShallowWaterStart(Player player, boolean vanilla) {
         return vanilla;

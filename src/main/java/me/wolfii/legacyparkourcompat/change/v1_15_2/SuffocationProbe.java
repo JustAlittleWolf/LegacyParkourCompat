@@ -4,13 +4,13 @@ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.change.common.SuffocationProbeColumn;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
-import me.wolfii.legacyparkourcompat.mechanic.hook.SuffocationProbeBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SuffocationProbeHook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.ShulkerBoxBlock;
 
 @MovementChange(emulates = ParkourVersion.V1_15_2)
-public final class SuffocationProbe implements SuffocationProbeBehavior {
+public final class SuffocationProbe implements SuffocationProbeHook {
     @Override
     public boolean suffocatesAt(Player player, ParkourVersion target, BlockPos pos, VanillaFn<Boolean> vanilla) {
         return SuffocationProbeColumn.any(player, pos, cursor -> this.isSuffocating(player, target, cursor));

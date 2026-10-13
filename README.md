@@ -1,53 +1,43 @@
 # Legacy Parkour Compat
 
-Legacy Parkour Compat is a Fabric client and server mod for playing parkour maps with the player movement of older Minecraft versions. A modern client can select a historical movement profile; a server with the mod can require one profile for everyone. The goal is tick-level parity with historical Minecraft movement, including quirks that matter to parkour.
+A Fabric mod for playing old parkour maps on a modern Minecraft client. A fixed historical profile must reproduce the original client player's position and movement state after every tick, including historical bugs, casts, floating-point rounding and operation order.
 
-This is one-way compatibility for old maps on newer clients. It does not rewrite block states, invent historical behavior for blocks added later, or change non-player entities.
+## Scope and client/server roles
 
-The mod emulates player movement only. Health, healing, food, and combat rules remain vanilla; movement mechanics may read vanilla player state as an input.
+Historical movement runs only on the logical client. This includes historical collision shapes for blocks that already existed, block effects, player responses to pistons and other events, and movement rules that read vanilla hunger, effects or equipment. Block states remain vanilla. Features introduced after the selected profile retain modern behavior; introduction and later changes to an existing feature are different boundaries.
 
-Parity means deterministic tick-level agreement for a **fixed historical profile**, including historical movement bugs and exact floating-point behavior. Switching parkour profiles is undefined behavior and is outside correctness guarantees. Rendering and vehicle physics are excluded; a direct player velocity/impulse response can be in scope even when a vanilla combat event triggers it.
+Rendering, input-device plumbing, non-player/vehicle physics, hunger production, healing, damage calculation and bed-entry eligibility are outside scope. A direct player movement response can remain in scope even when the event producing it is not. Profile switching is undefined behavior; parity targets fixed profiles.
 
-## Getting started
+The client selects a profile in its UI. A dedicated server can require a profile through `config/legacyparkourcompat.properties` and the mod handshake. Matching native/Via-translated clients remain admissible under the existing policy. Historical physics never runs on the server, including an integrated server. For a connection that acknowledged the required historical profile, the server relaxes player speed, collision correction and floating checks that would reject that movement. Other connections and vehicle checks retain vanilla behavior.
 
-Use a JDK supported by the current Minecraft target and the Gradle wrapper. Run commands from the repository root. On Windows, use `gradlew.bat` (or `.\gradlew.bat` in PowerShell).
+## Repository and commands
+
+- `src/`: product mod, client UI, neutral version resolution and server handshake/check policy.
+- [development/](development/README.md): TAS recorder, Parkour Gym, test coordinator and authoring utilities.
+- [buildSrc/](buildSrc/README.md): Gradle build logic and the exact-version decompiler. Gradle requires this directory at the root.
+- [workflows/](workflows/README.md): the four current working procedures, without campaign results.
+- [research/](research/README.md): findings, central progress and preserved historical reports.
+
+Use the Gradle wrapper and Java 25. Build without executing tests:
 
 ```powershell
-.\gradlew.bat build
-.\gradlew.bat runClient
+.\gradlew.bat build -x test --init-script development/disable-tests.gradle
 ```
 
-The client can choose a historical version in the mod UI. When connected to a server running this mod, the server's version takes precedence. A dedicated server accepts modded clients and vanilla or Via-translated clients whose Minecraft version already matches its configured parkour version; it disconnects vanilla clients on a different version. The server reads `config/legacyparkourcompat.properties`. Closing the client discards its local selection.
+On Linux/macOS use `./gradlew` with the same arguments. `build` compiles the mod and development modules; it does not establish movement parity. Tests and any game, TAS, Gym or server launch require separate authorization. Module guides document the launch commands for that later phase.
 
-`gradlew test` runs unit tests. Movement and physics loops are verified through the TAS lab rather than unit or mock tests.
+## Movement architecture
 
-## Repository guide
+Keep each independent delta in a `change/v<version>/` class annotated `@MovementChange(emulates = ...)`. Changes may implement several independently resolved hook interfaces. Register each interface in the single static `MovementChangeCatalog`; no per-version providers, dynamic Fabric metadata registry, cross-release inheritance or duplicated movement loops.
 
-- `src/main/` holds the shared Fabric API, generic mechanic/version resolution, network handshake, and server/client-independent configuration. `src/client/` has the version UI and client handshake; `src/server/` has dedicated server configuration.
-- [`buildSrc/`](buildSrc/README.md) implements `decompileMinecraft` and produces historical source and mapping output.
-- [`parkourgym-server/`](parkourgym-server/README.md) runs the local Paper gym, isolated test worlds, and Gym control API.
-- [`tas-client/`](tas-client/README.md) launches exact-version Minecraft clients for recording and playback.
-- [`testing/`](testing/README.md) coordinates persistent clients, automated runs, and comparisons.
-- [`workflows/`](workflows/README.md) documents source-based movement difference discovery before implementation and runtime validation.
+`ChangeResolver` selects the closest `emulates` version greater than or equal to the profile separately for each operation. If an operation has changes for 1.8 and 1.10, the 1.9 profile uses the 1.10 change. A modern operation needs no historical change.
 
-## Historical movement implementation model
+Thin client mixins dispatch through `MovementRuntime`; hook interfaces live in topic packages under `mechanic/hook/` and use the `Hook` suffix. Native movement, non-player entities and logical servers retain vanilla behavior. Share neutral helpers only when their historical behavior is identical. Existing Changes are retained during independent discovery and reconciled by the integrator against source-confirmed findings.
 
-Compare adjacent exact releases, discover each independent behavioral difference from vanilla source, and implement only the smallest historical delta. For example, if operation A has changes emulating 1.8 and 1.10, selecting 1.8 resolves the 1.8 change while selecting 1.9 resolves the 1.10 change. An unrelated operation B resolves independently. Preserve the historical expressions rather than simplifying mathematically equivalent arithmetic.
+Exact-version decompiled source is primary evidence. The [decompiler guide](buildSrc/README.md) explains the shared source directory in the primary local checkout, pinned inputs and deliberate regeneration. Researchers consume those sources read-only. Source comments on new or revised changes cite both compared releases and mappings. Wiki entries are leads to verify in source, not sufficient implementation evidence.
 
-Campaign coordination follows the [orchestrator workflow](workflows/orchestration/README.md). It keeps the coordinator's context small, shares verified sources, and moves bounded findings through independent review and serial integration. Existing implementations stay in place during blind discovery; after source freeze, reconcile them against the findings as covered, replaced, intentionally excluded or open.
+## Research and verification
 
-Movement changes are `@MovementChange(emulates = ...)` classes statically linked by `MovementChangeCatalog`. Selecting version *V* applies changes that emulate *V* or a later version; where a mechanic changed several times, the closest applicable delta wins. General mixins can dispatch those changes while preserving the vanilla path when emulation is inactive.
+Read the [orchestration workflow](workflows/orchestration/README.md) before coordinating work and the relevant discovery, implementation or testing procedure before that phase. Initial research targets the latest bugfix release of each older release line, the relevant 1.21 sub-lines and the latest bugfix of each 26.x line through the current client target. All stable releases remain the long-term goal; endpoint comparisons do not establish every intermediate patch boundary.
 
-Each mechanic hook represents one technical operation, such as a player-input gate, a jump gate, or a fall-distance reset at a particular point in the tick. Singleton hooks are functional interfaces; block hooks additionally expose their block identifier as registration metadata. Mixins supply context and dispatch the operation, while historical applicability and arithmetic belong to the change implementation. Do not use the presence of one hook to control a different operation.
-
-Changes live in the package matching their `emulates` annotation, for example `change.v1_8.BoatRiderInput`, with no version suffix in the class name. The central `MovementChangeCatalog` contains explicit per-version registration methods and lists every mechanic interface a change implements. Changes can implement several narrow interfaces and register the same object under each interface; those hooks resolve independently. Keep unrelated deltas in separate classes. Remove unused hooks and methods instead of keeping placeholders for operations that have no mixin dispatch.
-
-Implement each release's change independently rather than extending another version's change class. Share only neutral helpers for operations whose historical behavior is truly identical. Prefer vanilla accessors or invokers when they preserve the historical math and gates exactly; do not call a modern operation whose behavior differs. Keep registration in the single static `MovementChangeCatalog`, with explicit per-version methods and one registration per implemented mechanic interface; do not add per-version providers or movement entrypoints.
-
-The source campaign tracks discovery coverage, implementation disposition, and runtime validation separately. Existing Java mechanics and prior reports remain in place while new source-only reports are audited; a worker handoff, catalog entry, or successful build is not proof of complete movement coverage. See the [movement research workflows](workflows/README.md) and [2026 source campaign roster](workflows/source-campaign-2026-10-07/README.md) for the current completion and handoff contract. Compilation does not establish runtime movement parity.
-
-The primary reference for exact operation order and floating-point behavior is decompiled source from the target Minecraft release. See [buildSrc](buildSrc/README.md) for the decompilation task and output layout. The [MCPK version differences](https://www.mcpk.wiki/wiki/Version_Differences) and [Minecraft Java Edition history](https://minecraft.wiki/w/Java_Edition_version_history) are secondary references.
-
-## Testing movement across versions
-
-For manual recording, launch an exact historical client with `gradlew runTasClient -PclientVersion=1.16.5`; see [tas-client](tas-client/README.md) for supported versions and in-game commands. For automated reference capture and comparison, see [testing](testing/README.md). The lab starts the [Parkour Gym](parkourgym-server/README.md), reuses up to five clients, and stores `.lprc` results under `tas-results/`.
+Discovery acceptance, integration/build success and runtime parity are separate statuses in the central research index. Historical reports survive in the archive; format conversion alone does not renew their acceptance or prove implementation coverage. Automated recording/playback verification will be elaborated after manual expert assessment: first reproduce recordings exactly in the same native version, then compare native historical references with the modern client profile tick by tick.

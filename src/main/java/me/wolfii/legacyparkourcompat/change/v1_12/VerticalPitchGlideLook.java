@@ -2,13 +2,13 @@ package me.wolfii.legacyparkourcompat.change.v1_12;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.FallFlyingLookBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingLookHook;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
 /** Lookup-table rounding of the Elytra look vector at a vertical pitch. */
 @MovementChange(emulates = ParkourVersion.V1_12)
-public final class VerticalPitchGlideLook implements FallFlyingLookBehavior {
+public final class VerticalPitchGlideLook implements FallFlyingLookHook {
     private static final float[] LEGACY_SINE_TABLE = new float[65536];
 
     static {

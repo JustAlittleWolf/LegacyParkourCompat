@@ -2,14 +2,14 @@ package me.wolfii.legacyparkourcompat.change.v1_14;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.SneakInputSlowdownBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.SneakInputSlowdownHook;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 
 /** The 1.14.4 pose-aware sneak-input slowdown gate. */
 @MovementChange(emulates = ParkourVersion.V1_14)
-public final class SneakInputSlowdown implements SneakInputSlowdownBehavior {
+public final class SneakInputSlowdown implements SneakInputSlowdownHook {
     @Override
     public boolean shouldSlowDown(Player player) {
         boolean poseSlowdown = !player.getAbilities().flying

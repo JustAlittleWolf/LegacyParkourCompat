@@ -3,15 +3,15 @@ package me.wolfii.legacyparkourcompat.change.v1_16;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.change.common.SneakEdgeBackoff;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.SneakEdgeCollisionQueryBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeCollisionQueryHook;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
 @MovementChange(emulates = ParkourVersion.V1_16)
-public final class SneakEdge implements SneakEdgeBehavior {
+public final class SneakEdge implements SneakEdgeHook {
     @Override
     public Vec3 maybeBackOffFromEdge(
         Player player,
@@ -19,7 +19,7 @@ public final class SneakEdge implements SneakEdgeBehavior {
         MoverType moverType,
         boolean stayingOnGroundSurface,
         float probeDistance,
-        @Nullable SneakEdgeCollisionQueryBehavior collisionQuery
+        @Nullable SneakEdgeCollisionQueryHook collisionQuery
     ) {
         if ((moverType != MoverType.SELF && moverType != MoverType.PLAYER)
             || !player.onGround()

@@ -24,6 +24,7 @@ public final class ParkourHandshake {
     public static void configure(ServerConfigurationPacketListenerImpl listener) {
         ParkourVersion parkourVersion = MovementController.get().selectedVersion();
         boolean hasMod = ServerConfigurationNetworkingCompat.canSendForcePacket(listener);
+        ServerMovementPolicy.configure(listener, parkourVersion, hasMod);
         String player = playerLabel(listener);
 
         if (hasMod) {

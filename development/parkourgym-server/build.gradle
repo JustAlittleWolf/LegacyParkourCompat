@@ -1,0 +1,143 @@
+plugins {
+    id 'java'
+    id 'xyz.jpenilla.run-paper' version '3.1.0'
+}
+
+group = rootProject.group
+version = rootProject.version
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'papermc'
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = 'Modrinth'
+                url = 'https://api.modrinth.com/maven'
+            }
+        }
+        filter {
+            includeGroup 'maven.modrinth'
+        }
+    }
+}
+
+// Compile against the same immutable Modrinth release installed by runServer.
+def polarPaperVersionId = 'EwRZ2jeK'
+
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:26.2.build.+'
+    compileOnly "maven.modrinth:6hPE9iJm:${polarPaperVersionId}"
+    compileOnly 'com.google.code.gson:gson:2.10.1'
+}
+
+sourceSets.main.java.srcDir '../tas-client/core/src/main/java'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 25
+    it.options.encoding = 'UTF-8'
+}
+
+processResources {
+    inputs.property 'version', version
+    filesMatching('paper-plugin.yml') {
+        expand version: version
+    }
+}
+
+def runDefaults = layout.projectDirectory.dir('run-defaults')
+def polarWorlds = layout.projectDirectory.dir('worlds')
+
+tasks.named('runServer').configure { task ->
+    task.group = 'minecraft'
+    task.description = 'Launch the parkour gym Paper server and keep it running.'
+    task.minecraftVersion '26.2'
+    task.jvmArgs '-Dcom.mojang.eula.agree=true'
+    task.downloadPlugins {
+        modrinth 'polarpaper', polarPaperVersionId
+        modrinth 'axiom-paper-plugin', '93qRRLuz'
+        hangar 'ViaVersion', '5.12.0'
+        hangar 'ViaBackwards', '5.12.0'
+        hangar 'ViaRewind', '4.2.0'
+    }
+    task.doFirst {
+        def destDir = task.runDirectory.get().asFile
+        destDir.mkdirs()
+        copy {
+            from runDefaults
+            into destDir
+            eachFile { details ->
+                if (new File(destDir, details.relativePath.pathString).exists()) {
+                    details.exclude()
+                }
+            }
+            includeEmptyDirs = false
+        }
+        def polarDest = new File(destDir, 'plugins/polarpaper/worlds')
+        polarDest.mkdirs()
+        copy {
+            from polarWorlds
+            into polarDest
+            include '*.polar'
+            eachFile { details ->
+                if (new File(polarDest, details.relativePath.pathString).exists()) {
+                    details.exclude()
+                }
+            }
+        }
+        disableNether(destDir)
+        disableConnectionLimits(destDir)
+    }
+}
+
+def disableConnectionLimits(File destDir) {
+    def properties = new File(destDir, 'server.properties')
+    if (properties.exists()) {
+        def lines = properties.readLines('UTF-8').findAll { !it.startsWith('rate-limit=') }
+        properties.setText((lines + ['rate-limit=0']).join('\n') + '\n', 'UTF-8')
+    }
+    def bukkit = new File(destDir, 'bukkit.yml')
+    if (bukkit.exists()) {
+        def value = bukkit.getText('UTF-8')
+        value = value.replaceAll(/(?m)^(\s*connection-throttle:)\s*\S+.*/, '$1 -1')
+        if (!value.contains('connection-throttle:')) value += '\nsettings:\n  connection-throttle: -1\n'
+        bukkit.setText(value, 'UTF-8')
+    }
+}
+
+def disableNether(File destDir) {
+    def paperGlobal = new File(destDir, 'config/paper-global.yml')
+    paperGlobal.parentFile.mkdirs()
+    if (!paperGlobal.exists()) {
+        paperGlobal.text = '''# Parkour gym server. Paper fills unspecified keys with defaults.
+misc:
+  enable-nether: false
+'''
+        return
+    }
+    def text = paperGlobal.getText('UTF-8')
+    if (text.contains('enable-nether:')) {
+        paperGlobal.write(text.replaceAll(/enable-nether:\s*\S+/, 'enable-nether: false'), 'UTF-8')
+        return
+    }
+    if (text.contains('\nmisc:')) {
+        paperGlobal.write(text.replaceFirst(/\nmisc:\n/, '\nmisc:\n  enable-nether: false\n'), 'UTF-8')
+        return
+    }
+    paperGlobal.append('\nmisc:\n  enable-nether: false\n')
+}
+
+tasks.register('runParkourGymServer') {
+    group = 'minecraft'
+    description = 'Launch the parkour gym Paper server and keep it running.'
+    dependsOn tasks.named('runServer')
+}

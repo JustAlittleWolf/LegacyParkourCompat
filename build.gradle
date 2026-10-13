@@ -1,5 +1,6 @@
 import legacyparkourcompat.minecraft.DecompileMinecraftTask
 import legacyparkourcompat.minecraft.MinecraftDecompileMain
+import legacyparkourcompat.minecraft.SharedDecompilePaths
 import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.Socket
@@ -42,16 +43,16 @@ sourceSets {
     server
     tasClient {
         java {
-            srcDir 'tas-client/src/common/java'
-            srcDir 'tas-client/src/fabric/java'
-            srcDir 'tas-client/src/mixins/fabric17/java'
-            srcDir 'tas-client/src/mixins/fabric21/java'
-            srcDir 'tas-client/core/src/main/java'
+            srcDir 'development/tas-client/src/common/java'
+            srcDir 'development/tas-client/src/fabric/java'
+            srcDir 'development/tas-client/src/mixins/fabric17/java'
+            srcDir 'development/tas-client/src/mixins/fabric21/java'
+            srcDir 'development/tas-client/core/src/main/java'
         }
         resources {
-            srcDir 'tas-client/src/common/resources'
-            srcDir 'tas-client/src/fabric/resources'
-            srcDir 'tas-client/src/mixins/fabric21/resources'
+            srcDir 'development/tas-client/src/common/resources'
+            srcDir 'development/tas-client/src/fabric/resources'
+            srcDir 'development/tas-client/src/mixins/fabric21/resources'
         }
     }
 }
@@ -168,7 +169,7 @@ tasks.named('sourcesJar', org.gradle.jvm.tasks.Jar) {
 def tasClientVersion = providers.gradleProperty('clientVersion').orElse('1.16.5')
 def tasClientVersionId = tasClientVersion.get().replace('-forge', '').replace('-fabric', '')
 def tasClientIsCurrent = tasClientVersionId.equalsIgnoreCase('current') || tasClientVersionId == project.minecraft_version
-def tasClientVersionFile = rootProject.file('tas-client/client-version.txt')
+def tasClientVersionFile = rootProject.file('development/tas-client/client-version.txt')
 tasClientVersionFile.parentFile.mkdirs()
 tasClientVersionFile.text = tasClientVersion.get() + '\n'
 
@@ -370,7 +371,7 @@ def tasLabApi = { String path, String method, Object body = null ->
 def ensureTasLab = {
     try { tasLabApi('/api/clients', 'GET'); return }
     catch (Exception ignored) { }
-    File log = file('testing/run/logs/coordinator.log')
+    File log = file('development/testing/run/logs/coordinator.log')
     log.parentFile.mkdirs()
     List<String> command = [file('gradlew.bat').absolutePath, ':testing:runLab', '--no-daemon']
     if (org.gradle.internal.os.OperatingSystem.current().isWindows()) command = ['cmd', '/c'] + command
@@ -436,7 +437,7 @@ tasks.register('runTasCompare') {
                 : firstMagnitude.add(secondMagnitude)
         }
         List<BigInteger> maximumUlps = [BigInteger.ZERO, BigInteger.ZERO, BigInteger.ZERO]
-        File snapshotLog = file('parkourgym-server/run/logs/latest.log')
+        File snapshotLog = file('development/parkourgym-server/run/logs/latest.log')
 
         def snapshotContext = {
             String logPath = snapshotLog.absolutePath
@@ -670,12 +671,16 @@ tasks.register('decompileMinecraft', DecompileMinecraftTask) {
                     .map { value -> MinecraftDecompileMain.splitVersions(value) }
                     .orElse(['latest', '1.8.9', '1.12.2', '1.13.2', '1.14.4'])
     )
-    outputRoot.convention(layout.projectDirectory.dir('decompiled_minecraft'))
+    outputRoot.convention(layout.dir(providers.provider {
+        SharedDecompilePaths.primaryCheckout(projectDir.toPath()).resolve('decompiled_minecraft').toFile()
+    }))
     mappings.convention(providers.gradleProperty('mappings')
             .map { value -> MinecraftDecompileMain.splitVersions(value) }
             .orElse(['auto']))
     decompilerHeap.convention(providers.gradleProperty('decompilerHeap').orElse('4G'))
-    cacheDirectory.convention(layout.buildDirectory.dir('minecraft-decompile-cache'))
+    cacheDirectory.convention(layout.dir(providers.provider {
+        SharedDecompilePaths.primaryCheckout(projectDir.toPath()).resolve('.minecraft-decompile-cache').toFile()
+    }))
     decompilerClasspath.from(configurations.decompileRuntime)
     javaLauncher = javaToolchains.launcherFor {
         languageVersion = JavaLanguageVersion.of(25)

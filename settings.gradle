@@ -35,7 +35,10 @@ rootProject.name = 'LegacyParkourCompat'
 // composite is imported alongside Fabric Loom ("A build operation failed. null").
 // Keep the included build for CLI task wiring; skip it while IDEA is syncing.
 if (!Boolean.getBoolean('idea.sync.active')) {
-    includeBuild 'tas-client'
+    includeBuild('development/tas-client') { name = 'tas-client' }
 }
 include 'parkourgym-server'
 include 'testing'
+
+project(':parkourgym-server').projectDir = file('development/parkourgym-server')
+project(':testing').projectDir = file('development/testing')

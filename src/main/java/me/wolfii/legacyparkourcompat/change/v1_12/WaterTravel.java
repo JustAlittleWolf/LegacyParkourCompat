@@ -2,13 +2,13 @@ package me.wolfii.legacyparkourcompat.change.v1_12;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.WaterGravityBehavior;
-import me.wolfii.legacyparkourcompat.mechanic.hook.WaterSprintSlowdownBehavior;
+import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.WaterGravityHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.WaterSprintSlowdownHook;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
 @MovementChange(emulates = ParkourVersion.V1_12)
-public final class WaterTravel implements WaterSprintSlowdownBehavior, WaterGravityBehavior {
+public final class WaterTravel implements WaterSprintSlowdownHook, WaterGravityHook {
     @Override
     public float sprintSlowdown(Player player, float vanilla) {
         return player.isSprinting() ? 0.8F : vanilla;
