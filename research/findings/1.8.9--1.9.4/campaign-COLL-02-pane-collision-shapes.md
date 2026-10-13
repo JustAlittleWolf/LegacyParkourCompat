@@ -1,11 +1,9 @@
 # COLL-02: pane collision boxes differ by connection mask
 
-- **1.8.9**, ornithe-feather: `1.8.9/ornithe-feather/net/minecraft/block/PaneBlock.java`; lines 62-92.
-- **1.9.4**, ornithe-feather: `1.9.4/ornithe-feather/net/minecraft/block/PaneBlock.java`; lines 53-70.
+1.8.9, ornithe-feather; feather-gen2-1.8.9+build.2-mergedv2.jar, feather-gen2-1.8.9+build.2.tiny: `1.8.9/ornithe-feather/net/minecraft/block/PaneBlock.java`, `public void addCollisions(World world, BlockPos pos, BlockState state, Box shape, List<Box> collisions, Entity entity) {`, lines 62-92.
+1.9.4, ornithe-feather; feather-gen2-1.9.4+build.2-mergedv2.jar, feather-gen2-1.9.4+build.2.tiny: `1.9.4/ornithe-feather/net/minecraft/block/PaneBlock.java`, `public void addCollisions(BlockState state, World world, BlockPos pos, Box shape, List<Box> collisions, @Nullable Entity entity) {`, lines 53-71.
 
-## Difference
-
-For each pane collision query, 1.8.9 samples north, south, west, and east neighbors.
+Difference: For each pane collision query, 1.8.9 samples north, south, west, and east neighbors.
 
 It conditionally emits an east-west strip and a north-south strip, selecting full-length or half-length pieces based on opposing connection booleans.
 
@@ -21,9 +19,7 @@ Stone supplies a true connection and air a false connection under both predicate
 
 The table compares collision assembly for the same mask; it does not infer mask equality for every other neighboring block class.
 
-## Movement meaning
-
-Both releases register iron bars and clear glass panes directly as `PaneBlock`; stained glass panes use `StainedGlassPaneBlock`, which inherits the same collision implementation.
+Movement meaning: Both releases register iron bars and clear glass panes directly as `PaneBlock`; stained glass panes use `StainedGlassPaneBlock`, which inherits the same collision implementation.
 
 These blocks existed on both sides.
 
@@ -39,8 +35,6 @@ The mask producer is closed through all four neighbor reads and the connection p
 
 The table explicitly accounts for every reachable mask using independent stone/air choices; the changed neighbor predicate may additionally change which mask a particular non-stone/non-air neighbor produces, which is not needed for the conditional geometry result above.
 
-For a player collision query intersecting a pane-derived shape in any of the thirteen differing masks, 1.8.9 and 1.9.4 can supply different collision-box unions to the shared movement clipping code.
+For .
 
-Rendering and non-player or vehicle outcomes are outside this finding.
-
-[Archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.8.9--1.9.4/findings/COLL-02-pane-collision-shapes.md).
+Original evidence: [COLL-02-pane-collision-shapes.md](../../archive/legacy-workflows/source-campaign-2026-10-07/1.8.9--1.9.4/findings/COLL-02-pane-collision-shapes.md).

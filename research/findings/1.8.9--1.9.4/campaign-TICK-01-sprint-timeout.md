@@ -1,11 +1,9 @@
 # TICK-01: local sprint timeout removed
 
-- **1.8.9**, ornithe-feather: `1.8.9/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java`; lines 349-352.
-- **1.9.4**, ornithe-feather: `1.9.4/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java`; lines 406-409.
+1.8.9, ornithe-feather; feather-gen2-1.8.9+build.2-mergedv2.jar, feather-gen2-1.8.9+build.2.tiny: `1.8.9/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java`, `public void mobTick() {`, lines 488-637.
+1.9.4, ornithe-feather; feather-gen2-1.9.4+build.2-mergedv2.jar, feather-gen2-1.9.4+build.2.tiny: `1.9.4/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java`, `public void mobTick() {`, lines 604-760.
 
-## Difference
-
-In 1.8.9, entering sprint sets `sprintTimer` to 600 and local `mobTick` decrements it; when it reaches zero, that method calls `setSprinting(false)`.
+Difference: In 1.8.9, entering sprint sets `sprintTimer` to 600 and local `mobTick` decrements it; when it reaches zero, that method calls `setSprinting(false)`.
 
 In 1.9.4, `setSprinting` sets the timer to zero and `mobTick` increments it. 1.8.9 source-wide reference search found no 1.9.4 read of the incremented field or timeout consumer.
 
@@ -15,9 +13,7 @@ For corresponding local-player states with no newer off-hand-use capability, the
 
 Health/food producers and combat are excluded.
 
-## Movement meaning
-
-The local player's `mobTick` runs before `LivingEntity.mobTick` travel. `setSprinting` also updates the state consumed by sprint movement speed and sprint-jump paths.
+Movement meaning: The local player's `mobTick` runs before `LivingEntity.mobTick` travel. `setSprinting` also updates the state consumed by sprint movement speed and sprint-jump paths.
 
 The 600-tick stop occurs in 1.8.9 before the next travel call; 1.9.4 has no corresponding timer read.
 
@@ -29,4 +25,4 @@ When the timeout is the clearing condition, 1.8.9's local state change reaches t
 
 It does not establish a measured trajectory.
 
-[Archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.8.9--1.9.4/findings/TICK-01-sprint-timeout.md).
+Original evidence: [TICK-01-sprint-timeout.md](../../archive/legacy-workflows/source-campaign-2026-10-07/1.8.9--1.9.4/findings/TICK-01-sprint-timeout.md).

@@ -1,28 +1,14 @@
 # F-006: Passenger sprint state can change a later on-foot jump impulse
 
-- **1.19.2**, mojmap: `net/minecraft/client/player/LocalPlayer.java`; lines 772-785.
-- **1.19.3**, mojmap: [source locations in preserved report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.19.2--1.19.3/findings/F-006-passenger-sprint-carries-to-player-jump.md); lines 693-705.
+1.19.2, mojmap: `1.19.2/mojmap/net/minecraft/world/entity/Entity.java`, isSprinting 1984-1990.
+1.19.2, mojmap: `1.19.2/mojmap/net/minecraft/world/entity/LivingEntity.java`, stopRiding 2715-2720; aiStep 2566-2571.
+1.19.3, mojmap: `1.19.3/mojmap/net/minecraft/world/entity/LivingEntity.java`, aiStep 2566-2571.
+1.19.2, mojmap: `1.19.2/mojmap/net/minecraft/client/player/LocalPlayer.java`, aiStep 772-785.
+1.19.3, mojmap: `1.19.3/mojmap/net/minecraft/client/player/LocalPlayer.java`, aiStep 719-729.
+1.19.2, mojmap: `1.19.2/mojmap/net/minecraft/world/entity/player/Player.java`, removeVehicle 1045-1048.
 
-## Difference
+Difference: Choose the same input guards on both sides: the player is a passenger of a grounded vehicle, the player itself is neither on ground nor underwater, forward impulse is at least `0.8`, food is above 6, sprint is pressed, and the player is not already sprinting, shifting, using an item or blinded. 1.19.3's added passenger/vehicle-ground clause starts the player sprint flag; 1.19.2's `onGround || isUnderWater()` predicate does not. After dismount, keep sufficient forward input and food, release sprint, and avoid collision/water stop conditions. 1.19.3 retains the previously set sprint flag through `stopRiding`; 1.19.2 has not set it and only arms its sprint trigger. On a subsequent grounded jump, the shared player jump code therefore adds the sprint-only horizontal `0.2F` velocity vector in 1.19.3 and not 1.19.2. This finding uses food above the threshold on both sides; the separate low-food passenger shortcut is not claimed as an in-scope movement effect.
 
-Choose the same input guards on both sides: the player is a passenger of a grounded vehicle, the player itself is neither on ground nor underwater, forward impulse is at least `0.8`, food is above 6, sprint is pressed, and the player is not already sprinting, shifting, using an item or blinded. 1.19.3's added passenger/vehicle-ground clause starts the player sprint flag; 1.19.2's `onGround || isUnderWater()` predicate does not.
+Movement meaning: `LocalPlayer.aiStep` -> passenger/vehicle-ground sprint guard -> `LocalPlayer.setSprinting` -> `Entity` shared sprint flag -> dismount without a sprint reset -> on-foot sprint-retention guard -> `LivingEntity.aiStep` grounded jump -> `LivingEntity.jumpFromGround` player velocity write. 1.19.3 also sends the changed state through the existing sprint command path, and the paired vanilla server command handler accepts it without a passenger restriction. Vehicle position/velocity simulation is not part of this finding. Source-proven: under the listed state and input conditions, 1.19.3 can carry a sprint flag from a grounded passenger state into a later on-foot jump while 1.19.2 remains non-sprinting; the shared jump method then takes its sprint branch only in 1.19.3. Predicted: the resulting player velocity and later movement can diverge. No actual mounting sequence, server replication timing or trajectory is claimed.
 
-After dismount, keep sufficient forward input and food, release sprint, and avoid collision/water stop conditions. 1.19.3 retains the previously set sprint flag through `stopRiding`; 1.19.2 has not set it and only arms its sprint trigger.
-
-On a subsequent grounded jump, the shared player jump code therefore adds the sprint-only horizontal `0.2F` velocity vector in 1.19.3 and not 1.19.2.
-
-This finding uses food above the threshold on both sides; the separate low-food passenger shortcut is not claimed as an in-scope movement effect.
-
-## Movement meaning
-
-`LocalPlayer.aiStep` -> passenger/vehicle-ground sprint guard -> `LocalPlayer.setSprinting` -> `Entity` shared sprint flag -> dismount without a sprint reset -> on-foot sprint-retention guard -> `LivingEntity.aiStep` grounded jump -> `LivingEntity.jumpFromGround` player velocity write. 1.19.3 also sends the changed state through the existing sprint command path, and the paired vanilla server command handler accepts it without a passenger restriction.
-
-Vehicle position/velocity simulation is not part of this finding.
-
-Source-proven: under the listed state and input conditions, 1.19.3 can carry a sprint flag from a grounded passenger state into a later on-foot jump while 1.19.2 remains non-sprinting; the shared jump method then takes its sprint branch only in 1.19.3.
-
-Predicted: the resulting player velocity and later movement can diverge.
-
-No actual mounting sequence, server replication timing or trajectory is claimed.
-
-[Archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.19.2--1.19.3/findings/F-006-passenger-sprint-carries-to-player-jump.md).
+Original evidence: [archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.19.2--1.19.3/findings/F-006-passenger-sprint-carries-to-player-jump.md).

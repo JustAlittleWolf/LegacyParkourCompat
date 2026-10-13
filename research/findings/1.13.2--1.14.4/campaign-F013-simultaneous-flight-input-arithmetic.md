@@ -1,22 +1,10 @@
 # F013: Simultaneous sneak and jump flight arithmetic
 
-- **1.13.2**, ornithe-feather: `LocalClientPlayerEntity.java`; lines 797-806.
-- **1.14.4**, ornithe-feather: [source locations in preserved report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.13.2--1.14.4/findings/F013-simultaneous-flight-input-arithmetic.md); lines 728-743.
+1.13.2, ornithe-feather: `1.13.2/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java`, `mobTick`, lines 797–806.
+1.14.4, ornithe-feather: `1.14.4/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java`, `mobTick`, lines 728–743.
 
-## Difference
+Difference: Under `abilities.flying && isCamera()`, 1.13.2 handles sneak and jump in separate conditionals: sneaking subtracts `flySpeed * 3.0F` from double `velocityY`, then jumping adds the same float product. 1.14.4 increments/decrements integer `j` for those inputs and applies one vector update only when `j != 0`. With both inputs held, 1.14.4 leaves vertical velocity untouched; 1.13.2 executes two double assignments. Lateral input unscaling on sneak occurs in both.
 
-Under `abilities.flying && isCamera()`, 1.13.2 handles sneak and jump in separate conditionals: sneaking subtracts `flySpeed * 3.0F` from double `velocityY`, then jumping adds the same float product. 1.14.4 increments/decrements integer `j` for those inputs and applies one vector update only when `j != 0`.
+Movement meaning: Preconditions are flying ability, local camera player, simultaneous sneak+jump input.
 
-With both inputs held, 1.14.4 leaves vertical velocity untouched; 1.13.2 executes two double assignments.
-
-Lateral input unscaling on sneak occurs in both.
-
-## Movement meaning
-
-Preconditions are flying ability, local camera player, simultaneous sneak+jump input.
-
-Fly speed comes from synchronized abilities.
-
-Source proves different operation sequence and 1.14.4's no-op at the combined-input guard.
-
-[Archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.13.2--1.14.4/findings/F013-simultaneous-flight-input-arithmetic.md).
+Original evidence: [archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.13.2--1.14.4/findings/F013-simultaneous-flight-input-arithmetic.md).

@@ -1,40 +1,18 @@
 # soul-speed-first-entry-block-friction: First local entry step uses the block factor before Soul Speed attribute sync
 
-- **1.20.6**, mojmap: `LivingEntity#getBlockSpeedFactor()`; lines 489-496.
-- **1.21.1**, mojmap: `Attributes.java`; lines 485-488.
+1.20.6, mojmap: `1.20.6/mojmap/net/minecraft/world/entity/Entity.java`, move 705-706.
+1.21.1, mojmap: `1.21.1/mojmap/net/minecraft/world/entity/Entity.java`, move 706-707.
+1.20.6, mojmap: `1.20.6/mojmap/net/minecraft/world/entity/LivingEntity.java`, onSoulSpeedBlock 489-496.
+1.21.1, mojmap: `1.21.1/mojmap/net/minecraft/world/entity/LivingEntity.java`, getBlockSpeedFactor 485-488; baseTick 433-439; checkFallDamage 327-355.
+1.21.1, mojmap: `1.21.1/mojmap/net/minecraft/client/player/LocalPlayer.java`, tick 191-205.
+1.20.6, mojmap: `1.20.6/mojmap/net/minecraft/world/entity/player/Player.java`, onSoulSpeedBlock 975-977; getBlockSpeedFactor 1978-1980.
+1.21.1, mojmap: `1.21.1/mojmap/net/minecraft/world/entity/player/Player.java`, getBlockSpeedFactor 1973-1975.
+1.21.1, mojmap: `1.21.1/mojmap/net/minecraft/world/entity/ai/attributes/Attributes.java`, class declaration / field initialization 71-73.
+1.21.1, mojmap: `1.21.1/mojmap/net/minecraft/world/item/enchantment/Enchantments.java`, bootstrap 506-522.
+1.21.1, mojmap: `1.21.1/mojmap/net/minecraft/world/item/enchantment/effects/EnchantmentAttributeEffect.java`, onChangedBlock 39-57.
 
-## Difference
+Difference: For a non-flying, non-fall-flying local player with Soul Speed boots, start from a non-Soul-Speed block with the client `MOVEMENT_EFFICIENCY` at its normal `0.0` baseline, then make an ordinary walking step onto Soul Sand. In 1.20.6, the local move reaches `Entity#move()` and the current-block query directly returns `1.0F`. In 1.21.1, the local `super.tick()` performs the move and reads the still-current `0.0` attribute before `LocalPlayer#tick()` sends the new position to the server. With Soul Sand's base factor `0.4F`, 1.21.1's interpolation returns `0.4F` for that entry move. The server can only observe the new position after that client movement packet and runs the location-changed producer on its server-level entity; the resulting dirty attribute is synchronized afterward through the tracked-entity send path, including to the owning `ServerPlayer` connection.
 
-For a non-flying, non-fall-flying local player with Soul Speed boots, start from a non-Soul-Speed block with the client `MOVEMENT_EFFICIENCY` at its normal `0.0` baseline, then make an ordinary walking step onto Soul Sand.
+Movement meaning: Client local tick -> `LivingEntity#aiStep` -> `Player#travel` -> `LivingEntity#travel` -> `Entity#move` -> block-speed factor -> horizontal delta-movement multiplier. The ordinary non-passenger `LocalPlayer#tick` sends position only after `super.tick()` completes. On the server, the changed block position activates the Soul Speed location effect, and the dirty syncable attribute is later sent back to the same player and applied by `ClientPacketListener`. The affected local entry move therefore has a concrete client-side precondition where 1.20.6 and 1.21.1 read different values; later movement can converge after the server update arrives. The tag, player flight exclusions, Soul Sand property, modifier registration/application, and packet consumer are all traced above. The source proves a one-entry-move difference in the horizontal multiplier under the stated reachable precondition: 1.20.6 uses `1.0F`; 1.21.1 uses `0.4F` while its local attribute remains at baseline. This predicts a lower horizontal delta movement after the 1.21.1 move. No position trace or gameplay result is claimed. Packet latency can affect later local ticks; it does not precede the local movement that first reports the newly entered block. The endpoint pair does not establish the first release containing the change.
 
-In 1.20.6, the local move reaches `Entity#move()` and the current-block query directly returns `1.0F`.
-
-In 1.21.1, the local `super.tick()` performs the move and reads the still-current `0.0` attribute before `LocalPlayer#tick()` sends the new position to the server.
-
-With Soul Sand's base factor `0.4F`, 1.21.1's interpolation returns `0.4F` for that entry move.
-
-The server can only observe the new position after that client movement packet and runs the location-changed producer on its server-level entity; the resulting dirty attribute is synchronized afterward through the tracked-entity send path, including to the owning `ServerPlayer` connection.
-
-## Movement meaning
-
-Client local tick -> `LivingEntity#aiStep` -> `Player#travel` -> `LivingEntity#travel` -> `Entity#move` -> block-speed factor -> horizontal delta-movement multiplier.
-
-The ordinary non-passenger `LocalPlayer#tick` sends position only after `super.tick()` completes.
-
-On the server, the changed block position activates the Soul Speed location effect, and the dirty syncable attribute is later sent back to the same player and applied by `ClientPacketListener`.
-
-The affected local entry move therefore has a concrete client-side precondition where 1.20.6 and 1.21.1 read different values; later movement can converge after the server update arrives.
-
-The tag, player flight exclusions, Soul Sand property, modifier registration/application, and packet consumer are all traced above.
-
-The source proves a one-entry-move difference in the horizontal multiplier under the stated reachable precondition: 1.20.6 uses `1.0F`; 1.21.1 uses `0.4F` while its local attribute remains at baseline.
-
-This predicts a lower horizontal delta movement after the 1.21.1 move.
-
-No position trace or gameplay result is claimed.
-
-Packet latency can affect later local ticks; it does not precede the local movement that first reports the newly entered block.
-
-The endpoint pair does not establish the first release containing the change.
-
-[Archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.20.6--1.21.1/findings/soul-speed-first-entry-block-friction.md).
+Original evidence: [archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.20.6--1.21.1/findings/soul-speed-first-entry-block-friction.md).

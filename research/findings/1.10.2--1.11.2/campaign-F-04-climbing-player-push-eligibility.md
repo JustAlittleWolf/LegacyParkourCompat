@@ -1,11 +1,11 @@
 # F-04: Climbing players are excluded from the push recipient filter
 
-- **1.10.2**, ornithe-feather: `1.10.2/ornithe-feather/net/minecraft/entity/living/LivingEntity.java`; lines 1887-1889.
-- **1.11.2**, ornithe-feather: `net/minecraft/entity/living/LivingEntity.java`; lines 1950-1952.
+1.10.2, ornithe-feather; feather-gen2-1.10.2+build.2-mergedv2.jar, feather-gen2-1.10.2+build.2.tiny: `1.10.2/ornithe-feather/net/minecraft/entity/living/LivingEntity.java`, `public boolean isPushable() {`, lines 1887-1889.
+1.10.2, ornithe-feather; feather-gen2-1.10.2+build.2-mergedv2.jar, feather-gen2-1.10.2+build.2.tiny: `1.10.2/ornithe-feather/net/minecraft/entity/EntityFilter.java`, `public static <T extends Entity> Predicate<T> canBePushedBy(Entity entity) {`, lines 56-94.
+1.11.2, ornithe-feather; feather-gen2-1.11.2+build.2-mergedv2.jar, feather-gen2-1.11.2+build.2.tiny: `1.11.2/ornithe-feather/net/minecraft/entity/living/LivingEntity.java`, `public boolean isPushable() {`, lines 1950-1952.
+1.11.2, ornithe-feather; feather-gen2-1.11.2+build.2-mergedv2.jar, feather-gen2-1.11.2+build.2.tiny: `1.11.2/ornithe-feather/net/minecraft/entity/EntityFilter.java`, `public static <T extends Entity> Predicate<T> canBePushedBy(Entity entity) {`, lines 50-88.
 
-## Difference
-
-For a non-removed living player, 1.10.2 reports pushable regardless of climbing. 1.11.2 rejects the player while climbing.
+Difference: For a non-removed living player, 1.10.2 reports pushable regardless of climbing. 1.11.2 rejects the player while climbing.
 
 The paired filter excludes rejected entities from the collision candidate list.
 
@@ -15,9 +15,7 @@ Its inherited `pushAway` calls `entity.push(this)` on that local player.
 
 The `Entity.push` path can add horizontal velocity when entities are not in the same vehicle, neither is no-clip, horizontal separation is at least `0.01F`, and the target has no passengers.
 
-## Movement meaning
-
-Remote player tick -> inherited `LivingEntity.pushAwayCollidingEntities` -> `EntityFilter.canBePushedBy(remotePlayer)` -> local player `isPushable` -> `pushAway`/`Entity.push` -> local player's velocity.
+Movement meaning: Remote player tick -> inherited `LivingEntity.pushAwayCollidingEntities` -> `EntityFilter.canBePushedBy(remotePlayer)` -> local player `isPushable` -> `pushAway`/`Entity.push` -> local player's velocity.
 
 The direct precondition for the difference is that the local player is climbing and the remote player's collision query otherwise admits the local player.
 
@@ -31,4 +29,4 @@ The magnitude and resulting trajectory are not claimed.
 
 The separate `isAlive()` gate can also affect removed/dead entities, but those state producers are excluded and are not part of this finding.
 
-[Archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.10.2--1.11.2/findings/F-04-climbing-player-push-eligibility.md).
+Original evidence: [F-04-climbing-player-push-eligibility.md](../../archive/legacy-workflows/source-campaign-2026-10-07/1.10.2--1.11.2/findings/F-04-climbing-player-push-eligibility.md).

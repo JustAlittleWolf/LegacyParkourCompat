@@ -1,11 +1,12 @@
 # EXT-01: local player movement packet selection and correction acknowledgment differ
 
-- **1.8.9**, ornithe-feather: [source locations in preserved report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.8.9--1.9.4/findings/EXT-01-player-authority-packet-differences.md); lines 105-115.
-- **1.9.4**, ornithe-feather: [source locations in preserved report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.8.9--1.9.4/findings/EXT-01-player-authority-packet-differences.md); lines 143-157.
+1.8.9, ornithe-feather; feather-gen2-1.8.9+build.2-mergedv2.jar, feather-gen2-1.8.9+build.2.tiny: `1.8.9/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java`, `public void sendMovementToServer() {`, lines 117-178.
+1.8.9, ornithe-feather; feather-gen2-1.8.9+build.2-mergedv2.jar, feather-gen2-1.8.9+build.2.tiny: `1.8.9/ornithe-feather/net/minecraft/client/network/handler/ClientPlayNetworkHandler.java`, `public void handlePlayerMove(PlayerMoveS2CPacket packet) {`, lines 517-565.
+1.9.4, ornithe-feather; feather-gen2-1.9.4+build.2-mergedv2.jar, feather-gen2-1.9.4+build.2.tiny: `1.9.4/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java`, `public void sendMovementToServer() {`, lines 159-220.
+1.9.4, ornithe-feather; feather-gen2-1.9.4+build.2-mergedv2.jar, feather-gen2-1.9.4+build.2.tiny: `1.9.4/ornithe-feather/net/minecraft/client/network/handler/ClientPlayNetworkHandler.java`, `public void handlePlayerMove(PlayerMoveS2CPacket packet) {`, lines 546-595.
+1.9.4, ornithe-feather; feather-gen2-1.9.4+build.2-mergedv2.jar, feather-gen2-1.9.4+build.2.tiny: `1.9.4/ornithe-feather/net/minecraft/server/network/handler/ServerPlayNetworkHandler.java`, `public void handleAcceptTeleport(AcceptTeleportC2SPacket packet) {`, lines 348-364.
 
-## Difference
-
-With the position counter reset to zero and no position delta above the `9.0E-4` squared-distance threshold, 1.8.9 checks the current count and then increments it, so the forced resend branch becomes true on the 21st subsequent call. 1.9.4 increments first, so it becomes true on the 20th.
+Difference: With the position counter reset to zero and no position delta above the `9.0E-4` squared-distance threshold, 1.8.9 checks the current count and then increments it, so the forced resend branch becomes true on the 21st subsequent call. 1.9.4 increments first, so it becomes true on the 20th.
 
 On a camera tick with no position or angle report and no on-ground transition, 1.8.9 emits a ground-only movement packet; 1.9.4 emits none. 1.9.4 records its sent ground state after selecting the packet.
 
@@ -19,9 +20,7 @@ Both server handlers then have source paths that move/update the player and grou
 
 These are code-path observations, not a simulated packet exchange or trajectory.
 
-## Movement meaning
-
-`LocalClientPlayerEntity.tick()` reaches its packet sender after `super.tick()` only while its current chunk is loaded.
+Movement meaning: `LocalClientPlayerEntity.tick()` reaches its packet sender after `super.tick()` only while its current chunk is loaded.
 
 The sender is gated by `isCamera()`. 1.8.9 riding tick sends player angles and input; 1.9.4 additionally emits a vehicle movement packet when the vehicle is locally authoritative.
 
@@ -31,4 +30,4 @@ The paired sources prove different outbound packet timing/content and different 
 
 Both server handlers assign the client-reported ground state and continue into player movement/collision handling after their respective gates.
 
-[Archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.8.9--1.9.4/findings/EXT-01-player-authority-packet-differences.md).
+Original evidence: [EXT-01-player-authority-packet-differences.md](../../archive/legacy-workflows/source-campaign-2026-10-07/1.8.9--1.9.4/findings/EXT-01-player-authority-packet-differences.md).

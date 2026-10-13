@@ -1,6 +1,6 @@
 # Preparation handoff — 2026-10-13
 
-Only repository/infrastructure/workflow preparation is authorized. Do not start new discovery, historical change implementation or runtime verification before expert review and a further assignment. The [original brief](project-brief.md) is background; the decisions below supersede its undecided alternatives.
+Repository/infrastructure preparation, content reconciliation of historical findings, the development-directory consolidation and final local branch integration are authorized. Do not start new movement discovery, new historical change implementation or runtime verification. The [original brief](project-brief.md) is background; the decisions below supersede its undecided alternatives.
 
 ## Decisions
 
@@ -36,10 +36,16 @@ The full build covers product, Gym, test coordinator and current TAS sources. Co
 
 ## Remaining work and next step
 
-The research index describes migrated historical records, not newly accepted independent findings. Historical source identities, acceptance bindings, duplicates, grouped/disposition records and current implementation coverage may still require reconciliation; see [migration remainder](migration-remainder.md) and [historical bindings](historical-bindings.md). No old evidence was intentionally discarded. Do not treat formatting as renewed acceptance or launch new discovery to fill metadata during preparation.
+The research index describes migrated historical records, not newly accepted independent findings. The 340 original records now have canonical/disposition/concrete-gap mappings and current implementation correspondence; see [migration remainder](migration-remainder.md) and [historical bindings](historical-bindings.md). No old evidence was intentionally discarded. Do not treat formatting as renewed acceptance or launch new discovery to fill metadata during preparation.
 
 First inspect the prepared changes against this brief and the current workflow documents, then present the state for expert review. Runtime/Mixin checks, recording-playback determinism, exact historical source regeneration and a later discovery/implementation campaign remain separately authorized phases. Avoid repeating successful builds or capacity probes unless new changes justify them.
 
 Decompiler placement decision: it belongs conceptually to development infrastructure, but its Gradle task implementation remains in root buildSrc, the conventional automatically loaded build-logic location. Moving it into development is possible through explicit source-set/included-build wiring, but adds indirection without a current functional benefit. The development entry point links to it. This was considered before successor handoff.
 
 Documentation migration is complete: all 340 standalone historical records have compact counterparts; 864 original workflow files and the separate staging report remain byte-identical in the archive. 47 old review bindings and 180 wiki/memo references are preserved centrally. Dispositions and unresolved evidence remain explicit; counts do not claim 340 newly accepted independent changes.
+
+## Content reconciliation completion
+
+All 340 baseline records are assigned: 223 canonical findings, 45 consolidated duplicate/revision records, 78 dispositions and four unresolved classification cases. Seventeen grouped records map to multiple independent operations. Multi-file source references, omitted callbacks and invalid witness examples were repaired from existing evidence. Historical exact verdicts were retained; changed assertions are explicitly distinguished from formatting-only content transfer. Current Changes/Hooks/catalog correspondence is present, partial, open or excluded with concrete evidence in the [central map](reconciliation/README.md). No new movement changes, source generation or runtime activity occurred.
+
+All 47 accepted-backlog decision documents were recoverable; 44 archived snapshots match their recorded hashes and three exact reviewed finding revisions were recovered separately. Additional outside-backlog source/code decisions and recovered followup/boundary documents are preserved in the ledgers. The original archive bytes remain unchanged. Directory consolidation and final branch integration follow this content checkpoint.

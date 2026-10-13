@@ -1,38 +1,18 @@
 # F-4: Mounted boat clips the newer lava scan above a reachable Player fluid cell
 
-- **1.21.11**, mojmap: `1.21.11/mojmap/net/minecraft/world/entity/Entity.java`; lines 501-507.
-- **26.1.2**, unobfuscated: `26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java`; lines 522-528.
+1.21.11, mojmap: `1.21.11/mojmap/net/minecraft/world/entity/Entity.java`, baseTick 501-507; positionRider 2262-2282; updateInWaterStateAndDoFluidPushing 1501-1522; updateFluidHeightAndDoFluidPushing 3509-3582.
+26.1.2, unobfuscated: `26.1.2/unobfuscated/net/minecraft/world/entity/Entity.java`, baseTick 522-528; getFluidInteractionBox 4015-4026; updateFluidInteraction 1558-1583.
+26.1.2, unobfuscated: `26.1.2/unobfuscated/net/minecraft/world/entity/EntityFluidInteraction.java`, update 32-101; applyCurrentTo 171-189.
+1.21.11, mojmap: `1.21.11/mojmap/net/minecraft/world/entity/LivingEntity.java`, aiStep 2931-2957.
+1.21.11, mojmap: `1.21.11/mojmap/net/minecraft/world/entity/vehicle/boat/AbstractBoat.java`, interact 694-703.
+26.1.2, unobfuscated: `26.1.2/unobfuscated/net/minecraft/world/entity/vehicle/boat/AbstractBoat.java`, modifyPassengerFluidInteractionBox 783-795.
+1.21.11, mojmap: `1.21.11/mojmap/net/minecraft/world/entity/player/Player.java`, isPushedByFluid 1679-1681; isAffectedByFluids 884-886.
+26.1.2, unobfuscated: `26.1.2/unobfuscated/net/minecraft/world/entity/player/Player.java`, isPushedByFluid 1673-1675.
+1.21.11, mojmap: `1.21.11/mojmap/net/minecraft/world/entity/vehicle/boat/Boat.java`, rideHeight 14-17.
+26.1.2, unobfuscated: `26.1.2/unobfuscated/net/minecraft/world/entity/vehicle/boat/Boat.java`, rideHeight 14-17.
 
-## Difference
+Difference: 1.21.11 keeps the full deflated passenger Player box for LAVA after its boat-specific WATER early return. 26.1.2 clips the dry boat passenger interaction box minimum to boat.maxY before cell enumeration. For the reviewed OAK_BOAT at (100.5,65.5,100.5), standing rider Y is 65.0875; the old deflated box scans Y=65-66, while the newer clipped box scans only Y=66. The Y=65 lava cell is omitted by scan bounds, not by a later fluid-top comparison.
 
-In 1.21.11, the mounted non-underwater boat guard skips only WATER-current scanning.
+Movement meaning: In the fixed Nether channel (level-1 LAVA at (100,65,100), level-2 east neighbor and source-fed row, solid side walls), 1.21.11 reads a nonzero westward current and adds the Player minimum horizontal impulse. 26.1.2 never enumerates the cell and records no LAVA current. Non-flying standing local Player, loaded cells and fixed dry-boat geometry are required; no vehicle trajectory is compared.
 
-The separate LAVA scan still receives the complete deflated Player box.
-
-In 26.1.2, the boat clips the passenger interaction box's minimum Y to the boat's `maxY` and the shared WATER/LAVA tracker discards any lava cell whose top is strictly below that clipped minimum.
-
-This can remove an otherwise overlapping lava cell from the Player's LAVA height/current input before Player current application.
-
-## Movement meaning
-
-Use a fixed source state in a vanilla Nether, without simulating vehicle motion.
-
-Place a normal `OAK_BOAT` at `(100.5D, 65.5D, 100.5D)` with yaw `0`, no passengers initially, and the vanilla STONE floor at Y=64.
-
-The boat has dimensions `1.375F x 0.5625F`, so its box is `[99.8125,65.5,99.8125]` to `[101.1875,66.0625,101.1875]`.
-
-There is no WATER.
-
-The paired boat status scan therefore does not return a water status; no collision lies in the boat's thin ground-friction probe below Y=65.5, so `getStatus()` yields `IN_AIR` and `isUnderWater()` is false.
-
-The existing paired `AbstractBoat.interact()` path can mount a non-flying Player; the boat has no passengers and the Player width `0.6F` is below the boat width `1.375F`.
-
-For this single-passenger, yaw-zero boat, `rideHeight = 0.5625F / 3.0F = 0.1875F`, the boat-side Z offset is zero, and the Player vehicle attachment is `(0,0.6,0)`.
-
-Applying the paired `positionRider()` formula to the fixed boat position yields Player position `(100.5D, 65.5D + 0.1875D - 0.6D, 100.5D)`, approximately `(100.5, 65.0875, 100.5)`.
-
-The Player is standing: it is a passenger, is not sleeping/swimming/fall-flying/spin-attacking or crouching, and its `0.6F x 1.8F` standing box clears the Y=64 floor.
-
-Its box is approximately X/Z `[100.2,100.8]`, Y `[65.0875,66.8875]`; deflating by `0.001` gives minimum Y `65.0885`. 1.21.11 queries Y cells 65-66 and only X/Z cell 100. 26.1.2's box modifier clips minimum Y to boat.maxY `66.0625`, so its cell scan covers Y=66 and only X/Z cell 100.
-
-[Archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.21.11--26.1.2/findings/F-4-mounted-player-lava-box.md).
+Original evidence: [archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.21.11--26.1.2/findings/F-4-mounted-player-lava-box.md).

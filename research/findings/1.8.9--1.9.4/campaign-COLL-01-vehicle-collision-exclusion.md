@@ -1,11 +1,12 @@
 # COLL-01: Mounted player collision query includes its boat in 1.8.9
 
-- **1.8.9**, ornithe-feather: `net/minecraft/world/World.java`; lines 927-942.
-- **1.9.4**, ornithe-feather: `net/minecraft/world/World.java`; lines 941-957.
+1.8.9, ornithe-feather; feather-gen2-1.8.9+build.2-mergedv2.jar, feather-gen2-1.8.9+build.2.tiny: `1.8.9/ornithe-feather/net/minecraft/world/World.java`, `public List<Box> getCollisions(Entity entity, Box shape) {`, lines 891-945.
+1.8.9, ornithe-feather; feather-gen2-1.8.9+build.2-mergedv2.jar, feather-gen2-1.8.9+build.2.tiny: `1.8.9/ornithe-feather/net/minecraft/entity/Entity.java`, `public void move(double dx, double dy, double dz) {`, lines 371-636.
+1.9.4, ornithe-feather; feather-gen2-1.9.4+build.2-mergedv2.jar, feather-gen2-1.9.4+build.2.tiny: `1.9.4/ornithe-feather/net/minecraft/world/World.java`, `public List<Box> getCollisions(@Nullable Entity entity, Box shape) {`, lines 899-961.
+1.9.4, ornithe-feather; feather-gen2-1.9.4+build.2-mergedv2.jar, feather-gen2-1.9.4+build.2.tiny: `1.9.4/ornithe-feather/net/minecraft/world/World.java`, `public boolean getCollisions(Box shape) {`, lines 1018-1055.
+1.9.4, ornithe-feather; feather-gen2-1.9.4+build.2-mergedv2.jar, feather-gen2-1.9.4+build.2.tiny: `1.9.4/ornithe-feather/net/minecraft/entity/Entity.java`, `public void move(double dx, double dy, double dz) {`, lines 441-720.
 
-## Difference
-
-1.8.9's comparisons use the whole collision-query result list where the loop needs to test a candidate entity.
+Difference: 1.8.9's comparisons use the whole collision-query result list where the loop needs to test a candidate entity.
 
 The mapped bytecode confirms the decompiled source expression.
 
@@ -17,16 +18,8 @@ The player's base opposing-shape callback returns null, so the boat's own collis
 
 Both versions otherwise query the same entity candidates for this bounded comparison.
 
-## Movement meaning
+Movement meaning: The local passenger reaches `LivingEntity#moveRelative(FF)V` through `World#tickEntities()` -> `Entity#rideTick()` -> local player tick -> `LivingEntity#mobTick()`.
 
-The local passenger reaches `LivingEntity#moveRelative(FF)V` through `World#tickEntities()` -> `Entity#rideTick()` -> local player tick -> `LivingEntity#mobTick()`.
+The travel method calls `Entity#move(DDD)V`, which calls `World#getCollisions(Entity,Box)`. 1.8.9 boat exposes its current box as a collision shape in both versions.
 
-The travel method calls `Entity#move(DDD)V`, which calls `World#getCollisions(Entity,Box)`. 1.8.9 boat exposes its current box as a collision shape in both versions. 1.9.4's root-vehicle helper follows the passenger-to-boat mount link; 1.8.9's base player collision-against-shape method supplies no second shape.
-
-Source proves that 1.8.9's mounted-player collision query can include the intersecting boat box and 1.9.4 omits that same-vehicle candidate.
-
-The supplied shape can affect later axis clipping when requested movement intersects it, but no particular clipped displacement or trajectory is claimed.
-
-The original derived mapped JARs are unavailable; the immutable revised mapped artifacts corroborate the source expressions, but their equivalence to the originals is unproven under the run's recorded artifact-identity limitation.
-
-[Archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.8.9--1.9.4/findings/COLL-01-vehicle-collision-exclusion.md).
+Original evidence: [COLL-01-vehicle-collision-exclusion.md](../../archive/legacy-workflows/source-campaign-2026-10-07/1.8.9--1.9.4/findings/COLL-01-vehicle-collision-exclusion.md).

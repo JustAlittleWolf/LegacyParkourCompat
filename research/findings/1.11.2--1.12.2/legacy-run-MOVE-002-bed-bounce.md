@@ -1,19 +1,16 @@
 # MOVE-002: Beds reverse a player's downward velocity on landing
 
-- **1.11.2**, ornithe-feather: `1.11.2/ornithe-feather/net/minecraft/block/BedBlock.java`; line 29.
-- **1.12.2**, ornithe-feather: `1.12.2/ornithe-feather/net/minecraft/block/BedBlock.java`; lines 141-149.
+1.11.2, ornithe-feather; feather-gen2-1.11.2+build.2-mergedv2.jar, feather-gen2-1.11.2+build.2.tiny: `1.11.2/ornithe-feather/net/minecraft/block/Block.java`, `public void beforeCollision(World world, Entity entity) {`, lines 624-626.
+1.12.2, ornithe-feather; feather-gen2-1.12.2+build.2-mergedv2.jar, feather-gen2-1.12.2+build.2.tiny: `1.12.2/ornithe-feather/net/minecraft/block/BedBlock.java`, `public void beforeCollision(World world, Entity entity) {`, lines 141-150.
+1.12.2, ornithe-feather; feather-gen2-1.12.2+build.2-mergedv2.jar, feather-gen2-1.12.2+build.2.tiny: `1.12.2/ornithe-feather/net/minecraft/block/Block.java`, `public void beforeCollision(World world, Entity entity) {`, lines 643-645.
 
-## Difference
-
-When a player's downward movement is clipped by a bed, 1.11.2 calls the inherited no-op callback.
+Difference: When a player's downward movement is clipped by a bed, 1.11.2 calls the inherited no-op callback.
 
 In 1.12.2, a non-sneaking bed callback reflects negative Y velocity and scales it by `0.66F`; the extra `0.8` scale is guarded by `!(entity instanceof LivingEntity)`, so it does not apply to a player. 1.11.2 sneaking player receives the inherited no-op.
 
 The bed's collision shape remains the same 0.5625-high box in the inspected sources.
 
-## Movement meaning
-
-The player uses `Entity.move` during living travel and collision resolution. 1.11.2 landing that clips downward movement against a bed reaches the block callback.
+Movement meaning: The player uses `Entity.move` during living travel and collision resolution. 1.11.2 landing that clips downward movement against a bed reaches the block callback.
 
 The change writes player `velocityY`, directly affecting the movement state for the next tick.
 
@@ -25,4 +22,4 @@ Predicted consequence: the player rebounds from beds in 1.12.2.
 
 Bed block state remains vanilla and this catalog does not alter modern-only block applicability.
 
-[Archived report](../../archive/legacy-workflows/movement-discovery/runs/1.11.2--1.12.2/findings/MOVE-002-bed-bounce.md).
+Original evidence: [MOVE-002-bed-bounce.md](../../archive/legacy-workflows/movement-discovery/runs/1.11.2--1.12.2/findings/MOVE-002-bed-bounce.md).

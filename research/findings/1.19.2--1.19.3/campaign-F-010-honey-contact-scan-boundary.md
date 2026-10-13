@@ -1,54 +1,18 @@
 # F-010: Honey Block contact scan reaches a narrower player-overlap band
 
-- **1.19.2**, mojmap: [source locations in preserved report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.19.2--1.19.3/findings/F-010-honey-contact-scan-boundary.md).
-- **1.19.3**, mojmap: [source locations in preserved report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.19.2--1.19.3/findings/F-010-honey-contact-scan-boundary.md).
+1.19.2, mojmap: `1.19.2/mojmap/net/minecraft/world/entity/Entity.java`, move 657; tryCheckInsideBlocks 685-694; checkInsideBlocks 886-912; class declaration / field initialization 190-214.
+1.19.3, mojmap: `1.19.3/mojmap/net/minecraft/world/entity/Entity.java`, move 657; tryCheckInsideBlocks 685-694; class declaration / field initialization 190-214.
+1.19.2, mojmap: `1.19.2/mojmap/net/minecraft/world/level/block/HoneyBlock.java`, entityInside 56-64.
+1.19.3, mojmap: `1.19.3/mojmap/net/minecraft/world/level/block/HoneyBlock.java`, entityInside 56-64.
+1.19.2, mojmap: `1.19.2/mojmap/net/minecraft/world/level/block/Blocks.java`, class declaration / field initialization 3369-3378.
+1.19.3, mojmap: `1.19.3/mojmap/net/minecraft/world/level/block/Blocks.java`, class declaration / field initialization 3369-3378.
+1.19.2, mojmap: `1.19.2/mojmap/net/minecraft/world/entity/EntityType.java`, class declaration / field initialization 527.
+1.19.3, mojmap: `1.19.3/mojmap/net/minecraft/world/entity/EntityType.java`, class declaration / field initialization 527.
+1.19.2, mojmap: `1.19.2/mojmap/net/minecraft/world/entity/EntityDimensions.java`, makeBoundingBox 21-25.
+1.19.3, mojmap: `1.19.3/mojmap/net/minecraft/world/entity/EntityDimensions.java`, makeBoundingBox 21-25.
 
-## Difference
+Difference: After `Entity.move` resolves movement, it calls `tryCheckInsideBlocks`, whose wrapper calls `checkInsideBlocks`. Both versions use the resulting entity AABB to construct min/max block positions and iterate the covered cells inclusively before invoking each block state's `entityInside` callback. 1.19.2 insets all six bounds by `0.001`; 1.19.3 insets them by `1.0E-7`. Therefore a cell just across a horizontal AABB edge can be visited in 1.19.3 but omitted in 1.19.2 when the overlap is greater than `1.0E-7` and less than `0.001`. Both versions register the same Honey Block and have byte-identical Honey Block callback code. Its collision shape is `Block.box(1.0, 0.0, 1.0, 15.0, 15.0, 15.0)`, so the solid X/Z bounds begin `1/16` inside the cell. `Block.box` divides each coordinate by `16.0`; the shape is not solid in the first `1/16` of the cell next to each horizontal face. The normal collision path gathers the Honey shape and resolves movement against its voxel cells; the box in the witness below remains entirely in this side gap, so downward movement is not clipped by Honey. When the additional 1.19.3 cell is Honey, `entityInside` calls `isSlidingDown`. That method returns false for a grounded entity, an entity above block Y + `0.9375 - 1.0E-7`, or vertical velocity at least `-0.08`. It then requires either horizontal center separation plus `1.0E-7` to exceed `0.4375 + entity width/2.0F`. For the default player width `0.6F`, the side-overlap witness below satisfies that center-distance test. The callback calls `doSlideMovement`, which immediately sets Y velocity to `-0.05`; when prior Y is below `-0.13`, it scales X/Z by `-0.05 / y`, otherwise preserves X/Z. It then resets fall distance. These callback predicates and writes are identical; the difference is whether the Honey cell is visited.
 
-After `Entity.move` resolves movement, it calls `tryCheckInsideBlocks`, whose wrapper calls `checkInsideBlocks`.
+Movement meaning: The paired sources provide a vanilla command-to-client-motion witness for the overlap, rather than assuming the narrow box state. In a loaded interior chunk containing Honey at block `(1,64,1)` and air in the other cells traversed by the player box, an authorized same-world `/tp @s 0.7005 64.9 1.5` supplies absolute in-bounds coordinates. `TeleportCommand.teleportToPos` leaves the position-relative flags empty for absolute coordinates, then `performTeleport` passes those values to the same-level player's connection. The command's spawnable-bounds guard accepts block position `(0,64,1)`. `ServerGamePacketListenerImpl.teleport` sends the absolute coordinates; `ClientPacketListener.handleMovePlayer` sets the client player's coordinates, clears velocity on absolute axes and rebuilds the box (`absMoveTo` in 1.19.2, `setPos` in 1.19.3). The x coordinate is far inside both entity coordinate clamps. The client handler does not write the local `onGround` flag; take the client player airborne before this correction. `EntityType.PLAYER` registers width `0.6F` and height `1.8F`. `EntityDimensions.makeBoundingBox` uses the float expression `width / 2.0F` and places the bottom at the entity Y. At the stated target, the resulting box is approximately X `[0.4005,1.0005]`, Y `[64.9,66.7]`, Z `[1.2,1.8]`; retain the source float half-width and coordinate arithmetic rather than replacing `0.6F` with a double literal. The Honey collision shape begins at X `1 + 1/16 = 1.0625`; the box's maxX `1.0005` is before that solid interval. With zero horizontal input, there is no Honey X/Z collision, and no other solid shapes in the witness arrangement. `Entity.collide` therefore leaves the requested downward displacement uncut; `Entity.move` updates position/box and, after ground/fall/step callbacks, calls `tryCheckInsideBlocks`.
 
-Both versions use the resulting entity AABB to construct min/max block positions and iterate the covered cells inclusively before invoking each block state's `entityInside` callback. 1.19.2 insets all six bounds by `0.001`; 1.19.3 insets them by `1.0E-7`.
-
-Therefore a cell just across a horizontal AABB edge can be visited in 1.19.3 but omitted in 1.19.2 when the overlap is greater than `1.0E-7` and less than `0.001`.
-
-Both versions register the same Honey Block and have byte-identical Honey Block callback code.
-
-Its collision shape is `Block.box(1.0, 0.0, 1.0, 15.0, 15.0, 15.0)`, so the solid X/Z bounds begin `1/16` inside the cell. `Block.box` divides each coordinate by `16.0`; the shape is not solid in the first `1/16` of the cell next to each horizontal face.
-
-The normal collision path gathers the Honey shape and resolves movement against its voxel cells; the box in the witness below remains entirely in this side gap, so downward movement is not clipped by Honey.
-
-When the additional 1.19.3 cell is Honey, `entityInside` calls `isSlidingDown`.
-
-That method returns false for a grounded entity, an entity above block Y + `0.9375 - 1.0E-7`, or vertical velocity at least `-0.08`.
-
-It then requires either horizontal center separation plus `1.0E-7` to exceed `0.4375 + entity width/2.0F`.
-
-For the default player width `0.6F`, the side-overlap witness below satisfies that center-distance test.
-
-The callback calls `doSlideMovement`, which immediately sets Y velocity to `-0.05`; when prior Y is below `-0.13`, it scales X/Z by `-0.05 / y`, otherwise preserves X/Z.
-
-It then resets fall distance.
-
-These callback predicates and writes are identical; the difference is whether the Honey cell is visited.
-
-## Movement meaning
-
-The paired sources provide a vanilla command-to-client-motion witness for the overlap, rather than assuming the narrow box state.
-
-In a loaded interior chunk containing Honey at block `(1,64,1)` and air in the other cells traversed by the player box, an authorized same-world `/tp @s 0.7005 64.9 1.5` supplies absolute in-bounds coordinates. `TeleportCommand.teleportToPos` leaves the position-relative flags empty for absolute coordinates, then `performTeleport` passes those values to the same-level player's connection.
-
-The command's spawnable-bounds guard accepts block position `(0,64,1)`. `ServerGamePacketListenerImpl.teleport` sends the absolute coordinates; `ClientPacketListener.handleMovePlayer` sets the client player's coordinates, clears velocity on absolute axes and rebuilds the box (`absMoveTo` in 1.19.2, `setPos` in 1.19.3).
-
-The x coordinate is far inside both entity coordinate clamps.
-
-The client handler does not write the local `onGround` flag; take the client player airborne before this correction.
-
-`EntityType.PLAYER` registers width `0.6F` and height `1.8F`. `EntityDimensions.makeBoundingBox` uses the float expression `width / 2.0F` and places the bottom at the entity Y.
-
-At the stated target, the resulting box is approximately X `[0.4005,1.0005]`, Y `[64.9,66.7]`, Z `[1.2,1.8]`; retain the source float half-width and coordinate arithmetic rather than replacing `0.6F` with a double literal.
-
-The Honey collision shape begins at X `1 + 1/16 = 1.0625`; the box's maxX `1.0005` is before that solid interval.
-
-With zero horizontal input, there is no Honey X/Z collision, and no other solid shapes in the witness arrangement. `Entity.collide` therefore leaves the requested downward displacement uncut; `Entity.move` updates position/box and, after ground/fall/step callbacks, calls `tryCheckInsideBlocks`.
-
-[Archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.19.2--1.19.3/findings/F-010-honey-contact-scan-boundary.md).
+Original evidence: [archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.19.2--1.19.3/findings/F-010-honey-contact-scan-boundary.md).

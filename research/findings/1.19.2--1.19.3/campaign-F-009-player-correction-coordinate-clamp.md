@@ -1,36 +1,16 @@
 # F-009: Absolute player correction bypasses the X/Z entity-coordinate clamp
 
-- **1.19.2**, mojmap: [source locations in preserved report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.19.2--1.19.3/findings/F-009-player-correction-coordinate-clamp.md).
-- **1.19.3**, mojmap: [source locations in preserved report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.19.2--1.19.3/findings/F-009-player-correction-coordinate-clamp.md).
+1.19.2, mojmap: `1.19.2/mojmap/net/minecraft/world/entity/Entity.java`, absMoveTo 1194-1209; setPos 376-379; absMoveTo 1199-1214.
+1.19.3, mojmap: `1.19.3/mojmap/net/minecraft/world/entity/Entity.java`, setPos 376-379; absMoveTo 1199-1214.
+1.19.2, mojmap: `1.19.2/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java`, handleMovePlayer 563-628; handleMovePlayer 592-667.
+1.19.2, mojmap: `1.19.2/mojmap/net/minecraft/server/network/ServerGamePacketListenerImpl.java`, teleport 994-1010; teleport 988-1004.
+1.19.3, mojmap: `1.19.3/mojmap/net/minecraft/server/network/ServerGamePacketListenerImpl.java`, teleport 994-1010; teleport 988-1004.
+1.19.2, mojmap: `1.19.2/mojmap/net/minecraft/network/protocol/game/ClientboundPlayerPositionPacket.java`, ClientboundPlayerPositionPacket 18-52.
+1.19.3, mojmap: `1.19.3/mojmap/net/minecraft/network/protocol/game/ClientboundPlayerPositionPacket.java`, ClientboundPlayerPositionPacket 18-52.
+1.19.3, mojmap: `1.19.3/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java`, handleMovePlayer 592-667.
 
-## Difference
+Difference: For an absolute correction, 1.19.2's `ClientPacketListener.handleMovePlayer` resolves the coordinates, writes the player position and velocity, then calls `Entity.absMoveTo`. That helper clamps X and Z to `[-3.0E7, 3.0E7]` before setting position; Y is not clamped. 1.19.3 writes position through `Entity.setPos` and does not call `absMoveTo` from this handler, so finite packet X/Z values outside that interval remain outside the clamp. `Entity.setPos` updates the position and bounding box but applies no coordinate clamp. The paired packet codec stores and writes X/Y/Z as doubles without clamping them. The client handler therefore applies the coordinate behavior described above to the packet values it receives. The server-side `ServerGamePacketListenerImpl.teleport` helper constructs a correction packet from its coordinate arguments, but that helper alone does not establish that a vanilla producer can supply an out-of-range value. This is separate from F-005's angle normalization and the interpolation-history disposition.
 
-For an absolute correction, 1.19.2's `ClientPacketListener.handleMovePlayer` resolves the coordinates, writes the player position and velocity, then calls `Entity.absMoveTo`.
+Movement meaning: An external/custom server can send a correction packet with the stated coordinate; the packet codec preserves its double value, and the client receives it in `ClientPacketListener.handleMovePlayer`, which updates the local player's position, velocity and bounding box, acknowledges the teleport, and sends a movement packet using the resulting player position. The changed coordinate is therefore direct player movement state. Later movement and collision queries read that current position and bounding box. The paired vanilla `/teleport` command path is checked negative evidence for reachability: `TeleportCommand.performTeleport` constructs a `BlockPos` and rejects it with `INVALID_POSITION` when `Level.isInSpawnableBounds` is false, before the player connection teleport call. `Level.isInWorldBoundsHorizontal` requires both X and Z block coordinates to be at least `-30000000` and strictly less than `30000000`. Thus ordinary vanilla `/teleport` does not establish a producer for finite X/Z coordinates beyond the client clamp. 1.19.2/1.19.3 `TeleportCommand.java` are byte-identical 1.19.2 `Level.java` 1.19.3 `Level.java` Source-proven: when the client receives the stated external/custom-server correction, 1.19.2 clamps the corrected client X/Z position while 1.19.3 retains the packet value. The position and bounding box consumed by subsequent movement differ at the correction boundary.
 
-That helper clamps X and Z to `[-3.0E7, 3.0E7]` before setting position; Y is not clamped. 1.19.3 writes position through `Entity.setPos` and does not call `absMoveTo` from this handler, so finite packet X/Z values outside that interval remain outside the clamp. `Entity.setPos` updates the position and bounding box but applies no coordinate clamp.
-
-The paired packet codec stores and writes X/Y/Z as doubles without clamping them.
-
-The client handler therefore applies the coordinate behavior described above to the packet values it receives.
-
-The server-side `ServerGamePacketListenerImpl.teleport` helper constructs a correction packet from its coordinate arguments, but that helper alone does not establish that a vanilla producer can supply an out-of-range value.
-
-This is separate from F-005's angle normalization and the interpolation-history disposition.
-
-## Movement meaning
-
-An external/custom server can send a correction packet with the stated coordinate; the packet codec preserves its double value, and the client receives it in `ClientPacketListener.handleMovePlayer`, which updates the local player's position, velocity and bounding box, acknowledges the teleport, and sends a movement packet using the resulting player position.
-
-The changed coordinate is therefore direct player movement state.
-
-Later movement and collision queries read that current position and bounding box.
-
-The paired vanilla `/teleport` command path is checked negative evidence for reachability: `TeleportCommand.performTeleport` constructs a `BlockPos` and rejects it with `INVALID_POSITION` when `Level.isInSpawnableBounds` is false, before the player connection teleport call. `Level.isInWorldBoundsHorizontal` requires both X and Z block coordinates to be at least `-30000000` and strictly less than `30000000`.
-
-Thus ordinary vanilla `/teleport` does not establish a producer for finite X/Z coordinates beyond the client clamp. 1.19.2/1.19.3 `TeleportCommand.java` are byte-identical 1.19.2 `Level.java` 1.19.3 `Level.java`
-
-Source-proven: when the client receives the stated external/custom-server correction, 1.19.2 clamps the corrected client X/Z position while 1.19.3 retains the packet value.
-
-The position and bounding box consumed by subsequent movement differ at the correction boundary.
-
-[Archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.19.2--1.19.3/findings/F-009-player-correction-coordinate-clamp.md).
+Original evidence: [archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.19.2--1.19.3/findings/F-009-player-correction-coordinate-clamp.md).

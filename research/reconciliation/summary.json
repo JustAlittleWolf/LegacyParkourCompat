@@ -1,0 +1,22 @@
+{
+  "baselineRecords": 340,
+  "canonicalFindings": 223,
+  "findingRecords": 258,
+  "consolidatedDuplicateRevisionRecords": 45,
+  "splitGroupedRecords": 17,
+  "dispositions": 78,
+  "unresolvedRecords": 4,
+  "recordImplementationStatuses": {
+    "present": 90,
+    "open": 120,
+    "excluded": 78,
+    "partial": 52
+  },
+  "recordHistoricalReviewStatuses": {
+    "no exact independent source verdict located": 280,
+    "historical correction/rejection retained": 6,
+    "historical acceptance retained; assertion corrected/unbound": 5,
+    "historical accepted assertion retained": 47,
+    "historical verdict retained": 2
+  }
+}

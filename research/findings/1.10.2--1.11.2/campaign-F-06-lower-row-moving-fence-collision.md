@@ -1,11 +1,14 @@
 # F-06: The 1.11.2 query includes a lower-row moving-fence collision
 
-- **1.10.2**, ornithe-feather: `1.10.2/ornithe-feather/net/minecraft/world/World.java`.
-- **1.11.2**, ornithe-feather: `1.11.2/ornithe-feather/net/minecraft/world/World.java`.
+1.10.2, ornithe-feather; feather-gen2-1.10.2+build.2-mergedv2.jar, feather-gen2-1.10.2+build.2.tiny: `1.10.2/ornithe-feather/net/minecraft/world/World.java`, `public List<Box> getCollisions(@Nullable Entity entity, Box shape) {`, lines 903-965.
+1.10.2, ornithe-feather; feather-gen2-1.10.2+build.2-mergedv2.jar, feather-gen2-1.10.2+build.2.tiny: `1.10.2/ornithe-feather/net/minecraft/world/World.java`, `public boolean getCollisions(Box shape) {`, lines 1022-1059.
+1.10.2, ornithe-feather; feather-gen2-1.10.2+build.2-mergedv2.jar, feather-gen2-1.10.2+build.2.tiny: `1.10.2/ornithe-feather/net/minecraft/block/FenceBlock.java`, `public void addCollisions(BlockState state, World world, BlockPos pos, Box shape, List<Box> collisions, @Nullable Entity entity) {`, lines 58-76.
+1.11.2, ornithe-feather; feather-gen2-1.11.2+build.2-mergedv2.jar, feather-gen2-1.11.2+build.2.tiny: `1.11.2/ornithe-feather/net/minecraft/world/World.java`, `private boolean getCollisions(@Nullable Entity entity, Box shape, boolean enforceWorldBorder, @Nullable List<Box> collisions) {`, lines 960-1011.
+1.11.2, ornithe-feather; feather-gen2-1.11.2+build.2-mergedv2.jar, feather-gen2-1.11.2+build.2.tiny: `1.11.2/ornithe-feather/net/minecraft/world/World.java`, `public List<Box> getCollisions(@Nullable Entity entity, Box shape) {`, lines 1013-1036.
+1.11.2, ornithe-feather; feather-gen2-1.11.2+build.2-mergedv2.jar, feather-gen2-1.11.2+build.2.tiny: `1.11.2/ornithe-feather/net/minecraft/world/World.java`, `public boolean getCollisions(Box shape) {`, lines 1058-1060.
+1.11.2, ornithe-feather; feather-gen2-1.11.2+build.2-mergedv2.jar, feather-gen2-1.11.2+build.2.tiny: `1.11.2/ornithe-feather/net/minecraft/block/entity/MovingBlockEntity.java`, `public void addCollisions(World world, BlockPos pos, Box shape, List<Box> collisions, @Nullable Entity entity) {`, lines 318-346.
 
-## Difference
-
-Both piston paths can place a movable fence state in a `MOVING_BLOCK` cell: `PistonBaseBlock.canMoveBlock` permits the registered oak fence when its ordinary border/height guards pass, and the push path stores the moved state in a `MovingBlockEntity`.
+Difference: Both piston paths can place a movable fence state in a `MOVING_BLOCK` cell: `PistonBaseBlock.canMoveBlock` permits the registered oak fence when its ordinary border/height guards pass, and the push path stores the moved state in a `MovingBlockEntity`.
 
 The oak fence uses `Material.WOOD` (whose default piston behavior is `NORMAL`), has no block entity, and has a collision post from local x/z `0.375` to `0.625` and local y `0.0` to `1.5`.
 
@@ -21,9 +24,7 @@ In 1.10.2 the cell is not visited, so that candidate contributes no block collis
 
 This is independent of the retracting piston shape change in F-05.
 
-## Movement meaning
-
-The source path is piston movement eligibility and moved-state storage -> `World.getCollisions` block-state dispatch -> `MovingBlock`/`MovingBlockEntity` collision boxes -> the list consumed by `Entity.move`. 1.10.2 locally controlled player reaches inherited `Entity.move` through the living-player travel path; the collision list is therefore a direct player movement input.
+Movement meaning: The source path is piston movement eligibility and moved-state storage -> `World.getCollisions` block-state dispatch -> `MovingBlock`/`MovingBlockEntity` collision boxes -> the list consumed by `Entity.move`. 1.10.2 locally controlled player reaches inherited `Entity.move` through the living-player travel path; the collision list is therefore a direct player movement input.
 
 The pair's S4-piston and S5-fence slices cover the paired piston state path and fence post geometry. `Material.WOOD` has the default `NORMAL` move behavior, the base `hasBlockEntity` flag defaults false, and `canMoveBlock` admits the fence under valid height/world-border conditions.
 
@@ -31,4 +32,4 @@ Source proves that 1.11.2 supplies this collision box to the player query while 
 
 If the player is moving into the box, it can constrain the movement clipping result; no final position or observed trajectory is claimed.
 
-[Archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.10.2--1.11.2/findings/F-06-lower-row-moving-fence-collision.md).
+Original evidence: [F-06-lower-row-moving-fence-collision.md](../../archive/legacy-workflows/source-campaign-2026-10-07/1.10.2--1.11.2/findings/F-06-lower-row-moving-fence-collision.md).

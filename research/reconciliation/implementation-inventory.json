@@ -1,0 +1,1084 @@
+{
+  "productBase": "29b6a521",
+  "note": "Static current change/interface/catalog inventory. Registration is not source fidelity, exact applicability or runtime parity.",
+  "changes": [
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_10/FarmlandFullCollision.java",
+      "emulates": "V1_10",
+      "hooks": [
+        "BlockCollisionShapeHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(BlockCollisionShapeHook.class, ParkourVersion.V1_10, new me.wolfii.legacyparkourcompat.change.v1_10.FarmlandFullCollision());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_10_1/FarmlandConversion.java",
+      "emulates": "V1_10_1",
+      "hooks": [
+        "FarmlandEntityPushHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(FarmlandEntityPushHook.class, ParkourVersion.V1_10_1, new me.wolfii.legacyparkourcompat.change.v1_10_1.FarmlandConversion());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_10_1/SneakEdgeDistance.java",
+      "emulates": "V1_10_1",
+      "hooks": [
+        "SneakEdgeDistanceHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SneakEdgeDistanceHook.class, ParkourVersion.V1_10_1, new me.wolfii.legacyparkourcompat.change.v1_10_1.SneakEdgeDistance());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_10_1/SneakEdgeMover.java",
+      "emulates": "V1_10_1",
+      "hooks": [
+        "SneakEdgeMoverHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SneakEdgeMoverHook.class, ParkourVersion.V1_10_1, new me.wolfii.legacyparkourcompat.change.v1_10_1.SneakEdgeMover());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_11/PistonMovement.java",
+      "emulates": "V1_11",
+      "hooks": [
+        "PistonMovementHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(PistonMovementHook.class, ParkourVersion.V1_11, new me.wolfii.legacyparkourcompat.change.v1_11.PistonMovement());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_11_2/BedBounce.java",
+      "emulates": "V1_11_2",
+      "hooks": [
+        "BlockBounceHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(BlockBounceHook.class, ParkourVersion.V1_11_2, new me.wolfii.legacyparkourcompat.change.v1_11_2.BedBounce());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_11_2/DismountPosition.java",
+      "emulates": "V1_11_2",
+      "hooks": [
+        "DismountPositionHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(DismountPositionHook.class, ParkourVersion.V1_11_2, new me.wolfii.legacyparkourcompat.change.v1_11_2.DismountPosition());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_11_2/FallFlyingLookAngle.java",
+      "emulates": "V1_11_2",
+      "hooks": [
+        "FallFlyingLookHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(FallFlyingLookHook.class, ParkourVersion.V1_11_2, new me.wolfii.legacyparkourcompat.change.v1_11_2.FallFlyingLookAngle());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_11_2/SleepSafetyQueryGate.java",
+      "emulates": "V1_11_2",
+      "hooks": [
+        "PlayerRestSafetyQueryHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(PlayerRestSafetyQueryHook.class, ParkourVersion.V1_11_2, new me.wolfii.legacyparkourcompat.change.v1_11_2.SleepSafetyQueryGate());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_11_2/SleepSafetyTransition.java",
+      "emulates": "V1_11_2",
+      "hooks": [
+        "PlayerRestSafetyHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(PlayerRestSafetyHook.class, ParkourVersion.V1_11_2, new me.wolfii.legacyparkourcompat.change.v1_11_2.SleepSafetyTransition());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/GroundAcceleration.java",
+      "emulates": "V1_12",
+      "hooks": [
+        "GroundSpeedHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(GroundSpeedHook.class, ParkourVersion.V1_12, new me.wolfii.legacyparkourcompat.change.v1_12.GroundAcceleration());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/SprintInputStart.java",
+      "emulates": "V1_12",
+      "hooks": [
+        "ShallowWaterSprintStartHook",
+        "DoubleTapSprintStartHook",
+        "SprintKeyStartHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(ShallowWaterSprintStartHook.class, ParkourVersion.V1_12, sprintInputStartv1_12);",
+        "registry.register(DoubleTapSprintStartHook.class, ParkourVersion.V1_12, sprintInputStartv1_12);",
+        "registry.register(SprintKeyStartHook.class, ParkourVersion.V1_12, sprintInputStartv1_12);"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/SwimmingDimensions.java",
+      "emulates": "V1_12",
+      "hooks": [
+        "PlayerDimensionsHook",
+        "PlayerPoseHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(PlayerDimensionsHook.class, ParkourVersion.V1_12, movementChangeSwimmingDimensionsV1_12);",
+        "registry.register(PlayerPoseHook.class, ParkourVersion.V1_12, movementChangeSwimmingDimensionsV1_12);"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/SwimmingState.java",
+      "emulates": "V1_12",
+      "hooks": [
+        "SwimmingHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SwimmingHook.class, ParkourVersion.V1_12, new me.wolfii.legacyparkourcompat.change.v1_12.SwimmingState());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/VerticalPitchGlideLook.java",
+      "emulates": "V1_12",
+      "hooks": [
+        "FallFlyingLookHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(FallFlyingLookHook.class, ParkourVersion.V1_12, new me.wolfii.legacyparkourcompat.change.v1_12.VerticalPitchGlideLook());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/WaterJump.java",
+      "emulates": "V1_12",
+      "hooks": [
+        "WaterJumpHook",
+        "GroundJumpGateHook",
+        "LiquidJumpGateHook",
+        "StaleWaterDepthJumpHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(WaterJumpHook.class, ParkourVersion.V1_12, movementChangeWaterJumpV1_12);",
+        "registry.register(GroundJumpGateHook.class, ParkourVersion.V1_12, movementChangeWaterJumpV1_12);",
+        "registry.register(LiquidJumpGateHook.class, ParkourVersion.V1_12, movementChangeWaterJumpV1_12);",
+        "registry.register(StaleWaterDepthJumpHook.class, ParkourVersion.V1_12, movementChangeWaterJumpV1_12);"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/WaterSneak.java",
+      "emulates": "V1_12",
+      "hooks": [
+        "WaterSneakHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(WaterSneakHook.class, ParkourVersion.V1_12, new me.wolfii.legacyparkourcompat.change.v1_12.WaterSneak());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/WaterSprintGate.java",
+      "emulates": "V1_12",
+      "hooks": [
+        "WaterSprintGateHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(WaterSprintGateHook.class, ParkourVersion.V1_12, new me.wolfii.legacyparkourcompat.change.v1_12.WaterSprintGate());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_12/WaterTravel.java",
+      "emulates": "V1_12",
+      "hooks": [
+        "WaterSprintSlowdownHook",
+        "WaterGravityHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(WaterSprintSlowdownHook.class, ParkourVersion.V1_12, movementChangeWaterTravelV1_12);",
+        "registry.register(WaterGravityHook.class, ParkourVersion.V1_12, movementChangeWaterTravelV1_12);"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_13/SneakingDimensions.java",
+      "emulates": "V1_13",
+      "hooks": [
+        "PlayerDimensionsHook",
+        "PlayerPoseHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(PlayerDimensionsHook.class, ParkourVersion.V1_13, movementChangeSneakingDimensionsV1_13);",
+        "registry.register(PlayerPoseHook.class, ParkourVersion.V1_13, movementChangeSneakingDimensionsV1_13);"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_13/SneakInputSlowdown.java",
+      "emulates": "V1_13",
+      "hooks": [
+        "SneakInputSlowdownHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SneakInputSlowdownHook.class, ParkourVersion.V1_13, new me.wolfii.legacyparkourcompat.change.v1_13.SneakInputSlowdown());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_13/SprintInputStart.java",
+      "emulates": "V1_13",
+      "hooks": [
+        "ShallowWaterSprintStartHook",
+        "DoubleTapSprintStartHook",
+        "SprintKeyStartHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(ShallowWaterSprintStartHook.class, ParkourVersion.V1_13, sprintInputStartv1_13);",
+        "registry.register(DoubleTapSprintStartHook.class, ParkourVersion.V1_13, sprintInputStartv1_13);",
+        "registry.register(SprintKeyStartHook.class, ParkourVersion.V1_13, sprintInputStartv1_13);"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_13/StaleWaterDepthJump.java",
+      "emulates": "V1_13",
+      "hooks": [
+        "StaleWaterDepthJumpHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(StaleWaterDepthJumpHook.class, ParkourVersion.V1_13, new me.wolfii.legacyparkourcompat.change.v1_13.StaleWaterDepthJump());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_13/SwimmingPitch.java",
+      "emulates": "V1_13",
+      "hooks": [
+        "SwimmingPitchHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SwimmingPitchHook.class, ParkourVersion.V1_13, new me.wolfii.legacyparkourcompat.change.v1_13.SwimmingPitch());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_14/ElytraJumpStart.java",
+      "emulates": "V1_14",
+      "hooks": [
+        "FallFlyingStartHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(FallFlyingStartHook.class, ParkourVersion.V1_14, new me.wolfii.legacyparkourcompat.change.v1_14.ElytraJumpStart());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_14/GroundFrictionSupportCellChange.java",
+      "emulates": "V1_14",
+      "hooks": [
+        "GroundFrictionBlockHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(GroundFrictionBlockHook.class, ParkourVersion.V1_14, new me.wolfii.legacyparkourcompat.change.v1_14.GroundFrictionSupportCellChange());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_14/NativePoseDimensions.java",
+      "emulates": "V1_14",
+      "hooks": [
+        "PlayerDimensionsHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(PlayerDimensionsHook.class, ParkourVersion.V1_14, new me.wolfii.legacyparkourcompat.change.v1_14.NativePoseDimensions());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_14/PortalDismountChange.java",
+      "emulates": "V1_14",
+      "hooks": [
+        "PortalDismountHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(PortalDismountHook.class, ParkourVersion.V1_14, new me.wolfii.legacyparkourcompat.change.v1_14.PortalDismountChange());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_14/SneakInputSlowdown.java",
+      "emulates": "V1_14",
+      "hooks": [
+        "SneakInputSlowdownHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SneakInputSlowdownHook.class, ParkourVersion.V1_14, new me.wolfii.legacyparkourcompat.change.v1_14.SneakInputSlowdown());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_14/SoulSandOverlapChange.java",
+      "emulates": "V1_14",
+      "hooks": [
+        "BlockSpeedFactorHook",
+        "AfterCollisionHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(BlockSpeedFactorHook.class, ParkourVersion.V1_14, movementChangeSoulSandOverlapChangeV1_14);",
+        "registry.register(AfterCollisionHook.class, ParkourVersion.V1_14, movementChangeSoulSandOverlapChangeV1_14);"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_14/StaleWaterDepthJump.java",
+      "emulates": "V1_14",
+      "hooks": [
+        "StaleWaterDepthJumpHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(StaleWaterDepthJumpHook.class, ParkourVersion.V1_14, new me.wolfii.legacyparkourcompat.change.v1_14.StaleWaterDepthJump());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15/StaleWaterDepthJump.java",
+      "emulates": "V1_15",
+      "hooks": [
+        "StaleWaterDepthJumpHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(StaleWaterDepthJumpHook.class, ParkourVersion.V1_15, new me.wolfii.legacyparkourcompat.change.v1_15.StaleWaterDepthJump());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15_2/FluidCurrentMinimum.java",
+      "emulates": "V1_15_2",
+      "hooks": [
+        "FluidCurrentMinimumHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(FluidCurrentMinimumHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.FluidCurrentMinimum());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15_2/FluidJump.java",
+      "emulates": "V1_15_2",
+      "hooks": [
+        "FluidJumpHook",
+        "LavaGroundJumpHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(FluidJumpHook.class, ParkourVersion.V1_15_2, movementChangeFluidJumpV1_15_2);",
+        "registry.register(LavaGroundJumpHook.class, ParkourVersion.V1_15_2, movementChangeFluidJumpV1_15_2);"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15_2/GroundFrictionSamplePoint.java",
+      "emulates": "V1_15_2",
+      "hooks": [
+        "GroundFrictionBlockHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(GroundFrictionBlockHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.GroundFrictionSamplePoint());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15_2/LavaCurrent.java",
+      "emulates": "V1_15_2",
+      "hooks": [
+        "LavaCurrentHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(LavaCurrentHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.LavaCurrent());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15_2/LavaTravel.java",
+      "emulates": "V1_15_2",
+      "hooks": [
+        "LavaTravelHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(LavaTravelHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.LavaTravel());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15_2/SneakEdgeCollisionQuery.java",
+      "emulates": "V1_15_2",
+      "hooks": [
+        "SneakEdgeCollisionQueryHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SneakEdgeCollisionQueryHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.SneakEdgeCollisionQuery());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15_2/SprintTrigger.java",
+      "emulates": "V1_15_2",
+      "hooks": [
+        "SprintTriggerHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SprintTriggerHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.SprintTrigger());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15_2/StaleWaterDepthJump.java",
+      "emulates": "V1_15_2",
+      "hooks": [
+        "StaleWaterDepthJumpHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(StaleWaterDepthJumpHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.StaleWaterDepthJump());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15_2/SuffocationProbe.java",
+      "emulates": "V1_15_2",
+      "hooks": [
+        "SuffocationProbeHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SuffocationProbeHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.SuffocationProbe());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15_2/WaterDescent.java",
+      "emulates": "V1_15_2",
+      "hooks": [
+        "WaterDescentHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(WaterDescentHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.WaterDescent());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_16/SneakEdge.java",
+      "emulates": "V1_16",
+      "hooks": [
+        "SneakEdgeHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SneakEdgeHook.class, ParkourVersion.V1_16, new me.wolfii.legacyparkourcompat.change.v1_16.SneakEdge());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_16/SneakEdgeCollisionQuery.java",
+      "emulates": "V1_16",
+      "hooks": [
+        "SneakEdgeCollisionQueryHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SneakEdgeCollisionQueryHook.class, ParkourVersion.V1_16, new me.wolfii.legacyparkourcompat.change.v1_16.SneakEdgeCollisionQuery());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_16/StaleWaterDepthJumpProtection.java",
+      "emulates": "V1_16",
+      "hooks": [
+        "StaleWaterDepthJumpHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(StaleWaterDepthJumpHook.class, ParkourVersion.V1_16, new me.wolfii.legacyparkourcompat.change.v1_16.StaleWaterDepthJumpProtection());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_16/SuffocationProbe.java",
+      "emulates": "V1_16",
+      "hooks": [
+        "SuffocationProbeHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SuffocationProbeHook.class, ParkourVersion.V1_16, new me.wolfii.legacyparkourcompat.change.v1_16.SuffocationProbe());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_16_2/SwimmingUpdate.java",
+      "emulates": "V1_16_2",
+      "hooks": [
+        "SwimmingUpdateHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SwimmingUpdateHook.class, ParkourVersion.V1_16_2, new me.wolfii.legacyparkourcompat.change.v1_16_2.SwimmingUpdate());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_17/FloatJumpBoostAddition.java",
+      "emulates": "V1_17",
+      "hooks": [
+        "JumpPowerHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(JumpPowerHook.class, ParkourVersion.V1_17, new me.wolfii.legacyparkourcompat.change.v1_17.FloatJumpBoostAddition());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_17_1/BoatPassengerYawRefresh.java",
+      "emulates": "V1_17_1",
+      "hooks": [
+        "BoatPassengerYawRefreshHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(BoatPassengerYawRefreshHook.class, ParkourVersion.V1_17_1, new me.wolfii.legacyparkourcompat.change.v1_17_1.BoatPassengerYawRefresh());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_17_1/SneakEdgeCollisionQuery.java",
+      "emulates": "V1_17_1",
+      "hooks": [
+        "SneakEdgeCollisionQueryHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SneakEdgeCollisionQueryHook.class, ParkourVersion.V1_17_1, new me.wolfii.legacyparkourcompat.change.v1_17_1.SneakEdgeCollisionQuery());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_17_1/SprintCollision.java",
+      "emulates": "V1_17_1",
+      "hooks": [
+        "SprintCollisionHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SprintCollisionHook.class, ParkourVersion.V1_17_1, new me.wolfii.legacyparkourcompat.change.v1_17_1.SprintCollision());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_18/DoubleSprintAirSpeed.java",
+      "emulates": "V1_18",
+      "hooks": [
+        "AirSpeedHook",
+        "AirSpeedUpdateHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(AirSpeedHook.class, ParkourVersion.V1_18, movementChangeAirSpeedV1_18);",
+        "registry.register(AirSpeedUpdateHook.class, ParkourVersion.V1_18, movementChangeAirSpeedV1_18);"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_18/ElytraLiftForce.java",
+      "emulates": "V1_18",
+      "hooks": [
+        "ElytraLiftForceHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(ElytraLiftForceHook.class, ParkourVersion.V1_18, new me.wolfii.legacyparkourcompat.change.v1_18.ElytraLiftForce());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_18/FallDistanceReset.java",
+      "emulates": "V1_18",
+      "hooks": [
+        "PlayerFallDistanceResetHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(PlayerFallDistanceResetHook.class, ParkourVersion.V1_18, new me.wolfii.legacyparkourcompat.change.v1_18.FallDistanceReset());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_18/PositionPacketThreshold.java",
+      "emulates": "V1_18",
+      "hooks": [
+        "PositionPacketThresholdHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(PositionPacketThresholdHook.class, ParkourVersion.V1_18, new me.wolfii.legacyparkourcompat.change.v1_18.PositionPacketThreshold());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_18_2/AirSpeed.java",
+      "emulates": "V1_18_2",
+      "hooks": [
+        "AirSpeedHook",
+        "AirSpeedUpdateHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(AirSpeedHook.class, ParkourVersion.V1_18_2, movementChangeAirSpeedV1_18_2);",
+        "registry.register(AirSpeedUpdateHook.class, ParkourVersion.V1_18_2, movementChangeAirSpeedV1_18_2);"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_18_2/AutoJumpVectorNormalization.java",
+      "emulates": "V1_18_2",
+      "hooks": [
+        "AutoJumpInverseSqrtHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(AutoJumpInverseSqrtHook.class, ParkourVersion.V1_18_2, new me.wolfii.legacyparkourcompat.change.v1_18_2.AutoJumpVectorNormalization());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_18_2/BoatPassengerFluidPush.java",
+      "emulates": "V1_18_2",
+      "hooks": [
+        "BoatPassengerFluidPushHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(BoatPassengerFluidPushHook.class, ParkourVersion.V1_18_2, new me.wolfii.legacyparkourcompat.change.v1_18_2.BoatPassengerFluidPush());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_18_2/ElytraLiftForce.java",
+      "emulates": "V1_18_2",
+      "hooks": [
+        "ElytraLiftForceHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(ElytraLiftForceHook.class, ParkourVersion.V1_18_2, new me.wolfii.legacyparkourcompat.change.v1_18_2.ElytraLiftForce());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_18_2/GlideFallDistance.java",
+      "emulates": "V1_18_2",
+      "hooks": [
+        "GlideFallDistanceHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(GlideFallDistanceHook.class, ParkourVersion.V1_18_2, new me.wolfii.legacyparkourcompat.change.v1_18_2.GlideFallDistance());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_18_2/InsideBlockContact.java",
+      "emulates": "V1_18_2",
+      "hooks": [
+        "InsideBlockContactHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(InsideBlockContactHook.class, ParkourVersion.V1_18_2, new me.wolfii.legacyparkourcompat.change.v1_18_2.InsideBlockContact());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_18_2/SneakEdge.java",
+      "emulates": "V1_18_2",
+      "hooks": [
+        "SneakEdgeHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SneakEdgeHook.class, ParkourVersion.V1_18_2, new me.wolfii.legacyparkourcompat.change.v1_18_2.SneakEdge());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_19/BoatPassengerFluidPush.java",
+      "emulates": "V1_19",
+      "hooks": [
+        "BoatPassengerFluidPushHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(BoatPassengerFluidPushHook.class, ParkourVersion.V1_19, new me.wolfii.legacyparkourcompat.change.v1_19.BoatPassengerFluidPush());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_19/SprintFallFlyingGate.java",
+      "emulates": "V1_19",
+      "hooks": [
+        "SprintFallFlyingGateHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SprintFallFlyingGateHook.class, ParkourVersion.V1_19, new me.wolfii.legacyparkourcompat.change.v1_19.SprintFallFlyingGate());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_19/SprintStart.java",
+      "emulates": "V1_19",
+      "hooks": [
+        "SprintStartHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SprintStartHook.class, ParkourVersion.V1_19, new me.wolfii.legacyparkourcompat.change.v1_19.SprintStart());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_19/VehicleSprint.java",
+      "emulates": "V1_19",
+      "hooks": [
+        "VehicleSprintHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(VehicleSprintHook.class, ParkourVersion.V1_19, new me.wolfii.legacyparkourcompat.change.v1_19.VehicleSprint());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_19_4/DoubleJumpBoostAddition.java",
+      "emulates": "V1_19_4",
+      "hooks": [
+        "JumpPowerHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(JumpPowerHook.class, ParkourVersion.V1_19_4, new me.wolfii.legacyparkourcompat.change.v1_19_4.DoubleJumpBoostAddition());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_19_4/EffectFallDistanceReset.java",
+      "emulates": "V1_19_4",
+      "hooks": [
+        "EffectFallDistanceResetHook",
+        "SlowFallingFallDistanceHook",
+        "LevitationFallDistanceHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(EffectFallDistanceResetHook.class, ParkourVersion.V1_19_4, movementChangeEffectFallDistanceResetV1_19_4);",
+        "registry.register(SlowFallingFallDistanceHook.class, ParkourVersion.V1_19_4, movementChangeEffectFallDistanceResetV1_19_4);",
+        "registry.register(LevitationFallDistanceHook.class, ParkourVersion.V1_19_4, movementChangeEffectFallDistanceResetV1_19_4);"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_19_4/SprintJumpImpulse.java",
+      "emulates": "V1_19_4",
+      "hooks": [
+        "SprintJumpImpulseHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SprintJumpImpulseHook.class, ParkourVersion.V1_19_4, new me.wolfii.legacyparkourcompat.change.v1_19_4.SprintJumpImpulse());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_19_4/SprintStart.java",
+      "emulates": "V1_19_4",
+      "hooks": [
+        "SprintStartHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SprintStartHook.class, ParkourVersion.V1_19_4, new me.wolfii.legacyparkourcompat.change.v1_19_4.SprintStart());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_20/EffectFallDistanceReset.java",
+      "emulates": "V1_20",
+      "hooks": [
+        "EffectFallDistanceResetHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(EffectFallDistanceResetHook.class, ParkourVersion.V1_20, new me.wolfii.legacyparkourcompat.change.v1_20.EffectFallDistanceReset());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_20/PassengerCrouch.java",
+      "emulates": "V1_20",
+      "hooks": [
+        "PassengerCrouchHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(PassengerCrouchHook.class, ParkourVersion.V1_20, new me.wolfii.legacyparkourcompat.change.v1_20.PassengerCrouch());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_20_2/AttributeGravity.java",
+      "emulates": "V1_20_2",
+      "hooks": [
+        "GravityHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(GravityHook.class, ParkourVersion.V1_20_2, new me.wolfii.legacyparkourcompat.change.v1_20_2.AttributeGravity());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_20_2/EffectFallDistanceReset.java",
+      "emulates": "V1_20_2",
+      "hooks": [
+        "EffectFallDistanceResetHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(EffectFallDistanceResetHook.class, ParkourVersion.V1_20_2, new me.wolfii.legacyparkourcompat.change.v1_20_2.EffectFallDistanceReset());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_20_2/FlightActivationJump.java",
+      "emulates": "V1_20_2",
+      "hooks": [
+        "FlightActivationJumpHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(FlightActivationJumpHook.class, ParkourVersion.V1_20_2, new me.wolfii.legacyparkourcompat.change.v1_20_2.FlightActivationJump());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_20_2/SprintJumpImpulse.java",
+      "emulates": "V1_20_2",
+      "hooks": [
+        "SprintJumpImpulseHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SprintJumpImpulseHook.class, ParkourVersion.V1_20_2, new me.wolfii.legacyparkourcompat.change.v1_20_2.SprintJumpImpulse());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21/GroundJumpVerticalVelocity.java",
+      "emulates": "V1_21",
+      "hooks": [
+        "JumpVerticalVelocityHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(JumpVerticalVelocityHook.class, ParkourVersion.V1_21, new me.wolfii.legacyparkourcompat.change.v1_21.GroundJumpVerticalVelocity());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21/InsideBlockContact.java",
+      "emulates": "V1_21",
+      "hooks": [
+        "InsideBlockContactHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(InsideBlockContactHook.class, ParkourVersion.V1_21, new me.wolfii.legacyparkourcompat.change.v1_21.InsideBlockContact());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_11/MountedBoatWaterInteraction.java",
+      "emulates": "V1_21_11",
+      "hooks": [
+        "FluidInteractionFluidHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(FluidInteractionFluidHook.class, ParkourVersion.V1_21_11, new me.wolfii.legacyparkourcompat.change.v1_21_11.MountedBoatWaterInteraction());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_11/MountedFluidInteractionBox.java",
+      "emulates": "V1_21_11",
+      "hooks": [
+        "FluidInteractionBoxHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(FluidInteractionBoxHook.class, ParkourVersion.V1_21_11, new me.wolfii.legacyparkourcompat.change.v1_21_11.MountedFluidInteractionBox());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_11/ShallowLavaCurrentCutoff.java",
+      "emulates": "V1_21_11",
+      "hooks": [
+        "ShallowLavaCurrentCutoffHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(ShallowLavaCurrentCutoffHook.class, ParkourVersion.V1_21_11, new me.wolfii.legacyparkourcompat.change.v1_21_11.ShallowLavaCurrentCutoff());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_11/ShallowWaterCurrentCutoff.java",
+      "emulates": "V1_21_11",
+      "hooks": [
+        "ShallowWaterCurrentCutoffHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(ShallowWaterCurrentCutoffHook.class, ParkourVersion.V1_21_11, new me.wolfii.legacyparkourcompat.change.v1_21_11.ShallowWaterCurrentCutoff());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_4/EdgeBackoffProbeBounds.java",
+      "emulates": "V1_21_4",
+      "hooks": [
+        "SneakEdgeProbeHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SneakEdgeProbeHook.class, ParkourVersion.V1_21_4, new me.wolfii.legacyparkourcompat.change.v1_21_4.EdgeBackoffProbeBounds());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_4/GlideFallDistance.java",
+      "emulates": "V1_21_4",
+      "hooks": [
+        "GlideFallDistanceHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(GlideFallDistanceHook.class, ParkourVersion.V1_21_4, new me.wolfii.legacyparkourcompat.change.v1_21_4.GlideFallDistance());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_4/KeyboardDiagonalInput.java",
+      "emulates": "V1_21_4",
+      "hooks": [
+        "KeyboardDiagonalInputHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(KeyboardDiagonalInputHook.class, ParkourVersion.V1_21_4, new me.wolfii.legacyparkourcompat.change.v1_21_4.KeyboardDiagonalInput());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_4/PowderSnowClimbBoost.java",
+      "emulates": "V1_21_4",
+      "hooks": [
+        "PowderSnowClimbHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(PowderSnowClimbHook.class, ParkourVersion.V1_21_4, new me.wolfii.legacyparkourcompat.change.v1_21_4.PowderSnowClimbBoost());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_4/ShallowWaterSprintEligibility.java",
+      "emulates": "V1_21_4",
+      "hooks": [
+        "ShallowWaterSprintHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(ShallowWaterSprintHook.class, ParkourVersion.V1_21_4, new me.wolfii.legacyparkourcompat.change.v1_21_4.ShallowWaterSprintEligibility());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_5/DoubleTapSprintWindow.java",
+      "emulates": "V1_21_5",
+      "hooks": [
+        "SprintWindowHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SprintWindowHook.class, ParkourVersion.V1_21_5, new me.wolfii.legacyparkourcompat.change.v1_21_5.DoubleTapSprintWindow());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_8/BoatRiderInput.java",
+      "emulates": "V1_8",
+      "hooks": [
+        "BoatSideAccelerationHook",
+        "BoatSneakAccelerationHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(BoatSideAccelerationHook.class, ParkourVersion.V1_8, movementChangeBoatRiderInputV1_8);",
+        "registry.register(BoatSneakAccelerationHook.class, ParkourVersion.V1_8, movementChangeBoatRiderInputV1_8);"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_8/CreativeFlightFallDistance.java",
+      "emulates": "V1_8",
+      "hooks": [
+        "FlightFallDistanceHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(FlightFallDistanceHook.class, ParkourVersion.V1_8, new me.wolfii.legacyparkourcompat.change.v1_8.CreativeFlightFallDistance());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_8/CreativeFlightSneakInput.java",
+      "emulates": "V1_8",
+      "hooks": [
+        "FlightSneakInputHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(FlightSneakInputHook.class, ParkourVersion.V1_8, new me.wolfii.legacyparkourcompat.change.v1_8.CreativeFlightSneakInput());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_8/EndPortalFramePlayerEjection.java",
+      "emulates": "V1_8",
+      "hooks": [
+        "SuffocationProbeHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SuffocationProbeHook.class, ParkourVersion.V1_8, new me.wolfii.legacyparkourcompat.change.v1_8.EndPortalFramePlayerEjection());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_8/FencePortalFrameConnection.java",
+      "emulates": "V1_8",
+      "hooks": [
+        "BlockCollisionShapeHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(BlockCollisionShapeHook.class, ParkourVersion.V1_8, new me.wolfii.legacyparkourcompat.change.v1_8.FencePortalFrameConnection(blockId));"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_8/PaneCollisionShape.java",
+      "emulates": "V1_8",
+      "hooks": [
+        "BlockCollisionShapeHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(BlockCollisionShapeHook.class, ParkourVersion.V1_8, new me.wolfii.legacyparkourcompat.change.v1_8.PaneCollisionShape(blockId));"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_8/RideableJumpCharge.java",
+      "emulates": "V1_8",
+      "hooks": [
+        "RideableJumpHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(RideableJumpHook.class, ParkourVersion.V1_8, new me.wolfii.legacyparkourcompat.change.v1_8.RideableJumpCharge());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_8/SneakingDimensions.java",
+      "emulates": "V1_8",
+      "hooks": [
+        "PlayerDimensionsHook",
+        "PlayerPoseHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(PlayerDimensionsHook.class, ParkourVersion.V1_8, movementChangeSneakingDimensionsV1_8);",
+        "registry.register(PlayerPoseHook.class, ParkourVersion.V1_8, movementChangeSneakingDimensionsV1_8);"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_8/SprintDuration.java",
+      "emulates": "V1_8",
+      "hooks": [
+        "SprintStateHook",
+        "SprintTickHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SprintStateHook.class, ParkourVersion.V1_8, movementChangeSprintDurationV1_8);",
+        "registry.register(SprintTickHook.class, ParkourVersion.V1_8, movementChangeSprintDurationV1_8);"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_8/TruncatedMovementChunkLookup.java",
+      "emulates": "V1_8",
+      "hooks": [
+        "MovementChunkLookupHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(MovementChunkLookupHook.class, ParkourVersion.V1_8, new me.wolfii.legacyparkourcompat.change.v1_8.TruncatedMovementChunkLookup());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_8/VelocityZeroThreshold.java",
+      "emulates": "V1_8",
+      "hooks": [
+        "VelocityZeroThresholdHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(VelocityZeroThresholdHook.class, ParkourVersion.V1_8, new me.wolfii.legacyparkourcompat.change.v1_8.VelocityZeroThreshold());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_9/FallFlyingSavedState.java",
+      "emulates": "V1_9",
+      "hooks": [
+        "FallFlyingSavedStateHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(FallFlyingSavedStateHook.class, ParkourVersion.V1_9, new me.wolfii.legacyparkourcompat.change.v1_9.FallFlyingSavedState());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_9/NoAutoJump.java",
+      "emulates": "V1_9",
+      "hooks": [
+        "AutoJumpHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(AutoJumpHook.class, ParkourVersion.V1_9, new me.wolfii.legacyparkourcompat.change.v1_9.NoAutoJump());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_9/PushAwayVelocity.java",
+      "emulates": "V1_9",
+      "hooks": [
+        "PushAwayVelocityHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(PushAwayVelocityHook.class, ParkourVersion.V1_9, new me.wolfii.legacyparkourcompat.change.v1_9.PushAwayVelocity());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v26_1/BlockLanding.java",
+      "emulates": "V26_1",
+      "hooks": [
+        "BlockLandingHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(BlockLandingHook.class, ParkourVersion.V26_1, new me.wolfii.legacyparkourcompat.change.v26_1.BlockLanding(id.toString(), slime));"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v26_1/CollisionRestitution.java",
+      "emulates": "V26_1",
+      "hooks": [
+        "CollisionRestitutionHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(CollisionRestitutionHook.class, ParkourVersion.V26_1, new me.wolfii.legacyparkourcompat.change.v26_1.CollisionRestitution());"
+      ]
+    }
+  ]
+}

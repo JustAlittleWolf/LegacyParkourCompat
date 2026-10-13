@@ -1,11 +1,13 @@
 # F-FENCE-CAULDRON-SIDE-COLLISION: fence side collision differs beside a cauldron
 
-- **1.11.2**, ornithe-feather: [source locations in preserved report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.11.2--1.12.2/findings/F-FENCE-CAULDRON-SIDE-COLLISION.md).
-- **1.12.2**, ornithe-feather: `1.12.2/ornithe-feather/net/minecraft/block/Block.java`.
+1.11.2, ornithe-feather; feather-gen2-1.11.2+build.2-mergedv2.jar, feather-gen2-1.11.2+build.2.tiny: `1.11.2/ornithe-feather/net/minecraft/block/FenceBlock.java`, `public boolean shouldConnectTo(WorldView world, BlockPos pos) {`, lines 124-134.
+1.11.2, ornithe-feather; feather-gen2-1.11.2+build.2-mergedv2.jar, feather-gen2-1.11.2+build.2.tiny: `1.11.2/ornithe-feather/net/minecraft/block/FenceBlock.java`, `public void addCollisions(BlockState state, World world, BlockPos pos, Box shape, List<Box> collisions, @Nullable Entity entity, boolean forceShape) {`, lines 59-80.
+1.12.2, ornithe-feather; feather-gen2-1.12.2+build.2-mergedv2.jar, feather-gen2-1.12.2+build.2.tiny: `1.12.2/ornithe-feather/net/minecraft/block/FenceBlock.java`, `public boolean shouldConnectTo(WorldView world, BlockPos pos, Direction dir) {`, lines 124-130.
+1.12.2, ornithe-feather; feather-gen2-1.12.2+build.2-mergedv2.jar, feather-gen2-1.12.2+build.2.tiny: `1.12.2/ornithe-feather/net/minecraft/block/FenceBlock.java`, `protected static boolean shouldConnectTo(Block block) {`, lines 132-138.
+1.12.2, ornithe-feather; feather-gen2-1.12.2+build.2-mergedv2.jar, feather-gen2-1.12.2+build.2.tiny: `1.12.2/ornithe-feather/net/minecraft/block/FenceBlock.java`, `public void addCollisions(BlockState state, World world, BlockPos pos, Box shape, List<Box> collisions, @Nullable Entity entity, boolean forceShape) {`, lines 59-80.
+1.12.2, ornithe-feather; feather-gen2-1.12.2+build.2-mergedv2.jar, feather-gen2-1.12.2+build.2.tiny: `1.12.2/ornithe-feather/net/minecraft/block/CauldronBlock.java`, `public FaceShape getFaceShape(WorldView world, BlockState state, BlockPos pos, Direction face) {`, lines 253-259.
 
-## Difference
-
-The paired `FenceBlock.addCollisions` methods match.
+Difference: The paired `FenceBlock.addCollisions` methods match.
 
 Both resolve virtual properties when `forceShape` is false, add the center post, then add each rail selected by the resolved directional properties.
 
@@ -23,9 +25,7 @@ The cauldron's five collision boxes are unchanged: a base to y `0.3125` and four
 
 Its outline `getShape` is full cube in both versions, but movement collision dispatch uses its five `addCollisions` boxes.
 
-## Movement meaning
-
-Both `PlayerEntity.tick()` bodies set `noClip` to `isSpectator()`.
+Movement meaning: Both `PlayerEntity.tick()` bodies set `noClip` to `isSpectator()`.
 
 Thus a non-spectator creative-flight player remains subject to `Entity.move` collision clipping. `PlayerEntity.moveRelative` takes the flight branch when `abilities.flying && !isRiding()` and still reaches movement through the inherited entity movement path; flight does not itself set `noClip`.
 
@@ -33,14 +33,6 @@ Concrete source-level geometry: a 0.6-wide player with feet at y `1.1`, centered
 
 The AABB clears every cauldron collision box vertically because its minimum y `1.1` exceeds their maximum y `1.0`.
 
-At z `0.5`, its width overlaps the fence post and east rail. 1.11.2 westward requested movement clips against the 1.12.2-only rail when player minX reaches `1.0`, leaving player center x `1.3`.
+At z `0.5`, its width overlaps the fence post and east rail.
 
-In 1.11.2 no east rail exists; the center post only clips when player minX reaches `0.625`, leaving center x `0.925`.
-
-The versions differ in a reachable direct-player collision response for a flying, non-spectator player above a cauldron beside a fence: 1.12.2 connects the fence to the cauldron's horizontal face and adds a side rail; 1.11.2 does not.
-
-The paired methods do not establish the first release where this changed within the interval.
-
-Other fence-neighbor types and the complete state/default/provider inventory remain outside this finding and open in S2.2/S5.4/S5.5.
-
-[Archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.11.2--1.12.2/findings/F-FENCE-CAULDRON-SIDE-COLLISION.md).
+Original evidence: [F-FENCE-CAULDRON-SIDE-COLLISION.md](../../archive/legacy-workflows/source-campaign-2026-10-07/1.11.2--1.12.2/findings/F-FENCE-CAULDRON-SIDE-COLLISION.md).
