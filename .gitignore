@@ -27,6 +27,8 @@ bin/
 run/
 
 # TAS clients
+# Preserve the ignored setting from the former module location.
+tas-client/client-version.txt
 development/tas-client/run/
 development/tas-client/client-version.txt
 development/tas-client/.gradle/
