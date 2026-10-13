@@ -1,6 +1,6 @@
 """Export neutral movement infrastructure into a fresh, history-free repository.
 
-Run from any directory: py -3 development/export_implementation_base.py
+Run from any directory: py -3 development/workflows/implementation/export_implementation_base.py
     --destination <new-directory> --branch fix/<finding>
     --finding development/research/findings/<pair>/<finding.md>
 Only the integrator runs this in the product checkout. Workers receive the export.
@@ -15,7 +15,7 @@ import shutil
 import subprocess
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[3]
 JAVA = Path("src/main/java/me/wolfii/legacyparkourcompat")
 NEUTRAL_MECHANICS = (
     "MechanicKey", "MechanicType", "MovementChange", "MovementChangeRegistry",

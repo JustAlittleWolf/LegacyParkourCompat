@@ -11,7 +11,7 @@ from pathlib import Path
 import sys
 import tempfile
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[3]
 BACKLOG = ROOT / 'development/research/backlog.json'
 KEYS = {
     'findings': ('finding',),
