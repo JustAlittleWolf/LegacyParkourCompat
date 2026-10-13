@@ -27,12 +27,9 @@ final class MovementChangeRegistryImpl implements MovementChangeRegistry {
         MechanicKey key = MechanicKey.of(type, implementation.variant());
         for (RegisteredChange existing : this.changes) {
             if (existing.key().equals(key) && existing.emulates() == emulates) {
-                LegacyParkourCompat.LOGGER.warn(
-                    "Duplicate movement change {} emulating {}; both remain registered",
-                    key.qualifiedId(),
-                    emulates
-                );
-                break;
+                throw new IllegalStateException("Duplicate movement change " + key.qualifiedId()
+                    + " emulating " + emulates + ": " + existing.implementation().getClass().getName()
+                    + " and " + implementation.getClass().getName());
             }
         }
         this.changes.add(new RegisteredChange(key, emulates, implementation));

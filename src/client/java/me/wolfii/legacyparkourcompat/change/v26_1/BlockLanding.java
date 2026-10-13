@@ -4,10 +4,18 @@ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockLandingHook;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.BedBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlimeBlock;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Source evidence (paths are relative to decompiled_minecraft/):
@@ -109,6 +117,22 @@ import net.minecraft.world.phys.Vec3;
 public final class BlockLanding implements BlockLandingHook {
     private final String blockId;
     private final boolean slime;
+
+    @MovementChange.Factory
+    public static List<BlockLanding> variants() {
+        List<BlockLanding> variants = new ArrayList<>();
+        for (Block block : BuiltInRegistries.BLOCK) {
+            boolean slime = block instanceof SlimeBlock;
+            if (slime || block instanceof BedBlock) {
+                Identifier id = BuiltInRegistries.BLOCK.getKey(block);
+                if (id == null) {
+                    throw new IllegalStateException("Registered bounce block has no identifier: " + block);
+                }
+                variants.add(new BlockLanding(id.toString(), slime));
+            }
+        }
+        return List.copyOf(variants);
+    }
 
     public BlockLanding(String blockId, boolean slime) {
         this.blockId = blockId;

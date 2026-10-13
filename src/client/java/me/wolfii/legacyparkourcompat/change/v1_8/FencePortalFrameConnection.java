@@ -46,6 +46,11 @@ public final class FencePortalFrameConnection implements BlockCollisionShapeHook
 
     private final String blockId;
 
+    @MovementChange.Factory
+    public static List<FencePortalFrameConnection> variants() {
+        return BLOCK_IDS.stream().map(FencePortalFrameConnection::new).toList();
+    }
+
     public FencePortalFrameConnection(String blockId) {
         this.blockId = Objects.requireNonNull(blockId, "blockId");
     }

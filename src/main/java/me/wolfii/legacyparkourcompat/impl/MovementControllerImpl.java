@@ -44,7 +44,7 @@ public final class MovementControllerImpl implements MovementController {
         );
     }
 
-    /** Client initialization registers the historical catalog through this neutral registry. */
+    /** Client initialization registers discovered changes through this neutral registry. */
     public MovementChangeRegistry changeRegistry() {
         return this.registry;
     }

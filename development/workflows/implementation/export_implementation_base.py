@@ -52,16 +52,6 @@ SETTINGS = '''pluginManagement {
 rootProject.name = 'movement-candidate'
 '''
 
-CATALOG = '''package me.wolfii.legacyparkourcompat.change;
-import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
-public final class MovementChangeCatalog {
-    private MovementChangeCatalog() {}
-    public static void register(MovementChangeRegistry registry) {
-        // Register only the assigned candidate's interfaces here.
-    }
-}
-'''
-
 ENTRY = '''package me.wolfii.legacyparkourcompat;
 import me.wolfii.legacyparkourcompat.impl.MovementControllerImpl;
 import net.fabricmc.api.ModInitializer;
@@ -75,12 +65,12 @@ public final class LegacyParkourCompat implements ModInitializer {
 '''
 
 CLIENT_ENTRY = '''package me.wolfii.legacyparkourcompat;
-import me.wolfii.legacyparkourcompat.change.MovementChangeCatalog;
+import me.wolfii.legacyparkourcompat.change.MovementChangeDiscovery;
 import me.wolfii.legacyparkourcompat.impl.MovementControllerImpl;
 import net.fabricmc.api.ClientModInitializer;
 public final class LegacyParkourCompatClient implements ClientModInitializer {
     @Override public void onInitializeClient() {
-        MovementChangeCatalog.register(MovementControllerImpl.get().changeRegistry());
+        MovementChangeDiscovery.register(MovementControllerImpl.get().changeRegistry());
     }
 }
 '''
@@ -94,7 +84,10 @@ Do not create further agents unless the assignment explicitly permits delegation
 
 Use a narrow interface per independently resolved operation, under mechanic/hook/
 in a topic package and named *Hook. Implement historical arithmetic in change/v*/
-classes annotated @MovementChange. Register each interface in MovementChangeCatalog.
+classes annotated @MovementChange(emulates = ...). Client discovery automatically
+registers every implemented @MechanicType interface, using the annotation's version.
+Supply a public no-argument constructor or a class-local @MovementChange.Factory
+method returning a nonempty List of keyed instances. Do not add a manual catalog.
 Mixins remain thin and use MovementRuntime; historical injections belong in the
 client list of legacyparkourcompat.mixins.json. Logical server state must remain native.
 Preserve exact casts, gates, ordering and floating-point quirks. Do not implement
@@ -136,6 +129,7 @@ def main():
         parser.error("Finding filenames must be unique.")
     source_files = [ROOT / name for name in ("gradlew", "gradlew.bat", "gradle.properties", "LICENSE")]
     source_files += sorted((ROOT / "gradle/wrapper").glob("*"))
+    source_files.append(ROOT / CLIENT_JAVA / "change/MovementChangeDiscovery.java")
     for package in ("api", "impl"):
         source_files += sorted((ROOT / JAVA / package).glob("*.java"))
     for name in NEUTRAL_MECHANICS:
@@ -162,7 +156,6 @@ def main():
     write(destination, ".gitignore", ".gradle/\nbuild/\nrun/\n")
     write(destination, JAVA / "LegacyParkourCompat.java", ENTRY)
     write(destination, CLIENT_JAVA / "LegacyParkourCompatClient.java", CLIENT_ENTRY)
-    write(destination, CLIENT_JAVA / "change/MovementChangeCatalog.java", CATALOG)
     write(destination, "AGENTS.md", GUIDANCE)
     write(destination, "disable-tests.gradle", (ROOT / "development/disable-tests.gradle").read_text(encoding="utf-8"))
     resources = Path("src/main/resources")

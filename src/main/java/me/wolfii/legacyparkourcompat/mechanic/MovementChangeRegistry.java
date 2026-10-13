@@ -3,7 +3,7 @@ package me.wolfii.legacyparkourcompat.mechanic;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 
 /**
- * Internal registry of historical movement deltas. The static catalog registers
+ * Internal registry of historical movement deltas. Client discovery registers
  * implementations here; they never write mixins.
  */
 public interface MovementChangeRegistry {

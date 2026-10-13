@@ -29,9 +29,11 @@ import java.lang.annotation.*;
  * independently under its own mechanic key. {@link VersionedMechanic#variant()}
  * still applies to every hook on that class.
  *
- * <p>The implementing class must not reference mixins. Register it explicitly
- * in the client {@code MovementChangeCatalog} under
- * each mechanic interface it implements.
+ * <p>The public concrete class must not reference mixins. Client initialization
+ * discovers annotated classes below {@code change.v<version>} packages and
+ * registers every implemented {@link MechanicType} interface. This annotation,
+ * not the package name, defines the version. Supply a public no-argument
+ * constructor, or one {@link Factory} method for keyed variants.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -42,4 +44,17 @@ public @interface MovementChange {
      * next {@link ParkourVersion} in enum order.
      */
     ParkourVersion emulates();
+
+    /**
+     * Supplies this change's keyed variants instead of its no-argument constructor.
+     * Annotate exactly one public static no-argument method returning a nonempty
+     * {@code List} of instances of its declaring change class. Each instance is
+     * shared across all of that class's hooks; variants must have unique keys.
+     * The factory runs once during client initialization, after block registration.
+     */
+    @Documented
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.METHOD)
+    @interface Factory {
+    }
 }

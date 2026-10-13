@@ -2,7 +2,7 @@ package me.wolfii.legacyparkourcompat;
 
 import me.wolfii.legacyparkourcompat.api.MovementController;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
-import me.wolfii.legacyparkourcompat.change.MovementChangeCatalog;
+import me.wolfii.legacyparkourcompat.change.MovementChangeDiscovery;
 import me.wolfii.legacyparkourcompat.config.version.MovementVersions;
 import me.wolfii.legacyparkourcompat.impl.MovementControllerImpl;
 import me.wolfii.legacyparkourcompat.mechanic.MovementCollisionCache;
@@ -68,7 +68,7 @@ public class LegacyParkourCompatClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         MovementControllerImpl controller = MovementControllerImpl.get();
-        MovementChangeCatalog.register(controller.changeRegistry());
+        MovementChangeDiscovery.register(controller.changeRegistry());
         controller.addListener((previous, selected) -> MovementCollisionCache.invalidate());
 
         ClientConfigurationNetworking.registerGlobalReceiver(ForceParkourVersionPayload.TYPE, (payload, context) -> {

@@ -27,7 +27,10 @@ import net.minecraft.world.entity.Entity;
  *   findSupportingBlock.
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
-@MovementChange(emulates = ParkourVersion.V1_15_2)
+// The same operation previously had identical catalog entries for 1.15.2 and 1.19.4.
+// Its last applicable profile is 1.19.4; the resolver also selects it for earlier
+// profiles above the separate 1.14 delta, without a second registration.
+@MovementChange(emulates = ParkourVersion.V1_19_4)
 public final class GroundFrictionSamplePoint implements GroundFrictionBlockHook {
     @Override
     public BlockPos getBlockPosBelowThatAffectsMyMovement(Entity entity, VanillaFn<BlockPos> vanilla) {

@@ -59,6 +59,11 @@ public final class PaneCollisionShape implements BlockCollisionShapeHook {
 
     private final String blockId;
 
+    @MovementChange.Factory
+    public static List<PaneCollisionShape> variants() {
+        return BLOCK_IDS.stream().map(PaneCollisionShape::new).toList();
+    }
+
     public PaneCollisionShape(String blockId) {
         this.blockId = Objects.requireNonNull(blockId, "blockId");
     }

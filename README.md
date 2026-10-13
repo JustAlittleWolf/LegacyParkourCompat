@@ -28,7 +28,9 @@ On Linux/macOS use `./gradlew` with the same arguments. `build` compiles the mod
 
 ## Movement architecture
 
-Keep each independent delta in a `change/v<version>/` class annotated `@MovementChange(emulates = ...)`. Changes may implement several independently resolved hook interfaces. Register each interface in the single static `MovementChangeCatalog`; no per-version providers, dynamic Fabric metadata registry, cross-release inheritance or duplicated movement loops.
+Keep each independent delta in a `change/v<version>/` class annotated `@MovementChange(emulates = ...)`. The annotation is the authoritative version; package names organize the code. Client initialization uses `MovementChangeDiscovery` to scan this mod's version subpackages in development folders or packaged JARs, in deterministic class-name order. Every implemented `@MechanicType` hook is registered independently from the same instance. New changes need no catalog entry or repeated version declaration. No per-version providers, cross-release inheritance or duplicated movement loops.
+
+Changes need a public no-argument constructor. A change with keyed variants instead supplies one public static no-argument method annotated `@MovementChange.Factory`, returning a nonempty `List` of its own instances. Keep variant selection beside the change; factories run at client initialization after block registration. Discovery failures, invalid factories and duplicate hook/version/variant keys fail startup rather than silently omitting or choosing behavior. Discovery uses Fabric's mod roots, not the whole classpath, and does not run on a dedicated server.
 
 `ChangeResolver` selects the closest `emulates` version greater than or equal to the profile separately for each operation. If an operation has changes for 1.8 and 1.10, the 1.9 profile uses the 1.10 change. A modern operation needs no historical change.
 
