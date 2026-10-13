@@ -27,7 +27,7 @@ public final class SneakingDimensions implements PlayerDimensionsHook, PlayerPos
 
     @Override
     public EntityDimensions dimensions(Player player, Pose pose, EntityDimensions vanilla) {
-        if (pose == Pose.CROUCHING || pose == Pose.SWIMMING && !player.isSwimming()) {
+        if (pose == Pose.CROUCHING) {
             EntityDimensions standing = player.getDimensions(Pose.STANDING);
             return standing.withEyeHeight(vanilla.eyeHeight());
         }

@@ -8,7 +8,7 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 
 /**
- * Ends the older crouch and swim-fallback dimension overrides at the 1.14 boundary.
+ * Ends the older crouch dimension override at the 1.14 boundary.
  *
  * Source evidence (paths are relative to decompiled_minecraft/):
  * 1.13.2/ornithe-feather/net/minecraft/entity/living/player/PlayerEntity.java:

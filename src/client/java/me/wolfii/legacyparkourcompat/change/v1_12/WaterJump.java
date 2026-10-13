@@ -27,19 +27,19 @@ import net.minecraft.world.level.material.Fluid;
 public final class WaterJump implements WaterJumpHook, GroundJumpGateHook, LiquidJumpGateHook {
     @Override
     public void jumpInWater(Player player) {
-        if (player.isInWater()) {
+        if (!player.isSwimming() && player.isInWater()) {
             player.setDeltaMovement(player.getDeltaMovement().add(0.0, 0.04F, 0.0));
         }
     }
 
     @Override
     public boolean shouldJumpFromGround(Player player, boolean vanilla) {
-        return !player.isInWater() && vanilla;
+        return (player.isSwimming() || !player.isInWater()) && vanilla;
     }
 
     @Override
     public boolean shouldJumpInLiquid(Player player, TagKey<Fluid> fluid, boolean vanilla) {
-        return !(fluid == FluidTags.WATER && player.isInWater()) && vanilla;
+        return (player.isSwimming() || !(fluid == FluidTags.WATER && player.isInWater())) && vanilla;
     }
 
 }

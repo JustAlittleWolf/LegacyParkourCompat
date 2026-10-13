@@ -27,7 +27,7 @@ import net.minecraft.world.phys.Vec3;
 public final class WaterTravel implements WaterSprintSlowdownHook, WaterGravityHook {
     @Override
     public float sprintSlowdown(Player player, float vanilla) {
-        return player.isSprinting() ? 0.8F : vanilla;
+        return !player.isSwimming() && player.isSprinting() ? 0.8F : vanilla;
     }
 
     @Override
@@ -38,6 +38,9 @@ public final class WaterTravel implements WaterSprintSlowdownHook, WaterGravityH
         Vec3 movement,
         Vec3 vanilla
     ) {
+        if (player.isSwimming()) {
+            return vanilla;
+        }
         if (baseGravity == 0.0D) {
             return movement;
         }

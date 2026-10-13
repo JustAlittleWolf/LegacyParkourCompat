@@ -27,7 +27,13 @@ public final class SprintInputStart implements ShallowWaterSprintStartHook, Doub
 
     @Override
     public boolean allowDoubleTapStart(Player player, boolean vanilla) {
-        return vanilla && player.onGround();
+        return vanilla && (player.isSwimming() || player.onGround());
+    }
+
+    @Override
+    public boolean allowDoubleTapTransition(Player player, boolean previousSneak, boolean previousForward) {
+        return player.isSwimming() ? !previousForward
+            : DoubleTapSprintStartHook.super.allowDoubleTapTransition(player, previousSneak, previousForward);
     }
 
     @Override

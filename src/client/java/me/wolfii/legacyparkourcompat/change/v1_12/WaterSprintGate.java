@@ -20,6 +20,6 @@ import net.minecraft.world.entity.player.Player;
 public final class WaterSprintGate implements WaterSprintGateHook {
     @Override
     public boolean allowShallowWaterSprint(Player player, boolean vanilla) {
-        return true;
+        return player.isSwimming() ? vanilla : true;
     }
 }

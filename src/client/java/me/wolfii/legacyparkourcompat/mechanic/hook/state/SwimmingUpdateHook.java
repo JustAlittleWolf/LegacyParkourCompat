@@ -9,5 +9,9 @@ import net.minecraft.world.entity.player.Player;
 @FunctionalInterface
 @MechanicType("player.swimming.update")
 public interface SwimmingUpdateHook extends VersionedMechanic {
+    default boolean supports(ParkourVersion selected) {
+        return selected.newerThanOrEqual(ParkourVersion.V1_13);
+    }
+
     boolean isSwimmingAfterUpdate(Player player, ParkourVersion selected);
 }

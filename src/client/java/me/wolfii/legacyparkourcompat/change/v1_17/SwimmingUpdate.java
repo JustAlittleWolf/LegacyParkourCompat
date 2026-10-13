@@ -28,17 +28,13 @@ import net.minecraft.world.entity.player.Player;
  *   updateSwimming retains the flying-player veto before calling Entity.
  * The superclass hook runs after the native Player flying veto. Exact 1.17 and
  * 1.17.1 bodies establish the entry boundary; older mapping-artifact acceptance
- * remains separate. Profiles before swimming existed stay false.
+ * remains separate. Profiles before swimming existed retain native behavior.
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
 @MovementChange(emulates = ParkourVersion.V1_17)
 public final class SwimmingUpdate implements SwimmingUpdateHook {
     @Override
     public boolean isSwimmingAfterUpdate(Player player, ParkourVersion selected) {
-        if (selected.olderThan(ParkourVersion.V1_13)) {
-            return false;
-        }
-
         if (player.isSwimming()) {
             return player.isSprinting() && player.isInWater() && !player.isPassenger();
         }

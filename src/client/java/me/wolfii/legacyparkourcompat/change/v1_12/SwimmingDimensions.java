@@ -36,9 +36,6 @@ public final class SwimmingDimensions implements PlayerDimensionsHook, PlayerPos
         if (pose == Pose.CROUCHING) {
             return EntityDimensions.scalable(0.6F, 1.65F).withEyeHeight(vanilla.eyeHeight());
         }
-        if (pose == Pose.SWIMMING) {
-            return EntityDimensions.scalable(0.6F, player.isShiftKeyDown() ? 1.65F : 1.8F);
-        }
         return vanilla;
     }
 }

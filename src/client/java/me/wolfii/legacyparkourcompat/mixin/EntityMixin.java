@@ -75,10 +75,12 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
     private void legacyparkourcompat$historicalSwimmingUpdate(CallbackInfo callback) {
         Entity entity = (Entity) (Object) this;
         if (entity instanceof Player player) {
-            MovementRuntime.find(SwimmingUpdateHook.class, player).ifPresent(behavior -> {
-                player.setSwimming(behavior.isSwimmingAfterUpdate(player, MovementRuntime.profile(player).target()));
-                callback.cancel();
-            });
+            MovementRuntime.find(SwimmingUpdateHook.class, player)
+                .filter(behavior -> behavior.supports(MovementRuntime.profile(player).target()))
+                .ifPresent(behavior -> {
+                    player.setSwimming(behavior.isSwimmingAfterUpdate(player, MovementRuntime.profile(player).target()));
+                    callback.cancel();
+                });
         }
     }
 

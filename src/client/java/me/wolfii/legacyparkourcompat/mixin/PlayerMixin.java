@@ -10,7 +10,6 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeCollisionQueryHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeProbeHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.state.SwimmingHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.SwimmingPitchHook;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
@@ -62,14 +61,6 @@ abstract class PlayerMixin implements AirSpeedState {
             );
     }
 
-    @Inject(method = "isSwimming", at = @At("RETURN"), cancellable = true)
-    private void legacyparkourcompat$swimmingState(CallbackInfoReturnable<Boolean> cir) {
-        Player player = (Player)(Object)this;
-        cir.setReturnValue(MovementRuntime.find(SwimmingHook.class, player)
-            .map(behavior -> behavior.isSwimming(player, cir.getReturnValue()))
-            .orElse(cir.getReturnValue()));
-    }
-
     @Redirect(
         method = "travel(Lnet/minecraft/world/phys/Vec3;)V",
         at = @At(
@@ -80,6 +71,7 @@ abstract class PlayerMixin implements AirSpeedState {
     private Vec3 legacyparkourcompat$swimmingPitchLook(Player player) {
         Vec3 vanilla = player.getLookAngle();
         return MovementRuntime.find(SwimmingPitchHook.class, player)
+            .filter(behavior -> behavior.supports(MovementRuntime.profile(player).target()))
             .map(behavior -> new Vec3(vanilla.x, behavior.lookY(player, vanilla.y), vanilla.z))
             .orElse(vanilla);
     }

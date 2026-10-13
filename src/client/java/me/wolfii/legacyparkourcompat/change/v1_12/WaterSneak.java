@@ -25,6 +25,6 @@ import net.minecraft.world.entity.player.Player;
 public final class WaterSneak implements WaterSneakHook {
     @Override
     public boolean shouldApplyDownwardImpulse(Player player, boolean vanilla) {
-        return false;
+        return player.isSwimming() && vanilla;
     }
 }
