@@ -25,6 +25,7 @@
     "LocalPlayerMixin",
     "LocalPlayerSprintMixin",
     "client.LocalPlayerAccessor",
+    "client.ClientInputAccessor",
     "accessor.PistonMovingBlockEntityAccessor"
   ],
   "injectors": {

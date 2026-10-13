@@ -8,7 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import java.util.Objects;
 
-/** Shared applicability for the identical historical chest-Elytra start gates. */
+/** Shared applicability for the identical classic chest-Elytra checks. */
 public final class HistoricalElytra {
     private HistoricalElytra() {}
 

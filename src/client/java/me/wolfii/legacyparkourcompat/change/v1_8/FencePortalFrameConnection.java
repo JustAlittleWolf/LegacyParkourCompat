@@ -19,13 +19,13 @@ import java.util.Optional;
 /**
  * Restores the 1.8 collision arm when an End Portal Frame borders a fence.
  *
- * Source evidence (paths are relative to decompiled_minecraft/):
- * 1.8.9/ornithe-feather/net/minecraft/block/FenceBlock.java:
- *   shouldConnectTo; provider witness still required.
- * 1.9.4/ornithe-feather/net/minecraft/block/FenceBlock.java:
- *   shouldConnectTo.
- * Candidate locators only: operation fidelity, independent review and profile applicability remain open.
- * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ * 1.8.9, ornithe-feather: FenceBlock.shouldConnectTo accepts the frame's
+ * solid-blocking stone material and inherited Block.isCube() == true;
+ * FenceBlock.addCollisions supplies the connected 1.5-high arm.
+ * 1.9, ornithe-feather: EndPortalFrameBlock.isCube(state) returns false,
+ * excluding the frame from the same FenceBlock.shouldConnectTo branch.
+ * Facing and eye state do not affect this predicate. This delta adds only the
+ * missing frame arm, retaining the other vanilla fence connections.
  */
 @MovementChange(emulates = ParkourVersion.V1_8)
 public final class FencePortalFrameConnection implements BlockCollisionShapeHook {

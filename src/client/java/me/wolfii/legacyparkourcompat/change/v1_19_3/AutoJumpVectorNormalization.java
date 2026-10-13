@@ -6,34 +6,11 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpInverseSqrtHook;
 import net.minecraft.world.entity.player.Player;
 
 /**
- * Retains the float fast-inverse-square-root auto-jump operation through 1.19.3.
- * Profiles before auto-jump's 1.10 introduction preserve the native operation.
- * 1.19/mojmap/net/minecraft/client/player/LocalPlayer.java: updateAutoJump.
- * 1.19.1/mojmap/net/minecraft/client/player/LocalPlayer.java: updateAutoJump.
- * 1.19.2/mojmap/net/minecraft/client/player/LocalPlayer.java: updateAutoJump.
- * The separate older double inverse-square-root call remains unresolved; this
- * float delta and its native fallback do not establish full 1.10 parity.
- *
- * Source evidence (paths are relative to decompiled_minecraft/):
- * 1.18.2/mojmap/net/minecraft/client/player/LocalPlayer.java:
- *   updateAutoJump.
- * 1.18.2/mojmap/net/minecraft/util/Mth.java:
- *   fastInvSqrt.
- * 1.19.3/mojmap/net/minecraft/client/player/LocalPlayer.java:
- *   updateAutoJump.
- *   move.
- * 1.19.3/mojmap/net/minecraft/util/Mth.java:
- *   fastInvSqrt.
- * 1.19.4/mojmap/net/minecraft/client/player/LocalPlayer.java:
- *   updateAutoJump.
- *   updateAutoJump.
- *   updateAutoJump.
- *   updateAutoJump.
- * 1.19.4/mojmap/net/minecraft/util/Mth.java:
- *   invSqrt.
- *   invSqrt.
- * Source correspondence is bounded to this float call; older double-call fidelity remains open.
- * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ * Retains float fast-inverse-square-root normalization from 1.15 through 1.19.3.
+ * The earlier double operation resolves independently through 1.14.4.
+ * 1.15/mojmap: LocalPlayer.updateAutoJump and Mth.fastInvSqrt(float).
+ * 1.19.3/mojmap: LocalPlayer.updateAutoJump and Mth.fastInvSqrt(float).
+ * 1.19.4/mojmap: LocalPlayer.updateAutoJump switches to Mth.invSqrt(float).
  */
 @MovementChange(emulates = ParkourVersion.V1_19_3)
 public final class AutoJumpVectorNormalization implements AutoJumpInverseSqrtHook {

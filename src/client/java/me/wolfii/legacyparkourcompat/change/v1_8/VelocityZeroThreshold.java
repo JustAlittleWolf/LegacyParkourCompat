@@ -9,10 +9,10 @@ import net.minecraft.world.entity.LivingEntity;
  * Source evidence (paths are relative to decompiled_minecraft/):
  * 1.8.9/ornithe-feather/net/minecraft/entity/living/LivingEntity.java:
  *   public void mobTick().
+ * 1.9/ornithe-feather/net/minecraft/entity/living/LivingEntity.java:
+ *   public void mobTick(): first stable 0.003 component threshold.
  * 1.9.4/ornithe-feather/net/minecraft/entity/living/LivingEntity.java:
  *   public void mobTick().
- * Remaining source/applicability gates:
- *   Later applicability gate: exact introduction of campaign-STATE-01-velocity-zero-threshold is unknown within (1.8.9, 1.9.4]
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
 @MovementChange(emulates = ParkourVersion.V1_8)

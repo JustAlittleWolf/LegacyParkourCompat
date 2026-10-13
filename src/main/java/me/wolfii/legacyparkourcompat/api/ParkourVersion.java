@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
  * <ul>
  *   <li>{@link #V1_10_1} – farmland collision 1.0 → 0.9375</li>
  *   <li>{@link #V1_11_1} – walls 1b high (MC-111645); restored in {@link #V1_11_2}</li>
+ *   <li>{@link #V1_14_2} – forward sprint input threshold and swim-aware sneak slowdown</li>
  *   <li>{@link #V1_16_2} – sneak-edge fall while stepping down (MC-2404)</li>
  *   <li>{@link #V1_19_4} – supporting-block / {@code getOnPos} movement lookup</li>
  *   <li>{@link #V1_20_5} – {@code generic.step_height}</li>
@@ -38,6 +39,9 @@ import java.util.stream.Collectors;
  *   <li>{@link #V1_21_5} – per-axis low-speed momentum cancel (MC-241951) and related travel fixes</li>
  *   <li>{@link #V1_21_11} – elytra through cave vines / later 1.21 movement</li>
  * </ul>
+ * The {@link #V1_14} group covers 1.14 and 1.14.1; {@link #V1_14_2}
+ * covers 1.14.2 through 1.14.4. Other operations retain their independently
+ * resolved source boundaries across this alias split.
  * The {@link #V1_19} group covers 1.19 through 1.19.2; {@link #V1_19_3}
  * represents the exact 1.19.3 boundary for inside-block contacts, fluid responses
  * while riding boats and glide fall-distance handling. Cached air speed and float
@@ -57,7 +61,8 @@ public enum ParkourVersion {
     V1_11_2("1.11.2"),
     V1_12("1.12", "1.12.1", "1.12.2"),
     V1_13("1.13", "1.13.1", "1.13.2"),
-    V1_14("1.14", "1.14.1", "1.14.2", "1.14.3", "1.14.4"),
+    V1_14("1.14", "1.14.1"),
+    V1_14_2("1.14.2", "1.14.3", "1.14.4"),
     V1_15("1.15", "1.15.1"),
     V1_15_2("1.15.2"),
     V1_16("1.16", "1.16.1"),

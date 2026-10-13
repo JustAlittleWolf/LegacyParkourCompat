@@ -18,6 +18,8 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.PushAwayVelocityHoo
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.RideableJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.ShallowWaterSprintHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SneakInputSlowdownHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.InputSlowdownHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.sprint.ForwardSprintInputHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SprintCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintFallFlyingGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.DoubleTapSprintStartHook;
@@ -33,8 +35,10 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.WaterDescentHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.WaterSneakHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.WaterSprintGateHook;
 import me.wolfii.legacyparkourcompat.mixin.client.LocalPlayerAccessor;
+import me.wolfii.legacyparkourcompat.mixin.client.ClientInputAccessor;
 import net.minecraft.client.OptionInstance;
 import net.minecraft.client.player.KeyboardInput;
+import net.minecraft.client.player.ClientInput;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -48,6 +52,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -59,6 +64,75 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LocalPlayer.class)
 abstract class LocalPlayerMixin {
+
+    @Unique
+    private InputSlowdownHook legacyparkourcompat$inputSlowdown;
+    @Unique
+    private Vec2 legacyparkourcompat$keyboardInput;
+
+    @WrapOperation(
+        method = {"aiStep()V", "canStartSprinting()Z"},
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/ClientInput;hasForwardImpulse()Z")
+    )
+    private boolean legacyparkourcompat$storedForwardSprintInput(ClientInput input, Operation<Boolean> vanilla) {
+        // Apply only while an exact historical stored-input producer is active.
+        // Other profiles retain native eligibility until their producer is bound.
+        LocalPlayer player = (LocalPlayer)(Object)this;
+        if (this.legacyparkourcompat$inputSlowdown == null || !(input instanceof KeyboardInput)
+            || !this.legacyparkourcompat$inputSlowdown.supports(player, MovementRuntime.profile(player).target())) {
+            return vanilla.call(input);
+        }
+        return MovementRuntime.find(ForwardSprintInputHook.class, player)
+            .map(change -> change.hasEnoughForwardInput(input.getMoveVector().y, player.isUnderWater()))
+            .orElseGet(() -> vanilla.call(input));
+    }
+
+    @ModifyVariable(method = "aiStep()V", at = @At("STORE"), name = "hasForwardImpulse")
+    private boolean legacyparkourcompat$doubleTapSupportBeforeArming(boolean previousForward) {
+        LocalPlayer player = (LocalPlayer)(Object)this;
+        // The prior-forward local gates both timer arming and double-tap start;
+        // the separate held sprint-key branch does not read it.
+        return MovementRuntime.find(DoubleTapSprintStartHook.class, player)
+            .map(change -> !change.allowDoubleTapTransition(player, player.input.keyPresses.shift(), previousForward))
+            .orElse(previousForward);
+    }
+
+    @WrapOperation(
+        method = "aiStep()V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/ClientInput;tick()V")
+    )
+    private void legacyparkourcompat$sampleKeyboardInput(ClientInput input, Operation<Void> vanilla) {
+        LocalPlayer player = (LocalPlayer)(Object)this;
+        this.legacyparkourcompat$inputSlowdown = MovementRuntime.find(InputSlowdownHook.class, player)
+            .filter(change -> input instanceof KeyboardInput && change.supports(player, MovementRuntime.profile(player).target()))
+            .orElse(null);
+        this.legacyparkourcompat$keyboardInput = null;
+        boolean sampledPose = this.legacyparkourcompat$inputSlowdown != null
+            && this.legacyparkourcompat$inputSlowdown.samplePoseSlowdown(player);
+        vanilla.call(input);
+        if (this.legacyparkourcompat$inputSlowdown != null) {
+            Input keys = input.keyPresses;
+            float left = keys.left() == keys.right() ? 0.0F : keys.left() ? 1.0F : -1.0F;
+            float forward = keys.forward() == keys.backward() ? 0.0F : keys.forward() ? 1.0F : -1.0F;
+            this.legacyparkourcompat$keyboardInput = this.legacyparkourcompat$inputSlowdown
+                .keyboardInput(player, sampledPose, left, forward);
+            ((ClientInputAccessor)input).legacyparkourcompat$setMoveVector(this.legacyparkourcompat$keyboardInput);
+        }
+    }
+
+    @WrapOperation(
+        method = "aiStep()V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isControlledCamera()Z")
+    )
+    private boolean legacyparkourcompat$flightKeyboardInput(LocalPlayer player, Operation<Boolean> vanilla) {
+        boolean controlled = vanilla.call(player);
+        if (controlled && player.input.keyPresses.shift() && this.legacyparkourcompat$inputSlowdown != null) {
+            this.legacyparkourcompat$keyboardInput = this.legacyparkourcompat$inputSlowdown
+                .flightSneakInput(this.legacyparkourcompat$keyboardInput);
+            ((ClientInputAccessor)player.input).legacyparkourcompat$setMoveVector(this.legacyparkourcompat$keyboardInput);
+        }
+        return controlled;
+    }
 
     @ModifyExpressionValue(
         method = "sendPosition()V",
@@ -326,6 +400,10 @@ abstract class LocalPlayerMixin {
         cancellable = true
     )
     private void legacyparkourcompat$diagonalInputPrecision(Vec2 raw, CallbackInfoReturnable<Vec2> callback) {
+        if (this.legacyparkourcompat$inputSlowdown != null) {
+            callback.setReturnValue(this.legacyparkourcompat$inputSlowdown.travelInput(this.legacyparkourcompat$keyboardInput));
+            return;
+        }
         LocalPlayer player = (LocalPlayer) (Object) this;
         Input keys = player.input.keyPresses;
         float left = keys.left() == keys.right() ? 0.0F : keys.left() ? 1.0F : -1.0F;

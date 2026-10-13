@@ -4,7 +4,6 @@ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.GroundJumpGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.LiquidJumpGateHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.jump.StaleWaterDepthJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.WaterJumpHook;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
@@ -25,7 +24,7 @@ import net.minecraft.world.level.material.Fluid;
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
 @MovementChange(emulates = ParkourVersion.V1_12)
-public final class WaterJump implements WaterJumpHook, GroundJumpGateHook, LiquidJumpGateHook, StaleWaterDepthJumpHook {
+public final class WaterJump implements WaterJumpHook, GroundJumpGateHook, LiquidJumpGateHook {
     @Override
     public void jumpInWater(Player player) {
         if (player.isInWater()) {
@@ -43,8 +42,4 @@ public final class WaterJump implements WaterJumpHook, GroundJumpGateHook, Liqui
         return !(fluid == FluidTags.WATER && player.isInWater()) && vanilla;
     }
 
-    @Override
-    public boolean shouldJumpFromRetainedWaterDepth(Player player, double retainedDepth, boolean jumpInput) {
-        return false;
-    }
 }

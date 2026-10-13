@@ -14,6 +14,13 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 /**
+ * The per-overlapping-cell X/Z multiplication by 0.4 persists through 1.14.4.
+ * 1.14 ornithe-feather and 1.14.1, 1.14.2, 1.14.3 yarn
+ * SoulSandBlock#onEntityCollision retain that writer. The 1.14.2 alias boundary
+ * does not change either overlap response or suppression of the newer support
+ * speed factor. 1.15 mojmap SoulsandBlock removes the overlap writer and
+ * Entity#getBlockSpeedFactor supplies the newer response.
+ *
  * Source evidence (paths are relative to decompiled_minecraft/):
  * 1.14.4/mojmap/net/minecraft/world/entity/Entity.java:
  *   move.
@@ -29,7 +36,7 @@ import net.minecraft.world.phys.Vec3;
  *   Original source identity binding for 1.14.4/mojmap/net/minecraft/world/entity/Entity.java is absent/different; canonical source was inspected.
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
-@MovementChange(emulates = ParkourVersion.V1_14)
+@MovementChange(emulates = ParkourVersion.V1_14_2)
 public final class SoulSandOverlapChange implements BlockSpeedFactorHook, AfterCollisionHook {
     @Override
     public float movementSpeedFactor(Entity entity, float vanilla) {
