@@ -4,6 +4,9 @@ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
 import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.component.UseEffects;
 import net.minecraft.world.phys.Vec2;
 
 /** Local input slowdown with distinct pre-poll and post-poll sampling. */
@@ -12,6 +15,20 @@ public interface InputSlowdownHook extends VersionedMechanic {
     /** The resolver may expose this hook before its feature exists; retain native input there. */
     default boolean supports(ParkourVersion selected) {
         return !selected.olderThan(ParkourVersion.V1_14) && selected.olderThan(ParkourVersion.V1_15);
+    }
+
+    /** Preserve modern-only scale, sneak-speed and custom use-effect responses. */
+    default boolean supports(Player player, ParkourVersion selected) {
+        if (!supports(selected) || player.getAttributeValue(Attributes.SCALE) != 1.0
+            || player.getAttributeValue(Attributes.SNEAKING_SPEED) != 0.3) {
+            return false;
+        }
+        if (player.isUsingItem() && !player.isPassenger()) {
+            UseEffects effects = player.getUseItem().getOrDefault(DataComponents.USE_EFFECTS, UseEffects.DEFAULT);
+            return effects.speedMultiplier() == UseEffects.DEFAULT.speedMultiplier()
+                && effects.canSprint() == UseEffects.DEFAULT.canSprint();
+        }
+        return true;
     }
 
     /**

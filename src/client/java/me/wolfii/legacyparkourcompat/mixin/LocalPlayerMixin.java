@@ -19,6 +19,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.RideableJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.ShallowWaterSprintHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SneakInputSlowdownHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.InputSlowdownHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.sprint.ForwardSprintInputHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SprintCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintFallFlyingGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.DoubleTapSprintStartHook;
@@ -70,13 +71,40 @@ abstract class LocalPlayerMixin {
     private Vec2 legacyparkourcompat$keyboardInput;
 
     @WrapOperation(
+        method = {"aiStep()V", "canStartSprinting()Z"},
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/ClientInput;hasForwardImpulse()Z")
+    )
+    private boolean legacyparkourcompat$storedForwardSprintInput(ClientInput input, Operation<Boolean> vanilla) {
+        // Apply only while an exact historical stored-input producer is active.
+        // Other profiles retain native eligibility until their producer is bound.
+        LocalPlayer player = (LocalPlayer)(Object)this;
+        if (this.legacyparkourcompat$inputSlowdown == null || !(input instanceof KeyboardInput)
+            || !this.legacyparkourcompat$inputSlowdown.supports(player, MovementRuntime.profile(player).target())) {
+            return vanilla.call(input);
+        }
+        return MovementRuntime.find(ForwardSprintInputHook.class, player)
+            .map(change -> change.hasEnoughForwardInput(input.getMoveVector().y, player.isUnderWater()))
+            .orElseGet(() -> vanilla.call(input));
+    }
+
+    @ModifyVariable(method = "aiStep()V", at = @At("STORE"), name = "hasForwardImpulse")
+    private boolean legacyparkourcompat$doubleTapSupportBeforeArming(boolean previousForward) {
+        LocalPlayer player = (LocalPlayer)(Object)this;
+        // The prior-forward local gates both timer arming and double-tap start;
+        // the separate held sprint-key branch does not read it.
+        return MovementRuntime.find(DoubleTapSprintStartHook.class, player)
+            .map(change -> !change.allowDoubleTapTransition(player, player.input.keyPresses.shift(), previousForward))
+            .orElse(previousForward);
+    }
+
+    @WrapOperation(
         method = "aiStep()V",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/ClientInput;tick()V")
     )
     private void legacyparkourcompat$sampleKeyboardInput(ClientInput input, Operation<Void> vanilla) {
         LocalPlayer player = (LocalPlayer)(Object)this;
         this.legacyparkourcompat$inputSlowdown = MovementRuntime.find(InputSlowdownHook.class, player)
-            .filter(change -> input instanceof KeyboardInput && change.supports(MovementRuntime.profile(player).target()))
+            .filter(change -> input instanceof KeyboardInput && change.supports(player, MovementRuntime.profile(player).target()))
             .orElse(null);
         this.legacyparkourcompat$keyboardInput = null;
         boolean sampledPose = this.legacyparkourcompat$inputSlowdown != null
