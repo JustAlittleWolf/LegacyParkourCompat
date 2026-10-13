@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.change;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChangeRegistry;
+import me.wolfii.legacyparkourcompat.mechanic.hook.gliding.GlideFallDistanceLimiterStageHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.PlayerCorrectionPositionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.AfterCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.AirSpeedHook;
@@ -325,6 +326,7 @@ public final class MovementChangeCatalog {
     }
 
     private static void registerV1_21(MovementChangeRegistry registry) {
+        registry.register(GlideFallDistanceLimiterStageHook.class, ParkourVersion.V1_21, new me.wolfii.legacyparkourcompat.change.v1_21.GlideFallDistanceLimiterStage());
         registry.register(JumpVerticalVelocityHook.class, ParkourVersion.V1_21, new me.wolfii.legacyparkourcompat.change.v1_21.GroundJumpVerticalVelocity());
         registry.register(InsideBlockContactHook.class, ParkourVersion.V1_21, new me.wolfii.legacyparkourcompat.change.v1_21.InsideBlockContact());
     }
@@ -336,7 +338,6 @@ public final class MovementChangeCatalog {
         registry.register(me.wolfii.legacyparkourcompat.mechanic.hook.sprint.EarlyFallFlyingSprintStopHook.class,
             ParkourVersion.V1_21_4, new me.wolfii.legacyparkourcompat.change.v1_21_4.EarlyFallFlyingSprintStop());
         registry.register(SneakEdgeProbeHook.class, ParkourVersion.V1_21_4, new me.wolfii.legacyparkourcompat.change.v1_21_4.EdgeBackoffProbeBounds());
-        registry.register(GlideFallDistanceHook.class, ParkourVersion.V1_21_4, new me.wolfii.legacyparkourcompat.change.v1_21_4.GlideFallDistance());
         registry.register(KeyboardDiagonalInputHook.class, ParkourVersion.V1_21_4, new me.wolfii.legacyparkourcompat.change.v1_21_4.KeyboardDiagonalInput());
         registry.register(PowderSnowClimbHook.class, ParkourVersion.V1_21_4, new me.wolfii.legacyparkourcompat.change.v1_21_4.PowderSnowClimbBoost());
         registry.register(ShallowWaterSprintHook.class, ParkourVersion.V1_21_4, new me.wolfii.legacyparkourcompat.change.v1_21_4.ShallowWaterSprintEligibility());

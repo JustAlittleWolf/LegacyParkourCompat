@@ -10,6 +10,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.travel.ElytraLiftForceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingLookHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.FluidJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.GlideFallDistanceHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.gliding.GlideFallDistanceLimiterStageHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.GroundFrictionBlockHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.GroundJumpGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.GroundSpeedHook;
@@ -388,12 +389,31 @@ abstract class LivingEntityMixin {
         return vanilla;
     }
 
+    @WrapOperation(
+        method = "updateFallFlying()V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;checkFallDistanceAccumulation()V")
+    )
+    private void legacyparkourcompat$earlyGlideFallDistance(LivingEntity entity, Operation<Void> original) {
+        MovementRuntime.find(GlideFallDistanceLimiterStageHook.class, entity).ifPresentOrElse(
+            behavior -> behavior.atStage(entity, MovementRuntime.profile(entity).target(),
+                GlideFallDistanceLimiterStageHook.Stage.UPDATE_FALL_FLYING, () -> original.call(entity)),
+            () -> original.call(entity));
+    }
+
     @Inject(method = "travelFallFlying(Lnet/minecraft/world/phys/Vec3;)V", at = @At("HEAD"))
     private void legacyparkourcompat$fallFlyingFallDistance(Vec3 input, CallbackInfo ci) {
-        if ((Object) this instanceof Player player) {
-            MovementRuntime.find(GlideFallDistanceHook.class, player)
-                .ifPresent(behavior -> behavior.beforeFallFlyingTravel(player, MovementRuntime.profile(player).target()));
-        }
+        LivingEntity entity = (LivingEntity)(Object)this;
+        MovementRuntime.find(GlideFallDistanceLimiterStageHook.class, entity).ifPresent(behavior ->
+            behavior.atStage(entity, MovementRuntime.profile(entity).target(),
+                GlideFallDistanceLimiterStageHook.Stage.TRAVEL_FALL_FLYING, () -> {
+                    if (entity instanceof Player player) {
+                        MovementRuntime.find(GlideFallDistanceHook.class, player).ifPresentOrElse(
+                            assignment -> assignment.beforeFallFlyingTravel(player, MovementRuntime.profile(player).target()),
+                            entity::checkFallDistanceAccumulation);
+                    } else {
+                        entity.checkFallDistanceAccumulation();
+                    }
+                }));
     }
 
     @Redirect(
