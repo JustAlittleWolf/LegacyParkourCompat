@@ -12,3 +12,5 @@ Movement meaning: The independently accepted followup supplies a non-spectator B
 Original evidence: [archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.17.1--1.18.2/findings/F-003-autojump-candidate-order.md).
 
 Accepted followup: [independent witness/closure review](../../archive/legacy-workflows/source-campaign-2026-10-07/reviews/independent-review-F003-autojump-order-closure-2026-10-10.md).
+
+Integration: existing branch operation is present in the current Hook/catalog architecture; see [independent static code review](../../reconciliation/branch-code-review.md). First changed stable release is 1.18. Runtime parity remains unverified.

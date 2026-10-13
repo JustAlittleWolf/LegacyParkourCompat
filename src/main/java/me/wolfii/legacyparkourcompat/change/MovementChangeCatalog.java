@@ -6,6 +6,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.AfterCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.AirSpeedHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.AirSpeedUpdateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpCollisionOrderHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpInverseSqrtHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockBounceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockCollisionShapeHook;
@@ -236,6 +237,7 @@ public final class MovementChangeCatalog {
     }
 
     private static void registerV1_15_2(MovementChangeRegistry registry) {
+        registry.register(BlockCollisionShapeHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.RetractingPistonHeadCollisionShape());
         registry.register(StaleWaterDepthJumpHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.StaleWaterDepthJump());
         registry.register(SneakEdgeCollisionQueryHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.SneakEdgeCollisionQuery());
         registry.register(GroundFrictionBlockHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.GroundFrictionSamplePoint());
@@ -266,6 +268,7 @@ public final class MovementChangeCatalog {
     }
 
     private static void registerV1_17_1(MovementChangeRegistry registry) {
+        registry.register(AutoJumpCollisionOrderHook.class, ParkourVersion.V1_17_1, new me.wolfii.legacyparkourcompat.change.v1_17_1.AutoJumpCollisionOrder());
         registry.register(SprintCollisionHook.class, ParkourVersion.V1_17_1, new me.wolfii.legacyparkourcompat.change.v1_17_1.SprintCollision());
         registry.register(BoatPassengerYawRefreshHook.class, ParkourVersion.V1_17_1, new me.wolfii.legacyparkourcompat.change.v1_17_1.BoatPassengerYawRefresh());
         registry.register(SneakEdgeCollisionQueryHook.class, ParkourVersion.V1_17_1, new me.wolfii.legacyparkourcompat.change.v1_17_1.SneakEdgeCollisionQuery());

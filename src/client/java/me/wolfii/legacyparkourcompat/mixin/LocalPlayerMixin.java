@@ -6,6 +6,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingStartHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpCollisionOrderHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpInverseSqrtHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.FlightActivationJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.FlightSneakInputHook;
@@ -40,6 +41,9 @@ import net.minecraft.world.entity.PlayerRideableJumping;
 import net.minecraft.world.entity.player.Input;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -255,6 +259,26 @@ abstract class LocalPlayerMixin {
         return MovementRuntime.find(AutoJumpInverseSqrtHook.class, player)
             .map(behavior -> behavior.inverseSqrt(player, value, vanilla))
             .orElse(vanilla);
+    }
+
+    @WrapOperation(
+        method = "updateAutoJump(FF)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/level/Level;getCollisions(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;)Ljava/lang/Iterable;"
+        ),
+        require = 1
+    )
+    private Iterable<VoxelShape> legacyparkourcompat$autoJumpCollisionOrder(
+        Level level,
+        Entity source,
+        AABB query,
+        Operation<Iterable<VoxelShape>> vanilla
+    ) {
+        Player player = (Player) (Object) this;
+        return MovementRuntime.find(AutoJumpCollisionOrderHook.class, player)
+            .map(change -> change.autoJumpCollisions(player, level, query))
+            .orElseGet(() -> vanilla.call(level, source, query));
     }
 
     @Redirect(

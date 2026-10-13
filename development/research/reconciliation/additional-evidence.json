@@ -22,5 +22,19 @@
       "sha256": "650bfad8716b04406ad45f030a0231dbea8a0a1e844865bbf280dcb50c691f73",
       "recovered": "development/research/reconciliation/additional-evidence/650bfad8716b04406ad45f030a0231dbea8a0a1e844865bbf280dcb50c691f73.md"
     }
+  ],
+  "branchIntegrationEvidence": [
+    {
+      "commit": "9ed69387b21f384ab800fec335e6a59b422ee027",
+      "path": "workflows/source-campaign-2026-10-07/reviews/F-009-player-correction-coordinate-clamp-revision-review-2026-10-09.md",
+      "sha256": "0d7c2018c343fb5514a83ccd8ee7312c85f261cb7129559bb527a50d7fc1285c",
+      "preservedAt": "development/research/reconciliation/additional-evidence/0d7c2018c343fb5514a83ccd8ee7312c85f261cb7129559bb527a50d7fc1285c.md"
+    },
+    {
+      "commit": "dded99fb6d78d4d253ab7f367edc029e981b6b91",
+      "path": "workflows/source-campaign-2026-10-07/1.19.2--1.19.3/reviews/F-010-honey-contact-scan-boundary-independent-r3-2026-10-10.md",
+      "sha256": "7f54077b4570180d26f0f9a4028bae7ffee1f0dd5582a82c7330a5828608ba3d",
+      "preservedAt": "development/research/reconciliation/additional-evidence/7f54077b4570180d26f0f9a4028bae7ffee1f0dd5582a82c7330a5828608ba3d.md"
+    }
   ]
 }

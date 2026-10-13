@@ -23,7 +23,8 @@
     "ClientPacketListenerMixin",
     "LocalPlayerMixin",
     "LocalPlayerSprintMixin",
-    "client.LocalPlayerAccessor"
+    "client.LocalPlayerAccessor",
+    "accessor.PistonMovingBlockEntityAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

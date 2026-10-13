@@ -8,3 +8,5 @@ Difference: Java evaluates the relational comparison before boolean `!=`. At pro
 Movement meaning: `MovingPistonBlock#getCollisionShape` dispatches into this block entity method.
 
 Original evidence: [archived report](../../archive/legacy-workflows/source-campaign-2026-10-07/1.15.2--1.16.5/findings/F-S5-PISTON-HEAD-THRESHOLD.md).
+
+Integration: existing branch operation is present in the current Hook/catalog architecture; see [independent static code review](../../reconciliation/branch-code-review.md). First changed stable release is 1.16. Runtime parity remains unverified.

@@ -1956,7 +1956,7 @@
       "canonical": [
         "development/research/findings/1.19.2--1.19.3/campaign-F-009-player-correction-coordinate-clamp.md"
       ],
-      "reason": "Paired exact-source claim: For an absolute correction, 1.19.2's `ClientPacketListener.handleMovePlayer` resolves the coordinates, writes the player position and velocity, then calls `Entity.absMoveTo`. That helper clamps X and Z to `[-3.0E7, 3.0E7]` before setting position; Y is not clamped. 1.19.3 writes position through `Entity.setPos` and does not call `absMoveTo` from this handler, so finite packet X/Z values outside that interval remain outside the clamp. `Entity.setPos` updates the position and bounding box but applies no coordinate clamp. The paired packet codec stores and writes X/Y/Z as doubles without clamping them. The client handler therefore applies the coordinate behavior described above to the packet values it receives. The server-side `ServerGamePacketListenerImpl.teleport` helper constructs a correction packet from its coordinate arguments, but that helper alone does not establish that a vanilla producer can supply an out-of-range value. This is separate from F-005's angle normalization and the interpolation-history disposition.",
+      "reason": "Paired exact-source claim: For an absolute correction, 1.19.2's `ClientPacketListener.handleMovePlayer` resolves the coordinates, writes the player position and velocity, then calls `Entity.absMoveTo`. That helper clamps X and Z to `[-3.0E7, 3.0E7]` before setting position; Y is not clamped. 1.19.3 writes position through `Entity.setPos` and does not call `absMoveTo` from this handler, so finite packet X/Z values outside that interval remain outside the clamp. `Entity.setPos` updates the position and bounding box but applies no coordinate clamp. The paired packet codec stores and writes X/Y/Z as doubles without clamping them. The client handler therefore applies the coordinate behavior described above to the packet values it receives. The server-side `ServerGamePacketListenerImpl.teleport` helper constructs a correction packet from its coordinate arguments, but that helper alone does not establish that a vanilla producer can supply an out-of-range value. This is separate from F-005's angle normalization and the interpolation-history disposition.\nApplicable only to finite out-of-range absolute corrections received from an external/custom server. Vanilla teleport producer rejects those coordinates; no vanilla reachability claim.",
       "sources": [
         {
           "version": "1.19.2",
@@ -1992,7 +1992,7 @@
           "member": "setPos",
           "lines": "376-379",
           "status": "verified-content",
-          "detail": "Canonical file SHA-256 8c35bdef3bf2de7b70ac76ad767ba2c194305e0dda2e03fdf6544983667adc32; archived source-hash equivalence not established. Cited canonical range read; file-specific member/range correspondence checked separately from publication-directory presence. Official exact client-mapping manifest binding: f72a4675ae77fa16966a0338567e30ee3a64bb7476932e264e8b25937f664a1b *1.19.3/client_mappings.txt. Canonical source-manifest SHA-256 6f1cc6d07ab3902a7ea25a3f8817504723be70d82e97f541cffda95ea2c1c843 matches archived publication; cited file hash is present in that manifest."
+          "detail": "Canonical file SHA-256 8c35bdef3bf2de7b70ac76ad767ba2c194305e0dda2e03fdf6544983667adc32; archived source-hash equivalence not established. Cited canonical range read; file-specific member/range correspondence checked separately from publication-directory presence. Official exact client-mapping manifest binding: f72a4675ae77fa16966a0338567e30ee3a64bb7476932e264e8b25937f664a1b *1.19.3/client_mappings.txt. Canonical source-manifest SHA-256 6f1cc6d07ab3902a7ea25a3f8817504723be70d82e97f541cffda95ea2c1c843 matches archived publication; cited file hash is present in that manifest. Historical literal654898 is a transcription error; actual654498 file digest is bound by the unchanged exact source manifest."
         },
         {
           "version": "1.19.2",
@@ -2064,7 +2064,7 @@
           "member": "absMoveTo",
           "lines": "1199-1214",
           "status": "verified-content",
-          "detail": "Canonical file SHA-256 8c35bdef3bf2de7b70ac76ad767ba2c194305e0dda2e03fdf6544983667adc32; archived source-hash equivalence not established. Cited canonical range read; file-specific member/range correspondence checked separately from publication-directory presence. Official exact client-mapping manifest binding: f72a4675ae77fa16966a0338567e30ee3a64bb7476932e264e8b25937f664a1b *1.19.3/client_mappings.txt. Canonical source-manifest SHA-256 6f1cc6d07ab3902a7ea25a3f8817504723be70d82e97f541cffda95ea2c1c843 matches archived publication; cited file hash is present in that manifest."
+          "detail": "Canonical file SHA-256 8c35bdef3bf2de7b70ac76ad767ba2c194305e0dda2e03fdf6544983667adc32; archived source-hash equivalence not established. Cited canonical range read; file-specific member/range correspondence checked separately from publication-directory presence. Official exact client-mapping manifest binding: f72a4675ae77fa16966a0338567e30ee3a64bb7476932e264e8b25937f664a1b *1.19.3/client_mappings.txt. Canonical source-manifest SHA-256 6f1cc6d07ab3902a7ea25a3f8817504723be70d82e97f541cffda95ea2c1c843 matches archived publication; cited file hash is present in that manifest. Historical literal654898 is a transcription error; actual654498 file digest is bound by the unchanged exact source manifest."
         },
         {
           "version": "1.19.2",
@@ -2093,6 +2093,16 @@
           "detail": "Source-confirmed author status is not independent acceptance. Accepted/pending/rejected ledgers and record-specific archive review paths were checked.",
           "kind": "source-review",
           "assertion_preserved": false
+        },
+        {
+          "identity": "development/research/reconciliation/additional-evidence/0d7c2018c343fb5514a83ccd8ee7312c85f261cb7129559bb527a50d7fc1285c.md",
+          "review_commit": "9ed69387b21f384ab800fec335e6a59b422ee027",
+          "review_sha256": "0d7c2018c343fb5514a83ccd8ee7312c85f261cb7129559bb527a50d7fc1285c",
+          "snapshot": "0f17dc31e6619d38752c862b9ec3a30c13b79f48",
+          "snapshot_sha256": "26fca3cbdc84084458484c7cc305f684dc94cc43ccc4d77b0609a7fc296926e3",
+          "snapshot_file": "development/research/archive/legacy-workflows/source-campaign-2026-10-07/1.19.2--1.19.3/findings/F-009-player-correction-coordinate-clamp.md",
+          "verdict": "ACCEPT, external/custom-server conditional client response",
+          "assertion_preserved": true
         }
       ],
       "implementation": {
@@ -2110,12 +2120,9 @@
         {
           "missing": "Historical operation implementation: For an absolute correction, 1.19.2's `ClientPacketListener.handleMovePlayer` resolves the coordinates, writes the player position and velocity, then calls `Entity.absMoveTo`. That helper clamps X and Z to `[-3.0E7, 3.0E7]` before ",
           "next_action": "After immutable independent acceptance and exact applicability evidence, assign this operation to an isolated implementer; no code work authorized now."
-        },
-        {
-          "missing": "Vanilla producer delivering finite absolute X/Z outside [-3.0E7,3.0E7] in 1.19.2--1.19.3; codec/helper alone does not prove that input.",
-          "next_action": "Keep conditional handler evidence separate from accepted reachable movement until archived producer evidence is located."
         }
-      ]
+      ],
+      "applicability": "Conditional client response to external/custom-server absolute packet; no ordinary vanilla occurrence claimed."
     },
     {
       "record": "research/findings/1.19.2--1.19.3/campaign-F-010-honey-contact-scan-boundary.md",
@@ -2141,7 +2148,7 @@
           "member": "move",
           "lines": "657",
           "status": "verified-content",
-          "detail": "Canonical file SHA-256 8c35bdef3bf2de7b70ac76ad767ba2c194305e0dda2e03fdf6544983667adc32; archived source-hash equivalence not established. Cited canonical range read; file-specific member/range correspondence checked separately from publication-directory presence. Official exact client-mapping manifest binding: f72a4675ae77fa16966a0338567e30ee3a64bb7476932e264e8b25937f664a1b *1.19.3/client_mappings.txt. Canonical source-manifest SHA-256 6f1cc6d07ab3902a7ea25a3f8817504723be70d82e97f541cffda95ea2c1c843 matches archived publication; cited file hash is present in that manifest."
+          "detail": "Canonical file SHA-256 8c35bdef3bf2de7b70ac76ad767ba2c194305e0dda2e03fdf6544983667adc32; archived source-hash equivalence not established. Cited canonical range read; file-specific member/range correspondence checked separately from publication-directory presence. Official exact client-mapping manifest binding: f72a4675ae77fa16966a0338567e30ee3a64bb7476932e264e8b25937f664a1b *1.19.3/client_mappings.txt. Canonical source-manifest SHA-256 6f1cc6d07ab3902a7ea25a3f8817504723be70d82e97f541cffda95ea2c1c843 matches archived publication; cited file hash is present in that manifest. Historical literal654898 is a transcription error; actual654498 file digest is bound by the unchanged exact source manifest."
         },
         {
           "version": "1.19.2",
@@ -2159,7 +2166,7 @@
           "member": "tryCheckInsideBlocks",
           "lines": "685-694",
           "status": "verified-content",
-          "detail": "Canonical file SHA-256 8c35bdef3bf2de7b70ac76ad767ba2c194305e0dda2e03fdf6544983667adc32; archived source-hash equivalence not established. Cited canonical range read; file-specific member/range correspondence checked separately from publication-directory presence. Official exact client-mapping manifest binding: f72a4675ae77fa16966a0338567e30ee3a64bb7476932e264e8b25937f664a1b *1.19.3/client_mappings.txt. Canonical source-manifest SHA-256 6f1cc6d07ab3902a7ea25a3f8817504723be70d82e97f541cffda95ea2c1c843 matches archived publication; cited file hash is present in that manifest."
+          "detail": "Canonical file SHA-256 8c35bdef3bf2de7b70ac76ad767ba2c194305e0dda2e03fdf6544983667adc32; archived source-hash equivalence not established. Cited canonical range read; file-specific member/range correspondence checked separately from publication-directory presence. Official exact client-mapping manifest binding: f72a4675ae77fa16966a0338567e30ee3a64bb7476932e264e8b25937f664a1b *1.19.3/client_mappings.txt. Canonical source-manifest SHA-256 6f1cc6d07ab3902a7ea25a3f8817504723be70d82e97f541cffda95ea2c1c843 matches archived publication; cited file hash is present in that manifest. Historical literal654898 is a transcription error; actual654498 file digest is bound by the unchanged exact source manifest."
         },
         {
           "version": "1.19.2",
@@ -2267,7 +2274,7 @@
           "member": "class declaration / field initialization",
           "lines": "190-214",
           "status": "verified-content",
-          "detail": "Canonical file SHA-256 8c35bdef3bf2de7b70ac76ad767ba2c194305e0dda2e03fdf6544983667adc32; archived source-hash equivalence not established. Cited canonical range read; file-specific member/range correspondence checked separately from publication-directory presence. Official exact client-mapping manifest binding: f72a4675ae77fa16966a0338567e30ee3a64bb7476932e264e8b25937f664a1b *1.19.3/client_mappings.txt. Canonical source-manifest SHA-256 6f1cc6d07ab3902a7ea25a3f8817504723be70d82e97f541cffda95ea2c1c843 matches archived publication; cited file hash is present in that manifest."
+          "detail": "Canonical file SHA-256 8c35bdef3bf2de7b70ac76ad767ba2c194305e0dda2e03fdf6544983667adc32; archived source-hash equivalence not established. Cited canonical range read; file-specific member/range correspondence checked separately from publication-directory presence. Official exact client-mapping manifest binding: f72a4675ae77fa16966a0338567e30ee3a64bb7476932e264e8b25937f664a1b *1.19.3/client_mappings.txt. Canonical source-manifest SHA-256 6f1cc6d07ab3902a7ea25a3f8817504723be70d82e97f541cffda95ea2c1c843 matches archived publication; cited file hash is present in that manifest. Historical literal654898 is a transcription error; actual654498 file digest is bound by the unchanged exact source manifest."
         },
         {
           "version": "1.19.2",
@@ -2305,6 +2312,16 @@
           "detail": "Source-confirmed author status is not independent acceptance. Accepted/pending/rejected ledgers and record-specific archive review paths were checked.",
           "kind": "source-review",
           "assertion_preserved": false
+        },
+        {
+          "identity": "development/research/reconciliation/additional-evidence/7f54077b4570180d26f0f9a4028bae7ffee1f0dd5582a82c7330a5828608ba3d.md",
+          "review_commit": "dded99fb6d78d4d253ab7f367edc029e981b6b91",
+          "review_sha256": "7f54077b4570180d26f0f9a4028bae7ffee1f0dd5582a82c7330a5828608ba3d",
+          "snapshot": "b66cde90c5f34970aa94553f838ec8c65e764ea6",
+          "snapshot_sha256": "c37c6544856bd4dde35e36801383fe9249044ad4c02341984a8ae8205e217039",
+          "snapshot_file": "development/research/archive/legacy-workflows/source-campaign-2026-10-07/1.19.2--1.19.3/findings/F-010-honey-contact-scan-boundary.md",
+          "verdict": "ACCEPT, bounded stable/command witness",
+          "assertion_preserved": true
         }
       ],
       "implementation": {
@@ -2319,15 +2336,16 @@
           "src/main/java/me/wolfii/legacyparkourcompat/change/MovementChangeCatalog.java",
           "development/research/reconciliation/implementation-inventory.json"
         ],
-        "detail": "Old 0.001 contact inset exists, but V1_18_2 registration does not cover 1.19.2 endpoint. Honey native callback is not duplicated. Registration establishes static correspondence only; no runtime parity or renewed applicability acceptance.",
+        "detail": "Old0.001 inset operation exists, but current V1_19 groups1.19-1.19.3 and cannot represent the accepted1.19.2/1.19.3 source boundary. Separate profile decision required; no enum/resolver refactor admitted.",
         "code_reviews": []
       },
       "gaps": [
         {
-          "missing": "Complete exact-endpoint implementation correspondence for 1.19.2--1.19.3: Old 0.001 contact inset exists, but V1_18_2 registration does not cover 1.19.2 endpoint. Honey native callback is not duplicated. Registration establishes static correspondence only; no runtime parity or renewed applicability acceptance.",
-          "next_action": "Later integration owner reconciles the named operation/range against accepted immutable evidence; preserve existing Changes during preparation."
+          "missing": "Current V1_19 group cannot distinguish accepted1.19.2/1.19.3 behavior; earlier aliases and effects of new keys on each existing operation require a corrected decision table.",
+          "next_action": "Use corrected resolver analysis in branch-doc-review-late.md before a separately authorized profile change."
         }
-      ]
+      ],
+      "applicability": "First changed stable release1.19.3; authorized in-bounds /tp followed by local gravity witness. Ordinary walking entry/development-build onset remain unproved."
     },
     {
       "record": "research/findings/1.19.3--1.19.4/campaign-F-01-sprint-air-speed.md",
@@ -10341,6 +10359,14 @@
           "detail": "Source-confirmed author status is not independent acceptance. Accepted/pending/rejected ledgers and record-specific archive review paths were checked.",
           "kind": "source-review",
           "assertion_preserved": false
+        },
+        {
+          "identity": "development/research/reconciliation/branch-doc-review-late.md",
+          "verdict": "reported ACCEPT, digest-only corrected revision",
+          "snapshot_file": "development/research/archive/branch-integration-2026-10-13/d716098459fc9ba8f34d1b45d440f9d48e8dda4608875ec0453b3401aa417788.md",
+          "snapshot_sha256": "d716098459fc9ba8f34d1b45d440f9d48e8dda4608875ec0453b3401aa417788",
+          "assertion_preserved": true,
+          "binding": "Latest run reports review event; standalone independent review commit/path/blob/SHA is not supplied. Source assertion unchanged."
         }
       ],
       "implementation": {
@@ -10358,6 +10384,10 @@
         {
           "missing": "Historical operation implementation: If a player is already sprinting on land and begins using an item while still moving forward, 1.21.4 calls `setSprinting(false)` in the early `shouldStopSprinting` check. 1.21.5 makes `canStartSprinting` false, but its later stop ",
           "next_action": "After immutable independent acceptance and exact applicability evidence, assign this operation to an isolated implementer; no code work authorized now."
+        },
+        {
+          "missing": "Standalone independent digest-correction review artifact identity for F04 is absent.",
+          "next_action": "Preserve reported acceptance and unchanged assertion; bind exact artifact if recovered, do not invent a verdict."
         }
       ]
     },
@@ -10451,6 +10481,14 @@
           "detail": "Source-confirmed author status is not independent acceptance. Accepted/pending/rejected ledgers and record-specific archive review paths were checked.",
           "kind": "source-review",
           "assertion_preserved": false
+        },
+        {
+          "identity": "development/research/reconciliation/branch-doc-review-late.md",
+          "verdict": "reported ACCEPT, digest-only corrected revision",
+          "snapshot_file": "development/research/archive/branch-integration-2026-10-13/80e4f97fec07fcaa2dd98b4e50b7f9f8298b237e9101024f6c19670215cfa57c.md",
+          "snapshot_sha256": "80e4f97fec07fcaa2dd98b4e50b7f9f8298b237e9101024f6c19670215cfa57c",
+          "assertion_preserved": true,
+          "binding": "Latest run reports review event; standalone independent review commit/path/blob/SHA is not supplied. Source assertion unchanged."
         }
       ],
       "implementation": {
@@ -10468,6 +10506,10 @@
         {
           "missing": "Historical operation implementation: When a non-fluid travel tick enters the fall-flying branch while `onClimbable()` is true, 1.21.4 still applies the glide velocity math and moves with the resulting velocity. 1.21.5 instead runs regular `travelInAir(input)` and cal",
           "next_action": "After immutable independent acceptance and exact applicability evidence, assign this operation to an isolated implementer; no code work authorized now."
+        },
+        {
+          "missing": "Standalone independent digest-correction review artifact identity for F06 is absent.",
+          "next_action": "Preserve reported acceptance and unchanged assertion; bind exact artifact if recovered, do not invent a verdict."
         }
       ]
     },
@@ -10637,11 +10679,9 @@
     },
     {
       "record": "research/findings/1.21.4--1.21.5/campaign-F-09-local-player-input-damping.md",
-      "category": "finding",
-      "canonical": [
-        "development/research/findings/1.21.4--1.21.5/campaign-F-09-local-player-input-damping.md"
-      ],
-      "reason": "Paired exact-source claim: For the normal controlled-camera local-player path, 1.21.4 attenuates each current input axis by `0.98F` before travel. 1.21.5 dispatches to the `LocalPlayer` override, which sets the axes but bypasses the base method containing those multipliers. The player's item-use, sneaking, float normalization and square-movement modifiers still apply; the missing factor is specifically the shared `0.98F` attenuation. If `isControlledCamera()` is false, the override calls `super.applyInput()`, so this finding does not apply to that branch.",
+      "category": "disposition",
+      "canonical": [],
+      "reason": "Rejected claim:1.21.5 also applies0.98F. Revised forward-only1ULP witness is cancelled by square-movement correction; diagonal residual belongs to F03. Both historical versions received REQUEST CHANGES, not acceptance.",
       "sources": [
         {
           "version": "1.21.4",
@@ -10751,23 +10791,27 @@
           "detail": "Source-confirmed author status is not independent acceptance. Accepted/pending/rejected ledgers and record-specific archive review paths were checked.",
           "kind": "source-review",
           "assertion_preserved": false
+        },
+        {
+          "identity": "development/research/reconciliation/branch-doc-review-late.md",
+          "verdict": "REQUEST CHANGES / rejected claim",
+          "assertion_preserved": false,
+          "detail": "Existing run records R-F09-r2; standalone exact revision review artifact identity remains unbound."
         }
       ],
       "implementation": {
-        "status": "open",
+        "status": "excluded",
         "changes": [],
         "hooks": [],
         "evidence": [
-          "src/main/java/me/wolfii/legacyparkourcompat/change/MovementChangeCatalog.java",
-          "development/research/reconciliation/implementation-inventory.json"
+          "development/research/reconciliation/branch-doc-review-late.md"
         ],
-        "detail": "No catalog Change implements the operation stated in this record. The current 104 annotated Changes/catalog were checked; unrelated hooks do not close this operation. Registration establishes static correspondence only; no runtime parity or renewed applicability acceptance.",
-        "code_reviews": []
+        "detail": "No implementation required for this refuted claim; not an input-scope exclusion."
       },
       "gaps": [
         {
-          "missing": "Historical operation implementation: For the normal controlled-camera local-player path, 1.21.4 attenuates each current input axis by `0.98F` before travel. 1.21.5 dispatches to the `LocalPlayer` override, which sets the axes but bypasses the base method containing t",
-          "next_action": "After immutable independent acceptance and exact applicability evidence, assign this operation to an isolated implementer; no code work authorized now."
+          "missing": "Standalone R-F09-r2 exact review artifact identity is not supplied by incoming run.",
+          "next_action": "Preserve recorded rejection and binding gap; do not infer independent acceptance."
         }
       ]
     },
@@ -10919,6 +10963,14 @@
           "detail": "Source-confirmed author status is not independent acceptance. Accepted/pending/rejected ledgers and record-specific archive review paths were checked.",
           "kind": "source-review",
           "assertion_preserved": false
+        },
+        {
+          "identity": "development/research/reconciliation/branch-doc-review-late.md",
+          "verdict": "reported ACCEPT, digest-only corrected revision",
+          "snapshot_file": "development/research/archive/branch-integration-2026-10-13/52ca0373539d3c09632e5237d51dcc077fa71cbe432bb61e2a719f7183003fa3.md",
+          "snapshot_sha256": "52ca0373539d3c09632e5237d51dcc077fa71cbe432bb61e2a719f7183003fa3",
+          "assertion_preserved": true,
+          "binding": "Latest run reports review event; standalone independent review commit/path/blob/SHA is not supplied. Source assertion unchanged."
         }
       ],
       "implementation": {
@@ -10936,7 +10988,12 @@
         "detail": "PowderSnowClimbHook restores old current-block walk-on predicate and preserves 0.2 upward branch. Registration establishes static correspondence only; no runtime parity or renewed applicability acceptance.",
         "code_reviews": []
       },
-      "gaps": []
+      "gaps": [
+        {
+          "missing": "Standalone independent digest-correction review artifact identity for F11 is absent.",
+          "next_action": "Preserve reported acceptance and unchanged assertion; bind exact artifact if recovered, do not invent a verdict."
+        }
+      ]
     },
     {
       "record": "research/findings/1.21.4--1.21.5/campaign-F-12-player-correction-clamps-pitch.md",

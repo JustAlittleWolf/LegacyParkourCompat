@@ -1468,7 +1468,7 @@
       "canonical": [
         "development/research/findings/1.13.2--1.14.4/campaign-F022-contextual-fluid-height-submersion.md"
       ],
-      "reason": "1.13.2 `Entity.isSubmergedIn` tests the eye-cell fluid tag and compares the eye Y against `blockY + (fluidState.getHeight() + 0.11111111F)`. 1.13.2's `FlowingFluid.getHeight(FluidState)` is `state.getLevel() / 9.0F` and has no world context. 1.14.4's `m_69330161(tag, boolean)` applies the same eye-cell test, optionally checks that the chunk is loaded, and calls `FluidState.getHeight(world,pos)`. 1.14.4's `FlowingFluid.getHeight` returns `1.0F` when the eye-cell fluid and the fluid above are the same exact fluid instance; otherwise it delegates to the same level/9 calculation.\n\nThis helper feeds two distinct caches: Entity's base-tick `submergedInWater` field (through `m_61708540`, with `true` in 1.14.4) and PlayerEntity's separate `isSubmergedInWater` field (through `updateWaterSubmersion`, with `true` in 1.14.4; 1.13.2 directly calls `isSubmergedIn`).\n\nThe source-visible conditional predicate difference is therefore: for an eye-cell state with level below 8, the same flowing-fluid instance above, and an eye fraction greater than 1.13.2's `level/9.0F + 0.11111111F` but below 1, 1.14.4 can return true where 1.13.2 returns false. 1.14.4's extra chunk guard cannot reject the ordinary local-player path: `LocalClientPlayerEntity.tick` checks that the chunk at the player's X/Z is loaded before calling the superclass tick, and the eye query has the same X/Z.",
+      "reason": "1.13.2 `Entity.isSubmergedIn` tests the eye-cell fluid tag and compares the eye Y against `blockY + (fluidState.getHeight() + 0.11111111F)`. 1.13.2's `FlowingFluid.getHeight(FluidState)` is `state.getLevel() / 9.0F` and has no world context. 1.14.4's `m_69330161(tag, boolean)` applies the same eye-cell test, optionally checks that the chunk is loaded, and calls `FluidState.getHeight(world,pos)`. 1.14.4's `FlowingFluid.getHeight` returns `1.0F` when the eye-cell fluid and the fluid above are accepted by the eye-cell fluid's `Fluid.is` predicate; otherwise it delegates to the same level/9 calculation.\n\nThis helper feeds two distinct caches: Entity's base-tick `submergedInWater` field (through `m_61708540`, with `true` in 1.14.4) and PlayerEntity's separate `isSubmergedInWater` field (through `updateWaterSubmersion`, with `true` in 1.14.4; 1.13.2 directly calls `isSubmergedIn`).\n\nThe source-visible conditional predicate difference is therefore: for an eye-cell state with level below 8, an above fluid accepted by `Fluid.is`, and an eye fraction greater than 1.13.2's `level/9.0F + 0.11111111F` but below 1, 1.14.4 can return true where 1.13.2 returns false. 1.14.4's extra chunk guard cannot reject the ordinary local-player path: `LocalClientPlayerEntity.tick` checks that the chunk at the player's X/Z is loaded before calling the superclass tick, and the eye query has the same X/Z.",
       "sources": [
         {
           "version": "1.13.2",
@@ -1503,6 +1503,34 @@
           "status": "verified-content",
           "detail": "Canonical source read. Matches digest in archived original.",
           "sha256": "7315a496c195da767de9d4936d3adb6efc3c419dc0f0e95d6f32781b0da1ba55"
+        },
+        {
+          "version": "1.14.4",
+          "mapping": "ornithe-feather",
+          "path": "1.14.4/ornithe-feather/net/minecraft/fluid/FlowingFluid.java",
+          "member": "m_50081546, getHeight",
+          "lines": [
+            [
+              442,
+              448
+            ]
+          ],
+          "status": "verified-content",
+          "sha256": "6afb033d18e6d28ff6d7deda88f5f1432914903b0fef100c44fb8372d3e148ce"
+        },
+        {
+          "version": "1.14.4",
+          "mapping": "ornithe-feather",
+          "path": "1.14.4/ornithe-feather/net/minecraft/fluid/WaterFluid.java",
+          "member": "is",
+          "lines": [
+            [
+              98,
+              99
+            ]
+          ],
+          "status": "verified-content",
+          "sha256": "ed5a28c7f4370ef8f7217dae482fbb1e28296f08c1d70944a1a690bf5f6bb13f"
         }
       ],
       "reviews": [],
@@ -1521,6 +1549,10 @@
         {
           "missing": "Current implementation coverage: open for this exact operation; see implementation detail.",
           "next_action": "Later authorized implementation reconciliation must bind this exact operation and fixed-profile applicability; leave existing code unchanged during preparation."
+        },
+        {
+          "missing": "Physical player fit, producer/partial-chunk admission and cache timing are not closed; revised claim has no independent acceptance or exact release boundary.",
+          "next_action": "Retain candidate/no handoff; exact revised snapshot is development/research/archive/branch-integration-2026-10-13/dfcf8fbb0b057f105415aa65bfed0748378128046485e47739623326f615bdc6.md"
         }
       ],
       "originals": [
@@ -4138,8 +4170,8 @@
               361
             ]
           ],
-          "status": "different",
-          "detail": "Canonical source read. Exact canonical file digest is absent/different in original: snippet content checked, original publication equivalence not asserted.",
+          "status": "verified-content",
+          "detail": "Exact canonical and source-manifest digest match43ef9a249446cac093eb1f7555bd55c4db5416474fa1668772f0f1257672e57a. Historical finding/review omitted one5 in f7555bd: citation transcription error, preserved original bytes.",
           "sha256": "43ef9a249446cac093eb1f7555bd55c4db5416474fa1668772f0f1257672e57a"
         },
         {
@@ -4168,30 +4200,42 @@
           "assertion": "Reachable retracting source-piston intermediate state selects different piston-head collision shape at the compared endpoints.",
           "detail": "Historical exact snapshot decision preserved; First changed release remains unknown within the endpoint interval.; No player trajectory or broader S5 inventory completion is established.; Pair 1.15.2\u20131.16.5 remains PARTIAL; runtime unverified.",
           "assertion_preserved": true
+        },
+        {
+          "identity": "development/research/archive/branch-integration-2026-10-13/237398f1978693e584f17c3606438c89d153ebc613bcf46938a64b60dc28315a.md",
+          "verdict": "ACCEPT, first stable boundary1.16",
+          "snapshot": "development/research/archive/branch-integration-2026-10-13/cf52bc40ba9591b53ca6684f4a6e1b86a0ccd77ffa918ca6235f3697828508f7.md",
+          "assertion_preserved": true,
+          "review_commit": "005d5338f9a944f71651b8010ac90f73e1cf9d2c",
+          "snapshot_sha256": "cf52bc40ba9591b53ca6684f4a6e1b86a0ccd77ffa918ca6235f3697828508f7"
         }
       ],
       "implementation": {
-        "status": "open",
-        "changes": [],
-        "hooks": [],
-        "evidence": [],
-        "detail": "Current annotated Change/interface/catalog inventory contains no operation implementing: F-S5-PISTON-HEAD-THRESHOLD: retracting moving-piston head uses a different short-shape threshold. Existing unrelated later operations do not establish coverage."
+        "status": "present",
+        "changes": [
+          "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15_2/RetractingPistonHeadCollisionShape.java"
+        ],
+        "hooks": [
+          "BlockCollisionShapeHook"
+        ],
+        "evidence": [
+          "src/main/java/me/wolfii/legacyparkourcompat/change/MovementChangeCatalog.java",
+          "development/research/reconciliation/branch-code-review.md"
+        ],
+        "detail": "Existing branch operation adapted to current thin Hook/catalog architecture; independent static ACCEPT. Compilation and runtime parity remain separate.",
+        "code_reviews": [
+          {
+            "identity": "development/research/reconciliation/branch-code-review.md",
+            "verdict": "ACCEPT, static integration only"
+          }
+        ]
       },
-      "gaps": [
-        {
-          "missing": "Original digest binding for 1.15.2/mojmap/net/minecraft/world/level/block/piston/PistonMovingBlockEntity.java is absent/different; canonical digest 43ef9a249446cac093eb1f7555bd55c4db5416474fa1668772f0f1257672e57a was inspected.",
-          "next_action": "Resolve against the cited archived publication/source manifest; do not assert byte-equivalence from this content check."
-        },
-        {
-          "missing": "Current implementation coverage: open for this exact operation; see implementation detail.",
-          "next_action": "Later authorized implementation reconciliation must bind this exact operation and fixed-profile applicability; leave existing code unchanged during preparation."
-        }
-      ],
+      "gaps": [],
       "originals": [
         "development/research/archive/legacy-workflows/source-campaign-2026-10-07/1.15.2--1.16.5/findings/F-S5-PISTON-HEAD-THRESHOLD.md",
         "development/research/archive/legacy-workflows/source-campaign-2026-10-07/1.15.2--1.16.5/findings/F-S5-PISTON-HEAD-THRESHOLD.md"
       ],
-      "applicability": "Endpoint interval (1.15.2, 1.16.5]; exact cutover remains the original evidence\u2019s separate applicability gate.",
+      "applicability": "First changed stable release1.16 independently ACCEPTed at005d5338f9a944f71651b8010ac90f73e1cf9d2c; retracting source piston only.",
       "runtime": "unverified"
     },
     {
@@ -5949,18 +5993,26 @@
         }
       ],
       "implementation": {
-        "status": "open",
-        "changes": [],
-        "hooks": [],
-        "evidence": [],
-        "detail": "Current annotated Change/interface/catalog inventory contains no operation implementing: F-003: Auto-jump uses a different first collision candidate order. Existing unrelated later operations do not establish coverage."
+        "status": "present",
+        "changes": [
+          "src/main/java/me/wolfii/legacyparkourcompat/change/v1_17_1/AutoJumpCollisionOrder.java"
+        ],
+        "hooks": [
+          "AutoJumpCollisionOrderHook"
+        ],
+        "evidence": [
+          "src/main/java/me/wolfii/legacyparkourcompat/change/MovementChangeCatalog.java",
+          "development/research/reconciliation/branch-code-review.md"
+        ],
+        "detail": "Existing branch operation adapted to current thin Hook/catalog architecture; independent static ACCEPT. Compilation and runtime parity remain separate.",
+        "code_reviews": [
+          {
+            "identity": "development/research/reconciliation/branch-code-review.md",
+            "verdict": "ACCEPT, static integration only"
+          }
+        ]
       },
-      "gaps": [
-        {
-          "missing": "Current implementation coverage: open for this exact operation; see implementation detail.",
-          "next_action": "Later authorized implementation reconciliation must bind this exact operation and fixed-profile applicability; leave existing code unchanged during preparation."
-        }
-      ],
+      "gaps": [],
       "originals": [
         "development/research/archive/legacy-workflows/source-campaign-2026-10-07/1.17.1--1.18.2/findings/F-003-autojump-candidate-order.md",
         "development/research/archive/legacy-workflows/source-campaign-2026-10-07/1.17.1--1.18.2/findings/F-003-autojump-candidate-order.md",

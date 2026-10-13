@@ -1,5 +1,5 @@
 {
-  "productBase": "29b6a521",
+  "productBase": "Branch integration working tree after05095edc; see branch-code-review.md",
   "note": "Static current change/interface/catalog inventory. Registration is not source fidelity, exact applicability or runtime parity.",
   "changes": [
     {
@@ -207,6 +207,16 @@
       ]
     },
     {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_13/SneakInputSlowdown.java",
+      "emulates": "V1_13",
+      "hooks": [
+        "SneakInputSlowdownHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(SneakInputSlowdownHook.class, ParkourVersion.V1_13, new me.wolfii.legacyparkourcompat.change.v1_13.SneakInputSlowdown());"
+      ]
+    },
+    {
       "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_13/SneakingDimensions.java",
       "emulates": "V1_13",
       "hooks": [
@@ -216,16 +226,6 @@
       "catalogRegistrations": [
         "registry.register(PlayerDimensionsHook.class, ParkourVersion.V1_13, movementChangeSneakingDimensionsV1_13);",
         "registry.register(PlayerPoseHook.class, ParkourVersion.V1_13, movementChangeSneakingDimensionsV1_13);"
-      ]
-    },
-    {
-      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_13/SneakInputSlowdown.java",
-      "emulates": "V1_13",
-      "hooks": [
-        "SneakInputSlowdownHook"
-      ],
-      "catalogRegistrations": [
-        "registry.register(SneakInputSlowdownHook.class, ParkourVersion.V1_13, new me.wolfii.legacyparkourcompat.change.v1_13.SneakInputSlowdown());"
       ]
     },
     {
@@ -397,6 +397,16 @@
       ]
     },
     {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15_2/RetractingPistonHeadCollisionShape.java",
+      "emulates": "V1_15_2",
+      "hooks": [
+        "BlockCollisionShapeHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(BlockCollisionShapeHook.class, ParkourVersion.V1_15_2, new me.wolfii.legacyparkourcompat.change.v1_15_2.RetractingPistonHeadCollisionShape());"
+      ]
+    },
+    {
       "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_15_2/SneakEdgeCollisionQuery.java",
       "emulates": "V1_15_2",
       "hooks": [
@@ -504,6 +514,16 @@
       ],
       "catalogRegistrations": [
         "registry.register(JumpPowerHook.class, ParkourVersion.V1_17, new me.wolfii.legacyparkourcompat.change.v1_17.FloatJumpBoostAddition());"
+      ]
+    },
+    {
+      "change": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_17_1/AutoJumpCollisionOrder.java",
+      "emulates": "V1_17_1",
+      "hooks": [
+        "AutoJumpCollisionOrderHook"
+      ],
+      "catalogRegistrations": [
+        "registry.register(AutoJumpCollisionOrderHook.class, ParkourVersion.V1_17_1, new me.wolfii.legacyparkourcompat.change.v1_17_1.AutoJumpCollisionOrder());"
       ]
     },
     {
