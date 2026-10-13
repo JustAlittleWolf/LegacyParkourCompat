@@ -3,11 +3,8 @@ package me.wolfii.legacyparkourcompat.mechanic.hook.input;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
 import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
+import me.wolfii.legacyparkourcompat.mechanic.input.KeyboardInputSupport;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.item.component.UseEffects;
 import net.minecraft.world.phys.Vec2;
 
 /** Local input slowdown with distinct pre-poll and post-poll sampling. */
@@ -20,20 +17,7 @@ public interface InputSlowdownHook extends VersionedMechanic {
 
     /** Preserve modern-only scale, sneak-speed and custom use-effect responses. */
     default boolean supports(Player player, ParkourVersion selected) {
-        if (!supports(selected) || player.getAttributeValue(Attributes.SCALE) != 1.0
-            || player.getAttributeValue(Attributes.SNEAKING_SPEED) != 0.3) {
-            return false;
-        }
-        if (selected.olderThan(ParkourVersion.V1_13) && player.isSwimming()
-            || selected.olderThan(ParkourVersion.V1_14) && player.getPose() == Pose.SWIMMING && !player.isSwimming()) {
-            return false;
-        }
-        if (player.isUsingItem() && !player.isPassenger()) {
-            UseEffects effects = player.getUseItem().getOrDefault(DataComponents.USE_EFFECTS, UseEffects.DEFAULT);
-            return effects.speedMultiplier() == UseEffects.DEFAULT.speedMultiplier()
-                && effects.canSprint() == UseEffects.DEFAULT.canSprint();
-        }
-        return true;
+        return supports(selected) && KeyboardInputSupport.supports(player, selected);
     }
 
     /**
@@ -66,6 +50,6 @@ public interface InputSlowdownHook extends VersionedMechanic {
 
     /** LivingEntity.aiStep damps movement copies, leaving the stored input unchanged. */
     default Vec2 travelInput(Vec2 input) {
-        return new Vec2(input.x * 0.98F, input.y * 0.98F);
+        return KeyboardInputSupport.travelInput(input);
     }
 }

@@ -18,6 +18,10 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.PushAwayVelocityHoo
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.RideableJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.ShallowWaterSprintHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.InputSlowdownHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.StoredKeyboardInputHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.SlowInputPredicateHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.PoseFitHook;
+import me.wolfii.legacyparkourcompat.mechanic.input.KeyboardInputSupport;
 import me.wolfii.legacyparkourcompat.mechanic.hook.sprint.ForwardSprintInputHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SprintCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintFallFlyingGateHook;
@@ -67,6 +71,8 @@ abstract class LocalPlayerMixin {
     @Unique
     private InputSlowdownHook legacyparkourcompat$inputSlowdown;
     @Unique
+    private StoredKeyboardInputHook legacyparkourcompat$storedKeyboardInput;
+    @Unique
     private Vec2 legacyparkourcompat$keyboardInput;
 
     @WrapOperation(
@@ -77,8 +83,11 @@ abstract class LocalPlayerMixin {
         // Apply only while an exact historical stored-input producer is active.
         // Other profiles retain native eligibility until their producer is bound.
         LocalPlayer player = (LocalPlayer)(Object)this;
-        if (this.legacyparkourcompat$inputSlowdown == null || !(input instanceof KeyboardInput)
-            || !this.legacyparkourcompat$inputSlowdown.supports(player, MovementRuntime.profile(player).target())) {
+        boolean active = this.legacyparkourcompat$inputSlowdown != null
+            && this.legacyparkourcompat$inputSlowdown.supports(player, MovementRuntime.profile(player).target())
+            || this.legacyparkourcompat$storedKeyboardInput != null
+                && this.legacyparkourcompat$storedKeyboardInput.supports(player, MovementRuntime.profile(player).target());
+        if (!active || !(input instanceof KeyboardInput)) {
             return vanilla.call(input);
         }
         return MovementRuntime.find(ForwardSprintInputHook.class, player)
@@ -105,11 +114,29 @@ abstract class LocalPlayerMixin {
         this.legacyparkourcompat$inputSlowdown = MovementRuntime.find(InputSlowdownHook.class, player)
             .filter(change -> input instanceof KeyboardInput && change.supports(player, MovementRuntime.profile(player).target()))
             .orElse(null);
+        this.legacyparkourcompat$storedKeyboardInput = MovementRuntime.find(StoredKeyboardInputHook.class, player)
+            .filter(change -> input instanceof KeyboardInput && change.supports(player, MovementRuntime.profile(player).target()))
+            .orElse(null);
         this.legacyparkourcompat$keyboardInput = null;
         boolean sampledPose = this.legacyparkourcompat$inputSlowdown != null
             && this.legacyparkourcompat$inputSlowdown.samplePoseSlowdown(player);
+        if (this.legacyparkourcompat$storedKeyboardInput != null) {
+            PoseFitHook fit = MovementRuntime.find(PoseFitHook.class, player)
+                .orElseThrow(() -> new IllegalStateException("Missing historical keyboard pose-fit provider"));
+            SlowInputPredicateHook predicate = MovementRuntime.find(SlowInputPredicateHook.class, player)
+                .orElseThrow(() -> new IllegalStateException("Missing historical keyboard slowdown predicate"));
+            sampledPose = predicate.shouldSlow(player.getAbilities().flying, player.isSwimming(), player.isPassenger(),
+                player.isShiftKeyDown(), player.isSleeping(),
+                () -> fit.canFit(player, net.minecraft.world.entity.Pose.CROUCHING),
+                () -> fit.canFit(player, net.minecraft.world.entity.Pose.STANDING),
+                () -> player.getPose() == net.minecraft.world.entity.Pose.SWIMMING && !player.isInWater());
+        }
         vanilla.call(input);
-        if (this.legacyparkourcompat$inputSlowdown != null) {
+        if (this.legacyparkourcompat$storedKeyboardInput != null) {
+            this.legacyparkourcompat$keyboardInput = this.legacyparkourcompat$storedKeyboardInput.apply(
+                input.keyPresses, sampledPose, 0.3F, player.isUsingItem() && !player.isPassenger());
+            ((ClientInputAccessor)input).legacyparkourcompat$setMoveVector(this.legacyparkourcompat$keyboardInput);
+        } else if (this.legacyparkourcompat$inputSlowdown != null) {
             Input keys = input.keyPresses;
             float left = keys.left() == keys.right() ? 0.0F : keys.left() ? 1.0F : -1.0F;
             float forward = keys.forward() == keys.backward() ? 0.0F : keys.forward() ? 1.0F : -1.0F;
@@ -378,6 +405,10 @@ abstract class LocalPlayerMixin {
         cancellable = true
     )
     private void legacyparkourcompat$diagonalInputPrecision(Vec2 raw, CallbackInfoReturnable<Vec2> callback) {
+        if (this.legacyparkourcompat$storedKeyboardInput != null) {
+            callback.setReturnValue(KeyboardInputSupport.travelInput(this.legacyparkourcompat$keyboardInput));
+            return;
+        }
         if (this.legacyparkourcompat$inputSlowdown != null) {
             callback.setReturnValue(this.legacyparkourcompat$inputSlowdown.travelInput(this.legacyparkourcompat$keyboardInput));
             return;
