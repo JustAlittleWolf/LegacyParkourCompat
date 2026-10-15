@@ -1,12 +1,14 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import me.wolfii.legacyparkourcompat.mechanic.AirSpeedState;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.AirSpeedHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.AirSpeedUpdateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.FlightFallDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerPoseHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.state.PoseClearanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.SleepGlidePosePriorityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeCollisionQueryHook;
@@ -21,12 +23,35 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
 abstract class PlayerMixin implements AirSpeedState {
+    @ModifyArg(
+        method = "canPlayerFitWithinBlocksAndEntitiesWhen(Lnet/minecraft/world/entity/Pose;)Z",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/phys/AABB;deflate(D)Lnet/minecraft/world/phys/AABB;"
+        ),
+        index = 0
+    )
+    private double legacyparkourcompat$historicalPoseClearanceEpsilon(
+        double epsilon,
+        @Local(argsOnly = true) Pose pose
+    ) {
+        Player player = (Player)(Object)this;
+        if (player.getScale() != 1.0F) {
+            return epsilon;
+        }
+        return MovementRuntime.find(PoseClearanceHook.class, player)
+            .filter(change -> change.usesFullBox(MovementRuntime.profile(player).target(), pose))
+            .map(change -> 0.0D)
+            .orElse(epsilon);
+    }
+
     @ModifyReturnValue(method = "getDesiredPose", at = @At("RETURN"))
     private Pose legacyparkourcompat$sleepGlidePosePriority(Pose vanilla) {
         Player player = (Player)(Object)this;

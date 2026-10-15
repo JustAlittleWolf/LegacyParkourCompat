@@ -17,4 +17,6 @@ The root README and AGENTS define current scope: historical client player moveme
 - **1.13.2 ground-drag support resample:** the second sample follows input acceleration but precedes climbable clamping and `move`. The claimed post-movement support-boundary witness was incorrect. Do not add a post-movement drag resample from this finding; the independent ground-acceleration arithmetic delta remains valid.
 - **Vehicle dismount border checks:** the inspected canDismountTo consumer runs through server-only LivingEntity.stopRiding/dismountVehicle. The separately scoped client bed-wake response remains eligible.
 
+- **Ender pearl dimension ownership and farmland conversion pushes:** pearl owner clearing during server dimension transfer and displacement produced by server farmland-to-dirt conversion supply authoritative teleport state. Preserve equivalent received player state rather than reproducing these server producers on the client. This does not exclude client responses to equivalent corrections.
+
 These constrain current work; they are not a campaign ledger. Preserve input-state movement predicates such as the pending sprint-timer operation even when they depend on input representation.
