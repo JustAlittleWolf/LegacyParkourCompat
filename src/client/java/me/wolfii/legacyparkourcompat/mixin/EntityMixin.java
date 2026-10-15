@@ -3,9 +3,12 @@ package me.wolfii.legacyparkourcompat.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.AfterCollisionHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionWriteHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockBounceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockLandingHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockSpeedFactorHook;
@@ -36,6 +39,7 @@ import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Coerce;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -44,6 +48,32 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 abstract class EntityMixin implements WaterJumpDepthAccess {
+    @Unique
+    private boolean legacyparkourcompat$writeMovementPosition(double movementLength) {
+        Entity entity = (Entity)(Object)this;
+        return MovementRuntime.find(MovementPositionWriteHook.class, entity)
+            .map(hook -> hook.shouldWrite(MovementRuntime.profile(entity).target(), movementLength))
+            .orElse(true);
+    }
+
+    @WrapOperation(method = "move", at = @At(value = "INVOKE",
+        target = "Lnet/minecraft/world/entity/Entity;addMovementThisTick(Lnet/minecraft/world/entity/Entity$Movement;)V"))
+    private void legacyparkourcompat$movementContactSegment(Entity entity, @Coerce Object movement,
+        Operation<Void> original, @Local(name = "movementLength") double movementLength) {
+        if (this.legacyparkourcompat$writeMovementPosition(movementLength)) {
+            original.call(entity, movement);
+        }
+    }
+
+    @WrapOperation(method = "move", at = @At(value = "INVOKE",
+        target = "Lnet/minecraft/world/entity/Entity;setPos(Lnet/minecraft/world/phys/Vec3;)V"))
+    private void legacyparkourcompat$movementPosition(Entity entity, Vec3 position,
+        Operation<Void> original, @Local(name = "movementLength") double movementLength) {
+        if (this.legacyparkourcompat$writeMovementPosition(movementLength)) {
+            original.call(entity, position);
+        }
+    }
+
     @Unique
     private double legacyparkourcompat$retainedWaterDepth;
 

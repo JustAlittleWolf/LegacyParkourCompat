@@ -12,6 +12,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpBorderCandidateH
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpInverseSqrtHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.FlightActivationJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.FlightSneakInputHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.FlightToggleVehicleHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.KeyboardDiagonalInputHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.PassengerCrouchHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.PositionPacketThresholdHook;
@@ -215,6 +216,15 @@ abstract class LocalPlayerMixin {
         return MovementRuntime.find(FallFlyingFlightToggleGateHook.class, player)
             .map(behavior -> behavior.justToggledCreativeFlightForStart(player, MovementRuntime.profile(player).target(), vanilla))
             .orElse(vanilla);
+    }
+
+    @WrapOperation(method = "aiStep()V", at = @At(value = "INVOKE",
+        target = "Lnet/minecraft/client/player/LocalPlayer;getVehicle()Lnet/minecraft/world/entity/Entity;"))
+    private Entity legacyparkourcompat$flightToggleVehicle(LocalPlayer player, Operation<Entity> original) {
+        boolean checksVehicle = MovementRuntime.find(FlightToggleVehicleHook.class, player)
+            .map(hook -> hook.checksVehicle(MovementRuntime.profile(player).target()))
+            .orElse(true);
+        return checksVehicle ? original.call(player) : null;
     }
 
     @WrapOperation(
