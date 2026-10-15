@@ -3,6 +3,7 @@ package me.wolfii.legacyparkourcompat.mixin;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingStartHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingClimbableGateHook;
@@ -487,14 +488,14 @@ abstract class LocalPlayerMixin {
             ordinal = 1
         )
     )
-    private void legacyparkourcompat$sprintTriggerReset(LocalPlayer player, int value) {
+    private void legacyparkourcompat$sprintTriggerReset(LocalPlayer player, int value,
+        @Local(name = "wasShiftKeyDown") boolean priorShift) {
         LocalPlayerAccessor accessor = (LocalPlayerAccessor) player;
-        // The pre-1.16 path still cleared the timer for item use. The newer
-        // crouch and backward-input cancellations belong to this assignment,
-        // so only preserve the item-use cause when emulating the older path.
+        // Before 1.16 only item use cleared the timer; through 1.21.4 the
+        // independently resolved operation also admits saved shift input.
         boolean anotherResetCause = this.isSlowDueToUsingItem() && !player.isPassenger();
         boolean shouldReset = MovementRuntime.find(SprintTriggerHook.class, player)
-            .map(behavior -> behavior.shouldReset(player, anotherResetCause))
+            .map(behavior -> behavior.shouldReset(player, priorShift, anotherResetCause))
             .orElse(true);
         if (shouldReset) {
             accessor.legacyparkourcompat$setSprintTriggerTime(value);

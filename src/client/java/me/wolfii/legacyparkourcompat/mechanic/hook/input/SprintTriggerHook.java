@@ -8,5 +8,5 @@ import net.minecraft.world.entity.player.Player;
 @FunctionalInterface
 @MechanicType("player.sprint.trigger")
 public interface SprintTriggerHook extends VersionedMechanic {
-    boolean shouldReset(Player player, boolean anotherResetCause);
+    boolean shouldReset(Player player, boolean priorShift, boolean itemUseReset);
 }

@@ -18,7 +18,7 @@ import net.minecraft.world.entity.player.Player;
 @MovementChange(emulates = ParkourVersion.V1_15_2)
 public final class SprintTrigger implements SprintTriggerHook {
     @Override
-    public boolean shouldReset(Player player, boolean anotherResetCause) {
-        return anotherResetCause;
+    public boolean shouldReset(Player player, boolean priorShift, boolean itemUseReset) {
+        return itemUseReset;
     }
 }
