@@ -6,7 +6,7 @@
     "network.ClientPacketListenerMixin",
     "network.PositionMoveRotationMixin",
     "fluid.FluidCurrentDepthMixin",
-    "client.LocalPlayerEarlyFallFlyingSprintStopMixin",
+    "client.LocalPlayerEarlySprintStopMixin",
     "border.EntityBorderCollisionMixin",
     "border.LivingEntityWakeContextMixin",
     "border.DismountHelperWakeBorderMixin",

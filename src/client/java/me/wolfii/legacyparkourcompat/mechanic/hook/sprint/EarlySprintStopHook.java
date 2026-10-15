@@ -4,8 +4,8 @@ import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
 import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
 import net.minecraft.client.player.LocalPlayer;
 
-/** The fall-flight sprint response immediately after tutorial input. */
-@MechanicType("player.sprint.early_fall_flying_stop")
-public interface EarlyFallFlyingSprintStopHook extends VersionedMechanic {
+/** Early active-sprint stop immediately after tutorial input. */
+@MechanicType("player.sprint.early_stop")
+public interface EarlySprintStopHook extends VersionedMechanic {
     void afterTutorialInput(LocalPlayer player);
 }

@@ -2,7 +2,7 @@ package me.wolfii.legacyparkourcompat.change.v1_21_2;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.hook.sprint.EarlyFallFlyingSprintStopHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.sprint.EarlySprintStopHook;
 import net.minecraft.client.player.LocalPlayer;
 
 /**
@@ -14,7 +14,7 @@ import net.minecraft.client.player.LocalPlayer;
  * the nearest-later change resolver.
  */
 @MovementChange(emulates = ParkourVersion.V1_21_2)
-public final class NoEarlyFallFlyingSprintStop implements EarlyFallFlyingSprintStopHook {
+public final class NoEarlySprintStop implements EarlySprintStopHook {
     @Override
     public void afterTutorialInput(LocalPlayer player) {
     }
