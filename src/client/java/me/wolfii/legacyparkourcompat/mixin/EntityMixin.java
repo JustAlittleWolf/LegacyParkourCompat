@@ -17,6 +17,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockSpeedFactorHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.BoatPassengerFluidPushHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.CollisionRestitutionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.GravityHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.InputAccelerationHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.InsideBlockContactHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.PistonMovementHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerFallDistanceResetHook;
@@ -50,6 +51,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 abstract class EntityMixin implements WaterJumpDepthAccess {
+    @WrapMethod(method = "moveRelative")
+    private void legacyparkourcompat$inputAcceleration(float speed, Vec3 input, Operation<Void> original) {
+        Entity entity = (Entity)(Object)this;
+        if (entity instanceof Player player
+            && MovementRuntime.find(InputAccelerationHook.class, player)
+                .map(hook -> hook.apply(player, MovementRuntime.profile(player).target(), speed, input))
+                .orElse(false)) {
+            return;
+        }
+        original.call(speed, input);
+    }
+
     @WrapOperation(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;equal(DD)Z"))
     private boolean legacyparkourcompat$horizontalCollisionComparison(double requested, double resolved, Operation<Boolean> original) {
         Entity entity = (Entity)(Object)this;
