@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_25",
   "client": [
     "network.ClientPacketListenerMixin",
+    "network.PositionMoveRotationMixin",
     "fluid.FluidCurrentDepthMixin",
     "client.LocalPlayerEarlyFallFlyingSprintStopMixin",
     "border.EntityBorderCollisionMixin",

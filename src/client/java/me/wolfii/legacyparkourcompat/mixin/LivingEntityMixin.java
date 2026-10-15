@@ -2,6 +2,8 @@ package me.wolfii.legacyparkourcompat.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.DismountPositionHook;
@@ -29,6 +31,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.jump.SprintJumpImpulseHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.RetainedWaterJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.VelocityZeroThresholdHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.WaterGravityHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.WaterEnchantmentFactorsHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.WaterJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.WaterSprintSlowdownHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
@@ -354,6 +357,21 @@ abstract class LivingEntityMixin {
             return;
         }
         this.legacyparkourcompat$invokeJumpInLiquid(type);
+    }
+
+    @WrapOperation(method = "travelInWater", at = @At(value = "INVOKE",
+        target = "Lnet/minecraft/world/entity/LivingEntity;moveRelative(FLnet/minecraft/world/phys/Vec3;)V"))
+    private void legacyparkourcompat$waterEnchantmentFactors(LivingEntity entity, float speed, Vec3 input,
+        Operation<Void> original, @Local(name = "slowDown") LocalFloatRef drag) {
+        if (entity instanceof Player player) {
+            float vanillaSpeed = speed;
+            var factors = MovementRuntime.find(WaterEnchantmentFactorsHook.class, player)
+                .map(hook -> hook.factors(player, MovementRuntime.profile(player).target(), drag.get(), vanillaSpeed))
+                .orElse(new WaterEnchantmentFactorsHook.Factors(drag.get(), speed));
+            drag.set(factors.drag());
+            speed = factors.acceleration();
+        }
+        original.call(entity, speed, input);
     }
 
     @ModifyConstant(method = "travelInWater", constant = @Constant(floatValue = 0.9F))
