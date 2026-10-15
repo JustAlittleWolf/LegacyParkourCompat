@@ -19,7 +19,8 @@ public interface StoredKeyboardInputHook extends VersionedMechanic {
     default boolean supports(Player player, ParkourVersion selected) {
         return selected.newerThanOrEqual(ParkourVersion.V1_16)
             && selected.olderThanOrEqual(ParkourVersion.V1_21_4)
-            && KeyboardInputSupport.supports(player, selected);
+            && KeyboardInputSupport.supportsMovementFeatures(player, selected)
+            && KeyboardInputSupport.swiftSneakLevel(player, selected).isPresent();
     }
 
     /**

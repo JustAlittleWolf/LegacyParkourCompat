@@ -8,6 +8,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingStartHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingClimbableGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingFlightToggleGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpCollisionOrderHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpBorderCandidateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpInverseSqrtHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.FlightActivationJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.FlightSneakInputHook;
@@ -19,6 +20,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.RideableJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.ShallowWaterSprintHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.InputSlowdownHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.StoredKeyboardInputHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.SneakSpeedScalarHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SlowInputPredicateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.PoseFitHook;
 import me.wolfii.legacyparkourcompat.mechanic.input.KeyboardInputSupport;
@@ -131,10 +133,20 @@ abstract class LocalPlayerMixin {
                 () -> fit.canFit(player, net.minecraft.world.entity.Pose.STANDING),
                 () -> player.getPose() == net.minecraft.world.entity.Pose.SWIMMING && !player.isInWater());
         }
+        float sampledSneakSpeed = 0.3F;
+        if (this.legacyparkourcompat$storedKeyboardInput != null) {
+            SneakSpeedScalarHook scalar = MovementRuntime.find(SneakSpeedScalarHook.class, player)
+                .orElseThrow(() -> new IllegalStateException("Missing historical sneak-speed scalar provider"));
+            int swiftSneakLevel = KeyboardInputSupport.swiftSneakLevel(player, MovementRuntime.profile(player).target())
+                .orElseThrow(() -> new IllegalStateException("Missing supported historical keyboard scalar"));
+            sampledSneakSpeed = scalar.scalar(swiftSneakLevel,
+                player.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.SNEAKING_SPEED));
+        }
         vanilla.call(input);
         if (this.legacyparkourcompat$storedKeyboardInput != null) {
             this.legacyparkourcompat$keyboardInput = this.legacyparkourcompat$storedKeyboardInput.apply(
-                input.keyPresses, sampledPose, 0.3F, player.isUsingItem() && !player.isPassenger());
+                input.keyPresses, sampledPose, sampledSneakSpeed,
+                player.isUsingItem() && !player.isPassenger());
             ((ClientInputAccessor)input).legacyparkourcompat$setMoveVector(this.legacyparkourcompat$keyboardInput);
         } else if (this.legacyparkourcompat$inputSlowdown != null) {
             Input keys = input.keyPresses;
@@ -356,10 +368,15 @@ abstract class LocalPlayerMixin {
         Operation<Iterable<VoxelShape>> vanilla
     ) {
         Player player = (Player) (Object) this;
-        return MovementRuntime.find(AutoJumpCollisionOrderHook.class, player)
+        Iterable<VoxelShape> candidates = MovementRuntime.find(AutoJumpCollisionOrderHook.class, player)
             .map(change -> change.autoJumpCollisions(player, level, query,
                 MovementRuntime.profile(player).target(), () -> vanilla.call(level, source, query)))
             .orElseGet(() -> vanilla.call(level, source, query));
+        return MovementRuntime.find(AutoJumpBorderCandidateHook.class, player)
+            .flatMap(change -> change.borderCandidate(player, MovementRuntime.profile(player).target()))
+            .<Iterable<VoxelShape>>map(border -> com.google.common.collect.Iterables.concat(
+                java.util.List.of(border), candidates))
+            .orElse(candidates);
     }
 
     @Redirect(
