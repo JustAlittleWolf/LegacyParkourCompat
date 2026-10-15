@@ -1,6 +1,7 @@
 package me.wolfii.legacyparkourcompat.mechanic.hook.block;
 
 import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
+import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
@@ -17,6 +18,11 @@ import java.util.Optional;
 @MechanicType("block.collision")
 public interface BlockCollisionShapeHook extends VersionedMechanic {
     String blockId();
+
+    /** Additional feature/applicability boundary without changing version resolution. */
+    default boolean supports(ParkourVersion selected) {
+        return true;
+    }
 
     @Override
     default String variant() {

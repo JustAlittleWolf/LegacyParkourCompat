@@ -38,6 +38,7 @@ abstract class BlockStateCollisionShapeMixin {
 
         BlockState state = (BlockState)(Object)this;
         MovementRuntime.find(BlockCollisionShapeHook.class, state.getBlock(), player)
+            .filter(shape -> shape.supports(MovementRuntime.profile(player).target()))
             .flatMap(shape -> shape.collisionShape(state, level, pos, context))
             .ifPresent(cir::setReturnValue);
     }
