@@ -5,7 +5,8 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionWriteHook;
 
 /**
- * Mojmap 1.16.5 and 1.21.1 Entity.move write translated position/box only when
+ * Ornithe Feather 1.14 Entity.move and Mojmap 1.16.5 / 1.21.1 Entity.move
+ * write translated position/box only when
  * actualMovement.lengthSqr() > 1.0E-7. Mojmap 1.21.2 adds the alternative
  * requested.lengthSqr() - actual.lengthSqr() < 1.0E-7, retained by 26.2.
  * Suppress only the tiny movement's position/box write and its modern contact
@@ -18,6 +19,6 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionWri
 public final class MovementPositionWrite implements MovementPositionWriteHook {
     @Override
     public boolean shouldWrite(ParkourVersion selected, double movementLengthSquared) {
-        return selected.olderThan(ParkourVersion.V1_16) || movementLengthSquared > 1.0E-7;
+        return selected.olderThan(ParkourVersion.V1_14) || movementLengthSquared > 1.0E-7;
     }
 }
