@@ -13,6 +13,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpInverseSqrtHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.FlightActivationJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.FlightSneakInputHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.FlightToggleVehicleHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.state.SpectatorEntryVelocityResetHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.KeyboardDiagonalInputHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.PassengerCrouchHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.PositionPacketThresholdHook;
@@ -52,6 +53,7 @@ import net.minecraft.world.entity.PlayerRideableJumping;
 import net.minecraft.world.entity.player.Input;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -70,6 +72,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LocalPlayer.class)
 abstract class LocalPlayerMixin {
+    @WrapOperation(method = "onGameModeChanged", at = @At(value = "INVOKE",
+        target = "Lnet/minecraft/client/player/LocalPlayer;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V"))
+    private void legacyparkourcompat$spectatorEntryVelocity(LocalPlayer player, Vec3 movement, Operation<Void> original) {
+        boolean reset = MovementRuntime.find(SpectatorEntryVelocityResetHook.class, player)
+            .map(hook -> hook.resetVelocity(MovementRuntime.profile(player).target()))
+            .orElse(true);
+        if (reset) {
+            original.call(player, movement);
+        }
+    }
 
     @Unique
     private InputSlowdownHook legacyparkourcompat$inputSlowdown;

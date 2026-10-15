@@ -1,17 +1,20 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import me.wolfii.legacyparkourcompat.mechanic.AirSpeedState;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.AirSpeedHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.AirSpeedUpdateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.FlightFallDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerPoseHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.state.SleepGlidePosePriorityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeCollisionQueryHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeProbeHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.SwimmingPitchHook;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,6 +27,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
 abstract class PlayerMixin implements AirSpeedState {
+    @ModifyReturnValue(method = "getDesiredPose", at = @At("RETURN"))
+    private Pose legacyparkourcompat$sleepGlidePosePriority(Pose vanilla) {
+        Player player = (Player)(Object)this;
+        return MovementRuntime.find(SleepGlidePosePriorityHook.class, player)
+            .map(hook -> hook.desiredPose(MovementRuntime.profile(player).target(), player.isSleeping(), player.isFallFlying(), vanilla))
+            .orElse(vanilla);
+    }
 
     @Inject(method = "updatePlayerPose()V", at = @At("HEAD"), cancellable = true)
     private void legacyparkourcompat$historicalPoseUpdate(CallbackInfo callback) {

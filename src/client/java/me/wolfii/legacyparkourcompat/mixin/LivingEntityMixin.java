@@ -11,6 +11,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.state.EffectFallDistanceReset
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.ElytraLiftForceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingLookHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.GlideClimbableExemptionHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingClimbableExitHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.FluidJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.GlideFallDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.gliding.GlideFallDistanceLimiterStageHook;
@@ -66,6 +67,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 abstract class LivingEntityMixin {
+    @WrapOperation(method = "travelFallFlying", at = @At(value = "INVOKE",
+        target = "Lnet/minecraft/world/entity/LivingEntity;onClimbable()Z"))
+    private boolean legacyparkourcompat$fallFlyingClimbableExit(LivingEntity entity, Operation<Boolean> original) {
+        return MovementRuntime.find(FallFlyingClimbableExitHook.class, entity)
+            .map(hook -> hook.exitsOnClimbable(MovementRuntime.profile(entity).target(), () -> original.call(entity)))
+            .orElseGet(() -> original.call(entity));
+    }
+
     @WrapOperation(method = "onClimbable()Z", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/world/entity/LivingEntity;isFallFlying()Z"))
     private boolean legacyparkourcompat$glideClimbableExemption(LivingEntity entity, Operation<Boolean> original) {

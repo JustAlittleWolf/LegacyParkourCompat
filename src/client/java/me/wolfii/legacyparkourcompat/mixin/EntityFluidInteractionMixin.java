@@ -1,14 +1,20 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FluidInteractionBoxHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FluidInteractionFluidHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.LavaCurrentHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FluidScanLoadedChunksHook;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityFluidInteraction;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
@@ -22,6 +28,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityFluidInteraction.class)
 abstract class EntityFluidInteractionMixin {
+    @WrapOperation(method = "update", at = @At(value = "INVOKE",
+        target = "Lnet/minecraft/world/entity/EntityFluidInteraction;hasFluidAndLoaded(Lnet/minecraft/world/level/Level;IIIIII)Z"))
+    private static boolean legacyparkourcompat$fluidLoadedChunks(Level level, int x0, int y0, int z0, int x1, int y1, int z1,
+        Operation<Boolean> original, @Local(argsOnly = true) Entity entity) {
+        if (entity instanceof Player player) {
+            return MovementRuntime.find(FluidScanLoadedChunksHook.class, player)
+                .flatMap(hook -> hook.scanAllowed(player, MovementRuntime.profile(player).target()))
+                .orElseGet(() -> original.call(level, x0, y0, z0, x1, y1, z1));
+        }
+        return original.call(level, x0, y0, z0, x1, y1, z1);
+    }
+
     @Redirect(
         method = "update(Lnet/minecraft/world/entity/Entity;Z)V",
         at = @At(
