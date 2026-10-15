@@ -9,6 +9,7 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.AfterCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionWriteHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionReconstructionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockBounceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockLandingHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockSpeedFactorHook;
@@ -49,6 +50,44 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Entity.class)
 abstract class EntityMixin implements WaterJumpDepthAccess {
     @Unique
+    private java.util.Optional<MovementPositionReconstructionHook.Position> legacyparkourcompat$movementPosition(Vec3 movement) {
+        Entity entity = (Entity)(Object)this;
+        if (!(entity instanceof Player player)) {
+            return java.util.Optional.empty();
+        }
+        return MovementRuntime.find(MovementPositionReconstructionHook.class, player)
+            .flatMap(hook -> hook.resolve(player, MovementRuntime.profile(player).target(), movement));
+    }
+
+    @Unique
+    private boolean legacyparkourcompat$applyMovementPosition(Entity entity, Vec3 movement) {
+        var historical = this.legacyparkourcompat$movementPosition(movement);
+        if (historical.isEmpty()) {
+            return false;
+        }
+        var resolved = historical.get();
+        entity.setBoundingBox(resolved.box());
+        entity.setPosRaw(resolved.position().x, resolved.position().y, resolved.position().z);
+        return true;
+    }
+
+    @ModifyArg(method = "move", at = @At(value = "INVOKE",
+        target = "Lnet/minecraft/world/entity/Entity$Movement;<init>(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;)V"), index = 1)
+    private Vec3 legacyparkourcompat$movementContactEnd(Vec3 position, @Local(name = "movement") Vec3 movement) {
+        return this.legacyparkourcompat$movementPosition(movement)
+            .map(MovementPositionReconstructionHook.Position::position).orElse(position);
+    }
+
+    @WrapOperation(method = "move", at = @At(value = "INVOKE",
+        target = "Lnet/minecraft/world/entity/Entity;setPos(DDD)V"))
+    private void legacyparkourcompat$noPhysicsMovementPosition(Entity entity, double x, double y, double z,
+        Operation<Void> original, @Local(argsOnly = true) Vec3 movement) {
+        if (!this.legacyparkourcompat$applyMovementPosition(entity, movement)) {
+            original.call(entity, x, y, z);
+        }
+    }
+
+    @Unique
     private boolean legacyparkourcompat$writeMovementPosition(double movementLength) {
         Entity entity = (Entity)(Object)this;
         return MovementRuntime.find(MovementPositionWriteHook.class, entity)
@@ -68,8 +107,10 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
     @WrapOperation(method = "move", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/world/entity/Entity;setPos(Lnet/minecraft/world/phys/Vec3;)V"))
     private void legacyparkourcompat$movementPosition(Entity entity, Vec3 position,
-        Operation<Void> original, @Local(name = "movementLength") double movementLength) {
-        if (this.legacyparkourcompat$writeMovementPosition(movementLength)) {
+        Operation<Void> original, @Local(name = "movementLength") double movementLength,
+        @Local(name = "movement") Vec3 movement) {
+        if (this.legacyparkourcompat$writeMovementPosition(movementLength)
+            && !this.legacyparkourcompat$applyMovementPosition(entity, movement)) {
             original.call(entity, position);
         }
     }
