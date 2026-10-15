@@ -10,6 +10,7 @@ import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.AfterCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionWriteHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionReconstructionHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalCollisionComparisonHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockBounceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockLandingHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockSpeedFactorHook;
@@ -49,6 +50,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 abstract class EntityMixin implements WaterJumpDepthAccess {
+    @WrapOperation(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;equal(DD)Z"))
+    private boolean legacyparkourcompat$horizontalCollisionComparison(double requested, double resolved, Operation<Boolean> original) {
+        Entity entity = (Entity)(Object)this;
+        return MovementRuntime.find(HorizontalCollisionComparisonHook.class, entity)
+            .map(hook -> hook.equal(requested, resolved))
+            .orElseGet(() -> original.call(requested, resolved));
+    }
+
     @Unique
     private java.util.Optional<MovementPositionReconstructionHook.Position> legacyparkourcompat$movementPosition(Vec3 movement) {
         Entity entity = (Entity)(Object)this;

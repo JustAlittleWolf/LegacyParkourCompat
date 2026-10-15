@@ -13,6 +13,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpBorderCandidateH
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpInverseSqrtHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.FlightActivationJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.FlightSneakInputHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.SimultaneousFlightInputHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.FlightToggleVehicleHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.SpectatorEntryVelocityResetHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.KeyboardDiagonalInputHook;
@@ -183,6 +184,10 @@ abstract class LocalPlayerMixin {
                 .map(change -> change.compensate(player, MovementRuntime.profile(player).target(), this.legacyparkourcompat$keyboardInput))
                 .orElse(this.legacyparkourcompat$keyboardInput);
             ((ClientInputAccessor)player.input).legacyparkourcompat$setMoveVector(this.legacyparkourcompat$keyboardInput);
+        }
+        if (controlled && player.input instanceof KeyboardInput) {
+            MovementRuntime.find(SimultaneousFlightInputHook.class, player)
+                .ifPresent(hook -> hook.apply(player, MovementRuntime.profile(player).target(), player.input.keyPresses));
         }
         return controlled;
     }

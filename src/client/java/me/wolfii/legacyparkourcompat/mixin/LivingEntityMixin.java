@@ -1,6 +1,7 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
@@ -12,6 +13,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.travel.ElytraLiftForceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingLookHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.GlideClimbableExemptionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingClimbableExitHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.ClimbHeldJumpImpulseHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.FluidJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.GlideFallDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.gliding.GlideFallDistanceLimiterStageHook;
@@ -29,11 +31,13 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerDimensionsHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.PortalDismountHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.PowderSnowClimbHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.SlowFallingFallDistanceHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.state.SleepPitchResetHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.SprintJumpImpulseHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.RetainedWaterJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.VelocityZeroThresholdHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.WaterGravityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.WaterEnchantmentFactorsHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.WaterClimbImpulseHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.WaterJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.WaterSprintSlowdownHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
@@ -67,6 +71,37 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 abstract class LivingEntityMixin {
+    @WrapOperation(method = "tick()V", at = @At(value = "INVOKE",
+        target = "Lnet/minecraft/world/entity/LivingEntity;setXRot(F)V"))
+    private void legacyparkourcompat$sleepPitchReset(LivingEntity entity, float pitch, Operation<Void> original) {
+        boolean resets = MovementRuntime.find(SleepPitchResetHook.class, entity)
+            .map(hook -> hook.resetsPitch(MovementRuntime.profile(entity).target()))
+            .orElse(true);
+        if (resets) {
+            original.call(entity, pitch);
+        }
+    }
+
+    @WrapOperation(method = "travelInWater", at = @At(value = "INVOKE",
+        target = "Lnet/minecraft/world/entity/LivingEntity;onClimbable()Z"))
+    private boolean legacyparkourcompat$waterClimbImpulse(LivingEntity entity, Operation<Boolean> original) {
+        if (entity instanceof Player player) {
+            return MovementRuntime.find(WaterClimbImpulseHook.class, player)
+                .map(hook -> hook.onClimbable(player, MovementRuntime.profile(player).target(), () -> original.call(entity)))
+                .orElseGet(() -> original.call(entity));
+        }
+        return original.call(entity);
+    }
+
+    @ModifyExpressionValue(method = "handleRelativeFrictionAndCalculateMovement", at = @At(value = "FIELD",
+        target = "Lnet/minecraft/world/entity/LivingEntity;jumping:Z", opcode = Opcodes.GETFIELD))
+    private boolean legacyparkourcompat$climbHeldJumpImpulse(boolean jumping) {
+        LivingEntity entity = (LivingEntity)(Object)this;
+        return MovementRuntime.find(ClimbHeldJumpImpulseHook.class, entity)
+            .map(hook -> hook.heldJump(entity.getInBlockState(), jumping))
+            .orElse(jumping);
+    }
+
     @WrapOperation(method = "travelFallFlying", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/world/entity/LivingEntity;onClimbable()Z"))
     private boolean legacyparkourcompat$fallFlyingClimbableExit(LivingEntity entity, Operation<Boolean> original) {
