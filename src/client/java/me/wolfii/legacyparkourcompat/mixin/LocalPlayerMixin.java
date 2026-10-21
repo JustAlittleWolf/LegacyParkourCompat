@@ -35,6 +35,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.input.DoubleTapSprintStartHoo
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.ShallowWaterSprintStartHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintKeyStartHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintStartHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.SlowInputSprintStartHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintTickHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintTriggerHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintWindowHook;
@@ -74,6 +75,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LocalPlayer.class)
 abstract class LocalPlayerMixin {
+    @ModifyExpressionValue(method = "canStartSprinting()Z", at = @At(value = "INVOKE",
+        target = "Lnet/minecraft/client/player/LocalPlayer;isMovingSlowly()Z"))
+    private boolean legacyparkourcompat$slowInputSprintGate(boolean movingSlowly) {
+        LocalPlayer player = (LocalPlayer) (Object) this;
+        return MovementRuntime.find(SlowInputSprintStartHook.class, player)
+            .map(hook -> !hook.allowsSprintingWhileMovingSlowly() && movingSlowly)
+            .orElse(movingSlowly);
+    }
+
     @WrapOperation(method = "onGameModeChanged", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/client/player/LocalPlayer;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V"))
     private void legacyparkourcompat$spectatorEntryVelocity(LocalPlayer player, Vec3 movement, Operation<Void> original) {
