@@ -14,6 +14,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalCollision
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockBounceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockLandingHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockSpeedFactorHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.block.StepOnCallbackHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.BoatPassengerFluidPushHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.CollisionRestitutionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.GravityHook;
@@ -29,6 +30,8 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.state.SwimmingUpdateHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
 import me.wolfii.legacyparkourcompat.mixin.accessor.WaterJumpDepthAccess;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityFluidInteraction;
@@ -51,6 +54,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 abstract class EntityMixin implements WaterJumpDepthAccess {
+    @WrapOperation(method = "applyEffectsFromBlocks(Ljava/util/List;)V", at = @At(value = "INVOKE",
+        target = "Lnet/minecraft/world/level/block/Block;stepOn(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/entity/Entity;)V"))
+    private void legacyparkourcompat$stepOnGate(Block block, Level level, BlockPos pos, BlockState state,
+                                             Entity entity, Operation<Void> original) {
+        boolean invoke = entity instanceof Player player
+            ? MovementRuntime.find(StepOnCallbackHook.class, block, player)
+                .map(hook -> hook.shouldInvoke(player)).orElse(true)
+            : true;
+        if (invoke) {
+            original.call(block, level, pos, state, entity);
+        }
+    }
+
     @WrapMethod(method = "moveRelative")
     private void legacyparkourcompat$inputAcceleration(float speed, Vec3 input, Operation<Void> original) {
         Entity entity = (Entity)(Object)this;
