@@ -11,7 +11,7 @@ Use this procedure when coordinating an authorized discovery, implementation or 
 
 ## Assign roles and capacity
 
-Create a few separate suborchestrator chats for non-overlapping workstreams. Give each explicit delegation rights, a maximum worker count and permitted hierarchy depth. Workers must not delegate. Count direct workers and suborchestrators in the master's global concurrency pool; exclude suborchestrators' subworkers, which use their separately assigned local pools. Apply overall time/resource budgets to all descendants and obey actual host limits.
+The master (level 1) creates a few separate chats for level-2 suborchestrators with non-overlapping workstreams. Do not substitute master-spawned subagents for these chats. Give each suborchestrator explicit delegation rights and a maximum local worker count. Level-2 suborchestrators must not create further chats: they use subagents for their workers (level 3). Workers must not delegate. Count direct workers and suborchestrators in the master's global concurrency pool; exclude suborchestrators' subworkers, which use their separately assigned local pools. Apply overall time/resource budgets to all descendants and obey actual host limits.
 
 Use the cheapest modern model suitable for the task; in Codex, follow the model policy below. Determine supported concurrency with bounded probes; separate-chat capacity and per-chat subagent capacity are distinct. Reserve capacity for independent review and serial integration. Assign one canonical source-preparation writer and one product integration/build owner.
 
@@ -42,7 +42,7 @@ For product handoff, require the integrator to merge the default branch, inspect
 
 Use the host's supported conversation, delegation, messaging and completion mechanisms. Report missing separate-chat support before changing the hierarchy.
 
-**Codex desktop:** Use `create_thread` for separate suborchestrator chats, `send_message_to_thread` for assignments/follow-ups, and bounded multi-target `wait_threads` calls with returned cursors for first-completion waits. Explicit user authorization is required for creating or messaging chats; reuse it within scope. `spawn_agent` creates a subagent, not a separate chat. After a wait, inspect the event and dispatch explicitly; waiting does not run the ready queue. Other hosts use equivalent supported mechanisms and their permission rules.
+**Codex desktop:** The master uses `create_thread` for level-2 suborchestrator chats, `send_message_to_thread` for assignments/follow-ups, and bounded multi-target `wait_threads` calls with returned cursors for first-completion waits. Level-2 suborchestrators use `spawn_agent` for their workers and must not call `create_thread` to delegate. Explicit user authorization is required for creating or messaging chats; reuse it within scope. If authorization is missing or a higher-priority host rule prevents this hierarchy, report the precise conflict and obtain the needed authorization before dispatching affected work; do not silently replace the chats with subagents. `spawn_agent` creates a subagent, not a separate chat. After a wait, inspect the event and dispatch explicitly; waiting does not run the ready queue. Other hosts use equivalent supported mechanisms and their permission rules.
 
 ### Codex-only model policy
 
