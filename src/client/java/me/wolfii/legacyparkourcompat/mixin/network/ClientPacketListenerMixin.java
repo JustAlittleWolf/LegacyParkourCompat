@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.PlayerCorrectionContext;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.PlayerCorrectionPositionHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.network.PlayerCorrectionRotationHook;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.Entity;
@@ -29,13 +30,26 @@ public abstract class ClientPacketListenerMixin {
         Operation<Boolean> original
     ) {
         LocalPlayer previous = PlayerCorrectionContext.player();
+        PlayerCorrectionRotationHook.Angles historicalAngles = null;
         if (!interpolate && entity instanceof LocalPlayer player && MovementRuntime.appliesTo(player)) {
             PlayerCorrectionContext.set(player);
+            historicalAngles = MovementRuntime.find(PlayerCorrectionRotationHook.class, player)
+                .map(hook -> hook.apply(player.getYRot(), player.getXRot(), change.yRot(), change.xRot(),
+                    relatives.contains(Relative.Y_ROT), relatives.contains(Relative.X_ROT)))
+                .orElse(null);
         } else {
             PlayerCorrectionContext.set(null);
         }
         try {
-            return original.call(change, relatives, entity, interpolate);
+            boolean result = original.call(change, relatives, entity, interpolate);
+            if (historicalAngles != null) {
+                entity.setYRot(historicalAngles.yRot());
+                entity.setXRot(historicalAngles.xRot());
+                // absMoveTo copies the angles after the setters, including their finite checks.
+                entity.yRotO = entity.getYRot();
+                entity.xRotO = entity.getXRot();
+            }
+            return result;
         } finally {
             PlayerCorrectionContext.set(previous);
         }
