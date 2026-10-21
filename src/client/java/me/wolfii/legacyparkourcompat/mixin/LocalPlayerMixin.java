@@ -36,6 +36,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.input.ShallowWaterSprintStart
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintKeyStartHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintStartHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SlowInputSprintStartHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.FlightShallowWaterSprintHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintTickHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintTriggerHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintWindowHook;
@@ -75,6 +76,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LocalPlayer.class)
 abstract class LocalPlayerMixin {
+    @ModifyExpressionValue(method = {"canStartSprinting()Z", "shouldStopRunSprinting()Z"}, at = @At(value = "INVOKE",
+        target = "Lnet/minecraft/client/player/LocalPlayer;isSprintingPossible(Z)Z"))
+    private boolean legacyparkourcompat$flightShallowWaterSprint(boolean vanilla) {
+        Player player = (Player) (Object) this;
+        return MovementRuntime.find(FlightShallowWaterSprintHook.class, player)
+            .map(hook -> hook.isSprintingPossible(player, MovementRuntime.profile(player).target(), vanilla))
+            .orElse(vanilla);
+    }
+
     @ModifyExpressionValue(method = "canStartSprinting()Z", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/client/player/LocalPlayer;isMovingSlowly()Z"))
     private boolean legacyparkourcompat$slowInputSprintGate(boolean movingSlowly) {

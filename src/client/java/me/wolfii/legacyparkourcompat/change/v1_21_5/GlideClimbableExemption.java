@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
  * do the actual CLIMBABLE tag, trapdoor predicate and cache writes. Pre-Elytra
  * profiles and modern-only/custom glide-through members retain native behavior.
  */
-@MovementChange(emulates = ParkourVersion.V1_21_5)
+@MovementChange(emulates = ParkourVersion.V1_21_9)
 public final class GlideClimbableExemption implements GlideClimbableExemptionHook {
     @Override
     public boolean exemptsGlidingPlayer(ParkourVersion selected, BlockState state, boolean gliding) {

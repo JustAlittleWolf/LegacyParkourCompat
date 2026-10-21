@@ -6,13 +6,10 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintWindowHook;
 import net.minecraft.world.entity.player.Player;
 
 /**
- * Source evidence (paths are relative to decompiled_minecraft/):
- * 1.20.6/mojmap/net/minecraft/client/player/LocalPlayer.java:
- *   aiStep.
- * 1.21.11/mojmap/net/minecraft/client/player/LocalPlayer.java:
- *   aiStep.
- * No exact independently accepted source binding is established for this operation.
- * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ * Mojmap 1.21.5, 1.21.6, 1.21.7 and 1.21.8 LocalPlayer.aiStep arm the
+ * double-tap sprint timer with seven ticks. Mojmap 1.21.9 and 1.21.10 instead
+ * read Options.sprintWindow. Keep this endpoint at 1.21.8 when splitting the
+ * later profile alias; the newer profiles retain their native option value.
  */
 @MovementChange(emulates = ParkourVersion.V1_21_5)
 public final class DoubleTapSprintWindow implements SprintWindowHook {
