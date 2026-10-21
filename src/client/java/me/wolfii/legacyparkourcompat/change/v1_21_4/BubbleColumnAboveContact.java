@@ -21,7 +21,7 @@ import net.minecraft.world.level.block.state.BlockState;
 @MovementChange(emulates = ParkourVersion.V1_21_4)
 public final class BubbleColumnAboveContact implements BubbleColumnAboveContactHook {
     @Override
-    public boolean isAboveContact(BlockState stateAbove, boolean vanillaAboveContact) {
-        return stateAbove.isAir();
+    public boolean isAboveContact(ParkourVersion selected, BlockState stateAbove, boolean vanillaAboveContact) {
+        return selected.olderThan(ParkourVersion.V1_13) ? vanillaAboveContact : stateAbove.isAir();
     }
 }

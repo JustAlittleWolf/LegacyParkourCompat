@@ -24,7 +24,7 @@ public abstract class BubbleColumnBlockMixin {
         @Local(argsOnly = true) Entity entity
     ) {
         return MovementRuntime.find(BubbleColumnAboveContactHook.class, entity)
-            .map(change -> change.isAboveContact(stateAbove, vanillaAboveContact))
+            .map(change -> change.isAboveContact(MovementRuntime.profile(entity).target(), stateAbove, vanillaAboveContact))
             .orElse(vanillaAboveContact);
     }
 }
