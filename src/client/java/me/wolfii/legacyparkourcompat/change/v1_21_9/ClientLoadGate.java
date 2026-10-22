@@ -15,7 +15,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.clientload.ClientLoadGateHook
  * The identical historical predicate needs only the latest boundary; the
  * 1.21.2 change prevents propagation to profiles before its introduction.
  */
-@MovementChange(emulates = ParkourVersion.V1_21_9)
+@MovementChange(emulates = ParkourVersion.V1_21_10)
 public final class ClientLoadGate implements ClientLoadGateHook {
     @Override
     public boolean shouldRunTick(boolean clientLoaded, int timeoutTicks) {

@@ -18,8 +18,9 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.ShallowWaterCurrentCuto
  * 26.1.2 unobfuscated, net.minecraft.world.entity.EntityFluidInteraction#update and
  * EntityFluidInteraction.Tracker#applyCurrentTo, reject accumulated flow whose
  * squared length is below 1.0E-5F before averaging and scaling; Player#isPushedByFluid
- * still gates the scan. The shallow-water tracker context retains the historical
- * nonzero-flow cutoff independently of the minimum-impulse operation.
+ * still gates the scan. The water tracker context restores historical admission of any
+ * nonzero water current at every positive water depth, independently of the later
+ * minimum-impulse operation.
  *
  * The cutoff and minimum impulse are independent operations. Historical depth from
  * the deflated box is restored independently by FluidCurrentDepthChange.
@@ -28,6 +29,6 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.ShallowWaterCurrentCuto
 public final class ShallowWaterCurrentCutoff implements ShallowWaterCurrentCutoffHook {
     @Override
     public boolean bypassWeakCurrentCutoff(double waterHeight) {
-        return waterHeight > 0.0 && waterHeight < 0.4;
+        return waterHeight > 0.0;
     }
 }
