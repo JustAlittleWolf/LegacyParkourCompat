@@ -22,8 +22,10 @@ import net.minecraft.world.level.block.state.BlockState;
  * to slime blocks; other callbacks retain their native behavior. Since modern
  * 26.2 mojmap net.minecraft.world.entity.Entity.applyEffectsFromBlocks invokes
  * the list overload outside Entity.move, where visited blocks are deduplicated.
- * This callback is replayed from the per-move support position and its later
- * collector invocation is suppressed.
+ * This callback is replayed from the per-move floor(x, y - 0.2F, z) position,
+ * including the historical fence, wall, and fence-gate fallback, and its later
+ * collector invocation is suppressed. Do not substitute the newer tracked
+ * supporting position used by movement-factor consumers.
  */
 @MovementChange(emulates = ParkourVersion.V1_14_2)
 public final class StepOnCallback implements StepOnCallbackHook {
