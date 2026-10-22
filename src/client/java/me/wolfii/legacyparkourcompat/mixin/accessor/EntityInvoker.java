@@ -18,6 +18,9 @@ public interface EntityInvoker {
     @Invoker("setSharedFlag")
     void legacyparkourcompat$setSharedFlag(int flag, boolean value);
 
+    @Invoker("onInsideBlock")
+    void legacyparkourcompat$invokeOnInsideBlock(BlockState state);
+
     @Invoker("restituteMovementAfterCollisions")
     void legacyparkourcompat$invokeRestituteMovementAfterCollisions(
         BlockState effectState,
