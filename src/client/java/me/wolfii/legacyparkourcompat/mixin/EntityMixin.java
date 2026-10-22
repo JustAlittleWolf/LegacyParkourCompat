@@ -430,17 +430,20 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
         method = "move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/Entity;checkFallDamage(DZLnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)V",
-            shift = At.Shift.AFTER
+            target = "Lnet/minecraft/world/entity/Entity;getMovementEmission()Lnet/minecraft/world/entity/Entity$MovementEmission;"
         )
     )
-    private void legacyparkourcompat$historicalGroundedBlockStep(MoverType moverType, Vec3 movement, CallbackInfo ci) {
+    private void legacyparkourcompat$historicalGroundedBlockStep(
+        MoverType moverType,
+        Vec3 movement,
+        CallbackInfo ci,
+        @Local(name = "effectPos") BlockPos effectPos,
+        @Local(name = "effectState") BlockState effectState
+    ) {
         Entity entity = (Entity)(Object)this;
         if (entity instanceof LocalPlayer player) {
-            MovementRuntime.find(GroundedBlockStepCallbackHook.class, player).ifPresent(hook -> {
-                BlockPos pos = entity.getOnPosLegacy();
-                hook.afterGroundState(entity, pos, entity.level().getBlockState(pos));
-            });
+            MovementRuntime.find(GroundedBlockStepCallbackHook.class, player)
+                .ifPresent(hook -> hook.afterGroundState(entity, effectPos, effectState));
         }
     }
     @Inject(

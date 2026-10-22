@@ -10,10 +10,12 @@ import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * Moves the 1.21.1 grounded Block.stepOn callback to its original point after
- * ground/fall state and before movement-emission and inside-block callbacks.
- * Mojmap 1.21.1 Entity.move calls Block.stepOn after checkFallDamage when on
- * ground; 26.2 unobfuscated Entity.applyEffectsFromBlocks calls it after travel.
- * The mixin supplies getOnPosLegacy, the same position used by 1.21.1 Entity.move.
+ * horizontal velocity reset and fall response, and before movement-emission
+ * and inside-block callbacks. Mojmap 1.21.1 Entity.move calls Block.stepOn after
+ * checkFallDamage, horizontal velocity reset, and updateEntityAfterFallOn when
+ * on ground; 26.2 unobfuscated Entity.move exposes the corresponding point after
+ * collision restitution. The mixin supplies the position and state captured
+ * before checkFallDamage, as in 1.21.1.
  */
 @MovementChange(emulates = ParkourVersion.V1_21)
 public final class ImmediateGroundedBlockStepCallback implements GroundedBlockStepCallbackHook {
