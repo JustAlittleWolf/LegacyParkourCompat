@@ -15,7 +15,9 @@ import net.minecraft.world.entity.Entity;
  * {@code EntityFluidInteraction.update}; the hook applies the lowered sample
  * only to the water eye-inside comparisons, including the older strict
  * fluid-top boundary, while preserving scanner order and native behavior for
- * other fluids and entities.
+ * other fluids and entities. It does not recreate the historical boat gate:
+ * 1.16 tests point containment in {@code Entity.updateFluidOnEyes}, whereas
+ * 1.20.4 uses vertical overlap in that method.
  */
 @MovementChange(emulates = ParkourVersion.V1_20_2)
 public final class PlayerEyeFluidSample implements PlayerEyeFluidSampleHook {
