@@ -1,0 +1,5 @@
+# Elytra jump edge now starts local fall-flying after eligibility checks
+1.14.4, Mojmap: `net/minecraft/client/player/LocalPlayer.java`, fall-flying input edge in `aiStep`, lines 707–712.
+1.15.2, Mojmap: `net/minecraft/client/player/LocalPlayer.java`, fall-flying input edge in `aiStep`, lines 709–719; `net/minecraft/world/entity/player/Player.java`, `tryToStartFallFlying` and `startFallFlying`, lines 1578–1591.
+Difference: On a jump-key rising edge while airborne and descending, 1.14.4 sends the start-fall-flying packet when an enabled elytra is equipped and the player is not already gliding or ability-flying. In 1.15.2 the edge is also gated on no ability-flight toggle that tick, no passenger, and no ladder contact. It calls `tryToStartFallFlying`, which further requires not in water and sets the local fall-flying flag before returning success; the packet is sent only on success.
+Movement meaning: For an eligible local player the newer client changes its fall-flying state before `super.aiStep` continues, allowing the local tick to observe the new state immediately. The older client only sends the request and waits for the server state update.

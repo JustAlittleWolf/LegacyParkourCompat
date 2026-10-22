@@ -1,0 +1,6 @@
+# Player eye-fluid sampling height
+
+1.20.4, Mojmap: `net/minecraft/world/entity/Entity.java`, `updateFluidOnEyes`, lines 1211–1225; `isUnderWater` and `updateSwimming`, lines 1173–1184; `net/minecraft/client/player/LocalPlayer.java`, `aiStep`, lines 693–710.
+1.20.6, Mojmap: `net/minecraft/world/entity/Entity.java`, `updateFluidOnEyes`, lines 1227–1241; `isUnderWater` and `updateSwimming`, lines 1189–1200; `net/minecraft/client/player/LocalPlayer.java`, `aiStep`, lines 696–713.
+Difference: `updateFluidOnEyes` first copies the existing eye-fluid tag into `wasEyeInWater`, then clears and recomputes the tags. Its sampling Y is `getEyeY() - 0.11111111F` in 1.20.4 and `getEyeY()` in 1.20.6. That Y also controls boat overlap, `BlockPos` selection, and the `fluid surface > probe Y` test before adding fluid tags. The remaining operation order is unchanged. This difference is present by 1.20.6 relative to 1.20.4; the exact patch boundary is unverified.
+Movement meaning: If the water surface is above the older lowered probe but at or below the exact eye height, 1.20.4 can add the water eye tag while 1.20.6 does not. The tag is consumed by `isUnderWater` together with `isInWater`; `updateSwimming` and local-player sprint gates use that predicate. This can change swimming or sprint movement gates near the water surface.
