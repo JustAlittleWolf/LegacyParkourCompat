@@ -26,6 +26,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.jump.JumpVerticalVelocityHook
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.LavaGroundJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.LavaTravelHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.JumpBoostResponseHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.SleepPositionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.LevitationFallDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.LiquidJumpGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.MovementChunkLookupHook;
@@ -103,6 +104,27 @@ abstract class LivingEntityMixin {
         if (resets) {
             original.call(entity, pitch);
         }
+    }
+
+    @WrapOperation(
+        method = "setPosToBed(Lnet/minecraft/core/BlockPos;)V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;setPos(DDD)V")
+    )
+    private void legacyparkourcompat$historicalSleepPosition(
+        Entity entity,
+        double x,
+        double y,
+        double z,
+        Operation<Void> original,
+        @Local(argsOnly = true) BlockPos bedPosition
+    ) {
+        MovementRuntime.find(SleepPositionHook.class, entity).ifPresentOrElse(
+            change -> {
+                Vec3 position = change.position((LivingEntity) entity, bedPosition);
+                original.call(entity, position.x, position.y, position.z);
+            },
+            () -> original.call(entity, x, y, z)
+        );
     }
 
     @WrapOperation(method = "travelInWater", at = @At(value = "INVOKE",
