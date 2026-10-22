@@ -11,4 +11,3 @@ Difference: the resolved-vector cutoff first appears in release 1.14 and is pres
 Reachability: player travel calls the shared `Entity.move` path with `MoverType.SELF` (1.13.2 `net/minecraft/entity/living/LivingEntity.java`, `moveRelative`, lines 1478–1575; 1.14.4 `net/minecraft/world/entity/player/Player.java`, lines 1380–1404, and `net/minecraft/world/entity/LivingEntity.java`, lines 1822–1901).
 
 Movement meaning: a local player traveling horizontally toward a vanilla solid block from a gap of `0.0002` blocks can have collision resolution return `(0.0002, 0, 0)`. The 1.13.2 SELF path closes the gap; the 1.14–1.14.4 position gate skips that translation because the resolved vector's squared length is `4.0E-8`.
-

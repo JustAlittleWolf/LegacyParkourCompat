@@ -16,4 +16,3 @@ Movement meaning: Ordinary local-player travel passes its velocity to the inheri
 Applicability: The observed release boundary is 1.13.2 (fixed Y-X-Z) to 1.14 (magnitude-selected horizontal order); the closest-later V1_14 representative 1.14.1 confirms the newer behavior. Checked 1.14, 1.14.2, 1.14.3, and 1.14.4 sources confirm the newer behavior through the endpoint. Every supplied closest-later representative through 1.14.4 is covered: V1_8, V1_9, V1_10, V1_10_1, V1_11, V1_11_1, V1_11_2, V1_12, and V1_13 retain fixed order; V1_14 and V1_14_2 use the newer order. Other patch aliases within these groups were not inspected. No later profile is claimed by this finding.
 
 The operation difference, its numeric tie/zero gates, step candidate gates, and representative applicability are source-verified. Full player input/tick coverage, collision-shape providers and registrations were not audited; no runtime trajectory was tested.
-
