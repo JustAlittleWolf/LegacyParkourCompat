@@ -106,13 +106,25 @@ abstract class LivingEntityMixin {
         }
     }
 
-    @Inject(method = "startSleeping(Lnet/minecraft/core/BlockPos;)V", at = @At("TAIL"))
-    private void legacyparkourcompat$restoreSleepPosition(BlockPos bedPosition, CallbackInfo callback) {
-        LivingEntity entity = (LivingEntity)(Object)this;
-        MovementRuntime.find(SleepPositionHook.class, entity).ifPresent(change -> {
-            Vec3 position = change.position(entity, MovementRuntime.profile(entity).target(), bedPosition);
-            entity.setPos(position.x, position.y, position.z);
-        });
+    @WrapOperation(
+        method = "setPosToBed(Lnet/minecraft/core/BlockPos;)V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;setPos(DDD)V")
+    )
+    private void legacyparkourcompat$historicalSleepPosition(
+        Entity entity,
+        double x,
+        double y,
+        double z,
+        Operation<Void> original,
+        @Local(argsOnly = true) BlockPos bedPosition
+    ) {
+        MovementRuntime.find(SleepPositionHook.class, entity).ifPresentOrElse(
+            change -> {
+                Vec3 position = change.position((LivingEntity) entity, bedPosition);
+                original.call(entity, position.x, position.y, position.z);
+            },
+            () -> original.call(entity, x, y, z)
+        );
     }
 
     @WrapOperation(method = "travelInWater", at = @At(value = "INVOKE",
