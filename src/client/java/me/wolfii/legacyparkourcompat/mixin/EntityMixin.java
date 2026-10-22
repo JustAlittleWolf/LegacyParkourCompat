@@ -5,8 +5,10 @@ import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
+import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.AfterCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionWriteHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionReconstructionHook;
@@ -14,6 +16,9 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalCollision
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockBounceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockLandingHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockSpeedFactorHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.entity.SupportingBlockPositionHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.soulspeed.SoulSpeedBlockHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.soulspeed.SoulSpeedFrictionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.StepOnCallbackHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.BoatPassengerFluidPushHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.CollisionRestitutionHook;
@@ -32,15 +37,19 @@ import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
 import me.wolfii.legacyparkourcompat.mixin.accessor.WaterJumpDepthAccess;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.EntityFluidInteraction;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -439,9 +448,51 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
     )
     private float legacyparkourcompat$movementSpeedFactor(Entity entity) {
         float vanilla = ((EntityInvoker)entity).legacyparkourcompat$invokeGetBlockSpeedFactor();
-        return MovementRuntime.find(BlockSpeedFactorHook.class, entity)
+        float factor = MovementRuntime.find(BlockSpeedFactorHook.class, entity)
             .map(behavior -> behavior.movementSpeedFactor(entity, vanilla))
             .orElse(vanilla);
+        if (entity instanceof LivingEntity livingEntity) {
+            var friction = MovementRuntime.find(SoulSpeedFrictionHook.class, livingEntity);
+            if (friction.isPresent()) {
+                if (MovementRuntime.profile(livingEntity).target().olderThan(ParkourVersion.V1_16)) {
+                    return factor;
+                }
+                if (livingEntity instanceof Player player
+                    && (player.getAbilities().flying || player.isFallFlying())) {
+                    // Mojmap Player#getBlockSpeedFactor returns 1.0F before its superclass path in 1.20.6 and 1.21.1.
+                    return 1.0F;
+                }
+
+                BlockPos supportPosition = ((EntityInvoker)livingEntity)
+                    .legacyparkourcompat$invokeGetBlockPosBelowThatAffectsMyMovement();
+                SoulSpeedBlockHook selector = MovementRuntime.find(SoulSpeedBlockHook.class, livingEntity)
+                    .orElseThrow(() -> new IllegalStateException(
+                        "Soul Speed support-block selector is missing from the active profile"
+                    ));
+                boolean onSoulSpeedBlock = selector.onSoulSpeedBlock(livingEntity, supportPosition);
+                int soulSpeedLevel = onSoulSpeedBlock
+                    ? EnchantmentHelper.getEnchantmentLevel(
+                        livingEntity.registryAccess().lookupOrThrow(Registries.ENCHANTMENT)
+                            .getOrThrow(Enchantments.SOUL_SPEED),
+                        livingEntity
+                    )
+                    : 0;
+                // Entity#getBlockSpeedFactor has its own support-cell selector, separate from Soul Speed's tag selector.
+                VanillaFn<BlockPos> baseFactorSupportPosition = () -> MovementRuntime
+                    .find(SupportingBlockPositionHook.class, livingEntity)
+                    .map(hook -> hook.getPosition(
+                        livingEntity,
+                        () -> ((EntityInvoker)livingEntity)
+                            .legacyparkourcompat$invokeGetBlockPosBelowThatAffectsMyMovement()
+                    ))
+                    .orElseGet(() -> ((EntityInvoker)livingEntity)
+                        .legacyparkourcompat$invokeGetBlockPosBelowThatAffectsMyMovement());
+                return friction.get().blockSpeedFactor(
+                    livingEntity, onSoulSpeedBlock, soulSpeedLevel, baseFactorSupportPosition
+                );
+            }
+        }
+        return factor;
     }
 
     @Redirect(
