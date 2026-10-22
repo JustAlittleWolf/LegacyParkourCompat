@@ -1,6 +1,7 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.hook.block.WallCollisionHeightHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.WallCollisionShapeHook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
@@ -15,7 +16,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(WallBlock.class)
 public abstract class WallBlockMixin {
-    @Inject(method = "getCollisionShape", at = @At("RETURN"), cancellable = true)
+    @Inject(
+        method = "getCollisionShape(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;",
+        at = @At("RETURN"),
+        cancellable = true
+    )
     private void legacyparkourcompat$horizontalCollisionShape(
         BlockState state,
         BlockGetter level,
@@ -23,8 +28,18 @@ public abstract class WallBlockMixin {
         CollisionContext context,
         CallbackInfoReturnable<VoxelShape> callback
     ) {
-        MovementRuntime.find(WallCollisionShapeHook.class, MovementRuntime.playerFrom(context))
-            .flatMap(hook -> hook.horizontalCollisionShape(state, callback.getReturnValue()))
-            .ifPresent(callback::setReturnValue);
+        var player = MovementRuntime.playerFrom(context);
+        if (player == null) {
+            return;
+        }
+
+        VoxelShape vanillaShape = callback.getReturnValue();
+        VoxelShape heightAdjustedShape = MovementRuntime.find(WallCollisionHeightHook.class, player)
+            .map(hook -> hook.applyHeight(vanillaShape))
+            .orElse(vanillaShape);
+        VoxelShape historicalShape = MovementRuntime.find(WallCollisionShapeHook.class, player)
+            .flatMap(hook -> hook.horizontalCollisionShape(state, heightAdjustedShape))
+            .orElse(heightAdjustedShape);
+        callback.setReturnValue(historicalShape);
     }
 }
