@@ -7,12 +7,17 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Restores the two-route step-up resolver used through Minecraft 1.20.6.
+ * Restores the two-route step-up resolver for Minecraft 1.20.5 and 1.20.6.
  *
- * <p>1.20.6 Mojmap {@code net.minecraft.world.entity.Entity.collide(Vec3)} and
- * {@code Entity.collideBoundingBox(Entity, Vec3, AABB, Level, List)} use two
- * full-height routes, compare strict squared horizontal distances against the
- * ordinary result, then settle vertically. In 1.21.1 Mojmap,
+ * <p>1.20.5 and 1.20.6 Mojmap {@code net.minecraft.world.entity.Entity.collide(Vec3)},
+ * {@code Entity.collideBoundingBox(Entity, Vec3, AABB, Level, List)}, and
+ * {@code CollisionGetter.getBlockCollisions(Entity, AABB)} are byte-identical
+ * across this bounded pair. The resolver caches entity collisions once from the
+ * expanded requested box and reuses that list for all routes. Each route then
+ * adds the world-border shape using its swept box and enumerates block
+ * collisions from that same box. The two full-height routes compare strict
+ * squared horizontal distances against the ordinary result, then settle
+ * vertically. In 1.21.1 Mojmap,
  * {@code Entity.collide(Vec3)} and {@code Entity.collectCandidateStepUpHeights}
  * use shape heights as candidate routes instead.
  */
