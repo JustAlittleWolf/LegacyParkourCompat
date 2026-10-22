@@ -22,6 +22,7 @@
     "EntitySupportingBlockPositionMixin",
     "EntityCollisionAxisOrderMixin",
     "EntityMovementCutoffMixin",
+    "ShulkerMixin",
     "accessor.EntityInvoker",
     "EntityFluidCurrentMixin",
     "EntityFluidInteractionMixin",
