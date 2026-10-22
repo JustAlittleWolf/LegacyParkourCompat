@@ -1,26 +1,5 @@
-# F-WALL-SINGLE-ARM-GAPS — 1.13.2 wall collision unions leave corner gaps
-
-1.12.2, ornithe-feather; feather-gen2-1.12.2+build.2-mergedv2.jar, feather-gen2-1.12.2+build.2.tiny: `1.12.2/ornithe-feather/net/minecraft/block/WallBlock.java`, `public Box getCollisionShape(BlockState state, WorldView world, BlockPos pos) {`, lines 100-103.
-1.12.2, ornithe-feather; feather-gen2-1.12.2+build.2-mergedv2.jar, feather-gen2-1.12.2+build.2.tiny: `1.12.2/ornithe-feather/net/minecraft/block/WallBlock.java`, `public Box getShape(BlockState state, WorldView world, BlockPos pos) {`, lines 84-87.
-1.12.2, ornithe-feather; feather-gen2-1.12.2+build.2-mergedv2.jar, feather-gen2-1.12.2+build.2.tiny: `1.12.2/ornithe-feather/net/minecraft/block/WallBlock.java`, `private boolean shouldConnectTo(WorldView world, BlockPos pos, Direction dir) {`, lines 146-152.
-1.13.2, ornithe-feather; feather-gen2-1.13.2+build.2-mergedv2.jar, feather-gen2-1.13.2+build.2.tiny: `1.13.2/ornithe-feather/net/minecraft/block/WallBlock.java`, `public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos) {`, lines 37-39.
-1.13.2, ornithe-feather; feather-gen2-1.13.2+build.2-mergedv2.jar, feather-gen2-1.13.2+build.2.tiny: `1.13.2/ornithe-feather/net/minecraft/block/WallBlock.java`, `public VoxelShape getShape(BlockState state, BlockView world, BlockPos pos) {`, lines 32-34.
-1.13.2, ornithe-feather; feather-gen2-1.13.2+build.2-mergedv2.jar, feather-gen2-1.13.2+build.2.tiny: `1.13.2/ornithe-feather/net/minecraft/block/WallBlock.java`, `private boolean shouldConnectTo(BlockState state, FaceShape shape) {`, lines 51-55.
-
-Difference: For a wall with only NORTH connected, both versions derive `UP=true`. 1.12.2 selects `COLLISION_SHAPES[4]`, the single Box X[4,12]×Z[0,12]×Y[0,24] in sixteenth-block coordinates. 1.13.2 selects `VoxelShapes.or(center,northArm)`: center X[4,12]×Z[4,12]×Y[0,24], north arm X[5,11]×Z[0,11]×Y[0,24].
-
-The OR shape leaves two empty corner columns: X[4,5]×Z[0,4] and X[11,12]×Z[0,4]. 1.12.2's single Box fills both. `VoxelShapes.or` performs a Boolean OR over occupied voxels, so matching outer bounds do not make these shapes equal.
-
-The state is reachable with a north-adjacent open east-west-facing fence gate and air on the other sides.
-
-The gate's south face reports `MIDDLE_POLE`, which the wall connection helper accepts for fence gates; its open collision shape is empty in both versions.
-
-For one NORTH connection, 1.12.2's and 1.13.2's placement/neighbor formulas both set `UP=true`, selecting the shapes above.
-
-Movement meaning: The local player reaches the shared `Entity.move` resolver through the recorded player tick/travel path in `run.md` and `WORLD-COLLISIONS`. 1.12.2 gathers translated Box collisions from its swept player Box. 1.13.2 builds a swept VoxelShape query, filters block shapes by Boolean overlap, and passes the returned shape stream to the same player's Y/X/Z movement resolution.
-
-Concrete query relative to the wall at (0,0,0): the player has width `0.6F`, height `1.8F`, center approximately x=-0.06,z=-0.31,y=0, giving a Box approximately X[-0.36,0.24], Z[-0.61,-0.01].
-
-Request `dx=0.07`, `dy=0`, `dz=0.25`. 1.12.2's expanded Box reaches X≈0.31,Z≈0.24 and intersects its wall Box.
-
-X resolves fully because the current player Box is still north of the wall's z=0 face; after X, the player overlaps the wall in X, so 1.12.2 clips Z at approximately 0.01.
+# Wall single-arm collision gap
+1.12.2, Ornithe Feather (`feather-gen2-1.12.2+build.2`): `net/minecraft/block/WallBlock.java`, `COLLISION_SHAPES` and `getCollisionShape`, lines 46–63, 98–123; neighbor resolution, lines 146–152, 189–197.
+1.13.2, Ornithe Feather (`feather-gen2-1.13.2+build.2`): `net/minecraft/block/WallBlock.java`, constructor and `getCollisionShape`, lines 17–39, 68–93; `net/minecraft/block/PaneBlock.java`, `makeShapes` and `getShapeIndex`, lines 38–73, 90–108.
+Difference: With only NORTH connected and air above, both versions produce a 1.5-block-tall collision. In 1.12.2 the north-only mask selects `SHAPES[4]`, spanning x=0.25..0.75 and z=0..0.75. In 1.13.2 the selected voxel shape is the central post union the north arm; the exposed arm spans x=0.3125..0.6875 and z=0..0.6875. Collision width across the arm is therefore 6/16 rather than 8/16, with 1/16 more clearance at either side. In 1.12.2, `resolveVirtualProperties` derives the bits from neighboring blocks when the collision shape is requested; 1.13.2 derives them during placement and neighbor updates.
+Movement meaning: A local player moving horizontally beside or diagonally into the exposed north arm can have its swept box intersect the 1.12.2 arm in the 1/16 side band while clearing the 1.13.2 arm. `LivingEntity` requests self-movement through `Entity.move` (1.12.2 `net/minecraft/entity/living/LivingEntity.java`, lines 1464, 1514, 1543, 1574; 1.13.2, lines 1523, 1575, 1605, 1640), and the local player forwards movement to its superclass (1.12.2 `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java`, lines 846–849; 1.13.2, lines 871–874). `Entity.move` gathers block collision geometry and clips axis offsets (1.12.2 `net/minecraft/entity/Entity.java`, lines 567–598; 1.13.2, lines 580–598), so the reachable collision response can differ.

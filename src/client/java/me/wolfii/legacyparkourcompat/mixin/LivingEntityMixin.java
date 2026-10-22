@@ -34,10 +34,12 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.state.SlowFallingFallDistance
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.SleepPitchResetHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.SprintJumpImpulseHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.RetainedWaterJumpHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PostMoveLavaCurrentHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.VelocityZeroThresholdHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.WaterGravityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.WaterEnchantmentFactorsHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.WaterClimbImpulseHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.SlowFallingWaterDescentHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.WaterJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.WaterSprintSlowdownHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
@@ -71,6 +73,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 abstract class LivingEntityMixin {
+    @WrapOperation(
+        method = "checkFallDamage",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;updateFluidInteraction()Z")
+    )
+    private boolean legacyparkourcompat$historicalPostMoveLavaCurrent(
+        Entity entity,
+        Operation<Boolean> original
+    ) {
+        var behavior = MovementRuntime.find(PostMoveLavaCurrentHook.class, entity);
+        if (behavior.isEmpty() || behavior.get().appliesLavaCurrent(entity)) {
+            return original.call(entity);
+        }
+        return PostMoveFluidRefreshContext.suppressLavaCurrent(entity, () -> original.call(entity));
+    }
+
     @WrapOperation(method = "tick()V", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/world/entity/LivingEntity;setXRot(F)V"))
     private void legacyparkourcompat$sleepPitchReset(LivingEntity entity, float pitch, Operation<Void> original) {
@@ -452,10 +469,19 @@ abstract class LivingEntityMixin {
         boolean falling,
         Vec3 movement
     ) {
-        Vec3 vanilla = entity.getFluidFallingAdjustedMovement(baseGravity, falling, movement);
+        boolean selectedFalling = entity instanceof Player player
+            ? MovementRuntime.find(SlowFallingWaterDescentHook.class, player)
+                .map(hook -> hook.isFallingAtWaterDescentCheck(
+                    MovementRuntime.profile(player).target(),
+                    falling,
+                    movement.y
+                ))
+                .orElse(falling)
+            : falling;
+        Vec3 vanilla = entity.getFluidFallingAdjustedMovement(baseGravity, selectedFalling, movement);
         if (entity instanceof Player player) {
             return MovementRuntime.find(WaterGravityHook.class, player)
-                .map(behavior -> behavior.gravityAdjustedMovement(player, baseGravity, falling, movement, vanilla))
+                .map(behavior -> behavior.gravityAdjustedMovement(player, baseGravity, selectedFalling, movement, vanilla))
                 .orElse(vanilla);
         }
         return vanilla;

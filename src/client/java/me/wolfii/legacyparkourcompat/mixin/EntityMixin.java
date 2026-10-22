@@ -306,6 +306,9 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
         Entity entity,
         double scale
     ) {
+        if (fluid.equals(FluidTags.LAVA) && PostMoveFluidRefreshContext.suppressesLavaCurrent(entity)) {
+            return;
+        }
         if (fluid.equals(FluidTags.LAVA)
             && entity instanceof Player player
             && !player.isPassenger()
