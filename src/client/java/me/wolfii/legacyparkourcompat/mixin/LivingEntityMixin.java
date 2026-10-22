@@ -26,6 +26,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.jump.JumpVerticalVelocityHook
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.LavaGroundJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.LavaTravelHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.JumpBoostResponseHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.SleepPositionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.LevitationFallDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.LiquidJumpGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.MovementChunkLookupHook;
@@ -103,6 +104,15 @@ abstract class LivingEntityMixin {
         if (resets) {
             original.call(entity, pitch);
         }
+    }
+
+    @Inject(method = "startSleeping(Lnet/minecraft/core/BlockPos;)V", at = @At("TAIL"))
+    private void legacyparkourcompat$restoreSleepPosition(BlockPos bedPosition, CallbackInfo callback) {
+        LivingEntity entity = (LivingEntity)(Object)this;
+        MovementRuntime.find(SleepPositionHook.class, entity).ifPresent(change -> {
+            Vec3 position = change.position(entity, MovementRuntime.profile(entity).target(), bedPosition);
+            entity.setPos(position.x, position.y, position.z);
+        });
     }
 
     @WrapOperation(method = "travelInWater", at = @At(value = "INVOKE",
