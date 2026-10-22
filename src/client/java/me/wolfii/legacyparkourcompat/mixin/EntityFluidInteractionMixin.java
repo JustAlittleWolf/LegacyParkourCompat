@@ -1,5 +1,6 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -8,6 +9,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FluidInteractionBoxHook
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FluidInteractionFluidHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.LavaCurrentHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FluidScanLoadedChunksHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PlayerEyeFluidSampleHook;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.core.BlockPos;
@@ -19,6 +21,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
+import org.objectweb.asm.Opcodes;
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -28,6 +31,52 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityFluidInteraction.class)
 abstract class EntityFluidInteractionMixin {
+    @ModifyExpressionValue(
+        method = "update(Lnet/minecraft/world/entity/Entity;Z)V",
+        at = @At(value = "JUMP", opcode = Opcodes.IFLT),
+        require = 1
+    )
+    private int legacyparkourcompat$waterEyeFluidBottom(int comparison,
+        @Local(argsOnly = true) Entity entity,
+        @Local FluidState fluidState,
+        @Local(ordinal = 1) double eyeY,
+        @Local(ordinal = 2) double fluidBottom) {
+        if (!fluidState.is(FluidTags.WATER)) {
+            return comparison;
+        }
+        return MovementRuntime.find(PlayerEyeFluidSampleHook.class, entity)
+            .map(hook -> {
+                double sampleY = hook.sampleY(entity, eyeY);
+                return sampleY == eyeY ? comparison : Double.compare(sampleY, fluidBottom);
+            })
+            .orElse(comparison);
+    }
+
+    @ModifyExpressionValue(
+        method = "update(Lnet/minecraft/world/entity/Entity;Z)V",
+        at = @At(value = "JUMP", opcode = Opcodes.IFGT),
+        require = 1
+    )
+    private int legacyparkourcompat$strictWaterEyeFluidTop(int comparison,
+        @Local(argsOnly = true) Entity entity,
+        @Local FluidState fluidState,
+        @Local(ordinal = 1) double eyeY,
+        @Local(ordinal = 3) double fluidTop) {
+        if (!fluidState.is(FluidTags.WATER)) {
+            return comparison;
+        }
+        return MovementRuntime.find(PlayerEyeFluidSampleHook.class, entity)
+            .map(hook -> {
+                double sampleY = hook.sampleY(entity, eyeY);
+                if (sampleY == eyeY) {
+                    return comparison;
+                }
+                int sampledComparison = Double.compare(sampleY, fluidTop);
+                return sampledComparison == 0 ? 1 : sampledComparison;
+            })
+            .orElse(comparison);
+    }
+
     @WrapOperation(method = "update", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/world/entity/EntityFluidInteraction;hasFluidAndLoaded(Lnet/minecraft/world/level/Level;IIIIII)Z"))
     private static boolean legacyparkourcompat$fluidLoadedChunks(Level level, int x0, int y0, int z0, int x1, int y1, int z1,
