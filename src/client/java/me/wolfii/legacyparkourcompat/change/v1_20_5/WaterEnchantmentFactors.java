@@ -15,25 +15,26 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 
 /**
- * Mojmap 1.16, 1.19.4 and 1.20.6 LivingEntity.travel: water drag starts at
- * sprinting ? 0.9F : getWaterSlowDown() (0.8F for players), acceleration at
- * 0.02F. Clamp the equipped Depth Strider level to 3F, halve off ground,
- * multiply the interpolation difference by that factor, then divide by 3F.
- * Mojmap 1.21 LivingEntity.travel instead multiplies by the effective water
- * efficiency attribute with no final division; 26.2 travelInWater retains it.
- * Depth Strider III can therefore differ by one float ULP. Preserve the
- * subsequent Dolphin's Grace drag override. Attribute production stays vanilla;
- * only ordinary foot-slot levels 0–3 and the canonical default attribute state
- * are admitted. Earlier travel/feature applicability is unresolved.
+ * Ornithe Feather 1.8.9 LivingEntity.moveRelative(float,float), reading
+ * EnchantmentHelper.getDepthStriderLevel(Entity), and Mojmap 1.20.6
+ * LivingEntity.travel(Vec3), reading EnchantmentHelper.getDepthStrider(LivingEntity),
+ * both cap the equipped Depth Strider level at 3F, halve it off ground, and
+ * multiply the water drag and acceleration interpolation differences by that
+ * factor before dividing by 3F. The 1.8.9 water drag starts at 0.8F; Mojmap
+ * 1.20.6 starts at sprinting ? 0.9F :
+ * getWaterSlowDown() (0.8F for players). Mojmap 1.21.1 LivingEntity.travel(Vec3)
+ * instead multiplies by the effective water-efficiency attribute with no final
+ * division; 26.2 LivingEntity.travelInWater retains it. Depth Strider III can
+ * therefore differ by one float ULP. Preserve the subsequent Dolphin's Grace
+ * drag override. Attribute production stays vanilla; only ordinary foot-slot
+ * levels 0–3 and the canonical default attribute state are admitted, leaving
+ * additional modern efficiency modifiers on the native path.
  */
 @MovementChange(emulates = ParkourVersion.V1_20_5)
 public final class WaterEnchantmentFactors implements WaterEnchantmentFactorsHook {
     @Override
     public Factors factors(Player player, ParkourVersion selected, float vanillaDrag, float vanillaAcceleration) {
         Factors vanilla = new Factors(vanillaDrag, vanillaAcceleration);
-        if (selected.olderThan(ParkourVersion.V1_16)) {
-            return vanilla;
-        }
         ItemEnchantments enchantments = player.getItemBySlot(EquipmentSlot.FEET)
             .getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY);
         int level = 0;
@@ -60,7 +61,10 @@ public final class WaterEnchantmentFactors implements WaterEnchantmentFactorsHoo
                 return vanilla;
             }
         }
-        float drag = player.isSprinting() ? 0.9F : 0.8F;
+        float drag = 0.8F;
+        if (!selected.olderThan(ParkourVersion.V1_16) && player.isSprinting()) {
+            drag = 0.9F;
+        }
         float acceleration = 0.02F;
         float depthStrider = level;
         if (depthStrider > 3.0F) {
