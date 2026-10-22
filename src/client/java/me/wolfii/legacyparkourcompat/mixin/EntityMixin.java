@@ -14,6 +14,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalCollision
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockBounceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockLandingHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockSpeedFactorHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.soulspeed.SoulSpeedFrictionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.StepOnCallbackHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.BoatPassengerFluidPushHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.CollisionRestitutionHook;
@@ -38,6 +39,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.EntityFluidInteraction;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
@@ -439,9 +441,15 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
     )
     private float legacyparkourcompat$movementSpeedFactor(Entity entity) {
         float vanilla = ((EntityInvoker)entity).legacyparkourcompat$invokeGetBlockSpeedFactor();
-        return MovementRuntime.find(BlockSpeedFactorHook.class, entity)
+        float factor = MovementRuntime.find(BlockSpeedFactorHook.class, entity)
             .map(behavior -> behavior.movementSpeedFactor(entity, vanilla))
             .orElse(vanilla);
+        if (entity instanceof LivingEntity livingEntity) {
+            return MovementRuntime.find(SoulSpeedFrictionHook.class, livingEntity)
+                .map(behavior -> behavior.blockSpeedFactor(livingEntity, factor))
+                .orElse(factor);
+        }
+        return factor;
     }
 
     @Redirect(
