@@ -19,6 +19,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockSpeedFactorHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.SupportingBlockPositionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.EntityBlockContactTraversalHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.GroundedBlockStepCallbackHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.entity.PistonStuckSpeedHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.soulspeed.SoulSpeedBlockHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.soulspeed.SoulSpeedFrictionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.StepOnCallbackHook;
@@ -73,6 +74,9 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(Entity.class)
 abstract class EntityMixin implements WaterJumpDepthAccess {
+    @Unique
+    private Vec3 legacyparkourcompat$pistonStuckSpeedMultiplier;
+
     @ModifyArgs(
         method = "push(Lnet/minecraft/world/entity/Entity;)V",
         at = @At(
@@ -424,6 +428,51 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
                 .map(behavior -> behavior.limitPistonMovement(player, movement))
                 .ifPresent(cir::setReturnValue);
         }
+    }
+
+    @WrapOperation(
+        method = "move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/phys/Vec3;lengthSqr()D",
+            ordinal = 0
+        )
+    )
+    private double legacyparkourcompat$capturePistonStuckSpeedMultiplier(
+        Vec3 multiplier,
+        Operation<Double> original,
+        @Local(argsOnly = true) MoverType moverType
+    ) {
+        double lengthSquared = original.call(multiplier);
+        Entity entity = (Entity) (Object) this;
+        this.legacyparkourcompat$pistonStuckSpeedMultiplier = null;
+        if (moverType == MoverType.PISTON && entity instanceof Player && lengthSquared > 1.0E-7) {
+            this.legacyparkourcompat$pistonStuckSpeedMultiplier = multiplier;
+        }
+        return lengthSquared;
+    }
+
+    @ModifyArg(
+        method = "move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/Entity;maybeBackOffFromEdge(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/entity/MoverType;)Lnet/minecraft/world/phys/Vec3;"
+        ),
+        index = 0
+    )
+    private Vec3 legacyparkourcompat$restorePistonStuckSpeedMultiplier(
+        Vec3 movement,
+        @Local(argsOnly = true) MoverType moverType
+    ) {
+        Vec3 multiplier = this.legacyparkourcompat$pistonStuckSpeedMultiplier;
+        this.legacyparkourcompat$pistonStuckSpeedMultiplier = null;
+        Entity entity = (Entity) (Object) this;
+        if (multiplier == null || moverType != MoverType.PISTON || !(entity instanceof Player player)) {
+            return movement;
+        }
+        return MovementRuntime.find(PistonStuckSpeedHook.class, player)
+            .map(hook -> hook.transformPistonMovement(movement, multiplier))
+            .orElse(movement);
     }
 
     @Inject(
