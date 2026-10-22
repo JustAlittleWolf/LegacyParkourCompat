@@ -17,7 +17,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.travel.ClimbHeldJumpImpulseHo
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.FluidJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.GlideFallDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.gliding.GlideFallDistanceLimiterStageHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.block.GroundFrictionBlockHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.entity.SupportingBlockPositionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.GroundJumpGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.GroundSpeedHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.JumpPowerHook;
@@ -573,8 +573,8 @@ abstract class LivingEntityMixin {
     private BlockPos legacyparkourcompat$groundFrictionBlockPosition(LivingEntity entity) {
         VanillaFn<BlockPos> vanilla = () -> ((EntityInvoker)entity)
             .legacyparkourcompat$invokeGetBlockPosBelowThatAffectsMyMovement();
-        return MovementRuntime.find(GroundFrictionBlockHook.class, entity)
-            .map(behavior -> behavior.getBlockPosBelowThatAffectsMyMovement(entity, vanilla))
+        return MovementRuntime.find(SupportingBlockPositionHook.class, entity)
+            .map(behavior -> behavior.getPosition(entity, vanilla))
             .orElseGet(vanilla::get);
     }
 

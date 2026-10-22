@@ -3,7 +3,7 @@ package me.wolfii.legacyparkourcompat.change.v1_14;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
-import me.wolfii.legacyparkourcompat.mechanic.hook.block.GroundFrictionBlockHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.entity.SupportingBlockPositionHook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 
@@ -24,9 +24,9 @@ import net.minecraft.world.entity.Entity;
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
 @MovementChange(emulates = ParkourVersion.V1_14_2)
-public final class GroundFrictionSupportCellChange implements GroundFrictionBlockHook {
+public final class GroundFrictionSupportCellChange implements SupportingBlockPositionHook {
     @Override
-    public BlockPos getBlockPosBelowThatAffectsMyMovement(Entity entity, VanillaFn<BlockPos> vanilla) {
+    public BlockPos getPosition(Entity entity, VanillaFn<BlockPos> vanilla) {
         return BlockPos.containing(
             entity.getX(),
             entity.getBoundingBox().minY - 1.0,

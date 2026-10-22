@@ -19,6 +19,7 @@
     "BlockPushEntitiesMixin",
     "FarmlandBlockMixin",
     "EntityMixin",
+    "EntitySupportingBlockPositionMixin",
     "EntityCollisionAxisOrderMixin",
     "EntityMovementCutoffMixin",
     "accessor.EntityInvoker",
