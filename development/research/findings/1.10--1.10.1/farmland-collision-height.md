@@ -1,0 +1,6 @@
+# Farmland movement collision height
+
+1.10, Ornithe Feather: `net/minecraft/block/FarmlandBlock.java`, `getCollisionShape(BlockState, World, BlockPos)`, lines 31â€“40, returns `FULL_BLOCK_SHAPE`; its separate outline shape is 15/16 high.
+1.10.1, Ornithe Feather: `net/minecraft/block/FarmlandBlock.java`, lines 31â€“38, defines the 15/16-high `getShape` and has no `getCollisionShape` override; `net/minecraft/block/Block.java`, `getCollisionShape`, lines 355â€“359, delegates to `state.getShape(world, pos)`.
+Difference: The farmland collision box changes from a full block to the 15/16-high farmland shape. In player movement, `Entity.move` (lines 446â€“555) queries `World.getCollisions(this, ...)` (lines 903â€“942); the world passes each state through `addCollisions`, whose default block implementation obtains `state.getCollisionShape` (`Block.java`, lines 341â€“359; `StateDefinition.java`, lines 362â€“370). Thus the inherited 1.10.1 method supplies the shorter box to the movement collision resolution. The reachable client player uses this inherited entity movement path.
+Movement meaning: When a player's movement box intersects farmland, the collision top is one sixteenth of a block lower in 1.10.1. This changes the position and clipping result when moving onto or across farmland.
