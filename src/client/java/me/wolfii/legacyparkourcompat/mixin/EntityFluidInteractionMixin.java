@@ -31,15 +31,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityFluidInteraction.class)
 abstract class EntityFluidInteractionMixin {
-    @Redirect(
+    @ModifyExpressionValue(
         method = "update(Lnet/minecraft/world/entity/Entity;Z)V",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;getEyeY()D")
+        at = @At(value = "JUMP", opcode = Opcodes.IFLT),
+        require = 1
     )
-    private double legacyparkourcompat$playerEyeFluidSample(Entity entity) {
-        double eyeY = entity.getEyeY();
+    private int legacyparkourcompat$waterEyeFluidBottom(int comparison,
+        @Local(argsOnly = true) Entity entity,
+        @Local FluidState fluidState,
+        @Local(ordinal = 1) double eyeY,
+        @Local(ordinal = 2) double fluidBottom) {
+        if (!fluidState.is(FluidTags.WATER)) {
+            return comparison;
+        }
         return MovementRuntime.find(PlayerEyeFluidSampleHook.class, entity)
-            .map(hook -> hook.sampleY(entity, eyeY))
-            .orElse(eyeY);
+            .map(hook -> Double.compare(hook.sampleY(entity, eyeY), fluidBottom))
+            .orElse(comparison);
     }
 
     @ModifyExpressionValue(
@@ -47,11 +54,20 @@ abstract class EntityFluidInteractionMixin {
         at = @At(value = "JUMP", opcode = Opcodes.IFGT),
         require = 1
     )
-    private int legacyparkourcompat$strictPlayerEyeFluidTop(int comparison, @Local(argsOnly = true) Entity entity) {
-        if (comparison == 0 && MovementRuntime.find(PlayerEyeFluidSampleHook.class, entity).isPresent()) {
-            return 1;
+    private int legacyparkourcompat$strictWaterEyeFluidTop(int comparison,
+        @Local(argsOnly = true) Entity entity,
+        @Local FluidState fluidState,
+        @Local(ordinal = 1) double eyeY,
+        @Local(ordinal = 3) double fluidTop) {
+        if (!fluidState.is(FluidTags.WATER)) {
+            return comparison;
         }
-        return comparison;
+        return MovementRuntime.find(PlayerEyeFluidSampleHook.class, entity)
+            .map(hook -> {
+                int sampledComparison = Double.compare(hook.sampleY(entity, eyeY), fluidTop);
+                return sampledComparison == 0 ? 1 : sampledComparison;
+            })
+            .orElse(comparison);
     }
 
     @WrapOperation(method = "update", at = @At(value = "INVOKE",
