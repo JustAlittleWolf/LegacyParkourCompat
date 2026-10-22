@@ -26,6 +26,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeMoverHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.ShallowLavaCurrentCutoffHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.ShallowWaterCurrentCutoffHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.RetainedWaterDepthHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.push.PlayerPushNormalizationHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.SwimmingUpdateHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
 import me.wolfii.legacyparkourcompat.mixin.accessor.WaterJumpDepthAccess;
@@ -48,13 +49,51 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Coerce;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(Entity.class)
 abstract class EntityMixin implements WaterJumpDepthAccess {
+    @ModifyArgs(
+        method = "push(Lnet/minecraft/world/entity/Entity;)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/Entity;push(DDD)V",
+            ordinal = 0
+        )
+    )
+    private void legacyparkourcompat$normalizeFirstPushRecipient(Entity other, Args arguments) {
+        this.legacyparkourcompat$normalizePushRecipient((Entity) (Object) this, other, arguments);
+    }
+
+    @ModifyArgs(
+        method = "push(Lnet/minecraft/world/entity/Entity;)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/Entity;push(DDD)V",
+            ordinal = 1
+        )
+    )
+    private void legacyparkourcompat$normalizeSecondPushRecipient(Entity other, Args arguments) {
+        this.legacyparkourcompat$normalizePushRecipient(other, (Entity) (Object) this, arguments);
+    }
+
+    @Unique
+    private void legacyparkourcompat$normalizePushRecipient(Entity receiver, Entity other, Args arguments) {
+        if (!(receiver instanceof Player player)) {
+            return;
+        }
+        MovementRuntime.find(PlayerPushNormalizationHook.class, player).ifPresent(hook -> {
+            Vec3 incoming = hook.normalize(receiver, other);
+            arguments.set(0, incoming.x);
+            arguments.set(2, incoming.z);
+        });
+    }
+
     @WrapOperation(method = "applyEffectsFromBlocks(Ljava/util/List;)V", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/world/level/block/Block;stepOn(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/entity/Entity;)V"))
     private void legacyparkourcompat$stepOnGate(Block block, Level level, BlockPos pos, BlockState state,
