@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
+import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.DismountPositionHook;
@@ -17,7 +18,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.travel.ClimbHeldJumpImpulseHo
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.FluidJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.GlideFallDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.gliding.GlideFallDistanceLimiterStageHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.block.GroundFrictionBlockHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.entity.SupportingBlockPositionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.GroundJumpGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.GroundSpeedHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.JumpPowerHook;
@@ -599,8 +600,12 @@ abstract class LivingEntityMixin {
     private BlockPos legacyparkourcompat$groundFrictionBlockPosition(LivingEntity entity) {
         VanillaFn<BlockPos> vanilla = () -> ((EntityInvoker)entity)
             .legacyparkourcompat$invokeGetBlockPosBelowThatAffectsMyMovement();
-        return MovementRuntime.find(GroundFrictionBlockHook.class, entity)
-            .map(behavior -> behavior.getBlockPosBelowThatAffectsMyMovement(entity, vanilla))
+        if (!MovementRuntime.appliesTo(entity)
+            || !MovementRuntime.profile(entity).target().olderThan(ParkourVersion.V1_15)) {
+            return vanilla.get();
+        }
+        return MovementRuntime.find(SupportingBlockPositionHook.class, entity)
+            .map(behavior -> behavior.getPosition(entity, vanilla))
             .orElseGet(vanilla::get);
     }
 
