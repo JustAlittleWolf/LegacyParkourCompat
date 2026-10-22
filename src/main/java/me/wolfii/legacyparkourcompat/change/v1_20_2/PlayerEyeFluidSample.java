@@ -12,8 +12,9 @@ import net.minecraft.world.entity.Entity;
  * {@code getEyeY() - 0.11111111F}; in 1.20.5 and 1.20.6 (Mojmap),
  * {@code Entity.updateFluidOnEyes} uses {@code getEyeY()}. In 26.2
  * (unobfuscated), the corresponding eye-fluid scan is
- * {@code EntityFluidInteraction.update}; changing its eye Y leaves the
- * surrounding fluid scan and strict fluid-top comparison in place.
+ * {@code EntityFluidInteraction.update}; the hook changes only its eye Y and
+ * restores the older strict fluid-top comparison while preserving scanner
+ * order and the native fallback.
  */
 @MovementChange(emulates = ParkourVersion.V1_20_2)
 public final class PlayerEyeFluidSample implements PlayerEyeFluidSampleHook {

@@ -1,5 +1,6 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -20,6 +21,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
+import org.objectweb.asm.Opcodes;
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -38,6 +40,18 @@ abstract class EntityFluidInteractionMixin {
         return MovementRuntime.find(PlayerEyeFluidSampleHook.class, entity)
             .map(hook -> hook.sampleY(entity, eyeY))
             .orElse(eyeY);
+    }
+
+    @ModifyExpressionValue(
+        method = "update(Lnet/minecraft/world/entity/Entity;Z)V",
+        at = @At(value = "JUMP", opcode = Opcodes.IFGT),
+        require = 1
+    )
+    private int legacyparkourcompat$strictPlayerEyeFluidTop(int comparison, @Local(argsOnly = true) Entity entity) {
+        if (comparison == 0 && MovementRuntime.find(PlayerEyeFluidSampleHook.class, entity).isPresent()) {
+            return 1;
+        }
+        return comparison;
     }
 
     @WrapOperation(method = "update", at = @At(value = "INVOKE",
