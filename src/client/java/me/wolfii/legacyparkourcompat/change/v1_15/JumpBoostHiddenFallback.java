@@ -82,6 +82,16 @@ public final class JumpBoostHiddenFallback implements JumpBoostFallbackStateHook
         return state != null && state.restoredFallback;
     }
 
+    @Override
+    public double jumpPower(LocalPlayer player, ParkourVersion selected, double vanilla, double resolved) {
+        // The V1_13 JumpPowerHook reads the effect directly instead of calling
+        // getJumpBoostPower. With its historical default-attribute gates, the
+        // native power passed here is the same base power with that term absent.
+        return selected.olderThan(ParkourVersion.V1_14) && this.suppressJumpBoost(player)
+            ? vanilla
+            : resolved;
+    }
+
     private static final class State {
         private int amplifierBeforeTick = NO_EFFECT;
         private int revisionBeforeTick;
