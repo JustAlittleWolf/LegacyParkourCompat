@@ -38,6 +38,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.travel.VelocityZeroThresholdH
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.WaterGravityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.WaterEnchantmentFactorsHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.WaterClimbImpulseHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.SlowFallingWaterDescentHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.WaterJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.WaterSprintSlowdownHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
@@ -452,10 +453,19 @@ abstract class LivingEntityMixin {
         boolean falling,
         Vec3 movement
     ) {
-        Vec3 vanilla = entity.getFluidFallingAdjustedMovement(baseGravity, falling, movement);
+        boolean selectedFalling = entity instanceof Player player
+            ? MovementRuntime.find(SlowFallingWaterDescentHook.class, player)
+                .map(hook -> hook.isFallingAtWaterDescentCheck(
+                    MovementRuntime.profile(player).target(),
+                    falling,
+                    movement.y
+                ))
+                .orElse(falling)
+            : falling;
+        Vec3 vanilla = entity.getFluidFallingAdjustedMovement(baseGravity, selectedFalling, movement);
         if (entity instanceof Player player) {
             return MovementRuntime.find(WaterGravityHook.class, player)
-                .map(behavior -> behavior.gravityAdjustedMovement(player, baseGravity, falling, movement, vanilla))
+                .map(behavior -> behavior.gravityAdjustedMovement(player, baseGravity, selectedFalling, movement, vanilla))
                 .orElse(vanilla);
         }
         return vanilla;
