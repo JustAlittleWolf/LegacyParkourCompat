@@ -3,7 +3,10 @@ package me.wolfii.legacyparkourcompat.change.v1_13;
 import me.wolfii.legacyparkourcompat.accessor.JumpPowerAccess;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.JumpPowerHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.JumpBoostResponseHook;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -13,6 +16,9 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
  * float getJumpStrength()=0.42F into velocityY, then add the float expression
  * (integer amplifier + 1) * 0.1F as a double. Ornithe Feather 1.14 jump instead
  * adds base and boost in float before storing; 1.14.4 retains that order.
+ * 1.15.1/1.15.2 Mojmap MobEffectInstance.update/tick differs by the hidden
+ * weaker-effect fallback. The V1_15 JumpBoostResponseHook suppresses only the
+ * restored effect's local-player jump contribution for older selected profiles.
  * Preserve the integer addition and float product, then the double sum.
  * Modern custom jump strength/scale and non-unit block jump factors retain
  * their supplied native power rather than suppressing modern-only features.
@@ -28,7 +34,10 @@ public final class DoubleJumpBoostAddition implements JumpPowerHook {
         }
         double power = 0.42F;
         var boost = entity.getEffect(MobEffects.JUMP_BOOST);
-        if (boost != null) {
+        boolean suppressJumpBoost = entity instanceof LocalPlayer player
+            && MovementRuntime.find(JumpBoostResponseHook.class, player)
+                .map(hook -> hook.suppressJumpBoost(player)).orElse(false);
+        if (boost != null && !suppressJumpBoost) {
             power += (boost.getAmplifier() + 1) * 0.1F;
         }
         return power;
