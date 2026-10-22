@@ -557,9 +557,10 @@ abstract class LivingEntityMixin {
                 .map(hook -> hook.jumpPower(player, MovementRuntime.profile(player).target(), jumpPower, resolvedPower))
                 .orElse(resolvedPower);
         }
-        double vanilla = Math.max(power, currentVelocity);
+        double adjustedPower = power;
+        double vanilla = Math.max(adjustedPower, currentVelocity);
         return MovementRuntime.find(JumpVerticalVelocityHook.class, entity)
-            .map(behavior -> behavior.jumpVerticalVelocity(entity, power, currentVelocity, vanilla))
+            .map(behavior -> behavior.jumpVerticalVelocity(entity, adjustedPower, currentVelocity, vanilla))
             .orElse(vanilla);
     }
 
