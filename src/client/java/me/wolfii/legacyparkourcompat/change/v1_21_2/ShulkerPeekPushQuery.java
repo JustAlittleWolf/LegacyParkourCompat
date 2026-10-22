@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change.v1_21_4;
+package me.wolfii.legacyparkourcompat.change.v1_21_2;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -18,7 +18,7 @@ import net.minecraft.world.phys.Vec3;
  * present in 1.20.5 Mojmap {@code Shulker.onPeekAmountChange}; profiles before
  * that introduction retain the modern feature unchanged.
  */
-@MovementChange(emulates = ParkourVersion.V1_21_4)
+@MovementChange(emulates = ParkourVersion.V1_21_2)
 public final class ShulkerPeekPushQuery implements ShulkerPeekPushQueryHook {
     public ShulkerPeekPushQuery() {
     }

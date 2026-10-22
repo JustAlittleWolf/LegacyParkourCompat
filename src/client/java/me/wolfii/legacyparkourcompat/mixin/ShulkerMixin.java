@@ -55,7 +55,7 @@ abstract class ShulkerMixin {
         }
 
         ParkourVersion selected = MovementRuntime.profile(player).target();
-        if (selected.olderThan(ParkourVersion.V1_20_5) || !selected.olderThan(ParkourVersion.V1_21_4)) {
+        if (selected.olderThan(ParkourVersion.V1_20_5)) {
             return original.call(level, except, vanillaBounds, selector);
         }
 
