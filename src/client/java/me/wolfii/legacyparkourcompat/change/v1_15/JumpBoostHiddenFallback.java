@@ -19,11 +19,12 @@ import java.util.WeakHashMap;
  * addEffect. In the current 26.2 Mojmap LivingEntity.java, getJumpPower calls
  * getJumpBoostPower and jumpFromGround calls getJumpPower. For selected 1.14,
  * 1.14.2 and 1.15, resolver selects the V1_17 FloatJumpBoostAddition, whose
- * getJumpBoostPower call is covered by the client mixin below. Earlier selected
- * profiles resolve the V1_13 direct-amplifier calculation; jumpPower returns
- * its native base when this fallback is marked. Suppression is local-player
- * jump response only, and an accepted update clears it only when the primary
- * active amplifier or duration changes.
+ * getJumpBoostPower call is intercepted by JumpBoostFallbackMixin's client-only
+ * return injection. Earlier selected profiles resolve the V1_13
+ * direct-amplifier calculation; jumpPower returns its native base when this
+ * fallback is marked. Suppression is local-player jump response only, and an
+ * accepted update clears it only when the primary active amplifier or duration
+ * changes.
  */
 @MovementChange(emulates = ParkourVersion.V1_15)
 public final class JumpBoostHiddenFallback implements JumpBoostFallbackStateHook, JumpBoostResponseHook {
