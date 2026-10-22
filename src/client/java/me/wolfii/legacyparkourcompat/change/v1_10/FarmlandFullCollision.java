@@ -13,23 +13,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import java.util.Optional;
 
 /**
- * Farmland used a full-block collision shape through Minecraft 1.10.
- *
- * Source evidence (paths are relative to decompiled_minecraft/):
- * 1.10.2/ornithe-feather/net/minecraft/block/FarmlandBlock.java:
- *   public Box getShape(BlockState state, WorldView world, BlockPos pos).
- *   public void onFallenOn(World world, BlockPos pos, Entity entity, float fallDistance).
- * 1.9.4/ornithe-feather/net/minecraft/block/FarmlandBlock.java:
- *   public Box getShape(BlockState state, WorldView world, BlockPos pos).
- *   public Box getCollisionShape(BlockState state, World world, BlockPos pos).
- *   public void onFallenOn(World world, BlockPos pos, Entity entity, float fallDistance).
- *   public Box getShape(BlockState state, WorldView world, BlockPos pos).
- *   public Box getCollisionShape(BlockState state, World world, BlockPos pos).
- *   public void onFallenOn(World world, BlockPos pos, Entity entity, float fallDistance).
- * Remaining source/applicability gates:
- *   Later applicability gate: exact introduction of campaign-F001-farmland-collision-height is unknown within (1.9.4, 1.10.2]
- *   Exact independent source verdict/snapshot identity for F003-farmland-collision
- * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ * Ornithe Feather 1.10 {@code net/minecraft/block/FarmlandBlock.java},
+ * {@code getCollisionShape(BlockState, World, BlockPos)}, returns
+ * {@code FULL_BLOCK_SHAPE}. In 1.10.1, the same class's
+ * {@code getShape(BlockState, WorldView, BlockPos)} returns the 15/16-high
+ * outline, and {@code net/minecraft/block/Block.java#getCollisionShape}
+ * delegates to {@code state.getShape(world, pos)}, so player collision uses
+ * that shorter shape.
  */
 @MovementChange(emulates = ParkourVersion.V1_10)
 public final class FarmlandFullCollision implements BlockCollisionShapeHook {
