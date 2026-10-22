@@ -6,14 +6,15 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.ShallowLavaCurrentCutof
 
 /**
  * Source evidence (paths are relative to decompiled_minecraft/):
- * 1.21.11 Entity.updateFluidHeightAndDoFluidPushing admits accumulated current
- * only when its length is positive. The scoped cutoff bypass retains this
- * zero/cancellation exclusion before the modern tracker averages the current.
+ * 1.21.11 Entity.updateFluidHeightAndDoFluidPushing applies any accumulated
+ * current with positive length, regardless of fluid depth. The scoped cutoff
+ * bypass retains that gate before the modern tracker averages the current.
  * 26.1/unobfuscated/net/minecraft/world/entity/EntityFluidInteraction.java,
  * Tracker.applyCurrentTo, already has the squared-length cutoff found in
  * 26.1.2. The first changed stable release is 26.1.
- * This cutoff operation does not restore historical float-top rounding or
- * overlap depth relative to the deflated box; those are separate operations.
+ * This cutoff operation retains the historical nonzero-current gate at every
+ * positive lava depth. Historical float-top rounding and overlap depth relative
+ * to the deflated box are restored by the separate current-depth operation.
  * 1.21.11/mojmap/net/minecraft/data/worldgen/DimensionTypes.java:
  *   bootstrap.
  * 1.21.11/mojmap/net/minecraft/world/entity/Entity.java:
@@ -55,6 +56,6 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.ShallowLavaCurrentCutof
 public final class ShallowLavaCurrentCutoff implements ShallowLavaCurrentCutoffHook {
     @Override
     public boolean bypassWeakCurrentCutoff(double lavaHeight) {
-        return lavaHeight > 0.0 && lavaHeight < 0.4;
+        return lavaHeight > 0.0;
     }
 }
