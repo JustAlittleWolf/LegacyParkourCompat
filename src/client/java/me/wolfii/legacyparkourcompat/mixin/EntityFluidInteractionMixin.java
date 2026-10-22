@@ -45,7 +45,10 @@ abstract class EntityFluidInteractionMixin {
             return comparison;
         }
         return MovementRuntime.find(PlayerEyeFluidSampleHook.class, entity)
-            .map(hook -> Double.compare(hook.sampleY(entity, eyeY), fluidBottom))
+            .map(hook -> {
+                double sampleY = hook.sampleY(entity, eyeY);
+                return sampleY == eyeY ? comparison : Double.compare(sampleY, fluidBottom);
+            })
             .orElse(comparison);
     }
 
@@ -64,7 +67,11 @@ abstract class EntityFluidInteractionMixin {
         }
         return MovementRuntime.find(PlayerEyeFluidSampleHook.class, entity)
             .map(hook -> {
-                int sampledComparison = Double.compare(hook.sampleY(entity, eyeY), fluidTop);
+                double sampleY = hook.sampleY(entity, eyeY);
+                if (sampleY == eyeY) {
+                    return comparison;
+                }
+                int sampledComparison = Double.compare(sampleY, fluidTop);
                 return sampledComparison == 0 ? 1 : sampledComparison;
             })
             .orElse(comparison);
