@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
+import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.DismountPositionHook;
@@ -573,6 +574,10 @@ abstract class LivingEntityMixin {
     private BlockPos legacyparkourcompat$groundFrictionBlockPosition(LivingEntity entity) {
         VanillaFn<BlockPos> vanilla = () -> ((EntityInvoker)entity)
             .legacyparkourcompat$invokeGetBlockPosBelowThatAffectsMyMovement();
+        if (!MovementRuntime.appliesTo(entity)
+            || !MovementRuntime.profile(entity).target().olderThan(ParkourVersion.V1_15)) {
+            return vanilla.get();
+        }
         return MovementRuntime.find(SupportingBlockPositionHook.class, entity)
             .map(behavior -> behavior.getPosition(entity, vanilla))
             .orElseGet(vanilla::get);
