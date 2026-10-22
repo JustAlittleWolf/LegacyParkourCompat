@@ -1,5 +1,6 @@
 package me.wolfii.legacyparkourcompat.mechanic.hook.fluid;
 
+import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
 import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
 
@@ -7,5 +8,5 @@ import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
 @FunctionalInterface
 @MechanicType("entity.fluid.current.shallow_water_cutoff")
 public interface ShallowWaterCurrentCutoffHook extends VersionedMechanic {
-    boolean bypassWeakCurrentCutoff(double waterHeight);
+    boolean bypassWeakCurrentCutoff(ParkourVersion selected, double waterHeight);
 }
