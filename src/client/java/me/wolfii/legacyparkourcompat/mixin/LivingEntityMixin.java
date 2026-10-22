@@ -11,6 +11,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.DismountPositionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.EffectFallDistanceResetHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.ElytraLiftForceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingLookHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.TravelFallFlyingGravityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.GlideClimbableExemptionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingClimbableExitHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.ClimbImpulseHook;
@@ -87,6 +88,9 @@ abstract class LivingEntityMixin {
         }
         return PostMoveFluidRefreshContext.suppressLavaCurrent(entity, () -> original.call(entity));
     }
+
+    @Invoker("getEffectiveGravity")
+    protected abstract double legacyparkourcompat$invokeGetEffectiveGravity();
 
     @WrapOperation(method = "tick()V", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/world/entity/LivingEntity;setXRot(F)V"))
@@ -345,6 +349,19 @@ abstract class LivingEntityMixin {
         return MovementRuntime.find(FallFlyingLookHook.class, entity)
             .map(behavior -> behavior.lookVector(entity, MovementRuntime.profile(entity).target(), vanilla))
             .orElse(vanilla);
+    }
+
+    @Redirect(
+        method = "updateFallFlyingMovement",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getEffectiveGravity()D")
+    )
+    private double legacyparkourcompat$fallFlyingGravity(LivingEntity entity) {
+        if (!entity.level().isClientSide() || !entity.isControlledByLocalInstance()) {
+            return ((LivingEntityMixin)(Object)entity).legacyparkourcompat$invokeGetEffectiveGravity();
+        }
+        return MovementRuntime.find(TravelFallFlyingGravityHook.class, entity)
+            .map(hook -> hook.gravity(entity))
+            .orElseGet(() -> ((LivingEntityMixin)(Object)entity).legacyparkourcompat$invokeGetEffectiveGravity());
     }
 
     @Inject(
