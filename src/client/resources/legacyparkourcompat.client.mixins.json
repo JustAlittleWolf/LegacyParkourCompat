@@ -19,6 +19,7 @@
     "BlockPushEntitiesMixin",
     "FarmlandBlockMixin",
     "EntityMixin",
+    "EntityMovementCutoffMixin",
     "accessor.EntityInvoker",
     "EntityFluidCurrentMixin",
     "EntityFluidInteractionMixin",
