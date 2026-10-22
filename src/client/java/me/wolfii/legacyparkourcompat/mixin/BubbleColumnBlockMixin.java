@@ -3,6 +3,7 @@ package me.wolfii.legacyparkourcompat.mixin;
 import com.llamalad7.mixinextras.sugar.Local;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BubbleColumnAboveContactHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.block.BubbleColumnImpulseEligibilityHook;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.BubbleColumnBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -12,6 +13,20 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(BubbleColumnBlock.class)
 public abstract class BubbleColumnBlockMixin {
+    @ModifyVariable(
+        method = "entityInside(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/level/block/InsideBlockEffectApplier;Z)V",
+        at = @At("HEAD"),
+        argsOnly = true
+    )
+    private boolean legacyparkourcompat$useHistoricalImpulseEligibility(
+        boolean vanillaEligible,
+        @Local(argsOnly = true) Entity entity
+    ) {
+        return MovementRuntime.find(BubbleColumnImpulseEligibilityHook.class, entity)
+            .map(change -> change.shouldApplyImpulse(vanillaEligible))
+            .orElse(vanillaEligible);
+    }
+
     @ModifyVariable(
         method = "entityInside(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/InsideBlockEffectApplier;Z)V",
         at = @At(value = "STORE"),
