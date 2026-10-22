@@ -4,6 +4,7 @@ import me.wolfii.legacyparkourcompat.accessor.JumpPowerAccess;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.JumpPowerHook;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.LivingEntity;
 
 /**
@@ -37,6 +38,12 @@ import net.minecraft.world.entity.LivingEntity;
 public final class DoubleJumpBoostAddition implements JumpPowerHook {
     @Override
     public double jumpPower(LivingEntity entity, double vanilla) {
+        // The reconstructed historical operands are valid only with the native
+        // jump strength and scale defaults; keep modern custom attributes native.
+        if (entity.getAttributeValue(Attributes.JUMP_STRENGTH) != (double) 0.42F
+            || entity.getAttributeValue(Attributes.SCALE) != 1.0) {
+            return vanilla;
+        }
         float jumpPower = 0.42F
             * ((JumpPowerAccess) entity).legacyparkour$getBlockJumpFactor();
         float jumpBoostPower = entity.getJumpBoostPower();
