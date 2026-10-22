@@ -8,6 +8,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FluidInteractionBoxHook
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FluidInteractionFluidHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.LavaCurrentHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FluidScanLoadedChunksHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PlayerEyeFluidSampleHook;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.core.BlockPos;
@@ -28,6 +29,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityFluidInteraction.class)
 abstract class EntityFluidInteractionMixin {
+    @Redirect(
+        method = "update(Lnet/minecraft/world/entity/Entity;Z)V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;getEyeY()D")
+    )
+    private double legacyparkourcompat$playerEyeFluidSample(Entity entity) {
+        double eyeY = entity.getEyeY();
+        return MovementRuntime.find(PlayerEyeFluidSampleHook.class, entity)
+            .map(hook -> hook.sampleY(entity, eyeY))
+            .orElse(eyeY);
+    }
+
     @WrapOperation(method = "update", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/world/entity/EntityFluidInteraction;hasFluidAndLoaded(Lnet/minecraft/world/level/Level;IIIIII)Z"))
     private static boolean legacyparkourcompat$fluidLoadedChunks(Level level, int x0, int y0, int z0, int x1, int y1, int z1,
