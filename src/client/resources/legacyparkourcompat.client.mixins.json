@@ -13,6 +13,7 @@
     "border.LivingEntityWakeContextMixin",
     "border.DismountHelperWakeBorderMixin",
     "LivingEntityMixin",
+    "JumpBoostFallbackMixin",
     "PlayerMixin",
     "WallBlockMixin",
     "BlockStateCollisionShapeMixin",
