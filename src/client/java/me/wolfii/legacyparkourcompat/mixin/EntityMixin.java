@@ -29,6 +29,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.RetainedWaterDepthHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.SwimmingUpdateHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
 import me.wolfii.legacyparkourcompat.mixin.accessor.WaterJumpDepthAccess;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -278,7 +279,9 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
             return;
         }
         if (fluid.equals(FluidTags.WATER)
-            && entity instanceof Player player
+            && entity instanceof LocalPlayer player
+            && !player.isPassenger()
+            && player.isPushedByFluid()
             && MovementRuntime.find(ShallowWaterCurrentCutoffHook.class, player)
                 .map(behavior -> behavior.bypassWeakCurrentCutoff(interaction.getFluidHeight(fluid)))
                 .orElse(false)) {
