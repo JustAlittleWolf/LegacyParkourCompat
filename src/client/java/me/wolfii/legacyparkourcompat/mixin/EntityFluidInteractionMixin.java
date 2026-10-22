@@ -9,6 +9,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FluidInteractionBoxHook
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FluidInteractionFluidHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.LavaCurrentHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FluidScanLoadedChunksHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.EyeFluidSurfaceBoundaryHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PlayerEyeFluidSampleHook;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
@@ -57,24 +58,28 @@ abstract class EntityFluidInteractionMixin {
         at = @At(value = "JUMP", opcode = Opcodes.IFGT),
         require = 1
     )
-    private int legacyparkourcompat$strictWaterEyeFluidTop(int comparison,
+    private int legacyparkourcompat$eyeFluidUpperBoundary(int comparison,
         @Local(argsOnly = true) Entity entity,
         @Local FluidState fluidState,
         @Local(ordinal = 1) double eyeY,
         @Local(ordinal = 3) double fluidTop) {
-        if (!fluidState.is(FluidTags.WATER)) {
-            return comparison;
+        double sampleY = eyeY;
+        if (fluidState.is(FluidTags.WATER)) {
+            sampleY = MovementRuntime.find(PlayerEyeFluidSampleHook.class, entity)
+                .map(hook -> hook.sampleY(entity, eyeY))
+                .orElse(eyeY);
+            if (sampleY != eyeY) {
+                comparison = Double.compare(sampleY, fluidTop);
+            }
         }
-        return MovementRuntime.find(PlayerEyeFluidSampleHook.class, entity)
-            .map(hook -> {
-                double sampleY = hook.sampleY(entity, eyeY);
-                if (sampleY == eyeY) {
-                    return comparison;
-                }
-                int sampledComparison = Double.compare(sampleY, fluidTop);
-                return sampledComparison == 0 ? 1 : sampledComparison;
-            })
-            .orElse(comparison);
+        if (entity instanceof Player) {
+            double eyeSampleY = sampleY;
+            int upperBoundaryComparison = comparison;
+            return MovementRuntime.find(EyeFluidSurfaceBoundaryHook.class, entity)
+                .map(hook -> hook.upperBoundaryComparison(eyeSampleY, fluidTop, upperBoundaryComparison))
+                .orElse(upperBoundaryComparison);
+        }
+        return comparison;
     }
 
     @WrapOperation(method = "update", at = @At(value = "INVOKE",
