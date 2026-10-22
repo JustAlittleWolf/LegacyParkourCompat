@@ -22,6 +22,7 @@
     "EntityMixin",
     "EntitySupportingBlockPositionMixin",
     "EntityCollisionAxisOrderMixin",
+    "EntityStepUpCollisionMixin",
     "EntityMovementCutoffMixin",
     "ShulkerMixin",
     "accessor.EntityInvoker",
