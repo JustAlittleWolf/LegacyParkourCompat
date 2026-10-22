@@ -16,9 +16,10 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
  * float getJumpStrength()=0.42F into velocityY, then add the float expression
  * (integer amplifier + 1) * 0.1F as a double. Ornithe Feather 1.14 jump instead
  * adds base and boost in float before storing; 1.14.4 retains that order.
- * 1.15.1/1.15.2 Mojmap MobEffectInstance.update/tick differs by the hidden
- * weaker-effect fallback. The V1_15 JumpBoostResponseHook suppresses only the
- * restored effect's local-player jump contribution for older selected profiles.
+ * 1.15.1/1.15.2 Mojmap net/minecraft/world/effect/MobEffectInstance.java,
+ * update and tick, differ by the hidden weaker-effect fallback. The V1_15
+ * JumpBoostResponseHook suppresses only the restored effect's local-player
+ * contribution in LivingEntity.jumpFromGround for older selected profiles.
  * Preserve the integer addition and float product, then the double sum.
  * Modern custom jump strength/scale and non-unit block jump factors retain
  * their supplied native power rather than suppressing modern-only features.

@@ -10,10 +10,12 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 /**
- * 1.15 and 1.15.1 Mojmap MobEffectInstance.update/tick have no hidden-effect
- * fallback. 1.15.2 adds that chain and restores it from tick; LivingEntity.tickEffects
- * runs the lifecycle on the client and jumpFromGround reads the restored active
- * amplifier. ClientPacketListener.handleUpdateMobEffect feeds updates through
+ * 1.15 and 1.15.1 Mojmap net/minecraft/world/effect/MobEffectInstance.java,
+ * update and tick, have no hidden-effect fallback. 1.15.2 adds that chain and
+ * restores it from tick; net/minecraft/world/entity/LivingEntity.java,
+ * tickEffects and jumpFromGround, run the lifecycle on the client and read the
+ * restored active amplifier. 1.15.2 net/minecraft/client/multiplayer/
+ * ClientPacketListener.java, handleUpdateMobEffect, feeds updates through
  * addEffect. Suppression is local-player jump response only, and an accepted
  * update clears it only when the primary active amplifier or duration changes.
  */
