@@ -18,6 +18,7 @@
     "WallBlockMixin",
     "BlockStateCollisionShapeMixin",
     "BlockPushEntitiesMixin",
+    "HoneyBlockMixin",
     "FarmlandBlockMixin",
     "EntityMixin",
     "EntitySupportingBlockPositionMixin",
