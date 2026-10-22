@@ -11,9 +11,9 @@ Use this procedure when coordinating an authorized discovery, implementation or 
 
 ## Assign roles and capacity
 
-The master (level 1) starts every direct delegate in a new separate chat, whether the delegate is a worker or a level-2 suborchestrator. Use a few suborchestrator chats for non-overlapping workstreams and direct worker chats for bounded assignments as appropriate. Do not use the master's subagent tool for either role. Give each suborchestrator explicit delegation rights and a maximum local worker count. Level-2 suborchestrators must not create further chats: they use subagents for their workers (level 3). Workers, including workers assigned directly by the master, must not delegate. Count direct worker chats and suborchestrator chats in the master's global concurrency pool; exclude suborchestrators' subworkers, which use their separately assigned local pools. Apply overall time/resource budgets to all descendants and obey actual host limits.
+Use native subagents for delegated work, including direct workers and any explicitly assigned suborchestrators. Give each suborchestrator explicit delegation rights and a maximum local worker count. Workers must not delegate. Count direct workers and suborchestrators in the master's global concurrency pool; suborchestrators manage their separately assigned local pools. Account for all descendants against actual host capacity and overall time/resource budgets. Separate user chats are not required for delegation.
 
-Use the cheapest modern model suitable for the task; in Codex, follow the model policy below. Determine supported concurrency with bounded probes; separate-chat capacity and per-chat subagent capacity are distinct. Reserve capacity for independent review and serial integration. Assign one canonical source-preparation writer and one product integration/build owner.
+Use the cheapest modern model suitable for the task; in Codex, follow the model policy below. Determine supported native concurrency with bounded probes and obey the user's worker limit. Reserve capacity for independent review and serial integration. Assign one canonical source-preparation writer and one product integration/build owner.
 
 Send assignments directly in chat with role/delegation limits, bounded action, exact inputs, branch or working directory, owned paths, isolation, budget/deadline, authorized checks and expected finding or commit. Do not create assignment templates or per-worker status files.
 
@@ -23,7 +23,7 @@ Before dispatching a lane, read its procedure in full and supply only its permit
 - **Independent implementation and product integration:** [implementation](../implementation/WORKFLOW.md).
 - **Explicitly authorized runtime verification:** [testing](../testing/WORKFLOW.md).
 
-Start blind workers/reviewers and independent implementers with fresh permitted context. Never fork mixed coordinator history into them. Reuse a chat only when its prior exposure is compatible with its next assignment. Give source consumers read-only access to canonical `decompiled_minecraft/`; only its preparation owner writes there.
+Start blind workers/reviewers and independent implementers with fresh permitted context. Never fork mixed coordinator history into them. Start a fresh subagent for each new assignment; a compatible continuation may finish its existing assignment. Native subagents share the filesystem, so assign exclusive paths or isolated repositories/worktrees before allowing writes. Give source consumers read-only access to canonical `decompiled_minecraft/`; only its preparation owner writes there.
 
 ## Dispatch and completion loop
 
@@ -40,9 +40,9 @@ For product handoff, require the integrator to merge the default branch, inspect
 
 ## Host mechanisms
 
-Use the host's supported conversation, delegation, messaging and completion mechanisms. Report missing separate-chat support before changing the hierarchy.
+Use the host's supported native delegation, messaging and completion mechanisms. Report unavailable native delegation before substituting another mechanism.
 
-**Codex desktop:** The master uses `create_thread` for every direct delegate, including individual workers and level-2 suborchestrators; it does not use `spawn_agent`. Use `send_message_to_thread` for assignments/follow-ups and bounded multi-target `wait_threads` calls with returned cursors for first-completion waits. Level-2 suborchestrators use `spawn_agent` for their workers and must not call `create_thread` to delegate. Explicit user authorization is required for creating or messaging chats; reuse it within scope. If authorization is missing or a higher-priority host rule prevents this hierarchy, report the precise conflict and obtain the needed authorization before dispatching affected work; do not silently replace the chats with subagents. `spawn_agent` creates a subagent, not a separate chat. After a wait, inspect the event and dispatch explicitly; waiting does not run the ready queue. Other hosts use equivalent supported mechanisms and their permission rules.
+**Codex desktop:** Use `spawn_agent` for authorized delegation and native agent messaging and completion notifications to coordinate it. For fresh permitted context, use `fork_turns: "none"` and supply only the assignment's allowed inputs. Refill capacity when any worker finishes or produces an actionable event; do not wait for the whole batch. After a wait, inspect the event and dispatch explicitly; waiting does not run the ready queue. Existing separate chats may finish their interrupted assignments, but new delegated assignments use native subagents. Other hosts use equivalent supported mechanisms and their permission rules.
 
 ### Codex-only model policy
 
