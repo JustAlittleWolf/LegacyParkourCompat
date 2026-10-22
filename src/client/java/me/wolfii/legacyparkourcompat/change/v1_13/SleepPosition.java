@@ -21,8 +21,8 @@ public final class SleepPosition implements SleepPositionHook {
         float x = bedPosition.getX();
         float y = bedPosition.getY() + 0.6875F;
         float z = bedPosition.getZ();
+        Direction facing = entity.level().getBlockState(bedPosition).getValue(BedBlock.FACING);
         if (entity.level().hasChunkAt(bedPosition)) {
-            Direction facing = entity.level().getBlockState(bedPosition).getValue(BedBlock.FACING);
             x += 0.5F + facing.getStepX() * 0.4F;
             z += 0.5F + facing.getStepZ() * 0.4F;
         } else {
