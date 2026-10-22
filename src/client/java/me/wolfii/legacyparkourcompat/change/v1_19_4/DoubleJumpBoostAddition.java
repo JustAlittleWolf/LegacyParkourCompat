@@ -10,11 +10,9 @@ import net.minecraft.world.entity.LivingEntity;
 /**
  * Widens the two float operands before adding, as in 1.17.1.
  *
- * Source evidence (paths are relative to decompiled_minecraft/):
+ * Historical source evidence (paths are relative to decompiled_minecraft/):
  * 1.19.4/mojmap/net/minecraft/world/entity/LivingEntity.java:
- *   getJumpPower.
- *   aiStep.
- *   getJumpPower.
+ *   getJumpPower, getJumpBoostPower, jumpFromGround.
  * 1.19.4/mojmap/net/minecraft/world/entity/player/Player.java:
  *   jumpFromGround.
  * 1.20.1/mojmap/net/minecraft/world/entity/LivingEntity.java:
@@ -29,6 +27,13 @@ import net.minecraft.world.entity.LivingEntity;
  *   class declaration / field initialization.
  * 1.20.6/mojmap/net/minecraft/world/entity/player/Player.java:
  *   createAttributes.
+ * Native modern-input evidence:
+ * 26.2/unobfuscated/net/minecraft/world/entity/ai/attributes/Attributes.java:
+ *   JUMP_STRENGTH (default 0.42F), SCALE (default 1.0).
+ * 26.2/unobfuscated/net/minecraft/world/entity/ai/attributes/RangedAttribute.java:
+ *   <init> (default value parameter is double; the 0.42F argument widens exactly).
+ * 26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java:
+ *   getJumpPower, getJumpPower(float), getJumpBoostPower.
  * No exact independently accepted source binding is established for this operation.
  * Remaining source/applicability gates:
  *   Archived-to-canonical source identity for these checked secondary citations: 1.20.6/mojmap/net/minecraft/world/entity/player/Player.java. Archived source identity correspondence remains unresolved for them.
