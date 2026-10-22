@@ -356,7 +356,7 @@ abstract class LivingEntityMixin {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getEffectiveGravity()D")
     )
     private double legacyparkourcompat$fallFlyingGravity(LivingEntity entity) {
-        if (!entity.level().isClientSide() || !entity.isControlledByLocalInstance()) {
+        if (!entity.level().isClientSide() || !entity.isLocalInstanceAuthoritative()) {
             return ((LivingEntityMixin)(Object)entity).legacyparkourcompat$invokeGetEffectiveGravity();
         }
         return MovementRuntime.find(TravelFallFlyingGravityHook.class, entity)
