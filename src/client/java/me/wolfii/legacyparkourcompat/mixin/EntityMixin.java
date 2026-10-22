@@ -59,11 +59,8 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
         target = "Lnet/minecraft/world/level/block/Block;stepOn(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/entity/Entity;)V"))
     private void legacyparkourcompat$stepOnGate(Block block, Level level, BlockPos pos, BlockState state,
                                              Entity entity, Operation<Void> original) {
-        boolean invoke = entity instanceof Player player
-            ? MovementRuntime.find(StepOnCallbackHook.class, block, player)
-                .map(hook -> hook.shouldInvoke(player)).orElse(true)
-            : true;
-        if (invoke) {
+        if (!(entity instanceof Player player)
+            || MovementRuntime.find(StepOnCallbackHook.class, block, player).isEmpty()) {
             original.call(block, level, pos, state, entity);
         }
     }
@@ -363,6 +360,12 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
     )
     private void legacyparkourcompat$applyHistoricalBlockCallbacks(MoverType moverType, Vec3 movement, CallbackInfo ci) {
         Entity entity = (Entity)(Object)this;
+        if (entity instanceof Player player) {
+            BlockPos onPos = entity.getOnPos();
+            BlockState onState = entity.level().getBlockState(onPos);
+            MovementRuntime.find(StepOnCallbackHook.class, onState.getBlock(), player)
+                .ifPresent(hook -> hook.invokeBeforeInsideBlockCallbacks(player, entity.level(), onPos, onState));
+        }
         MovementRuntime.find(AfterCollisionHook.class, entity)
             .ifPresent(behavior -> behavior.afterCollision(entity));
     }

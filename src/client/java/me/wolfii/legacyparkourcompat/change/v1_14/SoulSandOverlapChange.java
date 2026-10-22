@@ -23,17 +23,20 @@ import net.minecraft.world.phys.Vec3;
  *
  * Source evidence (paths are relative to decompiled_minecraft/):
  * 1.14.4/mojmap/net/minecraft/world/entity/Entity.java:
- *   move.
- *   checkInsideBlocks.
+ *   move calls slime stepOn before checkInsideBlocks, whose soul-sand callback
+ *   applies one X/Z multiplication per overlapping cell.
  * 1.14.4/mojmap/net/minecraft/world/level/block/SoulsandBlock.java:
  *   entityInside.
  * 1.15.2/mojmap/net/minecraft/world/entity/Entity.java:
  *   move, getBlockSpeedFactor.
  * 1.15.2/mojmap/net/minecraft/world/level/block/SoulsandBlock.java:
  *   class/shape initialization.
- * No exact independently accepted source binding is established for this operation.
- * Remaining source/applicability gates:
- *   Original source identity binding for 1.14.4/mojmap/net/minecraft/world/entity/Entity.java is absent/different; canonical source was inspected.
+ * 26.2/mojmap/net/minecraft/world/entity/Entity.java:
+ *   applyEffectsFromBlocks invokes its list overload outside move; that overload
+ *   deduplicates visited blocks before stepOn.
+ * The product dispatches the historical slime stepOn at the per-move callback
+ * site before this overlap scan, matching the 1.14.4 callback order without
+ * relying on the later deduplicated applyEffectsFromBlocks collector.
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
 @MovementChange(emulates = ParkourVersion.V1_14_2)
