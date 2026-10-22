@@ -14,7 +14,7 @@ public final class SoulSpeedSupportBlockSelector implements SoulSpeedBlockHook {
     }
 
     @Override
-    public boolean onSoulSpeedBlock(LivingEntity entity, BlockPos supportPosition) {
-        return entity.level().getBlockState(supportPosition).is(BlockTags.SOUL_SPEED_BLOCKS);
+    public boolean onSoulSpeedBlock(LivingEntity entity, BlockPos soulSpeedSupportPosition) {
+        return entity.level().getBlockState(soulSpeedSupportPosition).is(BlockTags.SOUL_SPEED_BLOCKS);
     }
 }

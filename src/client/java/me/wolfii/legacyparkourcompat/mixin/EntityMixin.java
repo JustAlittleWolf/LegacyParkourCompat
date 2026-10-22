@@ -8,6 +8,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
+import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.AfterCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionWriteHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionReconstructionHook;
@@ -15,8 +16,9 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalCollision
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockBounceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockLandingHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockSpeedFactorHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.soulspeed.SoulSpeedFrictionHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.entity.SupportingBlockPositionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.soulspeed.SoulSpeedBlockHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.soulspeed.SoulSpeedFrictionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.StepOnCallbackHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.BoatPassengerFluidPushHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.CollisionRestitutionHook;
@@ -456,7 +458,7 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
                     return factor;
                 }
                 if (livingEntity instanceof Player player
-                    && (player.abilities.flying || player.isFallFlying())) {
+                    && (player.getAbilities().flying || player.isFallFlying())) {
                     // Mojmap Player#getBlockSpeedFactor returns 1.0F before its superclass path in 1.20.6 and 1.21.1.
                     return 1.0F;
                 }
@@ -475,8 +477,18 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
                         livingEntity
                     )
                     : 0;
+                // Entity#getBlockSpeedFactor has its own support-cell selector, separate from Soul Speed's tag selector.
+                VanillaFn<BlockPos> baseFactorSupportPosition = () -> MovementRuntime
+                    .find(SupportingBlockPositionHook.class, livingEntity)
+                    .map(hook -> hook.getPosition(
+                        livingEntity,
+                        () -> ((EntityInvoker)livingEntity)
+                            .legacyparkourcompat$invokeGetBlockPosBelowThatAffectsMyMovement()
+                    ))
+                    .orElseGet(() -> ((EntityInvoker)livingEntity)
+                        .legacyparkourcompat$invokeGetBlockPosBelowThatAffectsMyMovement());
                 return friction.get().blockSpeedFactor(
-                    livingEntity, supportPosition, onSoulSpeedBlock, soulSpeedLevel
+                    livingEntity, onSoulSpeedBlock, soulSpeedLevel, baseFactorSupportPosition
                 );
             }
         }
