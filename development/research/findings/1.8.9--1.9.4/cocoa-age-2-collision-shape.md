@@ -1,18 +1,6 @@
-# cocoa age-2 collision shape
+# Cocoa age-2 collision shape
 
-1.8.9, ornithe-feather; feather-gen2-1.8.9+build.2-mergedv2.jar, feather-gen2-1.8.9+build.2.tiny: `1.8.9/ornithe-feather/net/minecraft/block/CocoaBlock.java`, `public void updateShape(WorldView world, BlockPos pos) {`, lines 70-90.
-1.9.4, ornithe-feather; feather-gen2-1.9.4+build.2-mergedv2.jar, feather-gen2-1.9.4+build.2.tiny: `1.9.4/ornithe-feather/net/minecraft/block/CocoaBlock.java`, `public Box getShape(BlockState state, WorldView world, BlockPos pos) {`, lines 77-90.
-
-Difference: - Bounded geometry result: at age 0 and age 1, all four 1.8.9/1.9.4 facing boxes match.
-
-At age 2, 1.8.9 computes an 8/16-wide cocoa body with lower Y 3/16; 1.9.4 returns the age-1 box, which is 6/16 wide with lower Y 5/16.
-
-Both have upper Y 12/16.
-
-The local facing-side and tangent extents differ by 2/16 on each applicable horizontal bound; no orientation is omitted.
-
-Movement meaning: - Player reachability: paired `World.getCollisions(Entity,Box)` provider dispatch feeds the ordinary local-player `Entity.move()` path in COLL-01.
-
-The source-state precondition is a cocoa block with age 2 in the queried collision box; neighboring state is not read by this provider.
-
-- Disposition: direct registered collision-shape delta established for age 2 in every facing.
+1.8.9, Ornithe Feather: `decompiled_minecraft/1.8.9/ornithe-feather/net/minecraft/block/CocoaBlock.java`, `getCollisionShape` (58–61), `updateShape` (70–90), and age state/growth (21, 30–38, 143–155).
+1.9, Ornithe Feather: `decompiled_minecraft/1.9/ornithe-feather/net/minecraft/block/CocoaBlock.java`, directional age tables (21–39), `getShape` (76–90), and age state/growth (20, 48–58, 148–160). The same age-2 table is present in 1.9.4 at the same source locations.
+Difference: 1.8.9 derives `j = 4 + age * 2` and `k = 5 + age * 2`; at age 2 each facing gets a larger box than age 1. From release 1.9 onward, each facing's table repeats its age-1 box at index 2. Thus the transition is present in exact release 1.9 and persists in 1.9.1, 1.9.2, 1.9.3, and 1.9.4.
+Movement meaning: Age 2 is reachable through cocoa growth. For a north-facing witness, 1.8.9 uses local bounds `(0.25, 0.1875, 0.0625)`–`(0.75, 0.75, 0.5625)`, while 1.9+ uses `(0.3125, 0.3125, 0.0625)`–`(0.6875, 0.75, 0.4375)`; the other facings have the corresponding oriented bounds. `World.getCollisions` feeds these block boxes to `Entity.move` in both versions, so a player swept box intersecting the added age-2 band is clipped in 1.8.9 and can pass that band in 1.9+.
