@@ -283,8 +283,7 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
             && !player.isPassenger()
             && player.isPushedByFluid()
             && MovementRuntime.find(ShallowWaterCurrentCutoffHook.class, player)
-                .map(behavior -> behavior.bypassWeakCurrentCutoff(
-                    MovementRuntime.profile(player).target(), interaction.getFluidHeight(fluid)))
+                .map(behavior -> behavior.bypassWeakCurrentCutoff(interaction.getFluidHeight(fluid)))
                 .orElse(false)) {
             FluidCurrentCutoffContext.run(entity, () -> interaction.applyCurrentTo(fluid, entity, scale));
             return;
