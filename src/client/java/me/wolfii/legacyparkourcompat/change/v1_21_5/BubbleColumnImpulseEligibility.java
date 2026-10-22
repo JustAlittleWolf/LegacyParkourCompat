@@ -12,7 +12,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.block.BubbleColumnImpulseElig
  * gates its response on it. Preserve the earlier eligibility only for an
  * already-dispatched contact; contact and overhead classification stay native.
  */
-@MovementChange(emulates = ParkourVersion.V1_21_5)
+@MovementChange(emulates = ParkourVersion.V1_21_9)
 public final class BubbleColumnImpulseEligibility implements BubbleColumnImpulseEligibilityHook {
     @Override
     public boolean shouldApplyImpulse(boolean vanillaEligible) {
