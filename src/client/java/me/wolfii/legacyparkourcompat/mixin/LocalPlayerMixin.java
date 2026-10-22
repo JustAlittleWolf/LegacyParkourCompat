@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.hook.clientload.ClientLoadGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingStartHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingClimbableGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingFlightToggleGateHook;
@@ -76,6 +77,28 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LocalPlayer.class)
 abstract class LocalPlayerMixin {
+    // Mojmap 1.21.4–1.21.10 Player initializes this per instance. Both historical
+    // and published 26.2 ClientPacketListener#handleRespawn create a new player,
+    // including same-dimension respawns; the timer must not carry across players.
+    @Unique
+    private int legacyparkourcompat$clientLoadTimeoutTicks = 60;
+
+    @ModifyExpressionValue(method = "tick()V", at = @At(value = "INVOKE",
+        target = "Lnet/minecraft/client/multiplayer/ClientPacketListener;hasClientLoaded()Z"))
+    private boolean legacyparkourcompat$clientLoadGate(boolean clientLoaded) {
+        LocalPlayer player = (LocalPlayer) (Object) this;
+        var hook = MovementRuntime.find(ClientLoadGateHook.class, player);
+        if (hook.isEmpty()) {
+            return clientLoaded;
+        }
+        // Player#tickClientLoadTimeout decrements while not explicitly ready,
+        // even after expiry. Preserve Java int arithmetic and decision order.
+        if (!clientLoaded) {
+            this.legacyparkourcompat$clientLoadTimeoutTicks--;
+        }
+        return hook.get().shouldRunTick(clientLoaded, this.legacyparkourcompat$clientLoadTimeoutTicks);
+    }
+
     @ModifyExpressionValue(method = {"canStartSprinting()Z", "shouldStopRunSprinting()Z"}, at = @At(value = "INVOKE",
         target = "Lnet/minecraft/client/player/LocalPlayer;isSprintingPossible(Z)Z"))
     private boolean legacyparkourcompat$flightShallowWaterSprint(boolean vanilla) {
