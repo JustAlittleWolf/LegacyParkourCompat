@@ -30,8 +30,10 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.state.SwimmingUpdateHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
 import me.wolfii.legacyparkourcompat.mixin.accessor.WaterJumpDepthAccess;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
@@ -39,6 +41,7 @@ import net.minecraft.world.entity.EntityFluidInteraction;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
@@ -59,11 +62,8 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
         target = "Lnet/minecraft/world/level/block/Block;stepOn(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/entity/Entity;)V"))
     private void legacyparkourcompat$stepOnGate(Block block, Level level, BlockPos pos, BlockState state,
                                              Entity entity, Operation<Void> original) {
-        boolean invoke = entity instanceof Player player
-            ? MovementRuntime.find(StepOnCallbackHook.class, block, player)
-                .map(hook -> hook.shouldInvoke(player)).orElse(true)
-            : true;
-        if (invoke) {
+        if (!(entity instanceof Player player)
+            || MovementRuntime.find(StepOnCallbackHook.class, block, player).isEmpty()) {
             original.call(block, level, pos, state, entity);
         }
     }
@@ -363,6 +363,30 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
     )
     private void legacyparkourcompat$applyHistoricalBlockCallbacks(MoverType moverType, Vec3 movement, CallbackInfo ci) {
         Entity entity = (Entity)(Object)this;
+        if (entity instanceof Player player) {
+            BlockPos onPos = new BlockPos(
+                Mth.floor(entity.getX()),
+                Mth.floor(entity.getY() - 0.2F),
+                Mth.floor(entity.getZ())
+            );
+            BlockState onState = entity.level().getBlockState(onPos);
+            if (onState.isAir()) {
+                BlockPos below = onPos.below();
+                BlockState belowState = entity.level().getBlockState(below);
+                Block belowBlock = belowState.getBlock();
+                if (belowBlock.is(BlockTags.FENCES) || belowBlock.is(BlockTags.WALLS)
+                    || belowBlock instanceof FenceGateBlock) {
+                    onPos = below;
+                    onState = belowState;
+                }
+            }
+            BlockPos stepOnPosition = onPos;
+            BlockState stepOnState = onState;
+            MovementRuntime.find(StepOnCallbackHook.class, stepOnState.getBlock(), player)
+                .ifPresent(hook -> hook.invokeBeforeInsideBlockCallbacks(
+                    player, entity.level(), stepOnPosition, stepOnState
+                ));
+        }
         MovementRuntime.find(AfterCollisionHook.class, entity)
             .ifPresent(behavior -> behavior.afterCollision(entity));
     }
