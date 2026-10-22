@@ -35,7 +35,8 @@
     "LocalPlayerSprintMixin",
     "client.LocalPlayerAccessor",
     "client.ClientInputAccessor",
-    "accessor.PistonMovingBlockEntityAccessor"
+    "accessor.PistonMovingBlockEntityAccessor",
+    "item.TridentItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1
