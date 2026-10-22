@@ -363,7 +363,7 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
     )
     private void legacyparkourcompat$applyHistoricalBlockCallbacks(MoverType moverType, Vec3 movement, CallbackInfo ci) {
         Entity entity = (Entity)(Object)this;
-        if (entity instanceof Player player) {
+        if (entity instanceof Player player && MovementRuntime.appliesTo(player)) {
             BlockPos onPos = new BlockPos(
                 Mth.floor(entity.getX()),
                 Mth.floor(entity.getY() - 0.2F),
@@ -374,7 +374,7 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
                 BlockPos below = onPos.below();
                 BlockState belowState = entity.level().getBlockState(below);
                 Block belowBlock = belowState.getBlock();
-                if (belowBlock.is(BlockTags.FENCES) || belowBlock.is(BlockTags.WALLS)
+                if (belowState.is(BlockTags.FENCES) || belowState.is(BlockTags.WALLS)
                     || belowBlock instanceof FenceGateBlock) {
                     onPos = below;
                     onState = belowState;
