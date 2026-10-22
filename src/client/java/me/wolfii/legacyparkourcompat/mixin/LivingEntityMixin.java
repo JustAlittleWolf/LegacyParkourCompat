@@ -1,7 +1,6 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
@@ -14,7 +13,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.travel.ElytraLiftForceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingLookHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.GlideClimbableExemptionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingClimbableExitHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.travel.ClimbHeldJumpImpulseHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.ClimbImpulseHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.FluidJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.GlideFallDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.gliding.GlideFallDistanceLimiterStageHook;
@@ -111,13 +110,23 @@ abstract class LivingEntityMixin {
         return original.call(entity);
     }
 
-    @ModifyExpressionValue(method = "handleRelativeFrictionAndCalculateMovement", at = @At(value = "FIELD",
-        target = "Lnet/minecraft/world/entity/LivingEntity;jumping:Z", opcode = Opcodes.GETFIELD))
-    private boolean legacyparkourcompat$climbHeldJumpImpulse(boolean jumping) {
+    // 26.2 returns the post-move ordinary-air velocity here; the historical climb impulse
+    // belongs to this operation and must not run through the fall-flying branch.
+    @Inject(
+        method = "handleRelativeFrictionAndCalculateMovement(Lnet/minecraft/world/phys/Vec3;F)Lnet/minecraft/world/phys/Vec3;",
+        at = @At("RETURN"),
+        cancellable = true
+    )
+    private void legacyparkourcompat$climbImpulse(
+        Vec3 input,
+        float friction,
+        CallbackInfoReturnable<Vec3> cir
+    ) {
         LivingEntity entity = (LivingEntity)(Object)this;
-        return MovementRuntime.find(ClimbHeldJumpImpulseHook.class, entity)
-            .map(hook -> hook.heldJump(entity.getInBlockState(), jumping))
-            .orElse(jumping);
+        if (!entity.isFallFlying()) {
+            MovementRuntime.find(ClimbImpulseHook.class, entity)
+                .ifPresent(hook -> cir.setReturnValue(hook.afterMove(entity)));
+        }
     }
 
     @WrapOperation(method = "travelFallFlying", at = @At(value = "INVOKE",
