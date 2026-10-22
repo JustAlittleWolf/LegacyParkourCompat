@@ -12,7 +12,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.input.FlightToggleVehicleHook
  * vehicle operand; prior input, auto-jump, seven-tick timer, swimming and
  * spectator checks and ability writes stay native.
  */
-@MovementChange(emulates = ParkourVersion.V1_21_9)
+@MovementChange(emulates = ParkourVersion.V1_21_10)
 public final class FlightToggleVehicle implements FlightToggleVehicleHook {
     @Override
     public boolean checksVehicle(ParkourVersion selected) {
