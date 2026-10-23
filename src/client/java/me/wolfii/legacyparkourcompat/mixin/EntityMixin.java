@@ -1,5 +1,9 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
+import me.wolfii.legacyparkourcompat.mechanic.CollisionAxisOrderContext;
+import me.wolfii.legacyparkourcompat.mechanic.FluidCurrentCutoffContext;
+import me.wolfii.legacyparkourcompat.mechanic.PostMoveFluidRefreshContext;
+
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
