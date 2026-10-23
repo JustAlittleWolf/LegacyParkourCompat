@@ -9,16 +9,16 @@ import java.lang.annotation.*;
  *
  * <p>{@link #emulates()} is the parkour version this implementation matches.
  * Vanilla replaced that behaviour in {@link ParkourVersion#next()}: a change
- * that emulates {@link ParkourVersion#V1_8} is the 1.8 behaviour, replaced in
- * 1.9. If several deltas exist for the same mechanic, the one whose
+ * that emulates {@link ParkourVersion#V1_8_9} is the 1.8.9 behaviour, replaced
+ * in 1.9. If several deltas exist for the same mechanic, the one whose
  * {@code emulates} is closest to (but not older than) the selection wins.
  *
- * <p>Example from {@code AGENTS.md}: mechanic {@code A.A} changed in 1.9
- * (emulates {@code V1_8}) and 1.11 (emulates {@code V1_10}). Selecting 1.8
- * loads the {@code V1_8} change, not the {@code V1_10} one.
+ * <p>A change first present in 1.8.9 is annotated with {@code V1_8_9}; a
+ * change that keeps matching 1.8 through 1.8.8 is annotated with {@code V1_8}.
+ * The enum order remains the resolver's applicability order.
  *
  * <pre>{@code
- * @MovementChange(emulates = ParkourVersion.V1_8)
+ * @MovementChange(emulates = ParkourVersion.V1_8_9)
  * public final class LadderCollision implements BlockCollisionShapeHook {
  *     public String blockId() { return "minecraft:ladder"; }
  *     public Optional<VoxelShape> collisionShape(...) { return Optional.of(...); }

@@ -22,7 +22,7 @@ import net.minecraft.world.level.Level;
  *   Exact independent source verdict/snapshot identity for MD-03-negative-zero-chunk-lookup
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class TruncatedMovementChunkLookup implements MovementChunkLookupHook {
     @Override
     public boolean hasChunkAt(LivingEntity entity, Level level, BlockPos vanillaPosition, VanillaFn<Boolean> vanilla) {

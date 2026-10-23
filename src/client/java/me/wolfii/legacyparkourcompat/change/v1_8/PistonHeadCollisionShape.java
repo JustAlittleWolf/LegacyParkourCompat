@@ -22,7 +22,7 @@ import java.util.Optional;
  * setArmShapeForCollisions, plus net.minecraft.block.Block.addCollisions. 1.9, ornithe-feather:
  * PistonHeadBlock.addCollisions and getArmShape, plus Block.addCollision.
  */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class PistonHeadCollisionShape implements BlockCollisionShapeHook {
     @Override
     public String blockId() {

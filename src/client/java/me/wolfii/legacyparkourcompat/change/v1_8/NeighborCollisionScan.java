@@ -11,7 +11,7 @@ import net.minecraft.world.phys.AABB;
  * 1.8.9 and 1.9, ornithe-feather: net.minecraft.world.World.getCollisions(Entity, Box).
  * The two source methods define the bounds and pruning below.
  */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class NeighborCollisionScan implements BlockCollisionScanHook {
     @Override
     public BlockCollisionScan scan(AABB box) {

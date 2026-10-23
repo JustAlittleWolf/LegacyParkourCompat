@@ -16,7 +16,7 @@ import net.minecraft.world.phys.AABB;
  * This nearer resolver boundary prevents that later correction from changing
  * the established 1.8 query policy; it does not claim historical query parity.
  */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class SneakEdgeCollisionQuery implements SneakEdgeCollisionQueryHook {
     @Override
     public boolean noCollision(Player player, AABB candidate) {

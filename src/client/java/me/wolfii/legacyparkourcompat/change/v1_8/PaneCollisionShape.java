@@ -27,7 +27,7 @@ import java.util.Optional;
  *   Later applicability gate: exact introduction of campaign-COLL-02-pane-collision-shapes is unknown within (1.8.9, 1.9.4]
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class PaneCollisionShape implements BlockCollisionShapeHook {
     public static final List<String> BLOCK_IDS = List.of(
         "minecraft:iron_bars",
