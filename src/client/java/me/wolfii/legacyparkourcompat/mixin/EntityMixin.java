@@ -10,6 +10,7 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.AfterCollisionHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.NoPhysicsCollisionResetHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionWriteHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionReconstructionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalCollisionComparisonHook;
@@ -61,6 +62,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -202,6 +204,51 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
         if (!this.legacyparkourcompat$applyMovementPosition(entity, movement)) {
             original.call(entity, x, y, z);
         }
+    }
+
+    // In Entity.move, the first write to each field belongs exclusively to the
+    // noPhysics branch. Later writes in the colliding branch remain untouched.
+    @Redirect(method = "move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V",
+        at = @At(value = "FIELD", target = "Lnet/minecraft/world/entity/Entity;horizontalCollision:Z",
+            opcode = Opcodes.PUTFIELD, ordinal = 0))
+    private void legacyparkourcompat$resetHorizontalCollision(Entity entity, boolean value) {
+        if (legacyparkourcompat$clearCollisionFlags(entity)) {
+            entity.horizontalCollision = value;
+        }
+    }
+
+    @Redirect(method = "move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V",
+        at = @At(value = "FIELD", target = "Lnet/minecraft/world/entity/Entity;verticalCollision:Z",
+            opcode = Opcodes.PUTFIELD, ordinal = 0))
+    private void legacyparkourcompat$resetVerticalCollision(Entity entity, boolean value) {
+        if (legacyparkourcompat$clearCollisionFlags(entity)) {
+            entity.verticalCollision = value;
+        }
+    }
+
+    @Redirect(method = "move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V",
+        at = @At(value = "FIELD", target = "Lnet/minecraft/world/entity/Entity;verticalCollisionBelow:Z",
+            opcode = Opcodes.PUTFIELD, ordinal = 0))
+    private void legacyparkourcompat$resetVerticalCollisionBelow(Entity entity, boolean value) {
+        if (legacyparkourcompat$clearCollisionFlags(entity)) {
+            entity.verticalCollisionBelow = value;
+        }
+    }
+
+    @Redirect(method = "move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V",
+        at = @At(value = "FIELD", target = "Lnet/minecraft/world/entity/Entity;minorHorizontalCollision:Z",
+            opcode = Opcodes.PUTFIELD, ordinal = 0))
+    private void legacyparkourcompat$resetMinorHorizontalCollision(Entity entity, boolean value) {
+        if (legacyparkourcompat$clearCollisionFlags(entity)) {
+            entity.minorHorizontalCollision = value;
+        }
+    }
+
+    @Unique
+    private static boolean legacyparkourcompat$clearCollisionFlags(Entity entity) {
+        return MovementRuntime.find(NoPhysicsCollisionResetHook.class, entity)
+            .map(NoPhysicsCollisionResetHook::clearCollisionFlags)
+            .orElse(true);
     }
 
     @Unique
