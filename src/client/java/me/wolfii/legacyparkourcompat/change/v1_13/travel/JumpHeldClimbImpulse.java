@@ -17,15 +17,21 @@ import net.minecraft.world.phys.Vec3;
  * The 1.13.2 and 1.14.4 LivingEntity.isClimbing predicates both admit ladder,
  * vine, and an open trapdoor above a same-facing ladder, with a spectator gate.
  * In 26.2 unobfuscated LivingEntity.handleRelativeFrictionAndCalculateMovement,
- * the corresponding assignment follows Entity.move. Keep modern-only climbable
- * states on the native path.
+ * the corresponding assignment follows Entity.move and modifies the returned
+ * local vector without writing the entity's delta movement. Preserve that native
+ * result outside historical climbing, including modern-only climbable states and
+ * the powder-snow equipment response.
  */
 @MovementChange(emulates = ParkourVersion.V1_13)
 public final class JumpHeldClimbImpulse implements ClimbImpulseHook {
     @Override
-    public Vec3 afterMove(LivingEntity entity) {
+    public Vec3 afterMove(LivingEntity entity, Vec3 nativeMovement) {
+        if (!isHistoricalClimbing(entity)) {
+            return nativeMovement;
+        }
+
         Vec3 movedVelocity = entity.getDeltaMovement();
-        if (entity.horizontalCollision && isHistoricalClimbing(entity)) {
+        if (entity.horizontalCollision) {
             return new Vec3(movedVelocity.x, 0.2, movedVelocity.z);
         }
         return movedVelocity;

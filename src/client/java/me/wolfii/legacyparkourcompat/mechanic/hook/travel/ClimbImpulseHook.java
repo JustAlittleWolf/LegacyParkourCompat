@@ -8,5 +8,5 @@ import net.minecraft.world.phys.Vec3;
 /** Resolves the post-move vertical impulse for ordinary air travel. */
 @MechanicType("travel.climb_impulse")
 public interface ClimbImpulseHook extends VersionedMechanic {
-    Vec3 afterMove(LivingEntity entity);
+    Vec3 afterMove(LivingEntity entity, Vec3 nativeMovement);
 }
