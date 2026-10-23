@@ -17,6 +17,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.EmptyShapeMovementHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.AxisClippingHook;
+import net.minecraft.core.Direction;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalVelocityCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalVelocityWriteHook;
 import net.minecraft.util.Mth;
@@ -195,6 +197,19 @@ public final class MovementRuntime {
                 () -> new Vec3(clearX ? 0.0 : captured.x, captured.y, clearZ ? 0.0 : captured.z)));
         }
         return true;
+    }
+
+    public static double clipMovementAxis(@Nullable Entity entity, Direction.Axis axis,
+                                          AABB moving, Iterable<VoxelShape> shapes, double distance,
+                                          VanillaFn<Double> vanilla) {
+        var hook = find(AxisClippingHook.class, entity);
+        if (hook.isPresent()) {
+            var clipped = hook.get().clip(axis, moving, shapes, distance);
+            if (clipped.isPresent()) {
+                return clipped.getAsDouble();
+            }
+        }
+        return vanilla.get();
     }
 
     public static Vec3 resolveEmptyShapeMovement(@Nullable Entity entity, Vec3 movement,
