@@ -5,6 +5,8 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.PistonHeadCollisionScanner;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.BlockCollisionScanHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.LowerRowCollisionCandidateHook;
+import me.wolfii.legacyparkourcompat.mixin.accessor.PistonMovingBlockEntityAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockCollisions;
 import net.minecraft.world.level.BlockGetter;
@@ -62,9 +64,17 @@ abstract class BlockCollisionsMixin<T> {
 
     @WrapOperation(method = "computeNext", at = @At(value = "INVOKE", target =
         "Lnet/minecraft/world/phys/shapes/CollisionContext;getCollisionShape(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/CollisionGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/shapes/VoxelShape;"))
-    private VoxelShape legacyparkourcompat$avoidDuplicatePistons(CollisionContext context, BlockState state,
+    private VoxelShape legacyparkourcompat$filterCandidate(CollisionContext context, BlockState state,
         CollisionGetter level, BlockPos pos, Operation<VoxelShape> original) {
-        return this.legacyparkourcompat$pistons != null && state.is(Blocks.PISTON_HEAD)
-            ? Shapes.empty() : original.call(context, state, level, pos);
+        if (this.legacyparkourcompat$pistons != null && state.is(Blocks.PISTON_HEAD)) {
+            return Shapes.empty();
+        }
+        if (!this.onlySuffocatingBlocks && !context.isPlacement() && !context.alwaysCollideWithFluid()
+            && PistonMovingBlockEntityAccessor.legacyparkourcompat$noClip().get() == null
+            && MovementRuntime.find(LowerRowCollisionCandidateHook.class, MovementRuntime.playerFrom(context))
+                .map(hook -> hook.excludeCandidate(state, level, pos, this.box)).orElse(false)) {
+            return Shapes.empty();
+        }
+        return original.call(context, state, level, pos);
     }
 }
