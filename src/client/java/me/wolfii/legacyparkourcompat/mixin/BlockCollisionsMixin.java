@@ -48,7 +48,8 @@ abstract class BlockCollisionsMixin<T> {
                 // Accepted witness assumes candidate cells inside the border. Outside that bounded
                 // context retain native collection and the separately resolved border operation.
                 if (scan.minX() >= border.getMinX() && scan.maxXExclusive() <= border.getMaxX()
-                    && scan.minZ() >= border.getMinZ() && scan.maxZExclusive() <= border.getMaxZ()) {
+                    && scan.minZ() >= border.getMinZ() && scan.maxZExclusive() <= border.getMaxZ()
+                    && PistonHeadCollisionScanner.hasOnlyPistonHeads(scan, this.box, this::getChunk)) {
                     this.legacyparkourcompat$pistons = new PistonHeadCollisionScanner<>(scan, this.context,
                         this.box, this.collisionGetter, this.resultProvider, this::getChunk, player);
                 }
