@@ -38,7 +38,7 @@ public abstract class WallBlockMixin {
             .map(hook -> hook.applyHeight(vanillaShape))
             .orElse(vanillaShape);
         VoxelShape historicalShape = MovementRuntime.find(WallCollisionShapeHook.class, player)
-            .flatMap(hook -> hook.horizontalCollisionShape(state, heightAdjustedShape))
+            .flatMap(hook -> hook.horizontalCollisionShape(state, level, pos, heightAdjustedShape))
             .orElse(heightAdjustedShape);
         callback.setReturnValue(historicalShape);
     }
