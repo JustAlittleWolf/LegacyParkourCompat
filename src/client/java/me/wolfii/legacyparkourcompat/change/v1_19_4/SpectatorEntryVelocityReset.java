@@ -5,13 +5,25 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.SpectatorEntryVelocityResetHook;
 
 /**
- * Ornithe Feather 1.8.9 ClientPlayNetworkHandler's UPDATE_GAME_MODE only
- * updates PlayerInfo and does not reset velocity. Mojmap 1.19.4
- * ClientPacketListener game-mode update likewise does not invoke a local
- * velocity-reset callback. Mojmap 1.20 LocalPlayer.onGameModeChanged adds
- * setDeltaMovement(current.with(Y, 0.0)) for spectator entry, retained in
- * 26.2 unobfuscated. Suppress only this new local velocity write; the packet's
- * identity/new-mode checks, actual game mode and server behavior stay native.
+ * Mojmap 1.19.4 ClientPacketListener.applyPlayerInfoUpdate only updates
+ * PlayerInfo for UPDATE_GAME_MODE; LocalPlayer has no onGameModeChanged
+ * callback. Mojmap 1.20 adds the callback, and LocalPlayer.onGameModeChanged
+ * clears only Y for SPECTATOR. The packet gate and callback remain in 1.20.6
+ * and 26.2. Suppress only that local velocity write; keep the packet's changed-
+ * game-mode, local-player identity, and call-order gates native.
+ *
+ * Sources (paths relative to decompiled_minecraft/):
+ * 1.19.4/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java:
+ * applyPlayerInfoUpdate; LocalPlayer has no onGameModeChanged member.
+ * 1.20/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java:
+ * applyPlayerInfoUpdate; net/minecraft/client/player/LocalPlayer.java:
+ * onGameModeChanged.
+ * 1.20.6/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java:
+ * applyPlayerInfoUpdate; net/minecraft/client/player/LocalPlayer.java:
+ * onGameModeChanged.
+ * 26.2/unobfuscated/net/minecraft/client/multiplayer/ClientPacketListener.java:
+ * applyPlayerInfoUpdate; net/minecraft/client/player/LocalPlayer.java:
+ * onGameModeChanged.
  */
 @MovementChange(emulates = ParkourVersion.V1_19_4)
 public final class SpectatorEntryVelocityReset implements SpectatorEntryVelocityResetHook {

@@ -6,37 +6,22 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.state.EffectFallDistanceReset
 import net.minecraft.world.entity.LivingEntity;
 
 /**
- * Source evidence (paths are relative to decompiled_minecraft/):
- * 1.19.4/mojmap/net/minecraft/world/entity/LivingEntity.java:
- *   travel.
- *   travel.
- * 1.19.4/mojmap/net/minecraft/world/entity/player/Player.java:
- *   maybeBackOffFromEdge.
- * 1.20.1/mojmap/net/minecraft/world/entity/LivingEntity.java:
- *   aiStep.
- * 1.20.1/mojmap/net/minecraft/world/entity/player/Player.java:
- *   maybeBackOffFromEdge.
- * 1.20.6/mojmap/net/minecraft/world/entity/LivingEntity.java:
- *   aiStep.
- * 1.21.4/mojmap/net/minecraft/world/entity/Entity.java:
- *   checkFallDamage.
- * 1.21.4/mojmap/net/minecraft/world/entity/player/Player.java:
- *   isStayingOnGroundSurface.
- *   maybeBackOffFromEdge.
- *   isAboveGround.
- * 1.21.5/mojmap/net/minecraft/world/entity/Entity.java:
- *   checkFallDamage.
- * 1.21.5/mojmap/net/minecraft/world/entity/player/Player.java:
- *   isStayingOnGroundSurface.
- *   maybeBackOffFromEdge.
- *   isAboveGround.
- * No exact independently accepted source binding is established for this operation.
- * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ * At the 1.20 boundary, preserve the native pre-travel reset for either effect.
+ * Mojmap 1.20 LivingEntity.aiStep contains that reset, unlike 1.19.4
+ * LivingEntity.travel, which resets only in the downward slow-falling and
+ * ordinary non-fluid levitation branches. The same aiStep reset remains in
+ * 1.20.6 and 26.2.
+ *
+ * Sources (paths relative to decompiled_minecraft/):
+ * 1.19.4/mojmap/net/minecraft/world/entity/LivingEntity.java: travel.
+ * 1.20/mojmap/net/minecraft/world/entity/LivingEntity.java: aiStep.
+ * 1.20.6/mojmap/net/minecraft/world/entity/LivingEntity.java: aiStep.
+ * 26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java: aiStep.
  */
 @MovementChange(emulates = ParkourVersion.V1_20)
 public final class EffectFallDistanceReset implements EffectFallDistanceResetHook {
     @Override
     public boolean resetBeforeTravel(LivingEntity entity, boolean vanilla) {
-        return false;
+        return vanilla;
     }
 }
