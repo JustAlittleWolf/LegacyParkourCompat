@@ -30,6 +30,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.travel.InputAccelerationHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.InsideBlockContactHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.PistonMovementHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerFallDistanceResetHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.movement.FallDistanceResetTraceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeMoverHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.ShallowLavaCurrentCutoffHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.ShallowWaterCurrentCutoffHook;
@@ -269,6 +270,27 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
                     callback.cancel();
                 });
         }
+    }
+
+    @ModifyArg(
+        method = "move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/phys/Vec3;add(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;",
+            ordinal = 0
+        ),
+        index = 0
+    )
+    private Vec3 legacyparkourcompat$fallResetTraceDisplacement(
+        Vec3 nativeTraceDisplacement,
+        @Local(name = "movement") Vec3 resolvedDisplacement
+    ) {
+        // 26.2 Entity.move: the first Vec3.add builds checkTo, before the position write.
+        // Capture the collide result (movement), not the requested move argument (delta).
+        Entity entity = (Entity)(Object)this;
+        return MovementRuntime.find(FallDistanceResetTraceHook.class, entity)
+            .map(hook -> hook.fallResetTraceDisplacement(resolvedDisplacement, nativeTraceDisplacement))
+            .orElse(nativeTraceDisplacement);
     }
 
     @Redirect(
