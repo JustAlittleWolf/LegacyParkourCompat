@@ -12,7 +12,7 @@ import net.minecraft.world.phys.Vec3;
  * cached World.getCollisions sweep: rise under the horizontally expanded box,
  * then rise under the original box. Both clip X before Z; a tie selects the
  * second route. The selected box settles by minus its rise, without requested Y.
- * 1.14 Ornithe Feather Entity.m_73670363 instead settles by -rise + requested Y,
+ * 1.14 Ornithe Feather Entity.m_72373519 instead settles by -rise + requested Y,
  * also retained by 1.14.4 Mojmap Entity.collide. The old y local remains the
  * downward settle displacement for collision flags and fall callbacks, while
  * setPositionFromShape reads the box after both vertical translations. Carry
