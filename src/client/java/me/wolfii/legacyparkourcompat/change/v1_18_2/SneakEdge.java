@@ -34,6 +34,22 @@ import org.jspecify.annotations.Nullable;
  *   isStayingOnGroundSurface.
  *   maybeBackOffFromEdge.
  *   isAboveGround.
+ *
+ * <p>Minecraft 1.18, 1.18.1 and 1.18.2 Mojmap, Player#maybeBackOffFromEdge:
+ * the eligibility gate has no requested-Y condition. Minecraft 1.19 Mojmap,
+ * the same class/member, adds requestedMovement.y <= 0.0; 1.19.4 retains it.
+ * The first stable release excluding ascending movement is therefore 1.19.
+ *
+ * <p>1.18.2 Mojmap LivingEntity#jumpFromGround writes positive Y without
+ * clearing onGround. Entity#move invokes Player#maybeBackOffFromEdge before
+ * collision clipping and before updating onGround, so a crouching jump can
+ * still back off horizontally. Preserve delta.y and the X, Z, then joint
+ * loops' asymmetric comparisons (value < 0.05 and value >= -0.05).
+ *
+ * <p>The existing historical handler returns from the method head before the
+ * native Y gate and probe loops run. It already implements this delta while
+ * composing the separately resolved probe distance and collision queries;
+ * an additional native vertical-gate override would duplicate this operation.
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
 @MovementChange(emulates = ParkourVersion.V1_18_2)
