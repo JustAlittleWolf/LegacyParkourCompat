@@ -7,8 +7,7 @@
     "ServerGamePacketListenerMixin"
   ],
   "client": [
-    "EntityLavaPresenceMixin",
-    "BlockInsideResponseMixin"
+    "EntityLavaPresenceMixin"
   ],
   "injectors": {
     "defaultRequire": 1
