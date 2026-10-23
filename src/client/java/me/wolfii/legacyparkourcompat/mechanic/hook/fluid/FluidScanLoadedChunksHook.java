@@ -10,5 +10,6 @@ import java.util.Optional;
 /** Loaded-chunk admission before sampling the player's fluid interaction box. */
 @MechanicType("player.fluid.scan_loaded_chunks")
 public interface FluidScanLoadedChunksHook extends VersionedMechanic {
+    /** Empty preserves the native preflight; otherwise replace only its result. */
     Optional<Boolean> scanAllowed(Player player, ParkourVersion selected);
 }
