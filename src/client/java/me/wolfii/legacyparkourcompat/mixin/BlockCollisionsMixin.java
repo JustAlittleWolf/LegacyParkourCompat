@@ -22,6 +22,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import me.wolfii.legacyparkourcompat.mechanic.collision.ComponentCollisionShape;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mutable;
@@ -129,7 +131,16 @@ abstract class BlockCollisionsMixin<T> {
                 .map(hook -> hook.excludeCandidate(state, level, pos, this.box)).orElse(false)) {
             return Shapes.empty();
         }
-        return original.call(context, state, level, pos);
+        VoxelShape shape = original.call(context, state, level, pos);
+        return this.onlySuffocatingBlocks ? shape : MovementRuntime.collectMovementBlock(context, state, level, pos, shape);
+    }
+
+    @WrapOperation(method = "computeNext", at = @At(value = "INVOKE", target =
+        "Lnet/minecraft/world/phys/shapes/Shapes;joinIsNotEmpty(Lnet/minecraft/world/phys/shapes/VoxelShape;Lnet/minecraft/world/phys/shapes/VoxelShape;Lnet/minecraft/world/phys/shapes/BooleanOp;)Z"))
+    private boolean legacyparkourcompat$componentQuery(VoxelShape candidate, VoxelShape query,
+                                                       BooleanOp operation, Operation<Boolean> original) {
+        return candidate instanceof ComponentCollisionShape components
+            ? components.intersectsQuery(this.box) : original.call(candidate, query, operation);
     }
 
     @WrapOperation(method = "computeNext", at = @At(value = "INVOKE", target =

@@ -12,6 +12,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.Optional;
+import java.util.List;
 
 /**
  * Ornithe Feather 1.8.9 BrewingStandBlock.addCollisions (lines 64-74) and the
@@ -21,16 +22,23 @@ import java.util.Optional;
  * Ornithe Feather 1.13 and 1.13.2, BrewingStandBlock.SHAPE (line 33) and
  * getShape (lines 56-57) retain the post but inset the plate by 1/16 on every
  * side. The old components are combined here for the modern player-context
- * shape query. This preserves their occupied geometry; the combined voxel
- * union does not establish identical clipping across internal component
- * planes to the old separately emitted boxes.
+ * shape query. Movement collectors also receive the authoritative ordered
+ * components, so clipping does not reconstruct faces from the voxel union.
  */
 @MovementChange(emulates = ParkourVersion.V1_12)
 public final class BrewingStandCollisionShape implements BlockCollisionShapeHook {
-    private static final VoxelShape SHAPE = Shapes.or(
+    private static final List<VoxelShape> COMPONENTS = List.of(
         Block.box(7.0, 0.0, 7.0, 9.0, 14.0, 9.0),
         Block.box(0.0, 0.0, 0.0, 16.0, 2.0, 16.0)
     );
+    private static final VoxelShape SHAPE = Shapes.or(COMPONENTS.get(0), COMPONENTS.get(1));
+
+    @Override
+    public Optional<List<VoxelShape>> collisionShapes(
+        BlockState state, BlockGetter level, BlockPos pos, CollisionContext context
+    ) {
+        return Optional.of(COMPONENTS);
+    }
 
     @Override
     public String blockId() {

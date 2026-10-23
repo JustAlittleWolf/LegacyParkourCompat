@@ -29,6 +29,8 @@
     "WallBlockMixin",
     "BlockStateCollisionShapeMixin",
     "BlockCollisionsMixin",
+    "collision.EntityMovementCollisionsMixin",
+    "collision.VoxelShapeAccessor",
     "BlockPushEntitiesMixin",
     "HoneyBlockMixin",
     "FarmlandBlockMixin",

@@ -30,6 +30,13 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalVelocityW
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jspecify.annotations.Nullable;
+import me.wolfii.legacyparkourcompat.mechanic.collision.MovementCollisionContext;
+import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockCollisionShapeHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.BlockMovementCollisionHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.BlockComponentClipHook;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.CollisionGetter;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
 import java.util.Map;
@@ -208,6 +215,31 @@ public final class MovementRuntime {
     public static String blockId(Block block) {
         Identifier id = BuiltInRegistries.BLOCK.getKey(block);
         return id == null ? "" : id.toString();
+    }
+
+    /** Only Entity's movement collector installs this context; ordinary queries remain unchanged. */
+    public static CollisionContext movementCollisionContext(CollisionContext original, AABB query) {
+        Entity player = playerFrom(original);
+        return appliesTo(player) && !original.isPlacement() && !original.alwaysCollideWithFluid()
+            ? new MovementCollisionContext(original, player, query) : original;
+    }
+
+    public static VoxelShape collectMovementBlock(CollisionContext context, BlockState state,
+                                                 CollisionGetter level, BlockPos pos, VoxelShape nativeShape) {
+        if (!(context instanceof MovementCollisionContext movement)) {
+            return nativeShape;
+        }
+        Entity player = playerFrom(context);
+        var collector = find(BlockMovementCollisionHook.class, state.getBlock(), player);
+        if (collector.isEmpty()) {
+            return nativeShape;
+        }
+        var parts = find(BlockCollisionShapeHook.class, state.getBlock(), player)
+            .filter(hook -> hook.supports(profile(player).target()))
+            .flatMap(hook -> hook.collisionShapes(state, level, pos, movement.delegate()))
+            .orElse(List.of(nativeShape));
+        var clip = find(BlockComponentClipHook.class, state.getBlock(), player).orElse(null);
+        return collector.get().collect(player, pos, movement.query(), nativeShape, parts, clip);
     }
 
     /** Returns whether horizontal restitution has been supplied by resolved hooks. */
