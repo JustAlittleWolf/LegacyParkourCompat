@@ -8,36 +8,23 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.LivingEntity;
 
 /**
- * Widens the two float operands before adding, as in 1.17.1.
+ * Reproduces the 1.19.4 default jump-power addition: the base product is a
+ * float, then the float boost is promoted and added as a double. Mojmap 1.20
+ * changes this operation to float addition; the changed arithmetic remains in
+ * 1.20.6 and 26.2. Custom JUMP_STRENGTH and SCALE values stay native. The
+ * sprint impulse is independently resolved by SprintJumpImpulseHook.
  *
- * Historical source evidence (paths are relative to decompiled_minecraft/):
- * 1.19.4/mojmap/net/minecraft/world/entity/LivingEntity.java:
- *   getJumpPower, getJumpBoostPower, jumpFromGround.
- * 1.19.4/mojmap/net/minecraft/world/entity/player/Player.java:
- *   jumpFromGround.
- * 1.20.1/mojmap/net/minecraft/world/entity/LivingEntity.java:
- *   getJumpPower.
- *   aiStep.
- * 1.20.1/mojmap/net/minecraft/world/entity/player/Player.java:
- *   jumpFromGround.
- * 1.20.6/mojmap/net/minecraft/world/entity/LivingEntity.java:
- *   getJumpPower.
- *   createLivingAttributes.
- * 1.20.6/mojmap/net/minecraft/world/entity/ai/attributes/Attributes.java:
- *   class declaration / field initialization.
- * 1.20.6/mojmap/net/minecraft/world/entity/player/Player.java:
- *   createAttributes.
- * Native modern-input evidence:
- * 26.2/unobfuscated/net/minecraft/world/entity/ai/attributes/Attributes.java:
- *   JUMP_STRENGTH (default 0.42F), SCALE (default 1.0).
- * 26.2/unobfuscated/net/minecraft/world/entity/ai/attributes/RangedAttribute.java:
- *   <init> (default value parameter is double; the 0.42F argument widens exactly).
- * 26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java:
- *   getJumpPower, getJumpPower(float), getJumpBoostPower.
- * No exact independently accepted source binding is established for this operation.
- * Remaining source/applicability gates:
- *   Archived-to-canonical source identity for these checked secondary citations: 1.20.6/mojmap/net/minecraft/world/entity/player/Player.java. Archived source identity correspondence remains unresolved for them.
- * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ * Sources (paths relative to decompiled_minecraft/):
+ * 1.19.4/mojmap/net/minecraft/world/entity/LivingEntity.java: getJumpPower,
+ * getJumpBoostPower, jumpFromGround.
+ * 1.20/mojmap/net/minecraft/world/entity/LivingEntity.java: getJumpPower,
+ * jumpFromGround.
+ * 1.20.6/mojmap/net/minecraft/world/entity/LivingEntity.java: getJumpPower,
+ * jumpFromGround; net/minecraft/world/entity/ai/attributes/Attributes.java:
+ * JUMP_STRENGTH.
+ * 26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java: getJumpPower,
+ * getJumpPower(float), getJumpBoostPower, jumpFromGround; ai attributes
+ * Attributes.JUMP_STRENGTH and SCALE.
  */
 @MovementChange(emulates = ParkourVersion.V1_19_4)
 public final class DoubleJumpBoostAddition implements JumpPowerHook {
