@@ -30,8 +30,9 @@ import java.util.OptionalDouble;
  * {@code Block#isExceptionForConnection} list, so a sturdy glass face connects.
  * Feather 1.13.2 {@code PaneBlock#makeShapes} and
  * {@code WallBlock#getCollisionShape} use the component union reproduced here.
- * When wall UP is false, the inherited pane collision arms end at 14/16; with
- * UP true, the wall collision components end at the independently resolved height.
+ * WallBlock's UP=false fallback calls PaneBlock#getCollisionShape, which uses
+ * PaneBlock's outline array built with a 24/16 arm height. UP=true uses the
+ * wall collision array and the independently resolved height.
  * This change removes only connected glass sides from the native wall state;
  * its other side flags remain the source for the old component union.
  */
@@ -78,8 +79,8 @@ public final class WallGlassConnectionCollisionShape implements WallCollisionSha
         boolean post = ((!north || east || !south || west) && (north || !east || south || !west))
             || !level.getBlockState(pos.above()).isAir();
 
-        double maxY = historicalMaxY.getAsDouble();
-        double armMaxY = post ? maxY : 14.0 / 16.0;
+        double maxY = historicalMaxY.getAsDouble() * 16.0;
+        double armMaxY = post ? maxY : 24.0;
         VoxelShape shape = post ? Block.box(4.0, 0.0, 4.0, 12.0, maxY, 12.0) : Shapes.empty();
         if (north) {
             shape = Shapes.or(shape, Block.box(5.0, 0.0, 0.0, 11.0, armMaxY, 11.0));
