@@ -6,6 +6,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.hook.push.PlayerPushabilityHook;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.DismountPositionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.EffectFallDistanceResetHook;
@@ -77,6 +78,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 abstract class LivingEntityMixin {
+    @Inject(method = "isPushable()Z", at = @At("RETURN"), cancellable = true)
+    private void legacyparkourcompat$playerPushability(CallbackInfoReturnable<Boolean> cir) {
+        if ((Object) this instanceof Player player) {
+            MovementRuntime.find(PlayerPushabilityHook.class, player).ifPresent(hook ->
+                cir.setReturnValue(hook.isPushable(player, cir.getReturnValueZ()))
+            );
+        }
+    }
+
     @WrapOperation(
         method = "checkFallDamage",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;updateFluidInteraction()Z")
