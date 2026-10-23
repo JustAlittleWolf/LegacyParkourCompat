@@ -1,0 +1,11 @@
+# Fishing-hook retrieval vertical impulse
+
+1.10.2, Ornithe Feather Gen2 build 2: `net/minecraft/entity/FishingBobberEntity.java`, `doEvent`, lines 480–486, and `pullHookedEntity`, lines 488–497.
+1.11, Ornithe Feather Gen2 build 2: the same file, `doEvent`, lines 431–437, and `pullHookedEntity`, lines 439–449.
+1.11.1 and 1.11.2, Ornithe Feather Gen2 build 2: the same file, `doEvent`, lines 446–452, and `pullHookedEntity`, lines 454–464.
+
+Difference: All four releases dispatch entity event 31 on the logical client to `pullHookedEntity` when the hooked entity is a local player. In 1.10.2, let `d`, `e`, and `f` be the thrower's coordinates minus the hook's coordinates. The method calculates `double g = MathHelper.sqrt(d * d + e * e + f * f)` and adds `e * 0.1 + MathHelper.sqrt(g) * 0.08` to the hooked player's Y velocity. Starting in the inspected 1.11 source, the method requires a non-null owner and adds only `e * 0.1` to Y velocity. Both versions add `d * 0.1` and `f * 0.1` to X and Z velocity respectively. Preserve the nested `MathHelper.sqrt` calls and their float-return rounding when reproducing the old response.
+
+Movement meaning: A local player hooked by another player's fishing bobber receives the old extra upward retrieval impulse when client entity event 31 arrives; this is a direct player velocity response, separate from the bobber's own flight or fishing simulation. With equal hook/owner Y and nonzero separation, the old response adds a positive Y impulse while the inspected 1.11, 1.11.1 and 1.11.2 response adds zero. The inspected intermediate sources establish the changed response by 1.11.
+
+Client reachability: `ClientPlayNetworkHandler.handleEntityEvent` forwards event 31 to the entity in 1.10.2 (lines 843–853) and 1.11.2 (lines 862–879). Spawn-object type 90 constructs the bobber with the referenced player owner in both (`ClientPlayNetworkHandler`, lines 295–301 and 304–310). The old client tick resolves positive `HOOKED_ENTITY` metadata to the hooked entity (`FishingBobberEntity.tick`, lines 158–165); the newer data callback resolves it directly (`onDataValueChanged`, lines 106–113). The impulse comparison assumes that this resolution has established the local player as the hooked entity before event 31. `MathHelper.sqrt(double)` returns `(float)Math.sqrt(x)` in both releases (lines 27–29).
