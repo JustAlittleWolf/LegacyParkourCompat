@@ -16,8 +16,15 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.EmptyShapeMovementHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalVelocityCollisionHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalVelocityWriteHook;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jspecify.annotations.Nullable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -164,5 +171,40 @@ public final class MovementRuntime {
     public static String blockId(Block block) {
         Identifier id = BuiltInRegistries.BLOCK.getKey(block);
         return id == null ? "" : id.toString();
+    }
+
+    /** Returns whether horizontal restitution has been supplied by resolved hooks. */
+    public static boolean clearHorizontalCollisionVelocity(Entity entity, Vec3 requested, Vec3 resolved) {
+        Optional<HorizontalVelocityCollisionHook> predicate = find(HorizontalVelocityCollisionHook.class, entity);
+        Optional<Boolean> historicalX = predicate.flatMap(hook -> hook.shouldClear(requested.x, resolved.x));
+        Optional<Boolean> historicalZ = predicate.flatMap(hook -> hook.shouldClear(requested.z, resolved.z));
+        boolean clearX = historicalX.orElseGet(() -> !Mth.equal(requested.x, resolved.x));
+        boolean clearZ = historicalZ.orElseGet(() -> !Mth.equal(requested.z, resolved.z));
+        Vec3 captured = entity.getDeltaMovement();
+        Optional<Vec3> historicalWrite = find(HorizontalVelocityWriteHook.class, entity)
+            .flatMap(hook -> hook.clear(captured, clearX, clearZ));
+        if (historicalWrite.isEmpty() && historicalX.isEmpty() && historicalZ.isEmpty()) {
+            return false;
+        }
+        if (clearX || clearZ) {
+            entity.setDeltaMovement(historicalWrite.orElseGet(
+                () -> new Vec3(clearX ? 0.0 : captured.x, captured.y, clearZ ? 0.0 : captured.z)));
+        }
+        return true;
+    }
+
+    public static Vec3 resolveEmptyShapeMovement(@Nullable Entity entity, Vec3 movement,
+                                                List<VoxelShape> shapes, VanillaFn<Vec3> vanilla) {
+        // Use the exact admission decision and shape from this call, including
+        // moving borders whose shape getter allocates a new object every time.
+        var borderFrame = CollisionBorderShapeContext.current();
+        if (borderFrame != null && borderFrame.isSoleHistoricalBorder(shapes)) {
+            Optional<Vec3> historical = find(EmptyShapeMovementHook.class, entity)
+                .flatMap(hook -> hook.resolve(movement));
+            if (historical.isPresent()) {
+                return historical.get();
+            }
+        }
+        return vanilla.get();
     }
 }

@@ -36,6 +36,7 @@
     "EntityMovementAccessor",
     "EntitySupportingBlockPositionMixin",
     "EntityCollisionAxisOrderMixin",
+    "EntityEmptyShapeMovementMixin",
     "EntityStepUpCollisionMixin",
     "EntityMovementCutoffMixin",
     "ShulkerMixin",
