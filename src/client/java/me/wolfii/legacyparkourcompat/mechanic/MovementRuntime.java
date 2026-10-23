@@ -206,6 +206,7 @@ public final class MovementRuntime {
         }
         return vanilla.get();
     }
+
     public static Vec3 resolveEmptyShapeMovement(@Nullable Entity entity, Vec3 movement,
                                                 List<VoxelShape> shapes, VanillaFn<Vec3> vanilla) {
         // Use the exact admission decision and shape from this call, including
