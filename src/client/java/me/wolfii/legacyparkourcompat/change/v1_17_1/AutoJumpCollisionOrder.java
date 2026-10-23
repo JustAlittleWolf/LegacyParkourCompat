@@ -1,6 +1,6 @@
 package me.wolfii.legacyparkourcompat.change.v1_17_1;
 
-import com.google.common.collect.Iterables;
+import me.wolfii.legacyparkourcompat.change.common.AutoJumpCollisionCandidates;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
@@ -32,10 +32,6 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
     @Override
     public Iterable<VoxelShape> autoJumpCollisions(Player player, CollisionGetter level, AABB query,
                                                   ParkourVersion selected, VanillaFn<Iterable<VoxelShape>> vanilla) {
-        // Auto-jump is a modern feature for profiles before its introduction.
-        if (selected.olderThan(ParkourVersion.V1_10)) {
-            return vanilla.get();
-        }
-        return Iterables.concat(level.getBlockCollisions(player, query), level.getEntityCollisions(player, query));
+        return AutoJumpCollisionCandidates.blocksBeforeEntities(player, level, query, selected, vanilla);
     }
 }
