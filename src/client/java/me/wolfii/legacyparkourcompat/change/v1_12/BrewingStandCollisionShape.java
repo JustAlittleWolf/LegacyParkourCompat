@@ -14,9 +14,10 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import java.util.Optional;
 
 /**
- * Ornithe Feather 1.12.2 net.minecraft.block.BrewingStandBlock.COLLISION_SHAPE
- * and SHAPE (lines 36-37), emitted in that order by addCollisions (lines 69-73),
- * use a 2/16-by-2/16 post 14/16 high and a full-footprint plate 2/16 high. In
+ * Ornithe Feather 1.8.9 BrewingStandBlock.addCollisions (lines 64-74) and the
+ * 1.9.4, 1.10.2, 1.11.2, and 1.12.2 COLLISION_SHAPE / SHAPE providers (lines
+ * 36-37, emitted in that order by addCollisions at lines 70-73) use a
+ * 2/16-by-2/16 post 14/16 high and a full-footprint plate 2/16 high. In
  * Ornithe Feather 1.13 and 1.13.2, BrewingStandBlock.SHAPE (line 33) and
  * getShape (lines 56-57) retain the post but inset the plate by 1/16 on every
  * side. The old components are combined here for the modern player-context

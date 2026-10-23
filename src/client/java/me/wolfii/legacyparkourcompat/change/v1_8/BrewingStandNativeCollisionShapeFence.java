@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change.v1_11_2;
+package me.wolfii.legacyparkourcompat.change.v1_8;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -11,8 +11,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.Optional;
 
-/** Keeps the native collision provider for profiles before the accepted 1.12 shape finding. */
-@MovementChange(emulates = ParkourVersion.V1_11_2)
+/** Keeps the native provider for 1.8 profiles, before the earliest source-confirmed range (1.8.9). */
+@MovementChange(emulates = ParkourVersion.V1_8)
 public final class BrewingStandNativeCollisionShapeFence implements BlockCollisionShapeHook {
     @Override
     public String blockId() {
