@@ -21,6 +21,8 @@
     "HoneyBlockMixin",
     "FarmlandBlockMixin",
     "EntityMixin",
+    "EntityCallbackTraversalMixin",
+    "EntityMovementAccessor",
     "EntitySupportingBlockPositionMixin",
     "EntityCollisionAxisOrderMixin",
     "EntityStepUpCollisionMixin",
