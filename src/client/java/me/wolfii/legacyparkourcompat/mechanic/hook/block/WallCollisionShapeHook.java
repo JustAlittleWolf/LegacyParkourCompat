@@ -27,4 +27,16 @@ public interface WallCollisionShapeHook extends VersionedMechanic {
         VoxelShape vanillaShape,
         OptionalDouble historicalMaxY
     );
+
+    /** Adds resolved, block-local directional connections to the historical wall mask. */
+    default Optional<VoxelShape> horizontalCollisionShape(
+        BlockState state,
+        BlockGetter level,
+        BlockPos pos,
+        VoxelShape vanillaShape,
+        OptionalDouble historicalMaxY,
+        int restoredConnectionMask
+    ) {
+        return horizontalCollisionShape(state, level, pos, vanillaShape, historicalMaxY);
+    }
 }

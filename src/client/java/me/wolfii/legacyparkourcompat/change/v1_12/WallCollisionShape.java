@@ -57,6 +57,18 @@ public final class WallCollisionShape implements WallCollisionShapeHook {
         VoxelShape vanillaShape,
         OptionalDouble historicalMaxY
     ) {
+        return this.horizontalCollisionShape(state, level, pos, vanillaShape, historicalMaxY, 0);
+    }
+
+    @Override
+    public Optional<VoxelShape> horizontalCollisionShape(
+        BlockState state,
+        BlockGetter level,
+        BlockPos pos,
+        VoxelShape vanillaShape,
+        OptionalDouble historicalMaxY,
+        int restoredConnectionMask
+    ) {
         if (!(state.getBlock() instanceof WallBlock)) {
             return Optional.empty();
         }
@@ -64,7 +76,7 @@ public final class WallCollisionShape implements WallCollisionShapeHook {
         if (historicalMaxY.isEmpty()) {
             throw new IllegalStateException("Historical wall collision height is unresolved at V1_12");
         }
-        VoxelShape oldShape = WallCollisionGeometry.shape(WallCollisionGeometry.mask(state));
+        VoxelShape oldShape = WallCollisionGeometry.shape(WallCollisionGeometry.mask(state) | restoredConnectionMask);
         return Optional.of(Shapes.box(
             oldShape.min(Direction.Axis.X), 0.0, oldShape.min(Direction.Axis.Z),
             oldShape.max(Direction.Axis.X), historicalMaxY.getAsDouble(), oldShape.max(Direction.Axis.Z)

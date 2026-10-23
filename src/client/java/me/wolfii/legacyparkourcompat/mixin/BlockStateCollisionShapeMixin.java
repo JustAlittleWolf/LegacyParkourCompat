@@ -2,12 +2,14 @@ package me.wolfii.legacyparkourcompat.mixin;
 
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockCollisionShapeHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.block.LegacyFenceWallNeighborConnectionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fence.FenceGlassCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.piston.MovingPistonCollisionShapeHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.PistonMovingBlockEntityAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -42,9 +44,14 @@ abstract class BlockStateCollisionShapeMixin {
         }
 
         BlockState state = (BlockState)(Object)this;
+        int restoredConnections = state.getBlock() instanceof FenceBlock
+            ? MovementRuntime.find(LegacyFenceWallNeighborConnectionHook.class, player)
+                .map(hook -> hook.restoredConnectionMask(level, pos))
+                .orElse(0)
+            : 0;
         MovementRuntime.find(BlockCollisionShapeHook.class, state.getBlock(), player)
             .filter(shape -> shape.supports(MovementRuntime.profile(player).target()))
-            .flatMap(shape -> shape.collisionShape(state, level, pos, context))
+            .flatMap(shape -> shape.collisionShape(state, level, pos, context, restoredConnections))
             .ifPresent(cir::setReturnValue);
 
         MovementRuntime.find(FenceGlassCollisionHook.class, player)

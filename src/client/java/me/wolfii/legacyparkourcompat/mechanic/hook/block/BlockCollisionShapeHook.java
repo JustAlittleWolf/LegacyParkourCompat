@@ -43,4 +43,15 @@ public interface BlockCollisionShapeHook extends VersionedMechanic {
         BlockPos pos,
         CollisionContext context
     );
+
+    /** Adds resolved, block-local directional connections to a provider shape. */
+    default Optional<VoxelShape> collisionShape(
+        BlockState state,
+        BlockGetter level,
+        BlockPos pos,
+        CollisionContext context,
+        int restoredConnectionMask
+    ) {
+        return collisionShape(state, level, pos, context);
+    }
 }
