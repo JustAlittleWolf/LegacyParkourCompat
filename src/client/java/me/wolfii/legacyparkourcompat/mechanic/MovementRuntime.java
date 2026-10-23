@@ -5,6 +5,7 @@ import me.wolfii.legacyparkourcompat.api.MovementController;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.PistonMovementHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionReconstructionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.position.PoseBoxHook;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
@@ -25,6 +26,7 @@ import java.util.Optional;
  */
 public final class MovementRuntime {
     private static final ThreadLocal<Entity> CURRENT_ENTITY = new ThreadLocal<>();
+    private static final ThreadLocal<LocalPlayer> FLUID_CURRENT_PLAYER = new ThreadLocal<>();
 
     private MovementRuntime() {
     }
@@ -101,6 +103,32 @@ public final class MovementRuntime {
 
     public static @Nullable Entity currentEntity() {
         return CURRENT_ENTITY.get();
+    }
+
+    /**
+     * Scopes a native fluid-flow calculation to the local player's fluid scan.
+     * Nested calls and exceptions restore the previous player context.
+     */
+    public static <T> T withLocalPlayerFluidCurrent(Entity entity, VanillaFn<T> query) {
+        LocalPlayer previous = FLUID_CURRENT_PLAYER.get();
+        if (entity instanceof LocalPlayer player && appliesTo(player)) {
+            FLUID_CURRENT_PLAYER.set(player);
+        } else {
+            FLUID_CURRENT_PLAYER.remove();
+        }
+        try {
+            return query.get();
+        } finally {
+            if (previous == null) {
+                FLUID_CURRENT_PLAYER.remove();
+            } else {
+                FLUID_CURRENT_PLAYER.set(previous);
+            }
+        }
+    }
+
+    public static @Nullable LocalPlayer localPlayerFluidCurrent() {
+        return FLUID_CURRENT_PLAYER.get();
     }
 
     public static ActiveMovementProfile profile(@Nullable Entity entity) {

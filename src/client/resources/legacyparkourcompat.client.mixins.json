@@ -41,6 +41,7 @@
     "ShulkerMixin",
     "accessor.EntityInvoker",
     "EntityFluidCurrentMixin",
+    "fluid.FlowingFluidMixin",
     "EntityFluidInteractionMixin",
     "PlayerMovementAccessor",
     "EntityJumpAccessor",

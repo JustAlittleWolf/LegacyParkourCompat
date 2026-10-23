@@ -33,6 +33,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityFluidInteraction.class)
 abstract class EntityFluidInteractionMixin {
+    @WrapOperation(method = "update", at = @At(value = "INVOKE", target =
+        "Lnet/minecraft/world/level/material/FluidState;getFlow(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/Vec3;"))
+    private Vec3 legacyparkourcompat$localPlayerFluidCurrent(FluidState state, BlockGetter level, BlockPos pos,
+                                                             Operation<Vec3> original, Entity entity,
+                                                             boolean ignoreCurrent) {
+        return MovementRuntime.withLocalPlayerFluidCurrent(entity,
+            () -> original.call(state, level, pos));
+    }
+
     @Definition(id = "eyeY", local = @Local(type = double.class, ordinal = 1))
     @Definition(id = "fluidBottom", local = @Local(type = double.class, ordinal = 2))
     @Expression("eyeY >= fluidBottom")
