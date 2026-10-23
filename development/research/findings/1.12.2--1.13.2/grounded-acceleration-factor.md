@@ -1,5 +1,5 @@
-# Grounded movement acceleration coefficient
-1.12.2, Ornithe Feather: `net/minecraft/entity/living/LivingEntity.java`, `moveRelative`, line 1485.
-1.13.2, Ornithe Feather: `net/minecraft/entity/living/LivingEntity.java`, `moveRelative`, line 1545.
-Difference: In the non-fall-flying movement branch, the grounded acceleration factor changes from `0.16277136F / (s * s * s)` to `0.16277137F / (t * t * t)`. The slipperiness multiplier is computed first in both versions; the factor is used for input acceleration when `onGround` is true, while the airborne branch uses `speedInAir`.
-Movement meaning: A grounded player applying movement input receives a slightly different horizontal acceleration before collision movement. Exact later position effects depend on the input, friction and collision path.
+# Ground acceleration factor changes by one float step
+1.12.2, Ornithe Feather: `decompiled_minecraft/1.12.2/ornithe-feather/net/minecraft/entity/living/LivingEntity.java`, `moveRelative`, lines 1425-1493.
+1.13.2, Ornithe Feather: `decompiled_minecraft/1.13.2/ornithe-feather/net/minecraft/entity/living/LivingEntity.java`, `moveRelative`, lines 1478-1553.
+Difference: For a locally controlled or movement-authoritative entity outside water, lava and fall-flying, the ordinary ground/air branch computes `t = 0.91F` (or block slipperiness times `0.91F` while grounded), then `0.16277136F / (t * t * t)` in 1.12.2 versus `0.16277137F / (t * t * t)` in 1.13.2. The result feeds `updateVelocity` when on ground; when airborne, both versions instead use `speedInAir`. The surrounding branch gates and operation order are otherwise the same for ordinary movement. The literal is a float, so this is a distinct source value; trajectory magnitude depends on state and repeated ticks.
+Movement meaning: With grounded nonzero input, the changed float factor slightly changes the velocity increment before collision clipping, which can produce a different player position over repeated ticks. No exact intermediate patch boundary is established by this endpoint pair.
