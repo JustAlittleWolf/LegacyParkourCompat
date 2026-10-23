@@ -37,7 +37,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.ShallowLavaCurrentCutof
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.ShallowWaterCurrentCutoffHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.RetainedWaterDepthHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.push.PlayerPushNormalizationHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.state.SwimmingUpdateHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.swimming.SwimmingEntryFeetWaterHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
 import me.wolfii.legacyparkourcompat.movement.access.WaterJumpDepthAccess;
 import net.minecraft.client.player.LocalPlayer;
@@ -60,6 +60,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.objectweb.asm.Opcodes;
@@ -306,17 +307,15 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
         return result;
     }
 
-    @Inject(method = "updateSwimming()V", at = @At("HEAD"), cancellable = true)
-    private void legacyparkourcompat$historicalSwimmingUpdate(CallbackInfo callback) {
+    @WrapOperation(method = "updateSwimming()V", at = @At(value = "INVOKE",
+        target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/TagKey;)Z"))
+    private boolean legacyparkourcompat$swimmingEntryFeetWater(FluidState fluid, TagKey<Fluid> tag,
+                                                              Operation<Boolean> original) {
         Entity entity = (Entity) (Object) this;
-        if (entity instanceof Player player) {
-            MovementRuntime.find(SwimmingUpdateHook.class, player)
-                .filter(behavior -> behavior.supports(MovementRuntime.profile(player).target()))
-                .ifPresent(behavior -> {
-                    player.setSwimming(behavior.isSwimmingAfterUpdate(player, MovementRuntime.profile(player).target()));
-                    callback.cancel();
-                });
-        }
+        return MovementRuntime.find(SwimmingEntryFeetWaterHook.class, entity)
+            .filter(hook -> hook.supports(MovementRuntime.profile(entity).target()))
+            .map(hook -> hook.test(() -> original.call(fluid, tag)))
+            .orElseGet(() -> original.call(fluid, tag));
     }
 
     @ModifyArg(
