@@ -146,6 +146,18 @@ def main():
         if path.suffix == ".java":
             # The version enum's old Javadoc records previous concrete findings.
             text = path.read_text(encoding="utf-8")
+            if path.name == "MovementRuntime.java":
+                # Product-only dispatch conveniences must not pull excluded hooks
+                # into the otherwise neutral lookup infrastructure.
+                text = text.replace(
+                    "import me.wolfii.legacyparkourcompat.mechanic.hook.collision.PistonMovementHook;\n", ""
+                )
+                text = re.sub(
+                    r"    public static boolean limitPistonMovement\(Entity entity\) \{\n.*?\n    \}\n\n",
+                    "", text, flags=re.S,
+                )
+                if "me.wolfii.legacyparkourcompat.mechanic.hook." in text:
+                    raise ValueError("MovementRuntime export still depends on excluded product hooks")
             if path.name in ("ParkourVersion.java", "MechanicKey.java"):
                 text = re.sub(r"/\*\*.*?\*/", "", text, flags=re.S)
             target.write_text(text, encoding="utf-8", newline="\n")
