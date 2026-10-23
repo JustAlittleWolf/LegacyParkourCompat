@@ -19,4 +19,7 @@ The root README and AGENTS define current scope: historical client player moveme
 
 - **Ender pearl dimension ownership and farmland conversion pushes:** pearl owner clearing during server dimension transfer and displacement produced by server farmland-to-dirt conversion supply authoritative teleport state. Preserve equivalent received player state rather than reproducing these server producers on the client. This does not exclude client responses to equivalent corrections.
 
+- **1.21.8/1.21.10 entity-motion packet quantization:** both client handlers apply the decoded velocity directly. The changed codec produces an external velocity state; its original unquantized input cannot be recovered after decoding. Preserve equal received state rather than adding another quantization pass.
+- **1.21.8/1.21.10 spectator sleep exit:** the changed `LivingEntity.tick` sleep check is inside the logical-server branch. Its resulting pose/position updates are authoritative external state. Do not replay this server wake producer on the client; this leaves separately sourced client bed-wake responses eligible.
+
 These constrain current work; they are not a campaign ledger. Preserve input-state movement predicates such as the pending sprint-timer operation even when they depend on input representation.

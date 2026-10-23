@@ -29,7 +29,6 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.CollisionRestitutio
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.GravityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.InputAccelerationHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.InsideBlockContactHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.collision.PistonMovementHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerFallDistanceResetHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.movement.FallDistanceResetTraceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeMoverHook;
@@ -485,18 +484,19 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
         return moverType;
     }
 
-    @Inject(
-        method = "limitPistonMovement(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;",
-        at = @At("HEAD"),
-        cancellable = true
+    @Redirect(
+        method = "move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V",
+        at = @At(
+            value = "FIELD",
+            target = "Lnet/minecraft/world/entity/MoverType;PISTON:Lnet/minecraft/world/entity/MoverType;",
+            opcode = Opcodes.GETSTATIC,
+            ordinal = 0
+        )
     )
-    private void legacyparkourcompat$limitPistonMovement(Vec3 movement, CallbackInfoReturnable<Vec3> cir) {
-        Entity entity = (Entity)(Object)this;
-        if (entity instanceof Player player) {
-            MovementRuntime.find(PistonMovementHook.class, player)
-                .map(behavior -> behavior.limitPistonMovement(player, movement))
-                .ifPresent(cir::setReturnValue);
-        }
+    private @org.jspecify.annotations.Nullable MoverType legacyparkourcompat$pistonLimiterType() {
+        // Disable only the limiter and its zero-result return; later PISTON gates
+        // still see the caller's unchanged mover type.
+        return MovementRuntime.limitPistonMovement((Entity) (Object) this) ? MoverType.PISTON : null;
     }
 
     @WrapOperation(

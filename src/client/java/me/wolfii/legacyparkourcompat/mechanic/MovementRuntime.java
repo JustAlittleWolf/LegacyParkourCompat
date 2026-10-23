@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.mechanic;
 
 import me.wolfii.legacyparkourcompat.api.ActiveMovementProfile;
 import me.wolfii.legacyparkourcompat.api.MovementController;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.PistonMovementHook;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
@@ -33,6 +34,11 @@ public final class MovementRuntime {
             return false;
         }
         return MovementController.get().isEnabled(entity);
+    }
+
+    public static boolean limitPistonMovement(Entity entity) {
+        return find(PistonMovementHook.class, entity)
+            .map(PistonMovementHook::limitPistonMovement).orElse(true);
     }
 
     public static boolean isPlayer(@Nullable Entity entity) {
