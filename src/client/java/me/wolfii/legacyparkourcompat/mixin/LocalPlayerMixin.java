@@ -30,6 +30,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.input.SlowInputPredicateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.PoseFitHook;
 import me.wolfii.legacyparkourcompat.mechanic.input.KeyboardInputSupport;
 import me.wolfii.legacyparkourcompat.mechanic.hook.sprint.ForwardSprintInputHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.sprint.SprintRetentionInputHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SprintCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintFallFlyingGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.DoubleTapSprintStartHook;
@@ -136,7 +137,7 @@ abstract class LocalPlayerMixin {
     private Vec2 legacyparkourcompat$keyboardInput;
 
     @WrapOperation(
-        method = {"aiStep()V", "canStartSprinting()Z", "shouldStopRunSprinting()Z"},
+        method = {"aiStep()V", "canStartSprinting()Z"},
         at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/ClientInput;hasForwardImpulse()Z")
     )
     private boolean legacyparkourcompat$storedForwardSprintInput(ClientInput input, Operation<Boolean> vanilla) {
@@ -152,6 +153,26 @@ abstract class LocalPlayerMixin {
         }
         return MovementRuntime.find(ForwardSprintInputHook.class, player)
             .map(change -> change.hasEnoughForwardInput(input.getMoveVector().y, player.isUnderWater()))
+            .orElseGet(() -> vanilla.call(input));
+    }
+
+    @WrapOperation(
+        method = "shouldStopRunSprinting()Z",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/ClientInput;hasForwardImpulse()Z")
+    )
+    private boolean legacyparkourcompat$storedSprintRetentionInput(ClientInput input, Operation<Boolean> vanilla) {
+        LocalPlayer player = (LocalPlayer)(Object)this;
+        boolean active = this.legacyparkourcompat$inputSlowdown != null
+            && this.legacyparkourcompat$inputSlowdown.supports(player, MovementRuntime.profile(player).target())
+            || this.legacyparkourcompat$storedKeyboardInput != null
+                && this.legacyparkourcompat$storedKeyboardInput.supports(player, MovementRuntime.profile(player).target());
+        if (!active || !(input instanceof KeyboardInput)) {
+            return vanilla.call(input);
+        }
+        // Retention resolves independently of sprint start and its eye-water gate.
+        // From 1.14.2 the native positive-forward predicate already matches.
+        return MovementRuntime.find(SprintRetentionInputHook.class, player)
+            .map(change -> !change.shouldStopSprinting(input.getMoveVector().y))
             .orElseGet(() -> vanilla.call(input));
     }
 
