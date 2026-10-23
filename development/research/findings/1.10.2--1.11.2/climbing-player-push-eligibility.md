@@ -1,30 +1,22 @@
 # Climbing players are excluded from the push recipient filter
 
-1.10.2, ornithe-feather; feather-gen2-1.10.2+build.2-mergedv2.jar, feather-gen2-1.10.2+build.2.tiny: `1.10.2/ornithe-feather/net/minecraft/entity/living/LivingEntity.java`, `public boolean isPushable() {`, lines 1887-1889.
-1.10.2, ornithe-feather; feather-gen2-1.10.2+build.2-mergedv2.jar, feather-gen2-1.10.2+build.2.tiny: `1.10.2/ornithe-feather/net/minecraft/entity/EntityFilter.java`, `public static <T extends Entity> Predicate<T> canBePushedBy(Entity entity) {`, lines 56-94.
-1.11.2, ornithe-feather; feather-gen2-1.11.2+build.2-mergedv2.jar, feather-gen2-1.11.2+build.2.tiny: `1.11.2/ornithe-feather/net/minecraft/entity/living/LivingEntity.java`, `public boolean isPushable() {`, lines 1950-1952.
-1.11.2, ornithe-feather; feather-gen2-1.11.2+build.2-mergedv2.jar, feather-gen2-1.11.2+build.2.tiny: `1.11.2/ornithe-feather/net/minecraft/entity/EntityFilter.java`, `public static <T extends Entity> Predicate<T> canBePushedBy(Entity entity) {`, lines 50-88.
+All references use the canonical read-only `D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/<version>/ornithe-feather/` source publication and ornithe-feather mappings `feather-gen2-<version>+build.2-mergedv2.jar` / `feather-gen2-<version>+build.2.tiny`.
 
-Difference: For a non-removed living player, 1.10.2 reports pushable regardless of climbing. 1.11.2 rejects the player while climbing.
+1.10.2: `net/minecraft/entity/living/LivingEntity.java`, `isPushable`, lines 1887-1889, returns `!this.removed`.
+1.11: the same file/member, lines 1948-1950, returns `this.isAlive() && !this.isClimbing()`.
+1.11.1 and 1.11.2: the same file/member, lines 1950-1952, retain the 1.11 expression.
+1.8.9 and 1.9.4: the same file/member, lines 1578-1580 and 1851-1853 respectively, return `!this.removed`; these are representative earlier predicate checks, not proof of every intervening release or an identical remote-player tick path.
 
-The paired filter excludes rejected entities from the collision candidate list.
+Difference: for an unremoved, positive-health local player, the new predicate excludes climbing players while the older predicate accepts them. The stable-release boundary between the paired endpoints is 1.11, established by inspecting exact 1.11, 1.11.1 and 1.11.2. Other unexamined version boundaries remain open. The accompanying health gate is a separate predicate change; damage and health production are not part of this climbing finding.
 
-On the client, the filter permits a player candidate only when it is local; therefore a remote player can select the local player when its bounding box overlaps the local player's box and collision rules permit the interaction.
+1.10.2 / 1.11.2 client reachability references:
 
-Its inherited `pushAway` calls `entity.push(this)` on that local player.
+- `net/minecraft/client/entity/living/player/RemoteClientPlayerEntity.java`, constructor lines 19-24, `tick` lines 53-56, and `mobTick` lines 69-112 in both versions. Although construction sets `noClip = true`, inherited `PlayerEntity.tick` resets `noClip = isSpectator()` at 1.10.2 lines 175-176 / 1.11.2 lines 174-175, before its `super.tick()` at lines 205 / 204. `LivingEntity.tick` dynamically calls `this.mobTick()` at lines 1587 / 1643; the remote player's override calls `pushAwayCollidingEntities()` at line 110. `ClientPlayerEntity` extends `PlayerEntity` (line 21) and does not override these tick/push methods.
+- `net/minecraft/entity/living/LivingEntity.java`, `pushAwayCollidingEntities` / `pushAway`, lines 1778-1790 / 1834-1861. The query uses the caller's bounding box and `EntityFilter.canBePushedBy(this)`; each admitted candidate receives `candidate.push(caller)`. The 1.11.2 cramming damage branch does not gate that final loop.
+- `net/minecraft/entity/EntityFilter.java`, `canBePushedBy`, lines 56-94 / 50-88. The caller team's NEVER rule rejects the whole query. Candidates must be nonspectators and `isPushable()`. On a client, only a `PlayerEntity` whose `isLocal()` is true can pass; `LocalClientPlayerEntity.isLocal` returns true at lines 317-319 / 323-325. Candidate NEVER rules and the two teams' own/other-team collision rules still apply.
+- `net/minecraft/world/World.java`, `getEntities(Entity, Box, Predicate)`, lines 2160-2176 / 2131-2147, dispatches to loaded chunks without a server-only gate. `net/minecraft/world/chunk/WorldChunk.java`, `getEntities`, lines 667-694 in both, requires the candidate box to intersect query bounds, excludes the caller, applies the predicate, then adds the candidate.
+- `net/minecraft/entity/living/player/PlayerEntity.java`, `push`, lines 1905-1909 in both, delegates only while the receiving player is not sleeping. Neither client-player subclass overrides this `push` method.
+- `net/minecraft/entity/Entity.java`, `push` / `addVelocity`, lines 1085-1123 / 1153-1191. The entities must not share a vehicle and neither may have noClip. Let `d = caller.x - recipient.x`, `e = caller.z - recipient.z`, and `f = absMax(d,e)`. The procedure requires `f >= 0.01F`, replaces `f` with its square root, divides d/e by f, multiplies by `min(1.0, 1.0 / f)`, then by `0.05F`, then by `1.0F - recipient.pushSpeedReduction`, in that order. If the recipient has no passengers, it adds `(-d,0,-e)` to its velocity. Independently, if the caller has no passengers, it receives `(d,0,e)`. `addVelocity` adds to all three velocity fields and marks `velocityDirty`. There is no server-only gate on these writes. The reciprocal non-player/caller velocity is not this finding's implementation scope.
+- `net/minecraft/entity/living/LivingEntity.java`, `isClimbing` / `canClimbTrapdoor`, lines 928-951 / 978-1001. The predicate floors x, bounding-box minY, and z; spectators return false. Ladder or vine at that position succeeds. An open trapdoor also succeeds if the block below is a ladder with matching FACING. These source predicates read vanilla state and are part of the gate; climbing is not merely contact with a ladder face.
 
-The `Entity.push` path can add horizontal velocity when entities are not in the same vehicle, neither is no-clip, horizontal separation is at least `0.01F`, and the target has no passengers.
-
-Movement meaning: Remote player tick -> inherited `LivingEntity.pushAwayCollidingEntities` -> `EntityFilter.canBePushedBy(remotePlayer)` -> local player `isPushable` -> `pushAway`/`Entity.push` -> local player's velocity.
-
-The direct precondition for the difference is that the local player is climbing and the remote player's collision query otherwise admits the local player.
-
-Team collision rules, overlap geometry and `Entity.push` guards gate the call.
-
-This finding does not model entity movement or dead-player behavior.
-
-Source proves 1.11.2 can omit a climbing local player from this push recipient list where 1.10.2 would include it, preventing the downstream local-player velocity write on this path.
-
-The magnitude and resulting trajectory are not claimed.
-
-The separate `isAlive()` gate can also affect removed/dead entities, but those state producers are excluded and are not part of this finding.
+Movement meaning: an ordinary nonspectator remote player's client tick can query an awake, unremoved, positive-health local player whose box intersects its own. With both teams absent (ALWAYS), neither entity noClip, distinct vehicles, horizontal separation satisfying the source threshold, a local recipient without passengers and a nonzero scaled horizontal impulse, 1.10.2 can add the negative horizontal impulse to that local player's velocity while they stand in a source-recognized ladder/vine/open-trapdoor climbing position. 1.11, 1.11.1 and 1.11.2 reject the candidate before that push. This is a direct local-player response; reproducing remote/non-player movement, damage calculation, health production or dead-player behavior is unnecessary for the claimed difference. Source establishes the omitted write; no resulting trajectory or runtime parity is claimed.
