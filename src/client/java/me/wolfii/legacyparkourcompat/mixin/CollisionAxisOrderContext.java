@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.mixin;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
+import me.wolfii.legacyparkourcompat.mechanic.CollisionShapeSourceContext;
 
 import java.util.function.Supplier;
 
@@ -31,7 +32,7 @@ final class CollisionAxisOrderContext {
         ENTITY.set(entity);
         RESOLVED_BOX.remove();
         try {
-            return action.get();
+            return CollisionShapeSourceContext.withFrame(action);
         } finally {
             if (previousBox == null) {
                 RESOLVED_BOX.remove();
