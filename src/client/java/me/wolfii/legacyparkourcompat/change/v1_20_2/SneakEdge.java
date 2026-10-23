@@ -45,11 +45,13 @@ public final class SneakEdge implements SneakEdgeHook {
     }
 
     private static boolean isAboveGround(Player player, float probeDistance) {
+        float fallDistance = player.fallDistance;
+        float downwardOffset = fallDistance - probeDistance;
         return player.onGround()
-            || player.fallDistance < probeDistance
+            || fallDistance < probeDistance
                 && !player.level().noCollision(
                     player,
-                    player.getBoundingBox().move(0.0, player.fallDistance - probeDistance, 0.0)
+                    player.getBoundingBox().move(0.0, downwardOffset, 0.0)
                 );
     }
 }
