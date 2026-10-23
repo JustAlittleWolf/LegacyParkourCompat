@@ -10,6 +10,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
+import java.util.Optional;
+
 /**
  * Source evidence (paths are relative to decompiled_minecraft/):
  * 1.15.2/mojmap/net/minecraft/world/entity/player/Player.java:
@@ -65,7 +67,7 @@ import org.jspecify.annotations.Nullable;
 @MovementChange(emulates = ParkourVersion.V1_18_2)
 public final class SneakEdge implements SneakEdgeHook {
     @Override
-    public Vec3 maybeBackOffFromEdge(
+    public Optional<Vec3> maybeBackOffFromEdge(
         Player player,
         Vec3 delta,
         MoverType moverType,
@@ -77,10 +79,10 @@ public final class SneakEdge implements SneakEdgeHook {
             || (moverType != MoverType.SELF && moverType != MoverType.PLAYER)
             || !stayingOnGroundSurface
             || !isAboveGround(player, probeDistance)) {
-            return delta;
+            return Optional.of(delta);
         }
 
-        return SneakEdgeBackoff.apply(player, delta, probeDistance, collisionQuery);
+        return Optional.of(SneakEdgeBackoff.apply(player, delta, probeDistance, collisionQuery));
     }
 
     private static boolean isAboveGround(Player player, float probeDistance) {
