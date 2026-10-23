@@ -18,12 +18,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public abstract class EntityWaterMixin implements WaterContext {
-    @Unique private @Nullable WaterScan.Result legacyparkourcompat$water;
+    @Unique private WaterScan.@Nullable Result legacyparkourcompat$water;
     @Unique private int legacyparkourcompat$waterTick;
     @Unique private @Nullable Level legacyparkourcompat$waterLevel;
 
     @Override
-    public @Nullable WaterScan.Result legacyparkourcompat$waterScan() {
+    public WaterScan.@Nullable Result legacyparkourcompat$waterScan() {
         Entity entity = (Entity)(Object)this;
         return legacyparkourcompat$waterTick == entity.tickCount
             && legacyparkourcompat$waterLevel == entity.level() ? legacyparkourcompat$water : null;
