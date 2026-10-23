@@ -20,6 +20,10 @@ import net.minecraft.world.item.component.UseEffects;
  * use effects retain native item-use behavior.
  * Minecraft 1.21.5, Mojmap, the same aiStep has no early stop after Tutorial.onInput;
  * shouldStopRunSprinting and shouldStopSwimSprinting omit these early reasons.
+ * In unobfuscated 26.2, {@code LocalPlayer#aiStep} likewise reaches
+ * {@code shouldStopRunSprinting()} without an {@code isMovingSlowly()} check.
+ * The existing early-stop dispatch after {@code Tutorial#onInput} restores the
+ * 1.21.4 slow-movement stop at its original point in the local-player tick.
  */
 @MovementChange(emulates = ParkourVersion.V1_21_4)
 public final class EarlySprintStop implements EarlySprintStopHook {

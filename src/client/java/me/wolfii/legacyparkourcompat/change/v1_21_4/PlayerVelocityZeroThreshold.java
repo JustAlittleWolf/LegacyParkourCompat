@@ -15,6 +15,12 @@ import net.minecraft.world.entity.LivingEntity;
  * horizontal squared length against {@code 9.0E-6}; the Y component remains
  * component-wise. Keep this hook focused on the historical component operation
  * so the caller can apply it only to the components selected by its source gate.
+ * In unobfuscated 26.2, {@code LivingEntity#aiStep} first copies the movement
+ * components, applies that radial gate for players (and component gates for
+ * other entities), applies the Y gate, then calls {@code setDeltaMovement(DDD)}.
+ * The existing three argument hooks at that call restore the 1.21.4 player
+ * component gate after the native radial check; no additional deadzone hook or
+ * mixin operation is needed.
  */
 @MovementChange(emulates = ParkourVersion.V1_21_4)
 public final class PlayerVelocityZeroThreshold implements VelocityZeroThresholdHook {
