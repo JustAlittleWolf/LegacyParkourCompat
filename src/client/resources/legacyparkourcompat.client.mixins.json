@@ -7,6 +7,7 @@
     "BubbleColumnBlockMixin",
     "network.ClientPacketListenerMixin",
     "network.PositionMoveRotationMixin",
+    "prediction.BlockStatePredictionHandlerMixin",
     "fluid.FluidCurrentDepthMixin",
     "client.LocalPlayerEarlySprintStopMixin",
     "border.EntityBorderCollisionMixin",
