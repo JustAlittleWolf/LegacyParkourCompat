@@ -23,6 +23,105 @@ NEUTRAL_MECHANICS = (
     "MovementRuntime", "VanillaCall", "VanillaFn", "VersionedMechanic",
 )
 
+# MovementRuntime is a product dispatch facade as well as the generic lookup
+# entry point used by changes. Keep the exported surface deliberately small:
+# these methods contain only profile/client gating, entity context, and typed
+# registry lookup. Product hook dispatchers are excluded by construction.
+RUNTIME_LOOKUP_METHODS = (
+    "appliesTo", "isPlayer", "epoch", "enter", "exit", "currentEntity",
+    "profile", "find", "playerFrom", "blockId",
+)
+
+RUNTIME_IMPORTS = '''package me.wolfii.legacyparkourcompat.mechanic;
+
+import me.wolfii.legacyparkourcompat.api.ActiveMovementProfile;
+import me.wolfii.legacyparkourcompat.api.MovementController;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.EntityCollisionContext;
+import org.jspecify.annotations.Nullable;
+
+import java.util.Optional;
+
+/**
+ * Generic client-side profile and mechanic lookup for independent changes.
+ */
+public final class MovementRuntime {
+    private static final ThreadLocal<Entity> CURRENT_ENTITY = new ThreadLocal<>();
+
+    private MovementRuntime() {
+    }
+
+'''
+
+
+def method_body_end(source, opening):
+    """Find a Java method's closing brace while ignoring comments and literals."""
+    depth = 0
+    state = "code"
+    index = opening
+    while index < len(source):
+        char = source[index]
+        next_char = source[index + 1] if index + 1 < len(source) else ""
+        if state == "line-comment":
+            if char == "\n":
+                state = "code"
+        elif state == "block-comment":
+            if char == "*" and next_char == "/":
+                state = "code"
+                index += 1
+        elif state in ("string", "character"):
+            if char == "\\":
+                index += 1
+            elif (state == "string" and char == '"') or (state == "character" and char == "'"):
+                state = "code"
+        elif char == "/" and next_char == "/":
+            state = "line-comment"
+            index += 1
+        elif char == "/" and next_char == "*":
+            state = "block-comment"
+            index += 1
+        elif char == '"':
+            state = "string"
+        elif char == "'":
+            state = "character"
+        elif char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+            if depth == 0:
+                return index + 1
+        index += 1
+    return None
+
+
+def extract_runtime_lookup(source):
+    """Copy only curated generic lookup methods from the product runtime."""
+    methods = []
+    for name in RUNTIME_LOOKUP_METHODS:
+        declaration = re.compile(
+            rf"(?m)^[ \t]*(?:public|private)\s+static\b[^\n]*\b{re.escape(name)}\s*\("
+        )
+        matches = list(declaration.finditer(source))
+        if not matches:
+            raise ValueError(f"MovementRuntime is missing generic method: {name}")
+        for match in matches:
+            opening = source.find("{", match.end())
+            if opening < 0:
+                raise ValueError(f"MovementRuntime method has no body: {name}")
+            closing = method_body_end(source, opening)
+            if closing is None:
+                raise ValueError(f"MovementRuntime method body is unbalanced: {name}")
+            methods.append("    " + source[match.start():closing].strip())
+    exported = RUNTIME_IMPORTS + "\n\n".join(methods) + "\n}\n"
+    if "mechanic.hook." in exported or "Hook.class" in exported:
+        raise ValueError("Generic MovementRuntime export contains a concrete hook reference")
+    return exported
+
 BUILD = '''plugins {
     id 'net.fabricmc.fabric-loom' version "${loom_version}"
 }
@@ -147,17 +246,7 @@ def main():
             # The version enum's old Javadoc records previous concrete findings.
             text = path.read_text(encoding="utf-8")
             if path.name == "MovementRuntime.java":
-                # Product-only dispatch conveniences must not pull excluded hooks
-                # into the otherwise neutral lookup infrastructure.
-                text = text.replace(
-                    "import me.wolfii.legacyparkourcompat.mechanic.hook.collision.PistonMovementHook;\n", ""
-                )
-                text = re.sub(
-                    r"    public static boolean limitPistonMovement\(Entity entity\) \{\n.*?\n    \}\n\n",
-                    "", text, flags=re.S,
-                )
-                if "me.wolfii.legacyparkourcompat.mechanic.hook." in text:
-                    raise ValueError("MovementRuntime export still depends on excluded product hooks")
+                text = extract_runtime_lookup(text)
             if path.name in ("ParkourVersion.java", "MechanicKey.java"):
                 text = re.sub(r"/\*\*.*?\*/", "", text, flags=re.S)
             target.write_text(text, encoding="utf-8", newline="\n")
