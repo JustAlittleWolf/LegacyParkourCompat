@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.Optional;
+import java.util.OptionalDouble;
 
 /** Historical horizontal wall collision outline, retaining the active vertical extent. */
 @MechanicType("block.wall.horizontal-collision-shape")
@@ -17,5 +18,5 @@ public interface WallCollisionShapeHook extends VersionedMechanic {
         return this.blockId();
     }
 
-    Optional<VoxelShape> horizontalCollisionShape(BlockState state, VoxelShape vanillaShape);
+    Optional<VoxelShape> horizontalCollisionShape(BlockState state, VoxelShape vanillaShape, OptionalDouble historicalMaxY);
 }

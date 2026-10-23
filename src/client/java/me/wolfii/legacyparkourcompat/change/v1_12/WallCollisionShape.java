@@ -12,6 +12,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalDouble;
 
 /**
  * Restores the full old connection-indexed collision box for the two walls present in 1.12.
@@ -44,16 +45,20 @@ public final class WallCollisionShape implements WallCollisionShapeHook {
     }
 
     @Override
-    public Optional<VoxelShape> horizontalCollisionShape(BlockState state, VoxelShape vanillaShape) {
-        if (!(state.getBlock() instanceof WallBlock) || vanillaShape.isEmpty()) {
+    public Optional<VoxelShape> horizontalCollisionShape(
+        BlockState state, VoxelShape vanillaShape, OptionalDouble historicalMaxY
+    ) {
+        if (!(state.getBlock() instanceof WallBlock)) {
             return Optional.empty();
         }
 
+        if (historicalMaxY.isEmpty()) {
+            throw new IllegalStateException("Historical wall collision height is unresolved at V1_12");
+        }
         VoxelShape oldShape = WallCollisionGeometry.shape(WallCollisionGeometry.mask(state));
         return Optional.of(Shapes.box(
             oldShape.min(Direction.Axis.X), 0.0, oldShape.min(Direction.Axis.Z),
-            oldShape.max(Direction.Axis.X), vanillaShape.max(Direction.Axis.Y), oldShape.max(Direction.Axis.Z)
+            oldShape.max(Direction.Axis.X), historicalMaxY.getAsDouble(), oldShape.max(Direction.Axis.Z)
         ));
     }
-
 }

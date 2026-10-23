@@ -12,6 +12,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalDouble;
 
 /**
  * Preserves the independently accepted earlier-profile coverage for the NORTH-only
@@ -41,7 +42,9 @@ public final class WallCollisionShape implements WallCollisionShapeHook {
     }
 
     @Override
-    public Optional<VoxelShape> horizontalCollisionShape(BlockState state, VoxelShape vanillaShape) {
+    public Optional<VoxelShape> horizontalCollisionShape(
+        BlockState state, VoxelShape vanillaShape, OptionalDouble historicalMaxY
+    ) {
         if (!(state.getBlock() instanceof WallBlock) || vanillaShape.isEmpty()) {
             return Optional.empty();
         }
@@ -52,7 +55,10 @@ public final class WallCollisionShape implements WallCollisionShapeHook {
         }
 
         VoxelShape horizontal = WallCollisionGeometry.shape(mask);
+        if (historicalMaxY.isEmpty()) {
+            throw new IllegalStateException("Wall height is unresolved for a nonempty historical wall shape");
+        }
         return Optional.of(Shapes.box(horizontal.min(Direction.Axis.X), 0.0, horizontal.min(Direction.Axis.Z),
-            horizontal.max(Direction.Axis.X), vanillaShape.max(Direction.Axis.Y), horizontal.max(Direction.Axis.Z)));
+            horizontal.max(Direction.Axis.X), historicalMaxY.getAsDouble(), horizontal.max(Direction.Axis.Z)));
     }
 }
