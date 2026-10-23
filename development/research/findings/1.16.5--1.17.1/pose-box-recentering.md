@@ -1,0 +1,6 @@
+# Pose bounding box reconstruction
+1.16.5, Mojmap: `1.16.5/mojmap/net/minecraft/world/entity/Entity.java`, `refreshDimensions`, lines 2306-2334; `1.16.5/mojmap/net/minecraft/world/entity/player/Player.java`, `updatePlayerPose`, lines 350-377.
+1.17, Mojmap: `1.17/mojmap/net/minecraft/world/entity/Entity.java`, `refreshDimensions`, lines 2473-2495.
+1.17.1, Mojmap: `1.17.1/mojmap/net/minecraft/world/entity/Entity.java`, `refreshDimensions`, lines 2475-2497; `onSyncedDataUpdated`, lines 2469-2472.
+Difference: after changing dimensions and eye height, 1.16.5 centers a narrower box on position but, for equal or increased width, preserves old min X/Y/Z and computes maxima by adding new width/height. From 1.17 every pose change calls `reapplyPosition`, rebuilding around stored position with float half-width and double plus/minus. The newer additional free-position search is gated to logical server non-player entities and does not run for the client player.
+Movement meaning: ordinary standing/crouching/swimming pose transitions update a player's box even when width stays 0.6F. Old `minX + width` and new `positionX + halfWidth` can round differently; preserving the old box minimum also differs from rebuilding after accumulated movement rounding. Player pose selection itself is unchanged in this comparison. The reconstruction change is already present in exact 1.17.
