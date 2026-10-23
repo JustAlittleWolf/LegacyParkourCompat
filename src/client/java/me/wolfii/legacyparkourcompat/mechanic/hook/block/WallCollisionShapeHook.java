@@ -10,5 +10,12 @@ import java.util.Optional;
 /** Historical horizontal wall collision outline, retaining the active vertical extent. */
 @MechanicType("block.wall.horizontal-collision-shape")
 public interface WallCollisionShapeHook extends VersionedMechanic {
+    String blockId();
+
+    @Override
+    default String variant() {
+        return this.blockId();
+    }
+
     Optional<VoxelShape> horizontalCollisionShape(BlockState state, VoxelShape vanillaShape);
 }

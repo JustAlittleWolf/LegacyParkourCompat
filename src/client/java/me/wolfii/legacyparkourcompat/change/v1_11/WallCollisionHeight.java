@@ -4,6 +4,8 @@ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.WallCollisionHeightHook;
 
+import java.util.List;
+
 /**
  * Ornithe Feather 1.8.9 {@code WallBlock#getCollisionShape} sets {@code maxY=1.5};
  * 1.10.2 and 1.11 {@code WallBlock#getCollisionShape} select collision boxes whose
@@ -12,6 +14,23 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.block.WallCollisionHeightHook
  */
 @MovementChange(emulates = ParkourVersion.V1_11)
 public final class WallCollisionHeight implements WallCollisionHeightHook {
+    private final String blockId;
+
+    private WallCollisionHeight(String blockId) {
+        this.blockId = blockId;
+    }
+
+    @MovementChange.Factory
+    public static List<WallCollisionHeight> variants() {
+        return List.of(new WallCollisionHeight("minecraft:cobblestone_wall"),
+            new WallCollisionHeight("minecraft:mossy_cobblestone_wall"));
+    }
+
+    @Override
+    public String blockId() {
+        return this.blockId;
+    }
+
     @Override
     public double maxY() {
         return 1.5;

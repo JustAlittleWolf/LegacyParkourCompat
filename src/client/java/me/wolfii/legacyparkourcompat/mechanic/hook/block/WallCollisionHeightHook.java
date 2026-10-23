@@ -9,6 +9,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 /** Historical wall collision height, resolved independently from horizontal wall geometry. */
 @MechanicType("block.wall.collision-height")
 public interface WallCollisionHeightHook extends VersionedMechanic {
+    String blockId();
+
+    @Override
+    default String variant() {
+        return this.blockId();
+    }
+
     double maxY();
 
     default VoxelShape applyHeight(VoxelShape shape) {
