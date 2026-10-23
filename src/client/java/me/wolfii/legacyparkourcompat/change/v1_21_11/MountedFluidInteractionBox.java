@@ -17,6 +17,7 @@ import org.jspecify.annotations.Nullable;
  *   baseTick.
  *   positionRider.
  *   updateInWaterStateAndDoFluidPushing.
+ *   updateInWaterStateAndDoWaterCurrentPushing.
  *   updateFluidHeightAndDoFluidPushing.
  * 1.21.11/mojmap/net/minecraft/world/entity/LivingEntity.java:
  *   aiStep.
@@ -44,6 +45,13 @@ import org.jspecify.annotations.Nullable;
  *   isPushedByFluid.
  * 26.1.2/unobfuscated/net/minecraft/world/entity/vehicle/boat/AbstractBoat.java:
  *   modifyPassengerFluidInteractionBox.
+ * 26.2/unobfuscated/net/minecraft/world/entity/Entity.java:
+ *   getFluidInteractionBox.
+ *   updateFluidInteraction.
+ * 26.2/unobfuscated/net/minecraft/world/entity/EntityFluidInteraction.java:
+ *   update.
+ * 26.2/unobfuscated/net/minecraft/world/entity/vehicle/boat/AbstractBoat.java:
+ *   modifyPassengerFluidInteractionBox.
  * 26.1.2/unobfuscated/net/minecraft/world/entity/vehicle/boat/Boat.java:
  *   rideHeight.
  * 26.1.2/unobfuscated/net/minecraft/world/level/material/FlowingFluid.java:
@@ -53,9 +61,16 @@ import org.jspecify.annotations.Nullable;
  */
 @MovementChange(emulates = ParkourVersion.V1_21_11)
 public final class MountedFluidInteractionBox implements FluidInteractionBoxHook {
+    /**
+     * 1.21.11 scans lava with the deflated entity box even when a non-underwater
+     * boat carries the player. In 26.2, AbstractBoat can make the native box null
+     * when the boat covers that box, so restore the historical body scan box.
+     * The paired fluid-state change preserves the old water exclusion; this hook
+     * describes body sampling and does not establish historical eye-fluid parity.
+     */
     @Override
     public @Nullable AABB interactionBox(Entity entity, @Nullable AABB vanilla) {
-        if (vanilla != null && entity instanceof Player player
+        if (entity instanceof Player player
             && player.getVehicle() instanceof AbstractBoat boat && !boat.isUnderWater()) {
             return player.getBoundingBox().deflate(0.001);
         }
