@@ -31,6 +31,13 @@ public final class InputSlowdownChange implements InputSlowdownHook {
      * Minecraft 1.14.1 (Yarn 1.14.1+build.10-v2) and 1.14.2
      * (Yarn 1.14.2+build.7-v2), KeyboardInput.tick: spectator is excluded,
      * and current sneak intent is combined with the retained pre-poll sample.
+     * Minecraft 1.14.3 (Yarn 1.14.3+build.13-v2), KeyboardInput.tick, and
+     * 1.14.4 (Mojmap), KeyboardInput.tick, retain this combination. In
+     * 1.15, 1.15.1 and 1.15.2 (Mojmap), KeyboardInput.tick instead uses
+     * only LocalPlayer.aiStep's pre-poll isMovingSlowly sample. Thus the
+     * first shift press of an ordinary grounded player slows here, while
+     * the release transition slows in both forms because sampledPose still
+     * observes the previous shift state.
      */
     @Override
     public boolean shouldSlowDown(Player player, boolean sampledPose) {

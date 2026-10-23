@@ -18,6 +18,17 @@ import net.minecraft.world.phys.Vec2;
  * retains the division, while
  * {@code 1.15/mojmap/net/minecraft/client/player/LocalPlayer.java#aiStep}
  * removes it, so the resolver boundary is V1_14_2.
+ * Yarn 1.14.2+build.7-v2 and 1.14.3+build.13-v2,
+ * ClientPlayerEntity.tickMovement, retain the same double division and
+ * flying/controlled-camera/current-sneak gates; Mojmap 1.15.1 and 1.15.2,
+ * LocalPlayer.aiStep, retain its removal.
+ *
+ * This runs after KeyboardInput.tick and LocalPlayer.aiStep's item-use
+ * scaling, before LivingEntity.aiStep damps movement copies by 0.98F.
+ * Keep the axes unnormalized until Entity.getInputVector: the spectator
+ * exclusion in KeyboardInput.tick skips scaling but does not skip this
+ * division. A single spectator axis therefore exceeds one after damping
+ * and normalizes to one during travel; without division it remains 0.98.
  */
 @MovementChange(emulates = ParkourVersion.V1_14_2)
 public final class FlightSneakCompensationV1_14_2 implements FlightSneakInputHook {
