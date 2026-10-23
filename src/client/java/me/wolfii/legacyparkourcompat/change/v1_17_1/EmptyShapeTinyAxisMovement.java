@@ -3,11 +3,7 @@ package me.wolfii.legacyparkourcompat.change.v1_17_1;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.EmptyShapeMovementHook;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.BooleanOp;
-import net.minecraft.world.phys.shapes.Shapes;
 import java.util.Optional;
 
 /**
@@ -21,17 +17,17 @@ import java.util.Optional;
  * Mojmap Entity.collideBoundingBox/collideWithShapes retain that behavior.
  * Only the empty-list difference is implemented here, not a replacement solver.
  * The product also recognizes its sole admitted distant-border shape as the
- * otherwise-empty native list; retain zero-valued input axes, including -0.0.
+ * otherwise-empty native list, using the original admission and shape rather
+ * than sampling moving-border geometry again. Admission is established by the
+ * existing deflated-current-box gate. Retain zero input axes, including -0.0.
  */
 @MovementChange(emulates = ParkourVersion.V1_17_1)
 public final class EmptyShapeTinyAxisMovement implements EmptyShapeMovementHook {
     @Override
-    public Optional<Vec3> resolve(Entity entity, Vec3 requested, AABB boundingBox) {
+    public Optional<Vec3> resolve(Vec3 requested) {
         int nonzeroAxes = (requested.x != 0.0 ? 1 : 0)
             + (requested.y != 0.0 ? 1 : 0) + (requested.z != 0.0 ? 1 : 0);
-        if (nonzeroAxes < 2 || Shapes.joinIsNotEmpty(
-            entity.level().getWorldBorder().getCollisionShape(),
-            Shapes.create(entity.getBoundingBox().deflate(1.0E-7)), BooleanOp.AND)) {
+        if (nonzeroAxes < 2) {
             return Optional.empty();
         }
         return Optional.of(new Vec3(snap(requested.x), snap(requested.y), snap(requested.z)));

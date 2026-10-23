@@ -14,7 +14,6 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.EmptyShapeMovementH
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalVelocityCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalVelocityWriteHook;
 import net.minecraft.util.Mth;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jspecify.annotations.Nullable;
@@ -126,16 +125,14 @@ public final class MovementRuntime {
         return true;
     }
 
-    public static Vec3 resolveEmptyShapeMovement(@Nullable Entity entity, Vec3 movement, AABB boundingBox,
+    public static Vec3 resolveEmptyShapeMovement(@Nullable Entity entity, Vec3 movement,
                                                 List<VoxelShape> shapes, VanillaFn<Vec3> vanilla) {
-        // Product border admission may have supplied the sole distant border shape.
-        // Recognize the same otherwise-empty native list without changing admission.
-        boolean onlyDistantBorder = entity != null && shapes.size() == 1
-            && shapes.getFirst() == entity.level().getWorldBorder().getCollisionShape()
-            && !entity.level().getWorldBorder().isInsideCloseToBorder(entity, boundingBox.expandTowards(movement));
-        if (shapes.isEmpty() || onlyDistantBorder) {
+        // Use the exact admission decision and shape from this call, including
+        // moving borders whose shape getter allocates a new object every time.
+        var borderFrame = CollisionBorderShapeContext.current();
+        if (borderFrame != null && borderFrame.isSoleHistoricalBorder(shapes)) {
             Optional<Vec3> historical = find(EmptyShapeMovementHook.class, entity)
-                .flatMap(hook -> hook.resolve(entity, movement, boundingBox));
+                .flatMap(hook -> hook.resolve(movement));
             if (historical.isPresent()) {
                 return historical.get();
             }

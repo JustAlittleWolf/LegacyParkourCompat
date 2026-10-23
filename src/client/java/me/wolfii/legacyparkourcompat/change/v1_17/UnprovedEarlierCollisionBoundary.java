@@ -5,8 +5,6 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.EmptyShapeMovementHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalVelocityCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalVelocityWriteHook;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import java.util.Optional;
 
@@ -31,7 +29,7 @@ public final class UnprovedEarlierCollisionBoundary implements HorizontalVelocit
     }
 
     @Override
-    public Optional<Vec3> resolve(Entity entity, Vec3 requested, AABB boundingBox) {
+    public Optional<Vec3> resolve(Vec3 requested) {
         return Optional.empty();
     }
 }
