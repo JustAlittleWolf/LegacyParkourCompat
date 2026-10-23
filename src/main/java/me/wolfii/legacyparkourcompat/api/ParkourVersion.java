@@ -37,6 +37,7 @@ import java.util.stream.Collectors;
  *   <li>{@link #V1_21_2} – slime sneak fall-damage (MC-54532)</li>
  *   <li>{@link #V1_21_4} – sprint-while-sneaking when {@code sneaking_speed} ≥ 0.8</li>
  *   <li>{@link #V1_21_5} – per-axis low-speed momentum cancel (MC-241951) and related travel fixes</li>
+ *   <li>{@link #V1_21_6} – resolved-displacement block-callback axis ordering</li>
  *   <li>{@link #V1_21_10} – bubble-column contact impulse eligibility</li>
  *   <li>{@link #V1_21_11} – elytra through cave vines / later 1.21 movement</li>
  * </ul>
@@ -81,7 +82,8 @@ public enum ParkourVersion {
     V1_21("1.21", "1.21.1"),
     V1_21_2("1.21.2", "1.21.3"),
     V1_21_4("1.21.4"),
-    V1_21_5("1.21.5", "1.21.6", "1.21.7", "1.21.8"),
+    V1_21_5("1.21.5"),
+    V1_21_6("1.21.6", "1.21.7", "1.21.8"),
     V1_21_9("1.21.9"),
     V1_21_10("1.21.10"),
     V1_21_11("1.21.11"),

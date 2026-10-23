@@ -23,7 +23,7 @@ import java.util.Optional;
  * block and fluid callbacks. Only that player's intersection operation is
  * replaced; callback precision flags and contact traversal remain separate.
  */
-@MovementChange(emulates = ParkourVersion.V1_21_5)
+@MovementChange(emulates = ParkourVersion.V1_21_6)
 public final class SweptShapeIntersection implements SweptShapeIntersectionHook {
     @Override
     public Optional<Boolean> collidedAlongVector(AABB movingBox, Vec3 movement, List<AABB> shapeParts) {

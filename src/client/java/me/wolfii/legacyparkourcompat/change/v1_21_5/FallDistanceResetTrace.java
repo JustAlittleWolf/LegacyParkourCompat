@@ -17,7 +17,7 @@ import net.minecraft.world.phys.Vec3;
  * fall-distance gate, movement length threshold, clip modes, hit test, and reset
  * call remain in the native method.
  */
-@MovementChange(emulates = ParkourVersion.V1_21_5)
+@MovementChange(emulates = ParkourVersion.V1_21_6)
 public final class FallDistanceResetTrace implements FallDistanceResetTraceHook {
     @Override
     public Vec3 fallResetTraceDisplacement(Vec3 resolvedDisplacement, Vec3 nativeTraceDisplacement) {

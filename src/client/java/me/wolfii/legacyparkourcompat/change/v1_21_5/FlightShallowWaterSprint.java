@@ -14,8 +14,10 @@ import net.minecraft.world.entity.player.Player;
  * Ornithe Feather 1.13 LocalClientPlayerEntity.mobTick introduces the body/eye
  * water sprint predicates; 1.12.2 mobTick has no such water veto. Before that
  * water-sprint feature boundary, retain the independently resolved native input.
+ * The 1.21.6 profile represents 1.21.6 through 1.21.8; anchoring here
+ * preserves this operation through 1.21.8 after splitting the former alias.
  */
-@MovementChange(emulates = ParkourVersion.V1_21_5)
+@MovementChange(emulates = ParkourVersion.V1_21_6)
 public final class FlightShallowWaterSprint implements FlightShallowWaterSprintHook {
     @Override
     public boolean isSprintingPossible(Player player, ParkourVersion selected, boolean vanilla) {

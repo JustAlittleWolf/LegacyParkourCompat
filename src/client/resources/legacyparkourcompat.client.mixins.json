@@ -24,6 +24,8 @@
     "FarmlandBlockMixin",
     "EntityMixin",
     "EntitySweptShapeIntersectionMixin",
+    "EntityCallbackTraversalMixin",
+    "EntityMovementAccessor",
     "EntitySupportingBlockPositionMixin",
     "EntityCollisionAxisOrderMixin",
     "EntityStepUpCollisionMixin",
