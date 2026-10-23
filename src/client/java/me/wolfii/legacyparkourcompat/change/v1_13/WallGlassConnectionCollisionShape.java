@@ -79,7 +79,7 @@ public final class WallGlassConnectionCollisionShape implements WallCollisionSha
         boolean post = ((!north || east || !south || west) && (north || !east || south || !west))
             || !level.getBlockState(pos.above()).isAir();
 
-        double maxY = historicalMaxY.getAsDouble() * 16.0;
+        double maxY = historicalMaxY.getAsDouble() * 16.0; // Block.box accepts sixteenth-based coordinates.
         double armMaxY = post ? maxY : 24.0;
         VoxelShape shape = post ? Block.box(4.0, 0.0, 4.0, 12.0, maxY, 12.0) : Shapes.empty();
         if (north) {
