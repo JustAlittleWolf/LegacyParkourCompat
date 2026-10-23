@@ -17,11 +17,12 @@ import java.util.Optional;
 
 /**
  * Ornithe Feather 1.13.2 CauldronBlock.SHAPE / getShape subtract only the
- * upper interior (2,4,2)-(14,16,14) from the full block. Ornithe Feather 1.14
- * CauldronBlock.SHAPE adds bottom cutouts, retained by 1.14.4. Preserve the
- * old full floor for empty and water-filled cauldrons, which represent the
- * old LEVEL states. Lava/powder-snow cauldrons are modern-only and untouched.
- * Pre-1.13 geometry differs (1.8.9 uses a 5/16 floor) and remains unbound.
+ * upper interior (2,4,2)-(14,16,14) from the full block; Feather 1.14.4
+ * CauldronBlock.SHAPE adds bottom cutouts. Preserve the 1.13.2 full floor for
+ * empty and water-filled cauldrons, which represent the old LEVEL states.
+ * Lava/powder-snow cauldrons are modern-only and untouched. Feather 1.12.2
+ * CauldronBlock.addCollisions has a five-box basin, handled by the 1.12 change;
+ * earlier versions retain native behavior pending an accepted boundary.
  */
 @MovementChange(emulates = ParkourVersion.V1_13)
 public final class CauldronCollisionShape implements BlockCollisionShapeHook {

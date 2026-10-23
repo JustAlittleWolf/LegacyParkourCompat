@@ -4,7 +4,10 @@ import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
 import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
 import net.minecraft.world.phys.AABB;
 
+import java.util.Optional;
+
 @MechanicType("collision.block-scan")
 public interface BlockCollisionScanHook extends VersionedMechanic {
-    BlockCollisionScan scan(AABB sweptBox);
+    /** Empty keeps the native cursor and pruning unchanged for this profile. */
+    Optional<BlockCollisionScan> scan(AABB sweptBox);
 }

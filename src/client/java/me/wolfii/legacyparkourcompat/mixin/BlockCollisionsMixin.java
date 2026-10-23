@@ -6,11 +6,14 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.CollisionShapeSourceContext;
 import com.llamalad7.mixinextras.sugar.Local;
 import me.wolfii.legacyparkourcompat.mechanic.PistonHeadCollisionScanner;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.BlockCollisionScan;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.BlockCollisionScanHook;
+import net.minecraft.core.Cursor3D;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.FullCubeOverlapHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.LowerRowCollisionCandidateHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.PistonMovingBlockEntityAccessor;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockCollisions;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.CollisionGetter;
@@ -21,12 +24,15 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.function.BiFunction;
 
@@ -34,21 +40,66 @@ import java.util.function.BiFunction;
 abstract class BlockCollisionsMixin<T> {
     @Shadow @Final private CollisionContext context;
     @Shadow @Final private AABB box;
+    @Shadow @Final @Mutable private Cursor3D cursor;
     @Shadow @Final private CollisionGetter collisionGetter;
     @Shadow @Final private boolean onlySuffocatingBlocks;
     @Shadow @Final private BiFunction<BlockPos.MutableBlockPos, VoxelShape, T> resultProvider;
     @Shadow private BlockGetter getChunk(int x, int z) { throw new AssertionError(); }
     @Unique private PistonHeadCollisionScanner<T> legacyparkourcompat$pistons;
     @Unique private boolean legacyparkourcompat$initialized;
+    @Unique private BlockCollisionScan legacyparkourcompat$scan;
+
+    @Inject(method = "<init>(Lnet/minecraft/world/level/CollisionGetter;Lnet/minecraft/world/phys/shapes/CollisionContext;Lnet/minecraft/world/phys/AABB;ZLjava/util/function/BiFunction;)V", at = @At("RETURN"))
+    private void legacyparkourcompat$historicalScanBounds(
+        CollisionGetter collisionGetter, CollisionContext context, AABB box, boolean onlySuffocatingBlocks,
+        BiFunction<BlockPos.MutableBlockPos, VoxelShape, T> resultProvider, CallbackInfo ci
+    ) {
+        if (onlySuffocatingBlocks || context.isPlacement()) {
+            return;
+        }
+        Entity player = MovementRuntime.playerFrom(context);
+        this.legacyparkourcompat$scan = MovementRuntime.find(BlockCollisionScanHook.class, player)
+            .flatMap(hook -> hook.scan(box)).orElse(null);
+        if (this.legacyparkourcompat$scan != null) {
+            BlockCollisionScan scan = this.legacyparkourcompat$scan;
+            // Cursor3D advances its X axis fastest, then Y, then Z. Map those to
+            // historical Y, Z, X so BlockCollisions visits logical X/Z/Y order.
+            this.cursor = new Cursor3D(scan.minY(), scan.minZ(), scan.minX(),
+                scan.maxYExclusive() - 1, scan.maxZExclusive() - 1, scan.maxXExclusive() - 1);
+        }
+    }
+
+    @Redirect(method = "computeNext", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/Cursor3D;nextX()I"))
+    private int legacyparkourcompat$logicalX(Cursor3D cursor) {
+        return this.legacyparkourcompat$scan == null ? cursor.nextX() : cursor.nextZ();
+    }
+
+    @Redirect(method = "computeNext", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/Cursor3D;nextY()I"))
+    private int legacyparkourcompat$logicalY(Cursor3D cursor) {
+        return this.legacyparkourcompat$scan == null ? cursor.nextY() : cursor.nextX();
+    }
+
+    @Redirect(method = "computeNext", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/Cursor3D;nextZ()I"))
+    private int legacyparkourcompat$logicalZ(Cursor3D cursor) {
+        return this.legacyparkourcompat$scan == null ? cursor.nextZ() : cursor.nextY();
+    }
+
+    @Redirect(method = "computeNext", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/Cursor3D;getNextType()I"))
+    private int legacyparkourcompat$historicalScanCells(Cursor3D cursor) {
+        BlockCollisionScan scan = this.legacyparkourcompat$scan;
+        if (scan == null) {
+            return cursor.getNextType();
+        }
+        return scan.includes(cursor.nextZ(), cursor.nextX(), cursor.nextY()) ? 0 : 3;
+    }
 
     @Inject(method = "computeNext", at = @At("HEAD"), cancellable = true)
     private void legacyparkourcompat$historicalPistonParts(CallbackInfoReturnable<T> cir) {
         if (!this.legacyparkourcompat$initialized) {
             this.legacyparkourcompat$initialized = true;
             var player = MovementRuntime.playerFrom(this.context);
-            var hook = MovementRuntime.find(BlockCollisionScanHook.class, player);
-            if (!this.onlySuffocatingBlocks && !this.context.isPlacement() && hook.isPresent()) {
-                var scan = hook.get().scan(this.box);
+            if (!this.onlySuffocatingBlocks && !this.context.isPlacement() && this.legacyparkourcompat$scan != null) {
+                var scan = this.legacyparkourcompat$scan;
                 var border = player.level().getWorldBorder();
                 // Accepted witness assumes candidate cells inside the border. Outside that bounded
                 // context retain native collection and the separately resolved border operation.
