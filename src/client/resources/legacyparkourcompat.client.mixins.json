@@ -6,6 +6,8 @@
     "minVersion": "0.5.4"
   },
   "client": [
+    "AttributeModifierHistoryMixin",
+    "PlayerMovementSpeedMixin",
     "FishingRetrievalMixin",
     "PowderSnowBlockMixin",
     "BubbleColumnBlockMixin",
@@ -49,6 +51,7 @@
     "EntityJumpAccessor",
     "EntityJumpFactorAccess",
     "ClientPacketListenerMixin",
+    "ClientPacketListenerRespawnMixin",
     "LocalPlayerMixin",
     "LocalPlayerSprintMixin",
     "client.LocalPlayerAccessor",
