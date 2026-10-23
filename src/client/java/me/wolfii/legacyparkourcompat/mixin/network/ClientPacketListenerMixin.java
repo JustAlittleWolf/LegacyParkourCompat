@@ -4,13 +4,16 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.PlayerCorrectionContext;
+import me.wolfii.legacyparkourcompat.mechanic.hook.network.ForcedRotationPitchHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.PlayerCorrectionPositionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.PlayerCorrectionRotationHook;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.protocol.game.ClientboundPlayerRotationPacket;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.PositionMoveRotation;
 import net.minecraft.world.entity.Relative;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,6 +22,23 @@ import java.util.Set;
 
 @Mixin(ClientPacketListener.class)
 public abstract class ClientPacketListenerMixin {
+    // Separate from position corrections: keep native yaw, old rotation and reply.
+    @WrapOperation(
+        method = "handleRotatePlayer(Lnet/minecraft/network/protocol/game/ClientboundPlayerRotationPacket;)V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;setXRot(F)V")
+    )
+    private void legacyParkourCompat$forcedRotationPitch(
+        Player player, float nativePitch, Operation<Void> original, ClientboundPlayerRotationPacket packet
+    ) {
+        float pitch = nativePitch;
+        if (!packet.relativeY() && !packet.relativeX()) {
+            pitch = MovementRuntime.find(ForcedRotationPitchHook.class, player)
+                .map(hook -> hook.pitchForSetter(packet.xRot(), nativePitch))
+                .orElse(nativePitch);
+        }
+        original.call(player, pitch);
+    }
+
     // 26.2 unobfuscated: ClientPacketListener.handleMovePlayer invokes this helper
     // only for a non-passenger player, with interpolate=false. Other callers remain native.
     @WrapOperation(
