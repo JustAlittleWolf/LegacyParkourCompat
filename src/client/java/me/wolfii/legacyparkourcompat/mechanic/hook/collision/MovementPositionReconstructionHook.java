@@ -9,7 +9,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
 
-/** Converts resolved displacement into the stored position and bounding box. */
+/** Pure conversion of resolved displacement, evaluated for bookkeeping and the actual write. */
 @MechanicType("player.movement.position_reconstruction")
 public interface MovementPositionReconstructionHook extends VersionedMechanic {
     record Position(Vec3 position, AABB box) {}

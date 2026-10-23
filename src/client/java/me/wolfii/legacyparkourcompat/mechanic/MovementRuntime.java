@@ -3,11 +3,16 @@ package me.wolfii.legacyparkourcompat.mechanic;
 import me.wolfii.legacyparkourcompat.api.ActiveMovementProfile;
 import me.wolfii.legacyparkourcompat.api.MovementController;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.PistonMovementHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionReconstructionHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.position.PoseBoxHook;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import org.jspecify.annotations.Nullable;
@@ -39,6 +44,41 @@ public final class MovementRuntime {
     public static boolean limitPistonMovement(Entity entity) {
         return find(PistonMovementHook.class, entity)
             .map(PistonMovementHook::limitPistonMovement).orElse(true);
+    }
+
+    /** Pure calculation, shared by movement bookkeeping and the eventual write. */
+    private static Optional<MovementPositionReconstructionHook.Position> movementPosition(Entity entity, Vec3 movement) {
+        if (!(entity instanceof Player player)) {
+            return Optional.empty();
+        }
+        return find(MovementPositionReconstructionHook.class, player)
+            .flatMap(hook -> hook.resolve(player, profile(player).target(), movement));
+    }
+
+    public static Vec3 movementEndpoint(Entity entity, Vec3 movement, Vec3 nativePosition) {
+        return movementPosition(entity, movement)
+            .map(MovementPositionReconstructionHook.Position::position).orElse(nativePosition);
+    }
+
+    public static void writeMovementPosition(Entity entity, Vec3 movement, VanillaCall vanilla) {
+        var historical = movementPosition(entity, movement);
+        if (historical.isEmpty()) {
+            vanilla.run();
+            return;
+        }
+        var resolved = historical.get();
+        entity.setBoundingBox(resolved.box());
+        entity.setPosRaw(resolved.position().x, resolved.position().y, resolved.position().z);
+    }
+
+    public static void refreshPoseBox(Entity entity, EntityDimensions previous, EntityDimensions next, VanillaCall vanilla) {
+        Optional<AABB> box = find(PoseBoxHook.class, entity)
+            .flatMap(hook -> hook.poseBox(entity, previous, next));
+        if (box.isPresent()) {
+            entity.setBoundingBox(box.get());
+        } else {
+            vanilla.run();
+        }
     }
 
     public static boolean isPlayer(@Nullable Entity entity) {
