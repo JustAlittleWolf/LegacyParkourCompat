@@ -16,7 +16,9 @@ import net.minecraft.world.level.block.state.properties.WallSide;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.OptionalDouble;
 
 /**
  * Restores the 1.13.2 glass disconnection in cobblestone wall collision while
@@ -28,21 +30,45 @@ import java.util.Optional;
  * {@code Block#isExceptionForConnection} list, so a sturdy glass face connects.
  * Feather 1.13.2 {@code PaneBlock#makeShapes} and
  * {@code WallBlock#getCollisionShape} use the component union reproduced here.
+ * When wall UP is false, the inherited pane collision arms end at 14/16; with
+ * UP true, the wall collision components end at the independently resolved height.
  * This change removes only connected glass sides from the native wall state;
  * its other side flags remain the source for the old component union.
  */
 @MovementChange(emulates = ParkourVersion.V1_13)
 public final class WallGlassConnectionCollisionShape implements WallCollisionShapeHook {
+    private final String blockId;
+
+    private WallGlassConnectionCollisionShape(String blockId) {
+        this.blockId = blockId;
+    }
+
+    @MovementChange.Factory
+    public static List<WallGlassConnectionCollisionShape> variants() {
+        return List.of(
+            new WallGlassConnectionCollisionShape("minecraft:cobblestone_wall"),
+            new WallGlassConnectionCollisionShape("minecraft:mossy_cobblestone_wall")
+        );
+    }
+
+    @Override
+    public String blockId() {
+        return this.blockId;
+    }
+
     @Override
     public Optional<VoxelShape> horizontalCollisionShape(
         BlockState state,
         BlockGetter level,
         BlockPos pos,
-        VoxelShape vanillaShape
+        VoxelShape vanillaShape,
+        OptionalDouble historicalMaxY
     ) {
-        Block block = state.getBlock();
-        if ((block != Blocks.COBBLESTONE_WALL && block != Blocks.MOSSY_COBBLESTONE_WALL) || vanillaShape.isEmpty()) {
+        if (!(state.getBlock() instanceof WallBlock) || vanillaShape.isEmpty()) {
             return Optional.empty();
+        }
+        if (historicalMaxY.isEmpty()) {
+            throw new IllegalStateException("Wall height is unresolved for a nonempty historical wall shape");
         }
 
         boolean north = connected(state, WallBlock.NORTH) && !isLegacyGlass(level, pos, Direction.NORTH);
@@ -52,19 +78,20 @@ public final class WallGlassConnectionCollisionShape implements WallCollisionSha
         boolean post = ((!north || east || !south || west) && (north || !east || south || !west))
             || !level.getBlockState(pos.above()).isAir();
 
-        double maxY = vanillaShape.max(Direction.Axis.Y);
+        double maxY = historicalMaxY.getAsDouble();
+        double armMaxY = post ? maxY : 14.0 / 16.0;
         VoxelShape shape = post ? Block.box(4.0, 0.0, 4.0, 12.0, maxY, 12.0) : Shapes.empty();
         if (north) {
-            shape = Shapes.or(shape, Block.box(5.0, 0.0, 0.0, 11.0, maxY, 11.0));
+            shape = Shapes.or(shape, Block.box(5.0, 0.0, 0.0, 11.0, armMaxY, 11.0));
         }
         if (east) {
-            shape = Shapes.or(shape, Block.box(5.0, 0.0, 5.0, 16.0, maxY, 11.0));
+            shape = Shapes.or(shape, Block.box(5.0, 0.0, 5.0, 16.0, armMaxY, 11.0));
         }
         if (south) {
-            shape = Shapes.or(shape, Block.box(5.0, 0.0, 5.0, 11.0, maxY, 16.0));
+            shape = Shapes.or(shape, Block.box(5.0, 0.0, 5.0, 11.0, armMaxY, 16.0));
         }
         if (west) {
-            shape = Shapes.or(shape, Block.box(0.0, 0.0, 5.0, 11.0, maxY, 11.0));
+            shape = Shapes.or(shape, Block.box(0.0, 0.0, 5.0, 11.0, armMaxY, 11.0));
         }
         return Optional.of(shape);
     }

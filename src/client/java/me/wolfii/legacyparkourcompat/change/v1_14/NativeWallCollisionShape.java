@@ -8,7 +8,9 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.OptionalDouble;
 
 /**
  * Keeps native collision shapes from 1.14 onward. Feather 1.13.2
@@ -19,12 +21,32 @@ import java.util.Optional;
  */
 @MovementChange(emulates = ParkourVersion.V1_14)
 public final class NativeWallCollisionShape implements WallCollisionShapeHook {
+    private final String blockId;
+
+    private NativeWallCollisionShape(String blockId) {
+        this.blockId = blockId;
+    }
+
+    @MovementChange.Factory
+    public static List<NativeWallCollisionShape> variants() {
+        return List.of(
+            new NativeWallCollisionShape("minecraft:cobblestone_wall"),
+            new NativeWallCollisionShape("minecraft:mossy_cobblestone_wall")
+        );
+    }
+
+    @Override
+    public String blockId() {
+        return this.blockId;
+    }
+
     @Override
     public Optional<VoxelShape> horizontalCollisionShape(
         BlockState state,
         BlockGetter level,
         BlockPos pos,
-        VoxelShape vanillaShape
+        VoxelShape vanillaShape,
+        OptionalDouble historicalMaxY
     ) {
         return Optional.empty();
     }
