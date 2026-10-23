@@ -6,6 +6,9 @@ import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalRef;
+import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.water.WaterContext;
@@ -170,6 +173,32 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
         return MovementRuntime.find(InputVectorHook.class, (Entity)(Object)this)
             .map(hook -> hook.inputVector(input, speed, yaw, () -> original.call(input, speed, yaw)))
             .orElseGet(() -> original.call(input, speed, yaw));
+    }
+
+    @WrapOperation(method = "move", at = @At(value = "INVOKE",
+        target = "Lnet/minecraft/world/entity/Entity;collide(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;"))
+    private Vec3 legacyparkourcompat$captureCollisionMovement(Entity entity, Vec3 movement, Operation<Vec3> original,
+        @Share("requestedMovement") LocalRef<Vec3> requested,
+        @Share("resolvedMovement") LocalRef<Vec3> resolved) {
+        requested.set(movement);
+        Vec3 result = CollisionAxisOrderContext.withEntity(entity, () -> original.call(entity, movement));
+        resolved.set(result);
+        return result;
+    }
+
+    @Inject(method = "move", at = @At(value = "INVOKE",
+        target = "Lnet/minecraft/world/entity/Entity;canSimulateMovement()Z"))
+    private void legacyparkourcompat$horizontalVelocityBeforeRestitution(CallbackInfo ci,
+        @Share("requestedMovement") LocalRef<Vec3> requested,
+        @Share("resolvedMovement") LocalRef<Vec3> resolved,
+        @Share("historicalHorizontalVelocity") LocalBooleanRef handled) {
+        Entity entity = (Entity) (Object) this;
+        if (MovementRuntime.appliesTo(entity)) {
+            if (requested.get() == null || resolved.get() == null) {
+                throw new IllegalStateException("Collision velocity dispatch has no movement vectors");
+            }
+            handled.set(MovementRuntime.clearHorizontalCollisionVelocity(entity, requested.get(), resolved.get()));
+        }
     }
 
     @WrapOperation(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;equal(DD)Z"))
@@ -350,15 +379,18 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
         boolean zCollision,
         Vec3 movement,
         MoverType moverType,
-        Vec3 requestedMovement
+        Vec3 requestedMovement,
+        @Share("historicalHorizontalVelocity") LocalBooleanRef handled
     ) {
+        boolean restituteX = !handled.get() && xCollision;
+        boolean restituteZ = !handled.get() && zCollision;
         VanillaCall vanilla = () -> ((EntityInvoker)(Object)entity)
-            .legacyparkourcompat$invokeRestituteMovementAfterCollisions(effectState, xCollision, zCollision, movement);
+            .legacyparkourcompat$invokeRestituteMovementAfterCollisions(effectState, restituteX, restituteZ, movement);
         var blockLanding = MovementRuntime.find(BlockLandingHook.class, effectState.getBlock(), entity);
         MovementRuntime.find(CollisionRestitutionHook.class, entity)
             .ifPresentOrElse(
                 behavior -> behavior.restituteAfterCollisions(
-                    entity, effectState, xCollision, zCollision, requestedMovement.y != movement.y, movement, blockLanding,
+                    entity, effectState, restituteX, restituteZ, requestedMovement.y != movement.y, movement, blockLanding,
                     MovementRuntime.find(BlockBounceHook.class, effectState.getBlock(), entity), vanilla
                 ),
                 vanilla::run
