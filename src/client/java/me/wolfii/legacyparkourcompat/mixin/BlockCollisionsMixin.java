@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.PistonHeadCollisionScanner;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.BlockCollisionScanHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.FullCubeOverlapHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.LowerRowCollisionCandidateHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.PistonMovingBlockEntityAccessor;
 import net.minecraft.core.BlockPos;
@@ -76,5 +77,15 @@ abstract class BlockCollisionsMixin<T> {
             return Shapes.empty();
         }
         return original.call(context, state, level, pos);
+    }
+
+    @WrapOperation(method = "computeNext", at = @At(value = "INVOKE", target =
+        "Lnet/minecraft/world/phys/AABB;intersects(DDDDDD)Z"))
+    private boolean legacyparkourcompat$fullCubeOverlap(AABB query, double x, double y, double z,
+        double maxX, double maxY, double maxZ, Operation<Boolean> original) {
+        return MovementRuntime.find(FullCubeOverlapHook.class, MovementRuntime.playerFrom(this.context))
+            .map(hook -> hook.overlaps(query, x, y, z, maxX, maxY, maxZ,
+                () -> original.call(query, x, y, z, maxX, maxY, maxZ)))
+            .orElseGet(() -> original.call(query, x, y, z, maxX, maxY, maxZ));
     }
 }

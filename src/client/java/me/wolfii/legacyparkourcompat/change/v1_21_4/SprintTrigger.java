@@ -6,9 +6,11 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintTriggerHook;
 import net.minecraft.world.entity.player.Player;
 
 /**
- * Mojmap 1.16 and 1.21.4 LocalPlayer.aiStep reset the trigger for item use
- * without a passenger, and separately for the shift state saved before input
- * polling. Mojmap 1.21.5 adds current backward input to the reset condition;
+ * Mojmap 1.15.2 LocalPlayer.aiStep has no previous-shift reset; 1.16 adds one
+ * from the shift state saved before input polling. Mojmap 1.16 and 1.21.4
+ * LocalPlayer.aiStep reset the trigger for item use without a passenger and
+ * separately for that saved shift state. Mojmap 1.21.5 adds current backward
+ * input to the reset condition;
  * 26.2 retains it. Remove only that added cause. The caller supplies the
  * saved shift local, not current input, and keeps modern custom item-use
  * sprint permission in the native item-use admission path.
