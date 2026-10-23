@@ -29,6 +29,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.BoatPassengerFluidPus
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.CollisionRestitutionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.GravityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.InputAccelerationHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.InputVectorHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.InsideBlockContactHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerFallDistanceResetHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.movement.FallDistanceResetTraceHook;
@@ -158,6 +159,16 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
             return;
         }
         original.call(speed, input);
+    }
+
+    @WrapOperation(method = "moveRelative(FLnet/minecraft/world/phys/Vec3;)V", at = @At(
+        value = "INVOKE",
+        target = "Lnet/minecraft/world/entity/Entity;getInputVector(Lnet/minecraft/world/phys/Vec3;FF)Lnet/minecraft/world/phys/Vec3;"
+    ))
+    private Vec3 legacyparkourcompat$inputVector(Vec3 input, float speed, float yaw, Operation<Vec3> original) {
+        return MovementRuntime.find(InputVectorHook.class, (Entity)(Object)this)
+            .map(hook -> hook.inputVector(input, speed, yaw, () -> original.call(input, speed, yaw)))
+            .orElseGet(() -> original.call(input, speed, yaw));
     }
 
     @WrapOperation(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;equal(DD)Z"))

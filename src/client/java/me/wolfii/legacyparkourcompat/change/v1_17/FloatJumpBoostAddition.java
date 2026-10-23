@@ -16,6 +16,12 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
  *   getJumpPower, jumpFromGround.
  * 1.17.1/mojmap/net/minecraft/world/entity/LivingEntity.java:
  *   getJumpPower, getJumpBoostPower, jumpFromGround.
+ * The stable cutover is 1.17 to 1.17.1: 1.17 still compound-adds the
+ * float-computed boost to the float base; 1.17.1 widens each operand first.
+ * The existing JumpPowerHook consumes this widened result at the double-valued
+ * jumpFromGround velocity seam, before the vertical-velocity policy. Keep the
+ * getJumpBoostPower call so the independent hidden-effect response can suppress
+ * restored fallback effects before this addition.
  * Native modern-input evidence:
  * 26.2/unobfuscated/net/minecraft/world/entity/ai/attributes/Attributes.java:
  *   JUMP_STRENGTH (default 0.42F), SCALE (default 1.0).
