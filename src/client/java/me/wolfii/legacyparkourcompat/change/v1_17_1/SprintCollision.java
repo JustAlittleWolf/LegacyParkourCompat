@@ -6,16 +6,11 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SprintCollisionHook
 import net.minecraft.world.entity.player.Player;
 
 /**
- * Restores stopping sprint on every horizontal collision.
- *
- * Source evidence (paths are relative to decompiled_minecraft/):
- * 1.17.1/mojmap/net/minecraft/client/player/LocalPlayer.java:
- *   aiStep.
- *   aiStep.
- * 1.18.2/mojmap/net/minecraft/client/player/LocalPlayer.java:
- *   aiStep, isHorizontalCollisionMinor.
- *   aiStep.
- * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ * 1.17.1 Mojmap LocalPlayer.aiStep stops non-swimming sprint for every
+ * horizontalCollision. 1.18 and 1.18.1 Mojmap LocalPlayer.aiStep introduce
+ * the minorHorizontalCollision exception, retained by 1.18.2. The native
+ * 26.2 unobfuscated LocalPlayer.shouldStopRunSprinting reads that exception;
+ * adding any horizontal collision to its result restores the older rule.
  */
 @MovementChange(emulates = ParkourVersion.V1_17_1)
 public final class SprintCollision implements SprintCollisionHook {

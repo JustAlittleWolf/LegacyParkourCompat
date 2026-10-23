@@ -18,6 +18,16 @@ import org.jspecify.annotations.Nullable;
  * 1.16.5/mojmap/net/minecraft/world/entity/player/Player.java:
  *   maybeBackOffFromEdge.
  *   maybeBackOffFromEdge.
+ * 1.16.2/mojmap/net/minecraft/world/entity/player/Player.java:
+ *   maybeBackOffFromEdge.
+ *   isAboveGround.
+ * 1.16.2/mojmap/net/minecraft/world/entity/LivingEntity.java initializes
+ *   maxUpStep to 0.6F; SneakEdgeDistanceHook retains that probe distance.
+ *
+ * Mojmap 1.16.2 Player#maybeBackOffFromEdge excludes flying players and
+ * admits grounded or short-fall support through Player#isAboveGround. The
+ * shared backoff helper retains the X, Z, then joint loops and their
+ * step-height probes.
  * 1.18.2/mojmap/net/minecraft/client/player/LocalPlayer.java:
  *   move.
  * 1.18.2/mojmap/net/minecraft/world/entity/Entity.java:

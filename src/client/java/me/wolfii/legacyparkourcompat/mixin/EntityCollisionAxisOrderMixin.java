@@ -7,29 +7,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(Entity.class)
 abstract class EntityCollisionAxisOrderMixin {
-    @Invoker("collide")
-    protected abstract Vec3 legacyparkourcompat$invokeCollide(Vec3 movement);
-
-    @Redirect(
-        method = "move",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/Entity;collide(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;"
-        )
-    )
-    private Vec3 legacyparkourcompat$withCollisionEntity(Entity entity, Vec3 movement) {
-        return CollisionAxisOrderContext.withEntity(
-            entity,
-            () -> ((EntityCollisionAxisOrderMixin)(Object)entity).legacyparkourcompat$invokeCollide(movement)
-        );
-    }
-
     @Redirect(
         method = "collideWithShapes",
         at = @At(
