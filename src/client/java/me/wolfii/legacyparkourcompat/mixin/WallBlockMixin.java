@@ -3,6 +3,7 @@ package me.wolfii.legacyparkourcompat.mixin;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.WallCollisionHeightHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.WallCollisionShapeHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.block.LegacyFenceWallNeighborConnectionHook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
@@ -45,8 +46,12 @@ public abstract class WallBlockMixin {
             .map(hook -> OptionalDouble.of(hook.maxY(state)))
             .orElseGet(() -> vanillaShape.isEmpty() ? OptionalDouble.empty()
                 : OptionalDouble.of(vanillaShape.max(Direction.Axis.Y)));
+        int restoredConnections = MovementRuntime.find(LegacyFenceWallNeighborConnectionHook.class, player)
+            .map(hook -> hook.restoredConnectionMask(level, pos))
+            .orElse(0);
         VoxelShape historicalShape = MovementRuntime.find(WallCollisionShapeHook.class, state.getBlock(), player)
-            .flatMap(hook -> hook.horizontalCollisionShape(state, level, pos, heightAdjustedShape, historicalMaxY))
+            .flatMap(hook -> hook.horizontalCollisionShape(state, level, pos, heightAdjustedShape,
+                historicalMaxY, restoredConnections))
             .orElse(heightAdjustedShape);
         callback.setReturnValue(historicalShape);
     }
