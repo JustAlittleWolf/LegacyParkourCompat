@@ -1,0 +1,7 @@
+# Cauldron collision basin begins lower
+1.12.2, Ornithe Feather: `net/minecraft/block/CauldronBlock.java`, collision boxes and `addCollisions`, lines 35-52.
+1.13, Ornithe Feather: `net/minecraft/block/CauldronBlock.java`, `INSIDE_SHAPE`/`SHAPE` construction and `getShape`, lines 34-44. 1.13.2 retains these same shape coordinates and subtraction operation.
+Difference: The 1.12.2 collision bottom fills the block to Y=5/16, with four side strips extending to the full block height. First verified in 1.13, the shape subtracts an interior beginning at Y=4/16 from a full-block shape, so the open basin starts one sixteenth lower; 1.13.2 retains the same coordinates and subtraction operation.
+Movement meaning: When a player overlaps the cauldron cavity near its floor, the collidable basin boundary differs by 1/16; the shape reaches player `Entity.move` through the world block-collision query and axis resolution (1.12.2 `net/minecraft/world/World.java`, lines 964-1019, and `net/minecraft/entity/Entity.java`, lines 567-595; 1.13 `net/minecraft/world/WorldView.java`, lines 113-150 and 154-196, and `net/minecraft/entity/Entity.java`, lines 578-598; 1.13.2, `WorldView.java`, lines 112-150 and 154-196, and `Entity.java`, lines 578-598).
+Boundary: 1.13 is the first inspected release with the basin beginning at Y=4/16. This establishes the change between the inspected 1.12.2 and 1.13 releases; it does not locate a change inside that interval.
+
