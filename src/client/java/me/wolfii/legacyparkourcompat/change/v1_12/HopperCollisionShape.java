@@ -16,18 +16,23 @@ import java.util.Optional;
 /**
  * Restores the 1.12 hopper collision volume for player movement.
  *
- * <p>Ornithe Feather 1.12.2 {@code net.minecraft.block.HopperBlock#addCollisions}
- * appends a 10/16-high bottom slab followed by west, east, north and south
- * 2/16-wide full-height strips. In Ornithe Feather 1.13,
+ * <p>The source-blind Ornithe Feather comparison finds the same ordered
+ * 10/16-high bottom slab and west, east, north and south 2/16-wide full-height
+ * strips in 1.8.9, 1.9.4, 1.10.2, 1.11.2 and 1.12.2
+ * {@code net.minecraft.block.HopperBlock#addCollisions}. The 1.8.9
+ * {@code HopperBlock#addCollisions} mutates its bounds for those five boxes and
+ * restores the full cube after the additions. The inspected
+ * {@code Entity#move} collision consumer reaches these boxes in each release.
+ * In Ornithe Feather 1.13,
  * {@code net.minecraft.block.HopperBlock#getShape} selects a facing-dependent
  * component union with {@code Hopper.INSIDE} subtracted; 1.13.2 retains that
  * geometry. Its downward outlet is inset from the old slab, while a horizontal
  * outlet lies within that slab, so the difference is the removed lower interior
  * and the replacement of the old full-height strips with a top rim and outlet.
  * The union returned here preserves the old occupied volume but does not claim
- * parity for internal clipping planes created by the old separate boxes.
- * Earlier profile geometry is not established by this comparison, so the
- * separate 1.11.2 native-fallback fence preserves their native result.
+ * parity for internal clipping planes created by the old separate boxes. The
+ * 1.8.0 through 1.8.8 geometry remains uninspected and uses the separate 1.8
+ * native-fallback fence.
  */
 @MovementChange(emulates = ParkourVersion.V1_12)
 public final class HopperCollisionShape implements BlockCollisionShapeHook {

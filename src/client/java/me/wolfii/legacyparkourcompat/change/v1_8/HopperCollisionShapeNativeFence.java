@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change.v1_11_2;
+package me.wolfii.legacyparkourcompat.change.v1_8;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -13,11 +13,12 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Retains the native hopper collision shape before the accepted 1.12 boundary.
- * This resolver fence does not claim that earlier hopper geometry has been
- * verified; the ongoing source review may replace it with a historical change.
+ * Keeps native hopper geometry for 1.8.0 through 1.8.8. The blind source
+ * comparison starts at 1.8.9, where the ordered five-box provider matches the
+ * inspected 1.9.4, 1.10.2, 1.11.2 and 1.12.2 providers. This resolver fence
+ * makes no claim about those uninspected earlier releases.
  */
-@MovementChange(emulates = ParkourVersion.V1_11_2)
+@MovementChange(emulates = ParkourVersion.V1_8)
 public final class HopperCollisionShapeNativeFence implements BlockCollisionShapeHook {
     @MovementChange.Factory
     public static List<HopperCollisionShapeNativeFence> createVariants() {
