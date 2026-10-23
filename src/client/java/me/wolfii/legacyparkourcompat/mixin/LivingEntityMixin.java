@@ -16,6 +16,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingLookHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.TravelFallFlyingGravityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.GlideClimbableExemptionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingClimbableExitHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.TrapdoorClimbingHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.ClimbImpulseHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.FluidJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.GlideFallDistanceHook;
@@ -165,7 +166,12 @@ abstract class LivingEntityMixin {
         LivingEntity entity = (LivingEntity)(Object)this;
         if (!entity.isFallFlying()) {
             MovementRuntime.find(ClimbImpulseHook.class, entity)
-                .ifPresent(hook -> cir.setReturnValue(hook.afterMove(entity, cir.getReturnValue())));
+                .ifPresent(hook -> {
+                    boolean trapdoorClimbing = MovementRuntime.find(TrapdoorClimbingHook.class, entity)
+                        .map(trapdoor -> trapdoor.canClimbTrapdoor(true))
+                        .orElse(true);
+                    cir.setReturnValue(hook.afterMove(entity, cir.getReturnValue(), trapdoorClimbing));
+                });
         }
     }
 
