@@ -1,7 +1,7 @@
 package me.wolfii.legacyparkourcompat.change.v1_15_2;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
-import me.wolfii.legacyparkourcompat.change.common.SneakEdgeBorderCollision;
+import me.wolfii.legacyparkourcompat.change.common.SneakEdgeCollisionSupport;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeCollisionQueryHook;
 import net.minecraft.world.entity.player.Player;
@@ -24,11 +24,6 @@ import net.minecraft.world.phys.AABB;
 public final class SneakEdgeCollisionQuery implements SneakEdgeCollisionQueryHook {
     @Override
     public boolean noCollision(Player player, AABB candidate) {
-        if (SneakEdgeBorderCollision.hasCollision(player)) {
-            return false;
-        }
-
-        return player.level().noBlockCollision(player, candidate)
-            && player.level().noEntityCollision(player, candidate);
+        return SneakEdgeCollisionSupport.noCollisionWithNativeEntities(player, candidate);
     }
 }

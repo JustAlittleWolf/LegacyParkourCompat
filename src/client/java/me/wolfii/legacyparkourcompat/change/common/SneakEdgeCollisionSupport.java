@@ -7,12 +7,20 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-/** The existing border policy shared by the pre-1.16 sneak-edge queries. */
-public final class SneakEdgeBorderCollision {
-    private SneakEdgeBorderCollision() {
+/** Existing query policies shared unchanged by historical sneak-edge changes. */
+public final class SneakEdgeCollisionSupport {
+    private SneakEdgeCollisionSupport() {
     }
 
-    public static boolean hasCollision(Player player) {
+    public static boolean noCollisionWithNativeEntities(Player player, AABB candidate) {
+        if (hasBorderCollision(player)) {
+            return false;
+        }
+        return player.level().noBlockCollision(player, candidate)
+            && player.level().noEntityCollision(player, candidate);
+    }
+
+    public static boolean hasBorderCollision(Player player) {
         WorldBorder border = player.level().getWorldBorder();
         AABB currentBox = player.getBoundingBox();
         VoxelShape borderShape = border.getCollisionShape();
