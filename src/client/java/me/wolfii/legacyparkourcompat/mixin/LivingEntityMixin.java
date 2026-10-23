@@ -163,7 +163,7 @@ abstract class LivingEntityMixin {
         LivingEntity entity = (LivingEntity)(Object)this;
         if (!entity.isFallFlying()) {
             MovementRuntime.find(ClimbImpulseHook.class, entity)
-                .ifPresent(hook -> cir.setReturnValue(hook.afterMove(entity)));
+                .ifPresent(hook -> cir.setReturnValue(hook.afterMove(entity, cir.getReturnValue())));
         }
     }
 
