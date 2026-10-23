@@ -25,6 +25,7 @@
     "EntityMixin",
     "EntitySweptShapeIntersectionMixin",
     "EntityCallbackTraversalMixin",
+    "EntityBlockCallbackSegmentMixin",
     "EntityMovementAccessor",
     "EntitySupportingBlockPositionMixin",
     "EntityCollisionAxisOrderMixin",
