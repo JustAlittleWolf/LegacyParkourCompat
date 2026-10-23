@@ -7,12 +7,17 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
-/** Resolves horizontal movement against the sneak-edge guard.
- * The prevented drop distance resolves independently through {@link SneakEdgeDistanceHook}. */
+import java.util.Optional;
+
+/**
+ * Resolves horizontal movement against the sneak-edge guard. The prevented
+ * drop distance resolves independently through {@link SneakEdgeDistanceHook}.
+ * An empty result preserves the native method.
+ */
 @FunctionalInterface
 @MechanicType("player.sneak.edge")
 public interface SneakEdgeHook extends VersionedMechanic {
-    Vec3 maybeBackOffFromEdge(
+    Optional<Vec3> maybeBackOffFromEdge(
         Player player,
         Vec3 delta,
         MoverType moverType,

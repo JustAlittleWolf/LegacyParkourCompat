@@ -136,7 +136,7 @@ abstract class PlayerMixin {
         );
     }
 
-    // Historical handlers replace the result, so resolve them before the modern probe loops run.
+    // A resolved handler can replace the result; empty preserves native behavior.
     @Inject(method = "maybeBackOffFromEdge", at = @At("HEAD"), cancellable = true)
     private void legacyparkourcompat$maybeBackOffFromEdge(
         Vec3 movement,
@@ -144,10 +144,10 @@ abstract class PlayerMixin {
         CallbackInfoReturnable<Vec3> callback
     ) {
         Player player = (Player) (Object) this;
-        MovementRuntime.find(SneakEdgeHook.class, player).ifPresent(behavior -> {
+        MovementRuntime.find(SneakEdgeHook.class, player).flatMap(behavior -> {
             boolean stayingOnGroundSurface = ((PlayerMovementAccessor) player)
                 .legacyparkourcompat$isStayingOnGroundSurface();
-            callback.setReturnValue(behavior.maybeBackOffFromEdge(
+            return behavior.maybeBackOffFromEdge(
                 player,
                 movement,
                 moverType,
@@ -156,8 +156,8 @@ abstract class PlayerMixin {
                     .map(distance -> distance.edgeFallDistance(player, player.maxUpStep()))
                     .orElse(player.maxUpStep()),
                 MovementRuntime.find(SneakEdgeCollisionQueryHook.class, player).orElse(null)
-            ));
-        });
+            );
+        }).ifPresent(callback::setReturnValue);
     }
 
     @Redirect(

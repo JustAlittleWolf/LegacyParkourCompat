@@ -43,28 +43,15 @@ abstract class EntityFluidInteractionMixin {
             () -> original.call(state, level, pos));
     }
 
-    @Definition(id = "eyeY", local = @Local(type = double.class, ordinal = 1))
-    @Definition(id = "fluidBottom", local = @Local(type = double.class, ordinal = 2))
-    @Expression("eyeY >= fluidBottom")
-    @ModifyExpressionValue(
+    @Redirect(
         method = "update(Lnet/minecraft/world/entity/Entity;Z)V",
-        at = @At("MIXINEXTRAS:EXPRESSION"),
-        require = 1
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;getEyeY()D")
     )
-    private boolean legacyparkourcompat$waterEyeFluidBottom(boolean vanilla,
-        @Local(argsOnly = true) Entity entity,
-        @Local FluidState fluidState,
-        @Local(ordinal = 1) double eyeY,
-        @Local(ordinal = 2) double fluidBottom) {
-        if (!fluidState.is(FluidTags.WATER)) {
-            return vanilla;
-        }
+    private double legacyparkourcompat$eyeFluidSampleY(Entity entity) {
+        double eyeY = entity.getEyeY();
         return MovementRuntime.find(PlayerEyeFluidSampleHook.class, entity)
-            .map(hook -> {
-                double sampleY = hook.sampleY(entity, eyeY);
-                return sampleY == eyeY ? vanilla : Double.compare(sampleY, fluidBottom) >= 0;
-            })
-            .orElse(vanilla);
+            .map(hook -> hook.sampleY(entity, eyeY))
+            .orElse(eyeY);
     }
 
     @Definition(id = "eyeY", local = @Local(type = double.class, ordinal = 1))
@@ -77,27 +64,15 @@ abstract class EntityFluidInteractionMixin {
     )
     private boolean legacyparkourcompat$eyeFluidUpperBoundary(boolean vanilla,
         @Local(argsOnly = true) Entity entity,
-        @Local FluidState fluidState,
         @Local(ordinal = 1) double eyeY,
         @Local(ordinal = 3) double fluidTop) {
-        int comparison = vanilla ? 0 : 1;
-        double sampleY = eyeY;
-        if (fluidState.is(FluidTags.WATER)) {
-            sampleY = MovementRuntime.find(PlayerEyeFluidSampleHook.class, entity)
-                .map(hook -> hook.sampleY(entity, eyeY))
-                .orElse(eyeY);
-            if (sampleY != eyeY) {
-                comparison = Double.compare(sampleY, fluidTop);
-            }
-        }
+        int comparison = Double.compare(eyeY, fluidTop);
         if (entity instanceof Player) {
-            double eyeSampleY = sampleY;
-            int upperBoundaryComparison = comparison;
             return MovementRuntime.find(EyeFluidSurfaceBoundaryHook.class, entity)
-                .map(hook -> hook.upperBoundaryComparison(eyeSampleY, fluidTop, upperBoundaryComparison))
-                .orElse(upperBoundaryComparison) <= 0;
+                .map(hook -> hook.upperBoundaryComparison(eyeY, fluidTop, comparison))
+                .orElse(comparison) <= 0;
         }
-        return comparison <= 0;
+        return vanilla;
     }
 
     @WrapOperation(method = "update", at = @At(value = "INVOKE",

@@ -18,25 +18,32 @@ import net.minecraft.world.phys.Vec3;
  * 1.14 ornithe-feather and 1.14.1, 1.14.2, 1.14.3 yarn
  * SoulSandBlock#onEntityCollision retain that writer. The 1.14.2 alias boundary
  * does not change either overlap response or suppression of the newer support
- * speed factor. 1.15 mojmap SoulsandBlock removes the overlap writer and
- * Entity#getBlockSpeedFactor supplies the newer response.
+ * speed factor. 1.15 Mojmap SoulsandBlock removes the overlap writer, registers
+ * the block with speed factor 0.4F, and Entity#getBlockSpeedFactor supplies the
+ * newer response; 1.15.1 and 1.15.2 retain those changes.
  *
  * Source evidence (paths are relative to decompiled_minecraft/):
  * 1.14.4/mojmap/net/minecraft/world/entity/Entity.java:
  *   move calls slime stepOn before checkInsideBlocks, whose soul-sand callback
- *   applies one X/Z multiplication per overlapping cell.
+ *   applies one X/Z multiplication per overlapping cell. checkInsideBlocks
+ *   scans the final bounding box with a 0.001 inset in X/Y/Z order.
  * 1.14.4/mojmap/net/minecraft/world/level/block/SoulsandBlock.java:
- *   entityInside.
+ *   entityInside passes double 0.4 to Vec3.multiply.
+ * 1.15/mojmap/net/minecraft/world/level/block/Blocks.java:
+ *   SOUL_SAND registration uses speedFactor(0.4F).
  * 1.15.2/mojmap/net/minecraft/world/entity/Entity.java:
- *   move, getBlockSpeedFactor.
+ *   move and getBlockSpeedFactor; Player.getBlockSpeedFactor retains the flight gate.
  * 1.15.2/mojmap/net/minecraft/world/level/block/SoulsandBlock.java:
- *   class/shape initialization.
- * 26.2/mojmap/net/minecraft/world/entity/Entity.java:
- *   applyEffectsFromBlocks invokes its list overload outside move; that overload
- *   deduplicates visited blocks before stepOn.
- * The product dispatches the historical slime stepOn at the per-move callback
- * site before this overlap scan, matching the 1.14.4 callback order without
- * relying on the later deduplicated applyEffectsFromBlocks collector.
+ *   entityInside is absent; class/shape initialization.
+ * 1.15.2/mojmap/net/minecraft/world/phys/Vec3.java:
+ *   multiply(double, double, double) receives the widened float factor.
+ * 26.2/unobfuscated/net/minecraft/world/entity/Entity.java:
+ *   move invokes getBlockSpeedFactor after collision resolution and movement
+ *   emission. applyEffectsFromBlocks(List) and its deferred block collector run
+ *   outside that movement point.
+ * The pre-factor AfterCollisionHook reproduces the old final-box scan with its
+ * 0.001 inset and X/Y/Z order; each Soul Sand cell multiplies velocity by the
+ * double literal at the same per-move stage as the 1.14.4 callbacks.
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
 @MovementChange(emulates = ParkourVersion.V1_14_2)
