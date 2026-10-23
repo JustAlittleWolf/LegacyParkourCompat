@@ -26,8 +26,8 @@ import java.util.Optional;
  * and the replacement of the old full-height strips with a top rim and outlet.
  * The union returned here preserves the old occupied volume but does not claim
  * parity for internal clipping planes created by the old separate boxes.
- * Earlier profile geometry is not established by this comparison, so those
- * profiles keep their native result.
+ * Earlier profile geometry is not established by this comparison, so the
+ * separate 1.11.2 native-fallback fence preserves their native result.
  */
 @MovementChange(emulates = ParkourVersion.V1_12)
 public final class HopperCollisionShape implements BlockCollisionShapeHook {
@@ -42,11 +42,6 @@ public final class HopperCollisionShape implements BlockCollisionShapeHook {
     @Override
     public String blockId() {
         return "minecraft:hopper";
-    }
-
-    @Override
-    public boolean supports(ParkourVersion selected) {
-        return selected == ParkourVersion.V1_12;
     }
 
     @Override
