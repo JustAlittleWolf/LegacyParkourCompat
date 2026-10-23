@@ -49,6 +49,7 @@
     "EntityJumpAccessor",
     "EntityJumpFactorAccess",
     "ClientPacketListenerMixin",
+    "ClientPacketListenerRespawnMixin",
     "LocalPlayerMixin",
     "LocalPlayerSprintMixin",
     "client.LocalPlayerAccessor",
