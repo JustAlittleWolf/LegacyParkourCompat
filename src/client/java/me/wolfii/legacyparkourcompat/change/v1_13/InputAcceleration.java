@@ -15,8 +15,12 @@ import net.minecraft.world.phys.Vec3;
  * Mojmap 1.14.4 Entity#moveRelative and #getInputVector replace this with
  * double Vec3 math and a 1.0E-7 cutoff; unobfuscated 26.2 Entity#moveRelative
  * and #getInputVector retain it. This hook consumes supported player input
- * before that generic helper; InputVectorHook covers its remaining diagonal
- * keyboard path. The tiny-input cutoff's ordinary-tick reachability is not
+ * before that generic helper. Its player-side wrapper returns before
+ * Entity#getInputVector whenever the historical operation is admitted,
+ * including diagonal keyboard input. No separate 1.13 InputVectorHook change
+ * is needed: a second hook at that call would be unreachable on the admitted
+ * path and would alter native fallback when modern movement features fail
+ * these gates. The tiny-input cutoff's ordinary-tick reachability is not
  * established by the accepted source comparison.
  * Below the old cutoff do not write velocity at all, preserving signed zero.
  * Earlier two-axis helpers need separate applicability; unsupported modern

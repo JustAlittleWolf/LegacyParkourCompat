@@ -181,18 +181,7 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
         target = "Lnet/minecraft/world/entity/Entity;getInputVector(Lnet/minecraft/world/phys/Vec3;FF)Lnet/minecraft/world/phys/Vec3;"
     ))
     private Vec3 legacyparkourcompat$inputVector(Vec3 input, float speed, float yaw, Operation<Vec3> original) {
-        Entity self = (Entity) (Object) this;
-        if (!(self instanceof LocalPlayer player)
-            || !MovementRuntime.appliesTo(player)
-            || !(player.input instanceof KeyboardInput)
-            || !OrdinaryPlayerContext.matches(player)) {
-            return original.call(input, speed, yaw);
-        }
-        Input keys = player.input.keyPresses;
-        if (!(keys.forward() ^ keys.backward()) || !(keys.left() ^ keys.right())) {
-            return original.call(input, speed, yaw);
-        }
-        return MovementRuntime.find(InputVectorHook.class, self)
+        return MovementRuntime.find(InputVectorHook.class, (Entity)(Object)this)
             .map(hook -> hook.inputVector(input, speed, yaw, () -> original.call(input, speed, yaw)))
             .orElseGet(() -> original.call(input, speed, yaw));
     }
