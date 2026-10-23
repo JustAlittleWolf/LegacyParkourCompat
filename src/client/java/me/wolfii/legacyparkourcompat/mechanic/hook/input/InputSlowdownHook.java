@@ -35,15 +35,6 @@ public interface InputSlowdownHook extends VersionedMechanic {
     /** Scale each raw movement impulse once, before subsequent input multipliers. */
     float scaleImpulse(float impulse);
 
-    /**
-     * Factor used by the current client's later LocalPlayer.modifyInput stage.
-     * Historical keyboard implementations that already applied their slowdown
-     * return one here to avoid applying the sneaking-speed factor a second time.
-     */
-    default float modifyInputFactor(float nativeFactor) {
-        return nativeFactor;
-    }
-
     /** Exact KeyboardInput.tick then LocalPlayer.aiStep item-use ordering in both 1.14 branches. */
     default Vec2 keyboardInput(Player player, boolean sampledPose, float left, float forward) {
         if (shouldSlowDown(player, sampledPose)) {

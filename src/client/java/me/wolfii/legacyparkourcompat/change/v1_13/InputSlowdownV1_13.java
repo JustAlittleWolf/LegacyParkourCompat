@@ -45,8 +45,4 @@ public final class InputSlowdownV1_13 implements InputSlowdownHook {
         return (float)(impulse * 0.3);
     }
 
-    @Override
-    public float modifyInputFactor(float nativeFactor) {
-        return 1.0F;
-    }
 }

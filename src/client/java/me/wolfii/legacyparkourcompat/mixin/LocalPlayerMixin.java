@@ -54,8 +54,6 @@ import net.minecraft.client.player.ClientInput;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.PlayerRideableJumping;
 import net.minecraft.world.entity.player.Input;
 import net.minecraft.world.entity.player.Player;
@@ -138,7 +136,7 @@ abstract class LocalPlayerMixin {
     private Vec2 legacyparkourcompat$keyboardInput;
 
     @WrapOperation(
-        method = {"aiStep()V", "canStartSprinting()Z"},
+        method = {"aiStep()V", "canStartSprinting()Z", "shouldStopRunSprinting()Z"},
         at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/ClientInput;hasForwardImpulse()Z")
     )
     private boolean legacyparkourcompat$storedForwardSprintInput(ClientInput input, Operation<Boolean> vanilla) {
@@ -216,30 +214,6 @@ abstract class LocalPlayerMixin {
                 .keyboardInput(player, sampledPose, left, forward);
             ((ClientInputAccessor)input).legacyparkourcompat$setMoveVector(this.legacyparkourcompat$keyboardInput);
         }
-    }
-
-    @Redirect(
-        method = "modifyInput(Lnet/minecraft/world/phys/Vec2;)Lnet/minecraft/world/phys/Vec2;",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/LivingEntity;getAttributeValue(Lnet/minecraft/core/Holder;)D"
-        )
-    )
-    private double legacyparkourcompat$historicalSneakInputFactor(
-        LivingEntity entity, net.minecraft.core.Holder<?> attribute
-    ) {
-        double nativeFactor = entity.getAttributeValue(attribute);
-        LocalPlayer player = (LocalPlayer) (Object) this;
-        if (player.getPose() != Pose.CROUCHING || player.isSwimming()
-            || player.getAbilities().flying || player.isPassenger()
-            || !(player.input instanceof KeyboardInput)) {
-            return nativeFactor;
-        }
-        // The selected KeyboardInput hook already applied its historical slowdown.
-        return MovementRuntime.find(InputSlowdownHook.class, player)
-            .filter(hook -> hook.supports(player, MovementRuntime.profile(player).target()))
-            .map(hook -> (double) hook.modifyInputFactor((float) nativeFactor))
-            .orElse(nativeFactor);
     }
 
     @WrapOperation(

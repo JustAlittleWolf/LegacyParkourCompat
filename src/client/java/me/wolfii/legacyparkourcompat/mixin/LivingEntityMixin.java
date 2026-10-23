@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
@@ -22,7 +23,6 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.gliding.GlideFallDistanceLimi
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.SupportingBlockPositionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.GroundJumpGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.GroundSpeedHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.travel.UnloadedChunkGravityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.JumpPowerHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.JumpVerticalVelocityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.LavaGroundJumpHook;
@@ -32,6 +32,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.player.SleepPositionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.LevitationFallDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.LiquidJumpGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.MovementChunkLookupHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.UnloadedChunkGravityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerDimensionsHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.PortalDismountHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.PowderSnowClimbHook;
@@ -61,7 +62,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.Vec3;
 import org.objectweb.asm.Opcodes;
@@ -335,10 +335,13 @@ abstract class LivingEntityMixin {
     private boolean legacyparkourcompat$hasMovementChunk(Level level, BlockPos position) {
         LivingEntity entity = (LivingEntity) (Object) this;
         var behavior = MovementRuntime.find(MovementChunkLookupHook.class, entity);
-        if (behavior.isEmpty() || !(entity instanceof net.minecraft.world.entity.player.Player)) {
-            return level.hasChunkAt(position);
-        }
-        return behavior.orElseThrow().hasChunkAt(entity, level, position, () -> level.hasChunkAt(position));
+        boolean movementChunkLoaded = behavior
+            .filter(ignored -> entity instanceof net.minecraft.world.entity.player.Player)
+            .map(change -> change.hasChunkAt(entity, level, position, () -> level.hasChunkAt(position)))
+            .orElseGet(() -> level.hasChunkAt(position));
+        return MovementRuntime.find(UnloadedChunkGravityHook.class, entity)
+            .map(change -> change.chunkIsLoaded(entity, level, position, movementChunkLoaded))
+            .orElse(movementChunkLoaded);
     }
 
     @Shadow
@@ -644,23 +647,15 @@ abstract class LivingEntityMixin {
             .orElse(component);
     }
 
-    @Redirect(
+    @ModifyExpressionValue(
         method = "travelInAir(Lnet/minecraft/world/phys/Vec3;)V",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/world/level/LevelReader;hasChunkAt(Lnet/minecraft/core/BlockPos;)Z"
-        )
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getMinY()I")
     )
-    private boolean legacyparkourcompat$unloadedChunkGravity(LevelReader levelReader, BlockPos pos) {
-        boolean nativeHasChunk = levelReader.hasChunkAt(pos);
+    private int legacyparkourcompat$unloadedChunkGravityFloor(int nativeMinimumY) {
         LivingEntity entity = (LivingEntity) (Object) this;
-        if (!(levelReader instanceof Level level)) {
-            return nativeHasChunk;
-        }
-        BlockPos historicalChunkPos = new BlockPos(pos.getX(), 0, pos.getZ());
         return MovementRuntime.find(UnloadedChunkGravityHook.class, entity)
-            .map(hook -> hook.chunkIsLoaded(nativeHasChunk, level.isLoaded(historicalChunkPos)))
-            .orElse(nativeHasChunk);
+            .map(hook -> hook.gravityFallbackMinimumY(entity, nativeMinimumY))
+            .orElse(nativeMinimumY);
     }
 
     @Redirect(
