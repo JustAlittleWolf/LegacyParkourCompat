@@ -3,6 +3,8 @@ package me.wolfii.legacyparkourcompat.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.CollisionShapeSourceContext;
+import com.llamalad7.mixinextras.sugar.Local;
 import me.wolfii.legacyparkourcompat.mechanic.PistonHeadCollisionScanner;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.BlockCollisionScanHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.FullCubeOverlapHook;
@@ -88,4 +90,14 @@ abstract class BlockCollisionsMixin<T> {
                 () -> original.call(query, x, y, z, maxX, maxY, maxZ)))
             .orElseGet(() -> original.call(query, x, y, z, maxX, maxY, maxZ));
     }
+
+    @WrapOperation(method = "computeNext", at = @At(value = "INVOKE", target =
+        "Ljava/util/function/BiFunction;apply(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"))
+    private Object legacyparkourcompat$recordShapeSource(BiFunction<?, ?, ?> provider, Object pos,
+        Object shape, Operation<Object> original, @Local BlockState state) {
+        CollisionShapeSourceContext.record(
+            (VoxelShape) shape, state, (BlockPos) pos);
+        return original.call(provider, pos, shape);
+    }
+
 }

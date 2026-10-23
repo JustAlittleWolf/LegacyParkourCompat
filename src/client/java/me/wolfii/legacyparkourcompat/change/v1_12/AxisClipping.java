@@ -2,6 +2,8 @@ package me.wolfii.legacyparkourcompat.change.v1_12;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.CollisionShapeSourceContext;
+import net.minecraft.world.level.block.Blocks;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.AxisClippingHook;
 import net.minecraft.core.Direction;
 import net.minecraft.world.phys.AABB;
@@ -19,11 +21,16 @@ import java.util.OptionalDouble;
  * Entity.collideWithShapes delegates to Shapes.collide and VoxelShape.collideX,
  * which retain both the outer distance cutoff and voxel sampling tolerances.
  *
- * Only single-AABB shapes have a proven correspondence to the generic old
- * Box provider (including the full-cube witness). Empty shapes add no box.
- * Compound voxel decomposition is not proof of the old provider's box list:
- * internal faces can matter when starting inside a shape. Such a call keeps
- * native clipping pending independent provider/decomposition source closure.
+ * The closed provider witness is stone: Ornithe Feather 1.12.2 StoneBlock
+ * inherits Block.addCollisions, getCollisionShape and getShape, supplying one
+ * FULL_BLOCK_SHAPE translated to the block position. Provider provenance is
+ * captured from 26.2 BlockCollisions.computeNext's actual emitted shape.
+ * Accept only that block and its exact translated unit cube. Unknown sources
+ * retain native clipping for the entire axis call.
+ * A single modern AABB is insufficient: 1.12.2 ChorusPlantBlock.addCollisions
+ * emits core and arm boxes separately, whereas 1.13.2 PipeBlock's shape union
+ * and 26.2 VoxelShape.forAllBoxes can merge them, hiding an internal face.
+ * Other provider families remain open even if their shape merges to one box.
  * This is one axis operation; axis order and collision queries resolve separately.
  */
 @MovementChange(emulates = ParkourVersion.V1_12)
@@ -32,11 +39,24 @@ public final class AxisClipping implements AxisClippingHook {
     public OptionalDouble clip(Direction.Axis axis, AABB moving, Iterable<VoxelShape> shapes, double distance) {
         var boxes = new ArrayList<AABB>();
         for (VoxelShape shape : shapes) {
-            var parts = shape.toAabbs();
-            if (parts.size() > 1) {
+            if (shape.isEmpty()) {
+                continue;
+            }
+            var source = CollisionShapeSourceContext.source(shape);
+            if (source == null || !source.state().is(Blocks.STONE)) {
                 return OptionalDouble.empty();
             }
-            boxes.addAll(parts);
+            var parts = shape.toAabbs();
+            var pos = source.pos();
+            if (parts.size() != 1) {
+                return OptionalDouble.empty();
+            }
+            AABB box = parts.getFirst();
+            if (box.minX != pos.getX() || box.minY != pos.getY() || box.minZ != pos.getZ()
+                || box.maxX != pos.getX() + 1.0 || box.maxY != pos.getY() + 1.0 || box.maxZ != pos.getZ() + 1.0) {
+                return OptionalDouble.empty();
+            }
+            boxes.add(box);
         }
         Direction.Axis transverseA = axis == Direction.Axis.X ? Direction.Axis.Y : Direction.Axis.X;
         Direction.Axis transverseB = axis == Direction.Axis.Z ? Direction.Axis.Y : Direction.Axis.Z;
