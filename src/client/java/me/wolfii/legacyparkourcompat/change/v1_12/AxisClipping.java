@@ -1,83 +1,259 @@
 package me.wolfii.legacyparkourcompat.change.v1_12;
 
+import java.util.OptionalDouble;
+import java.util.Set;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+import me.wolfii.legacyparkourcompat.change.common.StrictAxisClipping;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
-import me.wolfii.legacyparkourcompat.mechanic.CollisionShapeSourceContext;
-import net.minecraft.world.level.block.Blocks;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.AxisClippingHook;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import java.util.ArrayList;
-import java.util.OptionalDouble;
 
 /**
- * Ornithe Feather 1.12.2 Box.intersectX/intersectY/intersectZ, called by
- * Entity.move, reject exact transverse contact and clip only when the moving
- * box lies wholly before/after the obstacle along the movement axis. No
- * distance or overlap epsilon is used. Ornithe Feather 1.13 VoxelShapes
- * m_84966497/m_14725303 introduce the 1.0E-7 sampling and distance tolerances;
- * 1.13.2 VoxelShape.calculateMaxDistance retains them. 26.2 unobfuscated
- * Entity.collideWithShapes delegates to Shapes.collide and VoxelShape.collideX,
- * which retain both the outer distance cutoff and voxel sampling tolerances.
+ * Provider geometry evidence: Ornithe Feather 1.12.2 Block.registerBlocks and
+ * the registered classes/superclasses for the 106 old default-provider IDs below
+ * reach Block.addCollisions -> getCollisionShape -> BlockState.getShape ->
+ * Block.getShape (FULL_BLOCK_SHAPE). Their 219 modern keys, including flattened
+ * metadata families, reach 26.2 unobfuscated BlockBehaviour.getCollisionShape
+ * and getShape (Shapes.block); Blocks registrations and ColorCollection families
+ * retain hasCollision. FrostedIceBlock/BlockIds cover all AGE states as well.
+ * Native block states stay unchanged: metadata conversion does not affect this
+ * single full-cube geometry. The emitted shape is still checked at runtime.
  *
- * The closed provider witness is stone: Ornithe Feather 1.12.2 StoneBlock
- * inherits Block.addCollisions, getCollisionShape and getShape, supplying one
- * FULL_BLOCK_SHAPE translated to the block position. Provider provenance is
- * captured from 26.2 BlockCollisions.computeNext's actual emitted shape.
- * Accept only that block and its exact translated unit cube. Unknown sources
- * retain native clipping for the entire axis call.
- * A single modern AABB is insufficient: 1.12.2 ChorusPlantBlock.addCollisions
- * emits core and arm boxes separately, whereas 1.13.2 PipeBlock's shape union
- * and 26.2 VoxelShape.forAllBoxes can merge them, hiding an internal face.
- * Other provider families remain open even if their shape merges to one box.
- * This is one axis operation; axis order and collision queries resolve separately.
+ * This is the exact 1.12.2 source representative for the grouped 1.12 profile;
+ * patch-level parity is not established. The 1.11.2 fence preserves earlier
+ * stone-only behavior without extending this provider proof backwards.
+ * Static piston bases, moving pistons and compound providers are excluded.
  */
 @MovementChange(emulates = ParkourVersion.V1_12)
 public final class AxisClipping implements AxisClippingHook {
+    private static final Set<String> FULL_CUBE_PROVIDERS = Set.of(
+        "minecraft:acacia_leaves",
+        "minecraft:acacia_log",
+        "minecraft:acacia_planks",
+        "minecraft:acacia_wood",
+        "minecraft:andesite",
+        "minecraft:barrier",
+        "minecraft:beacon",
+        "minecraft:bedrock",
+        "minecraft:birch_leaves",
+        "minecraft:birch_log",
+        "minecraft:birch_planks",
+        "minecraft:birch_wood",
+        "minecraft:black_concrete",
+        "minecraft:black_concrete_powder",
+        "minecraft:black_glazed_terracotta",
+        "minecraft:black_stained_glass",
+        "minecraft:black_terracotta",
+        "minecraft:black_wool",
+        "minecraft:blue_concrete",
+        "minecraft:blue_concrete_powder",
+        "minecraft:blue_glazed_terracotta",
+        "minecraft:blue_stained_glass",
+        "minecraft:blue_terracotta",
+        "minecraft:blue_wool",
+        "minecraft:bone_block",
+        "minecraft:bookshelf",
+        "minecraft:bricks",
+        "minecraft:brown_concrete",
+        "minecraft:brown_concrete_powder",
+        "minecraft:brown_glazed_terracotta",
+        "minecraft:brown_mushroom_block",
+        "minecraft:brown_stained_glass",
+        "minecraft:brown_terracotta",
+        "minecraft:brown_wool",
+        "minecraft:carved_pumpkin",
+        "minecraft:chain_command_block",
+        "minecraft:chiseled_quartz_block",
+        "minecraft:chiseled_red_sandstone",
+        "minecraft:chiseled_sandstone",
+        "minecraft:chiseled_stone_bricks",
+        "minecraft:chorus_flower",
+        "minecraft:clay",
+        "minecraft:coal_block",
+        "minecraft:coal_ore",
+        "minecraft:cobblestone",
+        "minecraft:command_block",
+        "minecraft:cracked_stone_bricks",
+        "minecraft:crafting_table",
+        "minecraft:cyan_concrete",
+        "minecraft:cyan_concrete_powder",
+        "minecraft:cyan_glazed_terracotta",
+        "minecraft:cyan_stained_glass",
+        "minecraft:cyan_terracotta",
+        "minecraft:cyan_wool",
+        "minecraft:dark_oak_leaves",
+        "minecraft:dark_oak_log",
+        "minecraft:dark_oak_planks",
+        "minecraft:dark_oak_wood",
+        "minecraft:dark_prismarine",
+        "minecraft:diamond_block",
+        "minecraft:diamond_ore",
+        "minecraft:diorite",
+        "minecraft:dirt",
+        "minecraft:dispenser",
+        "minecraft:dropper",
+        "minecraft:emerald_block",
+        "minecraft:emerald_ore",
+        "minecraft:end_stone",
+        "minecraft:end_stone_bricks",
+        "minecraft:frosted_ice",
+        "minecraft:furnace",
+        "minecraft:glass",
+        "minecraft:glowstone",
+        "minecraft:gold_block",
+        "minecraft:gold_ore",
+        "minecraft:granite",
+        "minecraft:grass_block",
+        "minecraft:gravel",
+        "minecraft:gray_concrete",
+        "minecraft:gray_concrete_powder",
+        "minecraft:gray_glazed_terracotta",
+        "minecraft:gray_stained_glass",
+        "minecraft:gray_terracotta",
+        "minecraft:gray_wool",
+        "minecraft:green_concrete",
+        "minecraft:green_concrete_powder",
+        "minecraft:green_glazed_terracotta",
+        "minecraft:green_stained_glass",
+        "minecraft:green_terracotta",
+        "minecraft:green_wool",
+        "minecraft:hay_block",
+        "minecraft:ice",
+        "minecraft:infested_chiseled_stone_bricks",
+        "minecraft:infested_cobblestone",
+        "minecraft:infested_cracked_stone_bricks",
+        "minecraft:infested_mossy_stone_bricks",
+        "minecraft:infested_stone",
+        "minecraft:infested_stone_bricks",
+        "minecraft:iron_block",
+        "minecraft:iron_ore",
+        "minecraft:jack_o_lantern",
+        "minecraft:jukebox",
+        "minecraft:jungle_leaves",
+        "minecraft:jungle_log",
+        "minecraft:jungle_planks",
+        "minecraft:jungle_wood",
+        "minecraft:lapis_block",
+        "minecraft:lapis_ore",
+        "minecraft:light_blue_concrete",
+        "minecraft:light_blue_concrete_powder",
+        "minecraft:light_blue_glazed_terracotta",
+        "minecraft:light_blue_stained_glass",
+        "minecraft:light_blue_terracotta",
+        "minecraft:light_blue_wool",
+        "minecraft:light_gray_concrete",
+        "minecraft:light_gray_concrete_powder",
+        "minecraft:light_gray_glazed_terracotta",
+        "minecraft:light_gray_stained_glass",
+        "minecraft:light_gray_terracotta",
+        "minecraft:light_gray_wool",
+        "minecraft:lime_concrete",
+        "minecraft:lime_concrete_powder",
+        "minecraft:lime_glazed_terracotta",
+        "minecraft:lime_stained_glass",
+        "minecraft:lime_terracotta",
+        "minecraft:lime_wool",
+        "minecraft:magenta_concrete",
+        "minecraft:magenta_concrete_powder",
+        "minecraft:magenta_glazed_terracotta",
+        "minecraft:magenta_stained_glass",
+        "minecraft:magenta_terracotta",
+        "minecraft:magenta_wool",
+        "minecraft:magma_block",
+        "minecraft:melon",
+        "minecraft:mossy_cobblestone",
+        "minecraft:mossy_stone_bricks",
+        "minecraft:mycelium",
+        "minecraft:nether_bricks",
+        "minecraft:nether_quartz_ore",
+        "minecraft:nether_wart_block",
+        "minecraft:netherrack",
+        "minecraft:note_block",
+        "minecraft:oak_leaves",
+        "minecraft:oak_log",
+        "minecraft:oak_planks",
+        "minecraft:oak_wood",
+        "minecraft:observer",
+        "minecraft:obsidian",
+        "minecraft:orange_concrete",
+        "minecraft:orange_concrete_powder",
+        "minecraft:orange_glazed_terracotta",
+        "minecraft:orange_stained_glass",
+        "minecraft:orange_terracotta",
+        "minecraft:orange_wool",
+        "minecraft:packed_ice",
+        "minecraft:pink_concrete",
+        "minecraft:pink_concrete_powder",
+        "minecraft:pink_glazed_terracotta",
+        "minecraft:pink_stained_glass",
+        "minecraft:pink_terracotta",
+        "minecraft:pink_wool",
+        "minecraft:polished_andesite",
+        "minecraft:polished_diorite",
+        "minecraft:polished_granite",
+        "minecraft:prismarine",
+        "minecraft:prismarine_bricks",
+        "minecraft:purple_concrete",
+        "minecraft:purple_concrete_powder",
+        "minecraft:purple_glazed_terracotta",
+        "minecraft:purple_stained_glass",
+        "minecraft:purple_terracotta",
+        "minecraft:purple_wool",
+        "minecraft:purpur_block",
+        "minecraft:purpur_pillar",
+        "minecraft:quartz_block",
+        "minecraft:quartz_pillar",
+        "minecraft:red_concrete",
+        "minecraft:red_concrete_powder",
+        "minecraft:red_glazed_terracotta",
+        "minecraft:red_mushroom_block",
+        "minecraft:red_nether_bricks",
+        "minecraft:red_sandstone",
+        "minecraft:red_stained_glass",
+        "minecraft:red_terracotta",
+        "minecraft:red_wool",
+        "minecraft:redstone_block",
+        "minecraft:redstone_lamp",
+        "minecraft:redstone_ore",
+        "minecraft:repeating_command_block",
+        "minecraft:sand",
+        "minecraft:sandstone",
+        "minecraft:sea_lantern",
+        "minecraft:slime_block",
+        "minecraft:smooth_red_sandstone",
+        "minecraft:smooth_sandstone",
+        "minecraft:snow_block",
+        "minecraft:spawner",
+        "minecraft:sponge",
+        "minecraft:spruce_leaves",
+        "minecraft:spruce_log",
+        "minecraft:spruce_planks",
+        "minecraft:spruce_wood",
+        "minecraft:stone",
+        "minecraft:stone_bricks",
+        "minecraft:structure_block",
+        "minecraft:terracotta",
+        "minecraft:tnt",
+        "minecraft:white_concrete",
+        "minecraft:white_concrete_powder",
+        "minecraft:white_glazed_terracotta",
+        "minecraft:white_stained_glass",
+        "minecraft:white_terracotta",
+        "minecraft:white_wool",
+        "minecraft:yellow_concrete",
+        "minecraft:yellow_concrete_powder",
+        "minecraft:yellow_glazed_terracotta",
+        "minecraft:yellow_stained_glass",
+        "minecraft:yellow_terracotta",
+        "minecraft:yellow_wool"
+    );
+
     @Override
     public OptionalDouble clip(Direction.Axis axis, AABB moving, Iterable<VoxelShape> shapes, double distance) {
-        var boxes = new ArrayList<AABB>();
-        for (VoxelShape shape : shapes) {
-            if (shape.isEmpty()) {
-                continue;
-            }
-            var source = CollisionShapeSourceContext.source(shape);
-            if (source == null || !source.state().is(Blocks.STONE)) {
-                return OptionalDouble.empty();
-            }
-            var parts = shape.toAabbs();
-            var pos = source.pos();
-            if (parts.size() != 1) {
-                return OptionalDouble.empty();
-            }
-            AABB box = parts.getFirst();
-            if (box.minX != pos.getX() || box.minY != pos.getY() || box.minZ != pos.getZ()
-                || box.maxX != pos.getX() + 1.0 || box.maxY != pos.getY() + 1.0 || box.maxZ != pos.getZ() + 1.0) {
-                return OptionalDouble.empty();
-            }
-            boxes.add(box);
-        }
-        Direction.Axis transverseA = axis == Direction.Axis.X ? Direction.Axis.Y : Direction.Axis.X;
-        Direction.Axis transverseB = axis == Direction.Axis.Z ? Direction.Axis.Y : Direction.Axis.Z;
-        for (AABB box : boxes) {
-            if (!(moving.max(transverseA) <= box.min(transverseA))
-                && !(moving.min(transverseA) >= box.max(transverseA))
-                && !(moving.max(transverseB) <= box.min(transverseB))
-                && !(moving.min(transverseB) >= box.max(transverseB))) {
-                if (distance > 0.0 && moving.max(axis) <= box.min(axis)) {
-                    double gap = box.min(axis) - moving.max(axis);
-                    if (gap < distance) {
-                        distance = gap;
-                    }
-                } else if (distance < 0.0 && moving.min(axis) >= box.max(axis)) {
-                    double gap = box.max(axis) - moving.min(axis);
-                    if (gap > distance) {
-                        distance = gap;
-                    }
-                }
-            }
-        }
-        return OptionalDouble.of(distance);
+        return StrictAxisClipping.clip(axis, moving, shapes, distance,
+            state -> FULL_CUBE_PROVIDERS.contains(BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString()));
     }
 }
