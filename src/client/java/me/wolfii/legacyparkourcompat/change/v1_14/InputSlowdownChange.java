@@ -41,4 +41,5 @@ public final class InputSlowdownChange implements InputSlowdownHook {
     public float scaleImpulse(float impulse) {
         return (float)(impulse * 0.3);
     }
+
 }

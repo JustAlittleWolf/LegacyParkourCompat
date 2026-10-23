@@ -6,6 +6,14 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.input.InputSlowdownHook;
 import net.minecraft.world.entity.player.Player;
 
 /**
+ * Ornithe Feather 1.13.2 PlayerEntity#updatePlayerPose changes dimensions
+ * when the selected crouch box fits, while KeyboardInput#tick slows input only
+ * when the sneak key is down. Mojmap 1.14.4 Player#updatePlayerPose can select
+ * Pose.SNEAKING when standing does not fit, and LocalPlayer#modifyInput applies
+ * its sneaking-speed attribute to that forced pose. Unobfuscated 26.2 retains
+ * the forced-pose attribute path in LocalPlayer#modifyInput. This hook keeps
+ * the old key-driven slowdown operation separate from pose selection.
+ *
  * The 1.8.9 and 1.13.2 Feather mappings
  * ({@code 1.8.9/ornithe-feather/net/minecraft/client/entity/living/player/KeyboardInput.java#tick}
  * and
@@ -36,4 +44,5 @@ public final class InputSlowdownV1_13 implements InputSlowdownHook {
     public float scaleImpulse(float impulse) {
         return (float)(impulse * 0.3);
     }
+
 }

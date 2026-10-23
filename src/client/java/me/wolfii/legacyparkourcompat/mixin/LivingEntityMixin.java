@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
@@ -31,6 +32,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.player.SleepPositionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.LevitationFallDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.LiquidJumpGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.MovementChunkLookupHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.UnloadedChunkGravityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerDimensionsHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.PortalDismountHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.PowderSnowClimbHook;
@@ -333,10 +335,13 @@ abstract class LivingEntityMixin {
     private boolean legacyparkourcompat$hasMovementChunk(Level level, BlockPos position) {
         LivingEntity entity = (LivingEntity) (Object) this;
         var behavior = MovementRuntime.find(MovementChunkLookupHook.class, entity);
-        if (behavior.isEmpty() || !(entity instanceof net.minecraft.world.entity.player.Player)) {
-            return level.hasChunkAt(position);
-        }
-        return behavior.orElseThrow().hasChunkAt(entity, level, position, () -> level.hasChunkAt(position));
+        boolean movementChunkLoaded = behavior
+            .filter(ignored -> entity instanceof net.minecraft.world.entity.player.Player)
+            .map(change -> change.hasChunkAt(entity, level, position, () -> level.hasChunkAt(position)))
+            .orElseGet(() -> level.hasChunkAt(position));
+        return MovementRuntime.find(UnloadedChunkGravityHook.class, entity)
+            .map(change -> change.chunkIsLoaded(entity, level, position, movementChunkLoaded))
+            .orElse(movementChunkLoaded);
     }
 
     @Shadow
@@ -640,6 +645,17 @@ abstract class LivingEntityMixin {
         return MovementRuntime.find(VelocityZeroThresholdHook.class, entity)
             .map(behavior -> behavior.filterComponent(entity, component))
             .orElse(component);
+    }
+
+    @ModifyExpressionValue(
+        method = "travelInAir(Lnet/minecraft/world/phys/Vec3;)V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getMinY()I")
+    )
+    private int legacyparkourcompat$unloadedChunkGravityFloor(int nativeMinimumY) {
+        LivingEntity entity = (LivingEntity) (Object) this;
+        return MovementRuntime.find(UnloadedChunkGravityHook.class, entity)
+            .map(hook -> hook.gravityFallbackMinimumY(entity, nativeMinimumY))
+            .orElse(nativeMinimumY);
     }
 
     @Redirect(

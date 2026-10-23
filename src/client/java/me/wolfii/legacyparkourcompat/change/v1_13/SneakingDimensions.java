@@ -8,7 +8,12 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 
 /**
- * The 1.13.2 crouch height. Modern swimming and crawl dimensions stay native.
+ * Ornithe Feather 1.13.2 PlayerEntity#updatePlayerPose uses a 0.6 by 1.65
+ * crouch box; Mojmap 1.14.4 Player#updatePlayerPose selects the 0.6 by 1.5
+ * crouch dimensions. Unobfuscated 26.2 Avatar#getDefaultDimensions supplies
+ * the native dimensions, including modern width and attachments, which this
+ * hook preserves while restoring the historical height. Modern swimming and
+ * crawl dimensions stay native.
  * Historical collision-checked pose resizing is deferred: replacing native pose
  * selection also prevents entry into modern-only crawling on older profiles.
  *
@@ -26,7 +31,9 @@ public final class SneakingDimensions implements PlayerDimensionsHook {
     @Override
     public EntityDimensions dimensions(Player player, Pose pose, EntityDimensions vanilla) {
         if (pose == Pose.CROUCHING) {
-            return EntityDimensions.scalable(0.6F, 1.65F).withEyeHeight(vanilla.eyeHeight());
+            return new EntityDimensions(
+                vanilla.width(), 1.65F, vanilla.eyeHeight(), vanilla.attachments(), vanilla.fixed()
+            );
         }
         return vanilla;
     }
