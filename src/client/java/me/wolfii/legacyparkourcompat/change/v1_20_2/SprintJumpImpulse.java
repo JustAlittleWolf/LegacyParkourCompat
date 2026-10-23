@@ -8,33 +8,25 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Retains float yaw/trig multiplication by 0.2F before widening the impulse into
- * Vec3. The grouped 1.20.2/1.20.3/1.20.4 profile and earlier profiles share this
- * operation; the next group starts at the changed 1.20.5 double multiplication.
+ * Historical sprint-jump yaw and impulse arithmetic. Minecraft 1.19.4, 1.20.2,
+ * 1.20.3 and 1.20.4 (Mojmap), net.minecraft.world.entity.LivingEntity#jumpFromGround,
+ * multiply the float sine/cosine terms by 0.2F before widening each rounded
+ * product to double. Minecraft 1.20.5 and 1.20.6 (Mojmap), same class/member,
+ * instead multiply by double 0.2; Minecraft 26.2 (unobfuscated), same
+ * class/member, retains those double products.
  *
- * Source evidence (paths are relative to decompiled_minecraft/):
- * 1.19.4/mojmap/net/minecraft/world/entity/LivingEntity.java:
- *   jumpFromGround uses the same float yaw and 0.2F impulse.
- * 1.20.5/mojmap/net/minecraft/world/entity/LivingEntity.java:
- *   jumpFromGround multiplies widened trig values by double 0.2.
- * 1.20.4/mojmap/net/minecraft/util/Mth.java:
- *   sin.
- * 1.20.4/mojmap/net/minecraft/world/entity/Entity.java:
- *   addDeltaMovement.
- * 1.20.4/mojmap/net/minecraft/world/entity/LivingEntity.java:
- *   jumpFromGround.
- *   getJumpPower.
- * 1.20.4/mojmap/net/minecraft/world/phys/Vec3.java:
- *   add.
- * 1.20.6/mojmap/net/minecraft/util/Mth.java:
- *   sin.
- * 1.20.6/mojmap/net/minecraft/world/entity/Entity.java:
- *   addDeltaMovement.
- * 1.20.6/mojmap/net/minecraft/world/entity/LivingEntity.java:
- *   jumpFromGround.
- * 1.20.6/mojmap/net/minecraft/world/phys/Vec3.java:
- *   add.
- * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ * Minecraft 1.20.4 (Mojmap), net.minecraft.util.Mth#SIN initialization, #sin
+ * and #cos, supplies the float table/index arithmetic preserved by LegacyTrig.
+ * Minecraft 26.2 (unobfuscated), same class/members, uses different double
+ * table/index arithmetic, so its trig results cannot supply the old products.
+ * The float yaw expression is preserved in all the compared jumpFromGround
+ * members. This reuses the existing historical helper and earlier coverage;
+ * V1_20_2 includes 1.20.3 and 1.20.4, immediately before the 1.20.5 cutover.
+ *
+ * Only the impulse argument is replaced after native sprint/jump eligibility.
+ * The newer low-jump-power gate is independent of this precision change;
+ * ordinary default jump power passes it. Source correspondence does not
+ * establish tick-level runtime parity.
  */
 @MovementChange(emulates = ParkourVersion.V1_20_2)
 public final class SprintJumpImpulse implements SprintJumpImpulseHook {
