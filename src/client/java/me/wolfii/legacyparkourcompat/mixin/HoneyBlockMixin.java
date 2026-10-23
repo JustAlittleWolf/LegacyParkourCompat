@@ -31,9 +31,9 @@ abstract class HoneyBlockMixin {
     )
     private double legacyparkourcompat$historicalSlideGate(
         double actualDeltaY,
+        Operation<Double> vanilla,
         BlockPos pos,
-        Entity entity,
-        Operation<Double> vanilla
+        Entity entity
     ) {
         return legacyparkourcompat$oldDeltaY(entity, actualDeltaY, vanilla);
     }
@@ -47,8 +47,8 @@ abstract class HoneyBlockMixin {
     )
     private double legacyparkourcompat$historicalSlideThrottle(
         double actualDeltaY,
-        Entity entity,
-        Operation<Double> vanilla
+        Operation<Double> vanilla,
+        Entity entity
     ) {
         return legacyparkourcompat$oldDeltaY(entity, actualDeltaY, vanilla);
     }
@@ -62,8 +62,8 @@ abstract class HoneyBlockMixin {
     )
     private double legacyparkourcompat$historicalSlideVelocity(
         double deltaY,
-        Entity entity,
-        Operation<Double> vanilla
+        Operation<Double> vanilla,
+        Entity entity
     ) {
         if (entity instanceof Player player
             && MovementRuntime.appliesTo(player)

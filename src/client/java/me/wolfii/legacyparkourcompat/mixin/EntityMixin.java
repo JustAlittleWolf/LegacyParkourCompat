@@ -38,7 +38,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.RetainedWaterDepthHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.push.PlayerPushNormalizationHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.SwimmingUpdateHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
-import me.wolfii.legacyparkourcompat.mixin.accessor.WaterJumpDepthAccess;
+import me.wolfii.legacyparkourcompat.movement.access.WaterJumpDepthAccess;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -87,7 +87,7 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
             ordinal = 0
         )
     )
-    private void legacyparkourcompat$normalizeFirstPushRecipient(Entity other, Args arguments) {
+    private void legacyparkourcompat$normalizeFirstPushRecipient(Args arguments, Entity other) {
         this.legacyparkourcompat$normalizePushRecipient((Entity) (Object) this, other, arguments);
     }
 
@@ -99,7 +99,7 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
             ordinal = 1
         )
     )
-    private void legacyparkourcompat$normalizeSecondPushRecipient(Entity other, Args arguments) {
+    private void legacyparkourcompat$normalizeSecondPushRecipient(Args arguments, Entity other) {
         this.legacyparkourcompat$normalizePushRecipient(other, (Entity) (Object) this, arguments);
     }
 

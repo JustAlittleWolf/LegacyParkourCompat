@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.mixin.accessor;
+package me.wolfii.legacyparkourcompat.movement.access;
 
 /** Per-entity state needed to reproduce the historical skipped fluid-depth write. */
 public interface WaterJumpDepthAccess {
