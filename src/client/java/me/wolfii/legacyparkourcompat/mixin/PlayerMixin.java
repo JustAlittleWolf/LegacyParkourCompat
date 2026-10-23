@@ -2,10 +2,8 @@ package me.wolfii.legacyparkourcompat.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import me.wolfii.legacyparkourcompat.mechanic.AirSpeedState;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.AirSpeedHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.travel.AirSpeedUpdateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.FlightFallDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerPoseHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PoseClearanceHook;
@@ -29,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
-abstract class PlayerMixin implements AirSpeedState {
+abstract class PlayerMixin {
     @ModifyArg(
         method = "canPlayerFitWithinBlocksAndEntitiesWhen(Lnet/minecraft/world/entity/Pose;)Z",
         at = @At(
@@ -114,24 +112,25 @@ abstract class PlayerMixin implements AirSpeedState {
     @Unique
     private float legacyparkourcompat$storedAirSpeed = 0.02F;
 
-    @Override
-    public float lpc$storedAirSpeed() {
-        return this.legacyparkourcompat$storedAirSpeed;
-    }
-
     @Inject(
         method = "aiStep()V",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Avatar;aiStep()V", shift = At.Shift.AFTER)
     )
     private void legacyparkourcompat$storeAirSpeedAfterTravel(CallbackInfo ci) {
         Player player = (Player) (Object) this;
-        MovementRuntime.find(AirSpeedUpdateHook.class, player)
+        if (!player.isLocalPlayer()) {
+            return;
+        }
+        MovementRuntime.find(AirSpeedHook.class, player)
             .ifPresent(behavior -> this.legacyparkourcompat$storedAirSpeed = behavior.afterAiStep(player));
     }
 
     @Inject(method = "getFlyingSpeed()F", at = @At("RETURN"), cancellable = true)
     private void legacyparkourcompat$useStoredAirSpeed(CallbackInfoReturnable<Float> cir) {
         Player player = (Player) (Object) this;
+        if (!player.isLocalPlayer()) {
+            return;
+        }
         MovementRuntime.find(AirSpeedHook.class, player).ifPresent(behavior ->
             cir.setReturnValue(behavior.speed(player, this.legacyparkourcompat$storedAirSpeed, cir.getReturnValue()))
         );
