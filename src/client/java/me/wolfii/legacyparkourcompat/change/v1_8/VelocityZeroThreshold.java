@@ -15,7 +15,7 @@ import net.minecraft.world.entity.LivingEntity;
  *   public void mobTick().
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class VelocityZeroThreshold implements VelocityZeroThresholdHook {
     private static final double THRESHOLD = 0.005;
 

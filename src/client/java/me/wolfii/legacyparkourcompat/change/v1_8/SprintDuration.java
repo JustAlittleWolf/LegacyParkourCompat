@@ -20,7 +20,7 @@ import java.util.WeakHashMap;
  *   Exact independent source verdict/snapshot identity for MD-01-sprint-timeout
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class SprintDuration implements SprintStateHook, SprintTickHook {
     private final Map<Player, Integer> sprintTimers = new WeakHashMap<>();
 

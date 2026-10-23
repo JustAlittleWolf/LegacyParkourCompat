@@ -18,7 +18,7 @@ import net.minecraft.world.entity.player.Player;
  *   Exact independent source verdict/snapshot identity for MD-06-creative-flight-resets-fall-distance
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class CreativeFlightFallDistance implements FlightFallDistanceHook {
     @Override
     public void beforeMovement(Player player, VanillaCall vanilla) {

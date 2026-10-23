@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
  * movement difference, its registered behavior uses the latest-patch source
  * representative until a minor-version pass adds a dedicated constant.
  *
- * <p>Order is chronological. A {@code @MovementChange(emulates = V1_8)} is the
- * 1.8 behaviour; Minecraft replaced it in {@link #next()}, which is {@link #V1_9}.
+ * <p>Order is chronological. A change emulating {@link #V1_8} matches 1.8
+ * through 1.8.8 and is replaced by {@link #V1_8_9} in 1.8.9.
  *
  * <p>{@link #CURRENT} is the running game / disabled: mixins must not alter Minecraft.
  * Its {@link #id()} is that game's Minecraft version (for example {@code 26.2}).
@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
  *
  * <p>Minor-version splits (Minecraft Wiki + MCPK, 1.8+):
  * <ul>
+ *   <li>{@link #V1_8_9} – exact 1.8.9 profile boundary</li>
  *   <li>{@link #V1_10_1} – farmland collision 1.0 → 0.9375</li>
  *   <li>{@link #V1_11_1} – walls 1b high (MC-111645); restored in {@link #V1_11_2}</li>
  *   <li>{@link #V1_14_2} – forward sprint input threshold and swim-aware sneak slowdown</li>
@@ -54,7 +55,8 @@ import java.util.stream.Collectors;
  * are grouped with {@link #V26_1} (no movement deltas). Pre-1.8 is out of scope.
  */
 public enum ParkourVersion {
-    V1_8("1.8", "1.8.1", "1.8.2", "1.8.3", "1.8.4", "1.8.5", "1.8.6", "1.8.7", "1.8.8", "1.8.9"),
+    V1_8("1.8", "1.8.1", "1.8.2", "1.8.3", "1.8.4", "1.8.5", "1.8.6", "1.8.7", "1.8.8"),
+    V1_8_9("1.8.9"),
     V1_9("1.9", "1.9.1", "1.9.2", "1.9.3", "1.9.4"),
     V1_10("1.10"),
     V1_10_1("1.10.1", "1.10.2"),
@@ -216,7 +218,7 @@ public enum ParkourVersion {
     /**
      * Compact label of the Minecraft releases covered by this version.
      * One release is {@link #id()}; two are {@code 1.20.5/6}; three or more
-     * are {@code 1.8-1.8.9}.
+     * are {@code 1.8-1.8.8}.
      */
     public String displayLabel() {
         if (this.patches.size() <= 1) {

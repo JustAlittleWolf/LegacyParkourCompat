@@ -21,7 +21,7 @@ import java.util.Optional;
  * and its age-indexed shape table. This entry keeps the 1.8 profile on that
  * pre-1.9 geometry when the later age-2 regression is selected for 1.9.
  */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class CocoaCollisionShape implements BlockCollisionShapeHook {
     public CocoaCollisionShape() {
     }

@@ -29,6 +29,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.BoatPassengerFluidPus
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.CollisionRestitutionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.GravityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.InputAccelerationHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.movement.HeadingVelocityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.InputVectorHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.InsideBlockContactHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerFallDistanceResetHook;
@@ -153,11 +154,17 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
     @WrapMethod(method = "moveRelative")
     private void legacyparkourcompat$inputAcceleration(float speed, Vec3 input, Operation<Void> original) {
         Entity entity = (Entity)(Object)this;
-        if (entity instanceof Player player
-            && MovementRuntime.find(InputAccelerationHook.class, player)
+        if (entity instanceof Player player) {
+            if (MovementRuntime.find(HeadingVelocityHook.class, player)
+                .map(hook -> hook.apply(player, speed, input))
+                .orElse(false)) {
+                return;
+            }
+            if (MovementRuntime.find(InputAccelerationHook.class, player)
                 .map(hook -> hook.apply(player, MovementRuntime.profile(player).target(), speed, input))
                 .orElse(false)) {
-            return;
+                return;
+            }
         }
         original.call(speed, input);
     }

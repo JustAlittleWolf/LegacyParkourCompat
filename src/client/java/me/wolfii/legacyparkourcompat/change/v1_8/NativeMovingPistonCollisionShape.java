@@ -18,7 +18,7 @@ import java.util.Optional;
  * 26.2, unobfuscated: native MovingPistonBlock.getCollisionShape delegates to
  * PistonMovingBlockEntity.getCollisionShape.
  */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class NativeMovingPistonCollisionShape implements MovingPistonCollisionShapeHook {
     @Override
     public Optional<VoxelShape> collisionShape(BlockState movedState, Direction direction,

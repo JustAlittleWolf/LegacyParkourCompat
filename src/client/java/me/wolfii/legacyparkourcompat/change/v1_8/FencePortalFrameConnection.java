@@ -27,7 +27,7 @@ import java.util.Optional;
  * Facing and eye state do not affect this predicate. This delta adds only the
  * missing frame arm, retaining the other vanilla fence connections.
  */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class FencePortalFrameConnection implements BlockCollisionShapeHook {
     public static final List<String> BLOCK_IDS = List.of(
         "minecraft:oak_fence",

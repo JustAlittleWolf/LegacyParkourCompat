@@ -26,7 +26,7 @@ import net.minecraft.world.entity.player.Player;
  * No exact independently accepted source binding is established for this operation.
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class RideableJumpCharge implements RideableJumpHook {
     @Override
     public void onPlayerJump(Player player, PlayerRideableJumping mount, int strength, VanillaCall vanilla) {
