@@ -15,17 +15,20 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 
 /**
- * Restores the full old connection-indexed collision box for the two walls present in 1.12.
+ * Restores the full old connection-indexed collision box for the two walls present from
+ * 1.8.9 through 1.12.2.
  *
- * <p>Ornithe Feather 1.12.2 {@code net.minecraft.block.WallBlock#getCollisionShape} selects
- * {@code COLLISION_SHAPES[getShapeIndex(state)]}; {@code getShapeIndex} reads only the four
- * horizontal connection properties and selects one of 16 boxes with maximum Y 24/16.
- * Ornithe Feather 1.13 and 1.13.2 {@code net.minecraft.block.WallBlock#getCollisionShape}
- * selects a component union for UP=true and inherited {@code PaneBlock#getCollisionShape}
- * for UP=false. This change applies only at the V1_12 boundary; earlier profiles retain the
- * separately resolved earlier-profile provider.
+ * <p>Ornithe Feather 1.8.9 {@code net.minecraft.block.WallBlock#getCollisionShape} computes
+ * the same four-direction connection mask and 16 horizontal boxes as the later releases.
+ * The normalized collision arrays are identical in 1.9.4, 1.10.2, 1.11.2 and 1.12.2;
+ * 1.12.2 {@code WallBlock#getShapeIndex} reads NORTH/EAST/SOUTH/WEST only and selects a
+ * {@code COLLISION_SHAPES} entry with maximum Y 24/16. The 1.12.2 neighbor predicate change
+ * remains a separate operation. Ornithe Feather 1.13 and 1.13.2
+ * {@code WallBlock#getCollisionShape} selects a component union for UP=true and inherited
+ * {@code PaneBlock#getCollisionShape} for UP=false. V1_8_9 is the earliest proved profile;
+ * V1_8 retains the narrower independently accepted two-mask provider.
  */
-@MovementChange(emulates = ParkourVersion.V1_12)
+@MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class WallCollisionShape implements WallCollisionShapeHook {
     private final String blockId;
 

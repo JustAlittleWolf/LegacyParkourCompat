@@ -15,14 +15,14 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 
 /**
- * Preserves the independently accepted earlier-profile coverage for the NORTH-only
- * and NORTH/EAST/SOUTH patterns. The later V1_12 change supplies the full 1.12 table.
+ * Preserves the independently accepted two-mask coverage for 1.8 through 1.8.8.
+ * The V1_8_9 change supplies the full table from the earliest source-proved profile.
  *
  * <p>Ornithe Feather 1.12.2 {@code net.minecraft.block.WallBlock#getCollisionShape} and
  * {@code getShapeIndex} use the same two horizontal extents represented here. In 1.13
  * and 1.13.2 the component shape is selected by wall UP state and pane connection mask.
  */
-@MovementChange(emulates = ParkourVersion.V1_11_2)
+@MovementChange(emulates = ParkourVersion.V1_8)
 public final class WallCollisionShape implements WallCollisionShapeHook {
     private final String blockId;
 
