@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
  * when that callback runs. Reinstating the 1.14.4 player gates preserves the
  * earlier slime-step result. The keyed variant limits this accepted operation
  * to slime blocks; other callbacks retain their native behavior. Since modern
- * 26.2 mojmap net.minecraft.world.entity.Entity.applyEffectsFromBlocks invokes
+ * 26.2 unobfuscated net.minecraft.world.entity.Entity.applyEffectsFromBlocks invokes
  * the list overload outside Entity.move, where visited blocks are deduplicated.
  * This callback is replayed from the per-move floor(x, y - 0.2F, z) position,
  * including the historical fence, wall, and fence-gate fallback, and its later

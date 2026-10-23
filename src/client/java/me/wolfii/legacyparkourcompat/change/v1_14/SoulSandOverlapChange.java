@@ -37,7 +37,7 @@ import net.minecraft.world.phys.Vec3;
  *   entityInside is absent; class/shape initialization.
  * 1.15.2/mojmap/net/minecraft/world/phys/Vec3.java:
  *   multiply(double, double, double) receives the widened float factor.
- * 26.2/mojmap/net/minecraft/world/entity/Entity.java:
+ * 26.2/unobfuscated/net/minecraft/world/entity/Entity.java:
  *   move invokes getBlockSpeedFactor after collision resolution and movement
  *   emission. applyEffectsFromBlocks(List) and its deferred block collector run
  *   outside that movement point.
