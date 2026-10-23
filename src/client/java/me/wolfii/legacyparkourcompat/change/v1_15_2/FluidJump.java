@@ -7,14 +7,12 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.jump.LavaGroundJumpHook;
 import net.minecraft.world.entity.player.Player;
 
 /**
- * Source evidence (paths are relative to decompiled_minecraft/):
- * 1.15.2/mojmap/net/minecraft/world/entity/LivingEntity.java:
- *   aiStep.
- *   aiStep.
- * 1.16.5/mojmap/net/minecraft/world/entity/LivingEntity.java:
- *   aiStep.
- * No exact independently accepted source binding is established for this operation.
- * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ * Mojmap 1.15.2 LivingEntity#aiStep gates this jump dispatcher only on
+ * {@code jumping}. Mojmap 1.16.5 LivingEntity#aiStep also checks
+ * {@code isAffectedByFluids}; Player#isAffectedByFluids returns
+ * {@code !abilities.flying}. The existing dispatcher redirect returns true
+ * for this 1.15.2 change, preserving the earlier ground-jump dispatch while
+ * separate fluid-jump hooks continue to govern liquid jumps.
  */
 @MovementChange(emulates = ParkourVersion.V1_15_2)
 public final class FluidJump implements FluidJumpHook, LavaGroundJumpHook {
