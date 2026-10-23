@@ -1,6 +1,8 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.expression.Definition;
+import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -22,7 +24,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
-import org.objectweb.asm.Opcodes;
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -32,37 +33,44 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityFluidInteraction.class)
 abstract class EntityFluidInteractionMixin {
+    @Definition(id = "eyeY", local = @Local(type = double.class, ordinal = 1))
+    @Definition(id = "fluidBottom", local = @Local(type = double.class, ordinal = 2))
+    @Expression("eyeY >= fluidBottom")
     @ModifyExpressionValue(
         method = "update(Lnet/minecraft/world/entity/Entity;Z)V",
-        at = @At(value = "JUMP", opcode = Opcodes.IFLT),
+        at = @At("MIXINEXTRAS:EXPRESSION"),
         require = 1
     )
-    private int legacyparkourcompat$waterEyeFluidBottom(int comparison,
+    private boolean legacyparkourcompat$waterEyeFluidBottom(boolean vanilla,
         @Local(argsOnly = true) Entity entity,
         @Local FluidState fluidState,
         @Local(ordinal = 1) double eyeY,
         @Local(ordinal = 2) double fluidBottom) {
         if (!fluidState.is(FluidTags.WATER)) {
-            return comparison;
+            return vanilla;
         }
         return MovementRuntime.find(PlayerEyeFluidSampleHook.class, entity)
             .map(hook -> {
                 double sampleY = hook.sampleY(entity, eyeY);
-                return sampleY == eyeY ? comparison : Double.compare(sampleY, fluidBottom);
+                return sampleY == eyeY ? vanilla : Double.compare(sampleY, fluidBottom) >= 0;
             })
-            .orElse(comparison);
+            .orElse(vanilla);
     }
 
+    @Definition(id = "eyeY", local = @Local(type = double.class, ordinal = 1))
+    @Definition(id = "fluidTop", local = @Local(type = double.class, ordinal = 3))
+    @Expression("eyeY <= fluidTop")
     @ModifyExpressionValue(
         method = "update(Lnet/minecraft/world/entity/Entity;Z)V",
-        at = @At(value = "JUMP", opcode = Opcodes.IFGT),
+        at = @At("MIXINEXTRAS:EXPRESSION"),
         require = 1
     )
-    private int legacyparkourcompat$eyeFluidUpperBoundary(int comparison,
+    private boolean legacyparkourcompat$eyeFluidUpperBoundary(boolean vanilla,
         @Local(argsOnly = true) Entity entity,
         @Local FluidState fluidState,
         @Local(ordinal = 1) double eyeY,
         @Local(ordinal = 3) double fluidTop) {
+        int comparison = vanilla ? 0 : 1;
         double sampleY = eyeY;
         if (fluidState.is(FluidTags.WATER)) {
             sampleY = MovementRuntime.find(PlayerEyeFluidSampleHook.class, entity)
@@ -77,9 +85,9 @@ abstract class EntityFluidInteractionMixin {
             int upperBoundaryComparison = comparison;
             return MovementRuntime.find(EyeFluidSurfaceBoundaryHook.class, entity)
                 .map(hook -> hook.upperBoundaryComparison(eyeSampleY, fluidTop, upperBoundaryComparison))
-                .orElse(upperBoundaryComparison);
+                .orElse(upperBoundaryComparison) <= 0;
         }
-        return comparison;
+        return comparison <= 0;
     }
 
     @WrapOperation(method = "update", at = @At(value = "INVOKE",

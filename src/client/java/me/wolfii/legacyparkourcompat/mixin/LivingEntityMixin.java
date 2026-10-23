@@ -47,7 +47,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.SlowFallingWaterDescent
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.WaterJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.WaterSprintSlowdownHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
-import me.wolfii.legacyparkourcompat.mixin.accessor.WaterJumpDepthAccess;
+import me.wolfii.legacyparkourcompat.movement.access.WaterJumpDepthAccess;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
@@ -89,10 +89,10 @@ abstract class LivingEntityMixin {
 
     @WrapOperation(
         method = "checkFallDamage",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;updateFluidInteraction()Z")
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;updateFluidInteraction()Z")
     )
     private boolean legacyparkourcompat$historicalPostMoveLavaCurrent(
-        Entity entity,
+        LivingEntity entity,
         Operation<Boolean> original
     ) {
         var behavior = MovementRuntime.find(PostMoveLavaCurrentHook.class, entity);
@@ -118,10 +118,10 @@ abstract class LivingEntityMixin {
 
     @WrapOperation(
         method = "setPosToBed(Lnet/minecraft/core/BlockPos;)V",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;setPos(DDD)V")
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;setPos(DDD)V")
     )
     private void legacyparkourcompat$historicalSleepPosition(
-        Entity entity,
+        LivingEntity entity,
         double x,
         double y,
         double z,
@@ -130,7 +130,7 @@ abstract class LivingEntityMixin {
     ) {
         MovementRuntime.find(SleepPositionHook.class, entity).ifPresentOrElse(
             change -> {
-                Vec3 position = change.position((LivingEntity) entity, bedPosition);
+                Vec3 position = change.position(entity, bedPosition);
                 original.call(entity, position.x, position.y, position.z);
             },
             () -> original.call(entity, x, y, z)
