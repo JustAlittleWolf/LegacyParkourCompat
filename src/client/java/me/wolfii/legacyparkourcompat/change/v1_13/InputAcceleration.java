@@ -9,11 +9,15 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Ornithe Feather 1.12.2 and 1.13.2 Entity.updateVelocity use three float
+ * Ornithe Feather 1.13.2 Entity#updateVelocity uses three float
  * input components, float squared length / 1.0E-4F cutoff, float sqrt and
  * scale division, float yaw rotation, then double velocity additions.
- * Ornithe Feather 1.14 Entity.updateVelocity / m_51093791 replaces this with
- * double Vec3 math and a 1.0E-7 cutoff; 26.2 Entity.moveRelative retains it.
+ * Mojmap 1.14.4 Entity#moveRelative and #getInputVector replace this with
+ * double Vec3 math and a 1.0E-7 cutoff; unobfuscated 26.2 Entity#moveRelative
+ * and #getInputVector retain it. This hook consumes supported player input
+ * before that generic helper; InputVectorHook covers its remaining diagonal
+ * keyboard path. The tiny-input cutoff's ordinary-tick reachability is not
+ * established by the accepted source comparison.
  * Below the old cutoff do not write velocity at all, preserving signed zero.
  * Earlier two-axis helpers need separate applicability; unsupported modern
  * feature states retain native input acceleration.

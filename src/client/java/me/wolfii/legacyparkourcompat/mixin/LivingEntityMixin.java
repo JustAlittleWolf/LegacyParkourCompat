@@ -22,6 +22,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.gliding.GlideFallDistanceLimi
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.SupportingBlockPositionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.GroundJumpGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.GroundSpeedHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.UnloadedChunkGravityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.JumpPowerHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.JumpVerticalVelocityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.LavaGroundJumpHook;
@@ -60,6 +61,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.Vec3;
 import org.objectweb.asm.Opcodes;
@@ -640,6 +642,25 @@ abstract class LivingEntityMixin {
         return MovementRuntime.find(VelocityZeroThresholdHook.class, entity)
             .map(behavior -> behavior.filterComponent(entity, component))
             .orElse(component);
+    }
+
+    @Redirect(
+        method = "travelInAir(Lnet/minecraft/world/phys/Vec3;)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/level/LevelReader;hasChunkAt(Lnet/minecraft/core/BlockPos;)Z"
+        )
+    )
+    private boolean legacyparkourcompat$unloadedChunkGravity(LevelReader levelReader, BlockPos pos) {
+        boolean nativeHasChunk = levelReader.hasChunkAt(pos);
+        LivingEntity entity = (LivingEntity) (Object) this;
+        if (!(levelReader instanceof Level level)) {
+            return nativeHasChunk;
+        }
+        BlockPos historicalChunkPos = new BlockPos(pos.getX(), 0, pos.getZ());
+        return MovementRuntime.find(UnloadedChunkGravityHook.class, entity)
+            .map(hook -> hook.chunkIsLoaded(nativeHasChunk, level.isLoaded(historicalChunkPos)))
+            .orElse(nativeHasChunk);
     }
 
     @Redirect(

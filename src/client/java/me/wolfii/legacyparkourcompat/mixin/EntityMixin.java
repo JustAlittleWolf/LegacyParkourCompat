@@ -34,6 +34,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.travel.GravityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.InputAccelerationHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.movement.HeadingVelocityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.InputVectorHook;
+import me.wolfii.legacyparkourcompat.mechanic.OrdinaryPlayerContext;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.InsideBlockContactHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerFallDistanceResetHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.movement.FallDistanceResetTraceHook;
@@ -60,6 +61,8 @@ import net.minecraft.world.entity.EntityFluidInteraction;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.client.player.KeyboardInput;
+import net.minecraft.world.entity.player.Input;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
@@ -178,7 +181,18 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
         target = "Lnet/minecraft/world/entity/Entity;getInputVector(Lnet/minecraft/world/phys/Vec3;FF)Lnet/minecraft/world/phys/Vec3;"
     ))
     private Vec3 legacyparkourcompat$inputVector(Vec3 input, float speed, float yaw, Operation<Vec3> original) {
-        return MovementRuntime.find(InputVectorHook.class, (Entity)(Object)this)
+        Entity self = (Entity) (Object) this;
+        if (!(self instanceof LocalPlayer player)
+            || !MovementRuntime.appliesTo(player)
+            || !(player.input instanceof KeyboardInput)
+            || !OrdinaryPlayerContext.matches(player)) {
+            return original.call(input, speed, yaw);
+        }
+        Input keys = player.input.keyPresses;
+        if (!(keys.forward() ^ keys.backward()) || !(keys.left() ^ keys.right())) {
+            return original.call(input, speed, yaw);
+        }
+        return MovementRuntime.find(InputVectorHook.class, self)
             .map(hook -> hook.inputVector(input, speed, yaw, () -> original.call(input, speed, yaw)))
             .orElseGet(() -> original.call(input, speed, yaw));
     }

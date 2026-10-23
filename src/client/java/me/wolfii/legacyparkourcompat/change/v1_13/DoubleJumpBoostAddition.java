@@ -9,10 +9,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 /**
- * Ornithe Feather 1.8.9 and 1.13.2 LivingEntity.jump first widen the default
- * float getJumpStrength()=0.42F into velocityY, then add the float expression
- * (integer amplifier + 1) * 0.1F as a double. Ornithe Feather 1.14 jump instead
- * adds base and boost in float before storing; 1.14.4 retains that order.
+ * Ornithe Feather 1.13.2 LivingEntity#jump first widens the default float
+ * jump strength 0.42F into velocityY, then adds the float expression
+ * (integer amplifier + 1) * 0.1F as a double. Mojmap 1.14.4
+ * LivingEntity#jumpFromGround adds base and boost in float before storing;
+ * unobfuscated 26.2 LivingEntity#jumpFromGround retains that order.
  * Preserve the integer addition and float product, then the double sum.
  * Modern custom jump strength/scale and non-unit block jump factors retain
  * their supplied native power rather than suppressing modern-only features.
