@@ -38,18 +38,25 @@ public final class WaterCurrent implements WaterCurrentHook {
      * Falling centers need a historical wall-face provider and stay native.
      * The blocking-material provider is bounded to ordinary air and these
      * full solids (1.12-family Block bootstrap and Material.blocksMovement).
+     * World.getBlockState/isOutsideWorldHeight returns air outside [0, 256) in that
+     * family. Such dependencies instead reject this bounded bundle, preserving
+     * native modern-height features rather than manufacturing historical air.
      */
     public Optional<Vec3> flow(Level level, BlockPos pos, BlockState state) {
+        if (!historicalHeight(pos)) return Optional.empty();
         double x = 0.0, y = 0.0, z = 0.0;
         int depth = state.getValue(LiquidBlock.LEVEL);
         for (Direction direction : Direction.Plane.HORIZONTAL) {
             BlockPos adjacent = pos.relative(direction);
+            if (!historicalHeight(adjacent)) return Optional.empty();
             BlockState neighbor = level.getBlockState(adjacent);
             if (!supported(neighbor)) return Optional.empty();
             int other = depth(neighbor);
             if (other < 0) {
                 if (neighbor.isAir()) {
-                    BlockState below = level.getBlockState(adjacent.below());
+                    BlockPos belowPosition = adjacent.below();
+                    if (!historicalHeight(belowPosition)) return Optional.empty();
+                    BlockState below = level.getBlockState(belowPosition);
                     if (!supported(below)) return Optional.empty();
                     other = depth(below);
                     if (other >= 0) {
@@ -67,6 +74,10 @@ public final class WaterCurrent implements WaterCurrentHook {
             }
         }
         return Optional.of(normalize(new Vec3(x, y, z)));
+    }
+
+    private static boolean historicalHeight(BlockPos pos) {
+        return pos.getY() >= 0 && pos.getY() < 256;
     }
 
     private static boolean supported(BlockState state) {
