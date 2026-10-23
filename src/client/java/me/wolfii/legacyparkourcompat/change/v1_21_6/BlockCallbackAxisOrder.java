@@ -14,10 +14,11 @@ import net.minecraft.world.phys.Vec3;
  * latter operand. Restore only the ordering operand, including X before Z on
  * equal magnitudes, through the independently resolved 1.21.6–1.21.8 profile.
  *
- * This does not restore movement-record construction/compression, the old
- * BlockGetter.addCollisionsAlongTravel loop counter, the later per-record
- * traversal budget, or the callback precision flag. Those are separate
- * operations; this change does not establish complete callback traversal parity.
+ * Movement-record construction/compression stays native: the bounded releases
+ * and 26.2 retain the same record recipe. BlockCallbackTraversal restores the
+ * old BlockGetter iterator, BlockCallbackBudget removes record-wide debiting,
+ * and BlockCallbackContact restores dedup/predicate/callback sequencing.
+ * Those operations and callback precision remain independently resolved.
  */
 @MovementChange(emulates = ParkourVersion.V1_21_6)
 public final class BlockCallbackAxisOrder implements BlockCallbackAxisOrderHook {
