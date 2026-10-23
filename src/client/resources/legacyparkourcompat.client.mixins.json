@@ -21,6 +21,7 @@
     "HoneyBlockMixin",
     "FarmlandBlockMixin",
     "EntityMixin",
+    "EntitySweptShapeIntersectionMixin",
     "EntitySupportingBlockPositionMixin",
     "EntityCollisionAxisOrderMixin",
     "EntityStepUpCollisionMixin",
