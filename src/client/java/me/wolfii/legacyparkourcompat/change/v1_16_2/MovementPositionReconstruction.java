@@ -12,12 +12,13 @@ import java.util.Optional;
 
 /**
  * Ornithe Feather 1.14 Entity.move / setPositionFromShape and Mojmap 1.16 /
- * 1.16.5 Entity.move / setLocationFromBoundingbox translate
+ * 1.16.2, 1.16.3, 1.16.4 and 1.16.5 Entity.move / setLocationFromBoundingbox translate
  * each AABB endpoint before computing (minX + maxX) / 2.0, minY and
  * (minZ + maxZ) / 2.0, then setPosRaw without rebuilding the translated box.
- * Mojmap 1.17 Entity.move instead directly adds displacement to position and
+ * Mojmap 1.17 / 1.17.1 Entity.move instead directly add displacement to position and
  * rebuilds the box through setPos, retained by 26.2. Preserve the old operation
- * order in both collision and noPhysics movement. The caller independently
+ * order in both collision and noPhysics movement. Resolve this pure result for
+ * both the 26.2 movement record endpoint and the actual write. The caller independently
  * resolves whether a physical movement is large enough to write at all.
  * Pre-1.14 scope and modern entity scaling retain native fallback.
  */
