@@ -2,6 +2,8 @@ package me.wolfii.legacyparkourcompat.mechanic.hook.block;
 
 import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
 import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -18,5 +20,11 @@ public interface WallCollisionShapeHook extends VersionedMechanic {
         return this.blockId();
     }
 
-    Optional<VoxelShape> horizontalCollisionShape(BlockState state, VoxelShape vanillaShape, OptionalDouble historicalMaxY);
+    Optional<VoxelShape> horizontalCollisionShape(
+        BlockState state,
+        BlockGetter level,
+        BlockPos pos,
+        VoxelShape vanillaShape,
+        OptionalDouble historicalMaxY
+    );
 }

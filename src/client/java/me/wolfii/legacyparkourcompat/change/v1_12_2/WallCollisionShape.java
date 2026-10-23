@@ -4,7 +4,9 @@ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.change.common.WallCollisionGeometry;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.WallCollisionShapeHook;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -43,7 +45,11 @@ public final class WallCollisionShape implements WallCollisionShapeHook {
 
     @Override
     public Optional<VoxelShape> horizontalCollisionShape(
-        BlockState state, VoxelShape vanillaShape, OptionalDouble historicalMaxY
+        BlockState state,
+        BlockGetter level,
+        BlockPos pos,
+        VoxelShape vanillaShape,
+        OptionalDouble historicalMaxY
     ) {
         if (!(state.getBlock() instanceof WallBlock) || vanillaShape.isEmpty()) {
             return Optional.empty();
