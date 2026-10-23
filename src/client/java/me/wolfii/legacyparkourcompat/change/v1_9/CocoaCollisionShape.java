@@ -15,14 +15,21 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import java.util.Optional;
 
 /**
- * In 1.9 Ornithe Feather, {@code net.minecraft.block.CocoaBlock}'s directional
- * shape tables and {@code getShape} repeat the age-1 box at age 2; 1.9.4 keeps
- * the same tables. In 1.8.9, {@code CocoaBlock.updateShape} instead derives a
- * larger box from age. In 26.2 unobfuscated, the age-indexed shape table again
- * makes age 2 larger. Restore the 1.9 age-1 box only for mature cocoa in the
- * 1.9 profile group; later profiles retain their native geometry.
+ * In 1.9 and 1.9.4 Ornithe Feather, {@code net.minecraft.block.CocoaBlock}'s
+ * directional shape tables and {@code getShape} repeat the age-1 box at age 2.
+ * In 1.10, 1.10.1 and 1.10.2 Feather Gen2 build 2, the identical
+ * {@code CocoaBlock.EAST_SHAPE/WEST_SHAPE/NORTH_SHAPE/SOUTH_SHAPE} tables and
+ * {@code getShape} retain that regression; {@code Block.getCollisionShape}
+ * delegates to the state's shape. In 1.11, 1.11.1 and 1.11.2 with the same
+ * mappings and members, age 2 instead uses the larger, lower box.
+ *
+ * <p>In 1.8.9 Ornithe Feather, {@code CocoaBlock.updateShape} derives the larger
+ * box from age; the separate 1.8 change preserves that earlier geometry.
+ * In 26.2 unobfuscated, {@code net.minecraft.world.level.block.CocoaBlock.SHAPES}
+ * and {@code getShape} retain the larger box. Restore only mature cocoa's
+ * collision box from 1.9 through 1.10.2; 1.11 and later retain native geometry.
  */
-@MovementChange(emulates = ParkourVersion.V1_9)
+@MovementChange(emulates = ParkourVersion.V1_10_1)
 public final class CocoaCollisionShape implements BlockCollisionShapeHook {
     public CocoaCollisionShape() {
     }
