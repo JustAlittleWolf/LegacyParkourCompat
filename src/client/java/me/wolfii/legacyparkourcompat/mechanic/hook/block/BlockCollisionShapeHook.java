@@ -10,6 +10,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.Optional;
+import java.util.List;
 
 /**
  * Collision shape for one block. An empty result preserves the vanilla shape query.
@@ -27,6 +28,13 @@ public interface BlockCollisionShapeHook extends VersionedMechanic {
     @Override
     default String variant() {
         return this.blockId();
+    }
+
+    /** Ordered provider parts for collectors; ordinary shape consumers use the union below. */
+    default Optional<List<VoxelShape>> collisionShapes(
+        BlockState state, BlockGetter level, BlockPos pos, CollisionContext context
+    ) {
+        return this.collisionShape(state, level, pos, context).map(List::of);
     }
 
     Optional<VoxelShape> collisionShape(
