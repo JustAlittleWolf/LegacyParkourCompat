@@ -201,9 +201,14 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
         target = "Lnet/minecraft/world/entity/Entity;collide(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;"))
     private Vec3 legacyparkourcompat$captureCollisionMovement(Entity entity, Vec3 movement, Operation<Vec3> original,
         @Share("requestedMovement") LocalRef<Vec3> requested,
-        @Share("resolvedMovement") LocalRef<Vec3> resolved) {
+        @Share("resolvedMovement") LocalRef<Vec3> resolved,
+        @Share("resolvedCollisionBox") LocalRef<AABB> resolvedBox) {
         requested.set(movement);
-        Vec3 result = CollisionAxisOrderContext.withEntity(entity, () -> original.call(entity, movement));
+        Vec3 result = CollisionAxisOrderContext.withEntity(entity, () -> {
+            Vec3 clipped = original.call(entity, movement);
+            resolvedBox.set(CollisionAxisOrderContext.resolvedBox());
+            return clipped;
+        });
         resolved.set(result);
         return result;
     }
@@ -235,8 +240,9 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
     // actual endpoint shared by the movement record and the position write.
     @ModifyExpressionValue(method = "move", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/world/phys/Vec3;add(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;", ordinal = 1))
-    private Vec3 legacyparkourcompat$movementContactEnd(Vec3 position, @Local(name = "movement") Vec3 movement) {
-        return MovementRuntime.movementEndpoint((Entity)(Object)this, movement, position);
+    private Vec3 legacyparkourcompat$movementContactEnd(Vec3 position, @Local(name = "movement") Vec3 movement,
+        @Share("resolvedCollisionBox") LocalRef<AABB> resolvedBox) {
+        return MovementRuntime.movementEndpoint((Entity)(Object)this, movement, position, resolvedBox.get());
     }
 
     @WrapOperation(method = "move", at = @At(value = "INVOKE",
@@ -299,6 +305,17 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
             .orElse(true);
     }
 
+    // This local is only used by the outer write gate and the >= 1.0 fall-ray
+    // gate. Raise only tiny values above the former threshold, preserving the
+    // latter gate and every actual movement component.
+    @ModifyExpressionValue(method = "move", at = @At(value = "INVOKE",
+        target = "Lnet/minecraft/world/phys/Vec3;lengthSqr()D", ordinal = 1))
+    private double legacyparkourcompat$movementWriteAdmission(double length) {
+        boolean alwaysWrite = MovementRuntime.find(MovementPositionWriteHook.class, (Entity)(Object)this)
+            .map(MovementPositionWriteHook::alwaysEnterWriteBranch).orElse(false);
+        return alwaysWrite && length <= 1.0E-7 ? Math.nextUp(1.0E-7) : length;
+    }
+
     @WrapOperation(method = "move", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/world/entity/Entity;addMovementThisTick(Lnet/minecraft/world/entity/Entity$Movement;)V"))
     private void legacyparkourcompat$movementContactSegment(Entity entity, @Coerce Object movement,
@@ -312,9 +329,10 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
         target = "Lnet/minecraft/world/entity/Entity;setPos(Lnet/minecraft/world/phys/Vec3;)V"))
     private void legacyparkourcompat$movementPosition(Entity entity, Vec3 position,
         Operation<Void> original, @Local(name = "movementLength") double movementLength,
-        @Local(name = "movement") Vec3 movement) {
+        @Local(name = "movement") Vec3 movement,
+        @Share("resolvedCollisionBox") LocalRef<AABB> resolvedBox) {
         if (this.legacyparkourcompat$writeMovementPosition(movementLength)) {
-            MovementRuntime.writeMovementPosition(entity, movement, () -> original.call(entity, position));
+            MovementRuntime.writeMovementPosition(entity, movement, resolvedBox.get(), () -> original.call(entity, position));
         }
     }
 
