@@ -25,10 +25,10 @@ import java.util.OptionalDouble;
  * {@code COLLISION_SHAPES} entry with maximum Y 24/16. The 1.12.2 neighbor predicate change
  * remains a separate operation. Ornithe Feather 1.13 and 1.13.2
  * {@code WallBlock#getCollisionShape} selects a component union for UP=true and inherited
- * {@code PaneBlock#getCollisionShape} for UP=false. V1_8_9 is the earliest proved profile;
- * V1_8 retains the narrower independently accepted two-mask provider.
+ * {@code PaneBlock#getCollisionShape} for UP=false. This V1_12 change resolves for profiles
+ * 1.8.9 through 1.12; V1_8 retains the narrower independently accepted two-mask provider.
  */
-@MovementChange(emulates = ParkourVersion.V1_8_9)
+@MovementChange(emulates = ParkourVersion.V1_12)
 public final class WallCollisionShape implements WallCollisionShapeHook {
     private final String blockId;
 

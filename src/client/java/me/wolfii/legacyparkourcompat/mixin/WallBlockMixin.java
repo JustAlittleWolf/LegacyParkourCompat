@@ -39,10 +39,10 @@ public abstract class WallBlockMixin {
         VoxelShape vanillaShape = callback.getReturnValue();
         var heightHook = MovementRuntime.find(WallCollisionHeightHook.class, state.getBlock(), player);
         VoxelShape heightAdjustedShape = heightHook
-            .map(hook -> hook.applyHeight(vanillaShape))
+            .map(hook -> hook.applyHeight(vanillaShape, state))
             .orElse(vanillaShape);
         OptionalDouble historicalMaxY = heightHook
-            .map(hook -> OptionalDouble.of(hook.maxY()))
+            .map(hook -> OptionalDouble.of(hook.maxY(state)))
             .orElseGet(() -> vanillaShape.isEmpty() ? OptionalDouble.empty()
                 : OptionalDouble.of(vanillaShape.max(Direction.Axis.Y)));
         VoxelShape historicalShape = MovementRuntime.find(WallCollisionShapeHook.class, state.getBlock(), player)

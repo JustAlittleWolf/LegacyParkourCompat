@@ -1,16 +1,20 @@
 package me.wolfii.legacyparkourcompat.change.v1_11_1;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+import me.wolfii.legacyparkourcompat.change.common.WallCollisionGeometry;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.WallCollisionHeightHook;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
 
 /**
  * Ornithe Feather 1.11.1 {@code WallBlock#addCollisions} adds the outline from
- * {@code SHAPES}, whose maximum Y is 1.0, even though {@code getCollisionShape}
- * still returns {@code COLLISION_SHAPES}. In 1.11.2, {@code addCollisions} uses
- * {@code COLLISION_SHAPES}, whose entries have maximum Y 1.5.
+ * {@code SHAPES[getShapeIndex(state)]} rather than the {@code COLLISION_SHAPES} table used
+ * by {@code getCollisionShape}. In Feather 1.11.1, {@code WallBlock#SHAPES} entries 5 and 10
+ * have maxY=0.875 and the other entries have maxY=1.0; {@code WallBlock#addCollisions} uses
+ * the state-derived index. In 1.11.2, {@code WallBlock#addCollisions} selects
+ * {@code COLLISION_SHAPES}, whose entries all have maxY=1.5.
  */
 @MovementChange(emulates = ParkourVersion.V1_11_1)
 public final class WallCollisionHeight implements WallCollisionHeightHook {
@@ -32,7 +36,8 @@ public final class WallCollisionHeight implements WallCollisionHeightHook {
     }
 
     @Override
-    public double maxY() {
-        return 1.0;
+    public double maxY(BlockState state) {
+        int mask = WallCollisionGeometry.mask(state);
+        return mask == 5 || mask == 10 ? 0.875 : 1.0;
     }
 }
