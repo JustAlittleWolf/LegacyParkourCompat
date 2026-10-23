@@ -16,14 +16,20 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Restores the one-piece anvil collision cuboid for the accepted 1.12 profile.
- * Ornithe Feather 1.12.2 AnvilBlock#getShape selects SHAPE_X or SHAPE_Z, both
- * full-height cuboids; Block#getCollisionShape delegates to that state shape.
- * In Ornithe Feather 1.13, AnvilBlock#getShape instead selects the union of
- * BASE_SHAPE, two legs and TOP_SHAPE, and Block#getCollisionShape still
- * delegates to it. AnvilBlock#getShape retains that geometry in 1.13.2. These
- * source comparisons establish the first inspected change at 1.13; they do not
- * establish a patch-level transition within the 1.12 line.
+ * Restores the one-piece anvil collision cuboid for profiles from 1.9 through
+ * 1.12. Ornithe Feather 1.9 AnvilBlock#getShape selects SHAPE_X or SHAPE_Z
+ * solely from the queried state; BlockState#getCollisionShape dispatches to
+ * Block#getCollisionShape, which delegates to that state shape. The same local
+ * boxes and per-state selection are present in 1.9.4, 1.10.2, 1.11.2 and
+ * 1.12.2. In 1.8.9, AnvilBlock#updateShape instead writes shared mutable bounds
+ * that the movement collision query reads without refreshing; a preceding
+ * writer can therefore change the result, so the native fallback is retained
+ * for that profile. In Ornithe Feather 1.13, AnvilBlock#getShape instead
+ * selects the union of BASE_SHAPE, two legs and TOP_SHAPE, and
+ * Block#getCollisionShape still delegates to it. AnvilBlock#getShape retains
+ * that geometry in 1.13.2. The first inspected state-selected consumer is 1.9,
+ * while the component geometry first appears in 1.13; neither comparison
+ * locates an uninspected patch-level transition.
  */
 @MovementChange(emulates = ParkourVersion.V1_12)
 public final class AnvilCollisionShape implements BlockCollisionShapeHook {

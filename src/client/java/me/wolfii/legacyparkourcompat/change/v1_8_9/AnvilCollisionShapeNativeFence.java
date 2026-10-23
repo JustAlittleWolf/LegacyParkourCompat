@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change.v1_11_2;
+package me.wolfii.legacyparkourcompat.change.v1_8_9;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -13,14 +13,17 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Keeps the accepted 1.12.2-to-1.13 anvil comparison bounded. The exact
- * Ornithe Feather sources are AnvilBlock#getShape and Block#getCollisionShape
- * in both releases: 1.12.2 selects a full-height cuboid, while 1.13 first
- * selects the component union (retained by 1.13.2). Earlier profiles retain
- * their existing native fallback because this finding does not establish their
- * anvil geometry.
+ * Preserves the existing native fallback through the 1.8.9 profile. Ornithe
+ * Feather 1.8.9 AnvilBlock#updateShape writes shared mutable bounds, while
+ * Block#addCollisions and Block#getCollisionShape read those bounds without
+ * refreshing them on World#getCollisions' player movement path. Other Anvil
+ * queries can write the bounds first, so this source does not establish a
+ * closed per-state result. In 1.9, AnvilBlock#getShape selects the queried
+ * state's box and Block#getCollisionShape delegates to it; 1.9.4 through 1.12.2
+ * retain those per-state axis boxes. Keep those accepted profiles on the V1_12
+ * cuboid provider while leaving the unresolved 1.8.9 caller context native.
  */
-@MovementChange(emulates = ParkourVersion.V1_11_2)
+@MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class AnvilCollisionShapeNativeFence implements BlockCollisionShapeHook {
     private static final List<String> ANVIL_BLOCKS = List.of(
         "minecraft:anvil",
