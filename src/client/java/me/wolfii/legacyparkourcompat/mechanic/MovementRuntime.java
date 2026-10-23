@@ -2,6 +2,9 @@ package me.wolfii.legacyparkourcompat.mechanic;
 
 import me.wolfii.legacyparkourcompat.api.ActiveMovementProfile;
 import me.wolfii.legacyparkourcompat.api.MovementController;
+import me.wolfii.legacyparkourcompat.mechanic.attribute.MovementSpeedModifierHistory;
+import me.wolfii.legacyparkourcompat.mechanic.attribute.MovementSpeedModifierHistoryAccess;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.PlayerMovementSpeedHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.PistonMovementHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionReconstructionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.position.PoseBoxHook;
@@ -10,6 +13,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.AABB;
@@ -26,6 +32,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -37,6 +44,30 @@ public final class MovementRuntime {
     private static final ThreadLocal<LocalPlayer> FLUID_CURRENT_PLAYER = new ThreadLocal<>();
 
     private MovementRuntime() {
+    }
+
+    /** Capture provenance even before a profile or player query is available. */
+    public static void observeMovementSpeedModifiers(AttributeInstance attribute,
+                                                      MovementSpeedModifierHistory history,
+                                                      Map<AttributeModifier.Operation, Map<Identifier, AttributeModifier>> operations) {
+        if (attribute.getAttribute().is(Attributes.MOVEMENT_SPEED)) {
+            history.observe(operations);
+        }
+    }
+
+    public static Optional<Float> playerMovementSpeed(Player player) {
+        return find(PlayerMovementSpeedHook.class, player).flatMap(change -> {
+            AttributeInstance attribute = player.getAttribute(Attributes.MOVEMENT_SPEED);
+            if (attribute == null) {
+                throw new IllegalStateException("Player has no movement-speed attribute");
+            }
+            MovementSpeedModifierHistory history = ((MovementSpeedModifierHistoryAccess)attribute)
+                .legacyparkourcompat$movementSpeedModifierHistory();
+            if (!history.boundedTotalOnly()) {
+                return Optional.empty();
+            }
+            return change.movementSpeed(attribute.getBaseValue(), attribute.getModifiers(), history.identifiers());
+        });
     }
 
     /**

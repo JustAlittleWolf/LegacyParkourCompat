@@ -6,6 +6,8 @@
     "minVersion": "0.5.4"
   },
   "client": [
+    "AttributeModifierHistoryMixin",
+    "PlayerMovementSpeedMixin",
     "FishingRetrievalMixin",
     "PowderSnowBlockMixin",
     "BubbleColumnBlockMixin",
