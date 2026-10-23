@@ -3,6 +3,7 @@
   "package": "me.wolfii.legacyparkourcompat.mixin",
   "compatibilityLevel": "JAVA_25",
   "client": [
+    "FishingRetrievalMixin",
     "PowderSnowBlockMixin",
     "BubbleColumnBlockMixin",
     "network.ClientPacketListenerMixin",
