@@ -15,6 +15,12 @@ import net.minecraft.world.phys.Vec3;
  * Minecraft 1.9.4, Ornithe Feather Gen2 build 2, Entity.updateVelocity changes the yaw
  * multiplication to float-cast (PI / 180). The remaining float normalization,
  * scalar multiplication, trig lookup and X/Z operation order are retained.
+ * In 1.8.9, net.minecraft.entity.living.LivingEntity.moveRelative applies this
+ * heading only when isLocallyControlled() and outside water/lava, except for
+ * flying players. Current net.minecraft.world.entity.Entity.moveRelative is
+ * shared by LivingEntity.travelFlying, travelInLava and
+ * handleRelativeFrictionAndCalculateMovement, so unsupported caller states
+ * retain the native implementation.
  * The 1.8.9 exact-profile boundary keeps modern sleeping, swimming,
  * fall-flying, spin, passenger and three-axis movement on their native path.
  */
@@ -30,7 +36,7 @@ public final class HeadingVelocity implements HeadingVelocityHook {
 
     @Override
     public boolean apply(Player player, float speed, Vec3 input) {
-        if (!OrdinaryPlayerContext.matches(player) || input.y != 0.0) {
+        if (!OrdinaryPlayerContext.matchesHeadingVelocity(player) || input.y != 0.0) {
             return false;
         }
         float sideways = (float) input.x;

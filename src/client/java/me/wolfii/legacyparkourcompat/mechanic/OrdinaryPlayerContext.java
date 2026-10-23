@@ -15,4 +15,12 @@ public final class OrdinaryPlayerContext {
             && !player.isSleeping() && !player.isSwimming() && !player.isFallFlying()
             && !player.isAutoSpinAttack() && !player.isPassenger();
     }
+
+    /** Historical 1.8.9 heading movement only ran for the locally controlled player outside fluids. */
+    public static boolean matchesHeadingVelocity(Entity entity) {
+        return matches(entity)
+            && entity instanceof Player player
+            && player.isLocalPlayer()
+            && ((!player.isInWater() && !player.isInLava()) || player.getAbilities().flying);
+    }
 }
