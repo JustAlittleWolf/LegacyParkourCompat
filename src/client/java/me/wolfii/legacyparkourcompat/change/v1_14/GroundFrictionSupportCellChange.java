@@ -16,7 +16,11 @@ import net.minecraft.world.entity.Entity;
  *
  * Source evidence (paths are relative to decompiled_minecraft/):
  * 1.14.4/mojmap/net/minecraft/world/entity/LivingEntity.java:
- *   travel.
+ *   travel samples (x, bounding-box minY - 1.0, z) for ground friction.
+ * 1.15/mojmap/net/minecraft/world/entity/LivingEntity.java:
+ *   travel uses getBlockPosBelowThatAffectsMyMovement for ground friction.
+ * 1.15.1/mojmap/net/minecraft/world/entity/LivingEntity.java:
+ *   travel retains that ground-friction sample.
  * 1.15.2/mojmap/net/minecraft/world/entity/Entity.java:
  *   getBlockPosBelowThatAffectsMyMovement.
  * 1.15.2/mojmap/net/minecraft/world/entity/LivingEntity.java:
