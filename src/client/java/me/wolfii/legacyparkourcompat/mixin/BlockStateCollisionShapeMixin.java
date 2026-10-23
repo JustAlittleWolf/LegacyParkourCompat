@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.mixin;
 
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockCollisionShapeHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.fence.FenceGlassCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.piston.MovingPistonCollisionShapeHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.PistonMovingBlockEntityAccessor;
 import net.minecraft.core.BlockPos;
@@ -44,6 +45,10 @@ abstract class BlockStateCollisionShapeMixin {
         MovementRuntime.find(BlockCollisionShapeHook.class, state.getBlock(), player)
             .filter(shape -> shape.supports(MovementRuntime.profile(player).target()))
             .flatMap(shape -> shape.collisionShape(state, level, pos, context))
+            .ifPresent(cir::setReturnValue);
+
+        MovementRuntime.find(FenceGlassCollisionHook.class, player)
+            .flatMap(hook -> hook.collisionShape(state, level, pos, cir.getReturnValue()))
             .ifPresent(cir::setReturnValue);
 
         // Assembly resolves independently of the head provider. Apply it last so

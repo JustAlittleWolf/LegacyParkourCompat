@@ -20,9 +20,9 @@ import java.util.Optional;
  * upper interior (2,4,2)-(14,16,14) from the full block; Feather 1.14.4
  * CauldronBlock.SHAPE adds bottom cutouts. Preserve the 1.13.2 full floor for
  * empty and water-filled cauldrons, which represent the old LEVEL states.
- * Lava/powder-snow cauldrons are modern-only and untouched. Feather 1.12.2
- * CauldronBlock.addCollisions has a five-box basin, handled by the 1.12 change;
- * earlier versions retain native behavior pending an accepted boundary.
+ * Lava/powder-snow cauldrons are modern-only and untouched. Feather 1.8.9
+ * through 1.12.2 CauldronBlock collision providers retain the five-box basin,
+ * handled by the V1_12 change; 1.8.0–1.8.8 remains native pending evidence.
  */
 @MovementChange(emulates = ParkourVersion.V1_13)
 public final class CauldronCollisionShape implements BlockCollisionShapeHook {
