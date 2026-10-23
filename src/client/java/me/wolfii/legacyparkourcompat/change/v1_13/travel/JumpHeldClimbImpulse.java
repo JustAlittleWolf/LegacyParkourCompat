@@ -2,6 +2,8 @@ package me.wolfii.legacyparkourcompat.change.v1_13.travel;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.TrapdoorClimbingHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.ClimbImpulseHook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
@@ -52,7 +54,17 @@ public final class JumpHeldClimbImpulse implements ClimbImpulseHook {
         }
 
         BlockState below = entity.level().getBlockState(pos.below());
-        return below.is(Blocks.LADDER)
-            && below.getValue(LadderBlock.FACING) == state.getValue(TrapDoorBlock.FACING);
+        if (!below.is(Blocks.LADDER)
+            || below.getValue(LadderBlock.FACING) != state.getValue(TrapDoorBlock.FACING)) {
+            return false;
+        }
+
+        // The resolved trapdoor predicate also governs onClimbable. Reuse it
+        // here so this later impulse cannot re-admit a trapdoor rejected by an
+        // older profile, while retaining native fallback for profiles without
+        // an accepted historical override.
+        return MovementRuntime.find(TrapdoorClimbingHook.class, entity)
+            .map(hook -> hook.canClimbTrapdoor(true))
+            .orElse(true);
     }
 }
