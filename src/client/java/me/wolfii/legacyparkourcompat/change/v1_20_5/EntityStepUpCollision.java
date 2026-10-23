@@ -27,14 +27,14 @@ public final class EntityStepUpCollision implements StepUpCollisionHook {
     }
 
     @Override
-    public Vec3 resolveStepUp(Vec3 requestedMovement, Vec3 ordinaryResult, AABB boundingBox,
+    public Result resolveStepUp(Vec3 requestedMovement, Vec3 ordinaryResult, AABB boundingBox,
                               float maxUpStep, boolean onGround, CollisionCall collisionCall) {
         boolean clippedX = requestedMovement.x != ordinaryResult.x;
         boolean clippedY = requestedMovement.y != ordinaryResult.y;
         boolean clippedZ = requestedMovement.z != ordinaryResult.z;
         boolean groundedOrDescendingIntoCollision = onGround || clippedY && requestedMovement.y < 0.0;
         if (!(maxUpStep > 0.0F && groundedOrDescendingIntoCollision && (clippedX || clippedZ))) {
-            return ordinaryResult;
+            return new Result(ordinaryResult);
         }
 
         Vec3 firstRoute = collisionCall.collide(
@@ -52,10 +52,10 @@ public final class EntityStepUpCollision implements StepUpCollisionHook {
         }
 
         if (firstRoute.horizontalDistanceSqr() > ordinaryResult.horizontalDistanceSqr()) {
-            return firstRoute.add(collisionCall.collide(
+            return new Result(firstRoute.add(collisionCall.collide(
                 new Vec3(0.0, -firstRoute.y + requestedMovement.y, 0.0),
-                boundingBox.move(firstRoute)));
+                boundingBox.move(firstRoute))));
         }
-        return ordinaryResult;
+        return new Result(ordinaryResult);
     }
 }

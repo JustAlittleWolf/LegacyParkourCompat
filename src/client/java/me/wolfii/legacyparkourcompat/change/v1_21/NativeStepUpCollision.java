@@ -27,8 +27,8 @@ public final class NativeStepUpCollision implements StepUpCollisionHook {
     }
 
     @Override
-    public Vec3 resolveStepUp(Vec3 requestedMovement, Vec3 ordinaryResult, AABB boundingBox,
+    public Result resolveStepUp(Vec3 requestedMovement, Vec3 ordinaryResult, AABB boundingBox,
                               float maxUpStep, boolean onGround, CollisionCall collisionCall) {
-        return ordinaryResult;
+        return new Result(ordinaryResult);
     }
 }

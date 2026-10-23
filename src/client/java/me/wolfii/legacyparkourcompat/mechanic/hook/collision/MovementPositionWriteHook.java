@@ -7,5 +7,9 @@ import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
 /** Admission of the resolved movement's position/box and contact-segment write. */
 @MechanicType("player.movement.position_write")
 public interface MovementPositionWriteHook extends VersionedMechanic {
+    default boolean alwaysEnterWriteBranch() {
+        return false;
+    }
+
     boolean shouldWrite(ParkourVersion selected, double movementLengthSquared);
 }

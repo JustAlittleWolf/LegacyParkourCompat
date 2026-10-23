@@ -55,21 +55,26 @@ public final class MovementRuntime {
     }
 
     /** Pure calculation, shared by movement bookkeeping and the eventual write. */
-    private static Optional<MovementPositionReconstructionHook.Position> movementPosition(Entity entity, Vec3 movement) {
+    private static Optional<MovementPositionReconstructionHook.Position> movementPosition(Entity entity, Vec3 movement,
+                                                                                         @Nullable AABB resolvedBox) {
         if (!(entity instanceof Player player)) {
             return Optional.empty();
         }
         return find(MovementPositionReconstructionHook.class, player)
-            .flatMap(hook -> hook.resolve(player, profile(player).target(), movement));
+            .flatMap(hook -> hook.resolve(player, profile(player).target(), movement, resolvedBox));
     }
 
-    public static Vec3 movementEndpoint(Entity entity, Vec3 movement, Vec3 nativePosition) {
-        return movementPosition(entity, movement)
+    public static Vec3 movementEndpoint(Entity entity, Vec3 movement, Vec3 nativePosition, @Nullable AABB resolvedBox) {
+        return movementPosition(entity, movement, resolvedBox)
             .map(MovementPositionReconstructionHook.Position::position).orElse(nativePosition);
     }
 
     public static void writeMovementPosition(Entity entity, Vec3 movement, VanillaCall vanilla) {
-        var historical = movementPosition(entity, movement);
+        writeMovementPosition(entity, movement, null, vanilla);
+    }
+
+    public static void writeMovementPosition(Entity entity, Vec3 movement, @Nullable AABB resolvedBox, VanillaCall vanilla) {
+        var historical = movementPosition(entity, movement, resolvedBox);
         if (historical.isEmpty()) {
             vanilla.run();
             return;

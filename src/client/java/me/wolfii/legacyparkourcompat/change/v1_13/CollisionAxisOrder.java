@@ -6,8 +6,8 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.CollisionAxisOrderH
 
 /**
  * In 1.13.2 (Ornithe Feather), net.minecraft.entity.Entity.move(MoverType, double, double, double)
- * resolves Y, X, then Z. In 1.14.1 (Yarn), net.minecraft.entity.Entity.method_17833(Vec3d, BoundingBox,
- * ViewableWorld, EntityContext, LoopingStream) retains Y first and selects Z-before-X only when
+ * resolves Y, X, then Z. In 1.14 (Ornithe Feather), net.minecraft.entity.Entity.m_73670363(Vec3d, Box,
+ * WorldView, CollisionContext, C_70593968) retains Y first and selects Z-before-X only when
  * Math.abs(x) < Math.abs(z); equality stays X-before-Z. The 26.2 native Direction.axisStepOrder(Vec3)
  * selector uses that same strict comparison, so this delta supplies only the older fixed horizontal order.
  */

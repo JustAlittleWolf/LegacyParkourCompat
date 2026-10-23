@@ -10,6 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
 import org.spongepowered.asm.mixin.Mixin;
 
 import java.util.List;
@@ -35,9 +36,27 @@ abstract class EntityStepUpCollisionMixin {
             Vec3 ordinary = movement.lengthSqr() == 0.0
                 ? movement
                 : Entity.collideBoundingBox(entity, movement, box, entity.level(), entityCollisions);
-            return hook.resolveStepUp(movement, ordinary, box, entity.maxUpStep(), entity.onGround(),
-                (requested, queryBox) -> Entity.collideBoundingBox(
-                    entity, requested, queryBox, entity.level(), entityCollisions));
+            StepUpCollisionHook.Result result = hook.resolveStepUp(
+                movement, ordinary, box, entity.maxUpStep(), entity.onGround(),
+                new StepUpCollisionHook.CollisionCall() {
+                    @Override
+                    public Vec3 collide(Vec3 requested, AABB queryBox) {
+                        return Entity.collideBoundingBox(entity, requested, queryBox, entity.level(), entityCollisions);
+                    }
+
+                    @Override
+                    public StepUpCollisionHook.AxisCollisionCall sweep(Vec3 requested, AABB queryBox) {
+                        List<VoxelShape> shapes = Entity.collectAllColliders(
+                            entity, entity.level(), queryBox.expandTowards(requested));
+                        return (axis, movingBox, distance) -> MovementRuntime.clipMovementAxis(
+                            entity, axis, movingBox, shapes, distance,
+                            () -> Shapes.collide(axis, movingBox, shapes, distance));
+                    }
+                });
+            if (result.boundingBox() != null) {
+                CollisionAxisOrderContext.resolvedBox(result.boundingBox());
+            }
+            return result.movement();
         });
     }
 }

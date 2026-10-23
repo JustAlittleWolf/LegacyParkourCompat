@@ -12,13 +12,13 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionWri
  * Suppress only the tiny movement's position/box write and its modern contact
  * segment; collision flags and subsequent movement processing remain native.
  * The fall-distance raycast in the enclosing branch requires actual length
- * squared >= 1.0, so it cannot run for the suppressed case. Earlier movement
- * write applicability remains unbound; noPhysics uses a separate native call.
+ * squared >= 1.0, so it cannot run for the suppressed case. Pre-1.14 movement
+ * has a separate unconditional writer; noPhysics uses a separate native call.
  */
 @MovementChange(emulates = ParkourVersion.V1_21)
 public final class MovementPositionWrite implements MovementPositionWriteHook {
     @Override
     public boolean shouldWrite(ParkourVersion selected, double movementLengthSquared) {
-        return selected.olderThan(ParkourVersion.V1_14) || movementLengthSquared > 1.0E-7;
+        return movementLengthSquared > 1.0E-7;
     }
 }
