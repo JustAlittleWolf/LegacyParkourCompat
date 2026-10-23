@@ -7,6 +7,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.water.WaterContext;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.AfterCollisionHook;
@@ -417,6 +418,11 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
         Entity entity,
         double scale
     ) {
+        var historicalWater = ((WaterContext)entity).legacyparkourcompat$waterScan();
+        if (fluid.equals(FluidTags.WATER) && historicalWater != null && historicalWater.replacesCurrent()) {
+            entity.setDeltaMovement(entity.getDeltaMovement().add(historicalWater.impulse()));
+            return;
+        }
         if (entity instanceof Player player
             && MovementRuntime.find(BoatPassengerFluidPushHook.class, player)
                 .map(behavior -> behavior.skipWaterCurrent(player, player.getVehicle(), MovementRuntime.profile(player).target()))
