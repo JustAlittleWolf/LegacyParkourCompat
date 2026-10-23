@@ -6,6 +6,9 @@
     "accessor.ServerCommonPacketListenerAccessor",
     "ServerGamePacketListenerMixin"
   ],
+  "client": [
+    "EntityLavaPresenceMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
