@@ -11,6 +11,9 @@ public interface PistonMovingBlockEntityAccessor {
     @Accessor("progress")
     float legacyparkourcompat$progress();
 
+    @Accessor("progressO")
+    float legacyparkourcompat$previousProgress();
+
     @Accessor("NOCLIP")
     static ThreadLocal<Direction> legacyparkourcompat$noClip() {
         throw new AssertionError("PistonMovingBlockEntity accessor was not applied");
