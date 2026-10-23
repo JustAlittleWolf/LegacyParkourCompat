@@ -19,17 +19,23 @@ import net.minecraft.world.entity.Entity;
  *   getBlockPosBelowThatAffectsMyMovement, getBlockSpeedFactor, getBlockJumpFactor.
  * 1.19.4/mojmap/net/minecraft/world/entity/LivingEntity.java:
  *   onSoulSpeedBlock, travel.
+ * 1.20/mojmap/net/minecraft/world/entity/Entity.java:
+ *   getBlockPosBelowThatAffectsMyMovement, getOnPos(float), checkSupportingBlock.
  * 1.20.1/mojmap/net/minecraft/world/entity/Entity.java:
  *   getBlockPosBelowThatAffectsMyMovement, getOnPos(float).
  * 1.20.1/mojmap/net/minecraft/world/entity/LivingEntity.java:
  *   onSoulSpeedBlock, travel.
  * 1.20.1/mojmap/net/minecraft/world/entity/player/Player.java:
  *   getBlockSpeedFactor, onSoulSpeedBlock.
- * Restores the 1.15–1.19.4 position-column sample for all movement-factor consumers. In 1.20.1,
+ * 26.2/unobfuscated/net/minecraft/world/entity/Entity.java:
+ *   getBlockPosBelowThatAffectsMyMovement, getOnPos(float).
+ * Restores the 1.15–1.19.4 position-column sample for all movement-factor consumers. First in 1.20,
  * getOnPos(0.500001F) floors Y for ordinary tracked supports, but returns the tracked position
  * unchanged for fences, walls, and fence gates; with no tracked support it floors entity X/Y/Z.
  * The older calculation always floors entity X/Z and bounding-box minY - 0.5000001. The vanilla
  * water/bubble-column, flying, Soul Speed, and travel gates remain in their original consumers.
+ * Native support tracking remains active; this query simply does not consume its result.
+ * This is independent of the air/fence/wall/gate fallback in getOnPos(float).
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
 // The same operation previously had identical catalog entries for 1.15.2 and 1.19.4.
