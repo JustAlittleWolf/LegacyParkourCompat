@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change.v1_11_2;
+package me.wolfii.legacyparkourcompat.change.v1_8;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -12,8 +12,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import java.util.List;
 import java.util.Optional;
 
-/** Leaves the native collision shape in place before the accepted 1.12 boundary. */
-@MovementChange(emulates = ParkourVersion.V1_11_2)
+/** Keeps 1.8 through 1.8.8 on the native shape before the verified 1.8.9 boundary. */
+@MovementChange(emulates = ParkourVersion.V1_8)
 public final class CauldronCollisionNativeFence implements BlockCollisionShapeHook {
     private final String blockId;
 
