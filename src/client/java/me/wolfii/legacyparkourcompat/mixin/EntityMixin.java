@@ -38,6 +38,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.travel.GravityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.InputAccelerationHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.movement.HeadingVelocityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.InputVectorHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.RelativeInputYawHook;
 import me.wolfii.legacyparkourcompat.mechanic.OrdinaryPlayerContext;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.InsideBlockContactHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerFallDistanceResetHook;
@@ -185,9 +186,52 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
         target = "Lnet/minecraft/world/entity/Entity;getInputVector(Lnet/minecraft/world/phys/Vec3;FF)Lnet/minecraft/world/phys/Vec3;"
     ))
     private Vec3 legacyparkourcompat$inputVector(Vec3 input, float speed, float yaw, Operation<Vec3> original) {
-        return MovementRuntime.find(InputVectorHook.class, (Entity)(Object)this)
-            .map(hook -> hook.inputVector(input, speed, yaw, () -> original.call(input, speed, yaw)))
-            .orElseGet(() -> original.call(input, speed, yaw));
+        Entity entity = (Entity)(Object)this;
+        Entity previousEntity = MovementRuntime.currentEntity();
+        if (MovementRuntime.appliesTo(entity)) {
+            MovementRuntime.enter(entity);
+        } else {
+            MovementRuntime.exit();
+        }
+        try {
+            return MovementRuntime.find(InputVectorHook.class, entity)
+                .map(hook -> hook.inputVector(input, speed, yaw, () -> original.call(input, speed, yaw)))
+                .orElseGet(() -> original.call(input, speed, yaw));
+        } finally {
+            if (previousEntity != null) {
+                MovementRuntime.enter(previousEntity);
+            } else {
+                MovementRuntime.exit();
+            }
+        }
+    }
+
+    @ModifyArg(method = "getInputVector",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;sin(D)F"), index = 0)
+    private static double legacyparkourcompat$relativeInputSineAngle(
+        double vanillaRadians, @Local(argsOnly = true, index = 2) float yawDegrees
+    ) {
+        Entity entity = MovementRuntime.currentEntity();
+        if (entity instanceof Player player) {
+            return MovementRuntime.find(RelativeInputYawHook.class, player)
+                .map(hook -> hook.toRadians(player, yawDegrees, vanillaRadians))
+                .orElse(vanillaRadians);
+        }
+        return vanillaRadians;
+    }
+
+    @ModifyArg(method = "getInputVector",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;cos(D)F"), index = 0)
+    private static double legacyparkourcompat$relativeInputCosineAngle(
+        double vanillaRadians, @Local(argsOnly = true, index = 2) float yawDegrees
+    ) {
+        Entity entity = MovementRuntime.currentEntity();
+        if (entity instanceof Player player) {
+            return MovementRuntime.find(RelativeInputYawHook.class, player)
+                .map(hook -> hook.toRadians(player, yawDegrees, vanillaRadians))
+                .orElse(vanillaRadians);
+        }
+        return vanillaRadians;
     }
 
     @WrapOperation(method = "move", at = @At(value = "INVOKE",
