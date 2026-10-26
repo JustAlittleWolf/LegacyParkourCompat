@@ -1,20 +1,19 @@
-package me.wolfii.legacyparkourcompat.mixin;
+package me.wolfii.legacyparkourcompat.mechanic;
 
-import java.util.function.Supplier;
 import net.minecraft.world.entity.Entity;
 
-/** Marks the nested fluid refresh invoked by LivingEntity.checkFallDamage. */
-final class PostMoveFluidRefreshContext {
+/** Carries a scoped historical current-cutoff bypass into the nested tracker call. */
+public final class FluidCurrentCutoffContext {
     private static final ThreadLocal<Entity> ACTIVE_ENTITY = new ThreadLocal<>();
 
-    private PostMoveFluidRefreshContext() {
+    private FluidCurrentCutoffContext() {
     }
 
-    static <T> T suppressLavaCurrent(Entity entity, Supplier<T> action) {
+    public static void run(Entity entity, Runnable action) {
         Entity previous = ACTIVE_ENTITY.get();
         ACTIVE_ENTITY.set(entity);
         try {
-            return action.get();
+            action.run();
         } finally {
             if (previous == null) {
                 ACTIVE_ENTITY.remove();
@@ -24,7 +23,7 @@ final class PostMoveFluidRefreshContext {
         }
     }
 
-    static boolean suppressesLavaCurrent(Entity entity) {
+    public static boolean isActiveFor(Entity entity) {
         return ACTIVE_ENTITY.get() == entity;
     }
 }

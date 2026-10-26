@@ -1,5 +1,7 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
+import me.wolfii.legacyparkourcompat.mechanic.CollisionAxisOrderContext;
+
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import me.wolfii.legacyparkourcompat.mechanic.BorderAdmissionContext;

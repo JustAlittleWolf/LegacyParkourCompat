@@ -1,5 +1,7 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
+import me.wolfii.legacyparkourcompat.mechanic.FarmlandEntityPushContext;
+
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Block;
 import org.spongepowered.asm.mixin.Mixin;
