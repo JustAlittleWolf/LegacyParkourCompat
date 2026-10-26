@@ -1,5 +1,7 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
+import me.wolfii.legacyparkourcompat.mechanic.CollisionAxisOrderContext;
+
 import com.google.common.collect.ImmutableList;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

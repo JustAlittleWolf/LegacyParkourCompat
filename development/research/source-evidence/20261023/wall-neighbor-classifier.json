@@ -1,0 +1,300 @@
+{
+  "schema": 1,
+  "assignment": "Legacy 1.11.2 wall neighbor classifier against native 26.2 block states",
+  "status": "bounded_source_facts_with_open_mapping_gates",
+  "scope": {
+    "older": "1.11.2",
+    "olderMapping": "Ornithe Feather, feather-gen2-1.11.2+build.2",
+    "newer": "26.2",
+    "newerMapping": "unobfuscated",
+    "question": "How can the old WallBlock neighbor boolean be represented for old-era block identities/states in the newer native registry?",
+    "exclusions": [
+      "modern-only block identities",
+      "world-state mutation",
+      "runtime measurement",
+      "implementation",
+      "tests"
+    ]
+  },
+  "sourceSets": [
+    {
+      "version": "1.11.2",
+      "directory": "D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/1.11.2/ornithe-feather",
+      "namespace": "ornithe-feather",
+      "sourceManifest": "../ornithe-feather.sources.sha256",
+      "sourceManifestSha256": "d908c2af76598ad26999563bfef0089f1d3c8c32483eee6b108f0defa2773df0",
+      "sourceCount": 1921,
+      "publication": "decompileMinecraft exact run; adjacent provenance maps 1.11.2 to feather-gen2-1.11.2+build.2 mergedv2/tiny artifacts; source/ready/provenance hashes identify this publication.",
+      "readyMarker": "../ornithe-feather.ready.json",
+      "readyMarkerSha256": "ceabfb266993567aab8c867525365e18aa0a0d7ba5a2cb7b6cfcc83d21318c40",
+      "provenanceFile": "../ornithe-feather.provenance.json",
+      "provenanceSha256": "dcdb65e1361297a584c5b93f581b1b539911911c6cec1a203740baa5379732c6"
+    },
+    {
+      "version": "26.2",
+      "directory": "D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/26.2/unobfuscated",
+      "namespace": "unobfuscated",
+      "sourceManifest": "../unobfuscated.sources.sha256",
+      "sourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894",
+      "sourceCount": 7055,
+      "publication": "decompileMinecraft exact run; adjacent provenance records mappingOption unobfuscated; source/ready/provenance hashes identify this publication.",
+      "readyMarker": "../unobfuscated.ready.json",
+      "readyMarkerSha256": "f9406adb6bf7cb4c1ab0792a798ab2cb90e082ad4c2eee032c9f674d0ea8070f",
+      "provenanceFile": "../unobfuscated.provenance.json",
+      "provenanceSha256": "a328f5333a1b27aadde4422b23159a323ae219ccd26f11207c1a5461366f27d1"
+    }
+  ],
+  "evidence": [
+    {
+      "version": "1.11.2",
+      "file": "net/minecraft/block/WallBlock.java",
+      "sha256": "17da6d881365e4dce5134f88cb9a9e5273d1fa1734812d13410dc6924a3acbfd",
+      "members": "shouldConnectTo lines 148-158; state-index caller lines 188-195; isCube lines 134-136"
+    },
+    {
+      "version": "1.11.2",
+      "file": "net/minecraft/block/Block.java",
+      "sha256": "ab873436b24487ab0ee8055bf7a478349c7f7978398aea8e387796a6c820996a",
+      "members": "isCube default true lines 234-236; generic isSolid helper lines 224-226; registered block construction lines 728 onward"
+    },
+    {
+      "version": "1.11.2",
+      "file": "net/minecraft/block/material/Material.java",
+      "sha256": "5d682e9ea5a30540e62a68879fbdabd2dc1fb79781a8350c61370c1166654a7d",
+      "members": "isSolidBlocking lines 103-105; material constants and translucent setup lines 8-44"
+    },
+    {
+      "version": "1.11.2",
+      "file": "net/minecraft/block/material/AirMaterial.java",
+      "sha256": "65aad54401b4376cf92b345ca1a3185d0b3a2ec7bc6191f393976a3c471f1b27",
+      "members": "blocksMovement false"
+    },
+    {
+      "version": "1.11.2",
+      "file": "net/minecraft/block/material/PlantMaterial.java",
+      "sha256": "c3284411c2ab826853a1aca3c5b44d86fcc3a548cb9655cce4efa718bf419e59",
+      "members": "blocksMovement false"
+    },
+    {
+      "version": "1.11.2",
+      "file": "net/minecraft/block/material/LiquidMaterial.java",
+      "sha256": "208feeac7b775c16d7e7eb956d8f1dbf6d21e00f3f4463e6d9c197a295ea818a",
+      "members": "blocksMovement false"
+    },
+    {
+      "version": "1.11.2",
+      "file": "net/minecraft/block/material/PortalMaterial.java",
+      "sha256": "d66b854b93195e840f3378305baafdabcff34ed6bcbf0755ea0d4e306f78682a",
+      "members": "blocksMovement false"
+    },
+    {
+      "version": "1.11.2",
+      "file": "net/minecraft/block/CobwebBlock.java",
+      "sha256": "f458efc121d33ace844824d6fcde3b2676960583c14b03e982f1ae487aa2f7c7",
+      "members": "anonymous Material subclass overrides blocksMovement false"
+    },
+    {
+      "version": "1.11.2",
+      "file": "net/minecraft/block/state/StateDefinition.java",
+      "sha256": "95704c944742efb2ec9cba7eb73399a330195556e669451131ba542e6a9fac65",
+      "members": "BlockState.isCube delegates to owning block with the concrete state lines 270-275"
+    },
+    {
+      "version": "1.11.2",
+      "file": "net/minecraft/block/SlabBlock.java",
+      "sha256": "15955db0d4e2607bdf4d90ff93876bd0d0875af3a378100225fb99b7ebb6bc8d",
+      "members": "isCube returns this.isDouble(), so single- and double-slab registry families differ; concrete source lines 70-75"
+    },
+    {
+      "version": "1.11.2",
+      "file": "net/minecraft/block/StairsBlock.java",
+      "sha256": "5df1782da6eb7acdb9935b3910a0484d6417661bfd6230ecf81df0de6d782627",
+      "members": "isCube always false lines 145-147"
+    },
+    {
+      "version": "26.2",
+      "file": "net/minecraft/world/level/block/WallBlock.java",
+      "sha256": "b2bcd69d81e5a19a21eb50e7e5ac259269aca3871cec5899caef03ff4507a9c7",
+      "members": "connectsTo lines 105-109; direction-specific face predicates lines 126-129"
+    },
+    {
+      "version": "26.2",
+      "file": "net/minecraft/world/level/block/Block.java",
+      "sha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab",
+      "members": "isExceptionForConnection lines 250-260"
+    },
+    {
+      "version": "26.2",
+      "file": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+      "sha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+      "members": "native BlockStateBase.blocksMotion/isSolid/isSolidRender/isFaceSturdy/isCollisionShapeFullBlock accessors and cached full collision-shape calculation"
+    },
+    {
+      "version": "26.2",
+      "file": "net/minecraft/world/level/block/Blocks.java",
+      "sha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+      "members": "native registrations and their ResourceKey/BlockItemId identities"
+    },
+    {
+      "version": "26.2",
+      "file": "net/minecraft/references/BlockItemIds.java",
+      "sha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6",
+      "members": "native block identity constants; exact same-name example IDs checked in this file"
+    },
+    {
+      "version": "26.2",
+      "file": "net/minecraft/references/BlockIds.java",
+      "sha256": "0f342f57727cfe99966da9706da7ddb330654cb59684529166b6f175171ba69f",
+      "members": "native block-only resource identity constants"
+    }
+  ],
+  "oldPredicate": {
+    "sourceOrder": [
+      {
+        "when": "neighbor block is Blocks.BARRIER",
+        "result": false
+      },
+      {
+        "when": "neighbor block is the current wall instance OR neighbor block instanceof FenceGateBlock",
+        "result": true
+      },
+      {
+        "otherwise": "neighborBlock.material.isSolidBlocking() && neighborState.isCube()",
+        "then": "neighborBlock.material != Material.PUMPKIN"
+      }
+    ],
+    "materialIsSolidBlocking": "Material.isSolidBlocking() is exactly !translucent && blocksMovement(). AirMaterial and PlantMaterial override blocksMovement() to false; LiquidMaterial and PortalMaterial do likewise; COBWEB's anonymous material also returns false. LEAVES, GLASS, TNT, ICE, SNOW_LAYER, and CACTUS are translucent. Therefore a Material name allowlist or modern render solidity predicate is not a source-equivalent reduction by itself.",
+    "isCube": {
+      "default": true,
+      "falseConstantOwners": [
+        "AbstractPressurePlateBlock",
+        "AirBlock",
+        "AnvilBlock",
+        "AbstractRailBlock",
+        "BannerBlock",
+        "BeaconBlock",
+        "BedBlock",
+        "BrewingStandBlock",
+        "ButtonBlock",
+        "CactusBlock",
+        "CakeBlock",
+        "CarpetBlock",
+        "CauldronBlock",
+        "ChestBlock",
+        "ChorusFlowerBlock",
+        "ChorusPlantBlock",
+        "CobwebBlock",
+        "CocoaBlock",
+        "DaylightDetectorBlock",
+        "DiodeBlock",
+        "DoorBlock",
+        "DragonEggBlock",
+        "EnchantingTableBlock",
+        "EnderChestBlock",
+        "EndGatewayBlock",
+        "EndPortalBlock",
+        "EndPortalFrameBlock",
+        "EndRodBlock",
+        "FarmlandBlock",
+        "FenceBlock",
+        "FenceGateBlock",
+        "FireBlock",
+        "FlowerPotBlock",
+        "GlassBlock",
+        "GrassPathBlock",
+        "HopperBlock",
+        "LadderBlock",
+        "LeverBlock",
+        "LiquidBlock",
+        "MovingBlock",
+        "PaneBlock",
+        "PistonBaseBlock",
+        "PistonHeadBlock",
+        "PlantBlock",
+        "PortalBlock",
+        "RedstoneWireBlock",
+        "ShulkerBoxBlock",
+        "SignBlock",
+        "SkullBlock",
+        "SnowLayerBlock",
+        "StainedGlassBlock",
+        "StairsBlock",
+        "StructureVoidBlock",
+        "SugarCaneBlock",
+        "TorchBlock",
+        "TrapdoorBlock",
+        "TripwireBlock",
+        "TripwireHookBlock",
+        "VineBlock",
+        "WallBlock"
+      ],
+      "variantOwner": {
+        "class": "SlabBlock",
+        "expression": "this.isDouble()",
+        "meaning": "instance-family property, not a state property; registered single slab false, registered double slab true"
+      },
+      "stateDispatch": "StateDefinition's concrete BlockState.isCube delegates to owning Block.isCube(state). No geometric collision-shape test is part of the old predicate."
+    },
+    "derivedClassifier": "Old generic true = (legacy identity is not barrier, wall-self, or fence-gate) AND old material's !translucent && blocksMovement AND old class/instance isCube AND old material is not PUMPKIN; wall-self and fence-gate short-circuits are true."
+  },
+  "newNativePredicate": {
+    "formula": "WallBlock.connectsTo: state is in BlockTags.WALLS OR (!Block.isExceptionForConnection(state) AND direction-specific state.isFaceSturdy(level,pos,side)) OR IronBarsBlock OR (FenceGateBlock and connectsToDirection(state, direction)).",
+    "wallNeighborQuery": "isFaceSturdy uses native SupportType.FULL when called with three arguments; the direction is the side facing the wall.",
+    "exceptionIdentities": [
+      "LeavesBlock",
+      "barrier",
+      "carved_pumpkin",
+      "jack_o_lantern",
+      "melon",
+      "pumpkin",
+      "BlockTags.SHULKER_BOXES"
+    ],
+    "nonEquivalence": "26.2 face support is direction-sensitive, and native WallBlock adds wall-tag and iron-bars cases. The old generic predicate is direction-independent and does not include those cases. Neither modern isSolidRender nor isCollisionShapeFullBlock proves old isCube/material flags."
+  },
+  "closedMappings": [
+    {
+      "oldBlockId": "barrier",
+      "newBlockId": "barrier",
+      "proof": "Both source registries expose barrier; old predicate hard-rejects identity before gate/solid checks; 26.2 exception list also includes barrier."
+    },
+    {
+      "oldBlockId": "pumpkin",
+      "newBlockId": "pumpkin",
+      "proof": "Both source registries expose pumpkin; old predicate excludes Material.PUMPKIN after solid/cube checks; 26.2 exception list includes pumpkin."
+    },
+    {
+      "oldBlockId": "iron_bars",
+      "newBlockId": "iron_bars",
+      "proof": "Old ID 101 constructs PaneBlock with Material.IRON. PaneBlock overrides old isCube=false, so the old generic result is false. 26.2 BlockItemIds.IRON_BARS resolves the iron_bars identity; Blocks registers IronBarsBlock there, and modern WallBlock connects to IronBarsBlock unconditionally. This is a source-proven old/native classifier divergence for the same resource identity."
+    },
+    {
+      "oldBlockId": "melon_block",
+      "newBlockId": "melon",
+      "proof": "Old registration ID 103 constructs MelonBlock(Material.PUMPKIN); old isCube defaults true, then the old pumpkin-material exclusion yields false. 26.2 Blocks registers generic Block at BlockItemIds.MELON (resource melon), and Block.isExceptionForConnection includes Blocks.MELON, yielding false for this renamed identity. This closes this renamed false/false pair only."
+    }
+  ],
+  "registeredBlockInventory": {
+    "dataFile": "registered-blocks.json",
+    "dataFileSha256": "72799aabd4985abbbb22edd7c0c28760411149a6fa48e7867571bf0781f0ae79",
+    "extraction": "All 236 numeric registration calls in old Block.java are recorded (IDs 0-234 and 255) with numeric ID, resource name, constructed runtime class, old isCube result, material as needed, and effective old wall-neighbor result including special identity/class cases. Old superclass isCube overrides and eight slab registration instance classes are resolved. 136 exact same-name 26.2 resources are passed through Blocks registration helpers; 100 old names are unmatched or renamed. Twenty-six old effective material values remain unspecified, all on rows with old isCube=false; cobblestone_wall (ID 139) resolves to STONE through the shared constructor and its true effective result short-circuits through wall identity.",
+    "oldRegisteredNames": 236,
+    "sameNameModernResourcesPassedTo26_2RegistrationHelper": 136,
+    "unmatchedOrRenamedOldNames": 100,
+    "isCubeTrue": 89,
+    "isCubeFalse": 147,
+    "slabInstanceClassRules": 8,
+    "legacyGenericResultTrue": 85,
+    "legacyGenericResultFalse": 151,
+    "legacyGenericResultOpen": 0,
+    "materialResolved": 210,
+    "materialUnspecifiedButResultClosedByIsCubeFalse": 26
+  },
+  "mappingGates": [
+    "The extraction covers all 236 numeric registrations in old Block.java (IDs 0-234 and 255); 136 exact same-name 26.2 resource identities are passed to a Blocks.java registration helper. The other 100 names require explicit renamed/merged counterpart evidence or remain open. Same spelling does not prove state-property conversion.",
+    "The old result is resolved for all registrations from old Material.isSolidBlocking, block-class isCube overrides, and the registration-instance rule for eight slab classes. Twenty-six old effective Material values remain unspecified, all 26 have old isCube=false and resolve false. Cobblestone wall resolves to STONE from its shared Material.STONE constructor; its effective result is true via the preceding same-wall identity branch. This row is closed by explicit source evidence.",
+    "Legacy metadata affects selected block states but does not vary old isCube except slabs; eight slab registrations have separate single/double runtime classes, and their old isCube isDouble result is encoded per registration. Target 26.2 state/property equivalence is not exhaustively proven.",
+    "Modern-only 26.2 identities and unmatched/renamed identities without explicit source linkage remain open; no old result is extrapolated to modern-only states.",
+    "No universal 26.2 native predicate equals the old classifier. Modern isFaceSturdy(FULL) is directional and native wall logic adds wall-tag, iron-bars, and directional fence-gate cases. Do not substitute isSolidRender, collision-full-block, or face-sturdy for the old material/isCube contract."
+  ],
+  "conclusion": "Exact old results are resolved for all 236 old registered IDs from source. Exact same-name identity/helper references exist for 136; 100 names remain renamed/unmatched until explicit evidence closes them. This proves no universal 26.2 native equivalent: modern wall logic adds directional face support and wall/iron-bars/fence-gate rules. Result is bounded to old registrations and explicitly evidenced mappings; modern-only 26.2 identities remain open."
+}
