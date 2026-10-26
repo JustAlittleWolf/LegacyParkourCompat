@@ -207,9 +207,9 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
     }
 
     @ModifyArg(method = "getInputVector",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;sin(F)F"), index = 0)
-    private static float legacyparkourcompat$relativeInputSineAngle(
-        float vanillaRadians, @Local(argsOnly = true, index = 2) float yawDegrees
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;sin(D)F"), index = 0)
+    private static double legacyparkourcompat$relativeInputSineAngle(
+        double vanillaRadians, @Local(argsOnly = true, index = 2) float yawDegrees
     ) {
         Entity entity = MovementRuntime.currentEntity();
         if (entity instanceof Player player) {
@@ -221,9 +221,9 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
     }
 
     @ModifyArg(method = "getInputVector",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;cos(F)F"), index = 0)
-    private static float legacyparkourcompat$relativeInputCosineAngle(
-        float vanillaRadians, @Local(argsOnly = true, index = 2) float yawDegrees
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;cos(D)F"), index = 0)
+    private static double legacyparkourcompat$relativeInputCosineAngle(
+        double vanillaRadians, @Local(argsOnly = true, index = 2) float yawDegrees
     ) {
         Entity entity = MovementRuntime.currentEntity();
         if (entity instanceof Player player) {

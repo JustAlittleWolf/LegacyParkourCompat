@@ -9,7 +9,7 @@ import net.minecraft.world.entity.player.Player;
 @MovementChange(emulates = ParkourVersion.V1_8)
 public final class NativeRelativeInputYaw implements RelativeInputYawHook {
     @Override
-    public float toRadians(Player player, float yawDegrees, float vanillaRadians) {
+    public double toRadians(Player player, float yawDegrees, double vanillaRadians) {
         return vanillaRadians;
     }
 }
