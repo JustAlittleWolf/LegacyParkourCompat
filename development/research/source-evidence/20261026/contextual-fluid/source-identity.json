@@ -1,0 +1,174 @@
+{
+  "limitations": [
+    "No .decompile-provenance.json exists at canonical decompiled root or either per-version source root; version-level ornithe-feather.provenance.json used.",
+    "Historical artifact cache paths in provenance are unavailable; mapping identity is recorded from artifact manifests, raw mapping/metadata artifacts were not rehashed."
+  ],
+  "versions": [
+    {
+      "release": "1.13.2",
+      "provenancePath": "1.13.2/ornithe-feather.provenance.json",
+      "rootDecompileProvenanceExists": false,
+      "artifactManifestSha256": "fdcacd9150f98ea70acafc5cab754027ab1a09828ff0eaa8e542dd7890d9ce1e",
+      "namespace": "ornithe-feather",
+      "artifactManifest": "artifacts.sha256",
+      "sources": [
+        {
+          "path": "net/minecraft/entity/Entity.java",
+          "manifestVerified": true,
+          "sha256": "1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269"
+        },
+        {
+          "path": "net/minecraft/entity/living/LivingEntity.java",
+          "manifestVerified": true,
+          "sha256": "bb691358c9a43c9f46e85575bf4d0a4ad671d0eb912502acc3a6a3f625e42f1c"
+        },
+        {
+          "path": "net/minecraft/entity/living/player/PlayerEntity.java",
+          "manifestVerified": true,
+          "sha256": "4ed22f6c5a3c55d67eed782070ac722201df4d624adbc90779f1fd29c2876633"
+        },
+        {
+          "path": "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+          "manifestVerified": true,
+          "sha256": "2583495f3a02b4791aa036e6a8d354d7596c4984761969a0f29b29d8d9bf42bf"
+        },
+        {
+          "path": "net/minecraft/fluid/FlowingFluid.java",
+          "manifestVerified": true,
+          "sha256": "2398d109ddc5785cb1bc8872b8c157319137df8957faf8a03581a8f68afb1253"
+        },
+        {
+          "path": "net/minecraft/fluid/WaterFluid.java",
+          "manifestVerified": true,
+          "sha256": "183894d0a4f7a85becd97eb2c0f6cedc1d5adc4648dc6d3d2b5624df173df28b"
+        },
+        {
+          "path": "net/minecraft/fluid/state/FluidState.java",
+          "manifestVerified": true,
+          "sha256": "05e2df9377a3bc1e91645ce4282bcaa4edebe93d7ef1907407961baaecff23a6"
+        },
+        {
+          "path": "net/minecraft/block/LiquidBlock.java",
+          "manifestVerified": true,
+          "sha256": "feedc9a5f1843604e6755a447e89d8d5599613799e25cf8c93a0562e52e97856"
+        },
+        {
+          "path": "net/minecraft/client/network/handler/ClientPlayNetworkHandler.java",
+          "manifestVerified": true,
+          "sha256": "4f65502fbee6476cef0838563f03a66f07a1a9ed8c63e580f5338ba5fe274f11"
+        },
+        {
+          "path": "net/minecraft/client/world/ClientWorld.java",
+          "manifestVerified": true,
+          "sha256": "bae1d6d653260e42d735b9652e5c89711f1bd78eacba7993e2460f2f2528640a"
+        },
+        {
+          "path": "net/minecraft/client/world/chunk/ClientChunkCache.java",
+          "manifestVerified": true,
+          "sha256": "d416574e48cf414145b2c8cb8c1b7ef9e39d44aaf876972d724316fd01957f88"
+        },
+        {
+          "path": "net/minecraft/world/chunk/WorldChunk.java",
+          "manifestVerified": true,
+          "sha256": "d800fac11aa2672a4dd69cb5a599e5f84bb6e2c71cfc8080fa972acdabfb4914"
+        },
+        {
+          "path": "net/minecraft/world/chunk/WorldChunkSection.java",
+          "manifestVerified": true,
+          "sha256": "df960f6239f7413dea7882775b9693a37c5f3650eabd0e5bf70f1504a0094e7e"
+        }
+      ],
+      "provenanceSha256": "e25950b7855fc4f2aee1a662f0be6b0af9f28788d9e27293075cfc5a3aa5d383",
+      "sourceManifestSha256": "2c8cfb646bf622fb26ac0ca0cb5e02a354fb512e29f8b1010f1aaacd509e1211",
+      "mappingEntries": [
+        "26ddcd28289a44d4ae4179307b7193ce0227d2da57350e717ff1d8c6e27e8c95 *1.13.2/version.json",
+        "317384d4faccc2939c3b14252993d31745eb42aad59f2f0ea78893cbe4e7283b *yarn/feather-gen2-1.13.2+build.2-mergedv2.jar",
+        "b3fd787448aed2c6e115d965d9edbb437ce47794ba63c7883e9014fd41262f71 *yarn/feather-gen2-1.13.2+build.2.tiny"
+      ]
+    },
+    {
+      "release": "1.14",
+      "provenancePath": "1.14/ornithe-feather.provenance.json",
+      "rootDecompileProvenanceExists": false,
+      "artifactManifestSha256": "2fdf423e2fbe0d20ec961cc42cd69b3107caeed88edf3e097ee588d29868f5df",
+      "namespace": "ornithe-feather",
+      "artifactManifest": "ornithe-feather.artifacts.sha256",
+      "sources": [
+        {
+          "path": "net/minecraft/entity/Entity.java",
+          "manifestVerified": true,
+          "sha256": "15e9d4cde45d857ca3117ccfe2d5d9071c08e7ee4a67b4053f7b006fe7a4bfa9"
+        },
+        {
+          "path": "net/minecraft/entity/living/LivingEntity.java",
+          "manifestVerified": true,
+          "sha256": "1db4dd1aa95a06c48511e5567c0d3836f2a6e5a12a5cf03ab5c892e429198b79"
+        },
+        {
+          "path": "net/minecraft/entity/living/player/PlayerEntity.java",
+          "manifestVerified": true,
+          "sha256": "f73879bd42103fa45f39cfe178ac82c7574c6306f00555af7f7e795976275dd7"
+        },
+        {
+          "path": "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+          "manifestVerified": true,
+          "sha256": "2b1ad3b3416949a9da2607a3ec2251aa69b2d9eebd76638c92e20749d625338f"
+        },
+        {
+          "path": "net/minecraft/fluid/FlowingFluid.java",
+          "manifestVerified": true,
+          "sha256": "a92395f2e8219aaf7b2c80444dd14ba5427577a7f1d2027c780e822eb8793a15"
+        },
+        {
+          "path": "net/minecraft/fluid/WaterFluid.java",
+          "manifestVerified": true,
+          "sha256": "ed5a28c7f4370ef8f7217dae482fbb1e28296f08c1d70944a1a690bf5f6bb13f"
+        },
+        {
+          "path": "net/minecraft/fluid/state/FluidState.java",
+          "manifestVerified": true,
+          "sha256": "24e19cc8d205245037af10360be21f74614fffd0afdce7294cbb8bbfa026aef7"
+        },
+        {
+          "path": "net/minecraft/block/LiquidBlock.java",
+          "manifestVerified": true,
+          "sha256": "bfbbe2997ce6c03224b5833176d6b19b4b4b4cbc3337960fb3d867de77519ca1"
+        },
+        {
+          "path": "net/minecraft/client/network/handler/ClientPlayNetworkHandler.java",
+          "manifestVerified": true,
+          "sha256": "d5c63c25b086b370588810ea999cab06a538fbf8a01a6d357b59bd6fd608ba5c"
+        },
+        {
+          "path": "net/minecraft/client/world/ClientWorld.java",
+          "manifestVerified": true,
+          "sha256": "eb4985a468055bb206add2f5ae8d94864c7ab3a771fd40844c4fa6bc4e35b1b8"
+        },
+        {
+          "path": "net/minecraft/client/world/chunk/ClientChunkCache.java",
+          "manifestVerified": true,
+          "sha256": "1ace2844b32b8050af668b1f872bff0097a82c405260029ec53db103fb242cd4"
+        },
+        {
+          "path": "net/minecraft/world/chunk/WorldChunk.java",
+          "manifestVerified": true,
+          "sha256": "900a39c58958cf3104f9b4835931215f985b3cac2c779b8ad25f48c5d60bcc1a"
+        },
+        {
+          "path": "net/minecraft/world/chunk/WorldChunkSection.java",
+          "manifestVerified": true,
+          "sha256": "509b12351afa36ebb6b3fe68859019fe4c66d728993a73b85d92ecab61fe860b"
+        }
+      ],
+      "provenanceSha256": "bfb011801a64e9afaa4aca43e8a8ed40bf2a02f136ffc02e65b32e79315764fa",
+      "sourceManifestSha256": "68bc39e38bc501e7c9af315de4678263e1a64606b0b9780099187c7984ccbc98",
+      "mappingEntries": [
+        "3d05fc911c8559105767713365ea1c29bbbeccf57214f286c86a598ce51f22a6 *1.14/version.json",
+        "57f0e3227099d010c4a0c7f2fea03dbd665bc7e612ad204db80fa5b5728e65a3 *yarn/feather-gen2-1.14+build.2-mergedv2.jar",
+        "d865d01921c115a1c20dfdc1b7cdca1c59ff1694cad54bd79e146d553417d31f *yarn/feather-gen2-1.14+build.2.tiny"
+      ]
+    }
+  ],
+  "sourceRoot": "D:/Javastuff/LegacyParkourCompat/decompiled_minecraft",
+  "priorFindingSha256": "f33e14e8c79e31df2de6d9968b2c76d93821ee6099379653027e262eb0452198"
+}

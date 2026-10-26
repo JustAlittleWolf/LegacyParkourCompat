@@ -1,0 +1,268 @@
+{
+  "1.21.8": {
+    "identity": {
+      "schema": 1,
+      "status": "ready",
+      "versionId": "1.21.8",
+      "mapping": "mojmap",
+      "outputPath": "D:\\Javastuff\\LegacyParkourCompat\\build\\movement-campaign-2026-10-07\\ready\\1.21.8\\mojmap",
+      "decompiler": "Vineflower",
+      "javaRuntime": "25",
+      "sourceFileCount": 6105,
+      "sourceBytes": 27900784.0,
+      "sourceManifest": "mojmap.sources.sha256",
+      "sourceManifestSha256": "8ffb76cea647a2ba4fe58e000678f751bea2c40ea6358bae492e962ed1d9d008",
+      "artifactManifest": "artifacts.sha256",
+      "artifactManifestSha256": "c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c",
+      "artifactCount": 257,
+      "diagnostics": "movement-diagnostics.txt",
+      "diagnosticsSha256": "c954da48013372c7b423bf47597b447d32607b2c39b00e3cf353b1d5fcc95806",
+      "versionMetadataId": "1.21.8",
+      "clientSha256": "ea74e9c5e92d01f95f3d39196ddb734e19a077a58b4c433c34109487d600276f",
+      "movementDiagnosticsReview": 9,
+      "createdAtUtc": "2026-10-07T15:18:09.9163615Z",
+      "artifactIdentities": [
+        "3bf5cdd444dfa89199fe4f8a92b6c79f4e4fa8977ff52029c3acd99378506fad *1.21.8/version.json",
+        "dce035fedcc047ce0306c69892176b5eb9036bcc2845c87198163f12bb1d67ca *1.21.8/client_mappings.txt",
+        "ea74e9c5e92d01f95f3d39196ddb734e19a077a58b4c433c34109487d600276f *1.21.8/client.jar"
+      ],
+      "sourceManifestActualSha256": "8ffb76cea647a2ba4fe58e000678f751bea2c40ea6358bae492e962ed1d9d008",
+      "artifactManifestActualSha256": "c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c"
+    },
+    "files": {
+      "net/minecraft/world/entity/Entity.java": {
+        "sha256": "c403e6176d27b5bfd6aaa0dea3735ffa4fcf80dbae58766661dd84453b7e9704",
+        "expected": "c403e6176d27b5bfd6aaa0dea3735ffa4fcf80dbae58766661dd84453b7e9704",
+        "matches": true
+      },
+      "net/minecraft/world/entity/LivingEntity.java": {
+        "sha256": "609f0197a0b4551ab42279e452c11cdd256135b1d467c2a95950b0e9fd7ddef8",
+        "expected": "609f0197a0b4551ab42279e452c11cdd256135b1d467c2a95950b0e9fd7ddef8",
+        "matches": true
+      },
+      "net/minecraft/world/entity/player/Player.java": {
+        "sha256": "8dc5514fe44311f39268692f5188840b9f65cb71143228fa8b84242585ea7987",
+        "expected": "8dc5514fe44311f39268692f5188840b9f65cb71143228fa8b84242585ea7987",
+        "matches": true
+      },
+      "net/minecraft/client/player/LocalPlayer.java": {
+        "sha256": "53f2a71a886b9c71853afe36f2df857f80a9bf1cd6ec4ca8604ccd7e238d89ee",
+        "expected": "53f2a71a886b9c71853afe36f2df857f80a9bf1cd6ec4ca8604ccd7e238d89ee",
+        "matches": true
+      },
+      "net/minecraft/client/multiplayer/ClientPacketListener.java": {
+        "sha256": "a66556678a93c63c0ceb8953f25261b82bf3bb1971048fbc15b177c6dffea8cd",
+        "expected": "a66556678a93c63c0ceb8953f25261b82bf3bb1971048fbc15b177c6dffea8cd",
+        "matches": true
+      },
+      "net/minecraft/world/entity/EntityDimensions.java": {
+        "sha256": "9fb9575ec615d4aefe6316c443e87a902f44e955393778a4b93623e8b680adc4",
+        "expected": "9fb9575ec615d4aefe6316c443e87a902f44e955393778a4b93623e8b680adc4",
+        "matches": true
+      },
+      "net/minecraft/world/entity/ai/attributes/Attributes.java": {
+        "sha256": "b941c0556d9ed3c3ce1ffd4c993c9902287a690230e1510696ff13f9efdf2020",
+        "expected": "b941c0556d9ed3c3ce1ffd4c993c9902287a690230e1510696ff13f9efdf2020",
+        "matches": true
+      },
+      "net/minecraft/world/entity/ai/attributes/AttributeMap.java": {
+        "sha256": "06088d7aeedd65b468b807c3a500da7a3a16d787917812a55dd7b81ad60cd079",
+        "expected": "06088d7aeedd65b468b807c3a500da7a3a16d787917812a55dd7b81ad60cd079",
+        "matches": true
+      },
+      "net/minecraft/world/entity/ai/attributes/AttributeInstance.java": {
+        "sha256": "c2d4f89e7ae2abbe856e7e1aa5bff2ca613073cbda282c1975636e479ba8e346",
+        "expected": "c2d4f89e7ae2abbe856e7e1aa5bff2ca613073cbda282c1975636e479ba8e346",
+        "matches": true
+      },
+      "net/minecraft/world/entity/ai/attributes/AttributeSupplier.java": {
+        "sha256": "656206fad73103cb34645ad2c51c3bd364829855b6faa43d2440d8f25bdde54e",
+        "expected": "656206fad73103cb34645ad2c51c3bd364829855b6faa43d2440d8f25bdde54e",
+        "matches": true
+      },
+      "net/minecraft/world/entity/ai/attributes/RangedAttribute.java": {
+        "sha256": "7885aa1e82e9b1e89427ce81a5ed8f0e1cfad796e12d577ead81a52fd9791c3c",
+        "expected": "7885aa1e82e9b1e89427ce81a5ed8f0e1cfad796e12d577ead81a52fd9791c3c",
+        "matches": true
+      },
+      "net/minecraft/network/protocol/game/ClientboundUpdateAttributesPacket.java": {
+        "sha256": "a62a937338270df1ce0ec2b195fdbefcc5bc35b3db31bfcdd868baa1e27c1fdf",
+        "expected": "a62a937338270df1ce0ec2b195fdbefcc5bc35b3db31bfcdd868baa1e27c1fdf",
+        "matches": true
+      }
+    }
+  },
+  "1.21.9": {
+    "identity": {
+      "https://piston-data.mojang.com/v1/objects/3641ccb54eac2153c7e8274823c5a8e046beaba0/client.txt": "f223e9775abb66b6712c505cb1a73b48d615efebaf43a9f81dd58df9a9b1c7b3",
+      "https://piston-data.mojang.com/v1/objects/ce92fd8d1b2460c41ceda07ae7b3fe863a80d045/client.jar": "40c0a32c46601f71f6a61dae9f126202ded5cc453cfb8da6e42ae73f2a3f5c1b",
+      "https://piston-meta.mojang.com/v1/packages/91f383c21d8cd06abc9a569f2976b58da192a642/1.21.9.json": "3cca801f41f83059092c88f7de3ea74247da4c394f3e672b7a41451151c293d5"
+    },
+    "files": {
+      "net/minecraft/world/entity/Entity.java": {
+        "sha256": "bd6074b108212bde667877700af1a52649472630c906c57c2a36c96a6fcee74c",
+        "expected": "bd6074b108212bde667877700af1a52649472630c906c57c2a36c96a6fcee74c",
+        "matches": true
+      },
+      "net/minecraft/world/entity/LivingEntity.java": {
+        "sha256": "b8b49d60769203f7bd5afe4a1bffcdcdbec30be28960324cdc43a2df85a6eb66",
+        "expected": "b8b49d60769203f7bd5afe4a1bffcdcdbec30be28960324cdc43a2df85a6eb66",
+        "matches": true
+      },
+      "net/minecraft/world/entity/player/Player.java": {
+        "sha256": "af857617b66a5776e63830771360b96f75e21d47d20db08f164a2dbeee801d82",
+        "expected": "af857617b66a5776e63830771360b96f75e21d47d20db08f164a2dbeee801d82",
+        "matches": true
+      },
+      "net/minecraft/client/player/LocalPlayer.java": {
+        "sha256": "9c1df00e2f8379b2c19577a3691fee28071d8925210be3d3df928b5352e367e1",
+        "expected": "9c1df00e2f8379b2c19577a3691fee28071d8925210be3d3df928b5352e367e1",
+        "matches": true
+      },
+      "net/minecraft/client/multiplayer/ClientPacketListener.java": {
+        "sha256": "1bb341ee18704d882bb68bf917190be1045649026a99545057118b5cb9bfb348",
+        "expected": "1bb341ee18704d882bb68bf917190be1045649026a99545057118b5cb9bfb348",
+        "matches": true
+      },
+      "net/minecraft/world/entity/EntityDimensions.java": {
+        "sha256": "9fb9575ec615d4aefe6316c443e87a902f44e955393778a4b93623e8b680adc4",
+        "expected": "9fb9575ec615d4aefe6316c443e87a902f44e955393778a4b93623e8b680adc4",
+        "matches": true
+      },
+      "net/minecraft/world/entity/ai/attributes/Attributes.java": {
+        "sha256": "b941c0556d9ed3c3ce1ffd4c993c9902287a690230e1510696ff13f9efdf2020",
+        "expected": "b941c0556d9ed3c3ce1ffd4c993c9902287a690230e1510696ff13f9efdf2020",
+        "matches": true
+      },
+      "net/minecraft/world/entity/ai/attributes/AttributeMap.java": {
+        "sha256": "06088d7aeedd65b468b807c3a500da7a3a16d787917812a55dd7b81ad60cd079",
+        "expected": "06088d7aeedd65b468b807c3a500da7a3a16d787917812a55dd7b81ad60cd079",
+        "matches": true
+      },
+      "net/minecraft/world/entity/ai/attributes/AttributeInstance.java": {
+        "sha256": "c2d4f89e7ae2abbe856e7e1aa5bff2ca613073cbda282c1975636e479ba8e346",
+        "expected": "c2d4f89e7ae2abbe856e7e1aa5bff2ca613073cbda282c1975636e479ba8e346",
+        "matches": true
+      },
+      "net/minecraft/world/entity/ai/attributes/AttributeSupplier.java": {
+        "sha256": "656206fad73103cb34645ad2c51c3bd364829855b6faa43d2440d8f25bdde54e",
+        "expected": "656206fad73103cb34645ad2c51c3bd364829855b6faa43d2440d8f25bdde54e",
+        "matches": true
+      },
+      "net/minecraft/world/entity/ai/attributes/RangedAttribute.java": {
+        "sha256": "7885aa1e82e9b1e89427ce81a5ed8f0e1cfad796e12d577ead81a52fd9791c3c",
+        "expected": "7885aa1e82e9b1e89427ce81a5ed8f0e1cfad796e12d577ead81a52fd9791c3c",
+        "matches": true
+      },
+      "net/minecraft/network/protocol/game/ClientboundUpdateAttributesPacket.java": {
+        "sha256": "a62a937338270df1ce0ec2b195fdbefcc5bc35b3db31bfcdd868baa1e27c1fdf",
+        "expected": "a62a937338270df1ce0ec2b195fdbefcc5bc35b3db31bfcdd868baa1e27c1fdf",
+        "matches": true
+      },
+      "net/minecraft/world/entity/Avatar.java": {
+        "sha256": "6cfd006480fa708ec420a3d20a6207a49c515a6cfce2fe2fbf19b4b1ec633f17",
+        "expected": "6cfd006480fa708ec420a3d20a6207a49c515a6cfce2fe2fbf19b4b1ec633f17",
+        "matches": true
+      }
+    },
+    "provenanceSha256": "37d3049478585a43ffcace14fc8f2ee814b35ceedd8c9bad8b60adaed9b72c4f"
+  },
+  "1.21.10": {
+    "identity": {
+      "schema": 1,
+      "status": "ready",
+      "versionId": "1.21.10",
+      "mapping": "mojmap",
+      "outputPath": "D:\\Javastuff\\LegacyParkourCompat\\build\\movement-campaign-2026-10-07\\ready\\1.21.10\\mojmap",
+      "decompiler": "Vineflower",
+      "javaRuntime": "25",
+      "sourceFileCount": 6386,
+      "sourceBytes": 28999290.0,
+      "sourceManifest": "mojmap.sources.sha256",
+      "sourceManifestSha256": "4be26049350c1b314a0b198022cb1e7ab1e745e104047de7a5c7d099a9d7b7e1",
+      "artifactManifest": "artifacts.sha256",
+      "artifactManifestSha256": "c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c",
+      "artifactCount": 257,
+      "diagnostics": "movement-diagnostics.txt",
+      "diagnosticsSha256": "5642b893edbb01bc1dd57386e013c61572c20f75fd25542877bace1f1f457eb0",
+      "versionMetadataId": "1.21.10",
+      "clientSha256": "e65ca028bc58da12bf8413066c90ecd4d48c94fb351d9bbd22ecdff5c87f9482",
+      "movementDiagnosticsReview": 9,
+      "createdAtUtc": "2026-10-07T15:18:40.8461162Z",
+      "artifactIdentities": [
+        "15faa7deb7cd39479db123ad4664e2fb83e05d4729b7e4a8ff813107376e349a *1.21.10/version.json",
+        "2a6f53f4c1fd048e8fa956e3a3fbbb0afc02d5bbc23e52a16b328aed61b9bf39 *1.21.10/client_mappings.txt",
+        "e65ca028bc58da12bf8413066c90ecd4d48c94fb351d9bbd22ecdff5c87f9482 *1.21.10/client.jar"
+      ],
+      "sourceManifestActualSha256": "4be26049350c1b314a0b198022cb1e7ab1e745e104047de7a5c7d099a9d7b7e1",
+      "artifactManifestActualSha256": "c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c"
+    },
+    "files": {
+      "net/minecraft/world/entity/Entity.java": {
+        "sha256": "8361dbb86fe6c975d21f69d008377b6f191669be751150c842517e9d0346fa18",
+        "expected": "8361dbb86fe6c975d21f69d008377b6f191669be751150c842517e9d0346fa18",
+        "matches": true
+      },
+      "net/minecraft/world/entity/LivingEntity.java": {
+        "sha256": "b8b49d60769203f7bd5afe4a1bffcdcdbec30be28960324cdc43a2df85a6eb66",
+        "expected": "b8b49d60769203f7bd5afe4a1bffcdcdbec30be28960324cdc43a2df85a6eb66",
+        "matches": true
+      },
+      "net/minecraft/world/entity/player/Player.java": {
+        "sha256": "af857617b66a5776e63830771360b96f75e21d47d20db08f164a2dbeee801d82",
+        "expected": "af857617b66a5776e63830771360b96f75e21d47d20db08f164a2dbeee801d82",
+        "matches": true
+      },
+      "net/minecraft/client/player/LocalPlayer.java": {
+        "sha256": "9c1df00e2f8379b2c19577a3691fee28071d8925210be3d3df928b5352e367e1",
+        "expected": "9c1df00e2f8379b2c19577a3691fee28071d8925210be3d3df928b5352e367e1",
+        "matches": true
+      },
+      "net/minecraft/client/multiplayer/ClientPacketListener.java": {
+        "sha256": "1bb341ee18704d882bb68bf917190be1045649026a99545057118b5cb9bfb348",
+        "expected": "1bb341ee18704d882bb68bf917190be1045649026a99545057118b5cb9bfb348",
+        "matches": true
+      },
+      "net/minecraft/world/entity/EntityDimensions.java": {
+        "sha256": "9fb9575ec615d4aefe6316c443e87a902f44e955393778a4b93623e8b680adc4",
+        "expected": "9fb9575ec615d4aefe6316c443e87a902f44e955393778a4b93623e8b680adc4",
+        "matches": true
+      },
+      "net/minecraft/world/entity/ai/attributes/Attributes.java": {
+        "sha256": "b941c0556d9ed3c3ce1ffd4c993c9902287a690230e1510696ff13f9efdf2020",
+        "expected": "b941c0556d9ed3c3ce1ffd4c993c9902287a690230e1510696ff13f9efdf2020",
+        "matches": true
+      },
+      "net/minecraft/world/entity/ai/attributes/AttributeMap.java": {
+        "sha256": "06088d7aeedd65b468b807c3a500da7a3a16d787917812a55dd7b81ad60cd079",
+        "expected": "06088d7aeedd65b468b807c3a500da7a3a16d787917812a55dd7b81ad60cd079",
+        "matches": true
+      },
+      "net/minecraft/world/entity/ai/attributes/AttributeInstance.java": {
+        "sha256": "c2d4f89e7ae2abbe856e7e1aa5bff2ca613073cbda282c1975636e479ba8e346",
+        "expected": "c2d4f89e7ae2abbe856e7e1aa5bff2ca613073cbda282c1975636e479ba8e346",
+        "matches": true
+      },
+      "net/minecraft/world/entity/ai/attributes/AttributeSupplier.java": {
+        "sha256": "656206fad73103cb34645ad2c51c3bd364829855b6faa43d2440d8f25bdde54e",
+        "expected": "656206fad73103cb34645ad2c51c3bd364829855b6faa43d2440d8f25bdde54e",
+        "matches": true
+      },
+      "net/minecraft/world/entity/ai/attributes/RangedAttribute.java": {
+        "sha256": "7885aa1e82e9b1e89427ce81a5ed8f0e1cfad796e12d577ead81a52fd9791c3c",
+        "expected": "7885aa1e82e9b1e89427ce81a5ed8f0e1cfad796e12d577ead81a52fd9791c3c",
+        "matches": true
+      },
+      "net/minecraft/network/protocol/game/ClientboundUpdateAttributesPacket.java": {
+        "sha256": "a62a937338270df1ce0ec2b195fdbefcc5bc35b3db31bfcdd868baa1e27c1fdf",
+        "expected": "a62a937338270df1ce0ec2b195fdbefcc5bc35b3db31bfcdd868baa1e27c1fdf",
+        "matches": true
+      },
+      "net/minecraft/world/entity/Avatar.java": {
+        "sha256": "6cfd006480fa708ec420a3d20a6207a49c515a6cfce2fe2fbf19b4b1ec633f17",
+        "expected": "6cfd006480fa708ec420a3d20a6207a49c515a6cfce2fe2fbf19b4b1ec633f17",
+        "matches": true
+      }
+    }
+  }
+}

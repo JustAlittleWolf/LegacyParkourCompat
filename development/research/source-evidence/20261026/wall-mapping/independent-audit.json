@@ -1,0 +1,1876 @@
+{
+  "flatteningInputSha256": "af7c95fdab33b37fd8eefa8814fb26aa6030880979be241982a4187a929a69fa",
+  "inventoryInputSha256": "72799aabd4985abbbb22edd7c0c28760411149a6fa48e7867571bf0781f0ae79",
+  "flatteningSourceSha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+  "registeredIdsAudited": 100,
+  "explicitTargetRegisteredIds": 99,
+  "metadataRowsAudited": 787,
+  "exactRowComparisonErrors": [],
+  "uniqueFlatteningTargets": 231,
+  "targetsNotDirectlyInCurrentRegistry": [
+    "minecraft:acacia_bark",
+    "minecraft:birch_bark",
+    "minecraft:dark_oak_bark",
+    "minecraft:grass",
+    "minecraft:grass_path",
+    "minecraft:jungle_bark",
+    "minecraft:melon_block",
+    "minecraft:mob_spawner",
+    "minecraft:oak_bark",
+    "minecraft:portal",
+    "minecraft:sign",
+    "minecraft:spruce_bark",
+    "minecraft:wall_sign"
+  ],
+  "registryTargets": {
+    "minecraft:acacia_leaves": {
+      "field": "BlockItemIds.ACACIA_LEAVES",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 182,
+      "blocksReferences": [
+        592
+      ]
+    },
+    "minecraft:acacia_log": {
+      "field": "BlockItemIds.ACACIA_LOG",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 134,
+      "blocksReferences": [
+        410
+      ]
+    },
+    "minecraft:acacia_planks": {
+      "field": "BlockItemIds.ACACIA_PLANKS",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 76,
+      "blocksReferences": [
+        120
+      ]
+    },
+    "minecraft:acacia_sapling": {
+      "field": "BlockItemIds.ACACIA_SAPLING",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 89,
+      "blocksReferences": [
+        232
+      ]
+    },
+    "minecraft:acacia_slab": {
+      "field": "BlockItemIds.ACACIA_SLAB",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 255,
+      "blocksReferences": [
+        3227
+      ]
+    },
+    "minecraft:allium": {
+      "field": "BlockItemIds.ALLIUM",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 215,
+      "blocksReferences": [
+        916
+      ]
+    },
+    "minecraft:azure_bluet": {
+      "field": "BlockItemIds.AZURE_BLUET",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 216,
+      "blocksReferences": [
+        927
+      ]
+    },
+    "minecraft:beetroots": {
+      "field": "BlockItemIds.BEETROOT_CROP",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 745,
+      "blocksReferences": [
+        3774
+      ]
+    },
+    "minecraft:birch_leaves": {
+      "field": "BlockItemIds.BIRCH_LEAVES",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 180,
+      "blocksReferences": [
+        586
+      ]
+    },
+    "minecraft:birch_log": {
+      "field": "BlockItemIds.BIRCH_LOG",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 132,
+      "blocksReferences": [
+        404
+      ]
+    },
+    "minecraft:birch_planks": {
+      "field": "BlockItemIds.BIRCH_PLANKS",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 74,
+      "blocksReferences": [
+        112
+      ]
+    },
+    "minecraft:birch_sapling": {
+      "field": "BlockItemIds.BIRCH_SAPLING",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 87,
+      "blocksReferences": [
+        210
+      ]
+    },
+    "minecraft:birch_slab": {
+      "field": "BlockItemIds.BIRCH_SLAB",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 253,
+      "blocksReferences": [
+        3217
+      ]
+    },
+    "minecraft:black_carpet": {
+      "field": "BlockItemIds.CARPET",
+      "color": "black",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 755,
+      "blocksReferences": [
+        3063
+      ]
+    },
+    "minecraft:black_shulker_box": {
+      "field": "BlockItemIds.DYED_SHULKER_BOX",
+      "color": "black",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 757,
+      "blocksReferences": [
+        3879
+      ]
+    },
+    "minecraft:black_stained_glass": {
+      "field": "BlockItemIds.STAINED_GLASS",
+      "color": "black",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 752,
+      "blocksReferences": [
+        2151
+      ]
+    },
+    "minecraft:black_stained_glass_pane": {
+      "field": "BlockItemIds.STAINED_GLASS_PANE",
+      "color": "black",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 754,
+      "blocksReferences": [
+        2964
+      ]
+    },
+    "minecraft:black_terracotta": {
+      "field": "BlockItemIds.DYED_TERRACOTTA",
+      "color": "black",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 753,
+      "blocksReferences": [
+        2954
+      ]
+    },
+    "minecraft:black_wool": {
+      "field": "BlockItemIds.WOOL",
+      "color": "black",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 751,
+      "blocksReferences": [
+        834
+      ]
+    },
+    "minecraft:blue_carpet": {
+      "field": "BlockItemIds.CARPET",
+      "color": "blue",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 755,
+      "blocksReferences": [
+        3063
+      ]
+    },
+    "minecraft:blue_orchid": {
+      "field": "BlockItemIds.BLUE_ORCHID",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 214,
+      "blocksReferences": [
+        905
+      ]
+    },
+    "minecraft:blue_shulker_box": {
+      "field": "BlockItemIds.DYED_SHULKER_BOX",
+      "color": "blue",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 757,
+      "blocksReferences": [
+        3879
+      ]
+    },
+    "minecraft:blue_stained_glass": {
+      "field": "BlockItemIds.STAINED_GLASS",
+      "color": "blue",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 752,
+      "blocksReferences": [
+        2151
+      ]
+    },
+    "minecraft:blue_stained_glass_pane": {
+      "field": "BlockItemIds.STAINED_GLASS_PANE",
+      "color": "blue",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 754,
+      "blocksReferences": [
+        2964
+      ]
+    },
+    "minecraft:blue_terracotta": {
+      "field": "BlockItemIds.DYED_TERRACOTTA",
+      "color": "blue",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 753,
+      "blocksReferences": [
+        2954
+      ]
+    },
+    "minecraft:blue_wool": {
+      "field": "BlockItemIds.WOOL",
+      "color": "blue",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 751,
+      "blocksReferences": [
+        834
+      ]
+    },
+    "minecraft:brick_slab": {
+      "field": "BlockItemIds.BRICK_SLAB",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 270,
+      "blocksReferences": [
+        3327
+      ]
+    },
+    "minecraft:bricks": {
+      "field": "BlockItemIds.BRICKS",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 285,
+      "blocksReferences": [
+        1069
+      ]
+    },
+    "minecraft:brown_carpet": {
+      "field": "BlockItemIds.CARPET",
+      "color": "brown",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 755,
+      "blocksReferences": [
+        3063
+      ]
+    },
+    "minecraft:brown_shulker_box": {
+      "field": "BlockItemIds.DYED_SHULKER_BOX",
+      "color": "brown",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 757,
+      "blocksReferences": [
+        3879
+      ]
+    },
+    "minecraft:brown_stained_glass": {
+      "field": "BlockItemIds.STAINED_GLASS",
+      "color": "brown",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 752,
+      "blocksReferences": [
+        2151
+      ]
+    },
+    "minecraft:brown_stained_glass_pane": {
+      "field": "BlockItemIds.STAINED_GLASS_PANE",
+      "color": "brown",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 754,
+      "blocksReferences": [
+        2964
+      ]
+    },
+    "minecraft:brown_terracotta": {
+      "field": "BlockItemIds.DYED_TERRACOTTA",
+      "color": "brown",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 753,
+      "blocksReferences": [
+        2954
+      ]
+    },
+    "minecraft:brown_wool": {
+      "field": "BlockItemIds.WOOL",
+      "color": "brown",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 751,
+      "blocksReferences": [
+        834
+      ]
+    },
+    "minecraft:carrots": {
+      "field": "BlockItemIds.CARROT_CROP",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 741,
+      "blocksReferences": [
+        2756
+      ]
+    },
+    "minecraft:chiseled_stone_bricks": {
+      "field": "BlockItemIds.CHISELED_STONE_BRICKS",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 358,
+      "blocksReferences": [
+        2288
+      ]
+    },
+    "minecraft:cobblestone_slab": {
+      "field": "BlockItemIds.COBBLESTONE_SLAB",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 269,
+      "blocksReferences": [
+        3322
+      ]
+    },
+    "minecraft:cobweb": {
+      "field": "BlockItemIds.COBWEB",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 197,
+      "blocksReferences": [
+        717
+      ]
+    },
+    "minecraft:cocoa": {
+      "field": "BlockItemIds.COCOA_CROP",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 740,
+      "blocksReferences": [
+        2637
+      ]
+    },
+    "minecraft:comparator": {
+      "field": "BlockItemIds.COMPARATOR",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 555,
+      "blocksReferences": [
+        2899
+      ]
+    },
+    "minecraft:cracked_stone_bricks": {
+      "field": "BlockItemIds.CRACKED_STONE_BRICKS",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 357,
+      "blocksReferences": [
+        2284
+      ]
+    },
+    "minecraft:cyan_carpet": {
+      "field": "BlockItemIds.CARPET",
+      "color": "cyan",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 755,
+      "blocksReferences": [
+        3063
+      ]
+    },
+    "minecraft:cyan_shulker_box": {
+      "field": "BlockItemIds.DYED_SHULKER_BOX",
+      "color": "cyan",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 757,
+      "blocksReferences": [
+        3879
+      ]
+    },
+    "minecraft:cyan_stained_glass": {
+      "field": "BlockItemIds.STAINED_GLASS",
+      "color": "cyan",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 752,
+      "blocksReferences": [
+        2151
+      ]
+    },
+    "minecraft:cyan_stained_glass_pane": {
+      "field": "BlockItemIds.STAINED_GLASS_PANE",
+      "color": "cyan",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 754,
+      "blocksReferences": [
+        2964
+      ]
+    },
+    "minecraft:cyan_terracotta": {
+      "field": "BlockItemIds.DYED_TERRACOTTA",
+      "color": "cyan",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 753,
+      "blocksReferences": [
+        2954
+      ]
+    },
+    "minecraft:cyan_wool": {
+      "field": "BlockItemIds.WOOL",
+      "color": "cyan",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 751,
+      "blocksReferences": [
+        834
+      ]
+    },
+    "minecraft:dandelion": {
+      "field": "BlockItemIds.DANDELION",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 209,
+      "blocksReferences": [
+        861
+      ]
+    },
+    "minecraft:dark_oak_leaves": {
+      "field": "BlockItemIds.DARK_OAK_LEAVES",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 184,
+      "blocksReferences": [
+        611
+      ]
+    },
+    "minecraft:dark_oak_log": {
+      "field": "BlockItemIds.DARK_OAK_LOG",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 137,
+      "blocksReferences": [
+        416
+      ]
+    },
+    "minecraft:dark_oak_planks": {
+      "field": "BlockItemIds.DARK_OAK_PLANKS",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 78,
+      "blocksReferences": [
+        138
+      ]
+    },
+    "minecraft:dark_oak_sapling": {
+      "field": "BlockItemIds.DARK_OAK_SAPLING",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 91,
+      "blocksReferences": [
+        254
+      ]
+    },
+    "minecraft:dark_oak_slab": {
+      "field": "BlockItemIds.DARK_OAK_SLAB",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 257,
+      "blocksReferences": [
+        3247
+      ]
+    },
+    "minecraft:daylight_detector": {
+      "field": "BlockItemIds.DAYLIGHT_DETECTOR",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 567,
+      "blocksReferences": [
+        2902
+      ]
+    },
+    "minecraft:dead_bush": {
+      "field": "BlockItemIds.DEAD_BUSH",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 203,
+      "blocksReferences": [
+        755
+      ]
+    },
+    "minecraft:end_gateway": {
+      "field": "BlockIds.END_GATEWAY",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+      "line": 86,
+      "blocksReferences": [
+        3795
+      ]
+    },
+    "minecraft:end_portal": {
+      "field": "BlockIds.END_PORTAL",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+      "line": 49,
+      "blocksReferences": [
+        2591
+      ]
+    },
+    "minecraft:end_stone_bricks": {
+      "field": "BlockItemIds.END_STONE_BRICKS",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 399,
+      "blocksReferences": [
+        3736
+      ]
+    },
+    "minecraft:fern": {
+      "field": "BlockItemIds.FERN",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 199,
+      "blocksReferences": [
+        742
+      ]
+    },
+    "minecraft:fire": {
+      "field": "BlockIds.FIRE",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+      "line": 18,
+      "blocksReferences": [
+        1234
+      ]
+    },
+    "minecraft:frosted_ice": {
+      "field": "BlockIds.FROSTED_ICE",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+      "line": 87,
+      "blocksReferences": [
+        3816
+      ]
+    },
+    "minecraft:furnace": {
+      "field": "BlockItemIds.FURNACE",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 315,
+      "blocksReferences": [
+        1324
+      ]
+    },
+    "minecraft:grass_block": {
+      "field": "BlockItemIds.GRASS_BLOCK",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 64,
+      "blocksReferences": [
+        85
+      ]
+    },
+    "minecraft:gray_carpet": {
+      "field": "BlockItemIds.CARPET",
+      "color": "gray",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 755,
+      "blocksReferences": [
+        3063
+      ]
+    },
+    "minecraft:gray_shulker_box": {
+      "field": "BlockItemIds.DYED_SHULKER_BOX",
+      "color": "gray",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 757,
+      "blocksReferences": [
+        3879
+      ]
+    },
+    "minecraft:gray_stained_glass": {
+      "field": "BlockItemIds.STAINED_GLASS",
+      "color": "gray",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 752,
+      "blocksReferences": [
+        2151
+      ]
+    },
+    "minecraft:gray_stained_glass_pane": {
+      "field": "BlockItemIds.STAINED_GLASS_PANE",
+      "color": "gray",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 754,
+      "blocksReferences": [
+        2964
+      ]
+    },
+    "minecraft:gray_terracotta": {
+      "field": "BlockItemIds.DYED_TERRACOTTA",
+      "color": "gray",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 753,
+      "blocksReferences": [
+        2954
+      ]
+    },
+    "minecraft:gray_wool": {
+      "field": "BlockItemIds.WOOL",
+      "color": "gray",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 751,
+      "blocksReferences": [
+        834
+      ]
+    },
+    "minecraft:green_carpet": {
+      "field": "BlockItemIds.CARPET",
+      "color": "green",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 755,
+      "blocksReferences": [
+        3063
+      ]
+    },
+    "minecraft:green_shulker_box": {
+      "field": "BlockItemIds.DYED_SHULKER_BOX",
+      "color": "green",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 757,
+      "blocksReferences": [
+        3879
+      ]
+    },
+    "minecraft:green_stained_glass": {
+      "field": "BlockItemIds.STAINED_GLASS",
+      "color": "green",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 752,
+      "blocksReferences": [
+        2151
+      ]
+    },
+    "minecraft:green_stained_glass_pane": {
+      "field": "BlockItemIds.STAINED_GLASS_PANE",
+      "color": "green",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 754,
+      "blocksReferences": [
+        2964
+      ]
+    },
+    "minecraft:green_terracotta": {
+      "field": "BlockItemIds.DYED_TERRACOTTA",
+      "color": "green",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 753,
+      "blocksReferences": [
+        2954
+      ]
+    },
+    "minecraft:green_wool": {
+      "field": "BlockItemIds.WOOL",
+      "color": "green",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 751,
+      "blocksReferences": [
+        834
+      ]
+    },
+    "minecraft:infested_chiseled_stone_bricks": {
+      "field": "BlockItemIds.INFESTED_CHISELED_STONE_BRICKS",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 353,
+      "blocksReferences": [
+        2319
+      ]
+    },
+    "minecraft:infested_cobblestone": {
+      "field": "BlockItemIds.INFESTED_COBBLESTONE",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 349,
+      "blocksReferences": [
+        2307
+      ]
+    },
+    "minecraft:infested_cracked_stone_bricks": {
+      "field": "BlockItemIds.INFESTED_CRACKED_STONE_BRICKS",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 352,
+      "blocksReferences": [
+        2316
+      ]
+    },
+    "minecraft:infested_mossy_stone_bricks": {
+      "field": "BlockItemIds.INFESTED_MOSSY_STONE_BRICKS",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 351,
+      "blocksReferences": [
+        2313
+      ]
+    },
+    "minecraft:infested_stone": {
+      "field": "BlockItemIds.INFESTED_STONE",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 348,
+      "blocksReferences": [
+        2304
+      ]
+    },
+    "minecraft:infested_stone_bricks": {
+      "field": "BlockItemIds.INFESTED_STONE_BRICKS",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 350,
+      "blocksReferences": [
+        2310
+      ]
+    },
+    "minecraft:jack_o_lantern": {
+      "field": "BlockItemIds.JACK_O_LANTERN",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 338,
+      "blocksReferences": [
+        2132
+      ]
+    },
+    "minecraft:jungle_leaves": {
+      "field": "BlockItemIds.JUNGLE_LEAVES",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 181,
+      "blocksReferences": [
+        589
+      ]
+    },
+    "minecraft:jungle_log": {
+      "field": "BlockItemIds.JUNGLE_LOG",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 133,
+      "blocksReferences": [
+        407
+      ]
+    },
+    "minecraft:jungle_planks": {
+      "field": "BlockItemIds.JUNGLE_PLANKS",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 75,
+      "blocksReferences": [
+        116
+      ]
+    },
+    "minecraft:jungle_sapling": {
+      "field": "BlockItemIds.JUNGLE_SAPLING",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 88,
+      "blocksReferences": [
+        221
+      ]
+    },
+    "minecraft:jungle_slab": {
+      "field": "BlockItemIds.JUNGLE_SLAB",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 254,
+      "blocksReferences": [
+        3222
+      ]
+    },
+    "minecraft:large_fern": {
+      "field": "BlockItemIds.LARGE_FERN",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 460,
+      "blocksReferences": [
+        3150
+      ]
+    },
+    "minecraft:lava": {
+      "field": "BlockIds.LAVA",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+      "line": 13,
+      "blocksReferences": [
+        310
+      ]
+    },
+    "minecraft:light_blue_carpet": {
+      "field": "BlockItemIds.CARPET",
+      "color": "light_blue",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 755,
+      "blocksReferences": [
+        3063
+      ]
+    },
+    "minecraft:light_blue_shulker_box": {
+      "field": "BlockItemIds.DYED_SHULKER_BOX",
+      "color": "light_blue",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 757,
+      "blocksReferences": [
+        3879
+      ]
+    },
+    "minecraft:light_blue_stained_glass": {
+      "field": "BlockItemIds.STAINED_GLASS",
+      "color": "light_blue",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 752,
+      "blocksReferences": [
+        2151
+      ]
+    },
+    "minecraft:light_blue_stained_glass_pane": {
+      "field": "BlockItemIds.STAINED_GLASS_PANE",
+      "color": "light_blue",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 754,
+      "blocksReferences": [
+        2964
+      ]
+    },
+    "minecraft:light_blue_terracotta": {
+      "field": "BlockItemIds.DYED_TERRACOTTA",
+      "color": "light_blue",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 753,
+      "blocksReferences": [
+        2954
+      ]
+    },
+    "minecraft:light_blue_wool": {
+      "field": "BlockItemIds.WOOL",
+      "color": "light_blue",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 751,
+      "blocksReferences": [
+        834
+      ]
+    },
+    "minecraft:light_gray_carpet": {
+      "field": "BlockItemIds.CARPET",
+      "color": "light_gray",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 755,
+      "blocksReferences": [
+        3063
+      ]
+    },
+    "minecraft:light_gray_shulker_box": {
+      "field": "BlockItemIds.DYED_SHULKER_BOX",
+      "color": "light_gray",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 757,
+      "blocksReferences": [
+        3879
+      ]
+    },
+    "minecraft:light_gray_stained_glass": {
+      "field": "BlockItemIds.STAINED_GLASS",
+      "color": "light_gray",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 752,
+      "blocksReferences": [
+        2151
+      ]
+    },
+    "minecraft:light_gray_stained_glass_pane": {
+      "field": "BlockItemIds.STAINED_GLASS_PANE",
+      "color": "light_gray",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 754,
+      "blocksReferences": [
+        2964
+      ]
+    },
+    "minecraft:light_gray_terracotta": {
+      "field": "BlockItemIds.DYED_TERRACOTTA",
+      "color": "light_gray",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 753,
+      "blocksReferences": [
+        2954
+      ]
+    },
+    "minecraft:light_gray_wool": {
+      "field": "BlockItemIds.WOOL",
+      "color": "light_gray",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 751,
+      "blocksReferences": [
+        834
+      ]
+    },
+    "minecraft:lilac": {
+      "field": "BlockItemIds.LILAC",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 456,
+      "blocksReferences": [
+        3101
+      ]
+    },
+    "minecraft:lily_pad": {
+      "field": "BlockItemIds.LILY_PAD",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 386,
+      "blocksReferences": [
+        2485
+      ]
+    },
+    "minecraft:lime_carpet": {
+      "field": "BlockItemIds.CARPET",
+      "color": "lime",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 755,
+      "blocksReferences": [
+        3063
+      ]
+    },
+    "minecraft:lime_shulker_box": {
+      "field": "BlockItemIds.DYED_SHULKER_BOX",
+      "color": "lime",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 757,
+      "blocksReferences": [
+        3879
+      ]
+    },
+    "minecraft:lime_stained_glass": {
+      "field": "BlockItemIds.STAINED_GLASS",
+      "color": "lime",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 752,
+      "blocksReferences": [
+        2151
+      ]
+    },
+    "minecraft:lime_stained_glass_pane": {
+      "field": "BlockItemIds.STAINED_GLASS_PANE",
+      "color": "lime",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 754,
+      "blocksReferences": [
+        2964
+      ]
+    },
+    "minecraft:lime_terracotta": {
+      "field": "BlockItemIds.DYED_TERRACOTTA",
+      "color": "lime",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 753,
+      "blocksReferences": [
+        2954
+      ]
+    },
+    "minecraft:lime_wool": {
+      "field": "BlockItemIds.WOOL",
+      "color": "lime",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 751,
+      "blocksReferences": [
+        834
+      ]
+    },
+    "minecraft:magenta_carpet": {
+      "field": "BlockItemIds.CARPET",
+      "color": "magenta",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 755,
+      "blocksReferences": [
+        3063
+      ]
+    },
+    "minecraft:magenta_shulker_box": {
+      "field": "BlockItemIds.DYED_SHULKER_BOX",
+      "color": "magenta",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 757,
+      "blocksReferences": [
+        3879
+      ]
+    },
+    "minecraft:magenta_stained_glass": {
+      "field": "BlockItemIds.STAINED_GLASS",
+      "color": "magenta",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 752,
+      "blocksReferences": [
+        2151
+      ]
+    },
+    "minecraft:magenta_stained_glass_pane": {
+      "field": "BlockItemIds.STAINED_GLASS_PANE",
+      "color": "magenta",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 754,
+      "blocksReferences": [
+        2964
+      ]
+    },
+    "minecraft:magenta_terracotta": {
+      "field": "BlockItemIds.DYED_TERRACOTTA",
+      "color": "magenta",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 753,
+      "blocksReferences": [
+        2954
+      ]
+    },
+    "minecraft:magenta_wool": {
+      "field": "BlockItemIds.WOOL",
+      "color": "magenta",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 751,
+      "blocksReferences": [
+        834
+      ]
+    },
+    "minecraft:magma_block": {
+      "field": "BlockItemIds.MAGMA_BLOCK",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 474,
+      "blocksReferences": [
+        3828
+      ]
+    },
+    "minecraft:melon_stem": {
+      "field": "BlockItemIds.MELON_CROP",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 749,
+      "blocksReferences": [
+        2389,
+        2389,
+        2412,
+        2416
+      ]
+    },
+    "minecraft:mossy_stone_bricks": {
+      "field": "BlockItemIds.MOSSY_STONE_BRICKS",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 356,
+      "blocksReferences": [
+        2280
+      ]
+    },
+    "minecraft:moving_piston": {
+      "field": "BlockIds.MOVING_PISTON",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+      "line": 16,
+      "blocksReferences": [
+        845
+      ]
+    },
+    "minecraft:nether_brick_slab": {
+      "field": "BlockItemIds.NETHER_BRICK_SLAB",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 273,
+      "blocksReferences": [
+        3347
+      ]
+    },
+    "minecraft:nether_bricks": {
+      "field": "BlockItemIds.NETHER_BRICKS",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 387,
+      "blocksReferences": [
+        2533
+      ]
+    },
+    "minecraft:nether_quartz_ore": {
+      "field": "BlockItemIds.NETHER_QUARTZ_ORE",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 117,
+      "blocksReferences": [
+        2917
+      ]
+    },
+    "minecraft:note_block": {
+      "field": "BlockItemIds.NOTE_BLOCK",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 574,
+      "blocksReferences": [
+        692
+      ]
+    },
+    "minecraft:oak_button": {
+      "field": "BlockItemIds.OAK_BUTTON",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 577,
+      "blocksReferences": [
+        2777
+      ]
+    },
+    "minecraft:oak_door": {
+      "field": "BlockItemIds.OAK_DOOR",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 606,
+      "blocksReferences": [
+        1432
+      ]
+    },
+    "minecraft:oak_fence": {
+      "field": "BlockItemIds.OAK_FENCE",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 325,
+      "blocksReferences": [
+        2022
+      ]
+    },
+    "minecraft:oak_fence_gate": {
+      "field": "BlockItemIds.OAK_FENCE_GATE",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 631,
+      "blocksReferences": [
+        2467
+      ]
+    },
+    "minecraft:oak_leaves": {
+      "field": "BlockItemIds.OAK_LEAVES",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 178,
+      "blocksReferences": [
+        581
+      ]
+    },
+    "minecraft:oak_log": {
+      "field": "BlockItemIds.OAK_LOG",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 130,
+      "blocksReferences": [
+        399
+      ]
+    },
+    "minecraft:oak_planks": {
+      "field": "BlockItemIds.OAK_PLANKS",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 72,
+      "blocksReferences": [
+        99
+      ]
+    },
+    "minecraft:oak_pressure_plate": {
+      "field": "BlockItemIds.OAK_PRESSURE_PLATE",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 593,
+      "blocksReferences": [
+        1810
+      ]
+    },
+    "minecraft:oak_sapling": {
+      "field": "BlockItemIds.OAK_SAPLING",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 85,
+      "blocksReferences": [
+        188
+      ]
+    },
+    "minecraft:oak_slab": {
+      "field": "BlockItemIds.OAK_SLAB",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 251,
+      "blocksReferences": [
+        3202
+      ]
+    },
+    "minecraft:oak_trapdoor": {
+      "field": "BlockItemIds.OAK_TRAPDOOR",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 619,
+      "blocksReferences": [
+        2166
+      ]
+    },
+    "minecraft:orange_carpet": {
+      "field": "BlockItemIds.CARPET",
+      "color": "orange",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 755,
+      "blocksReferences": [
+        3063
+      ]
+    },
+    "minecraft:orange_shulker_box": {
+      "field": "BlockItemIds.DYED_SHULKER_BOX",
+      "color": "orange",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 757,
+      "blocksReferences": [
+        3879
+      ]
+    },
+    "minecraft:orange_stained_glass": {
+      "field": "BlockItemIds.STAINED_GLASS",
+      "color": "orange",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 752,
+      "blocksReferences": [
+        2151
+      ]
+    },
+    "minecraft:orange_stained_glass_pane": {
+      "field": "BlockItemIds.STAINED_GLASS_PANE",
+      "color": "orange",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 754,
+      "blocksReferences": [
+        2964
+      ]
+    },
+    "minecraft:orange_terracotta": {
+      "field": "BlockItemIds.DYED_TERRACOTTA",
+      "color": "orange",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 753,
+      "blocksReferences": [
+        2954
+      ]
+    },
+    "minecraft:orange_tulip": {
+      "field": "BlockItemIds.ORANGE_TULIP",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 218,
+      "blocksReferences": [
+        949
+      ]
+    },
+    "minecraft:orange_wool": {
+      "field": "BlockItemIds.WOOL",
+      "color": "orange",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 751,
+      "blocksReferences": [
+        834
+      ]
+    },
+    "minecraft:oxeye_daisy": {
+      "field": "BlockItemIds.OXEYE_DAISY",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 221,
+      "blocksReferences": [
+        982
+      ]
+    },
+    "minecraft:peony": {
+      "field": "BlockItemIds.PEONY",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 458,
+      "blocksReferences": [
+        3125
+      ]
+    },
+    "minecraft:petrified_oak_slab": {
+      "field": "BlockItemIds.PETRIFIED_OAK_SLAB",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 268,
+      "blocksReferences": [
+        3317
+      ]
+    },
+    "minecraft:pink_carpet": {
+      "field": "BlockItemIds.CARPET",
+      "color": "pink",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 755,
+      "blocksReferences": [
+        3063
+      ]
+    },
+    "minecraft:pink_shulker_box": {
+      "field": "BlockItemIds.DYED_SHULKER_BOX",
+      "color": "pink",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 757,
+      "blocksReferences": [
+        3879
+      ]
+    },
+    "minecraft:pink_stained_glass": {
+      "field": "BlockItemIds.STAINED_GLASS",
+      "color": "pink",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 752,
+      "blocksReferences": [
+        2151
+      ]
+    },
+    "minecraft:pink_stained_glass_pane": {
+      "field": "BlockItemIds.STAINED_GLASS_PANE",
+      "color": "pink",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 754,
+      "blocksReferences": [
+        2964
+      ]
+    },
+    "minecraft:pink_terracotta": {
+      "field": "BlockItemIds.DYED_TERRACOTTA",
+      "color": "pink",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 753,
+      "blocksReferences": [
+        2954
+      ]
+    },
+    "minecraft:pink_tulip": {
+      "field": "BlockItemIds.PINK_TULIP",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 220,
+      "blocksReferences": [
+        971
+      ]
+    },
+    "minecraft:pink_wool": {
+      "field": "BlockItemIds.WOOL",
+      "color": "pink",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 751,
+      "blocksReferences": [
+        834
+      ]
+    },
+    "minecraft:piston_head": {
+      "field": "BlockIds.PISTON_HEAD",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+      "line": 15,
+      "blocksReferences": [
+        829
+      ]
+    },
+    "minecraft:poppy": {
+      "field": "BlockItemIds.POPPY",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 213,
+      "blocksReferences": [
+        894
+      ]
+    },
+    "minecraft:potatoes": {
+      "field": "BlockItemIds.POTATO_CROP",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 742,
+      "blocksReferences": [
+        2767
+      ]
+    },
+    "minecraft:powered_rail": {
+      "field": "BlockItemIds.POWERED_RAIL",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 643,
+      "blocksReferences": [
+        710
+      ]
+    },
+    "minecraft:pumpkin_stem": {
+      "field": "BlockItemIds.PUMPKIN_CROP",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 748,
+      "blocksReferences": [
+        2382,
+        2382,
+        2394,
+        2398
+      ]
+    },
+    "minecraft:purple_carpet": {
+      "field": "BlockItemIds.CARPET",
+      "color": "purple",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 755,
+      "blocksReferences": [
+        3063
+      ]
+    },
+    "minecraft:purple_shulker_box": {
+      "field": "BlockItemIds.DYED_SHULKER_BOX",
+      "color": "purple",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 757,
+      "blocksReferences": [
+        3879
+      ]
+    },
+    "minecraft:purple_stained_glass": {
+      "field": "BlockItemIds.STAINED_GLASS",
+      "color": "purple",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 752,
+      "blocksReferences": [
+        2151
+      ]
+    },
+    "minecraft:purple_stained_glass_pane": {
+      "field": "BlockItemIds.STAINED_GLASS_PANE",
+      "color": "purple",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 754,
+      "blocksReferences": [
+        2964
+      ]
+    },
+    "minecraft:purple_terracotta": {
+      "field": "BlockItemIds.DYED_TERRACOTTA",
+      "color": "purple",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 753,
+      "blocksReferences": [
+        2954
+      ]
+    },
+    "minecraft:purple_wool": {
+      "field": "BlockItemIds.WOOL",
+      "color": "purple",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 751,
+      "blocksReferences": [
+        834
+      ]
+    },
+    "minecraft:purpur_slab": {
+      "field": "BlockItemIds.PURPUR_SLAB",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 277,
+      "blocksReferences": [
+        3380
+      ]
+    },
+    "minecraft:quartz_slab": {
+      "field": "BlockItemIds.QUARTZ_SLAB",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 274,
+      "blocksReferences": [
+        3357
+      ]
+    },
+    "minecraft:red_bed": {
+      "field": "BlockItemIds.BED",
+      "color": "red",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 750,
+      "blocksReferences": [
+        697
+      ]
+    },
+    "minecraft:red_carpet": {
+      "field": "BlockItemIds.CARPET",
+      "color": "red",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 755,
+      "blocksReferences": [
+        3063
+      ]
+    },
+    "minecraft:red_nether_bricks": {
+      "field": "BlockItemIds.RED_NETHER_BRICKS",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 477,
+      "blocksReferences": [
+        3844
+      ]
+    },
+    "minecraft:red_sandstone_slab": {
+      "field": "BlockItemIds.RED_SANDSTONE_SLAB",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 275,
+      "blocksReferences": [
+        3362
+      ]
+    },
+    "minecraft:red_shulker_box": {
+      "field": "BlockItemIds.DYED_SHULKER_BOX",
+      "color": "red",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 757,
+      "blocksReferences": [
+        3879
+      ]
+    },
+    "minecraft:red_stained_glass": {
+      "field": "BlockItemIds.STAINED_GLASS",
+      "color": "red",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 752,
+      "blocksReferences": [
+        2151
+      ]
+    },
+    "minecraft:red_stained_glass_pane": {
+      "field": "BlockItemIds.STAINED_GLASS_PANE",
+      "color": "red",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 754,
+      "blocksReferences": [
+        2964
+      ]
+    },
+    "minecraft:red_terracotta": {
+      "field": "BlockItemIds.DYED_TERRACOTTA",
+      "color": "red",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 753,
+      "blocksReferences": [
+        2954
+      ]
+    },
+    "minecraft:red_tulip": {
+      "field": "BlockItemIds.RED_TULIP",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 217,
+      "blocksReferences": [
+        938
+      ]
+    },
+    "minecraft:red_wool": {
+      "field": "BlockItemIds.WOOL",
+      "color": "red",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 751,
+      "blocksReferences": [
+        834
+      ]
+    },
+    "minecraft:redstone_lamp": {
+      "field": "BlockItemIds.REDSTONE_LAMP",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 573,
+      "blocksReferences": [
+        2627
+      ]
+    },
+    "minecraft:redstone_ore": {
+      "field": "BlockItemIds.REDSTONE_ORE",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 108,
+      "blocksReferences": [
+        1930
+      ]
+    },
+    "minecraft:redstone_torch": {
+      "field": "BlockItemIds.REDSTONE_TORCH",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 552,
+      "blocksReferences": [
+        1946
+      ]
+    },
+    "minecraft:redstone_wall_torch": {
+      "field": "BlockIds.REDSTONE_WALL_TORCH",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+      "line": 42,
+      "blocksReferences": [
+        1951
+      ]
+    },
+    "minecraft:redstone_wire": {
+      "field": "BlockItemIds.REDSTONE_DUST",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 736,
+      "blocksReferences": [
+        1280
+      ]
+    },
+    "minecraft:repeater": {
+      "field": "BlockItemIds.REPEATER",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 554,
+      "blocksReferences": [
+        2148
+      ]
+    },
+    "minecraft:rose_bush": {
+      "field": "BlockItemIds.ROSE_BUSH",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 457,
+      "blocksReferences": [
+        3113
+      ]
+    },
+    "minecraft:sandstone_slab": {
+      "field": "BlockItemIds.SANDSTONE_SLAB",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 266,
+      "blocksReferences": [
+        3307
+      ]
+    },
+    "minecraft:slime_block": {
+      "field": "BlockItemIds.SLIME_BLOCK",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 558,
+      "blocksReferences": [
+        2977
+      ]
+    },
+    "minecraft:smooth_quartz": {
+      "field": "BlockItemIds.SMOOTH_QUARTZ",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 281,
+      "blocksReferences": [
+        3397
+      ]
+    },
+    "minecraft:smooth_red_sandstone": {
+      "field": "BlockItemIds.SMOOTH_RED_SANDSTONE",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 282,
+      "blocksReferences": [
+        3401
+      ]
+    },
+    "minecraft:smooth_sandstone": {
+      "field": "BlockItemIds.SMOOTH_SANDSTONE",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 283,
+      "blocksReferences": [
+        3393
+      ]
+    },
+    "minecraft:smooth_stone": {
+      "field": "BlockItemIds.SMOOTH_STONE",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 284,
+      "blocksReferences": [
+        3389
+      ]
+    },
+    "minecraft:snow": {
+      "field": "BlockItemIds.SNOW",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 318,
+      "blocksReferences": [
+        1957
+      ]
+    },
+    "minecraft:spruce_leaves": {
+      "field": "BlockItemIds.SPRUCE_LEAVES",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 179,
+      "blocksReferences": [
+        583
+      ]
+    },
+    "minecraft:spruce_log": {
+      "field": "BlockItemIds.SPRUCE_LOG",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 131,
+      "blocksReferences": [
+        401
+      ]
+    },
+    "minecraft:spruce_planks": {
+      "field": "BlockItemIds.SPRUCE_PLANKS",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 73,
+      "blocksReferences": [
+        103
+      ]
+    },
+    "minecraft:spruce_sapling": {
+      "field": "BlockItemIds.SPRUCE_SAPLING",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 86,
+      "blocksReferences": [
+        199
+      ]
+    },
+    "minecraft:spruce_slab": {
+      "field": "BlockItemIds.SPRUCE_SLAB",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 252,
+      "blocksReferences": [
+        3207
+      ]
+    },
+    "minecraft:stone_brick_slab": {
+      "field": "BlockItemIds.STONE_BRICK_SLAB",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 271,
+      "blocksReferences": [
+        3332
+      ]
+    },
+    "minecraft:stone_bricks": {
+      "field": "BlockItemIds.STONE_BRICKS",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 355,
+      "blocksReferences": [
+        2276
+      ]
+    },
+    "minecraft:stone_slab": {
+      "field": "BlockItemIds.STONE_SLAB",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 264,
+      "blocksReferences": [
+        3297
+      ]
+    },
+    "minecraft:sugar_cane": {
+      "field": "BlockItemIds.SUGAR_CANE",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 237,
+      "blocksReferences": [
+        2006
+      ]
+    },
+    "minecraft:sunflower": {
+      "field": "BlockItemIds.SUNFLOWER",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 455,
+      "blocksReferences": [
+        3089
+      ]
+    },
+    "minecraft:tall_grass": {
+      "field": "BlockItemIds.TALL_GRASS",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 459,
+      "blocksReferences": [
+        3137
+      ]
+    },
+    "minecraft:terracotta": {
+      "field": "BlockItemIds.TERRACOTTA",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 452,
+      "blocksReferences": [
+        3069
+      ]
+    },
+    "minecraft:tripwire": {
+      "field": "BlockItemIds.TRIPWIRE",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 737,
+      "blocksReferences": [
+        2669
+      ]
+    },
+    "minecraft:water": {
+      "field": "BlockIds.WATER",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+      "line": 12,
+      "blocksReferences": [
+        297
+      ]
+    },
+    "minecraft:wheat": {
+      "field": "BlockItemIds.WHEAT_CROP",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 739,
+      "blocksReferences": [
+        1302
+      ]
+    },
+    "minecraft:white_banner": {
+      "field": "BlockItemIds.BANNER",
+      "color": "white",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 756,
+      "blocksReferences": [
+        3163
+      ]
+    },
+    "minecraft:white_carpet": {
+      "field": "BlockItemIds.CARPET",
+      "color": "white",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 755,
+      "blocksReferences": [
+        3063
+      ]
+    },
+    "minecraft:white_shulker_box": {
+      "field": "BlockItemIds.DYED_SHULKER_BOX",
+      "color": "white",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 757,
+      "blocksReferences": [
+        3879
+      ]
+    },
+    "minecraft:white_stained_glass": {
+      "field": "BlockItemIds.STAINED_GLASS",
+      "color": "white",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 752,
+      "blocksReferences": [
+        2151
+      ]
+    },
+    "minecraft:white_stained_glass_pane": {
+      "field": "BlockItemIds.STAINED_GLASS_PANE",
+      "color": "white",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 754,
+      "blocksReferences": [
+        2964
+      ]
+    },
+    "minecraft:white_terracotta": {
+      "field": "BlockItemIds.DYED_TERRACOTTA",
+      "color": "white",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 753,
+      "blocksReferences": [
+        2954
+      ]
+    },
+    "minecraft:white_tulip": {
+      "field": "BlockItemIds.WHITE_TULIP",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 219,
+      "blocksReferences": [
+        960
+      ]
+    },
+    "minecraft:white_wall_banner": {
+      "field": "BlockIds.WALL_BANNER",
+      "color": "white",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+      "line": 119,
+      "blocksReferences": [
+        3176
+      ]
+    },
+    "minecraft:white_wool": {
+      "field": "BlockItemIds.WOOL",
+      "color": "white",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 751,
+      "blocksReferences": [
+        834
+      ]
+    },
+    "minecraft:yellow_carpet": {
+      "field": "BlockItemIds.CARPET",
+      "color": "yellow",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 755,
+      "blocksReferences": [
+        3063
+      ]
+    },
+    "minecraft:yellow_shulker_box": {
+      "field": "BlockItemIds.DYED_SHULKER_BOX",
+      "color": "yellow",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 757,
+      "blocksReferences": [
+        3879
+      ]
+    },
+    "minecraft:yellow_stained_glass": {
+      "field": "BlockItemIds.STAINED_GLASS",
+      "color": "yellow",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 752,
+      "blocksReferences": [
+        2151
+      ]
+    },
+    "minecraft:yellow_stained_glass_pane": {
+      "field": "BlockItemIds.STAINED_GLASS_PANE",
+      "color": "yellow",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 754,
+      "blocksReferences": [
+        2964
+      ]
+    },
+    "minecraft:yellow_terracotta": {
+      "field": "BlockItemIds.DYED_TERRACOTTA",
+      "color": "yellow",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 753,
+      "blocksReferences": [
+        2954
+      ]
+    },
+    "minecraft:yellow_wool": {
+      "field": "BlockItemIds.WOOL",
+      "color": "yellow",
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "line": 751,
+      "blocksReferences": [
+        834
+      ]
+    }
+  }
+}

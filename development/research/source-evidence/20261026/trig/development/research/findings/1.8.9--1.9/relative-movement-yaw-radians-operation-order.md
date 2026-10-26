@@ -1,0 +1,6 @@
+# Relative movement yaw radians operation order
+1.8.9, Ornithe Feather gen2 1.8.9+build.2: net/minecraft/entity/Entity.java, updateVelocity, lines 844-859, specifically 855-856.
+1.9, Ornithe Feather gen2 1.9+build.2: net/minecraft/entity/Entity.java, updateVelocity, lines 943-958, specifically 954-955.
+Difference: 1.8.9 evaluates (yaw * (float)Math.PI) / 180.0F with a float rounding after the multiplication and another after division. 1.9 evaluates yaw * (float)(Math.PI / 180.0), rounding only the precomputed constant and final multiplication. The float trig lookup is unchanged across these two sources.
+Movement meaning: ordinary nonzero forward input at yaw 13.656F (actual float 13.656000137329102) computes radians 0.23834218084812164 in 1.8.9 versus 0.23834216594696045 in 1.9. With unchanged MathHelper.cos(float), those select cosine indices 18870 and 18869, respectively. The resulting Z acceleration can therefore differ before collision or drag. Sine index is 2485 on both sides. This consequence follows from explicit source arithmetic; no gameplay run was performed.
+Boundary: these concrete adjacent stable releases establish the transition at stable 1.9; no snapshot boundary is claimed. The 1.9 expression is retained in the inspected 1.13.2, 1.14, 1.16.5 and 26.2 input rotation callers.

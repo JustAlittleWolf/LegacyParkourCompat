@@ -1,0 +1,4902 @@
+{
+  "scope": "Identity-only current registry closure of the 231 explicit flattening target names and six skull-type floor/wall families. Not exhaustive block-state correspondence or downstream state-dependent identity splitting.",
+  "counts": {
+    "oldIds": 100,
+    "flatteningRows": 787,
+    "explicitTargetOldIds": 99,
+    "flatteningTargetNames": 231,
+    "currentTargetNames": 231,
+    "renamedFlatteningTargetNames": 15,
+    "skullTypes": 6,
+    "skullIdentityFamilies": 12,
+    "blockRenameFixCallsInspected": 21,
+    "namedTargetRows": 775,
+    "placeholderRows": 12,
+    "sourceRegistryEntriesIndependentlyCompared": 236
+  },
+  "sourceHashes": {
+    "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.11.2\\ornithe-feather\\net\\minecraft\\block\\Block.java": "ab873436b24487ab0ee8055bf7a478349c7f7978398aea8e387796a6c820996a",
+    "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\BlockStateData.java": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+    "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\DataFixers.java": "4a7de861c83f395255d6045d5f9fb98d932abd42724e54316adc59116ee6fb50",
+    "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\EntityTheRenameningFix.java": "f50f0447fd6ee05fc22f6dff8f248abc6d613bd421b4af7236aa06bdac99740e",
+    "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\ChunkPalettedStorageFix.java": "dd5ca8cff42be587606824a5ba53fa7ed5e1411959d1e19f1f9d07be9d875010",
+    "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\BlockRenameFix.java": "11e0dc903bccab03346d8fe434e98534bff0c67501e48db147128cf38db128af",
+    "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6",
+    "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java": "0f342f57727cfe99966da9706da7ddb330654cb59684529166b6f175171ba69f",
+    "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemId.java": "051c265d3937f4e0614b65b5d8f3adb267143801037cec7c241a779a1d786e0d",
+    "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\world\\level\\block\\Blocks.java": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+    "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\world\\level\\block\\ColorCollection.java": "717fb27a7b1d0f68b3c2f371408385ad84ccdcc1d76248338897d8cf59db2be2",
+    "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\world\\item\\DyeColor.java": "9ee74711a37eda938a4deaa56828eeb6a46234d722be1f720d240378b2db0abf",
+    "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated.sources.sha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894",
+    "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.11.2\\ornithe-feather.sources.sha256": "d908c2af76598ad26999563bfef0089f1d3c8c32483eee6b108f0defa2773df0",
+    "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.11.2\\ornithe-feather\\net\\minecraft\\block\\WallBlock.java": "17da6d881365e4dce5134f88cb9a9e5273d1fa1734812d13410dc6924a3acbfd",
+    "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.11.2\\ornithe-feather\\net\\minecraft\\block\\FenceBlock.java": "856cb92d4613289747a34a6bc85f306ca9d44b7057a45c79f2020d13025d1cf7",
+    "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.11.2\\ornithe-feather\\net\\minecraft\\block\\SkullBlock.java": "38eb7c51f13e54e7fdca757378acd9737ae0466228228083d378da43720b0e2a"
+  },
+  "relevantRenames": [
+    {
+      "from": "minecraft:purple_shulker_box",
+      "to": "minecraft:shulker_box",
+      "dataVersion": 1474,
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\DataFixers.java",
+      "line": 570
+    },
+    {
+      "from": "minecraft:melon_block",
+      "to": "minecraft:melon",
+      "dataVersion": 1490,
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\DataFixers.java",
+      "line": 692
+    },
+    {
+      "from": "minecraft:portal",
+      "to": "minecraft:nether_portal",
+      "dataVersion": 1510,
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\EntityTheRenameningFix.java",
+      "line": 23
+    },
+    {
+      "from": "minecraft:oak_bark",
+      "to": "minecraft:oak_wood",
+      "dataVersion": 1510,
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\EntityTheRenameningFix.java",
+      "line": 24
+    },
+    {
+      "from": "minecraft:spruce_bark",
+      "to": "minecraft:spruce_wood",
+      "dataVersion": 1510,
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\EntityTheRenameningFix.java",
+      "line": 25
+    },
+    {
+      "from": "minecraft:birch_bark",
+      "to": "minecraft:birch_wood",
+      "dataVersion": 1510,
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\EntityTheRenameningFix.java",
+      "line": 26
+    },
+    {
+      "from": "minecraft:jungle_bark",
+      "to": "minecraft:jungle_wood",
+      "dataVersion": 1510,
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\EntityTheRenameningFix.java",
+      "line": 27
+    },
+    {
+      "from": "minecraft:acacia_bark",
+      "to": "minecraft:acacia_wood",
+      "dataVersion": 1510,
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\EntityTheRenameningFix.java",
+      "line": 28
+    },
+    {
+      "from": "minecraft:dark_oak_bark",
+      "to": "minecraft:dark_oak_wood",
+      "dataVersion": 1510,
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\EntityTheRenameningFix.java",
+      "line": 29
+    },
+    {
+      "from": "minecraft:mob_spawner",
+      "to": "minecraft:spawner",
+      "dataVersion": 1510,
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\EntityTheRenameningFix.java",
+      "line": 36
+    },
+    {
+      "from": "minecraft:stone_slab",
+      "to": "minecraft:smooth_stone_slab",
+      "dataVersion": 1802,
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\DataFixers.java",
+      "line": 752
+    },
+    {
+      "from": "minecraft:sign",
+      "to": "minecraft:oak_sign",
+      "dataVersion": 1802,
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\DataFixers.java",
+      "line": 752
+    },
+    {
+      "from": "minecraft:wall_sign",
+      "to": "minecraft:oak_wall_sign",
+      "dataVersion": 1802,
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\DataFixers.java",
+      "line": 752
+    },
+    {
+      "from": "minecraft:grass_path",
+      "to": "minecraft:dirt_path",
+      "dataVersion": 2680,
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\DataFixers.java",
+      "line": 986
+    },
+    {
+      "from": "minecraft:grass",
+      "to": "minecraft:short_grass",
+      "dataVersion": 3692,
+      "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\DataFixers.java",
+      "line": 1372
+    }
+  ],
+  "allBlockRenameFixCalls": [
+    {
+      "line": 570,
+      "expression": "BlockRenameFix.create(\n                v1474,\n                \"Colorless shulker block fixer\",\n                block -> Objects.equals(NamespacedSchema.ensureNamespaced(block), \"minecraft:purple_shulker_box\") ? \"minecraft:shulker_box\" : block\n            )"
+    },
+    {
+      "line": 585,
+      "expression": "BlockRenameFix.create(\n                v1475,\n                \"Flowing fixer\",\n                createRenamer(ImmutableMap.of(\"minecraft:flowing_water\", \"minecraft:water\", \"minecraft:flowing_lava\", \"minecraft:lava\"))\n            )"
+    },
+    {
+      "line": 592,
+      "expression": "BlockRenameFix.create(v1480, \"Rename coral blocks\", createRenamer(RenamedCoralFix.RENAMED_IDS))"
+    },
+    {
+      "line": 608,
+      "expression": "BlockRenameFix.create(\n                v1484,\n                \"Rename seagrass blocks\",\n                createRenamer(ImmutableMap.of(\"minecraft:sea_grass\", \"minecraft:seagrass\", \"minecraft:tall_sea_grass\", \"minecraft:tall_seagrass\"))\n            )"
+    },
+    {
+      "line": 634,
+      "expression": "BlockRenameFix.create(\n                v1487,\n                \"Rename prismarine_brick(s)_* items\",\n                createRenamer(\n                    ImmutableMap.of(\n                        \"minecraft:prismarine_bricks_slab\",\n                        \"minecraft:prismarine_brick_slab\",\n                        \"minecraft:prismarine_bricks_stairs\",\n                        \"minecraft:prismarine_brick_stairs\"\n                    )\n                )\n            )"
+    },
+    {
+      "line": 649,
+      "expression": "BlockRenameFix.create(\n                v1488, \"Rename kelp/kelptop\", createRenamer(ImmutableMap.of(\"minecraft:kelp_top\", \"minecraft:kelp\", \"minecraft:kelp\", \"minecraft:kelp_plant\"))\n            )"
+    },
+    {
+      "line": 692,
+      "expression": "BlockRenameFix.create(v1490, \"Rename melon_block\", createRenamer(\"minecraft:melon_block\", \"minecraft:melon\"))"
+    },
+    {
+      "line": 726,
+      "expression": "BlockRenameFix.create(v1510, \"Block renamening fix\", createRenamer(EntityTheRenameningFix.RENAMED_BLOCKS))"
+    },
+    {
+      "line": 742,
+      "expression": "BlockRenameFix.create(v1515, \"Rename coral fan blocks\", createRenamer(RenamedCoralFansFix.RENAMED_IDS))"
+    },
+    {
+      "line": 752,
+      "expression": "BlockRenameFix.create(\n                v1802,\n                \"Rename sign blocks & stone slabs\",\n                createRenamer(\n                    ImmutableMap.of(\n                        \"minecraft:stone_slab\",\n                        \"minecraft:smooth_stone_slab\",\n                        \"minecraft:sign\",\n                        \"minecraft:oak_sign\",\n                        \"minecraft:wall_sign\",\n                        \"minecraft:oak_wall_sign\"\n                    )\n                )\n            )"
+    },
+    {
+      "line": 838,
+      "expression": "BlockRenameFix.create(v2209, \"Rename bee_hive block to beehive\", beehiveRenamer)"
+    },
+    {
+      "line": 866,
+      "expression": "BlockRenameFix.create(\n                v2508,\n                \"Renamed fungi blocks to fungus\",\n                createRenamer(ImmutableMap.of(\"minecraft:warped_fungi\", \"minecraft:warped_fungus\", \"minecraft:crimson_fungi\", \"minecraft:crimson_fungus\"))\n            )"
+    },
+    {
+      "line": 936,
+      "expression": "BlockRenameFix.create(\n                v2528,\n                \"Rename soul fire torch and soul fire lantern\",\n                createRenamer(\n                    ImmutableMap.of(\n                        \"minecraft:soul_fire_torch\",\n                        \"minecraft:soul_torch\",\n                        \"minecraft:soul_fire_wall_torch\",\n                        \"minecraft:soul_wall_torch\",\n                        \"minecraft:soul_fire_lantern\",\n                        \"minecraft:soul_lantern\"\n                    )\n                )\n            )"
+    },
+    {
+      "line": 986,
+      "expression": "BlockRenameFix.create(v2680, \"Renamed grass path block to dirt path\", createRenamer(\"minecraft:grass_path\", \"minecraft:dirt_path\"))"
+    },
+    {
+      "line": 1018,
+      "expression": "BlockRenameFix.create(v2690, \"Renamed copper blocks to new oxidized terms\", createRenamer(copperBlocksToRename))"
+    },
+    {
+      "line": 1027,
+      "expression": "BlockRenameFix.create(v2691, \"Rename copper blocks suffixes\", createRenamer(waxedCopperRename))"
+    },
+    {
+      "line": 1051,
+      "expression": "BlockRenameFix.create(v2696, \"Renamed grimstone blocks to deepslate\", createRenamer(grimstoneBlocksToRename))"
+    },
+    {
+      "line": 1054,
+      "expression": "BlockRenameFix.create(\n                v2700,\n                \"Renamed cave vines blocks\",\n                createRenamer(ImmutableMap.of(\"minecraft:cave_vines_head\", \"minecraft:cave_vines\", \"minecraft:cave_vines_body\", \"minecraft:cave_vines_plant\"))\n            )"
+    },
+    {
+      "line": 1080,
+      "expression": "BlockRenameFix.create(\n                v2717,\n                \"Rename azalea_leaves_flowers items\",\n                createRenamer(ImmutableMap.of(\"minecraft:azalea_leaves_flowers\", \"minecraft:flowering_azalea_leaves\"))\n            )"
+    },
+    {
+      "line": 1373,
+      "expression": "BlockRenameFix.create(v3692, \"Rename grass block to short_grass\", grassRenamer)"
+    },
+    {
+      "line": 1581,
+      "expression": "BlockRenameFix.create(v4541, \"Rename chain to iron_chain\", createRenamer(\"minecraft:chain\", \"minecraft:iron_chain\"))"
+    }
+  ],
+  "registrations": [
+    {
+      "legacyNumericId": 2,
+      "legacyBlockId": "grass",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "GRASS",
+      "oldConstructionClass": "GrassBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:grass_block",
+          "currentTarget": "minecraft:grass_block",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.GRASS_BLOCK",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 64,
+            "blocksReferences": [
+              85
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 5,
+      "legacyBlockId": "planks",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "WOOD",
+      "oldConstructionClass": "PlanksBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:acacia_planks",
+          "currentTarget": "minecraft:acacia_planks",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.ACACIA_PLANKS",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 76,
+            "blocksReferences": [
+              120
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:birch_planks",
+          "currentTarget": "minecraft:birch_planks",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.BIRCH_PLANKS",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 74,
+            "blocksReferences": [
+              112
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:dark_oak_planks",
+          "currentTarget": "minecraft:dark_oak_planks",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DARK_OAK_PLANKS",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 78,
+            "blocksReferences": [
+              138
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:jungle_planks",
+          "currentTarget": "minecraft:jungle_planks",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.JUNGLE_PLANKS",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 75,
+            "blocksReferences": [
+              116
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:oak_planks",
+          "currentTarget": "minecraft:oak_planks",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.OAK_PLANKS",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 72,
+            "blocksReferences": [
+              99
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:spruce_planks",
+          "currentTarget": "minecraft:spruce_planks",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.SPRUCE_PLANKS",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 73,
+            "blocksReferences": [
+              103
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 6,
+      "legacyBlockId": "sapling",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": null,
+      "oldConstructionClass": "SaplingBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:acacia_sapling",
+          "currentTarget": "minecraft:acacia_sapling",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.ACACIA_SAPLING",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 89,
+            "blocksReferences": [
+              232
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:birch_sapling",
+          "currentTarget": "minecraft:birch_sapling",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.BIRCH_SAPLING",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 87,
+            "blocksReferences": [
+              210
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:dark_oak_sapling",
+          "currentTarget": "minecraft:dark_oak_sapling",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DARK_OAK_SAPLING",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 91,
+            "blocksReferences": [
+              254
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:jungle_sapling",
+          "currentTarget": "minecraft:jungle_sapling",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.JUNGLE_SAPLING",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 88,
+            "blocksReferences": [
+              221
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:oak_sapling",
+          "currentTarget": "minecraft:oak_sapling",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.OAK_SAPLING",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 85,
+            "blocksReferences": [
+              188
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:spruce_sapling",
+          "currentTarget": "minecraft:spruce_sapling",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.SPRUCE_SAPLING",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 86,
+            "blocksReferences": [
+              199
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 8,
+      "legacyBlockId": "flowing_water",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "WATER",
+      "oldConstructionClass": "FlowingLiquidBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:water",
+          "currentTarget": "minecraft:water",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockIds.WATER",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+            "line": 12,
+            "blocksReferences": [
+              297
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 9,
+      "legacyBlockId": "water",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "WATER",
+      "oldConstructionClass": "LiquidSourceBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:water",
+          "currentTarget": "minecraft:water",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockIds.WATER",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+            "line": 12,
+            "blocksReferences": [
+              297
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 10,
+      "legacyBlockId": "flowing_lava",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "LAVA",
+      "oldConstructionClass": "FlowingLiquidBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:lava",
+          "currentTarget": "minecraft:lava",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockIds.LAVA",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+            "line": 13,
+            "blocksReferences": [
+              310
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 11,
+      "legacyBlockId": "lava",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "LAVA",
+      "oldConstructionClass": "LiquidSourceBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:lava",
+          "currentTarget": "minecraft:lava",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockIds.LAVA",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+            "line": 13,
+            "blocksReferences": [
+              310
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 17,
+      "legacyBlockId": "log",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "WOOD",
+      "oldConstructionClass": "LogBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:birch_bark",
+          "currentTarget": "minecraft:birch_wood",
+          "renameChain": [
+            {
+              "from": "minecraft:birch_bark",
+              "to": "minecraft:birch_wood",
+              "dataVersion": 1510,
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\EntityTheRenameningFix.java",
+              "line": 26
+            }
+          ],
+          "registrationEvidence": {
+            "field": "BlockItemIds.BIRCH_WOOD",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 169,
+            "blocksReferences": [
+              489
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:birch_log",
+          "currentTarget": "minecraft:birch_log",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.BIRCH_LOG",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 132,
+            "blocksReferences": [
+              404
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:jungle_bark",
+          "currentTarget": "minecraft:jungle_wood",
+          "renameChain": [
+            {
+              "from": "minecraft:jungle_bark",
+              "to": "minecraft:jungle_wood",
+              "dataVersion": 1510,
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\EntityTheRenameningFix.java",
+              "line": 27
+            }
+          ],
+          "registrationEvidence": {
+            "field": "BlockItemIds.JUNGLE_WOOD",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 170,
+            "blocksReferences": [
+              494
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:jungle_log",
+          "currentTarget": "minecraft:jungle_log",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.JUNGLE_LOG",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 133,
+            "blocksReferences": [
+              407
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:oak_bark",
+          "currentTarget": "minecraft:oak_wood",
+          "renameChain": [
+            {
+              "from": "minecraft:oak_bark",
+              "to": "minecraft:oak_wood",
+              "dataVersion": 1510,
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\EntityTheRenameningFix.java",
+              "line": 24
+            }
+          ],
+          "registrationEvidence": {
+            "field": "BlockItemIds.OAK_WOOD",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 167,
+            "blocksReferences": [
+              479
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:oak_log",
+          "currentTarget": "minecraft:oak_log",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.OAK_LOG",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 130,
+            "blocksReferences": [
+              399
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:spruce_bark",
+          "currentTarget": "minecraft:spruce_wood",
+          "renameChain": [
+            {
+              "from": "minecraft:spruce_bark",
+              "to": "minecraft:spruce_wood",
+              "dataVersion": 1510,
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\EntityTheRenameningFix.java",
+              "line": 25
+            }
+          ],
+          "registrationEvidence": {
+            "field": "BlockItemIds.SPRUCE_WOOD",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 168,
+            "blocksReferences": [
+              484
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:spruce_log",
+          "currentTarget": "minecraft:spruce_log",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.SPRUCE_LOG",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 131,
+            "blocksReferences": [
+              401
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 18,
+      "legacyBlockId": "leaves",
+      "oldWallResult": false,
+      "oldIsCube": true,
+      "oldMaterial": "LEAVES",
+      "oldConstructionClass": "LeavesBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:birch_leaves",
+          "currentTarget": "minecraft:birch_leaves",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.BIRCH_LEAVES",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 180,
+            "blocksReferences": [
+              586
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:jungle_leaves",
+          "currentTarget": "minecraft:jungle_leaves",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.JUNGLE_LEAVES",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 181,
+            "blocksReferences": [
+              589
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:oak_leaves",
+          "currentTarget": "minecraft:oak_leaves",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.OAK_LEAVES",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 178,
+            "blocksReferences": [
+              581
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:spruce_leaves",
+          "currentTarget": "minecraft:spruce_leaves",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.SPRUCE_LEAVES",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 179,
+            "blocksReferences": [
+              583
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 25,
+      "legacyBlockId": "noteblock",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "WOOD",
+      "oldConstructionClass": "NoteBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:note_block",
+          "currentTarget": "minecraft:note_block",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.NOTE_BLOCK",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 574,
+            "blocksReferences": [
+              692
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 26,
+      "legacyBlockId": "bed",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "WOOL",
+      "oldConstructionClass": "BedBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:red_bed",
+          "currentTarget": "minecraft:red_bed",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.BED",
+            "color": "red",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 750,
+            "blocksReferences": [
+              697
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 27,
+      "legacyBlockId": "golden_rail",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "DECORATION",
+      "oldConstructionClass": "PoweredRailBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:powered_rail",
+          "currentTarget": "minecraft:powered_rail",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.POWERED_RAIL",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 643,
+            "blocksReferences": [
+              710
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 30,
+      "legacyBlockId": "web",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "COBWEB",
+      "oldConstructionClass": "CobwebBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:cobweb",
+          "currentTarget": "minecraft:cobweb",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.COBWEB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 197,
+            "blocksReferences": [
+              717
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 31,
+      "legacyBlockId": "tallgrass",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "REPLACEABLE_PLANT",
+      "oldConstructionClass": "TallPlantBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:dead_bush",
+          "currentTarget": "minecraft:dead_bush",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DEAD_BUSH",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 203,
+            "blocksReferences": [
+              755
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:fern",
+          "currentTarget": "minecraft:fern",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.FERN",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 199,
+            "blocksReferences": [
+              742
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:grass",
+          "currentTarget": "minecraft:short_grass",
+          "renameChain": [
+            {
+              "from": "minecraft:grass",
+              "to": "minecraft:short_grass",
+              "dataVersion": 3692,
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\DataFixers.java",
+              "line": 1372
+            }
+          ],
+          "registrationEvidence": {
+            "field": "BlockItemIds.SHORT_GRASS",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 198,
+            "blocksReferences": [
+              729
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 32,
+      "legacyBlockId": "deadbush",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "REPLACEABLE_PLANT",
+      "oldConstructionClass": "DeadBushBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:dead_bush",
+          "currentTarget": "minecraft:dead_bush",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DEAD_BUSH",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 203,
+            "blocksReferences": [
+              755
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 34,
+      "legacyBlockId": "piston_head",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "PISTON",
+      "oldConstructionClass": "PistonHeadBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:piston_head",
+          "currentTarget": "minecraft:piston_head",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockIds.PISTON_HEAD",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+            "line": 15,
+            "blocksReferences": [
+              829
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 35,
+      "legacyBlockId": "wool",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "WOOL",
+      "oldConstructionClass": "ColoredBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:black_wool",
+          "currentTarget": "minecraft:black_wool",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.WOOL",
+            "color": "black",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 751,
+            "blocksReferences": [
+              834
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:blue_wool",
+          "currentTarget": "minecraft:blue_wool",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.WOOL",
+            "color": "blue",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 751,
+            "blocksReferences": [
+              834
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:brown_wool",
+          "currentTarget": "minecraft:brown_wool",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.WOOL",
+            "color": "brown",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 751,
+            "blocksReferences": [
+              834
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:cyan_wool",
+          "currentTarget": "minecraft:cyan_wool",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.WOOL",
+            "color": "cyan",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 751,
+            "blocksReferences": [
+              834
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:gray_wool",
+          "currentTarget": "minecraft:gray_wool",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.WOOL",
+            "color": "gray",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 751,
+            "blocksReferences": [
+              834
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:green_wool",
+          "currentTarget": "minecraft:green_wool",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.WOOL",
+            "color": "green",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 751,
+            "blocksReferences": [
+              834
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:light_blue_wool",
+          "currentTarget": "minecraft:light_blue_wool",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.WOOL",
+            "color": "light_blue",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 751,
+            "blocksReferences": [
+              834
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:light_gray_wool",
+          "currentTarget": "minecraft:light_gray_wool",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.WOOL",
+            "color": "light_gray",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 751,
+            "blocksReferences": [
+              834
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:lime_wool",
+          "currentTarget": "minecraft:lime_wool",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.WOOL",
+            "color": "lime",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 751,
+            "blocksReferences": [
+              834
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:magenta_wool",
+          "currentTarget": "minecraft:magenta_wool",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.WOOL",
+            "color": "magenta",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 751,
+            "blocksReferences": [
+              834
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:orange_wool",
+          "currentTarget": "minecraft:orange_wool",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.WOOL",
+            "color": "orange",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 751,
+            "blocksReferences": [
+              834
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:pink_wool",
+          "currentTarget": "minecraft:pink_wool",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.WOOL",
+            "color": "pink",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 751,
+            "blocksReferences": [
+              834
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:purple_wool",
+          "currentTarget": "minecraft:purple_wool",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.WOOL",
+            "color": "purple",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 751,
+            "blocksReferences": [
+              834
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:red_wool",
+          "currentTarget": "minecraft:red_wool",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.WOOL",
+            "color": "red",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 751,
+            "blocksReferences": [
+              834
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:white_wool",
+          "currentTarget": "minecraft:white_wool",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.WOOL",
+            "color": "white",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 751,
+            "blocksReferences": [
+              834
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:yellow_wool",
+          "currentTarget": "minecraft:yellow_wool",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.WOOL",
+            "color": "yellow",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 751,
+            "blocksReferences": [
+              834
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 36,
+      "legacyBlockId": "piston_extension",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "PISTON",
+      "oldConstructionClass": "MovingBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:moving_piston",
+          "currentTarget": "minecraft:moving_piston",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockIds.MOVING_PISTON",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+            "line": 16,
+            "blocksReferences": [
+              845
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 37,
+      "legacyBlockId": "yellow_flower",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": null,
+      "oldConstructionClass": "YellowFlowerBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:dandelion",
+          "currentTarget": "minecraft:dandelion",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DANDELION",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 209,
+            "blocksReferences": [
+              861
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 38,
+      "legacyBlockId": "red_flower",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": null,
+      "oldConstructionClass": "RedFlowerBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:allium",
+          "currentTarget": "minecraft:allium",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.ALLIUM",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 215,
+            "blocksReferences": [
+              916
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:azure_bluet",
+          "currentTarget": "minecraft:azure_bluet",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.AZURE_BLUET",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 216,
+            "blocksReferences": [
+              927
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:blue_orchid",
+          "currentTarget": "minecraft:blue_orchid",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.BLUE_ORCHID",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 214,
+            "blocksReferences": [
+              905
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:orange_tulip",
+          "currentTarget": "minecraft:orange_tulip",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.ORANGE_TULIP",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 218,
+            "blocksReferences": [
+              949
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:oxeye_daisy",
+          "currentTarget": "minecraft:oxeye_daisy",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.OXEYE_DAISY",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 221,
+            "blocksReferences": [
+              982
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:pink_tulip",
+          "currentTarget": "minecraft:pink_tulip",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.PINK_TULIP",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 220,
+            "blocksReferences": [
+              971
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:poppy",
+          "currentTarget": "minecraft:poppy",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.POPPY",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 213,
+            "blocksReferences": [
+              894
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:red_tulip",
+          "currentTarget": "minecraft:red_tulip",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.RED_TULIP",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 217,
+            "blocksReferences": [
+              938
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:white_tulip",
+          "currentTarget": "minecraft:white_tulip",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.WHITE_TULIP",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 219,
+            "blocksReferences": [
+              960
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 43,
+      "legacyBlockId": "double_stone_slab",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "DoubleStoneSlabBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:brick_slab",
+          "currentTarget": "minecraft:brick_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.BRICK_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 270,
+            "blocksReferences": [
+              3327
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:cobblestone_slab",
+          "currentTarget": "minecraft:cobblestone_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.COBBLESTONE_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 269,
+            "blocksReferences": [
+              3322
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:nether_brick_slab",
+          "currentTarget": "minecraft:nether_brick_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.NETHER_BRICK_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 273,
+            "blocksReferences": [
+              3347
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:petrified_oak_slab",
+          "currentTarget": "minecraft:petrified_oak_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.PETRIFIED_OAK_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 268,
+            "blocksReferences": [
+              3317
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:quartz_slab",
+          "currentTarget": "minecraft:quartz_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.QUARTZ_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 274,
+            "blocksReferences": [
+              3357
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:sandstone_slab",
+          "currentTarget": "minecraft:sandstone_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.SANDSTONE_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 266,
+            "blocksReferences": [
+              3307
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:smooth_quartz",
+          "currentTarget": "minecraft:smooth_quartz",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.SMOOTH_QUARTZ",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 281,
+            "blocksReferences": [
+              3397
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:smooth_sandstone",
+          "currentTarget": "minecraft:smooth_sandstone",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.SMOOTH_SANDSTONE",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 283,
+            "blocksReferences": [
+              3393
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:smooth_stone",
+          "currentTarget": "minecraft:smooth_stone",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.SMOOTH_STONE",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 284,
+            "blocksReferences": [
+              3389
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:stone_brick_slab",
+          "currentTarget": "minecraft:stone_brick_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STONE_BRICK_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 271,
+            "blocksReferences": [
+              3332
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:stone_slab",
+          "currentTarget": "minecraft:smooth_stone_slab",
+          "renameChain": [
+            {
+              "from": "minecraft:stone_slab",
+              "to": "minecraft:smooth_stone_slab",
+              "dataVersion": 1802,
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\DataFixers.java",
+              "line": 752
+            }
+          ],
+          "registrationEvidence": {
+            "field": "BlockItemIds.SMOOTH_STONE_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 265,
+            "blocksReferences": [
+              3302
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 45,
+      "legacyBlockId": "brick_block",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "Block",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:bricks",
+          "currentTarget": "minecraft:bricks",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.BRICKS",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 285,
+            "blocksReferences": [
+              1069
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 51,
+      "legacyBlockId": "fire",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "FIRE",
+      "oldConstructionClass": "FireBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:fire",
+          "currentTarget": "minecraft:fire",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockIds.FIRE",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+            "line": 18,
+            "blocksReferences": [
+              1234
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 52,
+      "legacyBlockId": "mob_spawner",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "MobSpawnerBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:mob_spawner",
+          "currentTarget": "minecraft:spawner",
+          "renameChain": [
+            {
+              "from": "minecraft:mob_spawner",
+              "to": "minecraft:spawner",
+              "dataVersion": 1510,
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\EntityTheRenameningFix.java",
+              "line": 36
+            }
+          ],
+          "registrationEvidence": {
+            "field": "BlockItemIds.SPAWNER",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 310,
+            "blocksReferences": [
+              1258
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 55,
+      "legacyBlockId": "redstone_wire",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "DECORATION",
+      "oldConstructionClass": "RedstoneWireBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:redstone_wire",
+          "currentTarget": "minecraft:redstone_wire",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.REDSTONE_DUST",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 736,
+            "blocksReferences": [
+              1280
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 59,
+      "legacyBlockId": "wheat",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": null,
+      "oldConstructionClass": "WheatBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:wheat",
+          "currentTarget": "minecraft:wheat",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.WHEAT_CROP",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 739,
+            "blocksReferences": [
+              1302
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 62,
+      "legacyBlockId": "lit_furnace",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "FurnaceBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:furnace",
+          "currentTarget": "minecraft:furnace",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.FURNACE",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 315,
+            "blocksReferences": [
+              1324
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 63,
+      "legacyBlockId": "standing_sign",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "WOOD",
+      "oldConstructionClass": "StandingSignBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:sign",
+          "currentTarget": "minecraft:oak_sign",
+          "renameChain": [
+            {
+              "from": "minecraft:sign",
+              "to": "minecraft:oak_sign",
+              "dataVersion": 1802,
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\DataFixers.java",
+              "line": 752
+            }
+          ],
+          "registrationEvidence": {
+            "field": "BlockItemIds.OAK_SIGN",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 651,
+            "blocksReferences": [
+              1334
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 64,
+      "legacyBlockId": "wooden_door",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "WOOD",
+      "oldConstructionClass": "DoorBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:oak_door",
+          "currentTarget": "minecraft:oak_door",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.OAK_DOOR",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 606,
+            "blocksReferences": [
+              1432
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 68,
+      "legacyBlockId": "wall_sign",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "WOOD",
+      "oldConstructionClass": "WallSignBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:wall_sign",
+          "currentTarget": "minecraft:oak_wall_sign",
+          "renameChain": [
+            {
+              "from": "minecraft:wall_sign",
+              "to": "minecraft:oak_wall_sign",
+              "dataVersion": 1802,
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\DataFixers.java",
+              "line": 752
+            }
+          ],
+          "registrationEvidence": {
+            "field": "BlockIds.OAK_WALL_SIGN",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+            "line": 20,
+            "blocksReferences": [
+              1452
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 72,
+      "legacyBlockId": "wooden_pressure_plate",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "WOOD",
+      "oldConstructionClass": "PressurePlateBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:oak_pressure_plate",
+          "currentTarget": "minecraft:oak_pressure_plate",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.OAK_PRESSURE_PLATE",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 593,
+            "blocksReferences": [
+              1810
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 74,
+      "legacyBlockId": "lit_redstone_ore",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "RedstoneOreBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:redstone_ore",
+          "currentTarget": "minecraft:redstone_ore",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.REDSTONE_ORE",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 108,
+            "blocksReferences": [
+              1930
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 75,
+      "legacyBlockId": "unlit_redstone_torch",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "DECORATION",
+      "oldConstructionClass": "RedstoneTorchBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:redstone_torch",
+          "currentTarget": "minecraft:redstone_torch",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.REDSTONE_TORCH",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 552,
+            "blocksReferences": [
+              1946
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:redstone_wall_torch",
+          "currentTarget": "minecraft:redstone_wall_torch",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockIds.REDSTONE_WALL_TORCH",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+            "line": 42,
+            "blocksReferences": [
+              1951
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 78,
+      "legacyBlockId": "snow_layer",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "SNOW_LAYER",
+      "oldConstructionClass": "SnowLayerBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:snow",
+          "currentTarget": "minecraft:snow",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.SNOW",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 318,
+            "blocksReferences": [
+              1957
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 83,
+      "legacyBlockId": "reeds",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "PLANT",
+      "oldConstructionClass": "SugarCaneBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:sugar_cane",
+          "currentTarget": "minecraft:sugar_cane",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.SUGAR_CANE",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 237,
+            "blocksReferences": [
+              2006
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 85,
+      "legacyBlockId": "fence",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "WOOD",
+      "oldConstructionClass": "FenceBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:oak_fence",
+          "currentTarget": "minecraft:oak_fence",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.OAK_FENCE",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 325,
+            "blocksReferences": [
+              2022
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 90,
+      "legacyBlockId": "portal",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "PORTAL",
+      "oldConstructionClass": "PortalBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:portal",
+          "currentTarget": "minecraft:nether_portal",
+          "renameChain": [
+            {
+              "from": "minecraft:portal",
+              "to": "minecraft:nether_portal",
+              "dataVersion": 1510,
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\EntityTheRenameningFix.java",
+              "line": 23
+            }
+          ],
+          "registrationEvidence": {
+            "field": "BlockIds.NETHER_PORTAL",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+            "line": 45,
+            "blocksReferences": [
+              2111
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 91,
+      "legacyBlockId": "lit_pumpkin",
+      "oldWallResult": false,
+      "oldIsCube": true,
+      "oldMaterial": "PUMPKIN",
+      "oldConstructionClass": "PumpkinBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:jack_o_lantern",
+          "currentTarget": "minecraft:jack_o_lantern",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.JACK_O_LANTERN",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 338,
+            "blocksReferences": [
+              2132
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 93,
+      "legacyBlockId": "unpowered_repeater",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "DECORATION",
+      "oldConstructionClass": "RepeaterBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:repeater",
+          "currentTarget": "minecraft:repeater",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.REPEATER",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 554,
+            "blocksReferences": [
+              2148
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 94,
+      "legacyBlockId": "powered_repeater",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "DECORATION",
+      "oldConstructionClass": "RepeaterBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:repeater",
+          "currentTarget": "minecraft:repeater",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.REPEATER",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 554,
+            "blocksReferences": [
+              2148
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 95,
+      "legacyBlockId": "stained_glass",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "GLASS",
+      "oldConstructionClass": "StainedGlassBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:black_stained_glass",
+          "currentTarget": "minecraft:black_stained_glass",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS",
+            "color": "black",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 752,
+            "blocksReferences": [
+              2151
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:blue_stained_glass",
+          "currentTarget": "minecraft:blue_stained_glass",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS",
+            "color": "blue",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 752,
+            "blocksReferences": [
+              2151
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:brown_stained_glass",
+          "currentTarget": "minecraft:brown_stained_glass",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS",
+            "color": "brown",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 752,
+            "blocksReferences": [
+              2151
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:cyan_stained_glass",
+          "currentTarget": "minecraft:cyan_stained_glass",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS",
+            "color": "cyan",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 752,
+            "blocksReferences": [
+              2151
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:gray_stained_glass",
+          "currentTarget": "minecraft:gray_stained_glass",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS",
+            "color": "gray",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 752,
+            "blocksReferences": [
+              2151
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:green_stained_glass",
+          "currentTarget": "minecraft:green_stained_glass",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS",
+            "color": "green",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 752,
+            "blocksReferences": [
+              2151
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:light_blue_stained_glass",
+          "currentTarget": "minecraft:light_blue_stained_glass",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS",
+            "color": "light_blue",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 752,
+            "blocksReferences": [
+              2151
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:light_gray_stained_glass",
+          "currentTarget": "minecraft:light_gray_stained_glass",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS",
+            "color": "light_gray",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 752,
+            "blocksReferences": [
+              2151
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:lime_stained_glass",
+          "currentTarget": "minecraft:lime_stained_glass",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS",
+            "color": "lime",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 752,
+            "blocksReferences": [
+              2151
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:magenta_stained_glass",
+          "currentTarget": "minecraft:magenta_stained_glass",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS",
+            "color": "magenta",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 752,
+            "blocksReferences": [
+              2151
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:orange_stained_glass",
+          "currentTarget": "minecraft:orange_stained_glass",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS",
+            "color": "orange",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 752,
+            "blocksReferences": [
+              2151
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:pink_stained_glass",
+          "currentTarget": "minecraft:pink_stained_glass",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS",
+            "color": "pink",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 752,
+            "blocksReferences": [
+              2151
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:purple_stained_glass",
+          "currentTarget": "minecraft:purple_stained_glass",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS",
+            "color": "purple",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 752,
+            "blocksReferences": [
+              2151
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:red_stained_glass",
+          "currentTarget": "minecraft:red_stained_glass",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS",
+            "color": "red",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 752,
+            "blocksReferences": [
+              2151
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:white_stained_glass",
+          "currentTarget": "minecraft:white_stained_glass",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS",
+            "color": "white",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 752,
+            "blocksReferences": [
+              2151
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:yellow_stained_glass",
+          "currentTarget": "minecraft:yellow_stained_glass",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS",
+            "color": "yellow",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 752,
+            "blocksReferences": [
+              2151
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 96,
+      "legacyBlockId": "trapdoor",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "WOOD",
+      "oldConstructionClass": "TrapdoorBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:oak_trapdoor",
+          "currentTarget": "minecraft:oak_trapdoor",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.OAK_TRAPDOOR",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 619,
+            "blocksReferences": [
+              2166
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 97,
+      "legacyBlockId": "monster_egg",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "CLAY",
+      "oldConstructionClass": "InfestedBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:infested_chiseled_stone_bricks",
+          "currentTarget": "minecraft:infested_chiseled_stone_bricks",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.INFESTED_CHISELED_STONE_BRICKS",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 353,
+            "blocksReferences": [
+              2319
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:infested_cobblestone",
+          "currentTarget": "minecraft:infested_cobblestone",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.INFESTED_COBBLESTONE",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 349,
+            "blocksReferences": [
+              2307
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:infested_cracked_stone_bricks",
+          "currentTarget": "minecraft:infested_cracked_stone_bricks",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.INFESTED_CRACKED_STONE_BRICKS",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 352,
+            "blocksReferences": [
+              2316
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:infested_mossy_stone_bricks",
+          "currentTarget": "minecraft:infested_mossy_stone_bricks",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.INFESTED_MOSSY_STONE_BRICKS",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 351,
+            "blocksReferences": [
+              2313
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:infested_stone",
+          "currentTarget": "minecraft:infested_stone",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.INFESTED_STONE",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 348,
+            "blocksReferences": [
+              2304
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:infested_stone_bricks",
+          "currentTarget": "minecraft:infested_stone_bricks",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.INFESTED_STONE_BRICKS",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 350,
+            "blocksReferences": [
+              2310
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 98,
+      "legacyBlockId": "stonebrick",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "StonebrickBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:chiseled_stone_bricks",
+          "currentTarget": "minecraft:chiseled_stone_bricks",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.CHISELED_STONE_BRICKS",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 358,
+            "blocksReferences": [
+              2288
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:cracked_stone_bricks",
+          "currentTarget": "minecraft:cracked_stone_bricks",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.CRACKED_STONE_BRICKS",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 357,
+            "blocksReferences": [
+              2284
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:mossy_stone_bricks",
+          "currentTarget": "minecraft:mossy_stone_bricks",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.MOSSY_STONE_BRICKS",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 356,
+            "blocksReferences": [
+              2280
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:stone_bricks",
+          "currentTarget": "minecraft:stone_bricks",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STONE_BRICKS",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 355,
+            "blocksReferences": [
+              2276
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 103,
+      "legacyBlockId": "melon_block",
+      "oldWallResult": false,
+      "oldIsCube": true,
+      "oldMaterial": "PUMPKIN",
+      "oldConstructionClass": "MelonBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:melon_block",
+          "currentTarget": "minecraft:melon",
+          "renameChain": [
+            {
+              "from": "minecraft:melon_block",
+              "to": "minecraft:melon",
+              "dataVersion": 1490,
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\DataFixers.java",
+              "line": 692
+            }
+          ],
+          "registrationEvidence": {
+            "field": "BlockItemIds.MELON",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 10,
+            "blocksReferences": [
+              2376,
+              2389,
+              2414
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 104,
+      "legacyBlockId": "pumpkin_stem",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": null,
+      "oldConstructionClass": "StemBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:pumpkin_stem",
+          "currentTarget": "minecraft:pumpkin_stem",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.PUMPKIN_CROP",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 748,
+            "blocksReferences": [
+              2382,
+              2382,
+              2394,
+              2398
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 105,
+      "legacyBlockId": "melon_stem",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": null,
+      "oldConstructionClass": "StemBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:melon_stem",
+          "currentTarget": "minecraft:melon_stem",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.MELON_CROP",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 749,
+            "blocksReferences": [
+              2389,
+              2389,
+              2412,
+              2416
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 107,
+      "legacyBlockId": "fence_gate",
+      "oldWallResult": true,
+      "oldIsCube": false,
+      "oldMaterial": "WOOD",
+      "oldConstructionClass": "FenceGateBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:oak_fence_gate",
+          "currentTarget": "minecraft:oak_fence_gate",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.OAK_FENCE_GATE",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 631,
+            "blocksReferences": [
+              2467
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 111,
+      "legacyBlockId": "waterlily",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": null,
+      "oldConstructionClass": "LilyPadBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:lily_pad",
+          "currentTarget": "minecraft:lily_pad",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.LILY_PAD",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 386,
+            "blocksReferences": [
+              2485
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 112,
+      "legacyBlockId": "nether_brick",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "NetherBrickBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:nether_bricks",
+          "currentTarget": "minecraft:nether_bricks",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.NETHER_BRICKS",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 387,
+            "blocksReferences": [
+              2533
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 119,
+      "legacyBlockId": "end_portal",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "PORTAL",
+      "oldConstructionClass": "EndPortalBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:end_portal",
+          "currentTarget": "minecraft:end_portal",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockIds.END_PORTAL",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+            "line": 49,
+            "blocksReferences": [
+              2591
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 124,
+      "legacyBlockId": "lit_redstone_lamp",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "REDSTONE_LAMP",
+      "oldConstructionClass": "RedstoneLampBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:redstone_lamp",
+          "currentTarget": "minecraft:redstone_lamp",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.REDSTONE_LAMP",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 573,
+            "blocksReferences": [
+              2627
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 125,
+      "legacyBlockId": "double_wooden_slab",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "WOOD",
+      "oldConstructionClass": "DoubleWoodenSlabBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:acacia_slab",
+          "currentTarget": "minecraft:acacia_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.ACACIA_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 255,
+            "blocksReferences": [
+              3227
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:birch_slab",
+          "currentTarget": "minecraft:birch_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.BIRCH_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 253,
+            "blocksReferences": [
+              3217
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:dark_oak_slab",
+          "currentTarget": "minecraft:dark_oak_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DARK_OAK_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 257,
+            "blocksReferences": [
+              3247
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:jungle_slab",
+          "currentTarget": "minecraft:jungle_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.JUNGLE_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 254,
+            "blocksReferences": [
+              3222
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:oak_slab",
+          "currentTarget": "minecraft:oak_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.OAK_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 251,
+            "blocksReferences": [
+              3202
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:spruce_slab",
+          "currentTarget": "minecraft:spruce_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.SPRUCE_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 252,
+            "blocksReferences": [
+              3207
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 126,
+      "legacyBlockId": "wooden_slab",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "WOOD",
+      "oldConstructionClass": "SingleWoodenSlabBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:acacia_slab",
+          "currentTarget": "minecraft:acacia_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.ACACIA_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 255,
+            "blocksReferences": [
+              3227
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:birch_slab",
+          "currentTarget": "minecraft:birch_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.BIRCH_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 253,
+            "blocksReferences": [
+              3217
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:dark_oak_slab",
+          "currentTarget": "minecraft:dark_oak_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DARK_OAK_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 257,
+            "blocksReferences": [
+              3247
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:jungle_slab",
+          "currentTarget": "minecraft:jungle_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.JUNGLE_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 254,
+            "blocksReferences": [
+              3222
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:oak_slab",
+          "currentTarget": "minecraft:oak_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.OAK_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 251,
+            "blocksReferences": [
+              3202
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:spruce_slab",
+          "currentTarget": "minecraft:spruce_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.SPRUCE_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 252,
+            "blocksReferences": [
+              3207
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 127,
+      "legacyBlockId": "cocoa",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "PLANT",
+      "oldConstructionClass": "CocoaBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:cocoa",
+          "currentTarget": "minecraft:cocoa",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.COCOA_CROP",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 740,
+            "blocksReferences": [
+              2637
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 132,
+      "legacyBlockId": "tripwire",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "DECORATION",
+      "oldConstructionClass": "TripwireBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:tripwire",
+          "currentTarget": "minecraft:tripwire",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.TRIPWIRE",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 737,
+            "blocksReferences": [
+              2669
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 141,
+      "legacyBlockId": "carrots",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": null,
+      "oldConstructionClass": "CarrotsBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:carrots",
+          "currentTarget": "minecraft:carrots",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.CARROT_CROP",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 741,
+            "blocksReferences": [
+              2756
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 142,
+      "legacyBlockId": "potatoes",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": null,
+      "oldConstructionClass": "PotatoesBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:potatoes",
+          "currentTarget": "minecraft:potatoes",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.POTATO_CROP",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 742,
+            "blocksReferences": [
+              2767
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 143,
+      "legacyBlockId": "wooden_button",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "DECORATION",
+      "oldConstructionClass": "WoodenButtonBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:oak_button",
+          "currentTarget": "minecraft:oak_button",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.OAK_BUTTON",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 577,
+            "blocksReferences": [
+              2777
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 144,
+      "legacyBlockId": "skull",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "DECORATION",
+      "oldConstructionClass": "SkullBlock",
+      "targets": [],
+      "skullVariants": [
+        {
+          "skullType": 0,
+          "sourceLine": 221,
+          "floor": {
+            "flatteningTarget": "minecraft:skeleton_skull",
+            "currentTarget": "minecraft:skeleton_skull",
+            "renameChain": [],
+            "registrationEvidence": {
+              "field": "BlockItemIds.SKELETON_SKULL",
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+              "line": 682,
+              "blocksReferences": [
+                2788
+              ]
+            }
+          },
+          "wall": {
+            "flatteningTarget": "minecraft:skeleton_wall_skull",
+            "currentTarget": "minecraft:skeleton_wall_skull",
+            "renameChain": [],
+            "registrationEvidence": {
+              "field": "BlockIds.SKELETON_WALL_SKULL",
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+              "line": 79,
+              "blocksReferences": [
+                2793
+              ]
+            }
+          }
+        },
+        {
+          "skullType": 1,
+          "sourceLine": 222,
+          "floor": {
+            "flatteningTarget": "minecraft:wither_skeleton_skull",
+            "currentTarget": "minecraft:wither_skeleton_skull",
+            "renameChain": [],
+            "registrationEvidence": {
+              "field": "BlockItemIds.WITHER_SKELETON_SKULL",
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+              "line": 683,
+              "blocksReferences": [
+                2798
+              ]
+            }
+          },
+          "wall": {
+            "flatteningTarget": "minecraft:wither_skeleton_wall_skull",
+            "currentTarget": "minecraft:wither_skeleton_wall_skull",
+            "renameChain": [],
+            "registrationEvidence": {
+              "field": "BlockIds.WITHER_SKELETON_WALL_SKULL",
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+              "line": 80,
+              "blocksReferences": [
+                2803
+              ]
+            }
+          }
+        },
+        {
+          "skullType": 2,
+          "sourceLine": 223,
+          "floor": {
+            "flatteningTarget": "minecraft:zombie_head",
+            "currentTarget": "minecraft:zombie_head",
+            "renameChain": [],
+            "registrationEvidence": {
+              "field": "BlockItemIds.ZOMBIE_HEAD",
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+              "line": 685,
+              "blocksReferences": [
+                2808
+              ]
+            }
+          },
+          "wall": {
+            "flatteningTarget": "minecraft:zombie_wall_head",
+            "currentTarget": "minecraft:zombie_wall_head",
+            "renameChain": [],
+            "registrationEvidence": {
+              "field": "BlockIds.ZOMBIE_WALL_HEAD",
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+              "line": 81,
+              "blocksReferences": [
+                2813
+              ]
+            }
+          }
+        },
+        {
+          "skullType": 3,
+          "sourceLine": 224,
+          "floor": {
+            "flatteningTarget": "minecraft:player_head",
+            "currentTarget": "minecraft:player_head",
+            "renameChain": [],
+            "registrationEvidence": {
+              "field": "BlockItemIds.PLAYER_HEAD",
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+              "line": 684,
+              "blocksReferences": [
+                2818
+              ]
+            }
+          },
+          "wall": {
+            "flatteningTarget": "minecraft:player_wall_head",
+            "currentTarget": "minecraft:player_wall_head",
+            "renameChain": [],
+            "registrationEvidence": {
+              "field": "BlockIds.PLAYER_WALL_HEAD",
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+              "line": 82,
+              "blocksReferences": [
+                2823
+              ]
+            }
+          }
+        },
+        {
+          "skullType": 4,
+          "sourceLine": 225,
+          "floor": {
+            "flatteningTarget": "minecraft:creeper_head",
+            "currentTarget": "minecraft:creeper_head",
+            "renameChain": [],
+            "registrationEvidence": {
+              "field": "BlockItemIds.CREEPER_HEAD",
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+              "line": 686,
+              "blocksReferences": [
+                2826
+              ]
+            }
+          },
+          "wall": {
+            "flatteningTarget": "minecraft:creeper_wall_head",
+            "currentTarget": "minecraft:creeper_wall_head",
+            "renameChain": [],
+            "registrationEvidence": {
+              "field": "BlockIds.CREEPER_WALL_HEAD",
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+              "line": 83,
+              "blocksReferences": [
+                2831
+              ]
+            }
+          }
+        },
+        {
+          "skullType": 5,
+          "sourceLine": 226,
+          "floor": {
+            "flatteningTarget": "minecraft:dragon_head",
+            "currentTarget": "minecraft:dragon_head",
+            "renameChain": [],
+            "registrationEvidence": {
+              "field": "BlockItemIds.DRAGON_HEAD",
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+              "line": 687,
+              "blocksReferences": [
+                2836
+              ]
+            }
+          },
+          "wall": {
+            "flatteningTarget": "minecraft:dragon_wall_head",
+            "currentTarget": "minecraft:dragon_wall_head",
+            "renameChain": [],
+            "registrationEvidence": {
+              "field": "BlockIds.DRAGON_WALL_HEAD",
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+              "line": 84,
+              "blocksReferences": [
+                2841
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "legacyNumericId": 149,
+      "legacyBlockId": "unpowered_comparator",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "DECORATION",
+      "oldConstructionClass": "ComparatorBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:comparator",
+          "currentTarget": "minecraft:comparator",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.COMPARATOR",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 555,
+            "blocksReferences": [
+              2899
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 150,
+      "legacyBlockId": "powered_comparator",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "DECORATION",
+      "oldConstructionClass": "ComparatorBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:comparator",
+          "currentTarget": "minecraft:comparator",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.COMPARATOR",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 555,
+            "blocksReferences": [
+              2899
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 153,
+      "legacyBlockId": "quartz_ore",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "OreBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:nether_quartz_ore",
+          "currentTarget": "minecraft:nether_quartz_ore",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.NETHER_QUARTZ_ORE",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 117,
+            "blocksReferences": [
+              2917
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 159,
+      "legacyBlockId": "stained_hardened_clay",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "ColoredBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:black_terracotta",
+          "currentTarget": "minecraft:black_terracotta",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_TERRACOTTA",
+            "color": "black",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 753,
+            "blocksReferences": [
+              2954
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:blue_terracotta",
+          "currentTarget": "minecraft:blue_terracotta",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_TERRACOTTA",
+            "color": "blue",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 753,
+            "blocksReferences": [
+              2954
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:brown_terracotta",
+          "currentTarget": "minecraft:brown_terracotta",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_TERRACOTTA",
+            "color": "brown",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 753,
+            "blocksReferences": [
+              2954
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:cyan_terracotta",
+          "currentTarget": "minecraft:cyan_terracotta",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_TERRACOTTA",
+            "color": "cyan",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 753,
+            "blocksReferences": [
+              2954
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:gray_terracotta",
+          "currentTarget": "minecraft:gray_terracotta",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_TERRACOTTA",
+            "color": "gray",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 753,
+            "blocksReferences": [
+              2954
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:green_terracotta",
+          "currentTarget": "minecraft:green_terracotta",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_TERRACOTTA",
+            "color": "green",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 753,
+            "blocksReferences": [
+              2954
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:light_blue_terracotta",
+          "currentTarget": "minecraft:light_blue_terracotta",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_TERRACOTTA",
+            "color": "light_blue",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 753,
+            "blocksReferences": [
+              2954
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:light_gray_terracotta",
+          "currentTarget": "minecraft:light_gray_terracotta",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_TERRACOTTA",
+            "color": "light_gray",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 753,
+            "blocksReferences": [
+              2954
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:lime_terracotta",
+          "currentTarget": "minecraft:lime_terracotta",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_TERRACOTTA",
+            "color": "lime",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 753,
+            "blocksReferences": [
+              2954
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:magenta_terracotta",
+          "currentTarget": "minecraft:magenta_terracotta",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_TERRACOTTA",
+            "color": "magenta",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 753,
+            "blocksReferences": [
+              2954
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:orange_terracotta",
+          "currentTarget": "minecraft:orange_terracotta",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_TERRACOTTA",
+            "color": "orange",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 753,
+            "blocksReferences": [
+              2954
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:pink_terracotta",
+          "currentTarget": "minecraft:pink_terracotta",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_TERRACOTTA",
+            "color": "pink",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 753,
+            "blocksReferences": [
+              2954
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:purple_terracotta",
+          "currentTarget": "minecraft:purple_terracotta",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_TERRACOTTA",
+            "color": "purple",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 753,
+            "blocksReferences": [
+              2954
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:red_terracotta",
+          "currentTarget": "minecraft:red_terracotta",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_TERRACOTTA",
+            "color": "red",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 753,
+            "blocksReferences": [
+              2954
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:white_terracotta",
+          "currentTarget": "minecraft:white_terracotta",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_TERRACOTTA",
+            "color": "white",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 753,
+            "blocksReferences": [
+              2954
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:yellow_terracotta",
+          "currentTarget": "minecraft:yellow_terracotta",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_TERRACOTTA",
+            "color": "yellow",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 753,
+            "blocksReferences": [
+              2954
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 160,
+      "legacyBlockId": "stained_glass_pane",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "GLASS",
+      "oldConstructionClass": "StainedGlassPaneBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:black_stained_glass_pane",
+          "currentTarget": "minecraft:black_stained_glass_pane",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS_PANE",
+            "color": "black",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 754,
+            "blocksReferences": [
+              2964
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:blue_stained_glass_pane",
+          "currentTarget": "minecraft:blue_stained_glass_pane",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS_PANE",
+            "color": "blue",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 754,
+            "blocksReferences": [
+              2964
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:brown_stained_glass_pane",
+          "currentTarget": "minecraft:brown_stained_glass_pane",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS_PANE",
+            "color": "brown",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 754,
+            "blocksReferences": [
+              2964
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:cyan_stained_glass_pane",
+          "currentTarget": "minecraft:cyan_stained_glass_pane",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS_PANE",
+            "color": "cyan",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 754,
+            "blocksReferences": [
+              2964
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:gray_stained_glass_pane",
+          "currentTarget": "minecraft:gray_stained_glass_pane",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS_PANE",
+            "color": "gray",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 754,
+            "blocksReferences": [
+              2964
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:green_stained_glass_pane",
+          "currentTarget": "minecraft:green_stained_glass_pane",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS_PANE",
+            "color": "green",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 754,
+            "blocksReferences": [
+              2964
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:light_blue_stained_glass_pane",
+          "currentTarget": "minecraft:light_blue_stained_glass_pane",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS_PANE",
+            "color": "light_blue",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 754,
+            "blocksReferences": [
+              2964
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:light_gray_stained_glass_pane",
+          "currentTarget": "minecraft:light_gray_stained_glass_pane",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS_PANE",
+            "color": "light_gray",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 754,
+            "blocksReferences": [
+              2964
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:lime_stained_glass_pane",
+          "currentTarget": "minecraft:lime_stained_glass_pane",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS_PANE",
+            "color": "lime",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 754,
+            "blocksReferences": [
+              2964
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:magenta_stained_glass_pane",
+          "currentTarget": "minecraft:magenta_stained_glass_pane",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS_PANE",
+            "color": "magenta",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 754,
+            "blocksReferences": [
+              2964
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:orange_stained_glass_pane",
+          "currentTarget": "minecraft:orange_stained_glass_pane",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS_PANE",
+            "color": "orange",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 754,
+            "blocksReferences": [
+              2964
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:pink_stained_glass_pane",
+          "currentTarget": "minecraft:pink_stained_glass_pane",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS_PANE",
+            "color": "pink",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 754,
+            "blocksReferences": [
+              2964
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:purple_stained_glass_pane",
+          "currentTarget": "minecraft:purple_stained_glass_pane",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS_PANE",
+            "color": "purple",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 754,
+            "blocksReferences": [
+              2964
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:red_stained_glass_pane",
+          "currentTarget": "minecraft:red_stained_glass_pane",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS_PANE",
+            "color": "red",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 754,
+            "blocksReferences": [
+              2964
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:white_stained_glass_pane",
+          "currentTarget": "minecraft:white_stained_glass_pane",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS_PANE",
+            "color": "white",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 754,
+            "blocksReferences": [
+              2964
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:yellow_stained_glass_pane",
+          "currentTarget": "minecraft:yellow_stained_glass_pane",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.STAINED_GLASS_PANE",
+            "color": "yellow",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 754,
+            "blocksReferences": [
+              2964
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 161,
+      "legacyBlockId": "leaves2",
+      "oldWallResult": false,
+      "oldIsCube": true,
+      "oldMaterial": "LEAVES",
+      "oldConstructionClass": "Leaves2Block",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:acacia_leaves",
+          "currentTarget": "minecraft:acacia_leaves",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.ACACIA_LEAVES",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 182,
+            "blocksReferences": [
+              592
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:dark_oak_leaves",
+          "currentTarget": "minecraft:dark_oak_leaves",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DARK_OAK_LEAVES",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 184,
+            "blocksReferences": [
+              611
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 162,
+      "legacyBlockId": "log2",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "WOOD",
+      "oldConstructionClass": "Log2Block",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:acacia_bark",
+          "currentTarget": "minecraft:acacia_wood",
+          "renameChain": [
+            {
+              "from": "minecraft:acacia_bark",
+              "to": "minecraft:acacia_wood",
+              "dataVersion": 1510,
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\EntityTheRenameningFix.java",
+              "line": 28
+            }
+          ],
+          "registrationEvidence": {
+            "field": "BlockItemIds.ACACIA_WOOD",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 171,
+            "blocksReferences": [
+              499
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:acacia_log",
+          "currentTarget": "minecraft:acacia_log",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.ACACIA_LOG",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 134,
+            "blocksReferences": [
+              410
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:dark_oak_bark",
+          "currentTarget": "minecraft:dark_oak_wood",
+          "renameChain": [
+            {
+              "from": "minecraft:dark_oak_bark",
+              "to": "minecraft:dark_oak_wood",
+              "dataVersion": 1510,
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\EntityTheRenameningFix.java",
+              "line": 29
+            }
+          ],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DARK_OAK_WOOD",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 174,
+            "blocksReferences": [
+              514
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:dark_oak_log",
+          "currentTarget": "minecraft:dark_oak_log",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DARK_OAK_LOG",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 137,
+            "blocksReferences": [
+              416
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 165,
+      "legacyBlockId": "slime",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "CLAY",
+      "oldConstructionClass": "SlimeBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:slime_block",
+          "currentTarget": "minecraft:slime_block",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.SLIME_BLOCK",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 558,
+            "blocksReferences": [
+              2977
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 171,
+      "legacyBlockId": "carpet",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "CARPET",
+      "oldConstructionClass": "CarpetBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:black_carpet",
+          "currentTarget": "minecraft:black_carpet",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.CARPET",
+            "color": "black",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 755,
+            "blocksReferences": [
+              3063
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:blue_carpet",
+          "currentTarget": "minecraft:blue_carpet",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.CARPET",
+            "color": "blue",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 755,
+            "blocksReferences": [
+              3063
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:brown_carpet",
+          "currentTarget": "minecraft:brown_carpet",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.CARPET",
+            "color": "brown",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 755,
+            "blocksReferences": [
+              3063
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:cyan_carpet",
+          "currentTarget": "minecraft:cyan_carpet",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.CARPET",
+            "color": "cyan",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 755,
+            "blocksReferences": [
+              3063
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:gray_carpet",
+          "currentTarget": "minecraft:gray_carpet",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.CARPET",
+            "color": "gray",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 755,
+            "blocksReferences": [
+              3063
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:green_carpet",
+          "currentTarget": "minecraft:green_carpet",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.CARPET",
+            "color": "green",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 755,
+            "blocksReferences": [
+              3063
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:light_blue_carpet",
+          "currentTarget": "minecraft:light_blue_carpet",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.CARPET",
+            "color": "light_blue",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 755,
+            "blocksReferences": [
+              3063
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:light_gray_carpet",
+          "currentTarget": "minecraft:light_gray_carpet",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.CARPET",
+            "color": "light_gray",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 755,
+            "blocksReferences": [
+              3063
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:lime_carpet",
+          "currentTarget": "minecraft:lime_carpet",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.CARPET",
+            "color": "lime",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 755,
+            "blocksReferences": [
+              3063
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:magenta_carpet",
+          "currentTarget": "minecraft:magenta_carpet",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.CARPET",
+            "color": "magenta",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 755,
+            "blocksReferences": [
+              3063
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:orange_carpet",
+          "currentTarget": "minecraft:orange_carpet",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.CARPET",
+            "color": "orange",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 755,
+            "blocksReferences": [
+              3063
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:pink_carpet",
+          "currentTarget": "minecraft:pink_carpet",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.CARPET",
+            "color": "pink",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 755,
+            "blocksReferences": [
+              3063
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:purple_carpet",
+          "currentTarget": "minecraft:purple_carpet",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.CARPET",
+            "color": "purple",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 755,
+            "blocksReferences": [
+              3063
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:red_carpet",
+          "currentTarget": "minecraft:red_carpet",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.CARPET",
+            "color": "red",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 755,
+            "blocksReferences": [
+              3063
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:white_carpet",
+          "currentTarget": "minecraft:white_carpet",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.CARPET",
+            "color": "white",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 755,
+            "blocksReferences": [
+              3063
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:yellow_carpet",
+          "currentTarget": "minecraft:yellow_carpet",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.CARPET",
+            "color": "yellow",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 755,
+            "blocksReferences": [
+              3063
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 172,
+      "legacyBlockId": "hardened_clay",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "HardenedClayBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:terracotta",
+          "currentTarget": "minecraft:terracotta",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.TERRACOTTA",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 452,
+            "blocksReferences": [
+              3069
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 175,
+      "legacyBlockId": "double_plant",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "REPLACEABLE_PLANT",
+      "oldConstructionClass": "DoublePlantBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:large_fern",
+          "currentTarget": "minecraft:large_fern",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.LARGE_FERN",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 460,
+            "blocksReferences": [
+              3150
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:lilac",
+          "currentTarget": "minecraft:lilac",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.LILAC",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 456,
+            "blocksReferences": [
+              3101
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:peony",
+          "currentTarget": "minecraft:peony",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.PEONY",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 458,
+            "blocksReferences": [
+              3125
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:rose_bush",
+          "currentTarget": "minecraft:rose_bush",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.ROSE_BUSH",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 457,
+            "blocksReferences": [
+              3113
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:sunflower",
+          "currentTarget": "minecraft:sunflower",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.SUNFLOWER",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 455,
+            "blocksReferences": [
+              3089
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:tall_grass",
+          "currentTarget": "minecraft:tall_grass",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.TALL_GRASS",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 459,
+            "blocksReferences": [
+              3137
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 176,
+      "legacyBlockId": "standing_banner",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "WOOD",
+      "oldConstructionClass": "BannerBlock.Standing",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:white_banner",
+          "currentTarget": "minecraft:white_banner",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.BANNER",
+            "color": "white",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 756,
+            "blocksReferences": [
+              3163
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 177,
+      "legacyBlockId": "wall_banner",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "WOOD",
+      "oldConstructionClass": "BannerBlock.Wall",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:white_wall_banner",
+          "currentTarget": "minecraft:white_wall_banner",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockIds.WALL_BANNER",
+            "color": "white",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+            "line": 119,
+            "blocksReferences": [
+              3176
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 178,
+      "legacyBlockId": "daylight_detector_inverted",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "WOOD",
+      "oldConstructionClass": "DaylightDetectorBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:daylight_detector",
+          "currentTarget": "minecraft:daylight_detector",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DAYLIGHT_DETECTOR",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 567,
+            "blocksReferences": [
+              2902
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 181,
+      "legacyBlockId": "double_stone_slab2",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "DoubleRedSandstoneSlabBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:red_sandstone_slab",
+          "currentTarget": "minecraft:red_sandstone_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.RED_SANDSTONE_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 275,
+            "blocksReferences": [
+              3362
+            ]
+          }
+        },
+        {
+          "flatteningTarget": "minecraft:smooth_red_sandstone",
+          "currentTarget": "minecraft:smooth_red_sandstone",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.SMOOTH_RED_SANDSTONE",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 282,
+            "blocksReferences": [
+              3401
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 182,
+      "legacyBlockId": "stone_slab2",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "SingleRedSandstoneSlabBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:red_sandstone_slab",
+          "currentTarget": "minecraft:red_sandstone_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.RED_SANDSTONE_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 275,
+            "blocksReferences": [
+              3362
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 204,
+      "legacyBlockId": "purpur_double_slab",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "PurpurSlabBlock.Double",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:purpur_slab",
+          "currentTarget": "minecraft:purpur_slab",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.PURPUR_SLAB",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 277,
+            "blocksReferences": [
+              3380
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 206,
+      "legacyBlockId": "end_bricks",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "Block",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:end_stone_bricks",
+          "currentTarget": "minecraft:end_stone_bricks",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.END_STONE_BRICKS",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 399,
+            "blocksReferences": [
+              3736
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 207,
+      "legacyBlockId": "beetroots",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": null,
+      "oldConstructionClass": "BeetrootsBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:beetroots",
+          "currentTarget": "minecraft:beetroots",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.BEETROOT_CROP",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 745,
+            "blocksReferences": [
+              3774
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 208,
+      "legacyBlockId": "grass_path",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "DIRT",
+      "oldConstructionClass": "GrassPathBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:grass_path",
+          "currentTarget": "minecraft:dirt_path",
+          "renameChain": [
+            {
+              "from": "minecraft:grass_path",
+              "to": "minecraft:dirt_path",
+              "dataVersion": 2680,
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\DataFixers.java",
+              "line": 986
+            }
+          ],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DIRT_PATH",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 454,
+            "blocksReferences": [
+              3785
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 209,
+      "legacyBlockId": "end_gateway",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "PORTAL",
+      "oldConstructionClass": "EndGatewayBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:end_gateway",
+          "currentTarget": "minecraft:end_gateway",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockIds.END_GATEWAY",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+            "line": 86,
+            "blocksReferences": [
+              3795
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 212,
+      "legacyBlockId": "frosted_ice",
+      "oldWallResult": false,
+      "oldIsCube": true,
+      "oldMaterial": "ICE",
+      "oldConstructionClass": "FrostedIceBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:frosted_ice",
+          "currentTarget": "minecraft:frosted_ice",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockIds.FROSTED_ICE",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+            "line": 87,
+            "blocksReferences": [
+              3816
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 213,
+      "legacyBlockId": "magma",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "MagmaBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:magma_block",
+          "currentTarget": "minecraft:magma_block",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.MAGMA_BLOCK",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 474,
+            "blocksReferences": [
+              3828
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 215,
+      "legacyBlockId": "red_nether_brick",
+      "oldWallResult": true,
+      "oldIsCube": true,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "NetherBrickBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:red_nether_bricks",
+          "currentTarget": "minecraft:red_nether_bricks",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.RED_NETHER_BRICKS",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 477,
+            "blocksReferences": [
+              3844
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 219,
+      "legacyBlockId": "white_shulker_box",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "ShulkerBoxBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:white_shulker_box",
+          "currentTarget": "minecraft:white_shulker_box",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_SHULKER_BOX",
+            "color": "white",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 757,
+            "blocksReferences": [
+              3879
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 220,
+      "legacyBlockId": "orange_shulker_box",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "ShulkerBoxBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:orange_shulker_box",
+          "currentTarget": "minecraft:orange_shulker_box",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_SHULKER_BOX",
+            "color": "orange",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 757,
+            "blocksReferences": [
+              3879
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 221,
+      "legacyBlockId": "magenta_shulker_box",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "ShulkerBoxBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:magenta_shulker_box",
+          "currentTarget": "minecraft:magenta_shulker_box",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_SHULKER_BOX",
+            "color": "magenta",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 757,
+            "blocksReferences": [
+              3879
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 222,
+      "legacyBlockId": "light_blue_shulker_box",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "ShulkerBoxBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:light_blue_shulker_box",
+          "currentTarget": "minecraft:light_blue_shulker_box",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_SHULKER_BOX",
+            "color": "light_blue",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 757,
+            "blocksReferences": [
+              3879
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 223,
+      "legacyBlockId": "yellow_shulker_box",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "ShulkerBoxBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:yellow_shulker_box",
+          "currentTarget": "minecraft:yellow_shulker_box",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_SHULKER_BOX",
+            "color": "yellow",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 757,
+            "blocksReferences": [
+              3879
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 224,
+      "legacyBlockId": "lime_shulker_box",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "ShulkerBoxBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:lime_shulker_box",
+          "currentTarget": "minecraft:lime_shulker_box",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_SHULKER_BOX",
+            "color": "lime",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 757,
+            "blocksReferences": [
+              3879
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 225,
+      "legacyBlockId": "pink_shulker_box",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "ShulkerBoxBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:pink_shulker_box",
+          "currentTarget": "minecraft:pink_shulker_box",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_SHULKER_BOX",
+            "color": "pink",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 757,
+            "blocksReferences": [
+              3879
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 226,
+      "legacyBlockId": "gray_shulker_box",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "ShulkerBoxBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:gray_shulker_box",
+          "currentTarget": "minecraft:gray_shulker_box",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_SHULKER_BOX",
+            "color": "gray",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 757,
+            "blocksReferences": [
+              3879
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 227,
+      "legacyBlockId": "silver_shulker_box",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "ShulkerBoxBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:light_gray_shulker_box",
+          "currentTarget": "minecraft:light_gray_shulker_box",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_SHULKER_BOX",
+            "color": "light_gray",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 757,
+            "blocksReferences": [
+              3879
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 228,
+      "legacyBlockId": "cyan_shulker_box",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "ShulkerBoxBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:cyan_shulker_box",
+          "currentTarget": "minecraft:cyan_shulker_box",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_SHULKER_BOX",
+            "color": "cyan",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 757,
+            "blocksReferences": [
+              3879
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 229,
+      "legacyBlockId": "purple_shulker_box",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "ShulkerBoxBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:purple_shulker_box",
+          "currentTarget": "minecraft:shulker_box",
+          "renameChain": [
+            {
+              "from": "minecraft:purple_shulker_box",
+              "to": "minecraft:shulker_box",
+              "dataVersion": 1474,
+              "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\DataFixers.java",
+              "line": 570
+            }
+          ],
+          "registrationEvidence": {
+            "field": "BlockItemIds.SHULKER_BOX",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 480,
+            "blocksReferences": [
+              3877
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 230,
+      "legacyBlockId": "blue_shulker_box",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "ShulkerBoxBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:blue_shulker_box",
+          "currentTarget": "minecraft:blue_shulker_box",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_SHULKER_BOX",
+            "color": "blue",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 757,
+            "blocksReferences": [
+              3879
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 231,
+      "legacyBlockId": "brown_shulker_box",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "ShulkerBoxBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:brown_shulker_box",
+          "currentTarget": "minecraft:brown_shulker_box",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_SHULKER_BOX",
+            "color": "brown",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 757,
+            "blocksReferences": [
+              3879
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 232,
+      "legacyBlockId": "green_shulker_box",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "ShulkerBoxBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:green_shulker_box",
+          "currentTarget": "minecraft:green_shulker_box",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_SHULKER_BOX",
+            "color": "green",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 757,
+            "blocksReferences": [
+              3879
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 233,
+      "legacyBlockId": "red_shulker_box",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "ShulkerBoxBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:red_shulker_box",
+          "currentTarget": "minecraft:red_shulker_box",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_SHULKER_BOX",
+            "color": "red",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 757,
+            "blocksReferences": [
+              3879
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    },
+    {
+      "legacyNumericId": 234,
+      "legacyBlockId": "black_shulker_box",
+      "oldWallResult": false,
+      "oldIsCube": false,
+      "oldMaterial": "STONE",
+      "oldConstructionClass": "ShulkerBoxBlock",
+      "targets": [
+        {
+          "flatteningTarget": "minecraft:black_shulker_box",
+          "currentTarget": "minecraft:black_shulker_box",
+          "renameChain": [],
+          "registrationEvidence": {
+            "field": "BlockItemIds.DYED_SHULKER_BOX",
+            "color": "black",
+            "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+            "line": 757,
+            "blocksReferences": [
+              3879
+            ]
+          }
+        }
+      ],
+      "skullVariants": []
+    }
+  ],
+  "skullSource": {
+    "file": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\ChunkPalettedStorageFix.java",
+    "mapSkullLines": "220-227,277-286",
+    "conversionLines": "951-977",
+    "gates": "case 144 and non-null block entity required. SkullType defaults 0, floor uses Rot default 0, horizontal uses facing. Unknown map key defaults 0north. Missing block entity is not rewritten by this branch."
+  }
+}

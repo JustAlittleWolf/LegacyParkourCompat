@@ -1,0 +1,344 @@
+[
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/client/player/LocalPlayer.java",
+    "sha256": "433fd995ad317af0f6ef0e50c1e8e3483cb8f00e0e327d4edf27a4dd99666ebe",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/client/player/AbstractClientPlayer.java",
+    "sha256": "7825a8d4e8e24928cba18f68109c91479b78fb14fcd8b81f0e045b8d02a559cc",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/client/player/ClientInput.java",
+    "sha256": "597a44339a99f1bce1b081614c7c2984ca03e255b40e9d247675a31b6f810d78",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/client/player/KeyboardInput.java",
+    "sha256": "b4bbb410650444c30d2a62d70fd3c6cd1aefa104b8a12e474e2a478a62089c39",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/world/entity/player/Input.java",
+    "sha256": "ee9ce4cfd647e09c55a9562f917fa504c0fba081bcfbbeb15871cf70818bc447",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/world/entity/player/Abilities.java",
+    "sha256": "0be56964201d7cae7ff4ba7c296afd568f9a65cd74f8926145c15714f82edae7",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/world/entity/player/Player.java",
+    "sha256": "44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/world/entity/Entity.java",
+    "sha256": "8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/world/entity/LivingEntity.java",
+    "sha256": "c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/world/entity/PositionMoveRotation.java",
+    "sha256": "a5f0cf32266502dd2c9250d28dfc7bc85cfcf30247e91e3311018af15be319f8",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/world/entity/Relative.java",
+    "sha256": "e4a9488f6e6703e184fc62f0e85006e06a6e30d7475c892542db3abbe6a45ed3",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/client/multiplayer/ClientPacketListener.java",
+    "sha256": "eb70d05e4f8429341fc41823eae2cc662560efa1e44c8b729db5477501718d82",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/client/multiplayer/LevelLoadTracker.java",
+    "sha256": "141426abb6fc196ea351715f5c85a481475f340eeb377e68c1a3a48a64f8ad03",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/client/renderer/LevelRenderer.java",
+    "sha256": "1c8bed603b390682a9ef98378ef5e9c2bb39ac2522fbde1cabf447dee33ed1e6",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/network/protocol/game/ClientboundPlayerPositionPacket.java",
+    "sha256": "8da72408493b7279713f134bb2a60c39763e89ce6ceb043eece306c040eaaa5a",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/network/protocol/game/ClientboundPlayerRotationPacket.java",
+    "sha256": "f0c90482b54ac23e5358ed13c7f819712110e2ca0e5533989e78ddced7000eaa",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/network/protocol/game/ClientboundSetEntityMotionPacket.java",
+    "sha256": "1d96b8b4eb40eefbdd88dbadf67c1b9f5c10216123df60ddfb0f4b5ea0e0b0da",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/network/protocol/game/ClientboundPlayerAbilitiesPacket.java",
+    "sha256": "2c13a4dcf511c99ab48b84b204c413835e3ccee3d8ad8b10d5a7bd13133f2c69",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/world/entity/ai/attributes/Attributes.java",
+    "sha256": "8eee57d8375c7af39525ccd25593618fcbcbe0348da6a8738556baaabea3c1d5",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/world/level/block/Blocks.java",
+    "sha256": "ba8a258b33f73fe03f93e7b02f9c25d4f66cf3aaab04c4580d0863cc71bc866f",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+    "sha256": "9db85de84e502903e6fe497f043b58620b92089236ffb213f0b93db979428d13",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/client/player/LocalPlayer.java",
+    "sha256": "8d089aa09217e3607b38590f7c1623385562800943ac6dfd3d17804e041da6d6",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/client/player/AbstractClientPlayer.java",
+    "sha256": "7825a8d4e8e24928cba18f68109c91479b78fb14fcd8b81f0e045b8d02a559cc",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/client/player/ClientInput.java",
+    "sha256": "597a44339a99f1bce1b081614c7c2984ca03e255b40e9d247675a31b6f810d78",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/client/player/KeyboardInput.java",
+    "sha256": "b4bbb410650444c30d2a62d70fd3c6cd1aefa104b8a12e474e2a478a62089c39",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/world/entity/player/Input.java",
+    "sha256": "ee9ce4cfd647e09c55a9562f917fa504c0fba081bcfbbeb15871cf70818bc447",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/world/entity/player/Abilities.java",
+    "sha256": "e96537b6f633aa2b16e6ffd7b324c06f75ee0dd15597e7c583db833a6acb1a32",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/world/entity/player/Player.java",
+    "sha256": "8decc71b9c780664578ddb14591db2a2f207c72c05b676edded6f8e964576531",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/world/entity/Entity.java",
+    "sha256": "7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/world/entity/LivingEntity.java",
+    "sha256": "7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/world/entity/PositionMoveRotation.java",
+    "sha256": "a5f0cf32266502dd2c9250d28dfc7bc85cfcf30247e91e3311018af15be319f8",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/world/entity/Relative.java",
+    "sha256": "e4a9488f6e6703e184fc62f0e85006e06a6e30d7475c892542db3abbe6a45ed3",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/client/multiplayer/ClientPacketListener.java",
+    "sha256": "9cb0cc8afebae9f4e42f428a52719c645817d03893dc371e6711c7bd16eac1b6",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/client/multiplayer/LevelLoadTracker.java",
+    "sha256": "f08f5d126298ce522d0ca485f89ee6847c4fa986006ffa6d848cf734fbdc3e45",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/client/renderer/LevelRenderer.java",
+    "sha256": "f6df2068842b44764d1598eb9c22dc336299422aad3e5256825e4a336bea1651",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/network/protocol/game/ClientboundPlayerPositionPacket.java",
+    "sha256": "8da72408493b7279713f134bb2a60c39763e89ce6ceb043eece306c040eaaa5a",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/network/protocol/game/ClientboundPlayerRotationPacket.java",
+    "sha256": "f0c90482b54ac23e5358ed13c7f819712110e2ca0e5533989e78ddced7000eaa",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/network/protocol/game/ClientboundSetEntityMotionPacket.java",
+    "sha256": "1d96b8b4eb40eefbdd88dbadf67c1b9f5c10216123df60ddfb0f4b5ea0e0b0da",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/network/protocol/game/ClientboundPlayerAbilitiesPacket.java",
+    "sha256": "2c13a4dcf511c99ab48b84b204c413835e3ccee3d8ad8b10d5a7bd13133f2c69",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/world/entity/ai/attributes/Attributes.java",
+    "sha256": "4a7c33552f256b5d35c6d46fd5810405f4e98182e2b26a9a3009ef4f1d3fdd5c",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/world/level/block/Blocks.java",
+    "sha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+    "sha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/world/entity/Avatar.java",
+    "sha256": "01a8092bc2637e7d42a261fb564bffcabadd28625cc02b120e943559e2d4fe78",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/world/phys/Vec2.java",
+    "sha256": "c52274a57d57b452c3ec349b6336341e7069252183a10838ee7e9e4462f6ba3d",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/world/phys/Vec3.java",
+    "sha256": "57b08ae818868a4fffdc9b5dadba2b127138c8945c2194f6f4b01e6150cd3bcb",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/world/entity/InterpolationHandler.java",
+    "sha256": "1c447b7fcd7e02bc53c5ba6f90f467a3781730a09b7fe1f3bf5899f888436bb4",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/network/protocol/game/ClientboundEntityPositionSyncPacket.java",
+    "sha256": "868211e580650a709387f843e897358670878523635a8055d90dd8983ccb6e17",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/network/protocol/game/ClientboundTeleportEntityPacket.java",
+    "sha256": "369ba04db7dbd0e7b89693079dcd83970c845470b4825d1e3d6dab0d392dd363",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.1.2",
+    "file": "net/minecraft/client/KeyMapping.java",
+    "sha256": "94ca37795dcae193446f1023fad046251d3cc793fb49d8b06c42c3df8e648bef",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/world/entity/Avatar.java",
+    "sha256": "01a8092bc2637e7d42a261fb564bffcabadd28625cc02b120e943559e2d4fe78",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/world/phys/Vec2.java",
+    "sha256": "284ba455cf02047283a01af3d4c77929cfd9bbcc772b0677de503a3774bd4b51",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/world/phys/Vec3.java",
+    "sha256": "026c8461113b32116f0183ec42fa1cb4c7414cec38b685484d2309f9a0cb9a33",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/world/entity/InterpolationHandler.java",
+    "sha256": "4fea3df04b58a5f6ad6d78ba5828e0b6a5c590f4b544270f45d661e239664a7b",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/network/protocol/game/ClientboundEntityPositionSyncPacket.java",
+    "sha256": "868211e580650a709387f843e897358670878523635a8055d90dd8983ccb6e17",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/network/protocol/game/ClientboundTeleportEntityPacket.java",
+    "sha256": "369ba04db7dbd0e7b89693079dcd83970c845470b4825d1e3d6dab0d392dd363",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/client/KeyMapping.java",
+    "sha256": "e4ed46330f5d837333c25bc41e6ba03885ade870d75cc0f864f224cbe5a6bb31",
+    "manifestMatch": true
+  },
+  {
+    "version": "26.2",
+    "file": "net/minecraft/client/renderer/extract/LevelExtractor.java",
+    "sha256": "6d7773878a44555e8dde9acc7cb33df05331ff27187e6d97e6729b84975a8a26",
+    "manifestMatch": true
+  }
+]
