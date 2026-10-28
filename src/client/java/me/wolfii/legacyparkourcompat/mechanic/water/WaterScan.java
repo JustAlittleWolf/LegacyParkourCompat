@@ -73,11 +73,28 @@ public final class WaterScan {
             return Optional.of(new Result(false, Vec3.ZERO, replacesContact, replacesCurrent));
         }
         Bounds contactBounds = selected.map(box -> contactBounds(box, contactBound)).orElse(null);
+        // Admission receives the original query bounds, including their historical maxY.
         boolean contactAdmitted = contactBounds != null && contactAdmission.map(hook -> hook.admits(
             contactBounds.x0, contactBounds.y0, contactBounds.z0,
             contactBounds.x1, contactBounds.y1, contactBounds.z1
         )).orElse(true);
-        boolean scanContact = contactBounds != null && contactAdmitted;
+        Bounds scannedContactBounds = null;
+        if (contactBounds != null && contactAdmitted) {
+            scannedContactBounds = contactBounds;
+            if (selected.isPresent() && contactBound.isPresent()
+                && hasHistoricalContactYBound(contactBound.get(), selected.get())) {
+                // 1.8.9 World.getBlockState (World.java:612-618) calls contains
+                // (World.java:162-164) and returns AIR outside [0, 256).
+                // Clip only contact membership; preserve raw maxY for includes().
+                int minY = Math.max(contactBounds.y0, 0);
+                int maxY = Math.min(contactBounds.y1, 256);
+                scannedContactBounds = minY < maxY
+                    ? new Bounds(contactBounds.x0, minY, contactBounds.z0,
+                        contactBounds.x1, maxY, contactBounds.z1)
+                    : null;
+            }
+        }
+        boolean scanContact = scannedContactBounds != null;
         boolean scanFlow = replacesCurrent && !historicalFlowRejectedByArea && flowBounds != null;
         if (!scanContact && !scanFlow) {
             // A rejected historical contact area reports false presence while
@@ -90,7 +107,6 @@ public final class WaterScan {
         AABB nativeBox = player.getFluidInteractionBox();
         if (nativeBox == null) return Optional.empty();
         Bounds nativeBounds = bounds(nativeBox, Optional.empty());
-        Bounds scannedContactBounds = scanContact ? contactBounds : null;
         Bounds scannedFlowBounds = scanFlow ? flowBounds : null;
         int scanX0 = Math.min(nativeBounds.x0, Math.min(
             scannedContactBounds == null ? Integer.MAX_VALUE : scannedContactBounds.x0,
@@ -187,6 +203,10 @@ public final class WaterScan {
         return hook.exclusiveUpperBound(box.maxX).isPresent()
             || hook.exclusiveUpperBound(box.maxY).isPresent()
             || hook.exclusiveUpperBound(box.maxZ).isPresent();
+    }
+
+    private static boolean hasHistoricalContactYBound(WaterBodyContactScanBoundHook hook, AABB box) {
+        return hook.exclusiveUpperBound(box.maxY).isPresent();
     }
 
     private static AABB legacyFlowQuery(AABB body) {
