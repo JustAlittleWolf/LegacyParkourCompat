@@ -18,10 +18,8 @@ import java.util.Set;
  * <p>Source comparison: Minecraft 1.21.11 Mojmap, Entity#baseTick, Entity#updateFluidOnEyes,
  * Entity#isEyeInFluid, and AbstractBoat#isUnderWater; Minecraft 26.1 unobfuscated,
  * Entity#baseTick, Entity#updateFluidInteraction, Entity#isEyeInFluid,
- * EntityFluidInteraction#update, and AbstractBoat#modifyPassengerFluidInteractionBox. The 26.2
- * decompiled EntityFluidInteraction source is byte-identical to 26.1. The accepted audit records
- * that 26.2's raw client artifact hash is not bound by retained provenance, so no stronger claim
- * about 26.2 client identity is made here.
+ * EntityFluidInteraction#update, and AbstractBoat#modifyPassengerFluidInteractionBox.
+ * Minecraft 26.2 unobfuscated EntityFluidInteraction#update retains that producer behavior.
  */
 @MovementChange(emulates = ParkourVersion.V1_21_11)
 public final class EyeFluidPointCache implements EyeFluidCacheHook {
