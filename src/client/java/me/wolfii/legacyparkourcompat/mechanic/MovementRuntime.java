@@ -319,7 +319,7 @@ public final class MovementRuntime {
         }
 
         var border = level.getWorldBorder();
-        boolean borderCheck = entity.isOutsideWorldBorder()
+        boolean borderCheck = !border.isWithinBounds(entity.getBoundingBox())
             || border.isInsideCloseToBorder(entity, sweptBox);
         boolean historicalBorderCollision = find(
             me.wolfii.legacyparkourcompat.mechanic.hook.border.WorldBorderCollisionHook.class, entity)
