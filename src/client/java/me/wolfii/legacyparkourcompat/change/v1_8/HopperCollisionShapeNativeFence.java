@@ -18,7 +18,7 @@ import java.util.Optional;
  * inspected 1.9.4, 1.10.2, 1.11.2 and 1.12.2 providers. This resolver fence
  * makes no claim about those uninspected earlier releases.
  */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_5)
 public final class HopperCollisionShapeNativeFence implements BlockCollisionShapeHook {
     @MovementChange.Factory
     public static List<HopperCollisionShapeNativeFence> createVariants() {

@@ -24,7 +24,7 @@ import java.util.Optional;
  * through 1.12.2 CauldronBlock collision providers retain the five-box basin,
  * handled by the V1_12 change; 1.8.0–1.8.8 remains native pending evidence.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class CauldronCollisionShape implements BlockCollisionShapeHook {
     private static final VoxelShape SHAPE = Shapes.join(Shapes.block(),
         Block.box(2.0, 4.0, 2.0, 14.0, 16.0, 14.0), BooleanOp.ONLY_FIRST);

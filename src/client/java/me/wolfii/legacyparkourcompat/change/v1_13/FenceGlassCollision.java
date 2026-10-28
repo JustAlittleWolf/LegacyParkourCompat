@@ -29,7 +29,7 @@ import java.util.Set;
  * 1.14.4 CrossCollisionBlock.makeShapes/getCollisionShape supplies the
  * 6/16-to-1 rail bounds used here, while the central post remains untouched.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class FenceGlassCollision implements FenceGlassCollisionHook {
     private static final Set<Block> ERA_FENCES = Set.of(
         Blocks.OAK_FENCE,

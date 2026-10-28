@@ -11,7 +11,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.CollisionAxisOrderH
  * Math.abs(x) < Math.abs(z); equality stays X-before-Z. The 26.2 native Direction.axisStepOrder(Vec3)
  * selector uses that same strict comparison, so this delta supplies only the older fixed horizontal order.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class CollisionAxisOrder implements CollisionAxisOrderHook {
     public CollisionAxisOrder() {
     }

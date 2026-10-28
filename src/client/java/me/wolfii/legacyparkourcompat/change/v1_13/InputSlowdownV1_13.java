@@ -22,12 +22,12 @@ import net.minecraft.world.entity.player.Player;
  * key is down, then cast to float. This remains the assigned keyboard slowdown
  * behavior through 1.13.2; flight compensation is a separate operation.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class InputSlowdownV1_13 implements InputSlowdownHook {
     @Override
     public boolean supports(ParkourVersion selected) {
         return selected.newerThanOrEqual(ParkourVersion.V1_8)
-            && selected.olderThanOrEqual(ParkourVersion.V1_13);
+            && selected.olderThanOrEqual(ParkourVersion.V1_13_1);
     }
 
     @Override

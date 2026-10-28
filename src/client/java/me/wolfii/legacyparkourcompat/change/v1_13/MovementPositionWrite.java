@@ -11,7 +11,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionWri
  * length squared > 1.0E-7. Admission must also open the enclosing modern branch,
  * not merely allow its eventual position write after native admission.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class MovementPositionWrite implements MovementPositionWriteHook {
     @Override
     public boolean alwaysEnterWriteBranch() {

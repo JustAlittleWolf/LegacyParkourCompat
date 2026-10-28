@@ -21,7 +21,7 @@ import java.util.Optional;
  * calculation. Preserve the strict comparison and float addition at that
  * sampled eye block.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class ContextFreePlayerEyeSubmersion implements PlayerEyeSubmersionHook {
     public ContextFreePlayerEyeSubmersion() {
     }

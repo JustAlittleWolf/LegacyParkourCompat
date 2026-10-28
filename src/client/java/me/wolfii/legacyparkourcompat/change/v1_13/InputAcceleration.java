@@ -27,7 +27,7 @@ import net.minecraft.world.phys.Vec3;
  * Earlier two-axis helpers need separate applicability; unsupported modern
  * feature states retain native input acceleration.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class InputAcceleration implements InputAccelerationHook {
     @Override
     public boolean apply(Player player, ParkourVersion selected, float speed, Vec3 input) {

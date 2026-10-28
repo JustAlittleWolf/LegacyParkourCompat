@@ -27,7 +27,7 @@ import net.minecraft.world.level.Level;
  * inChunk flag remains true while entering a missing neighbor, 1.13.2
  * World#tickEntity still reaches travel without removing that registration.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class UnloadedChunkGravity implements UnloadedChunkGravityHook {
     @Override
     public boolean chunkIsLoaded(LivingEntity entity, Level level, BlockPos vanillaPosition, boolean movementChunkLoaded) {

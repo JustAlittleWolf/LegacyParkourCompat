@@ -16,7 +16,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.SlowFallingWaterDescent
  * getFluidFallingAdjustedMovement(double, boolean, Vec3). Slow Falling was
  * introduced in 1.13, so earlier selected profiles retain the native predicate.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class SlowFallingWaterDescent implements SlowFallingWaterDescentHook {
     public SlowFallingWaterDescent() {
     }

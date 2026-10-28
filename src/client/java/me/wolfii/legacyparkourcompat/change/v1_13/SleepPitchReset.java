@@ -11,7 +11,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.state.SleepPitchResetHook;
  * Suppress only that local post-travel write; sleep entry and received state
  * remain vanilla. Earlier profile applicability remains unbound.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class SleepPitchReset implements SleepPitchResetHook {
     @Override
     public boolean resetsPitch(ParkourVersion selected) {

@@ -16,7 +16,7 @@ import java.util.Optional;
  * Keeps the native 26.2 ladder shape for profiles before the first accepted
  * source comparison, 1.8.9.
  */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_5)
 public final class LadderCollisionNativeFence implements BlockCollisionShapeHook {
     private static final String LADDER = "minecraft:ladder";
 

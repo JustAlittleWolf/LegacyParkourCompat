@@ -14,7 +14,7 @@ import net.minecraft.world.phys.Vec3;
  * float formula; 1.14 and 1.14.4 (Ornithe Feather Gen2 build 2,
  * LivingEntity.startSleeping) center x/z unconditionally.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class SleepPosition implements SleepPositionHook {
     @Override
     public Vec3 position(LivingEntity entity, BlockPos bedPosition) {

@@ -16,7 +16,7 @@ import java.util.Optional;
  * independent of the approximate comparison used by later collision flags.
  * Even a sub-1.0E-5 clipped component must clear its velocity.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class IndependentHorizontalVelocityWrites implements HorizontalVelocityWriteHook,
     HorizontalVelocityCollisionHook {
     @Override
