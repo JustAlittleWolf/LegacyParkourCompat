@@ -30,15 +30,19 @@ import java.util.Set;
  * <p>Source references: Minecraft 1.20.1 Mojmap
  * {@code net.minecraft.world.entity.Entity.positionRider(Entity, Entity.MoveFunction)},
  * {@code Entity.getPassengersRidingOffset()}, {@code Player.getMyRidingOffset()},
- * {@code EntityType} registrations, and {@code Camel.getBodyAnchorAnimationYOffset(boolean, float)};
+ * {@code EntityType} registrations, {@code ChestBoat.getSinglePassengerXOffset()}, and
+ * {@code Camel.getBodyAnchorAnimationYOffset(boolean, float)};
  * Minecraft 1.20.2 Mojmap {@code Entity.positionRider(Entity, Entity.MoveFunction)},
  * {@code Entity.getPassengerRidingPosition(Entity)},
  * {@code LivingEntity.getMyRidingOffset(Entity)}, and the listed vehicle
- * {@code getPassengerAttachmentPoint(Entity, EntityDimensions, float)} overrides.
+ * {@code getPassengerAttachmentPoint(Entity, EntityDimensions, float)} overrides. The ChestBoat
+ * single-passenger offset is {@code 0.15F} in both source releases.
  *
  * <p>The 1.20.1 and 1.20.2 Mojmap sources differ in the common writer, Player's riding offset, and
- * the vehicle attachment writers. This change is selected for the 1.20/1.20.1 profile group only;
- * unsupported or modern-only entity types retain the native callback.
+ * the vehicle attachment writers. The accepted 1.20 to 1.20.1 movement-source alias audit found
+ * the scoped movement sources byte-identical, so this change covers that profile group only;
+ * unsupported or modern-only entity types retain the native callback. A V1_19_4 native provider
+ * bounds older profiles without claiming historical 1.19.4 placement behavior.
  */
 @MovementChange(emulates = ParkourVersion.V1_20)
 public final class PlayerPassengerPlacement implements PlayerPassengerPlacementHook {
@@ -123,7 +127,7 @@ public final class PlayerPassengerPlacement implements PlayerPassengerPlacementH
             walkSpeed,
             camelAnchor,
             chickenY,
-            0.0F,
+            isChestBoat(type) ? 0.15F : 0.0F,
             vehicle.getYRot(),
             bodyYaw,
             standAnimation
@@ -139,6 +143,10 @@ public final class PlayerPassengerPlacement implements PlayerPassengerPlacementH
         return type.matches("(oak|spruce|birch|jungle|acacia|dark_oak|mangrove)_(chest_)?boat")
             || type.equals("bamboo_raft")
             || type.equals("bamboo_chest_raft");
+    }
+
+    private static boolean isChestBoat(String type) {
+        return type.equals("chest_boat") || type.endsWith("_chest_boat") || type.equals("bamboo_chest_raft");
     }
 
     private static Carrier carrier(String type) {
