@@ -45,6 +45,7 @@
     "EntitySweptShapeIntersectionMixin",
     "EntityCallbackTraversalMixin",
     "EntityCallbackBatchMixin",
+    "PistonMovingBlockEntityMixin",
     "EntityBlockCallbackSegmentMixin",
     "EntityMovementAccessor",
     "EntitySupportingBlockPositionMixin",

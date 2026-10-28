@@ -122,10 +122,9 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
 
     @Override
     @Unique
-    public void legacyparkourcompat$addMovementCallbackBatch(MoverType moverType,
-                                                              List<MovementCallbackSegmentsAccess.Segment> segments) {
+    public void legacyparkourcompat$addMovementCallbackBatch(List<MovementCallbackSegmentsAccess.Segment> segments) {
         this.legacyparkourcompat$callbackMovementBatches.add(
-            new MovementCallbackSegmentsAccess.Batch(moverType, List.copyOf(segments)));
+            new MovementCallbackSegmentsAccess.Batch(List.copyOf(segments)));
     }
 
     @Override
@@ -138,9 +137,9 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
 
     @Override
     @Unique
-    public boolean legacyparkourcompat$removeLatestPistonCallbackBatch() {
+    public boolean legacyparkourcompat$removeLatestMovementCallbackBatch() {
         int lastIndex = this.legacyparkourcompat$callbackMovementBatches.size() - 1;
-        if (lastIndex < 0 || this.legacyparkourcompat$callbackMovementBatches.get(lastIndex).moverType() != MoverType.PISTON) {
+        if (lastIndex < 0) {
             return false;
         }
         this.legacyparkourcompat$callbackMovementBatches.remove(lastIndex);
@@ -167,17 +166,17 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
     }
 
     @Inject(method = "removeLatestMovementRecording()V", at = @At("HEAD"), cancellable = true)
-    private void legacyparkourcompat$removeLatestPistonCallbackBatch(CallbackInfo callbackInfo) {
+    private void legacyparkourcompat$removeLatestMovementCallbackBatch(CallbackInfo callbackInfo) {
         Entity entity = (Entity)(Object)this;
         if (MovementRuntime.find(MovementCallbackRecordHook.class, entity)
             .map(hook -> hook.captureAxisSegments(entity)).orElse(false)
-            && ((MovementCallbackSegmentsAccess)this).legacyparkourcompat$removeLatestPistonCallbackBatch()) {
+            && ((MovementCallbackSegmentsAccess)this).legacyparkourcompat$removeLatestMovementCallbackBatch()) {
             callbackInfo.cancel();
         }
     }
 
     @Unique
-    private record CallbackMoveInput(MoverType moverType, Vec3 requestedAtEntry, Vec3 positionAtEntry,
+    private record CallbackMoveInput(Vec3 requestedAtEntry, Vec3 positionAtEntry,
                                      boolean noPhysicsAtEntry, boolean captureSegments) {}
 
     @Unique
@@ -438,7 +437,7 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
             .map(hook -> hook.captureAxisSegments(entity))
             .orElse(false);
         this.legacyparkourcompat$callbackMoveInputs.push(new CallbackMoveInput(
-            moverType, movement, entity.position(), entity.noPhysics, capture));
+            movement, entity.position(), entity.noPhysics, capture));
     }
 
     @Inject(method = "move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V", at = @At("RETURN"))
@@ -475,7 +474,7 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
                 from = to;
             }
         }
-        ((MovementCallbackSegmentsAccess)entity).legacyparkourcompat$addMovementCallbackBatch(input.moverType(), segments);
+        ((MovementCallbackSegmentsAccess)entity).legacyparkourcompat$addMovementCallbackBatch(segments);
     }
 
     @Inject(method = "move", at = @At(value = "INVOKE",
