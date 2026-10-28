@@ -2,7 +2,9 @@ package me.wolfii.legacyparkourcompat.mixin.water;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactAreaAdmissionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactScanBoundHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterCurrentHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.world.FlowScanAreaAdmissionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.world.WaterFlowScanBoundHook;
@@ -50,6 +52,8 @@ public abstract class EntityWaterMixin implements WaterContext {
             legacyparkourcompat$water = WaterScan.scan(
                 player,
                 MovementRuntime.find(WaterBodyContactHook.class, player),
+                MovementRuntime.find(WaterBodyContactScanBoundHook.class, player),
+                MovementRuntime.find(WaterBodyContactAreaAdmissionHook.class, player),
                 MovementRuntime.find(WaterCurrentHook.class, player),
                 MovementRuntime.find(WaterFlowScanBoundHook.class, player),
                 MovementRuntime.find(FlowScanAreaAdmissionHook.class, player)

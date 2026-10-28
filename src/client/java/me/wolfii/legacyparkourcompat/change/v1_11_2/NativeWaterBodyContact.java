@@ -6,7 +6,7 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactHook;
 import net.minecraft.world.phys.AABB;
 
-/** Earlier body/current scans have no accepted source binding in this integration. */
+/** Keeps native body contact for profiles from 1.10 through 1.11.2. */
 @MovementChange(emulates = ParkourVersion.V1_11_2)
 public final class NativeWaterBodyContact implements WaterBodyContactHook {
     public Optional<AABB> probe(AABB body) { return Optional.empty(); }

@@ -1,6 +1,8 @@
 package me.wolfii.legacyparkourcompat.mechanic.water;
 
+import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactAreaAdmissionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactScanBoundHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterCurrentHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.world.FlowScanAreaAdmissionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.world.WaterFlowScanBoundHook;
@@ -20,10 +22,10 @@ import java.util.OptionalInt;
 
 /**
  * One shared water-only traversal; it never writes native trackers or velocity.
- * Contact and flow can use separate query domains. The combined 26.2 tracker
- * remains responsible for eyes, depth, lava and modern features. Unsupported
- * probes/flow providers cause a native fallback. Resolved historical flow uses
- * its own area admission and old-height cell bounds.
+ * Contact and flow use separate query domains, bounds and area admission. The
+ * combined 26.2 tracker remains responsible for eyes, depth, lava and modern
+ * features. Unsupported probes/flow providers cause a native fallback.
+ * Resolved historical flow uses its own old-height cell bounds.
  */
 public final class WaterScan {
     private WaterScan() { }
@@ -42,6 +44,8 @@ public final class WaterScan {
     }
 
     public static Optional<Result> scan(Player player, Optional<WaterBodyContactHook> body,
+                                        Optional<WaterBodyContactScanBoundHook> contactBound,
+                                        Optional<WaterBodyContactAreaAdmissionHook> contactAdmission,
                                         Optional<WaterCurrentHook> current,
                                         Optional<WaterFlowScanBoundHook> flowBound,
                                         Optional<FlowScanAreaAdmissionHook> flowAdmission) {
@@ -68,35 +72,43 @@ public final class WaterScan {
         if (player.getVehicle() instanceof AbstractBoat) {
             return Optional.of(new Result(false, Vec3.ZERO, replacesContact, replacesCurrent));
         }
-        if (historicalFlowRejectedByArea && !replacesContact) {
-            // 1.8.9 returns before scanning when its Y-overlap admission fails.
-            return Optional.of(new Result(false, Vec3.ZERO, false, true));
+        Bounds contactBounds = selected.map(box -> contactBounds(box, contactBound)).orElse(null);
+        boolean contactAdmitted = contactBounds != null && contactAdmission.map(hook -> hook.admits(
+            contactBounds.x0, contactBounds.y0, contactBounds.z0,
+            contactBounds.x1, contactBounds.y1, contactBounds.z1
+        )).orElse(true);
+        boolean scanContact = contactBounds != null && contactAdmitted;
+        boolean scanFlow = replacesCurrent && !historicalFlowRejectedByArea && flowBounds != null;
+        if (!scanContact && !scanFlow) {
+            // A rejected historical contact area reports false presence while
+            // leaving any independently resolved flow result in its own domain.
+            return Optional.of(new Result(false, Vec3.ZERO, replacesContact, replacesCurrent));
         }
         WaterBodyContactHook contactHook = body.orElse(null);
         WaterCurrentHook currentHook = current.orElse(null);
-        Bounds contactBounds = selected.map(box -> bounds(box, Optional.empty())).orElse(null);
         Level level = player.level();
         AABB nativeBox = player.getFluidInteractionBox();
         if (nativeBox == null) return Optional.empty();
         Bounds nativeBounds = bounds(nativeBox, Optional.empty());
-        Bounds scannedFlowBounds = replacesCurrent && !historicalFlowRejectedByArea ? flowBounds : null;
+        Bounds scannedContactBounds = scanContact ? contactBounds : null;
+        Bounds scannedFlowBounds = scanFlow ? flowBounds : null;
         int scanX0 = Math.min(nativeBounds.x0, Math.min(
-            contactBounds == null ? Integer.MAX_VALUE : contactBounds.x0,
+            scannedContactBounds == null ? Integer.MAX_VALUE : scannedContactBounds.x0,
             scannedFlowBounds == null ? Integer.MAX_VALUE : scannedFlowBounds.x0));
         int scanY0 = Math.min(nativeBounds.y0, Math.min(
-            contactBounds == null ? Integer.MAX_VALUE : contactBounds.y0,
+            scannedContactBounds == null ? Integer.MAX_VALUE : scannedContactBounds.y0,
             scannedFlowBounds == null ? Integer.MAX_VALUE : scannedFlowBounds.y0));
         int scanZ0 = Math.min(nativeBounds.z0, Math.min(
-            contactBounds == null ? Integer.MAX_VALUE : contactBounds.z0,
+            scannedContactBounds == null ? Integer.MAX_VALUE : scannedContactBounds.z0,
             scannedFlowBounds == null ? Integer.MAX_VALUE : scannedFlowBounds.z0));
         int scanX1 = Math.max(nativeBounds.x1, Math.max(
-            contactBounds == null ? Integer.MIN_VALUE : contactBounds.x1,
+            scannedContactBounds == null ? Integer.MIN_VALUE : scannedContactBounds.x1,
             scannedFlowBounds == null ? Integer.MIN_VALUE : scannedFlowBounds.x1));
         int scanY1 = Math.max(nativeBounds.y1, Math.max(
-            contactBounds == null ? Integer.MIN_VALUE : contactBounds.y1,
+            scannedContactBounds == null ? Integer.MIN_VALUE : scannedContactBounds.y1,
             scannedFlowBounds == null ? Integer.MIN_VALUE : scannedFlowBounds.y1));
         int scanZ1 = Math.max(nativeBounds.z1, Math.max(
-            contactBounds == null ? Integer.MIN_VALUE : contactBounds.z1,
+            scannedContactBounds == null ? Integer.MIN_VALUE : scannedContactBounds.z1,
             scannedFlowBounds == null ? Integer.MIN_VALUE : scannedFlowBounds.z1));
         if (!currentResolved && (scanY0 < 0 || scanY1 > 256)) return Optional.empty();
         int flowScanY0 = historicalFlowResolved ? Math.max(flowBounds.y0, 0)
@@ -117,10 +129,10 @@ public final class WaterScan {
                             return Optional.empty();
                         }
                         int liquidLevel = state.getValue(LiquidBlock.LEVEL);
-                        boolean inContact = contactBounds != null
-                            && x >= contactBounds.x0 && x < contactBounds.x1
-                            && y >= contactBounds.y0 && y < contactBounds.y1
-                            && z >= contactBounds.z0 && z < contactBounds.z1
+                        boolean inContact = scannedContactBounds != null
+                            && x >= scannedContactBounds.x0 && x < scannedContactBounds.x1
+                            && y >= scannedContactBounds.y0 && y < scannedContactBounds.y1
+                            && z >= scannedContactBounds.z0 && z < scannedContactBounds.z1
                             && contactHook.includes(contactBounds.y1, y, liquidLevel);
                         if (inContact) contactFound = true;
                         boolean inFlow = replacesCurrent && !historicalFlowRejectedByArea && flowBounds != null
@@ -145,6 +157,22 @@ public final class WaterScan {
         return new Bounds(Mth.floor(box.minX), Mth.floor(box.minY), Mth.floor(box.minZ),
             exclusiveUpperBound(flowBound, box.maxX), exclusiveUpperBound(flowBound, box.maxY),
             exclusiveUpperBound(flowBound, box.maxZ));
+    }
+
+    private static Bounds contactBounds(AABB box, Optional<WaterBodyContactScanBoundHook> contactBound) {
+        return new Bounds(Mth.floor(box.minX), Mth.floor(box.minY), Mth.floor(box.minZ),
+            contactExclusiveUpperBound(contactBound, box.maxX),
+            contactExclusiveUpperBound(contactBound, box.maxY),
+            contactExclusiveUpperBound(contactBound, box.maxZ));
+    }
+
+    private static int contactExclusiveUpperBound(Optional<WaterBodyContactScanBoundHook> hook,
+                                                  double maximum) {
+        if (hook.isPresent()) {
+            OptionalInt historical = hook.get().exclusiveUpperBound(maximum);
+            if (historical.isPresent()) return historical.getAsInt();
+        }
+        return Mth.ceil(maximum);
     }
 
     private static int exclusiveUpperBound(Optional<WaterFlowScanBoundHook> hook, double maximum) {
