@@ -4,22 +4,22 @@ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactAreaAdmissionHook;
 
-/** Restores the 1.8.9 client vertical admission for the body-contact scan. */
+/** Restores the 1.8.0-1.8.9 client vertical admission for body-contact scans. */
 @MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class LegacyWaterBodyContactAreaAdmission implements WaterBodyContactAreaAdmissionHook {
     public LegacyWaterBodyContactAreaAdmission() {
     }
 
     /*
-     * Exact source comparison:
-     * 1.8.9 Ornithe Feather / Feather Gen2 build 2,
-     * World.applyLiquidDrag (World.java:1486-1494) passes its bounds to
-     * World.isAreaLoaded (World.java:205-224), which admits maxY >= 0 &&
-     * minY < 256. ClientChunkCache.hasChunk (ClientChunkCache.java:31) always
-     * returns true, and allowEmpty reads use the empty-chunk path
-     * (ClientChunkCache.java:54-57), so X/Z do not reject. The 1.9 Feather
-     * implementation retains this World.isAreaLoaded gate (World.java:210-229).
-     * This policy is separate from flow-scan admission.
+     * Exact bounded source comparison:
+     * Raw 1.8.0/1.8.1 clients mapped by Feather Gen2 build 2 Tiny and the
+     * byte-identical Ornithe Feather World.java and ClientChunkCache.java files
+     * for 1.8.2-1.8.9 use World.applyLiquidDrag(AABB,Material,Entity)Z with
+     * allowEmpty=true. World.isAreaLoaded(IIIIII,boolean)Z admits maxY >= 0 &&
+     * minY < 256; the matching 1.8.8 source is World.java:1486-1495, 205-228.
+     * ClientChunkCache.hasChunk(II)Z is always true, so missing X/Z chunks read
+     * through the empty-chunk path instead of rejecting. Resolver applicability
+     * uses this provider through V1_8_9; flow-scan admission is independent.
      */
     @Override
     public boolean admits(int minBlockX, int minBlockY, int minBlockZ,

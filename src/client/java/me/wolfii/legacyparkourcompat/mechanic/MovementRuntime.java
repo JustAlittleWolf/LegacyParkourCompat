@@ -54,6 +54,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.ArrayList;
 
 /**
  * Mixin-facing lookup. Change authors should not call this; they implement
@@ -83,10 +84,19 @@ public final class MovementRuntime {
             }
             MovementSpeedModifierHistory history = ((MovementSpeedModifierHistoryAccess)attribute)
                 .legacyparkourcompat$movementSpeedModifierHistory();
-            if (!history.boundedTotalOnly()) {
-                return Optional.empty();
+            var currentModifiers = attribute.getModifiers();
+            List<PlayerMovementSpeedHook.Modifier> modifiers = new ArrayList<>(currentModifiers.size());
+            for (AttributeModifier modifier : currentModifiers) {
+                int operation = switch (modifier.operation()) {
+                    case ADD_VALUE -> 0;
+                    case ADD_MULTIPLIED_BASE -> 1;
+                    case ADD_MULTIPLIED_TOTAL -> 2;
+                };
+                modifiers.add(new PlayerMovementSpeedHook.Modifier(
+                    modifier.id(), modifier.amount(), operation));
             }
-            return change.movementSpeed(attribute.getBaseValue(), attribute.getModifiers(), history.identifiers());
+            return change.movementSpeed(new PlayerMovementSpeedHook.Snapshot(
+                attribute.getBaseValue(), modifiers, history.snapshot()));
         });
     }
 
