@@ -2,6 +2,8 @@ package me.wolfii.legacyparkourcompat.mixin.accessor;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
+import it.unimi.dsi.fastutil.longs.LongSet;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,5 +29,14 @@ public interface EntityInvoker {
         boolean xCollision,
         boolean zCollision,
         Vec3 movement
+    );
+
+    @Invoker("checkInsideBlocks")
+    int legacyparkourcompat$invokeCheckInsideBlocks(
+        Vec3 from,
+        Vec3 to,
+        InsideBlockEffectApplier.StepBasedCollector collector,
+        LongSet visited,
+        int remainingBudget
     );
 }

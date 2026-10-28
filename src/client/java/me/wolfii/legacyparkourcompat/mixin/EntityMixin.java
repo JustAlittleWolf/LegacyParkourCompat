@@ -25,6 +25,9 @@ import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.AfterCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.NoPhysicsCollisionResetHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionWriteHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.blockcallback.MovementCallbackRecordHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.blockcallback.MovementCallbackSegmentsAccess;
+import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockCallbackAxisOrderHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalCollisionComparisonHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockBounceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockLandingHook;
@@ -59,6 +62,7 @@ import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
 import me.wolfii.legacyparkourcompat.movement.access.WaterJumpDepthAccess;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
@@ -96,10 +100,85 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
+
 @Mixin(Entity.class)
-abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjectionContext, LavaPresenceLatchContext {
+abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjectionContext,
+    LavaPresenceLatchContext, MovementCallbackSegmentsAccess {
     @Unique
     private Vec3 legacyparkourcompat$pistonStuckSpeedMultiplier;
+
+    @Unique
+    private final List<MovementCallbackSegmentsAccess.Batch> legacyparkourcompat$callbackMovementBatches = new ArrayList<>();
+
+    @Unique
+    private final Deque<CallbackMoveInput> legacyparkourcompat$callbackMoveInputs = new ArrayDeque<>();
+
+    @Unique
+    private int legacyparkourcompat$explicitCallbackScanDepth;
+
+    @Override
+    @Unique
+    public void legacyparkourcompat$addMovementCallbackBatch(MoverType moverType,
+                                                              List<MovementCallbackSegmentsAccess.Segment> segments) {
+        this.legacyparkourcompat$callbackMovementBatches.add(
+            new MovementCallbackSegmentsAccess.Batch(moverType, List.copyOf(segments)));
+    }
+
+    @Override
+    @Unique
+    public List<MovementCallbackSegmentsAccess.Batch> legacyparkourcompat$takeMovementCallbackBatches() {
+        List<MovementCallbackSegmentsAccess.Batch> batches = List.copyOf(this.legacyparkourcompat$callbackMovementBatches);
+        this.legacyparkourcompat$callbackMovementBatches.clear();
+        return batches;
+    }
+
+    @Override
+    @Unique
+    public boolean legacyparkourcompat$removeLatestPistonCallbackBatch() {
+        int lastIndex = this.legacyparkourcompat$callbackMovementBatches.size() - 1;
+        if (lastIndex < 0 || this.legacyparkourcompat$callbackMovementBatches.get(lastIndex).moverType() != MoverType.PISTON) {
+            return false;
+        }
+        this.legacyparkourcompat$callbackMovementBatches.remove(lastIndex);
+        return true;
+    }
+
+    @Override
+    @Unique
+    public boolean legacyparkourcompat$isExplicitCallbackScan() {
+        return this.legacyparkourcompat$explicitCallbackScanDepth > 0;
+    }
+
+    @Inject(method = "applyEffectsFromBlocks(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;)V", at = @At("HEAD"))
+    private void legacyparkourcompat$beginExplicitCallbackScan(Vec3 from, Vec3 to, CallbackInfo callbackInfo) {
+        this.legacyparkourcompat$explicitCallbackScanDepth++;
+    }
+
+    @Inject(method = "applyEffectsFromBlocks(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;)V", at = @At("RETURN"))
+    private void legacyparkourcompat$endExplicitCallbackScan(Vec3 from, Vec3 to, CallbackInfo callbackInfo) {
+        if (this.legacyparkourcompat$explicitCallbackScanDepth <= 0) {
+            throw new IllegalStateException("Explicit callback scan depth underflow");
+        }
+        this.legacyparkourcompat$explicitCallbackScanDepth--;
+    }
+
+    @Inject(method = "removeLatestMovementRecording()V", at = @At("HEAD"), cancellable = true)
+    private void legacyparkourcompat$removeLatestPistonCallbackBatch(CallbackInfo callbackInfo) {
+        Entity entity = (Entity)(Object)this;
+        if (MovementRuntime.find(MovementCallbackRecordHook.class, entity)
+            .map(hook -> hook.captureAxisSegments(entity)).orElse(false)
+            && ((MovementCallbackSegmentsAccess)this).legacyparkourcompat$removeLatestPistonCallbackBatch()) {
+            callbackInfo.cancel();
+        }
+    }
+
+    @Unique
+    private record CallbackMoveInput(MoverType moverType, Vec3 requestedAtEntry, Vec3 positionAtEntry,
+                                     boolean noPhysicsAtEntry, boolean captureSegments) {}
 
     @Unique
     private boolean legacyparkourcompat$waterProbeLatched;
@@ -348,7 +427,55 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
             return clipped;
         });
         resolved.set(result);
+        this.legacyparkourcompat$captureCallbackMovementBatch(entity, movement, result);
         return result;
+    }
+
+    @Inject(method = "move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V", at = @At("HEAD"))
+    private void legacyparkourcompat$beginCallbackMove(MoverType moverType, Vec3 movement, CallbackInfo callbackInfo) {
+        Entity entity = (Entity)(Object)this;
+        boolean capture = MovementRuntime.find(MovementCallbackRecordHook.class, entity)
+            .map(hook -> hook.captureAxisSegments(entity))
+            .orElse(false);
+        this.legacyparkourcompat$callbackMoveInputs.push(new CallbackMoveInput(
+            moverType, movement, entity.position(), entity.noPhysics, capture));
+    }
+
+    @Inject(method = "move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V", at = @At("RETURN"))
+    private void legacyparkourcompat$endCallbackMove(MoverType moverType, Vec3 movement, CallbackInfo callbackInfo) {
+        if (this.legacyparkourcompat$callbackMoveInputs.isEmpty()) {
+            throw new IllegalStateException("Movement callback capture stack underflow");
+        }
+        this.legacyparkourcompat$callbackMoveInputs.pop();
+    }
+
+    @Unique
+    private void legacyparkourcompat$captureCallbackMovementBatch(Entity entity, Vec3 requested, Vec3 resolved) {
+        CallbackMoveInput input = this.legacyparkourcompat$callbackMoveInputs.peek();
+        if (input == null || !input.captureSegments() || input.noPhysicsAtEntry()) {
+            return;
+        }
+        double resolvedLengthSquared = resolved.lengthSqr();
+        if (!(resolvedLengthSquared > 1.0E-7
+            || requested.lengthSqr() - resolvedLengthSquared < 1.0E-7)) {
+            return;
+        }
+
+        List<MovementCallbackSegmentsAccess.Segment> segments = new ArrayList<>(3);
+        Vec3 from = input.positionAtEntry();
+        Vec3 axisOrder = MovementRuntime.find(BlockCallbackAxisOrderHook.class, entity)
+            .filter(hook -> hook.appliesTo(entity))
+            .map(hook -> hook.callbackAxisOrder(requested, resolved))
+            .orElse(resolved);
+        for (Direction.Axis axis : Direction.axisStepOrder(axisOrder)) {
+            double axisMovement = resolved.get(axis);
+            if (axisMovement != 0.0) {
+                Vec3 to = from.relative(axis.getPositive(), axisMovement);
+                segments.add(new MovementCallbackSegmentsAccess.Segment(from, to));
+                from = to;
+            }
+        }
+        ((MovementCallbackSegmentsAccess)entity).legacyparkourcompat$addMovementCallbackBatch(input.moverType(), segments);
     }
 
     @Inject(method = "move", at = @At(value = "INVOKE",
@@ -458,7 +585,10 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
         target = "Lnet/minecraft/world/entity/Entity;addMovementThisTick(Lnet/minecraft/world/entity/Entity$Movement;)V"))
     private void legacyparkourcompat$movementContactSegment(Entity entity, @Coerce Object movement,
         Operation<Void> original, @Local(name = "movementLength") double movementLength) {
-        if (this.legacyparkourcompat$writeMovementPosition(movementLength)) {
+        boolean suppressCallbackRecord = MovementRuntime.find(MovementCallbackRecordHook.class, entity)
+            .map(hook -> hook.suppressMovementRecord(entity))
+            .orElse(false);
+        if (!suppressCallbackRecord && this.legacyparkourcompat$writeMovementPosition(movementLength)) {
             original.call(entity, movement);
         }
     }

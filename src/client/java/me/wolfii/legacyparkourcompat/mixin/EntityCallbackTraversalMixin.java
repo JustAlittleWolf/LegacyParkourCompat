@@ -37,6 +37,7 @@ abstract class EntityCallbackTraversalMixin {
         EntityMovementAccessor access = (EntityMovementAccessor)movement;
         Vec3 resolved = access.legacyParkourCompat$to().subtract(access.legacyParkourCompat$from());
         return MovementRuntime.find(BlockCallbackAxisOrderHook.class, entity)
+            .filter(hook -> hook.appliesTo(entity))
             .map(hook -> Optional.of(hook.callbackAxisOrder(recorded.get(), resolved)))
             .orElse(recorded);
     }

@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /** Keeps the native record loop, effect collector, cleanup and application order. */
@@ -23,13 +24,26 @@ abstract class EntityBlockCallbackSegmentMixin {
     @Shadow protected abstract AABB makeBoundingBox(Vec3 position);
     @Shadow protected abstract void onInsideBlock(BlockState state);
 
+    @ModifyVariable(
+        method = "checkInsideBlocks(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/entity/InsideBlockEffectApplier$StepBasedCollector;Lit/unimi/dsi/fastutil/longs/LongSet;I)I",
+        at = @At("HEAD"), argsOnly = true
+    )
+    private int legacyParkourCompat$historicalSegmentLimit(int nativeLimit) {
+        Entity entity = (Entity)(Object)this;
+        return MovementRuntime.find(BlockCallbackBudgetHook.class, entity)
+            .map(hook -> hook.segmentLimit(entity, nativeLimit))
+            .orElse(nativeLimit);
+    }
+
     @Inject(method = "checkInsideBlocks(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/entity/InsideBlockEffectApplier$StepBasedCollector;Lit/unimi/dsi/fastutil/longs/LongSet;I)I",
         at = @At("HEAD"), cancellable = true)
     private void legacyParkourCompat$historicalSegment(Vec3 from, Vec3 to,
         InsideBlockEffectApplier.StepBasedCollector collector, LongSet visited, int remainingBudget,
         CallbackInfoReturnable<Integer> cir) {
         Entity entity = (Entity)(Object)this;
-        MovementRuntime.find(BlockCallbackTraversalHook.class, entity).ifPresent(iterator -> {
+        MovementRuntime.find(BlockCallbackTraversalHook.class, entity)
+            .filter(iterator -> iterator.appliesTo(entity))
+            .ifPresent(iterator -> {
             AABB target = this.makeBoundingBox(to).deflate(1.0E-5F);
             boolean movedFar = from.distanceToSqr(to) > Mth.square(0.9999900000002526);
             var result = iterator.visitSegment(from, to, target, (pos, step) ->
