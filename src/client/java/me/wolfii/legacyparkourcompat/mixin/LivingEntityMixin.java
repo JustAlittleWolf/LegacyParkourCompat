@@ -33,6 +33,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.travel.LavaTravelHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.JumpBoostResponseHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.SleepPositionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.LevitationFallDistanceHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.LevitationAmplifierHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.LiquidJumpGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.MovementChunkLookupHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.UnloadedChunkGravityHook;
@@ -262,6 +263,17 @@ abstract class LivingEntityMixin {
         LivingEntity entity = (LivingEntity)(Object)this;
         MovementRuntime.find(LevitationFallDistanceHook.class, entity)
             .ifPresent(behavior -> behavior.beforeAirTravel(entity));
+    }
+
+    @ModifyExpressionValue(
+        method = "travelInAir(Lnet/minecraft/world/phys/Vec3;)V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/effect/MobEffectInstance;getAmplifier()I")
+    )
+    private int legacyparkourcompat$levitationAmplifier(int receivedAmplifier) {
+        LivingEntity entity = (LivingEntity)(Object)this;
+        return MovementRuntime.find(LevitationAmplifierHook.class, entity)
+            .map(hook -> hook.movementAmplifier(receivedAmplifier))
+            .orElse(receivedAmplifier);
     }
 
     @Redirect(
