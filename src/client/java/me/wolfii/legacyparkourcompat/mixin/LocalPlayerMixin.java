@@ -42,6 +42,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.input.FlightShallowWaterSprin
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintTickHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintTriggerHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintWindowHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.sprint.SwimSprintFoodStopHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SuffocationProbeHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.VehicleSprintHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.WaterDescentHook;
@@ -83,6 +84,21 @@ abstract class LocalPlayerMixin {
     // including same-dimension respawns; the timer must not carry across players.
     @Unique
     private int legacyparkourcompat$clientLoadTimeoutTicks = 60;
+
+    @WrapOperation(
+        method = "shouldStopSwimSprinting",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isSprintingPossible(Z)Z")
+    )
+    private boolean legacyparkourcompat$swimSprintFoodStop(
+        LocalPlayer player,
+        boolean allowedInShallowWater,
+        Operation<Boolean> vanilla
+    ) {
+        boolean vanillaCanSprint = vanilla.call(player, allowedInShallowWater);
+        return MovementRuntime.find(SwimSprintFoodStopHook.class, player)
+            .map(hook -> hook.canSprintForSwimStop(player, vanillaCanSprint))
+            .orElse(vanillaCanSprint);
+    }
 
     @ModifyExpressionValue(method = "tick()V", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/client/multiplayer/ClientPacketListener;hasClientLoaded()Z"))
