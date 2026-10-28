@@ -1,7 +1,7 @@
 package me.wolfii.legacyparkourcompat.mechanic;
 
 import me.wolfii.legacyparkourcompat.mechanic.hook.border.WorldBorderCollisionHook;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.border.WorldBorder;

@@ -19,7 +19,7 @@ public final class CollisionBorderShapeContext {
         private boolean historicallyAdmitted;
         private boolean nativelyAdmitted;
         private @Nullable VoxelShape admittedShape;
-        private @Nullable WorldBorderCollisionHook.Collision historicalCollision;
+        private WorldBorderCollisionHook.@Nullable Collision historicalCollision;
 
         private Frame(@Nullable Entity entity) {
             this.entity = entity;
@@ -48,7 +48,7 @@ public final class CollisionBorderShapeContext {
             }
         }
 
-        public @Nullable WorldBorderCollisionHook.Collision historicalCollision(Entity source) {
+        public WorldBorderCollisionHook.@Nullable Collision historicalCollision(Entity source) {
             return source == entity ? historicalCollision : null;
         }
 
