@@ -9,7 +9,8 @@
   "client": [
     "EntityLavaPresenceMixin",
     "EntityFallDamageMixin",
-    "EntityFallDistanceMixin"
+    "EntityFallDistanceMixin",
+    "LivingEntitySprintJumpTrigMixin"
   ],
   "injectors": {
     "defaultRequire": 1
