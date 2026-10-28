@@ -373,14 +373,26 @@ public final class MovementRuntime {
         return historical.get();
     }
 
-    private static final Set<String> LEGACY_113_SLAB_KEYS = Set.of(
-        "minecraft:oak_slab", "minecraft:spruce_slab", "minecraft:birch_slab",
-        "minecraft:jungle_slab", "minecraft:acacia_slab", "minecraft:dark_oak_slab",
-        "minecraft:stone_slab", "minecraft:sandstone_slab", "minecraft:petrified_oak_slab",
-        "minecraft:cobblestone_slab", "minecraft:brick_slab", "minecraft:stone_brick_slab",
-        "minecraft:nether_brick_slab", "minecraft:quartz_slab", "minecraft:red_sandstone_slab",
-        "minecraft:purpur_slab", "minecraft:prismarine_slab", "minecraft:prismarine_brick_slab",
-        "minecraft:dark_prismarine_slab"
+    private static final Map<String, String> CURRENT_TO_LEGACY_113_SLAB_KEYS = Map.ofEntries(
+        Map.entry("minecraft:oak_slab", "minecraft:oak_slab"),
+        Map.entry("minecraft:spruce_slab", "minecraft:spruce_slab"),
+        Map.entry("minecraft:birch_slab", "minecraft:birch_slab"),
+        Map.entry("minecraft:jungle_slab", "minecraft:jungle_slab"),
+        Map.entry("minecraft:acacia_slab", "minecraft:acacia_slab"),
+        Map.entry("minecraft:dark_oak_slab", "minecraft:dark_oak_slab"),
+        Map.entry("minecraft:smooth_stone_slab", "minecraft:stone_slab"),
+        Map.entry("minecraft:sandstone_slab", "minecraft:sandstone_slab"),
+        Map.entry("minecraft:petrified_oak_slab", "minecraft:petrified_oak_slab"),
+        Map.entry("minecraft:cobblestone_slab", "minecraft:cobblestone_slab"),
+        Map.entry("minecraft:brick_slab", "minecraft:brick_slab"),
+        Map.entry("minecraft:stone_brick_slab", "minecraft:stone_brick_slab"),
+        Map.entry("minecraft:nether_brick_slab", "minecraft:nether_brick_slab"),
+        Map.entry("minecraft:quartz_slab", "minecraft:quartz_slab"),
+        Map.entry("minecraft:red_sandstone_slab", "minecraft:red_sandstone_slab"),
+        Map.entry("minecraft:purpur_slab", "minecraft:purpur_slab"),
+        Map.entry("minecraft:prismarine_slab", "minecraft:prismarine_slab"),
+        Map.entry("minecraft:prismarine_brick_slab", "minecraft:prismarine_brick_slab"),
+        Map.entry("minecraft:dark_prismarine_slab", "minecraft:dark_prismarine_slab")
     );
     private static final Set<String> LEGACY_113_EMPTY_KEYS = Set.of(
         "minecraft:air", "minecraft:cave_air", "minecraft:void_air"
@@ -456,12 +468,13 @@ public final class MovementRuntime {
                 : state.getCollisionShape(this.noLoadBlockView, position, shapeContext);
             Identifier registeredKey = BuiltInRegistries.BLOCK.getKey(state.getBlock());
             String key = registeredKey == null ? "" : registeredKey.toString();
+            String historicalSlabKey = CURRENT_TO_LEGACY_113_SLAB_KEYS.get(key);
             boolean canonicalFull = shape == Shapes.block();
             boolean supportedCell = find(BlockMovementCollisionHook.class, state.getBlock(), this.entity).isEmpty()
                 && find(BlockCollisionShapeHook.class, state.getBlock(), this.entity).isEmpty()
                 && find(BlockComponentClipHook.class, state.getBlock(), this.entity).isEmpty();
 
-            if (LEGACY_113_SLAB_KEYS.contains(key)) {
+            if (historicalSlabKey != null) {
                 supportedCell &= matchingLegacySlabState(state, shape);
             } else if (shape.isEmpty()) {
                 // These keys are noCollision in both 1.13 and 26.2; an empty
@@ -472,7 +485,7 @@ public final class MovementRuntime {
             }
             this.supported &= supportedCell;
             return new BlockCollisionCollectionHook.CollisionCell(
-                state, LEGACY_113_SLAB_KEYS.contains(key) ? key : null, shape, canonicalFull, supportedCell);
+                state, historicalSlabKey, shape, canonicalFull, supportedCell);
         }
 
         private BlockGetter collisionChunk(BlockPos position) {

@@ -33,6 +33,10 @@ import java.util.Optional;
  * The only non-slab states admitted as empty are air, cave air, and void air:
  * 1.13 {@code Block.init} and 26.2 {@code Blocks} register those keys with
  * {@code noCollision}; absent client chunks map to the source's void air.
+ * 1.13 {@code Block.init} registers {@code stone_slab} at line 1574; 26.2
+ * {@code DataFixers} applies {@code BlockRenameFix} at lines 751-765 to map it
+ * to {@code smooth_stone_slab}, registered by {@code Blocks} at lines 3301-3305.
+ * Current {@code stone_slab} is outside this historical roster.
  */
 @MovementChange(emulates = ParkourVersion.V1_13)
 public final class BlockCollisionCollection implements BlockCollisionCollectionHook {
