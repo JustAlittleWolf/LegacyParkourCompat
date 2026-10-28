@@ -14,8 +14,8 @@ import net.minecraft.world.entity.player.Player;
  * the native dimensions, including modern width and attachments, which this
  * hook preserves while restoring the historical height. Modern swimming and
  * crawl dimensions stay native.
- * Historical collision-checked pose resizing is deferred: replacing native pose
- * selection also prevents entry into modern-only crawling on older profiles.
+ * The independently resolved PlayerPoseHook adapts the historical block-only resize
+ * after native selection while preserving modern crawl admission.
  *
  * Source evidence (paths are relative to decompiled_minecraft/):
  * 1.13.2/ornithe-feather/net/minecraft/entity/living/player/PlayerEntity.java:
