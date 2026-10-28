@@ -98,7 +98,7 @@ public final class WaterScan {
         int scanZ1 = Math.max(nativeBounds.z1, Math.max(
             contactBounds == null ? Integer.MIN_VALUE : contactBounds.z1,
             scannedFlowBounds == null ? Integer.MIN_VALUE : scannedFlowBounds.z1));
-        if (!historicalFlowResolved && (scanY0 < 0 || scanY1 > 256)) return Optional.empty();
+        if (!currentResolved && (scanY0 < 0 || scanY1 > 256)) return Optional.empty();
         int flowScanY0 = historicalFlowResolved ? Math.max(flowBounds.y0, 0)
             : flowBounds == null ? 0 : flowBounds.y0;
         int flowScanY1 = historicalFlowResolved ? Math.min(flowBounds.y1, 256)
