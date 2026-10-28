@@ -21,7 +21,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityFluidInteraction;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.material.Fluid;
@@ -81,7 +81,7 @@ abstract class EntityFluidInteractionMixin {
                 .flatMap(hook -> hook.isSubmerged(
                     fluidState,
                     true,
-                    entity.getVehicle() instanceof Boat,
+                    entity.getVehicle() instanceof AbstractBoat,
                     eyeY,
                     mutablePos.getY()
                 ));
