@@ -41,15 +41,22 @@ public final class PlayerPoseUpdate implements PlayerPoseHook {
             return false;
         }
 
+        boolean historicalSwim = player.isSwimming();
+        boolean spinAttack = player.isAutoSpinAttack();
+        boolean fallFlying = player.isFallFlying();
+        boolean sleeping = player.isSleeping();
+        boolean modernCrawl = currentPose == Pose.SWIMMING
+            && !historicalSwim && !spinAttack && !fallFlying && !sleeping;
+
         float width;
         float height;
-        if (player.isFallFlying()) {
+        if (fallFlying) {
             width = 0.6F;
             height = 0.6F;
-        } else if (player.isSleeping()) {
+        } else if (sleeping) {
             width = 0.2F;
             height = 0.2F;
-        } else if (player.isSwimming() || player.isAutoSpinAttack()) {
+        } else if (historicalSwim || spinAttack) {
             width = 0.6F;
             height = 0.6F;
         } else if (player.isShiftKeyDown()) {
@@ -69,7 +76,12 @@ public final class PlayerPoseUpdate implements PlayerPoseHook {
         float nextEyeHeight = legacyEyeHeight(player, height);
 
         if (width == oldWidth && height == oldDimensions.height()) {
-            // The native call may have changed its pose dimensions even though 1.13 setSize would be a no-op.
+            // 1.13 PlayerEntity.updatePlayerPose does not call setSize when the target dimensions
+            // match the pre-update size. Preserve a modern crawl result if that no-op coincides
+            // with a native SWIMMING fallback; otherwise undo the native resize to preserve old state.
+            if (modernCrawl) {
+                return false;
+            }
             restorePreviousState(player, dimensions, previousDimensions, previousBox, previousEyeHeight,
                 legacyEyeHeight(player, previousDimensions.height()));
             return true;
@@ -84,7 +96,12 @@ public final class PlayerPoseUpdate implements PlayerPoseHook {
         AABB candidate = new AABB(previousBox.minX, previousBox.minY, previousBox.minZ,
             previousBox.minX + width, previousBox.minY + height, previousBox.minZ + width);
         if (!player.level().noBlockCollision(null, candidate)) {
-            // 1.13 PlayerEntity.updatePlayerPose leaves the pre-call size and box untouched when the fit fails.
+            // 1.13 PlayerEntity.updatePlayerPose leaves the pre-call size and box untouched when
+            // the block-only fit fails. Keep a native SWIMMING fallback only when it represents
+            // modern crawling rather than a historical swimming/spin/fall-flying/sleep pose.
+            if (modernCrawl) {
+                return false;
+            }
             restorePreviousState(player, dimensions, previousDimensions, previousBox, previousEyeHeight,
                 legacyEyeHeight(player, previousDimensions.height()));
             return true;
