@@ -725,59 +725,91 @@ public final class PaneNeighborFaceShape {
             return Optional.of(state.getValue(SlabBlock.TYPE) == SlabType.DOUBLE);
         }
         if (STAIR_IDS.contains(id)) {
-            return Optional.of(stairFaceIsSolid(state, level, pos, face));
+            return stairFaceIsSolid(state, level, pos, face);
         }
         // The audited registry crosswalk contains only old identities here.
         // Their horizontal FaceShape is non-accepted or explicitly excluded.
         return Optional.of(false);
     }
 
-    private static boolean stairFaceIsSolid(BlockState state, BlockGetter level, BlockPos pos, Direction face) {
+    private static Optional<Boolean> stairFaceIsSolid(
+        BlockState state, BlockGetter level, BlockPos pos, Direction face
+    ) {
         Direction facing = state.getValue(StairBlock.FACING);
-        StairsShape shape = resolveStairShape(state, level, pos);
-        return switch (shape) {
+        Optional<StairsShape> resolvedShape = resolveStairShape(state, level, pos);
+        if (resolvedShape.isEmpty()) {
+            return Optional.empty();
+        }
+        StairsShape shape = resolvedShape.get();
+        return Optional.of(switch (shape) {
             case INNER_RIGHT -> facing == face || facing.getClockWise() == face;
             case INNER_LEFT -> facing == face || facing.getCounterClockWise() == face;
             case STRAIGHT -> facing == face;
             case OUTER_LEFT, OUTER_RIGHT -> false;
-        };
+        });
     }
 
     /** Mirrors 1.12 StairsBlock.getStairShape and its same-half/facing veto. */
-    private static StairsShape resolveStairShape(BlockState state, BlockGetter level, BlockPos pos) {
+    private static Optional<StairsShape> resolveStairShape(BlockState state, BlockGetter level, BlockPos pos) {
         Direction facing = state.getValue(StairBlock.FACING);
         Half half = state.getValue(StairBlock.HALF);
         BlockState front = level.getBlockState(pos.relative(facing));
-        if (isHistoricalStair(front) && front.getValue(StairBlock.HALF) == half) {
+        Optional<Boolean> frontStair = historicalStair(front);
+        if (frontStair.isEmpty()) {
+            return Optional.empty();
+        }
+        if (frontStair.get() && front.getValue(StairBlock.HALF) == half) {
             Direction otherFacing = front.getValue(StairBlock.FACING);
-            if (otherFacing.getAxis() != facing.getAxis()
-                && differsAt(state, level, pos, otherFacing.getOpposite())) {
-                return otherFacing == facing.getCounterClockWise()
-                    ? StairsShape.OUTER_LEFT : StairsShape.OUTER_RIGHT;
+            if (otherFacing.getAxis() != facing.getAxis()) {
+                Optional<Boolean> differs = differsAt(state, level, pos, otherFacing.getOpposite());
+                if (differs.isEmpty()) {
+                    return Optional.empty();
+                }
+                if (differs.get()) {
+                    return Optional.of(otherFacing == facing.getCounterClockWise()
+                        ? StairsShape.OUTER_LEFT : StairsShape.OUTER_RIGHT);
+                }
             }
         }
 
         BlockState back = level.getBlockState(pos.relative(facing.getOpposite()));
-        if (isHistoricalStair(back) && back.getValue(StairBlock.HALF) == half) {
+        Optional<Boolean> backStair = historicalStair(back);
+        if (backStair.isEmpty()) {
+            return Optional.empty();
+        }
+        if (backStair.get() && back.getValue(StairBlock.HALF) == half) {
             Direction otherFacing = back.getValue(StairBlock.FACING);
-            if (otherFacing.getAxis() != facing.getAxis()
-                && differsAt(state, level, pos, otherFacing)) {
-                return otherFacing == facing.getCounterClockWise()
-                    ? StairsShape.INNER_LEFT : StairsShape.INNER_RIGHT;
+            if (otherFacing.getAxis() != facing.getAxis()) {
+                Optional<Boolean> differs = differsAt(state, level, pos, otherFacing);
+                if (differs.isEmpty()) {
+                    return Optional.empty();
+                }
+                if (differs.get()) {
+                    return Optional.of(otherFacing == facing.getCounterClockWise()
+                        ? StairsShape.INNER_LEFT : StairsShape.INNER_RIGHT);
+                }
             }
         }
-        return StairsShape.STRAIGHT;
+        return Optional.of(StairsShape.STRAIGHT);
     }
 
-    private static boolean differsAt(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+    private static Optional<Boolean> differsAt(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
         BlockState other = level.getBlockState(pos.relative(direction));
-        return !isHistoricalStair(other)
+        Optional<Boolean> stair = historicalStair(other);
+        if (stair.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(!stair.get()
             || other.getValue(StairBlock.FACING) != state.getValue(StairBlock.FACING)
-            || other.getValue(StairBlock.HALF) != state.getValue(StairBlock.HALF);
+            || other.getValue(StairBlock.HALF) != state.getValue(StairBlock.HALF));
     }
 
-    private static boolean isHistoricalStair(BlockState state) {
+    /** Empty means a modern-only stair whose old resolver role is unknown. */
+    private static Optional<Boolean> historicalStair(BlockState state) {
+        if (!(state.getBlock() instanceof StairBlock)) {
+            return Optional.of(false);
+        }
         var id = BuiltInRegistries.BLOCK.getKey(state.getBlock());
-        return id != null && STAIR_IDS.contains(id.toString());
+        return id != null && STAIR_IDS.contains(id.toString()) ? Optional.of(true) : Optional.empty();
     }
 }
