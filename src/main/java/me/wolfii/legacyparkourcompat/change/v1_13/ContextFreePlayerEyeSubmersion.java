@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.change.v1_13;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.fluid.PlayerEyeWaterMath;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PlayerEyeSubmersionHook;
 import net.minecraft.world.level.material.FluidState;
 
@@ -39,6 +40,6 @@ public final class ContextFreePlayerEyeSubmersion implements PlayerEyeSubmersion
         if (!matchesFluidTag) {
             return Optional.of(false);
         }
-        return Optional.of(eyeY < eyeBlockY + (eyeFluidState.getOwnHeight() + 0.11111111F));
+        return Optional.of(PlayerEyeWaterMath.isSubmerged(eyeY, eyeBlockY, eyeFluidState.getOwnHeight()));
     }
 }

@@ -3,6 +3,7 @@ package me.wolfii.legacyparkourcompat.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PlayerEyeWaterQueryHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.AirSpeedHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.FlightFallDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerPoseHook;
@@ -13,9 +14,11 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeCollisionQ
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeProbeHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.SwimmingPitchHook;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -28,6 +31,27 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
 abstract class PlayerMixin {
+    /**
+     * 1.13.2 Feather {@code PlayerEntity#tick/updateWaterSubmersion} queries water before inherited
+     * {@code Entity#tick}. In 26.2, {@code Player#tick/updateIsUnderwater} reads the cached eye tracker
+     * before {@code Entity#baseTick} refreshes it, so dispatch here replaces only the cache producer.
+     */
+    @Redirect(
+        method = "updateIsUnderwater",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/Entity;isEyeInFluid(Lnet/minecraft/tags/TagKey;)Z"
+        )
+    )
+    private boolean legacyparkourcompat$queryCachedEyeWater(Player player, TagKey<Fluid> fluidTag) {
+        if (fluidTag.equals(net.minecraft.tags.FluidTags.WATER)) {
+            return MovementRuntime.find(PlayerEyeWaterQueryHook.class, player)
+                .flatMap(hook -> hook.queryEyeWater(player))
+                .orElseGet(() -> player.isEyeInFluid(fluidTag));
+        }
+        return player.isEyeInFluid(fluidTag);
+    }
+
     @ModifyArg(
         method = "canPlayerFitWithinBlocksAndEntitiesWhen(Lnet/minecraft/world/entity/Pose;)Z",
         at = @At(
