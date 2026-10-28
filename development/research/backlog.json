@@ -2712,6 +2712,105 @@
         "All remaining player tick, travel, collision, block/fluid, input, network and shape operations outside this targeted retained-gap closure"
       ],
       "nextAction": "No new broad discovery authorized. Reuse exact targeted swimming evidence; full-pair source coverage requires separate bounded source authorization."
+    },
+    {
+      "pair": "1.8.2--1.8.3",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "bounded slices independently accepted; full pair audit not complete",
+      "examinedSlices": [
+        "Whole Java path/hash inventories and all changed sources; ordinary local tick/input, jump/travel, position/velocity/box, collision/world, fluids/common block callbacks and effects/equipment."
+      ],
+      "unexaminedSlices": [
+        "Full movement tick/dependency closure and runtime parity; excluded non-player/server/rendering producers are not claimed as client movement findings."
+      ],
+      "evidence": {
+        "snapshots": [
+          {
+            "path": "development/research/source-evidence/20261028/patch-negative-coverage/1.8.2--1.8.3/coverage.md",
+            "rawSha256": "56d0681fad5040fb9860cae55c698deed896c3818797cbe4ff6cf6d7e973d414",
+            "sha256": "79bc71e67c64f241a6d7a344b7de73cd992b4b9fc2d6b4db77a6a4338574327b",
+            "normalization": "CRLF to LF only"
+          },
+          {
+            "path": "development/research/source-evidence/20261028/patch-negative-coverage/1.8.2--1.8.3/source-hashes.md",
+            "rawSha256": "e8f016939d5804bb3e0575e41f2993f04bb5e93b65f73b269f8aad7ec9be058d",
+            "sha256": "d888aaec89e801f9b73863d07a365623ee41c4eb61145aa0e8d83b98c2c3a330",
+            "normalization": "CRLF to LF only"
+          },
+          {
+            "path": "development/research/source-evidence/20261028/patch-negative-coverage/1.8.2--1.8.3/audit.md",
+            "rawSha256": "4876f16a74f682b3e1935568e3f7c88d365f58da9a59d9ac3fa11516e44e107c",
+            "sha256": "4876f16a74f682b3e1935568e3f7c88d365f58da9a59d9ac3fa11516e44e107c",
+            "normalization": "CRLF to LF only"
+          }
+        ],
+        "decision": "Independent source review found no movement delta in examined slices"
+      },
+      "recordLimit": "No movement difference in the examined source paths; 1612 source hashes per release validated. Full tick/dependency coverage audit and runtime parity remain unproven.",
+      "nextAction": "Reuse these immutable negative slices; inspect remaining in-scope dependencies and full tick inventory before declaring pair complete. No implementation task from this bounded negative result."
+    },
+    {
+      "pair": "1.8.3--1.8.4",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "bounded slices independently accepted; full pair audit not complete",
+      "examinedSlices": [
+        "Input/local tick, jump/travel, position/box/velocity, collision dispatch, fluid/effect predicates, player-facing block responses; 1612 files per release and45 changed paths inspected."
+      ],
+      "unexaminedSlices": [
+        "Full movement tick/dependency closure and runtime parity; excluded non-player/server/rendering producers are not claimed as client movement findings."
+      ],
+      "evidence": {
+        "snapshots": [
+          {
+            "path": "development/research/source-evidence/20261028/patch-negative-coverage/1.8.3--1.8.4/coverage.md",
+            "rawSha256": "48df425cd5dbddd20a217a62f8e72c123e237fd50d1ed0a1d3c2c44f7c71649b",
+            "sha256": "db6f9d7a869d6457907ea4bee1cae50329f41c28e6c8bc4ab28e0d2110a72400",
+            "normalization": "CRLF to LF only"
+          },
+          {
+            "path": "development/research/source-evidence/20261028/patch-negative-coverage/1.8.3--1.8.4/audit.md",
+            "rawSha256": "1c627cec9a19525563c2f96c4b2fcb449e07fbe54b701d3fdd1a92fd877d8686",
+            "sha256": "0dac178a27faf42bf3c5fa3dbe62e05893de318e2bfd191ca2c205d1d2cf6ea8",
+            "normalization": "CRLF to LF only"
+          }
+        ],
+        "decision": "Independent source review found no movement delta in examined slices"
+      },
+      "recordLimit": "No movement difference in examined source paths; changed VineBlock tick is server world mutation, not client climbing/collision. Full tick/dependency coverage audit and runtime parity remain unproven.",
+      "nextAction": "Reuse these immutable negative slices; inspect remaining in-scope dependencies and full tick inventory before declaring pair complete. No implementation task from this bounded negative result."
+    },
+    {
+      "pair": "1.8.8--1.8.9",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "bounded slices independently accepted; full pair audit not complete",
+      "examinedSlices": [
+        "Full Java path/hash inventory and all26 changed sources; local tick/input, jump/travel, position/velocity/box/collision and representative common block/fluid responses."
+      ],
+      "unexaminedSlices": [
+        "Full movement tick/dependency closure and runtime parity; excluded non-player/server/rendering producers are not claimed as client movement findings."
+      ],
+      "evidence": {
+        "snapshots": [
+          {
+            "path": "development/research/source-evidence/20261028/patch-negative-coverage/1.8.8--1.8.9/coverage.md",
+            "rawSha256": "0e1cde7007cf3bbcdcd8fd9e4e8849857eaed9047d04a47e74e365e1e13f80e0",
+            "sha256": "c68e7ceca31c42e581f32d0e9deb1fbb9a43ce5296758f9e7db066ef080d6cda",
+            "normalization": "CRLF to LF only"
+          },
+          {
+            "path": "development/research/source-evidence/20261028/patch-negative-coverage/1.8.8--1.8.9/audit.md",
+            "rawSha256": "d59fbb66347b459b605f91d39ef568cae7dfe825c5c0dd056b7df779c8099cbd",
+            "sha256": "7c1204d72b359c9d74972828ff7abe9730d70fe974873af58a3768aee073d454",
+            "normalization": "CRLF to LF only"
+          }
+        ],
+        "decision": "Independent source review found no movement delta in examined slices"
+      },
+      "recordLimit": "No movement difference in examined source paths. Transitive effect/equipment/shape/world callback closure and alternate/reentrant/packet-driven responses remain open. No pair freeze or runtime parity.",
+      "nextAction": "Reuse these immutable negative slices; inspect remaining in-scope dependencies and full tick inventory before declaring pair complete. No implementation task from this bounded negative result."
     }
   ],
   "productRevision": "d58c962d62b831ae844a2f97d53f0aeb0a9607c9",
