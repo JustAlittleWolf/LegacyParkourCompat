@@ -12,7 +12,7 @@ import net.minecraft.util.Mth;
  * annotated at the latest verified release so it resolves for selected profiles
  * from 1.9 through 1.13.2.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class LavaMaterialScanUpperBound implements LavaMaterialScanUpperBoundHook {
     public LavaMaterialScanUpperBound() {
     }

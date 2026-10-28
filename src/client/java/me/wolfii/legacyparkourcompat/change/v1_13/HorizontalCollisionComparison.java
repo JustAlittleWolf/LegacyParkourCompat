@@ -12,7 +12,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalCollision
  * comparisons; preserve native short circuit and collision consumers. Exact
  * equality also preserves the historical signed-zero and NaN comparison.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class HorizontalCollisionComparison implements HorizontalCollisionComparisonHook {
     @Override
     public boolean equal(double requested, double resolved) {

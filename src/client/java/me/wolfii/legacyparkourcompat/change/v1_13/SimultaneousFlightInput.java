@@ -18,7 +18,7 @@ import net.minecraft.world.phys.Vec3;
  * native single-key arithmetic is unchanged. The caller supplies controlled
  * camera admission. Unsupported modern-only input/pose/scale states remain native.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class SimultaneousFlightInput implements SimultaneousFlightInputHook {
     @Override
     public void apply(Player player, ParkourVersion selected, Input keys) {

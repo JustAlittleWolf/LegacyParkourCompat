@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.BubbleColumnPlayerCallbackHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.PlayerClimbabilityFlyingGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PlayerEyeWaterQueryHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.AirSpeedHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.FlightFallDistanceHook;
@@ -63,6 +64,24 @@ abstract class PlayerMixin {
         return MovementRuntime.find(BubbleColumnPlayerCallbackHook.class, player)
             .flatMap(hook -> hook.forceLegacyCallback(player))
             .map(forceLegacy -> forceLegacy ? false : flying)
+            .orElse(flying);
+    }
+
+    @ModifyExpressionValue(
+        method = "onClimbable()Z",
+        at = @At(
+            value = "FIELD",
+            target = "Lnet/minecraft/world/entity/player/Abilities;flying:Z",
+            opcode = Opcodes.GETFIELD
+        )
+    )
+    private boolean legacyparkourcompat$preserveInheritedClimbabilityWhileFlying(boolean flying) {
+        Player player = (Player)(Object)this;
+        if (!player.isLocalPlayer()) {
+            return flying;
+        }
+        return MovementRuntime.find(PlayerClimbabilityFlyingGateHook.class, player)
+            .map(hook -> hook.shouldApplyFlyingVeto(player, flying))
             .orElse(flying);
     }
 

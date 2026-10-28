@@ -14,7 +14,7 @@ import net.minecraft.world.entity.Entity;
  * with the same float literals and scan x, then y, then z, returning at the
  * first matching lava material.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class LavaPresence implements LavaPresenceHook {
     public LavaPresence() {
     }

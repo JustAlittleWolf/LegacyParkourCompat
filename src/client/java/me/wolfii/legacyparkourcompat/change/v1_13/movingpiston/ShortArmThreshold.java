@@ -5,7 +5,7 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.movingpiston.ShortArmThresholdHook;
 
 /** Historical 1.13-family source-head short-arm threshold. */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class ShortArmThreshold implements ShortArmThresholdHook {
     /**
      * In 1.13, 1.13.1, and 1.13.2 (Ornithe Feather),

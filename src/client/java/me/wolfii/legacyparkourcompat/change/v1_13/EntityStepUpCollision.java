@@ -18,7 +18,7 @@ import net.minecraft.world.phys.Vec3;
  * setPositionFromShape reads the box after both vertical translations. Carry
  * that box separately to preserve this distinction and floating-point order.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class EntityStepUpCollision implements StepUpCollisionHook {
     @Override
     public Result resolveStepUp(Vec3 requested, Vec3 ordinary, AABB box,

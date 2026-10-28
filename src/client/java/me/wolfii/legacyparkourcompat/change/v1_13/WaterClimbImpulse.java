@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
  * Newer climbing blocks and pre-1.13 modern swimming retain native behavior;
  * other old climbing-state applicability remains unbound.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class WaterClimbImpulse implements WaterClimbImpulseHook {
     @Override
     public boolean onClimbable(Player player, ParkourVersion selected, VanillaFn<Boolean> nativeCheck) {

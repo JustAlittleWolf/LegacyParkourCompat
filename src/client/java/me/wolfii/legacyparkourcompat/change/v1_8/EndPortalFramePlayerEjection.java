@@ -30,7 +30,7 @@ public final class EndPortalFramePlayerEjection implements SuffocationProbeHook 
     @Override
     public boolean suffocatesAt(Player player, ParkourVersion target, BlockPos pos, VanillaFn<Boolean> vanilla) {
         // The 1.8 probe floors getShape().minY + 0.5 and tests that cell plus the cell above.
-        if (target == ParkourVersion.V1_8 || target == ParkourVersion.V1_8_9) {
+        if (target == ParkourVersion.V1_8 || target == ParkourVersion.V1_8_5 || target == ParkourVersion.V1_8_9) {
             double sampleY = player.getBoundingBox().minY + 0.5D;
             BlockPos samplePos = BlockPos.containing(pos.getX(), sampleY, pos.getZ());
             if (this.isEndPortalFrame(player, samplePos) || this.isEndPortalFrame(player, samplePos.above())) {

@@ -15,7 +15,7 @@ import net.minecraft.world.entity.player.Player;
  * has no held-key body-water exclusion. These are conditional start predicates;
  * float-forward eligibility and fluid/eye-state producers resolve separately.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class SprintInputStart implements ShallowWaterSprintStartHook, DoubleTapSprintStartHook, SprintKeyStartHook {
     @Override
     public boolean allowShallowWaterStart(Player player, boolean vanilla) {

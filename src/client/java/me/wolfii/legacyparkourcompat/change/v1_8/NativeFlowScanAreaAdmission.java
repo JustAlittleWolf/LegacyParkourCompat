@@ -5,7 +5,7 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.world.FlowScanAreaAdmissionHook;
 
 /** Resolver boundary: profiles before the supported 1.8.9 delta retain native admission. */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_5)
 public final class NativeFlowScanAreaAdmission implements FlowScanAreaAdmissionHook {
     public NativeFlowScanAreaAdmission() {
     }

@@ -12,7 +12,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import java.util.Optional;
 
 /** Keeps the native provider for 1.8 profiles, before the earliest source-confirmed range (1.8.9). */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_5)
 public final class BrewingStandNativeCollisionShapeFence implements BlockCollisionShapeHook {
     @Override
     public String blockId() {

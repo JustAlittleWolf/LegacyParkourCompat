@@ -12,7 +12,7 @@ import java.util.Optional;
  * The accepted scan evidence begins at 1.8.9. Keep 1.8 through 1.8.8 on
  * Minecraft's native block-collision cursor until those releases are reviewed.
  */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_5)
 public final class NeighborCollisionScanNativeFence implements BlockCollisionScanHook {
     public NeighborCollisionScanNativeFence() {
     }

@@ -15,7 +15,7 @@ import net.minecraft.world.entity.LivingEntity;
  * The independently resolved older change keeps 1.12.2's distinct
  * 0.16277136F numerator. Native air-speed selection remains untouched.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class GroundAcceleration implements GroundSpeedHook {
     @Override
     public float speed(LivingEntity entity, float blockFriction, float vanilla) {

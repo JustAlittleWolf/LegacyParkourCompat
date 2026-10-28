@@ -28,7 +28,7 @@ import java.util.List;
  * The accepted response is conditional on an embedded default standing player;
  * this does not establish natural entry, whole-tick parity or other collectors.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class BrewingStandOverlapExclusion implements BlockMovementCollisionHook {
     @Override public String variant() { return "minecraft:brewing_stand"; }
 

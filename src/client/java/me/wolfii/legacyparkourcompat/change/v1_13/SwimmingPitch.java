@@ -21,7 +21,7 @@ import net.minecraft.world.entity.player.Player;
  *   Exact independent source verdict/snapshot identity for swim-look-vertical-control
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class SwimmingPitch implements SwimmingPitchHook {
     @Override
     public double lookY(Player player, double vanilla) {

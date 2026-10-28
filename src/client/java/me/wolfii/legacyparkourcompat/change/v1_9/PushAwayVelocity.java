@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Player;
  * 1.14, ornithe-feather: LocalClientPlayerEntity.pushAwayFrom instead passes
  * +/-0.1D to Entity.m_32166403, which directly constructs the velocity vector.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class PushAwayVelocity implements PushAwayVelocityHook {
     @Override
     public double pushAwayVelocity(Player player, ParkourVersion target, double vanilla) {

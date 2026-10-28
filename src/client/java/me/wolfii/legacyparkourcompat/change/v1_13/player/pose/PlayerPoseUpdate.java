@@ -18,7 +18,7 @@ import net.minecraft.world.phys.AABB;
  * The post-native adapter excludes modern-only pose states and evaluates the historical fit
  * despite native entity/border fallback, retaining modern crawl when the old resize cannot apply.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class PlayerPoseUpdate implements PlayerPoseHook {
     @Override
     public boolean updatePose(Player player, EntityDimensions previousDimensions, AABB previousBox, float previousEyeHeight) {

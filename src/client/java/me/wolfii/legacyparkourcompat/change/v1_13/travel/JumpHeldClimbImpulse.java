@@ -22,7 +22,7 @@ import net.minecraft.world.phys.Vec3;
  * result outside historical climbing, including modern-only climbable states and
  * the powder-snow equipment response.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class JumpHeldClimbImpulse implements ClimbImpulseHook {
     @Override
     public Vec3 afterMove(LivingEntity entity, Vec3 nativeMovement, boolean trapdoorClimbing) {

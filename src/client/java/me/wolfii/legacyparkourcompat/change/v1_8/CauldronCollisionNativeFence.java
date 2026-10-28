@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 /** Keeps 1.8 through 1.8.8 on the native shape before the verified 1.8.9 boundary. */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_5)
 public final class CauldronCollisionNativeFence implements BlockCollisionShapeHook {
     private final String blockId;
 

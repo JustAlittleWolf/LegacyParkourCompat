@@ -14,7 +14,7 @@ import net.minecraft.world.level.material.FluidState;
 import java.util.Optional;
 
 /** Restores the 1.13 cached underwater producer without adopting the modern body-scan admission gate. */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class PlayerEyeWaterQuery implements PlayerEyeWaterQueryHook {
     public PlayerEyeWaterQuery() {
     }
