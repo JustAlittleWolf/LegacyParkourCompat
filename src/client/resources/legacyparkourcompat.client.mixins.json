@@ -24,6 +24,7 @@
     "LivingEntityMixin",
     "LivingEntityJumpAdmissionMixin",
     "LivingEntityJumpBoostAmplifierMixin",
+    "EntityEyeFluidCacheMixin",
     "LivingEntityClimbingMixin",
     "water.EntityWaterMixin",
     "water.LivingEntityWaterMixin",
