@@ -2,17 +2,15 @@ package me.wolfii.legacyparkourcompat.change.v1_20_5;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.MovementSpeedModifierIdentity;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.PlayerMovementSpeedHook;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -48,24 +46,23 @@ import java.util.UUID;
 @MovementChange(emulates = ParkourVersion.V1_20_5)
 public final class LegacyPlayerMovementSpeed implements PlayerMovementSpeedHook {
     private static final int PROVEN_TABLE_CAPACITY = 32;
-    private static final Identifier SPEED_ID = Identifier.withDefaultNamespace("effect.speed");
-    private static final Identifier SLOWNESS_ID = Identifier.withDefaultNamespace("effect.slowness");
-    private static final Identifier SPRINT_ID = Identifier.withDefaultNamespace("sprinting");
-
     @Override
-    public Optional<Float> movementSpeed(double baseValue, Collection<AttributeModifier> modifiers, Set<Identifier> observedIdentifiers) {
-        for (Identifier observedIdentifier : observedIdentifiers) {
-            if (oldBuiltinId(observedIdentifier) == null) {
+    public Optional<Float> movementSpeed(Snapshot snapshot) {
+        if (!snapshot.history().complete() || !snapshot.history().totalOnly()) {
+            return Optional.empty();
+        }
+        for (Identifier observedIdentifier : snapshot.history().identifiers()) {
+            if (MovementSpeedModifierIdentity.oldUuid(observedIdentifier) == null) {
                 return Optional.empty();
             }
         }
 
-        List<LegacyModifier> ordered = new ArrayList<>(modifiers.size());
-        for (AttributeModifier modifier : modifiers) {
-            if (modifier.operation() != AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL) {
+        List<LegacyModifier> ordered = new ArrayList<>(snapshot.modifiers().size());
+        for (Modifier modifier : snapshot.modifiers()) {
+            if (modifier.operation() != 2) {
                 return Optional.empty();
             }
-            UUID oldId = oldBuiltinId(modifier.id());
+            UUID oldId = MovementSpeedModifierIdentity.oldUuid(modifier.identifier());
             if (oldId == null) {
                 return Optional.empty();
             }
@@ -76,24 +73,11 @@ public final class LegacyPlayerMovementSpeed implements PlayerMovementSpeedHook 
         }
 
         ordered.sort(Comparator.comparingInt(LegacyModifier::slot).reversed());
-        double value = baseValue;
+        double value = snapshot.baseValue();
         for (LegacyModifier legacyModifier : ordered) {
             value *= 1.0 + legacyModifier.modifier().amount();
         }
         return Optional.of((float) Attributes.MOVEMENT_SPEED.value().sanitizeValue(value));
-    }
-
-    private static UUID oldBuiltinId(Identifier id) {
-        if (SPEED_ID.equals(id)) {
-            return UUID.fromString("91AEAA56-376B-4498-935B-2F7F68070635");
-        }
-        if (SLOWNESS_ID.equals(id)) {
-            return UUID.fromString("7107DE5E-7CE8-4030-940E-514C1F160890");
-        }
-        if (SPRINT_ID.equals(id)) {
-            return UUID.fromString("662A6B8D-DA3E-4C1C-8813-96EA6097278D");
-        }
-        return null;
     }
 
     private static int oldTableSlot(UUID id) {
@@ -104,6 +88,6 @@ public final class LegacyPlayerMovementSpeed implements PlayerMovementSpeedHook 
         return mixed & (PROVEN_TABLE_CAPACITY - 1);
     }
 
-    private record LegacyModifier(AttributeModifier modifier, int slot) {
+    private record LegacyModifier(Modifier modifier, int slot) {
     }
 }
