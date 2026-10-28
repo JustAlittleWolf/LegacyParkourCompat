@@ -58,11 +58,18 @@ public final class WaterScan {
         boolean flowOnlyAdmitted = hasFlowOnlyBound && flowAdmission.map(hook -> hook.admits(
             flowOnlyX0, flowOnlyY0, flowOnlyZ0, flowOnlyX1, flowOnlyY1, flowOnlyZ1
         )).orElse(false);
+        boolean flowOnlyRejectedByHistoricalArea = hasFlowOnlyBound
+            && flowAdmission.isPresent() && !flowOnlyAdmitted;
         boolean replacesCurrent = current.filter(WaterCurrentHook::replacesNativeCurrent).isPresent()
-            && (selected.isPresent() || flowOnlyAdmitted);
+            && (selected.isPresent() || flowOnlyAdmitted || flowOnlyRejectedByHistoricalArea);
         if ((!replacesContact && !replacesCurrent) || !supportsFeatures(player)) return Optional.empty();
         if (player.getVehicle() instanceof AbstractBoat) {
             return Optional.of(new Result(false, Vec3.ZERO, replacesContact, replacesCurrent));
+        }
+        if (flowOnlyRejectedByHistoricalArea) {
+            // The 1.8.9 World.applyLiquidDrag returns before scanning or applying
+            // current when its Y-overlap admission fails; keep native contact separate.
+            return Optional.of(new Result(false, Vec3.ZERO, false, true));
         }
         AABB contactBox = selected.orElse(null);
         AABB flowBox = selected.orElse(flowOnlyBox);
