@@ -48,8 +48,9 @@ abstract class EntityStepUpCollisionMixin {
 
                     @Override
                     public StepUpCollisionHook.AxisCollisionCall sweep(Vec3 requested, AABB queryBox) {
-                        List<VoxelShape> shapes = Entity.collectAllColliders(
-                            entity, entity.level(), queryBox.expandTowards(requested));
+                        List<VoxelShape> shapes = CollisionAxisOrderContext.withBlockCollectionDisabled(
+                            () -> Entity.collectAllColliders(
+                                entity, entity.level(), queryBox.expandTowards(requested)));
                         return (axis, movingBox, distance) -> MovementRuntime.clipMovementAxis(
                             entity, axis, movingBox, shapes, distance,
                             () -> Shapes.collide(axis, movingBox, shapes, distance));
