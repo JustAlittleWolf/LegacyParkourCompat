@@ -28,6 +28,8 @@ import java.util.Optional;
 @MovementChange(emulates = ParkourVersion.V1_16)
 public final class LavaPresenceLatch implements LavaPresenceHook {
     private static final double BOX_INSET = 0.001;
+    private static final int HISTORICAL_MIN_Y = 0;
+    private static final int HISTORICAL_MAX_Y = 256;
 
     public LavaPresenceLatch() {
     }
@@ -55,13 +57,23 @@ public final class LavaPresenceLatch implements LavaPresenceHook {
         AABB scanBox = entityBox.deflate(BOX_INSET);
         BlockPos min = BlockPos.containing(scanBox.minX, scanBox.minY, scanBox.minZ);
         BlockPos max = BlockPos.containing(scanBox.maxX, scanBox.maxY, scanBox.maxZ);
-        if (!entity.level().hasChunksAt(min, max)) {
+        // Mojmap 1.16.1 LevelReader.hasChunksAt admits overlap with [0, 256), then
+        // checks horizontal columns. Mojmap 1.16.1/1.16.2 ClientLevel.hasChunk
+        // always returns true; 26.2 does too. A client cache miss follows the
+        // ClientChunkCache emptyChunk path, whose EmptyLevelChunk.getBlockState
+        // returns VOID_AIR, so no loaded-chunk gate rejects this local-player scan.
+        if (max.getY() < HISTORICAL_MIN_Y || min.getY() >= HISTORICAL_MAX_Y) {
             return;
         }
 
         BlockPos.MutableBlockPos position = new BlockPos.MutableBlockPos();
         for (int x = min.getX(); x <= max.getX(); x++) {
             for (int y = min.getY(); y <= max.getY(); y++) {
+                // Level.getBlockState returns VOID_AIR outside the old height. Keep
+                // the original loop bounds, but those cells cannot set the lava latch.
+                if (y < HISTORICAL_MIN_Y || y >= HISTORICAL_MAX_Y) {
+                    continue;
+                }
                 for (int z = min.getZ(); z <= max.getZ(); z++) {
                     position.set(x, y, z);
                     BlockState state = entity.level().getBlockState(position);
