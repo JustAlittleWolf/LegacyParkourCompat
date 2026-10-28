@@ -37,10 +37,6 @@ public final class PlayerPoseUpdate implements PlayerPoseHook {
             && currentPose != Pose.SPIN_ATTACK && currentPose != Pose.CROUCHING) {
             return false;
         }
-        if (currentPose == Pose.SWIMMING && (player.isSleeping() || !player.isSwimming())) {
-            return false;
-        }
-
         boolean historicalSwim = player.isSwimming();
         boolean spinAttack = player.isAutoSpinAttack();
         boolean fallFlying = player.isFallFlying();
