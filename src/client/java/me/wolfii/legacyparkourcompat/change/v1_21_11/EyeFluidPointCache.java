@@ -43,7 +43,7 @@ public final class EyeFluidPointCache implements EyeFluidCacheHook {
         FluidState fluidState = entity.level().getFluidState(pos);
         double fluidTop = pos.getY() + fluidState.getHeight(entity.level(), pos);
         if (fluidTop > eyeY) {
-            fluidState.getTags().forEach(cache::add);
+            fluidState.typeHolder().tags().forEach(cache::add);
         }
     }
 }
