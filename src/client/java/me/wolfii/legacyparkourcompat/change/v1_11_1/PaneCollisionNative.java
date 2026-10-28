@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change.v1_11_2;
+package me.wolfii.legacyparkourcompat.change.v1_11_1;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.change.common.PaneCollisionComponents;
@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-/** Native pane resolver fence until a complete 1.11.2 current-ID provider mapping is accepted. */
-@MovementChange(emulates = ParkourVersion.V1_11_2)
+/** Preserves native pane collision selection below the accepted 1.11.2 boundary. */
+@MovementChange(emulates = ParkourVersion.V1_11_1)
 public final class PaneCollisionNative implements BlockCollisionShapeHook, BlockMovementCollisionHook {
     private final String blockId;
 

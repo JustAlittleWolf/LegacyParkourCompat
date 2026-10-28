@@ -2,11 +2,11 @@ package me.wolfii.legacyparkourcompat.change.v1_12;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.change.common.PaneCollisionComponents;
-import me.wolfii.legacyparkourcompat.change.common.PaneNeighborFaceShape;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockCollisionShapeHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.block.pane.PaneNeighborEligibilityHook;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -45,14 +45,9 @@ public final class PaneCollisionShape implements BlockCollisionShapeHook {
     public Optional<List<VoxelShape>> collisionShapes(
         BlockState state, BlockGetter level, BlockPos pos, CollisionContext context
     ) {
-        var north = connects(level, pos.north(), Direction.SOUTH);
-        var south = connects(level, pos.south(), Direction.NORTH);
-        var east = connects(level, pos.east(), Direction.WEST);
-        var west = connects(level, pos.west(), Direction.EAST);
-        if (north.isEmpty() || south.isEmpty() || east.isEmpty() || west.isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(PaneCollisionComponents.ordered(north.get(), south.get(), east.get(), west.get()));
+        return MovementRuntime.find(PaneNeighborEligibilityHook.class, MovementRuntime.playerFrom(context))
+            .flatMap(policy -> PaneCollisionComponents.selected(pos, (neighborPos, face) ->
+                policy.connects(level.getBlockState(neighborPos), level, neighborPos, face)));
     }
 
     @Override
@@ -60,10 +55,5 @@ public final class PaneCollisionShape implements BlockCollisionShapeHook {
         BlockState state, BlockGetter level, BlockPos pos, CollisionContext context
     ) {
         return collisionShapes(state, level, pos, context).map(PaneCollisionComponents::union);
-    }
-
-    private Optional<Boolean> connects(BlockGetter level, BlockPos pos, Direction face) {
-        BlockState neighbor = level.getBlockState(pos);
-        return PaneNeighborFaceShape.connects(neighbor, level, pos, face);
     }
 }

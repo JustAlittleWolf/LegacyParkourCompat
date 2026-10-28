@@ -1,10 +1,14 @@
 package me.wolfii.legacyparkourcompat.change.common;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.BiFunction;
 
 /**
  * Exact pane component geometry and emission order shared by the 1.11.2 and
@@ -50,6 +54,19 @@ public final class PaneCollisionComponents {
         if (east) components.add(EAST);
         if (west) components.add(WEST);
         return List.copyOf(components);
+    }
+
+    /** Resolves the shared component order while leaving neighbor policy versioned. */
+    public static Optional<List<VoxelShape>> selected(BlockPos pos,
+                                                       BiFunction<BlockPos, Direction, Optional<Boolean>> connects) {
+        var north = connects.apply(pos.north(), Direction.SOUTH);
+        var south = connects.apply(pos.south(), Direction.NORTH);
+        var east = connects.apply(pos.east(), Direction.WEST);
+        var west = connects.apply(pos.west(), Direction.EAST);
+        if (north.isEmpty() || south.isEmpty() || east.isEmpty() || west.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(ordered(north.get(), south.get(), east.get(), west.get()));
     }
 
     /** Forms the provider union for ordinary shape consumers; movement keeps {@link #ordered} parts. */

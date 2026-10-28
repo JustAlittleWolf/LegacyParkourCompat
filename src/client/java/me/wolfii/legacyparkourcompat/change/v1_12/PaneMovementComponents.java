@@ -19,9 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Reproduces 1.12 Block.addCollision's strict per-component overlap admission
- * and Box.intersectX/Y/Z clipping for the ordered pane components. Axis
- * resolution uses the existing ComponentCollisionShape/AxisClippingHook path.
+ * Reproduces the unchanged Minecraft 1.11.2 and 1.12/1.12.1/1.12.2
+ * (Ornithe Feather Gen2) {@code Block.addCollision} strict per-component
+ * overlap admission and {@code Box.intersectX/Y/Z} clipping. The component
+ * shape literals and collector gates are identical at both boundaries; pane
+ * arm eligibility remains a separately resolved policy. Axis resolution uses
+ * the existing ComponentCollisionShape/AxisClippingHook path.
  */
 @MovementChange(emulates = ParkourVersion.V1_12)
 public final class PaneMovementComponents implements BlockMovementCollisionHook, BlockComponentClipHook {
