@@ -13,23 +13,19 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import java.util.Optional;
 
 /**
- * 1.15.2 Mojmap CollisionGetter#getBlockCollisions first tests the player's
+ * 1.15.2 Mojmap net.minecraft.world.level.CollisionGetter#getBlockCollisions first tests the player's
  * box deflated by 1.0E-7 against the border shape, then tests the inflated box;
  * it yields the border candidate only when the first overlap is false and the
- * second is true. Its LocalPlayer#updateAutoJump flattens these candidates and
- * scans them in order. The 1.16 Mojmap CollisionSpliterator#worldBorderCheck
- * adds isBoxFullyWithinWorldBorder's rounded-bound fast rejection before the
- * same overlap tests. Keep this implementation limited to the exact inspected
- * 1.15.2 profile: 1.15 and earlier applicability is unproved.
+ * second is true. Its net.minecraft.client.player.LocalPlayer#updateAutoJump flattens these candidates and
+ * scans them in order. The 1.16 Mojmap net.minecraft.world.level.CollisionSpliterator#worldBorderCheck
+ * adds CollisionSpliterator#isBoxFullyWithinWorldBorder's rounded-bound fast rejection before the
+ * same overlap tests. The V1_15 provider preserves the native candidate stream
+ * before the inspected 1.15.2 boundary, whose earlier applicability is unproved.
  */
 @MovementChange(emulates = ParkourVersion.V1_15_2)
 public final class AutoJumpBorderCandidate implements AutoJumpBorderCandidateHook {
     @Override
     public Optional<VoxelShape> borderCandidate(Player player, ParkourVersion selected) {
-        if (selected != ParkourVersion.V1_15_2) {
-            return Optional.empty();
-        }
-
         WorldBorder border = player.level().getWorldBorder();
         AABB box = player.getBoundingBox();
         VoxelShape shape = border.getCollisionShape();
