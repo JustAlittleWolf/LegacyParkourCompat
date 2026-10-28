@@ -22,6 +22,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityFluidInteraction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
+import net.minecraft.world.entity.vehicle.boat.Boat;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.material.Fluid;
@@ -72,6 +73,8 @@ abstract class EntityFluidInteractionMixin {
         @Local FluidState fluidState,
         @Local BlockPos.MutableBlockPos mutablePos) {
         if (entity instanceof Player
+            // Chest boats and rafts are modern-only; preserve their native eye-fluid path.
+            && !(entity.getVehicle() instanceof AbstractBoat && !(entity.getVehicle() instanceof Boat))
             && mutablePos.getX() == entity.getBlockX()
             && mutablePos.getY() == Mth.floor(eyeY)
             && mutablePos.getZ() == entity.getBlockZ()) {
@@ -81,7 +84,7 @@ abstract class EntityFluidInteractionMixin {
                 .flatMap(hook -> hook.isSubmerged(
                     fluidState,
                     true,
-                    entity.getVehicle() instanceof AbstractBoat,
+                    entity.getVehicle() instanceof Boat,
                     eyeY,
                     mutablePos.getY()
                 ));
