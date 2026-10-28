@@ -39,6 +39,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.travel.InputAccelerationHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.movement.HeadingVelocityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.InputVectorHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.RelativeInputYawHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.relativeinputrotation.RelativeInputRotationTrigHook;
 import me.wolfii.legacyparkourcompat.mechanic.OrdinaryPlayerContext;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.InsideBlockContactHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerFallDistanceResetHook;
@@ -206,32 +207,38 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
         }
     }
 
-    @ModifyArg(method = "getInputVector",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;sin(D)F"), index = 0)
-    private static double legacyparkourcompat$relativeInputSineAngle(
-        double vanillaRadians, @Local(argsOnly = true, index = 2) float yawDegrees
+    @WrapOperation(method = "getInputVector",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;sin(D)F"))
+    private static float legacyparkourcompat$relativeInputSine(
+        double vanillaRadians, Operation<Float> original, @Local(argsOnly = true, index = 2) float yawDegrees
     ) {
         Entity entity = MovementRuntime.currentEntity();
         if (entity instanceof Player player) {
-            return MovementRuntime.find(RelativeInputYawHook.class, player)
+            double radians = MovementRuntime.find(RelativeInputYawHook.class, player)
                 .map(hook -> hook.toRadians(player, yawDegrees, vanillaRadians))
                 .orElse(vanillaRadians);
+            return MovementRuntime.find(RelativeInputRotationTrigHook.class, player)
+                .map(hook -> hook.sin((float) radians))
+                .orElseGet(() -> original.call(radians));
         }
-        return vanillaRadians;
+        return original.call(vanillaRadians);
     }
 
-    @ModifyArg(method = "getInputVector",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;cos(D)F"), index = 0)
-    private static double legacyparkourcompat$relativeInputCosineAngle(
-        double vanillaRadians, @Local(argsOnly = true, index = 2) float yawDegrees
+    @WrapOperation(method = "getInputVector",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;cos(D)F"))
+    private static float legacyparkourcompat$relativeInputCosine(
+        double vanillaRadians, Operation<Float> original, @Local(argsOnly = true, index = 2) float yawDegrees
     ) {
         Entity entity = MovementRuntime.currentEntity();
         if (entity instanceof Player player) {
-            return MovementRuntime.find(RelativeInputYawHook.class, player)
+            double radians = MovementRuntime.find(RelativeInputYawHook.class, player)
                 .map(hook -> hook.toRadians(player, yawDegrees, vanillaRadians))
                 .orElse(vanillaRadians);
+            return MovementRuntime.find(RelativeInputRotationTrigHook.class, player)
+                .map(hook -> hook.cos((float) radians))
+                .orElseGet(() -> original.call(radians));
         }
-        return vanillaRadians;
+        return original.call(vanillaRadians);
     }
 
     @WrapOperation(method = "move", at = @At(value = "INVOKE",
