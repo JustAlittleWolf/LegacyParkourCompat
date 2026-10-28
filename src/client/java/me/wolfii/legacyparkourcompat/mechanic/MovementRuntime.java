@@ -234,10 +234,13 @@ public final class MovementRuntime {
         if (collector.isEmpty()) {
             return nativeShape;
         }
-        var parts = find(BlockCollisionShapeHook.class, state.getBlock(), player)
-            .filter(hook -> hook.supports(profile(player).target()))
-            .flatMap(hook -> hook.collisionShapes(state, level, pos, movement.delegate()))
-            .orElse(List.of(nativeShape));
+        var shapeHook = find(BlockCollisionShapeHook.class, state.getBlock(), player)
+            .filter(hook -> hook.supports(profile(player).target()));
+        var providedParts = shapeHook.flatMap(hook -> hook.collisionShapes(state, level, pos, movement.delegate()));
+        if (shapeHook.isPresent() && providedParts.isEmpty()) {
+            return nativeShape;
+        }
+        var parts = providedParts.orElse(List.of(nativeShape));
         var clip = find(BlockComponentClipHook.class, state.getBlock(), player).orElse(null);
         return collector.get().collect(player, pos, movement.query(), nativeShape, parts, clip);
     }
