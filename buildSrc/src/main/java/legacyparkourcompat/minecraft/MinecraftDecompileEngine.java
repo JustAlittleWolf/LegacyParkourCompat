@@ -40,6 +40,7 @@ import java.util.stream.Stream;
 import java.util.zip.ZipFile;
 
 final class MinecraftDecompileEngine {
+    private static final String FAILED_METHOD_MARKER = "// $VF: Couldn't be decompiled";
     private static final String VERSION_MANIFEST_URL =
             "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json";
     private static final String FABRIC_YARN_META = "https://meta.fabricmc.net/v2/versions/yarn/";
@@ -251,6 +252,7 @@ final class MinecraftDecompileEngine {
 
         Path outputDir = outputRoot.resolve(versionRef.id).resolve(mappingSource);
         if (Files.exists(outputDir) && !force) {
+            ensureNoFailedMethodOutput(outputDir);
             ensureMovementSources(outputDir);
             if (!Files.isRegularFile(outputDir.resolve(DecompileStore.MANIFEST))) {
                 logger.warn("  Reusing legacy sources at {}; provenance and reproducibility are unverified. "
@@ -273,6 +275,7 @@ final class MinecraftDecompileEngine {
         try {
             for (Remapping remapping : remaps) remapping.run();
             decompileJar(jarToDecompile, libraries, staging);
+            ensureNoFailedMethodOutput(staging);
             ensureMovementSources(staging);
             DecompileStore.Manifest generated = DecompileStore.provenance(inputs, tools, staging);
             if (Files.isRegularFile(outputDir.resolve(DecompileStore.MANIFEST))) {
@@ -400,6 +403,27 @@ final class MinecraftDecompileEngine {
         if (!names.contains("LocalPlayer.java") && !names.contains("ClientPlayerEntity.java")
                 && !names.contains("LocalClientPlayerEntity.java")) {
             throw new IllegalStateException("Missing local-player movement source in " + outputDir);
+        }
+    }
+
+    private static void ensureNoFailedMethodOutput(Path outputDir) throws IOException {
+        try (Stream<Path> files = Files.walk(outputDir)) {
+            for (Path source : files
+                    .filter(path -> Files.isRegularFile(path) && path.toString().endsWith(".java"))
+                    .toList()) {
+                try (var reader = Files.newBufferedReader(source, StandardCharsets.UTF_8)) {
+                    String line;
+                    int lineNumber = 0;
+                    while ((line = reader.readLine()) != null) {
+                        lineNumber++;
+                        if (line.contains(FAILED_METHOD_MARKER)) {
+                            throw new IllegalStateException("Vineflower emitted a failed-method marker at "
+                                    + outputDir.relativize(source) + ":" + lineNumber
+                                    + "; incomplete source output cannot be reused or published.");
+                        }
+                    }
+                }
+            }
         }
     }
 
