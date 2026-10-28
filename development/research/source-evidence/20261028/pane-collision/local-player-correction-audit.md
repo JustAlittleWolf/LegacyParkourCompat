@@ -1,0 +1,60 @@
+# Independent audit: 26.2 pane alias and local-player reachability supplement
+
+## Bound inputs and verdict
+
+**REVISE** the supplement at SHA-256 `DCA55B263A18FB396B2F4E4349FA2157A81EC60E122BF54C4ABB33C4B62B73AC`, bound accepted finding `pane-center-overlap.md` at SHA-256 `08BF4B732E62524C24A945A6E0455A965D5C5487CD9F5D9BBD13082957655925`.
+
+The 26.2 source aliases and the *conditional* collision-collector conclusion are corroborated. The supplement's key reason for revising ordinary LocalPlayer-tick reachability is incorrect: it binds the four two-argument calls in `LocalPlayer.aiStep` to the three-argument `Entity.moveTowardsClosestSpace`, but `LocalPlayer` declares and calls its own private two-argument overload. Under the supplied isolated-pane/air-neighbor premise, that local method does not change the packet-seeded `+0.003125` X velocity. This audit does not establish input-only derivability, runtime behavior, or pair coverage.
+
+The author''s follow-up correction.md was independently checked at SHA-256 0810A8A4CECC74C8E51D6BF4330387E36417189A61BBA14DF666B1DC9AD45D64; **ACCEPT** that correction for the narrow overload, suffocation-gate, and packet-seeded source-path claims stated there. Its explicit preconditions bound the air-travel-to-move conclusion. The correction does not close input-only derivation or runtime/pair evidence.
+
+## Source identity and manifests
+
+Read-only canonical export: `D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\26.2\unobfuscated`; exact version `26.2`, namespace `unobfuscated`. The ready record, source manifest, and provenance SHA-256s were recomputed as `F9406ADB6BF7CB4C1AB0792A798AB2CB90E082AD4C2EEE032C9F674D0EA8070F`, `A7AD74FC712567EB87136AFC1EAFCFD602B4088E9869F3596331FD34FAEFE894`, and `A328F5333A1B27AADDE4422B23159A323AE219CCD26F11207C1A5461366F27D1`. The ready record identifies 7,055 sources and Vineflower 1.12.0; provenance identifies an unobfuscated run and `mappingArtifacts: null`. Direct SHA-256s for the cited source files were recomputed and each matched its `unobfuscated.sources.sha256` row. Decisive rows:
+
+| File | SHA-256 |
+|---|---|
+| `net/minecraft/client/player/LocalPlayer.java` | `8D089AA09217E3607B38590F7C1623385562800943AC6DFD3D17804E041DA6D6` |
+| `net/minecraft/world/level/CollisionGetter.java` | `8E7D1A54D27E0F187667439539C59B8892F966F1B9C8107EB162C6D43F830F6C` |
+| `net/minecraft/world/level/BlockCollisions.java` | `EB8A8F6F07B1D6384F17987818F056D41ADFD6B2AD120D26774BFA550F4FC51E` |
+| `net/minecraft/world/level/block/IronBarsBlock.java` | `B8D8467DB13454FC5CD24C95827172B8550D5CBA3D51930BA8B240B960606E54` |
+| `net/minecraft/world/level/block/CrossCollisionBlock.java` | `DCD2DBBCD093A68DEE4EE282E5F3101C519D633F3F173DD33383BD4B548C1BA5` |
+| `net/minecraft/world/level/block/state/BlockBehaviour.java` | `9C7A103492D0714C90397DA88EB696912FF6A9CA1C005D984C4746D52637FD1E` |
+| `net/minecraft/world/level/block/Blocks.java` | `F3F2FAEED23E9697407069A1D523107491590B8710175523EA05294D5BD00435` |
+| `net/minecraft/world/phys/shapes/Shapes.java` | `6ED9460D58727770BDEC59C4F3184F075644F3C411BE1EEAB2EAE17E8ECE1891` |
+| `net/minecraft/world/phys/shapes/IndirectMerger.java` | `9905EA12B115A355E7546E512532E23F6F9BF720168A61789F2A93A0347605C3` |
+
+The corrected cache root `D:\Javastuff\LegacyParkourCompat\.minecraft-decompile-cache` exists, but its exact `26.2` child does not. The source export and provenance/ready/manifests are present; this cache probe provides no `26.2` cache artifact. Mapping artifact bytes were not present for revalidation, so mapping identity remains metadata-backed.
+
+## Collision aliases and conditional collector result
+
+The source-exact aliases are `BlockCollisions`, `Shapes`, `VoxelShape`, and `IndirectMerger`. `Entity.collideBoundingBox` supplies `boundingBox.expandTowards(movement)` to block collection; `CollisionGetter.getBlockCollisionsFromContext` creates `BlockCollisions` with `onlySuffocatingBlocks=false`. `BlockCollisions` stores the uninflated query as `entityShape`; its `1.0E-7` margins are only on cursor enumeration bounds. The full-cube shortcut checks identity with `Shapes.block()`, which the pane post is not. The regular path requires a nonempty translated shape and `Shapes.joinIsNotEmpty(..., AND)`.
+
+For the false-connection iron-bars state, `CrossCollisionBlock.makeShapes` starts with `Block.column(2.0F, 0.0, 16.0)` and adds only enabled arms; `IronBarsBlock` defaults those arms false and excludes `WATERLOGGED` from the shape cache key. The post occupies `[7/16,9/16]` on X/Z. The stated Z overlap is about `6.192092893986256e-8`, below the `IndirectMerger` `1.0E-7` coalescing threshold. For this supplied swept box, the three axes overlap and the same-object/separated-axis exits do not apply, but the AND grid has no positive-width Z cell. Thus the pane is rejected by the collector *if that exact position and displacement are supplied*. If its shape is independently passed to clipping, `VoxelShape.collideX` uses `moving.max(cAxis) - 1.0E-7`; the resulting `0.43749996192092894` upper bound is below the pane's `0.4375` Z minimum. The accepted collector finding remains conditional; these facts do not establish how a tick derives the query.
+
+## LocalPlayer overload, probes, and suffocation gates
+
+`LocalPlayer.aiStep` lines 795–800 invokes four two-argument expressions before `super.aiStep`. The statically selected method is the private `LocalPlayer.moveTowardsClosestSpace(double x, double z)` at lines 451–478—not `Entity.moveTowardsClosestSpace(double x, double y, double z)` at `Entity.java:2912–2941`.
+
+`getBbWidth()` is `0.6F`; multiplication by the `double` literal `0.35` yields offset `0.21000000834465027`. At the supplied center `(0.13749, 64.2, 0.13750005)`, the four `(x,z)` probes and containing block X/Z coordinates are:
+
+| Call order | Probe `(x,z)` | Containing block `(x,z)` |
+|---|---|---|
+| 1 | `(-0.07251000834465027, 0.34750005834465025)` | `(-1, 0)` |
+| 2 | `(-0.07251000834465027, -0.07249995834465028)` | `(-1, -1)` |
+| 3 | `(0.34749000834465027, -0.07249995834465028)` | `(0, -1)` |
+| 4 | `(0.34749000834465027, 0.34750005834465025)` | `(0, 0)` |
+
+For each call, `LocalPlayer.moveTowardsClosestSpace` first calls `suffocatesAt(pos)`. That helper forms the current-Y box for the probed X/Z block, deflates it by `1.0E-7`, then calls `CollisionGetter.collidesWithSuffocatingBlock`, which constructs `BlockCollisions(..., true, ...)`. `BlockCollisions.computeNext` filters states with `blockState.isSuffocating` before considering collision shape. `Blocks.IRON_BARS` does not override the default suffocation predicate; `BlockBehaviour.Properties` defaults it to `blocksMotion && isCollisionShapeFullBlock`. The isolated false-arm pane has only the 2/16-wide center post, so its collision shape is not a full block and the pane state is not suffocating. The first three containing cells are air by the supplied premise; the fourth is the non-suffocating pane. Therefore all four initial `suffocatesAt(pos)` checks are false; the helper never searches directions and does not write delta movement. The WEST comparison in the supplement does not run.
+
+Even on a hypothetical suffocating path, the LocalPlayer overload would write X as `0.1 * dir.getStepX()` (fixed `-0.1` for WEST) and preserve Y/Z. It would not use the inherited Entity helper's random speed or 0.75 scaling. The bound witness therefore does not cause a WEST rewrite before movement.
+
+## Packet seeding versus input-only derivation
+
+`ClientboundPlayerPositionPacket` carries `PositionMoveRotation`; `Vec3.STREAM_CODEC` reads/writes three doubles. With an empty relative-flag set, `PositionMoveRotation.calculateAbsolute` uses the supplied absolute position and delta components. `ClientPacketListener.handleMovePlayer` applies the correction to a non-passenger with `interpolate=false`, which calls `Entity.setPos` and `setDeltaMovement`. `EntityDimensions.makeBoundingBox` computes `width / 2.0F` from the player's `0.6F` width. This supports packet-seeded exact state, not an input-only derivation.
+
+For a non-spectator local player, `Player.tick` sets `noPhysics=false`; the four probes then run, and `LocalPlayer.aiStep` proceeds to `super.aiStep`. The player cutoff in `LivingEntity.aiStep` only zeros horizontal motion when `horizontalDistanceSqr() < 9.0E-6`; the supplied X-only delta has squared magnitude approximately `9.765625E-6`, so it is above that cutoff. The source facts remove the claimed pane-induced WEST rewrite. They do not independently certify every tick precondition or prove input-only reachability, runtime trajectory, or that the exact query is observed in a live collision call.
+
+## Limits
+
+No runtime or gameplay trace, pair-wide coverage, patch boundary, implementation behavior, server behavior, or input-only construction is claimed. No tests, build, launch, or source generation was performed.
