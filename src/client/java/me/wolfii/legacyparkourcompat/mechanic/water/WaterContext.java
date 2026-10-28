@@ -7,6 +7,7 @@ public interface WaterContext {
     WaterScan.@Nullable Result legacyparkourcompat$waterScan();
 
     default boolean legacyparkourcompat$hasSupportedWaterContext() {
-        return legacyparkourcompat$waterScan() != null;
+        WaterScan.@Nullable Result result = legacyparkourcompat$waterScan();
+        return result != null && result.replacesContact();
     }
 }

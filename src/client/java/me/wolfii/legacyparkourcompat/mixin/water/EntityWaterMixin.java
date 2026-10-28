@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterCurrentHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.world.WaterFlowScanBoundHook;
 import me.wolfii.legacyparkourcompat.mechanic.water.WaterContext;
 import me.wolfii.legacyparkourcompat.mechanic.water.WaterScan;
 import net.minecraft.world.entity.Entity;
@@ -43,9 +44,15 @@ public abstract class EntityWaterMixin implements WaterContext {
         Entity entity = (Entity)(Object)this;
         // The native tracker has finished updating eyes/depth/lava. Select once,
         // before contact effects/current, and retain that decision for consumers.
-        MovementRuntime.find(WaterBodyContactHook.class, entity).ifPresent(body ->
-            MovementRuntime.find(WaterCurrentHook.class, entity).ifPresent(current ->
-                legacyparkourcompat$water = WaterScan.scan((Player)entity, body, current).orElse(null)));
-        return legacyparkourcompat$water == null ? nativeContact : legacyparkourcompat$water.contact();
+        if (entity instanceof Player player) {
+            legacyparkourcompat$water = WaterScan.scan(
+                player,
+                MovementRuntime.find(WaterBodyContactHook.class, player),
+                MovementRuntime.find(WaterCurrentHook.class, player),
+                MovementRuntime.find(WaterFlowScanBoundHook.class, player)
+            ).orElse(null);
+        }
+        return legacyparkourcompat$water == null || !legacyparkourcompat$water.replacesContact()
+            ? nativeContact : legacyparkourcompat$water.contact();
     }
 }
