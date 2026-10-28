@@ -7,12 +7,13 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerPoseHook;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
 
 /** Preserves the prior V1_8 body-size and vanilla eye-height behavior. */
 @MovementChange(emulates = ParkourVersion.V1_8)
 public final class Pre189SneakingDimensions implements PlayerDimensionsHook, PlayerPoseHook {
     @Override
-    public boolean updatePose(Player player) {
+    public boolean updatePose(Player player, EntityDimensions previousDimensions, AABB previousBox, float previousEyeHeight) {
         return false;
     }
 

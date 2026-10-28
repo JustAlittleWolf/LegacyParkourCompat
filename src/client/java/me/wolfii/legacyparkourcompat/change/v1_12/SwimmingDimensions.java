@@ -7,6 +7,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerPoseHook;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
 
 /**
  * Source evidence (paths are relative to decompiled_minecraft/):
@@ -27,7 +28,7 @@ import net.minecraft.world.entity.player.Player;
 @MovementChange(emulates = ParkourVersion.V1_12)
 public final class SwimmingDimensions implements PlayerDimensionsHook, PlayerPoseHook {
     @Override
-    public boolean updatePose(Player player) {
+    public boolean updatePose(Player player, EntityDimensions previousDimensions, AABB previousBox, float previousEyeHeight) {
         return false;
     }
 

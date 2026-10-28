@@ -6,7 +6,6 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PlayerEyeWaterQueryHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.AirSpeedHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.FlightFallDistanceHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerPoseHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PoseClearanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.SleepGlidePosePriorityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeHook;
@@ -80,16 +79,6 @@ abstract class PlayerMixin {
         return MovementRuntime.find(SleepGlidePosePriorityHook.class, player)
             .map(hook -> hook.desiredPose(MovementRuntime.profile(player).target(), player.isSleeping(), player.isFallFlying(), vanilla))
             .orElse(vanilla);
-    }
-
-    @Inject(method = "updatePlayerPose()V", at = @At("HEAD"), cancellable = true)
-    private void legacyparkourcompat$historicalPoseUpdate(CallbackInfo callback) {
-        Player player = (Player) (Object) this;
-        if (MovementRuntime.find(PlayerPoseHook.class, player)
-            .map(behavior -> behavior.updatePose(player))
-            .orElse(false)) {
-            callback.cancel();
-        }
     }
 
     @Inject(method = "canFallAtLeast(DDD)Z", at = @At("HEAD"), cancellable = true)

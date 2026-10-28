@@ -28,6 +28,8 @@
     "water.EntityWaterMixin",
     "water.LivingEntityWaterMixin",
     "JumpBoostFallbackMixin",
+    "PlayerPoseUpdateMixin",
+    "EntityPoseDimensionsAccessor",
     "PlayerMixin",
     "WallBlockMixin",
     "BlockStateCollisionShapeMixin",

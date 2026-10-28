@@ -8,6 +8,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerPoseHook;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
 
 /**
  * Minecraft 1.8.9, Ornithe Feather Gen2 build 2,
@@ -23,7 +24,7 @@ import net.minecraft.world.entity.player.Player;
 @MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class SneakingDimensions implements PlayerDimensionsHook, PlayerPoseHook {
     @Override
-    public boolean updatePose(Player player) {
+    public boolean updatePose(Player player, EntityDimensions previousDimensions, AABB previousBox, float previousEyeHeight) {
         return false;
     }
 
