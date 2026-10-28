@@ -22,8 +22,8 @@ import java.util.OptionalInt;
  * One shared water-only traversal; it never writes native trackers or velocity.
  * Contact and flow can use separate query domains. The combined 26.2 tracker
  * remains responsible for eyes, depth, lava and modern features. Unsupported
- * probes/flow providers cause a native fallback. Extended modern world-height
- * contexts remain native instead of interpreting modern-only water as historical cells.
+ * probes/flow providers cause a native fallback. Resolved historical flow uses
+ * its own area admission and old-height cell bounds.
  */
 public final class WaterScan {
     private WaterScan() { }

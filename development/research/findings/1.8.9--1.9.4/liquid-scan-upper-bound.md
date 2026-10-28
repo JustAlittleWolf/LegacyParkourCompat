@@ -20,3 +20,6 @@ Concrete boundary precondition: at least one contracted box maximum is an exact 
 Source proves the differing upper-bound calculation and the one-cell inclusion rule at exact integer maxima.
 
 If the included cell passes the liquid material/height filter, 1.8.9 can set the water result and invoke its liquid drag callback for a cell 1.9.4 omits.
+
+
+The subsequent exact 1.9 comparison and 1.9–1.9.4 alias audit establish the first changed stable release as 1.9. The 1.8.9 water-current component is implemented within the supported nonfalling-water/material bundle; its old Y-overlap admission and direct empty-chunk reads do not inherit the modern full-chunk preflight. Current is applied once before water contact effects. The historical body-contact Boolean remains a separate open component. Source comparisons, witness audits and client area-gate closure are retained in `development/research/source-evidence/20261028/water-flow-scan/`. No runtime parity is asserted.

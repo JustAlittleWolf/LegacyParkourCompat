@@ -44,8 +44,8 @@ public final class WaterCurrent implements WaterCurrentHook {
      * The blocking-material provider is bounded to ordinary air and these
      * full solids (1.12-family Block bootstrap and Material.blocksMovement).
      * World.getBlockState/isOutsideWorldHeight returns air outside [0, 256) in that
-     * family. Such dependencies instead reject this bounded bundle, preserving
-     * native modern-height features rather than manufacturing historical air.
+     * family; historicalState preserves those empty neighbor reads. Unsupported
+     * block/material dependencies reject this bounded bundle and retain native flow.
      */
     public Optional<Vec3> flow(Level level, BlockPos pos, BlockState state) {
         if (!historicalHeight(pos)) return Optional.empty();
