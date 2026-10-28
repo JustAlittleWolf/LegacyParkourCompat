@@ -1,0 +1,28 @@
+# Relative-input trig comparison — group B
+
+**Scope:** exact Mojmap source slices for 1.20, 1.20.1, 1.20.2, 1.20.3, and 1.20.4. Compared `Mth` lookup initialization and `sin`/`cos`, plus `Entity#moveRelative` → `getInputVector`. This does not claim complete player-tick coverage.
+
+## Source identities
+
+All sources are under `D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\<version>\mojmap\`. Computed file hashes are byte-for-byte equal to the corresponding source-manifest entries for releases with ready metadata, and equal to embedded `sources` entries in hidden provenance for 1.20 and 1.20.3.
+
+| Release | Publication identity | Mth.java SHA-256 | Entity.java SHA-256 |
+|---|---|---|---|
+| 1.20 | Hidden `mojmap/.decompile-provenance.json`, SHA-256 `573f0bb3e18e39ae882769a007a1c97d711da123034f9a1c894eb407ef58030f`; pinned `client.jar` `5ac9ead135746f5f27048f2e01d8d5bdc2dabc4d91422f73ef2435f4c3d24aff`; `client.txt` `fdd921d6bcc7657850f78514d36bb57af0b8a340786d12c46ec18d9c46c039de`. Embedded source hashes match. | `201d17ea024637036761c2703e407d4ab1dc7651a1f4b00a857c09803754c797` | `94b9c3656715de2d61fa9a02ccef164261e50eb13d6090a6f07e58fe9c5b0759` |
+| 1.20.1 | `mojmap.provenance.json` / ready both identify `1.20.1`, namespace/mapping Mojmap, exact-run option Mojmap, Vineflower. Source manifest SHA-256 `858b56764113e591c60d09bc63e4d90f9c1d67a705645f0c793e8b28f2378465` (matches ready declaration). | `201d17ea024637036761c2703e407d4ab1dc7651a1f4b00a857c09803754c797` | `94b9c3656715de2d61fa9a02ccef164261e50eb13d6090a6f07e58fe9c5b0759` |
+| 1.20.2 | `mojmap.provenance.json` / ready both identify `1.20.2`, namespace/mapping Mojmap, exact-run option Mojmap, Vineflower. Source manifest SHA-256 `e439ff7e1d3f1d31e01be1edd141f94d917a9dc7fa0de5f69904544cbbe62887` (matches ready declaration). | `8a16560d3dd84853a2caaa658d6a106ea2e7f4e04d5cd6ed4d8f76839cda9dce` | `d7ee49aaea5e862b92508e767562cabc8f10515605e8fb67565c8c8d5c23b01b` |
+| 1.20.3 | Hidden `mojmap/.decompile-provenance.json`, SHA-256 `c3d605e55b287e800a86af8567a75edcb009d1a9a1744cfcb4e6f47667dcee0f`; pinned `client.jar` `bef21938224902dd925e2d89dcfe1d2540656d4cf7a5abd2b93e0402d135c655`; `client.txt` `ad03c803d866062909dd378ed5f1611687dc0ed0a76cc7fd57e968a99d641e5f`. Embedded source hashes match. | `f211066a32f5fd2ff3605d0db66f79d7811d7c90ea205caf6b5ce957c0652075` | `07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9` |
+| 1.20.4 | `mojmap.provenance.json` / ready both identify `1.20.4`, namespace/mapping Mojmap, exact-run option Mojmap, Vineflower. Source manifest SHA-256 `fd3c8668483e5ff208c847474f6cbd3952a909c4aa602ed98b24e3d11a9602a1` (matches ready declaration). | `f211066a32f5fd2ff3605d0db66f79d7811d7c90ea205caf6b5ce957c0652075` | `07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9` |
+
+For 1.20 and 1.20.3, root `mojmap.provenance.json` and `mojmap.ready.json` are absent; hidden provenance was checked with hidden-file enumeration and literal reads. Those records pin the listed client and mapping artifacts and embed hashes matching both source files. The hidden schema has no standalone `versionId`; the release labels here are the containing source directories, with artifact identities recorded above. For ready releases, provenance and ready `versionId` values match the directory labels. Ready-file hashes: 1.20.1 `f8dc81374dc42521ee9d17a04ea0dc77f1c5384548cfc01c9621b3d84b670fed`; 1.20.2 `5ff3322f287c250ee914c7ca3840d053bffc3c2c5f35e91b59314d948292483f`; 1.20.4 `6225b97979420cc743c8b7156a0ce512ef27d0dbf48bfffbc40d3e1c8cb044d1`. Provenance-file hashes: 1.20.1 `5aeb1df09671480aeddb921c919e92098e33d0a0bce47e22f82a865cb32400aa`; 1.20.2 `1dad9f725f6cb25b6568700fa0294f83b66ea9633b0d62ed354d7bd8b45d4f05`; 1.20.4 `10914d9b7b3fc29de066ca24f7d905e4d4f0a451a6c81729a2d1981addfc1385`.
+
+## Compared operations and line ranges
+
+The lookup table and methods have the same expressions in every inspected release. `Mth.java` ranges: 1.20–1.20.2 lines 26–48; 1.20.3–1.20.4 lines 31–53. In all five: `SIN` is `float[65536]`; each integer index is populated with `(float)Math.sin(index * Math.PI * 2.0 / 65536.0)`; `sin(float)` indexes `SIN[(int)(angle * 10430.378F) & 65535]`; `cos(float)` indexes `SIN[(int)(angle * 10430.378F + 16384.0F) & 65535]`. Thus both entry points retain float input, float scale/offset, int cast, and 16-bit mask. 1.20.3 adds a `SIN_SCALE = 10430.378F` field, but the methods continue to use the literal and the operation is unchanged.
+
+`Entity.java` method ranges: 1.20–1.20.1 lines 1284–1299; 1.20.2 lines 1294–1309; 1.20.3–1.20.4 lines 1295–1310. All versions call `getInputVector(input, scale, this.getYRot())` from `moveRelative`; the yaw argument is the float `getYRot()` accessor. `getInputVector(Vec3, float, float)` retains the same squared-length gates and normalization/scaling order. Its radians expression is exactly `yaw * (float) (Math.PI / 180.0)`: the constant division is double and is cast to float before multiplication by the float yaw; both `Mth.sin` and `Mth.cos` receive that float. The same X/Z rotation and vector construction follow.
+
+## Semantic classes and endpoint checks
+
+One class for every inspected operation: **{1.20, 1.20.1, 1.20.2, 1.20.3, 1.20.4}**. Consecutive checks 1.20→1.20.1, 1.20.1→1.20.2, 1.20.2→1.20.3, and 1.20.3→1.20.4 found no difference in the table initializer, float `sin`/`cos`, index math, or `moveRelative` / `getInputVector` call path and rotation expression. No changed operation or first observed changed endpoint in this assigned interval; all intervening patch releases were inspected, so no intermediate patch boundary is left unexamined within this interval.
+

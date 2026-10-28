@@ -1,0 +1,57 @@
+{
+  "assignment": "Current 26.2 player pick traversal and shared legacy block-shape writers, compared with 1.8.9; assigned anvil/chest source evidence only",
+  "sourceEvidence": [
+    {
+      "path": "D:/Javastuff/LegacyParkourCompat/development/research/source-evidence/20261026/anvil/development/research/findings/1.8.9--1.9/anvil-collision-query-state.md",
+      "sha256": "0D72B30381F2B6DFC83BC77047E507D8FA4EEB009CAE721C5D30588695E43550"
+    },
+    {
+      "path": "D:/Javastuff/LegacyParkourCompat/development/research/source-evidence/20261026/chest/development/research/findings/1.8.9--1.9/chest-shared-collision-bounds.md",
+      "sha256": "5DFDCDA40731992D73D854DF0E2C1D499105F63B148BB81E9570D96BD165069F"
+    }
+  ],
+  "sources": [
+    {
+      "version": "1.8.9",
+      "mapping": "Ornithe Feather 1.8.9+build.2",
+      "sourceDirectory": "ornithe-feather",
+      "provenance": "D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/1.8.9/ornithe-feather.provenance.json",
+      "provenanceSha256": "BA066FC8F1C7CEB9819D2106338D9E9F2C2B96EB5A8329EB40E171B1F9889185",
+      "files": {
+        "net/minecraft/client/Minecraft.java": "1181BB145EB52ECBA28FCE3DB96FCA1E639C85012472D96EC0BA71BD02E15020",
+        "net/minecraft/client/render/GameRenderer.java": "69B0007074901E5BD617F35039F122F21C67402340FE08B3DAEA1B316C6E7940",
+        "net/minecraft/entity/Entity.java": "D4C10932CB5BB1067A5A58BE4E1BB1B42BDDE3B6FC893D88178CC07435A1696B",
+        "net/minecraft/world/World.java": "3C04F5B874FBB6692039164C882A3C47FE28C7ECA864E91C9AC57798153888EE",
+        "net/minecraft/block/Block.java": "EA10F05106A3CF7189AEC85236A7ECF9C7106A717F37BED583B5EA4ADEFFA528",
+        "net/minecraft/block/ChestBlock.java": "8072BC317398297D1327A3BE4EDD8A66381A1A1021A6C4A8F3FBEEBCA2891D51",
+        "net/minecraft/block/AnvilBlock.java": "7E52C4A86C29548D8DC491FE7D4FF17A79C1DC9F426F538A6C19E161F99F013E"
+      }
+    },
+    {
+      "version": "26.2",
+      "mapping": "unobfuscated",
+      "sourceDirectory": "unobfuscated",
+      "provenance": "D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/26.2/unobfuscated.provenance.json",
+      "provenanceSha256": "A328F5333A1B27AADDE4422B23159A323AE219CCD26F11207C1A5461366F27D1",
+      "files": {
+        "net/minecraft/client/Minecraft.java": "C79D698D2323CB97A7E7570FA736CC7A0B88EAB7ADAB8577E1BC66BA021CCDF0",
+        "net/minecraft/client/player/LocalPlayer.java": "8D089AA09217E3607B38590F7C1623385562800943AC6DFD3D17804E041DA6D6",
+        "net/minecraft/world/entity/Entity.java": "7AFB9C1294893FFE73E3B1ACFFCAD41C648F15DE8378BFF3DFFAFF869BB811D5",
+        "net/minecraft/world/level/BlockGetter.java": "623A44206DB93D8FB2EEFC9353345689CC35E0C1742B5D61789EAB2B098B687D",
+        "net/minecraft/world/level/CollisionGetter.java": "8E7D1A54D27E0F187667439539C59B8892F966F1B9C8107EB162C6D43F830F6C",
+        "net/minecraft/world/level/BlockCollisions.java": "EB8A8F6F07B1D6384F17987818F056D41ADFD6B2AD120D26774BFA550F4FC51E",
+        "net/minecraft/world/level/ClipContext.java": "67F5569E00DAC4169F54C42C2D237B1488EA3C7C8E00889603FC748E3C24ECBC",
+        "net/minecraft/world/level/block/state/BlockBehaviour.java": "9C7A103492D0714C90397DA88EB696912FF6A9CA1C005D984C4746D52637FD1E",
+        "net/minecraft/world/level/block/ChestBlock.java": "8BE5C44FE3E8B5C9F529F58E0E3694A7CE1590A1957C31B72CBEC7B97E061D22",
+        "net/minecraft/world/level/block/TrappedChestBlock.java": "A6ED8870A4F2989C2A78D01AAA55466CE18FDFB3BDEEBE21E6A4B6D62E798F9A",
+        "net/minecraft/world/level/block/AnvilBlock.java": "A15B5EF5067F098A2E6B83D3B934730F376A3420A4CE47C798A6A80D800B9391"
+      }
+    }
+  ],
+  "limits": [
+    "1.8.9 pick and collision-source evidence is corroborated by the assigned 20261026 anvil and chest source evidence files.",
+    "26.2 source identity is pinned to the read-only shared decompilation provenance manifest; direct SHA-256 values bind every cited source file.",
+    "Only the named endpoint releases were compared for this finding; no intermediate patch boundary is established.",
+    "Product source, product history, backlog, and wiki inputs were not consulted."
+  ]
+}
