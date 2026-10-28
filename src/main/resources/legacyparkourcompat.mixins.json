@@ -7,7 +7,6 @@
     "ServerGamePacketListenerMixin"
   ],
   "client": [
-    "PlayerMixin",
     "EntityLavaPresenceMixin",
     "EntityFallDamageMixin",
     "EntityFallDistanceMixin"
