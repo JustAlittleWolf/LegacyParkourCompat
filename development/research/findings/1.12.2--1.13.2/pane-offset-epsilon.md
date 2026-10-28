@@ -1,47 +1,11 @@
-# F-PANE-OFFSET-EPSILON — pane center collision clipped differently at an axis boundary (float and shape corrected snapshot r3)
+# Pane-center collision at a cross-axis epsilon boundary
 
-1.12.2, ornithe-feather; feather-gen2-1.12.2+build.2-mergedv2.jar, feather-gen2-1.12.2+build.2.tiny: `1.12.2/ornithe-feather/net/minecraft/block/PaneBlock.java`, `public void addCollisions(BlockState state, World world, BlockPos pos, Box shape, List<Box> collisions, @Nullable Entity entity, boolean forceShape) {`, lines 54-75.
-1.12.2, ornithe-feather; feather-gen2-1.12.2+build.2-mergedv2.jar, feather-gen2-1.12.2+build.2.tiny: `1.12.2/ornithe-feather/net/minecraft/util/math/Box.java`, `public double intersectX(Box box, double limit) {`, lines 185-203.
-1.13.2, ornithe-feather; feather-gen2-1.13.2+build.2-mergedv2.jar, feather-gen2-1.13.2+build.2.tiny: `1.13.2/ornithe-feather/net/minecraft/block/PaneBlock.java`, `public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos) {`, lines 82-84.
-1.13.2, ornithe-feather; feather-gen2-1.13.2+build.2-mergedv2.jar, feather-gen2-1.13.2+build.2.tiny: `1.13.2/ornithe-feather/net/minecraft/block/shape/VoxelShape.java`, `public double calculateMaxDistance(Direction.Axis axis, Box box, double maxDist) {`, lines 184-186.
-1.13.2, ornithe-feather; feather-gen2-1.13.2+build.2-mergedv2.jar, feather-gen2-1.13.2+build.2.tiny: `1.13.2/ornithe-feather/net/minecraft/block/shape/VoxelShape.java`, `protected double calculateMaxDistance(AxisCycle axisCycle, Box box, double maxDist) {`, lines 188-243.
+Exact Ornithe Feather 1.12.2 PaneBlock.addCollisions, Box.intersectX, World.getCollisions and Entity.move differ from 1.13.2 PaneBlock.getCollisionShape, VoxelShape.calculateMaxDistance, WorldView.getBlockCollisions and Entity.move for the bounded isolated-pane witness below. Independently audited matching relevant bodies extend the old behavior to 1.12 and 1.12.1. The equal-input 1.13/1.13.1/1.13.2 collector audit confirms the pane outcome across that group, despite different aggregation contracts.
 
-Difference: Use the registered `glass_pane` at `(0,64,0)`, with AIR in the four horizontal neighbor positions and no water.
+Use a glass pane at (0,64,0), air on each horizontal side, no water, and matching unconnected pane states. Its center post occupies local X/Z [7/16,9/16]. For the standing player centered at (0.13749,64.2,0.13750005), the float width 0.6 gives maxX 0.43749001192092896 and maxZ 0.43750006192092894. The positive X gap is 9.98807907104382e-6; orthogonal overlap is only 6.192092893986256e-8.
 
-The 1.12.2 state resolves to four false connection flags; the 1.13.2 placement/default path yields the same flags and `WATERLOGGED=false`.
+Given X motion 25/8000 = 0.003125, old strict cross-axis box clipping retains the pane and limits X to that gap. The 1.13 voxel axis calculation indexes the orthogonal coordinate after subtracting 1e-7, so the pane does not limit X and the result remains 0.003125. In 26.2 the modern shape-intersection collector can reject the pane before axis clipping; changing only the clipping primitive cannot restore the old result.
 
-Both providers contribute only the center pane voxel for this state.
+The witness assumes a loaded, dry, interior, airborne neighborhood with no other obstacles, entities, border contact, passenger state, flight or swimming, and zero horizontal input. Equivalent received coordinates and velocity can seed this state. The corrected 26.2 LocalPlayer two-argument suffocation helper does not replace X velocity for the isolated pane/air corners: its suffocating-block predicate fails there. This is a conditional source path, not proof of input-only reachability or runtime parity.
 
-Use a locally controlled airborne player positioned by `Entity.setPosition(0.13749,64.2,0.13750005)`.
-
-The exact resulting double box is X `[-0.16251001192092895,0.43749001192092896]`, Y `[64.2,65.99999995231629]`, Z `[-0.16249996192092894,0.43750006192092894]`, using the float `f` and `g` conversions and operation order cited above.
-
-No other collision shapes, entities, or world-border contact are present.
-
-Set horizontal input to zero and deliver the equivalent entity-velocity packet with X integer `25` and Y/Z integers `0`.
-
-The paired packet handler and `lerpVelocity` set `velocityX=25/8000.0=0.003125`.
-
-The local-player path skips remote-velocity damping, and `0.003125` is not below the strict `0.003` cutoff.
-
-Zero input adds no velocity.
-
-On the ordinary airborne, non-liquid, non-fall-flying path, the next `moveRelative` call therefore passes `(0.003125,0,0)` to `Entity.move` in both versions.
-
-Movement meaning: Use the registered `glass_pane` at `(0,64,0)`, with AIR in the four horizontal neighbor positions and no water.
-
-The 1.12.2 state resolves to four false connection flags; the 1.13.2 placement/default path yields the same flags and `WATERLOGGED=false`.
-
-Both providers contribute only the center pane voxel for this state.
-
-Use a locally controlled airborne player positioned by `Entity.setPosition(0.13749,64.2,0.13750005)`.
-
-The exact resulting double box is X `[-0.16251001192092895,0.43749001192092896]`, Y `[64.2,65.99999995231629]`, Z `[-0.16249996192092894,0.43750006192092894]`, using the float `f` and `g` conversions and operation order cited above.
-
-No other collision shapes, entities, or world-border contact are present.
-
-Set horizontal input to zero and deliver the equivalent entity-velocity packet with X integer `25` and Y/Z integers `0`.
-
-The paired packet handler and `lerpVelocity` set `velocityX=25/8000.0=0.003125`.
-
-The local-player path skips remote-velocity d.
+Source comparisons, exact source references, independent audits, alias closure, corrected LocalPlayer overload analysis and cache-root qualifications are preserved in development/research/source-evidence/20261028/pane-collision/. Historical incorrect and truncated text remains in Git history. Implementation must compose collection eligibility with clipping and retain native behavior outside proven scope.
