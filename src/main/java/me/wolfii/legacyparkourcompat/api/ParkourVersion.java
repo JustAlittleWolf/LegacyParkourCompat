@@ -17,11 +17,11 @@ import java.util.stream.Collectors;
  * movement difference, its registered behavior uses the latest-patch source
  * representative until a minor-version pass adds a dedicated constant.
  *
- * <p>Order is chronological. Changes emulating {@link #V1_8} match 1.8 through
- * 1.8.4, and changes emulating {@link #V1_8_5} match 1.8.5 through 1.8.8.
- * Both are replaced by {@link #V1_8_9} in 1.8.9. Changes emulating
- * {@link #V1_13} match 1.13, and changes emulating {@link #V1_13_1} match
- * 1.13.1 through 1.13.2.
+ * <p>Order is chronological. The {@link #V1_8} profile covers 1.8 through
+ * 1.8.4; {@link #V1_8_5} covers 1.8.5 through 1.8.8; {@link #V1_8_9}
+ * covers 1.8.9. The {@link #V1_13} profile covers 1.13, and
+ * {@link #V1_13_1} covers 1.13.1 through 1.13.2. Per-operation resolution
+ * may select a later-emulating change when no closer change exists.
  *
  * <p>{@link #CURRENT} is the running game / disabled: mixins must not alter Minecraft.
  * Its {@link #id()} is that game's Minecraft version (for example {@code 26.2}).
