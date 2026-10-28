@@ -1,0 +1,11 @@
+# Autojump 1.10 source identity follow-up
+
+Read-only verification on 2026-10-28 against `D:\Javastuff\LegacyParkourCompat\decompiled_minecraft` and the assigned applicability note only.
+
+`1.10/ornithe-feather` contains hidden `.decompile-provenance.json` (found with `Get-ChildItem -Force`). Its `sources` map pins `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java` to SHA-256 `a9637065f21ad67464eb5c204c74ebf228c3bb0da8a96ddf4ae73c0490fed443`, matching `Get-FileHash` of the exact 1.10 class. Metadata SHA-256: `df266e2c3009dd1a873c1665c30fe388078ed1c6227668e10cde87409a18c6da`.
+
+That same hidden provenance pins the 1.10 Feather Gen2 merged mapping artifact `feather-gen2/1.10+build.2` to SHA-256 `ad7cf6744d81d0260c9d97ddfe8250b2fdbd54fe332d4d00266b3545d8ddf8dd`, the Feather 1.10 version metadata to `a1eb1ccff25e2b76fa1d08e9b515508e97ac4837fbcacbd7f77b3a01026d3950`, Mojang's 1.10 client jar to `c00f8170ebf4fd834f552246743a64885a6dffb3dd1e3a3f3dba9676b7a0af35`, and its version JSON to `462441ee38c35c6ad52ffe2ab668b217eb2b29b51de25f1774a454560bc3a261`. The recorded decompile pipeline is `lpc-decompile-v1` with Vineflower 1.12.0 and pinned ASM, Mapping IO, Gson, and Tiny Remapper tool jars. This is artifact-bound provenance for the exact 1.10 source, not merely a source-only note.
+
+As cross-check only, the 1.10.2 Feather `LocalClientPlayerEntity.java` has the identical SHA-256, and its `ornithe-feather.sources.sha256` manifest contains the same hash. Its provenance identifies a separate 1.10.2+build.2 mapping batch (`1.10.2, 1.11.2, 1.12.2`); that cross-check is not the basis for the 1.10 identity conclusion.
+
+Correction to the assigned applicability note's “exact 1.10 decompilation/mapping-artifact run identity remains unresolved” statement: the 1.10 class and mapping/game inputs are hash-bound in hidden provenance, so that identity gap is closed. Limit: this older provenance schema has no explicit run command, batch-version list, or cache-directory field; those execution details remain unrecorded in this metadata.
