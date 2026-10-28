@@ -15,8 +15,8 @@ import net.minecraft.world.phys.AABB;
  * PlayerEntity.updatePlayerPose (including isDoingSpinAttack/isSneaking); the
  * current adapter is 26.2 unobfuscated Player.updatePlayerPose, Player.isAutoSpinAttack
  * and Entity.isShiftKeyDown (which reads the same shared flag as 1.13 Entity.isSneaking).
- * The post-native adapter uses the requested pose to exclude modern-only states but still
- * applies the historical fit when the native selector retains an entity/border fallback pose.
+ * The post-native adapter excludes modern-only pose states and evaluates the historical fit
+ * despite native entity/border fallback, retaining modern crawl when the old resize cannot apply.
  */
 @MovementChange(emulates = ParkourVersion.V1_13)
 public final class PlayerPoseUpdate implements PlayerPoseHook {
@@ -28,9 +28,8 @@ public final class PlayerPoseUpdate implements PlayerPoseHook {
         // Entity.refreshDimensions (3393-3400) before this TAIL hook; use the HEAD snapshot so a rejected
         // historical fit retains the pre-native dimensions and box.
         // 26.2/unobfuscated Pose.java lists states absent from the 1.13 pose operation; retain
-        // native behavior for them. The mixin excludes a desired SWIMMING pose when the player is
-        // crawling, so a CROUCHING fallback caused only by modern entity/border checks can still be
-        // resized according to the old block-only fit operation.
+        // native behavior for them. A native crawl fallback is retained below when the historical
+        // resize rejects or is a no-op; entity/border rejection alone does not veto the old fit.
         Pose currentPose = player.getPose();
         if (currentPose != Pose.STANDING && currentPose != Pose.FALL_FLYING
             && currentPose != Pose.SLEEPING && currentPose != Pose.SWIMMING
