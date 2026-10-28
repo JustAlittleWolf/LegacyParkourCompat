@@ -53,15 +53,13 @@ public final class WaterCurrent implements WaterCurrentHook {
         int depth = state.getValue(LiquidBlock.LEVEL);
         for (Direction direction : Direction.Plane.HORIZONTAL) {
             BlockPos adjacent = pos.relative(direction);
-            if (!historicalHeight(adjacent)) return Optional.empty();
-            BlockState neighbor = level.getBlockState(adjacent);
+            BlockState neighbor = historicalState(level, adjacent);
             if (!supported(neighbor)) return Optional.empty();
             int other = depth(neighbor);
             if (other < 0) {
                 if (neighbor.isAir()) {
                     BlockPos belowPosition = adjacent.below();
-                    if (!historicalHeight(belowPosition)) return Optional.empty();
-                    BlockState below = level.getBlockState(belowPosition);
+                    BlockState below = historicalState(level, belowPosition);
                     if (!supported(below)) return Optional.empty();
                     other = depth(below);
                     if (other >= 0) {
@@ -83,6 +81,11 @@ public final class WaterCurrent implements WaterCurrentHook {
 
     private static boolean historicalHeight(BlockPos pos) {
         return pos.getY() >= 0 && pos.getY() < 256;
+    }
+
+    private static BlockState historicalState(Level level, BlockPos pos) {
+        // 1.8.9 World.getBlockState returns air outside its [0, 256) height.
+        return historicalHeight(pos) ? level.getBlockState(pos) : Blocks.AIR.defaultBlockState();
     }
 
     private static boolean supported(BlockState state) {

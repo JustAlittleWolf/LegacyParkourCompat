@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.mechanic.water;
 
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterCurrentHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.world.FlowScanAreaAdmissionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.world.WaterFlowScanBoundHook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
@@ -41,14 +42,24 @@ public final class WaterScan {
 
     public static Optional<Result> scan(Player player, Optional<WaterBodyContactHook> body,
                                         Optional<WaterCurrentHook> current,
-                                        Optional<WaterFlowScanBoundHook> flowBound) {
+                                        Optional<WaterFlowScanBoundHook> flowBound,
+                                        Optional<FlowScanAreaAdmissionHook> flowAdmission) {
         Optional<AABB> selected = body.flatMap(hook -> hook.probe(player.getBoundingBox()));
         boolean replacesContact = selected.isPresent();
         AABB flowOnlyBox = selected.isEmpty() && flowBound.isPresent()
             ? legacyFlowQuery(player.getBoundingBox()) : null;
         boolean hasFlowOnlyBound = flowOnlyBox != null && hasHistoricalUpperBound(flowBound.get(), flowOnlyBox);
+        int flowOnlyX0 = flowOnlyBox == null ? 0 : Mth.floor(flowOnlyBox.minX);
+        int flowOnlyY0 = flowOnlyBox == null ? 0 : Mth.floor(flowOnlyBox.minY);
+        int flowOnlyZ0 = flowOnlyBox == null ? 0 : Mth.floor(flowOnlyBox.minZ);
+        int flowOnlyX1 = flowOnlyBox == null ? 0 : exclusiveUpperBound(flowBound, flowOnlyBox.maxX);
+        int flowOnlyY1 = flowOnlyBox == null ? 0 : exclusiveUpperBound(flowBound, flowOnlyBox.maxY);
+        int flowOnlyZ1 = flowOnlyBox == null ? 0 : exclusiveUpperBound(flowBound, flowOnlyBox.maxZ);
+        boolean flowOnlyAdmitted = hasFlowOnlyBound && flowAdmission.map(hook -> hook.admits(
+            flowOnlyX0, flowOnlyY0, flowOnlyZ0, flowOnlyX1, flowOnlyY1, flowOnlyZ1
+        )).orElse(false);
         boolean replacesCurrent = current.filter(WaterCurrentHook::replacesNativeCurrent).isPresent()
-            && (selected.isPresent() || hasFlowOnlyBound);
+            && (selected.isPresent() || flowOnlyAdmitted);
         if ((!replacesContact && !replacesCurrent) || !supportsFeatures(player)) return Optional.empty();
         if (player.getVehicle() instanceof AbstractBoat) {
             return Optional.of(new Result(false, Vec3.ZERO, replacesContact, replacesCurrent));
@@ -63,12 +74,15 @@ public final class WaterScan {
         int y1 = contactBox == null ? 0 : Mth.ceil(contactBox.maxY);
         int z0 = contactBox == null ? 0 : Mth.floor(contactBox.minZ);
         int z1 = contactBox == null ? 0 : Mth.ceil(contactBox.maxZ);
-        int flowX0 = flowBox == null ? 0 : Mth.floor(flowBox.minX);
-        int flowY0 = flowBox == null ? 0 : Mth.floor(flowBox.minY);
-        int flowZ0 = flowBox == null ? 0 : Mth.floor(flowBox.minZ);
-        int flowX1 = flowBox == null ? 0 : exclusiveUpperBound(flowBound, flowBox.maxX);
-        int flowY1 = flowBox == null ? 0 : exclusiveUpperBound(flowBound, flowBox.maxY);
-        int flowZ1 = flowBox == null ? 0 : exclusiveUpperBound(flowBound, flowBox.maxZ);
+        int flowX0 = flowOnlyBox != null ? flowOnlyX0 : flowBox == null ? 0 : Mth.floor(flowBox.minX);
+        int flowY0 = flowOnlyBox != null ? flowOnlyY0 : flowBox == null ? 0 : Mth.floor(flowBox.minY);
+        int flowZ0 = flowOnlyBox != null ? flowOnlyZ0 : flowBox == null ? 0 : Mth.floor(flowBox.minZ);
+        int flowX1 = flowOnlyBox != null ? flowOnlyX1
+            : flowBox == null ? 0 : exclusiveUpperBound(flowBound, flowBox.maxX);
+        int flowY1 = flowOnlyBox != null ? flowOnlyY1
+            : flowBox == null ? 0 : exclusiveUpperBound(flowBound, flowBox.maxY);
+        int flowZ1 = flowOnlyBox != null ? flowOnlyZ1
+            : flowBox == null ? 0 : exclusiveUpperBound(flowBound, flowBox.maxZ);
         Level level = player.level();
         AABB nativeBox = player.getFluidInteractionBox();
         if (nativeBox == null) return Optional.empty();
@@ -78,7 +92,14 @@ public final class WaterScan {
         int scanX1 = Math.max(Math.max(x1, flowX1), Mth.ceil(nativeBox.maxX));
         int scanY1 = Math.max(Math.max(y1, flowY1), Mth.ceil(nativeBox.maxY));
         int scanZ1 = Math.max(Math.max(z1, flowZ1), Mth.ceil(nativeBox.maxZ));
-        if (scanY0 < 0 || scanY1 > 256) return Optional.empty();
+        if (flowOnlyAdmitted) {
+            // 1.8.9 World.getBlockState returns air outside [0, 256); the old
+            // admission only requires vertical overlap, so clip those reads.
+            scanY0 = Math.max(scanY0, 0);
+            scanY1 = Math.min(scanY1, 256);
+        } else if (scanY0 < 0 || scanY1 > 256) {
+            return Optional.empty();
+        }
         boolean contactFound = false;
         Vec3 total = Vec3.ZERO;
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();

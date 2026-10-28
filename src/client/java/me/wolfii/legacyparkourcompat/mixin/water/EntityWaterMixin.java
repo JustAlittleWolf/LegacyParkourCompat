@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterCurrentHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.world.FlowScanAreaAdmissionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.world.WaterFlowScanBoundHook;
 import me.wolfii.legacyparkourcompat.mechanic.water.WaterContext;
 import me.wolfii.legacyparkourcompat.mechanic.water.WaterScan;
@@ -42,15 +43,21 @@ public abstract class EntityWaterMixin implements WaterContext {
         target = "Lnet/minecraft/world/entity/EntityFluidInteraction;isInFluid(Lnet/minecraft/tags/TagKey;)Z", ordinal = 0))
     private boolean legacyparkourcompat$contact(boolean nativeContact) {
         Entity entity = (Entity)(Object)this;
-        // The native tracker has finished updating eyes/depth/lava. Select once,
-        // before contact effects/current, and retain that decision for consumers.
+        // The native tracker has finished updating eyes/depth/lava. Apply the
+        // old flow impulse before native water contact effects, then retain the
+        // independent contact/current decisions for later consumers.
         if (entity instanceof Player player) {
             legacyparkourcompat$water = WaterScan.scan(
                 player,
                 MovementRuntime.find(WaterBodyContactHook.class, player),
                 MovementRuntime.find(WaterCurrentHook.class, player),
-                MovementRuntime.find(WaterFlowScanBoundHook.class, player)
+                MovementRuntime.find(WaterFlowScanBoundHook.class, player),
+                MovementRuntime.find(FlowScanAreaAdmissionHook.class, player)
             ).orElse(null);
+            if (legacyparkourcompat$water != null && legacyparkourcompat$water.replacesCurrent()
+                && !legacyparkourcompat$water.impulse().equals(net.minecraft.world.phys.Vec3.ZERO)) {
+                entity.setDeltaMovement(entity.getDeltaMovement().add(legacyparkourcompat$water.impulse()));
+            }
         }
         return legacyparkourcompat$water == null || !legacyparkourcompat$water.replacesContact()
             ? nativeContact : legacyparkourcompat$water.contact();
