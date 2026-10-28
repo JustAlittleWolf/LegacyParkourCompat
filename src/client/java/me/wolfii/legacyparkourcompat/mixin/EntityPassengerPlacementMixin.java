@@ -39,9 +39,10 @@ abstract class EntityPassengerPlacementMixin {
         }
 
         float previousBodyYaw = player.getYBodyRot();
-        original.call(vehicle, passenger, moveFunction);
         Vec3 position = historical.position();
-        moveFunction.accept(passenger, position.x, position.y, position.z);
+        Entity.MoveFunction historicalMove = (entity, x, y, z) ->
+            moveFunction.accept(entity, position.x, position.y, position.z);
+        original.call(vehicle, passenger, historicalMove);
 
         if (historical.rotationEffect() == RotationEffect.SUPPRESS_NATIVE_BODY_YAW_COPY) {
             player.setYBodyRot(previousBodyYaw);
