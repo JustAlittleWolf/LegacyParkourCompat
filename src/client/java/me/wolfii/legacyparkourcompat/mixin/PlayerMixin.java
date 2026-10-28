@@ -1,8 +1,10 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.BubbleColumnPlayerCallbackHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PlayerEyeWaterQueryHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.AirSpeedHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.FlightFallDistanceHook;
@@ -19,6 +21,7 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.Vec3;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -30,6 +33,39 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
 abstract class PlayerMixin {
+    // Keep Player's native super calls intact, including the inside callback's fall-distance reset.
+    @ModifyExpressionValue(
+        method = "onAboveBubbleColumn(ZLnet/minecraft/core/BlockPos;)V",
+        at = @At(
+            value = "FIELD",
+            target = "Lnet/minecraft/world/entity/player/Abilities;flying:Z",
+            opcode = Opcodes.GETFIELD
+        )
+    )
+    private boolean legacyparkourcompat$forceLegacyAboveBubbleCallback(boolean flying) {
+        Player player = (Player)(Object)this;
+        return MovementRuntime.find(BubbleColumnPlayerCallbackHook.class, player)
+            .flatMap(hook -> hook.forceLegacyCallback(player))
+            .map(forceLegacy -> forceLegacy ? false : flying)
+            .orElse(flying);
+    }
+
+    @ModifyExpressionValue(
+        method = "onInsideBubbleColumn(Z)V",
+        at = @At(
+            value = "FIELD",
+            target = "Lnet/minecraft/world/entity/player/Abilities;flying:Z",
+            opcode = Opcodes.GETFIELD
+        )
+    )
+    private boolean legacyparkourcompat$forceLegacyInsideBubbleCallback(boolean flying) {
+        Player player = (Player)(Object)this;
+        return MovementRuntime.find(BubbleColumnPlayerCallbackHook.class, player)
+            .flatMap(hook -> hook.forceLegacyCallback(player))
+            .map(forceLegacy -> forceLegacy ? false : flying)
+            .orElse(flying);
+    }
+
     /**
      * 1.13.2 Feather {@code PlayerEntity#tick/updateWaterSubmersion} queries water before inherited
      * {@code Entity#tick}. In 26.2, {@code Player#tick/updateIsUnderwater} reads the cached eye tracker
