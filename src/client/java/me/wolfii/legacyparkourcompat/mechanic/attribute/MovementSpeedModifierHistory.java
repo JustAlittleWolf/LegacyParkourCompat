@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.mechanic.attribute;
 
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.PlayerMovementSpeedHook;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -10,10 +11,11 @@ import java.util.Set;
 /** Bounded provenance captured from an attribute's construction onward. */
 public final class MovementSpeedModifierHistory {
     private final Set<Identifier> identifiers = new HashSet<>();
-    private boolean boundedTotalOnly = true;
+    private boolean complete = true;
+    private boolean totalOnly = true;
 
     public void observe(Map<AttributeModifier.Operation, Map<Identifier, AttributeModifier>> operations) {
-        if (!boundedTotalOnly) {
+        if (!complete) {
             return;
         }
         for (var operation : operations.entrySet()) {
@@ -21,25 +23,23 @@ public final class MovementSpeedModifierHistory {
                 continue;
             }
             if (operation.getKey() != AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL) {
-                boundedTotalOnly = false;
-                return;
+                totalOnly = false;
             }
             for (Identifier identifier : operation.getValue().keySet()) {
                 identifiers.add(identifier);
                 if (identifiers.size() > 3) {
-                    boundedTotalOnly = false;
+                    complete = false;
                     identifiers.clear();
-                    return;
+                    break;
                 }
+            }
+            if (!complete) {
+                break;
             }
         }
     }
 
-    public boolean boundedTotalOnly() {
-        return boundedTotalOnly;
-    }
-
-    public Set<Identifier> identifiers() {
-        return Set.copyOf(identifiers);
+    public PlayerMovementSpeedHook.History snapshot() {
+        return new PlayerMovementSpeedHook.History(identifiers, complete, totalOnly);
     }
 }
