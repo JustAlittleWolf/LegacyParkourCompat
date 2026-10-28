@@ -16,11 +16,16 @@ import java.util.Optional;
 /**
  * 1.12/1.12.1/1.12.2 Feather: World.applyLiquidDrag, LiquidBlock.getFlow,
  * PlayerEntity.hasLiquidCollision, Vec3d.normalize/length and MathHelper.sqrt(double).
- * 1.8.9 and 1.9.4 Feather: World.applyLiquidDrag, LiquidBlock.applyMaterialDrag,
- * LiquidBlock.getFlow and PlayerEntity.hasLiquidCollision retain the same
- * horizontal depth-difference flow, per-cell/aggregate normalization and
- * nonflying impulse gates. This hook returns empty for dependencies outside its
- * bounded provider set, leaving those cases on the native path.
+ * Raw 1.8.0/1.8.1 Feather Gen2 bytecode and the byte-identical 1.8.2-1.8.9
+ * Feather sources: World.applyLiquidDrag, LiquidBlock.applyMaterialDrag,
+ * LiquidBlock.getLiquidDepth/getFlow and PlayerEntity.hasLiquidCollision
+ * preserve the same coupled flow scan and player-flight gate. The accepted
+ * 1.8.9 source has getLiquidDepth/getFlow at LiquidBlock.java:53-56, 129-165,
+ * and PlayerEntity.hasLiquidCollision at PlayerEntity.java:1617-1619. The
+ * adjacent 1.9.4 Feather sources retain the same horizontal depth-difference
+ * flow, per-cell/aggregate normalization and nonflying impulse gates. This hook
+ * returns empty for dependencies outside its bounded provider set, leaving
+ * those cases on the native path.
  * Replaced in 1.13 Feather: Entity.m_69693160 (player averaging/depth weighting);
  * 26.2 unobfuscated: EntityFluidInteraction.Tracker.applyCurrentTo.
  * Normalize the sum even for players; float-rounded sqrt is historical behavior.

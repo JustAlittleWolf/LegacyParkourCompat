@@ -235,8 +235,8 @@ public final class WaterScan {
     }
 
     private static AABB legacyFlowQuery(AABB body) {
-        // 1.8.9 Entity.checkWaterCollisions passes this exact transformed shape
-        // to World.applyLiquidDrag; retain the source float literal conversion.
+        // 1.8.0-1.8.9 Entity.checkWaterCollisions passes this exact transformed
+        // shape to World.applyLiquidDrag; retain the source float literal conversion.
         return new AABB(body.minX, body.minY - -0.4F, body.minZ,
             body.maxX, body.maxY + -0.4F, body.maxZ).deflate(0.001);
     }
