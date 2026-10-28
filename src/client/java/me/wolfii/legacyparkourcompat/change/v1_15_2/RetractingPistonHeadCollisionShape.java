@@ -2,6 +2,8 @@ package me.wolfii.legacyparkourcompat.change.v1_15_2;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.hook.movingpiston.ShortArmThresholdHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockCollisionShapeHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.PistonMovingBlockEntityAccessor;
 import net.minecraft.core.BlockPos;
@@ -62,7 +64,10 @@ public final class RetractingPistonHeadCollisionShape implements BlockCollisionS
         VoxelShape baseShape = extendedBaseState.getCollisionShape(level, pos);
         BlockState headState = Blocks.PISTON_HEAD.defaultBlockState()
             .setValue(PistonHeadBlock.FACING, piston.getDirection())
-            .setValue(PistonHeadBlock.SHORT, piston.isExtending() != 1.0F - progress < 4.0F);
+            .setValue(PistonHeadBlock.SHORT, piston.isExtending() != MovementRuntime.find(
+                ShortArmThresholdHook.class, MovementRuntime.playerFrom(context))
+                .map(hook -> hook.isShort(progress, 1.0F - progress < 4.0F))
+                .orElseGet(() -> 1.0F - progress < 4.0F));
 
         Direction direction = piston.getDirection();
         float extendedProgress = 1.0F - progress;
