@@ -141,8 +141,8 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
     )
     private void legacyparkourcompat$captureWaterProbeForBaseTick(CallbackInfo callbackInfo) {
         Entity entity = (Entity) (Object) this;
-        if (MovementRuntime.profile(entity).target() == ParkourVersion.V1_16
-            && MovementRuntime.find(LavaResultProjectionHook.class, entity).isPresent()) {
+        var projection = MovementRuntime.find(LavaResultProjectionHook.class, entity);
+        if (projection.isPresent() && MovementRuntime.profile(entity).target() == ParkourVersion.V1_16) {
             this.legacyparkourcompat$setWaterProbeForBaseTick(LegacyWaterPresenceProbe.probe(entity));
         } else {
             this.legacyparkourcompat$clearWaterProbeForBaseTick();
@@ -160,12 +160,12 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
 
     @Unique
     private static boolean legacyparkourcompat$suppressWaterFirstLavaResult(Entity entity) {
-        if (MovementRuntime.profile(entity).target() != ParkourVersion.V1_16
-            || !(entity instanceof WaterFirstLavaProjectionContext context)
+        if (!(entity instanceof WaterFirstLavaProjectionContext context)
             || !context.legacyparkourcompat$hasWaterProbeForBaseTick()) {
             return false;
         }
         return MovementRuntime.find(LavaResultProjectionHook.class, entity)
+            .filter(hook -> MovementRuntime.profile(entity).target() == ParkourVersion.V1_16)
             .map(hook -> !hook.allowLavaResults(context.legacyparkourcompat$waterProbeForBaseTick()))
             .orElse(false);
     }
