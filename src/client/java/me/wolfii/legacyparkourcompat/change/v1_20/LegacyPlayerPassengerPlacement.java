@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.mechanic.hook.entity;
+package me.wolfii.legacyparkourcompat.change.v1_20;
 
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.PlayerPassengerPlacementHook.Carrier;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.PlayerPassengerPlacementHook.Input;
