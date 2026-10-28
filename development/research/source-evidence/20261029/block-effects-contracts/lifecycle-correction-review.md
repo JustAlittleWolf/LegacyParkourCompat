@@ -1,0 +1,7 @@
+# Independent review: citation correction supplement
+
+Verdict: **ACCEPT**. The supplement SHA-256 is `54c53d4af8c0602e7db6b50232f34fd404abaee635f36bb24138a9c1e3a6133b`. Its bound report hash matches the current report bytes (`c4468295b043b2457e561c49d2c741d7c783f80a766ec303390cb6d889651db6`), and its bound audit hash matches the current audit bytes (`cc9dea88864e9a62a552f9c04ad05f7f5c9c4eb6f1ddb7609861afa293cbf400`).
+
+I independently rehashed the six canonical `LivingEntity.java` files and verified each listed `aiStep()` declaration and callback line. The references are source-accurate: 1.21.4 declaration 2691/callback 2786 (SHA `e62ce650af0a5ac97e4d0a2ba7cad4ba68a8d098525609f8b5b6976a8ab0ae30`); 1.21.5 2669/2770 (`a8aed863d4fdc515c751dd2878a8bb9c13179228cb8dbb50edf1d19cd5404271`); 1.21.6–1.21.8 2721/2822 (each `609f0197a0b4551ab42279e452c11cdd256135b1d467c2a95950b0e9fd7ddef8`); 1.21.9 2751/2852 (`b8b49d60769203f7bd5afe4a1bffcdcdbec30be28960324cdc43a2df85a6eb66`). At every callback line, `applyEffectsFromBlocks()` follows `travel(...)` and is guarded by the cited local-authority condition.
+
+The supplement accurately limits its correction to the method name and exact references. Original report and audit remain unchanged. This review adds no pair-freeze or runtime claim.
