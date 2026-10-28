@@ -1,6 +1,7 @@
 package me.wolfii.legacyparkourcompat.change.v1_13;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+import me.wolfii.legacyparkourcompat.change.common.LegacyTrig;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.InputAccelerationHook;
 import me.wolfii.legacyparkourcompat.mechanic.input.KeyboardInputSupport;
@@ -47,8 +48,10 @@ public final class InputAcceleration implements InputAccelerationHook {
             sideways *= length;
             vertical *= length;
             forward *= length;
-            float sin = Mth.sin(player.getYRot() * (float)(Math.PI / 180.0));
-            float cos = Mth.cos(player.getYRot() * (float)(Math.PI / 180.0));
+            // Feather 1.13.2 MathHelper indexes the table with float arithmetic;
+            // unobfuscated 26.2 Mth uses double indexing even for a float angle.
+            float sin = LegacyTrig.sin(player.getYRot() * (float)(Math.PI / 180.0));
+            float cos = LegacyTrig.cos(player.getYRot() * (float)(Math.PI / 180.0));
             Vec3 movement = player.getDeltaMovement();
             player.setDeltaMovement(
                 movement.x + (sideways * cos - forward * sin),

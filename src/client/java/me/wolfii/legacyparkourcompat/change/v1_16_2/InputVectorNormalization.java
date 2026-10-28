@@ -1,10 +1,10 @@
 package me.wolfii.legacyparkourcompat.change.v1_16_2;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+import me.wolfii.legacyparkourcompat.change.common.LegacyTrig;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.InputVectorHook;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
 /**
@@ -31,8 +31,10 @@ public final class InputVectorNormalization implements InputVectorHook {
                 : new Vec3(input.x / divisor, input.y / divisor, input.z / divisor);
         }
         Vec3 movement = normalized.scale(speed);
-        float sin = Mth.sin(yaw * (float)(Math.PI / 180.0));
-        float cos = Mth.cos(yaw * (float)(Math.PI / 180.0));
+        // Mojmap 1.16.5 Mth uses float table indexing, unlike 26.2 Mth's
+        // double-indexed lookup. Preserve the historical rotation as well.
+        float sin = LegacyTrig.sin(yaw * (float)(Math.PI / 180.0));
+        float cos = LegacyTrig.cos(yaw * (float)(Math.PI / 180.0));
         return new Vec3(movement.x * cos - movement.z * sin, movement.y, movement.z * cos + movement.x * sin);
     }
 }
