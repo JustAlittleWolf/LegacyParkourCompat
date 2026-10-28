@@ -5,9 +5,10 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.world.FlowScanAreaAdmissionHook;
 
 /**
- * Reproduces 1.8.9's client-side vertical admission for the liquid flow scan.
+ * Reproduces 1.8.0-1.8.9 client-side vertical admission for the liquid flow scan.
  *
- * <p>In the Ornithe Feather (Feather Gen2 build 2) 1.8.9 sources,
+ * <p>In raw 1.8.0/1.8.1 clients mapped with Feather Gen2 build 2 Tiny and the
+ * byte-identical Ornithe Feather sources from 1.8.2 through 1.8.9,
  * {@code net.minecraft.world.World.applyLiquidDrag(Box,
  * Material, Entity)} passes the computed integer bounds to
  * {@code World.isAreaLoaded(int, int, int, int, int, int, boolean)}; the latter
@@ -17,8 +18,10 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.world.FlowScanAreaAdmissionHo
  * returns the empty chunk when absent, so that loop cannot reject horizontal
  * coordinates (ClientChunkCache.java:31, 54-57).
  *
- * <p>The adjacent 1.9.4 Ornithe Feather sources retain the same Y-overlap test
- * in {@code World.isAreaLoaded} and pass it from {@code World.applyLiquidDrag}
+ * <p>The 1.8.0-1.8.9 client operation therefore has the same admission across
+ * this provider's resolver range. The adjacent 1.9.4 Ornithe Feather sources
+ * retain the same Y-overlap test in {@code World.isAreaLoaded} and pass it from
+ * {@code World.applyLiquidDrag}
  * (World.java:216-235, 1560-1602). In current 26.2 unobfuscated sources,
  * {@code EntityFluidInteraction.hasFluidAndLoaded} instead requires FULL chunks
  * and fluid in a scanned section (EntityFluidInteraction.java:91-113), while
