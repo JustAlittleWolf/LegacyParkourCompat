@@ -10,7 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 
 /** Preserves the prior V1_8 body-size and vanilla eye-height behavior. */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_5)
 public final class Pre189SneakingDimensions implements PlayerDimensionsHook, PlayerPoseHook {
     @Override
     public boolean updatePose(Player player, EntityDimensions previousDimensions, AABB previousBox, float previousEyeHeight) {

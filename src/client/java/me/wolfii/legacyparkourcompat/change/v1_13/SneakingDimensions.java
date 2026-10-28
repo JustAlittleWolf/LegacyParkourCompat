@@ -26,7 +26,7 @@ import net.minecraft.world.entity.player.Player;
  *   1.13.2 original Feather mapped-client JAR remains unavailable; revised source equality does not prove original derived-JAR equivalence.
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class SneakingDimensions implements PlayerDimensionsHook {
     @Override
     public EntityDimensions dimensions(Player player, Pose pose, EntityDimensions vanilla) {

@@ -18,7 +18,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
  * Modern custom jump strength/scale and non-unit block jump factors retain
  * their supplied native power rather than suppressing modern-only features.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class DoubleJumpBoostAddition implements JumpPowerHook {
     @Override
     public double jumpPower(LivingEntity entity, double vanilla) {

@@ -10,7 +10,7 @@ import net.minecraft.world.phys.Vec3;
  * separate inCobweb flag; this field-based hook has no operation to emulate
  * in that era.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class PistonStuckSpeed implements PistonStuckSpeedHook {
     public PistonStuckSpeed() {
     }

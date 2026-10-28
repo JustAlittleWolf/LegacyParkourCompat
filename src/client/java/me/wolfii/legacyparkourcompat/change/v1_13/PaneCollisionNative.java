@@ -20,7 +20,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 /** Native fence for the grouped 1.13 collector range, whose pane collector parity is not implemented here. */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class PaneCollisionNative implements BlockCollisionShapeHook, BlockMovementCollisionHook {
     private final String blockId;
 

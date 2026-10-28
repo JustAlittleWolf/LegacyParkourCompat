@@ -18,7 +18,7 @@ import net.minecraft.world.entity.MoverType;
  * Entity.move); the targeted constant is the movement-length comparison, not the
  * earlier stuck-speed or piston-specific checks.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class ResolvedMovementCutoff implements ResolvedMovementCutoffHook {
     public ResolvedMovementCutoff() {
     }

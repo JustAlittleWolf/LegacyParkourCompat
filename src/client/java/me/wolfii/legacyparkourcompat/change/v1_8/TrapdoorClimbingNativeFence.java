@@ -8,7 +8,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.player.TrapdoorClimbingHook;
  * Keeps native 26.2 trapdoor climbing for profiles before the first accepted
  * source comparison, 1.8.9.
  */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_5)
 public final class TrapdoorClimbingNativeFence implements TrapdoorClimbingHook {
     public TrapdoorClimbingNativeFence() {
     }

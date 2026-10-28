@@ -7,7 +7,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.world.WaterFlowScanBoundHook;
 import java.util.OptionalInt;
 
 /** Keeps the native scan bound for 1.8–1.8.8 profiles. */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_5)
 public final class NativeWaterFlowScanBound implements WaterFlowScanBoundHook {
     public NativeWaterFlowScanBound() {
     }

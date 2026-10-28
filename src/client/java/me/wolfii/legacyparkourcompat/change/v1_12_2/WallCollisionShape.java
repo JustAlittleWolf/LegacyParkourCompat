@@ -24,7 +24,7 @@ import java.util.OptionalDouble;
  * {@code getShapeIndex} use the same two horizontal extents represented here. In 1.13
  * and 1.13.2 the component shape is selected by wall UP state and pane connection mask.
  */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_5)
 public final class WallCollisionShape implements WallCollisionShapeHook {
     private final String blockId;
 

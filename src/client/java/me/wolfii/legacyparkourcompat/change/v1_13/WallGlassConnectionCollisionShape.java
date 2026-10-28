@@ -36,7 +36,7 @@ import java.util.OptionalDouble;
  * This change removes only connected glass sides from the native wall state;
  * its other side flags remain the source for the old component union.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class WallGlassConnectionCollisionShape implements WallCollisionShapeHook {
     private final String blockId;
 

@@ -23,7 +23,7 @@ import java.util.Optional;
  * bed state or entry eligibility. Non-red beds are modern-only before 1.12
  * and retain native collision in those profiles.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class BedCollisionShape implements BlockCollisionShapeHook {
     private static final VoxelShape SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 9.0, 16.0);
     private final String blockId;
