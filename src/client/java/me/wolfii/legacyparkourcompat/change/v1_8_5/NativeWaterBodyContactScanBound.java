@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change.v1_8;
+package me.wolfii.legacyparkourcompat.change.v1_8_5;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -10,7 +10,7 @@ import java.util.OptionalInt;
  * Keeps profiles before the bounded 1.8.9 integration on native bounds.
  * This fallback fence does not assert historical equivalence for earlier profiles.
  */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_5)
 public final class NativeWaterBodyContactScanBound implements WaterBodyContactScanBoundHook {
     public NativeWaterBodyContactScanBound() {
     }
