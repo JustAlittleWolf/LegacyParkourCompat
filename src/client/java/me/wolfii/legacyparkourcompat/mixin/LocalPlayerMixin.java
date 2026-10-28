@@ -11,6 +11,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingClimbableGat
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingFlightToggleGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpCollisionOrderHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpBorderCandidateHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpFallbackTrigHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpInverseSqrtHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.FlightActivationJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.FlightSneakInputHook;
@@ -459,6 +460,30 @@ abstract class LocalPlayerMixin {
         return MovementRuntime.find(AutoJumpInverseSqrtHook.class, player)
             .map(behavior -> behavior.inverseSqrt(player, MovementRuntime.profile(player).target(), value, vanilla))
             .orElse(vanilla);
+    }
+
+    @WrapOperation(
+        method = "updateAutoJump(FF)V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;sin(D)F"),
+        require = 1
+    )
+    private float legacyparkourcompat$autoJumpFallbackSin(double radians, Operation<Float> vanilla) {
+        LocalPlayer player = (LocalPlayer) (Object) this;
+        return MovementRuntime.find(AutoJumpFallbackTrigHook.class, player)
+            .map(change -> change.sin((float) radians))
+            .orElseGet(() -> vanilla.call(radians));
+    }
+
+    @WrapOperation(
+        method = "updateAutoJump(FF)V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;cos(D)F"),
+        require = 1
+    )
+    private float legacyparkourcompat$autoJumpFallbackCos(double radians, Operation<Float> vanilla) {
+        LocalPlayer player = (LocalPlayer) (Object) this;
+        return MovementRuntime.find(AutoJumpFallbackTrigHook.class, player)
+            .map(change -> change.cos((float) radians))
+            .orElseGet(() -> vanilla.call(radians));
     }
 
     @WrapOperation(
