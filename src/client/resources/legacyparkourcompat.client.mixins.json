@@ -41,6 +41,7 @@
     "HoneyBlockMixin",
     "FarmlandBlockMixin",
     "EntityMixin",
+    "EntityPassengerPlacementMixin",
     "EntitySweptShapeIntersectionMixin",
     "EntityCallbackTraversalMixin",
     "EntityBlockCallbackSegmentMixin",
