@@ -1,6 +1,8 @@
 package me.wolfii.legacyparkourcompat.mechanic.water;
 
+import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactAreaAdmissionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactScanBoundHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterCurrentHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.world.FlowScanAreaAdmissionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.world.WaterFlowScanBoundHook;
@@ -20,10 +22,10 @@ import java.util.OptionalInt;
 
 /**
  * One shared water-only traversal; it never writes native trackers or velocity.
- * Contact and flow can use separate query domains. The combined 26.2 tracker
- * remains responsible for eyes, depth, lava and modern features. Unsupported
- * probes/flow providers cause a native fallback. Resolved historical flow uses
- * its own area admission and old-height cell bounds.
+ * Contact and flow use separate query domains, bounds and area admission. The
+ * combined 26.2 tracker remains responsible for eyes, depth, lava and modern
+ * features. Unsupported probes/flow providers cause a native fallback.
+ * Resolved historical flow uses its own old-height cell bounds.
  */
 public final class WaterScan {
     private WaterScan() { }
@@ -42,6 +44,8 @@ public final class WaterScan {
     }
 
     public static Optional<Result> scan(Player player, Optional<WaterBodyContactHook> body,
+                                        Optional<WaterBodyContactScanBoundHook> contactBound,
+                                        Optional<WaterBodyContactAreaAdmissionHook> contactAdmission,
                                         Optional<WaterCurrentHook> current,
                                         Optional<WaterFlowScanBoundHook> flowBound,
                                         Optional<FlowScanAreaAdmissionHook> flowAdmission) {
@@ -68,37 +72,63 @@ public final class WaterScan {
         if (player.getVehicle() instanceof AbstractBoat) {
             return Optional.of(new Result(false, Vec3.ZERO, replacesContact, replacesCurrent));
         }
-        if (historicalFlowRejectedByArea && !replacesContact) {
-            // 1.8.9 returns before scanning when its Y-overlap admission fails.
-            return Optional.of(new Result(false, Vec3.ZERO, false, true));
+        Bounds contactBounds = selected.map(box -> contactBounds(box, contactBound)).orElse(null);
+        // Admission receives the original query bounds, including their historical maxY.
+        boolean contactAdmitted = contactBounds != null && contactAdmission.map(hook -> hook.admits(
+            contactBounds.x0, contactBounds.y0, contactBounds.z0,
+            contactBounds.x1, contactBounds.y1, contactBounds.z1
+        )).orElse(true);
+        Bounds scannedContactBounds = null;
+        if (contactBounds != null && contactAdmitted) {
+            scannedContactBounds = contactBounds;
+            if (selected.isPresent() && contactBound.isPresent()
+                && hasHistoricalContactYBound(contactBound.get(), selected.get())) {
+                // 1.8.9 World.getBlockState (World.java:612-618) calls contains
+                // (World.java:162-164) and returns AIR outside [0, 256).
+                // Clip only contact membership; preserve raw maxY for includes().
+                int minY = Math.max(contactBounds.y0, 0);
+                int maxY = Math.min(contactBounds.y1, 256);
+                scannedContactBounds = minY < maxY
+                    ? new Bounds(contactBounds.x0, minY, contactBounds.z0,
+                        contactBounds.x1, maxY, contactBounds.z1)
+                    : null;
+            }
         }
+        boolean scanContact = scannedContactBounds != null;
+        boolean scanFlow = replacesCurrent && !historicalFlowRejectedByArea && flowBounds != null;
+        // Retain a separate native-feature domain for modern waterlogged
+        // contact/current, outside the historical body query and flow scan.
+        boolean scanNativeFeatures = replacesContact || replacesCurrent;
         WaterBodyContactHook contactHook = body.orElse(null);
         WaterCurrentHook currentHook = current.orElse(null);
-        Bounds contactBounds = selected.map(box -> bounds(box, Optional.empty())).orElse(null);
         Level level = player.level();
         AABB nativeBox = player.getFluidInteractionBox();
         if (nativeBox == null) return Optional.empty();
-        Bounds nativeBounds = bounds(nativeBox, Optional.empty());
-        Bounds scannedFlowBounds = replacesCurrent && !historicalFlowRejectedByArea ? flowBounds : null;
-        int scanX0 = Math.min(nativeBounds.x0, Math.min(
-            contactBounds == null ? Integer.MAX_VALUE : contactBounds.x0,
-            scannedFlowBounds == null ? Integer.MAX_VALUE : scannedFlowBounds.x0));
-        int scanY0 = Math.min(nativeBounds.y0, Math.min(
-            contactBounds == null ? Integer.MAX_VALUE : contactBounds.y0,
-            scannedFlowBounds == null ? Integer.MAX_VALUE : scannedFlowBounds.y0));
-        int scanZ0 = Math.min(nativeBounds.z0, Math.min(
-            contactBounds == null ? Integer.MAX_VALUE : contactBounds.z0,
-            scannedFlowBounds == null ? Integer.MAX_VALUE : scannedFlowBounds.z0));
-        int scanX1 = Math.max(nativeBounds.x1, Math.max(
-            contactBounds == null ? Integer.MIN_VALUE : contactBounds.x1,
-            scannedFlowBounds == null ? Integer.MIN_VALUE : scannedFlowBounds.x1));
-        int scanY1 = Math.max(nativeBounds.y1, Math.max(
-            contactBounds == null ? Integer.MIN_VALUE : contactBounds.y1,
-            scannedFlowBounds == null ? Integer.MIN_VALUE : scannedFlowBounds.y1));
-        int scanZ1 = Math.max(nativeBounds.z1, Math.max(
-            contactBounds == null ? Integer.MIN_VALUE : contactBounds.z1,
-            scannedFlowBounds == null ? Integer.MIN_VALUE : scannedFlowBounds.z1));
-        if (!currentResolved && (scanY0 < 0 || scanY1 > 256)) return Optional.empty();
+        if (!scanContact && !scanFlow && !scanNativeFeatures) {
+            // A rejected historical contact area reports false presence while
+            // leaving any independently resolved flow result in its own domain.
+            return Optional.of(new Result(false, Vec3.ZERO, replacesContact, replacesCurrent));
+        }
+        Bounds nativeBounds = scanNativeFeatures ? bounds(nativeBox, Optional.empty()) : null;
+        Bounds scannedFlowBounds = scanFlow ? flowBounds : null;
+        int scanX0 = Math.min(nativeBounds == null ? Integer.MAX_VALUE : nativeBounds.x0,
+            Math.min(scannedContactBounds == null ? Integer.MAX_VALUE : scannedContactBounds.x0,
+                scannedFlowBounds == null ? Integer.MAX_VALUE : scannedFlowBounds.x0));
+        int scanY0 = Math.min(nativeBounds == null ? Integer.MAX_VALUE : nativeBounds.y0,
+            Math.min(scannedContactBounds == null ? Integer.MAX_VALUE : scannedContactBounds.y0,
+                scannedFlowBounds == null ? Integer.MAX_VALUE : scannedFlowBounds.y0));
+        int scanZ0 = Math.min(nativeBounds == null ? Integer.MAX_VALUE : nativeBounds.z0,
+            Math.min(scannedContactBounds == null ? Integer.MAX_VALUE : scannedContactBounds.z0,
+                scannedFlowBounds == null ? Integer.MAX_VALUE : scannedFlowBounds.z0));
+        int scanX1 = Math.max(nativeBounds == null ? Integer.MIN_VALUE : nativeBounds.x1,
+            Math.max(scannedContactBounds == null ? Integer.MIN_VALUE : scannedContactBounds.x1,
+                scannedFlowBounds == null ? Integer.MIN_VALUE : scannedFlowBounds.x1));
+        int scanY1 = Math.max(nativeBounds == null ? Integer.MIN_VALUE : nativeBounds.y1,
+            Math.max(scannedContactBounds == null ? Integer.MIN_VALUE : scannedContactBounds.y1,
+                scannedFlowBounds == null ? Integer.MIN_VALUE : scannedFlowBounds.y1));
+        int scanZ1 = Math.max(nativeBounds == null ? Integer.MIN_VALUE : nativeBounds.z1,
+            Math.max(scannedContactBounds == null ? Integer.MIN_VALUE : scannedContactBounds.z1,
+                scannedFlowBounds == null ? Integer.MIN_VALUE : scannedFlowBounds.z1));
         int flowScanY0 = historicalFlowResolved ? Math.max(flowBounds.y0, 0)
             : flowBounds == null ? 0 : flowBounds.y0;
         int flowScanY1 = historicalFlowResolved ? Math.min(flowBounds.y1, 256)
@@ -112,27 +142,50 @@ public final class WaterScan {
                 for (int z = scanZ0; z < scanZ1; z++) {
                     pos.set(x, y, z);
                     BlockState state = level.getBlockState(pos);
-                    if (state.getFluidState().is(FluidTags.WATER)) {
-                        if (!(state.getBlock() instanceof LiquidBlock) || state.getValue(LiquidBlock.LEVEL) >= 8) {
-                            return Optional.empty();
+                    if (!state.getFluidState().is(FluidTags.WATER)) continue;
+                    boolean inContactBounds = scannedContactBounds != null
+                        && x >= scannedContactBounds.x0 && x < scannedContactBounds.x1
+                        && y >= scannedContactBounds.y0 && y < scannedContactBounds.y1
+                        && z >= scannedContactBounds.z0 && z < scannedContactBounds.z1;
+                    boolean inFlowBounds = replacesCurrent && !historicalFlowRejectedByArea && flowBounds != null
+                        && x >= flowBounds.x0 && x < flowBounds.x1
+                        && y >= flowScanY0 && y < flowScanY1
+                        && z >= flowBounds.z0 && z < flowBounds.z1;
+                    boolean inNativeFeatureBounds = nativeBounds != null
+                        && x >= nativeBounds.x0 && x < nativeBounds.x1
+                        && y >= nativeBounds.y0 && y < nativeBounds.y1
+                        && z >= nativeBounds.z0 && z < nativeBounds.z1;
+                    if (!(state.getBlock() instanceof LiquidBlock)) {
+                        // Waterlogged and other modern water states are unsupported only
+                        // for an operation whose domain includes this cell. Native modern
+                        // features retain the native tracker in its own interaction domain.
+                        if (inContactBounds || inNativeFeatureBounds) replacesContact = false;
+                        if (inFlowBounds || inNativeFeatureBounds) replacesCurrent = false;
+                        continue;
+                    }
+                    int liquidLevel = state.getValue(LiquidBlock.LEVEL);
+                    boolean inContact = inContactBounds
+                        && contactHook.includes(contactBounds.y1, y, liquidLevel);
+                    boolean inFlow = inFlowBounds && includesFlow(flowBounds.y1, y, liquidLevel);
+                    if (!inContact && !inFlow) continue;
+                    if (inContact) {
+                        // Falling (LEVEL >= 8) water remains valid for 1.8.9 contact;
+                        // its historical height loss is zero.
+                        contactFound = true;
+                    }
+                    // The existing current hook is bounded to nonfalling liquid.
+                    // Reject current alone when a relevant cell needs native flow.
+                    if (inFlow && liquidLevel >= 8) {
+                        replacesCurrent = false;
+                        continue;
+                    }
+                    if (inFlow) {
+                        Optional<Vec3> flow = currentHook.flow(level, pos, state);
+                        if (flow.isEmpty()) {
+                            replacesCurrent = false;
+                            continue;
                         }
-                        int liquidLevel = state.getValue(LiquidBlock.LEVEL);
-                        boolean inContact = contactBounds != null
-                            && x >= contactBounds.x0 && x < contactBounds.x1
-                            && y >= contactBounds.y0 && y < contactBounds.y1
-                            && z >= contactBounds.z0 && z < contactBounds.z1
-                            && contactHook.includes(contactBounds.y1, y, liquidLevel);
-                        if (inContact) contactFound = true;
-                        boolean inFlow = replacesCurrent && !historicalFlowRejectedByArea && flowBounds != null
-                            && x >= flowBounds.x0 && x < flowBounds.x1
-                            && y >= flowScanY0 && y < flowScanY1
-                            && z >= flowBounds.z0 && z < flowBounds.z1
-                            && includesFlow(flowBounds.y1, y, liquidLevel);
-                        if (inFlow) {
-                            Optional<Vec3> flow = currentHook.flow(level, pos, state);
-                            if (flow.isEmpty()) return Optional.empty();
-                            total = currentHook.accumulate(total, flow.get());
-                        }
+                        total = currentHook.accumulate(total, flow.get());
                     }
                 }
             }
@@ -147,6 +200,22 @@ public final class WaterScan {
             exclusiveUpperBound(flowBound, box.maxZ));
     }
 
+    private static Bounds contactBounds(AABB box, Optional<WaterBodyContactScanBoundHook> contactBound) {
+        return new Bounds(Mth.floor(box.minX), Mth.floor(box.minY), Mth.floor(box.minZ),
+            contactExclusiveUpperBound(contactBound, box.maxX),
+            contactExclusiveUpperBound(contactBound, box.maxY),
+            contactExclusiveUpperBound(contactBound, box.maxZ));
+    }
+
+    private static int contactExclusiveUpperBound(Optional<WaterBodyContactScanBoundHook> hook,
+                                                  double maximum) {
+        if (hook.isPresent()) {
+            OptionalInt historical = hook.get().exclusiveUpperBound(maximum);
+            if (historical.isPresent()) return historical.getAsInt();
+        }
+        return Mth.ceil(maximum);
+    }
+
     private static int exclusiveUpperBound(Optional<WaterFlowScanBoundHook> hook, double maximum) {
         if (hook.isPresent()) {
             OptionalInt historical = hook.get().exclusiveUpperBound(maximum);
@@ -159,6 +228,10 @@ public final class WaterScan {
         return hook.exclusiveUpperBound(box.maxX).isPresent()
             || hook.exclusiveUpperBound(box.maxY).isPresent()
             || hook.exclusiveUpperBound(box.maxZ).isPresent();
+    }
+
+    private static boolean hasHistoricalContactYBound(WaterBodyContactScanBoundHook hook, AABB box) {
+        return hook.exclusiveUpperBound(box.maxY).isPresent();
     }
 
     private static AABB legacyFlowQuery(AABB body) {
