@@ -25,4 +25,11 @@ public final class MovementSpeedModifierIdentity {
         }
         return null;
     }
+
+    /** OpenJDK 8u412 HashMap spread-hash bucket for a 16-slot HashSet table. */
+    public static int openJdk8u412HashSetBucket(UUID oldUuid) {
+        int hash = oldUuid.hashCode();
+        hash ^= hash >>> 16;
+        return hash & 15;
+    }
 }
