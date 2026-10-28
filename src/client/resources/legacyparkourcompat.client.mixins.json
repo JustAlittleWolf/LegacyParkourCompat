@@ -17,6 +17,7 @@
     "fluid.FluidCurrentDepthMixin",
     "client.LocalPlayerEarlySprintStopMixin",
     "border.EntityBorderCollisionMixin",
+    "border.ClientBorderPacketMixin",
     "collision.WorldBorderCollisionMarginMixin",
     "border.LivingEntityWakeContextMixin",
     "border.DismountHelperWakeBorderMixin",

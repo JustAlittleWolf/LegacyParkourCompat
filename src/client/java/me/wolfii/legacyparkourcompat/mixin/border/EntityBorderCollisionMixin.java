@@ -8,6 +8,7 @@ import me.wolfii.legacyparkourcompat.mechanic.BorderAdmissionContext;
 import me.wolfii.legacyparkourcompat.mechanic.CollisionBorderShapeContext;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.border.BorderCollisionAdmissionHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.border.WorldBorderCollisionHook;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.phys.AABB;
@@ -35,6 +36,17 @@ public abstract class EntityBorderCollisionMixin {
     )
     private static boolean legacyparkourcompat$admitBorder(WorldBorder border, Entity entity,
                                                          AABB sweptBox, Operation<Boolean> original) {
+        var historicalCollision = MovementRuntime.find(WorldBorderCollisionHook.class, entity)
+            .map(hook -> hook.collision(border, entity, sweptBox)).orElse(null);
+        if (historicalCollision != null) {
+            boolean nativeAdmission = original.call(border, entity, sweptBox);
+            var frame = CollisionBorderShapeContext.current();
+            if (frame != null) {
+                frame.recordHistoricalCollision(entity, historicalCollision, nativeAdmission);
+            }
+            return historicalCollision.insideCloseToBorder();
+        }
+
         var admission = BorderAdmissionContext.collision();
         if (admission != null && admission.entity() == entity && MovementRuntime.appliesTo(entity)) {
             var frame = CollisionBorderShapeContext.current();
@@ -52,8 +64,9 @@ public abstract class EntityBorderCollisionMixin {
     )
     private static VoxelShape legacyparkourcompat$captureAdmittedBorder(WorldBorder border,
         Operation<VoxelShape> original, @Local(argsOnly = true) Entity source) {
-        VoxelShape shape = original.call(border);
         var frame = CollisionBorderShapeContext.current();
+        var historicalCollision = frame == null ? null : frame.historicalCollision(source);
+        VoxelShape shape = historicalCollision == null ? original.call(border) : historicalCollision.shape();
         if (frame != null) {
             frame.recordShape(source, shape);
         }
