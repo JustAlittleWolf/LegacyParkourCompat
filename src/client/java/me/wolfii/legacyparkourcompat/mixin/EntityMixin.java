@@ -4,6 +4,8 @@ import me.wolfii.legacyparkourcompat.mechanic.CollisionAxisOrderContext;
 import me.wolfii.legacyparkourcompat.mechanic.FluidCurrentCutoffContext;
 import me.wolfii.legacyparkourcompat.mechanic.PostMoveFluidRefreshContext;
 import me.wolfii.legacyparkourcompat.mechanic.fluid.WaterFirstLavaProjectionContext;
+import me.wolfii.legacyparkourcompat.mechanic.fluid.LavaPresenceLatchContext;
+import me.wolfii.legacyparkourcompat.mechanic.hook.entity.LavaPresenceHook;
 import me.wolfii.legacyparkourcompat.change.v1_16.fluid.LegacyWaterPresenceProbe;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
@@ -95,7 +97,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(Entity.class)
-abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjectionContext {
+abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjectionContext, LavaPresenceLatchContext {
     @Unique
     private Vec3 legacyparkourcompat$pistonStuckSpeedMultiplier;
 
@@ -104,6 +106,21 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
 
     @Unique
     private boolean legacyparkourcompat$waterProbeForBaseTick;
+
+    @Unique
+    private boolean legacyparkourcompat$lavaPresenceLatched;
+
+    @Override
+    @Unique
+    public boolean legacyparkourcompat$isLavaPresenceLatched() {
+        return this.legacyparkourcompat$lavaPresenceLatched;
+    }
+
+    @Override
+    @Unique
+    public void legacyparkourcompat$setLavaPresenceLatched(boolean touchingLava) {
+        this.legacyparkourcompat$lavaPresenceLatched = touchingLava;
+    }
 
     @Override
     @Unique
@@ -793,6 +810,10 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
                 .ifPresent(hook -> hook.invokeBeforeInsideBlockCallbacks(
                     player, entity.level(), stepOnPosition, stepOnState
                 ));
+            if (player instanceof LocalPlayer) {
+                MovementRuntime.find(LavaPresenceHook.class, player)
+                    .ifPresent(hook -> hook.afterMove(player));
+            }
             MovementRuntime.find(EntityBlockContactTraversalHook.class, player)
                 .ifPresent(hook -> hook.afterMove(
                     entity,

@@ -6,6 +6,7 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.LavaMaterialScanUpperBoundHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.LavaPresenceHook;
 import net.minecraft.world.entity.Entity;
+import java.util.Optional;
 
 /**
  * The immediate contracted-box query is common from 1.8.9 through 1.13.2.
@@ -20,7 +21,10 @@ public final class LavaPresence implements LavaPresenceHook {
     }
 
     @Override
-    public boolean isInLava(Entity entity, LavaMaterialScanUpperBoundHook scanUpperBound) {
-        return LavaMaterialQuery.isInLava(entity, scanUpperBound);
+    public Optional<Boolean> isInLava(Entity entity, Optional<LavaMaterialScanUpperBoundHook> scanUpperBound) {
+        LavaMaterialScanUpperBoundHook bound = scanUpperBound.orElseThrow(
+            () -> new IllegalStateException("Historical lava scan bound is missing")
+        );
+        return Optional.of(LavaMaterialQuery.isInLava(entity, bound));
     }
 }
