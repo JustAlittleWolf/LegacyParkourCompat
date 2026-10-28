@@ -6,23 +6,29 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactScanBou
 
 import java.util.OptionalInt;
 
-/** Restores the 1.8.9 exclusive upper bound for body-contact scans. */
+/** Restores the 1.8.0-1.8.9 exclusive upper bound for body-contact scans. */
 @MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class LegacyWaterBodyContactScanBound implements WaterBodyContactScanBoundHook {
     public LegacyWaterBodyContactScanBound() {
     }
 
     /*
-     * Exact source comparison:
-     * 1.8.9 Ornithe Feather / Feather Gen2 build 2, mappings
-     * feather-gen2-1.8.9+build.2.tiny,
-     * net.minecraft.world.World.applyLiquidDrag(Box, Material, Entity), uses
-     * MathHelper.floor(bounds.maxAxis + 1.0) (World.java:1486-1492).
+     * Exact bounded source comparison:
+     * Raw 1.8.0/1.8.1 clients mapped by Feather Gen2 build 2 Tiny and the
+     * byte-identical Ornithe Feather World.java sources for 1.8.2-1.8.9 use
+     * World.applyLiquidDrag(AABB,Material,Entity) to compute the exclusive end
+     * as floor(bounds.maxAxis + 1.0). The matching 1.8.8 source is
+     * World.java:1486-1492; all five relevant source files are identical over
+     * 1.8.2-1.8.9. The corrected 1.8/1.8.1 raw mapping binds the same named
+     * method and bound arithmetic.
+     *
      * 1.9 Ornithe Feather / Feather Gen2 build 2, mappings
      * feather-gen2-1.9+build.2.tiny, the same member changes the exclusive
      * end to MathHelper.ceil(bounds.maxAxis) (World.java:1554-1560). Both retain
      * floor(bounds.minAxis) and half-open loops. This hook changes body contact
-     * bounds only; flow keeps its independent WaterFlowScanBoundHook.
+     * bounds only; flow keeps its independent WaterFlowScanBoundHook. Resolver
+     * applicability uses this provider through V1_8_9, before the V1_9 native
+     * contact boundary.
      */
     @Override
     public OptionalInt exclusiveUpperBound(double boundsMax) {
