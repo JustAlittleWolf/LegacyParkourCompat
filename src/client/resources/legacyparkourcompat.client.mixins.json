@@ -22,6 +22,8 @@
     "border.LivingEntityWakeContextMixin",
     "border.DismountHelperWakeBorderMixin",
     "LivingEntityMixin",
+    "LivingEntityJumpAdmissionMixin",
+    "LivingEntityJumpBoostAmplifierMixin",
     "LivingEntityClimbingMixin",
     "water.EntityWaterMixin",
     "water.LivingEntityWaterMixin",
