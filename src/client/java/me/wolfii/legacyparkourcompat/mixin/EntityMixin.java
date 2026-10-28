@@ -3,6 +3,8 @@ package me.wolfii.legacyparkourcompat.mixin;
 import me.wolfii.legacyparkourcompat.mechanic.CollisionAxisOrderContext;
 import me.wolfii.legacyparkourcompat.mechanic.FluidCurrentCutoffContext;
 import me.wolfii.legacyparkourcompat.mechanic.PostMoveFluidRefreshContext;
+import me.wolfii.legacyparkourcompat.mechanic.fluid.WaterFirstLavaProjectionContext;
+import me.wolfii.legacyparkourcompat.change.v1_16.fluid.LegacyWaterPresenceProbe;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
@@ -48,6 +50,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeMoverHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.ShallowLavaCurrentCutoffHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.ShallowWaterCurrentCutoffHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.RetainedWaterDepthHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.LavaResultProjectionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.push.PlayerPushNormalizationHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.swimming.SwimmingEntryFeetWaterHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
@@ -92,9 +95,79 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(Entity.class)
-abstract class EntityMixin implements WaterJumpDepthAccess {
+abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjectionContext {
     @Unique
     private Vec3 legacyparkourcompat$pistonStuckSpeedMultiplier;
+
+    @Unique
+    private boolean legacyparkourcompat$waterProbeLatched;
+
+    @Unique
+    private boolean legacyparkourcompat$waterProbeForBaseTick;
+
+    @Override
+    @Unique
+    public boolean legacyparkourcompat$hasWaterProbeForBaseTick() {
+        return this.legacyparkourcompat$waterProbeLatched;
+    }
+
+    @Override
+    @Unique
+    public boolean legacyparkourcompat$waterProbeForBaseTick() {
+        return this.legacyparkourcompat$waterProbeForBaseTick;
+    }
+
+    @Override
+    @Unique
+    public void legacyparkourcompat$setWaterProbeForBaseTick(boolean waterPresent) {
+        this.legacyparkourcompat$waterProbeForBaseTick = waterPresent;
+        this.legacyparkourcompat$waterProbeLatched = true;
+    }
+
+    @Override
+    @Unique
+    public void legacyparkourcompat$clearWaterProbeForBaseTick() {
+        this.legacyparkourcompat$waterProbeLatched = false;
+        this.legacyparkourcompat$waterProbeForBaseTick = false;
+    }
+
+    @Inject(
+        method = "baseTick()V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/Entity;updateFluidInteraction()Z",
+            shift = At.Shift.BEFORE
+        )
+    )
+    private void legacyparkourcompat$captureWaterProbeForBaseTick(CallbackInfo callbackInfo) {
+        Entity entity = (Entity) (Object) this;
+        var projection = MovementRuntime.find(LavaResultProjectionHook.class, entity);
+        if (projection.isPresent() && !projection.get().allowLavaResults(true)) {
+            this.legacyparkourcompat$setWaterProbeForBaseTick(LegacyWaterPresenceProbe.probe(entity));
+        } else {
+            this.legacyparkourcompat$clearWaterProbeForBaseTick();
+        }
+    }
+
+    @ModifyReturnValue(method = "getFluidHeight(Lnet/minecraft/tags/TagKey;)D", at = @At("RETURN"))
+    private double legacyparkourcompat$projectWaterFirstLavaDepth(TagKey<Fluid> fluid, double vanilla) {
+        Entity entity = (Entity) (Object) this;
+        if (fluid.equals(FluidTags.LAVA) && legacyparkourcompat$suppressWaterFirstLavaResult(entity)) {
+            return 0.0;
+        }
+        return vanilla;
+    }
+
+    @Unique
+    private static boolean legacyparkourcompat$suppressWaterFirstLavaResult(Entity entity) {
+        if (!(entity instanceof WaterFirstLavaProjectionContext context)
+            || !context.legacyparkourcompat$hasWaterProbeForBaseTick()) {
+            return false;
+        }
+        return MovementRuntime.find(LavaResultProjectionHook.class, entity)
+            .map(hook -> !hook.allowLavaResults(context.legacyparkourcompat$waterProbeForBaseTick()))
+            .orElse(false);
+    }
 
     @ModifyArgs(
         method = "push(Lnet/minecraft/world/entity/Entity;)V",
@@ -567,6 +640,9 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
         Entity entity,
         double scale
     ) {
+        if (fluid.equals(FluidTags.LAVA) && legacyparkourcompat$suppressWaterFirstLavaResult(entity)) {
+            return;
+        }
         if (fluid.equals(FluidTags.LAVA) && PostMoveFluidRefreshContext.suppressesLavaCurrent(entity)) {
             return;
         }
