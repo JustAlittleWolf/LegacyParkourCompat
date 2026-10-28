@@ -1,5 +1,7 @@
 # Movement findings and current progress
 
+Open [progress by Minecraft version](PROGRESS.md) for a hierarchical view of source coverage, reviewed findings, implementation and remaining work. This generated view reads the central backlog; refresh it with `python development/workflows/orchestration/render_progress.py` from the repository root.
+
 [Findings](findings/) permanently retain one independently described source difference per Markdown at `findings/<older>--<newer>/<topic>.md`: exact compared versions, mapping families, source files/members/ranges on both sides, the difference and its player movement meaning. Confirmed findings remain after implementation. They do not carry implementation or runtime status.
 
 The [backlog tool](../workflows/orchestration/WORKFLOW.md#backlog-commands) provides bounded queries and entry-level edits to the single global progress record, written only by the master orchestrator. [backlog.json](backlog.json) is machine-managed storage, not a file agents need to read or edit wholesale. It associates findings with source acceptance, code and integrated commits, keeps concrete open evidence/applicability gaps, and tracks pair coverage/dependencies/audit separately from runtime parity. Suborchestrators, implementers and reviewers supply updates in chat; they do not create parallel status or handoff files. The product revision bounds inherited static correspondence; historical review paths identify Git evidence, not files that must be archived in the current tree.
