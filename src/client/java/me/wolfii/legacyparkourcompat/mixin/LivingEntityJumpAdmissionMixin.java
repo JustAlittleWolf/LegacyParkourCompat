@@ -10,9 +10,9 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 @Mixin(LivingEntity.class)
 abstract class LivingEntityJumpAdmissionMixin {
     /**
-     * Mojmap 1.20.2 LivingEntity#jumpFromGround at 2011-2020 has no power
-     * admission guard; Mojmap 1.20.5 LivingEntity#jumpFromGround at 2069-2081
-     * adds {@code !(jumpPower <= 1.0E-5F)}. The target 26.2 unobfuscated
+     * Mojmap 1.20 and 1.20.1 LivingEntity#jumpFromGround at 1977-1985 and
+     * Mojmap 1.20.2 at 2011-2020 have no power admission guard; Mojmap 1.20.5
+     * at 2069-2081 adds {@code !(jumpPower <= 1.0E-5F)}. The target 26.2 unobfuscated
      * LivingEntity#jumpFromGround at 2389-2401 retains that predicate. Replacing
      * only its threshold with NaN makes the comparison false for every float,
      * including NaN, so the negated predicate admits every power as in 1.20.2.
