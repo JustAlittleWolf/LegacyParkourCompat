@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.mechanic.hook.blockcallback;
 
 import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
 import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
+import net.minecraft.world.entity.Entity;
 
 import java.util.OptionalInt;
 
@@ -9,4 +10,9 @@ import java.util.OptionalInt;
 @MechanicType("block_callback.record_budget")
 public interface BlockCallbackBudgetHook extends VersionedMechanic {
     OptionalInt segmentDebit();
+
+    /** Per-segment visitor limit; native by default. */
+    default int segmentLimit(Entity entity, int nativeLimit) {
+        return nativeLimit;
+    }
 }
