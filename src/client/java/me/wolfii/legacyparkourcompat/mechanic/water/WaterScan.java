@@ -2,6 +2,8 @@ package me.wolfii.legacyparkourcompat.mechanic.water;
 
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterCurrentHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.world.FlowScanAreaAdmissionHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.world.WaterFlowScanBoundHook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
@@ -14,20 +16,20 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 /**
  * One shared water-only traversal; it never writes native trackers or velocity.
- * The combined 26.2 tracker remains responsible for eyes, depth, lava and modern
- * features. Unsupported probes/flow providers cause an atomic native fallback.
- * Client chunk checks intentionally permit empty chunks: 1.12-family Feather
- * World.isAreaLoaded(..., true) dispatches to ClientWorld.isChunkLoadedAt,
- * which returns true for allowEmpty. Extended modern world-height contexts
- * remain native instead of interpreting modern-only water as historical cells.
+ * Contact and flow can use separate query domains. The combined 26.2 tracker
+ * remains responsible for eyes, depth, lava and modern features. Unsupported
+ * probes/flow providers cause a native fallback. Extended modern world-height
+ * contexts remain native instead of interpreting modern-only water as historical cells.
  */
 public final class WaterScan {
     private WaterScan() { }
 
-    public record Result(boolean contact, Vec3 impulse, boolean replacesCurrent) { }
+    public record Result(boolean contact, Vec3 impulse, boolean replacesContact, boolean replacesCurrent) { }
+    private record Bounds(int x0, int y0, int z0, int x1, int y1, int z1) { }
 
     public static boolean supportsFeatures(Player player) {
         // Preserve both the cached LocalPlayer predicate used by updateSwimming
@@ -39,31 +41,72 @@ public final class WaterScan {
             && !player.hasEffect(MobEffects.SLOW_FALLING) && !player.hasEffect(MobEffects.DOLPHINS_GRACE);
     }
 
-    public static Optional<Result> scan(Player player, WaterBodyContactHook body, WaterCurrentHook current) {
-        Optional<AABB> selected = body.probe(player.getBoundingBox());
-        if (selected.isEmpty() || !supportsFeatures(player)) return Optional.empty();
+    public static Optional<Result> scan(Player player, Optional<WaterBodyContactHook> body,
+                                        Optional<WaterCurrentHook> current,
+                                        Optional<WaterFlowScanBoundHook> flowBound,
+                                        Optional<FlowScanAreaAdmissionHook> flowAdmission) {
+        Optional<AABB> selected = body.flatMap(hook -> hook.probe(player.getBoundingBox()));
+        boolean replacesContact = selected.isPresent();
+        AABB historicalFlowBox = flowBound.isPresent() ? legacyFlowQuery(player.getBoundingBox()) : null;
+        boolean hasHistoricalFlowBound = historicalFlowBox != null
+            && hasHistoricalUpperBound(flowBound.get(), historicalFlowBox);
+        Bounds historicalFlowBounds = hasHistoricalFlowBound
+            ? bounds(historicalFlowBox, flowBound) : null;
+        boolean historicalFlowAdmitted = historicalFlowBounds != null && flowAdmission.map(hook -> hook.admits(
+            historicalFlowBounds.x0, historicalFlowBounds.y0, historicalFlowBounds.z0,
+            historicalFlowBounds.x1, historicalFlowBounds.y1, historicalFlowBounds.z1
+        )).orElse(false);
+        boolean historicalFlowResolved = historicalFlowBounds != null && flowAdmission.isPresent();
+        boolean historicalFlowRejectedByArea = historicalFlowResolved && !historicalFlowAdmitted;
+        AABB flowBox = historicalFlowResolved ? historicalFlowBox : selected.orElse(null);
+        Bounds flowBounds = historicalFlowResolved ? historicalFlowBounds
+            : flowBox == null ? null : bounds(flowBox, flowBound);
+        boolean currentResolved = current.filter(WaterCurrentHook::replacesNativeCurrent).isPresent()
+            && (historicalFlowResolved || (!hasHistoricalFlowBound && selected.isPresent()));
+        boolean replacesCurrent = currentResolved;
+        if ((!replacesContact && !replacesCurrent) || !supportsFeatures(player)) return Optional.empty();
         if (player.getVehicle() instanceof AbstractBoat) {
-            return Optional.of(new Result(false, Vec3.ZERO, current.replacesNativeCurrent()));
+            return Optional.of(new Result(false, Vec3.ZERO, replacesContact, replacesCurrent));
         }
-        AABB box = selected.get();
-        int x0 = Mth.floor(box.minX), x1 = Mth.ceil(box.maxX);
-        int y0 = Mth.floor(box.minY), y1 = Mth.ceil(box.maxY);
-        int z0 = Mth.floor(box.minZ), z1 = Mth.ceil(box.maxZ);
+        if (historicalFlowRejectedByArea && !replacesContact) {
+            // 1.8.9 returns before scanning when its Y-overlap admission fails.
+            return Optional.of(new Result(false, Vec3.ZERO, false, true));
+        }
+        WaterBodyContactHook contactHook = body.orElse(null);
+        WaterCurrentHook currentHook = current.orElse(null);
+        Bounds contactBounds = selected.map(box -> bounds(box, Optional.empty())).orElse(null);
         Level level = player.level();
         AABB nativeBox = player.getFluidInteractionBox();
         if (nativeBox == null) return Optional.empty();
-        int scanX0 = Math.min(x0, Mth.floor(nativeBox.minX));
-        int scanY0 = Math.min(y0, Mth.floor(nativeBox.minY));
-        int scanZ0 = Math.min(z0, Mth.floor(nativeBox.minZ));
-        int scanX1 = Math.max(x1, Mth.ceil(nativeBox.maxX));
-        int scanY1 = Math.max(y1, Mth.ceil(nativeBox.maxY));
-        int scanZ1 = Math.max(z1, Mth.ceil(nativeBox.maxZ));
-        if (scanY0 < 0 || scanY1 > 256) return Optional.empty();
-        boolean contact = false;
+        Bounds nativeBounds = bounds(nativeBox, Optional.empty());
+        Bounds scannedFlowBounds = replacesCurrent && !historicalFlowRejectedByArea ? flowBounds : null;
+        int scanX0 = Math.min(nativeBounds.x0, Math.min(
+            contactBounds == null ? Integer.MAX_VALUE : contactBounds.x0,
+            scannedFlowBounds == null ? Integer.MAX_VALUE : scannedFlowBounds.x0));
+        int scanY0 = Math.min(nativeBounds.y0, Math.min(
+            contactBounds == null ? Integer.MAX_VALUE : contactBounds.y0,
+            scannedFlowBounds == null ? Integer.MAX_VALUE : scannedFlowBounds.y0));
+        int scanZ0 = Math.min(nativeBounds.z0, Math.min(
+            contactBounds == null ? Integer.MAX_VALUE : contactBounds.z0,
+            scannedFlowBounds == null ? Integer.MAX_VALUE : scannedFlowBounds.z0));
+        int scanX1 = Math.max(nativeBounds.x1, Math.max(
+            contactBounds == null ? Integer.MIN_VALUE : contactBounds.x1,
+            scannedFlowBounds == null ? Integer.MIN_VALUE : scannedFlowBounds.x1));
+        int scanY1 = Math.max(nativeBounds.y1, Math.max(
+            contactBounds == null ? Integer.MIN_VALUE : contactBounds.y1,
+            scannedFlowBounds == null ? Integer.MIN_VALUE : scannedFlowBounds.y1));
+        int scanZ1 = Math.max(nativeBounds.z1, Math.max(
+            contactBounds == null ? Integer.MIN_VALUE : contactBounds.z1,
+            scannedFlowBounds == null ? Integer.MIN_VALUE : scannedFlowBounds.z1));
+        if (!currentResolved && (scanY0 < 0 || scanY1 > 256)) return Optional.empty();
+        int flowScanY0 = historicalFlowResolved ? Math.max(flowBounds.y0, 0)
+            : flowBounds == null ? 0 : flowBounds.y0;
+        int flowScanY1 = historicalFlowResolved ? Math.min(flowBounds.y1, 256)
+            : flowBounds == null ? 0 : flowBounds.y1;
+        boolean contactFound = false;
         Vec3 total = Vec3.ZERO;
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
-        // Inspect the union so modern-only fluid outside the shorter historical
-        // probe also causes fallback. Historical accepted-cell order is unchanged.
+        // One union traversal feeds the independent contact and flow domains.
         for (int x = scanX0; x < scanX1; x++) {
             for (int y = scanY0; y < scanY1; y++) {
                 for (int z = scanZ0; z < scanZ1; z++) {
@@ -73,21 +116,63 @@ public final class WaterScan {
                         if (!(state.getBlock() instanceof LiquidBlock) || state.getValue(LiquidBlock.LEVEL) >= 8) {
                             return Optional.empty();
                         }
-                        if (x >= x0 && x < x1 && y >= y0 && y < y1 && z >= z0 && z < z1
-                                && body.includes(y1, y, state.getValue(LiquidBlock.LEVEL))) {
-                            contact = true;
-                            if (current.replacesNativeCurrent()) {
-                                Optional<Vec3> flow = current.flow(level, pos, state);
-                                if (flow.isEmpty()) return Optional.empty();
-                                total = current.accumulate(total, flow.get());
-                            }
+                        int liquidLevel = state.getValue(LiquidBlock.LEVEL);
+                        boolean inContact = contactBounds != null
+                            && x >= contactBounds.x0 && x < contactBounds.x1
+                            && y >= contactBounds.y0 && y < contactBounds.y1
+                            && z >= contactBounds.z0 && z < contactBounds.z1
+                            && contactHook.includes(contactBounds.y1, y, liquidLevel);
+                        if (inContact) contactFound = true;
+                        boolean inFlow = replacesCurrent && !historicalFlowRejectedByArea && flowBounds != null
+                            && x >= flowBounds.x0 && x < flowBounds.x1
+                            && y >= flowScanY0 && y < flowScanY1
+                            && z >= flowBounds.z0 && z < flowBounds.z1
+                            && includesFlow(flowBounds.y1, y, liquidLevel);
+                        if (inFlow) {
+                            Optional<Vec3> flow = currentHook.flow(level, pos, state);
+                            if (flow.isEmpty()) return Optional.empty();
+                            total = currentHook.accumulate(total, flow.get());
                         }
                     }
                 }
             }
         }
-        return Optional.of(new Result(contact, current.impulse(total, player.getAbilities().flying),
-            current.replacesNativeCurrent()));
+        Vec3 impulse = replacesCurrent ? currentHook.impulse(total, player.getAbilities().flying) : Vec3.ZERO;
+        return Optional.of(new Result(contactFound, impulse, replacesContact, replacesCurrent));
+    }
+
+    private static Bounds bounds(AABB box, Optional<WaterFlowScanBoundHook> flowBound) {
+        return new Bounds(Mth.floor(box.minX), Mth.floor(box.minY), Mth.floor(box.minZ),
+            exclusiveUpperBound(flowBound, box.maxX), exclusiveUpperBound(flowBound, box.maxY),
+            exclusiveUpperBound(flowBound, box.maxZ));
+    }
+
+    private static int exclusiveUpperBound(Optional<WaterFlowScanBoundHook> hook, double maximum) {
+        if (hook.isPresent()) {
+            OptionalInt historical = hook.get().exclusiveUpperBound(maximum);
+            if (historical.isPresent()) return historical.getAsInt();
+        }
+        return Mth.ceil(maximum);
+    }
+
+    private static boolean hasHistoricalUpperBound(WaterFlowScanBoundHook hook, AABB box) {
+        return hook.exclusiveUpperBound(box.maxX).isPresent()
+            || hook.exclusiveUpperBound(box.maxY).isPresent()
+            || hook.exclusiveUpperBound(box.maxZ).isPresent();
+    }
+
+    private static AABB legacyFlowQuery(AABB body) {
+        // 1.8.9 Entity.checkWaterCollisions passes this exact transformed shape
+        // to World.applyLiquidDrag; retain the source float literal conversion.
+        return new AABB(body.minX, body.minY - -0.4F, body.minZ,
+            body.maxX, body.maxY + -0.4F, body.maxZ).deflate(0.001);
+    }
+
+    private static boolean includesFlow(int exclusiveMaxY, int cellY, int liquidLevel) {
+        // 1.8.9 LiquidBlock.getHeightLoss and World.applyLiquidDrag's l >= d gate.
+        int level = liquidLevel >= 8 ? 0 : liquidLevel;
+        double surface = cellY + 1 - (level + 1) / 9.0F;
+        return exclusiveMaxY >= surface;
     }
 
 }

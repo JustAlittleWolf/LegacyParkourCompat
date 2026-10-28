@@ -529,7 +529,8 @@ abstract class EntityMixin implements WaterJumpDepthAccess {
     ) {
         var historicalWater = ((WaterContext)entity).legacyparkourcompat$waterScan();
         if (fluid.equals(FluidTags.WATER) && historicalWater != null && historicalWater.replacesCurrent()) {
-            entity.setDeltaMovement(entity.getDeltaMovement().add(historicalWater.impulse()));
+            // Historical flow was applied at the post-tracker, pre-contact seam;
+            // skip only this later duplicate of native water current.
             return;
         }
         if (entity instanceof Player player
