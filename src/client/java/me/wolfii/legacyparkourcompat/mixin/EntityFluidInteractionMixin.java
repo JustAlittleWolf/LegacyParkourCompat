@@ -13,12 +13,15 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.LavaCurrentHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FluidScanLoadedChunksHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.EyeFluidSurfaceBoundaryHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PlayerEyeFluidSampleHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PlayerEyeSubmersionHook;
+import net.minecraft.util.Mth;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityFluidInteraction;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.material.Fluid;
@@ -65,7 +68,27 @@ abstract class EntityFluidInteractionMixin {
     private boolean legacyparkourcompat$eyeFluidUpperBoundary(boolean vanilla,
         @Local(argsOnly = true) Entity entity,
         @Local(ordinal = 1) double eyeY,
-        @Local(ordinal = 3) double fluidTop) {
+        @Local(ordinal = 3) double fluidTop,
+        @Local FluidState fluidState,
+        @Local BlockPos.MutableBlockPos mutablePos) {
+        if (entity instanceof Player
+            && mutablePos.getX() == entity.getBlockX()
+            && mutablePos.getY() == Mth.floor(eyeY)
+            && mutablePos.getZ() == entity.getBlockZ()) {
+            // This expression executes inside the scanner's existing tracker/tag and loaded-scan gates.
+            // Restrict the historical predicate to the actual sampled eye block, not body fluid cells.
+            var historical = MovementRuntime.find(PlayerEyeSubmersionHook.class, entity)
+                .flatMap(hook -> hook.isSubmerged(
+                    fluidState,
+                    true,
+                    entity.getVehicle() instanceof Boat,
+                    eyeY,
+                    mutablePos.getY()
+                ));
+            if (historical.isPresent()) {
+                return historical.get();
+            }
+        }
         int comparison = Double.compare(eyeY, fluidTop);
         if (entity instanceof Player) {
             return MovementRuntime.find(EyeFluidSurfaceBoundaryHook.class, entity)
