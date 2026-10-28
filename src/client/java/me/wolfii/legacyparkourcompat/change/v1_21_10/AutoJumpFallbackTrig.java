@@ -6,16 +6,21 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpFallbackTrigHook;
 
 /**
- * Restores the float-table yaw lookup used by 1.21.9 and 1.21.10 auto-jump.
+ * Restores the float-table yaw lookup used from the first auto-jump release
+ * through 1.21.10.
  *
- * <p>In Mojmap 1.21.9 and 1.21.10, {@code LocalPlayer.updateAutoJump(FF)V}
- * calls {@code Mth.sin(float)} and {@code Mth.cos(float)} after computing yaw
- * radians as a float. Their {@code Mth.sin(float)} and {@code Mth.cos(float)}
- * use the float scale {@code 10430.378F}. Mojmap 1.21.11 changes those helper
- * members to {@code Mth.sin(double)} and {@code Mth.cos(double)} with double
- * index arithmetic, while {@code LocalPlayer.updateAutoJump(FF)V} still
- * supplies float radians widened at the call. This reuses the same float table
- * arithmetic as the cited 1.21.9/1.21.10 members for the pre-change profiles.
+ * <p>In Ornithe Feather 1.10, {@code LocalClientPlayerEntity.move} calls
+ * {@code autoJump(float,float)}, whose fallback calls {@code MathHelper.sin}
+ * and {@code MathHelper.cos} with float yaw radians. Those helpers use float
+ * scale {@code 10430.378F}. Mojmap 1.21.10 retains that arithmetic in
+ * {@code LocalPlayer.updateAutoJump(FF)V} and {@code Mth.sin(float)}/
+ * {@code Mth.cos(float)}. In 1.21.11 Mojmap, the same owner method widens its
+ * float yaw radians into {@code Mth.sin(double)}/
+ * {@code Mth.cos(double)}, whose table indexing uses double arithmetic. The
+ * 1.9.4 Ornithe Feather source has no auto-jump entry point; the V1_9 native
+ * resolver barrier keeps this float-table change out of pre-feature profiles.
+ * This delegates to {@link LegacyTrig}, which implements the shared 1.10 and
+ * 1.21.10 float lookup.
  */
 @MovementChange(emulates = ParkourVersion.V1_21_10)
 public final class AutoJumpFallbackTrig implements AutoJumpFallbackTrigHook {
