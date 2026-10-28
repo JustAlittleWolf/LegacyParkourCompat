@@ -18,7 +18,7 @@ abstract class PistonMovingBlockEntityMixin {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;applyEffectsFromBlocks(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;)V"),
         index = 0
     )
-    private Vec3 legacyparkourcompat$historicalCallbackScanOrigin(
+    private static Vec3 legacyparkourcompat$historicalCallbackScanOrigin(
         Vec3 currentOrigin,
         @Local(argsOnly = true) Entity entity
     ) {
