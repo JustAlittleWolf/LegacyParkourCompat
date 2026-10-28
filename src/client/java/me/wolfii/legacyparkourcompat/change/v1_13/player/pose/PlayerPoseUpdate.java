@@ -15,7 +15,8 @@ import net.minecraft.world.phys.AABB;
  * PlayerEntity.updatePlayerPose (including isDoingSpinAttack/isSneaking); the
  * current adapter is 26.2 unobfuscated Player.updatePlayerPose, Player.isAutoSpinAttack
  * and Entity.isShiftKeyDown (which reads the same shared flag as 1.13 Entity.isSneaking).
- * The mixin runs after the current selector so its swimming/crawl fallback remains admitted.
+ * The post-native adapter uses the requested pose to exclude modern-only states but still
+ * applies the historical fit when the native selector retains an entity/border fallback pose.
  */
 @MovementChange(emulates = ParkourVersion.V1_13)
 public final class PlayerPoseUpdate implements PlayerPoseHook {
@@ -27,9 +28,9 @@ public final class PlayerPoseUpdate implements PlayerPoseHook {
         // Entity.refreshDimensions (3393-3400) before this TAIL hook; use the HEAD snapshot so a rejected
         // historical fit retains the pre-native dimensions and box.
         // 26.2/unobfuscated Pose.java lists states absent from the 1.13 pose operation; retain
-        // native behavior for them. Player.updatePlayerPose also selects SWIMMING as its fallback
-        // when desired and CROUCHING fit checks fail; keep those native dimensions unless swimming
-        // is the actual desired state. This preserves native crawl admission from standing/crouching.
+        // native behavior for them. The mixin excludes a desired SWIMMING pose when the player is
+        // crawling, so a CROUCHING fallback caused only by modern entity/border checks can still be
+        // resized according to the old block-only fit operation.
         Pose currentPose = player.getPose();
         if (currentPose != Pose.STANDING && currentPose != Pose.FALL_FLYING
             && currentPose != Pose.SLEEPING && currentPose != Pose.SWIMMING
@@ -53,7 +54,10 @@ public final class PlayerPoseUpdate implements PlayerPoseHook {
             height = 0.6F;
         } else if (player.isShiftKeyDown()) {
             width = 0.6F;
-            height = 1.65F;
+            // Compose with the existing V1_13 PlayerDimensionsHook, which supplies
+            // the historical crouch height while preserving the native attachments.
+            EntityDimensions crouching = player.getDimensions(Pose.CROUCHING);
+            height = crouching.height();
         } else {
             width = 0.6F;
             height = 1.8F;
