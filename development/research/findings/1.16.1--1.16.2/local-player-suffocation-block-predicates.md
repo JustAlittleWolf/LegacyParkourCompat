@@ -1,0 +1,9 @@
+# Partial-height block predicates in local-player escape queries
+
+Mojmap 1.16 and 1.16.1 LocalPlayer.checkInBlock/blocked and Player.freeAt test the suffocating predicate over a sampled integer block column. The default BlockBehaviour.Properties.isSuffocating predicate requires motion-blocking material and a full collision shape. Farmland, Soul Sand, and Grass Path have partial-height collision shapes and no suffocation override, so these states return false.
+
+Mojmap 1.16.2 Blocks registrations explicitly set isSuffocating(Blocks::always) for these three blocks (Farmland lines 494–504, Soul Sand 730–742, Grass Path 1965–1970). This persists through 1.16.5. LocalPlayer.moveTowardsClosestSpace/suffocatesAt simultaneously switches to a deflated shape-intersection query over the sampled column's player-height AABB. The direction/tie order and signed 0.1 horizontal escape response remain.
+
+The movement consequence is the occupancy answer used by the local player's escape decision, rather than damage or block-state production. Substituting current registrations into the old column scan makes those three partial-height states qualify where old source would not. The fixed historical query restores false for these blocks and retains the native predicate for other states. Current DIRT_PATH corresponds to the older Grass Path block. This changes no vanilla block states or global registration.
+
+Exact 1.16, 1.16.1, 1.16.2, 1.16.3, 1.16.4 and 1.16.5 source comparisons, selected-file hashes, independent audits and provenance qualifications are preserved under development/research/source-evidence/20261028/suffocation-predicates/. The bounded registration/query finding does not establish every block predicate across all releases, ordinary input-only reachability, or tick-level runtime parity.
