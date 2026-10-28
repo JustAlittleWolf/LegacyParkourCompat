@@ -32,15 +32,28 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jspecify.annotations.Nullable;
 import me.wolfii.legacyparkourcompat.mechanic.collision.MovementCollisionContext;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockCollisionShapeHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockCollisionCollectionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.BlockMovementCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.BlockComponentClipHook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.CollisionGetter;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.state.properties.SlabType;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.Shapes;
 
 import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Mixin-facing lookup. Change authors should not call this; they implement
@@ -243,6 +256,373 @@ public final class MovementRuntime {
         var parts = providedParts.orElse(List.of(nativeShape));
         var clip = find(BlockComponentClipHook.class, state.getBlock(), player).orElse(null);
         return collector.get().collect(player, pos, movement.query(), nativeShape, parts, clip);
+    }
+
+    /**
+     * Replaces the native block stream only when the complete 1.13.0 slab-only
+     * query can be reconstructed from the original Entity.move request.
+     */
+    public static Iterable<VoxelShape> collectHistoricalMovementBlocks(
+        Entity entity,
+        Level level,
+        CollisionContext context,
+        AABB sweptBox,
+        List<VoxelShape> entityCandidates,
+        VanillaFn<Iterable<VoxelShape>> vanilla
+    ) {
+        CollisionAxisOrderContext.clearCollectedBlockShape();
+        if (!(entity instanceof LocalPlayer)
+            || !appliesTo(entity)
+            || CollisionAxisOrderContext.blockCollectionDisabled()
+            || !(context instanceof MovementCollisionContext)
+            || !entityCandidates.isEmpty()) {
+            return vanilla.get();
+        }
+        var collector = find(BlockCollisionCollectionHook.class, entity);
+        if (collector.isEmpty()) {
+            return vanilla.get();
+        }
+        var streamOrder = collector.get().streamOrder();
+        if (streamOrder == BlockCollisionCollectionHook.StreamOrder.NATIVE) {
+            return vanilla.get();
+        }
+
+        var movement = CollisionAxisOrderContext.movementQuery();
+        if (movement == null || movement.entity() != entity || movement.requestedMovement().lengthSqr() == 0.0
+            || !movement.unadjustedPrimaryMovement()
+            || !movement.startingBox().equals(entity.getBoundingBox())
+            || !movement.sweptBox().equals(sweptBox)) {
+            return vanilla.get();
+        }
+        // A grounded or descending move may enter the separate step-up sweep.
+        // Keep that entire route native because it does not reuse this aggregate.
+        boolean stepUpFree = !entity.onGround() && movement.requestedMovement().y >= 0.0;
+        if (!stepUpFree) {
+            return vanilla.get();
+        }
+
+        // 26.2 has a different entity query envelope and filter order. Any entity
+        // near the old expanded bounds keeps the complete native route unchanged.
+        AABB historicalEntityEnvelope = sweptBox.inflate(0.25);
+        if (!level.getEntities(entity, historicalEntityEnvelope, other -> other != entity).isEmpty()) {
+            return vanilla.get();
+        }
+
+        var border = level.getWorldBorder();
+        boolean borderCheck = entity.isOutsideWorldBorder()
+            || border.isInsideCloseToBorder(entity, sweptBox);
+        boolean historicalBorderCollision = find(
+            me.wolfii.legacyparkourcompat.mechanic.hook.border.WorldBorderCollisionHook.class, entity)
+            .map(hook -> hook.collision(border, entity, sweptBox)).orElse(null) != null;
+        if (borderCheck || historicalBorderCollision) {
+            return vanilla.get();
+        }
+
+        AABB startBox = movement.startingBox();
+        Vec3 requested = movement.requestedMovement();
+        AABB paddedSweep = sweptBox.inflate(1.0E-7);
+        AABB shiftedStart = startBox.move(
+            requested.x > 0.0 ? -1.0E-7 : 1.0E-7,
+            requested.y > 0.0 ? -1.0E-7 : 1.0E-7,
+            requested.z > 0.0 ? -1.0E-7 : 1.0E-7
+        );
+        boolean exactBounds = sourceBoxConversionMatches(startBox)
+            && sourceBoxConversionMatches(paddedSweep)
+            && sourceBoxConversionMatches(shiftedStart);
+        if (!exactBounds) {
+            return vanilla.get();
+        }
+        VoxelShape exclusion = Shapes.create(startBox);
+        VoxelShape bounds = Shapes.joinUnoptimized(
+            Shapes.create(paddedSweep), Shapes.create(shiftedStart), BooleanOp.ONLY_FIRST);
+
+        var provider = new SlabMovementCollisionProvider(level, context, entity);
+        boolean slabOnlyEnvelope = provider.supportsCompleteEnvelope(bounds, streamOrder);
+        var query = new BlockCollisionCollectionHook.CollectorQuery(
+            bounds,
+            exclusion,
+            exactBounds,
+            sourceBoxConversionMatches(startBox),
+            slabOnlyEnvelope,
+            slabOnlyEnvelope,
+            true,
+            true,
+            stepUpFree,
+            false,
+            false
+        );
+        var historical = collector.get().collect(query, provider);
+        if (historical.isEmpty() || !provider.isStillSupported()) {
+            return vanilla.get();
+        }
+
+        if (streamOrder == BlockCollisionCollectionHook.StreamOrder.AGGREGATE_X_Z_Y
+            && historical.get().size() == 1) {
+            CollisionAxisOrderContext.collectedBlockShape(historical.get().getFirst());
+        }
+        return historical.get();
+    }
+
+    private static final Set<String> LEGACY_113_SLAB_KEYS = Set.of(
+        "minecraft:oak_slab", "minecraft:spruce_slab", "minecraft:birch_slab",
+        "minecraft:jungle_slab", "minecraft:acacia_slab", "minecraft:dark_oak_slab",
+        "minecraft:stone_slab", "minecraft:sandstone_slab", "minecraft:petrified_oak_slab",
+        "minecraft:cobblestone_slab", "minecraft:brick_slab", "minecraft:stone_brick_slab",
+        "minecraft:nether_brick_slab", "minecraft:quartz_slab", "minecraft:red_sandstone_slab",
+        "minecraft:purpur_slab", "minecraft:prismarine_slab", "minecraft:prismarine_brick_slab",
+        "minecraft:dark_prismarine_slab"
+    );
+    private static final Set<String> LEGACY_113_EMPTY_KEYS = Set.of(
+        "minecraft:air", "minecraft:cave_air", "minecraft:void_air"
+    );
+
+    private static final class SlabMovementCollisionProvider
+        implements BlockCollisionCollectionHook.BlockCollisionProvider {
+        private final Level level;
+        private final CollisionContext context;
+        private final Entity entity;
+        private final Map<BlockPos, BlockCollisionCollectionHook.CollisionCell> cells = new HashMap<>();
+        private final Map<Long, BlockGetter> collisionChunks = new HashMap<>();
+        private final Set<Long> missingCollisionChunks = new HashSet<>();
+        private final net.minecraft.world.level.border.WorldBorder border;
+        private final BlockGetter noLoadBlockView = new BlockGetter() {
+            @Override
+            public @Nullable BlockEntity getBlockEntity(BlockPos position) {
+                BlockGetter chunk = SlabMovementCollisionProvider.this.collisionChunk(position);
+                return chunk == null ? null : chunk.getBlockEntity(position);
+            }
+
+            @Override
+            public BlockState getBlockState(BlockPos position) {
+                BlockGetter chunk = SlabMovementCollisionProvider.this.collisionChunk(position);
+                return chunk == null ? Blocks.VOID_AIR.defaultBlockState() : chunk.getBlockState(position);
+            }
+
+            @Override
+            public FluidState getFluidState(BlockPos position) {
+                BlockGetter chunk = SlabMovementCollisionProvider.this.collisionChunk(position);
+                return chunk == null ? Blocks.VOID_AIR.defaultBlockState().getFluidState() : chunk.getFluidState(position);
+            }
+
+            @Override
+            public int getHeight() {
+                return SlabMovementCollisionProvider.this.level.getHeight();
+            }
+
+            @Override
+            public int getMinY() {
+                return SlabMovementCollisionProvider.this.level.getMinY();
+            }
+        };
+        private boolean supported = true;
+
+        private SlabMovementCollisionProvider(Level level, CollisionContext context, Entity entity) {
+            this.level = level;
+            this.context = context;
+            this.entity = entity;
+            this.border = level.getWorldBorder();
+        }
+
+        @Override
+        public boolean isChunkLoaded(BlockPos oldProbe) {
+            // 1.13 client isChunkLoaded(..., allowEmpty=true) exposes VOID_AIR
+            // for an absent chunk; the modern null collision chunk has the same
+            // empty collision geometry. Keep the scan and synthesize that state
+            // below without calling Level.getBlockState.
+            this.collisionChunk(oldProbe);
+            return true;
+        }
+
+        @Override
+        public BlockCollisionCollectionHook.CollisionCell get(BlockPos position) {
+            return this.cells.computeIfAbsent(position.immutable(), this::readCell);
+        }
+
+        private BlockCollisionCollectionHook.CollisionCell readCell(BlockPos position) {
+            BlockGetter chunk = this.collisionChunk(position);
+            BlockState state = chunk == null ? Blocks.VOID_AIR.defaultBlockState() : chunk.getBlockState(position);
+            CollisionContext shapeContext = ((MovementCollisionContext) this.context).delegate();
+            VoxelShape shape = chunk == null ? Shapes.empty()
+                : state.getCollisionShape(this.noLoadBlockView, position, shapeContext);
+            Identifier registeredKey = BuiltInRegistries.BLOCK.getKey(state.getBlock());
+            String key = registeredKey == null ? "" : registeredKey.toString();
+            boolean canonicalFull = shape == Shapes.block();
+            boolean supportedCell = find(BlockMovementCollisionHook.class, state.getBlock(), this.entity).isEmpty()
+                && find(BlockCollisionShapeHook.class, state.getBlock(), this.entity).isEmpty()
+                && find(BlockComponentClipHook.class, state.getBlock(), this.entity).isEmpty();
+
+            if (LEGACY_113_SLAB_KEYS.contains(key)) {
+                supportedCell &= matchingLegacySlabState(state, shape);
+            } else if (shape.isEmpty()) {
+                // These keys are noCollision in both 1.13 and 26.2; an empty
+                // shape from any other unclosed block key is not sufficient proof.
+                supportedCell &= LEGACY_113_EMPTY_KEYS.contains(key);
+            } else {
+                supportedCell = false;
+            }
+            this.supported &= supportedCell;
+            return new BlockCollisionCollectionHook.CollisionCell(
+                state, LEGACY_113_SLAB_KEYS.contains(key) ? key : null, shape, canonicalFull, supportedCell);
+        }
+
+        private BlockGetter collisionChunk(BlockPos position) {
+            long key = ((long) position.getX() >> 4) << 32 ^ (((long) position.getZ() >> 4) & 0xffffffffL);
+            if (this.missingCollisionChunks.contains(key)) {
+                return null;
+            }
+            BlockGetter cached = this.collisionChunks.get(key);
+            if (cached != null) {
+                return cached;
+            }
+            BlockGetter chunk = this.level.getChunkForCollisions(position.getX() >> 4, position.getZ() >> 4);
+            if (chunk == null) {
+                this.missingCollisionChunks.add(key);
+            } else {
+                this.collisionChunks.put(key, chunk);
+            }
+            return chunk;
+        }
+
+        @Override
+        public boolean supportsCompleteEnvelope(VoxelShape bounds,
+            BlockCollisionCollectionHook.StreamOrder streamOrder) {
+            if (bounds.isEmpty()) {
+                return false;
+            }
+            int minX = Mth.floor(bounds.min(Direction.Axis.X)) - 1;
+            int maxX = Mth.ceil(bounds.max(Direction.Axis.X)) + 1;
+            int minY = Mth.floor(bounds.min(Direction.Axis.Y)) - 1;
+            int maxY = Mth.ceil(bounds.max(Direction.Axis.Y)) + 1;
+            int minZ = Mth.floor(bounds.min(Direction.Axis.Z)) - 1;
+            int maxZ = Mth.ceil(bounds.max(Direction.Axis.Z)) + 1;
+            if (!(this.border.getMinX() < minX && maxX < this.border.getMaxX()
+                && this.border.getMinZ() < minZ && maxZ < this.border.getMaxZ())) {
+                return false;
+            }
+            long scanCells = (long) (maxX - minX) * (maxY - minY) * (maxZ - minZ);
+            if (scanCells <= 0 || scanCells > 4096) {
+                return false;
+            }
+            if (streamOrder == BlockCollisionCollectionHook.StreamOrder.AGGREGATE_X_Z_Y) {
+                for (int x = minX; x < maxX; x++) {
+                    for (int z = minZ; z < maxZ; z++) {
+                        boolean xPerimeter = x == minX || x == maxX - 1;
+                        boolean zPerimeter = z == minZ || z == maxZ - 1;
+                        if ((xPerimeter && zPerimeter)
+                            || !this.isChunkLoaded(new BlockPos(x, 64, z))) {
+                            continue;
+                        }
+                        for (int y = minY; y < maxY; y++) {
+                            if ((xPerimeter && zPerimeter) || ((xPerimeter || zPerimeter) && y == maxY - 1)) {
+                                continue;
+                            }
+                            this.get(new BlockPos(x, y, z));
+                        }
+                    }
+                }
+            } else {
+                for (int z = minZ; z < maxZ; z++) {
+                    boolean zPerimeter = z == minZ || z == maxZ - 1;
+                    for (int y = minY; y < maxY; y++) {
+                        boolean yPerimeter = y == minY || y == maxY - 1;
+                        for (int x = minX; x < maxX; x++) {
+                            boolean xPerimeter = x == minX || x == maxX - 1;
+                            if ((!xPerimeter || !yPerimeter) && (!yPerimeter || !zPerimeter)
+                                && (!zPerimeter || !xPerimeter) && this.isChunkLoaded(new BlockPos(x, y, z))) {
+                                this.get(new BlockPos(x, y, z));
+                            }
+                        }
+                    }
+                }
+            }
+            return this.supported;
+        }
+
+        private boolean isStillSupported() {
+            return this.supported;
+        }
+
+        private static boolean matchingLegacySlabState(BlockState state, VoxelShape shape) {
+            if (!(state.getBlock() instanceof SlabBlock)
+                || !state.hasProperty(SlabBlock.TYPE)
+                || !state.hasProperty(SlabBlock.WATERLOGGED)) {
+                return false;
+            }
+            SlabType type = state.getValue(SlabBlock.TYPE);
+            if (type == SlabType.DOUBLE) {
+                return shape == Shapes.block();
+            }
+            if (shape == Shapes.block()) {
+                return false;
+            }
+            AABB expected = type == SlabType.BOTTOM
+                ? new AABB(0.0, 0.0, 0.0, 1.0, 0.5, 1.0)
+                : new AABB(0.0, 0.5, 0.0, 1.0, 1.0, 1.0);
+            List<AABB> boxes = shape.toAabbs();
+            if (boxes.size() != 1) {
+                return false;
+            }
+            AABB box = boxes.getFirst();
+            return box.minX == expected.minX && box.minY == expected.minY && box.minZ == expected.minZ
+                && box.maxX == expected.maxX && box.maxY == expected.maxY && box.maxZ == expected.maxZ;
+        }
+    }
+
+    private static boolean sourceBoxConversionMatches(AABB box) {
+        if (!Double.isFinite(box.minX) || !Double.isFinite(box.minY) || !Double.isFinite(box.minZ)
+            || !Double.isFinite(box.maxX) || !Double.isFinite(box.maxY) || !Double.isFinite(box.maxZ)
+            || !(box.maxX - box.minX >= 1.0E-7)
+            || !(box.maxY - box.minY >= 1.0E-7)
+            || !(box.maxZ - box.minZ >= 1.0E-7)) {
+            return false;
+        }
+        int oldX = legacyShapeBits(box.minX, box.maxX);
+        int oldY = legacyShapeBits(box.minY, box.maxY);
+        int oldZ = legacyShapeBits(box.minZ, box.maxZ);
+        int currentX = currentShapeBits(box.minX, box.maxX);
+        int currentY = currentShapeBits(box.minY, box.maxY);
+        int currentZ = currentShapeBits(box.minZ, box.maxZ);
+        if (oldX != currentX || oldY != currentY || oldZ != currentZ) {
+            return false;
+        }
+        if (oldX == 0 && oldY == 0 && oldZ == 0) {
+            return box.minX <= 0.5 && box.maxX >= 0.5
+                && box.minY <= 0.5 && box.maxY >= 0.5
+                && box.minZ <= 0.5 && box.maxZ >= 0.5;
+        }
+        return true;
+    }
+
+    private static int legacyShapeBits(double min, double max) {
+        if (min < -1.0E-7 || max > 1.0000001) {
+            return -1;
+        }
+        for (int bits = 0; bits <= 3; bits++) {
+            int intervals = 1 << bits;
+            double scaledMin = min * intervals;
+            double scaledMax = max * intervals;
+            if (Math.abs(scaledMin - Math.floor(scaledMin)) < 1.0E-7
+                && Math.abs(scaledMax - Math.floor(scaledMax)) < 1.0E-7) {
+                return bits;
+            }
+        }
+        return -1;
+    }
+
+    private static int currentShapeBits(double min, double max) {
+        if (min < -1.0E-7 || max > 1.0000001) {
+            return -1;
+        }
+        for (int bits = 0; bits <= 3; bits++) {
+            int intervals = 1 << bits;
+            double scaledMin = min * intervals;
+            double scaledMax = max * intervals;
+            if (Math.abs(scaledMin - Math.round(scaledMin)) < 1.0E-7 * intervals
+                && Math.abs(scaledMax - Math.round(scaledMax)) < 1.0E-7 * intervals) {
+                return bits;
+            }
+        }
+        return -1;
     }
 
     /** Returns whether horizontal restitution has been supplied by resolved hooks. */
