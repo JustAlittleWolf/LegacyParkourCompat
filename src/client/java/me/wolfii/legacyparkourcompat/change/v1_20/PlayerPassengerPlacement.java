@@ -18,7 +18,7 @@ import net.minecraft.world.entity.animal.camel.Camel;
 import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.monster.Strider;
-import net.minecraft.world.phys.EntityDimensions;
+import net.minecraft.world.entity.EntityDimensions;
 
 import java.util.Optional;
 import java.util.Set;
@@ -94,7 +94,7 @@ public final class PlayerPassengerPlacement implements PlayerPassengerPlacementH
 
         int passengerIndex = vehicle.getPassengers().indexOf(passenger);
         int passengerCount = vehicle.getPassengers().size();
-        float bodyYaw = vehicle instanceof LivingEntity living ? living.getYBodyRot() : vehicle.getYRot();
+        float bodyYaw = vehicle instanceof LivingEntity living ? living.yBodyRot : vehicle.getYRot();
         double camelAnchor = vehicle instanceof Camel camel ? camelBodyAnchor(camel, passengerIndex == 0) : 0.0;
         double chickenY = "chicken".equals(type) ? vehicle.getY(0.5) : 0.0;
         float standAnimation = vehicle instanceof AbstractHorse horse ? horse.getStandAnim(0.0F) : 0.0F;

@@ -38,7 +38,7 @@ abstract class EntityPassengerPlacementMixin {
             return;
         }
 
-        float previousBodyYaw = player.getYBodyRot();
+        float previousBodyYaw = player.yBodyRot;
         Vec3 position = historical.position();
         Entity.MoveFunction historicalMove = (entity, x, y, z) ->
             moveFunction.accept(entity, position.x, position.y, position.z);
