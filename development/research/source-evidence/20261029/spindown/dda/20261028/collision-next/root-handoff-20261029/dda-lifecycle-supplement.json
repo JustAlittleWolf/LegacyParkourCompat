@@ -1,0 +1,42 @@
+{
+  "snapshot": "2026-10-29",
+  "description": "Supplemental reviewed source inventory of 1.8.9 mutable shared Block bounds writers, callers and player readers. It does not close lifecycle validity or authorize an adapter.",
+  "entries": [
+    {
+      "path": ".native-source/20261028/collision-next/dda-legacy-cache-callers-20261029/report.md",
+      "sha256": "AB3399383A2A479650CA0F1F4330658698BD3DF612B22D983BA118019294CAB8"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-legacy-cache-callers-20261029/artifact-hashes.json",
+      "sha256": "4F9C7C99DE41C8F695ABBC2689EC852728672F3603F28033BA57EFD4577FD1CD"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-legacy-cache-callers-20261029/source-hashes.json",
+      "sha256": "A3310A4724F345C4B6D8990F8EB99FE37FDF4DA3202768E15C76ADEF114506FA"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-legacy-cache-callers-20261029/ray-call-sites.txt",
+      "sha256": "9E7D77F266AACBE3F35DCBA38BA86CFAE34D56B67462C8CFB9BE8BE72C218EB5"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-legacy-cache-callers-20261029/shape-refresh-call-sites.txt",
+      "sha256": "09A302FB0FEA66AD171C0C6A1E4AB01155A7B96D218E628D9504EA25D262516A"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-legacy-cache-callers-20261029/collision-read-call-sites.txt",
+      "sha256": "C2B74CA010EF0FD1E9DB77FB2AAFED16BE930A1673CBAB5FB68AAEE08A3C5D3E"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-legacy-cache-callers-20261029/block-instance-writers.txt",
+      "sha256": "EB90C5450FF42838153FAA2AB752DA8685FF1046CF7889B9C57D89EBC2B5BAC5"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-legacy-cache-callers-review-20261029/independent-source-checklist.md",
+      "sha256": "041D5C5649A972B8CA592EF6B39C692A64513109CC73C1E9EA4B55C3B476573B"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-legacy-cache-callers-review-20261029/review.md",
+      "sha256": "4F6C923608F9284CB77870F656514CFB245C1B2142D3B6428A863E3BDCB76C72"
+    }
+  ]
+}

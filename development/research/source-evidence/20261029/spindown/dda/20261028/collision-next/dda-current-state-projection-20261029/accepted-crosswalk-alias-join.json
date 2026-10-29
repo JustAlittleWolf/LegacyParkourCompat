@@ -1,0 +1,3043 @@
+{
+  "inputCrosswalks": [
+    "range-000-063/crosswalk.tsv",
+    "range-064-131/crosswalk-corrected.tsv",
+    "range-132-197/crosswalk.tsv"
+  ],
+  "idCount": 198,
+  "rows": [
+    {
+      "oldId": 0,
+      "oldKey": "AIR_KEY",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 1,
+      "oldKey": "stone",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L1",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "variant": "stone"
+        },
+        {
+          "variant": "granite"
+        },
+        {
+          "variant": "smooth_granite"
+        },
+        {
+          "variant": "diorite"
+        },
+        {
+          "variant": "smooth_diorite"
+        },
+        {
+          "variant": "andesite"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 2,
+      "oldKey": "grass",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "snowy": "false"
+        },
+        {
+          "snowy": "true"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 3,
+      "oldKey": "dirt",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L2",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "snowy": "false",
+          "variant": "dirt"
+        },
+        {
+          "snowy": "true",
+          "variant": "dirt"
+        },
+        {
+          "snowy": "false",
+          "variant": "coarse_dirt"
+        },
+        {
+          "snowy": "true",
+          "variant": "coarse_dirt"
+        },
+        {
+          "snowy": "false",
+          "variant": "podzol"
+        },
+        {
+          "snowy": "true",
+          "variant": "podzol"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 4,
+      "oldKey": "cobblestone",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 5,
+      "oldKey": "planks",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L3",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "variant": "oak"
+        },
+        {
+          "variant": "spruce"
+        },
+        {
+          "variant": "birch"
+        },
+        {
+          "variant": "jungle"
+        },
+        {
+          "variant": "acacia"
+        },
+        {
+          "variant": "dark_oak"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 6,
+      "oldKey": "sapling",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L4",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "stage": "0",
+          "type": "oak"
+        },
+        {
+          "stage": "0",
+          "type": "spruce"
+        },
+        {
+          "stage": "0",
+          "type": "birch"
+        },
+        {
+          "stage": "0",
+          "type": "jungle"
+        },
+        {
+          "stage": "0",
+          "type": "acacia"
+        },
+        {
+          "stage": "0",
+          "type": "dark_oak"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 7,
+      "oldKey": "bedrock",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 8,
+      "oldKey": "flowing_water",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L5",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "level": "0"
+        },
+        {
+          "level": "1"
+        },
+        {
+          "level": "2"
+        },
+        {
+          "level": "3"
+        },
+        {
+          "level": "4"
+        },
+        {
+          "level": "5"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 9,
+      "oldKey": "water",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L5",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "level": "0"
+        },
+        {
+          "level": "1"
+        },
+        {
+          "level": "2"
+        },
+        {
+          "level": "3"
+        },
+        {
+          "level": "4"
+        },
+        {
+          "level": "5"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 10,
+      "oldKey": "flowing_lava",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L5",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "level": "0"
+        },
+        {
+          "level": "1"
+        },
+        {
+          "level": "2"
+        },
+        {
+          "level": "3"
+        },
+        {
+          "level": "4"
+        },
+        {
+          "level": "5"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 11,
+      "oldKey": "lava",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L5",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "level": "0"
+        },
+        {
+          "level": "1"
+        },
+        {
+          "level": "2"
+        },
+        {
+          "level": "3"
+        },
+        {
+          "level": "4"
+        },
+        {
+          "level": "5"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 12,
+      "oldKey": "sand",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L6",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "variant": "sand"
+        },
+        {
+          "variant": "red_sand"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 13,
+      "oldKey": "gravel",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 14,
+      "oldKey": "gold_ore",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 15,
+      "oldKey": "iron_ore",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 16,
+      "oldKey": "coal_ore",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 17,
+      "oldKey": "log",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L7",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "axis": "y",
+          "variant": "oak"
+        },
+        {
+          "axis": "y",
+          "variant": "spruce"
+        },
+        {
+          "axis": "y",
+          "variant": "birch"
+        },
+        {
+          "axis": "y",
+          "variant": "jungle"
+        },
+        {
+          "axis": "x",
+          "variant": "oak"
+        },
+        {
+          "axis": "x",
+          "variant": "spruce"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 18,
+      "oldKey": "leaves",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L8",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "check_decay": "false",
+          "decayable": "true",
+          "variant": "oak"
+        },
+        {
+          "check_decay": "false",
+          "decayable": "true",
+          "variant": "spruce"
+        },
+        {
+          "check_decay": "false",
+          "decayable": "true",
+          "variant": "birch"
+        },
+        {
+          "check_decay": "false",
+          "decayable": "true",
+          "variant": "jungle"
+        },
+        {
+          "check_decay": "false",
+          "decayable": "false",
+          "variant": "oak"
+        },
+        {
+          "check_decay": "false",
+          "decayable": "false",
+          "variant": "spruce"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 19,
+      "oldKey": "sponge",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L9",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "wet": "false"
+        },
+        {
+          "wet": "true"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 20,
+      "oldKey": "glass",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 21,
+      "oldKey": "lapis_ore",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 22,
+      "oldKey": "lapis_block",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 23,
+      "oldKey": "dispenser",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L10",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "facing": "down",
+          "triggered": "false"
+        },
+        {
+          "facing": "up",
+          "triggered": "false"
+        },
+        {
+          "facing": "north",
+          "triggered": "false"
+        },
+        {
+          "facing": "south",
+          "triggered": "false"
+        },
+        {
+          "facing": "west",
+          "triggered": "false"
+        },
+        {
+          "facing": "east",
+          "triggered": "false"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 24,
+      "oldKey": "sandstone",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L11",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "type": "sandstone"
+        },
+        {
+          "type": "chiseled_sandstone"
+        },
+        {
+          "type": "smooth_sandstone"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 25,
+      "oldKey": "noteblock",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 26,
+      "oldKey": "bed",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L12",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "facing": "south",
+          "occupied": "false",
+          "part": "foot"
+        },
+        {
+          "facing": "south",
+          "occupied": "true",
+          "part": "foot"
+        },
+        {
+          "facing": "west",
+          "occupied": "false",
+          "part": "foot"
+        },
+        {
+          "facing": "west",
+          "occupied": "true",
+          "part": "foot"
+        },
+        {
+          "facing": "north",
+          "occupied": "false",
+          "part": "foot"
+        },
+        {
+          "facing": "north",
+          "occupied": "true",
+          "part": "foot"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 27,
+      "oldKey": "golden_rail",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L13",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "powered": "false",
+          "shape": "north_south"
+        },
+        {
+          "powered": "false",
+          "shape": "east_west"
+        },
+        {
+          "powered": "false",
+          "shape": "ascending_east"
+        },
+        {
+          "powered": "false",
+          "shape": "ascending_west"
+        },
+        {
+          "powered": "false",
+          "shape": "ascending_north"
+        },
+        {
+          "powered": "false",
+          "shape": "ascending_south"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 28,
+      "oldKey": "detector_rail",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L13",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "powered": "false",
+          "shape": "north_south"
+        },
+        {
+          "powered": "false",
+          "shape": "east_west"
+        },
+        {
+          "powered": "false",
+          "shape": "ascending_east"
+        },
+        {
+          "powered": "false",
+          "shape": "ascending_west"
+        },
+        {
+          "powered": "false",
+          "shape": "ascending_north"
+        },
+        {
+          "powered": "false",
+          "shape": "ascending_south"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 29,
+      "oldKey": "sticky_piston",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L14",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "extended": "false",
+          "facing": "down"
+        },
+        {
+          "extended": "false",
+          "facing": "up"
+        },
+        {
+          "extended": "false",
+          "facing": "north"
+        },
+        {
+          "extended": "false",
+          "facing": "south"
+        },
+        {
+          "extended": "false",
+          "facing": "west"
+        },
+        {
+          "extended": "false",
+          "facing": "east"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 30,
+      "oldKey": "web",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 31,
+      "oldKey": "tallgrass",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "L15",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "type": "dead_bush"
+        },
+        {
+          "type": "tall_grass"
+        },
+        {
+          "type": "fern"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 32,
+      "oldKey": "deadbush",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 33,
+      "oldKey": "piston",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M1",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "extended": "false",
+          "facing": "down"
+        },
+        {
+          "extended": "false",
+          "facing": "up"
+        },
+        {
+          "extended": "false",
+          "facing": "north"
+        },
+        {
+          "extended": "false",
+          "facing": "south"
+        },
+        {
+          "extended": "false",
+          "facing": "west"
+        },
+        {
+          "extended": "false",
+          "facing": "east"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 34,
+      "oldKey": "piston_head",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M2",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "facing": "down",
+          "short": "false",
+          "type": "normal"
+        },
+        {
+          "facing": "down",
+          "short": "true",
+          "type": "normal"
+        },
+        {
+          "facing": "up",
+          "short": "false",
+          "type": "normal"
+        },
+        {
+          "facing": "up",
+          "short": "true",
+          "type": "normal"
+        },
+        {
+          "facing": "north",
+          "short": "false",
+          "type": "normal"
+        },
+        {
+          "facing": "north",
+          "short": "true",
+          "type": "normal"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 35,
+      "oldKey": "wool",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M3",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "color": "white"
+        },
+        {
+          "color": "orange"
+        },
+        {
+          "color": "magenta"
+        },
+        {
+          "color": "light_blue"
+        },
+        {
+          "color": "yellow"
+        },
+        {
+          "color": "lime"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 36,
+      "oldKey": "piston_extension",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M4",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "facing": "down",
+          "type": "normal"
+        },
+        {
+          "facing": "up",
+          "type": "normal"
+        },
+        {
+          "facing": "north",
+          "type": "normal"
+        },
+        {
+          "facing": "south",
+          "type": "normal"
+        },
+        {
+          "facing": "west",
+          "type": "normal"
+        },
+        {
+          "facing": "east",
+          "type": "normal"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 37,
+      "oldKey": "yellow_flower",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M5",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "type": "dandelion"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 38,
+      "oldKey": "red_flower",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M6",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "type": "poppy"
+        },
+        {
+          "type": "blue_orchid"
+        },
+        {
+          "type": "allium"
+        },
+        {
+          "type": "houstonia"
+        },
+        {
+          "type": "red_tulip"
+        },
+        {
+          "type": "orange_tulip"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 39,
+      "oldKey": "brown_mushroom",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 40,
+      "oldKey": "red_mushroom",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 41,
+      "oldKey": "gold_block",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 42,
+      "oldKey": "iron_block",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 43,
+      "oldKey": "double_stone_slab",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M7",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "seamless": "false",
+          "variant": "stone"
+        },
+        {
+          "seamless": "false",
+          "variant": "sandstone"
+        },
+        {
+          "seamless": "false",
+          "variant": "wood_old"
+        },
+        {
+          "seamless": "false",
+          "variant": "cobblestone"
+        },
+        {
+          "seamless": "false",
+          "variant": "brick"
+        },
+        {
+          "seamless": "false",
+          "variant": "stone_brick"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 44,
+      "oldKey": "stone_slab",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M8",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "half": "bottom",
+          "variant": "stone"
+        },
+        {
+          "half": "bottom",
+          "variant": "sandstone"
+        },
+        {
+          "half": "bottom",
+          "variant": "wood_old"
+        },
+        {
+          "half": "bottom",
+          "variant": "cobblestone"
+        },
+        {
+          "half": "bottom",
+          "variant": "brick"
+        },
+        {
+          "half": "bottom",
+          "variant": "stone_brick"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 45,
+      "oldKey": "brick_block",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 46,
+      "oldKey": "tnt",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M9",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "explode": "false"
+        },
+        {
+          "explode": "true"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 47,
+      "oldKey": "bookshelf",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 48,
+      "oldKey": "mossy_cobblestone",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 49,
+      "oldKey": "obsidian",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 50,
+      "oldKey": "torch",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M10",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "facing": "east"
+        },
+        {
+          "facing": "west"
+        },
+        {
+          "facing": "south"
+        },
+        {
+          "facing": "north"
+        },
+        {
+          "facing": "up"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 51,
+      "oldKey": "fire",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M11",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "age": "0",
+          "east": "false",
+          "north": "false",
+          "south": "false",
+          "up": "false",
+          "west": "false"
+        },
+        {
+          "age": "0",
+          "east": "false",
+          "north": "false",
+          "south": "false",
+          "up": "false",
+          "west": "true"
+        },
+        {
+          "age": "0",
+          "east": "false",
+          "north": "false",
+          "south": "false",
+          "up": "true",
+          "west": "false"
+        },
+        {
+          "age": "0",
+          "east": "false",
+          "north": "false",
+          "south": "false",
+          "up": "true",
+          "west": "true"
+        },
+        {
+          "age": "0",
+          "east": "false",
+          "north": "false",
+          "south": "true",
+          "up": "false",
+          "west": "false"
+        },
+        {
+          "age": "0",
+          "east": "false",
+          "north": "false",
+          "south": "true",
+          "up": "false",
+          "west": "true"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 52,
+      "oldKey": "mob_spawner",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 53,
+      "oldKey": "oak_stairs",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M12",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "facing": "east",
+          "half": "bottom",
+          "shape": "inner_left"
+        },
+        {
+          "facing": "east",
+          "half": "bottom",
+          "shape": "inner_right"
+        },
+        {
+          "facing": "east",
+          "half": "bottom",
+          "shape": "outer_left"
+        },
+        {
+          "facing": "east",
+          "half": "bottom",
+          "shape": "outer_right"
+        },
+        {
+          "facing": "east",
+          "half": "bottom",
+          "shape": "straight"
+        },
+        {
+          "facing": "west",
+          "half": "bottom",
+          "shape": "inner_left"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 54,
+      "oldKey": "chest",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M13",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "facing": "north"
+        },
+        {
+          "facing": "south"
+        },
+        {
+          "facing": "west"
+        },
+        {
+          "facing": "east"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 55,
+      "oldKey": "redstone_wire",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M14",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "east": "none",
+          "north": "none",
+          "power": "0",
+          "south": "none",
+          "west": "none"
+        },
+        {
+          "east": "none",
+          "north": "none",
+          "power": "0",
+          "south": "none",
+          "west": "side"
+        },
+        {
+          "east": "none",
+          "north": "none",
+          "power": "0",
+          "south": "none",
+          "west": "up"
+        },
+        {
+          "east": "none",
+          "north": "none",
+          "power": "0",
+          "south": "side",
+          "west": "none"
+        },
+        {
+          "east": "none",
+          "north": "none",
+          "power": "0",
+          "south": "side",
+          "west": "side"
+        },
+        {
+          "east": "none",
+          "north": "none",
+          "power": "0",
+          "south": "side",
+          "west": "up"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 56,
+      "oldKey": "diamond_ore",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 57,
+      "oldKey": "diamond_block",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 58,
+      "oldKey": "crafting_table",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M0",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {}
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 59,
+      "oldKey": "wheat",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M15",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "age": "0"
+        },
+        {
+          "age": "1"
+        },
+        {
+          "age": "2"
+        },
+        {
+          "age": "3"
+        },
+        {
+          "age": "4"
+        },
+        {
+          "age": "5"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 60,
+      "oldKey": "farmland",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M16",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "moisture": "0"
+        },
+        {
+          "moisture": "1"
+        },
+        {
+          "moisture": "2"
+        },
+        {
+          "moisture": "3"
+        },
+        {
+          "moisture": "4"
+        },
+        {
+          "moisture": "5"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 61,
+      "oldKey": "furnace",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M17",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "facing": "north"
+        },
+        {
+          "facing": "south"
+        },
+        {
+          "facing": "west"
+        },
+        {
+          "facing": "east"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 62,
+      "oldKey": "lit_furnace",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M17",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "facing": "north"
+        },
+        {
+          "facing": "south"
+        },
+        {
+          "facing": "west"
+        },
+        {
+          "facing": "east"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 63,
+      "oldKey": "standing_sign",
+      "metadataDomain": "stored nibble 0..15; see projection table",
+      "projectionRules": "M18",
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 16,
+      "sameNameAliasCoverage": "all16",
+      "sameNameAliasPropertyExamples": [
+        {
+          "rotation": "0"
+        },
+        {
+          "rotation": "1"
+        },
+        {
+          "rotation": "2"
+        },
+        {
+          "rotation": "3"
+        },
+        {
+          "rotation": "4"
+        },
+        {
+          "rotation": "5"
+        }
+      ],
+      "status": "name-only match; exact 1.8.9 metadata-to-alias equivalence still requires source crosswalk"
+    },
+    {
+      "oldId": 64,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 65,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 66,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 67,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 68,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 69,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 70,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 71,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 72,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 73,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 74,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 75,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 76,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 77,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 78,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 79,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 80,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 81,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 82,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 83,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 84,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 85,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 86,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 87,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 88,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 89,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 90,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 91,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 92,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 93,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 94,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 95,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 96,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 97,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 98,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 99,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 100,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 101,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 102,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 103,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 104,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 105,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 106,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 107,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 108,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 109,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 110,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 111,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 112,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 113,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 114,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 115,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 116,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 117,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 118,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 119,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 120,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 121,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 122,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 123,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 124,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 125,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 126,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 127,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 128,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 129,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 130,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 131,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 132,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 133,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 134,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 135,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 136,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 137,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 138,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 139,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 140,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 141,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 142,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 143,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 144,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 145,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 146,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 147,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 148,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 149,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 150,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 151,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 152,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 153,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 154,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 155,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 156,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 157,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 158,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 159,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 160,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 161,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 162,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 163,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 164,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 165,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 166,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 167,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 168,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 169,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 170,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 171,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 172,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 173,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 174,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 175,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 176,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 177,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 178,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 179,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 180,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 181,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 182,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 183,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 184,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 185,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 186,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 187,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 188,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 189,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 190,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 191,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 192,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 193,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 194,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 195,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 196,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    },
+    {
+      "oldId": 197,
+      "oldKey": null,
+      "metadataDomain": null,
+      "projectionRules": null,
+      "metadataRows": 16,
+      "sameNameAliasMetadataRows": 0,
+      "sameNameAliasCoverage": "none",
+      "sameNameAliasPropertyExamples": [],
+      "status": "OPEN: no complete same-name legacy alias join; numeric table row is not promoted"
+    }
+  ]
+}

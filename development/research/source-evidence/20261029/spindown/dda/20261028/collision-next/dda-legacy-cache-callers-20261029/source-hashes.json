@@ -1,0 +1,138 @@
+{
+  "version": "1.8.9",
+  "namespace": "ornithe-feather",
+  "sourceManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004",
+  "artifactManifestSha256": "da003358256d1c4402ebb20614651e5410310e871ee913de2b9c1295a64e1446",
+  "fileCount": 32,
+  "files": [
+    {
+      "path": "net/minecraft/block/Block.java",
+      "sha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528"
+    },
+    {
+      "path": "net/minecraft/world/World.java",
+      "sha256": "3c04f5b874fbb6692039164c882a3c47fe28c7eca864e91c9ac57798153888ee"
+    },
+    {
+      "path": "net/minecraft/entity/Entity.java",
+      "sha256": "d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b"
+    },
+    {
+      "path": "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+      "sha256": "1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053"
+    },
+    {
+      "path": "net/minecraft/entity/living/LivingEntity.java",
+      "sha256": "082831c6578e3a70fa6cea5b90bc3eefc26678259b66334470de22b90b5b0e4e"
+    },
+    {
+      "path": "net/minecraft/client/render/GameRenderer.java",
+      "sha256": "69b0007074901e5bd617f35039f122f21c67402340fe08b3daea1b316c6e7940"
+    },
+    {
+      "path": "net/minecraft/item/Item.java",
+      "sha256": "0b79c6167dd2093713c651f615cb2324213553c343fcf918f2cd90b2c81bc922"
+    },
+    {
+      "path": "net/minecraft/item/SpawnEggItem.java",
+      "sha256": "28d61a4044a402dde3d2ff715b91987ac4ecc3ba94f4f7bfa495e0b68627694d"
+    },
+    {
+      "path": "net/minecraft/item/LilyPadItem.java",
+      "sha256": "f5bb1744693dfe1d1b57ba5b467cb6f146a820ae5d60444b93e15ea40cc4da7e"
+    },
+    {
+      "path": "net/minecraft/item/GlassBottleItem.java",
+      "sha256": "45b47fcd8819bb58ed818f742d72de4602c440109d3dbf9d73ae7719b13140a9"
+    },
+    {
+      "path": "net/minecraft/item/EnderEyeItem.java",
+      "sha256": "7f1174e2484a95389734f8748552b1e956073a401d355af969f4cf776136ad8d"
+    },
+    {
+      "path": "net/minecraft/item/BucketItem.java",
+      "sha256": "5a5e36fa6f754b088ed16cef294eca47e1bf22c792a82ded8a42626d638b6a7a"
+    },
+    {
+      "path": "net/minecraft/item/BoatItem.java",
+      "sha256": "78c08af94fa758a321f639c0a2010c8c56b81b3d54b493f295985181e6d2afe2"
+    },
+    {
+      "path": "net/minecraft/entity/ai/pathing/WaterPathNavigation.java",
+      "sha256": "e6f13da068165b5397742ae72115f4ee032c3e345e73cbaa05347e06d099ce99"
+    },
+    {
+      "path": "net/minecraft/entity/projectile/ThrownEntity.java",
+      "sha256": "4b39bb6ffc260bd88bdbf763c45bab6f03dd2fbba5b850b5acb23d00ba1b7a7d"
+    },
+    {
+      "path": "net/minecraft/entity/projectile/ProjectileEntity.java",
+      "sha256": "eb754ce0c63984da84c81558ea11f2343db22c156dffdf92ab10bbbeb35c95dd"
+    },
+    {
+      "path": "net/minecraft/entity/projectile/ArrowEntity.java",
+      "sha256": "b1b6b352655944a24143261bce900467860b577d0e69d0c872818b4b80c4a18f"
+    },
+    {
+      "path": "net/minecraft/entity/FishingBobberEntity.java",
+      "sha256": "5bfee1414e57447179b671c92a9a2ce26c11f95cd0e6a13754386e16da8ce871"
+    },
+    {
+      "path": "net/minecraft/world/explosion/Explosion.java",
+      "sha256": "68d633251f2a6e604e53c2838693ed986692b87bf48e1bd390ee07c1e9c3390f"
+    },
+    {
+      "path": "net/minecraft/client/network/handler/ClientPlayNetworkHandler.java",
+      "sha256": "7fa3d587325068eaa158526cb59e4850b704ac237938df6592d1a09148db40c3"
+    },
+    {
+      "path": "net/minecraft/client/render/world/WorldRenderer.java",
+      "sha256": "100eaf364bf96e15d8e1b6353cc2570b5d1d5e710986118653ad0a17b6989ef0"
+    },
+    {
+      "path": "net/minecraft/client/render/block/BlockModelRenderer.java",
+      "sha256": "a8fea83da7a867fbca0ca0a0cafff185b41e73870533c3fc3caf9cd70b612925"
+    },
+    {
+      "path": "net/minecraft/client/render/block/BlockRenderDispatcher.java",
+      "sha256": "9d570953e4abb0dae10ba53da682750a7ceb659e6210f42a08af9add29733d03"
+    },
+    {
+      "path": "net/minecraft/client/render/block/LiquidRenderer.java",
+      "sha256": "7b3810b0059a3eaf84949afe01057271f9bd6ceba16910effece59f58b5104f3"
+    },
+    {
+      "path": "net/minecraft/client/entity/particle/RainSplashParticle.java",
+      "sha256": "e8b95b0fc843fc53d241b624246b389b02aaca5835539ed28d1af95506429e51"
+    },
+    {
+      "path": "net/minecraft/item/DyeItem.java",
+      "sha256": "4433405aedcb507ae5a7060b91b4619fc7b758adc3ee00a13804f028b5dc2598"
+    },
+    {
+      "path": "net/minecraft/block/MovingBlock.java",
+      "sha256": "700010b071738738f04e0508050590d8d625f01115fc4886fef6e262f85c6e85"
+    },
+    {
+      "path": "net/minecraft/block/entity/MovingBlockEntity.java",
+      "sha256": "05a5bfbf2556eaa621996bda365b7bab01f5b9060cf773e7b9949ebe2f39fff6"
+    },
+    {
+      "path": "net/minecraft/entity/decoration/DecorationEntity.java",
+      "sha256": "a0273987a66cb91325d5c93cccb808eb2f394394832c2156a53034a67e382924"
+    },
+    {
+      "path": "net/minecraft/entity/ItemEntity.java",
+      "sha256": "3d8b9b224486be7ed885f3cc232545d0680d89c281055ccb67fa130d5c8e0abe"
+    },
+    {
+      "path": "net/minecraft/entity/ExperienceOrbEntity.java",
+      "sha256": "e9df173bf5b45b8edadc9c79c6723cfec5ab17661a103b952d560182919aa3d2"
+    },
+    {
+      "path": "net/minecraft/block/Blocks.java",
+      "sha256": "1da2d85406ed991e8f6bc1f420babf0bd43598478f347c6a4dc9fea322ed0695"
+    }
+  ],
+  "manifestMismatches": []
+}

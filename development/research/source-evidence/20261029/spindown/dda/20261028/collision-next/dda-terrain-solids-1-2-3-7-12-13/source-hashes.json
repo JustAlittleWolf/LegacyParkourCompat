@@ -1,0 +1,109 @@
+{
+  "schema": 1,
+  "assignment": "DDA terrain solid alias/provider closure (IDs 1,2,3,7,12,13)",
+  "canonicalSources": [
+    {
+      "version": "1.8.9",
+      "mapping": "ornithe-feather",
+      "readyStatus": "ready",
+      "sourceManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004",
+      "readyMarkerSha256": "fe0ec792349ae43c91d0a30f23660c94b2f5c8d31a29643f73ed0de367110b95",
+      "sourceFiles": 7
+    },
+    {
+      "version": "26.2",
+      "mapping": "unobfuscated",
+      "readyStatus": "ready",
+      "sourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894",
+      "readyMarkerSha256": "f9406adb6bf7cb4c1ab0792a798ab2cb90e082ad4c2eee032c9f674d0ea8070f",
+      "sourceFiles": 10
+    }
+  ],
+  "files": [
+    {
+      "canonicalSource": "1.8.9/ornithe-feather/net/minecraft/block/Block.java",
+      "sha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+      "matchesSourceManifest": true
+    },
+    {
+      "canonicalSource": "1.8.9/ornithe-feather/net/minecraft/block/StoneBlock.java",
+      "sha256": "ca15180da4a946055afe68f8c6c578070fae700d13b50b4015272d772ddeed23",
+      "matchesSourceManifest": true
+    },
+    {
+      "canonicalSource": "1.8.9/ornithe-feather/net/minecraft/block/DirtBlock.java",
+      "sha256": "7eace0ea43e8e32c848fb69dfe773b67cf2cb5c6c2e22ee766d8180af6927ee4",
+      "matchesSourceManifest": true
+    },
+    {
+      "canonicalSource": "1.8.9/ornithe-feather/net/minecraft/block/GrassBlock.java",
+      "sha256": "f1121c1d84909e1d553bd9d3e84b41eddb841f4ad709cbf377179dcdca7a2b46",
+      "matchesSourceManifest": true
+    },
+    {
+      "canonicalSource": "1.8.9/ornithe-feather/net/minecraft/block/SandBlock.java",
+      "sha256": "4ff61dc097b5c69d51a9363fcbdc6e7b4f32e4529cd77f61b88080af61e0cadd",
+      "matchesSourceManifest": true
+    },
+    {
+      "canonicalSource": "1.8.9/ornithe-feather/net/minecraft/block/GravelBlock.java",
+      "sha256": "0b571efbf7549e9067e1f7e5180eec4f1a3c0d5d6d6640d3e478cbf2dcc0f71f",
+      "matchesSourceManifest": true
+    },
+    {
+      "canonicalSource": "1.8.9/ornithe-feather/net/minecraft/block/FallingBlock.java",
+      "sha256": "a3fcbc22ca73e0b31d2719f62094323c24ae7b56ebb3ce58b7a7909c1d5abaa0",
+      "matchesSourceManifest": true
+    },
+    {
+      "canonicalSource": "26.2/unobfuscated/net/minecraft/util/datafix/fixes/BlockStateData.java",
+      "sha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+      "matchesSourceManifest": true
+    },
+    {
+      "canonicalSource": "26.2/unobfuscated/net/minecraft/world/level/block/Blocks.java",
+      "sha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+      "matchesSourceManifest": true
+    },
+    {
+      "canonicalSource": "26.2/unobfuscated/net/minecraft/world/level/block/Block.java",
+      "sha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab",
+      "matchesSourceManifest": true
+    },
+    {
+      "canonicalSource": "26.2/unobfuscated/net/minecraft/world/level/block/SandBlock.java",
+      "sha256": "39be63216125215ff68da9cd5e30e37b3605c336d67e477430bc12ef996e941b",
+      "matchesSourceManifest": true
+    },
+    {
+      "canonicalSource": "26.2/unobfuscated/net/minecraft/world/level/block/GrassBlock.java",
+      "sha256": "359734235dae59345d1eaf5d54264b8c0422387383056dfc7feee5be47f3b3b9",
+      "matchesSourceManifest": true
+    },
+    {
+      "canonicalSource": "26.2/unobfuscated/net/minecraft/world/level/block/ColoredFallingBlock.java",
+      "sha256": "c557ef2e90be72477de726058c7fd916a64b29bdadcc82f28813bcaadf3bacb8",
+      "matchesSourceManifest": true
+    },
+    {
+      "canonicalSource": "26.2/unobfuscated/net/minecraft/world/level/block/FallingBlock.java",
+      "sha256": "b3d00e37fddbfde2b92847b02c00be3c5aaf7cc60e0dfd789e8ddff6976b575a",
+      "matchesSourceManifest": true
+    },
+    {
+      "canonicalSource": "26.2/unobfuscated/net/minecraft/world/level/block/SpreadingSnowyBlock.java",
+      "sha256": "ec70f884ae50397e75c6c268e4af5dc5084d25b3f3ef1c1e57477e371fc3f2d7",
+      "matchesSourceManifest": true
+    },
+    {
+      "canonicalSource": "26.2/unobfuscated/net/minecraft/world/level/block/SnowyBlock.java",
+      "sha256": "6b29d07d1f4b44880caf4c08235d010dcaae7b9d1666c5224a9088f053139704",
+      "matchesSourceManifest": true
+    },
+    {
+      "canonicalSource": "26.2/unobfuscated/net/minecraft/world/level/block/state/BlockBehaviour.java",
+      "sha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+      "matchesSourceManifest": true
+    }
+  ]
+}

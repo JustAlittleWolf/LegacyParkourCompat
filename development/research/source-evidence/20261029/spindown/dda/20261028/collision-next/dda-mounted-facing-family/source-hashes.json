@@ -1,0 +1,218 @@
+[
+  {
+    "matches": true,
+    "fileSha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+    "manifestSha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+    "release": "1.8.9",
+    "path": "net/minecraft/block/Block.java",
+    "sourceRoot": "1.8.9/ornithe-feather"
+  },
+  {
+    "matches": true,
+    "fileSha256": "ede4dc29795263853c048e569f24e74407255767c5e02349a90895ac5b08e544",
+    "manifestSha256": "ede4dc29795263853c048e569f24e74407255767c5e02349a90895ac5b08e544",
+    "release": "1.8.9",
+    "path": "net/minecraft/util/math/Direction.java",
+    "sourceRoot": "1.8.9/ornithe-feather"
+  },
+  {
+    "matches": true,
+    "fileSha256": "7ccc9f3da44069426c3fc808e97631a56b8ad10045b89459219b2c2d062e81f6",
+    "manifestSha256": "7ccc9f3da44069426c3fc808e97631a56b8ad10045b89459219b2c2d062e81f6",
+    "release": "1.8.9",
+    "path": "net/minecraft/block/SignBlock.java",
+    "sourceRoot": "1.8.9/ornithe-feather"
+  },
+  {
+    "matches": true,
+    "fileSha256": "5fa003c5ca40bfa2c901e35f8fa21fde096264038c8150780a2e49f8f24e97b2",
+    "manifestSha256": "5fa003c5ca40bfa2c901e35f8fa21fde096264038c8150780a2e49f8f24e97b2",
+    "release": "1.8.9",
+    "path": "net/minecraft/block/WallSignBlock.java",
+    "sourceRoot": "1.8.9/ornithe-feather"
+  },
+  {
+    "matches": true,
+    "fileSha256": "d8359d88616d0bd09462f90e98d5f4bdb76bf30b991ce841faf068424f0b5881",
+    "manifestSha256": "d8359d88616d0bd09462f90e98d5f4bdb76bf30b991ce841faf068424f0b5881",
+    "release": "1.8.9",
+    "path": "net/minecraft/block/LeverBlock.java",
+    "sourceRoot": "1.8.9/ornithe-feather"
+  },
+  {
+    "matches": true,
+    "fileSha256": "d5f90d6a355b261127ff6bfaa36abd64a4c5982cae75641df2fc970b217299ac",
+    "manifestSha256": "d5f90d6a355b261127ff6bfaa36abd64a4c5982cae75641df2fc970b217299ac",
+    "release": "1.8.9",
+    "path": "net/minecraft/block/SkullBlock.java",
+    "sourceRoot": "1.8.9/ornithe-feather"
+  },
+  {
+    "matches": true,
+    "fileSha256": "6918850c398314d113f9e7d21e361d19c9af1fdb74977465ca3223fc3f52dbc4",
+    "manifestSha256": "6918850c398314d113f9e7d21e361d19c9af1fdb74977465ca3223fc3f52dbc4",
+    "release": "1.8.9",
+    "path": "net/minecraft/block/BannerBlock.java",
+    "sourceRoot": "1.8.9/ornithe-feather"
+  },
+  {
+    "matches": true,
+    "fileSha256": "d163006c381c55a4a4e441cd90c547738d494de387b2a1fecfa19f8dbc16b8f8",
+    "manifestSha256": "d163006c381c55a4a4e441cd90c547738d494de387b2a1fecfa19f8dbc16b8f8",
+    "release": "1.8.9",
+    "path": "net/minecraft/block/entity/SkullBlockEntity.java",
+    "sourceRoot": "1.8.9/ornithe-feather"
+  },
+  {
+    "matches": true,
+    "fileSha256": "8be7e268f0fc92e75cf7cdcd5188763b6616a0e1bf4acf2584777d52b09364ea",
+    "manifestSha256": "8be7e268f0fc92e75cf7cdcd5188763b6616a0e1bf4acf2584777d52b09364ea",
+    "release": "1.8.9",
+    "path": "net/minecraft/block/entity/BannerBlockEntity.java",
+    "sourceRoot": "1.8.9/ornithe-feather"
+  },
+  {
+    "matches": true,
+    "fileSha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6",
+    "manifestSha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6",
+    "release": "26.2",
+    "path": "net/minecraft/references/BlockItemIds.java",
+    "sourceRoot": "26.2/unobfuscated"
+  },
+  {
+    "matches": true,
+    "fileSha256": "0f342f57727cfe99966da9706da7ddb330654cb59684529166b6f175171ba69f",
+    "manifestSha256": "0f342f57727cfe99966da9706da7ddb330654cb59684529166b6f175171ba69f",
+    "release": "26.2",
+    "path": "net/minecraft/references/BlockIds.java",
+    "sourceRoot": "26.2/unobfuscated"
+  },
+  {
+    "matches": true,
+    "fileSha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+    "manifestSha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+    "release": "26.2",
+    "path": "net/minecraft/world/level/block/Blocks.java",
+    "sourceRoot": "26.2/unobfuscated"
+  },
+  {
+    "matches": true,
+    "fileSha256": "b5e0b6054f64d0ef0a6136f394cd69f7eb5197cc2ade79a92e309b2bd1def511",
+    "manifestSha256": "b5e0b6054f64d0ef0a6136f394cd69f7eb5197cc2ade79a92e309b2bd1def511",
+    "release": "26.2",
+    "path": "net/minecraft/world/level/block/SignBlock.java",
+    "sourceRoot": "26.2/unobfuscated"
+  },
+  {
+    "matches": true,
+    "fileSha256": "d619399139740f65acc385e670ebc619c9496892213254ad8fa6c5a18518e6fa",
+    "manifestSha256": "d619399139740f65acc385e670ebc619c9496892213254ad8fa6c5a18518e6fa",
+    "release": "26.2",
+    "path": "net/minecraft/world/level/block/WallSignBlock.java",
+    "sourceRoot": "26.2/unobfuscated"
+  },
+  {
+    "matches": true,
+    "fileSha256": "0218915f2ecefd5c8423b23c56313e6121a30f1d7f85f39a88afce4da81623fc",
+    "manifestSha256": "0218915f2ecefd5c8423b23c56313e6121a30f1d7f85f39a88afce4da81623fc",
+    "release": "26.2",
+    "path": "net/minecraft/world/level/block/StandingSignBlock.java",
+    "sourceRoot": "26.2/unobfuscated"
+  },
+  {
+    "matches": true,
+    "fileSha256": "6bb6978a65ae7dc4401cee13a019e859d7383ee44c9fb39fd8ad40e6ddd090c5",
+    "manifestSha256": "6bb6978a65ae7dc4401cee13a019e859d7383ee44c9fb39fd8ad40e6ddd090c5",
+    "release": "26.2",
+    "path": "net/minecraft/world/level/block/LeverBlock.java",
+    "sourceRoot": "26.2/unobfuscated"
+  },
+  {
+    "matches": true,
+    "fileSha256": "a0af55ce5ab8108526530c31b0c63c97690e1be9c86936f8160cd3c4d70a1add",
+    "manifestSha256": "a0af55ce5ab8108526530c31b0c63c97690e1be9c86936f8160cd3c4d70a1add",
+    "release": "26.2",
+    "path": "net/minecraft/world/level/block/AbstractSkullBlock.java",
+    "sourceRoot": "26.2/unobfuscated"
+  },
+  {
+    "matches": true,
+    "fileSha256": "871a0935e690d73772c5e2d91228eb0f243c9571af7d941320b02ed841320554",
+    "manifestSha256": "871a0935e690d73772c5e2d91228eb0f243c9571af7d941320b02ed841320554",
+    "release": "26.2",
+    "path": "net/minecraft/world/level/block/SkullBlock.java",
+    "sourceRoot": "26.2/unobfuscated"
+  },
+  {
+    "matches": true,
+    "fileSha256": "d2ed46ce0805ad8b533a1e181fb2d9ac7269210b8e265801ee82cf74d5c8954d",
+    "manifestSha256": "d2ed46ce0805ad8b533a1e181fb2d9ac7269210b8e265801ee82cf74d5c8954d",
+    "release": "26.2",
+    "path": "net/minecraft/world/level/block/WallSkullBlock.java",
+    "sourceRoot": "26.2/unobfuscated"
+  },
+  {
+    "matches": true,
+    "fileSha256": "763ce325d45d327d8a88cb03a1851265fd1ad33c1366a60976fd67bb111acbfb",
+    "manifestSha256": "763ce325d45d327d8a88cb03a1851265fd1ad33c1366a60976fd67bb111acbfb",
+    "release": "26.2",
+    "path": "net/minecraft/world/level/block/AbstractBannerBlock.java",
+    "sourceRoot": "26.2/unobfuscated"
+  },
+  {
+    "matches": true,
+    "fileSha256": "3e0d6779bdb907fd1171968e870e6b7af77865cd29b829709e2d1fa02ae72a7b",
+    "manifestSha256": "3e0d6779bdb907fd1171968e870e6b7af77865cd29b829709e2d1fa02ae72a7b",
+    "release": "26.2",
+    "path": "net/minecraft/world/level/block/BannerBlock.java",
+    "sourceRoot": "26.2/unobfuscated"
+  },
+  {
+    "matches": true,
+    "fileSha256": "84ffc0a2e406899e7fc7cb332b8a11b4cdbcd6e53c28e9d0bd2a04d634ae55b6",
+    "manifestSha256": "84ffc0a2e406899e7fc7cb332b8a11b4cdbcd6e53c28e9d0bd2a04d634ae55b6",
+    "release": "26.2",
+    "path": "net/minecraft/world/level/block/WallBannerBlock.java",
+    "sourceRoot": "26.2/unobfuscated"
+  },
+  {
+    "matches": true,
+    "fileSha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+    "manifestSha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+    "release": "26.2",
+    "path": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+    "sourceRoot": "26.2/unobfuscated"
+  },
+  {
+    "matches": true,
+    "fileSha256": "4a7de861c83f395255d6045d5f9fb98d932abd42724e54316adc59116ee6fb50",
+    "manifestSha256": "4a7de861c83f395255d6045d5f9fb98d932abd42724e54316adc59116ee6fb50",
+    "release": "26.2",
+    "path": "net/minecraft/util/datafix/DataFixers.java",
+    "sourceRoot": "26.2/unobfuscated"
+  },
+  {
+    "matches": true,
+    "fileSha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+    "manifestSha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+    "release": "26.2",
+    "path": "net/minecraft/util/datafix/fixes/BlockStateData.java",
+    "sourceRoot": "26.2/unobfuscated"
+  },
+  {
+    "matches": true,
+    "fileSha256": "dd5ca8cff42be587606824a5ba53fa7ed5e1411959d1e19f1f9d07be9d875010",
+    "manifestSha256": "dd5ca8cff42be587606824a5ba53fa7ed5e1411959d1e19f1f9d07be9d875010",
+    "release": "26.2",
+    "path": "net/minecraft/util/datafix/fixes/ChunkPalettedStorageFix.java",
+    "sourceRoot": "26.2/unobfuscated"
+  },
+  {
+    "matches": true,
+    "fileSha256": "0fcc8e6410ef74e079eff315cde571b490ee0342a7c573e61d7e6c528826a778",
+    "manifestSha256": "0fcc8e6410ef74e079eff315cde571b490ee0342a7c573e61d7e6c528826a778",
+    "release": "26.2",
+    "path": "net/minecraft/util/datafix/fixes/EntityBlockStateFix.java",
+    "sourceRoot": "26.2/unobfuscated"
+  }
+]

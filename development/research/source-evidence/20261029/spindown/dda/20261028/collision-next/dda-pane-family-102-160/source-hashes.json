@@ -1,0 +1,161 @@
+{
+  "roots": [
+    {
+      "sourceRoot": "1.8.9/ornithe-feather",
+      "sourceManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004",
+      "readyMarker": {
+        "schema": 1,
+        "status": "ready",
+        "versionId": "1.8.9",
+        "mapping": "ornithe-feather",
+        "mappingJar": "feather-gen2-1.8.9+build.2-mergedv2.jar,feather-gen2-1.8.9+build.2.tiny",
+        "outputPath": "D:\\Javastuff\\LegacyParkourCompat\\build\\movement-campaign-2026-10-07\\ready\\1.8.9\\ornithe-feather",
+        "decompiler": "Vineflower",
+        "javaRuntime": "25",
+        "sourceFileCount": 1612,
+        "sourceBytes": 8248472.0,
+        "sourceManifest": "ornithe-feather.sources.sha256",
+        "sourceManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004",
+        "artifactManifest": "artifacts.sha256",
+        "artifactManifestSha256": "da003358256d1c4402ebb20614651e5410310e871ee913de2b9c1295a64e1446",
+        "artifactCount": 37,
+        "diagnostics": "movement-diagnostics.txt",
+        "diagnosticsSha256": "62dc9b445bec2f62b6dac9da501e875377636d08682891891212aea464999d28",
+        "versionMetadataId": "1.8.9",
+        "clientSha256": "14f0d96d1a56fb4f5c3b2233d00699525893fe5ce3dcf181e7de59120595d298",
+        "movementDiagnosticsReview": 5,
+        "createdAtUtc": "2026-10-07T14:34:35.7639369Z"
+      }
+    },
+    {
+      "sourceRoot": "26.2/unobfuscated",
+      "sourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894",
+      "readyMarker": {
+        "schema": 1,
+        "status": "ready",
+        "versionId": "26.2",
+        "mapping": "unobfuscated",
+        "outputPath": "D:\\Javastuff\\LegacyParkourCompat\\build\\movement-campaign-2026-10-07\\ready\\26.2\\unobfuscated",
+        "decompiler": "Vineflower",
+        "javaRuntime": "25",
+        "sourceFileCount": 7055,
+        "sourceBytes": 33813717.0,
+        "sourceManifest": "unobfuscated.sources.sha256",
+        "sourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894",
+        "artifactManifest": "artifacts.sha256",
+        "artifactManifestSha256": "ba9dc53a41bca9744ec1c8ab2ce9363764a22333c39ef64d5105f4e3bf5c98ba",
+        "diagnostics": "movement-diagnostics.txt",
+        "diagnosticsSha256": "ba6fd6c5b1c77b3ee2988f0c54968cc5b915680670fdb66699dbcbf8b9fe21d3",
+        "movementSourcesInspected": [
+          "Entity.move",
+          "Entity.moveRelative",
+          "LivingEntity.travel",
+          "LivingEntity.handleRelativeFrictionAndCalculateMovement",
+          "LivingEntity.jumpFromGround",
+          "Player.travel",
+          "LocalPlayer.aiStep"
+        ],
+        "versionMetadataId": "26.2",
+        "createdAtUtc": "2026-10-07T14:29:25.6462664Z"
+      }
+    }
+  ],
+  "files": [
+    {
+      "sourceRoot": "1.8.9/ornithe-feather",
+      "manifestEntry": "f099cdc306c365b73632fc703f72b61bc6b304cb5df06c43234965f89e28de61 *net/minecraft/block/PaneBlock.java",
+      "path": "net/minecraft/block/PaneBlock.java",
+      "sha256": "f099cdc306c365b73632fc703f72b61bc6b304cb5df06c43234965f89e28de61"
+    },
+    {
+      "sourceRoot": "1.8.9/ornithe-feather",
+      "manifestEntry": "08f8a8d122b7d4cfc2825565e13f47eb36a66b7bdefa7a664a8b769b25b9cf56 *net/minecraft/block/StainedGlassPaneBlock.java",
+      "path": "net/minecraft/block/StainedGlassPaneBlock.java",
+      "sha256": "08f8a8d122b7d4cfc2825565e13f47eb36a66b7bdefa7a664a8b769b25b9cf56"
+    },
+    {
+      "sourceRoot": "1.8.9/ornithe-feather",
+      "manifestEntry": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528 *net/minecraft/block/Block.java",
+      "path": "net/minecraft/block/Block.java",
+      "sha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528"
+    },
+    {
+      "sourceRoot": "1.8.9/ornithe-feather",
+      "manifestEntry": "2147f7bc09914a137ad635a9b5a4569c6e8d02495a069508084247c34a19b78f *net/minecraft/item/DyeColor.java",
+      "path": "net/minecraft/item/DyeColor.java",
+      "sha256": "2147f7bc09914a137ad635a9b5a4569c6e8d02495a069508084247c34a19b78f"
+    },
+    {
+      "sourceRoot": "1.8.9/ornithe-feather",
+      "manifestEntry": "1da2d85406ed991e8f6bc1f420babf0bd43598478f347c6a4dc9fea322ed0695 *net/minecraft/block/Blocks.java",
+      "path": "net/minecraft/block/Blocks.java",
+      "sha256": "1da2d85406ed991e8f6bc1f420babf0bd43598478f347c6a4dc9fea322ed0695"
+    },
+    {
+      "sourceRoot": "26.2/unobfuscated",
+      "manifestEntry": "dcd2dbbcd093a68dee4ee282e5f3101c519d633f3f173dd33383bd4b548c1ba5 *net/minecraft/world/level/block/CrossCollisionBlock.java",
+      "path": "net/minecraft/world/level/block/CrossCollisionBlock.java",
+      "sha256": "dcd2dbbcd093a68dee4ee282e5f3101c519d633f3f173dd33383bd4b548c1ba5"
+    },
+    {
+      "sourceRoot": "26.2/unobfuscated",
+      "manifestEntry": "b8d8467db13454fc5cd24c95827172b8550d5cba3d51930ba8b240b960606e54 *net/minecraft/world/level/block/IronBarsBlock.java",
+      "path": "net/minecraft/world/level/block/IronBarsBlock.java",
+      "sha256": "b8d8467db13454fc5cd24c95827172b8550d5cba3d51930ba8b240b960606e54"
+    },
+    {
+      "sourceRoot": "26.2/unobfuscated",
+      "manifestEntry": "dfaee99dba568ab4b0c791db1e4733fda0205ab53a82e1e039481bf8696492de *net/minecraft/world/level/block/StainedGlassPaneBlock.java",
+      "path": "net/minecraft/world/level/block/StainedGlassPaneBlock.java",
+      "sha256": "dfaee99dba568ab4b0c791db1e4733fda0205ab53a82e1e039481bf8696492de"
+    },
+    {
+      "sourceRoot": "26.2/unobfuscated",
+      "manifestEntry": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435 *net/minecraft/world/level/block/Blocks.java",
+      "path": "net/minecraft/world/level/block/Blocks.java",
+      "sha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435"
+    },
+    {
+      "sourceRoot": "26.2/unobfuscated",
+      "manifestEntry": "717fb27a7b1d0f68b3c2f371408385ad84ccdcc1d76248338897d8cf59db2be2 *net/minecraft/world/level/block/ColorCollection.java",
+      "path": "net/minecraft/world/level/block/ColorCollection.java",
+      "sha256": "717fb27a7b1d0f68b3c2f371408385ad84ccdcc1d76248338897d8cf59db2be2"
+    },
+    {
+      "sourceRoot": "26.2/unobfuscated",
+      "manifestEntry": "9ee74711a37eda938a4deaa56828eeb6a46234d722be1f720d240378b2db0abf *net/minecraft/world/item/DyeColor.java",
+      "path": "net/minecraft/world/item/DyeColor.java",
+      "sha256": "9ee74711a37eda938a4deaa56828eeb6a46234d722be1f720d240378b2db0abf"
+    },
+    {
+      "sourceRoot": "26.2/unobfuscated",
+      "manifestEntry": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4 *net/minecraft/util/datafix/fixes/BlockStateData.java",
+      "path": "net/minecraft/util/datafix/fixes/BlockStateData.java",
+      "sha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4"
+    },
+    {
+      "sourceRoot": "26.2/unobfuscated",
+      "manifestEntry": "0fcc8e6410ef74e079eff315cde571b490ee0342a7c573e61d7e6c528826a778 *net/minecraft/util/datafix/fixes/EntityBlockStateFix.java",
+      "path": "net/minecraft/util/datafix/fixes/EntityBlockStateFix.java",
+      "sha256": "0fcc8e6410ef74e079eff315cde571b490ee0342a7c573e61d7e6c528826a778"
+    },
+    {
+      "sourceRoot": "26.2/unobfuscated",
+      "manifestEntry": "479371caace1c176eaad7de02f23258ad40be9b6c49a61bd6489a0da7a64bff5 *net/minecraft/util/datafix/fixes/ItemStackTheFlatteningFix.java",
+      "path": "net/minecraft/util/datafix/fixes/ItemStackTheFlatteningFix.java",
+      "sha256": "479371caace1c176eaad7de02f23258ad40be9b6c49a61bd6489a0da7a64bff5"
+    },
+    {
+      "sourceRoot": "26.2/unobfuscated",
+      "manifestEntry": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6 *net/minecraft/references/BlockItemIds.java",
+      "path": "net/minecraft/references/BlockItemIds.java",
+      "sha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6"
+    },
+    {
+      "sourceRoot": "26.2/unobfuscated",
+      "manifestEntry": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e *net/minecraft/world/level/block/state/BlockBehaviour.java",
+      "path": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+      "sha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e"
+    }
+  ]
+}

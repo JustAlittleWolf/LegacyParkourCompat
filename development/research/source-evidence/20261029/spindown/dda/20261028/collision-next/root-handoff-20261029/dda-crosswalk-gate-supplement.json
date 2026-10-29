@@ -1,0 +1,122 @@
+{
+  "snapshot": "2026-10-29",
+  "description": "Supplement to root-handoff-20261029/artifacts-manifest.json: accepted first-hit eligibility crosswalks, opaque roster and adapter gate inventory. Original REVISE notes are preserved; correction rebinds supersede only stated bounded issues. These source artifacts do not close current-state translation, full provider input mapping, lifecycle-wide writer/caller coverage, or adapter readiness.",
+  "entries": [
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-000-063/crosswalk.tsv",
+      "sha256": "CFC84ADF363FCCB958D2189954BF844894A3FCE3F03042B1E5977741D9BF4167"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-000-063/artifact-hashes.json",
+      "sha256": "D127D284DD0F707FE08263733A817B273D8F393D299266BC9812F9A85473932B"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-000-063/README.md",
+      "sha256": "34F77B88FC53A92D1189F4363621246EECCB31FABD413FC3662BA48BC4DD4A31"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-000-063/report.md",
+      "sha256": "3019DFA79D48C7A0F4ACED4FD6D39C9A9E200D21C2EA09F4C2AC351A495F53CF"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/reviews/000-063/review.md",
+      "sha256": "8B183C061BAFD42F463D1F1149FC9DAE53AB96173D24E7B4926E99D8086DDC72"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/reviews/000-063/review-input-hashes.json",
+      "sha256": "D54C1A1039B92A7AA963165B90B4D1B890B9E266D4F4ACDEF6CE845951E1AFC0"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-064-131/crosswalk.tsv",
+      "sha256": "3D943C1D021B241088621B02C91C84E19E915E8AEBB3AFC87C7D97EA3FF36BC9"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-064-131/crosswalk-corrected.tsv",
+      "sha256": "FD3DE09FE023C6F14026BF66ACCB41CA623F31818208CD0C07D8C5884212E2B7"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-064-131/metadata-coverage-correction.md",
+      "sha256": "152CEFCDEC09751FB0FEF6ABEDA39CBCA067E590FCF756A01502EED1A9CCF4AF"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-064-131/metadata-coverage-correction-check.txt",
+      "sha256": "F4F0D49D9AF929C1E795890C1FABEA65357E79F8E5FF9823DD7135C60893555C"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-064-131/artifact-hashes.json",
+      "sha256": "039A62CEFE8F6F39A87D5AE706BBA3ABC01A51400F8D48C022BB1B99448DC70A"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-132-197/crosswalk.tsv",
+      "sha256": "BC3F9D631324D904F779D2A505833FE71008A66396E9467016131C7710407BF5"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-132-197/source-and-evidence-hashes.json",
+      "sha256": "FC7C4617C5167F4DEC0C25FC0D7D9EB4B862A26829A50630A9C4773D2D109BDA"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-132-197/README.md",
+      "sha256": "E51C9A38ACA1369CB5FBFE82D806A31F19D4A2A3F91FC38A30DA9FA5CF5B93C4"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-132-197/validation.txt",
+      "sha256": "536EB26CDD3238C32477D684572086E78E173E93DD27E80D51B164999DEBE28C"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/reviews/064-197/review.md",
+      "sha256": "1BCBA3D2CEB17F611B60F42EAAF921C3766CFE6E039F7085F5C9727CA59C36B2"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/reviews/064-197/rebind-metadata-correction.md",
+      "sha256": "A89CB630A96A91CA34EAA9CD9A020F823C7902557D40436D3E97EE354CBD5FA1"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/old-opaque-roster/FINDING.md",
+      "sha256": "8AA7BDB0D06B3C306A831A0905215FADAA685E1FF2E816FB3672812755DE96D1"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/old-opaque-roster/old-opaque-roster.csv",
+      "sha256": "3A10D2961F0A8F94649BF329EABA148A1D16BE01811490BF62B96255F6A05ADB"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/old-opaque-roster/source-hashes.json",
+      "sha256": "C907DC92D9C07D1A43EBE57D8A2DE5BF9ED169B5BBBC9935D7485630B33CBCF0"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/old-opaque-roster/dependency-closure-supplement.md",
+      "sha256": "9A3741D6584F86762F11B2F623DFDE1CBEB9544CEBF203C9288D47BB220CBBC6"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/old-opaque-roster/dependency-closure-source-hashes.json",
+      "sha256": "99671C39C3DBF395C0249A8979D28AD79AAEA974E6F30423B943B0930E89A7D0"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/old-opaque-roster-review/review.md",
+      "sha256": "FF91B258B0AEE7EADB9A271E37DE26BDED992C53B57099B01DF74376737C27C4"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/old-opaque-roster-review/review-rebind-001.md",
+      "sha256": "4719E7E1F9292E0BC11057DF0BF2B1D65CD4C90DB7C9B90422BA0D639C69F1CE"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-adapter-gate-inventory-20261029/report.md",
+      "sha256": "A1DC2D9332AFD9EEE8DC96DCA49F3F20FA264E6FFEFD1A064F8B1343E5C1255B"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-adapter-gate-inventory-20261029/correction-supplement.md",
+      "sha256": "04350BE9C56755E39AA616CD30BFF808579A978D05F3372F1BA4BD771CE6BE03"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-adapter-gate-inventory-20261029/correction-hashes.json",
+      "sha256": "62DA5ECC031882E3C5C020177211C353695F385BFEFC6590FEF380AD9A86F283"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-adapter-gate-inventory-20261029/review/review.md",
+      "sha256": "132BAB4CDE665D22929E9EC2A1F3797BAF3308D390CA5525126D759C7C1752A7"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-adapter-gate-inventory-20261029/review/correction-rebind-review.md",
+      "sha256": "038AE31B8278B5867401B3C69CACA1B6208897BEA4BE074CD3D147E4BAA60055"
+    }
+  ]
+}

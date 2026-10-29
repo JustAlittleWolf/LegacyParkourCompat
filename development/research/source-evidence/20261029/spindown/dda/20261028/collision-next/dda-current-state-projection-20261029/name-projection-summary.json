@@ -1,0 +1,337 @@
+{
+  "fixCount": 21,
+  "renamePairs": 105,
+  "unresolvedFixes": [],
+  "registryKeys": 1076,
+  "registeredDirectIds": 852,
+  "registeredItemColorGroups": 12,
+  "registeredKeyColorGroups": 2,
+  "projectedRows": 3168,
+  "distinctOldNames": 347,
+  "distinctCurrentNames": 347,
+  "rowsWithNameChanged": 90,
+  "rowsWithCurrentRegisteredName": 3168,
+  "rowsWithUnregisteredName": 0,
+  "renameExamples": [
+    {
+      "id": 17,
+      "meta": 12,
+      "target": "minecraft:oak_bark",
+      "final": "minecraft:oak_wood",
+      "trace": [
+        {
+          "order": 8,
+          "line": 726,
+          "label": "Block renamening fix",
+          "from": "minecraft:oak_bark",
+          "to": "minecraft:oak_wood",
+          "source": "EntityTheRenameningFix.RENAMED_BLOCKS"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "meta": 13,
+      "target": "minecraft:spruce_bark",
+      "final": "minecraft:spruce_wood",
+      "trace": [
+        {
+          "order": 8,
+          "line": 726,
+          "label": "Block renamening fix",
+          "from": "minecraft:spruce_bark",
+          "to": "minecraft:spruce_wood",
+          "source": "EntityTheRenameningFix.RENAMED_BLOCKS"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "meta": 14,
+      "target": "minecraft:birch_bark",
+      "final": "minecraft:birch_wood",
+      "trace": [
+        {
+          "order": 8,
+          "line": 726,
+          "label": "Block renamening fix",
+          "from": "minecraft:birch_bark",
+          "to": "minecraft:birch_wood",
+          "source": "EntityTheRenameningFix.RENAMED_BLOCKS"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "meta": 15,
+      "target": "minecraft:jungle_bark",
+      "final": "minecraft:jungle_wood",
+      "trace": [
+        {
+          "order": 8,
+          "line": 726,
+          "label": "Block renamening fix",
+          "from": "minecraft:jungle_bark",
+          "to": "minecraft:jungle_wood",
+          "source": "EntityTheRenameningFix.RENAMED_BLOCKS"
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "meta": 1,
+      "target": "minecraft:grass",
+      "final": "minecraft:short_grass",
+      "trace": [
+        {
+          "order": 20,
+          "line": 1373,
+          "label": "Rename grass block to short_grass",
+          "from": "minecraft:grass",
+          "to": "minecraft:short_grass",
+          "source": "grassRenamer"
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "meta": 0,
+      "target": "minecraft:stone_slab",
+      "final": "minecraft:smooth_stone_slab",
+      "trace": [
+        {
+          "order": 10,
+          "line": 752,
+          "label": "Rename sign blocks & stone slabs",
+          "from": "minecraft:stone_slab",
+          "to": "minecraft:smooth_stone_slab",
+          "source": "inline"
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "meta": 0,
+      "target": "minecraft:stone_slab",
+      "final": "minecraft:smooth_stone_slab",
+      "trace": [
+        {
+          "order": 10,
+          "line": 752,
+          "label": "Rename sign blocks & stone slabs",
+          "from": "minecraft:stone_slab",
+          "to": "minecraft:smooth_stone_slab",
+          "source": "inline"
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "meta": 8,
+      "target": "minecraft:stone_slab",
+      "final": "minecraft:smooth_stone_slab",
+      "trace": [
+        {
+          "order": 10,
+          "line": 752,
+          "label": "Rename sign blocks & stone slabs",
+          "from": "minecraft:stone_slab",
+          "to": "minecraft:smooth_stone_slab",
+          "source": "inline"
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "meta": 0,
+      "target": "minecraft:mob_spawner",
+      "final": "minecraft:spawner",
+      "trace": [
+        {
+          "order": 8,
+          "line": 726,
+          "label": "Block renamening fix",
+          "from": "minecraft:mob_spawner",
+          "to": "minecraft:spawner",
+          "source": "EntityTheRenameningFix.RENAMED_BLOCKS"
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "meta": 1,
+      "target": "minecraft:mob_spawner",
+      "final": "minecraft:spawner",
+      "trace": [
+        {
+          "order": 8,
+          "line": 726,
+          "label": "Block renamening fix",
+          "from": "minecraft:mob_spawner",
+          "to": "minecraft:spawner",
+          "source": "EntityTheRenameningFix.RENAMED_BLOCKS"
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "meta": 2,
+      "target": "minecraft:mob_spawner",
+      "final": "minecraft:spawner",
+      "trace": [
+        {
+          "order": 8,
+          "line": 726,
+          "label": "Block renamening fix",
+          "from": "minecraft:mob_spawner",
+          "to": "minecraft:spawner",
+          "source": "EntityTheRenameningFix.RENAMED_BLOCKS"
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "meta": 3,
+      "target": "minecraft:mob_spawner",
+      "final": "minecraft:spawner",
+      "trace": [
+        {
+          "order": 8,
+          "line": 726,
+          "label": "Block renamening fix",
+          "from": "minecraft:mob_spawner",
+          "to": "minecraft:spawner",
+          "source": "EntityTheRenameningFix.RENAMED_BLOCKS"
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "meta": 4,
+      "target": "minecraft:mob_spawner",
+      "final": "minecraft:spawner",
+      "trace": [
+        {
+          "order": 8,
+          "line": 726,
+          "label": "Block renamening fix",
+          "from": "minecraft:mob_spawner",
+          "to": "minecraft:spawner",
+          "source": "EntityTheRenameningFix.RENAMED_BLOCKS"
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "meta": 5,
+      "target": "minecraft:mob_spawner",
+      "final": "minecraft:spawner",
+      "trace": [
+        {
+          "order": 8,
+          "line": 726,
+          "label": "Block renamening fix",
+          "from": "minecraft:mob_spawner",
+          "to": "minecraft:spawner",
+          "source": "EntityTheRenameningFix.RENAMED_BLOCKS"
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "meta": 6,
+      "target": "minecraft:mob_spawner",
+      "final": "minecraft:spawner",
+      "trace": [
+        {
+          "order": 8,
+          "line": 726,
+          "label": "Block renamening fix",
+          "from": "minecraft:mob_spawner",
+          "to": "minecraft:spawner",
+          "source": "EntityTheRenameningFix.RENAMED_BLOCKS"
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "meta": 7,
+      "target": "minecraft:mob_spawner",
+      "final": "minecraft:spawner",
+      "trace": [
+        {
+          "order": 8,
+          "line": 726,
+          "label": "Block renamening fix",
+          "from": "minecraft:mob_spawner",
+          "to": "minecraft:spawner",
+          "source": "EntityTheRenameningFix.RENAMED_BLOCKS"
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "meta": 8,
+      "target": "minecraft:mob_spawner",
+      "final": "minecraft:spawner",
+      "trace": [
+        {
+          "order": 8,
+          "line": 726,
+          "label": "Block renamening fix",
+          "from": "minecraft:mob_spawner",
+          "to": "minecraft:spawner",
+          "source": "EntityTheRenameningFix.RENAMED_BLOCKS"
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "meta": 9,
+      "target": "minecraft:mob_spawner",
+      "final": "minecraft:spawner",
+      "trace": [
+        {
+          "order": 8,
+          "line": 726,
+          "label": "Block renamening fix",
+          "from": "minecraft:mob_spawner",
+          "to": "minecraft:spawner",
+          "source": "EntityTheRenameningFix.RENAMED_BLOCKS"
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "meta": 10,
+      "target": "minecraft:mob_spawner",
+      "final": "minecraft:spawner",
+      "trace": [
+        {
+          "order": 8,
+          "line": 726,
+          "label": "Block renamening fix",
+          "from": "minecraft:mob_spawner",
+          "to": "minecraft:spawner",
+          "source": "EntityTheRenameningFix.RENAMED_BLOCKS"
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "meta": 11,
+      "target": "minecraft:mob_spawner",
+      "final": "minecraft:spawner",
+      "trace": [
+        {
+          "order": 8,
+          "line": 726,
+          "label": "Block renamening fix",
+          "from": "minecraft:mob_spawner",
+          "to": "minecraft:spawner",
+          "source": "EntityTheRenameningFix.RENAMED_BLOCKS"
+        }
+      ]
+    }
+  ]
+}

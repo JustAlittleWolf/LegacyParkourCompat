@@ -1,0 +1,86 @@
+# Frontier C source evidence manifest
+
+This manifest inventories source-only report chains prepared for central preservation. Digests were recomputed from the named files. Pending reviews are listed without a guessed digest. The reports remain immutable; corrections supersede only the claims they explicitly bind.
+
+## Independently reviewed chains
+
+### 1.14.4 → 1.15 keyboard slow input
+
+- Source closure: `1144-1150-keyboard-slow-input-closure/AUDIT.md` — `b4fdc658d2e6a1fba24e3ec4981d9e7be31903051a7bc0159b12d769e265734a`
+- Independent audit: `1144-1150-keyboard-slow-input-audit/audit.md` — `51728b7b086c50d57f7a1f8aded562cefaba8f9ad483f05410d4c9c9615ca37b`
+- The audit supports the predicate/order change and qualifies it at the `aiStep` call boundary: the new predicate reads stored shift state before that call polls the current key.
+
+### 1.14.4 → 1.15 auto-jump scan
+
+- Original source closure: `1144-1150-auto-jump-gate-closure/closure.md` — `82b60d6b1007782c822014f6050fa426bd1e00f01885a14a9f886cdfd74973d6`
+- Published Mojmap pair supplement: `1144-1150-auto-jump-gate-closure/mojmap-pair-supplement.md` — `a1edced4bf92b7526de9e3b9c383e82d59c60c4c3b3739e65aebbed2cc627c63`
+- First independent audit: `1144-1150-auto-jump-audit/audit.md` — `d1564cde9da9fafb28d0f261dd4e5c86000ef39c07741a21f962feeb04ed30b5`
+- Arithmetic correction: `1144-1150-auto-jump-gate-closure/normalization-arithmetic-supplement.md` — `c19bfb775f74f5e0f9272c99992f6713e5a7bee5a3b6c7b3d74a7535b5065ff2`
+- The correction retracts the “same scan math” statement and distinguishes the selected double and float `fastInvSqrt` overloads. Numerical/trajectory consequences remain unproven.
+- Independent arithmetic audit: `1144-1150-auto-jump-arithmetic-audit/audit.md` — `97304746de96120fdbdda0b0abaea571ef78456521914fbbbe871a113ce78eed`
+
+### 1.21.11 → 26.1.2 `CAN_GLIDE_THROUGH`
+
+- Original source closure: `12111-2612-glide-tag-consumer-closure/closure.md` — `a91a30510983bb500329b3b593cd52e59ce297061a8e9f8b1bf202a3d3fbbff6`
+- First independent audit: `12111-2612-glide-tag-consumer-audit/audit.md` — `3aad25c323d730804ffca7786f04e2e12ce583809e997b66624b9eab3d9ff7a2`
+- Narrowing correction: `12111-2612-glide-tag-consumer-closure/correction-1.md` — `fc1c1f3a59737fedcc53dedfe61b6031b4f0d4dc05ce90a193ac614833d90489`
+- Correction audit: `12111-2612-glide-tag-correction-audit/audit.md` — `618716e422181619b193a66a1ecfdec8501b3501cb5a1adb7a3453de853842fa`
+- The correction withdraws ordinary-air climb/jump-lift reachability and narrows the supported claim to the conditional non-fluid fall-flying path. Effective tag membership and server producer timing remain open.
+
+### 1.19.4 → 1.20 respawn/player-info response
+
+- Source closure: `1194-1200-respawn-sprint-cache-closure/respawn-sprint-cache-and-player-info-game-mode.md` — `d078166067cbefd9bcc3422de7406ec131a4366ac85b093d7996490d82b23f87`
+- Independent audit: `1194-1200-respawn-playerinfo-audit/audit.md` — `978b57f1c9f19bc77f72321e8b23b2d16cbbae8a6ea2e0b7f7ae430ba3d91d36`
+- The audit separates command-send cache state from the direct local spectator Y-velocity response and binds the 1.20 embedded source identity.
+
+## Independently reviewed chains
+
+### 1.21.10 → 26.2 player readiness
+
+- Source closure: `12110-262-player-chunk-readiness-closure/report.md` — `ff75dfeed8bc8a50a0771c7fdfb00ee68d6a2b33cc47e95828cddfb58c83faa1`
+- Independent audit: `12110-262-player-chunk-readiness-audit/audit.md` — `42954706e86c8ca9b35b6d557436aaa1d54ae99c1f25cb029bf7e009c50618c3`
+- Lower-bound supplement for .3/.4/.5/.8: `12110-262-player-chunk-readiness-closure/supplement-01-earlier-121-readiness.md` — `283a413da6b69fa6b812d7ff2ed8b6711c8c9a5acc10d339cee8d3f2a5e21cd4`
+- Legacy-manifest correction for .6/.9: `12110-262-player-chunk-readiness-closure/supplement-02-legacy-manifest-1216-1219.md` — `0fba410019738740705517ba4d01489078257ad245ded84c6024abda4eca3b23`
+- Exact .7 legacy-manifest supplement: `12110-262-player-chunk-readiness-closure/supplement-03-1217-exact-readiness.md` — `f217eac75a09f66548da55423da5309d9f9acedd31b15db4295410baa6ec01bd`
+- Independent lower-bound audit: `12110-262-player-chunk-readiness-audit/supplement-01-earlier-readiness-audit.md` — `8f99267441fa11bb4d4038a948331b6e56133e3aec65fb6cd5d50aaba50ba7a5`
+- Supplements 02/03 supersede Supplement 01's unbound dispositions for .6/.9 and bind .7. Audit accepts the predicate at .3–.8 and .9/.10; .4–.8 also has a distinct loaded-state local-tick gate and no 30s tracker timeout; .9/.10 adds the 30s timeout; .11–26.1.2 adds visibility. Audit preserves exact old short-circuit order and makes no renderer-output/runtime claim.
+
+### 1.14.4 → 1.15 fall-flying start
+
+- Source closure: `1144-1150-fall-flying-start-closure/report.md` — `6aea0ccf8c9b859b3535197cba201885c3b865fc2d1b1a580402c2780e86c099`
+- Independent audit: `1144-1150-fall-flying-start-audit/audit.md` — `39cba8e92c9f74edc972919d349ad945a8224aac4bd7461ef0df1a3a0b95901c`
+- The audit corrects the 1.14.4 server-side `startFallFlying()` source location and keeps it separate from the client request path.
+
+### 1.14.4 → 1.15 velocity response
+
+- Source closure: `1144_1150-velocity-response-closure/REPORT.md` — `aa6c42c77f0018190850831f0b1e349e1eb1b058f4126e526803806cd1455923`
+- Independent audit: `1144_1150-velocity-response-audit/audit.md` — `309e6d9e963465ae42ad9bbbf78049c44f5f1a6c3f87e501e841df15ae75473f`
+- The audit confirms response behavior and provenance; it recommends adding the 1.14.4 respawn local-player-ID citation at `ClientPacketListener.java:1013–1018`.
+
+### 1.14.2 → 1.14.3 epsilon ordinary-mover correction
+
+- Correction supplement: `AD-epsilon-ordinary-mover-correction/correction.md` — `31f7da99a6f111283190af4eab4a3c28efa40a3973e4ef362ee3e188588de4e3`
+- Independent audit: `AD-epsilon-ordinary-mover-audit/audit.md` — `b08604821866c45143b993c9a3ee020e57cfa76f1e334fdadec2da11424818f7`
+- The correction binds the earlier gate, reachability and alias reports and narrows ordinary-player request gates and finite-coordinate limits.
+
+## Other active source closures
+
+- 1.15.2 → 1.16.1 input provider: `1152-1161-input-provider-closure/closure.md` — `25af98e42e9c0462952e8236282093f171396c2a5326ce5f377c383302ccdc59`; independent audit — `1152-1161-input-provider-audit/audit.md` — `d64c39f09136209081bb40bb5918c925016208bc89d4aa4e32db091f790b0054`. Raw input providers are identical; 1.16.1 crouch-cache timing remains separate.
+- 1.16.3 → 1.16.4 residual changed-path classification: `1163-1164-residual-changed-path-closure/closure.md` — `ac47558c7fe7ac0c67a92c7cf6f94a815c61902bcec5b5ecb2bdf4a89855edb3`; changed-path table — `d26252d6822e271123b146ff5b61d70496e19fc72629c16284895e22da0921fb`; original audit — `1163-1164-residual-changed-path-audit/audit.md` — `0112b3731d0f7ca7515b71d1e7077bc054ad9581dd3f95d1abedacea027c99ac`; immutable rebind supplement — `1163-1164-residual-changed-path-audit/rebind-supplement.md` — `75f3e619ab695dab46dfde7e229d2a42a17e892d578e25ac58ad5e8c4f805097`. The supplement binds the 71-row audit to the revised closure/table identities and records zero manifest/hash omissions.
+- 1.8.5 → 1.8.8 hash-pruned movement sweep: `185-188-method-hash-sweep/report.md` — `d07773bc740feebde32a76f035556c23ab5496bab27e7e479d306fe85c96a7fb`; original movement-core hashes — `185-188-method-hash-sweep/movement-core-sha256.tsv` — `c732445768bca1f6561d056997fdd4075df569af9473c4264c6c28f092058578`; corrected valid TSV — `185-188-method-hash-sweep/movement-core-sha256.corrected.tsv` — `54f735feddbA839f19527ae7b9bee36d2f9000e5dda42cB7b36fe7b1c96814e6`; original correction note — `185-188-method-hash-sweep/correction-note.md` — `7f47f4224b88c46dd7d6f698a99ebcf80154bf63dcb302fcb073ba78dafd4e49`; corrected binding note — `185-188-method-hash-sweep/correction-note-v2.md` — `cb2c1084d9742ec75f403cd27966d59504fa759b1433bbea0630952068377d63`; independent canonical audit — `185-188-method-hash-sweep-audit/audit.md` — `336ed48262297ad046847c8d5a84d7fd234083461786943c81a3da6b19da84aa`; formatting addendum — `185-188-method-hash-sweep-audit/correction-addendum.md` — `d5829aac7eeb17297ecdbfd4c42584b7e640824682cec547959b4c79497250c9`; note-binding addendum — `185-188-method-hash-sweep-audit/correction-note-v2-addendum.md` — `77bcb6bf71ac55c065a165b3a53c5ae61c108bdd9a7ed918940e365af77ff65`. Both formatting and note-binding corrections are audited. Mapping-root identities matched; pair freeze is not claimed.
+- 1.9 → 1.9.4 minor-alias hash sweep: `19-minor-alias-hash-sweep/coverage.md` — `deec97261821c4670b7836d458a2ca4ba45b24d3a34cc56b308d001a4adf4868`; independent review — `19-minor-alias-hash-sweep-audit/review.md` — `79ad1bac929212f7c0b6b24a99b866671bf4d7f243a90175daecb18bc5e98f55`; legacy provenance/candidate supplement — `19-minor-alias-hash-sweep/supplement.md` — `6a72afe0af8fcab041ddcbe7c96598cd4a4657334181fe3a346a3e4aa690eb30`; supplement 02 — `19-minor-alias-hash-sweep/supplement-02.md` — `421fad6d7c0d9a210954c0e060da4ab2038f40895c335940a5db761931c78e63`; supplement-02 audit — `19-minor-alias-hash-sweep-audit/supplement-02-audit.md` — `592942cbb8e5c7db7e382046945e71d0453531a3682414c181e26eacf0528257`; hash/edge correction supplement 03 — `19-minor-alias-hash-sweep/supplement-03.md` — `e8f51bf73cba6cbf25c7eb02498865a7ad1a8c2b813956590df07201e84bbd85`; final audit — `19-minor-alias-hash-sweep-audit/supplement-03-audit.md` — `895498f320ee9951aeed40566663807dcc5114c83c5fba5535ea07b36981d3cc`. The embedded maps (1,819 files each) and selected claims now bind. The entity-less/Player pose query is source-bounded but out-of-border loaded-chunk reachability remains unresolved; no movement finding accepted.
+- 1.8.3 → 1.8.4 residual movement review: `183-184-residual-movement/report.md` — `f2f85733cfb97f091ae417bf3c7d6060f25ec8b04d1940fcb0885fc9c58d4f84`; independent audit — `183-184-residual-movement-audit/audit.md` — `9a1ef8ae8010724c9591c10c000d93b4d9e8f4660f7245bfa3b17e9366e6c6ac`. The audit found no changed local-player operation, verified server vine growth and portal-to-teleport response chain, and leaves portal-placement applicability open. No pair freeze or accepted movement finding.
+- 1.20.2 → 1.20.4 boat-turn source/resource trace: current `1202-1204-boat-turn-tag/report.md` — `4a7ba4b23a8e08aa9d530497ccb8582d37ec2dee9081b910ae91484a63cc2851` (assignment-time digest `b170f86b83a14b07ae7be268ba439dcd1f22bbc6526b2c48d3da10078cd33897`); initial independent audit — `1202-1204-boat-turn-tag-audit/audit.md` — `af774bca0603bd792a0e5d64500a11403694762817a96e0cc33003fb267c7f96`; immutable .3 identity correction — `1202-1204-boat-turn-tag/correction-20261029-1.20.3-source-identity.md` — `040d2f04d3fa3129ff12300aa494c31ef48c23bcf15c8a9b2a1c61a9b76d1379`; independent correction audit — `1202-1204-boat-turn-tag-audit/correction-audit.md` — `49d8d94496facd4956b9886ffc8f1f634722156af67b2082b6c7c3a2cfee6403`. This confirms .3 as the earliest checked gate; packaged tag membership for Player remains unverified.
+- 1.16.5 → 1.17.1 fluid minY query-admission trace: `1165-1171-fluid-miny-admission/fluid-miny-admission.md` — `b60f7c80248211fa2341f866153b8f89b7881ac96baa6c71db75ceec398d1ee2`; independent audit — `1165-1171-fluid-miny-admission-audit/audit.md` — `11814924bd99e333c1f282891fa385d6135404bf881c611c57de7bd79b1d272b`. Both source reports support the bounded old fixed [0,256) query gates versus dimension-derived minY/height, altered scan preflight, and added swimming query; mapping artifact bytes could not be rehashed.
+- 1.8.8 → 1.8.9 movement boundary: `188-189-movement-bridge/report.md` — `06247fa2ec619c98c56b8d774a6340ed839edf7213ac35e1b9e013e2b221a97a`; changed-path table — `188-189-movement-bridge/changed-paths.csv` — `46f89d86ca6d2b4a4d6e41e30b4e53f905550328bc553d33425ce04a8bef90a2`; independent audit — `188-189-movement-bridge-audit/audit.md` — `19023d9ab5d805561b9e66640a48778c0c9a3a36661ebf23b8c127eb23363598`. The bounded comparison found no changed direct movement/dependency paths and does not freeze the pair.
+- 1.10.2 → 1.11.2 farmland player-position response: report `1102-1112-farmland-position-response/farmland-landing-position-response.md` — `5e2ba2ae0d04f3d8c2d44055132c267dc864002583f79c694ab7ce6011e58912`; caller correction `1102-1112-farmland-position-response/farmland-landing-position-response-correction-1.md` — `08aa9bad4bc6a39cd4b896a99ae2d4ffae2e2cd0a7d6d5cebde823bd2dd8fefe`; audit `1102-1112-farmland-position-response-audit/audit.md` — `fb2c2776defea6b831e4916710b3c39e1b983acef374096d42b73eebfa2dd54a`; correction rebind — `1102-1112-farmland-position-response-audit/correction-rebind-supplement.md` — `363aab689ea55bbcc3617fa46b8fafa206bc6bcb78f1afa5957c3778a09ab4b3`. Audit confirms server-gated relocation and unchanged client handling for equal received player-position packets; `.1/.2 onAdded` is server-only.
+- 1.11.2 → 1.12.2 residual alias/dependency supplement: `1112-1122-tick-inputs/report.md` — `f437b2f41b1e3c7e2a7a83d1793f30d82640192dd4b0bb74e3d54f9bde80309f`; exact-revision independent audit `1112-1122-tick-inputs-audit/audit.md` — `10a508b4bc013ba10f3d9149fe7f9e4d34bf00ac6bf9d12088e2a3b2bd823e77`. The audit verified endpoint markers, intermediate .12/.1 embedded provenance, all source-tree hashes and 64 selected paths; scoped climb/fluid/alias/callback/registration claims stand. Provider/collision and full pair coverage remain open. An earlier audit recorded a different report revision and is preserved separately.
+- 1.13.0 → 1.13.2 first-stable swimming boundary: `1122_1130-tick-core/1.13.0-first-stable-boundary.md` — `d62c20410908404a35d2554cc66ff03b66348eaa9fb2fb6d2bb7639ef7f687b7`; independent audit `1122_1130-tick-core-audit/1130_swimming_gate_audit.md` — `5b656b1279a99f605483c721175067a270541270347d5711a964fe9a23210b43`. Source confirms PlayerEntity updateSwimming gate removed in .1, direct tick consumer, with a .2 ready marker not binding provenance hash; no pair freeze.
+- 1.16.1 → 1.16.3 crouch-cache/slow-input closure: `1161-1163-crouch-cache/closure.md` — `1df0648a16f909962dca918a0faa9036c0582159de155a5e812692ab9d59e762`; independent audit `1161-1163-crouch-cache-audit/audit.md` — `12ddfcbfde63f6e10ba53fce0105bfe995b4dcc8bf3a83a1788640cdf1e9312b`. Bounded no difference confirmed for cache/sample ordering, sprint latches and replacement route; .3 parent markers absent but embedded map binds selected source.
+- 1.8.1 → 1.8.2 comparison status: `181-182-movement-boundary/source-status-1.8.1--1.8.2.md` — `b57254b8819826a98c16a6efad567474d26db0649ddf9836583c9550c73164d4`; independent absence/pin audit — `181-182-movement-boundary-audit/independent-source-identity-audit-1.8.1--1.8.2.md` — `84099d38e90259aea225ee19213cb05ca3e6d7025df5f5edf9cfd741b0448923`. No canonical 1.8.1 source tree; cached client/mapping inputs are pinned. One authorized preparation failed with 59 enum-switch reconstruction errors (first `BlockElement.getTextureCoords`), no heap failure and no publication. Read-only tooling diagnosis `181-vineflower-failure-diagnosis/report.md` — `a4840ba0d1199caca8d88ecd543667383209a93985df2872f626b8c717c5e0c0` identifies flattened 1.8.1 synthetic enum-switch metadata and found no faithful existing task option; no retry.
+- 1.20.6 → 1.21.1 velocity/explosion received-response closure: `1206-1211-velocity-packet-response/packet-consumer-comparison-01.md` — `3ae479b8b269fc7f02386eccf51b91da979bd493e835920127e9536a47a53cd0`; independent audit `1206-1211-velocity-packet-response-audit/audit.md` — `3b51ae4c8dfac8b8b3678807e766a0ab8f7e0c80ffe75171f6e95bfa24fa03a4`. Bounded equal-received-value behavior and immediate tick-consumer sequence are supported; raw artifacts were not rehashed and no trajectory, runtime or pair-wide claim is made.
+- 1.10.2 → 1.11.2 auto-jump tick-boundary comparison: `194-1102-tick-boundary/report.md` — `4732d3b10870be19df84adb7b360ff208a9bad69465d556f3e1392ea717a6708`; independent audit `194-1102-tick-boundary-audit/audit.md` — `d2ebb7d7fdf5d0857f08015311af9f0d5802b9b58905e6a912ae5963318218d8`. Audit supports the auto-jump trace with the precision that `bl4` gates the double-press flight-toggle branch but not every later `input.jumping` consumer; changed `Entity.move` dependency remains outside the bounded claim.
+- 1.19.3 → 1.19.4 mount-control/dismount local-tick slice: `1193-1194-local-tick/coverage.md` — `83a60500ae47dd098b3191f23da9bee02f5db4fb6ab14c3f340323b9bdf4e695`; independent audit `1193-1194-local-tick-audit/independent-audit.md` — `4572172bc7f7776d1a5ce88b468cf31e07c1e232ede84a4e2646df44a59c4fe5`. Selected endpoint hashes and identity records match. Bounded source claims accepted; exact timing between the revised dismount callbacks remains unresolved, and this is not full-pair closure.
+- 1.19.2 → 1.19.3 received-position response: report `1192-1193-correction-response/clientbound-player-position-correction.md` — `86b440add4206e201e9b54e1968e1cd68715c2f5e51c73b4004ce736a11ebb3`; independent audit `1192-1193-correction-response-audit/audit.md` — `3375a67efb585157dd3bab920c2ee2e40fba746d4423dbb505e70c671926f3fb`. Source-supported old `absMoveTo` vs newer direct set/history update; arbitrary call-site reachability remains open, no parity claim.
+
+No pair freeze, runtime parity or product behavior is asserted by this evidence index.

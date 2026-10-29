@@ -1,0 +1,12 @@
+{
+  "source": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\BlockStateData.java",
+  "registerCallCount": 1695,
+  "uniqueIndices": 1695,
+  "blockDefaults": 254,
+  "outputRows": 3168,
+  "directRows": 1417,
+  "defaultRows": 1751,
+  "fallbackRows": 0,
+  "propertyConstantsResolved": 393,
+  "unresolvedTargetPropertyExpressions": []
+}

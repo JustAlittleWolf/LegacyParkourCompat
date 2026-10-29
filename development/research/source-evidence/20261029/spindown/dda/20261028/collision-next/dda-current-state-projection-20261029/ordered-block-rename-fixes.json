@@ -1,0 +1,632 @@
+[
+  {
+    "order": 1,
+    "line": 570,
+    "label": "Colorless shulker block fixer",
+    "schemaExpr": "v1474",
+    "renamerExpression": "block -> Objects.equals(NamespacedSchema.ensureNamespaced(block), \"minecraft:purple_shulker_box\") ? \"minecraft:shulker_box\" : block",
+    "source": "inline",
+    "pairs": [
+      [
+        "minecraft:purple_shulker_box",
+        "minecraft:shulker_box"
+      ]
+    ]
+  },
+  {
+    "order": 2,
+    "line": 585,
+    "label": "Flowing fixer",
+    "schemaExpr": "v1475",
+    "renamerExpression": "createRenamer(ImmutableMap.of(\"minecraft:flowing_water\", \"minecraft:water\", \"minecraft:flowing_lava\", \"minecraft:lava\"))",
+    "source": "inline",
+    "pairs": [
+      [
+        "minecraft:flowing_water",
+        "minecraft:water"
+      ],
+      [
+        "minecraft:flowing_lava",
+        "minecraft:lava"
+      ]
+    ]
+  },
+  {
+    "order": 3,
+    "line": 592,
+    "label": "Rename coral blocks",
+    "schemaExpr": "v1480",
+    "renamerExpression": "createRenamer(RenamedCoralFix.RENAMED_IDS)",
+    "source": "RenamedCoralFix.RENAMED_IDS",
+    "pairs": [
+      [
+        "minecraft:blue_coral",
+        "minecraft:tube_coral_block"
+      ],
+      [
+        "minecraft:pink_coral",
+        "minecraft:brain_coral_block"
+      ],
+      [
+        "minecraft:purple_coral",
+        "minecraft:bubble_coral_block"
+      ],
+      [
+        "minecraft:red_coral",
+        "minecraft:fire_coral_block"
+      ],
+      [
+        "minecraft:yellow_coral",
+        "minecraft:horn_coral_block"
+      ],
+      [
+        "minecraft:blue_coral_plant",
+        "minecraft:tube_coral"
+      ],
+      [
+        "minecraft:pink_coral_plant",
+        "minecraft:brain_coral"
+      ],
+      [
+        "minecraft:purple_coral_plant",
+        "minecraft:bubble_coral"
+      ],
+      [
+        "minecraft:red_coral_plant",
+        "minecraft:fire_coral"
+      ],
+      [
+        "minecraft:yellow_coral_plant",
+        "minecraft:horn_coral"
+      ],
+      [
+        "minecraft:blue_coral_fan",
+        "minecraft:tube_coral_fan"
+      ],
+      [
+        "minecraft:pink_coral_fan",
+        "minecraft:brain_coral_fan"
+      ],
+      [
+        "minecraft:purple_coral_fan",
+        "minecraft:bubble_coral_fan"
+      ],
+      [
+        "minecraft:red_coral_fan",
+        "minecraft:fire_coral_fan"
+      ],
+      [
+        "minecraft:yellow_coral_fan",
+        "minecraft:horn_coral_fan"
+      ],
+      [
+        "minecraft:blue_dead_coral",
+        "minecraft:dead_tube_coral"
+      ],
+      [
+        "minecraft:pink_dead_coral",
+        "minecraft:dead_brain_coral"
+      ],
+      [
+        "minecraft:purple_dead_coral",
+        "minecraft:dead_bubble_coral"
+      ],
+      [
+        "minecraft:red_dead_coral",
+        "minecraft:dead_fire_coral"
+      ],
+      [
+        "minecraft:yellow_dead_coral",
+        "minecraft:dead_horn_coral"
+      ]
+    ]
+  },
+  {
+    "order": 4,
+    "line": 608,
+    "label": "Rename seagrass blocks",
+    "schemaExpr": "v1484",
+    "renamerExpression": "createRenamer(ImmutableMap.of(\"minecraft:sea_grass\", \"minecraft:seagrass\", \"minecraft:tall_sea_grass\", \"minecraft:tall_seagrass\"))",
+    "source": "inline",
+    "pairs": [
+      [
+        "minecraft:sea_grass",
+        "minecraft:seagrass"
+      ],
+      [
+        "minecraft:tall_sea_grass",
+        "minecraft:tall_seagrass"
+      ]
+    ]
+  },
+  {
+    "order": 5,
+    "line": 634,
+    "label": "Rename prismarine_brick(s)_* items",
+    "schemaExpr": "v1487",
+    "renamerExpression": "createRenamer(\n                    ImmutableMap.of(\n                        \"minecraft:prismarine_bricks_slab\",\n                        \"minecraft:prismarine_brick_slab\",\n                        \"minecraft:prismarine_bricks_stairs\",\n                        \"minecraft:prismarine_brick_stairs\"\n                    )\n                )",
+    "source": "inline",
+    "pairs": [
+      [
+        "minecraft:prismarine_bricks_slab",
+        "minecraft:prismarine_brick_slab"
+      ],
+      [
+        "minecraft:prismarine_bricks_stairs",
+        "minecraft:prismarine_brick_stairs"
+      ]
+    ]
+  },
+  {
+    "order": 6,
+    "line": 649,
+    "label": "Rename kelp/kelptop",
+    "schemaExpr": "v1488",
+    "renamerExpression": "createRenamer(ImmutableMap.of(\"minecraft:kelp_top\", \"minecraft:kelp\", \"minecraft:kelp\", \"minecraft:kelp_plant\"))",
+    "source": "inline",
+    "pairs": [
+      [
+        "minecraft:kelp_top",
+        "minecraft:kelp"
+      ],
+      [
+        "minecraft:kelp",
+        "minecraft:kelp_plant"
+      ]
+    ]
+  },
+  {
+    "order": 7,
+    "line": 692,
+    "label": "Rename melon_block",
+    "schemaExpr": "v1490",
+    "renamerExpression": "createRenamer(\"minecraft:melon_block\", \"minecraft:melon\")",
+    "source": "inline",
+    "pairs": [
+      [
+        "minecraft:melon_block",
+        "minecraft:melon"
+      ]
+    ]
+  },
+  {
+    "order": 8,
+    "line": 726,
+    "label": "Block renamening fix",
+    "schemaExpr": "v1510",
+    "renamerExpression": "createRenamer(EntityTheRenameningFix.RENAMED_BLOCKS)",
+    "source": "EntityTheRenameningFix.RENAMED_BLOCKS",
+    "pairs": [
+      [
+        "minecraft:portal",
+        "minecraft:nether_portal"
+      ],
+      [
+        "minecraft:oak_bark",
+        "minecraft:oak_wood"
+      ],
+      [
+        "minecraft:spruce_bark",
+        "minecraft:spruce_wood"
+      ],
+      [
+        "minecraft:birch_bark",
+        "minecraft:birch_wood"
+      ],
+      [
+        "minecraft:jungle_bark",
+        "minecraft:jungle_wood"
+      ],
+      [
+        "minecraft:acacia_bark",
+        "minecraft:acacia_wood"
+      ],
+      [
+        "minecraft:dark_oak_bark",
+        "minecraft:dark_oak_wood"
+      ],
+      [
+        "minecraft:stripped_oak_bark",
+        "minecraft:stripped_oak_wood"
+      ],
+      [
+        "minecraft:stripped_spruce_bark",
+        "minecraft:stripped_spruce_wood"
+      ],
+      [
+        "minecraft:stripped_birch_bark",
+        "minecraft:stripped_birch_wood"
+      ],
+      [
+        "minecraft:stripped_jungle_bark",
+        "minecraft:stripped_jungle_wood"
+      ],
+      [
+        "minecraft:stripped_acacia_bark",
+        "minecraft:stripped_acacia_wood"
+      ],
+      [
+        "minecraft:stripped_dark_oak_bark",
+        "minecraft:stripped_dark_oak_wood"
+      ],
+      [
+        "minecraft:mob_spawner",
+        "minecraft:spawner"
+      ]
+    ]
+  },
+  {
+    "order": 9,
+    "line": 742,
+    "label": "Rename coral fan blocks",
+    "schemaExpr": "v1515",
+    "renamerExpression": "createRenamer(RenamedCoralFansFix.RENAMED_IDS)",
+    "source": "RenamedCoralFansFix.RENAMED_IDS",
+    "pairs": [
+      [
+        "minecraft:tube_coral_fan",
+        "minecraft:tube_coral_wall_fan"
+      ],
+      [
+        "minecraft:brain_coral_fan",
+        "minecraft:brain_coral_wall_fan"
+      ],
+      [
+        "minecraft:bubble_coral_fan",
+        "minecraft:bubble_coral_wall_fan"
+      ],
+      [
+        "minecraft:fire_coral_fan",
+        "minecraft:fire_coral_wall_fan"
+      ],
+      [
+        "minecraft:horn_coral_fan",
+        "minecraft:horn_coral_wall_fan"
+      ]
+    ]
+  },
+  {
+    "order": 10,
+    "line": 752,
+    "label": "Rename sign blocks & stone slabs",
+    "schemaExpr": "v1802",
+    "renamerExpression": "createRenamer(\n                    ImmutableMap.of(\n                        \"minecraft:stone_slab\",\n                        \"minecraft:smooth_stone_slab\",\n                        \"minecraft:sign\",\n                        \"minecraft:oak_sign\",\n                        \"minecraft:wall_sign\",\n                        \"minecraft:oak_wall_sign\"\n                    )\n                )",
+    "source": "inline",
+    "pairs": [
+      [
+        "minecraft:stone_slab",
+        "minecraft:smooth_stone_slab"
+      ],
+      [
+        "minecraft:sign",
+        "minecraft:oak_sign"
+      ],
+      [
+        "minecraft:wall_sign",
+        "minecraft:oak_wall_sign"
+      ]
+    ]
+  },
+  {
+    "order": 11,
+    "line": 838,
+    "label": "Rename bee_hive block to beehive",
+    "schemaExpr": "v2209",
+    "renamerExpression": "beehiveRenamer",
+    "source": "beehiveRenamer",
+    "pairs": [
+      [
+        "minecraft:bee_hive",
+        "minecraft:beehive"
+      ]
+    ]
+  },
+  {
+    "order": 12,
+    "line": 866,
+    "label": "Renamed fungi blocks to fungus",
+    "schemaExpr": "v2508",
+    "renamerExpression": "createRenamer(ImmutableMap.of(\"minecraft:warped_fungi\", \"minecraft:warped_fungus\", \"minecraft:crimson_fungi\", \"minecraft:crimson_fungus\"))",
+    "source": "inline",
+    "pairs": [
+      [
+        "minecraft:warped_fungi",
+        "minecraft:warped_fungus"
+      ],
+      [
+        "minecraft:crimson_fungi",
+        "minecraft:crimson_fungus"
+      ]
+    ]
+  },
+  {
+    "order": 13,
+    "line": 936,
+    "label": "Rename soul fire torch and soul fire lantern",
+    "schemaExpr": "v2528",
+    "renamerExpression": "createRenamer(\n                    ImmutableMap.of(\n                        \"minecraft:soul_fire_torch\",\n                        \"minecraft:soul_torch\",\n                        \"minecraft:soul_fire_wall_torch\",\n                        \"minecraft:soul_wall_torch\",\n                        \"minecraft:soul_fire_lantern\",\n                        \"minecraft:soul_lantern\"\n                    )\n                )",
+    "source": "inline",
+    "pairs": [
+      [
+        "minecraft:soul_fire_torch",
+        "minecraft:soul_torch"
+      ],
+      [
+        "minecraft:soul_fire_wall_torch",
+        "minecraft:soul_wall_torch"
+      ],
+      [
+        "minecraft:soul_fire_lantern",
+        "minecraft:soul_lantern"
+      ]
+    ]
+  },
+  {
+    "order": 14,
+    "line": 986,
+    "label": "Renamed grass path block to dirt path",
+    "schemaExpr": "v2680",
+    "renamerExpression": "createRenamer(\"minecraft:grass_path\", \"minecraft:dirt_path\")",
+    "source": "inline",
+    "pairs": [
+      [
+        "minecraft:grass_path",
+        "minecraft:dirt_path"
+      ]
+    ]
+  },
+  {
+    "order": 15,
+    "line": 1018,
+    "label": "Renamed copper blocks to new oxidized terms",
+    "schemaExpr": "v2690",
+    "renamerExpression": "createRenamer(copperBlocksToRename)",
+    "source": "copperBlocksToRename",
+    "pairs": [
+      [
+        "minecraft:weathered_copper_block",
+        "minecraft:oxidized_copper_block"
+      ],
+      [
+        "minecraft:semi_weathered_copper_block",
+        "minecraft:weathered_copper_block"
+      ],
+      [
+        "minecraft:lightly_weathered_copper_block",
+        "minecraft:exposed_copper_block"
+      ],
+      [
+        "minecraft:weathered_cut_copper",
+        "minecraft:oxidized_cut_copper"
+      ],
+      [
+        "minecraft:semi_weathered_cut_copper",
+        "minecraft:weathered_cut_copper"
+      ],
+      [
+        "minecraft:lightly_weathered_cut_copper",
+        "minecraft:exposed_cut_copper"
+      ],
+      [
+        "minecraft:weathered_cut_copper_stairs",
+        "minecraft:oxidized_cut_copper_stairs"
+      ],
+      [
+        "minecraft:semi_weathered_cut_copper_stairs",
+        "minecraft:weathered_cut_copper_stairs"
+      ],
+      [
+        "minecraft:lightly_weathered_cut_copper_stairs",
+        "minecraft:exposed_cut_copper_stairs"
+      ],
+      [
+        "minecraft:weathered_cut_copper_slab",
+        "minecraft:oxidized_cut_copper_slab"
+      ],
+      [
+        "minecraft:semi_weathered_cut_copper_slab",
+        "minecraft:weathered_cut_copper_slab"
+      ],
+      [
+        "minecraft:lightly_weathered_cut_copper_slab",
+        "minecraft:exposed_cut_copper_slab"
+      ],
+      [
+        "minecraft:waxed_semi_weathered_copper",
+        "minecraft:waxed_weathered_copper"
+      ],
+      [
+        "minecraft:waxed_lightly_weathered_copper",
+        "minecraft:waxed_exposed_copper"
+      ],
+      [
+        "minecraft:waxed_semi_weathered_cut_copper",
+        "minecraft:waxed_weathered_cut_copper"
+      ],
+      [
+        "minecraft:waxed_lightly_weathered_cut_copper",
+        "minecraft:waxed_exposed_cut_copper"
+      ],
+      [
+        "minecraft:waxed_semi_weathered_cut_copper_stairs",
+        "minecraft:waxed_weathered_cut_copper_stairs"
+      ],
+      [
+        "minecraft:waxed_lightly_weathered_cut_copper_stairs",
+        "minecraft:waxed_exposed_cut_copper_stairs"
+      ],
+      [
+        "minecraft:waxed_semi_weathered_cut_copper_slab",
+        "minecraft:waxed_weathered_cut_copper_slab"
+      ],
+      [
+        "minecraft:waxed_lightly_weathered_cut_copper_slab",
+        "minecraft:waxed_exposed_cut_copper_slab"
+      ]
+    ]
+  },
+  {
+    "order": 16,
+    "line": 1027,
+    "label": "Rename copper blocks suffixes",
+    "schemaExpr": "v2691",
+    "renamerExpression": "createRenamer(waxedCopperRename)",
+    "source": "waxedCopperRename",
+    "pairs": [
+      [
+        "minecraft:waxed_copper",
+        "minecraft:waxed_copper_block"
+      ],
+      [
+        "minecraft:oxidized_copper_block",
+        "minecraft:oxidized_copper"
+      ],
+      [
+        "minecraft:weathered_copper_block",
+        "minecraft:weathered_copper"
+      ],
+      [
+        "minecraft:exposed_copper_block",
+        "minecraft:exposed_copper"
+      ]
+    ]
+  },
+  {
+    "order": 17,
+    "line": 1051,
+    "label": "Renamed grimstone blocks to deepslate",
+    "schemaExpr": "v2696",
+    "renamerExpression": "createRenamer(grimstoneBlocksToRename)",
+    "source": "grimstoneBlocksToRename",
+    "pairs": [
+      [
+        "minecraft:grimstone",
+        "minecraft:deepslate"
+      ],
+      [
+        "minecraft:grimstone_slab",
+        "minecraft:cobbled_deepslate_slab"
+      ],
+      [
+        "minecraft:grimstone_stairs",
+        "minecraft:cobbled_deepslate_stairs"
+      ],
+      [
+        "minecraft:grimstone_wall",
+        "minecraft:cobbled_deepslate_wall"
+      ],
+      [
+        "minecraft:polished_grimstone",
+        "minecraft:polished_deepslate"
+      ],
+      [
+        "minecraft:polished_grimstone_slab",
+        "minecraft:polished_deepslate_slab"
+      ],
+      [
+        "minecraft:polished_grimstone_stairs",
+        "minecraft:polished_deepslate_stairs"
+      ],
+      [
+        "minecraft:polished_grimstone_wall",
+        "minecraft:polished_deepslate_wall"
+      ],
+      [
+        "minecraft:grimstone_tiles",
+        "minecraft:deepslate_tiles"
+      ],
+      [
+        "minecraft:grimstone_tile_slab",
+        "minecraft:deepslate_tile_slab"
+      ],
+      [
+        "minecraft:grimstone_tile_stairs",
+        "minecraft:deepslate_tile_stairs"
+      ],
+      [
+        "minecraft:grimstone_tile_wall",
+        "minecraft:deepslate_tile_wall"
+      ],
+      [
+        "minecraft:grimstone_bricks",
+        "minecraft:deepslate_bricks"
+      ],
+      [
+        "minecraft:grimstone_brick_slab",
+        "minecraft:deepslate_brick_slab"
+      ],
+      [
+        "minecraft:grimstone_brick_stairs",
+        "minecraft:deepslate_brick_stairs"
+      ],
+      [
+        "minecraft:grimstone_brick_wall",
+        "minecraft:deepslate_brick_wall"
+      ],
+      [
+        "minecraft:chiseled_grimstone",
+        "minecraft:chiseled_deepslate"
+      ]
+    ]
+  },
+  {
+    "order": 18,
+    "line": 1054,
+    "label": "Renamed cave vines blocks",
+    "schemaExpr": "v2700",
+    "renamerExpression": "createRenamer(ImmutableMap.of(\"minecraft:cave_vines_head\", \"minecraft:cave_vines\", \"minecraft:cave_vines_body\", \"minecraft:cave_vines_plant\"))",
+    "source": "inline",
+    "pairs": [
+      [
+        "minecraft:cave_vines_head",
+        "minecraft:cave_vines"
+      ],
+      [
+        "minecraft:cave_vines_body",
+        "minecraft:cave_vines_plant"
+      ]
+    ]
+  },
+  {
+    "order": 19,
+    "line": 1080,
+    "label": "Rename azalea_leaves_flowers items",
+    "schemaExpr": "v2717",
+    "renamerExpression": "createRenamer(ImmutableMap.of(\"minecraft:azalea_leaves_flowers\", \"minecraft:flowering_azalea_leaves\"))",
+    "source": "inline",
+    "pairs": [
+      [
+        "minecraft:azalea_leaves_flowers",
+        "minecraft:flowering_azalea_leaves"
+      ]
+    ]
+  },
+  {
+    "order": 20,
+    "line": 1373,
+    "label": "Rename grass block to short_grass",
+    "schemaExpr": "v3692",
+    "renamerExpression": "grassRenamer",
+    "source": "grassRenamer",
+    "pairs": [
+      [
+        "minecraft:grass",
+        "minecraft:short_grass"
+      ]
+    ]
+  },
+  {
+    "order": 21,
+    "line": 1581,
+    "label": "Rename chain to iron_chain",
+    "schemaExpr": "v4541",
+    "renamerExpression": "createRenamer(\"minecraft:chain\", \"minecraft:iron_chain\")",
+    "source": "inline",
+    "pairs": [
+      [
+        "minecraft:chain",
+        "minecraft:iron_chain"
+      ]
+    ]
+  }
+]

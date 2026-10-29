@@ -1,0 +1,17 @@
+ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528 *1.8.9/ornithe-feather/net/minecraft/block/Block.java
+1da2d85406ed991e8f6bc1f420babf0bd43598478f347c6a4dc9fea322ed0695 *1.8.9/ornithe-feather/net/minecraft/block/Blocks.java
+2810c80b4edfef9d50ac5193161550da4b25a98e05dd7e7df5f8c2faa1f9e822 *1.8.9/ornithe-feather/net/minecraft/block/DaylightDetectorBlock.java
+cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab *26.2/unobfuscated/net/minecraft/world/level/block/Block.java
+f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435 *26.2/unobfuscated/net/minecraft/world/level/block/Blocks.java
+708a9488f20fad99a64d435e6391173c08db5f34c78cc67b1644158aafd8d942 *26.2/unobfuscated/net/minecraft/world/level/block/DaylightDetectorBlock.java
+9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e *26.2/unobfuscated/net/minecraft/world/level/block/state/BlockBehaviour.java
+c6e4b49663a09110e96a3b51628f92defd83da9267a5d569a8ac8fc0c8893cd0 *26.2/unobfuscated/net/minecraft/world/level/block/state/properties/BlockStateProperties.java
+6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4 *26.2/unobfuscated/net/minecraft/util/datafix/fixes/BlockStateData.java
+7f7516ef92fd45a16aa9fb169c2c028b370069bae7e62310edd49cb4e558fdd8 *26.2/unobfuscated/net/minecraft/util/datafix/fixes/BlockNameFlatteningFix.java
+301836a2d28dd4584680c3c23fb8968b53a9a03e5b538ca1bbdfe7d8f4391806 *26.2/unobfuscated/net/minecraft/util/datafix/schemas/V704.java
+fe0ec792349ae43c91d0a30f23660c94b2f5c8d31a29643f73ed0de367110b95 *identity/1.8.9/ornithe-feather.ready.json
+ba066fc8f1c7ceb9819d2106338d9e9f2c2b96eb5a8329eb40e171b1f9889185 *identity/1.8.9/ornithe-feather.provenance.json
+9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004 *identity/1.8.9/ornithe-feather.sources.sha256
+f9406adb6bf7cb4c1ab0792a798ab2cb90e082ad4c2eee032c9f674d0ea8070f *identity/26.2/unobfuscated.ready.json
+a328f5333a1b27aadde4422b23159a323ae219ccd26f11207c1a5461366f27d1 *identity/26.2/unobfuscated.provenance.json
+a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894 *identity/26.2/unobfuscated.sources.sha256

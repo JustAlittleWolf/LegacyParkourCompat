@@ -1,0 +1,262 @@
+{
+  "algorithm": "SHA-256",
+  "scope": "canonical read-only 1.8.9/26.2 sources; accepted old projection/crosswalk/review inputs; and generated projection artifacts",
+  "source": [
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\DataFixers.java",
+      "sha256": "4A7DE861C83F395255D6045D5F9FB98D932ABD42724E54316ADC59116EE6FB50"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\BlockStateData.java",
+      "sha256": "6196F9039890D5F67B59CB372EC06DA987E8A5EA80B49FD8BEE9EECA0A1784A4"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\ChunkPalettedStorageFix.java",
+      "sha256": "DD5CA8CFF42BE587606824A5BA53FA7ED5E1411959D1E19F1F9D07BE9D875010"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\BlockRenameFix.java",
+      "sha256": "11E0DC903BCCAB03346D8FE434E98534BFF0C67501E48DB147128CF38DB128AF"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\BlockNameFlatteningFix.java",
+      "sha256": "7F7516EF92FD45A16AA9FB169C2C028B370069BAE7E62310EDD49CB4E558FDD8"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\BlockStateStructureTemplateFix.java",
+      "sha256": "AD06822C0B8AF4420A1897965C70C7B265F448B1946A9AC63FEE5EAFE6E2627D"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\LeavesFix.java",
+      "sha256": "DA0B5F1754F10F1D7523068E728690E91ADB2345BB020DFBC590B028277DC231"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\WallPropertyFix.java",
+      "sha256": "FE07247694564755B89D260CD272D696066AE73E952B9E3B65A9594048484B4E"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\RedstoneWireConnectionsFix.java",
+      "sha256": "F413C627E64B5183A9465ED78A35605ACC623B18DFBAB0E3158A628F2D1D097E"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\CauldronRenameFix.java",
+      "sha256": "B5F756210793A54B1C97005FC318B95D7E8C8E2A4FCD157C9F3D776F43805674"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\BitStorageAlignFix.java",
+      "sha256": "865F3B5F4EC6BF917A18F1492AF0C4AED1D4E3A3FC9DD9F1827E997688655EF2"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\AbstractBlockPropertyFix.java",
+      "sha256": "B916E600A78B1561A2EED5676BB35A252E0533159EAFE93656197FE0CF1BFF81"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\JigsawPropertiesFix.java",
+      "sha256": "4E79CA8BB2EAB5CDF3DBE29C630064144A8F2CA2F43FE1249A46371B3EFB5F33"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\JigsawRotationFix.java",
+      "sha256": "B8AC57F83093E584C18C1B10959D38EDCAE8DBD8D494F37D185F3823619FD0EA"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\BlockPropertyRenameAndFix.java",
+      "sha256": "C3D86D2CF747186CABB69669825C621912572BBAF449DBE281B035D24D85BFBD"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockIds.java",
+      "sha256": "0F342F57727CFE99966DA9706DA7DDB330654CB59684529166B6F175171BA69F"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemIds.java",
+      "sha256": "D9D57F2F04801DA5D8D583C23B87B08F45D8B6C681980D1A77308753C801BAC6"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\references\\BlockItemId.java",
+      "sha256": "051C265D3937F4E0614B65B5D8F3ADB267143801037CEC7C241A779A1D786E0D"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\world\\item\\DyeColor.java",
+      "sha256": "9EE74711A37EDA938A4DEAA56828EEB6A46234D722BE1F720D240378B2DB0ABF"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\world\\level\\block\\ColorCollection.java",
+      "sha256": "717FB27A7B1D0F68B3C2F371408385AD84CCDCC1D76248338897D8CF59DB2BE2"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\world\\level\\block\\Block.java",
+      "sha256": "CEC6A05E644E4A7FEB8253CC4CA772A98F0E116FB098A1B7EE7302984AC7ECAB"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\world\\level\\block\\Blocks.java",
+      "sha256": "F3F2FAEED23E9697407069A1D523107491590B8710175523EA05294D5BD00435"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\world\\level\\block\\state\\BlockState.java",
+      "sha256": "DF5B24701EE69145A78901EE0E370E063B63B3E74A0AAE32C89B2AE45BC6D205"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\world\\level\\block\\state\\StateHolder.java",
+      "sha256": "C0DAB7C413C2C8C0CA1B76AFA1A77607117B66F71886674FE89D1059B7A9746B"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\world\\level\\block\\state\\StateDefinition.java",
+      "sha256": "195BFE795C1C908F332AFD90E9F59036FE3BF51997FE156C240C3C7C7EB3D4D0"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\world\\level\\block\\SnowyBlock.java",
+      "sha256": "6B29D07D1F4B44880CAF4C08235D010DCAAE7B9D1666C5224A9088F053139704"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\world\\level\\block\\NoteBlock.java",
+      "sha256": "374B74ACF760CA709663BCBD1FD2B30FF1ADC3C0A3E2C368EEC063DE5265F206"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\Block.java",
+      "sha256": "EA10F05106A3CF7189AEC85236A7ECF9C7106A717F37BED583B5EA4ADEFFA528"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\state\\StateDefinition.java",
+      "sha256": "9449797527F8314614C514321E180C52608DB499054DC3FFCA897C5CC996CB50"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\RenamedCoralFix.java",
+      "sha256": "BE8D29A63D5B461E06DBD3017F2EBF34B8D0ABF7931EA812FE714ECBC323AAFF"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\EntityTheRenameningFix.java",
+      "sha256": "F50F0447FD6EE05FC22F6DFF8F248ABC6D613BD421B4AF7236AA06BDAC99740E"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\RenamedCoralFansFix.java",
+      "sha256": "CA0C48D4CB927E0F98D18CE17D2ED33546D646816A4C623C35A78AF721ABB196"
+    }
+  ],
+  "acceptedInputs": [
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-000-063/crosswalk.tsv",
+      "sha256": "CFC84ADF363FCCB958D2189954BF844894A3FCE3F03042B1E5977741D9BF4167"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-000-063/report.md",
+      "sha256": "3019DFA79D48C7A0F4ACED4FD6D39C9A9E200D21C2EA09F4C2AC351A495F53CF"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-000-063/artifact-hashes.json",
+      "sha256": "D127D284DD0F707FE08263733A817B273D8F393D299266BC9812F9A85473932B"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/reviews/000-063/review.md",
+      "sha256": "8B183C061BAFD42F463D1F1149FC9DAE53AB96173D24E7B4926E99D8086DDC72"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-064-131/crosswalk-corrected.tsv",
+      "sha256": "FD3DE09FE023C6F14026BF66ACCB41CA623F31818208CD0C07D8C5884212E2B7"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-064-131/metadata-coverage-correction.md",
+      "sha256": "152CEFCDEC09751FB0FEF6ABEDA39CBCA067E590FCF756A01502EED1A9CCF4AF"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-064-131/metadata-coverage-correction-check.txt",
+      "sha256": "F4F0D49D9AF929C1E795890C1FABEA65357E79F8E5FF9823DD7135C60893555C"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/reviews/064-197/rebind-metadata-correction.md",
+      "sha256": "A89CB630A96A91CA34EAA9CD9A020F823C7902557D40436D3E97EE354CBD5FA1"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/reviews/064-197/review.md",
+      "sha256": "1BCBA3D2CEB17F611B60F42EAAF921C3766CFE6E039F7085F5C9727CA59C36B2"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-132-197/crosswalk.tsv",
+      "sha256": "BC3F9D631324D904F779D2A505833FE71008A66396E9467016131C7710407BF5"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-132-197/validation.txt",
+      "sha256": "536EB26CDD3238C32477D684572086E78E173E93DD27E80D51B164999DEBE28C"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-189-low-projection-000-031/metadata-current-projection.tsv",
+      "sha256": "64C8C1C693ECE634677DE5F69213D7DC56517665518D4A9EBCFA47E67068D68C"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-189-low-projection-000-031/projection-rules.tsv",
+      "sha256": "99F4E2B373BC93036410D6BC5547374C76BED7F3825873FA775D713655797D2D"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-189-low-projection-000-031-review/review.md",
+      "sha256": "C4DE44438222A4695110D779D5CA38FFF02DCA6898F161DB8FFC46F2521737C1"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-189-low-projection-032-063/metadata-projection.tsv",
+      "sha256": "9CE6688ADA6F37BDFFD7BD277413430A5D36D09A264CCF2892F17468BF61D7FB"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-189-low-projection-032-063/rules.tsv",
+      "sha256": "E3602D0A2E06F0485F94C77A7F6522A8AAF6B207900D2914DCC746F8688EFF6B"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-189-low-projection-032-063/provenance.tsv",
+      "sha256": "AD635BAEC025661D97383F05209E20053272B602D421120434C556F063B72666"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-189-low-projection-032-063-review/review.md",
+      "sha256": "70ADB21F250BBD721E7CC3D83487DEEE38158DCD33A5630FE33C1F3009505E70"
+    }
+  ],
+  "generated": [
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-current-state-projection-20261029\\extract-block-state-data.cjs",
+      "sha256": "AAE21A29753D91EBA4744424EF23D3925B2B1176D174489A4D1019537DD80089"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-current-state-projection-20261029\\extract-current-name-projection.cjs",
+      "sha256": "80D9A8CB826446A4054D35C88638F3E81ADC3C459BB44F3F5D63C319962F163F"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-current-state-projection-20261029\\join-accepted-crosswalk.cjs",
+      "sha256": "E233637BA7A10282FFDE50BE88A7884B68DD782EBB8AB00F6B5AD0377C3C2FBA"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-current-state-projection-20261029\\qualify-default-state-subset.cjs",
+      "sha256": "EC6551B4D7CC04308FD1E89B5FD96E41DF75C66E6CBD17787EF3BB8E9635D29E"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-current-state-projection-20261029\\block-state-data-legacy-index-projection.jsonl",
+      "sha256": "3FF618DDD700D7A74E90FD023AF12427566AA3A3E1DC61BDE358F26DC4229383"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-current-state-projection-20261029\\extraction-summary.json",
+      "sha256": "719B413EB092558C225841974AB318C087D144AE2D3DF3916151C754874E6ED9"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-current-state-projection-20261029\\block-state-data-current-name-projection.jsonl",
+      "sha256": "C7A8B04869425690B2D6BD200C9630752FC1A58C34526B6A5F51898F64B0DC02"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-current-state-projection-20261029\\ordered-block-rename-fixes.json",
+      "sha256": "92F095CBD1D7B71CDFA479E7288BA1F4DD1D3A10A2B0F428F0A022E48A6BE739"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-current-state-projection-20261029\\name-projection-summary.json",
+      "sha256": "669585EEA3C53048D00E014C20FA6629E198369DA8A1FD77148DB1C1CB4DE171"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-current-state-projection-20261029\\accepted-crosswalk-alias-join.json",
+      "sha256": "B91DFEFE463C7BDC7483B3FEEF3AD836404D5C143B40D8B415D8132A72998E00"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-current-state-projection-20261029\\qualified-default-state-subset.jsonl",
+      "sha256": "A918E0BBD5FC6BC128696E5012AB83A674CFED4A2D54FB2D5BBB2552D0698906"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-current-state-projection-20261029\\qualified-default-state-subset-summary.json",
+      "sha256": "2939FA54933A6ECD899EEE762176A4CDC27CBC518F6C04C17E473712D037374E"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-current-state-projection-20261029\\FINDING.md",
+      "sha256": "756BBDF0848524F657D0484A526F1F65038842D78C0A13802C3DB2EFBBBE1C14"
+    }
+  ]
+}

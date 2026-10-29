@@ -1,0 +1,29 @@
+{
+  "legacyIds": [
+    4,
+    7,
+    22,
+    41,
+    42,
+    45,
+    48,
+    57
+  ],
+  "oldMetadataRows": 128,
+  "exact16RowsPerId": true,
+  "validDefaultOnlyOldRows": 128,
+  "finalCurrentRegistryRows": 128,
+  "distinctCurrentNames": 8,
+  "rowsWithRenames": 0,
+  "defaultTuples": {
+    "minecraft:cobblestone": {},
+    "minecraft:bedrock": {},
+    "minecraft:lapis_block": {},
+    "minecraft:gold_block": {},
+    "minecraft:iron_block": {},
+    "minecraft:bricks": {},
+    "minecraft:mossy_cobblestone": {},
+    "minecraft:diamond_block": {}
+  },
+  "scope": "Only accepted 1.8.9 default-state metadata families for IDs 0..127 whose 16 decodes are exact default states and whose 26.2 DataFixer output/default-state tuple is source-bounded. All other IDs/meta remain OPEN in the full candidate table."
+}

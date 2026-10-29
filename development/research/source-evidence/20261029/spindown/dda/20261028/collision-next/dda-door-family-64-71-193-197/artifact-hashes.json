@@ -1,0 +1,14 @@
+[
+  {
+    "path": "FINDING.md",
+    "sha256": "51d3c1b413372028c0b9c6d9aac017bb84a4108ab253cb82617a09caa3420684"
+  },
+  {
+    "path": "source-hashes.json",
+    "sha256": "96d116c758754411003e6226d5bbf83fef6cb6fc06f76c1f70c4284cf83d5e0e"
+  },
+  {
+    "path": "row-coverage.json",
+    "sha256": "294bc2a8f0908dff6e06a2a48847f2b0157008410b051b00895f67b74ce40193"
+  }
+]

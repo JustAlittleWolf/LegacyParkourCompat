@@ -1,0 +1,22 @@
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\AbstractRailBlock.java:51:        return super.rayTrace(world, pos, start, end);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\entity\ai\pathing\WaterPathNavigation.java:55:        HitResult hitResult = this.world.rayTrace(from, new Vec3d(to.x, to.y + this.mob.height * 0.5, to.z), false, true, false);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\world\World.java:626:        return this.rayTrace(from, to, false, false, false);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\world\World.java:630:        return this.rayTrace(from, to, allowLiquids, false, false);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\world\World.java:649:                HitResult hitResult = block.rayTrace(this, blockPos, from, to);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\world\World.java:747:                        HitResult hitResult3 = block2.rayTrace(this, blockPos, from, to);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\world\World.java:1610:                        if (this.rayTrace(new Vec3d(n + g, o, p + h), pos) == null) {
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\DoorBlock.java:209:        return super.rayTrace(world, pos, start, end);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\entity\projectile\ThrownEntity.java:150:        HitResult hitResult = this.world.rayTrace(vec3d, vec3d2);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\entity\projectile\ProjectileEntity.java:106:            HitResult hitResult = this.world.rayTrace(vec3d, vec3d2);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\entity\projectile\ArrowEntity.java:191:            HitResult hitResult = this.world.rayTrace(vec3d, vec3d2, false, true, false);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\entity\Entity.java:1033:        return this.world.rayTrace(vec3d, vec3d3, false, false, true);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\entity\FishingBobberEntity.java:236:            HitResult hitResult = this.world.rayTrace(vec3d, vec3d2);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\entity\living\LivingEntity.java:1539:        return this.world.rayTrace(new Vec3d(this.x, this.y + this.getEyeHeight(), this.z), new Vec3d(entity.x, entity.y + entity.getEyeHeight(), entity.z))
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\StairsBlock.java:513:                hitResults[j] = super.rayTrace(world, pos, start, end);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\TrapdoorBlock.java:141:        return super.rayTrace(world, pos, start, end);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\TorchBlock.java:154:        return super.rayTrace(world, pos, start, end);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\item\BoatItem.java:40:        HitResult hitResult = world.rayTrace(vec3d, vec3d2, true);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\item\Item.java:275:        return world.rayTrace(vec3d, vec3d2, allowLiquids, !allowLiquids, false);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\world\explosion\Explosion.java:131:                        double ae = this.world.getBlockDensity(vec3d, entity.getShape());
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\client\render\GameRenderer.java:325:                this.minecraft.crosshairTarget = entity.rayTrace(d, tickDelta);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\client\render\GameRenderer.java:530:                    HitResult hitResult = this.minecraft.world.rayTrace(new Vec3d(d + p, e + q, g + r), new Vec3d(d - l + p + r, e - n + q, g - m + r));

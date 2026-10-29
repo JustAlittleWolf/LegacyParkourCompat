@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "sourceEvidence": {
+    "1.8.9": {
+      "versionId": "1.8.9",
+      "mapping": "ornithe-feather",
+      "sourceManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004",
+      "readyArtifactSha256": "fe0ec792349ae43c91d0a30f23660c94b2f5c8d31a29643f73ed0de367110b95"
+    },
+    "26.2": {
+      "versionId": "26.2",
+      "mapping": "unobfuscated",
+      "sourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894",
+      "readyArtifactSha256": "f9406adb6bf7cb4c1ab0792a798ab2cb90e082ad4c2eee032c9f674d0ea8070f"
+    }
+  },
+  "files": [
+    {
+      "version": "1.8.9",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/Block.java",
+      "sha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+      "canonicalManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004"
+    },
+    {
+      "version": "1.8.9",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/IceBlock.java",
+      "sha256": "dae1d397d40f5167af82fbde78174f259ade1415c96e4d34c8c31c72bdb40a3a",
+      "canonicalManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004"
+    },
+    {
+      "version": "1.8.9",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/SnowBlock.java",
+      "sha256": "7cd8709bcaabecbd10cc29a60537e46e0b22c922bc1da177e303c0e54cded33d",
+      "canonicalManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004"
+    },
+    {
+      "version": "1.8.9",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/SnowLayerBlock.java",
+      "sha256": "d922f1f9a8d6f543959835e8b21e800ecf5cd9c7c60816b9152d873ca132a3ed",
+      "canonicalManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004"
+    },
+    {
+      "version": "1.8.9",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/TransparentBlock.java",
+      "sha256": "10780460a36e5e73d61381cd91b05a988e30a67e71fc182875a52bdcf387d244",
+      "canonicalManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004"
+    },
+    {
+      "version": "1.8.9",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/world/World.java",
+      "sha256": "3c04f5b874fbb6692039164c882a3c47fe28c7eca864e91c9ac57798153888ee",
+      "canonicalManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004"
+    },
+    {
+      "version": "26.2",
+      "mapping": "unobfuscated",
+      "path": "net/minecraft/util/datafix/fixes/BlockStateData.java",
+      "sha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+      "canonicalManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894"
+    },
+    {
+      "path": "net/minecraft/world/level/block/Block.java",
+      "sha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab",
+      "version": "26.2",
+      "canonicalManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894",
+      "mapping": "unobfuscated"
+    },
+    {
+      "version": "26.2",
+      "mapping": "unobfuscated",
+      "path": "net/minecraft/world/level/block/Blocks.java",
+      "sha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+      "canonicalManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894"
+    },
+    {
+      "version": "26.2",
+      "mapping": "unobfuscated",
+      "path": "net/minecraft/world/level/block/HalfTransparentBlock.java",
+      "sha256": "2023e0ac7ca496c19037aaf34781a1dd5d1b6ceb52d7418b1483e5b0d3547712",
+      "canonicalManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894"
+    },
+    {
+      "version": "26.2",
+      "mapping": "unobfuscated",
+      "path": "net/minecraft/world/level/block/IceBlock.java",
+      "sha256": "1406242fb881348e9ae1d6b805ab8a2d88b57d9ca792f18323f7d65b5d8b5be9",
+      "canonicalManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894"
+    },
+    {
+      "version": "26.2",
+      "mapping": "unobfuscated",
+      "path": "net/minecraft/world/level/block/SnowLayerBlock.java",
+      "sha256": "312952c724788f30a2255bc34ef7d3242d4737067c23939f0bd0a76059b473cc",
+      "canonicalManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894"
+    },
+    {
+      "version": "26.2",
+      "mapping": "unobfuscated",
+      "path": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+      "sha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+      "canonicalManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894"
+    }
+  ]
+}

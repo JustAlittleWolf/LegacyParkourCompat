@@ -1,0 +1,55 @@
+{
+  "olderSourceRoot": "decompiled_minecraft/1.8.9/ornithe-feather",
+  "newerSourceRoot": "decompiled_minecraft/26.2/unobfuscated",
+  "hashAlgorithm": "SHA256",
+  "files": [
+    {
+      "path": "1.8.9/ornithe-feather/net/minecraft/block/Block.java",
+      "sha256": "EA10F05106A3CF7189AEC85236A7ECF9C7106A717F37BED583B5EA4ADEFFA528"
+    },
+    {
+      "path": "1.8.9/ornithe-feather/net/minecraft/block/TorchBlock.java",
+      "sha256": "20AC458631CDF68B24E739AC100616BB024EC2200262A4DE66AD5C59E7967A5B"
+    },
+    {
+      "path": "1.8.9/ornithe-feather/net/minecraft/block/RedstoneTorchBlock.java",
+      "sha256": "E85AC1CD0988EA3657C32623206C72B8131FA30E3DDE275E8B9E1610CDBAFA70"
+    },
+    {
+      "path": "26.2/unobfuscated/net/minecraft/util/datafix/fixes/EntityBlockStateFix.java",
+      "sha256": "0FCC8E6410EF74E079EFF315CDE571B490EE0342A7C573E61D7E6C528826A778"
+    },
+    {
+      "path": "26.2/unobfuscated/net/minecraft/util/datafix/fixes/BlockStateData.java",
+      "sha256": "6196F9039890D5F67B59CB372EC06DA987E8A5EA80B49FD8BEE9EECA0A1784A4"
+    },
+    {
+      "path": "26.2/unobfuscated/net/minecraft/world/level/block/Blocks.java",
+      "sha256": "F3F2FAEED23E9697407069A1D523107491590B8710175523EA05294D5BD00435"
+    },
+    {
+      "path": "26.2/unobfuscated/net/minecraft/world/level/block/BaseTorchBlock.java",
+      "sha256": "BDF28A69E9EBBACF3C7139FA9C6E1DC86F759240B0F84F68B3C81CDB8D11D6C2"
+    },
+    {
+      "path": "26.2/unobfuscated/net/minecraft/world/level/block/TorchBlock.java",
+      "sha256": "DE9E29AE37916D988E59BD36E1E5A59DA614E574101882E541B6B8BB0DEBA32B"
+    },
+    {
+      "path": "26.2/unobfuscated/net/minecraft/world/level/block/RedstoneTorchBlock.java",
+      "sha256": "6BC5E1A04E24BBEC5150B1336E6B1E3D1BD203D27105B3974B1A37750B3D08E3"
+    },
+    {
+      "path": "26.2/unobfuscated/net/minecraft/world/level/block/WallTorchBlock.java",
+      "sha256": "3165F2003545CDD4D9FB39B6B0B14D7956D536250BD631C663CD677F0D19D42B"
+    },
+    {
+      "path": "26.2/unobfuscated/net/minecraft/world/level/block/RedstoneWallTorchBlock.java",
+      "sha256": "CC0DAC4348D3DB476709B48D42582EC7D609496D874894B1A8D956C881173CA1"
+    },
+    {
+      "path": "26.2/unobfuscated/net/minecraft/world/level/block/state/BlockBehaviour.java",
+      "sha256": "9C7A103492D0714C90397DA88EB696912FF6A9CA1C005D984C4746D52637FD1E"
+    }
+  ]
+}

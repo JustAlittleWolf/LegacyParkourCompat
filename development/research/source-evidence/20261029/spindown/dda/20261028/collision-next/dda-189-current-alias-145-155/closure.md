@@ -1,0 +1,27 @@
+# Current 26.2 alias closure: legacy IDs 145 and 155
+
+## Scope and evidence
+
+This closes only current-state registry and collision-shape mapping against the exact source tree `D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/26.2/unobfuscated`. The candidate aliases in `dda-189-high-projection-correction/metadata-current-projection.tsv` were treated as leads. The associated `report.md` identifies M12 (anvil facing) and M18 (quartz key/axis) as open conversion dependencies. No product implementation, history, or other lane was inspected.
+
+The old decode rows supplied as input say ID 145 accepts metadata 0–11, with facing `SOUTH, WEST, NORTH, EAST` cycling by low two bits and damage `(metadata & 15) >> 2`; 12–15 fail validation because damage is 3. ID 155 maps variants 0–4 to DEFAULT, CHISELED, LINES_Y, LINES_X, LINES_Z; 5–15 fall back to DEFAULT. The closure below verifies whether those decoded states have current 26.2 keys/properties and what current collision shape provider they reach.
+
+## ID 145: anvil family — closed for metadata state and collision shape
+
+`BlockItemIds.java:441–443` defines the names, and `BlockItemId.java:14–19` applies the default `minecraft` namespace, giving exact current IDs `minecraft:anvil`, `minecraft:chipped_anvil`, and `minecraft:damaged_anvil`; `Blocks.java:2853–2881` binds each to `AnvilBlock::new`. Therefore the old damage values 0, 1, and 2 project respectively to the three candidate keys, with no separate damage property. The block identity itself stores damage tier.
+
+`AnvilBlock.java:34,49` uses `HorizontalDirectionalBlock.FACING` and defaults it to NORTH. `HorizontalDirectionalBlock.java:11` aliases that property to `BlockStateProperties.HORIZONTAL_FACING`; `BlockStateProperties.java:57` defines the enum from the horizontal direction plane (north/east/south/west). The old decoded directions are thus all representable directly as the current `facing` value. Metadata 12–15 have no current projection because the old state validation fails before a block state exists.
+
+Collision uses an axis projection of the anvil state. `AnvilBlock.java:35–36,77–79` precomputes shapes by horizontal axis and returns the entry for `state.getValue(FACING).getAxis()`. `Shapes.java:379–386` maps the authored Z-axis shape to Z unchanged and to X by a 90-degree Y rotation around block center; the map has no NORTH/SOUTH distinction beyond Z or EAST/WEST distinction beyond X. The authored shape is the union of columns in `AnvilBlock.java:35–36`, with bounds in 0–16 block units. `BlockBehaviour.java:323–328` supplies the default collision provider: for colliding blocks it returns the state’s shape. `Blocks.java:2853–2881` gives all three anvil registrations ordinary colliding properties (none uses `noCollision`). Consequently key tier and horizontal facing fully determine the current anvil collision shape; level, position, and collision context do not alter this provider’s result. The mapping dependency is closed for the listed states and collision bounds.
+
+## ID 155: quartz family — closed for metadata state and collision shape
+
+`BlockItemIds.java:444–447` defines the names, and `BlockItemId.java:14–19` applies the default `minecraft` namespace, giving exact current IDs `minecraft:chiseled_quartz_block`, `minecraft:quartz_block`, and `minecraft:quartz_pillar`; `Blocks.java:2931–2943` registers the first two as plain `Block` instances and the pillar as `RotatedPillarBlock`. The default and fallback variant therefore map to `minecraft:quartz_block`; chiseled maps to `minecraft:chiseled_quartz_block`; line variants map to `minecraft:quartz_pillar` with axis Y, X, and Z for LINES_Y, LINES_X, and LINES_Z respectively.
+
+The two plain quartz blocks have no added state properties: `Blocks.java:2931–2938` passes only `BlockBehaviour.Properties`; plain `Block` does not add state properties (`Block.java:238–242,531`), so these states have no variant property. `RotatedPillarBlock.java:14,23,51–57` defines the pillar’s `axis` property as `BlockStateProperties.AXIS`, defaults it to Y, and uses the clicked face axis for placement. `BlockStateProperties.java:46` defines that axis enum. Thus the old line variants have direct X/Y/Z property values; metadata 5–15 use the same property-less quartz block state as variant 0.
+
+For collision, base `BlockBehaviour.getShape` returns `Shapes.block()` (`BlockBehaviour.java:323–325`), and its collision provider returns that shape when `hasCollision` (`:327–328`). These three registrations have no `noCollision` setting (`Blocks.java:2931–2943`). The quartz block, chiseled block, and every quartz pillar axis therefore expose the full unit-cube collision shape, independent of state, level, position, or context. The alias and axis conversion is closed for collision shape/bounds; this conclusion concerns collision and does not claim visual/model equivalence.
+
+## Bounded conclusion
+
+M12 is closed for metadata-to-current-state mapping and collision geometry: IDs 145 metadata 0–11 map to the exact anvil damage-tier IDs with the same four horizontal facing values; metadata 12–15 remain invalid old states. M18 is closed for metadata-to-current-state mapping and collision geometry: IDs 155 metadata 0 and 5–15 map to quartz block, 1 to chiseled quartz block, and 2–4 to quartz pillar axis Y/X/Z. Neither mapping needs block-entity or world-neighbor data for its current block state or collision shape. These source checks do not assert full historical behavior parity outside the mapping and collision-shape question.

@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "createdDate": "2026-10-29",
+  "sources": [
+    {
+      "version": "1.8.9",
+      "mapping": "ornithe-feather",
+      "readySha256": "fe0ec792349ae43c91d0a30f23660c94b2f5c8d31a29643f73ed0de367110b95",
+      "provenanceSha256": "ba066fc8f1c7ceb9819d2106338d9e9f2c2b96eb5a8329eb40e171b1f9889185",
+      "sourceManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004",
+      "declaredSourceManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004"
+    },
+    {
+      "version": "26.2",
+      "mapping": "unobfuscated",
+      "readySha256": "f9406adb6bf7cb4c1ab0792a798ab2cb90e082ad4c2eee032c9f674d0ea8070f",
+      "provenanceSha256": "a328f5333a1b27aadde4422b23159a323ae219ccd26f11207c1a5461366f27d1",
+      "sourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894",
+      "declaredSourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894"
+    }
+  ],
+  "files": [
+    {
+      "version": "1.8.9",
+      "path": "net/minecraft/block/Block.java",
+      "sha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+      "canonicalManifestSha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+      "matches": true
+    },
+    {
+      "version": "1.8.9",
+      "path": "net/minecraft/block/AbstractPressurePlateBlock.java",
+      "sha256": "85896b070be577d228e8a660f1f95cae8956467a957463c4fc839080d2e5b1cb",
+      "canonicalManifestSha256": "85896b070be577d228e8a660f1f95cae8956467a957463c4fc839080d2e5b1cb",
+      "matches": true
+    },
+    {
+      "version": "1.8.9",
+      "path": "net/minecraft/block/PressurePlateBlock.java",
+      "sha256": "2a78b32351f803b1f48164dde6270cd96f60acfecebebb146fe6358ba7d3e84a",
+      "canonicalManifestSha256": "2a78b32351f803b1f48164dde6270cd96f60acfecebebb146fe6358ba7d3e84a",
+      "matches": true
+    },
+    {
+      "version": "1.8.9",
+      "path": "net/minecraft/world/World.java",
+      "sha256": "3c04f5b874fbb6692039164c882a3c47fe28c7eca864e91c9ac57798153888ee",
+      "canonicalManifestSha256": "3c04f5b874fbb6692039164c882a3c47fe28c7eca864e91c9ac57798153888ee",
+      "matches": true
+    },
+    {
+      "version": "1.8.9",
+      "path": "net/minecraft/entity/Entity.java",
+      "sha256": "d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b",
+      "canonicalManifestSha256": "d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b",
+      "matches": true
+    },
+    {
+      "version": "26.2",
+      "path": "net/minecraft/references/BlockItemIds.java",
+      "sha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6",
+      "canonicalManifestSha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6",
+      "matches": true
+    },
+    {
+      "version": "26.2",
+      "path": "net/minecraft/world/level/block/Blocks.java",
+      "sha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+      "canonicalManifestSha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+      "matches": true
+    },
+    {
+      "version": "26.2",
+      "path": "net/minecraft/world/level/block/BasePressurePlateBlock.java",
+      "sha256": "59a21aab756fa63b5fedde28d8a2b7c20a4e7f24672b55b5bec68c7f990b3c94",
+      "canonicalManifestSha256": "59a21aab756fa63b5fedde28d8a2b7c20a4e7f24672b55b5bec68c7f990b3c94",
+      "matches": true
+    },
+    {
+      "version": "26.2",
+      "path": "net/minecraft/world/level/block/PressurePlateBlock.java",
+      "sha256": "607654b1c82fb2007a93cbf95c6ee9d2e04f3a84cbf7eb422c6e059005323e2f",
+      "canonicalManifestSha256": "607654b1c82fb2007a93cbf95c6ee9d2e04f3a84cbf7eb422c6e059005323e2f",
+      "matches": true
+    },
+    {
+      "version": "26.2",
+      "path": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+      "sha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+      "canonicalManifestSha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+      "matches": true
+    },
+    {
+      "version": "26.2",
+      "path": "net/minecraft/world/level/block/Block.java",
+      "sha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab",
+      "canonicalManifestSha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab",
+      "matches": true
+    },
+    {
+      "version": "26.2",
+      "path": "net/minecraft/util/datafix/fixes/BlockStateData.java",
+      "sha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+      "canonicalManifestSha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+      "matches": true
+    },
+    {
+      "version": "26.2",
+      "path": "net/minecraft/world/level/block/state/properties/BlockStateProperties.java",
+      "sha256": "c6e4b49663a09110e96a3b51628f92defd83da9267a5d569a8ac8fc0c8893cd0",
+      "canonicalManifestSha256": "c6e4b49663a09110e96a3b51628f92defd83da9267a5d569a8ac8fc0c8893cd0",
+      "matches": true
+    }
+  ],
+  "allSelectedHashesMatch": true
+}

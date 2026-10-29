@@ -1,0 +1,25 @@
+# Independent audit: epsilon gate on the ordinary mover path
+
+## Verdict
+
+The bounded correction is independently supported by the selected sources. In Yarn 1.14.0, 1.14.1 and 1.14.2, the selected `EntityView.getCollisionShapes` helper checks only whether its input `VoxelShape` is empty; the ordinary `Entity` collision helper instead expands the swept bounding box and queries entities directly. In Yarn 1.14.3, `EntityView.method_20743` returns an empty stream when the supplied box's `averageDimension()` is less than `1.0E-7`, before expanding it. `IWorld.method_20743` delegates to that default helper. This supports the selected-method boundary and call-path claim only; 1.14.0 is not certified as a complete or ready Yarn source tree, and this is not a full-pair freeze.
+
+## Bound input integrity
+
+The correction file's SHA-256 is `31f7da99a6f111283190af4eab4a3c28efa40a3973e4ef362ee3e188588de4e3`. I recomputed the SHA-256 values of all six report files listed in its **Bound reports** section; each exactly matches the digest recorded there. The reviewed inputs were limited to that correction, those six reports, and the selected exact-source/provenance files needed to check the claims.
+
+## Source trace
+
+- In 1.14.0/1.14.1, `Entity.java:644-659`, and 1.14.2, `Entity.java:646-660`, constructs the swept box, expands it by `1.0E-7`, and calls `world.getEntities` directly. Each corresponding `EntityView.java:45-59` has the separate `arg2.isEmpty()` check on a `VoxelShape`; no average-dimension check occurs there. The 1.14.0–1.14.2 `EntityView.java` files have the same SHA-256 (`fef34e…8170eea`), and the inspected helper bodies agree.
+- In 1.14.3, `EntityView.java:45-58` checks `arg2.averageDimension() < 1.0E-7`, returns `Stream.empty()` on true, then expands the box by `1.0E-7` and obtains entities. `IWorld.java:74-75` delegates to `EntityView.super.method_20743`.
+- In 1.14.3, `Entity.move` (`Entity.java:441-467`) takes the `noClip` box-offset path without collision handling. On the other branch, its zero-result return is guarded by `arg == MovementType.PISTON` and follows `applyPistonMovement`; normal player travel issues `MovementType.SELF` (`LivingEntity.java:1833-1840`). After that request-type branch, `move` scales movement if needed, clips sneaking movement, and calls `handleCollisions`.
+- `handleCollisions` (`Entity.java:653-665`) calls `world.method_20743(this, lv.stretch(arg), ...)` at line 660 before the later `arg.lengthSquared() == 0.0 ? arg : calculateMotionVector(...)` selection at line 662. The helper's size gate is therefore evaluated when the query method is called, even when the request vector is zero. The subsequent `move` check of the returned displacement length is later still (`Entity.java:462`).
+- The local-player path inspected in 1.14.3 continues through `ClientPlayerEntity.tickMovement` to `super.tickMovement` (`ClientPlayerEntity.java:607,761`); its `canMoveVoluntarily()` returns true (`:471-474`). `PlayerEntity.travel` delegates its normal/flying branches to `super.travel` (`PlayerEntity.java:1364-1389`), and `ClientPlayerEntity.move` forwards to `super.move` (`:833-838`). Thus ordinary non-spectator travel reaches the shared collision path. `PlayerEntity.tick` sets `noClip` from spectator status (`PlayerEntity.java:192-195`), matching the stated spectator bypass qualification.
+
+## Finite-coordinate qualification
+
+The narrow ordinary-player conclusion is consistent with the inspected bounds and box construction. The local player position-correction setter clamps X and Z to `±3.0E7` while assigning Y without that clamp (`Entity.java:1091-1113`); player tick also clamps X/Z (`PlayerEntity.java:246-251`). Player width does not fall below 0.2 in the listed poses (`PlayerEntity.java:108-118`), and the box is formed using `x ± width/2` and `z ± width/2` (`Entity.java:2292-2296`). At the stated horizontal coordinate bounds, the two horizontal spans remain approximately 0.2 each, so a collapsed Y span still leaves average dimension well above `1.0E-7`. `Box.averageDimension()` is the sum of its three side lengths divided by three (`Box.java:219-223`). This supports the source-only ordinary-path distinction, not a universal claim about arbitrary setters, edited NBT or custom code.
+
+## Provenance and limits
+
+I independently recomputed the four Yarn provenance-manifest SHA-256 values and the selected source-file hashes named in the correction. For each selected file, its current bytes match the `sources` entry in that mapping root's `.decompile-provenance.json`; the manifest input records also pin the listed Yarn mapping jars and client jars to the correction's hashes. The release parents for 1.14.1–1.14.3 contain the Yarn mapping root; the 1.14.0 parent also contains a separate Ornithe Feather publication and has no Yarn-specific ready marker. This is why the supported 1.14.0 conclusion remains limited to these selected methods. No canonical source was written or generated, and no tests, builds, launches or Git operations were performed.

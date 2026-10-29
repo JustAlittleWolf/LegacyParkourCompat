@@ -1,0 +1,46 @@
+{
+  "snapshot": "2026-10-29",
+  "description": "Final immutable source-evidence handoff index for the DDA collision pool. It binds prior accepted-family, reviewed crosswalk/gate inventory, lifecycle caller inventory, bounded 26.2 serialized state-projection subset, and write-boundary audit. None establish full adapter readiness, runtime parity, complete current-state mapping, or lifecycle cache recovery.",
+  "entries": [
+    {
+      "path": ".native-source/20261028/collision-next/root-handoff-20261029/artifacts-manifest.json",
+      "sha256": "76CE98E02FA6DC46CF708A106232D63C9719AC29FB2436E8639D96D5DAAA3488"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/root-handoff-20261029/dda-crosswalk-gate-supplement.json",
+      "sha256": "4D3D7F1F018C480DE08720C3100AE73F0A61F645849BD764DAFE8709EE8B53F5"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/root-handoff-20261029/dda-lifecycle-supplement.json",
+      "sha256": "A9140374F2EDDE6E5952518BB32B293E7A6EFE150F44B43DB89778EC7656B281"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-current-state-projection-20261029/FINDING.md",
+      "sha256": "756BBDF0848524F657D0484A526F1F65038842D78C0A13802C3DB2EFBBBE1C14"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-current-state-projection-20261029/source-hashes.json",
+      "sha256": "7D60A12E39C718ABD390116F723A7935B1C7A230E6E1D6A0493BE8524558F77E"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-current-state-projection-20261029/qualified-default-state-subset.jsonl",
+      "sha256": "A918E0BBD5FC6BC128696E5012AB83A674CFED4A2D54FB2D5BBB2552D0698906"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-current-state-projection-20261029/review/review.md",
+      "sha256": "F6267AF7C3F8EF08F5A3713941346A49A371DD80BF0E46B31AB7804C35EF4C63"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-bounds-write-chokepoint-20261029/report.md",
+      "sha256": "D65AE3192E811F862F524E381476823D3B8ECE18F6075BDF991B51563D3789BF"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-bounds-write-chokepoint-20261029/artifact-hashes.json",
+      "sha256": "1D76F474524C8B97607995E41BCF7CBE870F7C3E61E2F26051BF349C37581A73"
+    },
+    {
+      "path": ".native-source/20261028/collision-next/dda-bounds-write-chokepoint-review-20261029/review.md",
+      "sha256": "0C0533C65D4214124C747114724B601536B726631AE05A7D88ACABD108F7F51D"
+    }
+  ]
+}

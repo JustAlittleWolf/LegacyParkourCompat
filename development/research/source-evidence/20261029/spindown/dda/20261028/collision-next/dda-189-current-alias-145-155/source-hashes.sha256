@@ -1,0 +1,13 @@
+# SHA-256 of exact 26.2 unobfuscated sources inspected for closure.md
+# Root: D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/26.2/unobfuscated
+
+051c265d3937f4e0614b65b5d8f3adb267143801037cec7c241a779a1d786e0d  net/minecraft/references/BlockItemId.java
+d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6  net/minecraft/references/BlockItemIds.java
+cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab  net/minecraft/world/level/block/Block.java
+f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435  net/minecraft/world/level/block/Blocks.java
+a15b5ef5067f098a2e6b83d3b934730f376a3420a4ce47c798a6a80d800b9391  net/minecraft/world/level/block/AnvilBlock.java
+7456a35ed53ecc1d7f24f01b1a9b7585d0bc1d512c026ebb398322abb54f811d  net/minecraft/world/level/block/HorizontalDirectionalBlock.java
+88f305673517c901e4422642365f004fe75692a04298454c80a889a8224a9843  net/minecraft/world/level/block/RotatedPillarBlock.java
+c6e4b49663a09110e96a3b51628f92defd83da9267a5d569a8ac8fc0c8893cd0  net/minecraft/world/level/block/state/properties/BlockStateProperties.java
+9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e  net/minecraft/world/level/block/state/BlockBehaviour.java
+6ed9460d58727770bdec59c4f3184f075644f3c411be1eeab2eae17e8ece1891  net/minecraft/world/phys/shapes/Shapes.java

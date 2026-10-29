@@ -1,0 +1,22 @@
+[
+  {
+    "path": ".native-source\\20261028\\collision-next\\dda-writer-coverage-matrix-audit\\report.md",
+    "sha256": "f9905e2f93b0c53c330edcea37742576bf370f00f4452ca1f0fdac1cdd1507c2"
+  },
+  {
+    "path": ".native-source\\20261028\\collision-next\\dda-writer-coverage-matrix-audit\\artifact-hashes.json",
+    "sha256": "f67c8d984a33ccb233f43ccf748eaa2a4604eaf9955ce6295482491ec33edccb"
+  },
+  {
+    "path": ".native-source\\20261028\\collision-next\\dda-default-provider-shape-closure\\closure.md",
+    "sha256": "8ffc77a0c443f7b19ab5b49914ccf65e839f38cf75527055608866a7d0e8aec2"
+  },
+  {
+    "path": ".native-source\\20261028\\collision-next\\dda-default-provider-review\\source-audit.md",
+    "sha256": "e86d90f88a7491dae5296ace2bd913127350346d8b9e98f7b25bde9367c3d0b1"
+  },
+  {
+    "path": ".native-source\\20261028\\collision-next\\dda-default-provider-review\\hash-manifest.md",
+    "sha256": "87464e3b4ba42d0b3e414786fa743c812b886d97f50237b97852efa10a9213d2"
+  }
+]

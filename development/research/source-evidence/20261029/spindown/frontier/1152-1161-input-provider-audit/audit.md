@@ -1,0 +1,23 @@
+# Independent source audit: 1.15.2 → 1.16.1 raw input provider closure
+
+## Audit identity and evidence integrity
+
+Audited closure: `.native-source/20261028/frontier-c/1152-1161-input-provider-closure/closure.md`. Its SHA-256 is `25af98e42e9c0462952e8236282093f171396c2a5326ce5f377c383302ccdc59`, matching the assignment.
+
+I retraced the read-only Mojmap trees at `D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.15.2\mojmap` and `...\1.16.1\mojmap`. Each parent `mojmap.ready.json` reports the assigned exact version, Mojmap, `ready`, and 3,332 / 3,572 Java sources respectively. Its `sourceManifestSha256` matches the recomputed SHA-256 of the corresponding parent `mojmap.sources.sha256`: `cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7` (1.15.2), `76fdd121070c2012f48cbdf5cf0c78490116afc94117c30b0858eedcd6ab9754` (1.16.1). The ready records identify Vineflower and version metadata IDs matching the requested versions.
+
+I recomputed each of the ten cited Java-file SHA-256 values for both releases and matched each to the exact path row in that release manifest. All twenty values in the closure are correct. `Input.java`, `KeyboardInput.java`, and `ToggleKeyMapping.java` are byte-identical across the pair; their respective hashes are the ones stated in the closure.
+
+## Independent trace
+
+- **Provider installation:** `ClientPacketListener.handleLogin` installs `new KeyboardInput(this.minecraft.options)` on the local player (`ClientPacketListener.java:370` / `:397`); `handleRespawn` assigns the same provider to the replacement player (`:1084` / `:1135`). A declaration scan finds `KeyboardInput` as the sole class extending `net.minecraft.client.player.Input` in each source tree. The examined login and respawn route therefore uses the keyboard provider, not base `Input.tick`.
+- **Key definitions and sampling:** `Options.java` declares forward/up, left, back/down, right, jump and sneak keys with the same identifiers, default codes, movement category and sneak `ToggleKeyMapping` supplier (`1.15.2:116–121`; `1.16.1:107–112`). The byte-identical `KeyboardInput.tick(boolean)` reads the same four directional `isDown()` states, computes signed `0.0F`/`±1.0F` impulses, reads jump and shift, then applies the same `(float)(impulse * 0.3)` scaling to the two movement impulses only when the argument is true (`KeyboardInput.java:13–25`). Base `Input` fields and methods are likewise identical.
+- **State updates:** `KeyMapping.set`, `setAll`, `isDown`, and `setDown` have matching bodies. `KeyboardHandler` still calls `KeyMapping.set(key, false/true)` for releases/presses, and `MouseHandler` still calls `KeyMapping.setAll()` during mouse grab. `ToggleKeyMapping.java` is byte-identical. The `KeyMapping.java` diff is confined to translated-name/display-component APIs and imports; these state methods do not change. The `Options.java` file has unrelated edits, while the six movement-key declarations above remain the same.
+- **Tick boundary:** Both `LocalPlayer.aiStep` methods copy the previously stored `input.jumping` and `input.shiftKeyDown` into locals before invoking `input.tick(this.isMovingSlowly())` (`1.15.2:632–635`; `1.16.1:659–666`). In 1.16.1 the `crouching` cache write occurs before that input tick, using `isShiftKeyDown()` and thus the previously stored shift state. This is a distinct local-player sampling/cache-order change; it is not a raw shift-provider delta.
+- **Movement handoff:** In both releases, `LocalPlayer.serverAiStep` copies `input.leftImpulse`, `input.forwardImpulse`, and `input.jumping` into `xxa`, `zza`, and `jumping` under the controlled-camera condition (`1.15.2:607–612`; `1.16.1:634–639`). `LivingEntity.aiStep` invokes `serverAiStep` on the effective-AI path and later calls `travel(new Vec3(this.xxa, this.yya, this.zza))` (`1.15.2:2260, 2287`; `1.16.1:2419, 2457`). This confirms the keyboard-generated movement and jump values reach the same local movement fields and travel handoff.
+
+## Verdict
+
+**Confirmed: no 1.15.2 → 1.16.1 raw keyboard input-provider delta is evidenced in the assigned scope.** The exact provider class and installation callers, movement-key definitions and state-update path, keyboard sampling/calculation, and transfer to local movement fields agree. Keep the 1.16.1 pre-sampling crouch-cache timing as its own `LocalPlayer.aiStep` change. This endpoint audit does not establish an intermediate patch boundary or runtime parity.
+
+The closure's provider conclusion and separation of crouch-cache timing are supported. No gate claims outside this bounded input-provider audit were reopened.

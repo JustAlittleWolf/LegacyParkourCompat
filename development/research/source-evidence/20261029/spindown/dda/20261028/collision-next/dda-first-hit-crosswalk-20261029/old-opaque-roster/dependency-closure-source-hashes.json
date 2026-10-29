@@ -1,0 +1,109 @@
+{
+  "schema": "old-opaque-roster-class-dependency-closure-v1",
+  "base_source_hashes_sha256": "C907DC92D9C07D1A43EBE57D8A2DE5BF9ED169B5BBBC9935D7485630B33CBCF0",
+  "roster_csv_sha256": "3A10D2961F0A8F94649BF329EABA148A1D16BE01811490BF62B96255F6A05ADB",
+  "omitted_class_sources": [
+    {
+      "class": "AbstractLogBlock",
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\AbstractLogBlock.java",
+      "sha256": "A28EB4C72E8DED3DA6F6FB0FEE636AF44A9FC72694BABF1CC4EF902DCF4BB165",
+      "bytes": 2600
+    },
+    {
+      "class": "AbstractPressurePlateBlock",
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\AbstractPressurePlateBlock.java",
+      "sha256": "85896B070BE577D228E8A660F1F95CAE8956467A957463C4FC839080D2E5B1CB",
+      "bytes": 5569
+    },
+    {
+      "class": "AbstractRailBlock",
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\AbstractRailBlock.java",
+      "sha256": "743E8D1B8ACF24ACA8E297A2906D78B010960DAE21B0BE5A4C803AA20038111D",
+      "bytes": 19263
+    },
+    {
+      "class": "AxisBlock",
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\AxisBlock.java",
+      "sha256": "6E9B75057943373F31BAAB674D7F7E9CCCBE1FD5EFDDE9D44C9261BB7BA93036",
+      "bytes": 582
+    },
+    {
+      "class": "BlockWithBlockEntity",
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\BlockWithBlockEntity.java",
+      "sha256": "9126813AF904415188C993830F592326FD78F1B9C9E6224373256F6AC23CE175",
+      "bytes": 1839
+    },
+    {
+      "class": "ButtonBlock",
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\ButtonBlock.java",
+      "sha256": "E79F9805438FC92233E709FEFFA83091FEBDE8DE2A3DAAE8280183EF251E5681",
+      "bytes": 10296
+    },
+    {
+      "class": "DiodeBlock",
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\DiodeBlock.java",
+      "sha256": "FDDFE9C212D67480AB1F8EC7C4AE236E4E9B310ED9F78C29CD78FFA01080DBB0",
+      "bytes": 8058
+    },
+    {
+      "class": "FallingBlock",
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\FallingBlock.java",
+      "sha256": "A3FCBC22CA73E0B31D2719F62094323C24AE7B56EBB3CE58B7A7909C1D5ABAA0",
+      "bytes": 2646
+    },
+    {
+      "class": "FlowerBlock",
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\FlowerBlock.java",
+      "sha256": "4139A2FC5C274704D8CB861269BC2C62027FFB75F4E17B4AEA85CB77A754CCF4",
+      "bytes": 5453
+    },
+    {
+      "class": "HorizontalFacingBlock",
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\HorizontalFacingBlock.java",
+      "sha256": "99C33E79B000C5545640894D0A291FE62DD07ED7330A5B08CA23C1DB3D83DD83",
+      "bytes": 606
+    },
+    {
+      "class": "LiquidBlock",
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\LiquidBlock.java",
+      "sha256": "1537FD6B1BCA65E0F910F9A12BCD3BB27F5A86BE7F13A1CAA380C5E66544F1D5",
+      "bytes": 11869
+    },
+    {
+      "class": "PlantBlock",
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\PlantBlock.java",
+      "sha256": "A862AC13E8D25C8C3D4DC12AF716351A8C51CBF4AA10F0AE2705B6A036A198BD",
+      "bytes": 2451
+    },
+    {
+      "class": "RedSandstoneSlabBlock",
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\RedSandstoneSlabBlock.java",
+      "sha256": "07D59A26FC337CFB2533C9CF4B8F9CBA0D3ADAAAC5CA96A50B6845F6C1845A64",
+      "bytes": 5346
+    },
+    {
+      "class": "SignBlock",
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\SignBlock.java",
+      "sha256": "7CCC9F3DA44069426C3FC808E97631A56B8AD10045B89459219B2C2D062E81F6",
+      "bytes": 2364
+    },
+    {
+      "class": "StoneSlabBlock",
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\StoneSlabBlock.java",
+      "sha256": "CE79650021C852BA1E70B3F9E5254CF00597A929154A7F10459DB2E37D49FD76",
+      "bytes": 5656
+    },
+    {
+      "class": "TransparentBlock",
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\TransparentBlock.java",
+      "sha256": "10780460A36E5E73D61381CD91B05A988E30A67E71FC182875A52BDCF387D244",
+      "bytes": 1338
+    },
+    {
+      "class": "WoodenSlabBlock",
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\WoodenSlabBlock.java",
+      "sha256": "B4788B162E779DD285D1FA7C41781716FEC6B43989F9693DA2D4134064673CD3",
+      "bytes": 3267
+    }
+  ]
+}

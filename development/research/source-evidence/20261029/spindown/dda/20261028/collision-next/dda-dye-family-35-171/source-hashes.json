@@ -1,0 +1,100 @@
+[
+  {
+    "side": "1.8.9 ornithe-feather",
+    "path": "net/minecraft/block/Block.java",
+    "sha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+    "manifestSha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+    "manifestMatch": true
+  },
+  {
+    "side": "1.8.9 ornithe-feather",
+    "path": "net/minecraft/block/ColoredBlock.java",
+    "sha256": "cd90b925b3fba42d430bc117bc138ef26ad77e62ce3e915747c2dba9f1753353",
+    "manifestSha256": "cd90b925b3fba42d430bc117bc138ef26ad77e62ce3e915747c2dba9f1753353",
+    "manifestMatch": true
+  },
+  {
+    "side": "1.8.9 ornithe-feather",
+    "path": "net/minecraft/block/CarpetBlock.java",
+    "sha256": "7b3f5725008ede42fd23d5fab0cbdcfc27736ce9c71094bd56cf9d03c2458a01",
+    "manifestSha256": "7b3f5725008ede42fd23d5fab0cbdcfc27736ce9c71094bd56cf9d03c2458a01",
+    "manifestMatch": true
+  },
+  {
+    "side": "1.8.9 ornithe-feather",
+    "path": "net/minecraft/item/DyeColor.java",
+    "sha256": "2147f7bc09914a137ad635a9b5a4569c6e8d02495a069508084247c34a19b78f",
+    "manifestSha256": "2147f7bc09914a137ad635a9b5a4569c6e8d02495a069508084247c34a19b78f",
+    "manifestMatch": true
+  },
+  {
+    "side": "1.8.9 ornithe-feather",
+    "path": "net/minecraft/block/Blocks.java",
+    "sha256": "1da2d85406ed991e8f6bc1f420babf0bd43598478f347c6a4dc9fea322ed0695",
+    "manifestSha256": "1da2d85406ed991e8f6bc1f420babf0bd43598478f347c6a4dc9fea322ed0695",
+    "manifestMatch": true
+  },
+  {
+    "side": "26.2 unobfuscated",
+    "path": "net/minecraft/world/item/DyeColor.java",
+    "sha256": "9ee74711a37eda938a4deaa56828eeb6a46234d722be1f720d240378b2db0abf",
+    "manifestSha256": "9ee74711a37eda938a4deaa56828eeb6a46234d722be1f720d240378b2db0abf",
+    "manifestMatch": true
+  },
+  {
+    "side": "26.2 unobfuscated",
+    "path": "net/minecraft/world/level/block/Blocks.java",
+    "sha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+    "manifestSha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+    "manifestMatch": true
+  },
+  {
+    "side": "26.2 unobfuscated",
+    "path": "net/minecraft/world/level/block/ColorCollection.java",
+    "sha256": "717fb27a7b1d0f68b3c2f371408385ad84ccdcc1d76248338897d8cf59db2be2",
+    "manifestSha256": "717fb27a7b1d0f68b3c2f371408385ad84ccdcc1d76248338897d8cf59db2be2",
+    "manifestMatch": true
+  },
+  {
+    "side": "26.2 unobfuscated",
+    "path": "net/minecraft/references/BlockItemIds.java",
+    "sha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6",
+    "manifestSha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6",
+    "manifestMatch": true
+  },
+  {
+    "side": "26.2 unobfuscated",
+    "path": "net/minecraft/util/datafix/fixes/BlockStateData.java",
+    "sha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+    "manifestSha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+    "manifestMatch": true
+  },
+  {
+    "side": "26.2 unobfuscated",
+    "path": "net/minecraft/world/level/block/CarpetBlock.java",
+    "sha256": "ce669310bf7ab918e5bbdb07253b9030a516ae143cd4aa9e464bd7f2fdedffdc",
+    "manifestSha256": "ce669310bf7ab918e5bbdb07253b9030a516ae143cd4aa9e464bd7f2fdedffdc",
+    "manifestMatch": true
+  },
+  {
+    "side": "26.2 unobfuscated",
+    "path": "net/minecraft/world/level/block/WoolCarpetBlock.java",
+    "sha256": "f99bd32dc81aac89584803bc9eb92ee229502cbb5719d726672195d879365b4e",
+    "manifestSha256": "f99bd32dc81aac89584803bc9eb92ee229502cbb5719d726672195d879365b4e",
+    "manifestMatch": true
+  },
+  {
+    "side": "26.2 unobfuscated",
+    "path": "net/minecraft/world/level/block/Block.java",
+    "sha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab",
+    "manifestSha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab",
+    "manifestMatch": true
+  },
+  {
+    "side": "26.2 unobfuscated",
+    "path": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+    "sha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+    "manifestSha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+    "manifestMatch": true
+  }
+]

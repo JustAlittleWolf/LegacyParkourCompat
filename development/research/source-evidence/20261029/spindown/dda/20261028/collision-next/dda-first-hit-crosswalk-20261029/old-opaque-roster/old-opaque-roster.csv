@@ -1,0 +1,199 @@
+old_id,old_registry_name,registered_concrete_class,Block.java_registration_line,constructed_opaqueCube,exact_method_or_constructor_basis,PaneBlock_shouldConnectTo_for_ID101,current_mapped_neighbor_status,class_ancestry_to_basis
+0,air,AirBlock,826,false,AirBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,AirBlock
+1,stone,StoneBlock,827,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,StoneBlock>Block
+2,grass,GrassBlock,828,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,GrassBlock>Block
+3,dirt,DirtBlock,829,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,DirtBlock>Block
+4,cobblestone,Block,836,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,Block
+5,planks,PlanksBlock,838,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,PlanksBlock>Block
+6,sapling,SaplingBlock,839,false,PlantBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,SaplingBlock>PlantBlock
+7,bedrock,Block,840,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,Block
+8,flowing_water,FlowingLiquidBlock,851,false,LiquidBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,FlowingLiquidBlock>LiquidBlock
+9,water,LiquidSourceBlock,852,false,LiquidBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,LiquidSourceBlock>LiquidBlock
+10,flowing_lava,FlowingLiquidBlock,853,false,LiquidBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,FlowingLiquidBlock>LiquidBlock
+11,lava,LiquidSourceBlock,854,false,LiquidBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,LiquidSourceBlock>LiquidBlock
+12,sand,SandBlock,855,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,SandBlock>FallingBlock>Block
+13,gravel,GravelBlock,856,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,GravelBlock>FallingBlock>Block
+14,gold_ore,OreBlock,857,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,OreBlock>Block
+15,iron_ore,OreBlock,858,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,OreBlock>Block
+16,coal_ore,OreBlock,859,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,OreBlock>Block
+17,log,LogBlock,860,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,LogBlock>AbstractLogBlock>AxisBlock>Block
+18,leaves,LeavesBlock,861,true,"AbstractLeavesBlock.isSolidRender(!culling), culling JVM-default false at Block super call",ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,LeavesBlock>AbstractLeavesBlock
+19,sponge,SpongeBlock,862,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,SpongeBlock>Block
+20,glass,GlassBlock,863,false,TransparentBlock.isSolidRender():false,ADMIT:explicit pane exception (glass/stained glass/pane),CLOSED ID only: exact same-name 26.2 alias; preserve explicit legacy admission (modern predicate differs),GlassBlock>TransparentBlock
+21,lapis_ore,OreBlock,864,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,OreBlock>Block
+22,lapis_block,Block,865,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,Block
+23,dispenser,DispenserBlock,875,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,DispenserBlock>BlockWithBlockEntity>Block
+24,sandstone,SandstoneBlock,877,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,SandstoneBlock>Block
+25,noteblock,NoteBlock,878,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,NoteBlock>BlockWithBlockEntity>Block
+26,bed,BedBlock,879,false,BedBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,BedBlock
+27,golden_rail,PoweredRailBlock,880,false,AbstractRailBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,PoweredRailBlock>AbstractRailBlock
+28,detector_rail,DetectorRailBlock,881,false,AbstractRailBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,DetectorRailBlock>AbstractRailBlock
+29,sticky_piston,PistonBaseBlock,882,false,PistonBaseBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,PistonBaseBlock
+30,web,CobwebBlock,883,false,CobwebBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,CobwebBlock
+31,tallgrass,TallPlantBlock,884,false,PlantBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,TallPlantBlock>PlantBlock
+32,deadbush,DeadBushBlock,885,false,PlantBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,DeadBushBlock>PlantBlock
+33,piston,PistonBaseBlock,886,false,PistonBaseBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,PistonBaseBlock
+34,piston_head,PistonHeadBlock,887,false,PistonHeadBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,PistonHeadBlock
+35,wool,ColoredBlock,888,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,ColoredBlock>Block
+36,piston_extension,MovingBlock,889,false,MovingBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,MovingBlock
+37,yellow_flower,YellowFlowerBlock,890,false,PlantBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,YellowFlowerBlock>FlowerBlock>PlantBlock
+38,red_flower,RedFlowerBlock,891,false,PlantBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,RedFlowerBlock>FlowerBlock>PlantBlock
+39,brown_mushroom,MushroomPlantBlock,893,false,PlantBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,MushroomPlantBlock>PlantBlock
+40,red_mushroom,MushroomPlantBlock,895,false,PlantBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,MushroomPlantBlock>PlantBlock
+41,gold_block,Block,896,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,Block
+42,iron_block,Block,906,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,Block
+43,double_stone_slab,DoubleStoneSlabBlock,916,true,SlabBlock.isSolidRender()->DoubleStoneSlabBlock.isDouble()=true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,DoubleStoneSlabBlock>StoneSlabBlock>SlabBlock
+44,stone_slab,SingleStoneSlabBlock,917,false,SlabBlock.isSolidRender()->SingleStoneSlabBlock.isDouble()=false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,SingleStoneSlabBlock>StoneSlabBlock>SlabBlock
+45,brick_block,Block,924,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,Block
+46,tnt,TntBlock,925,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,TntBlock>Block
+47,bookshelf,BookshelfBlock,926,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,BookshelfBlock>Block
+48,mossy_cobblestone,Block,927,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,Block
+49,obsidian,ObsidianBlock,937,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,ObsidianBlock>Block
+50,torch,TorchBlock,938,false,TorchBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,TorchBlock
+51,fire,FireBlock,939,false,FireBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,FireBlock
+52,mob_spawner,MobSpawnerBlock,940,false,MobSpawnerBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,MobSpawnerBlock
+53,oak_stairs,StairsBlock,941,false,StairsBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,StairsBlock
+54,chest,ChestBlock,942,false,ChestBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,ChestBlock
+55,redstone_wire,RedstoneWireBlock,943,false,RedstoneWireBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,RedstoneWireBlock
+56,diamond_ore,OreBlock,944,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,OreBlock>Block
+57,diamond_block,Block,945,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,Block
+58,crafting_table,CraftingTableBlock,955,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,CraftingTableBlock>Block
+59,wheat,WheatBlock,956,false,PlantBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,WheatBlock>PlantBlock
+60,farmland,FarmlandBlock,958,false,FarmlandBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,FarmlandBlock
+61,furnace,FurnaceBlock,959,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,FurnaceBlock>BlockWithBlockEntity>Block
+62,lit_furnace,FurnaceBlock,962,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,FurnaceBlock>BlockWithBlockEntity>Block
+63,standing_sign,StandingSignBlock,963,false,SignBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,StandingSignBlock>SignBlock
+64,wooden_door,DoorBlock,964,false,DoorBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,DoorBlock
+65,ladder,LadderBlock,965,false,LadderBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,LadderBlock
+66,rail,RailBlock,966,false,AbstractRailBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,RailBlock>AbstractRailBlock
+67,stone_stairs,StairsBlock,967,false,StairsBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,StairsBlock
+68,wall_sign,WallSignBlock,968,false,SignBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,WallSignBlock>SignBlock
+69,lever,LeverBlock,969,false,LeverBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,LeverBlock
+70,stone_pressure_plate,PressurePlateBlock,970,false,AbstractPressurePlateBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,PressurePlateBlock>AbstractPressurePlateBlock
+71,iron_door,DoorBlock,978,false,DoorBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,DoorBlock
+72,wooden_pressure_plate,PressurePlateBlock,979,false,AbstractPressurePlateBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,PressurePlateBlock>AbstractPressurePlateBlock
+73,redstone_ore,RedstoneOreBlock,987,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,RedstoneOreBlock>Block
+74,lit_redstone_ore,RedstoneOreBlock,997,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,RedstoneOreBlock>Block
+75,unlit_redstone_torch,RedstoneTorchBlock,1002,false,TorchBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,RedstoneTorchBlock>TorchBlock
+76,redstone_torch,RedstoneTorchBlock,1003,false,TorchBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,RedstoneTorchBlock>TorchBlock
+77,stone_button,StoneButtonBlock,1008,false,ButtonBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,StoneButtonBlock>ButtonBlock
+78,snow_layer,SnowLayerBlock,1009,false,SnowLayerBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,SnowLayerBlock
+79,ice,IceBlock,1010,false,TransparentBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,IceBlock>TransparentBlock
+80,snow,SnowBlock,1011,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,SnowBlock>Block
+81,cactus,CactusBlock,1012,false,CactusBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,CactusBlock
+82,clay,ClayBlock,1013,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,ClayBlock>Block
+83,reeds,SugarCaneBlock,1014,false,SugarCaneBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,SugarCaneBlock
+84,jukebox,JukeboxBlock,1015,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,JukeboxBlock>BlockWithBlockEntity>Block
+85,fence,FenceBlock,1016,false,FenceBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,CLOSED old rejection; mapped current state/face outcome OPEN,FenceBlock
+86,pumpkin,PumpkinBlock,1022,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,PumpkinBlock>HorizontalFacingBlock>Block
+87,netherrack,NetherrackBlock,1023,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,NetherrackBlock>Block
+88,soul_sand,SoulSandBlock,1024,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,SoulSandBlock>Block
+89,glowstone,GlowstoneBlock,1025,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,GlowstoneBlock>Block
+90,portal,PortalBlock,1026,false,TransparentBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,PortalBlock>TransparentBlock
+91,lit_pumpkin,PumpkinBlock,1027,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,PumpkinBlock>HorizontalFacingBlock>Block
+92,cake,CakeBlock,1028,false,CakeBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,CakeBlock
+93,unpowered_repeater,RepeaterBlock,1029,false,DiodeBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,RepeaterBlock>DiodeBlock
+94,powered_repeater,RepeaterBlock,1030,false,DiodeBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,RepeaterBlock>DiodeBlock
+95,stained_glass,StainedGlassBlock,1031,false,TransparentBlock.isSolidRender():false,ADMIT:explicit pane exception (glass/stained glass/pane),CLOSED ID only: exact same-name 26.2 alias; preserve explicit legacy admission (modern predicate differs),StainedGlassBlock>TransparentBlock
+96,trapdoor,TrapdoorBlock,1032,false,TrapdoorBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,TrapdoorBlock
+97,monster_egg,InfestedBlock,1033,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,InfestedBlock>Block
+98,stonebrick,StonebrickBlock,1035,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,StonebrickBlock>Block
+99,brown_mushroom_block,MushroomBlock,1036,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,MushroomBlock>Block
+100,red_mushroom_block,MushroomBlock,1039,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,MushroomBlock>Block
+101,iron_bars,PaneBlock,1040,false,PaneBlock.isSolidRender():false,ADMIT:instanceof PaneBlock,CLOSED family identity only: mapped pane family; do not equate all modern IronBarsBlock subclasses,PaneBlock
+102,glass_pane,PaneBlock,1041,false,PaneBlock.isSolidRender():false,ADMIT:instanceof PaneBlock,CLOSED family identity only: mapped pane family; do not equate all modern IronBarsBlock subclasses,PaneBlock
+103,melon_block,MelonBlock,1043,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,MelonBlock>Block
+104,pumpkin_stem,StemBlock,1044,false,PlantBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,StemBlock>PlantBlock
+105,melon_stem,StemBlock,1045,false,PlantBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,StemBlock>PlantBlock
+106,vine,VineBlock,1046,false,VineBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,VineBlock
+107,fence_gate,FenceGateBlock,1047,false,FenceGateBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,CLOSED old rejection; mapped current state/face outcome OPEN,FenceGateBlock
+108,brick_stairs,StairsBlock,1052,false,StairsBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,StairsBlock
+109,stone_brick_stairs,StairsBlock,1053,false,StairsBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,StairsBlock
+110,mycelium,MyceliumBlock,1058,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,MyceliumBlock>Block
+111,waterlily,LilyPadBlock,1059,false,PlantBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,LilyPadBlock>PlantBlock
+112,nether_brick,NetherBrickBlock,1066,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,NetherBrickBlock>Block
+113,nether_brick_fence,FenceBlock,1067,false,FenceBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,CLOSED old rejection; mapped current state/face outcome OPEN,FenceBlock
+114,nether_brick_stairs,StairsBlock,1072,false,StairsBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,StairsBlock
+115,nether_wart,NetherWartBlock,1073,false,PlantBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,NetherWartBlock>PlantBlock
+116,enchanting_table,EnchantingTableBlock,1074,false,EnchantingTableBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,EnchantingTableBlock
+117,brewing_stand,BrewingStandBlock,1075,false,BrewingStandBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,BrewingStandBlock
+118,cauldron,CauldronBlock,1076,false,CauldronBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,CauldronBlock
+119,end_portal,EndPortalBlock,1077,false,EndPortalBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,EndPortalBlock
+120,end_portal_frame,EndPortalFrameBlock,1078,false,EndPortalFrameBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,EndPortalFrameBlock
+121,end_stone,Block,1089,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,Block
+122,dragon_egg,DragonEggBlock,1099,false,DragonEggBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,DragonEggBlock
+123,redstone_lamp,RedstoneLampBlock,1102,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,RedstoneLampBlock>Block
+124,lit_redstone_lamp,RedstoneLampBlock,1107,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,RedstoneLampBlock>Block
+125,double_wooden_slab,DoubleWoodenSlabBlock,1108,true,SlabBlock.isSolidRender()->DoubleWoodenSlabBlock.isDouble()=true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,DoubleWoodenSlabBlock>WoodenSlabBlock>SlabBlock
+126,wooden_slab,SingleWoodenSlabBlock,1109,false,SlabBlock.isSolidRender()->SingleWoodenSlabBlock.isDouble()=false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,SingleWoodenSlabBlock>WoodenSlabBlock>SlabBlock
+127,cocoa,CocoaBlock,1110,false,CocoaBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,CocoaBlock
+128,sandstone_stairs,StairsBlock,1111,false,StairsBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,StairsBlock
+129,emerald_ore,OreBlock,1112,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,OreBlock>Block
+130,ender_chest,EnderChestBlock,1113,false,EnderChestBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,EnderChestBlock
+131,tripwire_hook,TripwireHookBlock,1118,false,TripwireHookBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,TripwireHookBlock
+132,tripwire,TripwireBlock,1119,false,TripwireBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,TripwireBlock
+133,emerald_block,Block,1120,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,Block
+134,spruce_stairs,StairsBlock,1130,false,StairsBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,StairsBlock
+135,birch_stairs,StairsBlock,1131,false,StairsBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,StairsBlock
+136,jungle_stairs,StairsBlock,1132,false,StairsBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,StairsBlock
+137,command_block,CommandBlock,1133,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,CommandBlock>BlockWithBlockEntity>Block
+138,beacon,BeaconBlock,1134,false,BeaconBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,BeaconBlock
+139,cobblestone_wall,WallBlock,1135,false,WallBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,CLOSED old rejection; current wall-tag rule differs; mapped per-state outcome OPEN,WallBlock
+140,flower_pot,FlowerPotBlock,1136,false,FlowerPotBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,FlowerPotBlock
+141,carrots,CarrotsBlock,1137,false,PlantBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,CarrotsBlock>WheatBlock>PlantBlock
+142,potatoes,PotatoesBlock,1138,false,PlantBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,PotatoesBlock>WheatBlock>PlantBlock
+143,wooden_button,WoodenButtonBlock,1139,false,ButtonBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,WoodenButtonBlock>ButtonBlock
+144,skull,SkullBlock,1140,false,SkullBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,SkullBlock
+145,anvil,AnvilBlock,1141,false,AnvilBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,AnvilBlock
+146,trapped_chest,ChestBlock,1142,false,ChestBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,ChestBlock
+147,light_weighted_pressure_plate,WeightedPressurePlateBlock,1143,false,AbstractPressurePlateBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,WeightedPressurePlateBlock>AbstractPressurePlateBlock
+148,heavy_weighted_pressure_plate,WeightedPressurePlateBlock,1148,false,AbstractPressurePlateBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,WeightedPressurePlateBlock>AbstractPressurePlateBlock
+149,unpowered_comparator,ComparatorBlock,1153,false,DiodeBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,ComparatorBlock>DiodeBlock
+150,powered_comparator,ComparatorBlock,1154,false,DiodeBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,ComparatorBlock>DiodeBlock
+151,daylight_detector,DaylightDetectorBlock,1157,false,DaylightDetectorBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,DaylightDetectorBlock
+152,redstone_block,RedstoneBlock,1158,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,RedstoneBlock>Block
+153,quartz_ore,OreBlock,1168,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,OreBlock>Block
+154,hopper,HopperBlock,1169,false,HopperBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,HopperBlock
+155,quartz_block,QuartzBlock,1171,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,QuartzBlock>Block
+156,quartz_stairs,StairsBlock,1172,false,StairsBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,StairsBlock
+157,activator_rail,PoweredRailBlock,1173,false,AbstractRailBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,PoweredRailBlock>AbstractRailBlock
+158,dropper,DropperBlock,1174,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,DropperBlock>DispenserBlock>BlockWithBlockEntity>Block
+159,stained_hardened_clay,ColoredBlock,1175,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,ColoredBlock>Block
+160,stained_glass_pane,StainedGlassPaneBlock,1180,false,PaneBlock.isSolidRender():false,ADMIT:explicit pane exception (glass/stained glass/pane),CLOSED family identity only: mapped pane family; do not equate all modern IronBarsBlock subclasses,StainedGlassPaneBlock>PaneBlock
+161,leaves2,Leaves2Block,1181,true,"AbstractLeavesBlock.isSolidRender(!culling), culling JVM-default false at Block super call",ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,Leaves2Block>AbstractLeavesBlock
+162,log2,Log2Block,1182,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,Log2Block>AbstractLogBlock>AxisBlock>Block
+163,acacia_stairs,StairsBlock,1183,false,StairsBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,StairsBlock
+164,dark_oak_stairs,StairsBlock,1184,false,StairsBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,StairsBlock
+165,slime,SlimeBlock,1187,false,TransparentBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,SlimeBlock>TransparentBlock
+166,barrier,BarrierBlock,1188,false,BarrierBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,BarrierBlock
+167,iron_trapdoor,TrapdoorBlock,1189,false,TrapdoorBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,TrapdoorBlock
+168,prismarine,PrismarineBlock,1190,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,PrismarineBlock>Block
+169,sea_lantern,SeaLanternBlock,1191,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,SeaLanternBlock>Block
+170,hay_block,HayBlock,1192,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,HayBlock>AxisBlock>Block
+171,carpet,CarpetBlock,1195,false,CarpetBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,CarpetBlock
+172,hardened_clay,HardenedClayBlock,1196,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,HardenedClayBlock>Block
+173,coal_block,Block,1197,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,Block
+174,packed_ice,PackedIceBlock,1207,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,PackedIceBlock>Block
+175,double_plant,DoublePlantBlock,1208,false,PlantBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,DoublePlantBlock>PlantBlock
+176,standing_banner,BannerBlock.Standing,1209,false,BannerBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,Standing>BannerBlock
+177,wall_banner,BannerBlock.Wall,1210,false,BannerBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,Wall>BannerBlock
+178,daylight_detector_inverted,DaylightDetectorBlock,1211,false,DaylightDetectorBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,DaylightDetectorBlock
+179,red_sandstone,RedSandstoneBlock,1213,true,Block.isSolidRender():true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,RedSandstoneBlock>Block
+180,red_sandstone_stairs,StairsBlock,1214,false,StairsBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,StairsBlock
+181,double_stone_slab2,DoubleRedSandstoneSlabBlock,1219,true,SlabBlock.isSolidRender()->DoubleRedSandstoneSlabBlock.isDouble()=true,ADMIT:opaqueCube,OPEN: current key/state projection not established by this roster,DoubleRedSandstoneSlabBlock>RedSandstoneSlabBlock>SlabBlock
+182,stone_slab2,SingleRedSandstoneSlabBlock,1224,false,SlabBlock.isSolidRender()->SingleRedSandstoneSlabBlock.isDouble()=false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,SingleRedSandstoneSlabBlock>RedSandstoneSlabBlock>SlabBlock
+183,spruce_fence_gate,FenceGateBlock,1225,false,FenceGateBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,CLOSED old rejection; mapped current state/face outcome OPEN,FenceGateBlock
+184,birch_fence_gate,FenceGateBlock,1230,false,FenceGateBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,CLOSED old rejection; mapped current state/face outcome OPEN,FenceGateBlock
+185,jungle_fence_gate,FenceGateBlock,1235,false,FenceGateBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,CLOSED old rejection; mapped current state/face outcome OPEN,FenceGateBlock
+186,dark_oak_fence_gate,FenceGateBlock,1240,false,FenceGateBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,CLOSED old rejection; mapped current state/face outcome OPEN,FenceGateBlock
+187,acacia_fence_gate,FenceGateBlock,1245,false,FenceGateBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,CLOSED old rejection; mapped current state/face outcome OPEN,FenceGateBlock
+188,spruce_fence,FenceBlock,1250,false,FenceBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,CLOSED old rejection; mapped current state/face outcome OPEN,FenceBlock
+189,birch_fence,FenceBlock,1259,false,FenceBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,CLOSED old rejection; mapped current state/face outcome OPEN,FenceBlock
+190,jungle_fence,FenceBlock,1268,false,FenceBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,CLOSED old rejection; mapped current state/face outcome OPEN,FenceBlock
+191,dark_oak_fence,FenceBlock,1277,false,FenceBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,CLOSED old rejection; mapped current state/face outcome OPEN,FenceBlock
+192,acacia_fence,FenceBlock,1286,false,FenceBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,CLOSED old rejection; mapped current state/face outcome OPEN,FenceBlock
+193,spruce_door,DoorBlock,1295,false,DoorBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,DoorBlock
+194,birch_door,DoorBlock,1296,false,DoorBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,DoorBlock
+195,jungle_door,DoorBlock,1297,false,DoorBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,DoorBlock
+196,acacia_door,DoorBlock,1298,false,DoorBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,DoorBlock
+197,dark_oak_door,DoorBlock,1299,false,DoorBlock.isSolidRender():false,REJECT:nonopaque and no named/class exception,OPEN: current key/state projection not established by this roster,DoorBlock

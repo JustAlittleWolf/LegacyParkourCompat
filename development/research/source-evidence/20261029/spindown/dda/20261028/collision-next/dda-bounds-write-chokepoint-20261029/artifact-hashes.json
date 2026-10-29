@@ -1,0 +1,34 @@
+{
+  "snapshot": "2026-10-29",
+  "description": "Source-only audit artifact hashes for the 1.8.9 mutable Block bounds write choke-point review.",
+  "entries": [
+    {
+      "path": "report.md",
+      "sha256": "D65AE3192E811F862F524E381476823D3B8ECE18F6075BDF991B51563D3789BF"
+    },
+    {
+      "path": "source-hashes.json",
+      "sha256": "BC3F8129EE2BD774EF9142414E6600998B9F29ED01229AC75E132B9B55EB3660"
+    },
+    {
+      "path": "direct-field-writes.txt",
+      "sha256": "0AC210097C28CCBBA25419677AAFB62E448C484784A0FDC965868FA27D1DE8A9"
+    },
+    {
+      "path": "all-bound-name-write-expressions.txt",
+      "sha256": "0AC210097C28CCBBA25419677AAFB62E448C484784A0FDC965868FA27D1DE8A9"
+    },
+    {
+      "path": "resetShape-overrides.txt",
+      "sha256": "49B42AB798212FA21D60CA096B3F148E923893948C1E68B8E403805F79759AF1"
+    },
+    {
+      "path": "reflection-field-access-search.txt",
+      "sha256": "267E30489DE49AD95601452A264EB00041D7E09860F93619A9432B2BC8CC5AA2"
+    },
+    {
+      "path": "scan-method.md",
+      "sha256": "861B88B27BFFA04B9BFAFAC3AFE4813153E3FE076534AE7411BF30EBD68C0A4E"
+    }
+  ]
+}

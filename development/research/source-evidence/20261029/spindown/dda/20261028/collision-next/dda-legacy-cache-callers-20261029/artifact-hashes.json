@@ -1,0 +1,30 @@
+{
+  "snapshot": "2026-10-29",
+  "description": "Artifact hash manifest for the source-only 1.8.9 shared Block-bounds lifecycle caller inventory.",
+  "entries": [
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-legacy-cache-callers-20261029\\report.md",
+      "sha256": "AB3399383A2A479650CA0F1F4330658698BD3DF612B22D983BA118019294CAB8"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-legacy-cache-callers-20261029\\source-hashes.json",
+      "sha256": "A3310A4724F345C4B6D8990F8EB99FE37FDF4DA3202768E15C76ADEF114506FA"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-legacy-cache-callers-20261029\\ray-call-sites.txt",
+      "sha256": "9E7D77F266AACBE3F35DCBA38BA86CFAE34D56B67462C8CFB9BE8BE72C218EB5"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-legacy-cache-callers-20261029\\shape-refresh-call-sites.txt",
+      "sha256": "09A302FB0FEA66AD171C0C6A1E4AB01155A7B96D218E628D9504EA25D262516A"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-legacy-cache-callers-20261029\\collision-read-call-sites.txt",
+      "sha256": "C2B74CA010EF0FD1E9DB77FB2AAFED16BE930A1673CBAB5FB68AAEE08A3C5D3E"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-legacy-cache-callers-20261029\\block-instance-writers.txt",
+      "sha256": "EB90C5450FF42838153FAA2AB752DA8685FF1046CF7889B9C57D89EBC2B5BAC5"
+    }
+  ]
+}

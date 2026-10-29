@@ -1,0 +1,46 @@
+# Correction and coverage supplement: 1.9.2 → 1.9.3 paths
+
+This supplements `coverage.md`; it preserves the original hash totals and prior evidence text. It corrects the prior source-provenance statement and audits the additional changed paths identified in independent review. Scope remains bounded source discovery; no pair freeze or complete tick/provider audit is claimed.
+
+## Provenance correction: release parent and mapping roots
+
+The earlier report incorrectly said `.decompile-provenance.json` was absent for `1.9` through `1.9.3`. The files are hidden dotfiles directly inside each `ornithe-feather` mapping root; the earlier `Get-ChildItem` query omitted hidden files. The four release parent directories contain the `ornithe-feather` mapping directory, but no separate release-level manifest. Each mapping-root provenance file explicitly binds exact release metadata, client artifact, Feather metadata and mapping artifact, tool/runtime inputs, and per-source-file hashes:
+
+| Release | Exact client artifact SHA-256 | Feather mapping artifact | Mapping artifact SHA-256 | Mapping metadata SHA-256 |
+|---|---|---|---|---|
+| 1.9 | `0273b5c79d6b96799c6480ae61366d6b1d042655970de87f77f1a3f1ebea9307` | `feather-gen2-1.9+build.2-mergedv2.jar` | `a4e09a92eab0fbf6ef4668e295db1949e9d52c42f145d56b6dfbf3a10c2c7c2a` | `ca32cbff5f91d52f6563a2d50a20e3f0fb1e1f76dbb6e41e53c847d2d6977371` |
+| 1.9.1 | `56ad7e53f6f4ad393844e274aa2190692b61d2ad9f6b3d12b33a8b7332fd51f9` | `feather-gen2-1.9.1+build.2-mergedv2.jar` | `6d5768353bf2ff2756d38537312548a8ac91d570f130d23c23e9412d2edd97b3` | `da56c9e7efe5c929b2ec8d99a8e2bbc6825847f2852a0e717fcd6c674db73dc4` |
+| 1.9.2 | `ef87eb71250df1b871deab8d3ef10aac3290b9e78667ad548fde4d0e14af0d65` | `feather-gen2-1.9.2+build.2-mergedv2.jar` | `e2b98ececbff8fa0bd0c89283bbb32b7f9f9dcd4b89fa3f137666fa3ac0b6859` | `5bad5e67d0870fec69bbab8fcae8d0525a274668bb472eb09d1552359d08edd1` |
+| 1.9.3 | `ab8fdde789c5b4614ffc98249e04fdcce7dfce320b55215bfe5418608af6a63b` | `feather-gen2-1.9.3+build.2-mergedv2.jar` | `fc5defa1546cf87888a11783e2b5d9b48b47c6c022f48de4e55add978ab35da3` | `353c13519171cbba1a96872aebcb8b38248d5d5963b4c4613c23337adf028985` |
+
+Each mapping manifest's exact `piston-meta.mojang.com/.../<release>.json` input also identifies the matching release ID. All four manifests report the same pinned decompile pipeline and Java 25.0.3 / Vineflower 1.12.0 / Mapping IO 0.9.1 / TinyRemapper 0.14.1 toolchain. I recomputed hashes for every Java source in each mapping root against its `.decompile-provenance.json` `sources` map: for each release, 1,819 files checked; zero missing, zero content-hash differences, zero extras. This verifies current published source trees against their in-tree provenance records. The records are local evidence and not an external signature; the pinned artifact bytes were not redownloaded or regenerated.
+
+## Added changed-path audit
+
+### Block state and callback API
+
+- `block/state/BlockState.java`: 1.9.2 extends `BlockProperties`; 1.9.3 adds `BlockBehaviors`. The added interface only declares `doEvent` and `neighborChanged`. 1.9.3 `StateDefinition.State` forwards those calls to the same `Block` instance with the same state, world, position, neighbor, type, and data. Before the refactor, World and changed blocks called `state.getBlock().neighborChanged(...)` / the block directly. No callback predicate or body change was found in this dispatch layer.
+- `block/Block.java`: collision helper remains `state.getCollisionShape(world,pos)`, then `blockShape.move(pos)`, then `shape.intersects(box)` before appending. `getCollisionShape` still returns `state.getShape(world,pos)`. `.3` adds deprecation/nullability annotations and marks the entity argument nullable; the collision math and order are unchanged.
+- `world/World.java`: the block collision scan still walks x, z, then y in the same loop order and calls `blockState.addCollisions(...)`; world-border checks and stone fallback in the entity collision path are unchanged. `neighborChanged` dispatch now calls `BlockState.neighborChanged`; its `.3` state implementation forwards to `this.block.neighborChanged(this, world, pos, neighbor)`, matching the old direct block dispatch and original state argument.
+
+### Query, math, and chunk dependencies
+
+- `world/WorldView.java`: only nullability metadata changes in the interface; no query implementation or return behavior changes here.
+- `client/world/ClientWorld.java`: the reviewed differences are nullability/deprecation annotations and crash-detail callback type/signature metadata; `tick()` still invokes `chunkCache.tick()` and then `tickChunks()` in the same order. No movement block-state query difference was found in this class.
+- `client/world/chunk/ClientChunkCache.java`: `.2` keeps both a keyed `Long2ObjectHashMap` and insertion-order list; `.3` stores chunks in one `Long2ObjectOpenHashMap`. `loadChunk`, `unloadChunk`, `getLoadedChunk`, and `getChunk` retain the same coordinate key and loaded-chunk lookup/default-empty behavior. Chunk tick enumeration changes from list insertion order to hash-map values order. `ClientWorld.tick()` calls this cache tick in both versions. `WorldChunk.tick(skipCheckGaps)` only performs the bounded gap-light check, light population, and queued block-entity creation; the order change can affect which chunks see the time-budgeted `skipCheckGaps` flag, so it is a verified chunk-lighting/initialization delta. No direct player collision/shape query change or block-state movement response is established by these bodies. The indirect lighting→block-state path is not claimed closed by this slice.
+- `util/math/BlockPos.java`: `.3` makes `Mutable` non-final, changes coordinate fields to protected, and has `PooledMutable` extend it. `PooledMutable` continues to use the same x/y/z coordinates, release-warning guard, integer floor conversion, and x/y/z assignment order. Its inherited `move(dir[,distance])` reaches the overridden `set` and computes the same coordinate additions as `.2`; `.3` adds multiplication by integer distance (one for the no-distance overload). The movement collision loop uses `PooledMutable.set(x,y,z)` for each voxel, whose result remains the same coordinate triple. Return types become fluent but callers in the reviewed collision loop ignore them.
+- `util/math/Box.java`: changed hunks add `@Nullable` / `@VisibleForTesting` annotations only; clipping/intersection/expand/move bodies and arithmetic are unchanged.
+
+### Changed shape/effect providers
+
+- `CactusBlock`: collision shape is the same constant. Growth at age 15 changes from direct `this.neighborChanged(world, newTopPos, resetLowerState, this)` to `resetLowerState.neighborChanged(world,newTopPos,this)`. The reset state is made from the cactus state at the current position, and `.3` dispatches to that same cactus block with that exact state; `neighborChanged` ignores its state parameter and executes the same survival query/break. The separate cactus entity callback remains damage-only (excluded damage calculation scope).
+- `CobwebBlock`: `onEntityCollision` still invokes `entity.onCobwebCollision()`; `getCollisionShape` still returns `EMPTY_BLOCK_SHAPE`. Only nullability annotations and nullable mining inputs are added in reviewed methods.
+- `FrostedIceBlock`: `tick`, neighbor-count, melt and melting-neighbor state updates are text-identical in the reviewed bodies; its `neighborChanged` signature only reorders the state parameter. The nullable annotation applies to the null pick-item result, not a collision shape.
+- `VineBlock`: `getCollisionShape` still returns `EMPTY_BLOCK_SHAPE`; `getShape` keeps the same virtual-property resolution and face-shape selection order. Neighbor callback signature is reordered with the same server-side guard, connection check, drop and remove sequence.
+- `PistonBaseBlock` / `PistonHeadBlock`: piston collision methods still add the same state shape, and piston head still adds the same arm shape in the same order. Changed collision signatures only add nullable metadata. `PistonHeadBlock.neighborChanged` forwards to the same support block/state after the same checks; `.3` invokes the new state dispatch interface instead of spelling out `getBlock()`.
+
+## Coverage update and remaining gates
+
+This closes review-requested static slices for Block/BlockState/AbstractBlockState/BlockBehaviors, WorldView/ClientWorld/ClientChunkCache, BlockPos/Box, Cactus/Cobweb/FrostedIce/Vine/PistonBase/PistonHead for 1.9.2→1.9.3. `ClientChunkCache.tick()` order and its time-gated chunk-lighting dependency are retained as an indirect environmental delta; no player movement conclusion is asserted. Earlier release/mapping provenance should now be treated as **verified against in-tree manifests and current source hashes**, replacing the previous unbound-claims note. No exact artifact was fetched and no decompile was regenerated.
+
+Still partial: exhaustive `.2`→`.3` provider inventory, all direct player movement root transitions and external event responses, the client lighting→block-state→movement dependency, and independent full-pair audit. The original whole-tree hash counts remain unchanged. No movement finding or pair freeze is claimed.

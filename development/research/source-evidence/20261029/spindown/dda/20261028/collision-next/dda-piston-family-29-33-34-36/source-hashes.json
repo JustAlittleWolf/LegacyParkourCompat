@@ -1,0 +1,154 @@
+[
+  {
+    "release": "1.8.9",
+    "matchesCanonical": true,
+    "canonicalSha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+    "mapping": "ornithe-feather",
+    "path": "net/minecraft/block/Block.java",
+    "sha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528"
+  },
+  {
+    "release": "1.8.9",
+    "matchesCanonical": true,
+    "canonicalSha256": "3c96698a674714446f9fd0d6cc1c4d5eb72937d9a2f396516ddb2461c3ea4929",
+    "mapping": "ornithe-feather",
+    "path": "net/minecraft/block/PistonBaseBlock.java",
+    "sha256": "3c96698a674714446f9fd0d6cc1c4d5eb72937d9a2f396516ddb2461c3ea4929"
+  },
+  {
+    "release": "1.8.9",
+    "matchesCanonical": true,
+    "canonicalSha256": "c5515744ce27521195ec802e2bd89ae5327448302542436576bcacf19f245fa4",
+    "mapping": "ornithe-feather",
+    "path": "net/minecraft/block/PistonHeadBlock.java",
+    "sha256": "c5515744ce27521195ec802e2bd89ae5327448302542436576bcacf19f245fa4"
+  },
+  {
+    "release": "1.8.9",
+    "matchesCanonical": true,
+    "canonicalSha256": "700010b071738738f04e0508050590d8d625f01115fc4886fef6e262f85c6e85",
+    "mapping": "ornithe-feather",
+    "path": "net/minecraft/block/MovingBlock.java",
+    "sha256": "700010b071738738f04e0508050590d8d625f01115fc4886fef6e262f85c6e85"
+  },
+  {
+    "release": "1.8.9",
+    "matchesCanonical": true,
+    "canonicalSha256": "05a5bfbf2556eaa621996bda365b7bab01f5b9060cf773e7b9949ebe2f39fff6",
+    "mapping": "ornithe-feather",
+    "path": "net/minecraft/block/entity/MovingBlockEntity.java",
+    "sha256": "05a5bfbf2556eaa621996bda365b7bab01f5b9060cf773e7b9949ebe2f39fff6"
+  },
+  {
+    "release": "1.8.9",
+    "matchesCanonical": true,
+    "canonicalSha256": "ede4dc29795263853c048e569f24e74407255767c5e02349a90895ac5b08e544",
+    "mapping": "ornithe-feather",
+    "path": "net/minecraft/util/math/Direction.java",
+    "sha256": "ede4dc29795263853c048e569f24e74407255767c5e02349a90895ac5b08e544"
+  },
+  {
+    "release": "26.2",
+    "matchesCanonical": true,
+    "canonicalSha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+    "mapping": "unobfuscated",
+    "path": "net/minecraft/world/level/block/Blocks.java",
+    "sha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435"
+  },
+  {
+    "release": "26.2",
+    "matchesCanonical": true,
+    "canonicalSha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab",
+    "mapping": "unobfuscated",
+    "path": "net/minecraft/world/level/block/Block.java",
+    "sha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab"
+  },
+  {
+    "release": "26.2",
+    "matchesCanonical": true,
+    "canonicalSha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+    "mapping": "unobfuscated",
+    "path": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+    "sha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e"
+  },
+  {
+    "release": "26.2",
+    "matchesCanonical": true,
+    "canonicalSha256": "5287608eaedbd6402f4c6fac93645cf595631b1d2b3dd6987789225045a64a91",
+    "mapping": "unobfuscated",
+    "path": "net/minecraft/world/level/block/piston/PistonBaseBlock.java",
+    "sha256": "5287608eaedbd6402f4c6fac93645cf595631b1d2b3dd6987789225045a64a91"
+  },
+  {
+    "release": "26.2",
+    "matchesCanonical": true,
+    "canonicalSha256": "cd228fe96ce810c19ea747e779cd8f89f4fd3457d6277673d7ead29c8304f5ab",
+    "mapping": "unobfuscated",
+    "path": "net/minecraft/world/level/block/piston/PistonHeadBlock.java",
+    "sha256": "cd228fe96ce810c19ea747e779cd8f89f4fd3457d6277673d7ead29c8304f5ab"
+  },
+  {
+    "release": "26.2",
+    "matchesCanonical": true,
+    "canonicalSha256": "9a8d9b03be6866b1e5a2d237f8cb635b89c08e63a241db2d32338448240102d1",
+    "mapping": "unobfuscated",
+    "path": "net/minecraft/world/level/block/piston/MovingPistonBlock.java",
+    "sha256": "9a8d9b03be6866b1e5a2d237f8cb635b89c08e63a241db2d32338448240102d1"
+  },
+  {
+    "release": "26.2",
+    "matchesCanonical": true,
+    "canonicalSha256": "706bab1a13ba99bbd334aad853b99f72df58fce5b6b67d30d41f902b63dd8e06",
+    "mapping": "unobfuscated",
+    "path": "net/minecraft/world/level/block/piston/PistonMovingBlockEntity.java",
+    "sha256": "706bab1a13ba99bbd334aad853b99f72df58fce5b6b67d30d41f902b63dd8e06"
+  },
+  {
+    "release": "26.2",
+    "matchesCanonical": true,
+    "canonicalSha256": "0f342f57727cfe99966da9706da7ddb330654cb59684529166b6f175171ba69f",
+    "mapping": "unobfuscated",
+    "path": "net/minecraft/references/BlockIds.java",
+    "sha256": "0f342f57727cfe99966da9706da7ddb330654cb59684529166b6f175171ba69f"
+  },
+  {
+    "release": "26.2",
+    "matchesCanonical": true,
+    "canonicalSha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6",
+    "mapping": "unobfuscated",
+    "path": "net/minecraft/references/BlockItemIds.java",
+    "sha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6"
+  },
+  {
+    "release": "26.2",
+    "matchesCanonical": true,
+    "canonicalSha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+    "mapping": "unobfuscated",
+    "path": "net/minecraft/util/datafix/fixes/BlockStateData.java",
+    "sha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4"
+  },
+  {
+    "release": "26.2",
+    "matchesCanonical": true,
+    "canonicalSha256": "0fcc8e6410ef74e079eff315cde571b490ee0342a7c573e61d7e6c528826a778",
+    "mapping": "unobfuscated",
+    "path": "net/minecraft/util/datafix/fixes/EntityBlockStateFix.java",
+    "sha256": "0fcc8e6410ef74e079eff315cde571b490ee0342a7c573e61d7e6c528826a778"
+  },
+  {
+    "release": "26.2",
+    "matchesCanonical": true,
+    "canonicalSha256": "f343e32734f78783236978e236936a0da917f76d26b30622bd73d2527380e4b2",
+    "mapping": "unobfuscated",
+    "path": "net/minecraft/world/level/block/state/properties/PistonType.java",
+    "sha256": "f343e32734f78783236978e236936a0da917f76d26b30622bd73d2527380e4b2"
+  },
+  {
+    "release": "26.2",
+    "matchesCanonical": true,
+    "canonicalSha256": "c6e4b49663a09110e96a3b51628f92defd83da9267a5d569a8ac8fc0c8893cd0",
+    "mapping": "unobfuscated",
+    "path": "net/minecraft/world/level/block/state/properties/BlockStateProperties.java",
+    "sha256": "c6e4b49663a09110e96a3b51628f92defd83da9267a5d569a8ac8fc0c8893cd0"
+  }
+]

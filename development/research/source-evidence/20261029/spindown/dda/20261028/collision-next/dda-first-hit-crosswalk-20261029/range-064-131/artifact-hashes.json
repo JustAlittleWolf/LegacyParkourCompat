@@ -1,0 +1,744 @@
+{
+  "scope": "source-only first-hit inventory IDs 64-131",
+  "current_state_note": "registry candidate keys and local family reports do not establish a complete current-state adapter",
+  "source_artifacts": {
+    ".native-source/20261028/collision-next/dda-door-family-64-71-193-197/FINDING.md": "51D3C1B413372028C0B9C6D9AAC017BB84A4108AB253CB82617A09CAA3420684",
+    ".native-source/20261028/collision-next/dda-door-family-64-71-193-197-review/REVIEW.md": "95F1D8BD2D6F46AD88B94A48A5247CD45D4B67C7741F23499CDD04BF7B57EDDA",
+    ".native-source/20261028/collision-next/dda-climbable-family-65-106/finding.md": "830E6DF6E5356992E639A062382700A136E29BA4CCEC7C290EFD7538A05DE43B",
+    ".native-source/20261028/collision-next/dda-climbable-family-65-106-review/review.md": "A60B1C850AFB9221F2E277E48C506BC48AB66E9D0A4B6B1A262DD5F5EADABAD1",
+    ".native-source/20261028/collision-next/dda-rail-family-27-28-66-157/report.md": "027AAF833B2BE99BEC7456463DA1D870C6AE98A2CCCE13158A94B1AA8F04F5CB",
+    ".native-source/20261028/collision-next/dda-rail-family-27-28-66-157-review/review.md": "902D453AF5094A168013F68A6DE1EB04B94B7ABAFB2D81122CE578C063072B5F",
+    ".native-source/20261028/collision-next/dda-stair-family-remaining-53-67-108-109-114-134-136-156-163-164/FINDING.md": "3C7855D790DF2AE0A892C5025A7986C27271DB83FF7FD4B3D2D4FEB72EBDDB34",
+    ".native-source/20261028/collision-next/dda-mounted-facing-family/FINDING.md": "FD336FADC32491D310F265F1926AAA12350AF73791DB467FD59DD5976BEDF8C2",
+    ".native-source/20261028/collision-next/dda-ordinary-pressure-plates-70-72/FINDING.md": "CCA97391F76E294827ECFCDD6CF1C50BE853823F3BC7C6C9E92AD6847F176C1C",
+    ".native-source/20261028/collision-next/dda-torch-family-50-75-76/FINDING.md": "990EBF44C43D88486B03E9CAF17151BCD0512C33AC7BDB57CAE0E18345124FC1",
+    ".native-source/20261028/collision-next/dda-torch-family-50-75-76-review/review.md": "527A8217B303F9DA3E80722A6BF928F4E8D9F0F01492C837F31B30287C0738B3",
+    ".native-source/20261028/collision-next/dda-button-family-77-143/report.md": "1147EE5E3131988DA48A8262C2413F18A5E53627034E324F3549AB14097F9530",
+    ".native-source/20261028/collision-next/dda-button-family-77-143-review/report.md": "BA23046321818C55B73AAE0E0C7E76DD2FCD7341E01538127E94D2ADABDA9AD4",
+    ".native-source/20261028/collision-next/dda-snow-ice-family-78-79-80/FINDING.md": "7E9AEFE4A4FCE2312A35C938228BF218259B90CA2CC3A57C354DE70B4D467E5F",
+    ".native-source/20261028/collision-next/dda-cactus-reed-family-81-83/FINDING.md": "B4E12E2B2E2EFDE8D34017B61AD17EDB9EC060BD6A9D1F8963E7AD2EA7E57D42",
+    ".native-source/20261028/collision-next/dda-blockentity-audio-family-25-84/FINDING.md": "42DA4BD7258AD6AA9653A4AC8A1DE13A6C7451C177780AFC95F324885F1475A8",
+    ".native-source/20261028/collision-next/dda-fence-gate-family-legacy/FINDING.md": "1A573FC598C9A35E4A3A89D593519272C534680301639DEA35606B651F49B3DB",
+    ".native-source/20261028/collision-next/dda-portal-family-90-119/FINDING.md": "B00D763D1F4D3C0210889BE0284D73E8B1A52DC4529ADECD83FB1E5BF87E4450",
+    ".native-source/20261028/collision-next/dda-bed-cake-cocoa-family/FINDING.md": "7E94156E24A2B90122E5312AD9C996D826DC6D2F8D94A2342F8690A5C46F9548",
+    ".native-source/20261028/collision-next/dda-trapdoor-family-96-167/report.md": "691C23ECD2342D08AA43B8FB59CE187B14804DDCC1497C9E37DE56B04B8533A0",
+    ".native-source/20261028/collision-next/dda-trapdoor-family-96-167-review/review.md": "FC4DBDFE4DD36E92F12A647BF1D117192BFAC713840085AE60E889FD842B4932",
+    ".native-source/20261028/collision-next/dda-iron-bars-101/FINDING.md": "C706322C5A9B90252BB6B2882052C227554C9F569866A26CDC14EDCDD634918C",
+    ".native-source/20261028/collision-next/dda-iron-bars-101-neighbor-admission-review/review.md": "DFECA286F7B66B5E290828379452726FA6F56833616A12DC82656DCF9A15BA0D",
+    ".native-source/20261028/collision-next/dda-pane-family-102-160/report.md": "13B9095BAF5D7B011E4FA30B8BAAB901F3172557D35C8F0116CE9F2ACFCF91D8",
+    ".native-source/20261028/collision-next/dda-pane-family-102-160-review/review.md": "18AC38F6B24EE9841F02C76ACF0FBDACA9CCE5596E94628DEA1C98C35D9C9DEE",
+    ".native-source/20261028/collision-next/dda-age-crop-family-59-104-105-141-142/finding.md": "B07A0BED4D65DE14C25D1202378B5F81E5A6DAE6550C053FA9C2EC870AC97C0B",
+    ".native-source/20261028/collision-next/dda-age-crop-family-59-104-105-141-142-review/review.md": "E2AA65A64BE92E4CD8D6A8D97EECA35074B40AC7DA5C83444470936DAEE36481",
+    ".native-source/20261028/collision-next/dda-container-geometry-family-118-154/FINDING.md": "E02A36748D4E112FF0500DF4D1406C56A69E103A6BAFACCF65568C7BE8B1B25C",
+    ".native-source/20261028/collision-next/dda-sandstone-stairs-128-closure/report.md": "F6C13F520A2B2A02BFA0F2493CCF703A1C0A6CC08AB66AE8D9799290E3A5CE9D",
+    ".native-source/20261028/collision-next/dda-sandstone-stairs-128-review/review.md": "8C39EB57A8B406199642E182971C2227B270908082638901E224191FCDD899FC",
+    ".native-source/20261028/collision-next/dda-ender-chest-130-closure/report.md": "16AE12055D4DCEAE4A3079B4FDE97B2A267916037890749E4B080BFD5D854A7D",
+    ".native-source/20261028/collision-next/dda-ender-chest-130-review/review.md": "963573CC1BD11428D2F7287EFE9F440B1E57D9804F5CB986AA0B195272304E62",
+    ".native-source/20261028/collision-next/dda-tripwire-hook-131-closure/report.md": "7EA5C2DAFCF6235E14A7B8F63AD8128E6EEC2FBFE9BCEDF8CFA37662D9302D17",
+    ".native-source/20261028/collision-next/dda-tripwire-hook-131-review/review.md": "E47D76B3799CF1FF0ECFA3DA445121ACD68476150DBD205CAEE7DD407976E96A",
+    ".native-source/20261028/collision-next/dda-189-registry-bounds-map/ids-000-127/registry-state-bounds.csv": "72C2DC5A151D08D9B245DD2403046807FE2A95C2ADF67E10679ECBFBB5949D53",
+    ".native-source/20261028/collision-next/dda-189-registry-bounds-map/ids-000-127/source-hashes.sha256": "B6B5AF21BD49E09CDA74A7CF9E8E5FD90F97C4FB81095535B7ED63B65F1DAF77",
+    ".native-source/20261028/collision-next/dda-189-registry-bounds-map/ids-128-255/table.md": "075C9F46E1434A15ED272678F4FBBBCDEF60220A50870F1BF29B91AE13692482",
+    ".native-source/20261028/collision-next/dda-189-registry-bounds-map/ids-128-255/hash-manifest.txt": "C6A24E0F1868372CA3020E305CE22BD7F04A656B445CD669A47BD3BCB63B5CD5",
+    ".native-source/20261028/collision-next/dda-189-low-projection-064-095/provenance.json": "8791F6BADB7F891E109EA97D3AC60162351C60D7B032389CD28022815886A7FB",
+    ".native-source/20261028/collision-next/dda-189-low-projection-064-095/metadata-current-projection.tsv": "3C3FFFB1B004937276CE5076061EED1F7C06C618DDD347FA2A36F4BAF9E0BC0C",
+    ".native-source/20261028/collision-next/dda-189-low-projection-064-095/metadata-rules.tsv": "7ABF05A36C6D74C633868A3BA6A748E595075629CB3800587D7C00C27BFCF374",
+    ".native-source/20261028/collision-next/dda-189-low-projection-096-127/metadata-current-projection.tsv": "06BCAD8B6C4DA5773BDDA9102C889030FA82E883CD0963B385EDB7B6EC02CD01",
+    ".native-source/20261028/collision-next/dda-189-low-projection-096-127/metadata-rules.tsv": "73845E8988705FB63E7F4A4C0469D566BD2FB9FEFE226B401446A8E28654C99D",
+    ".native-source/20261028/collision-next/dda-writer-coverage-matrix-audit/report.md": "F9905E2F93B0C53C330EDCEA37742576BF370F00F4452CA1F0FDAC1CDD1507C2",
+    "CANONICAL_SOURCE:D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\Block.java": "EA10F05106A3CF7189AEC85236A7ECF9C7106A717F37BED583B5EA4ADEFFA528",
+    "CANONICAL_SOURCE:D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\state\\BlockState.java": "E75E90472CABBBCFDBBA5792C05EA3CF629E3CBF4BB97FD96C5FA578E138B6AC",
+    "CANONICAL_SOURCE:D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\state\\StateDefinition.java": "9449797527F8314614C514321E180C52608DB499054DC3FFCA897C5CC996CB50",
+    "CANONICAL_SOURCE:D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\state\\property\\IntegerProperty.java": "D5FCB24607DD4172122F06A77853C0735643ECF8F2F05993C1268D5DFD0D35F4",
+    "CANONICAL_SOURCE:D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\DataFixers.java": "4A7DE861C83F395255D6045D5F9FB98D932ABD42724E54316ADC59116EE6FB50",
+    "CANONICAL_SOURCE:D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\BlockStateData.java": "6196F9039890D5F67B59CB372EC06DA987E8A5EA80B49FD8BEE9EECA0A1784A4"
+  },
+  "family_references": {
+    "64": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-door-family-64-71-193-197/FINDING.md",
+        "sha256": "51D3C1B413372028C0B9C6D9AAC017BB84A4108AB253CB82617A09CAA3420684"
+      },
+      "review": {
+        "path": ".native-source/20261028/collision-next/dda-door-family-64-71-193-197-review/REVIEW.md",
+        "sha256": "95F1D8BD2D6F46AD88B94A48A5247CD45D4B67C7741F23499CDD04BF7B57EDDA"
+      }
+    },
+    "65": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-climbable-family-65-106/finding.md",
+        "sha256": "830E6DF6E5356992E639A062382700A136E29BA4CCEC7C290EFD7538A05DE43B"
+      },
+      "review": {
+        "path": ".native-source/20261028/collision-next/dda-climbable-family-65-106-review/review.md",
+        "sha256": "A60B1C850AFB9221F2E277E48C506BC48AB66E9D0A4B6B1A262DD5F5EADABAD1"
+      }
+    },
+    "66": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-rail-family-27-28-66-157/report.md",
+        "sha256": "027AAF833B2BE99BEC7456463DA1D870C6AE98A2CCCE13158A94B1AA8F04F5CB"
+      },
+      "review": {
+        "path": ".native-source/20261028/collision-next/dda-rail-family-27-28-66-157-review/review.md",
+        "sha256": "902D453AF5094A168013F68A6DE1EB04B94B7ABAFB2D81122CE578C063072B5F"
+      }
+    },
+    "67": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-stair-family-remaining-53-67-108-109-114-134-136-156-163-164/FINDING.md",
+        "sha256": "3C7855D790DF2AE0A892C5025A7986C27271DB83FF7FD4B3D2D4FEB72EBDDB34"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "68": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-mounted-facing-family/FINDING.md",
+        "sha256": "FD336FADC32491D310F265F1926AAA12350AF73791DB467FD59DD5976BEDF8C2"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "69": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-mounted-facing-family/FINDING.md",
+        "sha256": "FD336FADC32491D310F265F1926AAA12350AF73791DB467FD59DD5976BEDF8C2"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "70": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-ordinary-pressure-plates-70-72/FINDING.md",
+        "sha256": "CCA97391F76E294827ECFCDD6CF1C50BE853823F3BC7C6C9E92AD6847F176C1C"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "71": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-door-family-64-71-193-197/FINDING.md",
+        "sha256": "51D3C1B413372028C0B9C6D9AAC017BB84A4108AB253CB82617A09CAA3420684"
+      },
+      "review": {
+        "path": ".native-source/20261028/collision-next/dda-door-family-64-71-193-197-review/REVIEW.md",
+        "sha256": "95F1D8BD2D6F46AD88B94A48A5247CD45D4B67C7741F23499CDD04BF7B57EDDA"
+      }
+    },
+    "72": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-ordinary-pressure-plates-70-72/FINDING.md",
+        "sha256": "CCA97391F76E294827ECFCDD6CF1C50BE853823F3BC7C6C9E92AD6847F176C1C"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "73": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "74": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "75": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-torch-family-50-75-76/FINDING.md",
+        "sha256": "990EBF44C43D88486B03E9CAF17151BCD0512C33AC7BDB57CAE0E18345124FC1"
+      },
+      "review": {
+        "path": ".native-source/20261028/collision-next/dda-torch-family-50-75-76-review/review.md",
+        "sha256": "527A8217B303F9DA3E80722A6BF928F4E8D9F0F01492C837F31B30287C0738B3"
+      }
+    },
+    "76": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-torch-family-50-75-76/FINDING.md",
+        "sha256": "990EBF44C43D88486B03E9CAF17151BCD0512C33AC7BDB57CAE0E18345124FC1"
+      },
+      "review": {
+        "path": ".native-source/20261028/collision-next/dda-torch-family-50-75-76-review/review.md",
+        "sha256": "527A8217B303F9DA3E80722A6BF928F4E8D9F0F01492C837F31B30287C0738B3"
+      }
+    },
+    "77": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-button-family-77-143/report.md",
+        "sha256": "1147EE5E3131988DA48A8262C2413F18A5E53627034E324F3549AB14097F9530"
+      },
+      "review": {
+        "path": ".native-source/20261028/collision-next/dda-button-family-77-143-review/report.md",
+        "sha256": "BA23046321818C55B73AAE0E0C7E76DD2FCD7341E01538127E94D2ADABDA9AD4"
+      }
+    },
+    "78": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-snow-ice-family-78-79-80/FINDING.md",
+        "sha256": "7E9AEFE4A4FCE2312A35C938228BF218259B90CA2CC3A57C354DE70B4D467E5F"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "79": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-snow-ice-family-78-79-80/FINDING.md",
+        "sha256": "7E9AEFE4A4FCE2312A35C938228BF218259B90CA2CC3A57C354DE70B4D467E5F"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "80": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-snow-ice-family-78-79-80/FINDING.md",
+        "sha256": "7E9AEFE4A4FCE2312A35C938228BF218259B90CA2CC3A57C354DE70B4D467E5F"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "81": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-cactus-reed-family-81-83/FINDING.md",
+        "sha256": "B4E12E2B2E2EFDE8D34017B61AD17EDB9EC060BD6A9D1F8963E7AD2EA7E57D42"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "82": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "83": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-cactus-reed-family-81-83/FINDING.md",
+        "sha256": "B4E12E2B2E2EFDE8D34017B61AD17EDB9EC060BD6A9D1F8963E7AD2EA7E57D42"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "84": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-blockentity-audio-family-25-84/FINDING.md",
+        "sha256": "42DA4BD7258AD6AA9653A4AC8A1DE13A6C7451C177780AFC95F324885F1475A8"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "85": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-fence-gate-family-legacy/FINDING.md",
+        "sha256": "1A573FC598C9A35E4A3A89D593519272C534680301639DEA35606B651F49B3DB"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "86": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "87": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "88": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "89": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "90": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-portal-family-90-119/FINDING.md",
+        "sha256": "B00D763D1F4D3C0210889BE0284D73E8B1A52DC4529ADECD83FB1E5BF87E4450"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "91": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "92": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-bed-cake-cocoa-family/FINDING.md",
+        "sha256": "7E94156E24A2B90122E5312AD9C996D826DC6D2F8D94A2342F8690A5C46F9548"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "93": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "94": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "95": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "96": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-trapdoor-family-96-167/report.md",
+        "sha256": "691C23ECD2342D08AA43B8FB59CE187B14804DDCC1497C9E37DE56B04B8533A0"
+      },
+      "review": {
+        "path": ".native-source/20261028/collision-next/dda-trapdoor-family-96-167-review/review.md",
+        "sha256": "FC4DBDFE4DD36E92F12A647BF1D117192BFAC713840085AE60E889FD842B4932"
+      }
+    },
+    "97": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "98": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "99": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "100": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "101": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-iron-bars-101/FINDING.md",
+        "sha256": "C706322C5A9B90252BB6B2882052C227554C9F569866A26CDC14EDCDD634918C"
+      },
+      "review": {
+        "path": ".native-source/20261028/collision-next/dda-iron-bars-101-neighbor-admission-review/review.md",
+        "sha256": "DFECA286F7B66B5E290828379452726FA6F56833616A12DC82656DCF9A15BA0D"
+      }
+    },
+    "102": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-pane-family-102-160/report.md",
+        "sha256": "13B9095BAF5D7B011E4FA30B8BAAB901F3172557D35C8F0116CE9F2ACFCF91D8"
+      },
+      "review": {
+        "path": ".native-source/20261028/collision-next/dda-pane-family-102-160-review/review.md",
+        "sha256": "18AC38F6B24EE9841F02C76ACF0FBDACA9CCE5596E94628DEA1C98C35D9C9DEE"
+      }
+    },
+    "103": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "104": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-age-crop-family-59-104-105-141-142/finding.md",
+        "sha256": "B07A0BED4D65DE14C25D1202378B5F81E5A6DAE6550C053FA9C2EC870AC97C0B"
+      },
+      "review": {
+        "path": ".native-source/20261028/collision-next/dda-age-crop-family-59-104-105-141-142-review/review.md",
+        "sha256": "E2AA65A64BE92E4CD8D6A8D97EECA35074B40AC7DA5C83444470936DAEE36481"
+      }
+    },
+    "105": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-age-crop-family-59-104-105-141-142/finding.md",
+        "sha256": "B07A0BED4D65DE14C25D1202378B5F81E5A6DAE6550C053FA9C2EC870AC97C0B"
+      },
+      "review": {
+        "path": ".native-source/20261028/collision-next/dda-age-crop-family-59-104-105-141-142-review/review.md",
+        "sha256": "E2AA65A64BE92E4CD8D6A8D97EECA35074B40AC7DA5C83444470936DAEE36481"
+      }
+    },
+    "106": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-climbable-family-65-106/finding.md",
+        "sha256": "830E6DF6E5356992E639A062382700A136E29BA4CCEC7C290EFD7538A05DE43B"
+      },
+      "review": {
+        "path": ".native-source/20261028/collision-next/dda-climbable-family-65-106-review/review.md",
+        "sha256": "A60B1C850AFB9221F2E277E48C506BC48AB66E9D0A4B6B1A262DD5F5EADABAD1"
+      }
+    },
+    "107": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-fence-gate-family-legacy/FINDING.md",
+        "sha256": "1A573FC598C9A35E4A3A89D593519272C534680301639DEA35606B651F49B3DB"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "108": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-stair-family-remaining-53-67-108-109-114-134-136-156-163-164/FINDING.md",
+        "sha256": "3C7855D790DF2AE0A892C5025A7986C27271DB83FF7FD4B3D2D4FEB72EBDDB34"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "109": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-stair-family-remaining-53-67-108-109-114-134-136-156-163-164/FINDING.md",
+        "sha256": "3C7855D790DF2AE0A892C5025A7986C27271DB83FF7FD4B3D2D4FEB72EBDDB34"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "110": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "111": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "112": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "113": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-fence-gate-family-legacy/FINDING.md",
+        "sha256": "1A573FC598C9A35E4A3A89D593519272C534680301639DEA35606B651F49B3DB"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "114": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-stair-family-remaining-53-67-108-109-114-134-136-156-163-164/FINDING.md",
+        "sha256": "3C7855D790DF2AE0A892C5025A7986C27271DB83FF7FD4B3D2D4FEB72EBDDB34"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "115": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "116": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "117": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "118": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-container-geometry-family-118-154/FINDING.md",
+        "sha256": "E02A36748D4E112FF0500DF4D1406C56A69E103A6BAFACCF65568C7BE8B1B25C"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "119": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-portal-family-90-119/FINDING.md",
+        "sha256": "B00D763D1F4D3C0210889BE0284D73E8B1A52DC4529ADECD83FB1E5BF87E4450"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "120": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "121": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "122": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "123": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "124": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "125": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "126": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "127": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-bed-cake-cocoa-family/FINDING.md",
+        "sha256": "7E94156E24A2B90122E5312AD9C996D826DC6D2F8D94A2342F8690A5C46F9548"
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "128": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-sandstone-stairs-128-closure/report.md",
+        "sha256": "F6C13F520A2B2A02BFA0F2493CCF703A1C0A6CC08AB66AE8D9799290E3A5CE9D"
+      },
+      "review": {
+        "path": ".native-source/20261028/collision-next/dda-sandstone-stairs-128-review/review.md",
+        "sha256": "8C39EB57A8B406199642E182971C2227B270908082638901E224191FCDD899FC"
+      }
+    },
+    "129": {
+      "report": {
+        "path": null,
+        "sha256": null
+      },
+      "review": {
+        "path": null,
+        "sha256": null
+      }
+    },
+    "130": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-ender-chest-130-closure/report.md",
+        "sha256": "16AE12055D4DCEAE4A3079B4FDE97B2A267916037890749E4B080BFD5D854A7D"
+      },
+      "review": {
+        "path": ".native-source/20261028/collision-next/dda-ender-chest-130-review/review.md",
+        "sha256": "963573CC1BD11428D2F7287EFE9F440B1E57D9804F5CB986AA0B195272304E62"
+      }
+    },
+    "131": {
+      "report": {
+        "path": ".native-source/20261028/collision-next/dda-tripwire-hook-131-closure/report.md",
+        "sha256": "7EA5C2DAFCF6235E14A7B8F63AD8128E6EEC2FBFE9BCEDF8CFA37662D9302D17"
+      },
+      "review": {
+        "path": ".native-source/20261028/collision-next/dda-tripwire-hook-131-review/review.md",
+        "sha256": "E47D76B3799CF1FF0ECFA3DA445121ACD68476150DBD205CAEE7DD407976E96A"
+      }
+    }
+  },
+  "correction": {
+    "original_crosswalk.tsv": "3D943C1D021B241088621B02C91C84E19E915E8AEBB3AFC87C7D97EA3FF36BC9",
+    "crosswalk-corrected.tsv": "FD3DE09FE023C6F14026BF66ACCB41CA623F31818208CD0C07D8C5884212E2B7",
+    "metadata-coverage-correction.md": "152CEFCDEC09751FB0FEF6ABEDA39CBCA067E590FCF756A01502EED1A9CCF4AF",
+    "metadata-coverage-correction-check.txt": "F4F0D49D9AF929C1E795890C1FABEA65357E79F8E5FF9823DD7135C60893555C"
+  }
+}

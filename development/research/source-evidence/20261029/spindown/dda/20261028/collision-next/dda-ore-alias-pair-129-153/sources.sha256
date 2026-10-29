@@ -1,0 +1,19 @@
+# Canonical source and selected-file SHA-256 ledger
+# Source roots:
+# 1.8.9: D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/1.8.9/ornithe-feather
+# 26.2: D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/26.2/unobfuscated
+# Selected Java hashes were recomputed and matched each source manifest.
+fe0ec792349ae43c91d0a30f23660c94b2f5c8d31a29643f73ed0de367110b95  1.8.9/ornithe-feather.ready.json
+ba066fc8f1c7ceb9819d2106338d9e9f2c2b96eb5a8329eb40e171b1f9889185  1.8.9/ornithe-feather.provenance.json
+9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004  1.8.9/ornithe-feather.sources.sha256
+ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528  1.8.9/ornithe-feather/net/minecraft/block/Block.java
+1da2d85406ed991e8f6bc1f420babf0bd43598478f347c6a4dc9fea322ed0695  1.8.9/ornithe-feather/net/minecraft/block/Blocks.java
+89e25ca382a879cc6c3eb4244450122798619462681b9cf246ea999c49db9144  1.8.9/ornithe-feather/net/minecraft/block/OreBlock.java
+f9406adb6bf7cb4c1ab0792a798ab2cb90e082ad4c2eee032c9f674d0ea8070f  26.2/unobfuscated.ready.json
+a328f5333a1b27aadde4422b23159a323ae219ccd26f11207c1a5461366f27d1  26.2/unobfuscated.provenance.json
+a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894  26.2/unobfuscated.sources.sha256
+d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6  26.2/unobfuscated/net/minecraft/references/BlockItemIds.java
+f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435  26.2/unobfuscated/net/minecraft/world/level/block/Blocks.java
+eca45b0f77fa99a9697509034e096e4dc2fd5f3ecb0be96123467ae887499328  26.2/unobfuscated/net/minecraft/world/level/block/DropExperienceBlock.java
+cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab  26.2/unobfuscated/net/minecraft/world/level/block/Block.java
+9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e  26.2/unobfuscated/net/minecraft/world/level/block/state/BlockBehaviour.java

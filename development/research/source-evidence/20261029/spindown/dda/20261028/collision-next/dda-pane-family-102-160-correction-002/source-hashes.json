@@ -1,0 +1,32 @@
+{
+  "originalReportSha256": "13b9095baf5d7b011e4fa30b8baab901f3172557d35c8f0116ce9f2acfcf91d8",
+  "focusedRebindSha256": "43A66C18F32C43C30649C5C48B97B4D56DC28CE757775CCF4C98DCF603898C49",
+  "originalReviewSha256": "18AC38F6B24EE9841F02C76ACF0FBDACA9CCE5596E94628DEA1C98C35D9C9DEE",
+  "files": [
+    {
+      "path": "net/minecraft/block/PaneBlock.java",
+      "sha256": "f099cdc306c365b73632fc703f72b61bc6b304cb5df06c43234965f89e28de61",
+      "manifestEntry": "f099cdc306c365b73632fc703f72b61bc6b304cb5df06c43234965f89e28de61 *net/minecraft/block/PaneBlock.java",
+      "sourceRoot": "1.8.9/ornithe-feather"
+    },
+    {
+      "path": "net/minecraft/world/level/block/CrossCollisionBlock.java",
+      "sha256": "dcd2dbbcd093a68dee4ee282e5f3101c519d633f3f173dd33383bd4b548c1ba5",
+      "manifestEntry": "dcd2dbbcd093a68dee4ee282e5f3101c519d633f3f173dd33383bd4b548c1ba5 *net/minecraft/world/level/block/CrossCollisionBlock.java",
+      "sourceRoot": "26.2/unobfuscated"
+    },
+    {
+      "path": "net/minecraft/world/level/block/IronBarsBlock.java",
+      "sha256": "b8d8467db13454fc5cd24c95827172b8550d5cba3d51930ba8b240b960606e54",
+      "manifestEntry": "b8d8467db13454fc5cd24c95827172b8550d5cba3d51930ba8b240b960606e54 *net/minecraft/world/level/block/IronBarsBlock.java",
+      "sourceRoot": "26.2/unobfuscated"
+    },
+    {
+      "path": "net/minecraft/world/level/block/Block.java",
+      "sha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab",
+      "manifestEntry": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab *net/minecraft/world/level/block/Block.java",
+      "sourceRoot": "26.2/unobfuscated"
+    }
+  ],
+  "correction001Sha256": "2da42460a1490f081fcfcf5e5d55748a727bf3e1d44af9febed0ca890a5ee68d"
+}

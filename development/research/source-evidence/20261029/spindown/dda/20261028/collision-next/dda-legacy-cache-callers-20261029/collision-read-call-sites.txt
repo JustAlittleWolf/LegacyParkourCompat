@@ -1,0 +1,53 @@
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\Block.java:340:        Box box = this.getCollisionShape(world, pos, state);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\BrewingStandBlock.java:66:        super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\BrewingStandBlock.java:68:        super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\CakeBlock.java:53:        return this.getCollisionShape(world, pos, world.getBlockState(pos));
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\CauldronBlock.java:38:        super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\CauldronBlock.java:41:        super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\CauldronBlock.java:43:        super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\CauldronBlock.java:45:        super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\CauldronBlock.java:47:        super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\CocoaBlock.java:60:        return super.getCollisionShape(world, pos, state);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\DoorBlock.java:73:        return super.getCollisionShape(world, pos, state);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\world\World.java:648:            if ((!ignoreBlocksWithoutCollision || block.getCollisionShape(this, blockPos, blockState) != null) && block.canRayTrace(blockState, allowLiquids)) {
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\world\World.java:745:                if (!ignoreBlocksWithoutCollision || block2.getCollisionShape(this, blockPos, blockState2) != null) {
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\world\World.java:921:                        blockState2.getBlock().addCollisions(this, mutable, blockState2, shape, list, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\world\World.java:932:                Box box = ((Entity)list2.get(r)).getCollisionShape();
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\world\World.java:989:                        blockState2.getBlock().addCollisions(this, mutable, blockState2, shape, list, null);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\world\World.java:1722:        Box box = blockState.getBlock().getCollisionShape(this, pos, blockState);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\world\World.java:2261:        Box box = skipCollisionChecks ? null : block.getCollisionShape(this, pos, block.defaultState());
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\EndPortalFrameBlock.java:41:        super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\EndPortalFrameBlock.java:44:            super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\FenceBlock.java:55:            super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\FenceBlock.java:70:            super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\HopperBlock.java:51:        super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\HopperBlock.java:54:        super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\HopperBlock.java:56:        super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\HopperBlock.java:58:        super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\HopperBlock.java:60:        super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\LadderBlock.java:28:        return super.getCollisionShape(world, pos, state);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\entity\MovingBlockEntity.java:87:        Box box = Blocks.MOVING_BLOCK.getCollisionShape(this.world, this.pos, this.movedState, progress, this.facing);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\LilyPadBlock.java:25:            super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\MovingBlock.java:129:        return this.getCollisionShape(world, pos, movingBlockEntity.getMovedState(), f, movingBlockEntity.getFacing());
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\MovingBlock.java:164:            Box box = movedState.getBlock().getCollisionShape(world, pos, movedState);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\PistonHeadBlock.java:89:        super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\PistonHeadBlock.java:91:        super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\PistonBaseBlock.java:213:        super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\PistonBaseBlock.java:219:        return super.getCollisionShape(world, pos, state);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\PaneBlock.java:70:                super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\PaneBlock.java:73:                super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\PaneBlock.java:77:            super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\PaneBlock.java:83:                super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\PaneBlock.java:86:                super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\PaneBlock.java:90:            super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\SkullBlock.java:93:        return super.getCollisionShape(world, pos, state);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\SlabBlock.java:66:        super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\StairsBlock.java:386:        super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\StairsBlock.java:388:        super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\StairsBlock.java:390:            super.addCollisions(world, pos, state, shape, collisions, entity);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\TrapdoorBlock.java:60:        return super.getCollisionShape(world, pos, state);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\block\WallBlock.java:110:        return super.getCollisionShape(world, pos, state);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\entity\projectile\ArrowEntity.java:162:            Box box = block.getCollisionShape(this.world, blockPos, blockState);
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\item\SlabItem.java:52:                if (world.isUnobstructed(this.doubleSlab.getCollisionShape(world, pos, blockState2)) && world.setBlockState(pos, blockState2, 3)) {
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\item\SlabItem.java:95:                if (player.isUnobstructed(this.doubleSlab.getCollisionShape(player, world, blockState2)) && player.setBlockState(world, blockState2, 3)) {
+D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.8.9\ornithe-feather\net\minecraft\item\SnowLayerItem.java:42:                Box box = this.block.getCollisionShape(world, blockPos, blockState2);

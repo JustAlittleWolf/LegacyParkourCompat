@@ -1,0 +1,79 @@
+[
+  {
+    "version": "1.8.9",
+    "mapping": "ornithe-feather",
+    "path": "net/minecraft/block/Block.java",
+    "sha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+    "readySourceManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004"
+  },
+  {
+    "version": "1.8.9",
+    "mapping": "ornithe-feather",
+    "path": "net/minecraft/block/Blocks.java",
+    "sha256": "1da2d85406ed991e8f6bc1f420babf0bd43598478f347c6a4dc9fea322ed0695",
+    "readySourceManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004"
+  },
+  {
+    "version": "1.8.9",
+    "mapping": "ornithe-feather",
+    "path": "net/minecraft/block/DoorBlock.java",
+    "sha256": "51b93fcb01758e1b809a503a9e63aab6d781dbd9a0e4d3b95823168e8958128d",
+    "readySourceManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004"
+  },
+  {
+    "version": "26.2",
+    "mapping": "unobfuscated",
+    "path": "net/minecraft/util/datafix/DataFixers.java",
+    "sha256": "4a7de861c83f395255d6045d5f9fb98d932abd42724e54316adc59116ee6fb50",
+    "readySourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894"
+  },
+  {
+    "version": "26.2",
+    "mapping": "unobfuscated",
+    "path": "net/minecraft/util/datafix/fixes/BlockNameFlatteningFix.java",
+    "sha256": "7f7516ef92fd45a16aa9fb169c2c028b370069bae7e62310edd49cb4e558fdd8",
+    "readySourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894"
+  },
+  {
+    "version": "26.2",
+    "mapping": "unobfuscated",
+    "path": "net/minecraft/util/datafix/fixes/BlockStateData.java",
+    "sha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+    "readySourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894"
+  },
+  {
+    "version": "26.2",
+    "mapping": "unobfuscated",
+    "path": "net/minecraft/world/level/block/Block.java",
+    "sha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab",
+    "readySourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894"
+  },
+  {
+    "version": "26.2",
+    "mapping": "unobfuscated",
+    "path": "net/minecraft/world/level/block/Blocks.java",
+    "sha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+    "readySourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894"
+  },
+  {
+    "version": "26.2",
+    "mapping": "unobfuscated",
+    "path": "net/minecraft/world/level/block/DoorBlock.java",
+    "sha256": "cbbfb567e366d043ecc8742188f7de36799b54d5ea46e0bb944688eeba7760c5",
+    "readySourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894"
+  },
+  {
+    "version": "26.2",
+    "mapping": "unobfuscated",
+    "path": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+    "sha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+    "readySourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894"
+  },
+  {
+    "version": "26.2",
+    "mapping": "unobfuscated",
+    "path": "net/minecraft/world/phys/shapes/Shapes.java",
+    "sha256": "6ed9460d58727770bdec59c4f3184f075644f3c411be1eeab2eae17e8ece1891",
+    "readySourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894"
+  }
+]
