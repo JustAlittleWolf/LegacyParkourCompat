@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "scope": "1.8.9 legacy IDs 45, 47, 48, 49 local collision/ray-bound provider facts",
+  "sources": [
+    {"side":"1.8.9","mapping":"ornithe-feather","path":"net/minecraft/block/Block.java","sha256":"ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528","canonicalManifestSha256":"9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004","match":true},
+    {"side":"1.8.9","mapping":"ornithe-feather","path":"net/minecraft/block/BookshelfBlock.java","sha256":"4c2e90e4d49bec1ad754ae0298e3b0b66bba7587fb3d11ae086fd4abb1bccabb","canonicalManifestSha256":"9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004","match":true},
+    {"side":"1.8.9","mapping":"ornithe-feather","path":"net/minecraft/block/ObsidianBlock.java","sha256":"cca2aa7c8744ff966bc3f69be79aec1f50918bc11e75e1f95abeda3cd42759cd","canonicalManifestSha256":"9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004","match":true},
+    {"side":"26.2","mapping":"unobfuscated","path":"net/minecraft/world/level/block/Blocks.java","sha256":"f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435","canonicalManifestSha256":"a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894","match":true},
+    {"side":"26.2","mapping":"unobfuscated","path":"net/minecraft/world/level/block/state/BlockBehaviour.java","sha256":"9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e","canonicalManifestSha256":"a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894","match":true},
+    {"side":"26.2","mapping":"unobfuscated","path":"net/minecraft/util/datafix/fixes/BlockStateData.java","sha256":"6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4","canonicalManifestSha256":"a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894","match":true},
+    {"side":"26.2","mapping":"unobfuscated","path":"net/minecraft/references/BlockItemIds.java","sha256":"d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6","canonicalManifestSha256":"a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894","match":true}
+  ]
+}

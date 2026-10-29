@@ -1,0 +1,50 @@
+[
+  {
+    "path": "1.8.9/ornithe-feather/net/minecraft/block/Block.java",
+    "sha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528"
+  },
+  {
+    "path": "1.8.9/ornithe-feather/net/minecraft/block/Blocks.java",
+    "sha256": "1da2d85406ed991e8f6bc1f420babf0bd43598478f347c6a4dc9fea322ed0695"
+  },
+  {
+    "path": "1.8.9/ornithe-feather/net/minecraft/block/OreBlock.java",
+    "sha256": "89e25ca382a879cc6c3eb4244450122798619462681b9cf246ea999c49db9144"
+  },
+  {
+    "path": "1.8.9/ornithe-feather/net/minecraft/block/RedstoneOreBlock.java",
+    "sha256": "9b2efe542205a9ccba4f86f472f973a1beab413f3de3773dd28f4bf6915911db"
+  },
+  {
+    "path": "26.2/unobfuscated/net/minecraft/references/BlockItemIds.java",
+    "sha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6"
+  },
+  {
+    "path": "26.2/unobfuscated/net/minecraft/util/datafix/fixes/BlockStateData.java",
+    "sha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4"
+  },
+  {
+    "path": "26.2/unobfuscated/net/minecraft/util/datafix/fixes/EntityBlockStateFix.java",
+    "sha256": "0fcc8e6410ef74e079eff315cde571b490ee0342a7c573e61d7e6c528826a778"
+  },
+  {
+    "path": "26.2/unobfuscated/net/minecraft/world/level/block/Block.java",
+    "sha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab"
+  },
+  {
+    "path": "26.2/unobfuscated/net/minecraft/world/level/block/Blocks.java",
+    "sha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435"
+  },
+  {
+    "path": "26.2/unobfuscated/net/minecraft/world/level/block/DropExperienceBlock.java",
+    "sha256": "eca45b0f77fa99a9697509034e096e4dc2fd5f3ecb0be96123467ae887499328"
+  },
+  {
+    "path": "26.2/unobfuscated/net/minecraft/world/level/block/RedStoneOreBlock.java",
+    "sha256": "2ca379089f6d8b984d2a0aa6b886579af008379d6e7480b4fd67cfbd95b73d66"
+  },
+  {
+    "path": "26.2/unobfuscated/net/minecraft/world/level/block/state/BlockBehaviour.java",
+    "sha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e"
+  }
+]

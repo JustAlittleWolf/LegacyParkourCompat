@@ -1,0 +1,142 @@
+{
+  "source_files": [
+    {
+      "side": "1.8.9",
+      "path": "net/minecraft/block/Block.java",
+      "sha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+      "canonical_manifest_sha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+      "matches_manifest": true
+    },
+    {
+      "side": "1.8.9",
+      "path": "net/minecraft/block/DispenserBlock.java",
+      "sha256": "794e6780d586a16a31264d953037d53e46cf44e7ef85ab69aae126f6a1444c31",
+      "canonical_manifest_sha256": "794e6780d586a16a31264d953037d53e46cf44e7ef85ab69aae126f6a1444c31",
+      "matches_manifest": true
+    },
+    {
+      "side": "1.8.9",
+      "path": "net/minecraft/block/DropperBlock.java",
+      "sha256": "88de104516120e4934346608742f76914394eb87b99fa58d81ce8e9d97bffaea",
+      "canonical_manifest_sha256": "88de104516120e4934346608742f76914394eb87b99fa58d81ce8e9d97bffaea",
+      "matches_manifest": true
+    },
+    {
+      "side": "1.8.9",
+      "path": "net/minecraft/block/FurnaceBlock.java",
+      "sha256": "0636e207e37602ef48a7d0d08f6cc4fb4635694cf67ddd67f580d3d8685ac69a",
+      "canonical_manifest_sha256": "0636e207e37602ef48a7d0d08f6cc4fb4635694cf67ddd67f580d3d8685ac69a",
+      "matches_manifest": true
+    },
+    {
+      "side": "1.8.9",
+      "path": "net/minecraft/util/math/Direction.java",
+      "sha256": "ede4dc29795263853c048e569f24e74407255767c5e02349a90895ac5b08e544",
+      "canonical_manifest_sha256": "ede4dc29795263853c048e569f24e74407255767c5e02349a90895ac5b08e544",
+      "matches_manifest": true
+    },
+    {
+      "side": "26.2",
+      "path": "net/minecraft/references/BlockItemIds.java",
+      "sha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6",
+      "canonical_manifest_sha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6",
+      "matches_manifest": true
+    },
+    {
+      "side": "26.2",
+      "path": "net/minecraft/world/level/block/Blocks.java",
+      "sha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+      "canonical_manifest_sha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+      "matches_manifest": true
+    },
+    {
+      "side": "26.2",
+      "path": "net/minecraft/world/level/block/Block.java",
+      "sha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab",
+      "canonical_manifest_sha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab",
+      "matches_manifest": true
+    },
+    {
+      "side": "26.2",
+      "path": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+      "sha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+      "canonical_manifest_sha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+      "matches_manifest": true
+    },
+    {
+      "side": "26.2",
+      "path": "net/minecraft/world/level/block/BaseEntityBlock.java",
+      "sha256": "61fea060386c581a86e20fa8e3a249afc56ef04eedde83c681be5ae1c533b0bb",
+      "canonical_manifest_sha256": "61fea060386c581a86e20fa8e3a249afc56ef04eedde83c681be5ae1c533b0bb",
+      "matches_manifest": true
+    },
+    {
+      "side": "26.2",
+      "path": "net/minecraft/world/level/block/DispenserBlock.java",
+      "sha256": "5e04ea6b5bb9d96a28af2f4b5460a434d8106972a4a50a6c0fe01f1c07154101",
+      "canonical_manifest_sha256": "5e04ea6b5bb9d96a28af2f4b5460a434d8106972a4a50a6c0fe01f1c07154101",
+      "matches_manifest": true
+    },
+    {
+      "side": "26.2",
+      "path": "net/minecraft/world/level/block/DropperBlock.java",
+      "sha256": "4ae8558ff362df3e299c106f3cc5d2df49e1b6ea4c5f61bada09be96011deaf2",
+      "canonical_manifest_sha256": "4ae8558ff362df3e299c106f3cc5d2df49e1b6ea4c5f61bada09be96011deaf2",
+      "matches_manifest": true
+    },
+    {
+      "side": "26.2",
+      "path": "net/minecraft/world/level/block/AbstractFurnaceBlock.java",
+      "sha256": "f730dd5910dc12a5a6b6545b7dea061bbca332b58b93cecbf9c1be4d71483b07",
+      "canonical_manifest_sha256": "f730dd5910dc12a5a6b6545b7dea061bbca332b58b93cecbf9c1be4d71483b07",
+      "matches_manifest": true
+    },
+    {
+      "side": "26.2",
+      "path": "net/minecraft/world/level/block/FurnaceBlock.java",
+      "sha256": "81b594d6b138f0a8cd60f95ff922fd0d60ba263c07e24fe3292ba4401a77e328",
+      "canonical_manifest_sha256": "81b594d6b138f0a8cd60f95ff922fd0d60ba263c07e24fe3292ba4401a77e328",
+      "matches_manifest": true
+    },
+    {
+      "side": "26.2",
+      "path": "net/minecraft/util/datafix/fixes/BlockStateData.java",
+      "sha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+      "canonical_manifest_sha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+      "matches_manifest": true
+    },
+    {
+      "side": "26.2",
+      "path": "net/minecraft/util/datafix/fixes/ItemIdFix.java",
+      "sha256": "bb6d7f9956fd974ba876dd66e0a5ca81a3ec3828e1dc2e6e92da17a6e47d86c6",
+      "canonical_manifest_sha256": "bb6d7f9956fd974ba876dd66e0a5ca81a3ec3828e1dc2e6e92da17a6e47d86c6",
+      "matches_manifest": true
+    }
+  ],
+  "identity_files": [
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather.ready.json",
+      "sha256": "fe0ec792349ae43c91d0a30f23660c94b2f5c8d31a29643f73ed0de367110b95"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather.provenance.json",
+      "sha256": "ba066fc8f1c7ceb9819d2106338d9e9f2c2b96eb5a8329eb40e171b1f9889185"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather.sources.sha256",
+      "sha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated.ready.json",
+      "sha256": "f9406adb6bf7cb4c1ab0792a798ab2cb90e082ad4c2eee032c9f674d0ea8070f"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated.provenance.json",
+      "sha256": "a328f5333a1b27aadde4422b23159a323ae219ccd26f11207c1a5461366f27d1"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated.sources.sha256",
+      "sha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894"
+    }
+  ]
+}

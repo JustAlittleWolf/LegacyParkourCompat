@@ -1,0 +1,30 @@
+{
+  "scope": "Corrected old IDs 30, 31, 32; assigned ID 25 was verified as noteblock and excluded.",
+  "sourceRoots": {
+    "1.8.9": "D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/1.8.9/ornithe-feather",
+    "26.2": "D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/26.2/unobfuscated"
+  },
+  "canonicalManifestSha256": {
+    "1.8.9": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004",
+    "26.2": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894"
+  },
+  "files": [
+    { "version": "1.8.9", "path": "net/minecraft/block/Block.java", "sha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528", "matchesCanonicalManifest": true },
+    { "version": "1.8.9", "path": "net/minecraft/block/Blocks.java", "sha256": "1da2d85406ed991e8f6bc1f420babf0bd43598478f347c6a4dc9fea322ed0695", "matchesCanonicalManifest": true },
+    { "version": "1.8.9", "path": "net/minecraft/block/CobwebBlock.java", "sha256": "60cb99fc4c1a891305f7e86c4268794f34958dc1fdb3c6e14f955bd6df91af62", "matchesCanonicalManifest": true },
+    { "version": "1.8.9", "path": "net/minecraft/block/PlantBlock.java", "sha256": "a862ac13e8d25c8c3d4dc12af716351a8c51cbf4aa10f0ae2705b6a036a198bd", "matchesCanonicalManifest": true },
+    { "version": "1.8.9", "path": "net/minecraft/block/TallPlantBlock.java", "sha256": "0b78945c19044a9920482b7d6b1a4518a45198295f351d6bdd0c5aaa7367fa41", "matchesCanonicalManifest": true },
+    { "version": "1.8.9", "path": "net/minecraft/block/DeadBushBlock.java", "sha256": "118f60c5fbba71c9969dcda3b03f84becdcaa745b2e99f8b46447494362fb8a1", "matchesCanonicalManifest": true },
+    { "version": "26.2", "path": "net/minecraft/world/level/block/Blocks.java", "sha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435", "matchesCanonicalManifest": true },
+    { "version": "26.2", "path": "net/minecraft/world/level/block/Block.java", "sha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab", "matchesCanonicalManifest": true },
+    { "version": "26.2", "path": "net/minecraft/world/level/block/state/BlockBehaviour.java", "sha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e", "matchesCanonicalManifest": true },
+    { "version": "26.2", "path": "net/minecraft/world/level/block/WebBlock.java", "sha256": "8afb61bea4d6fc8502971d0729c6a2f87f4f55d618ae6ed3251b95141f524af5", "matchesCanonicalManifest": true },
+    { "version": "26.2", "path": "net/minecraft/world/level/block/TallGrassBlock.java", "sha256": "62a9d7192d861cae61ced2a1f0a2d25c3b275f9181634f608de7f320245846c5", "matchesCanonicalManifest": true },
+    { "version": "26.2", "path": "net/minecraft/world/level/block/DryVegetationBlock.java", "sha256": "75b343f53b7a0a5bd2bb0b699df4dbeb4f4dab0681bb252e0ff83b1b9ad93ad1", "matchesCanonicalManifest": true },
+    { "version": "26.2", "path": "net/minecraft/world/level/block/VegetationBlock.java", "sha256": "02f113d7ba9d402ccbd2e2c91bacdb2b3734d9d59a021dad0f645abe65917f6c", "matchesCanonicalManifest": true },
+    { "version": "26.2", "path": "net/minecraft/references/BlockItemIds.java", "sha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6", "matchesCanonicalManifest": true },
+    { "version": "26.2", "path": "net/minecraft/util/datafix/fixes/BlockStateData.java", "sha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4", "matchesCanonicalManifest": true },
+    { "version": "26.2", "path": "net/minecraft/util/datafix/fixes/ItemStackTheFlatteningFix.java", "sha256": "479371caace1c176eaad7de02f23258ad40be9b6c49a61bd6489a0da7a64bff5", "matchesCanonicalManifest": true },
+    { "version": "26.2", "path": "net/minecraft/util/datafix/DataFixers.java", "sha256": "4a7de861c83f395255d6045d5f9fb98d932abd42724e54316adc59116ee6fb50", "matchesCanonicalManifest": true }
+  ]
+}

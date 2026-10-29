@@ -1,0 +1,105 @@
+{
+  "files": [
+    {
+      "sha256": "EA10F05106A3CF7189AEC85236A7ECF9C7106A717F37BED583B5EA4ADEFFA528",
+      "path": "net\\minecraft\\block\\Block.java",
+      "mapping": "ornithe-feather",
+      "release": "1.8.9"
+    },
+    {
+      "sha256": "0DE985801889DAB6F6180D363FF6FC222BBD2B5C5EB8C84C3252868DFCE756A5",
+      "path": "net\\minecraft\\block\\PumpkinBlock.java",
+      "mapping": "ornithe-feather",
+      "release": "1.8.9"
+    },
+    {
+      "sha256": "99C33E79B000C5545640894D0A291FE62DD07ED7330A5B08CA23C1DB3D83DD83",
+      "path": "net\\minecraft\\block\\HorizontalFacingBlock.java",
+      "mapping": "ornithe-feather",
+      "release": "1.8.9"
+    },
+    {
+      "sha256": "EDE4DC29795263853C048E569F24E74407255767C5E02349A90895AC5B08E544",
+      "path": "net\\minecraft\\util\\math\\Direction.java",
+      "mapping": "ornithe-feather",
+      "release": "1.8.9"
+    },
+    {
+      "sha256": "F091CC39752F303AA014C240AEE87B5D2A0EC5E039450FEBA0C671E9FC0559A6",
+      "path": "net\\minecraft\\block\\RedstoneLampBlock.java",
+      "mapping": "ornithe-feather",
+      "release": "1.8.9"
+    },
+    {
+      "sha256": "92D4080F0A3899B7DD65589A12F07EBB9A4F2EA0567D34448BA9E4FC439455BE",
+      "path": "net\\minecraft\\block\\GlowstoneBlock.java",
+      "mapping": "ornithe-feather",
+      "release": "1.8.9"
+    },
+    {
+      "sha256": "32DE8657DB032566276DE91396B3AA394179C93BF48DA13D24DC34CD408FFDC6",
+      "path": "net\\minecraft\\block\\SeaLanternBlock.java",
+      "mapping": "ornithe-feather",
+      "release": "1.8.9"
+    },
+    {
+      "sha256": "D9D57F2F04801DA5D8D583C23B87B08F45D8B6C681980D1A77308753C801BAC6",
+      "path": "net\\minecraft\\references\\BlockItemIds.java",
+      "mapping": "unobfuscated",
+      "release": "26.2"
+    },
+    {
+      "sha256": "F3F2FAEED23E9697407069A1D523107491590B8710175523EA05294D5BD00435",
+      "path": "net\\minecraft\\world\\level\\block\\Blocks.java",
+      "mapping": "unobfuscated",
+      "release": "26.2"
+    },
+    {
+      "sha256": "6196F9039890D5F67B59CB372EC06DA987E8A5EA80B49FD8BEE9EECA0A1784A4",
+      "path": "net\\minecraft\\util\\datafix\\fixes\\BlockStateData.java",
+      "mapping": "unobfuscated",
+      "release": "26.2"
+    },
+    {
+      "sha256": "9C7A103492D0714C90397DA88EB696912FF6A9CA1C005D984C4746D52637FD1E",
+      "path": "net\\minecraft\\world\\level\\block\\state\\BlockBehaviour.java",
+      "mapping": "unobfuscated",
+      "release": "26.2"
+    },
+    {
+      "sha256": "93D3C5A7B37DE26B732A89C24B613F629EF0E5D9A620020DF0238F4B0E4080D8",
+      "path": "net\\minecraft\\world\\level\\block\\CarvedPumpkinBlock.java",
+      "mapping": "unobfuscated",
+      "release": "26.2"
+    },
+    {
+      "sha256": "7456A35ED53ECC1D7F24F01B1A9B7585D0BC1D512C026EBB398322ABB54F811D",
+      "path": "net\\minecraft\\world\\level\\block\\HorizontalDirectionalBlock.java",
+      "mapping": "unobfuscated",
+      "release": "26.2"
+    },
+    {
+      "sha256": "4CC9142D01EF030E1B39AAC5BD5B4100CEB1C82510672E57DA839301187A2FD1",
+      "path": "net\\minecraft\\world\\level\\block\\RedstoneLampBlock.java",
+      "mapping": "unobfuscated",
+      "release": "26.2"
+    }
+  ],
+  "schema": 1,
+  "sourceIdentities": [
+    {
+      "readyMarkerSha256": "FE0EC792349AE43C91D0A30F23660C94B2F5C8D31A29643F73ED0DE367110B95",
+      "sourceManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004",
+      "mapping": "ornithe-feather",
+      "provenanceSha256": "BA066FC8F1C7CEB9819D2106338D9E9F2C2B96EB5A8329EB40E171B1F9889185",
+      "release": "1.8.9"
+    },
+    {
+      "readyMarkerSha256": "F9406ADB6BF7CB4C1AB0792A798AB2CB90E082AD4C2EEE032C9F674D0EA8070F",
+      "sourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894",
+      "mapping": "unobfuscated",
+      "provenanceSha256": "A328F5333A1B27AADDE4422B23159A323AE219CCD26F11207C1A5461366F27D1",
+      "release": "26.2"
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "scope": "Source-only provider and block-entity dependency closure for 1.8.9 IDs 25 and 84 compared with 26.2",
+  "canonicalSourceManifests": {
+    "1.8.9 ornithe-feather": {
+      "path": "D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/1.8.9/ornithe-feather.sources.sha256",
+      "sha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004"
+    },
+    "26.2 unobfuscated": {
+      "path": "D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/26.2/unobfuscated.sources.sha256",
+      "sha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894"
+    }
+  },
+  "sources": [
+    {
+      "side": "1.8.9",
+      "path": "net/minecraft/block/Block.java",
+      "sha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+      "canonicalManifestMatch": true
+    },
+    {
+      "side": "1.8.9",
+      "path": "net/minecraft/block/BlockWithBlockEntity.java",
+      "sha256": "9126813af904415188c993830f592326fd78f1b9c9e6224373256f6ac23ce175",
+      "canonicalManifestMatch": true
+    },
+    {
+      "side": "1.8.9",
+      "path": "net/minecraft/block/NoteBlock.java",
+      "sha256": "278e7ce95c549281870a68564dfa944e55b87f70708e4bbb39918aa19a855b1d",
+      "canonicalManifestMatch": true
+    },
+    {
+      "side": "1.8.9",
+      "path": "net/minecraft/block/JukeboxBlock.java",
+      "sha256": "546e3933a4876aa8ccfff8834ade5a1ae432cadcf9b692964465361b4a5fda89",
+      "canonicalManifestMatch": true
+    },
+    {
+      "side": "1.8.9",
+      "path": "net/minecraft/block/entity/NoteBlockBlockEntity.java",
+      "sha256": "8afc3154c744ed4803789bb653dc5210db2a618fa80c8bac5e86dfda6e899cd9",
+      "canonicalManifestMatch": true
+    },
+    {
+      "side": "26.2",
+      "path": "net/minecraft/references/BlockItemIds.java",
+      "sha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6",
+      "canonicalManifestMatch": true
+    },
+    {
+      "side": "26.2",
+      "path": "net/minecraft/world/level/block/Blocks.java",
+      "sha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+      "canonicalManifestMatch": true
+    },
+    {
+      "side": "26.2",
+      "path": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+      "sha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+      "canonicalManifestMatch": true
+    },
+    {
+      "side": "26.2",
+      "path": "net/minecraft/world/level/block/NoteBlock.java",
+      "sha256": "374b74acf760ca709663bcbd1fd2b30ff1adc3c0a3e2c368eec063de5265f206",
+      "canonicalManifestMatch": true
+    },
+    {
+      "side": "26.2",
+      "path": "net/minecraft/world/level/block/JukeboxBlock.java",
+      "sha256": "b3c2643aeac7824e5f5f8e7a837012ba6728bc6cbf1d0a9c94388a22d8633022",
+      "canonicalManifestMatch": true
+    },
+    {
+      "side": "26.2",
+      "path": "net/minecraft/world/level/block/entity/BlockEntityTypes.java",
+      "sha256": "42a8f0389f8613f9475ad22daea6e9c1a6c7cde99d216af0c851633f43e4e400",
+      "canonicalManifestMatch": true
+    },
+    {
+      "side": "26.2",
+      "path": "net/minecraft/world/level/block/entity/JukeboxBlockEntity.java",
+      "sha256": "7f2b065f424c5a450fa0e43fa0aaf96c7741ec56e45257f12f61cd4ed610e655",
+      "canonicalManifestMatch": true
+    }
+  ],
+  "validation": "Each source file SHA-256 was recomputed and matched its canonical .sources.sha256 entry."
+}

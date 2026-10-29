@@ -1,0 +1,124 @@
+{
+  "schema": 1,
+  "purpose": "Source evidence only: 1.8.9 tripwire block ID 132 versus current 26.2 tripwire",
+  "releases": [
+    {
+      "version": "1.8.9",
+      "mapping": "ornithe-feather",
+      "readyMarkerSha256": "fe0ec792349ae43c91d0a30f23660c94b2f5c8d31a29643f73ed0de367110b95",
+      "provenanceSha256": "ba066fc8f1c7ceb9819d2106338d9e9f2c2b96eb5a8329eb40e171b1f9889185",
+      "sourceManifest": "ornithe-feather.sources.sha256",
+      "sourceManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004",
+      "readyMarkerDeclaresSourceManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004",
+      "selectedFiles": 5
+    },
+    {
+      "version": "26.2",
+      "mapping": "unobfuscated",
+      "readyMarkerSha256": "f9406adb6bf7cb4c1ab0792a798ab2cb90e082ad4c2eee032c9f674d0ea8070f",
+      "provenanceSha256": "a328f5333a1b27aadde4422b23159a323ae219ccd26f11207c1a5461366f27d1",
+      "sourceManifest": "unobfuscated.sources.sha256",
+      "sourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894",
+      "readyMarkerDeclaresSourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894",
+      "selectedFiles": 7
+    }
+  ],
+  "sources": [
+    {
+      "version": "1.8.9",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/Block.java",
+      "sha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+      "manifestSha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+      "matchesCanonical": true
+    },
+    {
+      "version": "1.8.9",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/Blocks.java",
+      "sha256": "1da2d85406ed991e8f6bc1f420babf0bd43598478f347c6a4dc9fea322ed0695",
+      "manifestSha256": "1da2d85406ed991e8f6bc1f420babf0bd43598478f347c6a4dc9fea322ed0695",
+      "matchesCanonical": true
+    },
+    {
+      "version": "1.8.9",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/TripwireBlock.java",
+      "sha256": "caad055a848650e80f73074b758222cfb72d9b928c38769a29038c5d11764be7",
+      "manifestSha256": "caad055a848650e80f73074b758222cfb72d9b928c38769a29038c5d11764be7",
+      "matchesCanonical": true
+    },
+    {
+      "version": "1.8.9",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/TripwireHookBlock.java",
+      "sha256": "616c122a5cf5458c667188b04614c72488f298000c95835a5c4d239b39c6a67a",
+      "manifestSha256": "616c122a5cf5458c667188b04614c72488f298000c95835a5c4d239b39c6a67a",
+      "matchesCanonical": true
+    },
+    {
+      "version": "1.8.9",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/world/World.java",
+      "sha256": "3c04f5b874fbb6692039164c882a3c47fe28c7eca864e91c9ac57798153888ee",
+      "manifestSha256": "3c04f5b874fbb6692039164c882a3c47fe28c7eca864e91c9ac57798153888ee",
+      "matchesCanonical": true
+    },
+    {
+      "version": "26.2",
+      "mapping": "unobfuscated",
+      "path": "net/minecraft/references/BlockItemIds.java",
+      "sha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6",
+      "manifestSha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6",
+      "matchesCanonical": true
+    },
+    {
+      "version": "26.2",
+      "mapping": "unobfuscated",
+      "path": "net/minecraft/world/level/block/Blocks.java",
+      "sha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+      "manifestSha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+      "matchesCanonical": true
+    },
+    {
+      "version": "26.2",
+      "mapping": "unobfuscated",
+      "path": "net/minecraft/world/level/block/Block.java",
+      "sha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab",
+      "manifestSha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab",
+      "matchesCanonical": true
+    },
+    {
+      "version": "26.2",
+      "mapping": "unobfuscated",
+      "path": "net/minecraft/world/level/block/TripWireBlock.java",
+      "sha256": "3b379d732599e55b156ffde5ebd0f7043ab4d59e6556f128e830038c77c9249a",
+      "manifestSha256": "3b379d732599e55b156ffde5ebd0f7043ab4d59e6556f128e830038c77c9249a",
+      "matchesCanonical": true
+    },
+    {
+      "version": "26.2",
+      "mapping": "unobfuscated",
+      "path": "net/minecraft/world/level/block/TripWireHookBlock.java",
+      "sha256": "c08a22c1da82367373a3aab1fcddae4e4821e523216c090a44c60a1b2786a52f",
+      "manifestSha256": "c08a22c1da82367373a3aab1fcddae4e4821e523216c090a44c60a1b2786a52f",
+      "matchesCanonical": true
+    },
+    {
+      "version": "26.2",
+      "mapping": "unobfuscated",
+      "path": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+      "sha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+      "manifestSha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+      "matchesCanonical": true
+    },
+    {
+      "version": "26.2",
+      "mapping": "unobfuscated",
+      "path": "net/minecraft/world/level/ClipContext.java",
+      "sha256": "67f5569e00dac4169f54c42c2d237b1488ea3c7c8e00889603fc748e3c24ecbc",
+      "manifestSha256": "67f5569e00dac4169f54c42c2d237b1488ea3c7c8e00889603fc748e3c24ecbc",
+      "matchesCanonical": true
+    }
+  ]
+}

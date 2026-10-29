@@ -1,0 +1,68 @@
+{
+  "scope": "Legacy full-cube storage blocks IDs 41,42,57,133,152",
+  "schema": 1,
+  "releaseIdentities": [
+    {
+      "provenanceSha256": "ba066fc8f1c7ceb9819d2106338d9e9f2c2b96eb5a8329eb40e171b1f9889185",
+      "mapping": "ornithe-feather",
+      "sourceManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004",
+      "readyMarkerSha256": "fe0ec792349ae43c91d0a30f23660c94b2f5c8d31a29643f73ed0de367110b95",
+      "version": "1.8.9",
+      "selectedFiles": [
+        {
+          "canonicalSha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+          "path": "net/minecraft/block/Block.java",
+          "matchesCanonical": true,
+          "sha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528"
+        },
+        {
+          "canonicalSha256": "e05994ae006a2d04bea8fc48989518e934751b6147ebcb9c957f7679825efed3",
+          "path": "net/minecraft/block/RedstoneBlock.java",
+          "matchesCanonical": true,
+          "sha256": "e05994ae006a2d04bea8fc48989518e934751b6147ebcb9c957f7679825efed3"
+        }
+      ],
+      "sourceRoot": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather"
+    },
+    {
+      "provenanceSha256": "a328f5333a1b27aadde4422b23159a323ae219ccd26f11207c1a5461366f27d1",
+      "mapping": "unobfuscated",
+      "sourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894",
+      "readyMarkerSha256": "f9406adb6bf7cb4c1ab0792a798ab2cb90e082ad4c2eee032c9f674d0ea8070f",
+      "version": "26.2",
+      "selectedFiles": [
+        {
+          "canonicalSha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6",
+          "path": "net/minecraft/references/BlockItemIds.java",
+          "matchesCanonical": true,
+          "sha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6"
+        },
+        {
+          "canonicalSha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+          "path": "net/minecraft/world/level/block/Blocks.java",
+          "matchesCanonical": true,
+          "sha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435"
+        },
+        {
+          "canonicalSha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab",
+          "path": "net/minecraft/world/level/block/Block.java",
+          "matchesCanonical": true,
+          "sha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab"
+        },
+        {
+          "canonicalSha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+          "path": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+          "matchesCanonical": true,
+          "sha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e"
+        },
+        {
+          "canonicalSha256": "6bd3d574fc68da488d12cd56ea8ce22b1a6668742cff8c23fb0de5094cfa9563",
+          "path": "net/minecraft/world/level/block/PoweredBlock.java",
+          "matchesCanonical": true,
+          "sha256": "6bd3d574fc68da488d12cd56ea8ce22b1a6668742cff8c23fb0de5094cfa9563"
+        }
+      ],
+      "sourceRoot": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated"
+    }
+  ]
+}

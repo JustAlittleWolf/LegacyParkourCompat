@@ -1,0 +1,121 @@
+[
+  {
+    "version": "1.8.9",
+    "path": "net/minecraft/block/Block.java",
+    "sha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+    "canonicalManifestSha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+    "matches": true
+  },
+  {
+    "version": "1.8.9",
+    "path": "net/minecraft/block/BedBlock.java",
+    "sha256": "4f66dcf2dc770239fc94ae78bf68c642bd7632e3b1618ce32fd2e63e1f51b1fa",
+    "canonicalManifestSha256": "4f66dcf2dc770239fc94ae78bf68c642bd7632e3b1618ce32fd2e63e1f51b1fa",
+    "matches": true
+  },
+  {
+    "version": "1.8.9",
+    "path": "net/minecraft/block/CakeBlock.java",
+    "sha256": "297deff656dff4f9d91913e54ad6179f5ae21c0c7b21c9bce86da289e8a882cc",
+    "canonicalManifestSha256": "297deff656dff4f9d91913e54ad6179f5ae21c0c7b21c9bce86da289e8a882cc",
+    "matches": true
+  },
+  {
+    "version": "1.8.9",
+    "path": "net/minecraft/block/CocoaBlock.java",
+    "sha256": "d4e3c6b53fd33b3ff5e433b333511d93cbb83dbc0bdfb5690efbef734c5542e9",
+    "canonicalManifestSha256": "d4e3c6b53fd33b3ff5e433b333511d93cbb83dbc0bdfb5690efbef734c5542e9",
+    "matches": true
+  },
+  {
+    "version": "26.2",
+    "path": "net/minecraft/references/BlockItemIds.java",
+    "sha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6",
+    "canonicalManifestSha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6",
+    "matches": true
+  },
+  {
+    "version": "26.2",
+    "path": "net/minecraft/util/datafix/fixes/BlockStateData.java",
+    "sha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+    "canonicalManifestSha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+    "matches": true
+  },
+  {
+    "version": "26.2",
+    "path": "net/minecraft/world/level/block/Blocks.java",
+    "sha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+    "canonicalManifestSha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+    "matches": true
+  },
+  {
+    "version": "26.2",
+    "path": "net/minecraft/world/level/block/Block.java",
+    "sha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab",
+    "canonicalManifestSha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab",
+    "matches": true
+  },
+  {
+    "version": "26.2",
+    "path": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+    "sha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+    "canonicalManifestSha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+    "matches": true
+  },
+  {
+    "version": "26.2",
+    "path": "net/minecraft/world/level/block/BedBlock.java",
+    "sha256": "22f515c272d52eebd75456e4a78eb7f38708d682f8d2cb5fdc170e7c3105af2b",
+    "canonicalManifestSha256": "22f515c272d52eebd75456e4a78eb7f38708d682f8d2cb5fdc170e7c3105af2b",
+    "matches": true
+  },
+  {
+    "version": "26.2",
+    "path": "net/minecraft/world/level/block/CakeBlock.java",
+    "sha256": "eb81b58675f193e73465ab137e35938193c9e50ca05765ccfd1a7d4f4127ec61",
+    "canonicalManifestSha256": "eb81b58675f193e73465ab137e35938193c9e50ca05765ccfd1a7d4f4127ec61",
+    "matches": true
+  },
+  {
+    "version": "26.2",
+    "path": "net/minecraft/world/level/block/CocoaBlock.java",
+    "sha256": "2c58e9c89ddf08d8c42e600048984354403d8bad27718a94c57f0e7d8615efed",
+    "canonicalManifestSha256": "2c58e9c89ddf08d8c42e600048984354403d8bad27718a94c57f0e7d8615efed",
+    "matches": true
+  },
+  {
+    "version": "26.2",
+    "path": "net/minecraft/world/phys/shapes/Shapes.java",
+    "sha256": "6ed9460d58727770bdec59c4f3184f075644f3c411be1eeab2eae17e8ece1891",
+    "canonicalManifestSha256": "6ed9460d58727770bdec59c4f3184f075644f3c411be1eeab2eae17e8ece1891",
+    "matches": true
+  },
+  {
+    "version": "1.8.9",
+    "path": "net/minecraft/util/math/Direction.java",
+    "sha256": "ede4dc29795263853c048e569f24e74407255767c5e02349a90895ac5b08e544",
+    "canonicalManifestSha256": "ede4dc29795263853c048e569f24e74407255767c5e02349a90895ac5b08e544",
+    "matches": true
+  },
+  {
+    "version": "1.8.9",
+    "path": "net/minecraft/block/DoublePlantBlock.java",
+    "sha256": "f48ec69baff5eea4bc6a28d456df525410da43642b5aef952e6574e9c8d1b49e",
+    "canonicalManifestSha256": "f48ec69baff5eea4bc6a28d456df525410da43642b5aef952e6574e9c8d1b49e",
+    "matches": true
+  },
+  {
+    "version": "26.2",
+    "path": "net/minecraft/world/level/block/DoublePlantBlock.java",
+    "sha256": "2859879a576d698538bf55d43fa331ea2deb63c5e67a49ce9e7fc9be8bd3376f",
+    "canonicalManifestSha256": "2859879a576d698538bf55d43fa331ea2deb63c5e67a49ce9e7fc9be8bd3376f",
+    "matches": true
+  },
+  {
+    "version": "26.2",
+    "path": "net/minecraft/world/level/block/TallFlowerBlock.java",
+    "sha256": "a1dd1c0d42cdef793797c2ef063e77eea2f9d534c4bb810aee9246ebf662bbfe",
+    "canonicalManifestSha256": "a1dd1c0d42cdef793797c2ef063e77eea2f9d534c4bb810aee9246ebf662bbfe",
+    "matches": true
+  }
+]
