@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.change.v1_21_5;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.collision.SweptShapeIntersectionMath;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.SweptShapeIntersectionHook;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -28,24 +29,6 @@ import java.util.Optional;
 public final class SweptShapeIntersection implements SweptShapeIntersectionHook {
     @Override
     public Optional<Boolean> collidedAlongVector(AABB movingBox, Vec3 movement, List<AABB> shapeParts) {
-        Vec3 from = movingBox.getCenter();
-        Vec3 to = from.add(movement);
-
-        for (AABB shapePart : shapeParts) {
-            AABB inflated = shapePart.inflate(
-                movingBox.getXsize() * 0.5,
-                movingBox.getYsize() * 0.5,
-                movingBox.getZsize() * 0.5
-            );
-            if (inflated.contains(to) || inflated.contains(from)) {
-                return Optional.of(true);
-            }
-
-            if (inflated.clip(from, to).isPresent()) {
-                return Optional.of(true);
-            }
-        }
-
-        return Optional.of(false);
+        return Optional.of(SweptShapeIntersectionMath.collides(movingBox, movement, shapeParts));
     }
 }
