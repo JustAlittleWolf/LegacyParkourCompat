@@ -43,6 +43,7 @@
     "EntityMixin",
     "EntityPassengerPlacementMixin",
     "EntitySweptShapeIntersectionMixin",
+    "EntityPartialShapeSweepMixin",
     "EntityCallbackTraversalMixin",
     "EntityCallbackBatchMixin",
     "PistonMovingBlockEntityMixin",
