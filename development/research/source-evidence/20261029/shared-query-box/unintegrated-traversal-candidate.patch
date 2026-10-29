@@ -1,0 +1,251 @@
+From 0d28943fe9f07a54eb5eef1fb59c1eb1bf35d5cc Mon Sep 17 00:00:00 2001
+From: JustAlittleWolf <jakobi5000@gmail.com>
+Date: Thu, 29 Oct 2026 01:57:16 +0100
+Subject: [PATCH 1/2] Add 1.21.2 partial sweep traversal candidate
+
+---
+ .../entity/EntityInsideBlocksScan.java        | 114 ++++++++++++++++++
+ .../entity/EntityInsideBlocksScanHook.java    |  37 ++++++
+ 2 files changed, 151 insertions(+)
+ create mode 100644 src/client/java/me/wolfii/legacyparkourcompat/change/v1_21_2/entity/EntityInsideBlocksScan.java
+ create mode 100644 src/client/java/me/wolfii/legacyparkourcompat/mechanic/hook/entity/EntityInsideBlocksScanHook.java
+
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/change/v1_21_2/entity/EntityInsideBlocksScan.java b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_21_2/entity/EntityInsideBlocksScan.java
+new file mode 100644
+index 0000000..c4d154e
+--- /dev/null
++++ b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_21_2/entity/EntityInsideBlocksScan.java
+@@ -0,0 +1,114 @@
++package me.wolfii.legacyparkourcompat.change.v1_21_2.entity;
++
++import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
++import me.wolfii.legacyparkourcompat.api.ParkourVersion;
++import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
++import me.wolfii.legacyparkourcompat.mechanic.hook.entity.EntityInsideBlocksScanHook;
++import net.minecraft.core.BlockPos;
++import net.minecraft.util.Mth;
++import net.minecraft.world.phys.AABB;
++import net.minecraft.world.phys.Vec3;
++
++import java.util.List;
++import java.util.Optional;
++import java.util.Set;
++import java.util.function.BiConsumer;
++
++/**
++ * Source-derived 1.21.2/1.21.3 recorded-movement callback scan traversal.
++ *
++ * <p>Source: exact Minecraft 1.21.2 and 1.21.3 Mojmap, {@code Entity.java}
++ * ({@code applyEffectsFromBlocks(Vec3, Vec3)} and {@code checkInsideBlocks},
++ * lines 736–767 and 1038–1078) and {@code BlockGetter.java}
++ * ({@code boxTraverseBlocks} and {@code addCollisionsAlongTravel}, lines
++ * 172–248). These source files are byte-identical across the two releases.
++ */
++@MovementChange(emulates = ParkourVersion.V1_21_2)
++public final class EntityInsideBlocksScan implements EntityInsideBlocksScanHook {
++    @Override
++    public <M> void scanMovements(AABB finalEntityBox, List<M> movements, BiConsumer<M, AABB> scanMovement) {
++        AABB queryBox = finalEntityBox.deflate(1.0E-5F);
++        for (M movement : movements) {
++            scanMovement.accept(movement, queryBox);
++        }
++        movements.clear();
++    }
++
++    @Override
++    public Iterable<BlockPos> candidateCells(Vec3 from, Vec3 to, AABB queryBox) {
++        Vec3 delta = to.subtract(from);
++        Iterable<BlockPos> candidates = BlockPos.betweenClosed(queryBox);
++        if (delta.lengthSqr() < Mth.square(0.99999F)) {
++            return candidates;
++        }
++
++        Set<BlockPos> traversed = new ObjectLinkedOpenHashSet<>();
++        Vec3 epsilon = delta.normalize().scale(1.0E-7);
++        Vec3 traversalStart = queryBox.getMinPosition().subtract(delta).subtract(epsilon);
++        Vec3 traversalEnd = queryBox.getMinPosition().add(epsilon);
++        addCollisionsAlongTravel(traversed, traversalStart, traversalEnd, queryBox);
++
++        for (BlockPos candidate : candidates) {
++            traversed.add(candidate.immutable());
++        }
++        return traversed;
++    }
++
++    private static void addCollisionsAlongTravel(Set<BlockPos> candidates, Vec3 start, Vec3 end, AABB box) {
++        Vec3 delta = end.subtract(start);
++        int x = Mth.floor(start.x);
++        int y = Mth.floor(start.y);
++        int z = Mth.floor(start.z);
++        int stepX = Mth.sign(delta.x);
++        int stepY = Mth.sign(delta.y);
++        int stepZ = Mth.sign(delta.z);
++        double stepDeltaX = stepX == 0 ? Double.MAX_VALUE : stepX / delta.x;
++        double stepDeltaY = stepY == 0 ? Double.MAX_VALUE : stepY / delta.y;
++        double stepDeltaZ = stepZ == 0 ? Double.MAX_VALUE : stepZ / delta.z;
++        double nextX = stepDeltaX * (stepX > 0 ? 1.0 - Mth.frac(start.x) : Mth.frac(start.x));
++        double nextY = stepDeltaY * (stepY > 0 ? 1.0 - Mth.frac(start.y) : Mth.frac(start.y));
++        double nextZ = stepDeltaZ * (stepZ > 0 ? 1.0 - Mth.frac(start.z) : Mth.frac(start.z));
++        int steps = 0;
++
++        while (nextX <= 1.0 || nextY <= 1.0 || nextZ <= 1.0) {
++            if (nextX < nextY) {
++                if (nextX < nextZ) {
++                    x += stepX;
++                    nextX += stepDeltaX;
++                } else {
++                    z += stepZ;
++                    nextZ += stepDeltaZ;
++                }
++            } else if (nextY < nextZ) {
++                y += stepY;
++                nextY += stepDeltaY;
++            } else {
++                z += stepZ;
++                nextZ += stepDeltaZ;
++            }
++
++            if (steps++ > 16) {
++                break;
++            }
++
++            Optional<Vec3> clipped = AABB.clip(x, y, z, x + 1, y + 1, z + 1, start, end);
++            if (clipped.isPresent()) {
++                Vec3 intersection = clipped.get();
++                double minX = Mth.clamp(intersection.x, x + 1.0E-5F, x + 1.0 - 1.0E-5F);
++                double minY = Mth.clamp(intersection.y, y + 1.0E-5F, y + 1.0 - 1.0E-5F);
++                double minZ = Mth.clamp(intersection.z, z + 1.0E-5F, z + 1.0 - 1.0E-5F);
++                int maxX = Mth.floor(minX + box.getXsize());
++                int maxY = Mth.floor(minY + box.getYsize());
++                int maxZ = Mth.floor(minZ + box.getZsize());
++
++                for (int candidateX = x; candidateX <= maxX; candidateX++) {
++                    for (int candidateY = y; candidateY <= maxY; candidateY++) {
++                        for (int candidateZ = z; candidateZ <= maxZ; candidateZ++) {
++                            candidates.add(new BlockPos(candidateX, candidateY, candidateZ));
++                        }
++                    }
++                }
++            }
++        }
++    }
++}
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/mechanic/hook/entity/EntityInsideBlocksScanHook.java b/src/client/java/me/wolfii/legacyparkourcompat/mechanic/hook/entity/EntityInsideBlocksScanHook.java
+new file mode 100644
+index 0000000..37a00f5
+--- /dev/null
++++ b/src/client/java/me/wolfii/legacyparkourcompat/mechanic/hook/entity/EntityInsideBlocksScanHook.java
+@@ -0,0 +1,37 @@
++package me.wolfii.legacyparkourcompat.mechanic.hook.entity;
++
++import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
++import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
++import net.minecraft.core.BlockPos;
++import net.minecraft.world.phys.AABB;
++import net.minecraft.world.phys.Vec3;
++
++import java.util.List;
++import java.util.function.BiConsumer;
++
++/**
++ * Controls candidate bounds and recorded-movement traversal for the entity
++ * inside-block callback scan.
++ *
++ * <p>Source: exact Minecraft 1.21.2 and 1.21.3 Mojmap, {@code Entity.java},
++ * {@code applyEffectsFromBlocks(Vec3, Vec3)} and {@code checkInsideBlocks};
++ * the corresponding complete files are byte-identical in these releases.
++ */
++@MechanicType("entity.inside-blocks.scan")
++public interface EntityInsideBlocksScanHook extends VersionedMechanic {
++    /**
++     * Visits the live movement records in their existing order with one query
++     * box derived from the entity's final bounding box, then clears that list
++     * after all visits return normally.
++     *
++     * <p>The callback is where the caller performs each movement's block scan.
++     * It receives the same query-box object for every movement.
++     */
++    <M> void scanMovements(AABB finalEntityBox, List<M> movements, BiConsumer<M, AABB> scanMovement);
++
++    /**
++     * Returns candidate block cells for one recorded movement and its shared
++     * candidate query box.
++     */
++    Iterable<BlockPos> candidateCells(Vec3 from, Vec3 to, AABB queryBox);
++}
+-- 
+2.53.0.windows.2
+
+
+From 62136c0cc78f0cc3c8b5cd2e163bbce08a4f4fa9 Mon Sep 17 00:00:00 2001
+From: JustAlittleWolf <jakobi5000@gmail.com>
+Date: Thu, 29 Oct 2026 02:05:04 +0100
+Subject: [PATCH 2/2] Add native fence for partial sweep scan
+
+---
+ .../entity/EntityInsideBlocksNativeFence.java   | 14 ++++++++++++++
+ .../hook/entity/EntityInsideBlocksScanHook.java | 17 +++++++++++++++--
+ 2 files changed, 29 insertions(+), 2 deletions(-)
+ create mode 100644 src/client/java/me/wolfii/legacyparkourcompat/change/v1_21/entity/EntityInsideBlocksNativeFence.java
+
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/change/v1_21/entity/EntityInsideBlocksNativeFence.java b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_21/entity/EntityInsideBlocksNativeFence.java
+new file mode 100644
+index 0000000..4f9919c
+--- /dev/null
++++ b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_21/entity/EntityInsideBlocksNativeFence.java
+@@ -0,0 +1,14 @@
++package me.wolfii.legacyparkourcompat.change.v1_21.entity;
++
++import me.wolfii.legacyparkourcompat.api.ParkourVersion;
++import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
++import me.wolfii.legacyparkourcompat.mechanic.hook.entity.EntityInsideBlocksScanHook;
++
++/** Marks the lower edge of the historical scan delta range. */
++@MovementChange(emulates = ParkourVersion.V1_21)
++public final class EntityInsideBlocksNativeFence implements EntityInsideBlocksScanHook {
++    @Override
++    public boolean usesHistoricalScan() {
++        return false;
++    }
++}
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/mechanic/hook/entity/EntityInsideBlocksScanHook.java b/src/client/java/me/wolfii/legacyparkourcompat/mechanic/hook/entity/EntityInsideBlocksScanHook.java
+index 37a00f5..52b1dc9 100644
+--- a/src/client/java/me/wolfii/legacyparkourcompat/mechanic/hook/entity/EntityInsideBlocksScanHook.java
++++ b/src/client/java/me/wolfii/legacyparkourcompat/mechanic/hook/entity/EntityInsideBlocksScanHook.java
+@@ -19,6 +19,15 @@ import java.util.function.BiConsumer;
+  */
+ @MechanicType("entity.inside-blocks.scan")
+ public interface EntityInsideBlocksScanHook extends VersionedMechanic {
++    /**
++     * Whether the selected provider supplies a historical scan implementation.
++     * Native fence providers return {@code false}; callers must leave the native
++     * scan path untouched when this is false.
++     */
++    default boolean usesHistoricalScan() {
++        return true;
++    }
++
+     /**
+      * Visits the live movement records in their existing order with one query
+      * box derived from the entity's final bounding box, then clears that list
+@@ -27,11 +36,15 @@ public interface EntityInsideBlocksScanHook extends VersionedMechanic {
+      * <p>The callback is where the caller performs each movement's block scan.
+      * It receives the same query-box object for every movement.
+      */
+-    <M> void scanMovements(AABB finalEntityBox, List<M> movements, BiConsumer<M, AABB> scanMovement);
++    default <M> void scanMovements(AABB finalEntityBox, List<M> movements, BiConsumer<M, AABB> scanMovement) {
++        throw new UnsupportedOperationException("Native entity-inside-block scan must remain on the native path");
++    }
+ 
+     /**
+      * Returns candidate block cells for one recorded movement and its shared
+      * candidate query box.
+      */
+-    Iterable<BlockPos> candidateCells(Vec3 from, Vec3 to, AABB queryBox);
++    default Iterable<BlockPos> candidateCells(Vec3 from, Vec3 to, AABB queryBox) {
++        throw new UnsupportedOperationException("Native entity-inside-block scan must remain on the native path");
++    }
+ }
+-- 
+2.53.0.windows.2
+
