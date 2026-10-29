@@ -39,6 +39,9 @@ public interface PlayerChunkReadinessHook extends VersionedMechanic {
         /** Deadline stored by the client's level-load tracker. */
         long timeoutAfterMillis();
 
+        /** Preserve the source readiness method's warning after its strict timeout gate succeeds. */
+        void logTimeoutWarning();
+
         /** The renderer's compiled-and-visible result for the player's block position. */
         boolean playerSectionCompiledAndVisible();
     }

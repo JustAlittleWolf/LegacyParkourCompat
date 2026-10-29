@@ -11,11 +11,11 @@ import net.minecraft.client.renderer.ViewArea;
 import net.minecraft.client.renderer.chunk.CompiledSectionMesh;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Util;
-import org.spongepowered.asm.mixin.injection.Coerce;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Coerce;
 
 @Mixin(targets = "net.minecraft.client.multiplayer.LevelLoadTracker$WaitingForPlayerChunk")
 abstract class LevelLoadTrackerReadinessMixin {
@@ -51,7 +51,7 @@ abstract class LevelLoadTrackerReadinessMixin {
 
                 @Override
                 public boolean nativeReady() {
-                    return original.call();
+                    return original.call(waitingForPlayerChunk);
                 }
 
                 @Override
@@ -92,11 +92,18 @@ abstract class LevelLoadTrackerReadinessMixin {
                 }
 
                 @Override
+                public void logTimeoutWarning() {
+                    // The current source emits the same timeout warning inside isReady().
+                    // The historical strict deadline check has already succeeded here.
+                    original.call(waitingForPlayerChunk);
+                }
+
+                @Override
                 public boolean playerSectionCompiledAndVisible() {
                     return Minecraft.getInstance().levelRenderer
                         .isSectionCompiledAndVisible(this.playerPosition());
                 }
             }))
-            .orElseGet(() -> original.call());
+            .orElseGet(() -> original.call(waitingForPlayerChunk));
     }
 }
