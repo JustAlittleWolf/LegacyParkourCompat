@@ -1,0 +1,42 @@
+[
+  {
+    "sha256": "CFC84ADF363FCCB958D2189954BF844894A3FCE3F03042B1E5977741D9BF4167",
+    "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-000-063/crosswalk.tsv"
+  },
+  {
+    "sha256": "3019DFA79D48C7A0F4ACED4FD6D39C9A9E200D21C2EA09F4C2AC351A495F53CF",
+    "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-000-063/report.md"
+  },
+  {
+    "sha256": "34F77B88FC53A92D1189F4363621246EECCB31FABD413FC3662BA48BC4DD4A31",
+    "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-000-063/README.md"
+  },
+  {
+    "sha256": "D127D284DD0F707FE08263733A817B273D8F393D299266BC9812F9A85473932B",
+    "path": ".native-source/20261028/collision-next/dda-first-hit-crosswalk-20261029/range-000-063/artifact-hashes.json"
+  },
+  {
+    "sha256": "EA10F05106A3CF7189AEC85236A7ECF9C7106A717F37BED583B5EA4ADEFFA528",
+    "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\Block.java"
+  },
+  {
+    "sha256": "19626B89ECC4A776B74DEC89C3743D61ABE3CA813C3E178DBFEAC33513824CA7",
+    "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\AirBlock.java"
+  },
+  {
+    "sha256": "EE65EB7B3256346282E3D17D51D8A92E6ABB5AC08EF02B8A1E533989E056429D",
+    "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\FireBlock.java"
+  },
+  {
+    "sha256": "1537FD6B1BCA65E0F910F9A12BCD3BB27F5A86BE7F13A1CAA380C5E66544F1D5",
+    "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\LiquidBlock.java"
+  },
+  {
+    "sha256": "FADC964480227F6FFD5756471212B18D0172BFFBCD0866EE0C278454AB079409",
+    "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather\\net\\minecraft\\block\\StairsBlock.java"
+  },
+  {
+    "sha256": "6196F9039890D5F67B59CB372EC06DA987E8A5EA80B49FD8BEE9EECA0A1784A4",
+    "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated\\net\\minecraft\\util\\datafix\\fixes\\BlockStateData.java"
+  }
+]

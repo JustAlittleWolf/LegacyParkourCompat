@@ -1,0 +1,617 @@
+{
+  "canonical_sources": [
+    {
+      "path": "D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/1.8.9/ornithe-feather/net/minecraft/block/Block.java",
+      "sha256": "EA10F05106A3CF7189AEC85236A7ECF9C7106A717F37BED583B5EA4ADEFFA528"
+    },
+    {
+      "path": "D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/26.2/unobfuscated/net/minecraft/util/datafix/fixes/BlockStateData.java",
+      "sha256": "6196F9039890D5F67B59CB372EC06DA987E8A5EA80B49FD8BEE9EECA0A1784A4"
+    },
+    {
+      "path": "D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/26.2/unobfuscated/net/minecraft/util/datafix/DataFixers.java",
+      "sha256": "4A7DE861C83F395255D6045D5F9FB98D932ABD42724E54316ADC59116EE6FB50"
+    },
+    {
+      "path": "D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/26.2/unobfuscated/net/minecraft/world/level/block/Blocks.java",
+      "sha256": "F3F2FAEED23E9697407069A1D523107491590B8710175523EA05294D5BD00435"
+    }
+  ],
+  "accepted_matrix": {
+    "report_path": "C:/Users/Wolfi/.codex/worktrees/56a8/LegacyParkourCompat/.native-source/20261028/collision-next/dda-writer-coverage-matrix-audit/report.md",
+    "report_sha256": "F9905E2F93B0C53C330EDCEA37742576BF370F00F4452CA1F0FDAC1CDD1507C2",
+    "artifact_manifest_path": "C:/Users/Wolfi/.codex/worktrees/56a8/LegacyParkourCompat/.native-source/20261028/collision-next/dda-writer-coverage-matrix-audit/artifact-hashes.json",
+    "artifact_manifest_sha256": "F67C8D984A33CCB233F43CCF748EAA2A4604EAF9955CE6295482491EC33EDCCB",
+    "validated_artifacts_count": 147
+  },
+  "validated_artifacts": [
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-189-chest-54-current-provider\\closure.md",
+      "sha256": "4151BF920F01C46D6144720F04C06D7F1A35535A1048F69E5777A93ED08447A9"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-189-chest-54-current-provider\\source-hashes.sha256",
+      "sha256": "81E3A1741B08B1DAC316DA31C2B05C40BC21D7586E943256322662D3D2085CFB"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-189-current-alias-145-155\\closure.md",
+      "sha256": "853C690019EA8A6BF805149F128B5F2BE92F32E429CA9FC35D91146A95B95D55"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-189-current-alias-145-155\\source-hashes.sha256",
+      "sha256": "B59FC1C1CA53FE7CB305CA5532E58A7132059968C764D7645FB4C6412F17DB77"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-age-crop-family-59-104-105-141-142-review\\review.md",
+      "sha256": "E2AA65A64BE92E4CD8D6A8D97EECA35074B40AC7DA5C83444470936DAEE36481"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-age-crop-family-59-104-105-141-142\\finding.md",
+      "sha256": "B07A0BED4D65DE14C25D1202378B5F81E5A6DAE6550C053FA9C2EC870AC97C0B"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-age-crop-family-59-104-105-141-142\\sources.sha256",
+      "sha256": "54A1D815BE7AEDF2F44B59D8D5C15E27F4ED2979526C11854001354B5F432829"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-bed-cake-cocoa-family-review\\review.md",
+      "sha256": "765245410744A59523054736A683653CE91705E4427EB6627CEA5722A5CEF3D4"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-bed-cake-cocoa-family\\FINDING.md",
+      "sha256": "7E94156E24A2B90122E5312AD9C996D826DC6D2F8D94A2342F8690A5C46F9548"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-bed-cake-cocoa-family\\source-hashes.json",
+      "sha256": "DCCBE9F4A41F5B9E45604546A0A4B198637AA928DB18779A7C5A4333E30FA311"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-bounds-lifecycle\\hash-manifest.sha256",
+      "sha256": "02A36D4261EC1ECE3E8F96B4F8F477E364B670E7903DA2BFB6AA0759DE7CACEB"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-bounds-lifecycle\\report.md",
+      "sha256": "4AAA64C72D4CA46A6F481B7505CC701B9FDDCF311E1B7D18F658F08044DABDB9"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-brewing-stand-117-closure\\report.md",
+      "sha256": "A1EBD7C0882ED4244D5081255BC3DF2D4DE982691F4FCB13E37A8CE48103202F"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-brewing-stand-117-closure\\source-hashes.sha256",
+      "sha256": "B2B2152BF7A6B875CA8B4EB18C312FB0C6613183CADF438BFF64404192A359C6"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-brewing-stand-117-review\\review.md",
+      "sha256": "F6A652BC9D107F2E84103779ADEDE5586398C316DAC90640AF0E597D24EC2632"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-brewing-stand-117-review\\review.md.sha256",
+      "sha256": "C9F5CC21F9BD082712A58CB134091ABF840CFEE00FA3A336491CBC7509338A0C"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-button-family-77-143-review\\report.md",
+      "sha256": "BA23046321818C55B73AAE0E0C7E76DD2FCD7341E01538127E94D2ADABDA9AD4"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-button-family-77-143\\report.md",
+      "sha256": "1147EE5E3131988DA48A8262C2413F18A5E53627034E324F3549AB14097F9530"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-button-family-77-143\\sources.sha256",
+      "sha256": "32D83AB62AC2E6C1A84EEF4903FBF61D9CE3BFEBB668B02DAC9A41EB54972A15"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-cactus-reed-family-81-83\\FINDING.md",
+      "sha256": "B4E12E2B2E2EFDE8D34017B61AD17EDB9EC060BD6A9D1F8963E7AD2EA7E57D42"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-cactus-reed-family-81-83\\source-hashes.json",
+      "sha256": "14CF99E5212B512C355D5F0D668BFB582C641B64ED4B6BA0A7573675D1429F2E"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-cactus-reed-family-review\\review.md",
+      "sha256": "F32A118AB5BAD6E787162906E1CFEB8E4ED4293EE250ED059967D1B4E2697DB7"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-climbable-family-65-106-review\\correction-supplement-review.md",
+      "sha256": "521251F414D51CEB03D12932EB9E5D47F0727B3EF62DBDC349472AA3F70C9A06"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-climbable-family-65-106-review\\review.md",
+      "sha256": "A60B1C850AFB9221F2E277E48C506BC48AB66E9D0A4B6B1A262DD5F5EADABAD1"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-climbable-family-65-106\\correction-supplement.md",
+      "sha256": "BFC2C148062F118D7AD92182C959085FD8D8EC28CF105EC89A547FE62E7E4B8A"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-climbable-family-65-106\\finding.md",
+      "sha256": "830E6DF6E5356992E639A062382700A136E29BA4CCEC7C290EFD7538A05DE43B"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-climbable-family-65-106\\sources.sha256",
+      "sha256": "2467660042D560FA4612BB9DA197CAA106822ACE36DAC4756E0D09C44D858951"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-climbable-family-65-106\\sources.sha256.json",
+      "sha256": "1E69D4F9F252A1F2756D992B4EBA2E30583321D3B9A71043B8FEC213E5E0ED65"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-cobblestone-wall-139-closure\\report.md",
+      "sha256": "3DC40166D0E3A017474FB5CDBD2A88BCE22675D89F67B1F64A4426E46939D459"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-cobblestone-wall-139-closure\\sources.sha256",
+      "sha256": "8EA8E51201B5F510C3B754369F645F6E9603DB3C0995ADE3EA06E2787263DEFA"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-cobblestone-wall-139-review\\review-hashes.sha256",
+      "sha256": "C10EEBB5D7C7A65D3163EF4483DA743BF1C7FDA407B2709262B242F49EA8EA86"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-cobblestone-wall-139-review\\review.md",
+      "sha256": "B712805F2464B9664F4D7A9300C2A107F8FC8481EBB37EDB8EE19C89AB622BE2"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-container-geometry-family-118-154\\FINDING.md",
+      "sha256": "E02A36748D4E112FF0500DF4D1406C56A69E103A6BAFACCF65568C7BE8B1B25C"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-container-geometry-family-118-154\\source-hashes.json",
+      "sha256": "67E8EDF79F5A32931B02A7220034E2A7CFA4F6D590C34631E991D5148F166A21"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-container-geometry-review\\review.md",
+      "sha256": "7C366D21A5B66DB0E3EDE5EB10266C9BE9E9CDCE1F3DFA359510F8B54575A286"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-daylight-detectors-151-178-review\\review.md",
+      "sha256": "58E6AED9D7D5152B64B6FEDE07FADF6154CB2CB2BBC055F27E14CECF5288E74F"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-daylight-detectors-151-178\\report.md",
+      "sha256": "FB0D07495BAAEA86176FC0CC743EF1A886329B1C9530A7EBDE105DCF4E0440F1"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-daylight-detectors-151-178\\sources.sha256",
+      "sha256": "A4B3F904EE5EF8BB5B7E0D29AD2922D7C70790F4A185213DEF00B465CC96E211"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-default-provider-shape-closure\\closure.md",
+      "sha256": "8FFC77A0C443F7B19AB5B49914CCF65E839F38CF75527055608866A7D0E8AEC2"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-directional-machine-family-23-61-62-158\\FINDING.md",
+      "sha256": "47361828698469CAC872814737F6B3259347AACF58FD71FF93E7BE8B06BBDABC"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-directional-machine-family-23-61-62-158\\source-hashes.json",
+      "sha256": "0AFBCEEF7FCCC8DDF2D26BE0A35D58F319E6D2D80482A43659D9D7018A4F955A"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-directional-machine-family-review\\review.md",
+      "sha256": "D61472239B972DEC24F1687C6C3EB709282A5A72C24933B26E0F3E5BE1DD6E4A"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-door-family-64-71-193-197-review\\REVIEW.md",
+      "sha256": "95F1D8BD2D6F46AD88B94A48A5247CD45D4B67C7741F23499CDD04BF7B57EDDA"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-door-family-64-71-193-197\\artifact-hashes.json",
+      "sha256": "ECAE95C921945C6ED22DD30944C80E5C3D0F7EA8A35DC7CEB4E315AEFDEB3ABB"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-door-family-64-71-193-197\\FINDING.md",
+      "sha256": "51D3C1B413372028C0B9C6D9AAC017BB84A4108AB253CB82617A09CAA3420684"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-door-family-64-71-193-197\\row-coverage.json",
+      "sha256": "294BC2A8F0908DFF6E06A2A48847F2B0157008410B051B00895F67B74CE40193"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-door-family-64-71-193-197\\source-hashes.json",
+      "sha256": "96D116C758754411003E6226D5BBF83FEF6CB6FC06F76C1F70C4284CF83D5E0E"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-dye-family-35-171-review\\review.md",
+      "sha256": "66B9A566162D5EC8FFD12ACDF2466EBC087F9675FCE12C8CEF6B5698A25F5F65"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-dye-family-35-171\\finding.md",
+      "sha256": "43E1B41F9B7B9EB470314C2AB13C0FAE5DE790E099879522AE6F754BA449DB79"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-dye-family-35-171\\source-hashes.json",
+      "sha256": "B68B62092C3F9EEFC1497436EF85C25B9AEA4B878CDAAB04BDE8A48CAFB060EE"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-ender-chest-130-closure\\report.md",
+      "sha256": "16AE12055D4DCEAE4A3079B4FDE97B2A267916037890749E4B080BFD5D854A7D"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-ender-chest-130-closure\\sources.sha256",
+      "sha256": "D41F5866F03F826E1E139B28EBA9A55EC4150D8B619FC8BD6BD31DD9E4529E5F"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-ender-chest-130-review\\review.md",
+      "sha256": "963573CC1BD11428D2F7287EFE9F440B1E57D9804F5CB986AA0B195272304E62"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-ender-chest-130-review\\review.md.sha256",
+      "sha256": "60AE97B62F26001E8EEB8F91C8EAA01A9FC4D716B3BCC808181C0A36C2A655C0"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-fence-gate-family-legacy-correction\\CORRECTION.md",
+      "sha256": "C291BBE9CB186C7EE518A6C579A196F3ED075B09C22F27E74694EC50CFE48FB8"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-fence-gate-family-legacy-review\\correction-rebind.md",
+      "sha256": "4D3EA264CB2CC7EB0FA8A6C92115AEDF2830C87A627059F74503B03CB6DBC914"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-fence-gate-family-legacy-review\\REVIEW.md",
+      "sha256": "5777493F363A20F6D3720D7B57E3DE5912CCAEB8E6AC6B3D5177AD5B525E85E8"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-fence-gate-family-legacy\\FINDING.md",
+      "sha256": "1A573FC598C9A35E4A3A89D593519272C534680301639DEA35606B651F49B3DB"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-fence-gate-family-legacy\\sources.sha256",
+      "sha256": "6A77193D91A7ACDCD6F791DFA1CFC45A83B686CF4F2249A9DD7B5D3D9D039DA6"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-fluid-family-8-9-10-11-review\\review.md",
+      "sha256": "68CA285CD4955F32C7D8EAB3036043DDEF73E5A597651316EF0A9FDEDB7E6AB3"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-fluid-family-8-9-10-11\\FINDING.md",
+      "sha256": "6524894CD8B013D99B469D167FE3F116A182F3117D93546A2F63D2FA055F58D9"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-fluid-family-8-9-10-11\\source-manifest.json",
+      "sha256": "D6274F3A2601771878AFD1A886676F9D84093EFAC77EEE32FE3BE04C901FFD29"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-legacy-material-family-45-47-48-49\\FINDING.md",
+      "sha256": "4750829A150B0648B1E48364B79B71B608130DFE6DDF1EF4614A2AF5E808BC6A"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-legacy-material-family-45-47-48-49\\source-hashes.json",
+      "sha256": "5A697BD62CFA628D1A5FFCCEEE5C43C21EF31404D4DE61A535B083AC5A26356F"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-legacy-material-family-review\\review.md",
+      "sha256": "2B57B91B2AAA72B386BB946779F2E7C9CB43B7F1E023C6C66635D685A2FB2458"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-legacy-ore-family-14-15-16-21-56-73-74-review\\review.md",
+      "sha256": "353D843F8C55C33596A503BB943BA6B8A56F534307375B88D03C8E42D72217D7"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-legacy-ore-family-14-15-16-21-56-73-74\\FINDING.md",
+      "sha256": "170FD3B1E1A9A74001A5D3AFE487E15420A1B59EC8A4B51A745977BD6442743F"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-legacy-ore-family-14-15-16-21-56-73-74\\source-hashes.json",
+      "sha256": "0514601011A426CE4C6309C87265306A2C3A499C8A59B895663C3E0658A1111A"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-legacy-provider-closure\\provider-and-hit-contract.md",
+      "sha256": "20904785D6D067658FC433842146D364851822CAF7C7B8565CA5C8B761894A29"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-legacy-slab-family-43-44-125-126-181-182-review\\report.md",
+      "sha256": "6B2397C46DED3D8D8397A5BFB92DCAE2E4631575DD9B7F012827ABD271D3BA75"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-legacy-slab-family-43-44-125-126-181-182\\report.md",
+      "sha256": "F5446AA013AF10B69169CFB52176B83AD74344E105B3185157185DCA54AEA7AA"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-legacy-slab-family-43-44-125-126-181-182\\sources.sha256",
+      "sha256": "9294E4B0F80682EF9B40C439D545005306ED9D0B22FBF07A1063FE4A4DB8BF10"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-mounted-facing-family-review\\review.md",
+      "sha256": "1D7B407A15A4B263FB03B6F3AF864D89FDE66AD02DB2D8A458FB7A50BCABCC26"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-mounted-facing-family\\FINDING.md",
+      "sha256": "FD336FADC32491D310F265F1926AAA12350AF73791DB467FD59DD5976BEDF8C2"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-mounted-facing-family\\source-hashes.json",
+      "sha256": "CCF53C0A39745B9FEBB165B07B8C55CC39746A633CE407338D16658927381CC2"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-noncolliding-plant-family-25-31-32\\FINDING.md",
+      "sha256": "7E3D4F9BC043CA535123E0AECFE6936D1225DA3D21F577C4324AC166477825C7"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-noncolliding-plant-family-25-31-32\\source-hashes.json",
+      "sha256": "303FC3154FF1D9B38AF98F5F3C063520970A58F417D840A94C5B527104FF6DCE"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-noncolliding-plant-family-review\\review.md",
+      "sha256": "4DACE0ED539362DE4DFD2C6FAC36BFF8546CF69B8B6791FAA1C67A3F98E05D95"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-ore-alias-pair-129-153-review\\review.md",
+      "sha256": "0B58166FDACB3B4F72CC7E56FF0448896BC0EF2EE9A1D1AA0F3F2807A7B03C6D"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-ore-alias-pair-129-153\\report.md",
+      "sha256": "39857028158B939B190B55D1C30B35C29FB344369042AEA2D9FD325E9AEB1AC3"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-ore-alias-pair-129-153\\sources.sha256",
+      "sha256": "26BC84F92F6B1F02CA57DFA8350A4823240318FF448C21F6F9B425BCB4C6455A"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-pane-family-102-160-correction-002\\correction-002.md",
+      "sha256": "0A97BDEA5EA3F8E826EB6AFC93C4CA3E072C5CAF0877B4D60CA17D453A577683"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-pane-family-102-160-correction-002\\source-hashes.json",
+      "sha256": "E2D4E2B9FAF98C141EEB16906607D6D7D664BED427D9BA27E07F488E9E88EFBE"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-pane-family-102-160-correction\\correction.md",
+      "sha256": "2DA42460A1490F081FCFCF5E5D55748A727BF3E1D44AF9FEBED0CA890A5EE68D"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-pane-family-102-160-correction\\source-hashes.json",
+      "sha256": "6C0ADD459D5EF218B960ED21E2C3784ECC41738D5B80591B698E1EA7398F001F"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-pane-family-102-160-review\\correction-rebind-002.md",
+      "sha256": "3CC9B297266498338091235D74F5F17E502069CE269268C63251C731F50E5D58"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-pane-family-102-160-review\\correction-rebind.md",
+      "sha256": "43A66C18F32C43C30649C5C48B97B4D56DC28CE757775CCF4C98DCF603898C49"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-pane-family-102-160-review\\review.md",
+      "sha256": "18AC38F6B24EE9841F02C76ACF0FBDACA9CCE5596E94628DEA1C98C35D9C9DEE"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-pane-family-102-160\\report.md",
+      "sha256": "13B9095BAF5D7B011E4FA30B8BAAB901F3172557D35C8F0116CE9F2ACFCF91D8"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-pane-family-102-160\\source-hashes.json",
+      "sha256": "5595B40655F69C035428A09CF28ADE6AA10BB811E789DB8FE2A4F25FB08D9D47"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-piston-family-29-33-34-36\\FINDING.md",
+      "sha256": "C647B896C44DFB2B0DD956E3A6C5CCAA4FA80C8C54B32BE38144BCC4FB8530C4"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-piston-family-29-33-34-36\\source-hashes.json",
+      "sha256": "831CA8BA5B8F6CBFCCEC5D913321EBA08DF3A761D39BD5DD7C46E30FA1474666"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-piston-family-review\\review.md",
+      "sha256": "3D6982CDC266D5E7B3942F3CB669AE7EB6B20E0BF88408131778781A1E3C7ED2"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-plant-family-6-37-38-39-40-review\\review.md",
+      "sha256": "76B288B1F635DEB891A7AC27C8491693EDC345687511EEA66A811CC13F69530E"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-plant-family-6-37-38-39-40\\FINDING.md",
+      "sha256": "239C2C5ACC830DA6E5C0A0DAE0C3096D114E00164A7B2681434031FFB84B0A85"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-plant-family-6-37-38-39-40\\source-hashes.json",
+      "sha256": "5C938FC276F0ACF89533ECB5CFED0B9893D8B51A16C5FFA6A526B2304BD55B68"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-portal-family-90-119\\FINDING.md",
+      "sha256": "B00D763D1F4D3C0210889BE0284D73E8B1A52DC4529ADECD83FB1E5BF87E4450"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-portal-family-90-119\\source-hashes.json",
+      "sha256": "5EC824ED7EBE6FD731A9E9C2A08E11805D78963290E98E56C1F1C99C01B6EA61"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-portal-family-review\\review.md",
+      "sha256": "95F76E7B28F21525CE8584049BC832CB785D197ECA451287EB846C8D45CC32FC"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-provider-closure\\full-ray-provider-inventory.md",
+      "sha256": "5B970E9685C73E044F51771CA5FE79F00E4D97984F44E17F82978CB6EF05914E"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-provider-closure\\inventory-row-count-correction.md",
+      "sha256": "A717C149BE0F8301839552B2CEAFCFA6F381B9E7E370FBF230207BAB7703D0C4"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-provider-closure\\product-reconciliation-rebind-r2.md",
+      "sha256": "08C50FC52A0CD4A66DE34586FB21F4D28112ABFA5E65DEAA9FDC7CCBFF73F274"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-provider-closure\\product-reconciliation-rebind.md",
+      "sha256": "6CE87FA59EB4718A58ABF13DD6B6749915717D403B830E76349CBA6B9C81CDE0"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-provider-closure\\ray-cache-correction.md",
+      "sha256": "116A4EB99469D286E883DB0527E6F45D3BF6DBE964825A8AF84E150E771FF1E1"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-provider-closure\\REPORT.md",
+      "sha256": "F153EB353322A38852CEE0B2F32721AEB3C26D28B20FDA10847F9129EEA2FD5F"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-provider-closure\\traversal-order-followup.md",
+      "sha256": "D99E09FBCEBB36D00A8F678334E2CCD1196DBBF5A97B5A5F927DB2BC887CB37A"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-provider-contract-review\\review.md",
+      "sha256": "163B78BC7BA946146EA7740E87E8FD4FBAB4853933F7C8657D80A59630303ABE"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-rail-family-27-28-66-157-review\\review.md",
+      "sha256": "902D453AF5094A168013F68A6DE1EB04B94B7ABAFB2D81122CE578C063072B5F"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-rail-family-27-28-66-157\\report.md",
+      "sha256": "027AAF833B2BE99BEC7456463DA1D870C6AE98A2CCCE13158A94B1AA8F04F5CB"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-rail-family-27-28-66-157\\sources.sha256",
+      "sha256": "C9E63B60F2F32FEDD8A2257B4D0B3D51A9F1C7DE11966F78296BDB7931975846"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-ray-rejected-family-0-51\\FINDING.md",
+      "sha256": "6A6D44D40252867EA9D356FEF9CD62C2CEB4E4E1EFC239E28499E26CA3448703"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-ray-rejected-family-0-51\\source-hashes.json",
+      "sha256": "1FF042A99FCE648D6B6BF8A63AC3C58C503985AE4FE9FDA13B61C26CE1CE20B4"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-ray-rejected-family-review\\review.md",
+      "sha256": "1D33808C3317466DE4D8468ACBF3B60329CBD326FC9D6F32580A5823207AC479"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-redstone-wire-55\\FINDING.md",
+      "sha256": "8B8A99F707BD883686D64539F935F55A6CBE498C236C4278D875AD55BB02455D"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-redstone-wire-55\\source-hashes.json",
+      "sha256": "C677A7F5BF340E4E8DBE7BF96E0F2C2EEE4DCD375E701505DBDED64D57AE1324"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-redstone-wire-review\\review.md",
+      "sha256": "1D7439F0A5F5F8218AED5BEF86DB3F20D325D530D14AEFA8E350F901F3405278"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-sandstone-stairs-128-closure\\report.md",
+      "sha256": "F6C13F520A2B2A02BFA0F2493CCF703A1C0A6CC08AB66AE8D9799290E3A5CE9D"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-sandstone-stairs-128-closure\\sources.sha256",
+      "sha256": "FB7C6826CF1215B0CB640F3ED2A926389DC64F604881FBD3A211F455CCBD8A29"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-sandstone-stairs-128-review\\review.md",
+      "sha256": "8C39EB57A8B406199642E182971C2227B270908082638901E224191FCDD899FC"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-sandstone-stairs-128-review\\review.sha256",
+      "sha256": "93FC99152D4F8AD9C96509E271DC4342C48E8091FA5E79FCFF5FAC92565D2310"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-snow-ice-family-78-79-80\\FINDING.md",
+      "sha256": "7E9AEFE4A4FCE2312A35C938228BF218259B90CA2CC3A57C354DE70B4D467E5F"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-snow-ice-family-78-79-80\\source-hashes.json",
+      "sha256": "017DC539245B423ED5CB4A783CD625BA531A66021E6E0DF03F9E40E25BE02E17"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-snow-ice-family-review\\review.md",
+      "sha256": "28E69F3D96D54585D0B64582573275C3825BBD4E0AFF91DB33A257BDA6CCF7D5"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-stair-family-remaining-53-67-108-109-114-134-136-156-163-164\\FINDING.md",
+      "sha256": "3C7855D790DF2AE0A892C5025A7986C27271DB83FF7FD4B3D2D4FEB72EBDDB34"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-stair-family-remaining-53-67-108-109-114-134-136-156-163-164\\sources.sha256",
+      "sha256": "787EE41DDF408A13787EE7762E327350FAE56448265D53D87F0DD76017FE2E2F"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-stair-family-remaining-review\\REVIEW.md",
+      "sha256": "A89F119B356D8A82C06B34D94163D9A65BEFCB8BCF2DA2332914CF19572BBFD6"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-terrain-solids-1-2-3-7-12-13\\FINDING.md",
+      "sha256": "F75301F1E150D3B3E1EF6C3F43D96905F319A6BEDC14847D6553C05E1CB88FAE"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-terrain-solids-1-2-3-7-12-13\\source-hashes.json",
+      "sha256": "EA031A67CBBD950ED3FE9EB30D605323E17479FEEF1AA2874706D252623CC55A"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-terrain-solids-review\\review.md",
+      "sha256": "AC755395C598D179309DC94919BFF5D6369F56390A677E7B3DF1190E43DB3430"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-torch-family-50-75-76-review\\review.md",
+      "sha256": "527A8217B303F9DA3E80722A6BF928F4E8D9F0F01492C837F31B30287C0738B3"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-torch-family-50-75-76\\FINDING.md",
+      "sha256": "990EBF44C43D88486B03E9CAF17151BCD0512C33AC7BDB57CAE0E18345124FC1"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-torch-family-50-75-76\\source-manifest.json",
+      "sha256": "B750DE5957C54E01525FCDC7F25DBA7F449F01FDC51330B1A38F7B3E08C4F6EF"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-trapdoor-family-96-167-review\\review.md",
+      "sha256": "FC4DBDFE4DD36E92F12A647BF1D117192BFAC713840085AE60E889FD842B4932"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-trapdoor-family-96-167-review\\sources.sha256",
+      "sha256": "11A412EFFBBED015211C51C047FDCE645A7C8DCC6278A856C06F5CD8CB8DBE0C"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-trapdoor-family-96-167\\report.md",
+      "sha256": "691C23ECD2342D08AA43B8FB59CE187B14804DDCC1497C9E37DE56B04B8533A0"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-trapdoor-family-96-167\\sources.sha256",
+      "sha256": "7609D8E9C8DC664A3F6AA211EA32B9C5D047FC1999061A04942C008C4816D1AD"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-tripwire-block-132-review\\review.md",
+      "sha256": "E7D5ED41B8BE55377184A9B8EAF38DAD1E9ED603D65D1780DD433F51FD7AAFEF"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-tripwire-block-132\\FINDING.md",
+      "sha256": "CDF44312119F1AA5C675836205125D6C81CCE190D78D548AE6185B4C66A4990E"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-tripwire-block-132\\source-hashes.json",
+      "sha256": "DA07E4202426747F816A9F2CA8D2F0C27487BF6AC4A6280E49E0D83B10A5021C"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-tripwire-hook-131-closure\\report.md",
+      "sha256": "7EA5C2DAFCF6235E14A7B8F63AD8128E6EEC2FBFE9BCEDF8CFA37662D9302D17"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-tripwire-hook-131-closure\\source-hashes.sha256",
+      "sha256": "2DB580D0911516CEE3E7FC74AE8936FF6A1447CB42859E316445EFA2AE80BC6E"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-tripwire-hook-131-review\\review.md",
+      "sha256": "E47D76B3799CF1FF0ECFA3DA445121ACD68476150DBD205CAEE7DD407976E96A"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-tripwire-hook-131-review\\review.md.sha256",
+      "sha256": "77BA042DA009256D95485110FAAB1424570FF876DB2B4512C976357B1EE3B194"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-weighted-pressure-plates-147-148-review\\review.md",
+      "sha256": "6517EA6860EE5169D6BD3958AE06BD9DB1FE860237E81033BAD2ED2004A51B55"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-weighted-pressure-plates-147-148-review\\review.md.sha256",
+      "sha256": "CABD65616E1A6FECA8BF15CD878776C048B5C3F59C13C9D12E5D9E550EC7DDFE"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-weighted-pressure-plates-147-148\\report.md",
+      "sha256": "7548C739CC3EAB87B9CF59F34139C03DEA5FC5D9FE64F3B55D95BD2CF6700B6B"
+    },
+    {
+      "path": ".native-source\\20261028\\collision-next\\dda-weighted-pressure-plates-147-148\\sources.sha256",
+      "sha256": "A5491FD3B1791F7B9842A6FEAF712464F5ED4F187DE823B900045AEBFD5BC8D2"
+    }
+  ]
+}
