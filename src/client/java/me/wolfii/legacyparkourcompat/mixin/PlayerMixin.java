@@ -94,7 +94,7 @@ abstract class PlayerMixin {
         method = "updateIsUnderwater",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/Entity;isEyeInFluid(Lnet/minecraft/tags/TagKey;)Z"
+            target = "Lnet/minecraft/world/entity/player/Player;isEyeInFluid(Lnet/minecraft/tags/TagKey;)Z"
         )
     )
     private boolean legacyparkourcompat$queryCachedEyeWater(Player player, TagKey<Fluid> fluidTag) {

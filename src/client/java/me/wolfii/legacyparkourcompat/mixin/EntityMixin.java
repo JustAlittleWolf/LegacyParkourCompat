@@ -246,7 +246,7 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
     }
 
     @ModifyReturnValue(method = "getFluidHeight(Lnet/minecraft/tags/TagKey;)D", at = @At("RETURN"))
-    private double legacyparkourcompat$projectWaterFirstLavaDepth(TagKey<Fluid> fluid, double vanilla) {
+    private double legacyparkourcompat$projectWaterFirstLavaDepth(double vanilla, TagKey<Fluid> fluid) {
         Entity entity = (Entity) (Object) this;
         if (fluid.equals(FluidTags.LAVA) && legacyparkourcompat$suppressWaterFirstLavaResult(entity)) {
             return 0.0;
