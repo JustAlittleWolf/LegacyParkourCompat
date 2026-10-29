@@ -1,6 +1,7 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
 import me.wolfii.legacyparkourcompat.mechanic.CollisionAxisOrderContext;
+import me.wolfii.legacyparkourcompat.mechanic.EntityInsideBlocksQueryBoxContext;
 import me.wolfii.legacyparkourcompat.mechanic.FluidCurrentCutoffContext;
 import me.wolfii.legacyparkourcompat.mechanic.PostMoveFluidRefreshContext;
 import me.wolfii.legacyparkourcompat.mechanic.fluid.WaterFirstLavaProjectionContext;
@@ -728,6 +729,12 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/AABB;deflate(D)Lnet/minecraft/world/phys/AABB;")
     )
     private AABB legacyparkourcompat$insideBlockInset(AABB box, double vanilla) {
+        Entity entity = (Entity)(Object)this;
+        // The list-scan scope replaces only this per-segment target box.
+        var sharedQueryBox = EntityInsideBlocksQueryBoxContext.current(entity);
+        if (sharedQueryBox.isPresent()) {
+            return sharedQueryBox.get();
+        }
         if ((Object) this instanceof Player player) {
             return MovementRuntime.find(InsideBlockContactHook.class, player)
                 .map(behavior -> box.deflate(behavior.inset(player, vanilla)))
