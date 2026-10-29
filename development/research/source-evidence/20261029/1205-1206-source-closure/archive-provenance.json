@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "scope": "Bounded official client archive recovery and static movement-resource inventory",
+  "retrievedAtUtc": "2026-10-29T00:13:11.9908185Z",
+  "source": "Mojang piston-meta version JSON and piston-data client JAR URLs",
+  "cachedOfficialVersionManifest": {
+    "path": "D:\\Javastuff\\LegacyParkourCompat\\.minecraft-decompile-cache\\version_manifest_v2.json",
+    "sha256": "ac37f92737df1a9d7660047136fedd3edebd90bd6e552f53ddc3f222079bc8fa",
+    "note": "Its 1.20.6 entry supplied the exact JSON URL and SHA1. Its current 1.20.5 entry is not used because it differs from the historical URL/SHA256 pinned by the 1.20.5 Mojmap provenance."
+  },
+  "survivingArchiveRecords": {
+    "one1205ReadyClientSha256": "49d5949adbb1021a7eb00c1b949f9e39934b10249cbf86d25004774d1b3ff510",
+    "one1206ReadyClientSha256": "02dfd345ac1ad55692d5dbc8486ac7e4fea72cd54ac494a79cd48963048e56b2",
+    "one1205ArtifactManifestSha256": "f2dbd7a2e6c3fb452b0c28c93c9815e43ca24c179815f3d4fca34e484d465bb6",
+    "one1206ArtifactManifestSha256": "e5882622bcf22b3e3c2c96c73843a1308e11e3096f4feefd945ea5808933ce31"
+  },
+  "versions": [
+    {
+      "version": "1.20.5",
+      "versionJson": {
+        "path": "raw/1.20.5.version.json",
+        "id": "1.20.5",
+        "url": "https://piston-meta.mojang.com/v1/packages/90a26a9473aa77e384beadcc6c88a00edd4c9a8d/1.20.5.json",
+        "sha1": "90a26a9473aa77e384beadcc6c88a00edd4c9a8d",
+        "sha256": "d4e0df98325bc46ee023141b21b1230ad6c9266745835867bf6ab3eb1051a9b7"
+      },
+      "clientJar": {
+        "path": "raw/1.20.5.client.jar",
+        "url": "https://piston-data.mojang.com/v1/objects/c6b92b2374a629f20802bb284f98a4ee790e950a/client.jar",
+        "size": 26565623,
+        "metadataSha1": "c6b92b2374a629f20802bb284f98a4ee790e950a",
+        "actualSha1": "c6b92b2374a629f20802bb284f98a4ee790e950a",
+        "expectedSha256": "49d5949adbb1021a7eb00c1b949f9e39934b10249cbf86d25004774d1b3ff510",
+        "actualSha256": "49d5949adbb1021a7eb00c1b949f9e39934b10249cbf86d25004774d1b3ff510",
+        "zipEntryCount": 23402
+      }
+    },
+    {
+      "version": "1.20.6",
+      "versionJson": {
+        "path": "raw/1.20.6.version.json",
+        "id": "1.20.6",
+        "url": null,
+        "sha1": "876ef010b51e9e646712d8322e383a84859d3b39",
+        "sha256": "e25adfd8fe13c23465518b3059b8e44257f3f057425c61cbee5cf1bcd27f53a5"
+      },
+      "clientJar": {
+        "path": "raw/1.20.6.client.jar",
+        "url": "https://piston-data.mojang.com/v1/objects/05b6f1c6b46a29d6ea82b4e0d42190e42402030f/client.jar",
+        "size": 26565641,
+        "metadataSha1": "05b6f1c6b46a29d6ea82b4e0d42190e42402030f",
+        "actualSha1": "05b6f1c6b46a29d6ea82b4e0d42190e42402030f",
+        "expectedSha256": "02dfd345ac1ad55692d5dbc8486ac7e4fea72cd54ac494a79cd48963048e56b2",
+        "actualSha256": "02dfd345ac1ad55692d5dbc8486ac7e4fea72cd54ac494a79cd48963048e56b2",
+        "zipEntryCount": 23402
+      }
+    }
+  ],
+  "resourceInventory": "resource-inventory.tsv",
+  "resourceDiff": "resource-diff.tsv",
+  "resourceEvidence": "resource-evidence.md"
+}

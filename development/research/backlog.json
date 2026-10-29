@@ -2869,6 +2869,108 @@
       },
       "recordLimit": "No movement difference in examined source paths. Transitive effect/equipment/shape/world callback closure and alternate/reentrant/packet-driven responses remain open. No pair freeze or runtime parity.",
       "nextAction": "Reuse these immutable negative slices; inspect remaining in-scope dependencies and full tick inventory before declaring pair complete. No implementation task from this bounded negative result."
+    },
+    {
+      "pair": "1.20.5--1.20.6",
+      "sourceCoverage": "complete for exact vanilla client player-movement Java and packaged tag-resource inventory; frozen20261029",
+      "dependencyClosure": "closed within project client movement scope under equal received/world state; rendering, damage production and server-only inputs excluded",
+      "independentCoverageAudit": {
+        "decision": "ACCEPT Java movement inventory plus independently audited resource gap reassessment",
+        "paths": [
+          {
+            "path": "development/research/source-evidence/20261029/1205-1206-source-closure/java-coverage-audit.md",
+            "rawSha256": "71caecc5e9ee29102234dbd537b9ffe2bf3db2462ddbe426bf94b7c2c7b56dc3",
+            "sha256": "b574d6e34e56e988929ea9d319d5429ecb5f93d4ee5168182c78c6de9ade827f",
+            "normalization": "CRLF to LF only"
+          },
+          {
+            "path": "development/research/source-evidence/20261029/1205-1206-source-closure/resource-closure-reassessment.md",
+            "rawSha256": "21fef34583d5fb518696a9deca03625cc007a06381c55a17a47c7037ab84ea30",
+            "sha256": "29a2bf5bdd7563e7ea98da96d42ec9839b53d2d46b2e51bde453db4a6474f824",
+            "normalization": "CRLF to LF only"
+          },
+          {
+            "path": "development/research/source-evidence/20261029/1205-1206-source-closure/resource-audit.md",
+            "rawSha256": "bb7d164b9fd5976d3f7f63ab9c13e87018bec83498b8f30688437fd7fd01564e",
+            "sha256": "56b7b9083268289acdec1039cc25e626474da8e31ac4318f9cb777ba0b7ea819",
+            "normalization": "CRLF to LF only"
+          }
+        ],
+        "limits": "Source equivalence only; not product completeness or runtime parity"
+      },
+      "sourceFrozen": true,
+      "freezeDecision20261029": {
+        "owner": "root",
+        "reason": "Whole-tree Java manifest comparison and classification of all13 changed/added paths close client code; independently verified536 tag paths per exact archive have zero path/hash changes; independent pair auditor confirms no remaining scoped source/resource gate.",
+        "evidence": [
+          {
+            "path": "development/research/source-evidence/20261029/1205-1206-source-closure/java-coverage-audit.md",
+            "rawSha256": "71caecc5e9ee29102234dbd537b9ffe2bf3db2462ddbe426bf94b7c2c7b56dc3",
+            "sha256": "b574d6e34e56e988929ea9d319d5429ecb5f93d4ee5168182c78c6de9ade827f",
+            "normalization": "CRLF to LF only"
+          },
+          {
+            "path": "development/research/source-evidence/20261029/1205-1206-source-closure/resource-closure-reassessment.md",
+            "rawSha256": "21fef34583d5fb518696a9deca03625cc007a06381c55a17a47c7037ab84ea30",
+            "sha256": "29a2bf5bdd7563e7ea98da96d42ec9839b53d2d46b2e51bde453db4a6474f824",
+            "normalization": "CRLF to LF only"
+          },
+          {
+            "path": "development/research/source-evidence/20261029/1205-1206-source-closure/resource-evidence.md",
+            "rawSha256": "d9c9686b6fae752f3559483b44338b1b8b50db856c49fee74d660e73d49c7ceb",
+            "sha256": "e0a68a7a91a4ea09ff70a221052854c34716d39286096433031825186dd040fe",
+            "normalization": "CRLF to LF only"
+          },
+          {
+            "path": "development/research/source-evidence/20261029/1205-1206-source-closure/resource-audit.md",
+            "rawSha256": "bb7d164b9fd5976d3f7f63ab9c13e87018bec83498b8f30688437fd7fd01564e",
+            "sha256": "56b7b9083268289acdec1039cc25e626474da8e31ac4318f9cb777ba0b7ea819",
+            "normalization": "CRLF to LF only"
+          },
+          {
+            "path": "development/research/source-evidence/20261029/1205-1206-source-closure/resource-provenance-correction.md",
+            "rawSha256": "962497d3ee2515501c59c5842a8fd91527800918dd150ebad0acd5d1a68bd042",
+            "sha256": "962497d3ee2515501c59c5842a8fd91527800918dd150ebad0acd5d1a68bd042",
+            "normalization": "CRLF to LF only"
+          },
+          {
+            "path": "development/research/source-evidence/20261029/1205-1206-source-closure/archive-provenance.json",
+            "rawSha256": "bfdcdbf087fd7aa8f65ceab2fa5374107e7936c00a8e9e61f7d53187f717d19c",
+            "sha256": "3cf30c641e5442673555891ea3d3be959ec99fe3f4d907c1eba1cc124181f4fe",
+            "normalization": "CRLF to LF only"
+          },
+          {
+            "path": "development/research/source-evidence/20261029/1205-1206-source-closure/resource-inventory.tsv",
+            "rawSha256": "08593c7f880645332ac66343297905bc4ffd1d8ac44e2f8ea9c5c379b8e51ce7",
+            "sha256": "c375a3465099ac0d56e83321f1287536c3951fc1820a43c66aea65cbc8eddd4d",
+            "normalization": "CRLF to LF only"
+          },
+          {
+            "path": "development/research/source-evidence/20261029/1205-1206-source-closure/resource-diff.tsv",
+            "rawSha256": "03b69d30ef5d31f1cf96cf67eaa6f18109d5446023b634a3d555e234b38e6eb7",
+            "sha256": "88441881edefa653094f2c432abf4c30fe96803394f6fd0adc8b52282e742126",
+            "normalization": "CRLF to LF only"
+          }
+        ]
+      },
+      "comparedSlices": [
+        "Local input/tick/travel, dimensions, attributes and entity/physics sources: hash-identical.",
+        "Direct packet definitions/handlers and client world update/response roots: hash-identical.",
+        "Block registration/state/shape/callback and collision/query/context/geometry sources: hash-identical outside classified nonmovement block-entity/custom-name changes.",
+        "All13 changed/added Java paths classified metadata, nonplayer/vehicle data migration, server production or nonmovement custom-name handling.",
+        "Both complete Java inventories rehashed:5328/5329 files,5316 equal paths,12 modified,1 added,0 removed.",
+        "Both exact archives independently verified against official metadata and surviving ready/artifact pins.536 scoped tag JSON paths per archive: zero differences."
+      ],
+      "findings": [],
+      "nextAction": "Reuse the source-equivalence closure for V1_20_5 alias1.20.5/.6; do not rediscover this pair. Product implementation and runtime parity remain separate. Reopen only if new scoped evidence invalidates a named coverage assumption.",
+      "runtime": "not run; no parity claim",
+      "limits": [
+        "Source manifests/ready records preserved;1.20.6 batch provenance lacks some individual mapping fields, with recovered client identities independently rebound.",
+        "Original archive-provenance zip count and missing1.20.6 metadata URL corrected by immutable supplement: actual ZIP entries23402/23403.",
+        "No equivalence claim for arbitrary external data packs, differing server-produced inputs, or runtime trajectories.",
+        "Only declared client tag roots need resource comparison; physical shapes/state/effect definitions are code, rendering assets excluded."
+      ],
+      "sourcePreparation": "Read-only ZIP hashing after official downloads in owned lab; sandbox DNS failure was resolved with authorized escalated exact download; no decompilation/game/test/canonical mutation."
     }
   ],
   "productRevision": "17558531421f73e23f82d79d670e17ed5c6a9af2",
