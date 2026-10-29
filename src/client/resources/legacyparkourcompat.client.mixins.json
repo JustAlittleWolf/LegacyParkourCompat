@@ -46,6 +46,7 @@
     "EntityPartialShapeSweepMixin",
     "EntityCallbackTraversalMixin",
     "EntityCallbackBatchMixin",
+    "EntityInsideBlocksQueryBoxMixin",
     "PistonMovingBlockEntityMixin",
     "EntityBlockCallbackSegmentMixin",
     "EntityMovementAccessor",
