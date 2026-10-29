@@ -1,0 +1,8 @@
+# Teleport boundaries suppress an older prediction-position snap
+
+1.21.11, Mojmap: `1.21.11/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java`, `handleMovePlayer`; `prediction/BlockStatePredictionHandler.java`, `endPredictionsUpTo`; `ClientLevel.java`, `syncBlockState`.
+26.1.2, unobfuscated: corresponding members plus `BlockStatePredictionHandler.onTeleport`. Exact 26.1, 26.1.1 and 26.1.2 sources match for the seven audited caller/handler files and methods.
+
+Difference: after applying a position correction and sending its responses, the newer listener records `lastTeleportSequence = currentSequenceNr`. Later prediction reconciliation passes a saved player position to `syncBlockState` only when the acknowledgment sequence is strictly greater than the recorded teleport sequence. At equality or below it passes null. The older handler always passes the saved position. The per-entry acknowledgment eligibility, map removal and authoritative block-state synchronization remain separate operations.
+
+Movement meaning: when a differing authoritative block state collides with the local player, `syncBlockState` can snap the player to that prediction's saved position. The older handler can therefore restore a position from before the teleport, while the newer handler suppresses that stale snap. Block state synchronization still occurs. This is a direct client player-position response, not a server packet producer change; no measured trajectory or runtime parity is claimed. The newer behavior is present at the earliest checked stable 26.1 release; earlier introduction is not established.
