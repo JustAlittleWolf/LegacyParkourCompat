@@ -9,6 +9,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.Optional;
 import java.util.OptionalDouble;
+import java.util.OptionalInt;
 
 /** Historical horizontal wall collision outline, retaining the active vertical extent. */
 @MechanicType("block.wall.horizontal-collision-shape")
@@ -38,5 +39,22 @@ public interface WallCollisionShapeHook extends VersionedMechanic {
         int restoredConnectionMask
     ) {
         return horizontalCollisionShape(state, level, pos, vanillaShape, historicalMaxY);
+    }
+
+    /** Uses a complete selected historical mask when present, otherwise the legacy restored-bit path. */
+    default Optional<VoxelShape> horizontalCollisionShape(
+        BlockState state,
+        BlockGetter level,
+        BlockPos pos,
+        VoxelShape vanillaShape,
+        OptionalDouble historicalMaxY,
+        int restoredConnectionMask,
+        OptionalInt completeHistoricalMask
+    ) {
+        if (completeHistoricalMask.isPresent()) {
+            return Optional.empty();
+        }
+        return horizontalCollisionShape(state, level, pos, vanillaShape, historicalMaxY,
+            restoredConnectionMask);
     }
 }
