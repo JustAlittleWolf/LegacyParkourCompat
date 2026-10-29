@@ -1,0 +1,54 @@
+# Auto-jump gate and reference-point closure: 1.14.4 → 1.15
+
+## Source identity limitation
+
+The requested 1.14.4 Yarn-named source is present at `decompiled_minecraft/1.14.4/.yarn.staging-7231733284413474157/`, including `net/minecraft/client/network/ClientPlayerEntity.java`. This directory contains 3,304 Java files (16,413,636 bytes); the examined `ClientPlayerEntity.java` SHA-256 is `2c9f4be656ebe905e8c7e12071968bd8e411d7c3f12a91079720bfc3d9bcd449`. It has no adjacent ready marker, source manifest, provenance sidecar, or embedded run metadata. Its staging name and contents identify it as a Yarn-mapped source tree, but do not establish the exact publication or raw-input identity. Therefore the 1.14.4 Yarn-side source observations below are conditional on this staging tree and are not independently provenance-pinned.
+
+The published 1.14.4 tree with provenance is `decompiled_minecraft/1.14.4/ornithe-feather/`, not Yarn: `ornithe-feather.provenance.json` identifies namespace `ornithe-feather`, mapping option `feather,mojmap`, mapping artifacts `feather-gen2-1.14.4+build.2-mergedv2.jar` and `feather-gen2-1.14.4+build.2.tiny`, and client SHA-256 `b3b2a798e2d67b566008fe4a03767ae2c7ff3f8c7ba6751e7b71fc7299672d0a`. Its ready marker identifies 3,250 files and source-manifest SHA-256 `717b468536348557f9dae8cf57edccf80ad16eb65e5bef6c60bdb5ea3c9f75bc`. Do not treat those Feather identities as provenance for the Yarn staging tree.
+
+The 1.15 tree is the published Mojmap source at `decompiled_minecraft/1.15/mojmap/`. Its ready marker and provenance identify version 1.15, client SHA-256 `41eee66b4c8e76c018745a63a46a15097cc1c6482c94b38801054938a010b21b`, 3,329 Java files / 17,522,461 bytes, and source-manifest SHA-256 `251a3019ccc3fd067f66365f3545b69a983383a28b19a1038debf1791be29340`. The examined `LocalPlayer.java` SHA-256 is `7227da5233e3c72ced008187b92a6a86842f84778eaa9f40fa1eb117286af823`.
+
+## Reachable caller path
+
+- 1.14.4 staging Yarn: `MinecraftClient.tick()` calls `ClientWorld.tickEntities()` (`net/minecraft/client/MinecraftClient.java:1245-1317`). The regular-entity loop skips mounted entities at its top level, and its entity tick path ticks players (`net/minecraft/client/world/ClientWorld.java:97-153`); passengers are handled through their vehicle path. `LivingEntity.tick()` reaches `tickMovement()` (`net/minecraft/entity/LivingEntity.java:1972`; method begins at 2143). `ClientPlayerEntity.tickMovement()` refreshes input before `super.tickMovement()` (`net/minecraft/client/network/ClientPlayerEntity.java:609-620, 763`); inherited `LivingEntity.tickMovement()` calls virtual `travel(...)` (`net/minecraft/entity/LivingEntity.java:2213-2221`). Player travel reaches movement, and the local override calls `super.move(...)` before `method_3148(actualDx, actualDz)` (`net/minecraft/client/network/ClientPlayerEntity.java:836-840`).
+- 1.15 Mojmap: `Minecraft.tick()` calls `ClientLevel.tickEntities()` (`net/minecraft/client/Minecraft.java:1240-1311`). The client level ticks non-passengers in its main loop and dispatches passengers through the vehicle path (`net/minecraft/client/multiplayer/ClientLevel.java:120-180`). `LivingEntity.tick()` calls virtual `aiStep()` (`net/minecraft/world/entity/LivingEntity.java:2024-2103`); `LocalPlayer.aiStep()` refreshes input before `super.aiStep()` (`net/minecraft/client/player/LocalPlayer.java:624-648, 778`), and inherited living AI reaches virtual travel (`net/minecraft/world/entity/LivingEntity.java:2207-2287`). `LocalPlayer.move()` calls `super.move(...)` before `updateAutoJump(actualDx, actualDz)` (`net/minecraft/client/player/LocalPlayer.java:850-856`).
+
+In both versions, auto-jump eligibility is checked after the movement call. Thus `onGround` is the value visible after `super.move`; its production by collision/move processing is a dependency, not an initial pre-move gate. Detection sets the one-tick auto-jump timer (`field_3934 = 1` at Yarn line 940; `autoJumpTime = 1` at Mojmap line 953). On the next local AI tick the timer is decremented and sets `input.jumping = true` (Yarn `ClientPlayerEntity.java:628-633`; Mojmap `LocalPlayer.java:643-648`).
+
+## Eligibility gates and input reads
+
+| Gate | 1.14.4 Yarn staging (`ClientPlayerEntity.method_3148`) | 1.15 Mojmap (`LocalPlayer.canAutoJump`) |
+|---|---|---|
+| Setting | `getLastAutoJump()`; cached from `options.autoJump` in `sendMovementPackets()` (`ClientPlayerEntity.java:243-244`, 843-849) | `isAutoJumpEnabled()`; cached from `options.autoJump` in `sendPosition()` (`LocalPlayer.java:253-255`, 858-864) |
+| Timer | `field_3934 <= 0`; decremented in local movement AI before travel | `autoJumpTime <= 0`; decremented in local AI before travel |
+| Ground | `onGround` after `super.move` | `onGround` after `super.move` |
+| Sneak/stay-surface | `!isSneaking()`; local override reads `isHoldingSneakKey()`, which is `input != null && input.sneaking` (`ClientPlayerEntity.java:575-580`) | `!isStayingOnGroundSurface()`; `Player.isStayingOnGroundSurface()` delegates to `isShiftKeyDown()` (`Player.java:294-296`), which reads the entity shared flag (`Entity.java:1779-1785`) |
+| Passenger | `!hasVehicle()` | `!isPassenger()` |
+| Nonzero input | `input.getMovementInput()` and either component unequal to `0.0F` (`ClientPlayerEntity.java:850-852`) | `isMoving()` checks `input.getMoveVector()` and either component unequal to `0.0F` (`LocalPlayer.java:972-975`) |
+| Block jump factor | No corresponding predicate in the examined Yarn `method_3148` body | `getBlockJumpFactor() >= 1.0` (`LocalPlayer.java:962-970`) |
+
+The movement-vector zero test is structurally the same. Yarn `Input.getMovementInput()` returns `(movementSideways, movementForward)` (`client/input/Input.java:18-20`); Mojmap `Input.getMoveVector()` returns `(leftImpulse, forwardImpulse)` (`client/player/Input.java:18-20`). The standard keyboard input writes each axis as `-1/0/1`; when its slow-movement condition applies, the corresponding nonzero values are multiplied by `0.3` in Yarn (`KeyboardInput.java:13-25`) or Mojmap (`KeyboardInput.java:13-25`). Local tick input producers differ: Yarn calls `input.tick(isInSneakingPose() || shouldLeaveSwimmingPose(), isSpectator())` (`ClientPlayerEntity.java:616-621`), while Mojmap calls `input.tick(isMovingSlowly())`, where `isMovingSlowly()` is crouching or visually crawling (`LocalPlayer.java:602-603, 632-636`). Item use then scales both axes by `0.2F` when not riding/passenger in each version (`ClientPlayerEntity.java:622-626`; `LocalPlayer.java:637-641`). These scales preserve a nonzero keyboard axis; the gate itself is a test of the post-input vector.
+
+The sneak source changed materially: the old gate reads the current local `Input.sneaking`, while the new gate reads `Entity`'s shared shift bit. The new `Input.shiftKeyDown` is separately filled by `KeyboardInput.tick()` (`KeyboardInput.java:20-24`), but `canAutoJump()` does not read it directly. The exact local-frame update path for the shared bit is not closed here; the server-side shift-flag producer is outside this assignment. Consequently these source predicates must not be collapsed into “both check the current sneak key.” The passenger predicate names differ (`hasVehicle` / `isPassenger`) but both occupy the same negative gate position; vehicle/passenger lifecycle details are outside this closure.
+
+## Reference-point and arithmetic changes
+
+The scan's horizontal inputs remain the actual post-move `dx,dz`, captured around `super.move`; its fallback direction still derives from the nonzero movement vector rotated by yaw when actual horizontal displacement squared is `<= 0.001F`. The subsequent dot-product rejection remains `< -0.15F`; the length reach remains `max(speed * 7.0F, 1.0F / inverseSqrt)`; the scan still expands its candidate box by entity width, offsets its edge lines by `0.51F`, searches obstacle heights against `1.2F` plus `(jumpBoostAmplifier + 1) * 0.75F`, and accepts only rises `> 0.5F` and `<=` that limit.
+
+The vertical reference operands do change in source:
+
+- Yarn constructs the scan's start and moved-end points with `getBoundingBox().y1` (AABB minimum Y) at `ClientPlayerEntity.java:852-853`; Mojmap uses `position()` and `position().add(dx, 0, dz)` at `LocalPlayer.java:864-866`.
+- Both query the block at horizontal player coordinates and bounding-box maximum Y (`ClientPlayerEntity.java:875-880`; `LocalPlayer.java:888-893`).
+- In the obstacle-height early return and final rise calculation, Yarn subtracts `getBoundingBox().y1` (`ClientPlayerEntity.java:918-920, 937-940`); Mojmap subtracts `getY()` (`LocalPlayer.java:931-934, 950-953`).
+
+These are changes from AABB-bottom reads to entity-position Y reads. This report does not establish their equality through every pose/dimension/collision state, so it records the operand change without asserting a numeric trajectory delta.
+
+## Dependencies left outside this closure
+
+- `getBlockJumpFactor()` reads the block at `new BlockPos(this)` and, when that block's factor equals `1.0`, the block returned by `getBlockPosBelowThatAffectsMyMovement()` (`Entity.java:584-602`). That helper samples `boundingBox.minY - 0.5000001`. The gate therefore depends on current/support block position and `Block.getJumpFactor` values. Full block registration/provider comparison and old-side factor inventory were not done; no producer inventory or old/new block applicability claim follows.
+- The auto-jump obstacle scan calls `CollisionContext.of(this)`, `getCollisionShape(...)`, `level/world.getCollisions(...)`, flattens voxel shapes to AABBs, intersects two edge lines, then probes further collision shapes (`ClientPlayerEntity.java:874-929`; `LocalPlayer.java:887-942`). Collision iteration, shape-provider aggregation, shape contexts, support/ground production, and all provider behavior remain outside this closure as assigned.
+- The `isStayingOnGroundSurface()` shared-flag write/receive chain, exact `onGround` producer in `Entity.move`, non-keyboard input implementations, pose/dimension transitions that might separate entity Y from bounding-box minY, and any trajectory outcome are not closed here.
+
+## Bounded conclusion
+
+Conditional on the unprovenanced 1.14.4 Yarn staging tree, the auto-jump gate adds two 1.15 exclusions: staying on the ground surface (shared shift flag) and block jump factor below `1.0`. It retains enabled/timer/on-ground/passenger/nonzero-movement checks, though the sneak gate reads a different state source. Scan reference Y changes from bounding-box minY to entity position Y in candidate points and rise comparisons; obstacle top probing remains based on bounding-box maxY. This closes only the local gate and its immediate call/input/reference reads, not provenance acceptance, collision/provider dependencies, or whole-pair coverage.

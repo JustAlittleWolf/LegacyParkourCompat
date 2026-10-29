@@ -1,0 +1,34 @@
+# Independent source-only audit: 1.21.10–26.2 player-chunk readiness
+
+## Verdict
+
+**Pass.** I independently retraced the reported readiness predicates and 26.2 callback caller chain against the canonical ready source trees. The report accurately says that 26.2 `WaitingForPlayerChunk.isReady()` does not read `cameraRenderState.blockPos`; the renderer reads that field to decide whether to invoke the callback. Callback invocation remains gated by `isSectionCompiledAndVisible(...)`. No source-level correction is needed for the bounded claims audited here.
+
+The audit is bound to `.native-source/20261028/frontier-c/12110-262-player-chunk-readiness-closure/report.md`, whose recomputed SHA-256 is `ff75dfeed8bc8a50a0771c7fdfb00ee68d6a2b33cc47e95828cddfb58c83faa1`, matching the supplied identity and `report.sha256`.
+
+## Source identities and hashes
+
+I read the canonical, read-only source roots at `D:\Javastuff\LegacyParkourCompat\decompiled_minecraft`. Each of the six release ready markers says `ready`, has the requested exact `versionId` and mapping family, and declares the same `sourceFileCount` as the report. I recomputed each complete `*.sources.sha256` manifest digest; all six match both their ready-marker value and the report:
+
+| Release | Mapping | Files | Recomputed source-manifest SHA-256 |
+|---|---|---:|---|
+| 1.21.10 | Mojmap | 6,386 | `4be26049350c1b314a0b198022cb1e7ab1e745e104047de7a5c7d099a9d7b7e1` |
+| 1.21.11 | Mojmap | 6,622 | `0c4d83fef84c101d9db88f331acec7960f3c8346228c28995e6cf57bbfcae555` |
+| 26.1 | Published unobfuscated | 6,882 | `b77289c135ac6e12aa35e75177cea52d968f49d49e1ec745e510b1a786c9aeba` |
+| 26.1.1 | Published unobfuscated | 6,882 | `88afdfb8264842713f8cce86c0bf88e95c2c991ee706349d6ed8b6c22d52fcb3` |
+| 26.1.2 | Published unobfuscated | 6,882 | `54ae320660ca911a6d20514c965c33eb414fbedd1ad6727bbaa95fe906aa23c0` |
+| 26.2 | Published unobfuscated | 7,055 | `a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894` |
+
+Ready markers and provenance sidecars confirm Mojmap's 1.21.8/1.21.10/1.21.11 batch; 26.1 and 26.1.1's shared unobfuscated batch with each requested/resolved metadata ID matching; and separate exact-release runs for 26.1.2 and 26.2. The client artifact SHA-256 values printed in the report match ready metadata for 1.21.10, 1.21.11, and 26.1 through 26.1.2. The 26.2 ready/provenance metadata declares no client SHA-256, as the report explicitly records.
+
+I recomputed every Java-file SHA-256 in the report's cited-file tables and the listed additional 26.2 caller-chain files. They match the report, and each cited digest/path pair matches its endpoint's source-manifest row. This includes the repeated identical readiness/client-listener/player/renderer bytes for 26.1, 26.1.1 and 26.1.2.
+
+## Predicate and caller-chain audit
+
+- **1.21.10:** `LevelLoadTracker.WaitingForPlayerChunk.isReady()` checks timeout first, then for an alive, non-spectator player within build height calls `levelRenderer.isSectionCompiled(player.blockPosition())` (`mojmap/net/minecraft/client/multiplayer/LevelLoadTracker.java:118–126`). The renderer predicate accepts an existing section whose mesh is not `UNCOMPILED`; this endpoint has no visibility threshold in this call.
+- **1.21.11:** the same player-position and player-state/build-height gates now call `isSectionCompiledAndVisible(playerPos)` (`mojmap/net/minecraft/client/multiplayer/LevelLoadTracker.java:114–123`). The renderer additionally requires evaluated visibility `>= 0.3F`. I verified the same player-position predicate and threshold-bearing renderer method in 26.1, 26.1.1 and 26.1.2; the cited tracker, listener, player and renderer files are byte-identical across those three endpoint manifests.
+- **26.2 tracker:** after `loadingPacketsReceived()`, `WaitingForServer` creates `WaitingForPlayerChunk` with a fresh `AtomicBoolean` (`unobfuscated/net/minecraft/client/multiplayer/LevelLoadTracker.java:139–143`). While that wait state is current, `getPlayerCompiledSectionCallback()` returns a `Runnable` that sets its flag (`:96–100`). `isReady()` itself checks timeout, then obtains `player.blockPosition()` and `Minecraft.getInstance().gameRenderer.mainCamera().blockPosition()`; outside-build-height for either Y, spectator status or death bypasses waiting, while the ordinary case reads only `playerSectionReady.get()` (`:122–134`). It does not mention or access `cameraRenderState.blockPos`.
+- **Callback invocation gate:** `ClientPacketListener.getPlayerCompiledSectionCallback()` delegates to the tracker while it exists (`unobfuscated/net/minecraft/client/multiplayer/ClientPacketListener.java:2808–2809`). `LevelExtractor.extract()` copies the callback into `LevelRenderState.playerCompiledSectionCallback` (`renderer/extract/LevelExtractor.java:207–210`). `GameRenderer.extract()` calls camera and level extraction, and camera extraction stores `mainCamera` render-state data (`renderer/GameRenderer.java:397–408, 646–649`); `Camera.extractRenderState()` sets `cameraState.blockPos = this.blockPosition()` (`Camera.java:124–128`). In `LevelRenderer.render()`, callback execution is conditional on both a non-null callback and `isSectionCompiledAndVisible(this.levelRenderState.cameraRenderState.blockPos)` (`renderer/LevelRenderer.java:270–273`). That method maps the supplied block position to its render section and requires a compiled mesh plus visibility `>= 0.3F` (`:898–907`). Thus renderer visibility remains the actual callback invocation gate, using the camera render-state coordinate. The tracker separately uses the current main camera block position only for its build-height bypass.
+- **Local-player consumer:** 26.2 `LocalPlayer.tick()` executes `super.tick()`, input handling and movement packet code only inside `connection.hasClientLoaded()` (`player/LocalPlayer.java:227–251`). The readiness callback is not called directly from this method. `ClientPacketListener.tick()` advances the tracker, checks `isLevelReady()`, notifies the player and clears the tracker (`multiplayer/ClientPacketListener.java:2772–2809`); notification sends the loaded packet and sets the client-loaded state (`:2801–2805`). These source relationships support the report's separation between tracker readiness and the local tick gate without implying runtime scheduling.
+
+The reviewed comparison supports the report's bounded transition: compiled-only/player-position at 1.21.10; compiled-and-visible/player-position at 1.21.11 through 26.1.2; and, at 26.2, a tracker flag whose producer is released by compiled-and-visible/camera-render-state-position, with independent player and current-camera build-height checks in the tracker. This is a source-path conclusion only; it says nothing about actual camera/player separation, frame or tick timing, rendered output, or a movement trajectory.
