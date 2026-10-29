@@ -1,0 +1,28 @@
+{
+  "scope": "Old 1.8.9 trapped chest ID 146 source closure; current 26.2 trapped chest provider",
+  "canonicalRoots": {
+    "old": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.8.9\\ornithe-feather",
+    "current": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\26.2\\unobfuscated"
+  },
+  "manifestDigests": {
+    "oldSourcesSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004",
+    "oldReadySha256": "fe0ec792349ae43c91d0a30f23660c94b2f5c8d31a29643f73ed0de367110b95",
+    "oldProvenanceSha256": "ba066fc8f1c7ceb9819d2106338d9e9f2c2b96eb5a8329eb40e171b1f9889185",
+    "currentSourcesSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894",
+    "currentReadySha256": "f9406adb6bf7cb4c1ab0792a798ab2cb90e082ad4c2eee032c9f674d0ea8070f",
+    "currentProvenanceSha256": "a328f5333a1b27aadde4422b23159a323ae219ccd26f11207c1a5461366f27d1"
+  },
+  "sources": [
+    {"release":"1.8.9","path":"net/minecraft/block/Block.java","sha256":"ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528","manifestVerified":true},
+    {"release":"1.8.9","path":"net/minecraft/block/ChestBlock.java","sha256":"8072bc317398297d1327a3be4edd8a66381a1a1021a6c4a8f3fbeebca2891d51","manifestVerified":true},
+    {"release":"1.8.9","path":"net/minecraft/world/World.java","sha256":"3c04f5b874fbb6692039164c882a3c47fe28c7eca864e91c9ac57798153888ee","manifestVerified":true},
+    {"release":"1.8.9","path":"net/minecraft/entity/Entity.java","sha256":"d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b","manifestVerified":true},
+    {"release":"26.2","path":"net/minecraft/references/BlockItemIds.java","sha256":"d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6","manifestVerified":true},
+    {"release":"26.2","path":"net/minecraft/util/datafix/fixes/ItemIdFix.java","sha256":"bb6d7f9956fd974ba876dd66e0a5ca81a3ec3828e1dc2e6e92da17a6e47d86c6","manifestVerified":true},
+    {"release":"26.2","path":"net/minecraft/world/level/block/Blocks.java","sha256":"f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435","manifestVerified":true},
+    {"release":"26.2","path":"net/minecraft/world/level/block/TrappedChestBlock.java","sha256":"a6ed8870a4f2989c2a78d01aaa55466ce18fdfb3bdeebe21e6a4b6d62e798f9a","manifestVerified":true},
+    {"release":"26.2","path":"net/minecraft/world/level/block/ChestBlock.java","sha256":"8be5c44fe3e8b5c9f529f58e0e3694a7ce1590a1957c31b72cbec7b97e061d22","manifestVerified":true},
+    {"release":"26.2","path":"net/minecraft/world/level/block/state/BlockBehaviour.java","sha256":"9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e","manifestVerified":true},
+    {"release":"26.2","path":"net/minecraft/util/datafix/fixes/BlockStateData.java","sha256":"6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4","manifestVerified":true}
+  ]
+}

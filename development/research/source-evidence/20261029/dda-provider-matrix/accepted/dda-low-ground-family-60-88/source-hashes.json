@@ -1,0 +1,90 @@
+{
+  "releases": [
+    {
+      "manifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004",
+      "version": "1.8.9",
+      "provenanceSha256": "ba066fc8f1c7ceb9819d2106338d9e9f2c2b96eb5a8329eb40e171b1f9889185",
+      "mapping": "ornithe-feather",
+      "readySha256": "fe0ec792349ae43c91d0a30f23660c94b2f5c8d31a29643f73ed0de367110b95",
+      "files": [
+        {
+          "matchesManifest": true,
+          "sha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+          "manifestSha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+          "path": "net/minecraft/block/Block.java"
+        },
+        {
+          "matchesManifest": true,
+          "sha256": "0d5c03d8706d7b3ef2091c1bf640f64807d173689fb76245603a7ab56af65271",
+          "manifestSha256": "0d5c03d8706d7b3ef2091c1bf640f64807d173689fb76245603a7ab56af65271",
+          "path": "net/minecraft/block/FarmlandBlock.java"
+        },
+        {
+          "matchesManifest": true,
+          "sha256": "10988504552e0b699d99fa19f17acadf9ccd32d5ec886c6432d35c96407dedcc",
+          "manifestSha256": "10988504552e0b699d99fa19f17acadf9ccd32d5ec886c6432d35c96407dedcc",
+          "path": "net/minecraft/block/SoulSandBlock.java"
+        }
+      ]
+    },
+    {
+      "manifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894",
+      "version": "26.2",
+      "provenanceSha256": "a328f5333a1b27aadde4422b23159a323ae219ccd26f11207c1a5461366f27d1",
+      "mapping": "unobfuscated",
+      "readySha256": "f9406adb6bf7cb4c1ab0792a798ab2cb90e082ad4c2eee032c9f674d0ea8070f",
+      "files": [
+        {
+          "matchesManifest": true,
+          "sha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6",
+          "manifestSha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6",
+          "path": "net/minecraft/references/BlockItemIds.java"
+        },
+        {
+          "matchesManifest": true,
+          "sha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+          "manifestSha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+          "path": "net/minecraft/world/level/block/Blocks.java"
+        },
+        {
+          "matchesManifest": true,
+          "sha256": "f4d901177b6b2d617ffa76f8bbb856465754974130b3306e2f3cf6137e4e100e",
+          "manifestSha256": "f4d901177b6b2d617ffa76f8bbb856465754974130b3306e2f3cf6137e4e100e",
+          "path": "net/minecraft/world/level/block/FarmlandBlock.java"
+        },
+        {
+          "matchesManifest": true,
+          "sha256": "6be030c181dd96298c219e6001eb69f05468531c22cbab0df2b7a066df74a9fc",
+          "manifestSha256": "6be030c181dd96298c219e6001eb69f05468531c22cbab0df2b7a066df74a9fc",
+          "path": "net/minecraft/world/level/block/SoulSandBlock.java"
+        },
+        {
+          "matchesManifest": true,
+          "sha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+          "manifestSha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+          "path": "net/minecraft/world/level/block/state/BlockBehaviour.java"
+        },
+        {
+          "matchesManifest": true,
+          "sha256": "c6e4b49663a09110e96a3b51628f92defd83da9267a5d569a8ac8fc0c8893cd0",
+          "manifestSha256": "c6e4b49663a09110e96a3b51628f92defd83da9267a5d569a8ac8fc0c8893cd0",
+          "path": "net/minecraft/world/level/block/state/properties/BlockStateProperties.java"
+        },
+        {
+          "matchesManifest": true,
+          "sha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+          "manifestSha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+          "path": "net/minecraft/util/datafix/fixes/BlockStateData.java"
+        },
+        {
+          "matchesManifest": true,
+          "sha256": "0fcc8e6410ef74e079eff315cde571b490ee0342a7c573e61d7e6c528826a778",
+          "manifestSha256": "0fcc8e6410ef74e079eff315cde571b490ee0342a7c573e61d7e6c528826a778",
+          "path": "net/minecraft/util/datafix/fixes/EntityBlockStateFix.java"
+        }
+      ]
+    }
+  ],
+  "schema": 1,
+  "purpose": "Source hashes and canonical identity bindings for low-ground collision family ID60 farmland and ID88 soul_sand"
+}
