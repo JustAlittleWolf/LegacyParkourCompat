@@ -10,6 +10,7 @@
     "EntityLavaPresenceMixin",
     "EntityFallDamageMixin",
     "EntityFallDistanceMixin",
+    "client.LevelLoadTrackerReadinessMixin",
     "LivingEntitySprintJumpTrigMixin"
   ],
   "injectors": {
