@@ -1,0 +1,148 @@
+{
+  "sourceTrees": [
+    {
+      "sourceManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004",
+      "readyMarkerSha256": "fe0ec792349ae43c91d0a30f23660c94b2f5c8d31a29643f73ed0de367110b95",
+      "mapping": "ornithe-feather",
+      "release": "1.8.9"
+    },
+    {
+      "sourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894",
+      "readyMarkerSha256": "f9406adb6bf7cb4c1ab0792a798ab2cb90e082ad4c2eee032c9f674d0ea8070f",
+      "mapping": "unobfuscated",
+      "release": "26.2"
+    }
+  ],
+  "purpose": "canonical source evidence for ID101 neighbor-admission supplement",
+  "schema": 1,
+  "files": [
+    {
+      "bytes": 58756,
+      "path": "net/minecraft/block/Block.java",
+      "actualSha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+      "manifestSha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+      "release": "1.8.9",
+      "mapping": "ornithe-feather"
+    },
+    {
+      "bytes": 6032,
+      "path": "net/minecraft/block/PaneBlock.java",
+      "actualSha256": "f099cdc306c365b73632fc703f72b61bc6b304cb5df06c43234965f89e28de61",
+      "manifestSha256": "f099cdc306c365b73632fc703f72b61bc6b304cb5df06c43234965f89e28de61",
+      "release": "1.8.9",
+      "mapping": "ornithe-feather"
+    },
+    {
+      "bytes": 5098,
+      "path": "net/minecraft/block/FenceBlock.java",
+      "actualSha256": "8d6a803988d77fc51f364520f2e0cd5567b1d5c29a4d28d01cdcf93e6d5890d9",
+      "manifestSha256": "8d6a803988d77fc51f364520f2e0cd5567b1d5c29a4d28d01cdcf93e6d5890d9",
+      "release": "1.8.9",
+      "mapping": "ornithe-feather"
+    },
+    {
+      "bytes": 6136,
+      "path": "net/minecraft/block/FenceGateBlock.java",
+      "actualSha256": "43749004a2826051c627c794f72db705283df26e1810d8b4a7a78205ac974d2c",
+      "manifestSha256": "43749004a2826051c627c794f72db705283df26e1810d8b4a7a78205ac974d2c",
+      "release": "1.8.9",
+      "mapping": "ornithe-feather"
+    },
+    {
+      "bytes": 6536,
+      "path": "net/minecraft/block/WallBlock.java",
+      "actualSha256": "e1fca4e4dbb7736d17116e4dee92064d35f7bf135da374dae0615e89216aca5e",
+      "manifestSha256": "e1fca4e4dbb7736d17116e4dee92064d35f7bf135da374dae0615e89216aca5e",
+      "release": "1.8.9",
+      "mapping": "ornithe-feather"
+    },
+    {
+      "bytes": 27309,
+      "path": "net/minecraft/world/level/block/Block.java",
+      "actualSha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab",
+      "manifestSha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab",
+      "release": "26.2",
+      "mapping": "unobfuscated"
+    },
+    {
+      "bytes": 5127,
+      "path": "net/minecraft/world/level/block/IronBarsBlock.java",
+      "actualSha256": "b8d8467db13454fc5cd24c95827172b8550d5cba3d51930ba8b240b960606e54",
+      "manifestSha256": "b8d8467db13454fc5cd24c95827172b8550d5cba3d51930ba8b240b960606e54",
+      "release": "26.2",
+      "mapping": "unobfuscated"
+    },
+    {
+      "bytes": 5715,
+      "path": "net/minecraft/world/level/block/CrossCollisionBlock.java",
+      "actualSha256": "dcd2dbbcd093a68dee4ee282e5f3101c519d633f3f173dd33383bd4b548c1ba5",
+      "manifestSha256": "dcd2dbbcd093a68dee4ee282e5f3101c519d633f3f173dd33383bd4b548c1ba5",
+      "release": "26.2",
+      "mapping": "unobfuscated"
+    },
+    {
+      "bytes": 5875,
+      "path": "net/minecraft/world/level/block/FenceBlock.java",
+      "actualSha256": "be5e1aa19a07d68457ff21968fb4e264669588fb6e83a86a6f51e76833f17f93",
+      "manifestSha256": "be5e1aa19a07d68457ff21968fb4e264669588fb6e83a86a6f51e76833f17f93",
+      "release": "26.2",
+      "mapping": "unobfuscated"
+    },
+    {
+      "bytes": 10322,
+      "path": "net/minecraft/world/level/block/FenceGateBlock.java",
+      "actualSha256": "0a98db4316efae2e8450c7d8afe496ed45fa5ee9cddb8bd27359d15c355471e3",
+      "manifestSha256": "0a98db4316efae2e8450c7d8afe496ed45fa5ee9cddb8bd27359d15c355471e3",
+      "release": "26.2",
+      "mapping": "unobfuscated"
+    },
+    {
+      "bytes": 15100,
+      "path": "net/minecraft/world/level/block/WallBlock.java",
+      "actualSha256": "b2bcd69d81e5a19a21eb50e7e5ac259269aca3871cec5899caef03ff4507a9c7",
+      "manifestSha256": "b2bcd69d81e5a19a21eb50e7e5ac259269aca3871cec5899caef03ff4507a9c7",
+      "release": "26.2",
+      "mapping": "unobfuscated"
+    },
+    {
+      "bytes": 23110,
+      "path": "net/minecraft/tags/BlockTags.java",
+      "actualSha256": "9834ecbe2facd79cf3d9fc79babd452ed0e000684029b2bb5e9f90aa4f51529e",
+      "manifestSha256": "9834ecbe2facd79cf3d9fc79babd452ed0e000684029b2bb5e9f90aa4f51529e",
+      "release": "26.2",
+      "mapping": "unobfuscated"
+    },
+    {
+      "bytes": 276893,
+      "path": "net/minecraft/world/level/block/Blocks.java",
+      "actualSha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+      "manifestSha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+      "release": "26.2",
+      "mapping": "unobfuscated"
+    },
+    {
+      "bytes": 830662,
+      "path": "net/minecraft/util/datafix/fixes/BlockStateData.java",
+      "actualSha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+      "manifestSha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+      "release": "26.2",
+      "mapping": "unobfuscated"
+    },
+    {
+      "bytes": 18837,
+      "path": "net/minecraft/util/datafix/fixes/EntityBlockStateFix.java",
+      "actualSha256": "0fcc8e6410ef74e079eff315cde571b490ee0342a7c573e61d7e6c528826a778",
+      "manifestSha256": "0fcc8e6410ef74e079eff315cde571b490ee0342a7c573e61d7e6c528826a778",
+      "release": "26.2",
+      "mapping": "unobfuscated"
+    },
+    {
+      "release": "26.2",
+      "mapping": "unobfuscated",
+      "path": "net/minecraft/world/level/block/WeatheringCopperBarsBlock.java",
+      "manifestSha256": "29ade3e84c69d0ce7aff8116b4a863f650af22feda0a55d0bfba5ab70812f904",
+      "actualSha256": "29ade3e84c69d0ce7aff8116b4a863f650af22feda0a55d0bfba5ab70812f904",
+      "bytes": 1616
+    }
+  ]
+}

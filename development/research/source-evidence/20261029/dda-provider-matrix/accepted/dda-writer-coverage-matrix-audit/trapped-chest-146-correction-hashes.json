@@ -1,0 +1,46 @@
+[
+  {
+    "path": ".native-source\\20261028\\collision-next\\dda-writer-coverage-matrix-audit\\report.md",
+    "sha256": "f9905e2f93b0c53c330edcea37742576bf370f00f4452ca1f0fdac1cdd1507c2"
+  },
+  {
+    "path": ".native-source\\20261028\\collision-next\\dda-writer-coverage-matrix-audit\\artifact-hashes.json",
+    "sha256": "f67c8d984a33ccb233f43ccf748eaa2a4604eaf9955ce6295482491ec33edccb"
+  },
+  {
+    "path": ".native-source\\20261028\\collision-next\\dda-writer-coverage-matrix-audit\\report.sha256",
+    "sha256": "bbc351a64ee1899989a9011ec70f1267d800d97dbc1cce358ae5d2c563eed2c6"
+  },
+  {
+    "path": ".native-source\\20261028\\collision-next\\dda-writer-coverage-matrix-audit\\default-provider-rebind.md",
+    "sha256": "06d73bf1830e0e0f3e1c25dce2e0d1300a1dd24cf6e60ced68edd71d9b7ed53d"
+  },
+  {
+    "path": ".native-source\\20261028\\collision-next\\dda-writer-coverage-matrix-audit\\default-provider-rebind-hashes.json",
+    "sha256": "f2699e75560adc9e1f747b2fd97438da0a0e1582429013391ea039dad513d500"
+  },
+  {
+    "path": ".native-source\\20261028\\collision-next\\dda-writer-coverage-matrix-audit\\default-provider-rebind.sha256",
+    "sha256": "29666f9777899808138f02545f2dd5d977d6faa6f3a4138e2578b9ec75320d4d"
+  },
+  {
+    "path": ".native-source\\20261028\\collision-next\\dda-writer-coverage-matrix-review\\review.md",
+    "sha256": "c5463a292be0b95959d997ef5715d38ee65e1cb1fb33c9c5f1d7886f20df74a5"
+  },
+  {
+    "path": ".native-source\\20261028\\collision-next\\dda-writer-coverage-matrix-review\\rebind-review.md",
+    "sha256": "9a8b2d0b29f8ba87a341b05eccb69c5ada8a29d999c87b57b27da351d3e4a4dd"
+  },
+  {
+    "path": ".native-source\\20261028\\collision-next\\dda-trapped-chest-146\\FINDING.md",
+    "sha256": "17797220c2393bb817f752f9438a94c388a76d5f7fb35b2ae827d4fbacf73924"
+  },
+  {
+    "path": ".native-source\\20261028\\collision-next\\dda-trapped-chest-146\\source-hashes.json",
+    "sha256": "128a556c880a58938397c96fff807a20b6f9c61b3a90d8af48148cf5ffe01575"
+  },
+  {
+    "path": ".native-source\\20261028\\collision-next\\dda-trapped-chest-146-review\\REVIEW.md",
+    "sha256": "69361cdf0ff12fcddd4118e4094f0113df9679e82d2014425e2fcea652d6eb16"
+  }
+]

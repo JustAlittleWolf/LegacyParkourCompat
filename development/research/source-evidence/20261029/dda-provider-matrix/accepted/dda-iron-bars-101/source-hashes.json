@@ -1,0 +1,84 @@
+{
+  "sources": [
+    {
+      "sourceManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004",
+      "release": "1.8.9",
+      "mapping": "ornithe-feather",
+      "readyMarkerSha256": "fe0ec792349ae43c91d0a30f23660c94b2f5c8d31a29643f73ed0de367110b95"
+    },
+    {
+      "sourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894",
+      "release": "26.2",
+      "mapping": "unobfuscated",
+      "readyMarkerSha256": "f9406adb6bf7cb4c1ab0792a798ab2cb90e082ad4c2eee032c9f674d0ea8070f"
+    }
+  ],
+  "files": [
+    {
+      "actualSha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+      "bytes": 58756,
+      "mapping": "ornithe-feather",
+      "expectedManifestSha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528",
+      "release": "1.8.9",
+      "relativePath": "net/minecraft/block/Block.java"
+    },
+    {
+      "actualSha256": "f099cdc306c365b73632fc703f72b61bc6b304cb5df06c43234965f89e28de61",
+      "bytes": 6032,
+      "mapping": "ornithe-feather",
+      "expectedManifestSha256": "f099cdc306c365b73632fc703f72b61bc6b304cb5df06c43234965f89e28de61",
+      "release": "1.8.9",
+      "relativePath": "net/minecraft/block/PaneBlock.java"
+    },
+    {
+      "actualSha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6",
+      "bytes": 71959,
+      "mapping": "unobfuscated",
+      "expectedManifestSha256": "d9d57f2f04801da5d8d583c23b87b08f45d8b6c681980d1a77308753c801bac6",
+      "release": "26.2",
+      "relativePath": "net/minecraft/references/BlockItemIds.java"
+    },
+    {
+      "actualSha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+      "bytes": 276893,
+      "mapping": "unobfuscated",
+      "expectedManifestSha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+      "release": "26.2",
+      "relativePath": "net/minecraft/world/level/block/Blocks.java"
+    },
+    {
+      "actualSha256": "b8d8467db13454fc5cd24c95827172b8550d5cba3d51930ba8b240b960606e54",
+      "bytes": 5127,
+      "mapping": "unobfuscated",
+      "expectedManifestSha256": "b8d8467db13454fc5cd24c95827172b8550d5cba3d51930ba8b240b960606e54",
+      "release": "26.2",
+      "relativePath": "net/minecraft/world/level/block/IronBarsBlock.java"
+    },
+    {
+      "actualSha256": "dcd2dbbcd093a68dee4ee282e5f3101c519d633f3f173dd33383bd4b548c1ba5",
+      "bytes": 5715,
+      "mapping": "unobfuscated",
+      "expectedManifestSha256": "dcd2dbbcd093a68dee4ee282e5f3101c519d633f3f173dd33383bd4b548c1ba5",
+      "release": "26.2",
+      "relativePath": "net/minecraft/world/level/block/CrossCollisionBlock.java"
+    },
+    {
+      "actualSha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+      "bytes": 830662,
+      "mapping": "unobfuscated",
+      "expectedManifestSha256": "6196f9039890d5f67b59cb372ec06da987e8a5ea80b49fd8bee9eeca0a1784a4",
+      "release": "26.2",
+      "relativePath": "net/minecraft/util/datafix/fixes/BlockStateData.java"
+    },
+    {
+      "actualSha256": "0fcc8e6410ef74e079eff315cde571b490ee0342a7c573e61d7e6c528826a778",
+      "bytes": 18837,
+      "mapping": "unobfuscated",
+      "expectedManifestSha256": "0fcc8e6410ef74e079eff315cde571b490ee0342a7c573e61d7e6c528826a778",
+      "release": "26.2",
+      "relativePath": "net/minecraft/util/datafix/fixes/EntityBlockStateFix.java"
+    }
+  ],
+  "scope": "iron bars old numeric block ID 101",
+  "schema": 1
+}
