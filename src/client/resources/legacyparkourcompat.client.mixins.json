@@ -59,7 +59,6 @@
     "ShulkerMixin",
     "accessor.EntityInvoker",
     "accessor.EntityVisitedBlocksAccessor",
-    "accessor.EntityCallbackFinalizerAccessor",
     "accessor.AbstractCauldronBlockAccessor",
     "EntityFluidCurrentMixin",
     "fluid.FlowingFluidMixin",
