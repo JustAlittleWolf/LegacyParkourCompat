@@ -4,17 +4,13 @@ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
 import me.wolfii.legacyparkourcompat.mechanic.hook.callback.SweptBlockResponseHook;
-import me.wolfii.legacyparkourcompat.mixin.accessor.AbstractCauldronBlockAccessor;
-import me.wolfii.legacyparkourcompat.mixin.accessor.BaseFireBlockAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.AbstractCauldronBlock;
 import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.HoneyBlock;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
@@ -46,13 +42,14 @@ public final class SynchronousBlockResponses implements SweptBlockResponseHook {
             return true;
         }
 
-        if (block instanceof BaseFireBlock fire) {
-            applyFire((BaseFireBlockAccessor) fire, level, entity);
+        if (block instanceof BaseFireBlock) {
+            applyFire(level, entity);
             return true;
         }
 
-        if (block instanceof LavaCauldronBlock cauldron) {
-            applyLavaCauldron((AbstractCauldronBlock) cauldron, state, pos, entity);
+        if (block instanceof LavaCauldronBlock) {
+            // The old callback's only response is lavaHurt; damage is outside movement scope.
+            // Suppress modern typed effects, which have no old callback counterpart.
             return true;
         }
 
@@ -75,9 +72,9 @@ public final class SynchronousBlockResponses implements SweptBlockResponseHook {
         return true;
     }
 
-    private static void applyFire(BaseFireBlockAccessor fire, Level level, Entity entity) {
-        // 1.21.2/1.21.3 Mojmap and 26.2 unobfuscated BaseFireBlock.entityInside; read the
-        // per-block fireDamage value to retain the callback's exact hurt amount.
+    private static void applyFire(Level level, Entity entity) {
+        // 1.21.2/1.21.3 Mojmap BaseFireBlock.entityInside updates the timer and ignites inline.
+        // Preserve that movement response; its hurt call is outside the project's damage scope.
         if (!entity.fireImmune()) {
             if (entity.getRemainingFireTicks() < 0) {
                 entity.setRemainingFireTicks(entity.getRemainingFireTicks() + 1);
@@ -89,18 +86,6 @@ public final class SynchronousBlockResponses implements SweptBlockResponseHook {
             if (entity.getRemainingFireTicks() >= 0) {
                 entity.igniteForSeconds(8.0F);
             }
-        }
-
-        DamageSource inFire = level.damageSources().inFire();
-        entity.hurt(inFire, fire.legacyParkourCompat$fireDamage());
-    }
-
-    private static void applyLavaCauldron(AbstractCauldronBlock cauldron, BlockState state, BlockPos pos, Entity entity) {
-        // 1.21.2/1.21.3 Mojmap LavaCauldronBlock.entityInside and AbstractCauldronBlock
-        // .isEntityInsideContent; 26.2 unobfuscated getContentHeight retains the virtual height.
-        double contentHeight = ((AbstractCauldronBlockAccessor) cauldron).legacyParkourCompat$contentHeight(state);
-        if (entity.getY() < pos.getY() + contentHeight && entity.getBoundingBox().maxY > pos.getY() + 0.25) {
-            entity.lavaHurt();
         }
     }
 
