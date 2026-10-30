@@ -20,7 +20,6 @@ import net.minecraft.world.level.BlockCollisions;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.CollisionGetter;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -45,7 +44,6 @@ import java.util.function.BiFunction;
 abstract class BlockCollisionsMixin<T> {
     @Shadow @Final private CollisionContext context;
     @Shadow @Final private AABB box;
-    @Shadow @Final private BlockPos.MutableBlockPos pos;
     @Shadow private BlockGetter cachedBlockGetter;
     @Shadow @Final @Mutable private Cursor3D cursor;
     @Shadow @Final private CollisionGetter collisionGetter;
@@ -55,25 +53,6 @@ abstract class BlockCollisionsMixin<T> {
     @Unique private PistonHeadCollisionScanner<T> legacyparkourcompat$pistons;
     @Unique private boolean legacyparkourcompat$initialized;
     @Unique private BlockCollisionScan legacyparkourcompat$scan;
-
-    @WrapOperation(method = "computeNext", at = @At(value = "INVOKE", target =
-        "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z"))
-    private boolean legacyparkourcompat$historicalMovingFenceEdge(BlockState state, Block block,
-                                                                  Operation<Boolean> original) {
-        boolean admitted = original.call(state, block);
-        if (!admitted || block != Blocks.MOVING_PISTON || this.onlySuffocatingBlocks
-            || this.context.isPlacement() || this.context.alwaysCollideWithFluid()
-            || !(MovementRuntime.playerFrom(this.context) instanceof LocalPlayer player)
-            || this.cachedBlockGetter == null) {
-            return admitted;
-        }
-        var hook = MovementRuntime.find(MovingFenceEdgeScanHook.class, player);
-        if (hook.isEmpty()) {
-            return admitted;
-        }
-        var blockEntity = this.cachedBlockGetter.getBlockEntity(this.pos);
-        return blockEntity == null || !hook.get().omitEdge(this.box, this.pos, blockEntity);
-    }
 
     @Inject(method = "<init>(Lnet/minecraft/world/level/CollisionGetter;Lnet/minecraft/world/phys/shapes/CollisionContext;Lnet/minecraft/world/phys/AABB;ZLjava/util/function/BiFunction;)V", at = @At("RETURN"))
     private void legacyparkourcompat$historicalScanBounds(
@@ -146,6 +125,18 @@ abstract class BlockCollisionsMixin<T> {
         "Lnet/minecraft/world/phys/shapes/CollisionContext;getCollisionShape(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/CollisionGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/shapes/VoxelShape;"))
     private VoxelShape legacyparkourcompat$filterCandidate(CollisionContext context, BlockState state,
         CollisionGetter level, BlockPos pos, Operation<VoxelShape> original) {
+        if (state.is(Blocks.MOVING_PISTON) && !this.onlySuffocatingBlocks
+            && !context.isPlacement() && !context.alwaysCollideWithFluid()
+            && MovementRuntime.playerFrom(context) instanceof LocalPlayer player
+            && this.cachedBlockGetter != null) {
+            var hook = MovementRuntime.find(MovingFenceEdgeScanHook.class, player);
+            if (hook.isPresent()) {
+                var blockEntity = this.cachedBlockGetter.getBlockEntity(pos);
+                if (blockEntity != null && hook.get().omitEdge(this.box, pos, blockEntity)) {
+                    return Shapes.empty();
+                }
+            }
+        }
         if (this.legacyparkourcompat$pistons != null && state.is(Blocks.PISTON_HEAD)) {
             return Shapes.empty();
         }
