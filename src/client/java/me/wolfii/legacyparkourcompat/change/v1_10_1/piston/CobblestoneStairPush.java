@@ -32,8 +32,9 @@ public final class CobblestoneStairPush implements PistonStairPushHook {
         // ordinary stairs a unit outline. The old caller computes the directional
         // union clearance and adds 0.01 before its ordinary Entity.move request.
         // 26.2 PistonMovingBlockEntity.moveCollidedEntities instead uses swept
-        // collision boxes and a deltaProgress cap, so the final historical
-        // distance is supplied at its native moveEntityByPiston boundary.
+        // collision boxes and a deltaProgress cap. The mixin opens the native
+        // pre-loop delta gate for an old positive response, then supplies this
+        // final historical distance at moveEntityByPiston.
         float previousProgress = mover.getProgress(0.0F);
         float currentOffset = extendedProgress(mover.isExtending(), newProgress);
         float previousOffset = extendedProgress(mover.isExtending(), previousProgress);
@@ -44,8 +45,9 @@ public final class CobblestoneStairPush implements PistonStairPushHook {
         AABB entityBox = recipient.getBoundingBox();
         if (!sweptOutline.intersects(entityBox)) {
             // The modern stair collision boxes are contained by this old unit
-            // outline, so a native response cannot reach this call in this case.
-            return OptionalDouble.empty();
+            // outline. Seed zero to preserve the old no-response gate; no modern
+            // per-box clearance can raise it outside this union.
+            return OptionalDouble.of(0.0);
         }
 
         double clearance = switch (movementDirection) {
