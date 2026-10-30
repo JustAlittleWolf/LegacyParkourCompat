@@ -218,6 +218,9 @@ final class MinecraftDecompileEngine {
                 mappingSource = "unobfuscated";
             } else {
                 mappingSource = yarn.label.replace(' ', '-');
+                boolean order18Helpers = "1.8".equals(versionRef.id) && "ornithe-feather".equals(mappingSource);
+                if (order18Helpers) EnumSwitchHelperRepair.verify18PinnedInputs(clientJar,
+                        yarn.tinyFile, yarn.mappingJar);
                 repair181Helpers = "1.8.1".equals(versionRef.id) && "ornithe-feather".equals(mappingSource);
                 if (repair181Helpers) EnumSwitchHelperRepair.verifyPinnedInputs(clientJar,
                         yarn.tinyFile, yarn.mappingJar);
@@ -279,13 +282,21 @@ final class MinecraftDecompileEngine {
                             + ": " + mappingHeader);
                 }
                 jarToDecompile = mappedJar;
+                if (order18Helpers) {
+                    Path orderedJar = versionCache.resolve("client-ornithe-feather-18-enum-helper-order-v1.jar");
+                    inputs.put("pipeline:18-enum-helper-order", EnumSwitchHelperRepair.PIPELINE_18_ID);
+                    remaps.add(() -> EnumSwitchHelperRepair.applyHelperOrder(mappedJar, orderedJar,
+                            EnumSwitchHelperRepair.MAPPED_18_CONTENT_SHA256));
+                    jarToDecompile = orderedJar;
+                }
             }
         }
 
         Path outputDir = outputRoot.resolve(versionRef.id).resolve(mappingSource);
-        if (repair181Helpers && Files.exists(outputDir) && !force
+        if ((repair181Helpers || ("1.8".equals(versionRef.id) && "ornithe-feather".equals(mappingSource)))
+                && Files.exists(outputDir) && !force
                 && !Files.isRegularFile(outputDir.resolve(DecompileStore.MANIFEST))) {
-            throw new IllegalStateException("Refusing unverified legacy 1.8.1 Feather sources at " + outputDir
+            throw new IllegalStateException("Refusing unverified legacy " + versionRef.id + " Feather sources at " + outputDir
                     + "; use --force to publish the audited enum-helper ordering through the strict gates.");
         }
         if (Files.exists(outputDir) && !force) {

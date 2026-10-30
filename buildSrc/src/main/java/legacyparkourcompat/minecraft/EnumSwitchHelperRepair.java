@@ -31,11 +31,18 @@ import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 
 /**
- * Exact 1.8.1 Feather enum-switch helper ordering from
- * {@code .native-source/20261030/181-enum-helper-allowlist/evidence.md},
- * with the null-inner-name/ACC_STATIC|ACC_SYNTHETIC contract in the paired audit report.
+ * Orders unchanged flat Feather enum-switch helpers before their consumers.
+ * Exact input pins limit this operation to the inspected 1.8 and 1.8.1 archives;
+ * no class identity, bytecode, or nesting metadata is changed.
  */
 final class EnumSwitchHelperRepair {
+    static final String MAPPED_18_CONTENT_SHA256 = "6592c9c0b16f0a645b773fab51bfe96da9976921780e9300d40a5726a62f3de5";
+    private static final String RAW_18_SHA256 = "ccccd0a92f76fbb24279691daad9b67f85d80471a37e59e0da76d7754982dfe8";
+    private static final String MAPPING_18_SHA256 = "3c020d1588b4aab403f5df077ca91b6e3776da2823d3b55202f4616f0d5ae5fe";
+    private static final String TINY_18_SHA256 = "0db2fa38dc74a0981164e53fc73152291cea5153e705b5d06d001ede01b682e8";
+    static final String PIPELINE_18_ID = "lpc-18-enum-helper-order-v1;mapping-sha256=" + MAPPING_18_SHA256
+            + ";raw-client-sha256=" + RAW_18_SHA256 + ";mapped-client-content-sha256=" + MAPPED_18_CONTENT_SHA256
+            + ";tiny-sha256=" + TINY_18_SHA256;
     static final String MAPPING_SHA256 = "dac40cbd25c4d76d99d4263fd9754ab0195efd658756b6828fd06f0c4a8002f7";
     static final String RAW_CLIENT_SHA256 = "66a749ad95adcb929439155c0341309e89e437444867e108dcb36fd16493b0bd";
     static final String MAPPED_CLIENT_CONTENT_SHA256 = "c7527d0279c8a24e70b5b4103c0606dc883ff840b5d5afb827edbe9bda4abaf7";
@@ -205,8 +212,21 @@ final class EnumSwitchHelperRepair {
     }
 
     static void verifyOrdinaryRemap(Path ordinaryMappedJar) throws IOException {
+        verifyContentHash(ordinaryMappedJar, MAPPED_CLIENT_CONTENT_SHA256);
+    }
+
+    static void verify18PinnedInputs(Path rawClientJar, Path tinyMappings, Path mappingJar) throws IOException {
+        for (var input : Map.of(rawClientJar, RAW_18_SHA256, tinyMappings, TINY_18_SHA256,
+                mappingJar, MAPPING_18_SHA256).entrySet()) {
+            String actual = DecompileStore.hash(input.getKey());
+            if (!input.getValue().equals(actual))
+                throw new IOException("1.8 enum-helper ordering input differs from its pin: " + input.getKey() + ": " + actual);
+        }
+    }
+
+    private static void verifyContentHash(Path ordinaryMappedJar, String expectedHash) throws IOException {
         String actualHash = archiveContentHash(ordinaryMappedJar);
-        if (!MAPPED_CLIENT_CONTENT_SHA256.equals(actualHash))
+        if (!expectedHash.equals(actualHash))
             throw new IOException("Ordinary TinyRemapper archive contents differ from the audited mapped jar; found " + actualHash);
     }
 
@@ -273,7 +293,11 @@ final class EnumSwitchHelperRepair {
      * Vineflower early-init helper. Paths and uncompressed entry bytes remain identical.
      */
     static void applyHelperOrder(Path ordinaryMappedJar, Path orderedJar) throws IOException {
-        verifyOrdinaryRemap(ordinaryMappedJar);
+        applyHelperOrder(ordinaryMappedJar, orderedJar, MAPPED_CLIENT_CONTENT_SHA256);
+    }
+
+    static void applyHelperOrder(Path ordinaryMappedJar, Path orderedJar, String expectedContentHash) throws IOException {
+        verifyContentHash(ordinaryMappedJar, expectedContentHash);
         Path staged = orderedJar.resolveSibling(orderedJar.getFileName() + ".order.tmp");
         try {
             List<ArchiveEntry> entries = readEntries(ordinaryMappedJar);
@@ -301,7 +325,7 @@ final class EnumSwitchHelperRepair {
                     output.closeEntry();
                 }
             }
-            verifyContentIdentical(ordinaryMappedJar, staged);
+            verifyContentIdentical(ordinaryMappedJar, staged, expectedContentHash);
             Files.move(staged, orderedJar, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException | RuntimeException error) {
             Files.deleteIfExists(staged);
@@ -336,7 +360,7 @@ final class EnumSwitchHelperRepair {
             new ClassReader(entry.bytes).accept(node, 0);
             if (!name.equals(node.name)) throw new IOException("Archive/class identity mismatch for " + entry.name);
             if (!node.innerClasses.isEmpty() || node.outerClass != null || node.outerMethod != null || node.outerMethodDesc != null)
-                throw new IOException("Expected flat Vineflower ROOT class in audited 1.8.1 archive: " + name);
+                throw new IOException("Expected flat Vineflower ROOT class in pinned archive: " + name);
             positions.put(name, positions.size());
             classes.put(name, node);
         }
@@ -405,9 +429,9 @@ final class EnumSwitchHelperRepair {
                 && (field.access & required) == required);
     }
 
-    private static void verifyContentIdentical(Path beforeJar, Path afterJar) throws IOException {
-        verifyOrdinaryRemap(beforeJar);
-        verifyOrdinaryRemap(afterJar);
+    private static void verifyContentIdentical(Path beforeJar, Path afterJar, String expectedContentHash) throws IOException {
+        verifyContentHash(beforeJar, expectedContentHash);
+        verifyContentHash(afterJar, expectedContentHash);
         try (JarFile before = new JarFile(beforeJar.toFile()); JarFile after = new JarFile(afterJar.toFile())) {
             Set<String> seenBefore = new HashSet<>();
             Set<String> seenAfter = new HashSet<>();
