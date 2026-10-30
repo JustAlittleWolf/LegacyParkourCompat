@@ -27,8 +27,10 @@ import java.util.Optional;
  * {@code net.minecraft.block.HopperBlock#getShape} selects a facing-dependent
  * component union with {@code Hopper.INSIDE} subtracted; 1.13.2 retains that
  * geometry. Its downward outlet is inset from the old slab, while a horizontal
- * outlet lies within that slab, so the difference is the removed lower interior
- * and the replacement of the old full-height strips with a top rim and outlet.
+ * outlet lies within that slab. The newer union removes lower interior volume
+ * and replaces the old full-height strips, but also adds a full-footprint solid
+ * band from 10/16 to 11/16 because the inside subtraction starts at 11/16.
+ * Its funnel from 4/16 to 10/16 remains solid.
  * The union returned here preserves the old occupied volume but does not claim
  * parity for internal clipping planes created by the old separate boxes. The
  * 1.8.0 through 1.8.8 geometry remains uninspected and uses the separate 1.8
