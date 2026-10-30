@@ -303,15 +303,30 @@ final class EnumSwitchHelperRepair {
                 ClassNode owner = read(archive, ownerName);
                 if (owner.innerClasses.stream().anyMatch(inner -> pair.canonical.equals(inner.name)))
                     throw new IOException("Owner already has target InnerClasses record " + pair.owner);
-                boolean referencesHelperArray = false;
-                for (MethodNode method : owner.methods) {
-                    for (var instruction : method.instructions) {
-                        if (instruction instanceof org.objectweb.asm.tree.FieldInsnNode field
-                                && field.getOpcode() == Opcodes.GETSTATIC && field.owner.equals(helperName)
-                                && field.desc.equals("[I")) referencesHelperArray = true;
+                Set<String> helperFields = new HashSet<>();
+                for (FieldNode field : helper.fields) {
+                    if (field.desc.equals("[I")) helperFields.add(field.name);
+                }
+                boolean referencedByClient = false;
+                var entries = archive.entries();
+                while (entries.hasMoreElements()) {
+                    JarEntry entry = entries.nextElement();
+                    if (entry.isDirectory() || !entry.getName().endsWith(".class")
+                            || entry.getName().equals(helperName + ".class")) continue;
+                    ClassNode consumer = read(archive, entry.getName().substring(0, entry.getName().length() - 6));
+                    for (MethodNode method : consumer.methods) {
+                        for (var instruction : method.instructions) {
+                            if (instruction instanceof org.objectweb.asm.tree.FieldInsnNode field
+                                    && field.getOpcode() == Opcodes.GETSTATIC && field.owner.equals(helperName)) {
+                                if (!field.desc.equals("[I") || !helperFields.contains(field.name))
+                                    throw new IOException("Unexpected enum-helper field binding in " + consumer.name
+                                            + " -> " + helperName + "." + field.name + field.desc);
+                                referencedByClient = true;
+                            }
+                        }
                     }
                 }
-                if (!referencesHelperArray) throw new IOException("Owner does not reference the audited enum-switch helper " + pair.owner);
+                if (!referencedByClient) throw new IOException("No client class references the audited enum-switch helper " + pair.flat);
             }
         }
     }
