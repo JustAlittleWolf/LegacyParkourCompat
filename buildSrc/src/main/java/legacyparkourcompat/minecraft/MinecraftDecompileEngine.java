@@ -183,6 +183,7 @@ final class MinecraftDecompileEngine {
         Path jarToDecompile = clientJar;
         List<Remapping> remaps = new ArrayList<>();
         String mappingSource;
+        boolean repair1710Helpers = false;
         boolean repair181Helpers = false;
         boolean hasMojmap = version.downloads.clientMappings != null
                 && version.downloads.clientMappings.url != null;
@@ -219,20 +220,34 @@ final class MinecraftDecompileEngine {
             } else {
                 mappingSource = yarn.label.replace(' ', '-');
                 boolean order18Helpers = "1.8".equals(versionRef.id) && "ornithe-feather".equals(mappingSource);
+                repair1710Helpers = "1.7.10".equals(versionRef.id) && "ornithe-feather".equals(mappingSource);
+                if (repair1710Helpers) EnumSwitchHelperRepair.verify1710PinnedInputs(versionJsonPath, clientJar,
+                        yarn.tinyFile, yarn.mappingJar);
                 if (order18Helpers) EnumSwitchHelperRepair.verify18PinnedInputs(clientJar,
                         yarn.tinyFile, yarn.mappingJar);
                 repair181Helpers = "1.8.1".equals(versionRef.id) && "ornithe-feather".equals(mappingSource);
                 if (repair181Helpers) EnumSwitchHelperRepair.verifyPinnedInputs(clientJar,
                         yarn.tinyFile, yarn.mappingJar);
-                Path mappedJar = versionCache.resolve(repair181Helpers
-                        ? "client-ornithe-feather-181-enum-helper-order-v1.jar" : "client-" + mappingSource + ".jar");
+                Path mappedJar = versionCache.resolve(repair1710Helpers
+                        ? "client-ornithe-feather-1710-enum-helper-order-v1.jar"
+                        : repair181Helpers ? "client-ornithe-feather-181-enum-helper-order-v1.jar"
+                        : "client-" + mappingSource + ".jar");
                 logger.lifecycle("  Applying {} ({})", yarn.label, yarn.version);
                 String mappingHeader;
                 try (BufferedReader reader = Files.newBufferedReader(yarn.tinyFile, StandardCharsets.UTF_8)) {
                     mappingHeader = reader.readLine();
                 }
                 if (mappingHeader != null && mappingHeader.contains("\tofficial\t")) {
-                    if (repair181Helpers) {
+                    if (repair1710Helpers) {
+                        Path baselineJar = versionCache.resolve("client-ornithe-feather-1710-enum-helper-baseline-v1.jar");
+                        inputs.put("pipeline:1710-enum-helper-order", EnumSwitchHelperRepair.PIPELINE_1710_ID);
+                        remaps.add(() -> {
+                            remap(clientJar, baselineJar, TinyUtils.createTinyMappingProvider(yarn.tinyFile, "official", "named"), libraries);
+                            EnumSwitchHelperRepair.verify1710OrdinaryRemap(baselineJar);
+                            EnumSwitchHelperRepair.applyHelperOrder(baselineJar, mappedJar,
+                                    EnumSwitchHelperRepair.MAPPED_1710_CONTENT_SHA256);
+                        });
+                    } else if (repair181Helpers) {
                         Path baselineJar = versionCache.resolve("client-ornithe-feather-181-enum-helper-baseline-v1.jar");
                         inputs.put("pipeline:181-enum-helper-order", EnumSwitchHelperRepair.PIPELINE_ID);
                         remaps.add(() -> {
@@ -261,7 +276,17 @@ final class MinecraftDecompileEngine {
                     boolean reversedColumns = hasReversedIntermediaryClassColumns(yarn.tinyFile);
                     String sourceNamespace = reversedColumns ? "named" : "intermediary";
                     String targetNamespace = reversedColumns ? "intermediary" : "named";
-                    if (repair181Helpers) {
+                    if (repair1710Helpers) {
+                        Path baselineJar = versionCache.resolve("client-ornithe-feather-1710-enum-helper-baseline-v1.jar");
+                        inputs.put("pipeline:1710-enum-helper-order", EnumSwitchHelperRepair.PIPELINE_1710_ID);
+                        remaps.add(() -> {
+                            var ordinaryProvider = TinyUtils.createTinyMappingProvider(yarn.tinyFile, sourceNamespace, targetNamespace);
+                            remap(intermediaryClient, baselineJar, ordinaryProvider, libraries);
+                            EnumSwitchHelperRepair.verify1710OrdinaryRemap(baselineJar);
+                            EnumSwitchHelperRepair.applyHelperOrder(baselineJar, mappedJar,
+                                    EnumSwitchHelperRepair.MAPPED_1710_CONTENT_SHA256);
+                        });
+                    } else if (repair181Helpers) {
                         Path baselineJar = versionCache.resolve("client-ornithe-feather-181-enum-helper-baseline-v1.jar");
                         inputs.put("pipeline:181-enum-helper-order", EnumSwitchHelperRepair.PIPELINE_ID);
                         remaps.add(() -> {
@@ -293,7 +318,7 @@ final class MinecraftDecompileEngine {
         }
 
         Path outputDir = outputRoot.resolve(versionRef.id).resolve(mappingSource);
-        if ((repair181Helpers || ("1.8".equals(versionRef.id) && "ornithe-feather".equals(mappingSource)))
+        if ((repair1710Helpers || repair181Helpers || ("1.8".equals(versionRef.id) && "ornithe-feather".equals(mappingSource)))
                 && Files.exists(outputDir) && !force
                 && !Files.isRegularFile(outputDir.resolve(DecompileStore.MANIFEST))) {
             throw new IllegalStateException("Refusing unverified legacy " + versionRef.id + " Feather sources at " + outputDir
