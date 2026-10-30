@@ -34,7 +34,7 @@ public final class WaterBedFallingFluidFace implements FallingFluidFaceSturdyHoo
         if (fluid.is(FluidTags.WATER)
             && !player.getAbilities().flying
             && !(player.getVehicle() instanceof AbstractBoat)
-            && state.is(Blocks.RED_BED)) {
+            && state.is(Blocks.BED.red())) {
             return true;
         }
         return vanilla.get();
