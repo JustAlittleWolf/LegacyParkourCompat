@@ -20,8 +20,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
  * float-computed boost to the float base; 1.17.1 widens each operand first.
  * The existing JumpPowerHook consumes this widened result at the double-valued
  * jumpFromGround velocity seam, before the vertical-velocity policy. Keep the
- * getJumpBoostPower call so the independent hidden-effect response can suppress
- * restored fallback effects before this addition.
+ * getJumpBoostPower call as the single contribution seam; the independent
+ * movement-only receiver projection supplies the selected receiver's amplifier there.
  * Native modern-input evidence:
  * 26.2/unobfuscated/net/minecraft/world/entity/ai/attributes/Attributes.java:
  *   JUMP_STRENGTH (default 0.42F), SCALE (default 1.0).

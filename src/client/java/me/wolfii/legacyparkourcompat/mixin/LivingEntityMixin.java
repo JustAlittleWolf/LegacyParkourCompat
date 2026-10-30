@@ -31,7 +31,6 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.jump.JumpPowerHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.JumpVerticalVelocityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.LavaGroundJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.LavaTravelHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.player.JumpBoostResponseHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.SleepPositionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.LevitationFallDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.LevitationAmplifierHook;
@@ -55,7 +54,6 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.jump.WaterJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.WaterSprintSlowdownHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
 import me.wolfii.legacyparkourcompat.movement.access.WaterJumpDepthAccess;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
@@ -627,12 +625,6 @@ abstract class LivingEntityMixin {
         LivingEntity entity = (LivingEntity) (Object) this;
         double power = MovementRuntime.find(JumpPowerHook.class, entity)
             .map(behavior -> behavior.jumpPower(entity, jumpPower)).orElse(jumpPower);
-        if (entity instanceof LocalPlayer player) {
-            double resolvedPower = power;
-            power = MovementRuntime.find(JumpBoostResponseHook.class, player)
-                .map(hook -> hook.jumpPower(player, MovementRuntime.profile(player).target(), jumpPower, resolvedPower))
-                .orElse(resolvedPower);
-        }
         double adjustedPower = power;
         double vanilla = Math.max(adjustedPower, currentVelocity);
         return MovementRuntime.find(JumpVerticalVelocityHook.class, entity)
