@@ -13,8 +13,9 @@ import java.lang.annotation.*;
  * in 1.9. If several deltas exist for the same mechanic, the one whose
  * {@code emulates} is closest to (but not older than) the selection wins.
  *
- * <p>Changes matching 1.8–1.8.4 are annotated with {@code V1_8}, and changes
- * matching 1.8.5–1.8.8 with {@code V1_8_5}; 1.8.9 changes use
+ * <p>Changes matching 1.8 are annotated with {@code V1_8}, those matching
+ * 1.8.1–1.8.4 with {@code V1_8_1}, and changes matching 1.8.5–1.8.8 with
+ * {@code V1_8_5}; 1.8.9 changes use
  * {@code V1_8_9}. The 1.13 and 1.13.1–1.13.2 profiles use {@code V1_13} and
  * {@code V1_13_1}, respectively. The enum order remains the resolver's
  * applicability order.

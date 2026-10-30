@@ -17,9 +17,10 @@ import java.util.stream.Collectors;
  * movement difference, its registered behavior uses the latest-patch source
  * representative until a minor-version pass adds a dedicated constant.
  *
- * <p>Order is chronological. The {@link #V1_8} profile covers 1.8 through
- * 1.8.4; {@link #V1_8_5} covers 1.8.5 through 1.8.8; {@link #V1_8_9}
- * covers 1.8.9. The {@link #V1_13} profile covers 1.13, and
+ * <p>Order is chronological. The {@link #V1_8} profile covers 1.8;
+ * {@link #V1_8_1} covers 1.8.1 through 1.8.4; {@link #V1_8_5} covers 1.8.5
+ * through 1.8.8; {@link #V1_8_9} covers 1.8.9. The {@link #V1_13} profile
+ * covers 1.13, and
  * {@link #V1_13_1} covers 1.13.1 through 1.13.2. Per-operation resolution
  * may select a later-emulating change when no closer change exists.
  *
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
  *
  * <p>Minor-version splits (Minecraft Wiki + MCPK, 1.8+):
  * <ul>
+ *   <li>{@link #V1_8_1} – 1.8.1 step descent uses clipped rise instead of configured step height</li>
  *   <li>{@link #V1_8_5} – exact 1.8.5 profile boundary</li>
  *   <li>{@link #V1_8_9} – exact 1.8.9 profile boundary</li>
  *   <li>{@link #V1_10_1} – farmland collision 1.0 → 0.9375</li>
@@ -60,7 +62,8 @@ import java.util.stream.Collectors;
  * are grouped with {@link #V26_1} (no movement deltas). Pre-1.8 is out of scope.
  */
 public enum ParkourVersion {
-    V1_8("1.8", "1.8.1", "1.8.2", "1.8.3", "1.8.4"),
+    V1_8("1.8"),
+    V1_8_1("1.8.1", "1.8.2", "1.8.3", "1.8.4"),
     V1_8_5("1.8.5", "1.8.6", "1.8.7", "1.8.8"),
     V1_8_9("1.8.9"),
     V1_9("1.9", "1.9.1", "1.9.2", "1.9.3", "1.9.4"),
@@ -225,7 +228,7 @@ public enum ParkourVersion {
     /**
      * Compact label of the Minecraft releases covered by this version.
      * One release is {@link #id()}; two are {@code 1.20.5/6}; three or more
-     * are {@code 1.8-1.8.4} or {@code 1.8.5-1.8.8}.
+     * are {@code 1.8.1-1.8.4} or {@code 1.8.5-1.8.8}.
      */
     public String displayLabel() {
         if (this.patches.size() <= 1) {
