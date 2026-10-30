@@ -14,7 +14,7 @@ public final class PlayerEyeWaterSampler {
     }
 
     /**
-     * 1.14.2 Yarn/Feather {@code PlayerEntity#tick/updateWaterSubmersion} and 1.15.2 Mojmap
+     * 1.14.2 Yarn/Feather {@code PlayerEntity#tick/updateInWater} and 1.15.2 Mojmap
      * {@code Player#tick/updateIsUnderwater} both query water at the current eye point before the
      * inherited entity tick, reject boats, require a loaded point, and compare contextual fluid height
      * using a strict double comparison after float epsilon addition. The corresponding 1.14.2
