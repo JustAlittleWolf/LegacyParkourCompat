@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.mixin;
 
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.RespawnMovementAttributeHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.RespawnMovementFlagsHook;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientCommonPacketListenerImpl;
 import net.minecraft.client.multiplayer.ClientPacketListener;
@@ -9,7 +10,11 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.Connection;
 import net.minecraft.client.multiplayer.CommonListenerCookie;
 import net.minecraft.network.protocol.game.ClientboundRespawnPacket;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -17,8 +22,62 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /** Dispatches the profile-specific movement attribute response after client respawn copying. */
 @Mixin(ClientPacketListener.class)
 abstract class ClientPacketListenerRespawnMixin extends ClientCommonPacketListenerImpl {
+    @Unique
+    private LocalPlayer legacyparkourcompat$respawningPlayer;
+
+    @Unique
+    private byte legacyparkourcompat$oldSharedFlags;
+
     protected ClientPacketListenerRespawnMixin(Minecraft minecraft, Connection connection, CommonListenerCookie cookie) {
         super(minecraft, connection, cookie);
+    }
+
+    @Inject(
+        method = "handleRespawn",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/network/PacketProcessor;)V",
+            shift = At.Shift.AFTER
+        )
+    )
+    private void legacyparkourcompat$captureOldMovementFlags(ClientboundRespawnPacket packet, CallbackInfo ci) {
+        if (packet.shouldKeep((byte) 2)) {
+            this.legacyparkourcompat$respawningPlayer = null;
+            return;
+        }
+        LocalPlayer oldPlayer = this.minecraft.player;
+        this.legacyparkourcompat$respawningPlayer = oldPlayer;
+        if (oldPlayer != null) {
+            this.legacyparkourcompat$oldSharedFlags = legacyparkourcompat$sharedFlags(oldPlayer);
+        }
+    }
+
+    @Inject(method = "handleRespawn", at = @At("TAIL"))
+    private void legacyparkourcompat$restoreOldMovementFlags(ClientboundRespawnPacket packet, CallbackInfo ci) {
+        LocalPlayer oldPlayer = this.legacyparkourcompat$respawningPlayer;
+        this.legacyparkourcompat$respawningPlayer = null;
+        if (oldPlayer == null || packet.shouldKeep((byte) 2)) {
+            return;
+        }
+
+        LocalPlayer replacementPlayer = this.minecraft.player;
+        if (replacementPlayer == null || replacementPlayer == oldPlayer) {
+            throw new IllegalStateException("Client respawn did not hand off to a replacement player");
+        }
+        MovementRuntime.find(RespawnMovementFlagsHook.class, replacementPlayer).ifPresent(hook -> {
+            byte currentFlags = legacyparkourcompat$sharedFlags(replacementPlayer);
+            byte restoredFlags = hook.restore(this.legacyparkourcompat$oldSharedFlags, currentFlags);
+            if (restoredFlags != currentFlags) {
+                EntityDataAccessor<Byte> accessor = EntitySharedFlagsAccessor.legacyparkourcompat$getSharedFlagsAccessor();
+                SynchedEntityData entityData = replacementPlayer.getEntityData();
+                entityData.set(accessor, restoredFlags);
+            }
+        });
+    }
+
+    @Unique
+    private static byte legacyparkourcompat$sharedFlags(Entity entity) {
+        return entity.getEntityData().get(EntitySharedFlagsAccessor.legacyparkourcompat$getSharedFlagsAccessor());
     }
 
     @Inject(
