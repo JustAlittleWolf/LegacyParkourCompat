@@ -24,7 +24,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.Entity.Movement;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -58,7 +57,7 @@ import java.util.Set;
 @MovementChange(emulates = ParkourVersion.V1_21_2)
 public final class EntityInsideBlocksHistoricalSweep implements HistoricalBlockCallbackSweepHook {
     @Override
-    public boolean supportsBatch(Entity entity, List<Movement> movements) {
+    public boolean supportsBatch(Entity entity, List<?> movements) {
         if (entity.isRemoved() || entity.noPhysics) {
             return true;
         }
@@ -68,7 +67,7 @@ public final class EntityInsideBlocksHistoricalSweep implements HistoricalBlockC
             .orElseThrow(() -> new IllegalStateException("Historical callback sweep has no selected scan provider"));
         AABB queryBox = entity.getBoundingBox().deflate(1.0E-5F);
         EntityInvoker invoker = (EntityInvoker)entity;
-        for (Movement movement : movements) {
+        for (Object movement : movements) {
             EntityMovementAccessor access = (EntityMovementAccessor)(Object)movement;
             Vec3 from = access.legacyParkourCompat$from();
             Vec3 to = access.legacyParkourCompat$to();
@@ -129,7 +128,7 @@ public final class EntityInsideBlocksHistoricalSweep implements HistoricalBlockC
     }
 
     @Override
-    public void apply(Entity entity, List<Movement> movements) {
+    public void apply(Entity entity, List<?> movements) {
         if (entity.isRemoved() || entity.noPhysics) {
             return;
         }
@@ -151,7 +150,7 @@ public final class EntityInsideBlocksHistoricalSweep implements HistoricalBlockC
         // the DDA candidate's historical normal-path clear never consumes that list.
         // Historical Movement records contain only ordered endpoints; do not split
         // them by 26.2's axisDependentOriginalMovement metadata.
-        List<Movement> scanCopy = new ArrayList<>(movements);
+        List<?> scanCopy = new ArrayList<>(movements);
         scan.scanMovements(entity.getBoundingBox(), scanCopy, (movement, queryBox) -> {
             if (stoppedAliveLoop[0]) {
                 return;
