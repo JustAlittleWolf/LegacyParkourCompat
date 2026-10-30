@@ -1,0 +1,32 @@
+# Independent source-only audit: 1.13.2 → 1.14.4 stacked-water eye witness
+
+## Verdict
+
+The proposed *static eye-submersion delta* is source-supported. For the specified standing player and two water states, the eye predicate is false in 1.13.2 and true in 1.14.4. The body-fluid contact scan returns true in both. The two fluid states are legal vanilla liquid-block states in both APIs. This does not establish a tick-reachable column or player trajectory.
+
+## Independent checks and caveats
+
+- **Player setup.** 1.13.2 initializes entity size to `0.6F × 1.8F` and centers the box in `Entity.setPosition` (Entity.java:190–191, 309–315); the player eye override returns 1.62F only on its ordinary branch (PlayerEntity.java:1859–1869). To keep that branch, the witness must mean a non-sleeping, non-swimming, non-fall-flying, non-sneaking player with ordinary standing dimensions. In 1.14.4 the standing player dimensions are dynamic `0.6F × 1.8F` (PlayerEntity.java:109–118); the constructor establishes standing pose and computes/stores the eye height (Entity.java:208–210). `LivingEntity.m_42089492` handles sleeping and otherwise dispatches to `m_86089714` (LivingEntity.java:2770–2775); the PlayerEntity override returns 1.62F for standing (PlayerEntity.java:1802–1812), which is exposed by Entity.getEyeHeight() (Entity.java:2320–2322). The stated awake, standing, unmounted setup satisfies the intended new pose branch.
+- **Eye block.** Both eye queries form `(x, y + eyeHeight, z)` and construct a `BlockPos` (old Entity.java:1047–1049; new Entity.java:1044–1050). `Vec3i(double, double, double)` floors each coordinate (Vec3i.java:19–21). Thus `(0.5, 0, 0.5)` and `1.62F` select `(0,1,0)`.
+- **Static fluid-state legality.** `FlowingFluid.asFlowing(4,false)` sets `LEVEL` and `FALLING`; LEVEL_8 is 1–8, and `WaterFluid.Flowing` declares LEVEL while inheriting FALLING (FlowingFluid.java:35–37, 48–51, 234–235 in 1.13.2 / :35–36, 48–50, 227–228 in 1.14.4; WaterFluid.java:118–132; Properties.java:84 in 1.13.2 / :93 in 1.14.4). A `LiquidBlock` actually maps block LEVEL 4 to the non-falling flowing state at index 4, and block LEVEL 0 to source water (LiquidBlock.java:38–49, 68–70 in 1.13.2 / :35–46, :65–67 in 1.14.4). Therefore the proposed lower flowing level-4 cell and upper source cell are valid block/fluid-state assignments, not impossible property combinations.
+- **Tag assumption.** `FluidTags.WATER` resolves through the current tag collection; its membership is not hard-coded in FluidTags.java (old :7–36; new :8–37). These source-only trees do not independently prove the loaded water-tag contents. The predicate result is conditional on the lower flowing-water state being in the active WATER tag, as the witness states. WaterFluid's same-family relation is separately source-proven: both source and flowing water pass `WaterFluid.is` (old :94–96; new :98–100).
+- **Predicate arithmetic.** Both predicates reject boats, read the eye-cell fluid state, and use strict `<` (old Entity.java:1042–1050; new Entity.java:1035–1051). Old `getHeight` is `level / 9.0F`, so level 4 gives `4/9`; the tested bound is `1 + (4/9 + 0.11111111F) ≈ 1.5555556`, below the eye Y. New contextual `getHeight(state, world, pos)` returns 1.0F when the cell above belongs to the same fluid family (FlowingFluid.java:442–449); its bound is `1 + (1 + 0.11111111F) ≈ 2.1111112`, above the eye Y. The no-stack fallback remains `level/9` (new FlowingFluid.java:452–454). The comparisons are not equality-boundary cases, so float rounding does not change either result.
+- **Body scan.** `contract(0.001)` shrinks every face (Box.java:135–145, 222–227 old; :145–155, 244–245 new); floor minima, ceil maxima, and upper-exclusive loops produce x=z=0 and y=0,1 (Entity.java:2510–2530 old; :2564–2584 new). At `(0,1,0)`, old surface is `1 + 4/9`; new contextual surface is `1 + 1`. Both exceed contracted `minY=0.001`, so `bl2` is set and returned (old Entity.java:2532–2537, 2569–2570; new :2586–2591, 2620–2621). The loaded-area precondition is material: each scan returns false before iterating if its area check fails (old :2517–2519; new :2571–2573). Eye query uses the new method with `bl=false`, so that query has no corresponding chunk-loaded guard (new Entity.java:1035–1050).
+- **Reachability limit.** Static legal block states do not demonstrate that normal fluid ticks generate or preserve source-over-flowing-level-4 water. The witness correctly disclaims this, along with same-tick cache refresh and trajectory claims.
+
+## Source identity
+
+SHA-256, canonical Ornithe Feather Gen2 build 2 files, verified independently:
+
+| Relative source | 1.13.2 | 1.14.4 |
+|---|---|---|
+| `net/minecraft/entity/Entity.java` | `1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269` | `7315a496c195da767de9d4936d3adb6efc3c419dc0f0e95d6f32781b0da1ba55` |
+| `net/minecraft/entity/living/player/PlayerEntity.java` | `4ed22f6c5a3c55d67eed782070ac722201df4d624adbc90779f1fd29c2876633` | `2614deb3b50d11f6cdf54d9e308703bf49cb53b72646b05253857e9557d657df` |
+| `net/minecraft/entity/living/LivingEntity.java` | — | `2cccf4331ce9e62013eeb8e96163e5e146e1291619eb998ce9867daa87c02b61` |
+| `net/minecraft/fluid/FlowingFluid.java` | `2398d109ddc5785cb1bc8872b8c157319137df8957faf8a03581a8f68afb1253` | `6afb033d18e6d28ff6d7deda88f5f1432914903b0fef100c44fb8372d3e148ce` |
+| `net/minecraft/fluid/WaterFluid.java` | `183894d0a4f7a85becd97eb2c0f6cedc1d5adc4648dc6d3d2b5624df173df28b` | `ed5a28c7f4370ef8f7217dae482fbb1e28296f08c1d70944a1a690bf5f6bb13f` |
+| `net/minecraft/state/property/Properties.java` | `3882c1b832ac8b2b16f5a83978da441ab03cdfe66f053a873342758045827f4c` | `9b524af5065100919c60667778e38986380c9df954ef70a9d0ac0a739132ddca` |
+| `net/minecraft/util/math/Vec3i.java` | `481827f072a5d36ae3a7f133afed5396988e3ce7c0501b2777a92b60c6a498b8` | `f1d2e85d690b69c546b2dc783ede2ddbbfac400ca72271828929a45db03729a9` |
+| `net/minecraft/block/LiquidBlock.java` | `feedc9a5f1843604e6755a447e89d8d5599613799e25cf8c93a0562e52e97856` | `bfbbe2997ce6c03224b5833176d6b19b4b4b4cbc3337960fb3d867de77519ca1` |
+| `net/minecraft/util/math/Box.java` | `0f573d00cc10386f94cf51671c62815979973053c9e67a806e9fee98e55a4d8d` | `b68667118ba729fc18fefa3b9de9060184f9d71f53a4bf10a8b7215863ff8b6e` |
+| `net/minecraft/tag/FluidTags.java` | `b9d4c2d93f4594f27e235e2d5973cd0c81d269597cbdc400a11333cc617247aa` | `d70f3a8b097827d4ffbb714490453a74a87f6b062709f3e05ceb466ac82cb967` |
