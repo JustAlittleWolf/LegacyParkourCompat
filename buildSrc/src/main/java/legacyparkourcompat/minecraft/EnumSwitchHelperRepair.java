@@ -248,11 +248,13 @@ final class EnumSwitchHelperRepair {
     static void verify1710OrdinaryRemap(Path ordinaryMappedJar) throws IOException {
         verifyContentHash(ordinaryMappedJar, MAPPED_1710_CONTENT_SHA256);
         ArchiveOrder order = inspectClassOrder(ordinaryMappedJar);
+        // ZIP class-entry order is container metadata, not part of the content pin.
+        // The topological pass handles any number of initially reversed edges.
         if (order.classCount != 1803 || order.helperCount != 14 || order.dependencyCount != 14
-                || order.getStaticCount != 21 || order.reversedDependencyCount != 5) {
+                || order.getStaticCount != 21) {
             throw new IOException("1.7.10 Feather enum-helper graph differs from the audited flat archive: "
                     + "classes=" + order.classCount + ", helpers=" + order.helperCount
-                    + ", dependencies=" + order.dependencyCount + ", GETSTATIC sites=" + order.getStaticCount
+                    + ", dependencies=" + order.dependencyCount + ", external GETSTATIC sites=" + order.getStaticCount
                     + ", reversed dependencies=" + order.reversedDependencyCount);
         }
     }
@@ -438,7 +440,7 @@ final class EnumSwitchHelperRepair {
                     if (!helperFields.get(field.owner).contains(field.name))
                         throw new IOException("GETSTATIC references an undeclared enum-helper field: "
                                 + consumer + " -> " + field.owner + "." + field.name);
-                    getStaticCount++;
+                    if (!field.owner.equals(consumer)) getStaticCount++;
                     if (!field.owner.equals(consumer) && outgoing.get(field.owner).add(consumer)) {
                         indegree.put(consumer, indegree.get(consumer) + 1);
                         dependencyCount++;
