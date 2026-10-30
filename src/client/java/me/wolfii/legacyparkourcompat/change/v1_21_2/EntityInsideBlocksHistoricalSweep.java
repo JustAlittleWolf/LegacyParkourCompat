@@ -14,7 +14,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.entity.HistoricalBlockCallbac
 import me.wolfii.legacyparkourcompat.mechanic.hook.blockcallback.BlockCallbackTraversalHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.PartialShapeSweepHook;
 import me.wolfii.legacyparkourcompat.mixin.EntityMovementAccessor;
-import me.wolfii.legacyparkourcompat.mixin.accessor.EntityCallbackFinalizerAccessor;
+import me.wolfii.legacyparkourcompat.mechanic.EntityHistoricalCallbackState;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityVisitedBlocksAccessor;
 import net.minecraft.CrashReport;
@@ -237,7 +237,7 @@ public final class EntityInsideBlocksHistoricalSweep implements HistoricalBlockC
                 entity.setRemainingFireTicks(-invoker.legacyparkourcompat$invokeGetFireImmuneTicks());
             }
 
-            if (((EntityCallbackFinalizerAccessor)entity).legacyparkourcompat$wasOnFire()
+            if (((EntityHistoricalCallbackState)entity).legacyparkourcompat$wasOnFireBeforeMove()
                 && (entity.isInPowderSnow || isInWaterRainOrBubble(entity, invoker))) {
                 invoker.legacyparkourcompat$invokePlayEntityOnFireExtinguishedSound();
             }
