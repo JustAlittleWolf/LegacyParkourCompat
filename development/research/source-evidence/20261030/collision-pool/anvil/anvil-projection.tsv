@@ -1,0 +1,17 @@
+metadata|old decode|DFU index|current output|legacy source tuple|gate
+0|damage=0 facing=south|2320|minecraft:anvil facing=south|minecraft:anvil damage=0 facing=south|valid old state
+1|damage=0 facing=west|2321|minecraft:anvil facing=west|minecraft:anvil damage=0 facing=west|valid old state
+2|damage=0 facing=north|2322|minecraft:anvil facing=north|minecraft:anvil damage=0 facing=north|valid old state
+3|damage=0 facing=east|2323|minecraft:anvil facing=east|minecraft:anvil damage=0 facing=east|valid old state
+4|damage=1 facing=south|2324|minecraft:chipped_anvil facing=south|minecraft:anvil damage=1 facing=south|valid old state
+5|damage=1 facing=west|2325|minecraft:chipped_anvil facing=west|minecraft:anvil damage=1 facing=west|valid old state
+6|damage=1 facing=north|2326|minecraft:chipped_anvil facing=north|minecraft:anvil damage=1 facing=north|valid old state
+7|damage=1 facing=east|2327|minecraft:chipped_anvil facing=east|minecraft:anvil damage=1 facing=east|valid old state
+8|damage=2 facing=south|2328|minecraft:damaged_anvil facing=south|minecraft:anvil damage=2 facing=south|valid old state
+9|damage=2 facing=west|2329|minecraft:damaged_anvil facing=west|minecraft:anvil damage=2 facing=west|valid old state
+10|damage=2 facing=north|2330|minecraft:damaged_anvil facing=north|minecraft:anvil damage=2 facing=north|valid old state
+11|damage=2 facing=east|2331|minecraft:damaged_anvil facing=east|minecraft:anvil damage=2 facing=east|valid old state
+12|invalid (damage=3)|2332-2335 (default fill)|minecraft:anvil facing=south|no valid old tuple|DFU raw-index fallback only
+13|invalid (damage=3)|2332-2335 (default fill)|minecraft:anvil facing=south|no valid old tuple|DFU raw-index fallback only
+14|invalid (damage=3)|2332-2335 (default fill)|minecraft:anvil facing=south|no valid old tuple|DFU raw-index fallback only
+15|invalid (damage=3)|2332-2335 (default fill)|minecraft:anvil facing=south|no valid old tuple|DFU raw-index fallback only

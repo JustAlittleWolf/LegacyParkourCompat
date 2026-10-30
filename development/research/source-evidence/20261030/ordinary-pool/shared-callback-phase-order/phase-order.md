@@ -1,0 +1,15 @@
+# Historical stepOn, swept callbacks, and finalizer order
+
+## Bound sources
+
+This bounded supplement records the phase order inherited by the callback-family closures. It reuses the accepted DDA report `.native-source/20261030/dda-collector-flush/report.md` (SHA-256 `bb3d871fa1d65051faa3a9a36b1c3839f07406bf18384c60aeb52f8d274d261e`) and audit `.native-source/20261030/dda-collector-flush-audit/audit.md` (SHA-256 `d48a3bca758d408303cd5acbe5291a72ca5bf250c6faf3c4f02532b00724e1ba`). Canonical `Entity.java` is byte-identical at 1.21.2 and 1.21.3 Mojmap (SHA-256 `a93719c302a0381a972af75ea360465e2e3551708dd07c34d4d40b7e5173c2b9`); 26.2 unobfuscated `Entity.java` is SHA-256 `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`.
+
+## Exact order
+
+In old 1.21.2/1.21.3 `Entity.applyEffectsFromBlocks(Vec3, Vec3)` (lines 740–767), after the `isAffectedByBlocks()` gate, an on-ground entity first calls the current block's `stepOn` (`Entity.java:742–745`). Only after `stepOn` returns does it append the movement, scan the accumulated movements, synchronously dispatch each accepted block callback, summarize `blocksInside` for FIRE/LAVA membership, clear movement and block-state collections, and perform the fire-tick/sound follow-up (`:748–765`). Thus `stepOn` is not a swept callback or an entry in `blocksInside`; its writes precede the swept callbacks. Within the sweep, the inherited callback order is `BlockState.entityInside` → `onInsideBlock` → insert the state into `blocksInside`, with insertion omitted if either callback fails.
+
+The old finalizer order is exact and relevant to immediate callback writes: compute whether any successfully summarized state is FIRE/LAVA; clear the two collections; if no FIRE/LAVA state and the entity is alive, reset nonpositive fire ticks and conditionally play the extinguished sound when `wasOnFire` and powder snow or water/rain/bubble contact is current; then independently reset remaining fire ticks when still on fire and powder-snow/water/rain/bubble contact is current (`Entity.java:750–765`). An inline PowderSnow response can set `isInPowderSnow` before this finalizer; a deferred 26.2 FREEZE cannot expose that same state to the scan or the old summary boundary.
+
+In 26.2 `Entity.applyEffectsFromBlocks(List)` (lines 949–975), the same high-level phase starts with an on-ground `stepOn` call (`:951–954`), then snapshots fire/freezing state and prior fire ticks, traverses callbacks, flushes and clears typed effects, performs the rain fire-clear check, plays the extinguish sound from the snapshots, then updates fire ticks using `wasIgnitedThisTick` and a logical-server gate. Modern stepOn also precedes the new collector sweep, but the collector effects remain deferred until after that sweep. No callback-family closure should move `stepOn`, substitute the modern finalizer for the old one, or count `stepOn` as a swept-block event.
+
+This phase-order note does not establish `stepOn` callback equivalence, per-block eligibility, or full pair coverage. It only binds ordering and the two finalizer contracts to the exact source pair and accepted scheduler evidence.
