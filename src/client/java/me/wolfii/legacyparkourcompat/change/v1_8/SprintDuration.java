@@ -2,12 +2,10 @@ package me.wolfii.legacyparkourcompat.change.v1_8;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.WeakIdentityState;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.SprintStateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintTickHook;
 import net.minecraft.world.entity.player.Player;
-
-import java.util.Map;
-import java.util.WeakHashMap;
 
 /**
  * Source evidence (paths are relative to decompiled_minecraft/):
@@ -22,22 +20,25 @@ import java.util.WeakHashMap;
  */
 @MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class SprintDuration implements SprintStateHook, SprintTickHook {
-    private final Map<Player, Integer> sprintTimers = new WeakHashMap<>();
+    private final WeakIdentityState<Player, SprintTimer> sprintTimer = new WeakIdentityState<>();
 
     @Override
     public void onSetSprinting(Player player, boolean sprinting) {
-        this.sprintTimers.put(player, sprinting ? 600 : 0);
+        this.sprintTimer.getOrCreate(player, SprintTimer::new).ticks = sprinting ? 600 : 0;
     }
 
     @Override
     public void tick(Player player) {
-        int timer = this.sprintTimers.getOrDefault(player, 0);
-        if (timer > 0) {
-            timer--;
-            this.sprintTimers.put(player, timer);
-            if (timer == 0) {
+        SprintTimer timer = this.sprintTimer.get(player);
+        if (timer != null && timer.ticks > 0) {
+            timer.ticks--;
+            if (timer.ticks == 0) {
                 player.setSprinting(false);
             }
         }
+    }
+
+    private static final class SprintTimer {
+        private int ticks;
     }
 }

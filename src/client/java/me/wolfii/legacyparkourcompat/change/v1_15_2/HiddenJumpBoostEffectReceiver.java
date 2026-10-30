@@ -2,13 +2,12 @@ package me.wolfii.legacyparkourcompat.change.v1_15_2;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.WeakIdentityState;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jumpboost.JumpBoostEffectReceiverHook;
 import net.minecraft.world.entity.player.Player;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
-import java.util.WeakHashMap;
 
 /**
  * Mirrors 1.15.2 Mojmap MobEffectInstance.update/tick and LivingEntity.tickEffects hidden fallback
@@ -18,14 +17,14 @@ import java.util.WeakHashMap;
  */
 @MovementChange(emulates = ParkourVersion.V1_15_2)
 public final class HiddenJumpBoostEffectReceiver implements JumpBoostEffectReceiverHook {
-    private final Map<Player, State> effects = new WeakHashMap<>();
+    private final WeakIdentityState<Player, State> effects = new WeakIdentityState<>();
 
     public HiddenJumpBoostEffectReceiver() {
     }
 
     @Override
     public void receiveUpdate(Player player, int amplifier, int duration) {
-        State state = this.effects.computeIfAbsent(player, ignored -> new State());
+        State state = this.effects.getOrCreate(player, State::new);
         if (duration == -1) {
             // 1.19.4 Mojmap MobEffectInstance introduced INFINITE_DURATION (-1).
             // Keep that modern effect session on the native receiver until REMOVE.
@@ -46,7 +45,7 @@ public final class HiddenJumpBoostEffectReceiver implements JumpBoostEffectRecei
 
     @Override
     public void receiveRemoval(Player player) {
-        this.effects.remove(player);
+        this.effects.clear(player);
     }
 
     @Override
