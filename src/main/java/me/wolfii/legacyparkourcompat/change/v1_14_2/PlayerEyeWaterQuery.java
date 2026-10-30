@@ -13,8 +13,9 @@ import net.minecraft.world.entity.vehicle.boat.Boat;
 import java.util.Optional;
 
 /**
- * Yarn 1.14 through 1.14.3 PlayerEntity.tick/updateInWater call Entity.isSubmergedIn
- * before inherited ticking. Feather 1.14.4 PlayerEntity.tick/updateWaterSubmersion
+ * Yarn 1.14 through 1.14.2 PlayerEntity.tick/updateInWater call Entity.isInFluid
+ * before inherited ticking; the helper is named isSubmergedIn in Yarn 1.14.3.
+ * Feather 1.14.4 PlayerEntity.tick/updateWaterSubmersion
  * retain that order and call Entity.m_69330161 with the loaded-check argument true.
  * Unlike Feather 1.13.2 Entity.isSubmergedIn, these helpers use contextual fluid
  * height: BaseFluid.getHeight (1.14 Yarn) / FlowingFluid.getHeight (1.14.4 Feather)
