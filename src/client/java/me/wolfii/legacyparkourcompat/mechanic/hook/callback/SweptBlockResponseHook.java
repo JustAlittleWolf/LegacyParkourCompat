@@ -15,6 +15,10 @@ import net.minecraft.world.level.material.FluidState;
  */
 @MechanicType("entity.swept-block-response")
 public interface SweptBlockResponseHook extends VersionedMechanic {
+    default boolean usesHistoricalResponses() {
+        return true;
+    }
+
     /**
      * @return true when this historical family response replaced the native callback;
      *         false leaves the native callback untouched.
