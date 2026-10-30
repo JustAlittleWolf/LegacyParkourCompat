@@ -22,6 +22,9 @@ import java.util.Optional;
  *   changes the probe offset to -stepHeight.
  * The accepted source comparison bounds the former gate and offset through
  * 1.10.2; the latter begins at 1.11.
+ * The independently resolved mover policy translates era-existing external moves
+ * to SELF before this operation. Untranslated external movers belong to features
+ * newer than the selected profile and retain native handling.
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
 @MovementChange(emulates = ParkourVersion.V1_10_1)
@@ -35,6 +38,9 @@ public final class SneakEdge implements SneakEdgeHook {
         float probeDistance,
         @Nullable SneakEdgeCollisionQueryHook collisionQuery
     ) {
+        if (moverType != MoverType.SELF && moverType != MoverType.PLAYER) {
+            return Optional.empty();
+        }
         if (!player.onGround() || !player.isShiftKeyDown()) {
             return Optional.of(delta);
         }
