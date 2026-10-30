@@ -221,7 +221,7 @@ final class MinecraftDecompileEngine {
                 mappingSource = yarn.label.replace(' ', '-');
                 boolean order18Helpers = "1.8".equals(versionRef.id) && "ornithe-feather".equals(mappingSource);
                 repair1710Helpers = "1.7.10".equals(versionRef.id) && "ornithe-feather".equals(mappingSource);
-                if (repair1710Helpers) EnumSwitchHelperRepair.verify1710PinnedInputs(versionJsonPath, clientJar,
+                if (repair1710Helpers) EnumSwitchHelperRepair.verify1710PinnedInputs(versionCache.resolve("version.json"), clientJar,
                         yarn.tinyFile, yarn.mappingJar);
                 if (order18Helpers) EnumSwitchHelperRepair.verify18PinnedInputs(clientJar,
                         yarn.tinyFile, yarn.mappingJar);
