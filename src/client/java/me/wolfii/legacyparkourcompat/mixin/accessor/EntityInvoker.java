@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
 import it.unimi.dsi.fastutil.longs.LongSet;
+import net.minecraft.CrashReportCategory;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,6 +23,18 @@ public interface EntityInvoker {
 
     @Invoker("onInsideBlock")
     void legacyparkourcompat$invokeOnInsideBlock(BlockState state);
+
+    @Invoker("getFireImmuneTicks")
+    int legacyparkourcompat$invokeGetFireImmuneTicks();
+
+    @Invoker("playEntityOnFireExtinguishedSound")
+    void legacyparkourcompat$invokePlayEntityOnFireExtinguishedSound();
+
+    @Invoker("isInRain")
+    boolean legacyparkourcompat$invokeIsInRain();
+
+    @Invoker("fillCrashReportCategory")
+    void legacyparkourcompat$invokeFillCrashReportCategory(CrashReportCategory category);
 
     @Invoker("restituteMovementAfterCollisions")
     void legacyparkourcompat$invokeRestituteMovementAfterCollisions(
