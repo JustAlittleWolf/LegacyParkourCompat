@@ -4,6 +4,7 @@ import me.wolfii.legacyparkourcompat.api.ActiveMovementProfile;
 import me.wolfii.legacyparkourcompat.api.MovementController;
 import me.wolfii.legacyparkourcompat.mechanic.attribute.MovementSpeedModifierHistory;
 import me.wolfii.legacyparkourcompat.mechanic.attribute.MovementSpeedModifierHistoryAccess;
+import me.wolfii.legacyparkourcompat.mechanic.hook.entity.StepDescentHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.PlayerMovementSpeedHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.PistonMovementHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionReconstructionHook;
@@ -115,6 +116,17 @@ public final class MovementRuntime {
     public static boolean limitPistonMovement(Entity entity) {
         return find(PistonMovementHook.class, entity)
             .map(PistonMovementHook::limitPistonMovement).orElse(true);
+    }
+
+    /**
+     * Selects the requested descent for an already chosen step route. The native
+     * request remains the fallback; the step resolver retains its route and collision clipping.
+     */
+    public static double downwardStepReturn(double nativeDescent, float configuredStepHeight,
+                                            @Nullable Entity entity) {
+        return find(StepDescentHook.class, entity)
+            .map(hook -> hook.downwardReturn(nativeDescent, configuredStepHeight))
+            .orElse(nativeDescent);
     }
 
     /** Pure calculation, shared by movement bookkeeping and the eventual write. */
