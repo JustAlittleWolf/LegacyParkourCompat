@@ -6,6 +6,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.clientload.ClientLoadGateHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.LadderSlideSuppressionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingStartHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingClimbableGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingFlightToggleGateHook;
@@ -85,6 +86,14 @@ abstract class LocalPlayerMixin {
     // including same-dimension respawns; the timer must not carry across players.
     @Unique
     private int legacyparkourcompat$clientLoadTimeoutTicks = 60;
+
+    @ModifyReturnValue(method = "isSuppressingSlidingDownLadder()Z", at = @At("RETURN"))
+    private boolean legacyparkourcompat$ladderSlideSuppression(boolean nativeValue) {
+        LocalPlayer player = (LocalPlayer) (Object) this;
+        return MovementRuntime.find(LadderSlideSuppressionHook.class, player)
+            .map(hook -> hook.isSuppressingSlidingDownLadder(player, nativeValue))
+            .orElse(nativeValue);
+    }
 
     @WrapOperation(
         method = "shouldStopSwimSprinting",
