@@ -11,7 +11,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockCallbackAxisOrderH
 import me.wolfii.legacyparkourcompat.mechanic.hook.callback.SweptBlockResponseHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.EntityInsideBlocksScanHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.HistoricalBlockCallbackSweepHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.blockcallback.BlockCallbackDda;
+import me.wolfii.legacyparkourcompat.mechanic.hook.blockcallback.BlockCallbackTraversalHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.PartialShapeSweepHook;
 import me.wolfii.legacyparkourcompat.mixin.EntityMovementAccessor;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityCallbackFinalizerAccessor;
@@ -26,6 +26,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.Movement;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BubbleColumnBlock;
@@ -114,13 +115,24 @@ public final class EntityInsideBlocksHistoricalSweep implements HistoricalBlockC
 
     private static boolean containsModernEyeblossomCandidate(Entity entity, Vec3 from, Vec3 to, AABB queryBox) {
         boolean[] found = {false};
-        BlockCallbackDda.visitSegment(from, to, queryBox, (pos, step) -> {
+        BlockGetter.BlockStepVisitor inspect = (pos, step) -> {
             if (isEyeblossom(entity, pos)) {
                 found[0] = true;
                 return false;
             }
             return true;
-        });
+        };
+
+        // This is the exact native 26.2 block candidate enumerator. Some selected
+        // profile hooks also replace its segment visitor; include those candidates
+        // too because the original fallback retains the same composed mixins.
+        BlockGetter.forEachBlockIntersectedBetween(from, to, queryBox, inspect);
+        if (found[0]) {
+            return true;
+        }
+        MovementRuntime.find(BlockCallbackTraversalHook.class, entity)
+            .filter(hook -> hook.appliesTo(entity))
+            .ifPresent(hook -> hook.visitSegment(from, to, queryBox, inspect));
         return found[0];
     }
 
