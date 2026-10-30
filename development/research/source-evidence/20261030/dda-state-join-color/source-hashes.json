@@ -1,0 +1,40 @@
+{
+  "algorithm": "SHA-256",
+  "scope": "Read-only canonical 1.8.9 / 26.2 sources and prior source-only current-name projection used for the bounded colored-block state join.",
+  "provenance": {
+    "1.8.9": "decompiled_minecraft/1.8.9/ornithe-feather.provenance.json; exact version 1.8.9, namespace ornithe-feather, feather-gen2-1.8.9+build.2",
+    "26.2": "decompiled_minecraft/26.2/unobfuscated.provenance.json; exact version 26.2, namespace unobfuscated"
+  },
+  "source": [
+    {"path":"1.8.9/ornithe-feather/net/minecraft/block/Block.java","sha256":"EA10F05106A3CF7189AEC85236A7ECF9C7106A717F37BED583B5EA4ADEFFA528"},
+    {"path":"1.8.9/ornithe-feather/net/minecraft/block/Blocks.java","sha256":"1DA2D85406ED991E8F6BC1F420BABF0BD43598478F347C6A4DC9FEA322ED0695"},
+    {"path":"1.8.9/ornithe-feather/net/minecraft/item/DyeColor.java","sha256":"2147F7BC09914A137AD635A9B5A4569C6E8D02495A069508084247C34A19B78F"},
+    {"path":"1.8.9/ornithe-feather/net/minecraft/block/ColoredBlock.java","sha256":"CD90B925B3FBA42D430BC117BC138EF26AD77E62CE3E915747C2DBA9F1753353"},
+    {"path":"1.8.9/ornithe-feather/net/minecraft/block/StainedGlassBlock.java","sha256":"DABBC4579622960D41080921203622A50ECA62F4E397457435C0B035EB6FF77A"},
+    {"path":"1.8.9/ornithe-feather/net/minecraft/block/StainedGlassPaneBlock.java","sha256":"08F8A8D122B7D4CFC2825565E13F47EB36A66B7BDEFA7A664A8B769B25B9CF56"},
+    {"path":"1.8.9/ornithe-feather/net/minecraft/block/CarpetBlock.java","sha256":"7B3F5725008EDE42FD23D5FAB0CBDCFC27736CE9C71094BD56CF9D03C2458A01"},
+    {"path":"1.8.9/ornithe-feather/net/minecraft/block/PaneBlock.java","sha256":"F099CDC306C365B73632FC703F72B61BC6B304CB5DF06C43234965F89E28DE61"},
+    {"path":"26.2/unobfuscated/net/minecraft/util/datafix/DataFixers.java","sha256":"4A7DE861C83F395255D6045D5F9FB98D932ABD42724E54316ADC59116EE6FB50"},
+    {"path":"26.2/unobfuscated/net/minecraft/util/datafix/fixes/ChunkPalettedStorageFix.java","sha256":"DD5CA8CFF42BE587606824A5BA53FA7ED5E1411959D1E19F1F9D07BE9D875010"},
+    {"path":"26.2/unobfuscated/net/minecraft/util/datafix/fixes/BlockStateData.java","sha256":"6196F9039890D5F67B59CB372EC06DA987E8A5EA80B49FD8BEE9EECA0A1784A4"},
+    {"path":"26.2/unobfuscated/net/minecraft/world/level/block/Blocks.java","sha256":"F3F2FAEED23E9697407069A1D523107491590B8710175523EA05294D5BD00435"},
+    {"path":"26.2/unobfuscated/net/minecraft/references/BlockItemIds.java","sha256":"D9D57F2F04801DA5D8D583C23B87B08F45D8B6C681980D1A77308753C801BAC6"},
+    {"path":"26.2/unobfuscated/net/minecraft/world/level/block/ColorCollection.java","sha256":"717FB27A7B1D0F68B3C2F371408385AD84CCDCC1D76248338897D8CF59DB2BE2"},
+    {"path":"26.2/unobfuscated/net/minecraft/world/item/DyeColor.java","sha256":"9EE74711A37EDA938A4DEAA56828EEB6A46234D722BE1F720D240378B2DB0ABF"},
+    {"path":"26.2/unobfuscated/net/minecraft/world/level/block/StainedGlassBlock.java","sha256":"B674923B5BE8E024D724F87DBA59BAA2B31D7FB369D8F1A41B2C35026AFE0493"},
+    {"path":"26.2/unobfuscated/net/minecraft/world/level/block/StainedGlassPaneBlock.java","sha256":"DFAEE99DBA568AB4B0C791DB1E4733FDA0205AB53A82E1E039481BF8696492DE"},
+    {"path":"26.2/unobfuscated/net/minecraft/world/level/block/WoolCarpetBlock.java","sha256":"F99BD32DC81AAC89584803BC9EB92EE229502CBB5719D726672195D879365B4E"},
+    {"path":"26.2/unobfuscated/net/minecraft/world/level/block/CarpetBlock.java","sha256":"CE669310BF7AB918E5BBDB07253B9030A516AE143CD4AA9E464BD7F2FDEDFFDC"},
+    {"path":"26.2/unobfuscated/net/minecraft/world/level/block/ColoredFallingBlock.java","sha256":"C557EF2E90BE72477DE726058C7FD916A64B29BDADCC82F28813BCAADF3BACB8"},
+    {"path":"26.2/unobfuscated/net/minecraft/world/level/block/Block.java","sha256":"CEC6A05E644E4A7FEB8253CC4CA772A98F0E116FB098A1B7EE7302984AC7ECAB"},
+    {"path":"26.2/unobfuscated/net/minecraft/world/level/block/state/BlockState.java","sha256":"DF5B24701EE69145A78901EE0E370E063B63B3E74A0AAE32C89B2AE45BC6D205"},
+    {"path":"26.2/unobfuscated/net/minecraft/world/level/block/state/StateHolder.java","sha256":"C0DAB7C413C2C8C0CA1B76AFA1A77607117B66F71886674FE89D1059B7A9746B"},
+    {"path":"26.2/unobfuscated/net/minecraft/world/level/block/IronBarsBlock.java","sha256":"B8D8467DB13454FC5CD24C95827172B8550D5CBA3D51930BA8B240B960606E54"}
+  ],
+  "priorProjection": {
+    "path": ".native-source/20261028/collision-next/dda-current-state-projection-20261029/block-state-data-current-name-projection.jsonl",
+    "sha256": "C7A8B04869425690B2D6BD200C9630752FC1A58C34526B6A5F51898F64B0DC02",
+    "priorManifestPath": ".native-source/20261028/collision-next/dda-current-state-projection-20261029/source-hashes.json",
+    "priorManifestSha256": "7D60A12E39C718ABD390116F723A7935B1C7A230E6E1D6A0493BE8524558F77E"
+  }
+}

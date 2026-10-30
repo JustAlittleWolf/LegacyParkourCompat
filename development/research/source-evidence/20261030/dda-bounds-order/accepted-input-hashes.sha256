@@ -1,0 +1,13 @@
+# SHA-256 of accepted source-only evidence and independent reviews reused here.
+ab3399383a2a479650ca0f1f4330658698bd3df612b22d983ba118019294cab8  20261028/collision-next/dda-legacy-cache-callers-20261029/report.md
+a3310a4724f345c4b6d8990f8ebb99fe37fdf4da3202768e15c76adef114506fa  20261028/collision-next/dda-legacy-cache-callers-20261029/source-hashes.json
+4f9c7c99de41c8f695abbc2689ec852728672f3603f28033ba57efd4577fd1cd  20261028/collision-next/dda-legacy-cache-callers-20261029/artifact-hashes.json
+d65ae3192e811f862f524e381476823d3b8ece18f6075df991b51563d3789bf  20261028/collision-next/dda-bounds-write-chokepoint-20261029/report.md
+1d76f474524c8b97607995e41bcf7cbe870f7c3e61e2f26051bf349c37581a73  20261028/collision-next/dda-bounds-write-chokepoint-20261029/artifact-hashes.json
+0c0533c65d4214124c747114724b601536b726631ae05a7d88acabd108f7f51d  20261028/collision-next/dda-bounds-write-chokepoint-review-20261029/review.md
+4151bf920f01c46d6144720f04c06d7f1a35535a1048f69e5777a93ed08447a9  20261028/collision-next/dda-189-chest-54-current-provider/closure.md
+f8260b4146e7bff032db7b2087d46e3ba896c61b415f4c8b596bd66f34ed4d4f  20261028/collision-next/dda-189-chest-54-provider-review/review.md
+17797220c2393bb817f752f9438a94c388a76d5f7fb35b2ae827d4fbacff73924  20261028/collision-next/dda-trapped-chest-146/FINDING.md
+69361cdf0ff12fcddd4118e4094f0113df9679e82d2014425e2fcea652d6eb16  20261028/collision-next/dda-trapped-chest-146-review/REVIEW.md
+853c690019ea8a6bf805149f128b5f2be92f32e429ca9fc35d91146a95b95d55  20261028/collision-next/dda-189-current-alias-145-155/closure.md
+4aaa64c72d4ca46a6f481b7505cc701b9fddcf311e1b7d18f658f08044dabdb9  20261028/collision-next/dda-bounds-lifecycle/report.md

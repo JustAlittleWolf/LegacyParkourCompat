@@ -1,0 +1,4 @@
+# SHA-256 binds the immutable report revision and its evidence ledgers.
+9c25115f86ca3b4c783976fc0c115e63846aa10b62b1b00c39a1d537e13e1584  report.md
+ed261aca02323af6ea2ec3378c00b4f1724150ff627f92967137ec53d77015e1  source-hashes.sha256
+a0bc36061efaa27ab333ac2222051e35c9464ecfbce37146c9b4e21a8ad0458e  accepted-input-hashes.sha256
