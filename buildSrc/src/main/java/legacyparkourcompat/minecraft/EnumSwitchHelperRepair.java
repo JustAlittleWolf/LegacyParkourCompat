@@ -16,11 +16,15 @@ import org.objectweb.asm.commons.Remapper;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
@@ -33,10 +37,10 @@ import java.util.jar.JarOutputStream;
 final class EnumSwitchHelperRepair {
     static final String MAPPING_SHA256 = "dac40cbd25c4d76d99d4263fd9754ab0195efd658756b6828fd06f0c4a8002f7";
     static final String RAW_CLIENT_SHA256 = "66a749ad95adcb929439155c0341309e89e437444867e108dcb36fd16493b0bd";
-    static final String MAPPED_CLIENT_SHA256 = "d2977e05623d692e2d73dacbd0d6328b9226f47d80f824711a6d5fe81df09001";
+    static final String MAPPED_CLIENT_CONTENT_SHA256 = "c7527d0279c8a24e70b5b4103c0606dc883ff840b5d5afb827edbe9bda4abaf7";
     static final String TINY_SHA256 = "f26e3fea2c580cf9eb2d5c47cd32a071f72177ba5e2c208c39196e669c8a383d";
     static final String PIPELINE_ID = "lpc-181-enum-helper-repair-v1;mapping-sha256=" + MAPPING_SHA256
-            + ";raw-client-sha256=" + RAW_CLIENT_SHA256 + ";mapped-client-sha256=" + MAPPED_CLIENT_SHA256
+            + ";raw-client-sha256=" + RAW_CLIENT_SHA256 + ";mapped-client-content-sha256=" + MAPPED_CLIENT_CONTENT_SHA256
             + ";tiny-sha256=" + TINY_SHA256;
 
     private static final List<Pair> PAIRS = List.of(
@@ -200,8 +204,45 @@ final class EnumSwitchHelperRepair {
     }
 
     static void verifyOrdinaryRemap(Path ordinaryMappedJar) throws IOException {
-        String actualHash = DecompileStore.hash(ordinaryMappedJar);
-        if (!MAPPED_CLIENT_SHA256.equals(actualHash)) throw new IOException("Ordinary TinyRemapper output differs from the audited mapped jar; found " + actualHash);
+        String actualHash = archiveContentHash(ordinaryMappedJar);
+        if (!MAPPED_CLIENT_CONTENT_SHA256.equals(actualHash))
+            throw new IOException("Ordinary TinyRemapper archive contents differ from the audited mapped jar; found " + actualHash);
+    }
+
+    /** Hashes sorted ZIP paths and uncompressed contents, excluding container metadata such as timestamps. */
+    private static String archiveContentHash(Path jar) throws IOException {
+        Map<String, byte[]> entries = new TreeMap<>();
+        try (JarFile archive = new JarFile(jar.toFile())) {
+            var enumeration = archive.entries();
+            while (enumeration.hasMoreElements()) {
+                JarEntry entry = enumeration.nextElement();
+                if (entries.containsKey(entry.getName())) throw new IOException("Duplicate archive entry " + entry.getName());
+                try (var stream = archive.getInputStream(entry)) { entries.put(entry.getName(), stream.readAllBytes()); }
+            }
+        }
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            digest.update("LPC-JAR-CONTENT-v1\0".getBytes(StandardCharsets.UTF_8));
+            for (var entry : entries.entrySet()) {
+                byte[] name = entry.getKey().getBytes(StandardCharsets.UTF_8);
+                updateInt(digest, name.length);
+                digest.update(name);
+                updateLong(digest, entry.getValue().length);
+                digest.update(entry.getValue());
+            }
+            return java.util.HexFormat.of().formatHex(digest.digest());
+        } catch (NoSuchAlgorithmException impossible) {
+            throw new IllegalStateException("SHA-256 is unavailable", impossible);
+        }
+    }
+
+    private static void updateInt(MessageDigest digest, int value) {
+        digest.update((byte) (value >>> 24)); digest.update((byte) (value >>> 16));
+        digest.update((byte) (value >>> 8)); digest.update((byte) value);
+    }
+
+    private static void updateLong(MessageDigest digest, long value) {
+        for (int shift = 56; shift >= 0; shift -= 8) digest.update((byte) (value >>> shift));
     }
 
     private static void verifyRawSourceBeforeRemap(Path rawClientJar) throws IOException {
