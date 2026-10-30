@@ -47,6 +47,11 @@ abstract class EntityStepUpCollisionMixin {
                     }
 
                     @Override
+                    public double downwardReturn(double nativeDescent, float configuredStepHeight) {
+                        return MovementRuntime.downwardStepReturn(nativeDescent, configuredStepHeight, entity);
+                    }
+
+                    @Override
                     public StepUpCollisionHook.AxisCollisionCall sweep(Vec3 requested, AABB queryBox) {
                         List<VoxelShape> shapes = CollisionAxisOrderContext.withBlockCollectionDisabled(
                             () -> Entity.collectAllColliders(

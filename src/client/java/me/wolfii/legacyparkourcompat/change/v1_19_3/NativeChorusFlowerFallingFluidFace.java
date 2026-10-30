@@ -6,8 +6,10 @@ import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FallingFluidFaceSturdyHook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FlowingFluid;
 
 /**
  * Selected profiles through 1.19.3 use this native predicate. Mojmap 1.19.4
@@ -23,8 +25,8 @@ public final class NativeChorusFlowerFallingFluidFace implements FallingFluidFac
     }
 
     @Override
-    public boolean isFaceSturdy(BlockState state, BlockGetter level, BlockPos pos, Direction direction,
-                                VanillaFn<Boolean> vanilla) {
+    public boolean isFaceSturdy(FlowingFluid fluid, Player player, BlockState state, BlockGetter level,
+                                BlockPos pos, Direction direction, VanillaFn<Boolean> vanilla) {
         return vanilla.get();
     }
 }

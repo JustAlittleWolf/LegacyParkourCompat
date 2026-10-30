@@ -32,7 +32,9 @@ public final class EntityStepUpCollision implements StepUpCollisionHook {
         Route expanded = route(requested, box, box.expandTowards(requested.x, 0.0, requested.z), maxUpStep, sweep);
         Route direct = route(requested, box, box, maxUpStep, sweep);
         Route selected = expanded.distanceSquared() > direct.distanceSquared() ? expanded : direct;
-        double down = sweep.collide(Direction.Axis.Y, selected.box(), -selected.rise());
+        double nativeDescent = -selected.rise();
+        double descentRequest = collisionCall.downwardReturn(nativeDescent, maxUpStep);
+        double down = sweep.collide(Direction.Axis.Y, selected.box(), descentRequest);
         AABB settled = down != 0.0 ? selected.box().move(0.0, down, 0.0) : selected.box();
         if (ordinary.x * ordinary.x + ordinary.z * ordinary.z >= selected.distanceSquared()) {
             return new Result(ordinary);

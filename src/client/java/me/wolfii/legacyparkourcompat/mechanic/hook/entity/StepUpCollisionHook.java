@@ -28,6 +28,11 @@ public interface StepUpCollisionHook extends VersionedMechanic {
     interface CollisionCall {
         Vec3 collide(Vec3 movement, AABB box);
 
+        /** Select the requested descent after a route wins; callers still clip it against that route. */
+        default double downwardReturn(double nativeDescent, float configuredStepHeight) {
+            return nativeDescent;
+        }
+
         /** Collect once from this sweep, then reuse for both routes and the settling pass. */
         AxisCollisionCall sweep(Vec3 movement, AABB box);
     }

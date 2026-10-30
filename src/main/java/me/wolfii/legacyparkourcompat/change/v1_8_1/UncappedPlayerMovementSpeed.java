@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change.v1_8;
+package me.wolfii.legacyparkourcompat.change.v1_8_1;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -26,7 +26,8 @@ import java.util.Optional;
  * non-total operation history, or a bucket collision retains native behavior;
  * the modern aggregate modifier order is not used. The exact
  * 1.8.4→1.8.5 Feather transition first adds a 1024 cap in 1.8.5; this provider
- * is bounded to the V1_8 alias and leaves that and later profiles native.
+ * is bounded to the 1.8.1–1.8.4 source boundary; 1.8.5 and later profiles retain
+ * the native cap.
  *
  * <p>Sources: 1.8/1.8.1 Mojang client bytecode resolved through Feather Gen2
  * +build.2 Tiny to the mapped {@code ModifiableEntityAttributeInstance.computeValue()},
@@ -36,7 +37,7 @@ import java.util.Optional;
  * declaration. The hash-table reference is OpenJDK 8u412-b08
  * {@code HashSet(Collection)}, {@code HashMap.hash()} and table iteration.
  */
-@MovementChange(emulates = ParkourVersion.V1_8)
+@MovementChange(emulates = ParkourVersion.V1_8_1)
 public final class UncappedPlayerMovementSpeed implements PlayerMovementSpeedHook {
     @Override
     public Optional<Float> movementSpeed(Snapshot snapshot) {
