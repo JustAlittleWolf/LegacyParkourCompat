@@ -70,6 +70,7 @@
     "EntityJumpFactorAccess",
     "ClientPacketListenerMixin",
     "ClientPacketListenerRespawnMixin",
+    "EntitySharedFlagsAccessor",
     "LocalPlayerMixin",
     "LocalPlayerSprintMixin",
     "client.LocalPlayerAccessor",

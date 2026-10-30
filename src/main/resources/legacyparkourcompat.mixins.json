@@ -12,9 +12,7 @@
     "EntityFallDamageMixin",
     "EntityFallDistanceMixin",
     "client.LevelLoadTrackerReadinessMixin",
-    "LivingEntitySprintJumpTrigMixin",
-    "ClientPacketListenerRespawnMixin",
-    "EntitySharedFlagsAccessor"
+    "LivingEntitySprintJumpTrigMixin"
   ],
   "injectors": {
     "defaultRequire": 1
