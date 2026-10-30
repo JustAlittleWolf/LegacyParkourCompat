@@ -11,13 +11,16 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.BlockCollisionScanH
 import net.minecraft.core.Cursor3D;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.FullCubeOverlapHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.LowerRowCollisionCandidateHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovingFenceEdgeScanHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.PistonMovingBlockEntityAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.level.BlockCollisions;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.CollisionGetter;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -42,6 +45,8 @@ import java.util.function.BiFunction;
 abstract class BlockCollisionsMixin<T> {
     @Shadow @Final private CollisionContext context;
     @Shadow @Final private AABB box;
+    @Shadow @Final private BlockPos.MutableBlockPos pos;
+    @Shadow private BlockGetter cachedBlockGetter;
     @Shadow @Final @Mutable private Cursor3D cursor;
     @Shadow @Final private CollisionGetter collisionGetter;
     @Shadow @Final private boolean onlySuffocatingBlocks;
@@ -50,6 +55,25 @@ abstract class BlockCollisionsMixin<T> {
     @Unique private PistonHeadCollisionScanner<T> legacyparkourcompat$pistons;
     @Unique private boolean legacyparkourcompat$initialized;
     @Unique private BlockCollisionScan legacyparkourcompat$scan;
+
+    @WrapOperation(method = "computeNext", at = @At(value = "INVOKE", target =
+        "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z"))
+    private boolean legacyparkourcompat$historicalMovingFenceEdge(BlockState state, Block block,
+                                                                  Operation<Boolean> original) {
+        boolean admitted = original.call(state, block);
+        if (!admitted || block != Blocks.MOVING_PISTON || this.onlySuffocatingBlocks
+            || this.context.isPlacement() || this.context.alwaysCollideWithFluid()
+            || !(MovementRuntime.playerFrom(this.context) instanceof LocalPlayer player)
+            || this.cachedBlockGetter == null) {
+            return admitted;
+        }
+        var hook = MovementRuntime.find(MovingFenceEdgeScanHook.class, player);
+        if (hook.isEmpty()) {
+            return admitted;
+        }
+        var blockEntity = this.cachedBlockGetter.getBlockEntity(this.pos);
+        return blockEntity == null || !hook.get().omitEdge(this.box, this.pos, blockEntity);
+    }
 
     @Inject(method = "<init>(Lnet/minecraft/world/level/CollisionGetter;Lnet/minecraft/world/phys/shapes/CollisionContext;Lnet/minecraft/world/phys/AABB;ZLjava/util/function/BiFunction;)V", at = @At("RETURN"))
     private void legacyparkourcompat$historicalScanBounds(
