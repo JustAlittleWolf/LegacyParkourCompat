@@ -1,0 +1,413 @@
+{
+  "jar": "D:\\Javastuff\\LegacyParkourCompat\\.minecraft-decompile-cache\\1.7.10\\client-ornithe-feather.jar",
+  "jar_sha256": "d373731588184ca24c89b09b8cf48ae159278e31d429d088a812067094dc90fd",
+  "archive_entries": 1962,
+  "classes": 1803,
+  "class_major_versions": {
+    "50": 1803
+  },
+  "classes_with_inner_classes_attribute": [],
+  "classes_with_enclosing_method_attribute": [],
+  "helper_candidates": [
+    {
+      "name": "net/minecraft/client/Minecraft__30089582",
+      "access": 4128,
+      "methods": [
+        {
+          "access": 8,
+          "name": "<clinit>",
+          "desc": "()V"
+        }
+      ],
+      "fields": [
+        {
+          "access": 4120,
+          "name": "f_57361349",
+          "desc": "[I"
+        }
+      ],
+      "attrs": [
+        {
+          "name": "SourceFile"
+        }
+      ],
+      "fieldref_consumers_including_self": [
+        "net/minecraft/client/Minecraft",
+        "net/minecraft/client/Minecraft__30089582"
+      ]
+    },
+    {
+      "name": "net/minecraft/client/entity/living/player/ClientPlayerEntity__60417933",
+      "access": 4128,
+      "methods": [
+        {
+          "access": 8,
+          "name": "<clinit>",
+          "desc": "()V"
+        }
+      ],
+      "fields": [
+        {
+          "access": 4120,
+          "name": "f_23541581",
+          "desc": "[I"
+        }
+      ],
+      "attrs": [
+        {
+          "name": "SourceFile"
+        }
+      ],
+      "fieldref_consumers_including_self": [
+        "net/minecraft/client/entity/living/player/ClientPlayerEntity",
+        "net/minecraft/client/entity/living/player/ClientPlayerEntity__60417933"
+      ]
+    },
+    {
+      "name": "net/minecraft/client/gui/screen/menu/twitch/StreamUnavailableScreen__15502813",
+      "access": 4128,
+      "methods": [
+        {
+          "access": 8,
+          "name": "<clinit>",
+          "desc": "()V"
+        }
+      ],
+      "fields": [
+        {
+          "access": 4120,
+          "name": "f_89268933",
+          "desc": "[I"
+        },
+        {
+          "access": 4120,
+          "name": "f_43279484",
+          "desc": "[I"
+        },
+        {
+          "access": 4120,
+          "name": "f_67764942",
+          "desc": "[I"
+        }
+      ],
+      "attrs": [
+        {
+          "name": "SourceFile"
+        }
+      ],
+      "fieldref_consumers_including_self": [
+        "net/minecraft/client/gui/screen/menu/twitch/StreamUnavailableScreen",
+        "net/minecraft/client/gui/screen/menu/twitch/StreamUnavailableScreen__15502813"
+      ]
+    },
+    {
+      "name": "net/minecraft/client/options/GameOptions__67871314",
+      "access": 4128,
+      "methods": [
+        {
+          "access": 8,
+          "name": "<clinit>",
+          "desc": "()V"
+        }
+      ],
+      "fields": [
+        {
+          "access": 4120,
+          "name": "f_94081458",
+          "desc": "[I"
+        }
+      ],
+      "attrs": [
+        {
+          "name": "SourceFile"
+        }
+      ],
+      "fieldref_consumers_including_self": [
+        "net/minecraft/client/options/GameOptions",
+        "net/minecraft/client/options/GameOptions__67871314"
+      ]
+    },
+    {
+      "name": "net/minecraft/client/sound/system/SoundManager__86087158",
+      "access": 4128,
+      "methods": [
+        {
+          "access": 8,
+          "name": "<clinit>",
+          "desc": "()V"
+        }
+      ],
+      "fields": [
+        {
+          "access": 4120,
+          "name": "f_06345026",
+          "desc": "[I"
+        }
+      ],
+      "attrs": [
+        {
+          "name": "SourceFile"
+        }
+      ],
+      "fieldref_consumers_including_self": [
+        "net/minecraft/client/sound/system/SoundManager",
+        "net/minecraft/client/sound/system/SoundManager__86087158"
+      ]
+    },
+    {
+      "name": "net/minecraft/client/twitch/BroadcastController__86014756",
+      "access": 4128,
+      "methods": [
+        {
+          "access": 8,
+          "name": "<clinit>",
+          "desc": "()V"
+        }
+      ],
+      "fields": [
+        {
+          "access": 4120,
+          "name": "f_06877205",
+          "desc": "[I"
+        }
+      ],
+      "attrs": [
+        {
+          "name": "SourceFile"
+        }
+      ],
+      "fieldref_consumers_including_self": [
+        "net/minecraft/client/twitch/BroadcastController",
+        "net/minecraft/client/twitch/BroadcastController__86014756"
+      ]
+    },
+    {
+      "name": "net/minecraft/client/twitch/IngestTester__35774615",
+      "access": 4128,
+      "methods": [
+        {
+          "access": 8,
+          "name": "<clinit>",
+          "desc": "()V"
+        }
+      ],
+      "fields": [
+        {
+          "access": 4120,
+          "name": "f_90660526",
+          "desc": "[I"
+        },
+        {
+          "access": 4120,
+          "name": "f_68740799",
+          "desc": "[I"
+        }
+      ],
+      "attrs": [
+        {
+          "name": "SourceFile"
+        }
+      ],
+      "fieldref_consumers_including_self": [
+        "net/minecraft/client/twitch/IngestTester",
+        "net/minecraft/client/twitch/IngestTester__35774615"
+      ]
+    },
+    {
+      "name": "net/minecraft/client/twitch/TwitchChat__65676818",
+      "access": 4128,
+      "methods": [
+        {
+          "access": 8,
+          "name": "<clinit>",
+          "desc": "()V"
+        }
+      ],
+      "fields": [
+        {
+          "access": 4120,
+          "name": "f_47910079",
+          "desc": "[I"
+        },
+        {
+          "access": 4120,
+          "name": "f_13860485",
+          "desc": "[I"
+        }
+      ],
+      "attrs": [
+        {
+          "name": "SourceFile"
+        }
+      ],
+      "fieldref_consumers_including_self": [
+        "net/minecraft/client/twitch/TwitchChat",
+        "net/minecraft/client/twitch/TwitchChat__65676818"
+      ]
+    },
+    {
+      "name": "net/minecraft/entity/Entity__48650159",
+      "access": 4128,
+      "methods": [
+        {
+          "access": 8,
+          "name": "<clinit>",
+          "desc": "()V"
+        }
+      ],
+      "fields": [
+        {
+          "access": 4120,
+          "name": "f_38137913",
+          "desc": "[I"
+        }
+      ],
+      "attrs": [
+        {
+          "name": "SourceFile"
+        }
+      ],
+      "fieldref_consumers_including_self": [
+        "net/minecraft/entity/Entity__48650159",
+        "net/minecraft/entity/Entity__Size"
+      ]
+    },
+    {
+      "name": "net/minecraft/server/network/handler/LocalHandshakeNetworkHandler__40630631",
+      "access": 4128,
+      "methods": [
+        {
+          "access": 8,
+          "name": "<clinit>",
+          "desc": "()V"
+        }
+      ],
+      "fields": [
+        {
+          "access": 4120,
+          "name": "ALL",
+          "desc": "[I"
+        }
+      ],
+      "attrs": [
+        {
+          "name": "SourceFile"
+        }
+      ],
+      "fieldref_consumers_including_self": [
+        "net/minecraft/server/network/handler/LocalHandshakeNetworkHandler",
+        "net/minecraft/server/network/handler/LocalHandshakeNetworkHandler__40630631"
+      ]
+    },
+    {
+      "name": "net/minecraft/server/network/handler/RemoteHandshakeNetworkHandler__25347352",
+      "access": 4128,
+      "methods": [
+        {
+          "access": 8,
+          "name": "<clinit>",
+          "desc": "()V"
+        }
+      ],
+      "fields": [
+        {
+          "access": 4120,
+          "name": "NETWORK_STATE_VALUES",
+          "desc": "[I"
+        }
+      ],
+      "attrs": [
+        {
+          "name": "SourceFile"
+        }
+      ],
+      "fieldref_consumers_including_self": [
+        "net/minecraft/server/network/handler/RemoteHandshakeNetworkHandler",
+        "net/minecraft/server/network/handler/RemoteHandshakeNetworkHandler__25347352"
+      ]
+    },
+    {
+      "name": "net/minecraft/server/network/handler/ServerPlayNetworkHandler__69539816",
+      "access": 4128,
+      "methods": [
+        {
+          "access": 8,
+          "name": "<clinit>",
+          "desc": "()V"
+        }
+      ],
+      "fields": [
+        {
+          "access": 4120,
+          "name": "f_66135065",
+          "desc": "[I"
+        }
+      ],
+      "attrs": [
+        {
+          "name": "SourceFile"
+        }
+      ],
+      "fieldref_consumers_including_self": [
+        "net/minecraft/server/network/handler/ServerPlayNetworkHandler",
+        "net/minecraft/server/network/handler/ServerPlayNetworkHandler__69539816"
+      ]
+    },
+    {
+      "name": "net/minecraft/world/biome/layer/AddEdgeLayer__41582934",
+      "access": 4128,
+      "methods": [
+        {
+          "access": 8,
+          "name": "<clinit>",
+          "desc": "()V"
+        }
+      ],
+      "fields": [
+        {
+          "access": 4120,
+          "name": "EDGE_MODES",
+          "desc": "[I"
+        }
+      ],
+      "attrs": [
+        {
+          "name": "SourceFile"
+        }
+      ],
+      "fieldref_consumers_including_self": [
+        "net/minecraft/world/biome/layer/AddEdgeLayer",
+        "net/minecraft/world/biome/layer/AddEdgeLayer__41582934"
+      ]
+    },
+    {
+      "name": "net/minecraft/world/gen/structure/StrongholdPieces__21168123",
+      "access": 4128,
+      "methods": [
+        {
+          "access": 8,
+          "name": "<clinit>",
+          "desc": "()V"
+        }
+      ],
+      "fields": [
+        {
+          "access": 4120,
+          "name": "f_27206980",
+          "desc": "[I"
+        }
+      ],
+      "attrs": [
+        {
+          "name": "SourceFile"
+        }
+      ],
+      "fieldref_consumers_including_self": [
+        "net/minecraft/world/gen/structure/StrongholdPieces__21168123",
+        "net/minecraft/world/gen/structure/StrongholdPieces__StrongholdPiece"
+      ]
+    }
+  ],
+  "helper_candidate_count": 14,
+  "helper_fieldref_owner_class_pairs_total_including_self": 28
+}
