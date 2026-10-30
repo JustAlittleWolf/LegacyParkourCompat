@@ -1,0 +1,5 @@
+# Living-player step height
+1.7.10, Ornithe Feather: `net/minecraft/entity/living/LivingEntity.java`, constructor, line 127.
+1.8, Ornithe Feather: `net/minecraft/entity/living/LivingEntity.java`, constructor, line 131.
+Difference: the default assigned to ordinary living entities changes from `0.5F` to `0.6F`. The ordinary local player inherits this value; its constructor delegates to `PlayerEntity` and no local/player override writes `stepHeight` in either tree. The movement step branch uses the field as its positive-height gate and as the lift/descent distance (`Entity.move`, old lines 494–509 and 552–554; new lines 459–532).
+Movement meaning: for a grounded ordinary player walking into a bed whose collision top is 9/16 above its base (1.7.10 `net/minecraft/block/BedBlock.java:171–173`; 1.8 `:128–130`), the new 0.6 lift clears it while the old 0.5 lift leaves overlap. This witness also requires horizontal displacement otherwise clipped; the 1.7.10 sneak-offset gate is independently satisfied by a non-sneaking player. It is a source-derived witness, not a runtime result.
