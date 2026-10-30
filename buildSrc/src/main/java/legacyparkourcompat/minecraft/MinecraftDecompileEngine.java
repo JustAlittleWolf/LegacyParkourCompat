@@ -238,7 +238,7 @@ final class MinecraftDecompileEngine {
                             EnumSwitchHelperRepair.verifyDiagnosticBindings(baselineJar);
                             var repairProvider = EnumSwitchHelperRepair.provider(yarn.tinyFile, "official", "named",
                                     clientJar, yarn.mappingJar);
-                            remap(clientJar, mappedJar, repairProvider, libraries);
+                            remap(clientJar, mappedJar, repairProvider, libraries, false);
                             EnumSwitchHelperRepair.addComparatorMetadata(baselineJar, mappedJar);
                         });
                     } else {
@@ -269,7 +269,7 @@ final class MinecraftDecompileEngine {
                             EnumSwitchHelperRepair.verifyDiagnosticBindings(baselineJar);
                             var repairProvider = EnumSwitchHelperRepair.provider(yarn.tinyFile, sourceNamespace,
                                     targetNamespace, intermediaryClient, yarn.mappingJar);
-                            remap(intermediaryClient, mappedJar, repairProvider, libraries);
+                            remap(intermediaryClient, mappedJar, repairProvider, libraries, false);
                             EnumSwitchHelperRepair.addComparatorMetadata(baselineJar, mappedJar);
                         });
                     } else {
@@ -343,11 +343,16 @@ final class MinecraftDecompileEngine {
 
     private void remap(Path input, Path output, net.fabricmc.tinyremapper.IMappingProvider mappings, List<Path> classpath)
             throws IOException {
+        remap(input, output, mappings, classpath, true);
+    }
+
+    private void remap(Path input, Path output, net.fabricmc.tinyremapper.IMappingProvider mappings,
+                       List<Path> classpath, boolean renameInvalidLocals) throws IOException {
         Files.deleteIfExists(output);
         TinyRemapper remapper = TinyRemapper.newRemapper()
                 .withMappings(mappings)
                 .ignoreConflicts(true)
-                .renameInvalidLocals(true)
+                .renameInvalidLocals(renameInvalidLocals)
                 .rebuildSourceFilenames(true)
                 .fixPackageAccess(true)
                 .threads(1)
