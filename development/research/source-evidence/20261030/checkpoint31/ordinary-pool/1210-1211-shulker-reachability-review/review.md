@@ -1,0 +1,32 @@
+# Independent review: Shulker client reachability, 1.21.0 → 1.21.1
+
+## Inputs and scope
+
+Reviewed `.native-source/20261030/ordinary-pool/1210-1211-shulker-reachability/report.md` (SHA-256 `6e602b6af56f2d2ff78cee28f065e780d96f0ae9abf7be2dd65bdd8971ac3a6e`) against the exact Mojmap source trees at `D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/1.21/mojmap/` and `.../1.21.1/mojmap/`. The referenced preceding audit hash is `0c23a664552dd5fcfdfe12d715dfd3cfc25efcaba2ccef3eb12b3e3dc2f27b1d`. Source hashes named below were recomputed from those roots.
+
+This review covers only whether vanilla client packet application and chunk lifecycle can produce or retain a Shulker block entity inconsistent with the block state, in a way that reaches Shulker support/collision geometry. Malformed/custom packet contents and externally modified client state remain outside the vanilla-reachability verdict.
+
+## Verdict
+
+The bounded conclusion is supported. I found no counterexample in either endpoint: chunk data constructs the entity from the installed block state and applies a tag only to an entity of the tag's declared type; incremental state changes remove an old entity on block-identity change; Shulker color variants all share the same block-entity type and are valid members of that type; block-entity update packets perform typed lookup and do not create an entity. Unload removes live entities, and reload constructs entities from the newly received states. The 1.21.1 validation guard therefore has no reachable Shulker mismatch to repair under ordinary vanilla client state delivery.
+
+The source report correctly distinguishes a tag whose declared entity type disagrees with the entity constructed for the received state (ignored by the packet application callback) from arbitrary malformed/custom tag contents. A correctly typed tag can update Shulker data, including animation data, but does not change the entity's block state or install a different entity.
+
+## Independent trace and anchors
+
+- `ClientPacketListener.handleLevelChunkWithLight` delegates to `updateLevelChunk`, which calls `ClientChunkCache.replaceWithPacketData` (identical listener/cache sources in both versions; listener SHA-256 `822e00d89e8def4cf7a8c22fdfefba3b9dc2135a7630e4ebe561a9d547d7f79d`, cache SHA-256 `89abca5266fcf654a4cc54bbc21dbcb14a92e31e0aeff62febe68d72e6517d00`). The cache either creates `new LevelChunk(clientLevel, chunkPos)` or reuses the existing client chunk. The client constructor is empty with respect to pending block-entity NBT; the constructor that copies pending NBT is the `ServerLevel, ProtoChunk` overload.
+- `LevelChunk.replaceWithPacketData` clears existing live entities and tickers before replacing section states. Its tag callback calls `getBlockEntity(pos, IMMEDIATE)`, which constructs from the now-installed state, then calls `loadWithComponents` only when the constructed type equals the packet entry's declared type (`LevelChunk.java:479–499` in 1.21.1; same method body in 1.21.0). This excludes a mismatched declared entity type from replacing the state-derived Shulker entity.
+- Incremental single and section updates enter `ClientLevel.setServerVerifiedBlockState` (`ClientPacketListener.java:694–697, 781–784`; `ClientLevel.java:123–127`) and then `LevelChunk.setBlockState`. Both versions remove the old entity on the client when the old block has an entity and its block identity differs from the new block (`LevelChunk.java:273–278`). 1.21.0 reuses an entity on a same-block property change; 1.21.1 first removes/recreates it only if it is invalid for the new state (`LevelChunk.java:288–303`). `BlockEntityType.isValid` tests registered block identity alone (`BlockEntityType.java:300–302`).
+- The registered `SHULKER_BOX` type accepts the default and all 16 colored Shulker blocks (`BlockEntityType.java:184–205`); all variants create `ShulkerBoxBlockEntity` with that shared type. Thus a color-block identity change removes and reconstructs the entity on the client, while a property-only state change remains valid in both versions.
+- Block-entity update packets use `ClientLevel.getBlockEntity(pos, packetType)` and load only if that typed lookup succeeds (`ClientPacketListener.java:1270–1277`; `BlockEntityType.java:310–312`). It neither constructs nor replaces an entity. The Shulker shape/support consumers type-check for `ShulkerBoxBlockEntity`; the bounding box reads its animation state (`ShulkerBoxBlock.java:211–221`, `ShulkerBoxBlockEntity.java:103–109, 258`).
+- Forget-chunk handling drops the chunk; cache replacement/unload calls `ClientLevel.unload`, which clears live block entities and tickers (`ClientPacketListener.java:756–760`; `ClientChunkCache.java:189–207`; `ClientLevel.java:294–298`). A subsequent chunk packet follows the fresh-state construction above.
+
+## Bounded caveat checked
+
+`clearAllBlockEntities` does not clear `pendingBlockEntities`. That does not provide a vanilla client counterexample in this route: `ClientChunkCache.replaceWithPacketData` creates client chunks through the empty `LevelChunk(Level, ChunkPos)` constructor, and the client packet path passes chunk entity tags directly to the tag consumer instead of populating the pending map. The constructor that copies pending NBT is server-side (`LevelChunk(ServerLevel, ProtoChunk, ...)`). Therefore the pending-map detail should not be generalized to arbitrary/external client mutation, which is already outside the report's bound.
+
+## Relevant source identity
+
+Recomputed hashes match the report for all reviewed key paths: `LevelChunk.java` is `4912413546274e0eb231bc36e4537a4ce243b41b46c83c89bb64dd59cad7072d` in 1.21.0 and `435db581b3d397edd88dd19f051f7f6adb8fcf8acacdc42680339815f5f05591` in 1.21.1; `BlockEntity.java` is `579463eb222b03d3fb89aacfa49a0d1963df3f47fe5f6bcdbc61c208b3f5207d` and `b16e3efc8f959372433f17f71bd7836f3d75f6f9c7e608d7184ab779d6370f0b`; `BlockEntityType.java`, `ShulkerBoxBlockEntity.java`, client chunk cache, client level, client packet listener, and chunk packet data are byte-identical between endpoints and match the hashes in the source report. `ShulkerBoxBlock.java` differs, but its reported `onRemove` ordering is server-only in the chunk state-write path; the Shulker shape methods are unchanged.
+
+**Disposition:** accept the report's bounded Shulker reachability conclusion. No correction is required. This does not establish pair-wide movement parity or cover malformed/external client state.
