@@ -7,26 +7,20 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 
 /**
- * Source evidence (paths are relative to decompiled_minecraft/):
- * 1.10.2/ornithe-feather/net/minecraft/block/entity/MovingBlockEntity.java:
- *   private void moveEntities().
- * 1.10.2/ornithe-feather/net/minecraft/entity/Entity.java:
- *   public void move(double dx, double dy, double dz).
- * 1.11.2/ornithe-feather/net/minecraft/block/entity/MovingBlockEntity.java:
- *   private void moveEntities(float progress).
- * 1.11.2/ornithe-feather/net/minecraft/entity/Entity.java:
- *   public void move(MoverType moverType, double x, double y, double z).
- * No exact independently accepted source binding is established for this operation.
- * Remaining source/applicability gates:
- *   Later applicability gate: exact introduction of campaign-F-03-piston-sneak-edge-bypass is unknown within (1.10.2, 1.11.2]
- *   Exact independent source verdict/snapshot identity for F-03-piston-sneak-edge-bypass
- *   Exact independent source verdict/snapshot identity for F002
- * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ * 1.10.2 Ornithe Feather Entity.move(double,double,double) applies sneak-edge
+ * backoff to every grounded sneaking player move. MovingBlockEntity.moveEntities
+ * and ShulkerEntity.tick both use that untyped call. In 1.11/1.11.1/1.11.2
+ * Ornithe Feather, those callers pass PISTON and SHULKER; Entity.move restricts
+ * backoff to SELF/PLAYER. The untyped Shulker call and predicate are retained
+ * across 1.9/1.9.1/1.9.2/1.9.3/1.9.4/1.10/1.10.1/1.10.2.
+ *
+ * Only the argument to the edge-backoff operation is translated; the actual
+ * mover type used by piston limiting and the rest of movement is unchanged.
  */
 @MovementChange(emulates = ParkourVersion.V1_10_1)
 public final class SneakEdgeMover implements SneakEdgeMoverHook {
     @Override
     public MoverType edgeMoverType(Player player, MoverType vanilla) {
-        return vanilla == MoverType.PISTON ? MoverType.SELF : vanilla;
+        return vanilla == MoverType.PISTON || vanilla == MoverType.SHULKER ? MoverType.SELF : vanilla;
     }
 }
