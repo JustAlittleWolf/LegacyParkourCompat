@@ -1,0 +1,84 @@
+
+> Configure project :tas-client
+[Unimined] Plugin Version: 1.4.1
+[Unimined/Minecraft ::main] Applying minecraft config for source set 'main'
+[Unimined/MinecraftDownloader] retrieving version metadata
+[Unimined/Minecraft ::main] Applying OfficialFabricMinecraftTransformer
+[Unimined/Minecraft ::main] Applying run configs
+[Unimined/ModRemapper] Remapping mods from intermediary to mojmap
+[Unimined/ModRemapper] No mods found for remapping
+
+> Task :buildSrc:compileJava UP-TO-DATE
+> Task :buildSrc:compileGroovy NO-SOURCE
+> Task :buildSrc:processResources NO-SOURCE
+> Task :buildSrc:classes UP-TO-DATE
+> Task :buildSrc:jar UP-TO-DATE
+
+> Configure project :
+Fabric Loom: 1.17.21
+
+> Task :testing:compileJava UP-TO-DATE
+> Task :testing:processResources NO-SOURCE
+> Task :testing:classes UP-TO-DATE
+> Task :testing:jar UP-TO-DATE
+> Task :parkourgym-server:compileJava UP-TO-DATE
+> Task :testing:startScripts UP-TO-DATE
+> Task :parkourgym-server:processResources UP-TO-DATE
+> Task :parkourgym-server:classes UP-TO-DATE
+> Task :testing:distTar UP-TO-DATE
+> Task :testing:distZip UP-TO-DATE
+> Task :testing:assemble UP-TO-DATE
+> Task :testing:check
+> Task :parkourgym-server:jar UP-TO-DATE
+> Task :parkourgym-server:assemble UP-TO-DATE
+> Task :parkourgym-server:check
+> Task :testing:build
+> Task :parkourgym-server:build
+
+> Task :compileJava
+Note: C:\Users\Wolfi\.codex\worktrees\56a8\LegacyParkourCompat\src\main\java\me\wolfii\legacyparkourcompat\mechanic\fluid\PlayerEyeWaterSampler.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+
+> Task :processResources UP-TO-DATE
+> Task :classes
+
+> Task :compileClientJava
+C:\Users\Wolfi\.codex\worktrees\56a8\LegacyParkourCompat\src\client\java\me\wolfii\legacyparkourcompat\change\v1_11_2\WaterBedFallingFluidFace.java:37: error: cannot find symbol
+            && state.is(Blocks.RED_BED)) {
+                              ^
+  symbol:   variable RED_BED
+  location: class Blocks
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+1 error
+
+> Task :compileClientJava FAILED
+
+[Incubating] Problems report is available at: file:///C:/Users/Wolfi/.codex/worktrees/56a8/LegacyParkourCompat/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileClientJava' (registered by plugin class 'org.gradle.api.plugins.JavaBasePlugin').
+> Compilation failed; see the compiler output below.
+  Note: Recompile with -Xlint:deprecation for details.
+  C:\Users\Wolfi\.codex\worktrees\56a8\LegacyParkourCompat\src\client\java\me\wolfii\legacyparkourcompat\change\v1_11_2\WaterBedFallingFluidFace.java:37: error: cannot find symbol
+              && state.is(Blocks.RED_BED)) {
+                                ^
+    symbol:   variable RED_BED
+    location: class Blocks
+  Note: Some input files use or override a deprecated API.
+  1 error
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 11s
+13 actionable tasks: 2 executed, 11 up-to-date

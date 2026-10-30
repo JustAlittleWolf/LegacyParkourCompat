@@ -1,0 +1,424 @@
+{
+  "schema": 1,
+  "sourceRoots": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\<version>\\mojmap",
+  "sourcePublication": "Exact-version Mojmap decompilations. Versions with parent markers use mojmap.ready.json + mojmap.sources.sha256; 1.16.3 and 1.16.4 use embedded .decompile-provenance.json with per-source maps.",
+  "releaseRecords": [
+    {
+      "version": "1.15",
+      "mapping": "mojmap",
+      "canonicalRoot": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.15\\mojmap",
+      "sourceIdentity": {
+        "markerPaths": [
+          "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.15\\mojmap.ready.json",
+          "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.15\\mojmap.sources.sha256"
+        ],
+        "kind": "parent ready marker and SHA-256 source ledger",
+        "sha256": "251a3019ccc3fd067f66365f3545b69a983383a28b19a1038debf1791be29340",
+        "ledgerFileHash": "251a3019ccc3fd067f66365f3545b69a983383a28b19a1038debf1791be29340",
+        "verified": true
+      },
+      "sourceFilesSha256": {
+        "net/minecraft/world/entity/player/Player.java": "6985e11ad9be553e9a2f25e5decc20a9da5c3b59b68f4e83a5b9f448cd2e48a0",
+        "net/minecraft/world/entity/player/Player.java_ledgerMatch": true,
+        "net/minecraft/world/entity/Entity.java": "191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e",
+        "net/minecraft/world/entity/Entity.java_ledgerMatch": true,
+        "net/minecraft/client/player/LocalPlayer.java": "7227da5233e3c72ced008187b92a6a86842f84778eaa9f40fa1eb117286af823",
+        "net/minecraft/client/player/LocalPlayer.java_ledgerMatch": true,
+        "net/minecraft/world/entity/LivingEntity.java": "139c3866ad2c6a1ad73496f22ff1a4b5259998442092ffbafb8664428e28bf79",
+        "net/minecraft/world/entity/LivingEntity.java_ledgerMatch": true,
+        "net/minecraft/world/level/material/FluidState.java": "f88bff7d54ea0220ee67e0fe36a78df67871e52ae636e584ea26dd107f652c15",
+        "net/minecraft/world/level/material/FluidState.java_ledgerMatch": true,
+        "net/minecraft/world/level/material/FlowingFluid.java": "e8a395552e53f33bcb5648325615d31bc1796ce2a8aeb501bdda3127622dccdf",
+        "net/minecraft/world/level/material/FlowingFluid.java_ledgerMatch": true,
+        "net/minecraft/tags/FluidTags.java": "7b75994500c5286295f17227cd89ce0c42ffe829af57e6a5ff3415e41342953c",
+        "net/minecraft/tags/FluidTags.java_ledgerMatch": true
+      },
+      "relevantMemberFingerprintsSha256": {
+        "Player.tick": "8342afffe66674003465488f087a43208c0a2799f4c66924ba38922b76976e94",
+        "Player.updateIsUnderwater": "2623f14a1a25c1d23c1bc82c09881b1a0b5088c5d68c4370b2ce9ef9fc79991b",
+        "Entity.isUnderLiquid(Tag<Fluid>,boolean)": "f68bf8f49bcb615b0997a729bafaac403563101ac234a986256743f014869777",
+        "LocalPlayer.isUnderWater": "bc6465c7e2c901f9a32829a3a0f0c52e69e1be5a81b3e26fdf26ede88a7cd2ca",
+        "LocalPlayer.updateIsUnderwater": "7b84cabced1a56eaddc731dda821416aeab8f8841a609b63d52507fd1cf973aa",
+        "LocalPlayer.hasEnoughImpulseToStartSprinting": "b28caef7a8bbc9fe19d8f81d74c28c348edcdbb4edfed79c4f37fc0f871434f3",
+        "LivingEntity.travel": "fcad2aeb74014e783c0c9510c1b5f434e6f07854a6cb9db54cb8469aca0917d6"
+      }
+    },
+    {
+      "version": "1.15.1",
+      "mapping": "mojmap",
+      "canonicalRoot": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.15.1\\mojmap",
+      "sourceIdentity": {
+        "markerPaths": [
+          "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.15.1\\mojmap.ready.json",
+          "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.15.1\\mojmap.sources.sha256"
+        ],
+        "kind": "parent ready marker and SHA-256 source ledger",
+        "sha256": "c8fdce2f9432b72fc13c19a48f9ab3be203cac41a617139e81bac3552245912d",
+        "ledgerFileHash": "c8fdce2f9432b72fc13c19a48f9ab3be203cac41a617139e81bac3552245912d",
+        "verified": true
+      },
+      "sourceFilesSha256": {
+        "net/minecraft/world/entity/player/Player.java": "6985e11ad9be553e9a2f25e5decc20a9da5c3b59b68f4e83a5b9f448cd2e48a0",
+        "net/minecraft/world/entity/player/Player.java_ledgerMatch": true,
+        "net/minecraft/world/entity/Entity.java": "191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e",
+        "net/minecraft/world/entity/Entity.java_ledgerMatch": true,
+        "net/minecraft/client/player/LocalPlayer.java": "7227da5233e3c72ced008187b92a6a86842f84778eaa9f40fa1eb117286af823",
+        "net/minecraft/client/player/LocalPlayer.java_ledgerMatch": true,
+        "net/minecraft/world/entity/LivingEntity.java": "139c3866ad2c6a1ad73496f22ff1a4b5259998442092ffbafb8664428e28bf79",
+        "net/minecraft/world/entity/LivingEntity.java_ledgerMatch": true,
+        "net/minecraft/world/level/material/FluidState.java": "f88bff7d54ea0220ee67e0fe36a78df67871e52ae636e584ea26dd107f652c15",
+        "net/minecraft/world/level/material/FluidState.java_ledgerMatch": true,
+        "net/minecraft/world/level/material/FlowingFluid.java": "e8a395552e53f33bcb5648325615d31bc1796ce2a8aeb501bdda3127622dccdf",
+        "net/minecraft/world/level/material/FlowingFluid.java_ledgerMatch": true,
+        "net/minecraft/tags/FluidTags.java": "7b75994500c5286295f17227cd89ce0c42ffe829af57e6a5ff3415e41342953c",
+        "net/minecraft/tags/FluidTags.java_ledgerMatch": true
+      },
+      "relevantMemberFingerprintsSha256": {
+        "Player.tick": "8342afffe66674003465488f087a43208c0a2799f4c66924ba38922b76976e94",
+        "Player.updateIsUnderwater": "2623f14a1a25c1d23c1bc82c09881b1a0b5088c5d68c4370b2ce9ef9fc79991b",
+        "Entity.isUnderLiquid(Tag<Fluid>,boolean)": "f68bf8f49bcb615b0997a729bafaac403563101ac234a986256743f014869777",
+        "LocalPlayer.isUnderWater": "bc6465c7e2c901f9a32829a3a0f0c52e69e1be5a81b3e26fdf26ede88a7cd2ca",
+        "LocalPlayer.updateIsUnderwater": "7b84cabced1a56eaddc731dda821416aeab8f8841a609b63d52507fd1cf973aa",
+        "LocalPlayer.hasEnoughImpulseToStartSprinting": "b28caef7a8bbc9fe19d8f81d74c28c348edcdbb4edfed79c4f37fc0f871434f3",
+        "LivingEntity.travel": "fcad2aeb74014e783c0c9510c1b5f434e6f07854a6cb9db54cb8469aca0917d6"
+      }
+    },
+    {
+      "version": "1.15.2",
+      "mapping": "mojmap",
+      "canonicalRoot": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.15.2\\mojmap",
+      "sourceIdentity": {
+        "markerPaths": [
+          "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.15.2\\mojmap.ready.json",
+          "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.15.2\\mojmap.sources.sha256"
+        ],
+        "kind": "parent ready marker and SHA-256 source ledger",
+        "sha256": "cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7",
+        "ledgerFileHash": "cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7",
+        "verified": true
+      },
+      "sourceFilesSha256": {
+        "net/minecraft/world/entity/player/Player.java": "1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793",
+        "net/minecraft/world/entity/player/Player.java_ledgerMatch": true,
+        "net/minecraft/world/entity/Entity.java": "191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e",
+        "net/minecraft/world/entity/Entity.java_ledgerMatch": true,
+        "net/minecraft/client/player/LocalPlayer.java": "3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd",
+        "net/minecraft/client/player/LocalPlayer.java_ledgerMatch": true,
+        "net/minecraft/world/entity/LivingEntity.java": "46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54",
+        "net/minecraft/world/entity/LivingEntity.java_ledgerMatch": true,
+        "net/minecraft/world/level/material/FluidState.java": "f88bff7d54ea0220ee67e0fe36a78df67871e52ae636e584ea26dd107f652c15",
+        "net/minecraft/world/level/material/FluidState.java_ledgerMatch": true,
+        "net/minecraft/world/level/material/FlowingFluid.java": "e8a395552e53f33bcb5648325615d31bc1796ce2a8aeb501bdda3127622dccdf",
+        "net/minecraft/world/level/material/FlowingFluid.java_ledgerMatch": true,
+        "net/minecraft/tags/FluidTags.java": "7b75994500c5286295f17227cd89ce0c42ffe829af57e6a5ff3415e41342953c",
+        "net/minecraft/tags/FluidTags.java_ledgerMatch": true
+      },
+      "relevantMemberFingerprintsSha256": {
+        "Player.tick": "8342afffe66674003465488f087a43208c0a2799f4c66924ba38922b76976e94",
+        "Player.updateIsUnderwater": "2623f14a1a25c1d23c1bc82c09881b1a0b5088c5d68c4370b2ce9ef9fc79991b",
+        "Entity.isUnderLiquid(Tag<Fluid>,boolean)": "f68bf8f49bcb615b0997a729bafaac403563101ac234a986256743f014869777",
+        "LocalPlayer.isUnderWater": "bc6465c7e2c901f9a32829a3a0f0c52e69e1be5a81b3e26fdf26ede88a7cd2ca",
+        "LocalPlayer.updateIsUnderwater": "7b84cabced1a56eaddc731dda821416aeab8f8841a609b63d52507fd1cf973aa",
+        "LocalPlayer.hasEnoughImpulseToStartSprinting": "b28caef7a8bbc9fe19d8f81d74c28c348edcdbb4edfed79c4f37fc0f871434f3",
+        "LivingEntity.travel": "fcad2aeb74014e783c0c9510c1b5f434e6f07854a6cb9db54cb8469aca0917d6"
+      }
+    },
+    {
+      "version": "1.16",
+      "mapping": "mojmap",
+      "canonicalRoot": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.16\\mojmap",
+      "sourceIdentity": {
+        "markerPaths": [
+          "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.16\\mojmap.ready.json",
+          "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.16\\mojmap.sources.sha256"
+        ],
+        "kind": "parent ready marker and SHA-256 source ledger",
+        "sha256": "e3c23e94ac985c25dec0c768aed17b443ba4823662cf1e152235c99756ae5d4a",
+        "ledgerFileHash": "e3c23e94ac985c25dec0c768aed17b443ba4823662cf1e152235c99756ae5d4a",
+        "verified": true
+      },
+      "sourceFilesSha256": {
+        "net/minecraft/world/entity/player/Player.java": "a849960d47bf00a2cddfb6636c78c518532a11967ba08829f19c5ebced08681e",
+        "net/minecraft/world/entity/player/Player.java_ledgerMatch": true,
+        "net/minecraft/world/entity/Entity.java": "27e3bb01b5d03c09161891e717c16477899768333082e81ebfaac4e525616576",
+        "net/minecraft/world/entity/Entity.java_ledgerMatch": true,
+        "net/minecraft/client/player/LocalPlayer.java": "ee20523adfdb82f3753fa43312af170f34c4f4aa78570631c61bc8c0820dfb8b",
+        "net/minecraft/client/player/LocalPlayer.java_ledgerMatch": true,
+        "net/minecraft/world/entity/LivingEntity.java": "b6ea2b9b037b79fc3ea6e1f6bcd2c4c1d89d4a96315968a8f247641f6c335f26",
+        "net/minecraft/world/entity/LivingEntity.java_ledgerMatch": true,
+        "net/minecraft/world/level/material/FluidState.java": "665b4024a32f659d92ce1259b25f529616e44b6f3df8a6aab4a4a2c57c7bc26d",
+        "net/minecraft/world/level/material/FluidState.java_ledgerMatch": true,
+        "net/minecraft/world/level/material/FlowingFluid.java": "a85a5cd6625b1b4a047bd693399e1f78c2978ae207af927d4abfac3b34229552",
+        "net/minecraft/world/level/material/FlowingFluid.java_ledgerMatch": true,
+        "net/minecraft/tags/FluidTags.java": "29756a98a15f0ab06c33eb6b414883c13c352c803e8c6d42608cbe7960905c58",
+        "net/minecraft/tags/FluidTags.java_ledgerMatch": true
+      },
+      "relevantMemberFingerprintsSha256": {
+        "Player.tick": "8f0930cf2186ea789265cf8f88ac3a2ee4a3c3ed43788dcf9be001d65978600e",
+        "Player.updateIsUnderwater": "96d86d0cc9a1a34dc32afd9be74348ecaea4a4ed0c6c7c5474fd3195437952e7",
+        "Entity.baseTick": "411d90dbbe08f3866b3400ed74eea7cf68bb269860926f1a0cc80422afa98cd0",
+        "Entity.updateFluidOnEyes": "e4aa108af2f190a519a953a371450bb9b33a98eb4e45b6c8c5f71cffc14ed2a4",
+        "Entity.isEyeInFluid(Tag<Fluid>)": "fddbc2d89480ff206c8de94464192396d8d1ab7ec6464d879c21024f9cab5243",
+        "Entity.updateSwimming": "bbace8807456fec2cd6ff90842df739cf65d770ab06cf6e76c0460b9ca521a10",
+        "LocalPlayer.isUnderWater": "bc6465c7e2c901f9a32829a3a0f0c52e69e1be5a81b3e26fdf26ede88a7cd2ca",
+        "LocalPlayer.updateIsUnderwater": "7b84cabced1a56eaddc731dda821416aeab8f8841a609b63d52507fd1cf973aa",
+        "LocalPlayer.hasEnoughImpulseToStartSprinting": "b28caef7a8bbc9fe19d8f81d74c28c348edcdbb4edfed79c4f37fc0f871434f3",
+        "LivingEntity.travel": "d10d0118f8156217e47a46820624b4ca5dbb4ab498ca5892f0d223a69dee3b01"
+      }
+    },
+    {
+      "version": "1.16.1",
+      "mapping": "mojmap",
+      "canonicalRoot": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.16.1\\mojmap",
+      "sourceIdentity": {
+        "markerPaths": [
+          "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.16.1\\mojmap.ready.json",
+          "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.16.1\\mojmap.sources.sha256"
+        ],
+        "kind": "parent ready marker and SHA-256 source ledger",
+        "sha256": "76fdd121070c2012f48cbdf5cf0c78490116afc94117c30b0858eedcd6ab9754",
+        "ledgerFileHash": "76fdd121070c2012f48cbdf5cf0c78490116afc94117c30b0858eedcd6ab9754",
+        "verified": true
+      },
+      "sourceFilesSha256": {
+        "net/minecraft/world/entity/player/Player.java": "a849960d47bf00a2cddfb6636c78c518532a11967ba08829f19c5ebced08681e",
+        "net/minecraft/world/entity/player/Player.java_ledgerMatch": true,
+        "net/minecraft/world/entity/Entity.java": "27e3bb01b5d03c09161891e717c16477899768333082e81ebfaac4e525616576",
+        "net/minecraft/world/entity/Entity.java_ledgerMatch": true,
+        "net/minecraft/client/player/LocalPlayer.java": "ee20523adfdb82f3753fa43312af170f34c4f4aa78570631c61bc8c0820dfb8b",
+        "net/minecraft/client/player/LocalPlayer.java_ledgerMatch": true,
+        "net/minecraft/world/entity/LivingEntity.java": "b6ea2b9b037b79fc3ea6e1f6bcd2c4c1d89d4a96315968a8f247641f6c335f26",
+        "net/minecraft/world/entity/LivingEntity.java_ledgerMatch": true,
+        "net/minecraft/world/level/material/FluidState.java": "665b4024a32f659d92ce1259b25f529616e44b6f3df8a6aab4a4a2c57c7bc26d",
+        "net/minecraft/world/level/material/FluidState.java_ledgerMatch": true,
+        "net/minecraft/world/level/material/FlowingFluid.java": "a85a5cd6625b1b4a047bd693399e1f78c2978ae207af927d4abfac3b34229552",
+        "net/minecraft/world/level/material/FlowingFluid.java_ledgerMatch": true,
+        "net/minecraft/tags/FluidTags.java": "29756a98a15f0ab06c33eb6b414883c13c352c803e8c6d42608cbe7960905c58",
+        "net/minecraft/tags/FluidTags.java_ledgerMatch": true
+      },
+      "relevantMemberFingerprintsSha256": {
+        "Player.tick": "8f0930cf2186ea789265cf8f88ac3a2ee4a3c3ed43788dcf9be001d65978600e",
+        "Player.updateIsUnderwater": "96d86d0cc9a1a34dc32afd9be74348ecaea4a4ed0c6c7c5474fd3195437952e7",
+        "Entity.baseTick": "411d90dbbe08f3866b3400ed74eea7cf68bb269860926f1a0cc80422afa98cd0",
+        "Entity.updateFluidOnEyes": "e4aa108af2f190a519a953a371450bb9b33a98eb4e45b6c8c5f71cffc14ed2a4",
+        "Entity.isEyeInFluid(Tag<Fluid>)": "fddbc2d89480ff206c8de94464192396d8d1ab7ec6464d879c21024f9cab5243",
+        "Entity.updateSwimming": "bbace8807456fec2cd6ff90842df739cf65d770ab06cf6e76c0460b9ca521a10",
+        "LocalPlayer.isUnderWater": "bc6465c7e2c901f9a32829a3a0f0c52e69e1be5a81b3e26fdf26ede88a7cd2ca",
+        "LocalPlayer.updateIsUnderwater": "7b84cabced1a56eaddc731dda821416aeab8f8841a609b63d52507fd1cf973aa",
+        "LocalPlayer.hasEnoughImpulseToStartSprinting": "b28caef7a8bbc9fe19d8f81d74c28c348edcdbb4edfed79c4f37fc0f871434f3",
+        "LivingEntity.travel": "d10d0118f8156217e47a46820624b4ca5dbb4ab498ca5892f0d223a69dee3b01"
+      }
+    },
+    {
+      "version": "1.16.2",
+      "mapping": "mojmap",
+      "canonicalRoot": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.16.2\\mojmap",
+      "sourceIdentity": {
+        "markerPaths": [
+          "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.16.2\\mojmap.ready.json",
+          "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.16.2\\mojmap.sources.sha256"
+        ],
+        "kind": "parent ready marker and SHA-256 source ledger",
+        "sha256": "10d312ca29ee48e25f4727adafb9fcfbd741dcebe81b343d3dcffa071952a7a7",
+        "ledgerFileHash": "10d312ca29ee48e25f4727adafb9fcfbd741dcebe81b343d3dcffa071952a7a7",
+        "verified": true
+      },
+      "sourceFilesSha256": {
+        "net/minecraft/world/entity/player/Player.java": "d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960",
+        "net/minecraft/world/entity/player/Player.java_ledgerMatch": true,
+        "net/minecraft/world/entity/Entity.java": "f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666",
+        "net/minecraft/world/entity/Entity.java_ledgerMatch": true,
+        "net/minecraft/client/player/LocalPlayer.java": "6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b",
+        "net/minecraft/client/player/LocalPlayer.java_ledgerMatch": true,
+        "net/minecraft/world/entity/LivingEntity.java": "b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88",
+        "net/minecraft/world/entity/LivingEntity.java_ledgerMatch": true,
+        "net/minecraft/world/level/material/FluidState.java": "665b4024a32f659d92ce1259b25f529616e44b6f3df8a6aab4a4a2c57c7bc26d",
+        "net/minecraft/world/level/material/FluidState.java_ledgerMatch": true,
+        "net/minecraft/world/level/material/FlowingFluid.java": "a85a5cd6625b1b4a047bd693399e1f78c2978ae207af927d4abfac3b34229552",
+        "net/minecraft/world/level/material/FlowingFluid.java_ledgerMatch": true,
+        "net/minecraft/tags/FluidTags.java": "75d072cdc3e9073fc3fa481e4ccadd802e77a880ec776412f69bc865c4c78267",
+        "net/minecraft/tags/FluidTags.java_ledgerMatch": true
+      },
+      "relevantMemberFingerprintsSha256": {
+        "Player.tick": "8f0930cf2186ea789265cf8f88ac3a2ee4a3c3ed43788dcf9be001d65978600e",
+        "Player.updateIsUnderwater": "96d86d0cc9a1a34dc32afd9be74348ecaea4a4ed0c6c7c5474fd3195437952e7",
+        "Entity.baseTick": "b32f54968adc95a01c60081a95a0dce1c1234e519046dce72ff9ca1cbaaa82cb",
+        "Entity.updateFluidOnEyes": "120a3e6e9264f38451c2d446520cecb065c53fe55147660a1a70e374539590ab",
+        "Entity.isEyeInFluid(Tag<Fluid>)": "fddbc2d89480ff206c8de94464192396d8d1ab7ec6464d879c21024f9cab5243",
+        "Entity.updateSwimming": "bbace8807456fec2cd6ff90842df739cf65d770ab06cf6e76c0460b9ca521a10",
+        "LocalPlayer.isUnderWater": "bc6465c7e2c901f9a32829a3a0f0c52e69e1be5a81b3e26fdf26ede88a7cd2ca",
+        "LocalPlayer.updateIsUnderwater": "7b84cabced1a56eaddc731dda821416aeab8f8841a609b63d52507fd1cf973aa",
+        "LocalPlayer.hasEnoughImpulseToStartSprinting": "b28caef7a8bbc9fe19d8f81d74c28c348edcdbb4edfed79c4f37fc0f871434f3",
+        "LivingEntity.travel": "d10d0118f8156217e47a46820624b4ca5dbb4ab498ca5892f0d223a69dee3b01"
+      }
+    },
+    {
+      "version": "1.16.3",
+      "mapping": "mojmap",
+      "canonicalRoot": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.16.3\\mojmap",
+      "sourceIdentity": {
+        "markerPaths": [
+          "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.16.3\\mojmap\\.decompile-provenance.json"
+        ],
+        "kind": "embedded provenance manifest with per-source map",
+        "sha256": "513271804ead6757345d305717e7e0bfc1641434c35a3b254f287bd8fd281498",
+        "verified": true
+      },
+      "sourceFilesSha256": {
+        "net/minecraft/world/entity/player/Player.java": "d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960",
+        "net/minecraft/world/entity/player/Player.java_embeddedManifestMatch": true,
+        "net/minecraft/world/entity/Entity.java": "f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666",
+        "net/minecraft/world/entity/Entity.java_embeddedManifestMatch": true,
+        "net/minecraft/client/player/LocalPlayer.java": "6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b",
+        "net/minecraft/client/player/LocalPlayer.java_embeddedManifestMatch": true,
+        "net/minecraft/world/entity/LivingEntity.java": "b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88",
+        "net/minecraft/world/entity/LivingEntity.java_embeddedManifestMatch": true,
+        "net/minecraft/world/level/material/FluidState.java": "665b4024a32f659d92ce1259b25f529616e44b6f3df8a6aab4a4a2c57c7bc26d",
+        "net/minecraft/world/level/material/FluidState.java_embeddedManifestMatch": true,
+        "net/minecraft/world/level/material/FlowingFluid.java": "a85a5cd6625b1b4a047bd693399e1f78c2978ae207af927d4abfac3b34229552",
+        "net/minecraft/world/level/material/FlowingFluid.java_embeddedManifestMatch": true,
+        "net/minecraft/tags/FluidTags.java": "75d072cdc3e9073fc3fa481e4ccadd802e77a880ec776412f69bc865c4c78267",
+        "net/minecraft/tags/FluidTags.java_embeddedManifestMatch": true
+      },
+      "relevantMemberFingerprintsSha256": {
+        "Player.tick": "8f0930cf2186ea789265cf8f88ac3a2ee4a3c3ed43788dcf9be001d65978600e",
+        "Player.updateIsUnderwater": "96d86d0cc9a1a34dc32afd9be74348ecaea4a4ed0c6c7c5474fd3195437952e7",
+        "Entity.baseTick": "b32f54968adc95a01c60081a95a0dce1c1234e519046dce72ff9ca1cbaaa82cb",
+        "Entity.updateFluidOnEyes": "120a3e6e9264f38451c2d446520cecb065c53fe55147660a1a70e374539590ab",
+        "Entity.isEyeInFluid(Tag<Fluid>)": "fddbc2d89480ff206c8de94464192396d8d1ab7ec6464d879c21024f9cab5243",
+        "Entity.updateSwimming": "bbace8807456fec2cd6ff90842df739cf65d770ab06cf6e76c0460b9ca521a10",
+        "LocalPlayer.isUnderWater": "bc6465c7e2c901f9a32829a3a0f0c52e69e1be5a81b3e26fdf26ede88a7cd2ca",
+        "LocalPlayer.updateIsUnderwater": "7b84cabced1a56eaddc731dda821416aeab8f8841a609b63d52507fd1cf973aa",
+        "LocalPlayer.hasEnoughImpulseToStartSprinting": "b28caef7a8bbc9fe19d8f81d74c28c348edcdbb4edfed79c4f37fc0f871434f3",
+        "LivingEntity.travel": "d10d0118f8156217e47a46820624b4ca5dbb4ab498ca5892f0d223a69dee3b01"
+      }
+    },
+    {
+      "version": "1.16.4",
+      "mapping": "mojmap",
+      "canonicalRoot": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.16.4\\mojmap",
+      "sourceIdentity": {
+        "markerPaths": [
+          "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.16.4\\mojmap\\.decompile-provenance.json"
+        ],
+        "kind": "embedded provenance manifest with per-source map",
+        "sha256": "1e04555c915527a398a2c7150679fb24d056f54bd680261e3c1dd55da821147c",
+        "verified": true
+      },
+      "sourceFilesSha256": {
+        "net/minecraft/world/entity/player/Player.java": "d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960",
+        "net/minecraft/world/entity/player/Player.java_embeddedManifestMatch": true,
+        "net/minecraft/world/entity/Entity.java": "f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666",
+        "net/minecraft/world/entity/Entity.java_embeddedManifestMatch": true,
+        "net/minecraft/client/player/LocalPlayer.java": "6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b",
+        "net/minecraft/client/player/LocalPlayer.java_embeddedManifestMatch": true,
+        "net/minecraft/world/entity/LivingEntity.java": "b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88",
+        "net/minecraft/world/entity/LivingEntity.java_embeddedManifestMatch": true,
+        "net/minecraft/world/level/material/FluidState.java": "665b4024a32f659d92ce1259b25f529616e44b6f3df8a6aab4a4a2c57c7bc26d",
+        "net/minecraft/world/level/material/FluidState.java_embeddedManifestMatch": true,
+        "net/minecraft/world/level/material/FlowingFluid.java": "a85a5cd6625b1b4a047bd693399e1f78c2978ae207af927d4abfac3b34229552",
+        "net/minecraft/world/level/material/FlowingFluid.java_embeddedManifestMatch": true,
+        "net/minecraft/tags/FluidTags.java": "75d072cdc3e9073fc3fa481e4ccadd802e77a880ec776412f69bc865c4c78267",
+        "net/minecraft/tags/FluidTags.java_embeddedManifestMatch": true
+      },
+      "relevantMemberFingerprintsSha256": {
+        "Player.tick": "8f0930cf2186ea789265cf8f88ac3a2ee4a3c3ed43788dcf9be001d65978600e",
+        "Player.updateIsUnderwater": "96d86d0cc9a1a34dc32afd9be74348ecaea4a4ed0c6c7c5474fd3195437952e7",
+        "Entity.baseTick": "b32f54968adc95a01c60081a95a0dce1c1234e519046dce72ff9ca1cbaaa82cb",
+        "Entity.updateFluidOnEyes": "120a3e6e9264f38451c2d446520cecb065c53fe55147660a1a70e374539590ab",
+        "Entity.isEyeInFluid(Tag<Fluid>)": "fddbc2d89480ff206c8de94464192396d8d1ab7ec6464d879c21024f9cab5243",
+        "Entity.updateSwimming": "bbace8807456fec2cd6ff90842df739cf65d770ab06cf6e76c0460b9ca521a10",
+        "LocalPlayer.isUnderWater": "bc6465c7e2c901f9a32829a3a0f0c52e69e1be5a81b3e26fdf26ede88a7cd2ca",
+        "LocalPlayer.updateIsUnderwater": "7b84cabced1a56eaddc731dda821416aeab8f8841a609b63d52507fd1cf973aa",
+        "LocalPlayer.hasEnoughImpulseToStartSprinting": "b28caef7a8bbc9fe19d8f81d74c28c348edcdbb4edfed79c4f37fc0f871434f3",
+        "LivingEntity.travel": "d10d0118f8156217e47a46820624b4ca5dbb4ab498ca5892f0d223a69dee3b01"
+      }
+    },
+    {
+      "version": "1.16.5",
+      "mapping": "mojmap",
+      "canonicalRoot": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.16.5\\mojmap",
+      "sourceIdentity": {
+        "markerPaths": [
+          "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.16.5\\mojmap.ready.json",
+          "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.16.5\\mojmap.sources.sha256"
+        ],
+        "kind": "parent ready marker and SHA-256 source ledger",
+        "sha256": "9499f2611d0e6dde37cb635f1a28a591416382d6bc188b37d5f99e2b2a20823b",
+        "ledgerFileHash": "9499f2611d0e6dde37cb635f1a28a591416382d6bc188b37d5f99e2b2a20823b",
+        "verified": true
+      },
+      "sourceFilesSha256": {
+        "net/minecraft/world/entity/player/Player.java": "d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960",
+        "net/minecraft/world/entity/player/Player.java_ledgerMatch": true,
+        "net/minecraft/world/entity/Entity.java": "f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666",
+        "net/minecraft/world/entity/Entity.java_ledgerMatch": true,
+        "net/minecraft/client/player/LocalPlayer.java": "6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b",
+        "net/minecraft/client/player/LocalPlayer.java_ledgerMatch": true,
+        "net/minecraft/world/entity/LivingEntity.java": "b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88",
+        "net/minecraft/world/entity/LivingEntity.java_ledgerMatch": true,
+        "net/minecraft/world/level/material/FluidState.java": "665b4024a32f659d92ce1259b25f529616e44b6f3df8a6aab4a4a2c57c7bc26d",
+        "net/minecraft/world/level/material/FluidState.java_ledgerMatch": true,
+        "net/minecraft/world/level/material/FlowingFluid.java": "a85a5cd6625b1b4a047bd693399e1f78c2978ae207af927d4abfac3b34229552",
+        "net/minecraft/world/level/material/FlowingFluid.java_ledgerMatch": true,
+        "net/minecraft/tags/FluidTags.java": "75d072cdc3e9073fc3fa481e4ccadd802e77a880ec776412f69bc865c4c78267",
+        "net/minecraft/tags/FluidTags.java_ledgerMatch": true
+      },
+      "relevantMemberFingerprintsSha256": {
+        "Player.tick": "8f0930cf2186ea789265cf8f88ac3a2ee4a3c3ed43788dcf9be001d65978600e",
+        "Player.updateIsUnderwater": "96d86d0cc9a1a34dc32afd9be74348ecaea4a4ed0c6c7c5474fd3195437952e7",
+        "Entity.baseTick": "b32f54968adc95a01c60081a95a0dce1c1234e519046dce72ff9ca1cbaaa82cb",
+        "Entity.updateFluidOnEyes": "120a3e6e9264f38451c2d446520cecb065c53fe55147660a1a70e374539590ab",
+        "Entity.isEyeInFluid(Tag<Fluid>)": "fddbc2d89480ff206c8de94464192396d8d1ab7ec6464d879c21024f9cab5243",
+        "Entity.updateSwimming": "bbace8807456fec2cd6ff90842df739cf65d770ab06cf6e76c0460b9ca521a10",
+        "LocalPlayer.isUnderWater": "bc6465c7e2c901f9a32829a3a0f0c52e69e1be5a81b3e26fdf26ede88a7cd2ca",
+        "LocalPlayer.updateIsUnderwater": "7b84cabced1a56eaddc731dda821416aeab8f8841a609b63d52507fd1cf973aa",
+        "LocalPlayer.hasEnoughImpulseToStartSprinting": "b28caef7a8bbc9fe19d8f81d74c28c348edcdbb4edfed79c4f37fc0f871434f3",
+        "LivingEntity.travel": "d10d0118f8156217e47a46820624b4ca5dbb4ab498ca5892f0d223a69dee3b01"
+      }
+    }
+  ],
+  "verifiedMemberEquivalence": {
+    "oldDirectQueryVersions": [
+      "1.15",
+      "1.15.1",
+      "1.15.2"
+    ],
+    "PlayerTickFingerprintSha256": "8342afffe66674003465488f087a43208c0a2799f4c66924ba38922b76976e94",
+    "PlayerUpdateIsUnderwaterFingerprintSha256": "2623f14a1a25c1d23c1bc82c09881b1a0b5088c5d68c4370b2ce9ef9fc79991b",
+    "EntityIsUnderLiquidFingerprintSha256": "f68bf8f49bcb615b0997a729bafaac403563101ac234a986256743f014869777",
+    "firstCachedRead": "1.16",
+    "cachedReadVersions": [
+      "1.16",
+      "1.16.1",
+      "1.16.2",
+      "1.16.3",
+      "1.16.4",
+      "1.16.5"
+    ],
+    "PlayerUpdateIsUnderwaterCachedFingerprintSha256": "96d86d0cc9a1a34dc32afd9be74348ecaea4a4ed0c6c7c5474fd3195437952e7",
+    "entityProducerFingerprintGroups": [
+      {
+        "updateFluidOnEyes": "e4aa108af2f190a519a953a371450bb9b33a98eb4e45b6c8c5f71cffc14ed2a4",
+        "versions": [
+          "1.16",
+          "1.16.1"
+        ],
+        "baseTick": "411d90dbbe08f3866b3400ed74eea7cf68bb269860926f1a0cc80422afa98cd0"
+      },
+      {
+        "updateFluidOnEyes": "120a3e6e9264f38451c2d446520cecb065c53fe55147660a1a70e374539590ab",
+        "versions": [
+          "1.16.2",
+          "1.16.3",
+          "1.16.4",
+          "1.16.5"
+        ],
+        "baseTick": "b32f54968adc95a01c60081a95a0dce1c1234e519046dce72ff9ca1cbaaa82cb"
+      }
+    ],
+    "LocalPlayerUnderwaterReadFingerprintSha256": "bc6465c7e2c901f9a32829a3a0f0c52e69e1be5a81b3e26fdf26ede88a7cd2ca",
+    "LocalPlayerUpdateFingerprintSha256": "7b84cabced1a56eaddc731dda821416aeab8f8841a609b63d52507fd1cf973aa",
+    "LocalPlayerSprintHelperFingerprintSha256": "b28caef7a8bbc9fe19d8f81d74c28c348edcdbb4edfed79c4f37fc0f871434f3"
+  }
+}

@@ -1,0 +1,9 @@
+# Local-player eye-water classification uses a cached point sample
+
+1.15.2, Mojmap: `net/minecraft/world/entity/player/Player.java`, `tick` and `updateIsUnderwater`, lines 236–237 and 298–300; `net/minecraft/world/entity/Entity.java`, `isUnderLiquid(Tag<Fluid>, boolean)`, lines 1040–1052; `net/minecraft/client/player/LocalPlayer.java`, `isUnderWater` and sprint gates, lines 999–1001 and 658–685.
+
+1.16.5, Mojmap: `net/minecraft/world/entity/player/Player.java`, `tick` and `updateIsUnderwater`, lines 233–234 and 291–293; `net/minecraft/world/entity/Entity.java`, `baseTick` and `updateFluidOnEyes`, lines 380–382 and 981–1005; `net/minecraft/client/player/LocalPlayer.java`, `isUnderWater` and sprint gates, lines 1011–1012 and 668–695.
+
+Difference: both `Player.tick` methods call `updateIsUnderwater()` before `super.tick()`. In 1.15.2, `updateIsUnderwater()` queries the current eye point through `isUnderLiquid(FluidTags.WATER, true)`. In 1.16.5, it reads `isEyeInFluid(FluidTags.WATER)` from the cache. `Entity.baseTick()` refreshes that cache later in the same tick, after the player field has been assigned. `LocalPlayer.isUnderWater()` returns `Player.wasUnderwater`, so local sprint gates and the local swimming update still consume the prior cached classification for this movement tick.
+
+Movement meaning: for a non-flying local player crossing the eye-water boundary between samples, the cached result can change sprint qualification or the swimming-state update. Sprinting then selects `0.9F` rather than the ordinary `getWaterSlowDown()` factor in water travel. This is conditional on the other sprint and fluid gates. The comparison assumes the same fluid-tag inputs, a loaded chunk, a fixed pose, and no boat; it does not make a datapack tag-production or float-boundary witness claim.
