@@ -19,8 +19,12 @@ abstract class FlowingFluidMixin {
     private boolean legacyparkourcompat$fallingCurrentFace(BlockState state, BlockGetter level, BlockPos pos,
                                                           Direction direction, Operation<Boolean> original) {
         var player = MovementRuntime.localPlayerFluidCurrent();
+        if (player == null) {
+            return original.call(state, level, pos, direction);
+        }
+        FlowingFluid fluid = (FlowingFluid)(Object)this;
         return MovementRuntime.find(FallingFluidFaceSturdyHook.class, state.getBlock(), player)
-            .map(hook -> hook.isFaceSturdy(state, level, pos, direction,
+            .map(hook -> hook.isFaceSturdy(fluid, player, state, level, pos, direction,
                 () -> original.call(state, level, pos, direction)))
             .orElseGet(() -> original.call(state, level, pos, direction));
     }

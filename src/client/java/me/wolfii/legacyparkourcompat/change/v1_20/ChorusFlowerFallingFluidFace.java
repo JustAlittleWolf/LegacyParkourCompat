@@ -6,8 +6,10 @@ import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FallingFluidFaceSturdyHook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FlowingFluid;
 
 /**
  * In Mojmap 1.19.4 and 1.20/1.20.1, ChorusFlowerBlock has no
@@ -32,8 +34,8 @@ public final class ChorusFlowerFallingFluidFace implements FallingFluidFaceSturd
     }
 
     @Override
-    public boolean isFaceSturdy(BlockState state, BlockGetter level, BlockPos pos, Direction direction,
-                                VanillaFn<Boolean> vanilla) {
+    public boolean isFaceSturdy(FlowingFluid fluid, Player player, BlockState state, BlockGetter level,
+                                BlockPos pos, Direction direction, VanillaFn<Boolean> vanilla) {
         return direction.getAxis().isHorizontal() || vanilla.get();
     }
 }
