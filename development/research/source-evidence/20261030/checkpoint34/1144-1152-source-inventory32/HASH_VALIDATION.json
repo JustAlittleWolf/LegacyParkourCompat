@@ -1,0 +1,45 @@
+﻿{
+    "pair":  "1.14.4 -\u003e 1.15.2 Mojmap",
+    "sides":  [
+                  {
+                      "version":  "1.14.4",
+                      "sourceRoot":  "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.14.4\\mojmap",
+                      "manifestSha256":  "af98406f3d4ed31494fbdce1078d1f3df3f712501878f9a0e9ad5879bdf23c3b",
+                      "manifestCount":  3250,
+                      "fileCount":  3250,
+                      "sourceBytes":  17080207,
+                      "missing":  0,
+                      "unlisted":  0,
+                      "hashMismatches":  0
+                  },
+                  {
+                      "version":  "1.15.2",
+                      "sourceRoot":  "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.15.2\\mojmap",
+                      "manifestSha256":  "cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7",
+                      "manifestCount":  3332,
+                      "fileCount":  3332,
+                      "sourceBytes":  17543871,
+                      "missing":  0,
+                      "unlisted":  0,
+                      "hashMismatches":  0
+                  }
+              ],
+    "javaPathStates":  [
+                           {
+                               "state":  "changed",
+                               "count":  1482
+                           },
+                           {
+                               "state":  "same",
+                               "count":  1634
+                           },
+                           {
+                               "state":  "added-1.15.2",
+                               "count":  216
+                           },
+                           {
+                               "state":  "removed-after-1.14.4",
+                               "count":  134
+                           }
+                       ]
+}

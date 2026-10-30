@@ -1,0 +1,8 @@
+# Existing water contact and travel vertical force
+
+1.12.2, Feather: `net/minecraft/entity/Entity.java`, `checkWaterCollisions()`, lines 948-963; `net/minecraft/world/World.java`, `applyLiquidDrag()`, lines 1579-1620; `net/minecraft/util/math/Box.java`, `grown()`, lines 132-140; `net/minecraft/entity/living/LivingEntity.java`, water branch in `moveRelative()`, lines 1555-1584.
+1.13.2, Feather: `net/minecraft/entity/Entity.java`, `checkWaterState()`/`m_69693160()`, lines 961-981 and 2509-2575; `net/minecraft/entity/living/LivingEntity.java`, water branch in `moveRelative()`, lines 1617-1650.
+
+Difference: the old contact box is shrunk by 0.4 at both vertical faces (then 0.001), and old liquid flow is normalized before 0.014 acceleration. The new query contracts by 0.001, requires fluid surface to meet box.minY, stores maximum depth for water-jump gating, and uses averaged/depth-scaled flow without normalizing PlayerEntity vectors. Separately, old enabled-gravity water travel subtracts 0.02 after vertical drag; 1.13.2 normally subtracts 0.08/16 = 0.005 (or slow-fall gravity magnitude / 16), includes a near-zero snap to -0.003, and suppresses this gravity branch while sprinting.
+
+Movement meaning: the contact boolean/depth and fluid-current impulse can differ at partial immersion and at player-specific flow magnitudes. The water travel velocity after the movement step decays under a different gravity delta. Current-force closure depends on liquid collision, fluid flow and providers from the collision/fluid lane; this draft does not settle those dependencies. Exact pair provenance and source hashes are bound in `audit-followup.md`.

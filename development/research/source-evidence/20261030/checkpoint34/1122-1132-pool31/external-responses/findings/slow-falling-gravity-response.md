@@ -1,0 +1,6 @@
+# Slow Falling gravity response
+
+1.12.2, Feather Gen2 build 2: `net/minecraft/entity/living/effect/StatusEffect.java` and `StatusEffects.java` have no Slow Falling registration; `net/minecraft/entity/living/LivingEntity.java`, `moveRelative`, lines 1425–1450 and the remaining gravity branch through 1537, has no Slow Falling gravity gate.
+1.13.2, Feather Gen2 build 2: `net/minecraft/entity/living/effect/StatusEffect.java`, line 286 registers `slow_falling`; `net/minecraft/entity/living/effect/StatusEffects.java`, line 36 exposes `SLOW_FALLING`; `net/minecraft/client/network/handler/ClientPlayNetworkHandler.java`, `handleEntityStatusEffect`, lines 1396–1413 applies the server-delivered instance to the matching living entity; `net/minecraft/entity/living/LivingEntity.java`, `moveRelative`, lines 1478–1484 adds the local-movement gate and descending-state test.
+Difference: for a locally controlled player with `velocityY <= 0.0` and Slow Falling, 1.13.2 changes the later gravity subtraction from `0.08` to `0.01` and resets `fallDistance` to `0.0F`; 1.12.2 lacks this status effect and branch.
+Movement meaning: the packet-reachable effect reduces downward acceleration for the next local player movement step. This describes a 1.13.2 feature addition, not a behavior required from a 1.12.2 profile.
