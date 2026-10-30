@@ -1,0 +1,3 @@
+# Addendum: 1.13.2 immobility source anchor
+
+To make the correction's prior-timer check exact for both endpoints: 1.13.2 `PlayerEntity.isDead()` at lines 417–419 returns `health <= 0 || isSleeping()`. `LivingEntity` uses this predicate at lines 1891–1897 before jump resolution and clears `jumping`, sideways/forward speed, and rotation speed when true. Hence a timer already armed before the player enters one of the 0.2F sleeping/dying poses does not become a jump while that pose persists. Source: `1.13.2/ornithe-feather/net/minecraft/entity/living/LivingEntity.java`, SHA256 `BB691358C9A43C9F46E85575BF4D0A4AD671D0EB912502ACC3A6A3F625E42F1C`.
