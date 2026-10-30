@@ -6,6 +6,7 @@ import net.minecraft.world.entity.InsideBlockEffectApplier;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import net.minecraft.CrashReportCategory;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
@@ -23,6 +24,9 @@ public interface EntityInvoker {
 
     @Invoker("onInsideBlock")
     void legacyparkourcompat$invokeOnInsideBlock(BlockState state);
+
+    @Invoker("makeBoundingBox")
+    AABB legacyparkourcompat$invokeMakeBoundingBox(Vec3 position);
 
     @Invoker("getFireImmuneTicks")
     int legacyparkourcompat$invokeGetFireImmuneTicks();

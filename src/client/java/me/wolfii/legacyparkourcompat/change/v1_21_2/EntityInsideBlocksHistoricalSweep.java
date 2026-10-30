@@ -7,9 +7,11 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
 import me.wolfii.legacyparkourcompat.mechanic.collision.SweptShapeIntersectionMath;
+import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockCallbackAxisOrderHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.callback.SweptBlockResponseHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.EntityInsideBlocksScanHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.HistoricalBlockCallbackSweepHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.blockcallback.BlockCallbackDda;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.PartialShapeSweepHook;
 import me.wolfii.legacyparkourcompat.mixin.EntityMovementAccessor;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityCallbackFinalizerAccessor;
@@ -19,6 +21,7 @@ import net.minecraft.CrashReport;
 import net.minecraft.CrashReportCategory;
 import net.minecraft.ReportedException;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.Movement;
@@ -49,6 +52,8 @@ import java.util.Set;
  * only the DDA candidates; this class supplies old position admission and ordered dispatch.
  * 26.2's movement-record producer remains separate: this change consumes the finalized endpoint
  * list it receives, without asserting that producer recreates the older caller-supplied records.
+ * The side-effect-free modern-domain guard also mirrors 26.2 Entity.checkInsideBlocks(List)'s
+ * axis-dependent segment split and BlockGetter.forEachBlockIntersectedBetween candidate traversal.
  */
 @MovementChange(emulates = ParkourVersion.V1_21_2)
 public final class EntityInsideBlocksHistoricalSweep implements HistoricalBlockCallbackSweepHook {
@@ -62,20 +67,65 @@ public final class EntityInsideBlocksHistoricalSweep implements HistoricalBlockC
             .filter(EntityInsideBlocksScanHook::usesHistoricalScan)
             .orElseThrow(() -> new IllegalStateException("Historical callback sweep has no selected scan provider"));
         AABB queryBox = entity.getBoundingBox().deflate(1.0E-5F);
+        EntityInvoker invoker = (EntityInvoker)entity;
         for (Movement movement : movements) {
             EntityMovementAccessor access = (EntityMovementAccessor)(Object)movement;
             Vec3 from = access.legacyParkourCompat$from();
             Vec3 to = access.legacyParkourCompat$to();
             for (BlockPos pos : scan.candidateCells(from, to, queryBox)) {
-                BlockState state = entity.level().getBlockState(pos);
-                if (state.getBlock() instanceof EyeblossomBlock) {
+                if (isEyeblossom(entity, pos)) {
                     // 26.2 has callback domains here that 1.21.2/1.21.3 did not.
                     // Fall back before stepOn, any old callback, or finalization can run.
                     return false;
                 }
             }
+
+            Vec3 delta = to.subtract(from);
+            var axisDependentMovement = access.axisDependentOriginalMovement();
+            if (axisDependentMovement.isPresent() && delta.lengthSqr() > 0.0) {
+                Vec3 axisOrder = MovementRuntime.find(BlockCallbackAxisOrderHook.class, entity)
+                    .filter(hook -> hook.appliesTo(entity))
+                    .map(hook -> hook.callbackAxisOrder(axisDependentMovement.get(), delta))
+                    .orElse(axisDependentMovement.get());
+                Vec3 segmentFrom = from;
+                for (Direction.Axis axis : Direction.axisStepOrder(axisOrder)) {
+                    double segmentDelta = delta.get(axis);
+                    if (segmentDelta == 0.0) {
+                        continue;
+                    }
+
+                    Vec3 segmentTo = segmentFrom.with(axis, segmentFrom.get(axis) + segmentDelta);
+                    AABB segmentQueryBox = invoker.legacyparkourcompat$invokeMakeBoundingBox(segmentTo)
+                        .deflate(1.0E-5F);
+                    if (containsModernEyeblossomCandidate(entity, segmentFrom, segmentTo, segmentQueryBox)) {
+                        return false;
+                    }
+                    segmentFrom = segmentTo;
+                }
+            } else {
+                AABB segmentQueryBox = invoker.legacyparkourcompat$invokeMakeBoundingBox(to).deflate(1.0E-5F);
+                if (containsModernEyeblossomCandidate(entity, from, to, segmentQueryBox)) {
+                    return false;
+                }
+            }
         }
         return true;
+    }
+
+    private static boolean containsModernEyeblossomCandidate(Entity entity, Vec3 from, Vec3 to, AABB queryBox) {
+        boolean[] found = {false};
+        BlockCallbackDda.visitSegment(from, to, queryBox, (pos, step) -> {
+            if (isEyeblossom(entity, pos)) {
+                found[0] = true;
+                return false;
+            }
+            return true;
+        });
+        return found[0];
+    }
+
+    private static boolean isEyeblossom(Entity entity, BlockPos pos) {
+        return entity.level().getBlockState(pos).getBlock() instanceof EyeblossomBlock;
     }
 
     @Override
