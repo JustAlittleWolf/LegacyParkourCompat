@@ -1,0 +1,6 @@
+# Ground acceleration friction rounding
+
+1.13.2, Ornithe Feather Gen2: `net/minecraft/entity/living/LivingEntity.java`, `moveRelative`, lines 1540–1548. When grounded it computes `t = slipperiness * 0.91F`, then `u = 0.16277137F / (t * t * t)` and scales `getSpeed()` by `u`. Default block slipperiness is `0.6F` (`net/minecraft/block/Block.java:1907`).
+1.14.4, Ornithe Feather Gen2: `net/minecraft/entity/living/LivingEntity.java`, `travel`, lines 1841–1844 and helper `m_70235197` at `:1961–1963`. When grounded it computes `getSpeed() * (0.21600002F / (slipperiness * slipperiness * slipperiness))`. Default block slipperiness remains `0.6F` (`net/minecraft/block/Block.java:817`).
+Difference: The grounded acceleration multiplier uses a different constant and float operation order. At `0.6F`, binary32 evaluation gives `0.9999998807907104F` for the older factor and `1.0F` for the newer factor. Both branches sample the support block before movement; the older second read at `:1554–1558` is also before `move(...)` at `:1575` and therefore is not a post-move support resample.
+Movement meaning: With nonzero grounded player input, this factor feeds the movement-input acceleration and can produce a float-rounding difference in velocity. Exact downstream tick-position effect is not established here.
