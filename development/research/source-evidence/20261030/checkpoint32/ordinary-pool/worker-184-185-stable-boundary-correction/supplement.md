@@ -1,0 +1,7 @@
+# Stable-release cutover correction: 1.8.4 → 1.8.5 movement-speed cap
+
+The adjacent comparison is between consecutive stable releases 1.8.4 and 1.8.5. The source change to `generic.movementSpeed` maximum (`Double.MAX_VALUE` in 1.8.4, `1024.0` in 1.8.5) therefore establishes 1.8.5 as the first stable release in this series with the cap. The pairwise difference is not an unknown intermediate-patch boundary. The earlier corrective supplement's phrase “exact intermediate patch introduction boundary remains unknown” is superseded for this stable-release series; no finer stable snapshot is needed.
+
+This is an evidence-boundary correction only. Preserve the accepted operation as a reachable local movement difference under identical raw received base/modifier entries when the post-modifier value exceeds 1024.0; do not compare after local clamping. The exact source members, hashes, packet route, clamp order, movement consumer and 1025.0 witness remain documented in `worker-184-185-attribute-cutover-correction/supplement.md` (SHA-256 `beebcdea58074704f6118a68a24045319f177bade88eb85f5615af28563e64d0`).
+
+Paired source releases and provenance identities remain those in the original ordinary report and correction supplement: 1.8.4 source provenance SHA-256 `b2207bf9ab2a7561bf73ac92a63cc67760ccc6fd9e2378ff1e10710ecbb03a00`; 1.8.5 `986d25dfd11927abed51c92643e5beda48237da875fbcdf1a48a930456ea99ce`. No claims are made about pre-1.8.4 releases or runtime parity.

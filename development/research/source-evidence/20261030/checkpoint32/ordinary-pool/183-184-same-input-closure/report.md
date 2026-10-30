@@ -1,0 +1,45 @@
+# 1.8.3 → 1.8.4 same-input movement-source closure
+
+## Assignment and evidence boundary
+
+This bounded supplement closes the two residual candidates in `.native-source/20261028/frontier-c/183-184-residual-movement/report.md` (SHA-256 `f2f85733cfb97f091ae417bf3c7d6060f25ec8b04d1940fcb0885fc9c58d4f84`) and `.native-source/20261028/frontier-c/183-184-residual-movement-audit/audit.md` (SHA-256 `9a1ef8ae8010724c9591c10c000d93b4d9e8f4660f7245bfa3b17e9366e6c6ac`). It reuses their verified source inventories and the 1.8.2 → 1.8.3 coverage cited there; it does not repeat full source-map hashing. Canonical sources are `D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/{1.8.3,1.8.4}/ornithe-feather/`. Provenance-manifest hashes remain those established in the cited report: 1.8.3 `7da5f772d7ed1433cb3da23861723ebaec7cb714ce49c4d1a5c30499fec3afed`, 1.8.4 `b2207bf9ab2a7561bf73ac92a63cc67760ccc6fd9e2378ff1e10710ecbb03a00`. The adjacent client JAR identity hashes embedded there are respectively `4da43d06c8c1605a9a3ba1bf22893245cf1b108eb5c8fed859012252370c2c06` and `d68a3aa5271abece4ce2b7048f6caf4f58071476344d9a52fe9ab1410c5d458b`.
+
+## Default registration and movement-resource closure
+
+The default vanilla block constructor/registry path is the same on both sides. `net/minecraft/block/Block.java` (SHA-256 `ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528` in both releases) registers `new PortalBlock()` under key `portal` and `new VineBlock()` under key `vine` (lines 1026 and 1046). `net/minecraft/block/Blocks.java` (SHA-256 `1da2d85406ed991e8f6bc1f420babf0bd43598478f347c6a4dc9fea322ed0695` in both releases) resolves `NETHER_PORTAL` and `VINE` from those keys (lines 317 and 332). These are source-defined defaults, not data-driven replacements. `net/minecraft/block/PortalBlock.java` is identical too (SHA-256 `bb9d2cba26df71c8383408fcccc93b849eebecd3d36924a63ee80cba8734867e` both releases).
+
+For movement, `VineBlock.getCollisionShape` returns null in both versions, and the identical `LivingEntity.isClimbing` consumer tests the block identity at the player's feet for `Blocks.VINE` (with the player spectator gate); it does not read horizontal vine properties. `LivingEntity.java` is byte-identical (SHA-256 `082831c6578e3a70fa6cea5b90bc3eefc26678259b66334470de22b90b5b0e4e`). The changed Vine `tick` only runs growth/write logic behind `!world.isClient`; the independent audit establishes the changed property writes. Therefore there is no same-client-state vine shape or climb-predicate delta. If the changed server growth later changes whether a vine block exists and that world state is delivered to the client, that is an unequal received-world-state input and outside the equal-input comparison. Default vine registration/resources do not turn this server producer into client movement simulation.
+
+No cached 1.8.3 or 1.8.4 client JAR was present in the local Gradle Loom cache or the standard `.minecraft/versions` cache searched for this check. No archive inspection was performed. The source registrations and movement consumers suffice for this default movement-resource closure: texture/model/blockstate presentation resources are not consulted by the movement collision/climbing operations above, while the default block identities and their movement behavior are defined by the audited sources.
+
+## Portal transfer: changed producer and received position
+
+The changed producer is `net/minecraft/server/world/PortalForcer.java`: SHA-256 1.8.3 `86d5701245e49e298d9819e98968c54a2e36f9af27c8a898a8361a70932015da`; 1.8.4 `5fe634ce1537e1fbe6c615a47c23059b66b52f24b9c21f99d52b300f9c00ee44`. In the found-portal branch, the 1.8.3 method adds a portal-facing offset to X or Z after calculating the portal-relative destination; 1.8.4 omits that addition. The resulting coordinates are written by `PortalForcer.onDimensionChanged` using `entity.setPositionAndAngles` (the report/audit identify lines 146–148 and the precise branch).
+
+The continuation is confirmed in both source trees: `Entity.changeDimension` checks `!world.isClient` before invoking `PlayerManager.changeDimension`; `PlayerManager.changeDimension(ServerPlayerEntity,int)` calls the destination `PortalForcer` and then `networkHandler.teleport(player.x, player.y, player.z, ...)`; the server handler's `teleport` writes authoritative server-player position and sends `PlayerMoveS2CPacket`; `ClientPlayNetworkHandler.handlePlayerMove` applies the received coordinates to `minecraft.player`. `Entity.java` is unchanged (SHA-256 `d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b` both releases), `ClientPlayNetworkHandler.java` is unchanged (`7fa3d587325068eaa158526cb59e4850b704ac237938df6592d1a09148db40c3`), and `PlayerMoveS2CPacket.java` is unchanged (`3c2c044610df527df20561b4ded36aca91c774b7d0520f9e4cfe657030bf1baf`). `PlayerManager.java` and `ServerPlayNetworkHandler.java` do differ as part of the verified adjacent changed-path set; their exact hashes are below.
+
+This is a server-authoritative dimension-transfer placement whose result is transported as a direct client player-position response. The receive/application path is a direct state response, but the version delta is not a client movement rule and the client does not recalculate portal placement. When the server-produced coordinates differ, the client receives an unequal position input; holding the received position equal leaves no 1.8.3 → 1.8.4 portal-placement movement delta to emulate locally. Record the boundary as an authoritative server response, not as an implementation-ready client hook.
+
+## Exact source member identities
+
+Hashes are SHA-256 of each exact `.java` source member in the canonical roots above. Matching values mean byte-identical files across this adjacent pair.
+
+| Source member | 1.8.3 SHA-256 | 1.8.4 SHA-256 | Role in closure |
+|---|---|---|---|
+| `net/minecraft/block/Block.java` | `ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528` | same | Default `portal` and `vine` registrations |
+| `net/minecraft/block/Blocks.java` | `1da2d85406ed991e8f6bc1f420babf0bd43598478f347c6a4dc9fea322ed0695` | same | Default aliases resolving registered block identities |
+| `net/minecraft/block/PortalBlock.java` | `bb9d2cba26df71c8383408fcccc93b849eebecd3d36924a63ee80cba8734867e` | same | Portal block operation, unchanged |
+| `net/minecraft/block/VineBlock.java` | `110ed5fff140f9b01ce20f9a2fa0c670160cfd31d99bf06566660bca2f38ea07` | `c5052b5d6b70598c06ecb351fe2e4fcf5d2674bda6fb2ad1e9d0bf4aeab816b6` | Changed server-only scheduled growth producer |
+| `net/minecraft/entity/living/LivingEntity.java` | `082831c6578e3a70fa6cea5b90bc3eefc26678259b66334470de22b90b5b0e4e` | same | Vine climb predicate and movement consumer |
+| `net/minecraft/server/world/PortalForcer.java` | `86d5701245e49e298d9819e98968c54a2e36f9af27c8a898a8361a70932015da` | `5fe634ce1537e1fbe6c615a47c23059b66b52f24b9c21f99d52b300f9c00ee44` | Changed dimension-exit placement producer |
+| `net/minecraft/entity/Entity.java` | `d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b` | same | Server-gated dimension-transfer dispatch |
+| `net/minecraft/server/PlayerManager.java` | `e70d2028b79f487ce17bfb524e9cfa2dcb27543a4f62356bf42aec263a19701e` | `0498b44f26782daa8b82db0c0823cef615c6bd7e7234a43c32456e15647d9a5d` | Calls portal forcer and sends player transfer/teleport |
+| `net/minecraft/server/network/handler/ServerPlayNetworkHandler.java` | `291a05b4702ff32e604dfa8e57dc5c8f90f63aa424afd1b37ddbb4a204569f58` | `c2de662af504d7128a855efd1b105097667f662a80919f569bdc922787d5197a` | Teleport writes server state and sends position packet |
+| `net/minecraft/network/packet/s2c/play/PlayerMoveS2CPacket.java` | `3c2c044610df527df20561b4ded36aca91c774b7d0520f9e4cfe657030bf1baf` | same | Carries authoritative position/angles/relative flags |
+| `net/minecraft/client/network/handler/ClientPlayNetworkHandler.java` | `7fa3d587325068eaa158526cb59e4850b704ac237938df6592d1a09148db40c3` | same | Applies received player position/angles |
+
+## Recommendation and remaining gates
+
+**Recommend the exact 1.8.3 → 1.8.4 pair for same-input source freeze**, provided the freeze statement explicitly conditions on equal movement-relevant received world/player state and default vanilla registrations/resources. The Vine growth change is a server-only producer whose later client-observable block-presence result is unequal received world state. The portal change alters a server-authoritative transfer coordinate delivered to the client; it is a received position input and not local movement simulation. Neither establishes a local client movement delta under equal inputs.
+
+This recommendation does not claim cross-release equivalence when server-generated world or position inputs differ, close modded/custom registry/resource behavior, cover intermediate releases, establish full-pair source acceptance outside the already audited changed-path and reused-slice coverage, prove runtime parity, or authorize implementation. No remaining genuine same-input local movement candidate from these two residual endpoints is open.
