@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "pair": "1.19.2--1.19.3",
+  "mapping": "mojmap",
+  "canonicalSourceRoot": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft",
+  "sources": {
+    "1.19.2": {
+      "sourceManifest": "mojmap.sources.sha256",
+      "sourceManifestSha256": "95bc354ac219b9fe1ca8bf45053edad0119a75323d576902d59616a11647aac2",
+      "readyMarkerSha256": "90f5a351c60a1aab160b640567b716bbc563e62d92e7e555df55c4ce7952492c",
+      "provenanceManifestSha256": "c0c148d3c3a0092adc59c29c25f2106f3a5398156a4f266882384804b3534280",
+      "versionId": "1.19.2",
+      "mapping": "mojmap",
+      "sourceFileCount": 4480,
+      "fullTreeVerificationReusedFromAudit": true,
+      "scopedFilePairsRehashedByThisReview": 18
+    },
+    "1.19.3": {
+      "sourceManifest": "mojmap.sources.sha256",
+      "sourceManifestSha256": "6f1cc6d07ab3902a7ea25a3f8817504723be70d82e97f541cffda95ea2c1c843",
+      "readyMarkerSha256": "c1c6abc850d52b0dac399ef6ac68974fb15750cb3bdced2f947fad21c79289b6",
+      "provenanceManifestSha256": "f733352c574a2f70f9218f709dcaaf6b19a9d968d5fa19aad4e25c2eed25a9fe",
+      "versionId": "1.19.3",
+      "mapping": "mojmap",
+      "sourceFileCount": 4618,
+      "fullTreeVerificationReusedFromAudit": true,
+      "scopedFilePairsRehashedByThisReview": 18
+    }
+  },
+  "reusedPairArtifacts": {
+    "inventorySha256": "a179103f133b0118f3e7d9f483cf890555651314a9a17ea5014de77d2b8ee96d",
+    "inventoryIntegritySha256": "bdf3cfc8998cae9c91c83e36e053ed5ade539e0bbb57b40ff7f54391986a7a85",
+    "auditSha256": "aba077644027a1107afbf01b71c060b08d2e5105a5c155c6ab5b3dee9107bd79",
+    "auditIntegritySha256": "e3f94af6c4b11c4dba9693ecc6b405be891cb1b669d5b0f15c2ca56ebfded703",
+    "priorAuditVerdict": "no-freeze"
+  },
+  "verifiedSourceFiles": [
+    {"path":"net/minecraft/world/entity/Entity.java","1.19.2":"759de9cded43bd882afcf5b7023bcf804d92419acb656b493f3b490c83eb18b6","1.19.3":"8c35bdef3bf2de7b70ac76ad767ba2c194305e0dda2e03fdf6544983667adc32"},
+    {"path":"net/minecraft/client/player/LocalPlayer.java","1.19.2":"36ae4aabd609b457fffb7a8b14abb50db9ac775857dde1774c0c68a8cf50deef","1.19.3":"64b670ee323d195b3928fb8ea629c26d2560e75a17379a12c376a7bc686d5479"},
+    {"path":"net/minecraft/world/entity/LivingEntity.java","1.19.2":"fee2df5155449098556a138d2530d06b7a35979e43c6aa0ae1fffd6251853e77","1.19.3":"2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db"},
+    {"path":"net/minecraft/world/entity/player/Player.java","1.19.2":"155c5fcfba322d968f3180383e7d283ddeb5edee4e04314906310d4e3ce0ccc1","1.19.3":"02e64e197aec3f4f2a8abc9c5ce4545121ac5bcbbc71592ce478601a0db17203"},
+    {"path":"net/minecraft/server/level/ServerPlayer.java","1.19.2":"8366c069afcae3c9fc866db51a80041a7a56bb3189b049116abd6828ade1f6a3","1.19.3":"7df71c12ff99bec35b7c6b0e68fa24e5a5aa7293c6dd8f3342d433936ad35c7c"},
+    {"path":"net/minecraft/world/entity/EntityDimensions.java","1.19.2":"ced817743f3bd35462c94c0112adf6f54eabf6132b0a349b05160e519bad3502","1.19.3":"ced817743f3bd35462c94c0112adf6f54eabf6132b0a349b05160e519bad3502"},
+    {"path":"net/minecraft/world/level/block/state/BlockBehaviour.java","1.19.2":"c0e62233fa21be352953edda6b411727762165fa2cc8d645c7c08406f92df08b","1.19.3":"183ea122421dc3c0649ff0c64affda3d3cc3090c9fc2e01d96da44410d4b39c1"},
+    {"path":"net/minecraft/core/BlockPos.java","1.19.2":"f520f3056b16c033f28db64171471aa165537fc8a1504278a24a4760b3fcf0ec","1.19.3":"19fd76058d98a5bc8f0dfd6aab03524c4941c0407660812d46a22f3cc05fc54a"},
+    {"path":"net/minecraft/core/Vec3i.java","1.19.2":"e48be042611e39e69be4d6858644209cd00dbaa8e389f7a3f92809b51c642d32","1.19.3":"e48be042611e39e69be4d6858644209cd00dbaa8e389f7a3f92809b51c642d32"},
+    {"path":"net/minecraft/util/Mth.java","1.19.2":"61727897223a78846a5f1fa270d57aa714c21b3c8d6f2b0e12fea4a07e6c327f","1.19.3":"f5b2738a7145303f8598b9876c0f6950e853110f594fc4cffa633ab7bab98d3f"},
+    {"path":"net/minecraft/world/level/block/Blocks.java","1.19.2":"f532585f836ee7ad685d368889ed13d735c570ef38971db0c1d2a7debb4cf27b","1.19.3":"9944877c941fa209d2a8b9a7d4eb6333edf2dfca255a3e90601242483eb7a476"},
+    {"path":"net/minecraft/world/level/block/WebBlock.java","1.19.2":"eb8f4433705367aa7ce23c5a6071955b4d67728e299a2993285c6405ce638e49","1.19.3":"eb8f4433705367aa7ce23c5a6071955b4d67728e299a2993285c6405ce638e49"},
+    {"path":"net/minecraft/world/level/block/HoneyBlock.java","1.19.2":"5ffc5f58a81f82823305c7ed02f9a465c7b3bfd2c1799da566e1485d0cd99ad5","1.19.3":"5ffc5f58a81f82823305c7ed02f9a465c7b3bfd2c1799da566e1485d0cd99ad5"},
+    {"path":"net/minecraft/world/level/block/SweetBerryBushBlock.java","1.19.2":"58d1e3418c9acc70b15de07411d2c079b6392d64658eadb2db2bbd26d9a9a372","1.19.3":"e1bf69039f55d032b3ae186002a7c5acef0baac3269acabc77f0f839be47f6e8"},
+    {"path":"net/minecraft/world/level/block/PowderSnowBlock.java","1.19.2":"40b15b7239a24058cc34ed9f1ede0611edde897badbef5486c493cf620949c5d","1.19.3":"40b15b7239a24058cc34ed9f1ede0611edde897badbef5486c493cf620949c5d"},
+    {"path":"net/minecraft/world/level/block/BubbleColumnBlock.java","1.19.2":"34f7c5400f1b8db997ac18333b7e57497b1667274779d4d410f4177b922cb452","1.19.3":"34f7c5400f1b8db997ac18333b7e57497b1667274779d4d410f4177b922cb452"},
+    {"path":"net/minecraft/world/level/block/BigDripleafBlock.java","1.19.2":"7ddf75630237af8e7e9c6d23ae0190d1646156d37263874208f79682c609f49a","1.19.3":"b27695e811d04d0cfe97d4f92c4f7a32f687d8e5bd6f1019d2bd4a754cf7fe02"},
+    {"path":"net/minecraft/world/level/block/NetherPortalBlock.java","1.19.2":"698e84dc4482d54dd71493bf62f41bfff36b5b0f4d6734ac01030da13d077bc1","1.19.3":"2eb02aa9e42080b30da53483483c679ba99120b8956a666ba2bf577370870da1"}
+  ],
+  "methodBodyComparisons": [
+    {"method":"Entity.checkInsideBlocks","equal":false,"oldBodySha256":"1cb8594138bb0750d42aaf96cccfe941a50ebdb5c3ed4b10e83056caa7f21dc5","newBodySha256":"a6d3375c6e27d3492c67c1df8108635ed16ae5ba886c8c23ac05bf65b017e527","oldLiteralCount":6,"newLiteralCount":6,"equalAfterReplacingAllOld0.001WithNew1.0E-7":true},
+    {"method":"Entity.tryCheckInsideBlocks","equal":true,"bodySha256":"ccb64aeab555f369b8543a7a378cb8c43657925d34e78a442582509a4686d70e"},
+    {"method":"Entity.onInsideBlock","equal":true,"bodySha256":"2a5a205e7eb33fb542feb8a38216fef315a022a0e2af33dfc9208a21673e9770"},
+    {"method":"BlockBehaviour.BlockStateBase.entityInside","equal":true,"bodySha256":"0d12484478178dd7df77589c882eb0bd24a7fd4ba832a0cda0dd49b3e0a61d32"},
+    {"method":"WebBlock.entityInside","equal":true,"bodySha256":"c0e0bf5cfd9c4da1fbcafb01dbf161a1eaca219a69aae3b2e4fa58879a61f495"},
+    {"method":"HoneyBlock.entityInside","equal":true,"bodySha256":"ca9d3331db673d763a391e642c2550da66c70474260fa6a4cfd495b1994466b2"},
+    {"method":"HoneyBlock.isSlidingDown","equal":true,"bodySha256":"ee47a3352cb4a72e539f400a5dc45d4c9e7255918facc8bd26ba03c6d731801c"},
+    {"method":"HoneyBlock.doSlideMovement","equal":true,"bodySha256":"898d775e794731d0b52ec0c9f8660a5188f9281436e9c48c9b670c6a8aa10ff5"},
+    {"method":"SweetBerryBushBlock.entityInside","equal":true,"bodySha256":"5048e51d319492ce529629deb79dc361c9123f56cfe4c3d431a2e0ebc2380a89"},
+    {"method":"PowderSnowBlock.entityInside","equal":true,"bodySha256":"0bdee2af8bad68bc1b1f0e038bc2e0d2e32f69b3064d21d32c5f7f759876fd3c"},
+    {"method":"BubbleColumnBlock.entityInside","equal":true,"bodySha256":"fe17cf16805aa550e13e4c17ab5f4f5f538d432b14cce3d7d197875f44df9b9c"},
+    {"method":"Entity.onAboveBubbleCol","equal":true,"bodySha256":"035640b450b7c74af3f0d939df84f1988b8a454bc927cfe0a6a03709e084b842"},
+    {"method":"Entity.onInsideBubbleColumn","equal":true,"bodySha256":"126f386dbf1d583bceea83c5784f2e4ccc796e91411f39e6eff4dd0839e20be5"},
+    {"method":"BigDripleafBlock.entityInside","equal":true,"bodySha256":"0d6eb6e1b1a24a728ab8e7ec32bfc40732871ecb820f16a8c04d3acb24b4fec1"},
+    {"method":"NetherPortalBlock.entityInside","equal":true,"bodySha256":"d91e15a6261ae4c988b9a9f97bc5dcc3702a931b7315b514da148bb8e74406cd"},
+    {"method":"Entity.handleInsidePortal","equal":true,"bodySha256":"1bfbb6f19d8c47883cc8199831051dd25e25ab989d55302e16656286b57283ba"},
+    {"method":"Entity.makeStuckInBlock","equal":true,"bodySha256":"e49554d48a77a87e7636df9cd047dbfdd9dfa624f48b3331c39c8ea614f15860"},
+    {"method":"Entity.setIsInPowderSnow","equal":true,"bodySha256":"4825caed41772c1689041c1986a46a7678c6d30e0d47cf7c7d443ccb9d49880d"},
+    {"method":"ServerPlayer.onInsideBlock","equal":true,"bodySha256":"85732581a32da833b53cb3079b578d4bd7ca8753f792e698045beea5751458fd"},
+    {"method":"Player.getDimensions","equal":true,"bodySha256":"bd6a3928841c70bbb592c612eba0a76e2ae2748dbcf155c3252680b20bac1b1a"}
+  ],
+  "staticScope": "Exact decompiled source comparison only; no implementation, product history, wiki, backlog, test, build, game launch, or decompilation was used."
+}

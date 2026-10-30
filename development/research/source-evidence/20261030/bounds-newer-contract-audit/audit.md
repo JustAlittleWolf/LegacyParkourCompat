@@ -1,0 +1,28 @@
+# Independent audit: newer chest/anvil bounds contract
+
+## Verdict
+
+Accept the contract's central lifecycle conclusion for the inspected exact sources: the legacy mutable bounds path is absent by Minecraft 1.9. The exact first verified boundary is 1.8.9 -> 1.9. Minecraft 1.9 is the first stable 1.9 release, so there is no earlier 1.9 stable patch whose inspection is needed to establish this boundary. The 1.9.4 comparison confirms the provider design persists at that checked point; it does not establish every later patch by inference.
+
+The source-hash ledger is valid: every one of its 21 listed canonical source-file digests matched. The evidence is sufficient for the stated provider/read-path comparison and for separating movement collision providers from camera ray providers. It does not establish that current 26.2 shapes reproduce legacy collision geometry.
+
+## Independently verified source facts
+
+- In 1.8.9, chest IDs 54 and 146 are separate `ChestBlock(0)` / `ChestBlock(1)` instances and ID 145 is an `AnvilBlock` (`Block.java:942,1141-1142`). `ChestBlock.updateShape(WorldView, BlockPos)` mutates instance bounds using neighbor identity in N, S, W, E first-match order (`ChestBlock.java:56-68`); anvil refresh uses the queried state's FACING axis (`AnvilBlock.java:67-74`). Inherited collision collection reads those fields without calling `updateShape` (`Block.java:339-350`). This agrees with the accepted conditional P-to-Q lifecycle finding and its independent audit.
+- In 1.9, registrations preserve distinct chest/trapped-chest instances and anvil identity (`Block.java:836,1011-1012`). `Block` instead exposes `getShape(state, world, pos)`; the chest provider evaluates the same N/S/W/E identity precedence at the requested position (`ChestBlock.java:32-36,62-72`), and anvil selects its static box from the requested state's facing axis (`AnvilBlock.java:32-33,97-100`). `BlockState` dispatches shape and collision reads to these providers (`StateDefinition.java:348-364`); base collision collection gets the state collision shape for the scanned position (`Block.java:313-328`). No mutable per-instance bounds or old `updateShape(WorldView, BlockPos)` writer remains in these providers.
+- 1.9.4 repeats the same chest neighbor lookup and anvil state-facing provider (`ChestBlock.java:32-36,63-73`; `AnvilBlock.java:32-33,98-101`). Its base `addCollisions` and `getCollisionShape` continue to query the state provider (`Block.java:337-353`).
+- 1.9 and 1.9.4 camera ray traversal still uses block ray providers (`World.java:635-653` in 1.9; `:645-663` in 1.9.4), while `Entity.move` obtains collision lists through `World.getCollisions` (`Entity.java:506-539` in 1.9; `:509-542` in 1.9.4). Their common state-shape source does not make ray DDA, ray eligibility, hit ordering, or camera results the movement collision contract.
+- In 26.2, movement obtains block collisions from entity-derived `CollisionContext` (`CollisionGetter.java:96-105`). Picking uses `BlockGetter.clip` and a ClipContext-selected block shape, may adjust direction using the interaction shape, and compares against fluid hits (`BlockGetter.java:65-95`). Those are distinct operations.
+
+## Provider gates that remain genuine
+
+1. **26.2 anvil geometry:** FACING supplies the old X/Z choice, but the modern anvil `getShape` is a composed multi-part silhouette (`AnvilBlock.java:35-37,77-79`), while legacy collision uses a full-height axis-aligned rectangular box (`1.8.9 AnvilBlock.java:67-73`). A legacy collision projection must synthesize the historical box from FACING; passing through modern collision/outline shape is not equivalent.
+2. **26.2 chest geometry and identity:** the modern shape provider selects `SINGLE` or an oriented half using state `TYPE` and `FACING` (`ChestBlock.java:76-77,192-203`). The legacy providers use distinct normal/trapped chest identities plus per-query N/S/W/E same-instance first-match precedence. Mapping current identity and double-chest states back to that legacy rule (or proving equivalence for supported state arrangements) remains open. Modern outline shape is not evidence of the movement collision projection.
+3. **26.2 collision dispatch:** the legacy projection must be wired to the movement collision-shape request and honor the actual queried position/state. Modern collision provider context is part of that call surface. The checked vanilla anvil/chest providers ignore the supplied `CollisionContext`, but a compatibility hook must not accidentally route through the clip/outline path or cached context-free outline data.
+4. **Patch persistence beyond checked points:** 1.9 establishes the earliest stable absence boundary; 1.9.4 confirms persistence there. Claims for uninspected intervening or subsequent releases still need their own exact-source evidence when an implementation interval depends on them. This is not a missing “1.9.0” boundary gate.
+
+No additional gate remains for proving that the old mutable-bound lifecycle ended by 1.9, nor for distinguishing the 1.9/1.9.4 state providers from their ray callers.
+
+## Evidence identity and method
+
+Compared the immutable claims in `.native-source/20261030/bounds-newer-contract/contract.md` to its listed canonical source files under `D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/`, and retraced the old finding using `.native-source/20261030/dda-bounds-order/report.md` plus `.native-source/20261030/dda-bounds-order-audit/review.md` as accepted inputs. The contract and its source-hash ledger SHA-256 values are recorded in `audit.sha256`. Every listed source digest matched its canonical file. Static source inspection only; no product files/history, wiki, backlog, tests, build, game, or runtime was consulted.

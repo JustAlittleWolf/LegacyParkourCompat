@@ -1,0 +1,45 @@
+SHA-256 evidence manifest for `.native-source/20261030/dda-state-join-ores`
+
+Canonical source root: `D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/` (read-only).
+Exact source identities: 1.8.9 `ornithe-feather` / `feather-gen2-1.8.9+build.2`; 26.2 `unobfuscated`.
+
+Canonical source files used:
+EA10F05106A3CF7189AEC85236A7ECF9C7106A717F37BED583B5EA4ADEFFA528  1.8.9/ornithe-feather/net/minecraft/block/Block.java
+1DA2D85406ED991E8F6BC1F420BABF0BD43598478F347C6A4DC9FEA322ED0695  1.8.9/ornithe-feather/net/minecraft/block/Blocks.java
+89E25CA382A879CC6C3EB4244450122798619462681B9CF246EA999C49DB9144  1.8.9/ornithe-feather/net/minecraft/block/OreBlock.java
+9B2EFE542205A9CCBA4F86F472F973A1BEAB413F3DE3773DD28F4BF6915911DB  1.8.9/ornithe-feather/net/minecraft/block/RedstoneOreBlock.java
+CCA2AA7C8744FF966BC3F69BE79AEC1F50918BC11E75E1F95ABEDA3CD42759CD  1.8.9/ornithe-feather/net/minecraft/block/ObsidianBlock.java
+A7C3403C4E6D0D0014EF722755962F5F449071BB2EBFFE0FD2D200BD5CD42144  1.8.9/ornithe-feather/net/minecraft/block/GlassBlock.java
+DAE1D397D40F5167AF82FBDE78174F259ADE1415C96E4D34C8C31C72BDB40A3A  1.8.9/ornithe-feather/net/minecraft/block/IceBlock.java
+7CD8709BCAABECBD10CC29A60537E46E0B22C922BC1DA177E303C0E54CDED33D  1.8.9/ornithe-feather/net/minecraft/block/SnowBlock.java
+03FEB4F7DE37AAE893E951A267A7FCB9E81E8DC1283F88A143B1F4AB0BF91768  1.8.9/ornithe-feather/net/minecraft/block/ClayBlock.java
+10988504552E0B699D99FA19F17ACADF9CCD32D5EC886C6432D35C96407DEDCC  1.8.9/ornithe-feather/net/minecraft/block/SoulSandBlock.java
+B9370E6F1FAB19FE6D091930D1047247008A8720A4DFF5EDAD4D0EC468A7EE04  1.8.9/ornithe-feather/net/minecraft/block/NetherrackBlock.java
+92D4080F0A3899B7DD65589A12F07EBB9A4F2EA0567D34448BA9E4FC439455BE  1.8.9/ornithe-feather/net/minecraft/block/GlowstoneBlock.java
+4A7DE861C83F395255D6045D5F9FB98D932ABD42724E54316ADC59116EE6FB50  26.2/unobfuscated/net/minecraft/util/datafix/DataFixers.java
+DD5CA8CFF42BE587606824A5BA53FA7ED5E1411959D1E19F1F9D07BE9D875010  26.2/unobfuscated/net/minecraft/util/datafix/fixes/ChunkPalettedStorageFix.java
+6196F9039890D5F67B59CB372EC06DA987E8A5EA80B49FD8BEE9EECA0A1784A4  26.2/unobfuscated/net/minecraft/util/datafix/fixes/BlockStateData.java
+11E0DC903BCCAB03346D8FE434E98534BFF0C67501E48DB147128CF38DB128AF  26.2/unobfuscated/net/minecraft/util/datafix/fixes/BlockRenameFix.java
+F3F2FAEED23E9697407069A1D523107491590B8710175523EA05294D5BD00435  26.2/unobfuscated/net/minecraft/world/level/block/Blocks.java
+CEC6A05E644E4A7FEB8253CC4CA772A98F0E116FB098A1B7EE7302984AC7ECAB  26.2/unobfuscated/net/minecraft/world/level/block/Block.java
+2CA379089F6D8B984D2A0AA6B886579AF008379D6E7480B4FD67CFBD95B73D66  26.2/unobfuscated/net/minecraft/world/level/block/RedStoneOreBlock.java
+DF5B24701EE69145A78901EE0E370E063B63B3E74A0AAE32C89B2AE45BC6D205  26.2/unobfuscated/net/minecraft/world/level/block/state/BlockState.java
+C0DAB7C413C2C8C0CA1B76AFA1A77607117B66F71886674FE89D1059B7A9746B  26.2/unobfuscated/net/minecraft/world/level/block/state/StateHolder.java
+
+Projection inputs (already accepted candidate table; old-source joins below bind actual decoders):
+C7A8B04869425690B2D6BD200C9630752FC1A58C34526B6A5F51898F64B0DC02  .native-source/20261028/collision-next/dda-current-state-projection-20261029/block-state-data-current-name-projection.jsonl
+7D60A12E39C718ABD390116F723A7935B1C7A230E6E1D6A0493BE8524558F77E  .native-source/20261028/collision-next/dda-current-state-projection-20261029/source-hashes.json
+
+Accepted prior join evidence reused for scope/route, not re-counted here:
+D8415BEBFB0059DE2C9D2EB0F20D9037087DE1DED06B72E1A6541B94C6C51091  .native-source/20261030/dda-state-join-low/FINDING.md
+ADD63AAB0124009C356F489151D44E0C49842FA0976D2BABAA4B71EA034352C1  .native-source/20261030/dda-state-join-low/state-tuples.jsonl
+7335318536642360885801A17B755F96598FD6EA45305B691E406286AA7E30D2  .native-source/20261030/dda-state-join-low/source-evidence.sha256
+85EAA68FB853244673655F21378AABE712AD888713E063F3EC6502A8E67B77F9  .native-source/20261030/dda-state-join-low-audit/AUDIT.md
+E3E524BBD338CEFDA6AFB7F0507542763CD68E07337B63CE7C7166F40FC47BC8  .native-source/20261030/dda-state-join-color/FINDING.md
+8C01D086A02310E161CD96978051FF439D89DFE357CCE0AF731DAB63DFF3B974  .native-source/20261030/dda-state-join-color/source-hashes.json
+1086B49F060994095883BC86CE87BBE7181D752994A40D58C233E1A8E8299CB5  .native-source/20261030/dda-state-join-color-audit/audit.md
+
+F1B21E9D6AEDB1C7FD7CF613276D03221F6C00D80CCB6B98922C9A36C8C1A735  .native-source/20261030/dda-state-join-ores/FINDING.md
+C6955E535E085CE80777B74F231DCC36BCB2F54E6DAD4A7A660E7875AF7B42C0  .native-source/20261030/dda-state-join-ores/state-tuples.json
+
+This manifest binds the canonical source files above and the previous source-only projection/accepted evidence. Output hashes bind the exact finding and full grouped tuple table.

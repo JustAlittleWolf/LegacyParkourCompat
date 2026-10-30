@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "pair": "1.19.2--1.19.3",
+  "output": [
+    {
+      "path": "callbacks-resume.md",
+      "bytes": 11674,
+      "sha256": "c6020140661c6d919e952fc4bb9c5582d758dde2c9b65a73987c206188aaa05d"
+    },
+    {
+      "path": "source-inventory.json",
+      "bytes": 8747,
+      "sha256": "129011e7cc213e4b6e13666025386d9cb46c751a77113fa7d4f28d14a096a330"
+    }
+  ],
+  "sourceManifestSha256": {
+    "1.19.2": "95bc354ac219b9fe1ca8bf45053edad0119a75323d576902d59616a11647aac2",
+    "1.19.3": "6f1cc6d07ab3902a7ea25a3f8817504723be70d82e97f541cffda95ea2c1c843"
+  },
+  "reusedInventorySha256": "a179103f133b0118f3e7d9f483cf890555651314a9a17ea5014de77d2b8ee96d",
+  "reusedAuditSha256": "aba077644027a1107afbf01b71c060b08d2e5105a5c155c6ab5b3dee9107bd79"
+}
