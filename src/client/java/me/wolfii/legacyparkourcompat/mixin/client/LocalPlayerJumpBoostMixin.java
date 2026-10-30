@@ -3,10 +3,10 @@ package me.wolfii.legacyparkourcompat.mixin.client;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jumpboost.JumpBoostEffectReceiverHook;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -26,10 +26,10 @@ abstract class LocalPlayerJumpBoostMixin {
         method = "updateAutoJump(FF)V",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/LivingEntity;hasEffect(Lnet/minecraft/world/effect/MobEffect;)Z"
+            target = "Lnet/minecraft/client/player/LocalPlayer;hasEffect(Lnet/minecraft/core/Holder;)Z"
         )
     )
-    private boolean legacyparkourcompat$readJumpBoostPresence(LivingEntity entity, MobEffect effect) {
+    private boolean legacyparkourcompat$readJumpBoostPresence(LocalPlayer entity, Holder<MobEffect> effect) {
         LocalPlayer player = (LocalPlayer)(Object)this;
         if (entity == player && effect.equals(MobEffects.JUMP_BOOST)) {
             Optional<Boolean> receiverPresence = MovementRuntime.find(JumpBoostEffectReceiverHook.class, player)
