@@ -39,7 +39,7 @@ final class EnumSwitchHelperRepair {
     static final String RAW_CLIENT_SHA256 = "66a749ad95adcb929439155c0341309e89e437444867e108dcb36fd16493b0bd";
     static final String MAPPED_CLIENT_CONTENT_SHA256 = "c7527d0279c8a24e70b5b4103c0606dc883ff840b5d5afb827edbe9bda4abaf7";
     static final String TINY_SHA256 = "f26e3fea2c580cf9eb2d5c47cd32a071f72177ba5e2c208c39196e669c8a383d";
-    static final String PIPELINE_ID = "lpc-181-enum-helper-repair-v1;mapping-sha256=" + MAPPING_SHA256
+    static final String PIPELINE_ID = "lpc-181-enum-helper-repair-v2;mapping-sha256=" + MAPPING_SHA256
             + ";raw-client-sha256=" + RAW_CLIENT_SHA256 + ";mapped-client-content-sha256=" + MAPPED_CLIENT_CONTENT_SHA256
             + ";tiny-sha256=" + TINY_SHA256;
 
@@ -209,6 +209,19 @@ final class EnumSwitchHelperRepair {
             throw new IOException("Ordinary TinyRemapper archive contents differ from the audited mapped jar; found " + actualHash);
     }
 
+    static void verifyAuditMappings(Path tiny, String sourceNamespace, String targetNamespace,
+                                    Path inputJar, Path mappingJar) throws IOException {
+        IMappingProvider auditProvider = provider(tiny, sourceNamespace, targetNamespace, inputJar, mappingJar);
+        auditProvider.load(new IMappingProvider.MappingAcceptor() {
+            @Override public void acceptClass(String srcName, String dstName) { }
+            @Override public void acceptMethod(IMappingProvider.Member method, String dstName) { }
+            @Override public void acceptMethodArg(IMappingProvider.Member method, int lvIndex, String dstName) { }
+            @Override public void acceptMethodVar(IMappingProvider.Member method, int lvIndex, int startOpIdx,
+                                                  int asmIndex, String dstName) { }
+            @Override public void acceptField(IMappingProvider.Member field, String dstName) { }
+        });
+    }
+
     /** Hashes sorted ZIP paths and uncompressed contents, excluding container metadata such as timestamps. */
     private static String archiveContentHash(Path jar) throws IOException {
         Map<String, byte[]> entries = new TreeMap<>();
@@ -254,20 +267,25 @@ final class EnumSwitchHelperRepair {
         verifyIntermediaryJar(rawClientJar, rawSourcesByNamedClass);
     }
 
-    static void addComparatorMetadata(Path baselineJar, Path repairedJar) throws IOException {
+    static void applyCanonicalOverlay(Path baselineJar, Path repairedJar) throws IOException {
         Set<String> expectedChanged = new HashSet<>();
+        Map<String, Pair> byFlat = new HashMap<>();
         for (Pair pair : PAIRS) {
             expectedChanged.add(pair.canonical + ".class");
             expectedChanged.add(pair.owner + ".class");
+            byFlat.put(pair.flat, pair);
         }
-        Path staged = repairedJar.resolveSibling(repairedJar.getFileName() + ".metadata.tmp");
+        Path staged = repairedJar.resolveSibling(repairedJar.getFileName() + ".overlay.tmp");
         try (JarFile baseline = new JarFile(baselineJar.toFile());
-                JarFile input = new JarFile(repairedJar.toFile());
                 JarOutputStream output = new JarOutputStream(Files.newOutputStream(staged))) {
-            var entries = input.entries();
+            var entries = baseline.entries();
             while (entries.hasMoreElements()) {
                 JarEntry entry = entries.nextElement();
-                JarEntry copy = new JarEntry(entry.getName());
+                String outputName = entry.getName();
+                Pair moved = outputName.endsWith(".class")
+                        ? byFlat.get(outputName.substring(0, outputName.length() - ".class".length())) : null;
+                if (moved != null) outputName = moved.canonical + ".class";
+                JarEntry copy = new JarEntry(outputName);
                 if (entry.getTime() >= 0) copy.setTime(entry.getTime());
                 if (entry.getComment() != null) copy.setComment(entry.getComment());
                 if (entry.getExtra() != null) copy.setExtra(entry.getExtra());
@@ -277,9 +295,34 @@ final class EnumSwitchHelperRepair {
                 }
                 output.putNextEntry(copy);
                 byte[] bytes;
-                try (var stream = input.getInputStream(entry)) { bytes = stream.readAllBytes(); }
-                if (entry.getName().endsWith(".class") && expectedChanged.contains(entry.getName())) {
-                    bytes = metadata(bytes, entry.getName(), baseline);
+                try (var stream = baseline.getInputStream(entry)) { bytes = stream.readAllBytes(); }
+                if (entry.getName().endsWith(".class")) {
+                    ClassNode source = new ClassNode();
+                    new ClassReader(bytes).accept(source, 0);
+                    boolean[] referencesHelper = { false };
+                    Remapper helperNames = new Remapper() {
+                        @Override public String map(String internalName) {
+                            Pair pair = byFlat.get(internalName);
+                            if (pair == null) return internalName;
+                            referencesHelper[0] = true;
+                            return pair.canonical;
+                        }
+
+                        @Override public String mapInnerClassName(String name, String ownerName, String innerName) {
+                            Pair pair = byFlat.get(name);
+                            return pair == null ? innerName : null;
+                        }
+                    };
+                    ClassNode remapped = new ClassNode();
+                    source.accept(new ClassRemapper(remapped, helperNames));
+                    String remappedEntry = remapped.name + ".class";
+                    if (referencesHelper[0] || expectedChanged.contains(remappedEntry)) {
+                        ClassWriter writer = new ClassWriter(0);
+                        remapped.accept(writer);
+                        bytes = writer.toByteArray();
+                        if (expectedChanged.contains(remappedEntry))
+                            bytes = metadata(bytes, remappedEntry, baseline);
+                    }
                 }
                 output.write(bytes);
                 output.closeEntry();

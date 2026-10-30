@@ -236,10 +236,9 @@ final class MinecraftDecompileEngine {
                             remap(clientJar, baselineJar, TinyUtils.createTinyMappingProvider(yarn.tinyFile, "official", "named"), libraries);
                             EnumSwitchHelperRepair.verifyOrdinaryRemap(baselineJar);
                             EnumSwitchHelperRepair.verifyDiagnosticBindings(baselineJar);
-                            var repairProvider = EnumSwitchHelperRepair.provider(yarn.tinyFile, "official", "named",
+                            EnumSwitchHelperRepair.verifyAuditMappings(yarn.tinyFile, "official", "named",
                                     clientJar, yarn.mappingJar);
-                            remap(clientJar, mappedJar, repairProvider, libraries, false);
-                            EnumSwitchHelperRepair.addComparatorMetadata(baselineJar, mappedJar);
+                            EnumSwitchHelperRepair.applyCanonicalOverlay(baselineJar, mappedJar);
                         });
                     } else {
                         remaps.add(() -> remap(clientJar, mappedJar,
@@ -267,10 +266,9 @@ final class MinecraftDecompileEngine {
                             remap(intermediaryClient, baselineJar, ordinaryProvider, libraries);
                             EnumSwitchHelperRepair.verifyOrdinaryRemap(baselineJar);
                             EnumSwitchHelperRepair.verifyDiagnosticBindings(baselineJar);
-                            var repairProvider = EnumSwitchHelperRepair.provider(yarn.tinyFile, sourceNamespace,
+                            EnumSwitchHelperRepair.verifyAuditMappings(yarn.tinyFile, sourceNamespace,
                                     targetNamespace, intermediaryClient, yarn.mappingJar);
-                            remap(intermediaryClient, mappedJar, repairProvider, libraries, false);
-                            EnumSwitchHelperRepair.addComparatorMetadata(baselineJar, mappedJar);
+                            EnumSwitchHelperRepair.applyCanonicalOverlay(baselineJar, mappedJar);
                         });
                     } else {
                         remaps.add(() -> remap(intermediaryClient, mappedJar,
@@ -343,16 +341,11 @@ final class MinecraftDecompileEngine {
 
     private void remap(Path input, Path output, net.fabricmc.tinyremapper.IMappingProvider mappings, List<Path> classpath)
             throws IOException {
-        remap(input, output, mappings, classpath, true);
-    }
-
-    private void remap(Path input, Path output, net.fabricmc.tinyremapper.IMappingProvider mappings,
-                       List<Path> classpath, boolean renameInvalidLocals) throws IOException {
         Files.deleteIfExists(output);
         TinyRemapper remapper = TinyRemapper.newRemapper()
                 .withMappings(mappings)
                 .ignoreConflicts(true)
-                .renameInvalidLocals(renameInvalidLocals)
+                .renameInvalidLocals(true)
                 .rebuildSourceFilenames(true)
                 .fixPackageAccess(true)
                 .threads(1)
