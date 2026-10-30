@@ -4,6 +4,7 @@ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
 import me.wolfii.legacyparkourcompat.mechanic.hook.callback.SweptBlockResponseHook;
+import me.wolfii.legacyparkourcompat.mixin.accessor.AbstractCauldronBlockAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -11,6 +12,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.AbstractCauldronBlock;
 import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.HoneyBlock;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
@@ -18,7 +20,6 @@ import net.minecraft.world.level.block.LavaCauldronBlock;
 import net.minecraft.world.level.block.PowderSnowBlock;
 import net.minecraft.world.level.block.WebBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.core.particles.ParticleTypes;
 
@@ -47,9 +48,8 @@ public final class SynchronousBlockResponses implements SweptBlockResponseHook {
             return true;
         }
 
-        if (block instanceof LavaCauldronBlock) {
-            // The old callback's only response is lavaHurt; damage is outside movement scope.
-            // Suppress modern typed effects, which have no old callback counterpart.
+        if (block instanceof LavaCauldronBlock cauldron) {
+            applyLavaCauldron(cauldron, state, pos, entity);
             return true;
         }
 
@@ -65,11 +65,6 @@ public final class SynchronousBlockResponses implements SweptBlockResponseHook {
         }
 
         return false;
-    }
-
-    @Override
-    public boolean omitSweptFluidCallback(FluidState state) {
-        return true;
     }
 
     private static void applyFire(Level level, Entity entity) {
@@ -112,5 +107,22 @@ public final class SynchronousBlockResponses implements SweptBlockResponseHook {
         }
 
         entity.setIsInPowderSnow(true);
+    }
+
+    private static void applyLavaCauldron(
+        AbstractCauldronBlock cauldron,
+        BlockState state,
+        BlockPos pos,
+        Entity entity
+    ) {
+        // 1.21.2/1.21.3 Mojmap LavaCauldronBlock.entityInside first applies
+        // AbstractCauldronBlock.isEntityInsideContent, then Entity.lavaHurt. Keep its
+        // movement-relevant ignition while excluding its damage and sound behavior.
+        double contentHeight = ((AbstractCauldronBlockAccessor) cauldron).legacyParkourCompat$contentHeight(state);
+        if (entity.getY() < pos.getY() + contentHeight
+            && entity.getBoundingBox().maxY > pos.getY() + 0.25
+            && !entity.fireImmune()) {
+            entity.igniteForSeconds(15.0F);
+        }
     }
 }
