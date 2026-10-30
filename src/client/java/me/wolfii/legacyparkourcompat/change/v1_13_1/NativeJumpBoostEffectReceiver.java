@@ -5,6 +5,7 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jumpboost.JumpBoostEffectReceiverHook;
 import net.minecraft.world.entity.player.Player;
 
+import java.util.Optional;
 import java.util.OptionalInt;
 
 /**
@@ -34,5 +35,10 @@ public final class NativeJumpBoostEffectReceiver implements JumpBoostEffectRecei
     @Override
     public OptionalInt amplifier(Player player) {
         return OptionalInt.empty();
+    }
+
+    @Override
+    public Optional<Boolean> hasJumpBoost(Player player) {
+        return Optional.empty();
     }
 }

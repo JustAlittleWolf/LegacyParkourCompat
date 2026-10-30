@@ -6,6 +6,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.jumpboost.JumpBoostEffectRece
 import net.minecraft.world.entity.player.Player;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.WeakHashMap;
 
@@ -68,6 +69,12 @@ public final class LegacyJumpBoostEffectReceiver implements JumpBoostEffectRecei
         State state = this.effects.get(player);
         Effect effect = state == null || state.nativeSession ? null : state.effect;
         return effect == null ? OptionalInt.empty() : OptionalInt.of(effect.amplifier);
+    }
+
+    @Override
+    public Optional<Boolean> hasJumpBoost(Player player) {
+        State state = this.effects.get(player);
+        return state == null || state.nativeSession ? Optional.empty() : Optional.of(state.effect != null);
     }
 
     private static final class State {
