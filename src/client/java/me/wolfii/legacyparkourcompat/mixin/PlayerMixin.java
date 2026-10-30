@@ -10,7 +10,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PlayerEyeWaterQueryHook
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.AirSpeedHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.FlightFallDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PoseClearanceHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.state.SleepGlidePosePriorityHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerPosePriorityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeCollisionQueryHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeDistanceHook;
@@ -129,10 +129,10 @@ abstract class PlayerMixin {
     }
 
     @ModifyReturnValue(method = "getDesiredPose", at = @At("RETURN"))
-    private Pose legacyparkourcompat$sleepGlidePosePriority(Pose vanilla) {
+    private Pose legacyparkourcompat$historicalPosePriority(Pose vanilla) {
         Player player = (Player)(Object)this;
-        return MovementRuntime.find(SleepGlidePosePriorityHook.class, player)
-            .map(hook -> hook.desiredPose(MovementRuntime.profile(player).target(), player.isSleeping(), player.isFallFlying(), vanilla))
+        return MovementRuntime.find(PlayerPosePriorityHook.class, player)
+            .map(hook -> hook.desiredPose(MovementRuntime.profile(player).target(), player.isSleeping(), player.isFallFlying(), player.isSwimming(), vanilla))
             .orElse(vanilla);
     }
 
