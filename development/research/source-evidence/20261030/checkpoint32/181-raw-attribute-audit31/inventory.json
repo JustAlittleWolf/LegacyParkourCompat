@@ -1,0 +1,40 @@
+{
+  "jar": "D:\\Javastuff\\LegacyParkourCompat\\.minecraft-decompile-cache\\1.8.1\\client-ornithe-feather.jar",
+  "sha256": "d2977e05623d692e2d73dacbd0d6328b9226f47d80f824711a6d5fe81df09001",
+  "class_count": 2500,
+  "attribute_occurrence_total": 70588,
+  "attribute_names": [
+    "Code",
+    "ConstantValue",
+    "LineNumberTable",
+    "LocalVariableTable",
+    "MethodParameters",
+    "SourceFile",
+    "StackMapTable"
+  ],
+  "unknown_names": [],
+  "contexts": {
+    "Code": {
+      "method": 19056
+    },
+    "ConstantValue": {
+      "field": 14
+    },
+    "LineNumberTable": {
+      "Code": 19056
+    },
+    "LocalVariableTable": {
+      "Code": 11552
+    },
+    "MethodParameters": {
+      "method": 11907
+    },
+    "SourceFile": {
+      "class": 2500
+    },
+    "StackMapTable": {
+      "Code": 6503
+    }
+  },
+  "occurrences": {}
+}

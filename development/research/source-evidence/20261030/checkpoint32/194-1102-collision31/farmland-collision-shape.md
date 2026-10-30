@@ -1,0 +1,6 @@
+# Farmland collision shape
+
+1.9.4, Ornithe Feather: `net/minecraft/block/FarmlandBlock.java`, `getShape` lines 31–34 and `getCollisionShape` lines 36–40; `net/minecraft/block/Block.java`, `addCollisions` lines 336–348.
+1.10.2, Ornithe Feather: `net/minecraft/block/FarmlandBlock.java`, `getShape` lines 31–34 and no `getCollisionShape` override; `net/minecraft/block/Block.java`, default `getCollisionShape` lines 355–359.
+Difference: 1.9.4 farmland keeps a 15/16-high outline (`SHAPE`) but explicitly supplies `FULL_BLOCK_SHAPE` to collision collection. In 1.10.2 the override is removed; the inherited default returns the state outline shape. Collision insertion then translates the selected local shape by block position and includes it when it intersects the swept player box on both releases. The collision top therefore moves from the block's integer top to 15/16 of the block height in 1.10.2. The exact patch introducing this change is unknown in the endpoint interval.
+Movement meaning: a player descending onto farmland can be clipped upward at the full block top in 1.9.4, but at the 15/16-high top in 1.10.2. This is a direct shape-query and player movement delta; trajectory effects beyond the changed contact height are not asserted.

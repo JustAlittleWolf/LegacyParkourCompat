@@ -1,0 +1,20 @@
+# Independent callback integration wiring review
+
+Reviewed revision: `8565e707866b1d2dc8e434691e250a52f3355155` (`Bound historical callback response resolver`), compared with `23ca396e`.
+
+Verdict: **not acceptable pending correction**. The requested hook registration, resolver direction, mixin JSON entries, and LocalPlayer/client gate on the list-level replacement are structurally sound. Two blocking gate/fallback defects remain in `EntitySweptBlockResponseMixin`.
+
+## Blocking findings
+
+1. **Historical callback rewriting leaks onto logical servers and non-local entities.** Both `@WrapOperation`s in `EntitySweptBlockResponseMixin` resolve and invoke `SweptBlockResponseHook` without checking `entity instanceof LocalPlayer`, `entity.level().isClientSide()`, or whether the historical sweep is active. `SynchronousBlockResponses.omitSweptFluidCallback` returns true unconditionally, so any entity reaching 26.2 `Entity.checkInsideBlocks` loses native swept-fluid callbacks when the profile resolves this provider. Its block response also replaces fire/cauldron/powder-snow callbacks for server players and any other entity. This violates the project invariant that historical movement behavior never runs on logical servers and changes native behavior outside the eligible local client player operation. Relevant code: `EntitySweptBlockResponseMixin.java` lines 31–62; `SynchronousBlockResponses.java` lines 32–75. The 26.2 source shows the visitor lambda is called from general `Entity.checkInsideBlocks(List, StepBasedCollector)` and calls both `BlockState.entityInside` and `FluidState.entityInside`; it is not inherently local-player-only (`D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/26.2/unobfuscated/net/minecraft/world/entity/Entity.java`, `checkInsideBlocks` around lines 1278–1365).
+
+2. **Whole-batch native fallback is contaminated by the response wrappers.** `EntityInsideBlocksHistoricalSweepMixin` correctly calls `original.call(movements)` when `supportsBatch` returns false (including the explicit Eyeblossom unsupported-domain check in `EntityInsideBlocksHistoricalSweep.supportsBatch`). But `EntitySweptBlockResponseMixin` still wraps the native lambda in that fallback and applies historical response substitutions / fluid omission. This defeats the all-or-native fallback contract: the candidate rejection can still partially replace native callbacks. It also means the response wrapper is unnecessary for the manual historical sweep, which dispatches `SweptBlockResponseHook` directly before `onInsideBlock` in `EntityInsideBlocksHistoricalSweep.apply`.
+
+## Wiring checks passed
+
+- New changes implement distinct `@MechanicType` hooks and have public no-argument constructors; no duplicate keys were found in the added set.
+- `ChangeResolver` uses `filter(emulates >= selected).min(emulates ordinal)`, consistent with the requested smallest-applicable direction; the `V1_21` false/native fence prevents the `V1_21_2` implementations from activating for pre-boundary profiles.
+- `EntityInsideBlocksHistoricalSweepMixin` is listed in `legacyparkourcompat.client.mixins.json` and confines the replacement to `LocalPlayer` on a client level. Response mixin and accessors are also listed there.
+- Exact source signatures found in the 26.2 unobfuscated `Entity.java`: private `applyEffectsFromBlocks(List<Entity.Movement>)`; private `checkInsideBlocks(List, StepBasedCollector)`; private `isInRain`, `fillCrashReportCategory`, and `getFireImmuneTicks`; private `visitedBlocks`; protected `playEntityOnFireExtinguishedSound`. The touched callback and finalizer fields/method names exist. The candidate apply wrapper target descriptor is compatible with the source method declaration. No build, game, test, or decompile was run.
+
+Recommended disposition: remove `EntitySweptBlockResponseMixin` and its JSON entry, or gate it on the same eligible LocalPlayer/client historical-sweep decision and ensure unsupported-batch fallback disables it for the entire native call. Since the historical sweep already invokes the response hook directly, removing the wrapper is the smallest coherent fix.
