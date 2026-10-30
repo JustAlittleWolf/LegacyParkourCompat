@@ -14,6 +14,7 @@ import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.DismountPositionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.EffectFallDistanceResetHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.ElytraLiftForceHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.GlideVerticalAccelerationHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingLookHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.TravelFallFlyingGravityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.GlideClimbableExemptionHook;
@@ -294,6 +295,23 @@ abstract class LivingEntityMixin {
                     .orElse(vanillaLook);
                 return behavior.liftForce(player, selected, look, vanilla);
             })
+            .orElse(vanilla);
+    }
+
+    @ModifyArg(
+        method = "updateFallFlyingMovement(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/Vec3;add(DDD)Lnet/minecraft/world/phys/Vec3;", ordinal = 0),
+        index = 1
+    )
+    private double legacyparkourcompat$historicalGlideVerticalAcceleration(
+        double vanilla,
+        @Local(name = "gravity") double gravity,
+        @Local(name = "liftForce") double liftForce
+    ) {
+        LivingEntity entity = (LivingEntity) (Object) this;
+        return MovementRuntime.find(GlideVerticalAccelerationHook.class, entity)
+            .map(hook -> hook.verticalAcceleration(MovementRuntime.profile(entity).target(), liftForce,
+                gravity, entity.hasEffect(MobEffects.SLOW_FALLING), vanilla))
             .orElse(vanilla);
     }
 
