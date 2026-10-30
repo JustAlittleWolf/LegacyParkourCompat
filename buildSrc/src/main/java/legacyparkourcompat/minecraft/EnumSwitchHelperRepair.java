@@ -261,7 +261,9 @@ final class EnumSwitchHelperRepair {
             expectedChanged.add(pair.owner + ".class");
         }
         Path staged = repairedJar.resolveSibling(repairedJar.getFileName() + ".metadata.tmp");
-        try (JarFile input = new JarFile(repairedJar.toFile()); JarOutputStream output = new JarOutputStream(Files.newOutputStream(staged))) {
+        try (JarFile baseline = new JarFile(baselineJar.toFile());
+                JarFile input = new JarFile(repairedJar.toFile());
+                JarOutputStream output = new JarOutputStream(Files.newOutputStream(staged))) {
             var entries = input.entries();
             while (entries.hasMoreElements()) {
                 JarEntry entry = entries.nextElement();
@@ -277,7 +279,7 @@ final class EnumSwitchHelperRepair {
                 byte[] bytes;
                 try (var stream = input.getInputStream(entry)) { bytes = stream.readAllBytes(); }
                 if (entry.getName().endsWith(".class") && expectedChanged.contains(entry.getName())) {
-                    bytes = metadata(bytes, entry.getName());
+                    bytes = metadata(bytes, entry.getName(), baseline);
                 }
                 output.write(bytes);
                 output.closeEntry();
@@ -287,7 +289,7 @@ final class EnumSwitchHelperRepair {
         verifyArchiveDelta(baselineJar, repairedJar);
     }
 
-    private static byte[] metadata(byte[] bytes, String entry) throws IOException {
+    private static byte[] metadata(byte[] bytes, String entry, JarFile baseline) throws IOException {
         ClassNode node = new ClassNode();
         new ClassReader(bytes).accept(node, 0);
         if ((node.attrs != null && !node.attrs.isEmpty())
@@ -305,6 +307,9 @@ final class EnumSwitchHelperRepair {
         node.innerClasses.add(new InnerClassNode(pair.canonical, pair.owner, null,
                 Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC));
         if (node.name.equals(pair.canonical)) {
+            // TinyRemapper rebuilds a renamed nested helper's SourceFile from its outer
+            // name. Preserve the audited original attribute; only identity/nesting changes.
+            node.sourceFile = read(baseline, pair.flat).sourceFile;
             if (node.outerClass != null || node.outerMethod != null || node.outerMethodDesc != null)
                 throw new IOException("Conflicting EnclosingMethod metadata in " + entry);
             node.outerClass = pair.owner;
