@@ -13,14 +13,33 @@ import org.jspecify.annotations.Nullable;
 import java.util.Optional;
 
 /**
- * Restores the 1.19.4 full-height support probes and signed 0.05 reductions.
+ * Restores the full-height support probes and signed 0.05 reductions shared by
+ * Minecraft 1.19 through 1.20.4.
  *
- * <p>Mojmap 1.19.4 {@code net.minecraft.world.entity.player.Player#maybeBackOffFromEdge}
- * and {@code #isAboveGround} use the full player box shifted down by maxUpStep;
- * unobfuscated 26.2 {@code net.minecraft.world.entity.player.Player#maybeBackOffFromEdge},
- * {@code #isAboveGround}, and {@code #canFallAtLeast} use a feet slab instead.
- * This change composes the existing edge loops and collision-query hook so
- * separately resolved collision behavior remains available.
+ * <p>Mojmap {@code net.minecraft.world.entity.player.Player#maybeBackOffFromEdge}
+ * and {@code #isAboveGround} retain the same eligibility gates, full-box
+ * downward support probe, X-then-Z-then-diagonal order, signed 0.05 reductions,
+ * and vector construction in 1.19, 1.19.1, 1.19.2, 1.19.3, 1.19.4, and 1.20.4.
+ * The gates are, in order: not flying, requested Y at most zero, SELF or PLAYER
+ * mover, staying on the ground surface, then the above-ground predicate. The
+ * latter is {@code onGround || (fallDistance < maxUpStep && !noCollision(box
+ * moved by (0, fallDistance - maxUpStep, 0)))}. The reductions probe the full
+ * box at (x, -maxUpStep, 0), then (0, -maxUpStep, z), then both offsets; each
+ * component in [-0.05, 0.05) becomes zero and every other component advances
+ * toward zero by 0.05. The returned vector retains the requested Y. Exact
+ * method bodies differ only in field-versus-getter access at 1.19.4 and
+ * 1.20.4; the audited vanilla getters return the corresponding backing fields.
+ * See those releases' {@code Player.java}, {@code maybeBackOffFromEdge} and
+ * {@code isAboveGround}: lines 1060–1117 (1.19), 1061–1118 (1.19.1 and 1.19.2),
+ * 1050–1107 (1.19.3), 1041–1099 (1.19.4), and 1048–1106 (1.20.4).
+ *
+ * <p>In Mojmap 1.20.5, {@code Player#maybeBackOffFromEdge},
+ * {@code #isAboveGround}, and {@code #canFallAtLeast} replace the full-box
+ * probes with feet-slab probes and change the reduction/cutoff loop; see
+ * {@code Player.java}, lines 1067–1125. The 1.20.5 native fence leaves that
+ * later operation intact. This change composes the existing edge loops and
+ * collision-query hook so separately resolved collision behavior remains
+ * available.
  */
 @MovementChange(emulates = ParkourVersion.V1_20_2)
 public final class SneakEdge implements SneakEdgeHook {
