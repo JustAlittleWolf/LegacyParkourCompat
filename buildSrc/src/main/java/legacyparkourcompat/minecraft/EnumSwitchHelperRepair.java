@@ -32,10 +32,18 @@ import java.util.zip.ZipEntry;
 
 /**
  * Orders unchanged flat Feather enum-switch helpers before their consumers.
- * Exact input pins limit this operation to the inspected 1.8 and 1.8.1 archives;
+ * Exact input pins limit this operation to the inspected 1.7.10, 1.8 and 1.8.1 archives;
  * no class identity, bytecode, or nesting metadata is changed.
  */
 final class EnumSwitchHelperRepair {
+    static final String MAPPED_1710_CONTENT_SHA256 = "36a733c84bc094a08a3118e8bd7f3a88c9a6c94e41bbe806acb175794cd43243";
+    private static final String VERSION_1710_SHA256 = "265c7e47aad4c74f6085a49667d3a828f48d63f484def2ae70b5e426e5b7cba6";
+    private static final String RAW_1710_SHA256 = "a4fc2284657544e0f4bcc964f927c2fda3e3a205178ed1d5d58883aaf9780cce";
+    private static final String MAPPING_1710_SHA256 = "1a22781aa3bac248e25c619842ec2ec5c126d015436d528d411a9e85a6f491a7";
+    private static final String TINY_1710_SHA256 = "bee4c201a7f815efc947eafec2a300d59e5e869f9730f5e76319285d2bd59485";
+    static final String PIPELINE_1710_ID = "lpc-1710-enum-helper-order-v1;version-metadata-sha256=" + VERSION_1710_SHA256
+            + ";mapping-sha256=" + MAPPING_1710_SHA256 + ";raw-client-sha256=" + RAW_1710_SHA256
+            + ";mapped-client-content-sha256=" + MAPPED_1710_CONTENT_SHA256 + ";tiny-sha256=" + TINY_1710_SHA256;
     static final String MAPPED_18_CONTENT_SHA256 = "6592c9c0b16f0a645b773fab51bfe96da9976921780e9300d40a5726a62f3de5";
     private static final String RAW_18_SHA256 = "ccccd0a92f76fbb24279691daad9b67f85d80471a37e59e0da76d7754982dfe8";
     private static final String MAPPING_18_SHA256 = "3c020d1588b4aab403f5df077ca91b6e3776da2823d3b55202f4616f0d5ae5fe";
@@ -224,6 +232,31 @@ final class EnumSwitchHelperRepair {
         }
     }
 
+    static void verify1710PinnedInputs(Path versionMetadata, Path rawClientJar, Path tinyMappings,
+                                       Path mappingJar) throws IOException {
+        verifySha256(versionMetadata, VERSION_1710_SHA256, "1.7.10 release metadata");
+        verifySha256(rawClientJar, RAW_1710_SHA256, "1.7.10 client.jar");
+        verifySha256(tinyMappings, TINY_1710_SHA256, "1.7.10 Feather Tiny mapping");
+        verifySha256(mappingJar, MAPPING_1710_SHA256, "1.7.10 Feather mapping artifact");
+    }
+
+    private static void verifySha256(Path file, String expected, String description) throws IOException {
+        String actual = DecompileStore.hash(file);
+        if (!expected.equals(actual)) throw new IOException(description + " differs from its audited pin: " + actual);
+    }
+
+    static void verify1710OrdinaryRemap(Path ordinaryMappedJar) throws IOException {
+        verifyContentHash(ordinaryMappedJar, MAPPED_1710_CONTENT_SHA256);
+        ArchiveOrder order = inspectClassOrder(ordinaryMappedJar);
+        if (order.classCount != 1803 || order.helperCount != 14 || order.dependencyCount != 14
+                || order.getStaticCount != 21 || order.reversedDependencyCount != 5) {
+            throw new IOException("1.7.10 Feather enum-helper graph differs from the audited flat archive: "
+                    + "classes=" + order.classCount + ", helpers=" + order.helperCount
+                    + ", dependencies=" + order.dependencyCount + ", GETSTATIC sites=" + order.getStaticCount
+                    + ", reversed dependencies=" + order.reversedDependencyCount);
+        }
+    }
+
     private static void verifyContentHash(Path ordinaryMappedJar, String expectedHash) throws IOException {
         String actualHash = archiveContentHash(ordinaryMappedJar);
         if (!expectedHash.equals(actualHash))
@@ -351,6 +384,14 @@ final class EnumSwitchHelperRepair {
     }
 
     private static List<String> classOrder(List<ArchiveEntry> entries) throws IOException {
+        return inspectClassOrder(entries).orderedNames;
+    }
+
+    private static ArchiveOrder inspectClassOrder(Path jar) throws IOException {
+        return inspectClassOrder(readEntries(jar));
+    }
+
+    private static ArchiveOrder inspectClassOrder(List<ArchiveEntry> entries) throws IOException {
         Map<String, Integer> positions = new LinkedHashMap<>();
         Map<String, ClassNode> classes = new LinkedHashMap<>();
         for (ArchiveEntry entry : entries) {
@@ -385,6 +426,8 @@ final class EnumSwitchHelperRepair {
             indegree.put(name, 0);
         }
         int dependencyCount = 0;
+        int getStaticCount = 0;
+        int reversedDependencyCount = 0;
         for (var consumerEntry : classes.entrySet()) {
             String consumer = consumerEntry.getKey();
             for (MethodNode method : consumerEntry.getValue().methods) {
@@ -395,9 +438,11 @@ final class EnumSwitchHelperRepair {
                     if (!helperFields.get(field.owner).contains(field.name))
                         throw new IOException("GETSTATIC references an undeclared enum-helper field: "
                                 + consumer + " -> " + field.owner + "." + field.name);
+                    getStaticCount++;
                     if (!field.owner.equals(consumer) && outgoing.get(field.owner).add(consumer)) {
                         indegree.put(consumer, indegree.get(consumer) + 1);
                         dependencyCount++;
+                        if (positions.get(field.owner) > positions.get(consumer)) reversedDependencyCount++;
                     }
                 }
             }
@@ -418,8 +463,12 @@ final class EnumSwitchHelperRepair {
         if (result.size() != classes.size())
             throw new IOException("Enum-helper archive-order dependency graph has a cycle or missing class: ordered "
                     + result.size() + " of " + classes.size());
-        return result;
+        return new ArchiveOrder(result, classes.size(), helpers.size(), dependencyCount,
+                getStaticCount, reversedDependencyCount);
     }
+
+    private record ArchiveOrder(List<String> orderedNames, int classCount, int helperCount,
+                                int dependencyCount, int getStaticCount, int reversedDependencyCount) { }
 
     private static boolean isEarlyEnumHelper(ClassNode node) {
         if ((node.access & Opcodes.ACC_SYNTHETIC) == 0 || node.methods.size() != 1
