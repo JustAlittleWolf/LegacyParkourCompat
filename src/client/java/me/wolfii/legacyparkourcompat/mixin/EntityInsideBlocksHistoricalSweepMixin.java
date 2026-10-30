@@ -5,7 +5,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.HistoricalBlockCallbackSweepHook;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.Entity.Movement;
 import net.minecraft.client.player.LocalPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 
@@ -15,7 +14,7 @@ import java.util.List;
 @Mixin(Entity.class)
 abstract class EntityInsideBlocksHistoricalSweepMixin {
     @WrapMethod(method = "applyEffectsFromBlocks(Ljava/util/List;)V")
-    private void legacyparkourcompat$historicalInsideBlockSweep(List<Movement> movements, Operation<Void> original) {
+    private void legacyparkourcompat$historicalInsideBlockSweep(List<?> movements, Operation<Void> original) {
         Entity entity = (Entity)(Object)this;
         if (!(entity instanceof LocalPlayer) || !entity.level().isClientSide()) {
             original.call(movements);

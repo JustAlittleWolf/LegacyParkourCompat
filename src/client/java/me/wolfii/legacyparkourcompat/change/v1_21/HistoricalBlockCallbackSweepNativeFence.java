@@ -4,7 +4,6 @@ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.HistoricalBlockCallbackSweepHook;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.Entity.Movement;
 
 import java.util.List;
 
@@ -17,12 +16,12 @@ public final class HistoricalBlockCallbackSweepNativeFence implements Historical
     }
 
     @Override
-    public boolean supportsBatch(Entity entity, List<Movement> movements) {
+    public boolean supportsBatch(Entity entity, List<?> movements) {
         return false;
     }
 
     @Override
-    public void apply(Entity entity, List<Movement> movements) {
+    public void apply(Entity entity, List<?> movements) {
         throw new UnsupportedOperationException("Native callback sweep must remain on the native path");
     }
 }

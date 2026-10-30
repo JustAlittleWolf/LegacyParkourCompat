@@ -3,7 +3,6 @@ package me.wolfii.legacyparkourcompat.mechanic.hook.entity;
 import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
 import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.Entity.Movement;
 
 import java.util.List;
 
@@ -15,9 +14,9 @@ public interface HistoricalBlockCallbackSweepHook extends VersionedMechanic {
     }
 
     /** Side-effect-free whole-batch gate; false keeps the complete native traversal intact. */
-    default boolean supportsBatch(Entity entity, List<Movement> movements) {
+    default boolean supportsBatch(Entity entity, List<?> movements) {
         return false;
     }
 
-    void apply(Entity entity, List<Movement> movements);
+    void apply(Entity entity, List<?> movements);
 }
