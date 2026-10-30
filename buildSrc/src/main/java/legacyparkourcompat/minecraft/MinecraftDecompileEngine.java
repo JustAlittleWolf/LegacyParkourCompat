@@ -222,7 +222,7 @@ final class MinecraftDecompileEngine {
                 if (repair181Helpers) EnumSwitchHelperRepair.verifyPinnedInputs(clientJar,
                         yarn.tinyFile, yarn.mappingJar);
                 Path mappedJar = versionCache.resolve(repair181Helpers
-                        ? "client-ornithe-feather-181-enum-helper-v1.jar" : "client-" + mappingSource + ".jar");
+                        ? "client-ornithe-feather-181-enum-helper-order-v1.jar" : "client-" + mappingSource + ".jar");
                 logger.lifecycle("  Applying {} ({})", yarn.label, yarn.version);
                 String mappingHeader;
                 try (BufferedReader reader = Files.newBufferedReader(yarn.tinyFile, StandardCharsets.UTF_8)) {
@@ -231,14 +231,14 @@ final class MinecraftDecompileEngine {
                 if (mappingHeader != null && mappingHeader.contains("\tofficial\t")) {
                     if (repair181Helpers) {
                         Path baselineJar = versionCache.resolve("client-ornithe-feather-181-enum-helper-baseline-v1.jar");
-                        inputs.put("pipeline:181-enum-helper-repair", EnumSwitchHelperRepair.PIPELINE_ID);
+                        inputs.put("pipeline:181-enum-helper-order", EnumSwitchHelperRepair.PIPELINE_ID);
                         remaps.add(() -> {
                             remap(clientJar, baselineJar, TinyUtils.createTinyMappingProvider(yarn.tinyFile, "official", "named"), libraries);
                             EnumSwitchHelperRepair.verifyOrdinaryRemap(baselineJar);
                             EnumSwitchHelperRepair.verifyDiagnosticBindings(baselineJar);
                             EnumSwitchHelperRepair.verifyAuditMappings(yarn.tinyFile, "official", "named",
                                     clientJar, yarn.mappingJar);
-                            EnumSwitchHelperRepair.applyCanonicalOverlay(baselineJar, mappedJar);
+                            EnumSwitchHelperRepair.applyHelperOrder(baselineJar, mappedJar);
                         });
                     } else {
                         remaps.add(() -> remap(clientJar, mappedJar,
@@ -260,7 +260,7 @@ final class MinecraftDecompileEngine {
                     String targetNamespace = reversedColumns ? "intermediary" : "named";
                     if (repair181Helpers) {
                         Path baselineJar = versionCache.resolve("client-ornithe-feather-181-enum-helper-baseline-v1.jar");
-                        inputs.put("pipeline:181-enum-helper-repair", EnumSwitchHelperRepair.PIPELINE_ID);
+                        inputs.put("pipeline:181-enum-helper-order", EnumSwitchHelperRepair.PIPELINE_ID);
                         remaps.add(() -> {
                             var ordinaryProvider = TinyUtils.createTinyMappingProvider(yarn.tinyFile, sourceNamespace, targetNamespace);
                             remap(intermediaryClient, baselineJar, ordinaryProvider, libraries);
@@ -268,7 +268,7 @@ final class MinecraftDecompileEngine {
                             EnumSwitchHelperRepair.verifyDiagnosticBindings(baselineJar);
                             EnumSwitchHelperRepair.verifyAuditMappings(yarn.tinyFile, sourceNamespace,
                                     targetNamespace, intermediaryClient, yarn.mappingJar);
-                            EnumSwitchHelperRepair.applyCanonicalOverlay(baselineJar, mappedJar);
+                            EnumSwitchHelperRepair.applyHelperOrder(baselineJar, mappedJar);
                         });
                     } else {
                         remaps.add(() -> remap(intermediaryClient, mappedJar,
@@ -286,7 +286,7 @@ final class MinecraftDecompileEngine {
         if (repair181Helpers && Files.exists(outputDir) && !force
                 && !Files.isRegularFile(outputDir.resolve(DecompileStore.MANIFEST))) {
             throw new IllegalStateException("Refusing unverified legacy 1.8.1 Feather sources at " + outputDir
-                    + "; use --force to publish the audited enum-helper repair through the strict gates.");
+                    + "; use --force to publish the audited enum-helper ordering through the strict gates.");
         }
         if (Files.exists(outputDir) && !force) {
             ensureNoFailedMethodOutput(outputDir);

@@ -3,34 +3,35 @@ package legacyparkourcompat.minecraft;
 import net.fabricmc.tinyremapper.IMappingProvider;
 import net.fabricmc.tinyremapper.TinyUtils;
 import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
-import org.objectweb.asm.tree.InnerClassNode;
 import org.objectweb.asm.tree.MethodNode;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.commons.ClassRemapper;
-import org.objectweb.asm.commons.Remapper;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
+import java.util.zip.ZipEntry;
 
 /**
- * Exact 1.8.1 Feather enum-switch helper correction from
+ * Exact 1.8.1 Feather enum-switch helper ordering from
  * {@code .native-source/20261030/181-enum-helper-allowlist/evidence.md},
  * with the null-inner-name/ACC_STATIC|ACC_SYNTHETIC contract in the paired audit report.
  */
@@ -39,7 +40,7 @@ final class EnumSwitchHelperRepair {
     static final String RAW_CLIENT_SHA256 = "66a749ad95adcb929439155c0341309e89e437444867e108dcb36fd16493b0bd";
     static final String MAPPED_CLIENT_CONTENT_SHA256 = "c7527d0279c8a24e70b5b4103c0606dc883ff840b5d5afb827edbe9bda4abaf7";
     static final String TINY_SHA256 = "f26e3fea2c580cf9eb2d5c47cd32a071f72177ba5e2c208c39196e669c8a383d";
-    static final String PIPELINE_ID = "lpc-181-enum-helper-repair-v2;mapping-sha256=" + MAPPING_SHA256
+    static final String PIPELINE_ID = "lpc-181-enum-helper-order-v3;mapping-sha256=" + MAPPING_SHA256
             + ";raw-client-sha256=" + RAW_CLIENT_SHA256 + ";mapped-client-content-sha256=" + MAPPED_CLIENT_CONTENT_SHA256
             + ";tiny-sha256=" + TINY_SHA256;
 
@@ -171,8 +172,8 @@ final class EnumSwitchHelperRepair {
                     if (pair != null) {
                         if (!pair.flat.equals(dstName)) throw new IllegalStateException("Audited Tiny row changed for " + srcName);
                         if (observed.put(srcName, dstName) != null) throw new IllegalStateException("Duplicate audited Tiny row " + srcName);
-                        acceptor.acceptClass(srcName, pair.canonical);
-                    } else acceptor.acceptClass(srcName, dstName);
+                    }
+                    acceptor.acceptClass(srcName, dstName);
                 }
                 @Override public void acceptMethod(IMappingProvider.Member method, String dstName) { acceptor.acceptMethod(method, dstName); }
                 @Override public void acceptMethodArg(IMappingProvider.Member method, int lvIndex, String dstName) { acceptor.acceptMethodArg(method, lvIndex, dstName); }
@@ -267,101 +268,167 @@ final class EnumSwitchHelperRepair {
         verifyIntermediaryJar(rawClientJar, rawSourcesByNamedClass);
     }
 
-    static void applyCanonicalOverlay(Path baselineJar, Path repairedJar) throws IOException {
-        Set<String> expectedChanged = new HashSet<>();
-        Map<String, Pair> byFlat = new HashMap<>();
-        for (Pair pair : PAIRS) {
-            expectedChanged.add(pair.canonical + ".class");
-            expectedChanged.add(pair.owner + ".class");
-            byFlat.put(pair.flat, pair);
-        }
-        Path staged = repairedJar.resolveSibling(repairedJar.getFileName() + ".overlay.tmp");
-        try (JarFile baseline = new JarFile(baselineJar.toFile());
-                JarOutputStream output = new JarOutputStream(Files.newOutputStream(staged))) {
-            var entries = baseline.entries();
-            while (entries.hasMoreElements()) {
-                JarEntry entry = entries.nextElement();
-                String outputName = entry.getName();
-                Pair moved = outputName.endsWith(".class")
-                        ? byFlat.get(outputName.substring(0, outputName.length() - ".class".length())) : null;
-                if (moved != null) outputName = moved.canonical + ".class";
-                JarEntry copy = new JarEntry(outputName);
-                if (entry.getTime() >= 0) copy.setTime(entry.getTime());
-                if (entry.getComment() != null) copy.setComment(entry.getComment());
-                if (entry.getExtra() != null) copy.setExtra(entry.getExtra());
-                copy.setMethod(entry.getMethod());
-                if (entry.getMethod() == JarEntry.STORED) {
-                    copy.setSize(entry.getSize()); copy.setCompressedSize(entry.getCompressedSize()); copy.setCrc(entry.getCrc());
-                }
-                output.putNextEntry(copy);
-                byte[] bytes;
-                try (var stream = baseline.getInputStream(entry)) { bytes = stream.readAllBytes(); }
-                if (entry.getName().endsWith(".class")) {
-                    ClassNode source = new ClassNode();
-                    new ClassReader(bytes).accept(source, 0);
-                    boolean[] referencesHelper = { false };
-                    Remapper helperNames = new Remapper() {
-                        @Override public String map(String internalName) {
-                            Pair pair = byFlat.get(internalName);
-                            if (pair == null) return internalName;
-                            referencesHelper[0] = true;
-                            return pair.canonical;
-                        }
-
-                        @Override public String mapInnerClassName(String name, String ownerName, String innerName) {
-                            Pair pair = byFlat.get(name);
-                            return pair == null ? innerName : null;
-                        }
-                    };
-                    ClassNode remapped = new ClassNode();
-                    source.accept(new ClassRemapper(remapped, helperNames));
-                    String remappedEntry = remapped.name + ".class";
-                    if (referencesHelper[0] || expectedChanged.contains(remappedEntry)) {
-                        ClassWriter writer = new ClassWriter(0);
-                        remapped.accept(writer);
-                        bytes = writer.toByteArray();
-                        if (expectedChanged.contains(remappedEntry))
-                            bytes = metadata(bytes, remappedEntry, baseline);
+    /**
+     * Reorders only class-entry slots so each direct enum-table consumer follows its
+     * Vineflower early-init helper. Paths and uncompressed entry bytes remain identical.
+     */
+    static void applyHelperOrder(Path ordinaryMappedJar, Path orderedJar) throws IOException {
+        verifyOrdinaryRemap(ordinaryMappedJar);
+        Path staged = orderedJar.resolveSibling(orderedJar.getFileName() + ".order.tmp");
+        try {
+            List<ArchiveEntry> entries = readEntries(ordinaryMappedJar);
+            Map<String, ArchiveEntry> entriesByName = new HashMap<>();
+            for (ArchiveEntry entry : entries) entriesByName.put(entry.name, entry);
+            List<String> classOrder = classOrder(entries);
+            var reorderedClasses = classOrder.iterator();
+            try (JarOutputStream output = new JarOutputStream(Files.newOutputStream(staged))) {
+                for (ArchiveEntry originalEntry : entries) {
+                    ArchiveEntry entry = originalEntry.name.endsWith(".class")
+                            ? entriesByName.get(reorderedClasses.next() + ".class") : originalEntry;
+                    String name = entry.name;
+                    JarEntry copy = new JarEntry(name);
+                    if (entry.time >= 0) copy.setTime(entry.time);
+                    if (entry.comment != null) copy.setComment(entry.comment);
+                    if (entry.extra != null) copy.setExtra(entry.extra);
+                    copy.setMethod(entry.method);
+                    if (entry.method == ZipEntry.STORED) {
+                        copy.setSize(entry.bytes.length);
+                        copy.setCompressedSize(entry.compressedSize);
+                        copy.setCrc(entry.crc);
                     }
+                    output.putNextEntry(copy);
+                    output.write(entry.bytes);
+                    output.closeEntry();
                 }
-                output.write(bytes);
-                output.closeEntry();
             }
+            verifyContentIdentical(ordinaryMappedJar, staged);
+            Files.move(staged, orderedJar, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException | RuntimeException error) {
+            Files.deleteIfExists(staged);
+            throw error;
         }
-        Files.move(staged, repairedJar, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-        verifyArchiveDelta(baselineJar, repairedJar);
     }
 
-    private static byte[] metadata(byte[] bytes, String entry, JarFile baseline) throws IOException {
-        ClassNode node = new ClassNode();
-        new ClassReader(bytes).accept(node, 0);
-        if ((node.attrs != null && !node.attrs.isEmpty())
-                || node.fields.stream().anyMatch(field -> field.attrs != null && !field.attrs.isEmpty())
-                || node.methods.stream().anyMatch(method -> method.attrs != null && !method.attrs.isEmpty())) {
-            throw new IOException("Unsupported custom attributes in enum-helper metadata repair: " + entry);
+    private static List<ArchiveEntry> readEntries(Path jar) throws IOException {
+        List<ArchiveEntry> result = new ArrayList<>();
+        Set<String> names = new HashSet<>();
+        try (JarFile archive = new JarFile(jar.toFile())) {
+            var enumeration = archive.entries();
+            while (enumeration.hasMoreElements()) {
+                JarEntry entry = enumeration.nextElement();
+                if (!names.add(entry.getName())) throw new IOException("Duplicate archive entry " + entry.getName());
+                byte[] bytes;
+                try (var stream = archive.getInputStream(entry)) { bytes = stream.readAllBytes(); }
+                result.add(new ArchiveEntry(entry.getName(), bytes, entry.getTime(), entry.getMethod(),
+                        entry.getComment(), entry.getExtra(), entry.getCompressedSize(), entry.getCrc()));
+            }
         }
-        Pair pair = PAIRS.stream().filter(candidate -> (candidate.canonical + ".class").equals(entry)
-                || (candidate.owner + ".class").equals(entry)).findFirst().orElseThrow();
-        if (node.name.equals(pair.canonical) && (node.access & Opcodes.ACC_SYNTHETIC) == 0)
-            throw new IOException("Expected synthetic enum helper " + entry);
-        if (node.innerClasses.stream().anyMatch(inner -> pair.canonical.equals(inner.name))) {
-            throw new IOException("Conflicting pre-existing nesting metadata in " + entry);
+        return result;
+    }
+
+    private static List<String> classOrder(List<ArchiveEntry> entries) throws IOException {
+        Map<String, Integer> positions = new LinkedHashMap<>();
+        Map<String, ClassNode> classes = new LinkedHashMap<>();
+        for (ArchiveEntry entry : entries) {
+            if (!entry.name.endsWith(".class")) continue;
+            String name = entry.name.substring(0, entry.name.length() - 6);
+            ClassNode node = new ClassNode();
+            new ClassReader(entry.bytes).accept(node, 0);
+            if (!name.equals(node.name)) throw new IOException("Archive/class identity mismatch for " + entry.name);
+            if (!node.innerClasses.isEmpty() || node.outerClass != null || node.outerMethod != null || node.outerMethodDesc != null)
+                throw new IOException("Expected flat Vineflower ROOT class in audited 1.8.1 archive: " + name);
+            positions.put(name, positions.size());
+            classes.put(name, node);
         }
-        node.innerClasses.add(new InnerClassNode(pair.canonical, pair.owner, null,
-                Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC));
-        if (node.name.equals(pair.canonical)) {
-            // TinyRemapper rebuilds a renamed nested helper's SourceFile from its outer
-            // name. Preserve the audited original attribute; only identity/nesting changes.
-            node.sourceFile = read(baseline, pair.flat).sourceFile;
-            if (node.outerClass != null || node.outerMethod != null || node.outerMethodDesc != null)
-                throw new IOException("Conflicting EnclosingMethod metadata in " + entry);
-            node.outerClass = pair.owner;
-            node.outerMethod = null;
-            node.outerMethodDesc = null;
+        if (classes.isEmpty()) throw new IOException("Ordinary mapped archive has no class entries");
+
+        Set<String> helpers = new HashSet<>();
+        Map<String, Set<String>> helperFields = new LinkedHashMap<>();
+        for (var entry : classes.entrySet()) {
+            ClassNode node = entry.getValue();
+            if (!isEarlyEnumHelper(node)) continue;
+            Set<String> fields = new HashSet<>();
+            for (FieldNode field : node.fields) fields.add(field.name);
+            helpers.add(entry.getKey());
+            helperFields.put(entry.getKey(), fields);
         }
-        ClassWriter writer = new ClassWriter(0);
-        node.accept(writer);
-        return writer.toByteArray();
+        if (helpers.isEmpty()) throw new IOException("No Vineflower early-init enum helpers found in audited archive");
+
+        Map<String, Set<String>> outgoing = new LinkedHashMap<>();
+        Map<String, Integer> indegree = new LinkedHashMap<>();
+        for (String name : classes.keySet()) {
+            outgoing.put(name, new LinkedHashSet<>());
+            indegree.put(name, 0);
+        }
+        int dependencyCount = 0;
+        for (var consumerEntry : classes.entrySet()) {
+            String consumer = consumerEntry.getKey();
+            for (MethodNode method : consumerEntry.getValue().methods) {
+                for (var instruction : method.instructions) {
+                    if (!(instruction instanceof org.objectweb.asm.tree.FieldInsnNode field)
+                            || field.getOpcode() != Opcodes.GETSTATIC || !field.desc.equals("[I")
+                            || !helpers.contains(field.owner)) continue;
+                    if (!helperFields.get(field.owner).contains(field.name))
+                        throw new IOException("GETSTATIC references an undeclared enum-helper field: "
+                                + consumer + " -> " + field.owner + "." + field.name);
+                    if (!field.owner.equals(consumer) && outgoing.get(field.owner).add(consumer)) {
+                        indegree.put(consumer, indegree.get(consumer) + 1);
+                        dependencyCount++;
+                    }
+                }
+            }
+        }
+        if (dependencyCount == 0) throw new IOException("No direct enum-helper consumer dependencies found");
+
+        PriorityQueue<String> ready = new PriorityQueue<>(Comparator.comparingInt(positions::get));
+        indegree.forEach((name, count) -> { if (count == 0) ready.add(name); });
+        List<String> result = new ArrayList<>(classes.size());
+        while (!ready.isEmpty()) {
+            String name = ready.remove();
+            result.add(name);
+            for (String dependent : outgoing.get(name)) {
+                int remaining = indegree.compute(dependent, (ignored, count) -> count - 1);
+                if (remaining == 0) ready.add(dependent);
+            }
+        }
+        if (result.size() != classes.size())
+            throw new IOException("Enum-helper archive-order dependency graph has a cycle or missing class: ordered "
+                    + result.size() + " of " + classes.size());
+        return result;
+    }
+
+    private static boolean isEarlyEnumHelper(ClassNode node) {
+        if ((node.access & Opcodes.ACC_SYNTHETIC) == 0 || node.methods.size() != 1
+                || !node.methods.get(0).name.equals("<clinit>") || node.fields.isEmpty()) return false;
+        int required = Opcodes.ACC_STATIC | Opcodes.ACC_FINAL | Opcodes.ACC_SYNTHETIC;
+        return node.fields.stream().allMatch(field -> field.desc.equals("[I")
+                && (field.access & required) == required);
+    }
+
+    private static void verifyContentIdentical(Path beforeJar, Path afterJar) throws IOException {
+        verifyOrdinaryRemap(beforeJar);
+        verifyOrdinaryRemap(afterJar);
+        try (JarFile before = new JarFile(beforeJar.toFile()); JarFile after = new JarFile(afterJar.toFile())) {
+            Set<String> seenBefore = new HashSet<>();
+            Set<String> seenAfter = new HashSet<>();
+            var beforeEntries = before.entries();
+            while (beforeEntries.hasMoreElements()) {
+                JarEntry left = beforeEntries.nextElement();
+                if (!seenBefore.add(left.getName())) throw new IOException("Duplicate archive entry " + left.getName());
+                JarEntry right = after.getJarEntry(left.getName());
+                if (right == null) throw new IOException("Archive entry disappeared during ordering: " + left.getName());
+                try (var a = before.getInputStream(left); var b = after.getInputStream(right)) {
+                    if (!java.util.Arrays.equals(a.readAllBytes(), b.readAllBytes()))
+                        throw new IOException("Archive entry content changed during ordering: " + left.getName());
+                }
+            }
+            var afterEntries = after.entries();
+            while (afterEntries.hasMoreElements()) {
+                JarEntry entry = afterEntries.nextElement();
+                if (!seenAfter.add(entry.getName())) throw new IOException("Duplicate ordered archive entry " + entry.getName());
+            }
+            if (!seenBefore.equals(seenAfter)) throw new IOException("Archive paths changed during helper ordering");
+        }
     }
 
     private static void verifyIntermediaryJar(Path jar, Map<String, String> sourceByNamedClass) throws IOException {
@@ -488,99 +555,8 @@ final class EnumSwitchHelperRepair {
         return node;
     }
 
-    private static void verifyArchiveDelta(Path baseline, Path repaired) throws IOException {
-        try (JarFile before = new JarFile(baseline.toFile()); JarFile after = new JarFile(repaired.toFile())) {
-            Set<String> expectedPathDelta = new HashSet<>();
-            for (Pair pair : PAIRS) {
-                if (before.getJarEntry(pair.flat + ".class") == null || after.getJarEntry(pair.flat + ".class") != null
-                        || before.getJarEntry(pair.canonical + ".class") != null || after.getJarEntry(pair.canonical + ".class") == null)
-                    throw new IOException("Unexpected helper identity/path delta for " + pair.flat);
-                if (!java.util.Arrays.equals(structuralBytes(before, pair.flat + ".class", false),
-                        structuralBytes(after, pair.canonical + ".class", true)))
-                    throw new IOException("Helper code/fields/attributes changed beyond the approved nested identity: " + pair.flat);
-                ClassNode helper = read(after, pair.canonical);
-                ClassNode owner = read(after, pair.owner);
-                if ((helper.access & Opcodes.ACC_SYNTHETIC) == 0 || helper.innerClasses.stream().filter(inner -> pair.canonical.equals(inner.name)
-                        && pair.owner.equals(inner.outerName) && inner.innerName == null
-                        && inner.access == (Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC)).count() != 1
-                        || !pair.owner.equals(helper.outerClass) || helper.outerMethod != null || helper.outerMethodDesc != null
-                        || owner.innerClasses.stream().filter(inner -> pair.canonical.equals(inner.name)
-                        && pair.owner.equals(inner.outerName) && inner.innerName == null
-                        && inner.access == (Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC)).count() != 1)
-                    throw new IOException("Comparator-matched nesting metadata missing or conflicting for " + pair.canonical);
-                expectedPathDelta.add(pair.flat + ".class");
-                expectedPathDelta.add(pair.canonical + ".class");
-            }
-            Set<String> names = new HashSet<>();
-            before.stream().forEach(entry -> names.add(entry.getName()));
-            after.stream().forEach(entry -> names.add(entry.getName()));
-            for (String name : names) {
-                var left = before.getJarEntry(name); var right = after.getJarEntry(name);
-                if (name.endsWith(".class")) {
-                    if ((left == null || right == null) && !expectedPathDelta.contains(name))
-                        throw new IOException("Unexpected class archive path delta " + name);
-                    if (left != null && right != null && !java.util.Arrays.equals(
-                            structuralBytes(before, name, false), structuralBytes(after, name, true)))
-                        throw new IOException("Class structure changed beyond helper identity references/approved nesting metadata: " + name);
-                    if (right != null) try (var stream = after.getInputStream(right)) {
-                        ClassReader reader = new ClassReader(stream);
-                        Set<String> flatNames = new HashSet<>();
-                        for (Pair pair : PAIRS) flatNames.add(pair.flat);
-                        Remapper rejectFlatNames = new Remapper() {
-                            @Override public String map(String internalName) {
-                                if (flatNames.contains(internalName)) throw new IllegalStateException("Lingering flat helper reference " + internalName);
-                                return internalName;
-                            }
-                        };
-                        try { reader.accept(new ClassRemapper(new ClassVisitor(Opcodes.ASM9) { }, rejectFlatNames), 0); }
-                        catch (IllegalStateException error) { throw new IOException("Unrewritten helper reference in " + name, error); }
-                    }
-                    continue;
-                }
-                if (left == null || right == null) throw new IOException("Unexpected non-class archive entry delta " + name);
-                try (var a = before.getInputStream(left); var b = after.getInputStream(right)) {
-                    if (!java.util.Arrays.equals(a.readAllBytes(), b.readAllBytes())) throw new IOException("Unexpected non-class content delta " + name);
-                }
-            }
-            Set<String> missing = new HashSet<>(); Set<String> added = new HashSet<>();
-            before.stream().map(JarEntry::getName).filter(name -> !after.stream().anyMatch(entry -> entry.getName().equals(name))).forEach(missing::add);
-            after.stream().map(JarEntry::getName).filter(name -> !before.stream().anyMatch(entry -> entry.getName().equals(name))).forEach(added::add);
-            Set<String> expectedMissing = new HashSet<>(); Set<String> expectedAdded = new HashSet<>();
-            for (Pair pair : PAIRS) { expectedMissing.add(pair.flat + ".class"); expectedAdded.add(pair.canonical + ".class"); }
-            if (!missing.equals(expectedMissing) || !added.equals(expectedAdded)) throw new IOException("Unexpected archive path set changes");
-        }
-    }
-
-    private static byte[] structuralBytes(JarFile archive, String entryName, boolean repaired) throws IOException {
-        String entryClassName = entryName.substring(0, entryName.length() - ".class".length());
-        String className = entryClassName;
-        Pair moved = repaired ? PAIRS.stream().filter(pair -> pair.canonical.equals(entryClassName)).findFirst().orElse(null) : null;
-        if (moved != null) className = moved.flat;
-        ClassNode parsed = new ClassNode();
-        try (var stream = archive.getInputStream(archive.getJarEntry(entryName))) { new ClassReader(stream).accept(parsed, 0); }
-        ClassNode normalized;
-        if (repaired) {
-            Map<String, String> reverse = new HashMap<>();
-            for (Pair pair : PAIRS) reverse.put(pair.canonical, pair.flat);
-            normalized = new ClassNode();
-            parsed.accept(new ClassRemapper(normalized, new Remapper() {
-                @Override public String map(String internalName) { return reverse.getOrDefault(internalName, internalName); }
-            }));
-            for (Pair pair : PAIRS) {
-                normalized.innerClasses.removeIf(inner -> (pair.canonical.equals(inner.name) || pair.flat.equals(inner.name))
-                        && pair.owner.equals(inner.outerName) && inner.innerName == null
-                        && inner.access == (Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC));
-                if (pair.canonical.equals(parsed.name)) {
-                    normalized.outerClass = null; normalized.outerMethod = null; normalized.outerMethodDesc = null;
-                }
-            }
-        } else normalized = parsed;
-        if (!normalized.name.equals(className)) throw new IOException("Class identity mismatch while verifying " + entryName);
-        ClassWriter writer = new ClassWriter(0);
-        normalized.accept(writer);
-        return writer.toByteArray();
-    }
-
+    private record ArchiveEntry(String name, byte[] bytes, long time, int method, String comment, byte[] extra,
+                                long compressedSize, long crc) { }
     private record Pair(String intermediary, String rawHelper, String rawOwner, String flat, String canonical, String owner) { }
     private record Diagnostic(String owner, String method, Pair helper) { }
 }
