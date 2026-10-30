@@ -1,6 +1,6 @@
 package me.wolfii.legacyparkourcompat.mechanic.fluid;
 
-/** Shared 1.13 point-query boundary math for player eye-water checks. */
+/** Shared historical point-query boundary math for player eye-water checks. */
 public final class PlayerEyeWaterMath {
     private PlayerEyeWaterMath() {
     }
