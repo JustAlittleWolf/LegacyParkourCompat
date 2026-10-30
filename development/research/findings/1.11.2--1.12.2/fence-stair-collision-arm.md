@@ -1,0 +1,6 @@
+# Fence stair-face query adds a collision arm
+
+1.11.2, Ornithe Feather: `block/FenceBlock.java`, `addCollisions` (59–80), `shouldConnectTo` (124–134), and `resolveVirtualProperties` (159–164); `block/StairsBlock.java`, `isCube` (144–147); `world/World.java`, `getCollisions` (997–998).
+1.12.2, Ornithe Feather: `block/FenceBlock.java`, `addCollisions` (59–80), `shouldConnectTo` (124–138), and `resolveVirtualProperties` (163–168); `block/StairsBlock.java`, `getFaceShape` (140–161); `world/World.java`, `getCollisions` (1001–1002).
+Difference: 1.11.2 derives fence connections from the adjacent block’s material/full-cube predicate, which rejects stairs because `StairsBlock.isCube` is false. 1.12.2 tests the adjacent state’s directional face shape. During collision collection, both releases recompute virtual properties from neighboring states; the movement query supplies `forceShape=false`. For a straight north-facing stair south of the fence, 1.12.2 queries its north face, receives `SOLID`, and adds the fence’s south collision arm; 1.11.2 adds only the center fence shape.
+Movement meaning: With identical received fence and stair states, query-time player collision geometry differs. This covers virtual neighbor resolution during collision collection, not block placement, support or neighbor-update state production.

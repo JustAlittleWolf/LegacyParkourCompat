@@ -1,0 +1,285 @@
+{
+  "pair": "1.16.5->1.17.1",
+  "mapping": "mojmap",
+  "versions": [
+    {
+      "sourceFileCount": 3523,
+      "expectedSourceManifestSha256": "9499f2611d0e6dde37cb635f1a28a591416382d6bc188b37d5f99e2b2a20823b",
+      "sourceRoot": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.16.5\\mojmap",
+      "sourceManifestSha256": "9499f2611d0e6dde37cb635f1a28a591416382d6bc188b37d5f99e2b2a20823b",
+      "expectedArtifactManifestSha256": "f9b9812d6995012cefcc1201a63855e5931e8551b508753be6c46d442d8b370c",
+      "clientJarSha256": "00b5ebbc33e95ea88c1ab80601599c9827e9aa861d93ccc2cfcbbfd996e86263",
+      "readyMarkerSha256": "e9dd4397c6ade5f68d27f50baf285086dc367b56d2119b03a116cf3cf3b23fee",
+      "javaFiles": [
+        {
+          "manifestSha256": "f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666",
+          "sha256": "f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666",
+          "path": "net/minecraft/world/entity/Entity.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "e9a23488863fd43a7d8975efc23f4c7cf4af874554bab5b76eaa2c79f028db80",
+          "sha256": "e9a23488863fd43a7d8975efc23f4c7cf4af874554bab5b76eaa2c79f028db80",
+          "path": "net/minecraft/world/level/Level.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "d301b992d71b05306a3139e69f3f1529190f82404791ec60f9a693188d29577a",
+          "sha256": "d301b992d71b05306a3139e69f3f1529190f82404791ec60f9a693188d29577a",
+          "path": "net/minecraft/world/level/LevelReader.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "2838aa4fb4052b3bd78d77b3d232a6321d03bd2dfd52275ffacfe6915a89e5b6",
+          "sha256": "2838aa4fb4052b3bd78d77b3d232a6321d03bd2dfd52275ffacfe6915a89e5b6",
+          "path": "net/minecraft/world/level/block/Block.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "3b39d5cc4cd22f146ed3195aa30cbb9fdfca49f63783fabf9924a6ce7795fa12",
+          "sha256": "3b39d5cc4cd22f146ed3195aa30cbb9fdfca49f63783fabf9924a6ce7795fa12",
+          "path": "net/minecraft/world/level/block/Blocks.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "49e6ddc09f2d99056b0940ff0178c02bd0fe62d7758936eef751a3b9500f2ba5",
+          "sha256": "49e6ddc09f2d99056b0940ff0178c02bd0fe62d7758936eef751a3b9500f2ba5",
+          "path": "net/minecraft/world/level/block/BubbleColumnBlock.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "24f1cfbd036cca77ec99d855a028194ed39f583699ce91bc2a4c61957ff22fb7",
+          "sha256": "24f1cfbd036cca77ec99d855a028194ed39f583699ce91bc2a4c61957ff22fb7",
+          "path": "net/minecraft/world/level/block/LiquidBlock.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "1dca0790018a0ac501eca1f8424133b11acaeb5b4c41d04460ca581083f64c27",
+          "sha256": "1dca0790018a0ac501eca1f8424133b11acaeb5b4c41d04460ca581083f64c27",
+          "path": "net/minecraft/world/level/block/MagmaBlock.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "da92572788c9416b511c003e50688d802e8248ccdb3e2d5eb155aa482549b095",
+          "sha256": "da92572788c9416b511c003e50688d802e8248ccdb3e2d5eb155aa482549b095",
+          "path": "net/minecraft/world/level/block/SoulSandBlock.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "11fd07bc8bf8f2d17c30d5a253811ecde8aee4d71ca416ddbf80bec9178247ce",
+          "sha256": "11fd07bc8bf8f2d17c30d5a253811ecde8aee4d71ca416ddbf80bec9178247ce",
+          "path": "net/minecraft/world/level/block/SlimeBlock.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "6ca24cf40dbb2dcfabfd26c4ac188746ec2e21906f54a23f40d6eb681d94a492",
+          "sha256": "6ca24cf40dbb2dcfabfd26c4ac188746ec2e21906f54a23f40d6eb681d94a492",
+          "path": "net/minecraft/world/level/block/HoneyBlock.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "c62e2f07094e5a7bcad00cbae7d24497bf636cc740232a1472f4128a472def8b",
+          "sha256": "c62e2f07094e5a7bcad00cbae7d24497bf636cc740232a1472f4128a472def8b",
+          "path": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "b37e7870f93cf1c7d4c96456a668c3f42ee48b5c5b9882e9c7cecea55717ae2f",
+          "sha256": "b37e7870f93cf1c7d4c96456a668c3f42ee48b5c5b9882e9c7cecea55717ae2f",
+          "path": "net/minecraft/world/level/material/Fluid.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "665b4024a32f659d92ce1259b25f529616e44b6f3df8a6aab4a4a2c57c7bc26d",
+          "sha256": "665b4024a32f659d92ce1259b25f529616e44b6f3df8a6aab4a4a2c57c7bc26d",
+          "path": "net/minecraft/world/level/material/FluidState.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "a85a5cd6625b1b4a047bd693399e1f78c2978ae207af927d4abfac3b34229552",
+          "sha256": "a85a5cd6625b1b4a047bd693399e1f78c2978ae207af927d4abfac3b34229552",
+          "path": "net/minecraft/world/level/material/FlowingFluid.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "d3f28e4be4be66a0e222eccad96c0c90d57f55380fdd39cf8e5840c871cc052b",
+          "sha256": "d3f28e4be4be66a0e222eccad96c0c90d57f55380fdd39cf8e5840c871cc052b",
+          "path": "net/minecraft/world/level/material/WaterFluid.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "6e98f387c7561bff3b66f2e86ce54bab54a8ff3337639cb106e5e6aaad8ada9b",
+          "sha256": "6e98f387c7561bff3b66f2e86ce54bab54a8ff3337639cb106e5e6aaad8ada9b",
+          "path": "net/minecraft/world/level/material/LavaFluid.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "7ee6840d600b06d6c803c8c741e39efdf5add797879f656a9c3abd9348fc7c64",
+          "sha256": "7ee6840d600b06d6c803c8c741e39efdf5add797879f656a9c3abd9348fc7c64",
+          "path": "net/minecraft/world/level/material/Fluids.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "75d072cdc3e9073fc3fa481e4ccadd802e77a880ec776412f69bc865c4c78267",
+          "sha256": "75d072cdc3e9073fc3fa481e4ccadd802e77a880ec776412f69bc865c4c78267",
+          "path": "net/minecraft/tags/FluidTags.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "99f23e86191ba49033800be965341c4408b002404e9f403e3f4d42f962f1e88b",
+          "sha256": "99f23e86191ba49033800be965341c4408b002404e9f403e3f4d42f962f1e88b",
+          "path": "net/minecraft/tags/BlockTags.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "7ee6840d600b06d6c803c8c741e39efdf5add797879f656a9c3abd9348fc7c64",
+          "path": "net/minecraft/world/level/material/Fluids.java",
+          "sha256": "7ee6840d600b06d6c803c8c741e39efdf5add797879f656a9c3abd9348fc7c64",
+          "verified": true
+        }
+      ],
+      "version": "1.16.5",
+      "artifactManifestSha256": "f9b9812d6995012cefcc1201a63855e5931e8551b508753be6c46d442d8b370c"
+    },
+    {
+      "sourceFileCount": 4142,
+      "expectedSourceManifestSha256": "93270d229acfb751bf56daf1e7be26ce3dcff26b29e94aa157de621405a3463b",
+      "sourceRoot": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.17.1\\mojmap",
+      "sourceManifestSha256": "93270d229acfb751bf56daf1e7be26ce3dcff26b29e94aa157de621405a3463b",
+      "expectedArtifactManifestSha256": "e52c5dbae7d9663190ccc55a4f9b44a8e0615fb1fbbd8280811df43f70ec8aaa",
+      "clientJarSha256": "a49b4a56c5bbe15c9ed9fe53efa9a591f265a1f5ba7d6aa9739a58ea7a92b79d",
+      "readyMarkerSha256": "c7180dce94d7b57b53a964445b0c788c71f23ba3ba40eea593c11cc939185e9b",
+      "javaFiles": [
+        {
+          "manifestSha256": "ab28e1fba924771ec048140dfd293ee5a46a7dfe81f71a1a0b1aecc1927232de",
+          "sha256": "ab28e1fba924771ec048140dfd293ee5a46a7dfe81f71a1a0b1aecc1927232de",
+          "path": "net/minecraft/world/entity/Entity.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "730d3cc1f1c1c7054c102bb32d635d8f5a3657fff8073df863f0848ed1f9a0f8",
+          "sha256": "730d3cc1f1c1c7054c102bb32d635d8f5a3657fff8073df863f0848ed1f9a0f8",
+          "path": "net/minecraft/world/level/Level.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "4d041cdbc702d532c5b9da800c34bd1c23f8d3b554ecbdd89decbb765a6b451a",
+          "sha256": "4d041cdbc702d532c5b9da800c34bd1c23f8d3b554ecbdd89decbb765a6b451a",
+          "path": "net/minecraft/world/level/LevelReader.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "01fa40798c7a4af538c29601a6ad52c82f3c6364f74d00e955a0a41a0a0d88b4",
+          "sha256": "01fa40798c7a4af538c29601a6ad52c82f3c6364f74d00e955a0a41a0a0d88b4",
+          "path": "net/minecraft/world/level/block/Block.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "87d72a113a3f8937a6a585ef917a4fd29cc5b335c00a858f6800e38f3c1bf7a8",
+          "sha256": "87d72a113a3f8937a6a585ef917a4fd29cc5b335c00a858f6800e38f3c1bf7a8",
+          "path": "net/minecraft/world/level/block/Blocks.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "70af7c91f54eab13b32b75ba87c72374e03b51572a175440e8cd166ceff97394",
+          "sha256": "70af7c91f54eab13b32b75ba87c72374e03b51572a175440e8cd166ceff97394",
+          "path": "net/minecraft/world/level/block/BubbleColumnBlock.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "1a3757df70df8d1fb75544dfa486911c77a017726f8d89748ec185d9871c6483",
+          "sha256": "1a3757df70df8d1fb75544dfa486911c77a017726f8d89748ec185d9871c6483",
+          "path": "net/minecraft/world/level/block/LiquidBlock.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "d757241a0f4930edce205e3b97df597e282450c0b52c77733c9a5d409e74d209",
+          "sha256": "d757241a0f4930edce205e3b97df597e282450c0b52c77733c9a5d409e74d209",
+          "path": "net/minecraft/world/level/block/MagmaBlock.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "1dc77ddf5f041b1c4049a4b75c445dd2969dacb2bc12027096583b6d5fb1f987",
+          "sha256": "1dc77ddf5f041b1c4049a4b75c445dd2969dacb2bc12027096583b6d5fb1f987",
+          "path": "net/minecraft/world/level/block/SoulSandBlock.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "4410396e11dbef4843f874f9cc7563801259791c4e4b34a3a0bfeda4ea7c482b",
+          "sha256": "4410396e11dbef4843f874f9cc7563801259791c4e4b34a3a0bfeda4ea7c482b",
+          "path": "net/minecraft/world/level/block/SlimeBlock.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "4c37ffe99266de07ccd628739d458bd049d5430309b33b97c3737a63442ee41f",
+          "sha256": "4c37ffe99266de07ccd628739d458bd049d5430309b33b97c3737a63442ee41f",
+          "path": "net/minecraft/world/level/block/HoneyBlock.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "920896e6bc9d7f8794aba3c5f325d9dffd9c2c9422a0be2e5dd0b7474e980515",
+          "sha256": "920896e6bc9d7f8794aba3c5f325d9dffd9c2c9422a0be2e5dd0b7474e980515",
+          "path": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "7b8953fae5769ceebef1d950947460e29d95e74b93d313dd57a6a09c910dc8a8",
+          "sha256": "7b8953fae5769ceebef1d950947460e29d95e74b93d313dd57a6a09c910dc8a8",
+          "path": "net/minecraft/world/level/material/Fluid.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "0ee09bede0d44264009a810a6493897c0ce8ee9893fa275d3ec87d782a5ad754",
+          "sha256": "0ee09bede0d44264009a810a6493897c0ce8ee9893fa275d3ec87d782a5ad754",
+          "path": "net/minecraft/world/level/material/FluidState.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "93fac0aa0b44dcd42a9e05783eede16e6e1e72cbc7cbf00d34f6e5a55b67f4c6",
+          "sha256": "93fac0aa0b44dcd42a9e05783eede16e6e1e72cbc7cbf00d34f6e5a55b67f4c6",
+          "path": "net/minecraft/world/level/material/FlowingFluid.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "2e45a3d180d8f8978bcc2abefdc0c1475f3500cc6bbbaa88a1d6632e801ed672",
+          "sha256": "2e45a3d180d8f8978bcc2abefdc0c1475f3500cc6bbbaa88a1d6632e801ed672",
+          "path": "net/minecraft/world/level/material/WaterFluid.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "24f2e3d50c29a6e9b9cceee05caa5254788772e390c31a6628d5431322d6dc17",
+          "sha256": "24f2e3d50c29a6e9b9cceee05caa5254788772e390c31a6628d5431322d6dc17",
+          "path": "net/minecraft/world/level/material/LavaFluid.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "7ee6840d600b06d6c803c8c741e39efdf5add797879f656a9c3abd9348fc7c64",
+          "sha256": "7ee6840d600b06d6c803c8c741e39efdf5add797879f656a9c3abd9348fc7c64",
+          "path": "net/minecraft/world/level/material/Fluids.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "b328dac2531d48d462c14a58aa8e86e47510cbf20fd8002bc37a2cbdf1072bd7",
+          "sha256": "b328dac2531d48d462c14a58aa8e86e47510cbf20fd8002bc37a2cbdf1072bd7",
+          "path": "net/minecraft/tags/FluidTags.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "4b79815e24a5b79700cddc254f0ce25b12e5acbe63873699d0a9401f47b1f84f",
+          "sha256": "4b79815e24a5b79700cddc254f0ce25b12e5acbe63873699d0a9401f47b1f84f",
+          "path": "net/minecraft/tags/BlockTags.java",
+          "verified": true
+        },
+        {
+          "manifestSha256": "7ee6840d600b06d6c803c8c741e39efdf5add797879f656a9c3abd9348fc7c64",
+          "path": "net/minecraft/world/level/material/Fluids.java",
+          "sha256": "7ee6840d600b06d6c803c8c741e39efdf5add797879f656a9c3abd9348fc7c64",
+          "verified": true
+        }
+      ],
+      "version": "1.17.1",
+      "artifactManifestSha256": "e52c5dbae7d9663190ccc55a4f9b44a8e0615fb1fbbd8280811df43f70ec8aaa"
+    }
+  ],
+  "sourceOnly": true
+}

@@ -1,0 +1,6 @@
+# Level-eight water current treats a bed face differently
+
+1.11.2, Ornithe Feather: `block/LiquidBlock.java`, `isFaceSolid` (83–91) and `getFlow` (131–177); `block/Block.java`, `isFaceSolid` (343–345); `block/BedBlock.java`, constructor (31–33).
+1.12.2, Ornithe Feather: `block/LiquidBlock.java`, `isFaceSolid` (82–100) and `getFlow` (139–185); `block/BedBlock.java`, constructor (39–42) and `getFaceShape` (327–329).
+Difference: In 1.11.2, a horizontal water-flow wall query delegates to the base material test; a bed uses `Material.WOOL`, whose material is solid. In 1.12.2, the same flow gate requires the neighboring state’s queried face to be `SOLID`, while `BedBlock.getFaceShape` returns `UNDEFINED`. The otherwise unchanged `getFlow` applies `normalize().add(0.0, -6.0, 0.0)` on the first solid side when the water level is at least 8, then normalizes the vector.
+Movement meaning: For an overlapping level-eight water cell with a bed as the only horizontal wall candidate, air above it and air at the other candidates, and no horizontal depth gradient, 1.11.2 produces downward flow while 1.12.2 produces zero flow. The existing liquid-drag path transfers nonzero flow to a non-flying, unmounted local player’s velocity. This reads the same received block states and does not claim server-side historical physics or historical production of those states.

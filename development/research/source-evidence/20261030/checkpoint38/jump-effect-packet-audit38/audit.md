@@ -1,0 +1,47 @@
+# Source audit: Jump Boost hidden fallback and packet stream
+
+## Bound verdict
+
+**Verdict: accept the movement-state difference after narrowing the existing draft.** This verdict binds the original draft and every immutable correction in `source-hashes.json`; it does not accept their broadest packet-timing phrasing unchanged. The canonical finding in `corrected-finding.md` is the reviewed claim. All source references below are to the exact read-only Mojmap trees identified by hashes in `source-hashes.json`.
+
+The substantive claim is real for a weak-first Jump Boost chain when the weaker effect still has more than 1800 ticks remaining as the stronger 1800-tick effect is added, and when the legacy client's strong-effect entry reaches local expiry before it handles the server's later REMOVE event. “The weaker effect has not expired” is insufficient: the server only hides it if its remaining duration is strictly greater than the incoming strong duration. Comparing the clients means applying the same ordered 1.15.2 server-emitted effect update/removal event stream by decoded effect fields to each release's receive procedure; this is not a cross-version wire/protocol compatibility claim.
+
+## Source trace
+
+### Exact release boundary and weak-first setup
+
+`1.15` and `1.15.1` `MobEffectInstance.java` have no `hiddenEffect` member or hidden-chain logic; their `update` at lines 54–85 only adopts a higher amplifier, or extends duration for the same amplifier. Their tick at lines 111–121 simply decrements the active duration. The exact source file SHA-256 is identical across both releases (see the hashes file), which is a direct file comparison rather than an inference from folder names.
+
+`1.15.2` `Potions.java:21–23` defines LEAPING as Jump Boost amp 0 for 3600 ticks and STRONG_LEAPING as amp 1 for 1800 ticks. In `LivingEntity.addEffect` (`1.15.2`, lines 729–745), the incoming strong instance updates the already-active weak one. `MobEffectInstance.update` (`1.15.2`, lines 66–109) snapshots the old active instance into `hiddenEffect` only inside the higher-amplifier branch and only when incoming duration `< this.duration`. Thus, for current weak remaining duration `w`, this chain requires `w > 1800`; the fallback's remaining duration at strong expiry is `r = w - 1800`, with `1 <= r <= 1800` for the potion pair. If `w <= 1800`, no weaker fallback is retained. An initial strong effect followed by a weaker one also does not create this witness.
+
+### Server emission and client handling
+
+`ServerPlayer.onEffectAdded` and `onEffectUpdated` (`1.15.2`, lines 1031–1047) each call `this.connection.send(new ClientboundUpdateMobEffectPacket(this.getId(), mobEffectInstance))`; this is the server player’s own connection. The update packet constructor (`ClientboundUpdateMobEffectPacket.java:19–44`) captures the effect id, amplifier and duration (capping durations only above 32767), plus flags; `write` (`:53–59`) serializes these values. The LEAPING/STRONG_LEAPING durations are below the cap. `onEffectRemoved` (`ServerPlayer.java:1050–1055`) sends a `ClientboundRemoveMobEffectPacket` for that effect.
+
+On the server, `MobEffectInstance.tick(LivingEntity, Runnable)` (`1.15.2`, lines 135–157) decrements the hidden instance along with the active strong one. When strong duration reaches zero and a hidden instance exists, it copies the hidden details into the active instance and runs the update callback. `LivingEntity.tickEffects` (`:573–588`) therefore invokes the ServerPlayer update callback and sends an amp-0 update while `r > 0`. The effect remains active for those `r` further server effect ticks; once its last tick ends without another hidden instance, `tickEffects` removes it server-side and `onEffectRemoved` sends REMOVE. Periodic refreshes at multiples of 600 ticks can add same-effect update packets, but do not change this order or the positive `r` interval.
+
+Both `1.14.4` (`ClientPacketListener.handleUpdateMobEffect`, lines 1491–1509) and `1.15.2` (`:1523–1541`) build a `MobEffectInstance` from the logical update fields and call `LivingEntity.addEffect`. Both handlers marshal packet work through `PacketUtils.ensureRunningOnSameThread`. For a weak-then-strong input, the `1.15.2` client already has a hidden weak instance before the restore packet: its `MobEffectInstance.update` first snapshots weak under strong. A lower-amplifier restoration update can refresh that hidden entry when applicable, but the client fallback is not dependent on that packet creating the chain; the already-received weak-then-strong updates create it.
+
+For the same logical amp-0 restoration update, `1.14.4 MobEffectInstance.update` does not lower amp 1 or extend its duration from a lower-amplifier instance. With the same effect flags, `LivingEntity.addEffect` reports no change. The client's `tickEffects` (`1.14.4`, lines 605–620) removes an expired instance only when `!level.isClientSide`; on the client it leaves the map entry at duration zero. `hasEffect` / `getEffect` (`:752–758`) therefore continue to report the Jump Boost amp-1 instance. The later client REMOVE handler (`ClientPacketListener.java:1605–1611`) clears that map entry through `removeEffectNoUpdate`.
+
+In `1.15.2`, when the local strong duration reaches zero, `MobEffectInstance.tick` restores the hidden weak instance before returning. Its `LivingEntity.tickEffects` passes an update callback and retains the map entry while the restored duration is positive (`:573–588`). The client REMOVE handler (`ClientPacketListener.java:1641–1647`) eventually removes it after the server's weaker instance expires.
+
+### Movement read and exact window
+
+The effect tick is early enough to affect a same-entity-tick jump: `Entity.tick` calls `baseTick` (`1.15.2`, `Entity.java:340–345`); `LivingEntity.baseTick` calls `tickEffects` (`:370`); `LivingEntity.tick` then calls `aiStep` after `super.tick` (`:2024 onward`). For the local player, `LocalPlayer.tick` calls `super.tick` (`LocalPlayer.java:179 onward`), its `aiStep` copies jump input to `jumping` (`:612`) and then calls `super.aiStep` (`:778`). The `LivingEntity.aiStep` jump block (`:2266–2273`) reaches `jumpFromGround` for a grounded jump when `jumping` is true and `noJumpDelay == 0` (outside the liquid-jump branch). Thus the 1.15.2 effect fallback is visible to that tick's jump math; the 1.14.4 client still reads its retained amp-1 map entry.
+
+`jumpFromGround` in `1.14.4` (`LivingEntity.java:1752–1768`) and `1.15.2` (`:1803–1818`) adds `0.1F * (amplifier + 1)` to jump power. The compared effect contribution is `0.2F` for amp 1 versus `0.1F` for amp 0, a `0.1F` vertical-impulse delta. Source establishes a logical client-state interval from local strong expiry until REMOVE is handled; with aligned server/client effect ticks the remaining fallback window is exactly `r = w - 1800` effect ticks (1800 ticks when the base potion is followed immediately by the strong potion; down to one tick when `w` is 1801). Network task scheduling can shift which local tick sees each event, so source alone does not promise an exact wall-clock interval or that a particular user input occurs inside it. The grounded jump path is reachable during any such local tick if its input and movement gates are satisfied.
+
+### 1.16 receiver cutover
+
+The hidden-chain code remains in `1.16`, `1.16.1` and `1.16.5` `MobEffectInstance`. However, starting in exact `1.16`, `ClientPacketListener.handleUpdateMobEffect` calls `LivingEntity.forceAddEffect` (`1.16`, lines 1574–1592 and 1.16.1 same method; 1.16.5 lines 1542 onward) instead of `addEffect`. `forceAddEffect` (`LivingEntity.java:865–874` in 1.16/1.16.1; `:866–875` in 1.16.5) puts the incoming instance directly into the active map and calls `onEffectUpdated` if one was present. Therefore, the 1.15.2 lower-amplifier merge/ignore behavior is not an applicable client packet-receiver rule at 1.16+. Treat 1.16 as a separate source boundary; this audit does not assert the 1.15.2 server stream for later server versions.
+
+## Scope, implementation gate and disposition
+
+Implementation is source-authorized only for the pre-1.15.2 Jump Boost receiver behavior: keep the stronger amplifier until the matching REMOVE is handled, where the weak-first chain condition holds and local strong expiry precedes REMOVE handling. Do not apply this gate to strong-first ordering, w <= 1800, an earlier client REMOVE, or the 1.16+ `forceAddEffect` receiver. This finding does not authorize replaying the whole effect engine or extending health/damage behavior.
+
+Accepted claim: the 1.14.4 client can retain amp 1 at duration zero while the 1.15.2 client restores amp 0 from a pre-existing hidden chain, creating different Jump Boost reads on eligible client jumps under the bounded logical update/removal order above.
+
+Required correction: replace “before the weaker effect expires” with “while the weaker effect's remaining duration exceeds the incoming stronger duration”; describe the comparison as a shared logical event sequence, not identical cross-release wire packets; bind the divergence to local strong expiry before the server's later REMOVE is handled; state the `r = w - 1800` window and leave transport/input scheduling explicit.
+
+Out of scope here: levitation, health/damage behavior, server physics, packet wire compatibility, and release-boundary claims outside the source versions identified above.

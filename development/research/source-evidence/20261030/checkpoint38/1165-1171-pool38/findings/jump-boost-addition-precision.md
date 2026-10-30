@@ -1,0 +1,6 @@
+# Jump Boost addition precision
+
+1.16.5, Mojmap: `net/minecraft/world/entity/LivingEntity.java`, `getJumpPower` and `jumpFromGround`, lines 1878–1895; `net/minecraft/world/entity/player/Player.java`, `jumpFromGround`, lines 1375–1384.
+1.17.1, Mojmap: `net/minecraft/world/entity/LivingEntity.java`, `getJumpBoostPower` and `jumpFromGround`, lines 1967–1984; `net/minecraft/world/entity/player/Player.java`, `jumpFromGround`, lines 1397–1406.
+Difference: 1.16.5 adds `0.1F * (amplifier + 1)` to a `float` holding the base jump power, rounding the sum to float before writing vertical delta movement. 1.17.1 widens the float-derived base and boost product and adds them in double, then writes that sum as the Y velocity. With base `0.42F` and Jump Boost amplifier 0, the old result is `0.5199999809265137` (`0x3F051EB8` as float) while the newer expression yields `0.5199999883770943` (`0x3FE0A3D704000000` as double).
+Movement meaning: a grounded player jump that passes `LivingEntity.aiStep`'s jump conditions with Jump Boost active writes a different vertical velocity. `Player.jumpFromGround` delegates to this operation; the source arithmetic witness establishes a low-order Y-velocity difference, without claiming a runtime trajectory.

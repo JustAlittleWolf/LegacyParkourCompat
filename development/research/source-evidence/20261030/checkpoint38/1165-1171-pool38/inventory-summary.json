@@ -1,0 +1,14 @@
+{
+  "pair": "1.16.5 Mojmap → 1.17.1 Mojmap",
+  "sourceRoot": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft",
+  "javaPaths": {
+    "1.16.5": 3523,
+    "1.17.1": 4142
+  },
+  "unionPathCount": 4206,
+  "identicalHash": 1041,
+  "changedPaired": 2418,
+  "addedIn1171": 683,
+  "removedAfter1165": 64,
+  "inventory": "case-sensitive-java-inventory.tsv"
+}
