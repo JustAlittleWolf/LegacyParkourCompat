@@ -1,0 +1,37 @@
+# Independent audit: 1.11.2 → 1.12.2 block/provider matrix
+
+Target report SHA-256: `6b7fcf36677d2c0714d8a02d9c12d4f0abac647e05b6e80a7d61d328066caefb`.
+
+## Source identity
+
+Canonical roots checked read-only: `D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.11.2\ornithe-feather` and `...\1.12.2\ornithe-feather`. Provenance names exact release IDs, `ornithe-feather` / Feather Gen2 build 2, and Vineflower 1.12.0. Ready and provenance metadata identify successful decompiles. SHA-256 values independently recomputed for the source manifests, provenance JSON, ready JSON, and key paired source files match the report:
+
+- 1.11.2 manifest `d908c2af76598ad26999563bfef0089f1d3c8c32483eee6b108f0defa2773df0`; provenance `dcdb65e1361297a584c5b93f581b1b539911911c6cec1a203740baa5379732c6`; ready `ceabfb266993567aab8c867525365e18aa0a0d7ba5a2cb7b6cfcc83d21318c40`.
+- 1.12.2 manifest `b8a37ccfccd2aac5f40f5e34fec85873dbdfa93a266043c103e592e4a8c949da`; provenance `747425a26da363d1abc8a2cecd83a74504aeb1f58be93aa53f48c690e35318ce`; ready `b0aeec721e5c0af02b33d9e217cb8272889fa139ded1ecc2a31e42b930138f7a`.
+- Key source hashes recomputed and matched the report: `BedBlock.java` `84f56aab19adae4b953a27040e5f431f65c8923d6bd169995ac5a5f629a024e1` / `48c127b2df425cb8d7ff60a284207de10a8408e90ee18a8449522a004a0b4369`; `LiquidBlock.java` `c91618c8445dd488dd61f4a01aed0799dae2faaf3585bc6f2d5164891e988244` / `00f7995dd49a48bf97316e30b3d6e41d8ee1e65dd212f3dc64891883621c4260`; `FenceBlock.java` `856cb92d4613289747a34a6bc85f306ca9d44b7057a45c79f2020d13025d1cf7` / `633ad3b20250bd010a28d0b1362b24c81a5508be8a81a9d826953a3c9c4a703e`; `PaneBlock.java` `1e8968e7d642358cce90f0d3156f07f19c5bca28d2008d5d2d4bf0eccc7266a9` / `83862f6633b8241c3788e9c9a7e4fd0275c010ec790019b8003908996f4814b3`; `WallBlock.java` `17da6d881365e4dce5134f88cb9a9e5273d1fa1734812d13410dc6924a3acbfd` / `7e4378c46e367c32deca14475e5161b6e4223947d83153ce3e7ba5c8a0d18e50`.
+
+## Candidate verdicts
+
+### Bed bounce — accept
+
+1.11.2 and 1.12.2 `net/minecraft/entity/Entity.java:723-727` have the same caller gate: after collision resolution, if resolved `o != y`, the collision block's `beforeCollision` runs. `BedBlock` has no override in 1.11.2; 1.12.2 adds `BedBlock.beforeCollision` at `:141-150`. Sneaking delegates to base (which sets `velocityY = 0`); otherwise negative `velocityY` becomes `-velocityY * 0.66F`. The additional `0.8` multiplier is only for non-`LivingEntity`, so it does not apply to a player. Bed existed in 1.11.2 and both constructors use `Material.WOOL` (`BedBlock.java:39-41`). The report's paired callback and reachability claims are supported.
+
+### Level-8 water side wall with adjacent bed — accept, with caller precondition correction
+
+The old `LiquidBlock.isFaceSolid` (`1.11.2 LiquidBlock.java:83-91`) treats a non-water, non-ice, non-UP side as solid through `Block.isFaceSolid`, which reads queried block material `isSolid` (`Block.java:343-345`). `Material.isSolid()` defaults true (`Material.java:63-65`); bed uses wool material. The new method (`1.12.2 LiquidBlock.java:82-100`) preserves same-liquid, UP, and ICE gates, then requires directional `FaceShape.SOLID` and excludes attachment exceptions/stairs. New `BedBlock.getFaceShape` returns `UNDEFINED` (`:326-329`). The unchanged `getFlow` branch at `LiquidBlock.java:168-179` tests side and side-above only at level ≥ 8 and applies `normalize().add(0,-6,0)` on the first solid side. With a central level-8 cell, east-adjacent bed, air elsewhere and below, its horizontal depth-gradient vector is zero; old flow returns downward unit flow, new flow returns zero. FlowingLiquidBlock can create level 8 from a level 0–7 upper cell (`FlowingLiquidBlock.java:45-51`) and spreads such levels downward (`:84-95`). `LiquidBlock.applyMaterialDrag` passes this vector through unchanged (`:182-185`); `World.applyLiquidDrag` normalizes the aggregate and writes `0.014` times it to velocity (`1.11.2 World.java:1571-1613`, `1.12.2 :1579-1621`). Player `hasLiquidCollision()` is `!abilities.flying` in both trees (`entity/living/player/PlayerEntity.java:1736-1738` / `:1733-1735`).
+
+Caller precondition correction: the concrete player witness must also be **unmounted from a boat**. In both releases `Entity.checkWaterCollisions()` first tests `getMount() instanceof BoatEntity`; that branch sets `inWater=false` and skips `World.applyLiquidDrag` (`1.11.2 Entity.java:927-930`; `1.12.2 :948-951`). An unmounted, non-flying player whose contact bounds intersect only the described water cell is source-reachable. No other hidden gate invalidates that corrected witness.
+
+### Fence, pane, wall connections to stairs — accept; clarify old wall gate
+
+The stair witness is valid. In 1.11.2 all three connection paths reject a straight stair because `StairsBlock.isCube` returns false (`:145-147`). In 1.12.2, a straight north-facing stair returns `SOLID` on its NORTH face (`StairsBlock.java:140-161`); a fence queries the opposite neighbor face (`FenceBlock.java:163-167`) and does not exempt stairs (`:132-138`), a pane does likewise (`PaneBlock.java:109-113,136-157`), and a wall queries the opposite face and accepts `SOLID` unless in its exception list (`WallBlock.java:146-160,190-196`). Thus placing the stair south of each provider connects its south property in 1.12.2 but not 1.11.2. Unchanged `addCollisions` methods select/add the arm from that property (`FenceBlock.java:59-80`, `PaneBlock.java:53-75`, `WallBlock.java:90-97`); fence's south collision arm is `Box(0.375,0,0.625,0.625,1.5,1.0)` (`:46-50`). This is a changed player collision provider.
+
+Precision correction: the report's summary of the **old wall** gate omits its unconditional same-wall branch. 1.11.2 `WallBlock.shouldConnectTo` returns true for `block == this` or a fence gate before applying the solid-blocking-cube test (`WallBlock.java:148-157`). This does not change the stair witness or verdict, but should be preserved in any general gate summary.
+
+## Remaining provider/disposition spot-check
+
+The added `PUSH_ONLY` enum member is returned only by the new `GlazedTerracottaBlock` in this source (`GlazedTerracottaBlock.java:62-64`; sole `PUSH_ONLY` result found under `net/minecraft`). It is absent from the 1.11.2 source tree; the resolver addition therefore has no 1.11-era block witness in this check. Button, torch, and tripwire-hook face-shape consumers are placement/survival predicates; their collision hooks return `EMPTY_BLOCK_SHAPE` (`ButtonBlock.java:46-50`, `TorchBlock.java:55-59`, `TripwireHookBlock.java:54-58`). Vine and ladder support also changes state reachability, and those blocks are directly climbable (`LivingEntity.isClimbing`, `:1006-1018`). I therefore treat the report's exclusion of support/update effects as bounded to this provider slice: any claim that they have no indirect player effect would require separately resolving environmental placement/growth/update scope. Snow-layer placement is another support consumer and its block has a nonempty player collision shape (`SnowLayerBlock.java:60-70,84-105`), again making state-update effects a separate dependency rather than a collision-provider finding here.
+
+## Scope
+
+This audits the named source-only block/provider report and bounded movement call chains, not the 1.11.2→1.12.2 full-pair inventory. It does not establish pair freeze or full tick-graph closure. No product implementation, wiki, history, tests, builds, launch, or source generation was inspected or performed.

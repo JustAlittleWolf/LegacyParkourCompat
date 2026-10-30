@@ -1,0 +1,25 @@
+# 1.11.2 → 1.12.2 external player responses
+
+Scope: Ornithe Feather Gen2 build 2 source comparison of piston-driven player movement and direct player velocity/position responses. This is a bounded lane report, not a pair freeze or independent coverage audit.
+
+## Source identity and integrity
+
+Canonical sources: `D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\{1.11.2,1.12.2}\ornithe-feather`.
+
+- 1.11.2: Ready marker `versionMetadataId=1.11.2`; client SHA-256 `be3fff4f2cc005a1310a96389efdeb983d2bcb4b8e747c402acd616ae73d0ba2`; Feather Gen2 `1.11.2+build.2`; merged mapping jar `d14500101ac23c874b0fe394eae21a382c410ec4f3bbc2e58042e5234a236757`; tiny map `4fa160c09d83bf61ae21bb74ab1e33b6aabe9b8ec89904b266ad53cecc9c36e6`. Ready source-manifest digest and actual manifest SHA-256 both `d908c2af76598ad26999563bfef0089f1d3c8c32483eee6b108f0defa2773df0` (1,921 files); verification marker reports 1,921 sources verified, zero differences.
+- 1.12.2: Ready marker `versionMetadataId=1.12.2`; client SHA-256 `8ada07da5ee77dad3527bd7278fbd05ee1fc8a597813b216a871a2d7d64cc64f`; Feather Gen2 `1.12.2+build.2`; merged mapping jar `e48244030c53979793bdfbe48d7f1f3536f7e4f678ee5890a416198037cd46ca`; tiny map `a3aa1c8e73e81bd09432ba1f4b2e88aaacbedb2d8fa3cbf797536d2bdf0d4e58`. Ready source-manifest digest and actual manifest SHA-256 both `b8a37ccfccd2aac5f40f5e34fec85873dbdfa93a266043c103e592e4a8c949da` (2,050 files); verification marker reports 2,050 sources verified, zero differences.
+- Both release provenance records name Feather mapping, Java `25.0.3+9-LTS`, Gradle `9.7.1`, Vineflower `1.12.0`, ASM `9.10.1`, Mapping IO `0.9.1`, Gson `2.14.0`, TinyRemapper `0.14.1`; their shared generation batch is `1.10.2,1.11.2,1.12.2`. Verification only reports regenerated intermediate remapped-jar differences; decompiled sources and raw inputs match.
+
+## Ordered coverage
+
+1. **Piston-driven entity displacement — no eligible historical difference found.** `Entity.move(MoverType.PISTON, ...)` in `Entity.java` (~464–500 in 1.11.2; ~467–503 in 1.12.2) retains the same per-world-tick accumulator reset, axis selection, clamp to `[-0.51, 0.51]`, delta subtraction, and `abs(delta) <= 1.0E-5F` return. `MovingBlockEntity.java` retains its two player/entity displacement calls at lines 159 and 241. The `PistonMoveBehavior` enum only adds `PUSH_ONLY`; `GlazedTerracottaBlock` is the only source returning it, and that block is new to the later endpoint. `PistonBaseBlock.canMoveBlock` adds a `PUSH_ONLY` case that permits motion only when `dir == fromDir`. That is a new-block eligibility dependency, excluded as a modern-only feature; it cannot alter piston motion from blocks existing in 1.11.2. No finding drafted.
+2. **LivingEntity knockback — no difference.** `LivingEntity.applyKnockback` (~943 in 1.11.2; ~971 in 1.12.2) preserves its random knockback-resistance gate, dirty flag, horizontal normalization and half-velocity damping, and grounded vertical half-velocity plus capped addition. Contextual source line shifts do not affect the method body.
+3. **Client entity velocity packet — no difference.** `ClientPlayNetworkHandler.handleEntityVelocity` (~451 / ~464) resolves the entity by packet ID and calls `lerpVelocity` with each packet component divided by `8000.0` on both releases.
+4. **Local-player server correction — no difference.** `handlePlayerMove` (~565 / ~578) retains the same relative-axis additions, absolute-axis velocity zeroing, relative angle handling, `updatePositionAndAngles`, teleport acknowledgment and position response packet construction.
+5. **Explosion response — no difference observed in velocity writes.** `handleExplosion` (~919 / ~928) has the same three-component addition of packet player velocity to the local player (`+ packet.getPlayerVelocityX/Y/Z()`). Need retain full-method compare if a reviewer wants closure beyond those writes.
+6. **Teleport / remote entity position interpolation — no difference in selected client handler bodies.** `handleEntityTeleport` and `handleEntityMove` preserve thresholds/lerp calls and are unchanged in the inspected spans. `Entity.lerpPositionAndAngles` keeps the same implementation in the inspected endpoint contexts. Remote player movement is outside local-player trajectory parity but included as a response-writer screen.
+
+## Dependencies and next gaps
+
+- Piston eligibility (`PistonBaseBlock`, `PistonMoveBehavior`, `GlazedTerracottaBlock`) is the only new candidate; its effect reaches player displacement only through unchanged `MovingBlockEntity` calls into `Entity.move(MoverType.PISTON)`. The only newly eligible block is Glazed Terracotta, so no older-map player movement difference is established. Coordinate with the collision/provider lane before any broader piston conclusion.
+- The full class inventories were not exhausted for every direct writer or every server-only action. Remaining checks: full-method diff of `handleExplosion`, server-to-client `PlayerMoveS2CPacket` creation and local-player respawn/world-transfer paths; review status/effect and item-use handlers only if they write local-player position/velocity. No pair closure is claimed.

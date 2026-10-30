@@ -1,0 +1,38 @@
+{
+  "pair": "1.11.2 -> 1.12.2",
+  "mapping": "ornithe-feather",
+  "mappingBuild": "Feather Gen2 build 2",
+  "decompiler": "Vineflower 1.12.0",
+  "sourceRoots": {
+    "1.11.2": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.11.2\\ornithe-feather",
+    "1.12.2": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.12.2\\ornithe-feather"
+  },
+  "versions": {
+    "1.11.2": {
+      "readyStatus": "ready",
+      "sourceFileCount": 1921,
+      "sourceBytes": 9898384,
+      "readyMarkerSha256": "ceabfb266993567aab8c867525365e18aa0a0d7ba5a2cb7b6cfcc83d21318c40",
+      "provenanceSha256": "dcdb65e1361297a584c5b93f581b1b539911911c6cec1a203740baa5379732c6",
+      "sourceManifestSha256": "d908c2af76598ad26999563bfef0089f1d3c8c32483eee6b108f0defa2773df0"
+    },
+    "1.12.2": {
+      "readyStatus": "ready",
+      "sourceFileCount": 2050,
+      "sourceBytes": 10518527,
+      "readyMarkerSha256": "b0aeec721e5c0af02b33d9e217cb8272889fa139ded1ecc2a31e42b930138f7a",
+      "provenanceSha256": "747425a26da363d1abc8a2cecd83a74504aeb1f58be93aa53f48c690e35318ce",
+      "sourceManifestSha256": "b8a37ccfccd2aac5f40f5e34fec85873dbdfa93a266043c103e592e4a8c949da"
+    }
+  },
+  "matrixCounts": {
+    "removed": 16,
+    "added": 145,
+    "unchanged": 1324,
+    "hash_changed": 581
+  },
+  "totalUnionPaths": 2066,
+  "matrixFile": "java-file-matrix.csv",
+  "matrixSha256": "f41e7591f77d44268dc58d7b42a496b7385ffeb79992568c2dac50785d0f948c",
+  "sourceIntegrity": "all source files match their declared SHA-256 manifests; ready counts/bytes and source-manifest identities match"
+}
