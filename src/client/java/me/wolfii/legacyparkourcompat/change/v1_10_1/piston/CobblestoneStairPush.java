@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 
 import java.util.OptionalDouble;
@@ -22,7 +23,9 @@ public final class CobblestoneStairPush implements PistonStairPushHook {
     @Override
     public OptionalDouble requestedDistance(PistonMovingBlockEntity mover, BlockPos pos, float newProgress,
                                              Entity recipient, Direction movementDirection) {
-        if (!mover.isExtending()) {
+        if (!mover.isExtending()
+            || (mover.getMovedState().hasProperty(BlockStateProperties.WATERLOGGED)
+                && mover.getMovedState().getValue(BlockStateProperties.WATERLOGGED))) {
             return OptionalDouble.empty();
         }
 
