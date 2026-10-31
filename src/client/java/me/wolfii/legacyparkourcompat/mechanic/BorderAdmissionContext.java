@@ -1,6 +1,7 @@
 package me.wolfii.legacyparkourcompat.mechanic;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jspecify.annotations.Nullable;
 
 import java.util.function.Supplier;
@@ -12,7 +13,11 @@ public final class BorderAdmissionContext {
 
     private BorderAdmissionContext() {}
 
-    public record CollisionAdmission(Entity entity, boolean includeBorder) {}
+    public record CollisionAdmission(Entity entity, boolean includeBorder, @Nullable VoxelShape historicalStaticShape) {
+        public CollisionAdmission(Entity entity, boolean includeBorder) {
+            this(entity, includeBorder, null);
+        }
+    }
 
     public static @Nullable CollisionAdmission collision() {
         return COLLISION.get();

@@ -7,6 +7,7 @@ import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import java.util.Optional;
 
 /**
@@ -24,11 +25,12 @@ import java.util.Optional;
 @MovementChange(emulates = ParkourVersion.V1_17_1)
 public final class BorderCollisionAdmission implements BorderCollisionAdmissionHook {
     @Override
-    public Optional<Boolean> includeBorder(ParkourVersion selected, WorldBorder border, AABB currentBox) {
+    public Optional<Boolean> includeBorder(ParkourVersion selected, WorldBorder border, AABB currentBox,
+                                          VoxelShape collisionShape) {
         if (selected.olderThan(ParkourVersion.V1_14)) {
             return Optional.empty();
         }
-        return Optional.of(!Shapes.joinIsNotEmpty(border.getCollisionShape(),
+        return Optional.of(!Shapes.joinIsNotEmpty(collisionShape,
             Shapes.create(currentBox.deflate(1.0E-7)), BooleanOp.AND));
     }
 }

@@ -6,6 +6,7 @@ import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import me.wolfii.legacyparkourcompat.mechanic.BorderAdmissionContext;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.StaticWorldBorderCollisionShape;
 import me.wolfii.legacyparkourcompat.mechanic.hook.border.BorderCollisionAdmissionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.StepUpCollisionHook;
 import net.minecraft.world.entity.Entity;
@@ -28,10 +29,14 @@ abstract class EntityStepUpCollisionMixin {
         }
 
         AABB box = entity.getBoundingBox();
+        var border = entity.level().getWorldBorder();
+        var historicalStaticShape = StaticWorldBorderCollisionShape.resolve(border, entity);
         var admission = MovementRuntime.find(BorderCollisionAdmissionHook.class, entity)
             .flatMap(borderHook -> borderHook.includeBorder(
-                MovementRuntime.profile(entity).target(), entity.level().getWorldBorder(), box))
-            .map(include -> new BorderAdmissionContext.CollisionAdmission(entity, include))
+                MovementRuntime.profile(entity).target(), border, box,
+                historicalStaticShape.orElseGet(border::getCollisionShape)))
+            .map(include -> new BorderAdmissionContext.CollisionAdmission(
+                entity, include, historicalStaticShape.orElse(null)))
             .orElse(null);
         return BorderAdmissionContext.withCollision(admission, () -> {
             List<VoxelShape> entityCollisions = entity.level().getEntityCollisions(entity, box.expandTowards(movement));

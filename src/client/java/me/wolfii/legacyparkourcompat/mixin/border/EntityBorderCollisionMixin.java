@@ -7,9 +7,9 @@ import com.llamalad7.mixinextras.sugar.Local;
 import me.wolfii.legacyparkourcompat.mechanic.BorderAdmissionContext;
 import me.wolfii.legacyparkourcompat.mechanic.CollisionBorderShapeContext;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.StaticWorldBorderCollisionShape;
 import me.wolfii.legacyparkourcompat.mechanic.hook.border.BorderCollisionAdmissionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.border.WorldBorderCollisionHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.worldborder.StaticWorldBorderCollisionShapeHook;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.phys.AABB;
@@ -23,10 +23,14 @@ public abstract class EntityBorderCollisionMixin {
     @WrapMethod(method = "collide")
     private Vec3 legacyparkourcompat$borderContext(Vec3 movement, Operation<Vec3> original) {
         Entity entity = (Entity) (Object) this;
+        WorldBorder border = entity.level().getWorldBorder();
+        var historicalStaticShape = StaticWorldBorderCollisionShape.resolve(border, entity);
+        // Admission and later collection share this exact resolved shape instance.
         var admission = MovementRuntime.find(BorderCollisionAdmissionHook.class, entity)
-            .flatMap(hook -> hook.includeBorder(MovementRuntime.profile(entity).target(),
-                entity.level().getWorldBorder(), entity.getBoundingBox()))
-            .map(include -> new BorderAdmissionContext.CollisionAdmission(entity, include))
+            .flatMap(hook -> hook.includeBorder(MovementRuntime.profile(entity).target(), border,
+                entity.getBoundingBox(), historicalStaticShape.orElseGet(border::getCollisionShape)))
+            .map(include -> new BorderAdmissionContext.CollisionAdmission(
+                entity, include, historicalStaticShape.orElse(null)))
             .orElse(null);
         return BorderAdmissionContext.withCollision(admission, () -> original.call(movement));
     }
@@ -70,15 +74,12 @@ public abstract class EntityBorderCollisionMixin {
         VoxelShape shape;
         if (historicalCollision != null) {
             shape = historicalCollision.shape();
-        } else if (MovementRuntime.appliesTo(source)
-            && border.getLerpTime() == 0L && border.getLerpSpeed() == 0.0) {
-            shape = MovementRuntime.find(StaticWorldBorderCollisionShapeHook.class, source)
-                .flatMap(hook -> hook.collisionShape(
-                    border.getCenterX(), border.getCenterZ(), border.getSize(), border.getAbsoluteMaxSize()
-                ))
-                .orElseGet(() -> original.call(border));
         } else {
-            shape = original.call(border);
+            var admission = BorderAdmissionContext.collision();
+            var carriedStaticShape = admission != null && admission.entity() == source
+                ? admission.historicalStaticShape() : null;
+            shape = carriedStaticShape != null ? carriedStaticShape
+                : StaticWorldBorderCollisionShape.resolve(border, source).orElseGet(() -> original.call(border));
         }
         if (frame != null) {
             frame.recordShape(source, shape);
