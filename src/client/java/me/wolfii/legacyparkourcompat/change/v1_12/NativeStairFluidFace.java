@@ -11,6 +11,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FlowingFluid;
 
+import java.util.List;
+
 /**
  * Preserves the native face predicate before the proven 1.13 stair behavior.
  * The same 17 stair keys are handled historically from V1_13_1 onward; the

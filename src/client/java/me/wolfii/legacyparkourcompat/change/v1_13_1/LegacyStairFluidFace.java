@@ -11,6 +11,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FlowingFluid;
 
+import java.util.List;
+
 /**
  * In 1.13/1.13.1/1.13.2 Ornithe Feather FlowingFluid#getFlow invokes
  * #isSolidFace, which rejects StairsBlock before checking its face shape.
