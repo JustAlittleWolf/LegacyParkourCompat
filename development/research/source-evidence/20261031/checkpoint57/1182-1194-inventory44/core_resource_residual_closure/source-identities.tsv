@@ -1,0 +1,7 @@
+"version"	"mapping"	"status"	"source_file_count"	"manifest_lines"	"manifest_sha256"	"ready_marker_sha256"	"identity_match"
+"1.18.2"	"mojmap"	"ready"	"4236"	"4236"	"aea0cb9c6fc8f7a46f0eb82b0388ad58a4659f513be6c0a2be06c0df0c1eb07a"	"aea0cb9c6fc8f7a46f0eb82b0388ad58a4659f513be6c0a2be06c0df0c1eb07a"	"True"
+"1.19"	"mojmap"	"ready"	"4430"	"4430"	"78bf3f9d5b4b5437240dd0707fa7a9ff56e6d1e267bd8edc13adc8313b535e26"	"78bf3f9d5b4b5437240dd0707fa7a9ff56e6d1e267bd8edc13adc8313b535e26"	"True"
+"1.19.1"	"mojmap"	"ready"	"4480"	"4480"	"25a8e35111971be21a85fefd567ada685098f45e35e431163afdbe0fa66dfde1"	"25a8e35111971be21a85fefd567ada685098f45e35e431163afdbe0fa66dfde1"	"True"
+"1.19.2"	"mojmap"	"ready"	"4480"	"4480"	"95bc354ac219b9fe1ca8bf45053edad0119a75323d576902d59616a11647aac2"	"95bc354ac219b9fe1ca8bf45053edad0119a75323d576902d59616a11647aac2"	"True"
+"1.19.3"	"mojmap"	"ready"	"4618"	"4618"	"6f1cc6d07ab3902a7ea25a3f8817504723be70d82e97f541cffda95ea2c1c843"	"6f1cc6d07ab3902a7ea25a3f8817504723be70d82e97f541cffda95ea2c1c843"	"True"
+"1.19.4"	"mojmap"	"ready"	"4740"	"4740"	"6286e325371e085dfee1ab7987e66d4b6d1a984a49b6ec8ea730045cd24cecb3"	"6286e325371e085dfee1ab7987e66d4b6d1a984a49b6ec8ea730045cd24cecb3"	"True"

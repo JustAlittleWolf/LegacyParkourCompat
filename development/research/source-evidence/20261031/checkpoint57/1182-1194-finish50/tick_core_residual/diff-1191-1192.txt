@@ -1,0 +1,98 @@
+### 1.19.1 -> 1.19.2 net/minecraft/client/Minecraft.java
+diff --git "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.1\\mojmap\\net\\minecraft\\client\\Minecraft.java" "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.2\\mojmap\\net\\minecraft\\client\\Minecraft.java"
+index 8d3352f6..60218862 100644
+--- "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.1\\mojmap\\net\\minecraft\\client\\Minecraft.java"
++++ "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.2\\mojmap\\net\\minecraft\\client\\Minecraft.java"
+@@ -217,6 +217,7 @@ import net.minecraft.world.entity.Entity;
+ import net.minecraft.world.entity.EntityType;
+ import net.minecraft.world.entity.player.ChatVisiblity;
+ import net.minecraft.world.entity.player.Inventory;
++import net.minecraft.world.entity.player.ProfilePublicKey;
+ import net.minecraft.world.item.BlockItem;
+ import net.minecraft.world.item.CreativeModeTab;
+ import net.minecraft.world.item.Item;
+@@ -1910,45 +1911,46 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+     }
+
+     public void doWorldLoad(String $$0, LevelStorageSource.LevelStorageAccess $$1, PackRepository $$2, WorldStem $$3) {
++        CompletableFuture<Optional<ProfilePublicKey.Data>> $$4 = this.profileKeyPairManager.preparePublicKey();
+         this.clearLevel();
+         this.progressListener.set(null);
+
+         try {
+             $$1.saveDataTag($$3.registryAccess(), $$3.worldData());
+-            Services $$4 = Services.create(this.authenticationService, this.gameDirectory);
+-            $$4.profileCache().setExecutor(this);
+-            SkullBlockEntity.setup($$4, this);
++            Services $$5 = Services.create(this.authenticationService, this.gameDirectory);
++            $$5.profileCache().setExecutor(this);
++            SkullBlockEntity.setup($$5, this);
+             GameProfileCache.setUsesAuthentication(false);
+-            this.singleplayerServer = MinecraftServer.spin($$4x -> new IntegratedServer($$4x, this, $$1, $$2, $$3, $$4, $$0xx -> {
++            this.singleplayerServer = MinecraftServer.spin($$4x -> new IntegratedServer($$4x, this, $$1, $$2, $$3, $$5, $$0xx -> {
+                 StoringChunkProgressListener $$1xx = new StoringChunkProgressListener($$0xx + 0);
+                 this.progressListener.set($$1xx);
+                 return ProcessorChunkProgressListener.createStarted($$1xx, this.progressTasks::add);
+             }));
+             this.isLocalServer = true;
+             this.updateReportEnvironment(ReportEnvironment.local());
+-        } catch (Throwable $$5) {
+-            CrashReport $$6 = CrashReport.forThrowable($$5, "Starting integrated server");
+-            CrashReportCategory $$7 = $$6.addCategory("Starting integrated server");
+-            $$7.setDetail("Level ID", $$0);
+-            $$7.setDetail("Level Name", () -> $$3.worldData().getLevelName());
+-            throw new ReportedException($$6);
++        } catch (Throwable $$6) {
++            CrashReport $$7 = CrashReport.forThrowable($$6, "Starting integrated server");
++            CrashReportCategory $$8 = $$7.addCategory("Starting integrated server");
++            $$8.setDetail("Level ID", $$0);
++            $$8.setDetail("Level Name", () -> $$3.worldData().getLevelName());
++            throw new ReportedException($$7);
+         }
+
+         while (this.progressListener.get() == null) {
+             Thread.yield();
+         }
+
+-        LevelLoadingScreen $$8 = new LevelLoadingScreen((StoringChunkProgressListener)this.progressListener.get());
+-        this.setScreen($$8);
++        LevelLoadingScreen $$9 = new LevelLoadingScreen((StoringChunkProgressListener)this.progressListener.get());
++        this.setScreen($$9);
+         this.profiler.push("waitForServer");
+
+         while (!this.singleplayerServer.isReady()) {
+-            $$8.tick();
++            $$9.tick();
+             this.runTick(false);
+
+             try {
+                 Thread.sleep(16L);
+-            } catch (InterruptedException var8) {
++            } catch (InterruptedException var9) {
+             }
+
+             if (this.delayedCrash != null) {
+@@ -1958,16 +1960,16 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         }
+
+         this.profiler.pop();
+-        SocketAddress $$9 = this.singleplayerServer.getConnection().startMemoryChannel();
+-        Connection $$10 = Connection.connectToLocalServer($$9);
+-        $$10.setListener(new ClientHandshakePacketListenerImpl($$10, this, null, $$0x -> {}));
+-        $$10.send(new ClientIntentionPacket($$9.toString(), 0, ConnectionProtocol.LOGIN));
+-        $$10.send(
++        SocketAddress $$10 = this.singleplayerServer.getConnection().startMemoryChannel();
++        Connection $$11 = Connection.connectToLocalServer($$10);
++        $$11.setListener(new ClientHandshakePacketListenerImpl($$11, this, null, $$0x -> {}));
++        $$11.send(new ClientIntentionPacket($$10.toString(), 0, ConnectionProtocol.LOGIN));
++        $$11.send(
+             new ServerboundHelloPacket(
+-                this.getUser().getName(), this.profileKeyPairManager.profilePublicKeyData(), Optional.ofNullable(this.getUser().getProfileId())
++                this.getUser().getName(), (Optional<ProfilePublicKey.Data>)$$4.join(), Optional.ofNullable(this.getUser().getProfileId())
+             )
+         );
+-        this.pendingConnection = $$10;
++        this.pendingConnection = $$11;
+     }
+
+     public void setLevel(ClientLevel $$0) {

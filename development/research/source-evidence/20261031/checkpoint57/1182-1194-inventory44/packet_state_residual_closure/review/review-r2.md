@@ -1,0 +1,10 @@
+# Independent review r2: block acknowledgement position restoration
+
+**Verdict: ACCEPT** for final draft SHA-256 `CCE5C3D6E98F15DE6D01B57548703E2CFB6E0790F84C74301F780FF3890EA676`, broad source-ledger SHA-256 `54518A6416A3B4426EA0C633522341EFB3C7B412F88DB48F6189F79CD524CF4E`, and ACK-route ledger SHA-256 `8E4F7B07775D71C705BCE961C333A870820341B8FB47BBCCDE224A4AD560DC8B`.
+
+All 66 broad-ledger hashes and all 24 ACK-route hashes match the exact local Mojmap sources. The revised route citations close the triggering-action gap:
+
+- In 1.18.2, `MultiPlayerGameMode.continueDestroyBlock` sends `STOP_DESTROY_BLOCK` before local `destroyBlock`; `sendBlockAction` captures `LocalPlayer.position()`. The ACK listener passes action, `allGood`, state and position to the old action/result gate, which applies the block state and conditionally calls `Player.absMoveTo` only when saved position, same-level and collision conditions hold.
+- In 1.19, `continueDestroyBlock` wraps completed local `destroyBlock` in `startPrediction`; `startPrediction` starts the sequence, executes the action, sends the sequenced packet, then closes the prediction scope. `destroyBlock` reaches `ClientLevel.setBlock`. A successful predicted state write records the pre-prediction state and LocalPlayer position. The prediction handler retains the initial position for the block and updates its sequence on later predictions; server block updates revise the retained verified state; ACK closes all entries through the acknowledged sequence; `syncBlockState` restores the verified state and directly calls `absMoveTo` only when state differs, this is the player's level, and the verified state collides with the player.
+
+The source-supported old/new eligibility and capture differences are stated accurately. The direct client-player position write is reachable, the equality/level/collision/ACK guards are preserved, and no server-side production or historical world-state behavior is inferred. The wording appropriately scopes the correction to a pending prediction with a differing verified state. No build, tests, launches, or external tools were used.

@@ -1,0 +1,3028 @@
+### 1.18.2 -> 1.19 net/minecraft/client/Minecraft.java
+diff --git "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.18.2\\mojmap\\net\\minecraft\\client\\Minecraft.java" "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19\\mojmap\\net\\minecraft\\client\\Minecraft.java"
+index 72f28c53..8bfc2e34 100644
+--- "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.18.2\\mojmap\\net\\minecraft\\client\\Minecraft.java"
++++ "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19\\mojmap\\net\\minecraft\\client\\Minecraft.java"
+@@ -3,10 +3,7 @@ package net.minecraft.client;
+ import com.google.common.collect.ImmutableList;
+ import com.google.common.collect.ImmutableMap;
+ import com.google.common.collect.Queues;
+-import com.google.gson.JsonElement;
+-import com.mojang.authlib.AuthenticationService;
+ import com.mojang.authlib.GameProfile;
+-import com.mojang.authlib.GameProfileRepository;
+ import com.mojang.authlib.exceptions.AuthenticationException;
+ import com.mojang.authlib.minecraft.MinecraftSessionService;
+ import com.mojang.authlib.minecraft.UserApiService;
+@@ -19,9 +16,11 @@ import com.mojang.blaze3d.pipeline.TextureTarget;
+ import com.mojang.blaze3d.platform.DisplayData;
+ import com.mojang.blaze3d.platform.GlDebug;
+ import com.mojang.blaze3d.platform.GlUtil;
++import com.mojang.blaze3d.platform.MacosUtil;
+ import com.mojang.blaze3d.platform.Window;
+ import com.mojang.blaze3d.platform.WindowEventHandler;
+ import com.mojang.blaze3d.systems.RenderSystem;
++import com.mojang.blaze3d.systems.TimerQuery;
+ import com.mojang.blaze3d.vertex.BufferBuilder;
+ import com.mojang.blaze3d.vertex.BufferUploader;
+ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+@@ -29,13 +28,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
+ import com.mojang.blaze3d.vertex.Tesselator;
+ import com.mojang.blaze3d.vertex.VertexFormat;
+ import com.mojang.datafixers.DataFixer;
+-import com.mojang.datafixers.util.Pair;
+ import com.mojang.logging.LogUtils;
+ import com.mojang.math.Matrix4f;
+-import com.mojang.serialization.DataResult;
+-import com.mojang.serialization.DynamicOps;
+-import com.mojang.serialization.JsonOps;
+-import com.mojang.serialization.Lifecycle;
+ import java.io.File;
+ import java.io.IOException;
+ import java.io.InputStream;
+@@ -56,7 +50,6 @@ import java.util.MissingResourceException;
+ import java.util.Queue;
+ import java.util.UUID;
+ import java.util.concurrent.CompletableFuture;
+-import java.util.concurrent.ExecutionException;
+ import java.util.concurrent.atomic.AtomicReference;
+ import java.util.function.Consumer;
+ import java.util.function.Function;
+@@ -80,11 +73,9 @@ import net.minecraft.client.gui.components.toasts.SystemToast;
+ import net.minecraft.client.gui.components.toasts.ToastComponent;
+ import net.minecraft.client.gui.components.toasts.TutorialToast;
+ import net.minecraft.client.gui.font.FontManager;
+-import net.minecraft.client.gui.screens.BackupConfirmScreen;
+ import net.minecraft.client.gui.screens.ChatScreen;
+-import net.minecraft.client.gui.screens.ConfirmScreen;
++import net.minecraft.client.gui.screens.ConfirmLinkScreen;
+ import net.minecraft.client.gui.screens.ConnectScreen;
+-import net.minecraft.client.gui.screens.DatapackLoadFailureScreen;
+ import net.minecraft.client.gui.screens.DeathScreen;
+ import net.minecraft.client.gui.screens.GenericDirtMessageScreen;
+ import net.minecraft.client.gui.screens.InBedChatScreen;
+@@ -101,16 +92,16 @@ import net.minecraft.client.gui.screens.WinScreen;
+ import net.minecraft.client.gui.screens.advancements.AdvancementsScreen;
+ import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
+ import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+-import net.minecraft.client.gui.screens.recipebook.RecipeCollection;
+ import net.minecraft.client.gui.screens.social.PlayerSocialManager;
+ import net.minecraft.client.gui.screens.social.SocialInteractionsScreen;
+-import net.minecraft.client.gui.screens.worldselection.EditWorldScreen;
++import net.minecraft.client.gui.screens.worldselection.WorldOpenFlows;
+ import net.minecraft.client.main.GameConfig;
+ import net.minecraft.client.model.geom.EntityModelSet;
+ import net.minecraft.client.multiplayer.ClientHandshakePacketListenerImpl;
+ import net.minecraft.client.multiplayer.ClientLevel;
+ import net.minecraft.client.multiplayer.ClientPacketListener;
+ import net.minecraft.client.multiplayer.MultiPlayerGameMode;
++import net.minecraft.client.multiplayer.ProfileKeyPairManager;
+ import net.minecraft.client.multiplayer.ServerData;
+ import net.minecraft.client.multiplayer.resolver.ServerAddress;
+ import net.minecraft.client.particle.ParticleEngine;
+@@ -120,7 +111,6 @@ import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+ import net.minecraft.client.renderer.FogRenderer;
+ import net.minecraft.client.renderer.GameRenderer;
+ import net.minecraft.client.renderer.GpuWarnlistManager;
+-import net.minecraft.client.renderer.ItemInHandRenderer;
+ import net.minecraft.client.renderer.LevelRenderer;
+ import net.minecraft.client.renderer.RenderBuffers;
+ import net.minecraft.client.renderer.VirtualScreen;
+@@ -147,21 +137,19 @@ import net.minecraft.client.resources.language.I18n;
+ import net.minecraft.client.resources.language.LanguageManager;
+ import net.minecraft.client.resources.model.BakedModel;
+ import net.minecraft.client.resources.model.ModelManager;
+-import net.minecraft.client.searchtree.MutableSearchTree;
+-import net.minecraft.client.searchtree.ReloadableIdSearchTree;
+-import net.minecraft.client.searchtree.ReloadableSearchTree;
++import net.minecraft.client.searchtree.FullTextSearchTree;
++import net.minecraft.client.searchtree.IdSearchTree;
+ import net.minecraft.client.searchtree.SearchRegistry;
++import net.minecraft.client.searchtree.SearchTree;
+ import net.minecraft.client.server.IntegratedServer;
+ import net.minecraft.client.sounds.MusicManager;
+ import net.minecraft.client.sounds.SoundManager;
+ import net.minecraft.client.tutorial.Tutorial;
+-import net.minecraft.commands.Commands;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.Direction;
+ import net.minecraft.core.Holder;
+ import net.minecraft.core.NonNullList;
+ import net.minecraft.core.Registry;
+-import net.minecraft.core.RegistryAccess;
+ import net.minecraft.nbt.CompoundTag;
+ import net.minecraft.nbt.ListTag;
+ import net.minecraft.nbt.StringTag;
+@@ -170,16 +158,14 @@ import net.minecraft.network.ConnectionProtocol;
+ import net.minecraft.network.chat.ClickEvent;
+ import net.minecraft.network.chat.CommonComponents;
+ import net.minecraft.network.chat.Component;
+-import net.minecraft.network.chat.KeybindComponent;
+-import net.minecraft.network.chat.TextComponent;
+-import net.minecraft.network.chat.TranslatableComponent;
++import net.minecraft.network.chat.contents.KeybindResolver;
+ import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
+ import net.minecraft.network.protocol.handshake.ClientIntentionPacket;
+ import net.minecraft.network.protocol.login.ServerboundHelloPacket;
+-import net.minecraft.resources.RegistryOps;
+ import net.minecraft.resources.ResourceLocation;
+ import net.minecraft.server.Bootstrap;
+ import net.minecraft.server.MinecraftServer;
++import net.minecraft.server.Services;
+ import net.minecraft.server.WorldStem;
+ import net.minecraft.server.level.progress.ProcessorChunkProgressListener;
+ import net.minecraft.server.level.progress.StoringChunkProgressListener;
+@@ -190,22 +176,24 @@ import net.minecraft.server.packs.repository.FolderRepositorySource;
+ import net.minecraft.server.packs.repository.Pack;
+ import net.minecraft.server.packs.repository.PackRepository;
+ import net.minecraft.server.packs.repository.PackSource;
+-import net.minecraft.server.packs.repository.ServerPacksSource;
+ import net.minecraft.server.packs.resources.ReloadableResourceManager;
+ import net.minecraft.server.packs.resources.ResourceManager;
+ import net.minecraft.server.players.GameProfileCache;
+ import net.minecraft.sounds.Music;
+ import net.minecraft.sounds.Musics;
++import net.minecraft.tags.BiomeTags;
+ import net.minecraft.tags.TagKey;
+ import net.minecraft.util.FileZipper;
+ import net.minecraft.util.FrameTimer;
+ import net.minecraft.util.MemoryReserve;
+ import net.minecraft.util.ModCheck;
+ import net.minecraft.util.Mth;
++import net.minecraft.util.SignatureValidator;
+ import net.minecraft.util.TimeUtil;
+ import net.minecraft.util.Unit;
+ import net.minecraft.util.datafix.DataFixers;
+ import net.minecraft.util.profiling.ContinuousProfiler;
++import net.minecraft.util.profiling.EmptyProfileResults;
+ import net.minecraft.util.profiling.InactiveProfiler;
+ import net.minecraft.util.profiling.ProfileResults;
+ import net.minecraft.util.profiling.ProfilerFiller;
+@@ -229,18 +217,13 @@ import net.minecraft.world.item.ItemStack;
+ import net.minecraft.world.item.PlayerHeadItem;
+ import net.minecraft.world.item.TooltipFlag;
+ import net.minecraft.world.level.Level;
+-import net.minecraft.world.level.LevelSettings;
+ import net.minecraft.world.level.biome.Biome;
+ import net.minecraft.world.level.block.Block;
+ import net.minecraft.world.level.block.RenderShape;
+ import net.minecraft.world.level.block.entity.BlockEntity;
+ import net.minecraft.world.level.block.entity.SkullBlockEntity;
+ import net.minecraft.world.level.block.state.BlockState;
+-import net.minecraft.world.level.levelgen.WorldGenSettings;
+-import net.minecraft.world.level.storage.LevelResource;
+ import net.minecraft.world.level.storage.LevelStorageSource;
+-import net.minecraft.world.level.storage.PrimaryLevelData;
+-import net.minecraft.world.level.storage.WorldData;
+ import net.minecraft.world.phys.BlockHitResult;
+ import net.minecraft.world.phys.EntityHitResult;
+ import net.minecraft.world.phys.HitResult;
+@@ -249,7 +232,7 @@ import org.lwjgl.util.tinyfd.TinyFileDialogs;
+ import org.slf4j.Logger;
+
+ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements WindowEventHandler {
+-    private static Minecraft instance;
++    static Minecraft instance;
+     private static final Logger LOGGER = LogUtils.getLogger();
+     public static final boolean ON_OSX = Util.getPlatform() == Util.OS.OSX;
+     private static final int MAX_TICKS_PER_UPDATE = 10;
+@@ -258,7 +241,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+     public static final ResourceLocation ALT_FONT = new ResourceLocation("alt");
+     private static final ResourceLocation REGIONAL_COMPLIANCIES = new ResourceLocation("regional_compliancies.json");
+     private static final CompletableFuture<Unit> RESOURCE_RELOAD_INITIAL_TASK = CompletableFuture.completedFuture(Unit.INSTANCE);
+-    private static final Component SOCIAL_INTERACTIONS_NOT_AVAILABLE = new TranslatableComponent("multiplayer.socialInteractions.not_available");
++    private static final Component SOCIAL_INTERACTIONS_NOT_AVAILABLE = Component.translatable("multiplayer.socialInteractions.not_available");
+     public static final String UPDATE_DRIVERS_ADVICE = "Please make sure you have up-to-date drivers (see aka.ms/mcdriver for instructions).";
+     private final File resourcePackDirectory;
+     private final PropertyMap profileProperties;
+@@ -271,7 +254,6 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+     public final LevelRenderer levelRenderer;
+     private final EntityRenderDispatcher entityRenderDispatcher;
+     private final ItemRenderer itemRenderer;
+-    private final ItemInHandRenderer itemInHandRenderer;
+     public final ParticleEngine particleEngine;
+     private final SearchRegistry searchRegistry = new SearchRegistry();
+     private final User user;
+@@ -307,7 +289,9 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+     private final SplashManager splashManager;
+     private final GpuWarnlistManager gpuWarnlistManager;
+     private final PeriodicNotificationManager regionalCompliancies = new PeriodicNotificationManager(REGIONAL_COMPLIANCIES, Minecraft::countryEqualsISO3);
++    private final YggdrasilAuthenticationService authenticationService;
+     private final MinecraftSessionService minecraftSessionService;
++    private final SignatureValidator serviceSignatureValidator;
+     private final UserApiService userApiService;
+     private final SkinManager skinManager;
+     private final ModelManager modelManager;
+@@ -321,6 +305,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+     private final EntityModelSet entityModels;
+     private final BlockEntityRenderDispatcher blockEntityRenderDispatcher;
+     private final UUID deviceSessionId = UUID.randomUUID();
++    private final ProfileKeyPairManager profileKeyPairManager;
+     @Nullable
+     public MultiPlayerGameMode gameMode;
+     @Nullable
+@@ -354,7 +339,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+     private Overlay overlay;
+     private boolean connectedToRealms;
+     private Thread gameThread;
+-    private volatile boolean running = true;
++    private volatile boolean running;
+     @Nullable
+     private Supplier<CrashReport> delayedCrash;
+     private static int fps;
+@@ -376,6 +361,11 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+     private ProfileResults fpsPieResults;
+     private MetricsRecorder metricsRecorder = InactiveMetricsRecorder.INSTANCE;
+     private final ResourceLoadStateTracker reloadStateTracker = new ResourceLoadStateTracker();
++    private long savedCpuDuration;
++    private double gpuUtilization;
++    @Nullable
++    private TimerQuery.FrameProfile currentFrameProfile;
++    private final Realms32BitWarningStatus realms32BitWarningStatus;
+     private String debugPath = "root";
+
+     public Minecraft(GameConfig $$0) {
+@@ -392,9 +382,10 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+             Minecraft::createClientPackAdapter, this.clientPackSource, new FolderRepositorySource(this.resourcePackDirectory, PackSource.DEFAULT)
+         );
+         this.proxy = $$0.user.proxy;
+-        YggdrasilAuthenticationService $$2 = new YggdrasilAuthenticationService(this.proxy);
+-        this.minecraftSessionService = $$2.createMinecraftSessionService();
+-        this.userApiService = this.createUserApiService($$2, $$0);
++        this.authenticationService = new YggdrasilAuthenticationService(this.proxy);
++        this.minecraftSessionService = this.authenticationService.createMinecraftSessionService();
++        this.userApiService = this.createUserApiService(this.authenticationService, $$0);
++        this.serviceSignatureValidator = SignatureValidator.from(this.authenticationService.getServicesKey());
+         this.user = $$0.user.user;
+         LOGGER.info("Setting user: {}", this.user.getName());
+         LOGGER.debug("(Session ID is {})", this.user.getSessionId());
+@@ -403,39 +394,46 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         this.allowsChat = !$$0.game.disableChat;
+         this.is64bit = checkIs64Bit();
+         this.singleplayerServer = null;
+-        String $$3;
+-        int $$4;
++        String $$2;
++        int $$3;
+         if (this.allowsMultiplayer() && $$0.server.hostname != null) {
+-            $$3 = $$0.server.hostname;
+-            $$4 = $$0.server.port;
++            $$2 = $$0.server.hostname;
++            $$3 = $$0.server.port;
+         } else {
+-            $$3 = null;
+-            $$4 = 0;
++            $$2 = null;
++            $$3 = 0;
+         }
+
+-        KeybindComponent.setKeyResolver(KeyMapping::createNameSupplier);
++        KeybindResolver.setKeyResolver(KeyMapping::createNameSupplier);
+         this.fixerUpper = DataFixers.getDataFixer();
+         this.toast = new ToastComponent(this);
+         this.gameThread = Thread.currentThread();
+         this.options = new Options(this, this.gameDirectory);
++        this.running = true;
+         this.tutorial = new Tutorial(this, this.options);
+         this.hotbarManager = new HotbarManager(this.gameDirectory, this.fixerUpper);
+         LOGGER.info("Backend library: {}", RenderSystem.getBackendDescription());
+-        DisplayData $$7;
++        DisplayData $$6;
+         if (this.options.overrideHeight > 0 && this.options.overrideWidth > 0) {
+-            $$7 = new DisplayData(
++            $$6 = new DisplayData(
+                 this.options.overrideWidth, this.options.overrideHeight, $$0.display.fullscreenWidth, $$0.display.fullscreenHeight, $$0.display.isFullscreen
+             );
+         } else {
+-            $$7 = $$0.display;
++            $$6 = $$0.display;
+         }
+
+         Util.timeSource = RenderSystem.initBackendSystem();
+         this.virtualScreen = new VirtualScreen(this);
+-        this.window = this.virtualScreen.newWindow($$7, this.options.fullscreenVideoModeString, this.createTitle());
++        this.window = this.virtualScreen.newWindow($$6, this.options.fullscreenVideoModeString, this.createTitle());
+         this.setWindowActive(true);
+-        if (!ON_OSX) {
+-            try {
++
++        try {
++            if (ON_OSX) {
++                InputStream $$8 = this.getClientPackSource()
++                    .getVanillaPack()
++                    .getResource(PackType.CLIENT_RESOURCES, new ResourceLocation("icons/minecraft.icns"));
++                MacosUtil.loadIcon($$8);
++            } else {
+                 InputStream $$9 = this.getClientPackSource()
+                     .getVanillaPack()
+                     .getResource(PackType.CLIENT_RESOURCES, new ResourceLocation("icons/icon_16x16.png"));
+@@ -443,12 +441,12 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+                     .getVanillaPack()
+                     .getResource(PackType.CLIENT_RESOURCES, new ResourceLocation("icons/icon_32x32.png"));
+                 this.window.setIcon($$9, $$10);
+-            } catch (IOException $$11) {
+-                LOGGER.error("Couldn't set icon", $$11);
+             }
++        } catch (IOException $$11) {
++            LOGGER.error("Couldn't set icon", $$11);
+         }
+
+-        this.window.setFramerateLimit(this.options.framerateLimit);
++        this.window.setFramerateLimit(this.options.framerateLimit().get());
+         this.mouseHandler = new MouseHandler(this);
+         this.mouseHandler.setup(this.window.getWindow());
+         this.keyboardHandler = new KeyboardHandler(this);
+@@ -482,26 +480,29 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         this.window.setErrorSection("Post startup");
+         this.blockColors = BlockColors.createDefault();
+         this.itemColors = ItemColors.createDefault(this.blockColors);
+-        this.modelManager = new ModelManager(this.textureManager, this.blockColors, this.options.mipmapLevels);
++        this.modelManager = new ModelManager(this.textureManager, this.blockColors, this.options.mipmapLevels().get());
+         this.resourceManager.registerReloadListener(this.modelManager);
+         this.entityModels = new EntityModelSet();
+         this.resourceManager.registerReloadListener(this.entityModels);
+-        this.blockEntityRenderDispatcher = new BlockEntityRenderDispatcher(this.font, this.entityModels, this::getBlockRenderer);
++        this.blockEntityRenderDispatcher = new BlockEntityRenderDispatcher(
++            this.font, this.entityModels, this::getBlockRenderer, this::getItemRenderer, this::getEntityRenderDispatcher
++        );
+         this.resourceManager.registerReloadListener(this.blockEntityRenderDispatcher);
+         BlockEntityWithoutLevelRenderer $$12 = new BlockEntityWithoutLevelRenderer(this.blockEntityRenderDispatcher, this.entityModels);
+         this.resourceManager.registerReloadListener($$12);
+         this.itemRenderer = new ItemRenderer(this.textureManager, this.modelManager, this.itemColors, $$12);
+-        this.entityRenderDispatcher = new EntityRenderDispatcher(this.textureManager, this.itemRenderer, this.font, this.options, this.entityModels);
+-        this.resourceManager.registerReloadListener(this.entityRenderDispatcher);
+-        this.itemInHandRenderer = new ItemInHandRenderer(this);
+         this.resourceManager.registerReloadListener(this.itemRenderer);
+         this.renderBuffers = new RenderBuffers();
+-        this.gameRenderer = new GameRenderer(this, this.resourceManager, this.renderBuffers);
+-        this.resourceManager.registerReloadListener(this.gameRenderer);
+         this.playerSocialManager = new PlayerSocialManager(this, this.userApiService);
+         this.blockRenderer = new BlockRenderDispatcher(this.modelManager.getBlockModelShaper(), $$12, this.blockColors);
+         this.resourceManager.registerReloadListener(this.blockRenderer);
+-        this.levelRenderer = new LevelRenderer(this, this.renderBuffers);
++        this.entityRenderDispatcher = new EntityRenderDispatcher(
++            this, this.textureManager, this.itemRenderer, this.blockRenderer, this.font, this.options, this.entityModels
++        );
++        this.resourceManager.registerReloadListener(this.entityRenderDispatcher);
++        this.gameRenderer = new GameRenderer(this, this.entityRenderDispatcher.getItemInHandRenderer(), this.resourceManager, this.renderBuffers);
++        this.resourceManager.registerReloadListener(this.gameRenderer);
++        this.levelRenderer = new LevelRenderer(this, this.entityRenderDispatcher, this.blockEntityRenderDispatcher, this.renderBuffers);
+         this.resourceManager.registerReloadListener(this.levelRenderer);
+         this.createSearchTrees();
+         this.resourceManager.registerReloadListener(this.searchRegistry);
+@@ -514,7 +515,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         this.gpuWarnlistManager = new GpuWarnlistManager();
+         this.resourceManager.registerReloadListener(this.gpuWarnlistManager);
+         this.resourceManager.registerReloadListener(this.regionalCompliancies);
+-        this.gui = new Gui(this);
++        this.gui = new Gui(this, this.itemRenderer);
+         this.debugRenderer = new DebugRenderer(this);
+         RenderSystem.setErrorCallback(this::onFullscreenError);
+         if (this.mainRenderTarget.width != this.window.getWidth() || this.mainRenderTarget.height != this.window.getHeight()) {
+@@ -531,16 +532,18 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+
+             this.window.setWindowed(this.mainRenderTarget.width, this.mainRenderTarget.height);
+             TinyFileDialogs.tinyfd_messageBox("Minecraft", $$13.toString(), "ok", "error", false);
+-        } else if (this.options.fullscreen && !this.window.isFullscreen()) {
++        } else if (this.options.fullscreen().get() && !this.window.isFullscreen()) {
+             this.window.toggleFullScreen();
+-            this.options.fullscreen = this.window.isFullscreen();
++            this.options.fullscreen().set(this.window.isFullscreen());
+         }
+
+-        this.window.updateVsync(this.options.enableVsync);
+-        this.window.updateRawMouseInput(this.options.rawMouseInput);
++        this.window.updateVsync(this.options.enableVsync().get());
++        this.window.updateRawMouseInput(this.options.rawMouseInput().get());
+         this.window.setDefaultErrorCallback();
+         this.resizeDisplay();
+-        this.gameRenderer.preloadUiShader(this.getClientPackSource().getVanillaPack());
++        this.gameRenderer.preloadUiShader(this.getClientPackSource().getVanillaPack().asProvider());
++        this.profileKeyPairManager = new ProfileKeyPairManager(this.userApiService, this.user.getGameProfile().getId(), this.gameDirectory.toPath());
++        this.realms32BitWarningStatus = new Realms32BitWarningStatus(this);
+         LoadingOverlay.registerTextures(this);
+         List<PackResources> $$14 = this.resourcePackRepository.openAllSelected();
+         this.reloadStateTracker.startReload(ResourceLoadStateTracker.ReloadReason.INITIAL, $$14);
+@@ -558,8 +561,8 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+                 false
+             )
+         );
+-        if ($$3 != null) {
+-            ConnectScreen.startConnecting(new TitleScreen(), this, new ServerAddress($$3, $$4), null);
++        if ($$2 != null) {
++            ConnectScreen.startConnecting(new TitleScreen(), this, new ServerAddress($$2, $$3), null);
+         } else {
+             this.setScreen(new TitleScreen(true));
+         }
+@@ -632,7 +635,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         this.options.save();
+         this.reloadResourcePacks(true).thenRun(() -> {
+             ToastComponent $$1x = this.getToasts();
+-            SystemToast.addOrUpdate($$1x, SystemToast.SystemToastIds.PACK_LOAD_FAILURE, new TranslatableComponent("resourcePack.load_fail"), $$1);
++            SystemToast.addOrUpdate($$1x, SystemToast.SystemToastIds.PACK_LOAD_FAILURE, Component.translatable("resourcePack.load_fail"), $$1);
+         });
+     }
+
+@@ -691,39 +694,36 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+     }
+
+     private void createSearchTrees() {
+-        ReloadableSearchTree<ItemStack> $$0 = new ReloadableSearchTree<>(
+-            $$0x -> $$0x.getTooltipLines(null, TooltipFlag.Default.NORMAL)
+-                .stream()
+-                .map($$0xx -> ChatFormatting.stripFormatting($$0xx.getString()).trim())
+-                .filter($$0xx -> !$$0xx.isEmpty()),
+-            $$0x -> Stream.of(Registry.ITEM.getKey($$0x.getItem()))
+-        );
+-        ReloadableIdSearchTree<ItemStack> $$1 = new ReloadableIdSearchTree<>($$0x -> $$0x.getTags().map(TagKey::location));
+-        NonNullList<ItemStack> $$2 = NonNullList.create();
+-
+-        for (Item $$3 : Registry.ITEM) {
+-            $$3.fillItemCategory(CreativeModeTab.TAB_SEARCH, $$2);
+-        }
+-
+-        $$2.forEach($$2x -> {
+-            $$0.add($$2x);
+-            $$1.add($$2x);
+-        });
+-        ReloadableSearchTree<RecipeCollection> $$4 = new ReloadableSearchTree<>(
+-            $$0x -> $$0x.getRecipes()
+-                .stream()
+-                .flatMap($$0xx -> $$0xx.getResultItem().getTooltipLines(null, TooltipFlag.Default.NORMAL).stream())
+-                .map($$0xx -> ChatFormatting.stripFormatting($$0xx.getString()).trim())
+-                .filter($$0xx -> !$$0xx.isEmpty()),
+-            $$0x -> $$0x.getRecipes().stream().map($$0xx -> Registry.ITEM.getKey($$0xx.getResultItem().getItem()))
+-        );
+-        this.searchRegistry.register(SearchRegistry.CREATIVE_NAMES, $$0);
+-        this.searchRegistry.register(SearchRegistry.CREATIVE_TAGS, $$1);
+-        this.searchRegistry.register(SearchRegistry.RECIPE_COLLECTIONS, $$4);
++        this.searchRegistry
++            .register(
++                SearchRegistry.CREATIVE_NAMES,
++                $$0 -> new FullTextSearchTree(
++                    $$0x -> $$0x.getTooltipLines(null, TooltipFlag.Default.NORMAL)
++                        .stream()
++                        .map($$0xx -> ChatFormatting.stripFormatting($$0xx.getString()).trim())
++                        .filter($$0xx -> !$$0xx.isEmpty()),
++                    $$0x -> Stream.of(Registry.ITEM.getKey($$0x.getItem())),
++                    $$0
++                )
++            );
++        this.searchRegistry.register(SearchRegistry.CREATIVE_TAGS, $$0 -> new IdSearchTree($$0x -> $$0x.getTags().map(TagKey::location), $$0));
++        this.searchRegistry
++            .register(
++                SearchRegistry.RECIPE_COLLECTIONS,
++                $$0 -> new FullTextSearchTree(
++                    $$0x -> $$0x.getRecipes()
++                        .stream()
++                        .flatMap($$0xx -> $$0xx.getResultItem().getTooltipLines(null, TooltipFlag.Default.NORMAL).stream())
++                        .map($$0xx -> ChatFormatting.stripFormatting($$0xx.getString()).trim())
++                        .filter($$0xx -> !$$0xx.isEmpty()),
++                    $$0x -> $$0x.getRecipes().stream().map($$0xx -> Registry.ITEM.getKey($$0xx.getResultItem().getItem())),
++                    $$0
++                )
++            );
+     }
+
+     private void onFullscreenError(int $$0, long $$1) {
+-        this.options.enableVsync = false;
++        this.options.enableVsync().set(false);
+         this.options.save();
+     }
+
+@@ -752,8 +752,12 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         return this.versionType;
+     }
+
+-    public void delayCrash(Supplier<CrashReport> $$0) {
+-        this.delayedCrash = $$0;
++    public void delayCrash(CrashReport $$0) {
++        this.delayedCrash = () -> this.fillReport($$0);
++    }
++
++    public void delayCrashRaw(CrashReport $$0) {
++        this.delayedCrash = () -> $$0;
+     }
+
+     public static void crash(CrashReport $$0) {
+@@ -773,7 +777,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+     }
+
+     public boolean isEnforceUnicode() {
+-        return this.options.forceUnicodeFont;
++        return this.options.forceUnicodeFont().get();
+     }
+
+     public CompletableFuture<Void> reloadResourcePacks() {
+@@ -849,7 +853,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+
+             for (ItemStack $$12 : $$10) {
+                 String $$13 = $$12.getDescriptionId();
+-                String $$14 = new TranslatableComponent($$13).getString();
++                String $$14 = Component.translatable($$13).getString();
+                 if ($$14.toLowerCase(Locale.ROOT).equals($$11.getDescriptionId())) {
+                     LOGGER.debug("Missing translation for: {} {} {}", $$12, $$13, $$12.getItem());
+                 }
+@@ -870,7 +874,21 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+     private void openChatScreen(String $$0) {
+         Minecraft.ChatStatus $$1 = this.getChatStatus();
+         if (!$$1.isChatAllowed(this.isLocalServer())) {
+-            this.gui.setOverlayMessage($$1.getMessage(), false);
++            if (this.gui.isShowingChatDisabledByPlayer()) {
++                this.gui.setChatDisabledByPlayerShown(false);
++                this.setScreen(new ConfirmLinkScreen($$0x -> {
++                    if ($$0x) {
++                        Util.getPlatform().openUri("https://aka.ms/JavaAccountSettings");
++                    }
++
++                    this.setScreen(null);
++                }, Minecraft.ChatStatus.INFO_DISABLED_BY_PROFILE, "https://aka.ms/JavaAccountSettings", true));
++            } else {
++                Component $$2 = $$1.getMessage();
++                this.gui.setOverlayMessage($$2, false);
++                NarratorChatListener.INSTANCE.sayNow($$2);
++                this.gui.setChatDisabledByPlayerShown($$1 == Minecraft.ChatStatus.DISABLED_BY_PROFILE);
++            }
+         } else {
+             this.setScreen(new ChatScreen($$0));
+         }
+@@ -947,6 +965,10 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+
+     @Override
+     public void close() {
++        if (this.currentFrameProfile != null) {
++            this.currentFrameProfile.cancel();
++        }
++
+         try {
+             this.regionalCompliancies.close();
+             this.modelManager.close();
+@@ -954,7 +976,6 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+             this.gameRenderer.close();
+             this.levelRenderer.close();
+             this.soundManager.destroy();
+-            this.resourcePackRepository.close();
+             this.particleEngine.close();
+             this.mobEffectTextures.close();
+             this.paintingTextures.close();
+@@ -1009,8 +1030,19 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         this.soundManager.updateSource(this.gameRenderer.getMainCamera());
+         this.profiler.pop();
+         this.profiler.push("render");
+-        PoseStack $$6 = RenderSystem.getModelViewStack();
+-        $$6.pushPose();
++        boolean $$7;
++        if (!this.options.renderDebug && !this.metricsRecorder.isRecording()) {
++            $$7 = false;
++            this.gpuUtilization = 0.0;
++        } else {
++            $$7 = this.currentFrameProfile == null || this.currentFrameProfile.isDone();
++            if ($$7) {
++                TimerQuery.getInstance().ifPresent(TimerQuery::beginProfile);
++            }
++        }
++
++        PoseStack $$8 = RenderSystem.getModelViewStack();
++        $$8.pushPose();
+         RenderSystem.applyModelViewMatrix();
+         RenderSystem.clear(16640, ON_OSX);
+         this.mainRenderTarget.bindWrite(true);
+@@ -1035,17 +1067,21 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+
+         this.profiler.push("blit");
+         this.mainRenderTarget.unbindWrite();
+-        $$6.popPose();
+-        $$6.pushPose();
++        $$8.popPose();
++        $$8.pushPose();
+         RenderSystem.applyModelViewMatrix();
+         this.mainRenderTarget.blitToScreen(this.window.getWidth(), this.window.getHeight());
+-        $$6.popPose();
++        if ($$7) {
++            TimerQuery.getInstance().ifPresent($$0x -> this.currentFrameProfile = $$0x.endProfile());
++        }
++
++        $$8.popPose();
+         RenderSystem.applyModelViewMatrix();
+         this.profiler.popPush("updateDisplay");
+         this.window.updateDisplay();
+-        int $$7 = this.getFramerateLimit();
+-        if ($$7 < Option.FRAMERATE_LIMIT.getMaxValue()) {
+-            RenderSystem.limitDisplayFPS($$7);
++        int $$9 = this.getFramerateLimit();
++        if ($$9 < 260) {
++            RenderSystem.limitDisplayFPS($$9);
+         }
+
+         this.profiler.popPush("yield");
+@@ -1053,34 +1089,52 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         this.profiler.pop();
+         this.window.setErrorSection("Post render");
+         this.frames++;
+-        boolean $$8 = this.hasSingleplayerServer()
++        boolean $$10 = this.hasSingleplayerServer()
+             && (this.screen != null && this.screen.isPauseScreen() || this.overlay != null && this.overlay.isPauseScreen())
+             && !this.singleplayerServer.isPublished();
+-        if (this.pause != $$8) {
++        if (this.pause != $$10) {
+             if (this.pause) {
+                 this.pausePartialTick = this.timer.partialTick;
+             } else {
+                 this.timer.partialTick = this.pausePartialTick;
+             }
+
+-            this.pause = $$8;
++            this.pause = $$10;
+         }
+
+-        long $$9 = Util.getNanos();
+-        this.frameTimer.logFrameDuration($$9 - this.lastNanoTime);
+-        this.lastNanoTime = $$9;
++        long $$11 = Util.getNanos();
++        long $$12 = $$11 - this.lastNanoTime;
++        if ($$7) {
++            this.savedCpuDuration = $$12;
++        }
++
++        this.frameTimer.logFrameDuration($$12);
++        this.lastNanoTime = $$11;
+         this.profiler.push("fpsUpdate");
++        if (this.currentFrameProfile != null && this.currentFrameProfile.isDone()) {
++            this.gpuUtilization = this.currentFrameProfile.get() * 100.0 / this.savedCpuDuration;
++        }
+
+         while (Util.getMillis() >= this.lastTime + 1000L) {
++            String $$13;
++            if (this.gpuUtilization > 0.0) {
++                $$13 = " GPU: " + (this.gpuUtilization > 100.0 ? ChatFormatting.RED + "100%" : Math.round(this.gpuUtilization) + "%");
++            } else {
++                $$13 = "";
++            }
++
+             fps = this.frames;
+             this.fpsString = String.format(
+-                "%d fps T: %s%s%s%s B: %d",
++                "%d fps T: %s%s%s%s B: %d%s",
+                 fps,
+-                this.options.framerateLimit == Option.FRAMERATE_LIMIT.getMaxValue() ? "inf" : this.options.framerateLimit,
+-                this.options.enableVsync ? " vsync" : "",
+-                this.options.graphicsMode,
+-                this.options.renderClouds == CloudStatus.OFF ? "" : (this.options.renderClouds == CloudStatus.FAST ? " fast-clouds" : " fancy-clouds"),
+-                this.options.biomeBlendRadius
++                $$9 == 260 ? "inf" : $$9,
++                this.options.enableVsync().get() ? " vsync" : "",
++                this.options.graphicsMode().get(),
++                this.options.cloudStatus().get() == CloudStatus.OFF
++                    ? ""
++                    : (this.options.cloudStatus().get() == CloudStatus.FAST ? " fast-clouds" : " fancy-clouds"),
++                this.options.biomeBlendRadius().get(),
++                $$13
+             );
+             this.lastTime += 1000L;
+             this.frames = 0;
+@@ -1137,7 +1191,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+
+     @Override
+     public void resizeDisplay() {
+-        int $$0 = this.window.calculateScale(this.options.guiScale, this.isEnforceUnicode());
++        int $$0 = this.window.calculateScale(this.options.guiScale().get(), this.isEnforceUnicode());
+         this.window.setGuiScale($$0);
+         if (this.screen != null) {
+             this.screen.resize(this, this.window.getGuiScaledWidth(), this.window.getGuiScaledHeight());
+@@ -1171,35 +1225,37 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+                 this.singleplayerServer.halt(true);
+             }
+
+-            this.clearLevel(new GenericDirtMessageScreen(new TranslatableComponent("menu.savingLevel")));
++            this.clearLevel(new GenericDirtMessageScreen(Component.translatable("menu.savingLevel")));
+         } catch (Throwable var2) {
+         }
+
+         System.gc();
+     }
+
+-    public boolean debugClientMetricsStart(Consumer<TranslatableComponent> $$0) {
++    public boolean debugClientMetricsStart(Consumer<Component> $$0) {
+         if (this.metricsRecorder.isRecording()) {
+             this.debugClientMetricsStop();
+             return false;
+         }
+
+         Consumer<ProfileResults> $$1 = $$1x -> {
+-            int $$2x = $$1x.getTickDuration();
+-            double $$3x = (double)$$1x.getNanoDuration() / TimeUtil.NANOSECONDS_PER_SECOND;
+-            this.execute(
+-                () -> $$0.accept(
+-                    new TranslatableComponent(
+-                        "commands.debug.stopped", String.format(Locale.ROOT, "%.2f", $$3x), $$2x, String.format(Locale.ROOT, "%.2f", $$2x / $$3x)
++            if ($$1x != EmptyProfileResults.EMPTY) {
++                int $$2x = $$1x.getTickDuration();
++                double $$3x = (double)$$1x.getNanoDuration() / TimeUtil.NANOSECONDS_PER_SECOND;
++                this.execute(
++                    () -> $$0.accept(
++                        Component.translatable(
++                            "commands.debug.stopped", String.format(Locale.ROOT, "%.2f", $$3x), $$2x, String.format(Locale.ROOT, "%.2f", $$2x / $$3x)
++                        )
+                     )
+-                )
+-            );
++                );
++            }
+         };
+         Consumer<Path> $$2 = $$1x -> {
+-            Component $$2x = new TextComponent($$1x.toString())
++            Component $$2x = Component.literal($$1x.toString())
+                 .withStyle(ChatFormatting.UNDERLINE)
+                 .withStyle($$1xx -> $$1xx.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, $$1x.toFile().getParent())));
+-            this.execute(() -> $$0.accept(new TranslatableComponent("debug.profiling.stop", $$2x)));
++            this.execute(() -> $$0.accept(Component.translatable("debug.profiling.stop", $$2x)));
+         };
+         SystemReport $$3 = fillSystemReport(new SystemReport(), this, this.languageManager, this.launchedVersion, this.options);
+         Consumer<List<Path>> $$4 = $$2x -> {
+@@ -1234,6 +1290,13 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         }
+     }
+
++    private void debugClientMetricsCancel() {
++        this.metricsRecorder.cancel();
++        if (this.singleplayerServer != null) {
++            this.singleplayerServer.cancelRecordingMetrics();
++        }
++    }
++
+     private Path archiveProfilingReport(SystemReport $$0, List<Path> $$1) {
+         String $$2;
+         if (this.isLocalServer()) {
+@@ -1531,7 +1594,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+                             case BLOCK:
+                                 BlockHitResult $$5 = (BlockHitResult)this.hitResult;
+                                 int $$6 = $$1.getCount();
+-                                InteractionResult $$7 = this.gameMode.useItemOn(this.player, this.level, $$0, $$5);
++                                InteractionResult $$7 = this.gameMode.useItemOn(this.player, $$0, $$5);
+                                 if ($$7.consumesAction()) {
+                                     if ($$7.shouldSwing()) {
+                                         this.player.swing($$0);
+@@ -1550,7 +1613,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+                     }
+
+                     if (!$$1.isEmpty()) {
+-                        InteractionResult $$8 = this.gameMode.useItem(this.player, this.level, $$0);
++                        InteractionResult $$8 = this.gameMode.useItem(this.player, $$0);
+                         if ($$8.consumesAction()) {
+                             if ($$8.shouldSwing()) {
+                                 this.player.swing($$0);
+@@ -1650,8 +1713,8 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         if (this.level != null) {
+             if (!this.pause) {
+                 if (!this.options.joinedFirstServer && this.isMultiplayerServer()) {
+-                    Component $$1 = new TranslatableComponent("tutorial.socialInteractions.title");
+-                    Component $$2 = new TranslatableComponent("tutorial.socialInteractions.description", Tutorial.key("socialInteractions"));
++                    Component $$1 = Component.translatable("tutorial.socialInteractions.title");
++                    Component $$2 = Component.translatable("tutorial.socialInteractions.description", Tutorial.key("socialInteractions"));
+                     this.socialInteractionsToast = new TutorialToast(TutorialToast.Icons.SOCIAL_INTERACTIONS, $$1, $$2, true);
+                     this.tutorial.addTimedToast(this.socialInteractionsToast, 160);
+                     this.options.joinedFirstServer = true;
+@@ -1814,224 +1877,84 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         return new ClientTelemetryManager(this, this.userApiService, this.user.getXuid(), this.user.getClientId(), this.deviceSessionId);
+     }
+
+-    public void loadLevel(String $$0) {
+-        this.doLoadLevel(
+-            $$0, WorldStem.DataPackConfigSupplier::loadFromWorld, WorldStem.WorldDataSupplier::loadFromWorld, false, Minecraft.ExperimentalDialogType.BACKUP
+-        );
++    public double getGpuUtilization() {
++        return this.gpuUtilization;
+     }
+
+-    public void createLevel(String $$0, LevelSettings $$1, RegistryAccess $$2, WorldGenSettings $$3) {
+-        this.doLoadLevel(
+-            $$0,
+-            $$1x -> $$1::getDataPackConfig,
+-            $$3x -> ($$3xx, $$4) -> {
+-                RegistryAccess.Writable $$5 = RegistryAccess.builtinCopy();
+-                DynamicOps<JsonElement> $$6 = RegistryOps.create(JsonOps.INSTANCE, $$2);
+-                DynamicOps<JsonElement> $$7 = RegistryOps.createAndLoad(JsonOps.INSTANCE, $$5, $$3xx);
+-                DataResult<WorldGenSettings> $$8 = WorldGenSettings.CODEC
+-                    .encodeStart($$6, $$3)
+-                    .setLifecycle(Lifecycle.stable())
+-                    .flatMap($$1xxx -> WorldGenSettings.CODEC.parse($$7, $$1xxx));
+-                WorldGenSettings $$9 = $$8.getOrThrow(false, Util.prefix("Error reading worldgen settings after loading data packs: ", LOGGER::error));
+-                return Pair.of(new PrimaryLevelData($$1, $$9, $$8.lifecycle()), $$5.freeze());
+-            },
+-            false,
+-            Minecraft.ExperimentalDialogType.CREATE
+-        );
++    public ProfileKeyPairManager getProfileKeyPairManager() {
++        return this.profileKeyPairManager;
+     }
+
+-    private void doLoadLevel(
+-        String $$0,
+-        Function<LevelStorageSource.LevelStorageAccess, WorldStem.DataPackConfigSupplier> $$1,
+-        Function<LevelStorageSource.LevelStorageAccess, WorldStem.WorldDataSupplier> $$2,
+-        boolean $$3,
+-        Minecraft.ExperimentalDialogType $$4
+-    ) {
+-        LevelStorageSource.LevelStorageAccess $$5;
+-        try {
+-            $$5 = this.levelSource.createAccess($$0);
+-        } catch (IOException $$6) {
+-            LOGGER.warn("Failed to read level {} data", $$0, $$6);
+-            SystemToast.onWorldAccessFailure(this, $$0);
+-            this.setScreen(null);
+-            return;
+-        }
++    public WorldOpenFlows createWorldOpenFlows() {
++        return new WorldOpenFlows(this, this.levelSource);
++    }
+
+-        PackRepository $$8 = createPackRepository($$5);
++    public void doWorldLoad(String $$0, LevelStorageSource.LevelStorageAccess $$1, PackRepository $$2, WorldStem $$3) {
++        this.clearLevel();
++        this.progressListener.set(null);
+
+-        WorldStem $$9;
+         try {
+-            $$9 = this.makeWorldStem($$8, $$3, (WorldStem.DataPackConfigSupplier)$$1.apply($$5), (WorldStem.WorldDataSupplier)$$2.apply($$5));
+-        } catch (Exception $$10) {
+-            LOGGER.warn("Failed to load datapacks, can't proceed with server load", $$10);
+-            this.setScreen(new DatapackLoadFailureScreen(() -> this.doLoadLevel($$0, $$1, $$2, true, $$4)));
+-
+-            try {
+-                $$8.close();
+-                $$5.close();
+-            } catch (IOException $$11) {
+-                LOGGER.warn("Failed to unlock access to level {}", $$0, $$11);
+-            }
+-
+-            return;
++            $$1.saveDataTag($$3.registryAccess(), $$3.worldData());
++            Services $$4 = Services.create(this.authenticationService, this.gameDirectory);
++            $$4.profileCache().setExecutor(this);
++            SkullBlockEntity.setup($$4, this);
++            GameProfileCache.setUsesAuthentication(false);
++            this.singleplayerServer = MinecraftServer.spin($$4x -> new IntegratedServer($$4x, this, $$1, $$2, $$3, $$4, $$0xx -> {
++                StoringChunkProgressListener $$1xx = new StoringChunkProgressListener($$0xx + 0);
++                this.progressListener.set($$1xx);
++                return ProcessorChunkProgressListener.createStarted($$1xx, this.progressTasks::add);
++            }));
++            this.isLocalServer = true;
++        } catch (Throwable $$5) {
++            CrashReport $$6 = CrashReport.forThrowable($$5, "Starting integrated server");
++            CrashReportCategory $$7 = $$6.addCategory("Starting integrated server");
++            $$7.setDetail("Level ID", $$0);
++            $$7.setDetail("Level Name", () -> $$3.worldData().getLevelName());
++            throw new ReportedException($$6);
+         }
+
+-        WorldData $$13 = $$9.worldData();
+-        boolean $$14 = $$13.worldGenSettings().isOldCustomizedWorld();
+-        boolean $$15 = $$13.worldGenSettingsLifecycle() != Lifecycle.stable();
+-        if ($$4 == Minecraft.ExperimentalDialogType.NONE || !$$14 && !$$15) {
+-            this.clearLevel();
+-            this.progressListener.set(null);
+-
+-            try {
+-                RegistryAccess.Frozen $$17 = $$9.registryAccess();
+-                $$5.saveDataTag($$17, $$13);
+-                $$9.updateGlobals();
+-                YggdrasilAuthenticationService $$18 = new YggdrasilAuthenticationService(this.proxy);
+-                MinecraftSessionService $$19 = $$18.createMinecraftSessionService();
+-                GameProfileRepository $$20 = $$18.createProfileRepository();
+-                GameProfileCache $$21 = new GameProfileCache($$20, new File(this.gameDirectory, MinecraftServer.USERID_CACHE_FILE.getName()));
+-                $$21.setExecutor(this);
+-                SkullBlockEntity.setup($$21, $$19, this);
+-                GameProfileCache.setUsesAuthentication(false);
+-                this.singleplayerServer = MinecraftServer.spin($$6 -> new IntegratedServer($$6, this, $$5, $$8, $$9, $$19, $$20, $$21, $$0xx -> {
+-                    StoringChunkProgressListener $$1xx = new StoringChunkProgressListener($$0xx + 0);
+-                    this.progressListener.set($$1xx);
+-                    return ProcessorChunkProgressListener.createStarted($$1xx, this.progressTasks::add);
+-                }));
+-                this.isLocalServer = true;
+-            } catch (Throwable $$22) {
+-                CrashReport $$23 = CrashReport.forThrowable($$22, "Starting integrated server");
+-                CrashReportCategory $$24 = $$23.addCategory("Starting integrated server");
+-                $$24.setDetail("Level ID", $$0);
+-                $$24.setDetail("Level Name", $$13.getLevelName());
+-                throw new ReportedException($$23);
+-            }
+-
+-            while (this.progressListener.get() == null) {
+-                Thread.yield();
+-            }
+-
+-            LevelLoadingScreen $$25 = new LevelLoadingScreen((StoringChunkProgressListener)this.progressListener.get());
+-            this.setScreen($$25);
+-            this.profiler.push("waitForServer");
+-
+-            while (!this.singleplayerServer.isReady()) {
+-                $$25.tick();
+-                this.runTick(false);
+-
+-                try {
+-                    Thread.sleep(16L);
+-                } catch (InterruptedException var19) {
+-                }
++        while (this.progressListener.get() == null) {
++            Thread.yield();
++        }
+
+-                if (this.delayedCrash != null) {
+-                    crash((CrashReport)this.delayedCrash.get());
+-                    return;
+-                }
+-            }
++        LevelLoadingScreen $$8 = new LevelLoadingScreen((StoringChunkProgressListener)this.progressListener.get());
++        this.setScreen($$8);
++        this.profiler.push("waitForServer");
+
+-            this.profiler.pop();
+-            SocketAddress $$26 = this.singleplayerServer.getConnection().startMemoryChannel();
+-            Connection $$27 = Connection.connectToLocalServer($$26);
+-            $$27.setListener(new ClientHandshakePacketListenerImpl($$27, this, null, $$0x -> {}));
+-            $$27.send(new ClientIntentionPacket($$26.toString(), 0, ConnectionProtocol.LOGIN));
+-            $$27.send(new ServerboundHelloPacket(this.getUser().getGameProfile()));
+-            this.pendingConnection = $$27;
+-        } else {
+-            this.displayExperimentalConfirmationDialog($$4, $$0, $$14, () -> this.doLoadLevel($$0, $$1, $$2, $$3, Minecraft.ExperimentalDialogType.NONE));
+-            $$9.close();
++        while (!this.singleplayerServer.isReady()) {
++            $$8.tick();
++            this.runTick(false);
+
+             try {
+-                $$8.close();
+-                $$5.close();
+-            } catch (IOException $$16) {
+-                LOGGER.warn("Failed to unlock access to level {}", $$0, $$16);
++                Thread.sleep(16L);
++            } catch (InterruptedException var8) {
+             }
+-        }
+-    }
+
+-    private void displayExperimentalConfirmationDialog(Minecraft.ExperimentalDialogType $$0, String $$1, boolean $$2, Runnable $$3) {
+-        if ($$0 == Minecraft.ExperimentalDialogType.BACKUP) {
+-            Component $$4;
+-            Component $$5;
+-            if ($$2) {
+-                $$4 = new TranslatableComponent("selectWorld.backupQuestion.customized");
+-                $$5 = new TranslatableComponent("selectWorld.backupWarning.customized");
+-            } else {
+-                $$4 = new TranslatableComponent("selectWorld.backupQuestion.experimental");
+-                $$5 = new TranslatableComponent("selectWorld.backupWarning.experimental");
++            if (this.delayedCrash != null) {
++                crash((CrashReport)this.delayedCrash.get());
++                return;
+             }
+-
+-            this.setScreen(new BackupConfirmScreen(null, ($$2x, $$3x) -> {
+-                if ($$2x) {
+-                    EditWorldScreen.makeBackupAndShowToast(this.levelSource, $$1);
+-                }
+-
+-                $$3.run();
+-            }, $$4, $$5, false));
+-        } else {
+-            this.setScreen(
+-                new ConfirmScreen(
+-                    $$2x -> {
+-                        if ($$2x) {
+-                            $$3.run();
+-                        } else {
+-                            this.setScreen(null);
+-
+-                            try (LevelStorageSource.LevelStorageAccess $$3x = this.levelSource.createAccess($$1)) {
+-                                $$3x.deleteLevel();
+-                            } catch (IOException $$4) {
+-                                SystemToast.onWorldDeleteFailure(this, $$1);
+-                                LOGGER.error("Failed to delete world {}", $$1, $$4);
+-                            }
+-                        }
+-                    },
+-                    new TranslatableComponent("selectWorld.backupQuestion.experimental"),
+-                    new TranslatableComponent("selectWorld.backupWarning.experimental"),
+-                    CommonComponents.GUI_PROCEED,
+-                    CommonComponents.GUI_CANCEL
+-                )
+-            );
+         }
+-    }
+-
+-    public WorldStem makeWorldStem(LevelStorageSource.LevelStorageAccess $$0, boolean $$1) throws ExecutionException, InterruptedException {
+-        PackRepository $$2 = createPackRepository($$0);
+-        return this.makeWorldStem($$2, $$1, WorldStem.DataPackConfigSupplier.loadFromWorld($$0), WorldStem.WorldDataSupplier.loadFromWorld($$0));
+-    }
+-
+-    public WorldStem makeWorldStem(PackRepository $$0, boolean $$1, WorldStem.DataPackConfigSupplier $$2, WorldStem.WorldDataSupplier $$3) throws InterruptedException, ExecutionException {
+-        try {
+-            WorldStem.InitConfig $$4 = new WorldStem.InitConfig($$0, Commands.CommandSelection.INTEGRATED, 2, $$1);
+-            CompletableFuture<WorldStem> $$5 = WorldStem.load($$4, $$2, $$3, Util.backgroundExecutor(), this);
+-            this.managedBlock($$5::isDone);
+-            return (WorldStem)$$5.get();
+-        } catch (InterruptedException | ExecutionException $$6) {
+-            $$0.close();
+-            throw $$6;
+-        }
+-    }
+
+-    private static PackRepository createPackRepository(LevelStorageSource.LevelStorageAccess $$0) {
+-        return new PackRepository(
+-            PackType.SERVER_DATA, new ServerPacksSource(), new FolderRepositorySource($$0.getLevelPath(LevelResource.DATAPACK_DIR).toFile(), PackSource.WORLD)
+-        );
++        this.profiler.pop();
++        SocketAddress $$9 = this.singleplayerServer.getConnection().startMemoryChannel();
++        Connection $$10 = Connection.connectToLocalServer($$9);
++        $$10.setListener(new ClientHandshakePacketListenerImpl($$10, this, null, $$0x -> {}));
++        $$10.send(new ClientIntentionPacket($$9.toString(), 0, ConnectionProtocol.LOGIN));
++        $$10.send(new ServerboundHelloPacket(this.getUser().getName(), this.profileKeyPairManager.profilePublicKeyData()));
++        this.pendingConnection = $$10;
+     }
+
+     public void setLevel(ClientLevel $$0) {
+         ProgressScreen $$1 = new ProgressScreen(true);
+-        $$1.progressStartNoAbort(new TranslatableComponent("connect.joining"));
++        $$1.progressStartNoAbort(Component.translatable("connect.joining"));
+         this.updateScreenAndTick($$1);
+         this.level = $$0;
+         this.updateLevelInEngines($$0);
+         if (!this.isLocalServer) {
+-            AuthenticationService $$2 = new YggdrasilAuthenticationService(this.proxy);
+-            MinecraftSessionService $$3 = $$2.createMinecraftSessionService();
+-            GameProfileRepository $$4 = $$2.createProfileRepository();
+-            GameProfileCache $$5 = new GameProfileCache($$4, new File(this.gameDirectory, MinecraftServer.USERID_CACHE_FILE.getName()));
+-            $$5.setExecutor(this);
+-            SkullBlockEntity.setup($$5, $$3, this);
++            Services $$2 = Services.create(this.authenticationService, this.gameDirectory);
++            $$2.profileCache().setExecutor(this);
++            SkullBlockEntity.setup($$2, this);
+             GameProfileCache.setUsesAuthentication(false);
+         }
+     }
+@@ -2048,6 +1971,10 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         }
+
+         this.playerSocialManager.stopOnlineMode();
++        if (this.metricsRecorder.isRecording()) {
++            this.debugClientMetricsCancel();
++        }
++
+         IntegratedServer $$2 = this.singleplayerServer;
+         this.singleplayerServer = null;
+         this.gameRenderer.resetData();
+@@ -2117,7 +2044,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+     }
+
+     public Minecraft.ChatStatus getChatStatus() {
+-        if (this.options.chatVisibility == ChatVisiblity.HIDDEN) {
++        if (this.options.chatVisibility().get() == ChatVisiblity.HIDDEN) {
+             return Minecraft.ChatStatus.DISABLED_BY_OPTIONS;
+         } else if (!this.allowsChat) {
+             return Minecraft.ChatStatus.DISABLED_BY_LAUNCHER;
+@@ -2140,15 +2067,15 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+     }
+
+     public static boolean useFancyGraphics() {
+-        return instance.options.graphicsMode.getId() >= GraphicsStatus.FANCY.getId();
++        return instance.options.graphicsMode().get().getId() >= GraphicsStatus.FANCY.getId();
+     }
+
+     public static boolean useShaderTransparency() {
+-        return !instance.gameRenderer.isPanoramicMode() && instance.options.graphicsMode.getId() >= GraphicsStatus.FABULOUS.getId();
++        return !instance.gameRenderer.isPanoramicMode() && instance.options.graphicsMode().get().getId() >= GraphicsStatus.FABULOUS.getId();
+     }
+
+     public static boolean useAmbientOcclusion() {
+-        return instance.options.ambientOcclusion != AmbientOcclusionStatus.OFF;
++        return instance.options.ambientOcclusion().get() != AmbientOcclusionStatus.OFF;
+     }
+
+     private void pickBlock() {
+@@ -2270,7 +2197,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+                 }
+             }
+
+-            $$0.setDetail("Graphics mode", $$4.graphicsMode.toString());
++            $$0.setDetail("Graphics mode", $$4.graphicsMode().get().toString());
+             $$0.setDetail("Resource Packs", () -> {
+                 StringBuilder $$1x = new StringBuilder();
+
+@@ -2398,9 +2325,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+                 return this.gui.getBossOverlay().shouldPlayMusic() ? Musics.END_BOSS : Musics.END;
+             } else {
+                 Holder<Biome> $$0 = this.player.level.getBiome(this.player.blockPosition());
+-                Biome.BiomeCategory $$1 = Biome.getBiomeCategory($$0);
+-                if (!this.musicManager.isPlayingMusic(Musics.UNDER_WATER)
+-                    && (!this.player.isUnderWater() || $$1 != Biome.BiomeCategory.OCEAN && $$1 != Biome.BiomeCategory.RIVER)) {
++                if (!this.musicManager.isPlayingMusic(Musics.UNDER_WATER) && (!this.player.isUnderWater() || !$$0.is(BiomeTags.PLAYS_UNDERWATER_MUSIC))) {
+                     return this.player.level.dimension() != Level.NETHER && this.player.getAbilities().instabuild && this.player.getAbilities().mayfly
+                         ? Musics.CREATIVE
+                         : (Music)$$0.value().getBackgroundMusic().orElse(Musics.GAME);
+@@ -2467,12 +2392,12 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         return this.itemRenderer;
+     }
+
+-    public ItemInHandRenderer getItemInHandRenderer() {
+-        return this.itemInHandRenderer;
++    public <T> SearchTree<T> getSearchTree(SearchRegistry.Key<T> $$0) {
++        return this.searchRegistry.getTree($$0);
+     }
+
+-    public <T> MutableSearchTree<T> getSearchTree(SearchRegistry.Key<T> $$0) {
+-        return this.searchRegistry.getTree($$0);
++    public <T> void populateSearchTree(SearchRegistry.Key<T> $$0, List<T> $$1) {
++        this.searchRegistry.populate($$0, $$1);
+     }
+
+     public FrameTimer getFrameTimer() {
+@@ -2504,7 +2429,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+     }
+
+     public boolean showOnlyReducedInfo() {
+-        return this.player != null && this.player.isReducedDebugInfo() || this.options.reducedDebugInfo;
++        return this.player != null && this.player.isReducedDebugInfo() || this.options.reducedDebugInfo().get();
+     }
+
+     public ToastComponent getToasts() {
+@@ -2597,13 +2522,13 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+                 Screenshot.grab($$0, "panorama_" + $$10 + ".png", $$5, $$0x -> {});
+             }
+
+-            Component $$11 = new TextComponent($$0.getName())
++            Component $$11 = Component.literal($$0.getName())
+                 .withStyle(ChatFormatting.UNDERLINE)
+                 .withStyle($$1x -> $$1x.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, $$0.getAbsolutePath())));
+-            return new TranslatableComponent("screenshot.success", $$11);
++            return Component.translatable("screenshot.success", $$11);
+         } catch (Exception $$12) {
+             LOGGER.error("Couldn't save image", $$12);
+-            return new TranslatableComponent("screenshot.failure", $$12.getMessage());
++            return Component.translatable("screenshot.failure", $$12.getMessage());
+         } finally {
+             this.player.setXRot($$6);
+             this.player.setYRot($$7);
+@@ -2647,13 +2572,13 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+
+             File $$14 = $$6.close();
+             GlUtil.freeMemory($$5);
+-            Component $$15 = new TextComponent($$14.getName())
++            Component $$15 = Component.literal($$14.getName())
+                 .withStyle(ChatFormatting.UNDERLINE)
+                 .withStyle($$1x -> $$1x.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, $$14.getAbsolutePath())));
+-            return new TranslatableComponent("screenshot.success", $$15);
++            return Component.translatable("screenshot.success", $$15);
+         } catch (Exception $$16) {
+             LOGGER.warn("Couldn't save screenshot", $$16);
+-            return new TranslatableComponent("screenshot.failure", $$16.getMessage());
++            return Component.translatable("screenshot.failure", $$16.getMessage());
+         }
+     }
+
+@@ -2735,32 +2660,44 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         this.playerSocialManager.startOnlineMode();
+     }
+
++    public Realms32BitWarningStatus getRealms32BitWarningStatus() {
++        return this.realms32BitWarningStatus;
++    }
++
++    public SignatureValidator getServiceSignatureValidator() {
++        return this.serviceSignatureValidator;
++    }
++
+     public enum ChatStatus {
+-        ENABLED(TextComponent.EMPTY) {
++        ENABLED(CommonComponents.EMPTY) {
+             @Override
+             public boolean isChatAllowed(boolean $$0) {
+                 return true;
+             }
+         },
+-        DISABLED_BY_OPTIONS(new TranslatableComponent("chat.disabled.options").withStyle(ChatFormatting.RED)) {
++        DISABLED_BY_OPTIONS(Component.translatable("chat.disabled.options").withStyle(ChatFormatting.RED)) {
+             @Override
+             public boolean isChatAllowed(boolean $$0) {
+                 return false;
+             }
+         },
+-        DISABLED_BY_LAUNCHER(new TranslatableComponent("chat.disabled.launcher").withStyle(ChatFormatting.RED)) {
++        DISABLED_BY_LAUNCHER(Component.translatable("chat.disabled.launcher").withStyle(ChatFormatting.RED)) {
+             @Override
+             public boolean isChatAllowed(boolean $$0) {
+                 return $$0;
+             }
+         },
+-        DISABLED_BY_PROFILE(new TranslatableComponent("chat.disabled.profile").withStyle(ChatFormatting.RED)) {
++        DISABLED_BY_PROFILE(
++            Component.translatable("chat.disabled.profile", Component.keybind(Minecraft.instance.options.keyChat.getName())).withStyle(ChatFormatting.RED)
++        ) {
+             @Override
+             public boolean isChatAllowed(boolean $$0) {
+                 return $$0;
+             }
+         };
+
++        static final Component INFO_DISABLED_BY_PROFILE = Component.translatable("chat.disabled.profile.moreInfo");
++        private static final String URL_DISABLED_BY_PROFILE = "https://aka.ms/JavaAccountSettings";
+         private final Component message;
+
+         ChatStatus(Component $$0) {
+@@ -2773,10 +2710,4 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+
+         public abstract boolean isChatAllowed(boolean bl);
+     }
+-
+-    enum ExperimentalDialogType {
+-        NONE,
+-        CREATE,
+-        BACKUP;
+-    }
+ }
+### 1.18.2 -> 1.19 net/minecraft/client/multiplayer/ClientLevel.java
+diff --git "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.18.2\\mojmap\\net\\minecraft\\client\\multiplayer\\ClientLevel.java" "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19\\mojmap\\net\\minecraft\\client\\multiplayer\\ClientLevel.java"
+index 705789cf..cff3ff44 100644
+--- "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.18.2\\mojmap\\net\\minecraft\\client\\multiplayer\\ClientLevel.java"
++++ "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19\\mojmap\\net\\minecraft\\client\\multiplayer\\ClientLevel.java"
+@@ -4,11 +4,11 @@ import com.google.common.collect.ImmutableMap;
+ import com.google.common.collect.Lists;
+ import com.google.common.collect.Maps;
+ import com.google.common.collect.Queues;
++import com.mojang.logging.LogUtils;
+ import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+ import java.util.Deque;
+ import java.util.List;
+ import java.util.Map;
+-import java.util.Random;
+ import java.util.Set;
+ import java.util.function.BooleanSupplier;
+ import java.util.function.Supplier;
+@@ -19,6 +19,7 @@ import net.minecraft.ReportedException;
+ import net.minecraft.Util;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.color.block.BlockTintCache;
++import net.minecraft.client.multiplayer.prediction.BlockStatePredictionHandler;
+ import net.minecraft.client.particle.FireworkParticles;
+ import net.minecraft.client.player.AbstractClientPlayer;
+ import net.minecraft.client.renderer.BiomeColors;
+@@ -36,7 +37,7 @@ import net.minecraft.core.particles.BlockParticleOption;
+ import net.minecraft.core.particles.ParticleOptions;
+ import net.minecraft.core.particles.ParticleTypes;
+ import net.minecraft.nbt.CompoundTag;
+-import net.minecraft.network.chat.TranslatableComponent;
++import net.minecraft.network.chat.Component;
+ import net.minecraft.network.protocol.Packet;
+ import net.minecraft.resources.ResourceKey;
+ import net.minecraft.sounds.SoundEvent;
+@@ -44,6 +45,7 @@ import net.minecraft.sounds.SoundSource;
+ import net.minecraft.tags.BlockTags;
+ import net.minecraft.util.CubicSampler;
+ import net.minecraft.util.Mth;
++import net.minecraft.util.RandomSource;
+ import net.minecraft.util.profiling.ProfilerFiller;
+ import net.minecraft.world.Difficulty;
+ import net.minecraft.world.entity.Entity;
+@@ -71,7 +73,6 @@ import net.minecraft.world.level.entity.LevelCallback;
+ import net.minecraft.world.level.entity.LevelEntityGetter;
+ import net.minecraft.world.level.entity.TransientEntitySectionManager;
+ import net.minecraft.world.level.gameevent.GameEvent;
+-import net.minecraft.world.level.levelgen.Heightmap;
+ import net.minecraft.world.level.material.Fluid;
+ import net.minecraft.world.level.material.FluidState;
+ import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
+@@ -81,8 +82,10 @@ import net.minecraft.world.phys.shapes.VoxelShape;
+ import net.minecraft.world.scores.Scoreboard;
+ import net.minecraft.world.ticks.BlackholeTickAccess;
+ import net.minecraft.world.ticks.LevelTickAccess;
++import org.slf4j.Logger;
+
+ public class ClientLevel extends Level {
++    private static final Logger LOGGER = LogUtils.getLogger();
+     private static final double FLUID_PARTICLE_SPAWN_OFFSET = 0.05;
+     private static final int NORMAL_LIGHT_UPDATES_PER_FRAME = 10;
+     private static final int LIGHT_UPDATE_QUEUE_SIZE_THRESHOLD = 1000;
+@@ -106,8 +109,49 @@ public class ClientLevel extends Level {
+     private final ClientChunkCache chunkSource;
+     private final Deque<Runnable> lightUpdateQueue = Queues.<Runnable>newArrayDeque();
+     private int serverSimulationDistance;
++    private final BlockStatePredictionHandler blockStatePredictionHandler = new BlockStatePredictionHandler();
+     private static final Set<Item> MARKER_PARTICLE_ITEMS = Set.of(Items.BARRIER, Items.LIGHT);
+
++    public void handleBlockChangedAck(int $$0) {
++        this.blockStatePredictionHandler.endPredictionsUpTo($$0, this);
++    }
++
++    public void setServerVerifiedBlockState(BlockPos $$0, BlockState $$1, int $$2) {
++        if (!this.blockStatePredictionHandler.updateKnownServerState($$0, $$1)) {
++            super.setBlock($$0, $$1, $$2, 512);
++        }
++    }
++
++    public void syncBlockState(BlockPos $$0, BlockState $$1, Vec3 $$2) {
++        BlockState $$3 = this.getBlockState($$0);
++        if ($$3 != $$1) {
++            this.setBlock($$0, $$1, 19);
++            Player $$4 = this.minecraft.player;
++            if (this == $$4.level && $$4.isColliding($$0, $$1)) {
++                $$4.absMoveTo($$2.x, $$2.y, $$2.z);
++            }
++        }
++    }
++
++    BlockStatePredictionHandler getBlockStatePredictionHandler() {
++        return this.blockStatePredictionHandler;
++    }
++
++    @Override
++    public boolean setBlock(BlockPos $$0, BlockState $$1, int $$2, int $$3) {
++        if (this.blockStatePredictionHandler.isPredicting()) {
++            BlockState $$4 = this.getBlockState($$0);
++            boolean $$5 = super.setBlock($$0, $$1, $$2, $$3);
++            if ($$5) {
++                this.blockStatePredictionHandler.retainKnownServerState($$0, $$4, this.minecraft.player);
++            }
++
++            return $$5;
++        } else {
++            return super.setBlock($$0, $$1, $$2, $$3);
++        }
++    }
++
+     public ClientLevel(
+         ClientPacketListener $$0,
+         ClientLevel.ClientLevelData $$1,
+@@ -120,7 +164,7 @@ public class ClientLevel extends Level {
+         boolean $$8,
+         long $$9
+     ) {
+-        super($$1, $$2, $$3, $$6, true, $$8, $$9);
++        super($$1, $$2, $$3, $$6, true, $$8, $$9, 1000000);
+         this.connection = $$0;
+         this.chunkSource = new ClientChunkCache(this, $$4);
+         this.clientLevelData = $$1;
+@@ -286,18 +330,14 @@ public class ClientLevel extends Level {
+         return this.getEntities().get($$0);
+     }
+
+-    public void setKnownState(BlockPos $$0, BlockState $$1) {
+-        this.setBlock($$0, $$1, 19);
+-    }
+-
+     @Override
+     public void disconnect() {
+-        this.connection.getConnection().disconnect(new TranslatableComponent("multiplayer.status.quitting"));
++        this.connection.getConnection().disconnect(Component.translatable("multiplayer.status.quitting"));
+     }
+
+     public void animateTick(int $$0, int $$1, int $$2) {
+         int $$3 = 32;
+-        Random $$4 = new Random();
++        RandomSource $$4 = RandomSource.create();
+         Block $$5 = this.getMarkerParticleTarget();
+         BlockPos.MutableBlockPos $$6 = new BlockPos.MutableBlockPos();
+
+@@ -320,7 +360,7 @@ public class ClientLevel extends Level {
+         return null;
+     }
+
+-    public void doAnimateTick(int $$0, int $$1, int $$2, int $$3, Random $$4, @Nullable Block $$5, BlockPos.MutableBlockPos $$6) {
++    public void doAnimateTick(int $$0, int $$1, int $$2, int $$3, RandomSource $$4, @Nullable Block $$5, BlockPos.MutableBlockPos $$6) {
+         int $$7 = $$0 + this.random.nextInt($$3) - this.random.nextInt($$3);
+         int $$8 = $$1 + this.random.nextInt($$3) - this.random.nextInt($$3);
+         int $$9 = $$2 + this.random.nextInt($$3) - this.random.nextInt($$3);
+@@ -415,16 +455,16 @@ public class ClientLevel extends Level {
+     }
+
+     @Override
+-    public void playSound(@Nullable Player $$0, double $$1, double $$2, double $$3, SoundEvent $$4, SoundSource $$5, float $$6, float $$7) {
++    public void playSeededSound(@Nullable Player $$0, double $$1, double $$2, double $$3, SoundEvent $$4, SoundSource $$5, float $$6, float $$7, long $$8) {
+         if ($$0 == this.minecraft.player) {
+-            this.playLocalSound($$1, $$2, $$3, $$4, $$5, $$6, $$7, false);
++            this.playSound($$1, $$2, $$3, $$4, $$5, $$6, $$7, false, $$8);
+         }
+     }
+
+     @Override
+-    public void playSound(@Nullable Player $$0, Entity $$1, SoundEvent $$2, SoundSource $$3, float $$4, float $$5) {
++    public void playSeededSound(@Nullable Player $$0, Entity $$1, SoundEvent $$2, SoundSource $$3, float $$4, float $$5, long $$6) {
+         if ($$0 == this.minecraft.player) {
+-            this.minecraft.getSoundManager().play(new EntityBoundSoundInstance($$2, $$3, $$4, $$5, $$1));
++            this.minecraft.getSoundManager().play(new EntityBoundSoundInstance($$2, $$3, $$4, $$5, $$1, $$6));
+         }
+     }
+
+@@ -434,13 +474,17 @@ public class ClientLevel extends Level {
+
+     @Override
+     public void playLocalSound(double $$0, double $$1, double $$2, SoundEvent $$3, SoundSource $$4, float $$5, float $$6, boolean $$7) {
+-        double $$8 = this.minecraft.gameRenderer.getMainCamera().getPosition().distanceToSqr($$0, $$1, $$2);
+-        SimpleSoundInstance $$9 = new SimpleSoundInstance($$3, $$4, $$5, $$6, $$0, $$1, $$2);
+-        if ($$7 && $$8 > 100.0) {
+-            double $$10 = Math.sqrt($$8) / 40.0;
+-            this.minecraft.getSoundManager().playDelayed($$9, (int)($$10 * 20.0));
++        this.playSound($$0, $$1, $$2, $$3, $$4, $$5, $$6, $$7, this.random.nextLong());
++    }
++
++    private void playSound(double $$0, double $$1, double $$2, SoundEvent $$3, SoundSource $$4, float $$5, float $$6, boolean $$7, long $$8) {
++        double $$9 = this.minecraft.gameRenderer.getMainCamera().getPosition().distanceToSqr($$0, $$1, $$2);
++        SimpleSoundInstance $$10 = new SimpleSoundInstance($$3, $$4, $$5, $$6, RandomSource.create($$8), $$0, $$1, $$2);
++        if ($$7 && $$9 > 100.0) {
++            double $$11 = Math.sqrt($$9) / 40.0;
++            this.minecraft.getSoundManager().playDelayed($$10, (int)($$11 * 20.0));
+         } else {
+-            this.minecraft.getSoundManager().play($$9);
++            this.minecraft.getSoundManager().play($$10);
+         }
+     }
+
+@@ -537,7 +581,7 @@ public class ClientLevel extends Level {
+     @Override
+     public void levelEvent(@Nullable Player $$0, int $$1, BlockPos $$2, int $$3) {
+         try {
+-            this.levelRenderer.levelEvent($$0, $$1, $$2, $$3);
++            this.levelRenderer.levelEvent($$1, $$2, $$3);
+         } catch (Throwable $$4) {
+             CrashReport $$5 = CrashReport.forThrowable($$4, "Playing level event");
+             CrashReportCategory $$6 = $$5.addCategory("Level event being played");
+@@ -617,7 +661,7 @@ public class ClientLevel extends Level {
+             $$9 = $$9 * $$15 + $$14 * (1.0F - $$15);
+         }
+
+-        if (!this.minecraft.options.hideLightningFlashes && this.skyFlashTime > 0) {
++        if (!this.minecraft.options.hideLightningFlash().get() && this.skyFlashTime > 0) {
+             float $$16 = this.skyFlashTime - $$1;
+             if ($$16 > 1.0F) {
+                 $$16 = 1.0F;
+@@ -709,7 +753,7 @@ public class ClientLevel extends Level {
+     }
+
+     public int calculateBlockTint(BlockPos $$0, ColorResolver $$1) {
+-        int $$2 = Minecraft.getInstance().options.biomeBlendRadius;
++        int $$2 = Minecraft.getInstance().options.biomeBlendRadius().get();
+         if ($$2 == 0) {
+             return $$1.getColor(this.getBiome($$0).value(), $$0.getX(), $$0.getZ());
+         }
+@@ -732,21 +776,6 @@ public class ClientLevel extends Level {
+         return ($$4 / $$3 & 0xFF) << 16 | ($$5 / $$3 & 0xFF) << 8 | $$6 / $$3 & 0xFF;
+     }
+
+-    public BlockPos getSharedSpawnPos() {
+-        BlockPos $$0 = new BlockPos(this.levelData.getXSpawn(), this.levelData.getYSpawn(), this.levelData.getZSpawn());
+-        if (!this.getWorldBorder().isWithinBounds($$0)) {
+-            $$0 = this.getHeightmapPos(
+-                Heightmap.Types.MOTION_BLOCKING, new BlockPos(this.getWorldBorder().getCenterX(), 0.0, this.getWorldBorder().getCenterZ())
+-            );
+-        }
+-
+-        return $$0;
+-    }
+-
+-    public float getSharedSpawnAngle() {
+-        return this.levelData.getSpawnAngle();
+-    }
+-
+     public void setDefaultSpawnPos(BlockPos $$0, float $$1) {
+         this.levelData.setSpawn($$0, $$1);
+     }
+@@ -760,7 +789,7 @@ public class ClientLevel extends Level {
+     }
+
+     @Override
+-    public void gameEvent(@Nullable Entity $$0, GameEvent $$1, BlockPos $$2) {
++    public void gameEvent(GameEvent $$0, Vec3 $$1, GameEvent.Context $$2) {
+     }
+
+     protected Map<String, MapItemSavedData> getAllMapData() {
+@@ -963,5 +992,8 @@ public class ClientLevel extends Level {
+             $$0.unRide();
+             ClientLevel.this.players.remove($$0);
+         }
++
++        public void onSectionChange(Entity $$0) {
++        }
+     }
+ }
+### 1.18.2 -> 1.19 net/minecraft/client/player/LocalPlayer.java
+diff --git "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.18.2\\mojmap\\net\\minecraft\\client\\player\\LocalPlayer.java" "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19\\mojmap\\net\\minecraft\\client\\player\\LocalPlayer.java"
+index 4161cd3f..22a40d25 100644
+--- "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.18.2\\mojmap\\net\\minecraft\\client\\player\\LocalPlayer.java"
++++ "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19\\mojmap\\net\\minecraft\\client\\player\\LocalPlayer.java"
+@@ -1,10 +1,14 @@
+ package net.minecraft.client.player;
+
++import com.google.common.collect.ImmutableMap;
+ import com.google.common.collect.Lists;
++import com.google.common.collect.ImmutableMap.Builder;
++import com.mojang.brigadier.ParseResults;
++import com.mojang.logging.LogUtils;
+ import java.util.Iterator;
+ import java.util.List;
++import java.util.Map;
+ import java.util.Objects;
+-import java.util.UUID;
+ import java.util.stream.StreamSupport;
+ import javax.annotation.Nullable;
+ import net.minecraft.client.ClientRecipeBook;
+@@ -28,10 +32,15 @@ import net.minecraft.client.resources.sounds.RidingMinecartSoundInstance;
+ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+ import net.minecraft.client.resources.sounds.UnderwaterAmbientSoundHandler;
+ import net.minecraft.client.resources.sounds.UnderwaterAmbientSoundInstances;
++import net.minecraft.commands.SharedSuggestionProvider;
++import net.minecraft.commands.arguments.ArgumentSignatures;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.Direction;
+ import net.minecraft.core.particles.ParticleTypes;
+ import net.minecraft.network.chat.Component;
++import net.minecraft.network.chat.MessageSignature;
++import net.minecraft.network.chat.MessageSigner;
++import net.minecraft.network.protocol.game.ServerboundChatCommandPacket;
+ import net.minecraft.network.protocol.game.ServerboundChatPacket;
+ import net.minecraft.network.protocol.game.ServerboundClientCommandPacket;
+ import net.minecraft.network.protocol.game.ServerboundContainerClosePacket;
+@@ -50,6 +59,7 @@ import net.minecraft.sounds.SoundSource;
+ import net.minecraft.stats.StatsCounter;
+ import net.minecraft.tags.FluidTags;
+ import net.minecraft.util.Mth;
++import net.minecraft.util.Signer;
+ import net.minecraft.world.InteractionHand;
+ import net.minecraft.world.damagesource.DamageSource;
+ import net.minecraft.world.effect.MobEffect;
+@@ -61,6 +71,7 @@ import net.minecraft.world.entity.HumanoidArm;
+ import net.minecraft.world.entity.MoverType;
+ import net.minecraft.world.entity.PlayerRideableJumping;
+ import net.minecraft.world.entity.Pose;
++import net.minecraft.world.entity.player.ProfilePublicKey;
+ import net.minecraft.world.entity.vehicle.AbstractMinecart;
+ import net.minecraft.world.entity.vehicle.Boat;
+ import net.minecraft.world.inventory.ClickAction;
+@@ -68,6 +79,7 @@ import net.minecraft.world.item.ElytraItem;
+ import net.minecraft.world.item.ItemStack;
+ import net.minecraft.world.item.Items;
+ import net.minecraft.world.item.crafting.Recipe;
++import net.minecraft.world.item.enchantment.EnchantmentHelper;
+ import net.minecraft.world.level.BaseCommandBlock;
+ import net.minecraft.world.level.block.entity.CommandBlockEntity;
+ import net.minecraft.world.level.block.entity.JigsawBlockEntity;
+@@ -79,14 +91,17 @@ import net.minecraft.world.phys.Vec2;
+ import net.minecraft.world.phys.Vec3;
+ import net.minecraft.world.phys.shapes.CollisionContext;
+ import net.minecraft.world.phys.shapes.VoxelShape;
++import org.slf4j.Logger;
+
+ public class LocalPlayer extends AbstractClientPlayer {
++    public static final Logger LOGGER = LogUtils.getLogger();
+     private static final int POSITION_REMINDER_INTERVAL = 20;
+     private static final int WATER_VISION_MAX_TIME = 600;
+     private static final int WATER_VISION_QUICK_TIME = 100;
+     private static final float WATER_VISION_QUICK_PERCENT = 0.6F;
+     private static final double SUFFOCATING_COLLISION_CHECK_SCALE = 0.35;
+     private static final double MINOR_COLLISION_ANGLE_THRESHOLD_RADIAN = 0.13962634F;
++    private static final float DEFAULT_SNEAKING_MOVEMENT_FACTOR = 0.3F;
+     public final ClientPacketListener connection;
+     private final StatsCounter stats;
+     private final ClientRecipeBook recipeBook;
+@@ -128,7 +143,7 @@ public class LocalPlayer extends AbstractClientPlayer {
+     private boolean showDeathScreen = true;
+
+     public LocalPlayer(Minecraft $$0, ClientLevel $$1, ClientPacketListener $$2, StatsCounter $$3, ClientRecipeBook $$4, boolean $$5, boolean $$6) {
+-        super($$1, $$2.getLocalGameProfile());
++        super($$1, $$2.getLocalGameProfile(), (ProfilePublicKey)$$0.getProfileKeyPairManager().profilePublicKey().orElse(null));
+         this.minecraft = $$0;
+         this.connection = $$2;
+         this.stats = $$3;
+@@ -266,7 +281,7 @@ public class LocalPlayer extends AbstractClientPlayer {
+             }
+
+             this.lastOnGround = this.onGround;
+-            this.autoJumpEnabled = this.minecraft.options.autoJump;
++            this.autoJumpEnabled = this.minecraft.options.autoJump().get();
+         }
+     }
+
+@@ -278,7 +293,75 @@ public class LocalPlayer extends AbstractClientPlayer {
+     }
+
+     public void chat(String $$0) {
+-        this.connection.send(new ServerboundChatPacket($$0));
++        this.chat($$0, null);
++    }
++
++    public void chat(String $$0, @Nullable Component $$1) {
++        MessageSigner $$2 = MessageSigner.create(this.getUUID());
++        this.sendChat($$2, $$0, $$1);
++    }
++
++    public void command(String $$0) {
++        this.command($$0, null);
++    }
++
++    public void command(String $$0, @Nullable Component $$1) {
++        MessageSigner $$2 = MessageSigner.create(this.getUUID());
++        this.sendCommand($$2, $$0, $$1);
++    }
++
++    private void sendChat(MessageSigner $$0, String $$1, @Nullable Component $$2) {
++        if ($$2 != null) {
++            MessageSignature $$3 = this.signMessage($$0, $$2);
++            this.connection.send(new ServerboundChatPacket($$1, $$3, true));
++        } else {
++            MessageSignature $$4 = this.signMessage($$0, Component.literal($$1));
++            this.connection.send(new ServerboundChatPacket($$1, $$4, false));
++        }
++    }
++
++    private MessageSignature signMessage(MessageSigner $$0, Component $$1) {
++        try {
++            Signer $$2 = this.minecraft.getProfileKeyPairManager().signer();
++            if ($$2 != null) {
++                return $$0.sign($$2, $$1);
++            }
++        } catch (Exception $$3) {
++            LOGGER.error("Failed to sign chat message: '{}'", $$1.getString(), $$3);
++        }
++
++        return MessageSignature.unsigned();
++    }
++
++    private void sendCommand(MessageSigner $$0, String $$1, @Nullable Component $$2) {
++        ParseResults<SharedSuggestionProvider> $$3 = this.connection.getCommands().parse($$1, this.connection.getSuggestionsProvider());
++        ArgumentSignatures $$4 = this.signCommandArguments($$0, $$3, $$2);
++        this.connection.send(new ServerboundChatCommandPacket($$1, $$0.timeStamp(), $$4, $$2 != null));
++    }
++
++    private ArgumentSignatures signCommandArguments(MessageSigner $$0, ParseResults<SharedSuggestionProvider> $$1, @Nullable Component $$2) {
++        Map<String, Component> $$3 = ArgumentSignatures.collectLastChildPlainSignableComponents($$1.getContext());
++        if ($$3.isEmpty()) {
++            return ArgumentSignatures.empty();
++        }
++
++        Signer $$4 = this.minecraft.getProfileKeyPairManager().signer();
++        if ($$4 == null) {
++            return ArgumentSignatures.empty();
++        }
++
++        try {
++            Builder<String, byte[]> $$5 = ImmutableMap.builder();
++            $$3.forEach(($$4x, $$5x) -> {
++                Component $$6x = $$2 != null ? $$2 : $$5x;
++                MessageSignature $$7 = $$0.sign($$4, $$6x);
++                $$5.put($$4x, $$7.saltSignature().signature());
++            });
++            return new ArgumentSignatures($$0.salt(), $$5.build());
++        } catch (Exception $$6) {
++            LOGGER.error("Failed to sign command arguments", $$6);
++            return ArgumentSignatures.empty();
++        }
+     }
+
+     @Override
+@@ -457,7 +540,7 @@ public class LocalPlayer extends AbstractClientPlayer {
+     }
+
+     @Override
+-    public void sendMessage(Component $$0, UUID $$1) {
++    public void sendSystemMessage(Component $$0) {
+         this.minecraft.gui.getChat().addMessage($$0);
+     }
+
+@@ -653,7 +736,8 @@ public class LocalPlayer extends AbstractClientPlayer {
+             && !this.isSwimming()
+             && this.canEnterPose(Pose.CROUCHING)
+             && (this.isShiftKeyDown() || !this.isSleeping() && !this.canEnterPose(Pose.STANDING));
+-        this.input.tick(this.isMovingSlowly());
++        float $$3 = Mth.clamp(0.3F + EnchantmentHelper.getSneakingSpeedBonus(this), 0.0F, 1.0F);
++        this.input.tick(this.isMovingSlowly(), $$3);
+         this.minecraft.getTutorial().onInput(this.input);
+         if (this.isUsingItem() && !this.isPassenger()) {
+             this.input.leftImpulse *= 0.2F;
+@@ -661,10 +745,10 @@ public class LocalPlayer extends AbstractClientPlayer {
+             this.sprintTriggerTime = 0;
+         }
+
+-        boolean $$3 = false;
++        boolean $$4 = false;
+         if (this.autoJumpTime > 0) {
+             this.autoJumpTime--;
+-            $$3 = true;
++            $$4 = true;
+             this.input.jumping = true;
+         }
+
+@@ -679,13 +763,13 @@ public class LocalPlayer extends AbstractClientPlayer {
+             this.sprintTriggerTime = 0;
+         }
+
+-        boolean $$4 = this.getFoodData().getFoodLevel() > 6.0F || this.getAbilities().mayfly;
++        boolean $$5 = this.getFoodData().getFoodLevel() > 6.0F || this.getAbilities().mayfly;
+         if ((this.onGround || this.isUnderWater())
+             && !$$1
+             && !$$2
+             && this.hasEnoughImpulseToStartSprinting()
+             && !this.isSprinting()
+-            && $$4
++            && $$5
+             && !this.isUsingItem()
+             && !this.hasEffect(MobEffects.BLINDNESS)) {
+             if (this.sprintTriggerTime <= 0 && !this.minecraft.options.keySprint.isDown()) {
+@@ -698,7 +782,7 @@ public class LocalPlayer extends AbstractClientPlayer {
+         if (!this.isSprinting()
+             && (!this.isInWater() || this.isUnderWater())
+             && this.hasEnoughImpulseToStartSprinting()
+-            && $$4
++            && $$5
+             && !this.isUsingItem()
+             && !this.hasEffect(MobEffects.BLINDNESS)
+             && this.minecraft.options.keySprint.isDown()) {
+@@ -706,40 +790,40 @@ public class LocalPlayer extends AbstractClientPlayer {
+         }
+
+         if (this.isSprinting()) {
+-            boolean $$5 = !this.input.hasForwardImpulse() || !$$4;
+-            boolean $$6 = $$5 || this.horizontalCollision && !this.minorHorizontalCollision || this.isInWater() && !this.isUnderWater();
++            boolean $$6 = !this.input.hasForwardImpulse() || !$$5;
++            boolean $$7 = $$6 || this.horizontalCollision && !this.minorHorizontalCollision || this.isInWater() && !this.isUnderWater();
+             if (this.isSwimming()) {
+-                if (!this.onGround && !this.input.shiftKeyDown && $$5 || !this.isInWater()) {
++                if (!this.onGround && !this.input.shiftKeyDown && $$6 || !this.isInWater()) {
+                     this.setSprinting(false);
+                 }
+-            } else if ($$6) {
++            } else if ($$7) {
+                 this.setSprinting(false);
+             }
+         }
+
+-        boolean $$7 = false;
++        boolean $$8 = false;
+         if (this.getAbilities().mayfly) {
+             if (this.minecraft.gameMode.isAlwaysFlying()) {
+                 if (!this.getAbilities().flying) {
+                     this.getAbilities().flying = true;
+-                    $$7 = true;
++                    $$8 = true;
+                     this.onUpdateAbilities();
+                 }
+-            } else if (!$$0 && this.input.jumping && !$$3) {
++            } else if (!$$0 && this.input.jumping && !$$4) {
+                 if (this.jumpTriggerTime == 0) {
+                     this.jumpTriggerTime = 7;
+                 } else if (!this.isSwimming()) {
+                     this.getAbilities().flying = !this.getAbilities().flying;
+-                    $$7 = true;
++                    $$8 = true;
+                     this.onUpdateAbilities();
+                     this.jumpTriggerTime = 0;
+                 }
+             }
+         }
+
+-        if (this.input.jumping && !$$7 && !$$0 && !this.getAbilities().flying && !this.isPassenger() && !this.onClimbable()) {
+-            ItemStack $$8 = this.getItemBySlot(EquipmentSlot.CHEST);
+-            if ($$8.is(Items.ELYTRA) && ElytraItem.isFlyEnabled($$8) && this.tryToStartFallFlying()) {
++        if (this.input.jumping && !$$8 && !$$0 && !this.getAbilities().flying && !this.isPassenger() && !this.onClimbable()) {
++            ItemStack $$9 = this.getItemBySlot(EquipmentSlot.CHEST);
++            if ($$9.is(Items.ELYTRA) && ElytraItem.isFlyEnabled($$9) && this.tryToStartFallFlying()) {
+                 this.connection.send(new ServerboundPlayerCommandPacket(this, ServerboundPlayerCommandPacket.Action.START_FALL_FLYING));
+             }
+         }
+@@ -750,30 +834,30 @@ public class LocalPlayer extends AbstractClientPlayer {
+         }
+
+         if (this.isEyeInFluid(FluidTags.WATER)) {
+-            int $$9 = this.isSpectator() ? 10 : 1;
+-            this.waterVisionTime = Mth.clamp(this.waterVisionTime + $$9, 0, 600);
++            int $$10 = this.isSpectator() ? 10 : 1;
++            this.waterVisionTime = Mth.clamp(this.waterVisionTime + $$10, 0, 600);
+         } else if (this.waterVisionTime > 0) {
+             this.isEyeInFluid(FluidTags.WATER);
+             this.waterVisionTime = Mth.clamp(this.waterVisionTime - 10, 0, 600);
+         }
+
+         if (this.getAbilities().flying && this.isControlledCamera()) {
+-            int $$10 = 0;
++            int $$11 = 0;
+             if (this.input.shiftKeyDown) {
+-                $$10--;
++                $$11--;
+             }
+
+             if (this.input.jumping) {
+-                $$10++;
++                $$11++;
+             }
+
+-            if ($$10 != 0) {
+-                this.setDeltaMovement(this.getDeltaMovement().add(0.0, $$10 * this.getAbilities().getFlyingSpeed() * 3.0F, 0.0));
++            if ($$11 != 0) {
++                this.setDeltaMovement(this.getDeltaMovement().add(0.0, $$11 * this.getAbilities().getFlyingSpeed() * 3.0F, 0.0));
+             }
+         }
+
+         if (this.isRidingJumpable()) {
+-            PlayerRideableJumping $$11 = (PlayerRideableJumping)this.getVehicle();
++            PlayerRideableJumping $$12 = (PlayerRideableJumping)this.getVehicle();
+             if (this.jumpRidingTicks < 0) {
+                 this.jumpRidingTicks++;
+                 if (this.jumpRidingTicks == 0) {
+@@ -783,7 +867,7 @@ public class LocalPlayer extends AbstractClientPlayer {
+
+             if ($$0 && !this.input.jumping) {
+                 this.jumpRidingTicks = -10;
+-                $$11.onPlayerJump(Mth.floor(this.getJumpRidingScale() * 100.0F));
++                $$12.onPlayerJump(Mth.floor(this.getJumpRidingScale() * 100.0F));
+                 this.sendRidingJump();
+             } else if (!$$0 && this.input.jumping) {
+                 this.jumpRidingTicks = 0;
+@@ -1091,4 +1175,9 @@ public class LocalPlayer extends AbstractClientPlayer {
+     public void updateTutorialInventoryAction(ItemStack $$0, ItemStack $$1, ClickAction $$2) {
+         this.minecraft.getTutorial().onInventoryAction($$0, $$1, $$2);
+     }
++
++    @Override
++    public float getVisualRotationYInDegrees() {
++        return this.getYRot();
++    }
+ }
+### 1.18.2 -> 1.19 net/minecraft/world/entity/player/Player.java
+diff --git "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.18.2\\mojmap\\net\\minecraft\\world\\entity\\player\\Player.java" "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19\\mojmap\\net\\minecraft\\world\\entity\\player\\Player.java"
+index dcc6c02d..71e3b2c2 100644
+--- "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.18.2\\mojmap\\net\\minecraft\\world\\entity\\player\\Player.java"
++++ "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19\\mojmap\\net\\minecraft\\world\\entity\\player\\Player.java"
+@@ -5,13 +5,13 @@ import com.google.common.collect.ImmutableMap;
+ import com.google.common.collect.Lists;
+ import com.mojang.authlib.GameProfile;
+ import com.mojang.datafixers.util.Either;
+-import java.nio.charset.StandardCharsets;
++import com.mojang.logging.LogUtils;
++import com.mojang.serialization.Dynamic;
+ import java.util.Collection;
+ import java.util.List;
+ import java.util.Map;
+ import java.util.Optional;
+ import java.util.OptionalInt;
+-import java.util.UUID;
+ import java.util.function.Predicate;
+ import javax.annotation.Nullable;
+ import net.minecraft.SharedConstants;
+@@ -19,16 +19,17 @@ import net.minecraft.Util;
+ import net.minecraft.advancements.CriteriaTriggers;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.Direction;
++import net.minecraft.core.GlobalPos;
+ import net.minecraft.core.Registry;
++import net.minecraft.core.UUIDUtil;
+ import net.minecraft.core.particles.ParticleOptions;
+ import net.minecraft.core.particles.ParticleTypes;
+ import net.minecraft.nbt.CompoundTag;
+ import net.minecraft.nbt.ListTag;
++import net.minecraft.nbt.NbtOps;
+ import net.minecraft.network.chat.ClickEvent;
+ import net.minecraft.network.chat.Component;
+ import net.minecraft.network.chat.MutableComponent;
+-import net.minecraft.network.chat.TextComponent;
+-import net.minecraft.network.chat.TranslatableComponent;
+ import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
+ import net.minecraft.network.syncher.EntityDataAccessor;
+ import net.minecraft.network.syncher.EntityDataSerializers;
+@@ -74,6 +75,7 @@ import net.minecraft.world.entity.boss.EnderDragonPart;
+ import net.minecraft.world.entity.decoration.ArmorStand;
+ import net.minecraft.world.entity.item.ItemEntity;
+ import net.minecraft.world.entity.monster.Strider;
++import net.minecraft.world.entity.monster.warden.WardenSpawnTracker;
+ import net.minecraft.world.entity.projectile.FishingHook;
+ import net.minecraft.world.entity.vehicle.AbstractMinecart;
+ import net.minecraft.world.entity.vehicle.Boat;
+@@ -82,7 +84,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
+ import net.minecraft.world.inventory.ClickAction;
+ import net.minecraft.world.inventory.InventoryMenu;
+ import net.minecraft.world.inventory.PlayerEnderChestContainer;
+-import net.minecraft.world.item.AxeItem;
+ import net.minecraft.world.item.ElytraItem;
+ import net.minecraft.world.item.ItemCooldowns;
+ import net.minecraft.world.item.ItemStack;
+@@ -110,9 +111,10 @@ import net.minecraft.world.phys.Vec3;
+ import net.minecraft.world.scores.PlayerTeam;
+ import net.minecraft.world.scores.Scoreboard;
+ import net.minecraft.world.scores.Team;
++import org.slf4j.Logger;
+
+ public abstract class Player extends LivingEntity {
+-    public static final String UUID_PREFIX_OFFLINE_PLAYER = "OfflinePlayer:";
++    private static final Logger LOGGER = LogUtils.getLogger();
+     public static final int MAX_NAME_LENGTH = 16;
+     public static final int MAX_HEALTH = 20;
+     public static final int SLEEP_DURATION = 100;
+@@ -145,6 +147,7 @@ public abstract class Player extends LivingEntity {
+     public final InventoryMenu inventoryMenu;
+     public AbstractContainerMenu containerMenu;
+     protected FoodData foodData = new FoodData();
++    protected WardenSpawnTracker wardenSpawnTracker = new WardenSpawnTracker(0, 0, 0);
+     protected int jumpTriggerTime;
+     public float oBob;
+     public float bob;
+@@ -165,16 +168,20 @@ public abstract class Player extends LivingEntity {
+     protected final float defaultFlySpeed = 0.02F;
+     private int lastLevelUpTime;
+     private final GameProfile gameProfile;
++    @Nullable
++    private final ProfilePublicKey profilePublicKey;
+     private boolean reducedDebugInfo;
+     private ItemStack lastItemInMainHand = ItemStack.EMPTY;
+     private final ItemCooldowns cooldowns = this.createItemCooldowns();
++    private Optional<GlobalPos> lastDeathLocation = Optional.empty();
+     @Nullable
+     public FishingHook fishing;
+
+-    public Player(Level $$0, BlockPos $$1, float $$2, GameProfile $$3) {
++    public Player(Level $$0, BlockPos $$1, float $$2, GameProfile $$3, @Nullable ProfilePublicKey $$4) {
+         super(EntityType.PLAYER, $$0);
+-        this.setUUID(createPlayerUUID($$3));
++        this.setUUID(UUIDUtil.getOrCreatePlayerUUID($$3));
+         this.gameProfile = $$3;
++        this.profilePublicKey = $$4;
+         this.inventoryMenu = new InventoryMenu(this.inventory, !$$0.isClientSide, this);
+         this.containerMenu = this.inventoryMenu;
+         this.moveTo($$1.getX() + 0.5, $$1.getY() + 1, $$1.getZ() + 0.5, $$2, 0.0F);
+@@ -255,6 +262,7 @@ public abstract class Player extends LivingEntity {
+         this.moveCloak();
+         if (!this.level.isClientSide) {
+             this.foodData.tick(this);
++            this.wardenSpawnTracker.tick();
+             this.awardStat(Stats.PLAY_TIME);
+             this.awardStat(Stats.TOTAL_WORLD_TIME);
+             if (this.isAlive()) {
+@@ -625,6 +633,7 @@ public abstract class Player extends LivingEntity {
+         this.resetStat(Stats.CUSTOM.get(Stats.TIME_SINCE_REST));
+         this.clearFire();
+         this.setSharedFlagOnFire(false);
++        this.setLastDeathLocation(Optional.of(GlobalPos.of(this.level.dimension(), this.blockPosition())));
+     }
+
+     @Override
+@@ -748,7 +757,7 @@ public abstract class Player extends LivingEntity {
+     @Override
+     public void readAdditionalSaveData(CompoundTag $$0) {
+         super.readAdditionalSaveData($$0);
+-        this.setUUID(createPlayerUUID(this.gameProfile));
++        this.setUUID(UUIDUtil.getOrCreatePlayerUUID(this.gameProfile));
+         ListTag $$1 = $$0.getList("Inventory", 10);
+         this.inventory.load($$1);
+         this.inventory.selected = $$0.getInt("SelectedItemSlot");
+@@ -763,6 +772,13 @@ public abstract class Player extends LivingEntity {
+
+         this.setScore($$0.getInt("Score"));
+         this.foodData.readAdditionalSaveData($$0);
++        if ($$0.contains("warden_spawn_tracker", 10)) {
++            WardenSpawnTracker.CODEC
++                .parse(new Dynamic<>(NbtOps.INSTANCE, $$0.get("warden_spawn_tracker")))
++                .resultOrPartial(LOGGER::error)
++                .ifPresent($$0x -> this.wardenSpawnTracker = $$0x);
++        }
++
+         this.abilities.loadSaveData($$0);
+         this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.abilities.getWalkingSpeed());
+         if ($$0.contains("EnderItems", 9)) {
+@@ -776,6 +792,10 @@ public abstract class Player extends LivingEntity {
+         if ($$0.contains("ShoulderEntityRight", 10)) {
+             this.setShoulderEntityRight($$0.getCompound("ShoulderEntityRight"));
+         }
++
++        if ($$0.contains("LastDeathLocation", 10)) {
++            this.setLastDeathLocation(GlobalPos.CODEC.parse(NbtOps.INSTANCE, $$0.get("LastDeathLocation")).resultOrPartial(LOGGER::error));
++        }
+     }
+
+     @Override
+@@ -791,6 +811,10 @@ public abstract class Player extends LivingEntity {
+         $$0.putInt("XpSeed", this.enchantmentSeed);
+         $$0.putInt("Score", this.getScore());
+         this.foodData.addAdditionalSaveData($$0);
++        WardenSpawnTracker.CODEC
++            .encodeStart(NbtOps.INSTANCE, this.wardenSpawnTracker)
++            .resultOrPartial(LOGGER::error)
++            .ifPresent($$1 -> $$0.put("warden_spawn_tracker", $$1));
+         this.abilities.addSaveData($$0);
+         $$0.put("EnderItems", this.enderChestInventory.createTag());
+         if (!this.getShoulderEntityLeft().isEmpty()) {
+@@ -800,6 +824,10 @@ public abstract class Player extends LivingEntity {
+         if (!this.getShoulderEntityRight().isEmpty()) {
+             $$0.put("ShoulderEntityRight", this.getShoulderEntityRight());
+         }
++
++        this.getLastDeathLocation()
++            .flatMap($$0x -> GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, $$0x).resultOrPartial(LOGGER::error))
++            .ifPresent($$1 -> $$0.put("LastDeathLocation", $$1));
+     }
+
+     @Override
+@@ -856,7 +884,7 @@ public abstract class Player extends LivingEntity {
+     @Override
+     protected void blockUsingShield(LivingEntity $$0) {
+         super.blockUsingShield($$0);
+-        if ($$0.getMainHandItem().getItem() instanceof AxeItem) {
++        if ($$0.canDisableShield()) {
+             this.disableShield(true);
+         }
+     }
+@@ -1030,7 +1058,11 @@ public abstract class Player extends LivingEntity {
+
+     @Override
+     protected Vec3 maybeBackOffFromEdge(Vec3 $$0, MoverType $$1) {
+-        if (!this.abilities.flying && ($$1 == MoverType.SELF || $$1 == MoverType.PLAYER) && this.isStayingOnGroundSurface() && this.isAboveGround()) {
++        if (!this.abilities.flying
++            && $$0.y <= 0.0
++            && ($$1 == MoverType.SELF || $$1 == MoverType.PLAYER)
++            && this.isStayingOnGroundSurface()
++            && this.isAboveGround()) {
+             double $$2 = $$0.x;
+             double $$3 = $$0.z;
+             double $$4 = 0.05;
+@@ -1311,6 +1343,11 @@ public abstract class Player extends LivingEntity {
+         return this.gameProfile;
+     }
+
++    @Nullable
++    public ProfilePublicKey getProfilePublicKey() {
++        return this.profilePublicKey;
++    }
++
+     public Inventory getInventory() {
+         return this.inventory;
+     }
+@@ -1586,8 +1623,9 @@ public abstract class Player extends LivingEntity {
+     }
+
+     @Override
+-    public void killed(ServerLevel $$0, LivingEntity $$1) {
++    public boolean wasKilled(ServerLevel $$0, LivingEntity $$1) {
+         this.awardStat(Stats.ENTITY_KILLED.get($$1.getType()));
++        return true;
+     }
+
+     @Override
+@@ -1666,6 +1704,10 @@ public abstract class Player extends LivingEntity {
+         }
+     }
+
++    public WardenSpawnTracker getWardenSpawnTracker() {
++        return this.wardenSpawnTracker;
++    }
++
+     public FoodData getFoodData() {
+         return this.foodData;
+     }
+@@ -1693,10 +1735,10 @@ public abstract class Player extends LivingEntity {
+     }
+
+     @Override
+-    protected int getExperienceReward(Player $$0) {
++    public int getExperienceReward() {
+         if (!this.level.getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY) && !this.isSpectator()) {
+-            int $$1 = this.experienceLevel * 7;
+-            return $$1 > 100 ? 100 : $$1;
++            int $$0 = this.experienceLevel * 7;
++            return $$0 > 100 ? 100 : $$0;
+         } else {
+             return 0;
+         }
+@@ -1722,7 +1764,7 @@ public abstract class Player extends LivingEntity {
+
+     @Override
+     public Component getName() {
+-        return new TextComponent(this.gameProfile.getName());
++        return Component.literal(this.gameProfile.getName());
+     }
+
+     public PlayerEnderChestContainer getEnderChestInventory() {
+@@ -1740,23 +1782,24 @@ public abstract class Player extends LivingEntity {
+         }
+     }
+
++    @Override
++    protected boolean doesEmitEquipEvent(EquipmentSlot $$0) {
++        return $$0.getType() == EquipmentSlot.Type.ARMOR;
++    }
++
+     @Override
+     public void setItemSlot(EquipmentSlot $$0, ItemStack $$1) {
+         this.verifyEquippedItem($$1);
+         if ($$0 == EquipmentSlot.MAINHAND) {
+-            this.equipEventAndSound($$1);
+-            this.inventory.items.set(this.inventory.selected, $$1);
++            this.onEquipItem($$0, this.inventory.items.set(this.inventory.selected, $$1), $$1);
+         } else if ($$0 == EquipmentSlot.OFFHAND) {
+-            this.equipEventAndSound($$1);
+-            this.inventory.offhand.set(0, $$1);
++            this.onEquipItem($$0, this.inventory.offhand.set(0, $$1), $$1);
+         } else if ($$0.getType() == EquipmentSlot.Type.ARMOR) {
+-            this.equipEventAndSound($$1);
+-            this.inventory.armor.set($$0.getIndex(), $$1);
++            this.onEquipItem($$0, this.inventory.armor.set($$0.getIndex(), $$1), $$1);
+         }
+     }
+
+     public boolean addItem(ItemStack $$0) {
+-        this.equipEventAndSound($$0);
+         return this.inventory.add($$0);
+     }
+
+@@ -1875,19 +1918,6 @@ public abstract class Player extends LivingEntity {
+         return this.getEntityData().get(DATA_PLAYER_ABSORPTION_ID);
+     }
+
+-    public static UUID createPlayerUUID(GameProfile $$0) {
+-        UUID $$1 = $$0.getId();
+-        if ($$1 == null) {
+-            $$1 = createPlayerUUID($$0.getName());
+-        }
+-
+-        return $$1;
+-    }
+-
+-    public static UUID createPlayerUUID(String $$0) {
+-        return UUID.nameUUIDFromBytes(("OfflinePlayer:" + $$0).getBytes(StandardCharsets.UTF_8));
+-    }
+-
+     public boolean isModelPartShown(PlayerModelPart $$0) {
+         return (this.getEntityData().get(DATA_PLAYER_MODE_CUSTOMISATION) & $$0.getMask()) == $$0.getMask();
+     }
+@@ -2071,13 +2101,21 @@ public abstract class Player extends LivingEntity {
+         return false;
+     }
+
++    public Optional<GlobalPos> getLastDeathLocation() {
++        return this.lastDeathLocation;
++    }
++
++    public void setLastDeathLocation(Optional<GlobalPos> $$0) {
++        this.lastDeathLocation = $$0;
++    }
++
+     public enum BedSleepingProblem {
+         NOT_POSSIBLE_HERE,
+-        NOT_POSSIBLE_NOW(new TranslatableComponent("block.minecraft.bed.no_sleep")),
+-        TOO_FAR_AWAY(new TranslatableComponent("block.minecraft.bed.too_far_away")),
+-        OBSTRUCTED(new TranslatableComponent("block.minecraft.bed.obstructed")),
++        NOT_POSSIBLE_NOW(Component.translatable("block.minecraft.bed.no_sleep")),
++        TOO_FAR_AWAY(Component.translatable("block.minecraft.bed.too_far_away")),
++        OBSTRUCTED(Component.translatable("block.minecraft.bed.obstructed")),
+         OTHER_PROBLEM,
+-        NOT_SAFE(new TranslatableComponent("block.minecraft.bed.not_safe"));
++        NOT_SAFE(Component.translatable("block.minecraft.bed.not_safe"));
+
+         @Nullable
+         private final Component message;
+### 1.18.2 -> 1.19 net/minecraft/world/entity/LivingEntity.java
+diff --git "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.18.2\\mojmap\\net\\minecraft\\world\\entity\\LivingEntity.java" "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19\\mojmap\\net\\minecraft\\world\\entity\\LivingEntity.java"
+index f4a59fdc..38937790 100644
+--- "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.18.2\\mojmap\\net\\minecraft\\world\\entity\\LivingEntity.java"
++++ "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19\\mojmap\\net\\minecraft\\world\\entity\\LivingEntity.java"
+@@ -15,7 +15,6 @@ import java.util.Iterator;
+ import java.util.List;
+ import java.util.Map;
+ import java.util.Optional;
+-import java.util.Random;
+ import java.util.UUID;
+ import java.util.function.Predicate;
+ import javax.annotation.Nullable;
+@@ -33,7 +32,7 @@ import net.minecraft.nbt.ListTag;
+ import net.minecraft.nbt.NbtOps;
+ import net.minecraft.nbt.Tag;
+ import net.minecraft.network.protocol.Packet;
+-import net.minecraft.network.protocol.game.ClientboundAddMobPacket;
++import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+ import net.minecraft.network.protocol.game.ClientboundAnimatePacket;
+ import net.minecraft.network.protocol.game.ClientboundEntityEventPacket;
+ import net.minecraft.network.protocol.game.ClientboundSetEquipmentPacket;
+@@ -55,6 +54,7 @@ import net.minecraft.tags.FluidTags;
+ import net.minecraft.tags.ItemTags;
+ import net.minecraft.tags.TagKey;
+ import net.minecraft.util.Mth;
++import net.minecraft.util.RandomSource;
+ import net.minecraft.world.Difficulty;
+ import net.minecraft.world.InteractionHand;
+ import net.minecraft.world.damagesource.CombatRules;
+@@ -82,6 +82,7 @@ import net.minecraft.world.entity.player.Player;
+ import net.minecraft.world.entity.projectile.AbstractArrow;
+ import net.minecraft.world.food.FoodProperties;
+ import net.minecraft.world.item.ArmorItem;
++import net.minecraft.world.item.AxeItem;
+ import net.minecraft.world.item.BlockItem;
+ import net.minecraft.world.item.ElytraItem;
+ import net.minecraft.world.item.Item;
+@@ -229,6 +230,7 @@ public abstract class LivingEntity extends Entity {
+     private float swimAmount;
+     private float swimAmountO;
+     protected Brain<?> brain;
++    private boolean skipDropExperience;
+
+     protected LivingEntity(EntityType<? extends LivingEntity> $$0, Level $$1) {
+         super($$0, $$1);
+@@ -480,7 +482,7 @@ public abstract class LivingEntity extends Entity {
+     }
+
+     protected void tryAddSoulSpeed() {
+-        if (!this.getBlockStateOn().isAir()) {
++        if (!this.getBlockStateOnLegacy().isAir()) {
+             int $$0 = EnchantmentHelper.getEnchantmentLevel(Enchantments.SOUL_SPEED, this);
+             if ($$0 > 0 && this.onSoulSpeedBlock()) {
+                 AttributeInstance $$1 = this.getAttribute(Attributes.MOVEMENT_SPEED);
+@@ -511,7 +513,7 @@ public abstract class LivingEntity extends Entity {
+     }
+
+     protected void tryAddFrost() {
+-        if (!this.getBlockStateOn().isAir()) {
++        if (!this.getBlockStateOnLegacy().isAir()) {
+             int $$0 = this.getTicksFrozen();
+             if ($$0 > 0) {
+                 AttributeInstance $$1 = this.getAttribute(Attributes.MOVEMENT_SPEED);
+@@ -531,7 +533,7 @@ public abstract class LivingEntity extends Entity {
+             FrostWalkerEnchantment.onEntityMoved(this, this.level, $$0, $$1);
+         }
+
+-        if (this.shouldRemoveSoulSpeed(this.getBlockStateOn())) {
++        if (this.shouldRemoveSoulSpeed(this.getBlockStateOnLegacy())) {
+             this.removeSoulSpeed();
+         }
+
+@@ -563,7 +565,7 @@ public abstract class LivingEntity extends Entity {
+         }
+     }
+
+-    protected boolean shouldDropExperience() {
++    public boolean shouldDropExperience() {
+         return !this.isBaby();
+     }
+
+@@ -580,7 +582,7 @@ public abstract class LivingEntity extends Entity {
+         return Math.min($$0 + 4, this.getMaxAirSupply());
+     }
+
+-    protected int getExperienceReward(Player $$0) {
++    public int getExperienceReward() {
+         return 0;
+     }
+
+@@ -588,7 +590,7 @@ public abstract class LivingEntity extends Entity {
+         return false;
+     }
+
+-    public Random getRandom() {
++    public RandomSource getRandom() {
+         return this.random;
+     }
+
+@@ -646,11 +648,29 @@ public abstract class LivingEntity extends Entity {
+         this.discardFriction = $$0;
+     }
+
+-    protected void equipEventAndSound(ItemStack $$0) {
+-        SoundEvent $$1 = $$0.getEquipSound();
+-        if (!$$0.isEmpty() && $$1 != null && !this.isSpectator()) {
+-            this.gameEvent(GameEvent.EQUIP);
+-            this.playSound($$1, 1.0F, 1.0F);
++    protected boolean doesEmitEquipEvent(EquipmentSlot $$0) {
++        return true;
++    }
++
++    public void onEquipItem(EquipmentSlot $$0, ItemStack $$1, ItemStack $$2) {
++        boolean $$3 = $$2.isEmpty() && $$1.isEmpty();
++        if (!$$3 && !ItemStack.isSameIgnoreDurability($$1, $$2)) {
++            if ($$0.getType() == EquipmentSlot.Type.ARMOR) {
++                this.playEquipSound($$2);
++            }
++
++            if (this.doesEmitEquipEvent($$0)) {
++                this.gameEvent(GameEvent.EQUIP);
++            }
++        }
++    }
++
++    protected void playEquipSound(ItemStack $$0) {
++        if (!$$0.isEmpty() && !this.isSpectator()) {
++            SoundEvent $$1 = $$0.getEquipSound();
++            if ($$1 != null) {
++                this.playSound($$1, 1.0F, 1.0F);
++            }
+         }
+     }
+
+@@ -1287,15 +1307,15 @@ public abstract class LivingEntity extends Entity {
+             this.dead = true;
+             this.getCombatTracker().recheckStatus();
+             if (this.level instanceof ServerLevel) {
+-                if ($$1 != null) {
+-                    $$1.killed((ServerLevel)this.level, this);
++                if ($$1 == null || $$1.wasKilled((ServerLevel)this.level, this)) {
++                    this.gameEvent(GameEvent.ENTITY_DIE);
++                    this.dropAllDeathLoot($$0);
++                    this.createWitherRose($$2);
+                 }
+
+-                this.dropAllDeathLoot($$0);
+-                this.createWitherRose($$2);
++                this.level.broadcastEntityEvent(this, (byte)3);
+             }
+
+-            this.level.broadcastEntityEvent(this, (byte)3);
+             this.setPose(Pose.DYING);
+         }
+     }
+@@ -1345,11 +1365,12 @@ public abstract class LivingEntity extends Entity {
+
+     protected void dropExperience() {
+         if (this.level instanceof ServerLevel
++            && !this.wasExperienceConsumed()
+             && (
+                 this.isAlwaysExperienceDropper()
+                     || this.lastHurtByPlayerTime > 0 && this.shouldDropExperience() && this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)
+             )) {
+-            ExperienceOrb.award((ServerLevel)this.level, this.position(), this.getExperienceReward(this.lastHurtByPlayer));
++            ExperienceOrb.award((ServerLevel)this.level, this.position(), this.getExperienceReward());
+         }
+     }
+
+@@ -1406,6 +1427,14 @@ public abstract class LivingEntity extends Entity {
+         return $$0 > 4 ? this.getFallSounds().big() : this.getFallSounds().small();
+     }
+
++    public void skipDropExperience() {
++        this.skipDropExperience = true;
++    }
++
++    public boolean wasExperienceConsumed() {
++        return this.skipDropExperience;
++    }
++
+     public LivingEntity.Fallsounds getFallSounds() {
+         return new LivingEntity.Fallsounds(SoundEvents.GENERIC_SMALL_FALL, SoundEvents.GENERIC_BIG_FALL);
+     }
+@@ -1551,6 +1580,10 @@ public abstract class LivingEntity extends Entity {
+             return 0.0F;
+         }
+
++        if ($$0.isBypassEnchantments()) {
++            return $$1;
++        }
++
+         int $$7 = EnchantmentHelper.getDamageProtection(this.getArmorSlots(), $$0);
+         if ($$7 > 0) {
+             $$1 = CombatRules.getDamageAfterMagicAbsorb($$1, $$7);
+@@ -1576,7 +1609,7 @@ public abstract class LivingEntity extends Entity {
+                 this.setHealth($$4 - $$1);
+                 this.getCombatTracker().recordDamage($$0, $$4, $$1);
+                 this.setAbsorptionAmount(this.getAbsorptionAmount() - $$1);
+-                this.gameEvent(GameEvent.ENTITY_DAMAGED, $$0.getEntity());
++                this.gameEvent(GameEvent.ENTITY_DAMAGE);
+             }
+         }
+     }
+@@ -2465,7 +2498,7 @@ public abstract class LivingEntity extends Entity {
+
+         if (this.isControlledByLocalInstance()) {
+             this.lerpSteps = 0;
+-            this.setPacketCoordinates(this.getX(), this.getY(), this.getZ());
++            this.syncPacketPositionCodec(this.getX(), this.getY(), this.getZ());
+         }
+
+         if (this.lerpSteps > 0) {
+@@ -2600,7 +2633,7 @@ public abstract class LivingEntity extends Entity {
+                         $$1.hurtAndBreak(1, this, $$0x -> $$0x.broadcastBreakEvent(EquipmentSlot.CHEST));
+                     }
+
+-                    this.gameEvent(GameEvent.ELYTRA_FREE_FALL);
++                    this.gameEvent(GameEvent.ELYTRA_GLIDE);
+                 }
+             } else {
+                 $$0 = false;
+@@ -2715,7 +2748,7 @@ public abstract class LivingEntity extends Entity {
+     public void onItemPickup(ItemEntity $$0) {
+         Player $$1 = $$0.getThrower() != null ? this.level.getPlayerByUUID($$0.getThrower()) : null;
+         if ($$1 instanceof ServerPlayer) {
+-            CriteriaTriggers.ITEM_PICKED_UP_BY_ENTITY.trigger((ServerPlayer)$$1, $$0.getItem(), this);
++            CriteriaTriggers.THROWN_ITEM_PICKED_UP_BY_ENTITY.trigger((ServerPlayer)$$1, $$0.getItem(), this);
+         }
+     }
+
+@@ -2879,6 +2912,7 @@ public abstract class LivingEntity extends Entity {
+             if (!this.level.isClientSide) {
+                 this.setLivingEntityFlag(1, true);
+                 this.setLivingEntityFlag(2, $$0 == InteractionHand.OFF_HAND);
++                this.gameEvent(GameEvent.ITEM_INTERACT_START);
+             }
+         }
+     }
+@@ -2984,7 +3018,11 @@ public abstract class LivingEntity extends Entity {
+
+     public void stopUsingItem() {
+         if (!this.level.isClientSide) {
++            boolean $$0 = this.isUsingItem();
+             this.setLivingEntityFlag(1, false);
++            if ($$0) {
++                this.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
++            }
+         }
+
+         this.useItem = ItemStack.EMPTY;
+@@ -3010,7 +3048,7 @@ public abstract class LivingEntity extends Entity {
+
+     @Override
+     public boolean isVisuallySwimming() {
+-        return super.isVisuallySwimming() || !this.isFallFlying() && this.getPose() == Pose.FALL_FLYING;
++        return super.isVisuallySwimming() || !this.isFallFlying() && this.hasPose(Pose.FALL_FLYING);
+     }
+
+     public int getFallFlyingTicks() {
+@@ -3080,7 +3118,7 @@ public abstract class LivingEntity extends Entity {
+
+     @Override
+     public Packet<?> getAddEntityPacket() {
+-        return new ClientboundAddMobPacket(this);
++        return new ClientboundAddEntityPacket(this);
+     }
+
+     @Override
+@@ -3186,7 +3224,6 @@ public abstract class LivingEntity extends Entity {
+
+     public ItemStack eat(Level $$0, ItemStack $$1) {
+         if ($$1.isEdible()) {
+-            $$0.gameEvent(this, GameEvent.EAT, this.eyeBlockPosition());
+             $$0.playSound(
+                 null,
+                 this.getX(),
+@@ -3318,21 +3355,31 @@ public abstract class LivingEntity extends Entity {
+         return !this.level.isClientSide() && this.hasEffect(MobEffects.GLOWING) || super.isCurrentlyGlowing();
+     }
+
+-    public void recreateFromPacket(ClientboundAddMobPacket $$0) {
++    @Override
++    public float getVisualRotationYInDegrees() {
++        return this.yBodyRot;
++    }
++
++    @Override
++    public void recreateFromPacket(ClientboundAddEntityPacket $$0) {
+         double $$1 = $$0.getX();
+         double $$2 = $$0.getY();
+         double $$3 = $$0.getZ();
+-        float $$4 = $$0.getyRot() * 360 / 256.0F;
+-        float $$5 = $$0.getxRot() * 360 / 256.0F;
+-        this.setPacketCoordinates($$1, $$2, $$3);
+-        this.yBodyRot = $$0.getyHeadRot() * 360 / 256.0F;
+-        this.yHeadRot = $$0.getyHeadRot() * 360 / 256.0F;
++        float $$4 = $$0.getYRot();
++        float $$5 = $$0.getXRot();
++        this.syncPacketPositionCodec($$1, $$2, $$3);
++        this.yBodyRot = $$0.getYHeadRot();
++        this.yHeadRot = $$0.getYHeadRot();
+         this.yBodyRotO = this.yBodyRot;
+         this.yHeadRotO = this.yHeadRot;
+         this.setId($$0.getId());
+         this.setUUID($$0.getUUID());
+         this.absMoveTo($$1, $$2, $$3, $$4, $$5);
+-        this.setDeltaMovement($$0.getXd() / 8000.0F, $$0.getYd() / 8000.0F, $$0.getZd() / 8000.0F);
++        this.setDeltaMovement($$0.getXa(), $$0.getYa(), $$0.getZa());
++    }
++
++    public boolean canDisableShield() {
++        return this.getMainHandItem().getItem() instanceof AxeItem;
+     }
+
+     public record Fallsounds(SoundEvent small, SoundEvent big) {
+### 1.18.2 -> 1.19 net/minecraft/world/entity/Entity.java
+diff --git "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.18.2\\mojmap\\net\\minecraft\\world\\entity\\Entity.java" "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19\\mojmap\\net\\minecraft\\world\\entity\\Entity.java"
+index e3efa7c0..f56798cd 100644
+--- "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.18.2\\mojmap\\net\\minecraft\\world\\entity\\Entity.java"
++++ "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19\\mojmap\\net\\minecraft\\world\\entity\\Entity.java"
+@@ -14,10 +14,10 @@ import java.util.HashSet;
+ import java.util.List;
+ import java.util.Locale;
+ import java.util.Optional;
+-import java.util.Random;
+ import java.util.Set;
+ import java.util.UUID;
+ import java.util.concurrent.atomic.AtomicInteger;
++import java.util.function.BiConsumer;
+ import java.util.function.Predicate;
+ import java.util.stream.Stream;
+ import javax.annotation.Nullable;
+@@ -40,11 +40,13 @@ import net.minecraft.nbt.DoubleTag;
+ import net.minecraft.nbt.FloatTag;
+ import net.minecraft.nbt.ListTag;
+ import net.minecraft.nbt.StringTag;
++import net.minecraft.network.chat.ChatSender;
+ import net.minecraft.network.chat.Component;
+ import net.minecraft.network.chat.HoverEvent;
+ import net.minecraft.network.chat.MutableComponent;
+ import net.minecraft.network.protocol.Packet;
+ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
++import net.minecraft.network.protocol.game.VecDeltaCodec;
+ import net.minecraft.network.syncher.EntityDataAccessor;
+ import net.minecraft.network.syncher.EntityDataSerializers;
+ import net.minecraft.network.syncher.SynchedEntityData;
+@@ -62,6 +64,7 @@ import net.minecraft.tags.EntityTypeTags;
+ import net.minecraft.tags.FluidTags;
+ import net.minecraft.tags.TagKey;
+ import net.minecraft.util.Mth;
++import net.minecraft.util.RandomSource;
+ import net.minecraft.world.InteractionHand;
+ import net.minecraft.world.InteractionResult;
+ import net.minecraft.world.Nameable;
+@@ -94,8 +97,8 @@ import net.minecraft.world.level.border.WorldBorder;
+ import net.minecraft.world.level.dimension.DimensionType;
+ import net.minecraft.world.level.entity.EntityAccess;
+ import net.minecraft.world.level.entity.EntityInLevelCallback;
++import net.minecraft.world.level.gameevent.DynamicGameEventListener;
+ import net.minecraft.world.level.gameevent.GameEvent;
+-import net.minecraft.world.level.gameevent.GameEventListenerRegistrar;
+ import net.minecraft.world.level.levelgen.Heightmap;
+ import net.minecraft.world.level.material.Fluid;
+ import net.minecraft.world.level.material.FluidState;
+@@ -176,7 +179,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     public double zOld;
+     public float maxUpStep;
+     public boolean noPhysics;
+-    protected final Random random = new Random();
++    protected final RandomSource random = RandomSource.create();
+     public int tickCount;
+     private int remainingFireTicks = -this.getFireImmuneTicks();
+     protected boolean wasTouchingWater;
+@@ -204,7 +207,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     protected static final EntityDataAccessor<Pose> DATA_POSE = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.POSE);
+     private static final EntityDataAccessor<Integer> DATA_TICKS_FROZEN = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.INT);
+     private EntityInLevelCallback levelCallback = EntityInLevelCallback.NULL;
+-    private Vec3 packetCoordinates;
++    private final VecDeltaCodec packetPositionCodec = new VecDeltaCodec();
+     public boolean noCulling;
+     public boolean hasImpulse;
+     private int portalCooldown;
+@@ -236,7 +239,6 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         this.position = Vec3.ZERO;
+         this.blockPosition = BlockPos.ZERO;
+         this.chunkPosition = ChunkPos.ZERO;
+-        this.packetCoordinates = Vec3.ZERO;
+         this.entityData = new SynchedEntityData(this);
+         this.entityData.define(DATA_SHARED_FLAGS_ID, (byte)0);
+         this.entityData.define(DATA_AIR_SUPPLY_ID, this.getMaxAirSupply());
+@@ -276,16 +278,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         }
+     }
+
+-    public void setPacketCoordinates(double $$0, double $$1, double $$2) {
+-        this.setPacketCoordinates(new Vec3($$0, $$1, $$2));
++    public void syncPacketPositionCodec(double $$0, double $$1, double $$2) {
++        this.packetPositionCodec.setBase(new Vec3($$0, $$1, $$2));
+     }
+
+-    public void setPacketCoordinates(Vec3 $$0) {
+-        this.packetCoordinates = $$0;
+-    }
+-
+-    public Vec3 getPacketCoordinates() {
+-        return this.packetCoordinates;
++    public VecDeltaCodec getPositionCodec() {
++        return this.packetPositionCodec;
+     }
+
+     public EntityType<?> getType() {
+@@ -315,6 +313,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+
+     public void kill() {
+         this.remove(Entity.RemovalReason.KILLED);
++        this.gameEvent(GameEvent.ENTITY_DIE);
+     }
+
+     public final void discard() {
+@@ -337,9 +336,6 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+
+     public void remove(Entity.RemovalReason $$0) {
+         this.setRemoved($$0);
+-        if ($$0 == Entity.RemovalReason.KILLED) {
+-            this.gameEvent(GameEvent.ENTITY_KILLED);
+-        }
+     }
+
+     public void onClientRemoval() {
+@@ -353,11 +349,19 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         return this.entityData.get(DATA_POSE);
+     }
+
++    public boolean hasPose(Pose $$0) {
++        return this.getPose() == $$0;
++    }
++
+     public boolean closerThan(Entity $$0, double $$1) {
+-        double $$2 = $$0.position.x - this.position.x;
+-        double $$3 = $$0.position.y - this.position.y;
+-        double $$4 = $$0.position.z - this.position.z;
+-        return $$2 * $$2 + $$3 * $$3 + $$4 * $$4 < $$1 * $$1;
++        return this.position().closerThan($$0.position(), $$1);
++    }
++
++    public boolean closerThan(Entity $$0, double $$1, double $$2) {
++        double $$3 = $$0.getX() - this.getX();
++        double $$4 = $$0.getY() - this.getY();
++        double $$5 = $$0.getZ() - this.getZ();
++        return Mth.lengthSquared($$3, $$5) < Mth.square($$1) && Mth.square($$4) < Mth.square($$2);
+     }
+
+     protected void setRot(float $$0, float $$1) {
+@@ -588,7 +592,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+             }
+
+             this.onGround = this.verticalCollision && $$1.y < 0.0;
+-            BlockPos $$7 = this.getOnPos();
++            BlockPos $$7 = this.getOnPosLegacy();
+             BlockState $$8 = this.level.getBlockState($$7);
+             this.checkFallDamage($$2.y, this.onGround, $$8, $$7);
+             if (this.isRemoved()) {
+@@ -604,7 +608,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+                     $$10.updateEntityAfterFallOn(this.level, this);
+                 }
+
+-                if (this.onGround && !this.isSteppingCarefully()) {
++                if (this.onGround) {
+                     $$10.stepOn(this.level, $$7, $$8, this);
+                 }
+
+@@ -614,7 +618,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+                     double $$13 = $$2.y;
+                     double $$14 = $$2.z;
+                     this.flyDist = this.flyDist + (float)($$2.length() * 0.6);
+-                    if (!$$8.is(BlockTags.CLIMBABLE) && !$$8.is(Blocks.POWDER_SNOW)) {
++                    boolean $$15 = $$8.is(BlockTags.CLIMBABLE) || $$8.is(Blocks.POWDER_SNOW);
++                    if (!$$15) {
+                         $$13 = 0.0;
+                     }
+
+@@ -624,11 +629,11 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+                         this.nextStep = this.nextStep();
+                         if (this.isInWater()) {
+                             if ($$11.emitsSounds()) {
+-                                Entity $$15 = this.isVehicle() && this.getControllingPassenger() != null ? this.getControllingPassenger() : this;
+-                                float $$16 = $$15 == this ? 0.35F : 0.4F;
+-                                Vec3 $$17 = $$15.getDeltaMovement();
+-                                float $$18 = Math.min(1.0F, (float)Math.sqrt($$17.x * $$17.x * 0.2F + $$17.y * $$17.y + $$17.z * $$17.z * 0.2F) * $$16);
+-                                this.playSwimSound($$18);
++                                Entity $$16 = this.isVehicle() && this.getControllingPassenger() != null ? this.getControllingPassenger() : this;
++                                float $$17 = $$16 == this ? 0.35F : 0.4F;
++                                Vec3 $$18 = $$16.getDeltaMovement();
++                                float $$19 = Math.min(1.0F, (float)Math.sqrt($$18.x * $$18.x * 0.2F + $$18.y * $$18.y + $$18.z * $$18.z * 0.2F) * $$17);
++                                this.playSwimSound($$19);
+                             }
+
+                             if ($$11.emitsEvents()) {
+@@ -640,8 +645,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+                                 this.playStepSound($$7, $$8);
+                             }
+
+-                            if ($$11.emitsEvents() && !$$8.is(BlockTags.OCCLUDES_VIBRATION_SIGNALS)) {
+-                                this.gameEvent(GameEvent.STEP);
++                            if ($$11.emitsEvents() && (this.onGround || $$1.y == 0.0 || this.isInPowderSnow || $$15)) {
++                                this.level.gameEvent(GameEvent.STEP, this.position, GameEvent.Context.of(this.getResponsibleEntity(), this.getBlockStateOn()));
+                             }
+                         }
+                     } else if ($$8.isAir()) {
+@@ -650,8 +655,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+                 }
+
+                 this.tryCheckInsideBlocks();
+-                float $$19 = this.getBlockSpeedFactor();
+-                this.setDeltaMovement(this.getDeltaMovement().multiply($$19, 1.0, $$19));
++                float $$20 = this.getBlockSpeedFactor();
++                this.setDeltaMovement(this.getDeltaMovement().multiply($$20, 1.0, $$20));
+                 if (this.level.getBlockStatesIfLoaded(this.getBoundingBox().deflate(1.0E-6)).noneMatch($$0x -> $$0x.is(BlockTags.FIRE) || $$0x.is(Blocks.LAVA))
+                     )
+                  {
+@@ -701,20 +706,29 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         }
+     }
+
++    @Deprecated
++    public BlockPos getOnPosLegacy() {
++        return this.getOnPos(0.2F);
++    }
++
+     public BlockPos getOnPos() {
+-        int $$0 = Mth.floor(this.position.x);
+-        int $$1 = Mth.floor(this.position.y - 0.2F);
+-        int $$2 = Mth.floor(this.position.z);
+-        BlockPos $$3 = new BlockPos($$0, $$1, $$2);
+-        if (this.level.getBlockState($$3).isAir()) {
+-            BlockPos $$4 = $$3.below();
+-            BlockState $$5 = this.level.getBlockState($$4);
+-            if ($$5.is(BlockTags.FENCES) || $$5.is(BlockTags.WALLS) || $$5.getBlock() instanceof FenceGateBlock) {
+-                return $$4;
++        return this.getOnPos(1.0E-5F);
++    }
++
++    private BlockPos getOnPos(float $$0) {
++        int $$1 = Mth.floor(this.position.x);
++        int $$2 = Mth.floor(this.position.y - $$0);
++        int $$3 = Mth.floor(this.position.z);
++        BlockPos $$4 = new BlockPos($$1, $$2, $$3);
++        if (this.level.getBlockState($$4).isAir()) {
++            BlockPos $$5 = $$4.below();
++            BlockState $$6 = this.level.getBlockState($$5);
++            if ($$6.is(BlockTags.FENCES) || $$6.is(BlockTags.WALLS) || $$6.getBlock() instanceof FenceGateBlock) {
++                return $$5;
+             }
+         }
+
+-        return $$3;
++        return $$4;
+     }
+
+     protected float getBlockJumpFactor() {
+@@ -900,20 +914,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     protected void onInsideBlock(BlockState $$0) {
+     }
+
+-    public void gameEvent(GameEvent $$0, @Nullable Entity $$1, BlockPos $$2) {
+-        this.level.gameEvent($$1, $$0, $$2);
+-    }
+-
+     public void gameEvent(GameEvent $$0, @Nullable Entity $$1) {
+-        this.gameEvent($$0, $$1, this.blockPosition);
+-    }
+-
+-    public void gameEvent(GameEvent $$0, BlockPos $$1) {
+-        this.gameEvent($$0, this, $$1);
++        this.level.gameEvent($$1, $$0, this.position);
+     }
+
+     public void gameEvent(GameEvent $$0) {
+-        this.gameEvent($$0, this.blockPosition);
++        this.gameEvent($$0, this);
+     }
+
+     protected void playStepSound(BlockPos $$0, BlockState $$1) {
+@@ -952,6 +958,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         }
+     }
+
++    public void playSound(SoundEvent $$0) {
++        if (!this.isSilent()) {
++            this.playSound($$0, 1.0F, 1.0F);
++        }
++    }
++
+     public boolean isSilent() {
+         return this.entityData.get(DATA_SILENT);
+     }
+@@ -972,7 +984,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         return Entity.MovementEmission.ALL;
+     }
+
+-    public boolean occludesVibrations() {
++    public boolean dampensVibrations() {
+         return false;
+     }
+
+@@ -980,9 +992,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         if ($$1) {
+             if (this.fallDistance > 0.0F) {
+                 $$2.getBlock().fallOn(this.level, $$2, $$3, this, this.fallDistance);
+-                if (!$$2.is(BlockTags.OCCLUDES_VIBRATION_SIGNALS)) {
+-                    this.gameEvent(GameEvent.HIT_GROUND);
+-                }
++                this.level.gameEvent(GameEvent.HIT_GROUND, this.position, GameEvent.Context.of(this.getResponsibleEntity(), this.getBlockStateOn()));
+             }
+
+             this.resetFallDistance();
+@@ -991,6 +1001,11 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         }
+     }
+
++    @Nullable
++    public Entity getResponsibleEntity() {
++        return this;
++    }
++
+     public boolean fireImmune() {
+         return this.getType().fireImmune();
+     }
+@@ -1034,6 +1049,10 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         return this.wasEyeInWater && this.isInWater();
+     }
+
++    public ChatSender asChatSender() {
++        return new ChatSender(this.getUUID(), this.getDisplayName());
++    }
++
+     public void updateSwimming() {
+         if (this.isSwimming()) {
+             this.setSwimming(this.isSprinting() && this.isInWater() && !this.isPassenger());
+@@ -1111,7 +1130,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         this.gameEvent(GameEvent.SPLASH);
+     }
+
+-    protected BlockState getBlockStateOn() {
++    @Deprecated
++    protected BlockState getBlockStateOnLegacy() {
++        return this.level.getBlockState(this.getOnPosLegacy());
++    }
++
++    public BlockState getBlockStateOn() {
+         return this.level.getBlockState(this.getOnPos());
+     }
+
+@@ -1165,9 +1189,10 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         return new Vec3($$4.x * $$6 - $$4.z * $$5, $$4.y, $$4.z * $$6 + $$4.x * $$5);
+     }
+
+-    public float getBrightness() {
++    @Deprecated
++    public float getLightLevelDependentMagicValue() {
+         return this.level.hasChunkAt(this.getBlockX(), this.getBlockZ())
+-            ? this.level.getBrightness(new BlockPos(this.getX(), this.getEyeY(), this.getZ()))
++            ? this.level.getLightLevelDependentMagicValue(new BlockPos(this.getX(), this.getEyeY(), this.getZ()))
+             : 0.0F;
+     }
+
+@@ -1269,11 +1294,11 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+                     $$2 *= $$4;
+                     $$1 *= 0.05F;
+                     $$2 *= 0.05F;
+-                    if (!this.isVehicle()) {
++                    if (!this.isVehicle() && this.isPushable()) {
+                         this.push(-$$1, 0.0, -$$2);
+                     }
+
+-                    if (!$$0.isVehicle()) {
++                    if (!$$0.isVehicle() && $$0.isPushable()) {
+                         $$0.push($$1, 0.0, $$2);
+                     }
+                 }
+@@ -1953,7 +1978,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     }
+
+     public boolean isCrouching() {
+-        return this.getPose() == Pose.CROUCHING;
++        return this.hasPose(Pose.CROUCHING);
+     }
+
+     public boolean isSprinting() {
+@@ -1969,7 +1994,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     }
+
+     public boolean isVisuallySwimming() {
+-        return this.getPose() == Pose.SWIMMING;
++        return this.hasPose(Pose.SWIMMING);
+     }
+
+     public boolean isVisuallyCrawling() {
+@@ -2006,9 +2031,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         return $$1 != null && $$0 != null && $$0.getTeam() == $$1 && $$1.canSeeFriendlyInvisibles() ? false : this.isInvisible();
+     }
+
+-    @Nullable
+-    public GameEventListenerRegistrar getGameEventListenerRegistrar() {
+-        return null;
++    public void updateDynamicGameEventListener(BiConsumer<DynamicGameEventListener<?>, ServerLevel> $$0) {
+     }
+
+     @Nullable
+@@ -2108,7 +2131,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         this.resetFallDistance();
+     }
+
+-    public void killed(ServerLevel $$0, LivingEntity $$1) {
++    public boolean wasKilled(ServerLevel $$0, LivingEntity $$1) {
++        return true;
+     }
+
+     public void resetFallDistance() {
+@@ -2222,7 +2246,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     }
+
+     public boolean isInvulnerableTo(DamageSource $$0) {
+-        return this.isRemoved() || this.invulnerable && $$0 != DamageSource.OUT_OF_WORLD && !$$0.isCreativePlayer();
++        return this.isRemoved() || this.invulnerable && $$0 != DamageSource.OUT_OF_WORLD && !$$0.isCreativePlayer() || $$0.isFire() && this.fireImmune();
+     }
+
+     public boolean isInvulnerable() {
+@@ -2550,7 +2574,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     }
+
+     @Override
+-    public void sendMessage(Component $$0, UUID $$1) {
++    public void sendSystemMessage(Component $$0) {
+     }
+
+     public Level getCommandSenderWorld() {
+@@ -2619,6 +2643,10 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         return null;
+     }
+
++    public final boolean hasControllingPassenger() {
++        return this.getControllingPassenger() != null;
++    }
++
+     public final List<Entity> getPassengers() {
+         return this.passengers;
+     }
+@@ -2868,6 +2896,10 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         return this.position;
+     }
+
++    public Vec3 trackingPosition() {
++        return this.position();
++    }
++
+     @Override
+     public BlockPos blockPosition() {
+         return this.blockPosition;
+@@ -2881,10 +2913,6 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         return this.feetBlockState;
+     }
+
+-    public BlockPos eyeBlockPosition() {
+-        return new BlockPos(this.getEyePosition(1.0F));
+-    }
+-
+     public ChunkPos chunkPosition() {
+         return this.chunkPosition;
+     }
+@@ -2968,10 +2996,6 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+             }
+
+             this.levelCallback.onMove();
+-            GameEventListenerRegistrar $$6 = this.getGameEventListenerRegistrar();
+-            if ($$6 != null) {
+-                $$6.onListenerMove(this.level);
+-            }
+         }
+     }
+
+@@ -2987,10 +3011,10 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         double $$2 = $$0.getX();
+         double $$3 = $$0.getY();
+         double $$4 = $$0.getZ();
+-        this.setPacketCoordinates($$2, $$3, $$4);
++        this.syncPacketPositionCodec($$2, $$3, $$4);
+         this.moveTo($$2, $$3, $$4);
+-        this.setXRot($$0.getxRot() * 360 / 256.0F);
+-        this.setYRot($$0.getyRot() * 360 / 256.0F);
++        this.setXRot($$0.getXRot());
++        this.setYRot($$0.getYRot());
+         this.setId($$1);
+         this.setUUID($$0.getUUID());
+     }
+@@ -3016,6 +3040,10 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         return this.yRot;
+     }
+
++    public float getVisualRotationYInDegrees() {
++        return this.getYRot();
++    }
++
+     public void setYRot(float $$0) {
+         if (!Float.isFinite($$0)) {
+             Util.logAndPauseIfInIde("Invalid entity rotation: " + $$0 + ", discarding.");
+### 1.18.2 -> 1.19 net/minecraft/client/player/Input.java
+diff --git "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.18.2\\mojmap\\net\\minecraft\\client\\player\\Input.java" "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19\\mojmap\\net\\minecraft\\client\\player\\Input.java"
+index 2e15a93b..3eb08e76 100644
+--- "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.18.2\\mojmap\\net\\minecraft\\client\\player\\Input.java"
++++ "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19\\mojmap\\net\\minecraft\\client\\player\\Input.java"
+@@ -12,7 +12,7 @@ public class Input {
+     public boolean jumping;
+     public boolean shiftKeyDown;
+
+-    public void tick(boolean $$0) {
++    public void tick(boolean $$0, float $$1) {
+     }
+
+     public Vec2 getMoveVector() {
+### 1.18.2 -> 1.19 net/minecraft/client/player/KeyboardInput.java
+diff --git "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.18.2\\mojmap\\net\\minecraft\\client\\player\\KeyboardInput.java" "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19\\mojmap\\net\\minecraft\\client\\player\\KeyboardInput.java"
+index 24940407..dbf1e1fb 100644
+--- "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.18.2\\mojmap\\net\\minecraft\\client\\player\\KeyboardInput.java"
++++ "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19\\mojmap\\net\\minecraft\\client\\player\\KeyboardInput.java"
+@@ -4,7 +4,6 @@ import net.minecraft.client.Options;
+
+ public class KeyboardInput extends Input {
+     private final Options options;
+-    private static final float MOVING_SLOW_FACTOR = 0.3F;
+
+     public KeyboardInput(Options $$0) {
+         this.options = $$0;
+@@ -19,7 +18,7 @@ public class KeyboardInput extends Input {
+     }
+
+     @Override
+-    public void tick(boolean $$0) {
++    public void tick(boolean $$0, float $$1) {
+         this.up = this.options.keyUp.isDown();
+         this.down = this.options.keyDown.isDown();
+         this.left = this.options.keyLeft.isDown();
+@@ -29,8 +28,8 @@ public class KeyboardInput extends Input {
+         this.jumping = this.options.keyJump.isDown();
+         this.shiftKeyDown = this.options.keyShift.isDown();
+         if ($$0) {
+-            this.leftImpulse *= 0.3F;
+-            this.forwardImpulse *= 0.3F;
++            this.leftImpulse *= $$1;
++            this.forwardImpulse *= $$1;
+         }
+     }
+ }

@@ -1,0 +1,2189 @@
+### 1.18.2->1.19 net/minecraft/core/cauldron/CauldronInteraction.java
+@@ -11,6 +11,7 @@ import net.minecraft.sounds.SoundSource;
++import net.minecraft.world.entity.Entity;
+@@ -31,248 +32,248 @@ import net.minecraft.world.level.gameevent.GameEvent;
+-                $$1.gameEvent(null, GameEvent.FLUID_PLACE, $$2);
++                $$1.gameEvent((Entity)null, GameEvent.FLUID_PLACE, $$2);
+-                $$1.gameEvent(null, GameEvent.FLUID_PICKUP, $$2);
++                $$1.gameEvent((Entity)null, GameEvent.FLUID_PICKUP, $$2);
+-                    $$1.gameEvent(null, GameEvent.FLUID_PLACE, $$2);
++                    $$1.gameEvent((Entity)null, GameEvent.FLUID_PLACE, $$2);
+-            $$1.gameEvent(null, GameEvent.FLUID_PICKUP, $$2);
++            $$1.gameEvent((Entity)null, GameEvent.FLUID_PICKUP, $$2);
+-            $$0.gameEvent(null, GameEvent.FLUID_PLACE, $$1);
++            $$0.gameEvent((Entity)null, GameEvent.FLUID_PLACE, $$1);
+### 1.18.2->1.19 net/minecraft/core/DefaultedRegistry.java
+@@ -2,70 +2,70 @@ package net.minecraft.core;
+-import java.util.Random;
++import net.minecraft.util.RandomSource;
+-    public Optional<Holder<T>> getRandom(Random $$0) {
++    public Optional<Holder<T>> getRandom(RandomSource $$0) {
+### 1.18.2->1.19 net/minecraft/core/dispenser/BoatDispenseItemBehavior.java
+@@ -5,6 +5,7 @@ import net.minecraft.core.BlockSource;
++import net.minecraft.world.entity.vehicle.ChestBoat;
+@@ -12,40 +13,46 @@ import net.minecraft.world.level.block.DispenserBlock;
++    private final boolean isChestBoat;
++        this($$0, false);
++    }
++
++    public BoatDispenseItemBehavior(Boat.Type $$0, boolean $$1) {
++        this.isChestBoat = $$1;
+-        Boat $$11 = new Boat($$3, $$4, $$5 + $$8, $$6);
++        Boat $$11 = this.isChestBoat ? new ChestBoat($$3, $$4, $$5 + $$8, $$6) : new Boat($$3, $$4, $$5 + $$8, $$6);
+### 1.18.2->1.19 net/minecraft/core/dispenser/DefaultDispenseItemBehavior.java
+@@ -11,45 +11,45 @@ import net.minecraft.world.level.block.DispenserBlock;
+-            $$0.random.nextGaussian() * 0.0075F * $$2 + $$3.getStepX() * $$9,
+-            $$0.random.nextGaussian() * 0.0075F * $$2 + 0.2F,
+-            $$0.random.nextGaussian() * 0.0075F * $$2 + $$3.getStepZ() * $$9
++            $$0.random.triangle($$3.getStepX() * $$9, 0.0172275 * $$2),
++            $$0.random.triangle(0.2, 0.0172275 * $$2),
++            $$0.random.triangle($$3.getStepZ() * $$9, 0.0172275 * $$2)
+### 1.18.2->1.19 net/minecraft/core/dispenser/DispenseItemBehavior.java
+@@ -3,17 +3,18 @@ package net.minecraft.core.dispenser;
+-import java.util.Random;
++import net.minecraft.core.particles.ParticleTypes;
++import net.minecraft.util.RandomSource;
+@@ -75,536 +76,586 @@ import org.slf4j.Logger;
+-                $$0.getLevel().gameEvent(GameEvent.ENTITY_PLACE, $$0.getPos());
++                $$0.getLevel().gameEvent(null, GameEvent.ENTITY_PLACE, $$0.getPos());
+-                Random $$8 = $$7.random;
+-                double $$9 = $$8.nextGaussian() * 0.05 + $$2.getStepX();
+-                double $$10 = $$8.nextGaussian() * 0.05 + $$2.getStepY();
+-                double $$11 = $$8.nextGaussian() * 0.05 + $$2.getStepZ();
++                RandomSource $$8 = $$7.random;
++                double $$9 = $$8.triangle($$2.getStepX(), 0.11485000000000001);
++                double $$10 = $$8.triangle($$2.getStepY(), 0.11485000000000001);
++                double $$11 = $$8.triangle($$2.getStepZ(), 0.11485000000000001);
++        DispenserBlock.registerBehavior(Items.MANGROVE_BOAT, new BoatDispenseItemBehavior(Boat.Type.MANGROVE));
++        DispenserBlock.registerBehavior(Items.OAK_CHEST_BOAT, new BoatDispenseItemBehavior(Boat.Type.OAK, true));
++        DispenserBlock.registerBehavior(Items.SPRUCE_CHEST_BOAT, new BoatDispenseItemBehavior(Boat.Type.SPRUCE, true));
++        DispenserBlock.registerBehavior(Items.BIRCH_CHEST_BOAT, new BoatDispenseItemBehavior(Boat.Type.BIRCH, true));
++        DispenserBlock.registerBehavior(Items.JUNGLE_CHEST_BOAT, new BoatDispenseItemBehavior(Boat.Type.JUNGLE, true));
++        DispenserBlock.registerBehavior(Items.DARK_OAK_CHEST_BOAT, new BoatDispenseItemBehavior(Boat.Type.DARK_OAK, true));
++        DispenserBlock.registerBehavior(Items.ACACIA_CHEST_BOAT, new BoatDispenseItemBehavior(Boat.Type.ACACIA, true));
++        DispenserBlock.registerBehavior(Items.MANGROVE_CHEST_BOAT, new BoatDispenseItemBehavior(Boat.Type.MANGROVE, true));
++        DispenserBlock.registerBehavior(Items.TADPOLE_BUCKET, $$3);
+-                    $$2.gameEvent(null, GameEvent.BLOCK_PLACE, $$4);
++                    $$2.gameEvent((Entity)null, GameEvent.BLOCK_PLACE, $$4);
+-                    $$2.gameEvent(null, GameEvent.BLOCK_CHANGE, $$4);
++                    $$2.gameEvent((Entity)null, GameEvent.BLOCK_CHANGE, $$4);
+-                $$2.gameEvent(null, GameEvent.ENTITY_PLACE, $$3);
++                $$2.gameEvent((Entity)null, GameEvent.ENTITY_PLACE, $$3);
+-                        $$2.gameEvent(null, GameEvent.BLOCK_PLACE, $$4);
++                        $$2.gameEvent((Entity)null, GameEvent.BLOCK_PLACE, $$4);
+-                        $$2.gameEvent(null, GameEvent.BLOCK_PLACE, $$3);
++                        $$2.gameEvent((Entity)null, GameEvent.BLOCK_PLACE, $$3);
++        DispenserBlock.registerBehavior(
++            Items.POTION,
++            new DefaultDispenseItemBehavior() {
++                private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
++
++                @Override
++                public ItemStack execute(BlockSource $$0, ItemStack $$1) {
++                    if (PotionUtils.getPotion($$1) != Potions.WATER) {
++                        return this.defaultDispenseItemBehavior.dispense($$0, $$1);
++                    }
++
++                    ServerLevel $$2 = $$0.getLevel();
++                    BlockPos $$3 = $$0.getPos();
++                    BlockPos $$4 = $$0.getPos().relative($$0.getBlockState().getValue(DispenserBlock.FACING));
++                    if (!$$2.getBlockState($$4).is(BlockTags.CONVERTABLE_TO_MUD)) {
++                        return this.defaultDispenseItemBehavior.dispense($$0, $$1);
++                    }
++
++                    if (!$$2.isClientSide) {
++                        for (int $$5 = 0; $$5 < 5; $$5++) {
++                            $$2.sendParticles(
++                                ParticleTypes.SPLASH,
++                                $$3.getX() + $$2.random.nextDouble(),
++                                $$3.getY() + 1,
++                                $$3.getZ() + $$2.random.nextDouble(),
++                                1,
++                                0.0,
++                                0.0,
++                                0.0,
++                                1.0
++                            );
++                        }
++                    }
++
++                    $$2.playSound(null, $$3, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
++                    $$2.gameEvent(null, GameEvent.FLUID_PLACE, $$3);
++                    $$2.setBlockAndUpdate($$4, Blocks.MUD.defaultBlockState());
++                    return new ItemStack(Items.GLASS_BOTTLE);
++                }
++            }
++        );
+### 1.18.2->1.19 net/minecraft/core/HolderLookup.java
+### 1.18.2->1.19 net/minecraft/core/HolderSet.java
+@@ -4,160 +4,160 @@ import com.mojang.datafixers.util.Either;
+-import java.util.Random;
++import net.minecraft.util.RandomSource;
+-    Optional<Holder<T>> getRandomElement(Random random);
++    Optional<Holder<T>> getRandomElement(RandomSource randomSource);
+-        public Optional<Holder<T>> getRandomElement(Random $$0) {
++        public Optional<Holder<T>> getRandomElement(RandomSource $$0) {
+### 1.18.2->1.19 net/minecraft/core/MappedRegistry.java
+@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
++import com.mojang.serialization.DataResult;
+@@ -20,7 +21,6 @@ import java.util.Map;
+-import java.util.Random;
+@@ -31,350 +31,375 @@ import net.minecraft.Util;
++import net.minecraft.util.RandomSource;
+-    public Holder<T> getOrCreateHolder(ResourceKey<T> $$0) {
++    public Holder<T> getOrCreateHolderOrThrow(ResourceKey<T> $$0) {
++    @Override
++    public DataResult<Holder<T>> getOrCreateHolder(ResourceKey<T> $$0) {
++        Holder.Reference<T> $$1 = (Holder.Reference<T>)this.byKey.get($$0);
++        if ($$1 == null) {
++            if (this.customHolderProvider != null) {
++                return DataResult.error("This registry can't create new holders without value (requested key: " + $$0 + ")");
++            }
++
++            if (this.frozen) {
++                return DataResult.error("Registry is already frozen (requested key: " + $$0 + ")");
++            }
++
++            $$1 = Holder.Reference.createStandAlone(this, $$0);
++            this.byKey.put($$0, $$1);
++        }
++
++        return DataResult.success($$1);
++    }
++
++    @Override
++    public Set<ResourceKey<T>> registryKeySet() {
++        return Collections.unmodifiableSet(this.byKey.keySet());
++    }
++
+-    public Optional<Holder<T>> getRandom(Random $$0) {
++    public Optional<Holder<T>> getRandom(RandomSource $$0) {
+### 1.18.2->1.19 net/minecraft/core/particles/BlockParticleOption.java
+@@ -12,42 +12,42 @@ import net.minecraft.world.level.block.state.BlockState;
+-            return new BlockParticleOption($$0, new BlockStateParser($$1, false).parse(false).getState());
++            return new BlockParticleOption($$0, BlockStateParser.parseForBlock(Registry.BLOCK, $$1, false).blockState());
+-            return new BlockParticleOption($$0, Block.BLOCK_STATE_REGISTRY.byId($$1.readVarInt()));
++            return new BlockParticleOption($$0, $$1.readById(Block.BLOCK_STATE_REGISTRY));
+-        $$0.writeVarInt(Block.BLOCK_STATE_REGISTRY.getId(this.state));
++        $$0.writeId(Block.BLOCK_STATE_REGISTRY, this.state);
+### 1.18.2->1.19 net/minecraft/core/particles/ItemParticleOption.java
+@@ -5,6 +5,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
++import net.minecraft.core.HolderLookup;
+@@ -12,44 +13,44 @@ import net.minecraft.world.item.ItemStack;
+-            ItemParser $$2 = new ItemParser($$1, false).parse();
+-            ItemStack $$3 = new ItemInput($$2.getItem(), $$2.getNbt()).createItemStack(1, false);
++            ItemParser.ItemResult $$2 = ItemParser.parseForItem(HolderLookup.forRegistry(Registry.ITEM), $$1);
++            ItemStack $$3 = new ItemInput($$2.item(), $$2.nbt()).createItemStack(1, false);
+-        return Registry.PARTICLE_TYPE.getKey(this.getType()) + " " + new ItemInput(this.itemStack.getItem(), this.itemStack.getTag()).serialize();
++        return Registry.PARTICLE_TYPE.getKey(this.getType()) + " " + new ItemInput(this.itemStack.getItemHolder(), this.itemStack.getTag()).serialize();
+### 1.18.2->1.19 net/minecraft/core/particles/ParticleTypes.java
+@@ -7,110 +7,123 @@ import net.minecraft.core.Registry;
+-    public static final ParticleType<BlockParticleOption> BLOCK = register("block", BlockParticleOption.DESERIALIZER, BlockParticleOption::codec);
+-    public static final ParticleType<BlockParticleOption> BLOCK_MARKER = register("block_marker", BlockParticleOption.DESERIALIZER, BlockParticleOption::codec);
++    public static final ParticleType<BlockParticleOption> BLOCK = register("block", false, BlockParticleOption.DESERIALIZER, BlockParticleOption::codec);
++    public static final ParticleType<BlockParticleOption> BLOCK_MARKER = register(
++        "block_marker", false, BlockParticleOption.DESERIALIZER, BlockParticleOption::codec
++    );
+-    public static final ParticleType<DustParticleOptions> DUST = register("dust", DustParticleOptions.DESERIALIZER, $$0 -> DustParticleOptions.CODEC);
++    public static final ParticleType<DustParticleOptions> DUST = register("dust", false, DustParticleOptions.DESERIALIZER, $$0 -> DustParticleOptions.CODEC);
+-        "dust_color_transition", DustColorTransitionOptions.DESERIALIZER, $$0 -> DustColorTransitionOptions.CODEC
++        "dust_color_transition", false, DustColorTransitionOptions.DESERIALIZER, $$0 -> DustColorTransitionOptions.CODEC
+-    public static final ParticleType<BlockParticleOption> FALLING_DUST = register("falling_dust", BlockParticleOption.DESERIALIZER, BlockParticleOption::codec);
++    public static final SimpleParticleType SONIC_BOOM = register("sonic_boom", true);
++    public static final ParticleType<BlockParticleOption> FALLING_DUST = register(
++        "falling_dust", false, BlockParticleOption.DESERIALIZER, BlockParticleOption::codec
++    );
++    public static final SimpleParticleType SCULK_SOUL = register("sculk_soul", false);
++    public static final ParticleType<SculkChargeParticleOptions> SCULK_CHARGE = register(
++        "sculk_charge", true, SculkChargeParticleOptions.DESERIALIZER, $$0 -> SculkChargeParticleOptions.CODEC
++    );
++    public static final SimpleParticleType SCULK_CHARGE_POP = register("sculk_charge_pop", true);
+-    public static final ParticleType<ItemParticleOption> ITEM = register("item", ItemParticleOption.DESERIALIZER, ItemParticleOption::codec);
++    public static final ParticleType<ItemParticleOption> ITEM = register("item", false, ItemParticleOption.DESERIALIZER, ItemParticleOption::codec);
+-        "vibration", VibrationParticleOption.DESERIALIZER, $$0 -> VibrationParticleOption.CODEC
++        "vibration", true, VibrationParticleOption.DESERIALIZER, $$0 -> VibrationParticleOption.CODEC
++    public static final ParticleType<ShriekParticleOption> SHRIEK = register(
++        "shriek", false, ShriekParticleOption.DESERIALIZER, $$0 -> ShriekParticleOption.CODEC
++    );
+-        String $$0, ParticleOptions.Deserializer<T> $$1, Function<ParticleType<T>, Codec<T>> $$2
++        String $$0, boolean $$1, ParticleOptions.Deserializer<T> $$2, Function<ParticleType<T>, Codec<T>> $$3
+-        return Registry.register(Registry.PARTICLE_TYPE, $$0, new ParticleType<T>(false, $$1) {
++        return Registry.register(Registry.PARTICLE_TYPE, $$0, new ParticleType<T>($$1, $$2) {
+-                return (Codec<T>)$$2.apply(this);
++                return (Codec<T>)$$3.apply(this);
+### 1.18.2->1.19 net/minecraft/core/particles/SculkChargeParticleOptions.java
+### 1.18.2->1.19 net/minecraft/core/particles/ShriekParticleOption.java
+### 1.18.2->1.19 net/minecraft/core/particles/VibrationParticleOption.java
+@@ -9,75 +9,71 @@ import net.minecraft.core.BlockPos;
+-import net.minecraft.world.level.gameevent.vibrations.VibrationPath;
++import net.minecraft.world.level.gameevent.PositionSource;
++import net.minecraft.world.level.gameevent.PositionSourceType;
++import net.minecraft.world.phys.Vec3;
+-        $$0 -> $$0.group(VibrationPath.CODEC.fieldOf("vibration").forGetter($$0x -> $$0x.vibrationPath)).apply($$0, VibrationParticleOption::new)
++        $$0 -> $$0.group(
++                PositionSource.CODEC.fieldOf("destination").forGetter($$0x -> $$0x.destination),
++                Codec.INT.fieldOf("arrival_in_ticks").forGetter($$0x -> $$0x.arrivalInTicks)
++            )
++            .apply($$0, VibrationParticleOption::new)
+-            float $$5 = (float)$$1.readDouble();
+-            $$1.expect(' ');
+-            float $$6 = (float)$$1.readDouble();
+-            $$1.expect(' ');
+-            float $$7 = (float)$$1.readDouble();
+-            $$1.expect(' ');
+-            int $$8 = $$1.readInt();
+-            BlockPos $$9 = new BlockPos($$2, $$3, $$4);
+-            BlockPos $$10 = new BlockPos($$5, $$6, $$7);
+-            return new VibrationParticleOption(new VibrationPath($$9, new BlockPositionSource($$10), $$8));
++            int $$5 = $$1.readInt();
++            BlockPos $$6 = new BlockPos($$2, $$3, $$4);
++            return new VibrationParticleOption(new BlockPositionSource($$6), $$5);
+-            VibrationPath $$2 = VibrationPath.read($$1);
+-            return new VibrationParticleOption($$2);
++            PositionSource $$2 = PositionSourceType.fromNetwork($$1);
++            int $$3 = $$1.readVarInt();
++            return new VibrationParticleOption($$2, $$3);
+-    private final VibrationPath vibrationPath;
++    private final PositionSource destination;
++    private final int arrivalInTicks;
+-    public VibrationParticleOption(VibrationPath $$0) {
+-        this.vibrationPath = $$0;
++    public VibrationParticleOption(PositionSource $$0, int $$1) {
++        this.destination = $$0;
++        this.arrivalInTicks = $$1;
+-        VibrationPath.write($$0, this.vibrationPath);
++        PositionSourceType.toNetwork(this.destination, $$0);
++        $$0.writeVarInt(this.arrivalInTicks);
+-        BlockPos $$0 = this.vibrationPath.getOrigin();
+-        double $$1 = $$0.getX();
+-        double $$2 = $$0.getY();
+-        double $$3 = $$0.getZ();
+-        return String.format(
+-            Locale.ROOT,
+-            "%s %.2f %.2f %.2f %.2f %.2f %.2f %d",
+-            Registry.PARTICLE_TYPE.getKey(this.getType()),
+-            $$1,
+-            $$2,
+-            $$3,
+-            $$1,
+-            $$2,
+-            $$3,
+-            this.vibrationPath.getArrivalInTicks()
+-        );
++        Vec3 $$0 = (Vec3)this.destination.getPosition(null).get();
++        double $$1 = $$0.x();
++        double $$2 = $$0.y();
++        double $$3 = $$0.z();
++        return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %d", Registry.PARTICLE_TYPE.getKey(this.getType()), $$1, $$2, $$3, this.arrivalInTicks);
+-    public VibrationPath getVibrationPath() {
+-        return this.vibrationPath;
++    public PositionSource getDestination() {
++        return this.destination;
++    }
++
++    public int getArrivalInTicks() {
++        return this.arrivalInTicks;
+### 1.18.2->1.19 net/minecraft/core/Registry.java
+@@ -13,7 +13,6 @@ import java.util.Iterator;
+-import java.util.Random;
+@@ -22,9 +21,12 @@ import java.util.stream.Stream;
++import net.minecraft.commands.synchronization.ArgumentTypeInfo;
++import net.minecraft.commands.synchronization.ArgumentTypeInfos;
++import net.minecraft.network.chat.ChatType;
+@@ -34,6 +36,7 @@ import net.minecraft.stats.StatType;
++import net.minecraft.util.RandomSource;
+@@ -44,12 +47,18 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
+-import net.minecraft.world.entity.decoration.Motive;
++import net.minecraft.world.entity.ai.village.poi.PoiTypes;
++import net.minecraft.world.entity.animal.CatVariant;
++import net.minecraft.world.entity.animal.FrogVariant;
++import net.minecraft.world.entity.decoration.PaintingVariant;
++import net.minecraft.world.entity.decoration.PaintingVariants;
++import net.minecraft.world.item.Instrument;
++import net.minecraft.world.item.Instruments;
+@@ -61,10 +70,14 @@ import net.minecraft.world.item.enchantment.Enchantments;
++import net.minecraft.world.level.biome.BiomeSources;
++import net.minecraft.world.level.block.entity.BannerPattern;
++import net.minecraft.world.level.block.entity.BannerPatterns;
++import net.minecraft.world.level.chunk.ChunkGenerators;
+@@ -78,18 +91,21 @@ import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicateType;
+-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
+-import net.minecraft.world.level.levelgen.feature.StructureFeature;
++import net.minecraft.world.level.levelgen.feature.rootplacers.RootPlacerType;
++import net.minecraft.world.level.levelgen.flat.FlatLevelGeneratorPreset;
++import net.minecraft.world.level.levelgen.presets.WorldPreset;
++import net.minecraft.world.level.levelgen.structure.Structure;
++import net.minecraft.world.level.levelgen.structure.StructureType;
+@@ -119,445 +135,460 @@ import org.slf4j.Logger;
+-    public static final ResourceKey<Registry<Motive>> MOTIVE_REGISTRY = createRegistryKey("motive");
++    public static final ResourceKey<Registry<PaintingVariant>> PAINTING_VARIANT_REGISTRY = createRegistryKey("painting_variant");
++    public static final ResourceKey<Registry<ArgumentTypeInfo<?, ?>>> COMMAND_ARGUMENT_TYPE_REGISTRY = createRegistryKey("command_argument_type");
+-    public static final DefaultedRegistry<Motive> MOTIVE = registerDefaulted(MOTIVE_REGISTRY, "kebab", $$0 -> Motive.KEBAB);
++    public static final DefaultedRegistry<PaintingVariant> PAINTING_VARIANT = registerDefaulted(PAINTING_VARIANT_REGISTRY, "kebab", PaintingVariants::bootstrap);
++    public static final Registry<ArgumentTypeInfo<?, ?>> COMMAND_ARGUMENT_TYPE = registerSimple(COMMAND_ARGUMENT_TYPE_REGISTRY, ArgumentTypeInfos::bootstrap);
+-    public static final DefaultedRegistry<PoiType> POINT_OF_INTEREST_TYPE = registerDefaulted(
+-        POINT_OF_INTEREST_TYPE_REGISTRY, "unemployed", $$0 -> PoiType.UNEMPLOYED
+-    );
++    public static final Registry<PoiType> POINT_OF_INTEREST_TYPE = registerSimple(POINT_OF_INTEREST_TYPE_REGISTRY, PoiTypes::bootstrap);
+-    public static final ResourceKey<Registry<ConfiguredStructureFeature<?, ?>>> CONFIGURED_STRUCTURE_FEATURE_REGISTRY = createRegistryKey(
+-        "worldgen/configured_structure_feature"
+-    );
++    public static final ResourceKey<Registry<Structure>> STRUCTURE_REGISTRY = createRegistryKey("worldgen/structure");
++    public static final ResourceKey<Registry<WorldPreset>> WORLD_PRESET_REGISTRY = createRegistryKey("worldgen/world_preset");
++    public static final ResourceKey<Registry<FlatLevelGeneratorPreset>> FLAT_LEVEL_GENERATOR_PRESET_REGISTRY = createRegistryKey(
++        "worldgen/flat_level_generator_preset"
++    );
+-    public static final ResourceKey<Registry<StructureFeature<?>>> STRUCTURE_FEATURE_REGISTRY = createRegistryKey("worldgen/structure_feature");
+-    public static final Registry<StructureFeature<?>> STRUCTURE_FEATURE = registerSimple(STRUCTURE_FEATURE_REGISTRY, $$0 -> StructureFeature.MINESHAFT);
++    public static final ResourceKey<Registry<StructureType<?>>> STRUCTURE_TYPE_REGISTRY = createRegistryKey("worldgen/structure_type");
++    public static final Registry<StructureType<?>> STRUCTURE_TYPES = registerSimple(STRUCTURE_TYPE_REGISTRY, $$0 -> StructureType.JIGSAW);
++    public static final ResourceKey<Registry<RootPlacerType<?>>> ROOT_PLACER_TYPE_REGISTRY = createRegistryKey("worldgen/root_placer_type");
++    public static final Registry<RootPlacerType<?>> ROOT_PLACER_TYPES = registerSimple(ROOT_PLACER_TYPE_REGISTRY, $$0 -> RootPlacerType.MANGROVE_ROOT_PLACER);
+-    public static final Registry<Codec<? extends BiomeSource>> BIOME_SOURCE = registerSimple(
+-        BIOME_SOURCE_REGISTRY, Lifecycle.stable(), $$0 -> BiomeSource.CODEC
+-    );
++    public static final Registry<Codec<? extends BiomeSource>> BIOME_SOURCE = registerSimple(BIOME_SOURCE_REGISTRY, Lifecycle.stable(), BiomeSources::bootstrap);
+-        CHUNK_GENERATOR_REGISTRY, Lifecycle.stable(), $$0 -> ChunkGenerator.CODEC
++        CHUNK_GENERATOR_REGISTRY, Lifecycle.stable(), ChunkGenerators::bootstrap
++    public static final ResourceKey<Registry<ChatType>> CHAT_TYPE_REGISTRY = createRegistryKey("chat_type");
++    public static final ResourceKey<Registry<CatVariant>> CAT_VARIANT_REGISTRY = createRegistryKey("cat_variant");
++    public static final Registry<CatVariant> CAT_VARIANT = registerSimple(CAT_VARIANT_REGISTRY, $$0 -> CatVariant.BLACK);
++    public static final ResourceKey<Registry<FrogVariant>> FROG_VARIANT_REGISTRY = createRegistryKey("frog_variant");
++    public static final Registry<FrogVariant> FROG_VARIANT = registerSimple(FROG_VARIANT_REGISTRY, $$0 -> FrogVariant.TEMPERATE);
++    public static final ResourceKey<Registry<BannerPattern>> BANNER_PATTERN_REGISTRY = createRegistryKey("banner_pattern");
++    public static final Registry<BannerPattern> BANNER_PATTERN = registerSimple(BANNER_PATTERN_REGISTRY, BannerPatterns::bootstrap);
++    public static final ResourceKey<Registry<Instrument>> INSTRUMENT_REGISTRY = createRegistryKey("instrument");
++    public static final Registry<Instrument> INSTRUMENT = registerSimple(INSTRUMENT_REGISTRY, Instruments::bootstrap);
+-    public abstract Optional<Holder<T>> getRandom(Random random);
++    public abstract Set<ResourceKey<T>> registryKeySet();
++
++    public abstract Optional<Holder<T>> getRandom(RandomSource randomSource);
+-    public abstract Holder<T> getOrCreateHolder(ResourceKey<T> resourceKey);
++    public abstract Holder<T> getOrCreateHolderOrThrow(ResourceKey<T> resourceKey);
++
++    public abstract DataResult<Holder<T>> getOrCreateHolder(ResourceKey<T> resourceKey);
+### 1.18.2->1.19 net/minecraft/core/RegistryAccess.java
+@@ -23,6 +23,7 @@ import java.util.stream.Stream;
++import net.minecraft.network.chat.ChatType;
+@@ -34,8 +35,10 @@ import net.minecraft.world.level.levelgen.DensityFunction;
+-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
++import net.minecraft.world.level.levelgen.flat.FlatLevelGeneratorPreset;
++import net.minecraft.world.level.levelgen.presets.WorldPreset;
++import net.minecraft.world.level.levelgen.structure.Structure;
+@@ -45,277 +48,278 @@ import org.slf4j.Logger;
+-        put($$0, Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, ConfiguredStructureFeature.DIRECT_CODEC);
++        put($$0, Registry.STRUCTURE_REGISTRY, Structure.DIRECT_CODEC);
++        put($$0, Registry.CHAT_TYPE_REGISTRY, ChatType.CODEC, ChatType.CODEC);
++        put($$0, Registry.WORLD_PRESET_REGISTRY, WorldPreset.DIRECT_CODEC);
++        put($$0, Registry.FLAT_LEVEL_GENERATOR_PRESET_REGISTRY, FlatLevelGeneratorPreset.DIRECT_CODEC);
+-            if (!((ResourceKey)$$2.getKey()).equals(Registry.DIMENSION_TYPE_REGISTRY)) {
+-                addBuiltinElements($$1, (RegistryAccess.RegistryData)$$2.getValue());
+-            }
++            addBuiltinElements($$1, (RegistryAccess.RegistryData)$$2.getValue());
+-        return DimensionType.registerBuiltin($$0);
++        return $$0;
+### 1.18.2->1.19 net/minecraft/core/RegistryCodecs.java
+@@ -19,99 +19,95 @@ import net.minecraft.resources.RegistryFixedCodec;
+-import net.minecraft.resources.ResourceLocation;
+-                    ResourceLocation.CODEC
+-                        .xmap(ResourceKey.elementKey($$0), ResourceKey::location)
+-                        .fieldOf("name")
+-                        .forGetter(RegistryCodecs.RegistryEntry::key),
++                    ResourceKey.codec($$0).fieldOf("name").forGetter(RegistryCodecs.RegistryEntry::key),
+-        return Codec.unboundedMap(ResourceLocation.CODEC.xmap(ResourceKey.elementKey($$0), ResourceKey::location), $$1);
++        return Codec.unboundedMap(ResourceKey.codec($$0), $$1);
+### 1.18.2->1.19 net/minecraft/core/SerializableUUID.java
+### 1.18.2->1.19 net/minecraft/core/UUIDUtil.java
+### 1.19->1.19.1 net/minecraft/core/UUIDUtil.java
+@@ -3,6 +3,8 @@ package net.minecraft.core;
++import java.nio.ByteBuffer;
++import java.nio.ByteOrder;
+@@ -11,45 +13,51 @@ import net.minecraft.Util;
++    public static byte[] uuidToByteArray(UUID $$0) {
++        byte[] $$1 = new byte[16];
++        ByteBuffer.wrap($$1).order(ByteOrder.BIG_ENDIAN).putLong($$0.getMostSignificantBits()).putLong($$0.getLeastSignificantBits());
++        return $$1;
++    }
++
+### 1.19.2->1.19.3 net/minecraft/core/BlockMath.java
+@@ -2,55 +2,56 @@ package net.minecraft.core;
+-import com.mojang.math.Matrix4f;
+-import com.mojang.math.Vector3f;
++import org.joml.Matrix4f;
++import org.joml.Quaternionf;
++import org.joml.Vector3f;
+-        $$0.put(Direction.EAST, new Transformation(null, Vector3f.YP.rotationDegrees(90.0F), null, null));
+-        $$0.put(Direction.WEST, new Transformation(null, Vector3f.YP.rotationDegrees(-90.0F), null, null));
+-        $$0.put(Direction.NORTH, new Transformation(null, Vector3f.YP.rotationDegrees(180.0F), null, null));
+-        $$0.put(Direction.UP, new Transformation(null, Vector3f.XP.rotationDegrees(-90.0F), null, null));
+-        $$0.put(Direction.DOWN, new Transformation(null, Vector3f.XP.rotationDegrees(90.0F), null, null));
++        $$0.put(Direction.EAST, new Transformation(null, new Quaternionf().rotateY((float) (Math.PI / 2)), null, null));
++        $$0.put(Direction.WEST, new Transformation(null, new Quaternionf().rotateY((float) (-Math.PI / 2)), null, null));
++        $$0.put(Direction.NORTH, new Transformation(null, new Quaternionf().rotateY((float) Math.PI), null, null));
++        $$0.put(Direction.UP, new Transformation(null, new Quaternionf().rotateX((float) (-Math.PI / 2)), null, null));
++        $$0.put(Direction.DOWN, new Transformation(null, new Quaternionf().rotateX((float) (Math.PI / 2)), null, null));
+-        Matrix4f $$1 = Matrix4f.createTranslateMatrix(0.5F, 0.5F, 0.5F);
+-        $$1.multiply($$0.getMatrix());
+-        $$1.multiply(Matrix4f.createTranslateMatrix(-0.5F, -0.5F, -0.5F));
++        Matrix4f $$1 = new Matrix4f().translation(0.5F, 0.5F, 0.5F);
++        $$1.mul($$0.getMatrix());
++        $$1.translate(-0.5F, -0.5F, -0.5F);
+-        Matrix4f $$1 = Matrix4f.createTranslateMatrix(-0.5F, -0.5F, -0.5F);
+-        $$1.multiply($$0.getMatrix());
+-        $$1.multiply(Matrix4f.createTranslateMatrix(0.5F, 0.5F, 0.5F));
++        Matrix4f $$1 = new Matrix4f().translation(-0.5F, -0.5F, -0.5F);
++        $$1.mul($$0.getMatrix());
++        $$1.translate(0.5F, 0.5F, 0.5F);
+### 1.19.2->1.19.3 net/minecraft/core/cauldron/CauldronInteraction.java
+@@ -32,248 +32,248 @@ import net.minecraft.world.level.gameevent.GameEvent;
+-                $$1.playSound(null, $$2, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
++                $$1.playSound((Player)null, $$2, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
+-                $$1.playSound(null, $$2, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
++                $$1.playSound((Player)null, $$2, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+-                    $$1.playSound(null, $$2, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
++                    $$1.playSound((Player)null, $$2, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
+-            $$1.playSound(null, $$2, $$8, SoundSource.BLOCKS, 1.0F, 1.0F);
++            $$1.playSound((Player)null, $$2, $$8, SoundSource.BLOCKS, 1.0F, 1.0F);
+-            $$0.playSound(null, $$1, $$6, SoundSource.BLOCKS, 1.0F, 1.0F);
++            $$0.playSound((Player)null, $$1, $$6, SoundSource.BLOCKS, 1.0F, 1.0F);
+### 1.19.2->1.19.3 net/minecraft/core/DefaultedMappedRegistry.java
+### 1.19.2->1.19.3 net/minecraft/core/DefaultedRegistry.java
+@@ -1,71 +1,21 @@
+-import com.mojang.serialization.Lifecycle;
+-import java.util.Optional;
+-import java.util.function.Function;
+-import net.minecraft.resources.ResourceKey;
+-import net.minecraft.util.RandomSource;
+-
+-public class DefaultedRegistry<T> extends MappedRegistry<T> {
+-    private final ResourceLocation defaultKey;
+-    private Holder<T> defaultValue;
+-
+-    public DefaultedRegistry(String $$0, ResourceKey<? extends Registry<T>> $$1, Lifecycle $$2, @Nullable Function<T, Holder.Reference<T>> $$3) {
+-        super($$1, $$2, $$3);
+-        this.defaultKey = new ResourceLocation($$0);
+-    }
+-
+-    @Override
+-    public Holder<T> registerMapping(int $$0, ResourceKey<T> $$1, T $$2, Lifecycle $$3) {
+-        Holder<T> $$4 = super.registerMapping($$0, $$1, $$2, $$3);
+-        if (this.defaultKey.equals($$1.location())) {
+-            this.defaultValue = $$4;
+-        }
+-
+-        return $$4;
+-    }
+-
+-    @Override
+-    public int getId(@Nullable T $$0) {
+-        int $$1 = super.getId($$0);
+-        return $$1 == -1 ? super.getId(this.defaultValue.value()) : $$1;
+-    }
++public interface DefaultedRegistry<T> extends Registry<T> {
+-    public ResourceLocation getKey(T $$0) {
+-        ResourceLocation $$1 = super.getKey($$0);
+-        return $$1 == null ? this.defaultKey : $$1;
+-    }
++    ResourceLocation getKey(T object);
+-    public T get(@Nullable ResourceLocation $$0) {
+-        T $$1 = super.get($$0);
+-        return $$1 == null ? this.defaultValue.value() : $$1;
+-    }
+-
+-    @Override
+-    public Optional<T> getOptional(@Nullable ResourceLocation $$0) {
+-        return Optional.ofNullable(super.get($$0));
+-    }
++    T get(@Nullable ResourceLocation resourceLocation);
+-    public T byId(int $$0) {
+-        T $$1 = super.byId($$0);
+-        return $$1 == null ? this.defaultValue.value() : $$1;
+-    }
+-
+-    @Override
+-    public Optional<Holder<T>> getRandom(RandomSource $$0) {
+-        return super.getRandom($$0).or(() -> Optional.of(this.defaultValue));
+-    }
++    T byId(int i);
+-    public ResourceLocation getDefaultKey() {
+-        return this.defaultKey;
+-    }
++    ResourceLocation getDefaultKey();
+### 1.19.2->1.19.3 net/minecraft/core/dispenser/BoatDispenseItemBehavior.java
+@@ -13,46 +13,46 @@ import net.minecraft.world.level.block.DispenserBlock;
+-        $$11.setType(this.type);
++        $$11.setVariant(this.type);
+### 1.19.2->1.19.3 net/minecraft/core/dispenser/DispenseItemBehavior.java
+@@ -24,6 +24,7 @@ import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
++import net.minecraft.world.entity.player.Player;
+@@ -69,6 +70,7 @@ import net.minecraft.world.level.block.entity.DispenserBlockEntity;
++import net.minecraft.world.level.block.state.properties.RotationSegment;
+@@ -76,586 +78,580 @@ import org.slf4j.Logger;
++        DispenserBlock.registerBehavior(Items.BAMBOO_RAFT, new BoatDispenseItemBehavior(Boat.Type.BAMBOO));
++        DispenserBlock.registerBehavior(Items.BAMBOO_CHEST_RAFT, new BoatDispenseItemBehavior(Boat.Type.BAMBOO, true));
++        DispenserBlock.registerBehavior(Items.PIGLIN_HEAD, $$4);
+-        DispenserBlock.registerBehavior(
+-            Items.WITHER_SKELETON_SKULL,
+-            new OptionalDispenseItemBehavior() {
+-                @Override
+-                protected ItemStack execute(BlockSource $$0, ItemStack $$1) {
+-                    Level $$2 = $$0.getLevel();
+-                    Direction $$3 = $$0.getBlockState().getValue(DispenserBlock.FACING);
+-                    BlockPos $$4 = $$0.getPos().relative($$3);
+-                    if ($$2.isEmptyBlock($$4) && WitherSkullBlock.canSpawnMob($$2, $$4, $$1)) {
+-                        $$2.setBlock(
+-                            $$4,
+-                            Blocks.WITHER_SKELETON_SKULL
+-                                .defaultBlockState()
+-                                .setValue(SkullBlock.ROTATION, $$3.getAxis() == Direction.Axis.Y ? 0 : $$3.getOpposite().get2DDataValue() * 4),
+-                            3
+-                        );
+-                        $$2.gameEvent((Entity)null, GameEvent.BLOCK_PLACE, $$4);
+-                        BlockEntity $$5 = $$2.getBlockEntity($$4);
+-                        if ($$5 instanceof SkullBlockEntity) {
+-                            WitherSkullBlock.checkSpawn($$2, $$4, (SkullBlockEntity)$$5);
+-                        }
+-
+-                        $$1.shrink(1);
+-                        this.setSuccess(true);
+-                    } else {
+-                        this.setSuccess(ArmorItem.dispenseArmor($$0, $$1));
++        DispenserBlock.registerBehavior(Items.WITHER_SKELETON_SKULL, new OptionalDispenseItemBehavior() {
++            @Override
++            protected ItemStack execute(BlockSource $$0, ItemStack $$1) {
++                Level $$2 = $$0.getLevel();
++                Direction $$3 = $$0.getBlockState().getValue(DispenserBlock.FACING);
++                BlockPos $$4 = $$0.getPos().relative($$3);
++                if ($$2.isEmptyBlock($$4) && WitherSkullBlock.canSpawnMob($$2, $$4, $$1)) {
++                    $$2.setBlock($$4, Blocks.WITHER_SKELETON_SKULL.defaultBlockState().setValue(SkullBlock.ROTATION, RotationSegment.convertToSegment($$3)), 3);
++                    $$2.gameEvent((Entity)null, GameEvent.BLOCK_PLACE, $$4);
++                    BlockEntity $$5 = $$2.getBlockEntity($$4);
++                    if ($$5 instanceof SkullBlockEntity) {
++                        WitherSkullBlock.checkSpawn($$2, $$4, (SkullBlockEntity)$$5);
+-                    return $$1;
++                    $$1.shrink(1);
++                    this.setSuccess(true);
++                } else {
++                    this.setSuccess(ArmorItem.dispenseArmor($$0, $$1));
++
++                return $$1;
+-        );
++        });
+-                    $$2.playSound(null, $$3, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
++                    $$2.playSound((Player)null, $$3, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
+### 1.19.2->1.19.3 net/minecraft/core/dispenser/ShearsDispenseItemBehavior.java
+@@ -9,6 +9,7 @@ import net.minecraft.tags.BlockTags;
++import net.minecraft.world.entity.player.Player;
+@@ -21,43 +22,43 @@ import net.minecraft.world.phys.AABB;
+-                $$0.playSound(null, $$1, SoundEvents.BEEHIVE_SHEAR, SoundSource.BLOCKS, 1.0F, 1.0F);
++                $$0.playSound((Player)null, $$1, SoundEvents.BEEHIVE_SHEAR, SoundSource.BLOCKS, 1.0F, 1.0F);
+### 1.19.2->1.19.3 net/minecraft/core/Holder.java
+@@ -14,211 +14,210 @@ import net.minecraft.tags.TagKey;
+-    boolean isValidInRegistry(Registry<T> registry);
++    boolean canSerializeIn(HolderOwner<T> holderOwner);
+-    static <T> Holder<T> hackyErase(Holder<? extends T> $$0) {
+-        return (Holder<T>)$$0;
+-    }
+-
+-        public boolean isValidInRegistry(Registry<T> $$0) {
++        public boolean canSerializeIn(HolderOwner<T> $$0) {
+-        private final Registry<T> registry;
++        private final HolderOwner<T> owner;
+-        private Reference(Holder.Reference.Type $$0, Registry<T> $$1, @Nullable ResourceKey<T> $$2, @Nullable T $$3) {
+-            this.registry = $$1;
++        private Reference(Holder.Reference.Type $$0, HolderOwner<T> $$1, @Nullable ResourceKey<T> $$2, @Nullable T $$3) {
++            this.owner = $$1;
+-        public static <T> Holder.Reference<T> createStandAlone(Registry<T> $$0, ResourceKey<T> $$1) {
++        public static <T> Holder.Reference<T> createStandAlone(HolderOwner<T> $$0, ResourceKey<T> $$1) {
+-        public static <T> Holder.Reference<T> createIntrusive(Registry<T> $$0, @Nullable T $$1) {
++        public static <T> Holder.Reference<T> createIntrusive(HolderOwner<T> $$0, @Nullable T $$1) {
+-                throw new IllegalStateException("Trying to access unbound value '" + this.value + "' from registry " + this.registry);
++                throw new IllegalStateException("Trying to access unbound value '" + this.value + "' from registry " + this.owner);
+-                throw new IllegalStateException("Trying to access unbound value '" + this.key + "' from registry " + this.registry);
++                throw new IllegalStateException("Trying to access unbound value '" + this.key + "' from registry " + this.owner);
+-        public boolean isValidInRegistry(Registry<T> $$0) {
+-            return this.registry == $$0;
++        public boolean canSerializeIn(HolderOwner<T> $$0) {
++            return this.owner.canSerializeIn($$0);
+-        void bind(ResourceKey<T> $$0, T $$1) {
++        void bindKey(ResourceKey<T> $$0) {
+-            if (this.type == Holder.Reference.Type.INTRUSIVE && this.value != $$1) {
+-                throw new IllegalStateException("Can't change holder " + $$0 + " value: existing=" + this.value + ", new=" + $$1);
++            this.key = $$0;
++        }
++
++        void bindValue(T $$0) {
++            if (this.type == Holder.Reference.Type.INTRUSIVE && this.value != $$0) {
++                throw new IllegalStateException("Can't change holder " + this.key + " value: existing=" + this.value + ", new=" + $$0);
+-            this.key = $$0;
+-            this.value = $$1;
++            this.value = $$0;
+### 1.19.2->1.19.3 net/minecraft/core/HolderGetter.java
+### 1.19.2->1.19.3 net/minecraft/core/HolderLookup.java
+@@ -1,49 +1,141 @@
++import com.mojang.serialization.Lifecycle;
++import java.util.Map;
+-import java.util.Map.Entry;
++import java.util.function.Predicate;
++import java.util.stream.Collectors;
++import net.minecraft.world.flag.FeatureElement;
++import net.minecraft.world.flag.FeatureFlagSet;
+-public interface HolderLookup<T> {
+-    Optional<Holder<T>> get(ResourceKey<T> resourceKey);
++public interface HolderLookup<T> extends HolderGetter<T> {
++    Stream<Holder.Reference<T>> listElements();
+-    Stream<ResourceKey<T>> listElements();
++    default Stream<ResourceKey<T>> listElementIds() {
++        return this.listElements().map(Holder.Reference::key);
++    }
++
++    Stream<HolderSet.Named<T>> listTags();
+-    Optional<? extends HolderSet<T>> get(TagKey<T> tagKey);
++    default Stream<TagKey<T>> listTagIds() {
++        return this.listTags().map(HolderSet.Named::key);
++    }
+-    Stream<TagKey<T>> listTags();
++    default HolderLookup<T> filterElements(Predicate<T> $$0) {
++        return new HolderLookup.Delegate<T>(this) {
++            @Override
++            public Optional<Holder.Reference<T>> get(ResourceKey<T> $$0) {
++                return this.parent.get($$0).filter($$1 -> $$0.test($$1.value()));
++            }
+-    static <T> HolderLookup<T> forRegistry(Registry<T> $$0) {
+-        return new HolderLookup.RegistryLookup<>($$0);
++            @Override
++            public Stream<Holder.Reference<T>> listElements() {
++                return this.parent.listElements().filter($$1 -> $$0.test($$1.value()));
++            }
++        };
+-    class RegistryLookup<T> implements HolderLookup<T> {
+-        protected final Registry<T> registry;
++    class Delegate<T> implements HolderLookup<T> {
++        protected final HolderLookup<T> parent;
+-        public RegistryLookup(Registry<T> $$0) {
+-            this.registry = $$0;
++        public Delegate(HolderLookup<T> $$0) {
++            this.parent = $$0;
+-        public Optional<Holder<T>> get(ResourceKey<T> $$0) {
+-            return this.registry.getHolder($$0);
++        public Optional<Holder.Reference<T>> get(ResourceKey<T> $$0) {
++            return this.parent.get($$0);
+-        public Stream<ResourceKey<T>> listElements() {
+-            return this.registry.entrySet().stream().map(Entry::getKey);
++        public Stream<Holder.Reference<T>> listElements() {
++            return this.parent.listElements();
+-        public Optional<? extends HolderSet<T>> get(TagKey<T> $$0) {
+-            return this.registry.getTag($$0);
++        public Optional<HolderSet.Named<T>> get(TagKey<T> $$0) {
++            return this.parent.get($$0);
+-        public Stream<TagKey<T>> listTags() {
+-            return this.registry.getTagNames();
++        public Stream<HolderSet.Named<T>> listTags() {
++            return this.parent.listTags();
++        }
++    }
++
++    interface Provider {
++        <T> Optional<HolderLookup.RegistryLookup<T>> lookup(ResourceKey<? extends Registry<? extends T>> resourceKey);
++
++        default <T> HolderLookup.RegistryLookup<T> lookupOrThrow(ResourceKey<? extends Registry<? extends T>> $$0) {
++            return (HolderLookup.RegistryLookup<T>)this.lookup($$0).orElseThrow(() -> new IllegalStateException("Registry " + $$0.location() + " not found"));
++        }
++
++        default HolderGetter.Provider asGetterLookup() {
++            return new HolderGetter.Provider() {
++                @Override
++                public <T> Optional<HolderGetter<T>> lookup(ResourceKey<? extends Registry<? extends T>> $$0) {
++                    return Provider.this.lookup($$0).map($$0x -> $$0x);
++                }
++            };
++        }
++
++        static HolderLookup.Provider create(Stream<HolderLookup.RegistryLookup<?>> $$0) {
++            final Map<ResourceKey<? extends Registry<?>>, HolderLookup.RegistryLookup<?>> $$1 = (Map<ResourceKey<? extends Registry<?>>, HolderLookup.RegistryLookup<?>>)$$0.collect(
++                Collectors.toUnmodifiableMap(HolderLookup.RegistryLookup::key, $$0x -> $$0x)
++            );
++            return new HolderLookup.Provider() {
++                @Override
++                public <T> Optional<HolderLookup.RegistryLookup<T>> lookup(ResourceKey<? extends Registry<? extends T>> $$0) {
++                    return Optional.ofNullable((HolderLookup.RegistryLookup)$$1.get($$0));
++                }
++            };
++        }
++    }
++
++    interface RegistryLookup<T> extends HolderLookup<T>, HolderOwner<T> {
++        ResourceKey<? extends Registry<? extends T>> key();
++
++        Lifecycle registryLifecycle();
++
++        default HolderLookup<T> filterFeatures(FeatureFlagSet $$0) {
++            return FeatureElement.FILTERED_REGISTRIES.contains(this.key()) ? this.filterElements($$1 -> ((FeatureElement)$$1).isEnabled($$0)) : this;
++        }
++
++        abstract class Delegate<T> implements HolderLookup.RegistryLookup<T> {
++            protected abstract HolderLookup.RegistryLookup<T> parent();
++
++            @Override
++            public ResourceKey<? extends Registry<? extends T>> key() {
++                return this.parent().key();
++            }
++
++            @Override
++            public Lifecycle registryLifecycle() {
++                return this.parent().registryLifecycle();
++            }
++
++            @Override
++            public Optional<Holder.Reference<T>> get(ResourceKey<T> $$0) {
++                return this.parent().get($$0);
++            }
++
++            @Override
++            public Stream<Holder.Reference<T>> listElements() {
++                return this.parent().listElements();
++            }
++
++            @Override
++            public Optional<HolderSet.Named<T>> get(TagKey<T> $$0) {
++                return this.parent().get($$0);
++            }
++
++            @Override
++            public Stream<HolderSet.Named<T>> listTags() {
++                return this.parent().listTags();
++            }
+### 1.19.2->1.19.3 net/minecraft/core/HolderOwner.java
+### 1.19.2->1.19.3 net/minecraft/core/HolderSet.java
+@@ -11,153 +11,170 @@ import java.util.stream.Stream;
+-import org.jetbrains.annotations.NotNull;
++import org.jetbrains.annotations.VisibleForTesting;
+-    boolean isValidInRegistry(Registry<T> registry);
++    boolean canSerializeIn(HolderOwner<T> holderOwner);
++
++    Optional<TagKey<T>> unwrapKey();
++
++    @Deprecated
++    @VisibleForTesting
++    static <T> HolderSet.Named<T> emptyNamed(HolderOwner<T> $$0, TagKey<T> $$1) {
++        return new HolderSet.Named<>($$0, $$1);
++    }
++        @Override
++        public Optional<TagKey<T>> unwrapKey() {
++            return Optional.empty();
++        }
++
+-        @NotNull
+-        public boolean isValidInRegistry(Registry<T> $$0) {
++        public boolean canSerializeIn(HolderOwner<T> $$0) {
+-        private final Registry<T> registry;
++        private final HolderOwner<T> owner;
+-        Named(Registry<T> $$0, TagKey<T> $$1) {
+-            this.registry = $$0;
++        Named(HolderOwner<T> $$0, TagKey<T> $$1) {
++            this.owner = $$0;
++        @Override
++        public Optional<TagKey<T>> unwrapKey() {
++            return Optional.of(this.key);
++        }
++
+-        public boolean isValidInRegistry(Registry<T> $$0) {
+-            return this.registry == $$0;
++        public boolean canSerializeIn(HolderOwner<T> $$0) {
++            return this.owner.canSerializeIn($$0);
+### 1.19.2->1.19.3 net/minecraft/core/LayeredRegistryAccess.java
+### 1.19.2->1.19.3 net/minecraft/core/MappedRegistry.java
+@@ -5,7 +5,6 @@ import com.google.common.collect.Maps;
+-import com.mojang.serialization.DataResult;
+@@ -20,386 +19,426 @@ import java.util.List;
+-import java.util.OptionalInt;
+-import java.util.function.Function;
++import net.minecraft.server.Bootstrap;
+-public class MappedRegistry<T> extends WritableRegistry<T> {
++public class MappedRegistry<T> implements WritableRegistry<T> {
++    final ResourceKey<? extends Registry<T>> key;
+-    private Lifecycle elementsLifecycle;
++    private Lifecycle registryLifecycle;
+-    private final Function<T, Holder.Reference<T>> customHolderProvider;
+-    @Nullable
+-    private Map<T, Holder.Reference<T>> intrusiveHolderCache;
++    private Map<T, Holder.Reference<T>> unregisteredIntrusiveHolders;
++    private final HolderLookup.RegistryLookup<T> lookup = new HolderLookup.RegistryLookup<T>() {
++        @Override
++        public ResourceKey<? extends Registry<? extends T>> key() {
++            return MappedRegistry.this.key;
++        }
++
++        @Override
++        public Lifecycle registryLifecycle() {
++            return MappedRegistry.this.registryLifecycle();
++        }
++
++        @Override
++        public Optional<Holder.Reference<T>> get(ResourceKey<T> $$0) {
++            return MappedRegistry.this.getHolder($$0);
++        }
++
++        @Override
++        public Stream<Holder.Reference<T>> listElements() {
++            return MappedRegistry.this.holders();
++        }
++
++        @Override
++        public Optional<HolderSet.Named<T>> get(TagKey<T> $$0) {
++            return MappedRegistry.this.getTag($$0);
++        }
++
++        @Override
++        public Stream<HolderSet.Named<T>> listTags() {
++            return MappedRegistry.this.getTags().map(Pair::getSecond);
++        }
++    };
+-    public MappedRegistry(ResourceKey<? extends Registry<T>> $$0, Lifecycle $$1, @Nullable Function<T, Holder.Reference<T>> $$2) {
+-        super($$0, $$1);
+-        this.elementsLifecycle = $$1;
+-        this.customHolderProvider = $$2;
+-        if ($$2 != null) {
+-            this.intrusiveHolderCache = new IdentityHashMap();
++    public MappedRegistry(ResourceKey<? extends Registry<T>> $$0, Lifecycle $$1) {
++        this($$0, $$1, false);
++    }
++
++    public MappedRegistry(ResourceKey<? extends Registry<T>> $$0, Lifecycle $$1, boolean $$2) {
++        Bootstrap.checkBootstrapCalled(() -> "registry " + $$0);
++        this.key = $$0;
++        this.registryLifecycle = $$1;
++        if ($$2) {
++            this.unregisteredIntrusiveHolders = new IdentityHashMap();
++    @Override
++    public ResourceKey<? extends Registry<T>> key() {
++        return this.key;
++    }
++
++    public String toString() {
++        return "Registry[" + this.key + " (" + this.registryLifecycle + ")]";
++    }
++
+-    private void validateWrite(ResourceKey<T> $$0) {
++    private void validateWrite() {
+-            throw new IllegalStateException("Registry is already frozen (trying to add key " + $$0 + ")");
++            throw new IllegalStateException("Registry is already frozen");
+-    @Override
+-    public Holder<T> registerMapping(int $$0, ResourceKey<T> $$1, T $$2, Lifecycle $$3) {
+-        return this.registerMapping($$0, $$1, $$2, $$3, true);
++    private void validateWrite(ResourceKey<T> $$0) {
++        if (this.frozen) {
++            throw new IllegalStateException("Registry is already frozen (trying to add key " + $$0 + ")");
++        }
+-    private Holder<T> registerMapping(int $$0, ResourceKey<T> $$1, T $$2, Lifecycle $$3, boolean $$4) {
++    public Holder.Reference<T> registerMapping(int $$0, ResourceKey<T> $$1, T $$2, Lifecycle $$3) {
+-        this.byId.size(Math.max(this.byId.size(), $$0 + 1));
+-        this.toId.put($$2, $$0);
+-        this.holdersInOrder = null;
+-        if ($$4 && this.byKey.containsKey($$1)) {
+-            Util.logAndPauseIfInIde("Adding duplicate key '" + $$1 + "' to registry");
++        if (this.byLocation.containsKey($$1.location())) {
++            Util.pauseInIde((T)(new IllegalStateException("Adding duplicate key '" + $$1 + "' to registry")));
+-            Util.logAndPauseIfInIde("Adding duplicate value '" + $$2 + "' to registry");
++            Util.pauseInIde((T)(new IllegalStateException("Adding duplicate value '" + $$2 + "' to registry")));
+-        this.lifecycles.put($$2, $$3);
+-        this.elementsLifecycle = this.elementsLifecycle.add($$3);
+-        if (this.nextId <= $$0) {
+-            this.nextId = $$0 + 1;
+-        }
+-
+-        Holder.Reference<T> $$5;
+-        if (this.customHolderProvider != null) {
+-            $$5 = (Holder.Reference<T>)this.customHolderProvider.apply($$2);
+-            Holder.Reference<T> $$6 = (Holder.Reference<T>)this.byKey.put($$1, $$5);
+-            if ($$6 != null && $$6 != $$5) {
+-                throw new IllegalStateException("Invalid holder present for key " + $$1);
++        Holder.Reference<T> $$4;
++        if (this.unregisteredIntrusiveHolders != null) {
++            $$4 = (Holder.Reference<T>)this.unregisteredIntrusiveHolders.remove($$2);
++            if ($$4 == null) {
++                throw new AssertionError("Missing intrusive holder for " + $$1 + ":" + $$2);
++
++            $$4.bindKey($$1);
+-            $$5 = (Holder.Reference<T>)this.byKey.computeIfAbsent($$1, $$0x -> Holder.Reference.createStandAlone(this, $$0x));
++            $$4 = (Holder.Reference<T>)this.byKey.computeIfAbsent($$1, $$0x -> Holder.Reference.createStandAlone(this.holderOwner(), $$0x));
+-        this.byLocation.put($$1.location(), $$5);
+-        this.byValue.put($$2, $$5);
+-        $$5.bind($$1, $$2);
+-        this.byId.set($$0, $$5);
+-        return $$5;
+-    }
++        this.byKey.put($$1, $$4);
++        this.byLocation.put($$1.location(), $$4);
++        this.byValue.put($$2, $$4);
++        this.byId.size(Math.max(this.byId.size(), $$0 + 1));
++        this.byId.set($$0, $$4);
++        this.toId.put($$2, $$0);
++        if (this.nextId <= $$0) {
++            this.nextId = $$0 + 1;
++        }
+-    @Override
+-    public Holder<T> register(ResourceKey<T> $$0, T $$1, Lifecycle $$2) {
+-        return this.registerMapping(this.nextId, $$0, $$1, $$2);
++        this.lifecycles.put($$2, $$3);
++        this.registryLifecycle = this.registryLifecycle.add($$3);
++        this.holdersInOrder = null;
++        return $$4;
+-    public Holder<T> registerOrOverride(OptionalInt $$0, ResourceKey<T> $$1, T $$2, Lifecycle $$3) {
+-        this.validateWrite($$1);
+-        Validate.notNull($$1);
+-        Validate.notNull($$2);
+-        Holder<T> $$4 = (Holder<T>)this.byKey.get($$1);
+-        T $$5 = $$4 != null && $$4.isBound() ? $$4.value() : null;
+-        int $$6;
+-        if ($$5 == null) {
+-            $$6 = $$0.orElse(this.nextId);
+-        } else {
+-            $$6 = this.toId.getInt($$5);
+-            if ($$0.isPresent() && $$0.getAsInt() != $$6) {
+-                throw new IllegalStateException("ID mismatch");
+-            }
+-
+-            this.lifecycles.remove($$5);
+-            this.toId.removeInt($$5);
+-            this.byValue.remove($$5);
+-        }
+-
+-        return this.registerMapping($$6, $$1, $$2, $$3, false);
++    public Holder.Reference<T> register(ResourceKey<T> $$0, T $$1, Lifecycle $$2) {
++        return this.registerMapping(this.nextId, $$0, $$1, $$2);
+-    public Optional<Holder<T>> getHolder(int $$0) {
+-        return $$0 >= 0 && $$0 < this.byId.size() ? Optional.ofNullable((Holder)this.byId.get($$0)) : Optional.empty();
++    public Optional<Holder.Reference<T>> getHolder(int $$0) {
++        return $$0 >= 0 && $$0 < this.byId.size() ? Optional.ofNullable((Holder.Reference)this.byId.get($$0)) : Optional.empty();
+-    public Optional<Holder<T>> getHolder(ResourceKey<T> $$0) {
+-        return Optional.ofNullable((Holder)this.byKey.get($$0));
++    public Optional<Holder.Reference<T>> getHolder(ResourceKey<T> $$0) {
++        return Optional.ofNullable((Holder.Reference)this.byKey.get($$0));
+-    public Holder<T> getOrCreateHolderOrThrow(ResourceKey<T> $$0) {
+-        return (Holder<T>)this.byKey.computeIfAbsent($$0, $$0x -> {
+-            if (this.customHolderProvider != null) {
++    public Holder<T> wrapAsHolder(T $$0) {
++        Holder.Reference<T> $$1 = (Holder.Reference<T>)this.byValue.get($$0);
++        return $$1 != null ? $$1 : Holder.direct($$0);
++    }
++
++    Holder.Reference<T> getOrCreateHolderOrThrow(ResourceKey<T> $$0) {
++        return (Holder.Reference<T>)this.byKey.computeIfAbsent($$0, $$0x -> {
++            if (this.unregisteredIntrusiveHolders != null) {
+-            return Holder.Reference.createStandAlone(this, $$0x);
++            return Holder.Reference.createStandAlone(this.holderOwner(), $$0x);
+-    @Override
+-    public DataResult<Holder<T>> getOrCreateHolder(ResourceKey<T> $$0) {
+-        Holder.Reference<T> $$1 = (Holder.Reference<T>)this.byKey.get($$0);
+-        if ($$1 == null) {
+-            if (this.customHolderProvider != null) {
+-                return DataResult.error("This registry can't create new holders without value (requested key: " + $$0 + ")");
+-            }
+-
+-            if (this.frozen) {
+-                return DataResult.error("Registry is already frozen (requested key: " + $$0 + ")");
+-            }
+-
+-            $$1 = Holder.Reference.createStandAlone(this, $$0);
+-            this.byKey.put($$0, $$1);
+-        }
+-
+-        return DataResult.success($$1);
+-    }
+-
+-    public Lifecycle elementsLifecycle() {
+-        return this.elementsLifecycle;
++    public Lifecycle registryLifecycle() {
++        return this.registryLifecycle;
+-    @Override
+-    public boolean isKnownTagName(TagKey<T> $$0) {
+-        return this.tags.containsKey($$0);
+-    }
+-
+-        return new HolderSet.Named<>(this, $$0);
++        return new HolderSet.Named<>(this.holderOwner(), $$0);
+-    public Optional<Holder<T>> getRandom(RandomSource $$0) {
+-        return Util.getRandomSafe(this.holdersInOrder(), $$0).map(Holder::hackyErase);
++    public Optional<Holder.Reference<T>> getRandom(RandomSource $$0) {
++        return Util.getRandomSafe(this.holdersInOrder(), $$0);
++        if (this.frozen) {
++            return this;
++        }
++
++        this.byValue.forEach(($$0x, $$1) -> $$1.bindValue($$0x));
+-        if (this.intrusiveHolderCache != null) {
+-            List<Holder.Reference<T>> $$1 = this.intrusiveHolderCache.values().stream().filter($$0x -> !$$0x.isBound()).toList();
+-            if (!$$1.isEmpty()) {
+-                throw new IllegalStateException("Some intrusive holders were not added to registry: " + $$1);
++        if (this.unregisteredIntrusiveHolders != null) {
++            if (!this.unregisteredIntrusiveHolders.isEmpty()) {
++                throw new IllegalStateException("Some intrusive holders were not registered: " + this.unregisteredIntrusiveHolders.values());
+-            this.intrusiveHolderCache = null;
++            this.unregisteredIntrusiveHolders = null;
+-        if (this.customHolderProvider == null) {
++        if (this.unregisteredIntrusiveHolders == null) {
+-        } else if (!this.frozen && this.intrusiveHolderCache != null) {
+-            return (Holder.Reference<T>)this.intrusiveHolderCache.computeIfAbsent($$0, $$0x -> Holder.Reference.createIntrusive(this, (T)$$0x));
+-        } else {
+-            throw new IllegalStateException("Registry is already frozen");
++
++        this.validateWrite();
++        return (Holder.Reference<T>)this.unregisteredIntrusiveHolders.computeIfAbsent($$0, $$0x -> Holder.Reference.createIntrusive(this.asLookup(), (T)$$0x));
+-                if (!$$3x.isValidInRegistry(this)) {
++                if (!$$3x.canSerializeIn(this.asLookup())) {
++
++    @Override
++    public HolderGetter<T> createRegistrationLookup() {
++        this.validateWrite();
++        return new HolderGetter<T>() {
++            @Override
++            public Optional<Holder.Reference<T>> get(ResourceKey<T> $$0) {
++                return Optional.of(this.getOrThrow($$0));
++            }
++
++            @Override
++            public Holder.Reference<T> getOrThrow(ResourceKey<T> $$0) {
++                return MappedRegistry.this.getOrCreateHolderOrThrow($$0);
++            }
++
++            @Override
++            public Optional<HolderSet.Named<T>> get(TagKey<T> $$0) {
++                return Optional.of(this.getOrThrow($$0));
++            }
++
++            @Override
++            public HolderSet.Named<T> getOrThrow(TagKey<T> $$0) {
++                return MappedRegistry.this.getOrCreateTag($$0);
++            }
++        };
++    }
++
++    @Override
++    public HolderOwner<T> holderOwner() {
++        return this.lookup;
++    }
++
++    @Override
++    public HolderLookup.RegistryLookup<T> asLookup() {
++        return this.lookup;
++    }
+### 1.19.2->1.19.3 net/minecraft/core/particles/BlockParticleOption.java
+@@ -4,7 +4,7 @@ import com.mojang.brigadier.StringReader;
+-import net.minecraft.core.Registry;
++import net.minecraft.core.registries.BuiltInRegistries;
+@@ -12,42 +12,42 @@ import net.minecraft.world.level.block.state.BlockState;
+-            return new BlockParticleOption($$0, BlockStateParser.parseForBlock(Registry.BLOCK, $$1, false).blockState());
++            return new BlockParticleOption($$0, BlockStateParser.parseForBlock(BuiltInRegistries.BLOCK.asLookup(), $$1, false).blockState());
+-        return Registry.PARTICLE_TYPE.getKey(this.getType()) + " " + BlockStateParser.serialize(this.state);
++        return BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()) + " " + BlockStateParser.serialize(this.state);
+### 1.19.2->1.19.3 net/minecraft/core/particles/DustColorTransitionOptions.java
+@@ -2,84 +2,85 @@ package net.minecraft.core.particles;
+-import com.mojang.math.Vector3f;
+-import net.minecraft.core.Registry;
++import net.minecraft.core.registries.BuiltInRegistries;
++import net.minecraft.util.ExtraCodecs;
++import org.joml.Vector3f;
+-    public static final Vector3f SCULK_PARTICLE_COLOR = new Vector3f(Vec3.fromRGB24(3790560));
++    public static final Vector3f SCULK_PARTICLE_COLOR = Vec3.fromRGB24(3790560).toVector3f();
+-                Vector3f.CODEC.fieldOf("fromColor").forGetter($$0x -> $$0x.color),
+-                Vector3f.CODEC.fieldOf("toColor").forGetter($$0x -> $$0x.toColor),
++                ExtraCodecs.VECTOR3F.fieldOf("fromColor").forGetter($$0x -> $$0x.color),
++                ExtraCodecs.VECTOR3F.fieldOf("toColor").forGetter($$0x -> $$0x.toColor),
+-            Registry.PARTICLE_TYPE.getKey(this.getType()),
++            BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
+### 1.19.2->1.19.3 net/minecraft/core/particles/DustParticleOptions.java
+@@ -2,38 +2,39 @@ package net.minecraft.core.particles;
+-import com.mojang.math.Vector3f;
++import net.minecraft.util.ExtraCodecs;
++import org.joml.Vector3f;
+-    public static final Vector3f REDSTONE_PARTICLE_COLOR = new Vector3f(Vec3.fromRGB24(16711680));
++    public static final Vector3f REDSTONE_PARTICLE_COLOR = Vec3.fromRGB24(16711680).toVector3f();
+-        $$0 -> $$0.group(Vector3f.CODEC.fieldOf("color").forGetter($$0x -> $$0x.color), Codec.FLOAT.fieldOf("scale").forGetter($$0x -> $$0x.scale))
++        $$0 -> $$0.group(ExtraCodecs.VECTOR3F.fieldOf("color").forGetter($$0x -> $$0x.color), Codec.FLOAT.fieldOf("scale").forGetter($$0x -> $$0x.scale))
+### 1.19.2->1.19.3 net/minecraft/core/particles/DustParticleOptionsBase.java
+@@ -2,57 +2,63 @@ package net.minecraft.core.particles;
+-import com.mojang.math.Vector3f;
+-import net.minecraft.core.Registry;
++import net.minecraft.core.registries.BuiltInRegistries;
++import org.joml.Vector3f;
+-            Locale.ROOT, "%s %.2f %.2f %.2f %.2f", Registry.PARTICLE_TYPE.getKey(this.getType()), this.color.x(), this.color.y(), this.color.z(), this.scale
++            Locale.ROOT,
++            "%s %.2f %.2f %.2f %.2f",
++            BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
++            this.color.x(),
++            this.color.y(),
++            this.color.z(),
++            this.scale
+### 1.19.2->1.19.3 net/minecraft/core/particles/ItemParticleOption.java
+@@ -5,52 +5,53 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
+-import net.minecraft.core.HolderLookup;
+-import net.minecraft.core.Registry;
++import net.minecraft.core.registries.BuiltInRegistries;
+-            ItemParser.ItemResult $$2 = ItemParser.parseForItem(HolderLookup.forRegistry(Registry.ITEM), $$1);
++            ItemParser.ItemResult $$2 = ItemParser.parseForItem(BuiltInRegistries.ITEM.asLookup(), $$1);
+-        return Registry.PARTICLE_TYPE.getKey(this.getType()) + " " + new ItemInput(this.itemStack.getItemHolder(), this.itemStack.getTag()).serialize();
++        return BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType())
++            + " "
++            + new ItemInput(this.itemStack.getItemHolder(), this.itemStack.getTag()).serialize();
+### 1.19.2->1.19.3 net/minecraft/core/particles/ParticleTypes.java
+@@ -3,127 +3,130 @@ package net.minecraft.core.particles;
++import net.minecraft.core.registries.BuiltInRegistries;
+-    public static final Codec<ParticleOptions> CODEC = Registry.PARTICLE_TYPE.byNameCodec().dispatch("type", ParticleOptions::getType, ParticleType::codec);
++    public static final Codec<ParticleOptions> CODEC = BuiltInRegistries.PARTICLE_TYPE
++        .byNameCodec()
++        .dispatch("type", ParticleOptions::getType, ParticleType::codec);
+-        return Registry.register(Registry.PARTICLE_TYPE, $$0, new SimpleParticleType($$1));
++        return Registry.register(BuiltInRegistries.PARTICLE_TYPE, $$0, new SimpleParticleType($$1));
+-        return Registry.register(Registry.PARTICLE_TYPE, $$0, new ParticleType<T>($$1, $$2) {
++        return Registry.register(BuiltInRegistries.PARTICLE_TYPE, $$0, new ParticleType<T>($$1, $$2) {
+### 1.19.2->1.19.3 net/minecraft/core/particles/SculkChargeParticleOptions.java
+@@ -5,37 +5,37 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
+-import net.minecraft.core.Registry;
++import net.minecraft.core.registries.BuiltInRegistries;
+-        return String.format(Locale.ROOT, "%s %.2f", Registry.PARTICLE_TYPE.getKey(this.getType()), this.roll);
++        return String.format(Locale.ROOT, "%s %.2f", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()), this.roll);
+### 1.19.2->1.19.3 net/minecraft/core/particles/ShriekParticleOption.java
+@@ -5,46 +5,46 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
+-import net.minecraft.core.Registry;
++import net.minecraft.core.registries.BuiltInRegistries;
+-        return String.format(Locale.ROOT, "%s %d", Registry.PARTICLE_TYPE.getKey(this.getType()), this.delay);
++        return String.format(Locale.ROOT, "%s %d", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()), this.delay);
+### 1.19.2->1.19.3 net/minecraft/core/particles/SimpleParticleType.java
+@@ -2,40 +2,40 @@ package net.minecraft.core.particles;
+-import net.minecraft.core.Registry;
++import net.minecraft.core.registries.BuiltInRegistries;
+-        return Registry.PARTICLE_TYPE.getKey(this).toString();
++        return BuiltInRegistries.PARTICLE_TYPE.getKey(this).toString();
+### 1.19.2->1.19.3 net/minecraft/core/particles/VibrationParticleOption.java
+@@ -6,7 +6,7 @@ import com.mojang.serialization.Codec;
+-import net.minecraft.core.Registry;
++import net.minecraft.core.registries.BuiltInRegistries;
+@@ -16,64 +16,64 @@ import net.minecraft.world.phys.Vec3;
+-        return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %d", Registry.PARTICLE_TYPE.getKey(this.getType()), $$1, $$2, $$3, this.arrivalInTicks);
++        return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %d", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()), $$1, $$2, $$3, this.arrivalInTicks);
+### 1.19.2->1.19.3 net/minecraft/core/registries/BuiltInRegistries.java
+### 1.19.2->1.19.3 net/minecraft/core/registries/package-info.java
+### 1.19.2->1.19.3 net/minecraft/core/registries/Registries.java
+### 1.19.2->1.19.3 net/minecraft/core/Registry.java
+@@ -1,9 +1,7 @@
+-import com.google.common.collect.Maps;
+-import com.mojang.logging.LogUtils;
+@@ -15,580 +13,203 @@ import java.util.Map;
+-import java.util.function.Function;
+-import java.util.function.Supplier;
+-import net.minecraft.Util;
+-import net.minecraft.commands.synchronization.ArgumentTypeInfo;
+-import net.minecraft.commands.synchronization.ArgumentTypeInfos;
+-import net.minecraft.core.particles.ParticleType;
+-import net.minecraft.core.particles.ParticleTypes;
+-import net.minecraft.data.BuiltinRegistries;
+-import net.minecraft.network.chat.ChatType;
+-import net.minecraft.server.Bootstrap;
+-import net.minecraft.sounds.SoundEvent;
+-import net.minecraft.sounds.SoundEvents;
+-import net.minecraft.stats.StatType;
+-import net.minecraft.stats.Stats;
+-import net.minecraft.util.valueproviders.FloatProviderType;
+-import net.minecraft.util.valueproviders.IntProviderType;
+-import net.minecraft.world.effect.MobEffect;
+-import net.minecraft.world.effect.MobEffects;
+-import net.minecraft.world.entity.EntityType;
+-import net.minecraft.world.entity.ai.attributes.Attribute;
+-import net.minecraft.world.entity.ai.attributes.Attributes;
+-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+-import net.minecraft.world.entity.ai.sensing.SensorType;
+-import net.minecraft.world.entity.ai.village.poi.PoiType;
+-import net.minecraft.world.entity.ai.village.poi.PoiTypes;
+-import net.minecraft.world.entity.animal.CatVariant;
+-import net.minecraft.world.entity.animal.FrogVariant;
+-import net.minecraft.world.entity.decoration.PaintingVariant;
+-import net.minecraft.world.entity.decoration.PaintingVariants;
+-import net.minecraft.world.entity.npc.VillagerProfession;
+-import net.minecraft.world.entity.npc.VillagerType;
+-import net.minecraft.world.entity.schedule.Activity;
+-import net.minecraft.world.entity.schedule.Schedule;
+-import net.minecraft.world.inventory.MenuType;
+-import net.minecraft.world.item.Instrument;
+-import net.minecraft.world.item.Instruments;
+-import net.minecraft.world.item.Item;
+-import net.minecraft.world.item.Items;
+-import net.minecraft.world.item.alchemy.Potion;
+-import net.minecraft.world.item.alchemy.Potions;
+-import net.minecraft.world.item.crafting.RecipeSerializer;
+-import net.minecraft.world.item.crafting.RecipeType;
+-import net.minecraft.world.item.enchantment.Enchantment;
+-import net.minecraft.world.item.enchantment.Enchantments;
+-import net.minecraft.world.level.Level;
+-import net.minecraft.world.level.biome.Biome;
+-import net.minecraft.world.level.biome.BiomeSource;
+-import net.minecraft.world.level.biome.BiomeSources;
+-import net.minecraft.world.level.block.Block;
+-import net.minecraft.world.level.block.Blocks;
+-import net.minecraft.world.level.block.entity.BannerPattern;
+-import net.minecraft.world.level.block.entity.BannerPatterns;
+-import net.minecraft.world.level.block.entity.BlockEntityType;
+-import net.minecraft.world.level.chunk.ChunkGenerator;
+-import net.minecraft.world.level.chunk.ChunkGenerators;
+-import net.minecraft.world.level.chunk.ChunkStatus;
+-import net.minecraft.world.level.dimension.DimensionType;
+-import net.minecraft.world.level.dimension.LevelStem;
+-import net.minecraft.world.level.gameevent.GameEvent;
+-import net.minecraft.world.level.gameevent.PositionSourceType;
+-import net.minecraft.world.level.levelgen.DensityFunction;
+-import net.minecraft.world.level.levelgen.DensityFunctions;
+-import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
+-import net.minecraft.world.level.levelgen.SurfaceRules;
+-import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicateType;
+-import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
+-import net.minecraft.world.level.levelgen.carver.WorldCarver;
+-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+-import net.minecraft.world.level.levelgen.feature.Feature;
+-import net.minecraft.world.level.levelgen.feature.featuresize.FeatureSizeType;
+-import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
+-import net.minecraft.world.level.levelgen.feature.rootplacers.RootPlacerType;
+-import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType;
+-import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
+-import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
+-import net.minecraft.world.level.levelgen.flat.FlatLevelGeneratorPreset;
+-import net.minecraft.world.level.levelgen.heightproviders.HeightProviderType;
+-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+-import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
+-import net.minecraft.world.level.levelgen.presets.WorldPreset;
+-import net.minecraft.world.level.levelgen.structure.Structure;
+-import net.minecraft.world.level.levelgen.structure.StructureSet;
+-import net.minecraft.world.level.levelgen.structure.StructureType;
+-import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
+-import net.minecraft.world.level.levelgen.structure.placement.StructurePlacementType;
+-import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
+-import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+-import net.minecraft.world.level.levelgen.structure.templatesystem.PosRuleTestType;
+-import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTestType;
+-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
+-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+-import net.minecraft.world.level.levelgen.synth.NormalNoise;
+-import net.minecraft.world.level.material.Fluid;
+-import net.minecraft.world.level.material.Fluids;
+-import net.minecraft.world.level.storage.loot.entries.LootPoolEntries;
+-import net.minecraft.world.level.storage.loot.entries.LootPoolEntryType;
+-import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
+-import net.minecraft.world.level.storage.loot.functions.LootItemFunctions;
+-import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
+-import net.minecraft.world.level.storage.loot.predicates.LootItemConditions;
+-import net.minecraft.world.level.storage.loot.providers.nbt.LootNbtProviderType;
+-import net.minecraft.world.level.storage.loot.providers.nbt.NbtProviders;
+-import net.minecraft.world.level.storage.loot.providers.number.LootNumberProviderType;
+-import net.minecraft.world.level.storage.loot.providers.number.NumberProviders;
+-import net.minecraft.world.level.storage.loot.providers.score.LootScoreProviderType;
+-import net.minecraft.world.level.storage.loot.providers.score.ScoreboardNameProviders;
+-import org.apache.commons.lang3.Validate;
+-import org.slf4j.Logger;
+-
+-public abstract class Registry<T> implements Keyable, IdMap<T> {
+-    private static final Logger LOGGER = LogUtils.getLogger();
+-    private static final Map<ResourceLocation, Supplier<?>> LOADERS = Maps.<ResourceLocation, Supplier<?>>newLinkedHashMap();
+-    public static final ResourceLocation ROOT_REGISTRY_NAME = new ResourceLocation("root");
+-    protected static final WritableRegistry<WritableRegistry<?>> WRITABLE_REGISTRY = new MappedRegistry<>(
+-        createRegistryKey("root"), Lifecycle.experimental(), null
+-    );
+-    public static final Registry<? extends Registry<?>> REGISTRY = WRITABLE_REGISTRY;
+-    public static final ResourceKey<Registry<SoundEvent>> SOUND_EVENT_REGISTRY = createRegistryKey("sound_event");
+-    public static final ResourceKey<Registry<Fluid>> FLUID_REGISTRY = createRegistryKey("fluid");
+-    public static final ResourceKey<Registry<MobEffect>> MOB_EFFECT_REGISTRY = createRegistryKey("mob_effect");
+-    public static final ResourceKey<Registry<Block>> BLOCK_REGISTRY = createRegistryKey("block");
+-    public static final ResourceKey<Registry<Enchantment>> ENCHANTMENT_REGISTRY = createRegistryKey("enchantment");
+-    public static final ResourceKey<Registry<EntityType<?>>> ENTITY_TYPE_REGISTRY = createRegistryKey("entity_type");
+-    public static final ResourceKey<Registry<Item>> ITEM_REGISTRY = createRegistryKey("item");
+-    public static final ResourceKey<Registry<Potion>> POTION_REGISTRY = createRegistryKey("potion");
+-    public static final ResourceKey<Registry<ParticleType<?>>> PARTICLE_TYPE_REGISTRY = createRegistryKey("particle_type");
+-    public static final ResourceKey<Registry<BlockEntityType<?>>> BLOCK_ENTITY_TYPE_REGISTRY = createRegistryKey("block_entity_type");
+-    public static final ResourceKey<Registry<PaintingVariant>> PAINTING_VARIANT_REGISTRY = createRegistryKey("painting_variant");
+-    public static final ResourceKey<Registry<ResourceLocation>> CUSTOM_STAT_REGISTRY = createRegistryKey("custom_stat");
+-    public static final ResourceKey<Registry<ChunkStatus>> CHUNK_STATUS_REGISTRY = createRegistryKey("chunk_status");
+-    public static final ResourceKey<Registry<RuleTestType<?>>> RULE_TEST_REGISTRY = createRegistryKey("rule_test");
+-    public static final ResourceKey<Registry<PosRuleTestType<?>>> POS_RULE_TEST_REGISTRY = createRegistryKey("pos_rule_test");
+-    public static final ResourceKey<Registry<MenuType<?>>> MENU_REGISTRY = createRegistryKey("menu");
+-    public static final ResourceKey<Registry<RecipeType<?>>> RECIPE_TYPE_REGISTRY = createRegistryKey("recipe_type");
+-    public static final ResourceKey<Registry<RecipeSerializer<?>>> RECIPE_SERIALIZER_REGISTRY = createRegistryKey("recipe_serializer");
+-    public static final ResourceKey<Registry<Attribute>> ATTRIBUTE_REGISTRY = createRegistryKey("attribute");
+-    public static final ResourceKey<Registry<GameEvent>> GAME_EVENT_REGISTRY = createRegistryKey("game_event");
+-    public static final ResourceKey<Registry<PositionSourceType<?>>> POSITION_SOURCE_TYPE_REGISTRY = createRegistryKey("position_source_type");
+-    public static final ResourceKey<Registry<StatType<?>>> STAT_TYPE_REGISTRY = createRegistryKey("stat_type");
+-    public static final ResourceKey<Registry<VillagerType>> VILLAGER_TYPE_REGISTRY = createRegistryKey("villager_type");
+-    public static final ResourceKey<Registry<VillagerProfession>> VILLAGER_PROFESSION_REGISTRY = createRegistryKey("villager_profession");
+-    public static final ResourceKey<Registry<PoiType>> POINT_OF_INTEREST_TYPE_REGISTRY = createRegistryKey("point_of_interest_type");
+-    public static final ResourceKey<Registry<MemoryModuleType<?>>> MEMORY_MODULE_TYPE_REGISTRY = createRegistryKey("memory_module_type");
+-    public static final ResourceKey<Registry<SensorType<?>>> SENSOR_TYPE_REGISTRY = createRegistryKey("sensor_type");
+-    public static final ResourceKey<Registry<Schedule>> SCHEDULE_REGISTRY = createRegistryKey("schedule");
+-    public static final ResourceKey<Registry<Activity>> ACTIVITY_REGISTRY = createRegistryKey("activity");
+-    public static final ResourceKey<Registry<LootPoolEntryType>> LOOT_ENTRY_REGISTRY = createRegistryKey("loot_pool_entry_type");
+-    public static final ResourceKey<Registry<LootItemFunctionType>> LOOT_FUNCTION_REGISTRY = createRegistryKey("loot_function_type");
+-    public static final ResourceKey<Registry<LootItemConditionType>> LOOT_ITEM_REGISTRY = createRegistryKey("loot_condition_type");
+-    public static final ResourceKey<Registry<LootNumberProviderType>> LOOT_NUMBER_PROVIDER_REGISTRY = createRegistryKey("loot_number_provider_type");
+-    public static final ResourceKey<Registry<LootNbtProviderType>> LOOT_NBT_PROVIDER_REGISTRY = createRegistryKey("loot_nbt_provider_type");
+-    public static final ResourceKey<Registry<LootScoreProviderType>> LOOT_SCORE_PROVIDER_REGISTRY = createRegistryKey("loot_score_provider_type");
+-    public static final ResourceKey<Registry<ArgumentTypeInfo<?, ?>>> COMMAND_ARGUMENT_TYPE_REGISTRY = createRegistryKey("command_argument_type");
+-    public static final ResourceKey<Registry<DimensionType>> DIMENSION_TYPE_REGISTRY = createRegistryKey("dimension_type");
+-    public static final ResourceKey<Registry<Level>> DIMENSION_REGISTRY = createRegistryKey("dimension");
+-    public static final ResourceKey<Registry<LevelStem>> LEVEL_STEM_REGISTRY = createRegistryKey("dimension");
+-    public static final DefaultedRegistry<GameEvent> GAME_EVENT = registerDefaulted(
+-        GAME_EVENT_REGISTRY, "step", GameEvent::builtInRegistryHolder, $$0 -> GameEvent.STEP
+-    );
+-    public static final Registry<SoundEvent> SOUND_EVENT = registerSimple(SOUND_EVENT_REGISTRY, $$0 -> SoundEvents.ITEM_PICKUP);
+-    public static final DefaultedRegistry<Fluid> FLUID = registerDefaulted(FLUID_REGISTRY, "empty", Fluid::builtInRegistryHolder, $$0 -> Fluids.EMPTY);
+-    public static final Registry<MobEffect> MOB_EFFECT = registerSimple(MOB_EFFECT_REGISTRY, $$0 -> MobEffects.LUCK);
+-    public static final DefaultedRegistry<Block> BLOCK = registerDefaulted(BLOCK_REGISTRY, "air", Block::builtInRegistryHolder, $$0 -> Blocks.AIR);
+-    public static final Registry<Enchantment> ENCHANTMENT = registerSimple(ENCHANTMENT_REGISTRY, $$0 -> Enchantments.BLOCK_FORTUNE);
+-    public static final DefaultedRegistry<EntityType<?>> ENTITY_TYPE = registerDefaulted(
+-        ENTITY_TYPE_REGISTRY, "pig", EntityType::builtInRegistryHolder, $$0 -> EntityType.PIG
+-    );
+-    public static final DefaultedRegistry<Item> ITEM = registerDefaulted(ITEM_REGISTRY, "air", Item::builtInRegistryHolder, $$0 -> Items.AIR);
+-    public static final DefaultedRegistry<Potion> POTION = registerDefaulted(POTION_REGISTRY, "empty", $$0 -> Potions.EMPTY);
+-    public static final Registry<ParticleType<?>> PARTICLE_TYPE = registerSimple(PARTICLE_TYPE_REGISTRY, $$0 -> ParticleTypes.BLOCK);
+-    public static final Registry<BlockEntityType<?>> BLOCK_ENTITY_TYPE = registerSimple(BLOCK_ENTITY_TYPE_REGISTRY, $$0 -> BlockEntityType.FURNACE);
+-    public static final DefaultedRegistry<PaintingVariant> PAINTING_VARIANT = registerDefaulted(PAINTING_VARIANT_REGISTRY, "kebab", PaintingVariants::bootstrap);
+-    public static final Registry<ResourceLocation> CUSTOM_STAT = registerSimple(CUSTOM_STAT_REGISTRY, $$0 -> Stats.JUMP);
+-    public static final DefaultedRegistry<ChunkStatus> CHUNK_STATUS = registerDefaulted(CHUNK_STATUS_REGISTRY, "empty", $$0 -> ChunkStatus.EMPTY);
+-    public static final Registry<RuleTestType<?>> RULE_TEST = registerSimple(RULE_TEST_REGISTRY, $$0 -> RuleTestType.ALWAYS_TRUE_TEST);
+-    public static final Registry<PosRuleTestType<?>> POS_RULE_TEST = registerSimple(POS_RULE_TEST_REGISTRY, $$0 -> PosRuleTestType.ALWAYS_TRUE_TEST);
+-    public static final Registry<MenuType<?>> MENU = registerSimple(MENU_REGISTRY, $$0 -> MenuType.ANVIL);
+-    public static final Registry<RecipeType<?>> RECIPE_TYPE = registerSimple(RECIPE_TYPE_REGISTRY, $$0 -> RecipeType.CRAFTING);
+-    public static final Registry<RecipeSerializer<?>> RECIPE_SERIALIZER = registerSimple(RECIPE_SERIALIZER_REGISTRY, $$0 -> RecipeSerializer.SHAPELESS_RECIPE);
+-    public static final Registry<Attribute> ATTRIBUTE = registerSimple(ATTRIBUTE_REGISTRY, $$0 -> Attributes.LUCK);
+-    public static final Registry<PositionSourceType<?>> POSITION_SOURCE_TYPE = registerSimple(POSITION_SOURCE_TYPE_REGISTRY, $$0 -> PositionSourceType.BLOCK);
+-    public static final Registry<ArgumentTypeInfo<?, ?>> COMMAND_ARGUMENT_TYPE = registerSimple(COMMAND_ARGUMENT_TYPE_REGISTRY, ArgumentTypeInfos::bootstrap);
+-    public static final Registry<StatType<?>> STAT_TYPE = registerSimple(STAT_TYPE_REGISTRY, $$0 -> Stats.ITEM_USED);
+-    public static final DefaultedRegistry<VillagerType> VILLAGER_TYPE = registerDefaulted(VILLAGER_TYPE_REGISTRY, "plains", $$0 -> VillagerType.PLAINS);
+-    public static final DefaultedRegistry<VillagerProfession> VILLAGER_PROFESSION = registerDefaulted(
+-        VILLAGER_PROFESSION_REGISTRY, "none", $$0 -> VillagerProfession.NONE
+-    );
+-    public static final Registry<PoiType> POINT_OF_INTEREST_TYPE = registerSimple(POINT_OF_INTEREST_TYPE_REGISTRY, PoiTypes::bootstrap);
+-    public static final DefaultedRegistry<MemoryModuleType<?>> MEMORY_MODULE_TYPE = registerDefaulted(
+-        MEMORY_MODULE_TYPE_REGISTRY, "dummy", $$0 -> MemoryModuleType.DUMMY
+-    );
+-    public static final DefaultedRegistry<SensorType<?>> SENSOR_TYPE = registerDefaulted(SENSOR_TYPE_REGISTRY, "dummy", $$0 -> SensorType.DUMMY);
+-    public static final Registry<Schedule> SCHEDULE = registerSimple(SCHEDULE_REGISTRY, $$0 -> Schedule.EMPTY);
+-    public static final Registry<Activity> ACTIVITY = registerSimple(ACTIVITY_REGISTRY, $$0 -> Activity.IDLE);
+-    public static final Registry<LootPoolEntryType> LOOT_POOL_ENTRY_TYPE = registerSimple(LOOT_ENTRY_REGISTRY, $$0 -> LootPoolEntries.EMPTY);
+-    public static final Registry<LootItemFunctionType> LOOT_FUNCTION_TYPE = registerSimple(LOOT_FUNCTION_REGISTRY, $$0 -> LootItemFunctions.SET_COUNT);
+-    public static final Registry<LootItemConditionType> LOOT_CONDITION_TYPE = registerSimple(LOOT_ITEM_REGISTRY, $$0 -> LootItemConditions.INVERTED);
+-    public static final Registry<LootNumberProviderType> LOOT_NUMBER_PROVIDER_TYPE = registerSimple(
+-        LOOT_NUMBER_PROVIDER_REGISTRY, $$0 -> NumberProviders.CONSTANT
+-    );
+-    public static final Registry<LootNbtProviderType> LOOT_NBT_PROVIDER_TYPE = registerSimple(LOOT_NBT_PROVIDER_REGISTRY, $$0 -> NbtProviders.CONTEXT);
+-    public static final Registry<LootScoreProviderType> LOOT_SCORE_PROVIDER_TYPE = registerSimple(
+-        LOOT_SCORE_PROVIDER_REGISTRY, $$0 -> ScoreboardNameProviders.CONTEXT
+-    );
+-    public static final ResourceKey<Registry<FloatProviderType<?>>> FLOAT_PROVIDER_TYPE_REGISTRY = createRegistryKey("float_provider_type");
+-    public static final Registry<FloatProviderType<?>> FLOAT_PROVIDER_TYPES = registerSimple(FLOAT_PROVIDER_TYPE_REGISTRY, $$0 -> FloatProviderType.CONSTANT);
+-    public static final ResourceKey<Registry<IntProviderType<?>>> INT_PROVIDER_TYPE_REGISTRY = createRegistryKey("int_provider_type");
+-    public static final Registry<IntProviderType<?>> INT_PROVIDER_TYPES = registerSimple(INT_PROVIDER_TYPE_REGISTRY, $$0 -> IntProviderType.CONSTANT);
+-    public static final ResourceKey<Registry<HeightProviderType<?>>> HEIGHT_PROVIDER_TYPE_REGISTRY = createRegistryKey("height_provider_type");
+-    public static final Registry<HeightProviderType<?>> HEIGHT_PROVIDER_TYPES = registerSimple(
+-        HEIGHT_PROVIDER_TYPE_REGISTRY, $$0 -> HeightProviderType.CONSTANT
+-    );
+-    public static final ResourceKey<Registry<BlockPredicateType<?>>> BLOCK_PREDICATE_TYPE_REGISTRY = createRegistryKey("block_predicate_type");
+-    public static final Registry<BlockPredicateType<?>> BLOCK_PREDICATE_TYPES = registerSimple(BLOCK_PREDICATE_TYPE_REGISTRY, $$0 -> BlockPredicateType.NOT);
+-    public static final ResourceKey<Registry<NoiseGeneratorSettings>> NOISE_GENERATOR_SETTINGS_REGISTRY = createRegistryKey("worldgen/noise_settings");
+-    public static final ResourceKey<Registry<ConfiguredWorldCarver<?>>> CONFIGURED_CARVER_REGISTRY = createRegistryKey("worldgen/configured_carver");
+-    public static final ResourceKey<Registry<ConfiguredFeature<?, ?>>> CONFIGURED_FEATURE_REGISTRY = createRegistryKey("worldgen/configured_feature");
+-    public static final ResourceKey<Registry<PlacedFeature>> PLACED_FEATURE_REGISTRY = createRegistryKey("worldgen/placed_feature");
+-    public static final ResourceKey<Registry<Structure>> STRUCTURE_REGISTRY = createRegistryKey("worldgen/structure");
+-    public static final ResourceKey<Registry<StructureSet>> STRUCTURE_SET_REGISTRY = createRegistryKey("worldgen/structure_set");
+-    public static final ResourceKey<Registry<StructureProcessorList>> PROCESSOR_LIST_REGISTRY = createRegistryKey("worldgen/processor_list");
+-    public static final ResourceKey<Registry<StructureTemplatePool>> TEMPLATE_POOL_REGISTRY = createRegistryKey("worldgen/template_pool");
+-    public static final ResourceKey<Registry<Biome>> BIOME_REGISTRY = createRegistryKey("worldgen/biome");
+-    public static final ResourceKey<Registry<NormalNoise.NoiseParameters>> NOISE_REGISTRY = createRegistryKey("worldgen/noise");
+-    public static final ResourceKey<Registry<DensityFunction>> DENSITY_FUNCTION_REGISTRY = createRegistryKey("worldgen/density_function");
+-    public static final ResourceKey<Registry<WorldPreset>> WORLD_PRESET_REGISTRY = createRegistryKey("worldgen/world_preset");
+-    public static final ResourceKey<Registry<FlatLevelGeneratorPreset>> FLAT_LEVEL_GENERATOR_PRESET_REGISTRY = createRegistryKey(
+-        "worldgen/flat_level_generator_preset"
+-    );
+-    public static final ResourceKey<Registry<WorldCarver<?>>> CARVER_REGISTRY = createRegistryKey("worldgen/carver");
+-    public static final Registry<WorldCarver<?>> CARVER = registerSimple(CARVER_REGISTRY, $$0 -> WorldCarver.CAVE);
+-    public static final ResourceKey<Registry<Feature<?>>> FEATURE_REGISTRY = createRegistryKey("worldgen/feature");
+-    public static final Registry<Feature<?>> FEATURE = registerSimple(FEATURE_REGISTRY, $$0 -> Feature.ORE);
+-    public static final ResourceKey<Registry<StructurePlacementType<?>>> STRUCTURE_PLACEMENT_TYPE_REGISTRY = createRegistryKey("worldgen/structure_placement");
+-    public static final Registry<StructurePlacementType<?>> STRUCTURE_PLACEMENT_TYPE = registerSimple(
+-        STRUCTURE_PLACEMENT_TYPE_REGISTRY, $$0 -> StructurePlacementType.RANDOM_SPREAD
+-    );
+-    public static final ResourceKey<Registry<StructurePieceType>> STRUCTURE_PIECE_REGISTRY = createRegistryKey("worldgen/structure_piece");
+-    public static final Registry<StructurePieceType> STRUCTURE_PIECE = registerSimple(STRUCTURE_PIECE_REGISTRY, $$0 -> StructurePieceType.MINE_SHAFT_ROOM);
+-    public static final ResourceKey<Registry<StructureType<?>>> STRUCTURE_TYPE_REGISTRY = createRegistryKey("worldgen/structure_type");
+-    public static final Registry<StructureType<?>> STRUCTURE_TYPES = registerSimple(STRUCTURE_TYPE_REGISTRY, $$0 -> StructureType.JIGSAW);
+-    public static final ResourceKey<Registry<PlacementModifierType<?>>> PLACEMENT_MODIFIER_REGISTRY = createRegistryKey("worldgen/placement_modifier_type");
+-    public static final Registry<PlacementModifierType<?>> PLACEMENT_MODIFIERS = registerSimple(PLACEMENT_MODIFIER_REGISTRY, $$0 -> PlacementModifierType.COUNT);
+-    public static final ResourceKey<Registry<BlockStateProviderType<?>>> BLOCK_STATE_PROVIDER_TYPE_REGISTRY = createRegistryKey(
+-        "worldgen/block_state_provider_type"
+-    );
+-    public static final ResourceKey<Registry<FoliagePlacerType<?>>> FOLIAGE_PLACER_TYPE_REGISTRY = createRegistryKey("worldgen/foliage_placer_type");
+-    public static final ResourceKey<Registry<TrunkPlacerType<?>>> TRUNK_PLACER_TYPE_REGISTRY = createRegistryKey("worldgen/trunk_placer_type");
+-    public static final ResourceKey<Registry<TreeDecoratorType<?>>> TREE_DECORATOR_TYPE_REGISTRY = createRegistryKey("worldgen/tree_decorator_type");
+-    public static final ResourceKey<Registry<RootPlacerType<?>>> ROOT_PLACER_TYPE_REGISTRY = createRegistryKey("worldgen/root_placer_type");
+-    public static final ResourceKey<Registry<FeatureSizeType<?>>> FEATURE_SIZE_TYPE_REGISTRY = createRegistryKey("worldgen/feature_size_type");
+-    public static final ResourceKey<Registry<Codec<? extends BiomeSource>>> BIOME_SOURCE_REGISTRY = createRegistryKey("worldgen/biome_source");
+-    public static final ResourceKey<Registry<Codec<? extends ChunkGenerator>>> CHUNK_GENERATOR_REGISTRY = createRegistryKey("worldgen/chunk_generator");
+-    public static final ResourceKey<Registry<Codec<? extends SurfaceRules.ConditionSource>>> CONDITION_REGISTRY = createRegistryKey(
+-        "worldgen/material_condition"
+-    );
+-    public static final ResourceKey<Registry<Codec<? extends SurfaceRules.RuleSource>>> RULE_REGISTRY = createRegistryKey("worldgen/material_rule");
+-    public static final ResourceKey<Registry<Codec<? extends DensityFunction>>> DENSITY_FUNCTION_TYPE_REGISTRY = createRegistryKey(
+-        "worldgen/density_function_type"
+-    );
+-    public static final ResourceKey<Registry<StructureProcessorType<?>>> STRUCTURE_PROCESSOR_REGISTRY = createRegistryKey("worldgen/structure_processor");
+-    public static final ResourceKey<Registry<StructurePoolElementType<?>>> STRUCTURE_POOL_ELEMENT_REGISTRY = createRegistryKey(
+-        "worldgen/structure_pool_element"
+-    );
+-    public static final Registry<BlockStateProviderType<?>> BLOCKSTATE_PROVIDER_TYPES = registerSimple(
+-        BLOCK_STATE_PROVIDER_TYPE_REGISTRY, $$0 -> BlockStateProviderType.SIMPLE_STATE_PROVIDER
+-    );
+-    public static final Registry<FoliagePlacerType<?>> FOLIAGE_PLACER_TYPES = registerSimple(
+-        FOLIAGE_PLACER_TYPE_REGISTRY, $$0 -> FoliagePlacerType.BLOB_FOLIAGE_PLACER
+-    );
+-    public static final Registry<TrunkPlacerType<?>> TRUNK_PLACER_TYPES = registerSimple(
+-        TRUNK_PLACER_TYPE_REGISTRY, $$0 -> TrunkPlacerType.STRAIGHT_TRUNK_PLACER
+-    );
+-    public static final Registry<RootPlacerType<?>> ROOT_PLACER_TYPES = registerSimple(ROOT_PLACER_TYPE_REGISTRY, $$0 -> RootPlacerType.MANGROVE_ROOT_PLACER);
+-    public static final Registry<TreeDecoratorType<?>> TREE_DECORATOR_TYPES = registerSimple(TREE_DECORATOR_TYPE_REGISTRY, $$0 -> TreeDecoratorType.LEAVE_VINE);
+-    public static final Registry<FeatureSizeType<?>> FEATURE_SIZE_TYPES = registerSimple(
+-        FEATURE_SIZE_TYPE_REGISTRY, $$0 -> FeatureSizeType.TWO_LAYERS_FEATURE_SIZE
+-    );
+-    public static final Registry<Codec<? extends BiomeSource>> BIOME_SOURCE = registerSimple(BIOME_SOURCE_REGISTRY, Lifecycle.stable(), BiomeSources::bootstrap);
+-    public static final Registry<Codec<? extends ChunkGenerator>> CHUNK_GENERATOR = registerSimple(
+-        CHUNK_GENERATOR_REGISTRY, Lifecycle.stable(), ChunkGenerators::bootstrap
+-    );
+-    public static final Registry<Codec<? extends SurfaceRules.ConditionSource>> CONDITION = registerSimple(
+-        CONDITION_REGISTRY, SurfaceRules.ConditionSource::bootstrap
+-    );
+-    public static final Registry<Codec<? extends SurfaceRules.RuleSource>> RULE = registerSimple(RULE_REGISTRY, SurfaceRules.RuleSource::bootstrap);
+-    public static final Registry<Codec<? extends DensityFunction>> DENSITY_FUNCTION_TYPES = registerSimple(
+-        DENSITY_FUNCTION_TYPE_REGISTRY, DensityFunctions::bootstrap
+-    );
+-    public static final Registry<StructureProcessorType<?>> STRUCTURE_PROCESSOR = registerSimple(
+-        STRUCTURE_PROCESSOR_REGISTRY, $$0 -> StructureProcessorType.BLOCK_IGNORE
+-    );
+-    public static final Registry<StructurePoolElementType<?>> STRUCTURE_POOL_ELEMENT = registerSimple(
+-        STRUCTURE_POOL_ELEMENT_REGISTRY, $$0 -> StructurePoolElementType.EMPTY
+-    );
+-    public static final ResourceKey<Registry<ChatType>> CHAT_TYPE_REGISTRY = createRegistryKey("chat_type");
+-    public static final ResourceKey<Registry<CatVariant>> CAT_VARIANT_REGISTRY = createRegistryKey("cat_variant");
+-    public static final Registry<CatVariant> CAT_VARIANT = registerSimple(CAT_VARIANT_REGISTRY, $$0 -> CatVariant.BLACK);
+-    public static final ResourceKey<Registry<FrogVariant>> FROG_VARIANT_REGISTRY = createRegistryKey("frog_variant");
+-    public static final Registry<FrogVariant> FROG_VARIANT = registerSimple(FROG_VARIANT_REGISTRY, $$0 -> FrogVariant.TEMPERATE);
+-    public static final ResourceKey<Registry<BannerPattern>> BANNER_PATTERN_REGISTRY = createRegistryKey("banner_pattern");
+-    public static final Registry<BannerPattern> BANNER_PATTERN = registerSimple(BANNER_PATTERN_REGISTRY, BannerPatterns::bootstrap);
+-    public static final ResourceKey<Registry<Instrument>> INSTRUMENT_REGISTRY = createRegistryKey("instrument");
+-    public static final Registry<Instrument> INSTRUMENT = registerSimple(INSTRUMENT_REGISTRY, Instruments::bootstrap);
+-    private final ResourceKey<? extends Registry<T>> key;
+-    private final Lifecycle lifecycle;
+-
+-    private static <T> ResourceKey<Registry<T>> createRegistryKey(String $$0) {
+-        return ResourceKey.createRegistryKey(new ResourceLocation($$0));
+-    }
+-
+-    public static <T extends Registry<?>> void checkRegistry(Registry<T> $$0) {
+-        $$0.forEach($$1 -> {
+-            if ($$1.keySet().isEmpty()) {
+-                Util.logAndPauseIfInIde("Registry '" + $$0.getKey((T)$$1) + "' was empty after loading");
+-            }
+-
+-            if ($$1 instanceof DefaultedRegistry) {
+-                ResourceLocation $$2 = ((DefaultedRegistry)$$1).getDefaultKey();
+-                Validate.notNull($$1.get($$2), "Missing default of DefaultedMappedRegistry: " + $$2);
+-            }
+-        });
+-    }
+-
+-    private static <T> Registry<T> registerSimple(ResourceKey<? extends Registry<T>> $$0, Registry.RegistryBootstrap<T> $$1) {
+-        return registerSimple($$0, Lifecycle.experimental(), $$1);
+-    }
+-
+-    private static <T> DefaultedRegistry<T> registerDefaulted(ResourceKey<? extends Registry<T>> $$0, String $$1, Registry.RegistryBootstrap<T> $$2) {
+-        return registerDefaulted($$0, $$1, Lifecycle.experimental(), $$2);
+-    }
+-
+-    private static <T> DefaultedRegistry<T> registerDefaulted(
+-        ResourceKey<? extends Registry<T>> $$0, String $$1, Function<T, Holder.Reference<T>> $$2, Registry.RegistryBootstrap<T> $$3
+-    ) {
+-        return registerDefaulted($$0, $$1, Lifecycle.experimental(), $$2, $$3);
+-    }
+-
+-    private static <T> Registry<T> registerSimple(ResourceKey<? extends Registry<T>> $$0, Lifecycle $$1, Registry.RegistryBootstrap<T> $$2) {
+-        return internalRegister($$0, new MappedRegistry<>($$0, $$1, null), $$2, $$1);
+-    }
+-
+-    private static <T> Registry<T> registerSimple(
+-        ResourceKey<? extends Registry<T>> $$0, Lifecycle $$1, Function<T, Holder.Reference<T>> $$2, Registry.RegistryBootstrap<T> $$3
+-    ) {
+-        return internalRegister($$0, new MappedRegistry<>($$0, $$1, $$2), $$3, $$1);
+-    }
+-
+-    private static <T> DefaultedRegistry<T> registerDefaulted(
+-        ResourceKey<? extends Registry<T>> $$0, String $$1, Lifecycle $$2, Registry.RegistryBootstrap<T> $$3
+-    ) {
+-        return internalRegister($$0, new DefaultedRegistry<>($$1, $$0, $$2, null), $$3, $$2);
+-    }
+-
+-    private static <T> DefaultedRegistry<T> registerDefaulted(
+-        ResourceKey<? extends Registry<T>> $$0, String $$1, Lifecycle $$2, Function<T, Holder.Reference<T>> $$3, Registry.RegistryBootstrap<T> $$4
+-    ) {
+-        return internalRegister($$0, new DefaultedRegistry<>($$1, $$0, $$2, $$3), $$4, $$2);
+-    }
+-
+-    private static <T, R extends WritableRegistry<T>> R internalRegister(
+-        ResourceKey<? extends Registry<T>> $$0, R $$1, Registry.RegistryBootstrap<T> $$2, Lifecycle $$3
+-    ) {
+-        ResourceLocation $$4 = $$0.location();
+-        LOADERS.put($$4, (Supplier)() -> $$2.run($$1));
+-        WRITABLE_REGISTRY.register((ResourceKey<WritableRegistry<?>>)$$0, $$1, $$3);
+-        return $$1;
+-    }
+-
+-    protected Registry(ResourceKey<? extends Registry<T>> $$0, Lifecycle $$1) {
+-        Bootstrap.checkBootstrapCalled(() -> "registry " + $$0);
+-        this.key = $$0;
+-        this.lifecycle = $$1;
+-    }
+-    public static void freezeBuiltins() {
+-        for (Registry<?> $$0 : REGISTRY) {
+-            $$0.freeze();
+-        }
+-    }
+-
+-    public ResourceKey<? extends Registry<T>> key() {
+-        return this.key;
+-    }
+-
+-    public Lifecycle lifecycle() {
+-        return this.lifecycle;
+-    }
++public interface Registry<T> extends Keyable, IdMap<T> {
++    ResourceKey<? extends Registry<T>> key();
+-    public String toString() {
+-        return "Registry[" + this.key + " (" + this.lifecycle + ")]";
+-    }
+-
+-    public Codec<T> byNameCodec() {
++    default Codec<T> byNameCodec() {
+-                    .orElseGet(() -> DataResult.error("Unknown registry key in " + this.key + ": " + $$0x)),
++                    .orElseGet(() -> DataResult.error("Unknown registry key in " + this.key() + ": " + $$0x)),
+-                    .orElseGet(() -> DataResult.error("Unknown registry element in " + this.key + ":" + $$0x))
++                    .orElseGet(() -> DataResult.error("Unknown registry element in " + this.key() + ":" + $$0x))
+-        return ExtraCodecs.overrideLifecycle(ExtraCodecs.orCompressed($$0, $$1), this::lifecycle, $$0x -> this.lifecycle);
++        return ExtraCodecs.overrideLifecycle(ExtraCodecs.orCompressed($$0, $$1), this::lifecycle, this::lifecycle);
+-    public Codec<Holder<T>> holderByNameCodec() {
++    default Codec<Holder<T>> holderByNameCodec() {
+-                $$0x -> (DataResult)this.getHolder(ResourceKey.create(this.key, $$0x))
++                $$0x -> (DataResult)this.getHolder(ResourceKey.create(this.key(), $$0x))
+-                    .orElseGet(() -> DataResult.error("Unknown registry key in " + this.key + ": " + $$0x)),
++                    .orElseGet(() -> DataResult.error("Unknown registry key in " + this.key() + ": " + $$0x)),
+-                    .orElseGet(() -> DataResult.error("Unknown registry element in " + this.key + ":" + $$0x))
++                    .orElseGet(() -> DataResult.error("Unknown registry element in " + this.key() + ":" + $$0x))
+-        return ExtraCodecs.overrideLifecycle($$0, $$0x -> this.lifecycle((T)$$0x.value()), $$0x -> this.lifecycle);
++        return ExtraCodecs.overrideLifecycle($$0, $$0x -> this.lifecycle((T)$$0x.value()), $$0x -> this.lifecycle((T)$$0x.value()));
+-    public <U> Stream<U> keys(DynamicOps<U> $$0) {
++    default <U> Stream<U> keys(DynamicOps<U> $$0) {
+-    public abstract ResourceLocation getKey(T object);
++    ResourceLocation getKey(T object);
+-    public abstract Optional<ResourceKey<T>> getResourceKey(T object);
++    Optional<ResourceKey<T>> getResourceKey(T object);
+-    public abstract int getId(@Nullable T object);
++    int getId(@Nullable T object);
+-    public abstract T get(@Nullable ResourceKey<T> resourceKey);
++    T get(@Nullable ResourceKey<T> resourceKey);
+-    public abstract T get(@Nullable ResourceLocation resourceLocation);
++    T get(@Nullable ResourceLocation resourceLocation);
+-    public abstract Lifecycle lifecycle(T object);
++    Lifecycle lifecycle(T object);
+-    public abstract Lifecycle elementsLifecycle();
++    Lifecycle registryLifecycle();
+-    public Optional<T> getOptional(@Nullable ResourceLocation $$0) {
++    default Optional<T> getOptional(@Nullable ResourceLocation $$0) {
+-    public Optional<T> getOptional(@Nullable ResourceKey<T> $$0) {
++    default Optional<T> getOptional(@Nullable ResourceKey<T> $$0) {
+-    public T getOrThrow(ResourceKey<T> $$0) {
++    default T getOrThrow(ResourceKey<T> $$0) {
+-            throw new IllegalStateException("Missing key in " + this.key + ": " + $$0);
++            throw new IllegalStateException("Missing key in " + this.key() + ": " + $$0);
+-    public abstract Set<ResourceLocation> keySet();
++    Set<ResourceLocation> keySet();
+-    public abstract Set<Entry<ResourceKey<T>, T>> entrySet();
++    Set<Entry<ResourceKey<T>, T>> entrySet();
+-    public abstract Set<ResourceKey<T>> registryKeySet();
++    Set<ResourceKey<T>> registryKeySet();
+-    public abstract Optional<Holder<T>> getRandom(RandomSource randomSource);
++    Optional<Holder.Reference<T>> getRandom(RandomSource randomSource);
+-    public Stream<T> stream() {
++    default Stream<T> stream() {
+-    public abstract boolean containsKey(ResourceLocation resourceLocation);
++    boolean containsKey(ResourceLocation resourceLocation);
+-    public abstract boolean containsKey(ResourceKey<T> resourceKey);
++    boolean containsKey(ResourceKey<T> resourceKey);
+-    public static <T> T register(Registry<? super T> $$0, String $$1, T $$2) {
++    static <T> T register(Registry<? super T> $$0, String $$1, T $$2) {
+-    public static <V, T extends V> T register(Registry<V> $$0, ResourceLocation $$1, T $$2) {
+-        return register($$0, ResourceKey.create($$0.key, $$1), $$2);
++    static <V, T extends V> T register(Registry<V> $$0, ResourceLocation $$1, T $$2) {
++        return register($$0, ResourceKey.create($$0.key(), $$1), $$2);
+-    public static <V, T extends V> T register(Registry<V> $$0, ResourceKey<V> $$1, T $$2) {
++    static <V, T extends V> T register(Registry<V> $$0, ResourceKey<V> $$1, T $$2) {
+-    public static <V, T extends V> T registerMapping(Registry<V> $$0, int $$1, String $$2, T $$3) {
+-        ((WritableRegistry)$$0).registerMapping($$1, ResourceKey.create($$0.key, new ResourceLocation($$2)), (V)$$3, Lifecycle.stable());
+-        return $$3;
++    static <T> Holder.Reference<T> registerForHolder(Registry<T> $$0, ResourceKey<T> $$1, T $$2) {
++        return ((WritableRegistry)$$0).register($$1, $$2, Lifecycle.stable());
+-    public abstract Registry<T> freeze();
++    static <T> Holder.Reference<T> registerForHolder(Registry<T> $$0, ResourceLocation $$1, T $$2) {
++        return registerForHolder($$0, ResourceKey.create($$0.key(), $$1), $$2);
++    }
++
++    static <V, T extends V> T registerMapping(Registry<V> $$0, int $$1, String $$2, T $$3) {
++        ((WritableRegistry)$$0).registerMapping($$1, ResourceKey.create($$0.key(), new ResourceLocation($$2)), (V)$$3, Lifecycle.stable());
++        return $$3;
++    }
+-    public abstract Holder<T> getOrCreateHolderOrThrow(ResourceKey<T> resourceKey);
++    Registry<T> freeze();
+-    public abstract DataResult<Holder<T>> getOrCreateHolder(ResourceKey<T> resourceKey);
++    Holder.Reference<T> createIntrusiveHolder(T object);
+-    public abstract Holder.Reference<T> createIntrusiveHolder(T object);
++    Optional<Holder.Reference<T>> getHolder(int i);
+-    public abstract Optional<Holder<T>> getHolder(int i);
++    Optional<Holder.Reference<T>> getHolder(ResourceKey<T> resourceKey);
+-    public abstract Optional<Holder<T>> getHolder(ResourceKey<T> resourceKey);
++    Holder<T> wrapAsHolder(T object);
+-    public Holder<T> getHolderOrThrow(ResourceKey<T> $$0) {
+-        return (Holder<T>)this.getHolder($$0).orElseThrow(() -> new IllegalStateException("Missing key in " + this.key + ": " + $$0));
++    default Holder.Reference<T> getHolderOrThrow(ResourceKey<T> $$0) {
++        return (Holder.Reference<T>)this.getHolder($$0).orElseThrow(() -> new IllegalStateException("Missing key in " + this.key() + ": " + $$0));
+-    public abstract Stream<Holder.Reference<T>> holders();
++    Stream<Holder.Reference<T>> holders();
+-    public abstract Optional<HolderSet.Named<T>> getTag(TagKey<T> tagKey);
++    Optional<HolderSet.Named<T>> getTag(TagKey<T> tagKey);
+-    public Iterable<Holder<T>> getTagOrEmpty(TagKey<T> $$0) {
++    default Iterable<Holder<T>> getTagOrEmpty(TagKey<T> $$0) {
+-    public abstract HolderSet.Named<T> getOrCreateTag(TagKey<T> tagKey);
+-
+-    public abstract Stream<Pair<TagKey<T>, HolderSet.Named<T>>> getTags();
++    HolderSet.Named<T> getOrCreateTag(TagKey<T> tagKey);
+-    public abstract Stream<TagKey<T>> getTagNames();
++    Stream<Pair<TagKey<T>, HolderSet.Named<T>>> getTags();
+-    public abstract boolean isKnownTagName(TagKey<T> tagKey);
++    Stream<TagKey<T>> getTagNames();
+-    public abstract void resetTags();
++    void resetTags();
+-    public abstract void bindTags(Map<TagKey<T>, List<Holder<T>>> map);
++    void bindTags(Map<TagKey<T>, List<Holder<T>>> map);
+-    public IdMap<Holder<T>> asHolderIdMap() {
++    default IdMap<Holder<T>> asHolderIdMap() {
+-    static {
+-        BuiltinRegistries.bootstrap();
+-        LOADERS.forEach(($$0, $$1) -> {
+-            if ($$1.get() == null) {
+-                LOGGER.error("Unable to bootstrap registry '{}'", $$0);
++    HolderOwner<T> holderOwner();
++
++    HolderLookup.RegistryLookup<T> asLookup();
++
++    default HolderLookup.RegistryLookup<T> asTagAddingLookup() {
++        return new HolderLookup.RegistryLookup.Delegate<T>() {
++            @Override
++            protected HolderLookup.RegistryLookup<T> parent() {
++                return Registry.this.asLookup();
+-        });
+-        checkRegistry(WRITABLE_REGISTRY);
+-    }
+-    @FunctionalInterface
+-    interface RegistryBootstrap<T> {
+-        T run(Registry<T> registry);
++            @Override
++            public Optional<HolderSet.Named<T>> get(TagKey<T> $$0) {
++                return Optional.of(this.getOrThrow($$0));
++            }
++
++            @Override
++            public HolderSet.Named<T> getOrThrow(TagKey<T> $$0) {
++                return Registry.this.getOrCreateTag($$0);
++            }
++        };
+### 1.19.2->1.19.3 net/minecraft/core/RegistryAccess.java
+@@ -1,325 +1,114 @@
+-import com.google.common.base.Suppliers;
+-import com.google.common.collect.ImmutableMap.Builder;
+-import com.google.gson.JsonElement;
+-import com.google.gson.JsonParseException;
+-import com.mojang.serialization.Codec;
+-import com.mojang.serialization.DataResult;
+-import com.mojang.serialization.Dynamic;
+-import com.mojang.serialization.DynamicOps;
+-import com.mojang.serialization.JsonOps;
+-import com.mojang.serialization.codecs.UnboundedMapCodec;
++import java.util.List;
+-import java.util.function.Function;
+-import java.util.function.Supplier;
+-import javax.annotation.Nullable;
+-import net.minecraft.Util;
+-import net.minecraft.data.BuiltinRegistries;
+-import net.minecraft.network.chat.ChatType;
+-import net.minecraft.resources.RegistryLoader;
+-import net.minecraft.resources.RegistryOps;
+-import net.minecraft.resources.RegistryResourceAccess;
+-import net.minecraft.resources.ResourceLocation;
+-import net.minecraft.world.level.biome.Biome;
+-import net.minecraft.world.level.dimension.DimensionType;
+-import net.minecraft.world.level.levelgen.DensityFunction;
+-import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
+-import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
+-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+-import net.minecraft.world.level.levelgen.flat.FlatLevelGeneratorPreset;
+-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+-import net.minecraft.world.level.levelgen.presets.WorldPreset;
+-import net.minecraft.world.level.levelgen.structure.Structure;
+-import net.minecraft.world.level.levelgen.structure.StructureSet;
+-import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+-import net.minecraft.world.level.levelgen.synth.NormalNoise;
+-public interface RegistryAccess {
++public interface RegistryAccess extends HolderLookup.Provider {
+-    Map<ResourceKey<? extends Registry<?>>, RegistryAccess.RegistryData<?>> REGISTRIES = Util.make(() -> {
+-        Builder<ResourceKey<? extends Registry<?>>, RegistryAccess.RegistryData<?>> $$0 = ImmutableMap.builder();
+-        put($$0, Registry.DIMENSION_TYPE_REGISTRY, DimensionType.DIRECT_CODEC, DimensionType.DIRECT_CODEC);
+-        put($$0, Registry.BIOME_REGISTRY, Biome.DIRECT_CODEC, Biome.NETWORK_CODEC);
+-        put($$0, Registry.CONFIGURED_CARVER_REGISTRY, ConfiguredWorldCarver.DIRECT_CODEC);
+-        put($$0, Registry.CONFIGURED_FEATURE_REGISTRY, ConfiguredFeature.DIRECT_CODEC);
+-        put($$0, Registry.PLACED_FEATURE_REGISTRY, PlacedFeature.DIRECT_CODEC);
+-        put($$0, Registry.STRUCTURE_REGISTRY, Structure.DIRECT_CODEC);
+-        put($$0, Registry.STRUCTURE_SET_REGISTRY, StructureSet.DIRECT_CODEC);
+-        put($$0, Registry.PROCESSOR_LIST_REGISTRY, StructureProcessorType.DIRECT_CODEC);
+-        put($$0, Registry.TEMPLATE_POOL_REGISTRY, StructureTemplatePool.DIRECT_CODEC);
+-        put($$0, Registry.NOISE_GENERATOR_SETTINGS_REGISTRY, NoiseGeneratorSettings.DIRECT_CODEC);
+-        put($$0, Registry.NOISE_REGISTRY, NormalNoise.NoiseParameters.DIRECT_CODEC);
+-        put($$0, Registry.DENSITY_FUNCTION_REGISTRY, DensityFunction.DIRECT_CODEC);
+-        put($$0, Registry.CHAT_TYPE_REGISTRY, ChatType.CODEC, ChatType.CODEC);
+-        put($$0, Registry.WORLD_PRESET_REGISTRY, WorldPreset.DIRECT_CODEC);
+-        put($$0, Registry.FLAT_LEVEL_GENERATOR_PRESET_REGISTRY, FlatLevelGeneratorPreset.DIRECT_CODEC);
+-        return $$0.build();
+-    });
+-    Codec<RegistryAccess> NETWORK_CODEC = makeNetworkCodec();
+-    Supplier<RegistryAccess.Frozen> BUILTIN = Suppliers.memoize(() -> builtinCopy().freeze());
++    RegistryAccess.Frozen EMPTY = new RegistryAccess.ImmutableRegistryAccess(Map.of()).freeze();
+-    <E> Optional<Registry<E>> ownedRegistry(ResourceKey<? extends Registry<? extends E>> resourceKey);
++    <E> Optional<Registry<E>> registry(ResourceKey<? extends Registry<? extends E>> resourceKey);
+-    default <E> Registry<E> ownedRegistryOrThrow(ResourceKey<? extends Registry<? extends E>> $$0) {
+-        return (Registry<E>)this.ownedRegistry($$0).orElseThrow(() -> new IllegalStateException("Missing registry: " + $$0));
+-    }
+-
+-    default <E> Optional<? extends Registry<E>> registry(ResourceKey<? extends Registry<? extends E>> $$0) {
+-        Optional<? extends Registry<E>> $$1 = this.ownedRegistry($$0);
+-        return $$1.isPresent() ? $$1 : Registry.REGISTRY.getOptional($$0.location());
++    @Override
++    default <T> Optional<HolderLookup.RegistryLookup<T>> lookup(ResourceKey<? extends Registry<? extends T>> $$0) {
++        return this.registry($$0).map(Registry::asLookup);
+-    private static <E> void put(
+-        Builder<ResourceKey<? extends Registry<?>>, RegistryAccess.RegistryData<?>> $$0, ResourceKey<? extends Registry<E>> $$1, Codec<E> $$2
+-    ) {
+-        $$0.put($$1, new RegistryAccess.RegistryData<>($$1, $$2, null));
+-    }
+-
+-    private static <E> void put(
+-        Builder<ResourceKey<? extends Registry<?>>, RegistryAccess.RegistryData<?>> $$0, ResourceKey<? extends Registry<E>> $$1, Codec<E> $$2, Codec<E> $$3
+-    ) {
+-        $$0.put($$1, new RegistryAccess.RegistryData<>($$1, $$2, $$3));
+-    }
+-
+-    static Iterable<RegistryAccess.RegistryData<?>> knownRegistries() {
+-        return REGISTRIES.values();
+-    }
+-
+-    Stream<RegistryAccess.RegistryEntry<?>> ownedRegistries();
+-
+-    private static Stream<RegistryAccess.RegistryEntry<Object>> globalRegistries() {
+-        return Registry.REGISTRY.holders().map(RegistryAccess.RegistryEntry::fromHolder);
+-    }
+-
+-    default Stream<RegistryAccess.RegistryEntry<?>> registries() {
+-        return Stream.concat(this.ownedRegistries(), globalRegistries());
+-    }
+-
+-    default Stream<RegistryAccess.RegistryEntry<?>> networkSafeRegistries() {
+-        return Stream.concat(this.ownedNetworkableRegistries(), globalRegistries());
+-    }
+-
+-    private static <E> Codec<RegistryAccess> makeNetworkCodec() {
+-        Codec<ResourceKey<? extends Registry<E>>> $$0 = ResourceLocation.CODEC.xmap(ResourceKey::createRegistryKey, ResourceKey::location);
+-        Codec<Registry<E>> $$1 = $$0.partialDispatch(
+-            "type",
+-            $$0x -> DataResult.success($$0x.key()),
+-            $$0x -> getNetworkCodec($$0x).map($$1x -> RegistryCodecs.networkCodec($$0x, Lifecycle.experimental(), $$1x))
+-        );
+-        UnboundedMapCodec<? extends ResourceKey<? extends Registry<?>>, ? extends Registry<?>> $$2 = Codec.unboundedMap($$0, $$1);
+-        return captureMap($$2);
+-    }
+-
+-    private static <K extends ResourceKey<? extends Registry<?>>, V extends Registry<?>> Codec<RegistryAccess> captureMap(UnboundedMapCodec<K, V> $$0) {
+-        return $$0.xmap(
+-            RegistryAccess.ImmutableRegistryAccess::new,
+-            $$0x -> (Map)$$0x.ownedNetworkableRegistries().collect(ImmutableMap.toImmutableMap($$0xx -> $$0xx.key(), $$0xx -> $$0xx.value()))
+-        );
+-    }
+-
+-    private Stream<RegistryAccess.RegistryEntry<?>> ownedNetworkableRegistries() {
+-        return this.ownedRegistries().filter($$0 -> ((RegistryAccess.RegistryData)REGISTRIES.get($$0.key)).sendToClient());
+-    }
+-
+-    private static <E> DataResult<? extends Codec<E>> getNetworkCodec(ResourceKey<? extends Registry<E>> $$0) {
+-        return (DataResult<? extends Codec<E>>)Optional.ofNullable((RegistryAccess.RegistryData)REGISTRIES.get($$0))
+-            .map($$0x -> $$0x.networkCodec())
+-            .map(DataResult::success)
+-            .orElseGet(() -> DataResult.error("Unknown or not serializable registry: " + $$0));
+-    }
+-
+-    private static Map<ResourceKey<? extends Registry<?>>, ? extends WritableRegistry<?>> createFreshRegistries() {
+-        return (Map<ResourceKey<? extends Registry<?>>, ? extends WritableRegistry<?>>)REGISTRIES.keySet()
+-            .stream()
+-            .collect(Collectors.toMap(Function.identity(), RegistryAccess::createRegistry));
+-    }
+-
+-    private static RegistryAccess.Writable blankWriteable() {
+-        return new RegistryAccess.WritableRegistryAccess(createFreshRegistries());
+-    }
++    Stream<RegistryAccess.RegistryEntry<?>> registries();
+-            public <T> Optional<Registry<T>> ownedRegistry(ResourceKey<? extends Registry<? extends T>> $$0) {
++            public <T> Optional<Registry<T>> registry(ResourceKey<? extends Registry<? extends T>> $$0) {
+-            public Stream<RegistryAccess.RegistryEntry<?>> ownedRegistries() {
++            public Stream<RegistryAccess.RegistryEntry<?>> registries() {
+-        };
+-    }
+-    static RegistryAccess.Writable builtinCopy() {
+-        RegistryAccess.Writable $$0 = blankWriteable();
+-        RegistryResourceAccess.InMemoryStorage $$1 = new RegistryResourceAccess.InMemoryStorage();
+-
+-        for (Entry<ResourceKey<? extends Registry<?>>, RegistryAccess.RegistryData<?>> $$2 : REGISTRIES.entrySet()) {
+-            addBuiltinElements($$1, (RegistryAccess.RegistryData)$$2.getValue());
+-        }
+-
+-        RegistryOps.createAndLoad(JsonOps.INSTANCE, $$0, $$1);
+-        return $$0;
+-    }
+-
+-    private static <E> void addBuiltinElements(RegistryResourceAccess.InMemoryStorage $$0, RegistryAccess.RegistryData<E> $$1) {
+-        ResourceKey<? extends Registry<E>> $$2 = $$1.key();
+-        Registry<E> $$3 = BuiltinRegistries.ACCESS.registryOrThrow($$2);
+-
+-        for (Entry<ResourceKey<E>, E> $$4 : $$3.entrySet()) {
+-            ResourceKey<E> $$5 = (ResourceKey<E>)$$4.getKey();
+-            E $$6 = (E)$$4.getValue();
+-            $$0.add(BuiltinRegistries.ACCESS, $$5, $$1.codec(), $$3.getId($$6), $$6, $$3.lifecycle($$6));
+-        }
++            @Override
++            public RegistryAccess.Frozen freeze() {
++                return this;
++            }
++        };
+-    static void load(RegistryAccess.Writable $$0, DynamicOps<JsonElement> $$1, RegistryLoader $$2) {
+-        RegistryLoader.Bound $$3 = $$2.bind($$0);
+-
+-        for (RegistryAccess.RegistryData<?> $$4 : REGISTRIES.values()) {
+-            readRegistry($$1, $$3, $$4);
++    default RegistryAccess.Frozen freeze() {
++        class FrozenAccess extends RegistryAccess.ImmutableRegistryAccess implements RegistryAccess.Frozen {
++            protected FrozenAccess(Stream<RegistryAccess.RegistryEntry<?>> $$1) {
++                super($$1);
++            }
+-    }
+-
+-    private static <E> void readRegistry(DynamicOps<JsonElement> $$0, RegistryLoader.Bound $$1, RegistryAccess.RegistryData<E> $$2) {
+-        DataResult<? extends Registry<E>> $$3 = $$1.overrideRegistryFromResources($$2.key(), $$2.codec(), $$0);
+-        $$3.error().ifPresent($$0x -> {
+-            throw new JsonParseException("Error loading registry data: " + $$0x.message());
+-        });
+-    }
+-
+-    static RegistryAccess readFromDisk(Dynamic<?> $$0) {
+-        return new RegistryAccess.ImmutableRegistryAccess(
+-            (Map<? extends ResourceKey<? extends Registry<?>>, ? extends Registry<?>>)REGISTRIES.keySet()
+-                .stream()
+-                .collect(Collectors.toMap(Function.identity(), $$1 -> retrieveRegistry($$1, $$0)))
+-        );
+-    }
+-
+-    static <E> Registry<E> retrieveRegistry(ResourceKey<? extends Registry<? extends E>> $$0, Dynamic<?> $$1) {
+-        return (Registry<E>)RegistryOps.retrieveRegistry($$0)
+-            .codec()
+-            .parse($$1)
+-            .resultOrPartial(Util.prefix($$0 + " registry: ", LOGGER::error))
+-            .orElseThrow(() -> new IllegalStateException("Failed to get " + $$0 + " registry"));
+-    }
+-
+-    static <E> WritableRegistry<?> createRegistry(ResourceKey<? extends Registry<?>> $$0) {
+-        return new MappedRegistry<>($$0, Lifecycle.stable(), null);
+-    }
+-    default RegistryAccess.Frozen freeze() {
+-        return new RegistryAccess.ImmutableRegistryAccess(this.ownedRegistries().map(RegistryAccess.RegistryEntry::freeze));
++        return new FrozenAccess(this.registries().map(RegistryAccess.RegistryEntry::freeze));
+-    default Lifecycle allElementsLifecycle() {
+-        return (Lifecycle)this.ownedRegistries().map($$0 -> $$0.value.elementsLifecycle()).reduce(Lifecycle.stable(), Lifecycle::add);
++    default Lifecycle allRegistriesLifecycle() {
++        return (Lifecycle)this.registries().map($$0 -> $$0.value.registryLifecycle()).reduce(Lifecycle.stable(), Lifecycle::add);
+-        @Override
+-        default RegistryAccess.Frozen freeze() {
+-            return this;
+-        }
+-    final class ImmutableRegistryAccess implements RegistryAccess.Frozen {
++    class ImmutableRegistryAccess implements RegistryAccess {
++        public ImmutableRegistryAccess(List<? extends Registry<?>> $$0) {
++            this.registries = (Map<? extends ResourceKey<? extends Registry<?>>, ? extends Registry<?>>)$$0.stream()
++                .collect(Collectors.toUnmodifiableMap(Registry::key, $$0x -> $$0x));
++        }
++
+-        ImmutableRegistryAccess(Stream<RegistryAccess.RegistryEntry<?>> $$0) {
++        public ImmutableRegistryAccess(Stream<RegistryAccess.RegistryEntry<?>> $$0) {
+-        public <E> Optional<Registry<E>> ownedRegistry(ResourceKey<? extends Registry<? extends E>> $$0) {
++        public <E> Optional<Registry<E>> registry(ResourceKey<? extends Registry<? extends E>> $$0) {
+-        public Stream<RegistryAccess.RegistryEntry<?>> ownedRegistries() {
++        public Stream<RegistryAccess.RegistryEntry<?>> registries() {
+-    record RegistryData<E>(ResourceKey<? extends Registry<E>> key, Codec<E> codec, @Nullable Codec<E> networkCodec) {
+-        public boolean sendToClient() {
+-            return this.networkCodec != null;
+-        }
+-    }
+-
+-        private static <T> RegistryAccess.RegistryEntry<T> fromHolder(Holder.Reference<? extends Registry<? extends T>> $$0) {
+-            return fromUntyped($$0.key(), (Registry<?>)$$0.value());
+-        }
+-
+-
+-    interface Writable extends RegistryAccess {
+-        <E> Optional<WritableRegistry<E>> ownedWritableRegistry(ResourceKey<? extends Registry<? extends E>> resourceKey);
+-
+-        default <E> WritableRegistry<E> ownedWritableRegistryOrThrow(ResourceKey<? extends Registry<? extends E>> $$0) {
+-            return (WritableRegistry<E>)this.ownedWritableRegistry($$0).orElseThrow(() -> new IllegalStateException("Missing registry: " + $$0));
+-        }
+-    }
+-
+-    final class WritableRegistryAccess implements RegistryAccess.Writable {
+-        private final Map<? extends ResourceKey<? extends Registry<?>>, ? extends WritableRegistry<?>> registries;
+-
+-        WritableRegistryAccess(Map<? extends ResourceKey<? extends Registry<?>>, ? extends WritableRegistry<?>> $$0) {
+-            this.registries = $$0;
+-        }
+-
+-        @Override
+-        public <E> Optional<Registry<E>> ownedRegistry(ResourceKey<? extends Registry<? extends E>> $$0) {
+-            return Optional.ofNullable((WritableRegistry)this.registries.get($$0)).map($$0x -> $$0x);
+-        }
+-
+-        @Override
+-        public <E> Optional<WritableRegistry<E>> ownedWritableRegistry(ResourceKey<? extends Registry<? extends E>> $$0) {
+-            return Optional.ofNullable((WritableRegistry)this.registries.get($$0)).map($$0x -> $$0x);
+-        }
+-
+-        @Override
+-        public Stream<RegistryAccess.RegistryEntry<?>> ownedRegistries() {
+-            return this.registries.entrySet().stream().map(RegistryAccess.RegistryEntry::fromMapEntry);
+-        }
+-    }
+### 1.19.2->1.19.3 net/minecraft/core/RegistryCodecs.java
+@@ -3,12 +3,7 @@ package net.minecraft.core;
+-import com.mojang.datafixers.util.Pair;
+-import com.mojang.serialization.DataResult;
+-import com.mojang.serialization.Decoder;
+-import com.mojang.serialization.DynamicOps;
+-import com.mojang.serialization.Encoder;
+@@ -16,98 +11,65 @@ import java.util.Map;
+-import net.minecraft.resources.RegistryLoader;
+-import net.minecraft.resources.RegistryOps;
+-            WritableRegistry<T> $$3 = new MappedRegistry<>($$0, $$1, null);
++            WritableRegistry<T> $$3 = new MappedRegistry<>($$0, $$1);
+-    public static <E> Codec<Registry<E>> dataPackAwareCodec(ResourceKey<? extends Registry<E>> $$0, Lifecycle $$1, Codec<E> $$2) {
+-        Codec<Map<ResourceKey<E>, E>> $$3 = directCodec($$0, $$2);
+-        Encoder<Registry<E>> $$4 = $$3.comap($$0x -> ImmutableMap.copyOf($$0x.entrySet()));
+-        return Codec.of($$4, dataPackAwareDecoder($$0, $$2, $$3, $$1), "DataPackRegistryCodec for " + $$0);
+-    }
+-
+-    private static <E> Decoder<Registry<E>> dataPackAwareDecoder(
+-        ResourceKey<? extends Registry<E>> $$0, Codec<E> $$1, Decoder<Map<ResourceKey<E>, E>> $$2, Lifecycle $$3
+-    ) {
+-        final Decoder<WritableRegistry<E>> $$4 = $$2.map($$2x -> {
+-            WritableRegistry<E> $$3x = new MappedRegistry<>($$0, $$3, null);
+-            $$2x.forEach(($$2xx, $$3xx) -> $$3x.register($$2xx, (E)$$3xx, $$3));
+-            return $$3x;
+-        });
+-        return new Decoder<Registry<E>>() {
+-            @Override
+-            public <T> DataResult<Pair<Registry<E>, T>> decode(DynamicOps<T> $$0, T $$1) {
+-                DataResult<Pair<WritableRegistry<E>, T>> $$2x = $$4.decode($$0, $$1);
+-                return $$0 instanceof RegistryOps<?> $$3x
+-                    ? (DataResult)$$3x.registryLoader()
+-                        .map($$2xx -> this.overrideFromResources($$2, $$3, $$2xx.loader()))
+-                        .orElseGet(() -> DataResult.error("Can't load registry with this ops"))
+-                    : $$2x.map($$0xx -> $$0xx.mapFirst($$0xxxx -> $$0xxxx));
+-            }
+-
+-            private <T> DataResult<Pair<Registry<E>, T>> overrideFromResources(
+-                DataResult<Pair<WritableRegistry<E>, T>> $$0, RegistryOps<?> $$1, RegistryLoader $$2x
+-            ) {
+-                return $$0.flatMap(
+-                    $$4xx -> $$2.overrideRegistryFromResources((WritableRegistry<E>)$$4xx.getFirst(), $$0, $$1, $$1.getAsJson())
+-                        .map($$1xxxxx -> Pair.of($$1xxxxx, $$4xx.getSecond()))
+-                );
+-            }
+-        };
+-    }
+-
+-    private static <T> Codec<Map<ResourceKey<T>, T>> directCodec(ResourceKey<? extends Registry<T>> $$0, Codec<T> $$1) {
+-        return Codec.unboundedMap(ResourceKey.codec($$0), $$1);
++    public static <E> Codec<Registry<E>> fullCodec(ResourceKey<? extends Registry<E>> $$0, Lifecycle $$1, Codec<E> $$2) {
++        Codec<Map<ResourceKey<E>, E>> $$3 = Codec.unboundedMap(ResourceKey.codec($$0), $$2);
++        return $$3.xmap($$2x -> {
++            WritableRegistry<E> $$3x = new MappedRegistry<>($$0, $$1);
++            $$2x.forEach(($$2xx, $$3xx) -> $$3x.register($$2xx, (E)$$3xx, $$1));
++            return $$3x.freeze();
++        }, $$0x -> ImmutableMap.copyOf($$0x.entrySet()));
+### 1.19.2->1.19.3 net/minecraft/core/RegistrySetBuilder.java
+### 1.19.2->1.19.3 net/minecraft/core/RegistrySynchronization.java
+### 1.19.2->1.19.3 net/minecraft/core/UUIDUtil.java
+@@ -1,8 +1,12 @@
++import com.mojang.datafixers.util.Either;
++import com.mojang.serialization.DataResult;
++import com.mojang.serialization.Lifecycle;
++import com.mojang.util.UUIDTypeAdapter;
+@@ -13,51 +17,65 @@ import net.minecraft.Util;
++    public static final Codec<UUID> STRING_CODEC = Codec.STRING.comapFlatMap($$0 -> {
++        try {
++            return DataResult.success(UUID.fromString($$0), Lifecycle.stable());
++        } catch (IllegalArgumentException $$1) {
++            return DataResult.error("Invalid UUID " + $$0 + ": " + $$1.getMessage());
++        }
++    }, UUID::toString);
++    public static Codec<UUID> AUTHLIB_CODEC = Codec.either(CODEC, Codec.STRING.comapFlatMap($$0 -> {
++        try {
++            return DataResult.success(UUIDTypeAdapter.fromString($$0), Lifecycle.stable());
++        } catch (IllegalArgumentException $$1) {
++            return DataResult.error("Invalid UUID " + $$0 + ": " + $$1.getMessage());
++        }
++    }, UUIDTypeAdapter::fromUUID)).xmap($$0 -> $$0.map($$0x -> $$0x, $$0x -> $$0x), Either::right);
+### 1.19.2->1.19.3 net/minecraft/core/WritableRegistry.java
+@@ -1,19 +1,14 @@
+-import java.util.OptionalInt;
+-public abstract class WritableRegistry<T> extends Registry<T> {
+-    public WritableRegistry(ResourceKey<? extends Registry<T>> $$0, Lifecycle $$1) {
+-        super($$0, $$1);
+-    }
++public interface WritableRegistry<T> extends Registry<T> {
++    Holder<T> registerMapping(int i, ResourceKey<T> resourceKey, T object, Lifecycle lifecycle);
+-    public abstract Holder<T> registerMapping(int i, ResourceKey<T> resourceKey, T object, Lifecycle lifecycle);
++    Holder.Reference<T> register(ResourceKey<T> resourceKey, T object, Lifecycle lifecycle);
+-    public abstract Holder<T> register(ResourceKey<T> resourceKey, T object, Lifecycle lifecycle);
++    boolean isEmpty();
+-    public abstract Holder<T> registerOrOverride(OptionalInt optionalInt, ResourceKey<T> resourceKey, T object, Lifecycle lifecycle);
+-
+-    public abstract boolean isEmpty();
++    HolderGetter<T> createRegistrationLookup();
+### 1.19.3->1.19.4 net/minecraft/core/dispenser/DispenseItemBehavior.java
+@@ -3,6 +3,7 @@ package net.minecraft.core.dispenser;
++import java.util.function.Consumer;
+@@ -78,580 +79,583 @@ import org.slf4j.Logger;
+-                Level $$4 = $$0.getLevel();
+-                ArmorStand $$5 = new ArmorStand($$4, $$3.getX() + 0.5, $$3.getY(), $$3.getZ() + 0.5);
+-                EntityType.updateCustomEntityTag($$4, null, $$5, $$1.getTag());
+-                $$5.setYRot($$2.toYRot());
+-                $$4.addFreshEntity($$5);
+-                $$1.shrink(1);
++                ServerLevel $$4 = $$0.getLevel();
++                Consumer<ArmorStand> $$5 = EntityType.appendDefaultStackConfig($$1x -> $$1x.setYRot($$2.toYRot()), $$4, $$1, null);
++                ArmorStand $$6 = EntityType.ARMOR_STAND.spawn($$4, $$1.getTag(), $$5, $$3, MobSpawnType.DISPENSER, false, false);
++                if ($$6 != null) {
++                    $$1.shrink(1);
++                }
++
++        DispenserBlock.registerBehavior(Items.CHERRY_BOAT, new BoatDispenseItemBehavior(Boat.Type.CHERRY));
++        DispenserBlock.registerBehavior(Items.CHERRY_CHEST_BOAT, new BoatDispenseItemBehavior(Boat.Type.CHERRY, true));
+-                        RespawnAnchorBlock.charge($$4, $$3, $$5);
++                        RespawnAnchorBlock.charge(null, $$4, $$3, $$5);
+### 1.19.3->1.19.4 net/minecraft/core/particles/ParticleTypes.java
+@@ -8,125 +8,128 @@ import net.minecraft.core.registries.BuiltInRegistries;
++    public static final SimpleParticleType DRIPPING_CHERRY_LEAVES = register("dripping_cherry_leaves", false);
++    public static final SimpleParticleType FALLING_CHERRY_LEAVES = register("falling_cherry_leaves", false);
++    public static final SimpleParticleType LANDING_CHERRY_LEAVES = register("landing_cherry_leaves", false);
+### 1.19.3->1.19.4 net/minecraft/core/particles/VibrationParticleOption.java
+@@ -16,64 +16,64 @@ import net.minecraft.world.phys.Vec3;
+-            BlockPos $$6 = new BlockPos($$2, $$3, $$4);
++            BlockPos $$6 = BlockPos.containing($$2, $$3, $$4);
+### 1.19.3->1.19.4 net/minecraft/core/registries/BuiltInRegistries.java
+@@ -59,6 +59,7 @@ import net.minecraft.world.level.block.Blocks;
++import net.minecraft.world.level.block.entity.DecoratedPotPatterns;
+@@ -105,191 +106,192 @@ import org.slf4j.Logger;
++    public static final Registry<String> DECORATED_POT_PATTERNS = registerSimple(Registries.DECORATED_POT_PATTERNS, DecoratedPotPatterns::bootstrap);
+### 1.19.3->1.19.4 net/minecraft/core/registries/Registries.java
+@@ -11,6 +11,7 @@ import net.minecraft.sounds.SoundEvent;
++import net.minecraft.world.damagesource.DamageType;
+@@ -28,12 +29,15 @@ import net.minecraft.world.inventory.MenuType;
++import net.minecraft.world.item.armortrim.TrimMaterial;
++import net.minecraft.world.item.armortrim.TrimPattern;
++import net.minecraft.world.level.biome.MultiNoiseBiomeSourceParameterList;
+@@ -85,96 +89,103 @@ import net.minecraft.world.level.storage.loot.providers.score.LootScoreProviderT
++    public static final ResourceKey<Registry<DamageType>> DAMAGE_TYPE = createRegistryKey("damage_type");
++    public static final ResourceKey<Registry<String>> DECORATED_POT_PATTERNS = createRegistryKey("decorated_pot_patterns");
++    public static final ResourceKey<Registry<TrimMaterial>> TRIM_MATERIAL = createRegistryKey("trim_material");
++    public static final ResourceKey<Registry<TrimPattern>> TRIM_PATTERN = createRegistryKey("trim_pattern");
++    public static final ResourceKey<Registry<MultiNoiseBiomeSourceParameterList>> MULTI_NOISE_BIOME_SOURCE_PARAMETER_LIST = createRegistryKey(
++        "worldgen/multi_noise_biome_source_parameter_list"
++    );
+### 1.19.3->1.19.4 net/minecraft/core/Registry.java
+@@ -25,191 +25,191 @@ import net.minecraft.util.RandomSource;
+-                    .orElseGet(() -> DataResult.error("Unknown registry key in " + this.key() + ": " + $$0x)),
++                    .orElseGet(() -> DataResult.error(() -> "Unknown registry key in " + this.key() + ": " + $$0x)),
+-                    .orElseGet(() -> DataResult.error("Unknown registry element in " + this.key() + ":" + $$0x))
++                    .orElseGet(() -> DataResult.error(() -> "Unknown registry element in " + this.key() + ":" + $$0x))
+-                    .orElseGet(() -> DataResult.error("Unknown registry key in " + this.key() + ": " + $$0x)),
++                    .orElseGet(() -> DataResult.error(() -> "Unknown registry key in " + this.key() + ": " + $$0x)),
+-                    .orElseGet(() -> DataResult.error("Unknown registry element in " + this.key() + ":" + $$0x))
++                    .orElseGet(() -> DataResult.error(() -> "Unknown registry element in " + this.key() + ":" + $$0x))
+### 1.19.3->1.19.4 net/minecraft/core/RegistrySetBuilder.java
+@@ -22,260 +22,276 @@ import net.minecraft.tags.TagKey;
+-        Stream<HolderLookup.RegistryLookup<?>> $$3 = $$0.registries().map($$0x -> $$0x.value().asLookup());
+-        Stream<HolderLookup.RegistryLookup<?>> $$4 = this.entries.stream().map($$1x -> $$1x.collectChanges($$2).buildAsLookup());
+-        HolderLookup.Provider $$5 = HolderLookup.Provider.create(Stream.concat($$3, $$4.peek($$2::addOwner)));
++        Map<ResourceKey<? extends Registry<?>>, RegistrySetBuilder.RegistryContents<?>> $$3 = new HashMap();
++        $$2.collectReferencedRegistries().forEach($$1x -> $$3.put($$1x.key, $$1x));
++        this.entries.stream().map($$1x -> $$1x.collectChanges($$2)).forEach($$1x -> $$3.put($$1x.key, $$1x));
++        Stream<HolderLookup.RegistryLookup<?>> $$4 = $$0.registries().map($$0x -> $$0x.value().asLookup());
++        HolderLookup.Provider $$5 = HolderLookup.Provider.create(
++            Stream.concat($$4, $$3.values().stream().map(RegistrySetBuilder.RegistryContents::buildAsLookup).peek($$2::addOwner))
++        );
++
++        public Stream<RegistrySetBuilder.RegistryContents<?>> collectReferencedRegistries() {
++            return this.lookup
++                .holders
++                .keySet()
++                .stream()
++                .map(ResourceKey::registry)
++                .distinct()
++                .map($$0 -> new RegistrySetBuilder.RegistryContents(ResourceKey.createRegistryKey($$0), Lifecycle.stable(), Map.of()));
++        }
+-    record RegistryContents<T>(RegistrySetBuilder.RegistryStub<T> stub, Map<ResourceKey<T>, RegistrySetBuilder.ValueAndHolder<T>> values) {
++    record RegistryContents<T>(
++        ResourceKey<? extends Registry<? extends T>> key, Lifecycle lifecycle, Map<ResourceKey<T>, RegistrySetBuilder.ValueAndHolder<T>> values
++    ) {
+-                    return RegistryContents.this.stub.key();
++                    return RegistryContents.this.key;
+-                    return RegistryContents.this.stub.lifecycle();
++                    return RegistryContents.this.lifecycle;
+-            return new RegistrySetBuilder.RegistryContents<>(this, $$1);
++            return new RegistrySetBuilder.RegistryContents<>(this.key, this.lifecycle, $$1);
+### 1.19.3->1.19.4 net/minecraft/core/RegistrySynchronization.java
+@@ -15,64 +15,70 @@ import net.minecraft.network.chat.ChatType;
++import net.minecraft.world.damagesource.DamageType;
++import net.minecraft.world.item.armortrim.TrimMaterial;
++import net.minecraft.world.item.armortrim.TrimPattern;
++        put($$0, Registries.TRIM_PATTERN, TrimPattern.DIRECT_CODEC);
++        put($$0, Registries.TRIM_MATERIAL, TrimMaterial.DIRECT_CODEC);
++        put($$0, Registries.DAMAGE_TYPE, DamageType.CODEC);
+-            .orElseGet(() -> DataResult.error("Unknown or not serializable registry: " + $$0));
++            .orElseGet(() -> DataResult.error(() -> "Unknown or not serializable registry: " + $$0));
+### 1.19.3->1.19.4 net/minecraft/core/UUIDUtil.java
+@@ -17,65 +17,65 @@ import net.minecraft.Util;
+-            return DataResult.error("Invalid UUID " + $$0 + ": " + $$1.getMessage());
++            return DataResult.error(() -> "Invalid UUID " + $$0 + ": " + $$1.getMessage());
+-            return DataResult.error("Invalid UUID " + $$0 + ": " + $$1.getMessage());
++            return DataResult.error(() -> "Invalid UUID " + $$0 + ": " + $$1.getMessage());

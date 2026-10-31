@@ -1,0 +1,374 @@
+## 1.18.2 -> 1.19
+net/minecraft/client/Minecraft.java
+  CHG Minecraft(GameConfig $$0) | (379, 'd0a46cede7878554e0c363faccf95964239aaa8b3e975ddfda5d91c96524d450') -> (369, 'dad95be974cbf0671993f62cbd167ac2273806f90f8a2533f90aacf944613b62')
+  CHG clearResourcePacksOnError(Throwable $$0, @Nullable Component $$1) | (624, '494bfa2dad3d93294a152b221ad8b0f40c84d6846fcb7bd8094fcb24d4784044') -> (627, 'a870c62b582e5c1f0129835449f87a259bb0699e6ea3916d39215e68a61bf954')
+net/minecraft/client/multiplayer/ClientLevel.java
+  REM ClientLevel( ClientPacketListener $$0, ClientLevel.ClientLevelData $$1, ResourceKey<Level> $$2, Holder<DimensionType> $$3, int $$4, int $$5, Supplier<ProfilerFiller> $$6, LevelRenderer $$7, boolean $$8, long $$9 ) | (109, '3dc74a95e2e75ecd693a62398c84e18d9681164d61fd03c7e49304cc7dce842c') -> None
+  REM addAlwaysVisibleParticle(ParticleOptions $$0, boolean $$1, double $$2, double $$3, double $$4, double $$5, double $$6, double $$7) | (565, '02c4c78627e0c4e8c13dadd769b7bc38c6294abe0579c80af146c6bdb6bfd659') -> None
+  REM addAlwaysVisibleParticle(ParticleOptions $$0, double $$1, double $$2, double $$3, double $$4, double $$5, double $$6) | (560, 'edf37080df0306fd166656f47b1cdb68f2c75ce80f17a2bb96e6309227e11aea') -> None
+  REM addDestroyBlockEffect(BlockPos $$0, BlockState $$1) | (782, 'dde5a4305c41dafadec40af35cc0790908ec5eb6a0138d5dea282e3ea06c2bb0') -> None
+  REM addEntity(int $$0, Entity $$1) | (268, 'fa6270a7694e22ab7fe3328bd5fa487f484738943321b7b1468d7ed0a254ff0a') -> None
+  REM addMapData(Map<String, MapItemSavedData> $$0) | (768, '5e077e19d2fad409b5641cd62b426b209cbebb2f68e8126bef546b07ab021d44') -> None
+  REM addParticle(ParticleOptions $$0, boolean $$1, double $$2, double $$3, double $$4, double $$5, double $$6, double $$7) | (555, '46623b2e7b0646d95c210da349ecdaf447140e074b066943bd3601f226d01290') -> None
+  REM addParticle(ParticleOptions $$0, double $$1, double $$2, double $$3, double $$4, double $$5, double $$6) | (550, '3e0e963efaf610ab9de17698c00e478b701e9301b74f565bf739b5116d85b742') -> None
+  REM addPlayer(int $$0, AbstractClientPlayer $$1) | (260, 'c648c8654f86fb6959c032a6173cd9fefc0cc384bc8e2fe9e309e2fb64d5c4cf') -> None
+  REM animateTick(int $$0, int $$1, int $$2) | (296, 'c59657702a8f85c7efdaee145e90ba0c2d0d3ec5a990ca890e8dd48f0109fad5') -> None
+  REM calculateBlockTint(BlockPos $$0, ColorResolver $$1) | (709, '3e1f5de7f83bcf677d4a2d57f1771337c8e73e161a99e970be73e78f326899b6') -> None
+  REM clearTintCaches() | (247, '6519a9b061c77b9e25bc12642809514f074a7f09d90c1ec5858f5253d24a0112') -> None
+  REM createFireworks(double $$0, double $$1, double $$2, double $$3, double $$4, double $$5, @Nullable CompoundTag $$6) | (445, 'c67bc66434cd5497009430e7f00664fdfabc04b5116b32b256079f685fd4607b') -> None
+  REM destroyBlockProgress(int $$0, BlockPos $$1, int $$2) | (525, 'a88bf098dfd89102ba437502d0c7ea26e7b847c9e6adb714b5024123331b8378') -> None
+  REM disconnect() | (291, '72da2b37292e33693d0a4757f6bf7487b6dce7c95d41bb62ef37395101e83e84') -> None
+  REM doAnimateTick(int $$0, int $$1, int $$2, int $$3, Random $$4, @Nullable Block $$5, BlockPos.MutableBlockPos $$6) | (321, '3d58d22f9159e941a9f14f7c46a233d037c4b0c45b85ac1448152c491e9bb357') -> None
+  REM effects() | (155, '25b7f8c0eb0fa227c0be9316ded6d816a690c441c523342709facc8dc67019db') -> None
+  REM entitiesForRendering() | (189, 'd25e3c69e808027f7efa629b990b824c3c6119e674022b916bb210ca094fc0b4') -> None
+  REM fillReportDetails(CrashReport $$0) | (405, '833add58fe5a888e1fc53945ca53d56b269f2cc2ac55f27158844df859374fe1') -> None
+  REM gameEvent(@Nullable Entity $$0, GameEvent $$1, BlockPos $$2) | (760, '9265619237dc049c9efd5c01a5c74a7e99db1a67aa7ef3e2e396e54563e1bc57') -> None
+  REM gatherChunkSourceStats() | (777, '28399b7584dc860619189f0372d34e721313825e8fc74890452c13b3f6af744a') -> None
+  REM getAllMapData() | (764, '4d69369019e4f7225c681bad86150f826678135cee6e1717366337f2ae7b37bd') -> None
+  REM getBlockTicks() | (464, 'bf006524b0dbdacc877b46dd8ca7be74eb41a203d76bb7eced41e3ff67dafdda') -> None
+  REM getBlockTint(BlockPos $$0, ColorResolver $$1) | (703, '42416538b49b35a62e865a1b1e5ae865fcdca3ed3e94218f7faf349110dee0c4') -> None
+  REM getChunkSource() | (474, '1770d91c3ed90083acc2054cb260156c0a2b4e3e2d50c3261f166943776ff08f') -> None
+  REM getCloudColor(float $$0) | (633, 'd97c6dd7a9d2cc43e73dd34256846892cfb5e5753fedf0572f1cf73746cc36e3') -> None
+  REM getEntities() | (772, '53fcd94e255ca78cf1b4102bce32afa98428a046bc0a6a649cbf14bb05afa50a') -> None
+  REM getEntity(int $$0) | (281, 'a038a2986a1a7aef3aca2b48d51831b6eb4204ae62dc694f1dddc1c1c8c4adb9') -> None
+  REM getEntityCount() | (256, '0923e1d780e791e46018c2fc72ae22bf867be307f2085f79c8368bd60946147e') -> None
+  REM getFluidTicks() | (469, 'bf006524b0dbdacc877b46dd8ca7be74eb41a203d76bb7eced41e3ff67dafdda') -> None
+  REM getFreeMapId() | (489, '6f0e51fae88af5d49ca110334f2c79b1d4b778152ba5bb31672e7edf472e73be') -> None
+  REM getLevelData() | (756, '9814a7128eda4228931ea98bd2d983517d06db48ddfac5ff2ce8cad7d2f8de56') -> None
+  REM getMapData(String $$0) | (478, '25241d52792da347daaecdb64aaf5dc3b3694fd4874d2aeb507a101585e35044') -> None
+  REM getMarkerParticleTarget() | (308, 'ad6e7db345879ec261579fef18176ec17bfa334425c5e34bc13ba01f580e0a30') -> None
+  REM getRecipeManager() | (455, 'a1b830ee178546a4de71a0e6a6944e20ca5d510772800f1ac4d7ddfa7ff05617') -> None
+  REM getScoreboard() | (494, 'b0e5b89b88dbe98532cccf281cac4d49ae28e0a63901ae3252571f3927194aba') -> None
+  REM getServerSimulationDistance() | (791, 'ed5ebfef69bbe7ffa0a1577e9a2394e199b53095a13be638d6f06b5e61de28e8') -> None
+  REM getShade(Direction $$0, boolean $$1) | (680, '943d71cc3e99a334453fbf1f4603e6f21641792c5d752ab257243627aeb6a361') -> None
+  REM getSharedSpawnAngle() | (744, '094c8e63608af88cc3753a67a169e9505a0a4c721d3ef71cb7180db4a821a55f') -> None
+  REM getSharedSpawnPos() | (733, '854cc77b60794e336f715e8cc69b34e46c649e9c5e0df511d2bbb03fafd4333a') -> None
+  REM getSkyColor(Vec3 $$0, float $$1) | (590, '5c17ee5aac2e179a57d65c588ec71b7c265b3d26bfcb7babaa8067e42996939e') -> None
+  REM getSkyDarken(float $$0) | (580, 'ab89573f8dcd49b4c78c972accae5dfce5aa2c46cf717f7e79d0e12a89bf8d1e') -> None
+  REM getSkyFlashTime() | (671, '5f7837f3d0f80ea9a7a9ad7d9aff58ba75042381df194b3973bbdce5ff0cdc02') -> None
+  REM getStarBrightness(float $$0) | (664, '79222fd9e14e85212fcec2cdf82eabb7c7d2797cf715fcfe2ffeb04d8beff3f0') -> None
+  REM getUncachedNoiseBiome(int $$0, int $$1, int $$2) | (575, '95096cb02e612f32a72951a462682e77e6bc28d7f8098543e7cc3a2279915bfb') -> None
+  REM globalLevelEvent(int $$0, BlockPos $$1, int $$2) | (530, '1f9496cd314d11efa1d1b2ba5d232a346791611bf505190aa56083c389c65ee0') -> None
+  ADD handleBlockChangedAck(int $$0) | None -> (113, '3cbaa8d63a445f8a691dde496d9076760f77ac885e5ea40b47cd8dac81310655')
+  REM hasChunk(int $$0, int $$1) | (251, '9e7059958633715f1b02b4e8a30d0973959364913deaa907b40f8611d862dc85') -> None
+  REM isLightUpdateQueueEmpty() | (151, 'f6ab5e1bd9b4077586a49df96735894d1e734cc0277c013e7024aedd1431f321') -> None
+  REM levelEvent(@Nullable Player $$0, int $$1, BlockPos $$2, int $$3) | (535, 'b7624fa59110bd40e03a651505c80c4dc9b173974e7d646ae2df729ad9135b39') -> None
+  REM onChunkLoaded(ChunkPos $$0) | (242, 'f88ccdcfb5cc27809901a3c97f4c88436b195b7dd975885c8c832497bf909040') -> None
+  REM playLocalSound(BlockPos $$0, SoundEvent $$1, SoundSource $$2, float $$3, float $$4, boolean $$5) | (429, '626f0825cb894f13df16234a4adbf7c16d9614cf6e99cc96484a77b5b444746f') -> None
+  REM playLocalSound(double $$0, double $$1, double $$2, SoundEvent $$3, SoundSource $$4, float $$5, float $$6, boolean $$7) | (433, '2d755b1ff8c079594c308d8aa9e86cbf8cc615eb4dfd27ae78a00a729ce724e2') -> None
+  REM playSound(@Nullable Player $$0, Entity $$1, SoundEvent $$2, SoundSource $$3, float $$4, float $$5) | (422, '01055a9398f284c41b3a1d85eeaa50ddbdb2d7b35719f21e5162d6fcb4994bc4') -> None
+  REM playSound(@Nullable Player $$0, double $$1, double $$2, double $$3, SoundEvent $$4, SoundSource $$5, float $$6, float $$7) | (415, '3fdf9af6ce964b13fec137d728a5f0cd1f5ca2e5589f944ed2a6036c78219960') -> None
+  REM players() | (570, 'bfbce4d0098a7fa1859db36070f67fcec8a8061674f4f31bcce115d754b37c6e') -> None
+  REM pollLightUpdates() | (137, '5f2147e4362616c5bbb9f01d0204d9deea68b0325189a2557b41dccad7c79026') -> None
+  REM putNonPlayerEntity(int $$0, Entity $$1) | (264, 'c648c8654f86fb6959c032a6173cd9fefc0cc384bc8e2fe9e309e2fb64d5c4cf') -> None
+  REM queueLightUpdate(Runnable $$0) | (133, '884b58ba8e35c2bdff066a9c745cde6eac305117a3accc81d2ae5e5d48ca743d') -> None
+  REM registryAccess() | (499, '67ab53e79f70d4970e0eee77431de95628597e3ffb31ef53dc39b781f0cbd0a8') -> None
+  REM removeEntity(int $$0, Entity.RemovalReason $$1) | (273, 'a56f7f215240a8e125cd8f98b7cc465be9c4391c15d58461a6a7ff5bfc5bc4f6') -> None
+  REM sendBlockUpdated(BlockPos $$0, BlockState $$1, BlockState $$2, int $$3) | (504, '81c5161991d0b0391c726c5c8251b0d689f2e39a13435ac8fc426d51eb5dc516') -> None
+  REM sendPacketToServer(Packet<?> $$0) | (450, 'ce1757a225cb86a299c8368415ee8ba5d1516c9f9204021279eea43120aaf314') -> None
+  REM setBlocksDirty(BlockPos $$0, BlockState $$1, BlockState $$2) | (509, '33382abb0e1f450eb5b9efc35558f35a5c8cde648b2af6fb0b2762ec6dfdfcf4') -> None
+  REM setDayTime(long $$0) | (178, '4248cac067beff18c9d7f2eb920dc79f2044250ef39e82279915c53d7e5a5c01') -> None
+  REM setDefaultSpawnPos(BlockPos $$0, float $$1) | (748, '348372bd824549de3f04bf8720e43521122cfa71777f84ebcbd8e390a63f5116') -> None
+  REM setGameTime(long $$0) | (174, '5d69c3a0390bca3e8eedf78c3b03a8e7532577631a8e09163b5a6329ab6e1c38') -> None
+  REM setKnownState(BlockPos $$0, BlockState $$1) | (287, '51b369ea3cddf745da15a4a9373a6aa0103a4c455544eb24bada32c9778f32c2') -> None
+  REM setLightReady(int $$0, int $$1) | (518, 'b874772cdcc88039ffcdb8a68e87211c68f3371c28261fcc6b33e7001b1c8f4b') -> None
+  REM setMapData(String $$0, MapItemSavedData $$1) | (484, 'c248a297e43831ecf897714a6c1750a8b574b149bbcdf2920f89840345fe82f4') -> None
+  REM setScoreboard(Scoreboard $$0) | (460, 'fff7aa64d739e75982709778923d51c2b6f7bdecc77d453f6f10a87722b43317') -> None
+  REM setSectionDirtyWithNeighbors(int $$0, int $$1, int $$2) | (514, '4f2e21f9d62cad8429a148bb399d0ff8f76fc9c5efa280d7140c04f4b9018640') -> None
+  REM setServerSimulationDistance(int $$0) | (787, 'c46d43b5fef4716d5758a76cf059d346f45a923120bc65eaa938e940d7bf1fcd') -> None
+  ADD setServerVerifiedBlockState(BlockPos $$0, BlockState $$1, int $$2) | None -> (117, '6573fa44ff57ad959650043533f86181bf43c3829000335a703605ff220975bc')
+  REM setSkyFlashTime(int $$0) | (675, '73cf5e2df237fd0ebdf00c9287b7724518df02b6ce33b6968d980682ad01ba2f') -> None
+  REM shouldTickDeath(Entity $$0) | (205, '5ff1e18654e2c07288c35687deb69c15edf641ff402d6babd7403e6f91354a14') -> None
+  REM spawnFluidParticle(double $$0, double $$1, double $$2, double $$3, double $$4, ParticleOptions $$5) | (401, 'b67c3d4695166f7fb380d9ca0431f997b5c4a66c1cbb1a6d1840ae3e727b5fba') -> None
+  REM spawnParticle(BlockPos $$0, ParticleOptions $$1, VoxelShape $$2, double $$3) | (390, 'a6cadf6fdc25f59dca065404b3d39c23a05cdce2a18b3f4c294acc757705d979') -> None
+  ADD syncBlockState(BlockPos $$0, BlockState $$1, Vec3 $$2) | None -> (123, '95d394336cfaef985f5011fd537c24c3ab9672cb5937afeef35b17b48b408956')
+  REM tick(BooleanSupplier $$0) | (159, '59274a9db668120cdf21134c38747fbdcf9dc15bfb4beec5a16279abe70f6657') -> None
+  REM tickEntities() | (193, 'f37138c1ff74e9e1126db1477689b29c3c70b6283088d674562156e188440a2e') -> None
+  REM tickNonPassenger(Entity $$0) | (210, '44e08405a1bfad18c40e43f5b3befe20ab013cb62821e9b388befee9b9f5e280') -> None
+  REM tickPassenger(Entity $$0, Entity $$1) | (222, '8250cf8d8dfa8f578c8ce4339817adefb382c067a0479de83d794a8bfcf4bbed') -> None
+  REM tickTime() | (167, 'dc7318b5c7adf61bfd0421b5dbb59224b2c2f51e2c92fc719f437451a5fd2f67') -> None
+  REM toString() | (752, '3296db960595ec6d5f964144d258e1b7d2c8eeb32eda24a5c470d573965eadfa') -> None
+  REM trySpawnDripParticles(BlockPos $$0, BlockState $$1, ParticleOptions $$2, boolean $$3) | (365, '01a1810bfac962fc4a289864ff2454c49c5c04e68294083c87f07138703b6022') -> None
+  REM unload(LevelChunk $$0) | (236, 'd3c5299b5fb016060dec728c67ebef37d495dafd6f3fa2a7654cff9d28f1feef') -> None
+net/minecraft/client/player/LocalPlayer.java
+  CHG LocalPlayer(Minecraft $$0, ClientLevel $$1, ClientPacketListener $$2, StatsCounter $$3, ClientRecipeBook $$4, boolean $$5, boolean $$6) | (128, '2cfe33d8b908150c92d5b1cd3b6e25962401201dae3e181a9c5de91eb30fbf3f') -> (143, 'c2295d54cb54d62b7fd594c9eeab851484cbd33d4f11d382972ead4a47082add')
+  CHG aiStep() | (639, '653d05ab6cb85be2e5a413912b3365bd344bc1819273515f90eb09edf1e2685b') -> (722, '2e79ffcb1da79fa013bcd9dc7698b6121386428b0efc0d27ee2250d9663ea158')
+  CHG chat(String $$0) | (278, 'be983e55c0e182dc0dd53f39fb33150490187f8c4e8e1a4f8048e674a96f5f8f') -> (293, 'a1481ef4b9cd2aeab674b411919e6782e1eaf8cc45d6ab81df8f21e2ad552dda')
+  ADD chat(String $$0, @Nullable Component $$1) | None -> (297, 'd00abc466675a3d4047ad85855d41eb64fa73909268a7f4fa66427919b3fb755')
+  ADD command(String $$0) | None -> (302, 'ef9ea8d1187e7208ab68445a337612d9b4586c26816125b0d8ac4b86ba16e4a3')
+  ADD command(String $$0, @Nullable Component $$1) | None -> (306, '7ae4282e61f2cac4284885758178efbec45175a589fb3d42c914194310701075')
+  ADD getVisualRotationYInDegrees() | None -> (1177, 'f37a0a55dccc5cb8adccad0c1ae95b125c8828ea7c309291adeb6a297081014d')
+  ADD sendChat(MessageSigner $$0, String $$1, @Nullable Component $$2) | None -> (311, '997ada65a0525beabcc1d69dc26eebfdcb7807f0dfac2c49a51b93ecc5a6fdba')
+  ADD sendCommand(MessageSigner $$0, String $$1, @Nullable Component $$2) | None -> (334, '939df242e09718853832dff6f175998ceef47db3aae022de935caaeea03baef4')
+  REM sendMessage(Component $$0, UUID $$1) | (457, 'fa901207f69a577be18670e0e4f87a7710eb6c5ec1a058e11526273ad55fb9fa') -> None
+  CHG sendPosition() | (211, 'ac9c7d226d1838b767d5b25cb433b085895779def2fde53e01b068b2fff93382') -> (226, '74bb1d845f68b2037a5669e4219e8ac1f47f57dcbffad18aacf335c079c86ad3')
+  ADD sendSystemMessage(Component $$0) | None -> (540, 'fa901207f69a577be18670e0e4f87a7710eb6c5ec1a058e11526273ad55fb9fa')
+  ADD signCommandArguments(MessageSigner $$0, ParseResults<SharedSuggestionProvider> $$1, @Nullable Component $$2) | None -> (340, 'bc063b778dbd5bf60b0f663131a74f957b4ecd3ceef928e934c4c4e823c6f3be')
+  ADD signMessage(MessageSigner $$0, Component $$1) | None -> (321, '259377c9d6bb3168935b5d36c0209393381b183ee779527812b15ccdd78a1693')
+net/minecraft/world/entity/player/Player.java
+  REM Player(Level $$0, BlockPos $$1, float $$2, GameProfile $$3) | (172, '01a9d3a2813ebaa9d95dfd8a35f5c112f1e5dd94d91dc11b5146e0a98f0a1afa') -> None
+  ADD Player(Level $$0, BlockPos $$1, float $$2, GameProfile $$3, @Nullable ProfilePublicKey $$4) | None -> (178, '4ac8a0147569172cc8f4d42b7e66596f494e2bc3077ef02f37c9d9b8c0b057a8')
+  CHG addAdditionalSaveData(CompoundTag $$0) | (779, '13649b897bb30392e0c67746706914451cce31754008d68f44b95eced3a74b2d') -> (799, '47d1d0fd22e345496e85dcadd95e61eebf4fa16ab34cac678972ed74bcdbe000')
+  CHG addItem(ItemStack $$0) | (1756, 'a2c18c8098236899721cdfdc26e2e0deba6dc25c02aa9d3798153e88373f68e6') -> (1800, 'e045def8417eaeba21c4075caec6ad2820cdb34472bc14f13e32f4aa3b13fcb9')
+  CHG blockUsingShield(LivingEntity $$0) | (854, 'a6a3114644210d74b0b22a49ff7663e28bc156882df4fbf5f9de774bea9f4500') -> (882, '4814352ff9e3680e92b94d7788fba7bcaf081006cd548018a48bd8275802b63a')
+  REM createPlayerUUID(GameProfile $$0) | (1876, 'ff7434c24ea284f290a898c3bf91f99032269c284d23ddb022e6e84b2e6eb9a6') -> None
+  REM createPlayerUUID(String $$0) | (1885, '447a20857dcc5e3f9448e062b3807ec742fbe768727708a9e60ce6d86931794f') -> None
+  CHG die(DamageSource $$0) | (603, 'efe82ec2695344e5e686104d3019100496ee2e28b5876177bb7ab9c2a5b6417e') -> (611, '2be955a31a3b8c691ae6564c542e1c0714d71b7090894f5ca0281fbf7e4a7f91')
+  ADD doesEmitEquipEvent(EquipmentSlot $$0) | None -> (1783, '63e280691422cc5013e4f19b6351d531e6ee323b36bb44e876a7940f537a9d6f')
+  ADD getExperienceReward() | None -> (1735, 'af1d2d6347742deb6cc24be5d4abad640a3025879dd9c2745969942e16e4be12')
+  REM getExperienceReward(Player $$0) | (1693, 'd76e2b14026d74a4a502f64abbb23a5c3011a975807fd7d671d69bc0250b7b3d') -> None
+  ADD getLastDeathLocation() | None -> (2102, 'ade08470d36dde8801752fb871e4de692107a400e18ffdf7b9b7587c9d327247')
+  CHG getName() | (1721, '8205cbec694d3997ac0a48bed93f1c0f81e54d98f082e3a4f34d285752a83cb2') -> (1763, 'a26581d4ffe0853739d43b696d37592ff9ecd070de581adf748e30ac8f3a0542')
+  ADD getProfilePublicKey() | None -> (1344, '07359ee279d117aeff5feb15ae52896cd36b9a0be187d50a50d703e7dcce4622')
+  ADD getWardenSpawnTracker() | None -> (1705, '05c25d850dca3c19be4a769dea26c404d37477bd51db428409b39ebfe93e1411')
+  REM killed(ServerLevel $$0, LivingEntity $$1) | (1586, 'c8c20d2f135d5baad961b71b49da2e6bde45fabb5675399227be42d24d5f40a6') -> None
+  CHG maybeBackOffFromEdge(Vec3 $$0, MoverType $$1) | (1029, '8d05334d0195618f7eb46528f22cd4084b1cd43bc0b13c53e3b58acea54aa243') -> (1057, 'de24cc092f168f4d9a706e4944e4cef8451b8e63551d442093ffd5b4e529dc27')
+  CHG readAdditionalSaveData(CompoundTag $$0) | (746, '2a63bcf42b8a6e758a75cf0778e73eea2ec449ee7f270a2d68e2c7e611805800') -> (755, 'bf871744ef2d72e7532e2f1cb8a313c4883babea52d2368ed82a35111dc42b55')
+  CHG setItemSlot(EquipmentSlot $$0, ItemStack $$1) | (1741, 'b240cdf653034de358f8196c39ec9e37c1c8e6a85b32c3511128c21e550d3232') -> (1788, '74f826e145496f505f63ba6138bb4927ab0c4582650863ac65e9ad7c02eb1f84')
+  ADD setLastDeathLocation(Optional<GlobalPos> $$0) | None -> (2106, '87a78afab5d0ca2d4850fa2996ec9d1ba49027d941931470b4ffad43f299dbb3')
+  CHG tick() | (219, '4628a34f249f9a6afff58e8afe5eb512fea2d0155c1e180676097d4b227d5fbf') -> (226, 'b715e4307c684dbb7ed12f7539842db27284c8bc713852c7d4adadf005f9cf14')
+  ADD wasKilled(ServerLevel $$0, LivingEntity $$1) | None -> (1623, '5f2a95b03c46524680367e912fcb63eb9067e961be1014b4e185fa651e19c0c0')
+net/minecraft/world/entity/LivingEntity.java
+  CHG actuallyHurt(DamageSource $$0, float $$1) | (1560, 'c0428e7f5c2c2fcb92d7da22192b44ffca35bb8cea9c113cfead597edfe34420') -> (1593, 'a8b16a43ddd3438482064d60ff54cd69e5e750818bd3c42bdd65dd9c9b97ab27')
+  CHG aiStep() | (2459, '596703b87b9270ed93293b8423408f47c5e7f9b11d3d52d66e8ccc63f055652f') -> (2492, 'bc8d157e797c05729044a42657d40a15bd2fe6f9c96f3c95f43df29a7c0e5ea7')
+  ADD canDisableShield() | None -> (3379, 'fe457fc03b7dc1a518ca639da77f67cc88ba8dea6e7637123d49339f8c302885')
+  CHG die(DamageSource $$0) | (1269, '90c6c09c1352bca2957e21581ec4462657c02100adc145bd7666a80e6c35b506') -> (1289, '0c1b11f6e0f92094c3f1e091525af3b481281c7a75a083a2a5e72faf3f057c08')
+  ADD doesEmitEquipEvent(EquipmentSlot $$0) | None -> (649, '9e7059958633715f1b02b4e8a30d0973959364913deaa907b40f8611d862dc85')
+  CHG dropExperience() | (1344, 'f69fe9b62344b0eb39c90674531f8da1b8addf93799fc6a375d34e5ec3b9c239') -> (1364, '83e46e1b0429bda5cc0d3731bfef7d6348387a201cfd4bb7f5409c9e34609f67')
+  CHG eat(Level $$0, ItemStack $$1) | (3185, '71b4e58650d6e3c6be3e6195fcc4d81e416e3cb0beafb077727ca45898ee3303') -> (3223, 'c9708318db05c032ab7af57132f1c0a15cb63d8c1ef112de45b42ade2541f96c')
+  REM equipEventAndSound(ItemStack $$0) | (647, '1003c534c9643ca18d8db04f0d93522a09df597d4012a5157761e65b71a40764') -> None
+  CHG getAddEntityPacket() | (3079, '27b06b2035f7f8d8b138c65fa38e61ec859662d2d046b132e096f54d111d11a0') -> (3117, 'b52d5cd12cd6c8562b4c412271c8252e2c61342a9e64243eac1d46d8f9cde540')
+  CHG getDamageAfterMagicAbsorb(DamageSource $$0, float $$1) | (1527, 'ac6a1f27efc7a34bd654b7e64b7f223c09e1c0ab3eb234cd52797f1b8c5bd8f1') -> (1556, '5f7c9a5e09c6775255263556a66732dda122c8a09e6ec19045c45f5e8028f5a6')
+  ADD getExperienceReward() | None -> (583, '6f0e51fae88af5d49ca110334f2c79b1d4b778152ba5bb31672e7edf472e73be')
+  REM getExperienceReward(Player $$0) | (581, '6f0e51fae88af5d49ca110334f2c79b1d4b778152ba5bb31672e7edf472e73be') -> None
+  ADD getVisualRotationYInDegrees() | None -> (3356, 'd427d5ef31a19f05b9a57b911513207bb9676da34e1289689b9d730e4a4ced4d')
+  CHG isVisuallySwimming() | (3009, '6b35d1f4fc30fdd1bbd9a17d3456c21dbd3e7c5693ad28f986c654841392f5c3') -> (3047, '92a6b4398595d3f5d8fea3c9762d0e454d971e2390e826ce41c08832e28cab26')
+  CHG onChangedBlock(BlockPos $$0) | (526, 'b9d02894bcd868643508656f295107bf87e4c41c19e0c989b7fa457d8ac0a955') -> (528, '7c05422da56415d812078a71886cf32504e9260b56c20bc1472dcf99f258ed73')
+  ADD onEquipItem(EquipmentSlot $$0, ItemStack $$1, ItemStack $$2) | None -> (653, '97aa663ae01f1d736c24f19bf89450e9b6331c1f6d76b5436f4dd63231499ff0')
+  CHG onItemPickup(ItemEntity $$0) | (2713, 'a7d7a19d6b1e4f0b2216831223da149c59e22b43892720a1d45dcecd752d4f21') -> (2746, '4328f41c4b88cce92f7ec32f0659f4036bf0a50592a636c2c12f25a7766578b8')
+  ADD playEquipSound(ItemStack $$0) | None -> (666, '7d71193b2dc65f489f4e7471ead7ffa1cc27a935fcabf141760fcd542f46eccb')
+  ADD recreateFromPacket(ClientboundAddEntityPacket $$0) | None -> (3361, 'b031bc5b7be248e05d3c2fdf2996e622cc336926a2313d829a1a8f81efc63c04')
+  REM recreateFromPacket(ClientboundAddMobPacket $$0) | (3319, '5f627b0b7bb31fb735290242134f5af5f5131be30ce4ed6e90bf8e9373dd29d0') -> None
+  ADD skipDropExperience() | None -> (1428, '3a33a22923a886c25c1a5ed6c4faf36f58d630cb070820ae956e04385c9a6f95')
+  CHG startUsingItem(InteractionHand $$0) | (2872, '767329e97a85779554249185616595cd3f878d7b0ea3525fa0a914a2482c8037') -> (2905, 'd0323ff0b42edd64bc3e3707a97cf2ee07273778a43ba3d6937effcdd5b52751')
+  CHG stopUsingItem() | (2983, '6e7bc011c49e544461d520b4d09d57ed8111978d0bf2f68ca22af5b805dcb0f4') -> (3017, 'd9b5cbb5f477453b4a9b9ba25669361a6b165d2a0458a3fcfdacb6dc7f199e45')
+  CHG tryAddFrost() | (511, 'dff3ac34caf7254e7b4b870c58c1d952e5940009e53ad4bf410159589349b1f2') -> (513, 'e9a97c2b197d62914d13ec9248285da7d1de8fdb2b8862f2245967bd7636a5db')
+  CHG tryAddSoulSpeed() | (480, '4619c199db0b881e88ae4c9d183a5fa6801c7da70f11673f3f8dc0bf83bf8ac3') -> (482, '907877437d311c01d029f4d2842c59b98e17d57f20a0c48a666f515bb7daf3e9')
+  CHG updateFallFlying() | (2588, '84dd0c8b5535a437c32825dfd10268193ec074c28c107f50669ffe505857549d') -> (2621, 'a591d2072e6d63dc44352a641a743a12ad0b42d8a16b74287c1a57372f6cfc45')
+  ADD wasExperienceConsumed() | None -> (1432, 'a1bcc20fe29223948eaffe72cf17572929b2ff7661af6af3f0aa1de4bce92125')
+net/minecraft/world/entity/Entity.java
+  CHG Entity(EntityType<?> $$0, Level $$1) | (230, 'e21189f49d478f3939bcc69899561570907cc2d8e3bf1b8052213a0711caa386') -> (233, '388e3c1c085cf050c5c3b2a12b94a26469efbdd83e30d0b8de920b3442a8e620')
+  ADD asChatSender() | None -> (1050, 'c12017caf417154010c54ccbcc4a9b6c3b378f821b8312942e0c7f7d82b55d55')
+  CHG checkFallDamage(double $$0, boolean $$1, BlockState $$2, BlockPos $$3) | (977, '2d53e334875b668cf6a2db4ba958a460d012af89deec9e8cacbe4c6e8d7c37f3') -> (989, '6e914678fe1e17dc648304eb42d6cd8cf7db6f4a588e9027458e2dad5b2fec52')
+  CHG closerThan(Entity $$0, double $$1) | (354, '1eaecb07b90b6306453f73b4573ada98a3088ac7d23f74b94592ba95cc2c7a52') -> (354, '6f3db3ca266cde5bfb68ac71fd1bae4bd4db54f50143ed6497c9c2799d95a420')
+  ADD closerThan(Entity $$0, double $$1, double $$2) | None -> (358, 'f9dd9e8c7eb033fa40ba90e2a7df558b152fb95e3c4abb3a31600b0bc7cc8abf')
+  ADD dampensVibrations() | None -> (985, '15901512fbd1b2342f56ef8a6bf62880311358e95bd3dca4055f48da696065e8')
+  CHG gameEvent(GameEvent $$0) | (913, '922162d3c990849d497946b2b5138edefd570bbb6710503ff61bcbf6dac19e6a') -> (919, '011e2971a08d653db65d9bd68cc1c85900b93715e0a7429df1ffc9a810ff9006')
+  CHG gameEvent(GameEvent $$0, @Nullable Entity $$1) | (905, 'f073eaea5eddf09aeedbd6a088b1562e21c1fbd034cf2087316be7bc2aa3afba') -> (915, 'd8df0292b8f8d81abe1e858b5023c572602da12eef721711731f71bdb680f888')
+  REM gameEvent(GameEvent $$0, @Nullable Entity $$1, BlockPos $$2) | (901, '0efdfd6069f46a0c1c31ddad1b6d0dc65ab99c413b4d3b4c5d034ae6a4118949') -> None
+  REM gameEvent(GameEvent $$0, BlockPos $$1) | (909, '6ea1af19b3101c6b4f87eb2212dfec222af03743d5089fd44d8a0b0541c7499f') -> None
+  CHG getOnPos() | (702, '8944f2377d743696686df1d8163946fcc9ab0cfd980a673365165a6998ccd432') -> (712, '28160fb54adfd908b2abaaf53999f2140dec96e13dba4afa533d27823b4687f0')
+  ADD getOnPos(float $$0) | None -> (716, 'c79ba08eb942906d92498d35d0e5bbc872ad8bc323e3186bad696b2148d6cdf1')
+  ADD getOnPosLegacy() | None -> (707, 'adb2a7d9652ce23eb9d04f4837bec6a57762823007f211e13a641f03cd552439')
+  REM getPacketCoordinates() | (285, '5183cf215db1d3982c83a3b682cc633bb63b24a918b7207e37d203ab50f763ad') -> None
+  ADD getPositionCodec() | None -> (283, 'd5896d05d29d04b87d2bb763c791b6647240cda8da9da279be723738e563cd73')
+  ADD getResponsibleEntity() | None -> (1002, '1bb5c69641c08a75eaa46007ad93d5cc8c454d5353a529a4e1770e423b4c3b84')
+  ADD hasPose(Pose $$0) | None -> (350, '338947f42185032bc7b2e6605d5de22f3b587fbf0250defa643c10baaa5eceab')
+  CHG kill() | (314, '6542814d07de0af1274147a648173f85ea367bafc31df5d0f9f9958eb8101fb6') -> (312, 'db3f0d9c1057f71d66cc3f066fee7d25d1ab65a59f56dcfe7a98b94d10e485cf')
+  CHG move(MoverType $$0, Vec3 $$1) | (541, '4634640f53f43db0d415faa1e8ebebc973ccb0ab0eec637e0cfd2025e15ea882') -> (545, 'a742453ae757680df79cc3897d99df13aff1314e0952f33298993e59373a2aa8')
+  REM occludesVibrations() | (973, '15901512fbd1b2342f56ef8a6bf62880311358e95bd3dca4055f48da696065e8') -> None
+  ADD playSound(SoundEvent $$0) | None -> (959, '934110a976692d1bd24167ba0babd000d53e6e357272b4e2109b57bac51e54f3')
+  CHG remove(Entity.RemovalReason $$0) | (336, 'db410e6768d6955831905b66cd81078b6e7ef8853a1cce0a6ff545576ce8cbfa') -> (335, '10d9c24986d96246514a404ca8c4beae9b78207448ee86098d41ca5baede024c')
+  REM setPacketCoordinates(Vec3 $$0) | (281, '3b36a37c5d41f36f0a9721caac40532658d067c2e4a14ad89fbd53690a59ee97') -> None
+  REM setPacketCoordinates(double $$0, double $$1, double $$2) | (277, 'bc4ed56c6569c2f0696cd1dec36496bab7e21eb3de5aaf7b77d4f23a2346c66f') -> None
+  ADD syncPacketPositionCodec(double $$0, double $$1, double $$2) | None -> (279, 'c3520b98a4ece3be4bab87399e68e197a1041e6e8f8848497c8af0d43953a8b3')
+net/minecraft/client/player/Input.java
+  REM tick(boolean $$0) | (13, '9265619237dc049c9efd5c01a5c74a7e99db1a67aa7ef3e2e396e54563e1bc57') -> None
+  ADD tick(boolean $$0, float $$1) | None -> (13, '9265619237dc049c9efd5c01a5c74a7e99db1a67aa7ef3e2e396e54563e1bc57')
+net/minecraft/client/player/KeyboardInput.java
+  REM tick(boolean $$0) | (19, 'a348e2130118fdbb78e0ed823ec611f7675dac146962d213e598a6f202041ad7') -> None
+  ADD tick(boolean $$0, float $$1) | None -> (18, 'a64c5cfc926c4f4a2340c659be7900b5ebbb912f2d302b15608531e988cef90e')
+## 1.19 -> 1.19.1
+net/minecraft/client/Minecraft.java
+  CHG Minecraft(GameConfig $$0) | (369, 'dad95be974cbf0671993f62cbd167ac2273806f90f8a2533f90aacf944613b62') -> (381, 'ff89942ee7952322c863990c612874cd8c0ba519acc9058c3b615fcbe98033ca')
+net/minecraft/client/player/LocalPlayer.java
+  ADD buildSignedContent(String $$0, @Nullable Component $$1) | None -> (366, '8645369c9c940bfa8e4e98bf24b6c091a6429e02b0ae6d9ead191fce01e7c18e')
+  REM chat(String $$0) | (293, 'a1481ef4b9cd2aeab674b411919e6782e1eaf8cc45d6ab81df8f21e2ad552dda') -> None
+  REM chat(String $$0, @Nullable Component $$1) | (297, 'd00abc466675a3d4047ad85855d41eb64fa73909268a7f4fa66427919b3fb755') -> None
+  ADD chatSigned(String $$0, @Nullable Component $$1) | None -> (295, 'b01e026b2e37cf1dea0d0e7aae1b69cd8d9df9e237c9cdf4c1798054e3562f31')
+  REM command(String $$0) | (302, 'ef9ea8d1187e7208ab68445a337612d9b4586c26816125b0d8ac4b86ba16e4a3') -> None
+  REM command(String $$0, @Nullable Component $$1) | (306, '7ae4282e61f2cac4284885758178efbec45175a589fb3d42c914194310701075') -> None
+  ADD commandHasSignableArguments(String $$0) | None -> (299, 'c903810357adf2e8ec2f7b4aa18fb9af35c298cd165649dd126f75e1d86420f1')
+  ADD commandSigned(String $$0, @Nullable Component $$1) | None -> (314, '213950293159a2340f215f958a586559a71e3b45a20176b9ade6a9ed844a85d4')
+  ADD commandUnsigned(String $$0) | None -> (304, 'ee04c9ad45a838bf660e522d21bac604c6687dbe21bb299141a4eab8a5b10863')
+  ADD createMessageSigner() | None -> (371, '3f1d19f006588feedc7972ce4e99d095d1dc7bf0fbb9f149118e56f280c6d5ff')
+  CHG displayClientMessage(Component $$0, boolean $$1) | (484, '9f827d5fb24ea621d3d03f5eb55d94d7a61391a9c5eed9f2855f10a0896946a9') -> (494, '951cf9db1802ebf228f317eb9aaed4b95829cff03e043c0adb9aac2b57e1d416')
+  REM sendChat(MessageSigner $$0, String $$1, @Nullable Component $$2) | (311, '997ada65a0525beabcc1d69dc26eebfdcb7807f0dfac2c49a51b93ecc5a6fdba') -> None
+  ADD sendChat(String $$0, @Nullable Component $$1) | None -> (318, 'c9878dac1679a0d7c5a639c0607cad3c1c526bff0a4236ce1fef2e5979c354cd')
+  REM sendCommand(MessageSigner $$0, String $$1, @Nullable Component $$2) | (334, '939df242e09718853832dff6f175998ceef47db3aae022de935caaeea03baef4') -> None
+  ADD sendCommand(String $$0, @Nullable Component $$1) | None -> (339, '612edb64a2999cfad72e091a16e9ec3b35b5b0543d806399c6bc018e69c78418')
+  ADD signCommandArguments( MessageSigner $$0, ParseResults<SharedSuggestionProvider> $$1, @Nullable Component $$2, LastSeenMessages $$3 ) | None -> (347, '9903820c7946c5d6e33ef74159b3a6fff5cc01e4146f00626e7a1f14c5958e64')
+  REM signCommandArguments(MessageSigner $$0, ParseResults<SharedSuggestionProvider> $$1, @Nullable Component $$2) | (340, 'bc063b778dbd5bf60b0f663131a74f957b4ecd3ceef928e934c4c4e823c6f3be') -> None
+  ADD signMessage(MessageSigner $$0, ChatMessageContent $$1, LastSeenMessages $$2) | None -> (326, 'c7cf1d4b758d42be052bfb84f18ec68f0812471dcc6b732bc88b07a123f79eff')
+  REM signMessage(MessageSigner $$0, Component $$1) | (321, '259377c9d6bb3168935b5d36c0209393381b183ee779527812b15ccdd78a1693') -> None
+net/minecraft/world/entity/player/Player.java
+  ADD asChatSender() | None -> (1595, 'ada34af54f1a829d32b1055d228687ce20e230046a5b3766482f0bcf1e4319d6')
+  ADD hasContainerOpen() | None -> (1361, '8832ba3c344db50d3afe5437e410ee9d334bd9ead6e49e15cc8d26e7397aeb6f')
+net/minecraft/world/entity/LivingEntity.java
+  CHG onEquipItem(EquipmentSlot $$0, ItemStack $$1, ItemStack $$2) | (653, '97aa663ae01f1d736c24f19bf89450e9b6331c1f6d76b5436f4dd63231499ff0') -> (653, '3aaf693f696fb5a2fa7c8e6da3e942752c2418cafb97f127ccc260cafca41148')
+  CHG tick() | (2254, '8d859173e453215301f254d83dad28812748a9f9b1e55a2c73f2e443d3697128') -> (2254, '317da1a9e7fffc973dfb1054c223d23349c0b9b2e1a3413b6ebc1411ec8bc4fb')
+net/minecraft/world/entity/Entity.java
+  CHG asChatSender() | (1050, 'c12017caf417154010c54ccbcc4a9b6c3b378f821b8312942e0c7f7d82b55d55') -> (1045, '09355be31ad6e2ad3e604926d21008b0ad6cb57bccd2e9d830d23a4f80b92ee5')
+  CHG checkFallDamage(double $$0, boolean $$1, BlockState $$2, BlockPos $$3) | (989, '6e914678fe1e17dc648304eb42d6cd8cf7db6f4a588e9027458e2dad5b2fec52') -> (989, 'ecdc113a9806a2f02d21a8f9c5d6854b7f53c89a58d481d8b97330c6fb1392a8')
+  REM getResponsibleEntity() | (1002, '1bb5c69641c08a75eaa46007ad93d5cc8c454d5353a529a4e1770e423b4c3b84') -> None
+  CHG move(MoverType $$0, Vec3 $$1) | (545, 'a742453ae757680df79cc3897d99df13aff1314e0952f33298993e59373a2aa8') -> (545, '3de5ee337a39d0b78726435de580fae7f29b49cdec7bdb58c5d1feb9f9fd31cb')
+## 1.19.1 -> 1.19.2
+net/minecraft/client/Minecraft.java
+## 1.19.2 -> 1.19.3
+net/minecraft/client/Minecraft.java
+  CHG Minecraft(GameConfig $$0) | (382, 'ff89942ee7952322c863990c612874cd8c0ba519acc9058c3b615fcbe98033ca') -> (383, '9f88014e028b47c4e1981090ab252ea4dddf94825426488dba5921083ac7c07a')
+  CHG createTitle() | (602, 'fd6b792717261e14ebd221abdbf3d65513de9209894db0fa71a750d7abcc39a8') -> (612, 'b2e4df7a47fbfc39cc639b75e6f2316ff8d3558b074305fb9b2be355aebf030f')
+  ADD getIconFile(String... $$0) | None -> (591, '77f163757256ff8df7d4f1b95f5c87fb46d95316f3ef4a2d2e0cdb9e1f42c9fe')
+net/minecraft/client/multiplayer/ClientLevel.java
+net/minecraft/client/player/LocalPlayer.java
+  CHG LocalPlayer(Minecraft $$0, ClientLevel $$1, ClientPacketListener $$2, StatsCounter $$3, ClientRecipeBook $$4, boolean $$5, boolean $$6) | (145, 'c2295d54cb54d62b7fd594c9eeab851484cbd33d4f11d382972ead4a47082add') -> (133, '2cfe33d8b908150c92d5b1cd3b6e25962401201dae3e181a9c5de91eb30fbf3f')
+  CHG aiStep() | (728, '2e79ffcb1da79fa013bcd9dc7698b6121386428b0efc0d27ee2250d9663ea158') -> (649, 'aecb14523d5ce3f8879e15f78c123258bad534b6181b3c42e6376293e5197eca')
+  REM buildSignedContent(String $$0, @Nullable Component $$1) | (366, '8645369c9c940bfa8e4e98bf24b6c091a6429e02b0ae6d9ead191fce01e7c18e') -> None
+  REM chatSigned(String $$0, @Nullable Component $$1) | (295, 'b01e026b2e37cf1dea0d0e7aae1b69cd8d9df9e237c9cdf4c1798054e3562f31') -> None
+  REM commandHasSignableArguments(String $$0) | (299, 'c903810357adf2e8ec2f7b4aa18fb9af35c298cd165649dd126f75e1d86420f1') -> None
+  REM commandSigned(String $$0, @Nullable Component $$1) | (314, '213950293159a2340f215f958a586559a71e3b45a20176b9ade6a9ed844a85d4') -> None
+  REM commandUnsigned(String $$0) | (304, 'ee04c9ad45a838bf660e522d21bac604c6687dbe21bb299141a4eab8a5b10863') -> None
+  REM createMessageSigner() | (371, '3f1d19f006588feedc7972ce4e99d095d1dc7bf0fbb9f149118e56f280c6d5ff') -> None
+  ADD hasEnoughFoodToStartSprinting() | None -> (1045, '83a4930f7af1dd3e400029f34df6e7d3f37427685104b1cf0bed100eb7aba26f')
+  REM isRidingJumpable() | (627, '9a0d01994a02d80111236f43a433f82567ce78f0ad616f4747da11fd9acc9ba5') -> None
+  ADD isTextFilteringEnabled() | None -> (548, '072142269700eea3a8b16f59a126fbd91e4338e3808d6a038aaafa44beccf045')
+  ADD jumpableVehicle() | None -> (539, '264e841cb88fe34585f39f55af899e3a1fa2caa8d3e8a2c4711e2692f2c6f311')
+  CHG openTextEdit(SignBlockEntity $$0) | (636, 'd62ac7d31002312dc41f97fa496e1727101af240a33b38841c9db4b48471cbc5') -> (553, '0c8ca229f9a62be5673f52ebcfb6d294be60f819d1458d885e5ab554b509b5b1')
+  REM sendChat(String $$0, @Nullable Component $$1) | (318, 'c9878dac1679a0d7c5a639c0607cad3c1c526bff0a4236ce1fef2e5979c354cd') -> None
+  REM sendCommand(String $$0, @Nullable Component $$1) | (339, '612edb64a2999cfad72e091a16e9ec3b35b5b0543d806399c6bc018e69c78418') -> None
+  ADD sendIsSprintingIfNeeded() | None -> (269, '02da6ae2315434cb9f855f2492cdfabf23ca8354c3f6277d1ac5d1f28b49fa3c')
+  CHG sendPosition() | (228, '74bb1d845f68b2037a5669e4219e8ac1f47f57dcbffad18aacf335c079c86ad3') -> (217, 'd009f1d41635f9020b69445308e8f04ff6927d60528412b732e55d7bfe125841')
+  REM signCommandArguments( MessageSigner $$0, ParseResults<SharedSuggestionProvider> $$1, @Nullable Component $$2, LastSeenMessages $$3 ) | (347, '9903820c7946c5d6e33ef74159b3a6fff5cc01e4146f00626e7a1f14c5958e64') -> None
+  REM signMessage(MessageSigner $$0, ChatMessageContent $$1, LastSeenMessages $$2) | (326, 'c7cf1d4b758d42be052bfb84f18ec68f0812471dcc6b732bc88b07a123f79eff') -> None
+  CHG tick() | (197, '740818c2323e988a2d54d5f063233c45dad8b34b837d4c17b31cc9b50b49c963') -> (185, '16dd48b8b037e1bd2530b54eb5a635e9ebce1c8ba6d60bb38ca1454825d20941')
+net/minecraft/world/entity/player/Player.java
+  ADD Player(Level $$0, BlockPos $$1, float $$2, GameProfile $$3) | None -> (174, '4abf3686f1652097ba51ee42b10b4d33276175a33f42d74e914832d913f052ad')
+  REM Player(Level $$0, BlockPos $$1, float $$2, GameProfile $$3, @Nullable ProfilePublicKey $$4) | (179, '4ac8a0147569172cc8f4d42b7e66596f494e2bc3077ef02f37c9d9b8c0b057a8') -> None
+  CHG addAdditionalSaveData(CompoundTag $$0) | (800, '47d1d0fd22e345496e85dcadd95e61eebf4fa16ab34cac678972ed74bcdbe000') -> (789, '11f206a048b7e0e2e211b0c69c7f956d26bb1c43be00a53932357fe3c398c2f3')
+  REM asChatSender() | (1595, 'ada34af54f1a829d32b1055d228687ce20e230046a5b3766482f0bcf1e4319d6') -> None
+  CHG blockActionRestricted(Level $$0, BlockPos $$1, GameType $$2) | (190, '950e14bf24216188f7303962eeee68341f48f1aabae26c664d9a81a6f78ee1fe') -> (184, '994a46f45837552d4e2050ec97ca28e3a7ecb2b19adc1020a319c403235887e5')
+  ADD doCloseContainer() | None -> (467, '9265619237dc049c9efd5c01a5c74a7e99db1a67aa7ef3e2e396e54563e1bc57')
+  CHG findRespawnPositionAndUseSpawnBlock(ServerLevel $$0, BlockPos $$1, float $$2, boolean $$3, boolean $$4) | (1385, '7f22b73ace0ea70e6f110a9ff8cd87704c17783cfc65b0a450622560d167a868') -> (1369, '33f91a572d0244ae160948939633e88038dc8c8b1ee8ede8095154de7d335bb8')
+  REM getProfilePublicKey() | (1345, '07359ee279d117aeff5feb15ae52896cd36b9a0be187d50a50d703e7dcce4622') -> None
+  CHG getWardenSpawnTracker() | (1715, '05c25d850dca3c19be4a769dea26c404d37477bd51db428409b39ebfe93e1411') -> (1694, 'ba538672bb5ec5ae9b64a410d866eb7823afbbc15ef0d2a575dc83422c61a972')
+  ADD isTextFilteringEnabled() | None -> (956, '15901512fbd1b2342f56ef8a6bf62880311358e95bd3dca4055f48da696065e8')
+  CHG mayUseItemAt(BlockPos $$0, Direction $$1, ItemStack $$2) | (1735, '04823141a91df50a2c2d9cd42c3198de48c10b2853276326036d0ead8ee70c52') -> (1714, '79863b10017b434644dff9eb882a050dce3bad0f3ced8bb3449b9140aa2842b3')
+  CHG readAdditionalSaveData(CompoundTag $$0) | (756, 'bf871744ef2d72e7532e2f1cb8a313c4883babea52d2368ed82a35111dc42b55') -> (752, '58e41c915afd71ca06c83b31c0f61a6485086fa39e85291ba8411187b7c217db')
+  CHG remove(Entity.RemovalReason $$0) | (1328, '251f4867b2c7f5e8a30219e5b20e052c85434449ce4384eb14554503d70e33bb') -> (1317, '7351ac2e627245ddd24a304ec8fe2b6c1aa57d8226c0a77ae810c8b9351cae75')
+  CHG tick() | (227, 'b715e4307c684dbb7ed12f7539842db27284c8bc713852c7d4adadf005f9cf14') -> (221, 'c4dd5472ded9f98ca89b7e3ee17fc6acd9d728063a45042a27973bc549522122')
+net/minecraft/world/entity/LivingEntity.java
+  CHG baseTick() | (321, '7536ddcd68fedd8519c67096883dfbd843a03e8e0d564ed189d6f13b659c3866') -> (322, '91107c86bda041dcb73af422a6f2e89cb910e0c5f8d4cc75770f9cf7d76770ed')
+  CHG collectEquipmentChanges() | (2386, 'eeb7db360d140250f10dc5b1beba3eec1a720dbda13c4922cf4464902f491eea') -> (2393, 'd82a7d4476fc66e2a31f49c88545a6804bcbe1a3a1ec41f52e50740378550688')
+  ADD equipmentHasChanged(ItemStack $$0, ItemStack $$1) | None -> (2430, 'e898d99c48e2ffcee79fdd5307bf7915507779f36ed2e4e17c381307b11daf8e')
+  REM getAddEntityPacket() | (3120, 'b52d5cd12cd6c8562b4c412271c8252e2c61342a9e64243eac1d46d8f9cde540') -> None
+  ADD getAttributeBaseValue(Holder<Attribute> $$0) | None -> (1872, '79af56eee176bf34c579c0b8a004d947b4d1f2841425ae69f8b63feaad45c189')
+  ADD getAttributeValue(Holder<Attribute> $$0) | None -> (1864, 'e77f7f884032b45e111f085af1b8eab0a720414ab6102b8c80c29fa1e286e8c1')
+  ADD getMeleeAttackReferencePosition() | None -> (1434, 'ad034a56a9688b59435522bbcfaef749c5a2ad500aeb56893466262a85c833a6')
+  CHG getVisibilityPercent(@Nullable Entity $$0) | (835, 'e1df56f99e1fd1c597ff4ead0d64455ccc0bbef13ce7439edc53c536dcd4e162') -> (834, 'bd007fea900e27a2d37aa57ca3dca5a1e40df3677cb2bcf36669d166ecfea900')
+  CHG hurt(DamageSource $$0, float $$1) | (1032, '95bd77df4fdf055fe001d407a0320386a3cea8c4836fa825fe2e0f6d4148f773') -> (1033, '9588bea7a44fe37d2051c0a60527cf2a91305b4067ad48446b3f0be4aba1f26f')
+  CHG onEquipItem(EquipmentSlot $$0, ItemStack $$1, ItemStack $$2) | (653, '3aaf693f696fb5a2fa7c8e6da3e942752c2418cafb97f127ccc260cafca41148') -> (652, 'b40b4c9ec8e328fb2d82abbaceacdbfa4390c481ee053ccebc1c017b17bcdf52')
+  CHG pushEntities() | (2654, 'e36529e587af28dfe206dfbf6a2cfe13d986956b0f8cfab4e38b947f9f93860f') -> (2665, 'd2d38fb9d05b76ee4d45375f2714fd97f57e2644fa915b26b9deb42e3ff5926c')
+  CHG stopSleeping() | (3180, 'de2d7aa59590eeeae510c46427da0a53e58103140b5a96e025d5004a9c5cd4ba') -> (3190, 'eea8ecd8e60de6983e5d7e93bceb0d6a28bd8add83d01011ac9e8ca65f1774df')
+  CHG tickDeath() | (558, '17d336ed6230bdce43eb5f725dad246bb52a8bce66b02c0ef801e0261ffe6281') -> (557, '65d65f2c44b0bf4b8a35f17368c6c7fe5db32d5d984c0b07484f53ddd9e6ba96')
+  CHG travel(Vec3 $$0) | (2040, 'c35b84c45e4a6e1f84716f79986feaa553483d5620f5cfb445fb0b2726992d15') -> (2050, '2dcf35c763a67ea099c8f71995004a609235643932ebfe1b75cf54357d5b9524')
+  CHG updatingUsingItem() | (2858, '2b1d3047bba4fc0912e24ff29dd84b74b385496c1634a6cfb5db465b780cdd1a') -> (2873, 'b6f65d9f47297a14aaa9a9203a9ed8bc879ad6d2a1a0a74774252c69e75c2f2d')
+net/minecraft/world/entity/Entity.java
+  REM asChatSender() | (1045, '09355be31ad6e2ad3e604926d21008b0ad6cb57bccd2e9d830d23a4f80b92ee5') -> None
+  CHG checkInsideBlocks() | (884, '3a73fa95a9a96239fa0e967d9dac327112e78a82bbf0aca39372e4d07d0793b7') -> (892, '0b0e76c2b8e6088ad3bd85f2a3dfde60b50258e2cb3fd3000eee3be189bbeda0')
+  ADD extinguishFire() | None -> (698, 'b174849efbf2f4bd9b1e3eba48a57ef2e9ffe1bce52d385988fb5cb751c56839')
+  CHG playStepSound(BlockPos $$0, BlockState $$1) | (923, '8eb9cbe4a2a824f219494f20d29fcb2a43312b6f8e53e9ce16f3b353aa18d577') -> (931, 'c828042066a0382e4cd22bf9901391559bf764f1ec5c4bee3a77c68af4299f66')
+## 1.19.3 -> 1.19.4
+net/minecraft/client/Minecraft.java
+  CHG Minecraft(GameConfig $$0) | (383, '9f88014e028b47c4e1981090ab252ea4dddf94825426488dba5921083ac7c07a') -> (385, '3a9777b84ddd5bc6d443c3289ac94d6d7e50f191ba13823857ef0b23e3029bd2')
+  ADD abortResourcePackRecovery() | None -> (673, '20c2df5a38f0f0a0055e0de170f264409d5cc802ef8284db70cb9edc99e08090')
+  ADD addResourcePackLoadFailToast(@Nullable Component $$0) | None -> (684, '02720a14ee6f29fc3f892aefb13a15dfbd2da622f339e8817a023b629839ec35')
+  CHG clearResourcePacksOnError(Throwable $$0, @Nullable Component $$1) | (658, 'a870c62b582e5c1f0129835449f87a259bb0699e6ea3916d39215e68a61bf954') -> (663, '45e3b5382474e91b89a0edd1a2bb6677911a4fa7cd73fec6e78e07ec5ae26102')
+net/minecraft/client/multiplayer/ClientLevel.java
+net/minecraft/client/player/LocalPlayer.java
+  CHG aiStep() | (649, 'aecb14523d5ce3f8879e15f78c123258bad534b6181b3c42e6376293e5197eca') -> (642, '7ef7bb697e480f2f41e0be19517280999812dc69e8994d6c9fdbca7d0ddf914a')
+  ADD canStartSprinting() | None -> (1020, '6610b28c5592cf156b41f7558b2ecfae39d51ef2903744626d928e7f825a132f')
+  CHG handleNetherPortalClient() | (827, '8e18d8c51edabc2217a2f84ecf66cab28bfa3ef5e6731a823a370e51a67a8616') -> (808, '89c59bb7869da254ad09b8a65650406301c2eff903232cab9346a7abc8a833f4')
+  CHG jumpableVehicle() | (539, '264e841cb88fe34585f39f55af899e3a1fa2caa8d3e8a2c4711e2692f2c6f311') -> (532, 'd91e440bf3c65defe8ff1c2f1c0e61bc9d7d467c8b685e4d32a4d8739e3d04c3')
+  CHG moveTowardsClosestSpace(double $$0, double $$1) | (411, '1d91ff0d5419cd3a715283bdb8fd570e6886c5201df5bff39e6191b54f07a284') -> (410, '476eba64de965dbcb186223a8e3305f655a7f783948bf616a113e557566790e3')
+  CHG rideTick() | (871, '76d39711e6e1313582dbb652348fe126a99800b67e5dd6c43b91a1706b373202') -> (852, '943eb94aa0f39ecedb59f5f092b87472e67d9602ca8bf8a69b5ff598f366e179')
+  REM setSprinting(boolean $$0) | (446, '33bb6055121b2edfd7b294f1668bbd32c454590025226670c085fda6eeef1bdd') -> None
+  CHG updateAutoJump(float $$0, float $$1) | (909, '6a2fbba04a2a57da8a9ebdf81cd59b2a38b6bf67de6735d73a080dac39655705') -> (889, 'ba1406f2428308b31a6f04b9de7b038e0e52dd4854952cf00cc32f89e2a1c175')
+  ADD vehicleCanSprint(Entity $$0) | None -> (1030, 'b5d09b0f60964e4c800f6937d3185761d2ebe2150351474ce0d6742e211934ac')
+net/minecraft/world/entity/player/Player.java
+  CHG actuallyHurt(DamageSource $$0, float $$1) | (926, 'a65b1f66242c17b286a6368908ed9a839c06fa1d0d602d53216639f98029a4fe') -> (916, '1b22e1d12601d1e368d6c9d106c6932cb76430c780b7fbc2f5362c73a851815f')
+  CHG addAdditionalSaveData(CompoundTag $$0) | (789, '11f206a048b7e0e2e211b0c69c7f956d26bb1c43be00a53932357fe3c398c2f3') -> (779, 'd8a5af1ebbe6ea4673c0a32ec443eb7677d03e074d52622d5a0463c8e0e05611')
+  CHG aiStep() | (493, '258e19f9555b5e6d34844b050f3f7b082c27a42a7e4caf0d85d9b2af906b3441') -> (496, '743b156a55559ed93f6c68355a2efd67103164d2f983c2a90d70e1c6aa69663a')
+  ADD animateHurt(float $$0) | None -> (2098, '096eabb9e3a5328335ed20954a5924be5a950407abcc3820a11a4fa48aad6173')
+  CHG attack(Entity $$0) | (1107, '7f71ded2570bc092ade9d1af0c85897987a98302e0140b61ad089df4c5c8d865') -> (1099, 'f05c73cb4bc270b34a504bb4434fe1f1cfbad13c40854762dc5acc7bce2a0a3e')
+  ADD canBeHitByProjectile() | None -> (1833, '247766192f44c4aa385608e36e4449f13c4557ddd06cef3f8cdda47e43ee9b17')
+  ADD canSprint() | None -> (2104, '9e7059958633715f1b02b4e8a30d0973959364913deaa907b40f8611d862dc85')
+  CHG die(DamageSource $$0) | (608, '2be955a31a3b8c691ae6564c542e1c0714d71b7090894f5ca0281fbf7e4a7f91') -> (606, '0ebec71d56b6e35055f9591ad8c0cb43d92b9d88dbf1865fb347551c3f081e77')
+  ADD getFlyingSpeed() | None -> (2109, '11bc103ec63eefe7fe4dd92e8a8aa8f6efbd1682ef4b67011b431a40d87efd1c')
+  ADD getHurtDir() | None -> (2093, 'd7037f7876170c3e817b015d9cf82d0400a651a3025e3df2ec7bbc37261f4d09')
+  CHG getHurtSound(DamageSource $$0) | (652, '2040941ba6fec29e139763f7eef5c02c55c3c25f5210b1ca7f8cef379476c925') -> (650, '8f53636cf7a64e7bfbbe1bde98611695d3a995071073ce0255c0f7e089ba6edb')
+  CHG hurt(DamageSource $$0, float $$1) | (832, '76bca62b13569741b1919476cf3f127408ddea8781a831fa9ff42c762765f874') -> (822, '8fb5e614ac4815cc8b40b32c8c6725854ee3cfb9328092d1d29491d6467354ed')
+  CHG interactOn(Entity $$0, InteractionHand $$1) | (988, 'd734d013712f6901c3c300ffdac2c545562516c9e646c44edc3fe6a7975ce5c4') -> (978, '5be3f73399f5fa23fbf7ba2483472b7df1deaa53a9420b942d515d485d070a2f')
+  CHG isAboveGround() | (1102, 'c761e0836f772726acec1e080d51fb5173214b7c229dda7b5ab6981aa8a8b659') -> (1093, 'b202e6c4ec212c218fec6bcb21a20dd6e44b871968b7126a046c1cce4eddbbbc')
+  CHG isInvulnerableTo(DamageSource $$0) | (817, 'e06863c3ab7d4024efc7a293e7d859149b5cf205325c2bf3282b56d5c6453fba') -> (807, '26fcc474d90cd268711bfcf6e58ea412a08f3a13165561d02a16667a756710aa')
+  CHG maybeBackOffFromEdge(Vec3 $$0, MoverType $$1) | (1047, 'de24cc092f168f4d9a706e4944e4cef8451b8e63551d442093ffd5b4e529dc27') -> (1038, '87df16e604952b7f22e87ebd891261ed428112a9d5c32ce421f4e55529520d16')
+  CHG travel(Vec3 $$0) | (1445, '9d4cc0e6bfd7607d51ea3a4a5772925df5ae0e3b218134af6b6cb77fb388bbd6') -> (1437, 'aeb1761ded49be90d1dc4b251947d3a098a9c2d7ddea0d84f1336c4b8dcd92d7')
+net/minecraft/world/entity/LivingEntity.java
+  CHG LivingEntity(EntityType<? extends LivingEntity> $$0, Level $$1) | (234, '4412660d076dc14f5bb1ce4509c12684be296380a4b2a962a02f2ac49eee2a81') -> (229, '1369aaa33cc4dfac9be305de0e4e5cc9e82e5d29b397d026f5334b6dd27ec524')
+  CHG actuallyHurt(DamageSource $$0, float $$1) | (1595, 'a8b16a43ddd3438482064d60ff54cd69e5e750818bd3c42bdd65dd9c9b97ab27') -> (1587, '1128ef3d7967b4516e0183cae9d8c4dbd6f1f4fd74e98b99fb19d8ce127845f1')
+  CHG aiStep() | (2506, 'bc8d157e797c05729044a42657d40a15bd2fe6f9c96f3c95f43df29a7c0e5ea7') -> (2452, '12bafeab142a594716df2333e4932bcc219ccb6045c8f0a3e73b3a10f469036c')
+  REM animateHurt() | (1529, '7ac0b2618ad885c6aa7d258b31f034f8263aa07e7907dae0ce82772b5005243c') -> None
+  ADD animateHurt(float $$0) | None -> (1522, 'c09bfe88bcd1b0dcd5e8e5f0135a489eb6275497c39a4760549cf4e8c3da9e39')
+  CHG baseTick() | (322, '91107c86bda041dcb73af422a6f2e89cb910e0c5f8d4cc75770f9cf7d76770ed') -> (317, 'f13fbeb390411bca16a0dea4c5037002ac032db89aebe34fece038db1c533959')
+  REM calculateEntityAnimation(LivingEntity $$0, boolean $$1) | (2185, 'bf2a4bb90cdd1ab8988be30d70d80b0d2fd25f725e2a433908e30c7fb84e4bd3') -> None
+  ADD calculateEntityAnimation(boolean $$0) | None -> (2140, '93ce05d0ee6ca9e9b6b11a03be5a80aa4031c5c980761a34ed01fc5d231ed3f1')
+  CHG calculateFallDamage(float $$0, float $$1) | (1510, '16a27e3f406709035189d98ba9c9b23b083b658d40d89a46c4e5de4266c68acb') -> (1499, '149f4c9d626ab8d9185a83540b80e4413d361f6e71194884c2e4654c44294f36')
+  ADD canChangeDimensions() | None -> (3096, 'c1ba69ad78194b3804232baf0e782d80b42124cfed5eea007a69cb9f972851bc')
+  CHG checkTotemDeathProtection(DamageSource $$0) | (1196, 'dc92ee2349eadfe9e6e84be65a3b63c685cfe2d3576b4d1f453f9198fa9d6bea') -> (1178, '0a33a36e8bcf93a5199d349cea86cc8b80b2094ba976d81056e932758a1fd99c')
+  CHG getDamageAfterArmorAbsorb(DamageSource $$0, float $$1) | (1549, '9af1df5e71a1c23682802215006ee9b34c6ef46c53d111d054272c7433478849') -> (1541, 'c3ba06bf331a4f38e1667e20aab2e557de9d096840cb318edd19d5344ef03c85')
+  CHG getDamageAfterMagicAbsorb(DamageSource $$0, float $$1) | (1558, '5f7c9a5e09c6775255263556a66732dda122c8a09e6ec19045c45f5e8028f5a6') -> (1550, '107b52169cacf5fbdc996858784d35b53bb89739f374e489c82d8de2ca18e319')
+  CHG getEquipmentSlotForItem(ItemStack $$0) | (3308, 'cc92d351dc1ef47bbceea332c85f9f55db769d99073aa51cd6afe6fef89c81c4') -> (3260, '9c969eae51c786f25e229afb9229096eeee8ccb512afde38eda98c2f80a5a4ab')
+  ADD getFlyingSpeed() | None -> (2199, 'ad09385582004317dbdbe9b6b561cb5f834963868feeae1d2e9b8610bec8195c')
+  CHG getFrictionInfluencedSpeed(float $$0) | (2244, '95a57ace810575c1bd2bb98e436b8de0c1bf48dfd404bd195a13fcefb8a24f51') -> (2195, 'd1a18023f82e877f7fb4d781d2bac6183698c7fbd7c440fbb5fecb9e21794b32')
+  ADD getHurtDir() | None -> (1423, '863ccdf1601ab1ee10ba4c731eaf54810dbff294492ace630c83a3cb65fa8c3f')
+  ADD getLastAttacker() | None -> (589, 'e38fb32d4e917d55322aaa348bf026146686e95c25fb3362ad1cd8682e1fa3e3')
+  ADD getRiddenInput(LivingEntity $$0, Vec3 $$1) | None -> (2132, 'bddb25c7352bb8021ca92f9637bdfc474371b79d47a3ec87e25c53dc2e30192d')
+  ADD getRiddenSpeed(LivingEntity $$0) | None -> (2136, '77ab9cb0afb512ded4d1a66223eb9ac09a2ae15adb2097301b5000932d0644be')
+  ADD handleDamageEvent(DamageSource $$0) | None -> (1673, 'a4a8bf6787f02c40cf9ceaba534323a0d560ac762b244ab1cfbf745f631c299c')
+  CHG handleEntityEvent(byte $$0) | (1681, '139b25e7c7461fd520fb4261f45a3ac856dbef0d087044e0c695df88534e80fc') -> (1689, '2fcc046a9d342e761df7f286f2b1d38ad9714c2f5e1cea261ce68042b32697c2')
+  CHG hurt(DamageSource $$0, float $$1) | (1033, '9588bea7a44fe37d2051c0a60527cf2a91305b4067ad48446b3f0be4aba1f26f') -> (1028, '12e02be4545209d72fd8bb4ad2dc11583e5dca3f7cafd99943be42fc3ae41eda')
+  ADD indicateDamage(double $$0, double $$1) | None -> (1394, '9265619237dc049c9efd5c01a5c74a7e99db1a67aa7ef3e2e396e54563e1bc57')
+  CHG isDamageSourceBlocked(DamageSource $$0) | (1245, '2c94172dd37d56ac48e62949d4a787648667a3b0349ec1309a7b6d5e6dd485ff') -> (1227, '73f60e69168b9cb6801e03f9a60d557be78f9c9aee641161e18c0ffb76615aef')
+  REM isEffectiveAi() | (2803, 'd38965f02330925f5423fe817133ff033556048087a252c36dc6f74e8df5238e') -> None
+  CHG kill() | (261, 'f87632a78295de109011ea8102a1e1826a7d26df794bdfdf2d75725470940701') -> (256, 'a723c8ff350078243767f328c1ec84083cf286b32489f897cc0c875d94016805')
+  ADD maxUpStep() | None -> (3339, '0de24c7e2e5ccc400785766e848ed16e95010cf58e573806e1c6701bcacaa0e6')
+  CHG onEquipItem(EquipmentSlot $$0, ItemStack $$1, ItemStack $$2) | (652, 'b40b4c9ec8e328fb2d82abbaceacdbfa4390c481ee053ccebc1c017b17bcdf52') -> (647, 'cf7cbe90136372a4ff77150279ff0ea6fc3c3cc3c02b5314e8b44b12729cb392')
+  CHG onItemPickup(ItemEntity $$0) | (2764, '4328f41c4b88cce92f7ec32f0659f4036bf0a50592a636c2c12f25a7766578b8') -> (2715, 'da30122e7b6ba2188a506997aa3a986e289fff7c2891c62140dfbf418cb83dd6')
+  CHG outOfWorld() | (1839, 'bb435303a247b7516b9419acf082661ba18e530d0f6f97672f87cce3febc8ced') -> (1770, '04aa46ae645ae4be927c497499f27e5713c67183e139ee1541c8bc1f03cf45a7')
+  REM playEquipSound(ItemStack $$0) | (665, '7d71193b2dc65f489f4e7471ead7ffa1cc27a935fcabf141760fcd542f46eccb') -> None
+  CHG pushEntities() | (2665, 'd2d38fb9d05b76ee4d45375f2714fd97f57e2644fa915b26b9deb42e3ff5926c') -> (2616, '906190b2931bdcb8e32b4561c4ee6768ba3ac6e2a929f400ca12258fe3ea0811')
+  CHG randomTeleport(double $$0, double $$1, double $$2, boolean $$3) | (3074, '3ec567d4105626ee880b2b54457981f86ff315090e63ea70fbfab82f889180fb') -> (3021, '079dea5da78b81397ccde8fbfac98cad11295f8fdbe134d2db195bf15d8ef63c')
+  ADD remove(Entity.RemovalReason $$0) | None -> (663, '4885f06a6bc45b8c300304d2dfefbef6645e3b6153129acc17402be8f8059038')
+  REM rideableUnderWater() | (552, '15901512fbd1b2342f56ef8a6bf62880311358e95bd3dca4055f48da696065e8') -> None
+  CHG tickHeadTurn(float $$0, float $$1) | (2481, '5d7e59e2ab9aa5c0c373b6df84f0ea088919aa5f0c2c62de44181739ccf08017') -> (2436, 'd20736a24723a34248052eb2cb3658a1475d40ffe426925afbb0d2f247977fc2')
+  ADD tickRidden(LivingEntity $$0, Vec3 $$1) | None -> (2129, '9265619237dc049c9efd5c01a5c74a7e99db1a67aa7ef3e2e396e54563e1bc57')
+  CHG travel(Vec3 $$0) | (2050, '2dcf35c763a67ea099c8f71995004a609235643932ebfe1b75cf54357d5b9524') -> (1981, 'ed26e7ceae2ef30b89deece79e1a72f5b18b19b2d7809bb7e1bc9917c43b288d')
+  ADD travelRidden(LivingEntity $$0, Vec3 $$1) | None -> (2116, '34045d138d4b1d6c0b9419069ee7b9ddd37b1f76dce406cdea0fe2c019712cc9')
+  ADD updateWalkAnimation(float $$0) | None -> (2145, '314ff86bdf1143bbdb71c8204a91bf2b74250602cfb7db23f1d1be8af2314bdc')
+net/minecraft/world/entity/Entity.java
+  CHG baseTick() | (405, '73e03beb40c5b1a38a8ce58a535a31d21d2c29e24e95bf65ac503ca9c8ec884d') -> (407, '0b3cecc1eb70e54af33e682010fdb23a5d52b483e7bf1e64c7409d13b9954892')
+  CHG causeFallDamage(float $$0, float $$1, DamageSource $$2) | (1015, '4af036719d9d3c2e3be7bc330f8548ca7323e7553de1ee058d00e233afc6b5df') -> (1017, '8ea96d3770ad4cbf144f10b0ddb3a1a8808d15af2cd8630e18173be5eba89b85')
+  CHG checkInsideBlocks() | (892, '0b0e76c2b8e6088ad3bd85f2a3dfde60b50258e2cb3fd3000eee3be189bbeda0') -> (894, '6cef9271327847fb656b89f793610f2faf8d8fa6860ff8de840a5f177b8c3f43')
+  CHG collide(Vec3 $$0) | (797, '9077492d32846d5b8d84fa4383ccae034bc4adf117f03f7aa8ffd34ef41a6003') -> (799, 'd25a7d169694872f1c09d9872859c211693c4545a7a3c7b8eaffc3bcc262d85b')
+  CHG getBlockPosBelowThatAffectsMyMovement() | (756, '66fc15021365db6b899121f2e7f7a990cf14d3c7a01859ab7b80f4acace196a9') -> (758, 'e7fdef84553d67d209fa1ad4702f6259f891be564e74452e59d7374892a200bc')
+  CHG isInRain() | (1029, '59f003de399eef8167edd2482d4e88d4d51774f5513bfa9ad620e880819ff6bd') -> (1035, '64eef8280127e3adc28f6f73691cb145d954aa1c57a210a067816e58afcfa436')
+  CHG lavaHurt() | (493, 'bb74eb2dfcaa8add8f5276ca38c9bbe78363a13ff1ec664ed27249f7ff4f4cf9') -> (495, 'bef9074a1d67be59aecc494a6a17efd4f5b7fb3305e812b9be78cd789cbfdcc5')

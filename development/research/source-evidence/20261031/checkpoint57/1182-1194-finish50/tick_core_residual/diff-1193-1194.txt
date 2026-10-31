@@ -1,0 +1,2154 @@
+### 1.19.3 -> 1.19.4 net/minecraft/client/Minecraft.java
+diff --git "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.3\\mojmap\\net\\minecraft\\client\\Minecraft.java" "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.4\\mojmap\\net\\minecraft\\client\\Minecraft.java"
+index 36237d1a..b19c8aed 100644
+--- "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.3\\mojmap\\net\\minecraft\\client\\Minecraft.java"
++++ "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.4\\mojmap\\net\\minecraft\\client\\Minecraft.java"
+@@ -64,6 +64,7 @@ import net.minecraft.ChatFormatting;
+ import net.minecraft.CrashReport;
+ import net.minecraft.CrashReportCategory;
+ import net.minecraft.FileUtil;
++import net.minecraft.Optionull;
+ import net.minecraft.ReportedException;
+ import net.minecraft.SharedConstants;
+ import net.minecraft.SystemReport;
+@@ -76,6 +77,7 @@ import net.minecraft.client.gui.components.toasts.SystemToast;
+ import net.minecraft.client.gui.components.toasts.ToastComponent;
+ import net.minecraft.client.gui.components.toasts.TutorialToast;
+ import net.minecraft.client.gui.font.FontManager;
++import net.minecraft.client.gui.screens.AccessibilityOnboardingScreen;
+ import net.minecraft.client.gui.screens.BanNoticeScreen;
+ import net.minecraft.client.gui.screens.ChatScreen;
+ import net.minecraft.client.gui.screens.ConfirmLinkScreen;
+@@ -276,6 +278,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+     private final HotbarManager hotbarManager;
+     public final MouseHandler mouseHandler;
+     public final KeyboardHandler keyboardHandler;
++    private InputType lastInputType = InputType.NONE;
+     public final File gameDirectory;
+     private final String launchedVersion;
+     private final String versionType;
+@@ -310,7 +313,6 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+     private final PaintingTextureManager paintingTextures;
+     private final MobEffectTextureManager mobEffectTextures;
+     private final ToastComponent toast;
+-    private final Game game = new Game(this);
+     private final Tutorial tutorial;
+     private final PlayerSocialManager playerSocialManager;
+     private final EntityModelSet entityModels;
+@@ -424,6 +426,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         this.toast = new ToastComponent(this);
+         this.gameThread = Thread.currentThread();
+         this.options = new Options(this, this.gameDirectory);
++        RenderSystem.setShaderGlintAlpha(this.options.glintStrength().get());
+         this.running = true;
+         this.tutorial = new Tutorial(this, this.options);
+         this.hotbarManager = new HotbarManager(this.gameDirectory, this.fixerUpper);
+@@ -497,7 +500,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         this.resourceManager.registerReloadListener(this.blockEntityRenderDispatcher);
+         BlockEntityWithoutLevelRenderer $$11 = new BlockEntityWithoutLevelRenderer(this.blockEntityRenderDispatcher, this.entityModels);
+         this.resourceManager.registerReloadListener($$11);
+-        this.itemRenderer = new ItemRenderer(this.textureManager, this.modelManager, this.itemColors, $$11);
++        this.itemRenderer = new ItemRenderer(this, this.textureManager, this.modelManager, this.itemColors, $$11);
+         this.resourceManager.registerReloadListener(this.itemRenderer);
+         this.renderBuffers = new RenderBuffers();
+         this.playerSocialManager = new PlayerSocialManager(this, this.userApiService);
+@@ -585,6 +588,8 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+
+                 this.setScreen(new TitleScreen(true));
+             }, this.multiplayerBan()));
++        } else if (this.options.onboardAccessibility) {
++            this.setScreen(new AccessibilityOnboardingScreen(this.options));
+         } else {
+             this.setScreen(new TitleScreen(true));
+         }
+@@ -664,10 +669,23 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         this.options.resourcePacks.clear();
+         this.options.incompatibleResourcePacks.clear();
+         this.options.save();
+-        this.reloadResourcePacks(true).thenRun(() -> {
+-            ToastComponent $$1x = this.getToasts();
+-            SystemToast.addOrUpdate($$1x, SystemToast.SystemToastIds.PACK_LOAD_FAILURE, Component.translatable("resourcePack.load_fail"), $$1);
+-        });
++        this.reloadResourcePacks(true).thenRun(() -> this.addResourcePackLoadFailToast($$1));
++    }
++
++    private void abortResourcePackRecovery() {
++        this.setOverlay(null);
++        if (this.level != null) {
++            this.level.disconnect();
++            this.clearLevel();
++        }
++
++        this.setScreen(new TitleScreen());
++        this.addResourcePackLoadFailToast(null);
++    }
++
++    private void addResourcePackLoadFailToast(@Nullable Component $$0) {
++        ToastComponent $$1 = this.getToasts();
++        SystemToast.addOrUpdate($$1, SystemToast.SystemToastIds.PACK_LOAD_FAILURE, Component.translatable("resourcePack.load_fail"), $$0);
+     }
+
+     public void run() {
+@@ -744,10 +762,10 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+                 $$0 -> new FullTextSearchTree(
+                     $$0x -> $$0x.getRecipes()
+                         .stream()
+-                        .flatMap($$0xx -> $$0xx.getResultItem().getTooltipLines(null, TooltipFlag.Default.NORMAL).stream())
++                        .flatMap($$1 -> $$1.getResultItem($$0x.registryAccess()).getTooltipLines(null, TooltipFlag.Default.NORMAL).stream())
+                         .map($$0xx -> ChatFormatting.stripFormatting($$0xx.getString()).trim())
+                         .filter($$0xx -> !$$0xx.isEmpty()),
+-                    $$0x -> $$0x.getRecipes().stream().map($$0xx -> BuiltInRegistries.ITEM.getKey($$0xx.getResultItem().getItem())),
++                    $$0x -> $$0x.getRecipes().stream().map($$1 -> BuiltInRegistries.ITEM.getKey($$1.getResultItem($$0x.registryAccess()).getItem())),
+                     $$0
+                 )
+             );
+@@ -840,7 +858,13 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+             new LoadingOverlay(
+                 this,
+                 this.resourceManager.createReload(Util.backgroundExecutor(), this, RESOURCE_RELOAD_INITIAL_TASK, $$2),
+-                $$1x -> Util.ifElse($$1x, this::rollbackResourcePacks, () -> {
++                $$2x -> Util.ifElse($$2x, $$1xx -> {
++                    if ($$0) {
++                        this.abortResourcePackRecovery();
++                    } else {
++                        this.rollbackResourcePacks($$1xx);
++                    }
++                }, () -> {
+                     this.levelRenderer.allChanged();
+                     this.reloadStateTracker.finishReload();
+                     $$1.complete(null);
+@@ -943,6 +967,10 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         }
+
+         this.screen = $$0;
++        if (this.screen != null) {
++            this.screen.added();
++        }
++
+         BufferUploader.reset();
+         if ($$0 != null) {
+             this.mouseHandler.releaseMouse();
+@@ -1072,21 +1100,15 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+             }
+         }
+
+-        PoseStack $$9 = RenderSystem.getModelViewStack();
+-        $$9.pushPose();
+-        RenderSystem.applyModelViewMatrix();
+         RenderSystem.clear(16640, ON_OSX);
+         this.mainRenderTarget.bindWrite(true);
+         FogRenderer.setupNoFog();
+         this.profiler.push("display");
+-        RenderSystem.enableTexture();
+         RenderSystem.enableCull();
+         this.profiler.pop();
+         if (!this.noRender) {
+             this.profiler.popPush("gameRenderer");
+             this.gameRenderer.render(this.pause ? this.pausePartialTick : this.timer.partialTick, $$1, $$0);
+-            this.profiler.popPush("toasts");
+-            this.toast.render(new PoseStack());
+             this.profiler.pop();
+         }
+
+@@ -1098,22 +1120,17 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+
+         this.profiler.push("blit");
+         this.mainRenderTarget.unbindWrite();
+-        $$9.popPose();
+-        $$9.pushPose();
+-        RenderSystem.applyModelViewMatrix();
+         this.mainRenderTarget.blitToScreen(this.window.getWidth(), this.window.getHeight());
+         this.frameTimeNs = Util.getNanos() - $$6;
+         if ($$8) {
+             TimerQuery.getInstance().ifPresent($$0x -> this.currentFrameProfile = $$0x.endProfile());
+         }
+
+-        $$9.popPose();
+-        RenderSystem.applyModelViewMatrix();
+         this.profiler.popPush("updateDisplay");
+         this.window.updateDisplay();
+-        int $$10 = this.getFramerateLimit();
+-        if ($$10 < 260) {
+-            RenderSystem.limitDisplayFPS($$10);
++        int $$9 = this.getFramerateLimit();
++        if ($$9 < 260) {
++            RenderSystem.limitDisplayFPS($$9);
+         }
+
+         this.profiler.popPush("yield");
+@@ -1121,38 +1138,38 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         this.profiler.pop();
+         this.window.setErrorSection("Post render");
+         this.frames++;
+-        boolean $$11 = this.hasSingleplayerServer()
++        boolean $$10 = this.hasSingleplayerServer()
+             && (this.screen != null && this.screen.isPauseScreen() || this.overlay != null && this.overlay.isPauseScreen())
+             && !this.singleplayerServer.isPublished();
+-        if (this.pause != $$11) {
++        if (this.pause != $$10) {
+             if (this.pause) {
+                 this.pausePartialTick = this.timer.partialTick;
+             } else {
+                 this.timer.partialTick = this.pausePartialTick;
+             }
+
+-            this.pause = $$11;
++            this.pause = $$10;
+         }
+
+-        long $$12 = Util.getNanos();
+-        long $$13 = $$12 - this.lastNanoTime;
++        long $$11 = Util.getNanos();
++        long $$12 = $$11 - this.lastNanoTime;
+         if ($$8) {
+-            this.savedCpuDuration = $$13;
++            this.savedCpuDuration = $$12;
+         }
+
+-        this.frameTimer.logFrameDuration($$13);
+-        this.lastNanoTime = $$12;
++        this.frameTimer.logFrameDuration($$12);
++        this.lastNanoTime = $$11;
+         this.profiler.push("fpsUpdate");
+         if (this.currentFrameProfile != null && this.currentFrameProfile.isDone()) {
+             this.gpuUtilization = this.currentFrameProfile.get() * 100.0 / this.savedCpuDuration;
+         }
+
+         while (Util.getMillis() >= this.lastTime + 1000L) {
+-            String $$14;
++            String $$13;
+             if (this.gpuUtilization > 0.0) {
+-                $$14 = " GPU: " + (this.gpuUtilization > 100.0 ? ChatFormatting.RED + "100%" : Math.round(this.gpuUtilization) + "%");
++                $$13 = " GPU: " + (this.gpuUtilization > 100.0 ? ChatFormatting.RED + "100%" : Math.round(this.gpuUtilization) + "%");
+             } else {
+-                $$14 = "";
++                $$13 = "";
+             }
+
+             fps = this.frames;
+@@ -1160,14 +1177,14 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+                 Locale.ROOT,
+                 "%d fps T: %s%s%s%s B: %d%s",
+                 fps,
+-                $$10 == 260 ? "inf" : $$10,
++                $$9 == 260 ? "inf" : $$9,
+                 this.options.enableVsync().get() ? " vsync" : "",
+                 this.options.graphicsMode().get(),
+                 this.options.cloudStatus().get() == CloudStatus.OFF
+                     ? ""
+                     : (this.options.cloudStatus().get() == CloudStatus.FAST ? " fast-clouds" : " fancy-clouds"),
+                 this.options.biomeBlendRadius().get(),
+-                $$14
++                $$13
+             );
+             this.lastTime += 1000L;
+             this.frames = 0;
+@@ -1421,11 +1438,11 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         Matrix4f $$4 = new Matrix4f().setOrtho(0.0F, this.window.getWidth(), this.window.getHeight(), 0.0F, 1000.0F, 3000.0F);
+         RenderSystem.setProjectionMatrix($$4);
+         PoseStack $$5 = RenderSystem.getModelViewStack();
++        $$5.pushPose();
+         $$5.setIdentity();
+         $$5.translate(0.0F, 0.0F, -2000.0F);
+         RenderSystem.applyModelViewMatrix();
+         RenderSystem.lineWidth(1.0F);
+-        RenderSystem.disableTexture();
+         Tesselator $$6 = Tesselator.getInstance();
+         BufferBuilder $$7 = $$6.getBuilder();
+         int $$8 = 160;
+@@ -1476,7 +1493,6 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+
+         DecimalFormat $$26 = new DecimalFormat("##0.00");
+         $$26.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.ROOT));
+-        RenderSystem.enableTexture();
+         String $$27 = ProfileResults.demanglePath($$3.name);
+         String $$28 = "";
+         if (!"unspecified".equals($$27)) {
+@@ -1510,6 +1526,9 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+             $$33 = $$26.format($$31.globalPercentage) + "%";
+             this.font.drawShadow($$0, $$33, $$9 + 160 - this.font.width($$33), $$10 + 80 + $$30 * 8 + 20, $$31.getColor());
+         }
++
++        $$5.popPose();
++        RenderSystem.applyModelViewMatrix();
+     }
+
+     public void stop() {
+@@ -2048,7 +2067,6 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+             this.downloadedPackSource.clearServerPack();
+             this.gui.onDisconnected();
+             this.isLocalServer = false;
+-            this.game.onLeaveGameSession();
+         }
+
+         this.level = null;
+@@ -2294,7 +2312,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         }
+
+         if ($$2 != null) {
+-            $$0.setDetail("Current Language", () -> $$2.getSelected().toString());
++            $$0.setDetail("Current Language", () -> $$2.getSelected());
+         }
+
+         $$0.setDetail("CPU", GlUtil::getCpuInfo);
+@@ -2317,7 +2335,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+
+     @Nullable
+     public ServerData getCurrentServer() {
+-        return Util.mapNullable(this.getConnection(), ClientPacketListener::getServerData);
++        return Optionull.map(this.getConnection(), ClientPacketListener::getServerData);
+     }
+
+     public boolean isLocalServer() {
+@@ -2674,10 +2692,6 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         return this.profiler;
+     }
+
+-    public Game getGame() {
+-        return this.game;
+-    }
+-
+     @Nullable
+     public StoringChunkProgressListener getProgressListener() {
+         return (StoringChunkProgressListener)this.progressListener.get();
+@@ -2733,6 +2747,14 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         return this.serviceSignatureValidator;
+     }
+
++    public InputType getLastInputType() {
++        return this.lastInputType;
++    }
++
++    public void setLastInputType(InputType $$0) {
++        this.lastInputType = $$0;
++    }
++
+     public GameNarrator getNarrator() {
+         return this.narrator;
+     }
+@@ -2778,7 +2800,6 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements
+         };
+
+         static final Component INFO_DISABLED_BY_PROFILE = Component.translatable("chat.disabled.profile.moreInfo");
+-        private static final String URL_DISABLED_BY_PROFILE = "https://aka.ms/JavaAccountSettings";
+         private final Component message;
+
+         ChatStatus(Component $$0) {
+### 1.19.3 -> 1.19.4 net/minecraft/client/multiplayer/ClientLevel.java
+diff --git "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.3\\mojmap\\net\\minecraft\\client\\multiplayer\\ClientLevel.java" "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.4\\mojmap\\net\\minecraft\\client\\multiplayer\\ClientLevel.java"
+index 7b3316ca..406b322a 100644
+--- "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.3\\mojmap\\net\\minecraft\\client\\multiplayer\\ClientLevel.java"
++++ "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.4\\mojmap\\net\\minecraft\\client\\multiplayer\\ClientLevel.java"
+@@ -31,7 +31,6 @@ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.Cursor3D;
+ import net.minecraft.core.Direction;
+ import net.minecraft.core.Holder;
+-import net.minecraft.core.RegistryAccess;
+ import net.minecraft.core.particles.BlockParticleOption;
+ import net.minecraft.core.particles.ParticleOptions;
+ import net.minecraft.core.particles.ParticleTypes;
+@@ -166,7 +165,7 @@ public class ClientLevel extends Level {
+         boolean $$8,
+         long $$9
+     ) {
+-        super($$1, $$2, $$3, $$6, true, $$8, $$9, 1000000);
++        super($$1, $$2, $$0.registryAccess(), $$3, $$6, true, $$8, $$9, 1000000);
+         this.connection = $$0;
+         this.chunkSource = new ClientChunkCache(this, $$4);
+         this.clientLevelData = $$1;
+@@ -545,11 +544,6 @@ public class ClientLevel extends Level {
+         return this.scoreboard;
+     }
+
+-    @Override
+-    public RegistryAccess registryAccess() {
+-        return this.connection.registryAccess();
+-    }
+-
+     @Override
+     public void sendBlockUpdated(BlockPos $$0, BlockState $$1, BlockState $$2, int $$3) {
+         this.levelRenderer.blockChanged(this, $$0, $$1, $$2, $$3);
+### 1.19.3 -> 1.19.4 net/minecraft/client/player/LocalPlayer.java
+diff --git "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.3\\mojmap\\net\\minecraft\\client\\player\\LocalPlayer.java" "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.4\\mojmap\\net\\minecraft\\client\\player\\LocalPlayer.java"
+index b7e1a5a1..fa72a3f8 100644
+--- "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.3\\mojmap\\net\\minecraft\\client\\player\\LocalPlayer.java"
++++ "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.4\\mojmap\\net\\minecraft\\client\\player\\LocalPlayer.java"
+@@ -113,7 +113,6 @@ public class LocalPlayer extends AbstractClientPlayer {
+     public Input input;
+     protected final Minecraft minecraft;
+     protected int sprintTriggerTime;
+-    public int sprintTime;
+     public float yBob;
+     public float xBob;
+     public float yBobO;
+@@ -411,7 +410,7 @@ public class LocalPlayer extends AbstractClientPlayer {
+     }
+
+     private void moveTowardsClosestSpace(double $$0, double $$1) {
+-        BlockPos $$2 = new BlockPos($$0, this.getY(), $$1);
++        BlockPos $$2 = BlockPos.containing($$0, this.getY(), $$1);
+         if (this.suffocatesAt($$2)) {
+             double $$3 = $$0 - $$2.getX();
+             double $$4 = $$1 - $$2.getZ();
+@@ -445,12 +444,6 @@ public class LocalPlayer extends AbstractClientPlayer {
+         return this.level.collidesWithSuffocatingBlock(this, $$2);
+     }
+
+-    @Override
+-    public void setSprinting(boolean $$0) {
+-        super.setSprinting($$0);
+-        this.sprintTime = 0;
+-    }
+-
+     public void setExperienceValues(float $$0, int $$1, int $$2) {
+         this.experienceProgress = $$0;
+         this.totalExperience = $$1;
+@@ -540,7 +533,7 @@ public class LocalPlayer extends AbstractClientPlayer {
+
+     @Nullable
+     public PlayerRideableJumping jumpableVehicle() {
+-        return this.getVehicle() instanceof PlayerRideableJumping $$0 && $$0.canJump(this) ? $$0 : null;
++        return this.getControlledVehicle() instanceof PlayerRideableJumping $$0 && $$0.canJump() ? $$0 : null;
+     }
+
+     public float getJumpRidingScale() {
+@@ -650,7 +643,6 @@ public class LocalPlayer extends AbstractClientPlayer {
+
+     @Override
+     public void aiStep() {
+-        this.sprintTime++;
+         if (this.sprintTriggerTime > 0) {
+             this.sprintTriggerTime--;
+         }
+@@ -690,15 +682,10 @@ public class LocalPlayer extends AbstractClientPlayer {
+             this.sprintTriggerTime = 0;
+         }
+
+-        boolean $$5 = this.hasEnoughFoodToStartSprinting();
+-        if ((this.onGround || this.isUnderWater() || this.isPassenger() && this.getVehicle().isOnGround())
+-            && !$$1
+-            && !$$2
+-            && this.hasEnoughImpulseToStartSprinting()
+-            && !this.isSprinting()
+-            && $$5
+-            && !this.isUsingItem()
+-            && !this.hasEffect(MobEffects.BLINDNESS)) {
++        boolean $$5 = this.canStartSprinting();
++        boolean $$6 = this.isPassenger() ? this.getVehicle().isOnGround() : this.onGround;
++        boolean $$7 = !$$1 && !$$2;
++        if (($$6 || this.isUnderWater()) && $$7 && $$5) {
+             if (this.sprintTriggerTime <= 0 && !this.minecraft.options.keySprint.isDown()) {
+                 this.sprintTriggerTime = 7;
+             } else {
+@@ -706,34 +693,28 @@ public class LocalPlayer extends AbstractClientPlayer {
+             }
+         }
+
+-        if (!this.isSprinting()
+-            && (!this.isInWater() || this.isUnderWater())
+-            && this.hasEnoughImpulseToStartSprinting()
+-            && $$5
+-            && !this.isUsingItem()
+-            && !this.hasEffect(MobEffects.BLINDNESS)
+-            && this.minecraft.options.keySprint.isDown()) {
++        if ((!this.isInWater() || this.isUnderWater()) && $$5 && this.minecraft.options.keySprint.isDown()) {
+             this.setSprinting(true);
+         }
+
+         if (this.isSprinting()) {
+-            boolean $$6 = !this.input.hasForwardImpulse() || !$$5;
+-            boolean $$7 = $$6 || this.horizontalCollision && !this.minorHorizontalCollision || this.isInWater() && !this.isUnderWater();
++            boolean $$8 = !this.input.hasForwardImpulse() || !this.hasEnoughFoodToStartSprinting();
++            boolean $$9 = $$8 || this.horizontalCollision && !this.minorHorizontalCollision || this.isInWater() && !this.isUnderWater();
+             if (this.isSwimming()) {
+-                if (!this.onGround && !this.input.shiftKeyDown && $$6 || !this.isInWater()) {
++                if (!this.onGround && !this.input.shiftKeyDown && $$8 || !this.isInWater()) {
+                     this.setSprinting(false);
+                 }
+-            } else if ($$7) {
++            } else if ($$9) {
+                 this.setSprinting(false);
+             }
+         }
+
+-        boolean $$8 = false;
++        boolean $$10 = false;
+         if (this.getAbilities().mayfly) {
+             if (this.minecraft.gameMode.isAlwaysFlying()) {
+                 if (!this.getAbilities().flying) {
+                     this.getAbilities().flying = true;
+-                    $$8 = true;
++                    $$10 = true;
+                     this.onUpdateAbilities();
+                 }
+             } else if (!$$0 && this.input.jumping && !$$4) {
+@@ -741,16 +722,16 @@ public class LocalPlayer extends AbstractClientPlayer {
+                     this.jumpTriggerTime = 7;
+                 } else if (!this.isSwimming()) {
+                     this.getAbilities().flying = !this.getAbilities().flying;
+-                    $$8 = true;
++                    $$10 = true;
+                     this.onUpdateAbilities();
+                     this.jumpTriggerTime = 0;
+                 }
+             }
+         }
+
+-        if (this.input.jumping && !$$8 && !$$0 && !this.getAbilities().flying && !this.isPassenger() && !this.onClimbable()) {
+-            ItemStack $$9 = this.getItemBySlot(EquipmentSlot.CHEST);
+-            if ($$9.is(Items.ELYTRA) && ElytraItem.isFlyEnabled($$9) && this.tryToStartFallFlying()) {
++        if (this.input.jumping && !$$10 && !$$0 && !this.getAbilities().flying && !this.isPassenger() && !this.onClimbable()) {
++            ItemStack $$11 = this.getItemBySlot(EquipmentSlot.CHEST);
++            if ($$11.is(Items.ELYTRA) && ElytraItem.isFlyEnabled($$11) && this.tryToStartFallFlying()) {
+                 this.connection.send(new ServerboundPlayerCommandPacket(this, ServerboundPlayerCommandPacket.Action.START_FALL_FLYING));
+             }
+         }
+@@ -761,30 +742,30 @@ public class LocalPlayer extends AbstractClientPlayer {
+         }
+
+         if (this.isEyeInFluid(FluidTags.WATER)) {
+-            int $$10 = this.isSpectator() ? 10 : 1;
+-            this.waterVisionTime = Mth.clamp(this.waterVisionTime + $$10, 0, 600);
++            int $$12 = this.isSpectator() ? 10 : 1;
++            this.waterVisionTime = Mth.clamp(this.waterVisionTime + $$12, 0, 600);
+         } else if (this.waterVisionTime > 0) {
+             this.isEyeInFluid(FluidTags.WATER);
+             this.waterVisionTime = Mth.clamp(this.waterVisionTime - 10, 0, 600);
+         }
+
+         if (this.getAbilities().flying && this.isControlledCamera()) {
+-            int $$11 = 0;
++            int $$13 = 0;
+             if (this.input.shiftKeyDown) {
+-                $$11--;
++                $$13--;
+             }
+
+             if (this.input.jumping) {
+-                $$11++;
++                $$13++;
+             }
+
+-            if ($$11 != 0) {
+-                this.setDeltaMovement(this.getDeltaMovement().add(0.0, $$11 * this.getAbilities().getFlyingSpeed() * 3.0F, 0.0));
++            if ($$13 != 0) {
++                this.setDeltaMovement(this.getDeltaMovement().add(0.0, $$13 * this.getAbilities().getFlyingSpeed() * 3.0F, 0.0));
+             }
+         }
+
+-        PlayerRideableJumping $$12 = this.jumpableVehicle();
+-        if ($$12 != null && $$12.getJumpCooldown() == 0) {
++        PlayerRideableJumping $$14 = this.jumpableVehicle();
++        if ($$14 != null && $$14.getJumpCooldown() == 0) {
+             if (this.jumpRidingTicks < 0) {
+                 this.jumpRidingTicks++;
+                 if (this.jumpRidingTicks == 0) {
+@@ -794,7 +775,7 @@ public class LocalPlayer extends AbstractClientPlayer {
+
+             if ($$0 && !this.input.jumping) {
+                 this.jumpRidingTicks = -10;
+-                $$12.onPlayerJump(Mth.floor(this.getJumpRidingScale() * 100.0F));
++                $$14.onPlayerJump(Mth.floor(this.getJumpRidingScale() * 100.0F));
+                 this.sendRidingJump();
+             } else if (!$$0 && this.input.jumping) {
+                 this.jumpRidingTicks = 0;
+@@ -852,7 +833,7 @@ public class LocalPlayer extends AbstractClientPlayer {
+             }
+
+             this.isInsidePortal = false;
+-        } else if (this.hasEffect(MobEffects.CONFUSION) && this.getEffect(MobEffects.CONFUSION).getDuration() > 60) {
++        } else if (this.hasEffect(MobEffects.CONFUSION) && !this.getEffect(MobEffects.CONFUSION).endsWithin(60)) {
+             this.portalTime += 0.006666667F;
+             if (this.portalTime > 1.0F) {
+                 this.portalTime = 1.0F;
+@@ -874,8 +855,7 @@ public class LocalPlayer extends AbstractClientPlayer {
+     public void rideTick() {
+         super.rideTick();
+         this.handsBusy = false;
+-        if (this.getVehicle() instanceof Boat) {
+-            Boat $$0 = (Boat)this.getVehicle();
++        if (this.getControlledVehicle() instanceof Boat $$0) {
+             $$0.setInput(this.input.left, this.input.right, this.input.up, this.input.down);
+             this.handsBusy = this.handsBusy | (this.input.left || this.input.right || this.input.up || this.input.down);
+         }
+@@ -928,13 +908,13 @@ public class LocalPlayer extends AbstractClientPlayer {
+                 }
+             }
+
+-            float $$12 = Mth.fastInvSqrt($$6);
++            float $$12 = Mth.invSqrt($$6);
+             Vec3 $$13 = $$4.scale($$12);
+             Vec3 $$14 = this.getForward();
+             float $$15 = (float)($$14.x * $$13.x + $$14.z * $$13.z);
+             if (!($$15 < -0.15F)) {
+                 CollisionContext $$16 = CollisionContext.of(this);
+-                BlockPos $$17 = new BlockPos(this.getX(), this.getBoundingBox().maxY, this.getZ());
++                BlockPos $$17 = BlockPos.containing(this.getX(), this.getBoundingBox().maxY, this.getZ());
+                 BlockState $$18 = this.level.getBlockState($$17);
+                 if ($$18.getCollisionShape(this.level, $$17, $$16).isEmpty()) {
+                     $$17 = $$17.above();
+@@ -969,7 +949,7 @@ public class LocalPlayer extends AbstractClientPlayer {
+                             if ($$37.intersects($$30, $$31) || $$37.intersects($$32, $$33)) {
+                                 $$36 = (float)$$37.maxY;
+                                 Vec3 $$38 = $$37.getCenter();
+-                                BlockPos $$39 = new BlockPos($$38);
++                                BlockPos $$39 = BlockPos.containing($$38);
+
+                                 for (int $$40 = 1; $$40 < $$21; $$40++) {
+                                     BlockPos $$41 = $$39.above($$40);
+@@ -1039,6 +1019,20 @@ public class LocalPlayer extends AbstractClientPlayer {
+         return $$0.x != 0.0F || $$0.y != 0.0F;
+     }
+
++    private boolean canStartSprinting() {
++        return !this.isSprinting()
++            && this.hasEnoughImpulseToStartSprinting()
++            && this.hasEnoughFoodToStartSprinting()
++            && !this.isUsingItem()
++            && !this.hasEffect(MobEffects.BLINDNESS)
++            && (!this.isPassenger() || this.vehicleCanSprint(this.getVehicle()))
++            && !this.isFallFlying();
++    }
++
++    private boolean vehicleCanSprint(Entity $$0) {
++        return $$0.canSprint() && $$0.isControlledByLocalInstance();
++    }
++
+     private boolean hasEnoughImpulseToStartSprinting() {
+         double $$0 = 0.8;
+         return this.isUnderWater() ? this.input.hasForwardImpulse() : this.input.forwardImpulse >= 0.8;
+### 1.19.3 -> 1.19.4 net/minecraft/world/entity/player/Player.java
+diff --git "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.3\\mojmap\\net\\minecraft\\world\\entity\\player\\Player.java" "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.4\\mojmap\\net\\minecraft\\world\\entity\\player\\Player.java"
+index 96a08b96..a66f1999 100644
+--- "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.3\\mojmap\\net\\minecraft\\world\\entity\\player\\Player.java"
++++ "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.4\\mojmap\\net\\minecraft\\world\\entity\\player\\Player.java"
+@@ -13,7 +13,6 @@ import java.util.Optional;
+ import java.util.OptionalInt;
+ import java.util.function.Predicate;
+ import javax.annotation.Nullable;
+-import net.minecraft.SharedConstants;
+ import net.minecraft.Util;
+ import net.minecraft.advancements.CriteriaTriggers;
+ import net.minecraft.core.BlockPos;
+@@ -26,6 +25,7 @@ import net.minecraft.core.registries.Registries;
+ import net.minecraft.nbt.CompoundTag;
+ import net.minecraft.nbt.ListTag;
+ import net.minecraft.nbt.NbtOps;
++import net.minecraft.nbt.NbtUtils;
+ import net.minecraft.network.chat.ClickEvent;
+ import net.minecraft.network.chat.Component;
+ import net.minecraft.network.chat.MutableComponent;
+@@ -41,6 +41,7 @@ import net.minecraft.sounds.SoundEvents;
+ import net.minecraft.sounds.SoundSource;
+ import net.minecraft.stats.Stat;
+ import net.minecraft.stats.Stats;
++import net.minecraft.tags.DamageTypeTags;
+ import net.minecraft.tags.FluidTags;
+ import net.minecraft.util.Mth;
+ import net.minecraft.util.Unit;
+@@ -105,6 +106,7 @@ import net.minecraft.world.level.block.entity.SignBlockEntity;
+ import net.minecraft.world.level.block.entity.StructureBlockEntity;
+ import net.minecraft.world.level.block.state.BlockState;
+ import net.minecraft.world.level.block.state.pattern.BlockInWorld;
++import net.minecraft.world.level.gameevent.GameEvent;
+ import net.minecraft.world.phys.AABB;
+ import net.minecraft.world.phys.Vec3;
+ import net.minecraft.world.scores.PlayerTeam;
+@@ -172,6 +174,7 @@ public abstract class Player extends LivingEntity {
+     private Optional<GlobalPos> lastDeathLocation = Optional.empty();
+     @Nullable
+     public FishingHook fishing;
++    protected float hurtDir;
+
+     public Player(Level $$0, BlockPos $$1, float $$2, GameProfile $$3) {
+         super(EntityType.PLAYER, $$0);
+@@ -511,11 +514,6 @@ public abstract class Player extends LivingEntity {
+         this.inventory.tick();
+         this.oBob = this.bob;
+         super.aiStep();
+-        this.flyingSpeed = 0.02F;
+-        if (this.isSprinting()) {
+-            this.flyingSpeed += 0.006F;
+-        }
+-
+         this.setSpeed((float)this.getAttributeValue(Attributes.MOVEMENT_SPEED));
+         float $$1;
+         if (this.onGround && !this.isDeadOrDying() && !this.isSwimming()) {
+@@ -617,9 +615,9 @@ public abstract class Player extends LivingEntity {
+
+         if ($$0 != null) {
+             this.setDeltaMovement(
+-                -Mth.cos((this.hurtDir + this.getYRot()) * (float) (Math.PI / 180.0)) * 0.1F,
++                -Mth.cos((this.getHurtDir() + this.getYRot()) * (float) (Math.PI / 180.0)) * 0.1F,
+                 0.1F,
+-                -Mth.sin((this.hurtDir + this.getYRot()) * (float) (Math.PI / 180.0)) * 0.1F
++                -Mth.sin((this.getHurtDir() + this.getYRot()) * (float) (Math.PI / 180.0)) * 0.1F
+             );
+         } else {
+             this.setDeltaMovement(0.0, 0.1, 0.0);
+@@ -653,15 +651,7 @@ public abstract class Player extends LivingEntity {
+
+     @Override
+     protected SoundEvent getHurtSound(DamageSource $$0) {
+-        if ($$0 == DamageSource.ON_FIRE) {
+-            return SoundEvents.PLAYER_HURT_ON_FIRE;
+-        } else if ($$0 == DamageSource.DROWN) {
+-            return SoundEvents.PLAYER_HURT_DROWN;
+-        } else if ($$0 == DamageSource.SWEET_BERRY_BUSH) {
+-            return SoundEvents.PLAYER_HURT_SWEET_BERRY_BUSH;
+-        } else {
+-            return $$0 == DamageSource.FREEZE ? SoundEvents.PLAYER_HURT_FREEZE : SoundEvents.PLAYER_HURT;
+-        }
++        return $$0.type().effects().sound();
+     }
+
+     @Override
+@@ -791,7 +781,7 @@ public abstract class Player extends LivingEntity {
+     @Override
+     public void addAdditionalSaveData(CompoundTag $$0) {
+         super.addAdditionalSaveData($$0);
+-        $$0.putInt("DataVersion", SharedConstants.getCurrentVersion().getWorldVersion());
++        NbtUtils.addCurrentDataVersion($$0);
+         $$0.put("Inventory", this.inventory.save(new ListTag()));
+         $$0.putInt("SelectedItemSlot", this.inventory.selected);
+         $$0.putShort("SleepTimer", (short)this.sleepCounter);
+@@ -820,14 +810,14 @@ public abstract class Player extends LivingEntity {
+     public boolean isInvulnerableTo(DamageSource $$0) {
+         if (super.isInvulnerableTo($$0)) {
+             return true;
+-        } else if ($$0 == DamageSource.DROWN) {
++        } else if ($$0.is(DamageTypeTags.IS_DROWNING)) {
+             return !this.level.getGameRules().getBoolean(GameRules.RULE_DROWNING_DAMAGE);
+-        } else if ($$0.isFall()) {
++        } else if ($$0.is(DamageTypeTags.IS_FALL)) {
+             return !this.level.getGameRules().getBoolean(GameRules.RULE_FALL_DAMAGE);
+-        } else if ($$0.isFire()) {
++        } else if ($$0.is(DamageTypeTags.IS_FIRE)) {
+             return !this.level.getGameRules().getBoolean(GameRules.RULE_FIRE_DAMAGE);
+         } else {
+-            return $$0 == DamageSource.FREEZE ? !this.level.getGameRules().getBoolean(GameRules.RULE_FREEZE_DAMAGE) : false;
++            return $$0.is(DamageTypeTags.IS_FREEZING) ? !this.level.getGameRules().getBoolean(GameRules.RULE_FREEZE_DAMAGE) : false;
+         }
+     }
+
+@@ -837,7 +827,7 @@ public abstract class Player extends LivingEntity {
+             return false;
+         }
+
+-        if (this.abilities.invulnerable && !$$0.isBypassInvul()) {
++        if (this.abilities.invulnerable && !$$0.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+             return false;
+         }
+
+@@ -941,8 +931,8 @@ public abstract class Player extends LivingEntity {
+             if ($$1 != 0.0F) {
+                 this.causeFoodExhaustion($$0.getFoodExhaustion());
+                 float $$4 = this.getHealth();
+-                this.setHealth(this.getHealth() - $$1);
+                 this.getCombatTracker().recordDamage($$0, $$4, $$1);
++                this.setHealth(this.getHealth() - $$1);
+                 if ($$1 < 3.4028235E37F) {
+                     this.awardStat(Stats.DAMAGE_TAKEN, Math.round($$1 * 10.0F));
+                 }
+@@ -1012,6 +1002,7 @@ public abstract class Player extends LivingEntity {
+
+                     InteractionResult $$5 = $$2.interactLivingEntity(this, (LivingEntity)$$0, $$1);
+                     if ($$5.consumesAction()) {
++                        this.level.gameEvent(GameEvent.ENTITY_INTERACT, $$0.position(), GameEvent.Context.of(this));
+                         if ($$2.isEmpty() && !this.abilities.instabuild) {
+                             this.setItemInHand($$1, ItemStack.EMPTY);
+                         }
+@@ -1057,7 +1048,7 @@ public abstract class Player extends LivingEntity {
+             double $$3 = $$0.z;
+             double $$4 = 0.05;
+
+-            while ($$2 != 0.0 && this.level.noCollision(this, this.getBoundingBox().move($$2, -this.maxUpStep, 0.0))) {
++            while ($$2 != 0.0 && this.level.noCollision(this, this.getBoundingBox().move($$2, -this.maxUpStep(), 0.0))) {
+                 if ($$2 < 0.05 && $$2 >= -0.05) {
+                     $$2 = 0.0;
+                 } else if ($$2 > 0.0) {
+@@ -1067,7 +1058,7 @@ public abstract class Player extends LivingEntity {
+                 }
+             }
+
+-            while ($$3 != 0.0 && this.level.noCollision(this, this.getBoundingBox().move(0.0, -this.maxUpStep, $$3))) {
++            while ($$3 != 0.0 && this.level.noCollision(this, this.getBoundingBox().move(0.0, -this.maxUpStep(), $$3))) {
+                 if ($$3 < 0.05 && $$3 >= -0.05) {
+                     $$3 = 0.0;
+                 } else if ($$3 > 0.0) {
+@@ -1077,7 +1068,7 @@ public abstract class Player extends LivingEntity {
+                 }
+             }
+
+-            while ($$2 != 0.0 && $$3 != 0.0 && this.level.noCollision(this, this.getBoundingBox().move($$2, -this.maxUpStep, $$3))) {
++            while ($$2 != 0.0 && $$3 != 0.0 && this.level.noCollision(this, this.getBoundingBox().move($$2, -this.maxUpStep(), $$3))) {
+                 if ($$2 < 0.05 && $$2 >= -0.05) {
+                     $$2 = 0.0;
+                 } else if ($$2 > 0.0) {
+@@ -1103,7 +1094,8 @@ public abstract class Player extends LivingEntity {
+
+     private boolean isAboveGround() {
+         return this.onGround
+-            || this.fallDistance < this.maxUpStep && !this.level.noCollision(this, this.getBoundingBox().move(0.0, this.fallDistance - this.maxUpStep, 0.0));
++            || this.fallDistance < this.maxUpStep()
++                && !this.level.noCollision(this, this.getBoundingBox().move(0.0, this.fallDistance - this.maxUpStep(), 0.0));
+     }
+
+     public void attack(Entity $$0) {
+@@ -1168,7 +1160,7 @@ public abstract class Player extends LivingEntity {
+                     }
+
+                     Vec3 $$15 = $$0.getDeltaMovement();
+-                    boolean $$16 = $$0.hurt(DamageSource.playerAttack(this), $$1);
++                    boolean $$16 = $$0.hurt(this.damageSources().playerAttack(this), $$1);
+                     if ($$16) {
+                         if ($$7 > 0) {
+                             if ($$0 instanceof LivingEntity) {
+@@ -1200,7 +1192,7 @@ public abstract class Player extends LivingEntity {
+                                     $$19.knockback(
+                                         0.4F, Mth.sin(this.getYRot() * (float) (Math.PI / 180.0)), -Mth.cos(this.getYRot() * (float) (Math.PI / 180.0))
+                                     );
+-                                    $$19.hurt(DamageSource.playerAttack(this), $$17);
++                                    $$19.hurt(this.damageSources().playerAttack(this), $$17);
+                                 }
+                             }
+
+@@ -1454,7 +1446,7 @@ public abstract class Player extends LivingEntity {
+             double $$5 = $$4 < -0.2 ? 0.085 : 0.06;
+             if ($$4 <= 0.0
+                 || this.jumping
+-                || !this.level.getBlockState(new BlockPos(this.getX(), this.getY() + 1.0 - 0.1, this.getZ())).getFluidState().isEmpty()) {
++                || !this.level.getBlockState(BlockPos.containing(this.getX(), this.getY() + 1.0 - 0.1, this.getZ())).getFluidState().isEmpty()) {
+                 Vec3 $$6 = this.getDeltaMovement();
+                 this.setDeltaMovement($$6.add(0.0, ($$4 - $$6.y) * $$5, 0.0));
+             }
+@@ -1462,12 +1454,9 @@ public abstract class Player extends LivingEntity {
+
+         if (this.abilities.flying && !this.isPassenger()) {
+             double $$7 = this.getDeltaMovement().y;
+-            float $$8 = this.flyingSpeed;
+-            this.flyingSpeed = this.abilities.getFlyingSpeed() * (this.isSprinting() ? 2 : 1);
+             super.travel($$0);
+-            Vec3 $$9 = this.getDeltaMovement();
+-            this.setDeltaMovement($$9.x, $$7 * 0.6, $$9.z);
+-            this.flyingSpeed = $$8;
++            Vec3 $$8 = this.getDeltaMovement();
++            this.setDeltaMovement($$8.x, $$7 * 0.6, $$8.z);
+             this.resetFallDistance();
+             this.setSharedFlag(7, false);
+         } else {
+@@ -1843,6 +1832,11 @@ public abstract class Player extends LivingEntity {
+     @Override
+     public abstract boolean isSpectator();
+
++    @Override
++    public boolean canBeHitByProjectile() {
++        return !this.isSpectator() && super.canBeHitByProjectile();
++    }
++
+     @Override
+     public boolean isSwimming() {
+         return !this.abilities.flying && !this.isSpectator() && super.isSwimming();
+@@ -2098,6 +2092,31 @@ public abstract class Player extends LivingEntity {
+         this.lastDeathLocation = $$0;
+     }
+
++    @Override
++    public float getHurtDir() {
++        return this.hurtDir;
++    }
++
++    @Override
++    public void animateHurt(float $$0) {
++        super.animateHurt($$0);
++        this.hurtDir = $$0;
++    }
++
++    @Override
++    public boolean canSprint() {
++        return true;
++    }
++
++    @Override
++    protected float getFlyingSpeed() {
++        if (this.abilities.flying && !this.isPassenger()) {
++            return this.isSprinting() ? this.abilities.getFlyingSpeed() * 2.0F : this.abilities.getFlyingSpeed();
++        } else {
++            return this.isSprinting() ? 0.025999999F : 0.02F;
++        }
++    }
++
+     public enum BedSleepingProblem {
+         NOT_POSSIBLE_HERE,
+         NOT_POSSIBLE_NOW(Component.translatable("block.minecraft.bed.no_sleep")),
+### 1.19.3 -> 1.19.4 net/minecraft/world/entity/LivingEntity.java
+diff --git "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.3\\mojmap\\net\\minecraft\\world\\entity\\LivingEntity.java" "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.4\\mojmap\\net\\minecraft\\world\\entity\\LivingEntity.java"
+index f3059f2d..51889025 100644
+--- "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.3\\mojmap\\net\\minecraft\\world\\entity\\LivingEntity.java"
++++ "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.4\\mojmap\\net\\minecraft\\world\\entity\\LivingEntity.java"
+@@ -49,6 +49,7 @@ import net.minecraft.sounds.SoundEvents;
+ import net.minecraft.sounds.SoundSource;
+ import net.minecraft.stats.Stats;
+ import net.minecraft.tags.BlockTags;
++import net.minecraft.tags.DamageTypeTags;
+ import net.minecraft.tags.EntityTypeTags;
+ import net.minecraft.tags.FluidTags;
+ import net.minecraft.tags.ItemTags;
+@@ -60,7 +61,6 @@ import net.minecraft.world.InteractionHand;
+ import net.minecraft.world.damagesource.CombatRules;
+ import net.minecraft.world.damagesource.CombatTracker;
+ import net.minecraft.world.damagesource.DamageSource;
+-import net.minecraft.world.damagesource.EntityDamageSource;
+ import net.minecraft.world.effect.MobEffect;
+ import net.minecraft.world.effect.MobEffectInstance;
+ import net.minecraft.world.effect.MobEffectUtil;
+@@ -81,10 +81,9 @@ import net.minecraft.world.entity.item.ItemEntity;
+ import net.minecraft.world.entity.player.Player;
+ import net.minecraft.world.entity.projectile.AbstractArrow;
+ import net.minecraft.world.food.FoodProperties;
+-import net.minecraft.world.item.ArmorItem;
+ import net.minecraft.world.item.AxeItem;
+-import net.minecraft.world.item.BlockItem;
+ import net.minecraft.world.item.ElytraItem;
++import net.minecraft.world.item.Equipable;
+ import net.minecraft.world.item.Item;
+ import net.minecraft.world.item.ItemStack;
+ import net.minecraft.world.item.Items;
+@@ -96,7 +95,6 @@ import net.minecraft.world.item.enchantment.FrostWalkerEnchantment;
+ import net.minecraft.world.level.ClipContext;
+ import net.minecraft.world.level.GameRules;
+ import net.minecraft.world.level.Level;
+-import net.minecraft.world.level.block.AbstractSkullBlock;
+ import net.minecraft.world.level.block.BedBlock;
+ import net.minecraft.world.level.block.Blocks;
+ import net.minecraft.world.level.block.HoneyBlock;
+@@ -119,7 +117,7 @@ import net.minecraft.world.phys.Vec3;
+ import net.minecraft.world.scores.PlayerTeam;
+ import org.slf4j.Logger;
+
+-public abstract class LivingEntity extends Entity {
++public abstract class LivingEntity extends Entity implements Attackable {
+     private static final Logger LOGGER = LogUtils.getLogger();
+     private static final UUID SPEED_MODIFIER_SPRINTING_UUID = UUID.fromString("662A6B8D-DA3E-4C1C-8813-96EA6097278D");
+     private static final UUID SPEED_MODIFIER_SOUL_SPEED_UUID = UUID.fromString("87f46a96-686f-4796-b035-22e16ee9e038");
+@@ -157,6 +155,7 @@ public abstract class LivingEntity extends Entity {
+     protected static final float DEFAULT_EYE_HEIGHT = 1.74F;
+     protected static final EntityDimensions SLEEPING_DIMENSIONS = EntityDimensions.fixed(0.2F, 0.2F);
+     public static final float EXTRA_RENDER_CULLING_SIZE_WITH_BIG_HAT = 0.5F;
++    private static final int MAX_HEAD_ROTATION_RELATIVE_TO_BODY = 50;
+     private final AttributeMap attributes;
+     private final CombatTracker combatTracker = new CombatTracker(this);
+     private final Map<MobEffect, MobEffectInstance> activeEffects = Maps.<MobEffect, MobEffectInstance>newHashMap();
+@@ -170,14 +169,11 @@ public abstract class LivingEntity extends Entity {
+     public int removeStingerTime;
+     public int hurtTime;
+     public int hurtDuration;
+-    public float hurtDir;
+     public int deathTime;
+     public float oAttackAnim;
+     public float attackAnim;
+     protected int attackStrengthTicker;
+-    public float animationSpeedOld;
+-    public float animationSpeed;
+-    public float animationPosition;
++    public final WalkAnimationState walkAnimation = new WalkAnimationState();
+     public final int invulnerableDuration = 20;
+     public final float timeOffs;
+     public final float rotA;
+@@ -185,7 +181,6 @@ public abstract class LivingEntity extends Entity {
+     public float yBodyRotO;
+     public float yHeadRot;
+     public float yHeadRotO;
+-    public float flyingSpeed = 0.02F;
+     @Nullable
+     protected Player lastHurtByPlayer;
+     protected int lastHurtByPlayerTime;
+@@ -243,7 +238,7 @@ public abstract class LivingEntity extends Entity {
+         this.timeOffs = (float)Math.random() * 12398.0F;
+         this.setYRot((float)(Math.random() * (float) (Math.PI * 2)));
+         this.yHeadRot = this.getYRot();
+-        this.maxUpStep = 0.6F;
++        this.setMaxUpStep(0.6F);
+         NbtOps $$2 = NbtOps.INSTANCE;
+         this.brain = this.makeBrain(new Dynamic<>($$2, $$2.createMap(ImmutableMap.of($$2.createString("memories"), $$2.emptyMap()))));
+     }
+@@ -262,7 +257,7 @@ public abstract class LivingEntity extends Entity {
+
+     @Override
+     public void kill() {
+-        this.hurt(DamageSource.OUT_OF_WORLD, Float.MAX_VALUE);
++        this.hurt(this.damageSources().outOfWorld(), Float.MAX_VALUE);
+     }
+
+     public boolean canAttackType(EntityType<?> $$0) {
+@@ -342,20 +337,20 @@ public abstract class LivingEntity extends Entity {
+             boolean $$0 = this instanceof Player;
+             if (!this.level.isClientSide) {
+                 if (this.isInWall()) {
+-                    this.hurt(DamageSource.IN_WALL, 1.0F);
++                    this.hurt(this.damageSources().inWall(), 1.0F);
+                 } else if ($$0 && !this.level.getWorldBorder().isWithinBounds(this.getBoundingBox())) {
+                     double $$1 = this.level.getWorldBorder().getDistanceToBorder(this) + this.level.getWorldBorder().getDamageSafeZone();
+                     if ($$1 < 0.0) {
+                         double $$2 = this.level.getWorldBorder().getDamagePerBlock();
+                         if ($$2 > 0.0) {
+-                            this.hurt(DamageSource.IN_WALL, Math.max(1, Mth.floor(-$$1 * $$2)));
++                            this.hurt(this.damageSources().inWall(), Math.max(1, Mth.floor(-$$1 * $$2)));
+                         }
+                     }
+                 }
+             }
+
+             if (this.isEyeInFluid(FluidTags.WATER)
+-                && !this.level.getBlockState(new BlockPos(this.getX(), this.getEyeY(), this.getZ())).is(Blocks.BUBBLE_COLUMN)) {
++                && !this.level.getBlockState(BlockPos.containing(this.getX(), this.getEyeY(), this.getZ())).is(Blocks.BUBBLE_COLUMN)) {
+                 boolean $$3 = !this.canBreatheUnderwater() && !MobEffectUtil.hasWaterBreathing(this) && (!$$0 || !((Player)this).getAbilities().invulnerable);
+                 if ($$3) {
+                     this.setAirSupply(this.decreaseAirSupply(this.getAirSupply()));
+@@ -370,11 +365,11 @@ public abstract class LivingEntity extends Entity {
+                             this.level.addParticle(ParticleTypes.BUBBLE, this.getX() + $$6, this.getY() + $$7, this.getZ() + $$8, $$4.x, $$4.y, $$4.z);
+                         }
+
+-                        this.hurt(DamageSource.DROWN, 2.0F);
++                        this.hurt(this.damageSources().drown(), 2.0F);
+                     }
+                 }
+
+-                if (!this.level.isClientSide && this.isPassenger() && this.getVehicle() != null && !this.getVehicle().rideableUnderWater()) {
++                if (!this.level.isClientSide && this.isPassenger() && this.getVehicle() != null && this.getVehicle().dismountsUnderwater()) {
+                     this.stopRiding();
+                 }
+             } else if (this.getAirSupply() < this.getMaxAirSupply()) {
+@@ -551,11 +546,6 @@ public abstract class LivingEntity extends Entity {
+         return true;
+     }
+
+-    @Override
+-    public boolean rideableUnderWater() {
+-        return false;
+-    }
+-
+     protected void tickDeath() {
+         this.deathTime++;
+         if (this.deathTime >= 20 && !this.level.isClientSide() && !this.isRemoved()) {
+@@ -598,6 +588,11 @@ public abstract class LivingEntity extends Entity {
+         return this.lastHurtByMob;
+     }
+
++    @Override
++    public LivingEntity getLastAttacker() {
++        return this.getLastHurtByMob();
++    }
++
+     public int getLastHurtByMobTimestamp() {
+         return this.lastHurtByMobTimestamp;
+     }
+@@ -653,24 +648,24 @@ public abstract class LivingEntity extends Entity {
+
+     public void onEquipItem(EquipmentSlot $$0, ItemStack $$1, ItemStack $$2) {
+         boolean $$3 = $$2.isEmpty() && $$1.isEmpty();
+-        if (!$$3 && !ItemStack.isSame($$1, $$2) && !this.firstTick) {
+-            if ($$0.getType() == EquipmentSlot.Type.ARMOR) {
+-                this.playEquipSound($$2);
+-            }
++        if (!$$3 && !ItemStack.isSameItemSameTags($$1, $$2) && !this.firstTick) {
++            Equipable $$4 = Equipable.get($$2);
++            if ($$4 != null && !this.isSpectator() && $$4.getEquipmentSlot() == $$0) {
++                if (!this.level.isClientSide() && !this.isSilent()) {
++                    this.level.playSound(null, this.getX(), this.getY(), this.getZ(), $$4.getEquipSound(), this.getSoundSource(), 1.0F, 1.0F);
++                }
+
+-            if (this.doesEmitEquipEvent($$0)) {
+-                this.gameEvent(GameEvent.EQUIP);
++                if (this.doesEmitEquipEvent($$0)) {
++                    this.gameEvent(GameEvent.EQUIP);
++                }
+             }
+         }
+     }
+
+-    protected void playEquipSound(ItemStack $$0) {
+-        if (!$$0.isEmpty() && !this.isSpectator()) {
+-            SoundEvent $$1 = $$0.getEquipSound();
+-            if ($$1 != null) {
+-                this.playSound($$1, 1.0F, 1.0F);
+-            }
+-        }
++    @Override
++    public void remove(Entity.RemovalReason $$0) {
++        super.remove($$0);
++        this.brain.clearMemories();
+     }
+
+     @Override
+@@ -1046,7 +1041,7 @@ public abstract class LivingEntity extends Entity {
+             return false;
+         }
+
+-        if ($$0.isFire() && this.hasEffect(MobEffects.FIRE_RESISTANCE)) {
++        if ($$0.is(DamageTypeTags.IS_FIRE) && this.hasEffect(MobEffects.FIRE_RESISTANCE)) {
+             return false;
+         }
+
+@@ -1062,16 +1057,20 @@ public abstract class LivingEntity extends Entity {
+             this.hurtCurrentlyUsedShield($$1);
+             $$4 = $$1;
+             $$1 = 0.0F;
+-            if (!$$0.isProjectile() && $$0.getDirectEntity() instanceof LivingEntity $$6) {
++            if (!$$0.is(DamageTypeTags.IS_PROJECTILE) && $$0.getDirectEntity() instanceof LivingEntity $$6) {
+                 this.blockUsingShield($$6);
+             }
+
+             $$3 = true;
+         }
+
+-        this.animationSpeed = 1.5F;
++        if ($$0.is(DamageTypeTags.IS_FREEZING) && this.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES)) {
++            $$1 *= 5.0F;
++        }
++
++        this.walkAnimation.setSpeed(1.5F);
+         boolean $$7 = true;
+-        if (this.invulnerableTime > 10.0F) {
++        if (this.invulnerableTime > 10.0F && !$$0.is(DamageTypeTags.BYPASSES_COOLDOWN)) {
+             if ($$1 <= this.lastHurt) {
+                 return false;
+             }
+@@ -1087,26 +1086,24 @@ public abstract class LivingEntity extends Entity {
+             this.hurtTime = this.hurtDuration;
+         }
+
+-        if ($$0.isDamageHelmet() && !this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
++        if ($$0.is(DamageTypeTags.DAMAGES_HELMET) && !this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
+             this.hurtHelmet($$0, $$1);
+             $$1 *= 0.75F;
+         }
+
+-        this.hurtDir = 0.0F;
+         Entity $$8 = $$0.getEntity();
+         if ($$8 != null) {
+-            if ($$8 instanceof LivingEntity && !$$0.isNoAggro()) {
+-                this.setLastHurtByMob((LivingEntity)$$8);
++            if ($$8 instanceof LivingEntity $$9 && !$$0.is(DamageTypeTags.NO_ANGER)) {
++                this.setLastHurtByMob($$9);
+             }
+
+-            if ($$8 instanceof Player) {
++            if ($$8 instanceof Player $$10) {
+                 this.lastHurtByPlayerTime = 100;
+-                this.lastHurtByPlayer = (Player)$$8;
+-            } else if ($$8 instanceof Wolf $$9 && $$9.isTame()) {
++                this.lastHurtByPlayer = $$10;
++            } else if ($$8 instanceof Wolf $$11 && $$11.isTame()) {
+                 this.lastHurtByPlayerTime = 100;
+-                LivingEntity $$10 = $$9.getOwner();
+-                if ($$10 != null && $$10.getType() == EntityType.PLAYER) {
+-                    this.lastHurtByPlayer = (Player)$$10;
++                if ($$11.getOwner() instanceof Player $$12) {
++                    this.lastHurtByPlayer = $$12;
+                 } else {
+                     this.lastHurtByPlayer = null;
+                 }
+@@ -1116,49 +1113,34 @@ public abstract class LivingEntity extends Entity {
+         if ($$7) {
+             if ($$3) {
+                 this.level.broadcastEntityEvent(this, (byte)29);
+-            } else if ($$0 instanceof EntityDamageSource && ((EntityDamageSource)$$0).isThorns()) {
+-                this.level.broadcastEntityEvent(this, (byte)33);
+             } else {
+-                byte $$11;
+-                if ($$0 == DamageSource.DROWN) {
+-                    $$11 = 36;
+-                } else if ($$0.isFire()) {
+-                    $$11 = 37;
+-                } else if ($$0 == DamageSource.SWEET_BERRY_BUSH) {
+-                    $$11 = 44;
+-                } else if ($$0 == DamageSource.FREEZE) {
+-                    $$11 = 57;
+-                } else {
+-                    $$11 = 2;
+-                }
+-
+-                this.level.broadcastEntityEvent(this, $$11);
++                this.level.broadcastDamageEvent(this, $$0);
+             }
+
+-            if ($$0 != DamageSource.DROWN && (!$$3 || $$1 > 0.0F)) {
++            if (!$$0.is(DamageTypeTags.NO_IMPACT) && (!$$3 || $$1 > 0.0F)) {
+                 this.markHurt();
+             }
+
+-            if ($$8 != null && !$$0.isExplosion()) {
+-                double $$16 = $$8.getX() - this.getX();
++            if ($$8 != null && !$$0.is(DamageTypeTags.IS_EXPLOSION)) {
++                double $$13 = $$8.getX() - this.getX();
+
+-                double $$17;
+-                for ($$17 = $$8.getZ() - this.getZ(); $$16 * $$16 + $$17 * $$17 < 1.0E-4; $$17 = (Math.random() - Math.random()) * 0.01) {
+-                    $$16 = (Math.random() - Math.random()) * 0.01;
++                double $$14;
++                for ($$14 = $$8.getZ() - this.getZ(); $$13 * $$13 + $$14 * $$14 < 1.0E-4; $$14 = (Math.random() - Math.random()) * 0.01) {
++                    $$13 = (Math.random() - Math.random()) * 0.01;
+                 }
+
+-                this.hurtDir = (float)(Mth.atan2($$17, $$16) * 180.0F / (float)Math.PI - this.getYRot());
+-                this.knockback(0.4F, $$16, $$17);
+-            } else {
+-                this.hurtDir = (int)(Math.random() * 2.0) * 180;
++                this.knockback(0.4F, $$13, $$14);
++                if (!$$3) {
++                    this.indicateDamage($$13, $$14);
++                }
+             }
+         }
+
+         if (this.isDeadOrDying()) {
+             if (!this.checkTotemDeathProtection($$0)) {
+-                SoundEvent $$18 = this.getDeathSound();
+-                if ($$7 && $$18 != null) {
+-                    this.playSound($$18, this.getSoundVolume(), this.getVoicePitch());
++                SoundEvent $$15 = this.getDeathSound();
++                if ($$7 && $$15 != null) {
++                    this.playSound($$15, this.getSoundVolume(), this.getVoicePitch());
+                 }
+
+                 this.die($$0);
+@@ -1167,8 +1149,8 @@ public abstract class LivingEntity extends Entity {
+             this.playHurtSound($$0);
+         }
+
+-        boolean $$19 = !$$3 || $$1 > 0.0F;
+-        if ($$19) {
++        boolean $$16 = !$$3 || $$1 > 0.0F;
++        if ($$16) {
+             this.lastDamageSource = $$0;
+             this.lastDamageStamp = this.level.getGameTime();
+         }
+@@ -1184,7 +1166,7 @@ public abstract class LivingEntity extends Entity {
+             CriteriaTriggers.PLAYER_HURT_ENTITY.trigger((ServerPlayer)$$8, this, $$0, $$2, $$1, $$3);
+         }
+
+-        return $$19;
++        return $$16;
+     }
+
+     protected void blockUsingShield(LivingEntity $$0) {
+@@ -1196,7 +1178,7 @@ public abstract class LivingEntity extends Entity {
+     }
+
+     private boolean checkTotemDeathProtection(DamageSource $$0) {
+-        if ($$0.isBypassInvul()) {
++        if ($$0.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+             return false;
+         }
+
+@@ -1251,7 +1233,7 @@ public abstract class LivingEntity extends Entity {
+             $$2 = true;
+         }
+
+-        if (!$$0.isBypassArmor() && this.isBlocking() && !$$2) {
++        if (!$$0.is(DamageTypeTags.BYPASSES_SHIELD) && this.isBlocking() && !$$2) {
+             Vec3 $$4 = $$0.getSourcePosition();
+             if ($$4 != null) {
+                 Vec3 $$5 = this.getViewVector(1.0F);
+@@ -1411,6 +1393,9 @@ public abstract class LivingEntity extends Entity {
+         }
+     }
+
++    public void indicateDamage(double $$0, double $$1) {
++    }
++
+     @Nullable
+     protected SoundEvent getHurtSound(DamageSource $$0) {
+         return SoundEvents.GENERIC_HURT;
+@@ -1437,6 +1422,10 @@ public abstract class LivingEntity extends Entity {
+         return this.getVehicle() instanceof RiderShieldingMount $$0 ? this.position().add(0.0, $$0.getRiderShieldingHeight(), 0.0) : this.position();
+     }
+
++    public float getHurtDir() {
++        return 0.0F;
++    }
++
+     public LivingEntity.Fallsounds getFallSounds() {
+         return new LivingEntity.Fallsounds(SoundEvents.GENERIC_SMALL_FALL, SoundEvents.GENERIC_BIG_FALL);
+     }
+@@ -1510,6 +1499,10 @@ public abstract class LivingEntity extends Entity {
+     }
+
+     protected int calculateFallDamage(float $$0, float $$1) {
++        if (this.getType().is(EntityTypeTags.FALL_DAMAGE_IMMUNE)) {
++            return 0;
++        }
++
+         MobEffectInstance $$2 = this.getEffect(MobEffects.JUMP);
+         float $$3 = $$2 == null ? 0.0F : $$2.getAmplifier() + 1;
+         return Mth.ceil(($$0 - 3.0F - $$3) * $$1);
+@@ -1529,10 +1522,9 @@ public abstract class LivingEntity extends Entity {
+     }
+
+     @Override
+-    public void animateHurt() {
++    public void animateHurt(float $$0) {
+         this.hurtDuration = 10;
+         this.hurtTime = this.hurtDuration;
+-        this.hurtDir = 0.0F;
+     }
+
+     public int getArmorValue() {
+@@ -1549,7 +1541,7 @@ public abstract class LivingEntity extends Entity {
+     }
+
+     protected float getDamageAfterArmorAbsorb(DamageSource $$0, float $$1) {
+-        if (!$$0.isBypassArmor()) {
++        if (!$$0.is(DamageTypeTags.BYPASSES_ARMOR)) {
+             this.hurtArmor($$0, $$1);
+             $$1 = CombatRules.getDamageAfterAbsorb($$1, this.getArmorValue(), (float)this.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
+         }
+@@ -1558,11 +1550,11 @@ public abstract class LivingEntity extends Entity {
+     }
+
+     protected float getDamageAfterMagicAbsorb(DamageSource $$0, float $$1) {
+-        if ($$0.isBypassMagic()) {
++        if ($$0.is(DamageTypeTags.BYPASSES_EFFECTS)) {
+             return $$1;
+         }
+
+-        if (this.hasEffect(MobEffects.DAMAGE_RESISTANCE) && $$0 != DamageSource.OUT_OF_WORLD) {
++        if (this.hasEffect(MobEffects.DAMAGE_RESISTANCE) && !$$0.is(DamageTypeTags.BYPASSES_RESISTANCE)) {
+             int $$2 = (this.getEffect(MobEffects.DAMAGE_RESISTANCE).getAmplifier() + 1) * 5;
+             int $$3 = 25 - $$2;
+             float $$4 = $$1 * $$3;
+@@ -1582,7 +1574,7 @@ public abstract class LivingEntity extends Entity {
+             return 0.0F;
+         }
+
+-        if ($$0.isBypassEnchantments()) {
++        if ($$0.is(DamageTypeTags.BYPASSES_ENCHANTMENTS)) {
+             return $$1;
+         }
+
+@@ -1602,14 +1594,14 @@ public abstract class LivingEntity extends Entity {
+             $$1 = Math.max($$1 - this.getAbsorptionAmount(), 0.0F);
+             this.setAbsorptionAmount(this.getAbsorptionAmount() - ($$2 - $$1));
+             float $$3 = $$2 - $$1;
+-            if ($$3 > 0.0F && $$3 < 3.4028235E37F && $$0.getEntity() instanceof ServerPlayer) {
+-                ((ServerPlayer)$$0.getEntity()).awardStat(Stats.DAMAGE_DEALT_ABSORBED, Math.round($$3 * 10.0F));
++            if ($$3 > 0.0F && $$3 < 3.4028235E37F && $$0.getEntity() instanceof ServerPlayer $$4) {
++                $$4.awardStat(Stats.DAMAGE_DEALT_ABSORBED, Math.round($$3 * 10.0F));
+             }
+
+             if ($$1 != 0.0F) {
+-                float $$4 = this.getHealth();
+-                this.setHealth($$4 - $$1);
+-                this.getCombatTracker().recordDamage($$0, $$4, $$1);
++                float $$5 = this.getHealth();
++                this.getCombatTracker().recordDamage($$0, $$5, $$1);
++                this.setHealth($$5 - $$1);
+                 this.setAbsorptionAmount(this.getAbsorptionAmount() - $$1);
+                 this.gameEvent(GameEvent.ENTITY_DAMAGE);
+             }
+@@ -1681,99 +1673,35 @@ public abstract class LivingEntity extends Entity {
+     }
+
+     @Override
+-    public void handleEntityEvent(byte $$0) {
+-        switch ($$0) {
+-            case 2:
+-            case 33:
+-            case 36:
+-            case 37:
+-            case 44:
+-            case 57:
+-                this.animationSpeed = 1.5F;
+-                this.invulnerableTime = 20;
+-                this.hurtDuration = 10;
+-                this.hurtTime = this.hurtDuration;
+-                this.hurtDir = 0.0F;
+-                if ($$0 == 33) {
+-                    this.playSound(SoundEvents.THORNS_HIT, this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+-                }
+-
+-                DamageSource $$1;
+-                if ($$0 == 37) {
+-                    $$1 = DamageSource.ON_FIRE;
+-                } else if ($$0 == 36) {
+-                    $$1 = DamageSource.DROWN;
+-                } else if ($$0 == 44) {
+-                    $$1 = DamageSource.SWEET_BERRY_BUSH;
+-                } else if ($$0 == 57) {
+-                    $$1 = DamageSource.FREEZE;
+-                } else {
+-                    $$1 = DamageSource.GENERIC;
+-                }
++    public void handleDamageEvent(DamageSource $$0) {
++        this.walkAnimation.setSpeed(1.5F);
++        this.invulnerableTime = 20;
++        this.hurtDuration = 10;
++        this.hurtTime = this.hurtDuration;
++        SoundEvent $$1 = this.getHurtSound($$0);
++        if ($$1 != null) {
++            this.playSound($$1, this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
++        }
+
+-                SoundEvent $$6 = this.getHurtSound($$1);
+-                if ($$6 != null) {
+-                    this.playSound($$6, this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+-                }
++        this.hurt(this.damageSources().generic(), 0.0F);
++        this.lastDamageSource = $$0;
++        this.lastDamageStamp = this.level.getGameTime();
++    }
+
+-                this.hurt(DamageSource.GENERIC, 0.0F);
+-                this.lastDamageSource = $$1;
+-                this.lastDamageStamp = this.level.getGameTime();
+-                break;
++    @Override
++    public void handleEntityEvent(byte $$0) {
++        switch ($$0) {
+             case 3:
+-                SoundEvent $$7 = this.getDeathSound();
+-                if ($$7 != null) {
+-                    this.playSound($$7, this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
++                SoundEvent $$1 = this.getDeathSound();
++                if ($$1 != null) {
++                    this.playSound($$1, this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+                 }
+
+                 if (!(this instanceof Player)) {
+                     this.setHealth(0.0F);
+-                    this.die(DamageSource.GENERIC);
++                    this.die(this.damageSources().generic());
+                 }
+                 break;
+-            case 4:
+-            case 5:
+-            case 6:
+-            case 7:
+-            case 8:
+-            case 9:
+-            case 10:
+-            case 11:
+-            case 12:
+-            case 13:
+-            case 14:
+-            case 15:
+-            case 16:
+-            case 17:
+-            case 18:
+-            case 19:
+-            case 20:
+-            case 21:
+-            case 22:
+-            case 23:
+-            case 24:
+-            case 25:
+-            case 26:
+-            case 27:
+-            case 28:
+-            case 31:
+-            case 32:
+-            case 34:
+-            case 35:
+-            case 38:
+-            case 39:
+-            case 40:
+-            case 41:
+-            case 42:
+-            case 43:
+-            case 45:
+-            case 53:
+-            case 56:
+-            case 58:
+-            case 59:
+-            default:
+-                super.handleEntityEvent($$0);
+-                break;
+             case 29:
+                 this.playSound(SoundEvents.SHIELD_BLOCK, 1.0F, 0.8F + this.level.random.nextFloat() * 0.4F);
+                 break;
+@@ -1781,17 +1709,17 @@ public abstract class LivingEntity extends Entity {
+                 this.playSound(SoundEvents.SHIELD_BREAK, 0.8F, 0.8F + this.level.random.nextFloat() * 0.4F);
+                 break;
+             case 46:
+-                int $$8 = 128;
+-
+-                for (int $$9 = 0; $$9 < 128; $$9++) {
+-                    double $$10 = $$9 / 127.0;
+-                    float $$11 = (this.random.nextFloat() - 0.5F) * 0.2F;
+-                    float $$12 = (this.random.nextFloat() - 0.5F) * 0.2F;
+-                    float $$13 = (this.random.nextFloat() - 0.5F) * 0.2F;
+-                    double $$14 = Mth.lerp($$10, this.xo, this.getX()) + (this.random.nextDouble() - 0.5) * this.getBbWidth() * 2.0;
+-                    double $$15 = Mth.lerp($$10, this.yo, this.getY()) + this.random.nextDouble() * this.getBbHeight();
+-                    double $$16 = Mth.lerp($$10, this.zo, this.getZ()) + (this.random.nextDouble() - 0.5) * this.getBbWidth() * 2.0;
+-                    this.level.addParticle(ParticleTypes.PORTAL, $$14, $$15, $$16, $$11, $$12, $$13);
++                int $$2 = 128;
++
++                for (int $$3 = 0; $$3 < 128; $$3++) {
++                    double $$4 = $$3 / 127.0;
++                    float $$5 = (this.random.nextFloat() - 0.5F) * 0.2F;
++                    float $$6 = (this.random.nextFloat() - 0.5F) * 0.2F;
++                    float $$7 = (this.random.nextFloat() - 0.5F) * 0.2F;
++                    double $$8 = Mth.lerp($$4, this.xo, this.getX()) + (this.random.nextDouble() - 0.5) * this.getBbWidth() * 2.0;
++                    double $$9 = Mth.lerp($$4, this.yo, this.getY()) + this.random.nextDouble() * this.getBbHeight();
++                    double $$10 = Mth.lerp($$4, this.zo, this.getZ()) + (this.random.nextDouble() - 0.5) * this.getBbWidth() * 2.0;
++                    this.level.addParticle(ParticleTypes.PORTAL, $$8, $$9, $$10, $$5, $$6, $$7);
+                 }
+                 break;
+             case 47:
+@@ -1820,6 +1748,9 @@ public abstract class LivingEntity extends Entity {
+                 break;
+             case 60:
+                 this.makePoofParticles();
++                break;
++            default:
++                super.handleEntityEvent($$0);
+         }
+     }
+
+@@ -1840,7 +1771,7 @@ public abstract class LivingEntity extends Entity {
+
+     @Override
+     protected void outOfWorld() {
+-        this.hurt(DamageSource.OUT_OF_WORLD, 4.0F);
++        this.hurt(this.damageSources().outOfWorld(), 4.0F);
+     }
+
+     protected void updateSwingTime() {
+@@ -2050,7 +1981,7 @@ public abstract class LivingEntity extends Entity {
+     }
+
+     public void travel(Vec3 $$0) {
+-        if (this.isEffectiveAi() || this.isControlledByLocalInstance()) {
++        if (this.isControlledByLocalInstance()) {
+             double $$1 = 0.08;
+             boolean $$2 = this.getDeltaMovement().y <= 0.0;
+             if ($$2 && this.hasEffect(MobEffects.SLOW_FALLING)) {
+@@ -2147,7 +2078,7 @@ public abstract class LivingEntity extends Entity {
+                     float $$24 = (float)($$23 * 10.0 - 3.0);
+                     if ($$24 > 0.0F) {
+                         this.playSound(this.getFallDamageSound((int)$$24), 1.0F, 1.0F);
+-                        this.hurt(DamageSource.FLY_INTO_WALL, $$24);
++                        this.hurt(this.damageSources().flyIntoWall(), $$24);
+                     }
+                 }
+
+@@ -2181,21 +2112,41 @@ public abstract class LivingEntity extends Entity {
+             }
+         }
+
+-        this.calculateEntityAnimation(this, this instanceof FlyingAnimal);
++        this.calculateEntityAnimation(this instanceof FlyingAnimal);
+     }
+
+-    public void calculateEntityAnimation(LivingEntity $$0, boolean $$1) {
+-        $$0.animationSpeedOld = $$0.animationSpeed;
+-        double $$2 = $$0.getX() - $$0.xo;
+-        double $$3 = $$1 ? $$0.getY() - $$0.yo : 0.0;
+-        double $$4 = $$0.getZ() - $$0.zo;
+-        float $$5 = (float)Math.sqrt($$2 * $$2 + $$3 * $$3 + $$4 * $$4) * 4.0F;
+-        if ($$5 > 1.0F) {
+-            $$5 = 1.0F;
++    private void travelRidden(LivingEntity $$0, Vec3 $$1) {
++        Vec3 $$2 = this.getRiddenInput($$0, $$1);
++        this.tickRidden($$0, $$2);
++        if (this.isControlledByLocalInstance()) {
++            this.setSpeed(this.getRiddenSpeed($$0));
++            this.travel($$2);
++        } else {
++            this.calculateEntityAnimation(false);
++            this.setDeltaMovement(Vec3.ZERO);
++            this.tryCheckInsideBlocks();
+         }
++    }
++
++    protected void tickRidden(LivingEntity $$0, Vec3 $$1) {
++    }
++
++    protected Vec3 getRiddenInput(LivingEntity $$0, Vec3 $$1) {
++        return $$1;
++    }
++
++    protected float getRiddenSpeed(LivingEntity $$0) {
++        return this.getSpeed();
++    }
+
+-        $$0.animationSpeed = $$0.animationSpeed + ($$5 - $$0.animationSpeed) * 0.4F;
+-        $$0.animationPosition = $$0.animationPosition + $$0.animationSpeed;
++    public void calculateEntityAnimation(boolean $$0) {
++        float $$1 = (float)Mth.length(this.getX() - this.xo, $$0 ? this.getY() - this.yo : 0.0, this.getZ() - this.zo);
++        this.updateWalkAnimation($$1);
++    }
++
++    protected void updateWalkAnimation(float $$0) {
++        float $$1 = Math.min($$0 * 4.0F, 1.0F);
++        this.walkAnimation.update($$1, 0.4F);
+     }
+
+     public Vec3 handleRelativeFrictionAndCalculateMovement(Vec3 $$0, float $$1) {
+@@ -2244,7 +2195,11 @@ public abstract class LivingEntity extends Entity {
+     }
+
+     private float getFrictionInfluencedSpeed(float $$0) {
+-        return this.onGround ? this.getSpeed() * (0.21600002F / ($$0 * $$0 * $$0)) : this.flyingSpeed;
++        return this.onGround ? this.getSpeed() * (0.21600002F / ($$0 * $$0 * $$0)) : this.getFlyingSpeed();
++    }
++
++    protected float getFlyingSpeed() {
++        return this.getControllingPassenger() instanceof Player ? this.getSpeed() * 0.1F : 0.02F;
+     }
+
+     public float getSpeed() {
+@@ -2484,20 +2439,11 @@ public abstract class LivingEntity extends Entity {
+         float $$2 = Mth.wrapDegrees($$0 - this.yBodyRot);
+         this.yBodyRot += $$2 * 0.3F;
+         float $$3 = Mth.wrapDegrees(this.getYRot() - this.yBodyRot);
+-        boolean $$4 = $$3 < -90.0F || $$3 >= 90.0F;
+-        if ($$3 < -75.0F) {
+-            $$3 = -75.0F;
+-        }
+-
+-        if ($$3 >= 75.0F) {
+-            $$3 = 75.0F;
+-        }
+-
+-        this.yBodyRot = this.getYRot() - $$3;
+-        if ($$3 * $$3 > 2500.0F) {
+-            this.yBodyRot += $$3 * 0.2F;
++        if (Math.abs($$3) > 50.0F) {
++            this.yBodyRot = this.yBodyRot + ($$3 - Mth.sign($$3) * 50);
+         }
+
++        boolean $$4 = $$3 < -90.0F || $$3 >= 90.0F;
+         if ($$4) {
+             $$1 *= -1.0F;
+         }
+@@ -2596,24 +2542,29 @@ public abstract class LivingEntity extends Entity {
+         this.zza *= 0.98F;
+         this.updateFallFlying();
+         AABB $$12 = this.getBoundingBox();
+-        this.travel(new Vec3(this.xxa, this.yya, this.zza));
++        LivingEntity $$13 = this.getControllingPassenger();
++        Vec3 $$14 = new Vec3(this.xxa, this.yya, this.zza);
++        if ($$13 != null && this.isAlive()) {
++            this.travelRidden($$13, $$14);
++        } else {
++            this.travel($$14);
++        }
++
+         this.level.getProfiler().pop();
+         this.level.getProfiler().push("freezing");
+-        boolean $$13 = this.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES);
+         if (!this.level.isClientSide && !this.isDeadOrDying()) {
+-            int $$14 = this.getTicksFrozen();
++            int $$15 = this.getTicksFrozen();
+             if (this.isInPowderSnow && this.canFreeze()) {
+-                this.setTicksFrozen(Math.min(this.getTicksRequiredToFreeze(), $$14 + 1));
++                this.setTicksFrozen(Math.min(this.getTicksRequiredToFreeze(), $$15 + 1));
+             } else {
+-                this.setTicksFrozen(Math.max(0, $$14 - 2));
++                this.setTicksFrozen(Math.max(0, $$15 - 2));
+             }
+         }
+
+         this.removeFrost();
+         this.tryAddFrost();
+         if (!this.level.isClientSide && this.tickCount % 40 == 0 && this.isFullyFrozen() && this.canFreeze()) {
+-            int $$15 = $$13 ? 5 : 1;
+-            this.hurt(DamageSource.FREEZE, $$15);
++            this.hurt(this.damageSources().freeze(), 1.0F);
+         }
+
+         this.level.getProfiler().pop();
+@@ -2626,7 +2577,7 @@ public abstract class LivingEntity extends Entity {
+         this.pushEntities();
+         this.level.getProfiler().pop();
+         if (!this.level.isClientSide && this.isSensitiveToWater() && this.isInWaterRainOrBubble()) {
+-            this.hurt(DamageSource.DROWN, 1.0F);
++            this.hurt(this.damageSources().drown(), 1.0F);
+         }
+     }
+
+@@ -2681,7 +2632,7 @@ public abstract class LivingEntity extends Entity {
+                     }
+
+                     if ($$2 > $$1 - 1) {
+-                        this.hurt(DamageSource.CRAMMING, 6.0F);
++                        this.hurt(this.damageSources().cramming(), 6.0F);
+                     }
+                 }
+
+@@ -2764,7 +2715,7 @@ public abstract class LivingEntity extends Entity {
+     }
+
+     public void onItemPickup(ItemEntity $$0) {
+-        Player $$1 = $$0.getThrower() != null ? this.level.getPlayerByUUID($$0.getThrower()) : null;
++        Entity $$1 = $$0.getOwner();
+         if ($$1 instanceof ServerPlayer) {
+             CriteriaTriggers.THROWN_ITEM_PICKED_UP_BY_ENTITY.trigger((ServerPlayer)$$1, $$0.getItem(), this);
+         }
+@@ -2802,10 +2753,6 @@ public abstract class LivingEntity extends Entity {
+         return this.oAttackAnim + $$1 * $$0;
+     }
+
+-    public boolean isEffectiveAi() {
+-        return !this.level.isClientSide;
+-    }
+-
+     @Override
+     public boolean isPickable() {
+         return !this.isRemoved();
+@@ -3079,7 +3026,7 @@ public abstract class LivingEntity extends Entity {
+         double $$6 = this.getZ();
+         double $$7 = $$1;
+         boolean $$8 = false;
+-        BlockPos $$9 = new BlockPos($$0, $$7, $$2);
++        BlockPos $$9 = BlockPos.containing($$0, $$7, $$2);
+         Level $$10 = this.level;
+         if ($$10.hasChunkAt($$9)) {
+             boolean $$11 = false;
+@@ -3148,6 +3095,11 @@ public abstract class LivingEntity extends Entity {
+         return new AABB(-$$1.width / 2.0F, 0.0, -$$1.width / 2.0F, $$1.width / 2.0F, $$1.height, $$1.width / 2.0F);
+     }
+
++    @Override
++    public boolean canChangeDimensions() {
++        return super.canChangeDimensions() && !this.isSleeping();
++    }
++
+     public Optional<BlockPos> getSleepingPos() {
+         return this.entityData.get(SLEEPING_POS_ID);
+     }
+@@ -3308,18 +3260,8 @@ public abstract class LivingEntity extends Entity {
+     }
+
+     public static EquipmentSlot getEquipmentSlotForItem(ItemStack $$0) {
+-        Item $$1 = $$0.getItem();
+-        if (!$$0.is(Items.CARVED_PUMPKIN) && (!($$1 instanceof BlockItem) || !(((BlockItem)$$1).getBlock() instanceof AbstractSkullBlock))) {
+-            if ($$1 instanceof ArmorItem) {
+-                return ((ArmorItem)$$1).getSlot();
+-            } else if ($$0.is(Items.ELYTRA)) {
+-                return EquipmentSlot.CHEST;
+-            } else {
+-                return $$0.is(Items.SHIELD) ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
+-            }
+-        } else {
+-            return EquipmentSlot.HEAD;
+-        }
++        Equipable $$1 = Equipable.get($$0);
++        return $$1 != null ? $$1.getEquipmentSlot() : EquipmentSlot.MAINHAND;
+     }
+
+     private static SlotAccess createEquipmentSlotAccess(LivingEntity $$0, EquipmentSlot $$1) {
+@@ -3396,6 +3338,12 @@ public abstract class LivingEntity extends Entity {
+         return this.getMainHandItem().getItem() instanceof AxeItem;
+     }
+
++    @Override
++    public float maxUpStep() {
++        float $$0 = super.maxUpStep();
++        return this.getControllingPassenger() instanceof Player ? Math.max($$0, 1.0F) : $$0;
++    }
++
+     public record Fallsounds(SoundEvent small, SoundEvent big) {
+     }
+ }
+### 1.19.3 -> 1.19.4 net/minecraft/world/entity/Entity.java
+diff --git "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.3\\mojmap\\net\\minecraft\\world\\entity\\Entity.java" "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.4\\mojmap\\net\\minecraft\\world\\entity\\Entity.java"
+index e222cd53..b9a8f5aa 100644
+--- "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.3\\mojmap\\net\\minecraft\\world\\entity\\Entity.java"
++++ "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.19.4\\mojmap\\net\\minecraft\\world\\entity\\Entity.java"
+@@ -60,6 +60,7 @@ import net.minecraft.sounds.SoundEvent;
+ import net.minecraft.sounds.SoundEvents;
+ import net.minecraft.sounds.SoundSource;
+ import net.minecraft.tags.BlockTags;
++import net.minecraft.tags.DamageTypeTags;
+ import net.minecraft.tags.EntityTypeTags;
+ import net.minecraft.tags.FluidTags;
+ import net.minecraft.tags.TagKey;
+@@ -69,6 +70,7 @@ import net.minecraft.world.InteractionHand;
+ import net.minecraft.world.InteractionResult;
+ import net.minecraft.world.Nameable;
+ import net.minecraft.world.damagesource.DamageSource;
++import net.minecraft.world.damagesource.DamageSources;
+ import net.minecraft.world.entity.item.ItemEntity;
+ import net.minecraft.world.entity.player.Player;
+ import net.minecraft.world.entity.vehicle.Boat;
+@@ -177,7 +179,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     public double xOld;
+     public double yOld;
+     public double zOld;
+-    public float maxUpStep;
++    private float maxUpStep;
+     public boolean noPhysics;
+     protected final RandomSource random = RandomSource.create();
+     public int tickCount;
+@@ -438,7 +440,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+                 }
+             } else {
+                 if (this.remainingFireTicks % 20 == 0 && !this.isInLava()) {
+-                    this.hurt(DamageSource.ON_FIRE, 1.0F);
++                    this.hurt(this.damageSources().onFire(), 1.0F);
+                 }
+
+                 this.setRemainingFireTicks(this.remainingFireTicks - 1);
+@@ -495,7 +497,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     public void lavaHurt() {
+         if (!this.fireImmune()) {
+             this.setSecondsOnFire(15);
+-            if (this.hurt(DamageSource.LAVA, 4.0F)) {
++            if (this.hurt(this.damageSources().lava(), 4.0F)) {
+                 this.playSound(SoundEvents.GENERIC_BURN, 0.4F, 2.0F + this.random.nextFloat() * 0.4F);
+             }
+         }
+@@ -756,7 +758,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     }
+
+     protected BlockPos getBlockPosBelowThatAffectsMyMovement() {
+-        return new BlockPos(this.position.x, this.getBoundingBox().minY - 0.5000001, this.position.z);
++        return BlockPos.containing(this.position.x, this.getBoundingBox().minY - 0.5000001, this.position.z);
+     }
+
+     protected Vec3 maybeBackOffFromEdge(Vec3 $$0, MoverType $$1) {
+@@ -804,10 +806,10 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         boolean $$5 = $$0.y != $$3.y;
+         boolean $$6 = $$0.z != $$3.z;
+         boolean $$7 = this.onGround || $$5 && $$0.y < 0.0;
+-        if (this.maxUpStep > 0.0F && $$7 && ($$4 || $$6)) {
+-            Vec3 $$8 = collideBoundingBox(this, new Vec3($$0.x, this.maxUpStep, $$0.z), $$1, this.level, $$2);
+-            Vec3 $$9 = collideBoundingBox(this, new Vec3(0.0, this.maxUpStep, 0.0), $$1.expandTowards($$0.x, 0.0, $$0.z), this.level, $$2);
+-            if ($$9.y < this.maxUpStep) {
++        if (this.maxUpStep() > 0.0F && $$7 && ($$4 || $$6)) {
++            Vec3 $$8 = collideBoundingBox(this, new Vec3($$0.x, this.maxUpStep(), $$0.z), $$1, this.level, $$2);
++            Vec3 $$9 = collideBoundingBox(this, new Vec3(0.0, this.maxUpStep(), 0.0), $$1.expandTowards($$0.x, 0.0, $$0.z), this.level, $$2);
++            if ($$9.y < this.maxUpStep()) {
+                 Vec3 $$10 = collideBoundingBox(this, new Vec3($$0.x, 0.0, $$0.z), $$1.move($$9), this.level, $$2).add($$9);
+                 if ($$10.horizontalDistanceSqr() > $$8.horizontalDistanceSqr()) {
+                     $$8 = $$10;
+@@ -893,8 +895,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+
+     protected void checkInsideBlocks() {
+         AABB $$0 = this.getBoundingBox();
+-        BlockPos $$1 = new BlockPos($$0.minX + 1.0E-7, $$0.minY + 1.0E-7, $$0.minZ + 1.0E-7);
+-        BlockPos $$2 = new BlockPos($$0.maxX - 1.0E-7, $$0.maxY - 1.0E-7, $$0.maxZ - 1.0E-7);
++        BlockPos $$1 = BlockPos.containing($$0.minX + 1.0E-7, $$0.minY + 1.0E-7, $$0.minZ + 1.0E-7);
++        BlockPos $$2 = BlockPos.containing($$0.maxX - 1.0E-7, $$0.maxY - 1.0E-7, $$0.maxZ - 1.0E-7);
+         if (this.level.hasChunksAt($$1, $$2)) {
+             BlockPos.MutableBlockPos $$3 = new BlockPos.MutableBlockPos();
+
+@@ -1015,6 +1017,10 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     }
+
+     public boolean causeFallDamage(float $$0, float $$1, DamageSource $$2) {
++        if (this.type.is(EntityTypeTags.FALL_DAMAGE_IMMUNE)) {
++            return false;
++        }
++
+         if (this.isVehicle()) {
+             for (Entity $$3 : this.getPassengers()) {
+                 $$3.causeFallDamage($$0, $$1, $$2);
+@@ -1030,7 +1036,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+
+     private boolean isInRain() {
+         BlockPos $$0 = this.blockPosition();
+-        return this.level.isRainingAt($$0) || this.level.isRainingAt(new BlockPos($$0.getX(), this.getBoundingBox().maxY, $$0.getZ()));
++        return this.level.isRainingAt($$0) || this.level.isRainingAt(BlockPos.containing($$0.getX(), this.getBoundingBox().maxY, $$0.getZ()));
+     }
+
+     private boolean isInBubbleColumn() {
+@@ -1092,7 +1098,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         this.fluidOnEyes.clear();
+         double $$0 = this.getEyeY() - 0.11111111F;
+         if (!(this.getVehicle() instanceof Boat $$2 && !$$2.isUnderWater() && $$2.getBoundingBox().maxY >= $$0 && $$2.getBoundingBox().minY <= $$0)) {
+-            BlockPos $$3 = new BlockPos(this.getX(), $$0, this.getZ());
++            BlockPos $$3 = BlockPos.containing(this.getX(), $$0, this.getZ());
+             FluidState $$4 = this.level.getFluidState($$3);
+             double $$5 = $$3.getY() + $$4.getHeight(this.level, $$3);
+             if ($$5 > $$0) {
+@@ -1192,7 +1198,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     @Deprecated
+     public float getLightLevelDependentMagicValue() {
+         return this.level.hasChunkAt(this.getBlockX(), this.getBlockZ())
+-            ? this.level.getLightLevelDependentMagicValue(new BlockPos(this.getX(), this.getEyeY(), this.getZ()))
++            ? this.level.getLightLevelDependentMagicValue(BlockPos.containing(this.getX(), this.getEyeY(), this.getZ()))
+             : 0.0F;
+     }
+
+@@ -1383,6 +1389,10 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         return this.level.clip(new ClipContext($$3, $$5, ClipContext.Block.OUTLINE, $$2 ? ClipContext.Fluid.ANY : ClipContext.Fluid.NONE, this));
+     }
+
++    public boolean canBeHitByProjectile() {
++        return this.isAlive() && this.isPickable();
++    }
++
+     public boolean isPickable() {
+         return false;
+     }
+@@ -1744,6 +1754,10 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+             return false;
+         }
+
++        if (!$$0.couldAcceptPassenger()) {
++            return false;
++        }
++
+         for (Entity $$2 = $$0; $$2.vehicle != null; $$2 = $$2.vehicle) {
+             if ($$2.vehicle == this) {
+                 return false;
+@@ -1789,10 +1803,6 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         }
+     }
+
+-    public boolean allowsDismounting(Entity $$0) {
+-        return true;
+-    }
+-
+     public void stopRiding() {
+         this.removeVehicle();
+     }
+@@ -1806,7 +1816,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+             this.passengers = ImmutableList.of($$0);
+         } else {
+             List<Entity> $$1 = Lists.<Entity>newArrayList(this.passengers);
+-            if (!this.level.isClientSide && $$0 instanceof Player && !(this.getControllingPassenger() instanceof Player)) {
++            if (!this.level.isClientSide && $$0 instanceof Player && !(this.getFirstPassenger() instanceof Player)) {
+                 $$1.add(0, $$0);
+             } else {
+                 $$1.add($$0);
+@@ -1814,6 +1824,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+
+             this.passengers = ImmutableList.copyOf($$1);
+         }
++
++        this.gameEvent(GameEvent.ENTITY_MOUNT, $$0);
+     }
+
+     protected void removePassenger(Entity $$0) {
+@@ -1828,12 +1840,17 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         }
+
+         $$0.boardingCooldown = 60;
++        this.gameEvent(GameEvent.ENTITY_DISMOUNT, $$0);
+     }
+
+     protected boolean canAddPassenger(Entity $$0) {
+         return this.passengers.isEmpty();
+     }
+
++    protected boolean couldAcceptPassenger() {
++        return true;
++    }
++
+     public void lerpTo(double $$0, double $$1, double $$2, float $$3, float $$4, int $$5, boolean $$6) {
+         this.setPos($$0, $$1, $$2);
+         this.setRot($$3, $$4);
+@@ -1920,6 +1937,9 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         this.setDeltaMovement($$0, $$1, $$2);
+     }
+
++    public void handleDamageEvent(DamageSource $$0) {
++    }
++
+     public void handleEntityEvent(byte $$0) {
+         switch ($$0) {
+             case 53:
+@@ -1927,7 +1947,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         }
+     }
+
+-    public void animateHurt() {
++    public void animateHurt(float $$0) {
+     }
+
+     public Iterable<ItemStack> getHandSlots() {
+@@ -1958,8 +1978,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         return !this.passengers.isEmpty();
+     }
+
+-    public boolean rideableUnderWater() {
+-        return true;
++    public boolean dismountsUnderwater() {
++        return this.getType().is(EntityTypeTags.DISMOUNTS_UNDERWATER);
+     }
+
+     public void setShiftKeyDown(boolean $$0) {
+@@ -2112,7 +2132,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+             this.setSecondsOnFire(8);
+         }
+
+-        this.hurt(DamageSource.LIGHTNING_BOLT, 5.0F);
++        this.hurt(this.damageSources().lightningBolt(), 5.0F);
+     }
+
+     public void onAboveBubbleCol(boolean $$0) {
+@@ -2145,7 +2165,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     }
+
+     public void checkSlowFallDistance() {
+-        if (this.deltaMovement.y() > -0.5 && this.fallDistance > 1.0F) {
++        if (this.getDeltaMovement().y() > -0.5 && this.fallDistance > 1.0F) {
+             this.fallDistance = 1.0F;
+         }
+     }
+@@ -2155,7 +2175,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     }
+
+     protected void moveTowardsClosestSpace(double $$0, double $$1, double $$2) {
+-        BlockPos $$3 = new BlockPos($$0, $$1, $$2);
++        BlockPos $$3 = BlockPos.containing($$0, $$1, $$2);
+         Vec3 $$4 = new Vec3($$0 - $$3.getX(), $$1 - $$3.getY(), $$2 - $$3.getZ());
+         BlockPos.MutableBlockPos $$5 = new BlockPos.MutableBlockPos();
+         Direction $$6 = Direction.UP;
+@@ -2261,7 +2281,10 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     }
+
+     public boolean isInvulnerableTo(DamageSource $$0) {
+-        return this.isRemoved() || this.invulnerable && $$0 != DamageSource.OUT_OF_WORLD && !$$0.isCreativePlayer() || $$0.isFire() && this.fireImmune();
++        return this.isRemoved()
++            || this.invulnerable && !$$0.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && !$$0.isCreativePlayer()
++            || $$0.is(DamageTypeTags.IS_FIRE) && this.fireImmune()
++            || $$0.is(DamageTypeTags.IS_FALL) && this.getType().is(EntityTypeTags.FALL_DAMAGE_IMMUNE);
+     }
+
+     public boolean isInvulnerable() {
+@@ -2377,7 +2400,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     }
+
+     public boolean canChangeDimensions() {
+-        return true;
++        return !this.isPassenger() && !this.isVehicle();
+     }
+
+     public float getBlockExplosionResistance(Explosion $$0, BlockGetter $$1, BlockPos $$2, BlockState $$3, FluidState $$4, float $$5) {
+@@ -2475,13 +2498,35 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+
+     public final void teleportToWithTicket(double $$0, double $$1, double $$2) {
+         if (this.level instanceof ServerLevel) {
+-            ChunkPos $$3 = new ChunkPos(new BlockPos($$0, $$1, $$2));
++            ChunkPos $$3 = new ChunkPos(BlockPos.containing($$0, $$1, $$2));
+             ((ServerLevel)this.level).getChunkSource().addRegionTicket(TicketType.POST_TELEPORT, $$3, 0, this.getId());
+             this.level.getChunk($$3.x, $$3.z);
+             this.teleportTo($$0, $$1, $$2);
+         }
+     }
+
++    public boolean teleportTo(ServerLevel $$0, double $$1, double $$2, double $$3, Set<RelativeMovement> $$4, float $$5, float $$6) {
++        float $$7 = Mth.clamp($$6, -90.0F, 90.0F);
++        if ($$0 == this.level) {
++            this.moveTo($$1, $$2, $$3, $$5, $$7);
++            this.setYHeadRot($$5);
++        } else {
++            this.unRide();
++            Entity $$8 = this.getType().create($$0);
++            if ($$8 == null) {
++                return false;
++            }
++
++            $$8.restoreFrom(this);
++            $$8.moveTo($$1, $$2, $$3, $$5, $$7);
++            $$8.setYHeadRot($$5);
++            this.setRemoved(Entity.RemovalReason.CHANGED_DIMENSION);
++            $$0.addDuringTeleport($$8);
++        }
++
++        return true;
++    }
++
+     public void dismountTo(double $$0, double $$1, double $$2) {
+         this.teleportTo($$0, $$1, $$2);
+     }
+@@ -2505,6 +2550,9 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         return this.isCustomNameVisible();
+     }
+
++    public void onSyncedDataUpdated(List<SynchedEntityData.DataValue<?>> $$0) {
++    }
++
+     public void onSyncedDataUpdated(EntityDataAccessor<?> $$0) {
+         if (DATA_POSE.equals($$0)) {
+             this.refreshDimensions();
+@@ -2668,7 +2716,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     }
+
+     @Nullable
+-    public Entity getControllingPassenger() {
++    public LivingEntity getControllingPassenger() {
+         return null;
+     }
+
+@@ -2736,12 +2784,20 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     }
+
+     public boolean hasIndirectPassenger(Entity $$0) {
+-        return this.getIndirectPassengersStream().anyMatch($$1 -> $$1 == $$0);
++        if (!$$0.isPassenger()) {
++            return false;
++        }
++
++        Entity $$1 = $$0.getVehicle();
++        return $$1 == this ? true : this.hasIndirectPassenger($$1);
+     }
+
+     public boolean isControlledByLocalInstance() {
+-        Entity $$0 = this.getControllingPassenger();
+-        return $$0 instanceof Player ? ((Player)$$0).isLocalPlayer() : !this.level.isClientSide;
++        return this.getControllingPassenger() instanceof Player $$0 ? $$0.isLocalPlayer() : this.isEffectiveAi();
++    }
++
++    public boolean isEffectiveAi() {
++        return !this.level.isClientSide;
+     }
+
+     protected static Vec3 getCollisionHorizontalEscapeVector(double $$0, double $$1, float $$2) {
+@@ -2761,6 +2817,11 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         return this.vehicle;
+     }
+
++    @Nullable
++    public Entity getControlledVehicle() {
++        return this.vehicle != null && this.vehicle.getControllingPassenger() == this ? this.vehicle : null;
++    }
++
+     public PushReaction getPistonPushReaction() {
+         return PushReaction.NORMAL;
+     }
+@@ -2957,7 +3018,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+     }
+
+     public void addDeltaMovement(Vec3 $$0) {
+-        this.deltaMovement = this.deltaMovement.add($$0);
++        this.setDeltaMovement(this.getDeltaMovement().add($$0));
+     }
+
+     public void setDeltaMovement(double $$0, double $$1, double $$2) {
+@@ -3099,6 +3160,18 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         }
+     }
+
++    public boolean canSprint() {
++        return false;
++    }
++
++    public float maxUpStep() {
++        return this.maxUpStep;
++    }
++
++    public void setMaxUpStep(float $$0) {
++        this.maxUpStep = $$0;
++    }
++
+     public final boolean isRemoved() {
+         return this.removalReason != null;
+     }
+@@ -3153,6 +3226,10 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+         return this.level;
+     }
+
++    public DamageSources damageSources() {
++        return this.level.damageSources();
++    }
++
+     @FunctionalInterface
+     public interface MoveFunction {
+         void accept(Entity entity, double d, double e, double f);

@@ -1,0 +1,1392 @@
+## 1.18.2 -> 1.19
+### net/minecraft/client/Minecraft.java :: runTick(boolean $$0)
+--- 1.18.2
++++ 1.19
+@@ -39,8 +39,19 @@
+         this.soundManager.updateSource(this.gameRenderer.getMainCamera());
+         this.profiler.pop();
+         this.profiler.push("render");
+-        PoseStack $$6 = RenderSystem.getModelViewStack();
+-        $$6.pushPose();
++        boolean $$7;
++        if (!this.options.renderDebug && !this.metricsRecorder.isRecording()) {
++            $$7 = false;
++            this.gpuUtilization = 0.0;
++        } else {
++            $$7 = this.currentFrameProfile == null || this.currentFrameProfile.isDone();
++            if ($$7) {
++                TimerQuery.getInstance().ifPresent(TimerQuery::beginProfile);
++            }
++        }
++
++        PoseStack $$8 = RenderSystem.getModelViewStack();
++        $$8.pushPose();
+         RenderSystem.applyModelViewMatrix();
+         RenderSystem.clear(16640, ON_OSX);
+         this.mainRenderTarget.bindWrite(true);
+@@ -65,17 +76,21 @@
+
+         this.profiler.push("blit");
+         this.mainRenderTarget.unbindWrite();
+-        $$6.popPose();
+-        $$6.pushPose();
++        $$8.popPose();
++        $$8.pushPose();
+         RenderSystem.applyModelViewMatrix();
+         this.mainRenderTarget.blitToScreen(this.window.getWidth(), this.window.getHeight());
+-        $$6.popPose();
++        if ($$7) {
++            TimerQuery.getInstance().ifPresent($$0x -> this.currentFrameProfile = $$0x.endProfile());
++        }
++
++        $$8.popPose();
+         RenderSystem.applyModelViewMatrix();
+         this.profiler.popPush("updateDisplay");
+         this.window.updateDisplay();
+-        int $$7 = this.getFramerateLimit();
+-        if ($$7 < Option.FRAMERATE_LIMIT.getMaxValue()) {
+-            RenderSystem.limitDisplayFPS($$7);
++        int $$9 = this.getFramerateLimit();
++        if ($$9 < 260) {
++            RenderSystem.limitDisplayFPS($$9);
+         }
+
+         this.profiler.popPush("yield");
+@@ -83,34 +98,52 @@
+         this.profiler.pop();
+         this.window.setErrorSection("Post render");
+         this.frames++;
+-        boolean $$8 = this.hasSingleplayerServer()
++        boolean $$10 = this.hasSingleplayerServer()
+             && (this.screen != null && this.screen.isPauseScreen() || this.overlay != null && this.overlay.isPauseScreen())
+             && !this.singleplayerServer.isPublished();
+-        if (this.pause != $$8) {
++        if (this.pause != $$10) {
+             if (this.pause) {
+                 this.pausePartialTick = this.timer.partialTick;
+             } else {
+                 this.timer.partialTick = this.pausePartialTick;
+             }
+
+-            this.pause = $$8;
++            this.pause = $$10;
+         }
+
+-        long $$9 = Util.getNanos();
+-        this.frameTimer.logFrameDuration($$9 - this.lastNanoTime);
+-        this.lastNanoTime = $$9;
++        long $$11 = Util.getNanos();
++        long $$12 = $$11 - this.lastNanoTime;
++        if ($$7) {
++            this.savedCpuDuration = $$12;
++        }
++
++        this.frameTimer.logFrameDuration($$12);
++        this.lastNanoTime = $$11;
+         this.profiler.push("fpsUpdate");
++        if (this.currentFrameProfile != null && this.currentFrameProfile.isDone()) {
++            this.gpuUtilization = this.currentFrameProfile.get() * 100.0 / this.savedCpuDuration;
++        }
+
+         while (Util.getMillis() >= this.lastTime + 1000L) {
++            String $$13;
++            if (this.gpuUtilization > 0.0) {
++                $$13 = " GPU: " + (this.gpuUtilization > 100.0 ? ChatFormatting.RED + "100%" : Math.round(this.gpuUtilization) + "%");
++            } else {
++                $$13 = "";
++            }
++
+             fps = this.frames;
+             this.fpsString = String.format(
+-                "%d fps T: %s%s%s%s B: %d",
++                "%d fps T: %s%s%s%s B: %d%s",
+                 fps,
+-                this.options.framerateLimit == Option.FRAMERATE_LIMIT.getMaxValue() ? "inf" : this.options.framerateLimit,
+-                this.options.enableVsync ? " vsync" : "",
+-                this.options.graphicsMode,
+-                this.options.renderClouds == CloudStatus.OFF ? "" : (this.options.renderClouds == CloudStatus.FAST ? " fast-clouds" : " fancy-clouds"),
+-                this.options.biomeBlendRadius
++                $$9 == 260 ? "inf" : $$9,
++                this.options.enableVsync().get() ? " vsync" : "",
++                this.options.graphicsMode().get(),
++                this.options.cloudStatus().get() == CloudStatus.OFF
++                    ? ""
++                    : (this.options.cloudStatus().get() == CloudStatus.FAST ? " fast-clouds" : " fancy-clouds"),
++                this.options.biomeBlendRadius().get(),
++                $$13
+             );
+             this.lastTime += 1000L;
+             this.frames = 0;
+### net/minecraft/client/Minecraft.java :: tick()
+--- 1.18.2
++++ 1.19
+@@ -81,8 +81,8 @@
+         if (this.level != null) {
+             if (!this.pause) {
+                 if (!this.options.joinedFirstServer && this.isMultiplayerServer()) {
+-                    Component $$1 = new TranslatableComponent("tutorial.socialInteractions.title");
+-                    Component $$2 = new TranslatableComponent("tutorial.socialInteractions.description", Tutorial.key("socialInteractions"));
++                    Component $$1 = Component.translatable("tutorial.socialInteractions.title");
++                    Component $$2 = Component.translatable("tutorial.socialInteractions.description", Tutorial.key("socialInteractions"));
+                     this.socialInteractionsToast = new TutorialToast(TutorialToast.Icons.SOCIAL_INTERACTIONS, $$1, $$2, true);
+                     this.tutorial.addTimedToast(this.socialInteractionsToast, 160);
+                     this.options.joinedFirstServer = true;
+### net/minecraft/client/multiplayer/ClientLevel.java :: handleBlockChangedAck(int $$0)
+
+
+    public void handleBlockChangedAck(int $$0) {
+        this.blockStatePredictionHandler.endPredictionsUpTo($$0, this);
+    }
+### net/minecraft/client/multiplayer/ClientLevel.java :: syncBlockState(BlockPos $$0, BlockState $$1, Vec3 $$2)
+
+
+    public void syncBlockState(BlockPos $$0, BlockState $$1, Vec3 $$2) {
+        BlockState $$3 = this.getBlockState($$0);
+        if ($$3 != $$1) {
+            this.setBlock($$0, $$1, 19);
+            Player $$4 = this.minecraft.player;
+            if (this == $$4.level && $$4.isColliding($$0, $$1)) {
+                $$4.absMoveTo($$2.x, $$2.y, $$2.z);
+            }
+        }
+    }
+### net/minecraft/client/multiplayer/ClientLevel.java :: setServerVerifiedBlockState(BlockPos $$0, BlockState $$1, int $$2)
+
+
+    public void setServerVerifiedBlockState(BlockPos $$0, BlockState $$1, int $$2) {
+        if (!this.blockStatePredictionHandler.updateKnownServerState($$0, $$1)) {
+            super.setBlock($$0, $$1, $$2, 512);
+        }
+    }
+### net/minecraft/client/player/LocalPlayer.java :: aiStep()
+--- 1.18.2
++++ 1.19
+@@ -15,7 +15,8 @@
+             && !this.isSwimming()
+             && this.canEnterPose(Pose.CROUCHING)
+             && (this.isShiftKeyDown() || !this.isSleeping() && !this.canEnterPose(Pose.STANDING));
+-        this.input.tick(this.isMovingSlowly());
++        float $$3 = Mth.clamp(0.3F + EnchantmentHelper.getSneakingSpeedBonus(this), 0.0F, 1.0F);
++        this.input.tick(this.isMovingSlowly(), $$3);
+         this.minecraft.getTutorial().onInput(this.input);
+         if (this.isUsingItem() && !this.isPassenger()) {
+             this.input.leftImpulse *= 0.2F;
+@@ -23,10 +24,10 @@
+             this.sprintTriggerTime = 0;
+         }
+
+-        boolean $$3 = false;
++        boolean $$4 = false;
+         if (this.autoJumpTime > 0) {
+             this.autoJumpTime--;
+-            $$3 = true;
++            $$4 = true;
+             this.input.jumping = true;
+         }
+
+@@ -41,13 +42,13 @@
+             this.sprintTriggerTime = 0;
+         }
+
+-        boolean $$4 = this.getFoodData().getFoodLevel() > 6.0F || this.getAbilities().mayfly;
++        boolean $$5 = this.getFoodData().getFoodLevel() > 6.0F || this.getAbilities().mayfly;
+         if ((this.onGround || this.isUnderWater())
+             && !$$1
+             && !$$2
+             && this.hasEnoughImpulseToStartSprinting()
+             && !this.isSprinting()
+-            && $$4
++            && $$5
+             && !this.isUsingItem()
+             && !this.hasEffect(MobEffects.BLINDNESS)) {
+             if (this.sprintTriggerTime <= 0 && !this.minecraft.options.keySprint.isDown()) {
+@@ -60,7 +61,7 @@
+         if (!this.isSprinting()
+             && (!this.isInWater() || this.isUnderWater())
+             && this.hasEnoughImpulseToStartSprinting()
+-            && $$4
++            && $$5
+             && !this.isUsingItem()
+             && !this.hasEffect(MobEffects.BLINDNESS)
+             && this.minecraft.options.keySprint.isDown()) {
+@@ -68,40 +69,40 @@
+         }
+
+         if (this.isSprinting()) {
+-            boolean $$5 = !this.input.hasForwardImpulse() || !$$4;
+-            boolean $$6 = $$5 || this.horizontalCollision && !this.minorHorizontalCollision || this.isInWater() && !this.isUnderWater();
++            boolean $$6 = !this.input.hasForwardImpulse() || !$$5;
++            boolean $$7 = $$6 || this.horizontalCollision && !this.minorHorizontalCollision || this.isInWater() && !this.isUnderWater();
+             if (this.isSwimming()) {
+-                if (!this.onGround && !this.input.shiftKeyDown && $$5 || !this.isInWater()) {
++                if (!this.onGround && !this.input.shiftKeyDown && $$6 || !this.isInWater()) {
+                     this.setSprinting(false);
+                 }
+-            } else if ($$6) {
++            } else if ($$7) {
+                 this.setSprinting(false);
+             }
+         }
+
+-        boolean $$7 = false;
++        boolean $$8 = false;
+         if (this.getAbilities().mayfly) {
+             if (this.minecraft.gameMode.isAlwaysFlying()) {
+                 if (!this.getAbilities().flying) {
+                     this.getAbilities().flying = true;
+-                    $$7 = true;
++                    $$8 = true;
+                     this.onUpdateAbilities();
+                 }
+-            } else if (!$$0 && this.input.jumping && !$$3) {
++            } else if (!$$0 && this.input.jumping && !$$4) {
+                 if (this.jumpTriggerTime == 0) {
+                     this.jumpTriggerTime = 7;
+                 } else if (!this.isSwimming()) {
+                     this.getAbilities().flying = !this.getAbilities().flying;
+-                    $$7 = true;
++                    $$8 = true;
+                     this.onUpdateAbilities();
+                     this.jumpTriggerTime = 0;
+                 }
+             }
+         }
+
+-        if (this.input.jumping && !$$7 && !$$0 && !this.getAbilities().flying && !this.isPassenger() && !this.onClimbable()) {
+-            ItemStack $$8 = this.getItemBySlot(EquipmentSlot.CHEST);
+-            if ($$8.is(Items.ELYTRA) && ElytraItem.isFlyEnabled($$8) && this.tryToStartFallFlying()) {
++        if (this.input.jumping && !$$8 && !$$0 && !this.getAbilities().flying && !this.isPassenger() && !this.onClimbable()) {
++            ItemStack $$9 = this.getItemBySlot(EquipmentSlot.CHEST);
++            if ($$9.is(Items.ELYTRA) && ElytraItem.isFlyEnabled($$9) && this.tryToStartFallFlying()) {
+                 this.connection.send(new ServerboundPlayerCommandPacket(this, ServerboundPlayerCommandPacket.Action.START_FALL_FLYING));
+             }
+         }
+@@ -112,30 +113,30 @@
+         }
+
+         if (this.isEyeInFluid(FluidTags.WATER)) {
+-            int $$9 = this.isSpectator() ? 10 : 1;
+-            this.waterVisionTime = Mth.clamp(this.waterVisionTime + $$9, 0, 600);
++            int $$10 = this.isSpectator() ? 10 : 1;
++            this.waterVisionTime = Mth.clamp(this.waterVisionTime + $$10, 0, 600);
+         } else if (this.waterVisionTime > 0) {
+             this.isEyeInFluid(FluidTags.WATER);
+             this.waterVisionTime = Mth.clamp(this.waterVisionTime - 10, 0, 600);
+         }
+
+         if (this.getAbilities().flying && this.isControlledCamera()) {
+-            int $$10 = 0;
++            int $$11 = 0;
+             if (this.input.shiftKeyDown) {
+-                $$10--;
++                $$11--;
+             }
+
+             if (this.input.jumping) {
+-                $$10++;
++                $$11++;
+             }
+
+-            if ($$10 != 0) {
+-                this.setDeltaMovement(this.getDeltaMovement().add(0.0, $$10 * this.getAbilities().getFlyingSpeed() * 3.0F, 0.0));
++            if ($$11 != 0) {
++                this.setDeltaMovement(this.getDeltaMovement().add(0.0, $$11 * this.getAbilities().getFlyingSpeed() * 3.0F, 0.0));
+             }
+         }
+
+         if (this.isRidingJumpable()) {
+-            PlayerRideableJumping $$11 = (PlayerRideableJumping)this.getVehicle();
++            PlayerRideableJumping $$12 = (PlayerRideableJumping)this.getVehicle();
+             if (this.jumpRidingTicks < 0) {
+                 this.jumpRidingTicks++;
+                 if (this.jumpRidingTicks == 0) {
+@@ -145,7 +146,7 @@
+
+             if ($$0 && !this.input.jumping) {
+                 this.jumpRidingTicks = -10;
+-                $$11.onPlayerJump(Mth.floor(this.getJumpRidingScale() * 100.0F));
++                $$12.onPlayerJump(Mth.floor(this.getJumpRidingScale() * 100.0F));
+                 this.sendRidingJump();
+             } else if (!$$0 && this.input.jumping) {
+                 this.jumpRidingTicks = 0;
+### net/minecraft/world/entity/player/Player.java :: tick()
+--- 1.18.2
++++ 1.19
+@@ -37,6 +37,7 @@
+         this.moveCloak();
+         if (!this.level.isClientSide) {
+             this.foodData.tick(this);
++            this.wardenSpawnTracker.tick();
+             this.awardStat(Stats.PLAY_TIME);
+             this.awardStat(Stats.TOTAL_WORLD_TIME);
+             if (this.isAlive()) {
+### net/minecraft/world/entity/player/Player.java :: maybeBackOffFromEdge(Vec3 $$0, MoverType $$1)
+--- 1.18.2
++++ 1.19
+@@ -2,7 +2,11 @@
+
+     @Override
+     protected Vec3 maybeBackOffFromEdge(Vec3 $$0, MoverType $$1) {
+-        if (!this.abilities.flying && ($$1 == MoverType.SELF || $$1 == MoverType.PLAYER) && this.isStayingOnGroundSurface() && this.isAboveGround()) {
++        if (!this.abilities.flying
++            && $$0.y <= 0.0
++            && ($$1 == MoverType.SELF || $$1 == MoverType.PLAYER)
++            && this.isStayingOnGroundSurface()
++            && this.isAboveGround()) {
+             double $$2 = $$0.x;
+             double $$3 = $$0.z;
+             double $$4 = 0.05;
+### net/minecraft/world/entity/player/Player.java :: setItemSlot(EquipmentSlot $$0, ItemStack $$1)
+--- 1.18.2
++++ 1.19
+@@ -4,13 +4,10 @@
+     public void setItemSlot(EquipmentSlot $$0, ItemStack $$1) {
+         this.verifyEquippedItem($$1);
+         if ($$0 == EquipmentSlot.MAINHAND) {
+-            this.equipEventAndSound($$1);
+-            this.inventory.items.set(this.inventory.selected, $$1);
++            this.onEquipItem($$0, this.inventory.items.set(this.inventory.selected, $$1), $$1);
+         } else if ($$0 == EquipmentSlot.OFFHAND) {
+-            this.equipEventAndSound($$1);
+-            this.inventory.offhand.set(0, $$1);
++            this.onEquipItem($$0, this.inventory.offhand.set(0, $$1), $$1);
+         } else if ($$0.getType() == EquipmentSlot.Type.ARMOR) {
+-            this.equipEventAndSound($$1);
+-            this.inventory.armor.set($$0.getIndex(), $$1);
++            this.onEquipItem($$0, this.inventory.armor.set($$0.getIndex(), $$1), $$1);
+         }
+     }
+### net/minecraft/world/entity/LivingEntity.java :: aiStep()
+--- 1.18.2
++++ 1.19
+@@ -7,7 +7,7 @@
+
+         if (this.isControlledByLocalInstance()) {
+             this.lerpSteps = 0;
+-            this.setPacketCoordinates(this.getX(), this.getY(), this.getZ());
++            this.syncPacketPositionCodec(this.getX(), this.getY(), this.getZ());
+         }
+
+         if (this.lerpSteps > 0) {
+### net/minecraft/world/entity/LivingEntity.java :: updateFallFlying()
+--- 1.18.2
++++ 1.19
+@@ -13,7 +13,7 @@
+                         $$1.hurtAndBreak(1, this, $$0x -> $$0x.broadcastBreakEvent(EquipmentSlot.CHEST));
+                     }
+
+-                    this.gameEvent(GameEvent.ELYTRA_FREE_FALL);
++                    this.gameEvent(GameEvent.ELYTRA_GLIDE);
+                 }
+             } else {
+                 $$0 = false;
+### net/minecraft/world/entity/Entity.java :: move(MoverType $$0, Vec3 $$1)
+--- 1.18.2
++++ 1.19
+@@ -48,7 +48,7 @@
+             }
+
+             this.onGround = this.verticalCollision && $$1.y < 0.0;
+-            BlockPos $$7 = this.getOnPos();
++            BlockPos $$7 = this.getOnPosLegacy();
+             BlockState $$8 = this.level.getBlockState($$7);
+             this.checkFallDamage($$2.y, this.onGround, $$8, $$7);
+             if (this.isRemoved()) {
+@@ -64,7 +64,7 @@
+                     $$10.updateEntityAfterFallOn(this.level, this);
+                 }
+
+-                if (this.onGround && !this.isSteppingCarefully()) {
++                if (this.onGround) {
+                     $$10.stepOn(this.level, $$7, $$8, this);
+                 }
+
+@@ -74,7 +74,8 @@
+                     double $$13 = $$2.y;
+                     double $$14 = $$2.z;
+                     this.flyDist = this.flyDist + (float)($$2.length() * 0.6);
+-                    if (!$$8.is(BlockTags.CLIMBABLE) && !$$8.is(Blocks.POWDER_SNOW)) {
++                    boolean $$15 = $$8.is(BlockTags.CLIMBABLE) || $$8.is(Blocks.POWDER_SNOW);
++                    if (!$$15) {
+                         $$13 = 0.0;
+                     }
+
+@@ -84,11 +85,11 @@
+                         this.nextStep = this.nextStep();
+                         if (this.isInWater()) {
+                             if ($$11.emitsSounds()) {
+-                                Entity $$15 = this.isVehicle() && this.getControllingPassenger() != null ? this.getControllingPassenger() : this;
+-                                float $$16 = $$15 == this ? 0.35F : 0.4F;
+-                                Vec3 $$17 = $$15.getDeltaMovement();
+-                                float $$18 = Math.min(1.0F, (float)Math.sqrt($$17.x * $$17.x * 0.2F + $$17.y * $$17.y + $$17.z * $$17.z * 0.2F) * $$16);
+-                                this.playSwimSound($$18);
++                                Entity $$16 = this.isVehicle() && this.getControllingPassenger() != null ? this.getControllingPassenger() : this;
++                                float $$17 = $$16 == this ? 0.35F : 0.4F;
++                                Vec3 $$18 = $$16.getDeltaMovement();
++                                float $$19 = Math.min(1.0F, (float)Math.sqrt($$18.x * $$18.x * 0.2F + $$18.y * $$18.y + $$18.z * $$18.z * 0.2F) * $$17);
++                                this.playSwimSound($$19);
+                             }
+
+                             if ($$11.emitsEvents()) {
+@@ -100,8 +101,8 @@
+                                 this.playStepSound($$7, $$8);
+                             }
+
+-                            if ($$11.emitsEvents() && !$$8.is(BlockTags.OCCLUDES_VIBRATION_SIGNALS)) {
+-                                this.gameEvent(GameEvent.STEP);
++                            if ($$11.emitsEvents() && (this.onGround || $$1.y == 0.0 || this.isInPowderSnow || $$15)) {
++                                this.level.gameEvent(GameEvent.STEP, this.position, GameEvent.Context.of(this.getResponsibleEntity(), this.getBlockStateOn()));
+                             }
+                         }
+                     } else if ($$8.isAir()) {
+@@ -110,8 +111,8 @@
+                 }
+
+                 this.tryCheckInsideBlocks();
+-                float $$19 = this.getBlockSpeedFactor();
+-                this.setDeltaMovement(this.getDeltaMovement().multiply($$19, 1.0, $$19));
++                float $$20 = this.getBlockSpeedFactor();
++                this.setDeltaMovement(this.getDeltaMovement().multiply($$20, 1.0, $$20));
+                 if (this.level.getBlockStatesIfLoaded(this.getBoundingBox().deflate(1.0E-6)).noneMatch($$0x -> $$0x.is(BlockTags.FIRE) || $$0x.is(Blocks.LAVA))
+                     )
+                  {
+### net/minecraft/world/entity/Entity.java :: checkFallDamage(double $$0, boolean $$1, BlockState $$2, BlockPos $$3)
+--- 1.18.2
++++ 1.19
+@@ -4,9 +4,7 @@
+         if ($$1) {
+             if (this.fallDistance > 0.0F) {
+                 $$2.getBlock().fallOn(this.level, $$2, $$3, this, this.fallDistance);
+-                if (!$$2.is(BlockTags.OCCLUDES_VIBRATION_SIGNALS)) {
+-                    this.gameEvent(GameEvent.HIT_GROUND);
+-                }
++                this.level.gameEvent(GameEvent.HIT_GROUND, this.position, GameEvent.Context.of(this.getResponsibleEntity(), this.getBlockStateOn()));
+             }
+
+             this.resetFallDistance();
+### net/minecraft/client/player/Input.java :: tick(boolean $$0)
+
+
+    public void tick(boolean $$0) {
+    }
+### net/minecraft/client/player/Input.java :: tick(boolean $$0, float $$1)
+
+
+    public void tick(boolean $$0, float $$1) {
+    }
+### net/minecraft/client/player/KeyboardInput.java :: tick(boolean $$0)
+
+
+    @Override
+    public void tick(boolean $$0) {
+        this.up = this.options.keyUp.isDown();
+        this.down = this.options.keyDown.isDown();
+        this.left = this.options.keyLeft.isDown();
+        this.right = this.options.keyRight.isDown();
+        this.forwardImpulse = calculateImpulse(this.up, this.down);
+        this.leftImpulse = calculateImpulse(this.left, this.right);
+        this.jumping = this.options.keyJump.isDown();
+        this.shiftKeyDown = this.options.keyShift.isDown();
+        if ($$0) {
+            this.leftImpulse *= 0.3F;
+            this.forwardImpulse *= 0.3F;
+        }
+    }
+### net/minecraft/client/player/KeyboardInput.java :: tick(boolean $$0, float $$1)
+
+
+    @Override
+    public void tick(boolean $$0, float $$1) {
+        this.up = this.options.keyUp.isDown();
+        this.down = this.options.keyDown.isDown();
+        this.left = this.options.keyLeft.isDown();
+        this.right = this.options.keyRight.isDown();
+        this.forwardImpulse = calculateImpulse(this.up, this.down);
+        this.leftImpulse = calculateImpulse(this.left, this.right);
+        this.jumping = this.options.keyJump.isDown();
+        this.shiftKeyDown = this.options.keyShift.isDown();
+        if ($$0) {
+            this.leftImpulse *= $$1;
+            this.forwardImpulse *= $$1;
+        }
+    }
+## 1.19 -> 1.19.1
+### net/minecraft/client/Minecraft.java :: runTick(boolean $$0)
+--- 1.19
++++ 1.19.1
+@@ -134,6 +134,7 @@
+
+             fps = this.frames;
+             this.fpsString = String.format(
++                Locale.ROOT,
+                 "%d fps T: %s%s%s%s B: %d%s",
+                 fps,
+                 $$9 == 260 ? "inf" : $$9,
+### net/minecraft/client/Minecraft.java :: tick()
+--- 1.19
++++ 1.19.1
+@@ -6,6 +6,7 @@
+         }
+
+         this.profiler.push("gui");
++        this.chatListener.tick();
+         this.gui.tick(this.pause);
+         this.profiler.pop();
+         this.gameRenderer.pick(1.0F);
+### net/minecraft/client/Minecraft.java :: handleKeybinds()
+--- 1.19
++++ 1.19.1
+@@ -32,7 +32,7 @@
+         while (this.options.keySocialInteractions.consumeClick()) {
+             if (!this.isMultiplayerServer()) {
+                 this.player.displayClientMessage(SOCIAL_INTERACTIONS_NOT_AVAILABLE, true);
+-                NarratorChatListener.INSTANCE.sayNow(SOCIAL_INTERACTIONS_NOT_AVAILABLE);
++                this.narrator.sayNow(SOCIAL_INTERACTIONS_NOT_AVAILABLE);
+             } else {
+                 if (this.socialInteractionsToast != null) {
+                     this.tutorial.removeTimedToast(this.socialInteractionsToast);
+### net/minecraft/world/entity/LivingEntity.java :: tick()
+--- 1.19
++++ 1.19.1
+@@ -40,7 +40,10 @@
+             }
+         }
+
+-        this.aiStep();
++        if (!this.isRemoved()) {
++            this.aiStep();
++        }
++
+         double $$2 = this.getX() - this.xo;
+         double $$3 = this.getZ() - this.zo;
+         float $$4 = (float)($$2 * $$2 + $$3 * $$3);
+### net/minecraft/world/entity/Entity.java :: move(MoverType $$0, Vec3 $$1)
+--- 1.19
++++ 1.19.1
+@@ -102,7 +102,7 @@
+                             }
+
+                             if ($$11.emitsEvents() && (this.onGround || $$1.y == 0.0 || this.isInPowderSnow || $$15)) {
+-                                this.level.gameEvent(GameEvent.STEP, this.position, GameEvent.Context.of(this.getResponsibleEntity(), this.getBlockStateOn()));
++                                this.level.gameEvent(GameEvent.STEP, this.position, GameEvent.Context.of(this, this.getBlockStateOn()));
+                             }
+                         }
+                     } else if ($$8.isAir()) {
+### net/minecraft/world/entity/Entity.java :: checkFallDamage(double $$0, boolean $$1, BlockState $$2, BlockPos $$3)
+--- 1.19
++++ 1.19.1
+@@ -4,7 +4,7 @@
+         if ($$1) {
+             if (this.fallDistance > 0.0F) {
+                 $$2.getBlock().fallOn(this.level, $$2, $$3, this, this.fallDistance);
+-                this.level.gameEvent(GameEvent.HIT_GROUND, this.position, GameEvent.Context.of(this.getResponsibleEntity(), this.getBlockStateOn()));
++                this.level.gameEvent(GameEvent.HIT_GROUND, this.position, GameEvent.Context.of(this, this.getBlockStateOn()));
+             }
+
+             this.resetFallDistance();
+## 1.19.1 -> 1.19.2
+## 1.19.2 -> 1.19.3
+### net/minecraft/client/Minecraft.java :: runTick(boolean $$0)
+--- 1.19.2
++++ 1.19.3
+@@ -39,19 +39,20 @@
+         this.soundManager.updateSource(this.gameRenderer.getMainCamera());
+         this.profiler.pop();
+         this.profiler.push("render");
+-        boolean $$7;
++        long $$6 = Util.getNanos();
++        boolean $$8;
+         if (!this.options.renderDebug && !this.metricsRecorder.isRecording()) {
+-            $$7 = false;
++            $$8 = false;
+             this.gpuUtilization = 0.0;
+         } else {
+-            $$7 = this.currentFrameProfile == null || this.currentFrameProfile.isDone();
+-            if ($$7) {
++            $$8 = this.currentFrameProfile == null || this.currentFrameProfile.isDone();
++            if ($$8) {
+                 TimerQuery.getInstance().ifPresent(TimerQuery::beginProfile);
+             }
+         }
+
+-        PoseStack $$8 = RenderSystem.getModelViewStack();
+-        $$8.pushPose();
++        PoseStack $$9 = RenderSystem.getModelViewStack();
++        $$9.pushPose();
+         RenderSystem.applyModelViewMatrix();
+         RenderSystem.clear(16640, ON_OSX);
+         this.mainRenderTarget.bindWrite(true);
+@@ -76,21 +77,22 @@
+
+         this.profiler.push("blit");
+         this.mainRenderTarget.unbindWrite();
+-        $$8.popPose();
+-        $$8.pushPose();
++        $$9.popPose();
++        $$9.pushPose();
+         RenderSystem.applyModelViewMatrix();
+         this.mainRenderTarget.blitToScreen(this.window.getWidth(), this.window.getHeight());
+-        if ($$7) {
++        this.frameTimeNs = Util.getNanos() - $$6;
++        if ($$8) {
+             TimerQuery.getInstance().ifPresent($$0x -> this.currentFrameProfile = $$0x.endProfile());
+         }
+
+-        $$8.popPose();
++        $$9.popPose();
+         RenderSystem.applyModelViewMatrix();
+         this.profiler.popPush("updateDisplay");
+         this.window.updateDisplay();
+-        int $$9 = this.getFramerateLimit();
+-        if ($$9 < 260) {
+-            RenderSystem.limitDisplayFPS($$9);
++        int $$10 = this.getFramerateLimit();
++        if ($$10 < 260) {
++            RenderSystem.limitDisplayFPS($$10);
+         }
+
+         this.profiler.popPush("yield");
+@@ -98,38 +100,38 @@
+         this.profiler.pop();
+         this.window.setErrorSection("Post render");
+         this.frames++;
+-        boolean $$10 = this.hasSingleplayerServer()
++        boolean $$11 = this.hasSingleplayerServer()
+             && (this.screen != null && this.screen.isPauseScreen() || this.overlay != null && this.overlay.isPauseScreen())
+             && !this.singleplayerServer.isPublished();
+-        if (this.pause != $$10) {
++        if (this.pause != $$11) {
+             if (this.pause) {
+                 this.pausePartialTick = this.timer.partialTick;
+             } else {
+                 this.timer.partialTick = this.pausePartialTick;
+             }
+
+-            this.pause = $$10;
++            this.pause = $$11;
+         }
+
+-        long $$11 = Util.getNanos();
+-        long $$12 = $$11 - this.lastNanoTime;
+-        if ($$7) {
+-            this.savedCpuDuration = $$12;
++        long $$12 = Util.getNanos();
++        long $$13 = $$12 - this.lastNanoTime;
++        if ($$8) {
++            this.savedCpuDuration = $$13;
+         }
+
+-        this.frameTimer.logFrameDuration($$12);
+-        this.lastNanoTime = $$11;
++        this.frameTimer.logFrameDuration($$13);
++        this.lastNanoTime = $$12;
+         this.profiler.push("fpsUpdate");
+         if (this.currentFrameProfile != null && this.currentFrameProfile.isDone()) {
+             this.gpuUtilization = this.currentFrameProfile.get() * 100.0 / this.savedCpuDuration;
+         }
+
+         while (Util.getMillis() >= this.lastTime + 1000L) {
+-            String $$13;
++            String $$14;
+             if (this.gpuUtilization > 0.0) {
+-                $$13 = " GPU: " + (this.gpuUtilization > 100.0 ? ChatFormatting.RED + "100%" : Math.round(this.gpuUtilization) + "%");
++                $$14 = " GPU: " + (this.gpuUtilization > 100.0 ? ChatFormatting.RED + "100%" : Math.round(this.gpuUtilization) + "%");
+             } else {
+-                $$13 = "";
++                $$14 = "";
+             }
+
+             fps = this.frames;
+@@ -137,14 +139,14 @@
+                 Locale.ROOT,
+                 "%d fps T: %s%s%s%s B: %d%s",
+                 fps,
+-                $$9 == 260 ? "inf" : $$9,
++                $$10 == 260 ? "inf" : $$10,
+                 this.options.enableVsync().get() ? " vsync" : "",
+                 this.options.graphicsMode().get(),
+                 this.options.cloudStatus().get() == CloudStatus.OFF
+                     ? ""
+                     : (this.options.cloudStatus().get() == CloudStatus.FAST ? " fast-clouds" : " fancy-clouds"),
+                 this.options.biomeBlendRadius().get(),
+-                $$13
++                $$14
+             );
+             this.lastTime += 1000L;
+             this.frames = 0;
+### net/minecraft/client/multiplayer/ClientLevel.java :: tickNonPassenger(Entity $$0)
+--- 1.19.2
++++ 1.19.3
+@@ -3,7 +3,7 @@
+     public void tickNonPassenger(Entity $$0) {
+         $$0.setOldPosAndRot();
+         $$0.tickCount++;
+-        this.getProfiler().push(() -> Registry.ENTITY_TYPE.getKey($$0.getType()).toString());
++        this.getProfiler().push(() -> BuiltInRegistries.ENTITY_TYPE.getKey($$0.getType()).toString());
+         $$0.tick();
+         this.getProfiler().pop();
+
+### net/minecraft/client/player/LocalPlayer.java :: tick()
+--- 1.19.2
++++ 1.19.3
+@@ -10,6 +10,7 @@
+                 Entity $$0 = this.getRootVehicle();
+                 if ($$0 != this && $$0.isControlledByLocalInstance()) {
+                     this.connection.send(new ServerboundMoveVehiclePacket($$0));
++                    this.sendIsSprintingIfNeeded();
+                 }
+             } else {
+                 this.sendPosition();
+### net/minecraft/client/player/LocalPlayer.java :: aiStep()
+--- 1.19.2
++++ 1.19.3
+@@ -42,8 +42,8 @@
+             this.sprintTriggerTime = 0;
+         }
+
+-        boolean $$5 = this.getFoodData().getFoodLevel() > 6.0F || this.getAbilities().mayfly;
+-        if ((this.onGround || this.isUnderWater())
++        boolean $$5 = this.hasEnoughFoodToStartSprinting();
++        if ((this.onGround || this.isUnderWater() || this.isPassenger() && this.getVehicle().isOnGround())
+             && !$$1
+             && !$$2
+             && this.hasEnoughImpulseToStartSprinting()
+@@ -135,8 +135,8 @@
+             }
+         }
+
+-        if (this.isRidingJumpable()) {
+-            PlayerRideableJumping $$12 = (PlayerRideableJumping)this.getVehicle();
++        PlayerRideableJumping $$12 = this.jumpableVehicle();
++        if ($$12 != null && $$12.getJumpCooldown() == 0) {
+             if (this.jumpRidingTicks < 0) {
+                 this.jumpRidingTicks++;
+                 if (this.jumpRidingTicks == 0) {
+### net/minecraft/client/player/LocalPlayer.java :: jumpableVehicle()
+
+
+    @Nullable
+    public PlayerRideableJumping jumpableVehicle() {
+        return this.getVehicle() instanceof PlayerRideableJumping $$0 && $$0.canJump(this) ? $$0 : null;
+    }
+### net/minecraft/world/entity/player/Player.java :: tick()
+--- 1.19.2
++++ 1.19.3
+@@ -37,7 +37,6 @@
+         this.moveCloak();
+         if (!this.level.isClientSide) {
+             this.foodData.tick(this);
+-            this.wardenSpawnTracker.tick();
+             this.awardStat(Stats.PLAY_TIME);
+             this.awardStat(Stats.TOTAL_WORLD_TIME);
+             if (this.isAlive()) {
+@@ -63,7 +62,7 @@
+         this.attackStrengthTicker++;
+         ItemStack $$3 = this.getMainHandItem();
+         if (!ItemStack.matches(this.lastItemInMainHand, $$3)) {
+-            if (!ItemStack.isSameIgnoreDurability(this.lastItemInMainHand, $$3)) {
++            if (!ItemStack.isSame(this.lastItemInMainHand, $$3)) {
+                 this.resetAttackStrengthTicker();
+             }
+
+### net/minecraft/world/entity/LivingEntity.java :: travel(Vec3 $$0)
+--- 1.19.2
++++ 1.19.3
+@@ -66,11 +66,8 @@
+                     this.setDeltaMovement($$12.x, 0.3F, $$12.z);
+                 }
+             } else if (this.isFallFlying()) {
++                this.checkSlowFallDistance();
+                 Vec3 $$13 = this.getDeltaMovement();
+-                if ($$13.y > -0.5) {
+-                    this.fallDistance = 1.0F;
+-                }
+-
+                 Vec3 $$14 = this.getLookAngle();
+                 float $$15 = this.getXRot() * (float) (Math.PI / 180.0);
+                 double $$16 = Math.sqrt($$14.x * $$14.x + $$14.z * $$14.z);
+### net/minecraft/world/entity/Entity.java :: checkInsideBlocks()
+--- 1.19.2
++++ 1.19.3
+@@ -2,8 +2,8 @@
+
+     protected void checkInsideBlocks() {
+         AABB $$0 = this.getBoundingBox();
+-        BlockPos $$1 = new BlockPos($$0.minX + 0.001, $$0.minY + 0.001, $$0.minZ + 0.001);
+-        BlockPos $$2 = new BlockPos($$0.maxX - 0.001, $$0.maxY - 0.001, $$0.maxZ - 0.001);
++        BlockPos $$1 = new BlockPos($$0.minX + 1.0E-7, $$0.minY + 1.0E-7, $$0.minZ + 1.0E-7);
++        BlockPos $$2 = new BlockPos($$0.maxX - 1.0E-7, $$0.maxY - 1.0E-7, $$0.maxZ - 1.0E-7);
+         if (this.level.hasChunksAt($$1, $$2)) {
+             BlockPos.MutableBlockPos $$3 = new BlockPos.MutableBlockPos();
+
+## 1.19.3 -> 1.19.4
+### net/minecraft/client/Minecraft.java :: runTick(boolean $$0)
+--- 1.19.3
++++ 1.19.4
+@@ -51,21 +51,15 @@
+             }
+         }
+
+-        PoseStack $$9 = RenderSystem.getModelViewStack();
+-        $$9.pushPose();
+-        RenderSystem.applyModelViewMatrix();
+         RenderSystem.clear(16640, ON_OSX);
+         this.mainRenderTarget.bindWrite(true);
+         FogRenderer.setupNoFog();
+         this.profiler.push("display");
+-        RenderSystem.enableTexture();
+         RenderSystem.enableCull();
+         this.profiler.pop();
+         if (!this.noRender) {
+             this.profiler.popPush("gameRenderer");
+             this.gameRenderer.render(this.pause ? this.pausePartialTick : this.timer.partialTick, $$1, $$0);
+-            this.profiler.popPush("toasts");
+-            this.toast.render(new PoseStack());
+             this.profiler.pop();
+         }
+
+@@ -77,22 +71,17 @@
+
+         this.profiler.push("blit");
+         this.mainRenderTarget.unbindWrite();
+-        $$9.popPose();
+-        $$9.pushPose();
+-        RenderSystem.applyModelViewMatrix();
+         this.mainRenderTarget.blitToScreen(this.window.getWidth(), this.window.getHeight());
+         this.frameTimeNs = Util.getNanos() - $$6;
+         if ($$8) {
+             TimerQuery.getInstance().ifPresent($$0x -> this.currentFrameProfile = $$0x.endProfile());
+         }
+
+-        $$9.popPose();
+-        RenderSystem.applyModelViewMatrix();
+         this.profiler.popPush("updateDisplay");
+         this.window.updateDisplay();
+-        int $$10 = this.getFramerateLimit();
+-        if ($$10 < 260) {
+-            RenderSystem.limitDisplayFPS($$10);
++        int $$9 = this.getFramerateLimit();
++        if ($$9 < 260) {
++            RenderSystem.limitDisplayFPS($$9);
+         }
+
+         this.profiler.popPush("yield");
+@@ -100,38 +89,38 @@
+         this.profiler.pop();
+         this.window.setErrorSection("Post render");
+         this.frames++;
+-        boolean $$11 = this.hasSingleplayerServer()
++        boolean $$10 = this.hasSingleplayerServer()
+             && (this.screen != null && this.screen.isPauseScreen() || this.overlay != null && this.overlay.isPauseScreen())
+             && !this.singleplayerServer.isPublished();
+-        if (this.pause != $$11) {
++        if (this.pause != $$10) {
+             if (this.pause) {
+                 this.pausePartialTick = this.timer.partialTick;
+             } else {
+                 this.timer.partialTick = this.pausePartialTick;
+             }
+
+-            this.pause = $$11;
++            this.pause = $$10;
+         }
+
+-        long $$12 = Util.getNanos();
+-        long $$13 = $$12 - this.lastNanoTime;
++        long $$11 = Util.getNanos();
++        long $$12 = $$11 - this.lastNanoTime;
+         if ($$8) {
+-            this.savedCpuDuration = $$13;
++            this.savedCpuDuration = $$12;
+         }
+
+-        this.frameTimer.logFrameDuration($$13);
+-        this.lastNanoTime = $$12;
++        this.frameTimer.logFrameDuration($$12);
++        this.lastNanoTime = $$11;
+         this.profiler.push("fpsUpdate");
+         if (this.currentFrameProfile != null && this.currentFrameProfile.isDone()) {
+             this.gpuUtilization = this.currentFrameProfile.get() * 100.0 / this.savedCpuDuration;
+         }
+
+         while (Util.getMillis() >= this.lastTime + 1000L) {
+-            String $$14;
++            String $$13;
+             if (this.gpuUtilization > 0.0) {
+-                $$14 = " GPU: " + (this.gpuUtilization > 100.0 ? ChatFormatting.RED + "100%" : Math.round(this.gpuUtilization) + "%");
++                $$13 = " GPU: " + (this.gpuUtilization > 100.0 ? ChatFormatting.RED + "100%" : Math.round(this.gpuUtilization) + "%");
+             } else {
+-                $$14 = "";
++                $$13 = "";
+             }
+
+             fps = this.frames;
+@@ -139,14 +128,14 @@
+                 Locale.ROOT,
+                 "%d fps T: %s%s%s%s B: %d%s",
+                 fps,
+-                $$10 == 260 ? "inf" : $$10,
++                $$9 == 260 ? "inf" : $$9,
+                 this.options.enableVsync().get() ? " vsync" : "",
+                 this.options.graphicsMode().get(),
+                 this.options.cloudStatus().get() == CloudStatus.OFF
+                     ? ""
+                     : (this.options.cloudStatus().get() == CloudStatus.FAST ? " fast-clouds" : " fancy-clouds"),
+                 this.options.biomeBlendRadius().get(),
+-                $$14
++                $$13
+             );
+             this.lastTime += 1000L;
+             this.frames = 0;
+### net/minecraft/client/player/LocalPlayer.java :: aiStep()
+--- 1.19.3
++++ 1.19.4
+@@ -2,7 +2,6 @@
+
+     @Override
+     public void aiStep() {
+-        this.sprintTime++;
+         if (this.sprintTriggerTime > 0) {
+             this.sprintTriggerTime--;
+         }
+@@ -42,15 +41,10 @@
+             this.sprintTriggerTime = 0;
+         }
+
+-        boolean $$5 = this.hasEnoughFoodToStartSprinting();
+-        if ((this.onGround || this.isUnderWater() || this.isPassenger() && this.getVehicle().isOnGround())
+-            && !$$1
+-            && !$$2
+-            && this.hasEnoughImpulseToStartSprinting()
+-            && !this.isSprinting()
+-            && $$5
+-            && !this.isUsingItem()
+-            && !this.hasEffect(MobEffects.BLINDNESS)) {
++        boolean $$5 = this.canStartSprinting();
++        boolean $$6 = this.isPassenger() ? this.getVehicle().isOnGround() : this.onGround;
++        boolean $$7 = !$$1 && !$$2;
++        if (($$6 || this.isUnderWater()) && $$7 && $$5) {
+             if (this.sprintTriggerTime <= 0 && !this.minecraft.options.keySprint.isDown()) {
+                 this.sprintTriggerTime = 7;
+             } else {
+@@ -58,34 +52,28 @@
+             }
+         }
+
+-        if (!this.isSprinting()
+-            && (!this.isInWater() || this.isUnderWater())
+-            && this.hasEnoughImpulseToStartSprinting()
+-            && $$5
+-            && !this.isUsingItem()
+-            && !this.hasEffect(MobEffects.BLINDNESS)
+-            && this.minecraft.options.keySprint.isDown()) {
++        if ((!this.isInWater() || this.isUnderWater()) && $$5 && this.minecraft.options.keySprint.isDown()) {
+             this.setSprinting(true);
+         }
+
+         if (this.isSprinting()) {
+-            boolean $$6 = !this.input.hasForwardImpulse() || !$$5;
+-            boolean $$7 = $$6 || this.horizontalCollision && !this.minorHorizontalCollision || this.isInWater() && !this.isUnderWater();
++            boolean $$8 = !this.input.hasForwardImpulse() || !this.hasEnoughFoodToStartSprinting();
++            boolean $$9 = $$8 || this.horizontalCollision && !this.minorHorizontalCollision || this.isInWater() && !this.isUnderWater();
+             if (this.isSwimming()) {
+-                if (!this.onGround && !this.input.shiftKeyDown && $$6 || !this.isInWater()) {
++                if (!this.onGround && !this.input.shiftKeyDown && $$8 || !this.isInWater()) {
+                     this.setSprinting(false);
+                 }
+-            } else if ($$7) {
++            } else if ($$9) {
+                 this.setSprinting(false);
+             }
+         }
+
+-        boolean $$8 = false;
++        boolean $$10 = false;
+         if (this.getAbilities().mayfly) {
+             if (this.minecraft.gameMode.isAlwaysFlying()) {
+                 if (!this.getAbilities().flying) {
+                     this.getAbilities().flying = true;
+-                    $$8 = true;
++                    $$10 = true;
+                     this.onUpdateAbilities();
+                 }
+             } else if (!$$0 && this.input.jumping && !$$4) {
+@@ -93,16 +81,16 @@
+                     this.jumpTriggerTime = 7;
+                 } else if (!this.isSwimming()) {
+                     this.getAbilities().flying = !this.getAbilities().flying;
+-                    $$8 = true;
++                    $$10 = true;
+                     this.onUpdateAbilities();
+                     this.jumpTriggerTime = 0;
+                 }
+             }
+         }
+
+-        if (this.input.jumping && !$$8 && !$$0 && !this.getAbilities().flying && !this.isPassenger() && !this.onClimbable()) {
+-            ItemStack $$9 = this.getItemBySlot(EquipmentSlot.CHEST);
+-            if ($$9.is(Items.ELYTRA) && ElytraItem.isFlyEnabled($$9) && this.tryToStartFallFlying()) {
++        if (this.input.jumping && !$$10 && !$$0 && !this.getAbilities().flying && !this.isPassenger() && !this.onClimbable()) {
++            ItemStack $$11 = this.getItemBySlot(EquipmentSlot.CHEST);
++            if ($$11.is(Items.ELYTRA) && ElytraItem.isFlyEnabled($$11) && this.tryToStartFallFlying()) {
+                 this.connection.send(new ServerboundPlayerCommandPacket(this, ServerboundPlayerCommandPacket.Action.START_FALL_FLYING));
+             }
+         }
+@@ -113,30 +101,30 @@
+         }
+
+         if (this.isEyeInFluid(FluidTags.WATER)) {
+-            int $$10 = this.isSpectator() ? 10 : 1;
+-            this.waterVisionTime = Mth.clamp(this.waterVisionTime + $$10, 0, 600);
++            int $$12 = this.isSpectator() ? 10 : 1;
++            this.waterVisionTime = Mth.clamp(this.waterVisionTime + $$12, 0, 600);
+         } else if (this.waterVisionTime > 0) {
+             this.isEyeInFluid(FluidTags.WATER);
+             this.waterVisionTime = Mth.clamp(this.waterVisionTime - 10, 0, 600);
+         }
+
+         if (this.getAbilities().flying && this.isControlledCamera()) {
+-            int $$11 = 0;
++            int $$13 = 0;
+             if (this.input.shiftKeyDown) {
+-                $$11--;
++                $$13--;
+             }
+
+             if (this.input.jumping) {
+-                $$11++;
++                $$13++;
+             }
+
+-            if ($$11 != 0) {
+-                this.setDeltaMovement(this.getDeltaMovement().add(0.0, $$11 * this.getAbilities().getFlyingSpeed() * 3.0F, 0.0));
++            if ($$13 != 0) {
++                this.setDeltaMovement(this.getDeltaMovement().add(0.0, $$13 * this.getAbilities().getFlyingSpeed() * 3.0F, 0.0));
+             }
+         }
+
+-        PlayerRideableJumping $$12 = this.jumpableVehicle();
+-        if ($$12 != null && $$12.getJumpCooldown() == 0) {
++        PlayerRideableJumping $$14 = this.jumpableVehicle();
++        if ($$14 != null && $$14.getJumpCooldown() == 0) {
+             if (this.jumpRidingTicks < 0) {
+                 this.jumpRidingTicks++;
+                 if (this.jumpRidingTicks == 0) {
+@@ -146,7 +134,7 @@
+
+             if ($$0 && !this.input.jumping) {
+                 this.jumpRidingTicks = -10;
+-                $$12.onPlayerJump(Mth.floor(this.getJumpRidingScale() * 100.0F));
++                $$14.onPlayerJump(Mth.floor(this.getJumpRidingScale() * 100.0F));
+                 this.sendRidingJump();
+             } else if (!$$0 && this.input.jumping) {
+                 this.jumpRidingTicks = 0;
+### net/minecraft/client/player/LocalPlayer.java :: updateAutoJump(float $$0, float $$1)
+--- 1.19.3
++++ 1.19.4
+@@ -20,13 +20,13 @@
+                 }
+             }
+
+-            float $$12 = Mth.fastInvSqrt($$6);
++            float $$12 = Mth.invSqrt($$6);
+             Vec3 $$13 = $$4.scale($$12);
+             Vec3 $$14 = this.getForward();
+             float $$15 = (float)($$14.x * $$13.x + $$14.z * $$13.z);
+             if (!($$15 < -0.15F)) {
+                 CollisionContext $$16 = CollisionContext.of(this);
+-                BlockPos $$17 = new BlockPos(this.getX(), this.getBoundingBox().maxY, this.getZ());
++                BlockPos $$17 = BlockPos.containing(this.getX(), this.getBoundingBox().maxY, this.getZ());
+                 BlockState $$18 = this.level.getBlockState($$17);
+                 if ($$18.getCollisionShape(this.level, $$17, $$16).isEmpty()) {
+                     $$17 = $$17.above();
+@@ -61,7 +61,7 @@
+                             if ($$37.intersects($$30, $$31) || $$37.intersects($$32, $$33)) {
+                                 $$36 = (float)$$37.maxY;
+                                 Vec3 $$38 = $$37.getCenter();
+-                                BlockPos $$39 = new BlockPos($$38);
++                                BlockPos $$39 = BlockPos.containing($$38);
+
+                                 for (int $$40 = 1; $$40 < $$21; $$40++) {
+                                     BlockPos $$41 = $$39.above($$40);
+### net/minecraft/client/player/LocalPlayer.java :: moveTowardsClosestSpace(double $$0, double $$1)
+--- 1.19.3
++++ 1.19.4
+@@ -1,7 +1,7 @@
+
+
+     private void moveTowardsClosestSpace(double $$0, double $$1) {
+-        BlockPos $$2 = new BlockPos($$0, this.getY(), $$1);
++        BlockPos $$2 = BlockPos.containing($$0, this.getY(), $$1);
+         if (this.suffocatesAt($$2)) {
+             double $$3 = $$0 - $$2.getX();
+             double $$4 = $$1 - $$2.getZ();
+### net/minecraft/client/player/LocalPlayer.java :: setSprinting(boolean $$0)
+
+
+    @Override
+    public void setSprinting(boolean $$0) {
+        super.setSprinting($$0);
+        this.sprintTime = 0;
+    }
+### net/minecraft/client/player/LocalPlayer.java :: handleNetherPortalClient()
+--- 1.19.3
++++ 1.19.4
+@@ -26,7 +26,7 @@
+             }
+
+             this.isInsidePortal = false;
+-        } else if (this.hasEffect(MobEffects.CONFUSION) && this.getEffect(MobEffects.CONFUSION).getDuration() > 60) {
++        } else if (this.hasEffect(MobEffects.CONFUSION) && !this.getEffect(MobEffects.CONFUSION).endsWithin(60)) {
+             this.portalTime += 0.006666667F;
+             if (this.portalTime > 1.0F) {
+                 this.portalTime = 1.0F;
+### net/minecraft/client/player/LocalPlayer.java :: jumpableVehicle()
+--- 1.19.3
++++ 1.19.4
+@@ -2,5 +2,5 @@
+
+     @Nullable
+     public PlayerRideableJumping jumpableVehicle() {
+-        return this.getVehicle() instanceof PlayerRideableJumping $$0 && $$0.canJump(this) ? $$0 : null;
++        return this.getControlledVehicle() instanceof PlayerRideableJumping $$0 && $$0.canJump() ? $$0 : null;
+     }
+### net/minecraft/world/entity/player/Player.java :: aiStep()
+--- 1.19.3
++++ 1.19.4
+@@ -19,11 +19,6 @@
+         this.inventory.tick();
+         this.oBob = this.bob;
+         super.aiStep();
+-        this.flyingSpeed = 0.02F;
+-        if (this.isSprinting()) {
+-            this.flyingSpeed += 0.006F;
+-        }
+-
+         this.setSpeed((float)this.getAttributeValue(Attributes.MOVEMENT_SPEED));
+         float $$1;
+         if (this.onGround && !this.isDeadOrDying() && !this.isSwimming()) {
+### net/minecraft/world/entity/player/Player.java :: travel(Vec3 $$0)
+--- 1.19.3
++++ 1.19.4
+@@ -10,7 +10,7 @@
+             double $$5 = $$4 < -0.2 ? 0.085 : 0.06;
+             if ($$4 <= 0.0
+                 || this.jumping
+-                || !this.level.getBlockState(new BlockPos(this.getX(), this.getY() + 1.0 - 0.1, this.getZ())).getFluidState().isEmpty()) {
++                || !this.level.getBlockState(BlockPos.containing(this.getX(), this.getY() + 1.0 - 0.1, this.getZ())).getFluidState().isEmpty()) {
+                 Vec3 $$6 = this.getDeltaMovement();
+                 this.setDeltaMovement($$6.add(0.0, ($$4 - $$6.y) * $$5, 0.0));
+             }
+@@ -18,12 +18,9 @@
+
+         if (this.abilities.flying && !this.isPassenger()) {
+             double $$7 = this.getDeltaMovement().y;
+-            float $$8 = this.flyingSpeed;
+-            this.flyingSpeed = this.abilities.getFlyingSpeed() * (this.isSprinting() ? 2 : 1);
+             super.travel($$0);
+-            Vec3 $$9 = this.getDeltaMovement();
+-            this.setDeltaMovement($$9.x, $$7 * 0.6, $$9.z);
+-            this.flyingSpeed = $$8;
++            Vec3 $$8 = this.getDeltaMovement();
++            this.setDeltaMovement($$8.x, $$7 * 0.6, $$8.z);
+             this.resetFallDistance();
+             this.setSharedFlag(7, false);
+         } else {
+### net/minecraft/world/entity/player/Player.java :: maybeBackOffFromEdge(Vec3 $$0, MoverType $$1)
+--- 1.19.3
++++ 1.19.4
+@@ -11,7 +11,7 @@
+             double $$3 = $$0.z;
+             double $$4 = 0.05;
+
+-            while ($$2 != 0.0 && this.level.noCollision(this, this.getBoundingBox().move($$2, -this.maxUpStep, 0.0))) {
++            while ($$2 != 0.0 && this.level.noCollision(this, this.getBoundingBox().move($$2, -this.maxUpStep(), 0.0))) {
+                 if ($$2 < 0.05 && $$2 >= -0.05) {
+                     $$2 = 0.0;
+                 } else if ($$2 > 0.0) {
+@@ -21,7 +21,7 @@
+                 }
+             }
+
+-            while ($$3 != 0.0 && this.level.noCollision(this, this.getBoundingBox().move(0.0, -this.maxUpStep, $$3))) {
++            while ($$3 != 0.0 && this.level.noCollision(this, this.getBoundingBox().move(0.0, -this.maxUpStep(), $$3))) {
+                 if ($$3 < 0.05 && $$3 >= -0.05) {
+                     $$3 = 0.0;
+                 } else if ($$3 > 0.0) {
+@@ -31,7 +31,7 @@
+                 }
+             }
+
+-            while ($$2 != 0.0 && $$3 != 0.0 && this.level.noCollision(this, this.getBoundingBox().move($$2, -this.maxUpStep, $$3))) {
++            while ($$2 != 0.0 && $$3 != 0.0 && this.level.noCollision(this, this.getBoundingBox().move($$2, -this.maxUpStep(), $$3))) {
+                 if ($$2 < 0.05 && $$2 >= -0.05) {
+                     $$2 = 0.0;
+                 } else if ($$2 > 0.0) {
+### net/minecraft/world/entity/player/Player.java :: isAboveGround()
+--- 1.19.3
++++ 1.19.4
+@@ -2,5 +2,6 @@
+
+     private boolean isAboveGround() {
+         return this.onGround
+-            || this.fallDistance < this.maxUpStep && !this.level.noCollision(this, this.getBoundingBox().move(0.0, this.fallDistance - this.maxUpStep, 0.0));
++            || this.fallDistance < this.maxUpStep()
++                && !this.level.noCollision(this, this.getBoundingBox().move(0.0, this.fallDistance - this.maxUpStep(), 0.0));
+     }
+### net/minecraft/world/entity/LivingEntity.java :: aiStep()
+--- 1.19.3
++++ 1.19.4
+@@ -91,24 +91,29 @@
+         this.zza *= 0.98F;
+         this.updateFallFlying();
+         AABB $$12 = this.getBoundingBox();
+-        this.travel(new Vec3(this.xxa, this.yya, this.zza));
++        LivingEntity $$13 = this.getControllingPassenger();
++        Vec3 $$14 = new Vec3(this.xxa, this.yya, this.zza);
++        if ($$13 != null && this.isAlive()) {
++            this.travelRidden($$13, $$14);
++        } else {
++            this.travel($$14);
++        }
++
+         this.level.getProfiler().pop();
+         this.level.getProfiler().push("freezing");
+-        boolean $$13 = this.getType().is(EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES);
+         if (!this.level.isClientSide && !this.isDeadOrDying()) {
+-            int $$14 = this.getTicksFrozen();
++            int $$15 = this.getTicksFrozen();
+             if (this.isInPowderSnow && this.canFreeze()) {
+-                this.setTicksFrozen(Math.min(this.getTicksRequiredToFreeze(), $$14 + 1));
++                this.setTicksFrozen(Math.min(this.getTicksRequiredToFreeze(), $$15 + 1));
+             } else {
+-                this.setTicksFrozen(Math.max(0, $$14 - 2));
++                this.setTicksFrozen(Math.max(0, $$15 - 2));
+             }
+         }
+
+         this.removeFrost();
+         this.tryAddFrost();
+         if (!this.level.isClientSide && this.tickCount % 40 == 0 && this.isFullyFrozen() && this.canFreeze()) {
+-            int $$15 = $$13 ? 5 : 1;
+-            this.hurt(DamageSource.FREEZE, $$15);
++            this.hurt(this.damageSources().freeze(), 1.0F);
+         }
+
+         this.level.getProfiler().pop();
+@@ -121,6 +126,6 @@
+         this.pushEntities();
+         this.level.getProfiler().pop();
+         if (!this.level.isClientSide && this.isSensitiveToWater() && this.isInWaterRainOrBubble()) {
+-            this.hurt(DamageSource.DROWN, 1.0F);
++            this.hurt(this.damageSources().drown(), 1.0F);
+         }
+     }
+### net/minecraft/world/entity/LivingEntity.java :: travel(Vec3 $$0)
+--- 1.19.3
++++ 1.19.4
+@@ -1,7 +1,7 @@
+
+
+     public void travel(Vec3 $$0) {
+-        if (this.isEffectiveAi() || this.isControlledByLocalInstance()) {
++        if (this.isControlledByLocalInstance()) {
+             double $$1 = 0.08;
+             boolean $$2 = this.getDeltaMovement().y <= 0.0;
+             if ($$2 && this.hasEffect(MobEffects.SLOW_FALLING)) {
+@@ -98,7 +98,7 @@
+                     float $$24 = (float)($$23 * 10.0 - 3.0);
+                     if ($$24 > 0.0F) {
+                         this.playSound(this.getFallDamageSound((int)$$24), 1.0F, 1.0F);
+-                        this.hurt(DamageSource.FLY_INTO_WALL, $$24);
++                        this.hurt(this.damageSources().flyIntoWall(), $$24);
+                     }
+                 }
+
+@@ -132,5 +132,5 @@
+             }
+         }
+
+-        this.calculateEntityAnimation(this, this instanceof FlyingAnimal);
++        this.calculateEntityAnimation(this instanceof FlyingAnimal);
+     }
+### net/minecraft/world/entity/LivingEntity.java :: isEffectiveAi()
+
+
+    public boolean isEffectiveAi() {
+        return !this.level.isClientSide;
+    }
+### net/minecraft/world/entity/LivingEntity.java :: tickRidden(LivingEntity $$0, Vec3 $$1)
+
+
+    protected void tickRidden(LivingEntity $$0, Vec3 $$1) {
+    }
+### net/minecraft/world/entity/LivingEntity.java :: travelRidden(LivingEntity $$0, Vec3 $$1)
+
+
+    private void travelRidden(LivingEntity $$0, Vec3 $$1) {
+        Vec3 $$2 = this.getRiddenInput($$0, $$1);
+        this.tickRidden($$0, $$2);
+        if (this.isControlledByLocalInstance()) {
+            this.setSpeed(this.getRiddenSpeed($$0));
+            this.travel($$2);
+        } else {
+            this.calculateEntityAnimation(false);
+            this.setDeltaMovement(Vec3.ZERO);
+            this.tryCheckInsideBlocks();
+        }
+    }
+### net/minecraft/world/entity/Entity.java :: baseTick()
+--- 1.19.3
++++ 1.19.4
+@@ -34,7 +34,7 @@
+                 }
+             } else {
+                 if (this.remainingFireTicks % 20 == 0 && !this.isInLava()) {
+-                    this.hurt(DamageSource.ON_FIRE, 1.0F);
++                    this.hurt(this.damageSources().onFire(), 1.0F);
+                 }
+
+                 this.setRemainingFireTicks(this.remainingFireTicks - 1);
+### net/minecraft/world/entity/Entity.java :: checkInsideBlocks()
+--- 1.19.3
++++ 1.19.4
+@@ -2,8 +2,8 @@
+
+     protected void checkInsideBlocks() {
+         AABB $$0 = this.getBoundingBox();
+-        BlockPos $$1 = new BlockPos($$0.minX + 1.0E-7, $$0.minY + 1.0E-7, $$0.minZ + 1.0E-7);
+-        BlockPos $$2 = new BlockPos($$0.maxX - 1.0E-7, $$0.maxY - 1.0E-7, $$0.maxZ - 1.0E-7);
++        BlockPos $$1 = BlockPos.containing($$0.minX + 1.0E-7, $$0.minY + 1.0E-7, $$0.minZ + 1.0E-7);
++        BlockPos $$2 = BlockPos.containing($$0.maxX - 1.0E-7, $$0.maxY - 1.0E-7, $$0.maxZ - 1.0E-7);
+         if (this.level.hasChunksAt($$1, $$2)) {
+             BlockPos.MutableBlockPos $$3 = new BlockPos.MutableBlockPos();
+
+### net/minecraft/world/entity/Entity.java :: collide(Vec3 $$0)
+--- 1.19.3
++++ 1.19.4
+@@ -8,10 +8,10 @@
+         boolean $$5 = $$0.y != $$3.y;
+         boolean $$6 = $$0.z != $$3.z;
+         boolean $$7 = this.onGround || $$5 && $$0.y < 0.0;
+-        if (this.maxUpStep > 0.0F && $$7 && ($$4 || $$6)) {
+-            Vec3 $$8 = collideBoundingBox(this, new Vec3($$0.x, this.maxUpStep, $$0.z), $$1, this.level, $$2);
+-            Vec3 $$9 = collideBoundingBox(this, new Vec3(0.0, this.maxUpStep, 0.0), $$1.expandTowards($$0.x, 0.0, $$0.z), this.level, $$2);
+-            if ($$9.y < this.maxUpStep) {
++        if (this.maxUpStep() > 0.0F && $$7 && ($$4 || $$6)) {
++            Vec3 $$8 = collideBoundingBox(this, new Vec3($$0.x, this.maxUpStep(), $$0.z), $$1, this.level, $$2);
++            Vec3 $$9 = collideBoundingBox(this, new Vec3(0.0, this.maxUpStep(), 0.0), $$1.expandTowards($$0.x, 0.0, $$0.z), this.level, $$2);
++            if ($$9.y < this.maxUpStep()) {
+                 Vec3 $$10 = collideBoundingBox(this, new Vec3($$0.x, 0.0, $$0.z), $$1.move($$9), this.level, $$2).add($$9);
+                 if ($$10.horizontalDistanceSqr() > $$8.horizontalDistanceSqr()) {
+                     $$8 = $$10;
+### net/minecraft/world/entity/Entity.java :: getBlockPosBelowThatAffectsMyMovement()
+--- 1.19.3
++++ 1.19.4
+@@ -1,5 +1,5 @@
+
+
+     protected BlockPos getBlockPosBelowThatAffectsMyMovement() {
+-        return new BlockPos(this.position.x, this.getBoundingBox().minY - 0.5000001, this.position.z);
++        return BlockPos.containing(this.position.x, this.getBoundingBox().minY - 0.5000001, this.position.z);
+     }
