@@ -1,0 +1,25 @@
+# Realms source path route audit — Mojmap 1.15.2 → 1.16.5
+
+## Result
+
+Reviewed the exact 81 Realms-client rows marked `no movement dependency` in `.native-source/20261030/1152-1165-finish43/independent-full-route-audit/ledger-open-route-rows.tsv`. Each row joins by exact path and both recorded SHA-256 values to `route-reconciliation/reconciled-route-ledger.tsv`; all 81 corrected routes remain `no movement dependency`. The row-by-row join is in `route-join-validation.csv`.
+
+The 81-path union contains 59 paths present on both sides, 15 newer-only paths, and 7 older-only paths. I rehashed each present side file directly under the exact Mojmap roots. All recorded hashes match, and both release-parent `mojmap.sources.sha256` hashes match the assigned source identity: 1.15.2 `cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7`; 1.16.5 `9499f2611d0e6dde37cb635f1a28a591416382d6bc188b37d5f99e2b2a20823b`. Per-path actual and ledger hashes are in `path-dispositions.csv` and `source-hash-validation.csv`.
+
+Every path disposition, paired source type/member references, changed hunk member anchors, hashes and any residual route are in `path-dispositions.csv`. It records each union path individually, including added and removed paths. `changed-member-refs.csv` preserves the full member-anchor extraction where a source split moves methods between paths. No pair-freeze or whole-inventory conclusion is made.
+
+## Movement route checks
+
+A direct source scan of both complete `com/mojang/realmsclient/` trees found no `LocalPlayer` reference, `Minecraft.player` access, position/velocity/on-ground writer, or movement-state predicate from the audited Realms subsystem. The exact patterns and result are recorded in `direct-movement-reference-search.txt`. DTO `PlayerInfo` / server player lists describe remote Realms roster data; they do not reference Minecraft player entities.
+
+Reverse callers stay in Realms UI/service flows. Outside the package, `net.minecraft.realms.RealmsBridge.switchToRealms` opens `RealmsMainScreen`, and `TextureManager` calls `RealmsMainScreen.updateTeaserImages` as a rendering/resource path. Internal screens invoke Realms tasks and clients; DTOs feed those screens and HTTP responses. These are source-level caller routes, not conclusions based on the package name.
+
+Two indirect routes are preserved explicitly:
+
+1. **Realms login / session transport.** In newer sources, `RealmsMainScreen.play(RealmsServer, Screen)` (1.16.5 `RealmsMainScreen.java:913`) gates on a non-null server and obtains the connect lock before starting `GetServerDetailsTask` (`util/task/GetServerDetailsTask.java`, resource-pack/terms branches). The successful branch may create `ConnectTask` (`ConnectTask.java:18,24`), which delegates host/port to `net.minecraft.realms.RealmsConnect.connect`; that sets the Realms connection flag, installs `ClientHandshakePacketListenerImpl`, and sends LOGIN handshake/profile packets (`RealmsConnect.java:36-64`). The generic handshake listener transitions to `ClientPacketListener` on a received game profile (`ClientHandshakePacketListenerImpl.java:111-114`). This is a conditional user-selected session/login route. The Realms members do not read or write movement state; the generic client session later receiving world/player state is outside these Realms members. The 1.15.2 connection path is the nested `RealmsTasks.RealmsConnectTask` and the same `RealmsConnect` LOGIN path.
+
+2. **Downloaded-world `Data.Player` cleanup.** This is the one persisted player-state residual worth carrying forward. 1.15.2 `client/FileDownload.java:328` calls `Realms.deletePlayerTag(level.dat)`; `net/minecraft/realms/Realms.java:130-138` removes `Data.Player`. 1.16.5 `client/FileDownload.java:336-339,348-359` performs the same cleanup in a local helper after the renamed storage access. In both versions the operation removes that NBT entry; it does not mutate a live client player. The exact reverse consumer is the integrated/server load path: `LevelStorageSource.getLevelData` captures `Data.Player` (`net/minecraft/world/level/storage/LevelStorageSource.java:210-217`); `PlayerList.load` uses `WorldData.getLoadedPlayerTag` only when the joining `ServerPlayer` name equals `server.getSingleplayerName()` and the tag is non-null (`net/minecraft/server/players/PlayerList.java:321-330`); it then calls `ServerPlayer.load`. This is logical-server saved-state initialization and player-data fallback, not client movement execution. Keep it disclosed if a broader audit treats saved local-world player initialization as a movement-state dependency; it is not evidence of a changed Realms movement operation in this pair.
+
+## Scope boundary
+
+This closes only the assigned 81 Realms-client rows. It does not resolve the rest of the corrected route ledger or the pair’s open provider/tick dependencies. It does not reclassify changed `ClientLevel` / `LocalPlayer` receiver behavior; those are separate source paths in the assignment's tick map and full-pair audit. No product, wiki, backlog, or Git-history inputs were read; no code, tests, build, decompile, or game launch was performed.

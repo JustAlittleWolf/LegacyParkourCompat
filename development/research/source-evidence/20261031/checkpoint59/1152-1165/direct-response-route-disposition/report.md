@@ -1,0 +1,50 @@
+# Direct client response route disposition: 1.15.2 → 1.16.5
+
+## Source identity and bounds
+
+Read-only exact sources: `D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.15.2\mojmap` and `...\1.16.5\mojmap`. Both `.ready.json` markers say `status=ready`, exact `versionId`, `mapping=mojmap`, and runtime `Vineflower`; they point to the immutable source manifests. Manifest SHA-256 values are in [source-hashes.sha256.txt](source-hashes.sha256.txt). All present source files listed there match their corresponding `mojmap.sources.sha256` entry. 1.15.2 has no `world/entity/vehicle/DismountHelper.java`; 1.16.5 does.
+
+The provenance records identify an exact batch decompile of `1.15.2,1.16.5,1.17.1,1.18.2` using the `mojmap` option, Vineflower 1.12.0, Java 25.0.3, Gradle 9.7.1 and the recorded ASM/Mapping IO/Gson/Tiny Remapper versions. Official mapping artifact details are not embedded (`mappingArtifacts: null`); the exact ready markers and source manifests provide the checked source identity. No online mapping lookup, source generation, gameplay, tests or build was used.
+
+## Dispositions
+
+### ClientboundMoveEntityPacket — close as outside player movement
+
+The packet’s direct receiver is `ClientGamePacketListener.handleMoveEntity`, implemented by `ClientPacketListener.handleMoveEntity` (1.15.2 `ClientPacketListener.java:624`; 1.16.5 `:628`). The 1.16.5 packet adds `updateEntityPosition`, which quantizes each prior coordinate through `entityToPacket`/`packetToEntity` before adding the short delta; 1.15.2 instead increments `xp/yp/zp` and scales those accumulators. This is a real client-side entity interpolation delta, but both receiver bodies wrap its position/rotation updates in `!entity.isControlledByLocalInstance()`. In both releases Entity.isControlledByLocalInstance() returns its controller player isLocalPlayer() result (Entity.java:2521-2524 / :2557-2560), and LocalPlayer.isLocalPlayer() returns true (LocalPlayer.java:328-330 / :343-345), so the packet skips the controlled local player. Close this row for player movement; it describes remote entity interpolation. No server packet frequency or timing argument is needed.
+
+### FishingHook event and sync — close; client player impulse is unchanged
+
+Direct route: `ClientPacketListener.handleEntityEvent(ClientboundEntityEventPacket)` dispatches the found entity’s event (`:1002/:1016` in 1.15.2/1.16.5), then `FishingHook.handleEntityEvent(byte)` (`world/entity/fishing/FishingHook.java:427` / `world/entity/projectile/FishingHook.java:480`). Under the same-client assumption that the hook entity is present and its hooked-entity data identifies the local player, event 31 calls `bringInHookedEntity`; both versions add `0.1 * (ownerPosition - hookPosition)` to that player’s current delta movement. The 1.15.2 hook stores its player owner directly; the 1.16.5 hook uses `Projectile.getOwner()`, whose client path resolves the stored network entity ID from the same client level. Hooked-entity sync remains `DATA_HOOKED_ENTITY` encoded as entity ID + 1 in `onSyncedDataUpdated` (`:109-115` / `:112-116`).
+
+1.16.5 adds `DATA_BITING` sync, which changes the fishing hook’s own vertical velocity in `FishingHook.onSyncedDataUpdated`; that is non-player/projectile motion. `retrieve` and `broadcastEntityEvent` are server-side production (`!level.isClientSide`) and do not establish an additional player movement delta. Close as no changed direct local-player impulse. The route assumes the client receives its own hook event while the local player and that hook’s synchronized target are represented in that client world; no production-frequency/order proof is required.
+
+### Teleport response — retain as an in-scope direct client receiver
+
+The direct receiver is `ClientGamePacketListener.handleMovePlayer(ClientboundPlayerPositionPacket)`, implemented by `ClientPacketListener.handleMovePlayer` (`:669` in 1.15.2; `:671` in 1.16.5). The relative-coordinate, position, velocity and rotation application is otherwise the same in the inspected body. Before applying the correction, 1.16.5 adds `if (player.tickCount > 0 && player.getVehicle() != null) player.removeVehicle();`; 1.15.2 has no such gate. This changes the local player’s vehicle state on an authoritative same-client correction and is directly movement-relevant. Keep this receiver delta for the source lane’s movement inventory. `ServerGamePacketListenerImpl.teleport(...)` (`:872/:876` vs `:966/:970`) is only a server producer of this clientbound correction; producer-side changes are excluded. The direct receiver can be assessed without proving when or how often a server path emits it.
+
+### Boat and DismountHelper — close producer-side calculation; retain generic correction above
+
+Boat physics is non-player vehicle physics. The 1.16.5 `Boat.getDismountLocationForPassenger` (`Boat.java:677-702`) and new `DismountHelper` have no 1.15.2 counterpart, but local client detachment does not run their positional resolution: `LivingEntity.stopRiding` invokes `findStandUpPosition` in 1.15.2 or `dismountVehicle` in 1.16.5 only under `!level.isClientSide` (`LivingEntity.java:2389-2394` / `:2568-2573`); the 1.16.5 position chooser is in `:1862-1870`. `ClientPacketListener.handleSetEntityPassengersPacket` only ejects/relinks client entities (`:960` / `:971`); those client-side `stopRiding` calls do not enter the guarded placement calculation. Treat Boat/DismountHelper positional resolution as server-only production and exclude it. If the authoritative result is later delivered to the same player, the eligible point is the generic `handleMovePlayer` receiver above, not vehicle physics or server dismount search. No packet timing proof is required.
+
+### Chorus fruit and thrown ender pearl — close producer-side routes
+
+`ChorusFruitItem.finishUsingItem` places all teleport attempts under `!level.isClientSide` (`world/item/ChorusFruitItem.java:16-34` / `:18-36`). `ThrownEnderpearl` applies a player teleport only inside its server-side entity-hit handling (`:91-111` / `:58-85`, depending on the class layout). These are producer-side item/projectile routes; they are not historical client movement execution. A same-client authoritative position correction remains governed by `ClientPacketListener.handleMovePlayer`, retained above. Do not require server call frequency or packet-timing proof to close these producers.
+
+### ClientboundRespawnPacket — close; no changed client movement operation found
+
+The direct receiver is `ClientPacketListener.handleRespawn(ClientboundRespawnPacket)` (`:1042-1090` / `:1055-1115`). Both releases replace the local player, call `resetPos()`, assign yaw `-180.0F`, then install input and mode. `Entity.resetPos()` has the same inspected vertical collision-clear loop, zero-velocity write and pitch reset in both releases (`Entity.java:284-296` / `:293-305`). 1.16.5 passes prior shift/sprint booleans through `MultiPlayerGameMode.createPlayer` to `LocalPlayer` as `wasShiftKeyDown`/`wasSprinting`; those fields only seed `sendPosition` command-edge bookkeeping, and do not restore current crouch/sprint movement state. The 1.15.2 `level.validateSpawn()` call removed in 1.16.5 only resets the level’s shared spawn position (`1.15.2 Level.java:112-114`); it does not alter the replacement player’s `resetPos` operation. Packet dimension/game-mode bookkeeping and screen state are not player movement. Close this row as no movement-relevant direct client receiver delta in the inspected pair.
+
+### ServerPlayer and ServerGamePacketListenerImpl — close server movement and producers
+
+`ServerGamePacketListenerImpl.handleMovePlayer(ServerboundMovePlayerPacket)` is server-side receipt/validation (`:725` / `:819`) and is outside the invariant that historical movement does not run on logical servers. `ServerPlayer` movement, its teleport callers and `ServerGamePacketListenerImpl.teleport` are likewise server-side producers. Exclude those implementations as movement candidates. Keep only the independently changed direct client receiver `ClientPacketListener.handleMovePlayer` described above. For `ClientboundMoveEntityPacket`, the client gate already proves it does not move the locally controlled player. Do not request proof of server broadcast/correction cadence to close producer-only routes.
+
+## Exact direct client consumers and same-client assumptions
+
+- Relative entity update: `ClientboundMoveEntityPacket.handle(ClientGamePacketListener)` → `ClientGamePacketListener.handleMoveEntity` → `ClientPacketListener.handleMoveEntity`. Assumption for player relevance would be a locally controlled target; source gate rejects that case.
+- Absolute entity update: `ClientboundTeleportEntityPacket` → `ClientPacketListener.handleTeleportEntity` (1.15.2 `:593`, 1.16.5 `:602`); both only interpolate entities not controlled locally. No local-player movement route.
+- Server correction: `ClientboundPlayerPositionPacket` → `ClientGamePacketListener.handleMovePlayer` → `ClientPacketListener.handleMovePlayer`. Assumption: packet is processed on the receiving player’s client as that player’s own correction; retained because its 1.16.5 pre-write detach differs.
+- Fishing event/sync: `ClientboundEntityEventPacket` → `ClientPacketListener.handleEntityEvent` → `Entity.handleEntityEvent` dispatch → fishing hook override; `ClientboundSetEntityDataPacket` → hook `onSyncedDataUpdated`. Assumption: same client has local player and synced hooked entity association. The local-player impulse math is unchanged.
+- Passenger update: `ClientboundSetPassengersPacket` → `ClientPacketListener.handleSetEntityPassengersPacket` → `ejectPassengers`/`startRiding`. The client update is not the server-only dismount-location chooser.
+- Respawn: `ClientboundRespawnPacket` → `ClientPacketListener.handleRespawn`; same client receives replacement of its own local player. No changed movement procedure found.
+
+This is an endpoint disposition for exactly 1.15.2 → 1.16.5; it does not establish an intermediate patch boundary or complete pair coverage.

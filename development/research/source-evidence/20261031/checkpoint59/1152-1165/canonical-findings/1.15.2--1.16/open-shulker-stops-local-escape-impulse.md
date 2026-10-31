@@ -1,0 +1,8 @@
+# Open Shulker boxes stop the LocalPlayer escape impulse
+
+1.15.2 (Mojmap): `net/minecraft/client/player/LocalPlayer.java`, `aiStep` calls `checkInBlock` four times (650–655); `checkInBlock` and `blocked` probe the current and adjacent block columns (385–443). `net/minecraft/world/level/block/ShulkerBoxBlock.java`, `isSuffocating` (62–64) returns true for the Shulker block.
+1.16 (Mojmap): `LocalPlayer.checkInBlock` remains the caller (678–685), and `Player.freeAt` still asks the block state for `isSuffocating` (`Player.java:1421–1423`). The Shulker override is removed; `net/minecraft/world/level/block/Blocks.java`, `shulkerBox` registration (3172–3184) makes suffocation true only when no Shulker block entity exists or the Shulker is closed. The same predicate later feeds `LocalPlayer.suffocatesAt` when the caller changes in 1.16.2. Boundary: 1.15.2 → 1.16.
+
+Difference: For a LocalPlayer at `(0.5,64,0.5)` beside an opened EAST-facing ShulkerBox at `(0,64,0)` with its matching opened block entity and adjacent columns clear, the old point probes treat the Shulker as blocking. Their strict distance ties leave the final escape direction EAST, writing `+0.1` X velocity from zero. In 1.16 the matching opened state fails the registered suffocation predicate during the same `checkInBlock` route, so the escape response is not written. The claimed setup is conditional on the loaded open block entity and surrounding air.
+
+Movement meaning: This changes the LocalPlayer's velocity before ordinary travel. The statement is a direct source-level player response; it does not predict the later collision trajectory or claim the witness is common in maps.

@@ -1,0 +1,24 @@
+# Canonical source SHA-256 ledger
+SHA-256  Release  Path
+1d0cac30a36e2ff6cd5665bc6a08c29c3729317b66a892be85e6cff1016dbb11	1.15.2	1.15.2/mojmap/net/minecraft/client/Minecraft.java
+3fc48eb93d2dc001496c11b66071db939cdaa3f1ff7c4e5b2b391e25a715facc	1.16.5	1.16.5/mojmap/net/minecraft/client/Minecraft.java
+4ed37f68a8c25ab5a780c7d646e2f1f4f375e39e4591e0a3115c8d637e500835	1.15.2	1.15.2/mojmap/net/minecraft/client/multiplayer/ClientLevel.java
+96c80a10623d41f136fa70391b3920cf7f3ef15547923f7d772b78d356f16d93	1.16.5	1.16.5/mojmap/net/minecraft/client/multiplayer/ClientLevel.java
+3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd	1.15.2	1.15.2/mojmap/net/minecraft/client/player/LocalPlayer.java
+6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b	1.16.5	1.16.5/mojmap/net/minecraft/client/player/LocalPlayer.java
+191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e	1.15.2	1.15.2/mojmap/net/minecraft/world/entity/Entity.java
+f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666	1.16.5	1.16.5/mojmap/net/minecraft/world/entity/Entity.java
+46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54	1.15.2	1.15.2/mojmap/net/minecraft/world/entity/LivingEntity.java
+b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88	1.16.5	1.16.5/mojmap/net/minecraft/world/entity/LivingEntity.java
+1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793	1.15.2	1.15.2/mojmap/net/minecraft/world/entity/player/Player.java
+d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960	1.16.5	1.16.5/mojmap/net/minecraft/world/entity/player/Player.java
+d806d286af4b93d7c61c3c884f344a5870ce1871fb0a811506031adf78fafc30	1.15.2	1.15.2/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java
+a1c3ea65f40a527d92b1e4d637cad4a8293fdddd1a9d530d778bf39cc2d8670e	1.16.5	1.16.5/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java
+4999d12cd468e402506f067dbd8694b1c8125dd9131e4f8a2fcc1848f616f180	1.15.2	1.15.2/mojmap/net/minecraft/world/effect/MobEffectInstance.java
+4999d12cd468e402506f067dbd8694b1c8125dd9131e4f8a2fcc1848f616f180	1.16.5	1.16.5/mojmap/net/minecraft/world/effect/MobEffectInstance.java
+893a920a818dfa91a977a367403f310811767998f4cd816f6a35d48f35c33e9d	1.15.2	1.15.2/mojmap/net/minecraft/network/protocol/game/ClientboundPlayerPositionPacket.java
+893a920a818dfa91a977a367403f310811767998f4cd816f6a35d48f35c33e9d	1.16.5	1.16.5/mojmap/net/minecraft/network/protocol/game/ClientboundPlayerPositionPacket.java
+753fb60e5ea296a64cfdf96a58bbc254f056b6d8dbcb19619ffaec2a83848762	1.15.2	1.15.2/mojmap/net/minecraft/network/protocol/game/ClientboundSetEntityMotionPacket.java
+753fb60e5ea296a64cfdf96a58bbc254f056b6d8dbcb19619ffaec2a83848762	1.16.5	1.16.5/mojmap/net/minecraft/network/protocol/game/ClientboundSetEntityMotionPacket.java
+cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7	1.15.2	mojmap.sources.sha256
+9499f2611d0e6dde37cb635f1a28a591416382d6bc188b37d5f99e2b2a20823b	1.16.5	mojmap.sources.sha256

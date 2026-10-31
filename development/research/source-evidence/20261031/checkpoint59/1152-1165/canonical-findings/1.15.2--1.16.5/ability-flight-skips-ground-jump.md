@@ -1,0 +1,8 @@
+# Ability flight skips ground-jump selection
+
+1.15.2 (Mojmap): `net/minecraft/world/entity/LivingEntity.java`, `aiStep` (2253–2278) enters the jump selector whenever `jumping` is true and calls `jumpFromGround()` on dry ground when `noJumpDelay == 0`. `net/minecraft/client/player/LocalPlayer.java`, `serverAiStep` (607–616) copies sampled jump input into `this.jumping` during that inherited tick.
+1.16.5 (Mojmap): `net/minecraft/world/entity/LivingEntity.java`, `aiStep` (2414–2451) guards the selector with `jumping && isAffectedByFluids()`, otherwise resetting `noJumpDelay`; `net/minecraft/client/player/LocalPlayer.java`, `serverAiStep` (609–618) still supplies the sampled input. `net/minecraft/world/entity/player/Player.java`, `isAffectedByFluids` (1004–1007) returns `!abilities.flying`.
+
+Difference: For a dry, grounded, ability-flying LocalPlayer whose jump input has been copied to `jumping` by `serverAiStep` and whose delay is zero at the selector, the old code applies the ground-jump impulse while the new gate skips that selection and clears the delay. The gate runs inside inherited `LivingEntity.aiStep`, after virtual `serverAiStep` copies the input and before the jump selector.
+
+Movement meaning: The changed jump impulse is consumed by the current local travel path if the player remains ability-flying through `Player.travel`; that branch retains 60% of incoming Y velocity. LocalPlayer may disable flight later when grounded, which does not undo the current tick's travel. This is distinct from water descent. The exact intermediate release introducing the change was not checked.

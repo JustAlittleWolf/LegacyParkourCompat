@@ -1,0 +1,16 @@
+Release	Mappings	Relative path	SHA-256
+1.15.2	Mojmap	net/minecraft/world/level/block/SoulsandBlock.java	355f0cc25e78dce76cbc9c89d8bd8ff1956d4b53780cba8e3fb5c23f485802cf
+1.15.2	Mojmap	net/minecraft/world/level/block/Blocks.java	0cef66feacbf9d7d5bd38ac1d2065e71384a73043b0956eeaf314fedbf5cc7d9
+1.15.2	Mojmap	net/minecraft/world/level/block/state/BlockState.java	77320fd1e50e58d7a3ed593ccbcf21853c97d125fccebde2e0e305dc47524f21
+1.15.2	Mojmap	net/minecraft/world/level/CollisionGetter.java	63daec0623c816d53f5dbdde407a27222fa21e62680c1096b63cf9082b1c25fd
+1.15.2	Mojmap	net/minecraft/world/entity/Entity.java	191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e
+1.15.2	Mojmap	net/minecraft/world/level/block/BubbleColumnBlock.java	0f4b28ef76195b31cec9e45e3e3dd94fca26d1e851ce3c0a72748ea607a05879
+1.15.2	Mojmap	net/minecraft/world/level/block/Block.java	a5819a4c676d2b7e08cce7f80ae80a13726dd17b15e0b29efdce7e37efa2bf0d
+1.16.5	Mojmap	net/minecraft/world/level/block/SoulSandBlock.java	da92572788c9416b511c003e50688d802e8248ccdb3e2d5eb155aa482549b095
+1.16.5	Mojmap	net/minecraft/world/level/block/Blocks.java	3b39d5cc4cd22f146ed3195aa30cbb9fdfca49f63783fabf9924a6ce7795fa12
+1.16.5	Mojmap	net/minecraft/world/level/block/state/BlockBehaviour.java	c62e2f07094e5a7bcad00cbae7d24497bf636cc740232a1472f4128a472def8b
+1.16.5	Mojmap	net/minecraft/world/level/block/state/BlockState.java	edd2d9dba0c10d035774f8b2dd7dcf00d112d7a2d67734fba1851a2d2f91bd36
+1.16.5	Mojmap	net/minecraft/world/level/block/SupportType.java	7a0fd4eb61a3cc444116af052dea22fb52c60fccb754bead28f5219f6ad99d19
+1.16.5	Mojmap	net/minecraft/world/level/CollisionSpliterator.java	19ab959c469b8edb5c371ff737a59a61b8a80bf397eff1db280064342094d297
+1.16.5	Mojmap	net/minecraft/world/entity/Entity.java	f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666
+1.16.5	Mojmap	net/minecraft/world/level/block/BubbleColumnBlock.java	49e6ddc09f2d99056b0940ff0178c02bd0fe62d7758936eef751a3b9500f2ba5

@@ -1,0 +1,5 @@
+# Version-ID correction: flying ladder boundary
+
+This corrects version labels in `.native-source/20261030/1152-1165-finish43/intermediate-boundary/report.md` (SHA-256 `D74AF8B7F76D81556331524916DDDCA0959C7A9B49C86179485A74589DBE690B`). The canonical Mojmap source directory and exact release ID are `1.16`, not `1.16.0`. The checked old fallback is in `1.16` and `1.16.1`; the added `!abilities.flying` guard is present in the `1.16` source and remains present in 1.16.1–1.16.5. The source-supported change boundary is therefore 1.15.2 → 1.16.
+
+The original report's path labels in the table and prose saying `1.16.0` should be read as `1.16`. The checked method line references/hashes and behavior are otherwise unchanged. This is a version-ID correction, not a changed movement claim. The canonical finding draft SHA `AA8BA10592924E5FA36292F5E2C62593A7F181E9FD5ACAF82C9CE2F540BE2BD6` was revised to use the exact ID and to clarify saved pre-super Y velocity; its new hash is reported alongside this erratum in the coordinating chat.

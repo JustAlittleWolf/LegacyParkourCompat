@@ -1,0 +1,8 @@
+# Fall-flying request uses the climbable tag predicate
+
+1.15.2 (Mojmap): `net/minecraft/client/player/LocalPlayer.java`, `aiStep` attempts fall flying only through its jump/ability/passenger/Elytra gates and `!onLadder()` (`715–720`); `net/minecraft/world/entity/LivingEntity.java`, `onLadder` checks explicit ladder, vine, scaffolding and its aligned open-trapdoor ladder case (`1226–1251`).
+1.16 (Mojmap): the corresponding request gate uses `!onClimbable()` (`LocalPlayer.java:750`); `LivingEntity.onClimbable` checks `BlockTags.CLIMBABLE` before its aligned open-trapdoor case (`1361–1378`), and `BlockTags.CLIMBABLE` is bound at `BlockTags.java:79`. This request form remains through 1.16.5. Boundary: 1.15.2 → 1.16.
+
+Difference: For an airborne, non-fall-flying local player with the other jump, ability, passenger and enabled-Elytra gates satisfied, the request is rejected in 1.16 when the feet state belongs to effective `BlockTags.CLIMBABLE` but is outside the old explicit ladder/vine/scaffolding set (or accepted in the reverse membership case). `Player.tryToStartFallFlying` does not repeat the climbability check; on success it changes local fall-flying state and sends the start request. This claim is conditional on effective tag membership; the source trees do not establish default or dynamically reloaded membership for every state, and no tag-only default witness is asserted.
+
+Movement meaning: The changed local request eligibility can select a different fall-flying movement branch during ordinary travel. Keep this separate from the accepted flying-ladder descent response and the separate Levitation gate in `Player.tryToStartFallFlying`.

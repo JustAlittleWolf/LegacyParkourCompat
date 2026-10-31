@@ -1,0 +1,277 @@
+diff --git "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.15.2\\mojmap\\net\\minecraft\\client\\player\\LocalPlayer.java" "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.16.5\\mojmap\\net\\minecraft\\client\\player\\LocalPlayer.java"
+index a068f221..276a3bd9 100644
+--- "a/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.15.2\\mojmap\\net\\minecraft\\client\\player\\LocalPlayer.java"
++++ "b/D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.16.5\\mojmap\\net\\minecraft\\client\\player\\LocalPlayer.java"
+@@ -3,5 +3,5 @@ package net.minecraft.client.player;
+ import com.google.common.collect.Lists;
+-import java.util.Collections;
+ import java.util.Iterator;
+ import java.util.List;
++import java.util.UUID;
+ import javax.annotation.Nullable;
+@@ -19,2 +19,3 @@ import net.minecraft.client.multiplayer.ClientPacketListener;
+ import net.minecraft.client.resources.sounds.AmbientSoundHandler;
++import net.minecraft.client.resources.sounds.BiomeAmbientSoundsHandler;
+ import net.minecraft.client.resources.sounds.BubbleColumnAmbientSoundHandler;
+@@ -38,3 +39,3 @@ import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
+ import net.minecraft.network.protocol.game.ServerboundPlayerInputPacket;
+-import net.minecraft.network.protocol.game.ServerboundRecipeBookUpdatePacket;
++import net.minecraft.network.protocol.game.ServerboundRecipeBookSeenRecipePacket;
+ import net.minecraft.network.protocol.game.ServerboundSwingPacket;
+@@ -54,2 +55,3 @@ import net.minecraft.world.entity.Entity;
+ import net.minecraft.world.entity.EquipmentSlot;
++import net.minecraft.world.entity.HumanoidArm;
+ import net.minecraft.world.entity.MoverType;
+@@ -70,3 +72,2 @@ import net.minecraft.world.level.block.entity.StructureBlockEntity;
+ import net.minecraft.world.level.block.state.BlockState;
+-import net.minecraft.world.level.dimension.DimensionType;
+ import net.minecraft.world.phys.AABB;
+@@ -89,2 +90,3 @@ public class LocalPlayer extends AbstractClientPlayer {
+     private boolean lastOnGround;
++    private boolean crouching;
+     private boolean wasShiftKeyDown;
+@@ -116,5 +118,12 @@ public class LocalPlayer extends AbstractClientPlayer {
+     public LocalPlayer(
+-        Minecraft minecraft, ClientLevel clientLevel, ClientPacketListener clientPacketListener, StatsCounter statsCounter, ClientRecipeBook clientRecipeBook
++        Minecraft minecraft,
++        ClientLevel clientLevel,
++        ClientPacketListener clientPacketListener,
++        StatsCounter statsCounter,
++        ClientRecipeBook clientRecipeBook,
++        boolean bl,
++        boolean bl2
+     ) {
+         super(clientLevel, clientPacketListener.getLocalGameProfile());
++        this.minecraft = minecraft;
+         this.connection = clientPacketListener;
+@@ -122,11 +131,7 @@ public class LocalPlayer extends AbstractClientPlayer {
+         this.recipeBook = clientRecipeBook;
+-        this.minecraft = minecraft;
+-        this.dimension = DimensionType.OVERWORLD;
++        this.wasShiftKeyDown = bl;
++        this.wasSprinting = bl2;
+         this.ambientSoundHandlers.add(new UnderwaterAmbientSoundHandler(this, minecraft.getSoundManager()));
+         this.ambientSoundHandlers.add(new BubbleColumnAmbientSoundHandler(this));
+-    }
+-
+-    @Override
+-    public boolean isGlowing() {
+-        return super.isGlowing() || this.minecraft.player.isSpectator() && this.minecraft.options.keySpectatorOutlines.isDown();
++        this.ambientSoundHandlers.add(new BiomeAmbientSoundsHandler(this, minecraft.getSoundManager(), clientLevel.getBiomeManager()));
+     }
+@@ -162,4 +167,4 @@ public class LocalPlayer extends AbstractClientPlayer {
+     @Override
+-    public void stopRiding() {
+-        super.stopRiding();
++    public void removeVehicle() {
++        super.removeVehicle();
+         this.handsBusy = false;
+@@ -198,2 +203,12 @@ public class LocalPlayer extends AbstractClientPlayer {
+
++    public float getCurrentMood() {
++        for (AmbientSoundHandler ambientSoundHandler : this.ambientSoundHandlers) {
++            if (ambientSoundHandler instanceof BiomeAmbientSoundsHandler) {
++                return ((BiomeAmbientSoundsHandler)ambientSoundHandler).getMoodiness();
++            }
++        }
++
++        return 0.0F;
++    }
++
+     private void sendPosition() {
+@@ -331,2 +346,17 @@ public class LocalPlayer extends AbstractClientPlayer {
+
++    @Override
++    public boolean isSuppressingSlidingDownLadder() {
++        return !this.abilities.flying && super.isSuppressingSlidingDownLadder();
++    }
++
++    @Override
++    public boolean canSpawnSprintParticle() {
++        return !this.abilities.flying && super.canSpawnSprintParticle();
++    }
++
++    @Override
++    public boolean canSpawnSoulSpeedParticle() {
++        return !this.abilities.flying && super.canSpawnSoulSpeedParticle();
++    }
++
+     protected void sendRidingJump() {
+@@ -361,3 +391,3 @@ public class LocalPlayer extends AbstractClientPlayer {
+             this.recipeBook.removeHighlight(recipe);
+-            this.connection.send(new ServerboundRecipeBookUpdatePacket(recipe));
++            this.connection.send(new ServerboundRecipeBookSeenRecipePacket(recipe));
+         }
+@@ -383,28 +413,18 @@ public class LocalPlayer extends AbstractClientPlayer {
+
+-    @Override
+-    protected void checkInBlock(double d, double e, double f) {
+-        BlockPos blockPos = new BlockPos(d, e, f);
+-        if (this.blocked(blockPos)) {
+-            double g = d - blockPos.getX();
+-            double h = f - blockPos.getZ();
++    private void moveTowardsClosestSpace(double d, double e) {
++        BlockPos blockPos = new BlockPos(d, this.getY(), e);
++        if (this.suffocatesAt(blockPos)) {
++            double f = d - blockPos.getX();
++            double g = e - blockPos.getZ();
+             Direction direction = null;
+-            double i = 9999.0;
+-            if (!this.blocked(blockPos.west()) && g < i) {
+-                i = g;
+-                direction = Direction.WEST;
+-            }
+-
+-            if (!this.blocked(blockPos.east()) && 1.0 - g < i) {
+-                i = 1.0 - g;
+-                direction = Direction.EAST;
+-            }
+-
+-            if (!this.blocked(blockPos.north()) && h < i) {
+-                i = h;
+-                direction = Direction.NORTH;
+-            }
+-
+-            if (!this.blocked(blockPos.south()) && 1.0 - h < i) {
+-                i = 1.0 - h;
+-                direction = Direction.SOUTH;
++            double h = Double.MAX_VALUE;
++            Direction[] directions = new Direction[]{Direction.WEST, Direction.EAST, Direction.NORTH, Direction.SOUTH};
++
++            for (Direction direction2 : directions) {
++                double i = direction2.getAxis().choose(f, 0.0, g);
++                double j = direction2.getAxisDirection() == Direction.AxisDirection.POSITIVE ? 1.0 - i : i;
++                if (j < h && !this.suffocatesAt(blockPos.relative(direction2))) {
++                    h = j;
++                    direction = direction2;
++                }
+             }
+@@ -413,14 +433,6 @@ public class LocalPlayer extends AbstractClientPlayer {
+                 Vec3 vec3 = this.getDeltaMovement();
+-                switch (direction) {
+-                    case WEST:
+-                        this.setDeltaMovement(-0.1, vec3.y, vec3.z);
+-                        break;
+-                    case EAST:
+-                        this.setDeltaMovement(0.1, vec3.y, vec3.z);
+-                        break;
+-                    case NORTH:
+-                        this.setDeltaMovement(vec3.x, vec3.y, -0.1);
+-                        break;
+-                    case SOUTH:
+-                        this.setDeltaMovement(vec3.x, vec3.y, 0.1);
++                if (direction.getAxis() == Direction.Axis.X) {
++                    this.setDeltaMovement(0.1 * direction.getStepX(), vec3.y, vec3.z);
++                } else {
++                    this.setDeltaMovement(vec3.x, vec3.y, 0.1 * direction.getStepZ());
+                 }
+@@ -430,14 +442,6 @@ public class LocalPlayer extends AbstractClientPlayer {
+
+-    private boolean blocked(BlockPos blockPos) {
++    private boolean suffocatesAt(BlockPos blockPos) {
+         AABB aABB = this.getBoundingBox();
+-        BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos(blockPos);
+-
+-        for (int i = Mth.floor(aABB.minY); i < Mth.ceil(aABB.maxY); i++) {
+-            mutableBlockPos.setY(i);
+-            if (!this.freeAt(mutableBlockPos)) {
+-                return true;
+-            }
+-        }
+-
+-        return false;
++        AABB aABB2 = new AABB(blockPos.getX(), aABB.minY, blockPos.getZ(), blockPos.getX() + 1.0, aABB.maxY, blockPos.getZ() + 1.0).deflate(1.0E-7);
++        return !this.level.noBlockCollision(this, aABB2, (blockState, blockPosx) -> blockState.isSuffocating(this.level, blockPosx));
+     }
+@@ -457,3 +461,3 @@ public class LocalPlayer extends AbstractClientPlayer {
+     @Override
+-    public void sendMessage(Component component) {
++    public void sendMessage(Component component, UUID uUID) {
+         this.minecraft.gui.getChat().addMessage(component);
+@@ -596,5 +600,3 @@ public class LocalPlayer extends AbstractClientPlayer {
+     public boolean isCrouching() {
+-        return !this.abilities.flying && !this.isSwimming() && this.canEnterPose(Pose.CROUCHING)
+-            ? this.isShiftKeyDown() || !this.isSleeping() && !this.canEnterPose(Pose.STANDING)
+-            : false;
++        return this.crouching;
+     }
+@@ -634,2 +636,6 @@ public class LocalPlayer extends AbstractClientPlayer {
+         boolean bl3 = this.hasEnoughImpulseToStartSprinting();
++        this.crouching = !this.abilities.flying
++            && !this.isSwimming()
++            && this.canEnterPose(Pose.CROUCHING)
++            && (this.isShiftKeyDown() || !this.isSleeping() && !this.canEnterPose(Pose.STANDING));
+         this.input.tick(this.isMovingSlowly());
+@@ -650,6 +656,10 @@ public class LocalPlayer extends AbstractClientPlayer {
+         if (!this.noPhysics) {
+-            this.checkInBlock(this.getX() - this.getBbWidth() * 0.35, this.getY() + 0.5, this.getZ() + this.getBbWidth() * 0.35);
+-            this.checkInBlock(this.getX() - this.getBbWidth() * 0.35, this.getY() + 0.5, this.getZ() - this.getBbWidth() * 0.35);
+-            this.checkInBlock(this.getX() + this.getBbWidth() * 0.35, this.getY() + 0.5, this.getZ() - this.getBbWidth() * 0.35);
+-            this.checkInBlock(this.getX() + this.getBbWidth() * 0.35, this.getY() + 0.5, this.getZ() + this.getBbWidth() * 0.35);
++            this.moveTowardsClosestSpace(this.getX() - this.getBbWidth() * 0.35, this.getZ() + this.getBbWidth() * 0.35);
++            this.moveTowardsClosestSpace(this.getX() - this.getBbWidth() * 0.35, this.getZ() - this.getBbWidth() * 0.35);
++            this.moveTowardsClosestSpace(this.getX() + this.getBbWidth() * 0.35, this.getZ() - this.getBbWidth() * 0.35);
++            this.moveTowardsClosestSpace(this.getX() + this.getBbWidth() * 0.35, this.getZ() + this.getBbWidth() * 0.35);
++        }
++
++        if (bl2) {
++            this.sprintTriggerTime = 0;
+         }
+@@ -714,3 +724,3 @@ public class LocalPlayer extends AbstractClientPlayer {
+
+-        if (this.input.jumping && !bl8 && !bl && !this.abilities.flying && !this.isPassenger() && !this.onLadder()) {
++        if (this.input.jumping && !bl8 && !bl && !this.abilities.flying && !this.isPassenger() && !this.onClimbable()) {
+             ItemStack itemStack = this.getItemBySlot(EquipmentSlot.CHEST);
+@@ -722,3 +732,3 @@ public class LocalPlayer extends AbstractClientPlayer {
+         this.wasFallFlying = this.isFallFlying();
+-        if (this.isInWater() && this.input.shiftKeyDown) {
++        if (this.isInWater() && this.input.shiftKeyDown && this.isAffectedByFluids()) {
+             this.goDownInWater();
+@@ -726,3 +736,3 @@ public class LocalPlayer extends AbstractClientPlayer {
+
+-        if (this.isUnderLiquid(FluidTags.WATER)) {
++        if (this.isEyeInFluid(FluidTags.WATER)) {
+             int i = this.isSpectator() ? 10 : 1;
+@@ -730,3 +740,3 @@ public class LocalPlayer extends AbstractClientPlayer {
+         } else if (this.waterVisionTime > 0) {
+-            this.isUnderLiquid(FluidTags.WATER);
++            this.isEyeInFluid(FluidTags.WATER);
+             this.waterVisionTime = Mth.clamp(this.waterVisionTime - 10, 0, 600);
+@@ -796,3 +806,5 @@ public class LocalPlayer extends AbstractClientPlayer {
+             if (this.portalTime == 0.0F) {
+-                this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.PORTAL_TRIGGER, this.random.nextFloat() * 0.4F + 0.8F));
++                this.minecraft
++                    .getSoundManager()
++                    .play(SimpleSoundInstance.forLocalAmbience(SoundEvents.PORTAL_TRIGGER, this.random.nextFloat() * 0.4F + 0.8F, 0.25F));
+             }
+@@ -820,3 +832,3 @@ public class LocalPlayer extends AbstractClientPlayer {
+
+-        this.processDimensionDelay();
++        this.processPortalCooldown();
+     }
+@@ -914,3 +926,3 @@ public class LocalPlayer extends AbstractClientPlayer {
+                         Iterator<AABB> iterator = this.level
+-                            .getCollisions(this, aABB, Collections.emptySet())
++                            .getCollisions(this, aABB, entity -> true)
+                             .flatMap(voxelShapex -> voxelShapex.toAabbs().stream())
+@@ -982,3 +994,3 @@ public class LocalPlayer extends AbstractClientPlayer {
+     public float getWaterVision() {
+-        if (!this.isUnderLiquid(FluidTags.WATER)) {
++        if (!this.isEyeInFluid(FluidTags.WATER)) {
+             return 0.0F;
+@@ -1021,2 +1033,15 @@ public class LocalPlayer extends AbstractClientPlayer {
+     }
++
++    @Override
++    public Vec3 getRopeHoldPosition(float f) {
++        if (this.minecraft.options.getCameraType().isFirstPerson()) {
++            float g = Mth.lerp(f * 0.5F, this.yRot, this.yRotO) * (float) (Math.PI / 180.0);
++            float h = Mth.lerp(f * 0.5F, this.xRot, this.xRotO) * (float) (Math.PI / 180.0);
++            double d = this.getMainArm() == HumanoidArm.RIGHT ? -1.0 : 1.0;
++            Vec3 vec3 = new Vec3(0.39 * d, -0.6, 0.3);
++            return vec3.xRot(-h).yRot(-g).add(this.getEyePosition(f));
++        } else {
++            return super.getRopeHoldPosition(f);
++        }
++    }
+ }

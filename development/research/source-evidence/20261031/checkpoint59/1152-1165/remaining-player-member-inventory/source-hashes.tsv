@@ -1,0 +1,15 @@
+SHA-256	Release	Path
+1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793	1.15.2	1.15.2/mojmap/net/minecraft/world/entity/player/Player.java
+d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960	1.16.5	1.16.5/mojmap/net/minecraft/world/entity/player/Player.java
+191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e	1.15.2	1.15.2/mojmap/net/minecraft/world/entity/Entity.java
+f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666	1.16.5	1.16.5/mojmap/net/minecraft/world/entity/Entity.java
+46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54	1.15.2	1.15.2/mojmap/net/minecraft/world/entity/LivingEntity.java
+b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88	1.16.5	1.16.5/mojmap/net/minecraft/world/entity/LivingEntity.java
+3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd	1.15.2	1.15.2/mojmap/net/minecraft/client/player/LocalPlayer.java
+6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b	1.16.5	1.16.5/mojmap/net/minecraft/client/player/LocalPlayer.java
+d806d286af4b93d7c61c3c884f344a5870ce1871fb0a811506031adf78fafc30	1.15.2	1.15.2/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java
+a1c3ea65f40a527d92b1e4d637cad4a8293fdddd1a9d530d778bf39cc2d8670e	1.16.5	1.16.5/mojmap/net/minecraft/client/multiplayer/ClientPacketListener.java
+e2496c30e0ff922f5bb492f951e2389c1e1fbbbdcd7aed2d4d308574fa7a4b0f	1.15.2	1.15.2/mojmap/net/minecraft/world/level/block/BedBlock.java
+32cff55596d10fb86bb8bd3fb9769df0df9826b8bd449fd4d70fb4d6f3868ced	1.16.5	1.16.5/mojmap/net/minecraft/world/level/block/BedBlock.java
+cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7	1.15.2	mojmap.sources.sha256
+9499f2611d0e6dde37cb635f1a28a591416382d6bc188b37d5f99e2b2a20823b	1.16.5	mojmap.sources.sha256
