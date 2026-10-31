@@ -12,7 +12,11 @@
     "EntityFallDamageMixin",
     "EntityFallDistanceMixin",
     "client.LevelLoadTrackerReadinessMixin",
-    "LivingEntitySprintJumpTrigMixin"
+    "LivingEntitySprintJumpTrigMixin",
+    "network.ClientPacketListenerMovementMixin",
+    "network.EntityLegacyRotationMixin",
+    "network.LivingEntityPacketInterpolationMixin",
+    "network.LocalPlayerPacketStateMixin"
   ],
   "injectors": {
     "defaultRequire": 1
