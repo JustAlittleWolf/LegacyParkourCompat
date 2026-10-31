@@ -18,7 +18,9 @@ public interface PlayerMovementSpeedHook extends VersionedMechanic {
      */
     Optional<Float> movementSpeed(Snapshot snapshot);
 
-    record Snapshot(double baseValue, List<Modifier> modifiers, History history) {
+    /** Captured inputs for a pure speed reconstruction; history is bounded and may be incomplete. */
+    record Snapshot(double baseValue, double minimumValue, double maximumValue,
+                    boolean localClientPlayer, List<Modifier> modifiers, History history) {
         public Snapshot {
             modifiers = List.copyOf(modifiers);
         }
