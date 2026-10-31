@@ -1,8 +1,7 @@
 package me.wolfii.legacyparkourcompat.mixin.network;
 
-import me.wolfii.legacyparkourcompat.mechanic.hook.network.ClientReceivedInterpolationHook;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
-import net.minecraft.client.player.LocalPlayer;
+import me.wolfii.legacyparkourcompat.mechanic.hook.network.ClientReceivedInterpolationHook;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.InterpolationHandler;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/** Advances the existing per-player compatibility queue instead of a native target on the same tick. */
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityPacketInterpolationMixin {
     @Unique private static final ThreadLocal<Entity> LEGACY_TICK_ENTITY = new ThreadLocal<>();
@@ -23,12 +23,12 @@ public abstract class LivingEntityPacketInterpolationMixin {
     )
     private boolean legacyparkourcompat$includeQueuedPacketTarget(Entity entity) {
         LEGACY_TICK_ENTITY.remove();
-        if (entity instanceof LocalPlayer) {
-            var hook = MovementRuntime.find(ClientReceivedInterpolationHook.class, entity).orElse(null);
-            if (hook != null && hook.handlesLegacyPackets(entity) && hook.pending(entity)) {
-                LEGACY_TICK_ENTITY.set(entity);
-                return true;
-            }
+        var hook = ClientPacketMovementPolicy.handlesLegacyPackets(entity)
+            ? MovementRuntime.find(ClientReceivedInterpolationHook.class, entity).orElse(null)
+            : null;
+        if (hook != null && hook.pending(entity)) {
+            LEGACY_TICK_ENTITY.set(entity);
+            return true;
         }
         return entity.isInterpolating();
     }
@@ -39,7 +39,7 @@ public abstract class LivingEntityPacketInterpolationMixin {
     )
     private void legacyparkourcompat$advancePacketTarget(InterpolationHandler handler) {
         Entity entity = LEGACY_TICK_ENTITY.get();
-        if (entity instanceof LocalPlayer) {
+        if (entity != null && ClientPacketMovementPolicy.handlesLegacyPackets(entity)) {
             LEGACY_TICK_ENTITY.remove();
             var hook = MovementRuntime.find(ClientReceivedInterpolationHook.class, entity).orElse(null);
             if (hook != null && hook.handlesLegacyPackets(entity) && hook.pending(entity)) {

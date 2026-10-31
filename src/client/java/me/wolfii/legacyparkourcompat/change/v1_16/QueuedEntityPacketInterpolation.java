@@ -12,9 +12,11 @@ import net.minecraft.world.phys.Vec3;
 
 /**
  * 1.15.2 Mojmap and 1.16.1 Mojmap LivingEntity.lerpTo store lerpX/Y/Z, lerp rotations and lerpSteps;
- * LivingEntity.aiStep advances one fraction before the rest of its tick. In 26.2,
+ * LivingEntity.aiStep advances one fraction before the rest of its tick. ClientPacketListener.handleMoveEntity
+ * and handleTeleportEntity use the non-controlled-player route for LocalPlayer. In 26.2,
  * ClientPacketListener routes through Entity.moveOrInterpolateTo and LivingEntity.aiStep's
- * InterpolationHandler in LivingEntity.aiStep; this hook retains only the historical target and step operation.
+ * InterpolationHandler; this hook retains the same per-player target and step state. The absolute
+ * packet angle's old byte conversion is shared with the later tracked-position route by LegacyPacketRotation.
  * LocalPlayer.getInterpolation currently returns a non-null handler; the nullable guard remains
  * defensive for subclasses/runtime changes, and does not replace the old queue state.
  */
