@@ -1,0 +1,14 @@
+version	sha256	path
+1.15.2	191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e	net/minecraft/world/entity/Entity.java
+1.15.2	63daec0623c816d53f5dbdde407a27222fa21e62680c1096b63cf9082b1c25fd	net/minecraft/world/level/CollisionGetter.java
+1.15.2	5030e47d299d2741339dae0274dab41e63ae1eb1468171ef14f181a71a03086f	net/minecraft/world/level/border/WorldBorder.java
+1.15.2	82324c0e6a3d69e80424656e6098b39ce41f0f17a5e6efbe6542fe8eaca24a18	net/minecraft/world/phys/AABB.java
+1.15.2	81bf70d2c8a1d1336df72beedb30b0c9504f14decc9a06814a794aabf38203c2	net/minecraft/world/phys/shapes/Shapes.java
+1.15.2	5faceea0e4ce9ad0f2a1a2c72a89d9a768ab877c8728ae2968fe34aa1e03d3ea	net/minecraft/world/phys/shapes/VoxelShape.java
+1.16.5	f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666	net/minecraft/world/entity/Entity.java
+1.16.5	b507d6be11e5985a62cfeb249a99dcb5f8edaf346f12cb2487797d9e01763eac	net/minecraft/world/level/CollisionGetter.java
+1.16.5	19ab959c469b8edb5c371ff737a59a61b8a80bf397eff1db280064342094d297	net/minecraft/world/level/CollisionSpliterator.java
+1.16.5	2925df8d985d0ec2d075d4f5c57538dcc628528b72a1d35e90af27fe4fbadb2a	net/minecraft/world/level/border/WorldBorder.java
+1.16.5	514558cf4827679d84a4debd4f400d7d65bd4b8982b7ae8124a0d83a916ba878	net/minecraft/world/phys/AABB.java
+1.16.5	ec218dca68cad3525364967aadfbb8c0bead0cc44aa3ee2beba31e00e55ae2d4	net/minecraft/world/phys/shapes/Shapes.java
+1.16.5	6747647a5b94e69747340d432932b77ce5ad701c8f06e141e15b3dd68f8c3bde	net/minecraft/world/phys/shapes/VoxelShape.java

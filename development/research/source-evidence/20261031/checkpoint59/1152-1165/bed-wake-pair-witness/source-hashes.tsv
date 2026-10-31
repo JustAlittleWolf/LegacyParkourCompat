@@ -1,0 +1,9 @@
+SHA-256	Release	Path
+e2496c30e0ff922f5bb492f951e2389c1e1fbbbdcd7aed2d4d308574fa7a4b0f	1.15.2	1.15.2/mojmap/net/minecraft/world/level/block/BedBlock.java
+46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54	1.15.2	1.15.2/mojmap/net/minecraft/world/entity/LivingEntity.java
+32cff55596d10fb86bb8bd3fb9769df0df9826b8bd449fd4d70fb4d6f3868ced	1.16.5	1.16.5/mojmap/net/minecraft/world/level/block/BedBlock.java
+b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88	1.16.5	1.16.5/mojmap/net/minecraft/world/entity/LivingEntity.java
+c066d3d65a1dd25294159fef4081c341059e32afa49ce474cbcd8718fc1528e8	1.16.5	1.16.5/mojmap/net/minecraft/world/entity/vehicle/DismountHelper.java
+847fe74a63e7c5a48c028cd40ddbd579ee616370bd3a19b03ff1ab4271175e2b	1.16.5	1.16.5/mojmap/net/minecraft/world/level/BlockGetter.java
+8b4c9ea61b2417dafc8bdc52a18aacb556e3ec9ce2a94fe69b307b9db2c009cd	1.16.5	1.16.5/mojmap/net/minecraft/world/entity/EntityType.java
+19ab959c469b8edb5c371ff737a59a61b8a80bf397eff1db280064342094d297	1.16.5	1.16.5/mojmap/net/minecraft/world/level/CollisionSpliterator.java

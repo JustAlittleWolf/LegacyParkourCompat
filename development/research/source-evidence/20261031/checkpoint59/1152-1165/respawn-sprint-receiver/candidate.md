@@ -1,0 +1,8 @@
+# Respawn retains sprint flag but conditionally omits its movement modifier
+
+Minecraft 1.15.2, Mojmap: `ClientPacketListener.handleRespawn` unconditionally copies the replacement `LocalPlayer`'s attributes from the previous player after copying synchronized entity data (`ClientPacketListener.java:1042, 1078–1079`).
+
+Minecraft 1.16, Mojmap: `ClientPacketListener.handleRespawn` copies synchronized entity data, then copies attributes only if `ClientboundRespawnPacket.shouldKeepAllPlayerData()` is true (`ClientPacketListener.java:1082, 1126–1129`). The new-player constructor stores the previous sprint value only in `wasSprinting`; it does not add the sprint modifier. The entity-data copy preserves the sprint bit. This receiver gate remains in 1.16.1–1.16.5.
+
+Movement meaning: for a decoded respawn packet with `shouldKeepAllPlayerData=false`, a prior player using the normal `0.1` movement-speed base and active `+0.3` multiply-total sprint modifier can leave the replacement sprint-flagged with a `0.1` speed attribute. The replacement constructor does not restore the sprint modifier; the copied entity-data list preserves the sprint bit. If no intervening movement-speed attribute update arrives, shared forward input and flat-floor collision let the sprint bit survive a first airborne tick and become grounded. On the next tick, `Player.getSpeed` supplies `0.1` instead of `0.13` to `LivingEntity.getFrictionInfluencedSpeed` and `moveRelative`, changing the grounded horizontal movement input before clipping. This is a conditional, source-level movement-input claim; it does not assert a packet producer or full trajectory.
+Exact receiver boundary: 1.15.2 → 1.16; the new gate is present in every audited release through 1.16.5.

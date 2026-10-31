@@ -1,0 +1,30 @@
+# Independent audit — suffocation provider witness, 1.15.2 → 1.16.5 Mojmap
+
+## Verdict
+
+**ACCEPT**, with the concrete local-player witness below. The assigned witness revision is `suffocation-provider-witness/report.md`, SHA-256 `cf6e6bd53282b51a1d7e215ce99351cca88199776ba76cac93501ab9d111beb5` (recomputed; matches the requested identity). Its provider and query claims match exact sources. The source report itself intentionally leaves player coordinates out; this independent audit supplies them. This is a conditional source-level witness, not a runtime trajectory result.
+
+## Concrete shared state and local-player box
+
+Use a ShulkerBox block at `BlockPos(0,0,0)`, `FACING=EAST`, with its matching `ShulkerBoxBlockEntity` at the same position in `AnimationStatus.OPENED` with `progressOld=progress=1.0F`. This is the stable OPENED state after an OPENED tick. Both endpoint BE implementations set progress to `1.0F` in the `OPENED` arm (`ShulkerBoxBlockEntity.updateAnimation`, lines 61–86); `getProgress(1.0F)` returns current progress (`getProgress`, lines 271–272). With EAST steps `(1,0,0)`, `getBoundingBox` expands the unit cube by `0.5F` on +X (lines 93–100), giving world bounds `[0,0,0]–[1.5,1,1]`. The old and new `ShulkerBoxBlock.getShape` both retrieve this live BE box (old lines 223–225, new 218–220).
+
+Take a standing local player at `(x,y,z)=(0.5,0.25,0.5)`, `noPhysics=false`, with initial delta movement `(0,0,0)`. Both endpoint `Player.STANDING_DIMENSIONS` are `0.6 × 1.8`; `Entity.setPos` centers width around X/Z and uses Y as the feet coordinate. Thus its box is `[0.5−0.6F/2, 0.25, 0.5−0.6F/2]–[0.5+0.6F/2, 0.25+1.8F, 0.5+0.6F/2]` (approximately `[0.2,0.25,0.2]–[0.8,2.05,0.8]`). This box intersects the opened Shulker's collision shape. Assume all other block positions touched by these checks are air.
+
+`LocalPlayer.aiStep` makes the same four calls in both versions under `if (!this.noPhysics)`, before `super.aiStep()` (old lines 650–655, 778; new lines 656–661, 788). With width `0.6F`, the ordered old probe triples `(x,y+0.5,z)` are approximately:
+
+1. `(0.29,0.75,0.71)`
+2. `(0.29,0.75,0.29)`
+3. `(0.71,0.75,0.29)`
+4. `(0.71,0.75,0.71)`
+
+All floor to `BlockPos(0,0,0)`. Old `blocked` checks the player's vertical block cells (`LocalPlayer.java`, lines 431–442); at Y cell 0, the Shulker's unconditional `isSuffocating` returns true (`ShulkerBoxBlock.java`, lines 62–64; `BlockState.isSuffocating`, `BlockState.java`, lines 268–270). Each probe therefore enters the escape-direction selection. The cardinal direction checks are ordered WEST, EAST, NORTH, SOUTH and use strict `<` comparisons (old `LocalPlayer.java`, lines 392–410). Neighbor block positions are air, so for probe 1 WEST wins the `0.29` tie with SOUTH and writes X `-0.1`; probe 2 WEST wins the tie with NORTH and writes X `-0.1`; probe 3 EAST wins the tie with NORTH and writes X `+0.1`; probe 4 EAST wins the tie with SOUTH and writes X `+0.1`. Z remains unchanged. Because calls are sequential, final X delta after this four-call block is `+0.1` (with these initial conditions); the individual responses include both signs.
+
+The four new calls use the same ordered X/Z samples, while `moveTowardsClosestSpace` constructs the probe `BlockPos` from `getY()` rather than `getY()+0.5` (new lines 414–416, 656–661). At player Y `0.25`, the same probes still floor to `(0,0,0)`. Each `suffocatesAt` query is the player's vertical interval clipped to the queried column and deflated by `1.0E-7` (new lines 443–447). For `(0,0,0)`, that query is `AABB(0, bb.minY, 0, 1, bb.maxY, 1).deflate(1.0E-7)`, approximately `[0.0000001,0.2500001,0.0000001]–[0.9999999,2.0499999,0.9999999]`; the opened Shulker collision shape intersects it. However, 1.16.5's shared Shulker registration checks whether the matching BE is absent or `isClosed()` (Blocks.java, lines 3224–3236), and `isClosed()` is true only for `CLOSED` (ShulkerBoxBlockEntity.java, lines 290–292). For the required `OPENED` BE, `state.isSuffocating` is false. `CollisionSpliterator` applies that predicate before obtaining/testing the collision shape (lines 71–86), so `noBlockCollision` returns true and `suffocatesAt` returns false. The initial condition fails; no neighbor direction is selected and none of the four calls changes delta movement. The EAST spill into column `x=1` is also filtered by that same Shulker predicate; no such adjacent query is needed once the initial test returns false.
+
+`super.aiStep()` occurs after the calls on both sides, so this is a reachable pre-travel local-player velocity write on the guarded client player path. The claimed effect here is the changed `LocalPlayer` response value; I did not simulate later travel or resulting position.
+
+## Evidence and integrity
+
+The original `source-hashes.tsv` has 19 entries. I checked each against its exact D: source file and the corrected direct Mojmap inventory for that release: **38 source/manifest comparisons, zero mismatches**. The release-parent source manifest pins remain 1.15.2 `cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7` and 1.16.5 `9499f2611d0e6dde37cb635f1a28a591416382d6bc188b37d5f99d2b2a20823b`; `manifest-verification.json` records complete counts and zero missing/unlisted/mismatched files. The corrected direct-inventory file hashes are `da39d2f1068133577c300f3ae3614389e39b5689966430a44b42c8a1c1cdb907` and `0d2887b6c0671e1693af0a1ee209e7a149f97e4c80bf58b89a4da71fc1cf6999`.
+
+Additional exact movement-dimension sources are also manifest-pinned: `Entity.java` old/new `191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e` / `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666`; `EntityType.java` old/new `9a3ac5b01ebf9cb783e5b7073ae227ee2f58dd96437936f6aa21134d72a8d818` / `8b4c9ea61b2417dafc8bdc52a18aacb556e3ec9ce2a94fe69b307b9db2c009cd`. The method refs above are Mojmap source line numbers. The example assumes a loaded Shulker BE whose block state and BE state are both visible to the local client; network arrival/order and actual trajectory were not tested.
