@@ -1,0 +1,4 @@
+version	file	method	movement-writer anchors
+1.16.5	net/minecraft/world/item/TridentItem.java	releaseUsing(ItemStack,Level,LivingEntity,int), player guard uses instanceof	55,91,92,95
+1.17	net/minecraft/world/item/TridentItem.java	releaseUsing(ItemStack,Level,LivingEntity,int), player guard uses pattern match	58,93,94,97
+1.17.1	net/minecraft/world/item/TridentItem.java	releaseUsing(ItemStack,Level,LivingEntity,int), player guard uses pattern match	58,93,94,97

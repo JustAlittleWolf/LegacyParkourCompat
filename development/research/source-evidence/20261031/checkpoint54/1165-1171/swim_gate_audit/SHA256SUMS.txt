@@ -1,0 +1,16 @@
+f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666  1.16.5/mojmap/net/minecraft/world/entity/Entity.java
+81231ad8ac1b9a7a9f7ee186352c7e73c0c5211a3034c3a35c04badc6914c8ef  1.17/mojmap/net/minecraft/world/entity/Entity.java
+ab28e1fba924771ec048140dfd293ee5a46a7dfe81f71a1a0b1aecc1927232de  1.17.1/mojmap/net/minecraft/world/entity/Entity.java
+33fd081aadb2b6fdc9ebf487db6da5b38c54f4b8676572790ee2203690d15e6f  1.17.1/mojmap/net/minecraft/world/entity/LivingEntity.java
+724bb298499dabe489dffd5ce7ec81c9773619a8d2c70044911eae4c9e8ff481  1.17.1/mojmap/net/minecraft/world/entity/player/Player.java
+c9a91cb6cb57806bc8d22e5bfe2d97daaf21d5d2a48f34a6e2c53164c61c5812  1.17.1/mojmap/net/minecraft/client/player/LocalPlayer.java
+b328dac2531d48d462c14a58aa8e86e47510cbf20fd8002bc37a2cbdf1072bd7  1.17.1/mojmap/net/minecraft/tags/FluidTags.java
+0ee09bede0d44264009a810a6493897c0ce8ee9893fa275d3ec87d782a5ad754  1.17.1/mojmap/net/minecraft/world/level/material/FluidState.java
+93fac0aa0b44dcd42a9e05783eede16e6e1e72cbc7cbf00d34f6e5a55b67f4c6  1.17.1/mojmap/net/minecraft/world/level/material/FlowingFluid.java
+2e45a3d180d8f8978bcc2abefdc0c1475f3500cc6bbbaa88a1d6632e801ed672  1.17.1/mojmap/net/minecraft/world/level/material/WaterFluid.java
+1a3757df70df8d1fb75544dfa486911c77a017726f8d89748ec185d9871c6483  1.17.1/mojmap/net/minecraft/world/level/block/LiquidBlock.java
+560d4d6be74bc7a1af36215b9f03b5553302319a8a22a41b02755f175fac01de  1.17.1/mojmap/net/minecraft/world/item/BucketItem.java
+fdba6b11af712fb64957680696741b84930812ad8239f0c14d1a207fcd8673e1  .native-source/20261030/1165-1171-pool38/fluid_contact/source-identities.json
+244d5d1c1d15c2af1acf4762eb3087c9f636b2db6e1dc9f8a5d2c34b32d95632  .native-source/20261030/1165-1171-pool38/fluid_contact/report.md
+afc9dc30cd8f6406d8ea306e64cc0b3601cc8d7c7bcd314f737573d830a79357  1.17/mojmap/.decompile-provenance.json
+e542799891232a2ef200251f94f8ed65b5f1320be47d61e2e0c7d46ebbd2d076  report.md

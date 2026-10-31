@@ -1,0 +1,10 @@
+version	file	method anchors
+1.16.5	net/minecraft/client/Minecraft.java	1590
+1.16.5	net/minecraft/client/multiplayer/MultiPlayerGameMode.java	382,385
+1.16.5	net/minecraft/world/item/ItemStack.java	406,407
+1.17	net/minecraft/client/Minecraft.java	1781
+1.17	net/minecraft/client/multiplayer/MultiPlayerGameMode.java	408,411
+1.17	net/minecraft/world/item/ItemStack.java	461,462
+1.17.1	net/minecraft/client/Minecraft.java	1783
+1.17.1	net/minecraft/client/multiplayer/MultiPlayerGameMode.java	415,418
+1.17.1	net/minecraft/world/item/ItemStack.java	459,460

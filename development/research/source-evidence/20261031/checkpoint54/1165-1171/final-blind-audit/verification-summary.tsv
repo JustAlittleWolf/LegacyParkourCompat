@@ -1,0 +1,7 @@
+"check"	"count"	"failures"	"status"
+"Frozen input-hashes.tsv"	"90"	"0"	"REHASHED"
+"Exact source inventory cells"	"11806"	"0"	"REHASHED_TO_RELEASE_MANIFESTS"
+"Referenced source-ledger Java rows"	"982"	"0"	"REHASHED_TO_RELEASE_MANIFESTS"
+"Referenced report and ledger artifacts"	"223"	"0"	"SHA256_AND_BYTES_RECORDED"
+"Frozen coverage rows"	"25"	"0"	"ALL_CLASSIFIED"
+"Source report companion sidecars"	"68"	"2"	"STALE_SIDECARS_REHASHED_DIRECTLY"

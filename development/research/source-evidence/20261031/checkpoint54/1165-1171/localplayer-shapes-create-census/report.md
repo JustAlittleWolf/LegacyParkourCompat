@@ -1,0 +1,32 @@
+# Exact `Shapes.create(AABB)` caller census
+
+Pair: 1.16.5 → 1.17 → 1.17.1; exact read-only Mojmap sources. This is a callsite census and movement-caller trace, not a pair-freeze claim. Case-sensitive path/line/one-argument call inventory and caller-file source hashes are in `callsites.tsv`; the separate semantic source ledger binds the shape engine and callers to exact publication manifests. Every recorded caller hash matches its source manifest. Publication identity files are mechanically hashed in `publication-files.tsv`.
+
+## Census result
+
+A case-sensitive Java-source search for `Shapes.create(` found 17 callsites in 1.16.5, 19 in 1.17 and 19 in 1.17.1. All are one-argument `Shapes.create(AABB)` overloads. The row-wise result includes each case-sensitive relative path, source line, expression, full-file SHA-256, manifest SHA-256 and match status. The full files are bound to the 1.16.5 and 1.17.1 parent `mojmap.sources.sha256` sidecars and the 1.17 embedded `.decompile-provenance.json` `sources` map.
+
+## Movement and direct-player-response callsites
+
+| Callsite | Route and disposition |
+|---|---|
+| `world/level/CollisionSpliterator.java`: constructor `Shapes.create(aABB)` | `Entity.collide` → multi-axis `collideBoundingBoxHeuristically` → `CollisionGetter.getBlockCollisions` → `CollisionSpliterator`. The query AABB can be displacement-expanded. The independently source-reviewed moving-piston witness in `../collision-query-review/20261031-short-pose-addendum.md` proves a conditional 1.16.5→1.17 direct X-response difference for equal raw player/query and provider inputs. Its exact-source premise fixes a persisted piston block-entity progress and a resolved SELF vector; no normal gameplay producer or runtime trajectory is proved. This one witness does not close every short-pose, provider or entity collision combination. The older `short-pose-collision-audit/result.erratum-1.md` no-difference conclusion is superseded on that broad query point by the independent counterexample; its standing/crouching proof remains bounded. |
+| `world/level/CollisionSpliterator.java`: `isCloseToBorder` / `isOutsideBorder` inflated/deflated current AABB | Same collision stream's border prefilter, reached before block shapes. It uses current source-box extents rather than the movement-expanded query. Needs separate consequence review across border edges; do not infer closure from the separate `Entity.collide` border response witness. |
+| `world/entity/Entity.java`: `collide` deflated current AABB | Direct LocalPlayer border-stream inclusion predicate. The existing WorldBorder review supports a separate conditional border-shape response under an unusual equal raw border state. This caller's `Shapes.create` query is distinct from the border geometry delta and was not separately closed here. |
+| `world/level/EntityGetter.java`: shape from `entity2.getBoundingBox()` | LocalPlayer collision graph obtains entity-collision shapes through `CollisionGetter.getEntityCollisions` / `EntityGetter.getEntityCollisions`; the provider AABB is converted by `Shapes.create` before stream clipping. This is movement-reachable with same raw entity inputs. The paired admission/clip consequence is delegated for closure in `entity_shape_query_witness`; currently open. |
+| `world/level/block/ShulkerBoxBlock.java`: dynamic block-entity AABB | Existing block provider's `getShape` uses `Shapes.create` on the open shulker box's progress-dependent AABB and can feed the player's block collision stream. The callsite and shape-progress source are paired; all collision effects over dynamic progress and endpoint-rounding boundary cases are not independently closed by this census. |
+| `world/entity/Entity.java`: `isColliding` current player box | Exact direct response route: client block-break acknowledgement → `MultiPlayerGameMode.handleBlockBreakAck` → `Player.isColliding` / `Entity.isColliding` → `Shapes.create(this.getBoundingBox())`; a true predicate restores the stored player position through `absMoveTo`. This is an eligible received-response member. A fresh independent paired review is in progress; keep it open until its source-level AND and rollback consequence is returned. |
+
+## Remaining `Shapes.create(AABB)` callsites
+
+- `CollisionGetter.isUnobstructed(Entity)` converts an entity AABB, but the exact client search found no LocalPlayer call to this overload. Current callsites are AI/spawn/entity placement predicates and do not enter LocalPlayer movement.
+- `Boat.getGroundFriction` constructs the vehicle's ground-contact shape; its consumer is vehicle physics, excluded by project scope. The player/entity collision candidate route is the separate `EntityGetter` row above.
+- `Entity.refreshDimensions`'s `AABB.ofSize` shape allocation occurs only under `!level.isClientSide` and `!(this instanceof Player)`; not a LocalPlayer movement caller.
+- `ServerGamePacketListenerImpl` is server-only. `JigsawPlacement` is world-generation geometry. `LevelRenderer` and `GameEventListenerRenderer` are rendering/debug only.
+- `EndPortalBlock` and `HopperBlockEntity` create an entity AABB for portal/contact or item-suction predicates, not local-player collision-response or movement clipping; the hopper path is item-entity scoped. No local-player movement response use was found in these callsites.
+
+## Source and audit limits
+
+The query-conversion difference originates in `Shapes.create(AABB)` / `findBits`; source implementations differ at 1.16.5→1.17 and the relevant 1.17 bytes persist in 1.17.1. `IndirectMerger` must be checked for every Boolean admission claim: sub-`1.0E-7` endpoint shifts can still change whether a pre-existing overlap interval is coalesced, depending on the original overlap width and merger index choices. The independent piston witness demonstrates this; the withdrawn slab candidate demonstrates why an overlap-width statement without callback/index reconstruction is insufficient.
+
+This census enumerates every one-argument `Shapes.create` hit found in all three Java trees, but it does not pair every dynamic block/entity AABB with every local-player query, enumerate every movement caller of `isColliding`, or close every direct response. The explicit eligible open members are the block-ack `isColliding` rollback review, entity provider shape/clip consequences, Shulker dynamic provider interaction, and `CollisionSpliterator` current-box border prefilters. Pair-wide source freeze remains outside this report.

@@ -1,0 +1,11 @@
+# Displacement-expanded short-pose query changes collision admission
+
+**Boundary:** 1.16.5 → 1.17; the changed query encoding persists in 1.17.1.
+
+`Shapes.create(AABB)` changes `findBits` from floor-based endpoint checks to nearest-integer rounding with a scale-multiplied tolerance. In `Entity.collide(Vec3)`, a multi-axis displacement enters `collideBoundingBoxHeuristically`, which sends `aABB.expandTowards(vec3)` to `CollisionGetter.getBlockCollisions`; `CollisionSpliterator` creates its query shape from that expanded AABB and uses Boolean AND to admit non-full block shapes.
+
+For an equal swimming LocalPlayer box with X `[0.27499991, 0.8749999338418579]` and Y/Z `[0.125, 0.7250000238418579]`, apply the same raw movement `(-0.15, +0.02499997615814209, +0.02499997615814209)`. The expanded X query is `[0.12499991, 0.8749999338418579]`; Y/Z are `[0.125, 0.75]`. The old X interval remains continuous; 1.17 snaps it to `[0.125, 0.875]`. With the same `MOVING_PISTON` provider at `(0,0,0)`, moved state STONE, retracting WEST, and progress `0.12500004470348358F`, the old query overlap survives the `1.0E-7` merger threshold (about `1.496e-7`) while the new overlap is coalesced (about `5.9605e-8`). The old stream admits the piston shape and clips X to about `-0.1499998503953552`; the new stream omits it and returns `-0.15`. This establishes different resolved movement under identical raw state and vector; it does not prove how the persisted progress or move input is produced in an ordinary tick.
+
+**Applicability:** swimming pose; all three displacement components nonzero; equal finite AABB, block state, block-entity progress, border and other collision inputs. No runtime trajectory is claimed. Standing/crouching current-box and full-block fast-path branches were separately reviewed; this finding is limited to the short-pose partial-provider query.
+
+**Independent review binding:** the accepted source-bound collision review is `.native-source/20261031/1165-1171-finish45/collision-query-review/20261031-short-pose-addendum.md`, SHA-256 `69AA4C1584F0FFD927297493F5FA00DE07B962A75FB5DE2623A0B00440399F67`. The final blind three-version audit also binds this disposition in `.native-source/20261031/1165-1171-finish45/final-blind-audit/coverage.tsv`.

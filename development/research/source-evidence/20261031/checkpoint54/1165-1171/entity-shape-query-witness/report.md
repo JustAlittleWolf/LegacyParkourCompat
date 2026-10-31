@@ -1,0 +1,38 @@
+# Entity collision provider Shapes.create audit
+
+## Verdict
+
+**No 1.16.5 to 1.17 changed entity-provider shape or axis-clipping response is found for equal raw provider AABBs in the LocalPlayer collision stream.** This is a source-bounded closure of the entity-provider branch of the `Shapes.create(AABB)` question, not a full pair freeze and not a runtime trajectory result.
+
+## Exact route
+
+In both versions, `Entity.collide(Vec3)` passes `aABB.expandTowards(vec3)` to `level.getEntityCollisions` (1.16.5 `Entity.java:675`; 1.17 `Entity.java:757`). `EntityGetter.getEntityCollisions` first rejects only an almost-zero query size, inflates the query by `1.0E-7`, and selects candidate entities with raw `entity2.getBoundingBox().intersects(aABB2)` plus `entity.canCollideWith(entity2)`. It then returns each candidate's `Entity::getBoundingBox` mapped through `Shapes::create` (1.16.5 `EntityGetter.java:59-74`; 1.17 `EntityGetter.java:56-71`). This method body is identical across the pair; other `EntityGetter` inventory/API changes do not alter this route.
+
+The swept LocalPlayer AABB is therefore used for the broad-phase intersection, but its own shape is not ANDed with each entity provider shape in this path. Axis clipping later consumes the mapped entity shapes (`Entity.collideBoundingBoxLegacy` / `Shapes.collide`). Consequently, any changed answer here would need the provider AABB itself to acquire a different shape representation/bounds. The block-provider path is distinct: `CollisionGetter.getBlockCollisions` forwards the query AABB to `CollisionSpliterator`, whose constructor does `Shapes.create(aABB)`; the non-singleton block path uses AND with that query shape. That block path is outside this entity-provider closure.
+
+## Provider census and bound
+
+The 1.17 source census of `canBeCollidedWith()` declarations finds only the base `Entity` default (false), `Shulker` (alive), and `Boat` (true). LocalPlayer inherits `Entity.canCollideWith`, which requires the target's `canBeCollidedWith()` and excludes same-vehicle passengers. Thus the concrete entity-provider kinds on this route are boats and shulkers; ordinary projectiles/items/mobs do not enter this stream under the inherited target predicate. The 1.16.5 and 1.17 `EntityGetter` predicate and `Entity.canCollideWith` relation agree for this route.
+
+- **Boat:** `EntityType.BOAT` is sized `1.375F x 0.5625F` in 1.17 (`EntityType.java:175-176`). Its raw X interval is wider than 1.0000002, so it cannot pass `Shapes.findBits`'s full closed-unit-coordinate guard on X for any position. Both releases use the exact-AABB fallback for its provider shape. Provider AABB dimensions are assumed equal across the pair as scoped; this does not audit how a boat produces that AABB.
+- **Shulker:** its type is `1.0F x 1.0F` (`EntityType.java:386-387`). `makeBoundingBox` builds a unit box extended along the face's opposite direction by `getPhysicalPeek(currentPeekAmount)` (`Shulker.java:197-201, 244-249`). At fully closed peek, the unit box is translated from the block's integer corner after Shulker's position snapping; endpoints are exact integers. `findBits`'s guard can discretize such coordinates only at the origin interval `[0,1]`, where both versions return the same full-block shape; at other integer locations both fall back to the same exact AABB. At any positive physical peek, one dimension exceeds 1 and cannot satisfy the endpoint guard, so both versions take the same exact-AABB fallback. This bounds the live Shulker geometry across attach faces and peek states for equal raw AABBs.
+
+The relevant `Shapes.create` changes are the added tiny-dimension empty gate and `Shapes.findBits`: 1.16.5 tests closeness to `floor(value * scale)` with absolute tolerance `1.0E-7`; 1.17 tests closeness to the nearest integer with tolerance `1.0E-7 * scale` (`Shapes.java:89-109` and `101-119`, respectively). The new case accepts coordinates just below grid points. Neither boat nor shulker provider geometry can present the changed condition while satisfying all three axes: boats always fail the width guard; open shulkers fail the expanded-axis guard; closed shulkers have exact grid endpoints. Their entity-provider `VoxelShape`s therefore have identical bounds/occupancy or identical exact-AABB fallback, so this route yields no changed collision-presence or resolved-axis displacement for equal provider AABBs.
+
+## Inputs and identity
+
+The task-local frozen roster is `roster.md`; its SHA is mechanically stored in `roster.md.sha256`. `source-hashes.csv` contains 45 source rows (15 files × 3 releases), each recomputed against the 1.16.5 and 1.17.1 parent `mojmap.sources.sha256` sidecars or the 1.17 embedded `mojmap/.decompile-provenance.json` sources map. All rows match. Its SHA is in `source-hashes.csv.sha256`. Parent publication sidecar/provenance hashes are in `publication-identities.tsv`, with the ledger SHA in its adjacent `.sha256` file.
+
+The exact source roster includes `EntityGetter`, `Entity`, `EntityType`, `Shulker`, `Boat`, `Shapes`, `AABB`, `VoxelShape`, and the tick/query context classes; see `roster.md`. Sidecars are parent-level for 1.16.5 and 1.17.1. The 1.17 publication identity is its embedded provenance manifest.
+
+## Limits
+
+This result fixes the raw entity-provider AABB at both endpoints, as requested, and does not claim that the server/state producer gives identical boxes or entity states across releases. It does not audit block `CollisionSpliterator`/world-border providers, collision callbacks, or any entity state production. No runtime, build, test, launch, source generation, wiki, product implementation, or backlog data was used.
+
+## Axis-clipping closure
+
+I also compared the downstream entity `VoxelShape.collide` / `collideX` implementations (`VoxelShape.java:190-242` in 1.16.5; `212-264` in 1.17). Their collision arithmetic and cell traversal are identical. The surrounding `findIndex` method was simplified in 1.17, but both versions call the same `Mth.binarySearch(0, shape.getSize(axis) + 1, predicate)` loop (`Mth.java:456-469` and `637-650`). That loop only invokes its predicate for midpoint indices in `[0, shape.getSize(axis)]`, making the old `i < 0` and `i > size` guards unreachable; the two predicates therefore return the same search result for the same coordinate lists. Thus equal provider AABBs that map to the same shape cannot acquire a different axis clip through this adjacent refactor.
+
+Shulker's 1.16.5 client tick sets position to `blockPos + (0.5, 0, 0.5)` and constructs a unit AABB before directional peek expansion (`Shulker.java:230-237`); 1.17's equivalent `makeBoundingBox` uses the same block-centered/integer geometry (`Shulker.java:197-205`), while `setPos` additionally snaps X/Z to block-center and Y to integer coordinates (`320-325`). Thus the closed unit box is integer translated in both releases. The entity type dimensions, boat provider bound, and live Shulker geometry above are sufficient to rule out a Shapes encoding delta among the actual LocalPlayer collision providers. The source identity roster has been extended to include `Mth.java` for this downstream equivalence check.
+
+In addition to the nearest-rounding change, 1.17's double overload returns the empty shape when any AABB dimension is below `1.0E-7` (`Shapes.java:56-57`); 1.16.5's `create(AABB)` proceeds directly to `findBits` (`Shapes.java:52-86`). Neither actual provider can satisfy that tiny-size gate: a boat has width 1.375 and Shulker dimensions are at least 1.0, with peek only extending them. This additional overload difference does not affect the bounded provider census.
