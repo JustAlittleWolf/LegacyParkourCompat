@@ -9,6 +9,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.player.PlayerMovementSpeedHoo
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.PistonMovementHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionReconstructionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.position.PoseBoxHook;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
@@ -17,6 +18,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.AABB;
@@ -85,6 +87,10 @@ public final class MovementRuntime {
             }
             MovementSpeedModifierHistory history = ((MovementSpeedModifierHistoryAccess)attribute)
                 .legacyparkourcompat$movementSpeedModifierHistory();
+            var speedAttribute = attribute.getAttribute().value();
+            double minimumValue = speedAttribute instanceof RangedAttribute ranged ? ranged.getMinValue() : Double.NaN;
+            double maximumValue = speedAttribute instanceof RangedAttribute ranged ? ranged.getMaxValue() : Double.NaN;
+            boolean localClientPlayer = player instanceof LocalPlayer && Minecraft.getInstance().player == player;
             var currentModifiers = attribute.getModifiers();
             List<PlayerMovementSpeedHook.Modifier> modifiers = new ArrayList<>(currentModifiers.size());
             for (AttributeModifier modifier : currentModifiers) {
@@ -97,7 +103,8 @@ public final class MovementRuntime {
                     modifier.id(), modifier.amount(), operation));
             }
             return change.movementSpeed(new PlayerMovementSpeedHook.Snapshot(
-                attribute.getBaseValue(), modifiers, history.snapshot()));
+                attribute.getBaseValue(), minimumValue, maximumValue, localClientPlayer,
+                modifiers, history.snapshot()));
         });
     }
 
