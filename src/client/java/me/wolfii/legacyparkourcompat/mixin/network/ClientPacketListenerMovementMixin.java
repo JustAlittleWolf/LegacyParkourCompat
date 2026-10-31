@@ -1,5 +1,6 @@
 package me.wolfii.legacyparkourcompat.mixin.network;
 
+import me.wolfii.legacyparkourcompat.mechanic.network.ClientPacketMovementPolicy;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.ClientReceivedInterpolationHook;
 import me.wolfii.legacyparkourcompat.mechanic.network.ClientPacketPositionState;
 import me.wolfii.legacyparkourcompat.mechanic.network.LegacyPacketRotation;

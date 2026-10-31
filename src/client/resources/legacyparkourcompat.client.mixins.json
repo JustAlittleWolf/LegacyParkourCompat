@@ -19,7 +19,6 @@
     "border.EntityBorderCollisionMixin",
     "border.ClientBorderPacketMixin",
     "collision.WorldBorderCollisionMarginMixin",
-    "border.LivingEntityWakeContextMixin",
     "border.DismountHelperWakeBorderMixin",
     "LivingEntityBedWakeMixin",
     "LivingEntityMixin",

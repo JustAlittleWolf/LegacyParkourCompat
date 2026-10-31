@@ -38,10 +38,17 @@ public final class BorderAdmissionContext {
     }
 
     public static void withWakingPlayer(@Nullable Entity player, Runnable action) {
+        withWakingPlayerResult(player, () -> {
+            action.run();
+            return null;
+        });
+    }
+
+    public static <T> T withWakingPlayerResult(@Nullable Entity player, Supplier<T> action) {
         Entity previous = WAKING_PLAYER.get();
         set(WAKING_PLAYER, player);
         try {
-            action.run();
+            return action.get();
         } finally {
             set(WAKING_PLAYER, previous);
         }

@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.mixin.network;
 
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.ClientReceivedInterpolationHook;
+import me.wolfii.legacyparkourcompat.mechanic.network.ClientPacketMovementPolicy;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.InterpolationHandler;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,9 +20,9 @@ public abstract class LivingEntityPacketInterpolationMixin {
 
     @Redirect(
         method = "aiStep",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInterpolating()Z")
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInterpolating()Z")
     )
-    private boolean legacyparkourcompat$includeQueuedPacketTarget(Entity entity) {
+    private boolean legacyparkourcompat$includeQueuedPacketTarget(LivingEntity entity) {
         LEGACY_TICK_ENTITY.remove();
         var hook = ClientPacketMovementPolicy.handlesLegacyPackets(entity)
             ? MovementRuntime.find(ClientReceivedInterpolationHook.class, entity).orElse(null)

@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.mixin.network;
+package me.wolfii.legacyparkourcompat.mechanic.network;
 
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.ClientReceivedInterpolationHook;
@@ -8,15 +8,15 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.Entity;
 
 /** Shared client packet gate for resolved local-player packet operations. */
-final class ClientPacketMovementPolicy {
+public final class ClientPacketMovementPolicy {
     private ClientPacketMovementPolicy() {
     }
 
-    static boolean isCurrentLocalPlayer(Entity entity) {
+    public static boolean isCurrentLocalPlayer(Entity entity) {
         return entity instanceof LocalPlayer player && Minecraft.getInstance().player == player;
     }
 
-    static boolean handlesLegacyPackets(Entity entity) {
+    public static boolean handlesLegacyPackets(Entity entity) {
         if (!isCurrentLocalPlayer(entity)) {
             return false;
         }
@@ -25,7 +25,7 @@ final class ClientPacketMovementPolicy {
             .orElse(false);
     }
 
-    static boolean acceptsServerMovement(Entity entity) {
+    public static boolean acceptsServerMovement(Entity entity) {
         if (!(entity instanceof LocalPlayer player) || !isCurrentLocalPlayer(entity)) {
             return false;
         }
