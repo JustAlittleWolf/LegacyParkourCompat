@@ -3,6 +3,7 @@ package me.wolfii.legacyparkourcompat.mixin;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.RespawnMovementAttributeHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.RespawnMovementFlagsHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.RespawnJumpStrengthBaseHook;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientCommonPacketListenerImpl;
 import net.minecraft.client.multiplayer.ClientPacketListener;
@@ -13,11 +14,15 @@ import net.minecraft.network.protocol.game.ClientboundRespawnPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.OptionalDouble;
 
 /** Dispatches the profile-specific movement attribute response after client respawn copying. */
 @Mixin(ClientPacketListener.class)
@@ -102,6 +107,26 @@ abstract class ClientPacketListenerRespawnMixin extends ClientCommonPacketListen
     )
     private void legacyparkourcompat$afterAssignBaseAttributes(ClientboundRespawnPacket packet, CallbackInfo ci) {
         legacyparkourcompat$afterAttributeCopy();
+        if (packet.shouldKeep((byte) 1)) {
+            return;
+        }
+
+        LocalPlayer replacementPlayer = this.minecraft.player;
+        if (replacementPlayer == null) {
+            throw new IllegalStateException("Client respawn completed base attribute copying without a replacement player");
+        }
+        MovementRuntime.find(RespawnJumpStrengthBaseHook.class, replacementPlayer)
+            .map(RespawnJumpStrengthBaseHook::noKeepBaseOverride)
+            .ifPresent(baseOverride -> {
+                if (baseOverride.isEmpty()) {
+                    return;
+                }
+                AttributeInstance jumpStrength = replacementPlayer.getAttribute(Attributes.JUMP_STRENGTH);
+                if (jumpStrength == null) {
+                    throw new IllegalStateException("Replacement player has no jump-strength attribute");
+                }
+                jumpStrength.setBaseValue(baseOverride.getAsDouble());
+            });
     }
 
     private void legacyparkourcompat$afterAttributeCopy() {
