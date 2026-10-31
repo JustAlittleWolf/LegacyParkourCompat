@@ -1,0 +1,13 @@
+# Client teleport near-coordinate fallback
+
+1.16.1, Mojmap: `net/minecraft/client/multiplayer/ClientPacketListener.java`, `handleTeleportEntity`, lines 607–627. The handler resolves the packet entity ID in `ClientLevel`; for a registered `LocalPlayer`, inherited `Entity.isControlledByLocalInstance()` is false because its controlling passenger is null and the client-side fallback is `!level.isClientSide`.
+
+1.16.2, Mojmap: `net/minecraft/client/multiplayer/ClientPacketListener.java`, `handleTeleportEntity`, lines 602–617. The same LocalPlayer receiver branch calls `lerpTo` with the packet coordinates directly.
+
+Difference: after `setPacketCoordinates`, 1.16.1 checks each coordinate delta using the source's negated `>=` comparisons against X/Z `0.03125` and Y `0.015625`. If all three comparisons are false, it passes the current position to `lerpTo`; otherwise it passes the packet position. For finite values, the fallback condition is equivalent to all three deltas being strictly below their thresholds. Retaining the negated `>=` form preserves the comparison behavior for non-finite values. In 1.16.2 the proximity comparison and current-position arm are absent; inside the same `!entity.isControlledByLocalInstance()` branch, the handler always passes packet coordinates to `lerpTo`.
+
+The LocalPlayer call dispatches to `LivingEntity.lerpTo` in both releases, which writes interpolation target fields (`lerpX/Y/Z` and `lerpSteps`), not current position immediately: 1.16.1 `LivingEntity.java:2583–2590`; 1.16.2 `LivingEntity.java:2585–2592`. On a subsequent `LivingEntity.aiStep` with `lerpSteps > 0`, the entity advances toward those targets and calls `setPos`: 1.16.1 `LivingEntity.java:2376–2385`; 1.16.2 `LivingEntity.java:2378–2387`. Therefore, for a finite packet target with at least one nonzero coordinate delta and all three deltas below the old thresholds, the old receiver queues the current position while the new receiver queues the packet position; the interpolation target differs. If all three deltas are zero, the target is the same. An eventual position consequence depends on the interpolation step being processed, and this finding does not claim tick ordering or runtime parity.
+
+Movement meaning: under the same decoded clientbound teleport fields naming the local player, the changed receiver target can affect later LocalPlayer position interpolation. This is a direct client response to packet inputs; the claim does not require server packet production frequency or a particular live-session event.
+
+Boundary: Mojmap snapshots 1.16 and 1.16.1 retain the fallback; 1.16.2 is the first release with the unconditional packet-coordinate target.
