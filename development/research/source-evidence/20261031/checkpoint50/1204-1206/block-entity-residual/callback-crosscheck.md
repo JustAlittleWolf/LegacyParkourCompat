@@ -1,0 +1,35 @@
+# Movement callback cross-check for 1.20.4 -> 1.20.5
+
+Scope is the parent's requested cross-check against the three-way source roster, not a full inventory. All referenced source trees are exact ready Mojmap 1.20.4 / 1.20.5 / 1.20.6; the source manifest identities are in `inventory.md`. Method body checks were made across all three versions. The 1.20.6 files below are byte-identical to 1.20.5.
+
+| Path/member | 1.20.4 -> 1.20.5 disposition | Reachable movement meaning |
+|---|---|---|
+| `world/level/block/HoneyBlock.java`, `entityInside` (1.20.4 `:62`, newer `:62`) and helper `doSlideMovement` (`:97`) | `entityInside` only changes public→protected; body and slide helpers unchanged. | When a living entity/player is airborne and meets `isSlidingDown`, the callback writes sliding movement through `doSlideMovement`; same gate/math and inherited contact forwarding. |
+| `world/level/block/HoneyBlock.java`, `fallOn` (`:50`) | Body unchanged. | Plays/broadcasts slide/fall effect and calls fall damage; damage is excluded. |
+| `world/level/block/BubbleColumnBlock.java`, `entityInside` (`:49`) | Only public→protected. | On air above, forwards `DRAG_DOWN` to `Entity.onAboveBubbleCol`; the callback's velocity write is direct movement. It is unchanged in Entity: downward `max(-0.9, y - 0.03)` / upward `min(1.8, y + 0.1)`, retaining X/Z (`Entity.java:2284` in 1.20.4; `:2291` in 1.20.5). Inside-column response also retains `max(-0.3,y-.03)` / `min(.7,y+.06)` and resets fall distance (`Entity.java:2297` / `:2303`). These callbacks remain client-reachable. |
+| `world/level/block/SweetBerryBushBlock.java`, `entityInside` (`:79` / `:80`) | Only public→protected; method body unchanged. | Living entities other than foxes/bees receive same stuck multiplier `(0.8F, 0.75, 0.8)`; server-only movement-contact damage gate and `0.003F` displacement threshold are unchanged (damage itself excluded). |
+| `world/level/block/PointedDripstoneBlock.java`, `fallOn` (`:141`) | Body unchanged. | Tip-up stalagmite case changes fall-damage amount; other cases call base fall damage. Damage resolution is excluded. |
+| `world/level/block/BigDripleafBlock.java`, `entityInside` (`:184`) | Only public→protected; body and `canEntityTilt` are unchanged. | Server-only gate: if state tilt is NONE, an eligible entity is inside and no neighbor signal exists, schedules `UNSTABLE`. This is a world state producer that can lead to later collision-shape changes, not a changed direct player movement write. |
+| `world/level/block/BedBlock.java`, `fallOn` (`:136`) and `updateEntityAfterFallOn` (`:140`) plus `bounceUp` (`:148`) | Bodies unchanged. | Fall-on scales the value sent to fall damage by `0.5F` (excluded); post-fall response bounces unless `isSuppressingBounce`, preserving the same velocity procedure. |
+| `world/level/block/SlimeBlock.java`, `fallOn` (`:26`), `updateEntityAfterFallOn` (`:35`), `stepOn` (`:52`) and `bounceUp` (`:43`) | All bodies unchanged. | Bounce preserves the `isSuppressingBounce` gate and reflects Y by 1.0 for LivingEntity or 0.8 otherwise; step-on applies the same horizontal multiplier when `abs(y)<0.1` and not stepping carefully. These direct player velocity writers have no delta. Fall damage remains excluded. |
+| `world/level/block/Block.java`, `stepOn` (`:348` / `:340`), `fallOn` (`:381` / `:373`), `updateEntityAfterFallOn` (`:385` / `:377`) | Bodies unchanged; signature visibility remains public. | Empty default step handler; fall handler only applies damage; default post-fall behavior zeros Y velocity while retaining X/Z. |
+
+## Exact path identities
+
+Hashes are the exact source-file SHA-256, 1.20.4 / 1.20.5 / 1.20.6. Block paths are roster-verified against `whole-pair-inventory/three-way-java-path-inventory.csv`; Entity/Boat are dependency paths used to verify forwarded responses.
+
+| Relative source path | SHA-256 1.20.4 | SHA-256 1.20.5 | SHA-256 1.20.6 |
+|---|---|---|---|
+| `net/minecraft/world/level/block/HoneyBlock.java` | `77706436b221a2f0320dedb8852e458388131483e5e69669869a523a5703fbca` | `fd9c67c31c34833bf442e81ec0b1647e9f9e9042f01b9cd63127d2f832d5d8ff` | `fd9c67c31c34833bf442e81ec0b1647e9f9e9042f01b9cd63127d2f832d5d8ff` |
+| `net/minecraft/world/level/block/BubbleColumnBlock.java` | `f2a1d54d5590a0546c1ea7640e012086c922c1682c68a82b0e20a9d7bcae19af` | `39c4da51460f4c2c06927f15de65a9ee2ae2f8bee0a2c9289cea375ad5d53a7c` | `39c4da51460f4c2c06927f15de65a9ee2ae2f8bee0a2c9289cea375ad5d53a7c` |
+| `net/minecraft/world/level/block/SweetBerryBushBlock.java` | `9910ebffc04f6c935761d856e743e67fad3359d8ddb97ac99db9d41c0223cc48` | `615b36436b64e20f6f33235aa2e24aa84a3d0e9b54ff27aa7d97821d8ffb6d3c` | `615b36436b64e20f6f33235aa2e24aa84a3d0e9b54ff27aa7d97821d8ffb6d3c` |
+| `net/minecraft/world/level/block/PointedDripstoneBlock.java` | `d69cccb43e69972a087f9cb1e2b5bad1406a96e57bd7f9e1227b353443f8456d` | `4912a8682235dec134bda1892cb9471430e1ea421f7142da2bcfec47e1362a11` | `4912a8682235dec134bda1892cb9471430e1ea421f7142da2bcfec47e1362a11` |
+| `net/minecraft/world/level/block/BigDripleafBlock.java` | `fb273abc814e61708fe0f19ecae2d15baf231f0c53fd3e5555a7e6e8cf3465c1` | `0d66db2f99fc8d5cf2fed478415ddce3655e376f37e70a8491af3e80e753caa8` | `0d66db2f99fc8d5cf2fed478415ddce3655e376f37e70a8491af3e80e753caa8` |
+| `net/minecraft/world/level/block/BedBlock.java` | `145bbdb8f2466971c49b4bbf240d5b41879ba1e170d1b12505e5be5e5d99c490` | `3e7fa99ae0d73d6b4deec4d0425006d3439e3b84bcdb71367acb0ca6531230d5` | `3e7fa99ae0d73d6b4deec4d0425006d3439e3b84bcdb71367acb0ca6531230d5` |
+| `net/minecraft/world/level/block/SlimeBlock.java` | `62c1a543343cce23a47ff35ce51a4512637eda02c775db30bdefbe04d2673d46` | `62c1a543343cce23a47ff35ce51a4512637eda02c775db30bdefbe04d2673d46` | `62c1a543343cce23a47ff35ce51a4512637eda02c775db30bdefbe04d2673d46` |
+| `net/minecraft/world/level/block/Block.java` | `9a777d44c9c6b55677132fb5a56d46c9aa322e42faf956749ef80443817416c4` | `0c96f526470944baa74d212ca8bfb8b579fd6a1d7045498b8e062b4868bb8e09` | `0c96f526470944baa74d212ca8bfb8b579fd6a1d7045498b8e062b4868bb8e09` |
+| `net/minecraft/world/entity/Entity.java` | `07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9` | `71cd6b9f6c002684154dce11d3745e8714d82f13c8e1b3aa56743930131c18f3` | `71cd6b9f6c002684154dce11d3745e8714d82f13c8e1b3aa56743930131c18f3` |
+| `net/minecraft/world/entity/LivingEntity.java` | `f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d` | `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2` | `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2` |
+| `net/minecraft/world/entity/vehicle/Boat.java` | `f0296d2198d1d0d1f65162126197249789c5d22f081841af454af3a074024109` | `c80df1f8647a47c7d32f0dc7ed12e98a8a158d66900ab9724391bdd6e5a856d8` | `c80df1f8647a47c7d32f0dc7ed12e98a8a158d66900ab9724391bdd6e5a856d8` |
+
+No additional callback delta or canonical finding draft results from this requested cross-check. The earlier callback inventory records other body/access-only findings such as powder snow, fire and the modern-only Weaving gate.
