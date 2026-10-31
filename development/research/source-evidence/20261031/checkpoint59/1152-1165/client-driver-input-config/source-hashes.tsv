@@ -1,0 +1,27 @@
+SHA256`tRelease`tPath
+1d0cac30a36e2ff6cd5665bc6a08c29c3729317b66a892be85e6cff1016dbb11	1.15.2	1.15.2/mojmap/net/minecraft/client/Minecraft.java
+4ed37f68a8c25ab5a780c7d646e2f1f4f375e39e4591e0a3115c8d637e500835	1.15.2	1.15.2/mojmap/net/minecraft/client/multiplayer/ClientLevel.java
+5bf3f2ef925c282c8ac9c6df57b362013b295b6946b006ee72a008495c485634	1.15.2	1.15.2/mojmap/net/minecraft/client/Options.java
+f68badd84af608d37b419430f6875a1b4689f00c7adff317b58e01b825659649	1.15.2	1.15.2/mojmap/net/minecraft/client/KeyMapping.java
+e708fb96303d6a9f5a867ef2151b87e1a00479f5d6b42ec784105ea9f5a4a85b	1.15.2	1.15.2/mojmap/net/minecraft/client/KeyboardHandler.java
+cc99ebf818f3400bb316769026fba4fa3983ceb0f017cb247802dd7f8e46f6d8	1.15.2	1.15.2/mojmap/net/minecraft/client/Option.java
+e09ef36301273cc0146c85b70a5c2dcb2665df61b9ce58f228619e649dc905f9	1.15.2	1.15.2/mojmap/net/minecraft/client/BooleanOption.java
+acce6cf940a1a70a5aed2d6db679f6aa79b837c2a34fc1bd655df76fafa5b824	1.15.2	1.15.2/mojmap/net/minecraft/client/CycleOption.java
+0335392f7a31c2b52c97b4e1c80530e644ebe24adbed98fcdf213d7ab56df325	1.15.2	1.15.2/mojmap/net/minecraft/client/ProgressOption.java
+00321d928c2e68e8dfdde5bb921117fb4b813ae8d41e349464661912b4ba22f9	1.15.2	1.15.2/mojmap/net/minecraft/client/LogaritmicProgressOption.java
+81da063facfe2d604f6e97cd4df774e45d0cf3eb1ad45bc7414c858eb0e944e3	1.15.2	1.15.2/mojmap/net/minecraft/client/FullscreenResolutionProgressOption.java
+62a498fd0aa92f301b97dda87c8f58f1940afcdd3a45b2177b64577485127508	1.15.2	1.15.2/mojmap/net/minecraft/client/ToggleKeyMapping.java
+3fc48eb93d2dc001496c11b66071db939cdaa3f1ff7c4e5b2b391e25a715facc	1.16.5	1.16.5/mojmap/net/minecraft/client/Minecraft.java
+96c80a10623d41f136fa70391b3920cf7f3ef15547923f7d772b78d356f16d93	1.16.5	1.16.5/mojmap/net/minecraft/client/multiplayer/ClientLevel.java
+431ed10af0ee5d083a007a18208c6b117541c4cd4e4d37ad7ddd1a591de61190	1.16.5	1.16.5/mojmap/net/minecraft/client/Options.java
+d07149699a69aec6a6d010ad3a8f4cc1aa6865bf5faa2f6a1f07d3055a08df6f	1.16.5	1.16.5/mojmap/net/minecraft/client/KeyMapping.java
+35af896f1d5c7c7bc93a379baadb8a4ac527e2ffacffbb1fc4cd7f464a64d234	1.16.5	1.16.5/mojmap/net/minecraft/client/KeyboardHandler.java
+bbe06b4facdae62dbd17628b4a7deed40903b46ffbc1cff67061bf88994404bf	1.16.5	1.16.5/mojmap/net/minecraft/client/Option.java
+831cad1734f07cd55040d24be3f92e10a6a703f70449cf13661f1dce747c9d04	1.16.5	1.16.5/mojmap/net/minecraft/client/BooleanOption.java
+30b53a578a9378598b16420c1f778715c11088ca94622a19d896ff4191f60760	1.16.5	1.16.5/mojmap/net/minecraft/client/CycleOption.java
+adaea622ca56d9654730ef6edacd06de779c75c7d85da3e210f0ce209d5f0478	1.16.5	1.16.5/mojmap/net/minecraft/client/ProgressOption.java
+420f16eb0809db32ff55e59cf0f26543d46bfa6bd3e17808496dec3550cf294a	1.16.5	1.16.5/mojmap/net/minecraft/client/LogaritmicProgressOption.java
+a878a98eeb9410faec83c6798ccd80fe7c647a8015008d5a1e1cdc9530bcffe3	1.16.5	1.16.5/mojmap/net/minecraft/client/FullscreenResolutionProgressOption.java
+62a498fd0aa92f301b97dda87c8f58f1940afcdd3a45b2177b64577485127508	1.16.5	1.16.5/mojmap/net/minecraft/client/ToggleKeyMapping.java
+cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7	1.15.2	mojmap.sources.sha256
+9499f2611d0e6dde37cb635f1a28a591416382d6bc188b37d5f99e2b2a20823b	1.16.5	mojmap.sources.sha256
